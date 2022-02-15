@@ -1,0 +1,118 @@
+diff --git a/node_modules/@veramo/key-manager/build/abstract-key-store.d.ts b/node_modules/@veramo/key-manager/build/abstract-key-store.d.ts
+index f1a0c23..8e87ea6 100644
+--- a/node_modules/@veramo/key-manager/build/abstract-key-store.d.ts
++++ b/node_modules/@veramo/key-manager/build/abstract-key-store.d.ts
+@@ -1,6 +1,6 @@
+ import { IKey, ManagedKeyInfo } from '@veramo/core';
+ export declare abstract class AbstractKeyStore {
+-    abstract import(args: Partial<IKey>): Promise<boolean>;
++    abstract importKey(args: Partial<IKey>): Promise<boolean>;
+     abstract get(args: {
+         kid: string;
+     }): Promise<IKey>;
+diff --git a/node_modules/@veramo/key-manager/build/abstract-private-key-store.d.ts b/node_modules/@veramo/key-manager/build/abstract-private-key-store.d.ts
+index 9e65a0f..9d0b2ff 100644
+--- a/node_modules/@veramo/key-manager/build/abstract-private-key-store.d.ts
++++ b/node_modules/@veramo/key-manager/build/abstract-private-key-store.d.ts
+@@ -6,7 +6,7 @@ export interface ManagedPrivateKey {
+ }
+ export declare type ImportablePrivateKey = RequireOnly<ManagedPrivateKey, 'privateKeyHex' | 'type'>;
+ export declare abstract class AbstractPrivateKeyStore {
+-    abstract import(args: ImportablePrivateKey): Promise<ManagedPrivateKey>;
++    abstract importKey(args: ImportablePrivateKey): Promise<ManagedPrivateKey>;
+     abstract get(args: {
+         alias: string;
+     }): Promise<ManagedPrivateKey>;
+diff --git a/node_modules/@veramo/key-manager/build/memory-key-store.d.ts b/node_modules/@veramo/key-manager/build/memory-key-store.d.ts
+index baff5e0..bb6abbd 100644
+--- a/node_modules/@veramo/key-manager/build/memory-key-store.d.ts
++++ b/node_modules/@veramo/key-manager/build/memory-key-store.d.ts
+@@ -9,7 +9,7 @@ export declare class MemoryKeyStore extends AbstractKeyStore {
+     delete({ kid }: {
+         kid: string;
+     }): Promise<boolean>;
+-    import(args: IKey): Promise<boolean>;
++    importKey(args: IKey): Promise<boolean>;
+     list(args: {}): Promise<Exclude<IKey, 'privateKeyHex'>[]>;
+ }
+ /**
+@@ -25,7 +25,7 @@ export declare class MemoryPrivateKeyStore extends AbstractPrivateKeyStore {
+     delete({ alias }: {
+         alias: string;
+     }): Promise<boolean>;
+-    import(args: ImportablePrivateKey): Promise<ManagedPrivateKey>;
++    importKey(args: ImportablePrivateKey): Promise<ManagedPrivateKey>;
+     list(): Promise<Array<ManagedPrivateKey>>;
+ }
+ //# sourceMappingURL=memory-key-store.d.ts.map
+\ No newline at end of file
+diff --git a/node_modules/@veramo/key-manager/build/memory-key-store.js b/node_modules/@veramo/key-manager/build/memory-key-store.js
+index 315ff46..2ee9639 100644
+--- a/node_modules/@veramo/key-manager/build/memory-key-store.js
++++ b/node_modules/@veramo/key-manager/build/memory-key-store.js
+@@ -43,7 +43,7 @@ class MemoryKeyStore extends abstract_key_store_1.AbstractKeyStore {
+             return true;
+         });
+     }
+-    import(args) {
++    importKey(args) {
+         return __awaiter(this, void 0, void 0, function* () {
+             this.keys[args.kid] = Object.assign({}, args);
+             return true;
+@@ -84,7 +84,7 @@ class MemoryPrivateKeyStore extends abstract_private_key_store_1.AbstractPrivate
+             return true;
+         });
+     }
+-    import(args) {
++    importKey(args) {
+         return __awaiter(this, void 0, void 0, function* () {
+             const alias = args.alias || (0, uuid_1.v4)();
+             const existingEntry = this.privateKeys[alias];
+diff --git a/node_modules/@veramo/key-manager/src/abstract-key-store.ts b/node_modules/@veramo/key-manager/src/abstract-key-store.ts
+index a238f9f..b7a9cc4 100644
+--- a/node_modules/@veramo/key-manager/src/abstract-key-store.ts
++++ b/node_modules/@veramo/key-manager/src/abstract-key-store.ts
+@@ -1,7 +1,7 @@
+ import { IKey, ManagedKeyInfo } from '@veramo/core'
+ 
+ export abstract class AbstractKeyStore {
+-  abstract import(args: Partial<IKey>): Promise<boolean>
++  abstract importKey(args: Partial<IKey>): Promise<boolean>
+   abstract get(args: { kid: string }): Promise<IKey>
+   abstract delete(args: { kid: string }): Promise<boolean>
+   abstract list(args: {}): Promise<Array<ManagedKeyInfo>>
+diff --git a/node_modules/@veramo/key-manager/src/abstract-private-key-store.ts b/node_modules/@veramo/key-manager/src/abstract-private-key-store.ts
+index f036e18..873cb36 100644
+--- a/node_modules/@veramo/key-manager/src/abstract-private-key-store.ts
++++ b/node_modules/@veramo/key-manager/src/abstract-private-key-store.ts
+@@ -9,7 +9,7 @@ export interface ManagedPrivateKey {
+ export type ImportablePrivateKey = RequireOnly<ManagedPrivateKey, 'privateKeyHex' | 'type'>
+ 
+ export abstract class AbstractPrivateKeyStore {
+-  abstract import(args: ImportablePrivateKey): Promise<ManagedPrivateKey>
++  abstract importKey(args: ImportablePrivateKey): Promise<ManagedPrivateKey>
+   abstract get(args: { alias: string }): Promise<ManagedPrivateKey>
+   abstract delete(args: { alias: string }): Promise<boolean>
+   abstract list(args: {}): Promise<Array<ManagedPrivateKey>>
+diff --git a/node_modules/@veramo/key-manager/src/memory-key-store.ts b/node_modules/@veramo/key-manager/src/memory-key-store.ts
+index c3f139f..4dc1c8a 100644
+--- a/node_modules/@veramo/key-manager/src/memory-key-store.ts
++++ b/node_modules/@veramo/key-manager/src/memory-key-store.ts
+@@ -21,7 +21,7 @@ export class MemoryKeyStore extends AbstractKeyStore {
+     return true
+   }
+ 
+-  async import(args: IKey) {
++  async importKey(args: IKey) {
+     this.keys[args.kid] = { ...args }
+     return true
+   }
+@@ -54,7 +54,7 @@ export class MemoryPrivateKeyStore extends AbstractPrivateKeyStore {
+     return true
+   }
+ 
+-  async import(args: ImportablePrivateKey) {
++  async importKey(args: ImportablePrivateKey) {
+     const alias = args.alias || uuidv4()
+     const existingEntry = this.privateKeys[alias]
+     if (existingEntry && existingEntry.privateKeyHex !== args.privateKeyHex) {

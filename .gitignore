@@ -11,7 +11,6 @@
 # production
 /build
 /dist
-/patches
 
 # misc
 .DS_Store

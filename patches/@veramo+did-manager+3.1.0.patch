@@ -1,0 +1,65 @@
+diff --git a/node_modules/@veramo/did-manager/build/abstract-identifier-store.d.ts b/node_modules/@veramo/did-manager/build/abstract-identifier-store.d.ts
+index 22f4102..dde527a 100644
+--- a/node_modules/@veramo/did-manager/build/abstract-identifier-store.d.ts
++++ b/node_modules/@veramo/did-manager/build/abstract-identifier-store.d.ts
+@@ -4,7 +4,7 @@ import { IIdentifier } from '@veramo/core';
+  * @public
+  */
+ export declare abstract class AbstractDIDStore {
+-    abstract import(args: IIdentifier): Promise<boolean>;
++    abstract importKey(args: IIdentifier): Promise<boolean>;
+     abstract get(args: {
+         did: string;
+     }): Promise<IIdentifier>;
+diff --git a/node_modules/@veramo/did-manager/build/memory-did-store.d.ts b/node_modules/@veramo/did-manager/build/memory-did-store.d.ts
+index e33575e..7ec14c5 100644
+--- a/node_modules/@veramo/did-manager/build/memory-did-store.d.ts
++++ b/node_modules/@veramo/did-manager/build/memory-did-store.d.ts
+@@ -10,7 +10,7 @@ export declare class MemoryDIDStore extends AbstractDIDStore {
+     delete({ did }: {
+         did: string;
+     }): Promise<boolean>;
+-    import(args: IIdentifier): Promise<boolean>;
++    importKey(args: IIdentifier): Promise<boolean>;
+     list(args: {
+         alias?: string;
+         provider?: string;
+diff --git a/node_modules/@veramo/did-manager/build/memory-did-store.js b/node_modules/@veramo/did-manager/build/memory-did-store.js
+index 2a0b1d2..eacfff5 100644
+--- a/node_modules/@veramo/did-manager/build/memory-did-store.js
++++ b/node_modules/@veramo/did-manager/build/memory-did-store.js
+@@ -42,7 +42,7 @@ class MemoryDIDStore extends abstract_identifier_store_1.AbstractDIDStore {
+             return true;
+         });
+     }
+-    import(args) {
++    importKey(args) {
+         return __awaiter(this, void 0, void 0, function* () {
+             const identifier = Object.assign({}, args);
+             for (const key of identifier.keys) {
+diff --git a/node_modules/@veramo/did-manager/src/abstract-identifier-store.ts b/node_modules/@veramo/did-manager/src/abstract-identifier-store.ts
+index 80460b1..248d660 100644
+--- a/node_modules/@veramo/did-manager/src/abstract-identifier-store.ts
++++ b/node_modules/@veramo/did-manager/src/abstract-identifier-store.ts
+@@ -5,7 +5,7 @@ import { IIdentifier } from '@veramo/core'
+  * @public
+  */
+ export abstract class AbstractDIDStore {
+-  abstract import(args: IIdentifier): Promise<boolean>
++  abstract importKey(args: IIdentifier): Promise<boolean>
+   abstract get(args: { did: string }): Promise<IIdentifier>
+   abstract get(args: { alias: string; provider: string }): Promise<IIdentifier>
+   abstract delete(args: { did: string }): Promise<boolean>
+diff --git a/node_modules/@veramo/did-manager/src/memory-did-store.ts b/node_modules/@veramo/did-manager/src/memory-did-store.ts
+index 94c2396..4cbb944 100644
+--- a/node_modules/@veramo/did-manager/src/memory-did-store.ts
++++ b/node_modules/@veramo/did-manager/src/memory-did-store.ts
+@@ -33,7 +33,7 @@ export class MemoryDIDStore extends AbstractDIDStore {
+     return true
+   }
+ 
+-  async import(args: IIdentifier) {
++  async importKey(args: IIdentifier) {
+     const identifier = { ...args }
+     for (const key of identifier.keys) {
+       if (key.privateKeyHex) {
