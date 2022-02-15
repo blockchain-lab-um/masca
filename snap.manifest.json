@@ -1,0 +1,20 @@
+{
+  "version": "1.0.0",
+  "description": "Snap for SSI DAO",
+  "proposedName": "ssi-snap",
+  "source": {
+    "shasum": "1rXWdRvzSDsRSlQW7wtTEm7xvPkQ6rWoOrKQ3Se4XCY=",
+    "location": {
+      "npm": {
+        "filePath": "dist/bundle.js",
+        "packageName": "ssi-snap",
+        "registry": "https://registry.npmjs.org"
+      }
+    }
+  },
+  "initialPermissions": {
+    "snap_confirm": {},
+    "snap_getBip44Entropy_60": {}
+  },
+  "manifestVersion": "0.1"
+}

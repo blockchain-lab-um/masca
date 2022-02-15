@@ -1,0 +1,41 @@
+{
+  "name": "ssi-snap",
+  "version": "1.0.0",
+  "description": "Snap for SSI DAO",
+  "main": "index.js",
+  "scripts": {
+    "start": "yarn run build && yarn run serve",
+    "build": "yarn run build:tsc && yarn run build:snap",
+    "build:snap": "yarn build:snap:bundle && yarn build:snap:postprocess && yarn build:snap:eval",
+    "build:snap:bundle": "mm-snap build --verboseErrors  --stripComments --eval false",
+    "build:snap:postprocess": "node ./post-process.js && mm-snap manifest --fix",
+    "build:snap:eval": "mm-snap eval -b dist/bundle.js --verboseErrors",
+    "build:tsc": "tsc --build --pretty",
+    "serve": "mm-snap serve",
+    "fix": "mm-snap manifest --fix",
+    "postinstall": "patch-package"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-node": "^10.5.0",
+    "typescript": "^4.5.5"
+  },
+  "dependencies": {
+    "@spruceid/didkit-wasm": "^0.1.9",
+    "@veramo/core": "^3.1.0",
+    "@veramo/credential-w3c": "^3.1.0",
+    "@veramo/data-store": "^3.1.0",
+    "@veramo/did-manager": "^3.1.0",
+    "@veramo/did-provider-ethr": "^3.1.0",
+    "@veramo/did-provider-web": "^3.1.0",
+    "@veramo/did-resolver": "^3.1.0",
+    "@veramo/key-manager": "^3.1.0",
+    "@veramo/kms-local": "^3.1.0",
+    "ethers": "^5.5.4",
+    "ethr-did-resolver": "^5.0.4",
+    "patch-package": "^6.4.7",
+    "postinstall-postinstall": "^2.1.0",
+    "web-did-resolver": "^2.0.12"
+  }
+}
