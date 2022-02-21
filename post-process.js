@@ -25,6 +25,13 @@ bundleString = bundleString.replace(
   ""
 );
 
+// Fix TextEncoder and TextDecoder
+bundleString = bundleString.replace('const textEncoder = new TextEncoder();', "")
+bundleString = bundleString.replace('const textDecoder = new TextDecoder();', "")
+bundleString = bundleString.replace('textEncoder.', 'new TextEncoder().')
+bundleString = bundleString.replace('textDecoder.', 'new TextDecoder().')
+
+
 // Remove 'use asm' tokens; they cause pointless console warnings
 bundleString = bundleString.replace(/^\s*'use asm';?\n?/gmu, "");
 
