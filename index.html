@@ -30,6 +30,7 @@
 
   <script>
     const snapId = `local:${window.location.href}`;
+    console.log(snapId)
 
     const connectButton = document.querySelector('button.connect')
     const sendButton = document.querySelector('button.sendHello')
@@ -39,6 +40,7 @@
 
     // here we get permissions to interact with and install the snap
     async function connect () {
+      console.log("snap id", snapId)
       await ethereum.request({
         method: 'wallet_enable',
         params: [{

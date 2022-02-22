@@ -1,5 +1,5 @@
 //require('util');
-import { EthrDID } from "ethr-did";
+//import { EthrDID } from "ethr-did";
 import {
   Issuer,
   JwtCredentialPayload,
@@ -10,11 +10,13 @@ import {
   verifyPresentation,
 } from "did-jwt-vc";
 import { Wallet } from "ethers";
-import { Resolver } from 'did-resolver'
- import { getResolver } from 'ethr-did-resolver'
+import { Resolver } from "did-resolver";
+import { getResolver } from "ethr-did-resolver";
 import { ES256KSigner } from "did-jwt";
 
+// Required to set up a suite instance with private key
 export async function createDid() {
+  console.log("hello world");
   // const INFURA_PROJECT_ID = "6e751a2e5ff741e5a01eab15e4e4a88b";
   // let chainNameOrId = 'rinkeby';
   // const rpcUrl = "https://rinkeby.infura.io/v3/"+INFURA_PROJECT_ID;
@@ -66,9 +68,9 @@ export async function createDid() {
   //   const verifiedVC = await verifyCredential(vcJwt, didResolver)
   // console.log(verifiedVC)
 
-  const keypair = EthrDID.createKeyPair();
-  const ethrDid = new EthrDID({...keypair});
-  console.log("EthrDID", ethrDid);
-  const helloJWT = await ethrDid.signJWT({hello: 'world'})
-  console.log("Signed JWT", helloJWT);
+  // const keypair = EthrDID.createKeyPair();
+  // const ethrDid = new EthrDID({...keypair});
+  // console.log("EthrDID", ethrDid);
+  // const helloJWT = await ethrDid.signJWT({hello: 'world'})
+  // console.log("Signed JWT", helloJWT);
 }
