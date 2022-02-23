@@ -1,13 +1,28 @@
 import { Wallet } from "./interfaces";
 import { createDid } from "./utils/createDid";
-import { saveVC, getVC, clearState } from "./utils/storage";
+import {
+  saveVC,
+  getVC,
+  clearState,
+  initializeStorage,
+  getPrivateKey,
+  isInitialized,
+} from "./utils/storage";
 
 declare let wallet: Wallet;
 
 wallet.registerRpcMessageHandler(
   async (originString: any, requestObject: { method: any; params: any }) => {
-    console.log("Request object Method:", requestObject.method);
+    console.log("Request object Method:", requestObject);
     switch (requestObject.method) {
+      case "init":
+        await initializeStorage();
+        const state2 = await getVC();
+        console.log("Priv key state");
+        return true;
+      case "isInitialized":
+        const res = await isInitialized();
+        return res;
       case "hello":
         await createDid();
         const data = await wallet.request({
@@ -15,19 +30,20 @@ wallet.registerRpcMessageHandler(
           params: [
             {
               prompt: `Hello, ${originString}!`,
-              description:
-                "This custom confirmation is just for display purposes.",
-              textAreaContent:
-                "But you can edit the snap source code to make it do something, if you want to!",
+              description: "Would you like to save VC?",
+              textAreaContent: JSON.stringify(requestObject.params[0]),
             },
           ],
         });
-        await saveVC(requestObject.params[0]);
-        const state = await getVC();
-        console.log("First state");
-        await clearState();
-        const newState = await getVC();
-        console.log("Updated state");
+        if (data) {
+          try {
+            await saveVC(requestObject.params[0]);
+          } catch (e) {
+            return (e as Error).message;
+          }
+          const state = await getVC();
+          console.log("First state");
+        }
         return data;
       case "get_vp":
         const result = await wallet.request({
