@@ -1,5 +1,5 @@
 //require('util');
-//import { EthrDID } from "ethr-did";
+import { EthrDID } from "ethr-did";
 import {
   Issuer,
   JwtCredentialPayload,
@@ -15,62 +15,46 @@ import { getResolver } from "ethr-did-resolver";
 import { ES256KSigner } from "did-jwt";
 
 // Required to set up a suite instance with private key
-export async function createDid() {
-  console.log("hello world");
-  // const INFURA_PROJECT_ID = "6e751a2e5ff741e5a01eab15e4e4a88b";
-  // let chainNameOrId = 'rinkeby';
-  // const rpcUrl = "https://rinkeby.infura.io/v3/"+INFURA_PROJECT_ID;
-  // const didResolver = new Resolver(getResolver({ rpcUrl, name: "rinkeby" }));
-  // const wallet = Wallet.createRandom();
-  // //Store this in MetaMask state
-  // console.log(
-  //   wallet.address,
-  //   wallet.privateKey.substring(2),
-  //   wallet.mnemonic,
-  //   wallet.provider
-  // );
+export function generatePkey() {
+  const wallet = Wallet.createRandom();
+  console.log(
+    "Wallet address:",
+    wallet.address,
+    wallet.privateKey.substring(2)
+  );
+  return [wallet.address, wallet.privateKey.substring(2)];
+}
 
-  // const signer = ES256KSigner(wallet.privateKey.substring(2), false);
-  // const issuer = {
-  //   did: 'did:ethr:rinkeby:' + wallet.address,
-  //   //privateKey: wallet.privateKey.substring(2), chainNameOrId
-  //   signer: signer,
-  // } as Issuer
-  // console.log("Issuer", issuer)
-  // const vcPayload: JwtCredentialPayload = {
-  //   sub: 'did:ethr:rinkeby:0x435df3eda57154cf8cf7926079881f2912f54db4',
-  //   nbf: 1562950282,
-  //   vc: {
-  //     '@context': ['https://www.w3.org/2018/credentials/v1'],
-  //     type: ['VerifiableCredential'],
-  //     credentialSubject: {
-  //       degree: {
-  //         type: 'BachelorDegree',
-  //         name: 'Baccalauréat en musiques numériques'
-  //       }
-  //     }
-  //   }
-  // }
-  // console.log("vcPayload", vcPayload)
-  // const vcJwt = await createVerifiableCredentialJwt(vcPayload, issuer)
-  // console.log("VC",vcJwt)
-  // const vpPayload: JwtPresentationPayload = {
-  //   vp: {
-  //     '@context': ['https://www.w3.org/2018/credentials/v1'],
-  //     type: ['VerifiablePresentation'],
-  //     verifiableCredential: [vcJwt]
-  //   }
-  // }
-  // const vpJwt = await createVerifiablePresentationJwt(vpPayload, issuer)
-  // console.log("VP",vpJwt)
-  //   const verifiedVP = await verifyPresentation(vpJwt, didResolver)
-  // console.log(verifiedVP)
-  //   const verifiedVC = await verifyCredential(vcJwt, didResolver)
-  // console.log(verifiedVC)
+export async function createPresentation(vc, vc_pkey, vc_address) {
+  const signer = ES256KSigner(vc_pkey, false);
+  const issuer = new EthrDID({
+    //did: "did:ethr:rinkeby:" + wallet.address,
+    //privateKey: wallet.privateKey.substring(2), chainNameOrId
+    identifier: vc_address,
+    signer: signer,
+  }) as Issuer;
+  console.log("VP VC", vc);
+  const t1 = new Date(vc.issuanceDate).getTime();
+  const vcPayload: JwtCredentialPayload = {
+    sub: vc.credentialSubject.id,
+    nbf: t1,
+    iss: vc.Issuer.id,
+    vc: vc,
+  };
+  console.log("vcPayload", vcPayload);
 
-  // const keypair = EthrDID.createKeyPair();
-  // const ethrDid = new EthrDID({...keypair});
-  // console.log("EthrDID", ethrDid);
-  // const helloJWT = await ethrDid.signJWT({hello: 'world'})
-  // console.log("Signed JWT", helloJWT);
+  //Create VC
+  const vcJwt = await createVerifiableCredentialJwt(vcPayload, issuer);
+  console.log("VC", vcJwt);
+
+  //Create VP
+  const vpPayload: JwtPresentationPayload = {
+    vp: {
+      "@context": ["https://www.w3.org/2018/credentials/v1"],
+      type: ["VerifiablePresentation"],
+      verifiableCredential: [vcJwt],
+    },
+  };
+  const vpJwt = await createVerifiablePresentationJwt(vpPayload, issuer);
+  console.log("VP", vpJwt);
 }

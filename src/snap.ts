@@ -1,5 +1,4 @@
 import { Wallet } from "./interfaces";
-import { createDid } from "./utils/createDid";
 import {
   saveVC,
   getVC,
@@ -24,7 +23,6 @@ wallet.registerRpcMessageHandler(
         const res = await isInitialized();
         return res;
       case "hello":
-        await createDid();
         const data = await wallet.request({
           method: "snap_confirm",
           params: [
@@ -41,10 +39,34 @@ wallet.registerRpcMessageHandler(
           } catch (e) {
             return (e as Error).message;
           }
-          const state = await getVC();
-          console.log("First state");
         }
         return data;
+      case "test_vp":
+        const state = await getVC();
+        console.log("Testing first VP");
+        return;
+      case "save_vc":
+        //await createDid();
+        const vc = requestObject.params[0];
+        console.log("Req obj", vc);
+        const vc_data = await wallet.request({
+          method: "snap_confirm",
+          params: [
+            {
+              prompt: `Hello, ${originString}!`,
+              description: "Would you like to save VC?",
+              textAreaContent: JSON.stringify(vc.credentialSubject),
+            },
+          ],
+        });
+        if (vc_data) {
+          try {
+            await saveVC(vc);
+          } catch (e) {
+            return (e as Error).message;
+          }
+        }
+        return vc_data;
       case "get_vp":
         const result = await wallet.request({
           method: "snap_confirm",

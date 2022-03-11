@@ -27,6 +27,7 @@
     "@babel/runtime": "^7.17.2",
     "did-jwt-vc": "^2.1.9",
     "ethers": "^5.5.4",
+    "ethr-did": "^2.2.0",
     "ethr-did-resolver": "^5.0.4",
     "js-base64": "^3.7.2",
     "patch-package": "^6.4.7",
