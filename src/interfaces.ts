@@ -37,3 +37,37 @@ export interface Asset {
   image?: string;
   symbol: string;
 }
+
+export interface W3CCredential {
+  "@context": string[];
+  id?: string;
+  type: string[];
+  issuer: { id: string; [x: string]: any };
+  issuanceDate: string;
+  expirationDate?: string;
+  credentialSubject: {
+    id?: string;
+    [x: string]: any;
+  };
+  credentialStatus?: {
+    id: string;
+    type: string;
+  };
+  [x: string]: any;
+}
+
+export interface VerifiableCredential extends W3CCredential {
+  proof: {
+    type?: string;
+    [x: string]: any;
+  };
+}
+
+export interface StorageData {
+  pKey: string;
+  address: string;
+  vcs: Array<VerifiableCredential>;
+}
+export interface Storage {
+  storage: string;
+}

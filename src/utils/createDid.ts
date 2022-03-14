@@ -13,6 +13,7 @@ import { Wallet } from "ethers";
 import { Resolver } from "did-resolver";
 import { getResolver } from "ethr-did-resolver";
 import { ES256KSigner } from "did-jwt";
+//const util = require("util");
 
 // Required to set up a suite instance with private key
 export function generatePkey() {
@@ -33,12 +34,16 @@ export async function createPresentation(vc, vc_pkey, vc_address) {
     identifier: vc_address,
     signer: signer,
   }) as Issuer;
-  console.log("VP VC", vc);
-  const t1 = new Date(vc.issuanceDate).getTime();
+  //console.log("VP VC", util.inspect(vc, false, null, true));
+  // console.log("inside vp", vc.credentialSubject);
+  // console.log("inside vp sub id", vc.credentialSubject.id);
+  // console.log("inside vp", vc.issuer);
+  // console.log("inside vp iss id", vc.issuer.id);
+  const t1 = new Date(vc.issuanceDate).getTime() / 1000;
   const vcPayload: JwtCredentialPayload = {
     sub: vc.credentialSubject.id,
     nbf: t1,
-    iss: vc.Issuer.id,
+    iss: vc.issuer.id,
     vc: vc,
   };
   console.log("vcPayload", vcPayload);
@@ -57,4 +62,5 @@ export async function createPresentation(vc, vc_pkey, vc_address) {
   };
   const vpJwt = await createVerifiablePresentationJwt(vpPayload, issuer);
   console.log("VP", vpJwt);
+  return vpJwt;
 }
