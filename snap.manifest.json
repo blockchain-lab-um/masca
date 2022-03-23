@@ -3,7 +3,7 @@
   "description": "Snap for SSI DAO",
   "proposedName": "ssi-snap",
   "source": {
-    "shasum": "63XpH40/xHLjAHdM0pyFXdpnYlFzlZsZbiyCVBmEAaM=",
+    "shasum": "612kcAqFILgArj2atrdEfdkhRqN52GIhCHAyTg7zk2M=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
@@ -15,7 +15,10 @@
   "initialPermissions": {
     "snap_confirm": {},
     "snap_manageState": {},
-    "endowment:network-access": {}
+    "endowment:network-access": {},
+    "eth_accouints": {
+      "requiredMethods": ["eth_decrypt"]
+    }
   },
   "manifestVersion": "0.1"
 }

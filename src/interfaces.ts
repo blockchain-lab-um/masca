@@ -22,7 +22,7 @@ export const EmptyMetamaskState: () => MetamaskState = () => ({
 export interface Wallet {
   registerApiRequestHandler: (origin: unknown) => unknown;
   registerRpcMessageHandler: (origin: unknown) => unknown;
-  request: (origin: unknown) => unknown;
+  request: (origin: any) => unknown;
   send(options: { method: string; params: unknown[] }): unknown;
   getAppKey(): Promise<string>;
   updatePluginState(state: MetamaskState): void;
@@ -63,11 +63,23 @@ export interface VerifiableCredential extends W3CCredential {
   };
 }
 
-export interface StorageData {
+export interface VCStorage {
   pKey: string;
   address: string;
   vcs: Array<VerifiableCredential>;
 }
-export interface Storage {
-  storage: string;
+
+export interface VCEncryptionAccount {
+  account: string;
+  encPubKey: any;
+}
+
+export interface MMState {
+  [propName: string]: any;
+  vcStorage: VCStorage;
+  vcEncryptionAccount: VCEncryptionAccount;
+}
+
+export interface MMStateRaw extends MMState {
+  [propName: string]: any;
 }

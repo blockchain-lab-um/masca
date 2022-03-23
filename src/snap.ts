@@ -1,10 +1,6 @@
 import { Wallet } from "./interfaces";
 import {
   saveVC,
-  getVC,
-  clearState,
-  initializeStorage,
-  getPrivateKey,
   isInitialized,
   getVcAddress,
   getVcs,
@@ -19,8 +15,11 @@ wallet.registerRpcMessageHandler(
     switch (requestObject.method) {
       case "init":
         console.log("initializing storage...");
-        await initializeStorage();
         return true;
+      case "setEncryptionAccount":
+        console.log("Setting encryption/decryption account");
+      //set Encryption account
+
       case "isInitialized":
         const res = await isInitialized();
         return res;
@@ -44,7 +43,6 @@ wallet.registerRpcMessageHandler(
         }
         return data;
       case "test_vp":
-        console.log("Testing first VP");
         return "test";
       case "getVCAddress":
         const address = await getVcAddress();

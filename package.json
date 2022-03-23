@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.17.2",
+    "@metamask/eth-sig-util": "^4.0.0",
     "did-jwt-vc": "^2.1.9",
     "ethers": "^5.5.4",
     "ethr-did": "^2.2.0",

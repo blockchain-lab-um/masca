@@ -6,8 +6,6 @@ import {
   createVerifiableCredentialJwt,
   JwtPresentationPayload,
   createVerifiablePresentationJwt,
-  verifyCredential,
-  verifyPresentation,
 } from "did-jwt-vc";
 import { Wallet } from "ethers";
 import { Resolver } from "did-resolver";
