@@ -63,23 +63,40 @@ export interface VerifiableCredential extends W3CCredential {
   };
 }
 
-export interface VCStorage {
-  pKey: string;
-  address: string;
-  vcs: Array<VerifiableCredential>;
-}
-
 export interface VCEncryptionAccount {
   account: string;
   encPubKey: any;
 }
 
-export interface MMState {
+// export interface MMState {
+//   [propName: string]: any;
+//   vcStorage: VCStorage;
+//   vcEncryptionAccount: VCEncryptionAccount;
+// }
+
+// export interface MMStateRaw extends MMState {
+//   [propName: string]: any;
+// }
+
+export interface State {
   [propName: string]: any;
-  vcStorage: VCStorage;
-  vcEncryptionAccount: VCEncryptionAccount;
+  //vcSnapState: VCState | undefined;
 }
 
-export interface MMStateRaw extends MMState {
-  [propName: string]: any;
+export interface VCState {
+  [propName: string]: VCAccount;
+}
+export interface VCAccount {
+  encryptedData: string;
+}
+
+export interface DecryptedVCData {
+  pKey: string;
+  address: string;
+  vcs: Array<VerifiableCredential>;
+}
+
+export interface Response {
+  error?: string;
+  data?: any;
 }
