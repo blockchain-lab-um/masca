@@ -4,13 +4,13 @@
   "description": "Snap for SSI DAO",
   "main": "index.js",
   "scripts": {
-    "start": "yarn run build && yarn run serve",
+    "start": "mm-snap --version && yarn run build && yarn run serve",
     "build": "yarn run build:tsc && yarn run build:snap",
     "rebuild": "mm-snap manifest --fix && mm-snap eval && mm-snap serve",
     "build:snap": "yarn build:snap:bundle && yarn build:snap:postprocess && yarn build:snap:eval",
-    "build:snap:bundle": "mm-snap build --verboseErrors  --stripComments --eval false",
+    "build:snap:bundle": "mm-snap build -s build/src/index.js --verboseErrors  --stripComments --eval false",
     "build:snap:postprocess": "node ./post-process.js && mm-snap manifest --fix",
-    "build:snap:eval": "mm-snap eval -b dist/bundle.js --verboseErrors",
+    "build:snap:eval": "mm-snap eval -b dist/bundle.js",
     "build:tsc": "tsc --build --pretty",
     "serve": "mm-snap serve",
     "fix": "mm-snap manifest --fix",
@@ -21,7 +21,8 @@
   "devDependencies": {
     "@types/node": "^17.0.18",
     "ts-node": "^10.5.0",
-    "typescript": "^4.5.5"
+    "typescript": "^4.5.5",
+    "@metamask/snaps-cli": "^0.10.6"
   },
   "dependencies": {
     "@babel/runtime": "^7.17.2",

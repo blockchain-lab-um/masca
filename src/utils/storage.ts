@@ -10,7 +10,7 @@ import {
 import { generatePkey, createPresentation } from "./createDid";
 import { ethers } from "ethers";
 
-//const ethUtil = require("ethereumjs-util");
+const ethUtil = require("ethereumjs-util");
 const sigUtil = require("@metamask/eth-sig-util");
 declare let wallet: Wallet;
 
@@ -29,7 +29,7 @@ async function updateVCState(vcState: VCState) {
     });
     //If state doesnt exist yet, it initializes it.
   } else {
-    console.log("Updating state,", state, "With", vcState);
+    console.log("Creating state,", state, "With", vcState);
     state = { vcSnapState: vcState };
     await wallet.request({
       method: "snap_manageState",
@@ -58,18 +58,18 @@ function encryptVCStorage(
   vcEncryptionAccount: VCEncryptionAccount
 ) {
   console.log("Encrypting ", data);
-  // const encryptedMessage = ethUtil.bufferToHex(
-  //   Buffer.from(
-  const encryptedMessage = JSON.stringify(
-    sigUtil.encrypt({
-      publicKey: vcEncryptionAccount.encPubKey,
-      data: data,
-      version: "x25519-xsalsa20-poly1305",
-    })
+  const encryptedMessage = ethUtil.bufferToHex(
+    Buffer.from(
+      JSON.stringify(
+        sigUtil.encrypt({
+          publicKey: vcEncryptionAccount.encPubKey,
+          data: JSON.stringify(data),
+          version: "x25519-xsalsa20-poly1305",
+        })
+      ),
+      "utf8"
+    )
   );
-  //"utf8"
-  //)
-  //);
   console.log("Encrypted message", encryptedMessage);
   return encryptedMessage;
 }
@@ -81,14 +81,17 @@ async function decryptVCStorage(
   let decriptedState;
   console.log("Decrypting state ", data);
   try {
-    decriptedState = await wallet.request({
-      method: "eth_decrypt",
-      params: [data, address],
-    });
+    decriptedState = JSON.parse(
+      (await wallet.request({
+        method: "eth_decrypt",
+        params: [data, address],
+      })) as string
+    );
   } catch (e) {
     console.log(e as Error);
     return null;
   }
+  console.log("Decrypted state: ", decriptedState);
   return decriptedState;
 }
 
@@ -110,7 +113,7 @@ async function getVCAccount(address: string): Promise<DecryptedVCData | null> {
   console.log("VC account vc state", vcSnapState);
   if (address in vcSnapState) {
     let decryptedVCData = await decryptVCStorage(
-      vcSnapState.address.encryptedData,
+      vcSnapState[address].encryptedData,
       address
     );
     console.log("VC account decrypted account", decryptedVCData);
@@ -132,7 +135,7 @@ async function updateVCAccount(address: string, data: DecryptedVCData) {
     });
 
     let vcSnapState = await getVCState();
-    vcSnapState.address = { encryptedData: encryptedData };
+    vcSnapState[address] = { encryptedData: encryptedData };
     console.log("Update VC account new state", vcSnapState);
     await updateVCState(vcSnapState);
   } else {
@@ -206,7 +209,9 @@ export async function getVP(address: string, vc_id: number) {
 export async function getVCAccountAddress(address: string) {
   if (ethers.utils.isAddress(address)) {
     let vcAccount = await getVCAccount(address);
+    console.log("GEtting VC account", vcAccount);
     if (vcAccount != null) {
+      console.log("VC acc address", vcAccount.address);
       return vcAccount.address;
     } else {
       console.log("VC account is empty");
