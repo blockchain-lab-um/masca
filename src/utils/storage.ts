@@ -95,13 +95,13 @@ async function decryptVCStorage(
   return decriptedState;
 }
 
-async function getEncryptionPublicKey(address: string) {
+async function getEncryptionPublicKey(address: string): Promise<string | null> {
   try {
     let encryptionPublicKey = await wallet.request({
       method: "eth_getEncryptionPublicKey",
       params: [address], // you must have access to the specified account
     });
-    return encryptionPublicKey;
+    return encryptionPublicKey as string;
   } catch (e) {
     console.log(e);
     return null;
@@ -124,8 +124,19 @@ async function getVCAccount(address: string): Promise<DecryptedVCData | null> {
   }
 }
 
+async function getVCAccountEncPubKey(address: string) {
+  //GET VCAccount
+  let vcSnapState = await getVCState();
+  if (address in vcSnapState) {
+    return vcSnapState[address].encPubKey;
+  }
+  return null;
+}
+
+//// TODO optimization
 async function updateVCAccount(address: string, data: DecryptedVCData) {
-  let encPubKey = await getEncryptionPublicKey(address);
+  //// GET VCACCOUNT ENC PUB KEY
+  let encPubKey = await getVCAccountEncPubKey(address);
   console.log("VC account encPubKey", encPubKey);
 
   if (encPubKey != null) {
@@ -135,11 +146,59 @@ async function updateVCAccount(address: string, data: DecryptedVCData) {
     });
 
     let vcSnapState = await getVCState();
-    vcSnapState[address] = { encryptedData: encryptedData };
+    vcSnapState[address] = {
+      encryptedData: encryptedData,
+      encPubKey: encPubKey,
+    };
     console.log("Update VC account new state", vcSnapState);
     await updateVCState(vcSnapState);
   } else {
     console.log("cant get pub key to encrypt data");
+  }
+}
+
+export async function isVCAccountInitialized(address: string) {
+  if (ethers.utils.isAddress(address)) {
+    let vcSnapState = await getVCState();
+    if (address in vcSnapState) return true;
+    return false;
+  } else {
+    console.log("Address is not valid");
+  }
+}
+
+export async function initializeVCAccount(address: string) {
+  if (ethers.utils.isAddress(address)) {
+    let vcSnapState = await getVCState();
+    if (address in vcSnapState && vcSnapState[address].encPubKey != null)
+      return false;
+
+    let encPubKey = await getEncryptionPublicKey(address);
+    if (encPubKey) {
+      console.log("Creating new account...");
+      const [vc_address, vc_privateKey] = generatePkey();
+      const newVCAccount = {
+        pKey: vc_privateKey,
+        address: vc_address,
+        vcs: [],
+      } as DecryptedVCData;
+      let encryptedData = encryptVCStorage(newVCAccount, {
+        account: address,
+        encPubKey: encPubKey,
+      });
+      vcSnapState[address] = {
+        encryptedData: encryptedData,
+        encPubKey: encPubKey,
+      };
+      await updateVCState(vcSnapState);
+      console.log("Initialization finished");
+      return true;
+    } else {
+      console.log("Failed");
+      return false;
+    }
+  } else {
+    console.log("Address is not valid");
   }
 }
 
@@ -166,16 +225,7 @@ export async function saveVC(address: string, data: VerifiableCredential) {
       console.log("New VC", vcAccount);
       await updateVCAccount(address, vcAccount);
     } else {
-      console.log("vcAccount doesnt exist");
-      console.log("Creating new account...");
-      const [vc_address, vc_privateKey] = generatePkey();
-      const newVCAccount = {
-        pKey: vc_privateKey,
-        address: vc_address,
-        vcs: [data],
-      } as DecryptedVCData;
-      console.log("new account", newVCAccount);
-      await updateVCAccount(address, newVCAccount);
+      console.log("Account is not initialized yet");
     }
   } else {
     console.log("Address is not valid");
@@ -187,12 +237,28 @@ export async function getVP(address: string, vc_id: number) {
     let vcAccount = await getVCAccount(address);
     if (vcAccount != null) {
       if (vcAccount.vcs.length > vc_id) {
-        const vp = await createPresentation(
-          vcAccount.vcs[vc_id],
-          vcAccount.pKey,
-          vcAccount.address
-        );
-        return vp;
+        const result = await wallet.request({
+          method: "snap_confirm",
+          params: [
+            {
+              prompt: `User ${address.substring(0, 15)}...`,
+              description: "Would you like to sign following VC?",
+              textAreaContent: JSON.stringify(
+                vcAccount.vcs[vc_id].credentialSubject
+              ),
+            },
+          ],
+        });
+        if (result) {
+          const vp = await createPresentation(
+            vcAccount.vcs[vc_id],
+            vcAccount.pKey,
+            vcAccount.address
+          );
+          return vp;
+        } else {
+          return null;
+        }
       } else {
         console.log("Index is not matching any VC");
       }

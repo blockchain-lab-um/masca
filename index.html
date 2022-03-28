@@ -26,6 +26,8 @@
 
     <button class="connect">Connect</button>
     <button class="sendHello">Send Hello</button>
+    <button class="init">Initialize</button>
+    <button class="isInit">isInitialized?</button>
     <button class="saveVC">Save VC</button>
     <button class="getVCs">Get VCS</button>
     <button class="getVCAddr">Get VC Addr</button>
@@ -40,12 +42,17 @@
     const saveBtn = document.querySelector('button.saveVC')
     const getVCBtn = document.querySelector('button.getVCs')
     const getAddrBtn = document.querySelector('button.getVCAddr')
+    const initializeBtn = document.querySelector('button.init')
+    const isInitializedBtn = document.querySelector('button.isInit')
+
 
     connectButton.addEventListener('click', connect)
     sendButton.addEventListener('click', send)
     saveBtn.addEventListener('click', saveVC)
     getAddrBtn.addEventListener('click', getVCAddr)
     getVCBtn.addEventListener('click', getVCs)
+    initializeBtn.addEventListener('click', init)
+    isInitializedBtn.addEventListener('click', isInit)
 
     // here we get permissions to interact with and install the snap
     async function connect () {
@@ -108,6 +115,38 @@
           method: 'wallet_invokeSnap',
           params: [snapId, {
             method: 'getVCAddress',
+            params: ['0xBea807A80312716EB8089Ee0F59c70Fc965de59D']
+          }]
+        })
+        console.log(response)
+      } catch (err) {
+        console.error(err)
+        alert('Problem happened: ' + err.message || err)
+      }
+    }
+
+    async function init () {
+      try {
+        const response = await ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: [snapId, {
+            method: 'initialize',
+            params: ['0xBea807A80312716EB8089Ee0F59c70Fc965de59D']
+          }]
+        })
+        console.log(response)
+      } catch (err) {
+        console.error(err)
+        alert('Problem happened: ' + err.message || err)
+      }
+    }
+
+    async function isInit () {
+      try {
+        const response = await ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: [snapId, {
+            method: 'isInitialized',
             params: ['0xBea807A80312716EB8089Ee0F59c70Fc965de59D']
           }]
         })

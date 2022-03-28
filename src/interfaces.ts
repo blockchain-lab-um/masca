@@ -87,6 +87,7 @@ export interface VCState {
   [propName: string]: VCAccount;
 }
 export interface VCAccount {
+  encPubKey: string;
   encryptedData: string;
 }
 
