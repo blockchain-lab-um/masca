@@ -37,6 +37,26 @@ bundleString = bundleString.replace(
 bundleString = bundleString.replace("textEncoder.", "new TextEncoder().");
 bundleString = bundleString.replace("textDecoder.", "new TextDecoder().");
 
+// Fix import error
+bundleString = bundleString.replaceAll(".import(", ".importPKey(");
+bundleString = bundleString.replaceAll("import(args)", "importPKey(args)");
+
+// Fix root errors
+bundleString = bundleString.replaceAll(
+  "var coreJsData = root['__core-js_shared__'];",
+  "if(root) {var coreJsData = root['__core-js_shared__'];}"
+);
+
+bundleString = bundleString.replaceAll(
+  "var Symbol = root.Symbol",
+  "if(root)var Symbol = root.Symbol"
+);
+
+bundleString = bundleString.replaceAll(
+  "var Buffer = moduleExports ? root.Buffer : undefined,",
+  "if(root)var Buffer = moduleExports ? root.Buffer : undefined,"
+);
+
 // Remove 'use asm' tokens; they cause pointless console warnings
 bundleString = bundleString.replace(/^\s*'use asm';?\n?/gmu, "");
 

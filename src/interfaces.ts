@@ -1,3 +1,6 @@
+import { IIdentifier, IKey } from "@veramo/core";
+import { ManagedPrivateKey } from "@veramo/key-manager";
+
 export type MetamaskState = {
   didMethod: {
     privKey: string;
@@ -86,6 +89,13 @@ export interface State {
 export interface VCState {
   [propName: string]: VCAccount;
 }
+
+export type VCStateVeramo = VCState & {
+  snapPrivateKeyStore: Record<string, ManagedPrivateKey>;
+  snapKeyStore: Record<string, IKey>;
+  identifiers: Record<string, IIdentifier>;
+};
+
 export interface VCAccount {
   encPubKey: string;
   encryptedData: string;

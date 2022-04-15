@@ -7,6 +7,8 @@ import {
   isVCAccountInitialized,
   initializeVCAccount,
 } from "./utils/storage";
+import { create_ids } from "./veramo/create-identifiers";
+import { list_ids } from "./veramo/list-identifiers";
 
 declare let wallet: Wallet;
 let address: string;
@@ -85,11 +87,23 @@ wallet.registerRpcMessageHandler(
       case "initialize":
         address = requestObject.params[0];
         if (address) {
-          let initialized = await initializeVCAccount(address.toLowerCase());
-          return { data: initialized };
+          let isInitialized = await isVCAccountInitialized(
+            address.toLowerCase()
+          );
+          if (!isInitialized) {
+            let initialized = await initializeVCAccount(address.toLowerCase());
+            return { data: initialized };
+          } else return { error: "Is already initialized" };
         } else return { error: "Missing parameter: address" };
       case "hello":
-        console.log("Recieved hello!");
+        // let state = await wallet.request({
+        //   method: "snap_manageState",
+        //   params: ["get"],
+        // });
+        // console.log("State", state);
+        await list_ids();
+        await create_ids();
+        await list_ids();
         return { data: "Have a nice day" };
       default:
         throw new Error("Method not found.");
