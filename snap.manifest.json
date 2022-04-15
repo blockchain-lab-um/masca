@@ -3,7 +3,7 @@
   "description": "Snap for SSI DAO",
   "proposedName": "ssi-snap",
   "source": {
-    "shasum": "IW0/E7xF1KG4P9ZYnP9+vpHPNnPal6RGei0B5brGUu8=",
+    "shasum": "q6+aHd8zpQHP+wXX6E1e+r7pA3baw+9wVE96XWYVYaM=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",

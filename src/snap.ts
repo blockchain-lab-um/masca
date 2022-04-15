@@ -9,6 +9,7 @@ import {
 } from "./utils/storage";
 import { create_ids } from "./veramo/create-identifiers";
 import { list_ids } from "./veramo/list-identifiers";
+import { save_vc } from "./veramo/save-vcs";
 
 declare let wallet: Wallet;
 let address: string;
@@ -104,6 +105,11 @@ wallet.registerRpcMessageHandler(
         await list_ids();
         await create_ids();
         await list_ids();
+        return { data: "Have a nice day" };
+      case "saveVCVeramo":
+        address = requestObject.params[0];
+        vc = requestObject.params[1];
+        save_vc(vc);
         return { data: "Have a nice day" };
       default:
         throw new Error("Method not found.");

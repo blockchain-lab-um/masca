@@ -90,10 +90,11 @@ export interface VCState {
   [propName: string]: VCAccount;
 }
 
-export type VCStateVeramo = VCState & {
+export type VCStateVeramo = {
   snapPrivateKeyStore: Record<string, ManagedPrivateKey>;
   snapKeyStore: Record<string, IKey>;
   identifiers: Record<string, IIdentifier>;
+  vcs: VerifiableCredential[];
 };
 
 export interface VCAccount {

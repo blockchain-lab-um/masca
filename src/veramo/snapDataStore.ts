@@ -7,6 +7,8 @@ import {
 import { AbstractDIDStore } from "@veramo/did-manager";
 import { v4 as uuidv4 } from "uuid";
 import { VCStateVeramo, State, Wallet } from "../interfaces";
+import { AbstractVCStore } from "vc-manager/build/vc-store/abstract-vc-store";
+import { VerifiableCredential } from "@veramo/core";
 
 export type ImportablePrivateKey = RequireOnly<
   ManagedPrivateKey,
@@ -55,15 +57,19 @@ async function getVCState(): Promise<VCStateVeramo> {
       "snapKeyStore" in state.vcSnapState &&
       "identifiers" in state.vcSnapState
     ) {
-      return state.vcSnapState as VCStateVeramo;
+      if ("vcs" in state.vcSnapState) {
+        return state.vcSnapState as VCStateVeramo;
+      } else return { vcs: [], ...state.vcSnapState } as VCStateVeramo;
     } else
       return {
+        vcs: [],
         snapPrivateKeyStore: {},
         snapKeyStore: {},
         identifiers: {},
       } as VCStateVeramo;
   } else
     return {
+      vcs: [],
       snapPrivateKeyStore: {},
       snapKeyStore: {},
       identifiers: {},
@@ -103,7 +109,7 @@ export class SnapKeyStore extends AbstractKeyStore {
 }
 
 /**
- * An implementation of {@link AbstractPrivateKeyStore} that holds everything in memory.
+ * An implementation of {@link AbstractPrivateKeyStore} that holds everything in snap state.
  *
  * This is usable by {@link @veramo/kms-local} to hold the private key data.
  */
@@ -217,5 +223,29 @@ export class SnapDIDStore extends AbstractDIDStore {
     }
 
     return result;
+  }
+}
+
+export class SnapVCStore extends AbstractVCStore {
+  async get(args: { id: number }): Promise<VerifiableCredential | null> {
+    let vcState = await getVCState();
+    if (args.id > vcState.vcs.length) return null;
+    return vcState.vcs[args.id];
+  }
+
+  async delete({ id }: { id: number }) {
+    return true;
+  }
+
+  async import(args: VerifiableCredential) {
+    let vcState = await getVCState();
+    vcState.vcs.push(args);
+    await updateVCState(vcState);
+    return true;
+  }
+
+  async list(): Promise<VerifiableCredential[]> {
+    let vcState = await getVCState();
+    return vcState.vcs;
   }
 }

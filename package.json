@@ -44,6 +44,7 @@
     "patch-package": "^6.4.7",
     "postinstall-postinstall": "^2.1.0",
     "uuid": "^8.3.2",
-    "web-did-resolver": "^2.0.14"
+    "web-did-resolver": "^2.0.14",
+    "vc-manager": "D:\\Programing\\Work\\veramo_vcmanager\\VCManager"
   }
 }
