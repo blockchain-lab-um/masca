@@ -6,81 +6,20 @@ import {
 } from "@veramo/key-manager";
 import { AbstractDIDStore } from "@veramo/did-manager";
 import { v4 as uuidv4 } from "uuid";
-import { VCStateVeramo, State, Wallet } from "../interfaces";
 import { AbstractVCStore } from "vc-manager/build/vc-store/abstract-vc-store";
 import { VerifiableCredential } from "@veramo/core";
+import { getVCAccount, updateVCAccount } from "../utils/storage";
 
 export type ImportablePrivateKey = RequireOnly<
   ManagedPrivateKey,
   "privateKeyHex" | "type"
 >;
 
-declare let wallet: Wallet;
-
-async function updateVCState(vcState: VCStateVeramo) {
-  let state = (await wallet.request({
-    method: "snap_manageState",
-    params: ["get"],
-  })) as State | null;
-
-  //TODO Get current addr -> save/check under current addr + encrypt/decrypt...
-
-  console.log("VC state in snap update", state);
-  if (state != null) {
-    console.log("Updating state,", state, "With", vcState);
-    state.vcSnapState = vcState;
-    await wallet.request({
-      method: "snap_manageState",
-      params: ["update", state],
-    });
-    //If state doesnt exist yet, it initializes it.
-  } else {
-    console.log("Creating state,", state, "With", vcState);
-    state = { vcSnapState: vcState };
-    await wallet.request({
-      method: "snap_manageState",
-      params: ["update", state],
-    });
-  }
-}
-
-async function getVCState(): Promise<VCStateVeramo> {
-  let state = (await wallet.request({
-    method: "snap_manageState",
-    params: ["get"],
-  })) as State | null;
-  console.log("VC state in snap", state);
-  //if state is null
-  if (state != null) {
-    if (
-      "snapPrivateKeyStore" in state.vcSnapState &&
-      "snapKeyStore" in state.vcSnapState &&
-      "identifiers" in state.vcSnapState
-    ) {
-      if ("vcs" in state.vcSnapState) {
-        return state.vcSnapState as VCStateVeramo;
-      } else return { vcs: [], ...state.vcSnapState } as VCStateVeramo;
-    } else
-      return {
-        vcs: [],
-        snapPrivateKeyStore: {},
-        snapKeyStore: {},
-        identifiers: {},
-      } as VCStateVeramo;
-  } else
-    return {
-      vcs: [],
-      snapPrivateKeyStore: {},
-      snapKeyStore: {},
-      identifiers: {},
-    } as VCStateVeramo;
-}
-
 export class SnapKeyStore extends AbstractKeyStore {
   private keys: Record<string, IKey> = {};
 
   async get({ kid }: { kid: string }): Promise<IKey> {
-    let vcState = await getVCState();
+    let vcState = await getVCAccount();
     const key = vcState.snapKeyStore[kid];
     if (!key) throw Error("Key not found");
     return key;
@@ -92,14 +31,14 @@ export class SnapKeyStore extends AbstractKeyStore {
   }
 
   async import(args: IKey) {
-    let vcState = await getVCState();
+    let vcState = await getVCAccount();
     vcState.snapKeyStore[args.kid] = { ...args };
-    await updateVCState(vcState);
+    await updateVCAccount(vcState);
     return true;
   }
 
   async list(args: {}): Promise<Exclude<IKey, "privateKeyHex">[]> {
-    let vcState = await getVCState();
+    let vcState = await getVCAccount();
     const safeKeys = Object.values(vcState.snapKeyStore).map((key) => {
       const { privateKeyHex, ...safeKey } = key;
       return safeKey;
@@ -118,7 +57,7 @@ export class SnapPrivateKeyStore extends AbstractPrivateKeyStore {
   private privateKeys: Record<string, ManagedPrivateKey> = {};
 
   async get({ alias }: { alias: string }): Promise<ManagedPrivateKey> {
-    let vcState = await getVCState();
+    let vcState = await getVCAccount();
     const key = vcState.snapPrivateKeyStore[alias];
     if (!key) throw Error(`not_found: PrivateKey not found for alias=${alias}`);
     return key;
@@ -130,7 +69,7 @@ export class SnapPrivateKeyStore extends AbstractPrivateKeyStore {
   }
 
   async import(args: ImportablePrivateKey) {
-    let vcState = await getVCState();
+    let vcState = await getVCAccount();
     const alias = args.alias || uuidv4();
     const existingEntry = vcState.snapPrivateKeyStore[alias];
     if (existingEntry && existingEntry.privateKeyHex !== args.privateKeyHex) {
@@ -139,12 +78,12 @@ export class SnapPrivateKeyStore extends AbstractPrivateKeyStore {
       );
     }
     vcState.snapPrivateKeyStore[alias] = { ...args, alias };
-    await updateVCState(vcState);
+    await updateVCAccount(vcState);
     return vcState.snapPrivateKeyStore[alias];
   }
 
   async list(): Promise<Array<ManagedPrivateKey>> {
-    let vcState = await getVCState();
+    let vcState = await getVCAccount();
     return [...Object.values(vcState.snapPrivateKeyStore)];
   }
 }
@@ -161,7 +100,7 @@ export class SnapDIDStore extends AbstractDIDStore {
     alias: string;
     provider: string;
   }): Promise<IIdentifier> {
-    let vcState = await getVCState();
+    let vcState = await getVCAccount();
     if (did && !alias) {
       if (!vcState.identifiers[did])
         throw Error(`not_found: IIdentifier not found with did=${did}`);
@@ -189,7 +128,7 @@ export class SnapDIDStore extends AbstractDIDStore {
   }
 
   async import(args: IIdentifier) {
-    let vcState = await getVCState();
+    let vcState = await getVCAccount();
     const identifier = { ...args };
     for (const key of identifier.keys) {
       if (key.privateKeyHex) {
@@ -197,7 +136,7 @@ export class SnapDIDStore extends AbstractDIDStore {
       }
     }
     vcState.identifiers[args.did] = identifier;
-    await updateVCState(vcState);
+    await updateVCAccount(vcState);
     return true;
   }
 
@@ -205,7 +144,7 @@ export class SnapDIDStore extends AbstractDIDStore {
     alias?: string;
     provider?: string;
   }): Promise<IIdentifier[]> {
-    let vcState = await getVCState();
+    let vcState = await getVCAccount();
     let result: IIdentifier[] = [];
 
     for (const key of Object.keys(vcState.identifiers)) {
@@ -228,7 +167,7 @@ export class SnapDIDStore extends AbstractDIDStore {
 
 export class SnapVCStore extends AbstractVCStore {
   async get(args: { id: number }): Promise<VerifiableCredential | null> {
-    let vcState = await getVCState();
+    let vcState = await getVCAccount();
     if (args.id > vcState.vcs.length) return null;
     return vcState.vcs[args.id];
   }
@@ -238,14 +177,14 @@ export class SnapVCStore extends AbstractVCStore {
   }
 
   async import(args: VerifiableCredential) {
-    let vcState = await getVCState();
+    let vcState = await getVCAccount();
     vcState.vcs.push(args);
-    await updateVCState(vcState);
+    await updateVCAccount(vcState);
     return true;
   }
 
   async list(): Promise<VerifiableCredential[]> {
-    let vcState = await getVCState();
+    let vcState = await getVCAccount();
     return vcState.vcs;
   }
 }

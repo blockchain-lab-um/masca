@@ -11,4 +11,5 @@ export async function list_ids() {
       console.log("..................");
     });
   }
+  return identifiers;
 }
