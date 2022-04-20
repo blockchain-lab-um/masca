@@ -1,19 +1,11 @@
 import { Wallet, Response } from "./interfaces";
-import {} from "./utils/storage";
-import { create_ids } from "./veramo/create-identifiers";
-import { list_ids } from "./veramo/list-identifiers";
-import { save_vc } from "./veramo/save-vcs";
 import { VerifiableCredential } from "@veramo/core";
-import { list_vcs } from "./veramo/get-vcs";
-import { create_vp } from "./veramo/create-vp";
-import { agent } from "./veramo/setup";
+import { get_id, list_vcs, save_vc, create_vp } from "./utils/veramo_utils";
 
 declare let wallet: Wallet;
-let address: string;
 let vc_id: number;
 let vc: VerifiableCredential;
 //// TODO better errors (Return Error msg when trying to save a VC to an uninitialized account, etc.)
-//// TODO use checksummed ETH address, not lowercased version.
 wallet.registerRpcMessageHandler(
   async (
     originString: any,
@@ -25,24 +17,9 @@ wallet.registerRpcMessageHandler(
         let vcs = await list_vcs();
         return { data: vcs };
       case "getVCAddress":
-        let dids = await list_ids();
-        if (dids.length > 0) {
-          let did;
-          dids.map((id) => {
-            did = id.did;
-          });
-          return { data: did };
-        } else {
-          console.log("Creating new DID...");
-          await create_ids();
-          let dids = await list_ids();
-          if (dids.length > 0) {
-            let did;
-            dids.map((id) => {
-              did = id.did;
-            });
-            return { data: did };
-          }
+        let did = await get_id();
+        if (did != null) {
+          return { data: did.did.split(":")[3] };
         }
         return { data: false, error: "Failed to fetch addres" };
       case "saveVC":
@@ -77,34 +54,11 @@ wallet.registerRpcMessageHandler(
           console.log("Missing parameters: address or vc_id");
           return { error: "Missing parameter: address or vc_id" };
         }
-      // case "isInitialized":
-      //   address = requestObject.params[0];
-      //   if (address) {
-      //     let isInitialized = await isVCAccountInitialized(
-      //       address.toLowerCase()
-      //     );
-      //     return { data: isInitialized };
-      //   } else return { error: "Missing parameter: address" };
-      // case "initialize":
-      //   address = requestObject.params[0];
-      //   if (address) {
-      //     let isInitialized = await isVCAccountInitialized(
-      //       address.toLowerCase()
-      //     );
-      //     if (!isInitialized) {
-      //       let initialized = await initializeVCAccount(address.toLowerCase());
-      //       return { data: initialized };
-      //     } else return { error: "Is already initialized" };
-      //   } else return { error: "Missing parameter: address" };
       case "hello":
-        await list_ids();
-        await create_ids();
-        await list_ids();
+        console.log("test function");
         return { data: "Have a nice day" };
       case "saveVCVeramo":
-        address = requestObject.params[0];
-        vc = requestObject.params[1];
-        save_vc(vc);
+        console.log("test function 2");
         return { data: "Have a nice day" };
       default:
         throw new Error("Method not found.");

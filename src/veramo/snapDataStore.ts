@@ -15,12 +15,18 @@ export type ImportablePrivateKey = RequireOnly<
   "privateKeyHex" | "type"
 >;
 
+/**
+ * An implementation of {@link AbstractKeyStore} that holds everything in snap state.
+ *
+ * This is usable by {@link @veramo/kms-local} to hold the private key data.
+ */
+
 export class SnapKeyStore extends AbstractKeyStore {
   private keys: Record<string, IKey> = {};
 
   async get({ kid }: { kid: string }): Promise<IKey> {
-    let vcState = await getVCAccount();
-    const key = vcState.snapKeyStore[kid];
+    let ssiAccountState = await getVCAccount();
+    const key = ssiAccountState.snapKeyStore[kid];
     if (!key) throw Error("Key not found");
     return key;
   }
@@ -31,15 +37,15 @@ export class SnapKeyStore extends AbstractKeyStore {
   }
 
   async import(args: IKey) {
-    let vcState = await getVCAccount();
-    vcState.snapKeyStore[args.kid] = { ...args };
-    await updateVCAccount(vcState);
+    let ssiAccountState = await getVCAccount();
+    ssiAccountState.snapKeyStore[args.kid] = { ...args };
+    await updateVCAccount(ssiAccountState);
     return true;
   }
 
   async list(args: {}): Promise<Exclude<IKey, "privateKeyHex">[]> {
-    let vcState = await getVCAccount();
-    const safeKeys = Object.values(vcState.snapKeyStore).map((key) => {
+    let ssiAccountState = await getVCAccount();
+    const safeKeys = Object.values(ssiAccountState.snapKeyStore).map((key) => {
       const { privateKeyHex, ...safeKey } = key;
       return safeKey;
     });
@@ -50,15 +56,13 @@ export class SnapKeyStore extends AbstractKeyStore {
 /**
  * An implementation of {@link AbstractPrivateKeyStore} that holds everything in snap state.
  *
- * This is usable by {@link @veramo/kms-local} to hold the private key data.
+ * This is usable by {@link @veramo/kms-local} to hold the key data.
  */
 
 export class SnapPrivateKeyStore extends AbstractPrivateKeyStore {
-  private privateKeys: Record<string, ManagedPrivateKey> = {};
-
   async get({ alias }: { alias: string }): Promise<ManagedPrivateKey> {
-    let vcState = await getVCAccount();
-    const key = vcState.snapPrivateKeyStore[alias];
+    let ssiAccountState = await getVCAccount();
+    const key = ssiAccountState.snapPrivateKeyStore[alias];
     if (!key) throw Error(`not_found: PrivateKey not found for alias=${alias}`);
     return key;
   }
@@ -69,28 +73,32 @@ export class SnapPrivateKeyStore extends AbstractPrivateKeyStore {
   }
 
   async import(args: ImportablePrivateKey) {
-    let vcState = await getVCAccount();
+    let ssiAccountState = await getVCAccount();
     const alias = args.alias || uuidv4();
-    const existingEntry = vcState.snapPrivateKeyStore[alias];
+    const existingEntry = ssiAccountState.snapPrivateKeyStore[alias];
     if (existingEntry && existingEntry.privateKeyHex !== args.privateKeyHex) {
       throw new Error(
         "key_already_exists: key exists with different data, please use a different alias"
       );
     }
-    vcState.snapPrivateKeyStore[alias] = { ...args, alias };
-    await updateVCAccount(vcState);
-    return vcState.snapPrivateKeyStore[alias];
+    ssiAccountState.snapPrivateKeyStore[alias] = { ...args, alias };
+    await updateVCAccount(ssiAccountState);
+    return ssiAccountState.snapPrivateKeyStore[alias];
   }
 
   async list(): Promise<Array<ManagedPrivateKey>> {
-    let vcState = await getVCAccount();
-    return [...Object.values(vcState.snapPrivateKeyStore)];
+    let ssiAccountState = await getVCAccount();
+    return [...Object.values(ssiAccountState.snapPrivateKeyStore)];
   }
 }
 
-export class SnapDIDStore extends AbstractDIDStore {
-  private identifiers: Record<string, IIdentifier> = {};
+/**
+ * An implementation of {@link AbstractDIDStore} that holds everything in snap state.
+ *
+ * This is usable by {@link @veramo/did-manager} to hold the did key data.
+ */
 
+export class SnapDIDStore extends AbstractDIDStore {
   async get({
     did,
     alias,
@@ -100,18 +108,18 @@ export class SnapDIDStore extends AbstractDIDStore {
     alias: string;
     provider: string;
   }): Promise<IIdentifier> {
-    let vcState = await getVCAccount();
+    let ssiAccountState = await getVCAccount();
     if (did && !alias) {
-      if (!vcState.identifiers[did])
+      if (!ssiAccountState.identifiers[did])
         throw Error(`not_found: IIdentifier not found with did=${did}`);
-      return vcState.identifiers[did];
+      return ssiAccountState.identifiers[did];
     } else if (!did && alias && provider) {
-      for (const key of Object.keys(vcState.identifiers)) {
+      for (const key of Object.keys(ssiAccountState.identifiers)) {
         if (
-          vcState.identifiers[key].alias === alias &&
-          vcState.identifiers[key].provider === provider
+          ssiAccountState.identifiers[key].alias === alias &&
+          ssiAccountState.identifiers[key].provider === provider
         ) {
-          return vcState.identifiers[key];
+          return ssiAccountState.identifiers[key];
         }
       }
     } else {
@@ -128,15 +136,15 @@ export class SnapDIDStore extends AbstractDIDStore {
   }
 
   async import(args: IIdentifier) {
-    let vcState = await getVCAccount();
+    let ssiAccountState = await getVCAccount();
     const identifier = { ...args };
     for (const key of identifier.keys) {
       if (key.privateKeyHex) {
         delete key.privateKeyHex;
       }
     }
-    vcState.identifiers[args.did] = identifier;
-    await updateVCAccount(vcState);
+    ssiAccountState.identifiers[args.did] = identifier;
+    await updateVCAccount(ssiAccountState);
     return true;
   }
 
@@ -144,11 +152,11 @@ export class SnapDIDStore extends AbstractDIDStore {
     alias?: string;
     provider?: string;
   }): Promise<IIdentifier[]> {
-    let vcState = await getVCAccount();
+    let ssiAccountState = await getVCAccount();
     let result: IIdentifier[] = [];
 
-    for (const key of Object.keys(vcState.identifiers)) {
-      result.push(vcState.identifiers[key]);
+    for (const key of Object.keys(ssiAccountState.identifiers)) {
+      result.push(ssiAccountState.identifiers[key]);
     }
 
     if (args.alias && !args.provider) {
@@ -165,11 +173,17 @@ export class SnapDIDStore extends AbstractDIDStore {
   }
 }
 
+/**
+ * An implementation of {@link AbstractVCStore} that holds everything in snap state.
+ *
+ * This is usable by {@link @vc-manager/VCManager} to hold the vc data
+ */
+
 export class SnapVCStore extends AbstractVCStore {
   async get(args: { id: number }): Promise<VerifiableCredential | null> {
-    let vcState = await getVCAccount();
-    if (args.id > vcState.vcs.length) return null;
-    return vcState.vcs[args.id];
+    let ssiAccountState = await getVCAccount();
+    if (args.id > ssiAccountState.vcs.length) return null;
+    return ssiAccountState.vcs[args.id];
   }
 
   async delete({ id }: { id: number }) {
@@ -177,14 +191,14 @@ export class SnapVCStore extends AbstractVCStore {
   }
 
   async import(args: VerifiableCredential) {
-    let vcState = await getVCAccount();
-    vcState.vcs.push(args);
-    await updateVCAccount(vcState);
+    let ssiAccountState = await getVCAccount();
+    ssiAccountState.vcs.push(args);
+    await updateVCAccount(ssiAccountState);
     return true;
   }
 
   async list(): Promise<VerifiableCredential[]> {
-    let vcState = await getVCAccount();
-    return vcState.vcs;
+    let ssiAccountState = await getVCAccount();
+    return ssiAccountState.vcs;
   }
 }

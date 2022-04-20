@@ -1,6 +1,15 @@
 import { IIdentifier, IKey, VerifiableCredential } from "@veramo/core";
 import { ManagedPrivateKey } from "@veramo/key-manager";
+import {
+  SnapDIDStore,
+  SnapKeyStore,
+  SnapVCStore,
+  SnapPrivateKeyStore,
+} from "./veramo/snapDataStore";
 
+/**
+ * MetaMask Wallet interface
+ */
 export interface Wallet {
   registerApiRequestHandler: (origin: unknown) => unknown;
   registerRpcMessageHandler: (origin: unknown) => unknown;
@@ -9,21 +18,51 @@ export interface Wallet {
   getAppKey(): Promise<string>;
 }
 
+/**
+ * MetaMask State
+ */
 export interface State {
+  /**
+   * Other objects created by other Snaps
+   */
   [snapStates: string]: any;
-  //vcSnapState: VCState | undefined;
+  /**
+   * SSI Snap Object
+   */
+  ssiSnapState: SSISnapState;
 }
 
-export interface VCState {
-  [accountAddress: string]: VCStateAccount;
+/**
+ * SSI Snap State
+ */
+export interface SSISnapState {
+  /**
+   * MetaMask Address: SSIAccountState object
+   */
+  [address: string]: SSIAccountState;
 }
 
-export type VCStateAccount = {
+/**
+ * SSI Snap State for a MetaMask address
+ */
+export interface SSIAccountState {
+  /**
+   * Store for {@link SnapPrivateKeyStore}
+   */
   snapPrivateKeyStore: Record<string, ManagedPrivateKey>;
+  /**
+   * Store for {@link SnapKeyStore}
+   */
   snapKeyStore: Record<string, IKey>;
+  /**
+   * Store for {@link SnapDIDStore}
+   */
   identifiers: Record<string, IIdentifier>;
+  /**
+   * Store for {@link SnapVCStore}
+   */
   vcs: VerifiableCredential[];
-};
+}
 
 export interface Response {
   error?: string;
