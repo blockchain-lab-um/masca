@@ -3,31 +3,31 @@ import { Wallet, State, SSISnapState, SSIAccountState } from "../interfaces";
 declare let wallet: Wallet;
 
 /**
- * Internal function for updating the VCSnap object in MetaMask state
- * This function will only update state for the VCSnap and will not interfere with the state, set by other snaps
+ * Internal function for updating SSISnapState object in the MetaMask state
+ * This function will only update state for the SSISnapState and will not interfere with the state, set by other snaps
  *
  * @private
  *
- * @param vcState - {VCState} object to replace the current object in the MetaMask state.
+ * @param {SSISnapState} snapState - object to replace the current object in the MetaMask state.
  *
  * @beta
  *
  **/
 
-async function updateVCState(vcState: SSISnapState) {
+async function updateVCState(snapState: SSISnapState) {
   let state = (await wallet.request({
     method: "snap_manageState",
     params: ["get"],
   })) as State | null;
 
   if (state != null) {
-    state.ssiSnapState = vcState;
+    state.ssiSnapState = snapState;
     await wallet.request({
       method: "snap_manageState",
       params: ["update", state],
     });
   } else {
-    state = { ssiSnapState: vcState };
+    state = { ssiSnapState: snapState };
     await wallet.request({
       method: "snap_manageState",
       params: ["update", state],
@@ -36,11 +36,11 @@ async function updateVCState(vcState: SSISnapState) {
 }
 
 /**
- * Internal function to retrieve VCState object from the MetaMask state
+ * Internal function to retrieve SSISnapState object from the MetaMask state
  *
  * @private
  *
- * @returns @interface VCState object from the state
+ * @returns {Promise<SSISnapState>} object from the state
  *
  * @beta
  *
@@ -58,11 +58,11 @@ async function getVCState(): Promise<SSISnapState> {
 }
 
 /**
- * Function that returns a promise of the VCStateAccount object in the SSI Snap state for the selected MetaMask account.
+ * Function that returns a promise of the SSIAccountState object in the SSI Snap state for the selected MetaMask account.
  *
  * @public
  *
- * @returns  {VCStateAccount} object for the selected MetaMask account
+ * @returns {Promise<SSIAccountState>} object for the selected MetaMask account
  *
  * @beta
  *
@@ -79,11 +79,11 @@ export async function getVCAccount(): Promise<SSIAccountState> {
 }
 
 /**
- * Function that updates the object (VCStateAccount) in MetaMask SSI Snap state for the selected MetaMask account
+ * Function that updates the object (SSIAccountState) in MetaMask SSI Snap state for the selected MetaMask account
  *
  * @public
  *
- * @param data {VCStateAccount} object that will replace the current object in the state
+ * @param {SSIAccountState} data object that will replace the current object in the state
  *
  * @beta
  *
@@ -96,13 +96,13 @@ export async function updateVCAccount(data: SSIAccountState) {
 }
 
 /**
- * Function that creates an empty VCStateAccount object in the SSI Snap state for the provided address.
+ * Function that creates an empty SSIAccountState object in the SSI Snap state for the provided address.
  *
  * @private
  *
- * @param address - MetaMask address
+ * @param {string} address - MetaMask address
  *
- * @returns {VCStateAccount} - empty VCStateAccount object
+ * @returns {Promise<SSIAccountState>} - empty SSIAccountState object
  *
  * @beta
  *
@@ -125,7 +125,7 @@ async function initializeVCAccount(address): Promise<SSIAccountState> {
  *
  * @private
  *
- * @returns {string} address - MetaMask address
+ * @returns {Promise<string>} address - MetaMask address
  *
  * @beta
  *

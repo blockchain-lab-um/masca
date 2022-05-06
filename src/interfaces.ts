@@ -5,7 +5,7 @@ import {
   SnapKeyStore,
   SnapVCStore,
   SnapPrivateKeyStore,
-} from "./veramo/snapDataStore";
+} from "./veramo/plugins/snapDataStore/snapDataStore";
 
 /**
  * MetaMask Wallet interface

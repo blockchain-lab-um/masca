@@ -23,7 +23,7 @@ import {
   SnapKeyStore,
   SnapVCStore,
   SnapPrivateKeyStore,
-} from "./snapDataStore";
+} from "./plugins/snapDataStore/snapDataStore";
 
 const INFURA_PROJECT_ID = "6e751a2e5ff741e5a01eab15e4e4a88b";
 

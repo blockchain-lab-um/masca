@@ -8,7 +8,7 @@ import { AbstractDIDStore } from "@veramo/did-manager";
 import { v4 as uuidv4 } from "uuid";
 import { AbstractVCStore } from "vc-manager/build/vc-store/abstract-vc-store";
 import { VerifiableCredential } from "@veramo/core";
-import { getVCAccount, updateVCAccount } from "../utils/storage";
+import { getVCAccount, updateVCAccount } from "../../../utils/state_utils";
 
 export type ImportablePrivateKey = RequireOnly<
   ManagedPrivateKey,

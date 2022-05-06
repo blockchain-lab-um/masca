@@ -5,7 +5,11 @@ import { get_id, list_vcs, save_vc, create_vp } from "./utils/veramo_utils";
 declare let wallet: Wallet;
 let vc_id: number;
 let vc: VerifiableCredential;
-//// TODO better errors (Return Error msg when trying to save a VC to an uninitialized account, etc.)
+
+/**
+ * @TODO better errors (Return Error msg when trying to save a VC to an uninitialized account, etc.)
+ */
+
 wallet.registerRpcMessageHandler(
   async (
     originString: any,
