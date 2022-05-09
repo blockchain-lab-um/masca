@@ -9,14 +9,12 @@ import {
 
 import { DIDManager } from "@veramo/did-manager";
 import { EthrDIDProvider } from "@veramo/did-provider-ethr";
-import { WebDIDProvider } from "@veramo/did-provider-web";
 import { KeyManager } from "@veramo/key-manager";
 import { KeyManagementSystem } from "@veramo/kms-local";
 import { DIDResolverPlugin } from "@veramo/did-resolver";
 import { Resolver } from "did-resolver";
 import { getResolver as ethrDidResolver } from "ethr-did-resolver";
-import { getResolver as webDidResolver } from "web-did-resolver";
-import { VCManager, IVCManager } from "vc-manager";
+import { VCManager, IVCManager } from "@blockchain-lab-um/veramo-vc-manager";
 
 import {
   SnapDIDStore,
@@ -46,16 +44,12 @@ export const agent = createAgent<
           network: "rinkeby",
           rpcUrl: "https://rinkeby.infura.io/v3/" + INFURA_PROJECT_ID,
         }),
-        "did:web": new WebDIDProvider({
-          defaultKms: "local",
-        }),
       },
     }),
     new VCManager({ store: new SnapVCStore() }),
     new DIDResolverPlugin({
       resolver: new Resolver({
         ...ethrDidResolver({ infuraProjectId: INFURA_PROJECT_ID }),
-        ...webDidResolver(),
       }),
     }),
   ],

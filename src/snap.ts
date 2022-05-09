@@ -6,10 +6,6 @@ declare let wallet: Wallet;
 let vc_id: number;
 let vc: VerifiableCredential;
 
-/**
- * @TODO better errors (Return Error msg when trying to save a VC to an uninitialized account, etc.)
- */
-
 wallet.registerRpcMessageHandler(
   async (
     originString: any,
@@ -20,7 +16,7 @@ wallet.registerRpcMessageHandler(
       case "getVCs":
         let vcs = await list_vcs();
         return { data: vcs };
-      case "getVCAddress":
+      case "getDIDAddress":
         let did = await get_id();
         if (did != null) {
           return { data: did.did.split(":")[3] };
@@ -33,8 +29,8 @@ wallet.registerRpcMessageHandler(
             method: "snap_confirm",
             params: [
               {
-                prompt: `User...`,
-                description: "Would you like to sign following VC?",
+                prompt: `Save VC`,
+                description: "Would you like to save the following VC?",
                 textAreaContent: JSON.stringify(vc.credentialSubject),
               },
             ],
@@ -58,12 +54,6 @@ wallet.registerRpcMessageHandler(
           console.log("Missing parameters: address or vc_id");
           return { error: "Missing parameter: address or vc_id" };
         }
-      case "hello":
-        console.log("test function");
-        return { data: "Have a nice day" };
-      case "saveVCVeramo":
-        console.log("test function 2");
-        return { data: "Have a nice day" };
       default:
         throw new Error("Method not found.");
     }

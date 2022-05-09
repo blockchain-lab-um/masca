@@ -1,13 +1,17 @@
 {
   "version": "1.0.0",
-  "description": "Snap for SSI DAO",
+  "description": "Snap for managing VCs and VPs in MetaMask",
   "proposedName": "ssi-snap",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/blockchain-lab-um/ssi-snap.git"
+  },
   "source": {
-    "shasum": "l+ihtawSGEs5mx7Prkm+arCadtXSRPV9/tAT3Te8xmc=",
+    "shasum": "atOEmBQj3MTZMidkDgfhE1j44I/IeC/WtJLIgPLi9GQ=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
-        "packageName": "ssi-snap",
+        "packageName": "@blockchain-lab-um/ssi-snap",
         "registry": "https://registry.npmjs.org"
       }
     }
