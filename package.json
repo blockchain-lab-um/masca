@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/ssi-snap",
-  "version": "1.0.1",
+  "version": "1.0.5",
   "description": "Snap for managing VCs and VPs in MetaMask",
   "main": "index.js",
   "homepage": "https://github.com/blockchain-lab-um/SSISnap",
@@ -14,6 +14,11 @@
     "Verifiable Presentation",
     "DID:ETHR",
     "Veramo"
+  ],
+  "files": [
+    "dist/bundle.js",
+    "snap.manifest.json",
+    "package.json"
   ],
   "scripts": {
     "start": "mm-snap --version && yarn run build && yarn run serve",
@@ -67,5 +72,8 @@
     "web-did-resolver": "^2.0.14",
     "@blockchain-lab-um/veramo-vc-manager": "1.0.0"
   },
-  "private": false
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  }
 }

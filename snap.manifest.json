@@ -1,5 +1,5 @@
 {
-  "version": "1.0.1",
+  "version": "1.0.5",
   "description": "Snap for managing VCs and VPs in MetaMask",
   "proposedName": "ssi-snap",
   "repository": {
@@ -20,7 +20,9 @@
     "snap_confirm": {},
     "snap_manageState": {},
     "eth_accounts": {
-      "requiredMethods": ["eth_decrypt"]
+      "requiredMethods": [
+        "eth_decrypt"
+      ]
     }
   },
   "manifestVersion": "0.1"
