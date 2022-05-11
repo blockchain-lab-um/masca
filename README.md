@@ -12,7 +12,7 @@ In order to maintain as much security as possible, the private keys from MetaMas
 
 #### State Structure
 
-As previously mentioned, VC Snap utilizes MetaMask's state to store information.
+As previously mentioned, SSI Snap utilizes MetaMask's state to store information.
 
 MetaMask state structure:
 
@@ -59,7 +59,7 @@ Method `getVP` is used to get a VP for a specific VC. Additional parameter `VC_I
 
 #### Encryption & Decryption
 
-Currently, data in the MetaMask state is unencrypted. This should change soon, as MetaMask Snaps is implementing encrypted storage ([PR](https://github.com/MetaMask/snaps-skunkworks/pull/369)).
+Currently, data in the MetaMask state is unencrypted. This should change soon, as MetaMask Snaps are implementing encrypted storage ([PR](https://github.com/MetaMask/snaps-skunkworks/pull/369)).
 
 #### Verifiable Presentations
 
