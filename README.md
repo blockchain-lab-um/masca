@@ -4,7 +4,7 @@ The SSI Snap is a MetaMask Snap that enhances MetaMask with functionality to man
 
 ## Snap Architecture
 
-Veramo client powers the SSI Snap. It is used to manage DIDs and VCs, using Veramos DIDManager, KeyManager and PrivateKeyManager plugins and our custom VCManager plugin. Currently, all data is stored in the MetaMask state, using custom data store plugins. Due to very extensible nature of these plugins we'll implement various other ways of storing data in the future, starting with cloud storing functionality, which should also make syncing between wallets possible. Users will get to configure how the data is stored.
+Veramo client powers the SSI Snap. It is used to manage DIDs and VCs, using Veramos DIDManager, KeyManager and PrivateKeyManager plugins and our custom <a href="https://github.com/blockchain-lab-um/veramo-vc-manager">VCManager plugin</a>. Currently, all data is stored in the MetaMask state, using custom data store plugins. Due to very extensible nature of these plugins we'll implement various other ways of storing data in the future, starting with cloud storing functionality, which should also make syncing between wallets possible. Users will get to configure how the data is stored.
 
 In order to maintain as much security as possible, the private keys from MetaMask accounts are not exposed. An additional DID (new DID is generated for every MM account that wants to use VCs) is used instead. At the moment, these DIDs are used exclusively for generating VPs and need to be linked with a MetaMask accounts DID (added as a delegate to the DID document of a MetaMask account) for workflow to work properly.
 
@@ -12,7 +12,7 @@ In order to maintain as much security as possible, the private keys from MetaMas
 
 #### State Structure
 
-As previously mentioned, VC Snap utilizes MetaMask's state to store information.
+As previously mentioned, SSI Snap utilizes MetaMask's state to store information.
 
 MetaMask state structure:
 
@@ -59,7 +59,7 @@ Method `getVP` is used to get a VP for a specific VC. Additional parameter `VC_I
 
 #### Encryption & Decryption
 
-Currently, data in the MetaMask state is unencrypted. This should change soon, as MetaMask Snaps is implementing encrypted storage ([PR](https://github.com/MetaMask/snaps-skunkworks/pull/369)).
+Currently, data in the MetaMask state is unencrypted. This should change soon, as MetaMask Snaps are implementing encrypted storage ([PR](https://github.com/MetaMask/snaps-skunkworks/pull/369)).
 
 #### Verifiable Presentations
 
