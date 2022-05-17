@@ -1,6 +1,7 @@
 import { Wallet, Response } from "./interfaces";
 import { VerifiableCredential } from "@veramo/core";
 import { get_id, list_vcs, save_vc, create_vp } from "./utils/veramo_utils";
+import { checkForDelegate } from "./utils/snap_utils";
 
 declare let wallet: Wallet;
 let vc_id: number;
@@ -46,8 +47,9 @@ wallet.registerRpcMessageHandler(
           return { error: "Missing parameter: vc" };
         }
       case "getVP":
-        vc_id = requestObject.params[0];
-        if (vc_id) {
+        vc_id = parseInt(requestObject.params[0]);
+        console.log(vc_id);
+        if (vc_id >= 0) {
           let vp = await create_vp(vc_id);
           return { data: vp };
         } else {

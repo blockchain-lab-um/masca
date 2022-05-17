@@ -23,10 +23,17 @@ import {
   SnapPrivateKeyStore,
 } from "./plugins/snapDataStore/snapDataStore";
 
+import { CredentialIssuer, ICredentialIssuer } from "@veramo/credential-w3c";
+
 const INFURA_PROJECT_ID = "6e751a2e5ff741e5a01eab15e4e4a88b";
 
 export const agent = createAgent<
-  IDIDManager & IKeyManager & IDataStore & IResolver & IVCManager
+  IDIDManager &
+    IKeyManager &
+    IDataStore &
+    IResolver &
+    IVCManager &
+    ICredentialIssuer
 >({
   plugins: [
     new KeyManager({
@@ -47,6 +54,7 @@ export const agent = createAgent<
       },
     }),
     new VCManager({ store: new SnapVCStore() }),
+    new CredentialIssuer(),
     new DIDResolverPlugin({
       resolver: new Resolver({
         ...ethrDidResolver({ infuraProjectId: INFURA_PROJECT_ID }),

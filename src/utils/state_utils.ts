@@ -1,5 +1,5 @@
 import { Wallet, State, SSISnapState, SSIAccountState } from "../interfaces";
-
+import { getCurrentAccount } from "./snap_utils";
 declare let wallet: Wallet;
 
 /**
@@ -118,27 +118,4 @@ async function initializeVCAccount(address): Promise<SSIAccountState> {
   ssiSnapState[address] = emptyVCAccountDecrypted;
   await updateVCState(ssiSnapState);
   return emptyVCAccountDecrypted;
-}
-
-/**
- * Function that returns address of the currently selected MetaMask account.
- *
- * @private
- *
- * @returns {Promise<string>} address - MetaMask address
- *
- * @beta
- *
- **/
-async function getCurrentAccount(): Promise<string> {
-  try {
-    let accounts = (await wallet.request({
-      method: "eth_requestAccounts",
-    })) as Array<string>;
-    const account = accounts[0];
-    return account;
-  } catch (e) {
-    console.log(e);
-    return "0x0";
-  }
 }

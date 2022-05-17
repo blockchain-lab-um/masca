@@ -4,12 +4,14 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
 } from "@veramo/core";
+import { checkForDelegate } from "./snap_utils";
+declare let wallet: any;
 
 /**
  * Get an existing or create a new DID for the currently selected MetaMask account.
  * @returns {Promise<IIdentifier>} a DID.
  */
-export async function get_id() {
+export async function get_id(): Promise<IIdentifier> {
   const identifiers = await agent.didManagerFind();
   if (identifiers.length == 1) {
     console.log("DID Already exists for the selected MetaMask Account");
@@ -58,22 +60,43 @@ export async function create_vp(
 ): Promise<VerifiablePresentation | null> {
   let identifier = await get_id();
 
-  const vc = await agent.getVC({ id: vc_id });
-  if (vc != null) {
-    const vp = await agent.createVerifiablePresentation({
-      presentation: {
-        holder: identifier,
-        verifier: [],
-        verifiableCredential: [vc],
-      },
-      proofFormat: "jwt",
-      save: true,
-    });
-    console.log("....................VP..................");
-    console.log(vp);
-    return vp;
+  const res = await checkForDelegate();
+  if (res) {
+    const vc = await agent.getVC({ id: vc_id });
+    if (vc.vc != null) {
+      const result = await wallet.request({
+        method: "snap_confirm",
+        params: [
+          {
+            prompt: `Alert`,
+            description: "Do you wish to create a VP from the following VC?",
+            textAreaContent: JSON.stringify(vc.vc.credentialSubject),
+          },
+        ],
+      });
+      console.log("RESULT", result);
+      if (result) {
+        const vp = await agent.createVerifiablePresentation({
+          presentation: {
+            holder: identifier.did,
+            verifier: [],
+            verifiableCredential: [vc.vc],
+          },
+          proofFormat: "jwt",
+          save: false,
+        });
+        console.log("....................VP..................");
+        console.log(vp);
+        return vp;
+        //return JSON.stringify(vp) as unknown as VerifiablePresentation;
+      } else {
+        return null;
+      }
+    } else {
+      console.log("No VC found...");
+      return null;
+    }
   } else {
-    console.log("No VC found...");
     return null;
   }
 }
