@@ -27,7 +27,7 @@
     <button class="connect">Connect</button>
     <button class="sendHello">Send Hello</button>
     <button class="init">Get VP</button>
-    <button class="isInit">testDelegate</button>
+    <button class="isInit">Get VP challenge</button>
     <button class="saveVC">Save VC</button>
     <button class="getVCs">Get VCS</button>
     <button class="getVCAddr">Get VC Addr</button>
@@ -174,7 +174,8 @@
         const response = await ethereum.request({
           method: 'wallet_invokeSnap',
           params: [snapId, {
-            method: 'testDelegate',
+            method: 'getVP',
+            params: [0, "61dcecc0-c9df-44e9-8386-473ecb004ecd"]
           }]
         })
         console.log(response)

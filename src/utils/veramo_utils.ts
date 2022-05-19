@@ -56,7 +56,8 @@ export async function list_vcs() {
  * @returns {Promise<VerifiablePresentation | null>} - generated VP
  **/
 export async function create_vp(
-  vc_id: number
+  vc_id: number,
+  challenge?: string
 ): Promise<VerifiablePresentation | null> {
   let identifier = await get_id();
 
@@ -76,6 +77,7 @@ export async function create_vp(
       });
       console.log("RESULT", result);
       if (result) {
+        if (challenge) console.log("Challenge:", challenge);
         const vp = await agent.createVerifiablePresentation({
           presentation: {
             holder: identifier.did,
@@ -84,11 +86,11 @@ export async function create_vp(
           },
           proofFormat: "jwt",
           save: false,
+          challenge: challenge,
         });
         console.log("....................VP..................");
         console.log(vp);
-        return vp;
-        //return JSON.stringify(vp) as unknown as VerifiablePresentation;
+        return vp as VerifiablePresentation;
       } else {
         return null;
       }

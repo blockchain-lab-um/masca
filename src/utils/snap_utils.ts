@@ -1,12 +1,12 @@
 import { Web3Provider } from "@ethersproject/providers";
-import { EthrDID } from "ethr-did";
+import { DelegateTypes, EthrDID } from "ethr-did";
 import { Resolver } from "did-resolver";
 import { getResolver } from "ethr-did-resolver";
 import { get_id } from "./veramo_utils";
 
 declare let wallet: any;
 
-/**
+/**]
  * Function that returns address of the currently selected MetaMask account.
  *
  * @private
@@ -57,16 +57,25 @@ const resolveDidEthr = async () => {
 
 const checkForKey = async (didDocument, vcKey: string): Promise<boolean> => {
   const veriKeys = didDocument?.verificationMethod;
+  const auth = didDocument?.authentication;
+
   let retVal = false;
-  if (veriKeys != null) {
-    console.log("veri keys", veriKeys);
-    veriKeys.map((key) => {
-      if (
-        key.publicKeyHex?.toString().toUpperCase() ===
-        vcKey.substring(2).toUpperCase()
-      ) {
-        retVal = true;
-      }
+  if (veriKeys != null && auth != null) {
+    auth.map((key) => {
+      veriKeys.map((vKey) => {
+        if (
+          vKey.id === key &&
+          vKey.blockchainAccountId.substring(0, 42).toUpperCase() ===
+            vcKey.toUpperCase().substring(0, 42)
+        )
+          retVal = true;
+      });
+      // if (
+      //   key.publicKeyHex?.toString().toUpperCase() ===
+      //   vcKey.substring(2).toUpperCase()
+      // ) {
+      //   retVal = true;
+      // }
     });
   }
   return retVal;
@@ -108,13 +117,16 @@ export const checkForDelegate = async () => {
 
         const txOptions = { gasPrice, gasLimit };
         try {
-          const res = await ethrDid.setAttribute(
-            "did/pub/Ed25519/veriKey/hex",
+          /*const res = await ethrDid.setAttribute(
+            "did/pub/Ed25519/sigKey/hex",
             didAddress,
             86400000,
             undefined,
             txOptions
-          );
+          );*/
+          const res = await ethrDid.addDelegate(didAddress.substring(0, 42), {
+            delegateType: DelegateTypes.sigAuth,
+          });
           console.log(res);
           if (res) {
             console.log(
