@@ -7,6 +7,7 @@ declare let wallet: Wallet;
 let vc_id: number;
 let vc: VerifiableCredential;
 let challenge: string;
+let domain: string;
 
 wallet.registerRpcMessageHandler(
   async (
@@ -49,10 +50,11 @@ wallet.registerRpcMessageHandler(
         }
       case "getVP":
         vc_id = parseInt(requestObject.params[0]);
-        challenge = requestObject.params[1];
+        domain = requestObject.params[1];
+        challenge = requestObject.params[2];
         console.log(vc_id);
         if (vc_id >= 0) {
-          let vp = await create_vp(vc_id, challenge);
+          let vp = await create_vp(vc_id, challenge, domain);
           return { data: vp };
         } else {
           console.log("Missing parameters: address or vc_id");

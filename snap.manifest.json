@@ -1,5 +1,5 @@
 {
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Snap for managing VCs and VPs in MetaMask",
   "proposedName": "ssi-snap",
   "repository": {
@@ -7,7 +7,7 @@
     "url": "https://github.com/blockchain-lab-um/ssi-snap.git"
   },
   "source": {
-    "shasum": "Q5STT5s8zP/UwQBEmEmvzhl++P7hP4myQJIIj8vBKd4=",
+    "shasum": "jUE7A9fMo0NtHPYXg5SuuP8KdeYZW+S8vgG3NWfBLWs=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",

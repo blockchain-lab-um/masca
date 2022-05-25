@@ -57,7 +57,8 @@ export async function list_vcs() {
  **/
 export async function create_vp(
   vc_id: number,
-  challenge?: string
+  challenge?: string,
+  domain?: string
 ): Promise<VerifiablePresentation | null> {
   let identifier = await get_id();
 
@@ -78,15 +79,17 @@ export async function create_vp(
       console.log("RESULT", result);
       if (result) {
         if (challenge) console.log("Challenge:", challenge);
+        if (domain) console.log("Domain:", domain);
         const vp = await agent.createVerifiablePresentation({
           presentation: {
             holder: identifier.did,
             verifier: [],
             verifiableCredential: [vc.vc],
           },
+          challenge: challenge,
+          domain: domain,
           proofFormat: "jwt",
           save: false,
-          challenge: challenge,
         });
         console.log("....................VP..................");
         console.log(vp);
