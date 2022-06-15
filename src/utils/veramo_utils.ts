@@ -1,10 +1,11 @@
-import { agent } from "../veramo/setup";
+import { agent, fillDids } from "../veramo/setup";
 import {
   IIdentifier,
+  MinimalImportableKey,
   VerifiableCredential,
   VerifiablePresentation,
 } from "@veramo/core";
-import { checkForDelegate } from "./snap_utils";
+import { checkForDelegate, getCurrentAccount } from "./snap_utils";
 declare let wallet: any;
 
 /**
@@ -60,7 +61,8 @@ export async function create_vp(
   challenge?: string,
   domain?: string
 ): Promise<VerifiablePresentation | null> {
-  let identifier = await get_id();
+  //let identifier = await get_id();
+  let identifier = "did:ethr:0x4:" + (await getCurrentAccount());
 
   const res = await checkForDelegate();
   if (res) {
@@ -82,13 +84,13 @@ export async function create_vp(
         if (domain) console.log("Domain:", domain);
         const vp = await agent.createVerifiablePresentation({
           presentation: {
-            holder: identifier.did,
+            holder: identifier,
             verifier: [],
             verifiableCredential: [vc.vc],
           },
           challenge: challenge,
           domain: domain,
-          proofFormat: "jwt",
+          proofFormat: "EthereumEip712Signature2021",
           save: false,
         });
         console.log("....................VP..................");
@@ -104,4 +106,64 @@ export async function create_vp(
   } else {
     return null;
   }
+}
+
+export async function create_vc() {
+  // await fillDids();
+
+  // console.log(identifier);
+
+  // let identifier = "did:ethr:0x4:" + (await getCurrentAccount());
+
+  const account = await getCurrentAccount();
+  let did = "did:ethr:0x4:" + account;
+  const controllerKeyId = `metamask-${account}`;
+  await agent.didManagerImport({
+    did,
+    provider: "metamask",
+    controllerKeyId,
+    keys: [
+      {
+        kid: controllerKeyId,
+        type: "Secp256k1",
+        kms: "web3",
+        privateKeyHex: "",
+        meta: {
+          provider: "metamask",
+          account: account.toLocaleLowerCase(),
+          algorithms: ["eth_signMessage", "eth_signTypedData"],
+        },
+      } as MinimalImportableKey,
+    ],
+  });
+
+  const identifiers = await agent.didManagerFind();
+
+  if (identifiers.length > 0) {
+    identifiers.map((id: any) => {
+      console.log(id);
+      console.log("..................");
+    });
+  }
+  console.log("Resolving did...");
+  //const result = await agent.resolveDid({ didUrl: did });
+
+  const result = await agent.createVerifiableCredential({
+    credential: {
+      issuer: { id: did },
+      "@context": [
+        "https://www.w3.org/2018/credentials/v1",
+        "https://example.com/1/2/3",
+      ],
+      type: ["VerifiableCredential", "Custom"],
+      issuanceDate: new Date().toISOString(),
+      credentialSubject: {
+        id: "did:web:example.com",
+        you: "Rock",
+      },
+    },
+    proofFormat: "EthereumEip712Signature2021",
+  });
+
+  return result;
 }

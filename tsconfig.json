@@ -1,14 +1,19 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "lib": ["DOM", "es2017"],
-    "strict": true,
-    "target": "es6",
-    "rootDir": "./",
-    "moduleResolution": "node",
+    "composite": true,
+    "declaration": true,
     "esModuleInterop": true,
-    "downlevelIteration": true,
-    "noImplicitAny": false,
+    "forceConsistentCasingInFileNames": true,
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "useUnknownInCatchVariables": false,
+    "sourceMap": true,
+    "strict": true,
+    "target": "ES2020",
+    "typeRoots": ["./node_modules/@types"],
     "outDir": "./build"
-  }
+  },
+  "exclude": ["**/__snapshots__/**", "**/test/**", "**/*.test.ts"],
+  "files": ["./node_modules/@metamask/snap-types/global.d.ts"],
+  "include": ["src"]
 }

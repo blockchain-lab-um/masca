@@ -55,14 +55,17 @@ const resolveDidEthr = async () => {
   return { ethrDid, didDocument, gasPrice };
 };
 
-const checkForKey = async (didDocument, vcKey: string): Promise<boolean> => {
+const checkForKey = async (
+  didDocument: any,
+  vcKey: string
+): Promise<boolean> => {
   const veriKeys = didDocument?.verificationMethod;
   const auth = didDocument?.authentication;
 
   let retVal = false;
   if (veriKeys != null && auth != null) {
-    auth.map((key) => {
-      veriKeys.map((vKey) => {
+    auth.map((key: any) => {
+      veriKeys.map((vKey: any) => {
         if (
           vKey.id === key &&
           vKey.blockchainAccountId.substring(0, 42).toUpperCase() ===

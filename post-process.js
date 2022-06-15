@@ -1,8 +1,12 @@
 const fs = require("fs");
 const pathUtils = require("path");
-const snapConfig = require("./snap.config.json");
+//const snapConfig = require("./snap.config.json");
 
-const bundlePath = pathUtils.join(snapConfig.dist, snapConfig.outfileName);
+//import * as snapConfig from "./snap.config";
+
+const bundlePath = pathUtils.join("dist", "bundle.js");
+console.log("Bundle path", bundlePath);
+//const bundlePath = pathUtils.join(cliOptions.dist, cliOptions.outfileName);
 
 let bundleString = fs.readFileSync(bundlePath, "utf8");
 

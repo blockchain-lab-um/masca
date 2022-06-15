@@ -107,7 +107,7 @@ export async function updateVCAccount(data: SSIAccountState) {
  * @beta
  *
  **/
-async function initializeVCAccount(address): Promise<SSIAccountState> {
+async function initializeVCAccount(address: string): Promise<SSIAccountState> {
   const emptyVCAccountDecrypted = {
     snapKeyStore: {},
     snapPrivateKeyStore: {},
