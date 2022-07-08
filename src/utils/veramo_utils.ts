@@ -1,4 +1,4 @@
-import { agent } from "../veramo/setup";
+import { getAgent } from "../veramo/setup";
 import {
   IIdentifier,
   MinimalImportableKey,
@@ -14,6 +14,7 @@ declare let wallet: any;
  * @returns {Promise<IIdentifier>} a DID.
  */
 export async function get_id(): Promise<IIdentifier> {
+  const agent = await getAgent();
   const identifiers = await agent.didManagerFind();
   if (identifiers.length == 1) {
     console.log("DID Already exists for the selected MetaMask Account");
@@ -31,6 +32,7 @@ export async function get_id(): Promise<IIdentifier> {
  * @param {VerifiableCredential} vc - The VC.
  **/
 export async function save_vc(vc: VerifiableCredential) {
+  const agent = await getAgent();
   await agent.saveVC({ vc: vc });
 }
 
@@ -38,13 +40,14 @@ export async function save_vc(vc: VerifiableCredential) {
  * Get a list of VCs of the curently selected MetaMask account.
  * @returns {Promise<VerifiableCredential[]>} Array of saved VCs.
  */
-export async function list_vcs() {
+export async function list_vcs(): Promise<VerifiableCredential[]> {
+  const agent = await getAgent();
   const identifiers = await agent.listVCS();
 
   console.log(`There are ${identifiers.vcs.length} identifiers`);
 
   if (identifiers.vcs.length > 0) {
-    identifiers.vcs.map((id) => {
+    identifiers.vcs.map((id: any) => {
       console.log(id);
       console.log("..................");
     });
@@ -63,7 +66,7 @@ export async function create_vp(
   domain?: string
 ): Promise<VerifiablePresentation | null> {
   let identifier = await importMetaMaskAccount();
-
+  const agent = await getAgent();
   const vc = await agent.getVC({ id: vc_id });
   if (vc.vc != null) {
     const result = await wallet.request({
@@ -105,12 +108,13 @@ export async function create_vp(
 }
 
 export const importMetaMaskAccount = async (): Promise<string> => {
+  const agent = await getAgent();
   const account = await getCurrentAccount();
   let did = "did:ethr:0x4:" + account;
 
   const identifiers = agent.didManagerFind();
   let exists = false;
-  (await identifiers).map((id) => {
+  (await identifiers).map((id: any) => {
     if (id.did == did) exists = true;
   });
   if (exists) {
@@ -140,6 +144,7 @@ export const importMetaMaskAccount = async (): Promise<string> => {
 };
 
 export async function create_vc() {
+  const agent = await getAgent();
   const acc = await getVCAccount();
   console.log("Account state", acc);
 

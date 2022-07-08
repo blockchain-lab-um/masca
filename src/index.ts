@@ -7,6 +7,7 @@ import {
   create_vp,
   create_vc,
 } from "./utils/veramo_utils";
+import { changeInfuraToken } from "./utils/snap_utils";
 //import { OnRpcRequestHandler } from "@metamask/snap-types";
 
 declare let wallet: Wallet;
@@ -14,6 +15,7 @@ let vc_id: number;
 let vc: VerifiableCredential;
 let challenge: string;
 let domain: string;
+let infuraToken: string;
 
 //0.16.0
 // export const onRpcRequest: OnRpcRequestHandler = async ({
@@ -79,6 +81,11 @@ wallet.registerRpcMessageHandler(
         } else {
           console.log("Missing parameters: address or vc_id");
           return { error: "Missing parameter: address or vc_id" };
+        }
+      case "changeInfuraToken":
+        infuraToken = (request as any).params[0];
+        if (infuraToken != null && infuraToken != "") {
+          await changeInfuraToken(infuraToken);
         }
       default:
         throw new Error("Method not found.");

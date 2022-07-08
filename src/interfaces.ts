@@ -35,11 +35,29 @@ export interface State {
 /**
  * SSI Snap State
  */
-export interface SSISnapState {
+export interface SSISnapStateRaw {
   /**
    * MetaMask Address: SSIAccountState object
    */
   [address: string]: SSIAccountState;
+}
+
+export type SSISnapState = SSISnapStateRaw & {
+  /**
+   * Configuration for SSISnap
+   */
+  config: SSISnapConfig;
+};
+
+export interface SSISnapConfig {
+  /**
+   * Type of store, 'snap' by default
+   */
+  store: string;
+  /**
+   * Infura token, used by Veramo agent.
+   */
+  infuraToken: string;
 }
 
 /**
