@@ -45,7 +45,7 @@
   },
   "license": "ISC",
   "devDependencies": {
-    "@metamask/snaps-cli": "^0.15.0",
+    "@metamask/snaps-cli": "^0.18.1",
     "@types/node": "^17.0.18",
     "rimraf": "^3.0.2",
     "ts-node": "^10.5.0",
