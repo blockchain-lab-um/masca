@@ -71,7 +71,7 @@
         const response = await ethereum.request({
           method: 'wallet_invokeSnap',
           params: [snapId, {
-            method: 'hello'
+            method: 'helloWorld'
           }]
         })
       } catch (err) {
@@ -159,7 +159,7 @@
           method: 'wallet_invokeSnap',
           params: [snapId, {
             method: 'getVP',
-            params: [0, "did:ethr:rinkeby:0x0241abd662da06d0af2f0152a80bc037f65a7f901160cfe1eb35ef3f0c532a2a4d"]
+            params: [0]
           }]
         })
         console.log(response)

@@ -1,4 +1,10 @@
-import { Wallet, State, SSISnapState, SSIAccountState } from "../interfaces";
+import {
+  Wallet,
+  State,
+  SSISnapState,
+  SSIAccountState,
+  SSISnapConfig,
+} from "../interfaces";
 import { getCurrentAccount } from "./snap_utils";
 declare let wallet: Wallet;
 
@@ -77,6 +83,35 @@ export async function getVCAccount(): Promise<SSIAccountState> {
     return emptyVCAccountDecrypted;
   }
 }
+/**
+ * Function that returns config object of SSI Snap
+ *
+ * @returns {SSISnapConfig} object
+ */
+export async function getConfig(): Promise<SSISnapConfig> {
+  let ssiSnapState = await getVCState();
+  if ("config" in ssiSnapState) {
+    return ssiSnapState.config;
+  } else {
+    const config = {
+      infuraToken: "6e751a2e5ff741e5a01eab15e4e4a88b",
+      store: "snap",
+    } as SSISnapConfig;
+    await updateConfig(config);
+    return config;
+  }
+}
+
+/**
+ * Updates config object in MetaMask state with new object.
+ *
+ * @param {SSISnapConfig} config object that will replace the current object in the state
+ */
+export async function updateConfig(config: SSISnapConfig) {
+  let ssiSnapState = await getVCState();
+  ssiSnapState.config = config;
+  await updateVCState(ssiSnapState);
+}
 
 /**
  * Function that updates the object (SSIAccountState) in MetaMask SSI Snap state for the selected MetaMask account
@@ -107,7 +142,7 @@ export async function updateVCAccount(data: SSIAccountState) {
  * @beta
  *
  **/
-async function initializeVCAccount(address): Promise<SSIAccountState> {
+async function initializeVCAccount(address: string): Promise<SSIAccountState> {
   const emptyVCAccountDecrypted = {
     snapKeyStore: {},
     snapPrivateKeyStore: {},
