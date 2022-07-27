@@ -50,16 +50,10 @@ Method `getVCs` is used to get a list of VCs from the state of the currently sel
 
 Method `getVP` is used to get a VP for a specific VC. Additional parameter `VC_ID` is needed.
 
-### How to implement SSI Snap
-
-1. dApp first calls the `getDIDAddress` RPC method to get a DID for the selected MetaMask account.
-2. dApp then checks if the DID exists in the selected MetaMask account DID Document as a delegate, if not it should not proceed.
-3. if dApp wants to issue a VC, it should call the `saveVC` RPC method with the VC provided as parameter.
-4. if dApp wants to request a VP, it should call the `getVCs` RPC method, filter the needed VC and then call the `getVP` RPC method, with id of the selected VC provided, to request user to generate a VP for the selected VC.
 
 #### Encryption & Decryption
 
-Currently, data in the MetaMask state is unencrypted. This should change soon, as MetaMask Snaps are implementing encrypted storage ([PR](https://github.com/MetaMask/snaps-skunkworks/pull/369)).
+MetaMask state is encrypted
 
 #### Verifiable Presentations
 
