@@ -180,25 +180,39 @@ export class SnapDIDStore extends AbstractDIDStore {
  */
 
 export class SnapVCStore extends AbstractVCStore {
-  async get(args: { id: number }): Promise<VerifiableCredential | null> {
+  async get(args: { id: string }): Promise<VerifiableCredential | null> {
     let ssiAccountState = await getVCAccount();
-    if (args.id > ssiAccountState.vcs.length) return null;
-    return ssiAccountState.vcs[args.id];
+    const vc = ssiAccountState.vcs[args.id];
+    if (!vc) throw Error(`not_found: VC not found for alias=${args.id}`);
+    return vc;
   }
 
-  async delete({ id }: { id: number }) {
+  async delete({ id }: { id: string }) {
     return true;
   }
 
   async import(args: VerifiableCredential) {
     let ssiAccountState = await getVCAccount();
-    ssiAccountState.vcs.push(args);
+    const alias = uuidv4();
+    //TODO Check if ID already exists
+
+    ssiAccountState.vcs[alias] = { ...args };
     await updateVCAccount(ssiAccountState);
     return true;
   }
 
-  async list(): Promise<VerifiableCredential[]> {
+  async list(args: { querry?: any }): Promise<VerifiableCredential[]> {
     let ssiAccountState = await getVCAccount();
-    return ssiAccountState.vcs;
+
+    let result: VerifiableCredential[] = [];
+
+    Object.keys(ssiAccountState.vcs).forEach((key) => {
+      result.push({ ...ssiAccountState.vcs[key], key: key });
+    });
+    if (args.querry && args.querry.issuer) {
+      result = result.filter((i) => i.issuer === args.querry.issuer);
+    }
+
+    return result;
   }
 }

@@ -49,6 +49,13 @@ export type SSISnapState = SSISnapStateRaw & {
   config: SSISnapConfig;
 };
 
+export type ExtendedVerifiableCredential = VerifiableCredential & {
+  /**
+   * key for dictionary
+   */
+  key: string;
+};
+
 export interface SSISnapConfig {
   /**
    * Type of store, 'snap' by default
@@ -79,7 +86,7 @@ export interface SSIAccountState {
   /**
    * Store for {@link SnapVCStore}
    */
-  vcs: VerifiableCredential[];
+  vcs: Record<string, VerifiableCredential>;
 }
 
 export interface Response {

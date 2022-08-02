@@ -40,19 +40,13 @@ export async function save_vc(vc: VerifiableCredential) {
  * Get a list of VCs of the curently selected MetaMask account.
  * @returns {Promise<VerifiableCredential[]>} Array of saved VCs.
  */
-export async function list_vcs(): Promise<VerifiableCredential[]> {
+export async function list_vcs(
+  querry?: string
+): Promise<VerifiableCredential[]> {
   const agent = await getAgent();
-  const identifiers = await agent.listVCS();
-
-  console.log(`There are ${identifiers.vcs.length} identifiers`);
-
-  if (identifiers.vcs.length > 0) {
-    identifiers.vcs.map((id: any) => {
-      console.log(id);
-      console.log("..................");
-    });
-  }
-  return identifiers.vcs;
+  const vcs = await agent.listVCS(querry);
+  console.log("VCS", vcs);
+  return vcs;
 }
 
 /**
@@ -61,7 +55,7 @@ export async function list_vcs(): Promise<VerifiableCredential[]> {
  * @returns {Promise<VerifiablePresentation | null>} - generated VP
  **/
 export async function create_vp(
-  vc_id: number,
+  vc_id: string,
   challenge?: string,
   domain?: string
 ): Promise<VerifiablePresentation | null> {
@@ -143,64 +137,64 @@ export const importMetaMaskAccount = async (): Promise<string> => {
   return did;
 };
 
-export async function create_vc() {
-  const agent = await getAgent();
-  const acc = await getVCAccount();
-  console.log("Account state", acc);
+// export async function create_vc() {
+//   const agent = await getAgent();
+//   const acc = await getVCAccount();
+//   console.log("Account state", acc);
 
-  const id = await agent.didManagerCreate({
-    provider: "snap",
-  });
+//   const id = await agent.didManagerCreate({
+//     provider: "snap",
+//   });
 
-  //const account = await getCurrentAccount();
-  // let did = "did:ethr:0x4:" + account;
-  // // const controllerKeyId = `metamask-${account}`;
-  // // await agent.didManagerImport({
-  // //   did,
-  // //   provider: "metamask",
-  // //   controllerKeyId,
-  // //   keys: [
-  // //     {
-  // //       kid: controllerKeyId,
-  // //       type: "Secp256k1",
-  // //       kms: "web3",
-  // //       privateKeyHex: "",
-  // //       meta: {
-  // //         provider: "metamask",
-  // //         account: account.toLocaleLowerCase(),
-  // //         algorithms: ["eth_signMessage", "eth_signTypedData"],
-  // //       },
-  // //     } as MinimalImportableKey,
-  // //   ],
-  // // });
+//   //const account = await getCurrentAccount();
+//   // let did = "did:ethr:0x4:" + account;
+//   // // const controllerKeyId = `metamask-${account}`;
+//   // // await agent.didManagerImport({
+//   // //   did,
+//   // //   provider: "metamask",
+//   // //   controllerKeyId,
+//   // //   keys: [
+//   // //     {
+//   // //       kid: controllerKeyId,
+//   // //       type: "Secp256k1",
+//   // //       kms: "web3",
+//   // //       privateKeyHex: "",
+//   // //       meta: {
+//   // //         provider: "metamask",
+//   // //         account: account.toLocaleLowerCase(),
+//   // //         algorithms: ["eth_signMessage", "eth_signTypedData"],
+//   // //       },
+//   // //     } as MinimalImportableKey,
+//   // //   ],
+//   // // });
 
-  const identifiers = await agent.didManagerFind();
+//   const identifiers = await agent.didManagerFind();
 
-  if (identifiers.length > 0) {
-    identifiers.map((id: any) => {
-      console.log(id);
-      console.log("..................");
-    });
-  }
-  // console.log("Resolving did...");
-  //const result = await agent.resolveDid({ didUrl: did });
+//   if (identifiers.length > 0) {
+//     identifiers.map((id: any) => {
+//       console.log(id);
+//       console.log("..................");
+//     });
+//   }
+//   // console.log("Resolving did...");
+//   //const result = await agent.resolveDid({ didUrl: did });
 
-  const result = await agent.createVerifiableCredential({
-    credential: {
-      issuer: { id: id.did },
-      "@context": [
-        "https://www.w3.org/2018/credentials/v1",
-        "https://example.com/1/2/3",
-      ],
-      type: ["VerifiableCredential", "Custom"],
-      issuanceDate: new Date().toISOString(),
-      credentialSubject: {
-        id: "did:web:example.com",
-        you: "Rock",
-      },
-    },
-    proofFormat: "EthereumEip712Signature2021",
-  });
-  console.log("RESULT", result);
-  return result;
-}
+//   const result = await agent.createVerifiableCredential({
+//     credential: {
+//       issuer: { id: id.did },
+//       "@context": [
+//         "https://www.w3.org/2018/credentials/v1",
+//         "https://example.com/1/2/3",
+//       ],
+//       type: ["VerifiableCredential", "Custom"],
+//       issuanceDate: new Date().toISOString(),
+//       credentialSubject: {
+//         id: "did:web:example.com",
+//         you: "Rock",
+//       },
+//     },
+//     proofFormat: "EthereumEip712Signature2021",
+//   });
+//   console.log("RESULT", result);
+//   return result;
+// }
