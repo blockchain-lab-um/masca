@@ -25,7 +25,6 @@ async function updateVCState(snapState: SSISnapState) {
     method: "snap_manageState",
     params: ["get"],
   })) as State | null;
-
   if (state != null) {
     state.ssiSnapState = snapState;
     await wallet.request({
@@ -146,7 +145,7 @@ async function initializeVCAccount(address: string): Promise<SSIAccountState> {
   const emptyVCAccountDecrypted = {
     snapKeyStore: {},
     snapPrivateKeyStore: {},
-    vcs: [],
+    vcs: {},
     identifiers: {},
   } as SSIAccountState;
   let ssiSnapState = await getVCState();
