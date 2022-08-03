@@ -209,9 +209,6 @@ export class SnapVCStore extends AbstractVCStore {
     Object.keys(ssiAccountState.vcs).forEach((key) => {
       result.push({ ...ssiAccountState.vcs[key], key: key });
     });
-    if (args.querry && args.querry.issuer) {
-      result = result.filter((i) => i.issuer === args.querry.issuer);
-    }
 
     return result;
   }

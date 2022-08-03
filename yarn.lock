@@ -949,10 +949,10 @@
   resolved "https://registry.yarnpkg.com/@bitauth/libauth/-/libauth-1.19.1.tgz#713751bbc09815b667f8fe00a1cc5b0f3bf45dd1"
   integrity sha512-R524tD5VwOt3QRHr7N518nqTVR/HKgfWL4LypekcGuNQN8R4PWScvuRcRzrY39A28kLztMv+TJdiKuMNbkU1ug==
 
-"@blockchain-lab-um/veramo-vc-manager@1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@blockchain-lab-um/veramo-vc-manager/-/veramo-vc-manager-1.0.2.tgz#a354c962ee89c66b64631b2b780f262460eec892"
-  integrity sha512-/IScrsP+DWFIKKzzX4VdFnRspaAku+SO0fpK4UyyNEpAQUWeV2wwGGkgiBlqz1dTeSdqDhjF8wXwMGlGxzvVfw==
+"@blockchain-lab-um/veramo-vc-manager@1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@blockchain-lab-um/veramo-vc-manager/-/veramo-vc-manager-1.0.3.tgz#e1cdbbb2c2ec41eb225203e77d3b965be61110b5"
+  integrity sha512-Rh5liwg8AtH0x4i1ViVBYFgyKAdFoQdCstN4d8hdQZHgWyOD80pQJiFFz6HhqckrsePkAzBEfZJiIM4bu+gbgA==
   dependencies:
     "@veramo/core" "^3.1.6-next.137"
     uuid "^8.3.2"
@@ -2164,7 +2164,7 @@
     expo-modules-autolinking "^0.0.3"
     invariant "^2.2.4"
 
-"@veramo-community/lds-ecdsa-secp256k1-recovery2020@github:uport-project/EcdsaSecp256k1RecoverySignature2020":
+"@veramo-community/lds-ecdsa-secp256k1-recovery2020@uport-project/EcdsaSecp256k1RecoverySignature2020":
   version "0.0.8"
   resolved "https://codeload.github.com/uport-project/EcdsaSecp256k1RecoverySignature2020/tar.gz/ab0db52de6f4e6663ef271a48009ba26e688ef9b"
   dependencies:

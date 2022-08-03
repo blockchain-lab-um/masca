@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/ssi-snap",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Snap for managing VCs and VPs in MetaMask",
   "keywords": [
     "MetaMask",
@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.17.2",
-    "@blockchain-lab-um/veramo-vc-manager": "1.0.2",
+    "@blockchain-lab-um/veramo-vc-manager": "1.0.3",
     "@veramo/core": "^3.1.6-next.146",
     "@veramo/credential-eip712": "^3.1.6-next.146",
     "@veramo/credential-w3c": "3.1.6-next.146",
