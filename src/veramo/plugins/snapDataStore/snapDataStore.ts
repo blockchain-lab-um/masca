@@ -32,7 +32,12 @@ export class SnapKeyStore extends AbstractKeyStore {
   }
 
   async delete({ kid }: { kid: string }) {
-    //delete this.keys[kid];
+    let ssiAccountState = await getVCAccount();
+    try {
+      delete ssiAccountState.snapKeyStore[kid];
+    } catch (e) {
+      return false;
+    }
     return true;
   }
 
@@ -68,7 +73,12 @@ export class SnapPrivateKeyStore extends AbstractPrivateKeyStore {
   }
 
   async delete({ alias }: { alias: string }) {
-    //delete this.privateKeys[alias];
+    let ssiAccountState = await getVCAccount();
+    try {
+      delete ssiAccountState.snapPrivateKeyStore[alias];
+    } catch (e) {
+      return false;
+    }
     return true;
   }
 
@@ -131,7 +141,12 @@ export class SnapDIDStore extends AbstractDIDStore {
   }
 
   async delete({ did }: { did: string }) {
-    //delete this.identifiers[did];
+    let ssiAccountState = await getVCAccount();
+    try {
+      delete ssiAccountState.identifiers[did];
+    } catch (e) {
+      return false;
+    }
     return true;
   }
 
@@ -188,6 +203,12 @@ export class SnapVCStore extends AbstractVCStore {
   }
 
   async delete({ id }: { id: string }) {
+    let ssiAccountState = await getVCAccount();
+    try {
+      delete ssiAccountState.vcs[id];
+    } catch (e) {
+      return false;
+    }
     return true;
   }
 
