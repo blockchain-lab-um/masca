@@ -1,8 +1,5 @@
 import { VerifiableCredential } from "@veramo/core";
 import { save_vc } from "../utils/veramo_utils";
-import { Wallet } from "../interfaces";
-
-declare let wallet: Wallet;
 
 export async function saveVC(vc?: VerifiableCredential) {
   if (vc) {

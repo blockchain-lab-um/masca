@@ -1,9 +1,6 @@
-import { VerifiableCredential } from "did-jwt-vc";
 import { list_vcs } from "../utils/veramo_utils";
-import { Response, Wallet } from "../interfaces";
+import { Response } from "../interfaces";
 import { getConfig } from "../utils/state_utils";
-
-declare let wallet: Wallet;
 
 export async function getVCs(querry?: any): Promise<Response> {
   console.log("querry", querry);

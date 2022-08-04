@@ -1,12 +1,10 @@
 import {
-  Wallet,
   State,
   SSISnapState,
   SSIAccountState,
   SSISnapConfig,
 } from "../interfaces";
 import { getCurrentAccount } from "./snap_utils";
-declare let wallet: Wallet;
 
 /**
  * Internal function for updating SSISnapState object in the MetaMask state

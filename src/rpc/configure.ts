@@ -1,4 +1,4 @@
-import { Wallet, Response } from "./../interfaces";
+import { Response } from "./../interfaces";
 import {
   _changeInfuraToken,
   _togglePopups,
@@ -7,8 +7,6 @@ import {
   _removeFriendlyDapp,
 } from "./../utils/snap_utils";
 import { getConfig } from "./../utils/state_utils";
-
-declare let wallet: Wallet;
 
 export async function togglePopups(): Promise<Response> {
   const config = await getConfig();
