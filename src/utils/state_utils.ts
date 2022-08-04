@@ -93,8 +93,14 @@ export async function getConfig(): Promise<SSISnapConfig> {
     return ssiSnapState.config;
   } else {
     const config = {
-      infuraToken: "6e751a2e5ff741e5a01eab15e4e4a88b",
-      store: "snap",
+      dApp: {
+        disablePopups: false,
+        friendlyDapps: [],
+      },
+      veramo: {
+        infuraToken: "6e751a2e5ff741e5a01eab15e4e4a88b",
+        store: "snap",
+      },
     } as SSISnapConfig;
     await updateConfig(config);
     return config;

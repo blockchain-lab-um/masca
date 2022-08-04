@@ -31,6 +31,8 @@
     <button class="saveVC">Save VC</button>
     <button class="getVCs">Get VCS</button>
     <button class="getVCAddr">Get VC Addr</button>
+    <button class="togglePopups">TogglePopups</button>
+    <button class="changeInfuraToken">ChangeInfuraToken</button>
   </body>
 
   <script>
@@ -44,6 +46,8 @@
     const getAddrBtn = document.querySelector('button.getVCAddr')
     const initializeBtn = document.querySelector('button.init')
     const isInitializedBtn = document.querySelector('button.isInit')
+    const popups = document.querySelector('button.togglePopups')
+    const infura = document.querySelector('button.changeInfuraToken')
 
 
     connectButton.addEventListener('click', connect)
@@ -53,6 +57,8 @@
     getVCBtn.addEventListener('click', getVCs)
     initializeBtn.addEventListener('click', getVp)
     isInitializedBtn.addEventListener('click', isInit)
+    popups.addEventListener('click', togglePopups)
+    infura.addEventListener('click', changeInfuraToken)
 
     // here we get permissions to interact with and install the snap
     async function connect () {
@@ -184,5 +190,38 @@
         alert('Problem happened: ' + err.message || err)
       }
     }
+
+    async function changeInfuraToken() {
+      try {
+        const response = await ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: [snapId, {
+            method: 'changeInfuraToken',
+            params: ["newToken"]
+          }]
+        })
+        console.log(response)
+      } catch (err) {
+        console.error(err)
+        alert('Problem happened: ' + err.message || err)
+      }
+    }
+
+    async function togglePopups() {
+      try {
+        const response = await ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: [snapId, {
+            method: 'togglePopups',
+            params: ["newToken"]
+          }]
+        })
+        console.log(response)
+      } catch (err) {
+        console.error(err)
+        alert('Problem happened: ' + err.message || err)
+      }
+    }
+
   </script>
 </html>

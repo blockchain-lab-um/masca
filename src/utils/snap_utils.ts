@@ -30,9 +30,48 @@ export async function getCurrentAccount(): Promise<string> {
  *
  * @param token infura token
  */
-export async function changeInfuraToken(token: string) {
+export async function _changeInfuraToken(token: string) {
   let config = await getConfig();
-  config.infuraToken = token;
+  config.veramo.infuraToken = token;
   await updateConfig(config);
   return;
+}
+/**
+ * Function that toggles the disablePopups flag in the config.
+ *
+ */
+export async function _togglePopups() {
+  let config = await getConfig();
+  config.dApp.disablePopups = !config.dApp.disablePopups;
+  await updateConfig(config);
+  return;
+}
+/**
+ * Function that lets you add a friendly dApp
+ */
+export async function _addFriendlyDapp(dapp: string) {
+  let config = await getConfig();
+  config.dApp.friendlyDapps.push(dapp);
+  await updateConfig(config);
+  return;
+}
+/**
+ * Function that removes a friendly dApp.
+ *
+ */
+export async function _removeFriendlyDapp(dapp: string) {
+  let config = await getConfig();
+  config.dApp.friendlyDapps = config.dApp.friendlyDapps.filter(
+    (d) => d !== dapp
+  );
+  await updateConfig(config);
+  return;
+}
+/**
+ * Function that returns a list of friendly dApps.
+ *
+ */
+export async function _getFriendlyDapps(): Promise<Array<string>> {
+  let config = await getConfig();
+  return config.dApp.friendlyDapps;
 }

@@ -57,14 +57,23 @@ export type ExtendedVerifiableCredential = VerifiableCredential & {
 };
 
 export interface SSISnapConfig {
-  /**
-   * Type of store, 'snap' by default
-   */
-  store: string;
-  /**
-   * Infura token, used by Veramo agent.
-   */
-  infuraToken: string;
+  veramo: {
+    /**
+     * Type of store, 'snap' by default
+     */
+    store: string;
+    /**
+     * Infura token, used by Veramo agent.
+     */
+    infuraToken: string;
+    /**
+     *
+     */
+  };
+  dApp: {
+    disablePopups: boolean;
+    friendlyDapps: Array<string>;
+  };
 }
 
 /**
