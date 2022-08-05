@@ -1,0 +1,16 @@
+name: Pull request
+
+on:
+  pull_request:
+    branches: [master, dev]
+
+jobs:
+  test_pull_request:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 16.15.1
+      - run: npm ci
+      - run: npm run build
