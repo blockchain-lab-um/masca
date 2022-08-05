@@ -16,11 +16,11 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16.15.1
-      - run: yarn install -immutable
+      - run: yarn install
       - name: Run linter
-        run: yarn run lint
+        run: yarn lint
       - name: Build
-        run: yarn run build
+        run: yarn build
       - uses: tj-actions/verify-changed-files@v9
         id: verify-changed-files
         with:
