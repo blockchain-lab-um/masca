@@ -214,8 +214,11 @@ export class SnapVCStore extends AbstractVCStore {
 
   async import(args: VerifiableCredential) {
     let ssiAccountState = await getVCAccount();
-    const alias = uuidv4();
-    //TODO Check if ID already exists
+    let alias = uuidv4();
+
+    while (ssiAccountState.vcs[alias]) {
+      alias = uuidv4();
+    }
 
     ssiAccountState.vcs[alias] = { ...args };
     await updateVCAccount(ssiAccountState);
