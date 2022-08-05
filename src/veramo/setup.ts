@@ -44,7 +44,7 @@ declare let wallet: any;
 export const getAgent = async (): Promise<any> => {
   let config = await getConfig();
 
-  let INFURA_PROJECT_ID = config.infuraToken;
+  let INFURA_PROJECT_ID = config.veramo.infuraToken;
   console.log("INFURA_PROJECT_ID", INFURA_PROJECT_ID);
 
   const web3Providers: Record<string, Web3Provider> = {};

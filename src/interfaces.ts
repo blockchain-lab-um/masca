@@ -8,17 +8,6 @@ import {
 } from "./veramo/plugins/snapDataStore/snapDataStore";
 
 /**
- * MetaMask Wallet interface
- */
-export interface Wallet {
-  registerApiRequestHandler: (origin: unknown) => unknown;
-  registerRpcMessageHandler: (origin: unknown) => unknown;
-  request: (origin: any) => unknown;
-  send(options: { method: string; params: unknown[] }): unknown;
-  getAppKey(): Promise<string>;
-}
-
-/**
  * MetaMask State
  */
 export interface State {
@@ -57,14 +46,23 @@ export type ExtendedVerifiableCredential = VerifiableCredential & {
 };
 
 export interface SSISnapConfig {
-  /**
-   * Type of store, 'snap' by default
-   */
-  store: string;
-  /**
-   * Infura token, used by Veramo agent.
-   */
-  infuraToken: string;
+  veramo: {
+    /**
+     * Type of store, 'snap' by default
+     */
+    store: string;
+    /**
+     * Infura token, used by Veramo agent.
+     */
+    infuraToken: string;
+    /**
+     *
+     */
+  };
+  dApp: {
+    disablePopups: boolean;
+    friendlyDapps: Array<string>;
+  };
 }
 
 /**

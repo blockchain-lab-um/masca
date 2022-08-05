@@ -6,7 +6,7 @@ import {
   VerifiablePresentation,
 } from "@veramo/core";
 import { getCurrentAccount } from "./snap_utils";
-import { getVCAccount } from "./state_utils";
+import { getConfig } from "./state_utils";
 declare let wallet: any;
 
 /**
@@ -46,7 +46,7 @@ export async function list_vcs(
   const agent = await getAgent();
   const vcs = await agent.listVCS(querry);
   console.log("VCS", vcs);
-  return vcs;
+  return vcs.vcs;
 }
 
 /**
@@ -62,17 +62,21 @@ export async function create_vp(
   let identifier = await importMetaMaskAccount();
   const agent = await getAgent();
   const vc = await agent.getVC({ id: vc_id });
+  const config = await getConfig();
+  console.log(vc_id, domain, challenge);
   if (vc.vc != null) {
-    const result = await wallet.request({
-      method: "snap_confirm",
-      params: [
-        {
-          prompt: `Alert`,
-          description: "Do you wish to create a VP from the following VC?",
-          textAreaContent: JSON.stringify(vc.vc.credentialSubject),
-        },
-      ],
-    });
+    const result =
+      config.dApp.disablePopups ||
+      (await wallet.request({
+        method: "snap_confirm",
+        params: [
+          {
+            prompt: `Alert`,
+            description: "Do you wish to create a VP from the following VC?",
+            textAreaContent: JSON.stringify(vc.vc.credentialSubject),
+          },
+        ],
+      }));
     console.log("RESULT", result);
     console.log("VC", vc);
     if (result) {
@@ -136,65 +140,3 @@ export const importMetaMaskAccount = async (): Promise<string> => {
   });
   return did;
 };
-
-// export async function create_vc() {
-//   const agent = await getAgent();
-//   const acc = await getVCAccount();
-//   console.log("Account state", acc);
-
-//   const id = await agent.didManagerCreate({
-//     provider: "snap",
-//   });
-
-//   //const account = await getCurrentAccount();
-//   // let did = "did:ethr:0x4:" + account;
-//   // // const controllerKeyId = `metamask-${account}`;
-//   // // await agent.didManagerImport({
-//   // //   did,
-//   // //   provider: "metamask",
-//   // //   controllerKeyId,
-//   // //   keys: [
-//   // //     {
-//   // //       kid: controllerKeyId,
-//   // //       type: "Secp256k1",
-//   // //       kms: "web3",
-//   // //       privateKeyHex: "",
-//   // //       meta: {
-//   // //         provider: "metamask",
-//   // //         account: account.toLocaleLowerCase(),
-//   // //         algorithms: ["eth_signMessage", "eth_signTypedData"],
-//   // //       },
-//   // //     } as MinimalImportableKey,
-//   // //   ],
-//   // // });
-
-//   const identifiers = await agent.didManagerFind();
-
-//   if (identifiers.length > 0) {
-//     identifiers.map((id: any) => {
-//       console.log(id);
-//       console.log("..................");
-//     });
-//   }
-//   // console.log("Resolving did...");
-//   //const result = await agent.resolveDid({ didUrl: did });
-
-//   const result = await agent.createVerifiableCredential({
-//     credential: {
-//       issuer: { id: id.did },
-//       "@context": [
-//         "https://www.w3.org/2018/credentials/v1",
-//         "https://example.com/1/2/3",
-//       ],
-//       type: ["VerifiableCredential", "Custom"],
-//       issuanceDate: new Date().toISOString(),
-//       credentialSubject: {
-//         id: "did:web:example.com",
-//         you: "Rock",
-//       },
-//     },
-//     proofFormat: "EthereumEip712Signature2021",
-//   });
-//   console.log("RESULT", result);
-//   return result;
-// }
