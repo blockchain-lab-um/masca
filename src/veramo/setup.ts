@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // Core interfaces
 import {
   createAgent,
@@ -37,32 +39,30 @@ import {
   W3cMessageHandler,
 } from "@veramo/credential-w3c";
 
-import { getConfig, updateConfig } from "../utils/state_utils";
-
-declare let wallet: any;
+import { getConfig } from "../utils/state_utils";
 
 export const getAgent = async (): Promise<any> => {
-  let config = await getConfig();
+  const config = await getConfig();
 
-  let INFURA_PROJECT_ID = config.veramo.infuraToken;
+  const INFURA_PROJECT_ID = config.veramo.infuraToken;
   console.log("INFURA_PROJECT_ID", INFURA_PROJECT_ID);
 
   const web3Providers: Record<string, Web3Provider> = {};
   const didProviders: Record<string, AbstractIdentifierProvider> = {};
 
-  web3Providers["metamask"] = new Web3Provider(wallet);
+  web3Providers["metamask"] = new Web3Provider(wallet as any);
 
   didProviders["metamask"] = new EthrDIDProvider({
     defaultKms: "web3",
     network: "rinkeby",
-    web3Provider: new Web3Provider(wallet),
     rpcUrl: "https://rinkeby.infura.io/v3/" + INFURA_PROJECT_ID,
+    web3Provider: new Web3Provider(wallet as any),
   });
   didProviders["snap"] = new EthrDIDProvider({
     defaultKms: "snap",
     network: "rinkeby",
-    web3Provider: new Web3Provider(wallet),
     rpcUrl: "https://rinkeby.infura.io/v3/" + INFURA_PROJECT_ID,
+    web3Provider: new Web3Provider(wallet as any),
   });
 
   const agent = createAgent<

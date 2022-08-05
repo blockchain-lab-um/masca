@@ -1,7 +1,5 @@
 {
   "compilerOptions": {
-    "composite": true,
-    "declaration": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "module": "CommonJS",
@@ -15,5 +13,5 @@
   },
   "exclude": ["**/__snapshots__/**", "**/test/**", "**/*.test.ts"],
   "files": ["./node_modules/@metamask/snap-types/global.d.ts"],
-  "include": ["src"]
+  "include": ["src/**/*.ts", "test/**/*ts"]
 }

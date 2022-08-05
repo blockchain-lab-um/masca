@@ -1,12 +1,13 @@
-import { Response } from "./../interfaces";
+/* eslint-disable @typescript-eslint/restrict-plus-operands */
+import { Response } from "../interfaces";
 import {
   _changeInfuraToken,
   _togglePopups,
   _addFriendlyDapp,
   _getFriendlyDapps,
   _removeFriendlyDapp,
-} from "./../utils/snap_utils";
-import { getConfig } from "./../utils/state_utils";
+} from "../utils/snap_utils";
+import { getConfig } from "../utils/state_utils";
 
 export async function togglePopups(): Promise<Response> {
   const config = await getConfig();
@@ -29,7 +30,7 @@ export async function togglePopups(): Promise<Response> {
       ],
     }));
   if (result) {
-    await await _togglePopups();
+    await _togglePopups();
     return { data: true };
   } else {
     return { data: false, error: "Request declined" };

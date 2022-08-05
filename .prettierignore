@@ -1,3 +1,5 @@
 # Ignore artifacts:
 build
-dist/bundle.js
+dist
+index.html
+node_modules

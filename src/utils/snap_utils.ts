@@ -13,7 +13,7 @@ declare let wallet: any;
  **/
 export async function getCurrentAccount(): Promise<string> {
   try {
-    let accounts = (await wallet.request({
+    const accounts = (await wallet.request({
       method: "eth_requestAccounts",
     })) as Array<string>;
     console.log("MetaMask accounts", accounts);
@@ -31,7 +31,7 @@ export async function getCurrentAccount(): Promise<string> {
  * @param token infura token
  */
 export async function _changeInfuraToken(token: string) {
-  let config = await getConfig();
+  const config = await getConfig();
   config.veramo.infuraToken = token;
   await updateConfig(config);
   return;
@@ -41,7 +41,7 @@ export async function _changeInfuraToken(token: string) {
  *
  */
 export async function _togglePopups() {
-  let config = await getConfig();
+  const config = await getConfig();
   config.dApp.disablePopups = !config.dApp.disablePopups;
   await updateConfig(config);
   return;
@@ -50,7 +50,7 @@ export async function _togglePopups() {
  * Function that lets you add a friendly dApp
  */
 export async function _addFriendlyDapp(dapp: string) {
-  let config = await getConfig();
+  const config = await getConfig();
   config.dApp.friendlyDapps.push(dapp);
   await updateConfig(config);
   return;
@@ -60,7 +60,7 @@ export async function _addFriendlyDapp(dapp: string) {
  *
  */
 export async function _removeFriendlyDapp(dapp: string) {
-  let config = await getConfig();
+  const config = await getConfig();
   config.dApp.friendlyDapps = config.dApp.friendlyDapps.filter(
     (d) => d !== dapp
   );
@@ -72,6 +72,6 @@ export async function _removeFriendlyDapp(dapp: string) {
  *
  */
 export async function _getFriendlyDapps(): Promise<Array<string>> {
-  let config = await getConfig();
+  const config = await getConfig();
   return config.dApp.friendlyDapps;
 }
