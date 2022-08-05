@@ -34,7 +34,7 @@
   "scripts": {
     "build": "yarn run build:tsc && yarn run build:snap",
     "build:snap": "yarn build:snap:bundle && yarn build:snap:postprocess && yarn build:snap:eval",
-    "build:snap:bundle": "mm-snap build -s build/src/index.js --verboseErrors  --stripComments --eval false",
+    "build:snap:bundle": "mm-snap build -s build/index.js --verboseErrors  --stripComments --eval false",
     "build:snap:eval": "mm-snap eval -b dist/bundle.js",
     "build:snap:postprocess": "node ./post-process.js && mm-snap manifest --fix",
     "build:tsc": "tsc --build --pretty",
