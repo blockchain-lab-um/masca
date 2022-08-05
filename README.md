@@ -5,5 +5,3 @@ The SSI Snap is a MetaMask Snap that enhances MetaMask with functionality to man
 ## [Documentation](https://blockchain-lab-um.github.io/ssi-snap-docs/)
 
 ## [Demo](https://blockchain-lab-um.github.io/course-dapp/)
-
-

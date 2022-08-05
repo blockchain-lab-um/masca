@@ -49,13 +49,13 @@ async function updateVCState(snapState: SSISnapState) {
  *
  **/
 async function getVCState(): Promise<SSISnapState> {
-  let state = (await wallet.request({
+  const state = (await wallet.request({
     method: "snap_manageState",
     params: ["get"],
   })) as State | null;
   if (state != null) {
     if ("ssiSnapState" in state) {
-      return state.ssiSnapState as SSISnapState;
+      return state.ssiSnapState;
     } else return {} as SSISnapState;
   } else return {} as SSISnapState;
 }
@@ -71,7 +71,7 @@ async function getVCState(): Promise<SSISnapState> {
  *
  **/
 export async function getVCAccount(): Promise<SSIAccountState> {
-  let ssiSnapState = await getVCState();
+  const ssiSnapState = await getVCState();
   const address = await getCurrentAccount();
   if (address in ssiSnapState) {
     return ssiSnapState[address];
@@ -86,7 +86,7 @@ export async function getVCAccount(): Promise<SSIAccountState> {
  * @returns {SSISnapConfig} object
  */
 export async function getConfig(): Promise<SSISnapConfig> {
-  let ssiSnapState = await getVCState();
+  const ssiSnapState = await getVCState();
   if ("config" in ssiSnapState) {
     return ssiSnapState.config;
   } else {
@@ -111,7 +111,7 @@ export async function getConfig(): Promise<SSISnapConfig> {
  * @param {SSISnapConfig} config object that will replace the current object in the state
  */
 export async function updateConfig(config: SSISnapConfig) {
-  let ssiSnapState = await getVCState();
+  const ssiSnapState = await getVCState();
   ssiSnapState.config = config;
   await updateVCState(ssiSnapState);
 }
@@ -128,7 +128,7 @@ export async function updateConfig(config: SSISnapConfig) {
  **/
 export async function updateVCAccount(data: SSIAccountState) {
   const address = await getCurrentAccount();
-  let ssiSnapState = await getVCState();
+  const ssiSnapState = await getVCState();
   ssiSnapState[address] = data;
   await updateVCState(ssiSnapState);
 }
@@ -152,7 +152,7 @@ async function initializeVCAccount(address: string): Promise<SSIAccountState> {
     vcs: {},
     identifiers: {},
   } as SSIAccountState;
-  let ssiSnapState = await getVCState();
+  const ssiSnapState = await getVCState();
   ssiSnapState[address] = emptyVCAccountDecrypted;
   await updateVCState(ssiSnapState);
   return emptyVCAccountDecrypted;
