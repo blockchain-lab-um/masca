@@ -949,6 +949,13 @@
   resolved "https://registry.yarnpkg.com/@bitauth/libauth/-/libauth-1.19.1.tgz#713751bbc09815b667f8fe00a1cc5b0f3bf45dd1"
   integrity sha512-R524tD5VwOt3QRHr7N518nqTVR/HKgfWL4LypekcGuNQN8R4PWScvuRcRzrY39A28kLztMv+TJdiKuMNbkU1ug==
 
+"@blockchain-lab-um/ssi-snap-types@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@blockchain-lab-um/ssi-snap-types/-/ssi-snap-types-1.0.2.tgz#5b381bbe64af40725da5a3e4c1e4366f7cc0e23e"
+  integrity sha512-VKvQxehOXR5QvzSYCxM3fPg8+YwrBCrXNqIS5sWp0+NgE5bVZNssDpHVOFLbuFroWalf3oTGt6/uytt1K38umA==
+  dependencies:
+    "@veramo/core" "^3.1.6-next.146"
+
 "@blockchain-lab-um/veramo-vc-manager@1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@blockchain-lab-um/veramo-vc-manager/-/veramo-vc-manager-1.0.3.tgz#e1cdbbb2c2ec41eb225203e77d3b965be61110b5"
@@ -2288,7 +2295,7 @@
     expo-modules-autolinking "^0.0.3"
     invariant "^2.2.4"
 
-"@veramo-community/lds-ecdsa-secp256k1-recovery2020@github:uport-project/EcdsaSecp256k1RecoverySignature2020":
+"@veramo-community/lds-ecdsa-secp256k1-recovery2020@uport-project/EcdsaSecp256k1RecoverySignature2020":
   version "0.0.8"
   resolved "https://codeload.github.com/uport-project/EcdsaSecp256k1RecoverySignature2020/tar.gz/ab0db52de6f4e6663ef271a48009ba26e688ef9b"
   dependencies:

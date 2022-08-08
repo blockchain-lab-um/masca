@@ -1,8 +1,11 @@
 import { list_vcs } from "../utils/veramo_utils";
-import { Response } from "../interfaces";
 import { getConfig } from "../utils/state_utils";
+import { VerifiableCredential } from "@veramo/core";
+import { VCQuerry } from "@blockchain-lab-um/ssi-snap-types";
 
-export async function getVCs(querry?: any): Promise<Response> {
+export async function getVCs(
+  querry?: VCQuerry
+): Promise<VerifiableCredential[]> {
   console.log("querry", querry);
   const vcs = await list_vcs(querry);
   const config = await getConfig();
@@ -23,8 +26,8 @@ export async function getVCs(querry?: any): Promise<Response> {
       ],
     }));
   if (result) {
-    return { data: { vcs: vcs } };
+    return vcs;
   } else {
-    return { error: "User rejected" };
+    return [];
   }
 }

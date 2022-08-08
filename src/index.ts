@@ -4,13 +4,12 @@ import { togglePopups, changeInfuraToken } from "./rpc/configure";
 import { getVCs } from "./rpc/getVCs";
 import { getVP } from "./rpc/getVP";
 import { saveVC } from "./rpc/saveVC";
-
-let vc_id: string;
-let vc: VerifiableCredential;
-let challenge: string;
-let domain: string;
-let infuraToken: string;
-let querry: any;
+import {
+  isValidChangeInfuraTokenRequest,
+  isValidGetVCsRequest,
+  isValidGetVPRequest,
+  isValidSaveVCRequest,
+} from "./utils/params";
 
 export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,
@@ -25,21 +24,21 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       return { data: "vcr" };
     case "getVCs":
       console.log("querry before");
-      if (request.params) {
-        querry = (request as any).params[0];
-      }
-      return await getVCs(querry);
+      isValidGetVCsRequest(request.params);
+      return await getVCs(request.params.querry);
     case "saveVC":
-      vc = (request as any).params[0];
-      return await saveVC(vc);
+      isValidSaveVCRequest(request.params);
+      return await saveVC(request.params.verifiableCredential);
     case "getVP":
-      vc_id = (request as any).params[0];
-      domain = (request as any).params[1];
-      challenge = (request as any).params[2];
-      return await getVP(vc_id, domain, challenge);
+      isValidGetVPRequest(request.params);
+      return await getVP(
+        request.params.vc_id,
+        request.params.domain,
+        request.params.challenge
+      );
     case "changeInfuraToken":
-      infuraToken = (request as any).params[0];
-      return await changeInfuraToken(infuraToken);
+      isValidChangeInfuraTokenRequest(request.params);
+      return await changeInfuraToken(request.params.infuraToken);
     case "togglePopups":
       return await togglePopups();
     default:
