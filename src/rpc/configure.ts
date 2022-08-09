@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
-import { Response } from "../interfaces";
 import {
   _changeInfuraToken,
   _togglePopups,
@@ -9,7 +8,7 @@ import {
 } from "../utils/snap_utils";
 import { getConfig } from "../utils/state_utils";
 
-export async function togglePopups(): Promise<Response> {
+export async function togglePopups(): Promise<boolean> {
   const config = await getConfig();
 
   const result =
@@ -31,13 +30,12 @@ export async function togglePopups(): Promise<Response> {
     }));
   if (result) {
     await _togglePopups();
-    return { data: true };
-  } else {
-    return { data: false, error: "Request declined" };
+    return true;
   }
+  return false;
 }
 
-export async function changeInfuraToken(token?: string): Promise<Response> {
+export async function changeInfuraToken(token?: string): Promise<boolean> {
   if (token != null && token != "") {
     const config = await getConfig();
     const result = await wallet.request({
@@ -58,11 +56,11 @@ export async function changeInfuraToken(token?: string): Promise<Response> {
     });
     if (result) {
       await _changeInfuraToken(token);
-      return { data: true };
+      return true;
     } else {
-      return { data: false, error: "Request declined" };
+      return false;
     }
   } else {
-    return { error: "Missing parameter: infuraToken" };
+    return false;
   }
 }

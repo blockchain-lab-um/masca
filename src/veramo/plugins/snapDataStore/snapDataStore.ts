@@ -1,3 +1,4 @@
+import { VCQuerry } from "@blockchain-lab-um/ssi-snap-types";
 import { IKey, RequireOnly, IIdentifier } from "@veramo/core";
 import { AbstractKeyStore } from "@veramo/key-manager";
 import {
@@ -226,7 +227,7 @@ export class SnapVCStore extends AbstractVCStore {
     return true;
   }
 
-  async list(args: { querry?: any }): Promise<VerifiableCredential[]> {
+  async list(): Promise<VerifiableCredential[]> {
     const ssiAccountState = await getVCAccount();
 
     const result: VerifiableCredential[] = [];
