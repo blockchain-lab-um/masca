@@ -227,7 +227,7 @@ export class SnapVCStore extends AbstractVCStore {
     return true;
   }
 
-  async list(args: { querry?: VCQuerry }): Promise<VerifiableCredential[]> {
+  async list(): Promise<VerifiableCredential[]> {
     const ssiAccountState = await getVCAccount();
 
     const result: VerifiableCredential[] = [];

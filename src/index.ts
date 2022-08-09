@@ -22,7 +22,6 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       console.log("Hello World!!!");
       return { data: "vcr" };
     case "getVCs":
-      console.log("querry before");
       isValidGetVCsRequest(request.params);
       return await getVCs(request.params.querry);
     case "saveVC":

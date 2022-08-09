@@ -956,11 +956,12 @@
   dependencies:
     "@veramo/core" "^3.1.6-next.146"
 
-"@blockchain-lab-um/veramo-vc-manager@1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@blockchain-lab-um/veramo-vc-manager/-/veramo-vc-manager-1.0.3.tgz#e1cdbbb2c2ec41eb225203e77d3b965be61110b5"
-  integrity sha512-Rh5liwg8AtH0x4i1ViVBYFgyKAdFoQdCstN4d8hdQZHgWyOD80pQJiFFz6HhqckrsePkAzBEfZJiIM4bu+gbgA==
+"@blockchain-lab-um/veramo-vc-manager@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@blockchain-lab-um/veramo-vc-manager/-/veramo-vc-manager-1.0.5.tgz#d5e592eb6a929f20ceb0222cc9359553fce7276b"
+  integrity sha512-CirL0VjqLRU84R7CZGoYaUtuVt5FuW6r85B9qu0I/3mtQfp/sG52mQNChtnwNmECjH4tN2yfPUK1PikUKDXb6Q==
   dependencies:
+    "@blockchain-lab-um/ssi-snap-types" "^1.0.2"
     "@veramo/core" "^3.1.6-next.137"
     uuid "^8.3.2"
 
@@ -2308,7 +2309,17 @@
     crypto-ld "^7.0.0"
     json-stringify-deterministic "^1.0.7"
 
-"@veramo/core@^3.1.6-next.137", "@veramo/core@^3.1.6-next.146", "@veramo/core@^3.1.6-next.146+b0a0a7a0", "@veramo/core@^3.1.6-next.158+5c340b52":
+"@veramo/core@^3.1.6-next.137":
+  version "3.1.6-next.160"
+  resolved "https://registry.yarnpkg.com/@veramo/core/-/core-3.1.6-next.160.tgz#bf9ee182b0bcff60f9e80127eca841a14b3aa1bc"
+  integrity sha512-wz7bBtI4YSpnjzYIN0o4DovrCHhjHK5COl6tuqNw7GkeEXaJlQAldUNAyTeEYPCHgGKtvfvg1vl/9Il/qxUlPw==
+  dependencies:
+    debug "^4.3.3"
+    did-jwt-vc "^2.1.13"
+    events "^3.2.0"
+    z-schema "^5.0.2"
+
+"@veramo/core@^3.1.6-next.146", "@veramo/core@^3.1.6-next.146+b0a0a7a0", "@veramo/core@^3.1.6-next.158+5c340b52":
   version "3.1.6-next.158"
   resolved "https://registry.yarnpkg.com/@veramo/core/-/core-3.1.6-next.158.tgz#5d4dac225f006dd7e40929fedc2db711c36fa5f8"
   integrity sha512-bcs9PP93bTHFvo+DHN4TAyFJ2YL9115A8bt3lAB/oIq/Axmhk/mr+q3Gy1HFlHDI6j1chlRjxc5q1Wv37m53dQ==

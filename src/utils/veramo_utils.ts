@@ -43,7 +43,7 @@ export async function list_vcs(
   querry?: VCQuerry
 ): Promise<VerifiableCredential[]> {
   const agent = await getAgent();
-  const vcs = await agent.listVCS(querry);
+  const vcs = await agent.listVCS({ querry: querry });
   console.log("VCS", vcs);
   return vcs.vcs as VerifiableCredential[];
 }
