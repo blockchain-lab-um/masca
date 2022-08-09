@@ -1,4 +1,3 @@
-import { VerifiableCredential } from "@veramo/core";
 import { OnRpcRequestHandler } from "@metamask/snap-types";
 import { togglePopups, changeInfuraToken } from "./rpc/configure";
 import { getVCs } from "./rpc/getVCs";

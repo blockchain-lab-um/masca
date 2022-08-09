@@ -1,3 +1,4 @@
+import { VCQuerry } from "@blockchain-lab-um/ssi-snap-types";
 import {
   IIdentifier,
   MinimalImportableKey,
@@ -38,7 +39,9 @@ export async function save_vc(vc: VerifiableCredential) {
  * Get a list of VCs of the curently selected MetaMask account.
  * @returns {Promise<VerifiableCredential[]>} Array of saved VCs.
  */
-export async function list_vcs(querry?: any): Promise<VerifiableCredential[]> {
+export async function list_vcs(
+  querry?: VCQuerry
+): Promise<VerifiableCredential[]> {
   const agent = await getAgent();
   const vcs = await agent.listVCS(querry);
   console.log("VCS", vcs);
@@ -47,7 +50,9 @@ export async function list_vcs(querry?: any): Promise<VerifiableCredential[]> {
 
 /**
  * Create a VP from a specific VC (if it exists), that is stored in MetaMask state under the currently selected MetaMask account.
- * @param {number} vc_id - index of the VC
+ * @param {string} vc_id - index of the VC
+ * @param {string} domain - domain of the VP
+ * @param {string} challenge - challenge of the VP
  * @returns {Promise<VerifiablePresentation | null>} - generated VP
  * */
 export async function create_vp(

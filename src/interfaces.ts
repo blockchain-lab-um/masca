@@ -56,7 +56,7 @@ export interface SSISnapConfig {
      */
     infuraToken: string;
     /**
-     *
+     * dApp settings
      */
   };
   dApp: {
@@ -85,9 +85,4 @@ export interface SSIAccountState {
    * Store for {@link SnapVCStore}
    */
   vcs: Record<string, VerifiableCredential>;
-}
-
-export interface Response {
-  error?: string;
-  data?: any;
 }
