@@ -22,12 +22,14 @@ First, build and install beta release of Metamask extension:
 
 #### Demo Snapshot
 
-##### Running SSI Snap demo locally
+##### Running SSI Snap locally
 
-Start our demo locally by running:
+Build and test locally
 
 - `yarn install`
-- `yarn run demo`
+- `yarn start`
+
+Demo should open on localhost:8081
 
 ## License
 
