@@ -1,4 +1,5 @@
 module.exports = {
+  root: true,
   extends: [
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
@@ -6,7 +7,7 @@ module.exports = {
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
-    project: ["./tsconfig.eslint.json"],
+    project: "./tsconfig.eslint.json",
   },
   rules: {
     "@typescript-eslint/no-misused-promises": [
