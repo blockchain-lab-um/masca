@@ -32,6 +32,7 @@
     "images"
   ],
   "scripts": {
+    "audit": "audit-ci --moderate --skip-dev",
     "build": "yarn run build:tsc && yarn run build:snap",
     "build:snap": "yarn build:snap:bundle && yarn build:snap:postprocess && yarn build:snap:eval",
     "build:snap:bundle": "mm-snap build -s build/index.js --verboseErrors  --stripComments --eval false",
@@ -86,6 +87,7 @@
     "@types/node": "^17.0.18",
     "@typescript-eslint/eslint-plugin": "^5.32.0",
     "@typescript-eslint/parser": "^5.32.0",
+    "audit-ci": "^6.3.0",
     "eslint": "^8.20.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
