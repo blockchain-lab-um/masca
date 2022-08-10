@@ -25,3 +25,5 @@ yarn-error.log*
 .vscode/settings.json
 
 tsconfig.tsbuildinfo
+
+package-lock.json
