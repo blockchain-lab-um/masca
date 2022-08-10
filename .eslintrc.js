@@ -1,13 +1,13 @@
 module.exports = {
+  root: true,
   extends: [
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:prettier/recommended",
-    "prettier",
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
-    project: ["./tsconfig.eslint.json"],
+    project: "./tsconfig.eslint.json",
   },
   rules: {
     "@typescript-eslint/no-misused-promises": [
@@ -17,12 +17,6 @@ module.exports = {
       },
     ],
     "@typescript-eslint/no-unsafe-member-access": "off",
-    "prettier/prettier": [
-      "error",
-      {
-        endOfLine: "auto",
-      },
-    ],
     "@typescript-eslint/no-unsafe-call": "off",
     "@typescript-eslint/no-unsafe-assignment": "off",
   },
