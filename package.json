@@ -33,7 +33,7 @@
   ],
   "scripts": {
     "audit": "audit-ci --moderate --skip-dev",
-    "build": "yarn run build:tsc && yarn run build:snap",
+    "build": "yarn build:tsc && yarn build:snap",
     "build:snap": "yarn build:snap:bundle && yarn build:snap:postprocess && yarn build:snap:eval",
     "build:snap:bundle": "mm-snap build -s build/index.js --verboseErrors  --stripComments --eval false",
     "build:snap:eval": "mm-snap eval -b dist/bundle.js",
@@ -42,13 +42,13 @@
     "clean": "rimraf dist build",
     "prebuild": "yarn clean",
     "serve": "mm-snap serve",
-    "start": "mm-snap --version && yarn run build && yarn run serve",
+    "start": "mm-snap --version && yarn build && yarn serve",
     "prettier": "prettier --write .",
     "lint": "yarn lint:eslint && yarn lint:tsc && yarn lint:prettier",
     "lint:eslint": "eslint . --ext .js,.ts,.tsx",
     "lint:prettier": "prettier . --check",
     "lint:tsc": "tsc --noEmit --incremental false",
-    "prepare": "husky install"
+    "prepare": "yarn run clean && husky install"
   },
   "dependencies": {
     "@babel/runtime": "^7.17.2",
