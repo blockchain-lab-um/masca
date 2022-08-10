@@ -38,14 +38,16 @@
     "build:snap:eval": "mm-snap eval -b dist/bundle.js",
     "build:snap:postprocess": "node ./post-process.js && mm-snap manifest --fix",
     "build:tsc": "tsc --build --pretty",
-    "clean": "rimraf 'dist/*'",
+    "clean": "rimraf dist build",
+    "prebuild": "yarn clean",
     "serve": "mm-snap serve",
     "start": "mm-snap --version && yarn run build && yarn run serve",
     "prettier": "prettier --write .",
     "lint": "yarn lint:eslint && yarn lint:tsc && yarn lint:prettier",
     "lint:eslint": "eslint . --ext .js,.ts,.tsx",
     "lint:prettier": "prettier . --check",
-    "lint:tsc": "tsc --noEmit --incremental false"
+    "lint:tsc": "tsc --noEmit --incremental false",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@babel/runtime": "^7.17.2",
@@ -76,6 +78,8 @@
     "web-did-resolver": "^2.0.14"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.0.3",
+    "@commitlint/config-conventional": "^17.0.3",
     "@metamask/providers": "^9.0.0",
     "@metamask/snap-types": "^0.18.1",
     "@metamask/snaps-cli": "^0.18.1",
@@ -87,6 +91,7 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
     "precompress": "^7.0.1",
     "prettier": "^2.7.1",
     "rimraf": "^3.0.2",
