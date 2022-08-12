@@ -85,4 +85,9 @@ export interface SSIAccountState {
    * Store for {@link SnapVCStore}
    */
   vcs: Record<string, VerifiableCredential>;
+  /**
+   * Signed message is used for generating other DIDs using key method
+   */
+  signedMessage: string;
+  didMethod: string;
 }

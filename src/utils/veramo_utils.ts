@@ -6,7 +6,7 @@ import {
   VerifiablePresentation,
 } from "@veramo/core";
 import { getAgent } from "../veramo/setup";
-import { getCurrentAccount } from "./snap_utils";
+import { getCurrentAccount, _getDidKeyIdentifier } from "./snap_utils";
 import { getConfig } from "./state_utils";
 
 /**
@@ -107,21 +107,24 @@ export async function create_vp(
 export const importMetaMaskAccount = async (): Promise<string> => {
   const agent = await getAgent();
   const account = await getCurrentAccount();
-  const did = `did:ethr:0x4:${account}`;
-
+  //const did = `did:ethr:0x4:${account}`;
+  const { didUrl, pubKey, compressedKey } = await _getDidKeyIdentifier();
+  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+  const did = `did:key:${didUrl}`;
   const identifiers = agent.didManagerFind();
   let exists = false;
   (await identifiers).map((id: any) => {
     if (id.did == did) exists = true;
   });
   if (exists) {
-    console.log("DID already exists");
+    console.log("DID already exists", did);
     return did;
   }
+  console.log("Importing...");
   const controllerKeyId = `metamask-${account}`;
   await agent.didManagerImport({
     did,
-    provider: "metamask",
+    provider: "key",
     controllerKeyId,
     keys: [
       {
@@ -137,5 +140,6 @@ export const importMetaMaskAccount = async (): Promise<string> => {
       } as MinimalImportableKey,
     ],
   });
+  console.log("imported successfully");
   return did;
 };

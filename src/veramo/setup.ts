@@ -39,6 +39,9 @@ import {
   W3cMessageHandler,
 } from "@veramo/credential-w3c";
 
+import { KeyDIDProvider } from "../did/key/key-did-provider";
+import { getDidKeyResolver as keyDidResolver } from "../did/key/key-did-resolver";
+
 import { getConfig } from "../utils/state_utils";
 
 export const getAgent = async (): Promise<any> => {
@@ -64,6 +67,8 @@ export const getAgent = async (): Promise<any> => {
     rpcUrl: "https://rinkeby.infura.io/v3/" + INFURA_PROJECT_ID,
     web3Provider: new Web3Provider(wallet as any),
   });
+
+  didProviders["key"] = new KeyDIDProvider({ defaultKms: "web3" });
 
   const agent = createAgent<
     IDIDManager &
@@ -100,6 +105,7 @@ export const getAgent = async (): Promise<any> => {
       new DIDResolverPlugin({
         resolver: new Resolver({
           ...ethrDidResolver({ infuraProjectId: INFURA_PROJECT_ID }),
+          ...keyDidResolver(),
         }),
       }),
     ],

@@ -48,7 +48,8 @@
     "lint:eslint": "eslint . --ext .js,.ts,.tsx",
     "lint:prettier": "prettier . --check",
     "lint:tsc": "tsc --noEmit --incremental false",
-    "prepare": "yarn run clean && husky install"
+    "prepare": "yarn run clean && husky install",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@babel/runtime": "^7.17.2",
@@ -69,12 +70,15 @@
     "@veramo/selective-disclosure": "^3.1.6-next.146",
     "did-jwt-vc": "^2.1.9",
     "did-resolver": "^3.2.0",
-    "ethers": "^5.6.5",
+    "ethers": "^5.6.9",
     "ethr-did": "^2.2.2",
     "ethr-did-resolver": "^5.0.4",
     "js-base64": "^3.7.2",
+    "multibase": "^4.0.6",
+    "multicodec": "^3.2.1",
     "patch-package": "^6.4.7",
     "postinstall-postinstall": "^2.1.0",
+    "secp256k1": "^4.0.3",
     "uuid": "^8.3.2",
     "web-did-resolver": "^2.0.14"
   },

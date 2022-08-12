@@ -151,6 +151,8 @@ async function initializeVCAccount(address: string): Promise<SSIAccountState> {
     snapPrivateKeyStore: {},
     vcs: {},
     identifiers: {},
+    signedMessage: "",
+    didMethod: "did:ethr",
   } as SSIAccountState;
   const ssiSnapState = await getVCState();
   ssiSnapState[address] = emptyVCAccountDecrypted;

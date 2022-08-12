@@ -9,6 +9,7 @@ import {
   isValidGetVPRequest,
   isValidSaveVCRequest,
 } from "./utils/params";
+import { _getDidKeyIdentifier } from "./utils/snap_utils";
 
 export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,
@@ -20,6 +21,10 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   switch (request.method) {
     case "helloWorld":
       console.log("Hello World!!!");
+
+      const did = _getDidKeyIdentifier();
+      console.log(did);
+
       return { data: "vcr" };
     case "getVCs":
       isValidGetVCsRequest(request.params);

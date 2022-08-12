@@ -136,7 +136,7 @@
           params: [snapId, {
             method: 'getVCs',
             //params: {querry: {}}
-            params: {querry: {issuer: {id: 'did:ethr:rinkeby:0x0241abd662da06d0af2f0152a80bc037f65a7f901160cfe1eb35ef3f0c532a2a4d'}, issuanceDate: "2022-05-13T12:08:10.000Z"}}
+            params: {querry: {}}
           }]
         })
         console.log(response)
@@ -166,7 +166,7 @@
           method: 'wallet_invokeSnap',
           params: [snapId, {
             method: 'getVP',
-            params: [0]
+            params: {vc_id: "e3ee2968-c85e-4ada-997d-dac2b91ee323"}
           }]
         })
         console.log(response)
