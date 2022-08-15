@@ -1,0 +1,26 @@
+{
+  "bootstrap-sha": "6fc119838885b0cb831e78ddd23ac01cb819e585",
+  "releaseType": "node",
+  "include-component-in-tag": false,
+  "changelog-sections": [
+    {
+      "type": "feat",
+      "section": ":rocket: Features",
+      "hidden": false
+    },
+    {
+      "type": "fix",
+      "section": ":bug: Bug Fixes",
+      "hidden": false
+    },
+
+    {
+      "type": "docs",
+      "section": ":page_with_curl: Documentation",
+      "hidden": false
+    }
+  ],
+  "packages": {
+    ".": {}
+  }
+}
