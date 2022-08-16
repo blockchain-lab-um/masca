@@ -18,7 +18,9 @@
       "type": "docs",
       "section": ":page_with_curl: Documentation",
       "hidden": false
-    }
+    },
+    { "type": "perf", "section": "Performance Improvements", "hidden": true },
+    { "type": "revert", "section": "Reverts", "hidden": true }
   ],
   "packages": {
     ".": {}
