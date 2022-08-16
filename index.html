@@ -26,37 +26,113 @@
 
     <button class="connect">Connect</button>
     <button class="sendHello">Send Hello</button>
-    <button class="init">Get VP</button>
-    <button class="isInit">Get VP challenge</button>
-    <button class="saveVC">Save VC</button>
+    <button class="init">Init</button>
+    <br>
+    <hr>
     <button class="getVCs">Get VCS</button>
-    <button class="getVCAddr">Get VC Addr</button>
+    <br>
+    <hr>
+    <textarea id="VC" rows="30" cols="50"></textarea>
+    <br>
+    <button class="saveVC">Save VC</button>
+    <br>
+    <hr>
+    <input type="text" id="vc_id" placeholder="VC ID" />
+    With challenge
+    <input type="checkbox" id="withChallenge" placeholder="false" />
+    <button id="getVP" class="getVP">Get VP</button>
+    <br>
+    <hr>
+    <select id="didMethod">
+      <option value="did:ethr">did:ethr</option>
+      <option value="did:key">did:key</option>
+    </select>
+    <button class="switchMethod">Switch current method</button>
+    <br>
+    <hr>
+    <button class="getCurrentDid">Get current DID</button>
+    <button class="getCurrentMethod">Get current method</button>
+    <button class="getAvailableMethods">Get current network</button>
+    <br>
+    <hr>
     <button class="togglePopups">TogglePopups</button>
     <button class="changeInfuraToken">ChangeInfuraToken</button>
   </body>
-
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
   <script>
+
+    
     const snapId = `local:${window.location.href}`;
     console.log(snapId)
 
+    const placeholderVC = {
+        "credentialSchema": {
+            "id": "https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json",
+            "type": "JsonSchemaValidator2018"
+        },
+    "credentialSubject": {
+        "accomplishmentType": "Developer Certificate",
+        "learnerName": "a",
+        "achievement": "Certified Solidity Developer 2",
+        "courseProvider": "UM FERI",
+        "id": "did:ethr:rinkeby:0x6A24687621cDD1C77Bb6aCbBEE910d0C517eB443"
+    },
+    "issuer": {
+        "id": "did:ethr:rinkeby:0x0241abd662da06d0af2f0152a80bc037f65a7f901160cfe1eb35ef3f0c532a2a4d"
+    },
+    "type": [
+        "VerifiableCredential",
+        "ProgramCompletionCertificate"
+    ],
+    "@context": [
+        "https://www.w3.org/2018/credentials/v1",
+        "https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/ld-context.json"
+    ],
+    "issuanceDate": "2022-06-13T12:08:10.000Z",
+    "proof": {
+        "type": "JwtProof2020",
+        "jwt": "eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSIsImh0dHBzOi8vYmV0YS5hcGkuc2NoZW1hcy5zZXJ0by5pZC92MS9wdWJsaWMvcHJvZ3JhbS1jb21wbGV0aW9uLWNlcnRpZmljYXRlLzEuMC9sZC1jb250ZXh0Lmpzb24iXSwidHlwZSI6WyJWZXJpZmlhYmxlQ3JlZGVudGlhbCIsIlByb2dyYW1Db21wbGV0aW9uQ2VydGlmaWNhdGUiXSwiY3JlZGVudGlhbFN1YmplY3QiOnsiYWNjb21wbGlzaG1lbnRUeXBlIjoiRGV2ZWxvcGVyIENlcnRpZmljYXRlIiwibmFtZSI6ImEiLCJhY2hpZXZlbWVudCI6IkNlcnRpZmllZCBTb2xpZGl0eSBEZXZlbG9wZXIgMiIsImNvdXJzZVByb3ZpZGVyIjoiVU0gRkVSSSJ9LCJjcmVkZW50aWFsU2NoZW1hIjp7ImlkIjoiaHR0cHM6Ly9iZXRhLmFwaS5zY2hlbWFzLnNlcnRvLmlkL3YxL3B1YmxpYy9wcm9ncmFtLWNvbXBsZXRpb24tY2VydGlmaWNhdGUvMS4wL2pzb24tc2NoZW1hLmpzb24iLCJ0eXBlIjoiSnNvblNjaGVtYVZhbGlkYXRvcjIwMTgifX0sInN1YiI6ImRpZDpldGhyOnJpbmtlYnk6MHg2QTI0Njg3NjIxY0REMUM3N0JiNmFDYkJFRTkxMGQwQzUxN2VCNDQzIiwibmJmIjoxNjUyNDQzNjkwLCJpc3MiOiJkaWQ6ZXRocjpyaW5rZWJ5OjB4MDI0MWFiZDY2MmRhMDZkMGFmMmYwMTUyYTgwYmMwMzdmNjVhN2Y5MDExNjBjZmUxZWIzNWVmM2YwYzUzMmEyYTRkIn0.Z4q7kn4vKdFI5QfAyQmqtWa0icAv91HqxSEwn-AMr4_bY3vfD_WeD3W9hgqf9tsUJPx2ru5gY3tLpAx04nk0RQ"
+    }
+}
+
     const connectButton = document.querySelector('button.connect')
     const sendButton = document.querySelector('button.sendHello')
-    const saveBtn = document.querySelector('button.saveVC')
+    const initButton = document.querySelector('button.init')
+
     const getVCBtn = document.querySelector('button.getVCs')
-    const getAddrBtn = document.querySelector('button.getVCAddr')
-    const initializeBtn = document.querySelector('button.init')
-    const isInitializedBtn = document.querySelector('button.isInit')
+    
+    const saveBtn = document.querySelector('button.saveVC')
+    
+    const getVPBtn = document.querySelector('button.getVP')
+
+    const switchMethodBtn = document.querySelector('button.switchMethod')
+    
+    const getDIDBtn = document.querySelector('button.getCurrentDID')
+    const getMethodBtn = document.querySelector('button.getCurrentMethod')
+    const getAvailableMethodsBtn = document.querySelector('button.getAvailableMethods')
+    
     const popups = document.querySelector('button.togglePopups')
     const infura = document.querySelector('button.changeInfuraToken')
-
+    $(document).ready(function () {
+      $('textarea#VC').text(JSON.stringify(placeholderVC));
+    });
 
     connectButton.addEventListener('click', connect)
     sendButton.addEventListener('click', send)
-    saveBtn.addEventListener('click', saveVC)
-    getAddrBtn.addEventListener('click', getVCAddr)
+    // initButton.addEventListener('click', init)
+    
     getVCBtn.addEventListener('click', getVCs)
-    initializeBtn.addEventListener('click', getVp)
-    isInitializedBtn.addEventListener('click', isInit)
+    
+    saveBtn.addEventListener('click', saveVC)
+    
+    getVPBtn.addEventListener('click', getVp)
+
+    // switchMethodBtn.addEventListener('click', switchMethod)
+
+    // getDIDBtn.addEventListener('click', getCurrentDID)
+    // getMethodBtn.addEventListener('click', getCurrentMethod)
+    // getAvailableMethodsBtn.addEventListener('click', getAvailableMethods)
+
     popups.addEventListener('click', togglePopups)
     infura.addEventListener('click', changeInfuraToken)
 
@@ -88,40 +164,13 @@
 
     async function saveVC () {
       try {
+        const vc = JSON.parse(document.getElementById('VC').value)
         const response = await ethereum.request({
           method: 'wallet_invokeSnap',
           params: [snapId, {
             method: 'saveVC',
             params: {
-    "verifiableCredential": {
-        "credentialSchema": {
-            "id": "https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json",
-            "type": "JsonSchemaValidator2018"
-        },
-    "credentialSubject": {
-        "accomplishmentType": "Developer Certificate",
-        "learnerName": "a",
-        "achievement": "Certified Solidity Developer 2",
-        "courseProvider": "UM FERI",
-        "id": "did:ethr:rinkeby:0x6A24687621cDD1C77Bb6aCbBEE910d0C517eB443"
-    },
-    "issuer": {
-        "id": "did:ethr:rinkeby:0x0241abd662da06d0af2f0152a80bc037f65a7f901160cfe1eb35ef3f0c532a2a4d"
-    },
-    "type": [
-        "VerifiableCredential",
-        "ProgramCompletionCertificate"
-    ],
-    "@context": [
-        "https://www.w3.org/2018/credentials/v1",
-        "https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/ld-context.json"
-    ],
-    "issuanceDate": "2022-06-13T12:08:10.000Z",
-    "proof": {
-        "type": "JwtProof2020",
-        "jwt": "eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSIsImh0dHBzOi8vYmV0YS5hcGkuc2NoZW1hcy5zZXJ0by5pZC92MS9wdWJsaWMvcHJvZ3JhbS1jb21wbGV0aW9uLWNlcnRpZmljYXRlLzEuMC9sZC1jb250ZXh0Lmpzb24iXSwidHlwZSI6WyJWZXJpZmlhYmxlQ3JlZGVudGlhbCIsIlByb2dyYW1Db21wbGV0aW9uQ2VydGlmaWNhdGUiXSwiY3JlZGVudGlhbFN1YmplY3QiOnsiYWNjb21wbGlzaG1lbnRUeXBlIjoiRGV2ZWxvcGVyIENlcnRpZmljYXRlIiwibmFtZSI6ImEiLCJhY2hpZXZlbWVudCI6IkNlcnRpZmllZCBTb2xpZGl0eSBEZXZlbG9wZXIgMiIsImNvdXJzZVByb3ZpZGVyIjoiVU0gRkVSSSJ9LCJjcmVkZW50aWFsU2NoZW1hIjp7ImlkIjoiaHR0cHM6Ly9iZXRhLmFwaS5zY2hlbWFzLnNlcnRvLmlkL3YxL3B1YmxpYy9wcm9ncmFtLWNvbXBsZXRpb24tY2VydGlmaWNhdGUvMS4wL2pzb24tc2NoZW1hLmpzb24iLCJ0eXBlIjoiSnNvblNjaGVtYVZhbGlkYXRvcjIwMTgifX0sInN1YiI6ImRpZDpldGhyOnJpbmtlYnk6MHg2QTI0Njg3NjIxY0REMUM3N0JiNmFDYkJFRTkxMGQwQzUxN2VCNDQzIiwibmJmIjoxNjUyNDQzNjkwLCJpc3MiOiJkaWQ6ZXRocjpyaW5rZWJ5OjB4MDI0MWFiZDY2MmRhMDZkMGFmMmYwMTUyYTgwYmMwMzdmNjVhN2Y5MDExNjBjZmUxZWIzNWVmM2YwYzUzMmEyYTRkIn0.Z4q7kn4vKdFI5QfAyQmqtWa0icAv91HqxSEwn-AMr4_bY3vfD_WeD3W9hgqf9tsUJPx2ru5gY3tLpAx04nk0RQ"
-    }
-}}
+    "verifiableCredential": vc}
           }]
         })
       } catch (err) {
@@ -162,13 +211,28 @@
 
     async function getVp () {
       try {
+        const vc_id = document.getElementById('vc_id').value.toString()
+        const checkBox = document.getElementById('withChallenge').checked
+        console.log("VC ID", vc_id, checkBox)
+        if(!checkBox){
         const response = await ethereum.request({
           method: 'wallet_invokeSnap',
           params: [snapId, {
             method: 'getVP',
-            params: {vc_id: "e3ee2968-c85e-4ada-997d-dac2b91ee323"}
+            params: {vc_id: vc_id}
           }]
         })
+      }
+      else{
+        const response = await ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: [snapId, {
+            method: 'getVP',
+            params: {vc_id: vc_id, challenge: "61dcecc0-c9df-44e9-8386-473ecb004ecd"}
+          }]
+        })
+        console.log(response)
+      }
         console.log(response)
       } catch (err) {
         console.error(err)
@@ -182,7 +246,7 @@
           method: 'wallet_invokeSnap',
           params: [snapId, {
             method: 'getVP',
-            params: [0, "did:ethr:rinkeby:0x0241abd662da06d0af2f0152a80bc037f65a7f901160cfe1eb35ef3f0c532a2a4d", "61dcecc0-c9df-44e9-8386-473ecb004ecd"]
+            params: [0, vc_id, "61dcecc0-c9df-44e9-8386-473ecb004ecd"]
           }]
         })
         console.log(response)

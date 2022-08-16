@@ -3,8 +3,10 @@ import {
   SSISnapState,
   SSIAccountState,
   SSISnapConfig,
+  SSIAccountConfig,
 } from "../interfaces";
 import { getCurrentAccount } from "./snap_utils";
+import { defaultConfig, emptyVCAccount } from "./config";
 
 /**
  * Internal function for updating SSISnapState object in the MetaMask state
@@ -85,23 +87,13 @@ export async function getVCAccount(): Promise<SSIAccountState> {
  *
  * @returns {SSISnapConfig} object
  */
-export async function getConfig(): Promise<SSISnapConfig> {
+export async function getSnapConfig(): Promise<SSISnapConfig> {
   const ssiSnapState = await getVCState();
-  if ("config" in ssiSnapState) {
-    return ssiSnapState.config;
+  if ("snapConfig" in ssiSnapState) {
+    return ssiSnapState.snapConfig;
   } else {
-    const config = {
-      dApp: {
-        disablePopups: false,
-        friendlyDapps: [],
-      },
-      veramo: {
-        infuraToken: "6e751a2e5ff741e5a01eab15e4e4a88b",
-        store: "snap",
-      },
-    } as SSISnapConfig;
-    await updateConfig(config);
-    return config;
+    await updateSnapConfig(defaultConfig);
+    return defaultConfig;
   }
 }
 
@@ -110,10 +102,26 @@ export async function getConfig(): Promise<SSISnapConfig> {
  *
  * @param {SSISnapConfig} config object that will replace the current object in the state
  */
-export async function updateConfig(config: SSISnapConfig) {
+export async function updateSnapConfig(config: SSISnapConfig) {
   const ssiSnapState = await getVCState();
-  ssiSnapState.config = config;
+  ssiSnapState.snapConfig = config;
   await updateVCState(ssiSnapState);
+}
+
+export async function getAccountConfig(): Promise<SSIAccountConfig> {
+  const ssiAccountState = await getVCAccount();
+  if ("accountConfig" in ssiAccountState) {
+    return ssiAccountState.accountConfig;
+  } else {
+    await updateAccountConfig(emptyVCAccount.accountConfig);
+    return emptyVCAccount.accountConfig;
+  }
+}
+
+export async function updateAccountConfig(config: SSIAccountConfig) {
+  const ssiAccountState = await getVCAccount();
+  ssiAccountState.accountConfig = config;
+  await updateVCAccount(ssiAccountState);
 }
 
 /**
@@ -146,16 +154,8 @@ export async function updateVCAccount(data: SSIAccountState) {
  *
  **/
 async function initializeVCAccount(address: string): Promise<SSIAccountState> {
-  const emptyVCAccountDecrypted = {
-    snapKeyStore: {},
-    snapPrivateKeyStore: {},
-    vcs: {},
-    identifiers: {},
-    signedMessage: "",
-    didMethod: "did:ethr",
-  } as SSIAccountState;
   const ssiSnapState = await getVCState();
-  ssiSnapState[address] = emptyVCAccountDecrypted;
+  ssiSnapState[address] = emptyVCAccount;
   await updateVCState(ssiSnapState);
-  return emptyVCAccountDecrypted;
+  return emptyVCAccount;
 }

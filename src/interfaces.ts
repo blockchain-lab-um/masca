@@ -1,3 +1,4 @@
+import { availableDataStores } from "./veramo/plugins/availableDataStores";
 import { IIdentifier, IKey, VerifiableCredential } from "@veramo/core";
 import { ManagedPrivateKey } from "@veramo/key-manager";
 import {
@@ -6,6 +7,7 @@ import {
   SnapVCStore,
   SnapPrivateKeyStore,
 } from "./veramo/plugins/snapDataStore/snapDataStore";
+import { availableMethods } from "./did/did-methods";
 
 /**
  * MetaMask State
@@ -35,7 +37,7 @@ export type SSISnapState = SSISnapStateRaw & {
   /**
    * Configuration for SSISnap
    */
-  config: SSISnapConfig;
+  snapConfig: SSISnapConfig;
 };
 
 export type ExtendedVerifiableCredential = VerifiableCredential & {
@@ -46,11 +48,7 @@ export type ExtendedVerifiableCredential = VerifiableCredential & {
 };
 
 export interface SSISnapConfig {
-  veramo: {
-    /**
-     * Type of store, 'snap' by default
-     */
-    store: string;
+  snap: {
     /**
      * Infura token, used by Veramo agent.
      */
@@ -85,9 +83,14 @@ export interface SSIAccountState {
    * Store for {@link SnapVCStore}
    */
   vcs: Record<string, VerifiableCredential>;
-  /**
-   * Signed message is used for generating other DIDs using key method
-   */
-  signedMessage: string;
-  didMethod: string;
+
+  publicKey: string;
+  accountConfig: SSIAccountConfig;
+}
+
+export interface SSIAccountConfig {
+  ssi: {
+    didMethod: typeof availableMethods[number];
+    didStore: typeof availableDataStores[number];
+  };
 }

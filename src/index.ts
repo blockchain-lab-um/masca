@@ -1,4 +1,5 @@
 import { OnRpcRequestHandler } from "@metamask/snap-types";
+import { getDidKeyIdentifier } from "./did/key/key-did-utils";
 import { togglePopups, changeInfuraToken } from "./rpc/configure";
 import { getVCs } from "./rpc/getVCs";
 import { getVP } from "./rpc/getVP";
@@ -9,7 +10,7 @@ import {
   isValidGetVPRequest,
   isValidSaveVCRequest,
 } from "./utils/params";
-import { _getDidKeyIdentifier } from "./utils/snap_utils";
+import { changeCurrentMethod, getCurrentDid } from "./utils/snap_utils";
 
 export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,
@@ -21,8 +22,9 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   switch (request.method) {
     case "helloWorld":
       console.log("Hello World!!!");
+      await changeCurrentMethod("did:key");
 
-      const did = _getDidKeyIdentifier();
+      const did = await getCurrentDid();
       console.log(did);
 
       return { data: "vcr" };

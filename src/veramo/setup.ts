@@ -42,33 +42,39 @@ import {
 import { KeyDIDProvider } from "../did/key/key-did-provider";
 import { getDidKeyResolver as keyDidResolver } from "../did/key/key-did-resolver";
 
-import { getConfig } from "../utils/state_utils";
+const availableNetworks = ["0x01", "0x04"];
+
+import { getSnapConfig } from "../utils/state_utils";
+import { getAccountConfig } from "../utils/state_utils";
+import { getCurrentNetwork } from "../utils/snap_utils";
 
 export const getAgent = async (): Promise<any> => {
-  const config = await getConfig();
+  const snapConfig = await getSnapConfig();
+  const accConfig = await getAccountConfig();
 
-  const INFURA_PROJECT_ID = config.veramo.infuraToken;
-  console.log("INFURA_PROJECT_ID", INFURA_PROJECT_ID);
+  const INFURA_PROJECT_ID = snapConfig.snap.infuraToken;
+  const CHAIN_ID = await getCurrentNetwork();
+  console.log("INFURA_PROJECT_ID", INFURA_PROJECT_ID, "CHAIN ID", CHAIN_ID);
 
   const web3Providers: Record<string, Web3Provider> = {};
   const didProviders: Record<string, AbstractIdentifierProvider> = {};
 
   web3Providers["metamask"] = new Web3Provider(wallet as any);
 
-  didProviders["metamask"] = new EthrDIDProvider({
+  didProviders["did:ethr"] = new EthrDIDProvider({
     defaultKms: "web3",
     network: "rinkeby",
     rpcUrl: "https://rinkeby.infura.io/v3/" + INFURA_PROJECT_ID,
     web3Provider: new Web3Provider(wallet as any),
   });
-  didProviders["snap"] = new EthrDIDProvider({
-    defaultKms: "snap",
-    network: "rinkeby",
-    rpcUrl: "https://rinkeby.infura.io/v3/" + INFURA_PROJECT_ID,
-    web3Provider: new Web3Provider(wallet as any),
-  });
+  // didProviders["snap"] = new EthrDIDProvider({
+  //   defaultKms: "snap",
+  //   network: "rinkeby",
+  //   rpcUrl: "https://rinkeby.infura.io/v3/" + INFURA_PROJECT_ID,
+  //   web3Provider: new Web3Provider(wallet as any),
+  // });
 
-  didProviders["key"] = new KeyDIDProvider({ defaultKms: "web3" });
+  didProviders["did:key"] = new KeyDIDProvider({ defaultKms: "web3" });
 
   const agent = createAgent<
     IDIDManager &

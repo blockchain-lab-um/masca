@@ -10,35 +10,36 @@ import {
   ParsedDID,
   Resolvable,
 } from "did-resolver";
-import { _getDidKeyIdentifier } from "../../utils/snap_utils";
-import { getCurrentAccount } from "../../utils/snap_utils";
+import { getDidKeyIdentifier } from "./key-did-utils";
+import { getCurrentAccount, getPublicKey } from "../../utils/snap_utils";
 
 const resolveSecp256k1 = async (did: string): Promise<any> => {
-  const { didUrl, pubKey, compressedKey } = await _getDidKeyIdentifier();
+  const DID = await getDidKeyIdentifier();
   const account = await getCurrentAccount();
+  const publicKey = await getPublicKey();
   const res = {
     didDocument: {
       "@context": [
         "https://www.w3.org/ns/did/v1",
         "https://w3id.org/security/suites/secp256k1-2019/v1",
       ],
-      assertionMethod: [did],
-      authenticationMethod: [did],
-      capabilityInvocation: [did],
-      capabilityDelegation: [did],
-      keyAgreement: [did],
+      assertionMethod: [`${did}#${DID}`],
+      authenticationMethod: [`${did}#${DID}`],
+      capabilityInvocation: [`${did}#${DID}`],
+      capabilityDelegation: [`${did}#${DID}`],
+      keyAgreement: [`${did}#${DID}`],
       verificationMethod: [
         {
-          id: `${did}#${didUrl}`,
+          id: `${did}#${DID}`,
           type: "EcdsaSecp256k1RecoveryMethod2020",
-          controller: did,
-          publicKeyHex: compressedKey,
+          controller: `${did}#${DID}`,
+          publicKeyHex: publicKey,
           blockchainAccountId: `${account}@eip155:4`,
         },
       ],
     },
   };
-
+  console.log("Did doc", res);
   return res;
 };
 

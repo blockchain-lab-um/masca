@@ -1,14 +1,17 @@
+import { availableMethods } from "./../did/did-methods";
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import {
-  getConfig,
-  updateConfig,
+  getSnapConfig,
+  updateSnapConfig,
   getVCAccount,
   updateVCAccount,
+  getAccountConfig,
+  updateAccountConfig,
 } from "./state_utils";
-import Multibase from "multibase";
-import Multicodec from "multicodec";
 import { publicKeyConvert } from "secp256k1";
 import * as ethers from "ethers";
+import { getDidKeyIdentifier } from "../did/key/key-did-utils";
+import { availableDataStores } from "../veramo/plugins/availableDataStores";
 
 /**
  * Function that returns address of the currently selected MetaMask account.
@@ -34,114 +37,157 @@ export async function getCurrentAccount(): Promise<string> {
   }
 }
 
+export async function getCurrentNetwork(): Promise<string> {
+  const chainId = (await wallet.request({
+    method: "eth_chainId",
+  })) as string;
+  return chainId;
+}
+
 /**
  * Function that replaces default Infura Token with @param token.
  *
  * @param token infura token
  */
-export async function _changeInfuraToken(token: string) {
-  const config = await getConfig();
-  config.veramo.infuraToken = token;
-  await updateConfig(config);
+export async function updateInfuraToken(token: string) {
+  const config = await getSnapConfig();
+  config.snap.infuraToken = token;
+  await updateSnapConfig(config);
   return;
 }
 /**
  * Function that toggles the disablePopups flag in the config.
  *
  */
-export async function _togglePopups() {
-  const config = await getConfig();
+export async function togglePopups() {
+  const config = await getSnapConfig();
   config.dApp.disablePopups = !config.dApp.disablePopups;
-  await updateConfig(config);
+  await updateSnapConfig(config);
   return;
 }
 /**
  * Function that lets you add a friendly dApp
  */
-export async function _addFriendlyDapp(dapp: string) {
-  const config = await getConfig();
+export async function addFriendlyDapp(dapp: string) {
+  const config = await getSnapConfig();
   config.dApp.friendlyDapps.push(dapp);
-  await updateConfig(config);
+  await updateSnapConfig(config);
   return;
 }
 /**
  * Function that removes a friendly dApp.
  *
  */
-export async function _removeFriendlyDapp(dapp: string) {
-  const config = await getConfig();
+export async function removeFriendlyDapp(dapp: string) {
+  const config = await getSnapConfig();
   config.dApp.friendlyDapps = config.dApp.friendlyDapps.filter(
     (d) => d !== dapp
   );
-  await updateConfig(config);
+  await updateSnapConfig(config);
   return;
 }
 /**
  * Function that returns a list of friendly dApps.
  *
  */
-export async function _getFriendlyDapps(): Promise<Array<string>> {
-  const config = await getConfig();
+export async function getFriendlyDapps(): Promise<Array<string>> {
+  const config = await getSnapConfig();
   return config.dApp.friendlyDapps;
 }
 
-export async function _getDidKeyIdentifier(): Promise<{
-  didUrl: string;
-  pubKey: string;
-  compressedKey: string;
-}> {
+/**
+ *  Generate the public key for the current account using personal_sign.
+ *
+ * @returns {Promise<string>} - returns public key for current account
+ */
+export async function getPublicKey(): Promise<string> {
   const vcAccount = await getVCAccount();
+  const account = await getCurrentAccount();
   let signedMsg;
-  if (vcAccount.signedMessage === "") {
+  if (vcAccount.publicKey === "") {
     signedMsg = await wallet.request({
       method: "personal_sign",
-      params: ["test", "0xd593E6a4c89fC400496aFA79d10eB5947e55d0AB"], // you must have access to the specified account
+      params: ["getPublicKey", account],
     });
     if (!signedMsg || typeof signedMsg != "string")
       throw new Error("User denied request");
-    vcAccount.signedMessage = signedMsg;
+
+    const message = "getPublicKey";
+    const msgHash = ethers.utils.hashMessage(message);
+    const msgHashBytes = ethers.utils.arrayify(msgHash);
+
+    let pubKey = ethers.utils.recoverPublicKey(msgHashBytes, signedMsg);
+    console.log(pubKey);
+
+    pubKey = pubKey.split("0x")[1];
+    console.log(pubKey);
+
+    vcAccount.publicKey = pubKey;
     await updateVCAccount(vcAccount);
-  } else signedMsg = vcAccount.signedMessage;
 
-  const message = "test";
-  const msgHash = ethers.utils.hashMessage(message);
-  const msgHashBytes = ethers.utils.arrayify(msgHash);
-
-  let pubKey = ethers.utils.recoverPublicKey(msgHashBytes, signedMsg);
-  console.log(pubKey);
-
-  pubKey = pubKey.split("0x")[1];
-  console.log(pubKey);
-
-  const testBuffer = Buffer.from(pubKey, "hex");
-  if (testBuffer.length === 64) pubKey = "04" + pubKey;
-
-  const compressedKey = uint8ArrayToHex(
-    publicKeyConvert(hexToUnit8Array(pubKey), true)
-  );
-  console.log(compressedKey);
-  const didUrl = Buffer.from(
-    Multibase.encode(
-      "base58btc",
-      Multicodec.addPrefix(
-        "secp256k1-pub",
-        //"ed25519-pub",
-        Buffer.from(
-          //"b1fd65a536427e516b307996be10e5901f3cb2974d38cf948db50a6841b2d7dc",
-          compressedKey,
-          "hex"
-        )
-      )
-    )
-  ).toString();
-  console.log(didUrl);
-  return { didUrl, pubKey, compressedKey };
+    return pubKey;
+  } else return vcAccount.publicKey;
 }
 
-export function uint8ArrayToHex(arr: any) {
+export async function getCompressedPublicKey(): Promise<string> {
+  const publicKey = await getPublicKey();
+  const compressedKey = _uint8ArrayToHex(
+    publicKeyConvert(_hexToUnit8Array(publicKey), true)
+  );
+  return compressedKey;
+}
+
+export function _uint8ArrayToHex(arr: any) {
   return Buffer.from(arr).toString("hex");
 }
 
-export function hexToUnit8Array(str: any) {
+export function _hexToUnit8Array(str: any) {
   return new Uint8Array(Buffer.from(str, "hex"));
+}
+
+export async function getCurrentMethod(): Promise<
+  typeof availableMethods[number]
+> {
+  const config = await getAccountConfig();
+  return config.ssi.didMethod;
+}
+
+export async function changeCurrentMethod(
+  didMethod: typeof availableMethods[number]
+) {
+  const config = await getAccountConfig();
+  config.ssi.didMethod = didMethod;
+  await updateAccountConfig(config);
+  return;
+}
+
+export async function getCurrentDidStore(): Promise<
+  typeof availableDataStores[number]
+> {
+  const config = await getAccountConfig();
+  return config.ssi.didStore;
+}
+
+export async function changeCurrentDidStore(
+  didStore: typeof availableDataStores[number]
+) {
+  const config = await getAccountConfig();
+  config.ssi.didStore = didStore;
+  await updateAccountConfig(config);
+  return;
+}
+
+export async function getCurrentDid(): Promise<string> {
+  const method = await getCurrentMethod();
+  console.log("Current method", method);
+  if (method === "did:ethr") {
+    const chain_id = await getCurrentNetwork();
+    const address = await getCurrentAccount();
+    return "did:ethr:" + chain_id + ":" + address;
+  } else if (method === "did:key") {
+    const didUrl = await getDidKeyIdentifier();
+    return "did:key:" + didUrl;
+  }
+  //else if (method === ...) {
+  else return "";
 }
