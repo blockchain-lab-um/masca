@@ -10,7 +10,7 @@ import {
   isValidGetVPRequest,
   isValidSaveVCRequest,
 } from "./utils/params";
-import { changeCurrentMethod, getCurrentDid } from "./utils/snap_utils";
+import { changeCurrentMethod, getCurrentDid } from "./utils/did_utils";
 
 export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,
