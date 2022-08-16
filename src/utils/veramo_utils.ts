@@ -6,11 +6,8 @@ import {
   VerifiablePresentation,
 } from "@veramo/core";
 import { getAgent } from "../veramo/setup";
-import {
-  getCurrentAccount,
-  getCurrentDid,
-  getCurrentMethod,
-} from "./snap_utils";
+import { getCurrentDid, getCurrentMethod } from "./did_utils";
+import { getCurrentAccount } from "./snap_utils";
 import { getSnapConfig } from "./state_utils";
 
 /**
@@ -64,8 +61,11 @@ export async function create_vp(
   challenge?: string,
   domain?: string
 ): Promise<VerifiablePresentation | null> {
+  //GET DID
   const identifier = await importMetaMaskAccount();
+  //Get Veramo agent
   const agent = await getAgent();
+  //Get VC from state
   const vc = await agent.getVC({ id: vc_id });
   const config = await getSnapConfig();
   console.log(vc_id, domain, challenge);
