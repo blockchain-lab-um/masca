@@ -44,10 +44,8 @@ export function isValidChangeInfuraTokenRequest(
 
 export function isValidSwitchMethodRequest(
   params: unknown
-): asserts params is { didMethod: typeof availableMethods[number] } {
+): asserts params is { didMethod: string } {
   if (!(params != null && typeof params == "object" && "didMethod" in params)) {
-    throw new Error(
-      "Invalid switchMethod request. DID method likely not supported"
-    );
+    throw new Error("Invalid switchMethod request.");
   }
 }

@@ -48,12 +48,10 @@ const availableNetworks: Record<string, string> = {
 };
 
 import { getSnapConfig } from "../utils/state_utils";
-import { getAccountConfig } from "../utils/state_utils";
 import { getCurrentNetwork } from "../utils/snap_utils";
 
 export const getAgent = async (): Promise<any> => {
   const snapConfig = await getSnapConfig();
-  const accConfig = await getAccountConfig();
 
   const INFURA_PROJECT_ID = snapConfig.snap.infuraToken;
   const CHAIN_ID = await getCurrentNetwork();
