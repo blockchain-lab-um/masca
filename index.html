@@ -301,6 +301,7 @@
             params: {vc_id: vc_id}
           }]
         })
+        console.log(response)
       }
       else{
         const response = await ethereum.request({
@@ -312,7 +313,6 @@
         })
         console.log(response)
       }
-        console.log(response)
       } catch (err) {
         console.error(err)
         alert('Problem happened: ' + err.message || err)

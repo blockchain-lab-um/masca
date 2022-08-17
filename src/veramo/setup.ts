@@ -42,7 +42,10 @@ import {
 import { KeyDIDProvider } from "../did/key/key-did-provider";
 import { getDidKeyResolver as keyDidResolver } from "../did/key/key-did-resolver";
 
-const availableNetworks = ["0x01", "0x04"];
+const availableNetworks: Record<string, string> = {
+  "0x01": "mainnet",
+  "0x04": "rinkeby",
+};
 
 import { getSnapConfig } from "../utils/state_utils";
 import { getAccountConfig } from "../utils/state_utils";
@@ -64,7 +67,9 @@ export const getAgent = async (): Promise<any> => {
   didProviders["did:ethr"] = new EthrDIDProvider({
     defaultKms: "web3",
     network: "rinkeby",
-    rpcUrl: "https://rinkeby.infura.io/v3/" + INFURA_PROJECT_ID,
+    rpcUrl:
+      `https://${availableNetworks[CHAIN_ID] ?? "mainnet"}.infura.io/v3/` +
+      INFURA_PROJECT_ID,
     web3Provider: new Web3Provider(wallet as any),
   });
   // didProviders["snap"] = new EthrDIDProvider({

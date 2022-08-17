@@ -28,7 +28,6 @@ export class SnapKeyStore extends AbstractKeyStore {
   async get({ kid }: { kid: string }): Promise<IKey> {
     const ssiAccountState = await getVCAccount();
     const key = ssiAccountState.snapKeyStore[kid];
-    console.log("err here....");
     if (!key) throw Error("Key not found");
     return key;
   }
