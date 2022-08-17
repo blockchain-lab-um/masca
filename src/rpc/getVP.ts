@@ -6,6 +6,7 @@ export async function getVP(
   domain?: string,
   challenge?: string
 ): Promise<VerifiablePresentation | null> {
+  if (vc_id === "") throw new Error("vc_id is empty");
   const vp = await create_vp(vc_id, challenge, domain);
   return vp;
 }

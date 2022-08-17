@@ -14,10 +14,7 @@
         <li>Please note that:</li>
         <ul>
           <li>
-            The <code>snap.manifest.json</code> and <code>package.json</code> must be located in located in the server root directory..
-          </li>
-          <li>
-            The Snap bundle must be hosted at the location specified by the <code>location</code> field of <code>snap.manifest.json</code>.
+            If you want to generate a VP you need a VC ID. To get it, you need a VC saved in MetaMask state (use Save VC). Then you need to retrieve id of VC by using Get VCS button and searching for "key" property in the console.
           </li>
         </ul>
       </ul>
@@ -57,6 +54,9 @@
     <br>
     <hr>
     <button class="togglePopups">TogglePopups</button>
+    <br>
+    <hr>
+    <input type="text" id="infura_token" placeholder="Infura token" />
     <button class="changeInfuraToken">ChangeInfuraToken</button>
   </body>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
@@ -337,11 +337,12 @@
 
     async function changeInfuraToken() {
       try {
+        const infuraToken = document.getElementById('infura_token').value.toString()
         const response = await ethereum.request({
           method: 'wallet_invokeSnap',
           params: [snapId, {
             method: 'changeInfuraToken',
-            params: ["newToken"]
+            params: {infuraToken: infuraToken}
           }]
         })
         console.log(response)
