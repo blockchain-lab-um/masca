@@ -102,6 +102,7 @@ export async function getFriendlyDapps(): Promise<Array<string>> {
  */
 export async function getPublicKey(): Promise<string> {
   const vcAccount = await getVCAccount();
+  console.log(vcAccount);
   const account = await getCurrentAccount();
   let signedMsg;
   if (vcAccount.publicKey === "") {

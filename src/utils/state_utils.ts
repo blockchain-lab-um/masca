@@ -78,8 +78,8 @@ export async function getVCAccount(): Promise<SSIAccountState> {
   if (address in ssiSnapState) {
     return ssiSnapState[address];
   } else {
-    const emptyVCAccountDecrypted = await initializeVCAccount(address);
-    return emptyVCAccountDecrypted;
+    const emptyVCAccount = await initializeVCAccount(address);
+    return emptyVCAccount;
   }
 }
 /**
@@ -93,7 +93,7 @@ export async function getSnapConfig(): Promise<SSISnapConfig> {
     return ssiSnapState.snapConfig;
   } else {
     await updateSnapConfig(defaultConfig);
-    return defaultConfig;
+    return structuredClone(defaultConfig);
   }
 }
 
@@ -114,7 +114,7 @@ export async function getAccountConfig(): Promise<SSIAccountConfig> {
     return ssiAccountState.accountConfig;
   } else {
     await updateAccountConfig(emptyVCAccount.accountConfig);
-    return emptyVCAccount.accountConfig;
+    return structuredClone(emptyVCAccount.accountConfig);
   }
 }
 
@@ -157,5 +157,5 @@ async function initializeVCAccount(address: string): Promise<SSIAccountState> {
   const ssiSnapState = await getVCState();
   ssiSnapState[address] = emptyVCAccount;
   await updateVCState(ssiSnapState);
-  return emptyVCAccount;
+  return structuredClone(emptyVCAccount);
 }

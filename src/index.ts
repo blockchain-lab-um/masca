@@ -9,8 +9,14 @@ import {
   isValidGetVCsRequest,
   isValidGetVPRequest,
   isValidSaveVCRequest,
+  isValidSwitchMethodRequest,
 } from "./utils/params";
 import { changeCurrentMethod, getCurrentDid } from "./utils/did_utils";
+import { switchMethod } from "./rpc/switchMethod";
+import { init } from "./rpc/init";
+import { getDid } from "./rpc/getDID";
+import { getMethod } from "./rpc/getMethod";
+import { getAvailableMethods } from "./rpc/getAvailableMethods";
 
 export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,
@@ -46,6 +52,18 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       return await changeInfuraToken(request.params.infuraToken);
     case "togglePopups":
       return await togglePopups();
+    case "switchMethod":
+      isValidSwitchMethodRequest(request.params);
+      return await switchMethod(request.params.didMethod);
+    case "init":
+      await init();
+      return true;
+    case "getDID":
+      return await getDid();
+    case "getMethod":
+      return await getMethod();
+    case "getAvailableMethods":
+      return getAvailableMethods();
     default:
       throw new Error("Method not found.");
   }

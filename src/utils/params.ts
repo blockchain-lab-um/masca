@@ -1,5 +1,6 @@
 import { VCQuerry } from "@blockchain-lab-um/ssi-snap-types";
 import { VerifiableCredential } from "@veramo/core";
+import { availableMethods } from "../did/did-methods";
 
 export function isValidGetVCsRequest(
   params: unknown
@@ -38,5 +39,15 @@ export function isValidChangeInfuraTokenRequest(
     !(params != null && typeof params == "object" && "infuraToken" in params)
   ) {
     throw new Error("Invalid ChangeInfuraToken request");
+  }
+}
+
+export function isValidSwitchMethodRequest(
+  params: unknown
+): asserts params is { didMethod: typeof availableMethods[number] } {
+  if (!(params != null && typeof params == "object" && "didMethod" in params)) {
+    throw new Error(
+      "Invalid switchMethod request. DID method likely not supported"
+    );
   }
 }

@@ -53,9 +53,7 @@ export interface SSISnapConfig {
      * Infura token, used by Veramo agent.
      */
     infuraToken: string;
-    /**
-     * dApp settings
-     */
+    acceptedTerms: boolean;
   };
   dApp: {
     disablePopups: boolean;

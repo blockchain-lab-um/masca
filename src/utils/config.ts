@@ -22,5 +22,6 @@ export const defaultConfig = {
   },
   snap: {
     infuraToken: "6e751a2e5ff741e5a01eab15e4e4a88b",
+    acceptedTerms: false,
   },
 } as SSISnapConfig;

@@ -46,6 +46,7 @@
     <select id="didMethod">
       <option value="did:ethr">did:ethr</option>
       <option value="did:key">did:key</option>
+      <option value="did:github">did:key</option>
     </select>
     <button class="switchMethod">Switch current method</button>
     <br>
@@ -107,7 +108,7 @@
 
     const switchMethodBtn = document.querySelector('button.switchMethod')
     
-    const getDIDBtn = document.querySelector('button.getCurrentDID')
+    const getDIDBtn = document.querySelector('button.getCurrentDid')
     const getMethodBtn = document.querySelector('button.getCurrentMethod')
     const getAvailableMethodsBtn = document.querySelector('button.getAvailableMethods')
     
@@ -119,7 +120,7 @@
 
     connectButton.addEventListener('click', connect)
     sendButton.addEventListener('click', send)
-    // initButton.addEventListener('click', init)
+    initButton.addEventListener('click', init)
     
     getVCBtn.addEventListener('click', getVCs)
     
@@ -127,11 +128,11 @@
     
     getVPBtn.addEventListener('click', getVp)
 
-    // switchMethodBtn.addEventListener('click', switchMethod)
+    switchMethodBtn.addEventListener('click', switchMethod)
 
-    // getDIDBtn.addEventListener('click', getCurrentDID)
-    // getMethodBtn.addEventListener('click', getCurrentMethod)
-    // getAvailableMethodsBtn.addEventListener('click', getAvailableMethods)
+    getDIDBtn.addEventListener('click', getDID)
+    getMethodBtn.addEventListener('click', getMethod)
+    getAvailableMethodsBtn.addEventListener('click', getAvailableMethods)
 
     popups.addEventListener('click', togglePopups)
     infura.addEventListener('click', changeInfuraToken)
@@ -145,6 +146,84 @@
           wallet_snap: { [snapId]: {} },
         }]
       })
+    }
+
+    async function init() {
+      try {
+        const response = await ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: [snapId, {
+            method: 'init'
+          }]
+        })
+        console.log("INIT: ",response)
+      } catch (err) {
+        console.error(err)
+        alert('Problem happened: ' + err.message || err)
+      }
+    }
+
+    async function getDID() {
+      try {
+        const response = await ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: [snapId, {
+            method: 'getDID'
+          }]
+        })
+        console.log("DID: ",response)
+      } catch (err) {
+        console.error(err)
+        alert('Problem happened: ' + err.message || err)
+      }
+    }
+
+    async function getMethod() {
+      try {
+        const response = await ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: [snapId, {
+            method: 'getMethod'
+          }]
+        })
+        console.log("Method: ",response)
+      } catch (err) {
+        console.error(err)
+        alert('Problem happened: ' + err.message || err)
+      }
+    }
+
+    async function getAvailableMethods() {
+      try {
+        const response = await ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: [snapId, {
+            method: 'getAvailableMethods'
+          }]
+        })
+        console.log("AvailableMethods: ",response)
+      } catch (err) {
+        console.error(err)
+        alert('Problem happened: ' + err.message || err)
+      }
+    }
+
+    async function switchMethod() {
+      try {
+        const method = document.getElementById("didMethod").value
+        console.log("selected method", method)
+        const response = await ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: [snapId, {
+            method: 'switchMethod',
+            params: {didMethod: method}
+          }]
+        })
+        console.log("switch: ",response)
+      } catch (err) {
+        console.error(err)
+        alert('Problem happened: ' + err.message || err)
+      }
     }
 
     // here we call the snap's "hello" method
