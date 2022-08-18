@@ -33,7 +33,7 @@
     <button class="saveVC">Save VC</button>
     <br>
     <hr>
-    <input type="text" id="vc_id" placeholder="VC ID" />
+    <input type="text" id="vcId" placeholder="VC ID" />
     With challenge
     <input type="checkbox" id="withChallenge" placeholder="false" />
     <button id="getVP" class="getVP">Get VP</button>
@@ -272,15 +272,15 @@
 
     async function getVp () {
       try {
-        const vc_id = document.getElementById('vc_id').value.toString()
+        const vcId = document.getElementById('vcId').value.toString()
         const checkBox = document.getElementById('withChallenge').checked
-        console.log("VC ID", vc_id, checkBox)
+        console.log("VC ID", vcId, checkBox)
         if(!checkBox){
         const response = await ethereum.request({
           method: 'wallet_invokeSnap',
           params: [snapId, {
             method: 'getVP',
-            params: {vc_id: vc_id}
+            params: {vcId: vcId}
           }]
         })
         console.log(response)
@@ -290,7 +290,7 @@
           method: 'wallet_invokeSnap',
           params: [snapId, {
             method: 'getVP',
-            params: {vc_id: vc_id, challenge: "61dcecc0-c9df-44e9-8386-473ecb004ecd"}
+            params: {vcId: vcId, challenge: "61dcecc0-c9df-44e9-8386-473ecb004ecd"}
           }]
         })
         console.log(response)
@@ -307,7 +307,7 @@
           method: 'wallet_invokeSnap',
           params: [snapId, {
             method: 'getVP',
-            params: [0, vc_id, "61dcecc0-c9df-44e9-8386-473ecb004ecd"]
+            params: [0, vcId, "61dcecc0-c9df-44e9-8386-473ecb004ecd"]
           }]
         })
         console.log(response)
