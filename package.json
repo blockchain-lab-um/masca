@@ -47,7 +47,7 @@
     "coverage": "c8 --check-coverage yarn test",
     "prettier": "prettier --write .",
     "lint": "yarn lint:eslint && yarn lint:tsc && yarn lint:prettier",
-    "lint:eslint": "eslint . --ext .js,.ts,.tsx",
+    "lint:eslint": "eslint .",
     "lint:prettier": "prettier . --check",
     "lint:tsc": "tsc --noEmit --incremental false",
     "prepare": "yarn run clean && husky install",
