@@ -22,7 +22,6 @@
     <br/>
 
     <button class="connect">Connect</button>
-    <button class="sendHello">Send Hello</button>
     <button class="init">Init</button>
     <br>
     <hr>
@@ -97,7 +96,6 @@
 }
 
     const connectButton = document.querySelector('button.connect')
-    const sendButton = document.querySelector('button.sendHello')
     const initButton = document.querySelector('button.init')
 
     const getVCBtn = document.querySelector('button.getVCs')
@@ -119,7 +117,6 @@
     });
 
     connectButton.addEventListener('click', connect)
-    sendButton.addEventListener('click', send)
     initButton.addEventListener('click', init)
 
     getVCBtn.addEventListener('click', getVCs)
