@@ -7,7 +7,7 @@ export async function saveVC(vc?: VerifiableCredential) {
       method: "snap_confirm",
       params: [
         {
-          prompt: `Save VC`,
+          prompt: "Save VC",
           description: "Would you like to save the following VC?",
           textAreaContent: JSON.stringify(vc.credentialSubject),
         },

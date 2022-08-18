@@ -956,6 +956,13 @@
   dependencies:
     "@veramo/core" "^3.1.6-next.146"
 
+"@blockchain-lab-um/ssi-snap-types@^1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@blockchain-lab-um/ssi-snap-types/-/ssi-snap-types-1.0.7.tgz#e89b64d21e829aff4a7ec8103bef08ac991fc6fa"
+  integrity sha512-0cxdMWcV+LyBCm+F2zngwpqq+NMIw6JBEOUyAEieABFj1AG9glPnsYisCXbHK9R/mUWRcJYGcoA7ujSlftYfcQ==
+  dependencies:
+    "@veramo/core" "^3.1.6-next.146"
+
 "@blockchain-lab-um/veramo-vc-manager@^1.0.5":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@blockchain-lab-um/veramo-vc-manager/-/veramo-vc-manager-1.0.5.tgz#d5e592eb6a929f20ceb0222cc9359553fce7276b"
@@ -1922,6 +1929,11 @@
   dependencies:
     fast-deep-equal "^3.1.3"
 
+"@multiformats/base-x@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@multiformats/base-x/-/base-x-4.0.1.tgz#95ff0fa58711789d53aefb2590a8b7a4e715d121"
+  integrity sha512-eMk0b9ReBbV23xXU693TAIrLyeO5iTgBZGSJfpqriG8UkYvr/hC9u9pyMlAakDNHWmbhMZCDs6KQO0jzKD8OTw==
+
 "@ngraveio/bc-ur@^1.1.5":
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/@ngraveio/bc-ur/-/bc-ur-1.1.6.tgz#8f8c75fff22f6a5e4dfbc5a6b540d7fe8f42cd39"
@@ -2179,9 +2191,9 @@
     "@stablelib/wipe" "^1.0.1"
 
 "@transmute/credentials-context@^0.7.0-unstable.60":
-  version "0.7.0-unstable.64"
-  resolved "https://registry.yarnpkg.com/@transmute/credentials-context/-/credentials-context-0.7.0-unstable.64.tgz#d82e923df3932800e232f541c0fbcd37934dcb2e"
-  integrity sha512-hNLVY2+dZusV/mMvznDUmHMwljiGeJPAnRH5HogEw2Cp/iAn8qAIn41vtCbvciaxvfs8YMVOxDC2E2akbmf9GQ==
+  version "0.7.0-unstable.66"
+  resolved "https://registry.yarnpkg.com/@transmute/credentials-context/-/credentials-context-0.7.0-unstable.66.tgz#4d13b894cfdf5625c647336eb2683418842a6133"
+  integrity sha512-1BGoZ+nbApiNI1NcCxL8aBWFYNtMkT+Z8xUm3lS0cmw0K5OiS9YdcRPjM59fZgcgndtqlnoKkAeS/iAdJU72nQ==
 
 "@transmute/ed25519-key-pair@0.7.0-unstable.2":
   version "0.7.0-unstable.2"
@@ -2193,19 +2205,19 @@
     "@transmute/x25519-key-pair" "^0.7.0-unstable.2"
 
 "@transmute/ed25519-signature-2018@^0.7.0-unstable.60":
-  version "0.7.0-unstable.64"
-  resolved "https://registry.yarnpkg.com/@transmute/ed25519-signature-2018/-/ed25519-signature-2018-0.7.0-unstable.64.tgz#9828d975394ad0139c9f0f12f2c6cdcc8214c215"
-  integrity sha512-Tjtk27fXGJco/6EoxEShdQpwuI1Ua5WT+PaqrEUSW5cSNkZ7IAILyCE6rzrUjNpvK1CBXFqXSAaIHWxBbUKPAA==
+  version "0.7.0-unstable.66"
+  resolved "https://registry.yarnpkg.com/@transmute/ed25519-signature-2018/-/ed25519-signature-2018-0.7.0-unstable.66.tgz#686db194e875bfee853e54d7deab3d6c71657952"
+  integrity sha512-rZgGKVgvzj+3Yq7yfcRFrPpevb1+lYEZWiB4uJs3np40ARl1jhIYFg/fJTwb5oENBR+GUrQzSpobNp2NocJ0tw==
   dependencies:
     "@transmute/ed25519-key-pair" "0.7.0-unstable.2"
-    "@transmute/jose-ld" "^0.7.0-unstable.64"
-    "@transmute/security-context" "^0.7.0-unstable.64"
+    "@transmute/jose-ld" "^0.7.0-unstable.66"
+    "@transmute/security-context" "^0.7.0-unstable.66"
     jsonld "^5.2.0"
 
-"@transmute/jose-ld@^0.7.0-unstable.64":
-  version "0.7.0-unstable.64"
-  resolved "https://registry.yarnpkg.com/@transmute/jose-ld/-/jose-ld-0.7.0-unstable.64.tgz#7730e99a69b78ad125c9652f5bfae9b8cc5f07d3"
-  integrity sha512-hfaATj3MATYnQbHxuyXe6QvXp6gpP0jMmt1jXL2ayXe9hhSIXY9KtHjW45oAOqPy+g1+VFFUQINhGR70cdvuhg==
+"@transmute/jose-ld@^0.7.0-unstable.66":
+  version "0.7.0-unstable.66"
+  resolved "https://registry.yarnpkg.com/@transmute/jose-ld/-/jose-ld-0.7.0-unstable.66.tgz#35f24b09a68025a6a17cce439263316cd9aa19ee"
+  integrity sha512-75TuHj/w83y1aNPnj9TXeRggaYrx44W3FF9lD2lvL4NDQj6TIRa5Sxjies8rC4yoBsq/PdcHwelUTZfpQK0qhw==
   dependencies:
     "@peculiar/webcrypto" "^1.1.6"
     "@stablelib/aes-kw" "^1.0.0"
@@ -2214,23 +2226,23 @@
     jose "^4.3.8"
     web-streams-polyfill "^3.0.3"
 
-"@transmute/ld-key-pair@^0.7.0-unstable.2", "@transmute/ld-key-pair@^0.7.0-unstable.64":
-  version "0.7.0-unstable.64"
-  resolved "https://registry.yarnpkg.com/@transmute/ld-key-pair/-/ld-key-pair-0.7.0-unstable.64.tgz#aa13425037dbed1fca7d9be813a9dbe6a53c4934"
-  integrity sha512-+D1r48ZhUqhlOPDzF9uDr0tAHRJ46A6NXq5vrcDLgML9drkyJFIR6TYkR5JoI3R4eWljNVY3WNMJSbDA/HPn0Q==
+"@transmute/ld-key-pair@^0.7.0-unstable.2", "@transmute/ld-key-pair@^0.7.0-unstable.66":
+  version "0.7.0-unstable.66"
+  resolved "https://registry.yarnpkg.com/@transmute/ld-key-pair/-/ld-key-pair-0.7.0-unstable.66.tgz#3fe1df362f2c4e532d9a79778cdefeeed6b8db80"
+  integrity sha512-UWV6+ObnZntEkjSDvN5E48pm7xHCmAqqL6sqYuUwp3VLD4kE1x8PqkbIhddLXUjzgbcDhZUjoAcVUD2u3oBQbw==
 
-"@transmute/security-context@^0.7.0-unstable.64":
-  version "0.7.0-unstable.64"
-  resolved "https://registry.yarnpkg.com/@transmute/security-context/-/security-context-0.7.0-unstable.64.tgz#7f4fa9ef7e12cf92219e39d032a9f8c9786e42e5"
-  integrity sha512-JBsxXXySX0jEzbbeNFAVSud9spak4Cd3h8PQ48RJtaIkNbWA/EJE0K7gZGW+PDoWElXPX3LSoM8UjFAxNI4BqQ==
+"@transmute/security-context@^0.7.0-unstable.66":
+  version "0.7.0-unstable.66"
+  resolved "https://registry.yarnpkg.com/@transmute/security-context/-/security-context-0.7.0-unstable.66.tgz#440c212210a98ca3334b81008761c0604edf1b16"
+  integrity sha512-HxnnwvZmsBew47NlXmlzcD5Yw6+Gt8pPDTLvoHcY2/x44jkpqmm/RgfB9AMoML1nvcUdpI3zpOF5W/6W51W79g==
 
 "@transmute/x25519-key-pair@^0.7.0-unstable.2":
-  version "0.7.0-unstable.64"
-  resolved "https://registry.yarnpkg.com/@transmute/x25519-key-pair/-/x25519-key-pair-0.7.0-unstable.64.tgz#7d6d7cd4721176af3273c398f83d6f3e708eaf93"
-  integrity sha512-lBWLmQoWL2+/uso4gPUxaVeLYTlKsmUUPvlU2hbGSOlOEeMgtStOrA56zZ+3TJZHvnbTmTTEg1UQGTkKYQ9aTQ==
+  version "0.7.0-unstable.66"
+  resolved "https://registry.yarnpkg.com/@transmute/x25519-key-pair/-/x25519-key-pair-0.7.0-unstable.66.tgz#6cf1d72d30d419e7ba64266f3c313397de78874e"
+  integrity sha512-gJL03eFvkpqLOBa+Xj6MLydNA51GOzSoGtGB8jSpK2+1AO8MdbNKgXCpQx9w4szlC/WL6+ojEnyUGRfdUXm9ng==
   dependencies:
     "@stablelib/x25519" "^1.0.0"
-    "@transmute/ld-key-pair" "^0.7.0-unstable.64"
+    "@transmute/ld-key-pair" "^0.7.0-unstable.66"
 
 "@trust/keyto@^1.0.1":
   version "1.0.1"
@@ -2365,9 +2377,9 @@
     "@types/node" "*"
 
 "@types/semver@^7.3.9":
-  version "7.3.10"
-  resolved "https://registry.yarnpkg.com/@types/semver/-/semver-7.3.10.tgz#5f19ee40cbeff87d916eedc8c2bfe2305d957f73"
-  integrity sha512-zsv3fsC7S84NN6nPK06u79oWgrPVd0NvOyqgghV1haPaFcVxIrP4DLomRwGAXk0ui4HZA7mOcSFL98sMVW9viw==
+  version "7.3.11"
+  resolved "https://registry.yarnpkg.com/@types/semver/-/semver-7.3.11.tgz#7a84d3228f34e68d14955fc406f8e66fdbe9e65e"
+  integrity sha512-R9HhjC4aKx3jL0FLwU7x6qMTysTvLh7jesRslXmxgCOXZwyh5dsnmrPQQToMyess8D4U+8G9x9mBFZoC/1o/Tw==
 
 "@types/uuid@^8.3.0":
   version "8.3.4"
@@ -2375,13 +2387,13 @@
   integrity sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==
 
 "@typescript-eslint/eslint-plugin@^5.32.0":
-  version "5.32.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-5.32.0.tgz#e27e38cffa4a61226327c874a7be965e9a861624"
-  integrity sha512-CHLuz5Uz7bHP2WgVlvoZGhf0BvFakBJKAD/43Ty0emn4wXWv5k01ND0C0fHcl/Im8Td2y/7h44E9pca9qAu2ew==
+  version "5.33.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-5.33.0.tgz#059798888720ec52ffa96c5f868e31a8f70fa3ec"
+  integrity sha512-jHvZNSW2WZ31OPJ3enhLrEKvAZNyAFWZ6rx9tUwaessTc4sx9KmgMNhVcqVAl1ETnT5rU5fpXTLmY9YvC1DCNg==
   dependencies:
-    "@typescript-eslint/scope-manager" "5.32.0"
-    "@typescript-eslint/type-utils" "5.32.0"
-    "@typescript-eslint/utils" "5.32.0"
+    "@typescript-eslint/scope-manager" "5.33.0"
+    "@typescript-eslint/type-utils" "5.33.0"
+    "@typescript-eslint/utils" "5.33.0"
     debug "^4.3.4"
     functional-red-black-tree "^1.0.1"
     ignore "^5.2.0"
@@ -2390,68 +2402,68 @@
     tsutils "^3.21.0"
 
 "@typescript-eslint/parser@^5.32.0":
-  version "5.32.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-5.32.0.tgz#1de243443bc6186fb153b9e395b842e46877ca5d"
-  integrity sha512-IxRtsehdGV9GFQ35IGm5oKKR2OGcazUoiNBxhRV160iF9FoyuXxjY+rIqs1gfnd+4eL98OjeGnMpE7RF/NBb3A==
+  version "5.33.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-5.33.0.tgz#26ec3235b74f0667414613727cb98f9b69dc5383"
+  integrity sha512-cgM5cJrWmrDV2KpvlcSkelTBASAs1mgqq+IUGKJvFxWrapHpaRy5EXPQz9YaKF3nZ8KY18ILTiVpUtbIac86/w==
   dependencies:
-    "@typescript-eslint/scope-manager" "5.32.0"
-    "@typescript-eslint/types" "5.32.0"
-    "@typescript-eslint/typescript-estree" "5.32.0"
+    "@typescript-eslint/scope-manager" "5.33.0"
+    "@typescript-eslint/types" "5.33.0"
+    "@typescript-eslint/typescript-estree" "5.33.0"
     debug "^4.3.4"
 
-"@typescript-eslint/scope-manager@5.32.0":
-  version "5.32.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/scope-manager/-/scope-manager-5.32.0.tgz#763386e963a8def470580cc36cf9228864190b95"
-  integrity sha512-KyAE+tUON0D7tNz92p1uetRqVJiiAkeluvwvZOqBmW9z2XApmk5WSMV9FrzOroAcVxJZB3GfUwVKr98Dr/OjOg==
+"@typescript-eslint/scope-manager@5.33.0":
+  version "5.33.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/scope-manager/-/scope-manager-5.33.0.tgz#509d7fa540a2c58f66bdcfcf278a3fa79002e18d"
+  integrity sha512-/Jta8yMNpXYpRDl8EwF/M8It2A9sFJTubDo0ATZefGXmOqlaBffEw0ZbkbQ7TNDK6q55NPHFshGBPAZvZkE8Pw==
   dependencies:
-    "@typescript-eslint/types" "5.32.0"
-    "@typescript-eslint/visitor-keys" "5.32.0"
+    "@typescript-eslint/types" "5.33.0"
+    "@typescript-eslint/visitor-keys" "5.33.0"
 
-"@typescript-eslint/type-utils@5.32.0":
-  version "5.32.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/type-utils/-/type-utils-5.32.0.tgz#45a14506fe3fb908600b4cef2f70778f7b5cdc79"
-  integrity sha512-0gSsIhFDduBz3QcHJIp3qRCvVYbqzHg8D6bHFsDMrm0rURYDj+skBK2zmYebdCp+4nrd9VWd13egvhYFJj/wZg==
+"@typescript-eslint/type-utils@5.33.0":
+  version "5.33.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/type-utils/-/type-utils-5.33.0.tgz#92ad1fba973c078d23767ce2d8d5a601baaa9338"
+  integrity sha512-2zB8uEn7hEH2pBeyk3NpzX1p3lF9dKrEbnXq1F7YkpZ6hlyqb2yZujqgRGqXgRBTHWIUG3NGx/WeZk224UKlIA==
   dependencies:
-    "@typescript-eslint/utils" "5.32.0"
+    "@typescript-eslint/utils" "5.33.0"
     debug "^4.3.4"
     tsutils "^3.21.0"
 
-"@typescript-eslint/types@5.32.0":
-  version "5.32.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-5.32.0.tgz#484273021eeeae87ddb288f39586ef5efeb6dcd8"
-  integrity sha512-EBUKs68DOcT/EjGfzywp+f8wG9Zw6gj6BjWu7KV/IYllqKJFPlZlLSYw/PTvVyiRw50t6wVbgv4p9uE2h6sZrQ==
+"@typescript-eslint/types@5.33.0":
+  version "5.33.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-5.33.0.tgz#d41c584831805554b063791338b0220b613a275b"
+  integrity sha512-nIMt96JngB4MYFYXpZ/3ZNU4GWPNdBbcB5w2rDOCpXOVUkhtNlG2mmm8uXhubhidRZdwMaMBap7Uk8SZMU/ppw==
 
-"@typescript-eslint/typescript-estree@5.32.0":
-  version "5.32.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/typescript-estree/-/typescript-estree-5.32.0.tgz#282943f34babf07a4afa7b0ff347a8e7b6030d12"
-  integrity sha512-ZVAUkvPk3ITGtCLU5J4atCw9RTxK+SRc6hXqLtllC2sGSeMFWN+YwbiJR9CFrSFJ3w4SJfcWtDwNb/DmUIHdhg==
+"@typescript-eslint/typescript-estree@5.33.0":
+  version "5.33.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/typescript-estree/-/typescript-estree-5.33.0.tgz#02d9c9ade6f4897c09e3508c27de53ad6bfa54cf"
+  integrity sha512-tqq3MRLlggkJKJUrzM6wltk8NckKyyorCSGMq4eVkyL5sDYzJJcMgZATqmF8fLdsWrW7OjjIZ1m9v81vKcaqwQ==
   dependencies:
-    "@typescript-eslint/types" "5.32.0"
-    "@typescript-eslint/visitor-keys" "5.32.0"
+    "@typescript-eslint/types" "5.33.0"
+    "@typescript-eslint/visitor-keys" "5.33.0"
     debug "^4.3.4"
     globby "^11.1.0"
     is-glob "^4.0.3"
     semver "^7.3.7"
     tsutils "^3.21.0"
 
-"@typescript-eslint/utils@5.32.0":
-  version "5.32.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/utils/-/utils-5.32.0.tgz#eccb6b672b94516f1afc6508d05173c45924840c"
-  integrity sha512-W7lYIAI5Zlc5K082dGR27Fczjb3Q57ECcXefKU/f0ajM5ToM0P+N9NmJWip8GmGu/g6QISNT+K6KYB+iSHjXCQ==
+"@typescript-eslint/utils@5.33.0":
+  version "5.33.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/utils/-/utils-5.33.0.tgz#46797461ce3146e21c095d79518cc0f8ec574038"
+  integrity sha512-JxOAnXt9oZjXLIiXb5ZIcZXiwVHCkqZgof0O8KPgz7C7y0HS42gi75PdPlqh1Tf109M0fyUw45Ao6JLo7S5AHw==
   dependencies:
     "@types/json-schema" "^7.0.9"
-    "@typescript-eslint/scope-manager" "5.32.0"
-    "@typescript-eslint/types" "5.32.0"
-    "@typescript-eslint/typescript-estree" "5.32.0"
+    "@typescript-eslint/scope-manager" "5.33.0"
+    "@typescript-eslint/types" "5.33.0"
+    "@typescript-eslint/typescript-estree" "5.33.0"
     eslint-scope "^5.1.1"
     eslint-utils "^3.0.0"
 
-"@typescript-eslint/visitor-keys@5.32.0":
-  version "5.32.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/visitor-keys/-/visitor-keys-5.32.0.tgz#b9715d0b11fdb5dd10fd0c42ff13987470525394"
-  integrity sha512-S54xOHZgfThiZ38/ZGTgB2rqx51CMJ5MCfVT2IplK4Q7hgzGfe0nLzLCcenDnc/cSjP568hdeKfeDcBgqNHD/g==
+"@typescript-eslint/visitor-keys@5.33.0":
+  version "5.33.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/visitor-keys/-/visitor-keys-5.33.0.tgz#fbcbb074e460c11046e067bc3384b5d66b555484"
+  integrity sha512-/XsqCzD4t+Y9p5wd9HZiptuGKBlaZO5showwqODii5C0nZawxWLF+Q6k5wYHBrQv96h6GYKyqqMHCSTqta8Kiw==
   dependencies:
-    "@typescript-eslint/types" "5.32.0"
+    "@typescript-eslint/types" "5.33.0"
     eslint-visitor-keys "^3.3.0"
 
 "@unimodules/core@*":
@@ -2482,20 +2494,10 @@
     crypto-ld "^7.0.0"
     json-stringify-deterministic "^1.0.7"
 
-"@veramo/core@^3.1.6-next.137":
-  version "3.1.6-next.160"
-  resolved "https://registry.yarnpkg.com/@veramo/core/-/core-3.1.6-next.160.tgz#bf9ee182b0bcff60f9e80127eca841a14b3aa1bc"
-  integrity sha512-wz7bBtI4YSpnjzYIN0o4DovrCHhjHK5COl6tuqNw7GkeEXaJlQAldUNAyTeEYPCHgGKtvfvg1vl/9Il/qxUlPw==
-  dependencies:
-    debug "^4.3.3"
-    did-jwt-vc "^2.1.13"
-    events "^3.2.0"
-    z-schema "^5.0.2"
-
-"@veramo/core@^3.1.6-next.146", "@veramo/core@^3.1.6-next.146+b0a0a7a0", "@veramo/core@^3.1.6-next.158+5c340b52":
-  version "3.1.6-next.158"
-  resolved "https://registry.yarnpkg.com/@veramo/core/-/core-3.1.6-next.158.tgz#5d4dac225f006dd7e40929fedc2db711c36fa5f8"
-  integrity sha512-bcs9PP93bTHFvo+DHN4TAyFJ2YL9115A8bt3lAB/oIq/Axmhk/mr+q3Gy1HFlHDI6j1chlRjxc5q1Wv37m53dQ==
+"@veramo/core@^3.1.6-next.137", "@veramo/core@^3.1.6-next.146", "@veramo/core@^3.1.6-next.146+b0a0a7a0", "@veramo/core@^3.1.6-next.164+3a7eb0cc":
+  version "3.1.6-next.164"
+  resolved "https://registry.yarnpkg.com/@veramo/core/-/core-3.1.6-next.164.tgz#137045f2da5c61356c69b1d62d01e114736d9796"
+  integrity sha512-iuUQZe9Pv6M4kO4ecc7jjrtdO2LRALh34crcW+nGZ/OQghM4QNicczqXR9b6kzf7JGwc2lcPnrFwzDavbObnuQ==
   dependencies:
     debug "^4.3.3"
     did-jwt-vc "^2.1.13"
@@ -2503,20 +2505,20 @@
     z-schema "^5.0.2"
 
 "@veramo/credential-eip712@^3.1.6-next.146":
-  version "3.1.6-next.158"
-  resolved "https://registry.yarnpkg.com/@veramo/credential-eip712/-/credential-eip712-3.1.6-next.158.tgz#8cc79f59abe11f1f6c9ab8898ac7c34f511cf7d2"
-  integrity sha512-fjReoPCQoksuOsJ+p9Xzlwhz5POQSrQOBaOWZ9kq/pEghZ5ggFYh/me0wnkAv4fN0TaqIj28MXb9vIEKKWzwyA==
+  version "3.1.6-next.164"
+  resolved "https://registry.yarnpkg.com/@veramo/credential-eip712/-/credential-eip712-3.1.6-next.164.tgz#9065fc93465a170ac125b55ec2f71fb419ef1d9a"
+  integrity sha512-UpOogBtS0wKnF0w/eoHghd3t36ReIhw5EX9MF4yu/WcgwQIril3s2yXfA38NunrREqUppqRFpg9zW/8QHMr6ZA==
   dependencies:
     "@metamask/eth-sig-util" "^4.0.1"
-    "@veramo/core" "^3.1.6-next.158+5c340b52"
-    "@veramo/utils" "^3.1.6-next.158+5c340b52"
+    "@veramo/core" "^3.1.6-next.164+3a7eb0cc"
+    "@veramo/utils" "^3.1.6-next.164+3a7eb0cc"
     debug "^4.3.3"
     eip-712-types-generation "^0.1.6"
 
-"@veramo/credential-ld@^3.1.6-next.146+b0a0a7a0", "@veramo/credential-ld@^3.1.6-next.158+5c340b52":
-  version "3.1.6-next.158"
-  resolved "https://registry.yarnpkg.com/@veramo/credential-ld/-/credential-ld-3.1.6-next.158.tgz#c4f1091d5bd083d92316fc6ad647dcba7c2e7357"
-  integrity sha512-s8EvdQrgP4ohWnl7zme/J6W022OsmkmSQvd7L8QEPSdTrNfeoM10WErPP8f/B3zuh7bZyzbfkscIsQDaMEhnRQ==
+"@veramo/credential-ld@^3.1.6-next.146+b0a0a7a0", "@veramo/credential-ld@^3.1.6-next.164+3a7eb0cc":
+  version "3.1.6-next.164"
+  resolved "https://registry.yarnpkg.com/@veramo/credential-ld/-/credential-ld-3.1.6-next.164.tgz#a03b0b10374f4882b7f0ceb3a5e46d4ea3f5adfc"
+  integrity sha512-23ZyiCLq6ao5VpWifBZQLLabSQoHwsDLebyJHfeJ3jmMiydOk/jc4nvsNLlAoN+cgowQH0fzHeEXeEkJm2Rzlw==
   dependencies:
     "@digitalcredentials/jsonld" "^5.2.1"
     "@digitalcredentials/jsonld-signatures" "^9.3.1"
@@ -2524,9 +2526,9 @@
     "@transmute/credentials-context" "^0.7.0-unstable.60"
     "@transmute/ed25519-signature-2018" "^0.7.0-unstable.60"
     "@veramo-community/lds-ecdsa-secp256k1-recovery2020" uport-project/EcdsaSecp256k1RecoverySignature2020
-    "@veramo/core" "^3.1.6-next.158+5c340b52"
-    "@veramo/did-resolver" "^3.1.6-next.158+5c340b52"
-    "@veramo/utils" "^3.1.6-next.158+5c340b52"
+    "@veramo/core" "^3.1.6-next.164+3a7eb0cc"
+    "@veramo/did-resolver" "^3.1.6-next.164+3a7eb0cc"
+    "@veramo/utils" "^3.1.6-next.164+3a7eb0cc"
     debug "^4.3.3"
     did-resolver "^3.2.2"
     uint8arrays "^3.0.0"
@@ -2549,68 +2551,68 @@
   optionalDependencies:
     "@veramo/credential-ld" "^3.1.6-next.146+b0a0a7a0"
 
-"@veramo/credential-w3c@^3.1.6-next.158+5c340b52":
-  version "3.1.6-next.158"
-  resolved "https://registry.yarnpkg.com/@veramo/credential-w3c/-/credential-w3c-3.1.6-next.158.tgz#95db09ce941b0799f67f55be041befa4498d8c3b"
-  integrity sha512-Q15kLse5L+FYJiHhwScnRfCr0nw1eCduR6OCLjhEKgir+JTbHhwoSlvHOpuLvOhnuuzlzKhZfh7P2EiAi0XdqQ==
+"@veramo/credential-w3c@^3.1.6-next.164+3a7eb0cc":
+  version "3.1.6-next.164"
+  resolved "https://registry.yarnpkg.com/@veramo/credential-w3c/-/credential-w3c-3.1.6-next.164.tgz#169bff057ab7c39e891a813fc456b40cdc1624d0"
+  integrity sha512-zfqEGC4vb9GUgGmuUtMgMxc+IxMmCBwmGHNiiAkrDEpJzZVKHtuhg6XPMbY4SXPnrrPIvbHO4TPQJVWgR5AGZA==
   dependencies:
-    "@veramo/core" "^3.1.6-next.158+5c340b52"
-    "@veramo/did-jwt" "^3.1.6-next.158+5c340b52"
-    "@veramo/did-resolver" "^3.1.6-next.158+5c340b52"
-    "@veramo/message-handler" "^3.1.6-next.158+5c340b52"
-    "@veramo/utils" "^3.1.6-next.158+5c340b52"
+    "@veramo/core" "^3.1.6-next.164+3a7eb0cc"
+    "@veramo/did-jwt" "^3.1.6-next.164+3a7eb0cc"
+    "@veramo/did-resolver" "^3.1.6-next.164+3a7eb0cc"
+    "@veramo/message-handler" "^3.1.6-next.164+3a7eb0cc"
+    "@veramo/utils" "^3.1.6-next.164+3a7eb0cc"
     debug "^4.3.3"
     did-jwt-vc "^2.1.13"
     did-resolver "^3.2.2"
     uint8arrays "^3.0.0"
     uuid "^8.3.0"
   optionalDependencies:
-    "@veramo/credential-ld" "^3.1.6-next.158+5c340b52"
+    "@veramo/credential-ld" "^3.1.6-next.164+3a7eb0cc"
 
 "@veramo/data-store@^3.1.6-next.146":
-  version "3.1.6-next.158"
-  resolved "https://registry.yarnpkg.com/@veramo/data-store/-/data-store-3.1.6-next.158.tgz#db6a5443cb115ca52c99fab6104413ef3f34f786"
-  integrity sha512-Sxz64+1Luv4iMBeT7XhbcWiV8aEiG9WAprapXy7isSgxZi4ayNfQ/g04aoEvZCTzX2GOobaDPdAJBRWzmffs2Q==
+  version "3.1.6-next.164"
+  resolved "https://registry.yarnpkg.com/@veramo/data-store/-/data-store-3.1.6-next.164.tgz#fdbc26417138c990db9da425abf7162c62e34b8b"
+  integrity sha512-ZnFCYaUtjbKQjcoP4Le8fZYDQkbr5XvvFJLZBDpOjR4EO/sU0SKM/BmDek5ZaX5//a7OH1J6JnGqOHRpO5HgUQ==
   dependencies:
-    "@veramo/core" "^3.1.6-next.158+5c340b52"
-    "@veramo/did-discovery" "^3.1.6-next.158+5c340b52"
-    "@veramo/did-manager" "^3.1.6-next.158+5c340b52"
-    "@veramo/key-manager" "^3.1.6-next.158+5c340b52"
-    "@veramo/utils" "^3.1.6-next.158+5c340b52"
+    "@veramo/core" "^3.1.6-next.164+3a7eb0cc"
+    "@veramo/did-discovery" "^3.1.6-next.164+3a7eb0cc"
+    "@veramo/did-manager" "^3.1.6-next.164+3a7eb0cc"
+    "@veramo/key-manager" "^3.1.6-next.164+3a7eb0cc"
+    "@veramo/utils" "^3.1.6-next.164+3a7eb0cc"
     debug "^4.3.3"
     typeorm "0.3.6"
 
-"@veramo/did-discovery@^3.1.6-next.158+5c340b52":
-  version "3.1.6-next.158"
-  resolved "https://registry.yarnpkg.com/@veramo/did-discovery/-/did-discovery-3.1.6-next.158.tgz#bb8a05dd4982f1149466647b29924078f0056c68"
-  integrity sha512-b9S8QPRkEpjAoU+kR6mDXEAtirpXXg6X25aGoyECsJN5mEvxmOMzt2Xw91E/nNfwxoSdmuirjBTjprP/RkOa6w==
+"@veramo/did-discovery@^3.1.6-next.164+3a7eb0cc":
+  version "3.1.6-next.164"
+  resolved "https://registry.yarnpkg.com/@veramo/did-discovery/-/did-discovery-3.1.6-next.164.tgz#a3e425b3cfde79b9d836495b60830db6a8d63c5c"
+  integrity sha512-dKrwzPejjRGMHJoEZ9j3Jw6FtinGig/z8X5brKo/qbs9wLUaAXoolR3rvgYVcMSrk1DZQem9/IZ0lnh57n75HA==
   dependencies:
-    "@veramo/core" "^3.1.6-next.158+5c340b52"
+    "@veramo/core" "^3.1.6-next.164+3a7eb0cc"
     debug "^4.3.3"
 
-"@veramo/did-jwt@^3.1.6-next.146", "@veramo/did-jwt@^3.1.6-next.146+b0a0a7a0", "@veramo/did-jwt@^3.1.6-next.158+5c340b52":
-  version "3.1.6-next.158"
-  resolved "https://registry.yarnpkg.com/@veramo/did-jwt/-/did-jwt-3.1.6-next.158.tgz#545d342301ae9173fbef464f567c9521d2ea952b"
-  integrity sha512-19IgVREKjSOVQKaeFP4Y88Q7NYo79DSALSO2OSo2fP1zNWPGjOjaaxbdEJSFgAn+v1nxw9E/erWIYnG2+Twvrg==
+"@veramo/did-jwt@^3.1.6-next.146", "@veramo/did-jwt@^3.1.6-next.146+b0a0a7a0", "@veramo/did-jwt@^3.1.6-next.164+3a7eb0cc":
+  version "3.1.6-next.164"
+  resolved "https://registry.yarnpkg.com/@veramo/did-jwt/-/did-jwt-3.1.6-next.164.tgz#ab9e826ece4b1a1e599d72cc0448853c4d20ed9f"
+  integrity sha512-Qvcp8Dol7KXLM1VmjqQFKEEZmhlzb9vi1bGtGd5H5DQYL2AG6Di3roqtKpHLERJ4wS5TfRaTiphUE9DujL94/A==
   dependencies:
-    "@veramo/core" "^3.1.6-next.158+5c340b52"
-    "@veramo/message-handler" "^3.1.6-next.158+5c340b52"
+    "@veramo/core" "^3.1.6-next.164+3a7eb0cc"
+    "@veramo/message-handler" "^3.1.6-next.164+3a7eb0cc"
     debug "^4.3.3"
     did-jwt "^6.2.0"
     did-resolver "^3.2.2"
 
-"@veramo/did-manager@^3.1.6-next.146", "@veramo/did-manager@^3.1.6-next.158+5c340b52":
-  version "3.1.6-next.158"
-  resolved "https://registry.yarnpkg.com/@veramo/did-manager/-/did-manager-3.1.6-next.158.tgz#a831124cf3ccdb30120dd70363f1d94a7c78bf2f"
-  integrity sha512-fTYOpvGjx8/XF0EGppNyQIzA0kq/2ykQ33DX6UuK8Q5GVWetChPFk+xQo5Z1LKhxaNQMYpz+B0d3nkBhyh0oNw==
+"@veramo/did-manager@^3.1.6-next.146", "@veramo/did-manager@^3.1.6-next.164+3a7eb0cc":
+  version "3.1.6-next.164"
+  resolved "https://registry.yarnpkg.com/@veramo/did-manager/-/did-manager-3.1.6-next.164.tgz#c6e5b9dcb2ba59c39b1b881df7b92a6d2d91b035"
+  integrity sha512-gE8XOtvZ8O6JKsNSb6oDD5Wd1EKYQLVVbpcv6+YxGOo89EeZn3gDNVjeZq2v0TeCL+v2facGBvEV657I1zONhA==
   dependencies:
-    "@veramo/core" "^3.1.6-next.158+5c340b52"
-    "@veramo/did-discovery" "^3.1.6-next.158+5c340b52"
+    "@veramo/core" "^3.1.6-next.164+3a7eb0cc"
+    "@veramo/did-discovery" "^3.1.6-next.164+3a7eb0cc"
 
 "@veramo/did-provider-ethr@^3.1.6-next.146":
-  version "3.1.6-next.158"
-  resolved "https://registry.yarnpkg.com/@veramo/did-provider-ethr/-/did-provider-ethr-3.1.6-next.158.tgz#2243e6d80574213db5b2f6457e3fee977e9c5df6"
-  integrity sha512-aYDl8OiJAqKitWE1TMyZCG3xbtwQ9LDb3s4lBPxtZecxu9nCKJBuyu83sagcea0NBwpCOHdjD1HZR9SltBavKw==
+  version "3.1.6-next.164"
+  resolved "https://registry.yarnpkg.com/@veramo/did-provider-ethr/-/did-provider-ethr-3.1.6-next.164.tgz#26b11aee3fd72febc5df6d7853524d0eeb2f14bf"
+  integrity sha512-+8Qbpk9p0RBg3HUmg6YMo4MShj+5cDkcWr0V3lGAUUKATFH8wP4C0x8ktHzXP6f5LAisNdCGCnlBJktQeW4X6g==
   dependencies:
     "@ethersproject/abstract-provider" "5.6.1"
     "@ethersproject/abstract-signer" "5.6.2"
@@ -2619,38 +2621,40 @@
     "@ethersproject/properties" "5.6.0"
     "@ethersproject/signing-key" "5.6.2"
     "@ethersproject/transactions" "5.6.2"
-    "@veramo/core" "^3.1.6-next.158+5c340b52"
-    "@veramo/did-manager" "^3.1.6-next.158+5c340b52"
+    "@veramo/core" "^3.1.6-next.164+3a7eb0cc"
+    "@veramo/did-manager" "^3.1.6-next.164+3a7eb0cc"
     debug "^4.3.3"
     ethr-did "^2.2.3"
 
-"@veramo/did-resolver@^3.1.6-next.146", "@veramo/did-resolver@^3.1.6-next.146+b0a0a7a0", "@veramo/did-resolver@^3.1.6-next.158+5c340b52":
-  version "3.1.6-next.158"
-  resolved "https://registry.yarnpkg.com/@veramo/did-resolver/-/did-resolver-3.1.6-next.158.tgz#2a8506623e936d40829f3c859747d715e95749bf"
-  integrity sha512-PmGM/JY996fBAFwkOp045xZyTasOv7l2ckPMPA++vkCcSzC6SedpHUFHRXXHDUBwBLGjPtqArlqbHxR4EbTPSg==
+"@veramo/did-resolver@^3.1.6-next.146", "@veramo/did-resolver@^3.1.6-next.146+b0a0a7a0", "@veramo/did-resolver@^3.1.6-next.164+3a7eb0cc":
+  version "3.1.6-next.164"
+  resolved "https://registry.yarnpkg.com/@veramo/did-resolver/-/did-resolver-3.1.6-next.164.tgz#1fc22863fb295d888463738093c061eec4d43236"
+  integrity sha512-Enjkjzf6ue/XN5Qzb5b0u9U+Ke29PEU08xEeF79wGJasmldWOUUJFHXqLRUNnyeZJvaOQ1vZ30/Q42isT/olLQ==
   dependencies:
-    "@veramo/core" "^3.1.6-next.158+5c340b52"
+    "@veramo/core" "^3.1.6-next.164+3a7eb0cc"
+    "@veramo/utils" "^3.1.6-next.164+3a7eb0cc"
     cross-fetch "^3.1.4"
     debug "^4.3.3"
+    did-resolver "^3.2.2"
 
-"@veramo/key-manager@^3.1.6-next.146", "@veramo/key-manager@^3.1.6-next.158+5c340b52":
-  version "3.1.6-next.158"
-  resolved "https://registry.yarnpkg.com/@veramo/key-manager/-/key-manager-3.1.6-next.158.tgz#697e527b02d87190227ca66cc9b6dea0bbad955f"
-  integrity sha512-Jgugjm3Pm4xKMBAv+1ZgO6KsqEJcS3fmzJhu43EvPT0efVvBRhVcfDnoFZEGjtev5nS41RdR5MvjQzXOWuGHoQ==
+"@veramo/key-manager@^3.1.6-next.146", "@veramo/key-manager@^3.1.6-next.164+3a7eb0cc":
+  version "3.1.6-next.164"
+  resolved "https://registry.yarnpkg.com/@veramo/key-manager/-/key-manager-3.1.6-next.164.tgz#16d8f06bbafb110d40b7e7615eec5442e483d873"
+  integrity sha512-eTn9GXXH8nUQh5ts49Mh3TydkUaF/++sKXoSeoAaDmh9WNVBlRBbQiscJ3gecOCkb2UUuTen7P+rU9ui5GOuRQ==
   dependencies:
     "@ethersproject/bytes" "^5.6.1"
     "@ethersproject/strings" "^5.6.1"
     "@ethersproject/transactions" "^5.6.2"
     "@stablelib/ed25519" "^1.0.2"
-    "@veramo/core" "^3.1.6-next.158+5c340b52"
+    "@veramo/core" "^3.1.6-next.164+3a7eb0cc"
     did-jwt "^6.2.0"
     uint8arrays "^3.0.0"
     uuid "^8.3.2"
 
 "@veramo/kms-local@^3.1.6-next.146":
-  version "3.1.6-next.158"
-  resolved "https://registry.yarnpkg.com/@veramo/kms-local/-/kms-local-3.1.6-next.158.tgz#1db352c1850558b0abe90724ce5e46ceb1a76dc4"
-  integrity sha512-ViLtiolBqL32b6YGVo2DnFnDfqhZNERMlGoIt/pZdYrl9GpEYvmTgdlaZgwEhZTIh+Zt9rRJmnTBaX/prjUJsA==
+  version "3.1.6-next.164"
+  resolved "https://registry.yarnpkg.com/@veramo/kms-local/-/kms-local-3.1.6-next.164.tgz#34e8e4f1d87e07e95929d3d1d28ba4f31f11eb21"
+  integrity sha512-qHtj1vbTbCxbhYJ2oSmnI6mYAaTA17VL+xnbOIA78Qh0FLBeOsp2GH47hFnudmJR02CDgC2fmvFNiPWPAZGCIw==
   dependencies:
     "@ethersproject/abstract-provider" "^5.6.1"
     "@ethersproject/bytes" "^5.6.1"
@@ -2661,53 +2665,53 @@
     "@ethersproject/wallet" "^5.6.2"
     "@stablelib/ed25519" "^1.0.2"
     "@stablelib/nacl" "^1.0.2"
-    "@veramo/core" "^3.1.6-next.158+5c340b52"
-    "@veramo/key-manager" "^3.1.6-next.158+5c340b52"
+    "@veramo/core" "^3.1.6-next.164+3a7eb0cc"
+    "@veramo/key-manager" "^3.1.6-next.164+3a7eb0cc"
     base-58 "^0.0.1"
     debug "^4.3.3"
     did-jwt "^6.2.0"
     uint8arrays "^3.0.0"
 
 "@veramo/kms-web3@^3.1.6-next.146":
-  version "3.1.6-next.158"
-  resolved "https://registry.yarnpkg.com/@veramo/kms-web3/-/kms-web3-3.1.6-next.158.tgz#de2c63a682bd0830a22625fb6b46c2c79e0d46e2"
-  integrity sha512-5X+17D42qdnOmq9vnhVHcFWDc+2wt4BGqha68famJ2tWGU2XP/StOd/GODVkBqp/6RRZHnPtK3KLhB6Sqs3HjA==
+  version "3.1.6-next.164"
+  resolved "https://registry.yarnpkg.com/@veramo/kms-web3/-/kms-web3-3.1.6-next.164.tgz#fed28a8c93205f0e69bd54e2c32e98c3965ec11f"
+  integrity sha512-ZtZGQJakN88QEiFsOazl33dUYkrkTM7fmWPfqPiO6k787YyvF4Kej2saNuSVAd235jBEJDerhnYNtn/tU+yC8g==
   dependencies:
     "@ethersproject/providers" "^5.6.8"
     "@ethersproject/strings" "5.6.1"
     "@ethersproject/transactions" "5.6.2"
-    "@veramo/core" "^3.1.6-next.158+5c340b52"
-    "@veramo/key-manager" "^3.1.6-next.158+5c340b52"
+    "@veramo/core" "^3.1.6-next.164+3a7eb0cc"
+    "@veramo/key-manager" "^3.1.6-next.164+3a7eb0cc"
     debug "^4.3.3"
 
-"@veramo/message-handler@^3.1.6-next.146", "@veramo/message-handler@^3.1.6-next.146+b0a0a7a0", "@veramo/message-handler@^3.1.6-next.158+5c340b52":
-  version "3.1.6-next.158"
-  resolved "https://registry.yarnpkg.com/@veramo/message-handler/-/message-handler-3.1.6-next.158.tgz#e4a55730e4931d429e05b02d4aac63a98e452d53"
-  integrity sha512-7+M4Szt59CXZGeePVO1jn4E9/ZMOv2xpaFpQtLKYBqmnflk4I1yRhFtTDmY84etVdh4furZwlF3A8s+8j7ryAA==
+"@veramo/message-handler@^3.1.6-next.146", "@veramo/message-handler@^3.1.6-next.146+b0a0a7a0", "@veramo/message-handler@^3.1.6-next.164+3a7eb0cc":
+  version "3.1.6-next.164"
+  resolved "https://registry.yarnpkg.com/@veramo/message-handler/-/message-handler-3.1.6-next.164.tgz#7abdf6844d20ae7514bcf637f2908997c53c6f28"
+  integrity sha512-6RvZdRTbXRoiQFY1q+C7DDwjOD5/UIdqXc9Z2taGZU6LscJ2J5Ohdg66f08vlcWDzGpVRCdDXJoslz1ekbMEtg==
   dependencies:
-    "@veramo/core" "^3.1.6-next.158+5c340b52"
+    "@veramo/core" "^3.1.6-next.164+3a7eb0cc"
 
 "@veramo/selective-disclosure@^3.1.6-next.146":
-  version "3.1.6-next.158"
-  resolved "https://registry.yarnpkg.com/@veramo/selective-disclosure/-/selective-disclosure-3.1.6-next.158.tgz#49af669b6edeb754be5b9e4dadf24cddd53e058b"
-  integrity sha512-iPsp9sJMZHGpKnIo4FWD1hmUEyf4bOLyiKqApWSVv8SO2UlB9FtSv1/TfxVoctmkvHg5GVBlYNI3mFyijgSs4A==
+  version "3.1.6-next.164"
+  resolved "https://registry.yarnpkg.com/@veramo/selective-disclosure/-/selective-disclosure-3.1.6-next.164.tgz#0f9b513a3b0246a6ef2940f535eb84fc5fd13754"
+  integrity sha512-ijMWbgdHvEZDS4QFzH1f5CPlIahMRWWOlGPzHEJtUJ5WJwNIYaLYqbpDVw+SOpYC2MBfhTWmmendQdJGEjZ4eA==
   dependencies:
-    "@veramo/core" "^3.1.6-next.158+5c340b52"
-    "@veramo/credential-w3c" "^3.1.6-next.158+5c340b52"
-    "@veramo/did-jwt" "^3.1.6-next.158+5c340b52"
-    "@veramo/message-handler" "^3.1.6-next.158+5c340b52"
+    "@veramo/core" "^3.1.6-next.164+3a7eb0cc"
+    "@veramo/credential-w3c" "^3.1.6-next.164+3a7eb0cc"
+    "@veramo/did-jwt" "^3.1.6-next.164+3a7eb0cc"
+    "@veramo/message-handler" "^3.1.6-next.164+3a7eb0cc"
     debug "^4.3.3"
     did-jwt "^6.2.0"
     uuid "^8.3.0"
 
-"@veramo/utils@^3.1.6-next.146+b0a0a7a0", "@veramo/utils@^3.1.6-next.158+5c340b52":
-  version "3.1.6-next.158"
-  resolved "https://registry.yarnpkg.com/@veramo/utils/-/utils-3.1.6-next.158.tgz#facb2c0372c2fb25c70d662bd9439d85e56291a2"
-  integrity sha512-94tjAqn/1RbnShWso7JBfuzIAYB7nVtOYI/hGsPJZhStY73DnrOSVE/5MoxQp/9JUxhF1HmnjX3h1viOTKGYRg==
+"@veramo/utils@^3.1.6-next.146+b0a0a7a0", "@veramo/utils@^3.1.6-next.164+3a7eb0cc":
+  version "3.1.6-next.164"
+  resolved "https://registry.yarnpkg.com/@veramo/utils/-/utils-3.1.6-next.164.tgz#8ced916752821448471982d0ccd91c426e99a69d"
+  integrity sha512-pYo664P08RCcEycfyaKxQLDKn1bE0utr54kGAvNXr0dTj1Wgwj+xqZkk1fxW8g2BSjssTPWofG3VxGEXMaODbw==
   dependencies:
     "@ethersproject/transactions" "^5.5.0"
     "@stablelib/ed25519" "^1.0.2"
-    "@veramo/core" "^3.1.6-next.158+5c340b52"
+    "@veramo/core" "^3.1.6-next.164+3a7eb0cc"
     blakejs "^1.1.1"
     cross-fetch "^3.1.4"
     debug "^4.3.3"
@@ -3179,9 +3183,9 @@ bech32@^2.0.0:
   integrity sha512-LcknSilhIGatDAsY1ak2I8VtGaHNhgMSYVxFrGLXv+xLHytaKZKcaUJJUE7qmBr7h33o5YQwP55pMI0xmkpJwg==
 
 bignumber.js@^9.0.1:
-  version "9.0.2"
-  resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-9.0.2.tgz#71c6c6bed38de64e24a65ebe16cfcf23ae693673"
-  integrity sha512-GAcQvbpsM0pUb0zw1EI0KhQEZ+lRwR5fYaAp3vPOYuP7aDvGy6cVN6XHLauvF8SOga2y0dcLcjt3iQDTSEliyw==
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-9.1.0.tgz#8d340146107fe3a6cb8d40699643c302e8773b62"
+  integrity sha512-4LwHK4nfDOraBCtst+wOWIHbu1vhvAPJK8g8nROd4iuc3PSEjWif/qwbkh8jwCJz6yDBvtU4KPynETgrfh7y3A==
 
 "bignumber.js@git+https://github.com/frozeman/bignumber.js-nolookahead.git":
   version "2.0.7"
@@ -3514,9 +3518,9 @@ camelcase@^5.3.1:
   integrity sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==
 
 caniuse-lite@^1.0.30001370:
-  version "1.0.30001374"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001374.tgz#3dab138e3f5485ba2e74bd13eca7fe1037ce6f57"
-  integrity sha512-mWvzatRx3w+j5wx/mpFN5v5twlPrabG8NqX2c6e45LCpymdoGqNvRkRutFUqpRTXKFQFNQJasvK0YT7suW6/Hw==
+  version "1.0.30001375"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001375.tgz#8e73bc3d1a4c800beb39f3163bf0190d7e5d7672"
+  integrity sha512-kWIMkNzLYxSvnjy0hL8w1NOaWNr2rn39RTAVyIwcw8juu60bZDWiF1/loOYANzjtJmy6qPgNmn38ro5Pygagdw==
 
 canonicalize@^1.0.1, canonicalize@^1.0.8:
   version "1.0.8"
@@ -4084,10 +4088,10 @@ did-jwt-vc@^2.1.13, did-jwt-vc@^2.1.9:
     did-jwt "^6.2.2"
     did-resolver "^4.0.0"
 
-did-jwt@^6.1.2, did-jwt@^6.2.0, did-jwt@^6.2.2:
-  version "6.2.2"
-  resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-6.2.2.tgz#6a3e84bb0d75dee510ba2481f31b9c1530a41cc8"
-  integrity sha512-/OJBpNkNIUGZW5L5GzuSivpB+RvRhOdRKMQ9a3KAzyTNI85RUoxelqYDwmUOA6i+MKVeJQaONf4beT03ACgQ/w==
+did-jwt@^6.2.0, did-jwt@^6.2.2, did-jwt@^6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-6.3.0.tgz#6c7380a69fff97f95101ce03519fd34c0ee43594"
+  integrity sha512-kvwCDY6KZJZn9/LK+X4Co+X1brnZWr6fnP1NRVReTgSPFyA+20oZ+VCsmSnzzYUoPkQ/Pl54uOMlmRw69z5zBg==
   dependencies:
     "@stablelib/ed25519" "^1.0.2"
     "@stablelib/random" "^1.0.1"
@@ -4212,9 +4216,9 @@ eip-712-types-generation@^0.1.6:
     json-canonicalize "^1.0.4"
 
 electron-to-chromium@^1.4.202:
-  version "1.4.211"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.211.tgz#afaa8b58313807501312d598d99b953568d60f91"
-  integrity sha512-BZSbMpyFQU0KBJ1JG26XGeFI3i4op+qOYGxftmZXFZoHkhLgsSv4DHDJfl8ogII3hIuzGt51PaZ195OVu0yJ9A==
+  version "1.4.215"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.215.tgz#553372e74bde3164290d61f6792f93e443b16733"
+  integrity sha512-vqZxT8C5mlDZ//hQFhneHmOLnj1LhbzxV0+I1yqHV8SB1Oo4Y5Ne9+qQhwHl7O1s9s9cRuo2l5CoLEHdhMTwZg==
 
 elliptic@6.5.4, elliptic@^6.5.2, elliptic@^6.5.3, elliptic@^6.5.4:
   version "6.5.4"
@@ -4794,7 +4798,7 @@ ethereumjs-wallet@^1.0.1:
     utf8 "^3.0.0"
     uuid "^8.3.2"
 
-ethers@^5.4.1, ethers@^5.6.5:
+ethers@^5.4.1, ethers@^5.6.9:
   version "5.6.9"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.6.9.tgz#4e12f8dfcb67b88ae7a78a9519b384c23c576a4d"
   integrity sha512-lMGC2zv9HC5EC+8r429WaWu3uWJUCgUCt8xxKCFqkrFuBDZXDYIdzDUECxzjf2BMF8IVBByY1EBoGSL3RTm8RA==
@@ -4969,7 +4973,7 @@ ethr-did-resolver@^5.0.4:
     did-resolver "^3.1.5"
     ethr-did-registry "^0.0.3"
 
-ethr-did-resolver@^6.0.1:
+ethr-did-resolver@^6.1.0:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/ethr-did-resolver/-/ethr-did-resolver-6.1.0.tgz#9f72d1e186932941ca0b165a598f6929c34c81dd"
   integrity sha512-nsTt4QHHNGxviAIn2z6de8wyEYdc48Hcx3VtSB4Vt3a1hXPin7GZaiSFRDsf/nT/U8RPKRwSgy8i21RV3mCsZw==
@@ -4986,9 +4990,9 @@ ethr-did-resolver@^6.0.1:
     ethr-did-registry "^1.0.0"
 
 ethr-did@^2.2.2, ethr-did@^2.2.3:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/ethr-did/-/ethr-did-2.2.3.tgz#d4b12822961302f85b9761b24ef286292fc744ee"
-  integrity sha512-BvMRfh9MN5PzNaPG4PAGSfhhj+noo0HfERVh2Hs0CyW+GIdDqdWqwG5GMAt0827WTwysZdSGEQ7iTyw+Tgk+dQ==
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/ethr-did/-/ethr-did-2.2.4.tgz#ed9b7b7ad6221d122dda66ef792378c4c26b48ed"
+  integrity sha512-Vh0TSMccvscN/FQim8XS+U9gHhjVLmj8sdki+mlpWygr2REriADuso0mhQrIzNlcDpdsuUOJEcvXJGAJekVSDw==
   dependencies:
     "@ethersproject/abstract-signer" "^5.6.2"
     "@ethersproject/base64" "^5.6.1"
@@ -4999,9 +5003,22 @@ ethr-did@^2.2.2, ethr-did@^2.2.3:
     "@ethersproject/strings" "^5.6.1"
     "@ethersproject/transactions" "^5.6.2"
     "@ethersproject/wallet" "^5.6.2"
-    did-jwt "^6.1.2"
-    did-resolver "^3.2.2"
-    ethr-did-resolver "^6.0.1"
+    did-jwt "^6.3.0"
+    did-resolver "^4.0.0"
+    ethr-did-resolver "^6.1.0"
+
+event-stream@4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/event-stream/-/event-stream-4.0.1.tgz#4092808ec995d0dd75ea4580c1df6a74db2cde65"
+  integrity sha512-qACXdu/9VHPBzcyhdOWR5/IahhGMf0roTeZJfzz077GwylcDd90yOHLouhmv7GJ5XzPi6ekaQWd8AvPP2nOvpA==
+  dependencies:
+    duplexer "^0.1.1"
+    from "^0.1.7"
+    map-stream "0.0.7"
+    pause-stream "^0.0.11"
+    split "^1.0.1"
+    stream-combiner "^0.2.2"
+    through "^2.3.8"
 
 event-stream@4.0.1:
   version "4.0.1"
@@ -5514,7 +5531,7 @@ has-property-descriptors@^1.0.0:
   dependencies:
     get-intrinsic "^1.1.1"
 
-has-symbols@^1.0.1, has-symbols@^1.0.2, has-symbols@^1.0.3:
+has-symbols@^1.0.2, has-symbols@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/has-symbols/-/has-symbols-1.0.3.tgz#bb7b2c4349251dce87b125f7bdf874aa7c8b39f8"
   integrity sha512-l3LCuF6MgDNwTDKkdYGEihYjt5pRPbEg46rtlmnSPlUbgmB8LOIrKJbYYFBSbnPaJexMKtiPO8hmeRjRz2Td+A==
@@ -6685,6 +6702,21 @@ msrcrypto@^1.5.6:
   resolved "https://registry.yarnpkg.com/msrcrypto/-/msrcrypto-1.5.8.tgz#be419be4945bf134d8af52e9d43be7fa261f4a1c"
   integrity sha512-ujZ0TRuozHKKm6eGbKHfXef7f+esIhEckmThVnz7RNyiOJd7a6MXj2JGBoL9cnPDW+JMG16MoTUh5X+XXjI66Q==
 
+multibase@^4.0.6:
+  version "4.0.6"
+  resolved "https://registry.yarnpkg.com/multibase/-/multibase-4.0.6.tgz#6e624341483d6123ca1ede956208cb821b440559"
+  integrity sha512-x23pDe5+svdLz/k5JPGCVdfn7Q5mZVMBETiC+ORfO+sor9Sgs0smJzAjfTbM5tckeCqnaUuMYoz+k3RXMmJClQ==
+  dependencies:
+    "@multiformats/base-x" "^4.0.1"
+
+multicodec@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/multicodec/-/multicodec-3.2.1.tgz#82de3254a0fb163a107c1aab324f2a91ef51efb2"
+  integrity sha512-+expTPftro8VAW8kfvcuNNNBgb9gPeNYV9dn+z1kJRWF2vih+/S79f2RVeIwmrJBUJ6NT9IUPWnZDQvegEh5pw==
+  dependencies:
+    uint8arrays "^3.0.0"
+    varint "^6.0.0"
+
 multiformats@^9.4.2, multiformats@^9.5.2, multiformats@^9.6.5:
   version "9.7.1"
   resolved "https://registry.yarnpkg.com/multiformats/-/multiformats-9.7.1.tgz#ab348e5fd6f8e7fb3fd56033211bda48854e2173"
@@ -6845,13 +6877,13 @@ object-keys@~0.4.0:
   integrity sha512-ncrLw+X55z7bkl5PnUvHwFK9FcGuFYo9gtjws2XtSzL+aZ8tm830P60WJ0dSmFVaSalWieW5MD7kEdnXda9yJw==
 
 object.assign@^4.1.0, object.assign@^4.1.2:
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/object.assign/-/object.assign-4.1.2.tgz#0ed54a342eceb37b38ff76eb831a0e788cb63940"
-  integrity sha512-ixT2L5THXsApyiUPYKmW+2EHpXXe5Ii3M+f4e+aJFAHao5amFRW6J0OO6c/LU8Be47utCx2GL89hxGB6XSmKuQ==
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/object.assign/-/object.assign-4.1.3.tgz#d36b7700ddf0019abb6b1df1bb13f6445f79051f"
+  integrity sha512-ZFJnX3zltyjcYJL0RoCJuzb+11zWGyaDbjgxZbdV7rFEcHQuYxrZqhow67aA7xpes6LhojyFDaBKAFfogQrikA==
   dependencies:
-    call-bind "^1.0.0"
-    define-properties "^1.1.3"
-    has-symbols "^1.0.1"
+    call-bind "^1.0.2"
+    define-properties "^1.1.4"
+    has-symbols "^1.0.3"
     object-keys "^1.1.1"
 
 object.values@^1.1.5:
@@ -7761,7 +7793,7 @@ scrypt-js@3.0.1, scrypt-js@^3.0.0, scrypt-js@^3.0.1:
   resolved "https://registry.yarnpkg.com/scrypt-js/-/scrypt-js-3.0.1.tgz#d314a57c2aef69d1ad98a138a21fe9eafa9ee312"
   integrity sha512-cdwTTnqPu0Hyvf5in5asVdZocVDTNRmR7XEcJuIzMjJeSHybHl7vpB66AzwTaIg6CLSbtjcxc8fqcySfnTkccA==
 
-secp256k1@^4.0.0, secp256k1@^4.0.1:
+secp256k1@^4.0.0, secp256k1@^4.0.1, secp256k1@^4.0.3:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/secp256k1/-/secp256k1-4.0.3.tgz#c4559ecd1b8d3c1827ed2d1b94190d69ce267303"
   integrity sha512-NLZVf+ROMxwtEj3Xa562qgv2BK5e2WNmXPiOdVIPLgs6lyTzMvBq0aWTYMI5XCP9jZMVKOcqZLw/Wc4vDkuxhA==
@@ -8601,6 +8633,11 @@ validator@^13.7.0:
   version "13.7.0"
   resolved "https://registry.yarnpkg.com/validator/-/validator-13.7.0.tgz#4f9658ba13ba8f3d82ee881d3516489ea85c0857"
   integrity sha512-nYXQLCBkpJ8X6ltALua9dRrZDHVYxjJ1wgskNt1lH9fzGjs3tgojGSCBjmEPwkWS1y29+DrizMTW19Pr9uB2nw==
+
+varint@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/varint/-/varint-6.0.0.tgz#9881eb0ce8feaea6512439d19ddf84bf551661d0"
+  integrity sha512-cXEIW6cfr15lFv563k4GuVuW/fiwjknytD37jIOLSdSWuOI6WnO/oKwmP2FQTU2l01LP8/M5TSAJpzUaGe3uWg==
 
 verror@1.10.0:
   version "1.10.0"

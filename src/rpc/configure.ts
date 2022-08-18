@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 import {
-  _changeInfuraToken,
-  _togglePopups,
-  _addFriendlyDapp,
-  _getFriendlyDapps,
-  _removeFriendlyDapp,
+  updateInfuraToken,
+  togglePopups as updatePopups,
+  addFriendlyDapp,
+  getFriendlyDapps,
+  removeFriendlyDapp,
 } from "../utils/snap_utils";
-import { getConfig } from "../utils/state_utils";
+import { getSnapConfig } from "../utils/state_utils";
 
 export async function togglePopups(): Promise<boolean> {
-  const config = await getConfig();
+  const config = await getSnapConfig();
 
   const result =
     config.dApp.disablePopups ||
@@ -17,7 +17,7 @@ export async function togglePopups(): Promise<boolean> {
       method: "snap_confirm",
       params: [
         {
-          prompt: `Toggle Popups`,
+          prompt: "Toggle Popups",
           description: "Would you like to toggle the popups to following?",
           textAreaContent:
             "Current setting: " +
@@ -29,7 +29,7 @@ export async function togglePopups(): Promise<boolean> {
       ],
     }));
   if (result) {
-    await _togglePopups();
+    await updatePopups();
     return true;
   }
   return false;
@@ -37,17 +37,17 @@ export async function togglePopups(): Promise<boolean> {
 
 export async function changeInfuraToken(token?: string): Promise<boolean> {
   if (token != null && token != "") {
-    const config = await getConfig();
+    const config = await getSnapConfig();
     const result = await wallet.request({
       method: "snap_confirm",
       params: [
         {
-          prompt: `Change Infura Token`,
+          prompt: "Change Infura Token",
           description:
             "Would you like to change the infura token to following?",
           textAreaContent:
             "Current token: " +
-            config.veramo.infuraToken +
+            config.snap.infuraToken +
             "\n" +
             "New token: " +
             token,
@@ -55,7 +55,7 @@ export async function changeInfuraToken(token?: string): Promise<boolean> {
       ],
     });
     if (result) {
-      await _changeInfuraToken(token);
+      await updateInfuraToken(token);
       return true;
     } else {
       return false;

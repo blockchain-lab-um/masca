@@ -1,4 +1,3 @@
-import { VCQuerry } from "@blockchain-lab-um/ssi-snap-types";
 import { IKey, RequireOnly, IIdentifier } from "@veramo/core";
 import { AbstractKeyStore } from "@veramo/key-manager";
 import {
@@ -200,7 +199,7 @@ export class SnapVCStore extends AbstractVCStore {
   async get(args: { id: string }): Promise<VerifiableCredential | null> {
     const ssiAccountState = await getVCAccount();
     const vc = ssiAccountState.vcs[args.id];
-    if (!vc) throw Error(`not_found: VC not found for alias=${args.id}`);
+    if (!vc) throw Error(`not_found: VC with key=${args.id} not found!`);
     return vc;
   }
 

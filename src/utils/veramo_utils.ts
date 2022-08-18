@@ -1,4 +1,4 @@
-import { VCQuerry } from "@blockchain-lab-um/ssi-snap-types";
+import { VCQuery } from "@blockchain-lab-um/ssi-snap-types";
 import {
   IIdentifier,
   MinimalImportableKey,
@@ -6,8 +6,9 @@ import {
   VerifiablePresentation,
 } from "@veramo/core";
 import { getAgent } from "../veramo/setup";
+import { getCurrentDid, getCurrentMethod } from "./did_utils";
 import { getCurrentAccount } from "./snap_utils";
-import { getConfig } from "./state_utils";
+import { getSnapConfig } from "./state_utils";
 
 /**
  * Get an existing or create a new DID for the currently selected MetaMask account.
@@ -40,10 +41,10 @@ export async function save_vc(vc: VerifiableCredential) {
  * @returns {Promise<VerifiableCredential[]>} Array of saved VCs.
  */
 export async function list_vcs(
-  querry?: VCQuerry
+  query?: VCQuery
 ): Promise<VerifiableCredential[]> {
   const agent = await getAgent();
-  const vcs = await agent.listVCS({ querry: querry });
+  const vcs = await agent.listVCS({ query: query });
   console.log("VCS", vcs);
   return vcs.vcs as VerifiableCredential[];
 }
@@ -60,10 +61,13 @@ export async function create_vp(
   challenge?: string,
   domain?: string
 ): Promise<VerifiablePresentation | null> {
+  //GET DID
   const identifier = await importMetaMaskAccount();
+  //Get Veramo agent
   const agent = await getAgent();
+  //Get VC from state
   const vc = await agent.getVC({ id: vc_id });
-  const config = await getConfig();
+  const config = await getSnapConfig();
   console.log(vc_id, domain, challenge);
   if (vc.vc != null) {
     const result =
@@ -72,7 +76,7 @@ export async function create_vp(
         method: "snap_confirm",
         params: [
           {
-            prompt: `Alert`,
+            prompt: "Alert",
             description: "Do you wish to create a VP from the following VC?",
             textAreaContent: JSON.stringify(vc.vc.credentialSubject),
           },
@@ -107,7 +111,8 @@ export async function create_vp(
 export const importMetaMaskAccount = async (): Promise<string> => {
   const agent = await getAgent();
   const account = await getCurrentAccount();
-  const did = `did:ethr:0x4:${account}`;
+  const did = await getCurrentDid();
+  const method = await getCurrentMethod();
 
   const identifiers = agent.didManagerFind();
   let exists = false;
@@ -115,13 +120,14 @@ export const importMetaMaskAccount = async (): Promise<string> => {
     if (id.did == did) exists = true;
   });
   if (exists) {
-    console.log("DID already exists");
+    console.log("DID already exists", did);
     return did;
   }
+  console.log("Importing...");
   const controllerKeyId = `metamask-${account}`;
   await agent.didManagerImport({
     did,
-    provider: "metamask",
+    provider: method,
     controllerKeyId,
     keys: [
       {
@@ -137,5 +143,6 @@ export const importMetaMaskAccount = async (): Promise<string> => {
       } as MinimalImportableKey,
     ],
   });
+  console.log("imported successfully");
   return did;
 };
