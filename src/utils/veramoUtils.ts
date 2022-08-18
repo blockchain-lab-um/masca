@@ -14,7 +14,7 @@ import { getSnapConfig } from './stateUtils';
  * Get an existing or create a new DID for the currently selected MetaMask account.
  * @returns {Promise<IIdentifier>} a DID.
  */
-export async function get_id(): Promise<IIdentifier> {
+export async function veramoGetId(): Promise<IIdentifier> {
   const agent = await getAgent();
   const identifiers = await agent.didManagerFind();
   if (identifiers.length == 1) {
@@ -31,7 +31,7 @@ export async function get_id(): Promise<IIdentifier> {
  * Saves a VC in the state object of the currently selected MetaMask account.
  * @param {VerifiableCredential} vc - The VC.
  * */
-export async function save_vc(vc: VerifiableCredential) {
+export async function veramoSaveVC(vc: VerifiableCredential) {
   const agent = await getAgent();
   await agent.saveVC({ vc });
 }
@@ -40,7 +40,7 @@ export async function save_vc(vc: VerifiableCredential) {
  * Get a list of VCs of the curently selected MetaMask account.
  * @returns {Promise<VerifiableCredential[]>} Array of saved VCs.
  */
-export async function list_vcs(
+export async function veramoListVCs(
   query?: VCQuery
 ): Promise<VerifiableCredential[]> {
   const agent = await getAgent();
@@ -56,13 +56,13 @@ export async function list_vcs(
  * @param {string} challenge - challenge of the VP
  * @returns {Promise<VerifiablePresentation | null>} - generated VP
  * */
-export async function create_vp(
+export async function veramoCreateVP(
   vc_id: string,
   challenge?: string,
   domain?: string
 ): Promise<VerifiablePresentation | null> {
   //GET DID
-  const identifier = await importMetaMaskAccount();
+  const identifier = await veramoImportMetaMaskAccount();
   //Get Veramo agent
   const agent = await getAgent();
   //Get VC from state
@@ -108,7 +108,7 @@ export async function create_vp(
   return null;
 }
 
-export const importMetaMaskAccount = async (): Promise<string> => {
+export const veramoImportMetaMaskAccount = async (): Promise<string> => {
   const agent = await getAgent();
   const account = await getCurrentAccount();
   const did = await getCurrentDid();

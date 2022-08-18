@@ -1,8 +1,8 @@
 import {
   getSnapConfig,
   updateSnapConfig,
-  getVCAccount,
-  updateVCAccount,
+  getAccountState,
+  updateAccountState,
 } from './stateUtils';
 import { publicKeyConvert } from 'secp256k1';
 import * as ethers from 'ethers';
@@ -95,7 +95,7 @@ export async function getFriendlyDapps(): Promise<Array<string>> {
  * @returns {Promise<string>} - returns public key for current account
  */
 export async function getPublicKey(): Promise<string> {
-  const vcAccount = await getVCAccount();
+  const vcAccount = await getAccountState();
   console.log(vcAccount);
   const account = await getCurrentAccount();
   let signedMsg;
@@ -118,7 +118,7 @@ export async function getPublicKey(): Promise<string> {
     console.log(pubKey);
 
     vcAccount.publicKey = pubKey;
-    await updateVCAccount(vcAccount);
+    await updateAccountState(vcAccount);
 
     return pubKey;
   } else return vcAccount.publicKey;

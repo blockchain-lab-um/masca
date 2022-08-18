@@ -1,5 +1,5 @@
 import { VerifiableCredential } from '@veramo/core';
-import { save_vc } from '../utils/veramoUtils';
+import { veramoSaveVC } from '../utils/veramoUtils';
 
 export async function saveVC(vc?: VerifiableCredential) {
   if (vc) {
@@ -14,7 +14,7 @@ export async function saveVC(vc?: VerifiableCredential) {
       ],
     });
     if (result) {
-      await save_vc(vc);
+      await veramoSaveVC(vc);
       return { data: true };
     } else {
       return { data: false, error: 'Request declined' };

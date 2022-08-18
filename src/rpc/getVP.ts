@@ -1,4 +1,4 @@
-import { create_vp } from '../utils/veramoUtils';
+import { veramoCreateVP } from '../utils/veramoUtils';
 import { VerifiablePresentation } from '@veramo/core';
 
 export async function getVP(
@@ -7,6 +7,6 @@ export async function getVP(
   challenge?: string
 ): Promise<VerifiablePresentation | null> {
   if (vc_id === '') throw new Error('vc_id is empty');
-  const vp = await create_vp(vc_id, challenge, domain);
+  const vp = await veramoCreateVP(vc_id, challenge, domain);
   return vp;
 }
