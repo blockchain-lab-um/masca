@@ -3,7 +3,7 @@ module.exports = {
   extension: "ts",
   parallel: false,
   recursive: true,
-  require: "ts-node/register",
+  require: ["ts-node/register", "tests/hook.ts"],
   reporter: "spec",
-  spec: "tests/*.spec.ts",
+  spec: "tests",
 };
