@@ -4,9 +4,9 @@ import {
   SSIAccountState,
   SSISnapConfig,
   SSIAccountConfig,
-} from "../interfaces";
-import { getCurrentAccount } from "./snap_utils";
-import { defaultConfig, emptyVCAccount } from "./config";
+} from '../interfaces';
+import { getCurrentAccount } from './snapUtils';
+import { defaultConfig, emptyVCAccount } from './config';
 
 /**
  * Internal function for updating SSISnapState object in the MetaMask state
@@ -22,20 +22,20 @@ import { defaultConfig, emptyVCAccount } from "./config";
 
 async function updateVCState(snapState: SSISnapState) {
   let state = (await wallet.request({
-    method: "snap_manageState",
-    params: ["get"],
+    method: 'snap_manageState',
+    params: ['get'],
   })) as State | null;
   if (state != null) {
     state.ssiSnapState = snapState;
     await wallet.request({
-      method: "snap_manageState",
-      params: ["update", state],
+      method: 'snap_manageState',
+      params: ['update', state],
     });
   } else {
     state = { ssiSnapState: snapState };
     await wallet.request({
-      method: "snap_manageState",
-      params: ["update", state],
+      method: 'snap_manageState',
+      params: ['update', state],
     });
   }
 }
@@ -52,11 +52,11 @@ async function updateVCState(snapState: SSISnapState) {
  **/
 async function getVCState(): Promise<SSISnapState> {
   const state = (await wallet.request({
-    method: "snap_manageState",
-    params: ["get"],
+    method: 'snap_manageState',
+    params: ['get'],
   })) as State | null;
   if (state != null) {
-    if ("ssiSnapState" in state) {
+    if ('ssiSnapState' in state) {
       return state.ssiSnapState;
     } else return {} as SSISnapState;
   } else return {} as SSISnapState;
@@ -89,7 +89,7 @@ export async function getVCAccount(): Promise<SSIAccountState> {
  */
 export async function getSnapConfig(): Promise<SSISnapConfig> {
   const ssiSnapState = await getVCState();
-  if ("snapConfig" in ssiSnapState) {
+  if ('snapConfig' in ssiSnapState) {
     return ssiSnapState.snapConfig;
   } else {
     await updateSnapConfig(defaultConfig);
@@ -110,7 +110,7 @@ export async function updateSnapConfig(config: SSISnapConfig) {
 
 export async function getAccountConfig(): Promise<SSIAccountConfig> {
   const ssiAccountState = await getVCAccount();
-  if ("accountConfig" in ssiAccountState) {
+  if ('accountConfig' in ssiAccountState) {
     return ssiAccountState.accountConfig;
   } else {
     await updateAccountConfig(emptyVCAccount.accountConfig);

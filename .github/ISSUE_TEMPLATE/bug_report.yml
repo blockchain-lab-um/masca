@@ -1,7 +1,7 @@
-name: "Bug Report"
-description: "Create a report to help us improve"
-title: "[bug]: "
-labels: ["bug", "unconfirmed"]
+name: 'Bug Report'
+description: 'Create a report to help us improve'
+title: '[bug]: '
+labels: ['bug', 'unconfirmed']
 assignees:
   - BeroBurny
 body:

@@ -1,8 +1,8 @@
-import { availableMethods } from "../did/did-methods";
-import { getDidKeyIdentifier } from "../did/key/key-did-utils";
-import { availableDataStores } from "../veramo/plugins/availableDataStores";
-import { getCurrentAccount, getCurrentNetwork } from "./snap_utils";
-import { getAccountConfig, updateAccountConfig } from "./state_utils";
+import { availableMethods } from '../did/didMethods';
+import { getDidKeyIdentifier } from '../did/key/keyDidUtils';
+import { availableDataStores } from '../veramo/plugins/availableDataStores';
+import { getCurrentAccount, getCurrentNetwork } from './snapUtils';
+import { getAccountConfig, updateAccountConfig } from './stateUtils';
 
 export async function getCurrentDidStore(): Promise<
   typeof availableDataStores[number]
@@ -22,17 +22,17 @@ export async function changeCurrentDidStore(
 
 export async function getCurrentDid(): Promise<string> {
   const method = await getCurrentMethod();
-  console.log("Current method", method);
-  if (method === "did:ethr") {
+  console.log('Current method', method);
+  if (method === 'did:ethr') {
     const chain_id = await getCurrentNetwork();
     const address = await getCurrentAccount();
-    return "did:ethr:" + chain_id + ":" + address;
-  } else if (method === "did:key") {
+    return 'did:ethr:' + chain_id + ':' + address;
+  } else if (method === 'did:key') {
     const didUrl = await getDidKeyIdentifier();
-    return "did:key:" + didUrl;
+    return 'did:key:' + didUrl;
   }
   //else if (method === ...) {
-  else return "";
+  else return '';
 }
 
 export async function getCurrentMethod(): Promise<

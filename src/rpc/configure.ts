@@ -2,11 +2,8 @@
 import {
   updateInfuraToken,
   togglePopups as updatePopups,
-  addFriendlyDapp,
-  getFriendlyDapps,
-  removeFriendlyDapp,
-} from "../utils/snap_utils";
-import { getSnapConfig } from "../utils/state_utils";
+} from '../utils/snapUtils';
+import { getSnapConfig } from '../utils/stateUtils';
 
 export async function togglePopups(): Promise<boolean> {
   const config = await getSnapConfig();
@@ -14,16 +11,16 @@ export async function togglePopups(): Promise<boolean> {
   const result =
     config.dApp.disablePopups ||
     (await wallet.request({
-      method: "snap_confirm",
+      method: 'snap_confirm',
       params: [
         {
-          prompt: "Toggle Popups",
-          description: "Would you like to toggle the popups to following?",
+          prompt: 'Toggle Popups',
+          description: 'Would you like to toggle the popups to following?',
           textAreaContent:
-            "Current setting: " +
+            'Current setting: ' +
             config.dApp.disablePopups +
-            "\n" +
-            "New setting: " +
+            '\n' +
+            'New setting: ' +
             !config.dApp.disablePopups,
         },
       ],
@@ -36,20 +33,20 @@ export async function togglePopups(): Promise<boolean> {
 }
 
 export async function changeInfuraToken(token?: string): Promise<boolean> {
-  if (token != null && token != "") {
+  if (token != null && token != '') {
     const config = await getSnapConfig();
     const result = await wallet.request({
-      method: "snap_confirm",
+      method: 'snap_confirm',
       params: [
         {
-          prompt: "Change Infura Token",
+          prompt: 'Change Infura Token',
           description:
-            "Would you like to change the infura token to following?",
+            'Would you like to change the infura token to following?',
           textAreaContent:
-            "Current token: " +
+            'Current token: ' +
             config.snap.infuraToken +
-            "\n" +
-            "New token: " +
+            '\n' +
+            'New token: ' +
             token,
         },
       ],

@@ -1,17 +1,11 @@
-import { availableMethods } from "./../did/did-methods";
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import {
   getSnapConfig,
   updateSnapConfig,
   getVCAccount,
   updateVCAccount,
-  getAccountConfig,
-  updateAccountConfig,
-} from "./state_utils";
-import { publicKeyConvert } from "secp256k1";
-import * as ethers from "ethers";
-import { getDidKeyIdentifier } from "../did/key/key-did-utils";
-import { availableDataStores } from "../veramo/plugins/availableDataStores";
+} from './stateUtils';
+import { publicKeyConvert } from 'secp256k1';
+import * as ethers from 'ethers';
 
 /**
  * Function that returns address of the currently selected MetaMask account.
@@ -26,20 +20,20 @@ import { availableDataStores } from "../veramo/plugins/availableDataStores";
 export async function getCurrentAccount(): Promise<string> {
   try {
     const accounts = (await wallet.request({
-      method: "eth_requestAccounts",
+      method: 'eth_requestAccounts',
     })) as Array<string>;
-    console.log("MetaMask accounts", accounts);
+    console.log('MetaMask accounts', accounts);
     const account = accounts[0];
     return account;
   } catch (e) {
     console.log(e);
-    return "0x0";
+    return '0x0';
   }
 }
 
 export async function getCurrentNetwork(): Promise<string> {
   const chainId = (await wallet.request({
-    method: "eth_chainId",
+    method: 'eth_chainId',
   })) as string;
   return chainId;
 }
@@ -105,22 +99,22 @@ export async function getPublicKey(): Promise<string> {
   console.log(vcAccount);
   const account = await getCurrentAccount();
   let signedMsg;
-  if (vcAccount.publicKey === "") {
+  if (vcAccount.publicKey === '') {
     signedMsg = await wallet.request({
-      method: "personal_sign",
-      params: ["getPublicKey", account],
+      method: 'personal_sign',
+      params: ['getPublicKey', account],
     });
-    if (!signedMsg || typeof signedMsg != "string")
-      throw new Error("User denied request");
+    if (!signedMsg || typeof signedMsg != 'string')
+      throw new Error('User denied request');
 
-    const message = "getPublicKey";
+    const message = 'getPublicKey';
     const msgHash = ethers.utils.hashMessage(message);
     const msgHashBytes = ethers.utils.arrayify(msgHash);
 
     let pubKey = ethers.utils.recoverPublicKey(msgHashBytes, signedMsg);
     console.log(pubKey);
 
-    pubKey = pubKey.split("0x")[1];
+    pubKey = pubKey.split('0x')[1];
     console.log(pubKey);
 
     vcAccount.publicKey = pubKey;
@@ -138,10 +132,14 @@ export async function getCompressedPublicKey(): Promise<string> {
   return compressedKey;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function _uint8ArrayToHex(arr: any) {
-  return Buffer.from(arr).toString("hex");
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  return Buffer.from(arr).toString('hex');
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function _hexToUnit8Array(str: any) {
-  return new Uint8Array(Buffer.from(str, "hex"));
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  return new Uint8Array(Buffer.from(str, 'hex'));
 }

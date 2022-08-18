@@ -54,7 +54,7 @@
   "dependencies": {
     "@babel/runtime": "^7.17.2",
     "@blockchain-lab-um/ssi-snap-types": "^1.0.7",
-    "@blockchain-lab-um/veramo-vc-manager": "^1.0.5",
+    "@blockchain-lab-um/veramo-vc-manager": "^1.0.6",
     "@veramo/core": "^3.1.6-next.146",
     "@veramo/credential-eip712": "^3.1.6-next.146",
     "@veramo/credential-w3c": "3.1.6-next.146",

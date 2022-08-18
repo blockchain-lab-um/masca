@@ -1,13 +1,14 @@
-import { availableDataStores } from "./veramo/plugins/availableDataStores";
-import { IIdentifier, IKey, VerifiableCredential } from "@veramo/core";
-import { ManagedPrivateKey } from "@veramo/key-manager";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { availableDataStores } from './veramo/plugins/availableDataStores';
+import { IIdentifier, IKey, VerifiableCredential } from '@veramo/core';
+import { ManagedPrivateKey } from '@veramo/key-manager';
 import {
   SnapDIDStore,
   SnapKeyStore,
   SnapVCStore,
   SnapPrivateKeyStore,
-} from "./veramo/plugins/snapDataStore/snapDataStore";
-import { availableMethods } from "./did/did-methods";
+} from './veramo/plugins/snapDataStore/snapDataStore';
+import { availableMethods } from './did/didMethods';
 
 /**
  * MetaMask State
@@ -16,6 +17,7 @@ export interface State {
   /**
    * Other objects created by other Snaps
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [snapStates: string]: any;
   /**
    * SSI Snap Object

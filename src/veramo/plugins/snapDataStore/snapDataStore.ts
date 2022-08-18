@@ -1,18 +1,18 @@
-import { IKey, RequireOnly, IIdentifier } from "@veramo/core";
-import { AbstractKeyStore } from "@veramo/key-manager";
+import { IKey, RequireOnly, IIdentifier } from '@veramo/core';
+import { AbstractKeyStore } from '@veramo/key-manager';
 import {
   AbstractPrivateKeyStore,
   ManagedPrivateKey,
-} from "@veramo/key-manager";
-import { AbstractDIDStore } from "@veramo/did-manager";
-import { v4 as uuidv4 } from "uuid";
-import { AbstractVCStore } from "@blockchain-lab-um/veramo-vc-manager/build/vc-store/abstract-vc-store";
-import { VerifiableCredential } from "@veramo/core";
-import { getVCAccount, updateVCAccount } from "../../../utils/state_utils";
+} from '@veramo/key-manager';
+import { AbstractDIDStore } from '@veramo/did-manager';
+import { v4 as uuidv4 } from 'uuid';
+import { AbstractVCStore } from '@blockchain-lab-um/veramo-vc-manager/build/vc-store/abstract-vc-store';
+import { VerifiableCredential } from '@veramo/core';
+import { getVCAccount, updateVCAccount } from '../../../utils/stateUtils';
 
 export type ImportablePrivateKey = RequireOnly<
   ManagedPrivateKey,
-  "privateKeyHex" | "type"
+  'privateKeyHex' | 'type'
 >;
 
 /**
@@ -27,7 +27,7 @@ export class SnapKeyStore extends AbstractKeyStore {
   async get({ kid }: { kid: string }): Promise<IKey> {
     const ssiAccountState = await getVCAccount();
     const key = ssiAccountState.snapKeyStore[kid];
-    if (!key) throw Error("Key not found");
+    if (!key) throw Error('Key not found');
     return key;
   }
 
@@ -49,9 +49,10 @@ export class SnapKeyStore extends AbstractKeyStore {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/ban-types
-  async list(args: {}): Promise<Exclude<IKey, "privateKeyHex">[]> {
+  async list(args: {}): Promise<Exclude<IKey, 'privateKeyHex'>[]> {
     const ssiAccountState = await getVCAccount();
     const safeKeys = Object.values(ssiAccountState.snapKeyStore).map((key) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { privateKeyHex, ...safeKey } = key;
       return safeKey;
     });
@@ -89,7 +90,7 @@ export class SnapPrivateKeyStore extends AbstractPrivateKeyStore {
     const existingEntry = ssiAccountState.snapPrivateKeyStore[alias];
     if (existingEntry && existingEntry.privateKeyHex !== args.privateKeyHex) {
       throw new Error(
-        "key_already_exists: key exists with different data, please use a different alias"
+        'key_already_exists: key exists with different data, please use a different alias'
       );
     }
     ssiAccountState.snapPrivateKeyStore[alias] = { ...args, alias };
@@ -134,7 +135,7 @@ export class SnapDIDStore extends AbstractDIDStore {
         }
       }
     } else {
-      throw Error("invalid_argument: Get requires did or (alias and provider)");
+      throw Error('invalid_argument: Get requires did or (alias and provider)');
     }
     throw Error(
       `not_found: IIdentifier not found with alias=${alias} provider=${provider}`

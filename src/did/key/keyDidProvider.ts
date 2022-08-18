@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/require-await */
 import {
   IIdentifier,
@@ -5,10 +7,10 @@ import {
   IService,
   IAgentContext,
   IKeyManager,
-} from "@veramo/core";
-import { AbstractIdentifierProvider } from "@veramo/did-manager";
-import Multibase from "multibase";
-import Multicodec from "multicodec";
+} from '@veramo/core';
+import { AbstractIdentifierProvider } from '@veramo/did-manager';
+import Multibase from 'multibase';
+import Multicodec from 'multicodec';
 
 type IContext = IAgentContext<IKeyManager>;
 
@@ -26,26 +28,27 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
   }
 
   async createIdentifier(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     { kms, options }: { kms?: string; options?: any },
     context: IContext
-  ): Promise<Omit<IIdentifier, "provider">> {
+  ): Promise<Omit<IIdentifier, 'provider'>> {
     const key = await context.agent.keyManagerCreate({
       kms: kms || this.defaultKms,
-      type: "Ed25519",
+      type: 'Ed25519',
     });
 
     const methodSpecificId = Buffer.from(
       Multibase.encode(
-        "base58btc",
+        'base58btc',
         Multicodec.addPrefix(
-          "ed25519-pub",
-          Buffer.from(key.publicKeyHex, "hex")
+          'ed25519-pub',
+          Buffer.from(key.publicKeyHex, 'hex')
         )
       )
     ).toString();
 
-    const identifier: Omit<IIdentifier, "provider"> = {
-      did: "did:key:" + methodSpecificId,
+    const identifier: Omit<IIdentifier, 'provider'> = {
+      did: 'did:key:' + methodSpecificId,
       controllerKeyId: key.kid,
       keys: [key],
       services: [],
@@ -62,7 +65,7 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     },
     context: IAgentContext<IKeyManager>
   ): Promise<IIdentifier> {
-    throw new Error("KeyDIDProvider updateIdentifier not supported yet.");
+    throw new Error('KeyDIDProvider updateIdentifier not supported yet.');
   }
 
   async deleteIdentifier(
@@ -83,7 +86,7 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     }: { identifier: IIdentifier; key: IKey; options?: any },
     context: IContext
   ): Promise<any> {
-    throw Error("KeyDIDProvider addKey not supported");
+    throw Error('KeyDIDProvider addKey not supported');
   }
 
   async addService(
@@ -94,20 +97,20 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     }: { identifier: IIdentifier; service: IService; options?: any },
     context: IContext
   ): Promise<any> {
-    throw Error("KeyDIDProvider addService not supported");
+    throw Error('KeyDIDProvider addService not supported');
   }
 
   async removeKey(
     args: { identifier: IIdentifier; kid: string; options?: any },
     context: IContext
   ): Promise<any> {
-    throw Error("KeyDIDProvider removeKey not supported");
+    throw Error('KeyDIDProvider removeKey not supported');
   }
 
   async removeService(
     args: { identifier: IIdentifier; id: string; options?: any },
     context: IContext
   ): Promise<any> {
-    throw Error("KeyDIDProvider removeService not supported");
+    throw Error('KeyDIDProvider removeService not supported');
   }
 }

@@ -949,13 +949,6 @@
   resolved "https://registry.yarnpkg.com/@bitauth/libauth/-/libauth-1.19.1.tgz#713751bbc09815b667f8fe00a1cc5b0f3bf45dd1"
   integrity sha512-R524tD5VwOt3QRHr7N518nqTVR/HKgfWL4LypekcGuNQN8R4PWScvuRcRzrY39A28kLztMv+TJdiKuMNbkU1ug==
 
-"@blockchain-lab-um/ssi-snap-types@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@blockchain-lab-um/ssi-snap-types/-/ssi-snap-types-1.0.2.tgz#5b381bbe64af40725da5a3e4c1e4366f7cc0e23e"
-  integrity sha512-VKvQxehOXR5QvzSYCxM3fPg8+YwrBCrXNqIS5sWp0+NgE5bVZNssDpHVOFLbuFroWalf3oTGt6/uytt1K38umA==
-  dependencies:
-    "@veramo/core" "^3.1.6-next.146"
-
 "@blockchain-lab-um/ssi-snap-types@^1.0.7":
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/@blockchain-lab-um/ssi-snap-types/-/ssi-snap-types-1.0.7.tgz#e89b64d21e829aff4a7ec8103bef08ac991fc6fa"
@@ -963,12 +956,12 @@
   dependencies:
     "@veramo/core" "^3.1.6-next.146"
 
-"@blockchain-lab-um/veramo-vc-manager@^1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@blockchain-lab-um/veramo-vc-manager/-/veramo-vc-manager-1.0.5.tgz#d5e592eb6a929f20ceb0222cc9359553fce7276b"
-  integrity sha512-CirL0VjqLRU84R7CZGoYaUtuVt5FuW6r85B9qu0I/3mtQfp/sG52mQNChtnwNmECjH4tN2yfPUK1PikUKDXb6Q==
+"@blockchain-lab-um/veramo-vc-manager@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@blockchain-lab-um/veramo-vc-manager/-/veramo-vc-manager-1.0.6.tgz#de937854121c505b4466de7d60f760884993a138"
+  integrity sha512-wWjYo4HyuXATuxXKdqQN+eFmcDBWEKDWal+cobQjViBOKzUQw5DAeTUu0l6Z6lKBriDGD+hFMUKk8XtkVtjWcw==
   dependencies:
-    "@blockchain-lab-um/ssi-snap-types" "^1.0.2"
+    "@blockchain-lab-um/ssi-snap-types" "^1.0.7"
     "@veramo/core" "^3.1.6-next.137"
     uuid "^8.3.2"
 
@@ -5006,19 +4999,6 @@ ethr-did@^2.2.2, ethr-did@^2.2.3:
     did-jwt "^6.3.0"
     did-resolver "^4.0.0"
     ethr-did-resolver "^6.1.0"
-
-event-stream@4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/event-stream/-/event-stream-4.0.1.tgz#4092808ec995d0dd75ea4580c1df6a74db2cde65"
-  integrity sha512-qACXdu/9VHPBzcyhdOWR5/IahhGMf0roTeZJfzz077GwylcDd90yOHLouhmv7GJ5XzPi6ekaQWd8AvPP2nOvpA==
-  dependencies:
-    duplexer "^0.1.1"
-    from "^0.1.7"
-    map-stream "0.0.7"
-    pause-stream "^0.0.11"
-    split "^1.0.1"
-    stream-combiner "^0.2.2"
-    through "^2.3.8"
 
 event-stream@4.0.1:
   version "4.0.1"
