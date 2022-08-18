@@ -62,7 +62,7 @@
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
   <script>
 
-    
+
     const snapId = `local:${window.location.href}`;
     console.log(snapId)
 
@@ -101,17 +101,17 @@
     const initButton = document.querySelector('button.init')
 
     const getVCBtn = document.querySelector('button.getVCs')
-    
+
     const saveBtn = document.querySelector('button.saveVC')
-    
+
     const getVPBtn = document.querySelector('button.getVP')
 
     const switchMethodBtn = document.querySelector('button.switchMethod')
-    
+
     const getDIDBtn = document.querySelector('button.getCurrentDid')
     const getMethodBtn = document.querySelector('button.getCurrentMethod')
     const getAvailableMethodsBtn = document.querySelector('button.getAvailableMethods')
-    
+
     const popups = document.querySelector('button.togglePopups')
     const infura = document.querySelector('button.changeInfuraToken')
     $(document).ready(function () {
@@ -121,11 +121,11 @@
     connectButton.addEventListener('click', connect)
     sendButton.addEventListener('click', send)
     initButton.addEventListener('click', init)
-    
+
     getVCBtn.addEventListener('click', getVCs)
-    
+
     saveBtn.addEventListener('click', saveVC)
-    
+
     getVPBtn.addEventListener('click', getVp)
 
     switchMethodBtn.addEventListener('click', switchMethod)
@@ -220,21 +220,6 @@
           }]
         })
         console.log("switch: ",response)
-      } catch (err) {
-        console.error(err)
-        alert('Problem happened: ' + err.message || err)
-      }
-    }
-
-    // here we call the snap's "hello" method
-    async function send () {
-      try {
-        const response = await ethereum.request({
-          method: 'wallet_invokeSnap',
-          params: [snapId, {
-            method: 'helloWorld'
-          }]
-        })
       } catch (err) {
         console.error(err)
         alert('Problem happened: ' + err.message || err)
