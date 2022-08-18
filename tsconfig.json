@@ -13,5 +13,5 @@
   },
   "exclude": ["**/__snapshots__/**"],
   "files": ["./node_modules/@metamask/snap-types/global.d.ts"],
-  "include": ["src/**/*.ts", "tests/**/*.ts"]
+  "include": ["src/**/*.ts"]
 }
