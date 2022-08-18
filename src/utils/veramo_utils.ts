@@ -76,7 +76,7 @@ export async function create_vp(
         method: "snap_confirm",
         params: [
           {
-            prompt: `Alert`,
+            prompt: "Alert",
             description: "Do you wish to create a VP from the following VC?",
             textAreaContent: JSON.stringify(vc.vc.credentialSubject),
           },

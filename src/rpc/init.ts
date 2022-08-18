@@ -9,7 +9,7 @@ export async function init(): Promise<void> {
       method: "snap_confirm",
       params: [
         {
-          prompt: `Terms and Conditions`,
+          prompt: "Terms and Conditions",
           description: "Risks about using SSI Snap",
           textAreaContent:
             "SSI Snap does not access your private keys. You are in control of what VCs and VPs you sign and what you use your DIDs for. To learn more about SSI Snap visit the documentation: https://blockchain-lab-um.github.io/ssi-snap-docs/",
