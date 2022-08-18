@@ -1,18 +1,18 @@
-import { getPublicKey } from "../utils/snap_utils";
-import { getSnapConfig, updateSnapConfig } from "../utils/state_utils";
+import { getPublicKey } from '../utils/snapUtils';
+import { getSnapConfig, updateSnapConfig } from '../utils/stateUtils';
 
 export async function init(): Promise<void> {
   const globalConifg = await getSnapConfig();
   // Accept terms and conditions
   if (!globalConifg.snap.acceptedTerms) {
     const result = await wallet.request({
-      method: "snap_confirm",
+      method: 'snap_confirm',
       params: [
         {
-          prompt: "Terms and Conditions",
-          description: "Risks about using SSI Snap",
+          prompt: 'Terms and Conditions',
+          description: 'Risks about using SSI Snap',
           textAreaContent:
-            "SSI Snap does not access your private keys. You are in control of what VCs and VPs you sign and what you use your DIDs for. To learn more about SSI Snap visit the documentation: https://blockchain-lab-um.github.io/ssi-snap-docs/",
+            'SSI Snap does not access your private keys. You are in control of what VCs and VPs you sign and what you use your DIDs for. To learn more about SSI Snap visit the documentation: https://blockchain-lab-um.github.io/ssi-snap-docs/',
         },
       ],
     });
@@ -24,5 +24,5 @@ export async function init(): Promise<void> {
     }
   } else if (globalConifg.snap.acceptedTerms) {
     await getPublicKey();
-  } else throw new Error("User did not accept terms and conditions");
+  } else throw new Error('User did not accept terms and conditions');
 }
