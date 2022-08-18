@@ -1,11 +1,14 @@
-import { IIdentifier, IKey, VerifiableCredential } from "@veramo/core";
-import { ManagedPrivateKey } from "@veramo/key-manager";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { availableDataStores } from './veramo/plugins/availableDataStores';
+import { IIdentifier, IKey, VerifiableCredential } from '@veramo/core';
+import { ManagedPrivateKey } from '@veramo/key-manager';
 import {
   SnapDIDStore,
   SnapKeyStore,
   SnapVCStore,
   SnapPrivateKeyStore,
-} from "./veramo/plugins/snapDataStore/snapDataStore";
+} from './veramo/plugins/snapDataStore/snapDataStore';
+import { availableMethods } from './did/didMethods';
 
 /**
  * MetaMask State
@@ -14,6 +17,7 @@ export interface State {
   /**
    * Other objects created by other Snaps
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [snapStates: string]: any;
   /**
    * SSI Snap Object
@@ -35,7 +39,7 @@ export type SSISnapState = SSISnapStateRaw & {
   /**
    * Configuration for SSISnap
    */
-  config: SSISnapConfig;
+  snapConfig: SSISnapConfig;
 };
 
 export type ExtendedVerifiableCredential = VerifiableCredential & {
@@ -46,18 +50,12 @@ export type ExtendedVerifiableCredential = VerifiableCredential & {
 };
 
 export interface SSISnapConfig {
-  veramo: {
-    /**
-     * Type of store, 'snap' by default
-     */
-    store: string;
+  snap: {
     /**
      * Infura token, used by Veramo agent.
      */
     infuraToken: string;
-    /**
-     * dApp settings
-     */
+    acceptedTerms: boolean;
   };
   dApp: {
     disablePopups: boolean;
@@ -85,4 +83,14 @@ export interface SSIAccountState {
    * Store for {@link SnapVCStore}
    */
   vcs: Record<string, VerifiableCredential>;
+
+  publicKey: string;
+  accountConfig: SSIAccountConfig;
+}
+
+export interface SSIAccountConfig {
+  ssi: {
+    didMethod: typeof availableMethods[number];
+    didStore: typeof availableDataStores[number];
+  };
 }
