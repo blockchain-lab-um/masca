@@ -8,7 +8,19 @@ export async function switchMethod(didMethod: string): Promise<boolean> {
   }
   if (didMethod != method) {
     if (method !== didMethod) {
-      await changeCurrentMethod(didMethod as typeof availableMethods[number]);
+      const result = await wallet.request({
+        method: "snap_confirm",
+        params: [
+          {
+            prompt: "Change DID method",
+            description: "Would you like to change did method to following?",
+            textAreaContent: didMethod,
+          },
+        ],
+      });
+      if (result) {
+        await changeCurrentMethod(didMethod as typeof availableMethods[number]);
+      }
       return true;
     }
   }
