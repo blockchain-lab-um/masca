@@ -104,7 +104,7 @@ export async function getPublicKey(): Promise<string> {
       method: 'personal_sign',
       params: ['getPublicKey', account],
     });
-    if (!signedMsg || typeof signedMsg != 'string')
+    if (!signedMsg || typeof signedMsg !== 'string')
       throw new Error('User denied request');
 
     const message = 'getPublicKey';

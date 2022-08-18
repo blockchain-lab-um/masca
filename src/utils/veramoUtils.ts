@@ -69,7 +69,7 @@ export async function veramoCreateVP(
   const vc = await agent.getVC({ id: vc_id });
   const config = await getSnapConfig();
   console.log(vc_id, domain, challenge);
-  if (vc.vc != null) {
+  if (vc.vc !== null) {
     const result =
       config.dApp.disablePopups ||
       (await wallet.request({
@@ -117,7 +117,7 @@ export const veramoImportMetaMaskAccount = async (): Promise<string> => {
   const identifiers = agent.didManagerFind();
   let exists = false;
   (await identifiers).map((id: IIdentifier) => {
-    if (id.did == did) exists = true;
+    if (id.did === did) exists = true;
   });
   if (exists) {
     console.log('DID already exists', did);

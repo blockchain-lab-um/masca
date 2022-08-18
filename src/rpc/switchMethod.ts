@@ -6,7 +6,7 @@ export async function switchMethod(didMethod: string): Promise<boolean> {
   if (!availableMethods.find((k) => k === didMethod)) {
     throw new Error('did method not supported');
   }
-  if (didMethod != method) {
+  if (didMethod !== method) {
     if (method !== didMethod) {
       const result = await wallet.request({
         method: 'snap_confirm',

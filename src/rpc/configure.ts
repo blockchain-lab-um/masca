@@ -33,7 +33,7 @@ export async function togglePopups(): Promise<boolean> {
 }
 
 export async function changeInfuraToken(token?: string): Promise<boolean> {
-  if (token != null && token != '') {
+  if (token != null && token !== '') {
     const config = await getSnapConfig();
     const result = await wallet.request({
       method: 'snap_confirm',
