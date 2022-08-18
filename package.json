@@ -40,7 +40,7 @@
     "build:snap:postprocess": "node ./post-process.js && mm-snap manifest --fix",
     "build:tsc": "tsc --build --pretty",
     "clean": "rimraf dist build",
-    "prebuild": "yarn clean",
+    "prebuild": "yarn run clean",
     "serve": "mm-snap serve",
     "start": "mm-snap --version && yarn build && yarn serve",
     "prettier": "prettier --write .",
