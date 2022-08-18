@@ -75,7 +75,7 @@ export async function addFriendlyDapp(dapp: string) {
 export async function removeFriendlyDapp(dapp: string) {
   const config = await getSnapConfig();
   config.dApp.friendlyDapps = config.dApp.friendlyDapps.filter(
-    (d) => d != dapp
+    (d) => d !== dapp
   );
   await updateSnapConfig(config);
   return;

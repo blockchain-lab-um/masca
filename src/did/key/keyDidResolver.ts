@@ -53,7 +53,7 @@ const resolveDidKey: DIDResolver = async (
 ): Promise<DIDResolutionResult> => {
   try {
     const startsWith = _parsed.did.substring(0, 12);
-    if (startsWithMap[startsWith] != undefined) {
+    if (startsWithMap[startsWith] !== undefined) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const didResolution = await startsWithMap[startsWith](didUrl);
       return {
