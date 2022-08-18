@@ -1,4 +1,4 @@
-import { VCQuerry } from "@blockchain-lab-um/ssi-snap-types";
+import { VCQuery } from "@blockchain-lab-um/ssi-snap-types";
 import {
   IIdentifier,
   MinimalImportableKey,
@@ -41,10 +41,10 @@ export async function save_vc(vc: VerifiableCredential) {
  * @returns {Promise<VerifiableCredential[]>} Array of saved VCs.
  */
 export async function list_vcs(
-  querry?: VCQuerry
+  query?: VCQuery
 ): Promise<VerifiableCredential[]> {
   const agent = await getAgent();
-  const vcs = await agent.listVCS({ querry: querry });
+  const vcs = await agent.listVCS({ query: query });
   console.log("VCS", vcs);
   return vcs.vcs as VerifiableCredential[];
 }

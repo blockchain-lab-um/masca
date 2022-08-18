@@ -1,13 +1,11 @@
 import { list_vcs } from "../utils/veramo_utils";
 import { getSnapConfig } from "../utils/state_utils";
 import { VerifiableCredential } from "@veramo/core";
-import { VCQuerry } from "@blockchain-lab-um/ssi-snap-types";
+import { VCQuery } from "@blockchain-lab-um/ssi-snap-types";
 
-export async function getVCs(
-  querry?: VCQuerry
-): Promise<VerifiableCredential[]> {
-  console.log("querry", querry);
-  const vcs = await list_vcs(querry);
+export async function getVCs(query?: VCQuery): Promise<VerifiableCredential[]> {
+  console.log("query", query);
+  const vcs = await list_vcs(query);
   const config = await getSnapConfig();
   console.log("VCs: ", vcs);
 

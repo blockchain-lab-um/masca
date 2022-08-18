@@ -956,10 +956,10 @@
   dependencies:
     "@veramo/core" "^3.1.6-next.146"
 
-"@blockchain-lab-um/ssi-snap-types@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@blockchain-lab-um/ssi-snap-types/-/ssi-snap-types-1.0.3.tgz#690dc241650098f7c9b6d8428f255773c00aad12"
-  integrity sha512-Kh2alq9IqvhUhSfYAEC+4cQafI5L4/33FJ2AOAZfqXCte65xn/O6maGdBhlGlwuxYu3COH1dTfFdBhCplZnewQ==
+"@blockchain-lab-um/ssi-snap-types@^1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@blockchain-lab-um/ssi-snap-types/-/ssi-snap-types-1.0.7.tgz#e89b64d21e829aff4a7ec8103bef08ac991fc6fa"
+  integrity sha512-0cxdMWcV+LyBCm+F2zngwpqq+NMIw6JBEOUyAEieABFj1AG9glPnsYisCXbHK9R/mUWRcJYGcoA7ujSlftYfcQ==
   dependencies:
     "@veramo/core" "^3.1.6-next.146"
 

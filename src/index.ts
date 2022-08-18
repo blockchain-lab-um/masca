@@ -36,7 +36,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       return { data: "vcr" };
     case "getVCs":
       isValidGetVCsRequest(request.params);
-      return await getVCs(request.params.querry);
+      return await getVCs(request.params.query);
     case "saveVC":
       isValidSaveVCRequest(request.params);
       return await saveVC(request.params.verifiableCredential);
