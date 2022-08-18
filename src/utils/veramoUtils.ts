@@ -9,13 +9,14 @@ import {
 import { getCurrentDid, getCurrentMethod } from './didUtils';
 import { getCurrentAccount } from './snapUtils';
 import { getSnapConfig } from './stateUtils';
+import { SnapProvider } from '@metamask/snap-types';
 
 /**
  * Get an existing or create a new DID for the currently selected MetaMask account.
  * @returns {Promise<IIdentifier>} a DID.
  */
-export async function veramoGetId(): Promise<IIdentifier> {
-  const agent = await getAgent();
+export async function veramoGetId(wallet: SnapProvider): Promise<IIdentifier> {
+  const agent = await getAgent(wallet);
   const identifiers = await agent.didManagerFind();
   if (identifiers.length == 1) {
     console.log('DID Already exists for the selected MetaMask Account');
@@ -31,8 +32,11 @@ export async function veramoGetId(): Promise<IIdentifier> {
  * Saves a VC in the state object of the currently selected MetaMask account.
  * @param {VerifiableCredential} vc - The VC.
  * */
-export async function veramoSaveVC(vc: VerifiableCredential) {
-  const agent = await getAgent();
+export async function veramoSaveVC(
+  wallet: SnapProvider,
+  vc: VerifiableCredential
+) {
+  const agent = await getAgent(wallet);
   await agent.saveVC({ vc });
 }
 
@@ -41,9 +45,11 @@ export async function veramoSaveVC(vc: VerifiableCredential) {
  * @returns {Promise<VerifiableCredential[]>} Array of saved VCs.
  */
 export async function veramoListVCs(
+  wallet: SnapProvider,
   query?: VCQuery
 ): Promise<VerifiableCredential[]> {
-  const agent = await getAgent();
+  const agent = await getAgent(wallet);
+  // TODO: Additional type check for query ?
   const vcs = await agent.listVCS({ query: query });
   console.log('VCS', vcs);
   return vcs.vcs;
@@ -51,24 +57,25 @@ export async function veramoListVCs(
 
 /**
  * Create a VP from a specific VC (if it exists), that is stored in MetaMask state under the currently selected MetaMask account.
- * @param {string} vc_id - index of the VC
+ * @param {string} vcId - index of the VC
  * @param {string} domain - domain of the VP
  * @param {string} challenge - challenge of the VP
  * @returns {Promise<VerifiablePresentation | null>} - generated VP
  * */
 export async function veramoCreateVP(
-  vc_id: string,
+  wallet: SnapProvider,
+  vcId: string,
   challenge?: string,
   domain?: string
 ): Promise<VerifiablePresentation | null> {
   //GET DID
-  const identifier = await veramoImportMetaMaskAccount();
+  const identifier = await veramoImportMetaMaskAccount(wallet);
   //Get Veramo agent
-  const agent = await getAgent();
+  const agent = await getAgent(wallet);
   //Get VC from state
-  const vc = await agent.getVC({ id: vc_id });
-  const config = await getSnapConfig();
-  console.log(vc_id, domain, challenge);
+  const vc = await agent.getVC({ id: vcId });
+  const config = await getSnapConfig(wallet);
+  console.log(vcId, domain, challenge);
   if (vc.vc !== null) {
     const result =
       config.dApp.disablePopups ||
@@ -108,11 +115,13 @@ export async function veramoCreateVP(
   return null;
 }
 
-export const veramoImportMetaMaskAccount = async (): Promise<string> => {
-  const agent = await getAgent();
-  const account = await getCurrentAccount();
-  const did = await getCurrentDid();
-  const method = await getCurrentMethod();
+export const veramoImportMetaMaskAccount = async (
+  wallet: SnapProvider
+): Promise<string> => {
+  const agent = await getAgent(wallet);
+  const account = await getCurrentAccount(wallet);
+  const did = await getCurrentDid(wallet);
+  const method = await getCurrentMethod(wallet);
 
   const identifiers = agent.didManagerFind();
   let exists = false;

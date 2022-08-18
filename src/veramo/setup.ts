@@ -50,8 +50,11 @@ const availableNetworks: Record<string, string> = {
 
 import { getSnapConfig } from '../utils/stateUtils';
 import { getCurrentNetwork } from '../utils/snapUtils';
+import { SnapProvider } from '@metamask/snap-types';
 
-export const getAgent = async (): Promise<
+export const getAgent = async (
+  wallet: SnapProvider
+): Promise<
   TAgent<
     IDIDManager &
       IKeyManager &
@@ -62,10 +65,10 @@ export const getAgent = async (): Promise<
       ICredentialIssuer
   >
 > => {
-  const snapConfig = await getSnapConfig();
+  const snapConfig = await getSnapConfig(wallet);
 
   const INFURA_PROJECT_ID = snapConfig.snap.infuraToken;
-  const CHAIN_ID = await getCurrentNetwork();
+  const CHAIN_ID = await getCurrentNetwork(wallet);
   console.log('INFURA_PROJECT_ID', INFURA_PROJECT_ID, 'CHAIN ID', CHAIN_ID);
 
   const web3Providers: Record<string, Web3Provider> = {};
@@ -101,18 +104,18 @@ export const getAgent = async (): Promise<
   >({
     plugins: [
       new KeyManager({
-        store: new SnapKeyStore(),
+        store: new SnapKeyStore(wallet),
         kms: {
           web3: new Web3KeyManagementSystem(web3Providers),
-          snap: new KeyManagementSystem(new SnapPrivateKeyStore()),
+          snap: new KeyManagementSystem(new SnapPrivateKeyStore(wallet)),
         },
       }),
       new DIDManager({
-        store: new SnapDIDStore(),
+        store: new SnapDIDStore(wallet),
         defaultProvider: 'metamask',
         providers: didProviders,
       }),
-      new VCManager({ store: new SnapVCStore() }),
+      new VCManager({ store: new SnapVCStore(wallet) }),
       new CredentialIssuer(),
       new CredentialIssuerEIP712(),
       new MessageHandler({

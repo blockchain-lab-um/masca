@@ -6,6 +6,7 @@ import {
 } from './stateUtils';
 import { publicKeyConvert } from 'secp256k1';
 import * as ethers from 'ethers';
+import { SnapProvider } from '@metamask/snap-types';
 
 /**
  * Function that returns address of the currently selected MetaMask account.
@@ -17,7 +18,7 @@ import * as ethers from 'ethers';
  * @beta
  *
  **/
-export async function getCurrentAccount(): Promise<string> {
+export async function getCurrentAccount(wallet: SnapProvider): Promise<string> {
   try {
     const accounts = (await wallet.request({
       method: 'eth_requestAccounts',
@@ -31,7 +32,7 @@ export async function getCurrentAccount(): Promise<string> {
   }
 }
 
-export async function getCurrentNetwork(): Promise<string> {
+export async function getCurrentNetwork(wallet: SnapProvider): Promise<string> {
   const chainId = (await wallet.request({
     method: 'eth_chainId',
   })) as string;
@@ -43,49 +44,51 @@ export async function getCurrentNetwork(): Promise<string> {
  *
  * @param token infura token
  */
-export async function updateInfuraToken(token: string) {
-  const config = await getSnapConfig();
+export async function updateInfuraToken(wallet: SnapProvider, token: string) {
+  const config = await getSnapConfig(wallet);
   config.snap.infuraToken = token;
-  await updateSnapConfig(config);
+  await updateSnapConfig(wallet, config);
   return;
 }
 /**
  * Function that toggles the disablePopups flag in the config.
  *
  */
-export async function togglePopups() {
-  const config = await getSnapConfig();
+export async function togglePopups(wallet: SnapProvider) {
+  const config = await getSnapConfig(wallet);
   config.dApp.disablePopups = !config.dApp.disablePopups;
-  await updateSnapConfig(config);
+  await updateSnapConfig(wallet, config);
   return;
 }
 /**
  * Function that lets you add a friendly dApp
  */
-export async function addFriendlyDapp(dapp: string) {
-  const config = await getSnapConfig();
+export async function addFriendlyDapp(wallet: SnapProvider, dapp: string) {
+  const config = await getSnapConfig(wallet);
   config.dApp.friendlyDapps.push(dapp);
-  await updateSnapConfig(config);
+  await updateSnapConfig(wallet, config);
   return;
 }
 /**
  * Function that removes a friendly dApp.
  *
  */
-export async function removeFriendlyDapp(dapp: string) {
-  const config = await getSnapConfig();
+export async function removeFriendlyDapp(wallet: SnapProvider, dapp: string) {
+  const config = await getSnapConfig(wallet);
   config.dApp.friendlyDapps = config.dApp.friendlyDapps.filter(
     (d) => d !== dapp
   );
-  await updateSnapConfig(config);
+  await updateSnapConfig(wallet, config);
   return;
 }
 /**
  * Function that returns a list of friendly dApps.
  *
  */
-export async function getFriendlyDapps(): Promise<Array<string>> {
-  const config = await getSnapConfig();
+export async function getFriendlyDapps(
+  wallet: SnapProvider
+): Promise<Array<string>> {
+  const config = await getSnapConfig(wallet);
   return config.dApp.friendlyDapps;
 }
 
@@ -94,10 +97,10 @@ export async function getFriendlyDapps(): Promise<Array<string>> {
  *
  * @returns {Promise<string>} - returns public key for current account
  */
-export async function getPublicKey(): Promise<string> {
-  const vcAccount = await getAccountState();
+export async function getPublicKey(wallet: SnapProvider): Promise<string> {
+  const vcAccount = await getAccountState(wallet);
   console.log(vcAccount);
-  const account = await getCurrentAccount();
+  const account = await getCurrentAccount(wallet);
   let signedMsg;
   if (vcAccount.publicKey === '') {
     signedMsg = await wallet.request({
@@ -118,14 +121,16 @@ export async function getPublicKey(): Promise<string> {
     console.log(pubKey);
 
     vcAccount.publicKey = pubKey;
-    await updateAccountState(vcAccount);
+    await updateAccountState(wallet, vcAccount);
 
     return pubKey;
   } else return vcAccount.publicKey;
 }
 
-export async function getCompressedPublicKey(): Promise<string> {
-  const publicKey = await getPublicKey();
+export async function getCompressedPublicKey(
+  wallet: SnapProvider
+): Promise<string> {
+  const publicKey = await getPublicKey(wallet);
   const compressedKey = _uint8ArrayToHex(
     publicKeyConvert(_hexToUnit8Array(publicKey), true)
   );

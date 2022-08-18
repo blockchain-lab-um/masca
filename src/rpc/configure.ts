@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
+import { SnapProvider } from '@metamask/snap-types';
 import {
   updateInfuraToken,
   togglePopups as updatePopups,
 } from '../utils/snapUtils';
 import { getSnapConfig } from '../utils/stateUtils';
 
-export async function togglePopups(): Promise<boolean> {
-  const config = await getSnapConfig();
+export async function togglePopups(wallet: SnapProvider): Promise<boolean> {
+  const config = await getSnapConfig(wallet);
 
   const result =
     config.dApp.disablePopups ||
@@ -26,15 +27,18 @@ export async function togglePopups(): Promise<boolean> {
       ],
     }));
   if (result) {
-    await updatePopups();
+    await updatePopups(wallet);
     return true;
   }
   return false;
 }
 
-export async function changeInfuraToken(token?: string): Promise<boolean> {
+export async function changeInfuraToken(
+  wallet: SnapProvider,
+  token?: string
+): Promise<boolean> {
   if (token != null && token !== '') {
-    const config = await getSnapConfig();
+    const config = await getSnapConfig(wallet);
     const result = await wallet.request({
       method: 'snap_confirm',
       params: [
@@ -52,7 +56,7 @@ export async function changeInfuraToken(token?: string): Promise<boolean> {
       ],
     });
     if (result) {
-      await updateInfuraToken(token);
+      await updateInfuraToken(wallet, token);
       return true;
     } else {
       return false;

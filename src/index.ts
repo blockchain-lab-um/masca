@@ -24,37 +24,35 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   console.log('Origin:', origin);
   console.log('-------------------------------------------------------------');
   switch (request.method) {
-    case 'helloWorld':
-      console.log('Hello World!!!');
-      return true;
     case 'getVCs':
       isValidGetVCsRequest(request.params);
-      return await getVCs(request.params.query);
+      return await getVCs(wallet, request.params.query);
     case 'saveVC':
       isValidSaveVCRequest(request.params);
-      return await saveVC(request.params.verifiableCredential);
+      return await saveVC(wallet, request.params.verifiableCredential);
     case 'getVP':
       isValidGetVPRequest(request.params);
       return await getVP(
-        request.params.vc_id,
+        wallet,
+        request.params.vcId,
         request.params.domain,
         request.params.challenge
       );
     case 'changeInfuraToken':
       isValidChangeInfuraTokenRequest(request.params);
-      return await changeInfuraToken(request.params.infuraToken);
+      return await changeInfuraToken(wallet, request.params.infuraToken);
     case 'togglePopups':
-      return await togglePopups();
+      return await togglePopups(wallet);
     case 'switchMethod':
       isValidSwitchMethodRequest(request.params);
-      return await switchMethod(request.params.didMethod);
+      return await switchMethod(wallet, request.params.didMethod);
     case 'init':
-      await init();
+      await init(wallet);
       return true;
     case 'getDID':
-      return await getDid();
+      return await getDid(wallet);
     case 'getMethod':
-      return await getMethod();
+      return await getMethod(wallet);
     case 'getAvailableMethods':
       return getAvailableMethods();
     default:

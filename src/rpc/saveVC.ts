@@ -1,7 +1,8 @@
+import { SnapProvider } from '@metamask/snap-types';
 import { VerifiableCredential } from '@veramo/core';
 import { veramoSaveVC } from '../utils/veramoUtils';
 
-export async function saveVC(vc?: VerifiableCredential) {
+export async function saveVC(wallet: SnapProvider, vc?: VerifiableCredential) {
   if (vc) {
     const result = await wallet.request({
       method: 'snap_confirm',
@@ -14,7 +15,7 @@ export async function saveVC(vc?: VerifiableCredential) {
       ],
     });
     if (result) {
-      await veramoSaveVC(vc);
+      await veramoSaveVC(wallet, vc);
       return { data: true };
     } else {
       return { data: false, error: 'Request declined' };

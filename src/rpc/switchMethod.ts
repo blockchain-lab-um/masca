@@ -1,8 +1,12 @@
+import { SnapProvider } from '@metamask/snap-types';
 import { availableMethods } from '../did/didMethods';
 import { changeCurrentMethod, getCurrentMethod } from '../utils/didUtils';
 
-export async function switchMethod(didMethod: string): Promise<boolean> {
-  const method = await getCurrentMethod();
+export async function switchMethod(
+  wallet: SnapProvider,
+  didMethod: string
+): Promise<boolean> {
+  const method = await getCurrentMethod(wallet);
   if (!availableMethods.find((k) => k === didMethod)) {
     throw new Error('did method not supported');
   }
@@ -19,7 +23,10 @@ export async function switchMethod(didMethod: string): Promise<boolean> {
         ],
       });
       if (result) {
-        await changeCurrentMethod(didMethod as typeof availableMethods[number]);
+        await changeCurrentMethod(
+          wallet,
+          didMethod as typeof availableMethods[number]
+        );
       }
       return true;
     }

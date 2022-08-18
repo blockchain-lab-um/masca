@@ -7,6 +7,7 @@ import {
 } from '../interfaces';
 import { getCurrentAccount } from './snapUtils';
 import { defaultConfig, emptyVCAccount } from './config';
+import { SnapProvider } from '@metamask/snap-types';
 
 /**
  * Internal function for updating SSISnapState object in the MetaMask state
@@ -20,7 +21,7 @@ import { defaultConfig, emptyVCAccount } from './config';
  *
  **/
 
-async function updateSnapState(snapState: SSISnapState) {
+async function updateSnapState(wallet: SnapProvider, snapState: SSISnapState) {
   let state = (await wallet.request({
     method: 'snap_manageState',
     params: ['get'],
@@ -50,7 +51,7 @@ async function updateSnapState(snapState: SSISnapState) {
  * @beta
  *
  **/
-async function getSnapState(): Promise<SSISnapState> {
+async function getSnapState(wallet: SnapProvider): Promise<SSISnapState> {
   const state = (await wallet.request({
     method: 'snap_manageState',
     params: ['get'],
@@ -72,13 +73,15 @@ async function getSnapState(): Promise<SSISnapState> {
  * @beta
  *
  **/
-export async function getAccountState(): Promise<SSIAccountState> {
-  const ssiSnapState = await getSnapState();
-  const address = await getCurrentAccount();
+export async function getAccountState(
+  wallet: SnapProvider
+): Promise<SSIAccountState> {
+  const ssiSnapState = await getSnapState(wallet);
+  const address = await getCurrentAccount(wallet);
   if (address in ssiSnapState) {
     return ssiSnapState[address];
   } else {
-    const emptyVCAccount = await initAccountState(address);
+    const emptyVCAccount = await initAccountState(wallet, address);
     return emptyVCAccount;
   }
 }
@@ -93,11 +96,14 @@ export async function getAccountState(): Promise<SSIAccountState> {
  * @beta
  *
  **/
-export async function updateAccountState(data: SSIAccountState) {
-  const address = await getCurrentAccount();
-  const ssiSnapState = await getSnapState();
+export async function updateAccountState(
+  wallet: SnapProvider,
+  data: SSIAccountState
+) {
+  const address = await getCurrentAccount(wallet);
+  const ssiSnapState = await getSnapState(wallet);
   ssiSnapState[address] = data;
-  await updateSnapState(ssiSnapState);
+  await updateSnapState(wallet, ssiSnapState);
 }
 
 /**
@@ -105,12 +111,14 @@ export async function updateAccountState(data: SSIAccountState) {
  *
  * @returns {SSISnapConfig} object
  */
-export async function getSnapConfig(): Promise<SSISnapConfig> {
-  const ssiSnapState = await getSnapState();
+export async function getSnapConfig(
+  wallet: SnapProvider
+): Promise<SSISnapConfig> {
+  const ssiSnapState = await getSnapState(wallet);
   if ('snapConfig' in ssiSnapState) {
     return ssiSnapState.snapConfig;
   } else {
-    await updateSnapConfig(defaultConfig);
+    await updateSnapConfig(wallet, defaultConfig);
     return JSON.parse(JSON.stringify(defaultConfig)) as SSISnapConfig;
   }
 }
@@ -120,28 +128,36 @@ export async function getSnapConfig(): Promise<SSISnapConfig> {
  *
  * @param {SSISnapConfig} config object that will replace the current object in the state
  */
-export async function updateSnapConfig(config: SSISnapConfig) {
-  const ssiSnapState = await getSnapState();
+export async function updateSnapConfig(
+  wallet: SnapProvider,
+  config: SSISnapConfig
+) {
+  const ssiSnapState = await getSnapState(wallet);
   ssiSnapState.snapConfig = config;
-  await updateSnapState(ssiSnapState);
+  await updateSnapState(wallet, ssiSnapState);
 }
 
-export async function getAccountConfig(): Promise<SSIAccountConfig> {
-  const ssiAccountState = await getAccountState();
+export async function getAccountConfig(
+  wallet: SnapProvider
+): Promise<SSIAccountConfig> {
+  const ssiAccountState = await getAccountState(wallet);
   if ('accountConfig' in ssiAccountState) {
     return ssiAccountState.accountConfig;
   } else {
-    await updateAccountConfig(emptyVCAccount.accountConfig);
+    await updateAccountConfig(wallet, emptyVCAccount.accountConfig);
     return JSON.parse(
       JSON.stringify(emptyVCAccount.accountConfig)
     ) as SSIAccountConfig;
   }
 }
 
-export async function updateAccountConfig(config: SSIAccountConfig) {
-  const ssiAccountState = await getAccountState();
+export async function updateAccountConfig(
+  wallet: SnapProvider,
+  config: SSIAccountConfig
+) {
+  const ssiAccountState = await getAccountState(wallet);
   ssiAccountState.accountConfig = config;
-  await updateAccountState(ssiAccountState);
+  await updateAccountState(wallet, ssiAccountState);
 }
 
 /**
@@ -156,9 +172,12 @@ export async function updateAccountConfig(config: SSIAccountConfig) {
  * @beta
  *
  **/
-async function initAccountState(address: string): Promise<SSIAccountState> {
-  const ssiSnapState = await getSnapState();
+async function initAccountState(
+  wallet: SnapProvider,
+  address: string
+): Promise<SSIAccountState> {
+  const ssiSnapState = await getSnapState(wallet);
   ssiSnapState[address] = emptyVCAccount;
-  await updateSnapState(ssiSnapState);
+  await updateSnapState(wallet, ssiSnapState);
   return JSON.parse(JSON.stringify(emptyVCAccount)) as SSIAccountState;
 }

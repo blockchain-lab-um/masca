@@ -1,8 +1,9 @@
+import { SnapProvider } from '@metamask/snap-types';
 import { getPublicKey } from '../utils/snapUtils';
 import { getSnapConfig, updateSnapConfig } from '../utils/stateUtils';
 
-export async function init(): Promise<void> {
-  const globalConifg = await getSnapConfig();
+export async function init(wallet: SnapProvider): Promise<void> {
+  const globalConifg = await getSnapConfig(wallet);
   // Accept terms and conditions
   if (!globalConifg.snap.acceptedTerms) {
     const result = await wallet.request({
@@ -19,10 +20,10 @@ export async function init(): Promise<void> {
     if (result) {
       // Get public key for current account
       globalConifg.snap.acceptedTerms = true;
-      await updateSnapConfig(globalConifg);
-      await getPublicKey();
+      await updateSnapConfig(wallet, globalConifg);
+      await getPublicKey(wallet);
     }
   } else if (globalConifg.snap.acceptedTerms) {
-    await getPublicKey();
+    await getPublicKey(wallet);
   } else throw new Error('User did not accept terms and conditions');
 }

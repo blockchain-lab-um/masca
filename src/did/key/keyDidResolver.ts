@@ -8,12 +8,16 @@ import {
 } from 'did-resolver';
 import { getDidKeyIdentifier } from './keyDidUtils';
 import { getCurrentAccount, getPublicKey } from '../../utils/snapUtils';
+import { SnapProvider } from '@metamask/snap-types';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const resolveSecp256k1 = async (did: string): Promise<any> => {
-  const DID = await getDidKeyIdentifier();
-  const account = await getCurrentAccount();
-  const publicKey = await getPublicKey();
+const resolveSecp256k1 = async (
+  wallet: SnapProvider,
+  did: string
+): Promise<any> => {
+  const DID = await getDidKeyIdentifier(wallet);
+  const account = await getCurrentAccount(wallet);
+  const publicKey = await getPublicKey(wallet);
   const res = {
     didDocument: {
       '@context': [
