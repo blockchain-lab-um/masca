@@ -10,11 +10,9 @@ import { getDidKeyIdentifier } from './keyDidUtils';
 import { getCurrentAccount, getPublicKey } from '../../utils/snapUtils';
 import { SnapProvider } from '@metamask/snap-types';
 
+// FIXME: ADD WALLET AS PARAMETER
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const resolveSecp256k1 = async (
-  wallet: SnapProvider,
-  did: string
-): Promise<any> => {
+const resolveSecp256k1 = async (did: string): Promise<any> => {
   const DID = await getDidKeyIdentifier(wallet);
   const account = await getCurrentAccount(wallet);
   const publicKey = await getPublicKey(wallet);
@@ -49,6 +47,7 @@ export const startsWithMap: Record<string, Function> = {
   'did:key:zQ3s': resolveSecp256k1,
 };
 
+// FIXME: CHECK HOW WE COULD ADD WALLET AS PARAMETER
 const resolveDidKey: DIDResolver = async (
   didUrl: string,
   _parsed: ParsedDID,
