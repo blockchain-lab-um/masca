@@ -1,1 +1,1 @@
-export const availableDataStores = ['snap'] as const;
+export const availableDataStores = ['snap', 'ceramic'] as const;

@@ -15,6 +15,10 @@ import { init } from './rpc/init';
 import { getDid } from './rpc/getDID';
 import { getMethod } from './rpc/getMethod';
 import { getAvailableMethods } from './rpc/getAvailableMethods';
+import { getVCStore } from './rpc/getVCStore';
+import { setVCStore } from './rpc/setVCStore';
+import { clear } from './veramo/plugins/ceramicDataStore/ceramicDataStore';
+import { DID } from 'dids';
 
 export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,
@@ -26,6 +30,8 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   switch (request.method) {
     case 'helloWorld':
       console.log('Hello World!!!');
+      await clear();
+
       return true;
     case 'getVCs':
       isValidGetVCsRequest(request.params);
@@ -57,6 +63,10 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       return await getMethod();
     case 'getAvailableMethods':
       return getAvailableMethods();
+    case 'getVCStore':
+      return await getVCStore();
+    case 'setVCStore':
+      return await setVCStore();
     default:
       throw new Error('Method not found.');
   }

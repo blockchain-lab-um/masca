@@ -956,10 +956,10 @@
   dependencies:
     "@veramo/core" "^3.1.6-next.146"
 
-"@blockchain-lab-um/veramo-vc-manager@^1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@blockchain-lab-um/veramo-vc-manager/-/veramo-vc-manager-1.0.6.tgz#de937854121c505b4466de7d60f760884993a138"
-  integrity sha512-wWjYo4HyuXATuxXKdqQN+eFmcDBWEKDWal+cobQjViBOKzUQw5DAeTUu0l6Z6lKBriDGD+hFMUKk8XtkVtjWcw==
+"@blockchain-lab-um/veramo-vc-manager@^1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@blockchain-lab-um/veramo-vc-manager/-/veramo-vc-manager-1.0.7.tgz#4e2d3375ee9660443d8b14d1e00c3f07a9750af1"
+  integrity sha512-xwDMMSUmLwkxFAOPkMHCT49NzPQuOYDF44MejJWAUDIl/a6gbKNNxoxPiCYrOWHm2ZhUVOJpLEtCFkgsw2z9sA==
   dependencies:
     "@blockchain-lab-um/ssi-snap-types" "^1.0.7"
     "@veramo/core" "^3.1.6-next.137"
@@ -4363,7 +4363,7 @@ cborg@^1.6.0:
   resolved "https://registry.yarnpkg.com/cborg/-/cborg-1.9.4.tgz#85354ee6e0fe017dd34e300c3dcd044407a27800"
   integrity sha512-ltobKo17xKYJolhg8UxQhvzcqXhjtUnovwe9Xx59Izo32gLwozGoJs/efp+8dZ5+zu9pNJYnHtmp6iJnDUapww==
 
-ceramic-cacao@^1.1.1:
+ceramic-cacao@^1.1.0, ceramic-cacao@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ceramic-cacao/-/ceramic-cacao-1.1.1.tgz#2efecca677e4d4bf7308692d894b78fe3392eacc"
   integrity sha512-p/IO5/EmUBhD0hbSpJaXTN8bKHYNZ8zDou3m2170wfbb+fJFf71kzWEsT/WV3JlWNBgkKEhwgbe9YGVOP2shoA==
@@ -4871,6 +4871,14 @@ css-what@^6.0.1:
   resolved "https://registry.yarnpkg.com/css-what/-/css-what-6.1.0.tgz#fb5effcf76f1ddea2c81bdfaa4de44e79bac70f4"
   integrity sha512-HTUrgRJ7r4dsZKU6GjmpfRK1O76h97Z8MfS1G0FozR+oF2kG6Vfe8JE6zwrkbxigziPHinCJ+gCPjA9EaBDtRw==
 
+dag-jose-utils@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/dag-jose-utils/-/dag-jose-utils-2.0.0.tgz#b36576d6d8e4bb5e288bf5bdee02d51067821535"
+  integrity sha512-vE6EyhjSh+dfr8hbs/gLk0v98h2ekjy6r6pXvmB4SvO6awalt95LEetG0QDh5rmMYE3FO8ynp3xrCYsAHHZOlg==
+  dependencies:
+    "@ipld/dag-cbor" "^7.0.1"
+    multiformats "^9.5.1"
+
 dargs@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/dargs/-/dargs-7.0.0.tgz#04015c41de0bcb69ec84050f3d9be0caf8d6d5cc"
@@ -5047,6 +5055,24 @@ did-jwt-vc@^2.1.13, did-jwt-vc@^2.1.9:
     did-jwt "^6.2.2"
     did-resolver "^4.0.0"
 
+did-jwt@^6.0.0:
+  version "6.6.0"
+  resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-6.6.0.tgz#e7c932f7e3ff992b15aef7db3d530c81fb34902d"
+  integrity sha512-qSjXEEHS4fSbBHRCC/ObDzPVkCVvuXIfIiGWa03HNRr85gGkbxzBrxUsUbXfXo1CuzeCqmmZpK4nM4VWlZh6bQ==
+  dependencies:
+    "@stablelib/ed25519" "^1.0.2"
+    "@stablelib/random" "^1.0.1"
+    "@stablelib/sha256" "^1.0.1"
+    "@stablelib/x25519" "^1.0.2"
+    "@stablelib/xchacha20poly1305" "^1.0.1"
+    bech32 "^2.0.0"
+    canonicalize "^1.0.8"
+    did-resolver "^4.0.0"
+    elliptic "^6.5.4"
+    js-sha3 "^0.8.0"
+    multiformats "^9.6.5"
+    uint8arrays "^3.0.0"
+
 did-jwt@^6.2.0, did-jwt@^6.2.2, did-jwt@^6.3.0:
   version "6.3.0"
   resolved "https://registry.yarnpkg.com/did-jwt/-/did-jwt-6.3.0.tgz#6c7380a69fff97f95101ce03519fd34c0ee43594"
@@ -5074,6 +5100,20 @@ did-resolver@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/did-resolver/-/did-resolver-4.0.0.tgz#fc8f657b4cd7f44c2921051fb046599fbe7d4b31"
   integrity sha512-/roxrDr9EnAmLs+s9T+8+gcpilMo+IkeytcsGO7dcxvTmVJ+0Rt60HtV8o0UXHhGBo0Q+paMH/0ffXz1rqGFYg==
+
+dids@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/dids/-/dids-3.2.0.tgz#92a907aabc68cc0bd25b80e282bed34485233a92"
+  integrity sha512-p6PUUvlX/BYqnrX192KM0DW/h1dohbMohFSwSv7hxjHr7Sp26jAIu6M59f2HNJaSwE7k0lTqLz9tuDtE/QbWZA==
+  dependencies:
+    "@stablelib/random" "^1.0.1"
+    ceramic-cacao "^1.1.0"
+    dag-jose-utils "^2.0.0"
+    did-jwt "^6.0.0"
+    did-resolver "^3.1.5"
+    multiformats "^9.4.10"
+    rpc-utils "^0.6.1"
+    uint8arrays "^3.0.0"
 
 diff@^4.0.1:
   version "4.0.2"
@@ -6246,7 +6286,7 @@ fast-json-patch@^3.1.0:
   resolved "https://registry.yarnpkg.com/fast-json-patch/-/fast-json-patch-3.1.1.tgz#85064ea1b1ebf97a3f7ad01e23f9337e72c66947"
   integrity sha512-vf6IHUX2SBcA+5/+4883dsIjpBTqmfBjmYiWK1savxQmFk4JfBMLa7ynTYOs1Rolp/T1betJxHiGD3g1Mn8lUQ==
 
-fast-json-stable-stringify@^2.0.0:
+fast-json-stable-stringify@^2.0.0, fast-json-stable-stringify@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/fast-json-stable-stringify/-/fast-json-stable-stringify-2.1.0.tgz#874bf69c6f404c2b5d99c481341399fd55892633"
   integrity sha512-lhd/wF+Lk98HZoTCtlVraHtfh5XYijIjalXck7saUtuanSDyLMxnHhSXEDJqHxD7msR8D0uCmqlkwjCV8xvwHw==
@@ -7521,6 +7561,27 @@ keccak@^3.0.0:
     node-gyp-build "^4.2.0"
     readable-stream "^3.6.0"
 
+key-did-provider-ed25519@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/key-did-provider-ed25519/-/key-did-provider-ed25519-2.0.1.tgz#7178169831d36cdc99a0640d6bee3cbfd95f9a56"
+  integrity sha512-FaB2g7zUAeN/bLaFl2YSNQx9NsxgDd/3TR1YGvoXLhENsvZBdyA2V7hX8/MZhZ5jm82wL5lRw3O4UXuz/pJANQ==
+  dependencies:
+    "@stablelib/ed25519" "^1.0.2"
+    did-jwt "^6.0.0"
+    fast-json-stable-stringify "^2.1.0"
+    rpc-utils "^0.6.2"
+    uint8arrays "^3.0.0"
+
+key-did-resolver@^2.0.5:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/key-did-resolver/-/key-did-resolver-2.0.6.tgz#94ba9d56a9220a72f1b9d1401de3fc3ddc514424"
+  integrity sha512-jTTHbuR8q45m1FfkniizubegONzw4ztfPnu9l1e4Tu+0DUvnwKDACZjfZEhej2/i6uE4k4sjU2VAM6gjauiIPA==
+  dependencies:
+    "@stablelib/ed25519" "^1.0.2"
+    multiformats "^9.5.2"
+    uint8arrays "^3.0.0"
+    varint "^6.0.0"
+
 kind-of@^6.0.2, kind-of@^6.0.3:
   version "6.0.3"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
@@ -8040,7 +8101,7 @@ multicodec@^3.2.1:
     uint8arrays "^3.0.0"
     varint "^6.0.0"
 
-multiformats@^9.4.2, multiformats@^9.5.1, multiformats@^9.5.2, multiformats@^9.5.4, multiformats@^9.5.8, multiformats@^9.6.5:
+multiformats@^9.4.10, multiformats@^9.4.2, multiformats@^9.5.1, multiformats@^9.5.2, multiformats@^9.5.4, multiformats@^9.5.8, multiformats@^9.6.5:
   version "9.7.1"
   resolved "https://registry.yarnpkg.com/multiformats/-/multiformats-9.7.1.tgz#ab348e5fd6f8e7fb3fd56033211bda48854e2173"
   integrity sha512-TaVmGEBt0fhxiNJMGphBfB+oGvUxFs8KgGvgl8d3C+GWtrFcvXdJ2196eg+dYhmSFClmgFfSfJEklo+SZzdNuw==
@@ -8073,7 +8134,7 @@ mz@^2.4.0:
     object-assign "^4.0.1"
     thenify-all "^1.0.0"
 
-nanoid@^3.1.31:
+nanoid@^3.1.31, nanoid@^3.3.1:
   version "3.3.4"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.4.tgz#730b67e3cd09e2deacf03c027c81c9d9dbc5e8ab"
   integrity sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==
@@ -9200,6 +9261,13 @@ rlp@^2.0.0, rlp@^2.2.3, rlp@^2.2.4, rlp@^2.2.6:
   integrity sha512-d5gdPmgQ0Z+AklL2NVXr/IoSjNZFfTVvQWzL/AM2AOcSzYP2xjlb0AC8YyCLc41MSNf6P6QVtjgPdmVtzb+4lQ==
   dependencies:
     bn.js "^5.2.0"
+
+rpc-utils@^0.6.1, rpc-utils@^0.6.2:
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/rpc-utils/-/rpc-utils-0.6.2.tgz#3cab779f93048eda69ff198c58b1a2c2e35e3fa6"
+  integrity sha512-kzk1OflbBckfDBAo8JwsmtQSHzj+6hxRt5G+u8A8ZSmunBw1nhWvRkSq8j1+EvWBqBRLy1aiGLUW5644CZqQtA==
+  dependencies:
+    nanoid "^3.3.1"
 
 run-parallel@^1.1.9:
   version "1.2.0"

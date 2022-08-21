@@ -2,11 +2,10 @@ import { CeramicClient } from '@ceramicnetwork/http-client';
 import { EthereumAuthProvider } from '@ceramicnetwork/blockchain-utils-linking';
 import { DIDSession } from '@glazed/did-session';
 import { getCurrentAccount } from './snapUtils';
-//import { ModelManager } from '@glazed/devtools';
+import { DID } from 'dids';
+import { getAccountConfig } from './stateUtils';
 
-//import { Definition } from '@glazed/did-datastore-model';
-
-const ceramic = new CeramicClient('https://ceramic-clay.3boxlabs.com');
+const ceramicDID = { did: undefined } as { did: DID | undefined };
 
 export const aliases = {
   definitions: {
@@ -20,53 +19,33 @@ export const aliases = {
   tiles: {},
 };
 
-export async function authenticateWithEthereum() {
+export async function authenticateWithEthereum(): Promise<DID> {
+  if (ceramicDID.did) return ceramicDID.did;
   const account = await getCurrentAccount();
   const authProvider = new EthereumAuthProvider(wallet, account);
 
   const session = new DIDSession({ authProvider });
-  console.log('Session2:', session);
   typeof window;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
   window.location = {} as any;
   window.location.hostname = 'ssi-snap';
-  console.log('window: ', window);
   window.location.hostname = 'ssi-snap';
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const did = await session.authorize({ domain: 'ssi-snap' });
-  console.log('DID:', did);
-  await ceramic.setDID(did);
+  const did = (await session.authorize({ domain: 'ssi-snap' })) as DID;
+  ceramicDID.did = did;
+  return did;
+}
 
+export async function getCeramic(): Promise<CeramicClient> {
+  const ceramic = new CeramicClient('https://ceramic-clay.3boxlabs.com');
+  const did = await authenticateWithEthereum();
+  await ceramic.setDID(did);
   return ceramic;
 }
 
-export async function bootstrap() {
-  try {
-    await authenticateWithEthereum();
-
-    // const manager = new ModelManager({ ceramic });
-
-    // const sh = await manager.createSchema(
-    //   "StoredCredentials",
-    //   storedCredential
-    // );
-
-    // const schemaUrl = manager.getSchemaURL(sh);
-
-    // const def = {
-    //   name: "storedCredential",
-    //   description: "storedCredential",
-    //   schema: schemaUrl,
-    // } as Definition;
-
-    // await manager.createDefinition("StoredCredentials", def);
-
-    // const modelAliases = await manager.deploy();
-    // console.log(modelAliases);
-
-    console.log('authenticated');
-  } catch (error) {
-    console.error(error);
-  }
+export async function isCeramicEnabled() {
+  const accConfig = await getAccountConfig();
+  if (accConfig.ssi.vcStore === 'ceramic') return true;
+  return false;
 }

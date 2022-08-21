@@ -8,7 +8,8 @@ import {
 } from '@veramo/core';
 import { getCurrentDid, getCurrentMethod } from './didUtils';
 import { getCurrentAccount } from './snapUtils';
-import { getSnapConfig } from './stateUtils';
+import { getAccountConfig, getSnapConfig } from './stateUtils';
+import { isCeramicEnabled } from './ceramicUtils';
 
 /**
  * Get an existing or create a new DID for the currently selected MetaMask account.
@@ -33,7 +34,8 @@ export async function veramoGetId(): Promise<IIdentifier> {
  * */
 export async function veramoSaveVC(vc: VerifiableCredential) {
   const agent = await getAgent();
-  await agent.saveVC({ vc });
+  const dataStore = await getAccountConfig();
+  await agent.saveVC({ store: dataStore.ssi.vcStore, vc });
 }
 
 /**
@@ -44,9 +46,14 @@ export async function veramoListVCs(
   query?: VCQuery
 ): Promise<VerifiableCredential[]> {
   const agent = await getAgent();
-  const vcs = await agent.listVCS({ query: query });
-  console.log('VCS', vcs);
-  return vcs.vcs;
+  const accConfig = await getAccountConfig();
+  const vcsSnap = await agent.listVCS({ store: 'snap', query: query });
+  let vcsCeramic;
+  if (await isCeramicEnabled()) {
+    vcsCeramic = await agent.listVCS({ store: 'ceramic', query: query });
+    return [...vcsSnap.vcs, ...vcsCeramic.vcs];
+  }
+  return vcsSnap.vcs;
 }
 
 /**
@@ -66,10 +73,22 @@ export async function veramoCreateVP(
   //Get Veramo agent
   const agent = await getAgent();
   //Get VC from state
-  const vc = await agent.getVC({ id: vc_id });
+  const accConfig = await getAccountConfig();
+  let vc;
+  try {
+    vc = await agent.getVC({ store: 'snap', id: vc_id });
+  } catch (e) {
+    if (await isCeramicEnabled()) {
+      try {
+        vc = await agent.getVC({ store: 'ceramic', id: vc_id });
+      } catch (e) {
+        throw new Error('VC not found');
+      }
+    }
+  }
   const config = await getSnapConfig();
   console.log(vc_id, domain, challenge);
-  if (vc.vc !== null) {
+  if (vc && vc.vc !== null) {
     const result =
       config.dApp.disablePopups ||
       (await wallet.request({

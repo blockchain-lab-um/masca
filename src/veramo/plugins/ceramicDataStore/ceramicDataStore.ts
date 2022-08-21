@@ -1,14 +1,12 @@
-import { ExtendedVerifiableCredential } from './../../../interfaces';
 import { v4 as uuidv4 } from 'uuid';
 import { AbstractVCStore } from '@blockchain-lab-um/veramo-vc-manager/build/vc-store/abstract-vc-store';
 import { VerifiableCredential } from '@veramo/core';
-import { authenticateWithEthereum, aliases } from '../../../utils/ceramicUtils';
+import { aliases, getCeramic } from '../../../utils/ceramicUtils';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { StoredCredentials } from '../../../interfaces';
-
 export class CeramicVCStore extends AbstractVCStore {
   async get(args: { id: string }): Promise<VerifiableCredential | null> {
-    const ceramic = await authenticateWithEthereum();
+    const ceramic = await getCeramic();
     const datastore = new DIDDataStore({ ceramic, model: aliases });
     const storedCredentials = (await datastore.get(
       'StoredCredentials'
@@ -33,7 +31,7 @@ export class CeramicVCStore extends AbstractVCStore {
     const alias = uuidv4();
     const vc = { ...args, key: alias };
 
-    const ceramic = await authenticateWithEthereum();
+    const ceramic = await getCeramic();
     const datastore = new DIDDataStore({ ceramic, model: aliases });
     const storedCredentials = (await datastore.get(
       'StoredCredentials'
@@ -57,7 +55,7 @@ export class CeramicVCStore extends AbstractVCStore {
   }
 
   async list(): Promise<VerifiableCredential[]> {
-    const ceramic = await authenticateWithEthereum();
+    const ceramic = await getCeramic();
     const datastore = new DIDDataStore({ ceramic, model: aliases });
     const storedCredentials = (await datastore.get(
       'StoredCredentials'
@@ -67,4 +65,14 @@ export class CeramicVCStore extends AbstractVCStore {
       return storedCredentials.storedCredentials as VerifiableCredential[];
     return [];
   }
+}
+
+export async function clear(): Promise<boolean> {
+  console.log('Clearing ceramic storage');
+  const ceramic = await getCeramic();
+
+  const datastore = new DIDDataStore({ ceramic, model: aliases });
+  const storedCredentialsNew = { storedCredentials: [] };
+  await datastore.merge('StoredCredentials', storedCredentialsNew);
+  return true;
 }
