@@ -49,6 +49,13 @@ export type ExtendedVerifiableCredential = VerifiableCredential & {
   key: string;
 };
 
+/**
+ * Ceramic Network storedVCs
+ */
+export interface StoredCredentials {
+  storedCredentials: Array<ExtendedVerifiableCredential>;
+}
+
 export interface SSISnapConfig {
   snap: {
     /**
