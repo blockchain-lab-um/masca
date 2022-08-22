@@ -1,4 +1,4 @@
-import { veramoCreateVP } from '../utils/veramoUtils';
+import { veramoCreateVP } from '../../utils/veramoUtils';
 import { VerifiablePresentation } from '@veramo/core';
 
 export async function getVP(

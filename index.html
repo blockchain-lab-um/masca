@@ -62,6 +62,7 @@
     <hr>
     <button class="getVCStore">Get current VCStore</button>
     <button class="toggleVCStore">Toggle current VCStore</button>
+    <button class="getAvailableVCStores">Get available vc stores</button>
   </body>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
   <script>
@@ -121,6 +122,7 @@
 
     const getVCStoreBtn = document.querySelector('button.getVCStore')
     const toggleVCStoreBtn = document.querySelector('button.toggleVCStore')
+    const getavaiVCstoreBtn = document.querySelector('button.getAvailableVCStores')
 
     $(document).ready(function () {
       $('textarea#VC').text(JSON.stringify(placeholderVC));
@@ -147,6 +149,7 @@
 
     getVCStoreBtn.addEventListener('click', getVCStore)
     toggleVCStoreBtn.addEventListener('click', toggleVCStore)
+    getavaiVCstoreBtn.addEventListener('click', getAvailableVCStores)
 
     // here we get permissions to interact with and install the snap
     async function connect () {
@@ -241,6 +244,21 @@
           method: 'wallet_invokeSnap',
           params: [snapId, {
             method: 'getAvailableMethods'
+          }]
+        })
+        console.log("AvailableMethods: ",response)
+      } catch (err) {
+        console.error(err)
+        alert('Problem happened: ' + err.message || err)
+      }
+    }
+
+    async function getAvailableVCStores() {
+      try {
+        const response = await ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: [snapId, {
+            method: 'getAvailableVCStores'
           }]
         })
         console.log("AvailableMethods: ",response)

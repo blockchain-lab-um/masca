@@ -1,6 +1,6 @@
 import { CeramicClient } from '@ceramicnetwork/http-client';
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { availableDataStores } from './veramo/plugins/availableDataStores';
+import { availableVCStores } from './veramo/plugins/availableVCStores';
 import { IIdentifier, IKey, VerifiableCredential } from '@veramo/core';
 import { ManagedPrivateKey } from '@veramo/key-manager';
 import {
@@ -100,6 +100,6 @@ export interface SSIAccountState {
 export interface SSIAccountConfig {
   ssi: {
     didMethod: typeof availableMethods[number];
-    vcStore: typeof availableDataStores[number];
+    vcStore: typeof availableVCStores[number];
   };
 }

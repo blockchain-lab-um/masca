@@ -7,7 +7,7 @@ import {
   VerifiablePresentation,
 } from '@veramo/core';
 import { getCurrentDid, getCurrentMethod } from './didUtils';
-import { getCurrentAccount } from './snapUtils';
+import { getCurrentAccount, snapConfirm } from './snapUtils';
 import { getAccountConfig, getSnapConfig } from './stateUtils';
 import { isCeramicEnabled } from './ceramicUtils';
 
@@ -46,7 +46,6 @@ export async function veramoListVCs(
   query?: VCQuery
 ): Promise<VerifiableCredential[]> {
   const agent = await getAgent();
-  const accConfig = await getAccountConfig();
   const vcsSnap = await agent.listVCS({ store: 'snap', query: query });
   let vcsCeramic;
   if (await isCeramicEnabled()) {
@@ -72,8 +71,6 @@ export async function veramoCreateVP(
   const identifier = await veramoImportMetaMaskAccount();
   //Get Veramo agent
   const agent = await getAgent();
-  //Get VC from state
-  const accConfig = await getAccountConfig();
   let vc;
   try {
     vc = await agent.getVC({ store: 'snap', id: vc_id });
@@ -89,18 +86,12 @@ export async function veramoCreateVP(
   const config = await getSnapConfig();
   console.log(vc_id, domain, challenge);
   if (vc && vc.vc !== null) {
-    const result =
-      config.dApp.disablePopups ||
-      (await wallet.request({
-        method: 'snap_confirm',
-        params: [
-          {
-            prompt: 'Alert',
-            description: 'Do you wish to create a VP from the following VC?',
-            textAreaContent: JSON.stringify(vc.vc.credentialSubject),
-          },
-        ],
-      }));
+    const promptObj = {
+      prompt: 'Alert',
+      description: 'Do you wish to create a VP from the following VC?',
+      textAreaContent: JSON.stringify(vc.vc.credentialSubject),
+    };
+    const result = config.dApp.disablePopups || (await snapConfirm(promptObj));
     console.log('RESULT', result);
     console.log('VC', vc);
     if (result) {

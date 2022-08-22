@@ -1,5 +1,6 @@
-import { availableMethods } from '../did/didMethods';
-import { changeCurrentMethod, getCurrentMethod } from '../utils/didUtils';
+import { availableMethods } from '../../did/didMethods';
+import { changeCurrentMethod, getCurrentMethod } from '../../utils/didUtils';
+import { snapConfirm } from '../../utils/snapUtils';
 
 export async function switchMethod(didMethod: string): Promise<boolean> {
   const method = await getCurrentMethod();
@@ -8,16 +9,12 @@ export async function switchMethod(didMethod: string): Promise<boolean> {
   }
   if (didMethod !== method) {
     if (method !== didMethod) {
-      const result = await wallet.request({
-        method: 'snap_confirm',
-        params: [
-          {
-            prompt: 'Change DID method',
-            description: 'Would you like to change did method to following?',
-            textAreaContent: didMethod,
-          },
-        ],
-      });
+      const promptObj = {
+        prompt: 'Change DID method',
+        description: 'Would you like to change did method to following?',
+        textAreaContent: didMethod,
+      };
+      const result = await snapConfirm(promptObj);
       if (result) {
         await changeCurrentMethod(didMethod as typeof availableMethods[number]);
       }
