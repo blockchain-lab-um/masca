@@ -31,8 +31,8 @@ export async function authenticateWithEthereum(): Promise<DID> {
   window.location = {} as any;
   window.location.hostname = 'ssi-snap';
   window.location.hostname = 'ssi-snap';
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const did = (await session.authorize({ domain: 'ssi-snap' })) as DID;
+
+  const did = await session.authorize({ domain: 'ssi-snap' });
   ceramicDID.did = did;
   return did;
 }
