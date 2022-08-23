@@ -97,7 +97,7 @@ export const getAgent = async (
   didProviders['did:key'] = new KeyDIDProvider({ defaultKms: 'web3' });
 
   vcStorePlugins['snap'] = new SnapVCStore(wallet);
-  vcStorePlugins['ceramic'] = new CeramicVCStore();
+  vcStorePlugins['ceramic'] = new CeramicVCStore(wallet);
 
   const agent = createAgent<
     IDIDManager &

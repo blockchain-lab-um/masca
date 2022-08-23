@@ -150,11 +150,14 @@ export function _hexToUnit8Array(str: any) {
   return new Uint8Array(Buffer.from(str, 'hex'));
 }
 
-export async function snapConfirm(param: {
-  prompt: string;
-  description: string;
-  textAreaContent: string;
-}): Promise<Maybe<unknown>> {
+export async function snapConfirm(
+  wallet: SnapProvider,
+  param: {
+    prompt: string;
+    description: string;
+    textAreaContent: string;
+  }
+): Promise<Maybe<unknown>> {
   const result = await wallet.request({
     method: 'snap_confirm',
     params: [param],

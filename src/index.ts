@@ -17,7 +17,6 @@ import { getMethod } from './rpc/did/getMethod';
 import { getAvailableMethods } from './rpc/did/getAvailableMethods';
 import { getVCStore } from './rpc/vcStore/getVCStore';
 import { setVCStore } from './rpc/vcStore/setVCStore';
-import { clear } from './veramo/plugins/ceramicDataStore/ceramicDataStore';
 import { getAvailableVCStores } from './rpc/vcStore/getAvailableVCStores';
 
 export const onRpcRequest: OnRpcRequestHandler = async ({

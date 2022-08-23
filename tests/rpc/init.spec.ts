@@ -2,7 +2,7 @@ import chai, { expect } from 'chai';
 import sinonChai from 'sinon-chai';
 import sinon from 'sinon';
 import WalletMock from '../testUtils/wallet.mock';
-import { init } from '../../src/rpc/init';
+import { init } from '../../src/rpc/snap/init';
 import { SnapProvider } from '@metamask/snap-types';
 import chaiAsPromised from 'chai-as-promised';
 

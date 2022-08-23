@@ -54,7 +54,7 @@ export async function veramoListVCs(
   // TODO: Additional type check for query ?
   const vcsSnap = await agent.listVCS({ store: 'snap', query: query });
   let vcsCeramic;
-  if (await isCeramicEnabled()) {
+  if (await isCeramicEnabled(wallet)) {
     vcsCeramic = await agent.listVCS({ store: 'ceramic', query: query });
     return [...vcsSnap.vcs, ...vcsCeramic.vcs];
   }
@@ -80,9 +80,9 @@ export async function veramoCreateVP(
   const agent = await getAgent(wallet);
   let vc;
   try {
-    vc = await agent.getVC({ store: 'snap', id: vc_id });
+    vc = await agent.getVC({ store: 'snap', id: vcId });
   } catch (e) {
-    if (await isCeramicEnabled()) {
+    if (await isCeramicEnabled(wallet)) {
       try {
         vc = await agent.getVC({ store: 'ceramic', id: vcId });
       } catch (e) {
@@ -98,7 +98,8 @@ export async function veramoCreateVP(
       description: 'Do you wish to create a VP from the following VC?',
       textAreaContent: JSON.stringify(vc.vc.credentialSubject),
     };
-    const result = config.dApp.disablePopups || (await snapConfirm(promptObj));
+    const result =
+      config.dApp.disablePopups || (await snapConfirm(wallet, promptObj));
     console.log('RESULT', result);
     console.log('VC', vc);
     if (result) {
