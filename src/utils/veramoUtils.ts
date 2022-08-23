@@ -7,9 +7,10 @@ import {
   VerifiablePresentation,
 } from '@veramo/core';
 import { getCurrentDid, getCurrentMethod } from './didUtils';
-import { getCurrentAccount } from './snapUtils';
-import { getSnapConfig } from './stateUtils';
+import { getCurrentAccount, snapConfirm } from './snapUtils';
+import { getAccountConfig, getSnapConfig } from './stateUtils';
 import { SnapProvider } from '@metamask/snap-types';
+import { isCeramicEnabled } from './ceramicUtils';
 
 /**
  * Get an existing or create a new DID for the currently selected MetaMask account.
@@ -35,9 +36,10 @@ export async function veramoGetId(wallet: SnapProvider): Promise<IIdentifier> {
 export async function veramoSaveVC(
   wallet: SnapProvider,
   vc: VerifiableCredential
-) {
+): Promise<boolean> {
   const agent = await getAgent(wallet);
-  await agent.saveVC({ vc });
+  const dataStore = await getAccountConfig(wallet);
+  return await agent.saveVC({ store: dataStore.ssi.vcStore, vc });
 }
 
 /**
@@ -50,9 +52,13 @@ export async function veramoListVCs(
 ): Promise<VerifiableCredential[]> {
   const agent = await getAgent(wallet);
   // TODO: Additional type check for query ?
-  const vcs = await agent.listVCS({ query: query });
-  console.log('VCS', vcs);
-  return vcs.vcs;
+  const vcsSnap = await agent.listVCS({ store: 'snap', query: query });
+  let vcsCeramic;
+  if (await isCeramicEnabled()) {
+    vcsCeramic = await agent.listVCS({ store: 'ceramic', query: query });
+    return [...vcsSnap.vcs, ...vcsCeramic.vcs];
+  }
+  return vcsSnap.vcs;
 }
 
 /**
@@ -72,23 +78,27 @@ export async function veramoCreateVP(
   const identifier = await veramoImportMetaMaskAccount(wallet);
   //Get Veramo agent
   const agent = await getAgent(wallet);
-  //Get VC from state
-  const vc = await agent.getVC({ id: vcId });
+  let vc;
+  try {
+    vc = await agent.getVC({ store: 'snap', id: vc_id });
+  } catch (e) {
+    if (await isCeramicEnabled()) {
+      try {
+        vc = await agent.getVC({ store: 'ceramic', id: vcId });
+      } catch (e) {
+        throw new Error('VC not found');
+      }
+    }
+  }
   const config = await getSnapConfig(wallet);
   console.log(vcId, domain, challenge);
-  if (vc.vc !== null) {
-    const result =
-      config.dApp.disablePopups ||
-      (await wallet.request({
-        method: 'snap_confirm',
-        params: [
-          {
-            prompt: 'Alert',
-            description: 'Do you wish to create a VP from the following VC?',
-            textAreaContent: JSON.stringify(vc.vc.credentialSubject),
-          },
-        ],
-      }));
+  if (vc && vc.vc) {
+    const promptObj = {
+      prompt: 'Alert',
+      description: 'Do you wish to create a VP from the following VC?',
+      textAreaContent: JSON.stringify(vc.vc.credentialSubject),
+    };
+    const result = config.dApp.disablePopups || (await snapConfirm(promptObj));
     console.log('RESULT', result);
     console.log('VC', vc);
     if (result) {

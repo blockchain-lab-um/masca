@@ -1,8 +1,8 @@
 import { OnRpcRequestHandler } from '@metamask/snap-types';
-import { togglePopups, changeInfuraToken } from './rpc/configure';
-import { getVCs } from './rpc/getVCs';
-import { getVP } from './rpc/getVP';
-import { saveVC } from './rpc/saveVC';
+import { togglePopups, changeInfuraToken } from './rpc/snap/configure';
+import { getVCs } from './rpc/vc/getVCs';
+import { getVP } from './rpc/vc/getVP';
+import { saveVC } from './rpc/vc/saveVC';
 import {
   isValidChangeInfuraTokenRequest,
   isValidGetVCsRequest,
@@ -10,11 +10,15 @@ import {
   isValidSaveVCRequest,
   isValidSwitchMethodRequest,
 } from './utils/params';
-import { switchMethod } from './rpc/switchMethod';
-import { init } from './rpc/init';
-import { getDid } from './rpc/getDID';
-import { getMethod } from './rpc/getMethod';
-import { getAvailableMethods } from './rpc/getAvailableMethods';
+import { switchMethod } from './rpc/did/switchMethod';
+import { init } from './rpc/snap/init';
+import { getDid } from './rpc/did/getDID';
+import { getMethod } from './rpc/did/getMethod';
+import { getAvailableMethods } from './rpc/did/getAvailableMethods';
+import { getVCStore } from './rpc/vcStore/getVCStore';
+import { setVCStore } from './rpc/vcStore/setVCStore';
+import { clear } from './veramo/plugins/ceramicDataStore/ceramicDataStore';
+import { getAvailableVCStores } from './rpc/vcStore/getAvailableVCStores';
 
 export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,
@@ -55,6 +59,12 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       return await getMethod(wallet);
     case 'getAvailableMethods':
       return getAvailableMethods();
+    case 'getVCStore':
+      return await getVCStore();
+    case 'setVCStore':
+      return await setVCStore();
+    case 'getAvailableVCStores':
+      return getAvailableVCStores();
     default:
       throw new Error('Method not found.');
   }

@@ -10,8 +10,9 @@ export const emptyVCAccount = {
   accountConfig: {
     ssi: {
       didMethod: 'did:ethr',
-      didStore: 'snap',
+      vcStore: 'snap',
     },
+    ceramic: {},
   } as SSIAccountConfig,
 } as SSIAccountState;
 

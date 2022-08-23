@@ -1,5 +1,6 @@
+import { CeramicClient } from '@ceramicnetwork/http-client';
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { availableDataStores } from './veramo/plugins/availableDataStores';
+import { availableVCStores } from './veramo/plugins/availableVCStores';
 import { IIdentifier, IKey, VerifiableCredential } from '@veramo/core';
 import { ManagedPrivateKey } from '@veramo/key-manager';
 import {
@@ -9,6 +10,7 @@ import {
   SnapPrivateKeyStore,
 } from './veramo/plugins/snapDataStore/snapDataStore';
 import { availableMethods } from './did/didMethods';
+import { DID } from 'dids';
 
 /**
  * MetaMask State
@@ -48,6 +50,13 @@ export type ExtendedVerifiableCredential = VerifiableCredential & {
    */
   key: string;
 };
+
+/**
+ * Ceramic Network storedVCs
+ */
+export interface StoredCredentials {
+  storedCredentials: Array<ExtendedVerifiableCredential>;
+}
 
 export interface SSISnapConfig {
   snap: {
@@ -91,6 +100,6 @@ export interface SSIAccountState {
 export interface SSIAccountConfig {
   ssi: {
     didMethod: typeof availableMethods[number];
-    didStore: typeof availableDataStores[number];
+    vcStore: typeof availableVCStores[number];
   };
 }

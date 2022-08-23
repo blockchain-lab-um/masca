@@ -1,23 +1,23 @@
 import { SnapProvider } from '@metamask/snap-types';
 import { availableMethods } from '../did/didMethods';
 import { getDidKeyIdentifier } from '../did/key/keyDidUtils';
-import { availableDataStores } from '../veramo/plugins/availableDataStores';
+import { availableVCStores } from '../veramo/plugins/availableVCStores';
 import { getCurrentAccount, getCurrentNetwork } from './snapUtils';
 import { getAccountConfig, updateAccountConfig } from './stateUtils';
 
-export async function getCurrentDidStore(
+export async function getCurrentVCStore(
   wallet: SnapProvider
-): Promise<typeof availableDataStores[number]> {
+): Promise<typeof availableVCStores[number]> {
   const config = await getAccountConfig(wallet);
-  return config.ssi.didStore;
+  return config.ssi.vcStore;
 }
 
-export async function changeCurrentDidStore(
+export async function changeCurrentVCStore(
   wallet: SnapProvider,
-  didStore: typeof availableDataStores[number]
+  didStore: typeof availableVCStores[number]
 ) {
   const config = await getAccountConfig(wallet);
-  config.ssi.didStore = didStore;
+  config.ssi.vcStore = didStore;
   await updateAccountConfig(wallet, config);
   return;
 }

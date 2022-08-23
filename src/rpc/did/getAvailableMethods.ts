@@ -1,4 +1,4 @@
-import { availableMethods } from '../did/didMethods';
+import { availableMethods } from '../../did/didMethods';
 
 export function getAvailableMethods(): string[] {
   const methods = availableMethods.map((key) => key);

@@ -1,3 +1,4 @@
+import { AbstractVCStore } from '@blockchain-lab-um/veramo-vc-manager/build/vc-store/abstract-vc-store';
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // Core interfaces
@@ -33,6 +34,7 @@ import {
   SnapVCStore,
   SnapPrivateKeyStore,
 } from './plugins/snapDataStore/snapDataStore';
+import { CeramicVCStore } from './plugins/ceramicDataStore/ceramicDataStore';
 
 import {
   CredentialIssuer,
@@ -73,6 +75,7 @@ export const getAgent = async (
 
   const web3Providers: Record<string, Web3Provider> = {};
   const didProviders: Record<string, AbstractIdentifierProvider> = {};
+  const vcStorePlugins: Record<string, AbstractVCStore> = {};
 
   web3Providers['metamask'] = new Web3Provider(wallet as any);
 
@@ -92,6 +95,9 @@ export const getAgent = async (
   // });
 
   didProviders['did:key'] = new KeyDIDProvider({ defaultKms: 'web3' });
+
+  vcStorePlugins['snap'] = new SnapVCStore(wallet);
+  vcStorePlugins['ceramic'] = new CeramicVCStore();
 
   const agent = createAgent<
     IDIDManager &
@@ -115,7 +121,7 @@ export const getAgent = async (
         defaultProvider: 'metamask',
         providers: didProviders,
       }),
-      new VCManager({ store: new SnapVCStore(wallet) }),
+      new VCManager({ store: vcStorePlugins }),
       new CredentialIssuer(),
       new CredentialIssuerEIP712(),
       new MessageHandler({
