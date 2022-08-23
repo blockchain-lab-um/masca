@@ -85,7 +85,7 @@ export async function veramoCreateVP(
   }
   const config = await getSnapConfig();
   console.log(vc_id, domain, challenge);
-  if (vc && vc.vc !== null) {
+  if (vc && vc.vc) {
     const promptObj = {
       prompt: 'Alert',
       description: 'Do you wish to create a VP from the following VC?',
