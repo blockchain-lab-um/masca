@@ -4,7 +4,7 @@ const pathUtils = require('path');
 
 //import * as snapConfig from "./snap.config";
 
-const bundlePath = pathUtils.join('dist', 'bundle.js');
+const bundlePath = pathUtils.join('dist', 'snap.js');
 console.log('Bundle path', bundlePath);
 //const bundlePath = pathUtils.join(cliOptions.dist, cliOptions.outfileName);
 

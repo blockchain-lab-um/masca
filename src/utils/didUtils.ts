@@ -1,21 +1,21 @@
 import { availableMethods } from '../did/didMethods';
 import { getDidKeyIdentifier } from '../did/key/keyDidUtils';
-import { availableDataStores } from '../veramo/plugins/availableDataStores';
+import { availableVCStores } from '../veramo/plugins/availableVCStores';
 import { getCurrentAccount, getCurrentNetwork } from './snapUtils';
 import { getAccountConfig, updateAccountConfig } from './stateUtils';
 
-export async function getCurrentDidStore(): Promise<
-  typeof availableDataStores[number]
+export async function getCurrentVCStore(): Promise<
+  typeof availableVCStores[number]
 > {
   const config = await getAccountConfig();
-  return config.ssi.didStore;
+  return config.ssi.vcStore;
 }
 
-export async function changeCurrentDidStore(
-  didStore: typeof availableDataStores[number]
+export async function changeCurrentVCStore(
+  didStore: typeof availableVCStores[number]
 ) {
   const config = await getAccountConfig();
-  config.ssi.didStore = didStore;
+  config.ssi.vcStore = didStore;
   await updateAccountConfig(config);
   return;
 }

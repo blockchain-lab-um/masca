@@ -6,6 +6,7 @@ import {
 } from './stateUtils';
 import { publicKeyConvert } from 'secp256k1';
 import * as ethers from 'ethers';
+import { Maybe } from '@metamask/providers/dist/utils';
 
 /**
  * Function that returns address of the currently selected MetaMask account.
@@ -142,4 +143,16 @@ export function _uint8ArrayToHex(arr: any) {
 export function _hexToUnit8Array(str: any) {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   return new Uint8Array(Buffer.from(str, 'hex'));
+}
+
+export async function snapConfirm(param: {
+  prompt: string;
+  description: string;
+  textAreaContent: string;
+}): Promise<Maybe<unknown>> {
+  const result = await wallet.request({
+    method: 'snap_confirm',
+    params: [param],
+  });
+  return result;
 }

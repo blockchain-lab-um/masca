@@ -50,7 +50,7 @@
     <hr>
     <button class="getCurrentDid">Get current DID</button>
     <button class="getCurrentMethod">Get current method</button>
-    <button class="getAvailableMethods">Get current network</button>
+    <button class="getAvailableMethods">Get available methods</button>
     <br>
     <hr>
     <button class="togglePopups">TogglePopups</button>
@@ -58,6 +58,11 @@
     <hr>
     <input type="text" id="infura_token" placeholder="Infura token" />
     <button class="changeInfuraToken">ChangeInfuraToken</button>
+    <br>
+    <hr>
+    <button class="getVCStore">Get current VCStore</button>
+    <button class="toggleVCStore">Toggle current VCStore</button>
+    <button class="getAvailableVCStores">Get available vc stores</button>
   </body>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
   <script>
@@ -114,6 +119,11 @@
     
     const popups = document.querySelector('button.togglePopups')
     const infura = document.querySelector('button.changeInfuraToken')
+
+    const getVCStoreBtn = document.querySelector('button.getVCStore')
+    const toggleVCStoreBtn = document.querySelector('button.toggleVCStore')
+    const getavaiVCstoreBtn = document.querySelector('button.getAvailableVCStores')
+
     $(document).ready(function () {
       $('textarea#VC').text(JSON.stringify(placeholderVC));
     });
@@ -136,6 +146,10 @@
 
     popups.addEventListener('click', togglePopups)
     infura.addEventListener('click', changeInfuraToken)
+
+    getVCStoreBtn.addEventListener('click', getVCStore)
+    toggleVCStoreBtn.addEventListener('click', toggleVCStore)
+    getavaiVCstoreBtn.addEventListener('click', getAvailableVCStores)
 
     // here we get permissions to interact with and install the snap
     async function connect () {
@@ -178,6 +192,37 @@
       }
     }
 
+    async function getVCStore() {
+      try {
+        const response = await ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: [snapId, {
+            method: 'getVCStore'
+          }]
+        })
+        console.log("DID: ",response)
+      } catch (err) {
+        console.error(err)
+        alert('Problem happened: ' + err.message || err)
+      }
+    }
+
+    async function toggleVCStore() {
+      try {
+        const response = await ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: [snapId, {
+            method: 'setVCStore'
+          }]
+        })
+        console.log("DID: ",response)
+      } catch (err) {
+        console.error(err)
+        alert('Problem happened: ' + err.message || err)
+      }
+    }
+
+
     async function getMethod() {
       try {
         const response = await ethereum.request({
@@ -199,6 +244,21 @@
           method: 'wallet_invokeSnap',
           params: [snapId, {
             method: 'getAvailableMethods'
+          }]
+        })
+        console.log("AvailableMethods: ",response)
+      } catch (err) {
+        console.error(err)
+        alert('Problem happened: ' + err.message || err)
+      }
+    }
+
+    async function getAvailableVCStores() {
+      try {
+        const response = await ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: [snapId, {
+            method: 'getAvailableVCStores'
           }]
         })
         console.log("AvailableMethods: ",response)
