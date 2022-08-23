@@ -22,8 +22,10 @@ export async function init(wallet: SnapProvider): Promise<void> {
       globalConifg.snap.acceptedTerms = true;
       await updateSnapConfig(wallet, globalConifg);
       await getPublicKey(wallet);
+    } else {
+      throw new Error('User did not accept terms and conditions');
     }
   } else if (globalConifg.snap.acceptedTerms) {
     await getPublicKey(wallet);
-  } else throw new Error('User did not accept terms and conditions');
+  }
 }

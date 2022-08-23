@@ -6,7 +6,6 @@ chai.use(sinonChai);
 chai.should();
 
 describe('RPC handler [saveVC]', function () {
-  // a
   it('should pass', function () {
     //
   });
