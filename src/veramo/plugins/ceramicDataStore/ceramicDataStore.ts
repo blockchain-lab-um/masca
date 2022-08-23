@@ -1,9 +1,9 @@
+import { StoredCredentials } from './../../../interfaces';
 import { v4 as uuidv4 } from 'uuid';
 import { AbstractVCStore } from '@blockchain-lab-um/veramo-vc-manager/build/vc-store/abstract-vc-store';
 import { VerifiableCredential } from '@veramo/core';
 import { aliases, getCeramic } from '../../../utils/ceramicUtils';
 import { DIDDataStore } from '@glazed/did-datastore';
-import { StoredCredentials } from '../../../interfaces';
 export class CeramicVCStore extends AbstractVCStore {
   async get(args: { id: string }): Promise<VerifiableCredential | null> {
     const ceramic = await getCeramic();
@@ -24,7 +24,25 @@ export class CeramicVCStore extends AbstractVCStore {
 
   // eslint-disable-next-line @typescript-eslint/require-await
   async delete(args: { id: string }): Promise<boolean> {
-    return true;
+    const ceramic = await getCeramic();
+    const datastore = new DIDDataStore({ ceramic, model: aliases });
+    const ceramicData = (await datastore.get(
+      'StoredCredentials'
+    )) as StoredCredentials;
+    console.log(ceramicData);
+    if (ceramicData.storedCredentials) {
+      let found = false;
+      ceramicData.storedCredentials = ceramicData.storedCredentials.filter(
+        (vc) => {
+          if (vc.key !== args.id) return vc;
+          else found = true;
+        }
+      );
+      const res = await datastore.merge('StoredCredentials', ceramicData);
+      console.log(res);
+      return found;
+    }
+    return false;
   }
 
   async import(args: VerifiableCredential) {

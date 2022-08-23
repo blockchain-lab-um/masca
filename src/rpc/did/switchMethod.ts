@@ -17,8 +17,9 @@ export async function switchMethod(didMethod: string): Promise<boolean> {
       const result = await snapConfirm(promptObj);
       if (result) {
         await changeCurrentMethod(didMethod as typeof availableMethods[number]);
+        return true;
       }
-      return true;
+      return false;
     }
   }
   return false;

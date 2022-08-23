@@ -12,8 +12,9 @@ export async function saveVC(vc?: VerifiableCredential) {
       textAreaContent: JSON.stringify(vc.credentialSubject),
     };
     if (await snapConfirm(promptObj)) {
-      await veramoSaveVC(vc);
-      return true;
+      return await veramoSaveVC(vc);
     }
+    return false;
   }
+  return false;
 }

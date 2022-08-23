@@ -13,7 +13,9 @@ export async function setVCStore(): Promise<boolean> {
     if (await snapConfirm(promptObj)) {
       accountConfig.ssi.vcStore = 'ceramic';
       await updateAccountConfig(accountConfig);
+      return true;
     }
+    return false;
   } else {
     accountConfig.ssi.vcStore = 'snap';
     await updateAccountConfig(accountConfig);

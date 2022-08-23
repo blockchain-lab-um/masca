@@ -32,10 +32,10 @@ export async function veramoGetId(): Promise<IIdentifier> {
  * Saves a VC in the state object of the currently selected MetaMask account.
  * @param {VerifiableCredential} vc - The VC.
  * */
-export async function veramoSaveVC(vc: VerifiableCredential) {
+export async function veramoSaveVC(vc: VerifiableCredential): Promise<boolean> {
   const agent = await getAgent();
   const dataStore = await getAccountConfig();
-  await agent.saveVC({ store: dataStore.ssi.vcStore, vc });
+  return await agent.saveVC({ store: dataStore.ssi.vcStore, vc });
 }
 
 /**
