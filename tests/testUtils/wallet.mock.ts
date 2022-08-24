@@ -1,13 +1,15 @@
 import { RequestArguments } from '@metamask/providers/dist/BaseProvider';
 import { Maybe } from '@metamask/providers/dist/utils';
+import { SnapProvider } from '@metamask/snap-types';
 import sinon from 'sinon';
 import { address, signedMsg } from './constants';
 
 interface IWalletMock {
   request<T>(args: RequestArguments): Promise<Maybe<T>>;
+  resetHistory(): void;
 }
 
-class WalletMock implements IWalletMock {
+export class WalletMock implements IWalletMock {
   public readonly rpcStubs = {
     snap_confirm: sinon.stub(),
     eth_requestAccounts: sinon.stub().resolves([address]),
@@ -23,6 +25,12 @@ class WalletMock implements IWalletMock {
     // eslint-disable-next-line
     return this.rpcStubs[method](...params);
   }
+
+  resetHistory(): void {
+    Object.values(this.rpcStubs).forEach((stub) => stub.resetHistory());
+  }
 }
 
-export default WalletMock;
+export function createMockWallet(): SnapProvider & WalletMock {
+  return new WalletMock() as SnapProvider & WalletMock;
+}

@@ -1,4 +1,4 @@
-import chai, { expect } from 'chai';
+import { expect } from 'chai';
 import {
   isValidChangeInfuraTokenRequest,
   isValidGetVCsRequest,
@@ -6,8 +6,6 @@ import {
   isValidSaveVCRequest,
   isValidSwitchMethodRequest,
 } from '../../src/utils/params';
-
-chai.should();
 
 describe('Utils [params]', function () {
   /*
