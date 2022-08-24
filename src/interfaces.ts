@@ -27,17 +27,12 @@ export interface State {
   ssiSnapState: SSISnapState;
 }
 
-/**
- * SSI Snap State
- */
-export interface SSISnapStateRaw {
+export type SSISnapState = {
   /**
-   * MetaMask Address: SSIAccountState object
+   * Account specific storage
    */
-  [address: string]: SSIAccountState;
-}
+  accountState: Record<string, SSIAccountState>;
 
-export type SSISnapState = SSISnapStateRaw & {
   /**
    * Configuration for SSISnap
    */

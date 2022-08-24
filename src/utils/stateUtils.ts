@@ -20,7 +20,6 @@ import { SnapProvider } from '@metamask/snap-types';
  * @beta
  *
  **/
-
 async function updateSnapState(wallet: SnapProvider, snapState: SSISnapState) {
   let state = (await wallet.request({
     method: 'snap_manageState',
@@ -59,8 +58,8 @@ async function getSnapState(wallet: SnapProvider): Promise<SSISnapState> {
   if (state != null) {
     if ('ssiSnapState' in state) {
       return state.ssiSnapState;
-    } else return {} as SSISnapState;
-  } else return {} as SSISnapState;
+    } else return { accountState: {} } as SSISnapState;
+  } else return { accountState: {} } as SSISnapState;
 }
 
 /**
@@ -78,8 +77,8 @@ export async function getAccountState(
 ): Promise<SSIAccountState> {
   const ssiSnapState = await getSnapState(wallet);
   const address = await getCurrentAccount(wallet);
-  if (address in ssiSnapState) {
-    return ssiSnapState[address];
+  if (address in ssiSnapState.accountState) {
+    return ssiSnapState.accountState[address];
   } else {
     const emptyVCAccount = await initAccountState(wallet, address);
     return emptyVCAccount;
@@ -102,7 +101,7 @@ export async function updateAccountState(
 ) {
   const address = await getCurrentAccount(wallet);
   const ssiSnapState = await getSnapState(wallet);
-  ssiSnapState[address] = data;
+  ssiSnapState.accountState[address] = data;
   await updateSnapState(wallet, ssiSnapState);
 }
 
@@ -177,7 +176,7 @@ async function initAccountState(
   address: string
 ): Promise<SSIAccountState> {
   const ssiSnapState = await getSnapState(wallet);
-  ssiSnapState[address] = emptyVCAccount;
+  ssiSnapState.accountState[address] = emptyVCAccount;
   await updateSnapState(wallet, ssiSnapState);
   return JSON.parse(JSON.stringify(emptyVCAccount)) as SSIAccountState;
 }

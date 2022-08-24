@@ -59,13 +59,12 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     case 'getAvailableMethods':
       return getAvailableMethods();
     case 'getVCStore':
-      return await getVCStore();
+      return await getVCStore(wallet);
     case 'setVCStore':
-      return await setVCStore();
+      return await setVCStore(wallet);
     case 'getAvailableVCStores':
       return getAvailableVCStores();
     default:
       throw new Error('Method not found.');
   }
 };
-//);

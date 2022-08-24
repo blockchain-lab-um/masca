@@ -20,6 +20,7 @@ import { Maybe } from '@metamask/providers/dist/utils';
  *
  **/
 export async function getCurrentAccount(wallet: SnapProvider): Promise<string> {
+  // FIXME: Return null in case of errors
   try {
     const accounts = (await wallet.request({
       method: 'eth_requestAccounts',
