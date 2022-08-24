@@ -47,7 +47,7 @@
     "prepare": "yarn run clean && husky install",
     "prettier": "prettier --write .",
     "serve": "mm-snap serve",
-    "start": "mm-snap --version && yarn build:webpack && yarn serve",
+    "start": "mm-snap --version && yarn build && yarn serve",
     "test": "mocha"
   },
   "dependencies": {
