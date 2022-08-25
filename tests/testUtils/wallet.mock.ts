@@ -3,18 +3,35 @@ import { Maybe } from '@metamask/providers/dist/utils';
 import { SnapProvider } from '@metamask/snap-types';
 import sinon from 'sinon';
 import { address, signedMsg } from './constants';
-
+import { State } from '../../src/interfaces';
 interface IWalletMock {
   request<T>(args: RequestArguments): Promise<Maybe<T>>;
   resetHistory(): void;
 }
 
 export class WalletMock implements IWalletMock {
-  public readonly rpcStubs = {
+  private snapState: State | null = null;
+
+  private snapManageState(...params: unknown[]): State | null {
+    if (params.length === 0) return null;
+
+    if (params[0] === 'get') return this.snapState;
+    else if (params[0] === 'update') {
+      this.snapState = params[1] as State;
+    } else if (params[0] === 'clear') {
+      this.snapState = null;
+    }
+
+    return null;
+  }
+
+  readonly rpcStubs = {
     snap_confirm: sinon.stub(),
     eth_requestAccounts: sinon.stub().resolves([address]),
     eth_chainId: sinon.stub(),
-    snap_manageState: sinon.stub(),
+    snap_manageState: sinon
+      .stub()
+      .callsFake((...params: unknown[]) => this.snapManageState(...params)),
     personal_sign: sinon.stub().resolves(signedMsg),
   };
 

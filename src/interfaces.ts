@@ -98,3 +98,9 @@ export interface SSIAccountConfig {
     vcStore: typeof availableVCStores[number];
   };
 }
+
+export type SnapConfirmParams = {
+  prompt: string;
+  description?: string;
+  textAreaContent?: string;
+};

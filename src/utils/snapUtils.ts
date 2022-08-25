@@ -8,6 +8,7 @@ import { publicKeyConvert } from 'secp256k1';
 import * as ethers from 'ethers';
 import { SnapProvider } from '@metamask/snap-types';
 import { Maybe } from '@metamask/providers/dist/utils';
+import { SnapConfirmParams } from '../interfaces';
 
 /**
  * Function that returns address of the currently selected MetaMask account.
@@ -105,12 +106,14 @@ export async function getPublicKey(wallet: SnapProvider): Promise<string> {
   const account = await getCurrentAccount(wallet);
   let signedMsg;
   if (vcAccount.publicKey === '') {
-    signedMsg = await wallet.request({
-      method: 'personal_sign',
-      params: ['getPublicKey', account],
-    });
-    if (!signedMsg || typeof signedMsg !== 'string')
+    try {
+      signedMsg = (await wallet.request({
+        method: 'personal_sign',
+        params: ['getPublicKey', account],
+      })) as string;
+    } catch (err) {
       throw new Error('User denied request');
+    }
 
     const message = 'getPublicKey';
     const msgHash = ethers.utils.hashMessage(message);
@@ -153,15 +156,10 @@ export function _hexToUnit8Array(str: any) {
 
 export async function snapConfirm(
   wallet: SnapProvider,
-  param: {
-    prompt: string;
-    description: string;
-    textAreaContent: string;
-  }
-): Promise<Maybe<unknown>> {
-  const result = await wallet.request({
+  params: SnapConfirmParams
+): Promise<boolean> {
+  return (await wallet.request({
     method: 'snap_confirm',
-    params: [param],
-  });
-  return result;
+    params: [params],
+  })) as boolean;
 }
