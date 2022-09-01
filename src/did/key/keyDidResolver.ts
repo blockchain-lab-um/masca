@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
+  DIDDocument,
   DIDResolutionOptions,
   DIDResolutionResult,
   DIDResolver,
@@ -10,59 +11,75 @@ import { getDidKeyIdentifier } from './keyDidUtils';
 import { getCurrentAccount, getPublicKey } from '../../utils/snapUtils';
 import { SnapProvider } from '@metamask/snap-types';
 
-// FIXME: ADD WALLET AS PARAMETER
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const resolveSecp256k1 = async (did: string): Promise<any> => {
-  const DID = await getDidKeyIdentifier(wallet);
-  const account = await getCurrentAccount(wallet);
-  const publicKey = await getPublicKey(wallet);
-  const res = {
-    didDocument: {
-      '@context': [
-        'https://www.w3.org/ns/did/v1',
-        'https://w3id.org/security/suites/secp256k1-2019/v1',
-      ],
-      assertionMethod: [`${did}#${DID}`],
-      authenticationMethod: [`${did}#${DID}`],
-      capabilityInvocation: [`${did}#${DID}`],
-      capabilityDelegation: [`${did}#${DID}`],
-      keyAgreement: [`${did}#${DID}`],
-      verificationMethod: [
-        {
-          id: `${did}#${DID}`,
-          type: 'EcdsaSecp256k1RecoveryMethod2020',
-          controller: `${did}#${DID}`,
-          publicKeyHex: publicKey,
-          blockchainAccountId: `${account}@eip155:4`,
-        },
-      ],
-    },
+const resolveSecp256k1 = async (
+  wallet: SnapProvider,
+  account: string,
+  did: string
+): Promise<DIDDocument> => {
+  const DID = await getDidKeyIdentifier(wallet, account);
+  const publicKey = await getPublicKey(wallet, account);
+  // FIXME: authentication was authenticationMethod
+  // TODO: Change id ?
+  const didDocument: DIDDocument = {
+    id: `${did}#${DID}`,
+    '@context': [
+      'https://www.w3.org/ns/did/v1',
+      'https://w3id.org/security/suites/secp256k1-2019/v1',
+    ],
+    assertionMethod: [`${did}#${DID}`],
+    authentication: [`${did}#${DID}`],
+    capabilityInvocation: [`${did}#${DID}`],
+    capabilityDelegation: [`${did}#${DID}`],
+    keyAgreement: [`${did}#${DID}`],
+    verificationMethod: [
+      {
+        id: `${did}#${DID}`,
+        type: 'EcdsaSecp256k1RecoveryMethod2020',
+        controller: `${did}#${DID}`,
+        publicKeyHex: publicKey,
+        blockchainAccountId: `${account}@eip155:4`,
+      },
+    ],
   };
-  console.log('Did doc', res);
-  return res;
+  console.log('Did doc', didDocument);
+  return didDocument;
 };
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export const startsWithMap: Record<string, Function> = {
+type ResolutionFunction = (
+  wallet: SnapProvider,
+  account: string,
+  did: string
+) => Promise<DIDDocument>;
+
+export const startsWithMap: Record<string, ResolutionFunction> = {
   'did:key:zQ3s': resolveSecp256k1,
 };
 
 // FIXME: CHECK HOW WE COULD ADD WALLET AS PARAMETER
 const resolveDidKey: DIDResolver = async (
   didUrl: string,
-  _parsed: ParsedDID,
+  parsed: ParsedDID,
   _resolver: Resolvable,
-  options: DIDResolutionOptions
+  _options: DIDResolutionOptions
 ): Promise<DIDResolutionResult> => {
   try {
-    const startsWith = _parsed.did.substring(0, 12);
+    // FIXME: Update this part
+    const account = await getCurrentAccount(wallet);
+    if (!account) throw Error('User denied error');
+    // --------
+
+    const startsWith = parsed.did.substring(0, 12);
     if (startsWithMap[startsWith] !== undefined) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const didResolution = await startsWithMap[startsWith](didUrl);
+      const didDocument = await startsWithMap[startsWith](
+        wallet,
+        account,
+        didUrl
+      );
       return {
         didDocumentMetadata: {},
         didResolutionMetadata: {},
-        ...didResolution,
+        didDocument: didDocument,
       } as DIDResolutionResult;
     } else {
       return {

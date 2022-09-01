@@ -1,14 +1,24 @@
 import { veramoCreateVP } from '../../utils/veramoUtils';
 import { VerifiablePresentation } from '@veramo/core';
 import { SnapProvider } from '@metamask/snap-types';
+import { SSISnapState } from '../../interfaces';
 
 export async function getVP(
   wallet: SnapProvider,
+  state: SSISnapState,
+  account: string,
   vcId: string,
   domain?: string,
   challenge?: string
 ): Promise<VerifiablePresentation | null> {
   if (vcId === '') throw new Error('vcId is empty');
-  const vp = await veramoCreateVP(wallet, vcId, challenge, domain);
+  const vp = await veramoCreateVP(
+    wallet,
+    state,
+    account,
+    vcId,
+    challenge,
+    domain
+  );
   return vp;
 }

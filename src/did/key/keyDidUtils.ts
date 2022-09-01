@@ -1,15 +1,14 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-import { getCompressedPublicKey } from '../../utils/snapUtils';
+import { getCompressedPublicKey, getPublicKey } from '../../utils/snapUtils';
 import Multibase from 'multibase';
 import Multicodec from 'multicodec';
 import { SnapProvider } from '@metamask/snap-types';
 
 export async function getDidKeyIdentifier(
-  wallet: SnapProvider
+  wallet: SnapProvider,
+  account: string
 ): Promise<string> {
-  const compressedKey = await getCompressedPublicKey(wallet);
+  const publicKey = await getPublicKey(wallet, account);
+  const compressedKey = getCompressedPublicKey(publicKey);
   const DID = Buffer.from(
     Multibase.encode(
       'base58btc',

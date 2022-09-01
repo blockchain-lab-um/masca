@@ -50,9 +50,9 @@ const availableNetworks: Record<string, string> = {
   '0x04': 'rinkeby',
 };
 
-import { getSnapConfig } from '../utils/stateUtils';
 import { getCurrentNetwork } from '../utils/snapUtils';
 import { SnapProvider } from '@metamask/snap-types';
+import { getSnapState } from '../utils/stateUtils';
 
 export const getAgent = async (
   wallet: SnapProvider
@@ -67,9 +67,9 @@ export const getAgent = async (
       ICredentialIssuer
   >
 > => {
-  const snapConfig = await getSnapConfig(wallet);
+  const state = await getSnapState(wallet);
 
-  const INFURA_PROJECT_ID = snapConfig.snap.infuraToken;
+  const INFURA_PROJECT_ID = state.snapConfig.snap.infuraToken;
   const CHAIN_ID = await getCurrentNetwork(wallet);
   console.log('INFURA_PROJECT_ID', INFURA_PROJECT_ID, 'CHAIN ID', CHAIN_ID);
 

@@ -8,8 +8,13 @@ import { AbstractDIDStore } from '@veramo/did-manager';
 import { v4 as uuidv4 } from 'uuid';
 import { AbstractVCStore } from '@blockchain-lab-um/veramo-vc-manager/build/vc-store/abstract-vc-store';
 import { VerifiableCredential } from '@veramo/core';
-import { getAccountState, updateAccountState } from '../../../utils/stateUtils';
+import {
+  getSnapState,
+  updateAccountState,
+  updateSnapState,
+} from '../../../utils/stateUtils';
 import { SnapProvider } from '@metamask/snap-types';
+import { getCurrentAccount } from '../../../utils/snapUtils';
 
 export type ImportablePrivateKey = RequireOnly<
   ManagedPrivateKey,
@@ -23,7 +28,6 @@ export type ImportablePrivateKey = RequireOnly<
  */
 
 export class SnapKeyStore extends AbstractKeyStore {
-  // FIXME: Check if this works as intended
   wallet: SnapProvider;
   constructor(walletParam: SnapProvider) {
     super();
@@ -32,33 +36,46 @@ export class SnapKeyStore extends AbstractKeyStore {
   private keys: Record<string, IKey> = {};
 
   async get({ kid }: { kid: string }): Promise<IKey> {
-    const ssiAccountState = await getAccountState(this.wallet);
-    const key = ssiAccountState.snapKeyStore[kid];
+    const state = await getSnapState(this.wallet);
+    const account = await getCurrentAccount(this.wallet);
+    if (!account) throw Error('User denied error');
+
+    const key = state.accountState[account].snapKeyStore[kid];
     if (!key) throw Error('Key not found');
     return key;
   }
 
   async delete({ kid }: { kid: string }) {
-    const ssiAccountState = await getAccountState(this.wallet);
-    try {
-      delete ssiAccountState.snapKeyStore[kid];
-    } catch (e) {
-      return false;
-    }
+    const state = await getSnapState(this.wallet);
+    const account = await getCurrentAccount(this.wallet);
+    if (!account) throw Error('User denied error');
+
+    if (!state.accountState[account].snapKeyStore[kid])
+      throw Error('Key not found');
+
+    delete state.accountState[account].snapKeyStore[kid];
+    await updateSnapState(this.wallet, state);
     return true;
   }
 
   async import(args: IKey) {
-    const ssiAccountState = await getAccountState(this.wallet);
-    ssiAccountState.snapKeyStore[args.kid] = { ...args };
-    await updateAccountState(this.wallet, ssiAccountState);
+    const state = await getSnapState(this.wallet);
+    const account = await getCurrentAccount(this.wallet);
+    if (!account) throw Error('User denied error');
+
+    state.accountState[account].snapKeyStore[args.kid] = { ...args };
+    await updateSnapState(this.wallet, state);
     return true;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/ban-types
-  async list(args: {}): Promise<Exclude<IKey, 'privateKeyHex'>[]> {
-    const ssiAccountState = await getAccountState(this.wallet);
-    const safeKeys = Object.values(ssiAccountState.snapKeyStore).map((key) => {
+  async list(): Promise<Exclude<IKey, 'privateKeyHex'>[]> {
+    const state = await getSnapState(this.wallet);
+    const account = await getCurrentAccount(this.wallet);
+    if (!account) throw Error('User denied error');
+
+    const safeKeys = Object.values(
+      state.accountState[account].snapKeyStore
+    ).map((key) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { privateKeyHex, ...safeKey } = key;
       return safeKey;
@@ -81,39 +98,52 @@ export class SnapPrivateKeyStore extends AbstractPrivateKeyStore {
   }
 
   async get({ alias }: { alias: string }): Promise<ManagedPrivateKey> {
-    const ssiAccountState = await getAccountState(this.wallet);
-    const key = ssiAccountState.snapPrivateKeyStore[alias];
+    const state = await getSnapState(this.wallet);
+    const account = await getCurrentAccount(this.wallet);
+    if (!account) throw Error('User denied error');
+
+    const key = state.accountState[account].snapPrivateKeyStore[alias];
     if (!key) throw Error(`not_found: PrivateKey not found for alias=${alias}`);
     return key;
   }
 
   async delete({ alias }: { alias: string }) {
-    const ssiAccountState = await getAccountState(this.wallet);
-    try {
-      delete ssiAccountState.snapPrivateKeyStore[alias];
-    } catch (e) {
-      return false;
-    }
+    const state = await getSnapState(this.wallet);
+    const account = await getCurrentAccount(this.wallet);
+    if (!account) throw Error('User denied error');
+
+    if (!state.accountState[account].snapPrivateKeyStore[alias])
+      throw Error('Key not found');
+
+    delete state.accountState[account].snapPrivateKeyStore[alias];
+    await updateSnapState(this.wallet, state);
     return true;
   }
 
   async import(args: ImportablePrivateKey) {
-    const ssiAccountState = await getAccountState(this.wallet);
+    const state = await getSnapState(this.wallet);
+    const account = await getCurrentAccount(this.wallet);
+    if (!account) throw Error('User denied error');
+
     const alias = args.alias || uuidv4();
-    const existingEntry = ssiAccountState.snapPrivateKeyStore[alias];
+    const existingEntry =
+      state.accountState[account].snapPrivateKeyStore[alias];
     if (existingEntry && existingEntry.privateKeyHex !== args.privateKeyHex) {
       throw new Error(
         'key_already_exists: key exists with different data, please use a different alias'
       );
     }
-    ssiAccountState.snapPrivateKeyStore[alias] = { ...args, alias };
-    await updateAccountState(this.wallet, ssiAccountState);
-    return ssiAccountState.snapPrivateKeyStore[alias];
+    state.accountState[account].snapPrivateKeyStore[alias] = { ...args, alias };
+    await updateSnapState(this.wallet, state);
+    return state.accountState[account].snapPrivateKeyStore[alias];
   }
 
   async list(): Promise<Array<ManagedPrivateKey>> {
-    const ssiAccountState = await getAccountState(this.wallet);
-    return [...Object.values(ssiAccountState.snapPrivateKeyStore)];
+    const state = await getSnapState(this.wallet);
+    const account = await getCurrentAccount(this.wallet);
+    if (!account) throw Error('User denied error');
+
+    return [...Object.values(state.accountState[account].snapPrivateKeyStore)];
   }
 }
 
@@ -139,18 +169,21 @@ export class SnapDIDStore extends AbstractDIDStore {
     alias: string;
     provider: string;
   }): Promise<IIdentifier> {
-    const ssiAccountState = await getAccountState(this.wallet);
+    const state = await getSnapState(this.wallet);
+    const account = await getCurrentAccount(this.wallet);
+    if (!account) throw Error('User denied error');
+    const identifiers = state.accountState[account].identifiers;
+
     if (did && !alias) {
-      if (!ssiAccountState.identifiers[did])
+      if (!identifiers[did])
         throw Error(`not_found: IIdentifier not found with did=${did}`);
-      return ssiAccountState.identifiers[did];
     } else if (!did && alias && provider) {
-      for (const key of Object.keys(ssiAccountState.identifiers)) {
+      for (const key of Object.keys(identifiers)) {
         if (
-          ssiAccountState.identifiers[key].alias === alias &&
-          ssiAccountState.identifiers[key].provider === provider
+          identifiers[key].alias === alias &&
+          identifiers[key].provider === provider
         ) {
-          return ssiAccountState.identifiers[key];
+          return identifiers[key];
         }
       }
     } else {
@@ -162,25 +195,31 @@ export class SnapDIDStore extends AbstractDIDStore {
   }
 
   async delete({ did }: { did: string }) {
-    const ssiAccountState = await getAccountState(this.wallet);
-    try {
-      delete ssiAccountState.identifiers[did];
-    } catch (e) {
-      return false;
-    }
+    const state = await getSnapState(this.wallet);
+    const account = await getCurrentAccount(this.wallet);
+    if (!account) throw Error('User denied error');
+
+    if (!state.accountState[account].identifiers[did])
+      throw Error('Identifier not found');
+
+    delete state.accountState[account].identifiers[did];
+    await updateSnapState(this.wallet, state);
     return true;
   }
 
   async import(args: IIdentifier) {
-    const ssiAccountState = await getAccountState(this.wallet);
+    const state = await getSnapState(this.wallet);
+    const account = await getCurrentAccount(this.wallet);
+    if (!account) throw Error('User denied error');
+
     const identifier = { ...args };
     for (const key of identifier.keys) {
       if (key.privateKeyHex) {
         delete key.privateKeyHex;
       }
     }
-    ssiAccountState.identifiers[args.did] = identifier;
-    await updateAccountState(this.wallet, ssiAccountState);
+    state.accountState[account].identifiers[args.did] = identifier;
+    await updateSnapState(this.wallet, state);
     return true;
   }
 
@@ -188,11 +227,13 @@ export class SnapDIDStore extends AbstractDIDStore {
     alias?: string;
     provider?: string;
   }): Promise<IIdentifier[]> {
-    const ssiAccountState = await getAccountState(this.wallet);
-    let result: IIdentifier[] = [];
+    const state = await getSnapState(this.wallet);
+    const account = await getCurrentAccount(this.wallet);
+    if (!account) throw Error('User denied error');
 
-    for (const key of Object.keys(ssiAccountState.identifiers)) {
-      result.push(ssiAccountState.identifiers[key]);
+    let result: IIdentifier[] = [];
+    for (const key of Object.keys(state.accountState[account].identifiers)) {
+      result.push(state.accountState[account].identifiers[key]);
     }
 
     if (args.alias && !args.provider) {
@@ -223,42 +264,52 @@ export class SnapVCStore extends AbstractVCStore {
   }
 
   async get(args: { id: string }): Promise<VerifiableCredential | null> {
-    const ssiAccountState = await getAccountState(this.wallet);
-    const vc = ssiAccountState.vcs[args.id];
-    if (!vc) throw Error(`not_found: VC with key=${args.id} not found!`);
-    return vc;
+    const state = await getSnapState(this.wallet);
+    const account = await getCurrentAccount(this.wallet);
+    if (!account) throw Error('User denied error');
+
+    if (!state.accountState[account].vcs[args.id])
+      throw Error(`not_found: VC with key=${args.id} not found!`);
+    return state.accountState[account].vcs[args.id];
   }
 
   async delete({ id }: { id: string }) {
-    const ssiAccountState = await getAccountState(this.wallet);
-    try {
-      delete ssiAccountState.vcs[id];
-    } catch (e) {
-      return false;
-    }
+    const state = await getSnapState(this.wallet);
+    const account = await getCurrentAccount(this.wallet);
+    if (!account) throw Error('User denied error');
+
+    if (!state.accountState[account].vcs[id]) throw Error('VC not found');
+
+    delete state.accountState[account].vcs[id];
+    await updateSnapState(this.wallet, state);
     return true;
   }
 
   async import(args: VerifiableCredential) {
-    const ssiAccountState = await getAccountState(this.wallet);
-    let alias = uuidv4();
+    const state = await getSnapState(this.wallet);
+    const account = await getCurrentAccount(this.wallet);
+    if (!account) throw Error('User denied error');
 
-    while (ssiAccountState.vcs[alias]) {
+    let alias = uuidv4();
+    while (state.accountState[account].vcs[alias]) {
       alias = uuidv4();
     }
 
-    ssiAccountState.vcs[alias] = { ...args };
-    await updateAccountState(this.wallet, ssiAccountState);
+    state.accountState[account].vcs[alias] = { ...args };
+    await updateSnapState(this.wallet, state);
     return true;
   }
 
   async list(): Promise<VerifiableCredential[]> {
-    const ssiAccountState = await getAccountState(this.wallet);
-
+    const state = await getSnapState(this.wallet);
+    const account = await getCurrentAccount(this.wallet);
+    if (!account) throw Error('User denied error');
     const result: VerifiableCredential[] = [];
 
-    Object.keys(ssiAccountState.vcs).forEach((key) => {
-      result.push({ ...ssiAccountState.vcs[key], key: key });
+    // TODO: Why we adding key -> we have id ?
+    // Return type doesn't match with what we return
+    Object.keys(state.accountState[account].vcs).forEach((key) => {
+      result.push({ ...state.accountState[account].vcs[key], key: key });
     });
 
     return result;

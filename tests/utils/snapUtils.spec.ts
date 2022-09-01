@@ -7,7 +7,6 @@ import {
   getCompressedPublicKey,
   getCurrentAccount,
   getCurrentNetwork,
-  getFriendlyDapps,
   getPublicKey,
   removeFriendlyDapp,
   snapConfirm,
@@ -23,8 +22,6 @@ import {
   snapConfirmParams,
 } from '../testUtils/constants';
 import { init } from '../../src/rpc/snap/init';
-import { getSnapConfig } from '../../src/utils/stateUtils';
-import { State } from '../../src/interfaces';
 import cloneDeep from 'lodash.clonedeep';
 
 describe('Utils [snap]', function () {
@@ -101,21 +98,13 @@ describe('Utils [snap]', function () {
       // FIXME: Reduce to 2 calls
       const initialState = getDefaultSnapState();
 
-      walletMock.rpcStubs.snap_manageState.onCall(0).resolves(initialState);
-      walletMock.rpcStubs.snap_manageState.onCall(1).resolves(initialState);
-      walletMock.rpcStubs.snap_manageState.onCall(2).resolves(initialState);
+      await expect(togglePopups(walletMock, initialState.ssiSnapState)).to
+        .eventually.be.fulfilled;
 
-      await expect(togglePopups(walletMock)).to.eventually.be.fulfilled;
-
-      // First call should be `get`
-      let args = walletMock.rpcStubs.snap_manageState.getCall(0).args;
-      expect(args.length).to.be.equal(1);
-      expect(args[0]).to.be.equal('get');
-
-      // Second call should be `update` with the correct arguments
+      // Call should be `update` with the correct arguments
       const expectedState = getDefaultSnapState();
       expectedState.ssiSnapState.snapConfig.dApp.disablePopups = true;
-      args = walletMock.rpcStubs.snap_manageState.getCall(3).args;
+      const args = walletMock.rpcStubs.snap_manageState.getCall(0).args;
 
       expect(args.length).to.be.equal(2);
       expect(args[0]).to.be.equal('update');
@@ -127,23 +116,14 @@ describe('Utils [snap]', function () {
       const initialState = getDefaultSnapState();
       initialState.ssiSnapState.snapConfig.dApp.disablePopups = true;
 
-      walletMock.rpcStubs.snap_manageState.onCall(0).resolves(initialState);
-      walletMock.rpcStubs.snap_manageState.onCall(1).resolves(initialState);
-      walletMock.rpcStubs.snap_manageState.onCall(2).resolves(initialState);
+      await expect(togglePopups(walletMock, initialState.ssiSnapState)).to
+        .eventually.be.fulfilled;
 
-      await expect(togglePopups(walletMock)).to.eventually.be.fulfilled;
-
-      // First call should be `get`
-      let args = walletMock.rpcStubs.snap_manageState.getCall(0).args;
-
-      expect(args.length).to.be.equal(1);
-      expect(args[0]).to.be.equal('get');
-
-      // Second call should be `update` with the correct arguments
+      // Call should be `update` with the correct arguments
       const expectedState = getDefaultSnapState();
       expectedState.ssiSnapState.snapConfig.dApp.disablePopups = false;
 
-      args = walletMock.rpcStubs.snap_manageState.getCall(3).args;
+      const args = walletMock.rpcStubs.snap_manageState.getCall(0).args;
 
       expect(args.length).to.be.equal(2);
       expect(args[0]).to.be.equal('update');
@@ -291,24 +271,24 @@ describe('Utils [snap]', function () {
     });
   });
 
-  describe('getFriendlyDapps', function () {
-    it('should succeed getting friendly dApps', async function () {
-      const initialState = getDefaultSnapState();
-      initialState.ssiSnapState.snapConfig.dApp.friendlyDapps = [
-        'test_dApp_1',
-        'test_dApp_2',
-        'test_dApp_3',
-      ];
+  // describe('getFriendlyDapps', function () {
+  //   it('should succeed getting friendly dApps', async function () {
+  //     const initialState = getDefaultSnapState();
+  //     initialState.ssiSnapState.snapConfig.dApp.friendlyDapps = [
+  //       'test_dApp_1',
+  //       'test_dApp_2',
+  //       'test_dApp_3',
+  //     ];
 
-      walletMock.rpcStubs.snap_manageState.onCall(0).resolves(initialState);
+  //     walletMock.rpcStubs.snap_manageState.onCall(0).resolves(initialState);
 
-      await expect(getFriendlyDapps(walletMock)).to.eventually.be.deep.equal([
-        'test_dApp_1',
-        'test_dApp_2',
-        'test_dApp_3',
-      ]);
-    });
-  });
+  //     await expect(getFriendlyDapps(walletMock)).to.eventually.be.deep.equal([
+  //       'test_dApp_1',
+  //       'test_dApp_2',
+  //       'test_dApp_3',
+  //     ]);
+  //   });
+  // });
 
   describe('getPublicKey', function () {
     it('should succeed getting private key', async function () {

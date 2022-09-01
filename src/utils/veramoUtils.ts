@@ -6,11 +6,12 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
 } from '@veramo/core';
-import { getCurrentDid, getCurrentMethod } from './didUtils';
+import { getCurrentDid } from './didUtils';
 import { getCurrentAccount, snapConfirm } from './snapUtils';
-import { getAccountConfig, getSnapConfig } from './stateUtils';
+import { getSnapState } from './stateUtils';
 import { SnapProvider } from '@metamask/snap-types';
-import { isCeramicEnabled } from './ceramicUtils';
+import { availableVCStores } from '../veramo/plugins/availableVCStores';
+import { SSISnapState } from '../interfaces';
 
 /**
  * Get an existing or create a new DID for the currently selected MetaMask account.
@@ -35,11 +36,11 @@ export async function veramoGetId(wallet: SnapProvider): Promise<IIdentifier> {
  * */
 export async function veramoSaveVC(
   wallet: SnapProvider,
-  vc: VerifiableCredential
+  vc: VerifiableCredential,
+  vcStore: typeof availableVCStores[number]
 ): Promise<boolean> {
   const agent = await getAgent(wallet);
-  const dataStore = await getAccountConfig(wallet);
-  return await agent.saveVC({ store: dataStore.ssi.vcStore, vc });
+  return await agent.saveVC({ store: vcStore, vc });
 }
 
 /**
@@ -48,14 +49,16 @@ export async function veramoSaveVC(
  */
 export async function veramoListVCs(
   wallet: SnapProvider,
+  account: string,
+  vcStore: typeof availableVCStores[number],
   query?: VCQuery
 ): Promise<VerifiableCredential[]> {
   const agent = await getAgent(wallet);
   // TODO: Additional type check for query ?
   const vcsSnap = await agent.listVCS({ store: 'snap', query: query });
-  let vcsCeramic;
-  if (await isCeramicEnabled(wallet)) {
-    vcsCeramic = await agent.listVCS({ store: 'ceramic', query: query });
+
+  if (vcStore === 'ceramic') {
+    const vcsCeramic = await agent.listVCS({ store: 'ceramic', query: query });
     return [...vcsSnap.vcs, ...vcsCeramic.vcs];
   }
   return vcsSnap.vcs;
@@ -70,19 +73,22 @@ export async function veramoListVCs(
  * */
 export async function veramoCreateVP(
   wallet: SnapProvider,
+  state: SSISnapState,
+  account: string,
   vcId: string,
   challenge?: string,
   domain?: string
 ): Promise<VerifiablePresentation | null> {
   //GET DID
-  const identifier = await veramoImportMetaMaskAccount(wallet);
+  const identifier = await veramoImportMetaMaskAccount(wallet, state, account);
   //Get Veramo agent
   const agent = await getAgent(wallet);
   let vc;
   try {
+    // FIXME: getVC should return null not throw an error
     vc = await agent.getVC({ store: 'snap', id: vcId });
   } catch (e) {
-    if (await isCeramicEnabled(wallet)) {
+    if (state.accountState[account].accountConfig.ssi.vcStore === 'ceramic') {
       try {
         vc = await agent.getVC({ store: 'ceramic', id: vcId });
       } catch (e) {
@@ -90,7 +96,7 @@ export async function veramoCreateVP(
       }
     }
   }
-  const config = await getSnapConfig(wallet);
+  const config = state.snapConfig;
   console.log(vcId, domain, challenge);
   if (vc && vc.vc) {
     const promptObj = {
@@ -98,11 +104,8 @@ export async function veramoCreateVP(
       description: 'Do you wish to create a VP from the following VC?',
       textAreaContent: JSON.stringify(vc.vc.credentialSubject),
     };
-    const result =
-      config.dApp.disablePopups || (await snapConfirm(wallet, promptObj));
-    console.log('RESULT', result);
-    console.log('VC', vc);
-    if (result) {
+
+    if (config.dApp.disablePopups || (await snapConfirm(wallet, promptObj))) {
       if (challenge) console.log('Challenge:', challenge);
       if (domain) console.log('Domain:', domain);
       const vp = await agent.createVerifiablePresentation({
@@ -127,12 +130,13 @@ export async function veramoCreateVP(
 }
 
 export const veramoImportMetaMaskAccount = async (
-  wallet: SnapProvider
+  wallet: SnapProvider,
+  state: SSISnapState,
+  account: string
 ): Promise<string> => {
   const agent = await getAgent(wallet);
-  const account = await getCurrentAccount(wallet);
-  const did = await getCurrentDid(wallet);
-  const method = await getCurrentMethod(wallet);
+  const method = state.accountState[account].accountConfig.ssi.didMethod;
+  const did = await getCurrentDid(wallet, state, account);
 
   const identifiers = agent.didManagerFind();
   let exists = false;

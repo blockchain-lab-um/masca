@@ -12,21 +12,6 @@ import {
 import { availableMethods } from './did/didMethods';
 import { DID } from 'dids';
 
-/**
- * MetaMask State
- */
-export interface State {
-  /**
-   * Other objects created by other Snaps
-   */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [snapStates: string]: any;
-  /**
-   * SSI Snap Object
-   */
-  ssiSnapState: SSISnapState;
-}
-
 export type SSISnapState = {
   /**
    * Account specific storage

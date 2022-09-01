@@ -3,7 +3,6 @@ import { EthereumAuthProvider } from '@ceramicnetwork/blockchain-utils-linking';
 import { DIDSession } from '@glazed/did-session';
 import { getCurrentAccount } from './snapUtils';
 import { DID } from 'dids';
-import { getAccountConfig } from './stateUtils';
 import { SnapProvider } from '@metamask/snap-types';
 
 const ceramicDID = { did: undefined } as { did: DID | undefined };
@@ -25,9 +24,12 @@ export async function authenticateWithEthereum(
 ): Promise<DID> {
   if (ceramicDID.did) return ceramicDID.did;
   const account = await getCurrentAccount(wallet);
+  // FIXME: How to handle user rejection -> or will it never return an error if wallet is connected ?
+  if (!account) throw Error('....');
   const authProvider = new EthereumAuthProvider(wallet, account);
 
   const session = new DIDSession({ authProvider });
+  // FIXME: Change this
   typeof window;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
@@ -44,10 +46,4 @@ export async function getCeramic(wallet: SnapProvider): Promise<CeramicClient> {
   const did = await authenticateWithEthereum(wallet);
   await ceramic.setDID(did);
   return ceramic;
-}
-
-export async function isCeramicEnabled(wallet: SnapProvider) {
-  const accConfig = await getAccountConfig(wallet);
-  if (accConfig.ssi.vcStore === 'ceramic') return true;
-  return false;
 }
