@@ -7,8 +7,7 @@ import {
   VerifiablePresentation,
 } from '@veramo/core';
 import { getCurrentDid } from './didUtils';
-import { getCurrentAccount, snapConfirm } from './snapUtils';
-import { getSnapState } from './stateUtils';
+import { snapConfirm } from './snapUtils';
 import { SnapProvider } from '@metamask/snap-types';
 import { availableVCStores } from '../veramo/plugins/availableVCStores';
 import { SSISnapState } from '../interfaces';
@@ -81,6 +80,7 @@ export async function veramoCreateVP(
 ): Promise<VerifiablePresentation | null> {
   //GET DID
   const identifier = await veramoImportMetaMaskAccount(wallet, state, account);
+  console.log('Identifier: ', identifier);
   //Get Veramo agent
   const agent = await getAgent(wallet);
   let vc;
@@ -108,6 +108,9 @@ export async function veramoCreateVP(
     if (config.dApp.disablePopups || (await snapConfirm(wallet, promptObj))) {
       if (challenge) console.log('Challenge:', challenge);
       if (domain) console.log('Domain:', domain);
+      console.log('Identifier');
+      console.log(identifier);
+
       const vp = await agent.createVerifiablePresentation({
         presentation: {
           holder: identifier,
@@ -136,11 +139,16 @@ export const veramoImportMetaMaskAccount = async (
 ): Promise<string> => {
   const agent = await getAgent(wallet);
   const method = state.accountState[account].accountConfig.ssi.didMethod;
+  console.log('account');
+  console.log(account);
   const did = await getCurrentDid(wallet, state, account);
-
-  const identifiers = agent.didManagerFind();
+  console.log('did');
+  console.log(did);
+  const identifiers = await agent.didManagerFind();
+  console.log('identifiers: ');
+  console.log(JSON.stringify(identifiers));
   let exists = false;
-  (await identifiers).map((id: IIdentifier) => {
+  identifiers.map((id: IIdentifier) => {
     if (id.did === did) exists = true;
   });
   if (exists) {
@@ -151,7 +159,7 @@ export const veramoImportMetaMaskAccount = async (
   const controllerKeyId = `metamask-${account}`;
   await agent.didManagerImport({
     did,
-    provider: method,
+    provider: 'did:ethr:rinkeby',
     controllerKeyId,
     keys: [
       {
@@ -159,9 +167,10 @@ export const veramoImportMetaMaskAccount = async (
         type: 'Secp256k1',
         kms: 'web3',
         privateKeyHex: '',
+        publicKeyHex: '',
         meta: {
           provider: 'metamask',
-          account: account.toLocaleLowerCase(),
+          account: account,
           algorithms: ['eth_signMessage', 'eth_signTypedData'],
         },
       } as MinimalImportableKey,

@@ -46,6 +46,7 @@ describe('Utils [params]', function () {
         Error,
         'Invalid SaveVC request'
       );
+      console.log('sometinaskldnaslk');
     });
   });
 

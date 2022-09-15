@@ -1,4 +1,3 @@
-import { CeramicClient } from '@ceramicnetwork/http-client';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { availableVCStores } from './veramo/plugins/availableVCStores';
 import { IIdentifier, IKey, VerifiableCredential } from '@veramo/core';
@@ -10,7 +9,6 @@ import {
   SnapPrivateKeyStore,
 } from './veramo/plugins/snapDataStore/snapDataStore';
 import { availableMethods } from './did/didMethods';
-import { DID } from 'dids';
 
 export type SSISnapState = {
   /**

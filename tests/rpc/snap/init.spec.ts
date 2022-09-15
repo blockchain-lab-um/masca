@@ -8,7 +8,6 @@ import { defaultConfig } from '../../../src/utils/config';
 
 chai.use(chaiAsPromised);
 chai.use(sinonChai);
-chai.should();
 
 describe('RPC handler [init]', function () {
   let walletMock: SnapProvider & WalletMock;

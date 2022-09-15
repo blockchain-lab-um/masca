@@ -3,21 +3,21 @@ import { Maybe } from '@metamask/providers/dist/utils';
 import { SnapProvider } from '@metamask/snap-types';
 import sinon from 'sinon';
 import { address, signedMsg } from './constants';
-import { State } from '../../src/interfaces';
+import { SSISnapState } from '../../src/interfaces';
 interface IWalletMock {
   request<T>(args: RequestArguments): Promise<Maybe<T>>;
   resetHistory(): void;
 }
 
 export class WalletMock implements IWalletMock {
-  private snapState: State | null = null;
+  private snapState: SSISnapState | null = null;
 
-  private snapManageState(...params: unknown[]): State | null {
+  private snapManageState(...params: unknown[]): SSISnapState | null {
     if (params.length === 0) return null;
 
     if (params[0] === 'get') return this.snapState;
     else if (params[0] === 'update') {
-      this.snapState = params[1] as State;
+      this.snapState = params[1] as SSISnapState;
     } else if (params[0] === 'clear') {
       this.snapState = null;
     }

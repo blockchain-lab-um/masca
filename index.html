@@ -22,7 +22,6 @@
     <br/>
 
     <button class="connect">Connect</button>
-    <button class="init">Init</button>
     <br>
     <hr>
     <button class="getVCs">Get VCS</button>
@@ -101,7 +100,6 @@
 }
 
     const connectButton = document.querySelector('button.connect')
-    const initButton = document.querySelector('button.init')
 
     const getVCBtn = document.querySelector('button.getVCs')
 
@@ -127,7 +125,6 @@
     });
 
     connectButton.addEventListener('click', connect)
-    initButton.addEventListener('click', init)
 
     getVCBtn.addEventListener('click', getVCs)
 
@@ -157,21 +154,6 @@
           wallet_snap: { [snapId]: {} },
         }]
       })
-    }
-
-    async function init() {
-      try {
-        const response = await ethereum.request({
-          method: 'wallet_invokeSnap',
-          params: [snapId, {
-            method: 'init'
-          }]
-        })
-        console.log("INIT: ",response)
-      } catch (err) {
-        console.error(err)
-        alert('Problem happened: ' + err.message || err)
-      }
     }
 
     async function getDID() {
