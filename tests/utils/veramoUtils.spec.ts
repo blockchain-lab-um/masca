@@ -18,7 +18,7 @@ describe('Utils [veramo]', function () {
   });
 
   describe('veramoGetId', function () {
-    it('TODO', function () {
+    test('TODO', function () {
       //
     });
   });
