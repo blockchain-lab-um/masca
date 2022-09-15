@@ -1,5 +1,4 @@
 import { SnapProvider } from '@metamask/snap-types';
-import { expect } from 'chai';
 import {
   _hexToUnit8Array,
   _uint8ArrayToHex,
@@ -24,53 +23,45 @@ import {
 import { init } from '../../src/rpc/snap/init';
 import cloneDeep from 'lodash.clonedeep';
 
-describe('Utils [snap]', function () {
-  // let walletMock: SnapProvider & WalletMock;
+describe('Utils [snap]', () => {
+  let walletMock;
 
-  beforeEach(function () {
+  beforeEach(() => {
     walletMock = createMockWallet();
   });
 
-  describe('getCurrentAccount', function () {
-    it('should succeed and return test account', async function () {
-      await expect(getCurrentAccount(walletMock)).to.eventually.be.deep.equal(
-        address
-      );
+  describe('getCurrentAccount', () => {
+    it('should succeed and return test account', async () => {
+      await expect(getCurrentAccount(walletMock)).toEqual(address);
     });
 
-    it('should catch error and return null (user rejection)', async function () {
+    it('should catch error and return null (user rejection)', async () => {
       walletMock.rpcStubs.eth_requestAccounts.rejects();
 
-      await expect(getCurrentAccount(walletMock)).to.eventually.be.deep.equal(
-        null
-      );
+      await expect(getCurrentAccount(walletMock)).toBeNull();
     });
   });
 
-  describe('getCurrentNetwork', function () {
-    it('should succeed for mainnet (0x1)', async function () {
+  describe('getCurrentNetwork', () => {
+    it('should succeed for mainnet (0x1)', async () => {
       walletMock.rpcStubs.eth_chainId.resolves('0x1');
 
-      await expect(getCurrentNetwork(walletMock)).to.eventually.be.deep.equal(
-        '0x1'
-      );
+      await expect(getCurrentNetwork(walletMock)).toEqual('0x1');
 
-      expect(walletMock.rpcStubs.eth_chainId).to.have.callCount(1);
+      expect(walletMock.rpcStubs.eth_chainId).toBeCalledTimes(1);
     });
 
-    it('should succeed for rinkeby (0x4)', async function () {
+    it('should succeed for rinkeby (0x4)', async () => {
       walletMock.rpcStubs.eth_chainId.resolves('0x4');
 
-      await expect(getCurrentNetwork(walletMock)).to.eventually.be.deep.equal(
-        '0x4'
-      );
+      await expect(getCurrentNetwork(walletMock)).toEqual('0x4');
 
-      expect(walletMock.rpcStubs.eth_chainId).to.have.callCount(1);
+      expect(walletMock.rpcStubs.eth_chainId).toBeCalledTimes(1);
     });
   });
 
-  describe('updateInfuraToken', function () {
-    it('should succeed with valid infura token', async function () {
+  describe('updateInfuraToken', () => {
+    it('should succeed with valid infura token', async () => {
       const initialState = getDefaultSnapState();
       walletMock.rpcStubs.snap_manageState.onCall(0).resolves(initialState);
 
@@ -82,14 +73,14 @@ describe('Utils [snap]', function () {
 
       // Call should be `update` with the correct arguments
       const args = walletMock.rpcStubs.snap_manageState.getCall(0).args;
-      expect(args.length).to.be.equal(2);
-      expect(args[0]).to.be.equal('update');
-      expect(args[1]).to.be.deep.equal(expectedState);
+      expect(args.length).toBe(2);
+      expect(args[0]).toBe('update');
+      expect(args[1]).toEqual(expectedState);
     });
   });
 
-  describe('togglePopups', function () {
-    it('should succeed and toggle popups (off -> on)', async function () {
+  describe('togglePopups', () => {
+    it('should succeed and toggle popups (off -> on)', async () => {
       const initialState = getDefaultSnapState();
 
       await expect(togglePopups(walletMock, initialState)).to.eventually.be
@@ -100,12 +91,12 @@ describe('Utils [snap]', function () {
       expectedState.snapConfig.dApp.disablePopups = true;
       const args = walletMock.rpcStubs.snap_manageState.getCall(0).args;
 
-      expect(args.length).to.be.equal(2);
-      expect(args[0]).to.be.equal('update');
-      expect(args[1]).to.be.deep.equal(expectedState);
+      expect(args.length).toBe(2);
+      expect(args[0]).toBe('update');
+      expect(args[1]).toEqual(expectedState);
     });
 
-    it('should succeed and toggle popups (on -> off)', async function () {
+    it('should succeed and toggle popups (on -> off)', async () => {
       const initialState = getDefaultSnapState();
       initialState.snapConfig.dApp.disablePopups = true;
 
@@ -118,14 +109,14 @@ describe('Utils [snap]', function () {
 
       const args = walletMock.rpcStubs.snap_manageState.getCall(0).args;
 
-      expect(args.length).to.be.equal(2);
-      expect(args[0]).to.be.equal('update');
-      expect(args[1]).to.be.deep.equal(expectedState);
+      expect(args.length).toBe(2);
+      expect(args[0]).toBe('update');
+      expect(args[1]).toEqual(expectedState);
     });
   });
 
-  describe('addFriendlyDapp', function () {
-    it('should succeed adding dApp when friendlyDapps empty', async function () {
+  describe('addFriendlyDapp', () => {
+    it('should succeed adding dApp when friendlyDapps empty', async () => {
       const dApp = 'test_dApp_42';
       const initialState = getDefaultSnapState();
 
@@ -139,12 +130,12 @@ describe('Utils [snap]', function () {
 
       // Call should be `update` with the correct arguments
       const args = walletMock.rpcStubs.snap_manageState.getCall(0).args;
-      expect(args.length).to.be.equal(2);
-      expect(args[0]).to.be.equal('update');
-      expect(args[1]).to.be.deep.equal(expectedState);
+      expect(args.length).toBe(2);
+      expect(args[0]).toBe('update');
+      expect(args[1]).toEqual(expectedState);
     });
 
-    it('should succeed adding dApp when friendlyDapps not empty', async function () {
+    it('should succeed adding dApp when friendlyDapps not empty', async () => {
       const dApp = 'test_dApp_42';
       const initialState = getDefaultSnapState();
       initialState.snapConfig.dApp.friendlyDapps = [
@@ -168,14 +159,14 @@ describe('Utils [snap]', function () {
 
       // Call should be `update` with the correct arguments
       const args = walletMock.rpcStubs.snap_manageState.getCall(0).args;
-      expect(args.length).to.be.equal(2);
-      expect(args[0]).to.be.equal('update');
-      expect(args[1]).to.be.deep.equal(expectedState);
+      expect(args.length).toBe(2);
+      expect(args[0]).toBe('update');
+      expect(args[1]).toEqual(expectedState);
     });
   });
 
-  describe('removeFriendlyDapp', function () {
-    it('should succeed removing dApp when there is only one', async function () {
+  describe('removeFriendlyDapp', () => {
+    it('should succeed removing dApp when there is only one', async () => {
       const dApp = 'test_dApp_42';
       const initialState = getDefaultSnapState();
       initialState.snapConfig.dApp.friendlyDapps = [dApp];
@@ -189,12 +180,12 @@ describe('Utils [snap]', function () {
 
       // Call should be `update` with the correct arguments
       const args = walletMock.rpcStubs.snap_manageState.getCall(0).args;
-      expect(args.length).to.be.equal(2);
-      expect(args[0]).to.be.equal('update');
-      expect(args[1]).to.be.deep.equal(expectedState);
+      expect(args.length).toBe(2);
+      expect(args[0]).toBe('update');
+      expect(args[1]).toEqual(expectedState);
     });
 
-    it('should succeed removing dApp when there are many', async function () {
+    it('should succeed removing dApp when there are many', async () => {
       const dApp = 'test_dApp_42';
       const initialState = getDefaultSnapState();
       initialState.snapConfig.dApp.friendlyDapps = [
@@ -218,9 +209,9 @@ describe('Utils [snap]', function () {
 
       // Second call should be `update` with the correct arguments
       const args = walletMock.rpcStubs.snap_manageState.getCall(0).args;
-      expect(args.length).to.be.equal(2);
-      expect(args[0]).to.be.equal('update');
-      expect(args[1]).to.be.deep.equal(expectedState);
+      expect(args.length).toBe(2);
+      expect(args[0]).toBe('update');
+      expect(args[1]).toEqual(expectedState);
     });
   });
 
@@ -243,15 +234,13 @@ describe('Utils [snap]', function () {
   //   });
   // });
 
-  describe('getPublicKey', function () {
-    it('should succeed getting public key', async function () {
+  describe('getPublicKey', () => {
+    it('should succeed getting public key', async () => {
       // FIXME: Reduce to 2 calls
       const initialState = getDefaultSnapState();
       walletMock.rpcStubs.snap_manageState.resolves(initialState);
 
-      await expect(
-        getPublicKey(walletMock, address)
-      ).to.eventually.be.deep.equal(publicKey);
+      await expect(getPublicKey(walletMock, address)).toEqual(publicKey);
 
       // TODO: Maybe reset resolve or resolve only on first call to get ?
       const expectedState = getDefaultSnapState();
@@ -259,22 +248,20 @@ describe('Utils [snap]', function () {
 
       const args = walletMock.rpcStubs.snap_manageState.getCall(3).args;
 
-      expect(args.length).to.be.equal(2);
-      expect(args[0]).to.be.equal('update');
-      expect(args[1]).to.be.deep.equal(expectedState);
+      expect(args.length).toBe(2);
+      expect(args[0]).toBe('update');
+      expect(args[1]).toEqual(expectedState);
     });
 
-    it('should succeed getting public key (saved in snap state)', async function () {
+    it('should succeed getting public key (saved in snap state)', async () => {
       const initialState = getDefaultSnapState();
       initialState.accountState[address].publicKey = publicKey;
       walletMock.rpcStubs.snap_manageState.resolves(initialState);
 
-      await expect(
-        getPublicKey(walletMock, address)
-      ).to.eventually.be.deep.equal(publicKey);
+      await expect(getPublicKey(walletMock, address)).toEqual(publicKey);
     });
 
-    it('should fail getting private key (user denied)', async function () {
+    it('should fail getting private key (user denied)', async () => {
       const initialState = getDefaultSnapState();
       walletMock.rpcStubs.snap_manageState.resolves(initialState);
       walletMock.rpcStubs.personal_sign.rejects();
@@ -285,33 +272,29 @@ describe('Utils [snap]', function () {
     });
   });
 
-  describe('getCompressedPublicKey', function () {
-    it('TODO', function () {
+  describe('getCompressedPublicKey', () => {
+    it('TODO', () => {
       // TODO
     });
   });
 
-  describe('snapConfirm', function () {
-    it('should return true', async function () {
+  describe('snapConfirm', () => {
+    it('should return true', async () => {
       walletMock.rpcStubs.snap_confirm.resolves(true);
 
-      await expect(
-        snapConfirm(walletMock, snapConfirmParams)
-      ).to.eventually.be.deep.equal(true);
+      await expect(snapConfirm(walletMock, snapConfirmParams)).toEqual(true);
 
       const args = walletMock.rpcStubs.snap_confirm.getCall(0).args;
-      expect(args).to.be.deep.equal([snapConfirmParams]);
+      expect(args).toEqual([snapConfirmParams]);
     });
 
-    it('should return false', async function () {
+    it('should return false', async () => {
       walletMock.rpcStubs.snap_confirm.resolves(false);
 
-      await expect(
-        snapConfirm(walletMock, snapConfirmParams)
-      ).to.eventually.be.deep.equal(false);
+      await expect(snapConfirm(walletMock, snapConfirmParams)).toEqual(false);
 
       const args = walletMock.rpcStubs.snap_confirm.getCall(0).args;
-      expect(args).to.be.deep.equal([snapConfirmParams]);
+      expect(args).toEqual([snapConfirmParams]);
     });
   });
 });

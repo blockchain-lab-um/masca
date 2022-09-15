@@ -9,14 +9,14 @@ import { defaultConfig } from '../../../src/utils/config';
 chai.use(chaiAsPromised);
 chai.use(sinonChai);
 
-describe('RPC handler [init]', function () {
-  let walletMock: SnapProvider & WalletMock;
+describe('RPC handler [init]', () => {
+  let walletMock;
 
-  beforeEach(function () {
+  beforeEach(() => {
     walletMock = createMockWallet();
   });
 
-  it('should succeed for accepted terms and conditions', async function () {
+  it('should succeed for accepted terms and conditions', async () => {
     walletMock.rpcStubs.snap_confirm.resolves(true);
 
     await expect(init(walletMock)).to.eventually.be.fulfilled;

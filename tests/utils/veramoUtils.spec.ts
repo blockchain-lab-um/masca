@@ -10,33 +10,33 @@ import { veramoImportMetaMaskAccount } from '../../src/utils/veramoUtils';
 chai.use(chaiAsPromised);
 chai.use(sinonChai);
 
-describe('Utils [veramo]', function () {
-  let walletMock: SnapProvider & WalletMock;
+describe('Utils [veramo]', () => {
+  let walletMock;
 
-  beforeEach(function () {
+  beforeEach(() => {
     walletMock = createMockWallet();
   });
 
-  describe('veramoGetId', function () {
-    test('TODO', function () {
+  describe('veramoGetId', () => {
+    test('TODO', () => {
       //
     });
   });
 
-  describe('veramoSaveVC', function () {
-    it('TODO', function () {
+  describe('veramoSaveVC', () => {
+    it('TODO', () => {
       //
     });
   });
 
-  describe('veramoListVCs', function () {
-    it('TODO', function () {
+  describe('veramoListVCs', () => {
+    it('TODO', () => {
       //
     });
   });
 
-  describe('veramoImportMetaMaskAccount', function () {
-    it('should succeed importing metamask account', async function () {
+  describe('veramoImportMetaMaskAccount', () => {
+    it('should succeed importing metamask account', async () => {
       const initialState = getDefaultSnapState();
       walletMock.rpcStubs.snap_manageState.resolves(initialState);
 
