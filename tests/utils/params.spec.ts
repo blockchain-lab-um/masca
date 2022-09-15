@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import {
   isValidChangeInfuraTokenRequest,
   isValidGetVCsRequest,
@@ -21,31 +20,19 @@ describe('Utils [params]', function () {
   describe('isValidSaveVCRequest', function () {
     // TODO: Should we maybe also test and check for valid VPs ?
     it('should fail for null', function () {
-      expect(() => isValidSaveVCRequest(null)).to.throw(
-        Error,
-        'Invalid SaveVC request'
-      );
+      expect(() => isValidSaveVCRequest(null)).toThrowError(Error);
     });
 
     it('should fail for empty object', function () {
-      expect(() => isValidSaveVCRequest({})).to.throw(
-        Error,
-        'Invalid SaveVC request'
-      );
+      expect(() => isValidSaveVCRequest({})).toThrowError(Error);
     });
 
     it('should fail for string', function () {
-      expect(() => isValidSaveVCRequest('infuraToken')).to.throw(
-        Error,
-        'Invalid SaveVC request'
-      );
+      expect(() => isValidSaveVCRequest('infuraToken')).toThrowError(Error);
     });
 
     it('should fail for number', function () {
-      expect(() => isValidSaveVCRequest(42)).to.throw(
-        Error,
-        'Invalid SaveVC request'
-      );
+      expect(() => isValidSaveVCRequest(42)).toThrowError(Error);
       console.log('sometinaskldnaslk');
     });
   });
@@ -57,47 +44,35 @@ describe('Utils [params]', function () {
     it('should succeed if infuraToken is a string', function () {
       expect(() =>
         isValidChangeInfuraTokenRequest({ infuraToken: 'Valid infura token' })
-      ).to.not.throw();
+      ).not.toThrowError();
     });
 
     it('should fail for null', function () {
-      expect(() => isValidChangeInfuraTokenRequest(null)).to.throw(
-        Error,
-        'Invalid ChangeInfuraToken request'
-      );
+      expect(() => isValidChangeInfuraTokenRequest(null)).toThrowError(Error);
     });
 
     it('should fail for empty object', function () {
-      expect(() => isValidChangeInfuraTokenRequest({})).to.throw(
-        Error,
-        'Invalid ChangeInfuraToken request'
-      );
+      expect(() => isValidChangeInfuraTokenRequest({})).toThrowError(Error);
     });
 
     it('should fail for string', function () {
-      expect(() => isValidChangeInfuraTokenRequest('infuraToken')).to.throw(
-        Error,
-        'Invalid ChangeInfuraToken request'
-      );
+      expect(() => isValidChangeInfuraTokenRequest('infuraToken')).toThrowError(Error);
     });
 
     it('should fail for number', function () {
-      expect(() => isValidChangeInfuraTokenRequest(42)).to.throw(
-        Error,
-        'Invalid ChangeInfuraToken request'
-      );
+      expect(() => isValidChangeInfuraTokenRequest(42)).toThrowError(Error);
     });
 
     it('should fail if infuraToken is null', function () {
       expect(() =>
         isValidChangeInfuraTokenRequest({ infuraToken: null })
-      ).to.throw(Error, 'Invalid ChangeInfuraToken request');
+      ).toThrowError(Error);
     });
 
     it('should fail if infuraToken is a number', function () {
       expect(() =>
         isValidChangeInfuraTokenRequest({ infuraToken: 42 })
-      ).to.throw(Error, 'Invalid ChangeInfuraToken request');
+      ).toThrowError(Error);
     });
   });
 
@@ -106,7 +81,7 @@ describe('Utils [params]', function () {
   */
   describe('isValidGetVPRequest', function () {
     it('should succeed if vcId is a string', function () {
-      expect(() => isValidGetVPRequest({ vcId: 'Valid UUID' })).to.not.throw();
+      expect(() => isValidGetVPRequest({ vcId: 'Valid UUID' })).not.toThrowError();
     });
 
     it('should succeed if all params are strings', function () {
@@ -116,49 +91,31 @@ describe('Utils [params]', function () {
           domain: 'Valid domain',
           challenge: 'Valid challenge',
         })
-      ).to.not.throw();
+      ).not.toThrowError();
     });
 
     it('should fail for null', function () {
-      expect(() => isValidGetVPRequest(null)).to.throw(
-        Error,
-        'Invalid GetVP request'
-      );
+      expect(() => isValidGetVPRequest(null)).toThrowError(Error);
     });
 
     it('should fail for empty object', function () {
-      expect(() => isValidGetVPRequest({})).to.throw(
-        Error,
-        'Invalid GetVP request'
-      );
+      expect(() => isValidGetVPRequest({})).toThrowError(Error);
     });
 
     it('should fail for string', function () {
-      expect(() => isValidGetVPRequest('infuraToken')).to.throw(
-        Error,
-        'Invalid GetVP request'
-      );
+      expect(() => isValidGetVPRequest('infuraToken')).toThrowError(Error);
     });
 
     it('should fail for number', function () {
-      expect(() => isValidGetVPRequest(42)).to.throw(
-        Error,
-        'Invalid GetVP request'
-      );
+      expect(() => isValidGetVPRequest(42)).toThrowError(Error);
     });
 
     it('should fail if vcId is null', function () {
-      expect(() => isValidGetVPRequest({ vcId: null })).to.throw(
-        Error,
-        'Invalid GetVP request'
-      );
+      expect(() => isValidGetVPRequest({ vcId: null })).toThrowError(Error);
     });
 
     it('should fail if vcId is a number', function () {
-      expect(() => isValidGetVPRequest({ vcId: 42 })).to.throw(
-        Error,
-        'Invalid GetVP request'
-      );
+      expect(() => isValidGetVPRequest({ vcId: 42 })).toThrowError(Error);
     });
   });
 
@@ -169,49 +126,31 @@ describe('Utils [params]', function () {
     it('should succeed if didMethod is a string', function () {
       expect(() =>
         isValidSwitchMethodRequest({ didMethod: 'Valid didMethod' })
-      ).to.not.throw();
+      ).not.toThrowError();
     });
 
     it('should fail for null', function () {
-      expect(() => isValidSwitchMethodRequest(null)).to.throw(
-        Error,
-        'Invalid switchMethod request'
-      );
+      expect(() => isValidSwitchMethodRequest(null)).toThrowError(Error);
     });
 
     it('should fail for empty object', function () {
-      expect(() => isValidSwitchMethodRequest({})).to.throw(
-        Error,
-        'Invalid switchMethod request'
-      );
+      expect(() => isValidSwitchMethodRequest({})).toThrowError(Error);
     });
 
     it('should fail for string', function () {
-      expect(() => isValidSwitchMethodRequest('infuraToken')).to.throw(
-        Error,
-        'Invalid switchMethod request'
-      );
+      expect(() => isValidSwitchMethodRequest('infuraToken')).toThrowError(Error);
     });
 
     it('should fail for number', function () {
-      expect(() => isValidSwitchMethodRequest(42)).to.throw(
-        Error,
-        'Invalid switchMethod request'
-      );
+      expect(() => isValidSwitchMethodRequest(42)).toThrowError(Error);
     });
 
     it('should fail if didMethod is null', function () {
-      expect(() => isValidSwitchMethodRequest({ didMethod: null })).to.throw(
-        Error,
-        'Invalid switchMethod request'
-      );
+      expect(() => isValidSwitchMethodRequest({ didMethod: null })).toThrowError(Error);
     });
 
     it('should fail if didMethod is a number', function () {
-      expect(() => isValidSwitchMethodRequest({ didMethod: 42 })).to.throw(
-        Error,
-        'Invalid switchMethod request'
-      );
+      expect(() => isValidSwitchMethodRequest({ didMethod: 42 })).toThrowError(Error);
     });
   });
 });

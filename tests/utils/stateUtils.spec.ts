@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 describe('Utils [state]', function () {
   describe('updateSnapState', function () {
     it('TODO', function () {
