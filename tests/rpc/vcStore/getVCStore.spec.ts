@@ -3,8 +3,8 @@ import sinonChai from 'sinon-chai';
 
 chai.use(sinonChai);
 
-describe('RPC handler [getVCStore]', function () {
-  it('', function () {
+describe('RPC handler [getVCStore]', () => {
+  it('', () => {
     //
   });
 });

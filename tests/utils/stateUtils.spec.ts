@@ -1,44 +1,44 @@
-describe('Utils [state]', function () {
-  describe('updateSnapState', function () {
-    it('TODO', function () {
+describe('Utils [state]', () => {
+  describe('updateSnapState', () => {
+    it('TODO', () => {
       //
     });
   });
 
-  describe('getSnapState', function () {
-    it('TODO', function () {
+  describe('getSnapState', () => {
+    it('TODO', () => {
       //
     });
   });
 
-  describe('getAccountState', function () {
-    it('TODO', function () {
+  describe('getAccountState', () => {
+    it('TODO', () => {
       // FIXME: Change this function to remove unneccessary calls
       // ADD snapState as parameter
     });
   });
 
-  describe('updateAccountState', function () {
-    it('TODO', function () {
+  describe('updateAccountState', () => {
+    it('TODO', () => {
       // FIXME: Change this function to remove unneccessary calls
       // ADD snapState as parameter
     });
   });
 
-  describe('getSnapConfig', function () {
-    it('TODO', function () {
+  describe('getSnapConfig', () => {
+    it('TODO', () => {
       // FIXME: REMOVE
     });
   });
 
-  describe('updateSnapConfig', function () {
-    it('TODO', function () {
+  describe('updateSnapConfig', () => {
+    it('TODO', () => {
       // FIXME: REMOVE
     });
   });
 
-  describe('updateAccountConfig', function () {
-    it('TODO', function () {
+  describe('updateAccountConfig', () => {
+    it('TODO', () => {
       // FIXME: REMOVE
     });
   });

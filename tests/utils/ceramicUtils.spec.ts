@@ -1,5 +1,5 @@
-describe('Utils [ceramic]', function () {
-  it('', function () {
+describe('Utils [ceramic]', () => {
+  it('', () => {
     //
   });
 });

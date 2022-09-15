@@ -25,7 +25,7 @@ import { init } from '../../src/rpc/snap/init';
 import cloneDeep from 'lodash.clonedeep';
 
 describe('Utils [snap]', function () {
-  let walletMock: SnapProvider & WalletMock;
+  // let walletMock: SnapProvider & WalletMock;
 
   beforeEach(function () {
     walletMock = createMockWallet();
