@@ -215,7 +215,7 @@ export class SnapDIDStore extends AbstractDIDStore {
 
     const identifier = { ...args };
     for (const key of identifier.keys) {
-      if (key.privateKeyHex) {
+      if ('privateKeyHex' in key) {
         delete key.privateKeyHex;
       }
     }
