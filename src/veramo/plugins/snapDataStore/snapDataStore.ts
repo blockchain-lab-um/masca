@@ -177,6 +177,7 @@ export class SnapDIDStore extends AbstractDIDStore {
     if (did && !alias) {
       if (!identifiers[did])
         throw Error(`not_found: IIdentifier not found with did=${did}`);
+      return identifiers[did];
     } else if (!did && alias && provider) {
       for (const key of Object.keys(identifiers)) {
         if (
