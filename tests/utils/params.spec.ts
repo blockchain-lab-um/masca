@@ -56,7 +56,9 @@ describe('Utils [params]', () => {
     });
 
     it('should fail for string', () => {
-      expect(() => isValidChangeInfuraTokenRequest('infuraToken')).toThrowError(Error);
+      expect(() => isValidChangeInfuraTokenRequest('infuraToken')).toThrowError(
+        Error
+      );
     });
 
     it('should fail for number', () => {
@@ -81,7 +83,9 @@ describe('Utils [params]', () => {
   */
   describe('isValidGetVPRequest', () => {
     it('should succeed if vcId is a string', () => {
-      expect(() => isValidGetVPRequest({ vcId: 'Valid UUID' })).not.toThrowError();
+      expect(() =>
+        isValidGetVPRequest({ vcId: 'Valid UUID' })
+      ).not.toThrowError();
     });
 
     it('should succeed if all params are strings', () => {
@@ -138,7 +142,9 @@ describe('Utils [params]', () => {
     });
 
     it('should fail for string', () => {
-      expect(() => isValidSwitchMethodRequest('infuraToken')).toThrowError(Error);
+      expect(() => isValidSwitchMethodRequest('infuraToken')).toThrowError(
+        Error
+      );
     });
 
     it('should fail for number', () => {
@@ -146,11 +152,15 @@ describe('Utils [params]', () => {
     });
 
     it('should fail if didMethod is null', () => {
-      expect(() => isValidSwitchMethodRequest({ didMethod: null })).toThrowError(Error);
+      expect(() =>
+        isValidSwitchMethodRequest({ didMethod: null })
+      ).toThrowError(Error);
     });
 
     it('should fail if didMethod is a number', () => {
-      expect(() => isValidSwitchMethodRequest({ didMethod: 42 })).toThrowError(Error);
+      expect(() => isValidSwitchMethodRequest({ didMethod: 42 })).toThrowError(
+        Error
+      );
     });
   });
 });

@@ -25,14 +25,16 @@ export class WalletMock implements IWalletMock {
     return null;
   }
 
-  readonly rpcStubs = {
-    snap_confirm: sinon.stub(),
-    eth_requestAccounts: sinon.stub().resolves([address]),
-    eth_chainId: sinon.stub(),
-    snap_manageState: sinon
-      .stub()
-      .callsFake((...params: unknown[]) => this.snapManageState(...params)),
-    personal_sign: sinon.stub().resolves(signedMsg),
+  readonly rpcMocks = {
+    snap_confirm: jest.fn(),
+    eth_requestAccounts: jest.fn().mockResolvedValue([address]),
+    eth_chainId: jest.fn(),
+    snap_manageState: jest
+      .fn()
+      .mockImplementation((...params: unknown[]) =>
+        this.snapManageState(...params)
+      ),
+    personal_sign: jest.fn().mockResolvedValue(signedMsg),
   };
 
   request<T>(args: RequestArguments): Promise<Maybe<T>> {
@@ -40,11 +42,11 @@ export class WalletMock implements IWalletMock {
 
     // @ts-expect-error Args params won't cause an issue
     // eslint-disable-next-line
-    return this.rpcStubs[method](...params);
+    return this.rpcMocks[method](...params);
   }
 
   resetHistory(): void {
-    Object.values(this.rpcStubs).forEach((stub) => stub.resetHistory());
+    Object.values(this.rpcMocks).forEach((mock) => mock.mockRestore());
   }
 }
 
