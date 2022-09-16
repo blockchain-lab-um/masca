@@ -26,10 +26,10 @@ export async function getCurrentDid(
   if (method === 'did:ethr') {
     const chain_id = await getCurrentNetwork(wallet);
     return `did:ethr:${chain_id}:${account}`;
-  } else if (method === 'did:key') {
+  } else {
     const didUrl = await getDidKeyIdentifier(wallet, account);
     return `did:key:${didUrl}`;
-  } else return '';
+  }
 }
 
 export async function changeCurrentMethod(
