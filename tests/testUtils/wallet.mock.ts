@@ -28,7 +28,7 @@ export class WalletMock implements IWalletMock {
   readonly rpcMocks = {
     snap_confirm: jest.fn(),
     eth_requestAccounts: jest.fn().mockResolvedValue([address]),
-    eth_chainId: jest.fn(),
+    eth_chainId: jest.fn().mockResolvedValue('0x4'),
     snap_manageState: jest
       .fn()
       .mockImplementation((...params: unknown[]) =>

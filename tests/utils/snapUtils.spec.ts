@@ -276,7 +276,7 @@ describe('Utils [snap]', () => {
       walletMock.rpcMocks.personal_sign.mockRejectedValue(new Error());
 
       await expect(getPublicKey(walletMock, address)).rejects.toEqual(
-        'User denied request'
+        new Error('User denied request')
       );
     });
   });
@@ -295,7 +295,7 @@ describe('Utils [snap]', () => {
         true
       );
 
-      expect(walletMock.rpcMocks.snap_manageState).toHaveBeenCalledWith(
+      expect(walletMock.rpcMocks.snap_confirm).toHaveBeenCalledWith(
         snapConfirmParams
       );
     });
@@ -307,7 +307,7 @@ describe('Utils [snap]', () => {
         false
       );
 
-      expect(walletMock.rpcMocks.snap_manageState).toHaveBeenCalledWith(
+      expect(walletMock.rpcMocks.snap_confirm).toHaveBeenCalledWith(
         snapConfirmParams
       );
     });

@@ -16,18 +16,19 @@ import { SSISnapState } from '../interfaces';
  * Get an existing or create a new DID for the currently selected MetaMask account.
  * @returns {Promise<IIdentifier>} a DID.
  */
-export async function veramoGetId(wallet: SnapProvider): Promise<IIdentifier> {
-  const agent = await getAgent(wallet);
-  const identifiers = await agent.didManagerFind();
-  if (identifiers.length == 1) {
-    console.log('DID Already exists for the selected MetaMask Account');
-    return identifiers[0];
-  }
-  const identity = await agent.didManagerCreate();
-  console.log(`New identity created`);
-  console.log(identity);
-  return identity;
-}
+// FIXME: DELETE
+// export async function veramoGetId(wallet: SnapProvider): Promise<IIdentifier> {
+//   const agent = await getAgent(wallet);
+//   const identifiers = await agent.didManagerFind();
+//   if (identifiers.length === 1) {
+//     console.log('DID Already exists for the selected MetaMask Account');
+//     return identifiers[0];
+//   }
+//   const identity = await agent.didManagerCreate();
+//   console.log(`New identity created`);
+//   console.log(identity);
+//   return identity;
+// }
 
 /**
  * Saves a VC in the state object of the currently selected MetaMask account.
@@ -139,14 +140,9 @@ export const veramoImportMetaMaskAccount = async (
 ): Promise<string> => {
   const agent = await getAgent(wallet);
   const method = state.accountState[account].accountConfig.ssi.didMethod;
-  console.log('account');
-  console.log(account);
   const did = await getCurrentDid(wallet, state, account);
-  console.log('did');
-  console.log(did);
   const identifiers = await agent.didManagerFind();
-  console.log('identifiers: ');
-  console.log(JSON.stringify(identifiers));
+
   let exists = false;
   identifiers.map((id: IIdentifier) => {
     if (id.did === did) exists = true;
@@ -155,11 +151,12 @@ export const veramoImportMetaMaskAccount = async (
     console.log('DID already exists', did);
     return did;
   }
+
   console.log('Importing...');
   const controllerKeyId = `metamask-${account}`;
   await agent.didManagerImport({
     did,
-    provider: 'did:ethr:rinkeby',
+    provider: method,
     controllerKeyId,
     keys: [
       {
@@ -170,12 +167,13 @@ export const veramoImportMetaMaskAccount = async (
         publicKeyHex: '',
         meta: {
           provider: 'metamask',
-          account: account,
+          account: account.toLowerCase(),
           algorithms: ['eth_signMessage', 'eth_signTypedData'],
         },
       } as MinimalImportableKey,
     ],
   });
+
   console.log('imported successfully');
   return did;
 };
