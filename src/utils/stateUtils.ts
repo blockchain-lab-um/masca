@@ -1,13 +1,7 @@
-import {
-  SSISnapState,
-  SSIAccountState,
-  SSISnapConfig,
-  SSIAccountConfig,
-} from '../interfaces';
-import { getCurrentAccount, getPublicKey } from './snapUtils';
+import { SSISnapState } from '../interfaces';
+import { getPublicKey } from './snapUtils';
 import { getEmptyAccountState, getInitialSnapState } from './config';
 import { SnapProvider } from '@metamask/snap-types';
-import cloneDeep from 'lodash.clonedeep';
 
 /**
  * Function for updating SSISnapState object in the MetaMask state
@@ -106,67 +100,7 @@ export async function initAccountState(
 ): Promise<void> {
   state.accountState[account] = getEmptyAccountState();
   // FIXME: How to handle if user declines signature ?
-  const publicKey = await getPublicKey(wallet, account);
+  const publicKey = await getPublicKey(wallet, state, account);
   state.accountState[account].publicKey = publicKey;
   await updateSnapState(wallet, state);
 }
-
-/**
- * Function that updates the object (SSIAccountState) in MetaMask SSI Snap state for the selected MetaMask account
- *
- * @public
- *
- * @param {SSIAccountState} data object that will replace the current object in the state
- *
- * @beta
- *
- **/
-export async function updateAccountState(
-  wallet: SnapProvider,
-  state: SSISnapState,
-  address: string,
-  data: SSIAccountState
-) {
-  state.accountState[address] = data;
-  await updateSnapState(wallet, state);
-}
-
-// /**
-//  * Function that returns config object of SSI Snap
-//  *
-//  * @returns {SSISnapConfig} object
-//  */
-// export async function getSnapConfig(
-//   wallet: SnapProvider
-// ): Promise<SSISnapConfig> {
-//   const ssiSnapState = await getSnapState(wallet);
-//   if ('snapConfig' in ssiSnapState) {
-//     return ssiSnapState.snapConfig;
-//   } else {
-//     await updateSnapConfig(wallet, defaultConfig);
-//     return JSON.parse(JSON.stringify(defaultConfig)) as SSISnapConfig;
-//   }
-// }
-
-// /**
-//  * Updates config object in MetaMask state with new object.
-//  *
-//  * @param {SSISnapConfig} config object that will replace the current object in the state
-//  */
-// export async function updateSnapConfig(
-//   wallet: SnapProvider,
-//   config: SSISnapConfig
-// ) {
-//   const ssiSnapState = await getSnapState(wallet);
-//   ssiSnapState.snapConfig = config;
-//   await updateSnapState(wallet, ssiSnapState);
-// }
-
-// export async function updateAccountConfig(
-//   wallet: SnapProvider,
-//   config: SSIAccountConfig
-// ) {
-//   const ssiAccountState = await getAccountState(wallet);
-//   ssiAccountState.accountConfig = config;
-//   await updateAccountState(wallet, ssiAccountState);
-// }

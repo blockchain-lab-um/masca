@@ -27,7 +27,7 @@ export async function getCurrentDid(
     const chain_id = await getCurrentNetwork(wallet);
     return `did:ethr:${chain_id}:${account}`;
   } else {
-    const didUrl = await getDidKeyIdentifier(wallet, account);
+    const didUrl = getDidKeyIdentifier(state, account);
     return `did:key:${didUrl}`;
   }
 }

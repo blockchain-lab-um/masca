@@ -4,7 +4,11 @@ import {
   changeCurrentVCStore,
   getCurrentDid,
 } from '../../src/utils/didUtils';
-import { address, getDefaultSnapState } from '../testUtils/constants';
+import {
+  address,
+  getDefaultSnapState,
+  publicKey,
+} from '../testUtils/constants';
 import { createMockWallet, WalletMock } from '../testUtils/wallet.mock';
 
 describe('Utils [did]', () => {

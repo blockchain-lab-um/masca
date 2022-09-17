@@ -1,9 +1,9 @@
 import { RequestArguments } from '@metamask/providers/dist/BaseProvider';
 import { Maybe } from '@metamask/providers/dist/utils';
 import { SnapProvider } from '@metamask/snap-types';
-import sinon from 'sinon';
-import { address, signedMsg } from './constants';
+import { address, privateKey, signedMsg } from './constants';
 import { SSISnapState } from '../../src/interfaces';
+import { Wallet } from 'ethers';
 interface IWalletMock {
   request<T>(args: RequestArguments): Promise<Maybe<T>>;
   resetHistory(): void;
@@ -11,6 +11,7 @@ interface IWalletMock {
 
 export class WalletMock implements IWalletMock {
   private snapState: SSISnapState | null = null;
+  private wallet: Wallet = new Wallet(privateKey);
 
   private snapManageState(...params: unknown[]): SSISnapState | null {
     if (params.length === 0) return null;
@@ -35,6 +36,18 @@ export class WalletMock implements IWalletMock {
         this.snapManageState(...params)
       ),
     personal_sign: jest.fn().mockResolvedValue(signedMsg),
+    eth_signTypedData_v4: jest
+      .fn()
+      .mockImplementation((...params: unknown[]) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unused-vars, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
+        const { domain, types, message } = JSON.parse(params[1] as any);
+
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        delete types.EIP712Domain;
+
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        return this.wallet._signTypedData(domain, types, message);
+      }),
   };
 
   request<T>(args: RequestArguments): Promise<Maybe<T>> {

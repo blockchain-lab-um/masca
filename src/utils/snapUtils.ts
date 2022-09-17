@@ -95,8 +95,12 @@ export async function removeFriendlyDapp(
  */
 export async function getPublicKey(
   wallet: SnapProvider,
+  state: SSISnapState,
   account: string
 ): Promise<string> {
+  if (state.accountState[account].publicKey !== '')
+    return state.accountState[account].publicKey;
+
   let signedMsg;
   try {
     signedMsg = (await wallet.request({
@@ -111,17 +115,13 @@ export async function getPublicKey(
   const msgHash = ethers.utils.hashMessage(message);
   const msgHashBytes = ethers.utils.arrayify(msgHash);
 
-  let pubKey = ethers.utils.recoverPublicKey(msgHashBytes, signedMsg);
-  console.log(pubKey);
-
-  pubKey = pubKey.split('0x')[1];
-  console.log(pubKey);
-
-  return pubKey;
+  return ethers.utils.recoverPublicKey(msgHashBytes, signedMsg);
 }
 
 export function getCompressedPublicKey(publicKey: string): string {
-  return _uint8ArrayToHex(publicKeyConvert(_hexToUnit8Array(publicKey), true));
+  return _uint8ArrayToHex(
+    publicKeyConvert(_hexToUnit8Array(publicKey.split('0x')[1]), true)
+  );
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

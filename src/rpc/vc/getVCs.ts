@@ -14,7 +14,6 @@ export async function getVCs(
   console.log('query', query);
   const vcs = await veramoListVCs(
     wallet,
-    account,
     state.accountState[account].accountConfig.ssi.vcStore,
     query
   );

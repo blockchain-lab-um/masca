@@ -49,7 +49,6 @@ export async function veramoSaveVC(
  */
 export async function veramoListVCs(
   wallet: SnapProvider,
-  account: string,
   vcStore: typeof availableVCStores[number],
   query?: VCQuery
 ): Promise<VerifiableCredential[]> {

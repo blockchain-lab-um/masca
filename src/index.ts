@@ -11,7 +11,7 @@ import {
   isValidSwitchMethodRequest,
 } from './utils/params';
 import { switchMethod } from './rpc/did/switchMethod';
-import { init } from './rpc/snap/init';
+import { init } from './utils/init';
 import { getDid } from './rpc/did/getDID';
 import { getAvailableMethods } from './rpc/did/getAvailableMethods';
 import { setVCStore } from './rpc/vcStore/setVCStore';
@@ -81,7 +81,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       return getAvailableMethods();
     case 'getVCStore':
       return state.accountState[account].accountConfig.ssi.vcStore;
-    // TODO: RENAME THIS
+    // TODO: RENAME THIS OR CHANGE PARAMETERS -> Current behaviour is switch not set
     case 'setVCStore':
       return await setVCStore(wallet, state, account);
     case 'getAvailableVCStores':

@@ -1,9 +1,6 @@
 import { SnapProvider } from '@metamask/snap-types';
 import {
-  _hexToUnit8Array,
-  _uint8ArrayToHex,
   addFriendlyDapp,
-  getCompressedPublicKey,
   getCurrentAccount,
   getCurrentNetwork,
   getPublicKey,
@@ -20,8 +17,6 @@ import {
   infuraToken,
   snapConfirmParams,
 } from '../testUtils/constants';
-import { init } from '../../src/rpc/snap/init';
-import cloneDeep from 'lodash.clonedeep';
 
 describe('Utils [snap]', () => {
   let walletMock: SnapProvider & WalletMock;
@@ -243,41 +238,31 @@ describe('Utils [snap]', () => {
 
   describe('getPublicKey', () => {
     it('should succeed getting public key', async () => {
-      // FIXME: Reduce to 2 calls
       const initialState = getDefaultSnapState();
-      walletMock.rpcMocks.snap_manageState.mockResolvedValue(initialState);
+      initialState.accountState[address].publicKey = '';
 
-      await expect(getPublicKey(walletMock, address)).resolves.toEqual(
-        publicKey
-      );
-
-      const expectedState = getDefaultSnapState();
-      expectedState.accountState[address].publicKey = publicKey;
-
-      expect(walletMock.rpcMocks.snap_manageState).toHaveBeenCalledWith(
-        'update',
-        expectedState
-      );
+      await expect(
+        getPublicKey(walletMock, initialState, address)
+      ).resolves.toEqual(publicKey);
     });
 
     it('should succeed getting public key (saved in snap state)', async () => {
       const initialState = getDefaultSnapState();
-      initialState.accountState[address].publicKey = publicKey;
-      walletMock.rpcMocks.snap_manageState.mockResolvedValue(initialState);
 
-      await expect(getPublicKey(walletMock, address)).resolves.toEqual(
-        publicKey
-      );
+      await expect(
+        getPublicKey(walletMock, initialState, address)
+      ).resolves.toEqual(publicKey);
     });
 
-    it('should fail getting private key (user denied)', async () => {
+    it('should fail getting public key (user denied)', async () => {
       const initialState = getDefaultSnapState();
-      walletMock.rpcMocks.snap_manageState.mockResolvedValue(initialState);
+      initialState.accountState[address].publicKey = '';
+
       walletMock.rpcMocks.personal_sign.mockRejectedValue(new Error());
 
-      await expect(getPublicKey(walletMock, address)).rejects.toEqual(
-        new Error('User denied request')
-      );
+      await expect(
+        getPublicKey(walletMock, initialState, address)
+      ).rejects.toThrow(new Error('User denied request'));
     });
   });
 

@@ -1,7 +1,7 @@
 import { SnapProvider } from '@metamask/snap-types';
-import { SSISnapState } from '../../interfaces';
-import { snapConfirm } from '../../utils/snapUtils';
-import { initSnapState } from '../../utils/stateUtils';
+import { SSISnapState } from '../interfaces';
+import { snapConfirm } from './snapUtils';
+import { initSnapState } from './stateUtils';
 
 export async function init(wallet: SnapProvider): Promise<SSISnapState> {
   const promptObj = {
@@ -16,6 +16,6 @@ export async function init(wallet: SnapProvider): Promise<SSISnapState> {
     console.log('starting init');
     return await initSnapState(wallet);
   } else {
-    throw new Error('User did not accept terms and conditions');
+    throw new Error('User did not accept terms and conditions!');
   }
 }

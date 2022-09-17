@@ -1,6 +1,5 @@
 import {
   isValidChangeInfuraTokenRequest,
-  isValidGetVCsRequest,
   isValidGetVPRequest,
   isValidSaveVCRequest,
   isValidSwitchMethodRequest,

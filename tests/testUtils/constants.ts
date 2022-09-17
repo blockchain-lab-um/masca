@@ -1,8 +1,4 @@
-import {
-  SnapConfirmParams,
-  SSISnapConfig,
-  SSISnapState,
-} from '../../src/interfaces';
+import { SnapConfirmParams, SSISnapState } from '../../src/interfaces';
 import cloneDeep from 'lodash.clonedeep';
 import { getEmptyAccountState } from '../../src/utils/config';
 import { IIdentifier } from '@veramo/core';
@@ -98,12 +94,13 @@ const defaultSnapState: SSISnapState = {
     },
     snap: {
       infuraToken: '6e751a2e5ff741e5a01eab15e4e4a88b',
-      acceptedTerms: false,
+      acceptedTerms: true,
     },
   },
 };
 
 export const getDefaultSnapState = (): SSISnapState => {
+  defaultSnapState.accountState[address].publicKey = publicKey;
   return cloneDeep(defaultSnapState);
 };
 
