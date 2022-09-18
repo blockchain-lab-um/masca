@@ -10,15 +10,18 @@ import {
 import { getDidKeyIdentifier } from './keyDidUtils';
 import { getCurrentAccount, getPublicKey } from '../../utils/snapUtils';
 import { SnapProvider } from '@metamask/snap-types';
+import { getSnapState } from '../../utils/stateUtils';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const resolveSecp256k1 = async (
+export const resolveSecp256k1 = async (
   wallet: SnapProvider,
   account: string,
   did: string
 ): Promise<DIDDocument> => {
-  const DID = await getDidKeyIdentifier(wallet, account);
-  const publicKey = await getPublicKey(wallet, account);
+  const state = await getSnapState(wallet);
+  const DID = getDidKeyIdentifier(state, account);
+  const publicKey = await getPublicKey(wallet, state, account);
+
   // FIXME: authentication was authenticationMethod
   // TODO: Change id ?
   const didDocument: DIDDocument = {
@@ -52,12 +55,12 @@ type ResolutionFunction = (
   did: string
 ) => Promise<DIDDocument>;
 
-export const startsWithMap: Record<string, ResolutionFunction> = {
+const startsWithMap: Record<string, ResolutionFunction> = {
   'did:key:zQ3s': resolveSecp256k1,
 };
 
 // FIXME: CHECK HOW WE COULD ADD WALLET AS PARAMETER
-const resolveDidKey: DIDResolver = async (
+export const resolveDidKey: DIDResolver = async (
   didUrl: string,
   parsed: ParsedDID,
   _resolver: Resolvable,

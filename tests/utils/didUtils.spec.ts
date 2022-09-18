@@ -6,6 +6,7 @@ import {
 } from '../../src/utils/didUtils';
 import {
   address,
+  exampleDIDKey,
   getDefaultSnapState,
   publicKey,
 } from '../testUtils/constants';
@@ -65,12 +66,9 @@ describe('Utils [did]', () => {
       initialState.accountState[address].accountConfig.ssi.didMethod =
         'did:key';
 
-      // TODO: Put did:key value in seperate as constant and check where it comes from
       await expect(
         getCurrentDid(walletMock, initialState, address)
-      ).resolves.toBe(
-        `did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik`
-      );
+      ).resolves.toBe(exampleDIDKey);
     });
   });
 

@@ -12,6 +12,9 @@ export const signedMsg =
   '0x30eb4dbf93e7bfdb109ed03f7803f2378fa27d18ddc233cb3d121b5ba13253fe2515076d1ba66f3dc282c182479b843c925c62eb1f5a0676bcaf995e8e7552941c';
 export const infuraToken = 'ff198790465d111c342a14831bbefea7';
 
+export const exampleDIDKeyIdentifier =
+  'zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik';
+export const exampleDIDKey = `did:key:${exampleDIDKeyIdentifier}`;
 export const exampleDID =
   'did:ethr:0x4:0xb6665128eE91D84590f70c3268765384A9CAfBCd';
 export const exampleImportedDID: IIdentifier = {

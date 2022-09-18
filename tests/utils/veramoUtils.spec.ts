@@ -146,7 +146,7 @@ describe('Utils [veramo]', () => {
   });
 
   describe('veramoCreateVP', () => {
-    it('should succeed generating a valid VP', async () => {
+    it('should succeed creating a valid VP', async () => {
       const initialState = getDefaultSnapState();
       walletMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
       walletMock.rpcMocks.snap_confirm.mockResolvedValue(true);
@@ -172,7 +172,7 @@ describe('Utils [veramo]', () => {
       expect.assertions(2);
     });
 
-    it('should fail generating a VP and return null - no VC found', async () => {
+    it('should fail creating a VP and return null - no VC found', async () => {
       const initialState = getDefaultSnapState();
       walletMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
       walletMock.rpcMocks.snap_confirm.mockResolvedValue(true);
@@ -189,7 +189,7 @@ describe('Utils [veramo]', () => {
       expect.assertions(1);
     });
 
-    it('should fail generating a VP and return null - user rejected', async () => {
+    it('should fail creating a VP and return null - user rejected', async () => {
       const initialState = getDefaultSnapState();
       walletMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
       walletMock.rpcMocks.snap_confirm.mockResolvedValue(false);

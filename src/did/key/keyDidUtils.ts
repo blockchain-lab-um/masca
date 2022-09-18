@@ -11,11 +11,10 @@ export function getDidKeyIdentifier(
     state.accountState[account].publicKey
   );
 
-  const DID = Buffer.from(
+  return Buffer.from(
     Multibase.encode(
       'base58btc',
       Multicodec.addPrefix('secp256k1-pub', Buffer.from(compressedKey, 'hex'))
     )
   ).toString();
-  return DID;
 }

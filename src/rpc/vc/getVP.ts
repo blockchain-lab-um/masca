@@ -11,14 +11,5 @@ export async function getVP(
   domain?: string,
   challenge?: string
 ): Promise<VerifiablePresentation | null> {
-  if (vcId === '') throw new Error('vcId is empty');
-  const vp = await veramoCreateVP(
-    wallet,
-    state,
-    account,
-    vcId,
-    challenge,
-    domain
-  );
-  return vp;
+  return await veramoCreateVP(wallet, state, account, vcId, challenge, domain);
 }
