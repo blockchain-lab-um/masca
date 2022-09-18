@@ -8,7 +8,6 @@ import {
   address,
   exampleDIDKey,
   getDefaultSnapState,
-  publicKey,
 } from '../testUtils/constants';
 import { createMockWallet, WalletMock } from '../testUtils/wallet.mock';
 
