@@ -28,12 +28,16 @@ describe('Utils [snap]', () => {
   describe('getCurrentAccount', () => {
     it('should succeed and return test account', async () => {
       await expect(getCurrentAccount(walletMock)).resolves.toEqual(address);
+
+      expect.assertions(1);
     });
 
     it('should catch error and return null (user rejection)', async () => {
       walletMock.rpcMocks.eth_requestAccounts.mockRejectedValue(new Error());
 
       await expect(getCurrentAccount(walletMock)).resolves.toBeNull();
+
+      expect.assertions(1);
     });
   });
 
@@ -44,6 +48,8 @@ describe('Utils [snap]', () => {
       await expect(getCurrentNetwork(walletMock)).resolves.toEqual('0x1');
 
       expect(walletMock.rpcMocks.eth_chainId).toHaveBeenCalledTimes(1);
+
+      expect.assertions(2);
     });
 
     it('should succeed for rinkeby (0x4)', async () => {
@@ -52,6 +58,8 @@ describe('Utils [snap]', () => {
       await expect(getCurrentNetwork(walletMock)).resolves.toEqual('0x4');
 
       expect(walletMock.rpcMocks.eth_chainId).toHaveBeenCalledTimes(1);
+
+      expect.assertions(2);
     });
   });
 
@@ -92,6 +100,8 @@ describe('Utils [snap]', () => {
         'update',
         expectedState
       );
+
+      expect.assertions(2);
     });
 
     it('should succeed and toggle popups (on -> off)', async () => {
@@ -110,6 +120,8 @@ describe('Utils [snap]', () => {
         'update',
         expectedState
       );
+
+      expect.assertions(2);
     });
   });
 
@@ -132,6 +144,8 @@ describe('Utils [snap]', () => {
         'update',
         expectedState
       );
+
+      expect.assertions(2);
     });
 
     it('should succeed adding dApp when friendlyDapps not empty', async () => {
@@ -162,6 +176,8 @@ describe('Utils [snap]', () => {
         'update',
         expectedState
       );
+
+      expect.assertions(2);
     });
   });
 
@@ -184,6 +200,8 @@ describe('Utils [snap]', () => {
         'update',
         expectedState
       );
+
+      expect.assertions(2);
     });
 
     it('should succeed removing dApp when there are many', async () => {
@@ -214,6 +232,8 @@ describe('Utils [snap]', () => {
         'update',
         expectedState
       );
+
+      expect.assertions(2);
     });
   });
 
@@ -244,6 +264,8 @@ describe('Utils [snap]', () => {
       await expect(
         getPublicKey(walletMock, initialState, address)
       ).resolves.toEqual(publicKey);
+
+      expect.assertions(1);
     });
 
     it('should succeed getting public key (saved in snap state)', async () => {
@@ -252,6 +274,8 @@ describe('Utils [snap]', () => {
       await expect(
         getPublicKey(walletMock, initialState, address)
       ).resolves.toEqual(publicKey);
+
+      expect.assertions(1);
     });
 
     it('should fail getting public key (user denied)', async () => {
@@ -263,6 +287,8 @@ describe('Utils [snap]', () => {
       await expect(
         getPublicKey(walletMock, initialState, address)
       ).rejects.toThrow(new Error('User denied request'));
+
+      expect.assertions(1);
     });
   });
 
@@ -283,6 +309,8 @@ describe('Utils [snap]', () => {
       expect(walletMock.rpcMocks.snap_confirm).toHaveBeenCalledWith(
         snapConfirmParams
       );
+
+      expect.assertions(2);
     });
 
     it('should return false', async () => {
@@ -295,6 +323,8 @@ describe('Utils [snap]', () => {
       expect(walletMock.rpcMocks.snap_confirm).toHaveBeenCalledWith(
         snapConfirmParams
       );
+
+      expect.assertions(2);
     });
   });
 });

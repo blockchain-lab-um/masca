@@ -32,6 +32,8 @@ describe('Utils [did]', () => {
         'update',
         expectedState
       );
+
+      expect.assertions(2);
     });
 
     it("should succeed setting VC store to 'ceramic'", async () => {
@@ -48,6 +50,8 @@ describe('Utils [did]', () => {
         'update',
         expectedState
       );
+
+      expect.assertions(2);
     });
   });
 
@@ -58,6 +62,8 @@ describe('Utils [did]', () => {
       await expect(
         getCurrentDid(walletMock, initialState, address)
       ).resolves.toBe(`did:ethr:0x4:${address}`);
+
+      expect.assertions(1);
     });
 
     it('should return did:key', async () => {
@@ -68,6 +74,8 @@ describe('Utils [did]', () => {
       await expect(
         getCurrentDid(walletMock, initialState, address)
       ).resolves.toBe(exampleDIDKey);
+
+      expect.assertions(1);
     });
   });
 
@@ -85,6 +93,8 @@ describe('Utils [did]', () => {
         'update',
         expectedState
       );
+
+      expect.assertions(2);
     });
 
     it("should succeed setting DID method to 'did:key'", async () => {
@@ -102,6 +112,8 @@ describe('Utils [did]', () => {
         'update',
         expectedState
       );
+
+      expect.assertions(2);
     });
   });
 });

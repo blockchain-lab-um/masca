@@ -10,14 +10,13 @@ describe('Utils [params]', () => {
     isValidGetVCsRequest
   */
   describe('isValidGetVCsRequest', () => {
-    // -
+    // TODO
   });
 
   /*
     isValidSaveVCRequest
   */
   describe('isValidSaveVCRequest', () => {
-    // TODO: Should we maybe also test and check for valid VPs ?
     it('should fail for null', () => {
       expect(() => isValidSaveVCRequest(null)).toThrowError(Error);
     });

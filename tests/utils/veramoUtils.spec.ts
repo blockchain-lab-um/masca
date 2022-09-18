@@ -42,6 +42,8 @@ describe('Utils [veramo]', () => {
         'update',
         expectedState
       );
+
+      expect.assertions(2);
     });
   });
 
@@ -52,6 +54,8 @@ describe('Utils [veramo]', () => {
       );
 
       await expect(veramoListVCs(walletMock, 'snap')).resolves.toEqual([]);
+
+      expect.assertions(1);
     });
 
     it('should succeed listing all VCs from snap store', async () => {
@@ -65,6 +69,8 @@ describe('Utils [veramo]', () => {
       await expect(veramoListVCs(walletMock, 'snap')).resolves.toEqual([
         expectedVC,
       ]);
+
+      expect.assertions(1);
     });
 
     it('should succeed listing all VCs from snap store matching query - empty query', async () => {
@@ -78,6 +84,8 @@ describe('Utils [veramo]', () => {
       await expect(veramoListVCs(walletMock, 'snap', {})).resolves.toEqual([
         expectedVC,
       ]);
+
+      expect.assertions(1);
     });
 
     it('should succeed listing all VCs from snap store matching query', async () => {
@@ -93,6 +101,8 @@ describe('Utils [veramo]', () => {
           key: 'test-id',
         })
       ).resolves.toEqual([expectedVC]);
+
+      expect.assertions(1);
     });
 
     it('should succeed listing all VCs from snap store matching query - empty result', async () => {
@@ -106,6 +116,8 @@ describe('Utils [veramo]', () => {
         veramoListVCs(walletMock, 'snap', { id: 'wrong-id' })
       ).resolves.toEqual([]);
     });
+
+    expect.assertions(1);
   });
 
   describe('veramoImportMetaMaskAccount', () => {
@@ -121,6 +133,8 @@ describe('Utils [veramo]', () => {
       await expect(agent.didManagerGet({ did: exampleDID })).resolves.toEqual(
         exampleImportedDIDWIthoutPrivateKey
       );
+
+      expect.assertions(2);
     });
 
     it('should succeed importing metamask account when DID already exists', async () => {
@@ -142,6 +156,8 @@ describe('Utils [veramo]', () => {
 
       const dids = await agent.didManagerFind();
       expect(dids.length).toBe(1);
+
+      expect.assertions(4);
     });
   });
 

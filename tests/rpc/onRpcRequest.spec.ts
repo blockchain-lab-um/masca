@@ -53,13 +53,14 @@ describe('onRpcRequest', () => {
         },
       })) as VerifiableCredential[];
 
-      console.log(result);
       const removedKeys = result.map((vc) => {
         delete vc.key;
         return vc;
       });
 
       expect(removedKeys).toEqual([exampleVC]);
+
+      expect.assertions(2);
     });
 
     it('should fail saving VC and return false - user denied', async () => {
@@ -92,6 +93,8 @@ describe('onRpcRequest', () => {
           },
         })
       ).resolves.toEqual([]);
+
+      expect.assertions(2);
     });
   });
 
@@ -110,6 +113,8 @@ describe('onRpcRequest', () => {
           },
         })
       ).resolves.toEqual([]);
+
+      expect.assertions(1);
     });
 
     it('should succeed with 1 VC matching query', async () => {
@@ -146,6 +151,8 @@ describe('onRpcRequest', () => {
         })
       ).resolves.toEqual(expectedResult);
     });
+
+    expect.assertions(1);
   });
 
   describe('getVP', () => {
@@ -261,6 +268,8 @@ describe('onRpcRequest', () => {
           },
         })
       ).resolves.toBe(true);
+
+      expect.assertions(1);
     });
 
     it('should fail changing infura token and return false', async () => {
@@ -279,6 +288,8 @@ describe('onRpcRequest', () => {
           },
         })
       ).resolves.toBe(false);
+
+      expect.assertions(1);
     });
   });
 
@@ -297,6 +308,8 @@ describe('onRpcRequest', () => {
           },
         })
       ).resolves.toBe(true);
+
+      expect.assertions(1);
     });
 
     it('should fail toggling popups and return false', async () => {
@@ -313,6 +326,8 @@ describe('onRpcRequest', () => {
           },
         })
       ).resolves.toBe(false);
+
+      expect.assertions(1);
     });
   });
 
@@ -329,6 +344,8 @@ describe('onRpcRequest', () => {
           },
         })
       ).resolves.toEqual(exampleDID);
+
+      expect.assertions(1);
     });
 
     it('should succeed returning current did (did:key)', async () => {
@@ -357,6 +374,8 @@ describe('onRpcRequest', () => {
           },
         })
       ).resolves.toEqual(exampleDIDKey);
+
+      expect.assertions(1);
     });
   });
 
@@ -377,6 +396,8 @@ describe('onRpcRequest', () => {
           },
         })
       ).resolves.toBe(true);
+
+      expect.assertions(1);
     });
 
     it('should fail switching method to did:key and return false', async () => {
@@ -395,6 +416,8 @@ describe('onRpcRequest', () => {
           },
         })
       ).resolves.toBe(false);
+
+      expect.assertions(1);
     });
   });
 
@@ -411,6 +434,8 @@ describe('onRpcRequest', () => {
           },
         })
       ).resolves.toEqual('did:ethr');
+
+      expect.assertions(1);
     });
 
     it('should succeed and return did:key', async () => {
@@ -439,6 +464,8 @@ describe('onRpcRequest', () => {
           },
         })
       ).resolves.toEqual('did:key');
+
+      expect.assertions(1);
     });
   });
 
@@ -454,6 +481,8 @@ describe('onRpcRequest', () => {
           },
         })
       ).resolves.toEqual(availableMethods);
+
+      expect.assertions(1);
     });
   });
 
@@ -508,6 +537,8 @@ describe('onRpcRequest', () => {
           },
         })
       ).resolves.toEqual('ceramic');
+
+      expect.assertions(1);
     });
   });
 
@@ -523,6 +554,8 @@ describe('onRpcRequest', () => {
           },
         })
       ).resolves.toEqual(availableVCStores);
+
+      expect.assertions(1);
     });
   });
 });

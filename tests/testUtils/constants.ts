@@ -88,7 +88,7 @@ export const exampleVC = {
 
 const defaultSnapState: SSISnapState = {
   accountState: {
-    '0xb6665128eE91D84590f70c3268765384A9CAfBCd': getEmptyAccountState(), // FIXME: Check if this works as intended
+    '0xb6665128eE91D84590f70c3268765384A9CAfBCd': getEmptyAccountState(),
   },
   snapConfig: {
     dApp: {

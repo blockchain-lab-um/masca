@@ -22,7 +22,6 @@ export const resolveSecp256k1 = async (
   const DID = getDidKeyIdentifier(state, account);
   const publicKey = await getPublicKey(wallet, state, account);
 
-  // FIXME: authentication was authenticationMethod
   // TODO: Change id ?
   const didDocument: DIDDocument = {
     id: `${did}#${DID}`,

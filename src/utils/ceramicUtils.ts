@@ -24,12 +24,10 @@ export async function authenticateWithEthereum(
 ): Promise<DID> {
   if (ceramicDID.did) return ceramicDID.did;
   const account = await getCurrentAccount(wallet);
-  // FIXME: How to handle user rejection -> or will it never return an error if wallet is connected ?
-  if (!account) throw Error('....');
+  if (!account) throw Error('User denied error');
   const authProvider = new EthereumAuthProvider(wallet, account);
 
   const session = new DIDSession({ authProvider });
-  // FIXME: Change this
   typeof window;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment

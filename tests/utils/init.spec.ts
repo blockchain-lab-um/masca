@@ -19,6 +19,8 @@ describe('RPC handler [init]', () => {
       'update',
       initialState
     );
+
+    expect.assertions(2);
   });
 
   it('should fail for rejected terms and conditions', async function () {
@@ -27,5 +29,7 @@ describe('RPC handler [init]', () => {
     await expect(init(walletMock)).rejects.toThrow(
       new Error('User did not accept terms and conditions!')
     );
+
+    expect.assertions(1);
   });
 });

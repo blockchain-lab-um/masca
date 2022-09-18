@@ -33,6 +33,8 @@ describe('Utils [state]', () => {
         'update',
         initialState
       );
+
+      expect.assertions(2);
     });
 
     it('should succeed updating snap state with empty state', async () => {
@@ -47,6 +49,8 @@ describe('Utils [state]', () => {
         'update',
         emptyState
       );
+
+      expect.assertions(2);
     });
   });
 
@@ -55,6 +59,8 @@ describe('Utils [state]', () => {
       await expect(getSnapState(walletMock)).rejects.toThrow(
         new Error('SSISnapState is not initialized!')
       );
+
+      expect.assertions(1);
     });
 
     it('should succeed getting initial snap state', async () => {
@@ -62,12 +68,16 @@ describe('Utils [state]', () => {
       walletMock.rpcMocks.snap_manageState.mockReturnValueOnce(initialState);
 
       await expect(getSnapState(walletMock)).resolves.toEqual(initialState);
+
+      expect.assertions(1);
     });
   });
 
   describe('getSnapStateUnchecked', () => {
     it('should return null if state is not initialized', async () => {
       await expect(getSnapStateUnchecked(walletMock)).resolves.toEqual(null);
+
+      expect.assertions(1);
     });
 
     it('should succeed getting initial snap state', async () => {
@@ -77,6 +87,8 @@ describe('Utils [state]', () => {
       await expect(getSnapStateUnchecked(walletMock)).resolves.toEqual(
         initialState
       );
+
+      expect.assertions(1);
     });
   });
 
@@ -90,6 +102,8 @@ describe('Utils [state]', () => {
         'update',
         initialState
       );
+
+      expect.assertions(2);
     });
   });
 
@@ -107,6 +121,8 @@ describe('Utils [state]', () => {
         'update',
         defaultState
       );
+
+      expect.assertions(2);
     });
   });
 });

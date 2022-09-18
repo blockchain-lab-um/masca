@@ -3,7 +3,6 @@ import { VerifiableCredential } from '@veramo/core';
 
 type GetVCsRequestParams = { query?: VCQuery };
 
-// TODO: Check if we need this and change it if yes
 export function isValidGetVCsRequest(
   params: unknown
 ): asserts params is GetVCsRequestParams {

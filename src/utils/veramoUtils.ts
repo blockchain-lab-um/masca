@@ -13,24 +13,6 @@ import { availableVCStores } from '../veramo/plugins/availableVCStores';
 import { SSISnapState } from '../interfaces';
 
 /**
- * Get an existing or create a new DID for the currently selected MetaMask account.
- * @returns {Promise<IIdentifier>} a DID.
- */
-// FIXME: DELETE
-// export async function veramoGetId(wallet: SnapProvider): Promise<IIdentifier> {
-//   const agent = await getAgent(wallet);
-//   const identifiers = await agent.didManagerFind();
-//   if (identifiers.length === 1) {
-//     console.log('DID Already exists for the selected MetaMask Account');
-//     return identifiers[0];
-//   }
-//   const identity = await agent.didManagerCreate();
-//   console.log(`New identity created`);
-//   console.log(identity);
-//   return identity;
-// }
-
-/**
  * Saves a VC in the state object of the currently selected MetaMask account.
  * @param {VerifiableCredential} vc - The VC.
  * */
@@ -53,7 +35,6 @@ export async function veramoListVCs(
   query?: VCQuery
 ): Promise<VerifiableCredential[]> {
   const agent = await getAgent(wallet);
-  // TODO: Additional type check for query ?
   const vcsSnap = await agent.listVCS({ store: 'snap', query: query });
 
   if (vcStore === 'ceramic') {
