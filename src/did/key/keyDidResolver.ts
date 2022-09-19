@@ -39,7 +39,7 @@ export const resolveSecp256k1 = async (
         id: `${did}#${DID}`,
         type: 'EcdsaSecp256k1RecoveryMethod2020',
         controller: `${did}#${DID}`,
-        publicKeyHex: publicKey,
+        publicKeyHex: publicKey.split('0x')[1],
         blockchainAccountId: `${account}@eip155:4`,
       },
     ],
