@@ -196,6 +196,56 @@ describe('onRpcRequest', () => {
       expect.assertions(2);
     });
 
+    it('should succeed creating VP with did:key', async () => {
+      jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
+      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      const agent = await getAgent(walletMock);
+
+      await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'saveVC',
+          params: {
+            verifiableCredential: exampleVC,
+          },
+        },
+      });
+
+      await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'switchMethod',
+          params: { didMethod: 'did:key' },
+        },
+      });
+
+      const createdVP = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'getVP',
+          params: {
+            vcId: 'test-id',
+          },
+        },
+      })) as VerifiablePresentation;
+
+      expect(createdVP).not.toEqual(null);
+
+      const verifyResult = await agent.verifyPresentationEIP712({
+        presentation: createdVP,
+      });
+
+      expect(verifyResult).toBe(true);
+
+      expect.assertions(2);
+    });
+
     it('should fail creating VP and return null - user denied', async () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       walletMock.rpcMocks.snap_confirm.mockReturnValue(false);
@@ -487,16 +537,71 @@ describe('onRpcRequest', () => {
   });
 
   describe('setVCStore', () => {
-    it('', async () => {
-      // await expect(onRpcRequest({
-      //   origin: 'localhost',
-      //   request: {
-      //     id: 'test-id',
-      //     jsonrpc: '2.0',
-      //     method: 'setVCStore',
-      //     params: {},
-      //   },
-      // })).resolves;
+    it('should succeed toggling store to ceramic', async () => {
+      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
+
+      await expect(
+        onRpcRequest({
+          origin: 'localhost',
+          request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'setVCStore',
+          },
+        })
+      ).resolves.toBe(true);
+
+      await expect(
+        onRpcRequest({
+          origin: 'localhost',
+          request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'getVCStore',
+          },
+        })
+      ).resolves.toEqual('ceramic');
+
+      expect.assertions(2);
+    });
+
+    it('should succeed toggling store to ceramic and back to snap', async () => {
+      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
+
+      await expect(
+        onRpcRequest({
+          origin: 'localhost',
+          request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'setVCStore',
+          },
+        })
+      ).resolves.toBe(true);
+
+      await expect(
+        onRpcRequest({
+          origin: 'localhost',
+          request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'setVCStore',
+          },
+        })
+      ).resolves.toBe(true);
+
+      await expect(
+        onRpcRequest({
+          origin: 'localhost',
+          request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'getVCStore',
+          },
+        })
+      ).resolves.toEqual('snap');
+
+      expect.assertions(3);
     });
   });
 
