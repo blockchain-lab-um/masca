@@ -50,10 +50,13 @@ const availableNetworks: Record<string, string> = {
   '0x04': 'rinkeby',
 };
 
-import { getSnapConfig } from '../utils/stateUtils';
 import { getCurrentNetwork } from '../utils/snapUtils';
+import { SnapProvider } from '@metamask/snap-types';
+import { getSnapState } from '../utils/stateUtils';
 
-export const getAgent = async (): Promise<
+export const getAgent = async (
+  wallet: SnapProvider
+): Promise<
   TAgent<
     IDIDManager &
       IKeyManager &
@@ -64,10 +67,10 @@ export const getAgent = async (): Promise<
       ICredentialIssuer
   >
 > => {
-  const snapConfig = await getSnapConfig();
+  const state = await getSnapState(wallet);
 
-  const INFURA_PROJECT_ID = snapConfig.snap.infuraToken;
-  const CHAIN_ID = await getCurrentNetwork();
+  const INFURA_PROJECT_ID = state.snapConfig.snap.infuraToken;
+  const CHAIN_ID = await getCurrentNetwork(wallet);
   console.log('INFURA_PROJECT_ID', INFURA_PROJECT_ID, 'CHAIN ID', CHAIN_ID);
 
   const web3Providers: Record<string, Web3Provider> = {};
@@ -93,8 +96,8 @@ export const getAgent = async (): Promise<
 
   didProviders['did:key'] = new KeyDIDProvider({ defaultKms: 'web3' });
 
-  vcStorePlugins['snap'] = new SnapVCStore();
-  vcStorePlugins['ceramic'] = new CeramicVCStore();
+  vcStorePlugins['snap'] = new SnapVCStore(wallet);
+  vcStorePlugins['ceramic'] = new CeramicVCStore(wallet);
 
   const agent = createAgent<
     IDIDManager &
@@ -107,14 +110,14 @@ export const getAgent = async (): Promise<
   >({
     plugins: [
       new KeyManager({
-        store: new SnapKeyStore(),
+        store: new SnapKeyStore(wallet),
         kms: {
           web3: new Web3KeyManagementSystem(web3Providers),
-          snap: new KeyManagementSystem(new SnapPrivateKeyStore()),
+          snap: new KeyManagementSystem(new SnapPrivateKeyStore(wallet)),
         },
       }),
       new DIDManager({
-        store: new SnapDIDStore(),
+        store: new SnapDIDStore(wallet),
         defaultProvider: 'metamask',
         providers: didProviders,
       }),

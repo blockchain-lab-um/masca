@@ -6,36 +6,23 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
 } from '@veramo/core';
-import { getCurrentDid, getCurrentMethod } from './didUtils';
-import { getCurrentAccount, snapConfirm } from './snapUtils';
-import { getAccountConfig, getSnapConfig } from './stateUtils';
-import { isCeramicEnabled } from './ceramicUtils';
-
-/**
- * Get an existing or create a new DID for the currently selected MetaMask account.
- * @returns {Promise<IIdentifier>} a DID.
- */
-export async function veramoGetId(): Promise<IIdentifier> {
-  const agent = await getAgent();
-  const identifiers = await agent.didManagerFind();
-  if (identifiers.length == 1) {
-    console.log('DID Already exists for the selected MetaMask Account');
-    return identifiers[0];
-  }
-  const identity = await agent.didManagerCreate();
-  console.log(`New identity created`);
-  console.log(identity);
-  return identity;
-}
+import { getCurrentDid } from './didUtils';
+import { snapConfirm } from './snapUtils';
+import { SnapProvider } from '@metamask/snap-types';
+import { availableVCStores } from '../veramo/plugins/availableVCStores';
+import { SSISnapState } from '../interfaces';
 
 /**
  * Saves a VC in the state object of the currently selected MetaMask account.
  * @param {VerifiableCredential} vc - The VC.
  * */
-export async function veramoSaveVC(vc: VerifiableCredential): Promise<boolean> {
-  const agent = await getAgent();
-  const dataStore = await getAccountConfig();
-  return await agent.saveVC({ store: dataStore.ssi.vcStore, vc });
+export async function veramoSaveVC(
+  wallet: SnapProvider,
+  vc: VerifiableCredential,
+  vcStore: typeof availableVCStores[number]
+): Promise<boolean> {
+  const agent = await getAgent(wallet);
+  return await agent.saveVC({ store: vcStore, vc });
 }
 
 /**
@@ -43,13 +30,15 @@ export async function veramoSaveVC(vc: VerifiableCredential): Promise<boolean> {
  * @returns {Promise<VerifiableCredential[]>} Array of saved VCs.
  */
 export async function veramoListVCs(
+  wallet: SnapProvider,
+  vcStore: typeof availableVCStores[number],
   query?: VCQuery
 ): Promise<VerifiableCredential[]> {
-  const agent = await getAgent();
+  const agent = await getAgent(wallet);
   const vcsSnap = await agent.listVCS({ store: 'snap', query: query });
-  let vcsCeramic;
-  if (await isCeramicEnabled()) {
-    vcsCeramic = await agent.listVCS({ store: 'ceramic', query: query });
+
+  if (vcStore === 'ceramic') {
+    const vcsCeramic = await agent.listVCS({ store: 'ceramic', query: query });
     return [...vcsSnap.vcs, ...vcsCeramic.vcs];
   }
   return vcsSnap.vcs;
@@ -57,46 +46,52 @@ export async function veramoListVCs(
 
 /**
  * Create a VP from a specific VC (if it exists), that is stored in MetaMask state under the currently selected MetaMask account.
- * @param {string} vc_id - index of the VC
+ * @param {string} vcId - index of the VC
  * @param {string} domain - domain of the VP
  * @param {string} challenge - challenge of the VP
  * @returns {Promise<VerifiablePresentation | null>} - generated VP
  * */
 export async function veramoCreateVP(
-  vc_id: string,
+  wallet: SnapProvider,
+  state: SSISnapState,
+  account: string,
+  vcId: string,
   challenge?: string,
   domain?: string
 ): Promise<VerifiablePresentation | null> {
   //GET DID
-  const identifier = await veramoImportMetaMaskAccount();
+  const identifier = await veramoImportMetaMaskAccount(wallet, state, account);
+  console.log('Identifier: ', identifier);
   //Get Veramo agent
-  const agent = await getAgent();
+  const agent = await getAgent(wallet);
   let vc;
   try {
-    vc = await agent.getVC({ store: 'snap', id: vc_id });
+    // FIXME: getVC should return null not throw an error
+    vc = await agent.getVC({ store: 'snap', id: vcId });
   } catch (e) {
-    if (await isCeramicEnabled()) {
+    if (state.accountState[account].accountConfig.ssi.vcStore === 'ceramic') {
       try {
-        vc = await agent.getVC({ store: 'ceramic', id: vc_id });
+        vc = await agent.getVC({ store: 'ceramic', id: vcId });
       } catch (e) {
         throw new Error('VC not found');
       }
     }
   }
-  const config = await getSnapConfig();
-  console.log(vc_id, domain, challenge);
+  const config = state.snapConfig;
+  console.log(vcId, domain, challenge);
   if (vc && vc.vc) {
     const promptObj = {
       prompt: 'Alert',
       description: 'Do you wish to create a VP from the following VC?',
       textAreaContent: JSON.stringify(vc.vc.credentialSubject),
     };
-    const result = config.dApp.disablePopups || (await snapConfirm(promptObj));
-    console.log('RESULT', result);
-    console.log('VC', vc);
-    if (result) {
+
+    if (config.dApp.disablePopups || (await snapConfirm(wallet, promptObj))) {
       if (challenge) console.log('Challenge:', challenge);
       if (domain) console.log('Domain:', domain);
+      console.log('Identifier');
+      console.log(identifier);
+
       const vp = await agent.createVerifiablePresentation({
         presentation: {
           holder: identifier,
@@ -118,21 +113,25 @@ export async function veramoCreateVP(
   return null;
 }
 
-export const veramoImportMetaMaskAccount = async (): Promise<string> => {
-  const agent = await getAgent();
-  const account = await getCurrentAccount();
-  const did = await getCurrentDid();
-  const method = await getCurrentMethod();
+export const veramoImportMetaMaskAccount = async (
+  wallet: SnapProvider,
+  state: SSISnapState,
+  account: string
+): Promise<string> => {
+  const agent = await getAgent(wallet);
+  const method = state.accountState[account].accountConfig.ssi.didMethod;
+  const did = await getCurrentDid(wallet, state, account);
+  const identifiers = await agent.didManagerFind();
 
-  const identifiers = agent.didManagerFind();
   let exists = false;
-  (await identifiers).map((id: IIdentifier) => {
+  identifiers.map((id: IIdentifier) => {
     if (id.did === did) exists = true;
   });
   if (exists) {
     console.log('DID already exists', did);
     return did;
   }
+
   console.log('Importing...');
   const controllerKeyId = `metamask-${account}`;
   await agent.didManagerImport({
@@ -145,14 +144,16 @@ export const veramoImportMetaMaskAccount = async (): Promise<string> => {
         type: 'Secp256k1',
         kms: 'web3',
         privateKeyHex: '',
+        publicKeyHex: '',
         meta: {
           provider: 'metamask',
-          account: account.toLocaleLowerCase(),
+          account: account.toLowerCase(),
           algorithms: ['eth_signMessage', 'eth_signTypedData'],
         },
       } as MinimalImportableKey,
     ],
   });
+
   console.log('imported successfully');
   return did;
 };

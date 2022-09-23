@@ -1,25 +1,35 @@
 import { veramoListVCs } from '../../utils/veramoUtils';
-import { getSnapConfig } from '../../utils/stateUtils';
 import { VerifiableCredential } from '@veramo/core';
 import { VCQuery } from '@blockchain-lab-um/ssi-snap-types';
 import { snapConfirm } from '../../utils/snapUtils';
+import { SnapProvider } from '@metamask/snap-types';
+import { SSISnapState } from '../../interfaces';
 
-export async function getVCs(query?: VCQuery): Promise<VerifiableCredential[]> {
+export async function getVCs(
+  wallet: SnapProvider,
+  state: SSISnapState,
+  account: string,
+  query?: VCQuery
+): Promise<VerifiableCredential[]> {
   console.log('query', query);
-  const vcs = await veramoListVCs(query);
-  const config = await getSnapConfig();
+  const vcs = await veramoListVCs(
+    wallet,
+    state.accountState[account].accountConfig.ssi.vcStore,
+    query
+  );
   console.log('VCs: ', vcs);
   const promptObj = {
     prompt: 'Send VCs',
     description: 'Are you sure you want to send VCs to the dApp?',
-    textAreaContent:
-      'Some dApps are less secure than others and could save data from VCs against your will. Be careful where you send your private VCs! Number of VCs submitted is ' +
-      vcs.length.toString(),
+    textAreaContent: `Some dApps are less secure than others and could save data from VCs against your will. Be careful where you send your private VCs! Number of VCs submitted is ${vcs.length.toString()}`,
   };
-  const result = config.dApp.disablePopups || (await snapConfirm(promptObj));
-  if (result) {
+
+  if (
+    state.snapConfig.dApp.disablePopups ||
+    (await snapConfirm(wallet, promptObj))
+  ) {
     return vcs;
-  } else {
-    return [];
   }
+
+  return [];
 }

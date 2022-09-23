@@ -3,7 +3,7 @@ import { EthereumAuthProvider } from '@ceramicnetwork/blockchain-utils-linking';
 import { DIDSession } from '@glazed/did-session';
 import { getCurrentAccount } from './snapUtils';
 import { DID } from 'dids';
-import { getAccountConfig } from './stateUtils';
+import { SnapProvider } from '@metamask/snap-types';
 
 const ceramicDID = { did: undefined } as { did: DID | undefined };
 
@@ -19,9 +19,12 @@ export const aliases = {
   tiles: {},
 };
 
-export async function authenticateWithEthereum(): Promise<DID> {
+export async function authenticateWithEthereum(
+  wallet: SnapProvider
+): Promise<DID> {
   if (ceramicDID.did) return ceramicDID.did;
-  const account = await getCurrentAccount();
+  const account = await getCurrentAccount(wallet);
+  if (!account) throw Error('User denied error');
   const authProvider = new EthereumAuthProvider(wallet, account);
 
   const session = new DIDSession({ authProvider });
@@ -36,15 +39,9 @@ export async function authenticateWithEthereum(): Promise<DID> {
   return did;
 }
 
-export async function getCeramic(): Promise<CeramicClient> {
+export async function getCeramic(wallet: SnapProvider): Promise<CeramicClient> {
   const ceramic = new CeramicClient('https://ceramic-clay.3boxlabs.com');
-  const did = await authenticateWithEthereum();
+  const did = await authenticateWithEthereum(wallet);
   await ceramic.setDID(did);
   return ceramic;
-}
-
-export async function isCeramicEnabled() {
-  const accConfig = await getAccountConfig();
-  if (accConfig.ssi.vcStore === 'ceramic') return true;
-  return false;
 }

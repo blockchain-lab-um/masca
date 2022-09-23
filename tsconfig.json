@@ -3,7 +3,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "module": "CommonJS",
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "useUnknownInCatchVariables": false,
     "sourceMap": true,
     "strict": true,
@@ -11,7 +11,7 @@
     "typeRoots": ["./node_modules/@types"],
     "outDir": "./build"
   },
-  "exclude": ["**/__snapshots__/**", "**/test/**", "**/*.test.ts"],
+  "exclude": ["**/__snapshots__/**"],
   "files": ["./node_modules/@metamask/snap-types/global.d.ts"],
-  "include": ["src/**/*.ts", "test/**/*ts"]
+  "include": ["src/**/*.ts"]
 }

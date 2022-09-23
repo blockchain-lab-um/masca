@@ -1,7 +1,8 @@
-import { SSIAccountConfig } from './../interfaces';
+import { SSIAccountConfig, SSISnapState } from './../interfaces';
 import { SSIAccountState, SSISnapConfig } from '../interfaces';
+import cloneDeep from 'lodash.clonedeep';
 
-export const emptyVCAccount = {
+const emptyAccountState = {
   snapKeyStore: {},
   snapPrivateKeyStore: {},
   vcs: {},
@@ -16,6 +17,10 @@ export const emptyVCAccount = {
   } as SSIAccountConfig,
 } as SSIAccountState;
 
+export const getEmptyAccountState = () => {
+  return cloneDeep(emptyAccountState);
+};
+
 export const defaultConfig = {
   dApp: {
     disablePopups: false,
@@ -23,6 +28,24 @@ export const defaultConfig = {
   },
   snap: {
     infuraToken: '6e751a2e5ff741e5a01eab15e4e4a88b',
-    acceptedTerms: false,
+    acceptedTerms: true,
   },
 } as SSISnapConfig;
+
+const initialSnapState: SSISnapState = {
+  accountState: {},
+  snapConfig: {
+    dApp: {
+      disablePopups: false,
+      friendlyDapps: [],
+    },
+    snap: {
+      infuraToken: '6e751a2e5ff741e5a01eab15e4e4a88b',
+      acceptedTerms: true,
+    },
+  },
+};
+
+export const getInitialSnapState = () => {
+  return cloneDeep(initialSnapState);
+};

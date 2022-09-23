@@ -1,4 +1,3 @@
-import { CeramicClient } from '@ceramicnetwork/http-client';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { availableVCStores } from './veramo/plugins/availableVCStores';
 import { IIdentifier, IKey, VerifiableCredential } from '@veramo/core';
@@ -10,34 +9,13 @@ import {
   SnapPrivateKeyStore,
 } from './veramo/plugins/snapDataStore/snapDataStore';
 import { availableMethods } from './did/didMethods';
-import { DID } from 'dids';
 
-/**
- * MetaMask State
- */
-export interface State {
+export type SSISnapState = {
   /**
-   * Other objects created by other Snaps
+   * Account specific storage
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [snapStates: string]: any;
-  /**
-   * SSI Snap Object
-   */
-  ssiSnapState: SSISnapState;
-}
+  accountState: Record<string, SSIAccountState>;
 
-/**
- * SSI Snap State
- */
-export interface SSISnapStateRaw {
-  /**
-   * MetaMask Address: SSIAccountState object
-   */
-  [address: string]: SSIAccountState;
-}
-
-export type SSISnapState = SSISnapStateRaw & {
   /**
    * Configuration for SSISnap
    */
@@ -103,3 +81,9 @@ export interface SSIAccountConfig {
     vcStore: typeof availableVCStores[number];
   };
 }
+
+export type SnapConfirmParams = {
+  prompt: string;
+  description?: string;
+  textAreaContent?: string;
+};

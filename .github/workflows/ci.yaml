@@ -16,8 +16,11 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16.15.1
-      - run: yarn install
-      - name: Run linter
+      - name: Install
+        run: yarn install
+      - name: Lint
         run: yarn lint
+      - name: Test
+        run: yarn test:ci
       - name: Build
         run: yarn build
