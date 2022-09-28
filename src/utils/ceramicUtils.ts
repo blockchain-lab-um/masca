@@ -1,6 +1,6 @@
 import { CeramicClient } from '@ceramicnetwork/http-client';
 import { EthereumAuthProvider } from '@ceramicnetwork/blockchain-utils-linking';
-import { DIDSession } from '@glazed/did-session';
+import { DIDSession } from 'did-session';
 import { getCurrentAccount } from './snapUtils';
 import { DID } from 'dids';
 import { SnapProvider } from '@metamask/snap-types';
@@ -27,16 +27,18 @@ export async function authenticateWithEthereum(
   if (!account) throw Error('User denied error');
   const authProvider = new EthereumAuthProvider(wallet, account);
 
-  const session = new DIDSession({ authProvider });
+  //const session = new DIDSession({});
   typeof window;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
   window.location = {} as any;
   window.location.hostname = 'ssi-snap';
 
-  const did = await session.authorize({ domain: 'ssi-snap' });
-  ceramicDID.did = did;
-  return did;
+  const session = await DIDSession.authorize(authProvider, {
+    resources: [`ceramic://*`],
+  });
+  ceramicDID.did = session.did;
+  return session.did;
 }
 
 export async function getCeramic(wallet: SnapProvider): Promise<CeramicClient> {
