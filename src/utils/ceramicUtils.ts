@@ -7,14 +7,26 @@ import { SnapProvider } from '@metamask/snap-types';
 
 const ceramicDID = { did: undefined } as { did: DID | undefined };
 
+// export const aliases = {
+//   definitions: {
+//     StoredCredentials:
+//       'kjzl6cwe1jw148ulgnabbg1vfx1slceuknt57y3gevnf35wgf4e6b15ypqj9ozv',
+//   },
+//   schemas: {
+//     StoredCredentials:
+//       'ceramic://k3y52l7qbv1frxk5wjk8vyexuuev6og9eb7bgrh5xtlepuumjtz7fjf1kuzgmpx4w',
+//   },
+//   tiles: {},
+// };
+
 export const aliases = {
   definitions: {
     StoredCredentials:
-      'kjzl6cwe1jw148ulgnabbg1vfx1slceuknt57y3gevnf35wgf4e6b15ypqj9ozv',
+      'kjzl6cwe1jw1475uoed3zn1yq28pnh6pqqq611y21qwhweln9p8er7g09crnwqa',
   },
   schemas: {
     StoredCredentials:
-      'ceramic://k3y52l7qbv1frxk5wjk8vyexuuev6og9eb7bgrh5xtlepuumjtz7fjf1kuzgmpx4w',
+      'ceramic://k3y52l7qbv1fryllp4tpkqpkbg3ndpni8i4czh2gl8hxjozo5uxduknnd9ebma6m8',
   },
   tiles: {},
 };
