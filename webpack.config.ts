@@ -66,7 +66,7 @@ const snapConfig: Configuration = merge(common, {
     // Required so that webpack doesn't mangle our `exports` variable
     libraryTarget: 'commonjs',
   },
-  plugins: [new SnapsWebpackPlugin()],
+  plugins: [new SnapsWebpackPlugin({ eval: false, writeManifest: false })],
 });
 
 const config = [snapConfig];
