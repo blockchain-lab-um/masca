@@ -45,6 +45,7 @@ export class CeramicVCStore extends AbstractVCStore {
           else found = true;
         }
       );
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const res = await datastore.merge('StoredCredentials', ceramicData);
       console.log(res);
       return found;
@@ -64,11 +65,13 @@ export class CeramicVCStore extends AbstractVCStore {
     console.log(storedCredentials);
     if (storedCredentials && storedCredentials.storedCredentials) {
       storedCredentials.storedCredentials.push(vc);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const res = await datastore.merge('StoredCredentials', storedCredentials);
       console.log(res);
     } else {
       console.log('creating new..');
       const storedCredentialsNew = { storedCredentials: [vc] };
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const res = await datastore.merge(
         'StoredCredentials',
         storedCredentialsNew
