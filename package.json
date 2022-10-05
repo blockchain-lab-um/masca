@@ -26,7 +26,7 @@
   },
   "main": "src/index.ts",
   "files": [
-    "dist/bundle.js",
+    "dist/snap.js",
     "snap.manifest.json",
     "package.json",
     "images"
