@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/blockchain-lab-um/ssi-snap/compare/v1.2.0...v1.2.1) (2022-10-05)
+
+
+### :bug: Bug Fixes
+
+* fixes published files ([#24](https://github.com/blockchain-lab-um/ssi-snap/issues/24)) ([7d378cd](https://github.com/blockchain-lab-um/ssi-snap/commit/7d378cd71b5980db4dddbffdab909e752ff3ab0a))
+
 ## [1.2.0](https://github.com/blockchain-lab-um/ssi-snap/compare/v1.1.4...v1.2.0) (2022-10-05)
 
 ### :rocket: Features
