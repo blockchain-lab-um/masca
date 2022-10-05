@@ -2,10 +2,9 @@
 
 ## [1.2.2](https://github.com/blockchain-lab-um/ssi-snap/compare/v1.2.1...v1.2.2) (2022-10-05)
 
-
 ### :bug: Bug Fixes
 
-* fixes prepare script for publish ([#27](https://github.com/blockchain-lab-um/ssi-snap/issues/27)) ([681f0ff](https://github.com/blockchain-lab-um/ssi-snap/commit/681f0ff93a13dfce38bfe31487f62ec7d67d144a))
+- fixes prepare script for publish ([#27](https://github.com/blockchain-lab-um/ssi-snap/issues/27)) ([681f0ff](https://github.com/blockchain-lab-um/ssi-snap/commit/681f0ff93a13dfce38bfe31487f62ec7d67d144a))
 
 ## [1.2.1](https://github.com/blockchain-lab-um/ssi-snap/compare/v1.2.0...v1.2.1) (2022-10-05)
 
