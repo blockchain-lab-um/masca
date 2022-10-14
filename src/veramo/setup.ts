@@ -47,7 +47,7 @@ import { getDidKeyResolver as keyDidResolver } from '../did/key/keyDidResolver';
 
 const availableNetworks: Record<string, string> = {
   '0x01': 'mainnet',
-  '0x04': 'rinkeby',
+  '0x05': 'goerli',
 };
 
 import { getCurrentNetwork } from '../utils/snapUtils';
@@ -81,18 +81,12 @@ export const getAgent = async (
 
   didProviders['did:ethr'] = new EthrDIDProvider({
     defaultKms: 'web3',
-    network: 'rinkeby',
+    network: 'goerli',
     rpcUrl:
       `https://${availableNetworks[CHAIN_ID] ?? 'mainnet'}.infura.io/v3/` +
       INFURA_PROJECT_ID,
     web3Provider: new Web3Provider(wallet as any),
   });
-  // didProviders["snap"] = new EthrDIDProvider({
-  //   defaultKms: "snap",
-  //   network: "rinkeby",
-  //   rpcUrl: "https://rinkeby.infura.io/v3/" + INFURA_PROJECT_ID,
-  //   web3Provider: new Web3Provider(wallet as any),
-  // });
 
   didProviders['did:key'] = new KeyDIDProvider({ defaultKms: 'web3' });
 

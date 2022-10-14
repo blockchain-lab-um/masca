@@ -52,10 +52,10 @@ describe('Utils [snap]', () => {
       expect.assertions(2);
     });
 
-    it('should succeed for rinkeby (0x4)', async () => {
-      walletMock.rpcMocks.eth_chainId.mockResolvedValue('0x4');
+    it('should succeed for goerli (0x5)', async () => {
+      walletMock.rpcMocks.eth_chainId.mockResolvedValue('0x5');
 
-      await expect(getCurrentNetwork(walletMock)).resolves.toEqual('0x4');
+      await expect(getCurrentNetwork(walletMock)).resolves.toEqual('0x5');
 
       expect(walletMock.rpcMocks.eth_chainId).toHaveBeenCalledTimes(1);
 
