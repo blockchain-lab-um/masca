@@ -1,7 +1,7 @@
 import { getCompressedPublicKey } from '../../utils/snapUtils';
 import { SSISnapState } from '../../interfaces';
 import { base58btc } from 'multiformats/bases/base58';
-import { addPrefix } from '../../utils/formatUtils';
+import { addMulticodecPrefix } from '../../utils/formatUtils';
 
 export function getDidKeyIdentifier(
   state: SSISnapState,
@@ -13,7 +13,7 @@ export function getDidKeyIdentifier(
 
   return Buffer.from(
     base58btc.encode(
-      addPrefix('secp256k1-pub', Buffer.from(compressedKey, 'hex'))
+      addMulticodecPrefix('secp256k1-pub', Buffer.from(compressedKey, 'hex'))
     )
   ).toString();
 }

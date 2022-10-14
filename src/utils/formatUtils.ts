@@ -7,7 +7,10 @@ import { CodecName, MULTICODECS } from '../constants/multicodecs';
  * @param {Uint8Array} data
  * @returns {Uint8Array}
  */
-export const addPrefix = (multicodec: CodecName, data: Uint8Array) => {
+export const addMulticodecPrefix = (
+  multicodec: CodecName,
+  data: Uint8Array
+): Uint8Array => {
   let prefix;
 
   if (MULTICODECS[multicodec]) {
