@@ -61,7 +61,7 @@ describe('Utils [did]', () => {
 
       await expect(
         getCurrentDid(walletMock, initialState, address)
-      ).resolves.toBe(`did:ethr:0x4:${address}`);
+      ).resolves.toBe(`did:ethr:0x5:${address}`);
 
       expect.assertions(1);
     });

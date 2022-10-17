@@ -27,7 +27,7 @@ export const defaultConfig = {
     friendlyDapps: [],
   },
   snap: {
-    infuraToken: '6e751a2e5ff741e5a01eab15e4e4a88b',
+    infuraToken: '0ec03090465d400c988a14831aacfe37',
     acceptedTerms: true,
   },
 } as SSISnapConfig;
@@ -40,7 +40,7 @@ const initialSnapState: SSISnapState = {
       friendlyDapps: [],
     },
     snap: {
-      infuraToken: '6e751a2e5ff741e5a01eab15e4e4a88b',
+      infuraToken: '0ec03090465d400c988a14831aacfe37',
       acceptedTerms: true,
     },
   },
