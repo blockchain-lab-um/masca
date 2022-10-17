@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.0](https://github.com/blockchain-lab-um/ssi-snap/compare/v1.2.2...v1.3.0) (2022-10-17)
+
+
+### :rocket: Features
+
+* change rinkeby to goerli ([#31](https://github.com/blockchain-lab-um/ssi-snap/issues/31)) ([bca55a5](https://github.com/blockchain-lab-um/ssi-snap/commit/bca55a51d0ebcdacee0a46b1f7ccec319b90ee65))
+* use multiformats lib ([#30](https://github.com/blockchain-lab-um/ssi-snap/issues/30)) ([8ee29f3](https://github.com/blockchain-lab-um/ssi-snap/commit/8ee29f3eb5b7c1539045405c52bb3c6baecfcef8))
+
 ## [1.2.2](https://github.com/blockchain-lab-um/ssi-snap/compare/v1.2.1...v1.2.2) (2022-10-05)
 
 ### :bug: Bug Fixes
