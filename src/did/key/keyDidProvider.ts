@@ -12,8 +12,8 @@ import {
   IKeyManager,
 } from '@veramo/core';
 import { AbstractIdentifierProvider } from '@veramo/did-manager';
-import Multibase from 'multibase';
-import Multicodec from 'multicodec';
+import { base58btc } from 'multiformats/bases/base58';
+import { addMulticodecPrefix } from '../../utils/formatUtils';
 
 type IContext = IAgentContext<IKeyManager>;
 
@@ -41,12 +41,8 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     });
 
     const methodSpecificId = Buffer.from(
-      Multibase.encode(
-        'base58btc',
-        Multicodec.addPrefix(
-          'ed25519-pub',
-          Buffer.from(key.publicKeyHex, 'hex')
-        )
+      base58btc.encode(
+        addMulticodecPrefix('ed25519-pub', Buffer.from(key.publicKeyHex, 'hex'))
       )
     ).toString();
 
