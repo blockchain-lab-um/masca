@@ -10,15 +10,15 @@ export const publicKey =
   '0x0480a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae850a9f561d414001a8bdefdb713c619d2caf08a0c9655b0cf42de065bc51e0169a';
 export const signedMsg =
   '0x30eb4dbf93e7bfdb109ed03f7803f2378fa27d18ddc233cb3d121b5ba13253fe2515076d1ba66f3dc282c182479b843c925c62eb1f5a0676bcaf995e8e7552941c';
-export const infuraToken = 'ff198790465d111c342a14831bbefea7';
+export const infuraToken = '0ec03090465d400c988a14831aacfe37';
 
 export const exampleDIDKeyIdentifier =
   'zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik';
 export const exampleDIDKey = `did:key:${exampleDIDKeyIdentifier}`;
 export const exampleDID =
-  'did:ethr:0x4:0xb6665128eE91D84590f70c3268765384A9CAfBCd';
+  'did:ethr:0x5:0xb6665128eE91D84590f70c3268765384A9CAfBCd';
 export const exampleImportedDID: IIdentifier = {
-  did: 'did:ethr:0x4:0xb6665128eE91D84590f70c3268765384A9CAfBCd',
+  did: 'did:ethr:0x5:0xb6665128eE91D84590f70c3268765384A9CAfBCd',
   provider: 'did:ethr',
   controllerKeyId: 'metamask-0xb6665128eE91D84590f70c3268765384A9CAfBCd',
   keys: [
@@ -39,7 +39,7 @@ export const exampleImportedDID: IIdentifier = {
 };
 
 export const exampleImportedDIDWIthoutPrivateKey: IIdentifier = {
-  did: 'did:ethr:0x4:0xb6665128eE91D84590f70c3268765384A9CAfBCd',
+  did: 'did:ethr:0x5:0xb6665128eE91D84590f70c3268765384A9CAfBCd',
   provider: 'did:ethr',
   controllerKeyId: 'metamask-0xb6665128eE91D84590f70c3268765384A9CAfBCd',
   keys: [
@@ -64,10 +64,10 @@ export const exampleVC = {
     learnerName: 'Bob',
     achievement: 'Certified Solidity Developer 2',
     courseProvider: 'https://blockchain-lab.um.si/',
-    id: 'did:ethr:rinkeby:0xb6665128ee91d84590f70c3268765384a9cafbcd',
+    id: 'did:ethr:goerli:0xb6665128ee91d84590f70c3268765384a9cafbcd',
   },
   issuer: {
-    id: 'did:ethr:rinkeby:0x0241abd662da06d0af2f0152a80bc037f65a7f901160cfe1eb35ef3f0c532a2a4d',
+    id: 'did:ethr:goerli:0x0241abd662da06d0af2f0152a80bc037f65a7f901160cfe1eb35ef3f0c532a2a4d',
   },
   id: 'b2f479c5-2058-4286-a70d-f636966266de',
   type: ['VerifiableCredential', 'ProgramCompletionCertificate'],
@@ -96,7 +96,7 @@ const defaultSnapState: SSISnapState = {
       friendlyDapps: [],
     },
     snap: {
-      infuraToken: '6e751a2e5ff741e5a01eab15e4e4a88b',
+      infuraToken: '0ec03090465d400c988a14831aacfe37',
       acceptedTerms: true,
     },
   },
