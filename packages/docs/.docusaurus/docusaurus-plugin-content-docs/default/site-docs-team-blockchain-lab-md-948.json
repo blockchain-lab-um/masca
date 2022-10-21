@@ -1,0 +1,27 @@
+{
+  "unversionedId": "team/blockchain_lab",
+  "id": "team/blockchain_lab",
+  "title": "Blockchain Lab:UM",
+  "description": "A multidisciplinary team of researchers, developers and consultants who develop and evaluate blockchain-based services.",
+  "source": "@site/docs/team/blockchain_lab.md",
+  "sourceDirName": "team",
+  "slug": "/team/blockchain_lab",
+  "permalink": "/ssi-snap-docs/docs/team/blockchain_lab",
+  "draft": false,
+  "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/team/blockchain_lab.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Members",
+    "permalink": "/ssi-snap-docs/docs/team/"
+  },
+  "next": {
+    "title": "Glossary",
+    "permalink": "/ssi-snap-docs/docs/glossary"
+  }
+}

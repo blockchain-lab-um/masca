@@ -1,0 +1,27 @@
+{
+  "unversionedId": "ssi/trust-model",
+  "id": "ssi/trust-model",
+  "title": "VC Trust Model",
+  "description": "SSI completely changes the paradigm of online data sharing and brings it closer to the physical world. There are three entities in the VC trust model:",
+  "source": "@site/docs/ssi/trust-model.md",
+  "sourceDirName": "ssi",
+  "slug": "/ssi/trust-model",
+  "permalink": "/ssi-snap-docs/docs/ssi/trust-model",
+  "draft": false,
+  "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/ssi/trust-model.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 5,
+  "frontMatter": {
+    "sidebar_position": 5
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Verifiable Presentation (VP)",
+    "permalink": "/ssi-snap-docs/docs/ssi/vp"
+  },
+  "next": {
+    "title": "SSI Snap",
+    "permalink": "/ssi-snap-docs/docs/category/ssi-snap"
+  }
+}

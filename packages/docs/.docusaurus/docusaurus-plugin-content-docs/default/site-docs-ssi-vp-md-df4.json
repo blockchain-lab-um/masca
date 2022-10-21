@@ -1,0 +1,27 @@
+{
+  "unversionedId": "ssi/vp",
+  "id": "ssi/vp",
+  "title": "Verifiable Presentation (VP)",
+  "description": "Verifiable Presentation, or VP for short, expresses data from one or more VCs and is packaged so that the authorship of the data is verifiable. The data in a VP, which is often about the same subject, could have been issued by multiple issuers. Let's say you're required to prove your University degree, past employment, and date of birth. Each of these credentials is issued by a different entity, and the owner can combine them to create a single VP.",
+  "source": "@site/docs/ssi/vp.md",
+  "sourceDirName": "ssi",
+  "slug": "/ssi/vp",
+  "permalink": "/ssi-snap-docs/docs/ssi/vp",
+  "draft": false,
+  "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/ssi/vp.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_position": 4
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Verifiable Credentials (VC)",
+    "permalink": "/ssi-snap-docs/docs/ssi/vc"
+  },
+  "next": {
+    "title": "VC Trust Model",
+    "permalink": "/ssi-snap-docs/docs/ssi/trust-model"
+  }
+}

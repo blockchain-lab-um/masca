@@ -1,0 +1,131 @@
+{
+  "/ssi-snap-docs/markdown-page-6bb": {
+    "__comp": "1f391b9e",
+    "__context": {
+      "plugin": "e851c034"
+    },
+    "content": "393be207"
+  },
+  "/ssi-snap-docs/docs-5cc": {
+    "__comp": "1be78505",
+    "__context": {
+      "plugin": "b5b4268e"
+    },
+    "versionMetadata": "935f2afb"
+  },
+  "/ssi-snap-docs/docs/category/libraries--plugins-8e4": {
+    "__comp": "14eb3368",
+    "categoryGeneratedIndex": "7c0eec7b"
+  },
+  "/ssi-snap-docs/docs/category/self-sovereign-identity---basics-f62": {
+    "__comp": "14eb3368",
+    "categoryGeneratedIndex": "f9112a19"
+  },
+  "/ssi-snap-docs/docs/category/ssi-snap-e5c": {
+    "__comp": "14eb3368",
+    "categoryGeneratedIndex": "dfc466c4"
+  },
+  "/ssi-snap-docs/docs/category/team-9e7": {
+    "__comp": "14eb3368",
+    "categoryGeneratedIndex": "9ce9c01f"
+  },
+  "/ssi-snap-docs/docs/category/use-ssi-snap-040": {
+    "__comp": "14eb3368",
+    "categoryGeneratedIndex": "127a8582"
+  },
+  "/ssi-snap-docs/docs/config-79e": {
+    "__comp": "17896441",
+    "content": "68e3f9c8"
+  },
+  "/ssi-snap-docs/docs/faqs-e23": {
+    "__comp": "17896441",
+    "content": "1ffdd7de"
+  },
+  "/ssi-snap-docs/docs/get_started-efe": {
+    "__comp": "17896441",
+    "content": "5d975e13"
+  },
+  "/ssi-snap-docs/docs/glossary-9ad": {
+    "__comp": "17896441",
+    "content": "e747ec83"
+  },
+  "/ssi-snap-docs/docs/intro-8fc": {
+    "__comp": "17896441",
+    "content": "0e384e19"
+  },
+  "/ssi-snap-docs/docs/plugins/ssi-snap-connector-906": {
+    "__comp": "17896441",
+    "content": "501ae7f9"
+  },
+  "/ssi-snap-docs/docs/plugins/vc-manager-a79": {
+    "__comp": "17896441",
+    "content": "9052e445"
+  },
+  "/ssi-snap-docs/docs/roadmap-842": {
+    "__comp": "17896441",
+    "content": "0dffb83e"
+  },
+  "/ssi-snap-docs/docs/ssi-9a4": {
+    "__comp": "17896441",
+    "content": "15887204"
+  },
+  "/ssi-snap-docs/docs/ssi-snap/architecture-997": {
+    "__comp": "17896441",
+    "content": "4bc08a2e"
+  },
+  "/ssi-snap-docs/docs/ssi-snap/design-247": {
+    "__comp": "17896441",
+    "content": "cebaa63d"
+  },
+  "/ssi-snap-docs/docs/ssi-snap/intro-4ec": {
+    "__comp": "17896441",
+    "content": "c6475573"
+  },
+  "/ssi-snap-docs/docs/ssi-snap/storage-591": {
+    "__comp": "17896441",
+    "content": "7bc765ce"
+  },
+  "/ssi-snap-docs/docs/ssi/did-6cf": {
+    "__comp": "17896441",
+    "content": "ee100aa2"
+  },
+  "/ssi-snap-docs/docs/ssi/trust-model-6b6": {
+    "__comp": "17896441",
+    "content": "f5c75dc1"
+  },
+  "/ssi-snap-docs/docs/ssi/vc-78e": {
+    "__comp": "17896441",
+    "content": "2ccee365"
+  },
+  "/ssi-snap-docs/docs/ssi/vp-f53": {
+    "__comp": "17896441",
+    "content": "df4040ab"
+  },
+  "/ssi-snap-docs/docs/team-4ab": {
+    "__comp": "17896441",
+    "content": "140abd65"
+  },
+  "/ssi-snap-docs/docs/team/blockchain_lab-9c9": {
+    "__comp": "17896441",
+    "content": "9481bcab"
+  },
+  "/ssi-snap-docs/docs/tutorial/demo-90b": {
+    "__comp": "17896441",
+    "content": "651fbd5b"
+  },
+  "/ssi-snap-docs/docs/tutorial/implementation-fd5": {
+    "__comp": "17896441",
+    "content": "455b3e44"
+  },
+  "/ssi-snap-docs/docs/tutorial/rpc-methods-757": {
+    "__comp": "17896441",
+    "content": "ba707923"
+  },
+  "/ssi-snap-docs/-b11": {
+    "__comp": "1df93b7f",
+    "__context": {
+      "plugin": "e851c034"
+    },
+    "config": "5e9f5e1a"
+  }
+}

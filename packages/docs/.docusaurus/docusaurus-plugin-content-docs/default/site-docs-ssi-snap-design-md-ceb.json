@@ -1,0 +1,27 @@
+{
+  "unversionedId": "ssi-snap/design",
+  "id": "ssi-snap/design",
+  "title": "Design",
+  "description": "The SSI Snap is a MetaMask Snap, that can handle DIDs, securely store VCs, and create the VPs. It is designed to be blockchain-agnostic. SSI Snap uses existing MetaMask accounts as DIDs or as a mean to create new DIDs, without the need to ever export private keys from MetaMask, hence leveraging its security!",
+  "source": "@site/docs/ssi-snap/design.md",
+  "sourceDirName": "ssi-snap",
+  "slug": "/ssi-snap/design",
+  "permalink": "/ssi-snap-docs/docs/ssi-snap/design",
+  "draft": false,
+  "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/ssi-snap/design.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "MetaMask Snaps - Basics",
+    "permalink": "/ssi-snap-docs/docs/ssi-snap/intro"
+  },
+  "next": {
+    "title": "Architecture",
+    "permalink": "/ssi-snap-docs/docs/ssi-snap/architecture"
+  }
+}

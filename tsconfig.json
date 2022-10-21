@@ -4,7 +4,6 @@
     "forceConsistentCasingInFileNames": true,
     "module": "CommonJS",
     "moduleResolution": "Node",
-    "useUnknownInCatchVariables": false,
     "sourceMap": true,
     "strict": true,
     "target": "ES2020",

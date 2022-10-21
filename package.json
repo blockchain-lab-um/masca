@@ -28,15 +28,18 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "yarn workspaces foreach --parallel --topological --verbose run build",
+    "build": "yarn workspaces foreach -ptv run build",
+    "build:connector": "yarn workspace @blockchain-lab-um/ssi-snap-connector build",
+    "build:vcmanager": "yarn workspace @blockchain-lab-um/veramo-vc-manager build",
     "postinstall": "patch-package",
-    "lint": "yarn lint:eslint && yarn lint:misc --check",
+    "lint": "yarn workspaces foreach -ptv run lint",
     "lint:eslint": "eslint . --cache --ext js,ts",
     "lint:fix": "yarn lint:eslint --fix && yarn lint:misc --write",
     "lint:misc": "prettier '**/*.json' '**/*.md' '!**/CHANGELOG.md' '**/*.yml' --ignore-path .gitignore",
     "prepare": "is-ci || husky install",
     "prettier": "prettier --write .",
     "start": "yarn workspaces foreach --parallel --interlaced --verbose run start",
+    "start:docs": "yarn workspace @blockchain-lab-um/ssi-snap-docs start",
     "start:snap": "yarn workspace @blockchain-lab-um/ssi-snap start",
     "test": "echo \"TODO\""
   },
@@ -59,11 +62,13 @@
     "lint-staged": "^13.0.3",
     "mocha": "^10.0.0",
     "patch-package": "^6.4.7",
+    "prettier": "^2.7.1",
+    "prettier-plugin-packagejson": "^2.2.11",
     "rimraf": "^3.0.2",
     "ts-node": "^10.8.0",
     "typescript": "4.6.4"
   },
-  "packageManager": "yarn@3.2.3",
+  "packageManager": "yarn@3.2.4",
   "engines": {
     "node": ">=16.0.0"
   }

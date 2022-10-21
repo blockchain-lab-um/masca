@@ -1,0 +1,23 @@
+{
+  "unversionedId": "intro",
+  "id": "intro",
+  "title": "Introduction",
+  "description": "Welcome blockchain explorers! If you ever wanted to integrate the powerful world of Self-Sovereign Identity (SSI), Decentralized Identifiers (DIDs), and Verifiable Credentials (VCs) into decentralized applications (dApps), you have found the right place. No need for additional platforms and wallets, only one of the most popular web3 wallets is required - MetaMask.",
+  "source": "@site/docs/intro.md",
+  "sourceDirName": ".",
+  "slug": "/intro",
+  "permalink": "/ssi-snap-docs/docs/intro",
+  "draft": false,
+  "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/intro.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "next": {
+    "title": "Getting Started",
+    "permalink": "/ssi-snap-docs/docs/get_started"
+  }
+}

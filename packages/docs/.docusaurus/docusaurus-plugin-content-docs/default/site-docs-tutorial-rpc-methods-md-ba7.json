@@ -1,0 +1,27 @@
+{
+  "unversionedId": "tutorial/rpc-methods",
+  "id": "tutorial/rpc-methods",
+  "title": "JSON-RPC API",
+  "description": "VC Methods",
+  "source": "@site/docs/tutorial/rpc-methods.md",
+  "sourceDirName": "tutorial",
+  "slug": "/tutorial/rpc-methods",
+  "permalink": "/ssi-snap-docs/docs/tutorial/rpc-methods",
+  "draft": false,
+  "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/tutorial/rpc-methods.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 5,
+  "frontMatter": {
+    "sidebar_position": 5
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "How To Implement It?",
+    "permalink": "/ssi-snap-docs/docs/tutorial/implementation"
+  },
+  "next": {
+    "title": "Live Demo",
+    "permalink": "/ssi-snap-docs/docs/tutorial/demo"
+  }
+}

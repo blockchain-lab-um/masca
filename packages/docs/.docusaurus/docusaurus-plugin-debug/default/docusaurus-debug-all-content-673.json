@@ -1,0 +1,808 @@
+{
+  "docusaurus-plugin-content-docs": {
+    "default": {
+      "loadedVersions": [
+        {
+          "versionName": "current",
+          "label": "Next",
+          "banner": null,
+          "badge": false,
+          "className": "docs-version-current",
+          "path": "/ssi-snap-docs/docs",
+          "tagsPath": "/ssi-snap-docs/docs/tags",
+          "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs",
+          "editUrlLocalized": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/i18n/en/docusaurus-plugin-content-docs/current",
+          "isLast": true,
+          "routePriority": -1,
+          "sidebarFilePath": "/Users/andrazvrecko/Projects/ssi-snap/ssi-snap/packages/docs/sidebars.js",
+          "contentPath": "/Users/andrazvrecko/Projects/ssi-snap/ssi-snap/packages/docs/docs",
+          "contentPathLocalized": "/Users/andrazvrecko/Projects/ssi-snap/ssi-snap/packages/docs/i18n/en/docusaurus-plugin-content-docs/current",
+          "docs": [
+            {
+              "unversionedId": "config",
+              "id": "config",
+              "title": "Configure SSI Snap",
+              "description": "",
+              "source": "@site/docs/config.mdx",
+              "sourceDirName": ".",
+              "slug": "/config",
+              "permalink": "/ssi-snap-docs/docs/config",
+              "draft": false,
+              "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/config.mdx",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 6,
+              "frontMatter": {
+                "sidebar_position": 6
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Live Demo",
+                "permalink": "/ssi-snap-docs/docs/tutorial/demo"
+              },
+              "next": {
+                "title": "Libraries & Plugins",
+                "permalink": "/ssi-snap-docs/docs/category/libraries--plugins"
+              }
+            },
+            {
+              "unversionedId": "faqs",
+              "id": "faqs",
+              "title": "FAQ's",
+              "description": "Coming soon...",
+              "source": "@site/docs/faqs.md",
+              "sourceDirName": ".",
+              "slug": "/faqs",
+              "permalink": "/ssi-snap-docs/docs/faqs",
+              "draft": false,
+              "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/faqs.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 11,
+              "frontMatter": {
+                "sidebar_position": 11
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Glossary",
+                "permalink": "/ssi-snap-docs/docs/glossary"
+              }
+            },
+            {
+              "unversionedId": "get_started",
+              "id": "get_started",
+              "title": "Getting Started",
+              "description": "The SSI Snap is a MetaMask Snap, that can handle DIDs, securely store VCs, create VPs and is designed to be blockchain-agnostic.",
+              "source": "@site/docs/get_started.md",
+              "sourceDirName": ".",
+              "slug": "/get_started",
+              "permalink": "/ssi-snap-docs/docs/get_started",
+              "draft": false,
+              "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/get_started.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 2,
+              "frontMatter": {
+                "sidebar_position": 2
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Introduction",
+                "permalink": "/ssi-snap-docs/docs/intro"
+              },
+              "next": {
+                "title": "Self Sovereign Identity - Basics",
+                "permalink": "/ssi-snap-docs/docs/category/self-sovereign-identity---basics"
+              }
+            },
+            {
+              "unversionedId": "glossary",
+              "id": "glossary",
+              "title": "Glossary",
+              "description": "SSI: Self-Sovereign Identity",
+              "source": "@site/docs/glossary.md",
+              "sourceDirName": ".",
+              "slug": "/glossary",
+              "permalink": "/ssi-snap-docs/docs/glossary",
+              "draft": false,
+              "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/glossary.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 10,
+              "frontMatter": {
+                "sidebar_position": 10
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Blockchain Lab:UM",
+                "permalink": "/ssi-snap-docs/docs/team/blockchain_lab"
+              },
+              "next": {
+                "title": "FAQ's",
+                "permalink": "/ssi-snap-docs/docs/faqs"
+              }
+            },
+            {
+              "unversionedId": "intro",
+              "id": "intro",
+              "title": "Introduction",
+              "description": "Welcome blockchain explorers! If you ever wanted to integrate the powerful world of Self-Sovereign Identity (SSI), Decentralized Identifiers (DIDs), and Verifiable Credentials (VCs) into decentralized applications (dApps), you have found the right place. No need for additional platforms and wallets, only one of the most popular web3 wallets is required - MetaMask.",
+              "source": "@site/docs/intro.md",
+              "sourceDirName": ".",
+              "slug": "/intro",
+              "permalink": "/ssi-snap-docs/docs/intro",
+              "draft": false,
+              "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/intro.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 1,
+              "frontMatter": {
+                "sidebar_position": 1
+              },
+              "sidebar": "tutorialSidebar",
+              "next": {
+                "title": "Getting Started",
+                "permalink": "/ssi-snap-docs/docs/get_started"
+              }
+            },
+            {
+              "unversionedId": "plugins/ssi-snap-connector",
+              "id": "plugins/ssi-snap-connector",
+              "title": "SSI Snap Connector",
+              "description": "SSI Snap connector is used to install SSI snap and expose API toward snap on dApps and other applications.",
+              "source": "@site/docs/plugins/ssi-snap-connector.md",
+              "sourceDirName": "plugins",
+              "slug": "/plugins/ssi-snap-connector",
+              "permalink": "/ssi-snap-docs/docs/plugins/ssi-snap-connector",
+              "draft": false,
+              "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/plugins/ssi-snap-connector.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 1,
+              "frontMatter": {
+                "sidebar_position": 1
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Libraries & Plugins",
+                "permalink": "/ssi-snap-docs/docs/category/libraries--plugins"
+              },
+              "next": {
+                "title": "VCManager (Veramo)",
+                "permalink": "/ssi-snap-docs/docs/plugins/vc-manager"
+              }
+            },
+            {
+              "unversionedId": "plugins/vc-manager",
+              "id": "plugins/vc-manager",
+              "title": "VCManager (Veramo)",
+              "description": "Ceramic network support is experimental and still under development!",
+              "source": "@site/docs/plugins/vc-manager.md",
+              "sourceDirName": "plugins",
+              "slug": "/plugins/vc-manager",
+              "permalink": "/ssi-snap-docs/docs/plugins/vc-manager",
+              "draft": false,
+              "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/plugins/vc-manager.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 4,
+              "frontMatter": {
+                "sidebar_position": 4
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "SSI Snap Connector",
+                "permalink": "/ssi-snap-docs/docs/plugins/ssi-snap-connector"
+              },
+              "next": {
+                "title": "Roadmap",
+                "permalink": "/ssi-snap-docs/docs/roadmap"
+              }
+            },
+            {
+              "unversionedId": "roadmap",
+              "id": "roadmap",
+              "title": "Roadmap",
+              "description": "Are you interested in how SSI Snap will evolve in the future?",
+              "source": "@site/docs/roadmap.md",
+              "sourceDirName": ".",
+              "slug": "/roadmap",
+              "permalink": "/ssi-snap-docs/docs/roadmap",
+              "draft": false,
+              "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/roadmap.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 8,
+              "frontMatter": {
+                "sidebar_position": 8
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "VCManager (Veramo)",
+                "permalink": "/ssi-snap-docs/docs/plugins/vc-manager"
+              },
+              "next": {
+                "title": "Team",
+                "permalink": "/ssi-snap-docs/docs/category/team"
+              }
+            },
+            {
+              "unversionedId": "ssi-snap/architecture",
+              "id": "ssi-snap/architecture",
+              "title": "Architecture",
+              "description": "Veramo client powers the SSI Snap.",
+              "source": "@site/docs/ssi-snap/architecture.md",
+              "sourceDirName": "ssi-snap",
+              "slug": "/ssi-snap/architecture",
+              "permalink": "/ssi-snap-docs/docs/ssi-snap/architecture",
+              "draft": false,
+              "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/ssi-snap/architecture.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 4,
+              "frontMatter": {
+                "sidebar_position": 4
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Design",
+                "permalink": "/ssi-snap-docs/docs/ssi-snap/design"
+              },
+              "next": {
+                "title": "Storage",
+                "permalink": "/ssi-snap-docs/docs/ssi-snap/storage"
+              }
+            },
+            {
+              "unversionedId": "ssi-snap/design",
+              "id": "ssi-snap/design",
+              "title": "Design",
+              "description": "The SSI Snap is a MetaMask Snap, that can handle DIDs, securely store VCs, and create the VPs. It is designed to be blockchain-agnostic. SSI Snap uses existing MetaMask accounts as DIDs or as a mean to create new DIDs, without the need to ever export private keys from MetaMask, hence leveraging its security!",
+              "source": "@site/docs/ssi-snap/design.md",
+              "sourceDirName": "ssi-snap",
+              "slug": "/ssi-snap/design",
+              "permalink": "/ssi-snap-docs/docs/ssi-snap/design",
+              "draft": false,
+              "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/ssi-snap/design.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 2,
+              "frontMatter": {
+                "sidebar_position": 2
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "MetaMask Snaps - Basics",
+                "permalink": "/ssi-snap-docs/docs/ssi-snap/intro"
+              },
+              "next": {
+                "title": "Architecture",
+                "permalink": "/ssi-snap-docs/docs/ssi-snap/architecture"
+              }
+            },
+            {
+              "unversionedId": "ssi-snap/intro",
+              "id": "ssi-snap/intro",
+              "title": "MetaMask Snaps - Basics",
+              "description": "The most popular wallet, MetaMask, introduced Snaps, which makes building plugins for additional functionality possible. MetaMask is a crypto wallet and gateway to blockchain apps, providing a simple interface for users to interact with EVM-based blockchains, sign and send transactions, etc. Snaps make a wide specter of new applications possible. They can enable support for previously unsupported chains like Polkadot, Solana, Bitcoin, etc. They allow dApps to modify MetaMask's state to store and retrieve data, like VCs. They also enable access to the web and the possibility to leverage practically any API and much more. New functionality is only limited by the creativity of developers. Here is a list of already developed Snaps!",
+              "source": "@site/docs/ssi-snap/intro.md",
+              "sourceDirName": "ssi-snap",
+              "slug": "/ssi-snap/intro",
+              "permalink": "/ssi-snap-docs/docs/ssi-snap/intro",
+              "draft": false,
+              "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/ssi-snap/intro.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 1,
+              "frontMatter": {
+                "sidebar_position": 1
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "SSI Snap",
+                "permalink": "/ssi-snap-docs/docs/category/ssi-snap"
+              },
+              "next": {
+                "title": "Design",
+                "permalink": "/ssi-snap-docs/docs/ssi-snap/design"
+              }
+            },
+            {
+              "unversionedId": "ssi-snap/storage",
+              "id": "ssi-snap/storage",
+              "title": "Storage",
+              "description": "SSI Snap utilizes MetaMask's state to store data. SSI Snap modifies the SSISnapState object.",
+              "source": "@site/docs/ssi-snap/storage.md",
+              "sourceDirName": "ssi-snap",
+              "slug": "/ssi-snap/storage",
+              "permalink": "/ssi-snap-docs/docs/ssi-snap/storage",
+              "draft": false,
+              "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/ssi-snap/storage.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 5,
+              "frontMatter": {
+                "sidebar_position": 5
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Architecture",
+                "permalink": "/ssi-snap-docs/docs/ssi-snap/architecture"
+              },
+              "next": {
+                "title": "Use SSI Snap",
+                "permalink": "/ssi-snap-docs/docs/category/use-ssi-snap"
+              }
+            },
+            {
+              "unversionedId": "ssi/did",
+              "id": "ssi/did",
+              "title": "Decentralized Identifier (DID)",
+              "description": "Decentralized Identifiers (W3C Decentralized Identifiers), or DIDs in short, are the new type of unique and persistent identifiers (URI) that enable verifiable and decentralized identity. They are entirely controlled by the identity owner and are independent of centralized authorities. Each individual can create as many DIDs as they wish and use each in different contexts to prevent data correlation.",
+              "source": "@site/docs/ssi/did.md",
+              "sourceDirName": "ssi",
+              "slug": "/ssi/did",
+              "permalink": "/ssi-snap-docs/docs/ssi/did",
+              "draft": false,
+              "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/ssi/did.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 2,
+              "frontMatter": {
+                "sidebar_position": 2
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Introduction",
+                "permalink": "/ssi-snap-docs/docs/ssi/"
+              },
+              "next": {
+                "title": "Verifiable Credentials (VC)",
+                "permalink": "/ssi-snap-docs/docs/ssi/vc"
+              }
+            },
+            {
+              "unversionedId": "ssi/ssi",
+              "id": "ssi/ssi",
+              "title": "Introduction",
+              "description": "There are three main components to a digital self-sovereign identity: DIDs, VCs, and VPs.",
+              "source": "@site/docs/ssi/ssi.md",
+              "sourceDirName": "ssi",
+              "slug": "/ssi/",
+              "permalink": "/ssi-snap-docs/docs/ssi/",
+              "draft": false,
+              "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/ssi/ssi.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 1,
+              "frontMatter": {
+                "sidebar_position": 1
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Self Sovereign Identity - Basics",
+                "permalink": "/ssi-snap-docs/docs/category/self-sovereign-identity---basics"
+              },
+              "next": {
+                "title": "Decentralized Identifier (DID)",
+                "permalink": "/ssi-snap-docs/docs/ssi/did"
+              }
+            },
+            {
+              "unversionedId": "ssi/trust-model",
+              "id": "ssi/trust-model",
+              "title": "VC Trust Model",
+              "description": "SSI completely changes the paradigm of online data sharing and brings it closer to the physical world. There are three entities in the VC trust model:",
+              "source": "@site/docs/ssi/trust-model.md",
+              "sourceDirName": "ssi",
+              "slug": "/ssi/trust-model",
+              "permalink": "/ssi-snap-docs/docs/ssi/trust-model",
+              "draft": false,
+              "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/ssi/trust-model.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 5,
+              "frontMatter": {
+                "sidebar_position": 5
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Verifiable Presentation (VP)",
+                "permalink": "/ssi-snap-docs/docs/ssi/vp"
+              },
+              "next": {
+                "title": "SSI Snap",
+                "permalink": "/ssi-snap-docs/docs/category/ssi-snap"
+              }
+            },
+            {
+              "unversionedId": "ssi/vc",
+              "id": "ssi/vc",
+              "title": "Verifiable Credentials (VC)",
+              "description": "Verifiable Credentials (W3C Verifiable Credentials), or VCs for short, are an open standard for digital credentials to solve this issue. They are digitally signed and can be verified cryptographically, which makes them tamper-proof. VCs work well with data privacy, which goes well with data regulations pushed by the European Union (GDPR) and some other countries.",
+              "source": "@site/docs/ssi/vc.md",
+              "sourceDirName": "ssi",
+              "slug": "/ssi/vc",
+              "permalink": "/ssi-snap-docs/docs/ssi/vc",
+              "draft": false,
+              "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/ssi/vc.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 3,
+              "frontMatter": {
+                "sidebar_position": 3
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Decentralized Identifier (DID)",
+                "permalink": "/ssi-snap-docs/docs/ssi/did"
+              },
+              "next": {
+                "title": "Verifiable Presentation (VP)",
+                "permalink": "/ssi-snap-docs/docs/ssi/vp"
+              }
+            },
+            {
+              "unversionedId": "ssi/vp",
+              "id": "ssi/vp",
+              "title": "Verifiable Presentation (VP)",
+              "description": "Verifiable Presentation, or VP for short, expresses data from one or more VCs and is packaged so that the authorship of the data is verifiable. The data in a VP, which is often about the same subject, could have been issued by multiple issuers. Let's say you're required to prove your University degree, past employment, and date of birth. Each of these credentials is issued by a different entity, and the owner can combine them to create a single VP.",
+              "source": "@site/docs/ssi/vp.md",
+              "sourceDirName": "ssi",
+              "slug": "/ssi/vp",
+              "permalink": "/ssi-snap-docs/docs/ssi/vp",
+              "draft": false,
+              "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/ssi/vp.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 4,
+              "frontMatter": {
+                "sidebar_position": 4
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Verifiable Credentials (VC)",
+                "permalink": "/ssi-snap-docs/docs/ssi/vc"
+              },
+              "next": {
+                "title": "VC Trust Model",
+                "permalink": "/ssi-snap-docs/docs/ssi/trust-model"
+              }
+            },
+            {
+              "unversionedId": "team/blockchain_lab",
+              "id": "team/blockchain_lab",
+              "title": "Blockchain Lab:UM",
+              "description": "A multidisciplinary team of researchers, developers and consultants who develop and evaluate blockchain-based services.",
+              "source": "@site/docs/team/blockchain_lab.md",
+              "sourceDirName": "team",
+              "slug": "/team/blockchain_lab",
+              "permalink": "/ssi-snap-docs/docs/team/blockchain_lab",
+              "draft": false,
+              "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/team/blockchain_lab.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 2,
+              "frontMatter": {
+                "sidebar_position": 2
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Members",
+                "permalink": "/ssi-snap-docs/docs/team/"
+              },
+              "next": {
+                "title": "Glossary",
+                "permalink": "/ssi-snap-docs/docs/glossary"
+              }
+            },
+            {
+              "unversionedId": "team/team",
+              "id": "team/team",
+              "title": "Members",
+              "description": "",
+              "source": "@site/docs/team/team.mdx",
+              "sourceDirName": "team",
+              "slug": "/team/",
+              "permalink": "/ssi-snap-docs/docs/team/",
+              "draft": false,
+              "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/team/team.mdx",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 1,
+              "frontMatter": {
+                "sidebar_position": 1
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Team",
+                "permalink": "/ssi-snap-docs/docs/category/team"
+              },
+              "next": {
+                "title": "Blockchain Lab:UM",
+                "permalink": "/ssi-snap-docs/docs/team/blockchain_lab"
+              }
+            },
+            {
+              "unversionedId": "tutorial/demo",
+              "id": "tutorial/demo",
+              "title": "Live Demo",
+              "description": "To showcase the workflow of the SSI Snap, we have developed a demo platform.",
+              "source": "@site/docs/tutorial/demo.md",
+              "sourceDirName": "tutorial",
+              "slug": "/tutorial/demo",
+              "permalink": "/ssi-snap-docs/docs/tutorial/demo",
+              "draft": false,
+              "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/tutorial/demo.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 8,
+              "frontMatter": {
+                "sidebar_position": 8
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "JSON-RPC API",
+                "permalink": "/ssi-snap-docs/docs/tutorial/rpc-methods"
+              },
+              "next": {
+                "title": "Configure SSI Snap",
+                "permalink": "/ssi-snap-docs/docs/config"
+              }
+            },
+            {
+              "unversionedId": "tutorial/implementation",
+              "id": "tutorial/implementation",
+              "title": "How To Implement It?",
+              "description": "The SSI Snap is a MetaMask Snap, that can handle DIDs, securely store VCs, create VPs and is designed to be blockchain-agnostic.",
+              "source": "@site/docs/tutorial/implementation.md",
+              "sourceDirName": "tutorial",
+              "slug": "/tutorial/implementation",
+              "permalink": "/ssi-snap-docs/docs/tutorial/implementation",
+              "draft": false,
+              "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/tutorial/implementation.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 1,
+              "frontMatter": {
+                "sidebar_position": 1
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "Use SSI Snap",
+                "permalink": "/ssi-snap-docs/docs/category/use-ssi-snap"
+              },
+              "next": {
+                "title": "JSON-RPC API",
+                "permalink": "/ssi-snap-docs/docs/tutorial/rpc-methods"
+              }
+            },
+            {
+              "unversionedId": "tutorial/rpc-methods",
+              "id": "tutorial/rpc-methods",
+              "title": "JSON-RPC API",
+              "description": "VC Methods",
+              "source": "@site/docs/tutorial/rpc-methods.md",
+              "sourceDirName": "tutorial",
+              "slug": "/tutorial/rpc-methods",
+              "permalink": "/ssi-snap-docs/docs/tutorial/rpc-methods",
+              "draft": false,
+              "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/tutorial/rpc-methods.md",
+              "tags": [],
+              "version": "current",
+              "sidebarPosition": 5,
+              "frontMatter": {
+                "sidebar_position": 5
+              },
+              "sidebar": "tutorialSidebar",
+              "previous": {
+                "title": "How To Implement It?",
+                "permalink": "/ssi-snap-docs/docs/tutorial/implementation"
+              },
+              "next": {
+                "title": "Live Demo",
+                "permalink": "/ssi-snap-docs/docs/tutorial/demo"
+              }
+            }
+          ],
+          "drafts": [],
+          "sidebars": {
+            "tutorialSidebar": [
+              {
+                "type": "doc",
+                "id": "intro"
+              },
+              {
+                "type": "doc",
+                "id": "get_started"
+              },
+              {
+                "type": "category",
+                "label": "Self Sovereign Identity - Basics",
+                "collapsible": true,
+                "collapsed": true,
+                "items": [
+                  {
+                    "type": "doc",
+                    "id": "ssi/ssi"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "ssi/did"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "ssi/vc"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "ssi/vp"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "ssi/trust-model"
+                  }
+                ],
+                "link": {
+                  "type": "generated-index",
+                  "description": "Learn the most important SSI concepts.",
+                  "slug": "/category/self-sovereign-identity---basics",
+                  "permalink": "/ssi-snap-docs/docs/category/self-sovereign-identity---basics"
+                }
+              },
+              {
+                "type": "category",
+                "label": "SSI Snap",
+                "collapsible": true,
+                "collapsed": true,
+                "items": [
+                  {
+                    "type": "doc",
+                    "id": "ssi-snap/intro"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "ssi-snap/design"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "ssi-snap/architecture"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "ssi-snap/storage"
+                  }
+                ],
+                "link": {
+                  "type": "generated-index",
+                  "description": "Learn about the SSI Snap",
+                  "slug": "/category/ssi-snap",
+                  "permalink": "/ssi-snap-docs/docs/category/ssi-snap"
+                }
+              },
+              {
+                "type": "category",
+                "label": "Use SSI Snap",
+                "collapsible": true,
+                "collapsed": true,
+                "items": [
+                  {
+                    "type": "doc",
+                    "id": "tutorial/implementation"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "tutorial/rpc-methods"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "tutorial/demo"
+                  }
+                ],
+                "link": {
+                  "type": "generated-index",
+                  "description": "Learn how to use the SSI Snap.",
+                  "slug": "/category/use-ssi-snap",
+                  "permalink": "/ssi-snap-docs/docs/category/use-ssi-snap"
+                }
+              },
+              {
+                "type": "doc",
+                "id": "config"
+              },
+              {
+                "type": "category",
+                "label": "Libraries & Plugins",
+                "collapsible": true,
+                "collapsed": true,
+                "items": [
+                  {
+                    "type": "doc",
+                    "id": "plugins/ssi-snap-connector"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "plugins/vc-manager"
+                  }
+                ],
+                "link": {
+                  "type": "generated-index",
+                  "description": "Libraries and Plugins",
+                  "slug": "/category/libraries--plugins",
+                  "permalink": "/ssi-snap-docs/docs/category/libraries--plugins"
+                }
+              },
+              {
+                "type": "doc",
+                "id": "roadmap"
+              },
+              {
+                "type": "category",
+                "label": "Team",
+                "collapsible": true,
+                "collapsed": true,
+                "items": [
+                  {
+                    "type": "doc",
+                    "id": "team/team"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "team/blockchain_lab"
+                  }
+                ],
+                "link": {
+                  "type": "generated-index",
+                  "description": "Learn more about the team building SSI Snap.",
+                  "slug": "/category/team",
+                  "permalink": "/ssi-snap-docs/docs/category/team"
+                }
+              },
+              {
+                "type": "doc",
+                "id": "glossary"
+              },
+              {
+                "type": "doc",
+                "id": "faqs"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "docusaurus-plugin-content-blog": {
+    "default": {
+      "blogSidebarTitle": "Titles",
+      "blogPosts": [],
+      "blogListPaginated": [],
+      "blogTags": {},
+      "blogTagsListPath": "/ssi-snap-docs/blog/tags",
+      "blogTagsPaginated": []
+    }
+  },
+  "docusaurus-plugin-content-pages": {
+    "default": [
+      {
+        "type": "jsx",
+        "permalink": "/ssi-snap-docs/",
+        "source": "@site/src/pages/index.tsx"
+      },
+      {
+        "type": "mdx",
+        "permalink": "/ssi-snap-docs/markdown-page",
+        "source": "@site/src/pages/markdown-page.md",
+        "title": "Markdown page example",
+        "description": "You don't need React to write simple standalone pages.",
+        "frontMatter": {
+          "title": "Markdown page example"
+        }
+      }
+    ]
+  },
+  "docusaurus-plugin-debug": {},
+  "docusaurus-theme-classic": {},
+  "docusaurus-bootstrap-plugin": {},
+  "docusaurus-mdx-fallback-plugin": {}
+}

@@ -1,0 +1,16 @@
+{
+  "title": "Libraries & Plugins",
+  "description": "Libraries and Plugins",
+  "slug": "/category/libraries--plugins",
+  "permalink": "/ssi-snap-docs/docs/category/libraries--plugins",
+  "navigation": {
+    "previous": {
+      "title": "Configure SSI Snap",
+      "permalink": "/ssi-snap-docs/docs/config"
+    },
+    "next": {
+      "title": "SSI Snap Connector",
+      "permalink": "/ssi-snap-docs/docs/plugins/ssi-snap-connector"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "unversionedId": "ssi-snap/storage",
+  "id": "ssi-snap/storage",
+  "title": "Storage",
+  "description": "SSI Snap utilizes MetaMask's state to store data. SSI Snap modifies the SSISnapState object.",
+  "source": "@site/docs/ssi-snap/storage.md",
+  "sourceDirName": "ssi-snap",
+  "slug": "/ssi-snap/storage",
+  "permalink": "/ssi-snap-docs/docs/ssi-snap/storage",
+  "draft": false,
+  "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/ssi-snap/storage.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 5,
+  "frontMatter": {
+    "sidebar_position": 5
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Architecture",
+    "permalink": "/ssi-snap-docs/docs/ssi-snap/architecture"
+  },
+  "next": {
+    "title": "Use SSI Snap",
+    "permalink": "/ssi-snap-docs/docs/category/use-ssi-snap"
+  }
+}

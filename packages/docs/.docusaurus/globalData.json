@@ -1,0 +1,163 @@
+{
+  "docusaurus-plugin-content-docs": {
+    "default": {
+      "path": "/ssi-snap-docs/docs",
+      "versions": [
+        {
+          "name": "current",
+          "label": "Next",
+          "isLast": true,
+          "path": "/ssi-snap-docs/docs",
+          "mainDocId": "intro",
+          "docs": [
+            {
+              "id": "config",
+              "path": "/ssi-snap-docs/docs/config",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "faqs",
+              "path": "/ssi-snap-docs/docs/faqs",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "get_started",
+              "path": "/ssi-snap-docs/docs/get_started",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "glossary",
+              "path": "/ssi-snap-docs/docs/glossary",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "intro",
+              "path": "/ssi-snap-docs/docs/intro",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "plugins/ssi-snap-connector",
+              "path": "/ssi-snap-docs/docs/plugins/ssi-snap-connector",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "plugins/vc-manager",
+              "path": "/ssi-snap-docs/docs/plugins/vc-manager",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "roadmap",
+              "path": "/ssi-snap-docs/docs/roadmap",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "ssi-snap/architecture",
+              "path": "/ssi-snap-docs/docs/ssi-snap/architecture",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "ssi-snap/design",
+              "path": "/ssi-snap-docs/docs/ssi-snap/design",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "ssi-snap/intro",
+              "path": "/ssi-snap-docs/docs/ssi-snap/intro",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "ssi-snap/storage",
+              "path": "/ssi-snap-docs/docs/ssi-snap/storage",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "ssi/did",
+              "path": "/ssi-snap-docs/docs/ssi/did",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "ssi/ssi",
+              "path": "/ssi-snap-docs/docs/ssi/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "ssi/trust-model",
+              "path": "/ssi-snap-docs/docs/ssi/trust-model",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "ssi/vc",
+              "path": "/ssi-snap-docs/docs/ssi/vc",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "ssi/vp",
+              "path": "/ssi-snap-docs/docs/ssi/vp",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "team/blockchain_lab",
+              "path": "/ssi-snap-docs/docs/team/blockchain_lab",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "team/team",
+              "path": "/ssi-snap-docs/docs/team/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial/demo",
+              "path": "/ssi-snap-docs/docs/tutorial/demo",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial/implementation",
+              "path": "/ssi-snap-docs/docs/tutorial/implementation",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial/rpc-methods",
+              "path": "/ssi-snap-docs/docs/tutorial/rpc-methods",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "/category/self-sovereign-identity---basics",
+              "path": "/ssi-snap-docs/docs/category/self-sovereign-identity---basics",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "/category/ssi-snap",
+              "path": "/ssi-snap-docs/docs/category/ssi-snap",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "/category/use-ssi-snap",
+              "path": "/ssi-snap-docs/docs/category/use-ssi-snap",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "/category/libraries--plugins",
+              "path": "/ssi-snap-docs/docs/category/libraries--plugins",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "/category/team",
+              "path": "/ssi-snap-docs/docs/category/team",
+              "sidebar": "tutorialSidebar"
+            }
+          ],
+          "draftIds": [],
+          "sidebars": {
+            "tutorialSidebar": {
+              "link": {
+                "path": "/ssi-snap-docs/docs/intro",
+                "label": "intro"
+              }
+            }
+          }
+        }
+      ],
+      "breadcrumbs": true
+    }
+  }
+}

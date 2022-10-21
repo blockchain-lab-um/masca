@@ -1,0 +1,27 @@
+{
+  "unversionedId": "ssi-snap/intro",
+  "id": "ssi-snap/intro",
+  "title": "MetaMask Snaps - Basics",
+  "description": "The most popular wallet, MetaMask, introduced Snaps, which makes building plugins for additional functionality possible. MetaMask is a crypto wallet and gateway to blockchain apps, providing a simple interface for users to interact with EVM-based blockchains, sign and send transactions, etc. Snaps make a wide specter of new applications possible. They can enable support for previously unsupported chains like Polkadot, Solana, Bitcoin, etc. They allow dApps to modify MetaMask's state to store and retrieve data, like VCs. They also enable access to the web and the possibility to leverage practically any API and much more. New functionality is only limited by the creativity of developers. Here is a list of already developed Snaps!",
+  "source": "@site/docs/ssi-snap/intro.md",
+  "sourceDirName": "ssi-snap",
+  "slug": "/ssi-snap/intro",
+  "permalink": "/ssi-snap-docs/docs/ssi-snap/intro",
+  "draft": false,
+  "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/ssi-snap/intro.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "SSI Snap",
+    "permalink": "/ssi-snap-docs/docs/category/ssi-snap"
+  },
+  "next": {
+    "title": "Design",
+    "permalink": "/ssi-snap-docs/docs/ssi-snap/design"
+  }
+}

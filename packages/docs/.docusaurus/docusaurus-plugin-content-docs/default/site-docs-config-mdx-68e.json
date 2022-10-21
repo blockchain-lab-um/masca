@@ -1,0 +1,27 @@
+{
+  "unversionedId": "config",
+  "id": "config",
+  "title": "Configure SSI Snap",
+  "description": "",
+  "source": "@site/docs/config.mdx",
+  "sourceDirName": ".",
+  "slug": "/config",
+  "permalink": "/ssi-snap-docs/docs/config",
+  "draft": false,
+  "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/config.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 6,
+  "frontMatter": {
+    "sidebar_position": 6
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Live Demo",
+    "permalink": "/ssi-snap-docs/docs/tutorial/demo"
+  },
+  "next": {
+    "title": "Libraries & Plugins",
+    "permalink": "/ssi-snap-docs/docs/category/libraries--plugins"
+  }
+}

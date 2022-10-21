@@ -1,0 +1,27 @@
+{
+  "unversionedId": "plugins/ssi-snap-connector",
+  "id": "plugins/ssi-snap-connector",
+  "title": "SSI Snap Connector",
+  "description": "SSI Snap connector is used to install SSI snap and expose API toward snap on dApps and other applications.",
+  "source": "@site/docs/plugins/ssi-snap-connector.md",
+  "sourceDirName": "plugins",
+  "slug": "/plugins/ssi-snap-connector",
+  "permalink": "/ssi-snap-docs/docs/plugins/ssi-snap-connector",
+  "draft": false,
+  "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/plugins/ssi-snap-connector.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Libraries & Plugins",
+    "permalink": "/ssi-snap-docs/docs/category/libraries--plugins"
+  },
+  "next": {
+    "title": "VCManager (Veramo)",
+    "permalink": "/ssi-snap-docs/docs/plugins/vc-manager"
+  }
+}

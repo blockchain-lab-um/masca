@@ -1,0 +1,27 @@
+{
+  "unversionedId": "tutorial/implementation",
+  "id": "tutorial/implementation",
+  "title": "How To Implement It?",
+  "description": "The SSI Snap is a MetaMask Snap, that can handle DIDs, securely store VCs, create VPs and is designed to be blockchain-agnostic.",
+  "source": "@site/docs/tutorial/implementation.md",
+  "sourceDirName": "tutorial",
+  "slug": "/tutorial/implementation",
+  "permalink": "/ssi-snap-docs/docs/tutorial/implementation",
+  "draft": false,
+  "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/tutorial/implementation.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Use SSI Snap",
+    "permalink": "/ssi-snap-docs/docs/category/use-ssi-snap"
+  },
+  "next": {
+    "title": "JSON-RPC API",
+    "permalink": "/ssi-snap-docs/docs/tutorial/rpc-methods"
+  }
+}

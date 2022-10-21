@@ -1,0 +1,27 @@
+{
+  "unversionedId": "ssi/ssi",
+  "id": "ssi/ssi",
+  "title": "Introduction",
+  "description": "There are three main components to a digital self-sovereign identity: DIDs, VCs, and VPs.",
+  "source": "@site/docs/ssi/ssi.md",
+  "sourceDirName": "ssi",
+  "slug": "/ssi/",
+  "permalink": "/ssi-snap-docs/docs/ssi/",
+  "draft": false,
+  "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/ssi/ssi.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Self Sovereign Identity - Basics",
+    "permalink": "/ssi-snap-docs/docs/category/self-sovereign-identity---basics"
+  },
+  "next": {
+    "title": "Decentralized Identifier (DID)",
+    "permalink": "/ssi-snap-docs/docs/ssi/did"
+  }
+}

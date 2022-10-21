@@ -1,0 +1,24 @@
+{
+  "name": "@blockchain-lab-um/ssi-snap-types",
+  "version": "1.0.11",
+  "description": "Types for SSI Snap.",
+  "keywords": [
+    "ssi",
+    "metamask",
+    "snap",
+    "dapp"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "Blockchain Lab:UM",
+    "email": "blockchain-lab@um.si",
+    "url": "https://blockchain-lab.um.si"
+  },
+  "types": "./index.d.ts",
+  "dependencies": {
+    "@veramo/core": "^4.0.2-next.9"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

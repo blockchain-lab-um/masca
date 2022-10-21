@@ -94,16 +94,12 @@ export async function veramoCreateVP(
       console.log('Identifier');
       console.log(identifier);
 
-      const vp = await agent.createVerifiablePresentation({
+      const vp = await agent.createVerifiablePresentationEIP712({
         presentation: {
           holder: identifier,
           type: ['VerifiablePresentation', 'Custom'],
           verifiableCredential: [vc.vc],
         },
-        challenge,
-        domain,
-        proofFormat: 'EthereumEip712Signature2021',
-        save: false,
       });
       console.log('....................VP..................');
       console.log(vp);

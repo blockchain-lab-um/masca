@@ -1,0 +1,27 @@
+{
+  "unversionedId": "team/team",
+  "id": "team/team",
+  "title": "Members",
+  "description": "",
+  "source": "@site/docs/team/team.mdx",
+  "sourceDirName": "team",
+  "slug": "/team/",
+  "permalink": "/ssi-snap-docs/docs/team/",
+  "draft": false,
+  "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/team/team.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Team",
+    "permalink": "/ssi-snap-docs/docs/category/team"
+  },
+  "next": {
+    "title": "Blockchain Lab:UM",
+    "permalink": "/ssi-snap-docs/docs/team/blockchain_lab"
+  }
+}

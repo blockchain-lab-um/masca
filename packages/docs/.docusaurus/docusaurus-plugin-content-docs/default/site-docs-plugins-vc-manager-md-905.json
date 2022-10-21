@@ -1,0 +1,27 @@
+{
+  "unversionedId": "plugins/vc-manager",
+  "id": "plugins/vc-manager",
+  "title": "VCManager (Veramo)",
+  "description": "Ceramic network support is experimental and still under development!",
+  "source": "@site/docs/plugins/vc-manager.md",
+  "sourceDirName": "plugins",
+  "slug": "/plugins/vc-manager",
+  "permalink": "/ssi-snap-docs/docs/plugins/vc-manager",
+  "draft": false,
+  "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/plugins/vc-manager.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_position": 4
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "SSI Snap Connector",
+    "permalink": "/ssi-snap-docs/docs/plugins/ssi-snap-connector"
+  },
+  "next": {
+    "title": "Roadmap",
+    "permalink": "/ssi-snap-docs/docs/roadmap"
+  }
+}

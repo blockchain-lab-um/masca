@@ -96,6 +96,7 @@ export const getAgent = async (
       ICredentialIssuer
   >({
     plugins: [
+      new CredentialIssuerEIP712(),
       new KeyManager({
         store: new SnapKeyStore(wallet),
         kms: {
@@ -103,18 +104,17 @@ export const getAgent = async (
           snap: new KeyManagementSystem(new SnapPrivateKeyStore(wallet)),
         },
       }),
-      new DIDManager({
-        store: new SnapDIDStore(wallet),
-        defaultProvider: 'metamask',
-        providers: didProviders,
-      }),
       new VCManager({ store: vcStorePlugins }),
-      new CredentialIssuerEIP712(),
       new DIDResolverPlugin({
         resolver: new Resolver({
           ...ethrDidResolver({ infuraProjectId: INFURA_PROJECT_ID }),
           ...keyDidResolver(),
         }),
+      }),
+      new DIDManager({
+        store: new SnapDIDStore(wallet),
+        defaultProvider: 'metamask',
+        providers: didProviders,
       }),
     ],
   });

@@ -1,0 +1,27 @@
+{
+  "unversionedId": "ssi-snap/architecture",
+  "id": "ssi-snap/architecture",
+  "title": "Architecture",
+  "description": "Veramo client powers the SSI Snap.",
+  "source": "@site/docs/ssi-snap/architecture.md",
+  "sourceDirName": "ssi-snap",
+  "slug": "/ssi-snap/architecture",
+  "permalink": "/ssi-snap-docs/docs/ssi-snap/architecture",
+  "draft": false,
+  "editUrl": "https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/docs/ssi-snap/architecture.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_position": 4
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Design",
+    "permalink": "/ssi-snap-docs/docs/ssi-snap/design"
+  },
+  "next": {
+    "title": "Storage",
+    "permalink": "/ssi-snap-docs/docs/ssi-snap/storage"
+  }
+}
