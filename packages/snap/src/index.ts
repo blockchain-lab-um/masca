@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return*/
 import { OnRpcRequestHandler } from '@metamask/snap-types';
 import { togglePopups, changeInfuraToken } from './rpc/snap/configure';
 import { getVCs } from './rpc/vc/getVCs';

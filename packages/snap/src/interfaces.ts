@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { availableVCStores } from './veramo/plugins/availableVCStores';
 import { IIdentifier, IKey, VerifiableCredential } from '@veramo/core';
 import { ManagedPrivateKey } from '@veramo/key-manager';
+import { availableVCStores } from './veramo/plugins/availableVCStores';
 import {
   SnapDIDStore,
   SnapKeyStore,
@@ -32,11 +32,11 @@ export type ExtendedVerifiableCredential = VerifiableCredential & {
 /**
  * Ceramic Network storedVCs
  */
-export interface StoredCredentials {
-  storedCredentials: Array<ExtendedVerifiableCredential>;
-}
+export type StoredCredentials = {
+  storedCredentials: ExtendedVerifiableCredential[];
+};
 
-export interface SSISnapConfig {
+export type SSISnapConfig = {
   snap: {
     /**
      * Infura token, used by Veramo agent.
@@ -46,14 +46,14 @@ export interface SSISnapConfig {
   };
   dApp: {
     disablePopups: boolean;
-    friendlyDapps: Array<string>;
+    friendlyDapps: string[];
   };
-}
+};
 
 /**
  * SSI Snap State for a MetaMask address
  */
-export interface SSIAccountState {
+export type SSIAccountState = {
   /**
    * Store for {@link SnapPrivateKeyStore}
    */
@@ -73,14 +73,14 @@ export interface SSIAccountState {
 
   publicKey: string;
   accountConfig: SSIAccountConfig;
-}
+};
 
-export interface SSIAccountConfig {
+export type SSIAccountConfig = {
   ssi: {
     didMethod: typeof availableMethods[number];
     vcStore: typeof availableVCStores[number];
   };
-}
+};
 
 export type SnapConfirmParams = {
   prompt: string;

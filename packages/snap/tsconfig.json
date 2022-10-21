@@ -1,0 +1,4 @@
+{
+  "extends": "../../tsconfig.json",
+  "files": ["../../node_modules/@metamask/snap-types/global.d.ts"]
+}

@@ -25,9 +25,6 @@ import {
   CredentialIssuerEIP712,
   ICredentialIssuerEIP712,
 } from '@veramo/credential-eip712';
-import { SdrMessageHandler } from '@veramo/selective-disclosure';
-import { JwtMessageHandler } from '@veramo/did-jwt';
-import { MessageHandler } from '@veramo/message-handler';
 import {
   SnapDIDStore,
   SnapKeyStore,
@@ -36,11 +33,7 @@ import {
 } from './plugins/snapDataStore/snapDataStore';
 import { CeramicVCStore } from './plugins/ceramicDataStore/ceramicDataStore';
 
-import {
-  CredentialIssuer,
-  ICredentialIssuer,
-  W3cMessageHandler,
-} from '@veramo/credential-w3c';
+import { ICredentialIssuer } from '@veramo/credential-w3c';
 
 import { KeyDIDProvider } from '../did/key/keyDidProvider';
 import { getDidKeyResolver as keyDidResolver } from '../did/key/keyDidResolver';
@@ -81,7 +74,7 @@ export const getAgent = async (
 
   didProviders['did:ethr'] = new EthrDIDProvider({
     defaultKms: 'web3',
-    network: 'goerli',
+    network: availableNetworks[CHAIN_ID] ?? 'mainnet',
     rpcUrl:
       `https://${availableNetworks[CHAIN_ID] ?? 'mainnet'}.infura.io/v3/` +
       INFURA_PROJECT_ID,
@@ -92,7 +85,7 @@ export const getAgent = async (
 
   vcStorePlugins['snap'] = new SnapVCStore(wallet);
   vcStorePlugins['ceramic'] = new CeramicVCStore(wallet);
-
+  console.log('Started building agent...');
   const agent = createAgent<
     IDIDManager &
       IKeyManager &
@@ -116,15 +109,7 @@ export const getAgent = async (
         providers: didProviders,
       }),
       new VCManager({ store: vcStorePlugins }),
-      new CredentialIssuer(),
       new CredentialIssuerEIP712(),
-      new MessageHandler({
-        messageHandlers: [
-          new JwtMessageHandler(),
-          new W3cMessageHandler(),
-          new SdrMessageHandler(),
-        ],
-      }),
       new DIDResolverPlugin({
         resolver: new Resolver({
           ...ethrDidResolver({ infuraProjectId: INFURA_PROJECT_ID }),
@@ -133,6 +118,6 @@ export const getAgent = async (
       }),
     ],
   });
-
+  console.log('Agent built..');
   return agent;
 };

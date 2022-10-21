@@ -18,6 +18,7 @@ export async function getCurrentAccount(
   wallet: SnapProvider
 ): Promise<string | null> {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     const accounts = (await wallet.request({
       method: 'eth_requestAccounts',
     })) as Array<string>;

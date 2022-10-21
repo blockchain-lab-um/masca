@@ -34,9 +34,11 @@ export async function veramoListVCs(
   vcStore: typeof availableVCStores[number],
   query?: VCQuery
 ): Promise<VerifiableCredential[]> {
+  console.log('Getting agent');
   const agent = await getAgent(wallet);
+  console.log(agent);
   const vcsSnap = await agent.listVCS({ store: 'snap', query: query });
-
+  console.log(vcsSnap);
   if (vcStore === 'ceramic') {
     const vcsCeramic = await agent.listVCS({ store: 'ceramic', query: query });
     return [...vcsSnap.vcs, ...vcsCeramic.vcs];
