@@ -29,6 +29,7 @@
   ],
   "scripts": {
     "build": "yarn workspaces foreach -ptv run build",
+    "test": "yarn workspaces foreach -ptv run test",
     "build:connector": "yarn workspace @blockchain-lab-um/ssi-snap-connector build",
     "build:vcmanager": "yarn workspace @blockchain-lab-um/veramo-vc-manager build",
     "postinstall": "patch-package",
@@ -40,8 +41,7 @@
     "prettier": "prettier --write .",
     "start": "yarn workspaces foreach --parallel --interlaced --verbose run start",
     "start:docs": "yarn workspace @blockchain-lab-um/ssi-snap-docs start",
-    "start:snap": "yarn workspace @blockchain-lab-um/ssi-snap start",
-    "test": "echo \"TODO\""
+    "start:snap": "yarn workspace @blockchain-lab-um/ssi-snap start"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",

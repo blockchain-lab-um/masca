@@ -43,8 +43,7 @@ export default function MetaMaskConfig() {
   const { account } = useWeb3React();
 
   // TODO: Move both to .env ?
-  const snapID = 'npm:@blockchain-lab-um/ssi-snap';
-  // const snapID = "local:http://localhost:8081/";
+  const snapID = process.env.SNAP_ID;
 
   if (ExecutionEnvironment.canUseDOM) {
     useEffect(() => {
@@ -60,7 +59,7 @@ export default function MetaMaskConfig() {
     await activate(Injected);
     console.log('Metamask connected', account);
     if (window.ethereum) {
-      const result = await initiateSSISnap(snapID as string);
+      const result = await initiateSSISnap(snapID);
       if (result.isSnapInstalled) {
         setSnapInstalled(true);
         const snapApi = await result.snap?.getSSISnapApi();

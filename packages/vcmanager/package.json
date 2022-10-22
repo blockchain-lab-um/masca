@@ -14,16 +14,10 @@
   ],
   "scripts": {
     "build": "tsc",
-    "build:watch": "tsc -b --watch",
     "clean": "rm -rf tmp && rm database.sqlite && rm -rf build && rm tsconfig.tsbuildinfo",
-    "generate-plugin-schema": "yarn veramo dev generate-plugin-schema",
     "lint": "yarn lint:eslint && yarn lint:prettier",
     "lint:eslint": "eslint .",
-    "lint:prettier": "prettier . --check",
-    "start": "veramo server",
-    "test": "jest --config=jest.json --coverage=false",
-    "test:ci": "jest --config=jest.json",
-    "test:watch": "yarn test --watch --verbose"
+    "lint:prettier": "prettier . --check"
   },
   "dependencies": {
     "@blockchain-lab-um/ssi-snap-types": "^1.0.7",

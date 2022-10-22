@@ -17,15 +17,20 @@
       "name": "@docusaurus/plugin-content-pages",
       "version": "2.0.0-rc.1"
     },
-    "docusaurus-plugin-sitemap": {
+    "docusaurus-plugin-debug": {
       "type": "package",
-      "name": "@docusaurus/plugin-sitemap",
+      "name": "@docusaurus/plugin-debug",
       "version": "2.0.0-rc.1"
     },
     "docusaurus-theme-classic": {
       "type": "package",
       "name": "@docusaurus/theme-classic",
       "version": "2.0.0-rc.1"
+    },
+    "docusaurus2-dotenv": {
+      "type": "package",
+      "name": "docusaurus2-dotenv",
+      "version": "1.4.0"
     }
   }
 }
