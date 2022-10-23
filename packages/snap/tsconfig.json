@@ -1,7 +1,10 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.build.json",
   "compilerOptions": {
-    "typeRoots": ["./node_modules/@types", "../../node_modules/@types"]
+    "typeRoots": ["./node_modules/@types", "../../node_modules/@types"],
+    "sourceMap": true,
+    "composite": true
   },
+  "references": [{ "path": "../vcmanager" }],
   "files": ["../../node_modules/@metamask/snap-types/global.d.ts"]
 }

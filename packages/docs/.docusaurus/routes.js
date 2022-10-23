@@ -3,41 +3,6 @@ import ComponentCreator from '@docusaurus/ComponentCreator';
 
 export default [
   {
-    path: '/ssi-snap-docs/__docusaurus/debug',
-    component: ComponentCreator('/ssi-snap-docs/__docusaurus/debug', 'dc1'),
-    exact: true
-  },
-  {
-    path: '/ssi-snap-docs/__docusaurus/debug/config',
-    component: ComponentCreator('/ssi-snap-docs/__docusaurus/debug/config', 'bdc'),
-    exact: true
-  },
-  {
-    path: '/ssi-snap-docs/__docusaurus/debug/content',
-    component: ComponentCreator('/ssi-snap-docs/__docusaurus/debug/content', 'e84'),
-    exact: true
-  },
-  {
-    path: '/ssi-snap-docs/__docusaurus/debug/globalData',
-    component: ComponentCreator('/ssi-snap-docs/__docusaurus/debug/globalData', '13f'),
-    exact: true
-  },
-  {
-    path: '/ssi-snap-docs/__docusaurus/debug/metadata',
-    component: ComponentCreator('/ssi-snap-docs/__docusaurus/debug/metadata', '1bf'),
-    exact: true
-  },
-  {
-    path: '/ssi-snap-docs/__docusaurus/debug/registry',
-    component: ComponentCreator('/ssi-snap-docs/__docusaurus/debug/registry', '75f'),
-    exact: true
-  },
-  {
-    path: '/ssi-snap-docs/__docusaurus/debug/routes',
-    component: ComponentCreator('/ssi-snap-docs/__docusaurus/debug/routes', '03a'),
-    exact: true
-  },
-  {
     path: '/ssi-snap-docs/markdown-page',
     component: ComponentCreator('/ssi-snap-docs/markdown-page', '6bb'),
     exact: true

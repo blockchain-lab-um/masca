@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "strict": true,
+    "target": "ES2020",
+    "typeRoots": ["./node_modules/@types"],
+    "outDir": "./build",
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true
+  }
+}

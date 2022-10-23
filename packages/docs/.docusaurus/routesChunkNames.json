@@ -1,174 +1,131 @@
 {
-  "/ssi-snap-docs/__docusaurus/debug-dc1": {
-    "__comp": "__comp---theme-debug-config-23-a-2ff",
-    "__context": {
-      "plugin": "plugin---ssi-snap-docs-docusaurus-debuga-92-b0a"
-    }
-  },
-  "/ssi-snap-docs/__docusaurus/debug/config-bdc": {
-    "__comp": "__comp---theme-debug-config-23-a-2ff",
-    "__context": {
-      "plugin": "plugin---ssi-snap-docs-docusaurus-debuga-92-b0a"
-    }
-  },
-  "/ssi-snap-docs/__docusaurus/debug/content-e84": {
-    "__comp": "__comp---theme-debug-contentba-8-ce7",
-    "__context": {
-      "plugin": "plugin---ssi-snap-docs-docusaurus-debuga-92-b0a"
-    },
-    "allContent": "allContent---ssi-snap-docs-docusaurus-debug-content-246-ab6"
-  },
-  "/ssi-snap-docs/__docusaurus/debug/globalData-13f": {
-    "__comp": "__comp---theme-debug-global-dataede-0fa",
-    "__context": {
-      "plugin": "plugin---ssi-snap-docs-docusaurus-debuga-92-b0a"
-    }
-  },
-  "/ssi-snap-docs/__docusaurus/debug/metadata-1bf": {
-    "__comp": "__comp---theme-debug-site-metadata-68-e-3d4",
-    "__context": {
-      "plugin": "plugin---ssi-snap-docs-docusaurus-debuga-92-b0a"
-    }
-  },
-  "/ssi-snap-docs/__docusaurus/debug/registry-75f": {
-    "__comp": "__comp---theme-debug-registry-679-501",
-    "__context": {
-      "plugin": "plugin---ssi-snap-docs-docusaurus-debuga-92-b0a"
-    }
-  },
-  "/ssi-snap-docs/__docusaurus/debug/routes-03a": {
-    "__comp": "__comp---theme-debug-routes-946-699",
-    "__context": {
-      "plugin": "plugin---ssi-snap-docs-docusaurus-debuga-92-b0a"
-    }
-  },
   "/ssi-snap-docs/markdown-page-6bb": {
-    "__comp": "__comp---theme-mdx-page-1-f-3-b90",
+    "__comp": "1f391b9e",
     "__context": {
-      "plugin": "plugin---ssi-snap-docs-markdown-pagee-85-2bf"
+      "plugin": "e851c034"
     },
-    "content": "content---ssi-snap-docs-markdown-page-393-a43"
+    "content": "393be207"
   },
   "/ssi-snap-docs/docs-5cc": {
-    "__comp": "__comp---theme-doc-page-1-be-9be",
+    "__comp": "1be78505",
     "__context": {
-      "plugin": "plugin---ssi-snap-docs-docsb-5-b-73c"
+      "plugin": "b5b4268e"
     },
-    "versionMetadata": "versionMetadata---ssi-snap-docs-docs-935-5b1"
+    "versionMetadata": "935f2afb"
   },
   "/ssi-snap-docs/docs/category/libraries--plugins-8e4": {
-    "__comp": "__comp---theme-doc-category-generated-index-page-14-e-640",
-    "categoryGeneratedIndex": "categoryGeneratedIndex---ssi-snap-docs-docs-category-libraries-plugins-7-c-0-c22"
+    "__comp": "14eb3368",
+    "categoryGeneratedIndex": "7c0eec7b"
   },
   "/ssi-snap-docs/docs/category/self-sovereign-identity---basics-f62": {
-    "__comp": "__comp---theme-doc-category-generated-index-page-14-e-640",
-    "categoryGeneratedIndex": "categoryGeneratedIndex---ssi-snap-docs-docs-category-self-sovereign-identity-basicsf-91-039"
+    "__comp": "14eb3368",
+    "categoryGeneratedIndex": "f9112a19"
   },
   "/ssi-snap-docs/docs/category/ssi-snap-e5c": {
-    "__comp": "__comp---theme-doc-category-generated-index-page-14-e-640",
-    "categoryGeneratedIndex": "categoryGeneratedIndex---ssi-snap-docs-docs-category-ssi-snapdfc-287"
+    "__comp": "14eb3368",
+    "categoryGeneratedIndex": "dfc466c4"
   },
   "/ssi-snap-docs/docs/category/team-9e7": {
-    "__comp": "__comp---theme-doc-category-generated-index-page-14-e-640",
-    "categoryGeneratedIndex": "categoryGeneratedIndex---ssi-snap-docs-docs-category-team-9-ce-293"
+    "__comp": "14eb3368",
+    "categoryGeneratedIndex": "9ce9c01f"
   },
   "/ssi-snap-docs/docs/category/use-ssi-snap-040": {
-    "__comp": "__comp---theme-doc-category-generated-index-page-14-e-640",
-    "categoryGeneratedIndex": "categoryGeneratedIndex---ssi-snap-docs-docs-category-use-ssi-snap-127-145"
+    "__comp": "14eb3368",
+    "categoryGeneratedIndex": "127a8582"
   },
   "/ssi-snap-docs/docs/config-79e": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---ssi-snap-docs-docs-config-68-e-512"
+    "__comp": "17896441",
+    "content": "68e3f9c8"
   },
   "/ssi-snap-docs/docs/faqs-e23": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---ssi-snap-docs-docs-faqs-1-ff-0fd"
+    "__comp": "17896441",
+    "content": "1ffdd7de"
   },
   "/ssi-snap-docs/docs/get_started-efe": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---ssi-snap-docs-docs-get-started-5-d-9-7e1"
+    "__comp": "17896441",
+    "content": "5d975e13"
   },
   "/ssi-snap-docs/docs/glossary-9ad": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---ssi-snap-docs-docs-glossarye-74-e82"
+    "__comp": "17896441",
+    "content": "e747ec83"
   },
   "/ssi-snap-docs/docs/intro-8fc": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---ssi-snap-docs-docs-intro-0-e-3-540"
+    "__comp": "17896441",
+    "content": "0e384e19"
   },
   "/ssi-snap-docs/docs/plugins/ssi-snap-connector-906": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---ssi-snap-docs-docs-plugins-ssi-snap-connector-501-187"
+    "__comp": "17896441",
+    "content": "501ae7f9"
   },
   "/ssi-snap-docs/docs/plugins/vc-manager-a79": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---ssi-snap-docs-docs-plugins-vc-manager-905-f84"
+    "__comp": "17896441",
+    "content": "9052e445"
   },
   "/ssi-snap-docs/docs/roadmap-842": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---ssi-snap-docs-docs-roadmap-0-df-a01"
+    "__comp": "17896441",
+    "content": "0dffb83e"
   },
   "/ssi-snap-docs/docs/ssi-9a4": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---ssi-snap-docs-docs-ssi-158-265"
+    "__comp": "17896441",
+    "content": "15887204"
   },
   "/ssi-snap-docs/docs/ssi-snap/architecture-997": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---ssi-snap-docs-docs-ssi-snap-architecture-4-bc-32d"
+    "__comp": "17896441",
+    "content": "4bc08a2e"
   },
   "/ssi-snap-docs/docs/ssi-snap/design-247": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---ssi-snap-docs-docs-ssi-snap-designceb-d67"
+    "__comp": "17896441",
+    "content": "cebaa63d"
   },
   "/ssi-snap-docs/docs/ssi-snap/intro-4ec": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---ssi-snap-docs-docs-ssi-snap-introc-64-415"
+    "__comp": "17896441",
+    "content": "c6475573"
   },
   "/ssi-snap-docs/docs/ssi-snap/storage-591": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---ssi-snap-docs-docs-ssi-snap-storage-7-bc-63e"
+    "__comp": "17896441",
+    "content": "7bc765ce"
   },
   "/ssi-snap-docs/docs/ssi/did-6cf": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---ssi-snap-docs-docs-ssi-didee-1-552"
+    "__comp": "17896441",
+    "content": "ee100aa2"
   },
   "/ssi-snap-docs/docs/ssi/trust-model-6b6": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---ssi-snap-docs-docs-ssi-trust-modelf-5-c-997"
+    "__comp": "17896441",
+    "content": "f5c75dc1"
   },
   "/ssi-snap-docs/docs/ssi/vc-78e": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---ssi-snap-docs-docs-ssi-vc-2-cc-320"
+    "__comp": "17896441",
+    "content": "2ccee365"
   },
   "/ssi-snap-docs/docs/ssi/vp-f53": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---ssi-snap-docs-docs-ssi-vpdf-4-d2f"
+    "__comp": "17896441",
+    "content": "df4040ab"
   },
   "/ssi-snap-docs/docs/team-4ab": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---ssi-snap-docs-docs-team-140-4fe"
+    "__comp": "17896441",
+    "content": "140abd65"
   },
   "/ssi-snap-docs/docs/team/blockchain_lab-9c9": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---ssi-snap-docs-docs-team-blockchain-lab-948-a12"
+    "__comp": "17896441",
+    "content": "9481bcab"
   },
   "/ssi-snap-docs/docs/tutorial/demo-90b": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---ssi-snap-docs-docs-tutorial-demo-651-44d"
+    "__comp": "17896441",
+    "content": "651fbd5b"
   },
   "/ssi-snap-docs/docs/tutorial/implementation-fd5": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---ssi-snap-docs-docs-tutorial-implementation-455-087"
+    "__comp": "17896441",
+    "content": "455b3e44"
   },
   "/ssi-snap-docs/docs/tutorial/rpc-methods-757": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---ssi-snap-docs-docs-tutorial-rpc-methodsba-7-f55"
+    "__comp": "17896441",
+    "content": "ba707923"
   },
   "/ssi-snap-docs/-b11": {
-    "__comp": "__comp---site-src-pages-index-tsx-1-df-d3e",
+    "__comp": "1df93b7f",
     "__context": {
-      "plugin": "plugin---ssi-snap-docs-markdown-pagee-85-2bf"
+      "plugin": "e851c034"
     },
-    "config": "config---ssi-snap-docs-5-e-9-e3f"
+    "config": "5e9f5e1a"
   }
 }

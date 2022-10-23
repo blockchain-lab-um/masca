@@ -1,9 +1,9 @@
 {
+  "extends": "../../tsconfig.build.json",
   "compilerOptions": {
-    "outDir": "build",
-    "rootDir": "src",
-    "moduleResolution": "node",
-    "module": "commonjs",
+    "outDir": "./build",
+    "rootDir": "./src",
+    "composite": true,
     "declaration": true,
     "inlineSourceMap": true,
     "esModuleInterop": true /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */,

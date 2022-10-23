@@ -3,8 +3,12 @@
   "display": "Docusaurus v2",
   "docs": "https://v2.docusaurus.io/docs/typescript-support",
 
+  "references": [{ "path": "../connector" }],
+
   "compilerOptions": {
     "allowJs": true,
+    "composite": true,
+
     "esModuleInterop": true,
     "jsx": "react",
     "lib": ["DOM"],

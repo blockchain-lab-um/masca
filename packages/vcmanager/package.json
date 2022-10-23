@@ -13,14 +13,16 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsc",
-    "clean": "rm -rf tmp && rm database.sqlite && rm -rf build && rm tsconfig.tsbuildinfo",
+    "build": "yarn clean && yarn compile",
+    "clean": "rimraf build && rimraf tsconfig.tsbuildinfo",
+    "compile": "tsc --build && cp \"./package.json\" ./build/",
     "lint": "yarn lint:eslint && yarn lint:prettier",
     "lint:eslint": "eslint .",
-    "lint:prettier": "prettier . --check"
+    "lint:prettier": "prettier . --check",
+    "prepack": "yarn build"
   },
   "dependencies": {
-    "@blockchain-lab-um/ssi-snap-types": "^1.0.7",
+    "@blockchain-lab-um/ssi-snap-types": "workspace:^",
     "@veramo/core": "^4.0.2-next.9",
     "uuid": "^8.3.2"
   },

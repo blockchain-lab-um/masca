@@ -27,12 +27,13 @@
     "package.json"
   ],
   "scripts": {
-    "build": "yarn run build:lib && yarn run build:types",
-    "build:lib": "tsc --build tsconfig.json",
-    "build:types": "tsc --emitDeclarationOnly",
+    "build": "yarn clean && yarn compile",
+    "clean": "rimraf build && rimraf tsconfig.tsbuildinfo",
+    "compile": "tsc --build && cp \"./package.json\" ./build/",
     "lint": "yarn lint:eslint && yarn lint:prettier",
     "lint:eslint": "eslint .",
-    "lint:prettier": "prettier . --check"
+    "lint:prettier": "prettier . --check",
+    "prepack": "yarn build"
   },
   "dependencies": {
     "@blockchain-lab-um/ssi-snap-types": "workspace:^",
