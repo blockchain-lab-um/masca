@@ -34,7 +34,7 @@
     "deploy:docs": "yarn nx deploy @blockchain-lab-um/ssi-snap-docs",
     "postinstall": "patch-package",
     "lint": "yarn prettier && yarn nx run-many --target=lint --all",
-    "prepare": "node ./configure-references.js && is-ci || husky install",
+    "prepare": "is-ci || husky install",
     "prettier": "prettier --write .",
     "start": "yarn nx run-many --target=start --all",
     "start:docs": "yarn nx start @blockchain-lab-um/ssi-snap-docs",
