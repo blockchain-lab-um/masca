@@ -6,6 +6,7 @@ coverage/
 public/
 .yarn/patches
 
+packages/docs/.docusaurus
 
 # Logs
 logs
