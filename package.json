@@ -38,7 +38,8 @@
     "start": "yarn nx run-many --target=start --all",
     "start:docs": "yarn nx start @blockchain-lab-um/ssi-snap-docs",
     "start:snap": "yarn nx start @blockchain-lab-um/ssi-snap",
-    "test": "yarn nx run-many --target=test --all"
+    "test": "yarn nx run-many --target=test --all",
+    "test:ci": "yarn nx run-many --target=test:ci --all"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",

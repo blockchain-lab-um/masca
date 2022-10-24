@@ -36,7 +36,7 @@
     "prepack": "yarn build"
   },
   "dependencies": {
-    "@blockchain-lab-um/ssi-snap-types": "workspace:^",
+    "@blockchain-lab-um/ssi-snap-types": "*",
     "@veramo/core": "^4.0.2-next.9"
   },
   "devDependencies": {
