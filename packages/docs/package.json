@@ -34,8 +34,8 @@
     ]
   },
   "dependencies": {
-    "@blockchain-lab-um/ssi-snap-connector": "workspace:^",
-    "@blockchain-lab-um/ssi-snap-types": "workspace:^",
+    "@blockchain-lab-um/ssi-snap-connector": "*",
+    "@blockchain-lab-um/ssi-snap-types": "*",
     "@docusaurus/core": "2.0.0-rc.1",
     "@docusaurus/preset-classic": "2.0.0-rc.1",
     "@emotion/react": "^11.10.0",

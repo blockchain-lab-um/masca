@@ -1683,7 +1683,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@blockchain-lab-um/ssi-snap-connector@workspace:^, @blockchain-lab-um/ssi-snap-connector@workspace:packages/connector":
+"@blockchain-lab-um/ssi-snap-connector@*, @blockchain-lab-um/ssi-snap-connector@workspace:packages/connector":
   version: 0.0.0-use.local
   resolution: "@blockchain-lab-um/ssi-snap-connector@workspace:packages/connector"
   dependencies:
@@ -1706,8 +1706,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@blockchain-lab-um/ssi-snap-docs@workspace:packages/docs"
   dependencies:
-    "@blockchain-lab-um/ssi-snap-connector": "workspace:^"
-    "@blockchain-lab-um/ssi-snap-types": "workspace:^"
+    "@blockchain-lab-um/ssi-snap-connector": "*"
+    "@blockchain-lab-um/ssi-snap-types": "*"
     "@docusaurus/core": 2.0.0-rc.1
     "@docusaurus/module-type-aliases": ^2.0.0-rc.1
     "@docusaurus/preset-classic": 2.0.0-rc.1
@@ -1754,7 +1754,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@blockchain-lab-um/ssi-snap-types@workspace:^, @blockchain-lab-um/ssi-snap-types@workspace:packages/types":
+"@blockchain-lab-um/ssi-snap-types@*, @blockchain-lab-um/ssi-snap-types@workspace:^, @blockchain-lab-um/ssi-snap-types@workspace:packages/types":
   version: 0.0.0-use.local
   resolution: "@blockchain-lab-um/ssi-snap-types@workspace:packages/types"
   dependencies:
