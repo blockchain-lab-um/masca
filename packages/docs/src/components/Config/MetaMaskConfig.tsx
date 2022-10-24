@@ -1,4 +1,4 @@
-/* eslint-disable import/order */
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useState, useEffect } from 'react';
 import { SSISnapApi } from '@blockchain-lab-um/ssi-snap-types';
 import { isMetamaskSnapsSupported } from '@blockchain-lab-um/ssi-snap-connector';
