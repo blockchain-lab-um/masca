@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.build.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "./build",
     "rootDir": "./src",
@@ -34,8 +34,7 @@
     // "emitDecoratorMetadata": true /* Enables experimental support for emitting type metadata for decorators. */,
 
     "lib": ["es6", "dom", "es2017"],
-    "typeRoots": ["node_modules/@types", "src/types"],
-    "composite": true
+    "typeRoots": ["node_modules/@types", "src/types"]
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules/**"],
