@@ -31,6 +31,7 @@
     "build": "yarn nx run-many --target=build --all",
     "build:connector": "yarn nx build @blockchain-lab-um/ssi-snap-connector",
     "build:vcmanager": "yarn nx build @blockchain-lab-um/veramo-vc-manager",
+    "deploy:docs": "yarn nx deploy @blockchain-lab-um/ssi-snap-docs",
     "postinstall": "patch-package",
     "lint": "yarn prettier && yarn nx run-many --target=lint --all",
     "prepare": "node ./configure-references.js && is-ci || husky install",

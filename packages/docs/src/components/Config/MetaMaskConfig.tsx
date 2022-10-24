@@ -42,8 +42,11 @@ export default function MetaMaskConfig() {
   const { activate, deactivate } = useWeb3React();
   const { account } = useWeb3React();
 
-  // TODO: Move both to .env ?
-  const snapID = process.env.SNAP_ID;
+  let snapID = 'npm:@blockchain-lab-um/ssi-snap';
+  const debug = process.env.NODE_ENV !== 'production';
+  if (debug) {
+    snapID = process.env.SNAP_ID;
+  }
 
   if (ExecutionEnvironment.canUseDOM) {
     useEffect(() => {

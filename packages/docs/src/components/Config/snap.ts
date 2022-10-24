@@ -3,8 +3,6 @@ import {
   enableSSISnap,
 } from '@blockchain-lab-um/ssi-snap-connector';
 
-export const defaultSnapId = 'local:http://localhost:8081';
-
 let isInstalled = false;
 
 export interface SnapInitializationResponse {
