@@ -12,8 +12,10 @@ jobs:
         with:
           node-version: 16.15.1
           registry-url: https://registry.npmjs.org/
-      - run: yarn install
+      - run: yarn install --immutable
       - run: yarn build
-      - run: yarn publish
-        env:
+      - env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
+        run: |
+          echo npmAuthToken: "$NODE_AUTH_TOKEN" >> ./.yarnrc.yml
+      - run: yarn workspaces foreach -v --exclude root --no-private npm publish --tolerate-republish --access public
