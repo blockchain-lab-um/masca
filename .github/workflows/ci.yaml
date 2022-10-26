@@ -16,8 +16,10 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16.15.1
+          cache: 'yarn'
+          cache-depndency-path: '**/yarn.lock'
       - name: Install
-        run: yarn install
+        run: yarn install --frozen-lockfile
       - name: Lint
         run: yarn lint
       - name: Test
