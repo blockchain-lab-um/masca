@@ -151,38 +151,6 @@
         "!{projectRoot}/.eslintrc.json",
         "!{projectRoot}/tests/**/*.ts"
       ]
-    },
-    "targets": {
-      "build": {
-        "inputs": [
-          "default"
-        ],
-        "outputs": [
-          "dist"
-        ],
-        "dependsOn": [
-          "^build"
-        ]
-      },
-      "lint": {
-        "inputs": [
-          "default"
-        ],
-        "outputs": [],
-        "dependsOn": [
-          "^build"
-        ]
-      },
-      "test": {
-        "inputs": [
-          "default",
-          "{workspaceRoot}/jest.preset.js"
-        ],
-        "outputs": [],
-        "dependsOn": [
-          "^build"
-        ]
-      }
     }
   }
 }
