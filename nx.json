@@ -18,7 +18,8 @@
   "targetDefaults": {
     "build": {
       "inputs": ["production", "^production"],
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build"],
+      "outputs": ["dist"]
     },
     "lint": {
       "dependsOn": ["^build"]
