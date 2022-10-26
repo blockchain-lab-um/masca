@@ -6,26 +6,41 @@
     "default": {
       "runner": "nx/tasks-runners/default",
       "options": {
-        "cacheableOperations": []
+        "cacheableOperations": ["build", "test", "lint"]
       }
     }
   },
   "namedInputs": {
-    "sharedGlobals": [],
-    "default": [],
-    "production": []
+    "default": ["{projectRoot}/**/*"],
+    "production": [
+      "{projectRoot}/src/**/*",
+      "!{projectRoot}/**/*.spec.ts",
+      "{projectRoot}/tsconfig.json",
+      "{projectRoot}/tsconfig.build.json"
+    ],
+    "test": [
+      "{projectRoot}/src/**/*",
+      "{projectRoot}/tests/**/*",
+      "{projectRoot}/tsconfig.json",
+      "{projectRoot}/jest.config.js",
+      "{projectRoot}/.env*"
+    ]
   },
   "targetDefaults": {
     "build": {
       "inputs": ["production", "^production"],
       "dependsOn": ["^build"],
-      "outputs": ["dist"]
+      "outputs": ["{projectRoot}/dist"]
     },
     "lint": {
-      "dependsOn": ["^build"]
+      "inputs": ["default", "^production", "!{projectRoot}/.env*"],
+      "dependsOn": ["^build"],
+      "outputs": []
     },
     "test": {
-      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"]
+      "inputs": ["test", "^production"],
+      "dependsOn": ["^build"],
+      "outputs": []
     }
   },
   "defaultBase": "dev"

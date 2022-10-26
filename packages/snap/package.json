@@ -138,20 +138,17 @@
   },
   "nx": {
     "namedInputs": {
-      "default": [
-        "{projectRoot}/src",
-        "{projectRoot}/snap.config.js",
-        "{projectRoot}/snap.manifest.json"
-      ],
       "production": [
-        "default",
-        "!{projectRoot}/index.html",
-        "!{projectRoot}/**/*.spec.ts",
-        "!{projectRoot}/**/*.md",
-        "!{projectRoot}/tsconfig.spec.json",
-        "!{projectRoot}/jest.config.ts",
-        "!{projectRoot}/.eslintrc.json",
-        "!{projectRoot}/tests/**/*.ts"
+        "{projectRoot}/src/**/*",
+        "{projectRoot}/snap.config.js",
+        "{projectRoot}/snap.manifest.json",
+        "{projectRoot}/tsconfig.build.json",
+        "{projectRoot}/tsconfig.json",
+        "{projectRoot}/webpack.config.ts",
+        "{projectRoot}/babel.config.ts",
+        "{projectRoot}/eslintrc.js",
+        "{projectRoot}/.prettierignore",
+        "{projectRoot}/images/**/*"
       ]
     }
   }

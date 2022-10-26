@@ -85,21 +85,28 @@
   },
   "nx": {
     "namedInputs": {
-      "default": [
-        "{projectRoot}/src",
-        "{projectRoot}/static",
-        "{projectRoot}/docs"
-      ],
       "production": [
-        "default",
-        "!{projectRoot}/index.html",
+        "{projectRoot}/**/*",
         "!{projectRoot}/**/*.spec.ts",
-        "!{projectRoot}/**/*.md",
-        "!{projectRoot}/tsconfig.spec.json",
-        "!{projectRoot}/jest.config.ts",
-        "!{projectRoot}/.eslintrc.json",
-        "!{projectRoot}/tests/**/*.ts"
+        "!{projectRoot}/tsconfig,eslint.ts",
+        "!{projectRoot}/.lintstagedrc.js",
+        "!{projectRoot}/README.md"
       ]
+    },
+    "targets": {
+      "build": {
+        "inputs": [
+          "production",
+          "^production"
+        ],
+        "dependsOn": [
+          "^build"
+        ],
+        "outputs": [
+          "{projectRoot}/build",
+          "{projectRoot}/.docusaurus"
+        ]
+      }
     }
   }
 }
