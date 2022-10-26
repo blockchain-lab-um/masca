@@ -139,7 +139,9 @@
   "nx": {
     "namedInputs": {
       "default": [
-        "{projectRoot}/src"
+        "{projectRoot}/src",
+        "{projectRoot}/snap.config.js",
+        "{projectRoot}/snap.manifest.json"
       ],
       "production": [
         "default",
