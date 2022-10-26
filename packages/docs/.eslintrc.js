@@ -1,4 +1,5 @@
 module.exports = {
+  root: true,
   extends: ['../../.eslintrc.js'],
   plugins: ['import'],
   parserOptions: {

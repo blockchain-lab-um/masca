@@ -1,4 +1,3 @@
-import { AbstractVCStore } from '@blockchain-lab-um/veramo-vc-manager/build/vc-store/abstract-vc-store';
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // Core interfaces
@@ -18,7 +17,11 @@ import { KeyManagementSystem } from '@veramo/kms-local';
 import { DIDResolverPlugin } from '@veramo/did-resolver';
 import { Resolver } from 'did-resolver';
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver';
-import { VCManager, IVCManager } from '@blockchain-lab-um/veramo-vc-manager';
+import {
+  VCManager,
+  IVCManager,
+  AbstractVCStore,
+} from '@blockchain-lab-um/veramo-vc-manager';
 import { Web3Provider } from '@ethersproject/providers';
 import { Web3KeyManagementSystem } from '@veramo/kms-web3';
 import {

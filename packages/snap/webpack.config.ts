@@ -48,6 +48,7 @@ const common: Configuration = {
           semantic: true,
           syntactic: true,
         },
+        configFile: 'tsconfig.build.json',
       },
     }),
   ],

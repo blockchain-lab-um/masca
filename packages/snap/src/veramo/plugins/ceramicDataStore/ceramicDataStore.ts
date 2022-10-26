@@ -1,10 +1,10 @@
 import { StoredCredentials } from './../../../interfaces';
 import { v4 as uuidv4 } from 'uuid';
-import { AbstractVCStore } from '@blockchain-lab-um/veramo-vc-manager/build/vc-store/abstract-vc-store';
 import { VerifiableCredential } from '@veramo/core';
 import { aliases, getCeramic } from '../../../utils/ceramicUtils';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { SnapProvider } from '@metamask/snap-types';
+import { AbstractVCStore } from '@blockchain-lab-um/veramo-vc-manager';
 export class CeramicVCStore extends AbstractVCStore {
   wallet: SnapProvider;
   constructor(walletParam: SnapProvider) {

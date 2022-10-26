@@ -1,9 +1,10 @@
 module.exports = {
+  root: true,
   extends: ['../../.eslintrc.js'],
   parserOptions: {
-    tsconfigRootDir: __dirname,
     project: './tsconfig.eslint.json',
     sourceType: 'module',
+    tsconfigRootDir: __dirname,
   },
   rules: {
     '@typescript-eslint/unbound-method': 0,
