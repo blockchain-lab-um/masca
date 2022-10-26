@@ -19,7 +19,7 @@ jobs:
           cache: 'yarn'
           cache-depndency-path: '**/yarn.lock'
       - name: Install
-        run: yarn install --immutable --immutable-cache --check-cache
+        run: yarn install --immutable --immutable-cache
       - name: Lint
         run: yarn lint
       - name: Test
