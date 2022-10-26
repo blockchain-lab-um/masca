@@ -44,9 +44,23 @@
   "publishConfig": {
     "access": "public"
   },
-  "veramo": {
-    "pluginInterfaces": {
-      "IVCManager": "./src/types/IVCManager.ts"
+  "nx": {
+    "namedInputs": {
+      "default": [
+        "{projectRoot}/src",
+        "{projectRoot}/static",
+        "{projectRoot}/docs"
+      ],
+      "production": [
+        "default",
+        "!{projectRoot}/index.html",
+        "!{projectRoot}/**/*.spec.ts",
+        "!{projectRoot}/**/*.md",
+        "!{projectRoot}/tsconfig.spec.json",
+        "!{projectRoot}/jest.config.ts",
+        "!{projectRoot}/.eslintrc.json",
+        "!{projectRoot}/tests/**/*.ts"
+      ]
     }
   }
 }

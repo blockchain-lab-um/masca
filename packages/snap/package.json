@@ -49,6 +49,23 @@
     "test": "jest",
     "test:ci": "yarn test --silent"
   },
+  "jest": {
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
+    "coverageDirectory": "../coverage",
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testEnvironment": "node",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    }
+  },
   "dependencies": {
     "@babel/runtime": "7.17.2",
     "@blockchain-lab-um/ssi-snap-types": "*",
@@ -134,5 +151,54 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org"
+  },
+  "nx": {
+    "namedInputs": {
+      "default": [
+        "{projectRoot}/src"
+      ],
+      "production": [
+        "default",
+        "!{projectRoot}/index.html",
+        "!{projectRoot}/**/*.spec.ts",
+        "!{projectRoot}/**/*.md",
+        "!{projectRoot}/tsconfig.spec.json",
+        "!{projectRoot}/jest.config.ts",
+        "!{projectRoot}/.eslintrc.json",
+        "!{projectRoot}/tests/**/*.ts"
+      ]
+    },
+    "targets": {
+      "build": {
+        "inputs": [
+          "default"
+        ],
+        "outputs": [
+          "dist"
+        ],
+        "dependsOn": [
+          "^build"
+        ]
+      },
+      "lint": {
+        "inputs": [
+          "default"
+        ],
+        "outputs": [],
+        "dependsOn": [
+          "^build"
+        ]
+      },
+      "test": {
+        "inputs": [
+          "default",
+          "{workspaceRoot}/jest.preset.js"
+        ],
+        "outputs": [],
+        "dependsOn": [
+          "^build"
+        ]
+      }
+    }
   }
 }

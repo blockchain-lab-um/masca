@@ -82,5 +82,24 @@
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-standard": "^26.0.0",
     "typescript": "^4.7.4"
+  },
+  "nx": {
+    "namedInputs": {
+      "default": [
+        "{projectRoot}/src",
+        "{projectRoot}/static",
+        "{projectRoot}/docs"
+      ],
+      "production": [
+        "default",
+        "!{projectRoot}/index.html",
+        "!{projectRoot}/**/*.spec.ts",
+        "!{projectRoot}/**/*.md",
+        "!{projectRoot}/tsconfig.spec.json",
+        "!{projectRoot}/jest.config.ts",
+        "!{projectRoot}/.eslintrc.json",
+        "!{projectRoot}/tests/**/*.ts"
+      ]
+    }
   }
 }

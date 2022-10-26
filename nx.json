@@ -6,8 +6,26 @@
     "default": {
       "runner": "nx/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "test", "lint"]
+        "cacheableOperations": []
       }
     }
-  }
+  },
+  "namedInputs": {
+    "sharedGlobals": [],
+    "default": [],
+    "production": []
+  },
+  "targetDefaults": {
+    "build": {
+      "inputs": ["production", "^production"],
+      "dependsOn": ["^build"]
+    },
+    "lint": {
+      "dependsOn": ["^build"]
+    },
+    "test": {
+      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"]
+    }
+  },
+  "defaultBase": "dev"
 }
