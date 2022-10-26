@@ -49,23 +49,6 @@
     "test": "jest",
     "test:ci": "yarn test --silent"
   },
-  "jest": {
-    "collectCoverageFrom": [
-      "**/*.(t|j)s"
-    ],
-    "coverageDirectory": "../coverage",
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": "src",
-    "testEnvironment": "node",
-    "testRegex": ".*\\.spec\\.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    }
-  },
   "dependencies": {
     "@babel/runtime": "7.17.2",
     "@blockchain-lab-um/ssi-snap-types": "*",
@@ -104,6 +87,7 @@
     "multicodec": "^3.2.1",
     "postinstall-postinstall": "2.1.0",
     "secp256k1": "4.0.3",
+    "ts-jest": "^29.0.3",
     "uuid": "^8.3.2",
     "web-did-resolver": "2.0.14"
   },
