@@ -18,7 +18,7 @@ You can install the Snap in [Configuration Page](config) or by simply connecting
 
 #### Testing on testnet
 
-To test on the testnet get some test ether from a [rinkeby faucet](https://faucets.chain.link/rinkeby). The snap can be tested on our [Platform](https://blockchain-lab-um.github.io/course-dapp/).
+The snap can be tested on our [Platform](https://blockchain-lab-um.github.io/course-dapp/).
 
 #### Running SSI Snap locally
 
