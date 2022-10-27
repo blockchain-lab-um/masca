@@ -4,6 +4,7 @@ import { SnapProvider } from '@metamask/snap-types';
 import { address, privateKey, signedMsg } from './constants';
 import { SSISnapState } from '../../src/interfaces';
 import { Wallet } from 'ethers';
+import Web3 from 'web3';
 interface IWalletMock {
   request<T>(args: RequestArguments): Promise<Maybe<T>>;
   resetHistory(): void;
@@ -26,6 +27,16 @@ export class WalletMock implements IWalletMock {
     return null;
   }
 
+  private async walletPersonalSign(data: unknown): Promise<string> {
+    const web3 = new Web3();
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+    const account = web3.eth.accounts.privateKeyToAccount(privateKey);
+    console.log('ADDR: ', account.address);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/await-thenable
+    const signature = await account.sign(data as string);
+    return signature.signature;
+  }
+
   readonly rpcMocks = {
     snap_confirm: jest.fn(),
     eth_requestAccounts: jest.fn().mockResolvedValue([address]),
@@ -35,7 +46,11 @@ export class WalletMock implements IWalletMock {
       .mockImplementation((...params: unknown[]) =>
         this.snapManageState(...params)
       ),
-    personal_sign: jest.fn().mockResolvedValue(signedMsg),
+    personal_sign: jest
+      .fn()
+      .mockImplementation(
+        async (data: unknown) => await this.walletPersonalSign(data)
+      ),
     eth_signTypedData_v4: jest
       .fn()
       .mockImplementation((...params: unknown[]) => {

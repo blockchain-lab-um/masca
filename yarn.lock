@@ -1844,6 +1844,7 @@ __metadata:
     typescript: ^4.7.4
     uuid: ^8.3.2
     web-did-resolver: 2.0.14
+    web3: ^1.8.0
     webpack: ^5.72.1
     webpack-cli: ^4.9.2
     webpack-merge: ^5.8.0
@@ -26593,7 +26594,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"web3@npm:^1.7.5":
+"web3@npm:^1.7.5, web3@npm:^1.8.0":
   version: 1.8.0
   resolution: "web3@npm:1.8.0"
   dependencies:
