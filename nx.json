@@ -1,0 +1,47 @@
+{
+  "extends": "nx/presets/npm.json",
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "npmScope": "@blockchain-lab-um",
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "nx/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["build", "test", "lint"]
+      }
+    }
+  },
+  "namedInputs": {
+    "default": ["{projectRoot}/**/*"],
+    "production": [
+      "{projectRoot}/src/**/*",
+      "!{projectRoot}/**/*.spec.ts",
+      "{projectRoot}/tsconfig.json",
+      "{projectRoot}/tsconfig.build.json"
+    ],
+    "test": [
+      "{projectRoot}/src/**/*",
+      "{projectRoot}/tests/**/*",
+      "{projectRoot}/tsconfig.json",
+      "{projectRoot}/jest.config.js",
+      "{projectRoot}/.env*"
+    ]
+  },
+  "targetDefaults": {
+    "build": {
+      "inputs": ["production", "^production"],
+      "dependsOn": ["^build"],
+      "outputs": ["{projectRoot}/dist"]
+    },
+    "lint": {
+      "inputs": ["default", "^production", "!{projectRoot}/.env*"],
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "test": {
+      "inputs": ["test", "^production"],
+      "dependsOn": ["^build"],
+      "outputs": []
+    }
+  },
+  "defaultBase": "dev"
+}

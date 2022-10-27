@@ -1,5 +1,4 @@
+node_modules
 build
 dist
-index.html
-node_modules
-coverage
+.docusaurus

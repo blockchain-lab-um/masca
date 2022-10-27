@@ -18,7 +18,7 @@ First, build and install beta release of Metamask extension:
 
 ##### Live demo
 
-## [Demo](https://blockchain-lab-um.github.io/course-dapp/)
+# [Demo](https://blockchain-lab-um.github.io/course-dapp/)
 
 #### Demo Snapshot
 

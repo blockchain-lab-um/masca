@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "incremental": false,
+    "removeComments": true
+  },
+  "exclude": [
+    // Exclude all test files
+  ]
+}
