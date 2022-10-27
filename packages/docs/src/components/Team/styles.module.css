@@ -1,0 +1,77 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 16rem));
+  gap: 2rem;
+  justify-content: center;
+}
+
+.teamCard {
+  background-color: var(--ifm-color-primary-darkest);
+  color: var(--ifm-color-text);
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 10%);
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: transform 200ms ease-in;
+}
+
+.teamCard:hover {
+  transform: scale(1.03);
+}
+
+.cardImageHolder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 15rem;
+}
+
+.cardImage {
+  width: 80%;
+  height: 12rem;
+  object-fit: cover;
+  border-radius: 100%;
+  border: 0 solid var(--ifm-color-primary);
+}
+
+.cardTitle {
+  padding-left: 1rem;
+  padding-top: 1rem;
+}
+
+.cardSubtitle {
+  padding-left: 1rem;
+  font-weight: 100;
+}
+
+.cardDescription {
+  padding: 0 1rem;
+}
+
+.cardIcons {
+  justify-content: center;
+  display: flex;
+  gap: 1rem;
+  font-size: 3rem;
+  margin: 0.5rem;
+  background: transparent;
+  color: var(--ifm-color-primary);
+  transition: background 200ms ease-in, color 200ms ease-in;
+}
+
+.cardIcons i {
+  transition: transform 200ms ease-in;
+}
+
+.cardIcons i:hover {
+  color: var(--ifm-color-text);
+  transform: scale(1.15);
+}
+
+.cardHr {
+  border-top: 1px solid var(--ifm-color-primary-lightest);
+  margin: 1.2rem;
+}

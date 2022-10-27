@@ -5,9 +5,15 @@ module.exports = {
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:prettier/recommended',
   ],
+  plugins: ['@typescript-eslint/eslint-plugin'],
   parser: '@typescript-eslint/parser',
-  parserOptions: {
-    project: './tsconfig.eslint.json',
-  },
   rules: { 'prettier/prettier': ['error', { singleQuote: true }] },
+  ignorePatterns: [
+    '**/node_modules/**',
+    '**/dist/**',
+    '**/!.eslintrc.js',
+    '**/coverage/**',
+    '**/build/**',
+    '**/.docusaurus/**',
+  ],
 };

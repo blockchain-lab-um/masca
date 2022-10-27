@@ -23,6 +23,39 @@
     { "type": "revert", "section": "Reverts", "hidden": true }
   ],
   "packages": {
-    ".": {}
+    "packages/connector": {
+      "releaseType": "node",
+      "draft": false,
+      "prerelease": false,
+      "bumpMinorPreMajor": false,
+      "bumpPatchForMinorPreMajor": false,
+      "changelogPath": "CHANGELOG.md",
+      "versioning": "default"
+    },
+    "packages/types": {
+      "releaseType": "node",
+      "draft": false,
+      "prerelease": false,
+      "bumpMinorPreMajor": false,
+      "bumpPatchForMinorPreMajor": false,
+      "changelogPath": "CHANGELOG.md",
+      "versioning": "default"
+    },
+    "packages/snap": {
+      "releaseType": "node",
+      "draft": false,
+      "prerelease": false,
+      "bumpMinorPreMajor": false,
+      "bumpPatchForMinorPreMajor": false,
+      "changelogPath": "CHANGELOG.md",
+      "versioning": "default",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": "snap.manifest.json",
+          "jsonpath": "$.version"
+        }
+      ]
+    }
   }
 }
