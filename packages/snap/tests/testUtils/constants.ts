@@ -1,7 +1,7 @@
 import { SnapConfirmParams, SSISnapState } from '../../src/interfaces';
 import cloneDeep from 'lodash.clonedeep';
 import { getEmptyAccountState } from '../../src/utils/config';
-import { IIdentifier } from '@veramo/core';
+import { DIDDocument, IIdentifier } from '@veramo/core';
 
 export const privateKey =
   '0x63ce0077f0d617dbf54d5f335de2983313c6356f25b45e0f68f85bee1490a6ae';
@@ -111,4 +111,37 @@ export const snapConfirmParams: SnapConfirmParams = {
   prompt: 'Test prompt',
   description: 'Test description',
   textAreaContent: 'Test text area content',
+};
+
+export const exampleDIDKeyDocument: DIDDocument = {
+  id: 'zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik#zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
+  '@context': [
+    'https://www.w3.org/ns/did/v1',
+    'https://w3id.org/security/suites/secp256k1-2019/v1',
+  ],
+  assertionMethod: [
+    'zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik#zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
+  ],
+  authentication: [
+    'zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik#zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
+  ],
+  capabilityInvocation: [
+    'zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik#zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
+  ],
+  capabilityDelegation: [
+    'zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik#zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
+  ],
+  keyAgreement: [
+    'zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik#zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
+  ],
+  verificationMethod: [
+    {
+      id: 'zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik#zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
+      type: 'EcdsaSecp256k1RecoveryMethod2020',
+      controller:
+        'zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik#zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
+      publicKeyHex:
+        '0480a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae850a9f561d414001a8bdefdb713c619d2caf08a0c9655b0cf42de065bc51e0169a',
+    },
+  ],
 };

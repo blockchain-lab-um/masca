@@ -61,8 +61,8 @@ const startsWithMap: Record<string, ResolutionFunction> = {
 export const resolveDidKey: DIDResolver = async (
   didUrl: string,
   parsed: ParsedDID,
-  _resolver: Resolvable,
-  _options: DIDResolutionOptions
+  _resolver?: Resolvable,
+  _options?: DIDResolutionOptions
 ): Promise<DIDResolutionResult> => {
   try {
     // FIXME: Update this part

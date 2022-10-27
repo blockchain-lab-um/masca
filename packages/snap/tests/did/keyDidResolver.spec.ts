@@ -1,7 +1,12 @@
 import { SnapProvider } from '@metamask/snap-types';
 import { getDefaultSnapState } from '../testUtils/constants';
 import { WalletMock, createMockWallet } from '../testUtils/wallet.mock';
-
+import { getDidKeyResolver as resolveDidKey } from '../../src/did/key/keyDidResolver';
+import {
+  exampleDIDKey,
+  exampleDIDKeyIdentifier,
+  exampleDIDKeyDocument,
+} from '../testUtils/constants';
 describe('keyDidResolver', () => {
   let walletMock: SnapProvider & WalletMock;
 
@@ -12,12 +17,20 @@ describe('keyDidResolver', () => {
   });
 
   describe('resolveDidKey', () => {
-    it('', () => {
-      // TODO
+    it('should return correct did key resolution', async () => {
+      const didRes = await resolveDidKey().key(
+        exampleDIDKeyIdentifier,
+        {
+          did: exampleDIDKey,
+          method: 'key',
+          didUrl: exampleDIDKeyIdentifier,
+          id: '',
+        },
+        {},
+        {}
+      );
+      expect(didRes.didDocument).toEqual(exampleDIDKeyDocument);
     });
-  });
-
-  describe('resolveSecp256k1', () => {
-    // Maybe we can test everything with resolveDidKey
+    expect.assertions(1);
   });
 });
