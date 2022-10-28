@@ -12,7 +12,11 @@ import {
 
 import { AbstractIdentifierProvider, DIDManager } from '@veramo/did-manager';
 import { EthrDIDProvider } from '@veramo/did-provider-ethr';
-import { KeyManager } from '@veramo/key-manager';
+import {
+  KeyManager,
+  MemoryKeyStore,
+  MemoryPrivateKeyStore,
+} from '@veramo/key-manager';
 import { KeyManagementSystem } from '@veramo/kms-local';
 import { DIDResolverPlugin } from '@veramo/did-resolver';
 import { Resolver } from 'did-resolver';
@@ -30,9 +34,7 @@ import {
 } from '@veramo/credential-eip712';
 import {
   SnapDIDStore,
-  SnapKeyStore,
   SnapVCStore,
-  SnapPrivateKeyStore,
 } from './plugins/snapDataStore/snapDataStore';
 import { CeramicVCStore } from './plugins/ceramicDataStore/ceramicDataStore';
 
@@ -101,10 +103,10 @@ export const getAgent = async (
     plugins: [
       new CredentialIssuerEIP712(),
       new KeyManager({
-        store: new SnapKeyStore(wallet),
+        store: new MemoryKeyStore(),
         kms: {
           web3: new Web3KeyManagementSystem(web3Providers),
-          snap: new KeyManagementSystem(new SnapPrivateKeyStore(wallet)),
+          snap: new KeyManagementSystem(new MemoryPrivateKeyStore()),
         },
       }),
       new VCManager({ store: vcStorePlugins }),

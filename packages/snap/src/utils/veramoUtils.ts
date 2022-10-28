@@ -1,8 +1,14 @@
 import { getAgent } from './../veramo/setup';
 import { VCQuery } from '@blockchain-lab-um/ssi-snap-types';
 import {
+  ICredentialIssuer,
+  IDataStore,
+  IDIDManager,
   IIdentifier,
+  IKeyManager,
+  IResolver,
   MinimalImportableKey,
+  TAgent,
   VerifiableCredential,
   VerifiablePresentation,
 } from '@veramo/core';
@@ -11,6 +17,8 @@ import { snapConfirm } from './snapUtils';
 import { SnapProvider } from '@metamask/snap-types';
 import { availableVCStores } from '../veramo/plugins/availableVCStores';
 import { SSISnapState } from '../interfaces';
+import { IVCManager } from '@blockchain-lab-um/veramo-vc-manager';
+import { ICredentialIssuerEIP712 } from '@veramo/credential-eip712';
 
 /**
  * Saves a VC in the state object of the currently selected MetaMask account.
@@ -61,11 +69,16 @@ export async function veramoCreateVP(
   challenge?: string,
   domain?: string
 ): Promise<VerifiablePresentation | null> {
-  //GET DID
-  const identifier = await veramoImportMetaMaskAccount(wallet, state, account);
-  console.log('Identifier: ', identifier);
   //Get Veramo agent
   const agent = await getAgent(wallet);
+  //GET DID
+  const identifier = await veramoImportMetaMaskAccount(
+    wallet,
+    state,
+    agent,
+    account
+  );
+  console.log('Identifier: ', identifier);
   let vc;
   try {
     // FIXME: getVC should return null not throw an error
@@ -114,9 +127,17 @@ export async function veramoCreateVP(
 export const veramoImportMetaMaskAccount = async (
   wallet: SnapProvider,
   state: SSISnapState,
+  agent: TAgent<
+    IDIDManager &
+      IKeyManager &
+      IDataStore &
+      IResolver &
+      IVCManager &
+      ICredentialIssuerEIP712 &
+      ICredentialIssuer
+  >,
   account: string
 ): Promise<string> => {
-  const agent = await getAgent(wallet);
   const method = state.accountState[account].accountConfig.ssi.didMethod;
   const did = await getCurrentDid(wallet, state, account);
   const identifiers = await agent.didManagerFind();

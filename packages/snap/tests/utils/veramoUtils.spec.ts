@@ -124,12 +124,12 @@ describe('Utils [veramo]', () => {
     it('should succeed importing metamask account', async () => {
       const initialState = getDefaultSnapState();
       walletMock.rpcMocks.snap_manageState.mockResolvedValue(initialState);
+      const agent = await getAgent(walletMock);
 
       await expect(
-        veramoImportMetaMaskAccount(walletMock, initialState, address)
+        veramoImportMetaMaskAccount(walletMock, initialState, agent, address)
       ).resolves.toEqual(exampleDID);
 
-      const agent = await getAgent(walletMock);
       await expect(agent.didManagerGet({ did: exampleDID })).resolves.toEqual(
         exampleImportedDIDWIthoutPrivateKey
       );
@@ -141,17 +141,17 @@ describe('Utils [veramo]', () => {
       const initialState = getDefaultSnapState();
       walletMock.rpcMocks.snap_manageState.mockResolvedValue(initialState);
 
+      const agent = await getAgent(walletMock);
       await expect(
-        veramoImportMetaMaskAccount(walletMock, initialState, address)
+        veramoImportMetaMaskAccount(walletMock, initialState, agent, address)
       ).resolves.toEqual(exampleDID);
 
-      const agent = await getAgent(walletMock);
       await expect(agent.didManagerGet({ did: exampleDID })).resolves.toEqual(
         exampleImportedDIDWIthoutPrivateKey
       );
 
       await expect(
-        veramoImportMetaMaskAccount(walletMock, initialState, address)
+        veramoImportMetaMaskAccount(walletMock, initialState, agent, address)
       ).resolves.toEqual(exampleDID);
 
       const dids = await agent.didManagerFind();

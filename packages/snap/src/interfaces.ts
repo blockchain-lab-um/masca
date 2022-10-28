@@ -4,9 +4,7 @@ import { ManagedPrivateKey } from '@veramo/key-manager';
 import { availableVCStores } from './veramo/plugins/availableVCStores';
 import {
   SnapDIDStore,
-  SnapKeyStore,
   SnapVCStore,
-  SnapPrivateKeyStore,
 } from './veramo/plugins/snapDataStore/snapDataStore';
 import { availableMethods } from './did/didMethods';
 

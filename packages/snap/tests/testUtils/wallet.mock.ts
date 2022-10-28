@@ -1,10 +1,10 @@
 import { RequestArguments } from '@metamask/providers/dist/BaseProvider';
 import { Maybe } from '@metamask/providers/dist/utils';
 import { SnapProvider } from '@metamask/snap-types';
-import { address, privateKey, signedMsg } from './constants';
+import { address, privateKey } from './constants';
 import { SSISnapState } from '../../src/interfaces';
 import { Wallet } from 'ethers';
-import Web3 from 'web3';
+import { _hexToUnit8Array } from 'src/utils/snapUtils';
 interface IWalletMock {
   request<T>(args: RequestArguments): Promise<Maybe<T>>;
   resetHistory(): void;
@@ -28,13 +28,9 @@ export class WalletMock implements IWalletMock {
   }
 
   private async walletPersonalSign(data: unknown): Promise<string> {
-    const web3 = new Web3();
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-    const account = web3.eth.accounts.privateKeyToAccount(privateKey);
-    console.log('ADDR: ', account.address);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/await-thenable
-    const signature = await account.sign(data as string);
-    return signature.signature;
+    const acc = new Wallet(privateKey);
+    const signature = await acc.signMessage(data as string);
+    return signature;
   }
 
   readonly rpcMocks = {

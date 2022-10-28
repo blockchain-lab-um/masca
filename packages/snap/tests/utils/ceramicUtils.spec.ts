@@ -1,25 +1,7 @@
 import { SnapProvider } from '@metamask/snap-types';
 import { WalletMock, createMockWallet } from '../testUtils/wallet.mock';
-import {
-  address,
-  exampleDID,
-  exampleImportedDIDWIthoutPrivateKey,
-  exampleVC,
-  getDefaultSnapState,
-} from '../testUtils/constants';
-import {
-  changeCurrentMethod,
-  changeCurrentVCStore,
-  getCurrentDid,
-} from '../../src/utils/didUtils';
-import {
-  veramoCreateVP,
-  veramoImportMetaMaskAccount,
-  veramoListVCs,
-  veramoSaveVC,
-} from '../../src/utils/veramoUtils';
-import { getAgent } from '../../src/veramo/setup';
-import { VerifiablePresentation } from '@veramo/core';
+import { exampleVC, getDefaultSnapState } from '../testUtils/constants';
+import { veramoListVCs, veramoSaveVC } from '../../src/utils/veramoUtils';
 import { clear } from '../../src/veramo/plugins/ceramicDataStore/ceramicDataStore';
 describe('Utils [ceramic]', () => {
   let walletMock: SnapProvider & WalletMock;
@@ -34,11 +16,11 @@ describe('Utils [ceramic]', () => {
       walletMock.rpcMocks.snap_manageState.mockReturnValue(
         getDefaultSnapState()
       );
-      await expect(clear(walletMock)).resolves.not.toThrow();
+      await clear(walletMock);
       const vcs = await veramoListVCs(walletMock, 'ceramic');
       expect(vcs).toEqual([]);
 
-      expect.assertions(2);
+      expect.assertions(1);
     });
     it('should succeed saving VC on ceramic network', async () => {
       walletMock.rpcMocks.snap_manageState.mockReturnValue(
