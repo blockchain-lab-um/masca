@@ -20,7 +20,11 @@
     "pretty": true /* Stylize errors and messages using color and context. */,
 
     "lib": ["es6", "dom", "es2017"],
-    "typeRoots": ["node_modules/@types", "src/types"]
+    "typeRoots": [
+      "./node_modules/@types",
+      "../../node_modules/@types",
+      "src/types"
+    ]
   },
   "include": ["src/**/*.ts"]
 }

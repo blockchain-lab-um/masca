@@ -40,7 +40,6 @@
     "@veramo/core": "^4.0.2-next.9"
   },
   "devDependencies": {
-    "@types/node": "^12.12.35",
     "@types/rimraf": "^3",
     "@typescript-eslint/eslint-plugin": "^5.33.0",
     "@typescript-eslint/parser": "^5.33.0",

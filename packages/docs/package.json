@@ -59,7 +59,6 @@
     "@docusaurus/module-type-aliases": "^2.0.0-rc.1",
     "@tsconfig/docusaurus": "^1.0.6",
     "@tsconfig/node16": "^1.0.3",
-    "@types/node": "16.11.45",
     "@types/react": "17.0.47",
     "@typescript-eslint/eslint-plugin": "^5.31.0",
     "@typescript-eslint/parser": "^5.31.0",
