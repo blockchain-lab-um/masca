@@ -5,39 +5,38 @@ on:
     branches: [master]
   push:
     branches: [master]
-  workflow_dispatch:
 
 jobs:
-test-deploy:
-  if: github.event_name != 'push'
-  runs-on: ubuntu-latest
-  steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 18
-        cache: yarn
-    - name: Install dependencies
-      run: yarn install --frozen-lockfile
-    - name: Test build website
-      run: yarn build
-  deploy:
-    if: github.event_name != 'pull_request'
+  test-deploy:
+    if: github.event_name != 'push'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 18
           cache: yarn
-      - uses: webfactory/ssh-agent@v0.5.0
-        with:
-          ssh-private-key: ${{ secrets.GH_PAGES_DEPLOY }}
-      - name: Deploy to GitHub Pages
-        env:
-          USE_SSH: true
-        run: |
-          git config --global user.email "andraz.vrecko@gmail.com"
-          git config --global user.name "andyv09"
-          yarn install --frozen-lockfile
-          yarn deploy:docs
+      - name: Install dependencies
+        run: yarn install --immutable
+      - name: Test build website
+        run: yarn build
+    deploy:
+      if: github.event_name != 'pull_request'
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v3
+        - uses: actions/setup-node@v3
+          with:
+            node-version: 18
+            cache: yarn
+        - uses: webfactory/ssh-agent@v0.5.0
+          with:
+            ssh-private-key: ${{ secrets.GH_PAGES_DEPLOY }}
+        - name: Deploy to GitHub Pages
+          env:
+            USE_SSH: true
+          run: |
+            git config --global user.email "andraz.vrecko@gmail.com"
+            git config --global user.name "andyv09"
+            yarn install --immutable
+            yarn deploy:docs
