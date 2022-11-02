@@ -19,6 +19,7 @@ import { setVCStore } from './rpc/vcStore/setVCStore';
 import { getAvailableVCStores } from './rpc/vcStore/getAvailableVCStores';
 import { getSnapStateUnchecked, initAccountState } from './utils/stateUtils';
 import { getCurrentAccount } from './utils/snapUtils';
+import { getAddressKeyDeriver } from './utils/keyPair';
 
 export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,
@@ -41,8 +42,9 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   console.log('-------------------------------------------------------------');
   switch (request.method) {
     case 'getVCs':
-      isValidGetVCsRequest(request.params);
-      return await getVCs(wallet, state, account, request.params.query);
+      // isValidGetVCsRequest(request.params);
+      // return await getVCs(wallet, state, account, request.params.query);
+      await getAddressKeyDeriver(wallet);
     case 'saveVC':
       isValidSaveVCRequest(request.params);
       return await saveVC(
