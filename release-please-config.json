@@ -1,7 +1,7 @@
 {
   "bootstrap-sha": "233399032c2f478e09fbf747ac34171232332f23",
   "releaseType": "node",
-  "include-component-in-tag": false,
+  "monorepo-tags": true,
   "changelog-sections": [
     {
       "type": "feat",
