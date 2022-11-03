@@ -5520,12 +5520,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nrwl/cli@npm:15.0.3":
-  version: 15.0.3
-  resolution: "@nrwl/cli@npm:15.0.3"
+"@nrwl/cli@npm:15.0.7":
+  version: 15.0.7
+  resolution: "@nrwl/cli@npm:15.0.7"
   dependencies:
-    nx: 15.0.3
-  checksum: a777122a78cb2310f335545ca1e6c3dfc8ef3af0da310f7f845926d7e526ba54bb3a235a0639e12b07f8d86f3384c955acdb0a03be6c67cfa25f33692912cf04
+    nx: 15.0.7
+  checksum: 9be877ce84b05e3cfd5eed197528bb9597545288503f460bbc6b860c6a6180bcfa57a11968651bb6d1471b90382a18320f0ed52e15cd8435b6bda455b4bad0ef
   languageName: node
   linkType: hard
 
@@ -5564,14 +5564,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nrwl/tao@npm:15.0.3":
-  version: 15.0.3
-  resolution: "@nrwl/tao@npm:15.0.3"
+"@nrwl/tao@npm:15.0.7":
+  version: 15.0.7
+  resolution: "@nrwl/tao@npm:15.0.7"
   dependencies:
-    nx: 15.0.3
+    nx: 15.0.7
   bin:
     tao: index.js
-  checksum: aecb616645038dad1603ba9df0c322a6849f4966aa24aeed446277d8ec7c9bee09f2d55be0a39bd5d7ccb1e80a835bf10c07011738e0e7ab573c030774354a4a
+  checksum: 8fc3f5c876fb10b64c18a96f66e92e1a1119446c2d8a06bb1863480389aa502fefdf0d2d6355cf9a32980e990fda8008aef748b80dbea63497dc143fec12a254
   languageName: node
   linkType: hard
 
@@ -8359,12 +8359,12 @@ __metadata:
   linkType: hard
 
 "@yarnpkg/parsers@npm:^3.0.0-rc.18":
-  version: 3.0.0-rc.26
-  resolution: "@yarnpkg/parsers@npm:3.0.0-rc.26"
+  version: 3.0.0-rc.27
+  resolution: "@yarnpkg/parsers@npm:3.0.0-rc.27"
   dependencies:
     js-yaml: ^3.10.0
     tslib: ^2.4.0
-  checksum: 5ba84ca52c56edf13ff2a6581cce23ebf85ed7dba32d4590b007987b145c64e27790a54c3423b038bc506f313de1556f0c0a828d2caca03a33eb6347153f229c
+  checksum: 58d56de7aa2a67d3431ccfe0fcfd1aaef559f5451ffab609d9d964fb9bb73b30451e615260ffb74271dede18160bd7f1dce7de720b09fee1d99095f3bbdc42c9
   languageName: node
   linkType: hard
 
@@ -20130,12 +20130,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nx@npm:15.0.3":
-  version: 15.0.3
-  resolution: "nx@npm:15.0.3"
+"nx@npm:15.0.7, nx@npm:^15.0.7":
+  version: 15.0.7
+  resolution: "nx@npm:15.0.7"
   dependencies:
-    "@nrwl/cli": 15.0.3
-    "@nrwl/tao": 15.0.3
+    "@nrwl/cli": 15.0.7
+    "@nrwl/tao": 15.0.7
     "@parcel/watcher": 2.0.4
     "@yarnpkg/lockfile": ^1.1.0
     "@yarnpkg/parsers": ^3.0.0-rc.18
@@ -20179,7 +20179,7 @@ __metadata:
       optional: true
   bin:
     nx: bin/nx.js
-  checksum: f31449921623da78fb535f63295b3eb334370918cc98fc05dc7b7e713b16ff9ed2a9004ba15cb453703d3a7d8ed736fdf0b6ce46a5b084abe1feed44334454c7
+  checksum: 1abd5be66d0b835dc6fd0ee59137f26fba4aad4b603cd0617480167720f6396035d1bfef05d95f63b95e1baf5253b05e467c75cfbdaa068d9a53ab6e2746af1e
   languageName: node
   linkType: hard
 
@@ -23005,7 +23005,7 @@ __metadata:
     is-ci: ^3.0.1
     jest: ^29.2.1
     lint-staged: ^13.0.3
-    nx: 15.0.3
+    nx: ^15.0.7
     patch-package: ^6.4.7
     prettier: ^2.7.1
     prettier-plugin-packagejson: ^2.2.11
@@ -27328,7 +27328,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yargs@npm:^17.0.0, yargs@npm:^17.0.1, yargs@npm:^17.3.1, yargs@npm:^17.4.0":
+"yargs@npm:^17.0.0, yargs@npm:^17.0.1, yargs@npm:^17.3.1":
   version: 17.6.0
   resolution: "yargs@npm:17.6.0"
   dependencies:
@@ -27340,6 +27340,21 @@ __metadata:
     y18n: ^5.0.5
     yargs-parser: ^21.0.0
   checksum: 9f3d40f482d37df26f66f9b8d3010645ebf9485dd1c4bab6b55c87ac4e4924836bca93f52afb1a0483e178f540e5ab6fbea60d9fc56ecba10d386ecbdc9857e6
+  languageName: node
+  linkType: hard
+
+"yargs@npm:^17.4.0":
+  version: 17.6.1
+  resolution: "yargs@npm:17.6.1"
+  dependencies:
+    cliui: ^8.0.1
+    escalade: ^3.1.1
+    get-caller-file: ^2.0.5
+    require-directory: ^2.1.1
+    string-width: ^4.2.3
+    y18n: ^5.0.5
+    yargs-parser: ^21.0.0
+  checksum: 6122c8d5c9a9ac598ff72736c69c320d26ff2328b48b1447cccc0a4c9fd03e934f858730f2cb3cf3d3a8fed294b8148ee8177e503bb16ad7c79903e437a6b8b4
   languageName: node
   linkType: hard
 
