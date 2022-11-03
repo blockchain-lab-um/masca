@@ -30,7 +30,7 @@ describe('keyDidResolver', () => {
         {}
       );
       expect(didRes.didDocument).toEqual(exampleDIDKeyDocument);
+      expect.assertions(1);
     });
-    expect.assertions(1);
   });
 });
