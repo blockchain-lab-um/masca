@@ -1,7 +1,7 @@
 import { RequestArguments } from '@metamask/providers/dist/BaseProvider';
 import { Maybe } from '@metamask/providers/dist/utils';
 import { SnapProvider } from '@metamask/snap-types';
-import { address, privateKey } from './constants';
+import { address, getDefaultSnapState, privateKey } from './constants';
 import { SSISnapState } from '../../src/interfaces';
 import { Wallet } from 'ethers';
 import { _hexToUnit8Array } from 'src/utils/snapUtils';

@@ -7,6 +7,7 @@ import {
   exampleDIDKeyIdentifier,
   exampleDIDKeyDocument,
 } from '../testUtils/constants';
+
 describe('keyDidResolver', () => {
   let walletMock: SnapProvider & WalletMock;
 

@@ -16,4 +16,4 @@ What are the use cases for **SSI** in **dApps**?
 - No gas identity data (everything is off-chain)
 - Everything you come up with ... :)
 
-Want to join the discussion or interested in contributing? Join the [Discord](https://discord.gg/cKA24TuMUd).
+Want to join the discussion or interested in contributing? Join the [Discord](https://discord.gg/BUXRpwwjfr).
