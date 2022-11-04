@@ -38,12 +38,6 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     await initAccountState(wallet, state, account);
   }
 
-  const apiParams: ApiParams = {
-    state,
-    wallet,
-    account,
-  };
-
   console.log('Request:', request);
   console.log('Origin:', origin);
   console.log('-------------------------------------------------------------');

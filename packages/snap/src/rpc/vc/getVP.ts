@@ -9,6 +9,5 @@ export async function getVP(
   domain?: string,
   challenge?: string
 ): Promise<VerifiablePresentation | null> {
-  const { state, wallet, account, bip44Node } = params;
-  return await veramoCreateVP(wallet, state, account, vcId, challenge, domain);
+  return await veramoCreateVP(params, vcId, challenge, domain);
 }
