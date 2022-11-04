@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 import { SnapProvider } from '@metamask/snap-types';
-import { SSISnapState } from '../../interfaces';
+import { ApiParams, SSISnapState } from '../../interfaces';
 import {
   updateInfuraToken,
   togglePopups as updatePopups,
@@ -8,8 +8,8 @@ import {
 } from '../../utils/snapUtils';
 import { getSnapState } from '../../utils/stateUtils';
 
-export async function togglePopups(wallet: SnapProvider): Promise<boolean> {
-  const state = await getSnapState(wallet);
+export async function togglePopups(params: ApiParams): Promise<boolean> {
+  const { state, wallet, account, bip44Node } = params;
   const disablePopups = state.snapConfig.dApp.disablePopups;
 
   const promptObj = {
@@ -28,10 +28,10 @@ export async function togglePopups(wallet: SnapProvider): Promise<boolean> {
 }
 
 export async function changeInfuraToken(
-  wallet: SnapProvider,
-  state: SSISnapState,
+  params: ApiParams,
   token: string
 ): Promise<boolean> {
+  const { state, wallet, account, bip44Node } = params;
   if (token !== '') {
     const promptObj = {
       prompt: 'Change Infura Token',

@@ -20,6 +20,7 @@ import { getAvailableVCStores } from './rpc/vcStore/getAvailableVCStores';
 import { getSnapStateUnchecked, initAccountState } from './utils/stateUtils';
 import { getCurrentAccount } from './utils/snapUtils';
 import { getAddressKeyDeriver } from './utils/keyPair';
+import { ApiParams } from './interfaces';
 
 export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,
@@ -40,44 +41,38 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   console.log('Request:', request);
   console.log('Origin:', origin);
   console.log('-------------------------------------------------------------');
+
+  const apiParams: ApiParams = {
+    state,
+    wallet,
+    account,
+  };
+
   switch (request.method) {
     case 'getVCs':
-      // isValidGetVCsRequest(request.params);
-      // return await getVCs(wallet, state, account, request.params.query);
-      await getAddressKeyDeriver(wallet);
+      isValidGetVCsRequest(request.params);
+      return await getVCs(apiParams, request.params.query);
     case 'saveVC':
       isValidSaveVCRequest(request.params);
-      return await saveVC(
-        wallet,
-        state,
-        account,
-        request.params.verifiableCredential
-      );
+      return await saveVC(apiParams, request.params.verifiableCredential);
     case 'getVP':
       isValidGetVPRequest(request.params);
       return await getVP(
-        wallet,
-        state,
-        account,
+        apiParams,
         request.params.vcId,
         request.params.domain,
         request.params.challenge
       );
     case 'changeInfuraToken':
       isValidChangeInfuraTokenRequest(request.params);
-      return await changeInfuraToken(wallet, state, request.params.infuraToken);
+      return await changeInfuraToken(apiParams, request.params.infuraToken);
     case 'togglePopups':
-      return await togglePopups(wallet);
+      return await togglePopups(apiParams);
     case 'switchMethod':
       isValidSwitchMethodRequest(request.params);
-      return await switchMethod(
-        wallet,
-        state,
-        account,
-        request.params.didMethod
-      );
+      return await switchMethod(apiParams, request.params.didMethod);
     case 'getDID':
-      return await getDid(wallet, state, account);
+      return await getDid(apiParams);
     case 'getMethod':
       return state.accountState[account].accountConfig.ssi.didMethod;
     case 'getAvailableMethods':
@@ -86,7 +81,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       return state.accountState[account].accountConfig.ssi.vcStore;
     // TODO: RENAME THIS OR CHANGE PARAMETERS -> Current behaviour is switch not set
     case 'setVCStore':
-      return await setVCStore(wallet, state, account);
+      return await setVCStore(apiParams);
     case 'getAvailableVCStores':
       return getAvailableVCStores();
     default:

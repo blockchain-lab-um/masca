@@ -5253,9 +5253,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-
 "@noble/hashes@npm:^1.1.3, @noble/hashes@npm:~1.1.1":
-
   version: 1.1.3
   resolution: "@noble/hashes@npm:1.1.3"
   checksum: 362719c36ba26d295ec20bc640c71ec56cf3cfaf3bd4708c2b9e7cff43703f94f74f20f852fee67dbe072ee159f81a8ac7adc86979cd813d8f5c0634ec769ec9
@@ -5507,7 +5505,6 @@ __metadata:
   linkType: hard
 
 "@scure/base@npm:^1.1.1, @scure/base@npm:~1.1.0":
-
   version: 1.1.1
   resolution: "@scure/base@npm:1.1.1"
   checksum: 97d200da8915ca18a4eceb73c23dda7fc3a4b8509f620c9b7756ee451d7c9ebbc828c6662f9ffa047806fbe41f37bf236c6ef75692690688b7659196cb2dc804
@@ -23325,24 +23322,6 @@ __metadata:
   version: 0.16.7
   resolution: "superstruct@npm:0.16.7"
   checksum: afbf6ec8988e85857c05724bc2654046ad90a673455dd3775bae461f272e36f1963a4ae5aeee095e184bff2bd2ca840427f396b92a06ed8840074ff22520f3ea
-
-  languageName: node
-  linkType: hard
-
-"supports-color@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "supports-color@npm:2.0.0"
-  checksum: 570e0b63be36cccdd25186350a6cb2eaad332a95ff162fa06d9499982315f2fe4217e69dd98e862fbcd9c81eaff300a825a1fe7bf5cc752e5b84dfed042b0dda
-  languageName: node
-  linkType: hard
-
-"supports-color@npm:^4.0.0":
-  version: 4.5.0
-  resolution: "supports-color@npm:4.5.0"
-  dependencies:
-    has-flag: ^2.0.0
-  checksum: 2dc369eeac73954e87037dea1ebae0238b2abc0a39d7e35aa60eb8a84cc8d1dcade8b62e010597f5859f94c937e992abe6a6195460855fcc5e51f8cfc7fcc72a
-
   languageName: node
   linkType: hard
 

@@ -1,14 +1,11 @@
 import { SnapProvider } from '@metamask/snap-types';
-import { SSISnapState } from '../../interfaces';
+import { ApiParams, SSISnapState } from '../../interfaces';
 import { snapConfirm } from '../../utils/snapUtils';
 import { updateSnapState } from '../../utils/stateUtils';
 
 // TODO: CHANGE THIS FUNCTION
-export async function setVCStore(
-  wallet: SnapProvider,
-  state: SSISnapState,
-  account: string
-): Promise<boolean> {
+export async function setVCStore(params: ApiParams): Promise<boolean> {
+  const { state, wallet, account, bip44Node } = params;
   if (state.accountState[account].accountConfig.ssi.vcStore === 'snap') {
     const promptObj = {
       prompt: 'Change vcStore plugin',
