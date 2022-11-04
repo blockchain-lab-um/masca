@@ -150,9 +150,8 @@ describe('onRpcRequest', () => {
           },
         })
       ).resolves.toEqual(expectedResult);
+      expect.assertions(1);
     });
-
-    expect.assertions(1);
   });
 
   describe('getVP', () => {

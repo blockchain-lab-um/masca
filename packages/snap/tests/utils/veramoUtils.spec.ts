@@ -115,9 +115,9 @@ describe('Utils [veramo]', () => {
       await expect(
         veramoListVCs(walletMock, 'snap', { id: 'wrong-id' })
       ).resolves.toEqual([]);
-    });
 
-    expect.assertions(1);
+      expect.assertions(1);
+    });
   });
 
   describe('veramoImportMetaMaskAccount', () => {

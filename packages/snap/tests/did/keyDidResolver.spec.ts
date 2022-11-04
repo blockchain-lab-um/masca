@@ -7,6 +7,7 @@ import {
   exampleDIDKeyIdentifier,
   exampleDIDKeyDocument,
 } from '../testUtils/constants';
+
 describe('keyDidResolver', () => {
   let walletMock: SnapProvider & WalletMock;
 
@@ -30,7 +31,7 @@ describe('keyDidResolver', () => {
         {}
       );
       expect(didRes.didDocument).toEqual(exampleDIDKeyDocument);
+      expect.assertions(1);
     });
-    expect.assertions(1);
   });
 });
