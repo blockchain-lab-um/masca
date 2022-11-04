@@ -1,12 +1,10 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
-import { SnapProvider } from '@metamask/snap-types';
-import { ApiParams, SSISnapState } from '../../interfaces';
+import { ApiParams } from '../../interfaces';
 import {
   updateInfuraToken,
   togglePopups as updatePopups,
   snapConfirm,
 } from '../../utils/snapUtils';
-import { getSnapState } from '../../utils/stateUtils';
 
 export async function togglePopups(params: ApiParams): Promise<boolean> {
   const { state, wallet, account, bip44Node } = params;

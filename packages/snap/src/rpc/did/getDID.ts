@@ -1,5 +1,4 @@
-import { SnapProvider } from '@metamask/snap-types';
-import { ApiParams, SSISnapState } from '../../interfaces';
+import { ApiParams } from '../../interfaces';
 import { getCurrentDid } from '../../utils/didUtils';
 
 export async function getDid(params: ApiParams): Promise<string> {

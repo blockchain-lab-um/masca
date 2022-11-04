@@ -1,5 +1,4 @@
-import { SnapProvider } from '@metamask/snap-types';
-import { ApiParams, SSISnapState } from '../../interfaces';
+import { ApiParams } from '../../interfaces';
 import { snapConfirm } from '../../utils/snapUtils';
 import { updateSnapState } from '../../utils/stateUtils';
 

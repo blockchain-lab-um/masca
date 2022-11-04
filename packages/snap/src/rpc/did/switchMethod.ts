@@ -1,6 +1,5 @@
-import { SnapProvider } from '@metamask/snap-types';
 import { availableMethods } from '../../did/didMethods';
-import { ApiParams, SSISnapState } from '../../interfaces';
+import { ApiParams } from '../../interfaces';
 import { changeCurrentMethod } from '../../utils/didUtils';
 import { snapConfirm } from '../../utils/snapUtils';
 

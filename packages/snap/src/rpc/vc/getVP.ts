@@ -1,7 +1,6 @@
 import { veramoCreateVP } from '../../utils/veramoUtils';
 import { VerifiablePresentation } from '@veramo/core';
-import { SnapProvider } from '@metamask/snap-types';
-import { ApiParams, SSISnapState } from '../../interfaces';
+import { ApiParams } from '../../interfaces';
 
 export async function getVP(
   params: ApiParams,
