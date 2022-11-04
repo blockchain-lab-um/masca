@@ -4,30 +4,51 @@ import {
 } from '@metamask/key-tree';
 import { SnapProvider } from '@metamask/snap-types';
 
+// export async function getAddressKey(wallet: SnapProvider, addressIndex = 0) {
+//   // By way of example, we will use Dogecoin, which has `coin_type` 3.
+//   const etherNode = (await wallet.request({
+//     method: 'snap_getBip44Entropy',
+//     params: {
+//       coinType: 60,
+//     },
+//   })) as BIP44CoinTypeNode;
+
+//   const deriveEthereumAdress = await getBIP44AddressKeyDeriver(etherNode);
+
+//   const derivedAddress = await deriveEthereumAdress(addressIndex);
+//   const privateKey = derivedAddress.privateKey;
+//   const chainCode = derivedAddress.chainCode;
+//   const addressKey = `0x${privateKey as string}${chainCode}`;
+
+//   return {
+//     originalAddressKey: addressKey,
+//     privateKey: privateKey,
+//     derivationPath: deriveEthereumAdress.path,
+//   };
+// }
+
 export async function getAddressKeyDeriver(wallet: SnapProvider) {
-  // By way of example, we will use Dogecoin, which has `coin_type` 3.
-  const dogecoinNode = (await wallet.request({
+  const bip44Node = (await wallet.request({
     method: 'snap_getBip44Entropy',
     params: {
       coinType: 60,
     },
   })) as BIP44CoinTypeNode;
 
-  // Next, we'll create an address key deriver function for the Dogecoin coin_type node.
-  // In this case, its path will be: m / 44' / 3' / 0' / 0 / address_index
-  const deriveDogecoinAddress = await getBIP44AddressKeyDeriver(dogecoinNode);
+  return bip44Node;
+}
 
-  // These are BIP-44 nodes containing the extended private keys for
-  // the respective derivation paths.
-
-  // m / 44' / 3' / 0' / 0 / 0
-  const addressKey0 = await deriveDogecoinAddress(0);
-
-  // m / 44' / 3' / 0' / 0 / 1
-  const addressKey1 = await deriveDogecoinAddress(1);
-
-  console.log('PK:', addressKey0);
-  console.log('PK:', addressKey1);
-
-  // Now, you can ask the user to e.g. sign transactions!
+export async function getAddressKey(
+  bip44Node: BIP44CoinTypeNode,
+  addressIndex = 0
+) {
+  const keyDeriver = await getBIP44AddressKeyDeriver(bip44Node);
+  const privateKey = (await keyDeriver(addressIndex)).privateKey;
+  const chainCode = (await keyDeriver(addressIndex)).chainCode;
+  const addressKey = `0x${privateKey as string}${chainCode}`;
+  return {
+    privateKey: privateKey,
+    originalAddressKey: addressKey,
+    derivationPath: keyDeriver.path,
+  };
 }

@@ -16,7 +16,7 @@ import { getCurrentDid } from './didUtils';
 import { snapConfirm } from './snapUtils';
 import { SnapProvider } from '@metamask/snap-types';
 import { availableVCStores } from '../veramo/plugins/availableVCStores';
-import { SSISnapState } from '../interfaces';
+import { ApiParams, SSISnapState } from '../interfaces';
 import { IVCManager } from '@blockchain-lab-um/veramo-vc-manager';
 import { ICredentialIssuerEIP712 } from '@veramo/credential-eip712';
 
@@ -62,13 +62,12 @@ export async function veramoListVCs(
  * @returns {Promise<VerifiablePresentation | null>} - generated VP
  * */
 export async function veramoCreateVP(
-  wallet: SnapProvider,
-  state: SSISnapState,
-  account: string,
+  params: ApiParams,
   vcId: string,
   challenge?: string,
   domain?: string
 ): Promise<VerifiablePresentation | null> {
+  const { state, wallet, account, bip44Node } = params;
   //Get Veramo agent
   const agent = await getAgent(wallet);
   //GET DID
