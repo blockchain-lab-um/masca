@@ -16,6 +16,7 @@ jobs:
     with:
       node-version: 16.15.1
       number-of-agents: 3
+      main-branch-name: 'develop'
       init-commands: |
         yarn exec nx-cloud start-ci-run --stop-agents-after="build" --agent-count=3
       parallel-commands-on-agents: |
@@ -28,3 +29,4 @@ jobs:
     uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.8
     with:
       number-of-agents: 3
+      node-version: 16.15.1
