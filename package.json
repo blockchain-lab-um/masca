@@ -73,5 +73,9 @@
   "packageManager": "yarn@3.2.4",
   "engines": {
     "node": ">=16.0.0"
+  },
+  "volta": {
+    "node": "16.15.1",
+    "yarn": "3.2.4"
   }
 }
