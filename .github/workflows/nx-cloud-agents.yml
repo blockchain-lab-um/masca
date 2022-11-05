@@ -85,9 +85,9 @@ jobs:
       # Set node/npm/yarn versions using volta, with optional overrides provided by the consumer
       - uses: volta-cli/action@v4
         with:
-          node-version: "${{ inputs.node-version }}"
-          npm-version: "${{ inputs.npm-version }}"
-          yarn-version: "${{ inputs.yarn-version }}"
+          node-version: '${{ inputs.node-version }}'
+          npm-version: '${{ inputs.npm-version }}'
+          yarn-version: '${{ inputs.yarn-version }}'
 
       # Install pnpm with exact version provided by consumer or fallback to latest
       - name: Install PNPM
@@ -190,7 +190,7 @@ jobs:
         if: ${{ inputs.install-commands == '' }}
         run: |
           if [ "${{ steps.package_manager.outputs.name == 'yarn' }}" == "true" ]; then
-            echo "Running yarn install --immutable
+            echo "Running yarn install --immutable"
             yarn install --immutable
           elif [ "${{ steps.package_manager.outputs.name == 'pnpm' }}" == "true" ]; then
             echo "Running pnpm install --frozen-lockfile"
