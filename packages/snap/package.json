@@ -47,7 +47,7 @@
     "serve": "mm-snap serve",
     "start": "mm-snap --version && yarn build && yarn serve",
     "test": "jest",
-    "test:ci": "yarn test --silent"
+    "test:ci": "yarn test --silent --coverage"
   },
   "dependencies": {
     "@babel/runtime": "7.17.2",

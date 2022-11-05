@@ -2,16 +2,19 @@
   "extends": "nx/presets/npm.json",
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "npmScope": "@blockchain-lab-um",
+  "affected": {
+    "defaultBase": "origin/develop"
+  },
   "tasksRunnerOptions": {
     "default": {
-      "runner": "nx/tasks-runners/default",
+      "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": ["build", "test", "lint"]
+        "cacheableOperations": ["build", "test", "lint", "test:ci"]
       }
     }
   },
   "namedInputs": {
-    "default": ["{projectRoot}/**/*"],
+    "default": ["{projectRoot}/**/*", "!{projectRoot}/coverage"],
     "production": [
       "{projectRoot}/src/**/*",
       "!{projectRoot}/**/*.spec.ts",
@@ -43,6 +46,11 @@
       "outputs": []
     },
     "test": {
+      "inputs": ["test", "^production"],
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "test:ci": {
       "inputs": ["test", "^production"],
       "dependsOn": ["^build"],
       "outputs": []
