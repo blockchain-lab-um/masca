@@ -1,7 +1,12 @@
 import { RequestArguments } from '@metamask/providers/dist/BaseProvider';
 import { Maybe } from '@metamask/providers/dist/utils';
 import { SnapProvider } from '@metamask/snap-types';
-import { address, getDefaultSnapState, privateKey } from './constants';
+import {
+  address,
+  bip44Entropy,
+  getDefaultSnapState,
+  privateKey,
+} from './constants';
 import { SSISnapState } from '../../src/interfaces';
 import { Wallet } from 'ethers';
 import { _hexToUnit8Array } from 'src/utils/snapUtils';
@@ -59,6 +64,7 @@ export class WalletMock implements IWalletMock {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         return this.wallet._signTypedData(domain, types, message);
       }),
+    snap_getBip44Entropy: jest.fn().mockResolvedValue(bip44Entropy),
   };
 
   request<T>(args: RequestArguments): Promise<Maybe<T>> {

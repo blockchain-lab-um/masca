@@ -140,7 +140,8 @@ export const veramoImportMetaMaskAccount = async (
   const res = await getKeysFromAddress(
     bip44Node as BIP44CoinTypeNode,
     state,
-    account
+    account,
+    wallet
   );
   if (!res) {
     throw new Error('Failed to get keys');

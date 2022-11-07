@@ -104,7 +104,8 @@ export async function getPublicKey(params: ApiParams): Promise<string> {
   const res = await getKeysFromAddress(
     bip44Node as BIP44CoinTypeNode,
     state,
-    account
+    account,
+    wallet
   );
   if (res == null) throw new Error('Could not get keys from address');
   return res.publicKey;

@@ -1,6 +1,7 @@
 import {
   getBIP44AddressKeyDeriver,
   BIP44CoinTypeNode,
+  JsonBIP44CoinTypeNode,
 } from '@metamask/key-tree';
 import { SnapProvider } from '@metamask/snap-types';
 import { SSISnapState } from 'src/interfaces';
@@ -38,7 +39,7 @@ export async function getAddressKeyDeriver(wallet: SnapProvider) {
       coinType: 60,
     },
   })) as BIP44CoinTypeNode;
-
+  console.log('BIP44NODE:', bip44Node as JsonBIP44CoinTypeNode);
   return bip44Node;
 }
 
@@ -61,6 +62,7 @@ export const getKeysFromAddress = async (
   bip44Node: BIP44CoinTypeNode,
   state: SSISnapState,
   account: string,
+  wallet: SnapProvider,
   maxScan = 20
 ) => {
   let addressIndex;
