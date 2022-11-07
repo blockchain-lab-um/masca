@@ -13,12 +13,14 @@ import {
   VerifiablePresentation,
 } from '@veramo/core';
 import { getCurrentDid } from './didUtils';
-import { snapConfirm } from './snapUtils';
+import { getPublicKey, snapConfirm } from './snapUtils';
 import { SnapProvider } from '@metamask/snap-types';
 import { availableVCStores } from '../veramo/plugins/availableVCStores';
 import { ApiParams, SSISnapState } from '../interfaces';
 import { IVCManager } from '@blockchain-lab-um/veramo-vc-manager';
 import { ICredentialIssuerEIP712 } from '@veramo/credential-eip712';
+import { getAddressKey } from './keyPair';
+import { BIP44CoinTypeNode } from '@metamask/key-tree';
 
 /**
  * Saves a VC in the state object of the currently selected MetaMask account.
@@ -71,12 +73,7 @@ export async function veramoCreateVP(
   //Get Veramo agent
   const agent = await getAgent(wallet);
   //GET DID
-  const identifier = await veramoImportMetaMaskAccount(
-    wallet,
-    state,
-    agent,
-    account
-  );
+  const identifier = await veramoImportMetaMaskAccount(params, agent);
   console.log('Identifier: ', identifier);
   let vc;
   try {
@@ -106,12 +103,13 @@ export async function veramoCreateVP(
       console.log('Identifier');
       console.log(identifier);
 
-      const vp = await agent.createVerifiablePresentationEIP712({
+      const vp = await agent.createVerifiablePresentation({
         presentation: {
-          holder: identifier,
+          holder: identifier.did,
           type: ['VerifiablePresentation', 'Custom'],
           verifiableCredential: [vc.vc],
         },
+        proofFormat: 'EthereumEip712Signature2021',
       });
       console.log('....................VP..................');
       console.log(vp);
@@ -124,8 +122,7 @@ export async function veramoCreateVP(
 }
 
 export const veramoImportMetaMaskAccount = async (
-  wallet: SnapProvider,
-  state: SSISnapState,
+  params: ApiParams,
   agent: TAgent<
     IDIDManager &
       IKeyManager &
@@ -134,25 +131,17 @@ export const veramoImportMetaMaskAccount = async (
       IVCManager &
       ICredentialIssuerEIP712 &
       ICredentialIssuer
-  >,
-  account: string
-): Promise<string> => {
+  >
+): Promise<IIdentifier> => {
+  const { state, wallet, account, bip44Node } = params;
   const method = state.accountState[account].accountConfig.ssi.didMethod;
   const did = await getCurrentDid(wallet, state, account);
-  const identifiers = await agent.didManagerFind();
 
-  let exists = false;
-  identifiers.map((id: IIdentifier) => {
-    if (id.did === did) exists = true;
-  });
-  if (exists) {
-    console.log('DID already exists', did);
-    return did;
-  }
-
+  const { privateKey } = await getAddressKey(bip44Node as BIP44CoinTypeNode);
+  const publicKey = await getPublicKey(wallet, state, account);
   console.log('Importing...');
   const controllerKeyId = `metamask-${account}`;
-  await agent.didManagerImport({
+  const identifier = await agent.didManagerImport({
     did,
     provider: method,
     controllerKeyId,
@@ -160,18 +149,23 @@ export const veramoImportMetaMaskAccount = async (
       {
         kid: controllerKeyId,
         type: 'Secp256k1',
-        kms: 'web3',
-        privateKeyHex: '',
-        publicKeyHex: '',
-        meta: {
-          provider: 'metamask',
-          account: account.toLowerCase(),
-          algorithms: ['eth_signMessage', 'eth_signTypedData'],
-        },
+        kms: 'snap',
+        privateKeyHex: privateKey,
+        publicKeyHex: publicKey,
       } as MinimalImportableKey,
     ],
   });
 
   console.log('imported successfully');
-  return did;
+  console.log(
+    identifier,
+    identifier.alias,
+    identifier.controllerKeyId,
+    identifier.did,
+    identifier.keys
+  );
+  identifier.keys.forEach((key) => {
+    console.log(key, key.publicKeyHex, key.type, key.kms);
+  });
+  return identifier;
 };

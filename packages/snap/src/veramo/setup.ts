@@ -38,7 +38,11 @@ import {
 } from './plugins/snapDataStore/snapDataStore';
 import { CeramicVCStore } from './plugins/ceramicDataStore/ceramicDataStore';
 
-import { ICredentialIssuer } from '@veramo/credential-w3c';
+import {
+  CredentialIssuer,
+  CredentialPlugin,
+  ICredentialIssuer,
+} from '@veramo/credential-w3c';
 
 import { KeyDIDProvider } from '../did/key/keyDidProvider';
 import { getDidKeyResolver as keyDidResolver } from '../did/key/keyDidResolver';
@@ -101,6 +105,7 @@ export const getAgent = async (
       ICredentialIssuer
   >({
     plugins: [
+      new CredentialPlugin(),
       new CredentialIssuerEIP712(),
       new KeyManager({
         store: new MemoryKeyStore(),

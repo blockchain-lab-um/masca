@@ -57,6 +57,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       return await saveVC(apiParams, request.params.verifiableCredential);
     case 'getVP':
       isValidGetVPRequest(request.params);
+      apiParams.bip44Node = await getAddressKeyDeriver(wallet);
       return await getVP(
         apiParams,
         request.params.vcId,
