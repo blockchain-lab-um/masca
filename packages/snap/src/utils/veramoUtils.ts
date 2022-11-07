@@ -145,7 +145,7 @@ export const veramoImportMetaMaskAccount = async (
   if (!res) {
     throw new Error('Failed to get keys');
   }
-  const publicKey = await getPublicKey(wallet, state, account);
+  const publicKey = await getPublicKey(params);
   console.log('Importing...');
   const controllerKeyId = `metamask-${account}`;
   const identifier = await agent.didManagerImport({

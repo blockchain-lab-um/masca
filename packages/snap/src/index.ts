@@ -34,19 +34,20 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   // FIXME: HANDLE NULL maybe throw ?
   if (account === null) return;
 
-  if (!(account in state.accountState)) {
-    await initAccountState(wallet, state, account);
-  }
-
-  console.log('Request:', request);
-  console.log('Origin:', origin);
-  console.log('-------------------------------------------------------------');
-
   const apiParams: ApiParams = {
     state,
     wallet,
     account,
   };
+
+  if (!(account in state.accountState)) {
+    apiParams.bip44Node = await getAddressKeyDeriver(wallet);
+    await initAccountState(apiParams);
+  }
+
+  console.log('Request:', request);
+  console.log('Origin:', origin);
+  console.log('-------------------------------------------------------------');
 
   switch (request.method) {
     case 'getVCs':
