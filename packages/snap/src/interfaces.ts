@@ -72,6 +72,7 @@ export type SSIAccountState = {
   vcs: Record<string, VerifiableCredential>;
 
   publicKey: string;
+  index?: number;
   accountConfig: SSIAccountConfig;
 };
 

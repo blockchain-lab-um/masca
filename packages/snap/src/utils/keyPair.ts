@@ -3,6 +3,10 @@ import {
   BIP44CoinTypeNode,
 } from '@metamask/key-tree';
 import { SnapProvider } from '@metamask/snap-types';
+import { SSISnapState } from 'src/interfaces';
+import { getAccountIndex, setAccountIndex } from './snapUtils';
+import { ethers } from 'ethers';
+import { _hexToUnit8Array } from './snapUtils';
 
 // export async function getAddressKey(wallet: SnapProvider, addressIndex = 0) {
 //   // By way of example, we will use Dogecoin, which has `coin_type` 3.
@@ -52,3 +56,64 @@ export async function getAddressKey(
     derivationPath: keyDeriver.path,
   };
 }
+
+export const getKeysFromAddress = async (
+  bip44Node: BIP44CoinTypeNode,
+  state: SSISnapState,
+  account: string,
+  maxScan = 20
+) => {
+  let addressIndex;
+  const index = getAccountIndex(state, account);
+  if (index) {
+    addressIndex = index;
+    console.log(
+      `getNextAddressIndex:\nFound address in state: ${addressIndex} ${account}`
+    );
+  } else {
+    for (let i = 0; i < maxScan; i++) {
+      const { address } = await getKeysFromAddressIndex(bip44Node, i);
+      // get address from public key
+      if (address.toUpperCase() === account.toUpperCase()) {
+        addressIndex = i;
+        await setAccountIndex(wallet, state, account, addressIndex);
+        console.log(
+          `getNextAddressIndex:\nFound address in scan: ${addressIndex} ${account}`
+        );
+        break;
+      }
+    }
+  }
+
+  if (!isNaN(addressIndex as number)) {
+    return getKeysFromAddressIndex(bip44Node, addressIndex);
+  }
+  return null;
+};
+
+export const getKeysFromAddressIndex = async (
+  bip44Node: BIP44CoinTypeNode,
+  index: number | undefined
+) => {
+  if (typeof index === 'undefined') {
+    throw new Error('Err, index undefined');
+  }
+  const addressIndex = index;
+  if (isNaN(addressIndex) || addressIndex < 0) {
+    console.log(`getKeysFromAddressIndex: addressIndex found: ${addressIndex}`);
+  }
+
+  const { privateKey, derivationPath } = await getAddressKey(
+    bip44Node,
+    addressIndex
+  );
+  const wallet = new ethers.Wallet(_hexToUnit8Array(privateKey));
+
+  return {
+    privateKey: privateKey,
+    publicKey: wallet.publicKey,
+    address: wallet.address,
+    addressIndex,
+    derivationPath,
+  };
+};

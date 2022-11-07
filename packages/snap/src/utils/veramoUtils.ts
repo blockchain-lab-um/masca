@@ -19,7 +19,7 @@ import { availableVCStores } from '../veramo/plugins/availableVCStores';
 import { ApiParams, SSISnapState } from '../interfaces';
 import { IVCManager } from '@blockchain-lab-um/veramo-vc-manager';
 import { ICredentialIssuerEIP712 } from '@veramo/credential-eip712';
-import { getAddressKey } from './keyPair';
+import { getAddressKey, getKeysFromAddress } from './keyPair';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 
 /**
@@ -109,7 +109,7 @@ export async function veramoCreateVP(
           type: ['VerifiablePresentation', 'Custom'],
           verifiableCredential: [vc.vc],
         },
-        proofFormat: 'EthereumEip712Signature2021',
+        proofFormat: 'jwt',
       });
       console.log('....................VP..................');
       console.log(vp);
@@ -137,7 +137,14 @@ export const veramoImportMetaMaskAccount = async (
   const method = state.accountState[account].accountConfig.ssi.didMethod;
   const did = await getCurrentDid(wallet, state, account);
 
-  const { privateKey } = await getAddressKey(bip44Node as BIP44CoinTypeNode);
+  const res = await getKeysFromAddress(
+    bip44Node as BIP44CoinTypeNode,
+    state,
+    account
+  );
+  if (!res) {
+    throw new Error('Failed to get keys');
+  }
   const publicKey = await getPublicKey(wallet, state, account);
   console.log('Importing...');
   const controllerKeyId = `metamask-${account}`;
@@ -150,22 +157,10 @@ export const veramoImportMetaMaskAccount = async (
         kid: controllerKeyId,
         type: 'Secp256k1',
         kms: 'snap',
-        privateKeyHex: privateKey,
+        privateKeyHex: res.privateKey as string,
         publicKeyHex: publicKey,
       } as MinimalImportableKey,
     ],
-  });
-
-  console.log('imported successfully');
-  console.log(
-    identifier,
-    identifier.alias,
-    identifier.controllerKeyId,
-    identifier.did,
-    identifier.keys
-  );
-  identifier.keys.forEach((key) => {
-    console.log(key, key.publicKeyHex, key.type, key.kms);
   });
   return identifier;
 };

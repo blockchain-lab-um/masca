@@ -146,3 +146,22 @@ export async function snapConfirm(
     params: [params],
   })) as boolean;
 }
+
+export function getAccountIndex(
+  state: SSISnapState,
+  account: string
+): number | undefined {
+  if (state.accountState[account].index)
+    return state.accountState[account].index;
+  else return undefined;
+}
+
+export async function setAccountIndex(
+  wallet: SnapProvider,
+  state: SSISnapState,
+  account: string,
+  index: number
+) {
+  state.accountState[account].index = index;
+  await updateSnapState(wallet, state);
+}
