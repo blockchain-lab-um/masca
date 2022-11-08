@@ -31,12 +31,15 @@ import { _hexToUnit8Array } from './snapUtils';
 //   };
 // }
 
-export async function getAddressKeyDeriver(wallet: SnapProvider) {
+export async function getAddressKeyDeriver(
+  wallet: SnapProvider,
+  coin_type = 60
+) {
   console.log('before');
   const bip44Node = (await wallet.request({
     method: 'snap_getBip44Entropy',
     params: {
-      coinType: 60,
+      coinType: coin_type,
     },
   })) as BIP44CoinTypeNode;
   return bip44Node;
