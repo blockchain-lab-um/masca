@@ -1,6 +1,7 @@
 import { RequestArguments } from '@metamask/providers/dist/BaseProvider';
 import { Maybe } from '@metamask/providers/dist/utils';
 import { SnapProvider } from '@metamask/snap-types';
+
 import {
   address,
   bip44Entropy,

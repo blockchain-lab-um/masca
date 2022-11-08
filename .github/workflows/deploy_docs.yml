@@ -2,30 +2,37 @@ name: Deploy to GitHub Pages
 
 on:
   pull_request:
-    branches: [master]
+    branches: [develop]
+    types: [opened, synchronize, reopened]
   push:
-    branches: [master]
-  workflow_dispatch:
+    branches: [develop]
 
 jobs:
-test-deploy:
-  if: github.event_name != 'push'
-  runs-on: ubuntu-latest
-  steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 18
-        cache: yarn
-    - name: Install dependencies
-      run: yarn install --frozen-lockfile
-    - name: Test build website
-      run: yarn build
+  test-deploy:
+    if: github.event_name != 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: nrwl/nx-set-shas@v3
+        with:
+          main-branch-name: 'develop'
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: yarn
+      - name: Install dependencies
+        run: yarn install --immutable
+      - name: Lint
+        run: yarn nx run @blockchain-lab-um/ssi-snap-docs:lint
+      - name: Test build website
+        run: yarn nx run @blockchain-lab-um/ssi-snap-docs:build
   deploy:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 18
@@ -39,5 +46,5 @@ test-deploy:
         run: |
           git config --global user.email "andraz.vrecko@gmail.com"
           git config --global user.name "andyv09"
-          yarn install --frozen-lockfile
+          yarn install --immutable
           yarn deploy:docs
