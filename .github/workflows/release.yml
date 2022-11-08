@@ -26,3 +26,5 @@ jobs:
           command: manifest
           token: ${{secrets.GITHUB_TOKEN}}
           default-branch: develop
+          release-type: node
+          monorepo-tags: true

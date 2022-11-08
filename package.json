@@ -28,24 +28,28 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "yarn nx run-many --target=build --all",
+    "build": "yarn nx affected --target=build",
+    "build:all": "yarn nx run-many --target=build --all",
     "build:connector": "yarn nx build @blockchain-lab-um/ssi-snap-connector",
     "build:vcmanager": "yarn nx build @blockchain-lab-um/veramo-vc-manager",
     "deploy:docs": "yarn nx deploy @blockchain-lab-um/ssi-snap-docs",
     "postinstall": "patch-package",
-    "lint": "yarn prettier && yarn nx run-many --target=lint --all",
+    "lint": "yarn prettier && yarn nx affected --target=lint",
+    "lint:all": "yarn prettier && yarn nx run-many --target=lint --all",
     "prepare": "is-ci || husky install",
     "prettier": "prettier --write .",
     "start": "yarn nx run-many --target=start --all",
     "start:docs": "yarn nx start @blockchain-lab-um/ssi-snap-docs",
     "start:snap": "yarn nx start @blockchain-lab-um/ssi-snap",
-    "test": "yarn nx run-many --target=test --all",
-    "test:ci": "yarn nx run-many --target=test:ci --all"
+    "test": "yarn nx affected --target=test",
+    "test:all": "yarn nx run-many --target=test --all",
+    "test:ci": "yarn nx affected --target=test:ci"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
     "@nrwl/jest": "15.0.3",
+    "@nrwl/nx-cloud": "^15.0.2",
     "@types/eslint": "^7",
     "@types/node": "^18.11.9",
     "@typescript-eslint/eslint-plugin": "^5.33.1",
@@ -59,7 +63,7 @@
     "is-ci": "^3.0.1",
     "jest": "^29.2.1",
     "lint-staged": "^13.0.3",
-    "nx": "15.0.3",
+    "nx": "^15.0.7",
     "patch-package": "^6.4.7",
     "prettier": "^2.7.1",
     "prettier-plugin-packagejson": "^2.2.11",
@@ -69,5 +73,9 @@
   "packageManager": "yarn@3.2.4",
   "engines": {
     "node": ">=16.0.0"
+  },
+  "volta": {
+    "node": "16.15.1",
+    "yarn": "3.2.4"
   }
 }
