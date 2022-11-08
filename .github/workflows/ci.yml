@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+      - develop
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  main:
+    name: Nx Cloud - Main Job
+    uses: ./.github/workflows/nx-cloud-main.yml
+    secrets: inherit
+    with:
+      node-version: 16.15.1
+      number-of-agents: 3
+      main-branch-name: 'develop'
+      init-commands: |
+        yarn exec nx-cloud start-ci-run --stop-agents-after="build" --agent-count=3
+      parallel-commands-on-agents: |
+        yarn exec nx affected --target=lint --parallel=3
+        yarn exec nx affected --target=test:ci --parallel=3
+        yarn exec nx affected --target=build --parallel=3
+
+  agents:
+    name: Nx Cloud - Agents
+    uses: ./.github/workflows/nx-cloud-agents.yml
+    secrets: inherit
+    with:
+      number-of-agents: 3
+      node-version: 16.15.1
