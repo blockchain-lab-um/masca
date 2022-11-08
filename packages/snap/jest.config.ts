@@ -190,5 +190,4 @@ export default {
   // watchman: true,
 
   testTimeout: 120000,
-
 };

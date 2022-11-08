@@ -1,10 +1,6 @@
 import { SnapProvider } from '@metamask/snap-types';
-import { DIDResolutionOptions, DIDResolutionResult } from 'did-resolver';
 import { createMockWallet, WalletMock } from '../testUtils/wallet.mock';
-import {
-  resolveDidKey,
-  resolveSecp256k1,
-} from '../../src/did/key/keyDidResolver';
+import { resolveSecp256k1 } from '../../src/did/key/keyDidResolver';
 import { getDidKeyIdentifier } from '../../src/did/key/keyDidUtils';
 import {
   address,

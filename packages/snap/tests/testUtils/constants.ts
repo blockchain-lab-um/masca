@@ -9,6 +9,8 @@ export const privateKey =
 export const address = '0xb6665128eE91D84590f70c3268765384A9CAfBCd';
 export const publicKey =
   '0x0480a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae850a9f561d414001a8bdefdb713c619d2caf08a0c9655b0cf42de065bc51e0169a';
+export const compressedPublicKey =
+  '0280a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae85';
 export const signedMsg =
   '0x30eb4dbf93e7bfdb109ed03f7803f2378fa27d18ddc233cb3d121b5ba13253fe2515076d1ba66f3dc282c182479b843c925c62eb1f5a0676bcaf995e8e7552941c';
 export const infuraToken = '0ec03090465d400c988a14831aacfe37';

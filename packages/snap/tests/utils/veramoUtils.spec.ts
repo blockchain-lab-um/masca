@@ -15,7 +15,7 @@ import {
   veramoSaveVC,
 } from '../../src/utils/veramoUtils';
 import { getAgent } from '../../src/veramo/setup';
-import { IIdentifier, VerifiablePresentation } from '@veramo/core';
+import { VerifiablePresentation } from '@veramo/core';
 import { BIP44CoinTypeNode } from '@metamask/key-tree/dist/BIP44CoinTypeNode';
 
 jest.mock('uuid', () => ({ v4: () => 'test-id' }));

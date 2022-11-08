@@ -7,7 +7,7 @@ import {
 } from '../../utils/snapUtils';
 
 export async function togglePopups(params: ApiParams): Promise<boolean> {
-  const { state, wallet, account, bip44Node } = params;
+  const { state, wallet } = params;
   const disablePopups = state.snapConfig.dApp.disablePopups;
 
   const promptObj = {
@@ -29,7 +29,7 @@ export async function changeInfuraToken(
   params: ApiParams,
   token: string
 ): Promise<boolean> {
-  const { state, wallet, account, bip44Node } = params;
+  const { state, wallet } = params;
   if (token !== '') {
     const promptObj = {
       prompt: 'Change Infura Token',

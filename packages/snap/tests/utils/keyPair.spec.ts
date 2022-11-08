@@ -1,13 +1,6 @@
-import {
-  BIP44CoinTypeNode,
-  getBIP44AddressKeyDeriver,
-} from '@metamask/key-tree';
+import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { SnapProvider } from '@metamask/snap-types';
-import {
-  getAddressKey,
-  getAddressKeyDeriver,
-  getKeysFromAddress,
-} from '../../src/utils/keyPair';
+import { getKeysFromAddress } from '../../src/utils/keyPair';
 import {
   bip44Entropy,
   getDefaultSnapState,
@@ -18,7 +11,6 @@ import {
 import { createMockWallet, WalletMock } from '../testUtils/wallet.mock';
 
 describe('Test function: getAddressKey', function () {
-  const walletStub = new WalletMock();
   let walletMock: SnapProvider & WalletMock;
 
   beforeEach(() => {

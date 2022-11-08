@@ -1,6 +1,7 @@
 import { SnapProvider } from '@metamask/snap-types';
 import {
   addFriendlyDapp,
+  getCompressedPublicKey,
   getCurrentAccount,
   getCurrentNetwork,
   getPublicKey,
@@ -17,6 +18,7 @@ import {
   infuraToken,
   snapConfirmParams,
   bip44Entropy,
+  compressedPublicKey,
 } from '../testUtils/constants';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 
@@ -248,7 +250,9 @@ describe('Utils [snap]', () => {
   //       'test_dApp_3',
   //     ];
 
-  //     walletMock.rpcMocks.snap_manageState.onCall(0).mockResolvedValue(initialState);
+  //     walletMock.rpcMocks.snap_manageState
+  //       .onCall(0)
+  //       .mockResolvedValue(initialState);
 
   //     await expect(getFriendlyDapps(walletMock)).to.eventually.be.deep.equal([
   //       'test_dApp_1',
@@ -292,8 +296,18 @@ describe('Utils [snap]', () => {
   });
 
   describe('getCompressedPublicKey', () => {
-    it('TODO', () => {
-      // TODO
+    it('should generate correct compressed public key', async () => {
+      const initialState = getDefaultSnapState();
+      initialState.accountState[address].publicKey = '';
+      const pk = await getPublicKey({
+        wallet: walletMock,
+        state: initialState,
+        account: address,
+        bip44Node: bip44Entropy as BIP44CoinTypeNode,
+      });
+      const compressedPK = getCompressedPublicKey(pk);
+
+      expect(compressedPK).toEqual(compressedPublicKey);
     });
   });
 

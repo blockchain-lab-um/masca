@@ -1,6 +1,5 @@
 import { updateSnapState } from './stateUtils';
 import { publicKeyConvert } from 'secp256k1';
-import * as ethers from 'ethers';
 import { SnapProvider } from '@metamask/snap-types';
 import { ApiParams, SnapConfirmParams, SSISnapState } from '../interfaces';
 import { getKeysFromAddress } from './keyPair';

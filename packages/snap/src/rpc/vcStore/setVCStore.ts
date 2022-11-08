@@ -4,7 +4,7 @@ import { updateSnapState } from '../../utils/stateUtils';
 
 // TODO: CHANGE THIS FUNCTION
 export async function setVCStore(params: ApiParams): Promise<boolean> {
-  const { state, wallet, account, bip44Node } = params;
+  const { state, wallet, account } = params;
   if (state.accountState[account].accountConfig.ssi.vcStore === 'snap') {
     const promptObj = {
       prompt: 'Change vcStore plugin',

@@ -1,4 +1,4 @@
-import { IKey, RequireOnly, IIdentifier } from '@veramo/core';
+import { RequireOnly, IIdentifier } from '@veramo/core';
 import { ManagedPrivateKey } from '@veramo/key-manager';
 import { AbstractDIDStore } from '@veramo/did-manager';
 import { v4 as uuidv4 } from 'uuid';

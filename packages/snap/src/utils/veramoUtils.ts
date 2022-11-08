@@ -16,10 +16,10 @@ import { getCurrentDid } from './didUtils';
 import { getPublicKey, snapConfirm } from './snapUtils';
 import { SnapProvider } from '@metamask/snap-types';
 import { availableVCStores } from '../veramo/plugins/availableVCStores';
-import { ApiParams, SSISnapState } from '../interfaces';
+import { ApiParams } from '../interfaces';
 import { IVCManager } from '@blockchain-lab-um/veramo-vc-manager';
 import { ICredentialIssuerEIP712 } from '@veramo/credential-eip712';
-import { getAddressKey, getKeysFromAddress } from './keyPair';
+import { getKeysFromAddress } from './keyPair';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 
 /**
@@ -70,7 +70,7 @@ export async function veramoCreateVP(
   challenge?: string,
   domain?: string
 ): Promise<VerifiablePresentation | null> {
-  const { state, wallet, account, bip44Node } = params;
+  const { state, wallet, account } = params;
   //Get Veramo agent
   const agent = await getAgent(wallet);
   //GET DID

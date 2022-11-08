@@ -1,7 +1,6 @@
 import {
   getBIP44AddressKeyDeriver,
   BIP44CoinTypeNode,
-  JsonBIP44CoinTypeNode,
 } from '@metamask/key-tree';
 import { SnapProvider } from '@metamask/snap-types';
 import { SSISnapState } from 'src/interfaces';
