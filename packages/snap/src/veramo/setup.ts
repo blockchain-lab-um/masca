@@ -28,10 +28,7 @@ import {
 } from '@blockchain-lab-um/veramo-vc-manager';
 import { Web3Provider } from '@ethersproject/providers';
 import { Web3KeyManagementSystem } from '@veramo/kms-web3';
-import {
-  CredentialIssuerEIP712,
-  ICredentialIssuerEIP712,
-} from '@veramo/credential-eip712';
+import { CredentialIssuerEIP712 } from '@veramo/credential-eip712';
 import {
   SnapDIDStore,
   SnapVCStore,

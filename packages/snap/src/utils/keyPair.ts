@@ -7,7 +7,6 @@ import { ApiParams, SSISnapState } from 'src/interfaces';
 import { getAccountIndex, setAccountIndex } from './snapUtils';
 import { ethers } from 'ethers';
 import { _hexToUnit8Array } from './snapUtils';
-import { getDid } from 'src/rpc/did/getDID';
 import { getCurrentDid } from './didUtils';
 import { didCoinTypeMappping } from '../constants/index';
 
