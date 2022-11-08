@@ -1,14 +1,8 @@
-import { getAgent } from './../veramo/setup';
+import { Agent, getAgent } from './../veramo/setup';
 import { VCQuery } from '@blockchain-lab-um/ssi-snap-types';
 import {
-  ICredentialIssuer,
-  IDataStore,
-  IDIDManager,
   IIdentifier,
-  IKeyManager,
-  IResolver,
   MinimalImportableKey,
-  TAgent,
   VerifiableCredential,
   VerifiablePresentation,
 } from '@veramo/core';
@@ -17,8 +11,6 @@ import { getPublicKey, snapConfirm } from './snapUtils';
 import { SnapProvider } from '@metamask/snap-types';
 import { availableVCStores } from '../veramo/plugins/availableVCStores';
 import { ApiParams } from '../interfaces';
-import { IVCManager } from '@blockchain-lab-um/veramo-vc-manager';
-import { ICredentialIssuerEIP712 } from '@veramo/credential-eip712';
 import { getKeysFromAddress } from './keyPair';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 
@@ -126,15 +118,7 @@ export async function veramoCreateVP(
 
 export const veramoImportMetaMaskAccount = async (
   params: ApiParams,
-  agent: TAgent<
-    IDIDManager &
-      IKeyManager &
-      IDataStore &
-      IResolver &
-      IVCManager &
-      ICredentialIssuerEIP712 &
-      ICredentialIssuer
-  >
+  agent: Agent
 ): Promise<IIdentifier> => {
   const { state, wallet, account, bip44Node } = params;
   const method = state.accountState[account].accountConfig.ssi.didMethod;

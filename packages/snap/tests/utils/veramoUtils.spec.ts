@@ -15,7 +15,7 @@ import {
   veramoSaveVC,
 } from '../../src/utils/veramoUtils';
 import { getAgent } from '../../src/veramo/setup';
-import { VerifiablePresentation } from '@veramo/core';
+import { IVerifyResult, VerifiablePresentation } from '@veramo/core';
 import { BIP44CoinTypeNode } from '@metamask/key-tree/dist/BIP44CoinTypeNode';
 
 jest.mock('uuid', () => ({ v4: () => 'test-id' }));
@@ -205,11 +205,11 @@ describe('Utils [veramo]', () => {
       console.log('vp456', createdVP);
       expect(createdVP).not.toEqual(null);
 
-      const verifyResult = await agent.verifyPresentationEIP712({
+      const verifyResult = (await agent.verifyPresentation({
         presentation: createdVP as VerifiablePresentation,
-      });
+      })) as IVerifyResult;
 
-      expect(verifyResult).toBe(true);
+      expect(verifyResult.verified).toBe(true);
 
       expect.assertions(2);
     });

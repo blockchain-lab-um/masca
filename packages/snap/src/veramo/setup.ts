@@ -52,19 +52,16 @@ import { getCurrentNetwork } from '../utils/snapUtils';
 import { SnapProvider } from '@metamask/snap-types';
 import { getSnapState } from '../utils/stateUtils';
 
-export const getAgent = async (
-  wallet: SnapProvider
-): Promise<
-  TAgent<
-    IDIDManager &
-      IKeyManager &
-      IDataStore &
-      IResolver &
-      IVCManager &
-      ICredentialIssuerEIP712 &
-      ICredentialIssuer
-  >
-> => {
+export type Agent = TAgent<
+  IDIDManager &
+    IKeyManager &
+    IDataStore &
+    IResolver &
+    IVCManager &
+    ICredentialIssuer
+>;
+
+export const getAgent = async (wallet: SnapProvider): Promise<Agent> => {
   const state = await getSnapState(wallet);
 
   const INFURA_PROJECT_ID = state.snapConfig.snap.infuraToken;
@@ -97,7 +94,6 @@ export const getAgent = async (
       IDataStore &
       IResolver &
       IVCManager &
-      ICredentialIssuerEIP712 &
       ICredentialIssuer
   >({
     plugins: [
