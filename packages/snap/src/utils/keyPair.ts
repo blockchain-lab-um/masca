@@ -39,7 +39,6 @@ export async function getAddressKeyDeriver(wallet: SnapProvider) {
       coinType: 60,
     },
   })) as BIP44CoinTypeNode;
-  console.log('got to here');
   return bip44Node;
 }
 
