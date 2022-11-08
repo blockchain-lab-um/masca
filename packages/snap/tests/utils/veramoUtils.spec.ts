@@ -191,6 +191,8 @@ describe('Utils [veramo]', () => {
 
       await veramoSaveVC(walletMock, exampleVC, 'snap');
 
+      console.log('vp123');
+
       const createdVP = await veramoCreateVP(
         {
           wallet: walletMock,
@@ -200,7 +202,7 @@ describe('Utils [veramo]', () => {
         },
         'test-id'
       );
-
+      console.log('vp456', createdVP);
       expect(createdVP).not.toEqual(null);
 
       const verifyResult = await agent.verifyPresentationEIP712({

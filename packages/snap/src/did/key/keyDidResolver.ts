@@ -24,21 +24,21 @@ export const resolveSecp256k1 = async (
 
   // TODO: Change id ?
   const didDocument: DIDDocument = {
-    id: `${did}#${DID}`,
+    id: `did:key:${did}#${DID}`,
     '@context': [
       'https://www.w3.org/ns/did/v1',
       'https://w3id.org/security/suites/secp256k1-2019/v1',
     ],
-    assertionMethod: [`${did}#${DID}`],
-    authentication: [`${did}#${DID}`],
-    capabilityInvocation: [`${did}#${DID}`],
-    capabilityDelegation: [`${did}#${DID}`],
-    keyAgreement: [`${did}#${DID}`],
+    assertionMethod: [`did:key:${did}#${DID}`],
+    authentication: [`did:key:${did}#${DID}`],
+    capabilityInvocation: [`did:key:${did}#${DID}`],
+    capabilityDelegation: [`did:key:${did}#${DID}`],
+    keyAgreement: [`did:key:${did}#${DID}`],
     verificationMethod: [
       {
-        id: `${did}#${DID}`,
+        id: `did:key:${did}#${DID}`,
         type: 'EcdsaSecp256k1RecoveryMethod2020',
-        controller: `${did}#${DID}`,
+        controller: `did:key:${did}#${DID}`,
         publicKeyHex: publicKey.split('0x')[1],
       },
     ],
@@ -61,8 +61,8 @@ const startsWithMap: Record<string, ResolutionFunction> = {
 export const resolveDidKey: DIDResolver = async (
   didUrl: string,
   parsed: ParsedDID,
-  _resolver?: Resolvable,
-  _options?: DIDResolutionOptions
+  resolver: Resolvable,
+  options: DIDResolutionOptions
 ): Promise<DIDResolutionResult> => {
   try {
     // FIXME: Update this part

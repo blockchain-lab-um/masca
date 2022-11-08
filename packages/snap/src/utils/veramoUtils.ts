@@ -45,6 +45,7 @@ export async function veramoListVCs(
   query?: VCQuery
 ): Promise<VerifiableCredential[]> {
   console.log('Getting agent');
+
   const agent = await getAgent(wallet);
   console.log(agent);
   const vcsSnap = await agent.listVCS({ store: 'snap', query: query });
@@ -110,6 +111,8 @@ export async function veramoCreateVP(
           verifiableCredential: [vc.vc],
         },
         proofFormat: 'jwt',
+        domain: domain,
+        challenge: challenge,
       });
       console.log('....................VP..................');
       console.log(vp);

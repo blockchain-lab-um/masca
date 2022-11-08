@@ -43,6 +43,7 @@ export class WalletMock implements IWalletMock {
     snap_confirm: jest.fn(),
     eth_requestAccounts: jest.fn().mockResolvedValue([address]),
     eth_chainId: jest.fn().mockResolvedValue('0x5'),
+    snap_getBip44Entropy: jest.fn().mockResolvedValue(bip44Entropy),
     snap_manageState: jest
       .fn()
       .mockImplementation((...params: unknown[]) =>
@@ -65,11 +66,14 @@ export class WalletMock implements IWalletMock {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         return this.wallet._signTypedData(domain, types, message);
       }),
-    snap_getBip44Entropy: jest.fn().mockResolvedValue(bip44Entropy),
   };
 
   request<T>(args: RequestArguments): Promise<Maybe<T>> {
     const { method, params = [] } = args;
+    if (method === 'snap_getBip44Entropy') {
+      // eslint-disable-next-line
+      return this.rpcMocks[method](params);
+    }
 
     // @ts-expect-error Args params won't cause an issue
     // eslint-disable-next-line

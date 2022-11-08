@@ -7,6 +7,7 @@ const emptyAccountState = {
   snapPrivateKeyStore: {},
   vcs: {},
   identifiers: {},
+  index: 0,
   publicKey: '',
   accountConfig: {
     ssi: {

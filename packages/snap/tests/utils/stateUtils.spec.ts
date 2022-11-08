@@ -1,3 +1,4 @@
+import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { SnapProvider } from '@metamask/snap-types';
 import { getInitialSnapState } from '../../src/utils/config';
 import {
@@ -9,6 +10,7 @@ import {
 } from '../../src/utils/stateUtils';
 import {
   address,
+  bip44Entropy,
   getDefaultSnapState,
   publicKey,
 } from '../testUtils/constants';
@@ -118,6 +120,7 @@ describe('Utils [state]', () => {
           wallet: walletMock,
           state: initialState,
           account: address,
+          bip44Node: bip44Entropy as BIP44CoinTypeNode,
         })
       ).resolves.not.toThrow();
 
