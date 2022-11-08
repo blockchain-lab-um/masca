@@ -3,10 +3,13 @@ import {
   BIP44CoinTypeNode,
 } from '@metamask/key-tree';
 import { SnapProvider } from '@metamask/snap-types';
-import { SSISnapState } from 'src/interfaces';
+import { ApiParams, SSISnapState } from 'src/interfaces';
 import { getAccountIndex, setAccountIndex } from './snapUtils';
 import { ethers } from 'ethers';
 import { _hexToUnit8Array } from './snapUtils';
+import { getDid } from 'src/rpc/did/getDID';
+import { getCurrentDid } from './didUtils';
+import { didCoinTypeMappping } from '../constants/index';
 
 // export async function getAddressKey(wallet: SnapProvider, addressIndex = 0) {
 //   // By way of example, we will use Dogecoin, which has `coin_type` 3.
@@ -32,10 +35,15 @@ import { _hexToUnit8Array } from './snapUtils';
 // }
 
 export async function getAddressKeyDeriver(
-  wallet: SnapProvider,
-  coin_type = 60
+  params: ApiParams,
+  coin_type?: number
 ) {
-  console.log('before');
+  const { state, wallet, account } = params;
+  if (!coin_type) {
+    const did = await getCurrentDid(wallet, state, account);
+    coin_type = didCoinTypeMappping[did];
+  }
+
   const bip44Node = (await wallet.request({
     method: 'snap_getBip44Entropy',
     params: {

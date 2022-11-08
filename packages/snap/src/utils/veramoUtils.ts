@@ -9,7 +9,7 @@ import {
 import { getCurrentDid } from './didUtils';
 import { getPublicKey, snapConfirm } from './snapUtils';
 import { SnapProvider } from '@metamask/snap-types';
-import { availableVCStores } from '../veramo/plugins/availableVCStores';
+import { availableVCStores } from '../constants/index';
 import { ApiParams } from '../interfaces';
 import { getKeysFromAddress } from './keyPair';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';

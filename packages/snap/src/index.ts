@@ -41,7 +41,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   };
 
   if (!(account in state.accountState)) {
-    apiParams.bip44Node = await getAddressKeyDeriver(wallet);
+    apiParams.bip44Node = await getAddressKeyDeriver(apiParams);
     await initAccountState(apiParams);
   }
 
@@ -58,7 +58,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       return await saveVC(apiParams, request.params.verifiableCredential);
     case 'getVP':
       isValidGetVPRequest(request.params);
-      apiParams.bip44Node = await getAddressKeyDeriver(wallet);
+      apiParams.bip44Node = await getAddressKeyDeriver(apiParams);
       return await getVP(
         apiParams,
         request.params.vcId,

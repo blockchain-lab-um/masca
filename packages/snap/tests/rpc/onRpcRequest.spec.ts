@@ -7,8 +7,7 @@ import {
   exampleVC,
   getDefaultSnapState,
 } from '../testUtils/constants';
-import { availableVCStores } from '../../src/veramo/plugins/availableVCStores';
-import { availableMethods } from '../../src/did/didMethods';
+import { availableVCStores, availableMethods } from '../../src/constants/index';
 import {
   IVerifyResult,
   VerifiableCredential,
