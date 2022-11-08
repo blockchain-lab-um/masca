@@ -2,6 +2,7 @@ import { SnapConfirmParams, SSISnapState } from '../../src/interfaces';
 import cloneDeep from 'lodash.clonedeep';
 import { getEmptyAccountState } from '../../src/utils/config';
 import { DIDDocument, IIdentifier } from '@veramo/core';
+import { JsonBIP44CoinTypeNode } from '@metamask/key-tree';
 
 export const privateKey =
   '0x63ce0077f0d617dbf54d5f335de2983313c6356f25b45e0f68f85bee1490a6ae';
@@ -26,13 +27,10 @@ export const exampleImportedDID: IIdentifier = {
       kid: 'metamask-0xb6665128eE91D84590f70c3268765384A9CAfBCd',
       type: 'Secp256k1',
       kms: 'web3',
-      privateKeyHex: '',
-      publicKeyHex: '',
-      meta: {
-        provider: 'metamask',
-        account: '0xb6665128ee91d84590f70c3268765384a9cafbcd',
-        algorithms: ['eth_signMessage', 'eth_signTypedData'],
-      },
+      privateKeyHex:
+        '63ce0077f0d617dbf54d5f335de2983313c6356f25b45e0f68f85bee1490a6ae',
+      publicKeyHex:
+        '0480a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae850a9f561d414001a8bdefdb713c619d2caf08a0c9655b0cf42de065bc51e0169a',
     },
   ],
   services: [],
@@ -46,12 +44,18 @@ export const exampleImportedDIDWIthoutPrivateKey: IIdentifier = {
     {
       kid: 'metamask-0xb6665128eE91D84590f70c3268765384A9CAfBCd',
       type: 'Secp256k1',
-      kms: 'web3',
-      publicKeyHex: '',
+      kms: 'snap',
+      publicKeyHex:
+        '0480a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae850a9f561d414001a8bdefdb713c619d2caf08a0c9655b0cf42de065bc51e0169a',
       meta: {
-        provider: 'metamask',
-        account: '0xb6665128ee91d84590f70c3268765384a9cafbcd',
-        algorithms: ['eth_signMessage', 'eth_signTypedData'],
+        algorithms: [
+          'ES256K',
+          'ES256K-R',
+          'eth_signTransaction',
+          'eth_signTypedData',
+          'eth_signMessage',
+          'eth_rawSign',
+        ],
       },
     },
   ],
@@ -144,4 +148,17 @@ export const exampleDIDKeyDocument: DIDDocument = {
         '0480a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae850a9f561d414001a8bdefdb713c619d2caf08a0c9655b0cf42de065bc51e0169a',
     },
   ],
+};
+
+export const bip44Entropy: JsonBIP44CoinTypeNode = {
+  depth: 2,
+  parentFingerprint: 2220627503,
+  index: 2147483708,
+  privateKey:
+    'dd5b8deefcf550f3ecb0a49b2018ef9fb5b5c2ad146478d3633bf7ce5a5a2f17',
+  publicKey:
+    '043efeddf040859e8d00620b6eb1bf255d82e7fc34cb0eaffc305fe69685454163910ea2cc84a617f3f4e30b74bdbcf14b884f092e8d0dc8d966e904bd988b3a94',
+  chainCode: '006c9539cb5984e48b8ca8e8f1648c92ed2dccc3e6a7043cdcabc681e054b627',
+  coin_type: 60,
+  path: "m / bip32:44' / bip32:60'",
 };

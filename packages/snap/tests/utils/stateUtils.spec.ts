@@ -114,7 +114,11 @@ describe('Utils [state]', () => {
       defaultState.accountState[address].publicKey = publicKey;
 
       await expect(
-        initAccountState(walletMock, initialState, address)
+        initAccountState({
+          wallet: walletMock,
+          state: initialState,
+          account: address,
+        })
       ).resolves.not.toThrow();
 
       expect(walletMock.rpcMocks.snap_manageState).toHaveBeenCalledWith(

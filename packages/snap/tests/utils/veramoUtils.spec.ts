@@ -2,6 +2,7 @@ import { SnapProvider } from '@metamask/snap-types';
 import { WalletMock, createMockWallet } from '../testUtils/wallet.mock';
 import {
   address,
+  bip44Entropy,
   exampleDID,
   exampleImportedDIDWIthoutPrivateKey,
   exampleVC,
@@ -14,7 +15,8 @@ import {
   veramoSaveVC,
 } from '../../src/utils/veramoUtils';
 import { getAgent } from '../../src/veramo/setup';
-import { VerifiablePresentation } from '@veramo/core';
+import { IIdentifier, VerifiablePresentation } from '@veramo/core';
+import { BIP44CoinTypeNode } from '@metamask/key-tree/dist/BIP44CoinTypeNode';
 
 jest.mock('uuid', () => ({ v4: () => 'test-id' }));
 
@@ -125,10 +127,16 @@ describe('Utils [veramo]', () => {
       const initialState = getDefaultSnapState();
       walletMock.rpcMocks.snap_manageState.mockResolvedValue(initialState);
       const agent = await getAgent(walletMock);
-
-      await expect(
-        veramoImportMetaMaskAccount(walletMock, initialState, agent, address)
-      ).resolves.toEqual(exampleDID);
+      const iidentifier = await veramoImportMetaMaskAccount(
+        {
+          wallet: walletMock,
+          state: initialState,
+          account: address,
+          bip44Node: bip44Entropy as BIP44CoinTypeNode,
+        },
+        agent
+      );
+      expect(iidentifier.did).toEqual(exampleDID);
 
       await expect(agent.didManagerGet({ did: exampleDID })).resolves.toEqual(
         exampleImportedDIDWIthoutPrivateKey
@@ -142,17 +150,30 @@ describe('Utils [veramo]', () => {
       walletMock.rpcMocks.snap_manageState.mockResolvedValue(initialState);
 
       const agent = await getAgent(walletMock);
-      await expect(
-        veramoImportMetaMaskAccount(walletMock, initialState, agent, address)
-      ).resolves.toEqual(exampleDID);
+      const iidentifier = await veramoImportMetaMaskAccount(
+        {
+          wallet: walletMock,
+          state: initialState,
+          account: address,
+          bip44Node: bip44Entropy as BIP44CoinTypeNode,
+        },
+        agent
+      );
+      expect(iidentifier.did).toEqual(exampleDID);
 
       await expect(agent.didManagerGet({ did: exampleDID })).resolves.toEqual(
         exampleImportedDIDWIthoutPrivateKey
       );
-
-      await expect(
-        veramoImportMetaMaskAccount(walletMock, initialState, agent, address)
-      ).resolves.toEqual(exampleDID);
+      const iidentifier2 = await veramoImportMetaMaskAccount(
+        {
+          wallet: walletMock,
+          state: initialState,
+          account: address,
+          bip44Node: bip44Entropy as BIP44CoinTypeNode,
+        },
+        agent
+      );
+      expect(iidentifier2.did).toEqual(exampleDID);
 
       const dids = await agent.didManagerFind();
       expect(dids.length).toBe(1);
@@ -171,9 +192,12 @@ describe('Utils [veramo]', () => {
       await veramoSaveVC(walletMock, exampleVC, 'snap');
 
       const createdVP = await veramoCreateVP(
-        walletMock,
-        initialState,
-        address,
+        {
+          wallet: walletMock,
+          state: initialState,
+          account: address,
+          bip44Node: bip44Entropy as BIP44CoinTypeNode,
+        },
         'test-id'
       );
 
@@ -194,9 +218,12 @@ describe('Utils [veramo]', () => {
       walletMock.rpcMocks.snap_confirm.mockResolvedValue(true);
 
       const createdVP = await veramoCreateVP(
-        walletMock,
-        initialState,
-        address,
+        {
+          wallet: walletMock,
+          state: initialState,
+          account: address,
+          bip44Node: bip44Entropy as BIP44CoinTypeNode,
+        },
         'test-id'
       );
 
@@ -211,9 +238,12 @@ describe('Utils [veramo]', () => {
       walletMock.rpcMocks.snap_confirm.mockResolvedValue(false);
 
       const createdVP = await veramoCreateVP(
-        walletMock,
-        initialState,
-        address,
+        {
+          wallet: walletMock,
+          state: initialState,
+          account: address,
+          bip44Node: bip44Entropy as BIP44CoinTypeNode,
+        },
         'test-id'
       );
 

@@ -7,6 +7,8 @@ import {
   SnapVCStore,
 } from './veramo/plugins/snapDataStore/snapDataStore';
 import { availableMethods } from './did/didMethods';
+import { SnapProvider } from '@metamask/snap-types';
+import { BIP44CoinTypeNode } from '@metamask/key-tree';
 
 export type SSISnapState = {
   /**
@@ -70,6 +72,7 @@ export type SSIAccountState = {
   vcs: Record<string, VerifiableCredential>;
 
   publicKey: string;
+  index?: number;
   accountConfig: SSIAccountConfig;
 };
 
@@ -85,3 +88,10 @@ export type SnapConfirmParams = {
   description?: string;
   textAreaContent?: string;
 };
+
+export interface ApiParams {
+  state: SSISnapState;
+  wallet: SnapProvider;
+  account: string;
+  bip44Node?: BIP44CoinTypeNode;
+}

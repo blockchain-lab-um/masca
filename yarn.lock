@@ -1779,6 +1779,7 @@ __metadata:
     "@commitlint/config-conventional": ^17.0.3
     "@glazed/did-datastore": 0.3.2
     "@glazed/did-session": 0.1.1
+    "@metamask/key-tree": ^4.0.0
     "@metamask/providers": ^9.0.0
     "@metamask/snap-types": ^0.22.3
     "@metamask/snaps-cli": ^0.22.3
@@ -4847,6 +4848,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@metamask/key-tree@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@metamask/key-tree@npm:4.0.0"
+  dependencies:
+    "@noble/ed25519": ^1.6.0
+    "@noble/hashes": ^1.0.0
+    "@noble/secp256k1": ^1.5.5
+    "@scure/base": ^1.0.0
+    "@scure/bip39": ^1.0.0
+  checksum: f3b869888ae6bb5a174a0971fdd32b7242f067792437a41a0e166d8315825c86d7317035da7fb49ef8387f1601baeae381293f9426f123c7ce5d197aa29c1c8b
+  languageName: node
+  linkType: hard
+
 "@metamask/object-multiplex@npm:^1.1.0":
   version: 1.2.0
   resolution: "@metamask/object-multiplex@npm:1.2.0"
@@ -5225,6 +5239,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@noble/ed25519@npm:^1.6.0":
+  version: 1.7.1
+  resolution: "@noble/ed25519@npm:1.7.1"
+  checksum: a53b576b1253e00bb1cc0248c978cc9ce32ed8dd677df7f9ff37a3508206bfb7f0d7e982809a1ddf038ec6054053d2334b3e6c5b5b2758b1d3282800846c7d20
+  languageName: node
+  linkType: hard
+
 "@noble/hashes@npm:1.1.2":
   version: 1.1.2
   resolution: "@noble/hashes@npm:1.1.2"
@@ -5232,7 +5253,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@noble/hashes@npm:^1.1.3, @noble/hashes@npm:~1.1.1":
+
+"@noble/hashes@npm:^1.0.0, @noble/hashes@npm:^1.1.3, @noble/hashes@npm:~1.1.1":
+
   version: 1.1.3
   resolution: "@noble/hashes@npm:1.1.3"
   checksum: 362719c36ba26d295ec20bc640c71ec56cf3cfaf3bd4708c2b9e7cff43703f94f74f20f852fee67dbe072ee159f81a8ac7adc86979cd813d8f5c0634ec769ec9
@@ -5243,6 +5266,13 @@ __metadata:
   version: 1.6.3
   resolution: "@noble/secp256k1@npm:1.6.3"
   checksum: da324e4a721dbf75bdcb7455ef82a015e743f195fc16bcdae86cb87229578050e34ff89f36dfd05798937cce211761d767ea2933cc7fd391027a5cc36aa5df91
+  languageName: node
+  linkType: hard
+
+"@noble/secp256k1@npm:^1.5.5":
+  version: 1.7.0
+  resolution: "@noble/secp256k1@npm:1.7.0"
+  checksum: 43c087bbff1b4438863c541a0bc4b24c0093d3e7acd2178b0317e084c11c33948690acdbe01f1c5dd58997d141b8fa77f8a39e5e95daaf87efe39eca66c67a5d
   languageName: node
   linkType: hard
 
@@ -5494,7 +5524,11 @@ __metadata:
   languageName: node
   linkType: hard
 
+
 "@scure/base@npm:^1.1.1, @scure/base@npm:~1.1.0":
+
+"@scure/base@npm:^1.0.0, @scure/base@npm:^1.1.1, @scure/base@npm:~1.1.0":
+
   version: 1.1.1
   resolution: "@scure/base@npm:1.1.1"
   checksum: 97d200da8915ca18a4eceb73c23dda7fc3a4b8509f620c9b7756ee451d7c9ebbc828c6662f9ffa047806fbe41f37bf236c6ef75692690688b7659196cb2dc804
@@ -5512,7 +5546,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@scure/bip39@npm:1.1.0":
+"@scure/bip39@npm:1.1.0, @scure/bip39@npm:^1.0.0":
   version: 1.1.0
   resolution: "@scure/bip39@npm:1.1.0"
   dependencies:
@@ -18918,6 +18952,7 @@ __metadata:
   languageName: node
   linkType: hard
 
+
 "node-machine-id@npm:^1.1.12":
   version: 1.1.12
   resolution: "node-machine-id@npm:1.1.12"
@@ -23499,6 +23534,7 @@ __metadata:
   checksum: 2f4c910b3ee7196502e1ff015a7ba321ec6ea837667220d7bcb8d0852d51cb04b87f7ae471008a6fb8f5b1a1b5078f62f3a82d30c706f20ada1238ac797e7692
   languageName: node
   linkType: hard
+
 
 "tar@npm:6.1.11, tar@npm:^6.0.2, tar@npm:^6.1.11, tar@npm:^6.1.2":
   version: 6.1.11

@@ -20,7 +20,7 @@ export const resolveSecp256k1 = async (
 ): Promise<DIDDocument> => {
   const state = await getSnapState(wallet);
   const DID = getDidKeyIdentifier(state, account);
-  const publicKey = await getPublicKey(wallet, state, account);
+  const publicKey = await getPublicKey({ wallet, state, account });
 
   // TODO: Change id ?
   const didDocument: DIDDocument = {

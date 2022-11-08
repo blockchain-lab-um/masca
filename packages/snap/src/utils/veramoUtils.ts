@@ -13,12 +13,14 @@ import {
   VerifiablePresentation,
 } from '@veramo/core';
 import { getCurrentDid } from './didUtils';
-import { snapConfirm } from './snapUtils';
+import { getPublicKey, snapConfirm } from './snapUtils';
 import { SnapProvider } from '@metamask/snap-types';
 import { availableVCStores } from '../veramo/plugins/availableVCStores';
-import { SSISnapState } from '../interfaces';
+import { ApiParams, SSISnapState } from '../interfaces';
 import { IVCManager } from '@blockchain-lab-um/veramo-vc-manager';
 import { ICredentialIssuerEIP712 } from '@veramo/credential-eip712';
+import { getAddressKey, getKeysFromAddress } from './keyPair';
+import { BIP44CoinTypeNode } from '@metamask/key-tree';
 
 /**
  * Saves a VC in the state object of the currently selected MetaMask account.
@@ -62,22 +64,16 @@ export async function veramoListVCs(
  * @returns {Promise<VerifiablePresentation | null>} - generated VP
  * */
 export async function veramoCreateVP(
-  wallet: SnapProvider,
-  state: SSISnapState,
-  account: string,
+  params: ApiParams,
   vcId: string,
   challenge?: string,
   domain?: string
 ): Promise<VerifiablePresentation | null> {
+  const { state, wallet, account, bip44Node } = params;
   //Get Veramo agent
   const agent = await getAgent(wallet);
   //GET DID
-  const identifier = await veramoImportMetaMaskAccount(
-    wallet,
-    state,
-    agent,
-    account
-  );
+  const identifier = await veramoImportMetaMaskAccount(params, agent);
   console.log('Identifier: ', identifier);
   let vc;
   try {
@@ -107,12 +103,13 @@ export async function veramoCreateVP(
       console.log('Identifier');
       console.log(identifier);
 
-      const vp = await agent.createVerifiablePresentationEIP712({
+      const vp = await agent.createVerifiablePresentation({
         presentation: {
-          holder: identifier,
+          holder: identifier.did,
           type: ['VerifiablePresentation', 'Custom'],
           verifiableCredential: [vc.vc],
         },
+        proofFormat: 'jwt',
       });
       console.log('....................VP..................');
       console.log(vp);
@@ -125,8 +122,7 @@ export async function veramoCreateVP(
 }
 
 export const veramoImportMetaMaskAccount = async (
-  wallet: SnapProvider,
-  state: SSISnapState,
+  params: ApiParams,
   agent: TAgent<
     IDIDManager &
       IKeyManager &
@@ -135,25 +131,25 @@ export const veramoImportMetaMaskAccount = async (
       IVCManager &
       ICredentialIssuerEIP712 &
       ICredentialIssuer
-  >,
-  account: string
-): Promise<string> => {
+  >
+): Promise<IIdentifier> => {
+  const { state, wallet, account, bip44Node } = params;
   const method = state.accountState[account].accountConfig.ssi.didMethod;
   const did = await getCurrentDid(wallet, state, account);
-  const identifiers = await agent.didManagerFind();
 
-  let exists = false;
-  identifiers.map((id: IIdentifier) => {
-    if (id.did === did) exists = true;
-  });
-  if (exists) {
-    console.log('DID already exists', did);
-    return did;
+  const res = await getKeysFromAddress(
+    bip44Node as BIP44CoinTypeNode,
+    state,
+    account,
+    wallet
+  );
+  if (!res) {
+    throw new Error('Failed to get keys');
   }
-
+  const publicKey = await getPublicKey(params);
   console.log('Importing...');
   const controllerKeyId = `metamask-${account}`;
-  await agent.didManagerImport({
+  const identifier = await agent.didManagerImport({
     did,
     provider: method,
     controllerKeyId,
@@ -161,18 +157,11 @@ export const veramoImportMetaMaskAccount = async (
       {
         kid: controllerKeyId,
         type: 'Secp256k1',
-        kms: 'web3',
-        privateKeyHex: '',
-        publicKeyHex: '',
-        meta: {
-          provider: 'metamask',
-          account: account.toLowerCase(),
-          algorithms: ['eth_signMessage', 'eth_signTypedData'],
-        },
+        kms: 'snap',
+        privateKeyHex: res.privateKey as string,
+        publicKeyHex: publicKey,
       } as MinimalImportableKey,
     ],
   });
-
-  console.log('imported successfully');
-  return did;
+  return identifier;
 };
