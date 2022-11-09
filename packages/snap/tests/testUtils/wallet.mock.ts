@@ -2,9 +2,10 @@ import { RequestArguments } from '@metamask/providers/dist/BaseProvider';
 import { Maybe } from '@metamask/providers/dist/utils';
 import { SnapProvider } from '@metamask/snap-types';
 
-import { address, bip44Entropy, privateKey } from './constants';
+import { address, mnemonic, privateKey } from './constants';
 import { SSISnapState } from '../../src/interfaces';
 import { Wallet } from 'ethers';
+import { BIP44CoinTypeNode } from '@metamask/key-tree';
 interface IWalletMock {
   request<T>(args: RequestArguments): Promise<Maybe<T>>;
   resetHistory(): void;
@@ -37,7 +38,17 @@ export class WalletMock implements IWalletMock {
     snap_confirm: jest.fn(),
     eth_requestAccounts: jest.fn().mockResolvedValue([address]),
     eth_chainId: jest.fn().mockResolvedValue('0x5'),
-    snap_getBip44Entropy: jest.fn().mockResolvedValue(bip44Entropy),
+    snap_getBip44Entropy: jest
+      .fn()
+      .mockImplementation(async (params: { coinType: number }) => {
+        const node = await BIP44CoinTypeNode.fromDerivationPath([
+          `bip39:${mnemonic}`,
+          `bip32:44'`,
+          `bip32:${params.coinType}'`,
+        ]);
+
+        return node.toJSON();
+      }),
     snap_manageState: jest
       .fn()
       .mockImplementation((...params: unknown[]) =>
