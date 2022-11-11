@@ -1,6 +1,7 @@
 import { SnapProvider } from '@metamask/snap-types';
 import {
   addFriendlyDapp,
+  getCompressedPublicKey,
   getCurrentAccount,
   getCurrentNetwork,
   getPublicKey,
@@ -16,7 +17,10 @@ import {
   getDefaultSnapState,
   infuraToken,
   snapConfirmParams,
+  bip44Entropy,
+  compressedPublicKey,
 } from '../testUtils/constants';
+import { BIP44CoinTypeNode } from '@metamask/key-tree';
 
 describe('Utils [snap]', () => {
   let walletMock: SnapProvider & WalletMock;
@@ -246,7 +250,9 @@ describe('Utils [snap]', () => {
   //       'test_dApp_3',
   //     ];
 
-  //     walletMock.rpcMocks.snap_manageState.onCall(0).mockResolvedValue(initialState);
+  //     walletMock.rpcMocks.snap_manageState
+  //       .onCall(0)
+  //       .mockResolvedValue(initialState);
 
   //     await expect(getFriendlyDapps(walletMock)).to.eventually.be.deep.equal([
   //       'test_dApp_1',
@@ -262,7 +268,12 @@ describe('Utils [snap]', () => {
       initialState.accountState[address].publicKey = '';
 
       await expect(
-        getPublicKey(walletMock, initialState, address)
+        getPublicKey({
+          wallet: walletMock,
+          state: initialState,
+          account: address,
+          bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
+        })
       ).resolves.toEqual(publicKey);
 
       expect.assertions(1);
@@ -272,29 +283,31 @@ describe('Utils [snap]', () => {
       const initialState = getDefaultSnapState();
 
       await expect(
-        getPublicKey(walletMock, initialState, address)
+        getPublicKey({
+          wallet: walletMock,
+          state: initialState,
+          account: address,
+          bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
+        })
       ).resolves.toEqual(publicKey);
-
-      expect.assertions(1);
-    });
-
-    it('should fail getting public key (user denied)', async () => {
-      const initialState = getDefaultSnapState();
-      initialState.accountState[address].publicKey = '';
-
-      walletMock.rpcMocks.personal_sign.mockRejectedValue(new Error());
-
-      await expect(
-        getPublicKey(walletMock, initialState, address)
-      ).rejects.toThrow(new Error('User denied request'));
 
       expect.assertions(1);
     });
   });
 
   describe('getCompressedPublicKey', () => {
-    it('TODO', () => {
-      // TODO
+    it('should generate correct compressed public key', async () => {
+      const initialState = getDefaultSnapState();
+      initialState.accountState[address].publicKey = '';
+      const pk = await getPublicKey({
+        wallet: walletMock,
+        state: initialState,
+        account: address,
+        bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
+      });
+      const compressedPK = getCompressedPublicKey(pk);
+
+      expect(compressedPK).toEqual(compressedPublicKey);
     });
   });
 

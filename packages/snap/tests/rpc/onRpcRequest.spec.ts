@@ -7,9 +7,12 @@ import {
   exampleVC,
   getDefaultSnapState,
 } from '../testUtils/constants';
-import { availableVCStores } from '../../src/veramo/plugins/availableVCStores';
-import { availableMethods } from '../../src/did/didMethods';
-import { VerifiableCredential, VerifiablePresentation } from '@veramo/core';
+import { availableVCStores, availableMethods } from '../../src/constants/index';
+import {
+  IVerifyResult,
+  VerifiableCredential,
+  VerifiablePresentation,
+} from '@veramo/core';
 import * as uuid from 'uuid';
 import { getAgent } from '../../src/veramo/setup';
 jest.mock('uuid');
@@ -150,9 +153,8 @@ describe('onRpcRequest', () => {
           },
         })
       ).resolves.toEqual(expectedResult);
+      expect.assertions(1);
     });
-
-    expect.assertions(1);
   });
 
   describe('getVP', () => {
@@ -187,11 +189,11 @@ describe('onRpcRequest', () => {
 
       expect(createdVP).not.toEqual(null);
 
-      const verifyResult = await agent.verifyPresentationEIP712({
+      const verifyResult = (await agent.verifyPresentation({
         presentation: createdVP,
-      });
+      })) as IVerifyResult;
 
-      expect(verifyResult).toBe(true);
+      expect(verifyResult.verified).toBe(true);
 
       expect.assertions(2);
     });
@@ -237,11 +239,11 @@ describe('onRpcRequest', () => {
 
       expect(createdVP).not.toEqual(null);
 
-      const verifyResult = await agent.verifyPresentationEIP712({
+      const verifyResult = (await agent.verifyPresentation({
         presentation: createdVP,
-      });
+      })) as IVerifyResult;
 
-      expect(verifyResult).toBe(true);
+      expect(verifyResult.verified).toBe(true);
 
       expect.assertions(2);
     });

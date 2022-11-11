@@ -1,4 +1,4 @@
-import { getAgent } from './../veramo/setup';
+import { Agent, getAgent } from './../veramo/setup';
 import { VCQuery } from '@blockchain-lab-um/ssi-snap-types';
 import {
   IIdentifier,
@@ -7,10 +7,12 @@ import {
   VerifiablePresentation,
 } from '@veramo/core';
 import { getCurrentDid } from './didUtils';
-import { snapConfirm } from './snapUtils';
+import { getPublicKey, snapConfirm } from './snapUtils';
 import { SnapProvider } from '@metamask/snap-types';
-import { availableVCStores } from '../veramo/plugins/availableVCStores';
-import { SSISnapState } from '../interfaces';
+import { availableVCStores } from '../constants/index';
+import { ApiParams } from '../interfaces';
+import { snapGetKeysFromAddress } from './keyPair';
+import { BIP44CoinTypeNode } from '@metamask/key-tree';
 
 /**
  * Saves a VC in the state object of the currently selected MetaMask account.
@@ -35,6 +37,7 @@ export async function veramoListVCs(
   query?: VCQuery
 ): Promise<VerifiableCredential[]> {
   console.log('Getting agent');
+
   const agent = await getAgent(wallet);
   console.log(agent);
   const vcsSnap = await agent.listVCS({ store: 'snap', query: query });
@@ -54,18 +57,17 @@ export async function veramoListVCs(
  * @returns {Promise<VerifiablePresentation | null>} - generated VP
  * */
 export async function veramoCreateVP(
-  wallet: SnapProvider,
-  state: SSISnapState,
-  account: string,
+  params: ApiParams,
   vcId: string,
   challenge?: string,
   domain?: string
 ): Promise<VerifiablePresentation | null> {
-  //GET DID
-  const identifier = await veramoImportMetaMaskAccount(wallet, state, account);
-  console.log('Identifier: ', identifier);
+  const { state, wallet, account } = params;
   //Get Veramo agent
   const agent = await getAgent(wallet);
+  //GET DID
+  const identifier = await veramoImportMetaMaskAccount(params, agent);
+  console.log('Identifier: ', identifier);
   let vc;
   try {
     // FIXME: getVC should return null not throw an error
@@ -94,12 +96,15 @@ export async function veramoCreateVP(
       console.log('Identifier');
       console.log(identifier);
 
-      const vp = await agent.createVerifiablePresentationEIP712({
+      const vp = await agent.createVerifiablePresentation({
         presentation: {
-          holder: identifier,
+          holder: identifier.did,
           type: ['VerifiablePresentation', 'Custom'],
           verifiableCredential: [vc.vc],
         },
+        proofFormat: 'jwt',
+        domain: domain,
+        challenge: challenge,
       });
       console.log('....................VP..................');
       console.log(vp);
@@ -112,27 +117,26 @@ export async function veramoCreateVP(
 }
 
 export const veramoImportMetaMaskAccount = async (
-  wallet: SnapProvider,
-  state: SSISnapState,
-  account: string
-): Promise<string> => {
-  const agent = await getAgent(wallet);
+  params: ApiParams,
+  agent: Agent
+): Promise<IIdentifier> => {
+  const { state, wallet, account, bip44CoinTypeNode } = params;
   const method = state.accountState[account].accountConfig.ssi.didMethod;
   const did = await getCurrentDid(wallet, state, account);
-  const identifiers = await agent.didManagerFind();
 
-  let exists = false;
-  identifiers.map((id: IIdentifier) => {
-    if (id.did === did) exists = true;
-  });
-  if (exists) {
-    console.log('DID already exists', did);
-    return did;
+  const res = await snapGetKeysFromAddress(
+    bip44CoinTypeNode as BIP44CoinTypeNode,
+    state,
+    account,
+    wallet
+  );
+  if (!res) {
+    throw new Error('Failed to get keys');
   }
-
+  const publicKey = await getPublicKey(params);
   console.log('Importing...');
   const controllerKeyId = `metamask-${account}`;
-  await agent.didManagerImport({
+  const identifier = await agent.didManagerImport({
     did,
     provider: method,
     controllerKeyId,
@@ -140,18 +144,11 @@ export const veramoImportMetaMaskAccount = async (
       {
         kid: controllerKeyId,
         type: 'Secp256k1',
-        kms: 'web3',
-        privateKeyHex: '',
-        publicKeyHex: '',
-        meta: {
-          provider: 'metamask',
-          account: account.toLowerCase(),
-          algorithms: ['eth_signMessage', 'eth_signTypedData'],
-        },
+        kms: 'snap',
+        privateKeyHex: res.privateKey,
+        publicKeyHex: publicKey,
       } as MinimalImportableKey,
     ],
   });
-
-  console.log('imported successfully');
-  return did;
+  return identifier;
 };

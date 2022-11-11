@@ -1,3 +1,4 @@
+import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { SnapProvider } from '@metamask/snap-types';
 import { getInitialSnapState } from '../../src/utils/config';
 import {
@@ -9,6 +10,7 @@ import {
 } from '../../src/utils/stateUtils';
 import {
   address,
+  bip44Entropy,
   getDefaultSnapState,
   publicKey,
 } from '../testUtils/constants';
@@ -114,7 +116,12 @@ describe('Utils [state]', () => {
       defaultState.accountState[address].publicKey = publicKey;
 
       await expect(
-        initAccountState(walletMock, initialState, address)
+        initAccountState({
+          wallet: walletMock,
+          state: initialState,
+          account: address,
+          bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
+        })
       ).resolves.not.toThrow();
 
       expect(walletMock.rpcMocks.snap_manageState).toHaveBeenCalledWith(

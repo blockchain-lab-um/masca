@@ -104,9 +104,9 @@ jobs:
       # Set node/npm/yarn versions using volta, with optional overrides provided by the consumer
       - uses: volta-cli/action@v4
         with:
-          node-version: "${{ inputs.node-version }}"
-          npm-version: "${{ inputs.npm-version }}"
-          yarn-version: "${{ inputs.yarn-version }}"
+          node-version: '${{ inputs.node-version }}'
+          npm-version: '${{ inputs.npm-version }}'
+          yarn-version: '${{ inputs.yarn-version }}'
 
       # Install pnpm with exact version provided by consumer or fallback to latest
       - name: Install PNPM

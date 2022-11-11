@@ -7,7 +7,6 @@ import {
   ParsedDID,
   Resolvable,
 } from 'did-resolver';
-import { getDidKeyIdentifier } from './keyDidUtils';
 import { getCurrentAccount, getPublicKey } from '../../utils/snapUtils';
 import { SnapProvider } from '@metamask/snap-types';
 import { getSnapState } from '../../utils/stateUtils';
@@ -19,26 +18,25 @@ export const resolveSecp256k1 = async (
   did: string
 ): Promise<DIDDocument> => {
   const state = await getSnapState(wallet);
-  const DID = getDidKeyIdentifier(state, account);
-  const publicKey = await getPublicKey(wallet, state, account);
+  const publicKey = await getPublicKey({ wallet, state, account });
 
   // TODO: Change id ?
   const didDocument: DIDDocument = {
-    id: `${did}#${DID}`,
+    id: `did:key:${did}#${did}`,
     '@context': [
       'https://www.w3.org/ns/did/v1',
       'https://w3id.org/security/suites/secp256k1-2019/v1',
     ],
-    assertionMethod: [`${did}#${DID}`],
-    authentication: [`${did}#${DID}`],
-    capabilityInvocation: [`${did}#${DID}`],
-    capabilityDelegation: [`${did}#${DID}`],
-    keyAgreement: [`${did}#${DID}`],
+    assertionMethod: [`did:key:${did}#${did}`],
+    authentication: [`did:key:${did}#${did}`],
+    capabilityInvocation: [`did:key:${did}#${did}`],
+    capabilityDelegation: [`did:key:${did}#${did}`],
+    keyAgreement: [`did:key:${did}#${did}`],
     verificationMethod: [
       {
-        id: `${did}#${DID}`,
+        id: `did:key:${did}#${did}`,
         type: 'EcdsaSecp256k1RecoveryMethod2020',
-        controller: `${did}#${DID}`,
+        controller: `did:key:${did}#${did}`,
         publicKeyHex: publicKey.split('0x')[1],
       },
     ],
@@ -61,8 +59,8 @@ const startsWithMap: Record<string, ResolutionFunction> = {
 export const resolveDidKey: DIDResolver = async (
   didUrl: string,
   parsed: ParsedDID,
-  _resolver: Resolvable,
-  _options: DIDResolutionOptions
+  resolver: Resolvable,
+  options: DIDResolutionOptions
 ): Promise<DIDResolutionResult> => {
   try {
     // FIXME: Update this part
