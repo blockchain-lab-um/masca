@@ -2,7 +2,8 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "incremental": false,
-    "removeComments": true
+    "removeComments": true,
+    "module": "ES2020"
   },
   "exclude": [
     // Exclude all test files
