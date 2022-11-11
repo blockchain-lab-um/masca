@@ -45,10 +45,6 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     await initAccountState(apiParams);
   }
 
-  console.log('Request:', request);
-  console.log('Origin:', origin);
-  console.log('-------------------------------------------------------------');
-
   switch (request.method) {
     case 'getVCs':
       isValidGetVCsRequest(request.params);

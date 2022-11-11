@@ -9,13 +9,11 @@ export async function getVCs(
   query?: VCQuery
 ): Promise<VerifiableCredential[]> {
   const { state, wallet, account } = params;
-  console.log('query', query);
   const vcs = await veramoListVCs(
     wallet,
     state.accountState[account].accountConfig.ssi.vcStore,
     query
   );
-  console.log('VCs: ', vcs);
   const promptObj = {
     prompt: 'Send VCs',
     description: 'Are you sure you want to send VCs to the dApp?',

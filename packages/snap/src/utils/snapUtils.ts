@@ -23,7 +23,6 @@ export async function getCurrentAccount(
     const accounts = (await wallet.request({
       method: 'eth_requestAccounts',
     })) as Array<string>;
-    console.log('MetaMask accounts', accounts);
     return accounts[0];
   } catch (e) {
     return null;
