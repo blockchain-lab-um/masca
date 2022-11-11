@@ -2,54 +2,30 @@ import {
   getBIP44AddressKeyDeriver,
   BIP44CoinTypeNode,
 } from '@metamask/key-tree';
-import { SnapProvider } from '@metamask/snap-types';
 import { ApiParams, SSISnapState } from 'src/interfaces';
 import { getAccountIndex, setAccountIndex } from './snapUtils';
 import { ethers } from 'ethers';
-import { _hexToUnit8Array } from './snapUtils';
-import { getCurrentDid } from './didUtils';
+import { _hexToUint8Array } from './snapUtils';
 import { didCoinTypeMappping } from '../constants/index';
-
-// export async function getAddressKey(wallet: SnapProvider, addressIndex = 0) {
-//   // By way of example, we will use Dogecoin, which has `coin_type` 3.
-//   const etherNode = (await wallet.request({
-//     method: 'snap_getBip44Entropy',
-//     params: {
-//       coinType: 60,
-//     },
-//   })) as BIP44CoinTypeNode;
-
-//   const deriveEthereumAdress = await getBIP44AddressKeyDeriver(etherNode);
-
-//   const derivedAddress = await deriveEthereumAdress(addressIndex);
-//   const privateKey = derivedAddress.privateKey;
-//   const chainCode = derivedAddress.chainCode;
-//   const addressKey = `0x${privateKey as string}${chainCode}`;
-
-//   return {
-//     originalAddressKey: addressKey,
-//     privateKey: privateKey,
-//     derivationPath: deriveEthereumAdress.path,
-//   };
-// }
+import { SnapProvider } from '@metamask/snap-types';
 
 export async function getAddressKeyDeriver(
   params: ApiParams,
   coin_type?: number
 ) {
   const { state, wallet, account } = params;
-  if (!coin_type) {
-    const did = await getCurrentDid(wallet, state, account);
-    coin_type = didCoinTypeMappping[did];
+  if (coin_type === undefined) {
+    const method = state.accountState[account].accountConfig.ssi.didMethod;
+    console.log(didCoinTypeMappping[method]);
+    coin_type = didCoinTypeMappping[method];
   }
-
-  const bip44Node = (await wallet.request({
+  const bip44CoinTypeNode = (await wallet.request({
     method: 'snap_getBip44Entropy',
     params: {
       coinType: coin_type,
     },
   })) as BIP44CoinTypeNode;
-  return bip44Node;
+  return bip44CoinTypeNode;
 }
 
 export async function getAddressKey(
@@ -57,9 +33,11 @@ export async function getAddressKey(
   addressIndex = 0
 ) {
   const keyDeriver = await getBIP44AddressKeyDeriver(bip44Node);
-  const privateKey = (await keyDeriver(addressIndex)).privateKey;
-  const chainCode = (await keyDeriver(addressIndex)).chainCode;
+  const derivedKey = await keyDeriver(addressIndex);
+  const privateKey = derivedKey.privateKey;
+  const chainCode = derivedKey.chainCode;
   const addressKey = `0x${privateKey as string}${chainCode}`;
+  if (privateKey === undefined) return null;
   return {
     privateKey: privateKey,
     originalAddressKey: addressKey,
@@ -67,13 +45,13 @@ export async function getAddressKey(
   };
 }
 
-export const getKeysFromAddress = async (
+export const snapGetKeysFromAddress = async (
   bip44Node: BIP44CoinTypeNode,
   state: SSISnapState,
   account: string,
   wallet: SnapProvider,
   maxScan = 20
-) => {
+): Promise<KeysType | null> => {
   let addressIndex;
   const index = getAccountIndex(state, account);
   if (index) {
@@ -81,24 +59,43 @@ export const getKeysFromAddress = async (
     console.log(
       `getNextAddressIndex:\nFound address in state: ${addressIndex} ${account}`
     );
+    return getKeysFromAddress(bip44Node, account, index);
   } else {
-    for (let i = 0; i < maxScan; i++) {
-      const { address } = await getKeysFromAddressIndex(bip44Node, i);
-      // get address from public key
-      if (address.toUpperCase() === account.toUpperCase()) {
-        addressIndex = i;
-        await setAccountIndex(wallet, state, account, addressIndex);
-        console.log(
-          `getNextAddressIndex:\nFound address in scan: ${addressIndex} ${account}`
-        );
-        break;
-      }
+    const res = await getKeysFromAddress(
+      bip44Node,
+      account,
+      undefined,
+      maxScan
+    );
+    if (res) {
+      await setAccountIndex(wallet, state, account, res?.addressIndex);
+      return res;
     }
   }
+  return null;
+};
 
-  if (!isNaN(addressIndex as number)) {
-    return getKeysFromAddressIndex(bip44Node, addressIndex);
+type KeysType = {
+  privateKey: string;
+  publicKey: string;
+  address: string;
+  addressIndex: number;
+  derivationPath: string;
+};
+
+export const getKeysFromAddress = async (
+  bip44Node: BIP44CoinTypeNode,
+  account: string,
+  index: number | undefined,
+  maxScan = 20
+): Promise<KeysType | null> => {
+  if (index !== undefined) return getKeysFromAddressIndex(bip44Node, index);
+
+  for (let i = 0; i < maxScan; i++) {
+    const keys = await getKeysFromAddressIndex(bip44Node, i);
+    if (keys && keys.address === account) return keys;
   }
+
   return null;
 };
 
@@ -114,11 +111,10 @@ export const getKeysFromAddressIndex = async (
     console.log(`getKeysFromAddressIndex: addressIndex found: ${addressIndex}`);
   }
 
-  const { privateKey, derivationPath } = await getAddressKey(
-    bip44Node,
-    addressIndex
-  );
-  const wallet = new ethers.Wallet(_hexToUnit8Array(privateKey));
+  const result = await getAddressKey(bip44Node, addressIndex);
+  if (result === null) return null;
+  const { privateKey, derivationPath } = result;
+  const wallet = new ethers.Wallet(_hexToUint8Array(privateKey));
 
   return {
     privateKey: privateKey,

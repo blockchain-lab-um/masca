@@ -11,7 +11,7 @@ import { getPublicKey, snapConfirm } from './snapUtils';
 import { SnapProvider } from '@metamask/snap-types';
 import { availableVCStores } from '../constants/index';
 import { ApiParams } from '../interfaces';
-import { getKeysFromAddress } from './keyPair';
+import { snapGetKeysFromAddress } from './keyPair';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 
 /**
@@ -124,7 +124,7 @@ export const veramoImportMetaMaskAccount = async (
   const method = state.accountState[account].accountConfig.ssi.didMethod;
   const did = await getCurrentDid(wallet, state, account);
 
-  const res = await getKeysFromAddress(
+  const res = await snapGetKeysFromAddress(
     bip44Node as BIP44CoinTypeNode,
     state,
     account,
@@ -145,7 +145,7 @@ export const veramoImportMetaMaskAccount = async (
         kid: controllerKeyId,
         type: 'Secp256k1',
         kms: 'snap',
-        privateKeyHex: res.privateKey as string,
+        privateKeyHex: res.privateKey,
         publicKeyHex: publicKey,
       } as MinimalImportableKey,
     ],

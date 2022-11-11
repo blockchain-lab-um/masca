@@ -2,7 +2,7 @@ import { updateSnapState } from './stateUtils';
 import { publicKeyConvert } from 'secp256k1';
 import { SnapProvider } from '@metamask/snap-types';
 import { ApiParams, SnapConfirmParams, SSISnapState } from '../interfaces';
-import { getKeysFromAddress } from './keyPair';
+import { snapGetKeysFromAddress } from './keyPair';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 
 /**
@@ -100,7 +100,7 @@ export async function getPublicKey(params: ApiParams): Promise<string> {
   if (state.accountState[account].publicKey !== '')
     return state.accountState[account].publicKey;
 
-  const res = await getKeysFromAddress(
+  const res = await snapGetKeysFromAddress(
     bip44Node as BIP44CoinTypeNode,
     state,
     account,
@@ -112,7 +112,7 @@ export async function getPublicKey(params: ApiParams): Promise<string> {
 
 export function getCompressedPublicKey(publicKey: string): string {
   return _uint8ArrayToHex(
-    publicKeyConvert(_hexToUnit8Array(publicKey.split('0x')[1]), true)
+    publicKeyConvert(_hexToUint8Array(publicKey.split('0x')[1]), true)
   );
 }
 
@@ -122,9 +122,7 @@ export function _uint8ArrayToHex(arr: any) {
   return Buffer.from(arr).toString('hex');
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function _hexToUnit8Array(str: any) {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+export function _hexToUint8Array(str: string): Uint8Array {
   return new Uint8Array(Buffer.from(str, 'hex'));
 }
 

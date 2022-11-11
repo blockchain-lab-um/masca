@@ -1,4 +1,4 @@
-import { availableMethods } from '../../constants/index';
+import { availableMethods } from '../../constants';
 import { ApiParams } from '../../interfaces';
 import { changeCurrentMethod } from '../../utils/didUtils';
 import { snapConfirm } from '../../utils/snapUtils';
