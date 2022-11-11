@@ -134,7 +134,7 @@ describe('Utils [veramo]', () => {
               wallet: walletMock,
               state: initialState,
               account: address,
-              bip44Node: bip44Entropy as BIP44CoinTypeNode,
+              bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
             },
             agent
           )
@@ -160,7 +160,7 @@ describe('Utils [veramo]', () => {
               wallet: walletMock,
               state: initialState,
               account: address,
-              bip44Node: bip44Entropy as BIP44CoinTypeNode,
+              bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
             },
             agent
           )
@@ -177,7 +177,7 @@ describe('Utils [veramo]', () => {
               wallet: walletMock,
               state: initialState,
               account: address,
-              bip44Node: bip44Entropy as BIP44CoinTypeNode,
+              bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
             },
             agent
           )
@@ -204,7 +204,7 @@ describe('Utils [veramo]', () => {
           wallet: walletMock,
           state: initialState,
           account: address,
-          bip44Node: bip44Entropy as BIP44CoinTypeNode,
+          bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         },
         'test-id'
       );
@@ -229,7 +229,7 @@ describe('Utils [veramo]', () => {
           wallet: walletMock,
           state: initialState,
           account: address,
-          bip44Node: bip44Entropy as BIP44CoinTypeNode,
+          bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         },
         'test-id'
       );
@@ -249,7 +249,7 @@ describe('Utils [veramo]', () => {
           wallet: walletMock,
           state: initialState,
           account: address,
-          bip44Node: bip44Entropy as BIP44CoinTypeNode,
+          bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         },
         'test-id'
       );

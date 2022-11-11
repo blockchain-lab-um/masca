@@ -92,5 +92,5 @@ export interface ApiParams {
   state: SSISnapState;
   wallet: SnapProvider;
   account: string;
-  bip44Node?: BIP44CoinTypeNode;
+  bip44CoinTypeNode?: BIP44CoinTypeNode;
 }

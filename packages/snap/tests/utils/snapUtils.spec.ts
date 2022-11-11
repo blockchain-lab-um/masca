@@ -272,7 +272,7 @@ describe('Utils [snap]', () => {
           wallet: walletMock,
           state: initialState,
           account: address,
-          bip44Node: bip44Entropy as BIP44CoinTypeNode,
+          bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         })
       ).resolves.toEqual(publicKey);
 
@@ -287,7 +287,7 @@ describe('Utils [snap]', () => {
           wallet: walletMock,
           state: initialState,
           account: address,
-          bip44Node: bip44Entropy as BIP44CoinTypeNode,
+          bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         })
       ).resolves.toEqual(publicKey);
 
@@ -303,7 +303,7 @@ describe('Utils [snap]', () => {
         wallet: walletMock,
         state: initialState,
         account: address,
-        bip44Node: bip44Entropy as BIP44CoinTypeNode,
+        bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
       });
       const compressedPK = getCompressedPublicKey(pk);
 

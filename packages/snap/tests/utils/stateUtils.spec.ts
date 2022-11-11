@@ -120,7 +120,7 @@ describe('Utils [state]', () => {
           wallet: walletMock,
           state: initialState,
           account: address,
-          bip44Node: bip44Entropy as BIP44CoinTypeNode,
+          bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         })
       ).resolves.not.toThrow();
 

@@ -30,6 +30,8 @@ describe('Utils [ceramic]', () => {
       await expect(
         veramoSaveVC(walletMock, exampleVC, 'ceramic')
       ).resolves.toBe(true);
+
+      expect.assertions(1);
     });
     it('should fail saving wrong object on ceramic network', async () => {
       walletMock.rpcMocks.snap_manageState.mockReturnValue(
@@ -42,7 +44,9 @@ describe('Utils [ceramic]', () => {
           { name: 'Alfredo' } as unknown as VerifiableCredential,
           'ceramic'
         )
-      ).rejects.toThrow();
+      ).rejects.toThrow(
+        `HTTP request to 'https://ceramic-clay.3boxlabs.com/api/v0/commits' failed with status 'Internal Server Error': {"error":"Validation Error: data/storedCredentials/1 must have required property '@context', data/storedCredentials/1 must have required property 'credentialSubject', data/storedCredentials/1 must have required property 'issuanceDate', data/storedCredentials/1 must have required property 'issuer', data/storedCredentials/1 must have required property 'proof'"}`
+      );
     });
     it('should succeed retrieving VC from ceramic network', async () => {
       walletMock.rpcMocks.snap_manageState.mockReturnValue(

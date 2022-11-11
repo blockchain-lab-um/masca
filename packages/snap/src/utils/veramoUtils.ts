@@ -120,12 +120,12 @@ export const veramoImportMetaMaskAccount = async (
   params: ApiParams,
   agent: Agent
 ): Promise<IIdentifier> => {
-  const { state, wallet, account, bip44Node } = params;
+  const { state, wallet, account, bip44CoinTypeNode } = params;
   const method = state.accountState[account].accountConfig.ssi.didMethod;
   const did = await getCurrentDid(wallet, state, account);
 
   const res = await snapGetKeysFromAddress(
-    bip44Node as BIP44CoinTypeNode,
+    bip44CoinTypeNode as BIP44CoinTypeNode,
     state,
     account,
     wallet

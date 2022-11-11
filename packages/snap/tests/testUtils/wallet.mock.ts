@@ -42,7 +42,7 @@ export class WalletMock implements IWalletMock {
       .fn()
       .mockImplementation(async (params: { coinType: number }) => {
         const node = await BIP44CoinTypeNode.fromDerivationPath([
-          `bip39:${mnemonic as string}`,
+          `bip39:${mnemonic}`,
           `bip32:44'`,
           `bip32:${params.coinType}'`,
         ]);
