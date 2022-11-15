@@ -9,6 +9,7 @@ import {
   isValidGetVCsRequest,
   isValidGetVPRequest,
   isValidSaveVCRequest,
+  isValidSetVCStoreRequest,
   isValidSwitchMethodRequest,
 } from './utils/params';
 import { switchMethod } from './rpc/did/switchMethod';
@@ -81,9 +82,13 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       return getAvailableMethods();
     case 'getVCStore':
       return state.accountState[account].accountConfig.ssi.vcStore;
-    // TODO: RENAME THIS OR CHANGE PARAMETERS -> Current behaviour is switch not set
     case 'setVCStore':
-      return await setVCStore(apiParams);
+      isValidSetVCStoreRequest(request.params);
+      return await setVCStore(
+        apiParams,
+        request.params.vcStore,
+        request.params.value
+      );
     case 'getAvailableVCStores':
       return getAvailableVCStores();
     default:

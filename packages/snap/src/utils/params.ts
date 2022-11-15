@@ -1,5 +1,11 @@
 import { VCQuery } from '@blockchain-lab-um/ssi-snap-types';
 import { VerifiableCredential } from '@veramo/core';
+import {
+  AvailableMethods,
+  AvailableVCStores,
+  isAvailableMethods,
+  isAvailableVCStores,
+} from '../constants';
 
 type GetVCsRequestParams = { query?: VCQuery };
 
@@ -67,7 +73,7 @@ export function isValidChangeInfuraTokenRequest(
 }
 
 type SwitchMethodRequestParams = {
-  didMethod: string;
+  didMethod: AvailableMethods;
 };
 
 export function isValidSwitchMethodRequest(
@@ -78,9 +84,31 @@ export function isValidSwitchMethodRequest(
     typeof params === 'object' &&
     'didMethod' in params &&
     (params as SwitchMethodRequestParams).didMethod != null &&
-    typeof (params as SwitchMethodRequestParams).didMethod === 'string'
+    isAvailableMethods((params as SwitchMethodRequestParams).didMethod)
   )
     return;
 
   throw new Error('Invalid switchMethod request.');
+}
+
+type SetVCStoreRequestParams = {
+  vcStore: AvailableVCStores;
+  value: boolean;
+};
+export function isValidSetVCStoreRequest(
+  params: unknown
+): asserts params is SetVCStoreRequestParams {
+  if (
+    params != null &&
+    typeof params === 'object' &&
+    'vcStore' in params &&
+    (params as SetVCStoreRequestParams).vcStore != null &&
+    isAvailableVCStores((params as SetVCStoreRequestParams).vcStore) &&
+    'value' in params &&
+    (params as SetVCStoreRequestParams).value != null &&
+    typeof (params as SetVCStoreRequestParams).value === 'boolean'
+  )
+    return;
+
+  throw new Error('Invalid setVCStore request.');
 }

@@ -539,7 +539,7 @@ describe('onRpcRequest', () => {
   });
 
   describe('setVCStore', () => {
-    it('should succeed toggling store to ceramic', async () => {
+    it('should throw and error when using wrong vcStore', async () => {
       walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
 
       await expect(
@@ -549,25 +549,15 @@ describe('onRpcRequest', () => {
             id: 'test-id',
             jsonrpc: '2.0',
             method: 'setVCStore',
+            params: { vcStore: 'ceramicc', value: true },
           },
         })
-      ).resolves.toBe(true);
+      ).rejects.toThrow('Invalid setVCStore request.');
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'getVCStore',
-          },
-        })
-      ).resolves.toEqual('ceramic');
-
-      expect.assertions(2);
+      expect.assertions(1);
     });
 
-    it('should succeed toggling store to ceramic and back to snap', async () => {
+    it('should succeed toggling ceramic store to true', async () => {
       walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
 
       await expect(
@@ -577,17 +567,7 @@ describe('onRpcRequest', () => {
             id: 'test-id',
             jsonrpc: '2.0',
             method: 'setVCStore',
-          },
-        })
-      ).resolves.toBe(true);
-
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'setVCStore',
+            params: { vcStore: 'ceramic', value: true },
           },
         })
       ).resolves.toBe(true);
@@ -601,9 +581,9 @@ describe('onRpcRequest', () => {
             method: 'getVCStore',
           },
         })
-      ).resolves.toEqual('snap');
+      ).resolves.toEqual({ ceramic: true, snap: true });
 
-      expect.assertions(3);
+      expect.assertions(2);
     });
   });
 
@@ -618,34 +598,7 @@ describe('onRpcRequest', () => {
             method: 'getVCStore',
           },
         })
-      ).resolves.toEqual('snap');
-    });
-
-    it('should succeed and return ceramic', async () => {
-      // FIXME: Update after updaing setVCStore
-      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
-
-      await onRpcRequest({
-        origin: 'localhost',
-        request: {
-          id: 'test-id',
-          jsonrpc: '2.0',
-          method: 'setVCStore',
-        },
-      });
-
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'getVCStore',
-          },
-        })
-      ).resolves.toEqual('ceramic');
-
-      expect.assertions(1);
+      ).resolves.toEqual({ ceramic: false, snap: true });
     });
   });
 

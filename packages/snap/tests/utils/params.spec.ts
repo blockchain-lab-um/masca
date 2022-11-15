@@ -123,9 +123,9 @@ describe('Utils [params]', () => {
     isValidSwitchMethodRequest
   */
   describe('isValidSwitchMethodRequest', () => {
-    it('should succeed if didMethod is a string', () => {
+    it('should succeed if didMethod is a valid string', () => {
       expect(() =>
-        isValidSwitchMethodRequest({ didMethod: 'Valid didMethod' })
+        isValidSwitchMethodRequest({ didMethod: 'did:ethr' })
       ).not.toThrow();
     });
 
@@ -133,6 +133,11 @@ describe('Utils [params]', () => {
       expect(() => isValidSwitchMethodRequest(null)).toThrow(Error);
     });
 
+    it('should fail for wrong string', () => {
+      expect(() =>
+        isValidSwitchMethodRequest({ didMethod: 'did:ethrr' })
+      ).toThrow(Error);
+    });
     it('should fail for empty object', () => {
       expect(() => isValidSwitchMethodRequest({})).toThrow(Error);
     });

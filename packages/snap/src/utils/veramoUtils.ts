@@ -44,8 +44,10 @@ export async function veramoListVCs(
   console.log(vcsSnap);
   if (vcStore === 'ceramic') {
     const vcsCeramic = await agent.listVCS({ store: 'ceramic', query: query });
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-assignment
     return [...vcsSnap.vcs, ...vcsCeramic.vcs];
   }
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return vcsSnap.vcs;
 }
 
@@ -73,7 +75,7 @@ export async function veramoCreateVP(
     // FIXME: getVC should return null not throw an error
     vc = await agent.getVC({ store: 'snap', id: vcId });
   } catch (e) {
-    if (state.accountState[account].accountConfig.ssi.vcStore === 'ceramic') {
+    if (state.accountState[account].accountConfig.ssi.vcStore['ceramic']) {
       try {
         vc = await agent.getVC({ store: 'ceramic', id: vcId });
       } catch (e) {
@@ -87,6 +89,7 @@ export async function veramoCreateVP(
     const promptObj = {
       prompt: 'Alert',
       description: 'Do you wish to create a VP from the following VC?',
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       textAreaContent: JSON.stringify(vc.vc.credentialSubject),
     };
 
