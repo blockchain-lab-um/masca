@@ -9,7 +9,9 @@ import {
 
 function isStringArray(input: unknown): input is string[] {
   return (
-    Array.isArray(input) && input.every((item) => typeof item === 'string')
+    Array.isArray(input) &&
+    input.length > 0 &&
+    input.every((item) => typeof item === 'string')
   );
 }
 function isArray(input: unknown): input is unknown[] {
@@ -218,4 +220,63 @@ export function isValidSetVCStoreRequest(
     return;
   }
   throw new Error('Invalid setVCStore request.');
+}
+
+type DeleteVCRequestParams = {
+  id: string | [string];
+  options?: {
+    store?: AvailableVCStores | [AvailableVCStores];
+  };
+};
+
+export function isValidDeleteVCRequest(
+  params: unknown
+): asserts params is DeleteVCRequestParams {
+  if (
+    params != null &&
+    typeof params === 'object' &&
+    'id' in params &&
+    (params as DeleteVCRequestParams).id != null
+  ) {
+    if (
+      typeof (params as DeleteVCRequestParams).id != 'string' &&
+      !isStringArray((params as DeleteVCRequestParams).id)
+    ) {
+      throw new Error('ID is not a string or array of strings');
+    }
+    if (
+      'options' in params &&
+      (params as DeleteVCRequestParams).options != null &&
+      typeof (params as DeleteVCRequestParams).options === 'object'
+    ) {
+      if (
+        'store' in (params as DeleteVCRequestParams).options &&
+        (params as DeleteVCRequestParams).options?.store != null
+      ) {
+        if (
+          typeof (params as DeleteVCRequestParams).options?.store == 'string'
+        ) {
+          if (
+            !isAvailableVCStores(
+              (params as DeleteVCRequestParams).options?.store as string
+            )
+          ) {
+            throw new Error('Store is not supported!');
+          }
+        } else if (
+          Array.isArray((params as DeleteVCRequestParams).options?.store) &&
+          (params as DeleteVCRequestParams).options?.store.length > 0
+        ) {
+          (
+            (params as DeleteVCRequestParams).options?.store as [string]
+          ).forEach((store) => {
+            if (!isAvailableVCStores(store))
+              throw new Error('Store is not supported!');
+          });
+        } else throw new Error('Store is invalid format');
+      }
+    }
+    return;
+  }
+  throw new Error('Invalid DeleteVC request');
 }

@@ -11,6 +11,7 @@ import {
   isValidSaveVCRequest,
   isValidSetVCStoreRequest,
   isValidSwitchMethodRequest,
+  isValidDeleteVCRequest,
 } from './utils/params';
 import { switchMethod } from './rpc/did/switchMethod';
 import { init } from './utils/init';
@@ -99,6 +100,9 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       return state.snapConfig;
     case 'getAvailableVCStores':
       return getAvailableVCStores();
+    case 'deleteVC':
+      isValidDeleteVCRequest(request.params);
+    //return await deleteVC(apiParams, request.params.id);
     default:
       throw new Error('Method not found.');
   }

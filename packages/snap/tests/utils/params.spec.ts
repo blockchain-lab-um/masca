@@ -2,6 +2,7 @@ import { exampleVC } from '../testUtils/constants';
 import {
   isValidChangeInfuraTokenRequest,
   isValidCreateVPRequest,
+  isValidDeleteVCRequest,
   isValidSaveVCRequest,
   isValidSwitchMethodRequest,
 } from '../../src/utils/params';
@@ -294,6 +295,53 @@ describe('Utils [params]', () => {
     it('should fail if didMethod is a number', () => {
       expect(() => isValidSwitchMethodRequest({ didMethod: 42 })).toThrow(
         Error
+      );
+    });
+  });
+  describe('isValidDeleteVCsRequest', () => {
+    it('should fail if didMethod is a number', () => {
+      expect(() => isValidDeleteVCRequest({ didMethod: 42 })).toThrow(Error);
+    });
+    it('should not throw for string id', () => {
+      expect(() => isValidDeleteVCRequest({ id: '123' })).not.toThrow(Error);
+    });
+    it('should not throw for list of string ids', () => {
+      expect(() => isValidDeleteVCRequest({ id: ['123', '456'] })).not.toThrow(
+        Error
+      );
+    });
+    it('should not throw for list of string ids and store', () => {
+      expect(() =>
+        isValidDeleteVCRequest({
+          id: ['123', '456'],
+          options: { store: 'snap' },
+        })
+      ).not.toThrow(Error);
+    });
+    it('should not throw for list of string ids and list of stores', () => {
+      expect(() =>
+        isValidDeleteVCRequest({
+          id: ['123', '456'],
+          options: { store: ['snap', 'ceramic'] },
+        })
+      ).not.toThrow(Error);
+    });
+    it('should  throw for list of string ids and wrong store', () => {
+      expect(() =>
+        isValidDeleteVCRequest({
+          id: ['123', '456'],
+          options: { store: 'snapp' },
+        })
+      ).toThrow('Store is not supported!');
+    });
+    it('should  throw for list of not string ids', () => {
+      expect(() => isValidDeleteVCRequest({ id: ['123', 456] })).toThrow(
+        'ID is not a string or array of strings'
+      );
+    });
+    it('should  throw for empty list of ids', () => {
+      expect(() => isValidDeleteVCRequest({ id: [] })).toThrow(
+        'ID is not a string or array of strings'
       );
     });
   });
