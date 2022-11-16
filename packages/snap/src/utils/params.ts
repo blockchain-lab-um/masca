@@ -199,7 +199,7 @@ export function isValidSwitchMethodRequest(
 }
 
 type SetVCStoreRequestParams = {
-  vcStore: AvailableVCStores;
+  store: AvailableVCStores;
   value: boolean;
 };
 export function isValidSetVCStoreRequest(
@@ -208,13 +208,13 @@ export function isValidSetVCStoreRequest(
   if (
     params != null &&
     typeof params === 'object' &&
-    'vcStore' in params &&
-    (params as SetVCStoreRequestParams).vcStore != null &&
+    'store' in params &&
+    (params as SetVCStoreRequestParams).store != null &&
     'value' in params &&
     (params as SetVCStoreRequestParams).value != null &&
     typeof (params as SetVCStoreRequestParams).value === 'boolean'
   ) {
-    if (!isAvailableVCStores((params as SetVCStoreRequestParams).vcStore)) {
+    if (!isAvailableVCStores((params as SetVCStoreRequestParams).store)) {
       throw new Error('Store is not supported!');
     }
     return;

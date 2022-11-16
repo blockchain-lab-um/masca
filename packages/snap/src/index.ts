@@ -91,7 +91,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       isValidSetVCStoreRequest(request.params);
       return await setVCStore(
         apiParams,
-        request.params.vcStore,
+        request.params.store,
         request.params.value
       );
     case 'getAccountSettings':

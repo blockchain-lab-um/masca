@@ -730,7 +730,7 @@ describe('onRpcRequest', () => {
             id: 'test-id',
             jsonrpc: '2.0',
             method: 'setVCStore',
-            params: { vcStore: 'ceramicc', value: true },
+            params: { store: 'ceramicc', value: true },
           },
         })
       ).rejects.toThrow('Store is not supported!');
@@ -742,7 +742,7 @@ describe('onRpcRequest', () => {
             id: 'test-id',
             jsonrpc: '2.0',
             method: 'setVCStore',
-            params: { vcStore: 'ceramic', value: 'tlo' },
+            params: { store: 'ceramic', value: 'tlo' },
           },
         })
       ).rejects.toThrow('Invalid setVCStore request.');
@@ -759,7 +759,7 @@ describe('onRpcRequest', () => {
             id: 'test-id',
             jsonrpc: '2.0',
             method: 'setVCStore',
-            params: { vcStore: 'ceramic', value: true },
+            params: { store: 'ceramic', value: true },
           },
         })
       ).resolves.toBe(true);
