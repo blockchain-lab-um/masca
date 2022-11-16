@@ -7,51 +7,63 @@ sidebar_position: 8
 Are you interested in how SSI Snap will evolve in the future?
 
 DID methods:
-
 - [x] `did:ethr`
-- [ ] `did:key`
-- [ ] `did:web`
-- [ ] `did:github`
+- [x] `did:key`
 - [ ] `did:pkh`
+- [ ] `did:cheqd`
+- [ ] `did:jwk`
 - [ ] `did:ebsi`
 - [ ] ...
 
 Verifiable Credentials (VCs):
-
-- [x] retrieval
-- [ ] querying based on values of the properties
-- [ ] revocation
+- [x] Store
+- [x] Retrieval from single storage
+- [ ] Retrieval from multiple storages
+- [ ] Filtering based on query (e.g., PEX query)
+- [ ] Revocation
 - [ ] ...
 
-Connector Library:
-
-- [x] simple implementation
+Verifiable Presentations (VPs):
+- [x] Create with single VCs
+- [ ] Create with multiple VCs
 - [ ] ...
 
-Storage:
+Cryptography:
+- [x] Signing with MetaMask keys
+- [ ] Selective Disclosure
+- [ ] Zero-Knowledge Proofs (ZKPs)
+- [ ] ...
 
-- [x] local/offchain (MetaMask Snap state)
-- [ ] Ceramic Network
+Proof formats:
+- [x] JWT
+- [x] JSON-LD
+- [ ] JSON Web Proofs
+- [ ] ...
+
+Storage options:
+- [x] MetaMask Snap State (local, off-chain)
+- [x] Ceramic Network
 - [ ] Google Drive
-- [ ] data synchronization between multiple MetaMask wallets
 - [ ] ...
 
-Standards:
-
-- [ ] OpenID Connect (OIDC4VC and OIDC4VP)
+Identity standards:
+- [ ] PEX (Presentation Exchange)
+- [ ] OpenID Connect (SIOP, OIDC4VC, and OIDC4VP)
+- [ ] Credential Manifest
 - [ ] CHAPI
+- [ ] DIDComm
 - [ ] ...
 
-Digital signatures:
-
-- [x] signing VCs and VPs using MetaMask ([Ethereum EIP712 Signature 2021](https://w3c-ccg.github.io/ethereum-eip712-signature-2021-spec/))
-- [ ] selective disclosure
-- [ ] zero-knowledge proofs (ZKPs)
+Confiugration dApp:
+- [ ] DID method selection
+- [ ] Import, list, and delete VCs
+- [ ] Changing JSON API tokens (Infura)
 - [ ] ...
 
-Others:
-
-- [ ] UI inside MetaMask Snap for configuration
+dApp integrations:
+- [x] Snapshot
 - [ ] ...
 
-This page is subject to change in the future. Join our Discord to join the discussion!
+This page is subject to change in the future. 
+
+Want to see your project on the roadmap? Join our Discord (link in the footer) to join the discussion!
