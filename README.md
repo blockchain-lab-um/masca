@@ -9,8 +9,9 @@ The SSI Snap enables everyone to build their **decentralized and self-sovereign 
 # Features
 
 The SSI Snap is built agnostic, leaving the user to choose his preferred **blockchain, DID method, and VC storage provider.** Everything is configurable, just like selecting the network in MetaMask. Currently supported technologies:
+
 - **Blockchains:** Ethereum
-- **DID methods:** ``did:ethr``, ``did:key``
+- **DID methods:** `did:ethr`, `did:key`
 - **VC storage providers:** Local (MetaMask Snap state), Ceramic
 
 Many new features are already in the works. For more information, please check the [roadmap](https://blockchain-lab-um.github.io/ssi-snap-docs/docs/roadmap) on the documentation.
@@ -20,9 +21,9 @@ Many new features are already in the works. For more information, please check t
 ### Prerequisites
 
 - [MetaMask Flask](https://metamask.io/flask/)
-    - ⚠️ You cannot have other versions of MetaMask installed
+  - ⚠️ You cannot have other versions of MetaMask installed
 - Node.js `16`. We **strongly** recommend you install via [NVM](https://github.com/creationix/nvm) to avoid incompatibility issues between different node projects.
-    - Once installed, you should also install [Yarn](http://yarnpkg.com/) with `npm i -g yarn` to make working with this repository easiest.
+  - Once installed, you should also install [Yarn](http://yarnpkg.com/) with `npm i -g yarn` to make working with this repository easiest.
 
 ## Installing
 
