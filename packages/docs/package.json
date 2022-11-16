@@ -118,6 +118,19 @@
           "{projectRoot}/build",
           "{projectRoot}/.docusaurus"
         ]
+      },
+      "start": {
+        "inputs": [
+          "production",
+          "^production"
+        ],
+        "dependsOn": [
+          "^build"
+        ],
+        "outputs": [
+          "{projectRoot}/build",
+          "{projectRoot}/.docusaurus"
+        ]
       }
     }
   }
