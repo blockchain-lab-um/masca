@@ -30,11 +30,6 @@
     ]
   },
   "targetDefaults": {
-    "start": {
-      "inputs": [],
-      "dependsOn": ["^build"],
-      "outputs": []
-    },
     "build": {
       "inputs": ["production", "^production"],
       "dependsOn": ["^build"],
