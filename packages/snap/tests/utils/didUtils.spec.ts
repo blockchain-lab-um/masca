@@ -85,10 +85,12 @@ describe('Utils [did]', () => {
       const initialState = getDefaultSnapState();
 
       await expect(
-        changeCurrentMethod(walletMock, initialState, address, 'did:ethr')
+        changeCurrentMethod(walletMock, initialState, address, 'did:key')
       ).resolves.not.toThrow();
 
       const expectedState = getDefaultSnapState();
+      expectedState.accountState[address].accountConfig.ssi.didMethod =
+        'did:key';
 
       expect(walletMock.rpcMocks.snap_manageState).toHaveBeenCalledWith(
         'update',

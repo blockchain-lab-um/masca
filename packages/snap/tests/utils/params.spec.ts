@@ -1,6 +1,6 @@
 import {
   isValidChangeInfuraTokenRequest,
-  isValidGetVPRequest,
+  isValidCreateVPRequest,
   isValidSaveVCRequest,
   isValidSwitchMethodRequest,
 } from '../../src/utils/params';
@@ -81,41 +81,149 @@ describe('Utils [params]', () => {
   */
   describe('isValidGetVPRequest', () => {
     it('should succeed if vcId is a string', () => {
-      expect(() => isValidGetVPRequest({ vcId: 'Valid UUID' })).not.toThrow();
+      expect(() =>
+        isValidCreateVPRequest({
+          vcs: [{ id: 'test-id' }, { id: 'test-id-2' }],
+        })
+      ).not.toThrow();
     });
 
     it('should succeed if all params are strings', () => {
       expect(() =>
-        isValidGetVPRequest({
-          vcId: 'Valid UUID',
-          domain: 'Valid domain',
-          challenge: 'Valid challenge',
+        isValidCreateVPRequest({
+          vcs: [{ id: 'test-id' }, { id: 'test-id-2' }],
         })
       ).not.toThrow();
     });
 
     it('should fail for null', () => {
-      expect(() => isValidGetVPRequest(null)).toThrow(Error);
+      expect(() => isValidCreateVPRequest(null)).toThrow(Error);
     });
 
     it('should fail for empty object', () => {
-      expect(() => isValidGetVPRequest({})).toThrow(Error);
+      expect(() => isValidCreateVPRequest({})).toThrow(Error);
     });
 
     it('should fail for string', () => {
-      expect(() => isValidGetVPRequest('infuraToken')).toThrow(Error);
+      expect(() => isValidCreateVPRequest('infuraToken')).toThrow(Error);
     });
 
     it('should fail for number', () => {
-      expect(() => isValidGetVPRequest(42)).toThrow(Error);
+      expect(() => isValidCreateVPRequest(42)).toThrow(Error);
     });
 
-    it('should fail if vcId is null', () => {
-      expect(() => isValidGetVPRequest({ vcId: null })).toThrow(Error);
+    it('should fail if vcs array is empty', () => {
+      expect(() =>
+        isValidCreateVPRequest({
+          vcs: [],
+        })
+      ).toThrow(Error);
     });
 
     it('should fail if vcId is a number', () => {
-      expect(() => isValidGetVPRequest({ vcId: 42 })).toThrow(Error);
+      expect(() =>
+        isValidCreateVPRequest({
+          vcs: [{ id: 123 }],
+        })
+      ).toThrow('VC is invalid format');
+    });
+    it('should fail if vcs is null', () => {
+      expect(() =>
+        isValidCreateVPRequest({
+          vcs: null,
+        })
+      ).toThrow('Invalid CreateVP request');
+    });
+    it('should fail if proofFormat is wrong', () => {
+      expect(() =>
+        isValidCreateVPRequest({
+          vcs: [{ id: 'test-id' }],
+          proofFormat: 'wrong',
+        })
+      ).toThrow('Proof format not supported');
+    });
+    it('should not throw request with proofFormat and options', () => {
+      expect(() =>
+        isValidCreateVPRequest({
+          vcs: [{ id: 'test-id', metadata: {} }],
+          proofFormat: 'jwt',
+        })
+      ).not.toThrow('err');
+    });
+    it('should not throw request with proofFormat and options and metadata', () => {
+      expect(() =>
+        isValidCreateVPRequest({
+          vcs: [{ id: 'test-id', metadata: { store: 'snap' } }],
+          proofFormat: 'jwt',
+        })
+      ).not.toThrow('err');
+    });
+    it('should throw request with wrong store', () => {
+      expect(() =>
+        isValidCreateVPRequest({
+          vcs: [{ id: 'test-id', metadata: { store: 'snapp' } }],
+          proofFormat: 'jwt',
+        })
+      ).toThrow('Store is not supported!');
+    });
+
+    it('should not throw request with proofFormat and proofOptions', () => {
+      expect(() =>
+        isValidCreateVPRequest({
+          vcs: [{ id: 'test-id', metadata: { store: 'snap' } }],
+          proofFormat: 'jwt',
+          proofOptions: {},
+        })
+      ).not.toThrow('Store is not supported!');
+    });
+    it('should not throw request with proofFormat and proofOptions with domain and challenge', () => {
+      expect(() =>
+        isValidCreateVPRequest({
+          vcs: [{ id: 'test-id', metadata: { store: 'snap' } }],
+          proofFormat: 'jwt',
+          proofOptions: { domain: 'test', challenge: 'test' },
+        })
+      ).not.toThrow('Store is not supported!');
+    });
+    it('should throw domain is not a string', () => {
+      expect(() =>
+        isValidCreateVPRequest({
+          vcs: [{ id: 'test-id', metadata: { store: 'snap' } }],
+          proofFormat: 'jwt',
+          proofOptions: { domain: 123, challenge: 'test' },
+        })
+      ).toThrow('Domain is not a string');
+    });
+    it('should throw challenge is not a string', () => {
+      expect(() =>
+        isValidCreateVPRequest({
+          vcs: [{ id: 'test-id', metadata: { store: 'snap' } }],
+          proofFormat: 'jwt',
+          proofOptions: { challenge: 123, domain: 'test' },
+        })
+      ).toThrow('Challenge is not a string');
+    });
+    it('should throw type is not a string', () => {
+      expect(() =>
+        isValidCreateVPRequest({
+          vcs: [{ id: 'test-id', metadata: { store: 'snap' } }],
+          proofFormat: 'jwt',
+          proofOptions: { type: 123, challenge: 'test', domain: 'test' },
+        })
+      ).toThrow('Type is not a string');
+    });
+    it('should not throw complete request', () => {
+      expect(() =>
+        isValidCreateVPRequest({
+          vcs: [
+            { id: 'test-id', metadata: { store: 'snap' } },
+            { id: 'test-id' },
+            { id: 'test-id', metadata: {} },
+          ],
+          proofFormat: 'lds',
+          proofOptions: { type: 'Eth', domain: 'test', challenge: 'test' },
+        })
+      ).not.toThrow('Store is not supported!');
     });
   });
 

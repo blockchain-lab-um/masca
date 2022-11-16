@@ -206,7 +206,7 @@ describe('Utils [veramo]', () => {
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         },
-        'test-id'
+        { vcs: [{ id: 'test-id' }] }
       );
       expect(createdVP).not.toEqual(null);
 
@@ -231,7 +231,7 @@ describe('Utils [veramo]', () => {
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         },
-        'test-id'
+        { vcs: [{ id: 'test-id' }] }
       );
 
       expect(createdVP).toEqual(null);
@@ -251,7 +251,7 @@ describe('Utils [veramo]', () => {
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         },
-        'test-id'
+        { vcs: [{ id: 'test-id' }] }
       );
 
       expect(createdVP).toEqual(null);

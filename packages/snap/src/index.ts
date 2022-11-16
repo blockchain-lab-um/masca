@@ -2,12 +2,12 @@
 import { OnRpcRequestHandler } from '@metamask/snap-types';
 import { togglePopups, changeInfuraToken } from './rpc/snap/configure';
 import { getVCs } from './rpc/vc/getVCs';
-import { getVP } from './rpc/vc/getVP';
+import { createVP } from './rpc/vc/createVP';
 import { saveVC } from './rpc/vc/saveVC';
 import {
   isValidChangeInfuraTokenRequest,
   isValidGetVCsRequest,
-  isValidGetVPRequest,
+  isValidCreateVPRequest,
   isValidSaveVCRequest,
   isValidSetVCStoreRequest,
   isValidSwitchMethodRequest,
@@ -56,16 +56,20 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       return await getVCs(apiParams, request.params.query);
     case 'saveVC':
       isValidSaveVCRequest(request.params);
-      return await saveVC(apiParams, request.params.verifiableCredential);
-    case 'getVP':
-      isValidGetVPRequest(request.params);
-      apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
-      return await getVP(
+      return await saveVC(
         apiParams,
-        request.params.vcId,
-        request.params.domain,
-        request.params.challenge
+        request.params.verifiableCredential,
+        request.params.store
       );
+    case 'createVP':
+      isValidCreateVPRequest(request.params);
+      apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
+      const createVPParams = {
+        vcs: request.params.vcs,
+        proofFormat: request.params.proofFormat,
+        proofOptions: request.params.proofOptions,
+      };
+      return await createVP(apiParams, createVPParams);
     case 'changeInfuraToken':
       isValidChangeInfuraTokenRequest(request.params);
       return await changeInfuraToken(apiParams, request.params.infuraToken);
@@ -89,6 +93,10 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         request.params.vcStore,
         request.params.value
       );
+    case 'getAccountSettings':
+      return state.accountState[account].accountConfig;
+    case 'getSnapSettings':
+      return state.snapConfig;
     case 'getAvailableVCStores':
       return getAvailableVCStores();
     default:

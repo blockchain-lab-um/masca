@@ -6,7 +6,7 @@ import { snapConfirm } from '../../utils/snapUtils';
 export async function switchMethod(
   params: ApiParams,
   didMethod: AvailableMethods
-): Promise<boolean> {
+): Promise<string> {
   const { state, wallet, account } = params;
   const method = state.accountState[account].accountConfig.ssi.didMethod;
   if (didMethod !== method) {
@@ -18,12 +18,11 @@ export async function switchMethod(
       };
 
       if (await snapConfirm(wallet, promptObj)) {
-        await changeCurrentMethod(wallet, state, account, didMethod);
-        return true;
+        return await changeCurrentMethod(wallet, state, account, didMethod);
       }
 
-      return false;
+      return '';
     }
   }
-  return false;
+  return '';
 }
