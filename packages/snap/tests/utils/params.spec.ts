@@ -1,3 +1,4 @@
+import { exampleVC } from '../testUtils/constants';
 import {
   isValidChangeInfuraTokenRequest,
   isValidCreateVPRequest,
@@ -31,7 +32,32 @@ describe('Utils [params]', () => {
 
     it('should fail for number', () => {
       expect(() => isValidSaveVCRequest(42)).toThrow(Error);
-      console.log('sometinaskldnaslk');
+    });
+    it('should not throw for vc', () => {
+      expect(() =>
+        isValidSaveVCRequest({ verifiableCredential: exampleVC })
+      ).not.toThrow(Error);
+    });
+    it('should not throw for vc with store snap', () => {
+      expect(() =>
+        isValidSaveVCRequest({ verifiableCredential: exampleVC, store: 'snap' })
+      ).not.toThrow(Error);
+    });
+    it('should not throw for vc with store ceramic', () => {
+      expect(() =>
+        isValidSaveVCRequest({
+          verifiableCredential: exampleVC,
+          store: 'ceramic',
+        })
+      ).not.toThrow(Error);
+    });
+    it('should  throw for vc with wrong store', () => {
+      expect(() =>
+        isValidSaveVCRequest({
+          verifiableCredential: exampleVC,
+          store: 'snapp',
+        })
+      ).toThrow('Store is not supported!');
     });
   });
 
@@ -79,7 +105,7 @@ describe('Utils [params]', () => {
   /*
     isValidGetVPRequest
   */
-  describe('isValidGetVPRequest', () => {
+  describe('isValidCreateVPRequest', () => {
     it('should succeed if vcId is a string', () => {
       expect(() =>
         isValidCreateVPRequest({
@@ -217,6 +243,7 @@ describe('Utils [params]', () => {
         isValidCreateVPRequest({
           vcs: [
             { id: 'test-id', metadata: { store: 'snap' } },
+            { id: 'test-id', metadata: { store: 'ceramic' } },
             { id: 'test-id' },
             { id: 'test-id', metadata: {} },
           ],
