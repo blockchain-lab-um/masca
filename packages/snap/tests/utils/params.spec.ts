@@ -41,14 +41,25 @@ describe('Utils [params]', () => {
     });
     it('should not throw for vc with store snap', () => {
       expect(() =>
-        isValidSaveVCRequest({ verifiableCredential: exampleVC, store: 'snap' })
+        isValidSaveVCRequest({
+          verifiableCredential: exampleVC,
+          options: { store: 'snap' },
+        })
       ).not.toThrow(Error);
     });
     it('should not throw for vc with store ceramic', () => {
       expect(() =>
         isValidSaveVCRequest({
           verifiableCredential: exampleVC,
-          store: 'ceramic',
+          options: { store: 'ceramic' },
+        })
+      ).not.toThrow(Error);
+    });
+    it('should not throw for vc with store ceramic and snap', () => {
+      expect(() =>
+        isValidSaveVCRequest({
+          verifiableCredential: exampleVC,
+          options: { store: ['ceramic', 'snap'] },
         })
       ).not.toThrow(Error);
     });
@@ -56,7 +67,7 @@ describe('Utils [params]', () => {
       expect(() =>
         isValidSaveVCRequest({
           verifiableCredential: exampleVC,
-          store: 'snapp',
+          options: { store: 'snapp' },
         })
       ).toThrow('Store is not supported!');
     });

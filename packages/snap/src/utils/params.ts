@@ -30,7 +30,9 @@ export function isValidGetVCsRequest(
 
 type SaveVCRequestParams = {
   verifiableCredential: W3CVerifiableCredential;
-  store?: AvailableVCStores | [AvailableVCStores];
+  options?: {
+    store?: AvailableVCStores | [AvailableVCStores];
+  };
 };
 
 export function isValidSaveVCRequest(
@@ -42,22 +44,35 @@ export function isValidSaveVCRequest(
     'verifiableCredential' in params &&
     (params as SaveVCRequestParams).verifiableCredential != null
   ) {
-    if ('store' in params && (params as SaveVCRequestParams).store != null) {
-      if (typeof (params as SaveVCRequestParams).store == 'string') {
-        if (
-          !isAvailableVCStores((params as SaveVCRequestParams).store as string)
-        ) {
-          throw new Error('Store is not supported!');
-        }
-      } else if (
-        Array.isArray((params as SaveVCRequestParams).store) &&
-        (params as SaveVCRequestParams).store.length > 0
+    if (
+      'options' in params &&
+      (params as SaveVCRequestParams).options != null &&
+      typeof (params as SaveVCRequestParams).options === 'object'
+    ) {
+      if (
+        'store' in (params as SaveVCRequestParams).options &&
+        (params as SaveVCRequestParams).options?.store != null
       ) {
-        ((params as SaveVCRequestParams).store as [string]).forEach((store) => {
-          if (!isAvailableVCStores(store))
+        if (typeof (params as SaveVCRequestParams).options?.store == 'string') {
+          if (
+            !isAvailableVCStores(
+              (params as SaveVCRequestParams).options?.store as string
+            )
+          ) {
             throw new Error('Store is not supported!');
-        });
-      } else throw new Error('Store is invalid format');
+          }
+        } else if (
+          Array.isArray((params as SaveVCRequestParams).options?.store) &&
+          (params as SaveVCRequestParams).options?.store.length > 0
+        ) {
+          ((params as SaveVCRequestParams).options?.store as [string]).forEach(
+            (store) => {
+              if (!isAvailableVCStores(store))
+                throw new Error('Store is not supported!');
+            }
+          );
+        } else throw new Error('Store is invalid format');
+      }
     }
     return;
   }

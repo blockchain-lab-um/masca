@@ -40,7 +40,7 @@ describe('onRpcRequest', () => {
             method: 'saveVC',
             params: {
               verifiableCredential: exampleVC,
-              store: 'snap',
+              options: { store: 'snap' },
             },
           },
         })
@@ -119,7 +119,7 @@ describe('onRpcRequest', () => {
             method: 'saveVC',
             params: {
               verifiableCredential: exampleVC,
-              store: 'snap',
+              options: { store: 'snap' },
             },
           },
         })
@@ -154,7 +154,7 @@ describe('onRpcRequest', () => {
             method: 'saveVC',
             params: {
               verifiableCredential: exampleVC,
-              store: 'snapp',
+              options: { store: 'snapp' },
             },
           },
         })
@@ -173,7 +173,7 @@ describe('onRpcRequest', () => {
             jsonrpc: '2.0',
             method: 'saveVC',
             params: {
-              store: 'snap',
+              options: { store: 'snap' },
             },
           },
         })
@@ -194,7 +194,7 @@ describe('onRpcRequest', () => {
             method: 'saveVC',
             params: {
               verifiableCredential: exampleVC,
-              store: 123,
+              options: { store: 123 },
             },
           },
         })
@@ -214,7 +214,7 @@ describe('onRpcRequest', () => {
             method: 'saveVC',
             params: {
               verifiableCredential: exampleVC,
-              store: ['snap', 'snapp'],
+              options: { store: ['snap', 'snapp'] },
             },
           },
         })
@@ -229,7 +229,7 @@ describe('onRpcRequest', () => {
             method: 'saveVC',
             params: {
               verifiableCredential: exampleVC,
-              store: [],
+              options: { store: [] },
             },
           },
         })
@@ -270,7 +270,7 @@ describe('onRpcRequest', () => {
           method: 'saveVC',
           params: {
             verifiableCredential: exampleVC,
-            store: 'snap',
+            options: { store: 'snap' },
           },
         },
       });
@@ -310,7 +310,7 @@ describe('onRpcRequest', () => {
           method: 'saveVC',
           params: {
             verifiableCredential: exampleVC,
-            store: 'snap',
+            options: { store: 'snap' },
           },
         },
       });
@@ -351,7 +351,7 @@ describe('onRpcRequest', () => {
           method: 'saveVC',
           params: {
             verifiableCredential: exampleVC,
-            store: 'snap',
+            options: { store: 'snap' },
           },
         },
       });
@@ -401,7 +401,7 @@ describe('onRpcRequest', () => {
           method: 'saveVC',
           params: {
             verifiableCredential: exampleVC,
-            store: 'snap',
+            options: { store: 'snap' },
           },
         },
       });
