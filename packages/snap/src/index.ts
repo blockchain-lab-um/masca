@@ -34,7 +34,6 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   if (state === null) state = await init(wallet);
 
   const account = await getCurrentAccount(wallet);
-  console.log('Current account', account);
 
   // FIXME: HANDLE NULL maybe throw ?
   if (account === null) return;
