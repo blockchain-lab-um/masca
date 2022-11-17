@@ -362,7 +362,7 @@ describe('onRpcRequest', () => {
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
-          method: 'switchMethod',
+          method: 'switchDIDMethod',
           params: { didMethod: 'did:key' },
         },
       });
@@ -551,7 +551,7 @@ describe('onRpcRequest', () => {
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
-          method: 'switchMethod',
+          method: 'switchDIDMethod',
           params: {
             didMethod: 'did:key',
           },
@@ -574,7 +574,7 @@ describe('onRpcRequest', () => {
     });
   });
 
-  describe('switchMethod', () => {
+  describe('switchDIDMethod', () => {
     it('should succeed switching method to did:key and return true', async () => {
       walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
 
@@ -584,7 +584,7 @@ describe('onRpcRequest', () => {
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
-            method: 'switchMethod',
+            method: 'switchDIDMethod',
             params: {
               didMethod: 'did:key',
             },
@@ -606,7 +606,7 @@ describe('onRpcRequest', () => {
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
-            method: 'switchMethod',
+            method: 'switchDIDMethod',
             params: {
               didMethod: 'did:key',
             },
@@ -626,7 +626,7 @@ describe('onRpcRequest', () => {
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
-            method: 'switchMethod',
+            method: 'switchDIDMethod',
             params: {
               didMethod: 'did:keyy',
             },
@@ -645,11 +645,11 @@ describe('onRpcRequest', () => {
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
-            method: 'switchMethod',
+            method: 'switchDIDMethod',
             params: {},
           },
         })
-      ).rejects.toThrow('Invalid switchMethod request.');
+      ).rejects.toThrow('Invalid switchDIDMethod request.');
 
       expect.assertions(1);
     });
@@ -680,7 +680,7 @@ describe('onRpcRequest', () => {
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
-          method: 'switchMethod',
+          method: 'switchDIDMethod',
           params: {
             didMethod: 'did:key',
           },

@@ -216,7 +216,7 @@ export function isValidSwitchMethodRequest(
       throw new Error('Method is not supported!');
     return;
   }
-  throw new Error('Invalid switchMethod request.');
+  throw new Error('Invalid switchDIDMethod request.');
 }
 
 export function isValidSetVCStoreRequest(

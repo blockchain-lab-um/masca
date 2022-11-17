@@ -84,7 +84,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       return await changeInfuraToken(apiParams, request.params.infuraToken);
     case 'togglePopups':
       return await togglePopups(apiParams);
-    case 'switchMethod':
+    case 'switchDIDMethod':
       isValidSwitchMethodRequest(request.params);
       return await switchMethod(apiParams, request.params.didMethod);
     case 'getDID':
