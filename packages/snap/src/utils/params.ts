@@ -1,4 +1,3 @@
-import { VCQuery } from '@blockchain-lab-um/ssi-snap-types';
 import { W3CVerifiableCredential } from '@veramo/core';
 import {
   AvailableMethods,
