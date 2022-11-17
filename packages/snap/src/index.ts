@@ -1,17 +1,17 @@
 /* eslint-disable consistent-return*/
 import { OnRpcRequestHandler } from '@metamask/snap-types';
 import { togglePopups, changeInfuraToken } from './rpc/snap/configure';
-import { getVCs } from './rpc/vc/getVCs';
+import { queryVCs } from './rpc/vc/queryVCs';
 import { createVP } from './rpc/vc/createVP';
 import { saveVC } from './rpc/vc/saveVC';
 import {
   isValidChangeInfuraTokenRequest,
-  isValidGetVCsRequest,
   isValidCreateVPRequest,
   isValidSaveVCRequest,
   isValidSetVCStoreRequest,
   isValidSwitchMethodRequest,
   isValidDeleteVCRequest,
+  isValidQueryRequest,
 } from './utils/params';
 import { switchMethod } from './rpc/did/switchMethod';
 import { init } from './utils/init';
@@ -52,15 +52,23 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   console.log('-------------------------------------------------------------');
 
   switch (request.method) {
-    case 'getVCs':
-      isValidGetVCsRequest(request.params);
-      return await getVCs(apiParams, request.params.query);
+    case 'query':
+      if (typeof request.params === 'undefined')
+        return await queryVCs(apiParams);
+      else {
+        isValidQueryRequest(request.params);
+        return await queryVCs(
+          apiParams,
+          request.params.filter,
+          request.params.options
+        );
+      }
     case 'saveVC':
       isValidSaveVCRequest(request.params);
       return await saveVC(
         apiParams,
         request.params.verifiableCredential,
-        request.params.store
+        request.params.options?.store
       );
     case 'createVP':
       isValidCreateVPRequest(request.params);
@@ -81,7 +89,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       return await switchMethod(apiParams, request.params.didMethod);
     case 'getDID':
       return await getDid(apiParams);
-    case 'getMethod':
+    case 'getSelectedMethod':
       return state.accountState[account].accountConfig.ssi.didMethod;
     case 'getAvailableMethods':
       return getAvailableMethods();

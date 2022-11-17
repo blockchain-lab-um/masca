@@ -51,7 +51,7 @@ describe('onRpcRequest', () => {
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
-          method: 'getVCs',
+          method: 'query',
           params: {
             query: {},
           },
@@ -90,7 +90,7 @@ describe('onRpcRequest', () => {
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
-          method: 'getVCs',
+          method: 'query',
           params: {
             query: {},
           },
@@ -131,7 +131,7 @@ describe('onRpcRequest', () => {
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
-            method: 'getVCs',
+            method: 'query',
             params: {
               query: {},
             },
@@ -239,7 +239,7 @@ describe('onRpcRequest', () => {
     });
   });
 
-  describe('getVCs', () => {
+  describe('query', () => {
     it('should succeed with empty array', async () => {
       await expect(
         onRpcRequest({
@@ -247,10 +247,8 @@ describe('onRpcRequest', () => {
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
-            method: 'getVCs',
-            params: {
-              query: {},
-            },
+            method: 'query',
+            params: {},
           },
         })
       ).resolves.toEqual([]);
@@ -283,10 +281,13 @@ describe('onRpcRequest', () => {
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
-            method: 'getVCs',
+            method: 'query',
             params: {
-              query: {
-                key: 'test-id',
+              filter: {
+                type: 'JSONPath',
+                filter: {
+                  key: 'test-id',
+                },
               },
             },
           },
@@ -654,7 +655,7 @@ describe('onRpcRequest', () => {
     });
   });
 
-  describe('getMethod', () => {
+  describe('getSelectedMethod', () => {
     it('should succeed and return did:ethr', async () => {
       await expect(
         onRpcRequest({
@@ -662,7 +663,7 @@ describe('onRpcRequest', () => {
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
-            method: 'getMethod',
+            method: 'getSelectedMethod',
             params: {},
           },
         })
@@ -692,7 +693,7 @@ describe('onRpcRequest', () => {
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
-            method: 'getMethod',
+            method: 'getSelectedMethod',
             params: {},
           },
         })

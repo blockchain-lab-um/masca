@@ -5,15 +5,30 @@ import { snapConfirm } from '../../utils/snapUtils';
 import { ApiParams } from '../../interfaces';
 import { AvailableVCStores } from 'src/constants';
 
-export async function getVCs(
+export async function queryVCs(
   params: ApiParams,
-  query?: VCQuery,
-  store: AvailableVCStores = 'snap'
+  filter?: { type: string; filter: any },
+  options?: {
+    store?: AvailableVCStores | [AvailableVCStores];
+    returnStore?: boolean;
+  }
 ): Promise<VerifiableCredential[]> {
+  let store = options?.store;
+  let retStore = options?.returnStore;
+  if (typeof store === 'undefined') {
+    store = ['snap'];
+  }
+  if (typeof store === 'string') {
+    store = [store];
+  }
+  if (typeof retStore === 'undefined') {
+    retStore = false;
+  }
+  if (typeof filter === 'undefined') {
+    filter = { type: 'none', filter: {} };
+  }
   const { state, wallet, account } = params;
-  console.log('query', query);
-  const vcs = await veramoListVCs(wallet, store, query);
-  console.log('VCs: ', vcs);
+  const vcs = await veramoListVCs(wallet, store, filter?.filter as VCQuery);
   const promptObj = {
     prompt: 'Send VCs',
     description: 'Are you sure you want to send VCs to the dApp?',

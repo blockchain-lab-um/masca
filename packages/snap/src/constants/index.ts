@@ -12,3 +12,15 @@ export const didCoinTypeMappping: Record<string, number> = {
   'did:ethr': 60,
   'did:key': 60,
 };
+
+export const supportedProofFormats = [
+  'jwt',
+  'lds',
+  'EthereumEip712Signature2021',
+];
+export type SupportedProofFormats =
+  | 'jwt'
+  | 'lds'
+  | 'EthereumEip712Signature2021';
+export const isSupportedProofFormat = (x: string): x is SupportedProofFormats =>
+  supportedProofFormats.includes(x);

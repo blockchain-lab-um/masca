@@ -3,6 +3,7 @@ import {
   isValidChangeInfuraTokenRequest,
   isValidCreateVPRequest,
   isValidDeleteVCRequest,
+  isValidQueryRequest,
   isValidSaveVCRequest,
   isValidSwitchMethodRequest,
 } from '../../src/utils/params';
@@ -13,6 +14,82 @@ describe('Utils [params]', () => {
   */
   describe('isValidGetVCsRequest', () => {
     // TODO
+  });
+
+  describe('isValidQueryRequest', () => {
+    it('should not fail for null', () => {
+      expect(() => isValidQueryRequest(null)).not.toThrow(Error);
+    });
+    it('should not fail for undefined', () => {
+      expect(() => isValidQueryRequest(undefined)).not.toThrow(Error);
+    });
+    it('should not fail for empty object', () => {
+      expect(() => isValidQueryRequest({})).not.toThrow(Error);
+    });
+    it('should not fail for object with filter', () => {
+      expect(() =>
+        isValidQueryRequest({ filter: { type: 'abc', filter: {} } })
+      ).not.toThrow(Error);
+    });
+    it('should fail for filter without type', () => {
+      expect(() => isValidQueryRequest({ filter: { filter: {} } })).toThrow(
+        'Filter type is missing or not a string!'
+      );
+    });
+    it('should fail for filter without filter', () => {
+      expect(() => isValidQueryRequest({ filter: { type: 'abc' } })).toThrow(
+        'Filter is missing or not an object!'
+      );
+    });
+    it('should fail for filter with wrong type filter', () => {
+      expect(() =>
+        isValidQueryRequest({ filter: { type: 'abc', filter: 123 } })
+      ).toThrow('Filter is missing or not an object!');
+    });
+    it('should fail for filter with wrong type type', () => {
+      expect(() =>
+        isValidQueryRequest({ filter: { type: 123, filter: {} } })
+      ).toThrow('Filter type is missing or not a string!');
+    });
+    it('should not fail for empty options object', () => {
+      expect(() => isValidQueryRequest({ options: {} })).not.toThrow(
+        'Filter type is missing or not a string!'
+      );
+    });
+    it('should not fail for options object with one store', () => {
+      expect(() =>
+        isValidQueryRequest({ options: { store: 'snap' } })
+      ).not.toThrow('Filter type is missing or not a string!');
+    });
+    it('should not fail for options object with multiple stores', () => {
+      expect(() =>
+        isValidQueryRequest({ options: { store: ['snap', 'ceramic'] } })
+      ).not.toThrow('Filter type is missing or not a string!');
+    });
+    it('should not fail for options object with wrong store', () => {
+      expect(() =>
+        isValidQueryRequest({ options: { store: ['snapp', 'ceramic'] } })
+      ).toThrow('Store is not supported!');
+    });
+    it('should not fail for options object with wrong type store', () => {
+      expect(() => isValidQueryRequest({ options: { store: true } })).toThrow(
+        'Store is invalid format'
+      );
+    });
+    it('should not fail for options object with multiple stores and returnStore', () => {
+      expect(() =>
+        isValidQueryRequest({
+          options: { store: ['snap', 'ceramic'], returnStore: false },
+        })
+      ).not.toThrow('Filter type is missing or not a string!');
+    });
+    it('should fail for options object with multiple stores and wrong type returnStore', () => {
+      expect(() =>
+        isValidQueryRequest({
+          options: { store: ['snap', 'ceramic'], returnStore: 123 },
+        })
+      ).toThrow('ReturnStore is invalid format');
+    });
   });
 
   /*

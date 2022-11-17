@@ -37,22 +37,16 @@ export async function veramoSaveVC(
  */
 export async function veramoListVCs(
   wallet: SnapProvider,
-  vcStore: typeof availableVCStores[number],
+  store: [AvailableVCStores],
   query?: VCQuery
 ): Promise<VerifiableCredential[]> {
-  console.log('Getting agent');
-
   const agent = await getAgent(wallet);
-  console.log(agent);
-  const vcsSnap = await agent.listVCS({ store: 'snap', query: query });
-  console.log(vcsSnap);
-  if (vcStore === 'ceramic') {
-    const vcsCeramic = await agent.listVCS({ store: 'ceramic', query: query });
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-assignment
-    return [...vcsSnap.vcs, ...vcsCeramic.vcs];
+  const vcsSnap = [] as VerifiableCredential[];
+  for (const s of store) {
+    const vcs = await agent.listVCS({ store: s, query: query });
+    vcsSnap.push(...vcs.vcs);
   }
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  return vcsSnap.vcs;
+  return vcsSnap;
 }
 
 /**

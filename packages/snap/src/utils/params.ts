@@ -1,11 +1,70 @@
 import { VCQuery } from '@blockchain-lab-um/ssi-snap-types';
-import { VerifiableCredential, W3CVerifiableCredential } from '@veramo/core';
+import { W3CVerifiableCredential } from '@veramo/core';
 import {
   AvailableMethods,
   AvailableVCStores,
   isAvailableMethods,
   isAvailableVCStores,
+  isSupportedProofFormat,
+  SupportedProofFormats,
 } from '../constants';
+
+type GetVCsRequestParams = { query?: VCQuery };
+
+type CreateVPRequestParams = {
+  vcs: [
+    {
+      id: string;
+      metadata?: {
+        store?: AvailableVCStores;
+      };
+    }
+  ];
+  proofFormat?: SupportedProofFormats;
+  proofOptions?: {
+    type?: string;
+    domain?: string;
+    challenge?: string;
+  };
+};
+
+type QueryRequestParams = {
+  filter?: {
+    type: string;
+    filter: any;
+  };
+  options?: {
+    store?: AvailableVCStores | [AvailableVCStores];
+    returnStore?: boolean;
+  };
+};
+
+type SaveVCRequestParams = {
+  verifiableCredential: W3CVerifiableCredential;
+  options?: {
+    store?: AvailableVCStores | [AvailableVCStores];
+  };
+};
+
+type DeleteVCRequestParams = {
+  id: string | [string];
+  options?: {
+    store?: AvailableVCStores | [AvailableVCStores];
+  };
+};
+
+type ChangeInfuraTokenRequestParams = {
+  infuraToken: string;
+};
+
+type SwitchMethodRequestParams = {
+  didMethod: AvailableMethods;
+};
+
+type SetVCStoreRequestParams = {
+  store: AvailableVCStores;
+  value: boolean;
+};
 
 function isStringArray(input: unknown): input is string[] {
   return (
@@ -18,8 +77,6 @@ function isArray(input: unknown): input is unknown[] {
   return Array.isArray(input);
 }
 
-type GetVCsRequestParams = { query?: VCQuery };
-
 export function isValidGetVCsRequest(
   params: unknown
 ): asserts params is GetVCsRequestParams {
@@ -27,13 +84,6 @@ export function isValidGetVCsRequest(
 
   throw new Error('Invalid GetVCs request');
 }
-
-type SaveVCRequestParams = {
-  verifiableCredential: W3CVerifiableCredential;
-  options?: {
-    store?: AvailableVCStores | [AvailableVCStores];
-  };
-};
 
 export function isValidSaveVCRequest(
   params: unknown
@@ -79,25 +129,6 @@ export function isValidSaveVCRequest(
   throw new Error('Invalid SaveVC request');
 }
 
-type CreateVPRequestParams = {
-  vcs: [
-    {
-      id: string;
-      metadata?: {
-        store?: AvailableVCStores;
-      };
-    }
-  ];
-
-  proofFormat?: 'jwt' | 'lds';
-  proofOptions?: {
-    type?: string;
-    domain?: string;
-    challenge?: string;
-  };
-};
-const pFs = ['jwt', 'lds'];
-
 export function isValidCreateVPRequest(
   params: unknown
 ): asserts params is CreateVPRequestParams {
@@ -113,7 +144,9 @@ export function isValidCreateVPRequest(
     if (
       'proofFormat' in params &&
       (params as CreateVPRequestParams).proofFormat != null &&
-      !pFs.includes((params as CreateVPRequestParams).proofFormat as string)
+      !isSupportedProofFormat(
+        (params as CreateVPRequestParams).proofFormat as string
+      )
     ) {
       throw new Error('Proof format not supported');
     }
@@ -174,10 +207,6 @@ export function isValidCreateVPRequest(
   throw new Error('Invalid CreateVP request');
 }
 
-type ChangeInfuraTokenRequestParams = {
-  infuraToken: string;
-};
-
 export function isValidChangeInfuraTokenRequest(
   params: unknown
 ): asserts params is ChangeInfuraTokenRequestParams {
@@ -192,10 +221,6 @@ export function isValidChangeInfuraTokenRequest(
 
   throw new Error('Invalid ChangeInfuraToken request');
 }
-
-type SwitchMethodRequestParams = {
-  didMethod: AvailableMethods;
-};
 
 export function isValidSwitchMethodRequest(
   params: unknown
@@ -213,10 +238,6 @@ export function isValidSwitchMethodRequest(
   throw new Error('Invalid switchMethod request.');
 }
 
-type SetVCStoreRequestParams = {
-  store: AvailableVCStores;
-  value: boolean;
-};
 export function isValidSetVCStoreRequest(
   params: unknown
 ): asserts params is SetVCStoreRequestParams {
@@ -236,13 +257,6 @@ export function isValidSetVCStoreRequest(
   }
   throw new Error('Invalid setVCStore request.');
 }
-
-type DeleteVCRequestParams = {
-  id: string | [string];
-  options?: {
-    store?: AvailableVCStores | [AvailableVCStores];
-  };
-};
 
 export function isValidDeleteVCRequest(
   params: unknown
@@ -294,4 +308,78 @@ export function isValidDeleteVCRequest(
     return;
   }
   throw new Error('Invalid DeleteVC request');
+}
+
+export function isValidQueryRequest(
+  params: unknown
+): asserts params is QueryRequestParams {
+  if (params == null) {
+    return;
+  }
+  if (
+    'filter' in params &&
+    (params as QueryRequestParams).filter != null &&
+    typeof (params as QueryRequestParams).filter === 'object'
+  ) {
+    if (
+      !(
+        'type' in (params as QueryRequestParams).filter &&
+        (params as QueryRequestParams).filter?.type != null &&
+        typeof (params as QueryRequestParams).filter?.type === 'string'
+      )
+    ) {
+      throw new Error('Filter type is missing or not a string!');
+    }
+    if (
+      !(
+        'filter' in (params as QueryRequestParams).filter &&
+        (params as QueryRequestParams).filter?.filter != null &&
+        typeof (params as QueryRequestParams).filter?.filter === 'object'
+      )
+    ) {
+      throw new Error('Filter is missing or not an object!');
+    }
+  }
+
+  if (
+    'options' in params &&
+    (params as QueryRequestParams).options != null &&
+    typeof (params as QueryRequestParams).options === 'object'
+  ) {
+    if (
+      'store' in (params as QueryRequestParams).options &&
+      (params as QueryRequestParams).options?.store != null
+    ) {
+      if (typeof (params as QueryRequestParams).options?.store == 'string') {
+        if (
+          !isAvailableVCStores(
+            (params as QueryRequestParams).options?.store as string
+          )
+        ) {
+          throw new Error('Store is not supported!');
+        }
+      } else if (
+        Array.isArray((params as QueryRequestParams).options?.store) &&
+        (params as QueryRequestParams).options?.store.length > 0
+      ) {
+        ((params as QueryRequestParams).options?.store as [string]).forEach(
+          (store) => {
+            if (!isAvailableVCStores(store))
+              throw new Error('Store is not supported!');
+          }
+        );
+      } else throw new Error('Store is invalid format');
+    }
+    if (
+      !(
+        'returnStore' in (params as QueryRequestParams).options &&
+        (params as QueryRequestParams).options?.returnStore != null &&
+        typeof (params as QueryRequestParams).options?.returnStore === 'boolean'
+      )
+    ) {
+      throw new Error('ReturnStore is invalid format');
+    }
+  }
+  console.log('filter correcto');
+  return;
 }
