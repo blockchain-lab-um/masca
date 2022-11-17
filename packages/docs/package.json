@@ -87,13 +87,39 @@
       "production": [
         "{projectRoot}/**/*",
         "!{projectRoot}/**/*.spec.ts",
-        "!{projectRoot}/tsconfig,eslint.ts",
+        "!{projectRoot}/tsconfig.eslint.ts",
         "!{projectRoot}/.lintstagedrc.js",
         "!{projectRoot}/README.md"
       ]
     },
     "targets": {
       "build": {
+        "inputs": [
+          "production",
+          "^production"
+        ],
+        "dependsOn": [
+          "^build"
+        ],
+        "outputs": [
+          "{projectRoot}/build",
+          "{projectRoot}/.docusaurus"
+        ]
+      },
+      "deploy": {
+        "inputs": [
+          "production",
+          "^production"
+        ],
+        "dependsOn": [
+          "^build"
+        ],
+        "outputs": [
+          "{projectRoot}/build",
+          "{projectRoot}/.docusaurus"
+        ]
+      },
+      "start": {
         "inputs": [
           "production",
           "^production"

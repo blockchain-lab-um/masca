@@ -8,6 +8,7 @@
   },
   "source": {
     "shasum": "S8GeXrXq/CWlDmDl90Uy0FhhXpu/JAdBHymvhAY1DIM=",
+
     "location": {
       "npm": {
         "filePath": "dist/snap.js",

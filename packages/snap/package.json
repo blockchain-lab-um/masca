@@ -151,6 +151,20 @@
         "{projectRoot}/.prettierignore",
         "{projectRoot}/images/**/*"
       ]
+    },
+    "targets": {
+      "start": {
+        "inputs": [
+          "production",
+          "^production"
+        ],
+        "dependsOn": [
+          "^build"
+        ],
+        "outputs": [
+          "{projectRoot}/dist"
+        ]
+      }
     }
   }
 }
