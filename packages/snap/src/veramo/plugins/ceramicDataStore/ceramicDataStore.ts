@@ -3,11 +3,11 @@ import { v4 as uuidv4 } from 'uuid';
 import { VerifiableCredential } from '@veramo/core';
 import { aliases, getCeramic } from '../../../utils/ceramicUtils';
 import { DIDDataStore } from '@glazed/did-datastore';
-import { SnapProvider } from '@metamask/snap-types';
+import { SnapRpcHandler } from '@metamask/snaps-types';
 import { AbstractVCStore } from '@blockchain-lab-um/veramo-vc-manager';
 export class CeramicVCStore extends AbstractVCStore {
-  wallet: SnapProvider;
-  constructor(walletParam: SnapProvider) {
+  wallet: SnapRpcHandler;
+  constructor(walletParam: SnapRpcHandler) {
     super();
     this.wallet = walletParam;
   }
@@ -95,7 +95,7 @@ export class CeramicVCStore extends AbstractVCStore {
   }
 }
 
-export async function clear(wallet: SnapProvider): Promise<boolean> {
+export async function clear(wallet: SnapRpcHandler): Promise<boolean> {
   console.log('Clearing ceramic storage');
   const ceramic = await getCeramic(wallet);
 

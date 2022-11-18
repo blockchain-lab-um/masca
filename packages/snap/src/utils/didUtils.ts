@@ -1,4 +1,4 @@
-import { SnapProvider } from '@metamask/snap-types';
+import { SnapRpcHandler } from '@metamask/snaps-types';
 import { availableMethods, availableVCStores } from '../constants/index';
 import { getDidKeyIdentifier } from '../did/key/keyDidUtils';
 import { SSISnapState } from '../interfaces';
@@ -6,7 +6,7 @@ import { getCurrentNetwork } from './snapUtils';
 import { updateSnapState } from './stateUtils';
 
 export async function changeCurrentVCStore(
-  wallet: SnapProvider,
+  wallet: SnapRpcHandler,
   state: SSISnapState,
   account: string,
   didStore: typeof availableVCStores[number]
@@ -16,7 +16,7 @@ export async function changeCurrentVCStore(
 }
 
 export async function getCurrentDid(
-  wallet: SnapProvider,
+  wallet: SnapRpcHandler,
   state: SSISnapState,
   account: string
 ): Promise<string> {
@@ -32,7 +32,7 @@ export async function getCurrentDid(
 }
 
 export async function changeCurrentMethod(
-  wallet: SnapProvider,
+  wallet: SnapRpcHandler,
   state: SSISnapState,
   account: string,
   didMethod: typeof availableMethods[number]

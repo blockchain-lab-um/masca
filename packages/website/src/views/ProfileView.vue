@@ -14,7 +14,7 @@
           <div class="table-header">
             Verifiable Credentials
             <div class="dtButtons">
-              <Button
+              <pButton
                 @click="openImportModal"
                 label="Import VC"
                 icon="pi pi-file-import"
@@ -34,7 +34,7 @@
         </template>
         <Column header="View">
           <template #body="slotProps">
-            <Button
+            <pButton
               icon="pi pi-search"
               class="p-button-rounded p-button-outlined"
               @click="
@@ -73,7 +73,7 @@
         class="vcImport"
       />
       <template #footer>
-        <Button
+        <pButton
           label="Cancel"
           icon="pi pi-times"
           @click="closeImportModal()"

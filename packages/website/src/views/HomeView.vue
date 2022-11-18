@@ -3,7 +3,7 @@
     <h1 id="title" v-if="!mmStore.snapInstalled">Please connect to metamask</h1>
     <h1 id="title" v-if="mmStore.snapInstalled">Home page</h1>
     <div class="content" v-if="mmStore.snapInstalled">
-      <Button
+      <pButton
         v-if="!generalStore.courseStarted"
         label="Start course"
         @click="openVCCourse()"

@@ -1,5 +1,5 @@
 <template>
-  <Button
+  <pButton
     :label="label"
     :loading="isLoading.value"
     v-if="condition"
@@ -8,7 +8,7 @@
     :icon="icon"
   />
 </template>
-
+  
 <script setup lang="ts">
 import { reactive } from 'vue';
 import { useGeneralStore } from '@/stores/general';

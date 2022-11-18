@@ -7,7 +7,7 @@ import { getAccountIndex, setAccountIndex } from './snapUtils';
 import { ethers } from 'ethers';
 import { _hexToUint8Array } from './snapUtils';
 import { didCoinTypeMappping } from '../constants/index';
-import { SnapProvider } from '@metamask/snap-types';
+import { SnapRpcHandler } from '@metamask/snaps-types';
 
 export async function getAddressKeyDeriver(
   params: ApiParams,
@@ -48,7 +48,7 @@ export const snapGetKeysFromAddress = async (
   bip44CoinTypeNode: BIP44CoinTypeNode,
   state: SSISnapState,
   account: string,
-  wallet: SnapProvider,
+  wallet: SnapRpcHandler,
   maxScan = 20
 ): Promise<KeysType | null> => {
   const addressIndex = getAccountIndex(state, account);

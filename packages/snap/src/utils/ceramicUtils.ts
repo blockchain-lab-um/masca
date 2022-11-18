@@ -3,7 +3,7 @@ import { EthereumAuthProvider } from '@ceramicnetwork/blockchain-utils-linking';
 import { DIDSession } from 'did-session';
 import { getCurrentAccount } from './snapUtils';
 import { DID } from 'dids';
-import { SnapProvider } from '@metamask/snap-types';
+import { SnapRpcHandler } from '@metamask/snaps-types';
 
 const ceramicDID = { did: undefined } as { did: DID | undefined };
 
@@ -32,7 +32,7 @@ export const aliases = {
 };
 
 export async function authenticateWithEthereum(
-  wallet: SnapProvider
+  wallet: SnapRpcHandler
 ): Promise<DID> {
   if (ceramicDID.did) return ceramicDID.did;
   const account = await getCurrentAccount(wallet);
@@ -53,7 +53,9 @@ export async function authenticateWithEthereum(
   return session.did;
 }
 
-export async function getCeramic(wallet: SnapProvider): Promise<CeramicClient> {
+export async function getCeramic(
+  wallet: SnapRpcHandler
+): Promise<CeramicClient> {
   const ceramic = new CeramicClient('https://ceramic-clay.3boxlabs.com');
   const did = await authenticateWithEthereum(wallet);
   await ceramic.setDID(did);

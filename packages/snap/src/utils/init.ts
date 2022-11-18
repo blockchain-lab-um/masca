@@ -1,9 +1,9 @@
-import { SnapProvider } from '@metamask/snap-types';
+import { SnapRpcHandler } from '@metamask/snaps-types';
 import { SSISnapState } from '../interfaces';
 import { snapConfirm } from './snapUtils';
 import { initSnapState } from './stateUtils';
 
-export async function init(wallet: SnapProvider): Promise<SSISnapState> {
+export async function init(wallet: SnapRpcHandler): Promise<SSISnapState> {
   const promptObj = {
     prompt: 'Terms and Conditions',
     description: 'Risks about using SSI Snap',

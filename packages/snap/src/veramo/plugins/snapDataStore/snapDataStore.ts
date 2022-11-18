@@ -4,7 +4,7 @@ import { AbstractDIDStore } from '@veramo/did-manager';
 import { v4 as uuidv4 } from 'uuid';
 import { VerifiableCredential } from '@veramo/core';
 import { getSnapState, updateSnapState } from '../../../utils/stateUtils';
-import { SnapProvider } from '@metamask/snap-types';
+import { SnapRpcHandler } from '@metamask/snaps-types';
 import { getCurrentAccount } from '../../../utils/snapUtils';
 import { AbstractVCStore } from '@blockchain-lab-um/veramo-vc-manager';
 
@@ -20,8 +20,8 @@ export type ImportablePrivateKey = RequireOnly<
  */
 
 export class SnapDIDStore extends AbstractDIDStore {
-  wallet: SnapProvider;
-  constructor(walletParam: SnapProvider) {
+  wallet: SnapRpcHandler;
+  constructor(walletParam: SnapRpcHandler) {
     super();
     this.wallet = walletParam;
   }
@@ -124,8 +124,8 @@ export class SnapDIDStore extends AbstractDIDStore {
  */
 
 export class SnapVCStore extends AbstractVCStore {
-  wallet: SnapProvider;
-  constructor(walletParam: SnapProvider) {
+  wallet: SnapRpcHandler;
+  constructor(walletParam: SnapRpcHandler) {
     super();
     this.wallet = walletParam;
   }

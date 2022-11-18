@@ -1,5 +1,5 @@
 <template>
-  <Button
+  <pButton
     label="Connect MetaMask"
     :loading="isLoading"
     v-if="!mmStore.snapInstalled"
@@ -11,13 +11,13 @@
   >
     <Chip
       :label="mmStore.didString"
-      icon="pi pi-check"
+      icon="pi pi-copy"
       class="p-mr-2"
       @click="copyToClipboard(mmStore.DID)"
     />
     <Chip
       :label="mmStore.mmAddressString"
-      icon="pi pi-check"
+      icon="pi pi-copy"
       class="p-mr-2"
       @click="copyToClipboard(mmStore.mmAddress)"
     />
@@ -87,5 +87,9 @@ async function connectToMM() {
 
 .p-chip .p-chip-text {
   cursor: pointer !important;
+}
+
+.p-chip:hover {
+  background-color: #cccccc;
 }
 </style>

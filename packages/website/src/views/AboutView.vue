@@ -33,7 +33,7 @@
       >
         <i class="pi pi-list px-2"></i>
         <span class="px-3">Linktr.ee</span>
-      </Button>
+      </pButton>
     </div>
   </div>
 </template>
