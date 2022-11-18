@@ -1,5 +1,5 @@
 <template>
-  <Button
+  <pButton
     label="Connect MetaMask"
     :loading="isLoading"
     v-if="!mmStore.snapInstalled"

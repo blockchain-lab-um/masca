@@ -1,7 +1,13 @@
 <template>
   <div class="didSelector">
-    <Dropdown v-if="mmStore.snapInstalled" v-model="mmStore.currDIDMethod" :options="mmStore.availableMethods"
-      @change="changeDIDMethod(undefined, $event)" optionLabel="text" :loading="isLoading" />
+    <Dropdown
+      v-if="mmStore.snapInstalled"
+      v-model="mmStore.currDIDMethod"
+      :options="mmStore.availableMethods"
+      @change="changeDIDMethod(undefined, $event)"
+      optionLabel="text"
+      :loading="isLoading"
+    />
   </div>
 </template>
 
@@ -28,7 +34,13 @@ const changeDIDMethod = async (method?: string, event?: any) => {
       const did = await mmStore.snapApi?.getDID();
       if (did) mmStore.DID = did;
       isLoading.value = false;
-      toast.add({ severity: 'success', summary: 'Success', detail: 'Success changing DID method.', group: 'br', life: 3000 });
+      toast.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Success changing DID method.',
+        group: 'br',
+        life: 3000,
+      });
       // console.log('Success changing DID method.');
       return;
     }
@@ -37,7 +49,13 @@ const changeDIDMethod = async (method?: string, event?: any) => {
   } catch (error: any) {
     isLoading.value = false;
     console.error(error);
-    toast.add({ severity: 'error', summary: 'Error', detail: error.message, group: 'br', life: 3000 });
+    toast.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: error.message,
+      group: 'br',
+      life: 3000,
+    });
   }
 };
 </script>

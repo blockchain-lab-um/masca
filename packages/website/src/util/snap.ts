@@ -60,17 +60,17 @@ export async function createVC(
   try {
     if (!snapApi) throw new Error('No snap API found.');
     if (!mmAddress) throw new Error('No metamask address found.');
-    let axiosConfig = {
+    const axiosConfig = {
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
       },
     };
-    let body = {
+    const body = {
       name: userName,
       id: 'did:ethr:rinkeby:' + mmAddress,
     };
-    let VC = await axios
+    const VC = await axios
       .post(backend_url + '/api/vc/issue-vc', body, axiosConfig)
       .then((response: any) => {
         return response.data;

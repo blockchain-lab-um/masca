@@ -3,7 +3,11 @@
     <h1 id="title" v-if="!mmStore.snapInstalled">Please connect to metamask</h1>
     <h1 id="title" v-if="mmStore.snapInstalled">Home page</h1>
     <div class="content" v-if="mmStore.snapInstalled">
-      <Button v-if="!generalStore.courseStarted" label="Start course" @click="openVCCourse()" />
+      <pButton
+        v-if="!generalStore.courseStarted"
+        label="Start course"
+        @click="openVCCourse()"
+      />
       <vcCourse v-if="generalStore.courseStarted" />
     </div>
   </div>
@@ -19,7 +23,7 @@ const generalStore = useGeneralStore();
 
 const openVCCourse = () => {
   generalStore.courseStarted = true;
-}
+};
 </script>
 
 <style>
@@ -38,4 +42,3 @@ const openVCCourse = () => {
   justify-content: center;
 }
 </style>
-  
