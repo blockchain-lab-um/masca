@@ -33,6 +33,7 @@
     "build:connector": "yarn nx build @blockchain-lab-um/ssi-snap-connector",
     "build:docs": "yarn nx build @blockchain-lab-um/ssi-snap-docs",
     "build:vcmanager": "yarn nx build @blockchain-lab-um/veramo-vc-manager",
+    "build:website": "yarn nx build @blockchain-lab-um/ssi-snap-website",
     "deploy:docs": "yarn nx deploy @blockchain-lab-um/ssi-snap-docs",
     "postinstall": "patch-package",
     "lint": "yarn prettier && yarn nx affected --target=lint",
