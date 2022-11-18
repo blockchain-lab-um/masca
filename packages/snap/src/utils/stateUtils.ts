@@ -1,4 +1,4 @@
-import { SSISnapState } from '../interfaces';
+import { ApiParams, SSISnapState } from '../interfaces';
 import { getPublicKey } from './snapUtils';
 import { getEmptyAccountState, getInitialSnapState } from './config';
 import { SnapProvider } from '@metamask/snap-types';
@@ -93,14 +93,15 @@ export async function initSnapState(
  * @beta
  *
  **/
-export async function initAccountState(
-  wallet: SnapProvider,
-  state: SSISnapState,
-  account: string
-): Promise<void> {
+export async function initAccountState(params: ApiParams): Promise<void> {
+  const { state, wallet, account } = params;
   state.accountState[account] = getEmptyAccountState();
-  // FIXME: How to handle if user declines signature ?
-  const publicKey = await getPublicKey(wallet, state, account);
+  await updateSnapState(wallet, state);
+}
+
+export async function setAccountPublicKey(params: ApiParams): Promise<void> {
+  const { state, wallet, account } = params;
+  const publicKey = await getPublicKey(params);
   state.accountState[account].publicKey = publicKey;
   await updateSnapState(wallet, state);
 }

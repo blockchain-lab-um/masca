@@ -1,8 +1,9 @@
 import { updateSnapState } from './stateUtils';
 import { publicKeyConvert } from 'secp256k1';
-import * as ethers from 'ethers';
 import { SnapProvider } from '@metamask/snap-types';
-import { SnapConfirmParams, SSISnapState } from '../interfaces';
+import { ApiParams, SnapConfirmParams, SSISnapState } from '../interfaces';
+import { snapGetKeysFromAddress } from './keyPair';
+import { BIP44CoinTypeNode } from '@metamask/key-tree';
 
 /**
  * Function that returns address of the currently selected MetaMask account.
@@ -94,34 +95,23 @@ export async function removeFriendlyDapp(
  *
  * @returns {Promise<string>} - returns public key for current account
  */
-export async function getPublicKey(
-  wallet: SnapProvider,
-  state: SSISnapState,
-  account: string
-): Promise<string> {
+export async function getPublicKey(params: ApiParams): Promise<string> {
+  const { wallet, state, account, bip44CoinTypeNode } = params;
   if (state.accountState[account].publicKey !== '')
     return state.accountState[account].publicKey;
-
-  let signedMsg;
-  try {
-    signedMsg = (await wallet.request({
-      method: 'personal_sign',
-      params: ['getPublicKey', account],
-    })) as string;
-  } catch (err) {
-    throw new Error('User denied request');
-  }
-
-  const message = 'getPublicKey';
-  const msgHash = ethers.utils.hashMessage(message);
-  const msgHashBytes = ethers.utils.arrayify(msgHash);
-
-  return ethers.utils.recoverPublicKey(msgHashBytes, signedMsg);
+  const res = await snapGetKeysFromAddress(
+    bip44CoinTypeNode as BIP44CoinTypeNode,
+    state,
+    account,
+    wallet
+  );
+  if (res == null) throw new Error('Could not get keys from address');
+  return res.publicKey;
 }
 
 export function getCompressedPublicKey(publicKey: string): string {
   return _uint8ArrayToHex(
-    publicKeyConvert(_hexToUnit8Array(publicKey.split('0x')[1]), true)
+    publicKeyConvert(_hexToUint8Array(publicKey.split('0x')[1]), true)
   );
 }
 
@@ -131,9 +121,7 @@ export function _uint8ArrayToHex(arr: any) {
   return Buffer.from(arr).toString('hex');
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function _hexToUnit8Array(str: any) {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+export function _hexToUint8Array(str: string): Uint8Array {
   return new Uint8Array(Buffer.from(str, 'hex'));
 }
 
@@ -145,4 +133,23 @@ export async function snapConfirm(
     method: 'snap_confirm',
     params: [params],
   })) as boolean;
+}
+
+export function getAccountIndex(
+  state: SSISnapState,
+  account: string
+): number | undefined {
+  if (state.accountState[account].index)
+    return state.accountState[account].index;
+  else return undefined;
+}
+
+export async function setAccountIndex(
+  wallet: SnapProvider,
+  state: SSISnapState,
+  account: string,
+  index: number
+) {
+  state.accountState[account].index = index;
+  await updateSnapState(wallet, state);
 }

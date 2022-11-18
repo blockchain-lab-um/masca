@@ -25,6 +25,9 @@ export default function TeamCard({ member }: TeamCardProps) {
         <a href={member.twitter} target="_blank" rel="noreferrer">
           <i className="fa-brands fa-square-twitter" />
         </a>
+        <a href={member.github} target="_blank" rel="noreferrer">
+          <i className="fa-brands fa-square-github" />
+        </a>
       </div>
     </div>
   );

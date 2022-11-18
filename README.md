@@ -1,37 +1,43 @@
-# SSI Snap
+# SSI Snap &middot; [![npm version](https://img.shields.io/npm/v/@blockchain-lab-um/ssi-snap.svg?style=flat)](https://www.npmjs.com/package/@blockchain-lab-um/ssi-snap)
 
-The SSI Snap is a MetaMask Snap that enhances MetaMask with functionality to manage DIDs, VCs and VPs. SSI Snap uses DID:ETHR method.
+The SSI Snap enables everyone to build their **decentralized and self-sovereign identity by enhancing MetaMask with functionalities to manage DIDs, VCs, and VPs.** Any dApp can connect it to access identity data, and dApp developers can already start with the integration!
 
-## [Documentation](https://blockchain-lab-um.github.io/ssi-snap-docs/)
+[Demo](https://blockchain-lab-um.github.io/course-dapp/)
+[Docs](https://blockchain-lab-um.github.io/ssi-snap-docs/)
+[Blog post](https://medium.com/@blockchainlabum/open-sourcing-ssi-snap-for-metamask-aaa176775be2)
 
-### Testing SSI Snap
+# Features
 
-#### Metamask
+The SSI Snap is built agnostic, leaving the user to choose his preferred **blockchain, DID method, and VC storage provider.** Everything is configurable, just like selecting the network in MetaMask. Currently supported technologies:
 
-First, build and install beta release of Metamask extension:
+- **Blockchains:** Ethereum
+- **DID methods:** `did:ethr`, `did:key`
+- **VC storage providers:** Local (MetaMask Snap state), Ceramic
 
-- checkout to [this branch](https://github.com/MetaMask/metamask-extension/tree/snaps-stable-nov-21) (chrome recommended)
-- build metamask using `yarn start --build-type flask` or `yarn dist`
-- go to [chrome://extensions/](chrome://extensions/)
-- enable "Developer mode"
-- click "Load unpacked" and point to chrome directory
+Many new features are already in the works. For more information, please check the [roadmap](https://blockchain-lab-um.github.io/ssi-snap-docs/docs/roadmap) on the documentation.
 
-##### Live demo
+# Development
 
-# [Demo](https://blockchain-lab-um.github.io/course-dapp/)
+### Prerequisites
 
-#### Demo Snapshot
+- [MetaMask Flask](https://metamask.io/flask/)
+  - ⚠️ You cannot have other versions of MetaMask installed
+- Node.js `16`. We **strongly** recommend you install via [NVM](https://github.com/creationix/nvm) to avoid incompatibility issues between different node projects.
+  - Once installed, you should also install [Yarn](http://yarnpkg.com/) with `npm i -g yarn` to make working with this repository easiest.
 
-##### Running SSI Snap locally
+## Installing
 
-Build and test locally
+## Running
 
-- `yarn install`
-- `yarn start`
+### Snap
 
-Demo should open on localhost:8081
+### Demo
 
-## License
+# Feature requests
+
+Is SSI Snap missing some crucial features? For new features and other enhancements, please open a new issue. If you are unsure if it fits in the Snap, start a new discussion under the Discussions tab.
+
+# Licenses
 
 This project is dual-licensed under Apache 2.0 and MIT terms:
 

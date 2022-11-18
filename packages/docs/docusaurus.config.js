@@ -72,7 +72,7 @@ const config = {
       },
       items: [
         { to: '/docs/get_started', label: 'Quickstart', position: 'left' },
-        { to: '/docs/intro', label: 'Docs', position: 'left' },
+        { to: '/docs/introduction', label: 'Docs', position: 'left' },
         { to: '/docs/config', label: 'Configure SSI Snap', position: 'left' },
         {
           to: 'https://medium.com/@blockchainlabum',
@@ -80,7 +80,7 @@ const config = {
           position: 'right',
         },
         {
-          href: 'https://discord.gg/jNzEkAEG',
+          href: 'https://discord.com/invite/M5xgNz7TTF',
           label: 'Discord',
           position: 'right',
         },
@@ -96,11 +96,11 @@ const config = {
       links: [
         {
           label: 'Documentation',
-          to: '/docs/intro',
+          to: '/docs/introduction',
         },
         {
           label: 'Website',
-          href: 'https://blockchain-lab.um.si/',
+          href: 'https://blockchain-lab.um.si/?lang=en',
         },
         {
           label: 'Twitter',
@@ -112,7 +112,7 @@ const config = {
         },
         {
           label: 'Discord',
-          href: 'https://discord.gg/cKA24TuMUd',
+          href: 'https://discord.com/invite/M5xgNz7TTF',
         },
         {
           label: 'LinkedIn',
@@ -120,7 +120,7 @@ const config = {
         },
         {
           label: 'YouTube',
-          href: 'https://www.youtube.com/channel/UCvOb83Xduo6YuC05cO7g0ww',
+          href: 'https://www.youtube.com/@blockchainlabum',
         },
         {
           label: 'Email',

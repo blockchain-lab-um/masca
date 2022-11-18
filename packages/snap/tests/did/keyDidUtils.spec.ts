@@ -1,3 +1,5 @@
+import { SnapProvider } from '@metamask/snap-types';
+import { createMockWallet, WalletMock } from '../testUtils/wallet.mock';
 import { getDidKeyIdentifier } from '../../src/did/key/keyDidUtils';
 import {
   address,
@@ -6,11 +8,19 @@ import {
 } from '../testUtils/constants';
 
 describe('keyDidUtils', () => {
-  it('getDidKeyIdentifier', () => {
-    const initialState = getDefaultSnapState();
+  let walletMock: SnapProvider & WalletMock;
 
-    expect(getDidKeyIdentifier(initialState, address)).toEqual(
-      exampleDIDKeyIdentifier
-    );
+  beforeEach(() => {
+    walletMock = createMockWallet();
+  });
+  describe('keyDidUtils', () => {
+    it('should generate proper DID', () => {
+      const initialState = getDefaultSnapState();
+
+      expect(getDidKeyIdentifier(initialState, address)).toEqual(
+        exampleDIDKeyIdentifier
+      );
+      expect.assertions(1);
+    });
   });
 });

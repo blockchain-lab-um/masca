@@ -53,25 +53,26 @@
     "@babel/runtime": "7.17.2",
     "@blockchain-lab-um/ssi-snap-types": "*",
     "@blockchain-lab-um/veramo-vc-manager": "*",
-    "@ceramicnetwork/blockchain-utils-linking": "2.1.0",
+    "@ceramicnetwork/blockchain-utils-linking": "2.3.0",
     "@ceramicnetwork/http-client": "2.7.0",
     "@glazed/did-datastore": "0.3.2",
     "@glazed/did-session": "0.1.1",
+    "@metamask/key-tree": "^4.0.0",
     "@types/uuid": "8.3.4",
-    "@veramo/core": "4.0.2-next.9",
-    "@veramo/credential-eip712": "4.0.2-next.9",
-    "@veramo/credential-w3c": "4.0.2-next.9",
-    "@veramo/data-store": "4.0.2-next.9",
-    "@veramo/did-jwt": "4.0.2-next.9",
-    "@veramo/did-manager": "4.0.2-next.9",
-    "@veramo/did-provider-ethr": "4.0.2-next.9",
-    "@veramo/did-resolver": "4.0.2-next.9",
-    "@veramo/key-manager": "4.0.2-next.9",
-    "@veramo/kms-local": "4.0.2-next.9",
-    "@veramo/kms-web3": "4.0.2-next.9",
-    "@veramo/message-handler": "4.0.2-next.9",
-    "@veramo/selective-disclosure": "4.0.2-next.9",
-    "@veramo/utils": "4.0.2-next.15",
+    "@veramo/core": "4.1.1",
+    "@veramo/credential-eip712": "4.1.1",
+    "@veramo/credential-w3c": "4.1.1",
+    "@veramo/data-store": "4.1.1",
+    "@veramo/did-jwt": "4.1.1",
+    "@veramo/did-manager": "4.1.1",
+    "@veramo/did-provider-ethr": "4.1.2",
+    "@veramo/did-resolver": "4.1.1",
+    "@veramo/key-manager": "4.1.1",
+    "@veramo/kms-local": "4.1.1",
+    "@veramo/kms-web3": "4.1.1",
+    "@veramo/message-handler": "4.1.1",
+    "@veramo/selective-disclosure": "4.1.1",
+    "@veramo/utils": "4.1.1",
     "ceramic-cacao": "^1.4.0",
     "did-jwt-vc": "2.1.9",
     "did-resolver": "3.2.0",
@@ -98,19 +99,19 @@
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
     "@metamask/providers": "^9.0.0",
-    "@metamask/snap-types": "^0.21.0",
-    "@metamask/snaps-cli": "^0.21.0",
-    "@metamask/snaps-webpack-plugin": "^0.21.0",
+    "@metamask/snap-types": "^0.22.3",
+    "@metamask/snaps-cli": "^0.22.3",
+    "@metamask/snaps-webpack-plugin": "^0.22.3",
     "@types/jest": "^29.0.2",
     "@types/lodash.clonedeep": "^4.5.7",
-    "@types/node": "^18.7.18",
     "@typescript-eslint/eslint-plugin": "^5.33.1",
     "@typescript-eslint/parser": "^5.33.1",
     "audit-ci": "^6.3.0",
     "babel-loader": "^8.2.5",
-    "eslint": "^8.20.0",
+    "eslint": "^8.26.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jest": "^27.1.3",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-webpack-plugin": "^3.2.0",
     "fork-ts-checker-webpack-plugin": "^7.2.13",
@@ -150,6 +151,20 @@
         "{projectRoot}/.prettierignore",
         "{projectRoot}/images/**/*"
       ]
+    },
+    "targets": {
+      "start": {
+        "inputs": [
+          "production",
+          "^production"
+        ],
+        "dependsOn": [
+          "^build"
+        ],
+        "outputs": [
+          "{projectRoot}/dist"
+        ]
+      }
     }
   }
 }

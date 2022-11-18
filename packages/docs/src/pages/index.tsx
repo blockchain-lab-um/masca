@@ -10,7 +10,9 @@ function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
   return (
     <div className={styles.homeContainer}>
-      <h4 className={styles.homeSlogan}>Experience SSI with MetaMask</h4>
+      <h4 className={styles.homeSlogan}>
+        Unlock Decentralized Identity with MetaMask
+      </h4>
       <h1 className={styles.homeTitle}>{siteConfig.title}</h1>
       <br />
       <div className={styles.buttons}>

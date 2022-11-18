@@ -16,7 +16,7 @@
   },
   "types": "./index.d.ts",
   "dependencies": {
-    "@veramo/core": "^4.0.2-next.9"
+    "@veramo/core": "^4.1.1"
   },
   "publishConfig": {
     "access": "public"

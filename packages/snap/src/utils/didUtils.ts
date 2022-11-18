@@ -1,8 +1,7 @@
 import { SnapProvider } from '@metamask/snap-types';
-import { availableMethods } from '../did/didMethods';
+import { availableMethods, availableVCStores } from '../constants/index';
 import { getDidKeyIdentifier } from '../did/key/keyDidUtils';
 import { SSISnapState } from '../interfaces';
-import { availableVCStores } from '../veramo/plugins/availableVCStores';
 import { getCurrentNetwork } from './snapUtils';
 import { updateSnapState } from './stateUtils';
 

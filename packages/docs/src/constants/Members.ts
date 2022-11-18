@@ -5,6 +5,7 @@ export type Member = {
   linkedin: string;
   image: string;
   twitter: string;
+  github: string;
 };
 
 const members: Member[] = [
@@ -16,6 +17,7 @@ const members: Member[] = [
     image:
       'https://blockchain-lab.um.si/wp-content/uploads/2019/12/Turkanovic_Muhamed.png',
     twitter: '',
+    github: '',
   },
   {
     name: 'Vid Keršič',
@@ -24,6 +26,7 @@ const members: Member[] = [
     linkedin: 'https://www.linkedin.com/in/vid-kersic/',
     image: 'https://blockchain-lab.um.si/wp-content/uploads/2019/12/vid.png',
     twitter: 'https://twitter.com/vidkersic',
+    github: 'https://github.com/Vid201',
   },
   {
     name: 'Andraž Vrečko',
@@ -32,6 +35,7 @@ const members: Member[] = [
     linkedin: 'https://www.linkedin.com/in/andrazvrecko/',
     image: 'https://via.placeholder.com/150',
     twitter: '',
+    github: '',
   },
   {
     name: 'Martin Domajnko',
@@ -41,6 +45,7 @@ const members: Member[] = [
     image:
       'https://blockchain-lab.um.si/wp-content/uploads/2019/12/martin-1.png',
     twitter: '',
+    github: '',
   },
   {
     name: 'Urban Vidovič',
@@ -50,6 +55,16 @@ const members: Member[] = [
     image:
       'https://blockchain-lab.um.si/wp-content/uploads/2021/10/vidovic_urban.png',
     twitter: '',
+    github: '',
+  },
+  {
+    name: 'Tadej Podrekar',
+    title: 'developer & researcher',
+    description: '',
+    linkedin: 'https://www.linkedin.com/in/tadej-podrekar-654893206/',
+    image: 'https://via.placeholder.com/150',
+    twitter: '',
+    github: '',
   },
 ];
 

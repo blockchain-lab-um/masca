@@ -25,7 +25,7 @@ describe('formatUtils', () => {
           'UNKNOWN CODEC' as any,
           Buffer.from(getCompressedPublicKey(publicKey), 'hex')
         )
-      ).toThrowError(new Error('multicodec not recognized'));
+      ).toThrow(new Error('multicodec not recognized'));
       expect.assertions(1);
     });
   });

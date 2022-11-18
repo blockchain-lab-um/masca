@@ -12,7 +12,11 @@ import {
 
 import { AbstractIdentifierProvider, DIDManager } from '@veramo/did-manager';
 import { EthrDIDProvider } from '@veramo/did-provider-ethr';
-import { KeyManager } from '@veramo/key-manager';
+import {
+  KeyManager,
+  MemoryKeyStore,
+  MemoryPrivateKeyStore,
+} from '@veramo/key-manager';
 import { KeyManagementSystem } from '@veramo/kms-local';
 import { DIDResolverPlugin } from '@veramo/did-resolver';
 import { Resolver } from 'did-resolver';
@@ -24,19 +28,14 @@ import {
 } from '@blockchain-lab-um/veramo-vc-manager';
 import { Web3Provider } from '@ethersproject/providers';
 import { Web3KeyManagementSystem } from '@veramo/kms-web3';
-import {
-  CredentialIssuerEIP712,
-  ICredentialIssuerEIP712,
-} from '@veramo/credential-eip712';
+import { CredentialIssuerEIP712 } from '@veramo/credential-eip712';
 import {
   SnapDIDStore,
-  SnapKeyStore,
   SnapVCStore,
-  SnapPrivateKeyStore,
 } from './plugins/snapDataStore/snapDataStore';
 import { CeramicVCStore } from './plugins/ceramicDataStore/ceramicDataStore';
 
-import { ICredentialIssuer } from '@veramo/credential-w3c';
+import { CredentialPlugin, ICredentialIssuer } from '@veramo/credential-w3c';
 
 import { KeyDIDProvider } from '../did/key/keyDidProvider';
 import { getDidKeyResolver as keyDidResolver } from '../did/key/keyDidResolver';
@@ -50,19 +49,16 @@ import { getCurrentNetwork } from '../utils/snapUtils';
 import { SnapProvider } from '@metamask/snap-types';
 import { getSnapState } from '../utils/stateUtils';
 
-export const getAgent = async (
-  wallet: SnapProvider
-): Promise<
-  TAgent<
-    IDIDManager &
-      IKeyManager &
-      IDataStore &
-      IResolver &
-      IVCManager &
-      ICredentialIssuerEIP712 &
-      ICredentialIssuer
-  >
-> => {
+export type Agent = TAgent<
+  IDIDManager &
+    IKeyManager &
+    IDataStore &
+    IResolver &
+    IVCManager &
+    ICredentialIssuer
+>;
+
+export const getAgent = async (wallet: SnapProvider): Promise<Agent> => {
   const state = await getSnapState(wallet);
 
   const INFURA_PROJECT_ID = state.snapConfig.snap.infuraToken;
@@ -95,16 +91,16 @@ export const getAgent = async (
       IDataStore &
       IResolver &
       IVCManager &
-      ICredentialIssuerEIP712 &
       ICredentialIssuer
   >({
     plugins: [
+      new CredentialPlugin(),
       new CredentialIssuerEIP712(),
       new KeyManager({
-        store: new SnapKeyStore(wallet),
+        store: new MemoryKeyStore(),
         kms: {
           web3: new Web3KeyManagementSystem(web3Providers),
-          snap: new KeyManagementSystem(new SnapPrivateKeyStore(wallet)),
+          snap: new KeyManagementSystem(new MemoryPrivateKeyStore()),
         },
       }),
       new VCManager({ store: vcStorePlugins }),

@@ -19,8 +19,12 @@
     "listFiles": false /* Print names of files part of the compilation. */,
     "pretty": true /* Stylize errors and messages using color and context. */,
 
-    "lib": ["es6", "dom", "es2017"],
-    "typeRoots": ["node_modules/@types", "src/types"]
+    "lib": ["es6", "dom", "es2020"],
+    "typeRoots": [
+      "./node_modules/@types",
+      "../../node_modules/@types",
+      "src/types"
+    ]
   },
   "include": ["src/**/*.ts"]
 }

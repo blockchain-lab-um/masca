@@ -1,15 +1,13 @@
-import { SnapProvider } from '@metamask/snap-types';
-import { availableMethods } from '../../did/didMethods';
-import { SSISnapState } from '../../interfaces';
+import { availableMethods } from '../../constants';
+import { ApiParams } from '../../interfaces';
 import { changeCurrentMethod } from '../../utils/didUtils';
 import { snapConfirm } from '../../utils/snapUtils';
 
 export async function switchMethod(
-  wallet: SnapProvider,
-  state: SSISnapState,
-  account: string,
+  params: ApiParams,
   didMethod: string
 ): Promise<boolean> {
+  const { state, wallet, account } = params;
   const method = state.accountState[account].accountConfig.ssi.didMethod;
   const newDidMethod = availableMethods.find((k) => k === didMethod);
   if (!newDidMethod) {

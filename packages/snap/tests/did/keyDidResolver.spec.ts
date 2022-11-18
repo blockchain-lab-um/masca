@@ -1,6 +1,20 @@
 import { SnapProvider } from '@metamask/snap-types';
-import { getDefaultSnapState } from '../testUtils/constants';
+import {
+  address,
+  exampleDIDKeyResolution,
+  getDefaultSnapState,
+} from '../testUtils/constants';
 import { WalletMock, createMockWallet } from '../testUtils/wallet.mock';
+import {
+  getDidKeyResolver as resolveDidKey,
+  resolveSecp256k1,
+} from '../../src/did/key/keyDidResolver';
+import {
+  exampleDIDKey,
+  exampleDIDKeyIdentifier,
+  exampleDIDKeyDocument,
+} from '../testUtils/constants';
+import { DIDResolutionOptions, DIDResolutionResult } from 'did-resolver';
 
 describe('keyDidResolver', () => {
   let walletMock: SnapProvider & WalletMock;
@@ -12,12 +26,70 @@ describe('keyDidResolver', () => {
   });
 
   describe('resolveDidKey', () => {
-    it('', () => {
-      // TODO
+    it('should return correct did key resolution', async () => {
+      const didRes = await resolveDidKey().key(
+        exampleDIDKeyIdentifier,
+        {
+          did: exampleDIDKey,
+          method: 'key',
+          didUrl: exampleDIDKeyIdentifier,
+          id: '',
+        },
+        {
+          resolve: function (
+            didUrl: string,
+            options?: DIDResolutionOptions | undefined
+          ): Promise<DIDResolutionResult> {
+            throw new Error('Function not implemented.');
+          },
+        },
+        {}
+      );
+      expect(didRes.didDocument).toEqual(exampleDIDKeyDocument);
+      expect.assertions(1);
     });
-  });
+    it('should return proper DID Document', async () => {
+      walletMock.rpcMocks.snap_manageState.mockReturnValue(
+        getDefaultSnapState()
+      );
 
-  describe('resolveSecp256k1', () => {
-    // Maybe we can test everything with resolveDidKey
+      const didRes = await resolveSecp256k1(
+        walletMock,
+        address,
+        exampleDIDKeyIdentifier
+      );
+
+      expect(didRes).toEqual(exampleDIDKeyResolution.didDocument);
+      expect.assertions(1);
+    });
+    it('should fail', async () => {
+      const didRes = await resolveDidKey().key(
+        '12345',
+        {
+          did: 'did:key:12345',
+          method: 'key',
+          didUrl: '12345',
+          id: '',
+        },
+        {
+          resolve: function (
+            didUrl: string,
+            options?: DIDResolutionOptions | undefined
+          ): Promise<DIDResolutionResult> {
+            throw new Error('Function not implemented.');
+          },
+        },
+        {}
+      );
+      expect(didRes).toEqual({
+        didDocumentMetadata: {},
+        didResolutionMetadata: {
+          error: 'invalidDid',
+          message: 'unsupported key type for did:key',
+        },
+        didDocument: null,
+      });
+      expect.assertions(1);
+    });
   });
 });
