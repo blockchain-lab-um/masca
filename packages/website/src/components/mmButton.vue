@@ -11,13 +11,13 @@
   >
     <Chip
       :label="mmStore.didString"
-      icon="pi pi-check"
+      icon="pi pi-copy"
       class="p-mr-2"
       @click="copyToClipboard('did')"
     />
     <Chip
       :label="mmStore.mmAddressString"
-      icon="pi pi-check"
+      icon="pi pi-copy"
       class="p-mr-2"
       @click="copyToClipboard('mmAddr')"
     />
@@ -111,5 +111,9 @@ async function connectToMM() {
 
 .p-chip .p-chip-text {
   cursor: pointer !important;
+}
+
+.p-chip:hover {
+  background-color: #cccccc;
 }
 </style>
