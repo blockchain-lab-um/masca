@@ -29,10 +29,8 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { installSnap, initStore } from '../util/snap';
 import { useMetamaskStore } from '@/stores/metamask';
-import { useGeneralStore } from '@/stores/general';
 import { copyToClipboard } from '@/util/general';
 
-const generalStore = useGeneralStore();
 const mmStore = useMetamaskStore();
 const router = useRouter();
 const isLoading = ref(false);

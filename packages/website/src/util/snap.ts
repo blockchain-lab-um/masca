@@ -40,18 +40,14 @@ export async function installSnap(
 }
 
 export async function checkForVCs(snapApi?: SSISnapApi) {
-  try {
-    if (!snapApi) {
-      throw new Error('No snap API found.');
-    }
-    const vcs = await snapApi.getVCs();
-    if (!vcs.length) {
-      throw new Error('No VCs found.');
-    }
-    return vcs as VerifiableCredential[];
-  } catch (err: any) {
-    throw err;
+  if (!snapApi) {
+    throw new Error('No snap API found.');
   }
+  const vcs = await snapApi.getVCs();
+  if (!vcs.length) {
+    throw new Error('No VCs found.');
+  }
+  return vcs as VerifiableCredential[];
 }
 
 export async function createVC(
@@ -166,31 +162,23 @@ export async function initStore(snapApi: SSISnapApi) {
 }
 
 export async function checkAvailableStores(snapApi?: SSISnapApi) {
-  try {
-    if (!snapApi) {
-      throw new Error('No snap API found.');
-    }
-    const stores = await snapApi.getAvailableVCStores();
-    if (!stores.length) {
-      throw new Error('No stores found.');
-    }
-    return stores;
-  } catch (err: any) {
-    throw err;
+  if (!snapApi) {
+    throw new Error('No snap API found.');
   }
+  const stores = await snapApi.getAvailableVCStores();
+  if (!stores.length) {
+    throw new Error('No stores found.');
+  }
+  return stores;
 }
 
 export async function setVCStore(vcStore: string, snapApi?: SSISnapApi) {
-  try {
-    if (!snapApi) {
-      throw new Error('No snap API found.');
-    }
-    const res = await snapApi.setVCStore(vcStore);
-    if (!res) {
-      throw new Error('Failed to set store.');
-    }
-    return 'New VC store set.';
-  } catch (err: any) {
-    throw err;
+  if (!snapApi) {
+    throw new Error('No snap API found.');
   }
+  const res = await snapApi.setVCStore(vcStore);
+  if (!res) {
+    throw new Error('Failed to set store.');
+  }
+  return 'New VC store set.';
 }

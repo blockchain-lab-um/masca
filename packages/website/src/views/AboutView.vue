@@ -2,31 +2,31 @@
   <div class="about">
     <h1 id="title">About SSI Snap Demo</h1>
     <div class="template">
-      <Button
+      <pButton
         class="discord p-0"
         aria-label="Discord"
         @click="openPage('https://discord.com/invite/M5xgNz7TTF')"
       >
         <i class="pi pi-discord px-2"></i>
         <span class="px-3">Discord</span>
-      </Button>
-      <Button
+      </pButton>
+      <pButton
         class="twitter p-0"
         aria-label="Twitter"
         @click="openPage('https://mobile.twitter.com/blockchainlabum')"
       >
         <i class="pi pi-twitter px-2"></i>
         <span class="px-3">Twitter</span>
-      </Button>
-      <Button
+      </pButton>
+      <pButton
         class="github p-0"
         aria-label="Github"
         @click="openPage('https://github.com/blockchain-lab-um')"
       >
         <i class="pi pi-github px-2"></i>
         <span class="px-3">Github</span>
-      </Button>
-      <Button
+      </pButton>
+      <pButton
         class="linktree p-0"
         aria-label="Linktr.ee"
         @click="openPage('https://linktr.ee/blockchainlabum')"

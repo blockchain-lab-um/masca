@@ -98,7 +98,7 @@
         disabled
       />
       <template #footer>
-        <Button
+        <pButton
           label="Copy to clipboard"
           icon="pi pi-copy"
           @click="copyToClipboard(modalContent, toast)"
@@ -176,11 +176,7 @@ const vpCreate = async () => {
 
 const importVC = async () => {
   let VC: VerifiableCredential;
-  try {
-    VC = JSON.parse(VCImport.value) as VerifiableCredential;
-  } catch (err: any) {
-    throw err;
-  }
+  VC = JSON.parse(VCImport.value) as VerifiableCredential;
   // console.log('🚀 ~ file: ProfileView.vue ~ line 54 ~ importVC ~ VC', VC);
   try {
     const res = await saveVC(VC, mmStore.snapApi);
