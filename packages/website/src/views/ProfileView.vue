@@ -99,9 +99,9 @@
       />
       <template #footer>
         <Button
-          label="Close"
-          icon="pi pi-times"
-          @click="closeModal()"
+          label="Copy to clipboard"
+          icon="pi pi-copy"
+          @click="copyToClipboard(modalContent, toast)"
           class="p-button-text"
         />
       </template>
@@ -113,11 +113,15 @@
 import wrappedButton from '@/components/wrappedButton.vue';
 import { ref } from 'vue';
 import { useMetamaskStore } from '@/stores/metamask';
-import { ISOtoLocaleString } from '@/util/general';
+import { ISOtoLocaleString, copyToClipboard } from '@/util/general';
 import { checkForVCs, saveVC, createVP } from '@/util/snap';
 import type { VerifiableCredential } from '../util/interfaces';
+import { useGeneralStore } from '@/stores/general';
+import type { ToastServiceMethods } from 'primevue/toastservice';
 
 const mmStore = useMetamaskStore();
+const generalStore = useGeneralStore();
+const toast = generalStore.toast as ToastServiceMethods;
 const VCImport = ref('');
 const displayImportModal = ref(false);
 const displayModal = ref(false);
@@ -138,12 +142,6 @@ const openModal = (title: string, content: string) => {
   modalTitle.value = title;
   modalContent.value = content;
   displayModal.value = true;
-};
-
-const closeModal = () => {
-  modalTitle.value = '';
-  modalContent.value = '';
-  displayModal.value = false;
 };
 
 const loadVCs = async () => {
@@ -186,7 +184,9 @@ const importVC = async () => {
   // console.log('🚀 ~ file: ProfileView.vue ~ line 54 ~ importVC ~ VC', VC);
   try {
     const res = await saveVC(VC, mmStore.snapApi);
-    if (!res) throw new Error('Failed to save VC');
+    if (!res) {
+      throw new Error('Failed to save VC');
+    }
     // console.log('🚀 ~ file: ProfileView.vue ~ line 48 ~ importVC ~ res', res);
     mmStore.vcs.push(VC);
     closeImportModal();

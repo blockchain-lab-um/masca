@@ -41,7 +41,9 @@ export async function installSnap(
 
 export async function checkForVCs(snapApi?: SSISnapApi) {
   try {
-    if (!snapApi) throw new Error('No snap API found.');
+    if (!snapApi) {
+      throw new Error('No snap API found.');
+    }
     const vcs = await snapApi.getVCs();
     if (!vcs.length) {
       throw new Error('No VCs found.');
@@ -60,17 +62,17 @@ export async function createVC(
   try {
     if (!snapApi) throw new Error('No snap API found.');
     if (!mmAddress) throw new Error('No metamask address found.');
-    let axiosConfig = {
+    const axiosConfig = {
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
       },
     };
-    let body = {
+    const body = {
       name: userName,
       id: 'did:ethr:rinkeby:' + mmAddress,
     };
-    let VC = await axios
+    const VC = await axios
       .post(backend_url + '/api/vc/issue-vc', body, axiosConfig)
       .then((response: any) => {
         return response.data;
@@ -165,7 +167,9 @@ export async function initStore(snapApi: SSISnapApi) {
 
 export async function checkAvailableStores(snapApi?: SSISnapApi) {
   try {
-    if (!snapApi) throw new Error('No snap API found.');
+    if (!snapApi) {
+      throw new Error('No snap API found.');
+    }
     const stores = await snapApi.getAvailableVCStores();
     if (!stores.length) {
       throw new Error('No stores found.');
@@ -178,7 +182,9 @@ export async function checkAvailableStores(snapApi?: SSISnapApi) {
 
 export async function setVCStore(vcStore: string, snapApi?: SSISnapApi) {
   try {
-    if (!snapApi) throw new Error('No snap API found.');
+    if (!snapApi) {
+      throw new Error('No snap API found.');
+    }
     const res = await snapApi.setVCStore(vcStore);
     if (!res) {
       throw new Error('Failed to set store.');

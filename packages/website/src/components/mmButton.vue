@@ -13,13 +13,13 @@
       :label="mmStore.didString"
       icon="pi pi-check"
       class="p-mr-2"
-      @click="copyToClipboard('did')"
+      @click="copyToClipboard(mmStore.DID)"
     />
     <Chip
       :label="mmStore.mmAddressString"
       icon="pi pi-check"
       class="p-mr-2"
-      @click="copyToClipboard('mmAddr')"
+      @click="copyToClipboard(mmStore.mmAddress)"
     />
   </div>
 </template>
@@ -30,36 +30,12 @@ import { useRouter } from 'vue-router';
 import { installSnap, initStore } from '../util/snap';
 import { useMetamaskStore } from '@/stores/metamask';
 import { useGeneralStore } from '@/stores/general';
-import type { ToastServiceMethods } from 'primevue/toastservice';
+import { copyToClipboard } from '@/util/general';
 
 const generalStore = useGeneralStore();
 const mmStore = useMetamaskStore();
 const router = useRouter();
 const isLoading = ref(false);
-
-const toast = generalStore.toast as ToastServiceMethods;
-
-const copyToClipboard = (type: string) => {
-  if (type === 'did') {
-    navigator.clipboard.writeText(mmStore.DID ?? '');
-    toast.add({
-      severity: 'info',
-      summary: 'Info',
-      detail: 'Copied DID to clipboard.',
-      group: 'br',
-      life: 3000,
-    });
-  } else if (type === 'mmAddr') {
-    navigator.clipboard.writeText(mmStore.mmAddress ?? '');
-    toast.add({
-      severity: 'info',
-      summary: 'Info',
-      detail: 'Copied address to clipboard.',
-      group: 'br',
-      life: 3000,
-    });
-  }
-};
 
 async function connectToMM() {
   isLoading.value = true;
