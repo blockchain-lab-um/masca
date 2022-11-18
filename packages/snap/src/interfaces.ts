@@ -6,7 +6,7 @@ import {
   SnapVCStore,
 } from './veramo/plugins/snapDataStore/snapDataStore';
 import { availableMethods, availableVCStores } from './constants/index';
-import { SnapProvider } from '@metamask/snap-types';
+import { SnapRpcHandler } from '@metamask/snaps-types';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 
 export type SSISnapState = {
@@ -90,7 +90,7 @@ export type SnapConfirmParams = {
 
 export interface ApiParams {
   state: SSISnapState;
-  wallet: SnapProvider;
+  wallet: SnapRpcHandler;
   account: string;
   bip44CoinTypeNode?: BIP44CoinTypeNode;
 }

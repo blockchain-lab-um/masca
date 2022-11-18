@@ -1,5 +1,5 @@
 /* eslint-disable consistent-return*/
-import { OnRpcRequestHandler } from '@metamask/snap-types';
+import { OnRpcRequestHandler } from '@metamask/snaps-types';
 import { togglePopups, changeInfuraToken } from './rpc/snap/configure';
 import { getVCs } from './rpc/vc/getVCs';
 import { getVP } from './rpc/vc/getVP';
@@ -30,17 +30,17 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,
   request,
 }) => {
-  let state = await getSnapStateUnchecked(wallet);
-  if (state === null) state = await init(wallet);
+  let state = await getSnapStateUnchecked(snap);
+  if (state === null) state = await init(snap);
 
-  const account = await getCurrentAccount(wallet);
+  const account = await getCurrentAccount(snap);
 
   // FIXME: HANDLE NULL maybe throw ?
   if (account === null) return;
 
   const apiParams: ApiParams = {
     state,
-    wallet,
+    snap,
     account,
   };
 

@@ -8,12 +8,12 @@ import {
   Resolvable,
 } from 'did-resolver';
 import { getCurrentAccount, getPublicKey } from '../../utils/snapUtils';
-import { SnapProvider } from '@metamask/snap-types';
+import { SnapRpcHandler } from '@metamask/snaps-types';
 import { getSnapState } from '../../utils/stateUtils';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const resolveSecp256k1 = async (
-  wallet: SnapProvider,
+  wallet: SnapRpcHandler,
   account: string,
   did: string
 ): Promise<DIDDocument> => {
@@ -46,7 +46,7 @@ export const resolveSecp256k1 = async (
 };
 
 type ResolutionFunction = (
-  wallet: SnapProvider,
+  wallet: SnapRpcHandler,
   account: string,
   did: string
 ) => Promise<DIDDocument>;

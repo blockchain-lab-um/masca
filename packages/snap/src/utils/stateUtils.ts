@@ -1,7 +1,7 @@
 import { ApiParams, SSISnapState } from '../interfaces';
 import { getPublicKey } from './snapUtils';
 import { getEmptyAccountState, getInitialSnapState } from './config';
-import { SnapProvider } from '@metamask/snap-types';
+import { SnapRpcHandler } from '@metamask/snaps-types';
 
 /**
  * Function for updating SSISnapState object in the MetaMask state
@@ -14,7 +14,7 @@ import { SnapProvider } from '@metamask/snap-types';
  *
  **/
 export async function updateSnapState(
-  wallet: SnapProvider,
+  wallet: SnapRpcHandler,
   snapState: SSISnapState
 ) {
   await wallet.request({
@@ -34,7 +34,7 @@ export async function updateSnapState(
  *
  **/
 export async function getSnapState(
-  wallet: SnapProvider
+  wallet: SnapRpcHandler
 ): Promise<SSISnapState> {
   const state = (await wallet.request({
     method: 'snap_manageState',
@@ -56,7 +56,7 @@ export async function getSnapState(
  *
  **/
 export async function getSnapStateUnchecked(
-  wallet: SnapProvider
+  wallet: SnapRpcHandler
 ): Promise<SSISnapState | null> {
   return (await wallet.request({
     method: 'snap_manageState',
@@ -75,7 +75,7 @@ export async function getSnapStateUnchecked(
  *
  **/
 export async function initSnapState(
-  wallet: SnapProvider
+  wallet: SnapRpcHandler
 ): Promise<SSISnapState> {
   const state = getInitialSnapState();
   await updateSnapState(wallet, state);

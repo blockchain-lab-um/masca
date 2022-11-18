@@ -1,6 +1,6 @@
 import { updateSnapState } from './stateUtils';
 import { publicKeyConvert } from 'secp256k1';
-import { SnapProvider } from '@metamask/snap-types';
+import { SnapRpcHandler } from '@metamask/snaps-types';
 import { ApiParams, SnapConfirmParams, SSISnapState } from '../interfaces';
 import { snapGetKeysFromAddress } from './keyPair';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
@@ -16,7 +16,7 @@ import { BIP44CoinTypeNode } from '@metamask/key-tree';
  *
  **/
 export async function getCurrentAccount(
-  wallet: SnapProvider
+  wallet: SnapRpcHandler
 ): Promise<string | null> {
   try {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
@@ -30,7 +30,9 @@ export async function getCurrentAccount(
   }
 }
 
-export async function getCurrentNetwork(wallet: SnapProvider): Promise<string> {
+export async function getCurrentNetwork(
+  wallet: SnapRpcHandler
+): Promise<string> {
   return (await wallet.request({
     method: 'eth_chainId',
   })) as string;
@@ -43,7 +45,7 @@ export async function getCurrentNetwork(wallet: SnapProvider): Promise<string> {
  * @param token infura token
  */
 export async function updateInfuraToken(
-  wallet: SnapProvider,
+  wallet: SnapRpcHandler,
   state: SSISnapState,
   token: string
 ): Promise<void> {
@@ -55,7 +57,10 @@ export async function updateInfuraToken(
  * Function that toggles the disablePopups flag in the config.
  *
  */
-export async function togglePopups(wallet: SnapProvider, state: SSISnapState) {
+export async function togglePopups(
+  wallet: SnapRpcHandler,
+  state: SSISnapState
+) {
   state.snapConfig.dApp.disablePopups = !state.snapConfig.dApp.disablePopups;
   await updateSnapState(wallet, state);
 }
@@ -65,7 +70,7 @@ export async function togglePopups(wallet: SnapProvider, state: SSISnapState) {
  *
  */
 export async function addFriendlyDapp(
-  wallet: SnapProvider,
+  wallet: SnapRpcHandler,
   state: SSISnapState,
   dapp: string
 ) {
@@ -78,7 +83,7 @@ export async function addFriendlyDapp(
  *
  */
 export async function removeFriendlyDapp(
-  wallet: SnapProvider,
+  wallet: SnapRpcHandler,
   state: SSISnapState,
   dapp: string
 ) {
@@ -126,7 +131,7 @@ export function _hexToUint8Array(str: string): Uint8Array {
 }
 
 export async function snapConfirm(
-  wallet: SnapProvider,
+  wallet: SnapRpcHandler,
   params: SnapConfirmParams
 ): Promise<boolean> {
   return (await wallet.request({
@@ -145,7 +150,7 @@ export function getAccountIndex(
 }
 
 export async function setAccountIndex(
-  wallet: SnapProvider,
+  wallet: SnapRpcHandler,
   state: SSISnapState,
   account: string,
   index: number

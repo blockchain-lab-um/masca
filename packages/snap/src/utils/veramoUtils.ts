@@ -8,7 +8,7 @@ import {
 } from '@veramo/core';
 import { getCurrentDid } from './didUtils';
 import { getPublicKey, snapConfirm } from './snapUtils';
-import { SnapProvider } from '@metamask/snap-types';
+import { SnapRpcHandler } from '@metamask/snaps-types';
 import { availableVCStores } from '../constants/index';
 import { ApiParams } from '../interfaces';
 import { snapGetKeysFromAddress } from './keyPair';
@@ -19,7 +19,7 @@ import { BIP44CoinTypeNode } from '@metamask/key-tree';
  * @param {VerifiableCredential} vc - The VC.
  * */
 export async function veramoSaveVC(
-  wallet: SnapProvider,
+  wallet: SnapRpcHandler,
   vc: VerifiableCredential,
   vcStore: typeof availableVCStores[number]
 ): Promise<boolean> {
@@ -32,7 +32,7 @@ export async function veramoSaveVC(
  * @returns {Promise<VerifiableCredential[]>} Array of saved VCs.
  */
 export async function veramoListVCs(
-  wallet: SnapProvider,
+  wallet: SnapRpcHandler,
   vcStore: typeof availableVCStores[number],
   query?: VCQuery
 ): Promise<VerifiableCredential[]> {
