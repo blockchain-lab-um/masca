@@ -2,19 +2,50 @@
   <div class="profile">
     <h1 id="title">Available VCs</h1>
     <div>
-      <DataTable :value="mmStore.vcs" responsiveLayout="scroll" removableSort v-model:selection="selectedVC"
-        selectionMode="single" dataKey="id">
+      <DataTable
+        :value="mmStore.vcs"
+        responsiveLayout="scroll"
+        removableSort
+        v-model:selection="selectedVC"
+        selectionMode="single"
+        dataKey="id"
+      >
         <template #header>
           <div class="table-header">
             Verifiable Credentials
             <div class="dtButtons">
-              <Button @click="openImportModal" label="Import VC" icon="pi pi-file-import" />
-              <wrappedButton label="Load VCs" :method="loadVCs" icon="pi pi-refresh" />
-              <wrappedButton label="Create VP" :method="vpCreate" icon="pi pi-upload" />
+              <Button
+                @click="openImportModal"
+                label="Import VC"
+                icon="pi pi-file-import"
+              />
+              <wrappedButton
+                label="Load VCs"
+                :method="loadVCs"
+                icon="pi pi-refresh"
+              />
+              <wrappedButton
+                label="Create VP"
+                :method="vpCreate"
+                icon="pi pi-upload"
+              />
             </div>
-
           </div>
         </template>
+        <Column header="View">
+          <template #body="slotProps">
+            <Button
+              icon="pi pi-search"
+              class="p-button-rounded p-button-outlined"
+              @click="
+                openModal(
+                  'Verifiable Credential',
+                  JSON.stringify(slotProps.data, null, 2)
+                )
+              "
+            />
+          </template>
+        </Column>
         <Column field="id" header="VC Id" />
         <Column field="issuanceDate" header="Issuance Date" :sortable="true">
           <template #body="slotProps">
@@ -22,42 +53,69 @@
           </template>
         </Column>
         <Column field="issuer.id" header="Issuer Id" />
-        <Column header="View">
-          <template #body="slotProps">
-            <Button icon="pi pi-search" class="p-button-rounded p-button-outlined"
-              @click="openModal('Verifiable Credential', JSON.stringify(slotProps.data, null, 2))" />
-          </template>
-        </Column>
         <template #footer>
           In total there are {{ mmStore.vcs ? mmStore.vcs.length : 0 }} VCs.
         </template>
       </DataTable>
     </div>
-    <Dialog header="Import VC (JSON)" v-model:visible="displayImportModal"
-      :breakpoints="{ '960px': '75vw', '640px': '90vw' }" :style="{ width: '50vw' }" :modal="true">
-      <Textarea id="VCImportArea" v-model="VCImport" autofocus :autoResize="true" class="vcImport" />
+    <Dialog
+      header="Import VC (JSON)"
+      v-model:visible="displayImportModal"
+      :breakpoints="{ '960px': '75vw', '640px': '90vw' }"
+      :style="{ width: '50vw' }"
+      :modal="true"
+    >
+      <Textarea
+        id="VCImportArea"
+        v-model="VCImport"
+        autofocus
+        :autoResize="true"
+        class="vcImport"
+      />
       <template #footer>
-        <Button label="Cancel" icon="pi pi-times" @click="closeImportModal()" class="p-button-text" />
+        <Button
+          label="Cancel"
+          icon="pi pi-times"
+          @click="closeImportModal()"
+          class="p-button-text"
+        />
         <wrappedButton label="Import" :method="importVC" icon="pi pi-check" />
       </template>
     </Dialog>
-    <Dialog :header="modalTitle" v-model:visible="displayModal" :breakpoints="{ '960px': '75vw', '640px': '90vw' }"
-      :style="{ width: '50vw' }" :modal="true">
-      <Textarea id="VCImportArea" v-model="modalContent" autofocus :autoResize="true" class="vcImport" />
+    <Dialog
+      :header="modalTitle"
+      v-model:visible="displayModal"
+      :breakpoints="{ '960px': '75vw', '640px': '90vw' }"
+      :style="{ width: '50vw' }"
+      :modal="true"
+    >
+      <Textarea
+        id="VCImportArea"
+        v-model="modalContent"
+        autofocus
+        :autoResize="true"
+        class="vcImport"
+        disabled
+      />
       <template #footer>
-        <Button label="Close" icon="pi pi-times" @click="closeModal()" class="p-button-text" />
+        <Button
+          label="Close"
+          icon="pi pi-times"
+          @click="closeModal()"
+          class="p-button-text"
+        />
       </template>
     </Dialog>
   </div>
 </template>
 
 <script setup lang="ts">
-import wrappedButton from "@/components/wrappedButton.vue";
-import { ref } from "vue";
-import { useMetamaskStore } from "@/stores/metamask";
-import { ISOtoLocaleString } from "@/util/general";
-import { checkForVCs, saveVC, createVP } from "@/util/snap";
-import type { VerifiableCredential } from "../util/interfaces";
+import wrappedButton from '@/components/wrappedButton.vue';
+import { ref } from 'vue';
+import { useMetamaskStore } from '@/stores/metamask';
+import { ISOtoLocaleString } from '@/util/general';
+import { checkForVCs, saveVC, createVP } from '@/util/snap';
+import type { VerifiableCredential } from '../util/interfaces';
 
 const mmStore = useMetamaskStore();
 const VCImport = ref('');
@@ -74,25 +132,23 @@ const openImportModal = () => {
 const closeImportModal = () => {
   VCImport.value = '';
   displayImportModal.value = false;
-}
+};
 
 const openModal = (title: string, content: string) => {
   modalTitle.value = title;
   modalContent.value = content;
   displayModal.value = true;
-}
+};
 
 const closeModal = () => {
   modalTitle.value = '';
   modalContent.value = '';
   displayModal.value = false;
-}
+};
 
 const loadVCs = async () => {
   try {
-    const validVCs = await checkForVCs(
-      mmStore.snapApi
-    );
+    const validVCs = await checkForVCs(mmStore.snapApi);
     // console.log("🚀 ~ file: ProfileView.vue ~ line 36 ~ loadVCs ~ validVCs", validVCs);
     if (validVCs) {
       mmStore.vcs = validVCs;
@@ -102,7 +158,7 @@ const loadVCs = async () => {
     console.error(err);
     throw err;
   }
-}
+};
 
 const vpCreate = async () => {
   try {
@@ -118,7 +174,7 @@ const vpCreate = async () => {
   } catch (err: any) {
     throw new Error(err.message);
   }
-}
+};
 
 const importVC = async () => {
   let VC: VerifiableCredential;
@@ -139,7 +195,7 @@ const importVC = async () => {
     console.error(err);
     throw err;
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

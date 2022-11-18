@@ -124,10 +124,10 @@ export function createDIDMethod(DID?: string) {
   if (!DID) return undefined;
   const splitDID = DID.split(':');
   if (splitDID.length < 2) return undefined;
-  const didName = splitDID[1];
+  const didName = splitDID[0] + ':' + splitDID[1];
   return {
-    value: splitDID[0] + ':' + splitDID[1],
-    text: didName.charAt(0).toUpperCase() + didName.slice(1),
+    value: didName,
+    text: didName,
   };
 }
 
@@ -145,10 +145,9 @@ export async function initStore(snapApi: SSISnapApi) {
     }
     if (methods) {
       availableMethods = methods.map((method) => {
-        let methodName = method.split(':')[1];
         return {
           value: method,
-          text: methodName.charAt(0).toUpperCase() + methodName.slice(1),
+          text: method,
         } as DIDMethod;
       });
     }

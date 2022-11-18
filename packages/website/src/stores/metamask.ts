@@ -34,7 +34,7 @@ export const useMetamaskStore = defineStore('metamask', () => {
 
   const mmAddressString = computed(() => {
     return mmAddress.value
-      ? mmAddress.value.substring(0, 10) +
+      ? mmAddress.value.substring(0, 5) +
           '...' +
           mmAddress.value.substring(mmAddress.value.length - 4)
       : 'No MM address';

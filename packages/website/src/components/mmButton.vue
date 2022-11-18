@@ -76,8 +76,10 @@ async function connectToMM() {
         return;
       });
 
+    let snapId = 'local:http://localhost:8081';
+    //let snapId = undefined;
     try {
-      const result = await installSnap('local:');
+      const result = await installSnap(snapId);
       if (result.isSnapInstalled) {
         const api = await result.snap?.getSSISnapApi();
         if (!api) return;
