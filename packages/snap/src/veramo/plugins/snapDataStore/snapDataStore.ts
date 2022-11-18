@@ -4,7 +4,7 @@ import { AbstractDIDStore } from '@veramo/did-manager';
 import { v4 as uuidv4 } from 'uuid';
 import { VerifiableCredential } from '@veramo/core';
 import { getSnapState, updateSnapState } from '../../../utils/stateUtils';
-import { SnapRpcHandler } from '@metamask/snaps-types';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { getCurrentAccount } from '../../../utils/snapUtils';
 import { AbstractVCStore } from '@blockchain-lab-um/veramo-vc-manager';
 
@@ -20,10 +20,10 @@ export type ImportablePrivateKey = RequireOnly<
  */
 
 export class SnapDIDStore extends AbstractDIDStore {
-  wallet: SnapRpcHandler;
-  constructor(walletParam: SnapRpcHandler) {
+  snap: SnapsGlobalObject;
+  constructor(snapParam: SnapsGlobalObject) {
     super();
-    this.wallet = walletParam;
+    this.snap = snapParam;
   }
 
   async get({
@@ -35,8 +35,8 @@ export class SnapDIDStore extends AbstractDIDStore {
     alias: string;
     provider: string;
   }): Promise<IIdentifier> {
-    const state = await getSnapState(this.wallet);
-    const account = await getCurrentAccount(this.wallet);
+    const state = await getSnapState(this.snap);
+    const account = await getCurrentAccount(this.snap);
     if (!account) throw Error('User denied error');
     const identifiers = state.accountState[account].identifiers;
 
@@ -62,21 +62,21 @@ export class SnapDIDStore extends AbstractDIDStore {
   }
 
   async delete({ did }: { did: string }) {
-    const state = await getSnapState(this.wallet);
-    const account = await getCurrentAccount(this.wallet);
+    const state = await getSnapState(this.snap);
+    const account = await getCurrentAccount(this.snap);
     if (!account) throw Error('User denied error');
 
     if (!state.accountState[account].identifiers[did])
       throw Error('Identifier not found');
 
     delete state.accountState[account].identifiers[did];
-    await updateSnapState(this.wallet, state);
+    await updateSnapState(this.snap, state);
     return true;
   }
 
   async import(args: IIdentifier) {
-    const state = await getSnapState(this.wallet);
-    const account = await getCurrentAccount(this.wallet);
+    const state = await getSnapState(this.snap);
+    const account = await getCurrentAccount(this.snap);
     if (!account) throw Error('User denied error');
 
     const identifier = { ...args };
@@ -86,7 +86,7 @@ export class SnapDIDStore extends AbstractDIDStore {
       }
     }
     state.accountState[account].identifiers[args.did] = identifier;
-    await updateSnapState(this.wallet, state);
+    await updateSnapState(this.snap, state);
     return true;
   }
 
@@ -94,8 +94,8 @@ export class SnapDIDStore extends AbstractDIDStore {
     alias?: string;
     provider?: string;
   }): Promise<IIdentifier[]> {
-    const state = await getSnapState(this.wallet);
-    const account = await getCurrentAccount(this.wallet);
+    const state = await getSnapState(this.snap);
+    const account = await getCurrentAccount(this.snap);
     if (!account) throw Error('User denied error');
 
     let result: IIdentifier[] = [];
@@ -124,15 +124,15 @@ export class SnapDIDStore extends AbstractDIDStore {
  */
 
 export class SnapVCStore extends AbstractVCStore {
-  wallet: SnapRpcHandler;
-  constructor(walletParam: SnapRpcHandler) {
+  snap: SnapsGlobalObject;
+  constructor(snapParam: SnapsGlobalObject) {
     super();
-    this.wallet = walletParam;
+    this.snap = snapParam;
   }
 
   async get(args: { id: string }): Promise<VerifiableCredential | null> {
-    const state = await getSnapState(this.wallet);
-    const account = await getCurrentAccount(this.wallet);
+    const state = await getSnapState(this.snap);
+    const account = await getCurrentAccount(this.snap);
     if (!account) throw Error('User denied error');
 
     if (!state.accountState[account].vcs[args.id])
@@ -141,20 +141,20 @@ export class SnapVCStore extends AbstractVCStore {
   }
 
   async delete({ id }: { id: string }) {
-    const state = await getSnapState(this.wallet);
-    const account = await getCurrentAccount(this.wallet);
+    const state = await getSnapState(this.snap);
+    const account = await getCurrentAccount(this.snap);
     if (!account) throw Error('User denied error');
 
     if (!state.accountState[account].vcs[id]) throw Error('VC not found');
 
     delete state.accountState[account].vcs[id];
-    await updateSnapState(this.wallet, state);
+    await updateSnapState(this.snap, state);
     return true;
   }
 
   async import(args: VerifiableCredential) {
-    const state = await getSnapState(this.wallet);
-    const account = await getCurrentAccount(this.wallet);
+    const state = await getSnapState(this.snap);
+    const account = await getCurrentAccount(this.snap);
     if (!account) throw Error('User denied error');
 
     let alias = uuidv4();
@@ -163,13 +163,13 @@ export class SnapVCStore extends AbstractVCStore {
     }
 
     state.accountState[account].vcs[alias] = { ...args };
-    await updateSnapState(this.wallet, state);
+    await updateSnapState(this.snap, state);
     return true;
   }
 
   async list(): Promise<VerifiableCredential[]> {
-    const state = await getSnapState(this.wallet);
-    const account = await getCurrentAccount(this.wallet);
+    const state = await getSnapState(this.snap);
+    const account = await getCurrentAccount(this.snap);
     if (!account) throw Error('User denied error');
     const result: VerifiableCredential[] = [];
 

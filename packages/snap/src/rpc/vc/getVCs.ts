@@ -8,10 +8,10 @@ export async function getVCs(
   params: ApiParams,
   query?: VCQuery
 ): Promise<VerifiableCredential[]> {
-  const { state, wallet, account } = params;
+  const { state, snap, account } = params;
   console.log('query', query);
   const vcs = await veramoListVCs(
-    wallet,
+    snap,
     state.accountState[account].accountConfig.ssi.vcStore,
     query
   );
@@ -24,7 +24,7 @@ export async function getVCs(
 
   if (
     state.snapConfig.dApp.disablePopups ||
-    (await snapConfirm(wallet, promptObj))
+    (await snapConfirm(snap, promptObj))
   ) {
     return vcs;
   }

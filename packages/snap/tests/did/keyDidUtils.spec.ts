@@ -1,5 +1,5 @@
-import { SnapProvider } from '@metamask/snap-types';
-import { createMockWallet, WalletMock } from '../testUtils/wallet.mock';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { createMocksnap, snapMock } from '../testUtils/snap.mock';
 import { getDidKeyIdentifier } from '../../src/did/key/keyDidUtils';
 import {
   address,
@@ -8,10 +8,10 @@ import {
 } from '../testUtils/constants';
 
 describe('keyDidUtils', () => {
-  let walletMock: SnapProvider & WalletMock;
+  let snapMock: SnapsGlobalObject & snapMock;
 
   beforeEach(() => {
-    walletMock = createMockWallet();
+    snapMock = createMocksnap();
   });
   describe('keyDidUtils', () => {
     it('should generate proper DID', () => {

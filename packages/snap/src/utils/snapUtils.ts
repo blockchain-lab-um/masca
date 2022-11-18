@@ -1,6 +1,6 @@
 import { updateSnapState } from './stateUtils';
 import { publicKeyConvert } from 'secp256k1';
-import { SnapRpcHandler } from '@metamask/snaps-types';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { ApiParams, SnapConfirmParams, SSISnapState } from '../interfaces';
 import { snapGetKeysFromAddress } from './keyPair';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
@@ -16,11 +16,11 @@ import { BIP44CoinTypeNode } from '@metamask/key-tree';
  *
  **/
 export async function getCurrentAccount(
-  wallet: SnapRpcHandler
+  snap: SnapsGlobalObject
 ): Promise<string | null> {
   try {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    const accounts = (await wallet.request({
+    const accounts = (await snap.request({
       method: 'eth_requestAccounts',
     })) as Array<string>;
     console.log('MetaMask accounts', accounts);
@@ -31,9 +31,9 @@ export async function getCurrentAccount(
 }
 
 export async function getCurrentNetwork(
-  wallet: SnapRpcHandler
+  snap: SnapsGlobalObject
 ): Promise<string> {
-  return (await wallet.request({
+  return (await snap.request({
     method: 'eth_chainId',
   })) as string;
 }
@@ -45,12 +45,12 @@ export async function getCurrentNetwork(
  * @param token infura token
  */
 export async function updateInfuraToken(
-  wallet: SnapRpcHandler,
+  snap: SnapsGlobalObject,
   state: SSISnapState,
   token: string
 ): Promise<void> {
   state.snapConfig.snap.infuraToken = token;
-  await updateSnapState(wallet, state);
+  await updateSnapState(snap, state);
 }
 
 /**
@@ -58,11 +58,11 @@ export async function updateInfuraToken(
  *
  */
 export async function togglePopups(
-  wallet: SnapRpcHandler,
+  snap: SnapsGlobalObject,
   state: SSISnapState
 ) {
   state.snapConfig.dApp.disablePopups = !state.snapConfig.dApp.disablePopups;
-  await updateSnapState(wallet, state);
+  await updateSnapState(snap, state);
 }
 
 /**
@@ -70,12 +70,12 @@ export async function togglePopups(
  *
  */
 export async function addFriendlyDapp(
-  wallet: SnapRpcHandler,
+  snap: SnapsGlobalObject,
   state: SSISnapState,
   dapp: string
 ) {
   state.snapConfig.dApp.friendlyDapps.push(dapp);
-  await updateSnapState(wallet, state);
+  await updateSnapState(snap, state);
 }
 
 /**
@@ -83,7 +83,7 @@ export async function addFriendlyDapp(
  *
  */
 export async function removeFriendlyDapp(
-  wallet: SnapRpcHandler,
+  snap: SnapsGlobalObject,
   state: SSISnapState,
   dapp: string
 ) {
@@ -92,7 +92,7 @@ export async function removeFriendlyDapp(
   // friendlyDapps = friendlyDapps.filter((d) => d !== dapp);
   state.snapConfig.dApp.friendlyDapps =
     state.snapConfig.dApp.friendlyDapps.filter((d) => d !== dapp);
-  await updateSnapState(wallet, state);
+  await updateSnapState(snap, state);
 }
 
 /**
@@ -101,14 +101,14 @@ export async function removeFriendlyDapp(
  * @returns {Promise<string>} - returns public key for current account
  */
 export async function getPublicKey(params: ApiParams): Promise<string> {
-  const { wallet, state, account, bip44CoinTypeNode } = params;
+  const { snap, state, account, bip44CoinTypeNode } = params;
   if (state.accountState[account].publicKey !== '')
     return state.accountState[account].publicKey;
   const res = await snapGetKeysFromAddress(
     bip44CoinTypeNode as BIP44CoinTypeNode,
     state,
     account,
-    wallet
+    snap
   );
   if (res == null) throw new Error('Could not get keys from address');
   return res.publicKey;
@@ -131,10 +131,10 @@ export function _hexToUint8Array(str: string): Uint8Array {
 }
 
 export async function snapConfirm(
-  wallet: SnapRpcHandler,
+  snap: SnapsGlobalObject,
   params: SnapConfirmParams
 ): Promise<boolean> {
-  return (await wallet.request({
+  return (await snap.request({
     method: 'snap_confirm',
     params: [params],
   })) as boolean;
@@ -150,11 +150,11 @@ export function getAccountIndex(
 }
 
 export async function setAccountIndex(
-  wallet: SnapRpcHandler,
+  snap: SnapsGlobalObject,
   state: SSISnapState,
   account: string,
   index: number
 ) {
   state.accountState[account].index = index;
-  await updateSnapState(wallet, state);
+  await updateSnapState(snap, state);
 }

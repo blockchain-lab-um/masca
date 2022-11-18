@@ -3,17 +3,17 @@ import { v4 as uuidv4 } from 'uuid';
 import { VerifiableCredential } from '@veramo/core';
 import { aliases, getCeramic } from '../../../utils/ceramicUtils';
 import { DIDDataStore } from '@glazed/did-datastore';
-import { SnapRpcHandler } from '@metamask/snaps-types';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { AbstractVCStore } from '@blockchain-lab-um/veramo-vc-manager';
 export class CeramicVCStore extends AbstractVCStore {
-  wallet: SnapRpcHandler;
-  constructor(walletParam: SnapRpcHandler) {
+  snap: SnapsGlobalObject;
+  constructor(snapParam: SnapsGlobalObject) {
     super();
-    this.wallet = walletParam;
+    this.snap = snapParam;
   }
 
   async get(args: { id: string }): Promise<VerifiableCredential | null> {
-    const ceramic = await getCeramic(this.wallet);
+    const ceramic = await getCeramic(this.snap);
     const datastore = new DIDDataStore({ ceramic, model: aliases });
     const storedCredentials = (await datastore.get(
       'StoredCredentials'
@@ -31,7 +31,7 @@ export class CeramicVCStore extends AbstractVCStore {
 
   // eslint-disable-next-line @typescript-eslint/require-await
   async delete(args: { id: string }): Promise<boolean> {
-    const ceramic = await getCeramic(this.wallet);
+    const ceramic = await getCeramic(this.snap);
     const datastore = new DIDDataStore({ ceramic, model: aliases });
     const ceramicData = (await datastore.get(
       'StoredCredentials'
@@ -57,7 +57,7 @@ export class CeramicVCStore extends AbstractVCStore {
     const alias = uuidv4();
     const vc = { ...args, key: alias };
 
-    const ceramic = await getCeramic(this.wallet);
+    const ceramic = await getCeramic(this.snap);
     const datastore = new DIDDataStore({ ceramic, model: aliases });
     const storedCredentials = (await datastore.get(
       'StoredCredentials'
@@ -83,7 +83,7 @@ export class CeramicVCStore extends AbstractVCStore {
   }
 
   async list(): Promise<VerifiableCredential[]> {
-    const ceramic = await getCeramic(this.wallet);
+    const ceramic = await getCeramic(this.snap);
     const datastore = new DIDDataStore({ ceramic, model: aliases });
     const storedCredentials = (await datastore.get(
       'StoredCredentials'
@@ -95,9 +95,9 @@ export class CeramicVCStore extends AbstractVCStore {
   }
 }
 
-export async function clear(wallet: SnapRpcHandler): Promise<boolean> {
+export async function clear(snap: SnapsGlobalObject): Promise<boolean> {
   console.log('Clearing ceramic storage');
-  const ceramic = await getCeramic(wallet);
+  const ceramic = await getCeramic(snap);
 
   const datastore = new DIDDataStore({ ceramic, model: aliases });
   const storedCredentialsNew = { storedCredentials: [] };

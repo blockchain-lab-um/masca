@@ -1834,6 +1834,7 @@ __metadata:
     "@veramo/utils": 4.1.1
     audit-ci: ^6.3.0
     babel-loader: ^8.2.5
+    buffer: ^6.0.3
     ceramic-cacao: ^1.4.0
     did-jwt-vc: 2.1.9
     did-resolver: 3.2.0

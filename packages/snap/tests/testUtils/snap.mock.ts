@@ -1,19 +1,19 @@
 import { RequestArguments } from '@metamask/providers/dist/BaseProvider';
 import { Maybe } from '@metamask/providers/dist/utils';
-import { SnapProvider } from '@metamask/snap-types';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 
 import { address, mnemonic, privateKey } from './constants';
 import { SSISnapState } from '../../src/interfaces';
 import { Wallet } from 'ethers';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
-interface IWalletMock {
+interface IsnapMock {
   request<T>(args: RequestArguments): Promise<Maybe<T>>;
   resetHistory(): void;
 }
 
-export class WalletMock implements IWalletMock {
+export class snapMock implements IsnapMock {
   private snapState: SSISnapState | null = null;
-  private wallet: Wallet = new Wallet(privateKey);
+  private snap: Wallet = new Wallet(privateKey);
 
   private snapManageState(...params: unknown[]): SSISnapState | null {
     if (params.length === 0) return null;
@@ -28,7 +28,7 @@ export class WalletMock implements IWalletMock {
     return null;
   }
 
-  private async walletPersonalSign(data: unknown): Promise<string> {
+  private async snapPersonalSign(data: unknown): Promise<string> {
     const acc = new Wallet(privateKey);
     const signature = await acc.signMessage(data as string);
     return signature;
@@ -57,7 +57,7 @@ export class WalletMock implements IWalletMock {
     personal_sign: jest
       .fn()
       .mockImplementation(
-        async (data: unknown) => await this.walletPersonalSign(data)
+        async (data: unknown) => await this.snapPersonalSign(data)
       ),
     eth_signTypedData_v4: jest
       .fn()
@@ -69,7 +69,7 @@ export class WalletMock implements IWalletMock {
         delete types.EIP712Domain;
 
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        return this.wallet._signTypedData(domain, types, message);
+        return this.snap._signTypedData(domain, types, message);
       }),
   };
 
@@ -90,6 +90,6 @@ export class WalletMock implements IWalletMock {
   }
 }
 
-export function createMockWallet(): SnapProvider & WalletMock {
-  return new WalletMock() as SnapProvider & WalletMock;
+export function createMocksnap(): SnapsGlobalObject & snapMock {
+  return new snapMock() as SnapsGlobalObject & snapMock;
 }

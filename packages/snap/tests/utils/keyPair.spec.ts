@@ -1,5 +1,5 @@
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
-import { SnapProvider } from '@metamask/snap-types';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { getEmptyAccountState } from '../../src/utils/config';
 import { snapGetKeysFromAddress } from '../../src/utils/keyPair';
 import {
@@ -11,13 +11,13 @@ import {
   address2,
   privateKey2,
 } from '../testUtils/constants';
-import { createMockWallet, WalletMock } from '../testUtils/wallet.mock';
+import { createMocksnap, snapMock } from '../testUtils/snap.mock';
 
 describe('Test function: getAddressKey', function () {
-  let walletMock: SnapProvider & WalletMock;
+  let snapMock: SnapsGlobalObject & snapMock;
 
   beforeEach(() => {
-    walletMock = createMockWallet();
+    snapMock = createMocksnap();
   });
 
   it('should get the ground address key of a specific address index from the BIP-44 entropy correctly', async function () {
@@ -29,7 +29,7 @@ describe('Test function: getAddressKey', function () {
       bip44Entropy as BIP44CoinTypeNode,
       initialState,
       address,
-      walletMock
+      snapMock
     );
     expect(res).not.toBeNull();
     expect(res?.privateKey).toEqual(privateKey.split('0x')[1]);
@@ -40,7 +40,7 @@ describe('Test function: getAddressKey', function () {
       bip44Entropy as BIP44CoinTypeNode,
       initialState,
       address2,
-      walletMock
+      snapMock
     );
     expect(res2).not.toBeNull();
     expect(res2?.privateKey).toEqual(privateKey2.split('0x')[1]);
@@ -55,7 +55,7 @@ describe('Test function: getAddressKey', function () {
       bip44Entropy as BIP44CoinTypeNode,
       initialState,
       '0x',
-      walletMock
+      snapMock
     );
     expect(res).toBeNull();
     expect.assertions(1);

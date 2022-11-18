@@ -1,21 +1,21 @@
-import { WalletMock, createMockWallet } from '../testUtils/wallet.mock';
+import { snapMock, createMocksnap } from '../testUtils/snap.mock';
 import { init } from '../../src/utils/init';
-import { SnapProvider } from '@metamask/snap-types';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { getInitialSnapState } from '../../src/utils/config';
 
 describe('RPC handler [init]', () => {
-  let walletMock: SnapProvider & WalletMock;
+  let snapMock: SnapsGlobalObject & snapMock;
 
   beforeEach(() => {
-    walletMock = createMockWallet();
+    snapMock = createMocksnap();
   });
 
   it('should succeed for accepted terms and conditions', async () => {
     const initialState = getInitialSnapState();
-    walletMock.rpcMocks.snap_confirm.mockReturnValueOnce(true);
+    snapMock.rpcMocks.snap_confirm.mockReturnValueOnce(true);
 
-    await expect(init(walletMock)).resolves.toEqual(initialState);
-    expect(walletMock.rpcMocks.snap_manageState).toHaveBeenCalledWith(
+    await expect(init(snapMock)).resolves.toEqual(initialState);
+    expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith(
       'update',
       initialState
     );
@@ -24,9 +24,9 @@ describe('RPC handler [init]', () => {
   });
 
   it('should fail for rejected terms and conditions', async function () {
-    walletMock.rpcMocks.snap_confirm.mockReturnValueOnce(false);
+    snapMock.rpcMocks.snap_confirm.mockReturnValueOnce(false);
 
-    await expect(init(walletMock)).rejects.toThrow(
+    await expect(init(snapMock)).rejects.toThrow(
       new Error('User did not accept terms and conditions!')
     );
 

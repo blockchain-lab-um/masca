@@ -1,46 +1,40 @@
-import { SnapProvider } from '@metamask/snap-types';
-import { WalletMock, createMockWallet } from '../testUtils/wallet.mock';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { snapMock, createMocksnap } from '../testUtils/snap.mock';
 import { exampleVC, getDefaultSnapState } from '../testUtils/constants';
 import { veramoListVCs, veramoSaveVC } from '../../src/utils/veramoUtils';
 import { clear } from '../../src/veramo/plugins/ceramicDataStore/ceramicDataStore';
 import { VerifiableCredential } from '@veramo/core';
 describe('Utils [ceramic]', () => {
-  let walletMock: SnapProvider & WalletMock;
+  let snapMock: SnapsGlobalObject & snapMock;
 
   beforeEach(() => {
-    walletMock = createMockWallet();
+    snapMock = createMocksnap();
   });
 
   describe('ceramicVCStore', () => {
     it('should clear all VCs stored on ceramic', async () => {
-      walletMock.rpcMocks.snap_manageState.mockReturnValue(
-        getDefaultSnapState()
-      );
-      await clear(walletMock);
-      const vcs = await veramoListVCs(walletMock, 'ceramic');
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
+      await clear(snapMock);
+      const vcs = await veramoListVCs(snapMock, 'ceramic');
       expect(vcs).toEqual([]);
 
       expect.assertions(1);
     });
     it('should succeed saving VC on ceramic network', async () => {
-      walletMock.rpcMocks.snap_manageState.mockReturnValue(
-        getDefaultSnapState()
-      );
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
 
-      await expect(
-        veramoSaveVC(walletMock, exampleVC, 'ceramic')
-      ).resolves.toBe(true);
+      await expect(veramoSaveVC(snapMock, exampleVC, 'ceramic')).resolves.toBe(
+        true
+      );
 
       expect.assertions(1);
     });
     it('should fail saving wrong object on ceramic network', async () => {
-      walletMock.rpcMocks.snap_manageState.mockReturnValue(
-        getDefaultSnapState()
-      );
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
 
       await expect(
         veramoSaveVC(
-          walletMock,
+          snapMock,
           { name: 'Alfredo' } as unknown as VerifiableCredential,
           'ceramic'
         )
@@ -49,11 +43,9 @@ describe('Utils [ceramic]', () => {
       );
     });
     it('should succeed retrieving VC from ceramic network', async () => {
-      walletMock.rpcMocks.snap_manageState.mockReturnValue(
-        getDefaultSnapState()
-      );
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
       const expectedVC = { ...exampleVC };
-      const vcs = await veramoListVCs(walletMock, 'ceramic');
+      const vcs = await veramoListVCs(snapMock, 'ceramic');
       vcs.map((vc) => {
         delete vc['key'];
         return vc;

@@ -53,14 +53,13 @@ export async function enableSSISnap(
 
   if (!isInstalled) {
     await window.ethereum.request({
-      method: 'wallet_enable',
-      params: [
-        {
-          [`wallet_snap_${snapId}`]: {
-            version: version,
-          },
+      method: 'wallet_requestSnaps',
+      //Maybe its just ${snapId}
+      params: {
+        [`wallet_snap_${snapId}`]: {
+          version: version,
         },
-      ],
+      },
     });
   }
 

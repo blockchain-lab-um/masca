@@ -1,5 +1,5 @@
-import { SnapProvider } from '@metamask/snap-types';
-import { createMockWallet, WalletMock } from '../testUtils/wallet.mock';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { createMocksnap, snapMock } from '../testUtils/snap.mock';
 import { onRpcRequest } from '../../src/index';
 import {
   exampleDID,
@@ -18,17 +18,17 @@ import { getAgent } from '../../src/veramo/setup';
 jest.mock('uuid');
 
 describe('onRpcRequest', () => {
-  let walletMock: SnapProvider & WalletMock;
+  let snapMock: SnapsGlobalObject & snapMock;
 
   beforeEach(() => {
-    walletMock = createMockWallet();
-    walletMock.rpcMocks.snap_manageState('update', getDefaultSnapState());
-    global.wallet = walletMock;
+    snapMock = createMocksnap();
+    snapMock.rpcMocks.snap_manageState('update', getDefaultSnapState());
+    global.snap = snapMock;
   });
 
   describe('saveVC', () => {
     it('should succeed saving 1 VC and return true', async () => {
-      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
 
       await expect(
         onRpcRequest({
@@ -67,7 +67,7 @@ describe('onRpcRequest', () => {
     });
 
     it('should fail saving VC and return false - user denied', async () => {
-      walletMock.rpcMocks.snap_confirm.mockReturnValue(false);
+      snapMock.rpcMocks.snap_confirm.mockReturnValue(false);
 
       await expect(
         onRpcRequest({
@@ -122,7 +122,7 @@ describe('onRpcRequest', () => {
 
     it('should succeed with 1 VC matching query', async () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
-      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
 
       await onRpcRequest({
         origin: 'localhost',
@@ -160,8 +160,8 @@ describe('onRpcRequest', () => {
   describe('getVP', () => {
     it('should succeed creating VP', async () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
-      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
-      const agent = await getAgent(walletMock);
+      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      const agent = await getAgent(snapMock);
 
       await onRpcRequest({
         origin: 'localhost',
@@ -200,8 +200,8 @@ describe('onRpcRequest', () => {
 
     it('should succeed creating VP with did:key', async () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
-      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
-      const agent = await getAgent(walletMock);
+      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      const agent = await getAgent(snapMock);
 
       await onRpcRequest({
         origin: 'localhost',
@@ -250,7 +250,7 @@ describe('onRpcRequest', () => {
 
     it('should fail creating VP and return null - user denied', async () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
-      walletMock.rpcMocks.snap_confirm.mockReturnValue(false);
+      snapMock.rpcMocks.snap_confirm.mockReturnValue(false);
 
       await onRpcRequest({
         origin: 'localhost',
@@ -283,7 +283,7 @@ describe('onRpcRequest', () => {
 
     it('should fail creating VP - VC does not exist', async () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
-      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
 
       await expect(
         onRpcRequest({
@@ -305,7 +305,7 @@ describe('onRpcRequest', () => {
 
   describe('changeInfuraToken', () => {
     it('should succeed changing infura token and return true', async () => {
-      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
 
       await expect(
         onRpcRequest({
@@ -325,7 +325,7 @@ describe('onRpcRequest', () => {
     });
 
     it('should fail changing infura token and return false', async () => {
-      walletMock.rpcMocks.snap_confirm.mockReturnValue(false);
+      snapMock.rpcMocks.snap_confirm.mockReturnValue(false);
 
       await expect(
         onRpcRequest({
@@ -347,7 +347,7 @@ describe('onRpcRequest', () => {
 
   describe('togglePopups', () => {
     it('should succeed toggling popups and return true', async () => {
-      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
 
       await expect(
         onRpcRequest({
@@ -365,7 +365,7 @@ describe('onRpcRequest', () => {
     });
 
     it('should fail toggling popups and return false', async () => {
-      walletMock.rpcMocks.snap_confirm.mockReturnValue(false);
+      snapMock.rpcMocks.snap_confirm.mockReturnValue(false);
 
       await expect(
         onRpcRequest({
@@ -401,7 +401,7 @@ describe('onRpcRequest', () => {
     });
 
     it('should succeed returning current did (did:key)', async () => {
-      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
 
       await onRpcRequest({
         origin: 'localhost',
@@ -433,7 +433,7 @@ describe('onRpcRequest', () => {
 
   describe('switchMethod', () => {
     it('should succeed switching method to did:key and return true', async () => {
-      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
 
       await expect(
         onRpcRequest({
@@ -453,7 +453,7 @@ describe('onRpcRequest', () => {
     });
 
     it('should fail switching method to did:key and return false', async () => {
-      walletMock.rpcMocks.snap_confirm.mockReturnValue(false);
+      snapMock.rpcMocks.snap_confirm.mockReturnValue(false);
 
       await expect(
         onRpcRequest({
@@ -491,7 +491,7 @@ describe('onRpcRequest', () => {
     });
 
     it('should succeed and return did:key', async () => {
-      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
 
       await onRpcRequest({
         origin: 'localhost',
@@ -540,7 +540,7 @@ describe('onRpcRequest', () => {
 
   describe('setVCStore', () => {
     it('should succeed toggling store to ceramic', async () => {
-      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
 
       await expect(
         onRpcRequest({
@@ -568,7 +568,7 @@ describe('onRpcRequest', () => {
     });
 
     it('should succeed toggling store to ceramic and back to snap', async () => {
-      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
 
       await expect(
         onRpcRequest({
@@ -623,7 +623,7 @@ describe('onRpcRequest', () => {
 
     it('should succeed and return ceramic', async () => {
       // FIXME: Update after updaing setVCStore
-      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
 
       await onRpcRequest({
         origin: 'localhost',

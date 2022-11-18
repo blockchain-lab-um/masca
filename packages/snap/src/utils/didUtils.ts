@@ -1,4 +1,4 @@
-import { SnapRpcHandler } from '@metamask/snaps-types';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { availableMethods, availableVCStores } from '../constants/index';
 import { getDidKeyIdentifier } from '../did/key/keyDidUtils';
 import { SSISnapState } from '../interfaces';
@@ -6,24 +6,24 @@ import { getCurrentNetwork } from './snapUtils';
 import { updateSnapState } from './stateUtils';
 
 export async function changeCurrentVCStore(
-  wallet: SnapRpcHandler,
+  snap: SnapsGlobalObject,
   state: SSISnapState,
   account: string,
   didStore: typeof availableVCStores[number]
 ): Promise<void> {
   state.accountState[account].accountConfig.ssi.vcStore = didStore;
-  await updateSnapState(wallet, state);
+  await updateSnapState(snap, state);
 }
 
 export async function getCurrentDid(
-  wallet: SnapRpcHandler,
+  snap: SnapsGlobalObject,
   state: SSISnapState,
   account: string
 ): Promise<string> {
   const method = state.accountState[account].accountConfig.ssi.didMethod;
   console.log('Current method', method);
   if (method === 'did:ethr') {
-    const chain_id = await getCurrentNetwork(wallet);
+    const chain_id = await getCurrentNetwork(snap);
     return `did:ethr:${chain_id}:${account}`;
   } else {
     const didUrl = getDidKeyIdentifier(state, account);
@@ -32,11 +32,11 @@ export async function getCurrentDid(
 }
 
 export async function changeCurrentMethod(
-  wallet: SnapRpcHandler,
+  snap: SnapsGlobalObject,
   state: SSISnapState,
   account: string,
   didMethod: typeof availableMethods[number]
 ): Promise<void> {
   state.accountState[account].accountConfig.ssi.didMethod = didMethod;
-  await updateSnapState(wallet, state);
+  await updateSnapState(snap, state);
 }

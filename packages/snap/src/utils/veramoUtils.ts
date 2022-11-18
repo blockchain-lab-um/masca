@@ -8,7 +8,7 @@ import {
 } from '@veramo/core';
 import { getCurrentDid } from './didUtils';
 import { getPublicKey, snapConfirm } from './snapUtils';
-import { SnapRpcHandler } from '@metamask/snaps-types';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { availableVCStores } from '../constants/index';
 import { ApiParams } from '../interfaces';
 import { snapGetKeysFromAddress } from './keyPair';
@@ -19,11 +19,11 @@ import { BIP44CoinTypeNode } from '@metamask/key-tree';
  * @param {VerifiableCredential} vc - The VC.
  * */
 export async function veramoSaveVC(
-  wallet: SnapRpcHandler,
+  snap: SnapsGlobalObject,
   vc: VerifiableCredential,
   vcStore: typeof availableVCStores[number]
 ): Promise<boolean> {
-  const agent = await getAgent(wallet);
+  const agent = await getAgent(snap);
   return await agent.saveVC({ store: vcStore, vc });
 }
 
@@ -32,13 +32,13 @@ export async function veramoSaveVC(
  * @returns {Promise<VerifiableCredential[]>} Array of saved VCs.
  */
 export async function veramoListVCs(
-  wallet: SnapRpcHandler,
+  snap: SnapsGlobalObject,
   vcStore: typeof availableVCStores[number],
   query?: VCQuery
 ): Promise<VerifiableCredential[]> {
   console.log('Getting agent');
 
-  const agent = await getAgent(wallet);
+  const agent = await getAgent(snap);
   console.log(agent);
   const vcsSnap = await agent.listVCS({ store: 'snap', query: query });
   console.log(vcsSnap);
@@ -62,9 +62,9 @@ export async function veramoCreateVP(
   challenge?: string,
   domain?: string
 ): Promise<VerifiablePresentation | null> {
-  const { state, wallet, account } = params;
+  const { state, snap, account } = params;
   //Get Veramo agent
-  const agent = await getAgent(wallet);
+  const agent = await getAgent(snap);
   //GET DID
   const identifier = await veramoImportMetaMaskAccount(params, agent);
   console.log('Identifier: ', identifier);
@@ -90,7 +90,7 @@ export async function veramoCreateVP(
       textAreaContent: JSON.stringify(vc.vc.credentialSubject),
     };
 
-    if (config.dApp.disablePopups || (await snapConfirm(wallet, promptObj))) {
+    if (config.dApp.disablePopups || (await snapConfirm(snap, promptObj))) {
       if (challenge) console.log('Challenge:', challenge);
       if (domain) console.log('Domain:', domain);
       console.log('Identifier');
@@ -120,15 +120,15 @@ export const veramoImportMetaMaskAccount = async (
   params: ApiParams,
   agent: Agent
 ): Promise<IIdentifier> => {
-  const { state, wallet, account, bip44CoinTypeNode } = params;
+  const { state, snap, account, bip44CoinTypeNode } = params;
   const method = state.accountState[account].accountConfig.ssi.didMethod;
-  const did = await getCurrentDid(wallet, state, account);
+  const did = await getCurrentDid(snap, state, account);
 
   const res = await snapGetKeysFromAddress(
     bip44CoinTypeNode as BIP44CoinTypeNode,
     state,
     account,
-    wallet
+    snap
   );
   if (!res) {
     throw new Error('Failed to get keys');

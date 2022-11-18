@@ -4,17 +4,17 @@ import { updateSnapState } from '../../utils/stateUtils';
 
 // TODO: CHANGE THIS FUNCTION
 export async function setVCStore(params: ApiParams): Promise<boolean> {
-  const { state, wallet, account } = params;
+  const { state, snap, account } = params;
   if (state.accountState[account].accountConfig.ssi.vcStore === 'snap') {
     const promptObj = {
       prompt: 'Change vcStore plugin',
       description: 'Would you to start using Ceramic Network?',
       textAreaContent:
-        'Every VC from now will be stored on Ceramic Network, until you change this setting. VCs stored on Ceramic Network are synced with other wallets, meaning you will get access to the same VCs on your other wallets with this Account!',
+        'Every VC from now will be stored on Ceramic Network, until you change this setting. VCs stored on Ceramic Network are synced with other snaps, meaning you will get access to the same VCs on your other snaps with this Account!',
     };
-    if (await snapConfirm(wallet, promptObj)) {
+    if (await snapConfirm(snap, promptObj)) {
       state.accountState[account].accountConfig.ssi.vcStore = 'ceramic';
-      await updateSnapState(wallet, state);
+      await updateSnapState(snap, state);
       console.log(
         'New VCStore: ',
         state.accountState[account].accountConfig.ssi.vcStore
@@ -24,7 +24,7 @@ export async function setVCStore(params: ApiParams): Promise<boolean> {
     return false;
   } else {
     state.accountState[account].accountConfig.ssi.vcStore = 'snap';
-    await updateSnapState(wallet, state);
+    await updateSnapState(snap, state);
     console.log(
       'New VCStore: ',
       state.accountState[account].accountConfig.ssi.vcStore

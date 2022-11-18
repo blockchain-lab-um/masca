@@ -1,10 +1,10 @@
-import { SnapProvider } from '@metamask/snap-types';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import {
   address,
   exampleDIDKeyResolution,
   getDefaultSnapState,
 } from '../testUtils/constants';
-import { WalletMock, createMockWallet } from '../testUtils/wallet.mock';
+import { snapMock, createMocksnap } from '../testUtils/snap.mock';
 import {
   getDidKeyResolver as resolveDidKey,
   resolveSecp256k1,
@@ -17,12 +17,12 @@ import {
 import { DIDResolutionOptions, DIDResolutionResult } from 'did-resolver';
 
 describe('keyDidResolver', () => {
-  let walletMock: SnapProvider & WalletMock;
+  let snapMock: SnapsGlobalObject & snapMock;
 
   beforeEach(() => {
-    walletMock = createMockWallet();
-    walletMock.rpcMocks.snap_manageState('update', getDefaultSnapState());
-    global.wallet = walletMock;
+    snapMock = createMocksnap();
+    snapMock.rpcMocks.snap_manageState('update', getDefaultSnapState());
+    global.snap = snapMock;
   });
 
   describe('resolveDidKey', () => {
@@ -49,12 +49,10 @@ describe('keyDidResolver', () => {
       expect.assertions(1);
     });
     it('should return proper DID Document', async () => {
-      walletMock.rpcMocks.snap_manageState.mockReturnValue(
-        getDefaultSnapState()
-      );
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
 
       const didRes = await resolveSecp256k1(
-        walletMock,
+        snapMock,
         address,
         exampleDIDKeyIdentifier
       );
