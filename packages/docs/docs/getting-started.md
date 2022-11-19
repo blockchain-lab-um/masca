@@ -30,7 +30,7 @@ We also implemented a simple [course platform](https://blockchain-lab-um.github.
 
 ### Supporting SSI Snap in your dApp
 
-dApp can access the functionalities of SSI Snap using the RPC methods the same way as standard MetaMask/Ethereum ones. We also developed an easy-to-use library called **[SSI Snap Connector](plugins/ssi-snap-connector)** to ease the integration process. Library provides all the functionalities to install SSI Snap in the dApp and API calls for interacting with Snap.
+dApp can access the functionalities of SSI Snap using the RPC methods the same way as standard MetaMask/Ethereum ones. We also developed an easy-to-use library called **[SSI Snap Connector](libraries/ssi-snap-connector)** to ease the integration process. Library provides all the functionalities to install SSI Snap in the dApp and API calls for interacting with Snap.
 
 Installing SSI Snap Connector to your project:
 
@@ -51,7 +51,7 @@ const vcs = await api.getVCs();
 console.log('list of VCs:', vcs);
 ```
 
-More detailed documentation of **SSI Snap Connector** can be found **[here](plugins/ssi-snap-connector)**.
+More detailed documentation of **SSI Snap Connector** can be found **[here](libraries/ssi-snap-connector)**.
 
 ### Working with decentralized identity (DIDs, VCs, and VPs)
 

@@ -13,7 +13,7 @@ Veramo client powers the SSI Snap.
 
 ## Veramo Client
 
-Veramo Client is used to manage DIDs and VCs, using Veramos **DIDManager**, **KeyManager** and **PrivateKeyManager** plugins and our custom **[VCManager plugin](../plugins/vc-manager)**.
+Veramo Client is used to manage DIDs and VCs, using Veramos **DIDManager**, **KeyManager** and **PrivateKeyManager** plugins and our custom **[VCManager plugin](../libraries/vc-manager)**.
 
 SSI Snap uses following Veramo Client configuration:
 
