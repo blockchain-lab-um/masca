@@ -15,20 +15,12 @@ export async function setVCStore(params: ApiParams): Promise<boolean> {
     if (await snapConfirm(wallet, promptObj)) {
       state.accountState[account].accountConfig.ssi.vcStore = 'ceramic';
       await updateSnapState(wallet, state);
-      console.log(
-        'New VCStore: ',
-        state.accountState[account].accountConfig.ssi.vcStore
-      );
       return true;
     }
     return false;
   } else {
     state.accountState[account].accountConfig.ssi.vcStore = 'snap';
     await updateSnapState(wallet, state);
-    console.log(
-      'New VCStore: ',
-      state.accountState[account].accountConfig.ssi.vcStore
-    );
     return true;
   }
 }
