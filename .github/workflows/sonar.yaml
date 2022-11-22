@@ -26,7 +26,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
       - name: Test
-        run: yarn nx run test:ci
+        run: yarn test:ci
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
         env:
