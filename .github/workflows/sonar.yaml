@@ -16,6 +16,17 @@ jobs:
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
+      - uses: nrwl/nx-set-shas@v3
+        with:
+          main-branch-name: 'develop'
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: yarn
+      - name: Install dependencies
+        run: yarn install --immutable
+      - name: Test
+        run: yarn nx run test:ci
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
         env:
