@@ -28,7 +28,7 @@ jobs:
       - name: Test
         run: yarn exec nx run-many --target=test:ci
       - name: SonarQube Scan
-        run: ./scripts/sonar/run-sonar.sh
+        run: sh ./scripts/sonar/run-sonar.sh
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
