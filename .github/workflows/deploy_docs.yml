@@ -4,8 +4,12 @@ on:
   pull_request:
     branches: [develop]
     types: [opened, synchronize, reopened]
+    paths:
+      - 'packages/docs/**'
   push:
     branches: [develop]
+    paths:
+      - 'packages/docs/**'
 
 jobs:
   test-deploy:
