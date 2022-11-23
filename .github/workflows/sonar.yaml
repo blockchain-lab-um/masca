@@ -28,7 +28,14 @@ jobs:
       - name: Test
         run: yarn test:ci
       - name: SonarQube Scan
-        uses: sonarsource/sonarqube-scan-action@master
+        run: ./scripts/run-sonar.sh
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        timeout-minutes: 5
+
+    services:
+      sonarqube:
+        image: sonarqube:8.9-community
+        ports:
+          - 9000:9000
