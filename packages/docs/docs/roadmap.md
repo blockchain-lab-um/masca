@@ -13,6 +13,7 @@ DID methods:
 - [ ] `did:pkh`
 - [ ] `did:cheqd`
 - [ ] `did:jwk`
+- [ ] `did:ens`
 - [ ] `did:ebsi`
 - [ ] ...
 
@@ -42,10 +43,11 @@ Proof formats:
 
 - [x] JWT
 - [x] JSON-LD
+- [x] EIP712
 - [ ] JSON Web Proofs
 - [ ] ...
 
-Storage options:
+Data storage options:
 
 - [x] MetaMask Snap State (local, off-chain)
 - [x] Ceramic Network
