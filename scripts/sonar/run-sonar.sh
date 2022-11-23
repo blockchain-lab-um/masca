@@ -16,7 +16,6 @@ check_sq_is_up() {
   echo $status;
 }
 
-_current_perm=$(stat -c "%u:%g" $(pwd))
 
 info "Build scanner action..."
 
@@ -74,23 +73,20 @@ info "Analyze projects..."
 for package in packages/*; do
   echo "Analyzing $package..."
   dir="/github/workspace/${package%*/}"      # remove the trailing "/"
+  if [ -f "$dir/sonar-project.properties" ]; then
+    docker run -v `pwd`:/github/workspace/ --workdir /github/workspace --network $network --env INPUT_PROJECTBASEDIR=$dir --env SONAR_TOKEN=$SONAR_TOKEN --env SONAR_HOST_URL=$SONAR_HOST_URL sonarsource/sonarqube-scan-action
+    docker run -v `pwd`:/github/workspace/ --workdir /github/workspace --network $network --env INPUT_PROJECTBASEDIR=$dir --entrypoint /cleanup.sh sonarsource/sonarqube-scan-action
+    if [[ ! $? -eq 0 ]]; then
+      error "Failed to analyze $package."
+      exit 1
+    elif [[ ! -f ".scannerwork/report-task.txt" ]]; then
+      error "Couldn't find the report task file. Analysis failed."
+      exit 1
+    fi
+  fi
   echo $dir
-  docker run -v `pwd`:/github/workspace/ --workdir /github/workspace --network $network --env INPUT_PROJECTBASEDIR=$dir --env SONAR_TOKEN=$SONAR_TOKEN --env SONAR_HOST_URL=$SONAR_HOST_URL sonarsource/sonarqube-scan-action
-  docker run -v `pwd`:/github/workspace/ --workdir /github/workspace --network $network --env INPUT_PROJECTBASEDIR=$dir --entrypoint /cleanup.sh sonarsource/sonarqube-scan-action
 done
 
-if [[ ! $? -eq 0 ]]; then
-  error "Couldn't run the analysis."
-  exit 1
-elif [[ ! -f ".scannerwork/report-task.txt" ]]; then
-  error "Couldn't find the report task file. Analysis failed."
-  exit 1
-elif [ ! "$(stat -c "%u:%g" ".scannerwork/report-task.txt")" == "$_current_perm" ]; then
-  error "File permissions differ from desired once"
-  error "desired: $_current_perm"
-  error "actual: $(stat -c "%u:%g" ".scannerwork/report-task.txt")"
-  exit 1
-fi
 success "Analysis successful."
 
 echo "" # new line
