@@ -10,8 +10,8 @@ LABEL version="1.1.0" \
   com.github.actions.color="green"
 
 
-COPY scripts/sonar/entrypoint.sh /entrypoint.sh
+COPY sentrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
-COPY scripts/sonar/cleanup.sh /cleanup.sh
+COPY cleanup.sh /cleanup.sh
 RUN chmod +x /cleanup.sh
 ENTRYPOINT ["/entrypoint.sh"]
