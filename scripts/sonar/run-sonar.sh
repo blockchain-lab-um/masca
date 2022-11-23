@@ -20,7 +20,7 @@ _current_perm=$(stat -c "%u:%g" $(pwd))
 
 info "Build scanner action..."
 pwd
-docker build --no-cache -t sonarsource/sonarqube-scan-action ./scripts/sonar/Dockerfile
+docker build --no-cache -t sonarsource/sonarqube-scan-action ./scripts/sonar/
 if [[ ! $? -eq 0 ]]; then
   error "Failed to build the scanner action."
   exit 1
