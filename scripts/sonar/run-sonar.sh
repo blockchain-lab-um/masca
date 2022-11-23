@@ -69,9 +69,16 @@ if [[ $? -eq 0 ]]; then
 fi
 success "Correctly failed fast."
 
-info "Analyze project..."
-docker run -v `pwd`:/github/workspace/ --workdir /github/workspace --network $network --env INPUT_PROJECTBASEDIR=/github/workspace --env SONAR_TOKEN=$SONAR_TOKEN --env SONAR_HOST_URL=$SONAR_HOST_URL sonarsource/sonarqube-scan-action
-docker run -v `pwd`:/github/workspace/ --workdir /github/workspace --network $network --env INPUT_PROJECTBASEDIR=/github/workspace --entrypoint /cleanup.sh sonarsource/sonarqube-scan-action
+info "Analyze projects..."
+# Loop over packages subdirectories.
+for package in packages/*; do
+  echo "Analyzing $package..."
+  dir="/github/workspace/packages/${package%*/}"      # remove the trailing "/"
+  echo $dir
+  docker run -v `pwd`:/github/workspace/ --workdir /github/workspace --network $network --env INPUT_PROJECTBASEDIR=$dir --env SONAR_TOKEN=$SONAR_TOKEN --env SONAR_HOST_URL=$SONAR_HOST_URL sonarsource/sonarqube-scan-action
+  docker run -v `pwd`:/github/workspace/ --workdir /github/workspace --network $network --env INPUT_PROJECTBASEDIR=$dir --entrypoint /cleanup.sh sonarsource/sonarqube-scan-action
+done
+
 if [[ ! $? -eq 0 ]]; then
   error "Couldn't run the analysis."
   exit 1
