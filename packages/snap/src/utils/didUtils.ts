@@ -21,7 +21,6 @@ export async function getCurrentDid(
   account: string
 ): Promise<string> {
   const method = state.accountState[account].accountConfig.ssi.didMethod;
-  console.log('Current method', method);
   if (method === 'did:ethr') {
     const chain_id = await getCurrentNetwork(wallet);
     return `did:ethr:${chain_id}:${account}`;

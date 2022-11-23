@@ -31,7 +31,6 @@ describe('Utils [params]', () => {
 
     it('should fail for number', () => {
       expect(() => isValidSaveVCRequest(42)).toThrow(Error);
-      console.log('sometinaskldnaslk');
     });
   });
 

@@ -63,7 +63,6 @@ export const getAgent = async (wallet: SnapProvider): Promise<Agent> => {
 
   const INFURA_PROJECT_ID = state.snapConfig.snap.infuraToken;
   const CHAIN_ID = await getCurrentNetwork(wallet);
-  console.log('INFURA_PROJECT_ID', INFURA_PROJECT_ID, 'CHAIN ID', CHAIN_ID);
 
   const web3Providers: Record<string, Web3Provider> = {};
   const didProviders: Record<string, AbstractIdentifierProvider> = {};
@@ -84,7 +83,6 @@ export const getAgent = async (wallet: SnapProvider): Promise<Agent> => {
 
   vcStorePlugins['snap'] = new SnapVCStore(wallet);
   vcStorePlugins['ceramic'] = new CeramicVCStore(wallet);
-  console.log('Started building agent...');
   const agent = createAgent<
     IDIDManager &
       IKeyManager &
@@ -117,6 +115,5 @@ export const getAgent = async (wallet: SnapProvider): Promise<Agent> => {
       }),
     ],
   });
-  console.log('Agent built..');
   return agent;
 };
