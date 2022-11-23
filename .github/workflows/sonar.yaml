@@ -16,19 +16,27 @@ jobs:
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
       - uses: nrwl/nx-set-shas@v3
         with:
           main-branch-name: 'develop'
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 16.15.1
           cache: yarn
       - name: Install dependencies
         run: yarn install --immutable
       - name: Test
-        run: yarn test:ci
+        run: yarn run test:ci
       - name: SonarQube Scan
-        uses: sonarsource/sonarqube-scan-action@master
+        run: ./scripts/sonar/run-sonar.sh
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        timeout-minutes: 5
+
+    services:
+      sonarqube:
+        image: sonarqube:8.9-community
+        ports:
+          - 9000:9000
