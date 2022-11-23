@@ -73,6 +73,8 @@ info "Analyze projects..."
 for package in packages/*; do
   dir="/github/workspace/${package%*/}"      # remove the trailing "/"
   echo "$package/sonar-project.properties"
+  pwd
+  ls -l
   if [[ -f "$package/sonar-project.properties" ]]; then
     echo "Analyzing $package..."
     docker run -v `pwd`:/github/workspace/ --workdir /github/workspace --network $network --env INPUT_PROJECTBASEDIR=$dir --env SONAR_TOKEN=$SONAR_TOKEN --env SONAR_HOST_URL=$SONAR_HOST_URL sonarsource/sonarqube-scan-action
