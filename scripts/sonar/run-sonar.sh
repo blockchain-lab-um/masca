@@ -71,9 +71,10 @@ success "Correctly failed fast."
 info "Analyze projects..."
 # Loop over packages subdirectories.
 for package in packages/*; do
-  echo "Analyzing $package..."
   dir="/github/workspace/${package%*/}"      # remove the trailing "/"
-  if [ -f "$dir/sonar-project.properties" ]; then
+  echo "$dir/sonar-project.properties"
+  if [[ -f "$dir/sonar-project.properties" ]]; then
+    echo "Analyzing $package..."
     docker run -v `pwd`:/github/workspace/ --workdir /github/workspace --network $network --env INPUT_PROJECTBASEDIR=$dir --env SONAR_TOKEN=$SONAR_TOKEN --env SONAR_HOST_URL=$SONAR_HOST_URL sonarsource/sonarqube-scan-action
     docker run -v `pwd`:/github/workspace/ --workdir /github/workspace --network $network --env INPUT_PROJECTBASEDIR=$dir --entrypoint /cleanup.sh sonarsource/sonarqube-scan-action
     if [[ ! $? -eq 0 ]]; then
@@ -83,6 +84,8 @@ for package in packages/*; do
       error "Couldn't find the report task file. Analysis failed."
       exit 1
     fi
+  else
+    echo "Skipping $package..."
   fi
   echo $dir
 done
