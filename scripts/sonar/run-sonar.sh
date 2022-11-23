@@ -19,7 +19,8 @@ check_sq_is_up() {
 _current_perm=$(stat -c "%u:%g" $(pwd))
 
 info "Build scanner action..."
-docker build --no-cache -t sonarsource/sonarqube-scan-action .
+pwd
+docker build --no-cache -t sonarsource/sonarqube-scan-action /scripts/sonar/Dockerfile
 if [[ ! $? -eq 0 ]]; then
   error "Failed to build the scanner action."
   exit 1
