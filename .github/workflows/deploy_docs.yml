@@ -29,12 +29,14 @@ jobs:
           cache: yarn
       - name: Install dependencies
         run: yarn install --immutable
-      - env:
-        NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
       - name: Lint
         run: yarn nx run @blockchain-lab-um/ssi-snap-docs:lint
+        env:
+          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
       - name: Test build website
         run: yarn nx run @blockchain-lab-um/ssi-snap-docs:build
+        env:
+          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
   deploy:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
