@@ -71,9 +71,7 @@ success "Correctly failed fast."
 info "Analyze projects..."
 # Loop over packages subdirectories.
 for package in packages/*; do
-  dir="/github/workspace/${package%*/}"      # remove the trailing "/"
-  echo "$package/sonar-project.properties"
-  pwd
+  dir="/github/workspace/${package%*/}" # remove the trailing "/"
   ls -l
   if [[ -f "$package/sonar-project.properties" ]]; then
     echo "Analyzing $package..."
@@ -82,7 +80,7 @@ for package in packages/*; do
     if [[ ! $? -eq 0 ]]; then
       error "Failed to analyze $package."
       exit 1
-    elif [[ ! -f ".scannerwork/report-task.txt" ]]; then
+    elif [[ ! -f "$package/.scannerwork/report-task.txt" ]]; then
       error "Couldn't find the report task file. Analysis failed."
       exit 1
     fi
