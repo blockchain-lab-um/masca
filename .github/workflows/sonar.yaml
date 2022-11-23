@@ -21,21 +21,14 @@ jobs:
           main-branch-name: 'develop'
       - uses: actions/setup-node@v3
         with:
-          node-version: 16.15.1
+          node-version: 16
           cache: yarn
       - name: Install dependencies
         run: yarn install --immutable
       - name: Test
-        run: yarn exec nx run-many --target=test:ci
+        run: yarn test:ci
       - name: SonarQube Scan
-        run: bash ./scripts/sonar/run-sonar.sh
+        uses: sonarsource/sonarqube-scan-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        timeout-minutes: 5
-
-    services:
-      sonarqube:
-        image: sonarqube:8.9-community
-        ports:
-          - 9000:9000
