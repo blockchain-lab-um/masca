@@ -28,7 +28,7 @@ jobs:
       - name: Test
         run: yarn test:ci
       - name: SonarQube Scan
-        run: ./scripts/run-sonar.sh
+        run: ./scripts/sonar/run-sonar.sh
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
