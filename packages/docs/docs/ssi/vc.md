@@ -4,7 +4,6 @@ sidebar_position: 2
 
 # Verifiable Credentials (VC)
 
-
 **Verifiable Credentials** ([W3C Verifiable Credentials](https://www.w3.org/TR/vc-data-model/)), or **VCs** for short, are an open standard for digital, cryptographically verifiable credentials. They can be stored on digital devices, are digitally signed and can be verified cryptographically, which makes them tamper-proof. VCs work well with data privacy, which goes well with data regulations pushed by the European Union (GDPR) and some other countries.
 
 VCs bring many benefits:
@@ -12,7 +11,7 @@ VCs bring many benefits:
 - **Instantly verifiable** - They can be verified anywhere at any time
 - **Tamper-proof** - Cryptography assures their authenticity and enables users to store and share data securely
 - **Independent from the issuer** - Instant verifiability makes them independent from the issuer. They can get verified anywhere, without the need of the issuer (e.g. an university) to confirm the authenticity
-- **VC holders have full control and ownership of their data and privacy** - Users decide what gets shared and what doesnt
+- **VC holders have full control and ownership of their data and privacy** - Users decide what gets shared and what doesn't
 - **Portable** - Users can store VCs in their digital wallet (e.g. a mobile app) and use them anywhere
 
 ## Use cases for VCs
@@ -61,7 +60,7 @@ All the previously mentioned benefits make VCs the perfect solution for many pro
 }
 ```
 
-VC consists of multiple important parts
+VC consists of multiple important parts:
 
 #### [Type](https://www.w3.org/TR/vc-data-model/#types)
 
@@ -116,7 +115,7 @@ When expressing statements about a specific thing, such as a person, product, or
 }
 ```
 
-The subject (e.g. a person, object or company) the credential data is about. This object contains one or more properties that are related to the subject of VC. The subject identifier (`credentialSubject.id`) is usually a DID of the subject. In our example, `credentialSubject` contanis relevant data (type of degre, year of graduation, score, etc.) for the University Degree of `John Dough`.
+The entity (e.g. a person, object or company) the credential data is about. This object contains one or more properties that are related to the subject of VC. The subject identifier (`credentialSubject.id`) is usually a DID of the entity. In our example, `credentialSubject` contanis relevant data (type of degre, year of graduation, score, etc.) for the University Degree of `John Dough`.
 
 #### [Cryptographic Proofs](https://www.w3.org/TR/vc-data-model/#proofs-signatures)
 
@@ -134,18 +133,8 @@ The subject (e.g. a person, object or company) the credential data is about. Thi
 }
 ```
 
-One or more cryptographic proofs that are used to detect tampering and verify the authorship of a credential.
+One or more cryptographic proofs can be used to detect tampering and verify the authorship of a credential.
 
 ## Proof Formats
-
-
-<center>
-    
-<img src="https://w3c.github.io/vc-data-model/WD/2018-07-18/diagrams/credential.svg" alt="VC" width="500" /><br />
-    The structure of VC (<a href="https://w3c.github.io/vc-data-model/WD/2018-07-18/diagrams/credential.svg">image source</a>).
-
-</center>
-
-<br />
 
 VCs are interoperable and can use **[JSON-LD](https://json-ld.org/)** (JSON for Linked Data). It is an extension of an already successful JSON format that provides a way to include object and data typing, JSON-LD keyword aliasing, creating links via nesting or referencing, and internationalization features (describes how to express data values in different languages). Another popular format for VCs is **[JWT](https://www.rfc-editor.org/rfc/rfc7519)** (JSON Web Token), a standardized internet format for transferring data with digital signatures. Because of that, current tools often provide better support for JWTs.
