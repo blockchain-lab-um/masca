@@ -1,8 +1,8 @@
 {
-  "label": "Self Sovereign Identity - Basics",
+  "label": "Self-Sovereign Identity (SSI)",
   "position": 3,
   "link": {
     "type": "generated-index",
-    "description": "Learn the most important SSI concepts."
+    "description": "Learn about the fantastic world of Decentralized Identity and SSI."
   }
 }
