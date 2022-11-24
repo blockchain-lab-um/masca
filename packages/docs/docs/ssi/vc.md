@@ -14,6 +14,14 @@ VCs bring many benefits:
 - **VC holders have full control and ownership of their data and privacy** - Users decide what gets shared and what doesn't
 - **Portable** - Users can store VCs in their digital wallet (e.g. a mobile app) and use them anywhere
 
+<center>
+
+<img src="https://i.imgur.com/guqZBX9.png" />
+
+[UI Example](https://identity.foundation/wallet-rendering/#term:display-mapping-object) of a VC
+
+</center>
+
 ## Use cases for VCs
 
 VCs have many different use cases. The most notable ones are:
@@ -41,7 +49,9 @@ All the previously mentioned benefits make VCs the perfect solution for many pro
   "issuanceDate": "2022-11-20T15:11:22Z",
   "credentialSubject": {
     "id": "did:ethr:0x01:0x123",
-    "degree": "Computer Science",
+    "studentId": "1023213981",
+    "faculty": "FERI",
+    "module": "Computer Science",
     "yearOfGraduation": "2022",
     "averageScore": "8.91",
     "name": "John Dough",
