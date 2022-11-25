@@ -1,5 +1,5 @@
 import { SnapProvider } from '@metamask/snap-types';
-import { AvailableMethods, AvailableVCStores } from '../constants/index';
+import { AvailableMethods, AvailableVCStores } from '@blockchain-lab-um/ssi-snap-types';
 import { getDidKeyIdentifier } from '../did/key/keyDidUtils';
 import { SSISnapState } from '../interfaces';
 import { getCurrentNetwork } from './snapUtils';

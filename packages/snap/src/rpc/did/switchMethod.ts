@@ -1,4 +1,4 @@
-import { AvailableMethods } from '../../constants';
+import { AvailableMethods } from '@blockchain-lab-um/ssi-snap-types';
 import { ApiParams } from '../../interfaces';
 import { changeCurrentMethod } from '../../utils/didUtils';
 import { snapConfirm } from '../../utils/snapUtils';

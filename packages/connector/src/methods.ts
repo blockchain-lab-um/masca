@@ -22,13 +22,13 @@ async function sendSnapMethod<T>(
  * @param {VCQuery} query - Query for filtering through all VCs
  * @return {Promise<Array<VerifiableCredential>>} list of VCs
  */
-export async function getVCs(
+export async function queryVCs(
   this: MetaMaskSSISnap,
   query?: VCQuery
 ): Promise<VerifiableCredential[]> {
   if (!query) query = {};
   return await sendSnapMethod(
-    { method: 'getVCs', params: { query: query } },
+    { method: 'queryVCs', params: { query: query } },
     this.snapId
   );
 }
@@ -36,11 +36,11 @@ export async function getVCs(
 /**
  * Get a VP from a VC
  *
- * @param {string} vc_id - ID of VC used for generating a VP. Can be obtained with getVCs function
+ * @param {string} vc_id - ID of VC used for generating a VP. Can be obtained with queryVCs function
  * optional @param {string} challenge
  * optional @param {string} domain
  */
-export async function getVP(
+export async function createVP(
   this: MetaMaskSSISnap,
   vcId: string,
   challenge?: string,
@@ -48,7 +48,7 @@ export async function getVP(
 ): Promise<VerifiablePresentation> {
   return await sendSnapMethod(
     {
-      method: 'getVP',
+      method: 'createVP',
       params: { vcId: vcId, challenge: challenge, domain: domain },
     },
     this.snapId
