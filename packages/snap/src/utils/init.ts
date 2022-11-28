@@ -13,7 +13,6 @@ export async function init(wallet: SnapProvider): Promise<SSISnapState> {
 
   // Accept terms and conditions
   if (await snapConfirm(wallet, promptObj)) {
-    console.log('starting init');
     return await initSnapState(wallet);
   } else {
     throw new Error('User did not accept terms and conditions!');

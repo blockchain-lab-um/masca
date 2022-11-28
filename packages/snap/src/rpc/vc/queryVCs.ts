@@ -28,7 +28,11 @@ export async function queryVCs(
     filter = { type: 'none', filter: {} };
   }
   const { state, wallet, account } = params;
-  const vcs = await veramoListVCs(wallet, store, filter?.filter as VCQuery);
+  const vcs = await veramoListVCs(
+    wallet,
+    state.accountState[account].accountConfig.ssi.vcStore,
+    query
+  );
   const promptObj = {
     prompt: 'Send VCs',
     description: 'Are you sure you want to send VCs to the dApp?',

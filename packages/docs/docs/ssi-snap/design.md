@@ -4,74 +4,71 @@ sidebar_position: 2
 
 # Design
 
-**The SSI Snap is a MetaMask Snap, that can handle DIDs, securely store VCs, and create the VPs. It is designed to be blockchain-agnostic. SSI Snap uses existing MetaMask accounts as DIDs or as a mean to create new DIDs, without the need to ever export private keys from MetaMask, hence leveraging its security!
-**
+**SSI Snap** is a MetaMask Snap that adds support for **SSI**: it can manage **DIDs**, store **VCs**, and create the **VPs**. It is designed to be blockchain-agnostic. SSI Snap works on existing MetaMask accounts (which are already DIDs of some methods) and their private keys to create new DIDs, without the need to create new private keys and worry about their security!
 
-## DID Method
+## DID Methods
 
-When working with DIDs, there are various DID methods to choose from. One of the most popular methods is called **did:ethr**. This method uses Ethereum addresses as fully self-managed DIDs. In other words, every Ethereum account is a DID. An example of Ethereum address as a DID;
+When working with SSI, choosing the DID method can take a lot of work. One of the most popular methods is called **did:ethr**. This method uses Ethereum addresses as fully self-managed DIDs. In other words, every Ethereum account is a DID. An example of an Ethereum address as a DID:
 
 ```js
 did: ethr: 0x9907a0cf64ec9fbf6ed8fd4971090de88222a9ac;
 ```
 
-Ethereum accounts in MetaMask, used daily by millions, are essentially DIDs. What is missing is the functionality to use them and leverage their potential correctly.
+Ethereum accounts in MetaMask are already essentially DIDs. Only the needed functionality to use them and leverage their potential correctly was missing.
 
-You might ask yourselves why we have decided to build a proof of concept on Ethereum. There are a couple of reasons:
+Now you might ask yourselves why we have decided to build a proof of concept on Ethereum in the first place. There were a couple of reasons:
 
-- Aside from Bitcoin, it's the most decentralized blockchain,
-- It's the most popular and most commonly used blockchain,
-- Huge developer community with plenty of already established frameworks, including various SSI & DID frameworks and battle-tested did:ethr method,
-- DID Documents do not need to be changed often (or even never in some cases); hence gas fees do not present such a huge problem
+- Besides Bitcoin, it's the most decentralized blockchain.
+- It's the most popular and most commonly used blockchain for practical applications.
+- Huge developer community with many already established frameworks, including various SSI & DID frameworks and battle-tested `did:ethr` method.
+- DID Documents don't have to be changed often (or even never in some cases); hence gas fees do not present such a huge problem.
 
-### Available DID Methods (Experimental)
+But a single DID method cannot fit all the different use cases and projects. Thus we are developing SSI Snap in a way that the user can change the DID method that she is currently using (similar to selecting a network in MetaMask), or dApp/app can enforce the usage of a specific DID method if its functionalities depend on it.
 
-In SSI Snap, users can pick a different DID method for every account they use. For example if they want to use `did:ethr` on Account 1 and `did:key` on Account 2, they can!
+### Switching between different DID methods
 
-Currently, SSI Snap supports 2 DID methods; `did:ethr` and `did:key`. In the future we plan to add support for other significant DID methods that are capable of expressing secp256k keys.
+In SSI Snap, users can pick a different DID method for every MetaMask account. For example, if they want to use `did:ethr` on Account 1 and `did:key` on Account 2, they can!
 
-:::danger
+For the complete list of supported DID methods, check [this page](./supported).
 
-DID:KEY support is experimental and still under development!
+## Verifiable Data
 
-:::
-
-## Digital Signatures
-
-Digital signatures apply to both VCs and VPs, but in most cases, they are signed by different actors in the SSI lifecycle. Thus we can approach them in a slightly different way.
+There are two types of Verifiable Data in the SSI trust model and lifecycle digitally signed by different; thus, we deal with them slightly differently.
 
 ### Verifiable Credentials (VCs)
 
-SSI Snap supports storing of VCs. They can contain different proof types, such as JSON-LD and JWT. There are also no limitations to signature algorithms since VCs are often signed on the backend systems of the issuers, where any software library can be used. Several algorithms and cryptographic primitives are supported, such as secp256k and Ed25519.
+SSI Snap supports storing VCs in its local storage or on different supported networks. It also enables storing some data locally, such as personal passports and driving licenses, while other less critical data, like conference certificates or course applications, on the public networks. Best of all, users can decide where their data should end up!
+
+For more information on the storage, check [this page](./storage).
 
 ### Verifiable Presentations (VPs)
 
-On the other hand, VPs are signed by holders using their wallets, which is the role of SSI Snap. MetaMask cryptographic and signing capabilities are used for digitally signing VPs; thus, digital signatures are limited to cryptographic primitives and formats supported in the Ethereum ecosystem. Therefore VPs contain signatures in type [Ethereum EIP712 Signature 2021](https://w3c-ccg.github.io/ethereum-eip712-signature-2021-spec/).
+On the other hand, VPs are signed by holders using their wallets (which is SSI Snap). Usually, they are signed on the go when requested by different applications. SSI Snap supports creating VP from single or multiple VCs.
 
-## SSI Framework
+## Cryptography
 
-To make DIDs functional a framework is needed. SSI Snap uses **[Veramo framework](https://veramo.io/)** inside the SSI Snap to handle most work related to DIDs, VCs, and VPs. Veramo is a performant and modular API for Verifiable Data and SSI. Essentially it's a client that allows the creation and management of DIDs, VCs, and VPs and makes developers' lives working with them much easier.
+Cryptography is what makes everything secure and possible. VCs and VPs are both digitally signed and verifiable by everyone that gets in contact with them. Because of developing on web3/Ethereum wallet, we are reusing your existing cryptography keys, so the users do not have to worry about backing up the additional keys.
+
+### Cryptographic keys
+
+Ethereum relies on the elliptic curve `secp256k1`; thus, this is the only key type available in the MetaMask. Using the derivation schemes presented in the different [BIP standards](https://github.com/bitcoin/bips), it is possible to generate multiple key pairs (and associated accounts) from a single seed phrase. Backing up the seed phrase automatically backup all keys since they can always be derived deterministically, which solves the problem of other SSI wallets that generate new keys each time from scratch and not in relation to the previous keys.
+
+But because of the limitation of the specific key type, we currently can only support all DID methods that work on `secp256k1` keys. There is a way to create key pair of any type (e.g., Ed25519) in the Snap (since you can write any custom JavaScript), but storing and securely handling these keys gets complicated. But because the elliptic curve `secp256k1` is widely used, most DID methods support it.
+
+We are also looking into pairing-friendly elliptic curves, which enable advanced ways to perform selective disclosure and zero-knowledge proofs, e.g., `BLS12-381`, where it would make sense to implement custom and complex security storage for keys generated inside Snap.
+
+### Proof formats
+
+There are different ways to digitally sign and represent digital signatures alongside the data or payload (VC or VP). In the SSI and web3 world, currently, three approaches are most adopted: **JWT**, **Linked Data Proofs**, and **EIP712**. SSI Snap supports all three types.
+
+For the complete list of supported proof formats, check [this page](./supported).
 
 ## Data Storage
 
-These DIDs and VCs need to be stored somewhere. By default, SSI Snap stores all data in the MetaMask State, but it is possible to store VCs on [Ceramic Network](https://ceramic.network/). More about this in the [State](/docs/ssi-snap/storage) section.
+As stated above, DIDs and VCs need to be stored somewhere. We plan to support many different data storage providers to fulfill all users' needs. While keeping data locally in the MetaMask state is the most private way to store the data (it is also encrypted), other solutions bring many benefits, such as the ability to sync between different devices and easier ways to make external backups.
 
-In the future other ways of storing data will be implemented, starting with storing data in the cloud. Storing data outside MetaMask brings many benefits such as ability to sync multiple applications and ability to make external backups.
+For the complete list of supported data storage providers, check [this page](./supported).
 
-### Available plugins for storing VCs (Experimental)
+## Decentralized Identity Framework
 
-In SSI Snap, users can decide where VCs will get stored for every account they use. For example if they want to store sensitive VCs in most private store, snap state, they can! On the other hand, if they want to store VCs on-chain and maybe sync them with their other wallets, they can do that aswell with Ceramic Network on Account 2.
-
-Currently, SSI Snap supports 2 ways of storing VCs; `MetaMask state` and `Ceramic Network`. In the future we plan to add support for other plugins such as Google Drive, IPFS, etc.
-
-:::danger
-
-Ceramic network support is experimental and still under development!
-
-:::
-
-## Security
-
-To maintain as much security as possible, private keys from existing MetaMask accounts are never exposed to SSI Snap. EIP712 Signature is used to sign credentials.
-
-Additionally, all MetaMask state is encrypted!
+Using a framework is the best way to handle DIDs and VCs in the code. SSI Snap uses **[Veramo](https://veramo.io/)** for that purpose. Veramo is a performant and modular API for Verifiable Data and Decentralized Identity/SSI. It's a library that allows the creation and management of DIDs, VCs, and VPs and makes developers' lives working with them much easier. We highly encourage you to check their website!

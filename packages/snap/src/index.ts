@@ -19,7 +19,11 @@ import { getDid } from './rpc/did/getDID';
 import { getAvailableMethods } from './rpc/did/getAvailableMethods';
 import { setVCStore } from './rpc/vcStore/setVCStore';
 import { getAvailableVCStores } from './rpc/vcStore/getAvailableVCStores';
-import { getSnapStateUnchecked, initAccountState } from './utils/stateUtils';
+import {
+  getSnapStateUnchecked,
+  initAccountState,
+  setAccountPublicKey,
+} from './utils/stateUtils';
 import { getCurrentAccount } from './utils/snapUtils';
 import { getAddressKeyDeriver } from './utils/keyPair';
 import { ApiParams } from './interfaces';
@@ -43,13 +47,10 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   };
 
   if (!(account in state.accountState)) {
-    apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
     await initAccountState(apiParams);
+    apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
+    await setAccountPublicKey(apiParams);
   }
-
-  console.log('Request:', request);
-  console.log('Origin:', origin);
-  console.log('-------------------------------------------------------------');
 
   switch (request.method) {
     case 'query':

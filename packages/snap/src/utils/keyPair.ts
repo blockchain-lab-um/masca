@@ -88,7 +88,8 @@ export const getKeysFromAddress = async (
 
   for (let i = 0; i < maxScan; i++) {
     const keys = await getKeysFromAddressIndex(bip44CoinTypeNode, i);
-    if (keys && keys.address === account) return keys;
+    if (keys && keys.address.toUpperCase() === account.toUpperCase())
+      return keys;
   }
 
   return null;
