@@ -41,10 +41,10 @@ export async function veramoListVCs(
   query?: VCQuery
 ): Promise<VerifiableCredential[]> {
   const agent = await getAgent(wallet);
-  const vcsSnap = await agent.listVCS({ store: 'snap', query: query });
-  if (vcStore === 'ceramic') {
-    const vcsCeramic = await agent.listVCS({ store: 'ceramic', query: query });
-    return [...vcsSnap.vcs, ...vcsCeramic.vcs];
+  const vcsSnap = [] as VerifiableCredential[];
+  for (const s of store) {
+    const vcs = await agent.listVCS({ store: s, query: query });
+    vcsSnap.push(...vcs.vcs);
   }
   return vcsSnap;
 }

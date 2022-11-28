@@ -24,10 +24,6 @@ export async function setVCStore(
       return true;
     }
     return false;
-  } else {
-    state.accountState[account].accountConfig.ssi.vcStore = 'snap';
-    await updateSnapState(wallet, state);
-    return true;
   }
   return false;
 }
