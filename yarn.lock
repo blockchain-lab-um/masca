@@ -1705,7 +1705,7 @@ __metadata:
     "@emotion/react": ^11.10.5
     "@emotion/styled": ^11.10.5
     "@ethersproject/providers": ^5.7.2
-    "@mdx-js/react": ^2.1.5
+    "@mdx-js/react": 1.6.22
     "@metamask/providers": ^10.2.1
     "@mui/icons-material": ^5.10.15
     "@mui/material": ^5.10.15
@@ -1716,7 +1716,6 @@ __metadata:
     "@web3-react/core": ^6.1.9
     "@web3-react/injected-connector": ^6.0.7
     clsx: ^1.2.1
-    docusaurus2-dotenv: ^1.4.0
     eslint: ^8.28.0
     eslint-config-airbnb: ^19.0.4
     eslint-config-airbnb-typescript: ^17.0.0
@@ -4236,24 +4235,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mdx-js/react@npm:^1.6.22":
+"@mdx-js/react@npm:1.6.22, @mdx-js/react@npm:^1.6.22":
   version: 1.6.22
   resolution: "@mdx-js/react@npm:1.6.22"
   peerDependencies:
     react: ^16.13.1 || ^17.0.0
   checksum: ed896671ffab04c1f11cdba45bfb2786acff58cd0b749b0a13d9b7a7022ac75cc036bec067ca946e6540e2934727e0ba8bf174e4ae10c916f30cda6aecac8992
-  languageName: node
-  linkType: hard
-
-"@mdx-js/react@npm:^2.1.5":
-  version: 2.1.5
-  resolution: "@mdx-js/react@npm:2.1.5"
-  dependencies:
-    "@types/mdx": ^2.0.0
-    "@types/react": ">=16"
-  peerDependencies:
-    react: ">=16"
-  checksum: dd054aded70f9f098f01fe3daf8234f92b36e2a7e0dca9c918c0fdddd3eac91d1e84e5faf4a227b551143a262ff610edeb2db6367e011fcbf32c265b1c31cce6
   languageName: node
   linkType: hard
 
@@ -6158,13 +6145,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/mdx@npm:^2.0.0":
-  version: 2.0.3
-  resolution: "@types/mdx@npm:2.0.3"
-  checksum: 8637338ca56191fa6dbf3aaa06b6468d0ad9bcd824294e41bafd53fb9ca48657ae8487a8c8146c8285c46708e1a281632efff9bec667177cacf23bf60981f5a8
-  languageName: node
-  linkType: hard
-
 "@types/mime@npm:*":
   version: 3.0.1
   resolution: "@types/mime@npm:3.0.1"
@@ -6336,7 +6316,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:18.0.25, @types/react@npm:>=16":
+"@types/react@npm:*, @types/react@npm:18.0.25":
   version: 18.0.25
   resolution: "@types/react@npm:18.0.25"
   dependencies:
@@ -11160,15 +11140,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"docusaurus2-dotenv@npm:^1.4.0":
-  version: 1.4.0
-  resolution: "docusaurus2-dotenv@npm:1.4.0"
-  dependencies:
-    dotenv-webpack: 1.7.0
-  checksum: 694b88296685673f85b3a6864c3ce9dd19041bdfcfd2cc48d1099ca3fd3303160ae31d0bcedc41f67cb2f2eaa9837845236ed7922d7cc6a9b857bf3fd71d21ef
-  languageName: node
-  linkType: hard
-
 "dom-converter@npm:^0.2.0":
   version: 0.2.0
   resolution: "dom-converter@npm:0.2.0"
@@ -11299,37 +11270,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv-defaults@npm:^1.0.2":
-  version: 1.1.1
-  resolution: "dotenv-defaults@npm:1.1.1"
-  dependencies:
-    dotenv: ^6.2.0
-  checksum: c1304b7c83cbc310b0fa2a9256cf60caa0221d8b240b9e520f59bcdf3dfcfcf6a6d322250e787b6b770e21a17e7fdf56b6371e0b9a515d58d1159e7042a7caef
-  languageName: node
-  linkType: hard
-
-"dotenv-webpack@npm:1.7.0":
-  version: 1.7.0
-  resolution: "dotenv-webpack@npm:1.7.0"
-  dependencies:
-    dotenv-defaults: ^1.0.2
-  peerDependencies:
-    webpack: ^1 || ^2 || ^3 || ^4
-  checksum: 65ec0ccf2f8ab8db43040d66765a264d8fea2c779402495f01870cf93b73a31d01d7cfc3632341706e8e3a300553c4f84251b0319df01adaba9d2539406c9a2e
-  languageName: node
-  linkType: hard
-
 "dotenv@npm:^16.0.0":
   version: 16.0.3
   resolution: "dotenv@npm:16.0.3"
   checksum: 109457ac5f9e930ca8066ea33887b6f839ab24d647a7a8b49ddcd1f32662e2c35591c5e5b9819063e430148a664d0927f0cbe60cf9575d89bc524f47ff7e78f0
-  languageName: node
-  linkType: hard
-
-"dotenv@npm:^6.2.0":
-  version: 6.2.0
-  resolution: "dotenv@npm:6.2.0"
-  checksum: 56886938622c34255c89ec24d584460668a5ca035afe37da7b16bfbac36f8b352d20a6dde51000b30db04fa5cac7b03caf165919fe5e9bd8c91a2735fd61c649
   languageName: node
   linkType: hard
 
