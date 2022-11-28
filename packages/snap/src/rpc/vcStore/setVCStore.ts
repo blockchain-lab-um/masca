@@ -1,4 +1,4 @@
-import { AvailableMethods, AvailableVCStores } from 'src/constants';
+import { AvailableVCStores } from '@blockchain-lab-um/ssi-snap-types/constants';
 import { ApiParams } from '../../interfaces';
 import { snapConfirm } from '../../utils/snapUtils';
 import { updateSnapState } from '../../utils/stateUtils';

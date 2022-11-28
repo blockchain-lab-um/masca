@@ -2,7 +2,7 @@ import { VerifiableCredential, VerifiablePresentation } from '@veramo/core';
 import { VCQuery } from './methods';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface SSISnapEventApi { }
+export interface SSISnapEventApi {}
 
 export interface SSISnapApi {
   getVCs(query?: VCQuery): Promise<VerifiableCredential[]>;

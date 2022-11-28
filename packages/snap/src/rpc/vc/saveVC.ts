@@ -1,5 +1,5 @@
-import { VerifiableCredential, W3CVerifiableCredential } from '@veramo/core';
-import { AvailableVCStores } from 'src/constants';
+import { W3CVerifiableCredential } from '@veramo/core';
+import { AvailableVCStores } from '@blockchain-lab-um/ssi-snap-types/constants';
 import { ApiParams } from '../../interfaces';
 import { snapConfirm } from '../../utils/snapUtils';
 import { veramoSaveVC } from '../../utils/veramoUtils';

@@ -10,7 +10,7 @@ import {
   SwitchMethod,
   GetVCStore,
   SetVCStore,
-  GetAvailableVCStores
+  GetAvailableVCStores,
 } from './methods';
 
 export type MetaMaskSSISnapRPCRequest =

@@ -1,6 +1,6 @@
 export const availableVCStores = ['snap', 'ceramic'];
 export type AvailableVCStores = typeof availableVCStores[number];
-export const isAvailableVCStores = (x: string): x is AvailableVCStores => 
+export const isAvailableVCStores = (x: string): x is AvailableVCStores =>
   availableVCStores.includes(x);
 
 export const availableMethods = ['did:ethr', 'did:key'];
