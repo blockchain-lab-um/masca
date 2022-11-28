@@ -1,16 +1,16 @@
 import {
-    GetVCs,
-    SaveVC,
-    GetVP,
-    ChangeInfuraToken,
-    TogglePopups,
-    GetDID,
-    GetMethod,
-    GetAvailableMethods,
-    SwitchMethod,
-    GetVCStore,
-    SetVCStore,
-    GetAvailableVCStores
+  GetVCs,
+  SaveVC,
+  GetVP,
+  ChangeInfuraToken,
+  TogglePopups,
+  GetDID,
+  GetMethod,
+  GetAvailableMethods,
+  SwitchMethod,
+  GetVCStore,
+  SetVCStore,
+  GetAvailableVCStores
 } from './methods';
 
 export type MetaMaskSSISnapRPCRequest =
