@@ -22,7 +22,7 @@ jobs:
           main-branch-name: 'develop'
       - uses: actions/setup-node@v3
         with:
-          node-version: 16.15.1
+          node-version: 18.12.1
           cache: yarn
       - name: Install dependencies
         run: yarn install --immutable
@@ -35,7 +35,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        timeout-minutes: 5
+        timeout-minutes: 30
 
     services:
       sonarqube:

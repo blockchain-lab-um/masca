@@ -15,7 +15,7 @@ jobs:
     uses: ./.github/workflows/nx-cloud-main.yml
     secrets: inherit
     with:
-      node-version: 16.15.1
+      node-version: 18.12.1
       number-of-agents: 3
       main-branch-name: 'develop'
       init-commands: |
@@ -31,4 +31,4 @@ jobs:
     secrets: inherit
     with:
       number-of-agents: 3
-      node-version: 16.15.1
+      node-version: 18.12.1
