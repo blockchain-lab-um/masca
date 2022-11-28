@@ -8,7 +8,6 @@ export async function getVCs(
   params: ApiParams,
   query?: VCQuery
 ): Promise<VerifiableCredential[]> {
-
   const { state, snap, account } = params;
   console.log('query', query);
 

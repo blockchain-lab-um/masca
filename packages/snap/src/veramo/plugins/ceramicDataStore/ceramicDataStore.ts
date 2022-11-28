@@ -89,7 +89,6 @@ export async function clear(snap: SnapsGlobalObject): Promise<boolean> {
   console.log('Clearing ceramic storage');
   const ceramic = await getCeramic(snap);
 
-
   const datastore = new DIDDataStore({ ceramic, model: aliases });
   const storedCredentialsNew = { storedCredentials: [] };
   await datastore.merge('StoredCredentials', storedCredentialsNew);

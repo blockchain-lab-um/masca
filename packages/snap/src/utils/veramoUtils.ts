@@ -36,7 +36,6 @@ export async function veramoListVCs(
   vcStore: typeof availableVCStores[number],
   query?: VCQuery
 ): Promise<VerifiableCredential[]> {
-
   console.log('Getting agent');
 
   const agent = await getAgent(snap);
@@ -89,13 +88,11 @@ export async function veramoCreateVP(
       textAreaContent: JSON.stringify(vc.vc.credentialSubject),
     };
 
-
     if (config.dApp.disablePopups || (await snapConfirm(snap, promptObj))) {
       if (challenge) console.log('Challenge:', challenge);
       if (domain) console.log('Domain:', domain);
       console.log('Identifier');
       console.log(identifier);
-
 
       const vp = await agent.createVerifiablePresentation({
         presentation: {
