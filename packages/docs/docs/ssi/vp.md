@@ -6,7 +6,7 @@ sidebar_position: 3
 
 **Verifiable Presentation**, or **VP** for short, expresses data from one or more VCs and is packaged so that the authorship of the data is verifiable.
 
-Essentially, VP is a way to verifiably present a Verifiable Credential. VP can contain one or more VCs and is signed using a DIDs.
+Essentially, VP is a way to verifiably present some or all data from one or more Verifiable Credentials. VP can contain one or more VCs and is signed using a DIDs.
 
 The data in a VP, which is often about the same subject, could have been issued by multiple issuers. Let's say you must prove your University degree, past employment, and date of birth. This data usually originates from different entities, and the owner can combine them to create a single VP.
 
