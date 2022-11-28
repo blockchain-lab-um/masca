@@ -5,7 +5,6 @@ import {
 import { ApiParams, SSISnapState } from 'src/interfaces';
 import { getAccountIndex, setAccountIndex } from './snapUtils';
 import { ethers } from 'ethers';
-import { _hexToUint8Array } from './snapUtils';
 import { didCoinTypeMappping } from '../constants/index';
 import { SnapProvider } from '@metamask/snap-types';
 
@@ -35,7 +34,7 @@ export async function getAddressKey(
   const derivedKey = await keyDeriver(addressIndex);
   const privateKey = derivedKey.privateKey;
   const chainCode = derivedKey.chainCode;
-  const addressKey = `0x${privateKey as string}${chainCode}`;
+  const addressKey = `${privateKey as string}${chainCode.split('0x')[1]}`;
   if (privateKey === undefined) return null;
   return {
     privateKey: privateKey,
@@ -104,7 +103,7 @@ export const getKeysFromAddressIndex = async (
   const result = await getAddressKey(bip44CoinTypeNode, addressIndex);
   if (result === null) return null;
   const { privateKey, derivationPath } = result;
-  const wallet = new ethers.Wallet(_hexToUint8Array(privateKey));
+  const wallet = new ethers.Wallet(privateKey);
 
   return {
     privateKey: privateKey,

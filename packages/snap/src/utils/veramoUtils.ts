@@ -120,6 +120,7 @@ export const veramoImportMetaMaskAccount = async (
 
   const publicKey = await getPublicKey(params);
   const controllerKeyId = `metamask-${account}`;
+
   const identifier = await agent.didManagerImport({
     did,
     provider: method,
@@ -129,8 +130,8 @@ export const veramoImportMetaMaskAccount = async (
         kid: controllerKeyId,
         type: 'Secp256k1',
         kms: 'snap',
-        privateKeyHex: res.privateKey,
-        publicKeyHex: publicKey,
+        privateKeyHex: res.privateKey.split('0x')[1],
+        publicKeyHex: publicKey.split('0x')[1],
       } as MinimalImportableKey,
     ],
   });
