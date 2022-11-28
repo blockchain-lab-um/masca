@@ -9,7 +9,7 @@ const FeatureList = [
     title: 'Self-Sovereignty',
     svg: <DocusaurusReact role="presentation" className={styles.featureSvg} />,
     description:
-      'Decentralized identity (or Self-sovereign identity - SSI) turns the world of digital identity upside down - but for the better! web3 is all about self-ownership; it\'s time to take that leap for personal data and attestations.',
+      "Decentralized identity (or Self-sovereign identity - SSI) turns the world of digital identity upside down - but for the better! web3 is all about self-ownership; it's time to take that leap for personal data and attestations.",
   },
   {
     title: 'Easy-to-Use',
@@ -17,13 +17,13 @@ const FeatureList = [
       <DocusaurusMountain role="presentation" className={styles.featureSvg} />
     ),
     description:
-      'SSI Snap adds support for Decentralized Identifiers (DIDs) and Verifiable Credentials (VCs) directly to MetaMask, without requiring an additional wallet or extension. And that\'s not even the best part: identity is fully configurable by users - they should decide where their identity data should be stored!',
+      "SSI Snap adds support for Decentralized Identifiers (DIDs) and Verifiable Credentials (VCs) directly to MetaMask, without requiring an additional wallet or extension. And that's not even the best part: identity is fully configurable by users - they should decide where their identity data should be stored!",
   },
   {
     title: '(Really) Fast Integration',
     svg: <DocusaurusTree role="presentation" className={styles.featureSvg} />,
     description:
-      'Not entirely sure how to handle user data and what methods/networks you should support? You can unlock the power of decentralized identity with just some additional RPC methods without going into the details of where the user\'s data is stored.',
+      "Not entirely sure how to handle user data and what methods/networks you should support? You can unlock the power of decentralized identity with just some additional RPC methods without going into the details of where the user's data is stored.",
   },
 ];
 
