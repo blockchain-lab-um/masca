@@ -1,5 +1,5 @@
 import { Agent, getAgent } from './../veramo/setup';
-import { VCQuery } from '@blockchain-lab-um/ssi-snap-types';
+import { availableVCStores, VCQuery } from '@blockchain-lab-um/ssi-snap-types';
 import {
   IIdentifier,
   MinimalImportableKey,
@@ -9,7 +9,6 @@ import {
 import { getCurrentDid } from './didUtils';
 import { getPublicKey, snapConfirm } from './snapUtils';
 import { SnapProvider } from '@metamask/snap-types';
-import { availableVCStores } from '../constants/index';
 import { ApiParams } from '../interfaces';
 import { snapGetKeysFromAddress } from './keyPair';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';

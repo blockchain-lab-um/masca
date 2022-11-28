@@ -1,4 +1,4 @@
-import { CodecName, MULTICODECS } from '../constants/multicodecs';
+import { CodecName, MULTICODECS } from '@blockchain-lab-um/ssi-snap-types';
 
 /**
  * Prefix a buffer with a multicodec-packed.
