@@ -1,86 +1,346 @@
-import { VCQuery } from '@blockchain-lab-um/ssi-snap-types';
-import { VerifiableCredential } from '@veramo/core';
+import { W3CVerifiableCredential } from '@veramo/core';
+import {
+  AvailableMethods,
+  AvailableVCStores,
+  isAvailableMethods,
+  isAvailableVCStores,
+  isSupportedProofFormat,
+  SupportedProofFormats,
+} from '../constants';
 
-type GetVCsRequestParams = { query?: VCQuery };
-
-export function isValidGetVCsRequest(
-  params: unknown
-): asserts params is GetVCsRequestParams {
-  if (params != null && typeof params === 'object' && 'query' in params) return;
-
-  throw new Error('Invalid GetVCs request');
-}
-
-type SaveVCRequestParams = { verifiableCredential: VerifiableCredential };
-
-export function isValidSaveVCRequest(
-  params: unknown
-): asserts params is SaveVCRequestParams {
-  if (
-    params != null &&
-    typeof params === 'object' &&
-    'verifiableCredential' in params
-  )
-    return;
-
-  throw new Error('Invalid SaveVC request');
-}
-
-type GetVPRequestParams = {
-  vcId: string;
-  domain?: string;
-  challenge?: string;
+type CreateVPRequestParams = {
+  vcs: [
+    {
+      id: string;
+      metadata?: {
+        store?: AvailableVCStores;
+      };
+    }
+  ];
+  proofFormat?: SupportedProofFormats;
+  proofOptions?: {
+    type?: string;
+    domain?: string;
+    challenge?: string;
+  };
 };
 
-export function isValidGetVPRequest(
-  params: unknown
-): asserts params is GetVPRequestParams {
-  if (
-    params != null &&
-    typeof params === 'object' &&
-    'vcId' in params &&
-    (params as GetVPRequestParams).vcId != null &&
-    typeof (params as GetVPRequestParams).vcId === 'string'
-  )
-    return;
+type QueryRequestParams = {
+  filter?: {
+    type: string;
+    filter: any;
+  };
+  options?: {
+    store?: AvailableVCStores | [AvailableVCStores];
+    returnStore?: boolean;
+  };
+};
 
-  throw new Error('Invalid GetVP request');
-}
+type SaveVCRequestParams = {
+  verifiableCredential: W3CVerifiableCredential;
+  options?: {
+    store?: AvailableVCStores | [AvailableVCStores];
+  };
+};
+
+type DeleteVCRequestParams = {
+  id: string | [string];
+  options?: {
+    store?: AvailableVCStores | [AvailableVCStores];
+  };
+};
 
 type ChangeInfuraTokenRequestParams = {
   infuraToken: string;
 };
 
+type SwitchMethodRequestParams = {
+  didMethod: AvailableMethods;
+};
+
+type SetVCStoreRequestParams = {
+  store: AvailableVCStores;
+  value: boolean;
+};
+
+function isStringArray(input: unknown): input is string[] {
+  return (
+    Array.isArray(input) &&
+    input.length > 0 &&
+    input.every((item) => typeof item === 'string')
+  );
+}
+function isArray(input: unknown): input is unknown[] {
+  return Array.isArray(input);
+}
+
+export function isValidSaveVCRequest(
+  params: unknown
+): asserts params is SaveVCRequestParams {
+  const param = params as SaveVCRequestParams;
+  if (
+    param != null &&
+    typeof param === 'object' &&
+    'verifiableCredential' in param &&
+    param.verifiableCredential != null
+  ) {
+    if (
+      'options' in param &&
+      param.options != null &&
+      typeof param.options === 'object'
+    ) {
+      if ('store' in param.options && param.options?.store != null) {
+        if (typeof param.options?.store == 'string') {
+          if (!isAvailableVCStores(param.options?.store)) {
+            throw new Error('Store is not supported!');
+          }
+        } else if (
+          Array.isArray(param.options?.store) &&
+          param.options?.store.length > 0
+        ) {
+          (param.options?.store as [string]).forEach((store) => {
+            if (!isAvailableVCStores(store))
+              throw new Error('Store is not supported!');
+          });
+        } else throw new Error('Store is invalid format');
+      }
+    }
+    return;
+  }
+  throw new Error('Invalid SaveVC request');
+}
+
+export function isValidCreateVPRequest(
+  params: unknown
+): asserts params is CreateVPRequestParams {
+  const param = params as CreateVPRequestParams;
+  if (
+    param != null &&
+    typeof param === 'object' &&
+    'vcs' in param &&
+    param.vcs != null &&
+    isArray(param.vcs) &&
+    param.vcs.length > 0
+  ) {
+    // Check if proofFormat is valid
+    if (
+      'proofFormat' in param &&
+      param.proofFormat != null &&
+      !isSupportedProofFormat(param.proofFormat as string)
+    ) {
+      throw new Error('Proof format not supported');
+    }
+    if (
+      'proofOptions' in param &&
+      param.proofOptions != null &&
+      param.proofOptions?.domain != null &&
+      typeof param.proofOptions?.domain != 'string'
+    ) {
+      throw new Error('Domain is not a string');
+    }
+
+    //check if challenge is a string
+    if (
+      'proofOptions' in param &&
+      param.proofOptions != null &&
+      param.proofOptions?.challenge != null &&
+      typeof param.proofOptions?.challenge != 'string'
+    ) {
+      throw new Error('Challenge is not a string');
+    }
+
+    //check if type is correct string
+    if (
+      'proofOptions' in param &&
+      param.proofOptions != null &&
+      param.proofOptions?.type != null &&
+      typeof param.proofOptions?.type != 'string'
+    ) {
+      throw new Error('Type is not a string');
+    }
+
+    // Check if vcs is valid
+    param.vcs.forEach((vc) => {
+      if (
+        vc != null &&
+        typeof vc === 'object' &&
+        'id' in vc &&
+        typeof vc.id === 'string'
+      ) {
+        if (
+          'metadata' in vc &&
+          vc.metadata != null &&
+          typeof vc.metadata === 'object' &&
+          'store' in vc.metadata &&
+          vc.metadata.store != null &&
+          typeof vc.metadata.store === 'string' &&
+          !isAvailableVCStores(vc.metadata.store)
+        ) {
+          throw new Error('Store is not supported!');
+        }
+      } else throw new Error('VC is invalid format');
+    });
+    return;
+  }
+
+  throw new Error('Invalid CreateVP request');
+}
+
 export function isValidChangeInfuraTokenRequest(
   params: unknown
 ): asserts params is ChangeInfuraTokenRequestParams {
+  const param = params as ChangeInfuraTokenRequestParams;
   if (
-    params != null &&
-    typeof params === 'object' &&
-    'infuraToken' in params &&
-    (params as ChangeInfuraTokenRequestParams).infuraToken != null &&
-    typeof (params as ChangeInfuraTokenRequestParams).infuraToken === 'string'
+    param != null &&
+    typeof param === 'object' &&
+    'infuraToken' in param &&
+    param.infuraToken != null &&
+    typeof param.infuraToken === 'string'
   )
     return;
 
   throw new Error('Invalid ChangeInfuraToken request');
 }
 
-type SwitchMethodRequestParams = {
-  didMethod: string;
-};
-
 export function isValidSwitchMethodRequest(
   params: unknown
 ): asserts params is SwitchMethodRequestParams {
+  const param = params as SwitchMethodRequestParams;
   if (
-    params != null &&
-    typeof params === 'object' &&
-    'didMethod' in params &&
-    (params as SwitchMethodRequestParams).didMethod != null &&
-    typeof (params as SwitchMethodRequestParams).didMethod === 'string'
-  )
+    param != null &&
+    typeof param === 'object' &&
+    'didMethod' in param &&
+    param.didMethod != null
+  ) {
+    if (!isAvailableMethods(param.didMethod))
+      throw new Error('Method is not supported!');
     return;
+  }
+  throw new Error('Invalid switchDIDMethod request.');
+}
 
-  throw new Error('Invalid switchMethod request.');
+export function isValidSetVCStoreRequest(
+  params: unknown
+): asserts params is SetVCStoreRequestParams {
+  const param = params as SetVCStoreRequestParams;
+  if (
+    param != null &&
+    typeof param === 'object' &&
+    'store' in param &&
+    param.store != null &&
+    'value' in param &&
+    param.value != null &&
+    typeof param.value === 'boolean'
+  ) {
+    if (!isAvailableVCStores(param.store)) {
+      throw new Error('Store is not supported!');
+    }
+    return;
+  }
+  throw new Error('Invalid setVCStore request.');
+}
+
+export function isValidDeleteVCRequest(
+  params: unknown
+): asserts params is DeleteVCRequestParams {
+  const param = params as DeleteVCRequestParams;
+  if (
+    param != null &&
+    typeof param === 'object' &&
+    'id' in param &&
+    param.id != null
+  ) {
+    if (typeof param.id != 'string' && !isStringArray(param.id)) {
+      throw new Error('ID is not a string or array of strings');
+    }
+    if (
+      'options' in param &&
+      param.options != null &&
+      typeof param.options === 'object'
+    ) {
+      if ('store' in param.options && param.options?.store != null) {
+        if (typeof param.options?.store == 'string') {
+          if (!isAvailableVCStores(param.options?.store)) {
+            throw new Error('Store is not supported!');
+          }
+        } else if (
+          Array.isArray(param.options?.store) &&
+          param.options?.store.length > 0
+        ) {
+          (param.options?.store as [string]).forEach((store) => {
+            if (!isAvailableVCStores(store))
+              throw new Error('Store is not supported!');
+          });
+        } else throw new Error('Store is invalid format');
+      }
+    }
+    return;
+  }
+  throw new Error('Invalid DeleteVC request');
+}
+
+export function isValidQueryRequest(
+  params: unknown
+): asserts params is QueryRequestParams {
+  if (params == null) {
+    return;
+  }
+  const param = params as QueryRequestParams;
+  if (
+    'filter' in param &&
+    param.filter != null &&
+    typeof param.filter === 'object'
+  ) {
+    if (
+      !(
+        'type' in param.filter &&
+        param.filter?.type != null &&
+        typeof param.filter?.type === 'string'
+      )
+    ) {
+      throw new Error('Filter type is missing or not a string!');
+    }
+    if (
+      !(
+        'filter' in param.filter &&
+        param.filter?.filter != null &&
+        typeof param.filter?.filter === 'object'
+      )
+    ) {
+      throw new Error('Filter is missing or not an object!');
+    }
+  }
+
+  if (
+    'options' in params &&
+    param.options != null &&
+    typeof param.options === 'object'
+  ) {
+    if ('store' in param.options && param.options?.store != null) {
+      if (typeof param.options?.store == 'string') {
+        if (!isAvailableVCStores(param.options?.store)) {
+          throw new Error('Store is not supported!');
+        }
+      } else if (
+        Array.isArray(param.options?.store) &&
+        param.options?.store.length > 0
+      ) {
+        (param.options?.store as [string]).forEach((store) => {
+          if (!isAvailableVCStores(store))
+            throw new Error('Store is not supported!');
+        });
+      } else throw new Error('Store is invalid format');
+    }
+    if (
+      !(
+        'returnStore' in param.options &&
+        param.options?.returnStore != null &&
+        typeof param.options?.returnStore === 'boolean'
+      )
+    ) {
+      throw new Error('ReturnStore is invalid format');
+    }
+  }
+  console.log('filter correcto');
+  return;
 }

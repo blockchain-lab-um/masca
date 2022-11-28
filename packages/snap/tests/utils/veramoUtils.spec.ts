@@ -55,7 +55,7 @@ describe('Utils [veramo]', () => {
         getDefaultSnapState()
       );
 
-      await expect(veramoListVCs(walletMock, 'snap')).resolves.toEqual([]);
+      await expect(veramoListVCs(walletMock, ['snap'])).resolves.toEqual([]);
 
       expect.assertions(1);
     });
@@ -68,7 +68,7 @@ describe('Utils [veramo]', () => {
       await veramoSaveVC(walletMock, exampleVC, 'snap');
 
       const expectedVC = { ...exampleVC, key: 'test-id' };
-      await expect(veramoListVCs(walletMock, 'snap')).resolves.toEqual([
+      await expect(veramoListVCs(walletMock, ['snap'])).resolves.toEqual([
         expectedVC,
       ]);
 
@@ -83,7 +83,7 @@ describe('Utils [veramo]', () => {
       await veramoSaveVC(walletMock, exampleVC, 'snap');
 
       const expectedVC = { ...exampleVC, key: 'test-id' };
-      await expect(veramoListVCs(walletMock, 'snap', {})).resolves.toEqual([
+      await expect(veramoListVCs(walletMock, ['snap'], {})).resolves.toEqual([
         expectedVC,
       ]);
 
@@ -99,7 +99,7 @@ describe('Utils [veramo]', () => {
 
       const expectedVC = { ...exampleVC, key: 'test-id' };
       await expect(
-        veramoListVCs(walletMock, 'snap', {
+        veramoListVCs(walletMock, ['snap'], {
           key: 'test-id',
         })
       ).resolves.toEqual([expectedVC]);
@@ -115,7 +115,7 @@ describe('Utils [veramo]', () => {
       await veramoSaveVC(walletMock, exampleVC, 'snap');
 
       await expect(
-        veramoListVCs(walletMock, 'snap', { id: 'wrong-id' })
+        veramoListVCs(walletMock, ['snap'], { id: 'wrong-id' })
       ).resolves.toEqual([]);
 
       expect.assertions(1);
@@ -206,7 +206,7 @@ describe('Utils [veramo]', () => {
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         },
-        'test-id'
+        { vcs: [{ id: 'test-id' }] }
       );
       expect(createdVP).not.toEqual(null);
 
@@ -231,7 +231,7 @@ describe('Utils [veramo]', () => {
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         },
-        'test-id'
+        { vcs: [{ id: 'test-id' }] }
       );
 
       expect(createdVP).toEqual(null);
@@ -251,7 +251,7 @@ describe('Utils [veramo]', () => {
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         },
-        'test-id'
+        { vcs: [{ id: 'test-id' }] }
       );
 
       expect(createdVP).toEqual(null);

@@ -1,21 +1,35 @@
-import { VerifiableCredential } from '@veramo/core';
+import { VerifiableCredential, W3CVerifiableCredential } from '@veramo/core';
+import { AvailableVCStores } from 'src/constants';
 import { ApiParams } from '../../interfaces';
 import { snapConfirm } from '../../utils/snapUtils';
 import { veramoSaveVC } from '../../utils/veramoUtils';
 
-export async function saveVC(params: ApiParams, vc: VerifiableCredential) {
+export async function saveVC(
+  params: ApiParams,
+  verifiableCredential: W3CVerifiableCredential,
+  store?: AvailableVCStores | [AvailableVCStores]
+) {
+  if (typeof store === 'undefined') {
+    store = 'snap';
+  }
   const { state, wallet, account } = params;
-  const promptObj = {
-    prompt: 'Save VC',
-    description: `Would you like to save the following VC in ${state.accountState[account].accountConfig.ssi.vcStore}?`,
-    textAreaContent: JSON.stringify(vc.credentialSubject),
-  };
+  let promptObj;
+  if (typeof store === 'string') {
+    promptObj = {
+      prompt: 'Save VC',
+      description: `Would you like to save the following VC in ${store}?`,
+      textAreaContent: JSON.stringify(verifiableCredential).substring(0, 100),
+    };
+  } else {
+    const desc = 'Would you like to save the following VC in ';
+    promptObj = {
+      prompt: 'Save VC',
+      description: desc + store.join(', '),
+      textAreaContent: JSON.stringify(verifiableCredential).substring(0, 100),
+    };
+  }
   if (await snapConfirm(wallet, promptObj)) {
-    return await veramoSaveVC(
-      wallet,
-      vc,
-      state.accountState[account].accountConfig.ssi.vcStore
-    );
+    return await veramoSaveVC(wallet, verifiableCredential, store);
   }
   return false;
 }

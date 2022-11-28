@@ -5,7 +5,7 @@ import {
   SnapDIDStore,
   SnapVCStore,
 } from './veramo/plugins/snapDataStore/snapDataStore';
-import { availableMethods, availableVCStores } from '@blockchain-lab-um/ssi-snap-types';
+import { AvailableMethods, AvailableVCStores } from '@blockchain-lab-um/ssi-snap-types';
 import { SnapProvider } from '@metamask/snap-types';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 
@@ -77,8 +77,8 @@ export type SSIAccountState = {
 
 export type SSIAccountConfig = {
   ssi: {
-    didMethod: typeof availableMethods[number];
-    vcStore: typeof availableVCStores[number];
+    didMethod: AvailableMethods;
+    vcStore: Record<AvailableVCStores, boolean>;
   };
 };
 

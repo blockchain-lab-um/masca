@@ -12,7 +12,10 @@ const emptyAccountState = {
   accountConfig: {
     ssi: {
       didMethod: 'did:ethr',
-      vcStore: 'snap',
+      vcStore: {
+        snap: true,
+        ceramic: false,
+      },
     },
     ceramic: {},
   } as SSIAccountConfig,
