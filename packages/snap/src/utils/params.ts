@@ -1,67 +1,15 @@
-import { W3CVerifiableCredential } from '@veramo/core';
 import {
-  AvailableMethods,
-  AvailableVCStores,
   isAvailableMethods,
   isAvailableVCStores,
   isSupportedProofFormat,
-  SupportedProofFormats,
-} from '../constants';
-
-type CreateVPRequestParams = {
-  vcs: [
-    {
-      id: string;
-      metadata?: {
-        store?: AvailableVCStores;
-      };
-    }
-  ];
-  proofFormat?: SupportedProofFormats;
-  proofOptions?: {
-    type?: string;
-    domain?: string;
-    challenge?: string;
-  };
-};
-
-type QueryRequestParams = {
-  filter?: {
-    type: string;
-    filter: any;
-  };
-  options?: {
-    store?: AvailableVCStores | [AvailableVCStores];
-    returnStore?: boolean;
-  };
-};
-
-type SaveVCRequestParams = {
-  verifiableCredential: W3CVerifiableCredential;
-  options?: {
-    store?: AvailableVCStores | [AvailableVCStores];
-  };
-};
-
-type DeleteVCRequestParams = {
-  id: string | [string];
-  options?: {
-    store?: AvailableVCStores | [AvailableVCStores];
-  };
-};
-
-type ChangeInfuraTokenRequestParams = {
-  infuraToken: string;
-};
-
-type SwitchMethodRequestParams = {
-  didMethod: AvailableMethods;
-};
-
-type SetVCStoreRequestParams = {
-  store: AvailableVCStores;
-  value: boolean;
-};
+  type SaveVCRequestParams,
+  type CreateVPRequestParams,
+  type ChangeInfuraTokenRequestParams,
+  type SwitchMethodRequestParams,
+  type SetVCStoreRequestParams,
+  type DeleteVCRequestParams,
+  type QueryRequestParams,
+} from '@blockchain-lab-um/ssi-snap-types';
 
 function isStringArray(input: unknown): input is string[] {
   return (
