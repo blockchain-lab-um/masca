@@ -51,7 +51,6 @@ export class VCManager implements IAgentPlugin {
     if (!this.storePlugins[args.store]) throw new Error('Store not found');
     let vcs = await this.storePlugins[args.store].list();
     if (args.query) {
-      console.log('VCS:', vcs, 'Filtering: ', args.query);
       vcs = vcs.filter((i) => {
         return isSubset(i, args.query as object);
       });

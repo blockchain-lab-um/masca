@@ -41,7 +41,6 @@ export const resolveSecp256k1 = async (
       },
     ],
   };
-  console.log('Did doc', didDocument);
   return didDocument;
 };
 

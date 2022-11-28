@@ -15,6 +15,7 @@ export async function init(snap: SnapsGlobalObject): Promise<SSISnapState> {
   if (await snapConfirm(snap, promptObj)) {
     console.log('starting init');
     return await initSnapState(snap);
+
   } else {
     throw new Error('User did not accept terms and conditions!');
   }

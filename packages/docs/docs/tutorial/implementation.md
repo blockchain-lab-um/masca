@@ -88,9 +88,9 @@ const res = await api.changeInfuraToken(infuraToken);
 const res = await api.togglePopups();
 ```
 
-_NOTE:_ _Snap can also be installed using a 3rd party Platform such as our [Platform](https://blockchain-lab-um.github.io/course-dapp/) or [Snaplist](https://snaplist.org/), or our [Configuration Page](../config)._
+_NOTE:_ _Snap can also be installed using a 3rd party Platform such as our [Platform](https://blockchain-lab-um.github.io/course-dapp/) or [Snaplist](https://snaplist.org/)._
 
-#### For a more detailed look at SSI Snap Connector visit its [documentation](../plugins/ssi-snap-connector)!
+#### For a more detailed look at SSI Snap Connector visit its [documentation](../libraries/ssi-snap-connector)!
 
 If you need more help with implementation feel free to contact us in Discord, or check the [DEMO Platform repo](https://github.com/blockchain-lab-um/course-dapp)!
 

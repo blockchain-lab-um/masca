@@ -18,7 +18,6 @@ export class CeramicVCStore extends AbstractVCStore {
     const storedCredentials = (await datastore.get(
       'StoredCredentials'
     )) as StoredCredentials;
-    console.log(storedCredentials);
     if (storedCredentials.storedCredentials) {
       const verifiableCredential = storedCredentials.storedCredentials.find(
         (vc) => vc.key === args.id
@@ -36,7 +35,6 @@ export class CeramicVCStore extends AbstractVCStore {
     const ceramicData = (await datastore.get(
       'StoredCredentials'
     )) as StoredCredentials;
-    console.log(ceramicData);
     if (ceramicData.storedCredentials) {
       let found = false;
       ceramicData.storedCredentials = ceramicData.storedCredentials.filter(
@@ -46,8 +44,7 @@ export class CeramicVCStore extends AbstractVCStore {
         }
       );
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const res = await datastore.merge('StoredCredentials', ceramicData);
-      console.log(res);
+      await datastore.merge('StoredCredentials', ceramicData);
       return found;
     }
     return false;
@@ -62,21 +59,14 @@ export class CeramicVCStore extends AbstractVCStore {
     const storedCredentials = (await datastore.get(
       'StoredCredentials'
     )) as StoredCredentials;
-    console.log(storedCredentials);
     if (storedCredentials && storedCredentials.storedCredentials) {
       storedCredentials.storedCredentials.push(vc);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const res = await datastore.merge('StoredCredentials', storedCredentials);
-      console.log(res);
+      await datastore.merge('StoredCredentials', storedCredentials);
     } else {
-      console.log('creating new..');
       const storedCredentialsNew = { storedCredentials: [vc] };
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const res = await datastore.merge(
-        'StoredCredentials',
-        storedCredentialsNew
-      );
-      console.log(res);
+      await datastore.merge('StoredCredentials', storedCredentialsNew);
     }
 
     return true;
@@ -98,6 +88,7 @@ export class CeramicVCStore extends AbstractVCStore {
 export async function clear(snap: SnapsGlobalObject): Promise<boolean> {
   console.log('Clearing ceramic storage');
   const ceramic = await getCeramic(snap);
+
 
   const datastore = new DIDDataStore({ ceramic, model: aliases });
   const storedCredentialsNew = { storedCredentials: [] };

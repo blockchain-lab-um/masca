@@ -62,8 +62,10 @@ export const getAgent = async (snap: SnapsGlobalObject): Promise<Agent> => {
   const state = await getSnapState(snap);
 
   const INFURA_PROJECT_ID = state.snapConfig.snap.infuraToken;
+
   const CHAIN_ID = await getCurrentNetwork(snap);
   console.log('INFURA_PROJECT_ID', INFURA_PROJECT_ID, 'CHAIN ID', CHAIN_ID);
+
 
   const web3Providers: Record<string, Web3Provider> = {};
   const didProviders: Record<string, AbstractIdentifierProvider> = {};
@@ -82,9 +84,11 @@ export const getAgent = async (snap: SnapsGlobalObject): Promise<Agent> => {
 
   didProviders['did:key'] = new KeyDIDProvider({ defaultKms: 'web3' });
 
+
   vcStorePlugins['snap'] = new SnapVCStore(snap);
   vcStorePlugins['ceramic'] = new CeramicVCStore(snap);
   console.log('Started building agent...');
+
   const agent = createAgent<
     IDIDManager &
       IKeyManager &
@@ -117,6 +121,5 @@ export const getAgent = async (snap: SnapsGlobalObject): Promise<Agent> => {
       }),
     ],
   });
-  console.log('Agent built..');
   return agent;
 };

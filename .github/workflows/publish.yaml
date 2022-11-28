@@ -16,6 +16,8 @@ jobs:
           cache-depndency-path: '**/yarn.lock'
       - run: yarn install --immutable
       - run: yarn build
+        env:
+          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
       - env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
         run: |

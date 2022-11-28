@@ -13,7 +13,7 @@ Veramo client powers the SSI Snap.
 
 ## Veramo Client
 
-Veramo Client is used to manage DIDs and VCs, using Veramos **DIDManager**, **KeyManager** and **PrivateKeyManager** plugins and our custom **[VCManager plugin](../plugins/vc-manager)**.
+Veramo Client is used to manage DIDs and VCs, using Veramos **DIDManager**, **KeyManager** and **PrivateKeyManager** plugins and our custom **[VCManager plugin](../libraries/vc-manager)**.
 
 SSI Snap uses following Veramo Client configuration:
 
@@ -60,7 +60,7 @@ const agent = createAgent<
 });
 ```
 
-**DIDManager**, **KeyManager**, **PrivateKeyManager** and **[VCManager](../plugins/vc-manager)** plugins take care of managing and storing data. They all come with an abstract data-store class, e.g. [AbstractVCStore](https://github.com/blockchain-lab-um/veramo-vc-manager/blob/main/src/vc-store/abstract-vc-store.ts). Using said class, we implemented custom data-store plugins, that save data inside the MetaMask state or on the Ceramic Network.
+**DIDManager**, **KeyManager**, **PrivateKeyManager** and **[VCManager](../libraries/vc-manager)** plugins take care of managing and storing data. They all come with an abstract data-store class, e.g. [AbstractVCStore](https://github.com/blockchain-lab-um/veramo-vc-manager/blob/main/src/vc-store/abstract-vc-store.ts). Using said class, we implemented custom data-store plugins, that save data inside the MetaMask state or on the Ceramic Network.
 
 These abstract classes make implementing different ways of storing data easy.
 

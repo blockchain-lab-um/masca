@@ -36,12 +36,13 @@ export async function veramoListVCs(
   vcStore: typeof availableVCStores[number],
   query?: VCQuery
 ): Promise<VerifiableCredential[]> {
+
   console.log('Getting agent');
 
   const agent = await getAgent(snap);
   console.log(agent);
+
   const vcsSnap = await agent.listVCS({ store: 'snap', query: query });
-  console.log(vcsSnap);
   if (vcStore === 'ceramic') {
     const vcsCeramic = await agent.listVCS({ store: 'ceramic', query: query });
     return [...vcsSnap.vcs, ...vcsCeramic.vcs];
@@ -67,7 +68,6 @@ export async function veramoCreateVP(
   const agent = await getAgent(snap);
   //GET DID
   const identifier = await veramoImportMetaMaskAccount(params, agent);
-  console.log('Identifier: ', identifier);
   let vc;
   try {
     // FIXME: getVC should return null not throw an error
@@ -82,7 +82,6 @@ export async function veramoCreateVP(
     }
   }
   const config = state.snapConfig;
-  console.log(vcId, domain, challenge);
   if (vc && vc.vc) {
     const promptObj = {
       prompt: 'Alert',
@@ -90,11 +89,13 @@ export async function veramoCreateVP(
       textAreaContent: JSON.stringify(vc.vc.credentialSubject),
     };
 
+
     if (config.dApp.disablePopups || (await snapConfirm(snap, promptObj))) {
       if (challenge) console.log('Challenge:', challenge);
       if (domain) console.log('Domain:', domain);
       console.log('Identifier');
       console.log(identifier);
+
 
       const vp = await agent.createVerifiablePresentation({
         presentation: {
@@ -106,13 +107,10 @@ export async function veramoCreateVP(
         domain: domain,
         challenge: challenge,
       });
-      console.log('....................VP..................');
-      console.log(vp);
       return vp;
     }
     return null;
   }
-  console.log('No VC found...');
   return null;
 }
 
@@ -130,11 +128,9 @@ export const veramoImportMetaMaskAccount = async (
     account,
     snap
   );
-  if (!res) {
-    throw new Error('Failed to get keys');
-  }
+  if (!res) throw new Error('Failed to get keys');
+
   const publicKey = await getPublicKey(params);
-  console.log('Importing...');
   const controllerKeyId = `metamask-${account}`;
   const identifier = await agent.didManagerImport({
     did,
