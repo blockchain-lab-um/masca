@@ -41,7 +41,7 @@ export async function veramoListVCs(
   query?: VCQuery
 ): Promise<VerifiableCredential[]> {
   const agent = await getAgent(wallet);
-  const vcsSnap = [] as VerifiableCredential[];
+  const vcsSnap: VerifiableCredential[] = [];
   for (const s of store) {
     const vcs = await agent.listVCS({ store: s, query: query });
     vcsSnap.push(...vcs.vcs);
@@ -107,7 +107,6 @@ export async function veramoCreateVP(
     const promptObj = {
       prompt: 'Alert',
       description: 'Do you wish to create a VP from the following VC?',
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       textAreaContent: JSON.stringify(vc.vc.credentialSubject),
     };
 
