@@ -7,7 +7,7 @@ import {
   exampleVC,
   getDefaultSnapState,
 } from '../testUtils/constants';
-import { availableVCStores, availableMethods } from '../../src/constants/index';
+import { availableVCStores, availableMethods } from '@blockchain-lab-um/ssi-snap-types';
 import {
   IVerifyResult,
   VerifiableCredential,

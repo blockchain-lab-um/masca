@@ -5,7 +5,7 @@ import {
   SnapDIDStore,
   SnapVCStore,
 } from './veramo/plugins/snapDataStore/snapDataStore';
-import { availableMethods, availableVCStores } from './constants/index';
+import { availableMethods, availableVCStores } from '@blockchain-lab-um/ssi-snap-types';
 import { SnapProvider } from '@metamask/snap-types';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 

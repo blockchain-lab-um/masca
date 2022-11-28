@@ -1,5 +1,12 @@
+export const availableVCStores = ['snap', 'ceramic'] as const;
+export const availableMethods = ['did:ethr', 'did:key'] as const;
+
+export const didCoinTypeMappping: Record<string, number> = {
+  'did:ethr': 60,
+  'did:key': 60,
+};
+
 // Source: https://github.com/multiformats/multicodec/blob/master/table.csv
-/*
 export type CodecName =
   | 'secp256k1-priv'
   | 'secp256k1-pub'
@@ -12,4 +19,3 @@ export const MULTICODECS: Record<CodecName, Uint8Array> = {
   'ed25519-priv': new Uint8Array([128, 38]),
   'ed25519-pub': new Uint8Array([237, 1]),
 };
-*/

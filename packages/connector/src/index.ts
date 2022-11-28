@@ -1,4 +1,5 @@
 import { MetaMaskSSISnap } from './snap';
+import { availableMethods } from '@blockchain-lab-um/ssi-snap-types';
 import {
   hasMetaMask,
   isMetamaskSnapsSupported,
@@ -12,8 +13,6 @@ export {
   isMetamaskSnapsSupported,
   isSnapInstalled,
 } from './utils';
-
-const availableMethods = ['did:ethr', 'did:key'] as const;
 
 export type SnapInstallationParams = {
   snapId?: string;
