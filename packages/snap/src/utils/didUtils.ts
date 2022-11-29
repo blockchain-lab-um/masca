@@ -37,7 +37,7 @@ export async function changeCurrentMethod(
   account: string,
   didMethod: AvailableMethods
 ): Promise<string> {
-  if (state.accountState[account].accountConfig.ssi.didMethod != didMethod) {
+  if (state.accountState[account].accountConfig.ssi.didMethod !== didMethod) {
     state.accountState[account].accountConfig.ssi.didMethod = didMethod;
     await updateSnapState(wallet, state);
     const did = await getCurrentDid(wallet, state, account);
