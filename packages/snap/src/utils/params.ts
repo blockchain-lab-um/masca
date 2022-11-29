@@ -93,7 +93,7 @@ export function isValidSaveVCRequest(
       typeof param.options === 'object'
     ) {
       if ('store' in param.options && param.options?.store !== null) {
-        if (typeof param.options?.store == 'string') {
+        if (typeof param.options?.store === 'string') {
           if (!isAvailableVCStores(param.options?.store)) {
             throw new Error('Store is not supported!');
           }
@@ -262,7 +262,7 @@ export function isValidDeleteVCRequest(
       typeof param.options === 'object'
     ) {
       if ('store' in param.options && param.options?.store !== null) {
-        if (typeof param.options?.store == 'string') {
+        if (typeof param.options?.store === 'string') {
           if (!isAvailableVCStores(param.options?.store)) {
             throw new Error('Store is not supported!');
           }
@@ -285,9 +285,7 @@ export function isValidDeleteVCRequest(
 export function isValidQueryRequest(
   params: unknown
 ): asserts params is QueryRequestParams {
-  if (params == null) {
-    return;
-  }
+  if (params == null) return;
   const param = params as QueryRequestParams;
   if (
     'filter' in param &&
@@ -320,7 +318,7 @@ export function isValidQueryRequest(
     typeof param.options === 'object'
   ) {
     if ('store' in param.options && param.options?.store !== null) {
-      if (typeof param.options?.store == 'string') {
+      if (typeof param.options?.store === 'string') {
         if (!isAvailableVCStores(param.options?.store)) {
           throw new Error('Store is not supported!');
         }
