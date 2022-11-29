@@ -10,21 +10,14 @@ export async function saveVC(
   const { store = 'snap' } = options || {};
   const { wallet } = params;
 
-  let promptObj;
-  if (typeof store === 'string') {
-    promptObj = {
-      prompt: 'Save VC',
-      description: `Would you like to save the following VC in ${store}?`,
-      textAreaContent: JSON.stringify(verifiableCredential).substring(0, 100),
-    };
-  } else {
-    const desc = 'Would you like to save the following VC in ';
-    promptObj = {
-      prompt: 'Save VC',
-      description: desc + store.join(', '),
-      textAreaContent: JSON.stringify(verifiableCredential).substring(0, 100),
-    };
-  }
+  const promptObj = {
+    prompt: 'Save VC',
+    description: `Would you like to save the following VC in ${
+      typeof store === 'string' ? store : store.join(', ')
+    }?`,
+    textAreaContent: JSON.stringify(verifiableCredential).substring(0, 100),
+  };
+
   if (await snapConfirm(wallet, promptObj)) {
     return await veramoSaveVC(wallet, verifiableCredential, store);
   }
