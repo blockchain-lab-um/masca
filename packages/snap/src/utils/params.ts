@@ -25,15 +25,16 @@ type CreateVPRequestParams = {
   };
 };
 
+export type QueryFilter = { type: string; filter: unknown };
+
+export type QueryOptions = {
+  store?: AvailableVCStores | [AvailableVCStores];
+  returnStore?: boolean;
+};
+
 type QueryRequestParams = {
-  filter?: {
-    type: string;
-    filter: any;
-  };
-  options?: {
-    store?: AvailableVCStores | [AvailableVCStores];
-    returnStore?: boolean;
-  };
+  filter?: QueryFilter;
+  options?: QueryOptions;
 };
 
 type SaveVCRequestParams = {
@@ -312,7 +313,7 @@ export function isValidQueryRequest(
   }
 
   if (
-    'options' in params &&
+    'options' in param &&
     param.options != null &&
     typeof param.options === 'object'
   ) {

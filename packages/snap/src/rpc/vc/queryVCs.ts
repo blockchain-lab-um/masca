@@ -3,13 +3,7 @@ import { VerifiableCredential } from '@veramo/core';
 import { VCQuery } from '@blockchain-lab-um/ssi-snap-types';
 import { snapConfirm } from '../../utils/snapUtils';
 import { ApiParams } from '../../interfaces';
-import { AvailableVCStores } from 'src/constants';
-
-type QueryFilter = { type: string; filter: unknown };
-type QueryOptions = {
-  store?: AvailableVCStores | [AvailableVCStores];
-  returnStore?: boolean;
-};
+import { QueryFilter, QueryOptions } from 'src/utils/params';
 
 export async function queryVCs(
   params: ApiParams,
