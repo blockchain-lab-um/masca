@@ -1,15 +1,17 @@
 /* eslint-disable consistent-return*/
 import { OnRpcRequestHandler } from '@metamask/snap-types';
 import { togglePopups, changeInfuraToken } from './rpc/snap/configure';
-import { getVCs } from './rpc/vc/getVCs';
-import { getVP } from './rpc/vc/getVP';
+import { queryVCs } from './rpc/vc/queryVCs';
+import { createVP } from './rpc/vc/createVP';
 import { saveVC } from './rpc/vc/saveVC';
 import {
   isValidChangeInfuraTokenRequest,
-  isValidGetVCsRequest,
-  isValidGetVPRequest,
+  isValidCreateVPRequest,
   isValidSaveVCRequest,
+  isValidSetVCStoreRequest,
   isValidSwitchMethodRequest,
+  isValidDeleteVCRequest,
+  isValidQueryRequest,
 } from './utils/params';
 import { switchMethod } from './rpc/did/switchMethod';
 import { init } from './utils/init';
@@ -26,10 +28,7 @@ import { getCurrentAccount } from './utils/snapUtils';
 import { getAddressKeyDeriver } from './utils/keyPair';
 import { ApiParams } from './interfaces';
 
-export const onRpcRequest: OnRpcRequestHandler = async ({
-  origin,
-  request,
-}) => {
+export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
   let state = await getSnapStateUnchecked(wallet);
   if (state === null) state = await init(wallet);
 
@@ -51,42 +50,44 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   }
 
   switch (request.method) {
-    case 'getVCs':
-      isValidGetVCsRequest(request.params);
-      return await getVCs(apiParams, request.params.query);
+    case 'query':
+      isValidQueryRequest(request.params);
+      return await queryVCs(apiParams, request.params);
     case 'saveVC':
       isValidSaveVCRequest(request.params);
-      return await saveVC(apiParams, request.params.verifiableCredential);
-    case 'getVP':
-      isValidGetVPRequest(request.params);
+      return await saveVC(apiParams, request.params);
+    case 'createVP':
+      isValidCreateVPRequest(request.params);
       apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
-      return await getVP(
-        apiParams,
-        request.params.vcId,
-        request.params.domain,
-        request.params.challenge
-      );
+      return await createVP(apiParams, request.params);
     case 'changeInfuraToken':
       isValidChangeInfuraTokenRequest(request.params);
-      return await changeInfuraToken(apiParams, request.params.infuraToken);
+      return await changeInfuraToken(apiParams, request.params);
     case 'togglePopups':
       return await togglePopups(apiParams);
-    case 'switchMethod':
+    case 'switchDIDMethod':
       isValidSwitchMethodRequest(request.params);
-      return await switchMethod(apiParams, request.params.didMethod);
+      return await switchMethod(apiParams, request.params);
     case 'getDID':
       return await getDid(apiParams);
-    case 'getMethod':
+    case 'getSelectedMethod':
       return state.accountState[account].accountConfig.ssi.didMethod;
     case 'getAvailableMethods':
       return getAvailableMethods();
     case 'getVCStore':
       return state.accountState[account].accountConfig.ssi.vcStore;
-    // TODO: RENAME THIS OR CHANGE PARAMETERS -> Current behaviour is switch not set
     case 'setVCStore':
-      return await setVCStore(apiParams);
+      isValidSetVCStoreRequest(request.params);
+      return await setVCStore(apiParams, request.params);
+    case 'getAccountSettings':
+      return state.accountState[account].accountConfig;
+    case 'getSnapSettings':
+      return state.snapConfig;
     case 'getAvailableVCStores':
       return getAvailableVCStores();
+    case 'deleteVC':
+      isValidDeleteVCRequest(request.params);
+    //return await deleteVC(apiParams, request.params.id);
     default:
       throw new Error('Method not found.');
   }

@@ -47,7 +47,7 @@ Proof formats:
 - [ ] JSON Web Proofs
 - [ ] ...
 
-Data storage options:
+Storage options:
 
 - [x] MetaMask Snap State (local, off-chain)
 - [x] Ceramic Network

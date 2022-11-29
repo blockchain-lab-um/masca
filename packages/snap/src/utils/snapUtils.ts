@@ -104,7 +104,7 @@ export async function getPublicKey(params: ApiParams): Promise<string> {
     account,
     wallet
   );
-  if (res == null) throw new Error('Could not get keys from address');
+  if (res === null) throw new Error('Could not get keys from address');
   return res.publicKey;
 }
 

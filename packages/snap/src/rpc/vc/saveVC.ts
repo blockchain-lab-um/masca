@@ -1,21 +1,25 @@
-import { VerifiableCredential } from '@veramo/core';
+import { SaveVCRequestParams } from 'src/utils/params';
 import { ApiParams } from '../../interfaces';
 import { snapConfirm } from '../../utils/snapUtils';
 import { veramoSaveVC } from '../../utils/veramoUtils';
 
-export async function saveVC(params: ApiParams, vc: VerifiableCredential) {
-  const { state, wallet, account } = params;
+export async function saveVC(
+  params: ApiParams,
+  { verifiableCredential, options }: SaveVCRequestParams
+) {
+  const { store = 'snap' } = options || {};
+  const { wallet } = params;
+
   const promptObj = {
     prompt: 'Save VC',
-    description: `Would you like to save the following VC in ${state.accountState[account].accountConfig.ssi.vcStore}?`,
-    textAreaContent: JSON.stringify(vc.credentialSubject),
+    description: `Would you like to save the following VC in ${
+      typeof store === 'string' ? store : store.join(', ')
+    }?`,
+    textAreaContent: JSON.stringify(verifiableCredential).substring(0, 100),
   };
+
   if (await snapConfirm(wallet, promptObj)) {
-    return await veramoSaveVC(
-      wallet,
-      vc,
-      state.accountState[account].accountConfig.ssi.vcStore
-    );
+    return await veramoSaveVC(wallet, verifiableCredential, store);
   }
   return false;
 }

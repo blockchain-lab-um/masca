@@ -17,7 +17,7 @@ describe('Utils [ceramic]', () => {
         getDefaultSnapState()
       );
       await clear(walletMock);
-      const vcs = await veramoListVCs(walletMock, 'ceramic');
+      const vcs = await veramoListVCs(walletMock, ['ceramic']);
       expect(vcs).toEqual([]);
 
       expect.assertions(1);
@@ -53,7 +53,7 @@ describe('Utils [ceramic]', () => {
         getDefaultSnapState()
       );
       const expectedVC = { ...exampleVC };
-      const vcs = await veramoListVCs(walletMock, 'ceramic');
+      const vcs = await veramoListVCs(walletMock, ['ceramic']);
       vcs.map((vc) => {
         delete vc['key'];
         return vc;

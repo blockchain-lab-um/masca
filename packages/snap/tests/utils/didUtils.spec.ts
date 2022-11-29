@@ -23,7 +23,7 @@ describe('Utils [did]', () => {
       const initialState = getDefaultSnapState();
 
       await expect(
-        changeCurrentVCStore(walletMock, initialState, address, 'snap')
+        changeCurrentVCStore(walletMock, initialState, address, 'snap', true)
       ).resolves.not.toThrow();
 
       const expectedState = getDefaultSnapState();
@@ -40,11 +40,12 @@ describe('Utils [did]', () => {
       const initialState = getDefaultSnapState();
 
       await expect(
-        changeCurrentVCStore(walletMock, initialState, address, 'ceramic')
+        changeCurrentVCStore(walletMock, initialState, address, 'ceramic', true)
       ).resolves.not.toThrow();
 
       const expectedState = getDefaultSnapState();
-      expectedState.accountState[address].accountConfig.ssi.vcStore = 'ceramic';
+      expectedState.accountState[address].accountConfig.ssi.vcStore['ceramic'] =
+        true;
 
       expect(walletMock.rpcMocks.snap_manageState).toHaveBeenCalledWith(
         'update',
@@ -84,10 +85,12 @@ describe('Utils [did]', () => {
       const initialState = getDefaultSnapState();
 
       await expect(
-        changeCurrentMethod(walletMock, initialState, address, 'did:ethr')
+        changeCurrentMethod(walletMock, initialState, address, 'did:key')
       ).resolves.not.toThrow();
 
       const expectedState = getDefaultSnapState();
+      expectedState.accountState[address].accountConfig.ssi.didMethod =
+        'did:key';
 
       expect(walletMock.rpcMocks.snap_manageState).toHaveBeenCalledWith(
         'update',

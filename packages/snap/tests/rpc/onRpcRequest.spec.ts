@@ -15,6 +15,7 @@ import {
 } from '@veramo/core';
 import * as uuid from 'uuid';
 import { getAgent } from '../../src/veramo/setup';
+import { address } from '../testUtils/constants';
 jest.mock('uuid');
 
 describe('onRpcRequest', () => {
@@ -39,6 +40,7 @@ describe('onRpcRequest', () => {
             method: 'saveVC',
             params: {
               verifiableCredential: exampleVC,
+              options: { store: 'snap' },
             },
           },
         })
@@ -49,7 +51,46 @@ describe('onRpcRequest', () => {
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
-          method: 'getVCs',
+          method: 'query',
+          params: {
+            query: {},
+          },
+        },
+      })) as VerifiableCredential[];
+
+      const removedKeys = result.map((vc) => {
+        delete vc.key;
+        return vc;
+      });
+
+      expect(removedKeys).toEqual([exampleVC]);
+
+      expect.assertions(2);
+    });
+
+    it('should succeed saving 1 VC without store param and return true', async () => {
+      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
+
+      await expect(
+        onRpcRequest({
+          origin: 'localhost',
+          request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'saveVC',
+            params: {
+              verifiableCredential: exampleVC,
+            },
+          },
+        })
+      ).resolves.toEqual(true);
+
+      const result = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'query',
           params: {
             query: {},
           },
@@ -78,6 +119,7 @@ describe('onRpcRequest', () => {
             method: 'saveVC',
             params: {
               verifiableCredential: exampleVC,
+              options: { store: 'snap' },
             },
           },
         })
@@ -89,7 +131,7 @@ describe('onRpcRequest', () => {
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
-            method: 'getVCs',
+            method: 'query',
             params: {
               query: {},
             },
@@ -99,9 +141,105 @@ describe('onRpcRequest', () => {
 
       expect.assertions(2);
     });
+
+    it('should throw error because store is not supported', async () => {
+      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
+
+      await expect(
+        onRpcRequest({
+          origin: 'localhost',
+          request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'saveVC',
+            params: {
+              verifiableCredential: exampleVC,
+              options: { store: 'snapp' },
+            },
+          },
+        })
+      ).rejects.toThrow('Store is not supported!');
+
+      expect.assertions(1);
+    });
+    it('should throw error because request is not valid', async () => {
+      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
+
+      await expect(
+        onRpcRequest({
+          origin: 'localhost',
+          request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'saveVC',
+            params: {
+              options: { store: 'snap' },
+            },
+          },
+        })
+      ).rejects.toThrow('Invalid SaveVC request');
+
+      expect.assertions(1);
+    });
+
+    it('should throw error because request is not valid: store format', async () => {
+      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
+
+      await expect(
+        onRpcRequest({
+          origin: 'localhost',
+          request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'saveVC',
+            params: {
+              verifiableCredential: exampleVC,
+              options: { store: 123 },
+            },
+          },
+        })
+      ).rejects.toThrow('Store is invalid format');
+
+      expect.assertions(1);
+    });
+    it('should throw error because request is not valid: store not supported in array', async () => {
+      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
+
+      await expect(
+        onRpcRequest({
+          origin: 'localhost',
+          request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'saveVC',
+            params: {
+              verifiableCredential: exampleVC,
+              options: { store: ['snap', 'snapp'] },
+            },
+          },
+        })
+      ).rejects.toThrow('Store is not supported!');
+
+      await expect(
+        onRpcRequest({
+          origin: 'localhost',
+          request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'saveVC',
+            params: {
+              verifiableCredential: exampleVC,
+              options: { store: [] },
+            },
+          },
+        })
+      ).rejects.toThrow('Store is invalid format');
+
+      expect.assertions(2);
+    });
   });
 
-  describe('getVCs', () => {
+  describe('query', () => {
     it('should succeed with empty array', async () => {
       await expect(
         onRpcRequest({
@@ -109,10 +247,8 @@ describe('onRpcRequest', () => {
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
-            method: 'getVCs',
-            params: {
-              query: {},
-            },
+            method: 'query',
+            params: {},
           },
         })
       ).resolves.toEqual([]);
@@ -132,6 +268,7 @@ describe('onRpcRequest', () => {
           method: 'saveVC',
           params: {
             verifiableCredential: exampleVC,
+            options: { store: 'snap' },
           },
         },
       });
@@ -144,10 +281,13 @@ describe('onRpcRequest', () => {
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
-            method: 'getVCs',
+            method: 'query',
             params: {
-              query: {
-                key: 'test-id',
+              filter: {
+                type: 'JSONPath',
+                filter: {
+                  key: 'test-id',
+                },
               },
             },
           },
@@ -157,7 +297,7 @@ describe('onRpcRequest', () => {
     });
   });
 
-  describe('getVP', () => {
+  describe('createVP', () => {
     it('should succeed creating VP', async () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
@@ -171,6 +311,7 @@ describe('onRpcRequest', () => {
           method: 'saveVC',
           params: {
             verifiableCredential: exampleVC,
+            options: { store: 'snap' },
           },
         },
       });
@@ -180,9 +321,9 @@ describe('onRpcRequest', () => {
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
-          method: 'getVP',
+          method: 'createVP',
           params: {
-            vcId: 'test-id',
+            vcs: [{ id: 'test-id' }],
           },
         },
       })) as VerifiablePresentation;
@@ -211,6 +352,7 @@ describe('onRpcRequest', () => {
           method: 'saveVC',
           params: {
             verifiableCredential: exampleVC,
+            options: { store: 'snap' },
           },
         },
       });
@@ -220,7 +362,7 @@ describe('onRpcRequest', () => {
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
-          method: 'switchMethod',
+          method: 'switchDIDMethod',
           params: { didMethod: 'did:key' },
         },
       });
@@ -230,9 +372,9 @@ describe('onRpcRequest', () => {
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
-          method: 'getVP',
+          method: 'createVP',
           params: {
-            vcId: 'test-id',
+            vcs: [{ id: 'test-id' }],
           },
         },
       })) as VerifiablePresentation;
@@ -260,6 +402,7 @@ describe('onRpcRequest', () => {
           method: 'saveVC',
           params: {
             verifiableCredential: exampleVC,
+            options: { store: 'snap' },
           },
         },
       });
@@ -270,9 +413,9 @@ describe('onRpcRequest', () => {
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
-            method: 'getVP',
+            method: 'createVP',
             params: {
-              vcId: 'test-id',
+              vcs: [{ id: 'test-id' }],
             },
           },
         })
@@ -291,9 +434,9 @@ describe('onRpcRequest', () => {
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
-            method: 'getVP',
+            method: 'createVP',
             params: {
-              vcId: 'test-id',
+              vcs: [{ id: 'test-id' }],
             },
           },
         })
@@ -408,7 +551,7 @@ describe('onRpcRequest', () => {
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
-          method: 'switchMethod',
+          method: 'switchDIDMethod',
           params: {
             didMethod: 'did:key',
           },
@@ -431,7 +574,7 @@ describe('onRpcRequest', () => {
     });
   });
 
-  describe('switchMethod', () => {
+  describe('switchDIDMethod', () => {
     it('should succeed switching method to did:key and return true', async () => {
       walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
 
@@ -441,13 +584,15 @@ describe('onRpcRequest', () => {
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
-            method: 'switchMethod',
+            method: 'switchDIDMethod',
             params: {
               didMethod: 'did:key',
             },
           },
         })
-      ).resolves.toBe(true);
+      ).resolves.toBe(
+        'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik'
+      );
 
       expect.assertions(1);
     });
@@ -461,19 +606,56 @@ describe('onRpcRequest', () => {
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
-            method: 'switchMethod',
+            method: 'switchDIDMethod',
             params: {
               didMethod: 'did:key',
             },
           },
         })
-      ).resolves.toBe(false);
+      ).resolves.toBe('');
+
+      expect.assertions(1);
+    });
+
+    it('should fail switching method because method is not supported', async () => {
+      walletMock.rpcMocks.snap_confirm.mockReturnValue(false);
+
+      await expect(
+        onRpcRequest({
+          origin: 'localhost',
+          request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'switchDIDMethod',
+            params: {
+              didMethod: 'did:keyy',
+            },
+          },
+        })
+      ).rejects.toThrow('Method is not supported!');
+
+      expect.assertions(1);
+    });
+    it('should fail switching method because request is bad', async () => {
+      walletMock.rpcMocks.snap_confirm.mockReturnValue(false);
+
+      await expect(
+        onRpcRequest({
+          origin: 'localhost',
+          request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'switchDIDMethod',
+            params: {},
+          },
+        })
+      ).rejects.toThrow('Invalid switchDIDMethod request.');
 
       expect.assertions(1);
     });
   });
 
-  describe('getMethod', () => {
+  describe('getSelectedMethod', () => {
     it('should succeed and return did:ethr', async () => {
       await expect(
         onRpcRequest({
@@ -481,7 +663,7 @@ describe('onRpcRequest', () => {
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
-            method: 'getMethod',
+            method: 'getSelectedMethod',
             params: {},
           },
         })
@@ -498,7 +680,7 @@ describe('onRpcRequest', () => {
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
-          method: 'switchMethod',
+          method: 'switchDIDMethod',
           params: {
             didMethod: 'did:key',
           },
@@ -511,7 +693,7 @@ describe('onRpcRequest', () => {
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
-            method: 'getMethod',
+            method: 'getSelectedMethod',
             params: {},
           },
         })
@@ -539,7 +721,7 @@ describe('onRpcRequest', () => {
   });
 
   describe('setVCStore', () => {
-    it('should succeed toggling store to ceramic', async () => {
+    it('should throw and error when using wrong vcStore', async () => {
       walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
 
       await expect(
@@ -549,9 +731,10 @@ describe('onRpcRequest', () => {
             id: 'test-id',
             jsonrpc: '2.0',
             method: 'setVCStore',
+            params: { store: 'ceramicc', value: true },
           },
         })
-      ).resolves.toBe(true);
+      ).rejects.toThrow('Store is not supported!');
 
       await expect(
         onRpcRequest({
@@ -559,15 +742,15 @@ describe('onRpcRequest', () => {
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
-            method: 'getVCStore',
+            method: 'setVCStore',
+            params: { store: 'ceramic', value: 'tlo' },
           },
         })
-      ).resolves.toEqual('ceramic');
-
+      ).rejects.toThrow('Invalid setVCStore request.');
       expect.assertions(2);
     });
 
-    it('should succeed toggling store to ceramic and back to snap', async () => {
+    it('should succeed toggling ceramic store to true', async () => {
       walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
 
       await expect(
@@ -577,17 +760,7 @@ describe('onRpcRequest', () => {
             id: 'test-id',
             jsonrpc: '2.0',
             method: 'setVCStore',
-          },
-        })
-      ).resolves.toBe(true);
-
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'setVCStore',
+            params: { store: 'ceramic', value: true },
           },
         })
       ).resolves.toBe(true);
@@ -601,9 +774,9 @@ describe('onRpcRequest', () => {
             method: 'getVCStore',
           },
         })
-      ).resolves.toEqual('snap');
+      ).resolves.toEqual({ ceramic: true, snap: true });
 
-      expect.assertions(3);
+      expect.assertions(2);
     });
   });
 
@@ -618,34 +791,7 @@ describe('onRpcRequest', () => {
             method: 'getVCStore',
           },
         })
-      ).resolves.toEqual('snap');
-    });
-
-    it('should succeed and return ceramic', async () => {
-      // FIXME: Update after updaing setVCStore
-      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
-
-      await onRpcRequest({
-        origin: 'localhost',
-        request: {
-          id: 'test-id',
-          jsonrpc: '2.0',
-          method: 'setVCStore',
-        },
-      });
-
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'getVCStore',
-          },
-        })
-      ).resolves.toEqual('ceramic');
-
-      expect.assertions(1);
+      ).resolves.toEqual({ ceramic: false, snap: true });
     });
   });
 
@@ -661,6 +807,40 @@ describe('onRpcRequest', () => {
           },
         })
       ).resolves.toEqual(availableVCStores);
+
+      expect.assertions(1);
+    });
+  });
+  describe('getAccountSettings', () => {
+    const state = getDefaultSnapState();
+    it('should succeed and return available methods', async () => {
+      await expect(
+        onRpcRequest({
+          origin: 'localhost',
+          request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'getAccountSettings',
+          },
+        })
+      ).resolves.toEqual(state.accountState[address].accountConfig);
+
+      expect.assertions(1);
+    });
+  });
+  describe('getSnapSettings', () => {
+    const state = getDefaultSnapState();
+    it('should succeed and return available methods', async () => {
+      await expect(
+        onRpcRequest({
+          origin: 'localhost',
+          request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'getSnapSettings',
+          },
+        })
+      ).resolves.toEqual(state.snapConfig);
 
       expect.assertions(1);
     });

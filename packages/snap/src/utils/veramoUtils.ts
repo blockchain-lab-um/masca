@@ -5,11 +5,12 @@ import {
   MinimalImportableKey,
   VerifiableCredential,
   VerifiablePresentation,
+  W3CVerifiableCredential,
 } from '@veramo/core';
 import { getCurrentDid } from './didUtils';
 import { getPublicKey, snapConfirm } from './snapUtils';
 import { SnapProvider } from '@metamask/snap-types';
-import { availableVCStores } from '../constants/index';
+import { AvailableVCStores } from '../constants/index';
 import { ApiParams } from '../interfaces';
 import { snapGetKeysFromAddress } from './keyPair';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
@@ -20,11 +21,14 @@ import { BIP44CoinTypeNode } from '@metamask/key-tree';
  * */
 export async function veramoSaveVC(
   wallet: SnapProvider,
-  vc: VerifiableCredential,
-  vcStore: typeof availableVCStores[number]
+  verifiableCredential: W3CVerifiableCredential,
+  store: AvailableVCStores | [AvailableVCStores]
 ): Promise<boolean> {
   const agent = await getAgent(wallet);
-  return await agent.saveVC({ store: vcStore, vc });
+  return await agent.saveVC({
+    store: store as string,
+    vc: verifiableCredential as VerifiableCredential,
+  });
 }
 
 /**
@@ -33,16 +37,16 @@ export async function veramoSaveVC(
  */
 export async function veramoListVCs(
   wallet: SnapProvider,
-  vcStore: typeof availableVCStores[number],
+  store: [AvailableVCStores],
   query?: VCQuery
 ): Promise<VerifiableCredential[]> {
   const agent = await getAgent(wallet);
-  const vcsSnap = await agent.listVCS({ store: 'snap', query: query });
-  if (vcStore === 'ceramic') {
-    const vcsCeramic = await agent.listVCS({ store: 'ceramic', query: query });
-    return [...vcsSnap.vcs, ...vcsCeramic.vcs];
+  const vcsSnap: VerifiableCredential[] = [];
+  for (const s of store) {
+    const vcs = await agent.listVCS({ store: s, query: query });
+    vcsSnap.push(...vcs.vcs);
   }
-  return vcsSnap.vcs;
+  return vcsSnap;
 }
 
 /**
@@ -52,12 +56,34 @@ export async function veramoListVCs(
  * @param {string} challenge - challenge of the VP
  * @returns {Promise<VerifiablePresentation | null>} - generated VP
  * */
+
+type CreateVPRequestParams = {
+  vcs: [
+    {
+      id: string;
+      metadata?: {
+        store?: AvailableVCStores;
+      };
+    }
+  ];
+
+  proofFormat?: string;
+  proofOptions?: {
+    type?: string;
+    domain?: string;
+    challenge?: string;
+  };
+};
 export async function veramoCreateVP(
   params: ApiParams,
-  vcId: string,
-  challenge?: string,
-  domain?: string
+  createVPParams: CreateVPRequestParams
 ): Promise<VerifiablePresentation | null> {
+  const id = createVPParams.vcs[0].id;
+  const store = createVPParams.vcs[0].metadata?.store;
+  const domain = createVPParams.proofOptions?.domain;
+  const challenge = createVPParams.proofOptions?.challenge;
+  const proofFormat = createVPParams.proofFormat;
+
   const { state, wallet, account } = params;
   //Get Veramo agent
   const agent = await getAgent(wallet);
@@ -66,11 +92,11 @@ export async function veramoCreateVP(
   let vc;
   try {
     // FIXME: getVC should return null not throw an error
-    vc = await agent.getVC({ store: 'snap', id: vcId });
+    vc = await agent.getVC({ store: 'snap', id: id });
   } catch (e) {
-    if (state.accountState[account].accountConfig.ssi.vcStore === 'ceramic') {
+    if (state.accountState[account].accountConfig.ssi.vcStore['ceramic']) {
       try {
-        vc = await agent.getVC({ store: 'ceramic', id: vcId });
+        vc = await agent.getVC({ store: 'ceramic', id: id });
       } catch (e) {
         throw new Error('VC not found');
       }
