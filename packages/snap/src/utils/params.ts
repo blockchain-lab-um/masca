@@ -8,7 +8,7 @@ import {
   SupportedProofFormats,
 } from '../constants';
 
-type CreateVPRequestParams = {
+export type CreateVPRequestParams = {
   vcs: [
     {
       id: string;
@@ -25,23 +25,25 @@ type CreateVPRequestParams = {
   };
 };
 
-export type QueryFilter = { type: string; filter: unknown };
+type QueryFilter = { type: string; filter: unknown };
 
-export type QueryOptions = {
+type QueryOptions = {
   store?: AvailableVCStores | [AvailableVCStores];
   returnStore?: boolean;
 };
 
-type QueryRequestParams = {
+export type QueryRequestParams = {
   filter?: QueryFilter;
   options?: QueryOptions;
 };
 
-type SaveVCRequestParams = {
+type SaveVCOptions = {
+  store?: AvailableVCStores | [AvailableVCStores];
+};
+
+export type SaveVCRequestParams = {
   verifiableCredential: W3CVerifiableCredential;
-  options?: {
-    store?: AvailableVCStores | [AvailableVCStores];
-  };
+  options?: SaveVCOptions;
 };
 
 type DeleteVCRequestParams = {
@@ -51,15 +53,15 @@ type DeleteVCRequestParams = {
   };
 };
 
-type ChangeInfuraTokenRequestParams = {
+export type ChangeInfuraTokenRequestParams = {
   infuraToken: string;
 };
 
-type SwitchMethodRequestParams = {
+export type SwitchMethodRequestParams = {
   didMethod: AvailableMethods;
 };
 
-type SetVCStoreRequestParams = {
+export type SetVCStoreRequestParams = {
   store: AvailableVCStores;
   value: boolean;
 };

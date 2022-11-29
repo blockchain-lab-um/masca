@@ -1,18 +1,15 @@
-import { VerifiableCredential, W3CVerifiableCredential } from '@veramo/core';
-import { AvailableVCStores } from 'src/constants';
+import { SaveVCRequestParams } from 'src/utils/params';
 import { ApiParams } from '../../interfaces';
 import { snapConfirm } from '../../utils/snapUtils';
 import { veramoSaveVC } from '../../utils/veramoUtils';
 
 export async function saveVC(
   params: ApiParams,
-  verifiableCredential: W3CVerifiableCredential,
-  store?: AvailableVCStores | [AvailableVCStores]
+  { verifiableCredential, options }: SaveVCRequestParams
 ) {
-  if (typeof store === 'undefined') {
-    store = 'snap';
-  }
-  const { state, wallet, account } = params;
+  const { store = 'snap' } = options || {};
+  const { wallet } = params;
+
   let promptObj;
   if (typeof store === 'string') {
     promptObj = {

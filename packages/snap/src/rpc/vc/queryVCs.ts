@@ -3,12 +3,11 @@ import { VerifiableCredential } from '@veramo/core';
 import { VCQuery } from '@blockchain-lab-um/ssi-snap-types';
 import { snapConfirm } from '../../utils/snapUtils';
 import { ApiParams } from '../../interfaces';
-import { QueryFilter, QueryOptions } from 'src/utils/params';
+import { QueryRequestParams } from 'src/utils/params';
 
 export async function queryVCs(
   params: ApiParams,
-  filter?: QueryFilter,
-  options?: QueryOptions
+  { filter, options }: QueryRequestParams
 ): Promise<VerifiableCredential[]> {
   let { store = ['snap'] } = options || {};
   // TODO: Remove this when we start using the returnStore option
