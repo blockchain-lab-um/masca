@@ -61,7 +61,11 @@ export class DataManager implements IAgentPlugin {
     if (options === undefined) {
       store = Object.keys(this.storePlugins);
     } else {
-      store = options.store;
+      if (options.store !== undefined) {
+        store = options.store;
+      } else {
+        store = Object.keys(this.storePlugins);
+      }
       if (options.returnStore !== undefined) {
         returnStore = options.returnStore;
       }

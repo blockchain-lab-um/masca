@@ -56,7 +56,7 @@ type QueryFilter = {
 };
 
 type QueryOptions = {
-  store: string | string[];
+  store?: string | string[];
   returnStore?: boolean;
 };
 export interface IDataManagerQueryArgs {

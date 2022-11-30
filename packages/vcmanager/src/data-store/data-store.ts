@@ -6,7 +6,7 @@ import {
   DeleteArgs,
 } from './abstractDataStore';
 import { randomUUID } from 'crypto';
-
+import jsonpath from 'jsonpath';
 export class MemoryDataStore extends AbstractDataStore {
   private data: Record<string, any> = {};
 
@@ -60,6 +60,17 @@ export class MemoryDataStore extends AbstractDataStore {
           data: this.data[k],
         };
       });
+    }
+    if (filter && filter.type === 'jsonpath') {
+      const objects = Object.keys(this.data).map((k) => {
+        return {
+          id: k,
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          data: this.data[k],
+        };
+      });
+      const filteredObjects = jsonpath.query(objects, filter.filter as string);
+      return filteredObjects as Array<QueryRes>;
     }
     return [];
   }
