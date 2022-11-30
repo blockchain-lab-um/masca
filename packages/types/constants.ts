@@ -36,12 +36,9 @@ export const supportedProofFormats = [
   'jwt',
   'lds',
   'EthereumEip712Signature2021',
-];
+] as const;;
 
-export type SupportedProofFormats =
-  | 'jwt'
-  | 'lds'
-  | 'EthereumEip712Signature2021';
+export type SupportedProofFormats = typeof supportedProofFormats[number];
 
-export const isSupportedProofFormat = (x: string): x is SupportedProofFormats =>
-  supportedProofFormats.includes(x);
+export const isSupportedProofFormat = (x: string) =>
+  isIn(supportedProofFormats, x);

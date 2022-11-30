@@ -10,7 +10,7 @@ import {
 import {
   availableVCStores,
   availableMethods,
-} from '@blockchain-lab-um/ssi-snap-types';
+} from '@blockchain-lab-um/ssi-snap-types/constants';
 import {
   IVerifyResult,
   VerifiableCredential,
