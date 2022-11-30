@@ -19,7 +19,8 @@
     "lint": "yarn lint:eslint && yarn lint:prettier",
     "lint:eslint": "eslint .",
     "lint:prettier": "prettier . --check",
-    "prepack": "yarn build"
+    "prepack": "yarn build",
+    "test": "yarn jest"
   },
   "dependencies": {
     "@blockchain-lab-um/ssi-snap-types": "*",
