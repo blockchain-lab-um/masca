@@ -22,22 +22,25 @@ export type CreateVPRequestParams = {
   };
 };
 
+type QueryFilter = { type: string; filter: unknown };
+
+type QueryOptions = {
+  store?: AvailableVCStores | [AvailableVCStores];
+  returnStore?: boolean;
+};
+
 export type QueryRequestParams = {
-  filter?: {
-    type: string;
-    filter: any;
-  };
-  options?: {
-    store?: AvailableVCStores | [AvailableVCStores];
-    returnStore?: boolean;
-  };
+  filter?: QueryFilter;
+  options?: QueryOptions;
+};
+
+type SaveVCOptions = {
+  store?: AvailableVCStores | [AvailableVCStores];
 };
 
 export type SaveVCRequestParams = {
   verifiableCredential: W3CVerifiableCredential;
-  options?: {
-    store?: AvailableVCStores | [AvailableVCStores];
-  };
+  options?: SaveVCOptions;
 };
 
 export type DeleteVCRequestParams = {

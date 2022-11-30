@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
-import { ChangeInfuraTokenRequestParams } from 'src/utils/params';
+import { ChangeInfuraTokenRequestParams } from '@blockchain-lab-um/ssi-snap-types/params';
 import { ApiParams } from '../../interfaces';
 import {
   updateInfuraToken,
