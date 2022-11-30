@@ -36,7 +36,7 @@ export const supportedProofFormats = [
   'jwt',
   'lds',
   'EthereumEip712Signature2021',
-] as const;;
+] as const;
 
 export type SupportedProofFormats = typeof supportedProofFormats[number];
 
