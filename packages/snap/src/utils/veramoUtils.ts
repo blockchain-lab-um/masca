@@ -40,7 +40,7 @@ export async function veramoListVCs(
   query?: VCQuery
 ): Promise<VerifiableCredential[]> {
   const agent = await getAgent(wallet);
-  const vcsSnap = [] as VerifiableCredential[];
+  const vcsSnap: VerifiableCredential[] = [];
   for (const s of store) {
     const vcs = await agent.listVCS({ store: s, query: query });
     vcsSnap.push(...vcs.vcs);
@@ -106,7 +106,6 @@ export async function veramoCreateVP(
     const promptObj = {
       prompt: 'Alert',
       description: 'Do you wish to create a VP from the following VC?',
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       textAreaContent: JSON.stringify(vc.vc.credentialSubject),
     };
 
@@ -146,6 +145,7 @@ export const veramoImportMetaMaskAccount = async (
 
   const publicKey = await getPublicKey(params);
   const controllerKeyId = `metamask-${account}`;
+
   const identifier = await agent.didManagerImport({
     did,
     provider: method,
@@ -155,8 +155,8 @@ export const veramoImportMetaMaskAccount = async (
         kid: controllerKeyId,
         type: 'Secp256k1',
         kms: 'snap',
-        privateKeyHex: res.privateKey,
-        publicKeyHex: publicKey,
+        privateKeyHex: res.privateKey.split('0x')[1],
+        publicKeyHex: publicKey.split('0x')[1],
       } as MinimalImportableKey,
     ],
   });

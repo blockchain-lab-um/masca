@@ -13,6 +13,7 @@ describe('keyDidUtils', () => {
   beforeEach(() => {
     walletMock = createMockWallet();
   });
+
   describe('keyDidUtils', () => {
     it('should generate proper DID', () => {
       const initialState = getDefaultSnapState();

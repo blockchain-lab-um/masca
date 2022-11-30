@@ -2,7 +2,7 @@ import { addMulticodecPrefix } from '../../src/utils/formatUtils';
 import { getCompressedPublicKey } from '../../src/utils/snapUtils';
 import { publicKey } from '../testUtils/constants';
 
-describe('formatUtils', () => {
+describe('Utils [format]', () => {
   describe('addMulticodecPrefix', () => {
     it('should succeed adding multicodec prefix', () => {
       const res = addMulticodecPrefix(
