@@ -5,7 +5,7 @@ import {
   QueryRes,
   DeleteArgs,
 } from './abstractDataStore';
-import { randomUUID } from 'crypto';
+import { v4 } from 'uuid';
 import jsonpath from 'jsonpath';
 export class MemoryDataStore extends AbstractDataStore {
   private data: Record<string, any> = {};
@@ -13,7 +13,7 @@ export class MemoryDataStore extends AbstractDataStore {
   // eslint-disable-next-line @typescript-eslint/require-await
   public async save(args: SaveArgs): Promise<string> {
     const data: unknown = args.data;
-    const id = randomUUID();
+    const id = v4();
     this.data[id] = data;
     return id;
   }
