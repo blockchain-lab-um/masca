@@ -8,7 +8,7 @@ import {
 import {
   AvailableMethods,
   AvailableVCStores,
-} from '@blockchain-lab-um/ssi-snap-types/constants';
+} from '@blockchain-lab-um/ssi-snap-types';
 import { SnapProvider } from '@metamask/snap-types';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 

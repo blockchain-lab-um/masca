@@ -1,37 +1,43 @@
 import { VerifiableCredential } from '@veramo/core';
+import { ChangeInfuraTokenRequestParams, CreateVPRequestParams, DeleteVCRequestParams, QueryRequestParams, SaveVCRequestParams, SetVCStoreRequestParams, SwitchMethodRequestParams } from './params';
 
 export interface VCQuery {
   [key: string]: string;
 }
 
-export interface GetVCs {
-  method: 'getVCs';
-  params: {
-    query?: VCQuery;
-  };
+export interface QuerryVCs {
+  method: 'query';
+  params: QueryRequestParams;
 }
 
 export interface SaveVC {
   method: 'saveVC';
-  params: {
-    verifiableCredential: VerifiableCredential;
-  };
+  params: SaveVCRequestParams;
 }
 
-export interface GetVP {
-  method: 'getVP';
-  params: {
-    vcId: string;
-    domain?: string;
-    challenge?: string;
-  };
+export interface DeleteVC {
+  method: 'deleteVC';
+  params: DeleteVCRequestParams;
+}
+
+export interface CreateVP {
+  method: 'createVP';
+  params: CreateVPRequestParams;
 }
 
 export interface ChangeInfuraToken {
   method: 'changeInfuraToken';
-  params: {
-    infuraToken: string;
-  };
+  params: ChangeInfuraTokenRequestParams;
+}
+
+export interface SetVCStore {
+  method: 'setVCStore';
+  params: SetVCStoreRequestParams;
+}
+
+export interface SwitchMethod {
+  method: 'switchDIDMethod';
+  params: SwitchMethodRequestParams;
 }
 
 export interface TogglePopups {
@@ -43,29 +49,23 @@ export interface GetDID {
 }
 
 export interface GetMethod {
-  method: 'getMethod';
+  method: 'getSelectedMethod';
 }
 
 export interface GetAvailableMethods {
   method: 'getAvailableMethods';
 }
 
-export interface SwitchMethod {
-  method: 'switchMethod';
-  params: {
-    didMethod: string;
-  };
-}
-
 export interface GetVCStore {
   method: 'getVCStore';
 }
 
-export interface SetVCStore {
-  method: 'setVCStore';
-  params: {
-    vcStore: string;
-  };
+export interface GetAccountSettings {
+  method: 'getAccountSettings';
+}
+
+export interface GetSnapSettings {
+  method: 'getSnapSettings';
 }
 
 export interface GetAvailableVCStores {
