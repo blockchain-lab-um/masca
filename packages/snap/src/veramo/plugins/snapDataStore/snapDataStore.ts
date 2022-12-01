@@ -2,12 +2,16 @@ import { RequireOnly, IIdentifier } from '@veramo/core';
 import { ManagedPrivateKey } from '@veramo/key-manager';
 import { AbstractDIDStore } from '@veramo/did-manager';
 import { v4 as uuidv4 } from 'uuid';
-import { VerifiableCredential } from '@veramo/core';
+import { W3CVerifiableCredential } from '@veramo/core';
 import { getSnapState, updateSnapState } from '../../../utils/stateUtils';
 import { SnapProvider } from '@metamask/snap-types';
 import { getCurrentAccount } from '../../../utils/snapUtils';
-import { AbstractVCStore } from '@blockchain-lab-um/veramo-vc-manager';
-
+import { AbstractDataStore } from '@blockchain-lab-um/veramo-vc-manager';
+import {
+  FilterArgs,
+  QueryRes,
+} from '@blockchain-lab-um/veramo-vc-manager/dist/data-store/abstractDataStore';
+import jsonpath from 'jsonpath';
 export type ImportablePrivateKey = RequireOnly<
   ManagedPrivateKey,
   'privateKeyHex' | 'type'
@@ -117,68 +121,95 @@ export class SnapDIDStore extends AbstractDIDStore {
   }
 }
 
-/**
- * An implementation of {@link AbstractVCStore} that holds everything in snap state.
- *
- * This is usable by {@link @vc-manager/VCManager} to hold the vc data
- */
-
-export class SnapVCStore extends AbstractVCStore {
+export class SnapVCStore extends AbstractDataStore {
   wallet: SnapProvider;
   constructor(walletParam: SnapProvider) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     super();
     this.wallet = walletParam;
   }
 
-  async get(args: { id: string }): Promise<VerifiableCredential | null> {
+  async query(args: FilterArgs): Promise<QueryRes[]> {
+    const { filter } = args;
     const state = await getSnapState(this.wallet);
     const account = await getCurrentAccount(this.wallet);
-    if (!account) throw Error('User denied error');
+    if (!account) throw Error('Cannot get current account');
 
-    if (!state.accountState[account].vcs[args.id])
-      throw Error(`not_found: VC with key=${args.id} not found!`);
-    return state.accountState[account].vcs[args.id];
+    if (filter && filter.type === 'id') {
+      try {
+        if (state.accountState[account].vcs[filter.filter as string]) {
+          const obj = [
+            {
+              metadata: { id: filter.filter as string },
+              data: state.accountState[account].vcs[
+                filter.filter as string
+              ] as unknown,
+            },
+          ];
+          return obj;
+        } else return [];
+      } catch (e) {
+        throw new Error('Invalid id');
+      }
+    }
+    if (filter === undefined || (filter && filter.type === 'none')) {
+      return Object.keys(state.accountState[account].vcs).map((k) => {
+        return {
+          metadata: { id: k },
+          data: state.accountState[account].vcs[k] as unknown,
+        };
+      });
+    }
+    if (filter && filter.type === 'JSONPath') {
+      //TODO convert JWT strings to VC objects
+      const objects = Object.keys(state.accountState[account].vcs).map((k) => {
+        return {
+          metadata: { id: k },
+          data: state.accountState[account].vcs[k] as unknown,
+        };
+      });
+      const filteredObjects = jsonpath.query(objects, filter.filter as string);
+      return filteredObjects as Array<QueryRes>;
+    }
+    return [];
   }
 
   async delete({ id }: { id: string }) {
     const state = await getSnapState(this.wallet);
     const account = await getCurrentAccount(this.wallet);
-    if (!account) throw Error('User denied error');
+    if (!account) throw Error('Cannot get current account');
 
-    if (!state.accountState[account].vcs[id]) throw Error('VC not found');
+    if (!state.accountState[account].vcs[id]) throw Error('ID not found');
 
     delete state.accountState[account].vcs[id];
     await updateSnapState(this.wallet, state);
     return true;
   }
 
-  async import(args: VerifiableCredential) {
+  async save(args: { data: W3CVerifiableCredential }): Promise<string> {
+    //TODO check if VC is correct type
+
+    const vc = args.data;
     const state = await getSnapState(this.wallet);
     const account = await getCurrentAccount(this.wallet);
-    if (!account) throw Error('User denied error');
+    if (!account) throw Error('Cannot get current account');
 
-    let alias = uuidv4();
-    while (state.accountState[account].vcs[alias]) {
-      alias = uuidv4();
+    let id = uuidv4();
+    while (state.accountState[account].vcs[id]) {
+      id = uuidv4();
     }
 
-    state.accountState[account].vcs[alias] = { ...args };
+    state.accountState[account].vcs[id] = vc;
     await updateSnapState(this.wallet, state);
-    return true;
+    return id;
   }
 
-  async list(): Promise<VerifiableCredential[]> {
+  public async clear(args: FilterArgs): Promise<boolean> {
     const state = await getSnapState(this.wallet);
     const account = await getCurrentAccount(this.wallet);
-    if (!account) throw Error('User denied error');
-    const result: VerifiableCredential[] = [];
+    if (!account) throw Error('Cannot get current account');
 
-    // TODO: Why we adding key -> we have id ?
-    // Return type doesn't match with what we return
-    Object.keys(state.accountState[account].vcs).forEach((key) => {
-      result.push({ ...state.accountState[account].vcs[key], key: key });
-    });
-
-    return result;
+    state.accountState[account].vcs = {};
+    return true;
   }
 }

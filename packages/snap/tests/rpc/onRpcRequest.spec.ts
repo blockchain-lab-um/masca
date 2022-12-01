@@ -6,13 +6,10 @@ import {
   exampleDIDKey,
   exampleVC,
   getDefaultSnapState,
+  jsonPath,
 } from '../testUtils/constants';
 import { availableVCStores, availableMethods } from '../../src/constants/index';
-import {
-  IVerifyResult,
-  VerifiableCredential,
-  VerifiablePresentation,
-} from '@veramo/core';
+import { IVerifyResult, VerifiablePresentation } from '@veramo/core';
 import * as uuid from 'uuid';
 import { getAgent } from '../../src/veramo/setup';
 import { address } from '../testUtils/constants';
@@ -28,7 +25,7 @@ describe('onRpcRequest', () => {
   });
 
   describe('saveVC', () => {
-    it('should succeed saving 1 VC and return true', async () => {
+    it('should succeed saving 1 VC and return id', async () => {
       walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
 
       await expect(
@@ -44,9 +41,9 @@ describe('onRpcRequest', () => {
             },
           },
         })
-      ).resolves.toEqual(true);
+      ).resolves.toEqual([{ id: undefined, store: 'snap' }]);
 
-      const result = (await onRpcRequest({
+      const result = await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
@@ -56,19 +53,21 @@ describe('onRpcRequest', () => {
             query: {},
           },
         },
-      })) as VerifiableCredential[];
-
-      const removedKeys = result.map((vc) => {
-        delete vc.key;
-        return vc;
       });
 
-      expect(removedKeys).toEqual([exampleVC]);
+      const expectedResult = [
+        {
+          data: exampleVC,
+          metadata: { id: 'undefined', store: 'snap' },
+        },
+      ];
+
+      expect(result).toEqual(expectedResult);
 
       expect.assertions(2);
     });
 
-    it('should succeed saving 1 VC without store param and return true', async () => {
+    it('should succeed saving 1 VC without store param and return id', async () => {
       walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
 
       await expect(
@@ -83,9 +82,9 @@ describe('onRpcRequest', () => {
             },
           },
         })
-      ).resolves.toEqual(true);
+      ).resolves.toEqual([{ id: undefined, store: 'snap' }]);
 
-      const result = (await onRpcRequest({
+      const result = await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
@@ -95,14 +94,16 @@ describe('onRpcRequest', () => {
             query: {},
           },
         },
-      })) as VerifiableCredential[];
-
-      const removedKeys = result.map((vc) => {
-        delete vc.key;
-        return vc;
       });
 
-      expect(removedKeys).toEqual([exampleVC]);
+      const expectedResult = [
+        {
+          data: exampleVC,
+          metadata: { id: 'undefined', store: 'snap' },
+        },
+      ];
+
+      expect(result).toEqual(expectedResult);
 
       expect.assertions(2);
     });
@@ -123,7 +124,7 @@ describe('onRpcRequest', () => {
             },
           },
         })
-      ).resolves.toBe(false);
+      ).rejects.toThrow('User rejected');
 
       await expect(
         onRpcRequest({
@@ -256,7 +257,7 @@ describe('onRpcRequest', () => {
       expect.assertions(1);
     });
 
-    it('should succeed with 1 VC matching query', async () => {
+    it('should succeed with 1 VC matching query - filter by ID', async () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
 
@@ -273,7 +274,173 @@ describe('onRpcRequest', () => {
         },
       });
 
-      const expectedResult = [{ ...exampleVC, key: 'test-id' }];
+      const expectedResult = [
+        {
+          data: exampleVC,
+          metadata: { id: 'test-id', store: 'snap' },
+        },
+      ];
+
+      await expect(
+        onRpcRequest({
+          origin: 'localhost',
+          request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'query',
+            params: {
+              filter: {
+                type: 'id',
+                filter: 'test-id',
+              },
+            },
+          },
+        })
+      ).resolves.toEqual(expectedResult);
+      expect.assertions(1);
+    });
+
+    it('should succeed with 1 VC matching query - no filter or store', async () => {
+      jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
+      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
+
+      await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'saveVC',
+          params: {
+            verifiableCredential: exampleVC,
+            options: { store: 'snap' },
+          },
+        },
+      });
+
+      const expectedResult = [
+        {
+          data: exampleVC,
+          metadata: { id: 'test-id', store: 'snap' },
+        },
+      ];
+
+      await expect(
+        onRpcRequest({
+          origin: 'localhost',
+          request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'query',
+            params: {},
+          },
+        })
+      ).resolves.toEqual(expectedResult);
+      expect.assertions(1);
+    });
+
+    it('should succeed with 1 VC matching query - store defined', async () => {
+      jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
+      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
+
+      await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'saveVC',
+          params: {
+            verifiableCredential: exampleVC,
+            options: { store: 'snap' },
+          },
+        },
+      });
+
+      const expectedResult = [
+        {
+          data: exampleVC,
+          metadata: { id: 'test-id', store: 'snap' },
+        },
+      ];
+
+      await expect(
+        onRpcRequest({
+          origin: 'localhost',
+          request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'query',
+            params: {
+              options: { store: 'snap' },
+            },
+          },
+        })
+      ).resolves.toEqual(expectedResult);
+      expect.assertions(1);
+    });
+
+    it('should succeed with 1 VC matching query - without store', async () => {
+      jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
+      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
+
+      await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'saveVC',
+          params: {
+            verifiableCredential: exampleVC,
+            options: { store: 'snap' },
+          },
+        },
+      });
+
+      const expectedResult = [
+        {
+          data: exampleVC,
+          metadata: { id: 'test-id' },
+        },
+      ];
+
+      await expect(
+        onRpcRequest({
+          origin: 'localhost',
+          request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'query',
+            params: {
+              options: { returnStore: false },
+            },
+          },
+        })
+      ).resolves.toEqual(expectedResult);
+      expect.assertions(1);
+    });
+
+    it('should succeed with 1 VC matching query - filter by JSONPath', async () => {
+      jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
+      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
+
+      await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'saveVC',
+          params: {
+            verifiableCredential: exampleVC,
+            options: { store: 'snap' },
+          },
+        },
+      });
+
+      const expectedResult = [
+        {
+          data: exampleVC,
+          metadata: { id: 'test-id', store: 'snap' },
+        },
+      ];
 
       await expect(
         onRpcRequest({
@@ -285,9 +452,7 @@ describe('onRpcRequest', () => {
             params: {
               filter: {
                 type: 'JSONPath',
-                filter: {
-                  key: 'test-id',
-                },
+                filter: jsonPath,
               },
             },
           },
@@ -390,39 +555,39 @@ describe('onRpcRequest', () => {
       expect.assertions(2);
     });
 
-    it('should fail creating VP and return null - user denied', async () => {
-      jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
-      walletMock.rpcMocks.snap_confirm.mockReturnValue(false);
+    // it('should fail creating VP and return null - user denied', async () => {
+    //   jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
+    //   walletMock.rpcMocks.snap_confirm.mockReturnValue(false);
 
-      await onRpcRequest({
-        origin: 'localhost',
-        request: {
-          id: 'test-id',
-          jsonrpc: '2.0',
-          method: 'saveVC',
-          params: {
-            verifiableCredential: exampleVC,
-            options: { store: 'snap' },
-          },
-        },
-      });
+    //   await onRpcRequest({
+    //     origin: 'localhost',
+    //     request: {
+    //       id: 'test-id',
+    //       jsonrpc: '2.0',
+    //       method: 'saveVC',
+    //       params: {
+    //         verifiableCredential: exampleVC,
+    //         options: { store: 'snap' },
+    //       },
+    //     },
+    //   });
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'createVP',
-            params: {
-              vcs: [{ id: 'test-id' }],
-            },
-          },
-        })
-      ).resolves.toBe(null);
+    //   await expect(
+    //     onRpcRequest({
+    //       origin: 'localhost',
+    //       request: {
+    //         id: 'test-id',
+    //         jsonrpc: '2.0',
+    //         method: 'createVP',
+    //         params: {
+    //           vcs: [{ id: 'test-id' }],
+    //         },
+    //       },
+    //     })
+    //   ).rejects.toThrow('User rejected');
 
-      expect.assertions(1);
-    });
+    //   expect.assertions(1);
+    // });
 
     it('should fail creating VP - VC does not exist', async () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');

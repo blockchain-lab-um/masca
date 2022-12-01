@@ -1,3 +1,4 @@
+import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-vc-manager';
 import { SaveVCRequestParams } from 'src/utils/params';
 import { ApiParams } from '../../interfaces';
 import { snapConfirm } from '../../utils/snapUtils';
@@ -6,7 +7,7 @@ import { veramoSaveVC } from '../../utils/veramoUtils';
 export async function saveVC(
   params: ApiParams,
   { verifiableCredential, options }: SaveVCRequestParams
-) {
+): Promise<IDataManagerSaveResult[]> {
   const { store = 'snap' } = options || {};
   const { wallet } = params;
 
@@ -19,7 +20,12 @@ export async function saveVC(
   };
 
   if (await snapConfirm(wallet, promptObj)) {
-    return await veramoSaveVC(wallet, verifiableCredential, store);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return await veramoSaveVC({
+      wallet,
+      verifiableCredential,
+      store,
+    });
   }
-  return false;
+  throw new Error('User rejected');
 }

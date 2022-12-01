@@ -301,14 +301,8 @@ export function isValidQueryRequest(
     ) {
       throw new Error('Filter type is missing or not a string!');
     }
-    if (
-      !(
-        'filter' in param.filter &&
-        param.filter?.filter !== null &&
-        typeof param.filter?.filter === 'object'
-      )
-    ) {
-      throw new Error('Filter is missing or not an object!');
+    if (!('filter' in param.filter && param.filter?.filter !== null)) {
+      throw new Error('Filter is missing!');
     }
   }
 
@@ -332,14 +326,16 @@ export function isValidQueryRequest(
         });
       } else throw new Error('Store is invalid format');
     }
-    if (
-      !(
-        'returnStore' in param.options &&
-        param.options?.returnStore !== null &&
-        typeof param.options?.returnStore === 'boolean'
-      )
-    ) {
-      throw new Error('ReturnStore is invalid format');
+    if ('returnStore' in param.options) {
+      if (
+        !(
+          'returnStore' in param.options &&
+          param.options?.returnStore !== null &&
+          typeof param.options?.returnStore === 'boolean'
+        )
+      ) {
+        throw new Error('ReturnStore is invalid format');
+      }
     }
   }
   console.log('filter correcto');

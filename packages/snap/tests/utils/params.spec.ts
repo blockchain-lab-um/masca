@@ -36,16 +36,6 @@ describe('Utils [params]', () => {
         'Filter type is missing or not a string!'
       );
     });
-    it('should fail for filter without filter', () => {
-      expect(() => isValidQueryRequest({ filter: { type: 'abc' } })).toThrow(
-        'Filter is missing or not an object!'
-      );
-    });
-    it('should fail for filter with wrong type filter', () => {
-      expect(() =>
-        isValidQueryRequest({ filter: { type: 'abc', filter: 123 } })
-      ).toThrow('Filter is missing or not an object!');
-    });
     it('should fail for filter with wrong type type', () => {
       expect(() =>
         isValidQueryRequest({ filter: { type: 123, filter: {} } })

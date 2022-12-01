@@ -1,29 +1,20 @@
-import { veramoListVCs } from '../../utils/veramoUtils';
-import { VerifiableCredential } from '@veramo/core';
-import { VCQuery } from '@blockchain-lab-um/ssi-snap-types';
+import { veramoQueryVCs } from '../../utils/veramoUtils';
 import { snapConfirm } from '../../utils/snapUtils';
 import { ApiParams } from '../../interfaces';
 import { QueryRequestParams } from 'src/utils/params';
+import { QueryVCSResult } from '../../utils/veramoUtils';
 
 export async function queryVCs(
   params: ApiParams,
   { filter, options }: QueryRequestParams
-): Promise<VerifiableCredential[]> {
-  let { store = ['snap'] } = options || {};
-  // TODO: Remove this when we start using the returnStore option
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { returnStore = false } = options || {};
-
-  if (typeof store === 'string') {
-    store = [store];
-  }
-
-  if (typeof filter === 'undefined') {
-    filter = { type: 'none', filter: {} };
-  }
-
+): Promise<QueryVCSResult[]> {
+  const { store, returnStore } = options || {};
   const { state, wallet } = params;
-  const vcs = await veramoListVCs(wallet, store, filter.filter as VCQuery);
+  const vcs = await veramoQueryVCs({
+    wallet,
+    options: { store, returnStore },
+    filter,
+  });
   const promptObj = {
     prompt: 'Send VCs',
     description: 'Are you sure you want to send VCs to the dApp?',

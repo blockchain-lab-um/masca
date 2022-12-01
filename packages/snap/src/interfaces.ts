@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { IIdentifier, IKey, VerifiableCredential } from '@veramo/core';
+import { IIdentifier, IKey, W3CVerifiableCredential } from '@veramo/core';
 import { ManagedPrivateKey } from '@veramo/key-manager';
 import {
   SnapDIDStore,
@@ -21,7 +21,7 @@ export type SSISnapState = {
   snapConfig: SSISnapConfig;
 };
 
-export type ExtendedVerifiableCredential = VerifiableCredential & {
+export type ExtendedVerifiableCredential = W3CVerifiableCredential & {
   /**
    * key for dictionary
    */
@@ -68,7 +68,7 @@ export type SSIAccountState = {
   /**
    * Store for {@link SnapVCStore}
    */
-  vcs: Record<string, VerifiableCredential>;
+  vcs: Record<string, W3CVerifiableCredential>;
 
   publicKey: string;
   index?: number;

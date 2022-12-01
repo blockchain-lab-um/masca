@@ -1,73 +1,110 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Agent, getAgent } from './../veramo/setup';
-import { VCQuery } from '@blockchain-lab-um/ssi-snap-types';
 import {
   IIdentifier,
   MinimalImportableKey,
-  VerifiableCredential,
   VerifiablePresentation,
   W3CVerifiableCredential,
 } from '@veramo/core';
 import { getCurrentDid } from './didUtils';
 import { getPublicKey, snapConfirm } from './snapUtils';
 import { SnapProvider } from '@metamask/snap-types';
-import { AvailableVCStores } from '../constants/index';
+import { AvailableVCStores, SupportedProofFormats } from '../constants/index';
 import { ApiParams } from '../interfaces';
 import { snapGetKeysFromAddress } from './keyPair';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
+import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-vc-manager';
 
-/**
- * Saves a VC in the state object of the currently selected MetaMask account.
- * @param {VerifiableCredential} vc - The VC.
- * */
-export async function veramoSaveVC(
-  wallet: SnapProvider,
-  verifiableCredential: W3CVerifiableCredential,
-  store: AvailableVCStores | [AvailableVCStores]
-): Promise<boolean> {
+export async function veramoSaveVC(args: {
+  wallet: SnapProvider;
+  verifiableCredential: W3CVerifiableCredential;
+  store: AvailableVCStores | [AvailableVCStores];
+}): Promise<IDataManagerSaveResult[]> {
+  const { wallet, store, verifiableCredential } = args;
   const agent = await getAgent(wallet);
-  return await agent.saveVC({
-    store: store as string,
-    vc: verifiableCredential as VerifiableCredential,
+  const res = await agent.save({
+    data: verifiableCredential,
+    options: { store },
   });
+  return res;
 }
 
-/**
- * Get a list of VCs of the curently selected MetaMask account.
- * @returns {Promise<VerifiableCredential[]>} Array of saved VCs.
- */
-export async function veramoListVCs(
-  wallet: SnapProvider,
-  store: [AvailableVCStores],
-  query?: VCQuery
-): Promise<VerifiableCredential[]> {
+export interface QueryVCSResult {
+  data: W3CVerifiableCredential;
+  metadata: {
+    id: string;
+    store?: string;
+  };
+}
+
+type Filter = {
+  type: string;
+  filter: unknown;
+};
+
+export async function veramoClearVCs(args: {
+  wallet: SnapProvider;
+  store?: [AvailableVCStores];
+  filter?: Filter;
+}): Promise<boolean[]> {
+  const { wallet, store, filter } = args;
+  let options = undefined;
+  if (store) options = { store };
   const agent = await getAgent(wallet);
-  const vcsSnap: VerifiableCredential[] = [];
-  for (const s of store) {
-    const vcs = await agent.listVCS({ store: s, query: query });
-    vcsSnap.push(...vcs.vcs);
-  }
-  return vcsSnap;
+  const result = await agent.clear({
+    filter,
+    options,
+  });
+  return result;
 }
 
-/**
- * Create a VP from a specific VC (if it exists), that is stored in MetaMask state under the currently selected MetaMask account.
- * @param {string} vcId - index of the VC
- * @param {string} domain - domain of the VP
- * @param {string} challenge - challenge of the VP
- * @returns {Promise<VerifiablePresentation | null>} - generated VP
- * */
+export async function veramoDeleteVC(args: {
+  wallet: SnapProvider;
+  id: string;
+  store?: [AvailableVCStores];
+}): Promise<boolean[]> {
+  const { wallet, store, id } = args;
+  const agent = await getAgent(wallet);
+  let options = undefined;
+  if (store) options = { store };
+  const result = await agent.delete({
+    id: id,
+    options,
+  });
+  return result;
+}
+
+type QueryOptions = {
+  store?: string | string[];
+  returnStore?: boolean;
+};
+
+export async function veramoQueryVCs(args: {
+  wallet: SnapProvider;
+  options: QueryOptions;
+  filter?: Filter;
+}): Promise<QueryVCSResult[]> {
+  const { wallet, options, filter } = args;
+  const agent = await getAgent(wallet);
+  const result = (await agent.query({
+    filter,
+    options,
+  })) as QueryVCSResult[];
+  return result;
+}
+
+type VCMetaData = {
+  id: string;
+  metadata?: {
+    store?: AvailableVCStores;
+  };
+};
 
 type CreateVPRequestParams = {
-  vcs: [
-    {
-      id: string;
-      metadata?: {
-        store?: AvailableVCStores;
-      };
-    }
-  ];
+  vcs: VCMetaData[];
 
-  proofFormat?: string;
+  proofFormat: SupportedProofFormats;
   proofOptions?: {
     type?: string;
     domain?: string;
@@ -78,8 +115,8 @@ export async function veramoCreateVP(
   params: ApiParams,
   createVPParams: CreateVPRequestParams
 ): Promise<VerifiablePresentation | null> {
-  const id = createVPParams.vcs[0].id;
-  const store = createVPParams.vcs[0].metadata?.store;
+  const vcsMetadata = createVPParams.vcs;
+  //const store = createVPParams.vcs[0].metadata?.store;
   const domain = createVPParams.proofOptions?.domain;
   const challenge = createVPParams.proofOptions?.challenge;
   const proofFormat = createVPParams.proofFormat;
@@ -89,41 +126,42 @@ export async function veramoCreateVP(
   const agent = await getAgent(wallet);
   //GET DID
   const identifier = await veramoImportMetaMaskAccount(params, agent);
-  let vc;
-  try {
-    // FIXME: getVC should return null not throw an error
-    vc = await agent.getVC({ store: 'snap', id: id });
-  } catch (e) {
-    if (state.accountState[account].accountConfig.ssi.vcStore['ceramic']) {
-      try {
-        vc = await agent.getVC({ store: 'ceramic', id: id });
-      } catch (e) {
-        throw new Error('VC not found');
-      }
+
+  const vcs: W3CVerifiableCredential[] = [];
+
+  for (const vcMetadata of vcsMetadata) {
+    const vcObj = (await agent.query({
+      filter: {
+        type: 'id',
+        filter: vcMetadata.id,
+      },
+      options: { store: vcMetadata.metadata?.store },
+    })) as QueryVCSResult[];
+    if (vcObj.length > 0) {
+      const vc: W3CVerifiableCredential = vcObj[0].data;
+      vcs.push(vc);
     }
   }
-  const config = state.snapConfig;
-  if (vc && vc.vc) {
-    const promptObj = {
-      prompt: 'Alert',
-      description: 'Do you wish to create a VP from the following VC?',
-      textAreaContent: JSON.stringify(vc.vc.credentialSubject),
-    };
 
-    if (config.dApp.disablePopups || (await snapConfirm(wallet, promptObj))) {
-      const vp = await agent.createVerifiablePresentation({
-        presentation: {
-          holder: identifier.did,
-          type: ['VerifiablePresentation', 'Custom'],
-          verifiableCredential: [vc.vc],
-        },
-        proofFormat: 'jwt',
-        domain: domain,
-        challenge: challenge,
-      });
-      return vp;
-    }
-    return null;
+  if (vcs.length === 0) return null;
+  const config = state.snapConfig;
+  const promptObj = {
+    prompt: 'Alert',
+    description: 'Do you wish to create a VP from the following VC?',
+    textAreaContent: 'Multiple VCs',
+  };
+  if (config.dApp.disablePopups || (await snapConfirm(wallet, promptObj))) {
+    const vp = await agent.createVerifiablePresentation({
+      presentation: {
+        holder: identifier.did,
+        type: ['VerifiablePresentation', 'Custom'],
+        verifiableCredential: vcs,
+      },
+      proofFormat: proofFormat,
+      domain: domain,
+      challenge: challenge,
+    });
+    return vp;
   }
   return null;
 }

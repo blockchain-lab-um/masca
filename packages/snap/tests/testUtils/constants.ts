@@ -136,6 +136,9 @@ export const exampleVC = {
   },
 };
 
+export const jsonPath =
+  '$[?(@.data.credentialSubject.achievement == "Certified Solidity Developer 2")]';
+
 export const exampleVCJWT = {
   verifiableCredential: [
     {
@@ -144,10 +147,10 @@ export const exampleVCJWT = {
         learnerName: 'Bob',
         achievement: 'Certified Solidity Developer 2',
         courseProvider: 'https://blockchain-lab.um.si/',
-        id: 'did:ethr:rinkeby:0xb6665128ee91d84590f70c3268765384a9cafbcd',
+        id: 'did:ethr:goerli:0xb6665128ee91d84590f70c3268765384a9cafbcd',
       },
       issuer: {
-        id: 'did:ethr:rinkeby:0x0241abd662da06d0af2f0152a80bc037f65a7f901160cfe1eb35ef3f0c532a2a4d',
+        id: 'did:ethr:goerli:0x0241abd662da06d0af2f0152a80bc037f65a7f901160cfe1eb35ef3f0c532a2a4d',
       },
       id: 'b2f479c5-2058-4286-a70d-f636966266de',
       type: ['VerifiableCredential', 'ProgramCompletionCertificate'],

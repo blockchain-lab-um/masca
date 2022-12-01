@@ -22,9 +22,9 @@ import { DIDResolverPlugin } from '@veramo/did-resolver';
 import { Resolver } from 'did-resolver';
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver';
 import {
-  VCManager,
-  IVCManager,
-  AbstractVCStore,
+  DataManager,
+  IDataManager,
+  AbstractDataStore,
 } from '@blockchain-lab-um/veramo-vc-manager';
 import { Web3Provider } from '@ethersproject/providers';
 import { Web3KeyManagementSystem } from '@veramo/kms-web3';
@@ -33,7 +33,7 @@ import {
   SnapDIDStore,
   SnapVCStore,
 } from './plugins/snapDataStore/snapDataStore';
-import { CeramicVCStore } from './plugins/ceramicDataStore/ceramicDataStore';
+//import { CeramicVCStore } from './plugins/ceramicDataStore/ceramicDataStore';
 
 import { CredentialPlugin, ICredentialIssuer } from '@veramo/credential-w3c';
 
@@ -54,7 +54,7 @@ export type Agent = TAgent<
     IKeyManager &
     IDataStore &
     IResolver &
-    IVCManager &
+    IDataManager &
     ICredentialIssuer
 >;
 
@@ -66,7 +66,7 @@ export const getAgent = async (wallet: SnapProvider): Promise<Agent> => {
 
   const web3Providers: Record<string, Web3Provider> = {};
   const didProviders: Record<string, AbstractIdentifierProvider> = {};
-  const vcStorePlugins: Record<string, AbstractVCStore> = {};
+  const vcStorePlugins: Record<string, AbstractDataStore> = {};
 
   web3Providers['metamask'] = new Web3Provider(wallet as any);
 
@@ -82,13 +82,13 @@ export const getAgent = async (wallet: SnapProvider): Promise<Agent> => {
   didProviders['did:key'] = new KeyDIDProvider({ defaultKms: 'web3' });
 
   vcStorePlugins['snap'] = new SnapVCStore(wallet);
-  vcStorePlugins['ceramic'] = new CeramicVCStore(wallet);
+  //vcStorePlugins['ceramic'] = new CeramicVCStore(wallet);
   const agent = createAgent<
     IDIDManager &
       IKeyManager &
       IDataStore &
       IResolver &
-      IVCManager &
+      IDataManager &
       ICredentialIssuer
   >({
     plugins: [
@@ -101,7 +101,8 @@ export const getAgent = async (wallet: SnapProvider): Promise<Agent> => {
           snap: new KeyManagementSystem(new MemoryPrivateKeyStore()),
         },
       }),
-      new VCManager({ store: vcStorePlugins }),
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      new DataManager({ store: vcStorePlugins }),
       new DIDResolverPlugin({
         resolver: new Resolver({
           ...ethrDidResolver({ infuraProjectId: INFURA_PROJECT_ID }),
