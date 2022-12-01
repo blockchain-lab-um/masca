@@ -1,24 +1,20 @@
 import { VerifiableCredential, VerifiablePresentation } from '@veramo/core';
-import { VCQuery } from './methods';
+import { ChangeInfuraTokenRequestParams, CreateVPRequestParams, QueryRequestParams, SaveVCRequestParams, SetVCStoreRequestParams, SwitchMethodRequestParams } from './params';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SSISnapEventApi {}
 
 export interface SSISnapApi {
-  getVCs(query?: VCQuery): Promise<VerifiableCredential[]>;
-  saveVC(verifiableCredential: VerifiableCredential): Promise<boolean>;
-  getVP(
-    vcId: string,
-    domain?: string,
-    challenge?: string
-  ): Promise<VerifiablePresentation>;
-  changeInfuraToken(infuraToken: string): Promise<boolean>;
+  queryVCs(params: QueryRequestParams): Promise<VerifiableCredential[]>;
+  saveVC(params: SaveVCRequestParams): Promise<boolean>;
+  createVP(params: CreateVPRequestParams): Promise<VerifiablePresentation>;
+  changeInfuraToken(params: ChangeInfuraTokenRequestParams): Promise<boolean>;
   togglePopups(): Promise<boolean>;
   getDID(): Promise<string>;
   getMethod(): Promise<string>;
   getAvailableMethods(): Promise<string[]>;
-  switchMethod(didMethod: string): Promise<boolean>;
+  switchMethod(params: SwitchMethodRequestParams): Promise<boolean>;
   getVCStore(): Promise<string>;
-  setVCStore(vcStore: string): Promise<boolean>;
+  setVCStore(params: SetVCStoreRequestParams): Promise<boolean>;
   getAvailableVCStores(): Promise<string[]>;
 }
