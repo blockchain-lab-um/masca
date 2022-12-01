@@ -4,10 +4,13 @@ import { MemoryDataStore } from '../src/data-store/data-store';
 
 describe('DataManager', () => {
   const stores: Record<string, AbstractDataStore> = {};
-  stores['memory1'] = new MemoryDataStore();
-  stores['memory2'] = new MemoryDataStore();
+  let dataManager: DataManager;
 
-  const dataManager = new DataManager({ store: stores });
+  beforeAll(() => {
+    stores['memory1'] = new MemoryDataStore();
+    stores['memory2'] = new MemoryDataStore();
+    dataManager = new DataManager({ store: stores });
+  });
   beforeEach(async () => {
     await dataManager.clear({});
   });
@@ -21,10 +24,10 @@ describe('DataManager', () => {
 
       const allData = await dataManager.query({});
       expect(allData).toHaveLength(1);
-      expect(allData[0].meta.id).toEqual(res[0].id);
+      expect(allData[0].metadata.id).toEqual(res[0].id);
       expect(res[0].store).toEqual('memory1');
       expect(allData[0].data).toEqual(data);
-      expect(allData[0].meta.store).toEqual('memory1');
+      expect(allData[0].metadata.store).toEqual('memory1');
       expect.assertions(5);
     });
     it('should store multiple objects in same memory store', async () => {
@@ -40,15 +43,15 @@ describe('DataManager', () => {
 
       const allData = await dataManager.query({});
       expect(allData).toHaveLength(2);
-      expect(allData[0].meta.id).toEqual(res[0].id);
+      expect(allData[0].metadata.id).toEqual(res[0].id);
       expect(res[0].store).toEqual('memory1');
       expect(allData[0].data).toEqual(data);
-      expect(allData[0].meta.store).toEqual('memory1');
+      expect(allData[0].metadata.store).toEqual('memory1');
       expect(allData[0].data).toEqual(data);
-      expect(allData[1].meta.id).toEqual(res2[0].id);
+      expect(allData[1].metadata.id).toEqual(res2[0].id);
       expect(res2[0].store).toEqual('memory1');
       expect(allData[1].data).toEqual(data);
-      expect(allData[1].meta.store).toEqual('memory1');
+      expect(allData[1].metadata.store).toEqual('memory1');
       expect(allData[1].data).toEqual(data);
       expect.assertions(11);
     });
@@ -61,14 +64,14 @@ describe('DataManager', () => {
 
       const allData = await dataManager.query({});
       expect(allData).toHaveLength(2);
-      expect(allData[0].meta.id).toEqual(res[0].id);
-      expect(allData[1].meta.id).toEqual(res[1].id);
+      expect(allData[0].metadata.id).toEqual(res[0].id);
+      expect(allData[1].metadata.id).toEqual(res[1].id);
       expect(res[0].store).toEqual('memory1');
       expect(res[1].store).toEqual('memory2');
       expect(allData[0].data).toEqual(data);
       expect(allData[1].data).toEqual(data);
-      expect(allData[0].meta.store).toEqual('memory1');
-      expect(allData[1].meta.store).toEqual('memory2');
+      expect(allData[0].metadata.store).toEqual('memory1');
+      expect(allData[1].metadata.store).toEqual('memory2');
       expect.assertions(9);
     });
     it('should clear objects from multiple stores', async () => {
@@ -95,10 +98,10 @@ describe('DataManager', () => {
         filter: { type: 'id', filter: res[0].id },
       });
       expect(allData).toHaveLength(1);
-      expect(allData[0].meta.id).toEqual(res[0].id);
+      expect(allData[0].metadata.id).toEqual(res[0].id);
       expect(res[0].store).toEqual('memory1');
       expect(allData[0].data).toEqual(data);
-      expect(allData[0].meta.store).toEqual('memory1');
+      expect(allData[0].metadata.store).toEqual('memory1');
       expect.assertions(5);
     });
     it('should query object by id in specific store', async () => {
@@ -113,10 +116,10 @@ describe('DataManager', () => {
         options: { store: 'memory1' },
       });
       expect(allData).toHaveLength(1);
-      expect(allData[0].meta.id).toEqual(res[0].id);
+      expect(allData[0].metadata.id).toEqual(res[0].id);
       expect(res[0].store).toEqual('memory1');
       expect(allData[0].data).toEqual(data);
-      expect(allData[0].meta.store).toEqual('memory1');
+      expect(allData[0].metadata.store).toEqual('memory1');
       expect.assertions(5);
     });
     it('should fail query object by id in specific store', async () => {
@@ -161,10 +164,10 @@ describe('DataManager', () => {
         options: { returnStore: false },
       });
       expect(allData).toHaveLength(1);
-      expect(allData[0].meta.id).toEqual(res[0].id);
+      expect(allData[0].metadata.id).toEqual(res[0].id);
       expect(res[0].store).toEqual('memory1');
       expect(allData[0].data).toEqual(data);
-      expect(allData[0].meta.store).toBeUndefined();
+      expect(allData[0].metadata.store).toBeUndefined();
       expect.assertions(5);
     });
     it('should query object by jsonpath (id)', async () => {
@@ -181,10 +184,10 @@ describe('DataManager', () => {
         },
       });
       expect(allData).toHaveLength(1);
-      expect(allData[0].meta.id).toEqual(res[0].id);
+      expect(allData[0].metadata.id).toEqual(res[0].id);
       expect(res[0].store).toEqual('memory1');
       expect(allData[0].data).toEqual(data);
-      expect(allData[0].meta.store).toEqual('memory1');
+      expect(allData[0].metadata.store).toEqual('memory1');
       expect.assertions(5);
     });
     it('should query object by jsonpath (data) from multiple stores', async () => {
@@ -201,14 +204,14 @@ describe('DataManager', () => {
         },
       });
       expect(allData).toHaveLength(2);
-      expect(allData[0].meta.id).toEqual(res[0].id);
+      expect(allData[0].metadata.id).toEqual(res[0].id);
       expect(res[0].store).toEqual('memory1');
       expect(allData[0].data).toEqual(data);
-      expect(allData[0].meta.store).toEqual('memory1');
-      expect(allData[1].meta.id).toEqual(res[1].id);
+      expect(allData[0].metadata.store).toEqual('memory1');
+      expect(allData[1].metadata.id).toEqual(res[1].id);
       expect(res[1].store).toEqual('memory2');
       expect(allData[1].data).toEqual(data);
-      expect(allData[1].meta.store).toEqual('memory2');
+      expect(allData[1].metadata.store).toEqual('memory2');
       expect.assertions(9);
     });
     it('should query object by jsonpath (multiple conditions)', async () => {
@@ -230,10 +233,10 @@ describe('DataManager', () => {
         },
       });
       expect(allData).toHaveLength(1);
-      expect(allData[0].meta.id).toEqual(res2[0].id);
+      expect(allData[0].metadata.id).toEqual(res2[0].id);
       expect(res2[0].store).toEqual('memory2');
       expect(allData[0].data).toEqual(data2);
-      expect(allData[0].meta.store).toEqual('memory2');
+      expect(allData[0].metadata.store).toEqual('memory2');
       expect.assertions(5);
     });
     it('should delete object by id from all stores', async () => {

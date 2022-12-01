@@ -41,7 +41,7 @@ export class MemoryDataStore extends AbstractDataStore {
         if (this.data[filter.filter as string]) {
           const obj = [
             {
-              id: filter.filter as string,
+              metadata: { id: filter.filter as string },
               // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
               data: this.data[filter.filter as string],
             },
@@ -55,7 +55,7 @@ export class MemoryDataStore extends AbstractDataStore {
     if (filter === undefined || (filter && filter.type === 'none')) {
       return Object.keys(this.data).map((k) => {
         return {
-          id: k,
+          metadata: { id: k },
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           data: this.data[k],
         };
@@ -64,7 +64,7 @@ export class MemoryDataStore extends AbstractDataStore {
     if (filter && filter.type === 'jsonpath') {
       const objects = Object.keys(this.data).map((k) => {
         return {
-          id: k,
+          metadata: { id: k },
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           data: this.data[k],
         };

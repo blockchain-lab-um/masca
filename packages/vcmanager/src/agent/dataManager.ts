@@ -10,11 +10,6 @@ import {
 } from '../types/IDataManager';
 import { AbstractDataStore } from '../data-store/abstractDataStore';
 
-/**
- * {@inheritDoc IVCManager}
- * @beta
- */
-
 export class DataManager implements IAgentPlugin {
   readonly methods: IDataManager = {
     save: this.save.bind(this),
@@ -23,10 +18,10 @@ export class DataManager implements IAgentPlugin {
     clear: this.clear.bind(this),
   };
 
-  private storePlugins: Record<string, AbstractDataStore>;
+  private stores: Record<string, AbstractDataStore>;
 
   constructor(options: { store: Record<string, AbstractDataStore> }) {
-    this.storePlugins = options.store;
+    this.stores = options.store;
   }
 
   public async save(
@@ -40,7 +35,7 @@ export class DataManager implements IAgentPlugin {
     }
     const res: IDataManagerSaveResult[] = [];
     for (const storeName of store) {
-      const storePlugin = this.storePlugins[storeName];
+      const storePlugin = this.stores[storeName];
       if (!storePlugin) {
         throw new Error(`Store plugin ${storeName} not found`);
       }
@@ -59,12 +54,12 @@ export class DataManager implements IAgentPlugin {
     let store;
     let returnStore = true;
     if (options === undefined) {
-      store = Object.keys(this.storePlugins);
+      store = Object.keys(this.stores);
     } else {
       if (options.store !== undefined) {
         store = options.store;
       } else {
-        store = Object.keys(this.storePlugins);
+        store = Object.keys(this.stores);
       }
       if (options.returnStore !== undefined) {
         returnStore = options.returnStore;
@@ -76,19 +71,21 @@ export class DataManager implements IAgentPlugin {
     let res: IDataManagerQueryResult[] = [];
 
     for (const storeName of store) {
-      const storePlugin = this.storePlugins[storeName];
+      const storePlugin = this.stores[storeName];
       if (!storePlugin) {
         throw new Error(`Store plugin ${storeName} not found`);
       }
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const result = await storePlugin.query({ filter });
       const mappedResult = result.map((r) => {
         if (returnStore) {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          return { data: r.data, meta: { id: r.id, store: storeName } };
+          return {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            data: r.data,
+            metadata: { id: r.metadata.id, store: storeName },
+          };
         } else {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          return { data: r.data, meta: { id: r.id } };
+          return { data: r.data, metadata: { id: r.metadata.id } };
         }
       });
       res = [...res, ...mappedResult];
@@ -101,7 +98,7 @@ export class DataManager implements IAgentPlugin {
     const { id, options } = args;
     let store;
     if (options === undefined) {
-      store = Object.keys(this.storePlugins);
+      store = Object.keys(this.stores);
     } else {
       store = options.store;
     }
@@ -109,11 +106,11 @@ export class DataManager implements IAgentPlugin {
       store = [store];
     }
     if (store === undefined) {
-      store = Object.keys(this.storePlugins);
+      store = Object.keys(this.stores);
     }
     const res = [];
     for (const storeName of store) {
-      const storePlugin = this.storePlugins[storeName];
+      const storePlugin = this.stores[storeName];
       if (!storePlugin) {
         throw new Error(`Store plugin ${storeName} not found`);
       }
@@ -129,7 +126,7 @@ export class DataManager implements IAgentPlugin {
     const { filter = { type: 'none', filter: {} }, options } = args;
     let store;
     if (options === undefined) {
-      store = Object.keys(this.storePlugins);
+      store = Object.keys(this.stores);
     } else {
       store = options.store;
     }
@@ -138,7 +135,7 @@ export class DataManager implements IAgentPlugin {
     }
     const res = [];
     for (const storeName of store) {
-      const storePlugin = this.storePlugins[storeName];
+      const storePlugin = this.stores[storeName];
       if (!storePlugin) {
         throw new Error(`Store plugin ${storeName} not found`);
       }

@@ -21,7 +21,9 @@ export interface QueryArgs {
 
 export interface QueryRes {
   data: any;
-  id: string;
+  metadata: {
+    id: string;
+  };
 }
 
 export abstract class AbstractDataStore {
