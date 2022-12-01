@@ -12,7 +12,7 @@ export interface DeleteArgs {
   id: string;
 }
 
-export interface QueryArgs {
+export interface FilterArgs {
   filter?: {
     type: string;
     filter: unknown;
@@ -29,6 +29,6 @@ export interface QueryRes {
 export abstract class AbstractDataStore {
   abstract save(args: SaveArgs): Promise<string>;
   abstract delete(args: DeleteArgs): Promise<boolean>;
-  abstract query(args: QueryArgs): Promise<Array<QueryRes>>;
-  abstract clear(args: QueryArgs): Promise<boolean>;
+  abstract query(args: FilterArgs): Promise<Array<QueryRes>>;
+  abstract clear(args: FilterArgs): Promise<boolean>;
 }

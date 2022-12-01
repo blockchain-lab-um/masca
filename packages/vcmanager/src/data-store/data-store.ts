@@ -1,7 +1,7 @@
 import {
   AbstractDataStore,
   SaveArgs,
-  QueryArgs,
+  FilterArgs,
   QueryRes,
   DeleteArgs,
 } from './abstractDataStore';
@@ -12,17 +12,14 @@ export class MemoryDataStore extends AbstractDataStore {
 
   // eslint-disable-next-line @typescript-eslint/require-await
   public async save(args: SaveArgs): Promise<string> {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const { data } = args;
+    const data: unknown = args.data;
     const id = randomUUID();
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     this.data[id] = data;
     return id;
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
   public async delete(args: DeleteArgs): Promise<boolean> {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const { id } = args;
     if (this.data[id]) {
       delete this.data[id];
@@ -32,18 +29,15 @@ export class MemoryDataStore extends AbstractDataStore {
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
-  public async query(args: QueryArgs): Promise<Array<QueryRes>> {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  public async query(args: FilterArgs): Promise<Array<QueryRes>> {
     const { filter } = args;
     if (filter && filter.type === 'id') {
       try {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-return
         if (this.data[filter.filter as string]) {
           const obj = [
             {
               metadata: { id: filter.filter as string },
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-              data: this.data[filter.filter as string],
+              data: this.data[filter.filter as string] as unknown,
             },
           ];
           return obj;
@@ -56,8 +50,7 @@ export class MemoryDataStore extends AbstractDataStore {
       return Object.keys(this.data).map((k) => {
         return {
           metadata: { id: k },
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          data: this.data[k],
+          data: this.data[k] as unknown,
         };
       });
     }
@@ -65,8 +58,7 @@ export class MemoryDataStore extends AbstractDataStore {
       const objects = Object.keys(this.data).map((k) => {
         return {
           metadata: { id: k },
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          data: this.data[k],
+          data: this.data[k] as unknown,
         };
       });
       const filteredObjects = jsonpath.query(objects, filter.filter as string);
@@ -76,7 +68,7 @@ export class MemoryDataStore extends AbstractDataStore {
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
-  public async clear(args: QueryArgs): Promise<boolean> {
+  public async clear(args: FilterArgs): Promise<boolean> {
     this.data = {};
     return true;
   }

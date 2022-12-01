@@ -1,9 +1,9 @@
 import { IAgentPlugin } from '@veramo/core';
 import {
   IDataManager,
+  IDataManagerQueryArgs,
   IDataManagerClearArgs,
   IDataManagerDeleteArgs,
-  IDataManagerQueryArgs,
   IDataManagerQueryResult,
   IDataManagerSaveArgs,
   IDataManagerSaveResult,
@@ -27,9 +27,9 @@ export class DataManager implements IAgentPlugin {
   public async save(
     args: IDataManagerSaveArgs
   ): Promise<Array<IDataManagerSaveResult>> {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const { data, options } = args;
-    let { store } = options;
+    const data: unknown = args.data;
+    const options = args.options;
+    let { store } = args.options;
     if (typeof store === 'string') {
       store = [store];
     }
@@ -39,7 +39,6 @@ export class DataManager implements IAgentPlugin {
       if (!storePlugin) {
         throw new Error(`Store plugin ${storeName} not found`);
       }
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const result = await storePlugin.save({ data, options });
       res.push({ id: result, store: storeName });
     }
@@ -49,7 +48,6 @@ export class DataManager implements IAgentPlugin {
   public async query(
     args: IDataManagerQueryArgs
   ): Promise<Array<IDataManagerQueryResult>> {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const { filter = { type: 'none', filter: {} }, options } = args;
     let store;
     let returnStore = true;
@@ -79,13 +77,11 @@ export class DataManager implements IAgentPlugin {
       const mappedResult = result.map((r) => {
         if (returnStore) {
           return {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            data: r.data,
+            data: r.data as unknown,
             metadata: { id: r.metadata.id, store: storeName },
           };
         } else {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          return { data: r.data, metadata: { id: r.metadata.id } };
+          return { data: r.data as unknown, metadata: { id: r.metadata.id } };
         }
       });
       res = [...res, ...mappedResult];
@@ -94,7 +90,6 @@ export class DataManager implements IAgentPlugin {
   }
 
   public async delete(args: IDataManagerDeleteArgs): Promise<Array<boolean>> {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const { id, options } = args;
     let store;
     if (options === undefined) {
@@ -114,7 +109,6 @@ export class DataManager implements IAgentPlugin {
       if (!storePlugin) {
         throw new Error(`Store plugin ${storeName} not found`);
       }
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
       const deleteResult = await storePlugin.delete({ id: id });
       res.push(deleteResult);
     }
@@ -122,13 +116,16 @@ export class DataManager implements IAgentPlugin {
   }
 
   public async clear(args: IDataManagerClearArgs): Promise<Array<boolean>> {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const { filter = { type: 'none', filter: {} }, options } = args;
     let store;
     if (options === undefined) {
       store = Object.keys(this.stores);
     } else {
-      store = options.store;
+      if (options.store !== undefined) {
+        store = options.store;
+      } else {
+        store = Object.keys(this.stores);
+      }
     }
     if (typeof store === 'string') {
       store = [store];
@@ -139,7 +136,6 @@ export class DataManager implements IAgentPlugin {
       if (!storePlugin) {
         throw new Error(`Store plugin ${storeName} not found`);
       }
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
       const deleteResult = await storePlugin.clear({ filter });
       res.push(deleteResult);
     }

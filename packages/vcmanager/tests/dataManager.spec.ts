@@ -180,7 +180,7 @@ describe('DataManager', () => {
       const allData = await dataManager.query({
         filter: {
           type: 'jsonpath',
-          filter: `$[?(@.id == "${res[0].id}")]`,
+          filter: `$[?(@.metadata.id == "${res[0].id}")]`,
         },
       });
       expect(allData).toHaveLength(1);

@@ -9,7 +9,7 @@ export interface IDataManager extends IPluginMethodMap {
   clear(args: IDataManagerClearArgs): Promise<Array<boolean>>;
 }
 
-type QueryFilter = {
+type Filter = {
   type: string;
   filter: unknown;
 };
@@ -19,7 +19,7 @@ type QueryOptions = {
   returnStore?: boolean;
 };
 export interface IDataManagerQueryArgs {
-  filter?: QueryFilter;
+  filter?: Filter;
   options?: QueryOptions;
 }
 type DeleteOptions = {
@@ -42,7 +42,7 @@ type ClearOptions = {
   store: string | string[];
 };
 export interface IDataManagerClearArgs {
-  filter?: QueryFilter;
+  filter?: Filter;
   options?: ClearOptions;
 }
 
