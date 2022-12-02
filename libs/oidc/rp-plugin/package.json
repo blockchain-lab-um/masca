@@ -1,0 +1,103 @@
+{
+  "name": "@blockchain-lab-um/oidc-rp-plugin",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "source": "src/index.ts",
+  "types": "dist/src/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "src/**/*",
+    "README.md",
+    "plugin.schema.json",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "yarn tsc --build tsconfig.build.json",
+    "build:watch": "tsc -b --watch",
+    "clean": "rm -rf tmp && rm database.sqlite && rm -rf dist && rm tsconfig.tsbuildinfo",
+    "generate-plugin-schema": "yarn veramo dev generate-plugin-schema",
+    "lint": "yarn lint:eslint && yarn lint:tsc && yarn lint:prettier",
+    "lint:eslint": "eslint . --ext .js,.ts --fix",
+    "lint:prettier": "prettier . --write",
+    "lint:tsc": "tsc --noEmit",
+    "start": "veramo server",
+    "test": "jest",
+    "test:ci": "jest --coverage=true --silent",
+    "test:watch": "yarn test --watch --verbose"
+  },
+  "dependencies": {
+    "@types/qs": "^6.9.7",
+    "@veramo/core": "^4.1.1",
+    "@veramo/did-manager": "^4.1.1",
+    "@veramo/key-manager": "^4.1.1",
+    "qs": "^6.11.0"
+  },
+  "devDependencies": {
+    "@types/jest": "29.2.3",
+    "@types/node": "^16.11.7",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "@veramo/cli": "4.1.2",
+    "eslint": "^8.28.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jest": "^27.1.6",
+    "eslint-plugin-prettier": "^4.2.1",
+    "jest": "29.3.1",
+    "prettier": "^2.8.0",
+    "ts-jest": "29.0.3",
+    "typeorm": "^0.3.10",
+    "typescript": "4.9.3"
+  },
+  "nx": {
+    "namedInputs": {
+      "default": [
+        "{projectRoot}/src"
+      ],
+      "prod": [
+        "!{projectRoot}/__tests__/**/*.ts"
+      ]
+    },
+    "targets": {
+      "build": {
+        "inputs": [
+          "prod",
+          "^prod"
+        ],
+        "outputs": [
+          "dist"
+        ],
+        "dependsOn": [
+          "^build"
+        ]
+      },
+      "lint": {
+        "inputs": [
+          "default"
+        ],
+        "outputs": [],
+        "dependsOn": [
+          "build"
+        ]
+      },
+      "test": {
+        "inputs": [
+          "default",
+          "^prod"
+        ],
+        "outputs": [],
+        "dependsOn": [
+          "build"
+        ]
+      }
+    }
+  },
+  "veramo": {
+    "pluginInterfaces": {
+      "OIDCPlugin": "./src/types/IMyAgentPlugin.ts"
+    }
+  }
+}

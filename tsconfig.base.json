@@ -15,7 +15,8 @@
     "skipLibCheck": true,
     /* Stylize errors and messages using color and context. */
     "pretty": true,
-    "incremental": true
+    "incremental": true,
+    "removeComments": true
   },
   "exclude": ["node_modules", "dist"]
 }
