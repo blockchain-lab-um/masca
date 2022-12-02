@@ -9,6 +9,7 @@ import { getCurrentAccount } from '../../../utils/snapUtils';
 import { AbstractDataStore } from '@blockchain-lab-um/veramo-vc-manager';
 import jsonpath from 'jsonpath';
 import { FilterArgs, QueryRes } from 'src/interfaces';
+import { decodeJWT } from '../../../utils/jwt';
 export type ImportablePrivateKey = RequireOnly<
   ManagedPrivateKey,
   'privateKeyHex' | 'type'
@@ -135,12 +136,16 @@ export class SnapVCStore extends AbstractDataStore {
     if (filter && filter.type === 'id') {
       try {
         if (state.accountState[account].vcs[filter.filter as string]) {
+          let vc = state.accountState[account].vcs[
+            filter.filter as string
+          ] as unknown;
+          if (typeof vc === 'string') {
+            vc = decodeJWT(vc);
+          }
           const obj = [
             {
               metadata: { id: filter.filter as string },
-              data: state.accountState[account].vcs[
-                filter.filter as string
-              ] as unknown,
+              data: vc,
             },
           ];
           return obj;
@@ -151,18 +156,25 @@ export class SnapVCStore extends AbstractDataStore {
     }
     if (filter === undefined || (filter && filter.type === 'none')) {
       return Object.keys(state.accountState[account].vcs).map((k) => {
+        let vc = state.accountState[account].vcs[k] as unknown;
+        if (typeof vc === 'string') {
+          vc = decodeJWT(vc);
+        }
         return {
           metadata: { id: k },
-          data: state.accountState[account].vcs[k] as unknown,
+          data: vc,
         };
       });
     }
     if (filter && filter.type === 'JSONPath') {
-      //TODO convert JWT strings to VC objects
       const objects = Object.keys(state.accountState[account].vcs).map((k) => {
+        let vc = state.accountState[account].vcs[k] as unknown;
+        if (typeof vc === 'string') {
+          vc = decodeJWT(vc);
+        }
         return {
           metadata: { id: k },
-          data: state.accountState[account].vcs[k] as unknown,
+          data: vc,
         };
       });
       const filteredObjects = jsonpath.query(objects, filter.filter as string);
@@ -202,6 +214,7 @@ export class SnapVCStore extends AbstractDataStore {
   }
 
   public async clear(args: FilterArgs): Promise<boolean> {
+    ////TODO implement filter (in ceramic aswell)
     const state = await getSnapState(this.wallet);
     const account = await getCurrentAccount(this.wallet);
     if (!account) throw Error('Cannot get current account');

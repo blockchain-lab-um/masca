@@ -4,6 +4,7 @@ import { Agent, getAgent } from './../veramo/setup';
 import {
   IIdentifier,
   MinimalImportableKey,
+  VerifiableCredential,
   VerifiablePresentation,
   W3CVerifiableCredential,
 } from '@veramo/core';
@@ -19,7 +20,7 @@ import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-vc-manager';
 export async function veramoSaveVC(args: {
   wallet: SnapProvider;
   verifiableCredential: W3CVerifiableCredential;
-  store: AvailableVCStores | [AvailableVCStores];
+  store: AvailableVCStores | AvailableVCStores[];
 }): Promise<IDataManagerSaveResult[]> {
   const { wallet, store, verifiableCredential } = args;
   const agent = await getAgent(wallet);
@@ -45,7 +46,7 @@ type Filter = {
 
 export async function veramoClearVCs(args: {
   wallet: SnapProvider;
-  store?: [AvailableVCStores];
+  store?: AvailableVCStores | AvailableVCStores[];
   filter?: Filter;
 }): Promise<boolean[]> {
   const { wallet, store, filter } = args;

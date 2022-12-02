@@ -32,7 +32,7 @@ jest.mock('uuid', () => ({ v4: () => 'test-id' }));
 describe('Utils [veramo]', () => {
   let walletMock: SnapProvider & WalletMock;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     walletMock = createMockWallet();
   });
 
@@ -65,6 +65,70 @@ describe('Utils [veramo]', () => {
 
       expect.assertions(2);
     });
+    it('should succeed saving VC in snap and ceramic store', async () => {
+      walletMock.rpcMocks.snap_manageState.mockReturnValue(
+        getDefaultSnapState()
+      );
+
+      await veramoClearVCs({ wallet: walletMock, store: ['ceramic'] });
+
+      const expectedResult = [
+        {
+          id: 'test-id',
+          store: 'snap',
+        },
+        {
+          id: 'test-id',
+          store: 'ceramic',
+        },
+      ];
+      await expect(
+        veramoSaveVC({
+          wallet: walletMock,
+          verifiableCredential: exampleVC,
+          store: ['snap', 'ceramic'],
+        })
+      ).resolves.toStrictEqual(expectedResult);
+
+      const expectedState = getDefaultSnapState();
+      expectedState.accountState[address].vcs['test-id'] = exampleVC;
+
+      expect(walletMock.rpcMocks.snap_manageState).toHaveBeenLastCalledWith(
+        'update',
+        expectedState
+      );
+
+      expect.assertions(2);
+    });
+    it('should succeed saving a JWT string in snap store', async () => {
+      walletMock.rpcMocks.snap_manageState.mockReturnValue(
+        getDefaultSnapState()
+      );
+      const expectedResult = [
+        {
+          id: 'test-id',
+          store: 'snap',
+        },
+      ];
+      await expect(
+        veramoSaveVC({
+          wallet: walletMock,
+          verifiableCredential: exampleVC.proof.jwt,
+          store: ['snap'],
+        })
+      ).resolves.toStrictEqual(expectedResult);
+
+      const expectedState = getDefaultSnapState();
+      expectedState.accountState[address].vcs['test-id'] = exampleVC.proof.jwt;
+
+      expect(walletMock.rpcMocks.snap_manageState).toHaveBeenLastCalledWith(
+        'update',
+        expectedState
+      );
+
+      expect.assertions(2);
+    });
+    //TODO should fail saving invalid object
   });
 
   describe('veramoDeleteVC', () => {
@@ -108,31 +172,78 @@ describe('Utils [veramo]', () => {
       expect(vcs).toHaveLength(0);
       expect.assertions(3);
     });
-    it('should succeed deleting VCs in all stores', async () => {
+
+    it('should succeed deleting VCs in ceramic store', async () => {
       walletMock.rpcMocks.snap_manageState.mockReturnValue(
         getDefaultSnapState()
       );
+
+      await veramoClearVCs({ wallet: walletMock, store: ['ceramic'] });
+
       const expectedResult = [
         {
           id: 'test-id',
           store: 'snap',
+        },
+        {
+          id: 'test-id',
+          store: 'ceramic',
+        },
+      ];
+      const val = await expect(
+        veramoSaveVC({
+          wallet: walletMock,
+          verifiableCredential: exampleVC,
+          store: ['snap', 'ceramic'],
+        })
+      ).resolves.toStrictEqual(expectedResult);
+
+      const vcsPreDelete = await veramoQueryVCs({
+        wallet: walletMock,
+        options: { store: ['snap', 'ceramic'], returnStore: true },
+      });
+      expect(vcsPreDelete).toHaveLength(2);
+
+      await veramoDeleteVC({
+        wallet: walletMock,
+        id: expectedResult[1].id,
+        store: ['ceramic'],
+      });
+
+      const vcs = await veramoQueryVCs({
+        wallet: walletMock,
+        options: { returnStore: true },
+      });
+
+      expect(vcs).toHaveLength(1);
+      expect.assertions(3);
+    });
+    it('should succeed deleting VCs in all stores', async () => {
+      walletMock.rpcMocks.snap_manageState.mockReturnValue(
+        getDefaultSnapState()
+      );
+
+      await veramoClearVCs({ wallet: walletMock, store: ['ceramic'] });
+      const expectedResult = [
+        {
+          id: 'test-id',
+          store: 'snap',
+        },
+        {
+          id: 'test-id',
+          store: 'ceramic',
         },
       ];
       await expect(
         veramoSaveVC({
           wallet: walletMock,
           verifiableCredential: exampleVC,
-          store: ['snap'],
+          store: ['snap', 'ceramic'],
         })
       ).resolves.toStrictEqual(expectedResult);
 
       const expectedState = getDefaultSnapState();
       expectedState.accountState[address].vcs['test-id'] = exampleVC;
-
-      expect(walletMock.rpcMocks.snap_manageState).toHaveBeenLastCalledWith(
-        'update',
-        expectedState
-      );
 
       await veramoDeleteVC({
         wallet: walletMock,
@@ -145,7 +256,7 @@ describe('Utils [veramo]', () => {
       });
 
       expect(vcs).toHaveLength(0);
-      expect.assertions(3);
+      expect.assertions(2);
     });
   });
 
@@ -263,6 +374,35 @@ describe('Utils [veramo]', () => {
       ).resolves.toEqual([expectedVCObject]);
 
       expect.assertions(1);
+    });
+
+    it('should succeed listing JWT VC from snap store', async () => {
+      walletMock.rpcMocks.snap_manageState.mockReturnValue(
+        getDefaultSnapState()
+      );
+      const expectedResult = [
+        {
+          id: 'test-id',
+          store: 'snap',
+        },
+      ];
+      await expect(
+        veramoSaveVC({
+          wallet: walletMock,
+          verifiableCredential: exampleVC.proof.jwt,
+          store: ['snap'],
+        })
+      ).resolves.toStrictEqual(expectedResult);
+
+      const vcs = await veramoQueryVCs({
+        wallet: walletMock,
+        options: { store: ['snap'], returnStore: true },
+      });
+
+      expect(vcs).toHaveLength(1);
+      expect(vcs[0].data).toStrictEqual(exampleVCinVP);
+
+      expect.assertions(3);
     });
 
     it('should succeed listing all VCs from snap store - without returnStore', async () => {

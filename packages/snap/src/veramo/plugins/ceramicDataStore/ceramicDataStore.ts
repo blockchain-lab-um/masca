@@ -6,6 +6,7 @@ import { SnapProvider } from '@metamask/snap-types';
 import { AbstractDataStore } from '@blockchain-lab-um/veramo-vc-manager';
 import { FilterArgs, QueryRes } from 'src/interfaces';
 import jsonpath from 'jsonpath';
+import { decodeJWT } from '../../../utils/jwt';
 
 export type StoredCredentials = {
   vcs: Record<string, W3CVerifiableCredential>;
@@ -30,10 +31,14 @@ export class CeramicVCStore extends AbstractDataStore {
       if (filter && filter.type === 'id') {
         try {
           if (storedCredentials.vcs[filter.filter as string]) {
+            let vc = storedCredentials.vcs[filter.filter as string] as unknown;
+            if (typeof vc === 'string') {
+              vc = decodeJWT(vc);
+            }
             const obj = [
               {
                 metadata: { id: filter.filter as string },
-                data: storedCredentials.vcs[filter.filter as string] as unknown,
+                data: vc,
               },
             ];
             return obj;
@@ -44,18 +49,26 @@ export class CeramicVCStore extends AbstractDataStore {
       }
       if (filter === undefined || (filter && filter.type === 'none')) {
         return Object.keys(storedCredentials.vcs).map((k) => {
+          let vc = storedCredentials.vcs[k] as unknown;
+          if (typeof vc === 'string') {
+            vc = decodeJWT(vc);
+          }
           return {
             metadata: { id: k },
-            data: storedCredentials.vcs[k] as unknown,
+            data: vc,
           };
         });
       }
       if (filter && filter.type === 'JSONPath') {
         //TODO convert JWT strings to VC objects
         const objects = Object.keys(storedCredentials.vcs).map((k) => {
+          let vc = storedCredentials.vcs[k] as unknown;
+          if (typeof vc === 'string') {
+            vc = decodeJWT(vc);
+          }
           return {
             metadata: { id: k },
-            data: storedCredentials.vcs[k] as unknown,
+            data: vc,
           };
         });
         const filteredObjects = jsonpath.query(

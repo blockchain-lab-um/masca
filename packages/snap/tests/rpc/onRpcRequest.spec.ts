@@ -13,6 +13,7 @@ import { IVerifyResult, VerifiablePresentation } from '@veramo/core';
 import * as uuid from 'uuid';
 import { getAgent } from '../../src/veramo/setup';
 import { address } from '../testUtils/constants';
+import { veramoClearVCs } from '../../src/utils/veramoUtils';
 jest.mock('uuid');
 
 describe('onRpcRequest', () => {
@@ -105,6 +106,61 @@ describe('onRpcRequest', () => {
 
       expect(result).toEqual(expectedResult);
 
+      expect.assertions(2);
+    });
+
+    it('should succeed saving 1 VC in Snap & Ceramic', async () => {
+      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      await veramoClearVCs({
+        wallet: walletMock,
+        store: 'ceramic',
+      });
+      await expect(
+        onRpcRequest({
+          origin: 'localhost',
+          request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'saveVC',
+            params: {
+              verifiableCredential: exampleVC,
+              options: { store: ['snap', 'ceramic'] },
+            },
+          },
+        })
+      ).resolves.toEqual([
+        { id: undefined, store: 'snap' },
+        { id: undefined, store: 'ceramic' },
+      ]);
+
+      const result = await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'query',
+          params: {
+            query: {},
+          },
+        },
+      });
+
+      const expectedResult = [
+        {
+          data: exampleVC,
+          metadata: { id: 'undefined', store: 'snap' },
+        },
+        {
+          data: exampleVC,
+          metadata: { id: 'undefined', store: 'ceramic' },
+        },
+      ];
+
+      expect(result).toEqual(expectedResult);
+      await veramoClearVCs({
+        wallet: walletMock,
+        store: 'ceramic',
+      });
       expect.assertions(2);
     });
 

@@ -1,6 +1,10 @@
 import { SnapProvider } from '@metamask/snap-types';
 import { WalletMock, createMockWallet } from '../testUtils/wallet.mock';
-import { exampleVC, getDefaultSnapState } from '../testUtils/constants';
+import {
+  exampleVC,
+  exampleVCinVP,
+  getDefaultSnapState,
+} from '../testUtils/constants';
 import {
   veramoClearVCs,
   veramoDeleteVC,
@@ -107,6 +111,29 @@ describe('Utils [ceramic]', () => {
         options: { store: ['ceramic'], returnStore: true },
       });
       expect(vcs).toHaveLength(0);
+
+      expect.assertions(2);
+    });
+
+    it('should succeed storing and querying JWT from ceramic network', async () => {
+      walletMock.rpcMocks.snap_manageState.mockReturnValue(
+        getDefaultSnapState()
+      );
+
+      await veramoClearVCs({ wallet: walletMock, store: ['ceramic'] });
+
+      const ids = await veramoSaveVC({
+        wallet: walletMock,
+        verifiableCredential: exampleVC.proof.jwt,
+        store: ['ceramic'],
+      });
+
+      const vcs = await veramoQueryVCs({
+        wallet: walletMock,
+        options: { store: ['ceramic'], returnStore: true },
+      });
+      expect(vcs).toHaveLength(1);
+      expect(vcs[0].data).toStrictEqual(exampleVCinVP);
 
       expect.assertions(2);
     });
