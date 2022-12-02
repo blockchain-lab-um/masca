@@ -109,8 +109,10 @@ export class DataManager implements IAgentPlugin {
       if (!storePlugin) {
         throw new Error(`Store plugin ${storeName} not found`);
       }
-      const deleteResult = await storePlugin.delete({ id: id });
-      res.push(deleteResult);
+      try {
+        const deleteResult = await storePlugin.delete({ id: id });
+        res.push(deleteResult);
+      } catch (e) {}
     }
     return res;
   }

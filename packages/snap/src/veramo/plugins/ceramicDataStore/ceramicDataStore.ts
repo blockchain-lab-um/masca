@@ -1,94 +1,127 @@
-// import { StoredCredentials } from './../../../interfaces';
-// import { v4 as uuidv4 } from 'uuid';
-// import { VerifiableCredential } from '@veramo/core';
-// import { aliases, getCeramic } from '../../../utils/ceramicUtils';
-// import { DIDDataStore } from '@glazed/did-datastore';
-// import { SnapProvider } from '@metamask/snap-types';
-// import { AbstractVCStore } from '@blockchain-lab-um/veramo-vc-manager';
-// export class CeramicVCStore extends AbstractVCStore {
-//   wallet: SnapProvider;
-//   constructor(walletParam: SnapProvider) {
-//     super();
-//     this.wallet = walletParam;
-//   }
+import { v4 as uuidv4 } from 'uuid';
+import { W3CVerifiableCredential } from '@veramo/core';
+import { aliases, getCeramic } from '../../../utils/ceramicUtils';
+import { DIDDataStore } from '@glazed/did-datastore';
+import { SnapProvider } from '@metamask/snap-types';
+import { AbstractDataStore } from '@blockchain-lab-um/veramo-vc-manager';
+import { FilterArgs, QueryRes } from 'src/interfaces';
+import jsonpath from 'jsonpath';
 
-//   async get(args: { id: string }): Promise<VerifiableCredential | null> {
-//     const ceramic = await getCeramic(this.wallet);
-//     const datastore = new DIDDataStore({ ceramic, model: aliases });
-//     const storedCredentials = (await datastore.get(
-//       'StoredCredentials'
-//     )) as StoredCredentials;
-//     if (storedCredentials.storedCredentials) {
-//       const verifiableCredential = storedCredentials.storedCredentials.find(
-//         (vc) => vc.key === args.id
-//       );
-//       if (verifiableCredential)
-//         return verifiableCredential as VerifiableCredential;
-//     }
-//     return null;
-//   }
+export type StoredCredentials = {
+  vcs: Record<string, W3CVerifiableCredential>;
+};
+export class CeramicVCStore extends AbstractDataStore {
+  wallet: SnapProvider;
+  constructor(walletParam: SnapProvider) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    super();
+    this.wallet = walletParam;
+  }
 
-//   // eslint-disable-next-line @typescript-eslint/require-await
-//   async delete(args: { id: string }): Promise<boolean> {
-//     const ceramic = await getCeramic(this.wallet);
-//     const datastore = new DIDDataStore({ ceramic, model: aliases });
-//     const ceramicData = (await datastore.get(
-//       'StoredCredentials'
-//     )) as StoredCredentials;
-//     if (ceramicData.storedCredentials) {
-//       let found = false;
-//       ceramicData.storedCredentials = ceramicData.storedCredentials.filter(
-//         (vc) => {
-//           if (vc.key !== args.id) return vc;
-//           else found = true;
-//         }
-//       );
-//       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-//       await datastore.merge('StoredCredentials', ceramicData);
-//       return found;
-//     }
-//     return false;
-//   }
+  async query(args: FilterArgs): Promise<QueryRes[]> {
+    const { filter } = args;
+    const ceramic = await getCeramic(this.wallet);
+    const datastore = new DIDDataStore({ ceramic, model: aliases });
+    const storedCredentials = (await datastore.get(
+      'StoredCredentials'
+    )) as StoredCredentials;
+    console.log('QUERY', storedCredentials);
+    if (storedCredentials && storedCredentials.vcs) {
+      if (filter && filter.type === 'id') {
+        try {
+          if (storedCredentials.vcs[filter.filter as string]) {
+            const obj = [
+              {
+                metadata: { id: filter.filter as string },
+                data: storedCredentials.vcs[filter.filter as string] as unknown,
+              },
+            ];
+            return obj;
+          } else return [];
+        } catch (e) {
+          throw new Error('Invalid id');
+        }
+      }
+      if (filter === undefined || (filter && filter.type === 'none')) {
+        return Object.keys(storedCredentials.vcs).map((k) => {
+          return {
+            metadata: { id: k },
+            data: storedCredentials.vcs[k] as unknown,
+          };
+        });
+      }
+      if (filter && filter.type === 'JSONPath') {
+        //TODO convert JWT strings to VC objects
+        const objects = Object.keys(storedCredentials.vcs).map((k) => {
+          return {
+            metadata: { id: k },
+            data: storedCredentials.vcs[k] as unknown,
+          };
+        });
+        const filteredObjects = jsonpath.query(
+          objects,
+          filter.filter as string
+        );
+        return filteredObjects as Array<QueryRes>;
+      }
+    }
+    return [];
+  }
 
-//   async import(args: VerifiableCredential) {
-//     const alias = uuidv4();
-//     const vc = { ...args, key: alias };
+  async delete({ id }: { id: string }) {
+    const ceramic = await getCeramic(this.wallet);
+    const datastore = new DIDDataStore({ ceramic, model: aliases });
+    const storedCredentials = (await datastore.get(
+      'StoredCredentials'
+    )) as StoredCredentials;
+    if (storedCredentials && storedCredentials.vcs) {
+      if (!storedCredentials.vcs[id]) throw Error('ID not found');
 
-//     const ceramic = await getCeramic(this.wallet);
-//     const datastore = new DIDDataStore({ ceramic, model: aliases });
-//     const storedCredentials = (await datastore.get(
-//       'StoredCredentials'
-//     )) as StoredCredentials;
-//     if (storedCredentials && storedCredentials.storedCredentials) {
-//       storedCredentials.storedCredentials.push(vc);
-//       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-//       await datastore.merge('StoredCredentials', storedCredentials);
-//     } else {
-//       const storedCredentialsNew = { storedCredentials: [vc] };
-//       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-//       await datastore.merge('StoredCredentials', storedCredentialsNew);
-//     }
+      delete storedCredentials.vcs[id];
+      await datastore.merge('StoredCredentials', storedCredentials);
+      return true;
+    }
+    return false;
+  }
 
-//     return true;
-//   }
+  async save(args: { data: W3CVerifiableCredential }): Promise<string> {
+    //TODO check if VC is correct type
 
-//   async list(): Promise<VerifiableCredential[]> {
-//     const ceramic = await getCeramic(this.wallet);
-//     const datastore = new DIDDataStore({ ceramic, model: aliases });
-//     const storedCredentials = (await datastore.get(
-//       'StoredCredentials'
-//     )) as StoredCredentials;
+    const vc = args.data;
+    const ceramic = await getCeramic(this.wallet);
+    const datastore = new DIDDataStore({ ceramic, model: aliases });
+    const storedCredentials = (await datastore.get(
+      'StoredCredentials'
+    )) as StoredCredentials;
+    if (storedCredentials && storedCredentials.vcs) {
+      let id = uuidv4();
+      while (storedCredentials.vcs[id]) {
+        id = uuidv4();
+      }
 
-//     if (storedCredentials && storedCredentials.storedCredentials)
-//       return storedCredentials.storedCredentials as VerifiableCredential[];
-//     return [];
-//   }
-// }
+      storedCredentials.vcs[id] = vc;
+      await datastore.merge('StoredCredentials', storedCredentials);
+      return id;
+    } else {
+      const id = uuidv4();
+      const storedCredentialsNew: StoredCredentials = { vcs: {} };
+      storedCredentialsNew.vcs[id] = vc;
+      await datastore.merge('StoredCredentials', storedCredentialsNew);
+      return id;
+    }
+  }
 
-// export async function clear(wallet: SnapProvider): Promise<boolean> {
-//   const ceramic = await getCeramic(wallet);
-//   const datastore = new DIDDataStore({ ceramic, model: aliases });
-//   const storedCredentialsNew = { storedCredentials: [] };
-//   await datastore.merge('StoredCredentials', storedCredentialsNew);
-//   return true;
-// }
+  public async clear(args: FilterArgs): Promise<boolean> {
+    const ceramic = await getCeramic(this.wallet);
+    const datastore = new DIDDataStore({ ceramic, model: aliases });
+    const storedCredentials = (await datastore.get(
+      'StoredCredentials'
+    )) as StoredCredentials;
+    if (storedCredentials && storedCredentials.vcs) {
+      storedCredentials.vcs = {};
+      await datastore.merge('StoredCredentials', storedCredentials);
+      return true;
+    }
+    return false;
+  }
+}

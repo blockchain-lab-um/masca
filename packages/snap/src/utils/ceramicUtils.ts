@@ -10,11 +10,11 @@ const ceramicDID = { did: undefined } as { did: DID | undefined };
 export const aliases = {
   definitions: {
     StoredCredentials:
-      'kjzl6cwe1jw1475uoed3zn1yq28pnh6pqqq611y21qwhweln9p8er7g09crnwqa',
+      'kjzl6cwe1jw14a05nhefxjqb74krvxgyzdaje4jnrcaie48vw31pwxxoa7qw5z9',
   },
   schemas: {
     StoredCredentials:
-      'ceramic://k3y52l7qbv1fryllp4tpkqpkbg3ndpni8i4czh2gl8hxjozo5uxduknnd9ebma6m8',
+      'ceramic://k3y52l7qbv1frxl7mazhftozd9tpwugrwafoqiyuuludx7s42u7crnzc4jh9ddrls',
   },
   tiles: {},
 };

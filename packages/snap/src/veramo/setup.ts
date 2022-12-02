@@ -33,7 +33,7 @@ import {
   SnapDIDStore,
   SnapVCStore,
 } from './plugins/snapDataStore/snapDataStore';
-//import { CeramicVCStore } from './plugins/ceramicDataStore/ceramicDataStore';
+import { CeramicVCStore } from './plugins/ceramicDataStore/ceramicDataStore';
 
 import { CredentialPlugin, ICredentialIssuer } from '@veramo/credential-w3c';
 
@@ -82,7 +82,7 @@ export const getAgent = async (wallet: SnapProvider): Promise<Agent> => {
   didProviders['did:key'] = new KeyDIDProvider({ defaultKms: 'web3' });
 
   vcStorePlugins['snap'] = new SnapVCStore(wallet);
-  //vcStorePlugins['ceramic'] = new CeramicVCStore(wallet);
+  vcStorePlugins['ceramic'] = new CeramicVCStore(wallet);
   const agent = createAgent<
     IDIDManager &
       IKeyManager &

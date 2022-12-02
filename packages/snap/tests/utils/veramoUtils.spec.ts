@@ -6,6 +6,7 @@ import {
   exampleDID,
   exampleImportedDIDWIthoutPrivateKey,
   exampleVC,
+  exampleVCinVP,
   getDefaultSnapState,
   jsonPath,
 } from '../testUtils/constants';
@@ -24,6 +25,7 @@ import {
   VerifiablePresentation,
 } from '@veramo/core';
 import { BIP44CoinTypeNode } from '@metamask/key-tree/dist/BIP44CoinTypeNode';
+import { deepCopy } from 'ethers/lib/utils';
 
 jest.mock('uuid', () => ({ v4: () => 'test-id' }));
 
@@ -484,7 +486,7 @@ describe('Utils [veramo]', () => {
         ).did
       ).toEqual(exampleDID);
 
-      expect(((await agent.didManagerFind()) as IIdentifier[]).length).toBe(1);
+      expect((await agent.didManagerFind()).length).toBe(1);
 
       expect.assertions(4);
     });
@@ -549,11 +551,14 @@ describe('Utils [veramo]', () => {
         presentation: createdVP as VerifiablePresentation,
       })) as IVerifyResult;
 
-      expect(createdVP?.verifiableCredential).toBe([exampleVC, exampleVC]);
+      expect(createdVP?.verifiableCredential).toStrictEqual([
+        exampleVCinVP,
+        exampleVCinVP,
+      ]);
 
       expect(verifyResult.verified).toBe(true);
 
-      expect.assertions(2);
+      expect.assertions(3);
     });
 
     it('should fail creating a VP and return null - no VC found', async () => {

@@ -7,11 +7,8 @@ import { getSnapState, updateSnapState } from '../../../utils/stateUtils';
 import { SnapProvider } from '@metamask/snap-types';
 import { getCurrentAccount } from '../../../utils/snapUtils';
 import { AbstractDataStore } from '@blockchain-lab-um/veramo-vc-manager';
-import {
-  FilterArgs,
-  QueryRes,
-} from '@blockchain-lab-um/veramo-vc-manager/dist/data-store/abstractDataStore';
 import jsonpath from 'jsonpath';
+import { FilterArgs, QueryRes } from 'src/interfaces';
 export type ImportablePrivateKey = RequireOnly<
   ManagedPrivateKey,
   'privateKeyHex' | 'type'
