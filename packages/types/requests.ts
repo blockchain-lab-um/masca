@@ -1,5 +1,5 @@
 import {
-  QuerryVCs,
+  QueryVCs,
   SaveVC,
   DeleteVC,
   CreateVP,
@@ -17,7 +17,7 @@ import {
 } from './methods';
 
 export type MetaMaskSSISnapRPCRequest =
-  | QuerryVCs
+  | QueryVCs
   | SaveVC
   | CreateVP
   | DeleteVC

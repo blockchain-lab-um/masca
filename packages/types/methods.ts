@@ -1,11 +1,18 @@
-import { VerifiableCredential } from '@veramo/core';
-import { ChangeInfuraTokenRequestParams, CreateVPRequestParams, DeleteVCRequestParams, QueryRequestParams, SaveVCRequestParams, SetVCStoreRequestParams, SwitchMethodRequestParams } from './params';
+import {
+  ChangeInfuraTokenRequestParams,
+  CreateVPRequestParams,
+  DeleteVCRequestParams,
+  QueryRequestParams,
+  SaveVCRequestParams,
+  SetVCStoreRequestParams,
+  SwitchMethodRequestParams,
+} from './params';
 
 export interface VCQuery {
   [key: string]: string;
 }
 
-export interface QuerryVCs {
+export interface QueryVCs {
   method: 'query';
   params: QueryRequestParams;
 }
