@@ -1,80 +1,76 @@
 import {
   ChangeInfuraTokenRequestParams,
   CreateVPRequestParams,
-  DeleteVCRequestParams,
-  QueryRequestParams,
+  DeleteVCsRequestParams,
+  QueryVCsRequestParams,
   SaveVCRequestParams,
   SetVCStoreRequestParams,
   SwitchMethodRequestParams,
 } from './params';
 
-export interface VCQuery {
-  [key: string]: string;
-}
+export type QueryVCs = {
+  method: 'queryVCs';
+  params: QueryVCsRequestParams;
+};
 
-export interface QueryVCs {
-  method: 'query';
-  params: QueryRequestParams;
-}
-
-export interface SaveVC {
+export type SaveVC = {
   method: 'saveVC';
   params: SaveVCRequestParams;
-}
+};
 
-export interface DeleteVC {
+export type DeleteVC = {
   method: 'deleteVC';
-  params: DeleteVCRequestParams;
-}
+  params: DeleteVCsRequestParams;
+};
 
-export interface CreateVP {
+export type CreateVP = {
   method: 'createVP';
   params: CreateVPRequestParams;
-}
+};
 
-export interface ChangeInfuraToken {
+export type ChangeInfuraToken = {
   method: 'changeInfuraToken';
   params: ChangeInfuraTokenRequestParams;
-}
+};
 
-export interface SetVCStore {
+export type SetVCStore = {
   method: 'setVCStore';
   params: SetVCStoreRequestParams;
-}
+};
 
-export interface SwitchMethod {
+export type SwitchMethod = {
   method: 'switchDIDMethod';
   params: SwitchMethodRequestParams;
-}
+};
 
-export interface TogglePopups {
+export type TogglePopups = {
   method: 'togglePopups';
-}
+};
 
-export interface GetDID {
+export type GetDID = {
   method: 'getDID';
-}
+};
 
-export interface GetMethod {
+export type GetMethod = {
   method: 'getSelectedMethod';
-}
+};
 
-export interface GetAvailableMethods {
+export type GetAvailableMethods = {
   method: 'getAvailableMethods';
-}
+};
 
-export interface GetVCStore {
+export type GetVCStore = {
   method: 'getVCStore';
-}
+};
 
-export interface GetAccountSettings {
+export type GetAccountSettings = {
   method: 'getAccountSettings';
-}
+};
 
-export interface GetSnapSettings {
+export type GetSnapSettings = {
   method: 'getSnapSettings';
-}
+};
 
-export interface GetAvailableVCStores {
+export type GetAvailableVCStores = {
   method: 'getAvailableVCStores';
-}
+};

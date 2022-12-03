@@ -5,12 +5,37 @@ import {
   SupportedProofFormats,
 } from './constants';
 
-type ProofOptions = {
+/**
+ * Types
+ */
+export type ProofOptions = {
   type?: string;
   domain?: string;
   challenge?: string;
 };
 
+export type QueryVCsOptions = {
+  store?: AvailableVCStores | [AvailableVCStores];
+  returnStore?: boolean;
+};
+
+export type SaveVCOptions = {
+  store?: AvailableVCStores | [AvailableVCStores];
+};
+
+export type DeleteVCsOptions = {
+  store?: AvailableVCStores | [AvailableVCStores];
+};
+
+//TODO: This type is also in vcmanager
+export type Filter = {
+  type: string;
+  filter: unknown;
+};
+
+/**
+ * Types for method arguments
+ */
 export type CreateVPRequestParams = {
   vcs: [
     {
@@ -24,20 +49,9 @@ export type CreateVPRequestParams = {
   proofOptions?: ProofOptions;
 };
 
-type QueryFilter = { type: string; filter: unknown };
-
-type QueryOptions = {
-  store?: AvailableVCStores | [AvailableVCStores];
-  returnStore?: boolean;
-};
-
-export type QueryRequestParams = {
-  filter?: QueryFilter;
-  options?: QueryOptions;
-};
-
-type SaveVCOptions = {
-  store?: AvailableVCStores | [AvailableVCStores];
+export type QueryVCsRequestParams = {
+  filter?: Filter;
+  options?: QueryVCsOptions;
 };
 
 export type SaveVCRequestParams = {
@@ -45,13 +59,9 @@ export type SaveVCRequestParams = {
   options?: SaveVCOptions;
 };
 
-type DeleteVcOptions = {
-  store?: AvailableVCStores | [AvailableVCStores];
-};
-
-export type DeleteVCRequestParams = {
+export type DeleteVCsRequestParams = {
   id: string | [string];
-  options?: DeleteVcOptions;
+  options?: DeleteVCsOptions;
 };
 
 export type ChangeInfuraTokenRequestParams = {

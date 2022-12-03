@@ -1,14 +1,17 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+// FIXME: Remove eslint-disable
+
 import {
   isAvailableVCStores,
   isAvailableMethods,
   isSupportedProofFormat,
   CreateVPRequestParams,
   SaveVCRequestParams,
-  QueryRequestParams,
+  QueryVCsRequestParams,
   ChangeInfuraTokenRequestParams,
   SwitchMethodRequestParams,
   SetVCStoreRequestParams,
-  DeleteVCRequestParams,
+  DeleteVCsRequestParams,
 } from '@blockchain-lab-um/ssi-snap-types';
 
 function isStringArray(input: unknown): input is string[] {
@@ -190,8 +193,8 @@ export function isValidSetVCStoreRequest(
 
 export function isValidDeleteVCRequest(
   params: unknown
-): asserts params is DeleteVCRequestParams {
-  const param = params as DeleteVCRequestParams;
+): asserts params is DeleteVCsRequestParams {
+  const param = params as DeleteVCsRequestParams;
   if (
     param !== null &&
     typeof param === 'object' &&
@@ -229,9 +232,9 @@ export function isValidDeleteVCRequest(
 
 export function isValidQueryRequest(
   params: unknown
-): asserts params is QueryRequestParams {
+): asserts params is QueryVCsRequestParams {
   if (params == null) return;
-  const param = params as QueryRequestParams;
+  const param = params as QueryVCsRequestParams;
   if (
     'filter' in param &&
     param.filter !== null &&

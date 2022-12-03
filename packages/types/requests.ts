@@ -37,7 +37,7 @@ export type Method = MetaMaskSSISnapRPCRequest['method'];
 
 export interface WalletEnableRequest {
   method: 'wallet_enable';
-  params: object[];
+  params: unknown[];
 }
 
 export interface GetSnapsRequest {

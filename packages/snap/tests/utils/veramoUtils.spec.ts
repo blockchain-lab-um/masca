@@ -19,20 +19,15 @@ import {
   veramoSaveVC,
 } from '../../src/utils/veramoUtils';
 import { getAgent } from '../../src/veramo/setup';
-import {
-  IIdentifier,
-  IVerifyResult,
-  VerifiablePresentation,
-} from '@veramo/core';
+import { IVerifyResult, VerifiablePresentation } from '@veramo/core';
 import { BIP44CoinTypeNode } from '@metamask/key-tree/dist/BIP44CoinTypeNode';
-import { deepCopy } from 'ethers/lib/utils';
 
 jest.mock('uuid', () => ({ v4: () => 'test-id' }));
 
 describe('Utils [veramo]', () => {
   let walletMock: SnapProvider & WalletMock;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     walletMock = createMockWallet();
   });
 

@@ -1,11 +1,11 @@
 import { VerifiableCredential } from '@veramo/core';
 import { normalizeCredential } from 'did-jwt-vc';
-import { deepCopy } from 'ethers/lib/utils';
+import cloneDeep from 'lodash.clonedeep';
 
 export function decodeJWT(jwt: string): VerifiableCredential {
   try {
     const normalizedVC = normalizeCredential(jwt);
-    const vc = deepCopy(normalizedVC);
+    const vc = cloneDeep(normalizedVC);
 
     return vc;
   } catch (e) {

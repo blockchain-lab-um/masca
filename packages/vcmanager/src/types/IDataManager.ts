@@ -9,7 +9,10 @@ export interface IDataManager extends IPluginMethodMap {
   clear(args: IDataManagerClearArgs): Promise<Array<boolean>>;
 }
 
-type Filter = {
+/**
+ *  Types
+ */
+export type Filter = {
   type: string;
   filter: unknown;
 };
@@ -18,50 +21,56 @@ type QueryOptions = {
   store?: string | string[];
   returnStore?: boolean;
 };
-export interface IDataManagerQueryArgs {
-  filter?: Filter;
-  options?: QueryOptions;
-}
+
 type DeleteOptions = {
   store: string | string[];
 };
-export interface IDataManagerDeleteArgs {
-  id: string;
-  options?: DeleteOptions;
-}
 
 type SaveOptions = {
   store: string | string[];
 };
-export interface IDataManagerSaveArgs {
-  data: any;
-  options: SaveOptions;
-}
 
 type ClearOptions = {
   store: string | string[];
 };
-export interface IDataManagerClearArgs {
-  filter?: Filter;
-  options?: ClearOptions;
-}
 
 type QueryMetadata = {
   id: string;
   store?: string;
 };
 
-export type IDataManagerQueryResult = {
-  data: any;
-  metadata: QueryMetadata;
-};
+/**
+ *  Interfaces for DataManager method arguments
+ */
+export interface IDataManagerQueryArgs {
+  filter?: Filter;
+  options?: QueryOptions;
+}
+
+export interface IDataManagerDeleteArgs {
+  id: string;
+  options?: DeleteOptions;
+}
+
+export interface IDataManagerSaveArgs {
+  data: unknown;
+  options: SaveOptions;
+}
+
+export interface IDataManagerClearArgs {
+  filter?: Filter;
+  options?: ClearOptions;
+}
 
 /**
- * Result of {@link VCManager.listVCS}
- *
- * @beta
+ * Interfaces for DataManager method return values
  */
-export type IDataManagerSaveResult = {
+export interface IDataManagerQueryResult {
+  data: unknown;
+  metadata: QueryMetadata;
+}
+
+export interface IDataManagerSaveResult {
   id: string;
   store: string;
-};
+}

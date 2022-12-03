@@ -97,16 +97,3 @@ export interface ApiParams {
   account: string;
   bip44CoinTypeNode?: BIP44CoinTypeNode;
 }
-
-export interface FilterArgs {
-  filter?: {
-    type: string;
-    filter: unknown;
-  };
-}
-export interface QueryRes {
-  data: any;
-  metadata: {
-    id: string;
-  };
-}

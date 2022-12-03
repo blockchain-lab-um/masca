@@ -1,19 +1,21 @@
-import { veramoListVCs } from '../../utils/veramoUtils';
-import { VerifiableCredential } from '@veramo/core';
-import { VCQuery, QueryRequestParams } from '@blockchain-lab-um/ssi-snap-types';
+import { veramoQueryVCs } from '../../utils/veramoUtils';
+import {
+  QueryVCsRequestParams,
+  QueryVCsRequestResult,
+} from '@blockchain-lab-um/ssi-snap-types';
 import { snapConfirm } from '../../utils/snapUtils';
 import { ApiParams } from '../../interfaces';
 
 export async function queryVCs(
   params: ApiParams,
-  { filter, options }: QueryRequestParams
-): Promise<QueryVCSResult[]> {
-  const { store, returnStore } = options || {};
+  { filter, options }: QueryVCsRequestParams
+): Promise<QueryVCsRequestResult[]> {
+  const { store = ['snap'], returnStore = true } = options || {};
   const { state, wallet } = params;
   const vcs = await veramoQueryVCs({
     wallet,
     options: { store, returnStore },
-    filter,
+    filter, // TODO: Check if undefined is ok
   });
   const promptObj = {
     prompt: 'Send VCs',

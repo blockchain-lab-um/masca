@@ -6,9 +6,12 @@ import { W3CVerifiableCredential } from '@veramo/core';
 import { getSnapState, updateSnapState } from '../../../utils/stateUtils';
 import { SnapProvider } from '@metamask/snap-types';
 import { getCurrentAccount } from '../../../utils/snapUtils';
-import { AbstractDataStore } from '@blockchain-lab-um/veramo-vc-manager';
+import {
+  AbstractDataStore,
+  IFilterArgs,
+  IQueryResult,
+} from '@blockchain-lab-um/veramo-vc-manager';
 import jsonpath from 'jsonpath';
-import { FilterArgs, QueryRes } from 'src/interfaces';
 import { decodeJWT } from '../../../utils/jwt';
 export type ImportablePrivateKey = RequireOnly<
   ManagedPrivateKey,
@@ -20,7 +23,6 @@ export type ImportablePrivateKey = RequireOnly<
  *
  * This is usable by {@link @veramo/did-manager} to hold the did key data.
  */
-
 export class SnapDIDStore extends AbstractDIDStore {
   wallet: SnapProvider;
   constructor(walletParam: SnapProvider) {
@@ -119,6 +121,9 @@ export class SnapDIDStore extends AbstractDIDStore {
   }
 }
 
+/**
+ * An implementation of {@link AbstractDataStore} that holds everything in snap state.
+ */
 export class SnapVCStore extends AbstractDataStore {
   wallet: SnapProvider;
   constructor(walletParam: SnapProvider) {
@@ -127,7 +132,7 @@ export class SnapVCStore extends AbstractDataStore {
     this.wallet = walletParam;
   }
 
-  async query(args: FilterArgs): Promise<QueryRes[]> {
+  async query(args: IFilterArgs): Promise<Array<IQueryResult>> {
     const { filter } = args;
     const state = await getSnapState(this.wallet);
     const account = await getCurrentAccount(this.wallet);
@@ -178,7 +183,7 @@ export class SnapVCStore extends AbstractDataStore {
         };
       });
       const filteredObjects = jsonpath.query(objects, filter.filter as string);
-      return filteredObjects as Array<QueryRes>;
+      return filteredObjects as Array<IQueryResult>;
     }
     return [];
   }
@@ -213,8 +218,8 @@ export class SnapVCStore extends AbstractDataStore {
     return id;
   }
 
-  public async clear(args: FilterArgs): Promise<boolean> {
-    ////TODO implement filter (in ceramic aswell)
+  public async clear(args: IFilterArgs): Promise<boolean> {
+    //TODO implement filter (in ceramic aswell)
     const state = await getSnapState(this.wallet);
     const account = await getCurrentAccount(this.wallet);
     if (!account) throw Error('Cannot get current account');

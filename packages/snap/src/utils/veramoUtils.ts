@@ -1,11 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Agent, getAgent } from './../veramo/setup';
-import { AvailableVCStores, VCQuery } from '@blockchain-lab-um/ssi-snap-types';
+import {
+  AvailableVCStores,
+  CreateVPRequestParams,
+  QueryVCsOptions,
+  QueryVCsRequestResult,
+} from '@blockchain-lab-um/ssi-snap-types';
 import {
   IIdentifier,
   MinimalImportableKey,
-  VerifiableCredential,
   VerifiablePresentation,
   W3CVerifiableCredential,
 } from '@veramo/core';
@@ -16,6 +20,7 @@ import { ApiParams } from '../interfaces';
 import { snapGetKeysFromAddress } from './keyPair';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-vc-manager';
+import { Filter } from '@blockchain-lab-um/veramo-vc-manager';
 
 export async function veramoSaveVC(args: {
   wallet: SnapProvider;
@@ -31,23 +36,10 @@ export async function veramoSaveVC(args: {
   return res;
 }
 
-export interface QueryVCSResult {
-  data: W3CVerifiableCredential;
-  metadata: {
-    id: string;
-    store?: string;
-  };
-}
-
-type Filter = {
-  type: string;
-  filter: unknown;
-};
-
 export async function veramoClearVCs(args: {
   wallet: SnapProvider;
   store?: AvailableVCStores | AvailableVCStores[];
-  filter?: Filter;
+  filter?: Filter; // TODO: Seperate type from datamanager (currently vcmanager)?
 }): Promise<boolean[]> {
   const { wallet, store, filter } = args;
   let options = undefined;
@@ -76,42 +68,20 @@ export async function veramoDeleteVC(args: {
   return result;
 }
 
-type QueryOptions = {
-  store?: string | string[];
-  returnStore?: boolean;
-};
-
 export async function veramoQueryVCs(args: {
   wallet: SnapProvider;
-  options: QueryOptions;
+  options: QueryVCsOptions;
   filter?: Filter;
-}): Promise<QueryVCSResult[]> {
+}): Promise<QueryVCsRequestResult[]> {
   const { wallet, options, filter } = args;
   const agent = await getAgent(wallet);
   const result = (await agent.query({
     filter,
     options,
-  })) as QueryVCSResult[];
+  })) as QueryVCsRequestResult[];
   return result;
 }
 
-type VCMetaData = {
-  id: string;
-  metadata?: {
-    store?: AvailableVCStores;
-  };
-};
-
-type CreateVPRequestParams = {
-  vcs: VCMetaData[];
-
-  proofFormat: SupportedProofFormats;
-  proofOptions?: {
-    type?: string;
-    domain?: string;
-    challenge?: string;
-  };
-};
 export async function veramoCreateVP(
   params: ApiParams,
   createVPParams: CreateVPRequestParams
@@ -120,9 +90,11 @@ export async function veramoCreateVP(
   //const store = createVPParams.vcs[0].metadata?.store;
   const domain = createVPParams.proofOptions?.domain;
   const challenge = createVPParams.proofOptions?.challenge;
-  const proofFormat = createVPParams.proofFormat;
+  const proofFormat = createVPParams.proofFormat
+    ? createVPParams.proofFormat
+    : 'jwt'; // TODO: Do we want to set default to jwt?
 
-  const { state, wallet, account } = params;
+  const { state, wallet } = params;
   //Get Veramo agent
   const agent = await getAgent(wallet);
   //GET DID
@@ -137,7 +109,7 @@ export async function veramoCreateVP(
         filter: vcMetadata.id,
       },
       options: { store: vcMetadata.metadata?.store },
-    })) as QueryVCSResult[];
+    })) as QueryVCsRequestResult[];
     if (vcObj.length > 0) {
       const vc: W3CVerifiableCredential = vcObj[0].data;
       vcs.push(vc);

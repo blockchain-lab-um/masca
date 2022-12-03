@@ -1,34 +1,29 @@
-/**
- * An abstract class for the {@link VCManager} VC store
- * @public
- */
-
-export interface SaveArgs {
-  data: any;
-  options?: any;
+export interface ISaveArgs {
+  data: unknown;
+  options?: unknown;
 }
 
-export interface DeleteArgs {
+export interface IDeleteArgs {
   id: string;
 }
 
-export interface FilterArgs {
+export interface IFilterArgs {
   filter?: {
     type: string;
     filter: unknown;
   };
 }
 
-export interface QueryRes {
-  data: any;
+export interface IQueryResult {
+  data: unknown;
   metadata: {
     id: string;
   };
 }
 
 export abstract class AbstractDataStore {
-  abstract save(args: SaveArgs): Promise<string>;
-  abstract delete(args: DeleteArgs): Promise<boolean>;
-  abstract query(args: FilterArgs): Promise<Array<QueryRes>>;
-  abstract clear(args: FilterArgs): Promise<boolean>;
+  abstract save(args: ISaveArgs): Promise<string>;
+  abstract delete(args: IDeleteArgs): Promise<boolean>;
+  abstract query(args: IFilterArgs): Promise<Array<IQueryResult>>;
+  abstract clear(args: IFilterArgs): Promise<boolean>;
 }

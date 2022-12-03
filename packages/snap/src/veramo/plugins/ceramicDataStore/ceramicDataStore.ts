@@ -3,8 +3,11 @@ import { W3CVerifiableCredential } from '@veramo/core';
 import { aliases, getCeramic } from '../../../utils/ceramicUtils';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { SnapProvider } from '@metamask/snap-types';
-import { AbstractDataStore } from '@blockchain-lab-um/veramo-vc-manager';
-import { FilterArgs, QueryRes } from 'src/interfaces';
+import {
+  AbstractDataStore,
+  IFilterArgs,
+  IQueryResult,
+} from '@blockchain-lab-um/veramo-vc-manager';
 import jsonpath from 'jsonpath';
 import { decodeJWT } from '../../../utils/jwt';
 
@@ -19,7 +22,7 @@ export class CeramicVCStore extends AbstractDataStore {
     this.wallet = walletParam;
   }
 
-  async query(args: FilterArgs): Promise<QueryRes[]> {
+  async query(args: IFilterArgs): Promise<Array<IQueryResult>> {
     const { filter } = args;
     const ceramic = await getCeramic(this.wallet);
     const datastore = new DIDDataStore({ ceramic, model: aliases });
@@ -75,7 +78,7 @@ export class CeramicVCStore extends AbstractDataStore {
           objects,
           filter.filter as string
         );
-        return filteredObjects as Array<QueryRes>;
+        return filteredObjects as Array<IQueryResult>;
       }
     }
     return [];
@@ -124,7 +127,7 @@ export class CeramicVCStore extends AbstractDataStore {
     }
   }
 
-  public async clear(args: FilterArgs): Promise<boolean> {
+  public async clear(args: IFilterArgs): Promise<boolean> {
     const ceramic = await getCeramic(this.wallet);
     const datastore = new DIDDataStore({ ceramic, model: aliases });
     const storedCredentials = (await datastore.get(

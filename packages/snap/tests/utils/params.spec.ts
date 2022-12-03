@@ -1,4 +1,3 @@
-import { exampleVC } from '../testUtils/constants';
 import {
   isValidChangeInfuraTokenRequest,
   isValidCreateVPRequest,

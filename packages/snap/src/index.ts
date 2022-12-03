@@ -50,7 +50,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
   }
 
   switch (request.method) {
-    case 'query':
+    case 'queryVCs':
       isValidQueryRequest(request.params);
       return await queryVCs(apiParams, request.params);
     case 'saveVC':
