@@ -1,5 +1,12 @@
 import { VerifiableCredential, VerifiablePresentation } from '@veramo/core';
-import { ChangeInfuraTokenRequestParams, CreateVPRequestParams, QueryRequestParams, SaveVCRequestParams, SetVCStoreRequestParams, SwitchMethodRequestParams } from './params';
+import {
+  ChangeInfuraTokenRequestParams,
+  CreateVPRequestParams,
+  QueryRequestParams,
+  SaveVCRequestParams,
+  SetVCStoreRequestParams,
+  SwitchMethodRequestParams,
+} from './params';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SSISnapEventApi {}
