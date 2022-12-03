@@ -5,6 +5,12 @@ import {
   SupportedProofFormats,
 } from './constants';
 
+type ProofOptions = {
+  type?: string;
+  domain?: string;
+  challenge?: string;
+};
+
 export type CreateVPRequestParams = {
   vcs: [
     {
@@ -15,11 +21,7 @@ export type CreateVPRequestParams = {
     }
   ];
   proofFormat?: SupportedProofFormats;
-  proofOptions?: {
-    type?: string;
-    domain?: string;
-    challenge?: string;
-  };
+  proofOptions?: ProofOptions;
 };
 
 type QueryFilter = { type: string; filter: unknown };
@@ -43,11 +45,13 @@ export type SaveVCRequestParams = {
   options?: SaveVCOptions;
 };
 
+type DeleteVcOptions = {
+  store?: AvailableVCStores | [AvailableVCStores];
+};
+
 export type DeleteVCRequestParams = {
   id: string | [string];
-  options?: {
-    store?: AvailableVCStores | [AvailableVCStores];
-  };
+  options?: DeleteVcOptions;
 };
 
 export type ChangeInfuraTokenRequestParams = {
