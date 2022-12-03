@@ -8,8 +8,15 @@ import {
   getDefaultSnapState,
   jsonPath,
 } from '../testUtils/constants';
-import { availableVCStores, availableMethods } from '../../src/constants/index';
-import { IVerifyResult, VerifiablePresentation } from '@veramo/core';
+import {
+  availableVCStores,
+  availableMethods,
+} from '@blockchain-lab-um/ssi-snap-types';
+import {
+  IVerifyResult,
+  VerifiableCredential,
+  VerifiablePresentation,
+} from '@veramo/core';
 import * as uuid from 'uuid';
 import { getAgent } from '../../src/veramo/setup';
 import { address } from '../testUtils/constants';

@@ -1,4 +1,4 @@
-import { CodecName, MULTICODECS } from '../constants/multicodecs';
+import { CodecName, MULTICODECS } from '../constants';
 
 /**
  * Prefix a buffer with a multicodec-packed.
