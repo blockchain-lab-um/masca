@@ -1,4 +1,4 @@
-import { SaveVCRequestParams } from 'src/utils/params';
+import { SaveVCRequestParams } from '@blockchain-lab-um/ssi-snap-types';
 import { ApiParams } from '../../interfaces';
 import { snapConfirm } from '../../utils/snapUtils';
 import { veramoSaveVC } from '../../utils/veramoUtils';
