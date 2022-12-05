@@ -139,7 +139,11 @@ export interface TokenResponse extends TokenResponseOAuth2 {
  */
 export interface CredentialRequest {
   format: typeof SupportedCredentialFormats[number]; // TODO: https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-appendix.e
-  proof?: string; // FIXME: Needs to be implemented correctly
+  types: string[];
+  proof?: {
+    proof_type: 'jwt'; // FIXME: Check if other proof types are exist
+    jwt: string;
+  };
 }
 
 /**

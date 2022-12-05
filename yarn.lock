@@ -1795,6 +1795,7 @@ __metadata:
     "@veramo/message-handler": ^4.1.1
     class-transformer: ^0.5.1
     class-validator: ^0.13.2
+    did-jwt: ^6.10.1
     did-resolver: ^4.0.1
     eslint: ^8.28.0
     eslint-config-airbnb-base: ^15.0.0
@@ -11698,7 +11699,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"did-jwt@npm:^6.0.0, did-jwt@npm:^6.3.0, did-jwt@npm:^6.6.0, did-jwt@npm:^6.9.0":
+"did-jwt@npm:^6.0.0, did-jwt@npm:^6.10.1, did-jwt@npm:^6.3.0, did-jwt@npm:^6.6.0, did-jwt@npm:^6.9.0":
   version: 6.10.1
   resolution: "did-jwt@npm:6.10.1"
   dependencies:
