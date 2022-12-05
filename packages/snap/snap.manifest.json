@@ -29,7 +29,10 @@
     "eth_accounts": {
       "requiredMethods": []
     },
-    "endowment:rpc": {}
+    "endowment:rpc": {
+      "snaps": true,
+      "dapps": true
+    }
   },
   "manifestVersion": "0.1"
 }

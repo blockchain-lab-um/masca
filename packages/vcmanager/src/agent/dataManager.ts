@@ -77,11 +77,11 @@ export class DataManager implements IAgentPlugin {
       const mappedResult = result.map((r) => {
         if (returnStore) {
           return {
-            data: r.data as unknown,
+            data: r.data,
             metadata: { id: r.metadata.id, store: storeName },
           };
         } else {
-          return { data: r.data as unknown, metadata: { id: r.metadata.id } };
+          return { data: r.data, metadata: { id: r.metadata.id } };
         }
       });
       res = [...res, ...mappedResult];
