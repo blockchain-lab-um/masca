@@ -27,6 +27,7 @@ import {
 import { getCurrentAccount } from './utils/snapUtils';
 import { getAddressKeyDeriver } from './utils/keyPair';
 import { ApiParams } from './interfaces';
+import { deleteVC } from './rpc/vc/deleteVC';
 
 export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
   let state = await getSnapStateUnchecked(wallet);
@@ -88,7 +89,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
       return getAvailableVCStores();
     case 'deleteVC':
       isValidDeleteVCRequest(request.params);
-    //return await deleteVC(apiParams, request.params.id);
+      return await deleteVC(apiParams, request.params);
     default:
       throw new Error('Method not found.');
   }

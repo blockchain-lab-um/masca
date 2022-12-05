@@ -60,7 +60,7 @@ export type SaveVCRequestParams = {
 };
 
 export type DeleteVCsRequestParams = {
-  id: string | [string];
+  id: string;
   options?: DeleteVCsOptions;
 };
 

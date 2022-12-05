@@ -539,6 +539,155 @@ describe('onRpcRequest', () => {
     });
   });
 
+  describe('deleteVC', () => {
+    it('should succeed saving and deleting 1 VC', async () => {
+      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
+
+      await expect(
+        onRpcRequest({
+          origin: 'localhost',
+          request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'saveVC',
+            params: {
+              verifiableCredential: exampleVC,
+              options: { store: 'snap' },
+            },
+          },
+        })
+      ).resolves.toEqual([{ id: undefined, store: 'snap' }]);
+
+      const res = await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'deleteVC',
+          params: {
+            id: 'undefined',
+          },
+        },
+      });
+
+      expect(res).toEqual([true]);
+      const result = await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'queryVCs',
+          params: {
+            query: {},
+          },
+        },
+      });
+
+      expect(result).toHaveLength(0);
+
+      expect.assertions(3);
+    });
+
+    it('should succeed saving and deleting 1 VC with store', async () => {
+      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
+
+      await expect(
+        onRpcRequest({
+          origin: 'localhost',
+          request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'saveVC',
+            params: {
+              verifiableCredential: exampleVC,
+              options: { store: 'snap' },
+            },
+          },
+        })
+      ).resolves.toEqual([{ id: undefined, store: 'snap' }]);
+
+      const res = await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'deleteVC',
+          params: {
+            id: 'undefined',
+            options: { store: 'snap' },
+          },
+        },
+      });
+
+      expect(res).toEqual([true]);
+
+      const result = await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'queryVCs',
+          params: {
+            query: {},
+          },
+        },
+      });
+
+      expect(result).toHaveLength(0);
+
+      expect.assertions(3);
+    });
+    it('should fail deleting 1 VC with wrong id', async () => {
+      walletMock.rpcMocks.snap_confirm.mockReturnValue(true);
+
+      await expect(
+        onRpcRequest({
+          origin: 'localhost',
+          request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'saveVC',
+            params: {
+              verifiableCredential: exampleVC,
+              options: { store: 'snap' },
+            },
+          },
+        })
+      ).resolves.toEqual([{ id: undefined, store: 'snap' }]);
+
+      const res = await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'deleteVC',
+          params: {
+            id: 'wrong_id',
+            options: { store: 'snap' },
+          },
+        },
+      });
+
+      expect(res).toHaveLength(0);
+
+      const result = await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'queryVCs',
+          params: {
+            query: {},
+          },
+        },
+      });
+
+      expect(result).toHaveLength(1);
+
+      expect.assertions(3);
+    });
+  });
+
   describe('createVP', () => {
     it('should succeed creating VP', async () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
