@@ -28,7 +28,8 @@
     "endowment:network-access": {},
     "eth_accounts": {
       "requiredMethods": []
-    }
+    },
+    "endowment:rpc": {}
   },
   "manifestVersion": "0.1"
 }

@@ -23,13 +23,13 @@ export class CeramicVCStore extends AbstractDataStore {
   }
 
   async query(args: IFilterArgs): Promise<Array<IQueryResult>> {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const { filter } = args;
     const ceramic = await getCeramic(this.wallet);
     const datastore = new DIDDataStore({ ceramic, model: aliases });
     const storedCredentials = (await datastore.get(
       'StoredCredentials'
     )) as StoredCredentials;
-    console.log('QUERY', storedCredentials);
     if (storedCredentials && storedCredentials.vcs) {
       if (filter && filter.type === 'id') {
         try {

@@ -12,16 +12,30 @@ import {
   availableVCStores,
   availableMethods,
 } from '@blockchain-lab-um/ssi-snap-types';
-import {
-  IVerifyResult,
-  VerifiableCredential,
-  VerifiablePresentation,
-} from '@veramo/core';
+import { IVerifyResult, VerifiablePresentation } from '@veramo/core';
 import * as uuid from 'uuid';
 import { getAgent } from '../../src/veramo/setup';
 import { address } from '../testUtils/constants';
 import { veramoClearVCs } from '../../src/utils/veramoUtils';
+import { DIDDataStore as DIDDataStoreMock } from '../testUtils/DIDDataStore.mock';
+import { DIDDataStore } from '@glazed/did-datastore';
+import { StreamID } from '@ceramicnetwork/streamid';
+import { StoredCredentials } from '../../src/interfaces';
 jest.mock('uuid');
+let ceramicData: StoredCredentials;
+jest
+  .spyOn(DIDDataStore.prototype, 'get')
+  // eslint-disable-next-line @typescript-eslint/require-await
+  .mockImplementation(async (key, did?) => {
+    return ceramicData;
+  });
+jest
+  .spyOn(DIDDataStore.prototype, 'merge')
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/require-await
+  .mockImplementation(async (key, content, options?) => {
+    ceramicData = content as StoredCredentials;
+    return 'ok' as unknown as StreamID;
+  });
 
 describe('onRpcRequest', () => {
   let walletMock: SnapProvider & WalletMock;
@@ -56,7 +70,7 @@ describe('onRpcRequest', () => {
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
-          method: 'query',
+          method: 'queryVCs',
           params: {
             query: {},
           },
@@ -97,7 +111,7 @@ describe('onRpcRequest', () => {
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
-          method: 'query',
+          method: 'queryVCs',
           params: {
             query: {},
           },
@@ -139,13 +153,12 @@ describe('onRpcRequest', () => {
         { id: undefined, store: 'snap' },
         { id: undefined, store: 'ceramic' },
       ]);
-
       const result = await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
-          method: 'query',
+          method: 'queryVCs',
           params: {
             query: {},
           },
@@ -195,7 +208,7 @@ describe('onRpcRequest', () => {
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
-            method: 'query',
+            method: 'queryVCs',
             params: {
               query: {},
             },
@@ -303,7 +316,7 @@ describe('onRpcRequest', () => {
     });
   });
 
-  describe('query', () => {
+  describe('queryVCs', () => {
     it('should succeed with empty array', async () => {
       await expect(
         onRpcRequest({
@@ -311,7 +324,7 @@ describe('onRpcRequest', () => {
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
-            method: 'query',
+            method: 'queryVCs',
             params: {},
           },
         })
@@ -350,7 +363,7 @@ describe('onRpcRequest', () => {
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
-            method: 'query',
+            method: 'queryVCs',
             params: {
               filter: {
                 type: 'id',
@@ -393,7 +406,7 @@ describe('onRpcRequest', () => {
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
-            method: 'query',
+            method: 'queryVCs',
             params: {},
           },
         })
@@ -431,7 +444,7 @@ describe('onRpcRequest', () => {
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
-            method: 'query',
+            method: 'queryVCs',
             params: {
               options: { store: 'snap' },
             },
@@ -471,7 +484,7 @@ describe('onRpcRequest', () => {
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
-            method: 'query',
+            method: 'queryVCs',
             params: {
               options: { returnStore: false },
             },
@@ -511,8 +524,9 @@ describe('onRpcRequest', () => {
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
-            method: 'query',
+            method: 'queryVCs',
             params: {
+              options: { store: 'snap' },
               filter: {
                 type: 'JSONPath',
                 filter: jsonPath,
@@ -551,7 +565,7 @@ describe('onRpcRequest', () => {
           jsonrpc: '2.0',
           method: 'createVP',
           params: {
-            vcs: [{ id: 'test-id' }],
+            vcs: [{ id: 'test-id', metadata: { store: 'snap' } }],
           },
         },
       })) as VerifiablePresentation;

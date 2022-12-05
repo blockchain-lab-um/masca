@@ -52,6 +52,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
   switch (request.method) {
     case 'queryVCs':
       isValidQueryRequest(request.params);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return await queryVCs(apiParams, request.params);
     case 'saveVC':
       isValidSaveVCRequest(request.params);

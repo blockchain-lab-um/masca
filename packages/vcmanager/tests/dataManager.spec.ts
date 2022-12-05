@@ -1,6 +1,6 @@
 import { DataManager } from '../src/agent/dataManager';
 import { AbstractDataStore } from '../src/data-store/abstractDataStore';
-import { MemoryDataStore } from '../src/data-store/data-store';
+import { MemoryDataStore } from '../src/data-store/memoryDataStore';
 
 describe('DataManager', () => {
   const stores: Record<string, AbstractDataStore> = {};

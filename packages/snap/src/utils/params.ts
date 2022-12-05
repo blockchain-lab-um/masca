@@ -286,6 +286,5 @@ export function isValidQueryRequest(
       }
     }
   }
-  console.log('filter correcto');
   return;
 }

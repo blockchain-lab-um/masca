@@ -16,6 +16,15 @@ import { W3CVerifiableCredential } from '@veramo/core';
 describe('Utils [ceramic]', () => {
   let walletMock: SnapProvider & WalletMock;
 
+  beforeAll(async () => {
+    walletMock = createMockWallet();
+    walletMock.rpcMocks.snap_manageState('update', getDefaultSnapState());
+    await veramoClearVCs({
+      wallet: walletMock,
+      store: 'ceramic',
+    });
+  });
+
   beforeEach(() => {
     walletMock = createMockWallet();
   });
