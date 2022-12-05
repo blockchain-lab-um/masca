@@ -55,7 +55,7 @@ export async function veramoClearVCs(args: {
 export async function veramoDeleteVC(args: {
   wallet: SnapProvider;
   id: string;
-  store?: [AvailableVCStores];
+  store?: AvailableVCStores | AvailableVCStores[];
 }): Promise<boolean[]> {
   const { wallet, store, id } = args;
   const agent = await getAgent(wallet);
