@@ -1,8 +1,8 @@
 import { IAgentPlugin } from '@veramo/core';
 import qs from 'qs';
+import { randomUUID } from 'crypto';
 import { Claims } from '../types/internal';
 import { IOIDCPlugin } from '../types/IOIDCPlugin';
-
 /**
  * {@inheritDoc IMyAgentPlugin}
  * @beta
@@ -63,7 +63,7 @@ export class OIDCPlugin implements IAgentPlugin {
     };
 
     const redirectUri = 'https://example.com/redirect'; // Change this to your redirect URI
-    const nonce = crypto.randomUUID();
+    const nonce = randomUUID();
 
     // TODO: Support signed version of request -> client_id needs to be a DID
     // https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#section-8.2.3 - client_metadata
