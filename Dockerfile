@@ -3,11 +3,9 @@ FROM node:16.18.1-alpine3.16
 RUN apk add --no-cache libc6-compat git
 WORKDIR /app
 
-
 # Copy root package.json + yarn.lock + .yarn
 COPY yarn.lock package.json .yarnrc.yml ./
 COPY .yarn ./.yarn
-RUN yarn set version 3.3.0
 
 # Copy projects' package.json files
 COPY ./apps/oidc/issuer/package.json ./apps/oidc/issuer/
@@ -21,10 +19,6 @@ RUN yarn install && yarn cache clean
 
 # Copy all other files
 COPY . .
-
-RUN ls -l libs/oidc/rp-plugin
-RUN ls -l .yarn
-RUN yarn nx build @blockchain-lab-um/oidc-rp-plugin
 
 # Build affected projects
 RUN yarn build:docker

@@ -1,7 +1,6 @@
 **/node_modules
 **/.env*.local
 **/coverage
-**/dist
 **/*.md
 **/LICENSE
 **/Dockerfile
@@ -9,3 +8,4 @@ yarn-error.log
 JenkinsfileTest
 .next
 install-state.gz
+**/dist

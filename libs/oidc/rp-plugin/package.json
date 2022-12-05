@@ -68,7 +68,7 @@
           "^prod"
         ],
         "outputs": [
-          "dist"
+          "{projectRoot}/dist"
         ],
         "dependsOn": [
           "^build"
