@@ -1,7 +1,12 @@
 import { VerifiableCredential, VerifiablePresentation } from '@veramo/core';
 import {
+  ChangeInfuraTokenRequestParams,
+  CreateVPRequestParams,
   MetaMaskSSISnapRPCRequest,
-  VCQuery,
+  QueryRequestParams,
+  SaveVCRequestParams,
+  SetVCStoreRequestParams,
+  SwitchMethodRequestParams,
 } from '@blockchain-lab-um/ssi-snap-types';
 import { MetaMaskSSISnap } from './snap';
 
@@ -24,11 +29,13 @@ async function sendSnapMethod<T>(
  */
 export async function queryVCs(
   this: MetaMaskSSISnap,
-  query?: VCQuery
+  params: QueryRequestParams
 ): Promise<VerifiableCredential[]> {
-  if (!query) query = {};
   return await sendSnapMethod(
-    { method: 'queryVCs', params: { query: query } },
+    {
+      method: 'query',
+      params,
+    },
     this.snapId
   );
 }
@@ -42,14 +49,12 @@ export async function queryVCs(
  */
 export async function createVP(
   this: MetaMaskSSISnap,
-  vcId: string,
-  challenge?: string,
-  domain?: string
+  params: CreateVPRequestParams
 ): Promise<VerifiablePresentation> {
   return await sendSnapMethod(
     {
       method: 'createVP',
-      params: { vcId: vcId, challenge: challenge, domain: domain },
+      params,
     },
     this.snapId
   );
@@ -63,12 +68,12 @@ export async function createVP(
  */
 export async function saveVC(
   this: MetaMaskSSISnap,
-  verifiableCredential: VerifiableCredential
+  params: SaveVCRequestParams
 ): Promise<boolean> {
   return await sendSnapMethod(
     {
       method: 'saveVC',
-      params: { verifiableCredential: verifiableCredential },
+      params,
     },
     this.snapId
   );
@@ -79,7 +84,7 @@ export async function getDID(this: MetaMaskSSISnap): Promise<string> {
 }
 
 export async function getMethod(this: MetaMaskSSISnap): Promise<string> {
-  return await sendSnapMethod({ method: 'getMethod' }, this.snapId);
+  return await sendSnapMethod({ method: 'getSelectedMethod' }, this.snapId);
 }
 
 export async function getAvailableMethods(
@@ -90,10 +95,13 @@ export async function getAvailableMethods(
 
 export async function switchMethod(
   this: MetaMaskSSISnap,
-  didMethod: string
+  params: SwitchMethodRequestParams
 ): Promise<boolean> {
   return await sendSnapMethod(
-    { method: 'switchMethod', params: { didMethod: didMethod } },
+    {
+      method: 'switchDIDMethod',
+      params,
+    },
     this.snapId
   );
 }
@@ -114,10 +122,13 @@ export async function togglePopups(this: MetaMaskSSISnap): Promise<boolean> {
  */
 export async function changeInfuraToken(
   this: MetaMaskSSISnap,
-  infuraToken: string
+  params: ChangeInfuraTokenRequestParams
 ): Promise<boolean> {
   return await sendSnapMethod(
-    { method: 'changeInfuraToken', params: { infuraToken: infuraToken } },
+    {
+      method: 'changeInfuraToken',
+      params,
+    },
     this.snapId
   );
 }
@@ -134,10 +145,13 @@ export async function getAvailableVCStores(
 
 export async function setVCStore(
   this: MetaMaskSSISnap,
-  vcStore: string
+  params: SetVCStoreRequestParams
 ): Promise<boolean> {
   return await sendSnapMethod(
-    { method: 'setVCStore', params: { vcStore: vcStore } },
+    {
+      method: 'setVCStore',
+      params,
+    },
     this.snapId
   );
 }
