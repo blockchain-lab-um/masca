@@ -24,7 +24,7 @@ async function sendSnapMethod<T>(
 /**
  * Get a list of VCs stored in the SSI Snap under currently selected MetaMask account
  *
- * @param {VCQuery} query - Query for filtering through all VCs
+ * @param {QueryRequestParams} params - Query for filtering through all VCs
  * @return {Promise<Array<VerifiableCredential>>} list of VCs
  */
 export async function queryVCs(
@@ -43,9 +43,7 @@ export async function queryVCs(
 /**
  * Get a VP from a VC
  *
- * @param {string} vc_id - ID of VC used for generating a VP. Can be obtained with queryVCs function
- * optional @param {string} challenge
- * optional @param {string} domain
+ * @param {CreateVPRequestParams} params - VP creation params object
  */
 export async function createVP(
   this: MetaMaskSSISnap,
@@ -63,8 +61,7 @@ export async function createVP(
 /**
  * Save a VC in the SSI Snap under currently selected MetaMask account
  *
- * @param {VerifiableCredential} verifiableCredential - vc
- *
+ * @param {SaveVCRequestParams} params - VC saving params object
  */
 export async function saveVC(
   this: MetaMaskSSISnap,
@@ -108,7 +105,6 @@ export async function switchMethod(
 
 /**
  * Toggle popups - enable/disable "Are you sure?" confirmation windows when retrieving VCs and generating VPs,...
- *
  */
 export async function togglePopups(this: MetaMaskSSISnap): Promise<boolean> {
   return await sendSnapMethod({ method: 'togglePopups' }, this.snapId);
@@ -117,7 +113,7 @@ export async function togglePopups(this: MetaMaskSSISnap): Promise<boolean> {
 /**
  * Change infura token
  *
- * @param {string} infuraToken
+ * @param {ChangeInfuraTokenRequestParams} params - Infura token change params object
  *
  */
 export async function changeInfuraToken(
