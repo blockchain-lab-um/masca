@@ -9,7 +9,7 @@ export async function deleteVC(
 ): Promise<boolean[]> {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { id, options } = args || {};
-  const { wallet } = params;
+  const { snap } = params;
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
   const store = options?.store;
   const promptObj = {
@@ -17,10 +17,10 @@ export async function deleteVC(
     description: `Would you like to delete the following VC?`,
   };
 
-  if (await snapConfirm(wallet, promptObj)) {
+  if (await snapConfirm(snap, promptObj)) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return await veramoDeleteVC({
-      wallet,
+      snap,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       id,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

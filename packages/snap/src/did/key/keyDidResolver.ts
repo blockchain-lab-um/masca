@@ -8,17 +8,17 @@ import {
   Resolvable,
 } from 'did-resolver';
 import { getCurrentAccount, getPublicKey } from '../../utils/snapUtils';
-import { SnapProvider } from '@metamask/snap-types';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { getSnapState } from '../../utils/stateUtils';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const resolveSecp256k1 = async (
-  wallet: SnapProvider,
+  snap: SnapsGlobalObject,
   account: string,
   did: string
 ): Promise<DIDDocument> => {
-  const state = await getSnapState(wallet);
-  const publicKey = await getPublicKey({ wallet, state, account });
+  const state = await getSnapState(snap);
+  const publicKey = await getPublicKey({ snap, state, account });
 
   // TODO: Change id ?
   const didDocument: DIDDocument = {
@@ -45,7 +45,7 @@ export const resolveSecp256k1 = async (
 };
 
 type ResolutionFunction = (
-  wallet: SnapProvider,
+  snap: SnapsGlobalObject,
   account: string,
   did: string
 ) => Promise<DIDDocument>;
@@ -54,7 +54,7 @@ const startsWithMap: Record<string, ResolutionFunction> = {
   'did:key:zQ3s': resolveSecp256k1,
 };
 
-// FIXME: CHECK HOW WE COULD ADD WALLET AS PARAMETER
+// FIXME: CHECK HOW WE COULD ADD snap AS PARAMETER
 export const resolveDidKey: DIDResolver = async (
   didUrl: string,
   parsed: ParsedDID,
@@ -63,14 +63,14 @@ export const resolveDidKey: DIDResolver = async (
 ): Promise<DIDResolutionResult> => {
   try {
     // FIXME: Update this part
-    const account = await getCurrentAccount(wallet);
+    const account = await getCurrentAccount(snap);
     if (!account) throw Error('User denied error');
     // --------
 
     const startsWith = parsed.did.substring(0, 12);
     if (startsWithMap[startsWith] !== undefined) {
       const didDocument = await startsWithMap[startsWith](
-        wallet,
+        snap,
         account,
         didUrl
       );

@@ -2,7 +2,7 @@ import { CeramicClient } from '@ceramicnetwork/http-client';
 import { DIDSession } from 'did-session';
 import { getCurrentAccount } from './snapUtils';
 import { DID } from 'dids';
-import { SnapProvider } from '@metamask/snap-types';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { EthereumWebAuth, getAccountId } from '@didtools/pkh-ethereum';
 
 const ceramicDID = { did: undefined } as { did: DID | undefined };
@@ -20,14 +20,14 @@ export const aliases = {
 };
 
 export async function authenticateWithEthereum(
-  wallet: SnapProvider
+  snap: SnapsGlobalObject
 ): Promise<DID> {
   if (ceramicDID.did) return ceramicDID.did;
-  const account = await getCurrentAccount(wallet);
+  const account = await getCurrentAccount(snap);
   if (!account) throw Error('User denied error');
-  const accountId = await getAccountId(wallet, account);
+  const accountId = await getAccountId(snap, account);
 
-  const authMethod = await EthereumWebAuth.getAuthMethod(wallet, accountId);
+  const authMethod = await EthereumWebAuth.getAuthMethod(snap, accountId);
 
   typeof window;
 
@@ -42,9 +42,11 @@ export async function authenticateWithEthereum(
   return session.did;
 }
 
-export async function getCeramic(wallet: SnapProvider): Promise<CeramicClient> {
+export async function getCeramic(
+  snap: SnapsGlobalObject
+): Promise<CeramicClient> {
   const ceramic = new CeramicClient('https://ceramic-clay.3boxlabs.com');
-  const did = await authenticateWithEthereum(wallet);
+  const did = await authenticateWithEthereum(snap);
   await ceramic.setDID(did);
   return ceramic;
 }

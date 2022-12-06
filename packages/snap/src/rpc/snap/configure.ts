@@ -8,7 +8,7 @@ import {
 } from '../../utils/snapUtils';
 
 export async function togglePopups(params: ApiParams): Promise<boolean> {
-  const { state, wallet } = params;
+  const { state, snap } = params;
   const disablePopups = state.snapConfig.dApp.disablePopups;
 
   const promptObj = {
@@ -18,9 +18,9 @@ export async function togglePopups(params: ApiParams): Promise<boolean> {
       ? 'Current setting: True\nNew setting: False'
       : 'Current setting: False\nNew setting: True',
   };
-  const result = disablePopups || (await snapConfirm(wallet, promptObj));
+  const result = disablePopups || (await snapConfirm(snap, promptObj));
   if (result) {
-    await updatePopups(wallet, state);
+    await updatePopups(snap, state);
     return true;
   }
   return false;
@@ -30,7 +30,7 @@ export async function changeInfuraToken(
   params: ApiParams,
   { infuraToken }: ChangeInfuraTokenRequestParams
 ): Promise<boolean> {
-  const { state, wallet } = params;
+  const { state, snap } = params;
   if (infuraToken !== '') {
     const promptObj = {
       prompt: 'Change Infura Token',
@@ -38,8 +38,8 @@ export async function changeInfuraToken(
       textAreaContent: `Current token: ${state.snapConfig.snap.infuraToken}\nNew token: ${infuraToken}`,
     };
 
-    if (await snapConfirm(wallet, promptObj)) {
-      await updateInfuraToken(wallet, state, infuraToken);
+    if (await snapConfirm(snap, promptObj)) {
+      await updateInfuraToken(snap, state, infuraToken);
       return true;
     }
   }

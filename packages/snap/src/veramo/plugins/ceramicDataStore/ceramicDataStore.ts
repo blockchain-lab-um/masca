@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { W3CVerifiableCredential } from '@veramo/core';
 import { aliases, getCeramic } from '../../../utils/ceramicUtils';
 import { DIDDataStore } from '@glazed/did-datastore';
-import { SnapProvider } from '@metamask/snap-types';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import {
   AbstractDataStore,
   IFilterArgs,
@@ -15,17 +15,17 @@ export type StoredCredentials = {
   vcs: Record<string, W3CVerifiableCredential>;
 };
 export class CeramicVCStore extends AbstractDataStore {
-  wallet: SnapProvider;
-  constructor(walletParam: SnapProvider) {
+  snap: SnapsGlobalObject;
+  constructor(snapParam: SnapsGlobalObject) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     super();
-    this.wallet = walletParam;
+    this.snap = snapParam;
   }
 
   async query(args: IFilterArgs): Promise<Array<IQueryResult>> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const { filter } = args;
-    const ceramic = await getCeramic(this.wallet);
+    const ceramic = await getCeramic(this.snap);
     const datastore = new DIDDataStore({ ceramic, model: aliases });
     const storedCredentials = (await datastore.get(
       'StoredCredentials'
@@ -85,7 +85,7 @@ export class CeramicVCStore extends AbstractDataStore {
   }
 
   async delete({ id }: { id: string }) {
-    const ceramic = await getCeramic(this.wallet);
+    const ceramic = await getCeramic(this.snap);
     const datastore = new DIDDataStore({ ceramic, model: aliases });
     const storedCredentials = (await datastore.get(
       'StoredCredentials'
@@ -104,7 +104,7 @@ export class CeramicVCStore extends AbstractDataStore {
     //TODO check if VC is correct type
 
     const vc = args.data;
-    const ceramic = await getCeramic(this.wallet);
+    const ceramic = await getCeramic(this.snap);
     const datastore = new DIDDataStore({ ceramic, model: aliases });
     const storedCredentials = (await datastore.get(
       'StoredCredentials'
@@ -128,7 +128,7 @@ export class CeramicVCStore extends AbstractDataStore {
   }
 
   public async clear(args: IFilterArgs): Promise<boolean> {
-    const ceramic = await getCeramic(this.wallet);
+    const ceramic = await getCeramic(this.snap);
     const datastore = new DIDDataStore({ ceramic, model: aliases });
     const storedCredentials = (await datastore.get(
       'StoredCredentials'

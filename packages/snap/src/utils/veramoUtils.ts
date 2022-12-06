@@ -15,7 +15,7 @@ import {
 } from '@veramo/core';
 import { getCurrentDid } from './didUtils';
 import { getPublicKey, snapConfirm } from './snapUtils';
-import { SnapProvider } from '@metamask/snap-types';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { ApiParams } from '../interfaces';
 import { snapGetKeysFromAddress } from './keyPair';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
@@ -23,12 +23,12 @@ import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-vc-manager';
 import { Filter } from '@blockchain-lab-um/veramo-vc-manager';
 
 export async function veramoSaveVC(args: {
-  wallet: SnapProvider;
+  snap: SnapsGlobalObject;
   verifiableCredential: W3CVerifiableCredential;
   store: AvailableVCStores | AvailableVCStores[];
 }): Promise<IDataManagerSaveResult[]> {
-  const { wallet, store, verifiableCredential } = args;
-  const agent = await getAgent(wallet);
+  const { snap, store, verifiableCredential } = args;
+  const agent = await getAgent(snap);
   const res = await agent.save({
     data: verifiableCredential,
     options: { store },
@@ -37,14 +37,14 @@ export async function veramoSaveVC(args: {
 }
 
 export async function veramoClearVCs(args: {
-  wallet: SnapProvider;
+  snap: SnapsGlobalObject;
   store?: AvailableVCStores | AvailableVCStores[];
   filter?: Filter; // TODO: Seperate type from datamanager (currently vcmanager)?
 }): Promise<boolean[]> {
-  const { wallet, store, filter } = args;
+  const { snap, store, filter } = args;
   let options = undefined;
   if (store) options = { store };
-  const agent = await getAgent(wallet);
+  const agent = await getAgent(snap);
   const result = await agent.clear({
     filter,
     options,
@@ -53,12 +53,12 @@ export async function veramoClearVCs(args: {
 }
 
 export async function veramoDeleteVC(args: {
-  wallet: SnapProvider;
+  snap: SnapsGlobalObject;
   id: string;
   store?: AvailableVCStores | AvailableVCStores[];
 }): Promise<boolean[]> {
-  const { wallet, store, id } = args;
-  const agent = await getAgent(wallet);
+  const { snap, store, id } = args;
+  const agent = await getAgent(snap);
   let options = undefined;
   if (store) options = { store };
   const result = await agent.delete({
@@ -69,12 +69,12 @@ export async function veramoDeleteVC(args: {
 }
 
 export async function veramoQueryVCs(args: {
-  wallet: SnapProvider;
+  snap: SnapsGlobalObject;
   options: QueryVCsOptions;
   filter?: Filter;
 }): Promise<QueryVCsRequestResult[]> {
-  const { wallet, options, filter } = args;
-  const agent = await getAgent(wallet);
+  const { snap, options, filter } = args;
+  const agent = await getAgent(snap);
   const result = (await agent.query({
     filter,
     options,
@@ -94,9 +94,9 @@ export async function veramoCreateVP(
     ? createVPParams.proofFormat
     : 'jwt'; // TODO: Do we want to set default to jwt?
 
-  const { state, wallet } = params;
+  const { state, snap } = params;
   //Get Veramo agent
-  const agent = await getAgent(wallet);
+  const agent = await getAgent(snap);
   //GET DID
   const identifier = await veramoImportMetaMaskAccount(params, agent);
 
@@ -123,7 +123,7 @@ export async function veramoCreateVP(
     description: 'Do you wish to create a VP from the following VC?',
     textAreaContent: 'Multiple VCs',
   };
-  if (config.dApp.disablePopups || (await snapConfirm(wallet, promptObj))) {
+  if (config.dApp.disablePopups || (await snapConfirm(snap, promptObj))) {
     const vp = await agent.createVerifiablePresentation({
       presentation: {
         holder: identifier.did,
@@ -143,15 +143,15 @@ export const veramoImportMetaMaskAccount = async (
   params: ApiParams,
   agent: Agent
 ): Promise<IIdentifier> => {
-  const { state, wallet, account, bip44CoinTypeNode } = params;
+  const { state, snap, account, bip44CoinTypeNode } = params;
   const method = state.accountState[account].accountConfig.ssi.didMethod;
-  const did = await getCurrentDid(wallet, state, account);
+  const did = await getCurrentDid(snap, state, account);
 
   const res = await snapGetKeysFromAddress(
     bip44CoinTypeNode as BIP44CoinTypeNode,
     state,
     account,
-    wallet
+    snap
   );
   if (!res) throw new Error('Failed to get keys');
 

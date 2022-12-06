@@ -4,7 +4,7 @@ import { AbstractDIDStore } from '@veramo/did-manager';
 import { v4 as uuidv4 } from 'uuid';
 import { W3CVerifiableCredential } from '@veramo/core';
 import { getSnapState, updateSnapState } from '../../../utils/stateUtils';
-import { SnapProvider } from '@metamask/snap-types';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { getCurrentAccount } from '../../../utils/snapUtils';
 import {
   AbstractDataStore,
@@ -24,10 +24,10 @@ export type ImportablePrivateKey = RequireOnly<
  * This is usable by {@link @veramo/did-manager} to hold the did key data.
  */
 export class SnapDIDStore extends AbstractDIDStore {
-  wallet: SnapProvider;
-  constructor(walletParam: SnapProvider) {
+  snap: SnapsGlobalObject;
+  constructor(snapParam: SnapsGlobalObject) {
     super();
-    this.wallet = walletParam;
+    this.snap = snapParam;
   }
 
   async get({
@@ -39,8 +39,8 @@ export class SnapDIDStore extends AbstractDIDStore {
     alias: string;
     provider: string;
   }): Promise<IIdentifier> {
-    const state = await getSnapState(this.wallet);
-    const account = await getCurrentAccount(this.wallet);
+    const state = await getSnapState(this.snap);
+    const account = await getCurrentAccount(this.snap);
     if (!account) throw Error('User denied error');
     const identifiers = state.accountState[account].identifiers;
 
@@ -66,21 +66,21 @@ export class SnapDIDStore extends AbstractDIDStore {
   }
 
   async delete({ did }: { did: string }) {
-    const state = await getSnapState(this.wallet);
-    const account = await getCurrentAccount(this.wallet);
+    const state = await getSnapState(this.snap);
+    const account = await getCurrentAccount(this.snap);
     if (!account) throw Error('User denied error');
 
     if (!state.accountState[account].identifiers[did])
       throw Error('Identifier not found');
 
     delete state.accountState[account].identifiers[did];
-    await updateSnapState(this.wallet, state);
+    await updateSnapState(this.snap, state);
     return true;
   }
 
   async import(args: IIdentifier) {
-    const state = await getSnapState(this.wallet);
-    const account = await getCurrentAccount(this.wallet);
+    const state = await getSnapState(this.snap);
+    const account = await getCurrentAccount(this.snap);
     if (!account) throw Error('User denied error');
 
     const identifier = { ...args };
@@ -90,7 +90,7 @@ export class SnapDIDStore extends AbstractDIDStore {
       }
     }
     state.accountState[account].identifiers[args.did] = identifier;
-    await updateSnapState(this.wallet, state);
+    await updateSnapState(this.snap, state);
     return true;
   }
 
@@ -98,8 +98,8 @@ export class SnapDIDStore extends AbstractDIDStore {
     alias?: string;
     provider?: string;
   }): Promise<IIdentifier[]> {
-    const state = await getSnapState(this.wallet);
-    const account = await getCurrentAccount(this.wallet);
+    const state = await getSnapState(this.snap);
+    const account = await getCurrentAccount(this.snap);
     if (!account) throw Error('User denied error');
 
     let result: IIdentifier[] = [];
@@ -125,17 +125,17 @@ export class SnapDIDStore extends AbstractDIDStore {
  * An implementation of {@link AbstractDataStore} that holds everything in snap state.
  */
 export class SnapVCStore extends AbstractDataStore {
-  wallet: SnapProvider;
-  constructor(walletParam: SnapProvider) {
+  snap: SnapsGlobalObject;
+  constructor(snapParam: SnapsGlobalObject) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     super();
-    this.wallet = walletParam;
+    this.snap = snapParam;
   }
 
   async query(args: IFilterArgs): Promise<Array<IQueryResult>> {
     const { filter } = args;
-    const state = await getSnapState(this.wallet);
-    const account = await getCurrentAccount(this.wallet);
+    const state = await getSnapState(this.snap);
+    const account = await getCurrentAccount(this.snap);
     if (!account) throw Error('Cannot get current account');
 
     if (filter && filter.type === 'id') {
@@ -189,14 +189,14 @@ export class SnapVCStore extends AbstractDataStore {
   }
 
   async delete({ id }: { id: string }) {
-    const state = await getSnapState(this.wallet);
-    const account = await getCurrentAccount(this.wallet);
+    const state = await getSnapState(this.snap);
+    const account = await getCurrentAccount(this.snap);
     if (!account) throw Error('Cannot get current account');
 
     if (!state.accountState[account].vcs[id]) throw Error('ID not found');
 
     delete state.accountState[account].vcs[id];
-    await updateSnapState(this.wallet, state);
+    await updateSnapState(this.snap, state);
     return true;
   }
 
@@ -204,8 +204,8 @@ export class SnapVCStore extends AbstractDataStore {
     //TODO check if VC is correct type
 
     const vc = args.data;
-    const state = await getSnapState(this.wallet);
-    const account = await getCurrentAccount(this.wallet);
+    const state = await getSnapState(this.snap);
+    const account = await getCurrentAccount(this.snap);
     if (!account) throw Error('Cannot get current account');
 
     let id = uuidv4();
@@ -214,14 +214,14 @@ export class SnapVCStore extends AbstractDataStore {
     }
 
     state.accountState[account].vcs[id] = vc;
-    await updateSnapState(this.wallet, state);
+    await updateSnapState(this.snap, state);
     return id;
   }
 
   public async clear(args: IFilterArgs): Promise<boolean> {
     //TODO implement filter (in ceramic aswell)
-    const state = await getSnapState(this.wallet);
-    const account = await getCurrentAccount(this.wallet);
+    const state = await getSnapState(this.snap);
+    const account = await getCurrentAccount(this.snap);
     if (!account) throw Error('Cannot get current account');
 
     state.accountState[account].vcs = {};

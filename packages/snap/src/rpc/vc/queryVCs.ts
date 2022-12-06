@@ -11,9 +11,9 @@ export async function queryVCs(
   { filter, options }: QueryVCsRequestParams
 ): Promise<QueryVCsRequestResult[]> {
   const { store, returnStore = true } = options || {};
-  const { state, wallet } = params;
+  const { state, snap } = params;
   const vcs = await veramoQueryVCs({
-    wallet,
+    snap,
     options: { store, returnStore },
     filter, // TODO: Check if undefined is ok
   });
@@ -25,7 +25,7 @@ export async function queryVCs(
 
   if (
     state.snapConfig.dApp.disablePopups ||
-    (await snapConfirm(wallet, promptObj))
+    (await snapConfirm(snap, promptObj))
   ) {
     return vcs;
   }
