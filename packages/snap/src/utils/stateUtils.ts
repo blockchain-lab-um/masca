@@ -19,7 +19,7 @@ export async function updateSnapState(
 ) {
   await snap.request({
     method: 'snap_manageState',
-    params: ['update', snapState],
+    params: { operation: 'update', newState: snapState },
   });
 }
 
@@ -38,7 +38,7 @@ export async function getSnapState(
 ): Promise<SSISnapState> {
   const state = (await snap.request({
     method: 'snap_manageState',
-    params: ['get'],
+    params: { operation: 'get' },
   })) as SSISnapState | null;
 
   if (!state) throw Error('SSISnapState is not initialized!');
@@ -60,7 +60,7 @@ export async function getSnapStateUnchecked(
 ): Promise<SSISnapState | null> {
   return (await snap.request({
     method: 'snap_manageState',
-    params: ['get'],
+    params: { operation: 'get' },
   })) as SSISnapState | null;
 }
 

@@ -292,14 +292,11 @@
     try {
       const vc = JSON.parse(document.getElementById('VC').value);
       const response = await ethereum.request({
-        method: 'wallet_invokeSnap',
+        method: `wallet_snap_${snapId}`,
         params: {
-          snapId: snapId,
-          request: {
-            method: 'saveVC',
-            params: {
-              verifiableCredential: vc,
-            },
+          method: 'saveVC',
+          params: {
+            verifiableCredential: vc,
           },
         }
       });
@@ -311,17 +308,7 @@
   async function getVCs() {
     console.log("doing this..")
     try {
-      // const response = await ethereum.request({
-      //   method: 'wallet_invokeSnap',
-      //   params: {
-      //     snapId: snapId,
-      //     request: {
-      //       method: 'queryVCs',
-      //       params: {},
-      //     }
-      //   }
-      // });
-      const result = await ethereum.request({
+      const response = await ethereum.request({
         method: `wallet_snap_${snapId}`,
         params: {
           method: 'queryVCs',
@@ -358,33 +345,29 @@
       console.log('VC ID', vcId, checkBox);
       if (!checkBox) {
         const response = await ethereum.request({
-          method: 'wallet_invokeSnap',
-          params: [
-            snapId,
-            {
-              method: 'createVP',
-              params: {
-                vcs: [{ id: vcId }],
-              },
+          method: `wallet_snap_${snapId}`,
+          params:
+          {
+            method: 'createVP',
+            params: {
+              vcs: [{ id: vcId }],
             },
-          ],
+          },
         });
         console.log(response);
       } else {
         const response = await ethereum.request({
-          method: 'wallet_invokeSnap',
-          params: [
-            snapId,
-            {
-              method: 'createVP',
-              params: {
-                vcs: [{ id: vcId }],
-                proofOptions: {
-                  challenge: '123-456-789',
-                }
-              },
+          method: `wallet_snap_${snapId}`,
+          params:
+          {
+            method: 'createVP',
+            params: {
+              vcs: [{ id: vcId }],
+              proofOptions: {
+                challenge: '123-456-789',
+              }
             },
-          ],
+          },
         });
         console.log(response);
       }
