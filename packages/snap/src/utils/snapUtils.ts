@@ -4,6 +4,7 @@ import { SnapProvider } from '@metamask/snap-types';
 import { ApiParams, SnapConfirmParams, SSISnapState } from '../interfaces';
 import { snapGetKeysFromAddress } from './keyPair';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
+import { keccak256 } from 'ethers/lib/utils';
 
 /**
  * Function that returns address of the currently selected MetaMask account.
@@ -114,6 +115,10 @@ export function getCompressedPublicKey(publicKey: string): string {
   );
 }
 
+export function getUncompressedPublicKey(publicKey: string): string {
+  return _uint8ArrayToHex(publicKeyConvert(_hexToUint8Array(publicKey), false));
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function _uint8ArrayToHex(arr: any) {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
@@ -122,6 +127,14 @@ export function _uint8ArrayToHex(arr: any) {
 
 export function _hexToUint8Array(str: string): Uint8Array {
   return new Uint8Array(Buffer.from(str, 'hex'));
+}
+
+/*export function keccak(data: Uint8Array): Uint8Array {
+  return new Uint8Array(sha3.keccak_256.arrayBuffer(data));
+}*/
+
+export function toEthereumAddress(hexPublicKey: string): string {
+  return keccak256(_hexToUint8Array(hexPublicKey)).slice(26);
 }
 
 export async function snapConfirm(
