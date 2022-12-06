@@ -23,7 +23,6 @@ export async function getCurrentAccount(
     const accounts = (await wallet.request({
       method: 'eth_requestAccounts',
     })) as Array<string>;
-    console.log('MetaMask accounts', accounts);
     return accounts[0];
   } catch (e) {
     return null;
@@ -99,14 +98,13 @@ export async function getPublicKey(params: ApiParams): Promise<string> {
   const { wallet, state, account, bip44CoinTypeNode } = params;
   if (state.accountState[account].publicKey !== '')
     return state.accountState[account].publicKey;
-
   const res = await snapGetKeysFromAddress(
     bip44CoinTypeNode as BIP44CoinTypeNode,
     state,
     account,
     wallet
   );
-  if (res == null) throw new Error('Could not get keys from address');
+  if (res === null) throw new Error('Could not get keys from address');
   return res.publicKey;
 }
 

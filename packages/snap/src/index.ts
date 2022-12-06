@@ -19,15 +19,16 @@ import { getDid } from './rpc/did/getDID';
 import { getAvailableMethods } from './rpc/did/getAvailableMethods';
 import { setVCStore } from './rpc/vcStore/setVCStore';
 import { getAvailableVCStores } from './rpc/vcStore/getAvailableVCStores';
-import { getSnapStateUnchecked, initAccountState } from './utils/stateUtils';
+import {
+  getSnapStateUnchecked,
+  initAccountState,
+  setAccountPublicKey,
+} from './utils/stateUtils';
 import { getCurrentAccount } from './utils/snapUtils';
 import { getAddressKeyDeriver } from './utils/keyPair';
 import { ApiParams } from './interfaces';
 
-export const onRpcRequest: OnRpcRequestHandler = async ({
-  origin,
-  request,
-}) => {
+export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
   let state = await getSnapStateUnchecked(wallet);
   if (state === null) state = await init(wallet);
 
@@ -43,50 +44,30 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   };
 
   if (!(account in state.accountState)) {
-    apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
     await initAccountState(apiParams);
+    apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
+    await setAccountPublicKey(apiParams);
   }
-
-  console.log('Request:', request);
-  console.log('Origin:', origin);
-  console.log('-------------------------------------------------------------');
 
   switch (request.method) {
     case 'query':
-      if (typeof request.params === 'undefined')
-        return await queryVCs(apiParams);
-      else {
-        isValidQueryRequest(request.params);
-        return await queryVCs(
-          apiParams,
-          request.params.filter,
-          request.params.options
-        );
-      }
+      isValidQueryRequest(request.params);
+      return await queryVCs(apiParams, request.params);
     case 'saveVC':
       isValidSaveVCRequest(request.params);
-      return await saveVC(
-        apiParams,
-        request.params.verifiableCredential,
-        request.params.options?.store
-      );
+      return await saveVC(apiParams, request.params);
     case 'createVP':
       isValidCreateVPRequest(request.params);
       apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
-      const createVPParams = {
-        vcs: request.params.vcs,
-        proofFormat: request.params.proofFormat,
-        proofOptions: request.params.proofOptions,
-      };
-      return await createVP(apiParams, createVPParams);
+      return await createVP(apiParams, request.params);
     case 'changeInfuraToken':
       isValidChangeInfuraTokenRequest(request.params);
-      return await changeInfuraToken(apiParams, request.params.infuraToken);
+      return await changeInfuraToken(apiParams, request.params);
     case 'togglePopups':
       return await togglePopups(apiParams);
     case 'switchDIDMethod':
       isValidSwitchMethodRequest(request.params);
-      return await switchMethod(apiParams, request.params.didMethod);
+      return await switchMethod(apiParams, request.params);
     case 'getDID':
       return await getDid(apiParams);
     case 'getSelectedMethod':
@@ -97,11 +78,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       return state.accountState[account].accountConfig.ssi.vcStore;
     case 'setVCStore':
       isValidSetVCStoreRequest(request.params);
-      return await setVCStore(
-        apiParams,
-        request.params.store,
-        request.params.value
-      );
+      return await setVCStore(apiParams, request.params);
     case 'getAccountSettings':
       return state.accountState[account].accountConfig;
     case 'getSnapSettings':

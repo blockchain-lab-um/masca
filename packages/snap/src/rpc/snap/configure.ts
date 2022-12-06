@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
+import { ChangeInfuraTokenRequestParams } from '@blockchain-lab-um/ssi-snap-types';
 import { ApiParams } from '../../interfaces';
 import {
   updateInfuraToken,
@@ -27,18 +28,18 @@ export async function togglePopups(params: ApiParams): Promise<boolean> {
 
 export async function changeInfuraToken(
   params: ApiParams,
-  token: string
+  { infuraToken }: ChangeInfuraTokenRequestParams
 ): Promise<boolean> {
   const { state, wallet } = params;
-  if (token !== '') {
+  if (infuraToken !== '') {
     const promptObj = {
       prompt: 'Change Infura Token',
       description: 'Would you like to change the infura token to following?',
-      textAreaContent: `Current token: ${state.snapConfig.snap.infuraToken}\nNew token: ${token}`,
+      textAreaContent: `Current token: ${state.snapConfig.snap.infuraToken}\nNew token: ${infuraToken}`,
     };
 
     if (await snapConfirm(wallet, promptObj)) {
-      await updateInfuraToken(wallet, state, token);
+      await updateInfuraToken(wallet, state, infuraToken);
       return true;
     }
   }

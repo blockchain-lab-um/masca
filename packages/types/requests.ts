@@ -1,49 +1,55 @@
 import {
-    QueryVCs,
-    SaveVC,
-    CreateVP,
-    ChangeInfuraToken,
-    TogglePopups,
-    GetDID,
-    GetMethod,
-    GetAvailableMethods,
-    SwitchMethod,
-    GetVCStore,
-    SetVCStore,
-    GetAvailableVCStores
-} from './interfaces';
+  QueryVCs,
+  SaveVC,
+  DeleteVC,
+  CreateVP,
+  ChangeInfuraToken,
+  TogglePopups,
+  GetDID,
+  GetMethod,
+  GetAvailableMethods,
+  SwitchMethod,
+  GetVCStore,
+  SetVCStore,
+  GetAvailableVCStores,
+  GetAccountSettings,
+  GetSnapSettings,
+} from './methods';
 
 export type MetaMaskSSISnapRPCRequest =
-    | QueryVCs
-    | SaveVC
-    | CreateVP
-    | ChangeInfuraToken
-    | TogglePopups
-    | GetDID
-    | GetMethod
-    | GetAvailableMethods
-    | SwitchMethod
-    | GetVCStore
-    | SetVCStore
-    | GetAvailableVCStores;
+  | QueryVCs
+  | SaveVC
+  | CreateVP
+  | DeleteVC
+  | ChangeInfuraToken
+  | TogglePopups
+  | GetDID
+  | GetMethod
+  | GetAvailableMethods
+  | SwitchMethod
+  | GetVCStore
+  | SetVCStore
+  | GetAvailableVCStores
+  | GetAccountSettings
+  | GetSnapSettings;
 
-export type RPCRequestMethodString = MetaMaskSSISnapRPCRequest['method'];
+export type Method = MetaMaskSSISnapRPCRequest['method'];
 
 export interface WalletEnableRequest {
-    method: 'wallet_enable';
-    params: object[];
+  method: 'wallet_enable';
+  params: object[];
 }
 
 export interface GetSnapsRequest {
-    method: 'wallet_getSnaps';
+  method: 'wallet_getSnaps';
 }
 
 export interface SnapRpcMethodRequest {
-    method: string;
-    params: [MetaMaskSSISnapRPCRequest];
+  method: string;
+  params: [MetaMaskSSISnapRPCRequest];
 }
 
 export type MetamaskRpcRequest =
-    | WalletEnableRequest
-    | GetSnapsRequest
-    | SnapRpcMethodRequest;
+  | WalletEnableRequest
+  | GetSnapsRequest
+  | SnapRpcMethodRequest;

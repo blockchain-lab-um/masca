@@ -1,5 +1,8 @@
 import { SnapProvider } from '@metamask/snap-types';
-import { AvailableMethods, AvailableVCStores } from '@blockchain-lab-um/ssi-snap-types';
+import {
+  AvailableMethods,
+  AvailableVCStores,
+} from '@blockchain-lab-um/ssi-snap-types';
 import { getDidKeyIdentifier } from '../did/key/keyDidUtils';
 import { SSISnapState } from '../interfaces';
 import { getCurrentNetwork } from './snapUtils';
@@ -22,7 +25,6 @@ export async function getCurrentDid(
   account: string
 ): Promise<string> {
   const method = state.accountState[account].accountConfig.ssi.didMethod;
-  console.log('Current method', method);
   if (method === 'did:ethr') {
     const chain_id = await getCurrentNetwork(wallet);
     return `did:ethr:${chain_id}:${account}`;
@@ -38,7 +40,7 @@ export async function changeCurrentMethod(
   account: string,
   didMethod: AvailableMethods
 ): Promise<string> {
-  if (state.accountState[account].accountConfig.ssi.didMethod != didMethod) {
+  if (state.accountState[account].accountConfig.ssi.didMethod !== didMethod) {
     state.accountState[account].accountConfig.ssi.didMethod = didMethod;
     await updateSnapState(wallet, state);
     const did = await getCurrentDid(wallet, state, account);

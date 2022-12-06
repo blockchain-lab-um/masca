@@ -1,23 +1,11 @@
 import { CeramicClient } from '@ceramicnetwork/http-client';
-import { EthereumAuthProvider } from '@ceramicnetwork/blockchain-utils-linking';
 import { DIDSession } from 'did-session';
 import { getCurrentAccount } from './snapUtils';
 import { DID } from 'dids';
 import { SnapProvider } from '@metamask/snap-types';
+import { EthereumWebAuth, getAccountId } from '@didtools/pkh-ethereum';
 
 const ceramicDID = { did: undefined } as { did: DID | undefined };
-
-// export const aliases = {
-//   definitions: {
-//     StoredCredentials:
-//       'kjzl6cwe1jw148ulgnabbg1vfx1slceuknt57y3gevnf35wgf4e6b15ypqj9ozv',
-//   },
-//   schemas: {
-//     StoredCredentials:
-//       'ceramic://k3y52l7qbv1frxk5wjk8vyexuuev6og9eb7bgrh5xtlepuumjtz7fjf1kuzgmpx4w',
-//   },
-//   tiles: {},
-// };
 
 export const aliases = {
   definitions: {
@@ -37,16 +25,17 @@ export async function authenticateWithEthereum(
   if (ceramicDID.did) return ceramicDID.did;
   const account = await getCurrentAccount(wallet);
   if (!account) throw Error('User denied error');
-  const authProvider = new EthereumAuthProvider(wallet, account);
+  const accountId = await getAccountId(wallet, account);
 
-  //const session = new DIDSession({});
+  const authMethod = await EthereumWebAuth.getAuthMethod(wallet, accountId);
+
   typeof window;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
   window.location = {} as any;
   window.location.hostname = 'ssi-snap';
 
-  const session = await DIDSession.authorize(authProvider, {
+  const session = await DIDSession.authorize(authMethod, {
     resources: [`ceramic://*`],
   });
   ceramicDID.did = session.did;

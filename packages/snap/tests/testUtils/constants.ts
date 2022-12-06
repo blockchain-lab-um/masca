@@ -215,3 +215,8 @@ export const bip44Entropy: JsonBIP44CoinTypeNode = {
   coin_type: 60,
   path: "m / bip32:44' / bip32:60'",
 };
+
+export const derivedKeyChainCode =
+  '0xbbfe64aaa2157420865e979f19bdd0da7af456d075d7e4d4bb1ee92e548ac440';
+export const derivedKeyDerivationPath =
+  "m / bip32:44' / bip32:60' / bip32:0' / bip32:0";

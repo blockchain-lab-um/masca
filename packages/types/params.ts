@@ -1,61 +1,68 @@
 import { W3CVerifiableCredential } from '@veramo/core';
-import type {
-    AvailableMethods,
-    AvailableVCStores,
-    SupportedProofFormats,
+import {
+  AvailableMethods,
+  AvailableVCStores,
+  SupportedProofFormats,
 } from './constants';
 
+type ProofOptions = {
+  type?: string;
+  domain?: string;
+  challenge?: string;
+};
+
 export type CreateVPRequestParams = {
-    vcs: [
-        {
-            id: string;
-            metadata?: {
-                store?: AvailableVCStores;
-            };
-        }
-    ];
-    proofFormat?: SupportedProofFormats;
-    proofOptions?: {
-        type?: string;
-        domain?: string;
-        challenge?: string;
-    };
+  vcs: [
+    {
+      id: string;
+      metadata?: {
+        store?: AvailableVCStores;
+      };
+    }
+  ];
+  proofFormat?: SupportedProofFormats;
+  proofOptions?: ProofOptions;
+};
+
+type QueryFilter = { type: string; filter: unknown };
+
+type QueryOptions = {
+  store?: AvailableVCStores | [AvailableVCStores];
+  returnStore?: boolean;
 };
 
 export type QueryRequestParams = {
-    filter?: {
-        type: string;
-        filter: any;
-    };
-    options?: {
-        store?: AvailableVCStores | [AvailableVCStores];
-        returnStore?: boolean;
-    };
+  filter?: QueryFilter;
+  options?: QueryOptions;
+};
+
+type SaveVCOptions = {
+  store?: AvailableVCStores | [AvailableVCStores];
 };
 
 export type SaveVCRequestParams = {
-    verifiableCredential: W3CVerifiableCredential;
-    options?: {
-        store?: AvailableVCStores | [AvailableVCStores];
-    };
+  verifiableCredential: W3CVerifiableCredential;
+  options?: SaveVCOptions;
+};
+
+type DeleteVcOptions = {
+  store?: AvailableVCStores | [AvailableVCStores];
 };
 
 export type DeleteVCRequestParams = {
-    id: string | [string];
-    options?: {
-        store?: AvailableVCStores | [AvailableVCStores];
-    };
+  id: string | [string];
+  options?: DeleteVcOptions;
 };
 
 export type ChangeInfuraTokenRequestParams = {
-    infuraToken: string;
+  infuraToken: string;
 };
 
 export type SwitchMethodRequestParams = {
-    didMethod: AvailableMethods;
+  didMethod: AvailableMethods;
 };
 
 export type SetVCStoreRequestParams = {
-    store: AvailableVCStores;
-    value: boolean;
+  store: AvailableVCStores;
+  value: boolean;
 };

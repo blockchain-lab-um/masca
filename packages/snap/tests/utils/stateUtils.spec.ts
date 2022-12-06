@@ -1,3 +1,4 @@
+import { getEmptyAccountState } from './../../src/utils/config';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { SnapProvider } from '@metamask/snap-types';
 import { getInitialSnapState } from '../../src/utils/config';
@@ -6,6 +7,7 @@ import {
   getSnapStateUnchecked,
   initAccountState,
   initSnapState,
+  setAccountPublicKey,
   updateSnapState,
 } from '../../src/utils/stateUtils';
 import {
@@ -113,10 +115,35 @@ describe('Utils [state]', () => {
     it('should succeed initializing empty account state', async () => {
       const initialState = getInitialSnapState();
       const defaultState = getDefaultSnapState();
-      defaultState.accountState[address].publicKey = publicKey;
+      defaultState.accountState[address].publicKey = '';
 
       await expect(
         initAccountState({
+          wallet: walletMock,
+          state: initialState,
+          account: address,
+          bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
+        })
+      ).resolves.not.toThrow();
+
+      expect(walletMock.rpcMocks.snap_manageState).toHaveBeenCalledWith(
+        'update',
+        defaultState
+      );
+
+      expect.assertions(2);
+    });
+  });
+
+  describe('setPublicKey', () => {
+    it('should succeed setting public key', async () => {
+      const initialState = getInitialSnapState();
+      initialState.accountState[address] = getEmptyAccountState();
+      const defaultState = getDefaultSnapState();
+      defaultState.accountState[address].publicKey = publicKey;
+
+      await expect(
+        setAccountPublicKey({
           wallet: walletMock,
           state: initialState,
           account: address,

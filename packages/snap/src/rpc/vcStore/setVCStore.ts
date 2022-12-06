@@ -1,4 +1,4 @@
-import { AvailableMethods, AvailableVCStores } from '@blockchain-lab-um/ssi-snap-types';
+import { SetVCStoreRequestParams } from '@blockchain-lab-um/ssi-snap-types';
 import { ApiParams } from '../../interfaces';
 import { snapConfirm } from '../../utils/snapUtils';
 import { updateSnapState } from '../../utils/stateUtils';
@@ -6,20 +6,19 @@ import { updateSnapState } from '../../utils/stateUtils';
 // TODO: CHANGE THIS FUNCTION
 export async function setVCStore(
   params: ApiParams,
-  vcStore: AvailableVCStores,
-  value: boolean
+  { store, value }: SetVCStoreRequestParams
 ): Promise<boolean> {
   const { state, wallet, account } = params;
-  if (vcStore != 'snap') {
+  if (store !== 'snap') {
     const promptObj = {
       prompt: 'Change vcStore plugin',
       description: `Would you like to ${
         value ? 'enable' : 'disable'
-      } ${vcStore} vcStore plugin?`,
+      } ${store} vcStore plugin?`,
       textAreaContent: ``,
     };
     if (await snapConfirm(wallet, promptObj)) {
-      state.accountState[account].accountConfig.ssi.vcStore[vcStore] = value;
+      state.accountState[account].accountConfig.ssi.vcStore[store] = value;
       await updateSnapState(wallet, state);
       return true;
     }

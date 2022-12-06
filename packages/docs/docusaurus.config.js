@@ -20,14 +20,6 @@ const config = {
   organizationName: 'blockchain-lab-um', // Usually your GitHub org/user name.
   projectName: 'ssi-snap-docs', // Usually your repo name.
   customFields: {},
-  plugins: [
-    [
-      'docusaurus2-dotenv',
-      {
-        systemvars: true,
-      },
-    ],
-  ],
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
   // to replace "en" with "zh-Hans".
@@ -71,11 +63,15 @@ const config = {
         src: 'img/ssi_snap_logo_2.svg',
       },
       items: [
-        { to: '/docs/get_started', label: 'Quickstart', position: 'left' },
         { to: '/docs/introduction', label: 'Docs', position: 'left' },
-        { to: '/docs/config', label: 'Configure SSI Snap', position: 'left' },
+        { to: '/docs/getting-started', label: 'Quickstart', position: 'left' },
         {
-          to: 'https://medium.com/@blockchainlabum',
+          href: 'https://blockchain-lab-um.github.io/ssi-snap',
+          label: 'Configuration dApp',
+          position: 'left',
+        },
+        {
+          href: 'https://medium.com/@blockchainlabum',
           label: 'Blog',
           position: 'right',
         },
