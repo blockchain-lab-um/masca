@@ -1,5 +1,8 @@
 import { MetaMaskSSISnap } from './snap';
-import { availableMethods } from '@blockchain-lab-um/ssi-snap-types';
+import {
+  availableMethods,
+  SwitchMethodRequestParams,
+} from '@blockchain-lab-um/ssi-snap-types';
 import {
   hasMetaMask,
   isMetamaskSnapsSupported,
@@ -72,7 +75,9 @@ export async function enableSSISnap(
   const method = await snapApi.getMethod();
   if (!snap.supportedMethods.includes(method)) {
     console.log('Switching method...', method, snap.supportedMethods[0]);
-    await snapApi.switchMethod(snap.supportedMethods[0]);
+    await snapApi.switchMethod({
+      didMethod: snap.supportedMethods[0],
+    } as SwitchMethodRequestParams);
   }
 
   // return snap object
