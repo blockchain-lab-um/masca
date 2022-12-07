@@ -74,14 +74,11 @@ export async function veramoQueryVCs(args: {
   filter?: Filter;
 }): Promise<QueryVCsRequestResult[]> {
   const { snap, options, filter } = args;
-  console.log('here2');
   const agent = await getAgent(snap);
-  console.log('here3');
   const result = (await agent.query({
     filter,
     options,
   })) as QueryVCsRequestResult[];
-  console.log('here4');
   return result;
 }
 

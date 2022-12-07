@@ -14,7 +14,6 @@ import {
   isValidQueryRequest,
 } from './utils/params';
 import { switchMethod } from './rpc/did/switchMethod';
-import { init } from './utils/init';
 import { getDid } from './rpc/did/getDID';
 import { getAvailableMethods } from './rpc/did/getAvailableMethods';
 import { setVCStore } from './rpc/vcStore/setVCStore';

@@ -309,31 +309,84 @@ describe('Utils [snap]', () => {
 
   describe('snapConfirm', () => {
     it('should return true', async () => {
-      snapMock.rpcMocks.snap_confirm.mockResolvedValue(true);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      snapMock.rpcMocks.snap_dialog.mockResolvedValue(true);
 
       await expect(snapConfirm(snapMock, snapConfirmParams)).resolves.toEqual(
         true
       );
 
-      expect(snapMock.rpcMocks.snap_confirm).toHaveBeenCalledWith([
-        snapConfirmParams,
-      ]);
+      expect(snapMock.rpcMocks.snap_dialog).toHaveBeenCalledWith({
+        fields: {
+          description: 'Test description',
+          textAreaContent: 'Test text area content',
+          title: 'Test prompt',
+        },
+        type: 'Confirmation',
+      });
 
       expect.assertions(2);
     });
 
     it('should return false', async () => {
-      snapMock.rpcMocks.snap_confirm.mockResolvedValue(false);
+      snapMock.rpcMocks.snap_dialog.mockResolvedValue(false);
 
       await expect(snapConfirm(snapMock, snapConfirmParams)).resolves.toEqual(
         false
       );
 
-      expect(snapMock.rpcMocks.snap_confirm).toHaveBeenCalledWith([
-        snapConfirmParams,
-      ]);
+      expect(snapMock.rpcMocks.snap_dialog).toHaveBeenCalledWith({
+        fields: {
+          description: 'Test description',
+          textAreaContent: 'Test text area content',
+          title: 'Test prompt',
+        },
+        type: 'Confirmation',
+      });
 
       expect.assertions(2);
+    });
+  });
+
+  describe('getEnabledVCStores', () => {
+    it('should return ceramic & snap', () => {
+      const state = getDefaultSnapState();
+
+      expect(snapUtils.getEnabledVCStores(address, state)).toEqual([
+        'snap',
+        'ceramic',
+      ]);
+
+      expect.assertions(1);
+    });
+
+    it('should return ceramic & snap (when both are passed)', () => {
+      const state = getDefaultSnapState();
+
+      expect(
+        snapUtils.getEnabledVCStores(address, state, ['snap', 'ceramic'])
+      ).toEqual(['snap', 'ceramic']);
+
+      expect.assertions(1);
+    });
+
+    it('should return snap', () => {
+      const state = getDefaultSnapState();
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      state.accountState[address].accountConfig.ssi.vcStore.ceramic = false;
+      expect(snapUtils.getEnabledVCStores(address, state)).toEqual(['snap']);
+
+      expect.assertions(1);
+    });
+    it('should return snap (when ceramic is passed aswell)', () => {
+      const state = getDefaultSnapState();
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      state.accountState[address].accountConfig.ssi.vcStore.ceramic = false;
+      expect(
+        snapUtils.getEnabledVCStores(address, state, ['snap', 'ceramic'])
+      ).toEqual(['snap']);
+
+      expect.assertions(1);
     });
   });
 });

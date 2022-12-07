@@ -53,13 +53,13 @@ describe('onRpcRequest', () => {
   beforeEach(() => {
     snapMock = createMockSnap();
     snapMock.rpcMocks.snap_manageState('update', getDefaultSnapState());
-    //snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
+    //snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
     global.snap = snapMock;
   });
 
   describe('saveVC', () => {
     it('should succeed saving 1 VC and return id', async () => {
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       await expect(
         onRpcRequest({
@@ -98,7 +98,7 @@ describe('onRpcRequest', () => {
     });
 
     it('should succeed saving 1 VC without store param and return id', async () => {
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       await expect(
         onRpcRequest({
@@ -139,7 +139,7 @@ describe('onRpcRequest', () => {
     });
 
     it('should succeed saving 1 VC in Snap & Ceramic', async () => {
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
       snapMock.rpcMocks.snap_manageState({
         operation: 'update',
         newState: getDefaultSnapState(),
@@ -200,7 +200,7 @@ describe('onRpcRequest', () => {
     });
 
     it('should fail saving VC and return false - user denied', async () => {
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(false);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
 
       await expect(
         onRpcRequest({
@@ -235,7 +235,7 @@ describe('onRpcRequest', () => {
     });
 
     it('should throw error because store is not supported', async () => {
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       await expect(
         onRpcRequest({
@@ -255,7 +255,7 @@ describe('onRpcRequest', () => {
       expect.assertions(1);
     });
     it('should throw error because request is not valid', async () => {
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       await expect(
         onRpcRequest({
@@ -275,7 +275,7 @@ describe('onRpcRequest', () => {
     });
 
     it('should throw error because request is not valid: store format', async () => {
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       await expect(
         onRpcRequest({
@@ -295,7 +295,7 @@ describe('onRpcRequest', () => {
       expect.assertions(1);
     });
     it('should throw error because request is not valid: store not supported in array', async () => {
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       await expect(
         onRpcRequest({
@@ -350,7 +350,7 @@ describe('onRpcRequest', () => {
 
     it('should succeed with 1 VC matching query - filter by ID', async () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       await onRpcRequest({
         origin: 'localhost',
@@ -393,7 +393,7 @@ describe('onRpcRequest', () => {
 
     it('should succeed with 1 VC matching query - no filter or store', async () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       await onRpcRequest({
         origin: 'localhost',
@@ -431,7 +431,7 @@ describe('onRpcRequest', () => {
 
     it('should succeed with 1 VC matching query - store defined', async () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       await onRpcRequest({
         origin: 'localhost',
@@ -471,7 +471,7 @@ describe('onRpcRequest', () => {
 
     it('should succeed with 1 VC matching query - without store', async () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       await onRpcRequest({
         origin: 'localhost',
@@ -511,7 +511,7 @@ describe('onRpcRequest', () => {
 
     it('should succeed with 1 VC matching query - filter by JSONPath', async () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       await onRpcRequest({
         origin: 'localhost',
@@ -556,7 +556,7 @@ describe('onRpcRequest', () => {
 
   describe('deleteVC', () => {
     it('should succeed saving and deleting 1 VC', async () => {
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       await expect(
         onRpcRequest({
@@ -604,7 +604,7 @@ describe('onRpcRequest', () => {
     });
 
     it('should succeed saving and deleting 1 VC with store', async () => {
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       await expect(
         onRpcRequest({
@@ -653,7 +653,7 @@ describe('onRpcRequest', () => {
       expect.assertions(3);
     });
     it('should fail deleting 1 VC with wrong id', async () => {
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       await expect(
         onRpcRequest({
@@ -706,7 +706,7 @@ describe('onRpcRequest', () => {
   describe('createVP', () => {
     it('should succeed creating VP', async () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
       //const agent = await getAgent(snapMock);
 
       await onRpcRequest({
@@ -747,7 +747,7 @@ describe('onRpcRequest', () => {
 
     it('should succeed creating VP with did:key', async () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
       //const agent = await getAgent(snapMock);
 
       await onRpcRequest({
@@ -798,7 +798,7 @@ describe('onRpcRequest', () => {
 
     // it('should fail creating VP and return null - user denied', async () => {
     //   jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
-    //   snapMock.rpcMocks.snap_confirm.mockReturnValue(false);
+    //   snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
 
     //   await onRpcRequest({
     //     origin: 'localhost',
@@ -832,7 +832,7 @@ describe('onRpcRequest', () => {
 
     it('should fail creating VP - VC does not exist', async () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       await expect(
         onRpcRequest({
@@ -854,7 +854,7 @@ describe('onRpcRequest', () => {
 
   describe('changeInfuraToken', () => {
     it('should succeed changing infura token and return true', async () => {
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       await expect(
         onRpcRequest({
@@ -874,7 +874,7 @@ describe('onRpcRequest', () => {
     });
 
     it('should fail changing infura token and return false', async () => {
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(false);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
 
       await expect(
         onRpcRequest({
@@ -896,7 +896,7 @@ describe('onRpcRequest', () => {
 
   describe('togglePopups', () => {
     it('should succeed toggling popups and return true', async () => {
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       await expect(
         onRpcRequest({
@@ -914,7 +914,7 @@ describe('onRpcRequest', () => {
     });
 
     it('should fail toggling popups and return false', async () => {
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(false);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
 
       await expect(
         onRpcRequest({
@@ -950,7 +950,7 @@ describe('onRpcRequest', () => {
     });
 
     it('should succeed returning current did (did:key)', async () => {
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       await onRpcRequest({
         origin: 'localhost',
@@ -982,7 +982,7 @@ describe('onRpcRequest', () => {
 
   describe('switchDIDMethod', () => {
     it('should succeed switching method to did:key and return true', async () => {
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       await expect(
         onRpcRequest({
@@ -1004,7 +1004,7 @@ describe('onRpcRequest', () => {
     });
 
     it('should fail switching method to did:key and return false', async () => {
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(false);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
 
       await expect(
         onRpcRequest({
@@ -1024,7 +1024,7 @@ describe('onRpcRequest', () => {
     });
 
     it('should fail switching method because method is not supported', async () => {
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(false);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
 
       await expect(
         onRpcRequest({
@@ -1043,7 +1043,7 @@ describe('onRpcRequest', () => {
       expect.assertions(1);
     });
     it('should fail switching method because request is bad', async () => {
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(false);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
 
       await expect(
         onRpcRequest({
@@ -1079,7 +1079,7 @@ describe('onRpcRequest', () => {
     });
 
     it('should succeed and return did:key', async () => {
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       await onRpcRequest({
         origin: 'localhost',
@@ -1128,7 +1128,7 @@ describe('onRpcRequest', () => {
 
   describe('setVCStore', () => {
     it('should throw and error when using wrong vcStore', async () => {
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       await expect(
         onRpcRequest({
@@ -1157,7 +1157,7 @@ describe('onRpcRequest', () => {
     });
 
     it('should succeed toggling ceramic store to true', async () => {
-      snapMock.rpcMocks.snap_confirm.mockReturnValue(true);
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       await expect(
         onRpcRequest({
@@ -1197,7 +1197,7 @@ describe('onRpcRequest', () => {
             method: 'getVCStore',
           },
         })
-      ).resolves.toEqual({ ceramic: false, snap: true });
+      ).resolves.toEqual({ ceramic: true, snap: true });
     });
   });
 

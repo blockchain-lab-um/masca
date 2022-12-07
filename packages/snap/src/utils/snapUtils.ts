@@ -4,6 +4,7 @@ import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { ApiParams, SnapConfirmParams, SSISnapState } from '../interfaces';
 import { snapGetKeysFromAddress } from './keyPair';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
+import { AvailableVCStores } from '@blockchain-lab-um/ssi-snap-types';
 
 /**
  * Function that returns address of the currently selected MetaMask account.
@@ -163,4 +164,25 @@ export async function setAccountIndex(
 ) {
   state.accountState[account].index = index;
   await updateSnapState(snap, state);
+}
+
+export function getEnabledVCStores(
+  account: string,
+  state: SSISnapState,
+  vcstores?: AvailableVCStores[]
+): string[] {
+  if (!vcstores) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    vcstores = Object.keys(
+      state.accountState[account].accountConfig.ssi.vcStore
+    ) as AvailableVCStores[];
+  }
+
+  const res = vcstores.filter((vcstore) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    return (
+      state.accountState[account].accountConfig.ssi.vcStore[vcstore] === true
+    );
+  });
+  return res;
 }
