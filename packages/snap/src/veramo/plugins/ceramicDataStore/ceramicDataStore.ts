@@ -17,13 +17,11 @@ export type StoredCredentials = {
 export class CeramicVCStore extends AbstractDataStore {
   snap: SnapsGlobalObject;
   constructor(snapParam: SnapsGlobalObject) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     super();
     this.snap = snapParam;
   }
 
   async query(args: IFilterArgs): Promise<Array<IQueryResult>> {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const { filter } = args;
     const ceramic = await getCeramic(this.snap);
     const datastore = new DIDDataStore({ ceramic, model: aliases });
