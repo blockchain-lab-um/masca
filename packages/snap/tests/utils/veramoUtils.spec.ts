@@ -57,6 +57,8 @@ describe('Utils [veramo]', () => {
   beforeEach(() => {
     snapMock = createMockSnap();
     ceramicData = {} as StoredCredentials;
+    global.snap = snapMock;
+    global.ethereum = snapMock;
   });
 
   describe('veramoSaveVC', () => {
@@ -589,7 +591,7 @@ describe('Utils [veramo]', () => {
     it('should succeed creating a valid VP', async () => {
       const initialState = getDefaultSnapState();
       snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
-      snapMock.rpcMocks.snap_confirm.mockResolvedValue(true);
+      snapMock.rpcMocks.snap_dialog.mockResolvedValue(true);
       const agent = await getAgent(snapMock);
 
       const res = await veramoSaveVC({
@@ -620,7 +622,7 @@ describe('Utils [veramo]', () => {
     it('should succeed creating a valid VP with 2 VCs', async () => {
       const initialState = getDefaultSnapState();
       snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
-      snapMock.rpcMocks.snap_confirm.mockResolvedValue(true);
+      snapMock.rpcMocks.snap_dialog.mockResolvedValue(true);
       const agent = await getAgent(snapMock);
 
       const res = await veramoSaveVC({
@@ -657,7 +659,7 @@ describe('Utils [veramo]', () => {
     it('should fail creating a VP and return null - no VC found', async () => {
       const initialState = getDefaultSnapState();
       snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
-      snapMock.rpcMocks.snap_confirm.mockResolvedValue(true);
+      snapMock.rpcMocks.snap_dialog.mockResolvedValue(true);
 
       const createdVP = await veramoCreateVP(
         {
@@ -677,7 +679,7 @@ describe('Utils [veramo]', () => {
     it('should fail creating a VP and return null - user rejected', async () => {
       const initialState = getDefaultSnapState();
       snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
-      snapMock.rpcMocks.snap_confirm.mockResolvedValue(false);
+      snapMock.rpcMocks.snap_dialog.mockResolvedValue(false);
 
       const createdVP = await veramoCreateVP(
         {

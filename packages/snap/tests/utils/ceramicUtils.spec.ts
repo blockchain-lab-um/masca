@@ -42,6 +42,8 @@ describe('Utils [ceramic]', () => {
 
   beforeEach(() => {
     snapMock = createMockSnap();
+    global.snap = snapMock;
+    global.ethereum = snapMock;
   });
 
   describe('ceramicVCStore', () => {

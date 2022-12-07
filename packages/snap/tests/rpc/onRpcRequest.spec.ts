@@ -55,6 +55,7 @@ describe('onRpcRequest', () => {
     snapMock.rpcMocks.snap_manageState('update', getDefaultSnapState());
     //snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
     global.snap = snapMock;
+    global.ethereum = snapMock;
   });
 
   describe('saveVC', () => {

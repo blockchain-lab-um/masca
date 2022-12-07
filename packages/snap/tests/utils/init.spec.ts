@@ -12,7 +12,7 @@ describe('RPC handler [init]', () => {
 
   it('should succeed for accepted terms and conditions', async () => {
     const initialState = getInitialSnapState();
-    snapMock.rpcMocks.snap_confirm.mockReturnValueOnce(true);
+    snapMock.rpcMocks.snap_dialog.mockReturnValueOnce(true);
 
     await expect(init(snapMock)).resolves.toEqual(initialState);
     expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith({
@@ -24,7 +24,7 @@ describe('RPC handler [init]', () => {
   });
 
   it('should fail for rejected terms and conditions', async function () {
-    snapMock.rpcMocks.snap_confirm.mockReturnValueOnce(false);
+    snapMock.rpcMocks.snap_dialog.mockReturnValueOnce(false);
 
     await expect(init(snapMock)).rejects.toThrow(
       new Error('User did not accept terms and conditions!')
