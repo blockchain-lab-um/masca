@@ -7,10 +7,8 @@ export async function deleteVC(
   params: ApiParams,
   args: DeleteVCsRequestParams
 ): Promise<boolean[]> {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { id, options } = args || {};
   const { snap } = params;
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
   const store = options?.store;
   const promptObj = {
     prompt: 'Delete VC',
@@ -18,12 +16,9 @@ export async function deleteVC(
   };
 
   if (await snapConfirm(snap, promptObj)) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return await veramoDeleteVC({
       snap,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       id,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       store,
     });
   }
