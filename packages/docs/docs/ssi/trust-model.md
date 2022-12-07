@@ -27,4 +27,4 @@ How can the convenience store verify the validity of the VC? It's simple. When t
 
 ## Sounds great! But, how can we use VCs?
 
-Unfortunately, there is no easy way to use and manage VCs. More or less, all current solutions require users to install an additional mobile application or use a specific yet another platform. But this is a significant flaw in the user experience. Using a different application or service might burden most users who have yet to come to grips with the most basic web3 applications and wallets. The question arises, is it possible to add support for DIDs and VCs to a massively adopted and easy-to-use wallet?
+Unfortunately, there is no easy way to use and manage VCs. More or less, all current solutions require users to install an additional mobile application or use a specific yet another platform. But this is a significant flaw in the user experience. Using a different application or service might burden most users who have yet to come to grips with the most basic web3 applications and wallets. The question arises, is it possible to add support for DIDs and VCs to a massively adopted and easy-to-use snap?

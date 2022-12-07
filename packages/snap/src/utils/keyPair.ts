@@ -6,18 +6,18 @@ import { ApiParams, SSISnapState } from 'src/interfaces';
 import { getAccountIndex, setAccountIndex } from './snapUtils';
 import { ethers } from 'ethers';
 import { didCoinTypeMappping } from '@blockchain-lab-um/ssi-snap-types';
-import { SnapProvider } from '@metamask/snap-types';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 
 export async function getAddressKeyDeriver(
   params: ApiParams,
   coin_type?: number
 ) {
-  const { state, wallet, account } = params;
+  const { state, snap, account } = params;
   if (coin_type === undefined) {
     const method = state.accountState[account].accountConfig.ssi.didMethod;
     coin_type = didCoinTypeMappping[method];
   }
-  const bip44CoinTypeNode = (await wallet.request({
+  const bip44CoinTypeNode = (await snap.request({
     method: 'snap_getBip44Entropy',
     params: {
       coinType: coin_type,
@@ -47,7 +47,7 @@ export const snapGetKeysFromAddress = async (
   bip44CoinTypeNode: BIP44CoinTypeNode,
   state: SSISnapState,
   account: string,
-  wallet: SnapProvider,
+  snap: SnapsGlobalObject,
   maxScan = 20
 ): Promise<KeysType | null> => {
   const addressIndex = getAccountIndex(state, account);
@@ -61,7 +61,7 @@ export const snapGetKeysFromAddress = async (
   } else {
     const res = await getKeysFromAddress(bip44CoinTypeNode, account, maxScan);
     if (res) {
-      await setAccountIndex(wallet, state, account, res.addressIndex);
+      await setAccountIndex(snap, state, account, res.addressIndex);
       return res;
     }
   }
@@ -103,12 +103,12 @@ export const getKeysFromAddressIndex = async (
   const result = await getAddressKey(bip44CoinTypeNode, addressIndex);
   if (result === null) return null;
   const { privateKey, derivationPath } = result;
-  const wallet = new ethers.Wallet(privateKey);
+  const snap = new ethers.Wallet(privateKey);
 
   return {
     privateKey: privateKey,
-    publicKey: wallet.publicKey,
-    address: wallet.address,
+    publicKey: snap.publicKey,
+    address: snap.address,
     addressIndex: addressIndex,
     derivationPath,
   };

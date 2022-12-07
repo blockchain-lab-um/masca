@@ -19,11 +19,14 @@
     "lint": "yarn lint:eslint && yarn lint:prettier",
     "lint:eslint": "eslint .",
     "lint:prettier": "prettier . --check",
-    "prepack": "yarn build"
+    "prepack": "yarn build",
+    "test": "yarn jest"
   },
   "dependencies": {
     "@blockchain-lab-um/ssi-snap-types": "*",
+    "@types/jsonpath": "^0.2.0",
     "@veramo/core": "^4.1.1",
+    "jsonpath": "^1.1.1",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

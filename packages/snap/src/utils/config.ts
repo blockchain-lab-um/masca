@@ -14,7 +14,7 @@ const emptyAccountState = {
       didMethod: 'did:ethr',
       vcStore: {
         snap: true,
-        ceramic: false,
+        ceramic: true,
       },
     },
     ceramic: {},

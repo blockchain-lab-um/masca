@@ -1,8 +1,11 @@
-import { SSISnapApi } from '@blockchain-lab-um/ssi-snap-types';
+import {
+  AvailableMethods,
+  SSISnapApi,
+} from '@blockchain-lab-um/ssi-snap-types';
 import {
   saveVC,
-  getVCs,
-  getVP,
+  queryVCs,
+  createVP,
   togglePopups,
   changeInfuraToken,
   getDID,
@@ -18,9 +21,12 @@ export class MetaMaskSSISnap {
   // snap parameters
   protected readonly snapOrigin: string;
   protected readonly snapId: string;
-  public readonly supportedMethods: string[];
+  public readonly supportedMethods: Array<AvailableMethods>;
 
-  public constructor(snapOrigin: string, supportedMethods: string[]) {
+  public constructor(
+    snapOrigin: string,
+    supportedMethods: Array<AvailableMethods>
+  ) {
     this.snapOrigin = snapOrigin;
     this.snapId = `wallet_snap_${this.snapOrigin}`;
     this.supportedMethods = supportedMethods;
@@ -36,8 +42,8 @@ export class MetaMaskSSISnap {
   public getSSISnapApi = async (): Promise<SSISnapApi> => {
     return {
       saveVC: saveVC.bind(this),
-      getVCs: getVCs.bind(this),
-      getVP: getVP.bind(this),
+      queryVCs: queryVCs.bind(this),
+      createVP: createVP.bind(this),
       togglePopups: togglePopups.bind(this),
       changeInfuraToken: changeInfuraToken.bind(this),
       getDID: getDID.bind(this),

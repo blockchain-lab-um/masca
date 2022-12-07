@@ -17,7 +17,7 @@ const FeatureList = [
       <DocusaurusMountain role="presentation" className={styles.featureSvg} />
     ),
     description:
-      "SSI Snap adds support for Decentralized Identifiers (DIDs) and Verifiable Credentials (VCs) directly to MetaMask, without requiring an additional wallet or extension. And that's not even the best part: identity is fully configurable by users - they should decide where their identity data should be stored!",
+      "SSI Snap adds support for Decentralized Identifiers (DIDs) and Verifiable Credentials (VCs) directly to MetaMask, without requiring an additional snap or extension. And that's not even the best part: identity is fully configurable by users - they should decide where their identity data should be stored!",
   },
   {
     title: '(Really) Fast Integration',

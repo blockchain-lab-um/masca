@@ -1,28 +1,25 @@
-import { veramoListVCs } from '../../utils/veramoUtils';
-import { VerifiableCredential } from '@veramo/core';
-import { VCQuery, QueryRequestParams } from '@blockchain-lab-um/ssi-snap-types';
+import { veramoQueryVCs } from '../../utils/veramoUtils';
+import {
+  QueryVCsRequestParams,
+  QueryVCsRequestResult,
+} from '@blockchain-lab-um/ssi-snap-types';
 import { snapConfirm } from '../../utils/snapUtils';
 import { ApiParams } from '../../interfaces';
 
 export async function queryVCs(
   params: ApiParams,
-  { filter, options }: QueryRequestParams
-): Promise<VerifiableCredential[]> {
-  let { store = ['snap'] } = options || {};
-  // TODO: Remove this when we start using the returnStore option
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { returnStore = false } = options || {};
+  args: QueryVCsRequestParams
+): Promise<QueryVCsRequestResult[]> {
+  const { filter, options } = args || {};
+  const { store, returnStore = true } = options || {};
+  const { state, snap } = params;
 
-  if (typeof store === 'string') {
-    store = [store];
-  }
+  const vcs = await veramoQueryVCs({
+    snap,
+    options: { store, returnStore },
+    filter, // TODO: Check if undefined is ok
+  });
 
-  if (typeof filter === 'undefined') {
-    filter = { type: 'none', filter: {} };
-  }
-
-  const { state, wallet } = params;
-  const vcs = await veramoListVCs(wallet, store, filter.filter as VCQuery);
   const promptObj = {
     prompt: 'Send VCs',
     description: 'Are you sure you want to send VCs to the dApp?',
@@ -31,7 +28,7 @@ export async function queryVCs(
 
   if (
     state.snapConfig.dApp.disablePopups ||
-    (await snapConfirm(wallet, promptObj))
+    (await snapConfirm(snap, promptObj))
   ) {
     return vcs;
   }

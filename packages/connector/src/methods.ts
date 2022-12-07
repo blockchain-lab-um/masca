@@ -1,7 +1,14 @@
-import { VerifiableCredential, VerifiablePresentation } from '@veramo/core';
+import { VerifiablePresentation } from '@veramo/core';
 import {
+  AvailableMethods,
+  ChangeInfuraTokenRequestParams,
+  CreateVPRequestParams,
   MetaMaskSSISnapRPCRequest,
-  VCQuery,
+  QueryVCsRequestParams,
+  QueryVCsRequestResult,
+  SaveVCRequestParams,
+  SetVCStoreRequestParams,
+  SwitchMethodRequestParams,
 } from '@blockchain-lab-um/ssi-snap-types';
 import { MetaMaskSSISnap } from './snap';
 
@@ -18,38 +25,28 @@ async function sendSnapMethod<T>(
 
 /**
  * Get a list of VCs stored in the SSI Snap under currently selected MetaMask account
- *
- * @param {VCQuery} query - Query for filtering through all VCs
- * @return {Promise<Array<VerifiableCredential>>} list of VCs
  */
-export async function getVCs(
+export async function queryVCs(
   this: MetaMaskSSISnap,
-  query?: VCQuery
-): Promise<VerifiableCredential[]> {
-  if (!query) query = {};
+  params?: QueryVCsRequestParams
+): Promise<QueryVCsRequestResult> {
   return await sendSnapMethod(
-    { method: 'getVCs', params: { query: query } },
+    { method: 'queryVCs', params: params || {} },
     this.snapId
   );
 }
 
 /**
- * Get a VP from a VC
- *
- * @param {string} vc_id - ID of VC used for generating a VP. Can be obtained with getVCs function
- * optional @param {string} challenge
- * optional @param {string} domain
+ * Create a VP from a VC
  */
-export async function getVP(
+export async function createVP(
   this: MetaMaskSSISnap,
-  vcId: string,
-  challenge?: string,
-  domain?: string
+  params: CreateVPRequestParams
 ): Promise<VerifiablePresentation> {
   return await sendSnapMethod(
     {
-      method: 'getVP',
-      params: { vcId: vcId, challenge: challenge, domain: domain },
+      method: 'createVP',
+      params: params,
     },
     this.snapId
   );
@@ -57,18 +54,15 @@ export async function getVP(
 
 /**
  * Save a VC in the SSI Snap under currently selected MetaMask account
- *
- * @param {VerifiableCredential} verifiableCredential - vc
- *
  */
 export async function saveVC(
   this: MetaMaskSSISnap,
-  verifiableCredential: VerifiableCredential
+  params: SaveVCRequestParams
 ): Promise<boolean> {
   return await sendSnapMethod(
     {
       method: 'saveVC',
-      params: { verifiableCredential: verifiableCredential },
+      params: params,
     },
     this.snapId
   );
@@ -78,22 +72,24 @@ export async function getDID(this: MetaMaskSSISnap): Promise<string> {
   return await sendSnapMethod({ method: 'getDID' }, this.snapId);
 }
 
-export async function getMethod(this: MetaMaskSSISnap): Promise<string> {
-  return await sendSnapMethod({ method: 'getMethod' }, this.snapId);
+export async function getMethod(
+  this: MetaMaskSSISnap
+): Promise<AvailableMethods> {
+  return await sendSnapMethod({ method: 'getSelectedMethod' }, this.snapId);
 }
 
 export async function getAvailableMethods(
   this: MetaMaskSSISnap
-): Promise<string[]> {
+): Promise<AvailableMethods> {
   return await sendSnapMethod({ method: 'getAvailableMethods' }, this.snapId);
 }
 
 export async function switchMethod(
   this: MetaMaskSSISnap,
-  didMethod: string
+  params: SwitchMethodRequestParams
 ): Promise<boolean> {
   return await sendSnapMethod(
-    { method: 'switchMethod', params: { didMethod: didMethod } },
+    { method: 'switchDIDMethod', params: params },
     this.snapId
   );
 }
@@ -114,10 +110,10 @@ export async function togglePopups(this: MetaMaskSSISnap): Promise<boolean> {
  */
 export async function changeInfuraToken(
   this: MetaMaskSSISnap,
-  infuraToken: string
+  params: ChangeInfuraTokenRequestParams
 ): Promise<boolean> {
   return await sendSnapMethod(
-    { method: 'changeInfuraToken', params: { infuraToken: infuraToken } },
+    { method: 'changeInfuraToken', params: params },
     this.snapId
   );
 }
@@ -134,10 +130,10 @@ export async function getAvailableVCStores(
 
 export async function setVCStore(
   this: MetaMaskSSISnap,
-  vcStore: string
+  params: SetVCStoreRequestParams
 ): Promise<boolean> {
   return await sendSnapMethod(
-    { method: 'setVCStore', params: { vcStore: vcStore } },
+    { method: 'setVCStore', params: params },
     this.snapId
   );
 }

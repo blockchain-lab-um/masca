@@ -7,7 +7,7 @@ declare global {
       isUnlocked: Promise<boolean>;
       request: <T>(
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        request: SnapRpcMethodRequest | { method: string; params?: any[] }
+        request: SnapRpcMethodRequest | { method: string; params?: any }
       ) => Promise<T>;
       on: (eventName: unknown, callback: unknown) => unknown;
     };
