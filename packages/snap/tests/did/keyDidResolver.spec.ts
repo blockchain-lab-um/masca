@@ -15,6 +15,17 @@ import {
   exampleDIDKeyDocument,
 } from '../testUtils/constants';
 import { DIDResolutionOptions, DIDResolutionResult } from 'did-resolver';
+import * as snapUtils from '../../src/utils/snapUtils';
+
+jest
+  .spyOn(snapUtils, 'getCurrentAccount')
+  // eslint-disable-next-line @typescript-eslint/require-await
+  .mockImplementation(async () => address);
+
+jest
+  .spyOn(snapUtils, 'getCurrentNetwork')
+  // eslint-disable-next-line @typescript-eslint/require-await
+  .mockImplementation(async () => '0x5');
 
 describe('keyDidResolver', () => {
   let snapMock: SnapsGlobalObject & SnapMock;

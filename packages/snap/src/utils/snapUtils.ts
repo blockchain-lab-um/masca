@@ -19,8 +19,7 @@ export async function getCurrentAccount(
   snap: SnapsGlobalObject
 ): Promise<string | null> {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    const accounts = (await snap.request({
+    const accounts = (await ethereum.request({
       method: 'eth_requestAccounts',
     })) as Array<string>;
     return accounts[0];
@@ -32,7 +31,7 @@ export async function getCurrentAccount(
 export async function getCurrentNetwork(
   snap: SnapsGlobalObject
 ): Promise<string> {
-  return (await snap.request({
+  return (await ethereum.request({
     method: 'eth_chainId',
   })) as string;
 }

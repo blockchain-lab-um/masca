@@ -1,6 +1,7 @@
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
 import {
+  address,
   exampleVC,
   exampleVCinVP,
   getDefaultSnapState,
@@ -12,6 +13,17 @@ import {
   veramoSaveVC,
 } from '../../src/utils/veramoUtils';
 import { W3CVerifiableCredential } from '@veramo/core';
+import * as snapUtils from '../../src/utils/snapUtils';
+
+jest
+  .spyOn(snapUtils, 'getCurrentAccount')
+  // eslint-disable-next-line @typescript-eslint/require-await
+  .mockImplementation(async () => address);
+
+jest
+  .spyOn(snapUtils, 'getCurrentNetwork')
+  // eslint-disable-next-line @typescript-eslint/require-await
+  .mockImplementation(async () => '0x5');
 
 describe('Utils [ceramic]', () => {
   let snapMock: SnapsGlobalObject & SnapMock;

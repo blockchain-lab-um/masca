@@ -8,8 +8,9 @@ import { ApiParams } from '../../interfaces';
 
 export async function queryVCs(
   params: ApiParams,
-  { filter, options }: QueryVCsRequestParams
+  args: QueryVCsRequestParams
 ): Promise<QueryVCsRequestResult[]> {
+  const { filter, options } = args;
   const { store, returnStore = true } = options || {};
   const { state, snap } = params;
   const vcs = await veramoQueryVCs({

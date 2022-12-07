@@ -10,6 +10,17 @@ import {
   getDefaultSnapState,
 } from '../testUtils/constants';
 import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
+import * as snapUtils from '../../src/utils/snapUtils';
+
+jest
+  .spyOn(snapUtils, 'getCurrentAccount')
+  // eslint-disable-next-line @typescript-eslint/require-await
+  .mockImplementation(async () => address);
+
+jest
+  .spyOn(snapUtils, 'getCurrentNetwork')
+  // eslint-disable-next-line @typescript-eslint/require-await
+  .mockImplementation(async () => '0x5');
 
 describe('Utils [did]', () => {
   let snapMock: SnapsGlobalObject & SnapMock;

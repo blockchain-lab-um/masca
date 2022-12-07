@@ -24,6 +24,17 @@ import { BIP44CoinTypeNode } from '@metamask/key-tree/dist/BIP44CoinTypeNode';
 import { StoredCredentials } from 'src/interfaces';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { StreamID } from '@ceramicnetwork/streamid';
+import * as snapUtils from '../../src/utils/snapUtils';
+
+jest
+  .spyOn(snapUtils, 'getCurrentAccount')
+  // eslint-disable-next-line @typescript-eslint/require-await
+  .mockImplementation(async () => address);
+
+jest
+  .spyOn(snapUtils, 'getCurrentNetwork')
+  // eslint-disable-next-line @typescript-eslint/require-await
+  .mockImplementation(async () => '0x5');
 
 let ceramicData: StoredCredentials;
 jest

@@ -7,6 +7,7 @@ import {
   exampleVC,
   getDefaultSnapState,
   jsonPath,
+  address,
 } from '../testUtils/constants';
 import {
   availableVCStores,
@@ -15,11 +16,11 @@ import {
 import { IVerifyResult, VerifiablePresentation } from '@veramo/core';
 import * as uuid from 'uuid';
 import { getAgent } from '../../src/veramo/setup';
-import { address } from '../testUtils/constants';
 import { veramoClearVCs } from '../../src/utils/veramoUtils';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { StreamID } from '@ceramicnetwork/streamid';
 import { StoredCredentials } from '../../src/interfaces';
+import * as snapUtils from '../../src/utils/snapUtils';
 jest.mock('uuid');
 let ceramicData: StoredCredentials;
 jest
@@ -35,6 +36,16 @@ jest
     ceramicData = content as StoredCredentials;
     return 'ok' as unknown as StreamID;
   });
+
+jest
+  .spyOn(snapUtils, 'getCurrentAccount')
+  // eslint-disable-next-line @typescript-eslint/require-await
+  .mockImplementation(async () => address);
+
+jest
+  .spyOn(snapUtils, 'getCurrentNetwork')
+  // eslint-disable-next-line @typescript-eslint/require-await
+  .mockImplementation(async () => '0x5');
 
 describe('onRpcRequest', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
@@ -1211,7 +1222,7 @@ describe('onRpcRequest', () => {
   });
   describe('getAccountSettings', () => {
     const state = getDefaultSnapState();
-    it('should succeed and return available methods', async () => {
+    it('should succeed and return account settings', async () => {
       await expect(
         onRpcRequest({
           origin: 'localhost',
@@ -1228,7 +1239,7 @@ describe('onRpcRequest', () => {
   });
   describe('getSnapSettings', () => {
     const state = getDefaultSnapState();
-    it('should succeed and return available methods', async () => {
+    it('should succeed and return snap settings', async () => {
       await expect(
         onRpcRequest({
           origin: 'localhost',
