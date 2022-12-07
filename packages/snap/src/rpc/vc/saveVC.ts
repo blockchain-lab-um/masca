@@ -10,7 +10,6 @@ export async function saveVC(
 ): Promise<IDataManagerSaveResult[]> {
   const { store = 'snap' } = options || {};
   const { snap } = params;
-
   const promptObj = {
     prompt: 'Save VC',
     description: `Would you like to save the following VC in ${

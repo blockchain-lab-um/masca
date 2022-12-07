@@ -1,4 +1,4 @@
-import { SnapProvider } from '@metamask/snap-types';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import {
   addFriendlyDapp,
   getCompressedPublicKey,
@@ -10,7 +10,7 @@ import {
   togglePopups,
   updateInfuraToken,
 } from '../../src/utils/snapUtils';
-import { WalletMock, createMockWallet } from '../testUtils/wallet.mock';
+import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
 import {
   address,
   publicKey,
@@ -23,23 +23,23 @@ import {
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 
 describe('Utils [snap]', () => {
-  let walletMock: SnapProvider & WalletMock;
+  let snapMock: SnapsGlobalObject & SnapMock;
 
   beforeEach(() => {
-    walletMock = createMockWallet();
+    snapMock = createMockSnap();
   });
 
   describe('getCurrentAccount', () => {
     it('should succeed and return test account', async () => {
-      await expect(getCurrentAccount(walletMock)).resolves.toEqual(address);
+      await expect(getCurrentAccount(snapMock)).resolves.toEqual(address);
 
       expect.assertions(1);
     });
 
     it('should catch error and return null (user rejection)', async () => {
-      walletMock.rpcMocks.eth_requestAccounts.mockRejectedValue(new Error());
+      snapMock.rpcMocks.eth_requestAccounts.mockRejectedValue(new Error());
 
-      await expect(getCurrentAccount(walletMock)).resolves.toBeNull();
+      await expect(getCurrentAccount(snapMock)).resolves.toBeNull();
 
       expect.assertions(1);
     });
@@ -47,21 +47,21 @@ describe('Utils [snap]', () => {
 
   describe('getCurrentNetwork', () => {
     it('should succeed for mainnet (0x1)', async () => {
-      walletMock.rpcMocks.eth_chainId.mockResolvedValue('0x1');
+      snapMock.rpcMocks.eth_chainId.mockResolvedValue('0x1');
 
-      await expect(getCurrentNetwork(walletMock)).resolves.toEqual('0x1');
+      await expect(getCurrentNetwork(snapMock)).resolves.toEqual('0x1');
 
-      expect(walletMock.rpcMocks.eth_chainId).toHaveBeenCalledTimes(1);
+      expect(snapMock.rpcMocks.eth_chainId).toHaveBeenCalledTimes(1);
 
       expect.assertions(2);
     });
 
     it('should succeed for goerli (0x5)', async () => {
-      walletMock.rpcMocks.eth_chainId.mockResolvedValue('0x5');
+      snapMock.rpcMocks.eth_chainId.mockResolvedValue('0x5');
 
-      await expect(getCurrentNetwork(walletMock)).resolves.toEqual('0x5');
+      await expect(getCurrentNetwork(snapMock)).resolves.toEqual('0x5');
 
-      expect(walletMock.rpcMocks.eth_chainId).toHaveBeenCalledTimes(1);
+      expect(snapMock.rpcMocks.eth_chainId).toHaveBeenCalledTimes(1);
 
       expect.assertions(2);
     });
@@ -70,20 +70,20 @@ describe('Utils [snap]', () => {
   describe('updateInfuraToken', () => {
     it('should succeed with valid infura token', async () => {
       const initialState = getDefaultSnapState();
-      walletMock.rpcMocks.snap_manageState.mockResolvedValue(initialState);
+      snapMock.rpcMocks.snap_manageState.mockResolvedValue(initialState);
 
       await expect(
-        updateInfuraToken(walletMock, initialState, infuraToken)
+        updateInfuraToken(snapMock, initialState, infuraToken)
       ).resolves.not.toThrow();
 
       const expectedState = getDefaultSnapState();
       expectedState.snapConfig.snap.infuraToken = infuraToken;
 
       // Call should be `update` with the correct arguments
-      expect(walletMock.rpcMocks.snap_manageState).toHaveBeenCalledWith(
-        'update',
-        expectedState
-      );
+      expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith({
+        operation: 'update',
+        newState: expectedState,
+      });
 
       expect.assertions(2);
     });
@@ -93,17 +93,15 @@ describe('Utils [snap]', () => {
     it('should succeed and toggle popups (off -> on)', async () => {
       const initialState = getDefaultSnapState();
 
-      await expect(
-        togglePopups(walletMock, initialState)
-      ).resolves.not.toThrow();
+      await expect(togglePopups(snapMock, initialState)).resolves.not.toThrow();
 
       // Call should be `update` with the correct arguments
       const expectedState = getDefaultSnapState();
       expectedState.snapConfig.dApp.disablePopups = true;
-      expect(walletMock.rpcMocks.snap_manageState).toHaveBeenCalledWith(
-        'update',
-        expectedState
-      );
+      expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith({
+        operation: 'update',
+        newState: expectedState,
+      });
 
       expect.assertions(2);
     });
@@ -112,18 +110,16 @@ describe('Utils [snap]', () => {
       const initialState = getDefaultSnapState();
       initialState.snapConfig.dApp.disablePopups = true;
 
-      await expect(
-        togglePopups(walletMock, initialState)
-      ).resolves.not.toThrow();
+      await expect(togglePopups(snapMock, initialState)).resolves.not.toThrow();
 
       // Call should be `update` with the correct arguments
       const expectedState = getDefaultSnapState();
       expectedState.snapConfig.dApp.disablePopups = false;
 
-      expect(walletMock.rpcMocks.snap_manageState).toHaveBeenCalledWith(
-        'update',
-        expectedState
-      );
+      expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith({
+        operation: 'update',
+        newState: expectedState,
+      });
 
       expect.assertions(2);
     });
@@ -134,20 +130,20 @@ describe('Utils [snap]', () => {
       const dApp = 'test_dApp_42';
       const initialState = getDefaultSnapState();
 
-      walletMock.rpcMocks.snap_manageState.mockResolvedValue(initialState);
+      snapMock.rpcMocks.snap_manageState.mockResolvedValue(initialState);
 
       await expect(
-        addFriendlyDapp(walletMock, initialState, dApp)
+        addFriendlyDapp(snapMock, initialState, dApp)
       ).resolves.not.toThrow();
 
       const expectedState = getDefaultSnapState();
       expectedState.snapConfig.dApp.friendlyDapps = [dApp];
 
       // Call should be `update` with the correct arguments
-      expect(walletMock.rpcMocks.snap_manageState).toHaveBeenCalledWith(
-        'update',
-        expectedState
-      );
+      expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith({
+        operation: 'update',
+        newState: expectedState,
+      });
 
       expect.assertions(2);
     });
@@ -161,10 +157,10 @@ describe('Utils [snap]', () => {
         'test_dApp_3',
       ];
 
-      walletMock.rpcMocks.snap_manageState.mockResolvedValue(initialState);
+      snapMock.rpcMocks.snap_manageState.mockResolvedValue(initialState);
 
       await expect(
-        addFriendlyDapp(walletMock, initialState, dApp)
+        addFriendlyDapp(snapMock, initialState, dApp)
       ).resolves.not.toThrow();
 
       const expectedState = getDefaultSnapState();
@@ -176,10 +172,10 @@ describe('Utils [snap]', () => {
       ];
 
       // Call should be `update` with the correct arguments
-      expect(walletMock.rpcMocks.snap_manageState).toHaveBeenCalledWith(
-        'update',
-        expectedState
-      );
+      expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith({
+        operation: 'update',
+        newState: expectedState,
+      });
 
       expect.assertions(2);
     });
@@ -191,19 +187,19 @@ describe('Utils [snap]', () => {
       const initialState = getDefaultSnapState();
       initialState.snapConfig.dApp.friendlyDapps = [dApp];
 
-      walletMock.rpcMocks.snap_manageState.mockResolvedValue(initialState);
+      snapMock.rpcMocks.snap_manageState.mockResolvedValue(initialState);
 
       await expect(
-        removeFriendlyDapp(walletMock, initialState, dApp)
+        removeFriendlyDapp(snapMock, initialState, dApp)
       ).resolves.not.toThrow();
 
       const expectedState = getDefaultSnapState();
 
       // Call should be `update` with the correct arguments
-      expect(walletMock.rpcMocks.snap_manageState).toHaveBeenCalledWith(
-        'update',
-        expectedState
-      );
+      expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith({
+        operation: 'update',
+        newState: expectedState,
+      });
 
       expect.assertions(2);
     });
@@ -218,10 +214,10 @@ describe('Utils [snap]', () => {
         'test_dApp_3',
       ];
 
-      walletMock.rpcMocks.snap_manageState.mockResolvedValue(initialState);
+      snapMock.rpcMocks.snap_manageState.mockResolvedValue(initialState);
 
       await expect(
-        removeFriendlyDapp(walletMock, initialState, dApp)
+        removeFriendlyDapp(snapMock, initialState, dApp)
       ).resolves.not.toThrow();
 
       const expectedState = getDefaultSnapState();
@@ -232,10 +228,10 @@ describe('Utils [snap]', () => {
       ];
 
       // Call should be `update` with the correct arguments
-      expect(walletMock.rpcMocks.snap_manageState).toHaveBeenCalledWith(
-        'update',
-        expectedState
-      );
+      expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith({
+        operation: 'update',
+        newState: expectedState,
+      });
 
       expect.assertions(2);
     });
@@ -250,11 +246,11 @@ describe('Utils [snap]', () => {
   //       'test_dApp_3',
   //     ];
 
-  //     walletMock.rpcMocks.snap_manageState
+  //     snapMock.rpcMocks.snap_manageState
   //       .onCall(0)
   //       .mockResolvedValue(initialState);
 
-  //     await expect(getFriendlyDapps(walletMock)).to.eventually.be.deep.equal([
+  //     await expect(getFriendlyDapps(snapMock)).to.eventually.be.deep.equal([
   //       'test_dApp_1',
   //       'test_dApp_2',
   //       'test_dApp_3',
@@ -269,7 +265,7 @@ describe('Utils [snap]', () => {
 
       await expect(
         getPublicKey({
-          wallet: walletMock,
+          snap: snapMock,
           state: initialState,
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
@@ -284,7 +280,7 @@ describe('Utils [snap]', () => {
 
       await expect(
         getPublicKey({
-          wallet: walletMock,
+          snap: snapMock,
           state: initialState,
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
@@ -300,7 +296,7 @@ describe('Utils [snap]', () => {
       const initialState = getDefaultSnapState();
       initialState.accountState[address].publicKey = '';
       const pk = await getPublicKey({
-        wallet: walletMock,
+        snap: snapMock,
         state: initialState,
         account: address,
         bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
@@ -313,29 +309,29 @@ describe('Utils [snap]', () => {
 
   describe('snapConfirm', () => {
     it('should return true', async () => {
-      walletMock.rpcMocks.snap_confirm.mockResolvedValue(true);
+      snapMock.rpcMocks.snap_confirm.mockResolvedValue(true);
 
-      await expect(snapConfirm(walletMock, snapConfirmParams)).resolves.toEqual(
+      await expect(snapConfirm(snapMock, snapConfirmParams)).resolves.toEqual(
         true
       );
 
-      expect(walletMock.rpcMocks.snap_confirm).toHaveBeenCalledWith(
-        snapConfirmParams
-      );
+      expect(snapMock.rpcMocks.snap_confirm).toHaveBeenCalledWith([
+        snapConfirmParams,
+      ]);
 
       expect.assertions(2);
     });
 
     it('should return false', async () => {
-      walletMock.rpcMocks.snap_confirm.mockResolvedValue(false);
+      snapMock.rpcMocks.snap_confirm.mockResolvedValue(false);
 
-      await expect(snapConfirm(walletMock, snapConfirmParams)).resolves.toEqual(
+      await expect(snapConfirm(snapMock, snapConfirmParams)).resolves.toEqual(
         false
       );
 
-      expect(walletMock.rpcMocks.snap_confirm).toHaveBeenCalledWith(
-        snapConfirmParams
-      );
+      expect(snapMock.rpcMocks.snap_confirm).toHaveBeenCalledWith([
+        snapConfirmParams,
+      ]);
 
       expect.assertions(2);
     });

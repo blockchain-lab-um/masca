@@ -12,13 +12,13 @@ VCs bring many benefits:
 - **Tamper-proof** - Cryptography assures their authenticity and enables users to store and share data securely
 - **Independent from the issuer** - Instant verifiability makes them independent from the issuer. They can get verified anywhere, without the need of the issuer (e.g. an university) to confirm the authenticity
 - **VC holders have full control and ownership of their data and privacy** - Users decide what gets shared and what doesn't
-- **Portable** - Users can store VCs in their digital wallet (e.g. a mobile app) and use them anywhere
+- **Portable** - Users can store VCs in their digital snap (e.g. a mobile app) and use them anywhere
 
 <center>
 
 <img src="https://i.imgur.com/guqZBX9.png" />
 
-[UI Example](https://identity.foundation/wallet-rendering/#term:display-mapping-object) of a VC
+[UI Example](https://identity.foundation/snap-rendering/#term:display-mapping-object) of a VC
 
 </center>
 

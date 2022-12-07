@@ -1,7 +1,6 @@
 export class DIDDataStore {
   private state: any = {};
   constructor(args: any) {
-    console.log('Hereeeeee');
     this.state = {};
   }
 

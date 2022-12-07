@@ -47,7 +47,7 @@ On the other hand, VPs are signed by holders using their wallets (which is SSI S
 
 ## Cryptography
 
-Cryptography is what makes everything secure and possible. VCs and VPs are both digitally signed and verifiable by everyone that gets in contact with them. Because of developing on web3/Ethereum wallet, we are reusing your existing cryptography keys, so the users do not have to worry about backing up the additional keys.
+Cryptography is what makes everything secure and possible. VCs and VPs are both digitally signed and verifiable by everyone that gets in contact with them. Because of developing on web3/Ethereum snap, we are reusing your existing cryptography keys, so the users do not have to worry about backing up the additional keys.
 
 ### Cryptographic keys
 

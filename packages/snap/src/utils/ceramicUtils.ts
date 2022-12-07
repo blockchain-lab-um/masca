@@ -28,13 +28,11 @@ export async function authenticateWithEthereum(
   const accountId = await getAccountId(snap, account);
 
   const authMethod = await EthereumWebAuth.getAuthMethod(snap, accountId);
-
   typeof window;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
   window.location = {} as any;
   window.location.hostname = 'ssi-snap';
-
   const session = await DIDSession.authorize(authMethod, {
     resources: [`ceramic://*`],
   });

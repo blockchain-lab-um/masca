@@ -60,7 +60,6 @@ export type Agent = TAgent<
 
 export const getAgent = async (snap: SnapsGlobalObject): Promise<Agent> => {
   const state = await getSnapState(snap);
-
   const INFURA_PROJECT_ID = state.snapConfig.snap.infuraToken;
   const CHAIN_ID = await getCurrentNetwork(snap);
 

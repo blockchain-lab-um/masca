@@ -15,16 +15,16 @@ export type ProofOptions = {
 };
 
 export type QueryVCsOptions = {
-  store?: AvailableVCStores | [AvailableVCStores];
+  store?: AvailableVCStores | AvailableVCStores[];
   returnStore?: boolean;
 };
 
 export type SaveVCOptions = {
-  store?: AvailableVCStores | [AvailableVCStores];
+  store?: AvailableVCStores | AvailableVCStores[];
 };
 
 export type DeleteVCsOptions = {
-  store?: AvailableVCStores | [AvailableVCStores];
+  store?: AvailableVCStores | AvailableVCStores[];
 };
 
 //TODO: This type is also in vcmanager
@@ -36,15 +36,15 @@ export type Filter = {
 /**
  * Types for method arguments
  */
+
+export type VCRequest = {
+  id: string;
+  metadata?: {
+    store?: AvailableVCStores;
+  };
+};
 export type CreateVPRequestParams = {
-  vcs: [
-    {
-      id: string;
-      metadata?: {
-        store?: AvailableVCStores;
-      };
-    }
-  ];
+  vcs: VCRequest[];
   proofFormat?: SupportedProofFormats;
   proofOptions?: ProofOptions;
 };

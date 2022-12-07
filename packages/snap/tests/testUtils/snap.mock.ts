@@ -1,36 +1,41 @@
 import { RequestArguments } from '@metamask/providers/dist/BaseProvider';
 import { Maybe } from '@metamask/providers/dist/utils';
-import { SnapProvider } from '@metamask/snap-types';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 
 import { address, mnemonic, privateKey } from './constants';
 import { SSISnapState } from '../../src/interfaces';
 import { Wallet } from 'ethers';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
-interface IWalletMock {
+interface ISnapMock {
   request<T>(args: RequestArguments): Promise<Maybe<T>>;
   resetHistory(): void;
 }
+interface SnapManageState {
+  operation: 'get' | 'update' | 'clear';
+  newState: unknown;
+}
 
-export class WalletMock implements IWalletMock {
+export class SnapMock implements ISnapMock {
   private snapState: SSISnapState | null = null;
-  private wallet: Wallet = new Wallet(privateKey);
+  private snap: Wallet = new Wallet(privateKey);
 
-  private snapManageState(...params: unknown[]): SSISnapState | null {
-    if (params.length === 0) return null;
-
-    if (params[0] === 'get') return this.snapState;
-    else if (params[0] === 'update') {
-      this.snapState = params[1] as SSISnapState;
-    } else if (params[0] === 'clear') {
+  private snapManageState(params: SnapManageState): SSISnapState | null {
+    if (!params) {
+      return null;
+    }
+    if (params.operation === 'get') {
+      return this.snapState;
+    } else if (params.operation === 'update') {
+      this.snapState = params.newState as SSISnapState;
+    } else if (params.operation === 'clear') {
       this.snapState = null;
     }
 
     return null;
   }
 
-  private async walletPersonalSign(data: unknown): Promise<string> {
-    const acc = new Wallet(privateKey);
-    const signature = await acc.signMessage(data as string);
+  private async snapPersonalSign(data: string[]): Promise<string> {
+    const signature = await this.snap.signMessage(data[0]);
     return signature;
   }
 
@@ -51,14 +56,12 @@ export class WalletMock implements IWalletMock {
       }),
     snap_manageState: jest
       .fn()
-      .mockImplementation((...params: unknown[]) =>
-        this.snapManageState(...params)
+      .mockImplementation((params: unknown) =>
+        this.snapManageState(params as SnapManageState)
       ),
-    personal_sign: jest
-      .fn()
-      .mockImplementation(
-        async (data: unknown) => await this.walletPersonalSign(data)
-      ),
+    personal_sign: jest.fn().mockImplementation(async (data: unknown) => {
+      return await this.snapPersonalSign(data as string[]);
+    }),
     eth_signTypedData_v4: jest
       .fn()
       .mockImplementation((...params: unknown[]) => {
@@ -69,20 +72,15 @@ export class WalletMock implements IWalletMock {
         delete types.EIP712Domain;
 
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        return this.wallet._signTypedData(domain, types, message);
+        return this.snap._signTypedData(domain, types, message);
       }),
   };
 
   request<T>(args: RequestArguments): Promise<Maybe<T>> {
-    const { method, params = [] } = args;
-    if (method === 'snap_getBip44Entropy') {
-      // eslint-disable-next-line
-      return this.rpcMocks[method](params);
-    }
-
+    const { method, params } = args;
     // @ts-expect-error Args params won't cause an issue
     // eslint-disable-next-line
-    return this.rpcMocks[method](...params);
+    return this.rpcMocks[method](params);
   }
 
   resetHistory(): void {
@@ -90,6 +88,6 @@ export class WalletMock implements IWalletMock {
   }
 }
 
-export function createMockWallet(): SnapProvider & WalletMock {
-  return new WalletMock() as SnapProvider & WalletMock;
+export function createMockSnap(): SnapsGlobalObject & SnapMock {
+  return new SnapMock() as SnapsGlobalObject & SnapMock;
 }

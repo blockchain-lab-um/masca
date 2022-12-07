@@ -22,6 +22,7 @@ import { getAvailableVCStores } from './rpc/vcStore/getAvailableVCStores';
 import {
   getSnapStateUnchecked,
   initAccountState,
+  initSnapState,
   setAccountPublicKey,
 } from './utils/stateUtils';
 import { getCurrentAccount } from './utils/snapUtils';
@@ -31,7 +32,7 @@ import { deleteVC } from './rpc/vc/deleteVC';
 
 export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
   let state = await getSnapStateUnchecked(snap);
-  if (state === null) state = await init(snap);
+  if (state === null) state = await initSnapState(snap);
 
   const account = await getCurrentAccount(snap);
 
