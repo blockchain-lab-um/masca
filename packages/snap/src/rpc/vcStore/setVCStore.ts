@@ -15,7 +15,7 @@ export async function setVCStore(
       description: `Would you like to ${
         value ? 'enable' : 'disable'
       } ${store} vcStore plugin?`,
-      textAreaContent: ``,
+      textAreaContent: `Content`,
     };
     if (await snapConfirm(snap, promptObj)) {
       state.accountState[account].accountConfig.ssi.vcStore[store] = value;

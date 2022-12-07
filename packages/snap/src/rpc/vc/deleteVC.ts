@@ -13,6 +13,7 @@ export async function deleteVC(
   const promptObj = {
     prompt: 'Delete VC',
     description: `Would you like to delete the following VC?`,
+    textAreaContent: `Content`,
   };
 
   if (await snapConfirm(snap, promptObj)) {
