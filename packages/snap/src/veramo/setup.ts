@@ -45,7 +45,11 @@ const availableNetworks: Record<string, string> = {
   '0x05': 'goerli',
 };
 
-import { getCurrentNetwork } from '../utils/snapUtils';
+import {
+  getCurrentAccount,
+  getCurrentNetwork,
+  getEnabledVCStores,
+} from '../utils/snapUtils';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { getSnapState } from '../utils/stateUtils';
 
@@ -62,13 +66,15 @@ export const getAgent = async (snap: SnapsGlobalObject): Promise<Agent> => {
   const state = await getSnapState(snap);
   const INFURA_PROJECT_ID = state.snapConfig.snap.infuraToken;
   const CHAIN_ID = await getCurrentNetwork(snap);
+  const account = await getCurrentAccount(snap);
 
   const web3Providers: Record<string, Web3Provider> = {};
   const didProviders: Record<string, AbstractIdentifierProvider> = {};
   const vcStorePlugins: Record<string, AbstractDataStore> = {};
+  const enabledVCStores = getEnabledVCStores(account as string, state);
+  console.log('Enabled VC Stores:', enabledVCStores);
 
   web3Providers['metamask'] = new Web3Provider(snap as any);
-
   didProviders['did:ethr'] = new EthrDIDProvider({
     defaultKms: 'web3',
     network: availableNetworks[CHAIN_ID] ?? 'mainnet',
@@ -79,9 +85,10 @@ export const getAgent = async (snap: SnapsGlobalObject): Promise<Agent> => {
   });
 
   didProviders['did:key'] = new KeyDIDProvider({ defaultKms: 'web3' });
-
   vcStorePlugins['snap'] = new SnapVCStore(snap);
-  vcStorePlugins['ceramic'] = new CeramicVCStore(snap);
+  if (enabledVCStores.includes('ceramic')) {
+    vcStorePlugins['ceramic'] = new CeramicVCStore(snap);
+  }
   const agent = createAgent<
     IDIDManager &
       IKeyManager &

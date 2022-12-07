@@ -25,6 +25,7 @@ import { StoredCredentials } from 'src/interfaces';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { StreamID } from '@ceramicnetwork/streamid';
 import * as snapUtils from '../../src/utils/snapUtils';
+import { setVCStore } from '../../src/rpc/vcStore/setVCStore';
 
 jest
   .spyOn(snapUtils, 'getCurrentAccount')
@@ -318,6 +319,53 @@ describe('Utils [veramo]', () => {
       ).resolves.toEqual([]);
 
       expect.assertions(1);
+    });
+
+    it('should return all VCs from snap store - toggle ceramicVCStore', async () => {
+      const state = getDefaultSnapState();
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(state);
+      const res = await veramoSaveVC({
+        snap: snapMock,
+        verifiableCredential: exampleVC,
+        store: ['snap', 'ceramic'],
+      });
+
+      const preQuery = await veramoQueryVCs({ snap: snapMock, options: {} });
+      expect(preQuery).toHaveLength(2);
+
+      state.accountState[address].accountConfig.ssi.vcStore = {
+        snap: true,
+        ceramic: false,
+      };
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(state);
+
+      const resRet = snapUtils.getEnabledVCStores(address, state);
+      expect(resRet).toEqual(['snap']);
+
+      await expect(
+        veramoQueryVCs({
+          snap: snapMock,
+          options: {},
+        })
+      ).resolves.toHaveLength(1);
+
+      state.accountState[address].accountConfig.ssi.vcStore = {
+        snap: true,
+        ceramic: true,
+      };
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(state);
+
+      const resRet2 = snapUtils.getEnabledVCStores(address, state);
+      expect(resRet2).toEqual(['snap', 'ceramic']);
+
+      await expect(
+        veramoQueryVCs({
+          snap: snapMock,
+          options: {},
+        })
+      ).resolves.toHaveLength(2);
+
+      expect.assertions(5);
     });
 
     it('should succeed listing all VCs from snap store', async () => {
