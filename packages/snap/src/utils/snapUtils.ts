@@ -31,9 +31,10 @@ export async function getCurrentAccount(
 export async function getCurrentNetwork(
   snap: SnapsGlobalObject
 ): Promise<string> {
-  return (await ethereum.request({
+  const network = (await ethereum.request({
     method: 'eth_chainId',
   })) as string;
+  return network;
 }
 
 /**
@@ -133,8 +134,15 @@ export async function snapConfirm(
   params: SnapConfirmParams
 ): Promise<boolean> {
   return (await snap.request({
-    method: 'snap_confirm',
-    params: [params],
+    method: 'snap_dialog',
+    params: {
+      type: 'Confirmation',
+      fields: {
+        title: params.prompt,
+        description: params.description,
+        textAreaContent: params.textAreaContent,
+      },
+    },
   })) as boolean;
 }
 

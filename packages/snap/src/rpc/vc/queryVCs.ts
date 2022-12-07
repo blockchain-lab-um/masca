@@ -13,11 +13,13 @@ export async function queryVCs(
   const { filter, options } = args || {};
   const { store, returnStore = true } = options || {};
   const { state, snap } = params;
+  console.log('here1');
   const vcs = await veramoQueryVCs({
     snap,
     options: { store, returnStore },
     filter, // TODO: Check if undefined is ok
   });
+  console.log('hereEND');
   const promptObj = {
     prompt: 'Send VCs',
     description: 'Are you sure you want to send VCs to the dApp?',

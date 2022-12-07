@@ -27,7 +27,7 @@ export async function authenticateWithEthereum(
   if (!account) throw Error('User denied error');
   const accountId = await getAccountId(snap, account);
 
-  const authMethod = await EthereumWebAuth.getAuthMethod(snap, accountId);
+  const authMethod = await EthereumWebAuth.getAuthMethod(ethereum, accountId);
   typeof window;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment

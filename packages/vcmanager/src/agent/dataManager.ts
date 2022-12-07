@@ -39,8 +39,12 @@ export class DataManager implements IAgentPlugin {
       if (!storePlugin) {
         throw new Error(`Store plugin ${storeName} not found`);
       }
-      const result = await storePlugin.save({ data, options });
-      res.push({ id: result, store: storeName });
+      try {
+        const result = await storePlugin.save({ data, options });
+        res.push({ id: result, store: storeName });
+      } catch (e) {
+        console.log(e);
+      }
     }
     return res;
   }
@@ -73,18 +77,23 @@ export class DataManager implements IAgentPlugin {
       if (!storePlugin) {
         throw new Error(`Store plugin ${storeName} not found`);
       }
-      const result = await storePlugin.query({ filter });
-      const mappedResult = result.map((r) => {
-        if (returnStore) {
-          return {
-            data: r.data,
-            metadata: { id: r.metadata.id, store: storeName },
-          };
-        } else {
-          return { data: r.data, metadata: { id: r.metadata.id } };
-        }
-      });
-      res = [...res, ...mappedResult];
+
+      try {
+        const result = await storePlugin.query({ filter });
+        const mappedResult = result.map((r) => {
+          if (returnStore) {
+            return {
+              data: r.data,
+              metadata: { id: r.metadata.id, store: storeName },
+            };
+          } else {
+            return { data: r.data, metadata: { id: r.metadata.id } };
+          }
+        });
+        res = [...res, ...mappedResult];
+      } catch (e) {
+        console.log(e);
+      }
     }
     return res;
   }
@@ -112,7 +121,9 @@ export class DataManager implements IAgentPlugin {
       try {
         const deleteResult = await storePlugin.delete({ id: id });
         res.push(deleteResult);
-      } catch (e) {}
+      } catch (e) {
+        console.log(e);
+      }
     }
     return res;
   }
@@ -138,8 +149,12 @@ export class DataManager implements IAgentPlugin {
       if (!storePlugin) {
         throw new Error(`Store plugin ${storeName} not found`);
       }
-      const deleteResult = await storePlugin.clear({ filter });
-      res.push(deleteResult);
+      try {
+        const deleteResult = await storePlugin.clear({ filter });
+        res.push(deleteResult);
+      } catch (e) {
+        console.log(e);
+      }
     }
     return res;
   }
