@@ -84,7 +84,7 @@ describe('Utils [ceramic]', () => {
           verifiableCredential: 123 as unknown as W3CVerifiableCredential,
           store: ['ceramic'],
         })
-      ).rejects.toThrow(regex);
+      ).resolves.toEqual([]);
     });
     it('should succeed retrieving VC from ceramic network', async () => {
       snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
