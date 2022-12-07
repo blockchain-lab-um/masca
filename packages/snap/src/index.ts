@@ -54,14 +54,18 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
 
   switch (request.method) {
     case 'queryVCs':
-      isValidQueryRequest(request.params);
+      isValidQueryRequest(request.params, apiParams.account, apiParams.state);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return await queryVCs(apiParams, request.params);
     case 'saveVC':
-      isValidSaveVCRequest(request.params);
+      isValidSaveVCRequest(request.params, apiParams.account, apiParams.state);
       return await saveVC(apiParams, request.params);
     case 'createVP':
-      isValidCreateVPRequest(request.params);
+      isValidCreateVPRequest(
+        request.params,
+        apiParams.account,
+        apiParams.state
+      );
       apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
       return await createVP(apiParams, request.params);
     case 'changeInfuraToken':
@@ -90,7 +94,11 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
     case 'getAvailableVCStores':
       return getAvailableVCStores();
     case 'deleteVC':
-      isValidDeleteVCRequest(request.params);
+      isValidDeleteVCRequest(
+        request.params,
+        apiParams.account,
+        apiParams.state
+      );
       return await deleteVC(apiParams, request.params);
     default:
       throw new Error('Method not found.');

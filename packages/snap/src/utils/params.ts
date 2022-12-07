@@ -12,7 +12,10 @@ import {
   SwitchMethodRequestParams,
   SetVCStoreRequestParams,
   DeleteVCsRequestParams,
+  AvailableVCStores,
 } from '@blockchain-lab-um/ssi-snap-types';
+import { SSISnapState } from 'src/interfaces';
+import { isEnabledVCStore } from './snapUtils';
 
 function isStringArray(input: unknown): input is string[] {
   return (
@@ -26,7 +29,9 @@ function isArray(input: unknown): input is unknown[] {
 }
 
 export function isValidSaveVCRequest(
-  params: unknown
+  params: unknown,
+  account: string,
+  state: SSISnapState
 ): asserts params is SaveVCRequestParams {
   const param = params as SaveVCRequestParams;
   if (
@@ -45,6 +50,9 @@ export function isValidSaveVCRequest(
           if (!isAvailableVCStores(param.options?.store)) {
             throw new Error('Store is not supported!');
           }
+          if (!isEnabledVCStore(account, state, param.options?.store)) {
+            throw new Error('Store is not enabled!');
+          }
         } else if (
           Array.isArray(param.options?.store) &&
           param.options?.store.length > 0
@@ -52,6 +60,9 @@ export function isValidSaveVCRequest(
           (param.options?.store as [string]).forEach((store) => {
             if (!isAvailableVCStores(store))
               throw new Error('Store is not supported!');
+            if (!isEnabledVCStore(account, state, store as AvailableVCStores)) {
+              throw new Error('Store is not enabled!');
+            }
           });
         } else throw new Error('Store is invalid format');
       }
@@ -62,7 +73,9 @@ export function isValidSaveVCRequest(
 }
 
 export function isValidCreateVPRequest(
-  params: unknown
+  params: unknown,
+  account: string,
+  state: SSISnapState
 ): asserts params is CreateVPRequestParams {
   const param = params as CreateVPRequestParams;
   if (
@@ -129,6 +142,17 @@ export function isValidCreateVPRequest(
         ) {
           throw new Error('Store is not supported!');
         }
+        if (
+          'metadata' in vc &&
+          vc.metadata !== null &&
+          typeof vc.metadata === 'object' &&
+          'store' in vc.metadata &&
+          vc.metadata.store !== null &&
+          typeof vc.metadata.store === 'string' &&
+          !isEnabledVCStore(account, state, vc.metadata?.store)
+        ) {
+          throw new Error('Store is not enabled!');
+        }
       } else throw new Error('VC is invalid format');
     });
     return;
@@ -192,7 +216,9 @@ export function isValidSetVCStoreRequest(
 }
 
 export function isValidDeleteVCRequest(
-  params: unknown
+  params: unknown,
+  account: string,
+  state: SSISnapState
 ): asserts params is DeleteVCsRequestParams {
   const param = params as DeleteVCsRequestParams;
   if (
@@ -214,6 +240,9 @@ export function isValidDeleteVCRequest(
           if (!isAvailableVCStores(param.options?.store)) {
             throw new Error('Store is not supported!');
           }
+          if (!isEnabledVCStore(account, state, param.options?.store)) {
+            throw new Error('Store is not enabled!');
+          }
         } else if (
           Array.isArray(param.options?.store) &&
           param.options?.store.length > 0
@@ -221,6 +250,9 @@ export function isValidDeleteVCRequest(
           (param.options?.store as [string]).forEach((store) => {
             if (!isAvailableVCStores(store))
               throw new Error('Store is not supported!');
+            if (!isEnabledVCStore(account, state, store as AvailableVCStores)) {
+              throw new Error('Store is not enabled!');
+            }
           });
         } else throw new Error('Store is invalid format');
       }
@@ -231,7 +263,9 @@ export function isValidDeleteVCRequest(
 }
 
 export function isValidQueryRequest(
-  params: unknown
+  params: unknown,
+  account: string,
+  state: SSISnapState
 ): asserts params is QueryVCsRequestParams {
   if (params == null) return;
   const param = params as QueryVCsRequestParams;
@@ -264,6 +298,9 @@ export function isValidQueryRequest(
         if (!isAvailableVCStores(param.options?.store)) {
           throw new Error('Store is not supported!');
         }
+        if (!isEnabledVCStore(account, state, param.options?.store)) {
+          throw new Error('Store is not enabled!');
+        }
       } else if (
         Array.isArray(param.options?.store) &&
         param.options?.store.length > 0
@@ -271,6 +308,8 @@ export function isValidQueryRequest(
         (param.options?.store as [string]).forEach((store) => {
           if (!isAvailableVCStores(store))
             throw new Error('Store is not supported!');
+          if (!isEnabledVCStore(account, state, store as AvailableVCStores))
+            throw new Error('Store is not enabled!');
         });
       } else throw new Error('Store is invalid format');
     }

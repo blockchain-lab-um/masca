@@ -186,3 +186,12 @@ export function getEnabledVCStores(
   });
   return res;
 }
+
+export function isEnabledVCStore(
+  account: string,
+  state: SSISnapState,
+  store: AvailableVCStores
+): boolean {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return state.accountState[account].accountConfig.ssi.vcStore[store];
+}
