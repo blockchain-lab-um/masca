@@ -151,10 +151,16 @@ export interface CredentialRequest {
  *
  * SPECS: https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#name-credential-response
  */
-export interface CredentialResponse {
+export type CredentialResponse = {
   format: typeof SupportedCredentialFormats[number];
   credential?: string; // TODO: Can also be a JSON object, depending on the Credential format
   acceptance_token?: string;
   c_nonce?: string;
   c_nonce_expires_in?: number;
-}
+} & (
+  | {
+      credential: string;
+      acceptance_token: undefined;
+    }
+  | { credential: undefined; acceptance_token: string }
+);

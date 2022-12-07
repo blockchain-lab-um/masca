@@ -24,10 +24,11 @@ import { KeyDIDProvider, getDidKeyResolver } from '@veramo/did-provider-key';
 import { getResolver as getEthrResolver } from 'ethr-did-resolver';
 import { Resolver } from 'did-resolver';
 import { IConfig } from 'src/config/configuration';
+import { IOIDCPlugin, OIDCPlugin } from '@blockchain-lab-um/oidc-rp-plugin';
 
 @Injectable()
 export class AgentService {
-  private agent: TAgent<IDIDManager & IKeyManager & IResolver>;
+  private agent: TAgent<IDIDManager & IKeyManager & IResolver & IOIDCPlugin>;
 
   private dbConnection: DataSource;
 
@@ -61,7 +62,9 @@ export class AgentService {
       ],
     };
 
-    this.agent = createAgent<IDIDManager & IKeyManager & IResolver>({
+    this.agent = createAgent<
+      IDIDManager & IKeyManager & IResolver & IOIDCPlugin
+    >({
       plugins: [
         new KeyManager({
           store: new KeyStore(this.dbConnection),
@@ -96,6 +99,21 @@ export class AgentService {
             ...getDidKeyResolver(),
           }),
         }),
+        new OIDCPlugin({
+          url: this.configService.get<string>('ISSUER_URL'),
+          db_secret: this.configService.get<string>('ISSUER_DB_SECRET'),
+          supported_curves:
+            this.configService.get<string[]>('SUPPORTED_CURVES'),
+          supported_did_methods: this.configService.get<string[]>(
+            'SUPPORTED_DID_METHODS'
+          ),
+          supported_digital_signatures: this.configService.get<string[]>(
+            'SUPPORTED_DIGITAL_SIGNATURES'
+          ),
+          supported_schema_url: this.configService.get<string>(
+            'SUPPORTED_SCHEMA_URL'
+          ),
+        }),
       ],
     });
   }
@@ -118,7 +136,7 @@ export class AgentService {
     }
   }
 
-  getAgent(): TAgent<IDIDManager & IKeyManager & IResolver> {
+  getAgent(): TAgent<IDIDManager & IKeyManager & IResolver & IOIDCPlugin> {
     return this.agent;
   }
 }

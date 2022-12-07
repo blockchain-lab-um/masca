@@ -27,10 +27,12 @@
     "test:watch": "yarn test --watch --verbose"
   },
   "dependencies": {
+    "@blockchain-lab-um/oidc-types": "*",
     "@types/qs": "^6.9.7",
     "@veramo/core": "^4.1.1",
     "@veramo/did-manager": "^4.1.1",
     "@veramo/key-manager": "^4.1.1",
+    "jose": "^4.11.1",
     "qs": "^6.11.0"
   },
   "devDependencies": {

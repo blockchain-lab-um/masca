@@ -47,3 +47,30 @@ export type Claims = {
     input_descriptors: InputDescriptor[];
   };
 };
+
+export interface IPluginConfig {
+  // Split for ISSUER and VERIFIER
+  supported_schema_url: string;
+  supported_did_methods: string[]; // e.g. ['ethr', 'key']
+  supported_curves: string[]; // e.g. secp256k1, ed25519, etc
+  supported_digital_signatures: string[]; // e.g. jwt, json_ld
+  db_secret: string;
+  url: string; // e.g. https://example.com
+}
+
+export type IsValidTokenRequestResponse = {
+  grantType:
+    | 'authorization_code'
+    | 'urn:ietf:params:oauth:grant-type:pre-authorized_code';
+  preAuthorizedCode?: string;
+} & (
+  | { grantType: 'authorization_code' }
+  | {
+      grantType: 'urn:ietf:params:oauth:grant-type:pre-authorized_code';
+      preAuthorizedCode: string;
+    }
+);
+
+export type IsValidAuthorizationHeaderResponse = {
+  accessToken: string;
+};
