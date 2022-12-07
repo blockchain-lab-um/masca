@@ -35,8 +35,6 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
 
   const account = await getCurrentAccount(snap);
 
-  console.log('REQUEST', request);
-
   // FIXME: HANDLE NULL maybe throw ?
   if (account === null) return;
 
