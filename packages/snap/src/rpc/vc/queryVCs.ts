@@ -10,7 +10,7 @@ export async function queryVCs(
   params: ApiParams,
   args: QueryVCsRequestParams
 ): Promise<QueryVCsRequestResult[]> {
-  const { filter, options } = args;
+  const { filter, options } = args || {};
   const { store, returnStore = true } = options || {};
   const { state, snap } = params;
   const vcs = await veramoQueryVCs({
