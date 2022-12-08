@@ -2,19 +2,35 @@
   <div class="about">
     <h1 id="title">About SSI Snap Demo</h1>
     <div class="template">
-      <Button class="discord p-0" aria-label="Discord" @click="openPage('https://discord.com/invite/M5xgNz7TTF')">
+      <Button
+        class="discord p-0"
+        aria-label="Discord"
+        @click="openPage('https://discord.com/invite/M5xgNz7TTF')"
+      >
         <i class="pi pi-discord px-2"></i>
         <span class="px-3">Discord</span>
       </Button>
-      <Button class="twitter p-0" aria-label="Twitter" @click="openPage('https://mobile.twitter.com/blockchainlabum')">
+      <Button
+        class="twitter p-0"
+        aria-label="Twitter"
+        @click="openPage('https://mobile.twitter.com/blockchainlabum')"
+      >
         <i class="pi pi-twitter px-2"></i>
         <span class="px-3">Twitter</span>
       </Button>
-      <Button class="github p-0" aria-label="Github" @click="openPage('https://github.com/blockchain-lab-um')">
+      <Button
+        class="github p-0"
+        aria-label="Github"
+        @click="openPage('https://github.com/blockchain-lab-um')"
+      >
         <i class="pi pi-github px-2"></i>
         <span class="px-3">Github</span>
       </Button>
-      <Button class="linktree p-0" aria-label="Linktr.ee" @click="openPage('https://linktr.ee/blockchainlabum')">
+      <Button
+        class="linktree p-0"
+        aria-label="Linktr.ee"
+        @click="openPage('https://linktr.ee/blockchainlabum')"
+      >
         <i class="pi pi-list px-2"></i>
         <span class="px-3">Linktr.ee</span>
       </Button>
@@ -25,7 +41,7 @@
 <script setup lang="ts">
 const openPage = (url: string) => {
   window.open(url, '_blank');
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -72,7 +88,11 @@ const openPage = (url: string) => {
 }
 
 .template .p-button.discord {
-  background: linear-gradient(to left, var(--indigo-600) 50%, var(--indigo-700) 50%);
+  background: linear-gradient(
+    to left,
+    var(--indigo-600) 50%,
+    var(--indigo-700) 50%
+  );
   background-size: 200% 100%;
   background-position: right bottom;
   transition: background-position 0.5s ease-out;
@@ -93,7 +113,11 @@ const openPage = (url: string) => {
 }
 
 .template .p-button.twitter {
-  background: linear-gradient(to left, var(--blue-400) 50%, var(--blue-500) 50%);
+  background: linear-gradient(
+    to left,
+    var(--blue-400) 50%,
+    var(--blue-500) 50%
+  );
   background-size: 200% 100%;
   background-position: right bottom;
   transition: background-position 0.5s ease-out;
@@ -114,7 +138,11 @@ const openPage = (url: string) => {
 }
 
 .template .p-button.github {
-  background: linear-gradient(to left, var(--bluegray-700) 50%, var(--bluegray-800) 50%);
+  background: linear-gradient(
+    to left,
+    var(--bluegray-700) 50%,
+    var(--bluegray-800) 50%
+  );
   background-size: 200% 100%;
   background-position: right bottom;
   transition: background-position 0.5s ease-out;
@@ -135,7 +163,11 @@ const openPage = (url: string) => {
 }
 
 .template .p-button.linktree {
-  background: linear-gradient(to left, var(--green-200) 50%, var(--green-300) 50%);
+  background: linear-gradient(
+    to left,
+    var(--green-200) 50%,
+    var(--green-300) 50%
+  );
   background-size: 200% 100%;
   background-position: right bottom;
   transition: background-position 0.5s ease-out;

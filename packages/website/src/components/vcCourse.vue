@@ -2,8 +2,17 @@
   <div id="vcForm">
     <h2>Enter your name to create a test Verifiable Credential</h2>
     <div class="course-input">
-      <InputText id="nameInput" type="username" class="p-inputtext-sm" placeholder="Username" />
-      <wrappedButton label='Create VC' :method="VCCreate" cssClass="p-button-sm" />
+      <InputText
+        id="nameInput"
+        type="username"
+        class="p-inputtext-sm"
+        placeholder="Username"
+      />
+      <wrappedButton
+        label="Create VC"
+        :method="VCCreate"
+        cssClass="p-button-sm"
+      />
     </div>
   </div>
 </template>
@@ -25,7 +34,11 @@ const VCCreate = async () => {
       return;
     }
 
-    const res = await createVC(nameInputValue, mmStore.mmAddress, mmStore.snapApi);
+    const res = await createVC(
+      nameInputValue,
+      mmStore.mmAddress,
+      mmStore.snapApi
+    );
     if (!res) {
       throw new Error('Failed to create VC');
     }
@@ -33,7 +46,7 @@ const VCCreate = async () => {
   } catch (err: any) {
     throw new Error(err.message);
   }
-}
+};
 </script>
 
 <style scoped>

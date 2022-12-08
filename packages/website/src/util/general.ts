@@ -1,27 +1,27 @@
-import type { ToastServiceMethods } from "primevue/toastservice";
+import type { ToastServiceMethods } from 'primevue/toastservice';
 
 export const showError = (
   toast: ToastServiceMethods,
-  message: string = "Message Content"
+  message: string = 'Message Content'
 ) => {
   toast.add({
-    severity: "error",
-    summary: "Error",
+    severity: 'error',
+    summary: 'Error',
     detail: message,
-    group: "br",
+    group: 'br',
     life: 3000,
   });
 };
 
 export const showSuccess = (
   toast: ToastServiceMethods,
-  message: string = "Message Content"
+  message: string = 'Message Content'
 ) => {
   toast.add({
-    severity: "success",
-    summary: "Success",
+    severity: 'success',
+    summary: 'Success',
     detail: message,
-    group: "br",
+    group: 'br',
     life: 3000,
   });
 };
@@ -42,7 +42,7 @@ export const funcWrapper = async (
   loading.value = true;
   try {
     const successMsg = await func();
-    if (typeof successMsg === "string") showSuccess(toast, successMsg);
+    if (typeof successMsg === 'string') showSuccess(toast, successMsg);
   } catch (err: any) {
     showError(toast, err.message);
   }
@@ -53,6 +53,6 @@ export const ISOtoLocaleString = (ISODateTime: string) => {
   if (!ISODateTime) return;
   return new Date(ISODateTime).toLocaleString('en', {
     hour12: false,
-    timeZone: 'UTC'
+    timeZone: 'UTC',
   });
-}
+};

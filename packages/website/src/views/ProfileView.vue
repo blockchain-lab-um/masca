@@ -7,8 +7,6 @@
         responsiveLayout="scroll"
         removableSort
         v-model:selection="selectedVC"
-        selectionMode="multiple"
-        dataKey="id"
       >
         <template #header>
           <div class="table-header">
@@ -32,7 +30,8 @@
             </div>
           </div>
         </template>
-        <Column field="data.id" header="VC Id" />
+        <Column selectionMode="multiple" headerStyle="width: 3em"></Column>
+        <Column field="metadata.id" header="VC Id" />
         <Column field="issuanceDate" header="Issuance Date" :sortable="true">
           <template #body="slotProps">
             {{ ISOtoLocaleString(slotProps.data.data.issuanceDate) }}
