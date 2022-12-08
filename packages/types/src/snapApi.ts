@@ -14,7 +14,7 @@ import { QueryVCsRequestResult } from './results';
 export interface SSISnapEventApi {}
 
 export interface SSISnapApi {
-  queryVCs(params: QueryVCsRequestParams): Promise<QueryVCsRequestResult>;
+  queryVCs(params: QueryVCsRequestParams): Promise<QueryVCsRequestResult[]>;
   saveVC(params: SaveVCRequestParams): Promise<boolean>;
   createVP(params: CreateVPRequestParams): Promise<VerifiablePresentation>;
   changeInfuraToken(params: ChangeInfuraTokenRequestParams): Promise<boolean>;

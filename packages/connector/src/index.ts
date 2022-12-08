@@ -1,10 +1,6 @@
 import { MetaMaskSSISnap } from './snap';
 import { AvailableMethods } from '@blockchain-lab-um/ssi-snap-types';
-import {
-  hasMetaMask,
-  isMetamaskSnapsSupported,
-  isSnapInstalled,
-} from './utils';
+import { hasMetaMask, isMetamaskSnapsSupported } from './utils';
 const defaultSnapOrigin = 'npm:@blockchain-lab-um/ssi-snap';
 
 export { MetaMaskSSISnap } from './snap';
@@ -48,23 +44,19 @@ export async function enableSSISnap(
     throw new Error("Current Metamask version doesn't support snaps");
   }
 
-  const isInstalled = await isSnapInstalled(snapId);
-
-  if (!isInstalled) {
-    await window.ethereum.request({
-      method: 'wallet_requestSnaps',
-      params: {
-        [snapId]: { version: version },
-      },
-    });
-  }
+  await window.ethereum.request({
+    method: 'wallet_requestSnaps',
+    params: {
+      [snapId]: { version: version },
+    },
+  });
 
   // create snap describer
   const snap = new MetaMaskSSISnap(snapId, supportedMethods);
 
   //initialize snap
   const snapApi = await snap.getSSISnapApi();
-
+  console.log('Getting DID method...');
   const method = await snapApi.getMethod();
   if (!snap.supportedMethods.includes(method)) {
     console.log('Switching method...', method, snap.supportedMethods[0]);

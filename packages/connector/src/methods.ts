@@ -16,11 +16,12 @@ async function sendSnapMethod<T>(
   request: MetaMaskSSISnapRPCRequest,
   snapId: string
 ): Promise<T> {
-  console.log('Request:', request);
-  return await window.ethereum.request({
+  const mmRequest = {
     method: snapId,
-    params: [request],
-  });
+    params: request,
+  };
+  console.log(mmRequest);
+  return await window.ethereum.request(mmRequest);
 }
 
 /**
