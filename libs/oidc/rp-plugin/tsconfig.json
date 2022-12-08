@@ -14,7 +14,7 @@
     "noFallthroughCasesInSwitch": true /* Report errors for fallthrough cases in switch statement. */,
 
     "lib": ["ES2020"],
-    "typeRoots": ["../../../node_modules/@types"]
+    "typeRoots": ["../../../node_modules/@types", "src/types"]
   },
   "include": ["src/**/*", "tests/**/*"]
 }

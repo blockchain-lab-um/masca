@@ -1,15 +1,12 @@
-import * as qs from 'qs';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { randomUUID } from 'crypto';
 import {
   CredentialRequest,
   CredentialResponse,
   TokenRequest,
   TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
-import { jwtVerify, decodeProtectedHeader } from 'jose';
-import { isError } from '@blockchain-lab-um/oidc-rp-plugin/dist/src/utils';
+import {} from '@blockchain-lab-um/oidc-rp-plugin'; // FIXME
 import { IConfig } from './config/configuration';
 import { DatastoreService } from './modules/datastore/datastore.service';
 import { AgentService } from './modules/agent/agent.service';

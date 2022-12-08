@@ -2,11 +2,10 @@
   "name": "@blockchain-lab-um/oidc-rp-plugin",
   "version": "0.0.1",
   "license": "MIT",
-  "main": "dist/index.js",
+  "main": "index.js",
   "source": "src/index.ts",
-  "types": "dist/src/index.d.ts",
+  "types": "index.d.ts",
   "files": [
-    "dist/**/*",
     "src/**/*",
     "README.md",
     "plugin.schema.json",
@@ -32,6 +31,8 @@
     "@veramo/core": "^4.1.1",
     "@veramo/did-manager": "^4.1.1",
     "@veramo/key-manager": "^4.1.1",
+    "did-jwt-vc": "^3.1.0",
+    "did-resolver": "^4.0.1",
     "jose": "^4.11.1",
     "qs": "^6.11.0"
   },

@@ -1,12 +1,21 @@
 import {
-  Credentials,
-  TokenRequest,
+  CredentialResponse,
   TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
-import { IPluginMethodMap } from '@veramo/core';
+import {
+  IAgentContext,
+  ICredentialIssuer,
+  IPluginMethodMap,
+  IResolver,
+} from '@veramo/core';
 import { Result } from '../utils';
 import {
+  CreateIssuanceInitiationRequestResposne,
+  HandleCredentialRequestArgs,
+  HandlePreAuthorizedCodeTokenRequestArgs,
+  IsValidAuthorizationHeaderArgs,
   IsValidAuthorizationHeaderResponse,
+  IsValidTokenRequestArgs,
   IsValidTokenRequestResponse,
 } from './internal';
 
@@ -17,23 +26,31 @@ export interface IOIDCPlugin extends IPluginMethodMap {
     body: { id_token: string; vp_token: string };
   }): Promise<void>;
   createIssuanceInitiationRequest(): Promise<
-    Result<{
-      issuanceInitiationRequest: string;
-      preAuthorizedCode: string;
-      credentials: Credentials;
-    }>
+    Result<CreateIssuanceInitiationRequestResposne>
   >;
-  handlePreAuthorizedCodeTokenRequest(args: {
-    body: TokenRequest;
-    preAuthorizedCode: string;
-    userPin?: string;
-  }): Promise<Result<TokenResponse>>;
-  handleCredentialRequest(): Promise<Result<void>>;
-  isValidTokenRequest(args: {
-    body: TokenRequest;
-  }): Promise<Result<IsValidTokenRequestResponse>>;
-
-  isValidAuthorizationHeader(args: {
-    authorizationHeader: string;
-  }): Promise<Result<IsValidAuthorizationHeaderResponse>>;
+  handlePreAuthorizedCodeTokenRequest(
+    args: HandlePreAuthorizedCodeTokenRequestArgs
+  ): Promise<Result<TokenResponse>>;
+  handleCredentialRequest(
+    args: HandleCredentialRequestArgs,
+    context: OIDCAgentContext
+  ): Promise<Result<CredentialResponse>>;
+  isValidTokenRequest(
+    args: IsValidTokenRequestArgs
+  ): Promise<Result<IsValidTokenRequestResponse>>;
+  isValidAuthorizationHeader(
+    args: IsValidAuthorizationHeaderArgs
+  ): Promise<Result<IsValidAuthorizationHeaderResponse>>;
 }
+
+/**
+ * Represents the requirements that this plugin has.
+ * The agent that is using this plugin is expected to provide these methods.
+ *
+ * This interface can be used for static type checks, to make sure your application is properly initialized.
+ *
+ * @beta
+ */
+export type OIDCAgentContext = IAgentContext<
+  IResolver & Pick<ICredentialIssuer, 'createVerifiableCredential'>
+>;

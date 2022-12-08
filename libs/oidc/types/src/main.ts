@@ -157,10 +157,4 @@ export type CredentialResponse = {
   acceptance_token?: string;
   c_nonce?: string;
   c_nonce_expires_in?: number;
-} & (
-  | {
-      credential: string;
-      acceptance_token: undefined;
-    }
-  | { credential: undefined; acceptance_token: string }
-);
+};

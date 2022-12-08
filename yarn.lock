@@ -1840,6 +1840,8 @@ __metadata:
     "@veramo/core": ^4.1.1
     "@veramo/did-manager": ^4.1.1
     "@veramo/key-manager": ^4.1.1
+    did-jwt-vc: ^3.1.0
+    did-resolver: ^4.0.1
     eslint: ^8.28.0
     eslint-config-airbnb-base: ^15.0.0
     eslint-config-airbnb-typescript: ^17.0.0

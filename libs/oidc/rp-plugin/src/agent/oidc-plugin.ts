@@ -1,23 +1,27 @@
-import { IAgentPlugin } from '@veramo/core';
+import { CredentialPayload, IAgentPlugin } from '@veramo/core';
 import qs from 'qs';
 import { randomUUID } from 'crypto';
 import {
-  CredentialRequest,
   CredentialResponse,
   Credentials,
   IssuanceRequestParams,
-  TokenRequest,
   TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
 import { Result } from 'src/utils';
-import { jwtVerify, decodeProtectedHeader } from 'jose';
+import { jwtVerify, decodeProtectedHeader, importJWK, JWTPayload } from 'jose';
+import { VerificationMethod } from 'did-resolver';
 import {
   Claims,
+  CreateIssuanceInitiationRequestResposne,
+  HandleCredentialRequestArgs,
   IPluginConfig,
+  IsValidAuthorizationHeaderArgs,
   IsValidAuthorizationHeaderResponse,
+  IsValidTokenRequestArgs,
   IsValidTokenRequestResponse,
+  HandlePreAuthorizedCodeTokenRequestArgs,
 } from '../types/internal';
-import { IOIDCPlugin } from '../types/IOIDCPlugin';
+import { IOIDCPlugin, OIDCAgentContext } from '../types/IOIDCPlugin';
 
 /**
  * {@inheritDoc IMyAgentPlugin}
@@ -123,11 +127,7 @@ export class OIDCPlugin implements IAgentPlugin {
   }
 
   public async createIssuanceInitiationRequest(): Promise<
-    Result<{
-      issuanceInitiationRequest: string;
-      preAuthorizedCode: string;
-      credentials: Credentials;
-    }>
+    Result<CreateIssuanceInitiationRequestResposne>
   > {
     const preAuthorizedCode = randomUUID();
     const credentials: Credentials = [
@@ -160,9 +160,9 @@ export class OIDCPlugin implements IAgentPlugin {
    * @param args
    * @returns
    */
-  public async isValidTokenRequest(args: {
-    body: TokenRequest;
-  }): Promise<Result<IsValidTokenRequestResponse>> {
+  public async isValidTokenRequest(
+    args: IsValidTokenRequestArgs
+  ): Promise<Result<IsValidTokenRequestResponse>> {
     const { body } = args;
 
     if (body.grant_type === 'authorization_code') {
@@ -195,11 +195,9 @@ export class OIDCPlugin implements IAgentPlugin {
   }
 
   // TODO: Optional parameter to change accessToken, cNonce,...
-  public async handlePreAuthorizedCodeTokenRequest(args: {
-    body: TokenRequest;
-    preAuthorizedCode: string;
-    userPin?: string;
-  }): Promise<Result<TokenResponse>> {
+  public async handlePreAuthorizedCodeTokenRequest(
+    args: HandlePreAuthorizedCodeTokenRequestArgs
+  ): Promise<Result<TokenResponse>> {
     const { body, preAuthorizedCode, userPin } = args;
     // FIXME - Split authorization_code and pre-authorized_code
 
@@ -235,9 +233,9 @@ export class OIDCPlugin implements IAgentPlugin {
     };
   }
 
-  public async isValidAuthorizationHeader(args: {
-    authorizationHeader: string;
-  }): Promise<Result<IsValidAuthorizationHeaderResponse>> {
+  public async isValidAuthorizationHeader(
+    args: IsValidAuthorizationHeaderArgs
+  ): Promise<Result<IsValidAuthorizationHeaderResponse>> {
     const { authorizationHeader } = args;
 
     // Check if authorization header is present
@@ -276,13 +274,18 @@ export class OIDCPlugin implements IAgentPlugin {
     };
   }
 
-  public async handleCredentialRequest(args: {
-    body: CredentialRequest;
-  }): Promise<Result<CredentialResponse>> {
+  public async handleCredentialRequest(
+    args: HandleCredentialRequestArgs,
+    context: OIDCAgentContext
+  ): Promise<Result<CredentialResponse>> {
+    const { body, c_nonce: cNonce, c_nonce_expires_in: cNonceExpiresIn } = args;
     const { format, proof } = body;
 
     if (!format) {
-      throw Error('Missing format');
+      return {
+        success: false,
+        error: new Error('Missing format'),
+      };
     }
 
     // TODO: Check if format is supported ?
@@ -291,17 +294,28 @@ export class OIDCPlugin implements IAgentPlugin {
     // Later we can implement section 13.2
     // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-13.2
     if (!proof) {
-      throw Error('Proof is required');
+      // TODO: Return according to specs
+      // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-8.3.2
+      return {
+        success: false,
+        error: new Error('Proof is required'),
+      };
     }
 
     // Check proof format
     if (proof.proof_type !== 'jwt') {
-      throw Error('Proof format missing or not supported');
+      return {
+        success: false,
+        error: new Error('Proof format missing or not supported'),
+      };
     }
 
     // Check if jwt is present
     if (!proof.jwt) {
-      throw Error('Missing or invalid jwt');
+      return {
+        success: false,
+        error: new Error('Missing or invalid jwt'),
+      };
     }
 
     // Decode protected header to get algorithm and key
@@ -310,7 +324,10 @@ export class OIDCPlugin implements IAgentPlugin {
       protectedHeader = decodeProtectedHeader(proof.jwt);
     } catch (e) {
       // FIXME: Maybe we should also include the error message from decodeProtectedHeader
-      throw Error('Invalid jwt header');
+      return {
+        success: false,
+        error: new Error('Invalid jwt header'),
+      };
     }
 
     // Check if more than 1 is present (kid, jwk, x5c)
@@ -319,164 +336,181 @@ export class OIDCPlugin implements IAgentPlugin {
         (value) => value != null
       ).length !== 1
     ) {
-      const { format, proof } = body;
-
-      if (!format) {
-        throw Error('Missing format');
-      }
-
-      // TODO: Check if format is supported ?
-
-      // TODO: We REQUIRE proof for now
-      // Later we can implement section 13.2
-      // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-13.2
-      if (!proof) {
-        throw Error('Proof is required');
-      }
-
-      // Check proof format
-      if (proof.proof_type !== 'jwt') {
-        throw Error('Proof format missing or not supported');
-      }
-
-      // Check if jwt is present
-      if (!proof.jwt) {
-        throw Error('Missing or invalid jwt');
-      }
-
-      // Decode protected header to get algorithm and key
-      let protectedHeader;
-      try {
-        protectedHeader = decodeProtectedHeader(proof.jwt);
-      } catch (e) {
-        // FIXME: Maybe we should also include the error message from decodeProtectedHeader
-        throw Error('Invalid jwt header');
-      }
-
       // Check if more than 1 is present (kid, jwk, x5c)
       if (
         [protectedHeader.kid, protectedHeader.jwk, protectedHeader.x5c].filter(
           (value) => value != null
         ).length !== 1
       ) {
-        throw Error('Exactly one of kid, jwk, x5c must be present');
+        return {
+          success: false,
+          error: new Error('Exactly one of kid, jwk, x5c must be present'),
+        };
+      }
+    }
+
+    let payload;
+
+    // Check kid
+    if (protectedHeader.kid) {
+      // TODO: Resolve kid and use key
+
+      // Split kid
+      const [did, keyId] = protectedHeader.kid.split('#');
+
+      // Check if did and keyId are present
+      if (!did || !keyId) {
+        return {
+          success: false,
+          error: new Error('Invalid kid'),
+        };
       }
 
-      let payload;
-      // Check kid
-      if (protectedHeader.kid) {
-        // TODO: Resolve kid and use key
+      const resolvedDid = await context.agent.resolveDid({ didUrl: did });
 
-        [payload, _] = jwtVerify(proof.jwt, '', {});
+      if (resolvedDid.didResolutionMetadata.error || !resolvedDid.didDocument) {
+        return {
+          success: false,
+          error: new Error(
+            `Error resolving did: ${resolvedDid.didResolutionMetadata.error}`
+          ),
+        };
       }
 
-      // Check jwk
-      if (protectedHeader.jwk) {
-        throw Error('Missing or invalid jwt');
+      let fragment;
+
+      try {
+        fragment = await context.agent.getDIDComponentById({
+          didDocument: resolvedDid.didDocument,
+          didUrl: keyId,
+          section: 'authentication',
+        });
+      } catch (e) {
+        console.error(e);
+        return {
+          success: false,
+          error: new Error('Invalid kid'),
+        };
+      }
+      const { publicKeyJwk } = fragment as VerificationMethod;
+
+      if (!publicKeyJwk) {
+        return {
+          success: false,
+          error: new Error('Invalid kid or publicKeyJwk not present'),
+        };
+      }
+
+      const publicKey = await importJWK(publicKeyJwk);
+
+      try {
+        payload = (
+          await jwtVerify(proof.jwt, publicKey, {
+            // TODO: Maybe check ISS here ?
+            audience: this.pluginConfig.url,
+          })
+        ).payload;
+      } catch {
+        // TODO: Error and new nonce ?
+        // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-8.3.2
+        return {
+          success: false,
+          error: new Error('Invalid jwt'),
+        };
+      }
+
+      // Check if jwt is valid
+      const { exp, nbf, nonce } = payload as JWTPayload;
+
+      // Check if session contains cNonce
+      if (cNonce) {
+        // Check if nonce is valid
+        if (nonce !== cNonce) {
+          return {
+            success: false,
+            error: new Error('Invalid c_nonce'),
+          };
+        }
+
+        // Check if cNonce is expired
+        if (cNonceExpiresIn && cNonceExpiresIn < Date.now()) {
+          return {
+            success: false,
+            error: new Error('c_nonce expired'),
+          };
+        }
+
+        if (exp && exp < Date.now()) {
+          return {
+            success: false,
+            error: new Error('Invalid jwt'),
+          };
+        }
+
+        if (nbf && nbf > Date.now()) {
+          return {
+            success: false,
+            error: new Error('Invalid jwt'),
+          };
+        }
 
         // FIXME: ISS -> Must be client_id
         // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#name-proof-types
 
-        // TODO: User PIN
+        // Build credential payload
+        const credentialPayload: CredentialPayload = {
+          // FIXME: Replace with issuer DID
+          issuer: { id: this.pluginConfig.url },
+          // FIXME: Add credential status ? (https://www.w3.org/TR/vc-data-model/#status)
+          // FIXME: Set correct type
+          type: ['VerifiableCredential'],
+          credentialSubject: {
+            id: did,
+          },
+        };
+
+        // Create credential from payload
+        const credential = await context.agent.createVerifiableCredential({
+          credential: credentialPayload,
+          proofFormat: 'jwt',
+        });
+
+        // FIXME: Why would we need to send c_nonce ?
+        // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-8.3
+        return {
+          success: true,
+          data: {
+            format: 'jwt_vc_json',
+            credential: credential.proof.jwt as string,
+          },
+        };
       }
 
-      // Check x5c
-      // TODO
-      if (protectedHeader.x5c) {
-        throw Error('x5c not supported');
-      }
-
-      // Check if jwt is valid
-      const { aud, iss, iat, exp, jti, nbf, sub, nonce } = jwtPayload;
-
-      // Validate signature
-
-      // Check if session contains c_nonce
-      if (userSession.c_nonce) {
-        // Check if c_nonce is valid
-        if (nonce !== userSession.c_nonce) {
-          throw Error('Invalid c_nonce');
-        }
-
-        // Check if c_nonce is expired
-        if (
-          userSession.c_nonce_expires_in &&
-          userSession.c_nonce_expires_in < Date.now()
-        ) {
-          throw Error('c_nonce expired');
-        }
-      }
-
-      // Check audience
-      if (aud !== this.configService.get<string>('ISSUER_URL')) {
-        throw Error(
-          `Invalid audience. Expected: ${this.configService.get<string>(
-            'ISSUER_URL'
-          )}`
-        );
-      }
-
-      // FIXME: ISS -> Must be client_id
-      // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#name-proof-types
-
-      // TODO: User PIN
-      throw Error('Exactly one of kid, jwk, x5c must be present');
-    }
-
-    let payload;
-    // Check kid
-    if (protectedHeader.kid) {
-      // TODO: Resolve kid and use key
-      this;
-      jwtVerify(proof.jwt, '', {});
+      // const credential = await context.agent.createVerifiableCredential({
     }
 
     // Check jwk
     if (protectedHeader.jwk) {
-      throw Error('jwk not supported');
+      return {
+        success: false,
+        error: new Error('jwk not supported'),
+      };
     }
 
     // Check x5c
     // TODO
     if (protectedHeader.x5c) {
-      throw Error('x5c not supported');
+      return {
+        success: false,
+        error: new Error('x5c not supported'),
+      };
     }
 
-    // Check if jwt is valid
-    const { aud, iss, iat, exp, jti, nbf, sub, nonce } = jwtPayload;
-
-    // Validate signature
-
-    // Check if session contains c_nonce
-    if (userSession.c_nonce) {
-      // Check if c_nonce is valid
-      if (nonce !== userSession.c_nonce) {
-        throw Error('Invalid c_nonce');
-      }
-
-      // Check if c_nonce is expired
-      if (
-        userSession.c_nonce_expires_in &&
-        userSession.c_nonce_expires_in < Date.now()
-      ) {
-        throw Error('c_nonce expired');
-      }
-    }
-
-    // Check audience
-    if (aud !== this.configService.get<string>('ISSUER_URL')) {
-      throw Error(
-        `Invalid audience. Expected: ${this.configService.get<string>(
-          'ISSUER_URL'
-        )}`
-      );
-    }
-
-    // FIXME: ISS -> Must be client_id
-    // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#name-proof-types
-
-    // TODO: User PIN
-    return { success: true, data: undefined };
+    // TODO: Should never happen
+    return {
+      success: false,
+      error: new Error('Error'),
+    };
   }
 }
 

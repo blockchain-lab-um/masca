@@ -1,3 +1,9 @@
+import {
+  CredentialRequest,
+  Credentials,
+  TokenRequest,
+} from '@blockchain-lab-um/oidc-types';
+
 type FormatKeys = 'jwt' | 'jwt_vc' | 'jwt_vp' | 'ldp' | 'ldp_vc' | 'ldp_vp';
 type Algorithm = 'ES256K' | 'EdDSA';
 
@@ -58,6 +64,22 @@ export interface IPluginConfig {
   url: string; // e.g. https://example.com
 }
 
+export type CreateIssuanceInitiationRequestResposne = {
+  issuanceInitiationRequest: string;
+  preAuthorizedCode: string;
+  credentials: Credentials;
+};
+
+export type HandlePreAuthorizedCodeTokenRequestArgs = {
+  body: TokenRequest;
+  preAuthorizedCode: string;
+  userPin?: string;
+};
+
+export type IsValidTokenRequestArgs = {
+  body: TokenRequest;
+};
+
 export type IsValidTokenRequestResponse = {
   grantType:
     | 'authorization_code'
@@ -71,6 +93,16 @@ export type IsValidTokenRequestResponse = {
     }
 );
 
+export type IsValidAuthorizationHeaderArgs = {
+  authorizationHeader: string;
+};
+
 export type IsValidAuthorizationHeaderResponse = {
   accessToken: string;
+};
+
+export type HandleCredentialRequestArgs = {
+  body: CredentialRequest;
+  c_nonce?: string;
+  c_nonce_expires_in?: number;
 };
