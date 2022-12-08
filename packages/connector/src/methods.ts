@@ -30,7 +30,7 @@ async function sendSnapMethod<T>(
 export async function queryVCs(
   this: MetaMaskSSISnap,
   params?: QueryVCsRequestParams
-): Promise<QueryVCsRequestResult> {
+): Promise<QueryVCsRequestResult[]> {
   return await sendSnapMethod(
     { method: 'queryVCs', params: params || {} },
     this.snapId
