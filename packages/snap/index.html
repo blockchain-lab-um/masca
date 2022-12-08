@@ -34,6 +34,7 @@
   <textarea id="VC" rows="30" cols="50"></textarea>
   <br />
   <button class="saveVC">Save VC</button>
+  <button class="saveVCC">Save VC Ceramic</button>
   <br />
   <hr />
   <input type="text" id="vcId" placeholder="VC ID" />
@@ -103,6 +104,8 @@
   const getVCBtn = document.querySelector('button.getVCs');
 
   const saveBtn = document.querySelector('button.saveVC');
+  const saveCeramicBtn = document.querySelector('button.saveVCC');
+
 
   const getVPBtn = document.querySelector('button.getVP');
 
@@ -132,6 +135,7 @@
   getVCBtn.addEventListener('click', getVCs);
 
   saveBtn.addEventListener('click', saveVC);
+  saveCeramicBtn.addEventListener('click', saveVCC);
 
   getVPBtn.addEventListener('click', getVp);
 
@@ -285,6 +289,26 @@
           method: 'saveVC',
           params: {
             verifiableCredential: vc,
+          },
+        }
+      });
+    } catch (err) {
+      console.error(err);
+      alert('Problem happened: ' + err.message || err);
+    }
+  }
+
+  async function saveVCC() {
+    try {
+      const vc = JSON.parse(document.getElementById('VC').value);
+      console.log("saving ceramic")
+      const response = await ethereum.request({
+        method: `wallet_snap_${snapId}`,
+        params: {
+          method: 'saveVC',
+          params: {
+            verifiableCredential: vc,
+            options: { store: ['ceramic'] }
           },
         }
       });
