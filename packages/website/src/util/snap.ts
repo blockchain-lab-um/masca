@@ -24,7 +24,7 @@ export async function installSnap(
     // console.log("Connecting to snap...");
     if (!supportedMethods) supportedMethods = ['did:ethr', 'did:key'];
     const snapInstallationParams: SnapInstallationParams = {
-      version: 'latest',
+      version: '1.2.2',
       supportedMethods,
     };
     if (snapId) snapInstallationParams.snapId = snapId;

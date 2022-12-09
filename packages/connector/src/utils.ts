@@ -37,9 +37,10 @@ export async function isSnapInstalled(
   snapOrigin: string,
   version?: string
 ): Promise<boolean> {
-  console.log(await getWalletSnaps());
+  const snaps = await getWalletSnaps();
+  console.log('Installed snaps', snaps);
   try {
-    return !!Object.values(await getWalletSnaps()).find(
+    return !!Object.values(snaps).find(
       (permission) =>
         permission.id === snapOrigin &&
         (!version || permission.version === version)
