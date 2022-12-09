@@ -91,7 +91,7 @@ async function connectToMM() {
           mmStore.currDIDMethod = initResponse.currDIDMethod;
           mmStore.availableMethods = initResponse.availableMethods;
           mmStore.currVCStore = initResponse.currVCStore;
-          mmStore.useCeramic = initResponse.currVCStore === 'ceramic';
+          mmStore.useCeramic = initResponse.currVCStore['ceramic'];
         }
 
         router.push('/');

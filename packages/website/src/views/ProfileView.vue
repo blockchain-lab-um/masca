@@ -31,13 +31,18 @@
           </div>
         </template>
         <Column selectionMode="multiple" headerStyle="width: 3em"></Column>
-        <Column field="metadata.id" header="VC Id" />
+        <Column field="data.type[1]" header="Type">
+          <template #body="slotProps">
+            {{ slotProps.data.data.type[1] }}
+          </template>
+        </Column>
         <Column field="issuanceDate" header="Issuance Date" :sortable="true">
           <template #body="slotProps">
             {{ ISOtoLocaleString(slotProps.data.data.issuanceDate) }}
           </template>
         </Column>
         <Column field="data.issuer.id" header="Issuer Id" />
+        <Column field="metadata.store" header="Store" />
         <Column header="View">
           <template #body="slotProps">
             <Button

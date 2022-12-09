@@ -121,7 +121,9 @@ export async function changeInfuraToken(
   );
 }
 
-export async function getVCStore(this: MetaMaskSSISnap): Promise<string> {
+export async function getVCStore(
+  this: MetaMaskSSISnap
+): Promise<Record<AvailableVCStores, boolean>> {
   return await sendSnapMethod({ method: 'getVCStore' }, this.snapId);
 }
 

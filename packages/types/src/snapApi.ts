@@ -5,7 +5,7 @@ import {
   QueryVCsRequestParams,
   SaveVCOptions,
 } from './params';
-import { QueryVCsRequestResult } from './results';
+import type { QueryVCsRequestResult } from './results';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SSISnapEventApi {}
@@ -23,7 +23,7 @@ export interface SSISnapApi {
   getSelectedMethod(): Promise<AvailableMethods>;
   getAvailableMethods(): Promise<AvailableMethods>;
   switchDIDMethod(method: AvailableMethods): Promise<boolean>;
-  getVCStore(): Promise<string>;
+  getVCStore(): Promise<Record<AvailableVCStores, boolean>>;
   setVCStore(store: AvailableVCStores, value: boolean): Promise<boolean>;
   getAvailableVCStores(): Promise<string[]>;
 }

@@ -192,11 +192,15 @@ export async function checkAvailableStores(snapApi?: SSISnapApi) {
   }
 }
 
-export async function setVCStore(vcStore: string, snapApi?: SSISnapApi) {
+export async function setVCStore(
+  vcStore: string,
+  value: boolean,
+  snapApi?: SSISnapApi
+) {
   // eslint-disable-next-line no-useless-catch
   try {
     if (!snapApi) throw new Error('No snap API found.');
-    const res = await snapApi.setVCStore(vcStore as AvailableVCStores, true);
+    const res = await snapApi.setVCStore(vcStore as AvailableVCStores, value);
     if (!res) {
       throw new Error('Failed to set store.');
     }

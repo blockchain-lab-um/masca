@@ -3,7 +3,7 @@
     <h1 id="title">SSI Snap Configuration</h1>
     <div class="settingsContent">
       <div class="center">
-        <p>Use Ceramic VC store:</p>
+        <p>Enable Ceramic Network:</p>
         <div>
           <InputSwitch v-model="mmStore.useCeramic" @input="toggleCeramic" />
         </div>
@@ -47,8 +47,7 @@ const toast = generalStore.toast as ToastServiceMethods;
 
 const toggleCeramic = async (val: boolean) => {
   try {
-    let store = val ? 'ceramic' : 'snap';
-    const res = await setVCStore(store, mmStore.snapApi);
+    const res = await setVCStore('ceramic', val, mmStore.snapApi);
     toast.add({
       severity: 'success',
       summary: 'Success',

@@ -1,6 +1,7 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import type {
+  AvailableVCStores,
   QueryVCsRequestResult,
   SSISnapApi,
 } from '@blockchain-lab-um/ssi-snap-types';
@@ -15,7 +16,10 @@ export const useMetamaskStore = defineStore('metamask', () => {
   const availableMethods = ref<DIDMethod[] | undefined>(undefined);
   const verifiableCredential = ref<VerifiableCredential | undefined>(undefined);
   const vcs = ref<QueryVCsRequestResult[]>([] as QueryVCsRequestResult[]);
-  const currVCStore = ref<string | undefined>(undefined);
+  const currVCStore = ref<Record<AvailableVCStores, boolean>>({
+    snap: true,
+    ceramic: false,
+  });
   const useCeramic = ref<boolean>(false);
 
   // Read only values

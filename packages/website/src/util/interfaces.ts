@@ -1,4 +1,5 @@
 import type { MetaMaskSSISnap } from '@blockchain-lab-um/ssi-snap-connector';
+import type { AvailableVCStores } from '@blockchain-lab-um/ssi-snap-types';
 
 export interface SnapInitializationResponse {
   isSnapInstalled: boolean;
@@ -46,5 +47,5 @@ export interface storeInitResponse {
   did: string;
   currDIDMethod: DIDMethod | undefined;
   availableMethods: DIDMethod[] | undefined;
-  currVCStore: string | undefined;
+  currVCStore: Record<AvailableVCStores, boolean>;
 }
