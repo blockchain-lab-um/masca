@@ -29,7 +29,7 @@ const changeDIDMethod = async (method?: string, event?: any) => {
     if (!method) method = mmStore.currDIDMethod?.value;
     if (!method) throw new Error('No method selected');
     isLoading.value = true;
-    const res = await mmStore.snapApi?.switchMethod(method);
+    const res = await mmStore.snapApi?.switchDIDMethod(method);
     if (res) {
       const did = await mmStore.snapApi?.getDID();
       if (did) mmStore.DID = did;

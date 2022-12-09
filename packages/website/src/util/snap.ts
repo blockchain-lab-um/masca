@@ -1,4 +1,4 @@
-import { W3CVerifiableCredential } from '@veramo/core';
+import type { W3CVerifiableCredential } from '@veramo/core';
 import axios from 'axios';
 import { enableSSISnap } from '@blockchain-lab-um/ssi-snap-connector';
 import type {
@@ -9,7 +9,6 @@ import type {
 } from '@blockchain-lab-um/ssi-snap-types';
 import type {
   SnapInstallationParams,
-  VerifiableCredential,
   DIDMethod,
   storeInitResponse,
   SnapInitializationResponse,
@@ -47,7 +46,7 @@ export async function installSnap(
 
 export async function checkForVCs(snapApi?: SSISnapApi) {
   if (!snapApi) throw new Error('No snap API found.');
-  const vcs = await snapApi.queryVCs({ options: { returnStore: true } });
+  const vcs = await snapApi.queryVCs();
   if (!vcs.length) {
     throw new Error('No VCs found.');
   }
@@ -62,17 +61,17 @@ export async function createVC(
   try {
     if (!snapApi) throw new Error('No snap API found.');
     if (!mmAddress) throw new Error('No metamask address found.');
-    let axiosConfig = {
+    const axiosConfig = {
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
       },
     };
-    let body = {
+    const body = {
       name: userName,
       id: 'did:ethr:rinkeby:' + mmAddress,
     };
-    let VC = await axios
+    const VC = await axios
       .post(backend_url + '/api/vc/issue-vc', body, axiosConfig)
       .then((response: any) => {
         return response.data;
@@ -95,10 +94,7 @@ export async function saveVC(
 ) {
   try {
     if (!snapApi) throw new Error('No snap API found.');
-    let req;
-    if (store) req = { verifiableCredential: VC, options: { store } };
-    else req = { verifiableCredential: VC };
-    const res = await snapApi?.saveVC(req);
+    const res = await snapApi?.saveVC(VC, { store });
     if (res) {
       // console.log("Saved VC.");
       return true;
@@ -163,7 +159,7 @@ export async function initStore(snapApi: SSISnapApi) {
     }
     if (methods) {
       availableMethods = methods.map((method) => {
-        let methodName = method.split(':')[1];
+        const methodName = method.split(':')[1];
         return {
           value: method,
           text: methodName.charAt(0).toUpperCase() + methodName.slice(1),
@@ -183,6 +179,7 @@ export async function initStore(snapApi: SSISnapApi) {
 }
 
 export async function checkAvailableStores(snapApi?: SSISnapApi) {
+  // eslint-disable-next-line no-useless-catch
   try {
     if (!snapApi) throw new Error('No snap API found.');
     const stores = await snapApi.getAvailableVCStores();
@@ -196,9 +193,10 @@ export async function checkAvailableStores(snapApi?: SSISnapApi) {
 }
 
 export async function setVCStore(vcStore: string, snapApi?: SSISnapApi) {
+  // eslint-disable-next-line no-useless-catch
   try {
     if (!snapApi) throw new Error('No snap API found.');
-    const res = await snapApi.setVCStore(vcStore);
+    const res = await snapApi.setVCStore(vcStore as AvailableVCStores, true);
     if (!res) {
       throw new Error('Failed to set store.');
     }

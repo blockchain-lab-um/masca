@@ -1,12 +1,9 @@
-import { VerifiablePresentation } from '@veramo/core';
-import { AvailableMethods } from './constants';
+import { VerifiablePresentation, W3CVerifiableCredential } from '@veramo/core';
+import { AvailableMethods, AvailableVCStores } from './constants';
 import {
-  ChangeInfuraTokenRequestParams,
   CreateVPRequestParams,
   QueryVCsRequestParams,
-  SaveVCRequestParams,
-  SetVCStoreRequestParams,
-  SwitchMethodRequestParams,
+  SaveVCOptions,
 } from './params';
 import { QueryVCsRequestResult } from './results';
 
@@ -14,16 +11,19 @@ import { QueryVCsRequestResult } from './results';
 export interface SSISnapEventApi {}
 
 export interface SSISnapApi {
-  queryVCs(params: QueryVCsRequestParams): Promise<QueryVCsRequestResult[]>;
-  saveVC(params: SaveVCRequestParams): Promise<boolean>;
+  queryVCs(params?: QueryVCsRequestParams): Promise<QueryVCsRequestResult[]>;
+  saveVC(
+    vc: W3CVerifiableCredential,
+    options?: SaveVCOptions
+  ): Promise<boolean>;
   createVP(params: CreateVPRequestParams): Promise<VerifiablePresentation>;
-  changeInfuraToken(params: ChangeInfuraTokenRequestParams): Promise<boolean>;
+  changeInfuraToken(infuraToken: string): Promise<boolean>;
   togglePopups(): Promise<boolean>;
   getDID(): Promise<string>;
-  getMethod(): Promise<AvailableMethods>;
+  getSelectedMethod(): Promise<AvailableMethods>;
   getAvailableMethods(): Promise<AvailableMethods>;
-  switchMethod(params: SwitchMethodRequestParams): Promise<boolean>;
+  switchDIDMethod(method: AvailableMethods): Promise<boolean>;
   getVCStore(): Promise<string>;
-  setVCStore(params: SetVCStoreRequestParams): Promise<boolean>;
+  setVCStore(store: AvailableVCStores, value: boolean): Promise<boolean>;
   getAvailableVCStores(): Promise<string[]>;
 }
