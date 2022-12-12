@@ -34,6 +34,14 @@
         <i class="pi pi-list px-2"></i>
         <span class="px-3">Linktr.ee</span>
       </Button>
+      <Button
+        class="docs p-0"
+        aria-label="Linktr.ee"
+        @click="openPage('https://blockchain-lab-um.github.io/ssi-snap-docs/')"
+      >
+        <i class="pi pi-book px-2"></i>
+        <span class="px-3">Docs</span>
+      </Button>
     </div>
   </div>
 </template>
@@ -185,6 +193,31 @@ const openPage = (url: string) => {
 
 .template .p-button.linktree:focus {
   box-shadow: 0 0 0 1px var(--green-400);
+}
+
+.template .p-button.docs {
+  background: linear-gradient(
+    to left,
+    var(--purple-200) 50%,
+    var(--purple-300) 50%
+  );
+  background-size: 200% 100%;
+  background-position: right bottom;
+  transition: background-position 0.5s ease-out;
+  color: #000;
+  border-color: var(--purple-300);
+}
+
+.template .p-button.docs:hover {
+  background-position: left bottom;
+}
+
+.template .p-button.docs i {
+  background-color: var(--purple-300);
+}
+
+.template .p-button.docs:focus {
+  box-shadow: 0 0 0 1px var(--purple-400);
 }
 
 @media screen and (max-width: 640px) {
