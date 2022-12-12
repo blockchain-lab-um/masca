@@ -79,13 +79,13 @@ export async function getDID(this: MetaMaskSSISnap): Promise<string> {
 
 export async function getSelectedMethod(
   this: MetaMaskSSISnap
-): Promise<AvailableMethods> {
+): Promise<string> {
   return await sendSnapMethod({ method: 'getSelectedMethod' }, this.snapId);
 }
 
 export async function getAvailableMethods(
   this: MetaMaskSSISnap
-): Promise<AvailableMethods> {
+): Promise<string[]> {
   return await sendSnapMethod({ method: 'getAvailableMethods' }, this.snapId);
 }
 

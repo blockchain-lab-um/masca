@@ -68,7 +68,7 @@ export async function enableSSISnap(
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
   const method = await snapApi.getSelectedMethod();
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  if (!snap.supportedMethods.includes(method)) {
+  if (!snap.supportedMethods.includes(method as AvailableMethods)) {
     console.log('Switching method...', method, snap.supportedMethods[0]);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     await snapApi.switchDIDMethod(snap.supportedMethods[0]);
