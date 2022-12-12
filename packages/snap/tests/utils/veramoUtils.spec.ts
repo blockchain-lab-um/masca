@@ -433,14 +433,15 @@ describe('Utils [veramo]', () => {
         data: exampleVC,
         metadata: { id: res[0].id },
       };
-      await expect(
-        veramoQueryVCs({
-          snap: snapMock,
-          options: { store: ['snap'], returnStore: false },
-        })
-      ).resolves.toEqual([expectedVCObject]);
 
-      expect.assertions(1);
+      const queryRes = await veramoQueryVCs({
+        snap: snapMock,
+        options: { store: ['snap'], returnStore: false },
+      });
+      expect(queryRes).toStrictEqual([expectedVCObject]);
+      expect(queryRes[0].metadata.store).toBeUndefined();
+
+      expect.assertions(2);
     });
 
     it('should succeed querying all VCs from snap store that match JSONPath', async () => {
