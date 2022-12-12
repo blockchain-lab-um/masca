@@ -67,9 +67,8 @@ async function connectToMM() {
   if (window.ethereum) {
     window.ethereum
       .request({ method: 'eth_requestAccounts' })
-      .then((result: (string | undefined)[]) => {
-        // console.log("Setting MetaMask address!");
-        mmStore.mmAddress = result[0];
+      .then((result: unknown) => {
+        mmStore.mmAddress = (result as string[])[0];
       })
       .catch((err: Error) => {
         isLoading.value = false;

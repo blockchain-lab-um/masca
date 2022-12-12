@@ -7,6 +7,7 @@ import {
   QueryVCsRequestParams,
   QueryVCsRequestResult,
   SaveVCOptions,
+  SaveVCRequestResult,
 } from '@blockchain-lab-um/ssi-snap-types';
 import { MetaMaskSSISnap } from './snap';
 
@@ -58,7 +59,8 @@ export async function saveVC(
   this: MetaMaskSSISnap,
   vc: W3CVerifiableCredential,
   options?: SaveVCOptions
-): Promise<boolean> {
+): Promise<SaveVCRequestResult[]> {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return await sendSnapMethod(
     {
       method: 'saveVC',

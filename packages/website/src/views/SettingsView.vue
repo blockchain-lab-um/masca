@@ -58,7 +58,7 @@ const toggleCeramic = async (val: boolean) => {
       life: 3000,
     });
   } catch (error: any) {
-    mmStore.currVCStore = val ? 'ceramic' : 'snap';
+    mmStore.currVCStore = { snap: true, ceramic: false };
     mmStore.useCeramic = !val;
     console.error(error);
     toast.add({

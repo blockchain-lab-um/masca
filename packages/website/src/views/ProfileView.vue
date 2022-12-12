@@ -54,7 +54,8 @@
               @click="
                 openModal(
                   'Verifiable Credential',
-                  JSON.stringify(slotProps.data, null, 2)
+                  JSON.stringify(slotProps.data.data, null, 2),
+                  JSON.stringify(slotProps.data.metadata, null, 2)
                 )
               "
             />
@@ -79,6 +80,15 @@
         :autoResize="true"
         class="vcImport"
       />
+
+      <Textarea
+        id="VCImportArea"
+        v-model="VCImport"
+        autofocus
+        :autoResize="true"
+        class="vcImport"
+      />
+
       <template #footer>
         <Button
           label="Cancel"
@@ -96,10 +106,19 @@
       :style="{ width: '50vw' }"
       :modal="true"
     >
+      <h3>VC</h3>
       <Textarea
         id="VCImportArea"
         v-model="modalContent"
-        autofocus
+        :autoResize="true"
+        class="vcImport"
+        disabled
+      />
+      <h3>Metadata</h3>
+      <Textarea
+        id="metadata"
+        v-model="modalContent2"
+        disabled
         :autoResize="true"
         class="vcImport"
       />
@@ -122,7 +141,10 @@ import { useMetamaskStore } from '@/stores/metamask';
 import { ISOtoLocaleString } from '@/util/general';
 import { checkForVCs, saveVC, createVP } from '@/util/snap';
 import type { VerifiableCredential } from '../util/interfaces';
-import type { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
+import type {
+  QueryVCsRequestResult,
+  SaveVCRequestResult,
+} from '@blockchain-lab-um/ssi-snap-types';
 
 const mmStore = useMetamaskStore();
 const VCImport = ref('');
@@ -130,6 +152,7 @@ const displayImportModal = ref(false);
 const displayModal = ref(false);
 const modalTitle = ref('Modal');
 const modalContent = ref('');
+const modalContent2 = ref('');
 const selectedVC = ref<QueryVCsRequestResult[] | undefined>([]);
 
 const openImportModal = () => {
@@ -141,9 +164,10 @@ const closeImportModal = () => {
   displayImportModal.value = false;
 };
 
-const openModal = (title: string, content: string) => {
+const openModal = (title: string, content: string, content2?: string) => {
   modalTitle.value = title;
   modalContent.value = content;
+  modalContent2.value = content2 || '';
   displayModal.value = true;
 };
 
@@ -196,7 +220,7 @@ const importVC = async () => {
     const res = await saveVC(VC, mmStore.snapApi);
     if (!res) throw new Error('Failed to save VC');
     // console.log('🚀 ~ file: ProfileView.vue ~ line 48 ~ importVC ~ res', res);
-    mmStore.vcs.push(VC);
+    mmStore.vcs.push({ data: VC, metadata: { id: res[0].id } });
     closeImportModal();
     return 'Success importing VC';
   } catch (err: any) {
@@ -219,6 +243,17 @@ const importVC = async () => {
 
 .vcImport {
   width: 100%;
+  margin: 0.5rem;
+  padding: 0.125em;
+  border-color: #6366f1;
+}
+
+.vcImport:hover {
+  border-color: #6366f1;
+}
+
+.vcImport:focus {
+  border-color: #6366f1;
 }
 
 #title {

@@ -5,7 +5,7 @@ import {
   QueryVCsRequestParams,
   SaveVCOptions,
 } from './params';
-import type { QueryVCsRequestResult } from './results';
+import type { QueryVCsRequestResult, SaveVCRequestResult } from './results';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SSISnapEventApi {}
@@ -15,13 +15,13 @@ export interface SSISnapApi {
   saveVC(
     vc: W3CVerifiableCredential,
     options?: SaveVCOptions
-  ): Promise<boolean>;
+  ): Promise<SaveVCRequestResult[]>;
   createVP(params: CreateVPRequestParams): Promise<VerifiablePresentation>;
   changeInfuraToken(infuraToken: string): Promise<boolean>;
   togglePopups(): Promise<boolean>;
   getDID(): Promise<string>;
-  getSelectedMethod(): Promise<AvailableMethods>;
-  getAvailableMethods(): Promise<AvailableMethods>;
+  getSelectedMethod(): Promise<string>;
+  getAvailableMethods(): Promise<string[]>;
   switchDIDMethod(method: AvailableMethods): Promise<boolean>;
   getVCStore(): Promise<Record<AvailableVCStores, boolean>>;
   setVCStore(store: AvailableVCStores, value: boolean): Promise<boolean>;

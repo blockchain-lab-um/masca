@@ -17,6 +17,7 @@ import { useGeneralStore } from '@/stores/general';
 import { useMetamaskStore } from '@/stores/metamask';
 import { createDIDMethod } from '@/util/snap';
 import type { ToastServiceMethods } from 'primevue/toastservice';
+import type { AvailableMethods } from '@blockchain-lab-um/ssi-snap-types';
 
 const mmStore = useMetamaskStore();
 const generalStore = useGeneralStore();
@@ -29,7 +30,9 @@ const changeDIDMethod = async (method?: string, event?: any) => {
     if (!method) method = mmStore.currDIDMethod?.value;
     if (!method) throw new Error('No method selected');
     isLoading.value = true;
-    const res = await mmStore.snapApi?.switchDIDMethod(method);
+    const res = await mmStore.snapApi?.switchDIDMethod(
+      method as AvailableMethods
+    );
     if (res) {
       const did = await mmStore.snapApi?.getDID();
       if (did) mmStore.DID = did;

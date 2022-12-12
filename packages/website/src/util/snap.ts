@@ -95,16 +95,10 @@ export async function saveVC(
   try {
     if (!snapApi) throw new Error('No snap API found.');
     const res = await snapApi?.saveVC(VC, { store });
-    if (res) {
-      // console.log("Saved VC.");
-      return true;
-    } else {
-      // console.log("VC not saved.");
-      return false;
-    }
+    return res;
   } catch (err) {
     console.error(err);
-    return false;
+    return [];
   }
 }
 
@@ -158,7 +152,7 @@ export async function initStore(snapApi: SSISnapApi) {
       currDIDMethod = createDIDMethod(did);
     }
     if (methods) {
-      availableMethods = methods.map((method) => {
+      availableMethods = methods.map((method: string) => {
         const methodName = method.split(':')[1];
         return {
           value: method,
