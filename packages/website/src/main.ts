@@ -19,6 +19,7 @@ app.use(createPinia());
 app.use(router);
 
 app
+  // eslint-disable-next-line vue/multi-word-component-names, vue/no-reserved-component-names
   .component('Button', primeVueComponents.Button)
   .component('InputText', primeVueComponents.InputText)
   .component('Textarea', primeVueComponents.Textarea)

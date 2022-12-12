@@ -72,13 +72,9 @@ const toggleCeramic = async (val: boolean) => {
 };
 
 const togglePopups = async () => {
-  try {
-    const res = await mmStore.snapApi?.togglePopups();
-    if (!res) throw new Error('Failed to toggle popups');
-    return 'Success toggling popups.';
-  } catch (error) {
-    throw error;
-  }
+  const res = await mmStore.snapApi?.togglePopups();
+  if (!res) throw new Error('Failed to toggle popups');
+  return 'Success toggling popups.';
 };
 
 const changeInfuraToken = async () => {
@@ -92,8 +88,10 @@ const changeInfuraToken = async () => {
       return;
     }
     const res = await mmStore.snapApi?.changeInfuraToken(infuraToken);
-    if (!res) throw new Error('Failed to change infura token.');
-    (<HTMLInputElement>document.getElementById('infuraToken')).value = '';
+    if (!res) {
+      throw new Error('Failed to change infura token.');
+    }
+    (document.getElementById('infuraToken') as HTMLInputElement).value = '';
     return 'Success changing infura token';
   } catch (error) {
     console.error(error);
