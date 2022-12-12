@@ -15,6 +15,7 @@ import {
   getVCStore,
   getAvailableVCStores,
   setVCStore,
+  deleteVC,
 } from './methods';
 
 export class MetaMaskSSISnap {
@@ -53,6 +54,7 @@ export class MetaMaskSSISnap {
       getVCStore: getVCStore.bind(this),
       setVCStore: setVCStore.bind(this),
       getAvailableVCStores: getAvailableVCStores.bind(this),
+      deleteVC: deleteVC.bind(this),
     };
   };
 }

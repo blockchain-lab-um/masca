@@ -2,6 +2,7 @@ import { VerifiablePresentation, W3CVerifiableCredential } from '@veramo/core';
 import { AvailableMethods, AvailableVCStores } from './constants';
 import {
   CreateVPRequestParams,
+  DeleteVCsOptions,
   QueryVCsRequestParams,
   SaveVCOptions,
 } from './params';
@@ -26,4 +27,5 @@ export interface SSISnapApi {
   getVCStore(): Promise<Record<AvailableVCStores, boolean>>;
   setVCStore(store: AvailableVCStores, value: boolean): Promise<boolean>;
   getAvailableVCStores(): Promise<string[]>;
+  deleteVC(id: string, options?: DeleteVCsOptions): Promise<boolean[]>;
 }

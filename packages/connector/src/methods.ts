@@ -3,6 +3,7 @@ import {
   AvailableMethods,
   AvailableVCStores,
   CreateVPRequestParams,
+  DeleteVCsOptions,
   MetaMaskSSISnapRPCRequest,
   QueryVCsRequestParams,
   QueryVCsRequestResult,
@@ -67,6 +68,23 @@ export async function saveVC(
       params: {
         verifiableCredential: vc,
         options: options,
+      },
+    },
+    this.snapId
+  );
+}
+
+export async function deleteVC(
+  this: MetaMaskSSISnap,
+  id: string,
+  options?: DeleteVCsOptions
+): Promise<boolean[]> {
+  return await sendSnapMethod(
+    {
+      method: 'deleteVC',
+      params: {
+        id,
+        options,
       },
     },
     this.snapId
