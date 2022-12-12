@@ -1,6 +1,6 @@
 <template>
   <div class="profile">
-    <h1 id="title">Available VCs</h1>
+    <h1 id="title">My Credentials</h1>
     <div>
       <DataTable
         :value="mmStore.vcs"
@@ -12,20 +12,23 @@
           <div class="table-header">
             Verifiable Credentials
             <div class="dtButtons">
-              <Button
-                @click="openImportModal"
-                label="Import VC"
-                icon="pi pi-file-import"
-              />
               <wrappedButton
                 label="Load VCs"
                 :method="loadVCs"
                 icon="pi pi-refresh"
+                class="p-button-rounded"
               />
               <wrappedButton
                 label="Create VP"
                 :method="vpCreate"
                 icon="pi pi-upload"
+                class="p-button-rounded"
+              />
+              <Button
+                @click="openImportModal"
+                label="Import VC"
+                icon="pi pi-file-import"
+                class="p-button-outlined p-button-rounded"
               />
             </div>
           </div>

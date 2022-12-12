@@ -7,6 +7,7 @@
         v-if="!generalStore.courseStarted"
         label="Start course"
         @click="openVCCourse()"
+        class="p-button-rounded"
       />
       <vcCourse v-if="generalStore.courseStarted" />
     </div>

@@ -15,6 +15,7 @@
           id="togglePopups"
           label="Toggle popups"
           :method="togglePopups"
+          class="p-button-rounded"
         />
       </div>
 
@@ -27,6 +28,7 @@
         <wrappedButton
           label="Change infura token"
           :method="changeInfuraToken"
+          class="p-button-rounded"
         />
       </div>
     </div>
