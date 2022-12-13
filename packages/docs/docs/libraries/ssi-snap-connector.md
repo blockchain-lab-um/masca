@@ -139,9 +139,14 @@ const res = await api.togglePopups();
  *
  */
 const res = await api.changeInfuraToken(infuraToken);
-```
 
-_NOTE: VCQuerry is an object that is a subset of VerifiableCredential. If provided, the function will only return VCs that match the VCQuerry subset. For example if you only want to retrieve VCs issued by a specific DID to a specific subject you would need to use `agent.listVCS({querry: {issuer: {id: 'did:ethr:0x...'}, credentialSubject: {id: 'did:ethr:0x...'}}})`_
+/**
+ *  Get settings for Snap & currently selected account
+ */
+const snapSettings = await api.getSnapSettings();
+
+const accountSettings = await api.getAccountSettings();
+```
 
 #### Utility methods
 
