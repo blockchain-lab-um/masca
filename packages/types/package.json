@@ -20,5 +20,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "script": {
+    "doc": "jsdoc -c jsdoc.json"
   }
 }

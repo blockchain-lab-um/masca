@@ -2,7 +2,7 @@
 sidebar_position: 4
 ---
 
-# VCManager (Veramo)
+# DataManager (Veramo)
 
 :::danger
 

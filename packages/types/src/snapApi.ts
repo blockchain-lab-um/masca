@@ -6,7 +6,7 @@ import {
   QueryVCsRequestParams,
   SaveVCOptions,
 } from './params';
-import type { QueryVCsRequestResult, SaveVCRequestResult } from './results';
+import { QueryVCsRequestResult, SaveVCRequestResult } from './results';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SSISnapEventApi {}
