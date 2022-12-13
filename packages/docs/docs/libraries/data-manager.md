@@ -12,22 +12,44 @@ Ceramic network support is experimental and still under development!
 
 ### Introduction
 
-Veramo does not provide similar support for managing VCs like it does for DIDs and KeyPairs. **Veramo VC Manager** is a custom plugin for managing VCs with the Veramo client. It works very similarly to [DIDManager](https://github.com/uport-project/veramo/tree/next/packages/did-manager) and other Manager plugins built for Veramo. VCs stored using this plugin are stored in an array.
+Veramo does not provide similar support for managing VCs like it does for DIDs and KeyPairs. **Veramo Data Manager** is a custom plugin for managing arbitrary data with the Veramo client. It works very similarly to [DIDManager](https://github.com/uport-project/veramo/tree/next/packages/did-manager) and other Manager plugins built for Veramo. Data stored using this plugin is managed by sub-plugins.
 
-VCManager stores a Record of extended AbstractVCStore plugins, which makes storing different VCs on different platforms possible! Optionally, VCManager also has built in querying functionality which filters VCs and returns only a list of VCs that are a superset of provided query object (subset).
+![VCManager design](https://user-images.githubusercontent.com/69682837/201887288-e666d565-fc2c-4160-ac85-a98e790eeced.png)
 
-![VCManager design](https://i.imgur.com/UUf5NtO.png)
+Learn more about [DataManager](https://github.com/uport-project/veramo/issues/1058).
 
-This plugin comes with an abstract class that can be extended in any form needed.
+DataManager comes with an `AbstractDataStore`, which is a template for plugins that actually manage the data! Bellow is the code of AbstractDataStore.
 
-```js
-export abstract class AbstractVCStore {
-  abstract import(args: VerifiableCredential): Promise<boolean>
-  abstract get(args: { id: string }): Promise<VerifiableCredential | null>
-  abstract delete(args: { id: string }): Promise<boolean>
-  abstract list(): Promise<VerifiableCredential[]>
+```typescript
+export interface ISaveArgs {
+  data: unknown;
+  options?: unknown;
 }
 
+export interface IDeleteArgs {
+  id: string;
+}
+
+export interface IFilterArgs {
+  filter?: {
+    type: string;
+    filter: unknown;
+  };
+}
+
+export interface IQueryResult {
+  data: unknown;
+  metadata: {
+    id: string;
+  };
+}
+
+export abstract class AbstractDataStore {
+  abstract save(args: ISaveArgs): Promise<string>;
+  abstract delete(args: IDeleteArgs): Promise<boolean>;
+  abstract query(args: IFilterArgs): Promise<Array<IQueryResult>>;
+  abstract clear(args: IFilterArgs): Promise<boolean>;
+}
 ```
 
 This abstract class enabled [`SnapVCStore`](../ssi-snap/architecture.md) plugin, which stores the array of VCs in MetaMask State and `CeramicVCStore` which stores VCs on Ceramic Network.
@@ -42,15 +64,15 @@ Add the plugin to the Veramo agent setup.
   const vcStorePlugins: Record<string, AbstractVCStore> = {};
   vcStorePlugins['snap'] = new SnapVCStore();
   vcStorePlugins['ceramic'] = new CeramicVCStore();
-  vcStorePlugins['memory'] = new MemoryVCStore();
+  vcStorePlugins['memory'] = new MemoryDataStore();
   export const agent = createAgent<
       ...
-      IVCManager &
+      IDataManager &
       ...
   >({
     plugins: [
       ...
-      new VCManager({ store: vcStorePlugins }),
+      new DataManager({ store: vcStorePlugins }),
       ...
     ],
   });
@@ -59,35 +81,95 @@ Add the plugin to the Veramo agent setup.
 Use the plugin
 
 ```typescript
-await agent.saveVC({ store: 'snap', vc });
-await agent.saveVC({ store: 'ceramic', vc });
-const res = await agent.getVCs({
-  store: 'ceramic',
-  query: { credentialSubject: { id: 'did:ethr:0x04:0x123...321' } },
+await agent.save({ data: vc, options: { store: 'ceramic' } });
+
+const res = await agent.query({});
+
+const delRes = await agent.delete({
+  id: '123',
+  options: { store: ['ceramic', 'snap'] },
 });
 ```
 
-#### VCManager Functions
+#### DataManager Types
 
-Get a specific VC from selected store
+```typescript
+export interface IDataManager extends IPluginMethodMap {
+  query(args: IDataManagerQueryArgs): Promise<Array<IDataManagerQueryResult>>;
 
-`agent.getVC({store: vcStore, id: vc_id})`
+  save(args: IDataManagerSaveArgs): Promise<Array<IDataManagerSaveResult>>;
 
-Save a VC to selected store
+  delete(args: IDataManagerDeleteArgs): Promise<Array<boolean>>;
 
-`agent.saveVC({store: vcStore, vc: vc})`
+  clear(args: IDataManagerClearArgs): Promise<Array<boolean>>;
+}
 
-Delete a VC from selected store
+/**
+ *  Types
+ */
+export type Filter = {
+  type: string;
+  filter: unknown;
+};
 
-`agent.deleteVC({store: vcStore, id: vc_id})`
+type QueryOptions = {
+  store?: string | string[];
+  returnStore?: boolean;
+};
 
-Get an array of all VCs from selected store
+type DeleteOptions = {
+  store: string | string[];
+};
 
-`agent.listVCS({store: vcStore, query: VCQuery})`
+type SaveOptions = {
+  store: string | string[];
+};
 
-VCQuery is an object that is a subset of VerifiableCredential. If provided, the function will only return VCs that match the VCQuerry subset. For example if you only want to retrieve VCs issued by a specific DID to a specific subject you would need to use
+type ClearOptions = {
+  store: string | string[];
+};
 
-`agent.listVCS({query: {issuer: {id: 'did:ethr:0x...'}, credentialSubject: {id: 'did:ethr:0x...'}}})`
+type QueryMetadata = {
+  id: string;
+  store?: string;
+};
+
+/**
+ *  Interfaces for DataManager method arguments
+ */
+export interface IDataManagerQueryArgs {
+  filter?: Filter;
+  options?: QueryOptions;
+}
+
+export interface IDataManagerDeleteArgs {
+  id: string;
+  options?: DeleteOptions;
+}
+
+export interface IDataManagerSaveArgs {
+  data: unknown;
+  options: SaveOptions;
+}
+
+export interface IDataManagerClearArgs {
+  filter?: Filter;
+  options?: ClearOptions;
+}
+
+/**
+ * Interfaces for DataManager method return values
+ */
+export interface IDataManagerQueryResult {
+  data: unknown;
+  metadata: QueryMetadata;
+}
+
+export interface IDataManagerSaveResult {
+  id: string;
+  store: string;
+}
+```
 
 **[GitHub](https://github.com/blockchain-lab-um/veramo-vc-manager) |
 [npm](https://www.npmjs.com/package/@blockchain-lab-um/veramo-vc-manager)**
