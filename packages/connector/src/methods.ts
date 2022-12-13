@@ -9,6 +9,8 @@ import {
   QueryVCsRequestResult,
   SaveVCOptions,
   SaveVCRequestResult,
+  SSIAccountConfig,
+  SSISnapConfig,
 } from '@blockchain-lab-um/ssi-snap-types';
 import { MetaMaskSSISnap } from './snap';
 
@@ -162,4 +164,15 @@ export async function setVCStore(
     { method: 'setVCStore', params: { store, value } },
     this.snapId
   );
+}
+
+export async function getAccountSettings(
+  this: MetaMaskSSISnap
+): Promise<SSIAccountConfig> {
+  return await sendSnapMethod({ method: 'getAccountSettings' }, this.snapId);
+}
+export async function getSnapSettings(
+  this: MetaMaskSSISnap
+): Promise<SSISnapConfig> {
+  return await sendSnapMethod({ method: 'getSnapSettings' }, this.snapId);
 }
