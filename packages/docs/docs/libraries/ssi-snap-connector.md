@@ -142,8 +142,15 @@ const availableVCStores = await api.getAvailableVCStores();
 const res = await api.setVCStore('ceramic', true);
 
 const res = await api.changeInfuraToken(infuraToken);
+
+const snapSettings = await api.getSnapSettings();
+
+const accountSettings = await api.getAccountSettings();
+```
+
 ```
 
 #### Utility methods
 
 SSI Snap Connector also comes with additional utility methods such as `isSnapInstalled`, `isMetamaskSnapsSupported` and `hasMetamask`.
+```
