@@ -67,7 +67,7 @@ const config = {
         { to: '/docs/getting-started', label: 'Quickstart', position: 'left' },
         {
           href: 'https://blockchain-lab-um.github.io/ssi-snap',
-          label: 'Configuration dApp',
+          label: 'App',
           position: 'left',
         },
         {
