@@ -1,7 +1,12 @@
 import { SnapConfirmParams, SSISnapState } from '../../src/interfaces';
 import cloneDeep from 'lodash.clonedeep';
 import { getEmptyAccountState } from '../../src/utils/config';
-import { DIDDocument, DIDResolutionResult, IIdentifier } from '@veramo/core';
+import {
+  DIDDocument,
+  DIDResolutionResult,
+  IIdentifier,
+  W3CVerifiableCredential,
+} from '@veramo/core';
 import { JsonBIP44CoinTypeNode } from '@metamask/key-tree';
 
 export const mnemonic =
@@ -133,6 +138,122 @@ export const exampleVC = {
   proof: {
     type: 'JwtProof2020',
     jwt: 'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSIsImh0dHBzOi8vYmV0YS5hcGkuc2NoZW1hcy5zZXJ0by5pZC92MS9wdWJsaWMvcHJvZ3JhbS1jb21wbGV0aW9uLWNlcnRpZmljYXRlLzEuMC9sZC1jb250ZXh0Lmpzb24iXSwidHlwZSI6WyJWZXJpZmlhYmxlQ3JlZGVudGlhbCIsIlByb2dyYW1Db21wbGV0aW9uQ2VydGlmaWNhdGUiXSwiY3JlZGVudGlhbFN1YmplY3QiOnsiYWNjb21wbGlzaG1lbnRUeXBlIjoiRGV2ZWxvcGVyIENlcnRpZmljYXRlIiwibGVhcm5lck5hbWUiOiJCb2IiLCJhY2hpZXZlbWVudCI6IkNlcnRpZmllZCBTb2xpZGl0eSBEZXZlbG9wZXIgMiIsImNvdXJzZVByb3ZpZGVyIjoiaHR0cHM6Ly9ibG9ja2NoYWluLWxhYi51bS5zaS8ifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vYmV0YS5hcGkuc2NoZW1hcy5zZXJ0by5pZC92MS9wdWJsaWMvcHJvZ3JhbS1jb21wbGV0aW9uLWNlcnRpZmljYXRlLzEuMC9qc29uLXNjaGVtYS5qc29uIiwidHlwZSI6Ikpzb25TY2hlbWFWYWxpZGF0b3IyMDE4In19LCJzdWIiOiJkaWQ6ZXRocjpyaW5rZWJ5OjB4YjY2NjUxMjhlZTkxZDg0NTkwZjcwYzMyNjg3NjUzODRhOWNhZmJjZCIsImp0aSI6ImIyZjQ3OWM1LTIwNTgtNDI4Ni1hNzBkLWY2MzY5NjYyNjZkZSIsIm5iZiI6MTY2MzMyODIyNSwiaXNzIjoiZGlkOmV0aHI6cmlua2VieToweDAyNDFhYmQ2NjJkYTA2ZDBhZjJmMDE1MmE4MGJjMDM3ZjY1YTdmOTAxMTYwY2ZlMWViMzVlZjNmMGM1MzJhMmE0ZCJ9.lbUqHPCkgBtX_uulh_3JRYK2GKirUCRgJDUK5IdVI55vG6aOTk6UtEezH3j4H3VB85eCmJm_mFM7Ks6OOZCVfA',
+  },
+};
+
+export const exampleVCJSONLD: W3CVerifiableCredential = {
+  '@context': ['https://www.w3.org/2018/credentials/v1', 'https://schema.org'],
+  type: ['VerifiableCredential', 'CourseCredential'],
+  issuer: {
+    id: 'did:key:z6MkndAHigYrXNpape7jgaC7jHiWwxzB3chuKUGXJg2b5RSj',
+    name: 'tenant',
+  },
+  issuanceDate: '2021-07-26T01:05:05.152Z',
+  credentialSubject: {
+    accomplishmentType: 'Developer Certificate',
+    learnerName: 'Bob',
+    achievement: 'Certified Solidity Developer 2',
+    courseProvider: 'https://blockchain-lab.um.si/',
+    id: 'did:ethr:goerli:0xb6665128ee91d84590f70c3268765384a9cafbcd',
+  },
+  proof: {
+    type: 'Ed25519Signature2018',
+    created: '2021-07-26T01:05:06Z',
+    jws: 'eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..o6hnrrWpArG8LQz2Ex_u66_BtuPdp3Hkz18nhNdNhJ7J1k_2lmCCwsNdmo-kNFirZdSIMzqO-V3wEjMDphVEAA',
+    proofPurpose: 'assertionMethod',
+    verificationMethod:
+      'did:key:z6MkndAHigYrXNpape7jgaC7jHiWwxzB3chuKUGXJg2b5RSj#z6MkndAHigYrXNpape7jgaC7jHiWwxzB3chuKUGXJg2b5RSj',
+  },
+};
+
+export const exampleVCEIP712: W3CVerifiableCredential = {
+  issuer: 'did:key:zQ3shYMgaxxFxwm3ipuCPD3n6WT58Up6qUaJUAnYZUeb7EBXW',
+  type: ['VerifiableCredential', 'Custom'],
+  credentialSubject: {
+    accomplishmentType: 'Developer Certificate',
+    learnerName: 'Bob',
+    achievement: 'Certified Solidity Developer 2',
+    courseProvider: 'https://blockchain-lab.um.si/',
+    id: 'did:ethr:goerli:0xb6665128ee91d84590f70c3268765384a9cafbcd',
+  },
+  '@context': ['https://www.w3.org/2018/credentials/v1'],
+  issuanceDate: '2022-08-12T08:56:59.619Z',
+  proof: {
+    verificationMethod:
+      'did:key:zQ3shYMgaxxFxwm3ipuCPD3n6WT58Up6qUaJUAnYZUeb7EBXW#zQ3shYMgaxxFxwm3ipuCPD3n6WT58Up6qUaJUAnYZUeb7EBXW',
+    created: '2022-08-12T08:56:59.619Z',
+    proofPurpose: 'assertionMethod',
+    type: 'EthereumEip712Signature2021',
+    proofValue:
+      '0xdf3910af95b8207e6fd1cbbc9beb21941fcbff0eb4032aee356ee52eb340ca2d26bfd8156c811460b4651d140f5b7130532c5e8228e488696435564236f4a0f71c',
+    eip712: {
+      domain: {
+        chainId: 4,
+        name: 'VerifiableCredential',
+        version: '1',
+      },
+      messageSchema: {
+        EIP712Domain: [
+          {
+            name: 'name',
+            type: 'string',
+          },
+          {
+            name: 'version',
+            type: 'string',
+          },
+          {
+            name: 'chainId',
+            type: 'uint256',
+          },
+        ],
+        Proof: [
+          {
+            name: 'created',
+            type: 'string',
+          },
+          {
+            name: 'proofPurpose',
+            type: 'string',
+          },
+          {
+            name: 'type',
+            type: 'string',
+          },
+          {
+            name: 'verificationMethod',
+            type: 'string',
+          },
+        ],
+        VerifiablePresentation: [
+          {
+            name: '@context',
+            type: 'string[]',
+          },
+          {
+            name: 'holder',
+            type: 'string',
+          },
+          {
+            name: 'issuanceDate',
+            type: 'string',
+          },
+          {
+            name: 'proof',
+            type: 'Proof',
+          },
+          {
+            name: 'type',
+            type: 'string[]',
+          },
+          {
+            name: 'verifiableCredential',
+            type: 'string[]',
+          },
+        ],
+      },
+      primaryType: 'VerifiableCredential',
+    },
   },
 };
 
