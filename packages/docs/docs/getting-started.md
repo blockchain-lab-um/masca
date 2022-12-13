@@ -46,7 +46,7 @@ const metamaskSSISnap = await enableSSISnap();
 const api = metamaskSSISnap.getSSISnapApi();
 
 // invoke API
-const vcs = await api.queryVCs();
+const vcs = await api.getVCs();
 
 console.log('list of VCs:', vcs);
 ```
