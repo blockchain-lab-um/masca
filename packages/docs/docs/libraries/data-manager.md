@@ -4,12 +4,6 @@ sidebar_position: 4
 
 # DataManager (Veramo)
 
-:::danger
-
-Ceramic network support is experimental and still under development!
-
-:::
-
 ### Introduction
 
 Veramo does not provide similar support for managing VCs like it does for DIDs and KeyPairs. **Veramo Data Manager** is a custom plugin for managing arbitrary data with the Veramo client. It works very similarly to [DIDManager](https://github.com/uport-project/veramo/tree/next/packages/did-manager) and other Manager plugins built for Veramo. Data stored using this plugin is managed by sub-plugins.

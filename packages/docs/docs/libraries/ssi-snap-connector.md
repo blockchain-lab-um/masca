@@ -6,13 +6,7 @@ sidebar_position: 1
 
 SSI Snap connector is used to install SSI snap and expose API toward snap on dApps and other applications.
 
-For more details on SSI Snap Connector itself see [ssi-snap-connector repo](https://github.com/blockchain-lab-um/ssi-snap-connector).
-
-:::danger
-
-Ceramic network and DID:KEY support are experimental and still under development!
-
-:::
+For more details on SSI Snap Connector, check [ssi-snap-connector repo](https://github.com/blockchain-lab-um/ssi-snap-connector).
 
 ## Usage
 
@@ -55,7 +49,7 @@ const vcs = await api.queryVCs();
 console.log('list of VCs:', vcs);
 ```
 
-## Connector methods:
+## Connector methods
 
 ```typescript
 /**
@@ -148,9 +142,6 @@ const snapSettings = await api.getSnapSettings();
 const accountSettings = await api.getAccountSettings();
 ```
 
-```
-
-#### Utility methods
+## Utility methods
 
 SSI Snap Connector also comes with additional utility methods such as `isSnapInstalled`, `isMetamaskSnapsSupported` and `hasMetamask`.
-```

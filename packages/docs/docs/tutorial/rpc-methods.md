@@ -4,7 +4,7 @@ sidebar_position: 5
 
 # JSON-RPC API
 
-All of the types mentioned below can be found in `@blockchain-lab-um/ssi-snap-types` library!
+All of the types mentioned below can be found in the library `@blockchain-lab-um/ssi-snap-types`.
 
 ## VC Methods
 

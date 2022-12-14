@@ -18,7 +18,7 @@ VCs bring many benefits:
 
 <img src="https://i.imgur.com/guqZBX9.png" />
 
-[UI Example](https://identity.foundation/snap-rendering/#term:display-mapping-object) of a VC
+[Visual example](https://identity.foundation/wallet-rendering/#display-mapping-object) of a VC
 
 </center>
 

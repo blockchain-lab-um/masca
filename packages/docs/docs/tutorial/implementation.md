@@ -150,7 +150,7 @@ const vp = await api.createVP({
 const res = await api.deleteVC('123', { store: 'snap' });
 ```
 
-### DID
+### DIDs
 
 `getDID` and `getSelectedMethod` are used to get current did and currently selected did method.
 
@@ -160,7 +160,7 @@ const res = await api.getDID();
 const res = await api.getSelectedMethod();
 ```
 
-### Supported DID methods and VC Stores
+### Supported DID Methods and VC Stores
 
 `getAvailableVCStores` and `getAvailableMethods` are used to get all supported methods and vcstores
 
@@ -186,7 +186,7 @@ await api.switchMethod('did:key');
 const res = await api.setVCStore('ceramic', false);
 ```
 
-### Snap settings
+### Snap Settings
 
 `togglePopups` and `changeInfuraToken` are used to enable/disable "Are you sure?" alerts and to change the infuraToken.
 
