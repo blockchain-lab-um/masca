@@ -48,7 +48,7 @@ export async function enableSSISnap(
     throw new Error("Current Metamask version doesn't support snaps");
   }
 
-  const isInstalled = await isSnapInstalled(snapId);
+  const isInstalled = await isSnapInstalled(snapId, version);
 
   if (!isInstalled) {
     await window.ethereum.request({
@@ -64,11 +64,14 @@ export async function enableSSISnap(
 
   //initialize snap
   const snapApi = await snap.getSSISnapApi();
-
-  const method = await snapApi.getMethod();
-  if (!snap.supportedMethods.includes(method)) {
+  console.log('Getting DID method...');
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+  const method = await snapApi.getSelectedMethod();
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  if (!snap.supportedMethods.includes(method as AvailableMethods)) {
     console.log('Switching method...', method, snap.supportedMethods[0]);
-    await snapApi.switchMethod({ didMethod: snap.supportedMethods[0] });
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    await snapApi.switchDIDMethod(snap.supportedMethods[0]);
   }
 
   // return snap object

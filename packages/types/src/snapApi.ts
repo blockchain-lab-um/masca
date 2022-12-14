@@ -1,29 +1,34 @@
-import { VerifiablePresentation } from '@veramo/core';
-import { AvailableMethods } from './constants';
+import { VerifiablePresentation, W3CVerifiableCredential } from '@veramo/core';
+import { AvailableMethods, AvailableVCStores } from './constants';
 import {
-  ChangeInfuraTokenRequestParams,
   CreateVPRequestParams,
+  DeleteVCsOptions,
   QueryVCsRequestParams,
-  SaveVCRequestParams,
-  SetVCStoreRequestParams,
-  SwitchMethodRequestParams,
+  SaveVCOptions,
 } from './params';
-import { QueryVCsRequestResult } from './results';
+import type { QueryVCsRequestResult, SaveVCRequestResult } from './results';
+import { SSIAccountConfig, SSISnapConfig } from './snapInterfaces';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SSISnapEventApi {}
 
 export interface SSISnapApi {
-  queryVCs(params: QueryVCsRequestParams): Promise<QueryVCsRequestResult>;
-  saveVC(params: SaveVCRequestParams): Promise<boolean>;
+  queryVCs(params?: QueryVCsRequestParams): Promise<QueryVCsRequestResult[]>;
+  saveVC(
+    vc: W3CVerifiableCredential,
+    options?: SaveVCOptions
+  ): Promise<SaveVCRequestResult[]>;
   createVP(params: CreateVPRequestParams): Promise<VerifiablePresentation>;
-  changeInfuraToken(params: ChangeInfuraTokenRequestParams): Promise<boolean>;
+  changeInfuraToken(infuraToken: string): Promise<boolean>;
   togglePopups(): Promise<boolean>;
   getDID(): Promise<string>;
-  getMethod(): Promise<AvailableMethods>;
-  getAvailableMethods(): Promise<AvailableMethods>;
-  switchMethod(params: SwitchMethodRequestParams): Promise<boolean>;
-  getVCStore(): Promise<string>;
-  setVCStore(params: SetVCStoreRequestParams): Promise<boolean>;
+  getSelectedMethod(): Promise<string>;
+  getAvailableMethods(): Promise<string[]>;
+  switchDIDMethod(method: AvailableMethods): Promise<boolean>;
+  getVCStore(): Promise<Record<AvailableVCStores, boolean>>;
+  setVCStore(store: AvailableVCStores, value: boolean): Promise<boolean>;
   getAvailableVCStores(): Promise<string[]>;
+  deleteVC(id: string, options?: DeleteVCsOptions): Promise<boolean[]>;
+  getAccountSettings(): Promise<SSIAccountConfig>;
+  getSnapSettings(): Promise<SSISnapConfig>;
 }

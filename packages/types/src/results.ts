@@ -7,3 +7,8 @@ export interface QueryVCsRequestResult {
     store?: string;
   };
 }
+
+export interface SaveVCRequestResult {
+  id: string;
+  store?: string;
+}

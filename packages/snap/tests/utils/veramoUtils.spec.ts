@@ -6,7 +6,9 @@ import {
   exampleDID,
   exampleImportedDIDWIthoutPrivateKey,
   exampleVC,
+  exampleVCEIP712,
   exampleVCinVP,
+  exampleVCJSONLD,
   getDefaultSnapState,
   jsonPath,
 } from '../testUtils/constants';
@@ -25,7 +27,6 @@ import { StoredCredentials } from 'src/interfaces';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { StreamID } from '@ceramicnetwork/streamid';
 import * as snapUtils from '../../src/utils/snapUtils';
-import { setVCStore } from '../../src/rpc/vcStore/setVCStore';
 
 jest
   .spyOn(snapUtils, 'getCurrentAccount')
@@ -82,6 +83,51 @@ describe('Utils [veramo]', () => {
       expect(res).toEqual(expectedResult);
       expect.assertions(1);
     });
+    it('should succeed saving JSON-LD VC in snap store', async () => {
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
+
+      const res = await veramoSaveVC({
+        snap: snapMock,
+        verifiableCredential: exampleVCJSONLD,
+        store: ['snap'],
+      });
+
+      const expectedResult = [
+        {
+          id: res[0].id,
+          store: 'snap',
+        },
+      ];
+
+      expect(res).toEqual(expectedResult);
+
+      const query = await veramoQueryVCs({ snap: snapMock, options: {} });
+      expect(query[0].data).toEqual(exampleVCJSONLD);
+      expect.assertions(2);
+    });
+
+    it('should succeed saving EIP712 VC in snap store', async () => {
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
+
+      const res = await veramoSaveVC({
+        snap: snapMock,
+        verifiableCredential: exampleVCEIP712,
+        store: ['snap'],
+      });
+
+      const expectedResult = [
+        {
+          id: res[0].id,
+          store: 'snap',
+        },
+      ];
+
+      expect(res).toEqual(expectedResult);
+      const query = await veramoQueryVCs({ snap: snapMock, options: {} });
+      expect(query[0].data).toEqual(exampleVCEIP712);
+      expect.assertions(2);
+    });
+
     it('should succeed saving VC in snap and ceramic store', async () => {
       snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
 
@@ -433,14 +479,15 @@ describe('Utils [veramo]', () => {
         data: exampleVC,
         metadata: { id: res[0].id },
       };
-      await expect(
-        veramoQueryVCs({
-          snap: snapMock,
-          options: { store: ['snap'], returnStore: false },
-        })
-      ).resolves.toEqual([expectedVCObject]);
 
-      expect.assertions(1);
+      const queryRes = await veramoQueryVCs({
+        snap: snapMock,
+        options: { store: ['snap'], returnStore: false },
+      });
+      expect(queryRes).toStrictEqual([expectedVCObject]);
+      expect(queryRes[0].metadata.store).toBeUndefined();
+
+      expect.assertions(2);
     });
 
     it('should succeed querying all VCs from snap store that match JSONPath', async () => {
@@ -667,6 +714,37 @@ describe('Utils [veramo]', () => {
 
       expect.assertions(2);
     });
+    it('should succeed creating a valid VP with one false id', async () => {
+      const initialState = getDefaultSnapState();
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
+      snapMock.rpcMocks.snap_dialog.mockResolvedValue(true);
+      const agent = await getAgent(snapMock);
+
+      const res = await veramoSaveVC({
+        snap: snapMock,
+        verifiableCredential: exampleVC,
+        store: ['snap'],
+      });
+
+      const createdVP = await veramoCreateVP(
+        {
+          snap: snapMock,
+          state: initialState,
+          account: address,
+          bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
+        },
+        { proofFormat: 'jwt', vcs: [{ id: res[0].id }, { id: 'wrong_id' }] }
+      );
+      expect(createdVP).not.toEqual(null);
+
+      const verifyResult = (await agent.verifyPresentation({
+        presentation: createdVP as VerifiablePresentation,
+      })) as IVerifyResult;
+
+      expect(verifyResult.verified).toBe(true);
+
+      expect.assertions(2);
+    });
     it('should succeed creating a valid VP with 2 VCs', async () => {
       const initialState = getDefaultSnapState();
       snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
@@ -697,6 +775,69 @@ describe('Utils [veramo]', () => {
       expect(createdVP?.verifiableCredential).toStrictEqual([
         exampleVCinVP,
         exampleVCinVP,
+      ]);
+
+      expect(verifyResult.verified).toBe(true);
+
+      expect.assertions(3);
+    });
+
+    it('should succeed creating a valid VP with 4 different types of VCs', async () => {
+      const initialState = getDefaultSnapState();
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
+      snapMock.rpcMocks.snap_dialog.mockResolvedValue(true);
+      const agent = await getAgent(snapMock);
+
+      const res = await veramoSaveVC({
+        snap: snapMock,
+        verifiableCredential: exampleVC,
+        store: ['snap'],
+      });
+      const resjwt = await veramoSaveVC({
+        snap: snapMock,
+        verifiableCredential: exampleVC.proof.jwt,
+        store: ['snap'],
+      });
+      const res2 = await veramoSaveVC({
+        snap: snapMock,
+        verifiableCredential: exampleVCJSONLD,
+        store: ['snap'],
+      });
+
+      const res3 = await veramoSaveVC({
+        snap: snapMock,
+        verifiableCredential: exampleVCEIP712,
+        store: ['snap'],
+      });
+
+      const createdVP = await veramoCreateVP(
+        {
+          snap: snapMock,
+          state: initialState,
+          account: address,
+          bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
+        },
+        {
+          proofFormat: 'jwt',
+          vcs: [
+            { id: res[0].id, metadata: { store: 'snap' } },
+            { id: resjwt[0].id, metadata: { store: 'snap' } },
+            { id: res2[0].id, metadata: { store: 'snap' } },
+            { id: res3[0].id, metadata: { store: 'snap' } },
+          ],
+        }
+      );
+      expect(createdVP).not.toEqual(null);
+
+      const verifyResult = (await agent.verifyPresentation({
+        presentation: createdVP as VerifiablePresentation,
+      })) as IVerifyResult;
+
+      expect(createdVP?.verifiableCredential).toStrictEqual([
+        exampleVCinVP,
+        exampleVCinVP,
+        exampleVCJSONLD,
+        exampleVCEIP712,
       ]);
 
       expect(verifyResult.verified).toBe(true);

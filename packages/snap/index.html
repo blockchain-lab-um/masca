@@ -106,7 +106,6 @@
   const saveBtn = document.querySelector('button.saveVC');
   const saveCeramicBtn = document.querySelector('button.saveVCC');
 
-
   const getVPBtn = document.querySelector('button.getVP');
 
   const switchMethodBtn = document.querySelector('button.switchMethod');
@@ -155,10 +154,14 @@
   // here we get permissions to interact with and install the snap
   async function connect() {
     console.log('snap id', snapId);
+    const snaps = await window.ethereum.request({
+      method: 'wallet_getSnaps',
+    });
+    console.log("Installed snaps...", snaps)
     await ethereum.request({
       method: 'wallet_requestSnaps',
       params: {
-        [snapId]: {},
+        [snapId]: { version: 'latest' },
       },
     });
   }
@@ -201,9 +204,8 @@
           method: 'setVCStore',
           params: {
             store: 'ceramic',
-            value: true
-          }
-
+            value: true,
+          },
         },
       });
       console.log('DID: ', response);
@@ -212,8 +214,6 @@
       alert('Problem happened: ' + err.message || err);
     }
   }
-
-
 
   async function getAvailableMethods() {
     try {
@@ -255,7 +255,7 @@
           method: 'switchDIDMethod',
           params: {
             didMethod: method,
-          }
+          },
         },
       });
       console.log('switch: ', response);
@@ -290,7 +290,7 @@
           params: {
             verifiableCredential: vc,
           },
-        }
+        },
       });
     } catch (err) {
       console.error(err);
@@ -301,16 +301,16 @@
   async function saveVCC() {
     try {
       const vc = JSON.parse(document.getElementById('VC').value);
-      console.log("saving ceramic")
+      console.log('saving ceramic');
       const response = await ethereum.request({
         method: `wallet_snap_${snapId}`,
         params: {
           method: 'saveVC',
           params: {
             verifiableCredential: vc,
-            options: { store: ['ceramic'] }
+            options: { store: ['ceramic'] },
           },
-        }
+        },
       });
     } catch (err) {
       console.error(err);
@@ -318,7 +318,7 @@
     }
   }
   async function getVCs() {
-    console.log("doing this..")
+    console.log('doing this..');
     try {
       const response = await ethereum.request({
         method: `wallet_snap_${snapId}`,
@@ -355,8 +355,7 @@
       if (!checkBox) {
         const response = await ethereum.request({
           method: `wallet_snap_${snapId}`,
-          params:
-          {
+          params: {
             method: 'createVP',
             params: {
               vcs: [{ id: vcId }],
@@ -367,14 +366,13 @@
       } else {
         const response = await ethereum.request({
           method: `wallet_snap_${snapId}`,
-          params:
-          {
+          params: {
             method: 'createVP',
             params: {
               vcs: [{ id: vcId }],
               proofOptions: {
                 challenge: '123-456-789',
-              }
+              },
             },
           },
         });
