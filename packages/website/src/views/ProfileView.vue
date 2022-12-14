@@ -39,7 +39,11 @@
             {{ slotProps.data.data.type[1] }}
           </template>
         </Column>
-        <Column field="issuanceDate" header="Issuance Date" :sortable="true">
+        <Column
+          field="data.issuanceDate"
+          header="Issuance Date"
+          :sortable="true"
+        >
           <template #body="slotProps">
             {{ ISOtoLocaleString(slotProps.data.data.issuanceDate) }}
           </template>
@@ -73,14 +77,6 @@
       :style="{ width: '50vw' }"
       :modal="true"
     >
-      <Textarea
-        id="VCImportArea"
-        v-model="VCImport"
-        autofocus
-        :autoResize="true"
-        class="vcImport"
-      />
-
       <Textarea
         id="VCImportArea"
         v-model="VCImport"

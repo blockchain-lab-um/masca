@@ -20,7 +20,6 @@
       icon="pi pi-check"
       class="p-mr-2"
       @click="copyToClipboard('mmAddr')"
-      v-tooltip.bottom.focus="'Enter your username'"
     />
   </div>
 </template>
