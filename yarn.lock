@@ -1841,15 +1841,15 @@ __metadata:
     "@types/uuid": 8.3.4
     "@typescript-eslint/eslint-plugin": ^5.44.0
     "@typescript-eslint/parser": ^5.44.0
-    "@veramo/core": 4.1.1
-    "@veramo/credential-eip712": 4.1.1
-    "@veramo/credential-w3c": 4.1.1
-    "@veramo/did-manager": 4.1.1
+    "@veramo/core": 4.2.0
+    "@veramo/credential-eip712": 4.2.0
+    "@veramo/credential-w3c": 4.2.0
+    "@veramo/did-manager": 4.2.0
     "@veramo/did-provider-ethr": 4.1.2
-    "@veramo/did-resolver": 4.1.1
-    "@veramo/key-manager": 4.1.1
-    "@veramo/kms-local": 4.1.1
-    "@veramo/utils": 4.1.1
+    "@veramo/did-resolver": 4.2.0
+    "@veramo/key-manager": 4.2.0
+    "@veramo/kms-local": 4.2.0
+    "@veramo/utils": 4.2.0
     audit-ci: ^6.3.0
     babel-loader: ^9.1.0
     ceramic-cacao: ^1.4.0
@@ -6879,21 +6879,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veramo/core@npm:4.1.1":
-  version: 4.1.1
-  resolution: "@veramo/core@npm:4.1.1"
-  dependencies:
-    credential-status: ^2.0.5
-    debug: ^4.3.3
-    did-jwt-vc: ^3.1.0
-    did-resolver: ^4.0.1
-    events: ^3.2.0
-    z-schema: ^5.0.2
-  checksum: 0e11897c0f33874c64d56c64fa0c213eb0f7cf6ccf11c7d46322d87afd778745b178456a055d9d74d12c0a16e391ba524cbf47ba92cb8346fffa1e965b5b9690
-  languageName: node
-  linkType: hard
-
-"@veramo/core@npm:^4.1.1, @veramo/core@npm:^4.2.0":
+"@veramo/core@npm:4.2.0, @veramo/core@npm:^4.1.1, @veramo/core@npm:^4.2.0":
   version: 4.2.0
   resolution: "@veramo/core@npm:4.2.0"
   dependencies:
@@ -6907,16 +6893,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veramo/credential-eip712@npm:4.1.1":
-  version: 4.1.1
-  resolution: "@veramo/credential-eip712@npm:4.1.1"
+"@veramo/credential-eip712@npm:4.2.0":
+  version: 4.2.0
+  resolution: "@veramo/credential-eip712@npm:4.2.0"
   dependencies:
     "@metamask/eth-sig-util": ^5.0.0
-    "@veramo/core": ^4.1.1
-    "@veramo/utils": ^4.1.1
+    "@veramo/core": ^4.2.0
+    "@veramo/utils": ^4.2.0
     debug: ^4.3.3
     eip-712-types-generation: ^0.1.6
-  checksum: 32a60ce0b073f4ef333f67601a7f30eb836ef265e80991bc35b2d464dd0bc84b1d5e25b250439929927217febcdb4fa3b1e687e4c92b610582449a2267b097b2
+  checksum: 7993c26346cabd1e1bb4d94ab002ff94a40e545c76fdb10628b971ce59384198fb7e63bda94f09dfbe7aada5320d76eda55052acd2f9bfa63fcba283e726d458
   languageName: node
   linkType: hard
 
@@ -6942,29 +6928,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veramo/credential-w3c@npm:4.1.1":
-  version: 4.1.1
-  resolution: "@veramo/credential-w3c@npm:4.1.1"
-  dependencies:
-    "@veramo/core": ^4.1.1
-    "@veramo/credential-ld": ^4.1.1
-    "@veramo/did-jwt": ^4.1.1
-    "@veramo/did-resolver": ^4.1.1
-    "@veramo/message-handler": ^4.1.1
-    "@veramo/utils": ^4.1.1
-    debug: ^4.3.3
-    did-jwt-vc: ^3.1.0
-    did-resolver: ^4.0.1
-    uint8arrays: ^3.0.0
-    uuid: ^9.0.0
-  dependenciesMeta:
-    "@veramo/credential-ld":
-      optional: true
-  checksum: 5e1112f979e1d3893b8781a24c32fd3eba52682a3d586bb5caae8a9484aef2f68779319c778602dfe3a4a0584b780ea1b0c2fad06edd02509a7e3fc96a1d2bf8
-  languageName: node
-  linkType: hard
-
-"@veramo/credential-w3c@npm:^4.1.1, @veramo/credential-w3c@npm:^4.2.0":
+"@veramo/credential-w3c@npm:4.2.0, @veramo/credential-w3c@npm:^4.1.1, @veramo/credential-w3c@npm:^4.2.0":
   version: 4.2.0
   resolution: "@veramo/credential-w3c@npm:4.2.0"
   dependencies:
@@ -7044,17 +7008,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veramo/did-manager@npm:4.1.1":
-  version: 4.1.1
-  resolution: "@veramo/did-manager@npm:4.1.1"
-  dependencies:
-    "@veramo/core": ^4.1.1
-    "@veramo/did-discovery": ^4.1.1
-  checksum: 980da84e92e7dc8e34c3f8becb7b8b4c6716ebf22e6d09249fa3ddd76647417c20d347a2eb3b22fe0d98f487fefdf5f5cd5df45b239f65899092966d5767598a
-  languageName: node
-  linkType: hard
-
-"@veramo/did-manager@npm:^4.1.1, @veramo/did-manager@npm:^4.2.0":
+"@veramo/did-manager@npm:4.2.0, @veramo/did-manager@npm:^4.1.1, @veramo/did-manager@npm:^4.2.0":
   version: 4.2.0
   resolution: "@veramo/did-manager@npm:4.2.0"
   dependencies:
@@ -7129,20 +7083,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veramo/did-resolver@npm:4.1.1":
-  version: 4.1.1
-  resolution: "@veramo/did-resolver@npm:4.1.1"
-  dependencies:
-    "@veramo/core": ^4.1.1
-    "@veramo/utils": ^4.1.1
-    cross-fetch: ^3.1.4
-    debug: ^4.3.3
-    did-resolver: ^4.0.1
-  checksum: 514c40035bdebbae58c096c178069b30875eed61f68454cbb105080f0551f1ba01997e4dce6efccefe346fff5442dfd5ff21d6a0cdd006cb203962e0f347fc76
-  languageName: node
-  linkType: hard
-
-"@veramo/did-resolver@npm:^4.1.1, @veramo/did-resolver@npm:^4.2.0":
+"@veramo/did-resolver@npm:4.2.0, @veramo/did-resolver@npm:^4.1.1, @veramo/did-resolver@npm:^4.2.0":
   version: 4.2.0
   resolution: "@veramo/did-resolver@npm:4.2.0"
   dependencies:
@@ -7155,23 +7096,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veramo/key-manager@npm:4.1.1":
-  version: 4.1.1
-  resolution: "@veramo/key-manager@npm:4.1.1"
-  dependencies:
-    "@ethersproject/bytes": ^5.7.0
-    "@ethersproject/strings": ^5.7.0
-    "@ethersproject/transactions": ^5.7.0
-    "@stablelib/ed25519": ^1.0.2
-    "@veramo/core": ^4.1.1
-    did-jwt: ^6.9.0
-    uint8arrays: ^3.0.0
-    uuid: ^9.0.0
-  checksum: 9bffdd3ca16fcb67db035b47472340c3c132eb4326c904e8d926548e2a631053d6ac64f68e186b65e1afd29dd46fbbc5d1b52a1b70470835ac1eba027163a84b
-  languageName: node
-  linkType: hard
-
-"@veramo/key-manager@npm:^4.1.1, @veramo/key-manager@npm:^4.2.0":
+"@veramo/key-manager@npm:4.2.0, @veramo/key-manager@npm:^4.1.1, @veramo/key-manager@npm:^4.2.0":
   version: 4.2.0
   resolution: "@veramo/key-manager@npm:4.2.0"
   dependencies:
@@ -7187,31 +7112,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veramo/kms-local@npm:4.1.1":
-  version: 4.1.1
-  resolution: "@veramo/kms-local@npm:4.1.1"
-  dependencies:
-    "@ethersproject/abstract-provider": ^5.7.0
-    "@ethersproject/bytes": ^5.7.0
-    "@ethersproject/random": ^5.7.0
-    "@ethersproject/signing-key": ^5.7.0
-    "@ethersproject/strings": ^5.7.0
-    "@ethersproject/transactions": ^5.7.0
-    "@ethersproject/wallet": ^5.7.0
-    "@stablelib/ed25519": ^1.0.2
-    "@stablelib/nacl": ^1.0.2
-    "@veramo/core": ^4.1.1
-    "@veramo/key-manager": ^4.1.1
-    base-58: ^0.0.1
-    debug: ^4.3.3
-    did-jwt: ^6.9.0
-    elliptic: ^6.5.4
-    uint8arrays: ^3.0.0
-  checksum: f5d31cf60d9a6ebf8ac6897067a4ca363eff0d1cca67220175a16d130ee81053ab8b4f799aaf06de71774a94927f05f849bf9ddfd042cb5cf276400867d19600
-  languageName: node
-  linkType: hard
-
-"@veramo/kms-local@npm:^4.1.1":
+"@veramo/kms-local@npm:4.2.0, @veramo/kms-local@npm:^4.1.1":
   version: 4.2.0
   resolution: "@veramo/kms-local@npm:4.2.0"
   dependencies:
@@ -7301,26 +7202,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veramo/utils@npm:4.1.1":
-  version: 4.1.1
-  resolution: "@veramo/utils@npm:4.1.1"
-  dependencies:
-    "@ethersproject/transactions": ^5.7.0
-    "@stablelib/ed25519": ^1.0.2
-    "@veramo/core": ^4.1.1
-    blakejs: ^1.1.1
-    cross-fetch: ^3.1.4
-    debug: ^4.3.3
-    did-jwt: ^6.9.0
-    did-jwt-vc: ^3.1.0
-    did-resolver: ^4.0.1
-    elliptic: ^6.5.4
-    uint8arrays: ^3.0.0
-  checksum: 7a5c91367819f67863167f1c4caeb9568056681432e4eca66babca94b62b80a058f3a13dec66be68cd857480c08cd28617f8d6591e4e61125ebe106a6a9195f1
-  languageName: node
-  linkType: hard
-
-"@veramo/utils@npm:^4.1.1, @veramo/utils@npm:^4.2.0":
+"@veramo/utils@npm:4.2.0, @veramo/utils@npm:^4.2.0":
   version: 4.2.0
   resolution: "@veramo/utils@npm:4.2.0"
   dependencies:
