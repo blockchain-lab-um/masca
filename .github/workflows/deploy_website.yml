@@ -4,15 +4,15 @@ on:
   pull_request:
     branches: [develop]
     types: [opened, synchronize, reopened]
-    # paths:
-    #   - 'packages/website/**'
+    paths:
+      - 'packages/website/**'
   push:
     branches: [develop]
-    # paths:
-    #   - 'packages/website/**'
+    paths:
+      - 'packages/website/**'
 
 jobs:
-  build-artifacts:
+  test-deploy:
     if: github.event_name != 'push'
     runs-on: ubuntu-latest
     steps:
@@ -36,22 +36,31 @@ jobs:
         run: yarn nx run @blockchain-lab-um/website:build
         env:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: website-build
-          path: ./packages/website/dist
-          if-no-files-found: error
 
   deploy:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
-      - name: Download build artifacts
-        uses: actions/download-artifact@v3
+      - uses: actions/checkout@v3
         with:
-          name: website-build
-          path: ./packages/website/dist
+          fetch-depth: 0
+      - uses: nrwl/nx-set-shas@v3
+        with:
+          main-branch-name: 'develop'
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.12.1
+          cache: yarn
+      - name: Install dependencies
+        run: yarn install --immutable
+      - name: Lint
+        run: yarn nx run @blockchain-lab-um/website:lint
+        env:
+          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+      - name: Test build website
+        run: yarn nx run @blockchain-lab-um/website:build
+        env:
+          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
