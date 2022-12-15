@@ -47,4 +47,10 @@ DIDs are verifiable; their data usually lives on a **trusted data registry** (ty
 
 ## Differences between Centralized and Decentralized identifiers
 
+<center>
+
 ![Differences](https://i.imgur.com/8QimX0x.png)
+
+Differences between centralized and decentralized identifiers (image [source](https://www.dock.io/post/verifiable-credentials)).
+
+</center>
