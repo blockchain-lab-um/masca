@@ -12,7 +12,7 @@ on:
       - 'packages/website/**'
 
 jobs:
-  build-artifacts:
+  test-deploy:
     if: github.event_name != 'push'
     runs-on: ubuntu-latest
     steps:
