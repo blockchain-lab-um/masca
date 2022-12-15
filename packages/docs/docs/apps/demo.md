@@ -12,7 +12,7 @@ In this demo, a user will install and approve the SSI Snap, add a delegate to th
 
 [![YouTube Video](https://img.youtube.com/vi/LX40LsSipM8/0.jpg)](https://www.youtube.com/watch?v=LX40LsSipM8)
 
-[YouTube DEMO](https://www.youtube.com/watch?v=LX40LsSipM8)
+[YouTube video](https://www.youtube.com/watch?v=LX40LsSipM8)
 
 </center>
 
