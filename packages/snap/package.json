@@ -34,10 +34,11 @@
   "scripts": {
     "audit": "audit-ci --moderate --skip-dev",
     "prebuild": "yarn run clean",
-    "build": "mm-snap --version && webpack && yarn build:snap",
+    "build": "mm-snap --version && yarn build:webpack && yarn build:snap",
     "build:snap": "yarn build:snap:postprocess && mm-snap manifest --fix && yarn build:snap:eval",
     "build:snap:eval": "mm-snap eval -b dist/snap.js",
     "build:snap:postprocess": "node ./src/post-process/post-process.js",
+    "build:webpack": "NODE_OPTIONS=--max-old-space-size=4096 webpack",
     "clean": "rimraf dist coverage",
     "coverage": "yarn test --coverage",
     "lint": "yarn lint:eslint && yarn lint:prettier",
