@@ -5,14 +5,14 @@ on:
     branches: [develop]
     types: [opened, synchronize, reopened]
     paths:
-      - 'packages/docs/**'
+      - 'packages/website/**'
   push:
     branches: [develop]
     paths:
-      - 'packages/docs/**'
+      - 'packages/website/**'
 
 jobs:
-  test-deploy:
+  build-artifacts:
     if: github.event_name != 'push'
     runs-on: ubuntu-latest
     steps:
@@ -29,30 +29,30 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
       - name: Lint
-        run: yarn nx run @blockchain-lab-um/ssi-snap-docs:lint
+        run: yarn nx run @blockchain-lab-um/website:lint
         env:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
       - name: Test build website
-        run: yarn nx run @blockchain-lab-um/ssi-snap-docs:build
+        run: yarn nx run @blockchain-lab-um/website:build
         env:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: website-build
+          path: ./dist
+
   deploy:
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
         with:
-          node-version: 18.12.1
-          cache: yarn
-      - uses: webfactory/ssh-agent@v0.6.0
-        with:
-          ssh-private-key: ${{ secrets.GH_PAGES_DEPLOY }}
+          name: website-build
+          path: ./dist
       - name: Deploy to GitHub Pages
-        env:
-          USE_SSH: true
-        run: |
-          git config --global user.email "andraz.vrecko@gmail.com"
-          git config --global user.name "andyv09"
-          yarn install --immutable
-          yarn deploy:docs
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
