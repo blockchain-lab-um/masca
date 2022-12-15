@@ -74,7 +74,10 @@
 </body>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <script>
-  const snapId = `local:${window.location.href}`;
+  const snapId = `local:${window.location.href.substring(0,
+    window.location.href.lastIndexOf('/'),
+  )}`;
+
   console.log(snapId);
 
   const placeholderVC = {
@@ -173,6 +176,8 @@
 
   async function getDID() {
     try {
+      console.log('snap id', snapId);
+      console.log('getDID', `wallet_snap_${snapId}`)
       const response = await ethereum.request({
         method: `wallet_snap_${snapId}`,
         params: {

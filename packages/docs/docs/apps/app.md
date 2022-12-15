@@ -15,6 +15,6 @@ Users can use the official app to:
 - configure SSI Snap,
 - and many other things that will come...
 
-![SSI Snap App](https://i.imgur.com/8NeiveT.png)
+![SSI Snap App](https://i.imgur.com/Hko00tM.png)
 
 SSI Snap App is certainly not the only way of interacting with SSI Snap. Any dApp can connect to SSI Snap similarly to the MetaMask!
