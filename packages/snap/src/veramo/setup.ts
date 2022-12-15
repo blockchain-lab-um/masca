@@ -27,7 +27,7 @@ import {
   AbstractDataStore,
 } from '@blockchain-lab-um/veramo-vc-manager';
 import { Web3Provider } from '@ethersproject/providers';
-import { Web3KeyManagementSystem } from '@veramo/kms-web3';
+//import { Web3KeyManagementSystem } from '@veramo/kms-web3';
 import { CredentialIssuerEIP712 } from '@veramo/credential-eip712';
 import {
   SnapDIDStore,
@@ -103,7 +103,7 @@ export const getAgent = async (snap: SnapsGlobalObject): Promise<Agent> => {
       new KeyManager({
         store: new MemoryKeyStore(),
         kms: {
-          web3: new Web3KeyManagementSystem(web3Providers),
+          //web3: new Web3KeyManagementSystem(web3Providers),
           snap: new KeyManagementSystem(new MemoryPrivateKeyStore()),
         },
       }),
