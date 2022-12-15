@@ -55,8 +55,7 @@
           "^build"
         ],
         "outputs": [
-          "{projectRoot}/build",
-          "{projectRoot}/.docusaurus"
+          "{projectRoot}/dist"
         ]
       },
       "start": {
