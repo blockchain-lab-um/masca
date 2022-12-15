@@ -4,12 +4,12 @@ on:
   pull_request:
     branches: [develop]
     types: [opened, synchronize, reopened]
-    # paths:
-    #   - 'packages/website/**'
+    paths:
+      - 'packages/website/**'
   push:
     branches: [develop]
-    # paths:
-    #   - 'packages/website/**'
+    paths:
+      - 'packages/website/**'
 
 jobs:
   build-artifacts:
