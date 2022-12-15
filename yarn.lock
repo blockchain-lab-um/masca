@@ -1832,8 +1832,8 @@ __metadata:
     "@metamask/key-tree": ^6.0.0
     "@metamask/providers": ^10.2.1
     "@metamask/snap-types": ^0.23.0
-    "@metamask/snaps-cli": ^0.26.0
-    "@metamask/snaps-webpack-plugin": ^0.26.0
+    "@metamask/snaps-cli": ^0.26.2
+    "@metamask/snaps-webpack-plugin": ^0.26.2
     "@types/jest": ^29.2.3
     "@types/jsonpath": ^0.2.0
     "@types/lodash.clonedeep": ^4.5.7
@@ -4476,19 +4476,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metamask/snaps-browserify-plugin@npm:^0.26.1":
-  version: 0.26.1
-  resolution: "@metamask/snaps-browserify-plugin@npm:0.26.1"
+
+"@metamask/snaps-browserify-plugin@npm:^0.26.2":
+  version: 0.26.2
+  resolution: "@metamask/snaps-browserify-plugin@npm:0.26.2"
   dependencies:
-    "@metamask/snaps-utils": ^0.26.1
+    "@metamask/snaps-utils": ^0.26.2
     convert-source-map: ^1.8.0
-  checksum: 9a44d44328acdc453509a508fc4fa60ffde45a84708be1cf94a76a54b5fd5ac80c1dd04c1798fe44d4f39f8cb3c0ec9acf61fcfde64179b00db5177b52ccb637
+  checksum: 0ba9176190aa178880b3719d673dadab576c49e5d15bd40a653c2291cf78ec2ee65ad05a38220db293aa7d713b55e1e541eaf12bc214ccc1671393513cf6f056
   languageName: node
   linkType: hard
 
-"@metamask/snaps-cli@npm:^0.26.0":
-  version: 0.26.1
-  resolution: "@metamask/snaps-cli@npm:0.26.1"
+"@metamask/snaps-cli@npm:^0.26.2":
+  version: 0.26.2
+  resolution: "@metamask/snaps-cli@npm:0.26.2"
+
   dependencies:
     "@babel/core": ^7.16.7
     "@babel/plugin-proposal-class-properties": ^7.16.7
@@ -4498,8 +4500,10 @@ __metadata:
     "@babel/plugin-transform-runtime": ^7.16.7
     "@babel/preset-env": ^7.16.7
     "@babel/preset-typescript": ^7.16.7
-    "@metamask/snaps-browserify-plugin": ^0.26.1
-    "@metamask/snaps-utils": ^0.26.1
+
+    "@metamask/snaps-browserify-plugin": ^0.26.2
+    "@metamask/snaps-utils": ^0.26.2
+
     "@metamask/utils": ^3.3.1
     babelify: ^10.0.0
     browserify: ^17.0.0
@@ -4512,28 +4516,30 @@ __metadata:
     yargs-parser: ^20.2.2
   bin:
     mm-snap: dist/main.js
-  checksum: 77251d44938e3db92d2129e21587cf7d9e7608de764395344bf43747bfcef5934bb448167ab684bdb10e5be123cb29e1a2c8b08d2636b0c98b7db23d84c7c48f
+
+  checksum: 671710fefebb45c5e1a53401e7aebf7f14565ffb943770cab1a2db9b8a19fa75ec85ca3640b9838fde7478ae242f0d8fa1241b99219d136190b9d5955fc66a63
   languageName: node
   linkType: hard
 
-"@metamask/snaps-types@npm:^0.26.1":
-  version: 0.26.1
-  resolution: "@metamask/snaps-types@npm:0.26.1"
+"@metamask/snaps-types@npm:^0.26.2":
+  version: 0.26.2
+  resolution: "@metamask/snaps-types@npm:0.26.2"
   dependencies:
     "@metamask/providers": ^10.2.0
-    "@metamask/snaps-utils": ^0.26.1
+    "@metamask/snaps-utils": ^0.26.2
     "@metamask/types": ^1.1.0
-  checksum: 500d38eed177091401fab247bbd7e91c0b509a8c008a568fcdf65e4dc0571cb156ec7b02ee08c6ba42fd072c1572860f9bc8d1d4ad405e3c436668fdfcb5ac0a
+  checksum: 9cef55cbb4c43a490ad9ee6c6f3188512de6e214ecfabf6a68634c8a6cdaced0d7fa45a285d622f6eb9ceb78f131306b1ffbeae040c8652b0dc9d520f3cb3489
   languageName: node
   linkType: hard
 
-"@metamask/snaps-utils@npm:^0.26.1":
-  version: 0.26.1
-  resolution: "@metamask/snaps-utils@npm:0.26.1"
+"@metamask/snaps-utils@npm:^0.26.2":
+  version: 0.26.2
+  resolution: "@metamask/snaps-utils@npm:0.26.2"
   dependencies:
     "@babel/core": ^7.18.6
     "@babel/types": ^7.18.7
-    "@metamask/snaps-types": ^0.26.1
+    "@metamask/snaps-types": ^0.26.2
+
     "@metamask/utils": ^3.3.1
     "@noble/hashes": ^1.1.3
     "@scure/base": ^1.1.1
@@ -4545,18 +4551,20 @@ __metadata:
     ses: ^0.17.0
     superstruct: ^0.16.7
     validate-npm-package-name: ^5.0.0
-  checksum: f832a310689c557b89515ebf0af05c574572d6dee7ea8576c235de102b8acf2999cce1b614e6ccda4bfbbd92f8cc5ecec614fb0d0ff2902c6af4b2e9e0100b93
+
+  checksum: 17275dd6af68ff925c6dfcf3d535d45a49ddeea19d59dd3f74f0ac361e4e64f1eac97b70ec2d016d8a7c296fc1e1a205f1ec23eeccae97ac71837ec3d1d338ca
   languageName: node
   linkType: hard
 
-"@metamask/snaps-webpack-plugin@npm:^0.26.0":
-  version: 0.26.1
-  resolution: "@metamask/snaps-webpack-plugin@npm:0.26.1"
+"@metamask/snaps-webpack-plugin@npm:^0.26.2":
+  version: 0.26.2
+  resolution: "@metamask/snaps-webpack-plugin@npm:0.26.2"
   dependencies:
-    "@metamask/snaps-utils": ^0.26.1
+    "@metamask/snaps-utils": ^0.26.2
     "@metamask/utils": ^3.3.0
     webpack-sources: ^3.2.3
-  checksum: a648eef865653f99810833028e6e48a4128ee5044ffa45036434d3eb3c516490080c8f3c5de2c84f602ac50efc6158cfa46851e0073e459edc7bf83d671e87b8
+  checksum: ee77207252aefbe53a568c24ac7729190bd47c4e40722c8140839e038489f897a9d29c303dd96e2269a8a6362b401644f7dbab07971df1cee258dbda4ba2e358
+
   languageName: node
   linkType: hard
 
@@ -8615,6 +8623,17 @@ __metadata:
   linkType: hard
 
 "axios@npm:^1.0.0, axios@npm:^1.1.3":
+  version: 1.2.1
+  resolution: "axios@npm:1.2.1"
+  dependencies:
+    follow-redirects: ^1.15.0
+    form-data: ^4.0.0
+    proxy-from-env: ^1.1.0
+  checksum: 8c5d97bd149e1642ef2149fbcaf307227c6a6ffe14d74187193f3657286ee3f987c25aab8526a7c4701419cae5fae84785d819e86481c502b309ca8369c97fc9
+  languageName: node
+  linkType: hard
+
+"axios@npm:^1.1.3":
   version: 1.2.1
   resolution: "axios@npm:1.2.1"
   dependencies:
@@ -19916,6 +19935,7 @@ __metadata:
 "pinia@npm:^2.0.21":
   version: 2.0.28
   resolution: "pinia@npm:2.0.28"
+
   dependencies:
     "@vue/devtools-api": ^6.4.5
     vue-demi: "*"
@@ -21972,15 +21992,19 @@ __metadata:
   linkType: hard
 
 "sass@npm:^1.56.1":
+
   version: 1.56.2
   resolution: "sass@npm:1.56.2"
+
   dependencies:
     chokidar: ">=3.0.0 <4.0.0"
     immutable: ^4.0.0
     source-map-js: ">=0.6.2 <2.0.0"
   bin:
     sass: sass.js
+
   checksum: b681ed606d92c10205f079cb0fad3da5a87bcde77a4028e51fdfd7b877b8b04e98ea5316f42189c5903067e5f28357a4ebcc5cdc7b0f9d72a5d3474186668bba
+
   languageName: node
   linkType: hard
 

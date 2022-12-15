@@ -6,7 +6,10 @@ import {
   QueryVCsRequestParams,
   SaveVCOptions,
 } from './params';
-import { QueryVCsRequestResult, SaveVCRequestResult } from './results';
+
+import type { QueryVCsRequestResult, SaveVCRequestResult } from './results';
+import { SSIAccountConfig, SSISnapConfig } from './snapInterfaces';
+
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SSISnapEventApi {}
@@ -28,4 +31,8 @@ export interface SSISnapApi {
   setVCStore(store: AvailableVCStores, value: boolean): Promise<boolean>;
   getAvailableVCStores(): Promise<string[]>;
   deleteVC(id: string, options?: DeleteVCsOptions): Promise<boolean[]>;
+
+  getAccountSettings(): Promise<SSIAccountConfig>;
+  getSnapSettings(): Promise<SSISnapConfig>;
+
 }

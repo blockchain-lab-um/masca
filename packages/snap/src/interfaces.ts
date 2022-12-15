@@ -6,8 +6,8 @@ import {
   SnapVCStore,
 } from './veramo/plugins/snapDataStore/snapDataStore';
 import {
-  AvailableMethods,
-  AvailableVCStores,
+  SSISnapConfig,
+  SSIAccountConfig,
 } from '@blockchain-lab-um/ssi-snap-types';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
@@ -38,20 +38,6 @@ export type StoredCredentials = {
   storedCredentials: ExtendedVerifiableCredential[];
 };
 
-export type SSISnapConfig = {
-  snap: {
-    /**
-     * Infura token, used by Veramo agent.
-     */
-    infuraToken: string;
-    acceptedTerms: boolean;
-  };
-  dApp: {
-    disablePopups: boolean;
-    friendlyDapps: string[];
-  };
-};
-
 /**
  * SSI Snap State for a MetaMask address
  */
@@ -76,13 +62,6 @@ export type SSIAccountState = {
   publicKey: string;
   index?: number;
   accountConfig: SSIAccountConfig;
-};
-
-export type SSIAccountConfig = {
-  ssi: {
-    didMethod: AvailableMethods;
-    vcStore: Record<AvailableVCStores, boolean>;
-  };
 };
 
 export type SnapConfirmParams = {
