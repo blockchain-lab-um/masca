@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Docs deploy/build action
 
 on:
   pull_request:
