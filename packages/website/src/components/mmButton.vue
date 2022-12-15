@@ -20,7 +20,6 @@
       icon="pi pi-check"
       class="p-mr-2"
       @click="copyToClipboard('mmAddr')"
-
     />
   </div>
 </template>

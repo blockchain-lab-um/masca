@@ -45,7 +45,6 @@
           header="Issuance Date"
           :sortable="true"
         >
-
           <template #body="slotProps">
             {{ ISOtoLocaleString(slotProps.data.data.issuanceDate) }}
           </template>
@@ -86,7 +85,6 @@
         :autoResize="true"
         class="vcImport"
       />
-
 
       <template #footer>
         <Button

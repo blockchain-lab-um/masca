@@ -9,10 +9,8 @@ import {
   QueryVCsRequestResult,
   SaveVCOptions,
   SaveVCRequestResult,
-
   SSIAccountConfig,
   SSISnapConfig,
-
 } from '@blockchain-lab-um/ssi-snap-types';
 import { MetaMaskSSISnap } from './snap';
 

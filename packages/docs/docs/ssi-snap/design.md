@@ -60,6 +60,7 @@ Handling private keys in this way brings several other benefits:
 - Derive private keys for other networks/coins by using different coin type values ([SLIP-0044](https://github.com/satoshilabs/slips/blob/master/slip-0044.md)).
 
 Our code is completely open-sourced and we encourage users to take a look at our code!
+
 ## Cryptography
 
 Cryptography is what makes everything secure and possible. VCs and VPs are both digitally signed and verifiable by everyone that gets in contact with them. Because of developing on web3/Ethereum snap, we are reusing your existing cryptography keys, so the users do not have to worry about backing up the additional keys.
