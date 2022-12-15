@@ -27,7 +27,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { installSnap, initStore } from '../util/snap';
+import { installSnap, initStore, snapId } from '../util/snap';
 import { useMetamaskStore } from '@/stores/metamask';
 import { useGeneralStore } from '@/stores/general';
 import type { ToastServiceMethods } from 'primevue/toastservice';
@@ -77,7 +77,7 @@ async function connectToMM() {
 
     try {
       console.log('Installing Snap...');
-      const result = await installSnap('local:http://localhost:8081');
+      const result = await installSnap(snapId);
       if (result.isSnapInstalled) {
         const api = await result.snap?.getSSISnapApi();
         if (!api) return;

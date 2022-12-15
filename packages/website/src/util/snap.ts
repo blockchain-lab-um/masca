@@ -16,6 +16,10 @@ import type {
 
 const backend_url = 'https://bclabum.informatika.uni-mb.si/ssi-demo-backend';
 
+export const snapId = import.meta.env.PROD
+  ? 'npm:@blockchain-lab-um/ssi-snap'
+  : 'local:http://localhost:8081';
+
 export async function installSnap(
   snapId?: string,
   supportedMethods?: ('did:ethr' | 'did:key')[]
