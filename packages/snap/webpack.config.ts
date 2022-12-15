@@ -19,7 +19,11 @@ const common: Configuration = {
   },
   resolve: {
     extensions: ['.ts', '.js'],
-    fallback: { stream: false, buffer: require.resolve('buffer') },
+    fallback: {
+      stream: false,
+      buffer: require.resolve('buffer'),
+      crypto: require.resolve('crypto-browserify'),
+    },
   },
   module: {
     rules: [
@@ -34,6 +38,7 @@ const common: Configuration = {
           },
         ],
       },
+      { test: /.json$/, type: 'json' },
     ],
   },
   plugins: [

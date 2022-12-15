@@ -1843,6 +1843,7 @@ __metadata:
     "@typescript-eslint/parser": ^5.44.0
     "@veramo/core": 4.2.0
     "@veramo/credential-eip712": 4.2.0
+    "@veramo/credential-ld": ^4.2.0
     "@veramo/credential-w3c": 4.2.0
     "@veramo/did-manager": 4.2.0
     "@veramo/did-provider-ethr": 4.1.2
@@ -1855,6 +1856,7 @@ __metadata:
     ceramic-cacao: ^1.4.0
     class-transformer: ^0.5.1
     class-validator: ^0.13.2
+    crypto-browserify: ^3.12.0
     did-jwt-vc: 3.1.0
     did-resolver: 4.0.1
     did-session: ^1.0.0
@@ -1875,6 +1877,7 @@ __metadata:
     is-ci: ^3.0.1
     jest: ^29.3.1
     jest-environment-jsdom: ^29.3.1
+    json-loader: ^0.5.7
     jsonpath: ^1.1.1
     key-did-provider-ed25519: ^2.0.1
     key-did-resolver: 2.3.0
@@ -1910,7 +1913,7 @@ __metadata:
     "@types/prettier": ^2.7.1
     "@types/rimraf": ^3.0.2
     "@types/uuid": ^8.3.4
-    "@veramo/cli": 4.1.2
+    "@veramo/cli": 4.2.0
     "@veramo/core": ^4.1.1
     eslint: ^8.28.0
     eslint-config-prettier: ^8.5.0
@@ -4573,36 +4576,36 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@microsoft/api-extractor-model@npm:7.18.0":
-  version: 7.18.0
-  resolution: "@microsoft/api-extractor-model@npm:7.18.0"
+"@microsoft/api-extractor-model@npm:7.25.3, @microsoft/api-extractor-model@npm:^7.25.2":
+  version: 7.25.3
+  resolution: "@microsoft/api-extractor-model@npm:7.25.3"
   dependencies:
-    "@microsoft/tsdoc": 0.14.1
+    "@microsoft/tsdoc": 0.14.2
     "@microsoft/tsdoc-config": ~0.16.1
-    "@rushstack/node-core-library": 3.45.5
-  checksum: 2b6bd106c1f07b7e542639cbf741220dcc6042de3f44176b8fb07d51ffb8eee79df1fb150ad3e5c5afe8a69c7402338958128f88a9ce23352e3e2de696dfaf9e
+    "@rushstack/node-core-library": 3.53.3
+  checksum: 25ee6c5d7ee6cce472fed140ac502e289198fb9e3410d38048ee67f5ca920a7a14886451628bac9c2c2ebad985e941d5182672dcbd6ac82b428b7d4ad280e88d
   languageName: node
   linkType: hard
 
-"@microsoft/api-extractor@npm:7.25.0":
-  version: 7.25.0
-  resolution: "@microsoft/api-extractor@npm:7.25.0"
+"@microsoft/api-extractor@npm:^7.33.6":
+  version: 7.33.7
+  resolution: "@microsoft/api-extractor@npm:7.33.7"
   dependencies:
-    "@microsoft/api-extractor-model": 7.18.0
-    "@microsoft/tsdoc": 0.14.1
+    "@microsoft/api-extractor-model": 7.25.3
+    "@microsoft/tsdoc": 0.14.2
     "@microsoft/tsdoc-config": ~0.16.1
-    "@rushstack/node-core-library": 3.45.5
-    "@rushstack/rig-package": 0.3.11
-    "@rushstack/ts-command-line": 4.11.0
+    "@rushstack/node-core-library": 3.53.3
+    "@rushstack/rig-package": 0.3.17
+    "@rushstack/ts-command-line": 4.13.1
     colors: ~1.2.1
     lodash: ~4.17.15
     resolve: ~1.17.0
     semver: ~7.3.0
     source-map: ~0.6.1
-    typescript: ~4.6.3
+    typescript: ~4.8.4
   bin:
     api-extractor: bin/api-extractor
-  checksum: 8721dc277ec6c41f7f0624dbf0d1812f99892ce9b8adf444e156a4ce2d01f327bf60a571584b1cebd80228ec0af5d11e2fa6a814b7da9a059df3f43311fb400d
+  checksum: 8732fa2752d8ecf2fd5a2422d50ad2e581212add9f48b3c76d78b187427cdab984486e7b1737c03538e93ab3793d3838a520d3b8779e3835bc11bc7c355766f7
   languageName: node
   linkType: hard
 
@@ -4615,13 +4618,6 @@ __metadata:
     jju: ~1.4.0
     resolve: ~1.19.0
   checksum: 9e8c176b68f01c8bb38e6365d5b543e471bba59fced6070d9bd35b32461fbd650c2e1a6f686e8dca0cf22bc5e7d796e4213e66bce4426c8cb9864c1f6ca6836c
-  languageName: node
-  linkType: hard
-
-"@microsoft/tsdoc@npm:0.14.1":
-  version: 0.14.1
-  resolution: "@microsoft/tsdoc@npm:0.14.1"
-  checksum: bb8eab8daa14d15971fbe2d94c9133854e49773cb81709f96c62d691ada60ead48ffcdb0fe4bff631559f53cada44532b38d4112012cbb611b249f4006f5f66e
   languageName: node
   linkType: hard
 
@@ -5062,9 +5058,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rushstack/node-core-library@npm:3.45.5":
-  version: 3.45.5
-  resolution: "@rushstack/node-core-library@npm:3.45.5"
+"@rushstack/node-core-library@npm:3.53.3":
+  version: 3.53.3
+  resolution: "@rushstack/node-core-library@npm:3.53.3"
   dependencies:
     "@types/node": 12.20.24
     colors: ~1.2.1
@@ -5073,31 +5069,30 @@ __metadata:
     jju: ~1.4.0
     resolve: ~1.17.0
     semver: ~7.3.0
-    timsort: ~0.3.0
     z-schema: ~5.0.2
-  checksum: 35828f360811b27519176e99064d8d780aa4b841322ca08d16f649ce3ed5cf1fb7cfd60249f741a7f465c7db5384e607f19a39e32e4e9c1916a1008081fe3034
+  checksum: 461c7dc4effa1af2c2c94babac0541abf7de179debfece135e44dbea07f6a1fbf2201b9e3c7f7dc67b0f47cccda80081a023f32d702ed3b1566611c8a63ec454
   languageName: node
   linkType: hard
 
-"@rushstack/rig-package@npm:0.3.11":
-  version: 0.3.11
-  resolution: "@rushstack/rig-package@npm:0.3.11"
+"@rushstack/rig-package@npm:0.3.17":
+  version: 0.3.17
+  resolution: "@rushstack/rig-package@npm:0.3.17"
   dependencies:
     resolve: ~1.17.0
     strip-json-comments: ~3.1.1
-  checksum: 1075002aab58be53109ddfcbe4da10907766b4c952c5203a8618bfba5c912387301686d99749ff0037c947037b653284906cd4f034d91a8dec15a2e9013b6ea6
+  checksum: fcda0b8c333537386e035571da00b091a200cd2eca1ca033b7de1f6ad076ca0251596ebb74f160a2a087c35d47eb57abea615b3cd796f043c72a8803abf8dfe7
   languageName: node
   linkType: hard
 
-"@rushstack/ts-command-line@npm:4.11.0":
-  version: 4.11.0
-  resolution: "@rushstack/ts-command-line@npm:4.11.0"
+"@rushstack/ts-command-line@npm:4.13.1":
+  version: 4.13.1
+  resolution: "@rushstack/ts-command-line@npm:4.13.1"
   dependencies:
     "@types/argparse": 1.0.38
     argparse: ~1.0.9
     colors: ~1.2.1
     string-argv: ~0.3.1
-  checksum: e90b251d3b3d20e6863c837b7cf3ae8415a3ef652e018246469f185fc8bd1de68a4cc147ef0bce01fb9133492836a4b4707c67c91a8340ba14080478100ec4f9
+  checksum: 3846005cdcc3391b34038e0fb840319660d740c96e94bb8f5e1cc14990672b381381557fb5caa9ed748908d398065829e882fd1e53cd39e32e76a85eab96cb88
   languageName: node
   linkType: hard
 
@@ -5946,7 +5941,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/blessed@npm:^0.1.17":
+"@types/blessed@npm:^0.1.19":
   version: 0.1.19
   resolution: "@types/blessed@npm:0.1.19"
   dependencies:
@@ -6798,33 +6793,34 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veramo/cli@npm:4.1.2":
-  version: 4.1.2
-  resolution: "@veramo/cli@npm:4.1.2"
+"@veramo/cli@npm:4.2.0":
+  version: 4.2.0
+  resolution: "@veramo/cli@npm:4.2.0"
   dependencies:
-    "@microsoft/api-extractor": 7.25.0
-    "@microsoft/api-extractor-model": 7.18.0
-    "@types/blessed": ^0.1.17
+    "@microsoft/api-extractor": ^7.33.6
+    "@microsoft/api-extractor-model": ^7.25.2
+    "@types/blessed": ^0.1.19
     "@types/swagger-ui-express": ^4.1.3
-    "@veramo/core": ^4.1.1
-    "@veramo/credential-ld": ^4.1.1
-    "@veramo/credential-w3c": ^4.1.1
-    "@veramo/data-store": ^4.1.1
-    "@veramo/did-comm": ^4.1.1
-    "@veramo/did-discovery": ^4.1.1
-    "@veramo/did-jwt": ^4.1.1
-    "@veramo/did-manager": ^4.1.1
-    "@veramo/did-provider-ethr": ^4.1.2
-    "@veramo/did-provider-key": ^4.1.1
-    "@veramo/did-provider-web": ^4.1.1
-    "@veramo/did-resolver": ^4.1.1
-    "@veramo/key-manager": ^4.1.1
-    "@veramo/kms-local": ^4.1.1
-    "@veramo/message-handler": ^4.1.1
-    "@veramo/remote-client": ^4.1.1
-    "@veramo/remote-server": ^4.1.1
-    "@veramo/selective-disclosure": ^4.1.1
-    "@veramo/url-handler": ^4.1.1
+    "@veramo/core": ^4.2.0
+    "@veramo/credential-eip712": ^4.2.0
+    "@veramo/credential-ld": ^4.2.0
+    "@veramo/credential-w3c": ^4.2.0
+    "@veramo/data-store": ^4.2.0
+    "@veramo/did-comm": ^4.2.0
+    "@veramo/did-discovery": ^4.2.0
+    "@veramo/did-jwt": ^4.2.0
+    "@veramo/did-manager": ^4.2.0
+    "@veramo/did-provider-ethr": ^4.2.0
+    "@veramo/did-provider-key": ^4.2.0
+    "@veramo/did-provider-web": ^4.2.0
+    "@veramo/did-resolver": ^4.2.0
+    "@veramo/key-manager": ^4.2.0
+    "@veramo/kms-local": ^4.2.0
+    "@veramo/message-handler": ^4.2.0
+    "@veramo/remote-client": ^4.2.0
+    "@veramo/remote-server": ^4.2.0
+    "@veramo/selective-disclosure": ^4.2.0
+    "@veramo/url-handler": ^4.2.0
     blessed: ^0.1.81
     commander: ^9.0.0
     console-table-printer: ^2.10.0
@@ -6834,7 +6830,7 @@ __metadata:
     debug: ^4.3.3
     did-resolver: ^4.0.1
     dotenv: ^16.0.0
-    ethr-did-resolver: ^7.0.2
+    ethr-did-resolver: ^8.0.0
     express: ^4.18.2
     express-handlebars: ^6.0.2
     fuzzy: ^0.1.3
@@ -6851,16 +6847,16 @@ __metadata:
     pg: ^8.7.1
     qrcode-terminal: ^0.12.0
     sqlite3: ^5.0.8
-    swagger-ui-express: ^4.3.0
-    ts-json-schema-generator: ^1.0.0
+    swagger-ui-express: ^4.6.0
+    ts-json-schema-generator: ^1.1.2
     typeorm: ^0.3.10
     url-parse: ^1.5.4
     web-did-resolver: ^2.0.21
-    ws: ^8.4.0
-    yaml: ^2.0.0
+    ws: ^8.11.0
+    yaml: ^2.1.3
   bin:
     veramo: bin/veramo.js
-  checksum: 92d80722f175e99ac765b80f13782cd13f9995a980f9bc4600be02f6992e6da302d98326b833fe6285b7b9fc2e79e867fdcadad41b28641af9596aa243b6cfab
+  checksum: 90c4cdb8a20dbce0e3c7f5c21935d664d29e3c39093a5c893b8b63913899e68d11e6f30b0eae6dacf2c000dc22392c3339e6ab2676d7b55bdfd4c10f2b1687f4
   languageName: node
   linkType: hard
 
@@ -6878,7 +6874,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veramo/credential-eip712@npm:4.2.0":
+"@veramo/credential-eip712@npm:4.2.0, @veramo/credential-eip712@npm:^4.2.0":
   version: 4.2.0
   resolution: "@veramo/credential-eip712@npm:4.2.0"
   dependencies:
@@ -6891,7 +6887,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veramo/credential-ld@npm:^4.1.1, @veramo/credential-ld@npm:^4.2.0":
+"@veramo/credential-ld@npm:^4.2.0":
   version: 4.2.0
   resolution: "@veramo/credential-ld@npm:4.2.0"
   dependencies:
@@ -6913,7 +6909,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veramo/credential-w3c@npm:4.2.0, @veramo/credential-w3c@npm:^4.1.1, @veramo/credential-w3c@npm:^4.2.0":
+"@veramo/credential-w3c@npm:4.2.0, @veramo/credential-w3c@npm:^4.2.0":
   version: 4.2.0
   resolution: "@veramo/credential-w3c@npm:4.2.0"
   dependencies:
@@ -6936,7 +6932,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veramo/data-store@npm:^4.1.1":
+"@veramo/data-store@npm:^4.2.0":
   version: 4.2.0
   resolution: "@veramo/data-store@npm:4.2.0"
   dependencies:
@@ -6951,7 +6947,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veramo/did-comm@npm:^4.1.1":
+"@veramo/did-comm@npm:^4.2.0":
   version: 4.2.0
   resolution: "@veramo/did-comm@npm:4.2.0"
   dependencies:
@@ -6970,7 +6966,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veramo/did-discovery@npm:^4.1.1, @veramo/did-discovery@npm:^4.2.0":
+"@veramo/did-discovery@npm:^4.2.0":
   version: 4.2.0
   resolution: "@veramo/did-discovery@npm:4.2.0"
   dependencies:
@@ -6980,7 +6976,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veramo/did-jwt@npm:^4.1.1, @veramo/did-jwt@npm:^4.2.0":
+"@veramo/did-jwt@npm:^4.2.0":
   version: 4.2.0
   resolution: "@veramo/did-jwt@npm:4.2.0"
   dependencies:
@@ -7022,7 +7018,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veramo/did-provider-ethr@npm:^4.1.2":
+"@veramo/did-provider-ethr@npm:^4.2.0":
   version: 4.2.0
   resolution: "@veramo/did-provider-ethr@npm:4.2.0"
   dependencies:
@@ -7041,7 +7037,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veramo/did-provider-key@npm:^4.1.1":
+"@veramo/did-provider-key@npm:^4.2.0":
   version: 4.2.0
   resolution: "@veramo/did-provider-key@npm:4.2.0"
   dependencies:
@@ -7057,7 +7053,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veramo/did-provider-web@npm:^4.1.1":
+"@veramo/did-provider-web@npm:^4.2.0":
   version: 4.2.0
   resolution: "@veramo/did-provider-web@npm:4.2.0"
   dependencies:
@@ -7068,7 +7064,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veramo/did-resolver@npm:4.2.0, @veramo/did-resolver@npm:^4.1.1, @veramo/did-resolver@npm:^4.2.0":
+"@veramo/did-resolver@npm:4.2.0, @veramo/did-resolver@npm:^4.2.0":
   version: 4.2.0
   resolution: "@veramo/did-resolver@npm:4.2.0"
   dependencies:
@@ -7081,7 +7077,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veramo/key-manager@npm:4.2.0, @veramo/key-manager@npm:^4.1.1, @veramo/key-manager@npm:^4.2.0":
+"@veramo/key-manager@npm:4.2.0, @veramo/key-manager@npm:^4.2.0":
   version: 4.2.0
   resolution: "@veramo/key-manager@npm:4.2.0"
   dependencies:
@@ -7097,7 +7093,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veramo/kms-local@npm:4.2.0, @veramo/kms-local@npm:^4.1.1":
+"@veramo/kms-local@npm:4.2.0, @veramo/kms-local@npm:^4.2.0":
   version: 4.2.0
   resolution: "@veramo/kms-local@npm:4.2.0"
   dependencies:
@@ -7121,7 +7117,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veramo/message-handler@npm:^4.1.1, @veramo/message-handler@npm:^4.2.0":
+"@veramo/message-handler@npm:^4.2.0":
   version: 4.2.0
   resolution: "@veramo/message-handler@npm:4.2.0"
   dependencies:
@@ -7130,7 +7126,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veramo/remote-client@npm:^4.1.1, @veramo/remote-client@npm:^4.2.0":
+"@veramo/remote-client@npm:^4.2.0":
   version: 4.2.0
   resolution: "@veramo/remote-client@npm:4.2.0"
   dependencies:
@@ -7142,7 +7138,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veramo/remote-server@npm:^4.1.1":
+"@veramo/remote-server@npm:^4.2.0":
   version: 4.2.0
   resolution: "@veramo/remote-server@npm:4.2.0"
   dependencies:
@@ -7159,7 +7155,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veramo/selective-disclosure@npm:^4.1.1":
+"@veramo/selective-disclosure@npm:^4.2.0":
   version: 4.2.0
   resolution: "@veramo/selective-disclosure@npm:4.2.0"
   dependencies:
@@ -7174,7 +7170,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@veramo/url-handler@npm:^4.1.1":
+"@veramo/url-handler@npm:^4.2.0":
   version: 4.2.0
   resolution: "@veramo/url-handler@npm:4.2.0"
   dependencies:
@@ -10527,7 +10523,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"crypto-browserify@npm:3.12.0, crypto-browserify@npm:^3.0.0":
+"crypto-browserify@npm:3.12.0, crypto-browserify@npm:^3.0.0, crypto-browserify@npm:^3.12.0":
   version: 3.12.0
   resolution: "crypto-browserify@npm:3.12.0"
   dependencies:
@@ -12778,7 +12774,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethr-did-resolver@npm:8.0.0":
+"ethr-did-resolver@npm:8.0.0, ethr-did-resolver@npm:^8.0.0":
   version: 8.0.0
   resolution: "ethr-did-resolver@npm:8.0.0"
   dependencies:
@@ -16794,6 +16790,13 @@ __metadata:
   version: 1.0.4
   resolution: "json-canonicalize@npm:1.0.4"
   checksum: c811ad92da752b97d6054caf3b8df3c1b6cae16c1bd53b2104b577bd29e32e815d1c111dfadcdd171b9ae86c5fa116a6bfc96a5d1795e1d1b3c90a879c96e4a8
+  languageName: node
+  linkType: hard
+
+"json-loader@npm:^0.5.7":
+  version: 0.5.7
+  resolution: "json-loader@npm:0.5.7"
+  checksum: b155b81f644693b5418e595c127c552c34373f749d2d125df24cfe753de6b3b0af88dda5d58e7b65940ed03ec46c19fc3d09f53b932b45c9ae3ca1fb55e44a15
   languageName: node
   linkType: hard
 
@@ -23188,7 +23191,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"swagger-ui-express@npm:^4.3.0":
+"swagger-ui-express@npm:^4.6.0":
   version: 4.6.0
   resolution: "swagger-ui-express@npm:4.6.0"
   dependencies:
@@ -23462,13 +23465,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"timsort@npm:~0.3.0":
-  version: 0.3.0
-  resolution: "timsort@npm:0.3.0"
-  checksum: 571b2054a0db3cf80eb255f8609a1f798cae9176f9ec6e3fbd03d64186c015cc9e1e75b88ba38e1d71aebcc03a931352522c7387dcb90caeb148375c7bc106f4
-  languageName: node
-  linkType: hard
-
 "tiny-invariant@npm:^1.0.2, tiny-invariant@npm:^1.0.6":
   version: 1.3.1
   resolution: "tiny-invariant@npm:1.3.1"
@@ -23644,7 +23640,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-json-schema-generator@npm:^1.0.0":
+"ts-json-schema-generator@npm:^1.1.2":
   version: 1.1.2
   resolution: "ts-json-schema-generator@npm:1.1.2"
   dependencies:
@@ -23979,17 +23975,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:~4.6.3":
-  version: 4.6.4
-  resolution: "typescript@npm:4.6.4"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 92e2c0328485a4f7bd7435f5b105f03addff32f867e241dc3be8c372ed801a138c732d9a55697696d2f82a80dd6ad4bddff1ad6b0d1884bf4a24b92e71094c44
-  languageName: node
-  linkType: hard
-
-"typescript@npm:~4.8.3":
+"typescript@npm:~4.8.3, typescript@npm:~4.8.4":
   version: 4.8.4
   resolution: "typescript@npm:4.8.4"
   bin:
@@ -24009,17 +23995,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@~4.6.3#~builtin<compat/typescript>":
-  version: 4.6.4
-  resolution: "typescript@patch:typescript@npm%3A4.6.4#~builtin<compat/typescript>::version=4.6.4&hash=5d3a66"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 0e3fa814d454942a689daf4c00f82328d323e7ecd4077e3265d45375e64642611631f4c882a71be87774468ba03793e9b8ff4bccfac3018194a9e36d8f72c251
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@~4.8.3#~builtin<compat/typescript>":
+"typescript@patch:typescript@~4.8.3#~builtin<compat/typescript>, typescript@patch:typescript@~4.8.4#~builtin<compat/typescript>":
   version: 4.8.4
   resolution: "typescript@patch:typescript@npm%3A4.8.4#~builtin<compat/typescript>::version=4.8.4&hash=0102e9"
   bin:
@@ -25672,7 +25648,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ws@npm:^8.11.0, ws@npm:^8.4.0, ws@npm:^8.4.2":
+"ws@npm:^8.11.0, ws@npm:^8.4.2":
   version: 8.11.0
   resolution: "ws@npm:8.11.0"
   peerDependencies:
@@ -25814,7 +25790,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yaml@npm:^2.0.0, yaml@npm:^2.1.3":
+"yaml@npm:^2.1.3":
   version: 2.1.3
   resolution: "yaml@npm:2.1.3"
   checksum: 9910b534a4849ffba8ff1854e3bec7f1852e56c56771b22b28f78619ed504c14d8759bdbe7d0df397332d536db31f0df732d825809355d53de5603f233251aab
