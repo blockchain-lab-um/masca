@@ -4,12 +4,12 @@ on:
   pull_request:
     branches: [develop]
     types: [opened, synchronize, reopened]
-    paths:
-      - 'packages/website/**'
+    # paths:
+    #   - 'packages/website/**'
   push:
     branches: [develop]
-    paths:
-      - 'packages/website/**'
+    # paths:
+    #   - 'packages/website/**'
 
 jobs:
   build-artifacts:
@@ -40,7 +40,8 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: website-build
-          path: ./dist
+          path: ./packages/website/dist
+          if-no-files-found: error
 
   deploy:
     if: github.event_name != 'pull_request'
@@ -50,9 +51,9 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: website-build
-          path: ./dist
+          path: ./packages/website/dist
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: ./packages/website/dist
