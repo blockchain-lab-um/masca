@@ -3,7 +3,7 @@
   "version": "0.0.01",
   "scripts": {
     "start": "vite",
-    "build": "run-p type-check build-only",
+    "build": "run-p type-check build-only && echo > dist/.nojekyll",
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit",
