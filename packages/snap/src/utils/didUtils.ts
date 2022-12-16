@@ -7,6 +7,7 @@ import { getDidKeyIdentifier } from '../did/key/keyDidUtils';
 import { SSISnapState } from '../interfaces';
 import { getCurrentNetwork } from './snapUtils';
 import { updateSnapState } from './stateUtils';
+import { getDidPkhIdentifier } from '../did/pkh/pkhDidUtils';
 
 export async function changeCurrentVCStore(
   snap: SnapsGlobalObject,
@@ -28,9 +29,14 @@ export async function getCurrentDid(
   if (method === 'did:ethr') {
     const chain_id = await getCurrentNetwork(snap);
     return `did:ethr:${chain_id}:${account}`;
-  } else {
+  } else if (method === 'did:key') {
     const didUrl = getDidKeyIdentifier(state, account);
     return `did:key:${didUrl}`;
+  } else if (method === 'did:pkh') {
+    const didUrl = await getDidPkhIdentifier(snap, account);
+    return `did:pkh:${didUrl}`;
+  } else {
+    return '';
   }
 }
 
