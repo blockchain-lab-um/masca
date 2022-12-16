@@ -39,6 +39,7 @@
             {{ slotProps.data.data.type[1] }}
           </template>
         </Column>
+
         <Column
           field="data.issuanceDate"
           header="Issuance Date"

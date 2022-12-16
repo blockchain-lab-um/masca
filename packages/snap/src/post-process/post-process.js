@@ -61,6 +61,23 @@ bundleString = bundleString.replaceAll(
   'if(root)var Buffer = moduleExports ? root.Buffer : undefined,'
 );
 
+bundleString = bundleString.replaceAll(
+  `process.env.NODE_ENV === 'production'`,
+  `true`
+);
+
+// bundleString = bundleString.replaceAll(
+//   `Gp[iteratorSymbol] = function () {
+//     return this;
+//   };`,
+//   `define(Gp, iteratorSymbol, function () { return this; });`
+// );
+
+bundleString = bundleString.replaceAll(
+  `Gp[iteratorSymbol]`,
+  `Gp.iteratorSymbol`
+);
+
 // Remove 'use asm' tokens; they cause pointless console warnings
 bundleString = bundleString.replace(/^\s*'use asm';?\n?/gmu, '');
 

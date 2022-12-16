@@ -6,6 +6,7 @@ import {
   QueryVCsRequestParams,
   SaveVCOptions,
 } from './params';
+
 import type { QueryVCsRequestResult, SaveVCRequestResult } from './results';
 import { SSIAccountConfig, SSISnapConfig } from './snapInterfaces';
 
@@ -29,6 +30,7 @@ export interface SSISnapApi {
   setVCStore(store: AvailableVCStores, value: boolean): Promise<boolean>;
   getAvailableVCStores(): Promise<string[]>;
   deleteVC(id: string, options?: DeleteVCsOptions): Promise<boolean[]>;
+
   getAccountSettings(): Promise<SSIAccountConfig>;
   getSnapSettings(): Promise<SSISnapConfig>;
 }

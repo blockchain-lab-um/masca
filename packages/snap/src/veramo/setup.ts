@@ -27,8 +27,13 @@ import {
   AbstractDataStore,
 } from '@blockchain-lab-um/veramo-vc-manager';
 import { Web3Provider } from '@ethersproject/providers';
-import { Web3KeyManagementSystem } from '@veramo/kms-web3';
+//import { Web3KeyManagementSystem } from '@veramo/kms-web3';
 import { CredentialIssuerEIP712 } from '@veramo/credential-eip712';
+import {
+  CredentialIssuerLD,
+  LdDefaultContexts,
+  VeramoEcdsaSecp256k1RecoverySignature2020,
+} from '@veramo/credential-ld';
 import {
   SnapDIDStore,
   SnapVCStore,
@@ -100,10 +105,14 @@ export const getAgent = async (snap: SnapsGlobalObject): Promise<Agent> => {
     plugins: [
       new CredentialPlugin(),
       new CredentialIssuerEIP712(),
+      new CredentialIssuerLD({
+        contextMaps: [LdDefaultContexts],
+        suites: [new VeramoEcdsaSecp256k1RecoverySignature2020()],
+      }),
       new KeyManager({
         store: new MemoryKeyStore(),
         kms: {
-          web3: new Web3KeyManagementSystem(web3Providers),
+          //web3: new Web3KeyManagementSystem(web3Providers),
           snap: new KeyManagementSystem(new MemoryPrivateKeyStore()),
         },
       }),

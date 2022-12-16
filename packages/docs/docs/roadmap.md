@@ -21,15 +21,16 @@ Verifiable Credentials (VCs):
 
 - [x] Store
 - [x] Retrieval from single storage
-- [ ] Retrieval from multiple storages
-- [ ] Filtering based on query (e.g., PEX query)
+- [x] Retrieval from multiple storages
+- [x] Filtering based on query (e.g., JSONPath query)
+- [ ] Structure verification
 - [ ] Revocation
 - [ ] ...
 
 Verifiable Presentations (VPs):
 
 - [x] Create with single VCs
-- [ ] Create with multiple VCs
+- [x] Create with multiple VCs
 - [ ] ...
 
 Cryptography:
@@ -63,11 +64,23 @@ Identity standards:
 - [ ] DIDComm
 - [ ] ...
 
-Confiugration dApp:
+SSI Snap functionality:
 
-- [ ] DID method selection
-- [ ] Import, list, and delete VCs
-- [ ] Changing JSON API tokens (Infura)
+- [ ] Manage Profile (did:ethr, ...)
+- [ ] Snap UI Elements
+- [ ] Sync using Ceramic/Google Drive
+- [ ] ...
+
+SSI Snap dApp:
+
+- [x] DID method selection
+- [x] Import, list, and delete VCs
+- [x] Changing JSON API tokens (Infura)
+- [x] Manage Settings
+- [ ] Create JWTs
+- [ ] Import/Export (backup VCs)
+- [ ] Manage Profiles (did:ethr, ...)
+- [ ] Public Profiles (did:ethr, ...)
 - [ ] ...
 
 dApp integrations:

@@ -6,13 +6,7 @@ sidebar_position: 1
 
 SSI Snap connector is used to install SSI snap and expose API toward snap on dApps and other applications.
 
-For more details on SSI Snap Connector itself see [ssi-snap-connector repo](https://github.com/blockchain-lab-um/ssi-snap-connector).
-
-:::danger
-
-Ceramic network and DID:KEY support are experimental and still under development!
-
-:::
+For more details on SSI Snap Connector, check [ssi-snap-connector repo](https://github.com/blockchain-lab-um/ssi-snap-connector).
 
 ## Usage
 
@@ -35,10 +29,14 @@ When installing the SSI Snap it is possible to set a custom `snapId` if you do n
 
 It is also possible to use custom version and set a list of supported methods. If connected SSI Snap does not currently have one of the supported methods selected, `switchMethod` RPC method will be automatically called.
 
-During the `enableSSISnap` function `init` RPC method is called. If user changes MetaMask Account, the same function will be called again (nothing will happen if user already accepted Terms & Conditions on new Account).
-
 After snap installation, this function returns `MetamaskSSISnap` object that can be used to retrieve snap API.
 An example of initializing SSI snap and invoking snap API is shown below.
+
+:::tip
+
+More detailed description of methods & parameters is provided in chapter [JSON-RPC API](../tutorial/rpc-methods.md)
+
+:::
 
 ```typescript
 // install snap and fetch API
@@ -46,103 +44,104 @@ const snap = await enableSSISnap({ version: 'latest' });
 const api = await snap.getSSISnapApi();
 
 // invoke API
-const vcs = await api.getVCs();
+const vcs = await api.queryVCs();
 
 console.log('list of VCs:', vcs);
 ```
 
-## Connector methods:
+## Connector methods
 
 ```typescript
 /**
- * Get a list of VCs stored in the SSI Snap under currently selected MetaMask account
- *
- * @param {VCQuerry} querry - Querry for filtering through all VCs
- * @return {Promise<Array<VerifiableCredential>>} list of VCs
+ * type QueryVCsRequestParams = {
+ *  filter?: {
+ *      type: 'id' | 'JSONPath' | 'none';
+ *     filter: unknown;
+ *    };
+ *  options?: {
+ *     store?: string | string[];
+ *     returnStore?: boolean;
+ *   };
+ * };
  */
-const vcs = await api.getVCs({ issuer: 'did:0x04:0x123...' });
+
+const vcs = await api.queryVCs({
+  filter: { type: id, filter: '0x123321' },
+  options: { returnStore: true, store: ['ceramic', 'snap'] },
+});
 
 /**
- * Get a VP from a VC
+ * Create a VP from one or more VCs
  *
- * @param {string} vc_id - ID of VC used for generating a VP. Can be obtained with getVCs function
- * optional @param {string} challenge
- * optional @param {string} domain
+ * type CreateVPRequestParams = {
+ *  vcs: VCRequest[];
+ *  proofFormat?: 'jwt' | 'jsonld' | 'EthereumEip712Signature2021;
+ *  proofOptions?: {
+ *    type?: string
+ *    domain?: string
+ *    challenge?: string
+ *  };
+ * };
+ *
+ * type VCRequest = {
+ *  id: string,
+ *  metadata?: {
+ *    store?: string
+ *  }
+ * }
  */
-const vp = await api.getVP(vc_id);
+const vp = await api.createVP({
+  vcs: [{ id: '123', metadata: { store: 'ceramic' } }, { id: '456' }],
+  proofFormat: 'jwt',
+  proofOptions: {
+    domain: '123',
+    challenge: '456',
+  },
+});
 
 /**
  * Save a VC in the SSI Snap under currently selected MetaMask account
  *
- * @param {VerifiableCredential} verifiableCredential - vc
+ * @param {W3CVerifiableCredential} vc - vc
+ * @param {SaveVCOptions} options? - optional options param
+ *
+ * type SaveVCOptions =
+ * {
+ *  store?: string | string[]
+ * }
  *
  */
-const res = await api.saveVC(verifiableCredential);
+const res = await api.saveVC(verifiableCredential, {
+  store: ['snap', 'ceramic'],
+});
 
-/**
- * Initialize MetaMask snap for an account
- *
- */
-const res = await api.init();
-/**
- * Get DID generated using currently selected MM account and currently selected DID method.
- * @returns {string} - did
- */
+const res = await api.deleteVC('0x123', {
+  store: ['snap', 'ceramic'],
+});
+
 const did = await api.getDID();
-/**
- * Get currently selected DID Method
- *
- * @returns {string} - did method
- */
-const method = await api.getMethod();
-/**
- * Get a list of supported DID methods
- *
- * @returns {Array<string>} - supported DID methods
- */
-const methods = await api.getAvailableMethods();
-/**
- * Switch DID method to one of supported DID methods
- *
- * @param {string} - new DID method name
- */
-const res = await api.switchMethod(didMethod);
-/**
- * Get currently selected VC Store plugin
- *
- * @returns {string} - name of VC Store plugin
- */
-const vcStore = await api.getVCStore();
-/**
- * Get a list supported VC Store plugins
- *
- * @returns {Array<string>} - supported VC Store plugins
- */
-const vcStores = await api.getAvailableVCStores();
-/**
- * Set VC Store plugin
- *
- * @param {string} - name of VC Store plugin
- */
-const res = await api.setVCStore(vcStore);
 
-/**
- * Toggle popups - enable/disable "Are you sure?" confirmation windows when retrieving VCs and generating VPs,...
- *
- */
+const method = await api.getSelectedMethod();
+
+const methods = await api.getAvailableMethods();
+
+const res = await api.switchDIDMethod('did:key');
+
 const res = await api.togglePopups();
 
-/**
- * Change infura token
- *
- * @param {string} infuraToken
- *
- */
+const vcStores = await api.getVCStore();
+
+const availableVCStores = await api.getAvailableVCStores();
+
+const res = await api.setVCStore('ceramic', true);
+
 const res = await api.changeInfuraToken(infuraToken);
+
+const snapSettings = await api.getSnapSettings();
+
+const accountSettings = await api.getAccountSettings();
 ```
 
-_NOTE: VCQuerry is an object that is a subset of VerifiableCredential. If provided, the function will only return VCs that match the VCQuerry subset. For example if you only want to retrieve VCs issued by a specific DID to a specific subject you would need to use `agent.listVCS({querry: {issuer: {id: 'did:ethr:0x...'}, credentialSubject: {id: 'did:ethr:0x...'}}})`_
-
-#### Utility methods
+## Utility methods
 
 SSI Snap Connector also comes with additional utility methods such as `isSnapInstalled`, `isMetamaskSnapsSupported` and `hasMetamask`.

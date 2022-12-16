@@ -57,6 +57,7 @@ export class MetaMaskSSISnap {
       setVCStore: setVCStore.bind(this),
       getAvailableVCStores: getAvailableVCStores.bind(this),
       deleteVC: deleteVC.bind(this),
+
       getSnapSettings: getSnapSettings.bind(this),
       getAccountSettings: getAccountSettings.bind(this),
     };
