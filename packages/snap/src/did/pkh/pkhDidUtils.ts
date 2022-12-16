@@ -6,7 +6,7 @@ export async function getDidPkhIdentifier(
   account: string
 ): Promise<string> {
   const network = await getCurrentNetwork(snap);
-  if (network === '0x133') {
+  if (network === '0x137') {
     return 'eip155:137:' + account;
   } else return 'eip155:1:' + account;
 }
