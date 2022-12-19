@@ -92,7 +92,7 @@ export async function veramoCreateVP(
   const challenge = createVPParams.proofOptions?.challenge;
   const proofFormat = createVPParams.proofFormat
     ? createVPParams.proofFormat
-    : 'jwt'; // TODO: Do we want to set default to jwt?
+    : 'jwt';
 
   const { state, snap } = params;
   //Get Veramo agent
