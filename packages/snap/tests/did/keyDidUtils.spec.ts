@@ -8,6 +8,7 @@ import {
 } from '../testUtils/constants';
 
 describe('keyDidUtils', () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let snapMock: SnapsGlobalObject & SnapMock;
 
   beforeEach(() => {
