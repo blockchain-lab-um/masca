@@ -17,6 +17,7 @@ import { AvailableVCStores } from '@blockchain-lab-um/ssi-snap-types';
  *
  **/
 export async function getCurrentAccount(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   snap: SnapsGlobalObject
 ): Promise<string | null> {
   try {
@@ -30,6 +31,7 @@ export async function getCurrentAccount(
 }
 
 export async function getCurrentNetwork(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   snap: SnapsGlobalObject
 ): Promise<string> {
   const network = (await ethereum.request({

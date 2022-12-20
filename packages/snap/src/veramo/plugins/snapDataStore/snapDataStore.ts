@@ -218,6 +218,7 @@ export class SnapVCStore extends AbstractDataStore {
     return id;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async clear(args: IFilterArgs): Promise<boolean> {
     //TODO implement filter (in ceramic aswell)
     const state = await getSnapState(this.snap);

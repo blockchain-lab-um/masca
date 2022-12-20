@@ -76,8 +76,7 @@ describe('Utils [ceramic]', () => {
     });
     it('should fail saving wrong object on ceramic network', async () => {
       snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
-      const regex =
-        /HTTP request to 'https:\/\/ceramic-clay.3boxlabs.com\/api\/v0\/commits' failed with status 'Internal Server Error': ([A-Za-z"':/0-9,-{}\\ ])+ /i;
+
       await expect(
         veramoSaveVC({
           snap: snapMock,
@@ -136,7 +135,7 @@ describe('Utils [ceramic]', () => {
 
       await veramoClearVCs({ snap: snapMock, store: ['ceramic'] });
 
-      const ids = await veramoSaveVC({
+      await veramoSaveVC({
         snap: snapMock,
         verifiableCredential: exampleVC.proof.jwt,
         store: ['ceramic'],

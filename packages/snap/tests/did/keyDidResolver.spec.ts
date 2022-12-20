@@ -49,7 +49,9 @@ describe('keyDidResolver', () => {
         },
         {
           resolve: function (
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             didUrl: string,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             options?: DIDResolutionOptions | undefined
           ): Promise<DIDResolutionResult> {
             throw new Error('Function not implemented.');
@@ -83,7 +85,9 @@ describe('keyDidResolver', () => {
         },
         {
           resolve: function (
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             didUrl: string,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             options?: DIDResolutionOptions | undefined
           ): Promise<DIDResolutionResult> {
             throw new Error('Function not implemented.');

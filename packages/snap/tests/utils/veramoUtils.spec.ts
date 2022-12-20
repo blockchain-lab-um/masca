@@ -41,7 +41,7 @@ jest
 let ceramicData: StoredCredentials;
 jest
   .spyOn(DIDDataStore.prototype, 'get')
-  // eslint-disable-next-line @typescript-eslint/require-await
+  // eslint-disable-next-line @typescript-eslint/require-await, @typescript-eslint/no-unused-vars
   .mockImplementation(async (key, did?) => {
     return ceramicData;
   });
@@ -370,7 +370,7 @@ describe('Utils [veramo]', () => {
     it('should return all VCs from snap store - toggle ceramicVCStore', async () => {
       const state = getDefaultSnapState();
       snapMock.rpcMocks.snap_manageState.mockReturnValue(state);
-      const res = await veramoSaveVC({
+      await veramoSaveVC({
         snap: snapMock,
         verifiableCredential: exampleVC,
         store: ['snap', 'ceramic'],

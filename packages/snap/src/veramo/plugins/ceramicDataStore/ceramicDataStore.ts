@@ -125,6 +125,7 @@ export class CeramicVCStore extends AbstractDataStore {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async clear(args: IFilterArgs): Promise<boolean> {
     const ceramic = await getCeramic(this.snap);
     const datastore = new DIDDataStore({ ceramic, model: aliases });

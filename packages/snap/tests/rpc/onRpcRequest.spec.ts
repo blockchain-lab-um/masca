@@ -13,9 +13,8 @@ import {
   availableVCStores,
   availableMethods,
 } from '@blockchain-lab-um/ssi-snap-types';
-import { IVerifyResult, VerifiablePresentation } from '@veramo/core';
+import { VerifiablePresentation } from '@veramo/core';
 import * as uuid from 'uuid';
-import { getAgent } from '../../src/veramo/setup';
 import { veramoClearVCs } from '../../src/utils/veramoUtils';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { StreamID } from '@ceramicnetwork/streamid';
@@ -25,7 +24,7 @@ jest.mock('uuid');
 let ceramicData: StoredCredentials;
 jest
   .spyOn(DIDDataStore.prototype, 'get')
-  // eslint-disable-next-line @typescript-eslint/require-await
+  // eslint-disable-next-line @typescript-eslint/require-await, @typescript-eslint/no-unused-vars
   .mockImplementation(async (key, did?) => {
     return ceramicData;
   });
