@@ -5,8 +5,8 @@ import {
   IResolver,
   IKeyManager,
   TAgent,
-  ICredentialIssuer,
   MinimalImportableKey,
+  ICredentialPlugin,
 } from '@veramo/core';
 import { DataSource } from 'typeorm';
 import {
@@ -35,7 +35,9 @@ import { CredentialPlugin } from '@veramo/credential-w3c';
 
 @Injectable()
 export class AgentService {
-  private agent: TAgent<IDIDManager & IKeyManager & IResolver & IOIDCPlugin>;
+  private agent: TAgent<
+    IDIDManager & IKeyManager & IResolver & IOIDCPlugin & ICredentialPlugin
+  >;
 
   private dbConnection: DataSource;
 
@@ -70,7 +72,7 @@ export class AgentService {
     };
 
     this.agent = createAgent<
-      IDIDManager & IKeyManager & IResolver & IOIDCPlugin & ICredentialIssuer
+      IDIDManager & IKeyManager & IResolver & IOIDCPlugin & ICredentialPlugin
     >({
       plugins: [
         new KeyManager({

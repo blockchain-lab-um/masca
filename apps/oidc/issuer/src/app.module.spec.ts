@@ -13,7 +13,8 @@ import {
   TokenRequest,
   TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
-import { ISSUER_URL, USER_PRIVATE_KEY } from '../tests/constants';
+import getAgent from '../tests/testAgent';
+import { TEST_ISSUER_URL, TEST_USER_PRIVATE_KEY } from '../tests/constants';
 import { createJWTProof } from '../tests/utils';
 import { AppModule } from './app.module';
 import { AgentService } from './modules/agent/agent.service';
@@ -140,7 +141,11 @@ describe('Issuer controler', () => {
           types: ['VerifiableCredential', 'UniversityDegreeCredential'],
           proof: {
             proof_type: 'jwt',
-            jwt: await createJWTProof(USER_PRIVATE_KEY, ISSUER_URL, cNonce),
+            jwt: await createJWTProof(
+              TEST_USER_PRIVATE_KEY,
+              TEST_ISSUER_URL,
+              cNonce
+            ),
           },
         };
 
@@ -150,7 +155,17 @@ describe('Issuer controler', () => {
           .send(credentialRequest);
 
         expect(response.status).toBe(200);
-        console.log(response.body);
+        expect(response.body.format).toBe('jwt_vc_json');
+        expect(response.body.credential).toBeDefined();
+
+        // Verify credential
+        const agent = await getAgent();
+        const res = await agent.verifyCredential({
+          credential: response.body.credential,
+        });
+        expect(res.verified).toBeTruthy();
+
+        expect.assertions(11);
       });
     });
 

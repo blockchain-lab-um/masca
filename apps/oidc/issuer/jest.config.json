@@ -9,5 +9,6 @@
   "transform": {
     "^.+\\.ts$": "ts-jest"
   },
-  "coverageReporters": ["text", "lcov", "json"]
+  "coverageReporters": ["text", "lcov", "json"],
+  "testTimeout": 30000
 }
