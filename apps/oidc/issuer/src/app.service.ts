@@ -6,7 +6,7 @@ import {
   TokenRequest,
   TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
-import {} from '@blockchain-lab-um/oidc-rp-plugin'; // FIXME
+import { isError } from '@blockchain-lab-um/oidc-rp-plugin';
 import { IConfig } from './config/configuration';
 import { DatastoreService } from './modules/datastore/datastore.service';
 import { AgentService } from './modules/agent/agent.service';
@@ -113,9 +113,26 @@ export class AppService {
     }
 
     // Check if expiration is set and access token is not expired
-    if (userSession.expires_in && userSession.expires_in > Date.now()) {
+    if (userSession.expires_in && userSession.expires_in < Date.now()) {
       throw Error('Access token expired');
     }
+
+    const identifier = await agent.didManagerGetByAlias({ alias: 'main-did' });
+
+    const credentialResponse = await agent.handleCredentialRequest({
+      body,
+      did: identifier.did,
+      credentialSubjectClaims: {
+        name: 'John Doe',
+        email: 'john.doe@gmail.com',
+      },
+    });
+
+    if (isError(credentialResponse)) {
+      throw Error(credentialResponse.error.message); // FIXME
+    }
+
+    return credentialResponse.data;
   }
 }
 

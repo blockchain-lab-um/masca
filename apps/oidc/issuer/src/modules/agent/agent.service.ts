@@ -5,6 +5,8 @@ import {
   IResolver,
   IKeyManager,
   TAgent,
+  ICredentialIssuer,
+  MinimalImportableKey,
 } from '@veramo/core';
 import { DataSource } from 'typeorm';
 import {
@@ -24,7 +26,12 @@ import { KeyDIDProvider, getDidKeyResolver } from '@veramo/did-provider-key';
 import { getResolver as getEthrResolver } from 'ethr-did-resolver';
 import { Resolver } from 'did-resolver';
 import { IConfig } from 'src/config/configuration';
-import { IOIDCPlugin, OIDCPlugin } from '@blockchain-lab-um/oidc-rp-plugin';
+import {
+  IOIDCPlugin,
+  isError,
+  OIDCPlugin,
+} from '@blockchain-lab-um/oidc-rp-plugin';
+import { CredentialPlugin } from '@veramo/credential-w3c';
 
 @Injectable()
 export class AgentService {
@@ -63,7 +70,7 @@ export class AgentService {
     };
 
     this.agent = createAgent<
-      IDIDManager & IKeyManager & IResolver & IOIDCPlugin
+      IDIDManager & IKeyManager & IResolver & IOIDCPlugin & ICredentialIssuer
     >({
       plugins: [
         new KeyManager({
@@ -114,25 +121,48 @@ export class AgentService {
             'SUPPORTED_SCHEMA_URL'
           ),
         }),
+        new CredentialPlugin(),
       ],
     });
   }
 
   async initializeAgent() {
     try {
-      // Check if key exists
-      await this.agent.keyManagerGet({
-        kid: 'main-key',
+      // Check if did exists
+      await this.agent.didManagerGetByAlias({
+        alias: 'main-did', // TODO: Handle alias better
       });
+
+      console.log('Did found, skipping creation...');
     } catch (error) {
-      // Create key if it doesn't exist
-      await this.agent.keyManagerImport({
+      // Create did if it doesn't exist
+      const key: MinimalImportableKey = {
         kid: 'main-key',
         kms: 'local',
         type: 'Secp256k1',
         privateKeyHex: this.configService.get<string>('ISSUER_PRIVATE_KEY'),
+      };
+
+      const res = await OIDCPlugin.privateKeyToDid(
+        key.privateKeyHex,
+        'did:ethr'
+      );
+
+      if (isError(res)) {
+        throw Error('Error while creating DID');
+      }
+
+      const { did } = res.data;
+
+      await this.agent.didManagerImport({
+        did,
+        alias: 'main-did',
+        provider: 'did:ethr',
+        controllerKeyId: 'main-key', // TODO: Handle key ID better
+        keys: [key],
       });
-      console.log('Key not found, creating new key...');
+
+      console.log('Did not found, creating new DID...');
     }
   }
 

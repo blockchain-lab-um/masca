@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Header,
+  Headers,
   HttpCode,
   Post,
   Response,
@@ -65,7 +66,7 @@ export class AppController {
 
   // TODO: ??
   @Get('/initiation-request')
-  initiate(): string {
+  async initiate(): Promise<string> {
     // TODO: Define query parameters
     // TODO: Redirect ?
     return this.appService.createIssuanceInitiationRequest();
@@ -85,9 +86,10 @@ export class AppController {
   @Post('/credential')
   @HttpCode(200)
   async credential(
+    @Headers('Authorization') authorization: string,
     @Body() body: CredentialRequest
   ): Promise<CredentialResponse> {
-    return this.appService.handleCredentialRequest(body);
+    return this.appService.handleCredentialRequest(body, authorization);
   }
 }
 

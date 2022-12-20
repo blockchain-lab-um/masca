@@ -61,7 +61,7 @@ export interface IPluginConfig {
   supported_curves: string[]; // e.g. secp256k1, ed25519, etc
   supported_digital_signatures: string[]; // e.g. jwt, json_ld
   db_secret: string;
-  url: string; // e.g. https://example.com
+  url: string;
 }
 
 export type CreateIssuanceInitiationRequestResposne = {
@@ -103,6 +103,17 @@ export type IsValidAuthorizationHeaderResponse = {
 
 export type HandleCredentialRequestArgs = {
   body: CredentialRequest;
+  did: string; // DID to use for signing the Credential
+  credentialSubjectClaims: any; // Claims to use for the credentialSubject
   c_nonce?: string;
   c_nonce_expires_in?: number;
+};
+
+export type PrivateKeyToDidRequestArgs = {
+  privateKey: string;
+  didMethod: string;
+};
+
+export type PrivateKeyToDidResponse = {
+  did: string;
 };

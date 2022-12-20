@@ -1,4 +1,9 @@
 import { CredentialPayload, IAgentPlugin } from '@veramo/core';
+import {
+  extractPublicKeyHex,
+  _ExtendedVerificationMethod,
+  bytesToBase64url,
+} from '@veramo/utils';
 import qs from 'qs';
 import { randomUUID } from 'crypto';
 import {
@@ -9,7 +14,9 @@ import {
 } from '@blockchain-lab-um/oidc-types';
 import { Result } from 'src/utils';
 import { jwtVerify, decodeProtectedHeader, importJWK, JWTPayload } from 'jose';
-import { VerificationMethod } from 'did-resolver';
+// import { VerificationMethod } from 'did-resolver';
+import { JsonWebKey, VerificationMethod } from 'did-resolver';
+import { ec as EC } from 'elliptic';
 import {
   Claims,
   CreateIssuanceInitiationRequestResposne,
@@ -20,6 +27,7 @@ import {
   IsValidTokenRequestArgs,
   IsValidTokenRequestResponse,
   HandlePreAuthorizedCodeTokenRequestArgs,
+  PrivateKeyToDidResponse,
 } from '../types/internal';
 import { IOIDCPlugin, OIDCAgentContext } from '../types/IOIDCPlugin';
 
@@ -278,7 +286,13 @@ export class OIDCPlugin implements IAgentPlugin {
     args: HandleCredentialRequestArgs,
     context: OIDCAgentContext
   ): Promise<Result<CredentialResponse>> {
-    const { body, c_nonce: cNonce, c_nonce_expires_in: cNonceExpiresIn } = args;
+    const {
+      body,
+      did: issuerDid,
+      credentialSubjectClaims,
+      c_nonce: cNonce,
+      c_nonce_expires_in: cNonceExpiresIn,
+    } = args;
     const { format, proof } = body;
 
     if (!format) {
@@ -350,16 +364,17 @@ export class OIDCPlugin implements IAgentPlugin {
     }
 
     let payload;
+    let publicKey;
+    let did;
 
     // Check kid
     if (protectedHeader.kid) {
-      // TODO: Resolve kid and use key
-
       // Split kid
-      const [did, keyId] = protectedHeader.kid.split('#');
+      const [extractedDid, extractedKeyId] = protectedHeader.kid.split('#');
+      did = extractedDid;
 
       // Check if did and keyId are present
-      if (!did || !keyId) {
+      if (!did || !extractedKeyId) {
         return {
           success: false,
           error: new Error('Invalid kid'),
@@ -367,7 +382,6 @@ export class OIDCPlugin implements IAgentPlugin {
       }
 
       const resolvedDid = await context.agent.resolveDid({ didUrl: did });
-
       if (resolvedDid.didResolutionMetadata.error || !resolvedDid.didDocument) {
         return {
           success: false,
@@ -380,136 +394,194 @@ export class OIDCPlugin implements IAgentPlugin {
       let fragment;
 
       try {
-        fragment = await context.agent.getDIDComponentById({
+        fragment = (await context.agent.getDIDComponentById({
           didDocument: resolvedDid.didDocument,
-          didUrl: keyId,
+          didUrl: protectedHeader.kid,
           section: 'authentication',
-        });
+        })) as VerificationMethod;
       } catch (e) {
-        console.error(e);
         return {
           success: false,
           error: new Error('Invalid kid'),
         };
       }
-      const { publicKeyJwk } = fragment as VerificationMethod;
 
-      if (!publicKeyJwk) {
+      if (fragment.publicKeyJwk) {
         return {
           success: false,
-          error: new Error('Invalid kid or publicKeyJwk not present'),
+          error: new Error('PublickKeyJwk not supported yet!'),
         };
       }
+      const publicKeyHex = extractPublicKeyHex(
+        fragment as _ExtendedVerificationMethod
+      );
 
-      const publicKey = await importJWK(publicKeyJwk);
-
-      try {
-        payload = (
-          await jwtVerify(proof.jwt, publicKey, {
-            // TODO: Maybe check ISS here ?
-            audience: this.pluginConfig.url,
-          })
-        ).payload;
-      } catch {
-        // TODO: Error and new nonce ?
-        // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-8.3.2
+      if (publicKeyHex === '') {
         return {
           success: false,
-          error: new Error('Invalid jwt'),
+          error: new Error('Invalid kid or no public key present'),
         };
       }
 
-      // Check if jwt is valid
-      const { exp, nbf, nonce } = payload as JWTPayload;
-
-      // Check if session contains cNonce
-      if (cNonce) {
-        // Check if nonce is valid
-        if (nonce !== cNonce) {
-          return {
-            success: false,
-            error: new Error('Invalid c_nonce'),
-          };
-        }
-
-        // Check if cNonce is expired
-        if (cNonceExpiresIn && cNonceExpiresIn < Date.now()) {
-          return {
-            success: false,
-            error: new Error('c_nonce expired'),
-          };
-        }
-
-        if (exp && exp < Date.now()) {
-          return {
-            success: false,
-            error: new Error('Invalid jwt'),
-          };
-        }
-
-        if (nbf && nbf > Date.now()) {
-          return {
-            success: false,
-            error: new Error('Invalid jwt'),
-          };
-        }
-
-        // FIXME: ISS -> Must be client_id
-        // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#name-proof-types
-
-        // Build credential payload
-        const credentialPayload: CredentialPayload = {
-          // FIXME: Replace with issuer DID
-          issuer: { id: this.pluginConfig.url },
-          // FIXME: Add credential status ? (https://www.w3.org/TR/vc-data-model/#status)
-          // FIXME: Set correct type
-          type: ['VerifiableCredential'],
-          credentialSubject: {
-            id: did,
-          },
-        };
-
-        // Create credential from payload
-        const credential = await context.agent.createVerifiableCredential({
-          credential: credentialPayload,
-          proofFormat: 'jwt',
-        });
-
-        // FIXME: Why would we need to send c_nonce ?
-        // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-8.3
+      const supportedTypes = ['EcdsaSecp256k1VerificationKey2019'];
+      if (!supportedTypes.includes(fragment.type)) {
         return {
-          success: true,
-          data: {
-            format: 'jwt_vc_json',
-            credential: credential.proof.jwt as string,
-          },
+          success: false,
+          error: new Error('Unsupported key type'),
         };
       }
 
-      // const credential = await context.agent.createVerifiableCredential({
-    }
+      let ctx: EC;
+      let curveName: string;
 
-    // Check jwk
-    if (protectedHeader.jwk) {
-      return {
-        success: false,
-        error: new Error('jwk not supported'),
+      if (fragment.type === 'EcdsaSecp256k1VerificationKey2019') {
+        ctx = new EC('secp256k1');
+        curveName = 'secp256k1';
+      } else {
+        return {
+          success: false,
+          error: new Error('Unsupported key type'),
+        };
+      }
+      const pubPoint = ctx.keyFromPublic(publicKeyHex, 'hex').getPublic();
+      const publicKeyJwk: JsonWebKey = {
+        kty: 'EC',
+        crv: curveName,
+        x: bytesToBase64url(pubPoint.getX().toBuffer('be', 32)),
+        y: bytesToBase64url(pubPoint.getY().toBuffer('be', 32)),
       };
-    }
 
-    // Check x5c
-    // TODO
-    if (protectedHeader.x5c) {
+      publicKey = await importJWK(publicKeyJwk, protectedHeader.alg);
+    } else if (protectedHeader.jwk) {
+      publicKey = await importJWK(protectedHeader.jwk);
+    } else if (protectedHeader.x5c) {
       return {
         success: false,
         error: new Error('x5c not supported'),
       };
+    } else {
+      // Should never happen (here for type safety)
+      return {
+        success: false,
+        error: new Error('Invalid jwt header'),
+      };
     }
 
-    // TODO: Should never happen
+    try {
+      payload = (
+        await jwtVerify(proof.jwt, publicKey, {
+          // TODO: Maybe check ISS here ?
+          audience: this.pluginConfig.url,
+        })
+      ).payload;
+    } catch {
+      // TODO: Error and new nonce ?
+      // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-8.3.2
+      return {
+        success: false,
+        error: new Error('Invalid jwt'),
+      };
+    }
+
+    // Check if jwt is valid
+    const { exp, nbf, nonce } = payload as JWTPayload;
+
+    // Check if session contains cNonce
+    if (cNonce) {
+      // Check if nonce is valid
+      if (nonce !== cNonce) {
+        return {
+          success: false,
+          error: new Error('Invalid c_nonce'),
+        };
+      }
+
+      // Check if cNonce is expired
+      if (cNonceExpiresIn && cNonceExpiresIn < Date.now()) {
+        return {
+          success: false,
+          error: new Error('c_nonce expired'),
+        };
+      }
+    }
+
+    if (exp && 1000 * exp < Date.now()) {
+      return {
+        success: false,
+        error: new Error('Jwt expired'),
+      };
+    }
+
+    if (nbf && 1000 * nbf > Date.now()) {
+      return {
+        success: false,
+        error: new Error('Jwt not valid yet'),
+      };
+    }
+
+    // FIXME: ISS -> Must be client_id
+    // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#name-proof-types
+    let credentialPayload: CredentialPayload;
+
+    try {
+      // Build credential payload
+      credentialPayload = {
+        // FIXME: Replace with issuer DID
+        issuer: { id: issuerDid },
+        // FIXME: Add credential status ? (https://www.w3.org/TR/vc-data-model/#status)
+        // FIXME: Set correct type
+        type: body.types,
+        credentialSubject: {
+          id: did,
+          ...credentialSubjectClaims, // TODO: VALIDATE CLAIMS AGAINST SCHEMA
+        },
+      };
+    } catch (e) {
+      return {
+        success: false,
+        error: new Error((e as any).message),
+      };
+    }
+    let credential;
+
+    // Create credential from payload
+    try {
+      credential = await context.agent.createVerifiableCredential({
+        credential: credentialPayload,
+        proofFormat: 'jwt',
+      });
+    } catch (e) {
+      return {
+        success: false,
+        error: new Error('Error creating credential'),
+      };
+    }
+
+    // FIXME: Why would we need to send c_nonce ?
+    // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-8.3
     return {
-      success: false,
-      error: new Error('Error'),
+      success: true,
+      data: {
+        format: 'jwt_vc_json',
+        credential: credential.proof.jwt as string,
+      },
+    };
+  }
+
+  public static async privateKeyToDid(
+    privateKey: string,
+    didMethod: string
+  ): Promise<Result<PrivateKeyToDidResponse>> {
+    const ctx = new EC('secp256k1');
+    const ecPrivateKey = ctx.keyFromPrivate(privateKey);
+    const compactPublicKey = `0x${ecPrivateKey.getPublic(true, 'hex')}`;
+    const did = `${didMethod}:${compactPublicKey}`;
+
+    return {
+      success: true,
+      data: {
+        did,
+      },
     };
   }
 }

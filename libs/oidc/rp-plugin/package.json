@@ -2,13 +2,12 @@
   "name": "@blockchain-lab-um/oidc-rp-plugin",
   "version": "0.0.1",
   "license": "MIT",
-  "main": "index.js",
+  "main": "dist/index.js",
   "source": "src/index.ts",
-  "types": "index.d.ts",
+  "types": "dist/index.d.ts",
   "files": [
     "src/**/*",
     "README.md",
-    "plugin.schema.json",
     "LICENSE"
   ],
   "scripts": {
@@ -31,12 +30,15 @@
     "@veramo/core": "^4.1.1",
     "@veramo/did-manager": "^4.1.1",
     "@veramo/key-manager": "^4.1.1",
+    "@veramo/utils": "^4.2.0",
     "did-jwt-vc": "^3.1.0",
     "did-resolver": "^4.0.1",
+    "elliptic": "^6.5.4",
     "jose": "^4.11.1",
     "qs": "^6.11.0"
   },
   "devDependencies": {
+    "@types/elliptic": "^6",
     "@types/jest": "29.2.3",
     "@types/node": "^16.11.7",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
@@ -54,49 +56,6 @@
     "ts-jest": "29.0.3",
     "typeorm": "^0.3.10",
     "typescript": "4.9.3"
-  },
-  "nx": {
-    "namedInputs": {
-      "default": [
-        "{projectRoot}/src"
-      ],
-      "prod": [
-        "!{projectRoot}/__tests__/**/*.ts"
-      ]
-    },
-    "targets": {
-      "build": {
-        "inputs": [
-          "prod",
-          "^prod"
-        ],
-        "outputs": [
-          "{projectRoot}/dist"
-        ],
-        "dependsOn": [
-          "^build"
-        ]
-      },
-      "lint": {
-        "inputs": [
-          "default"
-        ],
-        "outputs": [],
-        "dependsOn": [
-          "build"
-        ]
-      },
-      "test": {
-        "inputs": [
-          "default",
-          "^prod"
-        ],
-        "outputs": [],
-        "dependsOn": [
-          "build"
-        ]
-      }
-    }
   },
   "veramo": {
     "pluginInterfaces": {

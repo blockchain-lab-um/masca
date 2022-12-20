@@ -8,8 +8,15 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { FastifyInstance } from 'fastify';
 import request from 'supertest';
 import * as qs from 'qs';
-import { TokenRequest } from '@blockchain-lab-um/oidc-types';
+import {
+  CredentialRequest,
+  TokenRequest,
+  TokenResponse,
+} from '@blockchain-lab-um/oidc-types';
+import { ISSUER_URL, USER_PRIVATE_KEY } from '../tests/constants';
+import { createJWTProof } from '../tests/utils';
 import { AppModule } from './app.module';
+import { AgentService } from './modules/agent/agent.service';
 // import { IConfig } from './config/configuration';
 
 describe('Issuer controler', () => {
@@ -27,6 +34,7 @@ describe('Issuer controler', () => {
     );
 
     // configService = app.get<ConfigService<IConfig, true>>(ConfigService);
+    await app.get<AgentService>(AgentService).initializeAgent();
 
     await app.init();
     await (app.getHttpAdapter().getInstance() as FastifyInstance).ready();
@@ -66,9 +74,6 @@ describe('Issuer controler', () => {
           )
         );
 
-        console.log(query);
-        console.log(query['pre-authorized_code']);
-
         expect(response.status).toBe(200);
 
         const tokenRequestData: TokenRequest = {
@@ -83,23 +88,75 @@ describe('Issuer controler', () => {
         expect.assertions(2);
       });
 
-      it('With authorization_code', async () => {});
+      it('TODO With authorization_code', async () => {});
 
-      it('With pre-authorization_code and user_pin', async () => {});
+      it('TODO With pre-authorization_code and user_pin', async () => {});
     });
 
-    describe('Should fail', () => {
+    describe('TODO Should fail', () => {
       it('With invalid pre-authorized_code', async () => {});
     });
   });
 
   describe('[POST]: /credential', () => {
     describe('Should succeed', () => {
-      it('todo', () => {});
+      it('With valid authorization header and valid credential request', async () => {
+        let response = await request(server).get('/initiation-request').send();
+
+        const query = qs.parse(
+          response.text.replace(
+            'openid_initiate_issuance://credential_offer?',
+            ''
+          )
+        );
+
+        expect(response.status).toBe(200);
+
+        const tokenRequestData: TokenRequest = {
+          grant_type: 'urn:ietf:params:oauth:grant-type:pre-authorized_code',
+          'pre-authorized_code': query['pre-authorized_code'] as string,
+        };
+
+        response = await request(server).post('/token').send(tokenRequestData);
+
+        expect(response.status).toBe(200);
+
+        const {
+          access_token: accessToken,
+          token_type: tokenType,
+          expires_in: expiresIn,
+          c_nonce: cNonce,
+          c_nonce_expires_in: cNonceExpiresIn,
+        } = response.body as TokenResponse;
+
+        expect(accessToken).toBeDefined();
+        expect(tokenType).toBeDefined();
+        expect(expiresIn).toBeDefined();
+        expect(cNonce).toBeDefined();
+        expect(cNonceExpiresIn).toBeDefined();
+
+        const credentialRequest: CredentialRequest = {
+          format: 'jwt_vc_json',
+          types: ['VerifiableCredential', 'UniversityDegreeCredential'],
+          proof: {
+            proof_type: 'jwt',
+            jwt: await createJWTProof(USER_PRIVATE_KEY, ISSUER_URL, cNonce),
+          },
+        };
+
+        response = await request(server)
+          .post('/credential')
+          .auth(accessToken, { type: 'bearer' })
+          .send(credentialRequest);
+
+        expect(response.status).toBe(200);
+        console.log(response.body);
+      });
     });
 
-    describe('Should fail', () => {
-      it('todo', () => {});
+    describe('TODO Should fail', () => {
+      it('With invalid authorization header', () => {});
+      it('With invalid credential request', () => {});
     });
   });
 });
