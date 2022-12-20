@@ -17,7 +17,7 @@ export async function queryVCs(
   const vcs = await veramoQueryVCs({
     snap,
     options: { store, returnStore },
-    filter, // TODO: Check if undefined is ok
+    filter,
   });
 
   const promptObj = {

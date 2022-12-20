@@ -61,7 +61,6 @@ export class CeramicVCStore extends AbstractDataStore {
         });
       }
       if (filter && filter.type === 'JSONPath') {
-        //TODO convert JWT strings to VC objects
         const objects = Object.keys(storedCredentials.vcs).map((k) => {
           let vc = storedCredentials.vcs[k] as unknown;
           if (typeof vc === 'string') {

@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-// FIXME: Remove eslint-disable
-
 import {
   isAvailableVCStores,
   isAvailableMethods,
@@ -325,5 +322,4 @@ export function isValidQueryRequest(
       }
     }
   }
-  return;
 }

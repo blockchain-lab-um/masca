@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// Core interfaces
 import {
   createAgent,
   IDIDManager,
@@ -27,7 +24,6 @@ import {
   AbstractDataStore,
 } from '@blockchain-lab-um/veramo-vc-manager';
 import { Web3Provider } from '@ethersproject/providers';
-//import { Web3KeyManagementSystem } from '@veramo/kms-web3';
 import { CredentialIssuerEIP712 } from '@veramo/credential-eip712';
 import {
   CredentialIssuerLD,
@@ -73,20 +69,18 @@ export const getAgent = async (snap: SnapsGlobalObject): Promise<Agent> => {
   const CHAIN_ID = await getCurrentNetwork(snap);
   const account = await getCurrentAccount(snap);
 
-  const web3Providers: Record<string, Web3Provider> = {};
   const didProviders: Record<string, AbstractIdentifierProvider> = {};
   const vcStorePlugins: Record<string, AbstractDataStore> = {};
   const enabledVCStores = getEnabledVCStores(account as string, state);
   console.log('Enabled VC Stores:', enabledVCStores);
 
-  web3Providers['metamask'] = new Web3Provider(snap as any);
   didProviders['did:ethr'] = new EthrDIDProvider({
     defaultKms: 'web3',
     network: availableNetworks[CHAIN_ID] ?? 'mainnet',
     rpcUrl:
       `https://${availableNetworks[CHAIN_ID] ?? 'mainnet'}.infura.io/v3/` +
       INFURA_PROJECT_ID,
-    web3Provider: new Web3Provider(snap as any),
+    web3Provider: new Web3Provider(snap),
   });
 
   didProviders['did:key'] = new KeyDIDProvider({ defaultKms: 'web3' });
@@ -112,11 +106,9 @@ export const getAgent = async (snap: SnapsGlobalObject): Promise<Agent> => {
       new KeyManager({
         store: new MemoryKeyStore(),
         kms: {
-          //web3: new Web3KeyManagementSystem(web3Providers),
           snap: new KeyManagementSystem(new MemoryPrivateKeyStore()),
         },
       }),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       new DataManager({ store: vcStorePlugins }),
       new DIDResolverPlugin({
         resolver: new Resolver({

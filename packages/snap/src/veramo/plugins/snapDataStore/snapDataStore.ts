@@ -1,8 +1,11 @@
-import { RequireOnly, IIdentifier } from '@veramo/core';
+import {
+  RequireOnly,
+  IIdentifier,
+  W3CVerifiableCredential,
+} from '@veramo/core';
 import { ManagedPrivateKey } from '@veramo/key-manager';
 import { AbstractDIDStore } from '@veramo/did-manager';
 import { v4 as uuidv4 } from 'uuid';
-import { W3CVerifiableCredential } from '@veramo/core';
 import { getSnapState, updateSnapState } from '../../../utils/stateUtils';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { getCurrentAccount } from '../../../utils/snapUtils';
@@ -127,7 +130,6 @@ export class SnapDIDStore extends AbstractDIDStore {
 export class SnapVCStore extends AbstractDataStore {
   snap: SnapsGlobalObject;
   constructor(snapParam: SnapsGlobalObject) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     super();
     this.snap = snapParam;
   }

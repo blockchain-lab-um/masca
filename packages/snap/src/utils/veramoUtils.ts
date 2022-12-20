@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Agent, getAgent } from './../veramo/setup';
 import {
   AvailableVCStores,
@@ -19,8 +17,10 @@ import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { ApiParams } from '../interfaces';
 import { snapGetKeysFromAddress } from './keyPair';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
-import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-vc-manager';
-import { Filter } from '@blockchain-lab-um/veramo-vc-manager';
+import {
+  IDataManagerSaveResult,
+  Filter,
+} from '@blockchain-lab-um/veramo-vc-manager';
 
 export async function veramoSaveVC(args: {
   snap: SnapsGlobalObject;
@@ -87,12 +87,11 @@ export async function veramoCreateVP(
   createVPParams: CreateVPRequestParams
 ): Promise<VerifiablePresentation | null> {
   const vcsMetadata = createVPParams.vcs;
-  //const store = createVPParams.vcs[0].metadata?.store;
   const domain = createVPParams.proofOptions?.domain;
   const challenge = createVPParams.proofOptions?.challenge;
   const proofFormat = createVPParams.proofFormat
     ? createVPParams.proofFormat
-    : 'jwt'; // TODO: Do we want to set default to jwt?
+    : 'jwt';
 
   const { state, snap } = params;
   //Get Veramo agent

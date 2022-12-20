@@ -89,9 +89,6 @@ export async function removeFriendlyDapp(
   state: SSISnapState,
   dapp: string
 ) {
-  // FIXME: TEST IF YOU CAN REFERENCE FRIENDLY DAPS
-  // let friendlyDapps = state.snapConfig.dApp.friendlyDapps;
-  // friendlyDapps = friendlyDapps.filter((d) => d !== dapp);
   state.snapConfig.dApp.friendlyDapps =
     state.snapConfig.dApp.friendlyDapps.filter((d) => d !== dapp);
   await updateSnapState(snap, state);
@@ -122,9 +119,7 @@ export function getCompressedPublicKey(publicKey: string): string {
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function _uint8ArrayToHex(arr: any) {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+export function _uint8ArrayToHex(arr: Uint8Array) {
   return Buffer.from(arr).toString('hex');
 }
 

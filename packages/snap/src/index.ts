@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return*/
 import { OnRpcRequestHandler } from '@metamask/snaps-types';
 import { togglePopups, changeInfuraToken } from './rpc/snap/configure';
 import { queryVCs } from './rpc/vc/queryVCs';
@@ -35,8 +34,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
 
   const account = await getCurrentAccount(snap);
 
-  // FIXME: HANDLE NULL maybe throw ?
-  if (account === null) return;
+  if (account === null) throw new Error('No account found');
 
   const apiParams: ApiParams = {
     state,
@@ -53,7 +51,6 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
   switch (request.method) {
     case 'queryVCs':
       isValidQueryRequest(request.params, apiParams.account, apiParams.state);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return await queryVCs(apiParams, request.params);
     case 'saveVC':
       isValidSaveVCRequest(request.params, apiParams.account, apiParams.state);

@@ -19,7 +19,6 @@ export async function saveVC(
   };
 
   if (await snapConfirm(snap, promptObj)) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return await veramoSaveVC({
       snap,
       verifiableCredential,
