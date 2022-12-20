@@ -13,16 +13,13 @@ export const createJWTProof = async (
   const ctx = new EC('secp256k1');
   const ecPrivateKey = ctx.keyFromPrivate(privateKey);
   const res = await OIDCPlugin.privateKeyToDid(privateKey, 'did:ethr');
-  console.log('res: ', res);
 
   if (isError(res)) {
     throw new Error(res.error.message);
   }
 
   const { did } = res.data;
-  console.log(did);
   const kid = `${did}#controllerKey`;
-  console.log(`kid: ${kid}`);
 
   const jwtPayload: Partial<JWTPayload> = {
     sub: audience,

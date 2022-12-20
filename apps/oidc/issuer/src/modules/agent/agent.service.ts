@@ -133,7 +133,7 @@ export class AgentService {
         alias: 'main-did', // TODO: Handle alias better
       });
 
-      console.log('Did found, skipping creation...');
+      // console.log('Did found, skipping creation...');
     } catch (error) {
       // Create did if it doesn't exist
       const key: MinimalImportableKey = {
@@ -162,7 +162,7 @@ export class AgentService {
         keys: [key],
       });
 
-      console.log('Did not found, creating new DID...');
+      // console.log('Did not found, creating new DID...');
     }
   }
 
