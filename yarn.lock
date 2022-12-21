@@ -1838,7 +1838,7 @@ __metadata:
     "@types/jsonpath": ^0.2.0
     "@types/lodash.clonedeep": ^4.5.7
     "@types/node": ^18.11.9
-    "@types/uuid": 8.3.4
+    "@types/uuid": ^9.0.0
     "@typescript-eslint/eslint-plugin": ^5.44.0
     "@typescript-eslint/parser": ^5.44.0
     "@veramo/core": 4.2.0
@@ -1883,9 +1883,8 @@ __metadata:
     key-did-resolver: 2.3.0
     lint-staged: ^13.0.4
     lodash.clonedeep: ^4.5.0
-    multibase: ^4.0.6
-    multicodec: ^3.2.1
-    postinstall-postinstall: 2.1.0
+    multiformats: ^10.0.3
+    postinstall-postinstall: ^2.1.0
     precompress: ^9.1.1
     prettier: ^2.8.0
     prettier-plugin-packagejson: ^2.3.0
@@ -6606,10 +6605,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/uuid@npm:8.3.4, @types/uuid@npm:^8.3.4":
+"@types/uuid@npm:^8.3.4":
   version: 8.3.4
   resolution: "@types/uuid@npm:8.3.4"
   checksum: b9ac98f82fcf35962317ef7dc44d9ac9e0f6fdb68121d384c88fe12ea318487d5585d3480fa003cf28be86a3bbe213ca688ba786601dce4a97724765eb5b1cf2
+  languageName: node
+  linkType: hard
+
+"@types/uuid@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "@types/uuid@npm:9.0.0"
+  checksum: b0dc4582249b4efdbb6a9ebcd6acbcb864da14d558acfd5b17648972f8756e1a8e1de216a5e49a52b51d3804d56e60314467d9ac9450c8b90de138130021ed87
   languageName: node
   linkType: hard
 
@@ -8324,7 +8330,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"audit-ci@npm:^6.3.0":
+"audit-ci@npm:^6.3.0, audit-ci@npm:^6.4.1":
   version: 6.4.1
   resolution: "audit-ci@npm:6.4.1"
   dependencies:
@@ -18321,6 +18327,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"multiformats@npm:^10.0.3":
+  version: 10.0.3
+  resolution: "multiformats@npm:10.0.3"
+  checksum: 582fc98c7a68247c457f27b88148fb0d67ee84a86395ada648f2503be6df826b769b144a3cb9ab8a77f7c1e786ce6df0231bc35854fc0fac4fba6059d3b4e842
+  languageName: node
+  linkType: hard
+
 "multiformats@npm:^9.4.10, multiformats@npm:^9.4.2, multiformats@npm:^9.5.1, multiformats@npm:^9.5.2, multiformats@npm:^9.5.4, multiformats@npm:^9.5.8, multiformats@npm:^9.6.5":
   version: 9.9.0
   resolution: "multiformats@npm:9.9.0"
@@ -20263,7 +20276,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postinstall-postinstall@npm:2.1.0":
+"postinstall-postinstall@npm:^2.1.0":
   version: 2.1.0
   resolution: "postinstall-postinstall@npm:2.1.0"
   checksum: 70488447292c712afa7806126824d6fe93362392cbe261ae60166d9119a350713e0dbf4deb2ca91637c1037bc030ed1de78d61d9041bf2504513070f1caacdfd
@@ -21657,6 +21670,7 @@ __metadata:
     "@types/node": ^18.11.9
     "@typescript-eslint/eslint-plugin": ^5.44.0
     "@typescript-eslint/parser": ^5.44.0
+    audit-ci: ^6.4.1
     eslint: ^8.28.0
     eslint-config-airbnb-base: ^15.0.0
     eslint-config-airbnb-typescript: ^17.0.0
@@ -25794,9 +25808,9 @@ __metadata:
   linkType: hard
 
 "yaml@npm:^2.1.3":
-  version: 2.1.3
-  resolution: "yaml@npm:2.1.3"
-  checksum: 9910b534a4849ffba8ff1854e3bec7f1852e56c56771b22b28f78619ed504c14d8759bdbe7d0df397332d536db31f0df732d825809355d53de5603f233251aab
+  version: 2.2.0
+  resolution: "yaml@npm:2.2.0"
+  checksum: 28a354c3c32f2663b7f949c9700eb42dfda3e0a6a3ba5cd6d66cc37d9ff99fa5e988f8e73f71efe29ba5b561f65e9ad56cab544086f3100b80042d5c45cb4e5c
   languageName: node
   linkType: hard
 

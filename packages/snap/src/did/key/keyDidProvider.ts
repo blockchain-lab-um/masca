@@ -47,7 +47,7 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     ).toString();
 
     const identifier: Omit<IIdentifier, 'provider'> = {
-      did: 'did:key:' + methodSpecificId,
+      did: `did:key:${methodSpecificId}`,
       controllerKeyId: key.kid,
       keys: [key],
       services: [],
