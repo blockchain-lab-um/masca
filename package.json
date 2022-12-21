@@ -76,10 +76,10 @@
   },
   "packageManager": "yarn@3.3.0",
   "engines": {
-    "node": ">=18.12"
+    "node": ">=16.18"
   },
   "volta": {
-    "node": "18.12.1",
+    "node": "16.18.1",
     "yarn": "3.3.0"
   }
 }
