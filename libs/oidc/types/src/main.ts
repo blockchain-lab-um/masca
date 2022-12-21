@@ -125,7 +125,7 @@ export interface TokenRequest extends Omit<TokenRequestOAuth2, 'grant_type'> {
  *
  * SPECS: https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#name-successful-token-response
  */
-export interface  TokenResponse extends TokenResponseOAuth2 {
+export interface TokenResponse extends TokenResponseOAuth2 {
   c_nonce?: string;
   c_nonce_expires_in?: number;
   authorization_pending?: boolean;
@@ -141,7 +141,7 @@ export interface CredentialRequest {
   format: typeof SupportedCredentialFormats[number]; // TODO: https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-appendix.e
   types: string[];
   proof?: {
-    proof_type: 'jwt'; // FIXME: Check if other proof types are exist
+    proof_type: 'jwt';
     jwt: string;
   };
 }
