@@ -40,6 +40,7 @@
     "prepare": "is-ci || husky install",
     "prettier": "prettier --write .",
     "start": "yarn nx run-many --target=start --all",
+    "start:dapp": "yarn nx start @blockchain-lab-um/website",
     "start:docs": "yarn nx start @blockchain-lab-um/ssi-snap-docs",
     "start:snap": "yarn nx start @blockchain-lab-um/ssi-snap",
     "test": "yarn nx affected --target=test",
