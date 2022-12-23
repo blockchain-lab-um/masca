@@ -5,6 +5,7 @@ import {
   IResolver,
   IKeyManager,
   TAgent,
+  ICredentialPlugin,
 } from '@veramo/core';
 import { DataSource } from 'typeorm';
 import {
@@ -24,10 +25,14 @@ import { KeyDIDProvider, getDidKeyResolver } from '@veramo/did-provider-key';
 import { getResolver as getEthrResolver } from 'ethr-did-resolver';
 import { Resolver } from 'did-resolver';
 import { IConfig } from 'src/config/configuration';
+import { CredentialPlugin } from '@veramo/credential-w3c';
+import { IOIDCPlugin, OIDCPlugin } from '@blockchain-lab-um/oidc-rp-plugin';
 
 @Injectable()
 export class AgentService {
-  private agent: TAgent<IDIDManager & IKeyManager & IResolver>;
+  private agent: TAgent<
+    IDIDManager & IKeyManager & IResolver & IOIDCPlugin & ICredentialPlugin
+  >;
 
   private dbConnection: DataSource;
 
@@ -61,7 +66,9 @@ export class AgentService {
       ],
     };
 
-    this.agent = createAgent<IDIDManager & IKeyManager & IResolver>({
+    this.agent = createAgent<
+      IDIDManager & IKeyManager & IResolver & IOIDCPlugin & ICredentialPlugin
+    >({
       plugins: [
         new KeyManager({
           store: new KeyStore(this.dbConnection),
@@ -76,7 +83,7 @@ export class AgentService {
             ),
           },
         }),
-        // Change and only support from the config file
+        // FIXME: Maybe not needed in Verifier
         new DIDManager({
           store: new DIDStore(this.dbConnection),
           defaultProvider: 'did:ethr',
@@ -96,11 +103,27 @@ export class AgentService {
             ...getDidKeyResolver(),
           }),
         }),
+        new OIDCPlugin({
+          url: this.configService.get<string>('VERIFIER_URL'),
+          db_secret: this.configService.get<string>('VERIFIER_DB_SECRET'),
+          supported_curves:
+            this.configService.get<string[]>('SUPPORTED_CURVES'),
+          supported_did_methods: this.configService.get<string[]>(
+            'SUPPORTED_DID_METHODS'
+          ),
+          supported_digital_signatures: this.configService.get<string[]>(
+            'SUPPORTED_DIGITAL_SIGNATURES'
+          ),
+          supported_schema_url: this.configService.get<string>(
+            'SUPPORTED_SCHEMA_URL'
+          ),
+        }),
+        new CredentialPlugin(),
       ],
     });
   }
 
-  getAgent(): TAgent<IDIDManager & IKeyManager & IResolver> {
+  getAgent(): TAgent<IDIDManager & IKeyManager & IResolver & IOIDCPlugin> {
     return this.agent;
   }
 }

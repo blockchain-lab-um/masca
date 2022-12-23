@@ -52,3 +52,26 @@ export interface TokenResponseOAuth2 {
   refresh_token?: string;
   scope?: string;
 }
+
+/**
+ * OAuth 2.0 Authorization Request
+ *
+ * SPECS: https://www.rfc-editor.org/rfc/rfc6749.html#section-4.1.1
+ */
+export interface AuthorizationRequestOAuth2 {
+  response_type: 'code';
+  client_id: string;
+  redirect_uri?: string;
+  scope?: string;
+  state?: string; // Recommended
+}
+
+/**
+ * OAuth 2.0 Authorization Response
+ *
+ * SPECS: https://www.rfc-editor.org/rfc/rfc6749.html#section-4.1.2
+ */
+export interface AuthorizationResponseOAuth2 {
+  code: string;
+  state?: string;
+}

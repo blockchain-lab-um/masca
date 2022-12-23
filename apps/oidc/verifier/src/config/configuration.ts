@@ -3,6 +3,7 @@ import Joi from 'joi';
 
 export interface IConfig {
   INFURA_PROJECT_ID: string;
+  VERIFIER_URL: string;
   VERIFIER_PRIVATE_KEY: string;
   VERIFIER_DB_SECRET: string;
   SUPPORTED_SCHEMA_URL: string;
@@ -13,6 +14,7 @@ export interface IConfig {
 
 const config = (): IConfig => ({
   INFURA_PROJECT_ID: process.env.INFURA_PROJECT_ID || '',
+  VERIFIER_URL: process.env.VERIFIER_URL || '',
   VERIFIER_PRIVATE_KEY: process.env.VERIFIER_PRIVATE_KEY || '',
   VERIFIER_DB_SECRET: process.env.VERIFIER_DB_SECRET || '',
   SUPPORTED_SCHEMA_URL: process.env.SUPPORTED_SCHEMA_URL || '',
@@ -32,6 +34,7 @@ export default ConfigModule.forRoot({
   load: [config],
   validationSchema: Joi.object({
     INFURA_PROJECT_ID: Joi.string().required(),
+    VERIFIER_URL: Joi.string().required(),
     VERIFIER_PRIVATE_KEY: Joi.string().required(),
     VERIFIER_DB_SECRET: Joi.string().required(),
     SUPPORTED_SCHEMA_URL: Joi.string().required(),

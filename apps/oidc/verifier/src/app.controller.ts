@@ -1,20 +1,24 @@
-import { Controller, Get, HttpCode, Post } from '@nestjs/common';
+import { AuthorizationResponse } from '@blockchain-lab-um/oidc-types';
+import { Body, Controller, Get, Headers, HttpCode, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get('/authentication-request')
+  @Get('/authorization-request')
   @HttpCode(200)
-  authorize(): string {
-    return 'auth-req';
+  async authorize(): Promise<string> {
+    return this.appService.createAuthorizationRequest();
   }
 
-  @Post('/authentication-resposne')
+  @Post('/authorization-response')
   @HttpCode(200)
-  authResponse(): string {
-    return 'auth-res';
+  async authResponse(
+    @Headers('Content-Type') contentType: string,
+    @Body() body: AuthorizationResponse
+  ): Promise<boolean> {
+    return this.appService.handleAuthorizationResponse(contentType, body);
   }
 }
 

@@ -5,12 +5,14 @@ import {
 import {
   IAgentContext,
   ICredentialIssuer,
+  ICredentialVerifier,
   IPluginMethodMap,
   IResolver,
 } from '@veramo/core';
 import { Result } from '../utils';
 import {
   CreateIssuanceInitiationRequestResposne,
+  HandleAuthorizationResponseArgs,
   HandleCredentialRequestArgs,
   HandlePreAuthorizedCodeTokenRequestArgs,
   IsValidAuthorizationHeaderArgs,
@@ -20,11 +22,11 @@ import {
 } from './internal';
 
 export interface IOIDCPlugin extends IPluginMethodMap {
-  createAuthorizationRequest(): Promise<string>;
-  handleAuthorizationResponse(args: {
-    contentTypeHeader: string;
-    body: { id_token: string; vp_token: string };
-  }): Promise<void>;
+  createAuthorizationRequest(): Promise<Result<string>>;
+  handleAuthorizationResponse(
+    args: HandleAuthorizationResponseArgs,
+    context: OIDCAgentContext
+  ): Promise<Result<boolean>>;
   createIssuanceInitiationRequest(): Promise<
     Result<CreateIssuanceInitiationRequestResposne>
   >;
@@ -52,5 +54,7 @@ export interface IOIDCPlugin extends IPluginMethodMap {
  * @beta
  */
 export type OIDCAgentContext = IAgentContext<
-  IResolver & Pick<ICredentialIssuer, 'createVerifiableCredential'>
+  IResolver &
+    Pick<ICredentialIssuer, 'createVerifiableCredential'> &
+    ICredentialVerifier
 >;
