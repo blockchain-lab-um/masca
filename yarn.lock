@@ -1890,6 +1890,7 @@ __metadata:
   resolution: "@blockchain-lab-um/oidc-verifier@workspace:apps/oidc/verifier"
   dependencies:
     "@blockchain-lab-um/oidc-rp-plugin": "*"
+    "@blockchain-lab-um/oidc-types": "*"
     "@nestjs/cli": ^9.1.5
     "@nestjs/common": ^9.2.1
     "@nestjs/config": ^2.2.0
@@ -1899,10 +1900,13 @@ __metadata:
     "@nestjs/testing": ^9.2.1
     "@nrwl/cli": 15.2.4
     "@nrwl/workspace": 15.2.4
+    "@types/elliptic": ^6
     "@types/express": ^4.17.14
     "@types/jest": 29.2.3
     "@types/node": ^16.11.7
+    "@types/qs": ^6.9.7
     "@types/supertest": ^2.0.12
+    "@types/uuid": 8.3.4
     "@typescript-eslint/eslint-plugin": ^5.45.0
     "@typescript-eslint/parser": ^5.45.0
     "@veramo/core": ^4.1.1
@@ -1917,7 +1921,9 @@ __metadata:
     "@veramo/key-manager": ^4.1.1
     "@veramo/kms-local": ^4.1.1
     "@veramo/message-handler": ^4.1.1
+    "@veramo/utils": ^4.2.0
     did-resolver: ^4.0.1
+    elliptic: ^6.5.4
     eslint: ^8.28.0
     eslint-config-airbnb-base: ^15.0.0
     eslint-config-airbnb-typescript: ^17.0.0
@@ -1925,11 +1931,15 @@ __metadata:
     eslint-plugin-import: ^2.26.0
     eslint-plugin-jest: ^27.1.6
     eslint-plugin-prettier: ^4.2.1
+    ethereum-cryptography: ^1.1.2
     ethr-did-resolver: ^8.0.0
+    fastify: ^4.10.2
     jest: 29.3.1
     joi: ^17.7.0
+    jose: ^4.11.1
     nx: 15.2.4
     prettier: ^2.8.0
+    qs: ^6.11.0
     reflect-metadata: ^0.1.13
     rimraf: ^3.0.2
     rxjs: ^7.5.7
@@ -1941,6 +1951,7 @@ __metadata:
     tsconfig-paths: 4.1.1
     typeorm: ^0.3.10
     typescript: 4.8.3
+    uuid: ^9.0.0
   languageName: unknown
   linkType: soft
 
