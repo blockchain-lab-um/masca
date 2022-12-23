@@ -141,11 +141,10 @@ describe('Issuer controler', () => {
           types: ['VerifiableCredential', 'UniversityDegreeCredential'],
           proof: {
             proof_type: 'jwt',
-            jwt: await createJWTProof(
-              TEST_USER_PRIVATE_KEY,
-              TEST_ISSUER_URL,
-              cNonce
-            ),
+            jwt: await createJWTProof({
+              privateKey: TEST_USER_PRIVATE_KEY,
+              audience: TEST_ISSUER_URL,
+            }),
           },
         };
 
@@ -157,6 +156,8 @@ describe('Issuer controler', () => {
         expect(response.status).toBe(200);
         expect(response.body.format).toBe('jwt_vc_json');
         expect(response.body.credential).toBeDefined();
+
+        console.log(JSON.stringify(response.body.credential));
 
         // Verify credential
         const agent = await getAgent();

@@ -82,7 +82,6 @@ export class AppController {
     return this.appService.handleTokenRequest(body);
   }
 
-  // TODO: Add Proof of Possession - https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#name-binding-the-issued-credenti
   @Post('/credential')
   @HttpCode(200)
   async credential(
