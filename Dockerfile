@@ -12,6 +12,7 @@ COPY .yarn ./.yarn
 COPY ./packages/docs/package.json ./packages/docs/
 COPY ./packages/connector/package.json ./packages/connector/
 COPY ./packages/types/package.json ./packages/types/
+COPY ./packages/website/package.json ./packages/website/
 
 # Install all the dependencies
 RUN yarn install && yarn cache clean

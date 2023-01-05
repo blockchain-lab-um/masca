@@ -4,6 +4,7 @@
   "scripts": {
     "start": "vite",
     "build": "run-p type-check build-only && echo > dist/.nojekyll",
+    "docker:build": "docker build . -t blockchain-lab-um/website",
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit",

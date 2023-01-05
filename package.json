@@ -31,7 +31,7 @@
     "build": "yarn nx affected --target=build",
     "build:all": "yarn nx run-many --target=build --all",
     "build:connector": "yarn nx build @blockchain-lab-um/ssi-snap-connector",
-    "build:docker": "yarn nx run-many --target=build:docker --all",
+    "build:docker": "yarn nx run-many --target=build --projects=@blockchain-lab-um/ssi-snap-docs,@blockchain-lab-um/website",
     "build:docs": "yarn nx build @blockchain-lab-um/ssi-snap-docs",
     "build:vcmanager": "yarn nx build @blockchain-lab-um/veramo-vc-manager",
     "deploy:docs": "yarn nx deploy @blockchain-lab-um/ssi-snap-docs",

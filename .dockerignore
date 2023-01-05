@@ -9,6 +9,8 @@ JenkinsfileTest
 .next
 install-state.gz
 **/dist
+**/build
+**/.docusaurus
 
 # Don't ignore docs markdown files
 !packages/docs/**/*.md

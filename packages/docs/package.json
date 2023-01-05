@@ -6,7 +6,6 @@
     "prebuild": "rimraf .docusaurus build",
     "build": "docusaurus build",
     "postbuild": "yarn compress",
-    "build:docker": "yarn build",
     "clear": "docusaurus clear",
     "compress": "precompress build --types gz --include html,css,js,map",
     "deploy": "docusaurus deploy",
