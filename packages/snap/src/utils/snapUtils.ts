@@ -1,10 +1,11 @@
 import { updateSnapState } from './stateUtils';
 import { publicKeyConvert } from 'secp256k1';
-import { SnapProvider } from '@metamask/snap-types';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { ApiParams, SnapConfirmParams, SSISnapState } from '../interfaces';
 import { snapGetKeysFromAddress } from './keyPair';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { keccak256 } from 'ethers/lib/utils';
+import { AvailableVCStores } from '@blockchain-lab-um/ssi-snap-types';
 
 /**
  * Function that returns address of the currently selected MetaMask account.
@@ -17,11 +18,10 @@ import { keccak256 } from 'ethers/lib/utils';
  *
  **/
 export async function getCurrentAccount(
-  wallet: SnapProvider
+  snap: SnapsGlobalObject
 ): Promise<string | null> {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    const accounts = (await wallet.request({
+    const accounts = (await ethereum.request({
       method: 'eth_requestAccounts',
     })) as Array<string>;
     return accounts[0];
@@ -30,10 +30,13 @@ export async function getCurrentAccount(
   }
 }
 
-export async function getCurrentNetwork(wallet: SnapProvider): Promise<string> {
-  return (await wallet.request({
+export async function getCurrentNetwork(
+  snap: SnapsGlobalObject
+): Promise<string> {
+  const network = (await ethereum.request({
     method: 'eth_chainId',
   })) as string;
+  return network;
 }
 
 /**
@@ -43,21 +46,24 @@ export async function getCurrentNetwork(wallet: SnapProvider): Promise<string> {
  * @param token infura token
  */
 export async function updateInfuraToken(
-  wallet: SnapProvider,
+  snap: SnapsGlobalObject,
   state: SSISnapState,
   token: string
 ): Promise<void> {
   state.snapConfig.snap.infuraToken = token;
-  await updateSnapState(wallet, state);
+  await updateSnapState(snap, state);
 }
 
 /**
  * Function that toggles the disablePopups flag in the config.
  *
  */
-export async function togglePopups(wallet: SnapProvider, state: SSISnapState) {
+export async function togglePopups(
+  snap: SnapsGlobalObject,
+  state: SSISnapState
+) {
   state.snapConfig.dApp.disablePopups = !state.snapConfig.dApp.disablePopups;
-  await updateSnapState(wallet, state);
+  await updateSnapState(snap, state);
 }
 
 /**
@@ -65,12 +71,12 @@ export async function togglePopups(wallet: SnapProvider, state: SSISnapState) {
  *
  */
 export async function addFriendlyDapp(
-  wallet: SnapProvider,
+  snap: SnapsGlobalObject,
   state: SSISnapState,
   dapp: string
 ) {
   state.snapConfig.dApp.friendlyDapps.push(dapp);
-  await updateSnapState(wallet, state);
+  await updateSnapState(snap, state);
 }
 
 /**
@@ -78,7 +84,7 @@ export async function addFriendlyDapp(
  *
  */
 export async function removeFriendlyDapp(
-  wallet: SnapProvider,
+  snap: SnapsGlobalObject,
   state: SSISnapState,
   dapp: string
 ) {
@@ -87,7 +93,7 @@ export async function removeFriendlyDapp(
   // friendlyDapps = friendlyDapps.filter((d) => d !== dapp);
   state.snapConfig.dApp.friendlyDapps =
     state.snapConfig.dApp.friendlyDapps.filter((d) => d !== dapp);
-  await updateSnapState(wallet, state);
+  await updateSnapState(snap, state);
 }
 
 /**
@@ -96,14 +102,14 @@ export async function removeFriendlyDapp(
  * @returns {Promise<string>} - returns public key for current account
  */
 export async function getPublicKey(params: ApiParams): Promise<string> {
-  const { wallet, state, account, bip44CoinTypeNode } = params;
+  const { snap, state, account, bip44CoinTypeNode } = params;
   if (state.accountState[account].publicKey !== '')
     return state.accountState[account].publicKey;
   const res = await snapGetKeysFromAddress(
     bip44CoinTypeNode as BIP44CoinTypeNode,
     state,
     account,
-    wallet
+    snap
   );
   if (res === null) throw new Error('Could not get keys from address');
   return res.publicKey;
@@ -138,12 +144,19 @@ export function toEthereumAddress(hexPublicKey: string): string {
 }
 
 export async function snapConfirm(
-  wallet: SnapProvider,
+  snap: SnapsGlobalObject,
   params: SnapConfirmParams
 ): Promise<boolean> {
-  return (await wallet.request({
-    method: 'snap_confirm',
-    params: [params],
+  return (await snap.request({
+    method: 'snap_dialog',
+    params: {
+      type: 'Confirmation',
+      fields: {
+        title: params.prompt,
+        description: params.description,
+        textAreaContent: params.textAreaContent,
+      },
+    },
   })) as boolean;
 }
 
@@ -157,11 +170,41 @@ export function getAccountIndex(
 }
 
 export async function setAccountIndex(
-  wallet: SnapProvider,
+  snap: SnapsGlobalObject,
   state: SSISnapState,
   account: string,
   index: number
 ) {
   state.accountState[account].index = index;
-  await updateSnapState(wallet, state);
+  await updateSnapState(snap, state);
+}
+
+export function getEnabledVCStores(
+  account: string,
+  state: SSISnapState,
+  vcstores?: AvailableVCStores[]
+): string[] {
+  if (!vcstores) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    vcstores = Object.keys(
+      state.accountState[account].accountConfig.ssi.vcStore
+    ) as AvailableVCStores[];
+  }
+
+  const res = vcstores.filter((vcstore) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    return (
+      state.accountState[account].accountConfig.ssi.vcStore[vcstore] === true
+    );
+  });
+  return res;
+}
+
+export function isEnabledVCStore(
+  account: string,
+  state: SSISnapState,
+  store: AvailableVCStores
+): boolean {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return state.accountState[account].accountConfig.ssi.vcStore[store];
 }

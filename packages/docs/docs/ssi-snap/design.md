@@ -33,11 +33,11 @@ For the complete list of supported DID methods, check [this page](./supported).
 
 ## Verifiable Data
 
-There are two types of Verifiable Data in the SSI trust model and lifecycle digitally signed by different; thus, we deal with them slightly differently.
+There are two types of Verifiable Data in the SSI trust model and lifecycle; **Verifiable Credentials** and **Verifiable Presentations**.
 
 ### Verifiable Credentials (VCs)
 
-SSI Snap supports storing VCs in its local storage or on different supported networks. It also enables storing some data locally, such as personal passports and driving licenses, while other less critical data, like conference certificates or course applications, on the public networks. Best of all, users can decide where their data should end up!
+SSI Snap supports storing VCs in its local storage or on different supported networks. It also enables storing some data locally, such as personal passports and driving licenses, while other less critical data, like conference certificates or course applications, can be stored on public networks. Best of all, users can decide where their data should end up!
 
 For more information on the storage, check [this page](./storage).
 
@@ -45,9 +45,25 @@ For more information on the storage, check [this page](./storage).
 
 On the other hand, VPs are signed by holders using their wallets (which is SSI Snap). Usually, they are signed on the go when requested by different applications. SSI Snap supports creating VP from single or multiple VCs.
 
+### Signing Credentials
+
+[**JWT**](https://www.rfc-editor.org/rfc/rfc7519) is one of the most popular proof formats for VCs. To support this proof type, we changed how SSI Snap retrieves private keys from MetaMask. From now on, we are using the Snap RPC method [`snap_getBip44Entropy`](https://docs.metamask.io/guide/snaps-rpc-api.html#restricted-methods), which is also the preferred way for all Snaps (see discussion: https://github.com/MetaMask/SIPs/discussions/64#discussioncomment-3963830).
+
+During the runtime of each RPC method, private keys are retrieved (and derived) from MetaMask using the Snap RPC method `snap_getBip44Entropy`. After the RPC method is finished, private keys are cleared from the memory and are never stored anywhere. For now, we are using only keys derived for the Ethereum network, but in the future, this same Snap method will help us with keys for other blockchain networks.
+
+Handling private keys in this way brings several other benefits:
+
+- Way fewer popups when performing different operations, which results in a much better UX,
+- No more red "danger" pop when singing VPs and using deprecated MetaMask signing RPC method,
+- Ability to create different proof formats - JWT, Linked Data Proofs, and EIP712,
+- Ability to implement more functionalities of DID methods on other blockchain networks (such as Cosmos), and
+- Derive private keys for other networks/coins by using different coin type values ([SLIP-0044](https://github.com/satoshilabs/slips/blob/master/slip-0044.md)).
+
+Our code is completely open-sourced and we encourage users to take a look at our code!
+
 ## Cryptography
 
-Cryptography is what makes everything secure and possible. VCs and VPs are both digitally signed and verifiable by everyone that gets in contact with them. Because of developing on web3/Ethereum wallet, we are reusing your existing cryptography keys, so the users do not have to worry about backing up the additional keys.
+Cryptography is what makes everything secure and possible. VCs and VPs are both digitally signed and verifiable by everyone that gets in contact with them. Because of developing on web3/Ethereum snap, we are reusing your existing cryptography keys, so the users do not have to worry about backing up the additional keys.
 
 ### Cryptographic keys
 

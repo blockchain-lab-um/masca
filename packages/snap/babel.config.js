@@ -7,6 +7,13 @@ module.exports = (api) => {
     ['@babel/preset-env', { targets: { node: 'current' } }],
     '@babel/preset-typescript',
   ];
+  // Plugins needed for class validator tests
+  const plugins = [
+    ['@babel/plugin-proposal-decorators', { legacy: true }],
+    ['@babel/plugin-transform-flow-strip-types'],
+    ['@babel/plugin-proposal-class-properties', { loose: true }],
+    ['@babel/plugin-proposal-private-methods', { loose: true }],
+  ];
 
-  return { presets };
+  return { presets, plugins };
 };

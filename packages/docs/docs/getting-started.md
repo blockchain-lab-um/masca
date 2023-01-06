@@ -46,7 +46,7 @@ const metamaskSSISnap = await enableSSISnap();
 const api = metamaskSSISnap.getSSISnapApi();
 
 // invoke API
-const vcs = await api.getVCs();
+const vcs = await api.queryVCs();
 
 console.log('list of VCs:', vcs);
 ```
@@ -55,4 +55,4 @@ More detailed documentation of **SSI Snap Connector** can be found **[here](libr
 
 ### Working with decentralized identity (DIDs, VCs, and VPs)
 
-**SSI Snap** serves as a wallet for a user in the SSI trust model. There are also issuers who issue VCs and verifiers who verify VPs. It is up to you as a dApp developer to define how/if you will issue VCs or how you will verify VPs and check their validity (scheme, subject, controller, content, etc.). We are developing issuer and verifier services that will be easy to spin up and usable out of the box. In the meantime, we recommend using **[Veramo Framework](https://veramo.io/)**. You can also look at our code for the **[issuer](https://github.com/blockchain-lab-um/course-backend)** of the Demo Platform.
+**SSI Snap** serves as a snap for a user in the SSI trust model. There are also issuers who issue VCs and verifiers who verify VPs. It is up to you as a dApp developer to define how/if you will issue VCs or how you will verify VPs and check their validity (scheme, subject, controller, content, etc.). We are developing issuer and verifier services that will be easy to spin up and usable out of the box. In the meantime, we recommend using **[Veramo Framework](https://veramo.io/)**. You can also look at our code for the **[issuer](https://github.com/blockchain-lab-um/course-backend)** of the Demo Platform.

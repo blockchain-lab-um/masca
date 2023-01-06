@@ -43,8 +43,14 @@ DIDs are verifiable; their data usually lives on a **trusted data registry** (ty
 
 ### DID Document
 
-**DID Document** forms the root record for a DID and is a set of data that describes a DID, including mechanisms, such as public keys and pseudonymous biometrics, that an entity can use to authenticate itself as the DID. While anyone can obtain a public key from the DID document, a private key used for proofs and digital signatures is safely stored in the user's wallet. DID Document may also include other attributes or claims describing the entity, such as service endpoint, delegates, etc. These documents are often expressed using JSON-LD.
+**DID Document** forms the root record for a DID and is a set of data that describes a DID, including mechanisms, such as public keys and pseudonymous biometrics, that an entity can use to authenticate itself as the DID. While anyone can obtain a public key from the DID document, a private key used for proofs and digital signatures is safely stored in the user's snap. DID Document may also include other attributes or claims describing the entity, such as service endpoint, delegates, etc. These documents are often expressed using JSON-LD.
 
 ## Differences between Centralized and Decentralized identifiers
 
+<center>
+
 ![Differences](https://i.imgur.com/8QimX0x.png)
+
+Differences between centralized and decentralized identifiers (image [source](https://www.dock.io/post/verifiable-credentials)).
+
+</center>

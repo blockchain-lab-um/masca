@@ -35,44 +35,142 @@ const api = await snap.getSSISnapApi();
 
 SSI Snap Connector will take care of initializing the Snap for other DID methods (Needed to extract the public key) during the enableSSISnap function and whenever account changes.
 
-`saveVC` is used to save a VC in the state of the currently selected MetaMask account. Additional parameter `VC` is required. VCs must adhere to the W3C Verifiable Credentials Recommendation. Invalid format might lead to failure when generating VPs. We recommend using Veramo to generate VCs with this [interface](https://veramo.io/docs/api/core.verifiablecredential).
+### Save VC
+
+`saveVC` is used to save a VC under the currently selected MetaMask account. Parameter `vc` is a `W3CVerifiableCredential` VC. Invalid format might lead to failure when generating VPs. We recommend using Veramo to generate VCs with this [interface](https://veramo.io/docs/api/core.verifiablecredential). Optional parameter `options` defines where the VC will get saved. VC can be stored in one or more places at the same time.
 
 ```typescript
-const res = await api.saveVC(verifiableCredential);
+const res = await api.saveVC(verifiableCredential, {
+  store: ['ceramic', 'snap'],
+});
 ```
 
-`getVCs` is used to get a list of VCs from the state of the currently selected MetaMask account. Optional property `query` is currently used to filter VCs with a subset of needed VC/VCs. Each VC returned by this function will include an additional property `key`, which is not a part of the actual "VC". This property is used as a key of dictionary where VCs are stored and **is required when generating a VP**!
+### Query VCs
 
-_NOTE: Currently, the only way to select a VC, for which you want to generate a VP, is through the dApp. This will change once MetaMask allows Snaps to implement custom UI elements and enable VC selection directly in MetaMask_
+`queryVCs` is used to get a list of VCs stored by the currently selected MetaMask account. Optional parameter `params` is an object with optional properties `filter` and `options`.
 
-_NOTE 2:_ _This will retrieve a list of VCs (or a single VC) stored under currently connected account._
+Filter defines what `queryVCs` returns and Options defines where to search for data and what format to return it in.
+
+QueryVCsRequestParams type:
+
+```typescript
+type QueryVCsRequestParams = {
+  filter?: {
+    type: string;
+    filter: unknown;
+  };
+  options?: {
+    store?: AvailableVCStores | AvailableVCStores[];
+    returnStore?: boolean;
+  };
+};
+```
+
+Currently, 3 different `filter` types are supported; `none`, `id`, and `JSONPath`. Type `none` will work as if no filter property was provided, `id` will search for matching ID of VC and `JSONPath` will use jsonpath lib to find matching VCs.
+
+In the case of `id`, filter.filter is a string of an id.
+
+In the case of `JSONPath` , filter.filter is a string containing JSONPath string. Note: query needs to start with @.data while filterin VC alone. Example:
+
+```typescript
+const jsonPath =
+  '$[?(@.data.credentialSubject.achievement == "Certified Solidity Developer 2")]';
+```
+
+Options defines where to search for VCs. One or more supported stores can be provided. If `returnStore` is enabled, metadata of returned VCs will contain a string where they're stored
 
 ```typescript
 // Get a single VC or a list of VCs you're looking for
-const vc = await api.getVCs({
-  querry: {
-    issuer: { id: 'did:ethr:0x04:0x123..' },
-    credentialSubject: { id: 'did:ethr:0x04:0x321...' },
-    credentialSchema: { id: 'https://beta.api.schemas.serto.id/...' },
+const vcs = await api.queryVCs({
+  filter: {
+    type: id,
+    filter: '123456',
+  },
+  options: {
+    returnStore: true,
   },
 });
-console.log('VC', vc);
-//If vc is correct
-const vc_id = vc.key;
+console.log('VCs', vcs);
+
+// To return every VC
+const vcs = await api.queryVCs();
 ```
 
-`getVP` is used to get a VP for a specific VC. Parameter `VC_ID` is needed. `VC_ID` is a string and represents the id of a VC stored in SSI Snap state. This id is a string property `key` of every VC returned by the `getVCs` method!
+### Create VP
+
+`createVP` is used to get a VP for one or more specific VCs. Params object is of type:
+
+```typescript
+export type CreateVPRequestParams = {
+  vcs: VCRequest[];
+  proofFormat?: 'jwt' | 'lds' | 'EthereumEip712Signature2021';
+  proofOptions?: {
+    type?: string;
+    domain?: string;
+    challenge?: string;
+  };
+};
+
+export type VCRequest = {
+  id: string;
+  metadata?: {
+    store?: AvailableVCStores;
+  };
+};
+```
+
+`vcs` is a list of VCs to be included in a VP. Its an array of objects that need to contain `id` of a VC (Which can be obtained using the `queryVCs` method). `metadata` property is optional and it contains `store` property which defines where to look for VC with id `id`.
+
+`proofFormat` can be jwt, jsonld or EthereumEip712Signature2021.
+
+`options` is optional and is used to define `domain`, `type` and `challenge` if needed.
 
 `holder` of the VP will be a DID generated based on currently selected MetaMask account AND currently selected DID Method.
 
-SSI Snap supports generating VPs using domain and challenge. It is recommended to use domain and challenge when generating and verifying VPs. To do so use additional parameters `domain` and `challenge`, however they are not required!
-
-_NOTE: Currently, VPs can only contain a single VC. This will be changed in upcoming versions._
-
 ```typescript
 // Get VP
-const vp = await api.getVP(vc_id);
+const vp = await api.createVP({
+  vcs: [{ id: '123', metadata: { store: 'ceramic' } }, { id: '456' }],
+  proofFormat: 'jwt',
+  options: {
+    challenge: '123456789',
+  },
+});
 ```
+
+### Delete VC
+
+`deleteVC` is used to delete a VC from one or more stores
+
+`id` - id of VC
+
+`options` is optional and is used to select a store where to delete VC from.
+
+```typescript
+const res = await api.deleteVC('123', { store: 'snap' });
+```
+
+### DIDs
+
+`getDID` and `getSelectedMethod` are used to get current did and currently selected did method.
+
+```typescript
+const res = await api.getDID();
+
+const res = await api.getSelectedMethod();
+```
+
+### Supported DID Methods and VC Stores
+
+`getAvailableVCStores` and `getAvailableMethods` are used to get all supported methods and vcstores
+
+```typescript
+const supportedMethods = await api.getAvailableMethods();
+
+const supportedStores = await api.getAvailableVCStores();
+```
+
+### Switch DID Method
 
 `switchMethod` is used to switch the currently selected DID method.
 
@@ -80,10 +178,20 @@ const vp = await api.getVP(vc_id);
 await api.switchMethod('did:key');
 ```
 
+### Configure VC Stores
+
+`setVCStore` is used to enable/disable specific VC store. By default both snap & ceramic are enabled!
+
+```typescript
+const res = await api.setVCStore('ceramic', false);
+```
+
+### Snap Settings
+
 `togglePopups` and `changeInfuraToken` are used to enable/disable "Are you sure?" alerts and to change the infuraToken.
 
 ```typescript
-const res = await api.changeInfuraToken(infuraToken);
+const res = await api.changeInfuraToken('new token');
 
 const res = await api.togglePopups();
 ```

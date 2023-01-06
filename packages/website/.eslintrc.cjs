@@ -10,6 +10,9 @@ module.exports = {
     '@vue/eslint-config-prettier',
   ],
   parserOptions: {
-    ecmaVersion: 'latest',
+    ecmaVersion: '2020',
+    ecmaFeatures: {
+      experimentalObjectRestSpread: true,
+    },
   },
 };

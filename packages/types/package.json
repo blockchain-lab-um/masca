@@ -14,11 +14,14 @@
     "email": "blockchain-lab@um.si",
     "url": "https://blockchain-lab.um.si"
   },
-  "types": "./index.d.ts",
+  "main": "src/index.ts",
   "dependencies": {
     "@veramo/core": "^4.1.1"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "script": {
+    "doc": "jsdoc -c jsdoc.json"
   }
 }

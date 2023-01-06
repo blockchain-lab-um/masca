@@ -1,7 +1,7 @@
 import { ApiParams, SSISnapState } from '../interfaces';
 import { getPublicKey } from './snapUtils';
 import { getEmptyAccountState, getInitialSnapState } from './config';
-import { SnapProvider } from '@metamask/snap-types';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 
 /**
  * Function for updating SSISnapState object in the MetaMask state
@@ -14,12 +14,12 @@ import { SnapProvider } from '@metamask/snap-types';
  *
  **/
 export async function updateSnapState(
-  wallet: SnapProvider,
+  snap: SnapsGlobalObject,
   snapState: SSISnapState
 ) {
-  await wallet.request({
+  await snap.request({
     method: 'snap_manageState',
-    params: ['update', snapState],
+    params: { operation: 'update', newState: snapState },
   });
 }
 
@@ -34,11 +34,11 @@ export async function updateSnapState(
  *
  **/
 export async function getSnapState(
-  wallet: SnapProvider
+  snap: SnapsGlobalObject
 ): Promise<SSISnapState> {
-  const state = (await wallet.request({
+  const state = (await snap.request({
     method: 'snap_manageState',
-    params: ['get'],
+    params: { operation: 'get' },
   })) as SSISnapState | null;
 
   if (!state) throw Error('SSISnapState is not initialized!');
@@ -56,11 +56,11 @@ export async function getSnapState(
  *
  **/
 export async function getSnapStateUnchecked(
-  wallet: SnapProvider
+  snap: SnapsGlobalObject
 ): Promise<SSISnapState | null> {
-  return (await wallet.request({
+  return (await snap.request({
     method: 'snap_manageState',
-    params: ['get'],
+    params: { operation: 'get' },
   })) as SSISnapState | null;
 }
 
@@ -75,10 +75,10 @@ export async function getSnapStateUnchecked(
  *
  **/
 export async function initSnapState(
-  wallet: SnapProvider
+  snap: SnapsGlobalObject
 ): Promise<SSISnapState> {
   const state = getInitialSnapState();
-  await updateSnapState(wallet, state);
+  await updateSnapState(snap, state);
   return state;
 }
 
@@ -94,14 +94,14 @@ export async function initSnapState(
  *
  **/
 export async function initAccountState(params: ApiParams): Promise<void> {
-  const { state, wallet, account } = params;
+  const { state, snap, account } = params;
   state.accountState[account] = getEmptyAccountState();
-  await updateSnapState(wallet, state);
+  await updateSnapState(snap, state);
 }
 
 export async function setAccountPublicKey(params: ApiParams): Promise<void> {
-  const { state, wallet, account } = params;
+  const { state, snap, account } = params;
   const publicKey = await getPublicKey(params);
   state.accountState[account].publicKey = publicKey;
-  await updateSnapState(wallet, state);
+  await updateSnapState(snap, state);
 }

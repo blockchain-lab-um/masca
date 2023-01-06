@@ -5,7 +5,9 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "importsNotUsedAsValues": "preserve",
+    "isolatedModules": false
   },
 
   "references": [

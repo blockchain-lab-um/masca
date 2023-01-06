@@ -1,5 +1,9 @@
-import { SSIAccountConfig, SSISnapState } from './../interfaces';
-import { SSIAccountState, SSISnapConfig } from '../interfaces';
+import { SSISnapState } from './../interfaces';
+import { SSIAccountState } from '../interfaces';
+import {
+  SSIAccountConfig,
+  SSISnapConfig,
+} from '@blockchain-lab-um/ssi-snap-types';
 import cloneDeep from 'lodash.clonedeep';
 
 const emptyAccountState = {
@@ -14,7 +18,7 @@ const emptyAccountState = {
       didMethod: 'did:ethr',
       vcStore: {
         snap: true,
-        ceramic: false,
+        ceramic: true,
       },
     },
     ceramic: {},
