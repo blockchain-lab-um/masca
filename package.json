@@ -35,6 +35,7 @@
     "build:docs": "yarn nx build @blockchain-lab-um/ssi-snap-docs",
     "build:vcmanager": "yarn nx build @blockchain-lab-um/veramo-vc-manager",
     "deploy:docs": "yarn nx deploy @blockchain-lab-um/ssi-snap-docs",
+    "docker:build": "docker build . -t blockchain-lab-um/ssi-snap",
     "postinstall": "patch-package",
     "lint": "yarn prettier && yarn nx affected --target=lint",
     "lint:all": "yarn prettier && yarn nx run-many --target=lint --all",

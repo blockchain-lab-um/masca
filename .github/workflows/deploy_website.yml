@@ -12,8 +12,8 @@ on:
       - 'packages/website/**'
 
 jobs:
-  test-deploy:
-    if: github.event_name != 'push'
+  test-build:
+    if: ${{ (github.ref == 'refs/heads/develop') && (github.event_name != 'push') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -37,8 +37,34 @@ jobs:
         env:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
+  test-deploy:
+    if: ${{ (github.ref == 'refs/heads/develop') && (github.event_name == 'push') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Create nx-cloud.env
+        run: echo "NX_CLOUD_ACCESS_TOKEN=$NX_CLOUD_ACCESS_TOKEN" > nx-cloud.env
+        env:
+          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+      - name: Build blockchain-lab-um/ssi-snap
+        run: docker build . -t blockchain-lab-um/ssi-snap
+      - name: Build blockchain-lab-um/ssi-snap-website
+        run: docker build ./packages/website -t blockchain-lab-um/ssi-snap-website
+      - name: Change image tag
+        run: docker tag blockchain-lab-um/ssi-snap-website:latest bclabum.informatika.uni-mb.si/registry/ssi-snap-website:latest
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          registry: bclabum.informatika.uni-mb.si/registry
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Push to private docker registry
+        run: docker push bclabum.informatika.uni-mb.si/registry/ssi-snap-website:latest
+
   deploy:
-    if: github.event_name != 'pull_request'
+    if: ${{ (github.ref == 'refs/heads/master') && (github.event_name == 'push') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
