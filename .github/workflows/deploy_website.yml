@@ -7,13 +7,14 @@ on:
     paths:
       - 'packages/website/**'
   push:
-    branches: [develop]
+    branches: [master, develop]
     paths:
       - 'packages/website/**'
 
 jobs:
   test-build:
-    if: ${{ (github.ref == 'refs/heads/develop') && (github.event_name == 'pull_request') }}
+    # Test build on every PR to DEVELOP
+    if: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -38,6 +39,7 @@ jobs:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
   test-deploy:
+    # Test deploy when we PUSH to DEVELOP
     if: ${{ (github.ref == 'refs/heads/develop') && (github.event_name == 'push') }}
     runs-on: ubuntu-latest
     steps:
@@ -64,6 +66,7 @@ jobs:
         run: docker push bclabum.informatika.uni-mb.si/registry/ssi-snap-website:latest
 
   deploy:
+    # Deploy only when we PUSH to MASTER
     if: ${{ (github.ref == 'refs/heads/master') && (github.event_name == 'push') }}
     runs-on: ubuntu-latest
     steps:
