@@ -79,14 +79,17 @@ export const getAgent = async (snap: SnapsGlobalObject): Promise<Agent> => {
   const enabledVCStores = getEnabledVCStores(account as string, state);
   console.log('Enabled VC Stores:', enabledVCStores);
 
+  const networks = [
+    {
+      name: availableNetworks[CHAIN_ID] ?? 'mainnet',
+      provider: new Web3Provider(snap as any),
+    },
+  ];
+
   web3Providers['metamask'] = new Web3Provider(snap as any);
   didProviders['did:ethr'] = new EthrDIDProvider({
     defaultKms: 'web3',
-    network: availableNetworks[CHAIN_ID] ?? 'mainnet',
-    rpcUrl:
-      `https://${availableNetworks[CHAIN_ID] ?? 'mainnet'}.infura.io/v3/` +
-      INFURA_PROJECT_ID,
-    web3Provider: new Web3Provider(snap as any),
+    networks,
   });
 
   didProviders['did:key'] = new KeyDIDProvider({ defaultKms: 'web3' });
@@ -120,7 +123,7 @@ export const getAgent = async (snap: SnapsGlobalObject): Promise<Agent> => {
       new DataManager({ store: vcStorePlugins }),
       new DIDResolverPlugin({
         resolver: new Resolver({
-          ...ethrDidResolver({ infuraProjectId: INFURA_PROJECT_ID }),
+          ...ethrDidResolver({ networks }),
           ...keyDidResolver(),
         }),
       }),
