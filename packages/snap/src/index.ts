@@ -57,7 +57,6 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
       return await queryVCs(apiParams, request.params);
     case 'saveVC':
       isValidSaveVCRequest(request.params, apiParams.account, apiParams.state);
-      console.log('save1');
       return await saveVC(apiParams, request.params);
     case 'createVP':
       isValidCreateVPRequest(

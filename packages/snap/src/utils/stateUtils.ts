@@ -17,12 +17,10 @@ export async function updateSnapState(
   snap: SnapsGlobalObject,
   snapState: SSISnapState
 ) {
-  console.log('update state');
   const res = await snap.request({
     method: 'snap_manageState',
     params: { operation: 'update', newState: snapState },
   });
-  console.log('update', snapState);
 }
 
 /**
@@ -38,12 +36,10 @@ export async function updateSnapState(
 export async function getSnapState(
   snap: SnapsGlobalObject
 ): Promise<SSISnapState> {
-  console.log('get state');
   const state = (await snap.request({
     method: 'snap_manageState',
     params: { operation: 'get' },
   })) as SSISnapState | null;
-  console.log('state', state);
 
   if (!state) throw Error('SSISnapState is not initialized!');
   return state;
@@ -62,12 +58,10 @@ export async function getSnapState(
 export async function getSnapStateUnchecked(
   snap: SnapsGlobalObject
 ): Promise<SSISnapState | null> {
-  console.log('get state unchecked');
   const state = (await snap.request({
     method: 'snap_manageState',
     params: { operation: 'get' },
   })) as SSISnapState | null;
-  console.log('state', state);
   return state;
 }
 
