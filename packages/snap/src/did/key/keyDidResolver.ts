@@ -8,7 +8,7 @@ import {
   Resolvable,
 } from 'did-resolver';
 import { getCurrentAccount, getPublicKey } from '../../utils/snapUtils';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { SnapsGlobalObject } from '@metamask/snaps-utils';
 import { getSnapState } from '../../utils/stateUtils';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

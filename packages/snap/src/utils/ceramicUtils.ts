@@ -2,7 +2,7 @@ import { CeramicClient } from '@ceramicnetwork/http-client';
 import { DIDSession } from 'did-session';
 import { getCurrentAccount, getCurrentNetwork } from './snapUtils';
 import { DID } from 'dids';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { SnapsGlobalObject } from '@metamask/snaps-utils';
 import { EthereumWebAuth } from '@didtools/pkh-ethereum';
 import { AccountId } from 'caip';
 

@@ -18,7 +18,7 @@ export async function togglePopups(params: ApiParams): Promise<boolean> {
       ? 'Current setting: True\nNew setting: False'
       : 'Current setting: False\nNew setting: True',
   };
-  const result = disablePopups || (await snapConfirm(snap, promptObj));
+  const result = disablePopups || snapConfirm(snap, promptObj);
   if (result) {
     await updatePopups(snap, state);
     return true;
@@ -38,7 +38,7 @@ export async function changeInfuraToken(
       textAreaContent: `Current token: ${state.snapConfig.snap.infuraToken}\nNew token: ${infuraToken}`,
     };
 
-    if (await snapConfirm(snap, promptObj)) {
+    if (snapConfirm(snap, promptObj)) {
       await updateInfuraToken(snap, state, infuraToken);
       return true;
     }

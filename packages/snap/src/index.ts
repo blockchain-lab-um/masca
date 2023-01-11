@@ -1,5 +1,5 @@
 /* eslint-disable consistent-return*/
-import { OnRpcRequestHandler } from '@metamask/snaps-types';
+import { OnRpcRequestHandler } from '@metamask/snaps-utils';
 import { togglePopups, changeInfuraToken } from './rpc/snap/configure';
 import { queryVCs } from './rpc/vc/queryVCs';
 import { createVP } from './rpc/vc/createVP';
@@ -57,6 +57,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
       return await queryVCs(apiParams, request.params);
     case 'saveVC':
       isValidSaveVCRequest(request.params, apiParams.account, apiParams.state);
+      console.log('save1');
       return await saveVC(apiParams, request.params);
     case 'createVP':
       isValidCreateVPRequest(

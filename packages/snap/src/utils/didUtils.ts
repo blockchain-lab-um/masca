@@ -1,4 +1,4 @@
-import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { SnapsGlobalObject } from '@metamask/snaps-utils';
 import {
   AvailableMethods,
   AvailableVCStores,
