@@ -20,5 +20,8 @@ RUN yarn install && yarn cache clean
 # Copy all other files
 COPY . .
 
+# Create .env file for website (required to set PRE_PROD env variable)
+RUN echo "VITE_PRE_PROD=true" > ./packages/website/.env
+
 # Build affected projects
 RUN yarn build:docker
