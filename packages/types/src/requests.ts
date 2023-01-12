@@ -3,7 +3,6 @@ import {
   SaveVC,
   DeleteVC,
   CreateVP,
-  ChangeInfuraToken,
   TogglePopups,
   GetDID,
   GetMethod,
@@ -21,7 +20,6 @@ export type MetaMaskSSISnapRPCRequest =
   | SaveVC
   | CreateVP
   | DeleteVC
-  | ChangeInfuraToken
   | TogglePopups
   | GetDID
   | GetMethod
