@@ -1,11 +1,10 @@
 /* eslint-disable consistent-return*/
 import { OnRpcRequestHandler } from '@metamask/snaps-types';
-import { togglePopups, changeInfuraToken } from './rpc/snap/configure';
+import { togglePopups } from './rpc/snap/configure';
 import { queryVCs } from './rpc/vc/queryVCs';
 import { createVP } from './rpc/vc/createVP';
 import { saveVC } from './rpc/vc/saveVC';
 import {
-  isValidChangeInfuraTokenRequest,
   isValidCreateVPRequest,
   isValidSaveVCRequest,
   isValidSetVCStoreRequest,
@@ -66,9 +65,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
       );
       apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
       return await createVP(apiParams, request.params);
-    case 'changeInfuraToken':
-      isValidChangeInfuraTokenRequest(request.params);
-      return await changeInfuraToken(apiParams, request.params);
+
     case 'togglePopups':
       return await togglePopups(apiParams);
     case 'switchDIDMethod':
