@@ -127,22 +127,6 @@ export async function togglePopups(this: MetaMaskSSISnap): Promise<boolean> {
   return await sendSnapMethod({ method: 'togglePopups' }, this.snapId);
 }
 
-/**
- * Change infura token
- *
- * @param {string} infuraToken
- *
- */
-export async function changeInfuraToken(
-  this: MetaMaskSSISnap,
-  infuraToken: string
-): Promise<boolean> {
-  return await sendSnapMethod(
-    { method: 'changeInfuraToken', params: { infuraToken } },
-    this.snapId
-  );
-}
-
 export async function getVCStore(
   this: MetaMaskSSISnap
 ): Promise<Record<AvailableVCStores, boolean>> {
