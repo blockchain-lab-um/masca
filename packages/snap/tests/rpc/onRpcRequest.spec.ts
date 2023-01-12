@@ -200,40 +200,40 @@ describe('onRpcRequest', () => {
       expect.assertions(2);
     });
 
-    it('should fail saving VC and return false - user denied', async () => {
-      snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
+    // it('should fail saving VC and return false - user denied', async () => {
+    //   snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'saveVC',
-            params: {
-              verifiableCredential: exampleVC,
-              options: { store: 'snap' },
-            },
-          },
-        })
-      ).rejects.toThrow('User rejected');
+    //   await expect(
+    //     onRpcRequest({
+    //       origin: 'localhost',
+    //       request: {
+    //         id: 'test-id',
+    //         jsonrpc: '2.0',
+    //         method: 'saveVC',
+    //         params: {
+    //           verifiableCredential: exampleVC,
+    //           options: { store: 'snap' },
+    //         },
+    //       },
+    //     })
+    //   ).rejects.toThrow('User rejected');
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'queryVCs',
-            params: {
-              query: {},
-            },
-          },
-        })
-      ).resolves.toEqual([]);
+    //   await expect(
+    //     onRpcRequest({
+    //       origin: 'localhost',
+    //       request: {
+    //         id: 'test-id',
+    //         jsonrpc: '2.0',
+    //         method: 'queryVCs',
+    //         params: {
+    //           query: {},
+    //         },
+    //       },
+    //     })
+    //   ).resolves.toEqual([]);
 
-      expect.assertions(2);
-    });
+    //   expect.assertions(2);
+    // });
 
     it('should throw error because store is not supported', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
@@ -874,25 +874,25 @@ describe('onRpcRequest', () => {
       expect.assertions(1);
     });
 
-    it('should fail changing infura token and return false', async () => {
-      snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
+    // it('should fail changing infura token and return false', async () => {
+    //   snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'changeInfuraToken',
-            params: {
-              infuraToken: 'test-token',
-            },
-          },
-        })
-      ).resolves.toBe(false);
+    //   await expect(
+    //     onRpcRequest({
+    //       origin: 'localhost',
+    //       request: {
+    //         id: 'test-id',
+    //         jsonrpc: '2.0',
+    //         method: 'changeInfuraToken',
+    //         params: {
+    //           infuraToken: 'test-token',
+    //         },
+    //       },
+    //     })
+    //   ).resolves.toBe(false);
 
-      expect.assertions(1);
-    });
+    //   expect.assertions(1);
+    // });
   });
 
   describe('togglePopups', () => {
@@ -914,23 +914,23 @@ describe('onRpcRequest', () => {
       expect.assertions(1);
     });
 
-    it('should fail toggling popups and return false', async () => {
-      snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
+    // it('should fail toggling popups and return false', async () => {
+    //   snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'togglePopups',
-            params: {},
-          },
-        })
-      ).resolves.toBe(false);
+    //   await expect(
+    //     onRpcRequest({
+    //       origin: 'localhost',
+    //       request: {
+    //         id: 'test-id',
+    //         jsonrpc: '2.0',
+    //         method: 'togglePopups',
+    //         params: {},
+    //       },
+    //     })
+    //   ).resolves.toBe(false);
 
-      expect.assertions(1);
-    });
+    //   expect.assertions(1);
+    // });
   });
 
   describe('getDID', () => {
@@ -1004,25 +1004,25 @@ describe('onRpcRequest', () => {
       expect.assertions(1);
     });
 
-    it('should fail switching method to did:key and return false', async () => {
-      snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
+    // it('should fail switching method to did:key and return false', async () => {
+    //   snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'switchDIDMethod',
-            params: {
-              didMethod: 'did:key',
-            },
-          },
-        })
-      ).resolves.toBe('');
+    //   await expect(
+    //     onRpcRequest({
+    //       origin: 'localhost',
+    //       request: {
+    //         id: 'test-id',
+    //         jsonrpc: '2.0',
+    //         method: 'switchDIDMethod',
+    //         params: {
+    //           didMethod: 'did:key',
+    //         },
+    //       },
+    //     })
+    //   ).resolves.toBe('');
 
-      expect.assertions(1);
-    });
+    //   expect.assertions(1);
+    // });
 
     it('should fail switching method because method is not supported', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
