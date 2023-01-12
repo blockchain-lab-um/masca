@@ -8,7 +8,6 @@ import {
   CreateVPRequestParams,
   SaveVCRequestParams,
   QueryVCsRequestParams,
-  ChangeInfuraTokenRequestParams,
   SwitchMethodRequestParams,
   SetVCStoreRequestParams,
   DeleteVCsRequestParams,
