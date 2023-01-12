@@ -338,7 +338,6 @@ const defaultSnapState: SSISnapState = {
       friendlyDapps: [],
     },
     snap: {
-      infuraToken: '0ec03090465d400c988a14831aacfe37',
       acceptedTerms: true,
     },
   },
