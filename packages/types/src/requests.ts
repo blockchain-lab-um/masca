@@ -14,6 +14,7 @@ import {
   GetAvailableVCStores,
   GetAccountSettings,
   GetSnapSettings,
+  ResolveDID,
 } from './methods';
 
 export type MetaMaskSSISnapRPCRequest =
@@ -31,7 +32,8 @@ export type MetaMaskSSISnapRPCRequest =
   | SetVCStore
   | GetAvailableVCStores
   | GetAccountSettings
-  | GetSnapSettings;
+  | GetSnapSettings
+  | ResolveDID;
 
 export type Method = MetaMaskSSISnapRPCRequest['method'];
 

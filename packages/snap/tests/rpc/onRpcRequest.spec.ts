@@ -8,12 +8,17 @@ import {
   getDefaultSnapState,
   jsonPath,
   address,
+  exampleDIDDocument,
 } from '../testUtils/constants';
 import {
   availableVCStores,
   availableMethods,
 } from '@blockchain-lab-um/ssi-snap-types';
-import { IVerifyResult, VerifiablePresentation } from '@veramo/core';
+import {
+  DIDResolutionResult,
+  IVerifyResult,
+  VerifiablePresentation,
+} from '@veramo/core';
 import * as uuid from 'uuid';
 import { getAgent } from '../../src/veramo/setup';
 import { veramoClearVCs } from '../../src/utils/veramoUtils';
@@ -1249,6 +1254,21 @@ describe('onRpcRequest', () => {
         })
       ).resolves.toEqual(state.snapConfig);
 
+      expect.assertions(1);
+    });
+  });
+  describe('resolveDID', () => {
+    it('should succeed resolving did:ethr', async () => {
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'resolveDID',
+          params: { did: exampleDID },
+        },
+      })) as DIDResolutionResult;
+      expect(res.didDocument).toEqual(exampleDIDDocument);
       expect.assertions(1);
     });
   });
