@@ -37,7 +37,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/',
+            'https://github.com/blockchain-lab-um/ssi-snap/edit/develop/packages/docs/',
         },
         blog: {
           blogSidebarTitle: 'Titles',
@@ -46,7 +46,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/blockchain-lab-um/ssi-snap-docs/edit/master/',
+            'https://github.com/blockchain-lab-um/ssi-snap/packages/docs/edit/develop/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
