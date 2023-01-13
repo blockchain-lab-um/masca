@@ -11,6 +11,7 @@ import {
   isValidSwitchMethodRequest,
   isValidDeleteVCRequest,
   isValidQueryRequest,
+  isValidResolveDIDRequest,
 } from './utils/params';
 import { switchMethod } from './rpc/did/switchMethod';
 import { getDid } from './rpc/did/getDID';
@@ -27,6 +28,7 @@ import { getCurrentAccount } from './utils/snapUtils';
 import { getAddressKeyDeriver } from './utils/keyPair';
 import { ApiParams } from './interfaces';
 import { deleteVC } from './rpc/vc/deleteVC';
+import { resolveDID } from './rpc/did/resolveDID';
 
 export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
   let state = await getSnapStateUnchecked(snap);
@@ -95,6 +97,9 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
         apiParams.state
       );
       return await deleteVC(apiParams, request.params);
+    case 'resolveDID':
+      isValidResolveDIDRequest(request.params);
+      return await resolveDID(request.params.did);
     default:
       throw new Error('Method not found.');
   }

@@ -1,4 +1,8 @@
-import { VerifiablePresentation, W3CVerifiableCredential } from '@veramo/core';
+import {
+  DIDResolutionResult,
+  VerifiablePresentation,
+  W3CVerifiableCredential,
+} from '@veramo/core';
 import {
   AvailableMethods,
   AvailableVCStores,
@@ -159,4 +163,14 @@ export async function getSnapSettings(
   this: MetaMaskSSISnap
 ): Promise<SSISnapConfig> {
   return await sendSnapMethod({ method: 'getSnapSettings' }, this.snapId);
+}
+
+export async function resolveDID(
+  this: MetaMaskSSISnap,
+  did: string
+): Promise<DIDResolutionResult> {
+  return await sendSnapMethod(
+    { method: 'resolveDID', params: { did } },
+    this.snapId
+  );
 }

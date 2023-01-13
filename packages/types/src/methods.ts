@@ -2,6 +2,7 @@ import {
   CreateVPRequestParams,
   DeleteVCsRequestParams,
   QueryVCsRequestParams,
+  ResolveDIDRequestParams,
   SaveVCRequestParams,
   SetVCStoreRequestParams,
   SwitchMethodRequestParams,
@@ -67,4 +68,9 @@ export type GetSnapSettings = {
 
 export type GetAvailableVCStores = {
   method: 'getAvailableVCStores';
+};
+
+export type ResolveDID = {
+  method: 'resolveDID';
+  params: ResolveDIDRequestParams;
 };

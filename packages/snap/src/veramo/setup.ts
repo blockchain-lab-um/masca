@@ -13,6 +13,10 @@ import {
 import { AbstractIdentifierProvider, DIDManager } from '@veramo/did-manager';
 import { EthrDIDProvider } from '@veramo/did-provider-ethr';
 import {
+  PkhDIDProvider,
+  getDidPkhResolver as pkhDidResolver,
+} from '@veramo/did-provider-pkh';
+import {
   KeyManager,
   MemoryKeyStore,
   MemoryPrivateKeyStore,
@@ -92,6 +96,8 @@ export const getAgent = async (snap: SnapsGlobalObject): Promise<Agent> => {
   });
 
   didProviders['did:key'] = new KeyDIDProvider({ defaultKms: 'web3' });
+  didProviders['did:pkh'] = new PkhDIDProvider({ defaultKms: 'web3' });
+
   vcStorePlugins['snap'] = new SnapVCStore(snap);
   if (enabledVCStores.includes('ceramic')) {
     vcStorePlugins['ceramic'] = new CeramicVCStore(snap);
@@ -124,6 +130,7 @@ export const getAgent = async (snap: SnapsGlobalObject): Promise<Agent> => {
         resolver: new Resolver({
           ...ethrDidResolver({ networks }),
           ...keyDidResolver(),
+          ...pkhDidResolver(),
         }),
       }),
       new DIDManager({

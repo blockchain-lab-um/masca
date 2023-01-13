@@ -1,4 +1,8 @@
-import { VerifiablePresentation, W3CVerifiableCredential } from '@veramo/core';
+import {
+  DIDResolutionResult,
+  VerifiablePresentation,
+  W3CVerifiableCredential,
+} from '@veramo/core';
 import { AvailableMethods, AvailableVCStores } from './constants';
 import {
   CreateVPRequestParams,
@@ -29,7 +33,7 @@ export interface SSISnapApi {
   setVCStore(store: AvailableVCStores, value: boolean): Promise<boolean>;
   getAvailableVCStores(): Promise<string[]>;
   deleteVC(id: string, options?: DeleteVCsOptions): Promise<boolean[]>;
-
   getAccountSettings(): Promise<SSIAccountConfig>;
   getSnapSettings(): Promise<SSISnapConfig>;
+  resolveDID(did: string): Promise<DIDResolutionResult>;
 }
