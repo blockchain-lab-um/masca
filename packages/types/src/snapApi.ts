@@ -24,7 +24,6 @@ export interface SSISnapApi {
     options?: SaveVCOptions
   ): Promise<SaveVCRequestResult[]>;
   createVP(params: CreateVPRequestParams): Promise<VerifiablePresentation>;
-  changeInfuraToken(infuraToken: string): Promise<boolean>;
   togglePopups(): Promise<boolean>;
   getDID(): Promise<string>;
   getSelectedMethod(): Promise<string>;
