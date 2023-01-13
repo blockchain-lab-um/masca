@@ -8,6 +8,7 @@ import {
   isValidCreateVPRequest,
   isValidDeleteVCRequest,
   isValidQueryRequest,
+  isValidResolveDIDRequest,
   isValidSaveVCRequest,
   isValidSwitchMethodRequest,
 } from '../../src/utils/params';
@@ -18,6 +19,11 @@ describe('Utils [params]', () => {
   */
   describe('isValidGetVCsRequest', () => {
     // TODO
+  });
+  describe('isValidResolveDIDRequest', () => {
+    it('should fail for null', () => {
+      expect(() => isValidResolveDIDRequest(null)).toThrow(Error);
+    });
   });
 
   describe('isValidQueryRequest', () => {
@@ -172,47 +178,6 @@ describe('Utils [params]', () => {
           state
         )
       ).toThrow('Store is not enabled!');
-    });
-  });
-
-  /*
-    isValidChangeInfuraTokenRequest
-  */
-  describe('isValidChangeInfuraTokenRequest', () => {
-    it('should succeed if infuraToken is a string', () => {
-      expect(() =>
-        isValidChangeInfuraTokenRequest({ infuraToken: 'Valid infura token' })
-      ).not.toThrow();
-    });
-
-    it('should fail for null', () => {
-      expect(() => isValidChangeInfuraTokenRequest(null)).toThrow(Error);
-    });
-
-    it('should fail for empty object', () => {
-      expect(() => isValidChangeInfuraTokenRequest({})).toThrow(Error);
-    });
-
-    it('should fail for string', () => {
-      expect(() => isValidChangeInfuraTokenRequest('infuraToken')).toThrow(
-        Error
-      );
-    });
-
-    it('should fail for number', () => {
-      expect(() => isValidChangeInfuraTokenRequest(42)).toThrow(Error);
-    });
-
-    it('should fail if infuraToken is null', () => {
-      expect(() =>
-        isValidChangeInfuraTokenRequest({ infuraToken: null })
-      ).toThrow(Error);
-    });
-
-    it('should fail if infuraToken is a number', () => {
-      expect(() =>
-        isValidChangeInfuraTokenRequest({ infuraToken: 42 })
-      ).toThrow(Error);
     });
   });
 

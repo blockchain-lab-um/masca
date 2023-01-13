@@ -67,28 +67,6 @@ describe('Utils [snap]', () => {
     });
   });
 
-  describe('updateInfuraToken', () => {
-    it('should succeed with valid infura token', async () => {
-      const initialState = getDefaultSnapState();
-      snapMock.rpcMocks.snap_manageState.mockResolvedValue(initialState);
-
-      await expect(
-        updateInfuraToken(snapMock, initialState, infuraToken)
-      ).resolves.not.toThrow();
-
-      const expectedState = getDefaultSnapState();
-      expectedState.snapConfig.snap.infuraToken = infuraToken;
-
-      // Call should be `update` with the correct arguments
-      expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith({
-        operation: 'update',
-        newState: expectedState,
-      });
-
-      expect.assertions(2);
-    });
-  });
-
   describe('togglePopups', () => {
     it('should succeed and toggle popups (off -> on)', async () => {
       const initialState = getDefaultSnapState();

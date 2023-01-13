@@ -7,7 +7,6 @@ import {
   queryVCs,
   createVP,
   togglePopups,
-  changeInfuraToken,
   getDID,
   getSelectedMethod,
   getAvailableMethods,
@@ -18,6 +17,7 @@ import {
   deleteVC,
   getSnapSettings,
   getAccountSettings,
+  resolveDID,
 } from './methods';
 
 export class MetaMaskSSISnap {
@@ -48,7 +48,6 @@ export class MetaMaskSSISnap {
       queryVCs: queryVCs.bind(this),
       createVP: createVP.bind(this),
       togglePopups: togglePopups.bind(this),
-      changeInfuraToken: changeInfuraToken.bind(this),
       getDID: getDID.bind(this),
       getSelectedMethod: getSelectedMethod.bind(this),
       getAvailableMethods: getAvailableMethods.bind(this),
@@ -57,9 +56,9 @@ export class MetaMaskSSISnap {
       setVCStore: setVCStore.bind(this),
       getAvailableVCStores: getAvailableVCStores.bind(this),
       deleteVC: deleteVC.bind(this),
-
       getSnapSettings: getSnapSettings.bind(this),
       getAccountSettings: getAccountSettings.bind(this),
+      resolveDID: resolveDID.bind(this),
     };
   };
 }

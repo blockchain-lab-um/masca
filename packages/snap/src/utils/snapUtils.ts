@@ -39,21 +39,6 @@ export async function getCurrentNetwork(
 }
 
 /**
- * Function that replaces default Infura Token with @param token.
- *
- * @param state SSISnapState
- * @param token infura token
- */
-export async function updateInfuraToken(
-  snap: SnapsGlobalObject,
-  state: SSISnapState,
-  token: string
-): Promise<void> {
-  state.snapConfig.snap.infuraToken = token;
-  await updateSnapState(snap, state);
-}
-
-/**
  * Function that toggles the disablePopups flag in the config.
  *
  */

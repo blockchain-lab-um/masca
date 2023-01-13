@@ -8,12 +8,17 @@ import {
   getDefaultSnapState,
   jsonPath,
   address,
+  exampleDIDDocument,
 } from '../testUtils/constants';
 import {
   availableVCStores,
   availableMethods,
 } from '@blockchain-lab-um/ssi-snap-types';
-import { IVerifyResult, VerifiablePresentation } from '@veramo/core';
+import {
+  DIDResolutionResult,
+  IVerifyResult,
+  VerifiablePresentation,
+} from '@veramo/core';
 import * as uuid from 'uuid';
 import { getAgent } from '../../src/veramo/setup';
 import { veramoClearVCs } from '../../src/utils/veramoUtils';
@@ -853,48 +858,6 @@ describe('onRpcRequest', () => {
     });
   });
 
-  describe('changeInfuraToken', () => {
-    it('should succeed changing infura token and return true', async () => {
-      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'changeInfuraToken',
-            params: {
-              infuraToken: 'test-token',
-            },
-          },
-        })
-      ).resolves.toBe(true);
-
-      expect.assertions(1);
-    });
-
-    // it('should fail changing infura token and return false', async () => {
-    //   snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
-
-    //   await expect(
-    //     onRpcRequest({
-    //       origin: 'localhost',
-    //       request: {
-    //         id: 'test-id',
-    //         jsonrpc: '2.0',
-    //         method: 'changeInfuraToken',
-    //         params: {
-    //           infuraToken: 'test-token',
-    //         },
-    //       },
-    //     })
-    //   ).resolves.toBe(false);
-
-    //   expect.assertions(1);
-    // });
-  });
-
   describe('togglePopups', () => {
     it('should succeed toggling popups and return true', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
@@ -1249,6 +1212,21 @@ describe('onRpcRequest', () => {
         })
       ).resolves.toEqual(state.snapConfig);
 
+      expect.assertions(1);
+    });
+  });
+  describe('resolveDID', () => {
+    it('should succeed resolving did:ethr', async () => {
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'resolveDID',
+          params: { did: exampleDID },
+        },
+      })) as DIDResolutionResult;
+      expect(res.didDocument).toEqual(exampleDIDDocument);
       expect.assertions(1);
     });
   });

@@ -3,11 +3,18 @@ import {
   changeCurrentMethod,
   changeCurrentVCStore,
   getCurrentDid,
+  resolveDid,
 } from '../../src/utils/didUtils';
 import {
   address,
   exampleDIDKey,
   getDefaultSnapState,
+  exampleDID,
+  exampleDIDKeyDocumentUniResovler,
+  exampleDIDDocument,
+  resolutionInvalidDID,
+  resolutionNotFound,
+  resolutionMethodNotSupported,
 } from '../testUtils/constants';
 import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
 import * as snapUtils from '../../src/utils/snapUtils';
@@ -128,6 +135,34 @@ describe('Utils [did]', () => {
       });
 
       expect.assertions(2);
+    });
+
+    describe('resolveDID', () => {
+      it('should succeed resolving did:ethr identifier', async () => {
+        const didDoc = await resolveDid(exampleDID);
+        expect(didDoc.didDocument).toEqual(exampleDIDDocument);
+        expect.assertions(1);
+      });
+      it('should succeed resolving did:key identifier', async () => {
+        const didDoc = await resolveDid(exampleDIDKey);
+        expect(didDoc.didDocument).toEqual(exampleDIDKeyDocumentUniResovler);
+        expect.assertions(1);
+      });
+      it('should resolve invalid did', async () => {
+        const didDoc = await resolveDid('did:ethr:0x5:0x123');
+        expect(didDoc).toEqual(resolutionInvalidDID);
+        expect.assertions(1);
+      });
+      it('should resolve nonExisting did', async () => {
+        const didDoc = await resolveDid('did:key:zQ3shW537');
+        expect(didDoc).toEqual(resolutionNotFound);
+        expect.assertions(1);
+      });
+      it('should resolve methodNotSupported', async () => {
+        const didDoc = await resolveDid('did:keyclopse:zQ3shW537');
+        expect(didDoc).toEqual(resolutionMethodNotSupported);
+        expect.assertions(1);
+      });
     });
   });
 });
