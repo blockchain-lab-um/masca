@@ -13,6 +13,7 @@ import {
   SetVCStoreRequestParams,
   DeleteVCsRequestParams,
   AvailableVCStores,
+  ResolveDIDRequestParams,
 } from '@blockchain-lab-um/ssi-snap-types';
 import { SSISnapState } from 'src/interfaces';
 import { isEnabledVCStore } from './snapUtils';
@@ -326,4 +327,21 @@ export function isValidQueryRequest(
     }
   }
   return;
+}
+
+export function isValidResolveDIDRequest(
+  params: unknown
+): asserts params is ResolveDIDRequestParams {
+  const param = params as ResolveDIDRequestParams;
+  if (
+    param !== null &&
+    typeof param === 'object' &&
+    'did' in param &&
+    param.did !== null &&
+    param.did !== '' &&
+    typeof param.did === 'string'
+  )
+    return;
+
+  throw new Error('Invalid ResolveDID request');
 }
