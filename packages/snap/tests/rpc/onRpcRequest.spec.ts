@@ -858,48 +858,6 @@ describe('onRpcRequest', () => {
     });
   });
 
-  describe('changeInfuraToken', () => {
-    it('should succeed changing infura token and return true', async () => {
-      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'changeInfuraToken',
-            params: {
-              infuraToken: 'test-token',
-            },
-          },
-        })
-      ).resolves.toBe(true);
-
-      expect.assertions(1);
-    });
-
-    it('should fail changing infura token and return false', async () => {
-      snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
-
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'changeInfuraToken',
-            params: {
-              infuraToken: 'test-token',
-            },
-          },
-        })
-      ).resolves.toBe(false);
-
-      expect.assertions(1);
-    });
-  });
-
   describe('togglePopups', () => {
     it('should succeed toggling popups and return true', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
