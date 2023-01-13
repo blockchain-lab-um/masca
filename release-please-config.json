@@ -66,18 +66,18 @@
           "jsonpath": "$.version"
         }
       ]
-    },
-    "plugins": [
-      {
-        "type": "linked-versions",
-        "groupName": "ssi-snap-main",
-        "components": [
-          "ssi-snap-connector",
-          "ssi-snap-types",
-          "ssi-snap-vcmanager",
-          "ssi-snap"
-        ]
-      }
-    ]
-  }
+    }
+  },
+  "plugins": [
+    {
+      "type": "linked-versions",
+      "groupName": "ssi-snap-main",
+      "components": [
+        "ssi-snap-connector",
+        "ssi-snap-types",
+        "ssi-snap-vcmanager",
+        "ssi-snap"
+      ]
+    }
+  ]
 }
