@@ -64,6 +64,10 @@ export type DeleteVCsRequestParams = {
   options?: DeleteVCsOptions;
 };
 
+export type ResolveDIDRequestParams = {
+  did: string;
+};
+
 export type SwitchMethodRequestParams = {
   didMethod: AvailableMethods;
 };
