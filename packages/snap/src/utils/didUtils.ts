@@ -8,8 +8,7 @@ import { SSISnapState } from '../interfaces';
 import { getCurrentNetwork } from './snapUtils';
 import { updateSnapState } from './stateUtils';
 import { getDidPkhIdentifier } from '../did/pkh/pkhDidUtils';
-import { DIDDocument, DIDResolutionResult } from 'did-resolver';
-
+import { DIDResolutionResult } from 'did-resolver';
 
 export async function changeCurrentVCStore(
   snap: SnapsGlobalObject,
