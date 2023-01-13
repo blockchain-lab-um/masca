@@ -1,7 +1,4 @@
 {
-  "bootstrap-sha": "2aac1d8171b1fdddcff4b119c3cfc2d3308dc46a",
-  "last-release-sha": "2aac1d8171b1fdddcff4b119c3cfc2d3308dc46a",
-  "release-as": "1.3.0",
   "releaseType": "node",
   "changelog-sections": [
     {
@@ -26,7 +23,6 @@
   "packages": {
     "packages/connector": {
       "component": "ssi-snap-connector",
-      "release-as": "1.3.0",
       "releaseType": "node",
       "bumpMinorPreMajor": false,
       "bumpPatchForMinorPreMajor": false,
@@ -35,7 +31,6 @@
     },
     "packages/types": {
       "component": "ssi-snap-types",
-      "release-as": "1.3.0",
       "releaseType": "node",
       "bumpMinorPreMajor": false,
       "bumpPatchForMinorPreMajor": false,
@@ -44,7 +39,6 @@
     },
     "packages/vcmanager": {
       "component": "ssi-snap-vcmanager",
-      "release-as": "1.3.0",
       "releaseType": "node",
       "bumpMinorPreMajor": false,
       "bumpPatchForMinorPreMajor": false,
@@ -53,7 +47,6 @@
     },
     "packages/snap": {
       "component": "ssi-snap",
-      "release-as": "1.3.0",
       "releaseType": "node",
       "bumpMinorPreMajor": false,
       "bumpPatchForMinorPreMajor": false,
