@@ -8,6 +8,7 @@ import {
   isValidCreateVPRequest,
   isValidDeleteVCRequest,
   isValidQueryRequest,
+  isValidResolveDIDRequest,
   isValidSaveVCRequest,
   isValidSwitchMethodRequest,
 } from '../../src/utils/params';
@@ -18,6 +19,11 @@ describe('Utils [params]', () => {
   */
   describe('isValidGetVCsRequest', () => {
     // TODO
+  });
+  describe('isValidResolveDIDRequest', () => {
+    it('should fail for null', () => {
+      expect(() => isValidResolveDIDRequest(null)).toThrow(Error);
+    });
   });
 
   describe('isValidQueryRequest', () => {
