@@ -3,3 +3,4 @@ build
 dist
 .docusaurus
 coverage
+CHANGELOG.md
