@@ -71,7 +71,7 @@
   "plugins": [
     {
       "type": "linked-versions",
-      "groupName": "ssi-snap-main",
+      "groupName": "ssi-snap-core",
       "components": [
         "ssi-snap-connector",
         "ssi-snap-types",
