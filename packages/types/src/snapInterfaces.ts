@@ -2,7 +2,6 @@ import { AvailableMethods, AvailableVCStores } from './constants';
 
 export type SSISnapConfig = {
   snap: {
-    infuraToken: string;
     acceptedTerms: boolean;
   };
   dApp: {

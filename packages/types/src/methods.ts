@@ -1,5 +1,4 @@
 import {
-  ChangeInfuraTokenRequestParams,
   CreateVPRequestParams,
   DeleteVCsRequestParams,
   QueryVCsRequestParams,
@@ -27,11 +26,6 @@ export type DeleteVC = {
 export type CreateVP = {
   method: 'createVP';
   params: CreateVPRequestParams;
-};
-
-export type ChangeInfuraToken = {
-  method: 'changeInfuraToken';
-  params: ChangeInfuraTokenRequestParams;
 };
 
 export type SetVCStore = {

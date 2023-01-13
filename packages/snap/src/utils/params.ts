@@ -8,7 +8,6 @@ import {
   CreateVPRequestParams,
   SaveVCRequestParams,
   QueryVCsRequestParams,
-  ChangeInfuraTokenRequestParams,
   SwitchMethodRequestParams,
   SetVCStoreRequestParams,
   DeleteVCsRequestParams,
@@ -160,22 +159,6 @@ export function isValidCreateVPRequest(
   }
 
   throw new Error('Invalid CreateVP request');
-}
-
-export function isValidChangeInfuraTokenRequest(
-  params: unknown
-): asserts params is ChangeInfuraTokenRequestParams {
-  const param = params as ChangeInfuraTokenRequestParams;
-  if (
-    param !== null &&
-    typeof param === 'object' &&
-    'infuraToken' in param &&
-    param.infuraToken !== null &&
-    typeof param.infuraToken === 'string'
-  )
-    return;
-
-  throw new Error('Invalid ChangeInfuraToken request');
 }
 
 export function isValidSwitchMethodRequest(
