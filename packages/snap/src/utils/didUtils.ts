@@ -7,6 +7,7 @@ import { getDidKeyIdentifier } from '../did/key/keyDidUtils';
 import { SSISnapState } from '../interfaces';
 import { getCurrentNetwork } from './snapUtils';
 import { updateSnapState } from './stateUtils';
+import { DIDDocument, DIDResolutionResult } from 'did-resolver';
 
 export async function changeCurrentVCStore(
   snap: SnapsGlobalObject,
@@ -47,4 +48,12 @@ export async function changeCurrentMethod(
     return did;
   }
   return '';
+}
+
+export async function resolveDid(did: string): Promise<DIDResolutionResult> {
+  const response = await fetch(
+    `https://dev.uniresolver.io/1.0/identifiers/${did}`
+  );
+  const data = (await response.json()) as DIDResolutionResult;
+  return data;
 }
