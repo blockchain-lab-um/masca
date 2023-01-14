@@ -9,7 +9,7 @@ import {
   SSISnapConfig,
   SSIAccountConfig,
 } from '@blockchain-lab-um/ssi-snap-types';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { SnapsGlobalObject } from '@metamask/snaps-utils';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 
 export type SSISnapState = {

@@ -16,7 +16,7 @@ export async function switchMethod(
       textAreaContent: didMethod,
     };
 
-    if (await snapConfirm(snap, promptObj)) {
+    if (snapConfirm(snap, promptObj)) {
       return await changeCurrentMethod(snap, state, account, didMethod);
     }
 

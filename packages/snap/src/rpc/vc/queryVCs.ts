@@ -26,10 +26,7 @@ export async function queryVCs(
     textAreaContent: `Some dApps are less secure than others and could save data from VCs against your will. Be careful where you send your private VCs! Number of VCs submitted is ${vcs.length.toString()}`,
   };
 
-  if (
-    state.snapConfig.dApp.disablePopups ||
-    (await snapConfirm(snap, promptObj))
-  ) {
+  if (state.snapConfig.dApp.disablePopups || snapConfirm(snap, promptObj)) {
     return vcs;
   }
 

@@ -6,7 +6,7 @@ import { ApiParams, SSISnapState } from 'src/interfaces';
 import { getAccountIndex, setAccountIndex } from './snapUtils';
 import { ethers } from 'ethers';
 import { didCoinTypeMappping } from '@blockchain-lab-um/ssi-snap-types';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { SnapsGlobalObject } from '@metamask/snaps-utils';
 
 export async function getAddressKeyDeriver(
   params: ApiParams,

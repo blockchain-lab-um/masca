@@ -22,7 +22,7 @@ export async function saveVC(
     textAreaContent: JSON.stringify(verifiableCredential).substring(0, 100),
   };
 
-  if (await snapConfirm(snap, promptObj)) {
+  if (snapConfirm(snap, promptObj)) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return await veramoSaveVC({
       snap,

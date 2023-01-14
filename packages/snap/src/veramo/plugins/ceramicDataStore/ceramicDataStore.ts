@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { W3CVerifiableCredential } from '@veramo/core';
 import { aliases, getCeramic } from '../../../utils/ceramicUtils';
 import { DIDDataStore } from '@glazed/did-datastore';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { SnapsGlobalObject } from '@metamask/snaps-utils';
 import {
   AbstractDataStore,
   IFilterArgs,

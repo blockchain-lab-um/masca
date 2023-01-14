@@ -17,7 +17,7 @@ export async function setVCStore(
       } ${store} vcStore plugin?`,
       textAreaContent: `Content`,
     };
-    if (await snapConfirm(snap, promptObj)) {
+    if (snapConfirm(snap, promptObj)) {
       state.accountState[account].accountConfig.ssi.vcStore[store] = value;
       await updateSnapState(snap, state);
       return true;
