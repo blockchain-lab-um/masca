@@ -59,7 +59,7 @@ import {
   getCurrentNetwork,
   getEnabledVCStores,
 } from '../utils/snapUtils';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { SnapsGlobalObject } from '@metamask/snaps-utils';
 import { getSnapState } from '../utils/stateUtils';
 
 export type Agent = TAgent<

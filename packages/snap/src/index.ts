@@ -31,9 +31,11 @@ import { deleteVC } from './rpc/vc/deleteVC';
 import { resolveDID } from './rpc/did/resolveDID';
 
 export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   let state = await getSnapStateUnchecked(snap);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   if (state === null) state = await initSnapState(snap);
-
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   const account = await getCurrentAccount(snap);
 
   // FIXME: HANDLE NULL maybe throw ?
@@ -41,6 +43,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
 
   const apiParams: ApiParams = {
     state,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     snap,
     account,
   };
@@ -54,7 +57,6 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
   switch (request.method) {
     case 'queryVCs':
       isValidQueryRequest(request.params, apiParams.account, apiParams.state);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return await queryVCs(apiParams, request.params);
     case 'saveVC':
       isValidSaveVCRequest(request.params, apiParams.account, apiParams.state);

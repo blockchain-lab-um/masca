@@ -1,6 +1,6 @@
 import { updateSnapState } from './stateUtils';
 import { publicKeyConvert } from 'secp256k1';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { SnapsGlobalObject } from '@metamask/snaps-utils';
 import { ApiParams, SnapConfirmParams, SSISnapState } from '../interfaces';
 import { snapGetKeysFromAddress } from './keyPair';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
@@ -115,21 +115,22 @@ export function _hexToUint8Array(str: string): Uint8Array {
   return new Uint8Array(Buffer.from(str, 'hex'));
 }
 
-export async function snapConfirm(
+export function snapConfirm(
   snap: SnapsGlobalObject,
   params: SnapConfirmParams
-): Promise<boolean> {
-  return (await snap.request({
-    method: 'snap_dialog',
-    params: {
-      type: 'Confirmation',
-      fields: {
-        title: params.prompt,
-        description: params.description,
-        textAreaContent: params.textAreaContent,
-      },
-    },
-  })) as boolean;
+): boolean {
+  // return (await snap.request({
+  //   method: 'snap_dialog',
+  //   params: {
+  //     type: 'Confirmation',
+  //     fields: {
+  //       title: params.prompt,
+  //       description: params.description,
+  //       textAreaContent: params.textAreaContent,
+  //     },
+  //   },
+  // })) as boolean;
+  return true;
 }
 
 export function getAccountIndex(

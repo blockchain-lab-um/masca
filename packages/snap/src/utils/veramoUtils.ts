@@ -15,7 +15,7 @@ import {
 } from '@veramo/core';
 import { getCurrentDid } from './didUtils';
 import { getPublicKey, snapConfirm } from './snapUtils';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { SnapsGlobalObject } from '@metamask/snaps-utils';
 import { ApiParams } from '../interfaces';
 import { snapGetKeysFromAddress } from './keyPair';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
@@ -123,7 +123,7 @@ export async function veramoCreateVP(
     description: 'Do you wish to create a VP from the following VC?',
     textAreaContent: 'Multiple VCs',
   };
-  if (config.dApp.disablePopups || (await snapConfirm(snap, promptObj))) {
+  if (config.dApp.disablePopups || snapConfirm(snap, promptObj)) {
     const vp = await agent.createVerifiablePresentation({
       presentation: {
         holder: identifier.did,

@@ -16,7 +16,7 @@ export async function togglePopups(params: ApiParams): Promise<boolean> {
       ? 'Current setting: True\nNew setting: False'
       : 'Current setting: False\nNew setting: True',
   };
-  const result = disablePopups || (await snapConfirm(snap, promptObj));
+  const result = disablePopups || snapConfirm(snap, promptObj);
   if (result) {
     await updatePopups(snap, state);
     return true;
