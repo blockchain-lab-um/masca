@@ -16,7 +16,7 @@ export async function deleteVC(
     textAreaContent: `Content`,
   };
 
-  if (await snapConfirm(snap, promptObj)) {
+  if (snapConfirm(snap, promptObj)) {
     return await veramoDeleteVC({
       snap,
       id,
