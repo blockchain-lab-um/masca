@@ -1886,7 +1886,7 @@ __metadata:
     key-did-resolver: 2.3.0
     lint-staged: ^13.0.4
     lodash.clonedeep: ^4.5.0
-    multiformats: ^10.0.3
+    multiformats: ^11.0.0
     postinstall-postinstall: ^2.1.0
     precompress: ^9.1.1
     prettier: ^2.8.0
@@ -18267,10 +18267,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"multiformats@npm:^10.0.3":
-  version: 10.0.3
-  resolution: "multiformats@npm:10.0.3"
-  checksum: 582fc98c7a68247c457f27b88148fb0d67ee84a86395ada648f2503be6df826b769b144a3cb9ab8a77f7c1e786ce6df0231bc35854fc0fac4fba6059d3b4e842
+"multiformats@npm:^11.0.0":
+  version: 11.0.0
+  resolution: "multiformats@npm:11.0.0"
+  checksum: 1b7430dcc7bc9bb850250046ab5491a6cc3075a5fc1716d271c3506a2dd76d8ecc897f5af91b15c019286a296fe5b0519dc74333b4e62068375bec4c1b6891b1
   languageName: node
   linkType: hard
 
