@@ -8,7 +8,7 @@ import {
 export async function togglePopups(params: ApiParams): Promise<boolean> {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { state, snap } = params;
-  const disablePopups = state.snapConfig.dApp.disablePopups;
+  const { disablePopups } = state.snapConfig.dApp;
 
   const promptObj = {
     prompt: 'Toggle Popups',

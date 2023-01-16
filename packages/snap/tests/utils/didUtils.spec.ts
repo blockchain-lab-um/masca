@@ -1,4 +1,5 @@
 import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { MetaMaskInpageProvider } from '@metamask/providers';
 import {
   changeCurrentMethod,
   changeCurrentVCStore,
@@ -9,7 +10,6 @@ import {
   address,
   exampleDIDKey,
   getDefaultSnapState,
-  exampleDID,
   exampleDIDKeyDocumentUniResovler,
   exampleDIDDocument,
   resolutionInvalidDID,
@@ -18,7 +18,6 @@ import {
 } from '../testUtils/constants';
 import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
 import * as snapUtils from '../../src/utils/snapUtils';
-import { MetaMaskInpageProvider } from '@metamask/providers';
 
 jest
   .spyOn(snapUtils, 'getCurrentAccount')
@@ -63,7 +62,7 @@ describe('Utils [did]', () => {
       ).resolves.not.toThrow();
 
       const expectedState = getDefaultSnapState();
-      expectedState.accountState[address].accountConfig.ssi.vcStore['ceramic'] =
+      expectedState.accountState[address].accountConfig.ssi.vcStore.ceramic =
         true;
 
       expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith({
@@ -160,7 +159,7 @@ describe('Utils [did]', () => {
 
     describe('resolveDID', () => {
       it('should succeed resolving did:ethr identifier', async () => {
-        const didDoc = await resolveDid(exampleDID);
+        const didDoc = await resolveDid(exampleDIDKey);
         expect(didDoc.didDocument).toEqual(exampleDIDDocument);
         expect.assertions(1);
       });

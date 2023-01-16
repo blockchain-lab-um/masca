@@ -1,20 +1,18 @@
 import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { DIDResolutionOptions, DIDResolutionResult } from 'did-resolver';
 import {
   address,
   exampleDIDKeyResolution,
   getDefaultSnapState,
+  exampleDIDKey,
+  exampleDIDKeyIdentifier,
+  exampleDIDKeyDocument,
 } from '../testUtils/constants';
 import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
 import {
   getDidKeyResolver as resolveDidKey,
   resolveSecp256k1,
 } from '../../src/did/key/keyDidResolver';
-import {
-  exampleDIDKey,
-  exampleDIDKeyIdentifier,
-  exampleDIDKeyDocument,
-} from '../testUtils/constants';
-import { DIDResolutionOptions, DIDResolutionResult } from 'did-resolver';
 import * as snapUtils from '../../src/utils/snapUtils';
 
 jest
@@ -49,7 +47,7 @@ describe('keyDidResolver', () => {
           id: '',
         },
         {
-          resolve: function (
+          resolve(
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             didUrl: string,
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -85,7 +83,7 @@ describe('keyDidResolver', () => {
           id: '',
         },
         {
-          resolve: function (
+          resolve(
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             didUrl: string,
             // eslint-disable-next-line @typescript-eslint/no-unused-vars

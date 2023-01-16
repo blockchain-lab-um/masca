@@ -1,5 +1,6 @@
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { W3CVerifiableCredential } from '@veramo/core';
 import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
 import {
   address,
@@ -13,7 +14,6 @@ import {
   veramoQueryVCs,
   veramoSaveVC,
 } from '../../src/utils/veramoUtils';
-import { W3CVerifiableCredential } from '@veramo/core';
 import * as snapUtils from '../../src/utils/snapUtils';
 
 jest

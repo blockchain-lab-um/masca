@@ -1,8 +1,8 @@
-import { veramoQueryVCs } from '../../utils/veramoUtils';
 import {
   QueryVCsRequestParams,
   QueryVCsRequestResult,
 } from '@blockchain-lab-um/ssi-snap-types';
+import { veramoQueryVCs } from '../../utils/veramoUtils';
 import { snapConfirm } from '../../utils/snapUtils';
 import { ApiParams } from '../../interfaces';
 

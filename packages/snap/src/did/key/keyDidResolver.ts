@@ -7,8 +7,8 @@ import {
   ParsedDID,
   Resolvable,
 } from 'did-resolver';
-import { getCurrentAccount, getPublicKey } from '../../utils/snapUtils';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { getCurrentAccount, getPublicKey } from '../../utils/snapUtils';
 import { getSnapState } from '../../utils/stateUtils';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -86,18 +86,18 @@ export const resolveDidKey: DIDResolver = async (
       return {
         didDocumentMetadata: {},
         didResolutionMetadata: {},
-        didDocument: didDocument,
+        didDocument,
       } as DIDResolutionResult;
-    } else {
-      return {
-        didDocumentMetadata: {},
-        didResolutionMetadata: {
-          error: 'invalidDid',
-          message: 'unsupported key type for did:key',
-        },
-        didDocument: null,
-      };
     }
+    return {
+      didDocumentMetadata: {},
+      didResolutionMetadata: {
+        error: 'invalidDid',
+        message: 'unsupported key type for did:key',
+      },
+      didDocument: null,
+    };
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     return {

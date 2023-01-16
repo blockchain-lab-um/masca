@@ -18,13 +18,14 @@ export async function switchMethod(
     };
 
     if (snapConfirm(snap, promptObj)) {
-      return await changeCurrentMethod(
+      const res = await changeCurrentMethod(
         snap,
         ethereum,
         state,
         account,
         didMethod
       );
+      return res;
     }
 
     return '';

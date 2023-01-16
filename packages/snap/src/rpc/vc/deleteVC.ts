@@ -18,13 +18,14 @@ export async function deleteVC(
   };
 
   if (snapConfirm(snap, promptObj)) {
-    return await veramoDeleteVC({
+    const res = await veramoDeleteVC({
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       snap,
       ethereum,
       id,
       store,
     });
+    return res;
   }
   throw new Error('User rejected');
 }

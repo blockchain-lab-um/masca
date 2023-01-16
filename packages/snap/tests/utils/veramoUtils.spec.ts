@@ -1,5 +1,20 @@
 import { SnapsGlobalObject } from '@metamask/snaps-types';
-import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
+import { IVerifyResult, VerifiablePresentation } from '@veramo/core';
+import { BIP44CoinTypeNode } from '@metamask/key-tree/dist/BIP44CoinTypeNode';
+import { StoredCredentials } from 'src/interfaces';
+import { DIDDataStore } from '@glazed/did-datastore';
+import { StreamID } from '@ceramicnetwork/streamid';
+import { MetaMaskInpageProvider } from '@metamask/providers';
+import * as snapUtils from '../../src/utils/snapUtils';
+import { getAgent } from '../../src/veramo/setup';
+import {
+  veramoClearVCs,
+  veramoCreateVP,
+  veramoDeleteVC,
+  veramoImportMetaMaskAccount,
+  veramoQueryVCs,
+  veramoSaveVC,
+} from '../../src/utils/veramoUtils';
 import {
   address,
   bip44Entropy,
@@ -12,22 +27,7 @@ import {
   getDefaultSnapState,
   jsonPath,
 } from '../testUtils/constants';
-import {
-  veramoClearVCs,
-  veramoCreateVP,
-  veramoDeleteVC,
-  veramoImportMetaMaskAccount,
-  veramoQueryVCs,
-  veramoSaveVC,
-} from '../../src/utils/veramoUtils';
-import { getAgent } from '../../src/veramo/setup';
-import { IVerifyResult, VerifiablePresentation } from '@veramo/core';
-import { BIP44CoinTypeNode } from '@metamask/key-tree/dist/BIP44CoinTypeNode';
-import { StoredCredentials } from 'src/interfaces';
-import { DIDDataStore } from '@glazed/did-datastore';
-import { StreamID } from '@ceramicnetwork/streamid';
-import * as snapUtils from '../../src/utils/snapUtils';
-import { MetaMaskInpageProvider } from '@metamask/providers';
+import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
 
 jest
   .spyOn(snapUtils, 'getCurrentAccount')
@@ -189,7 +189,7 @@ describe('Utils [veramo]', () => {
       expect(res).toEqual(expectedResult);
       expect.assertions(1);
     });
-    //TODO should fail saving invalid object
+    // TODO should fail saving invalid object
   });
 
   describe('veramoDeleteVC', () => {
@@ -757,7 +757,7 @@ describe('Utils [veramo]', () => {
         ).did
       ).toEqual(exampleDID);
 
-      expect((await agent.didManagerFind()).length).toBe(1);
+      expect(await agent.didManagerFind()).toHaveLength(1);
 
       expect.assertions(4);
     });
@@ -790,13 +790,13 @@ describe('Utils [veramo]', () => {
         },
         { proofFormat: 'jwt', vcs: [{ id: res[0].id }] }
       );
-      expect(createdVP).not.toEqual(null);
+      expect(createdVP).not.toBeNull();
 
       const verifyResult = (await agent.verifyPresentation({
         presentation: createdVP as VerifiablePresentation,
       })) as IVerifyResult;
 
-      //expect(verifyResult.verified).toBe(true);
+      // expect(verifyResult.verified).toBe(true);
 
       expect.assertions(1);
     });
@@ -827,7 +827,7 @@ describe('Utils [veramo]', () => {
         },
         { proofFormat: 'lds', vcs: [{ id: res[0].id }] }
       );
-      expect(createdVP).not.toEqual(null);
+      expect(createdVP).not.toBeNull();
 
       console.log(createdVP);
 
@@ -835,7 +835,7 @@ describe('Utils [veramo]', () => {
         presentation: createdVP as VerifiablePresentation,
       })) as IVerifyResult;
 
-      //expect(verifyResult.verified).toBe(true);
+      // expect(verifyResult.verified).toBe(true);
 
       expect.assertions(1);
     });
@@ -865,7 +865,7 @@ describe('Utils [veramo]', () => {
         },
         { proofFormat: 'EthereumEip712Signature2021', vcs: [{ id: res[0].id }] }
       );
-      expect(createdVP).not.toEqual(null);
+      expect(createdVP).not.toBeNull();
 
       const verifyResult = (await agent.verifyPresentation({
         presentation: createdVP as VerifiablePresentation,
@@ -873,7 +873,7 @@ describe('Utils [veramo]', () => {
 
       console.log(createdVP);
 
-      //expect(verifyResult.verified).toBe(true);
+      // expect(verifyResult.verified).toBe(true);
 
       expect.assertions(1);
     });
@@ -903,13 +903,13 @@ describe('Utils [veramo]', () => {
         },
         { proofFormat: 'jwt', vcs: [{ id: res[0].id }, { id: 'wrong_id' }] }
       );
-      expect(createdVP).not.toEqual(null);
+      expect(createdVP).not.toBeNull();
 
       const verifyResult = (await agent.verifyPresentation({
         presentation: createdVP as VerifiablePresentation,
       })) as IVerifyResult;
 
-      //expect(verifyResult.verified).toBe(true);
+      // expect(verifyResult.verified).toBe(true);
 
       expect.assertions(1);
     });
@@ -939,7 +939,7 @@ describe('Utils [veramo]', () => {
         },
         { proofFormat: 'jwt', vcs: [{ id: res[0].id }, { id: res[0].id }] }
       );
-      expect(createdVP).not.toEqual(null);
+      expect(createdVP).not.toBeNull();
 
       const verifyResult = (await agent.verifyPresentation({
         presentation: createdVP as VerifiablePresentation,
@@ -950,7 +950,7 @@ describe('Utils [veramo]', () => {
         exampleVCinVP,
       ]);
 
-      //expect(verifyResult.verified).toBe(true);
+      // expect(verifyResult.verified).toBe(true);
 
       expect.assertions(2);
     });
@@ -1008,7 +1008,7 @@ describe('Utils [veramo]', () => {
           ],
         }
       );
-      expect(createdVP).not.toEqual(null);
+      expect(createdVP).not.toBeNull();
 
       const verifyResult = (await agent.verifyPresentation({
         presentation: createdVP as VerifiablePresentation,
@@ -1021,7 +1021,7 @@ describe('Utils [veramo]', () => {
         exampleVCEIP712,
       ]);
 
-      //expect(verifyResult.verified).toBe(true);
+      // expect(verifyResult.verified).toBe(true);
 
       expect.assertions(2);
     });
@@ -1042,7 +1042,7 @@ describe('Utils [veramo]', () => {
         { proofFormat: 'jwt', vcs: [{ id: 'test-id' }] }
       );
 
-      expect(createdVP).toEqual(null);
+      expect(createdVP).toBeNull();
 
       expect.assertions(1);
     });
@@ -1063,7 +1063,7 @@ describe('Utils [veramo]', () => {
         { proofFormat: 'jwt', vcs: [{ id: 'test-id' }] }
       );
 
-      expect(createdVP).toEqual(null);
+      expect(createdVP).toBeNull();
 
       expect.assertions(1);
     });

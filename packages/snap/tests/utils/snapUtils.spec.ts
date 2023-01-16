@@ -1,4 +1,6 @@
 import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { BIP44CoinTypeNode } from '@metamask/key-tree';
+import { MetaMaskInpageProvider } from '@metamask/providers';
 import {
   addFriendlyDapp,
   getCompressedPublicKey,
@@ -14,15 +16,12 @@ import {
   address,
   publicKey,
   getDefaultSnapState,
-  infuraToken,
   snapConfirmParams,
   bip44Entropy,
   compressedPublicKey,
 } from '../testUtils/constants';
-import { BIP44CoinTypeNode } from '@metamask/key-tree';
 
 import * as snapUtils from '../../src/utils/snapUtils';
-import { MetaMaskInpageProvider } from '@metamask/providers';
 
 jest
   .spyOn(snapUtils, 'getCurrentAccount')
@@ -57,7 +56,7 @@ describe('Utils [snap]', () => {
 
       await expect(
         getCurrentNetwork(snapMock as unknown as MetaMaskInpageProvider)
-      ).resolves.toEqual('0x5');
+      ).resolves.toBe('0x5');
 
       expect.assertions(1);
     });
@@ -67,7 +66,7 @@ describe('Utils [snap]', () => {
 
       await expect(
         getCurrentNetwork(snapMock as unknown as MetaMaskInpageProvider)
-      ).resolves.toEqual('0x5');
+      ).resolves.toBe('0x5');
 
       expect.assertions(1);
     });

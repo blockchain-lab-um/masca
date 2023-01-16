@@ -20,14 +20,14 @@ export async function saveVC(
   };
 
   if (snapConfirm(snap, promptObj)) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return await veramoSaveVC({
+    const res = await veramoSaveVC({
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       snap,
       ethereum,
       verifiableCredential,
       store,
     });
+    return res;
   }
   throw new Error('User rejected');
 }

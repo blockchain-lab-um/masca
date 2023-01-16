@@ -100,7 +100,7 @@ export function isValidCreateVPRequest(
       throw new Error('Domain is not a string');
     }
 
-    //check if challenge is a string
+    // check if challenge is a string
     if (
       'proofOptions' in param &&
       param.proofOptions !== null &&
@@ -110,7 +110,7 @@ export function isValidCreateVPRequest(
       throw new Error('Challenge is not a string');
     }
 
-    //check if type is correct string
+    // check if type is correct string
     if (
       'proofOptions' in param &&
       param.proofOptions !== null &&
