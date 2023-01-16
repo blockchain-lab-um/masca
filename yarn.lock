@@ -1824,13 +1824,14 @@ __metadata:
     "@blockchain-lab-um/ssi-snap-types": "*"
     "@blockchain-lab-um/veramo-vc-manager": "*"
     "@ceramicnetwork/http-client": 2.11.0
+    "@ceramicnetwork/streamid": 2.7.0
     "@commitlint/cli": ^17.3.0
     "@commitlint/config-conventional": ^17.3.0
     "@didtools/pkh-ethereum": ^0.0.2
     "@glazed/did-datastore": 0.3.2
     "@glazed/did-session": 0.1.1
     "@metamask/key-tree": ^6.0.0
-    "@metamask/providers": ^10.2.1
+    "@metamask/providers": 10.2.1
     "@metamask/snaps-cli": ^0.27.1
     "@metamask/snaps-types": ^0.27.1
     "@metamask/snaps-webpack-plugin": ^0.27.1
@@ -1854,6 +1855,7 @@ __metadata:
     "@veramo/utils": 4.2.0
     audit-ci: ^6.3.0
     babel-loader: ^9.1.0
+    caip: 1.1.0
     ceramic-cacao: ^1.4.0
     class-transformer: ^0.5.1
     class-validator: ^0.13.2
@@ -2074,7 +2076,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ceramicnetwork/streamid@npm:^2.1.0, @ceramicnetwork/streamid@npm:^2.7.0":
+"@ceramicnetwork/streamid@npm:2.7.0, @ceramicnetwork/streamid@npm:^2.1.0, @ceramicnetwork/streamid@npm:^2.7.0":
   version: 2.7.0
   resolution: "@ceramicnetwork/streamid@npm:2.7.0"
   dependencies:
@@ -4395,7 +4397,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metamask/providers@npm:^10.2.0, @metamask/providers@npm:^10.2.1":
+"@metamask/providers@npm:10.2.1, @metamask/providers@npm:^10.2.0, @metamask/providers@npm:^10.2.1":
   version: 10.2.1
   resolution: "@metamask/providers@npm:10.2.1"
   dependencies:
@@ -9354,7 +9356,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caip@npm:^1.0.0, caip@npm:^1.1.0, caip@npm:~1.1.0":
+"caip@npm:1.1.0, caip@npm:^1.0.0, caip@npm:^1.1.0, caip@npm:~1.1.0":
   version: 1.1.0
   resolution: "caip@npm:1.1.0"
   checksum: e6e651cf4f51ca675ed15c7154a1bd78a3dd2516c7187b5e7fe23f4c163289f56a95879a42bdf7d60b7d951acdab332f7f810e2a295b36c0ba9e02fb92a22e2e
