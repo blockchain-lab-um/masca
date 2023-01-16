@@ -1,7 +1,7 @@
 import { ApiParams, SSISnapState } from '../interfaces';
 import { getPublicKey } from './snapUtils';
 import { getEmptyAccountState, getInitialSnapState } from './config';
-import { SnapsGlobalObject } from '@metamask/snaps-utils';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 
 /**
  * Function for updating SSISnapState object in the MetaMask state
@@ -17,7 +17,8 @@ export async function updateSnapState(
   snap: SnapsGlobalObject,
   snapState: SSISnapState
 ) {
-  const res = await snap.request({
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+  await snap.request({
     method: 'snap_manageState',
     params: { operation: 'update', newState: snapState },
   });
@@ -36,6 +37,7 @@ export async function updateSnapState(
 export async function getSnapState(
   snap: SnapsGlobalObject
 ): Promise<SSISnapState> {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
   const state = (await snap.request({
     method: 'snap_manageState',
     params: { operation: 'get' },
@@ -58,6 +60,7 @@ export async function getSnapState(
 export async function getSnapStateUnchecked(
   snap: SnapsGlobalObject
 ): Promise<SSISnapState | null> {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
   const state = (await snap.request({
     method: 'snap_manageState',
     params: { operation: 'get' },
@@ -95,12 +98,14 @@ export async function initSnapState(
  *
  **/
 export async function initAccountState(params: ApiParams): Promise<void> {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { state, snap, account } = params;
   state.accountState[account] = getEmptyAccountState();
   await updateSnapState(snap, state);
 }
 
 export async function setAccountPublicKey(params: ApiParams): Promise<void> {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { state, snap, account } = params;
   const publicKey = await getPublicKey(params);
   state.accountState[account].publicKey = publicKey;

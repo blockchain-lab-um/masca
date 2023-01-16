@@ -1,3 +1,4 @@
+import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
 import {
@@ -36,6 +37,7 @@ describe('Utils [ceramic]', () => {
     });
     await veramoClearVCs({
       snap: snapMock,
+      ethereum: snapMock as unknown as MetaMaskInpageProvider,
       store: 'ceramic',
     });
   });
@@ -49,10 +51,15 @@ describe('Utils [ceramic]', () => {
   describe('ceramicVCStore', () => {
     it('should clear all VCs stored on ceramic', async () => {
       snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
-      await veramoClearVCs({ snap: snapMock, store: ['ceramic'] });
+      await veramoClearVCs({
+        snap: snapMock,
+        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        store: ['ceramic'],
+      });
 
       const vcs = await veramoQueryVCs({
         snap: snapMock,
+        ethereum: snapMock as unknown as MetaMaskInpageProvider,
         options: { store: ['ceramic'], returnStore: true },
       });
       expect(vcs).toEqual([]);
@@ -66,6 +73,7 @@ describe('Utils [ceramic]', () => {
 
       const ids = await veramoSaveVC({
         snap: snapMock,
+        ethereum: snapMock as unknown as MetaMaskInpageProvider,
         verifiableCredential: exampleVC,
         store: ['ceramic'],
       });
@@ -81,6 +89,7 @@ describe('Utils [ceramic]', () => {
       await expect(
         veramoSaveVC({
           snap: snapMock,
+          ethereum: snapMock as unknown as MetaMaskInpageProvider,
           verifiableCredential: 123 as unknown as W3CVerifiableCredential,
           store: ['ceramic'],
         })
@@ -94,6 +103,7 @@ describe('Utils [ceramic]', () => {
       };
       const vcs = await veramoQueryVCs({
         snap: snapMock,
+        ethereum: snapMock as unknown as MetaMaskInpageProvider,
         options: { store: ['ceramic'], returnStore: true },
       });
       expect(vcs).toHaveLength(1);
@@ -105,15 +115,21 @@ describe('Utils [ceramic]', () => {
     it('should succeed deleting VC from ceramic network', async () => {
       snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
 
-      await veramoClearVCs({ snap: snapMock, store: ['ceramic'] });
+      await veramoClearVCs({
+        snap: snapMock,
+        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        store: ['ceramic'],
+      });
 
       const ids = await veramoSaveVC({
         snap: snapMock,
+        ethereum: snapMock as unknown as MetaMaskInpageProvider,
         verifiableCredential: exampleVC,
         store: ['ceramic'],
       });
       const vcsPreDelete = await veramoQueryVCs({
         snap: snapMock,
+        ethereum: snapMock as unknown as MetaMaskInpageProvider,
         options: { store: ['ceramic'], returnStore: true },
       });
       expect(vcsPreDelete).toHaveLength(1);
@@ -121,9 +137,11 @@ describe('Utils [ceramic]', () => {
         id: ids[0].id,
         store: ['ceramic'],
         snap: snapMock,
+        ethereum: snapMock as unknown as MetaMaskInpageProvider,
       });
       const vcs = await veramoQueryVCs({
         snap: snapMock,
+        ethereum: snapMock as unknown as MetaMaskInpageProvider,
         options: { store: ['ceramic'], returnStore: true },
       });
       expect(vcs).toHaveLength(0);
@@ -134,16 +152,22 @@ describe('Utils [ceramic]', () => {
     it('should succeed storing and querying JWT from ceramic network', async () => {
       snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
 
-      await veramoClearVCs({ snap: snapMock, store: ['ceramic'] });
+      await veramoClearVCs({
+        snap: snapMock,
+        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        store: ['ceramic'],
+      });
 
       const ids = await veramoSaveVC({
         snap: snapMock,
+        ethereum: snapMock as unknown as MetaMaskInpageProvider,
         verifiableCredential: exampleVC.proof.jwt,
         store: ['ceramic'],
       });
 
       const vcs = await veramoQueryVCs({
         snap: snapMock,
+        ethereum: snapMock as unknown as MetaMaskInpageProvider,
         options: { store: ['ceramic'], returnStore: true },
       });
       expect(vcs).toHaveLength(1);

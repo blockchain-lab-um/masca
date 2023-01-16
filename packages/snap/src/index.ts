@@ -36,7 +36,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   if (state === null) state = await initSnapState(snap);
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  const account = await getCurrentAccount(snap);
+  const account = await getCurrentAccount(ethereum);
 
   // FIXME: HANDLE NULL maybe throw ?
   if (account === null) return;
@@ -45,6 +45,8 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
     state,
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     snap,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    ethereum,
     account,
   };
 

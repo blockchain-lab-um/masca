@@ -1,3 +1,4 @@
+import { MetaMaskInpageProvider } from '@metamask/providers';
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // Core interfaces
@@ -60,7 +61,7 @@ import {
   getCurrentNetwork,
   getEnabledVCStores,
 } from '../utils/snapUtils';
-import { SnapsGlobalObject } from '@metamask/snaps-utils';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { getSnapState } from '../utils/stateUtils';
 
 export type Agent = TAgent<
@@ -72,10 +73,13 @@ export type Agent = TAgent<
     ICredentialIssuer
 >;
 
-export const getAgent = async (snap: SnapsGlobalObject): Promise<Agent> => {
+export const getAgent = async (
+  snap: SnapsGlobalObject,
+  ethereum: MetaMaskInpageProvider
+): Promise<Agent> => {
   const state = await getSnapState(snap);
-  const CHAIN_ID = await getCurrentNetwork(snap);
-  const account = await getCurrentAccount(snap);
+  const CHAIN_ID = await getCurrentNetwork(ethereum);
+  const account = await getCurrentAccount(ethereum);
 
   const web3Providers: Record<string, Web3Provider> = {};
   const didProviders: Record<string, AbstractIdentifierProvider> = {};
@@ -108,9 +112,9 @@ export const getAgent = async (snap: SnapsGlobalObject): Promise<Agent> => {
   didProviders['did:key'] = new KeyDIDProvider({ defaultKms: 'web3' });
   didProviders['did:pkh'] = new PkhDIDProvider({ defaultKms: 'web3' });
 
-  vcStorePlugins['snap'] = new SnapVCStore(snap);
+  vcStorePlugins['snap'] = new SnapVCStore(snap, ethereum);
   if (enabledVCStores.includes('ceramic')) {
-    vcStorePlugins['ceramic'] = new CeramicVCStore(snap);
+    vcStorePlugins['ceramic'] = new CeramicVCStore(snap, ethereum);
   }
   const agent = createAgent<
     IDIDManager &
@@ -144,7 +148,7 @@ export const getAgent = async (snap: SnapsGlobalObject): Promise<Agent> => {
         }),
       }),
       new DIDManager({
-        store: new SnapDIDStore(snap),
+        store: new SnapDIDStore(snap, ethereum),
         defaultProvider: 'metamask',
         providers: didProviders,
       }),

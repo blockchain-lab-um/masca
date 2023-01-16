@@ -1,10 +1,11 @@
 import { updateSnapState } from './stateUtils';
 import { publicKeyConvert } from 'secp256k1';
-import { SnapsGlobalObject } from '@metamask/snaps-utils';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { ApiParams, SnapConfirmParams, SSISnapState } from '../interfaces';
 import { snapGetKeysFromAddress } from './keyPair';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { AvailableVCStores } from '@blockchain-lab-um/ssi-snap-types';
+import { MetaMaskInpageProvider } from '@metamask/providers';
 
 /**
  * Function that returns address of the currently selected MetaMask account.
@@ -17,7 +18,7 @@ import { AvailableVCStores } from '@blockchain-lab-um/ssi-snap-types';
  *
  **/
 export async function getCurrentAccount(
-  snap: SnapsGlobalObject
+  ethereum: MetaMaskInpageProvider
 ): Promise<string | null> {
   try {
     const accounts = (await ethereum.request({
@@ -30,7 +31,7 @@ export async function getCurrentAccount(
 }
 
 export async function getCurrentNetwork(
-  snap: SnapsGlobalObject
+  ethereum: MetaMaskInpageProvider
 ): Promise<string> {
   const network = (await ethereum.request({
     method: 'eth_chainId',
@@ -86,6 +87,7 @@ export async function removeFriendlyDapp(
  * @returns {Promise<string>} - returns public key for current account
  */
 export async function getPublicKey(params: ApiParams): Promise<string> {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { snap, state, account, bip44CoinTypeNode } = params;
   if (state.accountState[account].publicKey !== '')
     return state.accountState[account].publicKey;

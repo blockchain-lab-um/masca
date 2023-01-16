@@ -1,3 +1,4 @@
+import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
 import { onRpcRequest } from '../../src/index';
@@ -152,6 +153,7 @@ describe('onRpcRequest', () => {
       });
       await veramoClearVCs({
         snap: snapMock,
+        ethereum: snapMock as unknown as MetaMaskInpageProvider,
         store: 'ceramic',
       });
       snapMock.rpcMocks.snap_manageState({
@@ -200,6 +202,7 @@ describe('onRpcRequest', () => {
       expect(result).toEqual(expectedResult);
       await veramoClearVCs({
         snap: snapMock,
+        ethereum: snapMock as unknown as MetaMaskInpageProvider,
         store: 'ceramic',
       });
       expect.assertions(2);
