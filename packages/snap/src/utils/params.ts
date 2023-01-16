@@ -5,11 +5,11 @@ import {
   CreateVPRequestParams,
   SaveVCRequestParams,
   QueryVCsRequestParams,
-  ChangeInfuraTokenRequestParams,
   SwitchMethodRequestParams,
   SetVCStoreRequestParams,
   DeleteVCsRequestParams,
   AvailableVCStores,
+  ResolveDIDRequestParams,
 } from '@blockchain-lab-um/ssi-snap-types';
 import { SSISnapState } from 'src/interfaces';
 import { isEnabledVCStore } from './snapUtils';
@@ -156,22 +156,6 @@ export function isValidCreateVPRequest(
   }
 
   throw new Error('Invalid CreateVP request');
-}
-
-export function isValidChangeInfuraTokenRequest(
-  params: unknown
-): asserts params is ChangeInfuraTokenRequestParams {
-  const param = params as ChangeInfuraTokenRequestParams;
-  if (
-    param !== null &&
-    typeof param === 'object' &&
-    'infuraToken' in param &&
-    param.infuraToken !== null &&
-    typeof param.infuraToken === 'string'
-  )
-    return;
-
-  throw new Error('Invalid ChangeInfuraToken request');
 }
 
 export function isValidSwitchMethodRequest(
@@ -322,4 +306,21 @@ export function isValidQueryRequest(
       }
     }
   }
+}
+
+export function isValidResolveDIDRequest(
+  params: unknown
+): asserts params is ResolveDIDRequestParams {
+  const param = params as ResolveDIDRequestParams;
+  if (
+    param !== null &&
+    typeof param === 'object' &&
+    'did' in param &&
+    param.did !== null &&
+    param.did !== '' &&
+    typeof param.did === 'string'
+  )
+    return;
+
+  throw new Error('Invalid ResolveDID request');
 }

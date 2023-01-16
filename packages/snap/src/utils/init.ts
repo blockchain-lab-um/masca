@@ -12,9 +12,9 @@ export async function init(snap: SnapsGlobalObject): Promise<SSISnapState> {
   };
 
   // Accept terms and conditions
-  if (await snapConfirm(snap, promptObj)) {
-    return await initSnapState(snap);
-  } else {
-    throw new Error('User did not accept terms and conditions!');
-  }
+  //if (snapConfirm(snap, promptObj)) {
+  return await initSnapState(snap);
+  //} else {
+  //throw new Error('User did not accept terms and conditions!');
+  //}
 }

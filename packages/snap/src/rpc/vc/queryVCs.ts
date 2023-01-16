@@ -12,10 +12,13 @@ export async function queryVCs(
 ): Promise<QueryVCsRequestResult[]> {
   const { filter, options } = args || {};
   const { store, returnStore = true } = options || {};
-  const { state, snap } = params;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const { state, snap, ethereum } = params;
 
   const vcs = await veramoQueryVCs({
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     snap,
+    ethereum,
     options: { store, returnStore },
     filter,
   });
@@ -26,10 +29,7 @@ export async function queryVCs(
     textAreaContent: `Some dApps are less secure than others and could save data from VCs against your will. Be careful where you send your private VCs! Number of VCs submitted is ${vcs.length.toString()}`,
   };
 
-  if (
-    state.snapConfig.dApp.disablePopups ||
-    (await snapConfirm(snap, promptObj))
-  ) {
+  if (state.snapConfig.dApp.disablePopups || snapConfirm(snap, promptObj)) {
     return vcs;
   }
 

@@ -1,3 +1,4 @@
+import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import {
   AvailableMethods,
@@ -7,6 +8,8 @@ import { getDidKeyIdentifier } from '../did/key/keyDidUtils';
 import { SSISnapState } from '../interfaces';
 import { getCurrentNetwork } from './snapUtils';
 import { updateSnapState } from './stateUtils';
+import { getDidPkhIdentifier } from '../did/pkh/pkhDidUtils';
+import { DIDResolutionResult } from 'did-resolver';
 
 export async function changeCurrentVCStore(
   snap: SnapsGlobalObject,
@@ -20,22 +23,28 @@ export async function changeCurrentVCStore(
 }
 
 export async function getCurrentDid(
-  snap: SnapsGlobalObject,
+  ethereum: MetaMaskInpageProvider,
   state: SSISnapState,
   account: string
 ): Promise<string> {
   const method = state.accountState[account].accountConfig.ssi.didMethod;
   if (method === 'did:ethr') {
-    const chain_id = await getCurrentNetwork(snap);
+    const chain_id = await getCurrentNetwork(ethereum);
     return `did:ethr:${chain_id}:${account}`;
-  } else {
+  } else if (method === 'did:key') {
     const didUrl = getDidKeyIdentifier(state, account);
     return `did:key:${didUrl}`;
+  } else if (method === 'did:pkh') {
+    const didUrl = await getDidPkhIdentifier(ethereum, account);
+    return `did:pkh:${didUrl}`;
+  } else {
+    return '';
   }
 }
 
 export async function changeCurrentMethod(
   snap: SnapsGlobalObject,
+  ethereum: MetaMaskInpageProvider,
   state: SSISnapState,
   account: string,
   didMethod: AvailableMethods
@@ -43,8 +52,16 @@ export async function changeCurrentMethod(
   if (state.accountState[account].accountConfig.ssi.didMethod !== didMethod) {
     state.accountState[account].accountConfig.ssi.didMethod = didMethod;
     await updateSnapState(snap, state);
-    const did = await getCurrentDid(snap, state, account);
+    const did = await getCurrentDid(ethereum, state, account);
     return did;
   }
   return '';
+}
+
+export async function resolveDid(did: string): Promise<DIDResolutionResult> {
+  const response = await fetch(
+    `https://dev.uniresolver.io/1.0/identifiers/${did}`
+  );
+  const data = (await response.json()) as DIDResolutionResult;
+  return data;
 }

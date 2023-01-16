@@ -34,6 +34,7 @@ describe('keyDidResolver', () => {
     snapMock = createMockSnap();
     snapMock.rpcMocks.snap_manageState('update', getDefaultSnapState());
     global.snap = snapMock;
+    global.ethereum = snapMock;
   });
 
   describe('resolveDidKey', () => {

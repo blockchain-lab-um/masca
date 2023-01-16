@@ -1,16 +1,16 @@
 import { OnRpcRequestHandler } from '@metamask/snaps-types';
-import { togglePopups, changeInfuraToken } from './rpc/snap/configure';
+import { togglePopups } from './rpc/snap/configure';
 import { queryVCs } from './rpc/vc/queryVCs';
 import { createVP } from './rpc/vc/createVP';
 import { saveVC } from './rpc/vc/saveVC';
 import {
-  isValidChangeInfuraTokenRequest,
   isValidCreateVPRequest,
   isValidSaveVCRequest,
   isValidSetVCStoreRequest,
   isValidSwitchMethodRequest,
   isValidDeleteVCRequest,
   isValidQueryRequest,
+  isValidResolveDIDRequest,
 } from './utils/params';
 import { switchMethod } from './rpc/did/switchMethod';
 import { getDid } from './rpc/did/getDID';
@@ -27,18 +27,24 @@ import { getCurrentAccount } from './utils/snapUtils';
 import { getAddressKeyDeriver } from './utils/keyPair';
 import { ApiParams } from './interfaces';
 import { deleteVC } from './rpc/vc/deleteVC';
+import { resolveDID } from './rpc/did/resolveDID';
 
 export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   let state = await getSnapStateUnchecked(snap);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   if (state === null) state = await initSnapState(snap);
-
-  const account = await getCurrentAccount(snap);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  const account = await getCurrentAccount(ethereum);
 
   if (account === null) throw new Error('No account found');
 
   const apiParams: ApiParams = {
     state,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     snap,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    ethereum,
     account,
   };
 
@@ -63,9 +69,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
       );
       apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
       return await createVP(apiParams, request.params);
-    case 'changeInfuraToken':
-      isValidChangeInfuraTokenRequest(request.params);
-      return await changeInfuraToken(apiParams, request.params);
+
     case 'togglePopups':
       return await togglePopups(apiParams);
     case 'switchDIDMethod':
@@ -95,6 +99,9 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
         apiParams.state
       );
       return await deleteVC(apiParams, request.params);
+    case 'resolveDID':
+      isValidResolveDIDRequest(request.params);
+      return await resolveDID(request.params.did);
     default:
       throw new Error('Method not found.');
   }

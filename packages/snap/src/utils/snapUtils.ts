@@ -5,6 +5,7 @@ import { ApiParams, SnapConfirmParams, SSISnapState } from '../interfaces';
 import { snapGetKeysFromAddress } from './keyPair';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { AvailableVCStores } from '@blockchain-lab-um/ssi-snap-types';
+import { MetaMaskInpageProvider } from '@metamask/providers';
 
 /**
  * Function that returns address of the currently selected MetaMask account.
@@ -17,8 +18,7 @@ import { AvailableVCStores } from '@blockchain-lab-um/ssi-snap-types';
  *
  **/
 export async function getCurrentAccount(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  snap: SnapsGlobalObject
+  ethereum: MetaMaskInpageProvider
 ): Promise<string | null> {
   try {
     const accounts = (await ethereum.request({
@@ -31,28 +31,12 @@ export async function getCurrentAccount(
 }
 
 export async function getCurrentNetwork(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  snap: SnapsGlobalObject
+  ethereum: MetaMaskInpageProvider
 ): Promise<string> {
   const network = (await ethereum.request({
     method: 'eth_chainId',
   })) as string;
   return network;
-}
-
-/**
- * Function that replaces default Infura Token with @param token.
- *
- * @param state SSISnapState
- * @param token infura token
- */
-export async function updateInfuraToken(
-  snap: SnapsGlobalObject,
-  state: SSISnapState,
-  token: string
-): Promise<void> {
-  state.snapConfig.snap.infuraToken = token;
-  await updateSnapState(snap, state);
 }
 
 /**
@@ -100,6 +84,7 @@ export async function removeFriendlyDapp(
  * @returns {Promise<string>} - returns public key for current account
  */
 export async function getPublicKey(params: ApiParams): Promise<string> {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { snap, state, account, bip44CoinTypeNode } = params;
   if (state.accountState[account].publicKey !== '')
     return state.accountState[account].publicKey;
@@ -127,21 +112,22 @@ export function _hexToUint8Array(str: string): Uint8Array {
   return new Uint8Array(Buffer.from(str, 'hex'));
 }
 
-export async function snapConfirm(
+export function snapConfirm(
   snap: SnapsGlobalObject,
   params: SnapConfirmParams
-): Promise<boolean> {
-  return (await snap.request({
-    method: 'snap_dialog',
-    params: {
-      type: 'Confirmation',
-      fields: {
-        title: params.prompt,
-        description: params.description,
-        textAreaContent: params.textAreaContent,
-      },
-    },
-  })) as boolean;
+): boolean {
+  // return (await snap.request({
+  //   method: 'snap_dialog',
+  //   params: {
+  //     type: 'Confirmation',
+  //     fields: {
+  //       title: params.prompt,
+  //       description: params.description,
+  //       textAreaContent: params.textAreaContent,
+  //     },
+  //   },
+  // })) as boolean;
+  return true;
 }
 
 export function getAccountIndex(

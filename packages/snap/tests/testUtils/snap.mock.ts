@@ -4,7 +4,7 @@ import { SnapsGlobalObject } from '@metamask/snaps-types';
 
 import { address, mnemonic, privateKey } from './constants';
 import { SSISnapState } from '../../src/interfaces';
-import { Wallet } from 'ethers';
+import { Wallet, providers } from 'ethers';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 interface ISnapMock {
   request<T>(args: RequestArguments): Promise<Maybe<T>>;
@@ -39,10 +39,25 @@ export class SnapMock implements ISnapMock {
     return signature;
   }
 
+  private async snapEthCall(data: any[]): Promise<string> {
+    const apiKey = 'NRFBwig_CLVL0WnQLY3dUo8YkPmW-7iN';
+    const provider = new providers.AlchemyProvider('goerli', apiKey);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    return await provider.call(data[0], data[1]);
+  }
+
+  private async snapEthLogs(data: any[]): Promise<unknown> {
+    const apiKey = 'NRFBwig_CLVL0WnQLY3dUo8YkPmW-7iN';
+    const provider = new providers.AlchemyProvider('goerli', apiKey);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    return await provider.getLogs(data[0]);
+  }
+
   readonly rpcMocks = {
     snap_dialog: jest.fn(),
     eth_requestAccounts: jest.fn().mockResolvedValue([address]),
     eth_chainId: jest.fn().mockResolvedValue('0x5'),
+    net_version: jest.fn().mockResolvedValue('5'),
     snap_getBip44Entropy: jest
       .fn()
       .mockImplementation(async (params: { coinType: number }) => {
@@ -61,6 +76,12 @@ export class SnapMock implements ISnapMock {
       ),
     personal_sign: jest.fn().mockImplementation(async (data: unknown) => {
       return await this.snapPersonalSign(data as string[]);
+    }),
+    eth_call: jest.fn().mockImplementation(async (data: unknown) => {
+      return await this.snapEthCall(data as any[]);
+    }),
+    eth_getLogs: jest.fn().mockImplementation(async (data: unknown) => {
+      return await this.snapEthLogs(data as any[]);
     }),
     eth_signTypedData_v4: jest
       .fn()

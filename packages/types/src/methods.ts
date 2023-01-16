@@ -1,8 +1,8 @@
 import {
-  ChangeInfuraTokenRequestParams,
   CreateVPRequestParams,
   DeleteVCsRequestParams,
   QueryVCsRequestParams,
+  ResolveDIDRequestParams,
   SaveVCRequestParams,
   SetVCStoreRequestParams,
   SwitchMethodRequestParams,
@@ -26,11 +26,6 @@ export type DeleteVC = {
 export type CreateVP = {
   method: 'createVP';
   params: CreateVPRequestParams;
-};
-
-export type ChangeInfuraToken = {
-  method: 'changeInfuraToken';
-  params: ChangeInfuraTokenRequestParams;
 };
 
 export type SetVCStore = {
@@ -73,4 +68,9 @@ export type GetSnapSettings = {
 
 export type GetAvailableVCStores = {
   method: 'getAvailableVCStores';
+};
+
+export type ResolveDID = {
+  method: 'resolveDID';
+  params: ResolveDIDRequestParams;
 };

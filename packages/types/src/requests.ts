@@ -3,7 +3,6 @@ import {
   SaveVC,
   DeleteVC,
   CreateVP,
-  ChangeInfuraToken,
   TogglePopups,
   GetDID,
   GetMethod,
@@ -14,6 +13,7 @@ import {
   GetAvailableVCStores,
   GetAccountSettings,
   GetSnapSettings,
+  ResolveDID,
 } from './methods';
 
 export type MetaMaskSSISnapRPCRequest =
@@ -21,7 +21,6 @@ export type MetaMaskSSISnapRPCRequest =
   | SaveVC
   | CreateVP
   | DeleteVC
-  | ChangeInfuraToken
   | TogglePopups
   | GetDID
   | GetMethod
@@ -31,7 +30,8 @@ export type MetaMaskSSISnapRPCRequest =
   | SetVCStore
   | GetAvailableVCStores
   | GetAccountSettings
-  | GetSnapSettings;
+  | GetSnapSettings
+  | ResolveDID;
 
 export type Method = MetaMaskSSISnapRPCRequest['method'];
 

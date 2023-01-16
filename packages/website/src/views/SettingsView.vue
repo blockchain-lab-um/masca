@@ -18,19 +18,6 @@
           class="p-button-rounded"
         />
       </div>
-
-      <div class="infuraInput">
-        <InputText
-          id="infuraToken"
-          type="text"
-          placeholder="Input infura token"
-        />
-        <wrappedButton
-          label="Change infura token"
-          :method="changeInfuraToken"
-          class="p-button-rounded"
-        />
-      </div>
     </div>
   </div>
 </template>
@@ -75,28 +62,6 @@ const togglePopups = async () => {
   const res = await mmStore.snapApi?.togglePopups();
   if (!res) throw new Error('Failed to toggle popups');
   return 'Success toggling popups.';
-};
-
-const changeInfuraToken = async () => {
-  try {
-    const infuraInput = document.getElementById('infuraToken');
-    infuraInput?.classList.remove('p-invalid');
-    const infuraToken = (infuraInput as HTMLInputElement)?.value;
-    //console.log('🚀 ~ file: SettingsView.vue ~ line 49 ~ changeInfuraToken ~ infuraToken', infuraToken);
-    if (!infuraToken) {
-      infuraInput?.classList.add('p-invalid');
-      return;
-    }
-    const res = await mmStore.snapApi?.changeInfuraToken(infuraToken);
-    if (!res) {
-      throw new Error('Failed to change infura token.');
-    }
-    (document.getElementById('infuraToken') as HTMLInputElement).value = '';
-    return 'Success changing infura token';
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
 };
 </script>
 

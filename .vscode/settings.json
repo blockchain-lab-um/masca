@@ -1,3 +1,6 @@
 {
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "sonarlint.connectedMode.project": {
+    "connectionId": "https-bclabum-informatika-uni-mb-si",
+    "projectKey": "snap"
+  }
 }

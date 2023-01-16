@@ -1,3 +1,7 @@
+import { MetaMaskInpageProvider } from '@metamask/providers';
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// Core interfaces
 import {
   createAgent,
   IDIDManager,
@@ -9,6 +13,10 @@ import {
 
 import { AbstractIdentifierProvider, DIDManager } from '@veramo/did-manager';
 import { EthrDIDProvider } from '@veramo/did-provider-ethr';
+import {
+  PkhDIDProvider,
+  getDidPkhResolver as pkhDidResolver,
+} from '@veramo/did-provider-pkh';
 import {
   KeyManager,
   MemoryKeyStore,
@@ -44,6 +52,7 @@ import { getDidKeyResolver as keyDidResolver } from '../did/key/keyDidResolver';
 const availableNetworks: Record<string, string> = {
   '0x01': 'mainnet',
   '0x05': 'goerli',
+  '0x5': 'goerli',
 };
 
 import {
@@ -63,30 +72,47 @@ export type Agent = TAgent<
     ICredentialIssuer
 >;
 
-export const getAgent = async (snap: SnapsGlobalObject): Promise<Agent> => {
+export const getAgent = async (
+  snap: SnapsGlobalObject,
+  ethereum: MetaMaskInpageProvider
+): Promise<Agent> => {
   const state = await getSnapState(snap);
-  const INFURA_PROJECT_ID = state.snapConfig.snap.infuraToken;
-  const CHAIN_ID = await getCurrentNetwork(snap);
-  const account = await getCurrentAccount(snap);
+  const CHAIN_ID = await getCurrentNetwork(ethereum);
+  const account = await getCurrentAccount(ethereum);
 
   const didProviders: Record<string, AbstractIdentifierProvider> = {};
   const vcStorePlugins: Record<string, AbstractDataStore> = {};
   const enabledVCStores = getEnabledVCStores(account as string, state);
   console.log('Enabled VC Stores:', enabledVCStores);
 
+  const networks = [
+    {
+      name: 'mainnet',
+      provider: new Web3Provider(ethereum as any),
+    },
+    {
+      name: '0x05',
+      provider: new Web3Provider(ethereum as any),
+    },
+    {
+      name: 'goerli',
+      provider: new Web3Provider(ethereum as any),
+      chainId: '0x5',
+    },
+  ];
+
+  web3Providers['metamask'] = new Web3Provider(ethereum as any);
   didProviders['did:ethr'] = new EthrDIDProvider({
     defaultKms: 'web3',
-    network: availableNetworks[CHAIN_ID] ?? 'mainnet',
-    rpcUrl:
-      `https://${availableNetworks[CHAIN_ID] ?? 'mainnet'}.infura.io/v3/` +
-      INFURA_PROJECT_ID,
-    web3Provider: new Web3Provider(snap),
+    networks,
   });
 
   didProviders['did:key'] = new KeyDIDProvider({ defaultKms: 'web3' });
-  vcStorePlugins['snap'] = new SnapVCStore(snap);
+  didProviders['did:pkh'] = new PkhDIDProvider({ defaultKms: 'web3' });
+
+  vcStorePlugins['snap'] = new SnapVCStore(snap, ethereum);
   if (enabledVCStores.includes('ceramic')) {
-    vcStorePlugins['ceramic'] = new CeramicVCStore(snap);
+    vcStorePlugins['ceramic'] = new CeramicVCStore(snap, ethereum);
   }
   const agent = createAgent<
     IDIDManager &
@@ -112,12 +138,13 @@ export const getAgent = async (snap: SnapsGlobalObject): Promise<Agent> => {
       new DataManager({ store: vcStorePlugins }),
       new DIDResolverPlugin({
         resolver: new Resolver({
-          ...ethrDidResolver({ infuraProjectId: INFURA_PROJECT_ID }),
+          ...ethrDidResolver({ networks }),
           ...keyDidResolver(),
+          ...pkhDidResolver(),
         }),
       }),
       new DIDManager({
-        store: new SnapDIDStore(snap),
+        store: new SnapDIDStore(snap, ethereum),
         defaultProvider: 'metamask',
         providers: didProviders,
       }),
