@@ -9,7 +9,6 @@ export async function saveVC(
   { verifiableCredential, options }: SaveVCRequestParams
 ): Promise<IDataManagerSaveResult[]> {
   const { store = 'snap' } = options || {};
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { snap, ethereum } = params;
   const promptObj = {
     prompt: 'Save VC',
@@ -21,7 +20,6 @@ export async function saveVC(
 
   if (snapConfirm(snap, promptObj)) {
     const res = await veramoSaveVC({
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       snap,
       ethereum,
       verifiableCredential,

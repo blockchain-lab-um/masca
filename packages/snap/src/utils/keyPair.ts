@@ -32,18 +32,16 @@ export async function getAddressKeyDeriver(
   params: ApiParams,
   coin_type?: number
 ) {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { state, snap, account } = params;
-  if (coin_type === undefined) {
+  let ct = coin_type;
+  if (ct === undefined) {
     const method = state.accountState[account].accountConfig.ssi.didMethod;
-    // eslint-disable-next-line no-param-reassign
-    coin_type = didCoinTypeMappping[method];
+    ct = didCoinTypeMappping[method];
   }
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
   const bip44CoinTypeNode = (await snap.request({
     method: 'snap_getBip44Entropy',
     params: {
-      coinType: coin_type,
+      coinType: ct,
     },
   })) as BIP44CoinTypeNode;
   return bip44CoinTypeNode;

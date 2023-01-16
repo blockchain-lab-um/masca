@@ -12,11 +12,9 @@ export async function queryVCs(
 ): Promise<QueryVCsRequestResult[]> {
   const { filter, options } = args || {};
   const { store, returnStore = true } = options || {};
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { state, snap, ethereum } = params;
 
   const vcs = await veramoQueryVCs({
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     snap,
     ethereum,
     options: { store, returnStore },

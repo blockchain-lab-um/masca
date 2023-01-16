@@ -7,7 +7,6 @@ export async function setVCStore(
   params: ApiParams,
   { store, value }: SetVCStoreRequestParams
 ): Promise<boolean> {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { state, snap, account } = params;
   if (store !== 'snap') {
     const promptObj = {

@@ -85,7 +85,6 @@ export async function removeFriendlyDapp(
  * @returns {Promise<string>} - returns public key for current account
  */
 export async function getPublicKey(params: ApiParams): Promise<string> {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { snap, state, account, bip44CoinTypeNode } = params;
   if (state.accountState[account].publicKey !== '')
     return state.accountState[account].publicKey;
@@ -99,7 +98,6 @@ export async function getPublicKey(params: ApiParams): Promise<string> {
   return res.publicKey;
 }
 
-// eslint-disable-next-line no-underscore-dangle, @typescript-eslint/naming-convention
 export function uint8ArrayToHex(arr: Uint8Array) {
   return Buffer.from(arr).toString('hex');
 }
@@ -137,14 +135,12 @@ export function getEnabledVCStores(
   vcstores?: AvailableVCStores[]
 ): string[] {
   if (!vcstores) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     vcstores = Object.keys(
       state.accountState[account].accountConfig.ssi.vcStore
     ) as AvailableVCStores[];
   }
 
   const res = vcstores.filter((vcstore) => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     return (
       state.accountState[account].accountConfig.ssi.vcStore[vcstore] === true
     );
@@ -157,12 +153,10 @@ export function isEnabledVCStore(
   state: SSISnapState,
   store: AvailableVCStores
 ): boolean {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return state.accountState[account].accountConfig.ssi.vcStore[store];
 }
 
 export async function setAccountPublicKey(params: ApiParams): Promise<void> {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { state, snap, account } = params;
   const publicKey = await getPublicKey(params);
   state.accountState[account].publicKey = publicKey;

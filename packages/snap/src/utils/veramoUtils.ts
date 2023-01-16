@@ -29,7 +29,6 @@ export async function veramoSaveVC(args: {
   verifiableCredential: W3CVerifiableCredential;
   store: AvailableVCStores | AvailableVCStores[];
 }): Promise<IDataManagerSaveResult[]> {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { snap, ethereum, store, verifiableCredential } = args;
   const agent = await getAgent(snap, ethereum);
   const res = await agent.save({
@@ -43,7 +42,6 @@ export const veramoImportMetaMaskAccount = async (
   params: ApiParams,
   agent: Agent
 ): Promise<IIdentifier> => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { state, snap, ethereum, account, bip44CoinTypeNode } = params;
   const method = state.accountState[account].accountConfig.ssi.didMethod;
   const did = await getCurrentDid(ethereum, state, account);
@@ -82,7 +80,6 @@ export async function veramoClearVCs(args: {
   store?: AvailableVCStores | AvailableVCStores[];
   filter?: Filter; // TODO: Seperate type from datamanager (currently vcmanager)?
 }): Promise<boolean[]> {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { snap, ethereum, store, filter } = args;
   let options;
   if (store) options = { store };
@@ -100,7 +97,6 @@ export async function veramoDeleteVC(args: {
   id: string;
   store?: AvailableVCStores | AvailableVCStores[];
 }): Promise<boolean[]> {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { snap, ethereum, store, id } = args;
   const agent = await getAgent(snap, ethereum);
   let options;
@@ -118,7 +114,6 @@ export async function veramoQueryVCs(args: {
   options: QueryVCsOptions;
   filter?: Filter;
 }): Promise<QueryVCsRequestResult[]> {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { snap, ethereum, options, filter } = args;
   const agent = await getAgent(snap, ethereum);
   const result = (await agent.query({
@@ -139,7 +134,6 @@ export async function veramoCreateVP(
     ? createVPParams.proofFormat
     : 'jwt';
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { state, snap, ethereum } = params;
   // Get Veramo agent
   const agent = await getAgent(snap, ethereum);

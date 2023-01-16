@@ -8,7 +8,6 @@ export async function deleteVC(
   args: DeleteVCsRequestParams
 ): Promise<boolean[]> {
   const { id, options } = args || {};
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { snap, ethereum } = params;
   const store = options?.store;
   const promptObj = {
@@ -19,7 +18,6 @@ export async function deleteVC(
 
   if (snapConfirm(snap, promptObj)) {
     const res = await veramoDeleteVC({
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       snap,
       ethereum,
       id,

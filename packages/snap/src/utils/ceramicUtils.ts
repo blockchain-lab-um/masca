@@ -37,7 +37,7 @@ export async function authenticateWithEthereum(
   // eslint-disable-next-line @typescript-eslint/no-unused-expressions
   typeof window;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
   window.location = {} as any;
   window.location.hostname = 'ssi-snap';
 
