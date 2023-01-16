@@ -52,6 +52,7 @@ import { getDidKeyResolver as keyDidResolver } from '../did/key/keyDidResolver';
 const availableNetworks: Record<string, string> = {
   '0x01': 'mainnet',
   '0x05': 'goerli',
+  '0x5': 'goerli',
 };
 
 import {
@@ -84,12 +85,21 @@ export const getAgent = async (snap: SnapsGlobalObject): Promise<Agent> => {
 
   const networks = [
     {
-      name: availableNetworks[CHAIN_ID] ?? 'mainnet',
-      provider: new Web3Provider(snap as any),
+      name: 'mainnet',
+      provider: new Web3Provider(ethereum as any),
+    },
+    {
+      name: '0x05',
+      provider: new Web3Provider(ethereum as any),
+    },
+    {
+      name: 'goerli',
+      provider: new Web3Provider(ethereum as any),
+      chainId: '0x5',
     },
   ];
 
-  web3Providers['metamask'] = new Web3Provider(snap as any);
+  web3Providers['metamask'] = new Web3Provider(ethereum as any);
   didProviders['did:ethr'] = new EthrDIDProvider({
     defaultKms: 'web3',
     networks,

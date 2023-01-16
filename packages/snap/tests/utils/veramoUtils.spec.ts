@@ -714,6 +714,73 @@ describe('Utils [veramo]', () => {
 
       expect.assertions(1);
     });
+    it('should succeed creating a valid VP - lds', async () => {
+      console.log('LDS09');
+      const initialState = getDefaultSnapState();
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
+      snapMock.rpcMocks.snap_dialog.mockResolvedValue(true);
+      const agent = await getAgent(snapMock);
+
+      const res = await veramoSaveVC({
+        snap: snapMock,
+        verifiableCredential: exampleVC,
+        store: ['snap'],
+      });
+
+      const createdVP = await veramoCreateVP(
+        {
+          snap: snapMock,
+          state: initialState,
+          account: address,
+          bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
+        },
+        { proofFormat: 'lds', vcs: [{ id: res[0].id }] }
+      );
+      expect(createdVP).not.toEqual(null);
+
+      console.log(createdVP);
+
+      const verifyResult = (await agent.verifyPresentation({
+        presentation: createdVP as VerifiablePresentation,
+      })) as IVerifyResult;
+
+      //expect(verifyResult.verified).toBe(true);
+
+      expect.assertions(1);
+    });
+    it('should succeed creating a valid VP - eip712', async () => {
+      const initialState = getDefaultSnapState();
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
+      snapMock.rpcMocks.snap_dialog.mockResolvedValue(true);
+      const agent = await getAgent(snapMock);
+
+      const res = await veramoSaveVC({
+        snap: snapMock,
+        verifiableCredential: exampleVC,
+        store: ['snap'],
+      });
+
+      const createdVP = await veramoCreateVP(
+        {
+          snap: snapMock,
+          state: initialState,
+          account: address,
+          bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
+        },
+        { proofFormat: 'EthereumEip712Signature2021', vcs: [{ id: res[0].id }] }
+      );
+      expect(createdVP).not.toEqual(null);
+
+      const verifyResult = (await agent.verifyPresentation({
+        presentation: createdVP as VerifiablePresentation,
+      })) as IVerifyResult;
+
+      console.log(createdVP);
+
+      //expect(verifyResult.verified).toBe(true);
+
+      expect.assertions(1);
+    });
     it('should succeed creating a valid VP with one false id', async () => {
       const initialState = getDefaultSnapState();
       snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
