@@ -1,5 +1,5 @@
+/* eslint-disable import/extensions */
 import React from 'react';
-// eslint-disable-next-line import/extensions
 import TeamCard from './TeamCard';
 import members from '../../constants/Members';
 import styles from './styles.module.css';
