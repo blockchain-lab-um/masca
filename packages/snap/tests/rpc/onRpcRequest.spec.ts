@@ -18,8 +18,15 @@ import {
   address,
   exampleDIDDocument,
 } from '../testUtils/constants';
-import { onRpcRequest } from '../../src/index';
-import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
+import {
+  availableVCStores,
+  availableMethods,
+} from '@blockchain-lab-um/ssi-snap-types';
+import { DIDResolutionResult, VerifiablePresentation } from '@veramo/core';
+import * as uuid from 'uuid';
+import { veramoClearVCs } from '../../src/utils/veramoUtils';
+import { DIDDataStore } from '@glazed/did-datastore';
+import { StreamID } from '@ceramicnetwork/streamid';
 import { StoredCredentials } from '../../src/interfaces';
 import * as snapUtils from '../../src/utils/snapUtils';
 
@@ -85,6 +92,7 @@ describe('onRpcRequest', () => {
           id: 'test-id',
           jsonrpc: '2.0',
           method: 'queryVCs',
+          params: {},
         },
       });
 
@@ -1081,6 +1089,7 @@ describe('onRpcRequest', () => {
             id: 'test-id',
             jsonrpc: '2.0',
             method: 'getAvailableMethods',
+            params: {},
           },
         })
       ).resolves.toEqual(availableMethods);
@@ -1141,6 +1150,7 @@ describe('onRpcRequest', () => {
             id: 'test-id',
             jsonrpc: '2.0',
             method: 'getVCStore',
+            params: {},
           },
         })
       ).resolves.toEqual({ ceramic: true, snap: true });
@@ -1158,6 +1168,7 @@ describe('onRpcRequest', () => {
             id: 'test-id',
             jsonrpc: '2.0',
             method: 'getVCStore',
+            params: {},
           },
         })
       ).resolves.toEqual({ ceramic: true, snap: true });
@@ -1173,6 +1184,7 @@ describe('onRpcRequest', () => {
             id: 'test-id',
             jsonrpc: '2.0',
             method: 'getAvailableVCStores',
+            params: {},
           },
         })
       ).resolves.toEqual(availableVCStores);
@@ -1190,6 +1202,7 @@ describe('onRpcRequest', () => {
             id: 'test-id',
             jsonrpc: '2.0',
             method: 'getAccountSettings',
+            params: {},
           },
         })
       ).resolves.toEqual(state.accountState[address].accountConfig);
@@ -1207,6 +1220,7 @@ describe('onRpcRequest', () => {
             id: 'test-id',
             jsonrpc: '2.0',
             method: 'getSnapSettings',
+            params: {},
           },
         })
       ).resolves.toEqual(state.snapConfig);

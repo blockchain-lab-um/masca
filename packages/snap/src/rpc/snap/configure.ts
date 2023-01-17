@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/restrict-plus-operands */
 import { ApiParams } from '../../interfaces';
 import {
   togglePopups as updatePopups,

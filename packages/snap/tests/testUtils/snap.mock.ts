@@ -42,6 +42,7 @@ export class SnapMock implements ISnapMock {
     return signature;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private async snapEthCall(data: any[]): Promise<string> {
     const apiKey = 'NRFBwig_CLVL0WnQLY3dUo8YkPmW-7iN';
     const provider = new providers.AlchemyProvider('goerli', apiKey);
@@ -49,6 +50,7 @@ export class SnapMock implements ISnapMock {
     return provider.call(data[0], data[1]);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private async snapEthLogs(data: any[]): Promise<unknown> {
     const apiKey = 'NRFBwig_CLVL0WnQLY3dUo8YkPmW-7iN';
     const provider = new providers.AlchemyProvider('goerli', apiKey);
