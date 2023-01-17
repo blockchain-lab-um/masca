@@ -23,9 +23,11 @@ import { setAccountPublicKey } from '../../src/utils/snapUtils';
 
 describe('Utils [state]', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
+  let ethereumMock: MetaMaskInpageProvider;
 
   beforeEach(() => {
     snapMock = createMockSnap();
+    ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
   });
 
   describe('updateSnapState', () => {
@@ -123,7 +125,7 @@ describe('Utils [state]', () => {
       await expect(
         initAccountState({
           snap: snapMock,
-          ethereum: snapMock as unknown as MetaMaskInpageProvider,
+          ethereum: ethereumMock,
           state: initialState,
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
@@ -149,7 +151,7 @@ describe('Utils [state]', () => {
       await expect(
         setAccountPublicKey({
           snap: snapMock,
-          ethereum: snapMock as unknown as MetaMaskInpageProvider,
+          ethereum: ethereumMock,
           state: initialState,
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,

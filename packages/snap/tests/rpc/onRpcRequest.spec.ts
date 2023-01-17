@@ -57,7 +57,7 @@ describe('onRpcRequest', () => {
     snapMock.rpcMocks.snap_manageState('update', getDefaultSnapState());
     // snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
     global.snap = snapMock;
-    global.ethereum = snapMock;
+    global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
   });
 
   describe('saveVC', () => {
@@ -150,7 +150,7 @@ describe('onRpcRequest', () => {
       });
       await veramoClearVCs({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         store: 'ceramic',
       });
       snapMock.rpcMocks.snap_manageState({
@@ -199,7 +199,7 @@ describe('onRpcRequest', () => {
       expect(result).toEqual(expectedResult);
       await veramoClearVCs({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         store: 'ceramic',
       });
       expect.assertions(2);

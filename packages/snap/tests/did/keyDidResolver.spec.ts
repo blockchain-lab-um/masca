@@ -1,5 +1,6 @@
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { DIDResolutionOptions, DIDResolutionResult } from 'did-resolver';
+import { MetaMaskInpageProvider } from '@metamask/providers';
 import {
   address,
   exampleDIDKeyResolution,
@@ -32,7 +33,7 @@ describe('keyDidResolver', () => {
     snapMock = createMockSnap();
     snapMock.rpcMocks.snap_manageState('update', getDefaultSnapState());
     global.snap = snapMock;
-    global.ethereum = snapMock;
+    global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
   });
 
   describe('resolveDidKey', () => {

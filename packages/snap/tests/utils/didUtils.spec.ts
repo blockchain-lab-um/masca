@@ -31,9 +31,11 @@ jest
 
 describe('Utils [did]', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
+  let ethereumMock: MetaMaskInpageProvider;
 
   beforeEach(() => {
     snapMock = createMockSnap();
+    ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
   });
 
   describe('changeCurrentVCStore', () => {
@@ -79,11 +81,7 @@ describe('Utils [did]', () => {
       const initialState = getDefaultSnapState();
 
       await expect(
-        getCurrentDid(
-          snapMock as unknown as MetaMaskInpageProvider,
-          initialState,
-          address
-        )
+        getCurrentDid(ethereumMock, initialState, address)
       ).resolves.toBe(`did:ethr:0x5:${address}`);
 
       expect.assertions(1);
@@ -95,11 +93,7 @@ describe('Utils [did]', () => {
         'did:key';
 
       await expect(
-        getCurrentDid(
-          snapMock as unknown as MetaMaskInpageProvider,
-          initialState,
-          address
-        )
+        getCurrentDid(ethereumMock, initialState, address)
       ).resolves.toBe(exampleDIDKey);
 
       expect.assertions(1);
@@ -113,7 +107,7 @@ describe('Utils [did]', () => {
       await expect(
         changeCurrentMethod(
           snapMock,
-          snapMock as unknown as MetaMaskInpageProvider,
+          ethereumMock,
           initialState,
           address,
           'did:key'
@@ -138,7 +132,7 @@ describe('Utils [did]', () => {
       await expect(
         changeCurrentMethod(
           snapMock,
-          snapMock as unknown as MetaMaskInpageProvider,
+          ethereumMock,
           initialState,
           address,
           'did:key'

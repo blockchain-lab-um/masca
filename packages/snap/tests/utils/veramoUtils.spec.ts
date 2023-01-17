@@ -46,13 +46,13 @@ jest
   .mockImplementation(async (key, did?) => {
     return ceramicData;
   });
-jest
-  .spyOn(DIDDataStore.prototype, 'merge')
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/require-await
-  .mockImplementation(async (key, content, options?) => {
-    ceramicData = content as StoredCredentials;
-    return 'ok' as unknown as StreamID;
-  });
+// jest
+//   .spyOn(DIDDataStore.prototype, 'merge')
+//   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/require-await
+//   .mockImplementation(async (key, content, options?) => {
+//     ceramicData = content as StoredCredentials;
+//     return 'ok' as unknown as StreamID;
+//   });
 
 describe('Utils [veramo]', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
@@ -61,7 +61,6 @@ describe('Utils [veramo]', () => {
     snapMock = createMockSnap();
     ceramicData = {} as StoredCredentials;
     global.snap = snapMock;
-    global.ethereum = snapMock;
   });
 
   describe('veramoSaveVC', () => {
@@ -70,7 +69,7 @@ describe('Utils [veramo]', () => {
 
       const res = await veramoSaveVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         verifiableCredential: exampleVC,
         store: ['snap'],
       });
@@ -90,7 +89,7 @@ describe('Utils [veramo]', () => {
 
       const res = await veramoSaveVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         verifiableCredential: exampleVCJSONLD,
         store: ['snap'],
       });
@@ -106,7 +105,7 @@ describe('Utils [veramo]', () => {
 
       const query = await veramoQueryVCs({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         options: {},
       });
       expect(query[0].data).toEqual(exampleVCJSONLD);
@@ -118,7 +117,7 @@ describe('Utils [veramo]', () => {
 
       const res = await veramoSaveVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         verifiableCredential: exampleVCEIP712,
         store: ['snap'],
       });
@@ -133,7 +132,7 @@ describe('Utils [veramo]', () => {
       expect(res).toEqual(expectedResult);
       const query = await veramoQueryVCs({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         options: {},
       });
       expect(query[0].data).toEqual(exampleVCEIP712);
@@ -145,13 +144,13 @@ describe('Utils [veramo]', () => {
 
       await veramoClearVCs({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         store: ['ceramic'],
       });
 
       const res = await veramoSaveVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         verifiableCredential: exampleVC,
         store: ['snap', 'ceramic'],
       });
@@ -175,7 +174,7 @@ describe('Utils [veramo]', () => {
       snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
       const res = await veramoSaveVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         verifiableCredential: exampleVC.proof.jwt,
         store: ['snap'],
       });
@@ -197,7 +196,7 @@ describe('Utils [veramo]', () => {
       snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
       const res = await veramoSaveVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         verifiableCredential: exampleVC,
         store: ['snap'],
       });
@@ -218,14 +217,14 @@ describe('Utils [veramo]', () => {
 
       await veramoDeleteVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         id: expectedResult[0].id,
         store: ['snap'],
       });
 
       const vcs = await veramoQueryVCs({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         options: { store: ['snap'], returnStore: true },
       });
 
@@ -238,7 +237,7 @@ describe('Utils [veramo]', () => {
 
       const res = await veramoSaveVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         verifiableCredential: exampleVC,
         store: ['snap', 'ceramic'],
       });
@@ -255,27 +254,27 @@ describe('Utils [veramo]', () => {
 
       const vcsPreDelete = await veramoQueryVCs({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         options: { store: ['snap', 'ceramic'], returnStore: true },
       });
       expect(vcsPreDelete).toHaveLength(2);
       expect(res).toEqual(expectedResult);
       await veramoDeleteVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         id: expectedResult[1].id,
         store: ['ceramic'],
       });
 
       const vcs = await veramoQueryVCs({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         options: { returnStore: true },
       });
 
       await veramoClearVCs({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         store: ['ceramic'],
       });
 
@@ -287,13 +286,13 @@ describe('Utils [veramo]', () => {
 
       await veramoClearVCs({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         store: ['ceramic'],
       });
 
       const res = await veramoSaveVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         verifiableCredential: exampleVC,
         store: ['snap', 'ceramic'],
       });
@@ -314,19 +313,19 @@ describe('Utils [veramo]', () => {
       expectedState.accountState[address].vcs[res[0].id] = exampleVC;
       await veramoDeleteVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         id: expectedResult[0].id,
       });
 
       await veramoDeleteVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         id: expectedResult[1].id,
       });
 
       const vcs = await veramoQueryVCs({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         options: { returnStore: true },
       });
 
@@ -340,7 +339,7 @@ describe('Utils [veramo]', () => {
       snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
       const res = await veramoSaveVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         verifiableCredential: exampleVC,
         store: ['snap'],
       });
@@ -355,13 +354,13 @@ describe('Utils [veramo]', () => {
 
       await veramoClearVCs({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         store: ['snap'],
       });
 
       const vcs = await veramoQueryVCs({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         options: { store: ['snap'], returnStore: true },
       });
 
@@ -372,7 +371,7 @@ describe('Utils [veramo]', () => {
       snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
       const res = await veramoSaveVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         verifiableCredential: exampleVC,
         store: ['snap'],
       });
@@ -387,12 +386,12 @@ describe('Utils [veramo]', () => {
 
       await veramoClearVCs({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
       });
 
       const vcs = await veramoQueryVCs({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         options: { store: ['snap'], returnStore: true },
       });
 
@@ -408,7 +407,7 @@ describe('Utils [veramo]', () => {
       await expect(
         veramoQueryVCs({
           snap: snapMock,
-          ethereum: snapMock as unknown as MetaMaskInpageProvider,
+          ethereum,
           options: { store: ['snap'], returnStore: true },
         })
       ).resolves.toEqual([]);
@@ -421,14 +420,14 @@ describe('Utils [veramo]', () => {
       snapMock.rpcMocks.snap_manageState.mockReturnValue(state);
       await veramoSaveVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         verifiableCredential: exampleVC,
         store: ['snap', 'ceramic'],
       });
 
       const preQuery = await veramoQueryVCs({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         options: {},
       });
       expect(preQuery).toHaveLength(2);
@@ -445,7 +444,7 @@ describe('Utils [veramo]', () => {
       await expect(
         veramoQueryVCs({
           snap: snapMock,
-          ethereum: snapMock as unknown as MetaMaskInpageProvider,
+          ethereum,
           options: {},
         })
       ).resolves.toHaveLength(1);
@@ -462,7 +461,7 @@ describe('Utils [veramo]', () => {
       await expect(
         veramoQueryVCs({
           snap: snapMock,
-          ethereum: snapMock as unknown as MetaMaskInpageProvider,
+          ethereum,
           options: {},
         })
       ).resolves.toHaveLength(2);
@@ -475,7 +474,7 @@ describe('Utils [veramo]', () => {
 
       const res = await veramoSaveVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         verifiableCredential: exampleVC,
         store: ['snap'],
       });
@@ -487,7 +486,7 @@ describe('Utils [veramo]', () => {
       await expect(
         veramoQueryVCs({
           snap: snapMock,
-          ethereum: snapMock as unknown as MetaMaskInpageProvider,
+          ethereum,
           options: { store: ['snap'], returnStore: true },
         })
       ).resolves.toEqual([expectedVCObject]);
@@ -500,7 +499,7 @@ describe('Utils [veramo]', () => {
 
       const res = await veramoSaveVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         verifiableCredential: exampleVC.proof.jwt,
         store: ['snap'],
       });
@@ -516,7 +515,7 @@ describe('Utils [veramo]', () => {
 
       const vcs = await veramoQueryVCs({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         options: { store: ['snap'], returnStore: true },
       });
 
@@ -531,7 +530,7 @@ describe('Utils [veramo]', () => {
 
       const res = await veramoSaveVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         verifiableCredential: exampleVC,
         store: ['snap'],
       });
@@ -543,7 +542,7 @@ describe('Utils [veramo]', () => {
 
       const queryRes = await veramoQueryVCs({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         options: { store: ['snap'], returnStore: false },
       });
       expect(queryRes).toStrictEqual([expectedVCObject]);
@@ -557,7 +556,7 @@ describe('Utils [veramo]', () => {
 
       const res = await veramoSaveVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         verifiableCredential: exampleVC,
         store: ['snap'],
       });
@@ -569,7 +568,7 @@ describe('Utils [veramo]', () => {
       await expect(
         veramoQueryVCs({
           snap: snapMock,
-          ethereum: snapMock as unknown as MetaMaskInpageProvider,
+          ethereum,
           options: { store: ['snap'], returnStore: true },
           filter: {
             type: 'JSONPath',
@@ -586,7 +585,7 @@ describe('Utils [veramo]', () => {
 
       const res = await veramoSaveVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         verifiableCredential: exampleVC,
         store: ['snap'],
       });
@@ -603,7 +602,7 @@ describe('Utils [veramo]', () => {
       await expect(
         veramoQueryVCs({
           snap: snapMock,
-          ethereum: snapMock as unknown as MetaMaskInpageProvider,
+          ethereum,
           filter,
           options: { store: ['snap'], returnStore: true },
         })
@@ -617,7 +616,7 @@ describe('Utils [veramo]', () => {
 
       const res = await veramoSaveVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         verifiableCredential: exampleVC,
         store: ['snap'],
       });
@@ -629,7 +628,7 @@ describe('Utils [veramo]', () => {
       await expect(
         veramoQueryVCs({
           snap: snapMock,
-          ethereum: snapMock as unknown as MetaMaskInpageProvider,
+          ethereum,
           options: { store: ['snap'], returnStore: true },
           filter: { type: 'none', filter: {} },
         })
@@ -643,7 +642,7 @@ describe('Utils [veramo]', () => {
 
       const res = await veramoSaveVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         verifiableCredential: exampleVC,
         store: ['snap'],
       });
@@ -655,7 +654,7 @@ describe('Utils [veramo]', () => {
       await expect(
         veramoQueryVCs({
           snap: snapMock,
-          ethereum: snapMock as unknown as MetaMaskInpageProvider,
+          ethereum,
           options: { store: ['snap'], returnStore: true },
           filter: { type: 'id', filter: res[0].id },
         })
@@ -668,7 +667,7 @@ describe('Utils [veramo]', () => {
 
       await veramoSaveVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         verifiableCredential: exampleVC,
         store: ['snap'],
       });
@@ -676,7 +675,7 @@ describe('Utils [veramo]', () => {
       await expect(
         veramoQueryVCs({
           snap: snapMock,
-          ethereum: snapMock as unknown as MetaMaskInpageProvider,
+          ethereum,
           options: { store: ['snap'], returnStore: true },
           filter: { type: 'id', filter: 'test-idd' },
         })
@@ -690,16 +689,13 @@ describe('Utils [veramo]', () => {
     it('should succeed importing metamask account', async () => {
       const initialState = getDefaultSnapState();
       snapMock.rpcMocks.snap_manageState.mockResolvedValue(initialState);
-      const agent = await getAgent(
-        snapMock,
-        snapMock as unknown as MetaMaskInpageProvider
-      );
+      const agent = await getAgent(snapMock, ethereum);
       expect(
         (
           await veramoImportMetaMaskAccount(
             {
               snap: snapMock,
-              ethereum: snapMock as unknown as MetaMaskInpageProvider,
+              ethereum,
               state: initialState,
               account: address,
               bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
@@ -720,16 +716,13 @@ describe('Utils [veramo]', () => {
       const initialState = getDefaultSnapState();
       snapMock.rpcMocks.snap_manageState.mockResolvedValue(initialState);
 
-      const agent = await getAgent(
-        snapMock,
-        snapMock as unknown as MetaMaskInpageProvider
-      );
+      const agent = await getAgent(snapMock, ethereum);
       expect(
         (
           await veramoImportMetaMaskAccount(
             {
               snap: snapMock,
-              ethereum: snapMock as unknown as MetaMaskInpageProvider,
+              ethereum,
               state: initialState,
               account: address,
               bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
@@ -747,7 +740,7 @@ describe('Utils [veramo]', () => {
           await veramoImportMetaMaskAccount(
             {
               snap: snapMock,
-              ethereum: snapMock as unknown as MetaMaskInpageProvider,
+              ethereum,
               state: initialState,
               account: address,
               bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
@@ -768,14 +761,11 @@ describe('Utils [veramo]', () => {
       const initialState = getDefaultSnapState();
       snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
       snapMock.rpcMocks.snap_dialog.mockResolvedValue(true);
-      const agent = await getAgent(
-        snapMock,
-        snapMock as unknown as MetaMaskInpageProvider
-      );
+      const agent = await getAgent(snapMock, ethereum);
 
       const res = await veramoSaveVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         verifiableCredential: exampleVC,
         store: ['snap'],
       });
@@ -783,7 +773,7 @@ describe('Utils [veramo]', () => {
       const createdVP = await veramoCreateVP(
         {
           snap: snapMock,
-          ethereum: snapMock as unknown as MetaMaskInpageProvider,
+          ethereum,
           state: initialState,
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
@@ -805,14 +795,11 @@ describe('Utils [veramo]', () => {
       const initialState = getDefaultSnapState();
       snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
       snapMock.rpcMocks.snap_dialog.mockResolvedValue(true);
-      const agent = await getAgent(
-        snapMock,
-        snapMock as unknown as MetaMaskInpageProvider
-      );
+      const agent = await getAgent(snapMock, ethereum);
 
       const res = await veramoSaveVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         // verifiableCredential: exampleVCJSONLD,
         verifiableCredential: exampleVC,
         store: ['snap'],
@@ -821,7 +808,7 @@ describe('Utils [veramo]', () => {
       const createdVP = await veramoCreateVP(
         {
           snap: snapMock,
-          ethereum: snapMock as unknown as MetaMaskInpageProvider,
+          ethereum,
           state: initialState,
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
@@ -834,7 +821,7 @@ describe('Utils [veramo]', () => {
       );
 
       console.log(createdVP);
-      expect(createdVP).not.toEqual(null);
+      expect(createdVP).not.toBeNull();
 
       const verifyResult = (await agent.verifyPresentation({
         presentation: createdVP as VerifiablePresentation,
@@ -849,14 +836,11 @@ describe('Utils [veramo]', () => {
       const initialState = getDefaultSnapState();
       snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
       snapMock.rpcMocks.snap_dialog.mockResolvedValue(true);
-      const agent = await getAgent(
-        snapMock,
-        snapMock as unknown as MetaMaskInpageProvider
-      );
+      const agent = await getAgent(snapMock, ethereum);
 
       const res = await veramoSaveVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         verifiableCredential: exampleVC,
         store: ['snap'],
       });
@@ -864,7 +848,7 @@ describe('Utils [veramo]', () => {
       const createdVP = await veramoCreateVP(
         {
           snap: snapMock,
-          ethereum: snapMock as unknown as MetaMaskInpageProvider,
+          ethereum,
           state: initialState,
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
@@ -886,14 +870,11 @@ describe('Utils [veramo]', () => {
       const initialState = getDefaultSnapState();
       snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
       snapMock.rpcMocks.snap_dialog.mockResolvedValue(true);
-      const agent = await getAgent(
-        snapMock,
-        snapMock as unknown as MetaMaskInpageProvider
-      );
+      const agent = await getAgent(snapMock, ethereum);
 
       const res = await veramoSaveVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         verifiableCredential: exampleVC,
         store: ['snap'],
       });
@@ -901,7 +882,7 @@ describe('Utils [veramo]', () => {
       const createdVP = await veramoCreateVP(
         {
           snap: snapMock,
-          ethereum: snapMock as unknown as MetaMaskInpageProvider,
+          ethereum,
           state: initialState,
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
@@ -923,14 +904,11 @@ describe('Utils [veramo]', () => {
       const initialState = getDefaultSnapState();
       snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
       snapMock.rpcMocks.snap_dialog.mockResolvedValue(true);
-      const agent = await getAgent(
-        snapMock,
-        snapMock as unknown as MetaMaskInpageProvider
-      );
+      const agent = await getAgent(snapMock, ethereum);
 
       const res = await veramoSaveVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         verifiableCredential: exampleVC,
         store: ['snap'],
       });
@@ -938,7 +916,7 @@ describe('Utils [veramo]', () => {
       const createdVP = await veramoCreateVP(
         {
           snap: snapMock,
-          ethereum: snapMock as unknown as MetaMaskInpageProvider,
+          ethereum,
           state: initialState,
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
@@ -965,33 +943,30 @@ describe('Utils [veramo]', () => {
       const initialState = getDefaultSnapState();
       snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
       snapMock.rpcMocks.snap_dialog.mockResolvedValue(true);
-      const agent = await getAgent(
-        snapMock,
-        snapMock as unknown as MetaMaskInpageProvider
-      );
+      const agent = await getAgent(snapMock, ethereum);
 
       const res = await veramoSaveVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         verifiableCredential: exampleVC,
         store: ['snap'],
       });
       const resjwt = await veramoSaveVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         verifiableCredential: exampleVC.proof.jwt,
         store: ['snap'],
       });
       const res2 = await veramoSaveVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         verifiableCredential: exampleVCJSONLD,
         store: ['snap'],
       });
 
       const res3 = await veramoSaveVC({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         verifiableCredential: exampleVCEIP712,
         store: ['snap'],
       });
@@ -999,7 +974,7 @@ describe('Utils [veramo]', () => {
       const createdVP = await veramoCreateVP(
         {
           snap: snapMock,
-          ethereum: snapMock as unknown as MetaMaskInpageProvider,
+          ethereum,
           state: initialState,
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
@@ -1040,7 +1015,7 @@ describe('Utils [veramo]', () => {
       const createdVP = await veramoCreateVP(
         {
           snap: snapMock,
-          ethereum: snapMock as unknown as MetaMaskInpageProvider,
+          ethereum,
           state: initialState,
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
@@ -1061,7 +1036,7 @@ describe('Utils [veramo]', () => {
       const createdVP = await veramoCreateVP(
         {
           snap: snapMock,
-          ethereum: snapMock as unknown as MetaMaskInpageProvider,
+          ethereum,
           state: initialState,
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
