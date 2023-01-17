@@ -31,9 +31,7 @@ export class SnapDIDStore extends AbstractDIDStore {
     snapParam: SnapsGlobalObject,
     ethereumParam: MetaMaskInpageProvider
   ) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     super();
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     this.snap = snapParam;
     this.ethereum = ethereumParam;
   }
@@ -139,9 +137,7 @@ export class SnapVCStore extends AbstractDataStore {
     snapParam: SnapsGlobalObject,
     ethereumParam: MetaMaskInpageProvider
   ) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     super();
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     this.snap = snapParam;
     this.ethereum = ethereumParam;
   }

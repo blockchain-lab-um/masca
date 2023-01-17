@@ -7,7 +7,6 @@ export async function switchMethod(
   params: ApiParams,
   { didMethod }: SwitchMethodRequestParams
 ): Promise<string> {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { state, snap, ethereum, account } = params;
   const method = state.accountState[account].accountConfig.ssi.didMethod;
   if (didMethod !== method) {

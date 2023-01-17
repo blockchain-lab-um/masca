@@ -23,7 +23,6 @@ export class CeramicVCStore extends AbstractDataStore {
     ethereumParam: MetaMaskInpageProvider
   ) {
     super();
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     this.snap = snapParam;
     this.ethereum = ethereumParam;
   }

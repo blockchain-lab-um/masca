@@ -11,20 +11,16 @@ import { getCurrentAccount, getPublicKey } from '../../utils/snapUtils';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { getSnapState } from '../../utils/stateUtils';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const resolveSecp256k1 = async (
   snap: SnapsGlobalObject,
   account: string,
   did: string
 ): Promise<DIDDocument> => {
   const state = await getSnapState(snap);
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const publicKey = await getPublicKey({
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     snap,
     state,
     account,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     ethereum,
   });
 
@@ -71,7 +67,7 @@ export const resolveDidKey: DIDResolver = async (
 ): Promise<DIDResolutionResult> => {
   try {
     // FIXME: Update this part
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+
     const account = await getCurrentAccount(ethereum);
     if (!account) throw Error('User denied error');
     // --------
@@ -98,8 +94,7 @@ export const resolveDidKey: DIDResolver = async (
         didDocument: null,
       };
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err: any) {
+  } catch (err: unknown) {
     return {
       didDocumentMetadata: {},
       didResolutionMetadata: {

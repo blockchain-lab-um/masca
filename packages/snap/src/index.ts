@@ -31,11 +31,10 @@ import { deleteVC } from './rpc/vc/deleteVC';
 import { resolveDID } from './rpc/did/resolveDID';
 
 export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   let state = await getSnapStateUnchecked(snap);
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+
   if (state === null) state = await initSnapState(snap);
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+
   const account = await getCurrentAccount(ethereum);
 
   // FIXME: HANDLE NULL maybe throw ?
@@ -43,9 +42,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
 
   const apiParams: ApiParams = {
     state,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     snap,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     ethereum,
     account,
   };
@@ -71,7 +68,6 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
       );
       apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
       return await createVP(apiParams, request.params);
-
     case 'togglePopups':
       return await togglePopups(apiParams);
     case 'switchDIDMethod':

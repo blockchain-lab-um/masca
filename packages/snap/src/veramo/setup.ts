@@ -52,15 +52,10 @@ import { getDidKeyResolver as keyDidResolver } from '../did/key/keyDidResolver';
 
 const availableNetworks: Record<string, string> = {
   '0x01': 'mainnet',
-  '0x05': 'goerli',
   '0x5': 'goerli',
 };
 
-import {
-  getCurrentAccount,
-  getCurrentNetwork,
-  getEnabledVCStores,
-} from '../utils/snapUtils';
+import { getCurrentAccount, getEnabledVCStores } from '../utils/snapUtils';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { getSnapState } from '../utils/stateUtils';
 
@@ -78,22 +73,16 @@ export const getAgent = async (
   ethereum: MetaMaskInpageProvider
 ): Promise<Agent> => {
   const state = await getSnapState(snap);
-  const CHAIN_ID = await getCurrentNetwork(ethereum);
   const account = await getCurrentAccount(ethereum);
 
   const web3Providers: Record<string, Web3Provider> = {};
   const didProviders: Record<string, AbstractIdentifierProvider> = {};
   const vcStorePlugins: Record<string, AbstractDataStore> = {};
   const enabledVCStores = getEnabledVCStores(account as string, state);
-  console.log('Enabled VC Stores:', enabledVCStores);
 
   const networks = [
     {
       name: 'mainnet',
-      provider: new Web3Provider(ethereum as any),
-    },
-    {
-      name: '0x05',
       provider: new Web3Provider(ethereum as any),
     },
     {
@@ -138,7 +127,6 @@ export const getAgent = async (
           snap: new KeyManagementSystem(new MemoryPrivateKeyStore()),
         },
       }),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       new DataManager({ store: vcStorePlugins }),
       new DIDResolverPlugin({
         resolver: new Resolver({

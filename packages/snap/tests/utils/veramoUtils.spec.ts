@@ -796,12 +796,12 @@ describe('Utils [veramo]', () => {
         presentation: createdVP as VerifiablePresentation,
       })) as IVerifyResult;
 
-      //expect(verifyResult.verified).toBe(true);
+      expect(verifyResult.verified).toBe(true);
 
-      expect.assertions(1);
+      expect.assertions(2);
     });
+
     it('should succeed creating a valid VP - lds', async () => {
-      console.log('LDS09');
       const initialState = getDefaultSnapState();
       snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
       snapMock.rpcMocks.snap_dialog.mockResolvedValue(true);
@@ -813,6 +813,7 @@ describe('Utils [veramo]', () => {
       const res = await veramoSaveVC({
         snap: snapMock,
         ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        // verifiableCredential: exampleVCJSONLD,
         verifiableCredential: exampleVC,
         store: ['snap'],
       });
@@ -825,20 +826,25 @@ describe('Utils [veramo]', () => {
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         },
-        { proofFormat: 'lds', vcs: [{ id: res[0].id }] }
+        {
+          proofFormat: 'lds',
+          vcs: [{ id: res[0].id }],
+          proofOptions: { challenge: 'test-challenge' },
+        }
       );
-      expect(createdVP).not.toEqual(null);
 
       console.log(createdVP);
+      expect(createdVP).not.toEqual(null);
 
       const verifyResult = (await agent.verifyPresentation({
         presentation: createdVP as VerifiablePresentation,
+        challenge: 'test-challenge',
       })) as IVerifyResult;
-
-      //expect(verifyResult.verified).toBe(true);
-
-      expect.assertions(1);
+      console.log(verifyResult.error);
+      expect(verifyResult.verified).toBe(true);
+      expect.assertions(2);
     });
+
     it('should succeed creating a valid VP - eip712', async () => {
       const initialState = getDefaultSnapState();
       snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
@@ -871,12 +877,11 @@ describe('Utils [veramo]', () => {
         presentation: createdVP as VerifiablePresentation,
       })) as IVerifyResult;
 
-      console.log(createdVP);
+      expect(verifyResult.verified).toBe(true);
 
-      //expect(verifyResult.verified).toBe(true);
-
-      expect.assertions(1);
+      expect.assertions(2);
     });
+
     it('should succeed creating a valid VP with one false id', async () => {
       const initialState = getDefaultSnapState();
       snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
@@ -909,10 +914,11 @@ describe('Utils [veramo]', () => {
         presentation: createdVP as VerifiablePresentation,
       })) as IVerifyResult;
 
-      //expect(verifyResult.verified).toBe(true);
+      expect(verifyResult.verified).toBe(true);
 
-      expect.assertions(1);
+      expect.assertions(2);
     });
+
     it('should succeed creating a valid VP with 2 VCs', async () => {
       const initialState = getDefaultSnapState();
       snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
@@ -950,9 +956,9 @@ describe('Utils [veramo]', () => {
         exampleVCinVP,
       ]);
 
-      //expect(verifyResult.verified).toBe(true);
+      expect(verifyResult.verified).toBe(true);
 
-      expect.assertions(2);
+      expect.assertions(3);
     });
 
     it('should succeed creating a valid VP with 4 different types of VCs', async () => {
@@ -1021,9 +1027,9 @@ describe('Utils [veramo]', () => {
         exampleVCEIP712,
       ]);
 
-      //expect(verifyResult.verified).toBe(true);
+      expect(verifyResult.verified).toBe(true);
 
-      expect.assertions(2);
+      expect.assertions(3);
     });
 
     it('should fail creating a VP and return null - no VC found', async () => {

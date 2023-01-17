@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/restrict-plus-operands */
 import { ApiParams } from '../../interfaces';
 import {
   togglePopups as updatePopups,
@@ -6,7 +5,6 @@ import {
 } from '../../utils/snapUtils';
 
 export async function togglePopups(params: ApiParams): Promise<boolean> {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { state, snap } = params;
   const disablePopups = state.snapConfig.dApp.disablePopups;
 
