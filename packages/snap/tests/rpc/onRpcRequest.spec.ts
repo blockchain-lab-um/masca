@@ -20,6 +20,8 @@ import {
 } from '../testUtils/constants';
 import { StoredCredentials } from '../../src/interfaces';
 import * as snapUtils from '../../src/utils/snapUtils';
+import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
+import { onRpcRequest } from '../../src/index';
 
 jest.mock('uuid');
 let ceramicData: StoredCredentials;
