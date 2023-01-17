@@ -18,15 +18,6 @@ import {
   address,
   exampleDIDDocument,
 } from '../testUtils/constants';
-import {
-  availableVCStores,
-  availableMethods,
-} from '@blockchain-lab-um/ssi-snap-types';
-import { DIDResolutionResult, VerifiablePresentation } from '@veramo/core';
-import * as uuid from 'uuid';
-import { veramoClearVCs } from '../../src/utils/veramoUtils';
-import { DIDDataStore } from '@glazed/did-datastore';
-import { StreamID } from '@ceramicnetwork/streamid';
 import { StoredCredentials } from '../../src/interfaces';
 import * as snapUtils from '../../src/utils/snapUtils';
 
