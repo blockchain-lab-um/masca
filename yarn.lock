@@ -6292,6 +6292,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:16.18.11":
+  version: 16.18.11
+  resolution: "@types/node@npm:16.18.11"
+  checksum: 7bdf5e865a7959a72881ede19a882219f9d0baadf9ef8fdf24523291d401a7fc43bf91aa3223b1961ca54e1363f542cc4d60c8b00a70b457b2e9439b82adac70
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:^12.12.6":
   version: 12.20.55
   resolution: "@types/node@npm:12.20.55"
@@ -21607,7 +21614,7 @@ __metadata:
     "@nrwl/nx-cloud": ^15.0.2
     "@types/eslint": ^8.4.10
     "@types/jest": ^29.2.3
-    "@types/node": ^18.11.9
+    "@types/node": 16.18.11
     "@typescript-eslint/eslint-plugin": ^5.44.0
     "@typescript-eslint/parser": ^5.44.0
     audit-ci: ^6.4.1
