@@ -2,17 +2,17 @@ import {
   AuthorizationResponse,
   CredentialRequest,
   Credentials,
+  SupportedCredentialFormats,
   TokenRequest,
 } from '@blockchain-lab-um/oidc-types';
 
 export interface IPluginConfig {
-  // Split for ISSUER and VERIFIER
-  supported_schema_url: string;
   supported_did_methods: string[]; // e.g. ['ethr', 'key']
   supported_curves: string[]; // e.g. secp256k1, ed25519, etc
   supported_digital_signatures: string[]; // e.g. jwt, json_ld
   db_secret: string;
   url: string;
+  supported_credentials: SupportedCredential[];
 }
 
 export type CreateIssuanceInitiationRequestResposne = {

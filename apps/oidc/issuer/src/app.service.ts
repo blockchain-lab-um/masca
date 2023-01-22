@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import {
   CredentialRequest,
   CredentialResponse,
+  IssuerServerMetadata,
   TokenRequest,
   TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
@@ -18,6 +19,18 @@ export class AppService {
     private dataStoreService: DatastoreService,
     private agentService: AgentService
   ) {}
+
+  async handleIssuerServerMetadataRequest(): Promise<IssuerServerMetadata> {
+    const agent = this.agentService.getAgent();
+    const issuerServerMetadata =
+      await agent.handleIssuerServerMetadataRequest();
+
+    if (isError(issuerServerMetadata)) {
+      throw Error(issuerServerMetadata.error.message);
+    }
+
+    return issuerServerMetadata.data;
+  }
 
   // FIXME: Query instead of hardcoding
   async createIssuanceInitiationRequest(): Promise<string> {

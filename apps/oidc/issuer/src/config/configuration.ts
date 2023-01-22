@@ -1,5 +1,7 @@
+import { SupportedCredential } from '@blockchain-lab-um/oidc-types';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
+import { supported_credentials } from '../../supported_credentials.json';
 
 export interface IConfig {
   INFURA_PROJECT_ID: string;
@@ -42,3 +44,6 @@ export default ConfigModule.forRoot({
     SUPPORTED_DIGITAL_SIGNATURES: Joi.string().required(), // TODO: Better check for this
   }),
 });
+
+export const loadSupportedCredentials = (): SupportedCredential[] =>
+  supported_credentials as SupportedCredential[];

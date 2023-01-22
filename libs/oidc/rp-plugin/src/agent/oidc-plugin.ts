@@ -15,12 +15,12 @@ import {
   CredentialResponse,
   Credentials,
   IssuanceRequestParams,
+  IssuerServerMetadata,
   PresentationDefinition,
   TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
 import { Result } from 'src/utils';
 import { jwtVerify, decodeProtectedHeader, importJWK, JWTPayload } from 'jose';
-// import { VerificationMethod } from 'did-resolver';
 import { JsonWebKey, VerificationMethod } from 'did-resolver';
 import { ec as EC } from 'elliptic';
 import {
@@ -34,7 +34,6 @@ import {
   HandlePreAuthorizedCodeTokenRequestArgs,
   PrivateKeyToDidResponse,
   HandleAuthorizationResponseArgs,
-  CreateJWTProofParams,
 } from '../types/internal';
 import { IOIDCPlugin, OIDCAgentContext } from '../types/IOIDCPlugin';
 
@@ -53,6 +52,8 @@ export class OIDCPlugin implements IAgentPlugin {
   readonly methods: IOIDCPlugin = {
     createAuthorizationRequest: this.createAuthorizationRequest.bind(this),
     handleAuthorizationResponse: this.handleAuthorizationResponse.bind(this),
+    handleIssuerServerMetadataRequest:
+      this.handleIssuerServerMetadataRequest.bind(this),
     createIssuanceInitiationRequest:
       this.createIssuanceInitiationRequest.bind(this),
     isValidTokenRequest: this.isValidTokenRequest.bind(this),
@@ -436,6 +437,28 @@ export class OIDCPlugin implements IAgentPlugin {
       success: false,
       error: new Error('Invalid jwt'),
     };
+  }
+
+  public async handleIssuerServerMetadataRequest(): Promise<
+    Result<IssuerServerMetadata>
+  > {
+    const exampleMetadata = {
+      issuer: this.pluginConfig.url,
+      authorization_endpoint: '',
+      token_endpoint: `${this.pluginConfig.url}/token`,
+      credential_endpoint: `${this.pluginConfig.url}/credential`,
+      response_types_supported: [
+        'code',
+        'id_token',
+        'id_token token',
+        'code id_token',
+        'code token',
+        'code id_token token',
+      ],
+      credentials_supported: this.pluginConfig.supported_credentials,
+    };
+
+    return { success: true, data: exampleMetadata };
   }
 
   public async createIssuanceInitiationRequest(): Promise<

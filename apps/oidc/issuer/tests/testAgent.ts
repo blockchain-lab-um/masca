@@ -1,7 +1,6 @@
 import { IOIDCPlugin, OIDCPlugin } from '@blockchain-lab-um/oidc-rp-plugin';
 import {
   createAgent,
-  ICredentialIssuer,
   ICredentialPlugin,
   IDIDManager,
   IKeyManager,
@@ -25,6 +24,7 @@ import { KeyDIDProvider, getDidKeyResolver } from '@veramo/did-provider-key';
 import { DIDResolverPlugin } from '@veramo/did-resolver';
 import { Resolver } from 'did-resolver';
 import { getResolver as getEthrResolver } from 'ethr-did-resolver';
+import { loadSupportedCredentials } from '../src/config/configuration';
 import {
   TEST_INFURA_PROJECT_ID,
   TEST_ISSUER_DB_SECRET,
@@ -32,10 +32,9 @@ import {
   TEST_SUPPORTED_CURVES,
   TEST_SUPPORTED_DID_METHODS,
   TEST_SUPPORTED_DIGITAL_SIGNATURES,
-  TEST_SUPPORTED_SCHEMA_URL,
 } from './constants';
 
-type Agent = TAgent<
+export type Agent = TAgent<
   IDIDManager & IKeyManager & IResolver & IOIDCPlugin & ICredentialPlugin
 >;
 
@@ -104,7 +103,7 @@ const getAgent = async (): Promise<Agent> => {
         supported_curves: TEST_SUPPORTED_CURVES,
         supported_did_methods: TEST_SUPPORTED_DID_METHODS,
         supported_digital_signatures: TEST_SUPPORTED_DIGITAL_SIGNATURES,
-        supported_schema_url: TEST_SUPPORTED_SCHEMA_URL,
+        supported_credentials: loadSupportedCredentials(),
       }),
       new CredentialPlugin(),
     ],

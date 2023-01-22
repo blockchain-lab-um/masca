@@ -13,7 +13,7 @@ import { FastifyReply } from 'fastify';
 import {
   CredentialRequest,
   CredentialResponse,
-  ServerMetadata,
+  IssuerServerMetadata,
   TokenRequest,
   TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
@@ -26,32 +26,8 @@ export class AppController {
   // TODO: Implement later
   @Get('/metadata')
   @HttpCode(200)
-  metadata(): ServerMetadata {
-    const exampleMetadata: ServerMetadata = {
-      issuer: 'https://issuer.example.com',
-      authorization_endpoint: 'https://issuer.example.com/auth',
-      token_endpoint: 'https://issuer.example.com/token',
-      credential_endpoint: 'https://issuer.example.com/credentials',
-      response_types_supported: [
-        'code',
-        'id_token',
-        'id_token token',
-        'code id_token',
-        'code token',
-        'code id_token token',
-      ],
-      credentials_supported: [
-        {
-          format: 'jwt_vc_json',
-          id: 'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
-          types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
-          cryptographic_binding_methods_supported: ['did'],
-          cryptographic_suites_supported: ['ES256K'],
-        },
-      ],
-    };
-
-    return exampleMetadata;
+  metadata(): Promise<IssuerServerMetadata> {
+    return this.appService.handleIssuerServerMetadataRequest();
   }
 
   // TODO: Implement later
