@@ -21,12 +21,12 @@ Many new features are already in the works. For more information, please check t
 
 ### Versions
 
-Every version of Snap does NOT work with every version of MetaMask Flask! Here is a table of compatible versions:
+Every version of SSI Snap does NOT work with every version of MetaMask Flask! Here is a table of compatible versions:
 
-| Snap Version | Flask Version |
-| ------------ | ------------- |
-| 1.2.2        | up to 10.19.0 |
-| 1.3.0        | 10.24.0       |
+| SSI Snap Version | Flask Version |
+| ---------------- | ------------- |
+| 1.2.2            | up to 10.19.0 |
+| 1.3.0            | 10.24.0       |
 
 ### Prerequisites
 
