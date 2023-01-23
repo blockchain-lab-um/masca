@@ -39,14 +39,14 @@
     "build:snap:postprocess": "node ./src/post-process/post-process.js",
     "build:webpack": "NODE_OPTIONS=--max-old-space-size=4096 webpack",
     "clean": "rimraf dist coverage",
-    "coverage": "pnpm test --coverage",
+    "coverage": "pnpm run test --coverage",
     "lint": "pnpm lint:eslint && pnpm lint:prettier",
     "lint:eslint": "eslint .",
     "lint:prettier": "prettier . --check",
     "serve": "mm-snap serve",
     "start": "mm-snap --version && pnpm build && pnpm serve",
     "test": "jest",
-    "test:ci": "pnpm test --silent --coverage"
+    "test:ci": "pnpm run test --silent --coverage"
   },
   "dependencies": {
     "@babel/runtime": "7.20.13",
