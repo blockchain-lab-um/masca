@@ -1,5 +1,4 @@
 import { SaveVCRequestParams } from '@blockchain-lab-um/ssi-snap-types';
-import { SaveVCRequestParams } from '@blockchain-lab-um/ssi-snap-types';
 import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-vc-manager';
 import { ApiParams } from '../../interfaces';
 import { snapConfirm } from '../../utils/snapUtils';

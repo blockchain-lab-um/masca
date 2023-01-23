@@ -22,7 +22,7 @@ jobs:
           main-branch-name: 'develop'
       - uses: actions/setup-node@v3
         with:
-          node-version: 16.18.1
+          node-version: 18.13.0
           cache: yarn
       - name: Install dependencies
         run: yarn install --immutable

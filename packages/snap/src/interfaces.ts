@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { IIdentifier, IKey, W3CVerifiableCredential } from '@veramo/core';
 import { ManagedPrivateKey } from '@veramo/key-manager';
 import {

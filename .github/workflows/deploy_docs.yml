@@ -25,7 +25,7 @@ jobs:
           main-branch-name: 'develop'
       - uses: actions/setup-node@v3
         with:
-          node-version: 16.18.1
+          node-version: 18.13.0
           cache: yarn
       - name: Install dependencies
         run: yarn install --immutable
@@ -73,7 +73,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 16.18.1
+          node-version: 18.13.0
           cache: yarn
       - uses: webfactory/ssh-agent@v0.6.0
         with:

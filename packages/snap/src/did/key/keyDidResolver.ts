@@ -84,16 +84,16 @@ export const resolveDidKey: DIDResolver = async (
         didResolutionMetadata: {},
         didDocument,
       } as DIDResolutionResult;
-    } else {
-      return {
-        didDocumentMetadata: {},
-        didResolutionMetadata: {
-          error: 'invalidDid',
-          message: 'unsupported key type for did:key',
-        },
-        didDocument: null,
-      };
     }
+
+    return {
+      didDocumentMetadata: {},
+      didResolutionMetadata: {
+        error: 'invalidDid',
+        message: 'unsupported key type for did:key',
+      },
+      didDocument: null,
+    };
   } catch (err: unknown) {
     return {
       didDocumentMetadata: {},
