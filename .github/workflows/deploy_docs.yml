@@ -23,6 +23,10 @@ jobs:
       - uses: nrwl/nx-set-shas@v3
         with:
           main-branch-name: 'develop'
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7.25.1
       - uses: actions/setup-node@v3
         with:
           node-version: 18.13.0
@@ -71,6 +75,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7.25.1
       - uses: actions/setup-node@v3
         with:
           node-version: 18.13.0
