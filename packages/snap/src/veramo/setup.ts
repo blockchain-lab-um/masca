@@ -31,7 +31,7 @@ import {
   AbstractDataStore,
 } from '@blockchain-lab-um/veramo-vc-manager';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { Web3Provider } from '@ethersproject/providers';
+import { ethers } from 'ethers';
 import { CredentialIssuerEIP712 } from '@veramo/credential-eip712';
 import {
   CredentialIssuerLD,
@@ -76,17 +76,17 @@ export const getAgent = async (
     {
       name: 'mainnet',
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      provider: new Web3Provider(ethereum as any),
+      provider: new ethers.providers.Web3Provider(ethereum as any),
     },
     {
       name: '0x05',
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      provider: new Web3Provider(ethereum as any),
+      provider: new ethers.providers.Web3Provider(ethereum as any),
     },
     {
       name: 'goerli',
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      provider: new Web3Provider(ethereum as any),
+      provider: new ethers.providers.Web3Provider(ethereum as any),
       chainId: '0x5',
     },
   ];

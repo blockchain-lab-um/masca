@@ -26,15 +26,15 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18.13.0
-          cache: yarn
+          cache: pnpm
       - name: Install dependencies
-        run: yarn install --immutable
+        run: pnpm install --frozen-lockfile
       - name: Lint
-        run: yarn nx run @blockchain-lab-um/website:lint
+        run: pnpm nx run @blockchain-lab-um/website:lint
         env:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
       - name: Test build website
-        run: yarn nx run @blockchain-lab-um/website:build
+        run: pnpm nx run @blockchain-lab-um/website:build
         env:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
@@ -79,15 +79,15 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18.13.0
-          cache: yarn
+          cache: pnpm
       - name: Install dependencies
-        run: yarn install --immutable
+        run: pnpm install --frozen-lockfile
       - name: Lint
-        run: yarn nx run @blockchain-lab-um/website:lint
+        run: pnpm nx run @blockchain-lab-um/website:lint
         env:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
       - name: Test build website
-        run: yarn nx run @blockchain-lab-um/website:build
+        run: pnpm nx run @blockchain-lab-um/website:build
         env:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
       - name: Deploy to GitHub Pages

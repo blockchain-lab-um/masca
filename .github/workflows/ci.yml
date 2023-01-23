@@ -19,11 +19,11 @@ jobs:
       number-of-agents: 3
       main-branch-name: 'develop'
       init-commands: |
-        yarn exec nx-cloud start-ci-run --stop-agents-after="build" --agent-count=3
+        pnpm exec nx-cloud start-ci-run --stop-agents-after="build" --agent-count=3
       parallel-commands-on-agents: |
-        yarn exec nx affected --target=lint --parallel=3
-        yarn exec nx affected --target=test:ci --parallel=3
-        yarn exec nx affected --target=build --parallel=3
+        pnpm exec nx affected --target=lint --parallel=3
+        pnpm exec nx affected --target=test:ci --parallel=3
+        pnpm exec nx affected --target=build --parallel=3
 
   agents:
     name: Nx Cloud - Agents

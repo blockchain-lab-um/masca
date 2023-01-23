@@ -26,15 +26,15 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18.13.0
-          cache: yarn
+          cache: pnpm
       - name: Install dependencies
-        run: yarn install --immutable
+        run: pnpm install --frozen-lockfile
       - name: Lint
-        run: yarn nx run @blockchain-lab-um/ssi-snap-docs:lint
+        run: pnpm nx run @blockchain-lab-um/ssi-snap-docs:lint
         env:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
       - name: Test build website
-        run: yarn nx run @blockchain-lab-um/ssi-snap-docs:build
+        run: pnpm nx run @blockchain-lab-um/ssi-snap-docs:build
         env:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
@@ -74,7 +74,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18.13.0
-          cache: yarn
+          cache: pnpm
       - uses: webfactory/ssh-agent@v0.6.0
         with:
           ssh-private-key: ${{ secrets.GH_PAGES_DEPLOY }}
@@ -84,5 +84,5 @@ jobs:
         run: |
           git config --global user.email "andraz.vrecko@gmail.com"
           git config --global user.name "andyv09"
-          yarn install --immutable
-          yarn deploy:docs
+          pnpm install --frozen-lockfile
+          pnpm deploy:docs
