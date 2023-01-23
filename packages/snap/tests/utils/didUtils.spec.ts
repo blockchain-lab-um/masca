@@ -11,10 +11,11 @@ import {
   exampleDIDKey,
   getDefaultSnapState,
   exampleDIDKeyDocumentUniResovler,
-  exampleDIDDocument,
   resolutionInvalidDID,
   resolutionNotFound,
   resolutionMethodNotSupported,
+  exampleDID,
+  exampleDIDDocument,
 } from '../testUtils/constants';
 import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
 import * as snapUtils from '../../src/utils/snapUtils';
@@ -153,7 +154,7 @@ describe('Utils [did]', () => {
 
     describe('resolveDID', () => {
       it('should succeed resolving did:ethr identifier', async () => {
-        const didDoc = await resolveDid(exampleDIDKey);
+        const didDoc = await resolveDid(exampleDID);
         expect(didDoc.didDocument).toEqual(exampleDIDDocument);
         expect.assertions(1);
       });
