@@ -813,7 +813,6 @@ describe('Utils [veramo]', () => {
       const res = await veramoSaveVC({
         snap: snapMock,
         ethereum: snapMock as unknown as MetaMaskInpageProvider,
-        // verifiableCredential: exampleVCJSONLD,
         verifiableCredential: exampleVC,
         store: ['snap'],
       });
@@ -836,11 +835,13 @@ describe('Utils [veramo]', () => {
       console.log(createdVP);
       expect(createdVP).not.toEqual(null);
 
-      // const verifyResult = (await agent.verifyPresentation({
-      //   presentation: createdVP as VerifiablePresentation,
-      //   challenge: 'test-challenge',
-      // })) as IVerifyResult;
-      // console.log(verifyResult.error);
+      // Waiting for Veramo to fix this
+      // await expect(
+      //   await agent.verifyPresentation({
+      //     presentation: createdVP as VerifiablePresentation,
+      //     challenge: 'test-challenge',
+      //   })
+      // ).toThrow();
       // expect(verifyResult.verified).toBe(true);
       expect.assertions(1);
     });
