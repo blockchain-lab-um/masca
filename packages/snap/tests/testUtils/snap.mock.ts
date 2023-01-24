@@ -88,6 +88,12 @@ export class SnapMock implements ISnapMock {
     eth_getLogs: jest.fn().mockImplementation(async (data: unknown) => {
       return this.snapEthLogs(data as any[]);
     }),
+    eth_call: jest.fn().mockImplementation(async (data: unknown) => {
+      return this.snapEthCall(data as any[]);
+    }),
+    eth_getLogs: jest.fn().mockImplementation(async (data: unknown) => {
+      return this.snapEthLogs(data as any[]);
+    }),
     eth_signTypedData_v4: jest
       .fn()
       .mockImplementation((...params: unknown[]) => {

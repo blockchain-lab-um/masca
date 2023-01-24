@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   DIDDocument,
   DIDResolutionOptions,
@@ -58,7 +57,6 @@ const startsWithMap: Record<string, ResolutionFunction> = {
   'did:key:zQ3s': resolveSecp256k1,
 };
 
-// FIXME: CHECK HOW WE COULD ADD snap AS PARAMETER
 export const resolveDidKey: DIDResolver = async (
   didUrl: string,
   parsed: ParsedDID,
@@ -67,7 +65,6 @@ export const resolveDidKey: DIDResolver = async (
 ): Promise<DIDResolutionResult> => {
   try {
     // FIXME: Update this part
-
     const account = await getCurrentAccount(ethereum);
     if (!account) throw Error('User denied error');
     // --------
