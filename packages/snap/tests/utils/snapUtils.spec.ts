@@ -8,7 +8,6 @@ import {
   removeFriendlyDapp,
   snapConfirm,
   togglePopups,
-  updateInfuraToken,
 } from '../../src/utils/snapUtils';
 import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
 import {
@@ -23,6 +22,7 @@ import {
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 
 import * as snapUtils from '../../src/utils/snapUtils';
+import { MetaMaskInpageProvider } from '@metamask/providers';
 
 jest
   .spyOn(snapUtils, 'getCurrentAccount')
@@ -43,7 +43,9 @@ describe('Utils [snap]', () => {
 
   describe('getCurrentAccount', () => {
     it('should succeed and return test account', async () => {
-      await expect(getCurrentAccount(snapMock)).resolves.toEqual(address);
+      await expect(
+        getCurrentAccount(snapMock as unknown as MetaMaskInpageProvider)
+      ).resolves.toEqual(address);
 
       expect.assertions(1);
     });
@@ -53,7 +55,9 @@ describe('Utils [snap]', () => {
     it('should succeed for mainnet (0x1)', async () => {
       snapMock.rpcMocks.eth_chainId.mockResolvedValue('0x5');
 
-      await expect(getCurrentNetwork(snapMock)).resolves.toEqual('0x5');
+      await expect(
+        getCurrentNetwork(snapMock as unknown as MetaMaskInpageProvider)
+      ).resolves.toEqual('0x5');
 
       expect.assertions(1);
     });
@@ -61,7 +65,9 @@ describe('Utils [snap]', () => {
     it('should succeed for goerli (0x5)', async () => {
       snapMock.rpcMocks.eth_chainId.mockResolvedValue('0x5');
 
-      await expect(getCurrentNetwork(snapMock)).resolves.toEqual('0x5');
+      await expect(
+        getCurrentNetwork(snapMock as unknown as MetaMaskInpageProvider)
+      ).resolves.toEqual('0x5');
 
       expect.assertions(1);
     });
@@ -244,6 +250,7 @@ describe('Utils [snap]', () => {
       await expect(
         getPublicKey({
           snap: snapMock,
+          ethereum: snapMock as unknown as MetaMaskInpageProvider,
           state: initialState,
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
@@ -259,6 +266,7 @@ describe('Utils [snap]', () => {
       await expect(
         getPublicKey({
           snap: snapMock,
+          ethereum: snapMock as unknown as MetaMaskInpageProvider,
           state: initialState,
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
@@ -275,6 +283,7 @@ describe('Utils [snap]', () => {
       initialState.accountState[address].publicKey = '';
       const pk = await getPublicKey({
         snap: snapMock,
+        ethereum: snapMock as unknown as MetaMaskInpageProvider,
         state: initialState,
         account: address,
         bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,

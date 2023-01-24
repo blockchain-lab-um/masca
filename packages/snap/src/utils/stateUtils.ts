@@ -1,7 +1,7 @@
 import { ApiParams, SSISnapState } from '../interfaces';
 import { getPublicKey } from './snapUtils';
 import { getEmptyAccountState, getInitialSnapState } from './config';
-import { SnapsGlobalObject } from '@metamask/snaps-utils';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 
 /**
  * Function for updating SSISnapState object in the MetaMask state
@@ -17,7 +17,7 @@ export async function updateSnapState(
   snap: SnapsGlobalObject,
   snapState: SSISnapState
 ) {
-  const res = await snap.request({
+  await snap.request({
     method: 'snap_manageState',
     params: { operation: 'update', newState: snapState },
   });

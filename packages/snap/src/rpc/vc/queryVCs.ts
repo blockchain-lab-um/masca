@@ -12,10 +12,11 @@ export async function queryVCs(
 ): Promise<QueryVCsRequestResult[]> {
   const { filter, options } = args || {};
   const { store, returnStore = true } = options || {};
-  const { state, snap } = params;
+  const { state, snap, ethereum } = params;
 
   const vcs = await veramoQueryVCs({
     snap,
+    ethereum,
     options: { store, returnStore },
     filter, // TODO: Check if undefined is ok
   });

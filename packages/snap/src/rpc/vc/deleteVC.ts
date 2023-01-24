@@ -8,7 +8,7 @@ export async function deleteVC(
   args: DeleteVCsRequestParams
 ): Promise<boolean[]> {
   const { id, options } = args || {};
-  const { snap } = params;
+  const { snap, ethereum } = params;
   const store = options?.store;
   const promptObj = {
     prompt: 'Delete VC',
@@ -19,6 +19,7 @@ export async function deleteVC(
   if (snapConfirm(snap, promptObj)) {
     return await veramoDeleteVC({
       snap,
+      ethereum,
       id,
       store,
     });

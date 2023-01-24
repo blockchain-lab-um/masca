@@ -1,10 +1,11 @@
 import { updateSnapState } from './stateUtils';
 import { publicKeyConvert } from 'secp256k1';
-import { SnapsGlobalObject } from '@metamask/snaps-utils';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { ApiParams, SnapConfirmParams, SSISnapState } from '../interfaces';
 import { snapGetKeysFromAddress } from './keyPair';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { AvailableVCStores } from '@blockchain-lab-um/ssi-snap-types';
+import { MetaMaskInpageProvider } from '@metamask/providers';
 
 /**
  * Function that returns address of the currently selected MetaMask account.
@@ -17,7 +18,7 @@ import { AvailableVCStores } from '@blockchain-lab-um/ssi-snap-types';
  *
  **/
 export async function getCurrentAccount(
-  snap: SnapsGlobalObject
+  ethereum: MetaMaskInpageProvider
 ): Promise<string | null> {
   try {
     const accounts = (await ethereum.request({
@@ -30,7 +31,7 @@ export async function getCurrentAccount(
 }
 
 export async function getCurrentNetwork(
-  snap: SnapsGlobalObject
+  ethereum: MetaMaskInpageProvider
 ): Promise<string> {
   const network = (await ethereum.request({
     method: 'eth_chainId',
@@ -72,9 +73,6 @@ export async function removeFriendlyDapp(
   state: SSISnapState,
   dapp: string
 ) {
-  // FIXME: TEST IF YOU CAN REFERENCE FRIENDLY DAPS
-  // let friendlyDapps = state.snapConfig.dApp.friendlyDapps;
-  // friendlyDapps = friendlyDapps.filter((d) => d !== dapp);
   state.snapConfig.dApp.friendlyDapps =
     state.snapConfig.dApp.friendlyDapps.filter((d) => d !== dapp);
   await updateSnapState(snap, state);
@@ -158,14 +156,12 @@ export function getEnabledVCStores(
   vcstores?: AvailableVCStores[]
 ): string[] {
   if (!vcstores) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     vcstores = Object.keys(
       state.accountState[account].accountConfig.ssi.vcStore
     ) as AvailableVCStores[];
   }
 
   const res = vcstores.filter((vcstore) => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     return (
       state.accountState[account].accountConfig.ssi.vcStore[vcstore] === true
     );
@@ -178,6 +174,5 @@ export function isEnabledVCStore(
   state: SSISnapState,
   store: AvailableVCStores
 ): boolean {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return state.accountState[account].accountConfig.ssi.vcStore[store];
 }

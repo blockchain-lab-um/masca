@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { MetaMaskInpageProvider } from '@metamask/providers';
 import { Agent, getAgent } from './../veramo/setup';
 import {
   AvailableVCStores,
@@ -15,7 +14,7 @@ import {
 } from '@veramo/core';
 import { getCurrentDid } from './didUtils';
 import { getPublicKey, snapConfirm } from './snapUtils';
-import { SnapsGlobalObject } from '@metamask/snaps-utils';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { ApiParams } from '../interfaces';
 import { snapGetKeysFromAddress } from './keyPair';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
@@ -24,11 +23,12 @@ import { Filter } from '@blockchain-lab-um/veramo-vc-manager';
 
 export async function veramoSaveVC(args: {
   snap: SnapsGlobalObject;
+  ethereum: MetaMaskInpageProvider;
   verifiableCredential: W3CVerifiableCredential;
   store: AvailableVCStores | AvailableVCStores[];
 }): Promise<IDataManagerSaveResult[]> {
-  const { snap, store, verifiableCredential } = args;
-  const agent = await getAgent(snap);
+  const { snap, ethereum, store, verifiableCredential } = args;
+  const agent = await getAgent(snap, ethereum);
   const res = await agent.save({
     data: verifiableCredential,
     options: { store },
@@ -38,13 +38,14 @@ export async function veramoSaveVC(args: {
 
 export async function veramoClearVCs(args: {
   snap: SnapsGlobalObject;
+  ethereum: MetaMaskInpageProvider;
   store?: AvailableVCStores | AvailableVCStores[];
   filter?: Filter; // TODO: Seperate type from datamanager (currently vcmanager)?
 }): Promise<boolean[]> {
-  const { snap, store, filter } = args;
+  const { snap, ethereum, store, filter } = args;
   let options = undefined;
   if (store) options = { store };
-  const agent = await getAgent(snap);
+  const agent = await getAgent(snap, ethereum);
   const result = await agent.clear({
     filter,
     options,
@@ -54,11 +55,12 @@ export async function veramoClearVCs(args: {
 
 export async function veramoDeleteVC(args: {
   snap: SnapsGlobalObject;
+  ethereum: MetaMaskInpageProvider;
   id: string;
   store?: AvailableVCStores | AvailableVCStores[];
 }): Promise<boolean[]> {
-  const { snap, store, id } = args;
-  const agent = await getAgent(snap);
+  const { snap, ethereum, store, id } = args;
+  const agent = await getAgent(snap, ethereum);
   let options = undefined;
   if (store) options = { store };
   const result = await agent.delete({
@@ -70,11 +72,12 @@ export async function veramoDeleteVC(args: {
 
 export async function veramoQueryVCs(args: {
   snap: SnapsGlobalObject;
+  ethereum: MetaMaskInpageProvider;
   options: QueryVCsOptions;
   filter?: Filter;
 }): Promise<QueryVCsRequestResult[]> {
-  const { snap, options, filter } = args;
-  const agent = await getAgent(snap);
+  const { snap, ethereum, options, filter } = args;
+  const agent = await getAgent(snap, ethereum);
   const result = (await agent.query({
     filter,
     options,
@@ -94,9 +97,9 @@ export async function veramoCreateVP(
     ? createVPParams.proofFormat
     : 'jwt'; // TODO: Do we want to set default to jwt?
 
-  const { state, snap } = params;
+  const { state, snap, ethereum } = params;
   //Get Veramo agent
-  const agent = await getAgent(snap);
+  const agent = await getAgent(snap, ethereum);
   //GET DID
   const identifier = await veramoImportMetaMaskAccount(params, agent);
 
@@ -143,9 +146,9 @@ export const veramoImportMetaMaskAccount = async (
   params: ApiParams,
   agent: Agent
 ): Promise<IIdentifier> => {
-  const { state, snap, account, bip44CoinTypeNode } = params;
+  const { state, snap, ethereum, account, bip44CoinTypeNode } = params;
   const method = state.accountState[account].accountConfig.ssi.didMethod;
-  const did = await getCurrentDid(snap, state, account);
+  const did = await getCurrentDid(ethereum, state, account);
 
   const res = await snapGetKeysFromAddress(
     bip44CoinTypeNode as BIP44CoinTypeNode,
