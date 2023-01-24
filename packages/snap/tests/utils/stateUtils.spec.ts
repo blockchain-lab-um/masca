@@ -1,13 +1,15 @@
-import { getEmptyAccountState } from './../../src/utils/config';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
-import { getInitialSnapState } from '../../src/utils/config';
+import { MetaMaskInpageProvider } from '@metamask/providers';
+import {
+  getEmptyAccountState,
+  getInitialSnapState,
+} from '../../src/utils/config';
 import {
   getSnapState,
   getSnapStateUnchecked,
   initAccountState,
   initSnapState,
-  setAccountPublicKey,
   updateSnapState,
 } from '../../src/utils/stateUtils';
 import {
@@ -17,13 +19,15 @@ import {
   publicKey,
 } from '../testUtils/constants';
 import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
-import { MetaMaskInpageProvider } from '@metamask/providers';
+import { setAccountPublicKey } from '../../src/utils/snapUtils';
 
 describe('Utils [state]', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
+  let ethereumMock: MetaMaskInpageProvider;
 
   beforeEach(() => {
     snapMock = createMockSnap();
+    ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
   });
 
   describe('updateSnapState', () => {
@@ -80,7 +84,7 @@ describe('Utils [state]', () => {
 
   describe('getSnapStateUnchecked', () => {
     it('should return null if state is not initialized', async () => {
-      await expect(getSnapStateUnchecked(snapMock)).resolves.toEqual(null);
+      await expect(getSnapStateUnchecked(snapMock)).resolves.toBeNull();
 
       expect.assertions(1);
     });
@@ -121,7 +125,7 @@ describe('Utils [state]', () => {
       await expect(
         initAccountState({
           snap: snapMock,
-          ethereum: snapMock as unknown as MetaMaskInpageProvider,
+          ethereum: ethereumMock,
           state: initialState,
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
@@ -147,7 +151,7 @@ describe('Utils [state]', () => {
       await expect(
         setAccountPublicKey({
           snap: snapMock,
-          ethereum: snapMock as unknown as MetaMaskInpageProvider,
+          ethereum: ethereumMock,
           state: initialState,
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,

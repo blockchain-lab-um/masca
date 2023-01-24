@@ -27,25 +27,29 @@ export class DataManager implements IAgentPlugin {
   public async save(
     args: IDataManagerSaveArgs
   ): Promise<Array<IDataManagerSaveResult>> {
-    const data: unknown = args.data;
-    const options = args.options;
+    const { data } = args;
+    const { options } = args;
     let { store } = args.options;
     if (typeof store === 'string') {
       store = [store];
     }
     const res: IDataManagerSaveResult[] = [];
-    for (const storeName of store) {
-      const storePlugin = this.stores[storeName];
-      if (!storePlugin) {
-        throw new Error(`Store plugin ${storeName} not found`);
-      }
-      try {
-        const result = await storePlugin.save({ data, options });
-        res.push({ id: result, store: storeName });
-      } catch (e) {
-        console.log(e);
-      }
-    }
+
+    await Promise.all(
+      store.map(async (storeName) => {
+        const storePlugin = this.stores[storeName];
+        if (!storePlugin) {
+          throw new Error(`Store plugin ${storeName} not found`);
+        }
+        try {
+          const result = await storePlugin.save({ data, options });
+          res.push({ id: result, store: storeName });
+        } catch (e) {
+          console.log(e);
+        }
+      })
+    );
+
     return res;
   }
 
@@ -72,29 +76,31 @@ export class DataManager implements IAgentPlugin {
     }
     let res: IDataManagerQueryResult[] = [];
 
-    for (const storeName of store) {
-      const storePlugin = this.stores[storeName];
-      if (!storePlugin) {
-        throw new Error(`Store plugin ${storeName} not found`);
-      }
+    await Promise.all(
+      store.map(async (storeName) => {
+        const storePlugin = this.stores[storeName];
+        if (!storePlugin) {
+          throw new Error(`Store plugin ${storeName} not found`);
+        }
 
-      try {
-        const result = await storePlugin.query({ filter });
-        const mappedResult = result.map((r) => {
-          if (returnStore) {
-            return {
-              data: r.data,
-              metadata: { id: r.metadata.id, store: storeName },
-            };
-          } else {
+        try {
+          const result = await storePlugin.query({ filter });
+          const mappedResult = result.map((r) => {
+            if (returnStore) {
+              return {
+                data: r.data,
+                metadata: { id: r.metadata.id, store: storeName },
+              };
+            }
             return { data: r.data, metadata: { id: r.metadata.id } };
-          }
-        });
-        res = [...res, ...mappedResult];
-      } catch (e) {
-        console.log(e);
-      }
-    }
+          });
+          res = [...res, ...mappedResult];
+        } catch (e) {
+          console.log(e);
+        }
+      })
+    );
+
     return res;
   }
 
@@ -112,19 +118,22 @@ export class DataManager implements IAgentPlugin {
     if (store === undefined) {
       store = Object.keys(this.stores);
     }
-    const res = [];
-    for (const storeName of store) {
-      const storePlugin = this.stores[storeName];
-      if (!storePlugin) {
-        throw new Error(`Store plugin ${storeName} not found`);
-      }
-      try {
-        const deleteResult = await storePlugin.delete({ id: id });
-        res.push(deleteResult);
-      } catch (e) {
-        console.log(e);
-      }
-    }
+    const res: boolean[] = [];
+    await Promise.all(
+      store.map(async (storeName) => {
+        const storePlugin = this.stores[storeName];
+        if (!storePlugin) {
+          throw new Error(`Store plugin ${storeName} not found`);
+        }
+        try {
+          const deleteResult = await storePlugin.delete({ id });
+          res.push(deleteResult);
+        } catch (e) {
+          console.log(e);
+        }
+      })
+    );
+
     return res;
   }
 
@@ -133,29 +142,30 @@ export class DataManager implements IAgentPlugin {
     let store;
     if (options === undefined) {
       store = Object.keys(this.stores);
+    } else if (options.store !== undefined) {
+      store = options.store;
     } else {
-      if (options.store !== undefined) {
-        store = options.store;
-      } else {
-        store = Object.keys(this.stores);
-      }
+      store = Object.keys(this.stores);
     }
     if (typeof store === 'string') {
       store = [store];
     }
-    const res = [];
-    for (const storeName of store) {
-      const storePlugin = this.stores[storeName];
-      if (!storePlugin) {
-        throw new Error(`Store plugin ${storeName} not found`);
-      }
-      try {
-        const deleteResult = await storePlugin.clear({ filter });
-        res.push(deleteResult);
-      } catch (e) {
-        console.log(e);
-      }
-    }
+    const res: boolean[] = [];
+    await Promise.all(
+      store.map(async (storeName) => {
+        const storePlugin = this.stores[storeName];
+        if (!storePlugin) {
+          throw new Error(`Store plugin ${storeName} not found`);
+        }
+        try {
+          const deleteResult = await storePlugin.clear({ filter });
+          res.push(deleteResult);
+        } catch (e) {
+          console.log(e);
+        }
+      })
+    );
+
     return res;
   }
 }

@@ -1,11 +1,12 @@
-import { updateSnapState } from './stateUtils';
+/* eslint-disable no-param-reassign */
 import { publicKeyConvert } from 'secp256k1';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
-import { ApiParams, SnapConfirmParams, SSISnapState } from '../interfaces';
-import { snapGetKeysFromAddress } from './keyPair';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { AvailableVCStores } from '@blockchain-lab-um/ssi-snap-types';
 import { MetaMaskInpageProvider } from '@metamask/providers';
+import { snapGetKeysFromAddress } from './keyPair';
+import { ApiParams, SnapConfirmParams, SSISnapState } from '../interfaces';
+import { updateSnapState } from './stateUtils';
 
 /**
  * Function that returns address of the currently selected MetaMask account.
@@ -16,7 +17,7 @@ import { MetaMaskInpageProvider } from '@metamask/providers';
  *
  * @beta
  *
- **/
+ * */
 export async function getCurrentAccount(
   ethereum: MetaMaskInpageProvider
 ): Promise<string | null> {
@@ -97,20 +98,17 @@ export async function getPublicKey(params: ApiParams): Promise<string> {
   return res.publicKey;
 }
 
-export function getCompressedPublicKey(publicKey: string): string {
-  return _uint8ArrayToHex(
-    publicKeyConvert(_hexToUint8Array(publicKey.split('0x')[1]), true)
-  );
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function _uint8ArrayToHex(arr: any) {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+export function uint8ArrayToHex(arr: Uint8Array) {
   return Buffer.from(arr).toString('hex');
 }
 
-export function _hexToUint8Array(str: string): Uint8Array {
+export function hexToUint8Array(str: string): Uint8Array {
   return new Uint8Array(Buffer.from(str, 'hex'));
+}
+export function getCompressedPublicKey(publicKey: string): string {
+  return uint8ArrayToHex(
+    publicKeyConvert(hexToUint8Array(publicKey.split('0x')[1]), true)
+  );
 }
 
 export function snapConfirm(
@@ -129,25 +127,6 @@ export function snapConfirm(
   //   },
   // })) as boolean;
   return true;
-}
-
-export function getAccountIndex(
-  state: SSISnapState,
-  account: string
-): number | undefined {
-  if (state.accountState[account].index)
-    return state.accountState[account].index;
-  else return undefined;
-}
-
-export async function setAccountIndex(
-  snap: SnapsGlobalObject,
-  state: SSISnapState,
-  account: string,
-  index: number
-) {
-  state.accountState[account].index = index;
-  await updateSnapState(snap, state);
 }
 
 export function getEnabledVCStores(
@@ -175,4 +154,11 @@ export function isEnabledVCStore(
   store: AvailableVCStores
 ): boolean {
   return state.accountState[account].accountConfig.ssi.vcStore[store];
+}
+
+export async function setAccountPublicKey(params: ApiParams): Promise<void> {
+  const { state, snap, account } = params;
+  const publicKey = await getPublicKey(params);
+  state.accountState[account].publicKey = publicKey;
+  await updateSnapState(snap, state);
 }

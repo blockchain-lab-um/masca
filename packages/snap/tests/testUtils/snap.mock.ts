@@ -2,10 +2,11 @@ import { RequestArguments } from '@metamask/providers/dist/BaseProvider';
 import { Maybe } from '@metamask/providers/dist/utils';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 
-import { address, mnemonic, privateKey } from './constants';
-import { SSISnapState } from '../../src/interfaces';
 import { Wallet, providers } from 'ethers';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
+import { address, mnemonic, privateKey } from './constants';
+import { SSISnapState } from '../../src/interfaces';
+
 interface ISnapMock {
   request<T>(args: RequestArguments): Promise<Maybe<T>>;
   resetHistory(): void;
@@ -17,6 +18,7 @@ interface SnapManageState {
 
 export class SnapMock implements ISnapMock {
   private snapState: SSISnapState | null = null;
+
   private snap: Wallet = new Wallet(privateKey);
 
   private snapManageState(params: SnapManageState): SSISnapState | null {
@@ -25,7 +27,8 @@ export class SnapMock implements ISnapMock {
     }
     if (params.operation === 'get') {
       return this.snapState;
-    } else if (params.operation === 'update') {
+    }
+    if (params.operation === 'update') {
       this.snapState = params.newState as SSISnapState;
     } else if (params.operation === 'clear') {
       this.snapState = null;
@@ -44,7 +47,7 @@ export class SnapMock implements ISnapMock {
     const apiKey = 'NRFBwig_CLVL0WnQLY3dUo8YkPmW-7iN';
     const provider = new providers.AlchemyProvider('goerli', apiKey);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    return await provider.call(data[0], data[1]);
+    return provider.call(data[0], data[1]);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -52,7 +55,7 @@ export class SnapMock implements ISnapMock {
     const apiKey = 'NRFBwig_CLVL0WnQLY3dUo8YkPmW-7iN';
     const provider = new providers.AlchemyProvider('goerli', apiKey);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    return await provider.getLogs(data[0]);
+    return provider.getLogs(data[0]);
   }
 
   readonly rpcMocks = {
@@ -77,13 +80,19 @@ export class SnapMock implements ISnapMock {
         this.snapManageState(params as SnapManageState)
       ),
     personal_sign: jest.fn().mockImplementation(async (data: unknown) => {
-      return await this.snapPersonalSign(data as string[]);
+      return this.snapPersonalSign(data as string[]);
     }),
     eth_call: jest.fn().mockImplementation(async (data: unknown) => {
-      return await this.snapEthCall(data as any[]);
+      return this.snapEthCall(data as any[]);
     }),
     eth_getLogs: jest.fn().mockImplementation(async (data: unknown) => {
-      return await this.snapEthLogs(data as any[]);
+      return this.snapEthLogs(data as any[]);
+    }),
+    eth_call: jest.fn().mockImplementation(async (data: unknown) => {
+      return this.snapEthCall(data as any[]);
+    }),
+    eth_getLogs: jest.fn().mockImplementation(async (data: unknown) => {
+      return this.snapEthLogs(data as any[]);
     }),
     eth_signTypedData_v4: jest
       .fn()
@@ -94,7 +103,7 @@ export class SnapMock implements ISnapMock {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         delete types.EIP712Domain;
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, no-underscore-dangle
         return this.snap._signTypedData(domain, types, message);
       }),
   };

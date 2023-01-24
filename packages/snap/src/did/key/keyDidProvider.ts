@@ -47,7 +47,7 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     ).toString();
 
     const identifier: Omit<IIdentifier, 'provider'> = {
-      did: 'did:key:' + methodSpecificId,
+      did: `did:key:${methodSpecificId}`,
       controllerKeyId: key.kid,
       keys: [key],
       services: [],
@@ -71,7 +71,9 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     identifier: IIdentifier,
     context: IContext
   ): Promise<boolean> {
+    // eslint-disable-next-line no-restricted-syntax
     for (const { kid } of identifier.keys) {
+      // eslint-disable-next-line no-await-in-loop
       await context.agent.keyManagerDelete({ kid });
     }
     return true;

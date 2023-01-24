@@ -19,12 +19,13 @@ export async function saveVC(
   };
 
   if (snapConfirm(snap, promptObj)) {
-    return await veramoSaveVC({
+    const res = await veramoSaveVC({
       snap,
       ethereum,
       verifiableCredential,
       store,
     });
+    return res;
   }
   throw new Error('User rejected');
 }

@@ -1,6 +1,6 @@
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
 import { init } from '../../src/utils/init';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { getInitialSnapState } from '../../src/utils/config';
 
 describe('RPC handler [init]', () => {
