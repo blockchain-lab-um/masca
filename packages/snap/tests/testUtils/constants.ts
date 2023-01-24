@@ -1,6 +1,4 @@
-import { SnapConfirmParams, SSISnapState } from '../../src/interfaces';
 import cloneDeep from 'lodash.clonedeep';
-import { getEmptyAccountState } from '../../src/utils/config';
 import {
   DIDDocument,
   DIDResolutionResult,
@@ -8,6 +6,8 @@ import {
   W3CVerifiableCredential,
 } from '@veramo/core';
 import { JsonBIP44CoinTypeNode } from '@metamask/key-tree';
+import { SnapConfirmParams, SSISnapState } from '../../src/interfaces';
+import { getEmptyAccountState } from '../../src/utils/config';
 
 export const mnemonic =
   'prosper pair similar canoe work humble loud wild aunt reunion olive obscure';
@@ -168,7 +168,7 @@ export const exampleDIDKeyDocument: DIDDocument = {
       type: 'EcdsaSecp256k1RecoveryMethod2020',
       controller:
         'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik#zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
-      publicKeyHex: publicKeyHex,
+      publicKeyHex,
     },
   ],
 };

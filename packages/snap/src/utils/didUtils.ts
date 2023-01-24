@@ -4,12 +4,12 @@ import {
   AvailableMethods,
   AvailableVCStores,
 } from '@blockchain-lab-um/ssi-snap-types';
+import { DIDResolutionResult } from 'did-resolver';
 import { getDidKeyIdentifier } from '../did/key/keyDidUtils';
 import { SSISnapState } from '../interfaces';
 import { getCurrentNetwork } from './snapUtils';
 import { updateSnapState } from './stateUtils';
 import { getDidPkhIdentifier } from '../did/pkh/pkhDidUtils';
-import { DIDResolutionResult } from 'did-resolver';
 
 export async function changeCurrentVCStore(
   snap: SnapsGlobalObject,
@@ -18,6 +18,7 @@ export async function changeCurrentVCStore(
   didStore: AvailableVCStores,
   value: boolean
 ): Promise<void> {
+  // eslint-disable-next-line no-param-reassign
   state.accountState[account].accountConfig.ssi.vcStore[didStore] = value;
   await updateSnapState(snap, state);
 }
@@ -29,17 +30,18 @@ export async function getCurrentDid(
 ): Promise<string> {
   const method = state.accountState[account].accountConfig.ssi.didMethod;
   if (method === 'did:ethr') {
-    const chain_id = await getCurrentNetwork(ethereum);
-    return `did:ethr:${chain_id}:${account}`;
-  } else if (method === 'did:key') {
+    const CHAIN_ID = await getCurrentNetwork(ethereum);
+    return `did:ethr:${CHAIN_ID}:${account}`;
+  }
+  if (method === 'did:key') {
     const didUrl = getDidKeyIdentifier(state, account);
     return `did:key:${didUrl}`;
-  } else if (method === 'did:pkh') {
+  }
+  if (method === 'did:pkh') {
     const didUrl = await getDidPkhIdentifier(ethereum, account);
     return `did:pkh:${didUrl}`;
-  } else {
-    return '';
   }
+  return '';
 }
 
 export async function changeCurrentMethod(
@@ -50,6 +52,7 @@ export async function changeCurrentMethod(
   didMethod: AvailableMethods
 ): Promise<string> {
   if (state.accountState[account].accountConfig.ssi.didMethod !== didMethod) {
+    // eslint-disable-next-line no-param-reassign
     state.accountState[account].accountConfig.ssi.didMethod = didMethod;
     await updateSnapState(snap, state);
     const did = await getCurrentDid(ethereum, state, account);

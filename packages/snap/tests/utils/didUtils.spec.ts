@@ -1,4 +1,5 @@
 import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { MetaMaskInpageProvider } from '@metamask/providers';
 import {
   changeCurrentMethod,
   changeCurrentVCStore,
@@ -9,16 +10,15 @@ import {
   address,
   exampleDIDKey,
   getDefaultSnapState,
-  exampleDID,
   exampleDIDKeyDocumentUniResovler,
-  exampleDIDDocument,
   resolutionInvalidDID,
   resolutionNotFound,
   resolutionMethodNotSupported,
+  exampleDID,
+  exampleDIDDocument,
 } from '../testUtils/constants';
 import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
 import * as snapUtils from '../../src/utils/snapUtils';
-import { MetaMaskInpageProvider } from '@metamask/providers';
 
 jest
   .spyOn(snapUtils, 'getCurrentAccount')
@@ -32,9 +32,11 @@ jest
 
 describe('Utils [did]', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
+  let ethereumMock: MetaMaskInpageProvider;
 
   beforeEach(() => {
     snapMock = createMockSnap();
+    ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
   });
 
   describe('changeCurrentVCStore', () => {
@@ -63,7 +65,7 @@ describe('Utils [did]', () => {
       ).resolves.not.toThrow();
 
       const expectedState = getDefaultSnapState();
-      expectedState.accountState[address].accountConfig.ssi.vcStore['ceramic'] =
+      expectedState.accountState[address].accountConfig.ssi.vcStore.ceramic =
         true;
 
       expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith({
@@ -80,11 +82,7 @@ describe('Utils [did]', () => {
       const initialState = getDefaultSnapState();
 
       await expect(
-        getCurrentDid(
-          snapMock as unknown as MetaMaskInpageProvider,
-          initialState,
-          address
-        )
+        getCurrentDid(ethereumMock, initialState, address)
       ).resolves.toBe(`did:ethr:0x5:${address}`);
 
       expect.assertions(1);
@@ -96,11 +94,7 @@ describe('Utils [did]', () => {
         'did:key';
 
       await expect(
-        getCurrentDid(
-          snapMock as unknown as MetaMaskInpageProvider,
-          initialState,
-          address
-        )
+        getCurrentDid(ethereumMock, initialState, address)
       ).resolves.toBe(exampleDIDKey);
 
       expect.assertions(1);
@@ -114,7 +108,7 @@ describe('Utils [did]', () => {
       await expect(
         changeCurrentMethod(
           snapMock,
-          snapMock as unknown as MetaMaskInpageProvider,
+          ethereumMock,
           initialState,
           address,
           'did:key'
@@ -139,7 +133,7 @@ describe('Utils [did]', () => {
       await expect(
         changeCurrentMethod(
           snapMock,
-          snapMock as unknown as MetaMaskInpageProvider,
+          ethereumMock,
           initialState,
           address,
           'did:key'

@@ -1,10 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { IIdentifier, IKey, W3CVerifiableCredential } from '@veramo/core';
 import { ManagedPrivateKey } from '@veramo/key-manager';
-import {
-  SnapDIDStore,
-  SnapVCStore,
-} from './veramo/plugins/snapDataStore/snapDataStore';
 import {
   SSISnapConfig,
   SSIAccountConfig,

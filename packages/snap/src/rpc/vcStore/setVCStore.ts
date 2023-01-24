@@ -3,7 +3,6 @@ import { ApiParams } from '../../interfaces';
 import { snapConfirm } from '../../utils/snapUtils';
 import { updateSnapState } from '../../utils/stateUtils';
 
-// TODO: CHANGE THIS FUNCTION
 export async function setVCStore(
   params: ApiParams,
   { store, value }: SetVCStoreRequestParams

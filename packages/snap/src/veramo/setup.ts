@@ -1,7 +1,6 @@
-import { MetaMaskInpageProvider } from '@metamask/providers';
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// Core interfaces
+/* eslint-disable @typescript-eslint/dot-notation */
+import { MetaMaskInpageProvider } from '@metamask/providers';
 import {
   createAgent,
   IDIDManager,
@@ -31,32 +30,26 @@ import {
   IDataManager,
   AbstractDataStore,
 } from '@blockchain-lab-um/veramo-vc-manager';
-import { Web3Provider } from '@ethersproject/providers';
-//import { Web3KeyManagementSystem } from '@veramo/kms-web3';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { ethers } from 'ethers';
 import { CredentialIssuerEIP712 } from '@veramo/credential-eip712';
 import {
   CredentialIssuerLD,
   LdDefaultContexts,
   VeramoEcdsaSecp256k1RecoverySignature2020,
 } from '@veramo/credential-ld';
+import { CredentialPlugin, ICredentialIssuer } from '@veramo/credential-w3c';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import {
   SnapDIDStore,
   SnapVCStore,
 } from './plugins/snapDataStore/snapDataStore';
 import { CeramicVCStore } from './plugins/ceramicDataStore/ceramicDataStore';
 
-import { CredentialPlugin, ICredentialIssuer } from '@veramo/credential-w3c';
-
 import { KeyDIDProvider } from '../did/key/keyDidProvider';
 import { getDidKeyResolver as keyDidResolver } from '../did/key/keyDidResolver';
 
-const availableNetworks: Record<string, string> = {
-  '0x01': 'mainnet',
-  '0x5': 'goerli',
-};
-
 import { getCurrentAccount, getEnabledVCStores } from '../utils/snapUtils';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { getSnapState } from '../utils/stateUtils';
 
 export type Agent = TAgent<
@@ -75,7 +68,6 @@ export const getAgent = async (
   const state = await getSnapState(snap);
   const account = await getCurrentAccount(ethereum);
 
-  const web3Providers: Record<string, Web3Provider> = {};
   const didProviders: Record<string, AbstractIdentifierProvider> = {};
   const vcStorePlugins: Record<string, AbstractDataStore> = {};
   const enabledVCStores = getEnabledVCStores(account as string, state);
@@ -83,16 +75,22 @@ export const getAgent = async (
   const networks = [
     {
       name: 'mainnet',
-      provider: new Web3Provider(ethereum as any),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      provider: new ethers.providers.Web3Provider(ethereum as any),
+    },
+    {
+      name: '0x05',
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      provider: new ethers.providers.Web3Provider(ethereum as any),
     },
     {
       name: 'goerli',
-      provider: new Web3Provider(ethereum as any),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      provider: new ethers.providers.Web3Provider(ethereum as any),
       chainId: '0x5',
     },
   ];
 
-  web3Providers['metamask'] = new Web3Provider(ethereum as any);
   didProviders['did:ethr'] = new EthrDIDProvider({
     defaultKms: 'web3',
     networks,
@@ -123,7 +121,6 @@ export const getAgent = async (
       new KeyManager({
         store: new MemoryKeyStore(),
         kms: {
-          //web3: new Web3KeyManagementSystem(web3Providers),
           snap: new KeyManagementSystem(new MemoryPrivateKeyStore()),
         },
       }),

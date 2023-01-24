@@ -17,12 +17,13 @@ export async function deleteVC(
   };
 
   if (snapConfirm(snap, promptObj)) {
-    return await veramoDeleteVC({
+    const res = await veramoDeleteVC({
       snap,
       ethereum,
       id,
       store,
     });
+    return res;
   }
   throw new Error('User rejected');
 }

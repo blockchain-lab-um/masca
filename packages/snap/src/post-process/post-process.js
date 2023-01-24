@@ -1,12 +1,8 @@
 const fs = require('fs');
 const pathUtils = require('path');
-//const snapConfig = require("./snap.config.json");
-
-//import * as snapConfig from "./snap.config";
 
 const bundlePath = pathUtils.join('dist', 'snap.js');
 console.log('Bundle path', bundlePath);
-//const bundlePath = pathUtils.join(cliOptions.dist, cliOptions.outfileName);
 
 let bundleString = fs.readFileSync(bundlePath, 'utf8');
 
@@ -65,13 +61,6 @@ bundleString = bundleString.replaceAll(
   `process.env.NODE_ENV === 'production'`,
   `true`
 );
-
-// bundleString = bundleString.replaceAll(
-//   `Gp[iteratorSymbol] = function () {
-//     return this;
-//   };`,
-//   `define(Gp, iteratorSymbol, function () { return this; });`
-// );
 
 bundleString = bundleString.replaceAll(
   `Gp[iteratorSymbol]`,
