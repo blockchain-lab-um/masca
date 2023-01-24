@@ -18,6 +18,7 @@ import {
 } from '../testUtils/constants';
 import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
 import * as snapUtils from '../../src/utils/snapUtils';
+import { MetaMaskInpageProvider } from '@metamask/providers';
 
 jest
   .spyOn(snapUtils, 'getCurrentAccount')
@@ -79,7 +80,11 @@ describe('Utils [did]', () => {
       const initialState = getDefaultSnapState();
 
       await expect(
-        getCurrentDid(snapMock, initialState, address)
+        getCurrentDid(
+          snapMock as unknown as MetaMaskInpageProvider,
+          initialState,
+          address
+        )
       ).resolves.toBe(`did:ethr:0x5:${address}`);
 
       expect.assertions(1);
@@ -91,7 +96,11 @@ describe('Utils [did]', () => {
         'did:key';
 
       await expect(
-        getCurrentDid(snapMock, initialState, address)
+        getCurrentDid(
+          snapMock as unknown as MetaMaskInpageProvider,
+          initialState,
+          address
+        )
       ).resolves.toBe(exampleDIDKey);
 
       expect.assertions(1);
@@ -103,7 +112,13 @@ describe('Utils [did]', () => {
       const initialState = getDefaultSnapState();
 
       await expect(
-        changeCurrentMethod(snapMock, initialState, address, 'did:key')
+        changeCurrentMethod(
+          snapMock,
+          snapMock as unknown as MetaMaskInpageProvider,
+          initialState,
+          address,
+          'did:key'
+        )
       ).resolves.not.toThrow();
 
       const expectedState = getDefaultSnapState();
@@ -122,7 +137,13 @@ describe('Utils [did]', () => {
       const initialState = getDefaultSnapState();
 
       await expect(
-        changeCurrentMethod(snapMock, initialState, address, 'did:key')
+        changeCurrentMethod(
+          snapMock,
+          snapMock as unknown as MetaMaskInpageProvider,
+          initialState,
+          address,
+          'did:key'
+        )
       ).resolves.not.toThrow();
 
       const expectedState = getDefaultSnapState();

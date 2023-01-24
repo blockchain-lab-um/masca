@@ -9,8 +9,9 @@ import {
   SSISnapConfig,
   SSIAccountConfig,
 } from '@blockchain-lab-um/ssi-snap-types';
-import { SnapsGlobalObject } from '@metamask/snaps-utils';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
+import { MetaMaskInpageProvider } from '@metamask/providers';
 
 export type SSISnapState = {
   /**
@@ -73,6 +74,7 @@ export type SnapConfirmParams = {
 export interface ApiParams {
   state: SSISnapState;
   snap: SnapsGlobalObject;
+  ethereum: MetaMaskInpageProvider;
   account: string;
   bip44CoinTypeNode?: BIP44CoinTypeNode;
 }
