@@ -53,7 +53,9 @@
     "namedInputs": {
       "production": [
         "{projectRoot}/src/**/*",
-        "{projectRoot}/tsconfig.json"
+        "{projectRoot}/tsconfig.json",
+        "{projectRoot}/next.config.js",
+        "{projectRoot}/tailwind.config.cjs"
       ]
     },
     "targets": {
@@ -68,6 +70,13 @@
         "outputs": [
           "{projectRoot}/.next"
         ]
+      },
+      "build:docker": {
+        "inputs": [],
+        "dependsOn": [
+          "build"
+        ],
+        "outputs": []
       },
       "start": {
         "inputs": [

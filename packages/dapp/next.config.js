@@ -34,6 +34,7 @@ const nextConfig = {
   },
   // Security headers and CSP
   // https://nextjs.org/docs/advanced-features/security-headers
+  // Not supported with `next export`
   headers: async () => {
     return isProd
       ? [
