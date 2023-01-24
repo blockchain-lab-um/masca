@@ -7,7 +7,7 @@ export async function switchMethod(
   params: ApiParams,
   { didMethod }: SwitchMethodRequestParams
 ): Promise<string> {
-  const { state, snap, account } = params;
+  const { state, snap, ethereum, account } = params;
   const method = state.accountState[account].accountConfig.ssi.didMethod;
   if (didMethod !== method) {
     const promptObj = {
@@ -17,7 +17,14 @@ export async function switchMethod(
     };
 
     if (snapConfirm(snap, promptObj)) {
-      return await changeCurrentMethod(snap, state, account, didMethod);
+      const res = await changeCurrentMethod(
+        snap,
+        ethereum,
+        state,
+        account,
+        didMethod
+      );
+      return res;
     }
 
     return '';

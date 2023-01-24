@@ -1,6 +1,4 @@
-import { SnapConfirmParams, SSISnapState } from '../../src/interfaces';
 import cloneDeep from 'lodash.clonedeep';
-import { getEmptyAccountState } from '../../src/utils/config';
 import {
   DIDDocument,
   DIDResolutionResult,
@@ -8,6 +6,8 @@ import {
   W3CVerifiableCredential,
 } from '@veramo/core';
 import { JsonBIP44CoinTypeNode } from '@metamask/key-tree';
+import { SnapConfirmParams, SSISnapState } from '../../src/interfaces';
+import { getEmptyAccountState } from '../../src/utils/config';
 
 export const mnemonic =
   'prosper pair similar canoe work humble loud wild aunt reunion olive obscure';
@@ -168,7 +168,7 @@ export const exampleDIDKeyDocument: DIDDocument = {
       type: 'EcdsaSecp256k1RecoveryMethod2020',
       controller:
         'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik#zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
-      publicKeyHex: publicKeyHex,
+      publicKeyHex,
     },
   ],
 };
@@ -222,10 +222,7 @@ export const exampleVC = {
     id: 'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
     type: 'JsonSchemaValidator2018',
   },
-  '@context': [
-    'https://www.w3.org/2018/credentials/v1',
-    'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/ld-context.json',
-  ],
+  '@context': ['https://www.w3.org/2018/credentials/v1'],
   issuanceDate: '2022-09-16T11:37:05.000Z',
   proof: {
     type: 'JwtProof2020',
@@ -234,7 +231,10 @@ export const exampleVC = {
 };
 
 export const exampleVCJSONLD: W3CVerifiableCredential = {
-  '@context': ['https://www.w3.org/2018/credentials/v1', 'https://schema.org'],
+  '@context': [
+    'https://www.w3.org/2018/credentials/v1',
+    'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/ld-context.json',
+  ],
   type: ['VerifiableCredential', 'CourseCredential'],
   issuer: {
     id: 'did:key:z6MkndAHigYrXNpape7jgaC7jHiWwxzB3chuKUGXJg2b5RSj',

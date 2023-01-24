@@ -7,6 +7,8 @@
     "typeRoots": ["./node_modules/@types", "../../node_modules/@types"],
     "sourceMap": true
   },
-  "files": ["../../node_modules/@metamask/snaps-types/dist/global.d.ts"],
+  "files": [
+    "../../node_modules/.pnpm/@metamask+snaps-types@0.27.1_rvr7xsi54kylxpxjwsjvbo3fce/node_modules/@metamask/snaps-types/dist/global.d.ts"
+  ],
   "include": ["src/**/*", "tests/**/*"]
 }

@@ -1,7 +1,6 @@
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { ApiParams, SSISnapState } from '../interfaces';
-import { getPublicKey } from './snapUtils';
 import { getEmptyAccountState, getInitialSnapState } from './config';
-import { SnapsGlobalObject } from '@metamask/snaps-utils';
 
 /**
  * Function for updating SSISnapState object in the MetaMask state
@@ -12,12 +11,12 @@ import { SnapsGlobalObject } from '@metamask/snaps-utils';
  *
  * @beta
  *
- **/
+ * */
 export async function updateSnapState(
   snap: SnapsGlobalObject,
   snapState: SSISnapState
 ) {
-  const res = await snap.request({
+  await snap.request({
     method: 'snap_manageState',
     params: { operation: 'update', newState: snapState },
   });
@@ -32,7 +31,7 @@ export async function updateSnapState(
  *
  * @beta
  *
- **/
+ * */
 export async function getSnapState(
   snap: SnapsGlobalObject
 ): Promise<SSISnapState> {
@@ -54,7 +53,7 @@ export async function getSnapState(
  *
  * @beta
  *
- **/
+ * */
 export async function getSnapStateUnchecked(
   snap: SnapsGlobalObject
 ): Promise<SSISnapState | null> {
@@ -74,7 +73,7 @@ export async function getSnapStateUnchecked(
  *
  * @beta
  *
- **/
+ * */
 export async function initSnapState(
   snap: SnapsGlobalObject
 ): Promise<SSISnapState> {
@@ -93,16 +92,9 @@ export async function initSnapState(
  *
  * @beta
  *
- **/
+ * */
 export async function initAccountState(params: ApiParams): Promise<void> {
   const { state, snap, account } = params;
   state.accountState[account] = getEmptyAccountState();
-  await updateSnapState(snap, state);
-}
-
-export async function setAccountPublicKey(params: ApiParams): Promise<void> {
-  const { state, snap, account } = params;
-  const publicKey = await getPublicKey(params);
-  state.accountState[account].publicKey = publicKey;
   await updateSnapState(snap, state);
 }

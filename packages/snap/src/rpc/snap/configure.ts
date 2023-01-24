@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/restrict-plus-operands */
 import { ApiParams } from '../../interfaces';
 import {
   togglePopups as updatePopups,
@@ -7,7 +6,7 @@ import {
 
 export async function togglePopups(params: ApiParams): Promise<boolean> {
   const { state, snap } = params;
-  const disablePopups = state.snapConfig.dApp.disablePopups;
+  const { disablePopups } = state.snapConfig.dApp;
 
   const promptObj = {
     prompt: 'Toggle Popups',

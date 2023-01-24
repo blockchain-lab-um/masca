@@ -1,10 +1,10 @@
 import { CeramicClient } from '@ceramicnetwork/http-client';
 import { DIDSession } from 'did-session';
-import { getCurrentAccount, getCurrentNetwork } from './snapUtils';
 import { DID } from 'dids';
-import { SnapsGlobalObject } from '@metamask/snaps-utils';
 import { EthereumWebAuth } from '@didtools/pkh-ethereum';
 import { AccountId } from 'caip';
+import { MetaMaskInpageProvider } from '@metamask/providers';
+import { getCurrentAccount, getCurrentNetwork } from './snapUtils';
 
 const ceramicDID = { did: undefined } as { did: DID | undefined };
 
@@ -21,12 +21,12 @@ export const aliases = {
 };
 
 export async function authenticateWithEthereum(
-  snap: SnapsGlobalObject
+  ethereum: MetaMaskInpageProvider
 ): Promise<DID> {
   if (ceramicDID.did) return ceramicDID.did;
-  const account = await getCurrentAccount(snap);
+  const account = await getCurrentAccount(ethereum);
   if (!account) throw Error('User denied error');
-  const ethChainId = await getCurrentNetwork(snap);
+  const ethChainId = await getCurrentNetwork(ethereum);
   const chainId = `eip155:${ethChainId}`;
 
   const accountId = new AccountId({
@@ -34,9 +34,10 @@ export async function authenticateWithEthereum(
     chainId,
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
   typeof window;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
   window.location = {} as any;
   window.location.hostname = 'ssi-snap';
 
@@ -49,10 +50,10 @@ export async function authenticateWithEthereum(
 }
 
 export async function getCeramic(
-  snap: SnapsGlobalObject
+  ethereum: MetaMaskInpageProvider
 ): Promise<CeramicClient> {
   const ceramic = new CeramicClient('https://ceramic-clay.3boxlabs.com');
-  const did = await authenticateWithEthereum(snap);
+  const did = await authenticateWithEthereum(ethereum);
   await ceramic.setDID(did);
   return ceramic;
 }

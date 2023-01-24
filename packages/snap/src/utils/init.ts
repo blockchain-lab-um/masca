@@ -1,4 +1,4 @@
-import { SnapsGlobalObject } from '@metamask/snaps-utils';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { SSISnapState } from '../interfaces';
 import { snapConfirm } from './snapUtils';
 import { initSnapState } from './stateUtils';
@@ -12,9 +12,9 @@ export async function init(snap: SnapsGlobalObject): Promise<SSISnapState> {
   };
 
   // Accept terms and conditions
-  //if (snapConfirm(snap, promptObj)) {
-  return await initSnapState(snap);
-  //} else {
-  //throw new Error('User did not accept terms and conditions!');
-  //}
+  // if (snapConfirm(snap, promptObj)) {
+  return initSnapState(snap);
+  // } else {
+  // throw new Error('User did not accept terms and conditions!');
+  // }
 }

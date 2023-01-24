@@ -19,29 +19,38 @@ Many new features are already in the works. For more information, please check t
 
 # Development
 
+### Versions
+
+Every version of SSI Snap does NOT work with every version of MetaMask Flask! Here is a table of compatible versions:
+
+| SSI Snap Version | Flask Version |
+| ---------------- | ------------- |
+| 1.2.2            | up to 10.19.0 |
+| 1.3.0            | 10.24.0       |
+
 ### Prerequisites
 
 - [MetaMask Flask](https://metamask.io/flask/)
   - ⚠️ You cannot have other versions of MetaMask installed
 - Node.js `18`. We **strongly** recommend you install via [NVM](https://github.com/creationix/nvm) to avoid incompatibility issues between different node projects.
-  - Once installed, you should also install [Yarn](http://yarnpkg.com/) with `npm i -g yarn` to make working with this repository easiest.
+  - Once installed, you should also install [pnpm](https://pnpm.io/) with `npm i -g pnpm` to make working with this repository easiest.
 
 ## Running
 
-- Run `yarn build:all`
+- Run `pnpm build:all`
 
 ### Snap
 
-- To start the Snap run `yarn start:snap`
+- To start the Snap run `pnpm start:snap`
 - Snap can be tested on `localhost:8081/` or on SSI Snap Website
 
 ### Website
 
-- To start the Website run `yarn start:dapp`
+- To start the Website run `pnpm start:dapp`
 
 ### Docs
 
-- To start the Website run `yarn start:docs`
+- To start the Website run `pnpm start:docs`
 
 # Feature requests
 

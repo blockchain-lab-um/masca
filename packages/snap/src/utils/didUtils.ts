@@ -1,14 +1,15 @@
-import { SnapsGlobalObject } from '@metamask/snaps-utils';
+import { MetaMaskInpageProvider } from '@metamask/providers';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import {
   AvailableMethods,
   AvailableVCStores,
 } from '@blockchain-lab-um/ssi-snap-types';
+import { DIDResolutionResult } from 'did-resolver';
 import { getDidKeyIdentifier } from '../did/key/keyDidUtils';
 import { SSISnapState } from '../interfaces';
 import { getCurrentNetwork } from './snapUtils';
 import { updateSnapState } from './stateUtils';
 import { getDidPkhIdentifier } from '../did/pkh/pkhDidUtils';
-import { DIDResolutionResult } from 'did-resolver';
 
 export async function changeCurrentVCStore(
   snap: SnapsGlobalObject,
@@ -17,40 +18,44 @@ export async function changeCurrentVCStore(
   didStore: AvailableVCStores,
   value: boolean
 ): Promise<void> {
+  // eslint-disable-next-line no-param-reassign
   state.accountState[account].accountConfig.ssi.vcStore[didStore] = value;
   await updateSnapState(snap, state);
 }
 
 export async function getCurrentDid(
-  snap: SnapsGlobalObject,
+  ethereum: MetaMaskInpageProvider,
   state: SSISnapState,
   account: string
 ): Promise<string> {
   const method = state.accountState[account].accountConfig.ssi.didMethod;
   if (method === 'did:ethr') {
-    const chain_id = await getCurrentNetwork(snap);
-    return `did:ethr:${chain_id}:${account}`;
-  } else if (method === 'did:key') {
+    const CHAIN_ID = await getCurrentNetwork(ethereum);
+    return `did:ethr:${CHAIN_ID}:${account}`;
+  }
+  if (method === 'did:key') {
     const didUrl = getDidKeyIdentifier(state, account);
     return `did:key:${didUrl}`;
-  } else if (method === 'did:pkh') {
-    const didUrl = await getDidPkhIdentifier(snap, account);
-    return `did:pkh:${didUrl}`;
-  } else {
-    return '';
   }
+  if (method === 'did:pkh') {
+    const didUrl = await getDidPkhIdentifier(ethereum, account);
+    return `did:pkh:${didUrl}`;
+  }
+  return '';
 }
 
 export async function changeCurrentMethod(
   snap: SnapsGlobalObject,
+  ethereum: MetaMaskInpageProvider,
   state: SSISnapState,
   account: string,
   didMethod: AvailableMethods
 ): Promise<string> {
   if (state.accountState[account].accountConfig.ssi.didMethod !== didMethod) {
+    // eslint-disable-next-line no-param-reassign
     state.accountState[account].accountConfig.ssi.didMethod = didMethod;
     await updateSnapState(snap, state);
-    const did = await getCurrentDid(snap, state, account);
+    const did = await getCurrentDid(ethereum, state, account);
     return did;
   }
   return '';
