@@ -17,7 +17,8 @@ const isProd = process.env.NODE_ENV === 'production';
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
-  basePath: '/ssi-snap/',
+  // FIXME: On release change to /ssi-snap
+  basePath: '/dapp',
   reactStrictMode: true,
   swcMinify: true,
   // https://nextjs.org/docs/advanced-features/output-file-tracing#automatically-copying-traced-files

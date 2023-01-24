@@ -1,16 +1,16 @@
-name: Website deploy/build action
+name: Dapp deploy/build action
 
 on:
   pull_request:
     branches: [develop]
     types: [opened, synchronize, reopened]
     paths:
-      - 'packages/website/**'
+      - 'packages/dapp/**'
       - 'Dockerfile'
   push:
     branches: [master, develop]
     paths:
-      - 'packages/website/**'
+      - 'packages/dapp/**'
       - 'Dockerfile'
 
 jobs:
@@ -36,11 +36,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Lint
-        run: pnpm nx run @blockchain-lab-um/website:lint
+        run: pnpm nx run @blockchain-lab-um/dapp:lint
         env:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-      - name: Test build website
-        run: pnpm nx run @blockchain-lab-um/website:build
+      - name: Test build dapp
+        run: pnpm nx run @blockchain-lab-um/dapp:build
         env:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
@@ -58,10 +58,10 @@ jobs:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
       - name: Build blockchain-lab-um/ssi-snap
         run: docker build . -t blockchain-lab-um/ssi-snap
-      - name: Build blockchain-lab-um/ssi-snap-website
-        run: docker build ./packages/website -t blockchain-lab-um/ssi-snap-website
+      - name: Build blockchain-lab-um/dapp
+        run: docker build ./packages/dapp -t blockchain-lab-um/dapp
       - name: Change image tag
-        run: docker tag blockchain-lab-um/ssi-snap-website:latest bclabum.informatika.uni-mb.si/registry/ssi-snap-website:latest
+        run: docker tag blockchain-lab-um/dapp:latest bclabum.informatika.uni-mb.si/registry/dapp:latest
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
@@ -69,39 +69,39 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Push to private docker registry
-        run: docker push bclabum.informatika.uni-mb.si/registry/ssi-snap-website:latest
-
-  deploy:
-    # Deploy only when we PUSH to MASTER
-    if: ${{ (github.ref == 'refs/heads/master') && (github.event_name == 'push') }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - uses: nrwl/nx-set-shas@v3
-        with:
-          main-branch-name: 'develop'
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 7.25.1
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18.13.0
-          cache: pnpm
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-      - name: Lint
-        run: pnpm nx run @blockchain-lab-um/website:lint
-        env:
-          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-      - name: Test build website
-        run: pnpm nx run @blockchain-lab-um/website:build
-        env:
-          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./packages/website/dist
+        run: docker push bclabum.informatika.uni-mb.si/registry/dapp:latest
+  # TODO: Uncomment when we replace the old dapp
+  # deploy:
+  #   # Deploy only when we PUSH to MASTER
+  #   if: ${{ (github.ref == 'refs/heads/master') && (github.event_name == 'push') }}
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #       with:
+  #         fetch-depth: 0
+  #     - uses: nrwl/nx-set-shas@v3
+  #       with:
+  #         main-branch-name: 'develop'
+  #     - name: Install pnpm
+  #       uses: pnpm/action-setup@v2
+  #       with:
+  #         version: 7.25.1
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 18.13.0
+  #         cache: pnpm
+  #     - name: Install dependencies
+  #       run: pnpm install --frozen-lockfile
+  #     - name: Lint
+  #       run: pnpm nx run @blockchain-lab-um/dapp:lint
+  #       env:
+  #         NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+  #     - name: Test build dapp
+  #       run: pnpm nx run @blockchain-lab-um/dapp:build
+  #       env:
+  #         NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+  #     - name: Deploy to GitHub Pages
+  #       uses: peaceiris/actions-gh-pages@v3
+  #       with:
+  #         github_token: ${{ secrets.GITHUB_TOKEN }}
+  #         publish_dir: ./packages/dapp/.next
