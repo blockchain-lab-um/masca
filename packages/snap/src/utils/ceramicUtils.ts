@@ -1,10 +1,10 @@
 import { CeramicClient } from '@ceramicnetwork/http-client';
 import { DIDSession } from 'did-session';
-import { getCurrentAccount, getCurrentNetwork } from './snapUtils';
 import { DID } from 'dids';
 import { EthereumWebAuth } from '@didtools/pkh-ethereum';
 import { AccountId } from 'caip';
 import { MetaMaskInpageProvider } from '@metamask/providers';
+import { getCurrentAccount, getCurrentNetwork } from './snapUtils';
 
 const ceramicDID = { did: undefined } as { did: DID | undefined };
 
@@ -34,9 +34,10 @@ export async function authenticateWithEthereum(
     chainId,
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
   typeof window;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
   window.location = {} as any;
   window.location.hostname = 'ssi-snap';
 

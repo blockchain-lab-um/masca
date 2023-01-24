@@ -4,7 +4,6 @@ import {
   getDefaultSnapState,
 } from '../testUtils/constants';
 import {
-  isValidChangeInfuraTokenRequest,
   isValidCreateVPRequest,
   isValidDeleteVCRequest,
   isValidQueryRequest,

@@ -1,10 +1,11 @@
-import { MetaMaskSSISnap } from './snap';
 import { AvailableMethods } from '@blockchain-lab-um/ssi-snap-types';
+import { MetaMaskSSISnap } from './snap';
 import {
   hasMetaMask,
   isMetamaskSnapsSupported,
   isSnapInstalled,
 } from './utils';
+
 const defaultSnapOrigin = 'npm:@blockchain-lab-um/ssi-snap';
 
 export { MetaMaskSSISnap } from './snap';
@@ -54,7 +55,7 @@ export async function enableSSISnap(
     await window.ethereum.request({
       method: 'wallet_requestSnaps',
       params: {
-        [snapId]: { version: version },
+        [snapId]: { version },
       },
     });
   }
@@ -62,7 +63,7 @@ export async function enableSSISnap(
   // create snap describer
   const snap = new MetaMaskSSISnap(snapId, supportedMethods);
 
-  //initialize snap
+  // initialize snap
   const snapApi = await snap.getSSISnapApi();
   console.log('Getting DID method...');
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call

@@ -7,7 +7,7 @@
     "url": "https://github.com/blockchain-lab-um/ssi-snap.git"
   },
   "source": {
-    "shasum": "iN81K7o1jIYr3gRBcvZd3pEGPg8eDelIg+Hg+42vSp4=",
+    "shasum": "ObMAxNBhAPERP5891D6HhZBsl99ekXxtqNJqYGNYh+I=",
     "location": {
       "npm": {
         "filePath": "dist/snap.js",

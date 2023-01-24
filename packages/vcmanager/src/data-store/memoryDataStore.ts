@@ -1,3 +1,5 @@
+import { v4 } from 'uuid';
+import jsonpath from 'jsonpath';
 import {
   AbstractDataStore,
   ISaveArgs,
@@ -5,8 +7,6 @@ import {
   IQueryResult,
   IDeleteArgs,
 } from './abstractDataStore';
-import { v4 } from 'uuid';
-import jsonpath from 'jsonpath';
 
 /**
  * An implementation of {@link AbstractDataStore} that stores everything in memory.
@@ -44,7 +44,8 @@ export class MemoryDataStore extends AbstractDataStore {
             },
           ];
           return obj;
-        } else return [];
+        }
+        return [];
       } catch (e) {
         throw new Error('Invalid id');
       }

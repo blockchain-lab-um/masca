@@ -7,6 +7,7 @@ export async function getDidPkhIdentifier(
 ): Promise<string> {
   const network = await getCurrentNetwork(ethereum);
   if (network === '0x137') {
-    return 'eip155:137:' + account;
-  } else return 'eip155:1:' + account;
+    return `eip155:137:${account}`;
+  }
+  return `eip155:1:${account}`;
 }

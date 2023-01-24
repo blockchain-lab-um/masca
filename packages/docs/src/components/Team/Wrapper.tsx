@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions */
 import React from 'react';
 import TeamCard from './TeamCard';
 import members from '../../constants/Members';

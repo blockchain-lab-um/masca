@@ -1,7 +1,14 @@
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
-import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
-import { onRpcRequest } from '../../src/index';
+import {
+  availableVCStores,
+  availableMethods,
+} from '@blockchain-lab-um/ssi-snap-types';
+import { DIDResolutionResult, VerifiablePresentation } from '@veramo/core';
+import * as uuid from 'uuid';
+import { DIDDataStore } from '@glazed/did-datastore';
+import { StreamID } from '@ceramicnetwork/streamid';
+import { veramoClearVCs } from '../../src/utils/veramoUtils';
 import {
   exampleDID,
   exampleDIDKey,
@@ -11,22 +18,16 @@ import {
   address,
   exampleDIDDocument,
 } from '../testUtils/constants';
-import {
-  availableVCStores,
-  availableMethods,
-} from '@blockchain-lab-um/ssi-snap-types';
-import { DIDResolutionResult, VerifiablePresentation } from '@veramo/core';
-import * as uuid from 'uuid';
-import { veramoClearVCs } from '../../src/utils/veramoUtils';
-import { DIDDataStore } from '@glazed/did-datastore';
-import { StreamID } from '@ceramicnetwork/streamid';
 import { StoredCredentials } from '../../src/interfaces';
 import * as snapUtils from '../../src/utils/snapUtils';
+import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
+import { onRpcRequest } from '../../src/index';
+
 jest.mock('uuid');
 let ceramicData: StoredCredentials;
 jest
   .spyOn(DIDDataStore.prototype, 'get')
-  // eslint-disable-next-line @typescript-eslint/require-await
+  // eslint-disable-next-line @typescript-eslint/require-await, @typescript-eslint/no-unused-vars
   .mockImplementation(async (key, did?) => {
     return ceramicData;
   });
@@ -54,9 +55,9 @@ describe('onRpcRequest', () => {
   beforeEach(() => {
     snapMock = createMockSnap();
     snapMock.rpcMocks.snap_manageState('update', getDefaultSnapState());
-    //snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
+    // snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
     global.snap = snapMock;
-    global.ethereum = snapMock;
+    global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
   });
 
   describe('saveVC', () => {
@@ -149,7 +150,7 @@ describe('onRpcRequest', () => {
       });
       await veramoClearVCs({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         store: 'ceramic',
       });
       snapMock.rpcMocks.snap_manageState({
@@ -198,7 +199,7 @@ describe('onRpcRequest', () => {
       expect(result).toEqual(expectedResult);
       await veramoClearVCs({
         snap: snapMock,
-        ethereum: snapMock as unknown as MetaMaskInpageProvider,
+        ethereum,
         store: 'ceramic',
       });
       expect.assertions(2);
@@ -712,7 +713,7 @@ describe('onRpcRequest', () => {
     it('should succeed creating VP', async () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-      //const agent = await getAgent(snapMock);
+      // const agent = await getAgent(snapMock);
 
       await onRpcRequest({
         origin: 'localhost',
@@ -739,7 +740,7 @@ describe('onRpcRequest', () => {
         },
       })) as VerifiablePresentation;
 
-      expect(createdVP).not.toEqual(null);
+      expect(createdVP).not.toBeNull();
 
       // const verifyResult = (await agent.verifyPresentation({
       //   presentation: createdVP,
@@ -753,7 +754,7 @@ describe('onRpcRequest', () => {
     it('should succeed creating VP with did:key', async () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-      //const agent = await getAgent(snapMock);
+      // const agent = await getAgent(snapMock);
 
       await onRpcRequest({
         origin: 'localhost',
@@ -790,7 +791,7 @@ describe('onRpcRequest', () => {
         },
       })) as VerifiablePresentation;
 
-      expect(createdVP).not.toEqual(null);
+      expect(createdVP).not.toBeNull();
 
       // const verifyResult = (await agent.verifyPresentation({
       //   presentation: createdVP,
@@ -851,7 +852,7 @@ describe('onRpcRequest', () => {
             },
           },
         })
-      ).resolves.toBe(null);
+      ).resolves.toBeNull();
 
       expect.assertions(1);
     });
@@ -1036,7 +1037,7 @@ describe('onRpcRequest', () => {
             params: {},
           },
         })
-      ).resolves.toEqual('did:ethr');
+      ).resolves.toBe('did:ethr');
 
       expect.assertions(1);
     });
@@ -1066,7 +1067,7 @@ describe('onRpcRequest', () => {
             params: {},
           },
         })
-      ).resolves.toEqual('did:key');
+      ).resolves.toBe('did:key');
 
       expect.assertions(1);
     });

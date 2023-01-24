@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   DIDDocument,
   DIDResolutionOptions,
@@ -7,8 +6,8 @@ import {
   ParsedDID,
   Resolvable,
 } from 'did-resolver';
-import { getCurrentAccount, getPublicKey } from '../../utils/snapUtils';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { getCurrentAccount, getPublicKey } from '../../utils/snapUtils';
 import { getSnapState } from '../../utils/stateUtils';
 
 export const resolveSecp256k1 = async (
@@ -58,7 +57,6 @@ const startsWithMap: Record<string, ResolutionFunction> = {
   'did:key:zQ3s': resolveSecp256k1,
 };
 
-// FIXME: CHECK HOW WE COULD ADD snap AS PARAMETER
 export const resolveDidKey: DIDResolver = async (
   didUrl: string,
   parsed: ParsedDID,
@@ -67,7 +65,6 @@ export const resolveDidKey: DIDResolver = async (
 ): Promise<DIDResolutionResult> => {
   try {
     // FIXME: Update this part
-
     const account = await getCurrentAccount(ethereum);
     if (!account) throw Error('User denied error');
     // --------
@@ -82,18 +79,18 @@ export const resolveDidKey: DIDResolver = async (
       return {
         didDocumentMetadata: {},
         didResolutionMetadata: {},
-        didDocument: didDocument,
+        didDocument,
       } as DIDResolutionResult;
-    } else {
-      return {
-        didDocumentMetadata: {},
-        didResolutionMetadata: {
-          error: 'invalidDid',
-          message: 'unsupported key type for did:key',
-        },
-        didDocument: null,
-      };
     }
+
+    return {
+      didDocumentMetadata: {},
+      didResolutionMetadata: {
+        error: 'invalidDid',
+        message: 'unsupported key type for did:key',
+      },
+      didDocument: null,
+    };
   } catch (err: unknown) {
     return {
       didDocumentMetadata: {},

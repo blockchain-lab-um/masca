@@ -3,3 +3,6 @@ build
 dist
 .docusaurus
 coverage
+CHANGELOG.md
+pnpm-lock.yaml
+pnpm-workspace.yaml
