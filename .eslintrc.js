@@ -34,5 +34,7 @@ module.exports = {
     '**/build/**',
     '**/.docusaurus/**',
     '**/next.config.js',
+    '**/out',
+    '**/.next',
   ],
 };
