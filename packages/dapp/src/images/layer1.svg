@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" width="900" height="675" preserveAspectRatio="none" viewBox="0 0 900 675">
+    <g clip-path="url(&quot;#SvgjsClipPath2153&quot;)" fill="none">
+        <rect width="900" height="675" x="0" y="0" fill="rgba(0, 0, 0, 1)"></rect>
+        <circle r="66.32" cx="585.06" cy="671.99" fill="rgba(243, 139, 164, 0.5)"></circle>
+        <circle r="56.635" cx="113.79" cy="348.24" fill="rgba(243, 139, 164, 0.5)"></circle>
+        <circle r="70.325" cx="877.72" cy="345.7" fill="rgba(255, 170, 131, 0.51)"></circle>
+        <circle r="218.855" cx="26.8" cy="70.87" fill="rgba(254, 61, 103, 0.46)"></circle>
+        <circle r="76.56" cx="114.56" cy="168.41" fill="rgba(254, 61, 103, 0.46)"></circle>
+        <circle r="110.74" cx="472.38" cy="668.55" fill="rgba(255, 170, 131, 0.51)"></circle>
+        <circle r="270.68" cx="654.03" cy="21.93" fill="rgba(255, 170, 131, 0.51)"></circle>
+        <circle r="30.285" cx="161.28" cy="377.71" fill="rgba(254, 61, 103, 0.46)"></circle>
+        <circle r="120.775" cx="849.99" cy="461.84" fill="rgba(255, 170, 131, 0.51)"></circle>
+        <circle r="63.03" cx="116.04" cy="673.06" fill="rgba(255, 113, 49, 0.56)"></circle>
+    </g>
+    <defs>
+        <clipPath id="SvgjsClipPath2153">
+            <rect width="900" height="675" x="0" y="0"></rect>
+        </clipPath>
+    </defs>
+</svg>

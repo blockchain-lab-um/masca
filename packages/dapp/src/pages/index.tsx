@@ -13,7 +13,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className="flex flex-col h-screen my-auto items-center pt-32">
+        <div className="flex text-center flex-col my-auto items-center pt-32">
           <h1 className="text-h1 font-ubuntu">
             Take Control of Your Online Identity
           </h1>
@@ -25,7 +25,6 @@ export default function Home() {
             <Button
               text="Get Started"
               onClick={() => {
-                // eslint-disable-next-line @typescript-eslint/no-floating-promises
                 router.push('/dashboard');
               }}
             />

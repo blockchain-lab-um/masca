@@ -19,7 +19,9 @@ const ToggleTheme = () => {
 
   return (
     <button
-      className={`h-[48px] w-[48px] p-1 flex justify-center items-center rounded-full hover:bg-orange animated-transition`}
+      className={`h-[26px] w-[26px] tablet:h-[38px] tablet:w-[38px] p-1 m-2 flex justify-center items-center rounded-full hover:bg-orange/30 animated-transition ${
+        resolvedTheme === 'dark' ? 'text-white/50' : 'text-black/50'
+      }`}
       type="button"
       onClick={toggleTheme}
     >

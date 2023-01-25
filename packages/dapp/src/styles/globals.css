@@ -55,7 +55,64 @@ body {
     @apply transition-all duration-200 ease-in;
   }
 
+  .bg-gradient {
+    @apply bg-gradient-to-t from-pink-20 to-orange-20 text-black dark:bg-gradient-to-t dark:from-black dark:to-black dark:text-white;
+  }
+
+  .bg-svg {
+    aspect-ratio: 900/675;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-image: url('../images/layer1.svg');
+  }
+
+  .btn {
+    @apply py-[0.375em] px-[0.75em] tablet:text-h4 text-h5;
+  }
+
+  .btn-sm {
+    @apply text-h4 py-[0.125em] px-[0.75em];
+  }
+
   .btn-primary {
-    @apply bg-gradient-to-b to-pink from-orange py-3 px-6 text-xl hover:bg-gradient-to-b hover:opacity-80 text-white rounded-3xl animated-transition;
+    @apply bg-gradient-to-b to-pink from-orange btn hover:bg-gradient-to-b hover:opacity-80 text-white rounded-3xl animated-transition;
+  }
+
+  .btn-primary-sm {
+    @apply btn-primary btn-sm;
+  }
+
+  .btn-primary-active {
+    @apply text-opacity-0 btn text-white bg-clip-text bg-gradient-to-b from-orange to-pink outline outline-orange rounded-3xl;
+  }
+
+  .btn-secondary {
+    @apply bg-navy-blue text-white btn hover:opacity-80  rounded-3xl animated-transition;
+  }
+
+  .btn-secondary-sm {
+    @apply btn-secondary btn-sm;
+  }
+
+  .btn-secondary-active {
+    @apply text-h4 btn text-navy-blue  outline outline-navy-blue rounded-3xl;
+  }
+
+  .btn-connect {
+    @apply bg-orange/30 text-orange btn hover:opacity-80  rounded-3xl animated-transition;
+  }
+
+  .nav-btn {
+    @apply relative h-fit tablet:text-h4 text-h5 mx-4 hover:text-orange animated-transition tracking-[1px];
+  }
+
+  .nav-btn::after {
+    @apply content-[''] bg-orange h-[0.125em] w-[0%] left-0 -bottom-[0.375em] rounded-xl absolute duration-300;
+  }
+
+  .nav-btn:hover::after {
+    @apply w-[100%];
   }
 }
