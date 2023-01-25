@@ -33,5 +33,6 @@ module.exports = {
     '**/coverage/**',
     '**/build/**',
     '**/.docusaurus/**',
+    '**/next.config.js',
   ],
 };

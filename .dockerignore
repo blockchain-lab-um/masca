@@ -11,6 +11,7 @@ install-state.gz
 **/dist
 **/build
 **/.docusaurus
+**/out
 
 # Don't ignore docs markdown files
 !packages/docs/**/*.md
