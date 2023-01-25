@@ -2,6 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  @font-face {
+    font-family: Cabin;
+    src: url('../fonts/Cabin-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-display: swap;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: Cabin;
+    src: url('../fonts/Cabin-SemiBold.ttf') format('truetype');
+    font-weight: 400;
+    font-display: swap;
+    font-style: medium;
+  }
+  @font-face {
+    font-family: Ubuntu;
+    src: url('../fonts/Ubuntu-Bold.ttf') format('truetype');
+    font-weight: 400;
+    font-display: swap;
+    font-style: bold;
+  }
+}
+
 * {
   box-sizing: border-box;
   padding: 0;

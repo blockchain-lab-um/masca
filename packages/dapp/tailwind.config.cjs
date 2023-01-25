@@ -1,9 +1,57 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  mode: 'jit',
   darkMode: 'class',
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {},
+    colors: {
+      white: '#FFFFFF',
+      pink: '#fe3d67',
+      'pink-60': '#fe8ba4',
+      'pink-20': '#ffd8e1',
+      orange: '#ff7131',
+      'orange-60': '#ffaa83',
+      'orange-20': '#ffe3d6',
+      purple: '#872b95',
+      'purple-60': '#b780bf',
+      'purple-20': '#e7d5ea',
+      black: '#000000',
+      'gray-80': '#3a3a3a',
+      'gray-60': '#a6a6aa',
+      'gray-40': '#cbcbd4',
+      'navy-blue': '#25345F',
+      'navy-blue-60': '#7c859f',
+      'navy-blue-20': '#d3d6df',
+    },
+    boxShadow: {
+      sm: '0px 2px 4px 0px rgba(11, 10, 55, 0.15)',
+      lg: '0px 8px 20px 0px rgba(18, 16, 99, 0.06)',
+    },
+    fontFamily: {
+      cabin: 'Cabin, sans-serif',
+      ubuntu: 'Ubuntu, sans-serif',
+    },
+    fontSize: {
+      hint: ['10px', { lineHeight: '16px', letterSpacing: '-0.03em' }],
+      label: ['12px', { lineHeight: '12px', letterSpacing: '-0.03em' }],
+      xs: ['12px', { lineHeight: '16px', letterSpacing: '-0.03em' }],
+      md: ['12px', { lineHeight: '15px', letterSpacing: '-0.03em' }],
+      lg: ['16px', { lineHeight: '19px', letterSpacing: '-0.03em' }],
+      xl: ['20px', { lineHeight: '24px', letterSpacing: '-0.03em' }],
+      h6: ['12px', { lineHeight: '18px', letterSpacing: '-0.032em' }],
+      h5: ['16px', { lineHeight: '14px', letterSpacing: '-0.032em' }],
+      h4: ['20px', { lineHeight: '23px', letterSpacing: '-0.032em' }],
+      h3: ['28px', { lineHeight: '32px', letterSpacing: '-0.032em' }],
+      h2: ['32px', { lineHeight: '37px', letterSpacing: '-0.032em' }],
+      h1: ['40px', { lineHeight: '46px', letterSpacing: '-0.032em' }],
+    },
+    extend: {
+      screens: {
+        mobile: '375px',
+        tablet: '960px',
+        desktop: '1280px',
+      },
+    },
   },
   plugins: [],
 };
