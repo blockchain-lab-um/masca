@@ -66,6 +66,15 @@ const members: Member[] = [
     twitter: '',
     github: '',
   },
+  {
+    name: 'Špela Čučko',
+    title: 'researcher & UI/UX designer',
+    description: '',
+    linkedin: 'https://www.linkedin.com/in/spelacucko/',
+    image: 'https://blockchain-lab.um.si/wp-content/uploads/2021/10/CuckoSpelaa-5.png',
+    twitter: '',
+    github: '',
+  },
 ];
 
 export default members;
