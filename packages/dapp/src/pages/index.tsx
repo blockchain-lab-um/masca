@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import Welcome from './welcome';
+import ToggleTheme from 'src/components/ToggleTheme';
 
 export default function Home() {
   return (
@@ -11,7 +11,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Welcome />
+        <h1>Hello world</h1>
+        <ToggleTheme />
       </main>
     </>
   );
