@@ -31,7 +31,7 @@
     "build": "pnpm nx affected --target=build",
     "build:all": "pnpm nx run-many --target=build --all",
     "build:connector": "pnpm nx build @blockchain-lab-um/ssi-snap-connector",
-    "build:docker": "pnpm nx run-many --target=build --projects=@blockchain-lab-um/ssi-snap-docs,@blockchain-lab-um/website",
+    "build:docker": "pnpm nx run-many --target=build --projects=@blockchain-lab-um/ssi-snap-docs,@blockchain-lab-um/website && pnpm nx run @blockchain-lab-um/dapp:build:docker",
     "build:docs": "pnpm nx build @blockchain-lab-um/ssi-snap-docs",
     "build:vcmanager": "pnpm nx build @blockchain-lab-um/veramo-vc-manager",
     "deploy:docs": "pnpm nx deploy @blockchain-lab-um/ssi-snap-docs",

@@ -6,10 +6,12 @@ on:
     types: [opened, synchronize, reopened]
     paths:
       - 'packages/docs/**'
+      - 'Dockerfile'
   push:
     branches: [master, develop]
     paths:
       - 'packages/docs/**'
+      - 'Dockerfile'
 
 jobs:
   test-build:
