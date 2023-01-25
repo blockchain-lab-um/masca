@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import ToggleTheme from '../ToggleTheme';
 import { NavBtn } from './NavBtn';
 import Button from '../Button';
-import ActiveButton from '../ActiveButton';
+import DropdownMenu from '../DropdownMenu';
 
 export default function Navbar() {
   const router = useRouter();
@@ -28,17 +28,20 @@ export default function Navbar() {
         </div>
       )}
 
-      <div className="flex justify-between">
-        {router.pathname !== '/' && (
-          <div className="flex m-auto">
-            <Button
-              type="btn-connect"
-              text="Connect Wallet"
-              onClick={() => {}}
-            />
-          </div>
-        )}
-        <ToggleTheme />
+      <div className="hidden mobile:block">
+        <div className="flex justify-between">
+          {router.pathname !== '/' && (
+            <div className="flex m-auto">
+              <DropdownMenu />
+              <Button
+                type="btn-connect"
+                text="Connect Wallet"
+                onClick={() => {}}
+              />
+            </div>
+          )}
+          <ToggleTheme />
+        </div>
       </div>
     </div>
   );
