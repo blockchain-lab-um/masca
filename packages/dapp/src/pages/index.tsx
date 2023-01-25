@@ -1,7 +1,9 @@
 import Head from 'next/head';
-import ToggleTheme from 'src/components/ToggleTheme';
+import { useRouter } from 'next/router';
+import Button from '../components/Button';
 
 export default function Home() {
+  const router = useRouter();
   return (
     <>
       <Head>
@@ -11,8 +13,24 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <h1>Hello world</h1>
-        <ToggleTheme />
+        <div className="flex flex-col h-screen my-auto items-center pt-32">
+          <h1 className="text-h1 font-ubuntu">
+            Take Control of Your Online Identity
+          </h1>
+
+          <h2 className="text-h4 pt-8">
+            Join the world of Self-Sovereign Identity with one click
+          </h2>
+          <div className="pt-16">
+            <Button
+              text="Get Started"
+              onClick={() => {
+                // eslint-disable-next-line @typescript-eslint/no-floating-promises
+                router.push('/dashboard');
+              }}
+            />
+          </div>
+        </div>
       </main>
     </>
   );

@@ -1,5 +1,7 @@
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, import/no-extraneous-dependencies
+import { MoonIcon, SunIcon } from '@heroicons/react/24/outline';
 
 const ToggleTheme = () => {
   const [mounted, setMounted] = useState(false);
@@ -17,12 +19,11 @@ const ToggleTheme = () => {
 
   return (
     <button
-      className={`h-[28px] w-[28px] flex justify-center items-center rounded-lg bg-gray-200 dark:bg-gray-800 hover:outline-2 hover:outline hover:outline-gray-500
-       ${resolvedTheme === 'dark' ? 'text-gray-200' : 'text-gray-700'}`}
+      className={`h-[48px] w-[48px] p-1 flex justify-center items-center rounded-full hover:bg-orange animated-transition`}
       type="button"
       onClick={toggleTheme}
     >
-      {resolvedTheme === 'dark' ? 'D' : 'L'}
+      {resolvedTheme === 'dark' ? <SunIcon /> : <MoonIcon />}
     </button>
   );
 };

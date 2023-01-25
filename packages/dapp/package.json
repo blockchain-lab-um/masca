@@ -26,6 +26,7 @@
     "next-themes": "^0.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "@heroicons/react": "^2.0.13",
     "zustand": "^4.3.2"
   },
   "devDependencies": {

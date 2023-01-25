@@ -49,3 +49,13 @@ body {
     color-scheme: dark;
   }
 }
+
+@layer components {
+  .animated-transition {
+    @apply transition-all duration-200 ease-in;
+  }
+
+  .btn-primary {
+    @apply bg-gradient-to-b to-pink from-orange py-3 px-6 text-xl hover:bg-gradient-to-b hover:opacity-80 text-white rounded-3xl animated-transition;
+  }
+}
