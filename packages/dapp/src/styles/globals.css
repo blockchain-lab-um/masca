@@ -69,7 +69,7 @@ body {
   }
 
   .btn {
-    @apply py-[0.375em] px-[0.75em] tablet:text-h4 text-h5;
+    @apply py-[0.375em] px-[0.75em] tablet:text-h4 mobile:text-h5 text-h6;
   }
 
   .btn-sm {
@@ -105,7 +105,7 @@ body {
   }
 
   .nav-btn {
-    @apply relative h-fit tablet:text-h4 text-h5 mx-4 hover:text-orange animated-transition tracking-[1px];
+    @apply relative h-fit tablet:text-h4 mobile:text-h5 text-h6 mx-1 mobile:mx-2 tablet:mx-4 hover:text-orange animated-transition tracking-[1px];
   }
 
   .nav-btn::after {

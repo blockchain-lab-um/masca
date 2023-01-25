@@ -16,12 +16,12 @@ export default function Navbar() {
           router.push('/');
         }}
       >
-        <h1 className=" font-ubuntu text-h2 tablet:text-h1 hover:text-orange dark:text-orange dark:hover:text-white animated-transition">
+        <h1 className=" font-ubuntu text-h4 mobile:text-h2 tablet:text-h1 hover:text-orange dark:text-orange dark:hover:text-white animated-transition">
           Masca
         </h1>
       </button>
       {router.pathname !== '/' && (
-        <div className="flex m-auto">
+        <div className="flex my-auto mx-2">
           <NavBtn text="Home" page="/" />
           <NavBtn text="Dashboard" page="/dashboard" />
           <NavBtn text="Settings" page="/settings" />
