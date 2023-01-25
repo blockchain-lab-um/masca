@@ -38,6 +38,7 @@ module.exports = {
       md: ['12px', { lineHeight: '15px', letterSpacing: '-0.03em' }],
       lg: ['16px', { lineHeight: '19px', letterSpacing: '-0.03em' }],
       xl: ['20px', { lineHeight: '24px', letterSpacing: '-0.03em' }],
+      '2xl': ['24px', { lineHeight: '28px', letterSpacing: '-0.03em' }],
       h6: ['12px', { lineHeight: '18px', letterSpacing: '-0.032em' }],
       h5: ['16px', { lineHeight: '14px', letterSpacing: '-0.032em' }],
       h4: ['20px', { lineHeight: '23px', letterSpacing: '-0.032em' }],
