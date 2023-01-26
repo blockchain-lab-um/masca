@@ -117,6 +117,7 @@ importers:
       '@types/prettier': ^2
       '@types/react': 18.0.27
       '@types/react-dom': 18.0.10
+      '@veramo/core': ^4.2.0
       autoprefixer: ^10.4.13
       clsx: ^1.2.1
       eslint: ^8.32.0
@@ -149,6 +150,7 @@ importers:
       '@types/node': 18.11.18
       '@types/react': 18.0.27
       '@types/react-dom': 18.0.10
+      '@veramo/core': 4.2.0
       clsx: 1.2.1
       next: 13.1.3_3duxcpitbtplz62feflag7fwby
       next-themes: 0.2.1_xehvwk7kia3kss3yh76fk44sqm

@@ -1,6 +1,8 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { W3CVerifiableCredential } from '@veramo/core';
 import { create } from 'zustand';
 import {
-  AvailableMethods,
+  QueryVCsRequestResult,
   AvailableVCStores,
   SSISnapApi,
 } from '@blockchain-lab-um/ssi-snap-types';
@@ -42,11 +44,13 @@ interface SnapStore {
   currDIDMethod: string | undefined;
   currVCStore: AvailableVCStores | undefined;
   currDID: string;
+  vcs: QueryVCsRequestResult[];
   changeSnapApi: (snapApi: SSISnapApi) => void;
   changeAvailableMethods: (availableMethods: string[]) => void;
   changeCurrDIDMethod: (currDIDMethod: string) => void;
   changeCurrVCStore: (currVCStore: AvailableVCStores) => void;
   changeCurrDID: (currDID: string) => void;
+  changeVcs: (vcs: QueryVCsRequestResult[]) => void;
 }
 
 export const useSnapStore = create<SnapStore>()((set) => ({
@@ -55,10 +59,12 @@ export const useSnapStore = create<SnapStore>()((set) => ({
   currDIDMethod: undefined,
   currVCStore: undefined,
   currDID: '',
+  vcs: [],
   changeSnapApi: (snapApi: SSISnapApi) => set({ snapApi }),
   changeAvailableMethods: (availableMethods: string[]) =>
     set({ availableMethods }),
   changeCurrDIDMethod: (currDIDMethod: string) => set({ currDIDMethod }),
   changeCurrVCStore: (currVCStore: AvailableVCStores) => set({ currVCStore }),
   changeCurrDID: (currDID: string) => set({ currDID }),
+  changeVcs: (vcs: QueryVCsRequestResult[]) => set({ vcs }),
 }));

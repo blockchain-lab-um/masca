@@ -69,11 +69,11 @@ body {
   }
 
   .btn {
-    @apply py-3 px-[0.75em] text-h4;
+    @apply py-3 px-4 text-h4 max-w-xs;
   }
 
   .btn-sm {
-    @apply text-h4 py-[0.125em] px-[0.75em];
+    @apply text-h4 py-2 px-[1em];
   }
 
   .btn-primary {
@@ -81,7 +81,7 @@ body {
   }
 
   .btn-primary-sm {
-    @apply btn-primary btn-sm;
+    @apply bg-gradient-to-b to-pink from-orange btn-sm hover:bg-gradient-to-b hover:opacity-80 text-white rounded-3xl animated-transition;
   }
 
   .btn-primary-active {
