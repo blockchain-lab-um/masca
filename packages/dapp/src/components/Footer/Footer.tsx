@@ -22,7 +22,7 @@ export const Footer = () => {
     >
       {hasFlask && hasMM && (
         <>
-          {isConnected && (
+          {isConnected ? (
             <span>
               <div className="flex m-auto justify-center items-center">
                 <Button
@@ -36,8 +36,9 @@ export const Footer = () => {
                 <DropdownMenu />
               </div>
             </span>
+          ) : (
+            <ConnectButton />
           )}
-          {!isConnected && <ConnectButton />}
         </>
       )}
       <ToggleTheme />

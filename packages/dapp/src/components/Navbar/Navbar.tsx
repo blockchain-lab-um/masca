@@ -48,7 +48,7 @@ export default function Navbar() {
           <div className="flex justify-between">
             {router.pathname !== '/' && (
               <>
-                {isConnected && (
+                {isConnected ? (
                   <div className="flex justify-center items-center">
                     <DropdownMenu />
                     <Button
@@ -60,8 +60,7 @@ export default function Navbar() {
                       {`${address.slice(0, 6)}...${address.slice(-4)}`}
                     </Button>
                   </div>
-                )}
-                {!isConnected && (
+                ) : (
                   <div className="flex m-auto">
                     <ConnectButton />
                   </div>

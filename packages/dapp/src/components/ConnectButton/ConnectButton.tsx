@@ -2,8 +2,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import React from 'react';
 import { enableSSISnap } from '@blockchain-lab-um/ssi-snap-connector';
+import Image from 'next/image';
 import Button from '../Button';
 import { useSnapStore, useGeneralStore } from '../../utils/store';
+import spinner from '../../images/connect-spinner.png';
 
 declare global {
   interface Window {
@@ -12,6 +14,7 @@ declare global {
 }
 
 export const ConnectButton = () => {
+  const [loading, setLoading] = React.useState(false);
   const changeAddress = useGeneralStore((state) => state.changeAddress);
   const changeIsConnected = useGeneralStore((state) => state.changeIsConnected);
   const changeHasSnapInstalled = useGeneralStore(
@@ -38,6 +41,7 @@ export const ConnectButton = () => {
         });
 
       try {
+        setLoading(true);
         const snap = await enableSSISnap({ snapId });
         const api = await snap.getSSISnapApi();
         changeSnapApi(api);
@@ -50,7 +54,9 @@ export const ConnectButton = () => {
         changeAvailableMethods(availableMethods);
         changeCurrMethod(method);
         console.log('Successfuly installed snap');
+        setLoading(false);
       } catch (err) {
+        setLoading(false);
         console.error("Couldn't connect to SSI Snap", err);
       }
     }
@@ -64,7 +70,16 @@ export const ConnectButton = () => {
   return (
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <Button className="btn-connect" onClick={handleConnect}>
-      Connect Wallet
+      <div className="flex">
+        Connect Wallet
+        {loading && (
+          <Image
+            src={spinner}
+            alt="Masca Logo"
+            className="w-6 h-6 rounded-full object-center animate-spin"
+          />
+        )}
+      </div>
     </Button>
   );
 };
