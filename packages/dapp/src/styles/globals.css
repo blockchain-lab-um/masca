@@ -69,7 +69,7 @@ body {
   }
 
   .btn {
-    @apply py-[0.375em] px-[0.75em] text-h4;
+    @apply py-3 px-[0.75em] text-h4;
   }
 
   .btn-sm {
@@ -101,7 +101,7 @@ body {
   }
 
   .btn-connect {
-    @apply bg-orange/30 text-orange btn hover:opacity-80  rounded-3xl animated-transition;
+    @apply btn bg-orange/30 text-orange hover:opacity-80  rounded-3xl animated-transition;
   }
 
   .nav-btn {

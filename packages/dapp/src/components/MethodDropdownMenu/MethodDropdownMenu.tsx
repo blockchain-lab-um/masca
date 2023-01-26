@@ -1,26 +1,31 @@
 import { Fragment, useState } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
-import { DropdownButton } from './DropdownButton';
+import { useSnapStore } from 'src/utils/store';
+import { AvailableMethods } from '@blockchain-lab-um/ssi-snap-types';
+import { DropdownButton } from './MethodDropdownButton';
 
-const methods = [
-  'did:ethr',
-  'did:web',
-  'did:elem',
-  'did:ion',
-  'did:web',
-  'did:cheqd',
-];
-
-export default function DropdownMenu() {
+export default function MethodDropdownMenu() {
   const [didMethod, setDidMethod] = useState('did:ethr');
+  const methods = useSnapStore((state) => state.availableMethods);
+  const currMethod = useSnapStore((state) => state.currDIDMethod);
+  const api = useSnapStore((state) => state.snapApi);
+  const changeCurrDIDMethod = useSnapStore(
+    (state) => state.changeCurrDIDMethod
+  );
 
-  const handleMethodChange = (method: string) => {
-    setDidMethod(method);
+  const handleMethodChange = async (method: string) => {
+    if (method !== currMethod) {
+      const res = await api?.switchDIDMethod(method as AvailableMethods);
+      if (res) {
+        setDidMethod(method);
+        changeCurrDIDMethod(method);
+      }
+    }
   };
 
   return (
-    <Menu as="div" className="relative inline-block mx-2">
+    <Menu as="div" className="relative mx-2">
       {({ open }) => (
         <Fragment>
           <div>
@@ -69,9 +74,9 @@ export default function DropdownMenu() {
               <div className="py-2">
                 {methods.map((method, id) => {
                   return (
+                    // eslint-disable-next-line @typescript-eslint/no-misused-promises
                     <DropdownButton handleBtn={handleMethodChange} key={id}>
-                      {' '}
-                      {method}{' '}
+                      {method}
                     </DropdownButton>
                   );
                 })}

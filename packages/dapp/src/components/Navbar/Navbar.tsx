@@ -1,17 +1,24 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import { useGeneralStore } from 'src/utils/store';
 import ToggleTheme from '../ToggleTheme';
 import { NavBtn } from './NavBtn';
 import Button from '../Button';
-import DropdownMenu from '../DropdownMenu';
+import DropdownMenu from '../MethodDropdownMenu';
 import logo from '../../images/ssi_icon_b.png';
+import ConnectButton from '../ConnectButton';
 
 export default function Navbar() {
   const router = useRouter();
+  const isConnected = useGeneralStore((state) => state.isConnected);
+  const changeIsConnected = useGeneralStore((state) => state.changeIsConnected);
+  const hasMM = useGeneralStore((state) => state.hasMetaMask);
+  const hasFlask = useGeneralStore((state) => state.isFlask);
+  const address = useGeneralStore((state) => state.address);
 
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between items-center">
       <button
         onClick={() => {
           // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -36,19 +43,34 @@ export default function Navbar() {
           <NavBtn page="/settings">Settings</NavBtn>
         </div>
       )}
-
       <div className="hidden md:block">
-        <div className="flex justify-between">
-          {router.pathname !== '/' && (
-            <div className="flex m-auto">
-              <DropdownMenu />
-              <Button className="btn-connect" onClick={() => {}}>
-                Connect Wallet
-              </Button>
-            </div>
-          )}
-          <ToggleTheme />
-        </div>
+        {hasMM && hasFlask && (
+          <div className="flex justify-between">
+            {router.pathname !== '/' && (
+              <>
+                {isConnected && (
+                  <div className="flex justify-center items-center">
+                    <DropdownMenu />
+                    <Button
+                      className="btn-primary"
+                      onClick={() => {
+                        changeIsConnected(false);
+                      }}
+                    >
+                      {`${address.slice(0, 6)}...${address.slice(-4)}`}
+                    </Button>
+                  </div>
+                )}
+                {!isConnected && (
+                  <div className="flex m-auto">
+                    <ConnectButton />
+                  </div>
+                )}
+              </>
+            )}
+            <ToggleTheme />
+          </div>
+        )}
       </div>
     </div>
   );
