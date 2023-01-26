@@ -1,21 +1,26 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 
-export const NavBtn = (props) => {
+type NavBtnProps = {
+  page: string;
+  children: React.ReactNode;
+};
+
+export const NavBtn = ({ page, children }: NavBtnProps) => {
   const router = useRouter();
   return (
     <button
       className={`nav-btn ${
-        router.pathname === props.page
+        router.pathname === page
           ? 'text-orange after:w-[100%]'
           : 'dark:text-white'
       }`}
       onClick={() => {
-        console.log(router.pathname, props.page);
-        router.push(props.page);
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        router.push(page);
       }}
     >
-      {props.text}
+      {children}
     </button>
   );
 };

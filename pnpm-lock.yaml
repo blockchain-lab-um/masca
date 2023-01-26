@@ -106,6 +106,8 @@ importers:
 
   packages/dapp:
     specifiers:
+      '@blockchain-lab-um/ssi-snap-connector': '*'
+      '@blockchain-lab-um/ssi-snap-types': '*'
       '@headlessui/react': ^1.7.7
       '@heroicons/react': ^2.0.13
       '@next/font': 13.1.3
@@ -125,6 +127,7 @@ importers:
       next-themes: ^0.2.1
       postcss: ^8.4.21
       prettier: ^2.8.3
+      prop-types: ^15.8.1
       react: 18.2.0
       react-dom: 18.2.0
       sass: ^1.57.1
@@ -138,6 +141,8 @@ importers:
       typescript: ^4.9.4
       zustand: ^4.3.2
     dependencies:
+      '@blockchain-lab-um/ssi-snap-connector': link:../connector
+      '@blockchain-lab-um/ssi-snap-types': link:../types
       '@headlessui/react': 1.7.7_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 2.0.13_react@18.2.0
       '@next/font': 13.1.3
@@ -147,6 +152,7 @@ importers:
       clsx: 1.2.1
       next: 13.1.3_3duxcpitbtplz62feflag7fwby
       next-themes: 0.2.1_xehvwk7kia3kss3yh76fk44sqm
+      prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       zustand: 4.3.2_react@18.2.0

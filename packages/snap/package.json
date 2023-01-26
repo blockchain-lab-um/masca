@@ -37,7 +37,7 @@
     "build:snap": "pnpm build:snap:postprocess && mm-snap manifest --fix && pnpm build:snap:eval",
     "build:snap:eval": "mm-snap eval -b dist/snap.js",
     "build:snap:postprocess": "node ./src/post-process/post-process.js",
-    "build:webpack": "NODE_OPTIONS=--max-old-space-size=4096 webpack",
+    "build:webpack": "webpack",
     "clean": "rimraf dist coverage",
     "coverage": "pnpm run test --coverage",
     "lint": "pnpm lint:eslint && pnpm lint:prettier",
