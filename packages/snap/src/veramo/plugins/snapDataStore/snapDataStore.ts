@@ -7,7 +7,6 @@ import {
 } from '@veramo/core';
 import { ManagedPrivateKey } from '@veramo/key-manager';
 import { AbstractDIDStore } from '@veramo/did-manager';
-import { v4 as uuidv4 } from 'uuid';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import {
   AbstractDataStore,
@@ -15,6 +14,8 @@ import {
   IQueryResult,
 } from '@blockchain-lab-um/veramo-vc-manager';
 import jsonpath from 'jsonpath';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { sha256 } from 'js-sha256';
 import { getSnapState, updateSnapState } from '../../../utils/stateUtils';
 import { getCurrentAccount } from '../../../utils/snapUtils';
 import { decodeJWT } from '../../../utils/jwt';
@@ -232,9 +233,10 @@ export class SnapVCStore extends AbstractDataStore {
     const account = await getCurrentAccount(this.ethereum);
     if (!account) throw Error('Cannot get current account');
 
-    let id = uuidv4();
-    while (state.accountState[account].vcs[id]) {
-      id = uuidv4();
+    const id = sha256(JSON.stringify(vc));
+
+    if (state.accountState[account].vcs[id]) {
+      return id;
     }
 
     state.accountState[account].vcs[id] = vc;

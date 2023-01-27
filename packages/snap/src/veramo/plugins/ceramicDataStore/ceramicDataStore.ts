@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import { W3CVerifiableCredential } from '@veramo/core';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
@@ -9,6 +8,8 @@ import {
 } from '@blockchain-lab-um/veramo-vc-manager';
 import jsonpath from 'jsonpath';
 import { MetaMaskInpageProvider } from '@metamask/providers';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { sha256 } from 'js-sha256';
 import { decodeJWT } from '../../../utils/jwt';
 import { aliases, getCeramic } from '../../../utils/ceramicUtils';
 
@@ -116,16 +117,17 @@ export class CeramicVCStore extends AbstractDataStore {
       'StoredCredentials'
     )) as StoredCredentials;
     if (storedCredentials && storedCredentials.vcs) {
-      let id = uuidv4();
-      while (storedCredentials.vcs[id]) {
-        id = uuidv4();
+      const id = sha256(JSON.stringify(vc));
+
+      if (storedCredentials.vcs[id]) {
+        return id;
       }
 
       storedCredentials.vcs[id] = vc;
       await datastore.merge('StoredCredentials', storedCredentials);
       return id;
     }
-    const id = uuidv4();
+    const id = sha256(JSON.stringify(vc));
     const storedCredentialsNew: StoredCredentials = { vcs: {} };
     storedCredentialsNew.vcs[id] = vc;
     await datastore.merge('StoredCredentials', storedCredentialsNew);

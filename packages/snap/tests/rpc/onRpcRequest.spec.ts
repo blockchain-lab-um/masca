@@ -3,6 +3,7 @@ import { SnapsGlobalObject } from '@metamask/snaps-types';
 import {
   availableVCStores,
   availableMethods,
+  SaveVCRequestResult,
 } from '@blockchain-lab-um/ssi-snap-types';
 import { DIDResolutionResult, VerifiablePresentation } from '@veramo/core';
 import * as uuid from 'uuid';
@@ -77,7 +78,12 @@ describe('onRpcRequest', () => {
             },
           },
         })
-      ).resolves.toEqual([{ id: undefined, store: 'snap' }]);
+      ).resolves.toEqual([
+        {
+          id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+          store: 'snap',
+        },
+      ]);
 
       const result = await onRpcRequest({
         origin: 'localhost',
@@ -92,7 +98,10 @@ describe('onRpcRequest', () => {
       const expectedResult = [
         {
           data: exampleVC,
-          metadata: { id: 'undefined', store: 'snap' },
+          metadata: {
+            id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+            store: 'snap',
+          },
         },
       ];
 
@@ -116,7 +125,12 @@ describe('onRpcRequest', () => {
             },
           },
         })
-      ).resolves.toEqual([{ id: undefined, store: 'snap' }]);
+      ).resolves.toEqual([
+        {
+          id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+          store: 'snap',
+        },
+      ]);
 
       const result = await onRpcRequest({
         origin: 'localhost',
@@ -133,7 +147,10 @@ describe('onRpcRequest', () => {
       const expectedResult = [
         {
           data: exampleVC,
-          metadata: { id: 'undefined', store: 'snap' },
+          metadata: {
+            id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+            store: 'snap',
+          },
         },
       ];
 
@@ -170,8 +187,14 @@ describe('onRpcRequest', () => {
           },
         })
       ).resolves.toEqual([
-        { id: undefined, store: 'snap' },
-        { id: undefined, store: 'ceramic' },
+        {
+          id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+          store: 'snap',
+        },
+        {
+          id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+          store: 'ceramic',
+        },
       ]);
       const result = await onRpcRequest({
         origin: 'localhost',
@@ -188,11 +211,17 @@ describe('onRpcRequest', () => {
       const expectedResult = [
         {
           data: exampleVC,
-          metadata: { id: 'undefined', store: 'snap' },
+          metadata: {
+            id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+            store: 'snap',
+          },
         },
         {
           data: exampleVC,
-          metadata: { id: 'undefined', store: 'ceramic' },
+          metadata: {
+            id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+            store: 'ceramic',
+          },
         },
       ];
 
@@ -374,7 +403,10 @@ describe('onRpcRequest', () => {
       const expectedResult = [
         {
           data: exampleVC,
-          metadata: { id: 'test-id', store: 'snap' },
+          metadata: {
+            id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+            store: 'snap',
+          },
         },
       ];
 
@@ -388,7 +420,8 @@ describe('onRpcRequest', () => {
             params: {
               filter: {
                 type: 'id',
-                filter: 'test-id',
+                filter:
+                  '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
               },
             },
           },
@@ -417,7 +450,10 @@ describe('onRpcRequest', () => {
       const expectedResult = [
         {
           data: exampleVC,
-          metadata: { id: 'test-id', store: 'snap' },
+          metadata: {
+            id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+            store: 'snap',
+          },
         },
       ];
 
@@ -455,7 +491,10 @@ describe('onRpcRequest', () => {
       const expectedResult = [
         {
           data: exampleVC,
-          metadata: { id: 'test-id', store: 'snap' },
+          metadata: {
+            id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+            store: 'snap',
+          },
         },
       ];
 
@@ -495,7 +534,9 @@ describe('onRpcRequest', () => {
       const expectedResult = [
         {
           data: exampleVC,
-          metadata: { id: 'test-id' },
+          metadata: {
+            id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+          },
         },
       ];
 
@@ -535,7 +576,10 @@ describe('onRpcRequest', () => {
       const expectedResult = [
         {
           data: exampleVC,
-          metadata: { id: 'test-id', store: 'snap' },
+          metadata: {
+            id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+            store: 'snap',
+          },
         },
       ];
 
@@ -577,7 +621,12 @@ describe('onRpcRequest', () => {
             },
           },
         })
-      ).resolves.toEqual([{ id: undefined, store: 'snap' }]);
+      ).resolves.toEqual([
+        {
+          id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+          store: 'snap',
+        },
+      ]);
 
       const res = await onRpcRequest({
         origin: 'localhost',
@@ -586,7 +635,7 @@ describe('onRpcRequest', () => {
           jsonrpc: '2.0',
           method: 'deleteVC',
           params: {
-            id: 'undefined',
+            id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
           },
         },
       });
@@ -625,7 +674,12 @@ describe('onRpcRequest', () => {
             },
           },
         })
-      ).resolves.toEqual([{ id: undefined, store: 'snap' }]);
+      ).resolves.toEqual([
+        {
+          id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+          store: 'snap',
+        },
+      ]);
 
       const res = await onRpcRequest({
         origin: 'localhost',
@@ -634,7 +688,7 @@ describe('onRpcRequest', () => {
           jsonrpc: '2.0',
           method: 'deleteVC',
           params: {
-            id: 'undefined',
+            id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
             options: { store: 'snap' },
           },
         },
@@ -674,7 +728,12 @@ describe('onRpcRequest', () => {
             },
           },
         })
-      ).resolves.toEqual([{ id: undefined, store: 'snap' }]);
+      ).resolves.toEqual([
+        {
+          id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+          store: 'snap',
+        },
+      ]);
 
       const res = await onRpcRequest({
         origin: 'localhost',
@@ -715,7 +774,7 @@ describe('onRpcRequest', () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
       // const agent = await getAgent(snapMock);
 
-      await onRpcRequest({
+      const res = (await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
@@ -726,7 +785,7 @@ describe('onRpcRequest', () => {
             options: { store: 'snap' },
           },
         },
-      });
+      })) as SaveVCRequestResult[];
 
       const createdVP = (await onRpcRequest({
         origin: 'localhost',
@@ -735,7 +794,8 @@ describe('onRpcRequest', () => {
           jsonrpc: '2.0',
           method: 'createVP',
           params: {
-            vcs: [{ id: 'test-id', metadata: { store: 'snap' } }],
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+            vcs: [{ id: res[0].id, metadata: { store: 'snap' } }],
           },
         },
       })) as VerifiablePresentation;
@@ -750,13 +810,12 @@ describe('onRpcRequest', () => {
 
       expect.assertions(1);
     });
-
     it('should succeed creating VP with did:key', async () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
       // const agent = await getAgent(snapMock);
 
-      await onRpcRequest({
+      const res = (await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
@@ -767,7 +826,7 @@ describe('onRpcRequest', () => {
             options: { store: 'snap' },
           },
         },
-      });
+      })) as SaveVCRequestResult[];
 
       await onRpcRequest({
         origin: 'localhost',
@@ -786,7 +845,8 @@ describe('onRpcRequest', () => {
           jsonrpc: '2.0',
           method: 'createVP',
           params: {
-            vcs: [{ id: 'test-id' }],
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+            vcs: [{ id: res[0].id }],
           },
         },
       })) as VerifiablePresentation;
