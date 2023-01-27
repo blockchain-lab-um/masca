@@ -12,8 +12,8 @@ import {
   IKeyManager,
 } from '@veramo/core';
 import { AbstractIdentifierProvider } from '@veramo/did-manager';
-import { base64 } from 'multiformats/bases/base64';
-import { addMulticodecPrefix } from '../../utils/formatUtils';
+import { VerificationMethod } from 'did-resolver';
+import { generateJWKfromKey } from './jwkDidUtils';
 
 type IContext = IAgentContext<IKeyManager>;
 
@@ -40,15 +40,13 @@ export class JwkDIDProvider extends AbstractIdentifierProvider {
       type: 'Ed25519',
     });
 
-    // TODO: change did createion for jwk
-    const methodSpecificId = Buffer.from(
-      base64.encode(
-        addMulticodecPrefix('ed25519-pub', Buffer.from(key.publicKeyHex, 'hex'))
-      )
-    ).toString();
+    const jwk = generateJWKfromKey({
+      publicKeyHex: key.publicKeyHex,
+    } as VerificationMethod);
+    const jwkBase64url = Buffer.from(JSON.stringify(jwk)).toString('base64url');
 
     const identifier: Omit<IIdentifier, 'provider'> = {
-      did: 'did:jwk:' + methodSpecificId,
+      did: `did:jwk:${jwkBase64url}`,
       controllerKeyId: key.kid,
       keys: [key],
       services: [],
