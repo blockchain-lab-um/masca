@@ -5,7 +5,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import React from 'react';
+import React, { HTMLProps } from 'react';
 import Button from 'src/components/Button';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {
@@ -15,26 +15,25 @@ import {
   getSortedRowModel,
   SortingState,
   flexRender,
+  getPaginationRowModel,
+  getFilteredRowModel,
+  getFacetedRowModel,
+  getFacetedMinMaxValues,
+  getFacetedUniqueValues,
+  FilterFn,
 } from '@tanstack/react-table';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import { useSnapStore, useGeneralStore } from '../../utils/store';
 import { VC_DATA } from './data';
-
-type VC = {
-  id: string;
-  type: string;
-  holder: string;
-  issuer: string;
-  attributes: number;
-  status: boolean;
-  datastore: string[];
-};
+import { IndeterminateCheckbox } from './IndeterminateCheckbox';
 
 export const Table = () => {
   const vcs = useSnapStore((state) => state.vcs);
   const changeVcs = useSnapStore((state) => state.changeVcs);
   const api = useSnapStore((state) => state.snapApi);
   const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [rowSelection, setRowSelection] = React.useState({});
+  const [globalFilter, setGlobalFilter] = React.useState('');
   // const data = React.useMemo(() => vcs, []);
 
   const columnHelper = createColumnHelper<QueryVCsRequestResult>();
@@ -42,8 +41,9 @@ export const Table = () => {
   const columns = [
     columnHelper.accessor((row) => Date.parse(row.data.issuanceDate), {
       id: 'id',
-      cell: (info) => <span>{info.getValue()}</span>,
+      cell: (info) => <span>{new Date(info.getValue()).toDateString()}</span>,
       header: () => <span>Issuance Date</span>,
+      enableGlobalFilter: false,
     }),
     columnHelper.accessor(
       (row) => {
@@ -64,7 +64,7 @@ export const Table = () => {
       {
         id: 'type',
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-        cell: (info) => <span>{info.getValue()}</span>,
+        cell: (info) => <span>{info.getValue().toString()}</span>,
         header: () => <span>Type</span>,
       }
     ),
@@ -100,7 +100,7 @@ export const Table = () => {
       }
     ),
     columnHelper.accessor(
-      (row) => Object.keys(row.data.credentialSubject).length,
+      (row) => Object.keys(row.data.credentialSubject).length.toString(),
       {
         id: 'attributes',
         cell: (info) => <span>{info.getValue()}</span>,
@@ -119,30 +119,64 @@ export const Table = () => {
         header: () => <span>Status</span>,
       }
     ),
-    columnHelper.accessor((row) => row.metadata.store, {
-      id: 'data_store',
-      cell: (info) => <span>{info.getValue()}</span>,
-      header: () => <span>Data Store</span>,
-    }),
+    columnHelper.accessor(
+      (row) => {
+        if (row.metadata.store) return row.metadata.store.toString();
+        return '';
+      },
+      {
+        id: 'data_store',
+        cell: (info) => <span>{info.getValue()}</span>,
+        header: () => <span>Data Store</span>,
+      }
+    ),
     columnHelper.display({
       id: 'select',
-      cell: () => <span>+</span>,
-      header: () => <span>Select</span>,
+      header: ({ table }) => (
+        <IndeterminateCheckbox
+          {...{
+            checked: table.getIsAllRowsSelected(),
+            indeterminate: table.getIsSomeRowsSelected(),
+            onChange: table.getToggleAllRowsSelectedHandler(),
+          }}
+        />
+      ),
+      cell: ({ row }) => (
+        <div className="px-1">
+          <IndeterminateCheckbox
+            {...{
+              checked: row.getIsSelected(),
+              indeterminate: row.getIsSomeSelected(),
+              onChange: row.getToggleSelectedHandler(),
+            }}
+          />
+        </div>
+      ),
+      enableGlobalFilter: false,
     }),
     columnHelper.display({
       id: 'action',
       cell: () => <span>btn1 btn2 btn3</span>,
       header: () => <span>Actions</span>,
+      enableGlobalFilter: false,
     }),
   ];
 
   const table = useReactTable({
     data: VC_DATA,
     columns,
-    state: { sorting },
+    globalFilterFn: 'includesString',
+    state: { sorting, globalFilter },
+    initialState: { pagination: { pageSize: 5 } },
+    enableGlobalFilter: true,
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getFacetedRowModel: getFacetedRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
+    getFacetedMinMaxValues: getFacetedMinMaxValues(),
   });
 
   const loadVCs = async () => {
@@ -169,6 +203,17 @@ export const Table = () => {
 
   return (
     <>
+      <div>
+        <input
+          value={globalFilter ?? ''}
+          onChange={(e) => {
+            setGlobalFilter(e.target.value);
+            // table.setGlobalFilter(e.target.value);
+          }}
+          className="p-2 font-lg shadow border border-block"
+          placeholder="Search all columns..."
+        />
+      </div>
       <table>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -205,6 +250,43 @@ export const Table = () => {
           ))}
         </tbody>
       </table>
+      <div className="flex items-center gap-2">
+        <button
+          className="border rounded p-1"
+          onClick={() => table.setPageIndex(0)}
+          disabled={!table.getCanPreviousPage()}
+        >
+          {'<<'}
+        </button>
+        <button
+          className="border rounded p-1"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          {'<'}
+        </button>
+        <button
+          className="border rounded p-1"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          {'>'}
+        </button>
+        <button
+          className="border rounded p-1"
+          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+          disabled={!table.getCanNextPage()}
+        >
+          {'>>'}
+        </button>
+        <span className="flex items-center gap-1">
+          <div>Page</div>
+          <strong>
+            {table.getState().pagination.pageIndex + 1} of{' '}
+            {table.getPageCount()}
+          </strong>
+        </span>
+      </div>
     </>
   );
 };

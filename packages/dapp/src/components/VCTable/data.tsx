@@ -159,7 +159,7 @@ export const VC_DATA = [
     },
     metadata: {
       id: 'c569a405-9885-414b-bb37-1d01c9103ec1',
-      store: 'ceramic',
+      store: ['ceramic', 'snap'],
     },
   },
   {
