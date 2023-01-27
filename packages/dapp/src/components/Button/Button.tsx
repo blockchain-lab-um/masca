@@ -31,8 +31,8 @@ const variants: Record<string, string> = {
 const sizes: Record<string, string> = {
   sm: 'text-h5 py-2 px-4 max-w-xs',
   md: 'text-h4 py-2 px-5 max-w-xs',
-  lg: 'text-h3 py-[0.375em] px-6 font-semibold max-w-xs',
-  xl: 'text-h3 py-[0.625em] px-8 font-semibold max-w-xs',
+  lg: 'text-h3 py-2.5 px-6 font-semibold max-w-xs',
+  xl: 'text-h3 py-3 px-8 font-semibold max-w-xs',
 };
 
 const Button = ({
