@@ -21,6 +21,7 @@ import {
   getFacetedMinMaxValues,
   getFacetedUniqueValues,
   FilterFn,
+  ColumnFiltersState,
 } from '@tanstack/react-table';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import { useSnapStore, useGeneralStore } from '../../utils/store';
@@ -34,6 +35,9 @@ export const Table = () => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [rowSelection, setRowSelection] = React.useState({});
   const [globalFilter, setGlobalFilter] = React.useState('');
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  );
   // const data = React.useMemo(() => vcs, []);
 
   const columnHelper = createColumnHelper<QueryVCsRequestResult>();
@@ -128,6 +132,7 @@ export const Table = () => {
         id: 'data_store',
         cell: (info) => <span>{info.getValue()}</span>,
         header: () => <span>Data Store</span>,
+        enableGlobalFilter: false,
       }
     ),
     columnHelper.display({
@@ -162,11 +167,41 @@ export const Table = () => {
     }),
   ];
 
+  const includesDataStore: FilterFn<any> = (row, columnId, value, addMeta) => {
+    // Rank the item
+    const item = row.getValue('data_store');
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const itemArr = (item as string).split(',');
+    const valueArr = (value as string).split(',');
+
+    const sortedItemArr = itemArr.sort(function (a, b) {
+      if (a > b) {
+        return -1;
+      }
+      if (b > a) {
+        return 1;
+      }
+      return 0;
+    });
+    const sortedValueArr = valueArr.sort(function (a, b) {
+      if (a > b) {
+        return -1;
+      }
+      if (b > a) {
+        return 1;
+      }
+      return 0;
+    });
+    return JSON.stringify(sortedItemArr) === JSON.stringify(sortedValueArr);
+  };
+
   const table = useReactTable({
     data: VC_DATA,
     columns,
+    filterFns: { includesDataStore },
     globalFilterFn: 'includesString',
-    state: { sorting, globalFilter },
+    state: { sorting, globalFilter, columnFilters },
     initialState: { pagination: { pageSize: 5 } },
     enableGlobalFilter: true,
     onSortingChange: setSorting,
@@ -212,6 +247,16 @@ export const Table = () => {
           }}
           className="p-2 font-lg shadow border border-block"
           placeholder="Search all columns..."
+        />
+      </div>
+      <div>
+        <input
+          value={globalFilter ?? ''}
+          onChange={(e) => {
+            setColumnFilters([{ id: 'data_store', value: e.target.value }]);
+          }}
+          className="p-2 font-lg shadow border border-block"
+          placeholder="Search datastore..."
         />
       </div>
       <table>
