@@ -71,7 +71,7 @@ describe('keyPair', function () {
       const res = await getAddressKey(bip44Entropy as BIP44CoinTypeNode);
       expect(res).not.toBeNull();
       expect(res?.privateKey).toEqual(privateKey);
-      expect(res?.originalAddressKey).toEqual(
+      expect(res?.originalAddressKey).toBe(
         `${privateKey}${derivedKeyChainCode.split('0x')[1]}`
       );
       expect(res?.derivationPath).toEqual(derivedKeyDerivationPath);

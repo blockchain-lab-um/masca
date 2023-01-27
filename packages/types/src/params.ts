@@ -64,8 +64,8 @@ export type DeleteVCsRequestParams = {
   options?: DeleteVCsOptions;
 };
 
-export type ChangeInfuraTokenRequestParams = {
-  infuraToken: string;
+export type ResolveDIDRequestParams = {
+  did: string;
 };
 
 export type SwitchMethodRequestParams = {

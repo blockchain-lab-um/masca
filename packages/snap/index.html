@@ -50,7 +50,8 @@
     <select id="didMethod">
       <option value="did:ethr">did:ethr</option>
       <option value="did:key">did:key</option>
-      <option value="did:github">did:key</option>
+      <option value="did:pkh">did:pkh</option>
+      <option value="did:github">did:gh</option>
     </select>
     <button class="switchMethod">Switch current method</button>
     <br />
@@ -65,6 +66,7 @@
     <hr />
     <input type="text" id="infura_token" placeholder="Infura token" />
     <button class="changeInfuraToken">ChangeInfuraToken</button>
+    <button class="resolveDID">resolveDID</button>
     <br />
     <hr />
     <button class="getVCStore">Get current VCStore</button>
@@ -129,6 +131,7 @@
 
     const popups = document.querySelector('button.togglePopups');
     const infura = document.querySelector('button.changeInfuraToken');
+    const resolveDID = document.querySelector('button.resolveDID');
 
     const getVCStoreBtn = document.querySelector('button.getVCStore');
     const toggleVCStoreBtn = document.querySelector('button.toggleVCStore');
@@ -157,6 +160,7 @@
 
     popups.addEventListener('click', togglePopups);
     infura.addEventListener('click', changeInfuraToken);
+    resolveDID.addEventListener('click', resolveDIDDocument);
 
     getVCStoreBtn.addEventListener('click', getVCStore);
     toggleVCStoreBtn.addEventListener('click', toggleVCStore);
@@ -431,6 +435,25 @@
             method: 'changeInfuraToken',
             params: {
               infuraToken,
+            },
+          },
+        });
+        console.log(response);
+      } catch (err) {
+        console.error(err);
+        alert('Problem happened: ' + err.message || err);
+      }
+    }
+
+    async function resolveDIDDocument() {
+      try {
+        const did = document.getElementById('infura_token').value.toString();
+        const response = await ethereum.request({
+          method: `wallet_snap_${snapId}`,
+          params: {
+            method: 'resolveDID',
+            params: {
+              did,
             },
           },
         });

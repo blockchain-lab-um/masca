@@ -26,5 +26,5 @@
       "src/types"
     ]
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts", "methods.ts", "methods.ts"]
 }

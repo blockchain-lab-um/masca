@@ -3,7 +3,6 @@ import { ApiParams } from '../../interfaces';
 import { snapConfirm } from '../../utils/snapUtils';
 import { updateSnapState } from '../../utils/stateUtils';
 
-// TODO: CHANGE THIS FUNCTION
 export async function setVCStore(
   params: ApiParams,
   { store, value }: SetVCStoreRequestParams
@@ -17,7 +16,7 @@ export async function setVCStore(
       } ${store} vcStore plugin?`,
       textAreaContent: `Content`,
     };
-    if (await snapConfirm(snap, promptObj)) {
+    if (snapConfirm(snap, promptObj)) {
       state.accountState[account].accountConfig.ssi.vcStore[store] = value;
       await updateSnapState(snap, state);
       return true;

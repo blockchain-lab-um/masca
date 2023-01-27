@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// Core interfaces
+/* eslint-disable @typescript-eslint/dot-notation */
+import { MetaMaskInpageProvider } from '@metamask/providers';
 import {
   createAgent,
   IDIDManager,
@@ -12,6 +12,10 @@ import {
 
 import { AbstractIdentifierProvider, DIDManager } from '@veramo/did-manager';
 import { EthrDIDProvider } from '@veramo/did-provider-ethr';
+import {
+  PkhDIDProvider,
+  getDidPkhResolver as pkhDidResolver,
+} from '@veramo/did-provider-pkh';
 import {
   KeyManager,
   MemoryKeyStore,
@@ -26,36 +30,26 @@ import {
   IDataManager,
   AbstractDataStore,
 } from '@blockchain-lab-um/veramo-vc-manager';
-import { Web3Provider } from '@ethersproject/providers';
-//import { Web3KeyManagementSystem } from '@veramo/kms-web3';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { ethers } from 'ethers';
 import { CredentialIssuerEIP712 } from '@veramo/credential-eip712';
 import {
   CredentialIssuerLD,
   LdDefaultContexts,
   VeramoEcdsaSecp256k1RecoverySignature2020,
 } from '@veramo/credential-ld';
+import { CredentialPlugin, ICredentialIssuer } from '@veramo/credential-w3c';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import {
   SnapDIDStore,
   SnapVCStore,
 } from './plugins/snapDataStore/snapDataStore';
 import { CeramicVCStore } from './plugins/ceramicDataStore/ceramicDataStore';
 
-import { CredentialPlugin, ICredentialIssuer } from '@veramo/credential-w3c';
-
 import { KeyDIDProvider } from '../did/key/keyDidProvider';
 import { getDidKeyResolver as keyDidResolver } from '../did/key/keyDidResolver';
 
-const availableNetworks: Record<string, string> = {
-  '0x01': 'mainnet',
-  '0x05': 'goerli',
-};
-
-import {
-  getCurrentAccount,
-  getCurrentNetwork,
-  getEnabledVCStores,
-} from '../utils/snapUtils';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { getCurrentAccount, getEnabledVCStores } from '../utils/snapUtils';
 import { getSnapState } from '../utils/stateUtils';
 
 export type Agent = TAgent<
@@ -67,32 +61,47 @@ export type Agent = TAgent<
     ICredentialIssuer
 >;
 
-export const getAgent = async (snap: SnapsGlobalObject): Promise<Agent> => {
+export const getAgent = async (
+  snap: SnapsGlobalObject,
+  ethereum: MetaMaskInpageProvider
+): Promise<Agent> => {
   const state = await getSnapState(snap);
-  const INFURA_PROJECT_ID = state.snapConfig.snap.infuraToken;
-  const CHAIN_ID = await getCurrentNetwork(snap);
-  const account = await getCurrentAccount(snap);
+  const account = await getCurrentAccount(ethereum);
 
-  const web3Providers: Record<string, Web3Provider> = {};
   const didProviders: Record<string, AbstractIdentifierProvider> = {};
   const vcStorePlugins: Record<string, AbstractDataStore> = {};
   const enabledVCStores = getEnabledVCStores(account as string, state);
-  console.log('Enabled VC Stores:', enabledVCStores);
 
-  web3Providers['metamask'] = new Web3Provider(snap as any);
+  const networks = [
+    {
+      name: 'mainnet',
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      provider: new ethers.providers.Web3Provider(ethereum as any),
+    },
+    {
+      name: '0x05',
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      provider: new ethers.providers.Web3Provider(ethereum as any),
+    },
+    {
+      name: 'goerli',
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      provider: new ethers.providers.Web3Provider(ethereum as any),
+      chainId: '0x5',
+    },
+  ];
+
   didProviders['did:ethr'] = new EthrDIDProvider({
     defaultKms: 'web3',
-    network: availableNetworks[CHAIN_ID] ?? 'mainnet',
-    rpcUrl:
-      `https://${availableNetworks[CHAIN_ID] ?? 'mainnet'}.infura.io/v3/` +
-      INFURA_PROJECT_ID,
-    web3Provider: new Web3Provider(snap as any),
+    networks,
   });
 
   didProviders['did:key'] = new KeyDIDProvider({ defaultKms: 'web3' });
-  vcStorePlugins['snap'] = new SnapVCStore(snap);
+  didProviders['did:pkh'] = new PkhDIDProvider({ defaultKms: 'web3' });
+
+  vcStorePlugins['snap'] = new SnapVCStore(snap, ethereum);
   if (enabledVCStores.includes('ceramic')) {
-    vcStorePlugins['ceramic'] = new CeramicVCStore(snap);
+    vcStorePlugins['ceramic'] = new CeramicVCStore(snap, ethereum);
   }
   const agent = createAgent<
     IDIDManager &
@@ -112,20 +121,19 @@ export const getAgent = async (snap: SnapsGlobalObject): Promise<Agent> => {
       new KeyManager({
         store: new MemoryKeyStore(),
         kms: {
-          //web3: new Web3KeyManagementSystem(web3Providers),
           snap: new KeyManagementSystem(new MemoryPrivateKeyStore()),
         },
       }),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       new DataManager({ store: vcStorePlugins }),
       new DIDResolverPlugin({
         resolver: new Resolver({
-          ...ethrDidResolver({ infuraProjectId: INFURA_PROJECT_ID }),
+          ...ethrDidResolver({ networks }),
           ...keyDidResolver(),
+          ...pkhDidResolver(),
         }),
       }),
       new DIDManager({
-        store: new SnapDIDStore(snap),
+        store: new SnapDIDStore(snap, ethereum),
         defaultProvider: 'metamask',
         providers: didProviders,
       }),

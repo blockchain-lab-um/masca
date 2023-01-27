@@ -15,7 +15,7 @@ export type GetSnapsResponse = {
 };
 
 async function getWalletSnaps(): Promise<GetSnapsResponse> {
-  return await window.ethereum.request({
+  return window.ethereum.request({
     method: 'wallet_getSnaps',
   });
 }

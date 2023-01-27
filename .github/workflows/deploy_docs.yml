@@ -6,14 +6,17 @@ on:
     types: [opened, synchronize, reopened]
     paths:
       - 'packages/docs/**'
+      - 'Dockerfile'
   push:
-    branches: [develop]
+    branches: [master, develop]
     paths:
       - 'packages/docs/**'
+      - 'Dockerfile'
 
 jobs:
-  test-deploy:
-    if: github.event_name != 'push'
+  test-build:
+    # Test build on every PR to DEVELOP
+    if: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -22,29 +25,66 @@ jobs:
       - uses: nrwl/nx-set-shas@v3
         with:
           main-branch-name: 'develop'
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7.25.1
       - uses: actions/setup-node@v3
         with:
-          node-version: 18.12.1
-          cache: yarn
+          node-version: 18.13.0
+          cache: pnpm
       - name: Install dependencies
-        run: yarn install --immutable
+        run: pnpm install --frozen-lockfile
       - name: Lint
-        run: yarn nx run @blockchain-lab-um/ssi-snap-docs:lint
+        run: pnpm nx run @blockchain-lab-um/ssi-snap-docs:lint
         env:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
       - name: Test build website
-        run: yarn nx run @blockchain-lab-um/ssi-snap-docs:build
+        run: pnpm nx run @blockchain-lab-um/ssi-snap-docs:build
         env:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-  deploy:
-    if: github.event_name != 'pull_request'
+
+  test-deploy:
+    # Test deploy when we PUSH to DEVELOP
+    if: ${{ (github.ref == 'refs/heads/develop') && (github.event_name == 'push') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Create nx-cloud.env
+        run: echo "NX_CLOUD_ACCESS_TOKEN=$NX_CLOUD_ACCESS_TOKEN" > nx-cloud.env
+        env:
+          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+      - name: Build blockchain-lab-um/ssi-snap
+        run: docker build . -t blockchain-lab-um/ssi-snap
+      - name: Build blockchain-lab-um/ssi-snap-docs
+        run: docker build ./packages/docs -t blockchain-lab-um/ssi-snap-docs
+      - name: Change image tag
+        run: docker tag blockchain-lab-um/ssi-snap-docs:latest bclabum.informatika.uni-mb.si/registry/ssi-snap-docs:latest
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          registry: bclabum.informatika.uni-mb.si/registry
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Push to private docker registry
+        run: docker push bclabum.informatika.uni-mb.si/registry/ssi-snap-docs:latest
+
+  deploy:
+    # Deploy only when we PUSH to MASTER
+    if: ${{ (github.ref == 'refs/heads/master') && (github.event_name == 'push') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7.25.1
       - uses: actions/setup-node@v3
         with:
-          node-version: 18.12.1
-          cache: yarn
+          node-version: 18.13.0
+          cache: pnpm
       - uses: webfactory/ssh-agent@v0.6.0
         with:
           ssh-private-key: ${{ secrets.GH_PAGES_DEPLOY }}
@@ -54,5 +94,5 @@ jobs:
         run: |
           git config --global user.email "andraz.vrecko@gmail.com"
           git config --global user.name "andyv09"
-          yarn install --immutable
-          yarn deploy:docs
+          pnpm install --frozen-lockfile
+          pnpm deploy:docs

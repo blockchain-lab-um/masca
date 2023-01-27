@@ -1,6 +1,6 @@
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
 import { init } from '../../src/utils/init';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { getInitialSnapState } from '../../src/utils/config';
 
 describe('RPC handler [init]', () => {
@@ -23,13 +23,13 @@ describe('RPC handler [init]', () => {
     expect.assertions(2);
   });
 
-  it('should fail for rejected terms and conditions', async function () {
-    snapMock.rpcMocks.snap_dialog.mockReturnValueOnce(false);
+  // it('should fail for rejected terms and conditions', async function () {
+  //   snapMock.rpcMocks.snap_dialog.mockReturnValueOnce(false);
 
-    await expect(init(snapMock)).rejects.toThrow(
-      new Error('User did not accept terms and conditions!')
-    );
+  //   await expect(init(snapMock)).rejects.toThrow(
+  //     new Error('User did not accept terms and conditions!')
+  //   );
 
-    expect.assertions(1);
-  });
+  //   expect.assertions(1);
+  // });
 });

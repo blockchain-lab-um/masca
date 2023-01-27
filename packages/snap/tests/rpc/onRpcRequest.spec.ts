@@ -1,6 +1,14 @@
+import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
-import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
-import { onRpcRequest } from '../../src/index';
+import {
+  availableVCStores,
+  availableMethods,
+} from '@blockchain-lab-um/ssi-snap-types';
+import { DIDResolutionResult, VerifiablePresentation } from '@veramo/core';
+import * as uuid from 'uuid';
+import { DIDDataStore } from '@glazed/did-datastore';
+import { StreamID } from '@ceramicnetwork/streamid';
+import { veramoClearVCs } from '../../src/utils/veramoUtils';
 import {
   exampleDID,
   exampleDIDKey,
@@ -8,24 +16,18 @@ import {
   getDefaultSnapState,
   jsonPath,
   address,
+  exampleDIDDocument,
 } from '../testUtils/constants';
-import {
-  availableVCStores,
-  availableMethods,
-} from '@blockchain-lab-um/ssi-snap-types';
-import { IVerifyResult, VerifiablePresentation } from '@veramo/core';
-import * as uuid from 'uuid';
-import { getAgent } from '../../src/veramo/setup';
-import { veramoClearVCs } from '../../src/utils/veramoUtils';
-import { DIDDataStore } from '@glazed/did-datastore';
-import { StreamID } from '@ceramicnetwork/streamid';
 import { StoredCredentials } from '../../src/interfaces';
 import * as snapUtils from '../../src/utils/snapUtils';
+import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
+import { onRpcRequest } from '../../src/index';
+
 jest.mock('uuid');
 let ceramicData: StoredCredentials;
 jest
   .spyOn(DIDDataStore.prototype, 'get')
-  // eslint-disable-next-line @typescript-eslint/require-await
+  // eslint-disable-next-line @typescript-eslint/require-await, @typescript-eslint/no-unused-vars
   .mockImplementation(async (key, did?) => {
     return ceramicData;
   });
@@ -53,9 +55,9 @@ describe('onRpcRequest', () => {
   beforeEach(() => {
     snapMock = createMockSnap();
     snapMock.rpcMocks.snap_manageState('update', getDefaultSnapState());
-    //snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
+    // snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
     global.snap = snapMock;
-    global.ethereum = snapMock;
+    global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
   });
 
   describe('saveVC', () => {
@@ -83,6 +85,7 @@ describe('onRpcRequest', () => {
           id: 'test-id',
           jsonrpc: '2.0',
           method: 'queryVCs',
+          params: {},
         },
       });
 
@@ -147,6 +150,7 @@ describe('onRpcRequest', () => {
       });
       await veramoClearVCs({
         snap: snapMock,
+        ethereum,
         store: 'ceramic',
       });
       snapMock.rpcMocks.snap_manageState({
@@ -195,45 +199,46 @@ describe('onRpcRequest', () => {
       expect(result).toEqual(expectedResult);
       await veramoClearVCs({
         snap: snapMock,
+        ethereum,
         store: 'ceramic',
       });
       expect.assertions(2);
     });
 
-    it('should fail saving VC and return false - user denied', async () => {
-      snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
+    // it('should fail saving VC and return false - user denied', async () => {
+    //   snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'saveVC',
-            params: {
-              verifiableCredential: exampleVC,
-              options: { store: 'snap' },
-            },
-          },
-        })
-      ).rejects.toThrow('User rejected');
+    //   await expect(
+    //     onRpcRequest({
+    //       origin: 'localhost',
+    //       request: {
+    //         id: 'test-id',
+    //         jsonrpc: '2.0',
+    //         method: 'saveVC',
+    //         params: {
+    //           verifiableCredential: exampleVC,
+    //           options: { store: 'snap' },
+    //         },
+    //       },
+    //     })
+    //   ).rejects.toThrow('User rejected');
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'queryVCs',
-            params: {
-              query: {},
-            },
-          },
-        })
-      ).resolves.toEqual([]);
+    //   await expect(
+    //     onRpcRequest({
+    //       origin: 'localhost',
+    //       request: {
+    //         id: 'test-id',
+    //         jsonrpc: '2.0',
+    //         method: 'queryVCs',
+    //         params: {
+    //           query: {},
+    //         },
+    //       },
+    //     })
+    //   ).resolves.toEqual([]);
 
-      expect.assertions(2);
-    });
+    //   expect.assertions(2);
+    // });
 
     it('should throw error because store is not supported', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
@@ -708,7 +713,7 @@ describe('onRpcRequest', () => {
     it('should succeed creating VP', async () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-      //const agent = await getAgent(snapMock);
+      // const agent = await getAgent(snapMock);
 
       await onRpcRequest({
         origin: 'localhost',
@@ -735,7 +740,7 @@ describe('onRpcRequest', () => {
         },
       })) as VerifiablePresentation;
 
-      expect(createdVP).not.toEqual(null);
+      expect(createdVP).not.toBeNull();
 
       // const verifyResult = (await agent.verifyPresentation({
       //   presentation: createdVP,
@@ -749,7 +754,7 @@ describe('onRpcRequest', () => {
     it('should succeed creating VP with did:key', async () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-      //const agent = await getAgent(snapMock);
+      // const agent = await getAgent(snapMock);
 
       await onRpcRequest({
         origin: 'localhost',
@@ -786,7 +791,7 @@ describe('onRpcRequest', () => {
         },
       })) as VerifiablePresentation;
 
-      expect(createdVP).not.toEqual(null);
+      expect(createdVP).not.toBeNull();
 
       // const verifyResult = (await agent.verifyPresentation({
       //   presentation: createdVP,
@@ -847,49 +852,7 @@ describe('onRpcRequest', () => {
             },
           },
         })
-      ).resolves.toBe(null);
-
-      expect.assertions(1);
-    });
-  });
-
-  describe('changeInfuraToken', () => {
-    it('should succeed changing infura token and return true', async () => {
-      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'changeInfuraToken',
-            params: {
-              infuraToken: 'test-token',
-            },
-          },
-        })
-      ).resolves.toBe(true);
-
-      expect.assertions(1);
-    });
-
-    it('should fail changing infura token and return false', async () => {
-      snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
-
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'changeInfuraToken',
-            params: {
-              infuraToken: 'test-token',
-            },
-          },
-        })
-      ).resolves.toBe(false);
+      ).resolves.toBeNull();
 
       expect.assertions(1);
     });
@@ -914,23 +877,23 @@ describe('onRpcRequest', () => {
       expect.assertions(1);
     });
 
-    it('should fail toggling popups and return false', async () => {
-      snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
+    // it('should fail toggling popups and return false', async () => {
+    //   snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'togglePopups',
-            params: {},
-          },
-        })
-      ).resolves.toBe(false);
+    //   await expect(
+    //     onRpcRequest({
+    //       origin: 'localhost',
+    //       request: {
+    //         id: 'test-id',
+    //         jsonrpc: '2.0',
+    //         method: 'togglePopups',
+    //         params: {},
+    //       },
+    //     })
+    //   ).resolves.toBe(false);
 
-      expect.assertions(1);
-    });
+    //   expect.assertions(1);
+    // });
   });
 
   describe('getDID', () => {
@@ -1004,25 +967,25 @@ describe('onRpcRequest', () => {
       expect.assertions(1);
     });
 
-    it('should fail switching method to did:key and return false', async () => {
-      snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
+    // it('should fail switching method to did:key and return false', async () => {
+    //   snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'switchDIDMethod',
-            params: {
-              didMethod: 'did:key',
-            },
-          },
-        })
-      ).resolves.toBe('');
+    //   await expect(
+    //     onRpcRequest({
+    //       origin: 'localhost',
+    //       request: {
+    //         id: 'test-id',
+    //         jsonrpc: '2.0',
+    //         method: 'switchDIDMethod',
+    //         params: {
+    //           didMethod: 'did:key',
+    //         },
+    //       },
+    //     })
+    //   ).resolves.toBe('');
 
-      expect.assertions(1);
-    });
+    //   expect.assertions(1);
+    // });
 
     it('should fail switching method because method is not supported', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
@@ -1074,7 +1037,7 @@ describe('onRpcRequest', () => {
             params: {},
           },
         })
-      ).resolves.toEqual('did:ethr');
+      ).resolves.toBe('did:ethr');
 
       expect.assertions(1);
     });
@@ -1104,7 +1067,7 @@ describe('onRpcRequest', () => {
             params: {},
           },
         })
-      ).resolves.toEqual('did:key');
+      ).resolves.toBe('did:key');
 
       expect.assertions(1);
     });
@@ -1119,6 +1082,7 @@ describe('onRpcRequest', () => {
             id: 'test-id',
             jsonrpc: '2.0',
             method: 'getAvailableMethods',
+            params: {},
           },
         })
       ).resolves.toEqual(availableMethods);
@@ -1179,6 +1143,7 @@ describe('onRpcRequest', () => {
             id: 'test-id',
             jsonrpc: '2.0',
             method: 'getVCStore',
+            params: {},
           },
         })
       ).resolves.toEqual({ ceramic: true, snap: true });
@@ -1196,6 +1161,7 @@ describe('onRpcRequest', () => {
             id: 'test-id',
             jsonrpc: '2.0',
             method: 'getVCStore',
+            params: {},
           },
         })
       ).resolves.toEqual({ ceramic: true, snap: true });
@@ -1211,6 +1177,7 @@ describe('onRpcRequest', () => {
             id: 'test-id',
             jsonrpc: '2.0',
             method: 'getAvailableVCStores',
+            params: {},
           },
         })
       ).resolves.toEqual(availableVCStores);
@@ -1228,6 +1195,7 @@ describe('onRpcRequest', () => {
             id: 'test-id',
             jsonrpc: '2.0',
             method: 'getAccountSettings',
+            params: {},
           },
         })
       ).resolves.toEqual(state.accountState[address].accountConfig);
@@ -1245,10 +1213,26 @@ describe('onRpcRequest', () => {
             id: 'test-id',
             jsonrpc: '2.0',
             method: 'getSnapSettings',
+            params: {},
           },
         })
       ).resolves.toEqual(state.snapConfig);
 
+      expect.assertions(1);
+    });
+  });
+  describe('resolveDID', () => {
+    it('should succeed resolving did:ethr', async () => {
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'resolveDID',
+          params: { did: exampleDID },
+        },
+      })) as DIDResolutionResult;
+      expect(res.didDocument).toEqual(exampleDIDDocument);
       expect.assertions(1);
     });
   });

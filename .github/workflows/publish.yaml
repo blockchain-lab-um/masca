@@ -7,19 +7,25 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
         with:
-          node-version: 18.12.1
+          version: 7.25.1
+      - name: Install node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.13.0
           registry-url: https://registry.npmjs.org/
-          cache: 'yarn'
-          cache-depndency-path: '**/yarn.lock'
-      - run: yarn install --immutable
-      - run: yarn build
+          cache: 'pnpm'
+      - name: Install deps
+        run: pnpm install --frozen-lockfile
+      - name: Build
+        run: pnpm build
         env:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-      - env:
+      - name: Publish
+        run: npm publish -w @blockchain-lab-um/ssi-snap -w @blockchain-lab-um/ssi-snap-connector -w @blockchain-lab-um/veramo-vc-manager -w @blockchain-lab-um/ssi-snap-types
+        env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
-        run: |
-          echo npmAuthToken: "$NODE_AUTH_TOKEN" >> ./.yarnrc.yml
-      - run: yarn workspaces foreach -v --exclude root --no-private npm publish --tolerate-republish --access public

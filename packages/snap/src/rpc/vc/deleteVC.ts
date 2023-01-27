@@ -8,7 +8,7 @@ export async function deleteVC(
   args: DeleteVCsRequestParams
 ): Promise<boolean[]> {
   const { id, options } = args || {};
-  const { snap } = params;
+  const { snap, ethereum } = params;
   const store = options?.store;
   const promptObj = {
     prompt: 'Delete VC',
@@ -16,12 +16,14 @@ export async function deleteVC(
     textAreaContent: `Content`,
   };
 
-  if (await snapConfirm(snap, promptObj)) {
-    return await veramoDeleteVC({
+  if (snapConfirm(snap, promptObj)) {
+    const res = await veramoDeleteVC({
       snap,
+      ethereum,
       id,
       store,
     });
+    return res;
   }
   throw new Error('User rejected');
 }

@@ -1,6 +1,4 @@
-import { SnapConfirmParams, SSISnapState } from '../../src/interfaces';
 import cloneDeep from 'lodash.clonedeep';
-import { getEmptyAccountState } from '../../src/utils/config';
 import {
   DIDDocument,
   DIDResolutionResult,
@@ -8,6 +6,8 @@ import {
   W3CVerifiableCredential,
 } from '@veramo/core';
 import { JsonBIP44CoinTypeNode } from '@metamask/key-tree';
+import { SnapConfirmParams, SSISnapState } from '../../src/interfaces';
+import { getEmptyAccountState } from '../../src/utils/config';
 
 export const mnemonic =
   'prosper pair similar canoe work humble loud wild aunt reunion olive obscure';
@@ -49,6 +49,98 @@ export const exampleImportedDID: IIdentifier = {
   services: [],
 };
 
+export const exampleDIDDocument: DIDDocument = {
+  '@context': [
+    'https://www.w3.org/ns/did/v1',
+    'https://w3id.org/security/suites/secp256k1recovery-2020/v2',
+  ],
+  id: 'did:ethr:0x5:0xb6665128eE91D84590f70c3268765384A9CAfBCd',
+  verificationMethod: [
+    {
+      id: 'did:ethr:0x5:0xb6665128eE91D84590f70c3268765384A9CAfBCd#controller',
+      type: 'EcdsaSecp256k1RecoveryMethod2020',
+      controller: 'did:ethr:0x5:0xb6665128eE91D84590f70c3268765384A9CAfBCd',
+      blockchainAccountId:
+        'eip155:5:0xb6665128eE91D84590f70c3268765384A9CAfBCd',
+    },
+  ],
+  authentication: [
+    'did:ethr:0x5:0xb6665128eE91D84590f70c3268765384A9CAfBCd#controller',
+  ],
+  assertionMethod: [
+    'did:ethr:0x5:0xb6665128eE91D84590f70c3268765384A9CAfBCd#controller',
+  ],
+};
+
+export const resolutionNotFound = {
+  '@context': 'https://w3id.org/did-resolution/v1',
+  didDocument: null,
+  didResolutionMetadata: {
+    error: 'notFound',
+    errorMessage: '404 Not Found (notFound)',
+    contentType: 'application/did+ld+json',
+  },
+  didDocumentMetadata: {},
+};
+
+export const resolutionMethodNotSupported = {
+  '@context': 'https://w3id.org/did-resolution/v1',
+  didDocument: null,
+  didResolutionMetadata: {
+    error: 'methodNotSupported',
+    errorMessage: 'Method not supported: keyclopse',
+    contentType: 'application/did+ld+json',
+  },
+  didDocumentMetadata: {},
+};
+
+export const resolutionInvalidDID = {
+  '@context': 'https://w3id.org/did-resolution/v1',
+  didDocument: null,
+  didResolutionMetadata: {
+    error: 'invalidDid',
+    message: 'Not a valid did:ethr: 0x5:0x123',
+    contentType: 'application/did+ld+json',
+    convertedFrom: 'application/did+json',
+    convertedTo: 'application/did+ld+json',
+  },
+  didDocumentMetadata: {},
+};
+
+export const exampleDIDKeyDocumentUniResovler = {
+  '@context': [
+    'https://www.w3.org/ns/did/v1',
+    {
+      EcdsaSecp256k1VerificationKey2019:
+        'https://w3id.org/security#EcdsaSecp256k1VerificationKey2019',
+      publicKeyJwk: {
+        '@id': 'https://w3id.org/security#publicKeyJwk',
+        '@type': '@json',
+      },
+    },
+  ],
+  id: 'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
+  verificationMethod: [
+    {
+      id: 'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik#zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
+      type: 'EcdsaSecp256k1VerificationKey2019',
+      controller: 'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
+      publicKeyJwk: {
+        kty: 'EC',
+        crv: 'secp256k1',
+        x: 'gKnNSP1Db4wfgbFW62FWGM1XPD6x5tk3oXuCIgJ8roU',
+        y: 'Cp9WHUFAAai979txPGGdLK8IoMllWwz0LeBlvFHgFpo',
+      },
+    },
+  ],
+  authentication: [
+    'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik#zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
+  ],
+  assertionMethod: [
+    'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik#zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
+  ],
+};
+
 export const exampleDIDKeyDocument: DIDDocument = {
   id: 'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik#zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
   '@context': [
@@ -76,7 +168,7 @@ export const exampleDIDKeyDocument: DIDDocument = {
       type: 'EcdsaSecp256k1RecoveryMethod2020',
       controller:
         'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik#zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
-      publicKeyHex: publicKeyHex,
+      publicKeyHex,
     },
   ],
 };
@@ -166,10 +258,7 @@ export const exampleVC = {
     id: 'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
     type: 'JsonSchemaValidator2018',
   },
-  '@context': [
-    'https://www.w3.org/2018/credentials/v1',
-    'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/ld-context.json',
-  ],
+  '@context': ['https://www.w3.org/2018/credentials/v1'],
   issuanceDate: '2022-09-16T11:37:05.000Z',
   proof: {
     type: 'JwtProof2020',
@@ -178,7 +267,10 @@ export const exampleVC = {
 };
 
 export const exampleVCJSONLD: W3CVerifiableCredential = {
-  '@context': ['https://www.w3.org/2018/credentials/v1', 'https://schema.org'],
+  '@context': [
+    'https://www.w3.org/2018/credentials/v1',
+    'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/ld-context.json',
+  ],
   type: ['VerifiableCredential', 'CourseCredential'],
   issuer: {
     id: 'did:key:z6MkndAHigYrXNpape7jgaC7jHiWwxzB3chuKUGXJg2b5RSj',
@@ -374,7 +466,6 @@ const defaultSnapState: SSISnapState = {
       friendlyDapps: [],
     },
     snap: {
-      infuraToken: '0ec03090465d400c988a14831aacfe37',
       acceptedTerms: true,
     },
   },

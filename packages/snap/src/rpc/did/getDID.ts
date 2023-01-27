@@ -2,6 +2,7 @@ import { ApiParams } from '../../interfaces';
 import { getCurrentDid } from '../../utils/didUtils';
 
 export async function getDid(params: ApiParams): Promise<string> {
-  const { state, snap, account } = params;
-  return await getCurrentDid(snap, state, account);
+  const { state, ethereum, account } = params;
+  const res = await getCurrentDid(ethereum, state, account);
+  return res;
 }
