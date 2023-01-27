@@ -14,7 +14,7 @@
   @font-face {
     font-family: Cabin;
     src: url('../fonts/Cabin-SemiBold.ttf') format('truetype');
-    font-weight: 400;
+    font-weight: 600;
     font-display: swap;
     font-style: medium;
   }
@@ -105,7 +105,7 @@ body {
   }
 
   .nav-btn {
-    @apply relative h-fit tablet:text-h4 mobile:text-h5 text-h6 mx-1 mobile:mx-2 tablet:mx-4 hover:text-orange animated-transition tracking-[1px];
+    @apply relative h-fit lg:text-h4 sm:text-h5 text-h6 mx-1 sm:mx-2 lg:mx-4 hover:text-orange animated-transition tracking-[1px];
   }
 
   .nav-btn::after {

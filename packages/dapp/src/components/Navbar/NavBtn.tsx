@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 type NavBtnProps = {
   page: string;
@@ -9,18 +10,16 @@ type NavBtnProps = {
 export const NavBtn = ({ page, children }: NavBtnProps) => {
   const router = useRouter();
   return (
-    <button
-      className={`nav-btn ${
-        router.pathname === page
-          ? 'text-orange after:w-[100%]'
-          : 'dark:text-white'
-      }`}
-      onClick={() => {
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        router.push(page);
-      }}
-    >
-      {children}
-    </button>
+    <Link href={page}>
+      <button
+        className={`nav-btn ${
+          router.pathname === page
+            ? 'text-orange after:w-[100%]'
+            : 'dark:text-white'
+        }`}
+      >
+        {children}
+      </button>
+    </Link>
   );
 };

@@ -1,7 +1,7 @@
-import { W3CVerifiableCredential } from '@veramo/core';
+import { VerifiableCredential } from '@veramo/core';
 
 export interface QueryVCsRequestResult {
-  data: W3CVerifiableCredential;
+  data: VerifiableCredential;
   metadata: {
     id: string;
     store?: string;

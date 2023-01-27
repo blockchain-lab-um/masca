@@ -1,30 +1,25 @@
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 import Button from '../components/Button';
 
 export default function Home() {
-  const router = useRouter();
   return (
     <>
       <main>
         <div className="flex text-center flex-col my-auto items-center pt-32">
-          <h1 className="text-h3 mobile:text-h2 tablet:text-h1 font-ubuntu ">
+          <div className="text-h3 sm:text-h2 lg:text-h1 font-ubuntu ">
             Take Control of Your{' '}
-            <span className="text-orange">Online Identity</span>!
-          </h1>
+            <span className="text-orange">Online Identity</span>
+          </div>
 
-          <h2 className="text-lg mobile:text-xl tablet:text-2xl pt-8 text-gray-80 dark:text-orange-60">
+          <div className="text-lg sm:text-xl lg:text-2xl pt-8 text-gray-80 dark:text-orange-60">
             Join the world of Self-Sovereign Identity with one click
-          </h2>
+          </div>
           <div className="pt-16">
-            <Button
-              className="btn-primary desktop:text-h3 tablet:px-8 shadow-lg dark:shadow-orange-20/20"
-              onClick={() => {
-                // eslint-disable-next-line @typescript-eslint/no-floating-promises
-                router.push('/dashboard');
-              }}
-            >
-              Get Started
-            </Button>
+            <Link href="/dashboard">
+              <Button variant="primary" size="lg" shadow="lg">
+                Get Started
+              </Button>
+            </Link>
           </div>
         </div>
       </main>

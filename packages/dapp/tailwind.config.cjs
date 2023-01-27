@@ -47,13 +47,7 @@ module.exports = {
       h2: ['32px', { lineHeight: '37px', letterSpacing: '-0.032em' }],
       h1: ['40px', { lineHeight: '46px', letterSpacing: '-0.032em' }],
     },
-    extend: {
-      screens: {
-        mobile: '615px',
-        tablet: '960px',
-        desktop: '1280px',
-      },
-    },
+    extend: {},
   },
   plugins: [],
 };

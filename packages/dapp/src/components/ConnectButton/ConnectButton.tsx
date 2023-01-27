@@ -69,7 +69,7 @@ export const ConnectButton = () => {
 
   return (
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    <Button className="btn-connect" onClick={handleConnect}>
+    <Button variant="connect" size="md" onClick={handleConnect}>
       <div className="flex">
         Connect Wallet
         {loading && (

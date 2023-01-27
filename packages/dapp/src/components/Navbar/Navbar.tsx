@@ -2,6 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { useGeneralStore } from 'src/utils/store';
+import Link from 'next/link';
 import ToggleTheme from '../ToggleTheme';
 import { NavBtn } from './NavBtn';
 import Button from '../Button';
@@ -20,33 +21,31 @@ export default function Navbar() {
 
   return (
     <div className="flex justify-between items-center">
-      <button
-        onClick={() => {
-          // eslint-disable-next-line @typescript-eslint/no-floating-promises
-          router.push('/');
-        }}
-      >
-        <div className="flex">
-          <Image
-            src={logo_b}
-            alt="Masca Logo"
-            className="dark:hidden h-[24px] w-[24px] mobile:h-[36px] mobile:w-[36px] tablet:h-[46px] tablet:w-[46px] desktop:h-[48px] desktop:w-[48px] rounded-full object-center"
-          />
-          <Image
-            src={logo_w}
-            alt="Masca Logo"
-            className="hidden dark:block h-[24px] w-[24px] mobile:h-[36px] mobile:w-[36px] tablet:h-[46px] tablet:w-[46px] desktop:h-[48px] desktop:w-[48px] rounded-full object-center"
-          />
-          <h1 className="mx-1 font-ubuntu text-h4 mobile:text-h2 tablet:text-h1 hover:text-orange dark:text-orange dark:hover:text-white animated-transition">
-            Masca
-          </h1>
-        </div>
-      </button>
+      <Link href="/">
+        <button>
+          <div className="flex">
+            <Image
+              src={logo_b}
+              alt="Masca Logo"
+              className="dark:hidden h-[24px] w-[24px] sm:h-[36px] sm:w-[36px] lg:h-[46px] lg:w-[46px] xl:h-[48px] xl:w-[48px] rounded-full object-center"
+            />
+            <Image
+              src={logo_w}
+              alt="Masca Logo"
+              className="hidden dark:block h-[24px] w-[24px] sm:h-[36px] sm:w-[36px] lg:h-[46px] lg:w-[46px] xl:h-[48px] xl:w-[48px] rounded-full object-center"
+            />
+            <h1 className="mx-1 font-ubuntu text-h4 sm:text-h2 lg:text-h1 hover:text-orange dark:text-orange dark:hover:text-white animated-transition">
+              Masca
+            </h1>
+          </div>
+        </button>
+      </Link>
       {router.pathname !== '/' && (
         <div className="flex my-auto mx-2">
           <NavBtn page="/">Home</NavBtn>
           <NavBtn page="/dashboard">Dashboard</NavBtn>
           <NavBtn page="/settings">Settings</NavBtn>
+          <NavBtn page="/...">...</NavBtn>
         </div>
       )}
       <div className="hidden md:block">
@@ -59,7 +58,7 @@ export default function Navbar() {
                     <div className="flex justify-center items-center">
                       <DropdownMenu />
                       <Button
-                        className="btn-primary"
+                        variant="primary"
                         onClick={() => {
                           changeIsConnected(false);
                         }}

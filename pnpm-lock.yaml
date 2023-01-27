@@ -112,6 +112,7 @@ importers:
       '@heroicons/react': ^2.0.13
       '@next/font': 13.1.3
       '@svgr/webpack': ^6.5.1
+      '@tanstack/react-table': ^8.7.8
       '@types/eslint': ^8
       '@types/node': 18.11.18
       '@types/prettier': ^2
@@ -147,6 +148,7 @@ importers:
       '@headlessui/react': 1.7.7_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 2.0.13_react@18.2.0
       '@next/font': 13.1.3
+      '@tanstack/react-table': 8.7.8_biqbaboplfbrettd7655fr4n2y
       '@types/node': 18.11.18
       '@types/react': 18.0.27
       '@types/react-dom': 18.0.10
@@ -5657,6 +5659,23 @@ packages:
     engines: {node: '>=14.16'}
     dependencies:
       defer-to-connect: 2.0.1
+    dev: false
+
+  /@tanstack/react-table/8.7.8_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-XNfNuY9qJEk5urJWGYPWNj4POtBTuYunQNfmUla/ZUobVSS+ZIWt6wnL6kI12QNpPrf4uSVAYelUVl245nnQjQ==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      '@tanstack/table-core': 8.7.8
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@tanstack/table-core/8.7.8:
+    resolution: {integrity: sha512-OvKx7v0qJTyPkMhqsWzVPZnARiqdGvDvEg8tZ/GSQs7t0Vb2sdtkGg7cdzUZ67sIg9o5/gSwvvT84ouSaP8euA==}
+    engines: {node: '>=12'}
     dev: false
 
   /@taquito/utils/14.2.0:

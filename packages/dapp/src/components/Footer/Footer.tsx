@@ -26,7 +26,7 @@ export const Footer = () => {
             <span>
               <div className="flex m-auto justify-center items-center">
                 <Button
-                  className="btn-primary"
+                  variant="primary"
                   onClick={() => {
                     changeIsConnected(false);
                   }}
