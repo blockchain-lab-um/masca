@@ -135,6 +135,14 @@ export function _hexToUint8Array(str: string): Uint8Array {
   return new Uint8Array(Buffer.from(str, 'hex'));
 }
 
+export function base64urlEncode(str: string): string {
+  return Buffer.from(str).toString('base64url');
+}
+
+export function base64urlDecode(str: string): string {
+  return Buffer.from(str, 'base64url').toString('utf8');
+}
+
 /*export function keccak(data: Uint8Array): Uint8Array {
   return new Uint8Array(sha3.keccak_256.arrayBuffer(data));
 }*/
