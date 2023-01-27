@@ -87,6 +87,42 @@ export const exampleDIDKeyResolution: DIDResolutionResult = {
   didDocument: exampleDIDKeyDocument,
 };
 
+export const exampleDIDJwkIdentifier =
+  'eyJjcnYiOiJzZWNwMjU2azEiLCJrdHkiOiJFQyIsIngiOiJnS25OU1AxRGI0d2ZnYkZXNjJGV0dNMVhQRDZ4NXRrM29YdUNJZ0o4cm9VIiwieSI6IkNwOVdIVUZBQWFpOTc5dHhQR0dkTEs4SW9NbGxXd3owTGVCbHZGSGdGcG8ifQ';
+export const exampleDIDJwk = `did:jwk:${exampleDIDJwkIdentifier}`;
+
+export const exampleDIDJwkDocument: DIDDocument = {
+  id: exampleDIDJwk,
+  '@context': [
+    'https://www.w3.org/ns/did/v1',
+    'https://w3id.org/security/suites/jws-2020/v1',
+  ],
+  assertionMethod: [`${exampleDIDJwk}#0`],
+  verificationMethod: [
+    {
+      id: `${exampleDIDJwk}#0`,
+      type: 'JsonWebKey2020',
+      controller: exampleDIDJwk,
+      publicKeyJwk: {
+        kty: 'EC',
+        crv: 'secp256k1',
+        x: 'gKnNSP1Db4wfgbFW62FWGM1XPD6x5tk3oXuCIgJ8roU',
+        y: 'Cp9WHUFAAai979txPGGdLK8IoMllWwz0LeBlvFHgFpo',
+      },
+    },
+  ],
+  authentication: [`${exampleDIDJwk}#0`],
+  capabilityInvocation: [`${exampleDIDJwk}#0`],
+  capabilityDelegation: [`${exampleDIDJwk}#0`],
+  keyAgreement: [`${exampleDIDJwk}#0`],
+};
+
+export const exampleDIDJwkResolution: DIDResolutionResult = {
+  didDocumentMetadata: {},
+  didResolutionMetadata: {},
+  didDocument: exampleDIDJwkDocument,
+};
+
 export const exampleImportedDIDWIthoutPrivateKey: IIdentifier = {
   did: 'did:ethr:0x5:0xb6665128eE91D84590f70c3268765384A9CAfBCd',
   provider: 'did:ethr',
