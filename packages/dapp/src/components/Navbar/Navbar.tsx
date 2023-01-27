@@ -6,7 +6,8 @@ import ToggleTheme from '../ToggleTheme';
 import { NavBtn } from './NavBtn';
 import Button from '../Button';
 import DropdownMenu from '../MethodDropdownMenu';
-import logo from '../../images/ssi_icon_b.png';
+import logo_b from '../../images/ssi_icon_b.png';
+import logo_w from '../../images/ssi_icon_w.png';
 import ConnectButton from '../ConnectButton';
 
 export default function Navbar() {
@@ -27,9 +28,14 @@ export default function Navbar() {
       >
         <div className="flex">
           <Image
-            src={logo}
+            src={logo_b}
             alt="Masca Logo"
-            className="h-[24px] w-[24px] mobile:h-[36px] mobile:w-[36px] tablet:h-[46px] tablet:w-[46px] desktop:h-[48px] desktop:w-[48px] rounded-full object-center"
+            className="dark:hidden h-[24px] w-[24px] mobile:h-[36px] mobile:w-[36px] tablet:h-[46px] tablet:w-[46px] desktop:h-[48px] desktop:w-[48px] rounded-full object-center"
+          />
+          <Image
+            src={logo_w}
+            alt="Masca Logo"
+            className="hidden dark:block h-[24px] w-[24px] mobile:h-[36px] mobile:w-[36px] tablet:h-[46px] tablet:w-[46px] desktop:h-[48px] desktop:w-[48px] rounded-full object-center"
           />
           <h1 className="mx-1 font-ubuntu text-h4 mobile:text-h2 tablet:text-h1 hover:text-orange dark:text-orange dark:hover:text-white animated-transition">
             Masca
@@ -44,32 +50,34 @@ export default function Navbar() {
         </div>
       )}
       <div className="hidden md:block">
-        {hasMM && hasFlask && (
-          <div className="flex justify-between">
-            {router.pathname !== '/' && (
-              <>
-                {isConnected ? (
-                  <div className="flex justify-center items-center">
-                    <DropdownMenu />
-                    <Button
-                      className="btn-primary"
-                      onClick={() => {
-                        changeIsConnected(false);
-                      }}
-                    >
-                      {`${address.slice(0, 6)}...${address.slice(-4)}`}
-                    </Button>
-                  </div>
-                ) : (
-                  <div className="flex m-auto">
-                    <ConnectButton />
-                  </div>
-                )}
-              </>
-            )}
-            <ToggleTheme />
-          </div>
-        )}
+        <div className="flex justify-between">
+          {hasMM && hasFlask && (
+            <>
+              {router.pathname !== '/' && (
+                <>
+                  {isConnected ? (
+                    <div className="flex justify-center items-center">
+                      <DropdownMenu />
+                      <Button
+                        className="btn-primary"
+                        onClick={() => {
+                          changeIsConnected(false);
+                        }}
+                      >
+                        {`${address.slice(0, 6)}...${address.slice(-4)}`}
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="flex m-auto">
+                      <ConnectButton />
+                    </div>
+                  )}
+                </>
+              )}
+            </>
+          )}
+          <ToggleTheme />
+        </div>
       </div>
     </div>
   );
