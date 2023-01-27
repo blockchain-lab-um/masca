@@ -341,6 +341,7 @@ importers:
       hook-shell-script-webpack-plugin: ^0.1.4
       is-ci: ^3.0.1
       jest: ^29.3.1
+      js-sha256: ^0.9.0
       json-loader: ^0.5.7
       jsonpath: ^1.1.1
       key-did-provider-ed25519: ^2.0.1
@@ -401,6 +402,7 @@ importers:
       ethers: 5.7.2
       ethr-did: 2.3.6
       ethr-did-resolver: 8.0.0
+      js-sha256: 0.9.0
       json-loader: 0.5.7
       jsonpath: 1.1.1
       key-did-provider-ed25519: 2.0.1
@@ -10820,7 +10822,7 @@ packages:
       micromatch: 4.0.5
       normalize-path: 3.0.0
       schema-utils: 4.0.0
-      webpack: 5.75.0
+      webpack: 5.75.0_webpack-cli@5.0.1
     dev: true
 
   /eslint/8.32.0:
@@ -18920,7 +18922,7 @@ packages:
       schema-utils: 3.1.1
       serialize-javascript: 6.0.1
       terser: 5.16.1
-      webpack: 5.75.0
+      webpack: 5.75.0_webpack-cli@5.0.1
 
   /terser/5.16.1:
     resolution: {integrity: sha512-xvQfyfA1ayT0qdK47zskQgRZeWLoOQ8JQ6mIgRGVNwZKdQMU+5FkCBjmv4QjcrTzyZquRw2FVtlJSRUmMKQslw==}

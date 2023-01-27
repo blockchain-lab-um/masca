@@ -1,6 +1,6 @@
 import MetaMaskGateway from '../../components/MetaMaskGateway';
 import { Controlbar } from './Controlbar';
-import { Table } from './Table';
+import Table from '../../components/VCTable';
 import { useGeneralStore, useSnapStore } from '../../utils/store';
 import Title from '../../components/Title';
 

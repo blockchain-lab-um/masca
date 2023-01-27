@@ -12,10 +12,13 @@ import {
   useReactTable,
   getCoreRowModel,
   createColumnHelper,
+  getSortedRowModel,
+  SortingState,
   flexRender,
 } from '@tanstack/react-table';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import { useSnapStore, useGeneralStore } from '../../utils/store';
+import { VC_DATA } from './data';
 
 type VC = {
   id: string;
@@ -31,19 +34,16 @@ export const Table = () => {
   const vcs = useSnapStore((state) => state.vcs);
   const changeVcs = useSnapStore((state) => state.changeVcs);
   const api = useSnapStore((state) => state.snapApi);
-  const data = React.useMemo(() => vcs, []);
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  // const data = React.useMemo(() => vcs, []);
 
   const columnHelper = createColumnHelper<QueryVCsRequestResult>();
 
   const columns = [
-    columnHelper.accessor((row) => row.metadata.id, {
+    columnHelper.accessor((row) => Date.parse(row.data.issuanceDate), {
       id: 'id',
-      cell: (info) => (
-        <span>{`${info.getValue().slice(0, 5)}....${info
-          .getValue()
-          .slice(-5)}`}</span>
-      ),
-      header: () => <span>ID</span>,
+      cell: (info) => <span>{info.getValue()}</span>,
+      header: () => <span>Issuance Date</span>,
     }),
     columnHelper.accessor(
       (row) => {
@@ -107,18 +107,21 @@ export const Table = () => {
         header: () => <span>Attributes</span>,
       }
     ),
-    columnHelper.accessor((row) => row.metadata.id, {
-      id: 'status',
-      cell: (info) => <span>Valid</span>,
-      header: () => <span>Status</span>,
-    }),
-    columnHelper.accessor((row) => row.metadata.id, {
+    columnHelper.accessor(
+      (row) => {
+        if (row.data.expirationDate)
+          return (Date.now() < Date.parse(row.data.expirationDate)).toString();
+        return 'true';
+      },
+      {
+        id: 'status',
+        cell: (info) => <span>{info.getValue()}</span>,
+        header: () => <span>Status</span>,
+      }
+    ),
+    columnHelper.accessor((row) => row.metadata.store, {
       id: 'data_store',
-      cell: (info) => (
-        <span>{`${info.getValue().slice(0, 5)}....${info
-          .getValue()
-          .slice(-5)}`}</span>
-      ),
+      cell: (info) => <span>{info.getValue()}</span>,
       header: () => <span>Data Store</span>,
     }),
     columnHelper.display({
@@ -134,8 +137,11 @@ export const Table = () => {
   ];
 
   const table = useReactTable({
-    data,
+    data: VC_DATA,
     columns,
+    state: { sorting },
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
     getCoreRowModel: getCoreRowModel(),
   });
 
@@ -168,13 +174,20 @@ export const Table = () => {
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <th key={header.id}>
+                <th
+                  key={header.id}
+                  onClick={header.column.getToggleSortingHandler()}
+                >
                   {header.isPlaceholder
                     ? null
                     : flexRender(
                         header.column.columnDef.header,
                         header.getContext()
                       )}
+                  {{
+                    asc: ' A',
+                    desc: ' D',
+                  }[header.column.getIsSorted() as string] ?? null}
                 </th>
               ))}
             </tr>

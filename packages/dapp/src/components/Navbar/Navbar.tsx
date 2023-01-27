@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { useGeneralStore } from 'src/utils/store';
 import Link from 'next/link';
+import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import ToggleTheme from '../ToggleTheme';
 import { NavBtn } from './NavBtn';
 import Button from '../Button';
@@ -63,7 +64,10 @@ export default function Navbar() {
                           changeIsConnected(false);
                         }}
                       >
-                        {`${address.slice(0, 6)}...${address.slice(-4)}`}
+                        <div className="flex">
+                          {`${address.slice(0, 6)}...${address.slice(-4)}`}
+                          <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" />
+                        </div>
                       </Button>
                     </div>
                   ) : (
