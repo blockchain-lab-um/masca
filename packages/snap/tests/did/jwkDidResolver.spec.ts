@@ -5,14 +5,9 @@ import {
   getDefaultSnapState,
   exampleDIDJwk,
   exampleDIDJwkResolution,
-  exampleDIDJwkIdentifier,
-  exampleDIDJwkDocument,
 } from '../testUtils/constants';
 import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
-import {
-  getDidJwkResolver as resolveDidJwk,
-  resolveSecp256k1,
-} from '../../src/did/jwk/jwkDidResolver';
+import { getDidJwkResolver as resolveDidJwk } from '../../src/did/jwk/jwkDidResolver';
 import * as snapUtils from '../../src/utils/snapUtils';
 
 jest
@@ -57,30 +52,18 @@ describe('jwkDidResolver', () => {
         },
         {}
       );
-      expect(didRes.didDocument).toEqual(exampleDIDJwkDocument);
-      expect.assertions(1);
-    });
-    it('should return proper DID Document', async () => {
-      snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
-
-      const didRes = await resolveSecp256k1(
-        snapMock,
-        address,
-        exampleDIDJwkIdentifier
-      );
-
-      expect(didRes).toEqual(exampleDIDJwkResolution.didDocument);
+      expect(didRes).toEqual(exampleDIDJwkResolution);
       expect.assertions(1);
     });
     it('should fail', async () => {
       snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
 
       const didRes = await resolveDidJwk().jwk(
-        '12345',
+        'did:jwk:eyJ0ZXN0IjoidGVzdCJ9',
         {
-          did: 'did:jwk:12345',
-          method: 'key',
-          didUrl: '12345',
+          did: 'did:jwk:eyJ0ZXN0IjoidGVzdCJ9',
+          method: 'jwk',
+          didUrl: 'eyJ0ZXN0IjoidGVzdCJ9#0',
           id: '',
         },
         {
@@ -99,7 +82,7 @@ describe('jwkDidResolver', () => {
         didDocumentMetadata: {},
         didResolutionMetadata: {
           error: 'invalidDid',
-          message: 'Error: Invalid DID',
+          message: 'Error: Invalid DID identifier',
         },
         didDocument: null,
       });

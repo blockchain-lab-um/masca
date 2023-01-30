@@ -6,59 +6,91 @@ import {
   DIDResolver,
   ParsedDID,
   Resolvable,
-  VerificationMethod,
   JsonWebKey,
 } from 'did-resolver';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { decodeBase64url } from '@veramo/utils';
-import {
-  base64urlEncode,
-  getCurrentAccount,
-  getPublicKey,
-} from '../../utils/snapUtils';
-import { getSnapState } from '../../utils/stateUtils';
-import { generateJWKfromKey } from './jwkDidUtils';
+import { createTypeGuard, hasProperties } from 'create-typeguard';
+import { base64urlEncode } from '../../utils/snapUtils';
 
-function generateDidDocument(jwk: JsonWebKey): DIDDocument {
-  const did = `did:jwk:${base64urlEncode(JSON.stringify(jwk))}`;
-  const didDocument: DIDDocument = {
-    id: did,
-    '@context': [
-      'https://www.w3.org/ns/did/v1',
-      'https://w3id.org/security/suites/jws-2020/v1',
-    ],
-    verificationMethod: [
-      {
-        id: `${did}#0`,
-        type: 'JsonWebKey2020',
-        controller: did,
-        publicKeyJwk: jwk,
-      },
-    ],
-    assertionMethod: [`${did}#0`],
-    authentication: [`${did}#0`],
-    capabilityInvocation: [`${did}#0`],
-    capabilityDelegation: [`${did}#0`],
-    keyAgreement: [`${did}#0`],
-  };
-  return didDocument;
+const isJWK = createTypeGuard<JsonWebKey>((data) => {
+  if (
+    typeof data === 'object' &&
+    data &&
+    hasProperties(data, 'crv', 'kty', 'x', 'y')
+  ) {
+    const { crv, kty, x, y } = data;
+    if (
+      typeof crv === 'string' &&
+      typeof kty === 'string' &&
+      typeof x === 'string' &&
+      typeof y === 'string'
+    ) {
+      return { crv, kty, x, y };
+    }
+  }
+  return null;
+});
+
+function generateDidDocument(jwk: JsonWebKey): Promise<DIDDocument> {
+  return new Promise((resolve, reject) => {
+    try {
+      const did = `did:jwk:${base64urlEncode(JSON.stringify(jwk))}`;
+      const didDocument: DIDDocument = {
+        id: did,
+        '@context': [
+          'https://www.w3.org/ns/did/v1',
+          'https://w3id.org/security/suites/jws-2020/v1',
+        ],
+        verificationMethod: [
+          {
+            id: `${did}#0`,
+            type: 'JsonWebKey2020',
+            controller: did,
+            publicKeyJwk: jwk,
+          },
+        ],
+        assertionMethod: [`${did}#0`],
+        authentication: [`${did}#0`],
+        capabilityInvocation: [`${did}#0`],
+        capabilityDelegation: [`${did}#0`],
+        keyAgreement: [`${did}#0`],
+      };
+      resolve(didDocument);
+    } catch (error) {
+      reject(error);
+    }
+  });
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const resolveSecp256k1 = async (
+function parseDidJwkIdentifier(didIdentifier: string): JsonWebKey {
+  try {
+    const jwk = JSON.parse(decodeBase64url(didIdentifier)) as JsonWebKey;
+    if (!isJWK(jwk)) throw new Error();
+    return jwk;
+  } catch (error) {
+    throw new Error('Invalid DID identifier');
+  }
+}
+
+/* export const resolveSecp256k1 = async (
   snap: SnapsGlobalObject,
   account: string,
   didUrl: string
 ): Promise<DIDDocument> => {
   const state = await getSnapState(snap);
-  const publicKey = await getPublicKey({ snap, state, account });
+  const publicKey = await getPublicKey({
+    snap,
+    state,
+    account,
+    ethereum,
+  });
 
   const jwk = generateJWKfromKey({
     publicKeyHex: publicKey,
   } as VerificationMethod);
 
   return generateDidDocument(jwk);
-};
+}; */
 
 export const resolveDidJwk: DIDResolver = async (
   did: string,
@@ -67,14 +99,14 @@ export const resolveDidJwk: DIDResolver = async (
   options: DIDResolutionOptions
 ): Promise<DIDResolutionResult> => {
   try {
+    if (parsed.method !== 'jwk') throw Error('Invalid DID method');
+
     const didIdentifier = did.split('did:jwk:')[1];
     if (!didIdentifier) throw Error('Invalid DID');
-    const jwk = JSON.parse(decodeBase64url(didIdentifier)) as JsonWebKey;
 
-    const account = await getCurrentAccount(snap);
-    if (!account) throw Error('User denied error');
+    const jwk = parseDidJwkIdentifier(didIdentifier);
+    const didDocument = await generateDidDocument(jwk);
 
-    const didDocument = await resolveSecp256k1(snap, account, did);
     return {
       didDocumentMetadata: {},
       didResolutionMetadata: {},
