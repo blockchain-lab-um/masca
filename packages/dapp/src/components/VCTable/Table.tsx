@@ -24,7 +24,11 @@ import {
   ColumnFiltersState,
 } from '@tanstack/react-table';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
-import { useSnapStore, useGeneralStore } from '../../utils/store';
+import {
+  useSnapStore,
+  useGeneralStore,
+  useTableStore,
+} from '../../utils/store';
 import { VC_DATA } from './data';
 import { IndeterminateCheckbox } from './IndeterminateCheckbox';
 
@@ -33,14 +37,30 @@ export const Table = () => {
   const changeVcs = useSnapStore((state) => state.changeVcs);
   const api = useSnapStore((state) => state.snapApi);
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [rowSelection, setRowSelection] = React.useState({});
-  const [globalFilter, setGlobalFilter] = React.useState('');
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
+  const columnFilters = useTableStore((state) => state.columnFilters);
+  const globalFilter = useTableStore((state) => state.globalFilter);
+  const setColumnFilters = useTableStore((state) => state.setColumnFilters);
+  const setGlobalFilter = useTableStore((state) => state.setGlobalFilter);
+
   // const data = React.useMemo(() => vcs, []);
 
   const columnHelper = createColumnHelper<QueryVCsRequestResult>();
+
+  const includesDataStore: FilterFn<any> = (row, columnId, value, addMeta) => {
+    // Rank the item
+    const item = row.getValue('data_store');
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const itemArr = (item as string).split(',');
+
+    let matching = false;
+    for (let i = 0; i < value.length; i += 1) {
+      if (itemArr.indexOf(value[i]) >= 0) {
+        matching = true;
+      }
+    }
+    return matching;
+  };
 
   const columns = [
     columnHelper.accessor((row) => Date.parse(row.data.issuanceDate), {
@@ -133,6 +153,7 @@ export const Table = () => {
         cell: (info) => <span>{info.getValue()}</span>,
         header: () => <span>Data Store</span>,
         enableGlobalFilter: false,
+        filterFn: includesDataStore,
       }
     ),
     columnHelper.display({
@@ -167,41 +188,16 @@ export const Table = () => {
     }),
   ];
 
-  const includesDataStore: FilterFn<any> = (row, columnId, value, addMeta) => {
-    // Rank the item
-    const item = row.getValue('data_store');
-
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const itemArr = (item as string).split(',');
-    const valueArr = (value as string).split(',');
-
-    const sortedItemArr = itemArr.sort(function (a, b) {
-      if (a > b) {
-        return -1;
-      }
-      if (b > a) {
-        return 1;
-      }
-      return 0;
-    });
-    const sortedValueArr = valueArr.sort(function (a, b) {
-      if (a > b) {
-        return -1;
-      }
-      if (b > a) {
-        return 1;
-      }
-      return 0;
-    });
-    return JSON.stringify(sortedItemArr) === JSON.stringify(sortedValueArr);
-  };
-
   const table = useReactTable({
     data: VC_DATA,
     columns,
     filterFns: { includesDataStore },
     globalFilterFn: 'includesString',
-    state: { sorting, globalFilter, columnFilters },
+    state: {
+      sorting,
+      globalFilter,
+      columnFilters,
+    },
     initialState: { pagination: { pageSize: 5 } },
     enableGlobalFilter: true,
     onSortingChange: setSorting,
@@ -230,7 +226,7 @@ export const Table = () => {
     return (
       <div className="flex flex-col justify-center items-center h-full ">
         Load VCs to get Started!
-        <Button variant="primary" onClick={handleLoadVcs}>
+        <Button variant="primary" size="lg" onClick={handleLoadVcs}>
           Load VCs
         </Button>
       </div>
@@ -238,27 +234,6 @@ export const Table = () => {
 
   return (
     <>
-      <div>
-        <input
-          value={globalFilter ?? ''}
-          onChange={(e) => {
-            setGlobalFilter(e.target.value);
-            // table.setGlobalFilter(e.target.value);
-          }}
-          className="p-2 font-lg shadow border border-block"
-          placeholder="Search all columns..."
-        />
-      </div>
-      <div>
-        <input
-          value={globalFilter ?? ''}
-          onChange={(e) => {
-            setColumnFilters([{ id: 'data_store', value: e.target.value }]);
-          }}
-          className="p-2 font-lg shadow border border-block"
-          placeholder="Search datastore..."
-        />
-      </div>
       <table>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (

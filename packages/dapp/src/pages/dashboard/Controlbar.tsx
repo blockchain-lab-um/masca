@@ -1,5 +1,12 @@
 import React from 'react';
+import DataStoreCombobox from '../../components/VCTable/DataStoreCombobox';
+import GlobalFilter from '../../components/VCTable/GlobalFilter';
 
 export const Controlbar = () => {
-  return <div className="bg-pink p-4 mb-2">Control bar</div>;
+  return (
+    <div className="grid grid-flow-col my-2">
+      <DataStoreCombobox />
+      <GlobalFilter />
+    </div>
+  );
 };

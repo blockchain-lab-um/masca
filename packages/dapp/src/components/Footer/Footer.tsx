@@ -18,7 +18,7 @@ export const Footer = () => {
     <div
       className={`${
         router.pathname === '/' ? 'hidden' : ''
-      } flex justify-between items-center mt-auto px-5 py-2 bg-orange/10 md:hidden`}
+      } flex justify-between items-center mt-auto px-5 py-2 bg-orange-500/10 md:hidden`}
     >
       {hasFlask && hasMM && (
         <>

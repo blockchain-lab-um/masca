@@ -35,7 +35,7 @@ export default function Navbar() {
               alt="Masca Logo"
               className="hidden dark:block h-[24px] w-[24px] sm:h-[36px] sm:w-[36px] lg:h-[46px] lg:w-[46px] xl:h-[48px] xl:w-[48px] rounded-full object-center"
             />
-            <h1 className="mx-1 font-ubuntu text-h4 sm:text-h2 lg:text-h1 hover:text-orange dark:text-orange dark:hover:text-white animated-transition">
+            <h1 className="mx-1 font-ubuntu text-h4 sm:text-h2 lg:text-h1 hover:text-orange-500 dark:text-orange-500 dark:hover:text-white animated-transition">
               Masca
             </h1>
           </div>

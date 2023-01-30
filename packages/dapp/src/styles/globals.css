@@ -56,7 +56,7 @@ body {
   }
 
   .bg-gradient {
-    @apply bg-gradient-to-t from-pink-20 to-orange-20 text-black dark:bg-gradient-to-t dark:from-black dark:to-black dark:text-white;
+    @apply bg-gradient-to-t from-pink-100 to-orange-100 text-black dark:bg-gradient-to-t dark:from-black dark:to-black dark:text-white;
   }
 
   .bg-svg {
@@ -77,19 +77,19 @@ body {
   }
 
   .btn-primary {
-    @apply bg-gradient-to-b to-pink from-orange btn hover:bg-gradient-to-b hover:opacity-80 text-white rounded-full animated-transition;
+    @apply bg-gradient-to-b to-pink-500 from-orange-500 btn hover:bg-gradient-to-b hover:opacity-80 text-white rounded-full animated-transition;
   }
 
   .btn-primary-sm {
-    @apply bg-gradient-to-b to-pink from-orange btn-sm hover:bg-gradient-to-b hover:opacity-80 text-white rounded-full animated-transition;
+    @apply bg-gradient-to-b to-pink-500 from-orange-500 btn-sm hover:bg-gradient-to-b hover:opacity-80 text-white rounded-full animated-transition;
   }
 
   .btn-primary-active {
-    @apply text-h4  text-orange outline outline-orange rounded-full;
+    @apply text-h4  text-orange-500 outline outline-orange-500 rounded-full;
   }
 
   .btn-secondary {
-    @apply bg-navy-blue text-white btn hover:opacity-80  rounded-full animated-transition;
+    @apply bg-navy-blue-500 text-white btn hover:opacity-80  rounded-full animated-transition;
   }
 
   .btn-secondary-sm {
@@ -97,19 +97,19 @@ body {
   }
 
   .btn-secondary-active {
-    @apply text-h4 btn text-navy-blue  outline outline-navy-blue rounded-full;
+    @apply text-h4 btn text-navy-blue-500  outline outline-navy-blue-500 rounded-full;
   }
 
   .btn-connect {
-    @apply btn bg-orange/30 text-orange hover:opacity-80  rounded-full animated-transition;
+    @apply btn bg-orange-500/30 text-orange-500 hover:opacity-80  rounded-full animated-transition;
   }
 
   .nav-btn {
-    @apply relative h-fit lg:text-h4 sm:text-h5 text-h6 mx-1 sm:mx-2 lg:mx-4 hover:text-orange animated-transition tracking-[1px];
+    @apply relative h-fit lg:text-h4 sm:text-h5 text-h6 mx-1 sm:mx-2 lg:mx-4 hover:text-orange-500 animated-transition tracking-[1px];
   }
 
   .nav-btn::after {
-    @apply content-[''] bg-orange h-[0.125em] w-[0%] left-0 -bottom-[0.375em] rounded-xl absolute duration-300;
+    @apply content-[''] bg-orange-500 h-[0.125em] w-[0%] left-0 -bottom-[0.375em] rounded-xl absolute duration-300;
   }
 
   .nav-btn:hover::after {
