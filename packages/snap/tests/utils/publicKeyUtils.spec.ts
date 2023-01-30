@@ -11,8 +11,8 @@ const key: VerificationMethod = {
   //   x: "QFPDKUjfamaqQL9fK_cgpfZx-eMKNnqPGev2dInNcF0",
   //   y: "WtE4kmX3RyTM05ZsTEGP6wqQ_mjdojLMOELIXTk_CMI",
   // },
-  //publicKeyBase64: "AkBTwylI32pmqkC/Xyv3IKX2cfnjCjZ6jxnr9nSJzXBd",
-  //publicKeyBase58: "fnjuzspU71FGvxW9qc2u6QENei4vpodL1qiVN49bFhUG",
+  // publicKeyBase64: "AkBTwylI32pmqkC/Xyv3IKX2cfnjCjZ6jxnr9nSJzXBd",
+  // publicKeyBase58: "fnjuzspU71FGvxW9qc2u6QENei4vpodL1qiVN49bFhUG",
   publicKeyHex:
     '026d42037b127c77646a9876b4f4791aff1707ad122d447a653f9509001ad1ad5c',
 };
@@ -22,7 +22,6 @@ describe('Utils [public key]', () => {
     it('should create JWK object', () => {
       const jwk = generateJWKfromKey(key);
       expect(jwk).toBeDefined();
-      console.log(jwk);
       expect(jwk.crv).toBe('secp256k1');
       expect(jwk.kty).toBe('EC');
       expect(typeof jwk.x).toBe('string');

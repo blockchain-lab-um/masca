@@ -1,5 +1,6 @@
 import { VerificationMethod, type JsonWebKey } from 'did-resolver';
 import { hexToBytes, bytesToHex, bytesToBase64url } from '@veramo/utils';
+import { ec as EC } from 'elliptic';
 import { extractPublicKeyBytes } from '../../utils/publicKeyUtils';
 import { SSISnapState } from '../../interfaces';
 import {
@@ -7,12 +8,11 @@ import {
   getCompressedPublicKey,
   base64urlEncode,
 } from '../../utils/snapUtils';
-import elliptic from 'elliptic';
 
 function createJWK(
   pubKey: string | Uint8Array | Buffer | number[]
 ): JsonWebKey {
-  const ec = new elliptic.ec('secp256k1');
+  const ec = new EC('secp256k1');
   const pk = ec.keyFromPublic(pubKey, 'hex');
   const pubPoint = pk.getPublic();
   const x = pubPoint.getX();
@@ -68,5 +68,5 @@ export function getDidJwkIdentifier(
 }
 
 export function getJwkDidUrl(did: string) {
-  return did + '#0';
+  return `${did}#0`;
 }

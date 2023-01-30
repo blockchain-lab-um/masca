@@ -5,12 +5,12 @@ import {
   AvailableVCStores,
 } from '@blockchain-lab-um/ssi-snap-types';
 import { DIDResolutionResult } from 'did-resolver';
+import { getDidJwkIdentifier } from '../did/jwk/jwkDidUtils';
 import { getDidKeyIdentifier } from '../did/key/keyDidUtils';
 import { SSISnapState } from '../interfaces';
 import { getCurrentNetwork } from './snapUtils';
 import { updateSnapState } from './stateUtils';
 import { getDidPkhIdentifier } from '../did/pkh/pkhDidUtils';
-import { getDidJwkIdentifier } from 'src/did/jwk/jwkDidUtils';
 
 export async function changeCurrentVCStore(
   snap: SnapsGlobalObject,
@@ -43,7 +43,7 @@ export async function getCurrentDid(
     return `did:pkh:${didUrl}`;
   }
   if (method === 'did:jwk') {
-    const didUrl = await getDidJwkIdentifier(state, account);
+    const didUrl = getDidJwkIdentifier(state, account);
     return `did:jwk:${didUrl}`;
   }
   return '';

@@ -10,7 +10,12 @@ export type AvailableVCStores = (typeof availableVCStores)[number];
 export const isAvailableVCStores = (x: string) =>
   isIn<AvailableVCStores[number]>(availableVCStores, x);
 
-export const availableMethods = ['did:ethr', 'did:key', 'did:pkh', 'did:jwk'] as const;
+export const availableMethods = [
+  'did:ethr',
+  'did:key',
+  'did:pkh',
+  'did:jwk',
+] as const;
 export type AvailableMethods = (typeof availableMethods)[number];
 export const isAvailableMethods = (x: string) =>
   isIn<AvailableMethods[number]>(availableMethods, x);

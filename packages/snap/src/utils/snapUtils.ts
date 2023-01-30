@@ -99,36 +99,26 @@ export async function getPublicKey(params: ApiParams): Promise<string> {
   return res.publicKey;
 }
 
-<<<<<<< HEAD
-export function getCompressedPublicKey(publicKey: string): string {
-  return _uint8ArrayToHex(
-    publicKeyConvert(_hexToUint8Array(publicKey.split('0x')[1]), true)
-  );
-}
-
-export function getUncompressedPublicKey(publicKey: string): string {
-  return _uint8ArrayToHex(publicKeyConvert(_hexToUint8Array(publicKey), false));
-}
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function _uint8ArrayToHex(arr: any) {
+export function uint8ArrayToHex(arr: Uint8Array): string {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-=======
-export function uint8ArrayToHex(arr: Uint8Array) {
->>>>>>> 1ca018683d9c42bfca7172b686b256b26b733f8d
   return Buffer.from(arr).toString('hex');
 }
 
 export function hexToUint8Array(str: string): Uint8Array {
   return new Uint8Array(Buffer.from(str, 'hex'));
 }
+
+export function getUncompressedPublicKey(publicKey: string): string {
+  return uint8ArrayToHex(publicKeyConvert(hexToUint8Array(publicKey), false));
+}
+
 export function getCompressedPublicKey(publicKey: string): string {
   return uint8ArrayToHex(
     publicKeyConvert(hexToUint8Array(publicKey.split('0x')[1]), true)
   );
 }
 
-<<<<<<< HEAD
 export function base64urlEncode(str: string): string {
   return Buffer.from(str).toString('base64url');
 }
@@ -137,19 +127,14 @@ export function base64urlDecode(str: string): string {
   return Buffer.from(str, 'base64url').toString('utf8');
 }
 
-/*export function keccak(data: Uint8Array): Uint8Array {
-  return new Uint8Array(sha3.keccak_256.arrayBuffer(data));
-}*/
-
 export function toEthereumAddress(hexPublicKey: string): string {
-  return keccak256(_hexToUint8Array(hexPublicKey)).slice(26);
+  return keccak256(hexToUint8Array(hexPublicKey)).slice(26);
 }
 
-export async function snapConfirm(
-=======
 export function snapConfirm(
->>>>>>> 1ca018683d9c42bfca7172b686b256b26b733f8d
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   snap: SnapsGlobalObject,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   params: SnapConfirmParams
 ): boolean {
   // return (await snap.request({

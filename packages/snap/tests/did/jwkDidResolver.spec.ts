@@ -1,4 +1,5 @@
 import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { DIDResolutionOptions, DIDResolutionResult } from 'did-resolver';
 import {
   address,
   getDefaultSnapState,
@@ -12,7 +13,6 @@ import {
   getDidJwkResolver as resolveDidJwk,
   resolveSecp256k1,
 } from '../../src/did/jwk/jwkDidResolver';
-import { DIDResolutionOptions, DIDResolutionResult } from 'did-resolver';
 import * as snapUtils from '../../src/utils/snapUtils';
 
 jest
@@ -46,10 +46,12 @@ describe('jwkDidResolver', () => {
           id: '',
         },
         {
-          resolve: function (
+          resolve: (
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             didUrl: string,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             options?: DIDResolutionOptions | undefined
-          ): Promise<DIDResolutionResult> {
+          ): Promise<DIDResolutionResult> => {
             throw new Error('Function not implemented.');
           },
         },
@@ -82,10 +84,12 @@ describe('jwkDidResolver', () => {
           id: '',
         },
         {
-          resolve: function (
+          resolve: (
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             didUrl: string,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             options?: DIDResolutionOptions | undefined
-          ): Promise<DIDResolutionResult> {
+          ): Promise<DIDResolutionResult> => {
             throw new Error('Function not implemented.');
           },
         },

@@ -9,15 +9,15 @@ import {
   VerificationMethod,
   JsonWebKey,
 } from 'did-resolver';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { decodeBase64url } from '@veramo/utils';
 import {
   base64urlEncode,
   getCurrentAccount,
   getPublicKey,
 } from '../../utils/snapUtils';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { getSnapState } from '../../utils/stateUtils';
 import { generateJWKfromKey } from './jwkDidUtils';
-import { decodeBase64url } from '@veramo/utils';
 
 function generateDidDocument(jwk: JsonWebKey): DIDDocument {
   const did = `did:jwk:${base64urlEncode(JSON.stringify(jwk))}`;
@@ -78,7 +78,7 @@ export const resolveDidJwk: DIDResolver = async (
     return {
       didDocumentMetadata: {},
       didResolutionMetadata: {},
-      didDocument: didDocument,
+      didDocument,
     } as DIDResolutionResult;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

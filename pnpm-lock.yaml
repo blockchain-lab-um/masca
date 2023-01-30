@@ -282,6 +282,7 @@ importers:
       '@metamask/snaps-cli': ^0.27.1
       '@metamask/snaps-types': ^0.27.1
       '@metamask/snaps-webpack-plugin': ^0.27.1
+      '@types/elliptic': ^6
       '@types/jest': ^29.2.6
       '@types/jsonpath': ^0.2.0
       '@types/lodash.clonedeep': ^4.5.7
@@ -313,6 +314,7 @@ importers:
       did-resolver: 4.0.1
       did-session: 1.0.0
       dids: ^3.4.0
+      elliptic: ^6.5.4
       eslint: ^8.32.0
       eslint-config-prettier: ^8.6.0
       eslint-plugin-import: ^2.27.5
@@ -383,6 +385,7 @@ importers:
       did-resolver: 4.0.1
       did-session: 1.0.0
       dids: 3.4.0
+      elliptic: 6.5.4
       eth-sig-util: 3.0.1
       ethers: 5.7.2
       ethr-did: 2.3.6
@@ -409,6 +412,7 @@ importers:
       '@commitlint/config-conventional': 17.4.2
       '@metamask/snaps-cli': 0.27.1
       '@metamask/snaps-webpack-plugin': 0.27.1
+      '@types/elliptic': 6.4.14
       '@types/jest': 29.2.6
       '@types/jsonpath': 0.2.0
       '@types/lodash.clonedeep': 4.5.7
@@ -5887,7 +5891,6 @@ packages:
     resolution: {integrity: sha512-qNrYbZqMx0uJAfKnKclPh+dTwK33KfLHYqtyODwd5HnXOjnkhc4qgn3BrK6RWyGZm5+sIFE7Q7Vz6QQtJB7w7g==}
     dependencies:
       '@types/node': 18.11.18
-    dev: false
 
   /@types/body-parser/1.19.2:
     resolution: {integrity: sha512-ALYone6pm6QmwZoAgeyNksccT9Q4AWZQ6PvfwR37GT6r6FWUPguq6sUmNGSMV2Wr761oQoBxwGGa6DR5o1DC9g==}
@@ -5936,6 +5939,12 @@ packages:
     resolution: {integrity: sha512-9AonUzyTjXXhEOa0DnqpzZi6VHlqKMswga9EXjpXnnqxwLtdvPPtlO8evrI5D9S6asFRCQ6v+wpiUKbw+vKqyg==}
     dependencies:
       '@types/ms': 0.7.31
+
+  /@types/elliptic/6.4.14:
+    resolution: {integrity: sha512-z4OBcDAU0GVwDTuwJzQCiL6188QvZMkvoERgcVjq0/mPM8jCfdwZ3x5zQEVoL9WCAru3aG5wl3Z5Ww5wBWn7ZQ==}
+    dependencies:
+      '@types/bn.js': 5.1.1
+    dev: true
 
   /@types/eslint-scope/3.7.4:
     resolution: {integrity: sha512-9K4zoImiZc3HlIp6AVUDE4CWYx22a+lhSZMYNpbjW04+YF0KWj4pJXnEMjdnFTiQibFFmElcsasJXDbdI/EPhA==}

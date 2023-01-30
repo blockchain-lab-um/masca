@@ -1,5 +1,6 @@
+/* eslint-disable no-else-return */
 import { VerificationMethod } from 'did-resolver';
-import elliptic from 'elliptic';
+import { ec as EC } from 'elliptic';
 import { bases } from 'multiformats/basics';
 import {
   hexToBytes,
@@ -12,6 +13,7 @@ export function extractPublicKeyBytes(pk: VerificationMethod): Uint8Array {
   if (pk.publicKeyBase58) {
     return base58ToBytes(pk.publicKeyBase58);
   } else if (pk.publicKeyMultibase) {
+    // eslint-disable-next-line @typescript-eslint/dot-notation
     return bases['base58btc'].decode(pk.publicKeyMultibase);
   } else if (pk.publicKeyBase64) {
     return base64ToBytes(pk.publicKeyBase64);
@@ -23,7 +25,7 @@ export function extractPublicKeyBytes(pk: VerificationMethod): Uint8Array {
     pk.publicKeyJwk.x &&
     pk.publicKeyJwk.y
   ) {
-    const secp256k1 = new elliptic.ec('secp256k1');
+    const secp256k1 = new EC('secp256k1');
     return hexToBytes(
       secp256k1
         .keyFromPublic({
