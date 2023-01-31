@@ -52,6 +52,8 @@ module.exports = {
       'navy-blue-300': '#7c859f',
       'navy-blue-200': '#a8aebf',
       'navy-blue-100': '#d3d6df',
+      'green-500': '#00C48C',
+      'red-500': '#FF4D4F',
     },
     boxShadow: {
       sm: '0px 2px 4px 0px rgba(11, 10, 55, 0.15)',

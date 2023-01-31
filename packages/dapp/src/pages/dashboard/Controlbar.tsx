@@ -4,7 +4,7 @@ import GlobalFilter from '../../components/VCTable/GlobalFilter';
 
 export const Controlbar = () => {
   return (
-    <div className="grid grid-flow-col my-2">
+    <div className="flex gap-x-2 justify-start my-2">
       <DataStoreCombobox />
       <GlobalFilter />
     </div>

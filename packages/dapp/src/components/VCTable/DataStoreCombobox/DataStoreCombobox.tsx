@@ -40,9 +40,9 @@ export const DataStoreCombobox = () => {
       >
         {({ open }) => (
           <div className="relative">
-            <div className="relative  w-full cursor-default rounded-full overflow-hidden focus:outline-none bg-white text-left shadow-md focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
+            <div className="relative  w-full cursor-default rounded-full overflow-hidden focus:outline-none bg-whitetext-left shadow-md focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm">
               <Combobox.Input
-                className="w-full placeholder:text-orange-200 border-none py-2 pl-3 pr-10 text-sm leading-5 focus:outline-none text-orange-500 focus:ring-0"
+                className="w-full placeholder:text-orange-200 border-none py-2 pl-3 pr-8 text-sm leading-5 focus:outline-none dark:bg-gray-800 text-orange-500 focus:ring-0"
                 displayValue={(value) => {
                   if (value === undefined) return '';
                   if (typeof value === 'string') return value;
@@ -71,7 +71,7 @@ export const DataStoreCombobox = () => {
               leaveTo="opacity-0"
               afterLeave={() => setQuery('')}
             >
-              <Combobox.Options className="absolute mt-1 max-h-60 w-full py-2 shadow-sm overflow-auto rounded-xl bg-white text-base ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+              <Combobox.Options className="absolute mt-1 max-h-60 z-50 w-full py-2 shadow-sm overflow-auto rounded-xl bg-white text-base ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                 {filteredDataStores.map((data_store, id) => (
                   <Combobox.Option
                     key={id}

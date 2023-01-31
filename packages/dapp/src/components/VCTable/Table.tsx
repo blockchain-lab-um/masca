@@ -21,16 +21,27 @@ import {
   getFacetedMinMaxValues,
   getFacetedUniqueValues,
   FilterFn,
-  ColumnFiltersState,
 } from '@tanstack/react-table';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import {
-  useSnapStore,
-  useGeneralStore,
-  useTableStore,
-} from '../../utils/store';
+  MinusCircleIcon,
+  XCircleIcon,
+  CheckCircleIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+} from '@heroicons/react/20/solid';
+
+import {
+  PlusCircleIcon,
+  MinusCircleIcon as MinusCircleOutline,
+  TrashIcon,
+  ShareIcon,
+  ArrowDownTrayIcon,
+} from '@heroicons/react/24/outline';
+import { useSnapStore, useTableStore } from '../../utils/store';
 import { VC_DATA } from './data';
-import { IndeterminateCheckbox } from './IndeterminateCheckbox';
+import TablePagination from './TablePagination';
+import InfoIcon from '../InfoIcon';
 
 export const Table = () => {
   const vcs = useSnapStore((state) => state.vcs);
@@ -39,9 +50,6 @@ export const Table = () => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const columnFilters = useTableStore((state) => state.columnFilters);
   const globalFilter = useTableStore((state) => state.globalFilter);
-  const setColumnFilters = useTableStore((state) => state.setColumnFilters);
-  const setGlobalFilter = useTableStore((state) => state.setGlobalFilter);
-
   // const data = React.useMemo(() => vcs, []);
 
   const columnHelper = createColumnHelper<QueryVCsRequestResult>();
@@ -64,9 +72,9 @@ export const Table = () => {
 
   const columns = [
     columnHelper.accessor((row) => Date.parse(row.data.issuanceDate), {
-      id: 'id',
+      id: 'date',
       cell: (info) => <span>{new Date(info.getValue()).toDateString()}</span>,
-      header: () => <span>Issuance Date</span>,
+      header: () => <span>ISSUANCE DATE</span>,
       enableGlobalFilter: false,
     }),
     columnHelper.accessor(
@@ -89,7 +97,7 @@ export const Table = () => {
         id: 'type',
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         cell: (info) => <span>{info.getValue().toString()}</span>,
-        header: () => <span>Type</span>,
+        header: () => <span>TYPE</span>,
       }
     ),
     columnHelper.accessor(
@@ -103,7 +111,7 @@ export const Table = () => {
             .getValue()
             .slice(-4)}`}</span>
         ),
-        header: () => <span>Holder</span>,
+        header: () => <span>HOLDER</span>,
       }
     ),
     columnHelper.accessor(
@@ -120,7 +128,7 @@ export const Table = () => {
             .getValue()
             .slice(-4)}`}</span>
         ),
-        header: () => <span>Issuer</span>,
+        header: () => <span>ISSUER</span>,
       }
     ),
     columnHelper.accessor(
@@ -128,7 +136,7 @@ export const Table = () => {
       {
         id: 'attributes',
         cell: (info) => <span>{info.getValue()}</span>,
-        header: () => <span>Attributes</span>,
+        header: () => <span>No. ATTRIBUTES</span>,
       }
     ),
     columnHelper.accessor(
@@ -139,8 +147,20 @@ export const Table = () => {
       },
       {
         id: 'status',
-        cell: (info) => <span>{info.getValue()}</span>,
-        header: () => <span>Status</span>,
+        cell: (info) => (
+          <span className="flex justify-center items-center">
+            {info.getValue() === 'true' ? (
+              <CheckCircleIcon className="h-6 w-6 text-green-500" />
+            ) : (
+              <MinusCircleIcon className="h-6 w-6 text-red-500" />
+            )}
+          </span>
+        ),
+        header: () => (
+          <span className="flex gap-x-1">
+            STATUS <InfoIcon>Validity of the VC</InfoIcon>
+          </span>
+        ),
       }
     ),
     columnHelper.accessor(
@@ -151,39 +171,47 @@ export const Table = () => {
       {
         id: 'data_store',
         cell: (info) => <span>{info.getValue()}</span>,
-        header: () => <span>Data Store</span>,
+        header: () => (
+          <span className="flex gap-x-1">
+            STORE <InfoIcon>Place where VC is stored</InfoIcon>
+          </span>
+        ),
         enableGlobalFilter: false,
         filterFn: includesDataStore,
       }
     ),
     columnHelper.display({
       id: 'select',
-      header: ({ table }) => (
-        <IndeterminateCheckbox
-          {...{
-            checked: table.getIsAllRowsSelected(),
-            indeterminate: table.getIsSomeRowsSelected(),
-            onChange: table.getToggleAllRowsSelectedHandler(),
-          }}
-        />
-      ),
+      header: ({ table }) => <>SELECT</>,
       cell: ({ row }) => (
-        <div className="px-1">
-          <IndeterminateCheckbox
-            {...{
-              checked: row.getIsSelected(),
-              indeterminate: row.getIsSomeSelected(),
-              onChange: row.getToggleSelectedHandler(),
-            }}
-          />
+        <div className="px-1 flex justify-center items-center">
+          <button onClick={row.getToggleSelectedHandler()}>
+            {row.getIsSelected() ? (
+              <MinusCircleIcon className="w-7 h-7" />
+            ) : (
+              <PlusCircleIcon className="w-7 h-7" />
+            )}
+          </button>
         </div>
       ),
       enableGlobalFilter: false,
     }),
     columnHelper.display({
-      id: 'action',
-      cell: () => <span>btn1 btn2 btn3</span>,
-      header: () => <span>Actions</span>,
+      id: 'actions',
+      cell: () => (
+        <div className="flex items-center justify-center gap-1">
+          <button>
+            <ArrowDownTrayIcon className="w-6 h-6" />
+          </button>
+          <button>
+            <ShareIcon className="w-6 h-6" />
+          </button>
+          <button>
+            <TrashIcon className="w-6 h-6" />
+          </button>
+        </div>
+      ),
+      header: () => <span>ACTIONS</span>,
       enableGlobalFilter: false,
     }),
   ];
@@ -198,7 +226,7 @@ export const Table = () => {
       globalFilter,
       columnFilters,
     },
-    initialState: { pagination: { pageSize: 5 } },
+    // initialState: { pagination: { pageSize: 9 } },
     enableGlobalFilter: true,
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
@@ -212,7 +240,6 @@ export const Table = () => {
 
   const loadVCs = async () => {
     const loadedVCs = await api?.queryVCs();
-    console.log(loadedVCs);
     if (loadedVCs) {
       changeVcs(loadedVCs);
     }
@@ -233,36 +260,73 @@ export const Table = () => {
     );
 
   return (
-    <>
-      <table>
-        <thead>
+    <div className="relative h-full flex flex-col">
+      <table className="min-w-full text-center text-gray-800 text-md lg:text-lg">
+        <thead className="border-b">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <th
+                  className={`px-3 py-4 font-semibold text-md ${
+                    header.id === 'type' || header.id === 'attributes'
+                      ? 'hidden lg:table-cell'
+                      : ''
+                  }
+                  ${
+                    header.id === 'date' || header.id === 'holder'
+                      ? 'hidden md:table-cell'
+                      : ''
+                  }
+                  ${header.id === 'actions' ? 'hidden md:table-cell' : ''}
+                  `}
                   key={header.id}
                   onClick={header.column.getToggleSortingHandler()}
                 >
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                  {{
-                    asc: ' A',
-                    desc: ' D',
-                  }[header.column.getIsSorted() as string] ?? null}
+                  <div className="flex justify-center items-center">
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                    {{
+                      asc: (
+                        <ChevronDownIcon className="h-5 w-5 text-gray-800" />
+                      ),
+                      desc: <ChevronUpIcon className="h-5 w-5 text-gray-800" />,
+                    }[header.column.getIsSorted() as string] ?? null}
+                  </div>
                 </th>
               ))}
             </tr>
           ))}
         </thead>
-        <tbody>
+        <tbody className="border-b text-gray-800">
           {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
+            <tr
+              key={row.id}
+              onClick={() => {
+                console.log('Row clicked');
+              }}
+              className="border-b border-gray-500 hover:bg-gray-100 animated-transition duration-75"
+            >
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>
+                <td
+                  className={`py-5 max-h-16 whitespace-nowrap  ${
+                    cell.column.id === 'type' || cell.column.id === 'attributes'
+                      ? 'hidden lg:table-cell'
+                      : ''
+                  }
+                  ${
+                    cell.column.id === 'date' || cell.column.id === 'holder'
+                      ? 'hidden md:table-cell'
+                      : ''
+                  }
+                  ${
+                    cell.column.id === 'actions' ? 'hidden sm:table-cell' : ''
+                  }`}
+                  key={cell.id}
+                >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
@@ -270,43 +334,16 @@ export const Table = () => {
           ))}
         </tbody>
       </table>
-      <div className="flex items-center gap-2">
-        <button
-          className="border rounded p-1"
-          onClick={() => table.setPageIndex(0)}
-          disabled={!table.getCanPreviousPage()}
-        >
-          {'<<'}
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          {'<'}
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          {'>'}
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-          disabled={!table.getCanNextPage()}
-        >
-          {'>>'}
-        </button>
-        <span className="flex items-center gap-1">
-          <div>Page</div>
-          <strong>
-            {table.getState().pagination.pageIndex + 1} of{' '}
-            {table.getPageCount()}
-          </strong>
-        </span>
+      <div className="mt-auto pt-9 flex justify-center pb-9">
+        <TablePagination table={table} />
       </div>
-    </>
+      <div className="absolute -bottom-5 right-10">
+        <Button variant="primary" size="wd" onClick={() => {}}>
+          Create Presentation{' '}
+          {table.getSelectedRowModel().rows.length > 0 &&
+            `(${table.getSelectedRowModel().rows.length})`}
+        </Button>
+      </div>
+    </div>
   );
 };

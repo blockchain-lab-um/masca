@@ -8,7 +8,7 @@ type ButtonProps = {
     | 'secondary-active'
     | 'secondary'
     | 'connect';
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'wd';
   shadow?: 'sm' | 'lg' | '';
   onClick?: () => void;
   children: React.ReactNode;
@@ -17,7 +17,7 @@ type ButtonProps = {
 
 const variants: Record<string, string> = {
   primary:
-    'bg-gradient-to-b to-pink-500 from-orange-500 hover:bg-gradient-to-b hover:opacity-80 text-white rounded-full animated-transition',
+    'bg-gradient-to-b from-pink-500 to-orange-500 hover:bg-gradient-to-b hover:opacity-80 text-white rounded-full animated-transition',
   'primary-active':
     'text-orange-500 outline outline-orange-500 hover:text-white hover:bg-orange-500 animated-transition rounded-full',
   secondary:
@@ -33,6 +33,7 @@ const sizes: Record<string, string> = {
   md: 'text-h4 py-2 px-7 max-w-xs',
   lg: 'text-2xl py-2.5 px-8 font-semibold max-w-xs',
   xl: 'text-h3 py-3 px-9 font-semibold max-w-xs',
+  wd: 'text-h4 py-3 px-7 max-w-xs',
 };
 
 const Button = ({
@@ -44,13 +45,19 @@ const Button = ({
   children,
 }: ButtonProps) => {
   return (
-    <button
-      className={`${clsx(variants[variant], sizes[size], `shadow-${shadow}`)}`}
-      onClick={onClick}
-      id={id}
-    >
-      {children}
-    </button>
+    <div className="bg-gray-200 max-w-xs rounded-full">
+      <button
+        className={`${clsx(
+          variants[variant],
+          sizes[size],
+          `shadow-${shadow}`
+        )}`}
+        onClick={onClick}
+        id={id}
+      >
+        {children}
+      </button>
+    </div>
   );
 };
 

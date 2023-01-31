@@ -21,7 +21,7 @@ export default function Dashboard() {
         )}
       </div>
       {vcs.length > 0 && <Controlbar />}
-      <div className="bg-white dark:bg-gray-800 dark:shadow-orange-500/20 h-[70vh] p-4 rounded-3xl shadow-lg">
+      <div className="bg-white dark:bg-gray-800 dark:shadow-orange-900  min-h-full rounded-3xl shadow-lg">
         {isConnected ? (
           <Table />
         ) : (
