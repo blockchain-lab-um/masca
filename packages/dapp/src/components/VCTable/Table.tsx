@@ -42,6 +42,7 @@ import { useSnapStore, useTableStore } from '../../utils/store';
 import { VC_DATA } from './data';
 import TablePagination from './TablePagination';
 import InfoIcon from '../InfoIcon';
+import Tooltip from '../Tooltip';
 
 export const Table = () => {
   const vcs = useSnapStore((state) => state.vcs);
@@ -107,9 +108,12 @@ export const Table = () => {
       {
         id: 'holder',
         cell: (info) => (
-          <span>{`${info.getValue().slice(0, 8)}....${info
-            .getValue()
-            .slice(-4)}`}</span>
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          <Tooltip tooltip={info.getValue()}>
+            <span>{`${info.getValue().slice(0, 8)}....${info
+              .getValue()
+              .slice(-4)}`}</span>
+          </Tooltip>
         ),
         header: () => <span>HOLDER</span>,
       }
@@ -124,9 +128,12 @@ export const Table = () => {
       {
         id: 'issuer',
         cell: (info) => (
-          <span>{`${info.getValue().slice(0, 8)}....${info
-            .getValue()
-            .slice(-4)}`}</span>
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          <Tooltip tooltip={info.getValue()}>
+            <span>{`${info.getValue().slice(0, 8)}....${info
+              .getValue()
+              .slice(-4)}`}</span>
+          </Tooltip>
         ),
         header: () => <span>ISSUER</span>,
       }
@@ -148,13 +155,25 @@ export const Table = () => {
       {
         id: 'status',
         cell: (info) => (
-          <span className="flex justify-center items-center">
-            {info.getValue() === 'true' ? (
-              <CheckCircleIcon className="h-6 w-6 text-green-500" />
-            ) : (
-              <MinusCircleIcon className="h-6 w-6 text-red-500" />
-            )}
-          </span>
+          <Tooltip
+            tooltip={`${
+              info.cell.row.original.data.expirationDate === undefined
+                ? 'Does not have expiration date'
+                : `${
+                    info.getValue() === 'true' ? 'Expires' : 'Expired'
+                  } on ${new Date(
+                    info.cell.row.original.data.expirationDate
+                  ).toDateString()}`
+            }`}
+          >
+            <span className="flex justify-center items-center">
+              {info.getValue() === 'true' ? (
+                <CheckCircleIcon className="h-6 w-6 text-green-500" />
+              ) : (
+                <MinusCircleIcon className="h-6 w-6 text-red-500" />
+              )}
+            </span>
+          </Tooltip>
         ),
         header: () => (
           <span className="flex gap-x-1">
