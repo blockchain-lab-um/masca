@@ -40,6 +40,7 @@ import {
   ArrowDownTrayIcon,
   ArrowsPointingOutIcon,
 } from '@heroicons/react/24/outline';
+import Link from 'next/link';
 import StoreIcon from '../StoreIcon';
 import { useSnapStore, useTableStore } from '../../utils/store';
 import { VC_DATA } from './data';
@@ -54,6 +55,7 @@ export const Table = () => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const columnFilters = useTableStore((state) => state.columnFilters);
   const globalFilter = useTableStore((state) => state.globalFilter);
+  const setTable = useTableStore((state) => state.setTable);
   // const data = React.useMemo(() => vcs, []);
 
   const columnHelper = createColumnHelper<QueryVCsRequestResult>();
@@ -324,7 +326,7 @@ export const Table = () => {
     );
 
   return (
-    <div className="relative h-full min-h-[50vh] flex flex-col">
+    <div className="relative h-full min-h-[50vh] w-full flex flex-col">
       <table className="min-w-full text-center text-gray-800 text-sm lg:text-md">
         <thead className="border-b">
           {table.getHeaderGroups().map((headerGroup) => (
@@ -412,13 +414,23 @@ export const Table = () => {
       <div className="mt-auto pt-9 flex justify-center pb-9">
         <TablePagination table={table} />
       </div>
-      <div className="absolute -bottom-5 right-10">
-        <Button variant="primary" size="wd" onClick={() => {}}>
-          Create Presentation{' '}
-          {table.getSelectedRowModel().rows.length > 0 &&
-            `(${table.getSelectedRowModel().rows.length})`}
-        </Button>
-      </div>
+      {table.getSelectedRowModel().rows.length > 0 && (
+        <div className="absolute -bottom-5 right-10">
+          <Link href="createVP">
+            <Button
+              variant="primary"
+              size="wd"
+              onClick={() => {
+                setTable(table);
+              }}
+            >
+              Create Presentation{' '}
+              {table.getSelectedRowModel().rows.length > 0 &&
+                `(${table.getSelectedRowModel().rows.length})`}
+            </Button>
+          </Link>
+        </div>
+      )}
     </div>
   );
 };

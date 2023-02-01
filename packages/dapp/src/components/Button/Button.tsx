@@ -13,6 +13,7 @@ type ButtonProps = {
   onClick?: () => void;
   children: React.ReactNode;
   id?: string;
+  disabled?: boolean;
 };
 
 const variants: Record<string, string> = {
@@ -43,6 +44,7 @@ const Button = ({
   id,
   onClick,
   children,
+  disabled = false,
 }: ButtonProps) => {
   return (
     <div className="bg-gray-100 max-w-xs rounded-full">
@@ -54,6 +56,7 @@ const Button = ({
         )}`}
         onClick={onClick}
         id={id}
+        disabled={disabled}
       >
         {children}
       </button>

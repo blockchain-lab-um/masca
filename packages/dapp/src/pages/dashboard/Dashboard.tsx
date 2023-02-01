@@ -1,3 +1,4 @@
+import ConnectedGateway from 'src/components/ConnectedGateway';
 import MetaMaskGateway from '../../components/MetaMaskGateway';
 import { Controlbar } from './Controlbar';
 import Table from '../../components/VCTable';
@@ -11,24 +12,18 @@ export default function Dashboard() {
     <MetaMaskGateway>
       <div className="flex justify-between">
         <Title>My Credentials</Title>
-        {isConnected && (
-          <div>
-            <span className="text-xl font-semibold">{vcs.length} </span>
-            <span className="text-gray-80/80 text-lg font-cabin font-normal">
-              VCs
-            </span>
-          </div>
-        )}
+        <div>
+          <span className="text-xl font-semibold">{vcs.length} </span>
+          <span className="text-gray-80/80 text-lg font-cabin font-normal">
+            VCs
+          </span>
+        </div>
       </div>
       <Controlbar vcs={vcs} isConnected={isConnected} />
-      <div className="bg-white dark:bg-gray-800 dark:shadow-orange-900  min-h-full rounded-3xl shadow-lg">
-        {isConnected ? (
+      <div className="flex justify-center min-h-[50vh]  bg-white dark:bg-gray-800 dark:shadow-orange-900 rounded-3xl shadow-lg">
+        <ConnectedGateway>
           <Table />
-        ) : (
-          <div className="flex justify-center h-full min-h-[50vh] p-5">
-            Connect to MetaMask to get started
-          </div>
-        )}
+        </ConnectedGateway>
       </div>
     </MetaMaskGateway>
   );
