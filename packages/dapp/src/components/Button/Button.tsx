@@ -25,7 +25,7 @@ const variants: Record<string, string> = {
   'secondary-active':
     'text-navy-blue-500 outline outline-navy-blue-500 hover:text-white hover:bg-navy-blue-500 animated-transition rounded-full',
   connect:
-    'bg-orange-200 text-orange-500 hover:opacity-80  rounded-full animated-transition',
+    'bg-orange-100 text-orange-500 hover:opacity-80  rounded-full animated-transition',
 };
 
 const sizes: Record<string, string> = {
@@ -45,7 +45,7 @@ const Button = ({
   children,
 }: ButtonProps) => {
   return (
-    <div className="bg-gray-200 max-w-xs rounded-full">
+    <div className="bg-gray-100 max-w-xs rounded-full">
       <button
         className={`${clsx(
           variants[variant],

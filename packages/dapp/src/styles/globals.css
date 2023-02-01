@@ -56,7 +56,7 @@ body {
   }
 
   .bg-gradient {
-    @apply bg-gradient-to-t from-pink-100 to-orange-100 text-black dark:bg-gradient-to-t dark:from-black dark:to-black dark:text-white;
+    @apply bg-gradient-to-t from-pink-50 to-orange-50 text-black dark:bg-gradient-to-t dark:from-black dark:to-black dark:text-white;
   }
 
   .bg-svg {

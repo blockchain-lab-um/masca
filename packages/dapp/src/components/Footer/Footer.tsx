@@ -3,8 +3,9 @@ import { useRouter } from 'next/router';
 import Button from '../Button';
 import DropdownMenu from '../MethodDropdownMenu';
 import ToggleTheme from '../ToggleTheme';
-import { useGeneralStore } from '../../utils/store';
+import { useGeneralStore, useSnapStore } from '../../utils/store';
 import ConnectButton from '../ConnectButton';
+import AddressPopover from '../AddressPopover';
 
 export const Footer = () => {
   const router = useRouter();
@@ -13,6 +14,11 @@ export const Footer = () => {
   const hasMM = useGeneralStore((state) => state.hasMetaMask);
   const hasFlask = useGeneralStore((state) => state.isFlask);
   const address = useGeneralStore((state) => state.address);
+  const did = useSnapStore((state) => state.currDID);
+
+  const disconnect = () => {
+    changeIsConnected(false);
+  };
 
   return (
     <div
@@ -25,14 +31,11 @@ export const Footer = () => {
           {isConnected ? (
             <span>
               <div className="flex m-auto justify-center items-center">
-                <Button
-                  variant="primary"
-                  onClick={() => {
-                    changeIsConnected(false);
-                  }}
-                >
-                  {`${address.slice(0, 6)}...${address.slice(-4)}`}
-                </Button>
+                <AddressPopover
+                  address={address}
+                  did={did}
+                  disconnect={disconnect}
+                />
                 <DropdownMenu />
               </div>
             </span>

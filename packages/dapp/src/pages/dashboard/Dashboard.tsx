@@ -9,7 +9,7 @@ export default function Dashboard() {
   const vcs = useSnapStore((state) => state.vcs);
   return (
     <MetaMaskGateway>
-      <div className="flex justify-between mb-2">
+      <div className="flex justify-between">
         <Title>My Credentials</Title>
         {isConnected && (
           <div>
@@ -20,12 +20,12 @@ export default function Dashboard() {
           </div>
         )}
       </div>
-      {vcs.length > 0 && <Controlbar />}
+      <Controlbar vcs={vcs} isConnected={isConnected} />
       <div className="bg-white dark:bg-gray-800 dark:shadow-orange-900  min-h-full rounded-3xl shadow-lg">
         {isConnected ? (
           <Table />
         ) : (
-          <div className="flex justify-center h-full">
+          <div className="flex justify-center h-full min-h-[50vh] p-5">
             Connect to MetaMask to get started
           </div>
         )}

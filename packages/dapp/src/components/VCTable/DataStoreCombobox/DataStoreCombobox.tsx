@@ -3,14 +3,21 @@ import { Combobox, Transition } from '@headlessui/react';
 import {
   CheckIcon,
   ChevronDownIcon,
-  ChevronUpDownIcon,
   ChevronUpIcon,
 } from '@heroicons/react/20/solid';
+import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import { useTableStore } from '../../../utils/store';
+import { VC_DATA } from '../data';
 
-const dataStores = ['snap', 'ceramic', 'test'];
+type DataStoreComboboxProps = {
+  isConnected: boolean;
+  vcs: QueryVCsRequestResult[];
+};
 
-export const DataStoreCombobox = () => {
+export const DataStoreCombobox = ({
+  vcs,
+  isConnected,
+}: DataStoreComboboxProps) => {
   const [query, setQuery] = useState('');
   const setColumnFilters = useTableStore((state) => state.setColumnFilters);
   const selectedItems = useTableStore((state) => {
@@ -21,6 +28,17 @@ export const DataStoreCombobox = () => {
     }
     return [];
   }) as string[];
+
+  const dataStoresFull = VC_DATA.filter((vc) => vc.metadata.store !== undefined)
+    .map((vc) => {
+      return vc.metadata.store;
+    })
+    .flat() as string[];
+
+  const dataStores = dataStoresFull.filter((element, index) => {
+    return dataStoresFull.indexOf(element) === index;
+  });
+  console.log('ds', dataStores);
 
   const filteredDataStores =
     query === ''
@@ -37,12 +55,17 @@ export const DataStoreCombobox = () => {
           setColumnFilters([{ id: 'data_store', value }]);
         }}
         multiple
+        disabled={!isConnected || vcs.length === 0}
       >
         {({ open }) => (
           <div className="relative">
-            <div className="relative  w-full cursor-default rounded-full overflow-hidden focus:outline-none bg-whitetext-left shadow-md focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm">
+            <div className="relative  w-full cursor-default rounded-full overflow-hidden focus:outline-none bg-whitetext-left shadow-sm focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm">
               <Combobox.Input
-                className="w-full placeholder:text-orange-200 border-none py-2 pl-3 pr-8 text-sm leading-5 focus:outline-none dark:bg-gray-800 text-orange-500 focus:ring-0"
+                className={`w-full placeholder:text-orange-200 border-none py-2 pl-3 pr-8 text-sm leading-5 focus:outline-none dark:bg-gray-800 text-orange-500 focus:ring-0 ${
+                  !isConnected || vcs.length === 0
+                    ? 'bg-gray-50 text-gray-300'
+                    : ' '
+                }`}
                 displayValue={(value) => {
                   if (value === undefined) return '';
                   if (typeof value === 'string') return value;
@@ -54,11 +77,19 @@ export const DataStoreCombobox = () => {
               <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
                 {open ? (
                   <>
-                    <ChevronUpIcon className="h-5 w-5 text-orange-500" />
+                    <ChevronUpIcon
+                      className={`h-5 w-5 text-orange-500 ${
+                        !isConnected || vcs.length === 0 ? 'text-gray-300' : ' '
+                      }`}
+                    />
                   </>
                 ) : (
                   <>
-                    <ChevronDownIcon className="h-5 w-5 text-orange-500" />
+                    <ChevronDownIcon
+                      className={`h-5 w-5 text-orange-500 ${
+                        !isConnected || vcs.length === 0 ? 'text-gray-300' : ' '
+                      }`}
+                    />
                   </>
                 )}
               </Combobox.Button>
@@ -78,7 +109,7 @@ export const DataStoreCombobox = () => {
                     className={({ active }) =>
                       `relative mx-2 rounded-xl pl-10 py-2 text-sm ${
                         active
-                          ? 'text-orange-600 bg-orange-200 animated-transition cursor-pointer'
+                          ? 'text-orange-700 bg-orange-100 animated-transition cursor-pointer'
                           : 'text-gray-800'
                       }`
                     }
@@ -96,11 +127,11 @@ export const DataStoreCombobox = () => {
                         {selected ? (
                           <span
                             className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                              active ? '' : 'text-orange-500'
+                              active ? '' : 'text-orange-700'
                             }`}
                           >
                             <CheckIcon
-                              className="h-5 w-5 text-orange-500"
+                              className="h-5 w-5 text-orange-700"
                               aria-hidden="true"
                             />
                           </span>

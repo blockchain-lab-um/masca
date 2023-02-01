@@ -24,7 +24,7 @@ export const DropdownButton = ({
           }}
           className={classNames(
             active
-              ? 'text-orange-600 bg-orange-200 animated-transition cursor-pointer'
+              ? 'text-orange-700 bg-orange-100 animated-transition cursor-pointer'
               : 'text-gray-800',
             'block px-4 mx-2 rounded-xl py-2 text-sm'
           )}

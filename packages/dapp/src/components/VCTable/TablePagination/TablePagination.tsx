@@ -9,16 +9,16 @@ interface TablePaginationProps {
 
 export const TablePagination = ({ table }: TablePaginationProps) => {
   return (
-    <div className="mb-auto flex items-center gap-2">
+    <div className="mb-auto flex items-center gap-2 font-cabin font-normal text-gray-800">
       <button
-        className="border rounded p-1"
+        className="rounded-full px-2 py-1 hover:cursor-pointer hover:bg-orange-100 animated-transition"
         onClick={() => table.setPageIndex(0)}
         disabled={!table.getCanPreviousPage()}
       >
         {'<<'}
       </button>
       <button
-        className="border rounded p-1"
+        className="rounded-full px-3 py-1 hover:cursor-pointer hover:bg-orange-100 animated-transition"
         onClick={() => table.previousPage()}
         disabled={!table.getCanPreviousPage()}
       >
@@ -26,19 +26,24 @@ export const TablePagination = ({ table }: TablePaginationProps) => {
       </button>
       <span className="flex items-center gap-1">
         <div>Page</div>
-        <strong>
-          {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
-        </strong>
+        <span className="font-semibold text-gray-900">
+          {table.getState().pagination.pageIndex + 1}{' '}
+        </span>
+        of{' '}
+        <span className="font-semibold text-gray-900">
+          {' '}
+          {table.getPageCount()}
+        </span>
       </span>
       <button
-        className="border rounded p-1"
+        className="rounded-full px-3 py-1 hover:cursor-pointer hover:bg-orange-100 animated-transition"
         onClick={() => table.nextPage()}
         disabled={!table.getCanNextPage()}
       >
         {'>'}
       </button>
       <button
-        className="border rounded p-1"
+        className="rounded-full px-2 py-1 hover:cursor-pointer hover:bg-orange-100 animated-transition"
         onClick={() => table.setPageIndex(table.getPageCount() - 1)}
         disabled={!table.getCanNextPage()}
       >

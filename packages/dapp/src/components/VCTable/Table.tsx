@@ -7,6 +7,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { HTMLProps } from 'react';
 import Button from 'src/components/Button';
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {
   useReactTable,
@@ -37,7 +38,9 @@ import {
   TrashIcon,
   ShareIcon,
   ArrowDownTrayIcon,
+  ArrowsPointingOutIcon,
 } from '@heroicons/react/24/outline';
+import StoreIcon from '../StoreIcon';
 import { useSnapStore, useTableStore } from '../../utils/store';
 import { VC_DATA } from './data';
 import TablePagination from './TablePagination';
@@ -72,10 +75,18 @@ export const Table = () => {
   };
 
   const columns = [
-    columnHelper.accessor((row) => Date.parse(row.data.issuanceDate), {
-      id: 'date',
-      cell: (info) => <span>{new Date(info.getValue()).toDateString()}</span>,
-      header: () => <span>ISSUANCE DATE</span>,
+    columnHelper.display({
+      id: 'expand',
+      header: ({ table }) => <></>,
+      cell: ({ row }) => (
+        <button
+          onClick={() => {
+            console.log('clicked');
+          }}
+        >
+          <ArrowsPointingOutIcon className="w-5 h-5" />
+        </button>
+      ),
       enableGlobalFilter: false,
     }),
     columnHelper.accessor(
@@ -101,21 +112,32 @@ export const Table = () => {
         header: () => <span>TYPE</span>,
       }
     ),
+    columnHelper.accessor((row) => Date.parse(row.data.issuanceDate), {
+      id: 'date',
+      cell: (info) => <span>{new Date(info.getValue()).toDateString()}</span>,
+      header: () => <span>ISSUANCE DATE</span>,
+      enableGlobalFilter: false,
+    }),
     columnHelper.accessor(
       (row) =>
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
         row.data.credentialSubject.id ? row.data.credentialSubject.id : '',
       {
-        id: 'holder',
+        id: 'subject',
         cell: (info) => (
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          <Tooltip tooltip={info.getValue()}>
-            <span>{`${info.getValue().slice(0, 8)}....${info
+          <Tooltip tooltip={'Open DID in Universal resolver'}>
+            <a
+              href={`https://dev.uniresolver.io/#${info.getValue()}`}
+              target="_blank"
+              rel="noreferrer"
+              className="text-orange-500 hover:text-orange-700 underline"
+            >{`${info.getValue().slice(0, 8)}....${info
               .getValue()
-              .slice(-4)}`}</span>
+              .slice(-4)}`}</a>
           </Tooltip>
         ),
-        header: () => <span>HOLDER</span>,
+        header: () => <span>SUBJECT</span>,
       }
     ),
     columnHelper.accessor(
@@ -129,21 +151,35 @@ export const Table = () => {
         id: 'issuer',
         cell: (info) => (
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          <Tooltip tooltip={info.getValue()}>
-            <span>{`${info.getValue().slice(0, 8)}....${info
+          <Tooltip tooltip={'Open DID in Universal resolver'}>
+            <a
+              href={`https://dev.uniresolver.io/#${info.getValue()}`}
+              target="_blank"
+              rel="noreferrer"
+              className="text-orange-500 hover:text-orange-700 underline"
+            >{`${info.getValue().slice(0, 8)}....${info
               .getValue()
-              .slice(-4)}`}</span>
+              .slice(-4)}`}</a>
           </Tooltip>
         ),
         header: () => <span>ISSUER</span>,
       }
     ),
     columnHelper.accessor(
-      (row) => Object.keys(row.data.credentialSubject).length.toString(),
+      (row) => {
+        return row.data.expirationDate as string | undefined;
+      },
       {
-        id: 'attributes',
-        cell: (info) => <span>{info.getValue()}</span>,
-        header: () => <span>No. ATTRIBUTES</span>,
+        id: 'exp_date',
+        cell: (info) => (
+          <span>
+            {info.getValue() === undefined
+              ? '/'
+              : new Date(info.getValue() as string).toDateString()}
+          </span>
+        ),
+        header: () => <span>EXPIRATION DATE</span>,
+        enableGlobalFilter: false,
       }
     ),
     columnHelper.accessor(
@@ -189,7 +225,16 @@ export const Table = () => {
       },
       {
         id: 'data_store',
-        cell: (info) => <span>{info.getValue()}</span>,
+        cell: (info) => (
+          <div className="flex justify-center items-center">
+            {info
+              .getValue()
+              .split(',')
+              .map((store, id) => (
+                <StoreIcon store={store} key={id} />
+              ))}
+          </div>
+        ),
         header: () => (
           <span className="flex gap-x-1">
             STORE <InfoIcon>Place where VC is stored</InfoIcon>
@@ -206,7 +251,7 @@ export const Table = () => {
         <div className="px-1 flex justify-center items-center">
           <button onClick={row.getToggleSelectedHandler()}>
             {row.getIsSelected() ? (
-              <MinusCircleIcon className="w-7 h-7" />
+              <MinusCircleIcon className="w-7 h-7 text-orange-500" />
             ) : (
               <PlusCircleIcon className="w-7 h-7" />
             )}
@@ -270,7 +315,7 @@ export const Table = () => {
 
   if (vcs.length === 0)
     return (
-      <div className="flex flex-col justify-center items-center h-full ">
+      <div className="flex flex-col justify-center items-center min-h-[50vh] ">
         Load VCs to get Started!
         <Button variant="primary" size="lg" onClick={handleLoadVcs}>
           Load VCs
@@ -279,20 +324,20 @@ export const Table = () => {
     );
 
   return (
-    <div className="relative h-full flex flex-col">
-      <table className="min-w-full text-center text-gray-800 text-md lg:text-lg">
+    <div className="relative h-full min-h-[50vh] flex flex-col">
+      <table className="min-w-full text-center text-gray-800 text-sm lg:text-md">
         <thead className="border-b">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <th
                   className={`px-3 py-4 font-semibold text-md ${
-                    header.id === 'type' || header.id === 'attributes'
+                    header.id === 'type' || header.id === 'exp_date'
                       ? 'hidden lg:table-cell'
                       : ''
                   }
                   ${
-                    header.id === 'date' || header.id === 'holder'
+                    header.id === 'date' || header.id === 'subject'
                       ? 'hidden md:table-cell'
                       : ''
                   }
@@ -310,9 +355,9 @@ export const Table = () => {
                         )}
                     {{
                       asc: (
-                        <ChevronDownIcon className="h-5 w-5 text-gray-800" />
+                        <ChevronDownIcon className="h-4 w-4 text-gray-800" />
                       ),
-                      desc: <ChevronUpIcon className="h-5 w-5 text-gray-800" />,
+                      desc: <ChevronUpIcon className="h-4 w-4 text-gray-800" />,
                     }[header.column.getIsSorted() as string] ?? null}
                   </div>
                 </th>
@@ -324,20 +369,31 @@ export const Table = () => {
           {table.getRowModel().rows.map((row) => (
             <tr
               key={row.id}
-              onClick={() => {
-                console.log('Row clicked');
-              }}
-              className="border-b border-gray-500 hover:bg-gray-100 animated-transition duration-75"
+              className={`border-b border-gray-500  animated-transition duration-75 ${
+                row.getIsSelected()
+                  ? 'bg-orange-50 hover:bg-orange-50'
+                  : 'hover:bg-gray-50'
+              }`}
             >
               {row.getVisibleCells().map((cell) => (
                 <td
+                  onClick={() => {
+                    if (
+                      cell.column.id !== 'select' &&
+                      cell.column.id !== 'expand' &&
+                      cell.column.id !== 'subject' &&
+                      cell.column.id !== 'issuer' &&
+                      cell.column.id !== 'actions'
+                    )
+                      row.toggleSelected();
+                  }}
                   className={`py-5 max-h-16 whitespace-nowrap  ${
-                    cell.column.id === 'type' || cell.column.id === 'attributes'
+                    cell.column.id === 'type' || cell.column.id === 'exp_date'
                       ? 'hidden lg:table-cell'
                       : ''
                   }
                   ${
-                    cell.column.id === 'date' || cell.column.id === 'holder'
+                    cell.column.id === 'date' || cell.column.id === 'subject'
                       ? 'hidden md:table-cell'
                       : ''
                   }

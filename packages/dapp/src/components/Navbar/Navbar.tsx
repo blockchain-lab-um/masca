@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import { useGeneralStore } from 'src/utils/store';
+import { useGeneralStore, useSnapStore } from 'src/utils/store';
 import Link from 'next/link';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import ToggleTheme from '../ToggleTheme';
@@ -11,14 +11,20 @@ import DropdownMenu from '../MethodDropdownMenu';
 import logo_b from '../../images/ssi_icon_b.png';
 import logo_w from '../../images/ssi_icon_w.png';
 import ConnectButton from '../ConnectButton';
+import AddressPopover from '../AddressPopover';
 
 export default function Navbar() {
   const router = useRouter();
   const isConnected = useGeneralStore((state) => state.isConnected);
-  const changeIsConnected = useGeneralStore((state) => state.changeIsConnected);
   const hasMM = useGeneralStore((state) => state.hasMetaMask);
   const hasFlask = useGeneralStore((state) => state.isFlask);
   const address = useGeneralStore((state) => state.address);
+  const did = useSnapStore((state) => state.currDID);
+  const changeIsConnected = useGeneralStore((state) => state.changeIsConnected);
+
+  const disconnect = () => {
+    changeIsConnected(false);
+  };
 
   return (
     <div className="flex justify-between items-center">
@@ -58,17 +64,11 @@ export default function Navbar() {
                   {isConnected ? (
                     <div className="flex justify-center items-center">
                       <DropdownMenu />
-                      <Button
-                        variant="primary"
-                        onClick={() => {
-                          changeIsConnected(false);
-                        }}
-                      >
-                        <div className="flex">
-                          {`${address.slice(0, 6)}...${address.slice(-4)}`}
-                          <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" />
-                        </div>
-                      </Button>
+                      <AddressPopover
+                        address={address}
+                        did={did}
+                        disconnect={disconnect}
+                      />
                     </div>
                   ) : (
                     <div className="flex m-auto">
