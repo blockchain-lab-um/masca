@@ -72,26 +72,6 @@ function parseDidJwkIdentifier(didIdentifier: string): JsonWebKey {
   }
 }
 
-/* export const resolveSecp256k1 = async (
-  snap: SnapsGlobalObject,
-  account: string,
-  didUrl: string
-): Promise<DIDDocument> => {
-  const state = await getSnapState(snap);
-  const publicKey = await getPublicKey({
-    snap,
-    state,
-    account,
-    ethereum,
-  });
-
-  const jwk = generateJWKfromKey({
-    publicKeyHex: publicKey,
-  } as VerificationMethod);
-
-  return generateDidDocument(jwk);
-}; */
-
 export const resolveDidJwk: DIDResolver = async (
   did: string,
   parsed: ParsedDID,

@@ -59,11 +59,12 @@ describe('jwkDidResolver', () => {
       snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
 
       const didRes = await resolveDidJwk().jwk(
-        'did:jwk:eyJ0ZXN0IjoidGVzdCJ9',
+        'did:jwk:eyJrdHkiOidFQycsImNydiI6J3NlY3AyNTZrMScsIngiOidnS25OU1AxRGI0d2ZnYkZXNjJGV0dNMVhQRDZ4NXRrM29YdUNJZ0o4cm9VJywieSI6J0NwOVdIVUZBQWFpOTc5dHhQR0dkTEs4SW9NbGxXd3owTGVCbHZGSGdGcG8nLCJ0ZXN0IjoidGVzdCJ9',
         {
-          did: 'did:jwk:eyJ0ZXN0IjoidGVzdCJ9',
+          did: 'did:jwk:eyJrdHkiOidFQycsImNydiI6J3NlY3AyNTZrMScsIngiOidnS25OU1AxRGI0d2ZnYkZXNjJGV0dNMVhQRDZ4NXRrM29YdUNJZ0o4cm9VJywieSI6J0NwOVdIVUZBQWFpOTc5dHhQR0dkTEs4SW9NbGxXd3owTGVCbHZGSGdGcG8nLCJ0ZXN0IjoidGVzdCJ9',
           method: 'jwk',
-          didUrl: 'eyJ0ZXN0IjoidGVzdCJ9#0',
+          didUrl:
+            'eyJrdHkiOidFQycsImNydiI6J3NlY3AyNTZrMScsIngiOidnS25OU1AxRGI0d2ZnYkZXNjJGV0dNMVhQRDZ4NXRrM29YdUNJZ0o4cm9VJywieSI6J0NwOVdIVUZBQWFpOTc5dHhQR0dkTEs4SW9NbGxXd3owTGVCbHZGSGdGcG8nLCJ0ZXN0IjoidGVzdCJ9#0',
           id: '',
         },
         {

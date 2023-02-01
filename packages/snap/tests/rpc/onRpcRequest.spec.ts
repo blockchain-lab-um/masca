@@ -12,6 +12,7 @@ import { veramoClearVCs } from '../../src/utils/veramoUtils';
 import {
   exampleDID,
   exampleDIDKey,
+  exampleDIDJwk,
   exampleVC,
   getDefaultSnapState,
   jsonPath,
@@ -802,6 +803,50 @@ describe('onRpcRequest', () => {
       expect.assertions(1);
     });
 
+    it('should succeed creating VP with did:jwk', async () => {
+      jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
+      // const agent = await getAgent(snapMock);
+
+      await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'saveVC',
+          params: {
+            verifiableCredential: exampleVC,
+            options: { store: 'snap' },
+          },
+        },
+      });
+
+      await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'switchDIDMethod',
+          params: { didMethod: 'did:jwk' },
+        },
+      });
+
+      const createdVP = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'createVP',
+          params: {
+            vcs: [{ id: 'test-id' }],
+          },
+        },
+      })) as VerifiablePresentation;
+      console.log(createdVP);
+      expect(createdVP).not.toBeNull();
+      expect.assertions(1);
+    });
+
     // it('should fail creating VP and return null - user denied', async () => {
     //   jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
     //   snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
@@ -942,6 +987,36 @@ describe('onRpcRequest', () => {
 
       expect.assertions(1);
     });
+
+    it('should succeed returning current did (did:jwk)', async () => {
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
+
+      await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'switchDIDMethod',
+          params: {
+            didMethod: 'did:jwk',
+          },
+        },
+      });
+
+      await expect(
+        onRpcRequest({
+          origin: 'localhost',
+          request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'getDID',
+            params: {},
+          },
+        })
+      ).resolves.toEqual(exampleDIDJwk);
+
+      expect.assertions(1);
+    });
   });
 
   describe('switchDIDMethod', () => {
@@ -963,6 +1038,26 @@ describe('onRpcRequest', () => {
       ).resolves.toBe(
         'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik'
       );
+
+      expect.assertions(1);
+    });
+
+    it('should succeed switching method to did:jwk and return true', async () => {
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
+
+      await expect(
+        onRpcRequest({
+          origin: 'localhost',
+          request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'switchDIDMethod',
+            params: {
+              didMethod: 'did:jwk',
+            },
+          },
+        })
+      ).resolves.toBe(exampleDIDJwk);
 
       expect.assertions(1);
     });
@@ -1068,6 +1163,36 @@ describe('onRpcRequest', () => {
           },
         })
       ).resolves.toBe('did:key');
+
+      expect.assertions(1);
+    });
+
+    it('should succeed and return did:jwk', async () => {
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
+
+      await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'switchDIDMethod',
+          params: {
+            didMethod: 'did:jwk',
+          },
+        },
+      });
+
+      await expect(
+        onRpcRequest({
+          origin: 'localhost',
+          request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'getSelectedMethod',
+            params: {},
+          },
+        })
+      ).resolves.toBe('did:jwk');
 
       expect.assertions(1);
     });

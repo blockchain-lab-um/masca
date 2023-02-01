@@ -24,6 +24,7 @@ export const didCoinTypeMappping: Record<string, number> = {
   'did:ethr': 60,
   'did:key': 60,
   'did:pkh': 60,
+  'did:jwk': 60,
 };
 
 export const supportedProofFormats = [
