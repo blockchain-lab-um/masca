@@ -7,6 +7,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { HTMLProps } from 'react';
 import Button from 'src/components/Button';
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {
   useReactTable,
@@ -21,32 +22,73 @@ import {
   getFacetedMinMaxValues,
   getFacetedUniqueValues,
   FilterFn,
-  ColumnFiltersState,
 } from '@tanstack/react-table';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
-import { useSnapStore, useGeneralStore } from '../../utils/store';
+import {
+  MinusCircleIcon,
+  XCircleIcon,
+  CheckCircleIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+} from '@heroicons/react/20/solid';
+
+import {
+  PlusCircleIcon,
+  MinusCircleIcon as MinusCircleOutline,
+  TrashIcon,
+  ShareIcon,
+  ArrowDownTrayIcon,
+  ArrowsPointingOutIcon,
+} from '@heroicons/react/24/outline';
+import Link from 'next/link';
+import StoreIcon from '../StoreIcon';
+import { useSnapStore, useTableStore } from '../../utils/store';
 import { VC_DATA } from './data';
-import { IndeterminateCheckbox } from './IndeterminateCheckbox';
+import TablePagination from './TablePagination';
+import InfoIcon from '../InfoIcon';
+import Tooltip from '../Tooltip';
 
 export const Table = () => {
   const vcs = useSnapStore((state) => state.vcs);
   const changeVcs = useSnapStore((state) => state.changeVcs);
   const api = useSnapStore((state) => state.snapApi);
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [rowSelection, setRowSelection] = React.useState({});
-  const [globalFilter, setGlobalFilter] = React.useState('');
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
+  const columnFilters = useTableStore((state) => state.columnFilters);
+  const globalFilter = useTableStore((state) => state.globalFilter);
+  const setTable = useTableStore((state) => state.setTable);
   // const data = React.useMemo(() => vcs, []);
 
   const columnHelper = createColumnHelper<QueryVCsRequestResult>();
 
+  const includesDataStore: FilterFn<any> = (row, columnId, value, addMeta) => {
+    // Rank the item
+    const item = row.getValue('data_store');
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const itemArr = (item as string).split(',');
+
+    let matching = false;
+    for (let i = 0; i < value.length; i += 1) {
+      if (itemArr.indexOf(value[i]) >= 0) {
+        matching = true;
+      }
+    }
+    return matching;
+  };
+
   const columns = [
-    columnHelper.accessor((row) => Date.parse(row.data.issuanceDate), {
-      id: 'id',
-      cell: (info) => <span>{new Date(info.getValue()).toDateString()}</span>,
-      header: () => <span>Issuance Date</span>,
+    columnHelper.display({
+      id: 'expand',
+      header: ({ table }) => <></>,
+      cell: ({ row }) => (
+        <button
+          onClick={() => {
+            console.log('clicked');
+          }}
+        >
+          <ArrowsPointingOutIcon className="w-5 h-5" />
+        </button>
+      ),
       enableGlobalFilter: false,
     }),
     columnHelper.accessor(
@@ -69,21 +111,35 @@ export const Table = () => {
         id: 'type',
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         cell: (info) => <span>{info.getValue().toString()}</span>,
-        header: () => <span>Type</span>,
+        header: () => <span>TYPE</span>,
       }
     ),
+    columnHelper.accessor((row) => Date.parse(row.data.issuanceDate), {
+      id: 'date',
+      cell: (info) => <span>{new Date(info.getValue()).toDateString()}</span>,
+      header: () => <span>ISSUANCE DATE</span>,
+      enableGlobalFilter: false,
+    }),
     columnHelper.accessor(
       (row) =>
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
         row.data.credentialSubject.id ? row.data.credentialSubject.id : '',
       {
-        id: 'holder',
+        id: 'subject',
         cell: (info) => (
-          <span>{`${info.getValue().slice(0, 8)}....${info
-            .getValue()
-            .slice(-4)}`}</span>
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          <Tooltip tooltip={'Open DID in Universal resolver'}>
+            <a
+              href={`https://dev.uniresolver.io/#${info.getValue()}`}
+              target="_blank"
+              rel="noreferrer"
+              className="text-orange-500 hover:text-orange-700 underline"
+            >{`${info.getValue().slice(0, 8)}....${info
+              .getValue()
+              .slice(-4)}`}</a>
+          </Tooltip>
         ),
-        header: () => <span>Holder</span>,
+        header: () => <span>SUBJECT</span>,
       }
     ),
     columnHelper.accessor(
@@ -96,19 +152,36 @@ export const Table = () => {
       {
         id: 'issuer',
         cell: (info) => (
-          <span>{`${info.getValue().slice(0, 8)}....${info
-            .getValue()
-            .slice(-4)}`}</span>
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          <Tooltip tooltip={'Open DID in Universal resolver'}>
+            <a
+              href={`https://dev.uniresolver.io/#${info.getValue()}`}
+              target="_blank"
+              rel="noreferrer"
+              className="text-orange-500 hover:text-orange-700 underline"
+            >{`${info.getValue().slice(0, 8)}....${info
+              .getValue()
+              .slice(-4)}`}</a>
+          </Tooltip>
         ),
-        header: () => <span>Issuer</span>,
+        header: () => <span>ISSUER</span>,
       }
     ),
     columnHelper.accessor(
-      (row) => Object.keys(row.data.credentialSubject).length.toString(),
+      (row) => {
+        return row.data.expirationDate as string | undefined;
+      },
       {
-        id: 'attributes',
-        cell: (info) => <span>{info.getValue()}</span>,
-        header: () => <span>Attributes</span>,
+        id: 'exp_date',
+        cell: (info) => (
+          <span>
+            {info.getValue() === undefined
+              ? '/'
+              : new Date(info.getValue() as string).toDateString()}
+          </span>
+        ),
+        header: () => <span>EXPIRATION DATE</span>,
+        enableGlobalFilter: false,
       }
     ),
     columnHelper.accessor(
@@ -119,8 +192,32 @@ export const Table = () => {
       },
       {
         id: 'status',
-        cell: (info) => <span>{info.getValue()}</span>,
-        header: () => <span>Status</span>,
+        cell: (info) => (
+          <Tooltip
+            tooltip={`${
+              info.cell.row.original.data.expirationDate === undefined
+                ? 'Does not have expiration date'
+                : `${
+                    info.getValue() === 'true' ? 'Expires' : 'Expired'
+                  } on ${new Date(
+                    info.cell.row.original.data.expirationDate
+                  ).toDateString()}`
+            }`}
+          >
+            <span className="flex justify-center items-center">
+              {info.getValue() === 'true' ? (
+                <CheckCircleIcon className="h-6 w-6 text-green-500" />
+              ) : (
+                <MinusCircleIcon className="h-6 w-6 text-red-500" />
+              )}
+            </span>
+          </Tooltip>
+        ),
+        header: () => (
+          <span className="flex gap-x-1">
+            STATUS <InfoIcon>Validity of the VC</InfoIcon>
+          </span>
+        ),
       }
     ),
     columnHelper.accessor(
@@ -130,79 +227,72 @@ export const Table = () => {
       },
       {
         id: 'data_store',
-        cell: (info) => <span>{info.getValue()}</span>,
-        header: () => <span>Data Store</span>,
+        cell: (info) => (
+          <div className="flex justify-center items-center">
+            {info
+              .getValue()
+              .split(',')
+              .map((store, id) => (
+                <StoreIcon store={store} key={id} />
+              ))}
+          </div>
+        ),
+        header: () => (
+          <span className="flex gap-x-1">
+            STORE <InfoIcon>Place where VC is stored</InfoIcon>
+          </span>
+        ),
         enableGlobalFilter: false,
+        filterFn: includesDataStore,
       }
     ),
     columnHelper.display({
       id: 'select',
-      header: ({ table }) => (
-        <IndeterminateCheckbox
-          {...{
-            checked: table.getIsAllRowsSelected(),
-            indeterminate: table.getIsSomeRowsSelected(),
-            onChange: table.getToggleAllRowsSelectedHandler(),
-          }}
-        />
-      ),
+      header: ({ table }) => <>SELECT</>,
       cell: ({ row }) => (
-        <div className="px-1">
-          <IndeterminateCheckbox
-            {...{
-              checked: row.getIsSelected(),
-              indeterminate: row.getIsSomeSelected(),
-              onChange: row.getToggleSelectedHandler(),
-            }}
-          />
+        <div className="px-1 flex justify-center items-center">
+          <button onClick={row.getToggleSelectedHandler()}>
+            {row.getIsSelected() ? (
+              <MinusCircleIcon className="w-7 h-7 text-orange-500" />
+            ) : (
+              <PlusCircleIcon className="w-7 h-7" />
+            )}
+          </button>
         </div>
       ),
       enableGlobalFilter: false,
     }),
     columnHelper.display({
-      id: 'action',
-      cell: () => <span>btn1 btn2 btn3</span>,
-      header: () => <span>Actions</span>,
+      id: 'actions',
+      cell: () => (
+        <div className="flex items-center justify-center gap-1">
+          <button>
+            <ArrowDownTrayIcon className="w-6 h-6" />
+          </button>
+          <button>
+            <ShareIcon className="w-6 h-6" />
+          </button>
+          <button>
+            <TrashIcon className="w-6 h-6" />
+          </button>
+        </div>
+      ),
+      header: () => <span>ACTIONS</span>,
       enableGlobalFilter: false,
     }),
   ];
-
-  const includesDataStore: FilterFn<any> = (row, columnId, value, addMeta) => {
-    // Rank the item
-    const item = row.getValue('data_store');
-
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const itemArr = (item as string).split(',');
-    const valueArr = (value as string).split(',');
-
-    const sortedItemArr = itemArr.sort(function (a, b) {
-      if (a > b) {
-        return -1;
-      }
-      if (b > a) {
-        return 1;
-      }
-      return 0;
-    });
-    const sortedValueArr = valueArr.sort(function (a, b) {
-      if (a > b) {
-        return -1;
-      }
-      if (b > a) {
-        return 1;
-      }
-      return 0;
-    });
-    return JSON.stringify(sortedItemArr) === JSON.stringify(sortedValueArr);
-  };
 
   const table = useReactTable({
     data: VC_DATA,
     columns,
     filterFns: { includesDataStore },
     globalFilterFn: 'includesString',
-    state: { sorting, globalFilter, columnFilters },
-    initialState: { pagination: { pageSize: 5 } },
+    state: {
+      sorting,
+      globalFilter,
+      columnFilters,
+    },
+    // initialState: { pagination: { pageSize: 9 } },
     enableGlobalFilter: true,
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
@@ -216,7 +306,6 @@ export const Table = () => {
 
   const loadVCs = async () => {
     const loadedVCs = await api?.queryVCs();
-    console.log(loadedVCs);
     if (loadedVCs) {
       changeVcs(loadedVCs);
     }
@@ -228,66 +317,93 @@ export const Table = () => {
 
   if (vcs.length === 0)
     return (
-      <div className="flex flex-col justify-center items-center h-full ">
+      <div className="flex flex-col justify-center items-center min-h-[50vh] ">
         Load VCs to get Started!
-        <Button variant="primary" onClick={handleLoadVcs}>
+        <Button variant="primary" size="lg" onClick={handleLoadVcs}>
           Load VCs
         </Button>
       </div>
     );
 
   return (
-    <>
-      <div>
-        <input
-          value={globalFilter ?? ''}
-          onChange={(e) => {
-            setGlobalFilter(e.target.value);
-            // table.setGlobalFilter(e.target.value);
-          }}
-          className="p-2 font-lg shadow border border-block"
-          placeholder="Search all columns..."
-        />
-      </div>
-      <div>
-        <input
-          value={globalFilter ?? ''}
-          onChange={(e) => {
-            setColumnFilters([{ id: 'data_store', value: e.target.value }]);
-          }}
-          className="p-2 font-lg shadow border border-block"
-          placeholder="Search datastore..."
-        />
-      </div>
-      <table>
-        <thead>
+    <div className="relative h-full min-h-[50vh] w-full flex flex-col">
+      <table className="min-w-full text-center text-gray-800 text-sm lg:text-md">
+        <thead className="border-b">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <th
+                  className={`px-3 py-4 font-semibold text-md ${
+                    header.id === 'type' || header.id === 'exp_date'
+                      ? 'hidden lg:table-cell'
+                      : ''
+                  }
+                  ${
+                    header.id === 'date' || header.id === 'subject'
+                      ? 'hidden md:table-cell'
+                      : ''
+                  }
+                  ${header.id === 'actions' ? 'hidden md:table-cell' : ''}
+                  `}
                   key={header.id}
                   onClick={header.column.getToggleSortingHandler()}
                 >
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                  {{
-                    asc: ' A',
-                    desc: ' D',
-                  }[header.column.getIsSorted() as string] ?? null}
+                  <div className="flex justify-center items-center">
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                    {{
+                      asc: (
+                        <ChevronDownIcon className="h-4 w-4 text-gray-800" />
+                      ),
+                      desc: <ChevronUpIcon className="h-4 w-4 text-gray-800" />,
+                    }[header.column.getIsSorted() as string] ?? null}
+                  </div>
                 </th>
               ))}
             </tr>
           ))}
         </thead>
-        <tbody>
+        <tbody className="border-b text-gray-800">
           {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
+            <tr
+              key={row.id}
+              className={`border-b border-gray-500  animated-transition duration-75 ${
+                row.getIsSelected()
+                  ? 'bg-orange-50 hover:bg-orange-50'
+                  : 'hover:bg-gray-50'
+              }`}
+            >
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>
+                <td
+                  onClick={() => {
+                    if (
+                      cell.column.id !== 'select' &&
+                      cell.column.id !== 'expand' &&
+                      cell.column.id !== 'subject' &&
+                      cell.column.id !== 'issuer' &&
+                      cell.column.id !== 'actions'
+                    )
+                      row.toggleSelected();
+                  }}
+                  className={`py-5 max-h-16 whitespace-nowrap  ${
+                    cell.column.id === 'type' || cell.column.id === 'exp_date'
+                      ? 'hidden lg:table-cell'
+                      : ''
+                  }
+                  ${
+                    cell.column.id === 'date' || cell.column.id === 'subject'
+                      ? 'hidden md:table-cell'
+                      : ''
+                  }
+                  ${
+                    cell.column.id === 'actions' ? 'hidden sm:table-cell' : ''
+                  }`}
+                  key={cell.id}
+                >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
@@ -295,43 +411,26 @@ export const Table = () => {
           ))}
         </tbody>
       </table>
-      <div className="flex items-center gap-2">
-        <button
-          className="border rounded p-1"
-          onClick={() => table.setPageIndex(0)}
-          disabled={!table.getCanPreviousPage()}
-        >
-          {'<<'}
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          {'<'}
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          {'>'}
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-          disabled={!table.getCanNextPage()}
-        >
-          {'>>'}
-        </button>
-        <span className="flex items-center gap-1">
-          <div>Page</div>
-          <strong>
-            {table.getState().pagination.pageIndex + 1} of{' '}
-            {table.getPageCount()}
-          </strong>
-        </span>
+      <div className="mt-auto pt-9 flex justify-center pb-9">
+        <TablePagination table={table} />
       </div>
-    </>
+      {table.getSelectedRowModel().rows.length > 0 && (
+        <div className="absolute -bottom-5 right-10">
+          <Link href="createVP">
+            <Button
+              variant="primary"
+              size="wd"
+              onClick={() => {
+                setTable(table);
+              }}
+            >
+              Create Presentation{' '}
+              {table.getSelectedRowModel().rows.length > 0 &&
+                `(${table.getSelectedRowModel().rows.length})`}
+            </Button>
+          </Link>
+        </div>
+      )}
+    </div>
   );
 };

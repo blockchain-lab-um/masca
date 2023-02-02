@@ -1,3 +1,4 @@
+import ConnectedGateway from 'src/components/ConnectedGateway';
 import MetaMaskGateway from '../../components/MetaMaskGateway';
 import { Controlbar } from './Controlbar';
 import Table from '../../components/VCTable';
@@ -9,26 +10,20 @@ export default function Dashboard() {
   const vcs = useSnapStore((state) => state.vcs);
   return (
     <MetaMaskGateway>
-      <div className="flex justify-between mb-2">
+      <div className="flex justify-between">
         <Title>My Credentials</Title>
-        {isConnected && (
-          <div>
-            <span className="text-xl font-semibold">{vcs.length} </span>
-            <span className="text-gray-80/80 text-lg font-cabin font-normal">
-              VCs
-            </span>
-          </div>
-        )}
+        <div>
+          <span className="text-xl font-semibold">{vcs.length} </span>
+          <span className="text-gray-80/80 text-lg font-cabin font-normal">
+            VCs
+          </span>
+        </div>
       </div>
-      {vcs.length > 0 && <Controlbar />}
-      <div className="bg-white dark:bg-gray-80 dark:shadow-orange-20/10 h-[70vh] p-4 rounded-3xl shadow-lg">
-        {isConnected ? (
+      <Controlbar vcs={vcs} isConnected={isConnected} />
+      <div className="flex justify-center min-h-[50vh]  bg-white dark:bg-gray-800 dark:shadow-orange-900 rounded-3xl shadow-lg">
+        <ConnectedGateway>
           <Table />
-        ) : (
-          <div className="flex justify-center h-full">
-            Connect to MetaMask to get started
-          </div>
-        )}
+        </ConnectedGateway>
       </div>
     </MetaMaskGateway>
   );

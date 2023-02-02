@@ -6,6 +6,8 @@ import {
   AvailableVCStores,
   SSISnapApi,
 } from '@blockchain-lab-um/ssi-snap-types';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { ColumnFiltersState, RowModel, Table } from '@tanstack/react-table';
 
 interface GeneralStore {
   address: string;
@@ -67,4 +69,23 @@ export const useSnapStore = create<SnapStore>()((set) => ({
   changeCurrVCStore: (currVCStore: AvailableVCStores) => set({ currVCStore }),
   changeCurrDID: (currDID: string) => set({ currDID }),
   changeVcs: (vcs: QueryVCsRequestResult[]) => set({ vcs }),
+}));
+
+interface TableStore {
+  globalFilter: string;
+  columnFilters: ColumnFiltersState;
+  table: Table<QueryVCsRequestResult> | undefined;
+  setTable: (table: Table<QueryVCsRequestResult>) => void;
+  setColumnFilters: (columnFilters: ColumnFiltersState) => void;
+  setGlobalFilter: (globalFilter: string) => void;
+}
+
+export const useTableStore = create<TableStore>()((set) => ({
+  globalFilter: '',
+  columnFilters: [{ id: 'data_store', value: ['snap', 'ceramic'] }],
+  table: undefined,
+  setColumnFilters: (columnFilters: ColumnFiltersState) =>
+    set({ columnFilters }),
+  setGlobalFilter: (globalFilter: string) => set({ globalFilter }),
+  setTable: (table: Table<QueryVCsRequestResult>) => set({ table }),
 }));

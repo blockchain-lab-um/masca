@@ -30,8 +30,8 @@ export default function MethodDropdownMenu() {
         <Fragment>
           <div>
             <Menu.Button
-              className={`inline-flex w-full  justify-center text-orange px-4 py-2 text-h4 rounded-3xl font-medium hover:bg-orange/30 focus:outline-none animated-transition ${
-                open ? 'bg-orange/30' : ''
+              className={`inline-flex w-full  justify-center text-orange-500 px-4 py-2 text-h4 rounded-3xl font-medium hover:bg-orange-100 focus:outline-none animated-transition ${
+                open ? 'bg-orange-100' : ''
               }`}
             >
               {didMethod}
