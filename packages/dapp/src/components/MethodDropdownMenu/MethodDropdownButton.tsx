@@ -1,6 +1,7 @@
 import React from 'react';
 import { Menu } from '@headlessui/react';
 import { clsx } from 'clsx';
+import { CheckIcon } from '@heroicons/react/20/solid';
 
 function classNames(...classes: string[]) {
   return clsx(classes);
@@ -9,11 +10,13 @@ function classNames(...classes: string[]) {
 type DropdownButtonProps = {
   children: React.ReactNode;
   handleBtn: (text: string) => void;
+  selected: boolean;
 };
 
 export const DropdownButton = ({
   children,
   handleBtn,
+  selected,
 }: DropdownButtonProps) => {
   return (
     <Menu.Item>
@@ -26,10 +29,11 @@ export const DropdownButton = ({
             active
               ? 'text-orange-700 bg-orange-100 animated-transition cursor-pointer'
               : 'text-gray-800',
+            selected ? 'font-semibold text-orange-700' : 'font-normal',
             'block px-4 mx-2 rounded-xl py-2 text-sm'
           )}
         >
-          {children}
+          <span className="flex">{children}</span>
         </a>
       )}
     </Menu.Item>

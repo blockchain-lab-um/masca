@@ -25,6 +25,14 @@
     font-display: swap;
     font-style: bold;
   }
+
+  @font-face {
+    font-family: 'Jetbrains Mono';
+    src: url('../fonts/JetBrainsMono-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-display: swap;
+    font-style: normal;
+  }
 }
 
 * {
@@ -57,51 +65,6 @@ body {
 
   .bg-gradient {
     @apply bg-gradient-to-t from-pink-50 to-orange-50 text-black dark:bg-gradient-to-t dark:from-black dark:to-black dark:text-white;
-  }
-
-  .bg-svg {
-    aspect-ratio: 900/675;
-    width: 100%;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    background-image: url('../images/layer1.svg');
-  }
-
-  .btn {
-    @apply py-3 px-4 text-h4 max-w-xs;
-  }
-
-  .btn-sm {
-    @apply text-h4 py-2 px-[1em];
-  }
-
-  .btn-primary {
-    @apply bg-gradient-to-b to-pink-500 from-orange-500 btn hover:bg-gradient-to-b hover:opacity-80 text-white rounded-full animated-transition;
-  }
-
-  .btn-primary-sm {
-    @apply bg-gradient-to-b to-pink-500 from-orange-500 btn-sm hover:bg-gradient-to-b hover:opacity-80 text-white rounded-full animated-transition;
-  }
-
-  .btn-primary-active {
-    @apply text-h4  text-orange-500 outline outline-orange-500 rounded-full;
-  }
-
-  .btn-secondary {
-    @apply bg-navy-blue-500 text-white btn hover:opacity-80  rounded-full animated-transition;
-  }
-
-  .btn-secondary-sm {
-    @apply btn-secondary btn-sm;
-  }
-
-  .btn-secondary-active {
-    @apply text-h4 btn text-navy-blue-500  outline outline-navy-blue-500 rounded-full;
-  }
-
-  .btn-connect {
-    @apply btn bg-orange-500/30 text-orange-500 hover:opacity-80  rounded-full animated-transition;
   }
 
   .nav-btn {

@@ -19,10 +19,15 @@ export const DataStoreCombobox = ({
   isConnected,
 }: DataStoreComboboxProps) => {
   const [query, setQuery] = useState('');
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return
   const setColumnFilters = useTableStore((state) => state.setColumnFilters);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   const selectedItems = useTableStore((state) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     for (let i = 0; i < state.columnFilters.length; i += 1) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       if (state.columnFilters[i].id === 'data_store') {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
         return state.columnFilters[i].value;
       }
     }
@@ -52,6 +57,7 @@ export const DataStoreCombobox = ({
       <Combobox
         value={selectedItems}
         onChange={(value) => {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-call
           setColumnFilters([{ id: 'data_store', value }]);
         }}
         multiple

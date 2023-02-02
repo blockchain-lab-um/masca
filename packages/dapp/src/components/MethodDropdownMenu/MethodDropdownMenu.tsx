@@ -74,8 +74,12 @@ export default function MethodDropdownMenu() {
               <div className="py-2">
                 {methods.map((method, id) => {
                   return (
-                    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-                    <DropdownButton handleBtn={handleMethodChange} key={id}>
+                    <DropdownButton
+                      selected={method === currMethod}
+                      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                      handleBtn={handleMethodChange}
+                      key={id}
+                    >
                       {method}
                     </DropdownButton>
                   );

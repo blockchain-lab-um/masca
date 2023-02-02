@@ -67,6 +67,7 @@ module.exports = {
     fontFamily: {
       cabin: 'Cabin, sans-serif',
       ubuntu: 'Ubuntu, sans-serif',
+      jetbrains: 'JetBrains Mono, monospace',
     },
     fontSize: {
       hint: ['10px', { lineHeight: '16px', letterSpacing: '-0.03em' }],

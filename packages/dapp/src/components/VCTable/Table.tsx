@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
@@ -61,12 +63,9 @@ export const Table = () => {
   const columnHelper = createColumnHelper<QueryVCsRequestResult>();
 
   const includesDataStore: FilterFn<any> = (row, columnId, value, addMeta) => {
-    // Rank the item
     const item = row.getValue('data_store');
-
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const itemArr = (item as string).split(',');
-
     let matching = false;
     for (let i = 0; i < value.length; i += 1) {
       if (itemArr.indexOf(value[i]) >= 0) {
@@ -81,13 +80,21 @@ export const Table = () => {
       id: 'expand',
       header: ({ table }) => <></>,
       cell: ({ row }) => (
-        <button
-          onClick={() => {
-            console.log('clicked');
+        // <Link href={`/vc/${row.original.metadata.id}`}>
+        <Link
+          href={{
+            pathname: '/vc',
+            query: { id: row.original.metadata.id },
           }}
         >
-          <ArrowsPointingOutIcon className="w-5 h-5" />
-        </button>
+          <button
+            onClick={() => {
+              console.log('clicked');
+            }}
+          >
+            <ArrowsPointingOutIcon className="w-5 h-5" />
+          </button>
+        </Link>
       ),
       enableGlobalFilter: false,
     }),
@@ -101,7 +108,7 @@ export const Table = () => {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           if (Array.isArray(row.data.type) && row.data.type.length > 0) {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            return row.data.type[row.data.type.length - 1] as string;
+            return row.data.type[row.data.type.length - 1];
           }
           return '';
         }
@@ -169,7 +176,7 @@ export const Table = () => {
     ),
     columnHelper.accessor(
       (row) => {
-        return row.data.expirationDate as string | undefined;
+        return row.data.expirationDate;
       },
       {
         id: 'exp_date',
@@ -193,25 +200,25 @@ export const Table = () => {
       {
         id: 'status',
         cell: (info) => (
-          <Tooltip
-            tooltip={`${
-              info.cell.row.original.data.expirationDate === undefined
-                ? 'Does not have expiration date'
-                : `${
-                    info.getValue() === 'true' ? 'Expires' : 'Expired'
-                  } on ${new Date(
-                    info.cell.row.original.data.expirationDate
-                  ).toDateString()}`
-            }`}
-          >
-            <span className="flex justify-center items-center">
+          <span className="flex justify-center items-center">
+            <Tooltip
+              tooltip={`${
+                info.cell.row.original.data.expirationDate === undefined
+                  ? 'Does not have expiration date'
+                  : `${
+                      info.getValue() === 'true' ? 'Expires' : 'Expired'
+                    } on ${new Date(
+                      info.cell.row.original.data.expirationDate
+                    ).toDateString()}`
+              }`}
+            >
               {info.getValue() === 'true' ? (
                 <CheckCircleIcon className="h-6 w-6 text-green-500" />
               ) : (
                 <MinusCircleIcon className="h-6 w-6 text-red-500" />
               )}
-            </span>
-          </Tooltip>
+            </Tooltip>
+          </span>
         ),
         header: () => (
           <span className="flex gap-x-1">

@@ -15,7 +15,7 @@ export const AddressPopover = ({
   disconnect,
 }: AddressPopoverProps) => {
   return (
-    <Popover className="relative">
+    <Popover className="relative z-50">
       {({ open }) => (
         <>
           <Popover.Button
@@ -46,7 +46,7 @@ export const AddressPopover = ({
             leaveFrom="transform scale-100 opacity-100"
             leaveTo="transform scale-95 opacity-0"
           >
-            <Popover.Panel className="absolute max-md:left-0 max-md:-top-12 max-md:transform max-md:-translate-y-full z-10 max-md:mb-2 md:mt-2 right-0 bg-white shadow-sm h-42 w-72 p-4 rounded-2xl border border-navy-blue-100">
+            <Popover.Panel className="absolute max-md:left-0 max-md:-top-12 max-md:transform max-md:-translate-y-full max-md:mb-2 md:mt-2 right-0 bg-white shadow-sm h-42 w-72 p-4 rounded-2xl border border-navy-blue-100">
               <div className="flex flex-col justify-between gap-3">
                 <div>
                   <div className="text-sm text-gray-700">DID</div>
@@ -87,13 +87,14 @@ export const AddressPopover = ({
                     </button>
                   </div>
                 </div>
-
-                <button
-                  onClick={disconnect}
-                  className="mt-auto text-sm text-pink-800 text-left font-semibold  hover:text-pink-700 animated-transition"
-                >
-                  DISCONNECT
-                </button>
+                <div className="mt-2 flex justify-start">
+                  <button
+                    onClick={disconnect}
+                    className="mt-auto text-sm text-pink-800  font-semibold  hover:text-pink-700 animated-transition"
+                  >
+                    DISCONNECT
+                  </button>
+                </div>
               </div>
             </Popover.Panel>
           </Transition>

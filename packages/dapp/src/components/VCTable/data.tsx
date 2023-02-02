@@ -31,7 +31,7 @@ export const VC_DATA = [
       },
     },
     metadata: {
-      id: 'd4249f9b-1bbd-47e7-bd82-71b8a0575752',
+      id: 'c546a01b-67ce-4dc3-ad4d-c6632c01db54',
       store: 'snap',
     },
   },
