@@ -12,7 +12,7 @@ export const CreateVP = () => {
   console.log('table', table?.getSelectedRowModel().rows.length);
   return (
     <MetaMaskGateway>
-      <div className="flex justify-center h-full min-h-[50vh] p-5 bg-white dark:bg-gray-800 dark:shadow-orange-900  rounded-3xl shadow-lg">
+      <div className="flex justify-center h-full min-h-[50vh] p-5 border border-gray-200 bg-white dark:bg-gray-800 dark:shadow-orange-900  rounded-3xl shadow-lg">
         <ConnectedGateway>
           <div className="flex flex-col">
             <div>Nav</div>

@@ -8,6 +8,7 @@ import {
 } from '@blockchain-lab-um/ssi-snap-types';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ColumnFiltersState, RowModel, Table } from '@tanstack/react-table';
+import { VC_DATA } from 'src/components/VCTable/data';
 
 interface GeneralStore {
   address: string;
@@ -26,7 +27,7 @@ interface GeneralStore {
 
 export const useGeneralStore = create<GeneralStore>()((set) => ({
   address: '',
-  isConnected: false,
+  isConnected: true,
   did: '',
   hasMetaMask: false,
   isFlask: false,
@@ -61,7 +62,7 @@ export const useSnapStore = create<SnapStore>()((set) => ({
   currDIDMethod: undefined,
   currVCStore: undefined,
   currDID: '',
-  vcs: [],
+  vcs: VC_DATA,
   changeSnapApi: (snapApi: SSISnapApi) => set({ snapApi }),
   changeAvailableMethods: (availableMethods: string[]) =>
     set({ availableMethods }),

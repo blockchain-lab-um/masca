@@ -2,6 +2,8 @@ import Link from 'next/link';
 import React from 'react';
 import ConnectedGateway from 'src/components/ConnectedGateway';
 import MetaMaskGateway from 'src/components/MetaMaskGateway';
+import { ArrowLeftIcon } from '@heroicons/react/24/solid';
+import { TrashIcon, ShareIcon } from '@heroicons/react/24/outline';
 import { Tab } from '@headlessui/react';
 import clsx from 'clsx';
 import useUrlQuery from '../../hooks/useUrlQuery';
@@ -32,15 +34,24 @@ export const VC = () => {
 
   return (
     <MetaMaskGateway>
-      <div className="h-full min-h-[80vh] bg-white dark:bg-gray-800 dark:shadow-orange-900  rounded-3xl shadow-lg">
+      <div className="h-full min-h-[80vh] bg-white border border-gray-200 pt-2 dark:bg-gray-800 dark:shadow-orange-900  rounded-3xl shadow-lg">
         <ConnectedGateway>
           <div className="flex flex-col items-center">
-            <div className="flex w-full flex-row justify-between px-5 py-2 border-b">
+            <div className="w-full grid grid-cols-3 px-5 py-2 border-b">
               <Link href="dashboard">
-                <button className="text-orange-500">back</button>
+                <button className="text-orange-500 hover:bg-orange-100 p-1 hover:text-orange-700 animated-transition rounded-full">
+                  <ArrowLeftIcon className="w-6 h-6" />
+                </button>
               </Link>
-
-              <div>Del btn Share btn CreateVP btn</div>
+              <div className="text-h3 text-center">Verifiable Credential</div>
+              <div className="text-end">
+                <button className="text-gray-800 hover:bg-orange-100 p-1 hover:text-orange-700 animated-transition rounded-full">
+                  <ShareIcon className="w-6 h-6" />
+                </button>
+                <button className="text-gray-800 hover:bg-orange-100 p-1 hover:text-orange-700 animated-transition rounded-full">
+                  <TrashIcon className="w-6 h-6" />
+                </button>
+              </div>
             </div>
             <div className="w-full px-2 sm:px-0">
               <Tab.Group>
@@ -97,9 +108,6 @@ export const VC = () => {
                 </Tab.Panels>
               </Tab.Group>
             </div>
-
-            <div>Options</div>
-            <div>Finish</div>
           </div>
         </ConnectedGateway>
       </div>

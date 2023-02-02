@@ -13,12 +13,12 @@ export const JsonTab = ({ vc }: JsonTabProps) => {
         <textarea
           className="bg-orange-100 w-full h-full resize-none rounded-2xl focus:outline-none p-2 text-orange-900 font-jetbrains"
           disabled
-          value={JSON.stringify(vc, null, 4)}
+          value={JSON.stringify(vc.data, null, 4)}
         />
         <button
           onClick={() => {
             // eslint-disable-next-line @typescript-eslint/no-floating-promises
-            navigator.clipboard.writeText(JSON.stringify(vc, null, 4));
+            navigator.clipboard.writeText(JSON.stringify(vc.data, null, 4));
           }}
           className="absolute bottom-1 right-5 text-orange-900 p-1 rounded-full bg-orange-300 hover:bg-orange-200 hover:text-orange-800 animated-transition"
         >
