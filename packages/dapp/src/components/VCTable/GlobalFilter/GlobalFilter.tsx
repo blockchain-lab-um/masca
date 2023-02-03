@@ -13,7 +13,7 @@ export const GlobalFilter = ({ isConnected, vcs }: GlobalFilterProps) => {
   const globalFilter = useTableStore((state) => state.globalFilter);
   return (
     <div
-      className={`flex items-center flex-1 sm:flex-none shadow-sm bg-white w-fit rounded-full dark:bg-gray-800 ${
+      className={`flex items-center flex-1 sm:flex-none bg-white w-fit rounded-full dark:bg-gray-800 border border-gray-200 shadow-md ${
         !isConnected || vcs.length === 0 ? 'bg-gray-50' : ''
       }`}
     >

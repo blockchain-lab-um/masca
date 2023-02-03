@@ -34,67 +34,53 @@ export const VC = () => {
 
   return (
     <MetaMaskGateway>
-      <div className="h-full min-h-[80vh] bg-white border border-gray-200 pt-2 dark:bg-gray-800 dark:shadow-orange-900  rounded-3xl shadow-lg">
-        <ConnectedGateway>
-          <div className="flex flex-col items-center">
-            <div className="w-full grid grid-cols-3 px-5 py-2 border-b">
-              <Link href="dashboard">
-                <button className="text-orange-500 hover:bg-orange-100 p-1 hover:text-orange-700 animated-transition rounded-full">
-                  <ArrowLeftIcon className="w-6 h-6" />
-                </button>
-              </Link>
-              <div className="text-h3 text-center">Verifiable Credential</div>
-              <div className="text-end">
-                <button className="text-gray-800 hover:bg-orange-100 p-1 hover:text-orange-700 animated-transition rounded-full">
-                  <ShareIcon className="w-6 h-6" />
-                </button>
-                <button className="text-gray-800 hover:bg-orange-100 p-1 hover:text-orange-700 animated-transition rounded-full">
-                  <TrashIcon className="w-6 h-6" />
-                </button>
+      <Tab.Group>
+        <Tab.List className="flex max-w-fit space-x-1 rounded-full md:ml-[10vh] lg:ml-[20vh] mb-2 text-orange-900 bg-white p-1 shadow-md border border-gray-200">
+          <Tab
+            className={({ selected }) =>
+              classNames(
+                'w-full rounded-full text-sm py-2 font-semibold px-4 text-orange-500 animated-transition',
+                selected
+                  ? 'bg-orange-100'
+                  : 'text-orange-900 hover:bg-orange-100 hover:text-orange-700'
+              )
+            }
+          >
+            Normal
+          </Tab>
+          <Tab
+            className={({ selected }) =>
+              classNames(
+                'w-full rounded-full text-sm py-2 font-semibold px-4 text-orange-500 animated-transition',
+                selected
+                  ? 'bg-orange-100'
+                  : 'text-orange-900 hover:bg-orange-100 hover:text-orange-700'
+              )
+            }
+          >
+            JSON
+          </Tab>
+        </Tab.List>
+        <div className="h-full min-h-[80vh] bg-white border border-gray-200 pt-2 dark:bg-gray-800 dark:shadow-orange-900 md:mx-[10vh] lg:mx-[20vh] rounded-3xl shadow-lg">
+          <ConnectedGateway>
+            <div className="flex flex-col items-center">
+              <div className="w-full grid grid-cols-3 px-5 py-2 border-b">
+                <Link href="dashboard">
+                  <button className="text-orange-500 hover:bg-orange-100 p-1 hover:text-orange-700 animated-transition rounded-full">
+                    <ArrowLeftIcon className="w-6 h-6" />
+                  </button>
+                </Link>
+                <div className="text-h3 text-center">Verifiable Credential</div>
+                <div className="text-end">
+                  <button className="text-gray-800 hover:bg-orange-100 p-1 hover:text-orange-700 animated-transition rounded-full">
+                    <ShareIcon className="w-6 h-6" />
+                  </button>
+                  <button className="text-gray-800 hover:bg-orange-100 p-1 hover:text-orange-700 animated-transition rounded-full">
+                    <TrashIcon className="w-6 h-6" />
+                  </button>
+                </div>
               </div>
-            </div>
-            <div className="w-full px-2 sm:px-0">
-              <Tab.Group>
-                <center>
-                  <Tab.List className="flex max-w-md space-x-1 rounded-xl bg-orange-900/20 p-1">
-                    <Tab
-                      className={({ selected }) =>
-                        classNames(
-                          'w-full rounded-lg py-2.5 text-sm font-semibold leading-5 text-orange-500 animated-transition',
-                          selected
-                            ? 'bg-white shadow-sm'
-                            : 'text-orange-900 hover:bg-orange-100 hover:text-orange-700'
-                        )
-                      }
-                    >
-                      Normal
-                    </Tab>
-                    <Tab
-                      className={({ selected }) =>
-                        classNames(
-                          'w-full rounded-lg py-2.5 text-sm font-semibold leading-5 text-orange-500 animated-transition',
-                          selected
-                            ? 'bg-white shadow-sm'
-                            : 'text-orange-900 hover:bg-orange-100 hover:text-orange-700'
-                        )
-                      }
-                    >
-                      JSON
-                    </Tab>
-                    <Tab
-                      className={({ selected }) =>
-                        classNames(
-                          'w-full rounded-lg py-2.5 text-sm font-semibold leading-5 text-orange-500 animated-transition',
-                          selected
-                            ? 'bg-white shadow-sm'
-                            : 'text-orange-900 hover:bg-orange-100 hover:text-orange-700'
-                        )
-                      }
-                    >
-                      QR
-                    </Tab>
-                  </Tab.List>
-                </center>
+              <div className="w-full px-2 sm:px-0">
                 <Tab.Panels>
                   <Tab.Panel>
                     <FormatedTab vc={vc} />
@@ -106,11 +92,11 @@ export const VC = () => {
                     <QRTab vc={vc} />
                   </Tab.Panel>
                 </Tab.Panels>
-              </Tab.Group>
+              </div>
             </div>
-          </div>
-        </ConnectedGateway>
-      </div>
+          </ConnectedGateway>
+        </div>
+      </Tab.Group>
     </MetaMaskGateway>
   );
 };

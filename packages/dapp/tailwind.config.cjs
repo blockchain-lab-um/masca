@@ -60,10 +60,6 @@ module.exports = {
       'red-500': '#FF4D4F',
       'blue-500': '#1890FF',
     },
-    boxShadow: {
-      sm: '0px 2px 4px 0px rgba(11, 10, 55, 0.15)',
-      lg: '0px 8px 20px 0px rgba(18, 16, 99, 0.06)',
-    },
     fontFamily: {
       cabin: 'Cabin, sans-serif',
       ubuntu: 'Ubuntu, sans-serif',

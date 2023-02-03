@@ -9,7 +9,7 @@ type ButtonProps = {
     | 'secondary'
     | 'connect';
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'wd';
-  shadow?: 'sm' | 'lg' | '';
+  shadow?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'none' | 'inner' | '';
   onClick?: () => void;
   children: React.ReactNode;
   id?: string;
