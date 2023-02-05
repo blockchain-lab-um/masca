@@ -59,6 +59,8 @@ module.exports = {
       'green-500': '#00C48C',
       'red-500': '#FF4D4F',
       'blue-500': '#1890FF',
+      'yellow-300': '#FFE58A',
+      'yellow-200': '#FFF1B8',
     },
     fontFamily: {
       cabin: 'Cabin, sans-serif',
@@ -83,5 +85,9 @@ module.exports = {
     },
     extend: {},
   },
-  plugins: [],
+  // eslint-disable-next-line import/no-extraneous-dependencies, global-require
+  plugins: [require('tailwind-scrollbar')],
+  variants: {
+    scrollbar: ['rounded'],
+  },
 };

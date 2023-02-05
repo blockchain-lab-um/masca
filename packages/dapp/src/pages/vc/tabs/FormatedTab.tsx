@@ -2,7 +2,13 @@
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import React from 'react';
 import StoreIcon from 'src/components/StoreIcon';
-import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
+import {
+  DocumentDuplicateIcon,
+  ShareIcon,
+  TrashIcon,
+  Cog6ToothIcon,
+} from '@heroicons/react/24/outline';
+import Button from 'src/components/Button';
 
 interface FormatedTabProps {
   vc: QueryVCsRequestResult;
@@ -36,33 +42,42 @@ export const FormatedTab = ({ vc }: FormatedTabProps) => {
     }
   }
 
-  return (
-    <div>
-      <div className="flex flex-col lg:flex-row justify-between flex-1 m-3 px-5 py-3 rounded-3xl bg-orange-500 shadow-lg">
-        <div className="flex flex-col">
-          <span className="text-sm text-orange-200">VALIDITY</span>
+  const expDate = vc.data.expirationDate
+    ? `Expires on ${new Date(
+        Date.parse(vc.data.expirationDate)
+      ).getDay()}.${new Date(
+        Date.parse(vc.data.expirationDate)
+      ).getMonth()}.${new Date(
+        Date.parse(vc.data.expirationDate)
+      ).getFullYear()}`
+    : 'Does not have an expiration date!';
 
-          <span className=" text-2xl text-white mt-4 mb-2">
+  return (
+    <div className="relative h-full">
+      <div className="flex flex-col lg:flex-row lg:justify-between m-3 p-5 rounded-3xl bg-orange-500">
+        <div className="flex flex-col mb-2 border-b border-orange-300 lg:border-none pb-2 lg:pb-0 lg:mb-0 ">
+          <span className="text-xs text-yellow-200/70 -mb-1">VALIDITY</span>
+
+          <span className="font-semibold text-2xl text-white">
             {validity ? 'VALID' : 'EXPIRED'}
           </span>
-          <span className="text-sm text-orange-200">
-            {vc.data.expirationDate
-              ? `Expires on ${new Date(
-                  Date.parse(vc.data.expirationDate)
-                ).toDateString()}`
-              : 'Does not have an expiration date!'}
-          </span>
+          <span className="text-sm text-yellow-300 mt-4">{expDate}</span>
         </div>
-        <div className="basis-1/3 flex flex-col break-all">
-          <span className="text-sm text-orange-200">ISSUER</span>
+        <div className="basis-2/3 lg:ml-2 flex flex-col break-all">
+          <span className="text-xs text-yellow-200/70 -mb-1">ISSUER</span>
           <div className="flex">
             <a
               href={`https://dev.uniresolver.io/#${issuer}`}
               target="_blank"
               rel="noreferrer"
-              className="text-2xl text-white underline underline-offset-2 hover:text-gray-100 animated-transition cursor-pointer mt-4 mb-2"
-            >{`${issuer.slice(0, 20)}...${issuer.slice(-6)}`}</a>
+              className="text-2xl font-semibold text-white underline underline-offset-2 hover:text-gray-100 animated-transition cursor-pointer"
+            >
+              {issuer.length > 20
+                ? `${issuer.slice(0, 20)}...${issuer.slice(-6)}`
+                : issuer}
+            </a>
             <button
+              className=""
               onClick={() => {
                 // eslint-disable-next-line @typescript-eslint/no-floating-promises
                 navigator.clipboard.writeText(issuer);
@@ -71,47 +86,71 @@ export const FormatedTab = ({ vc }: FormatedTabProps) => {
               <DocumentDuplicateIcon className="h-5 w-5 ml-1 text-white hover:text-gray-100 animated-transition" />
             </button>
           </div>
-          <span className=" text-sm text-orange-200">Unknown</span>
-        </div>
-        <div className=" basis-1/3 flex flex-col break-words">
-          <span className="text-sm text-orange-200">TYPE</span>
-
-          <span className="text-2xl text-white mt-4 mb-2">{types}</span>
+          <span className="mt-4 text-sm text-yellow-300">Unknown</span>
         </div>
       </div>
-      <div className="p-3">
-        <div>SUBJECT</div>
-        <ul>
+      <div className="mt-8 pl-4 lg:pl-12 pr-2 lg:pr-8 ">
+        <div className="text-md -mb-0.5 text-orange-500">TYPE</div>
+        <div className="text-xl font-semibold text-orange-700 break-all">
+          {types}
+        </div>
+        <ul className="mt-8">
           {Object.keys(vc.data.credentialSubject).map((key, id) => (
-            <li key={id}>
-              <span className="font-semibold">{key}: </span>
-              <span className="text-gray-900">
-                {vc.data.credentialSubject[key]}
-              </span>
+            <li key={id} className="mt-4 flex items-center">
+              <div className="w-2 h-2 p-1 rounded-full bg-orange-500" />
+              <div className="ml-2 lg:ml-4">
+                <div className="text-gray-700 text-sm">{key}</div>
+                <div className="text-gray-900 font-semibold break-all">
+                  {vc.data.credentialSubject[key]}
+                </div>
+              </div>
             </li>
           ))}
         </ul>
       </div>
-      <div className="w-full border-t">MetaData</div>
 
-      {vc.metadata.store && (
-        <div className="flex">
-          Stores:
-          {stores.map((store, id) => (
-            <StoreIcon store={store} key={id} />
-          ))}
+      <div className="px-4 lg:px-8 mt-4">
+        <span className="text-orange-500 text-sm">STORES</span>
+        <div className="flex justify-between items-center -mt-1">
+          {vc.metadata.store && (
+            <div className="flex">
+              {stores.map((store, id) => (
+                <StoreIcon store={store} key={id} />
+              ))}
+            </div>
+          )}
+
+          <div className="">
+            <button className="text-gray-800 hover:bg-orange-100 p-1 hover:text-orange-700 animated-transition rounded-full">
+              <Cog6ToothIcon className="w-6 h-6" />
+            </button>
+            <button className="text-gray-800 hover:bg-orange-100 p-1 hover:text-orange-700 animated-transition rounded-full">
+              <ShareIcon className="w-6 h-6" />
+            </button>
+            <button className="text-gray-800 hover:bg-orange-100 p-1 hover:text-orange-700 animated-transition rounded-full">
+              <TrashIcon className="w-6 h-6" />
+            </button>
+          </div>
         </div>
-      )}
-
-      <div className="">
-        Issuance date:{' '}
-        {new Date(Date.parse(vc.data.issuanceDate)).toDateString()}
       </div>
-      <div className="flex border-t">
-        <div>Create VP</div>
-        <div>Modify save</div>
-        <div>Share</div>
-        <div>Delete</div>
+
+      <div className="text-gray-800 text-xs mt-4 px-4">
+        ISSUED ON{' '}
+        <span className="text-gray-900 text-sm font-semibold">
+          {new Date(Date.parse(vc.data.issuanceDate)).toDateString()}
+        </span>
+      </div>
+
+      <div className="flex justify-end p-3 lg:hidden">
+        <Button variant="primary" size="sm">
+          Create Presentation
+        </Button>
+      </div>
+
+      <div className="hidden lg:block absolute -bottom-4 right-10">
+        <Button variant="primary" size="sm">
+          Create Presentation
+        </Button>
       </div>
     </div>
   );
