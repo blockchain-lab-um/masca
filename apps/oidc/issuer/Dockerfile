@@ -1,6 +1,6 @@
 FROM bclabum/ssi-snap-oidc-demo:latest as builder
 
-FROM node:16.18.1-alpine3.16
+FROM node:18.13.0-alpine3.16
 WORKDIR /app
 
 COPY --from=builder /app/yarn.lock ./yarn.lock
@@ -20,7 +20,7 @@ COPY --from=builder /app/libs/oidc/types ./libs/oidc/types
 ENV NODE_ENV=production
 ENV YARN_ENABLE_SCRIPTS=false
 
-RUN yarn install && yarn cache clean
+RUN pnpm install
 RUN chown node:node /app
 
 USER node

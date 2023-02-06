@@ -18,9 +18,8 @@ COPY --from=builder /app/libs/oidc/rp-plugin/package.json ./libs/oidc/rp-plugin/
 COPY --from=builder /app/libs/oidc/types ./libs/oidc/types
 
 ENV NODE_ENV=production
-ENV YARN_ENABLE_SCRIPTS=false
 
-RUN yarn install && yarn cache clean
+RUN pnpm install
 RUN chown node:node /app
 
 USER node

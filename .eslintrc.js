@@ -21,11 +21,29 @@ module.exports = {
           '**/*.spec.ts',
           '**/*.e2e-spec.ts',
           '**/webpack.config.ts',
+          '**/test/**/*.ts',
+          '**/tests/**/*.ts',
         ],
       },
     ],
     'prettier/prettier': ['error', { singleQuote: true }],
+    '@typescript-eslint/require-await': 'off',
   },
+  overrides: [
+    {
+      // Disable in test files
+      files: [
+        '**/*.spec.ts',
+        '**/*.e2e-spec.ts',
+        '**/test/**/*.ts',
+        '**/tests/**/*.ts',
+      ],
+      rules: {
+        '@typescript-eslint/no-unsafe-member-access': 'off',
+        '@typescript-eslint/no-unsafe-assignment': 'off',
+      },
+    },
+  ],
   ignorePatterns: [
     '**/node_modules/**',
     '**/dist/**',

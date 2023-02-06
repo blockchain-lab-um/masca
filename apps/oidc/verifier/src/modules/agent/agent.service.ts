@@ -24,9 +24,9 @@ import { EthrDIDProvider } from '@veramo/did-provider-ethr';
 import { KeyDIDProvider, getDidKeyResolver } from '@veramo/did-provider-key';
 import { getResolver as getEthrResolver } from 'ethr-did-resolver';
 import { Resolver } from 'did-resolver';
-import { IConfig } from 'src/config/configuration';
 import { CredentialPlugin } from '@veramo/credential-w3c';
 import { IOIDCPlugin, OIDCPlugin } from '@blockchain-lab-um/oidc-rp-plugin';
+import { IConfig, loadSupportedCredentials } from '../../config/configuration';
 
 @Injectable()
 export class AgentService {
@@ -114,9 +114,7 @@ export class AgentService {
           supported_digital_signatures: this.configService.get<string[]>(
             'SUPPORTED_DIGITAL_SIGNATURES'
           ),
-          supported_schema_url: this.configService.get<string>(
-            'SUPPORTED_SCHEMA_URL'
-          ),
+          supported_credentials: loadSupportedCredentials(),
         }),
         new CredentialPlugin(),
       ],

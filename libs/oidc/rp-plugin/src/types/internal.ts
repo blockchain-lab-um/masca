@@ -2,7 +2,7 @@ import {
   AuthorizationResponse,
   CredentialRequest,
   Credentials,
-  SupportedCredentialFormats,
+  SupportedCredential,
   TokenRequest,
 } from '@blockchain-lab-um/oidc-types';
 
@@ -55,7 +55,7 @@ export type IsValidAuthorizationHeaderResponse = {
 export type HandleCredentialRequestArgs = {
   body: CredentialRequest;
   did: string; // DID to use for signing the Credential
-  credentialSubjectClaims: any; // Claims to use for the credentialSubject
+  credentialSubjectClaims: unknown; // Claims to use for the credentialSubject
   c_nonce?: string;
   c_nonce_expires_in?: number;
 };

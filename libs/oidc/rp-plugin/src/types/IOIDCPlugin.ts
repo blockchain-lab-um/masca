@@ -1,5 +1,6 @@
 import {
   CredentialResponse,
+  IssuerServerMetadata,
   TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
 import {
@@ -27,6 +28,7 @@ export interface IOIDCPlugin extends IPluginMethodMap {
     args: HandleAuthorizationResponseArgs,
     context: OIDCAgentContext
   ): Promise<Result<boolean>>;
+  handleIssuerServerMetadataRequest(): Promise<Result<IssuerServerMetadata>>;
   createIssuanceInitiationRequest(): Promise<
     Result<CreateIssuanceInitiationRequestResposne>
   >;

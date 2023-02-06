@@ -1,6 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 import cloneDeep from 'lodash.clonedeep';
-import { IConfig } from 'src/config/configuration';
+import { IConfig } from '../../config/configuration';
 import { UserSession, UserSessionStore } from './datastore.interface';
 
 export class DatastoreService {

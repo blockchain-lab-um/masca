@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/require-await */
 import {
   CredentialPayload,
   IAgentPlugin,
@@ -19,10 +20,10 @@ import {
   PresentationDefinition,
   TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
-import { Result } from 'src/utils';
-import { jwtVerify, decodeProtectedHeader, importJWK, JWTPayload } from 'jose';
+import { jwtVerify, decodeProtectedHeader, importJWK } from 'jose';
 import { JsonWebKey, VerificationMethod } from 'did-resolver';
 import { ec as EC } from 'elliptic';
+import { Result } from '../utils';
 import {
   CreateIssuanceInitiationRequestResposne,
   HandleCredentialRequestArgs,
@@ -243,7 +244,9 @@ export class OIDCPlugin implements IAgentPlugin {
           return {
             success: false,
             error: new Error(
-              `Error resolving did: ${resolvedDid.didResolutionMetadata.error}`
+              `Error resolving did. Reason: ${
+                resolvedDid.didResolutionMetadata.error ?? 'Unknown error'
+              }`
             ),
           };
         }
@@ -341,7 +344,7 @@ export class OIDCPlugin implements IAgentPlugin {
       }
 
       // Check if jwt is valid (we already checked the audiance and issuer)
-      const { exp, nbf, nonce } = payload as JWTPayload;
+      const { exp, nbf, nonce } = payload;
 
       // Check if session contains cNonce
       if (cNonce) {
@@ -387,7 +390,9 @@ export class OIDCPlugin implements IAgentPlugin {
       if (!verified.verified) {
         return {
           success: false,
-          error: new Error(`Invalid vp. Reason: ${verified.error?.message}`),
+          error: new Error(
+            `Invalid vp. Reason: ${verified.error?.message ?? 'Unknown error'}`
+          ),
         };
       }
 
@@ -407,7 +412,7 @@ export class OIDCPlugin implements IAgentPlugin {
         vp.verifiableCredential.map(
           // FIXME: Do we need to decode if in jwt format?
           async (vc) =>
-            await context.agent.verifyCredential({
+            context.agent.verifyCredential({
               credential: vc,
             })
         )
@@ -422,7 +427,9 @@ export class OIDCPlugin implements IAgentPlugin {
         return {
           success: false,
           error: new Error(
-            `Atleast one credential is invalid. Reason: ${invalidCredentials[0].error?.message}`
+            `Atleast one credential is invalid. Reason: ${
+              invalidCredentials[0].error?.message ?? 'Unknown error'
+            }`
           ),
         };
       }
@@ -706,7 +713,9 @@ export class OIDCPlugin implements IAgentPlugin {
         return {
           success: false,
           error: new Error(
-            `Error resolving did: ${resolvedDid.didResolutionMetadata.error}`
+            `Error resolving did. Reason: ${
+              resolvedDid.didResolutionMetadata.error ?? 'Unknown error'
+            }`
           ),
         };
       }
@@ -804,7 +813,7 @@ export class OIDCPlugin implements IAgentPlugin {
     }
 
     // Check if jwt is valid
-    const { exp, nbf, nonce } = payload as JWTPayload;
+    const { exp, nbf, nonce } = payload;
 
     // Check if session contains cNonce
     if (cNonce) {
@@ -853,13 +862,13 @@ export class OIDCPlugin implements IAgentPlugin {
         type: body.types,
         credentialSubject: {
           id: did,
-          ...credentialSubjectClaims, // TODO: VALIDATE CLAIMS AGAINST SCHEMA
+          ...(credentialSubjectClaims as object), // TODO: VALIDATE CLAIMS AGAINST SCHEMA
         },
       };
-    } catch (e) {
+    } catch (e: any) {
       return {
         success: false,
-        error: new Error((e as any).message),
+        error: new Error('Error building credential payload'),
       };
     }
     let credential;

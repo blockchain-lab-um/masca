@@ -16,11 +16,4 @@ module.exports = {
     node: true,
     jest: true,
   },
-  rules: {
-    'class-methods-use-this': 'off',
-    'import/no-extraneous-dependencies': [
-      'error',
-      { devDependencies: ['**/*.spec.ts', '**/*.e2e-spec.ts'] },
-    ],
-  },
 };

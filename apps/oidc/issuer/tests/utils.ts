@@ -10,7 +10,7 @@ import { Agent } from './testAgent';
 type CreateJWTProofParams = {
   privateKey: string;
   audience: string;
-  data?: any;
+  data?: unknown;
   nonce?: string;
 };
 

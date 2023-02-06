@@ -12,12 +12,24 @@ COPY pnpm-lock.yaml package.json pnpm-workspace.yaml ./
 # Copy scripts
 COPY ./scripts ./scripts
 
-# Copy projects' package.json files
+# Copy projects package.json files
+
+# PACKAGES
 COPY ./packages/docs/package.json ./packages/docs/
 COPY ./packages/connector/package.json ./packages/connector/
 COPY ./packages/types/package.json ./packages/types/
 COPY ./packages/website/package.json ./packages/website/
 COPY ./packages/dapp/package.json ./packages/dapp/
+
+##########
+#  OIDC  #
+##########
+# LIBS
+COPY ./libs/oidc/rp-plugin/package.json ./libs/oidc/rp-plugin/
+COPY ./libs/oidc/types/package.json ./libs/oidc/types/
+# APPS
+COPY ./apps/oidc/issuer/package.json ./apps/oidc/issuer/
+COPY ./apps/oidc/verifier/package.json ./apps/oidc/verifier/
 
 # Run script to remove patchedDependencies from package.json file
 RUN node ./scripts/docker_build/remove-patched-dependecies.js

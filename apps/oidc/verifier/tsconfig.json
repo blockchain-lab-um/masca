@@ -8,7 +8,8 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "resolveJsonModule": true
   },
   "include": ["src/**/*", "tests/**/*"]
 }

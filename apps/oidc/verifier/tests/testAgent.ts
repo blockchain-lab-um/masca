@@ -1,7 +1,6 @@
 import { IOIDCPlugin, OIDCPlugin } from '@blockchain-lab-um/oidc-rp-plugin';
 import {
   createAgent,
-  ICredentialIssuer,
   ICredentialPlugin,
   IDIDManager,
   IKeyManager,
@@ -32,8 +31,8 @@ import {
   TEST_SUPPORTED_CURVES,
   TEST_SUPPORTED_DID_METHODS,
   TEST_SUPPORTED_DIGITAL_SIGNATURES,
-  TEST_SUPPORTED_SCHEMA_URL,
 } from './constants';
+import { loadSupportedCredentials } from '../src/config/configuration';
 
 export type Agent = TAgent<
   IDIDManager & IKeyManager & IResolver & IOIDCPlugin & ICredentialPlugin
@@ -104,7 +103,7 @@ const getAgent = async (): Promise<Agent> => {
         supported_curves: TEST_SUPPORTED_CURVES,
         supported_did_methods: TEST_SUPPORTED_DID_METHODS,
         supported_digital_signatures: TEST_SUPPORTED_DIGITAL_SIGNATURES,
-        supported_schema_url: TEST_SUPPORTED_SCHEMA_URL,
+        supported_credentials: loadSupportedCredentials(),
       }),
       new CredentialPlugin(),
     ],
