@@ -75,8 +75,8 @@ export const useSnapStore = create<SnapStore>()((set) => ({
 interface TableStore {
   globalFilter: string;
   columnFilters: ColumnFiltersState;
-  table: Table<QueryVCsRequestResult> | undefined;
-  setTable: (table: Table<QueryVCsRequestResult>) => void;
+  selectedVCs: QueryVCsRequestResult[];
+  setSelectedVCs: (selectedVCs: QueryVCsRequestResult[]) => void;
   setColumnFilters: (columnFilters: ColumnFiltersState) => void;
   setGlobalFilter: (globalFilter: string) => void;
 }
@@ -84,9 +84,10 @@ interface TableStore {
 export const useTableStore = create<TableStore>()((set) => ({
   globalFilter: '',
   columnFilters: [{ id: 'data_store', value: ['snap', 'ceramic'] }],
-  table: undefined,
+  selectedVCs: [],
+  setSelectedVCs: (selectedVCs: QueryVCsRequestResult[]) =>
+    set({ selectedVCs }),
   setColumnFilters: (columnFilters: ColumnFiltersState) =>
     set({ columnFilters }),
   setGlobalFilter: (globalFilter: string) => set({ globalFilter }),
-  setTable: (table: Table<QueryVCsRequestResult>) => set({ table }),
 }));

@@ -5,6 +5,7 @@ import MetaMaskGateway from 'src/components/MetaMaskGateway';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 import { Tab } from '@headlessui/react';
 import clsx from 'clsx';
+import { useRouter } from 'next/router';
 import useUrlQuery from '../../hooks/useUrlQuery';
 import { useGeneralStore, useSnapStore } from '../../utils/store';
 import { JsonTab, FormatedTab } from './tabs';
@@ -15,6 +16,7 @@ function classNames(...classes: string[]) {
 
 export const VC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+  const router = useRouter();
   const { id } = useUrlQuery();
   const vcs = useSnapStore((state) => state.vcs);
   const vc = vcs.find((VCobj) => VCobj.metadata.id === id);
@@ -65,11 +67,12 @@ export const VC = () => {
             <div className="h-full w-full bg-white border border-gray-200 pt-2 dark:bg-gray-800 dark:shadow-orange-900 rounded-3xl shadow-lg">
               <ConnectedGateway>
                 <div className="w-full flex justify-between px-5 pt-4">
-                  <Link href="dashboard">
-                    <button className="text-gray-900 hover:bg-orange-100 p-1 hover:text-orange-700 animated-transition rounded-full">
-                      <ArrowLeftIcon className="w-6 h-6" />
-                    </button>
-                  </Link>
+                  <button
+                    onClick={() => router.back()}
+                    className="text-gray-900 hover:bg-orange-100 p-1 hover:text-orange-700 animated-transition rounded-full"
+                  >
+                    <ArrowLeftIcon className="w-6 h-6" />
+                  </button>
                   <div className="text-h3 font-semibold">
                     Verifiable Credential
                   </div>

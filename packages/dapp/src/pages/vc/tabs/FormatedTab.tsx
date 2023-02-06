@@ -9,12 +9,16 @@ import {
   Cog6ToothIcon,
 } from '@heroicons/react/24/outline';
 import Button from 'src/components/Button';
+import Link from 'next/link';
+import { useTableStore } from '../../../utils/store';
 
 interface FormatedTabProps {
   vc: QueryVCsRequestResult;
 }
 
 export const FormatedTab = ({ vc }: FormatedTabProps) => {
+  const setSelectedVCs = useTableStore((state) => state.setSelectedVCs);
+
   let stores: string[] = [];
   if (vc.metadata.store) {
     if (typeof vc.metadata.store === 'string') {
@@ -148,9 +152,15 @@ export const FormatedTab = ({ vc }: FormatedTabProps) => {
       </div>
 
       <div className="hidden lg:block absolute -bottom-4 right-10">
-        <Button variant="primary" size="sm">
-          Create Presentation
-        </Button>
+        <Link href="createVP">
+          <Button
+            variant="primary"
+            onClick={() => setSelectedVCs([vc])}
+            size="sm"
+          >
+            Create Presentation
+          </Button>
+        </Link>
       </div>
     </div>
   );

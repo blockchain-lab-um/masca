@@ -7,7 +7,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import React, { HTMLProps } from 'react';
+import React, { HTMLProps, useEffect } from 'react';
 import Button from 'src/components/Button';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -57,10 +57,14 @@ export const Table = () => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const columnFilters = useTableStore((state) => state.columnFilters);
   const globalFilter = useTableStore((state) => state.globalFilter);
-  const setTable = useTableStore((state) => state.setTable);
-  // const data = React.useMemo(() => vcs, []);
-
+  const selectedVCs = useTableStore((state) => state.selectedVCs);
+  const setSelectedVCs = useTableStore((state) => state.setSelectedVCs);
   const columnHelper = createColumnHelper<QueryVCsRequestResult>();
+
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    selectRows();
+  }, []);
 
   const includesDataStore: FilterFn<any> = (row, columnId, value, addMeta) => {
     const item = row.getValue('data_store');
@@ -87,11 +91,7 @@ export const Table = () => {
             query: { id: row.original.metadata.id },
           }}
         >
-          <button
-            onClick={() => {
-              console.log('clicked');
-            }}
-          >
+          <button>
             <ArrowsPointingOutIcon className="w-5 h-5" />
           </button>
         </Link>
@@ -299,7 +299,7 @@ export const Table = () => {
       globalFilter,
       columnFilters,
     },
-    // initialState: { pagination: { pageSize: 9 } },
+    initialState: {},
     enableGlobalFilter: true,
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
@@ -310,6 +310,17 @@ export const Table = () => {
     getFacetedUniqueValues: getFacetedUniqueValues(),
     getFacetedMinMaxValues: getFacetedMinMaxValues(),
   });
+
+  const selectRows = () => {
+    table.getPrePaginationRowModel().rows.forEach((row) => {
+      if (
+        selectedVCs.filter((vc) => vc.metadata.id === row.original.metadata.id)
+          .length > 0
+      ) {
+        row.toggleSelected(true);
+      }
+    });
+  };
 
   const loadVCs = async () => {
     const loadedVCs = await api?.queryVCs();
@@ -374,7 +385,7 @@ export const Table = () => {
             </tr>
           ))}
         </thead>
-        <tbody className="border-b text-gray-800">
+        <tbody className="border-b text-gray-800 break-all">
           {table.getRowModel().rows.map((row) => (
             <tr
               key={row.id}
@@ -396,7 +407,7 @@ export const Table = () => {
                     )
                       row.toggleSelected();
                   }}
-                  className={`py-5 max-h-16 whitespace-nowrap  ${
+                  className={`py-5 max-h-16  ${
                     cell.column.id === 'type' || cell.column.id === 'exp_date'
                       ? 'hidden lg:table-cell'
                       : ''
@@ -428,7 +439,9 @@ export const Table = () => {
               variant="primary"
               size="wd"
               onClick={() => {
-                setTable(table);
+                setSelectedVCs(
+                  table.getSelectedRowModel().rows.map((r) => r.original)
+                );
               }}
             >
               Create Presentation{' '}
