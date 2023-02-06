@@ -1,32 +1,44 @@
-import { SnapProvider } from '@metamask/snap-types';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { DIDResolutionOptions, DIDResolutionResult } from 'did-resolver';
+import { MetaMaskInpageProvider } from '@metamask/providers';
 import {
   address,
   exampleDIDKeyResolution,
   getDefaultSnapState,
-} from '../testUtils/constants';
-import { WalletMock, createMockWallet } from '../testUtils/wallet.mock';
-import {
-  getDidKeyResolver as resolveDidKey,
-  resolveSecp256k1,
-} from '../../src/did/key/keyDidResolver';
-import {
   exampleDIDKey,
   exampleDIDKeyIdentifier,
   exampleDIDKeyDocument,
 } from '../testUtils/constants';
-import { DIDResolutionOptions, DIDResolutionResult } from 'did-resolver';
+import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
+import {
+  getDidKeyResolver as resolveDidKey,
+  resolveSecp256k1,
+} from '../../src/did/key/keyDidResolver';
+import * as snapUtils from '../../src/utils/snapUtils';
+
+jest
+  .spyOn(snapUtils, 'getCurrentAccount')
+  // eslint-disable-next-line @typescript-eslint/require-await
+  .mockImplementation(async () => address);
+
+jest
+  .spyOn(snapUtils, 'getCurrentNetwork')
+  // eslint-disable-next-line @typescript-eslint/require-await
+  .mockImplementation(async () => '0x5');
 
 describe('keyDidResolver', () => {
-  let walletMock: SnapProvider & WalletMock;
+  let snapMock: SnapsGlobalObject & SnapMock;
 
   beforeEach(() => {
-    walletMock = createMockWallet();
-    walletMock.rpcMocks.snap_manageState('update', getDefaultSnapState());
-    global.wallet = walletMock;
+    snapMock = createMockSnap();
+    snapMock.rpcMocks.snap_manageState('update', getDefaultSnapState());
+    global.snap = snapMock;
+    global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
   });
 
   describe('resolveDidKey', () => {
     it('should return correct did key resolution', async () => {
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
       const didRes = await resolveDidKey().key(
         exampleDIDKeyIdentifier,
         {
@@ -36,8 +48,10 @@ describe('keyDidResolver', () => {
           id: '',
         },
         {
-          resolve: function (
+          resolve(
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             didUrl: string,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             options?: DIDResolutionOptions | undefined
           ): Promise<DIDResolutionResult> {
             throw new Error('Function not implemented.');
@@ -49,12 +63,10 @@ describe('keyDidResolver', () => {
       expect.assertions(1);
     });
     it('should return proper DID Document', async () => {
-      walletMock.rpcMocks.snap_manageState.mockReturnValue(
-        getDefaultSnapState()
-      );
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
 
       const didRes = await resolveSecp256k1(
-        walletMock,
+        snapMock,
         address,
         exampleDIDKeyIdentifier
       );
@@ -72,8 +84,10 @@ describe('keyDidResolver', () => {
           id: '',
         },
         {
-          resolve: function (
+          resolve(
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             didUrl: string,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             options?: DIDResolutionOptions | undefined
           ): Promise<DIDResolutionResult> {
             throw new Error('Function not implemented.');

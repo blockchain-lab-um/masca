@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   DIDDocument,
   DIDResolutionOptions,
@@ -7,18 +6,22 @@ import {
   ParsedDID,
   Resolvable,
 } from 'did-resolver';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { getCurrentAccount, getPublicKey } from '../../utils/snapUtils';
-import { SnapProvider } from '@metamask/snap-types';
 import { getSnapState } from '../../utils/stateUtils';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const resolveSecp256k1 = async (
-  wallet: SnapProvider,
+  snap: SnapsGlobalObject,
   account: string,
   did: string
 ): Promise<DIDDocument> => {
-  const state = await getSnapState(wallet);
-  const publicKey = await getPublicKey({ wallet, state, account });
+  const state = await getSnapState(snap);
+  const publicKey = await getPublicKey({
+    snap,
+    state,
+    account,
+    ethereum,
+  });
 
   // TODO: Change id ?
   const didDocument: DIDDocument = {
@@ -45,7 +48,7 @@ export const resolveSecp256k1 = async (
 };
 
 type ResolutionFunction = (
-  wallet: SnapProvider,
+  snap: SnapsGlobalObject,
   account: string,
   did: string
 ) => Promise<DIDDocument>;
@@ -54,7 +57,6 @@ const startsWithMap: Record<string, ResolutionFunction> = {
   'did:key:zQ3s': resolveSecp256k1,
 };
 
-// FIXME: CHECK HOW WE COULD ADD WALLET AS PARAMETER
 export const resolveDidKey: DIDResolver = async (
   didUrl: string,
   parsed: ParsedDID,
@@ -63,34 +65,33 @@ export const resolveDidKey: DIDResolver = async (
 ): Promise<DIDResolutionResult> => {
   try {
     // FIXME: Update this part
-    const account = await getCurrentAccount(wallet);
+    const account = await getCurrentAccount(ethereum);
     if (!account) throw Error('User denied error');
     // --------
 
     const startsWith = parsed.did.substring(0, 12);
     if (startsWithMap[startsWith] !== undefined) {
       const didDocument = await startsWithMap[startsWith](
-        wallet,
+        snap,
         account,
         didUrl
       );
       return {
         didDocumentMetadata: {},
         didResolutionMetadata: {},
-        didDocument: didDocument,
+        didDocument,
       } as DIDResolutionResult;
-    } else {
-      return {
-        didDocumentMetadata: {},
-        didResolutionMetadata: {
-          error: 'invalidDid',
-          message: 'unsupported key type for did:key',
-        },
-        didDocument: null,
-      };
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err: any) {
+
+    return {
+      didDocumentMetadata: {},
+      didResolutionMetadata: {
+        error: 'invalidDid',
+        message: 'unsupported key type for did:key',
+      },
+      didDocument: null,
+    };
+  } catch (err: unknown) {
     return {
       didDocumentMetadata: {},
       didResolutionMetadata: {

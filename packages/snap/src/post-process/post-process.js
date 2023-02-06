@@ -1,12 +1,8 @@
 const fs = require('fs');
 const pathUtils = require('path');
-//const snapConfig = require("./snap.config.json");
-
-//import * as snapConfig from "./snap.config";
 
 const bundlePath = pathUtils.join('dist', 'snap.js');
 console.log('Bundle path', bundlePath);
-//const bundlePath = pathUtils.join(cliOptions.dist, cliOptions.outfileName);
 
 let bundleString = fs.readFileSync(bundlePath, 'utf8');
 
@@ -59,6 +55,16 @@ bundleString = bundleString.replaceAll(
 bundleString = bundleString.replaceAll(
   'var Buffer = moduleExports ? root.Buffer : undefined,',
   'if(root)var Buffer = moduleExports ? root.Buffer : undefined,'
+);
+
+bundleString = bundleString.replaceAll(
+  `process.env.NODE_ENV === 'production'`,
+  `true`
+);
+
+bundleString = bundleString.replaceAll(
+  `Gp[iteratorSymbol]`,
+  `Gp.iteratorSymbol`
 );
 
 // Remove 'use asm' tokens; they cause pointless console warnings

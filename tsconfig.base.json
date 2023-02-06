@@ -16,7 +16,7 @@
     /* Stylize errors and messages using color and context. */
     "pretty": true,
     "incremental": true,
-    "removeComments": true
+    "allowJs": true
   },
   "exclude": ["node_modules", "dist"]
 }

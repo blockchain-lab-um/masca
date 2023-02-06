@@ -2,15 +2,16 @@
 
 The SSI Snap enables everyone to build their **decentralized and self-sovereign identity by enhancing MetaMask with functionalities to manage DIDs, VCs, and VPs.** Any dApp can connect it to access identity data, and dApp developers can already start with the integration!
 
-[Demo](https://blockchain-lab-um.github.io/course-dapp/)
-[Docs](https://blockchain-lab-um.github.io/ssi-snap-docs/)
-[Blog post](https://medium.com/@blockchainlabum/open-sourcing-ssi-snap-for-metamask-aaa176775be2)
+- [Website](https://blockchain-lab-um.github.io/ssi-snap/)
+- [Demo](https://blockchain-lab-um.github.io/course-dapp/)
+- [Docs](https://blockchain-lab-um.github.io/ssi-snap-docs/)
+- [Blog post](https://medium.com/@blockchainlabum/open-sourcing-ssi-snap-for-metamask-aaa176775be2)
 
 # Features
 
 The SSI Snap is built agnostic, leaving the user to choose his preferred **blockchain, DID method, and data storage provider.** Everything is configurable, just like selecting the network in MetaMask. Currently supported technologies:
 
-- **Blockchains:** Ethereum
+- **Blockchains:** Any EVM-based blockchain that is supported by DID methods
 - **DID methods:** `did:ethr`, `did:key`
 - **Data storage providers:** Local (MetaMask Snap state), Ceramic
 
@@ -18,20 +19,38 @@ Many new features are already in the works. For more information, please check t
 
 # Development
 
+### Versions
+
+Every version of SSI Snap does NOT work with every version of MetaMask Flask! Here is a table of compatible versions:
+
+| SSI Snap Version | Flask Version |
+| ---------------- | ------------- |
+| 1.2.2            | up to 10.19.0 |
+| 1.3.0            | 10.24.0       |
+
 ### Prerequisites
 
 - [MetaMask Flask](https://metamask.io/flask/)
   - ⚠️ You cannot have other versions of MetaMask installed
 - Node.js `18`. We **strongly** recommend you install via [NVM](https://github.com/creationix/nvm) to avoid incompatibility issues between different node projects.
-  - Once installed, you should also install [Yarn](http://yarnpkg.com/) with `npm i -g yarn` to make working with this repository easiest.
-
-## Installing
+  - Once installed, you should also install [pnpm](https://pnpm.io/) with `npm i -g pnpm` to make working with this repository easiest.
 
 ## Running
 
+- Run `pnpm build:all`
+
 ### Snap
 
-### Demo
+- To start the Snap run `pnpm start:snap`
+- Snap can be tested on `localhost:8081/` or on SSI Snap Website
+
+### Website
+
+- To start the Website run `pnpm start:dapp`
+
+### Docs
+
+- To start the Website run `pnpm start:docs`
 
 # Feature requests
 

@@ -1,4 +1,5 @@
-import { SaveVCRequestParams } from 'src/utils/params';
+import { SaveVCRequestParams } from '@blockchain-lab-um/ssi-snap-types';
+import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-vc-manager';
 import { ApiParams } from '../../interfaces';
 import { snapConfirm } from '../../utils/snapUtils';
 import { veramoSaveVC } from '../../utils/veramoUtils';
@@ -6,10 +7,9 @@ import { veramoSaveVC } from '../../utils/veramoUtils';
 export async function saveVC(
   params: ApiParams,
   { verifiableCredential, options }: SaveVCRequestParams
-) {
+): Promise<IDataManagerSaveResult[]> {
   const { store = 'snap' } = options || {};
-  const { wallet } = params;
-
+  const { snap, ethereum } = params;
   const promptObj = {
     prompt: 'Save VC',
     description: `Would you like to save the following VC in ${
@@ -18,8 +18,14 @@ export async function saveVC(
     textAreaContent: JSON.stringify(verifiableCredential).substring(0, 100),
   };
 
-  if (await snapConfirm(wallet, promptObj)) {
-    return await veramoSaveVC(wallet, verifiableCredential, store);
+  if (snapConfirm(snap, promptObj)) {
+    const res = await veramoSaveVC({
+      snap,
+      ethereum,
+      verifiableCredential,
+      store,
+    });
+    return res;
   }
-  return false;
+  throw new Error('User rejected');
 }

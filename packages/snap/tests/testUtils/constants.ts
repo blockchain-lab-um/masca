@@ -1,8 +1,13 @@
-import { SnapConfirmParams, SSISnapState } from '../../src/interfaces';
 import cloneDeep from 'lodash.clonedeep';
-import { getEmptyAccountState } from '../../src/utils/config';
-import { DIDDocument, DIDResolutionResult, IIdentifier } from '@veramo/core';
+import {
+  DIDDocument,
+  DIDResolutionResult,
+  IIdentifier,
+  W3CVerifiableCredential,
+} from '@veramo/core';
 import { JsonBIP44CoinTypeNode } from '@metamask/key-tree';
+import { SnapConfirmParams, SSISnapState } from '../../src/interfaces';
+import { getEmptyAccountState } from '../../src/utils/config';
 
 export const mnemonic =
   'prosper pair similar canoe work humble loud wild aunt reunion olive obscure';
@@ -44,6 +49,98 @@ export const exampleImportedDID: IIdentifier = {
   services: [],
 };
 
+export const exampleDIDDocument: DIDDocument = {
+  '@context': [
+    'https://www.w3.org/ns/did/v1',
+    'https://w3id.org/security/suites/secp256k1recovery-2020/v2',
+  ],
+  id: 'did:ethr:0x5:0xb6665128eE91D84590f70c3268765384A9CAfBCd',
+  verificationMethod: [
+    {
+      id: 'did:ethr:0x5:0xb6665128eE91D84590f70c3268765384A9CAfBCd#controller',
+      type: 'EcdsaSecp256k1RecoveryMethod2020',
+      controller: 'did:ethr:0x5:0xb6665128eE91D84590f70c3268765384A9CAfBCd',
+      blockchainAccountId:
+        'eip155:5:0xb6665128eE91D84590f70c3268765384A9CAfBCd',
+    },
+  ],
+  authentication: [
+    'did:ethr:0x5:0xb6665128eE91D84590f70c3268765384A9CAfBCd#controller',
+  ],
+  assertionMethod: [
+    'did:ethr:0x5:0xb6665128eE91D84590f70c3268765384A9CAfBCd#controller',
+  ],
+};
+
+export const resolutionNotFound = {
+  '@context': 'https://w3id.org/did-resolution/v1',
+  didDocument: null,
+  didResolutionMetadata: {
+    error: 'notFound',
+    errorMessage: '404 Not Found (notFound)',
+    contentType: 'application/did+ld+json',
+  },
+  didDocumentMetadata: {},
+};
+
+export const resolutionMethodNotSupported = {
+  '@context': 'https://w3id.org/did-resolution/v1',
+  didDocument: null,
+  didResolutionMetadata: {
+    error: 'methodNotSupported',
+    errorMessage: 'Method not supported: keyclopse',
+    contentType: 'application/did+ld+json',
+  },
+  didDocumentMetadata: {},
+};
+
+export const resolutionInvalidDID = {
+  '@context': 'https://w3id.org/did-resolution/v1',
+  didDocument: null,
+  didResolutionMetadata: {
+    error: 'invalidDid',
+    message: 'Not a valid did:ethr: 0x5:0x123',
+    contentType: 'application/did+ld+json',
+    convertedFrom: 'application/did+json',
+    convertedTo: 'application/did+ld+json',
+  },
+  didDocumentMetadata: {},
+};
+
+export const exampleDIDKeyDocumentUniResovler = {
+  '@context': [
+    'https://www.w3.org/ns/did/v1',
+    {
+      EcdsaSecp256k1VerificationKey2019:
+        'https://w3id.org/security#EcdsaSecp256k1VerificationKey2019',
+      publicKeyJwk: {
+        '@id': 'https://w3id.org/security#publicKeyJwk',
+        '@type': '@json',
+      },
+    },
+  ],
+  id: 'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
+  verificationMethod: [
+    {
+      id: 'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik#zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
+      type: 'EcdsaSecp256k1VerificationKey2019',
+      controller: 'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
+      publicKeyJwk: {
+        kty: 'EC',
+        crv: 'secp256k1',
+        x: 'gKnNSP1Db4wfgbFW62FWGM1XPD6x5tk3oXuCIgJ8roU',
+        y: 'Cp9WHUFAAai979txPGGdLK8IoMllWwz0LeBlvFHgFpo',
+      },
+    },
+  ],
+  authentication: [
+    'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik#zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
+  ],
+  assertionMethod: [
+    'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik#zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
+  ],
+};
+
 export const exampleDIDKeyDocument: DIDDocument = {
   id: 'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik#zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
   '@context': [
@@ -71,7 +168,7 @@ export const exampleDIDKeyDocument: DIDDocument = {
       type: 'EcdsaSecp256k1RecoveryMethod2020',
       controller:
         'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik#zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
-      publicKeyHex: publicKeyHex,
+      publicKeyHex,
     },
   ],
 };
@@ -125,6 +222,150 @@ export const exampleVC = {
     id: 'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
     type: 'JsonSchemaValidator2018',
   },
+  '@context': ['https://www.w3.org/2018/credentials/v1'],
+  issuanceDate: '2022-09-16T11:37:05.000Z',
+  proof: {
+    type: 'JwtProof2020',
+    jwt: 'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSIsImh0dHBzOi8vYmV0YS5hcGkuc2NoZW1hcy5zZXJ0by5pZC92MS9wdWJsaWMvcHJvZ3JhbS1jb21wbGV0aW9uLWNlcnRpZmljYXRlLzEuMC9sZC1jb250ZXh0Lmpzb24iXSwidHlwZSI6WyJWZXJpZmlhYmxlQ3JlZGVudGlhbCIsIlByb2dyYW1Db21wbGV0aW9uQ2VydGlmaWNhdGUiXSwiY3JlZGVudGlhbFN1YmplY3QiOnsiYWNjb21wbGlzaG1lbnRUeXBlIjoiRGV2ZWxvcGVyIENlcnRpZmljYXRlIiwibGVhcm5lck5hbWUiOiJCb2IiLCJhY2hpZXZlbWVudCI6IkNlcnRpZmllZCBTb2xpZGl0eSBEZXZlbG9wZXIgMiIsImNvdXJzZVByb3ZpZGVyIjoiaHR0cHM6Ly9ibG9ja2NoYWluLWxhYi51bS5zaS8ifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vYmV0YS5hcGkuc2NoZW1hcy5zZXJ0by5pZC92MS9wdWJsaWMvcHJvZ3JhbS1jb21wbGV0aW9uLWNlcnRpZmljYXRlLzEuMC9qc29uLXNjaGVtYS5qc29uIiwidHlwZSI6Ikpzb25TY2hlbWFWYWxpZGF0b3IyMDE4In19LCJzdWIiOiJkaWQ6ZXRocjpyaW5rZWJ5OjB4YjY2NjUxMjhlZTkxZDg0NTkwZjcwYzMyNjg3NjUzODRhOWNhZmJjZCIsImp0aSI6ImIyZjQ3OWM1LTIwNTgtNDI4Ni1hNzBkLWY2MzY5NjYyNjZkZSIsIm5iZiI6MTY2MzMyODIyNSwiaXNzIjoiZGlkOmV0aHI6cmlua2VieToweDAyNDFhYmQ2NjJkYTA2ZDBhZjJmMDE1MmE4MGJjMDM3ZjY1YTdmOTAxMTYwY2ZlMWViMzVlZjNmMGM1MzJhMmE0ZCJ9.lbUqHPCkgBtX_uulh_3JRYK2GKirUCRgJDUK5IdVI55vG6aOTk6UtEezH3j4H3VB85eCmJm_mFM7Ks6OOZCVfA',
+  },
+};
+
+export const exampleVCJSONLD: W3CVerifiableCredential = {
+  '@context': [
+    'https://www.w3.org/2018/credentials/v1',
+    'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/ld-context.json',
+  ],
+  type: ['VerifiableCredential', 'CourseCredential'],
+  issuer: {
+    id: 'did:key:z6MkndAHigYrXNpape7jgaC7jHiWwxzB3chuKUGXJg2b5RSj',
+    name: 'tenant',
+  },
+  issuanceDate: '2021-07-26T01:05:05.152Z',
+  credentialSubject: {
+    accomplishmentType: 'Developer Certificate',
+    learnerName: 'Bob',
+    achievement: 'Certified Solidity Developer 2',
+    courseProvider: 'https://blockchain-lab.um.si/',
+    id: 'did:ethr:goerli:0xb6665128ee91d84590f70c3268765384a9cafbcd',
+  },
+  proof: {
+    type: 'Ed25519Signature2018',
+    created: '2021-07-26T01:05:06Z',
+    jws: 'eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..o6hnrrWpArG8LQz2Ex_u66_BtuPdp3Hkz18nhNdNhJ7J1k_2lmCCwsNdmo-kNFirZdSIMzqO-V3wEjMDphVEAA',
+    proofPurpose: 'assertionMethod',
+    verificationMethod:
+      'did:key:z6MkndAHigYrXNpape7jgaC7jHiWwxzB3chuKUGXJg2b5RSj#z6MkndAHigYrXNpape7jgaC7jHiWwxzB3chuKUGXJg2b5RSj',
+  },
+};
+
+export const exampleVCEIP712: W3CVerifiableCredential = {
+  issuer: 'did:key:zQ3shYMgaxxFxwm3ipuCPD3n6WT58Up6qUaJUAnYZUeb7EBXW',
+  type: ['VerifiableCredential', 'Custom'],
+  credentialSubject: {
+    accomplishmentType: 'Developer Certificate',
+    learnerName: 'Bob',
+    achievement: 'Certified Solidity Developer 2',
+    courseProvider: 'https://blockchain-lab.um.si/',
+    id: 'did:ethr:goerli:0xb6665128ee91d84590f70c3268765384a9cafbcd',
+  },
+  '@context': ['https://www.w3.org/2018/credentials/v1'],
+  issuanceDate: '2022-08-12T08:56:59.619Z',
+  proof: {
+    verificationMethod:
+      'did:key:zQ3shYMgaxxFxwm3ipuCPD3n6WT58Up6qUaJUAnYZUeb7EBXW#zQ3shYMgaxxFxwm3ipuCPD3n6WT58Up6qUaJUAnYZUeb7EBXW',
+    created: '2022-08-12T08:56:59.619Z',
+    proofPurpose: 'assertionMethod',
+    type: 'EthereumEip712Signature2021',
+    proofValue:
+      '0xdf3910af95b8207e6fd1cbbc9beb21941fcbff0eb4032aee356ee52eb340ca2d26bfd8156c811460b4651d140f5b7130532c5e8228e488696435564236f4a0f71c',
+    eip712: {
+      domain: {
+        chainId: 4,
+        name: 'VerifiableCredential',
+        version: '1',
+      },
+      messageSchema: {
+        EIP712Domain: [
+          {
+            name: 'name',
+            type: 'string',
+          },
+          {
+            name: 'version',
+            type: 'string',
+          },
+          {
+            name: 'chainId',
+            type: 'uint256',
+          },
+        ],
+        Proof: [
+          {
+            name: 'created',
+            type: 'string',
+          },
+          {
+            name: 'proofPurpose',
+            type: 'string',
+          },
+          {
+            name: 'type',
+            type: 'string',
+          },
+          {
+            name: 'verificationMethod',
+            type: 'string',
+          },
+        ],
+        VerifiablePresentation: [
+          {
+            name: '@context',
+            type: 'string[]',
+          },
+          {
+            name: 'holder',
+            type: 'string',
+          },
+          {
+            name: 'issuanceDate',
+            type: 'string',
+          },
+          {
+            name: 'proof',
+            type: 'Proof',
+          },
+          {
+            name: 'type',
+            type: 'string[]',
+          },
+          {
+            name: 'verifiableCredential',
+            type: 'string[]',
+          },
+        ],
+      },
+      primaryType: 'VerifiableCredential',
+    },
+  },
+};
+
+export const exampleVCinVP = {
+  credentialSubject: {
+    accomplishmentType: 'Developer Certificate',
+    learnerName: 'Bob',
+    achievement: 'Certified Solidity Developer 2',
+    courseProvider: 'https://blockchain-lab.um.si/',
+    id: 'did:ethr:rinkeby:0xb6665128ee91d84590f70c3268765384a9cafbcd',
+  },
+  issuer: {
+    id: 'did:ethr:rinkeby:0x0241abd662da06d0af2f0152a80bc037f65a7f901160cfe1eb35ef3f0c532a2a4d',
+  },
+  id: 'b2f479c5-2058-4286-a70d-f636966266de',
+  type: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+  credentialSchema: {
+    id: 'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
+    type: 'JsonSchemaValidator2018',
+  },
   '@context': [
     'https://www.w3.org/2018/credentials/v1',
     'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/ld-context.json',
@@ -136,6 +377,9 @@ export const exampleVC = {
   },
 };
 
+export const jsonPath =
+  '$[?(@.data.credentialSubject.achievement == "Certified Solidity Developer 2")]';
+
 export const exampleVCJWT = {
   verifiableCredential: [
     {
@@ -144,10 +388,10 @@ export const exampleVCJWT = {
         learnerName: 'Bob',
         achievement: 'Certified Solidity Developer 2',
         courseProvider: 'https://blockchain-lab.um.si/',
-        id: 'did:ethr:rinkeby:0xb6665128ee91d84590f70c3268765384a9cafbcd',
+        id: 'did:ethr:goerli:0xb6665128ee91d84590f70c3268765384a9cafbcd',
       },
       issuer: {
-        id: 'did:ethr:rinkeby:0x0241abd662da06d0af2f0152a80bc037f65a7f901160cfe1eb35ef3f0c532a2a4d',
+        id: 'did:ethr:goerli:0x0241abd662da06d0af2f0152a80bc037f65a7f901160cfe1eb35ef3f0c532a2a4d',
       },
       id: 'b2f479c5-2058-4286-a70d-f636966266de',
       type: ['VerifiableCredential', 'ProgramCompletionCertificate'],
@@ -186,7 +430,6 @@ const defaultSnapState: SSISnapState = {
       friendlyDapps: [],
     },
     snap: {
-      infuraToken: '0ec03090465d400c988a14831aacfe37',
       acceptedTerms: true,
     },
   },

@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/ssi-snap-types",
-  "version": "1.0.11",
+  "version": "1.3.0",
   "description": "Types for SSI Snap.",
   "keywords": [
     "ssi",
@@ -14,11 +14,14 @@
     "email": "blockchain-lab@um.si",
     "url": "https://blockchain-lab.um.si"
   },
-  "types": "./index.d.ts",
+  "main": "src/index.ts",
   "dependencies": {
     "@veramo/core": "^4.1.1"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "script": {
+    "doc": "jsdoc -c jsdoc.json"
   }
 }

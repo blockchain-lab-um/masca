@@ -20,14 +20,18 @@ jobs:
       - uses: nrwl/nx-set-shas@v3
         with:
           main-branch-name: 'develop'
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7.25.1
       - uses: actions/setup-node@v3
         with:
-          node-version: 16.18.1
-          cache: yarn
+          node-version: 18.13.0
+          cache: pnpm
       - name: Install dependencies
-        run: yarn install --immutable
+        run: pnpm install --frozen-lockfile
       - name: Test
-        run: yarn run test:ci
+        run: pnpm run test:ci
         env:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
       - name: SonarQube Scan

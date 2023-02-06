@@ -1,66 +1,182 @@
-import { SnapProvider } from '@metamask/snap-types';
-import { WalletMock, createMockWallet } from '../testUtils/wallet.mock';
-import { exampleVC, getDefaultSnapState } from '../testUtils/constants';
-import { veramoListVCs, veramoSaveVC } from '../../src/utils/veramoUtils';
-import { clear } from '../../src/veramo/plugins/ceramicDataStore/ceramicDataStore';
-import { VerifiableCredential } from '@veramo/core';
+import { MetaMaskInpageProvider } from '@metamask/providers';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { W3CVerifiableCredential } from '@veramo/core';
+import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
+import {
+  address,
+  exampleVC,
+  exampleVCinVP,
+  getDefaultSnapState,
+} from '../testUtils/constants';
+import {
+  veramoClearVCs,
+  veramoDeleteVC,
+  veramoQueryVCs,
+  veramoSaveVC,
+} from '../../src/utils/veramoUtils';
+import * as snapUtils from '../../src/utils/snapUtils';
+
+jest
+  .spyOn(snapUtils, 'getCurrentAccount')
+  // eslint-disable-next-line @typescript-eslint/require-await
+  .mockImplementation(async () => address);
+
+jest
+  .spyOn(snapUtils, 'getCurrentNetwork')
+  // eslint-disable-next-line @typescript-eslint/require-await
+  .mockImplementation(async () => '0x5');
+
 describe('Utils [ceramic]', () => {
-  let walletMock: SnapProvider & WalletMock;
+  let snapMock: SnapsGlobalObject & SnapMock;
+  let ethereumMock: MetaMaskInpageProvider;
+
+  beforeAll(async () => {
+    snapMock = createMockSnap();
+    snapMock.rpcMocks.snap_manageState({
+      operation: 'update',
+      newState: getDefaultSnapState(),
+    });
+
+    ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
+
+    await veramoClearVCs({
+      snap: snapMock,
+      ethereum: ethereumMock,
+      store: 'ceramic',
+    });
+  });
 
   beforeEach(() => {
-    walletMock = createMockWallet();
+    snapMock = createMockSnap();
+    global.snap = snapMock;
+    global.ethereum = ethereumMock;
   });
 
   describe('ceramicVCStore', () => {
     it('should clear all VCs stored on ceramic', async () => {
-      walletMock.rpcMocks.snap_manageState.mockReturnValue(
-        getDefaultSnapState()
-      );
-      await clear(walletMock);
-      const vcs = await veramoListVCs(walletMock, ['ceramic']);
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
+      await veramoClearVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        store: ['ceramic'],
+      });
+
+      const vcs = await veramoQueryVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        options: { store: ['ceramic'], returnStore: true },
+      });
       expect(vcs).toEqual([]);
 
       expect.assertions(1);
     });
     it('should succeed saving VC on ceramic network', async () => {
-      walletMock.rpcMocks.snap_manageState.mockReturnValue(
-        getDefaultSnapState()
-      );
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
 
-      await expect(
-        veramoSaveVC(walletMock, exampleVC, 'ceramic')
-      ).resolves.toBe(true);
+      const expectedVCObject = { id: 'test-id', store: 'ceramic' };
+
+      const ids = await veramoSaveVC({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        verifiableCredential: exampleVC,
+        store: ['ceramic'],
+      });
+      expectedVCObject.id = ids[0].id;
+      expect(ids).toEqual([expectedVCObject]);
 
       expect.assertions(1);
     });
     it('should fail saving wrong object on ceramic network', async () => {
-      walletMock.rpcMocks.snap_manageState.mockReturnValue(
-        getDefaultSnapState()
-      );
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
 
       await expect(
-        veramoSaveVC(
-          walletMock,
-          { name: 'Alfredo' } as unknown as VerifiableCredential,
-          'ceramic'
-        )
-      ).rejects.toThrow(
-        `HTTP request to 'https://ceramic-clay.3boxlabs.com/api/v0/commits' failed with status 'Internal Server Error': {"error":"Validation Error: data/storedCredentials/1 must have required property '@context', data/storedCredentials/1 must have required property 'credentialSubject', data/storedCredentials/1 must have required property 'issuanceDate', data/storedCredentials/1 must have required property 'issuer', data/storedCredentials/1 must have required property 'proof'"}`
-      );
+        veramoSaveVC({
+          snap: snapMock,
+          ethereum: ethereumMock,
+          verifiableCredential: 123 as unknown as W3CVerifiableCredential,
+          store: ['ceramic'],
+        })
+      ).resolves.toEqual([]);
     });
     it('should succeed retrieving VC from ceramic network', async () => {
-      walletMock.rpcMocks.snap_manageState.mockReturnValue(
-        getDefaultSnapState()
-      );
-      const expectedVC = { ...exampleVC };
-      const vcs = await veramoListVCs(walletMock, ['ceramic']);
-      vcs.map((vc) => {
-        delete vc['key'];
-        return vc;
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
+      const expectedVCObject = {
+        data: exampleVC,
+        metadata: { id: 'test-id', store: 'ceramic' },
+      };
+      const vcs = await veramoQueryVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        options: { store: ['ceramic'], returnStore: true },
       });
-      expect(vcs).toEqual([expectedVC]);
+      expect(vcs).toHaveLength(1);
+      expectedVCObject.metadata.id = vcs[0].metadata.id;
+      expect(vcs).toEqual([expectedVCObject]);
 
-      expect.assertions(1);
+      expect.assertions(2);
+    });
+    it('should succeed deleting VC from ceramic network', async () => {
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
+
+      await veramoClearVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        store: ['ceramic'],
+      });
+
+      const ids = await veramoSaveVC({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        verifiableCredential: exampleVC,
+        store: ['ceramic'],
+      });
+      const vcsPreDelete = await veramoQueryVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        options: { store: ['ceramic'], returnStore: true },
+      });
+      expect(vcsPreDelete).toHaveLength(1);
+      await veramoDeleteVC({
+        id: ids[0].id,
+        store: ['ceramic'],
+        snap: snapMock,
+        ethereum: ethereumMock,
+      });
+      const vcs = await veramoQueryVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        options: { store: ['ceramic'], returnStore: true },
+      });
+      expect(vcs).toHaveLength(0);
+
+      expect.assertions(2);
+    });
+
+    it('should succeed storing and querying JWT from ceramic network', async () => {
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
+
+      await veramoClearVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        store: ['ceramic'],
+      });
+
+      await veramoSaveVC({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        verifiableCredential: exampleVC.proof.jwt,
+        store: ['ceramic'],
+      });
+
+      const vcs = await veramoQueryVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        options: { store: ['ceramic'], returnStore: true },
+      });
+      expect(vcs).toHaveLength(1);
+      expect(vcs[0].data).toStrictEqual(exampleVCinVP);
+
+      expect.assertions(2);
     });
   });
 });

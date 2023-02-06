@@ -1,5 +1,5 @@
-import { SnapProvider } from '@metamask/snap-types';
-import { createMockWallet, WalletMock } from '../testUtils/wallet.mock';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
 import { getDidKeyIdentifier } from '../../src/did/key/keyDidUtils';
 import {
   address,
@@ -8,10 +8,11 @@ import {
 } from '../testUtils/constants';
 
 describe('keyDidUtils', () => {
-  let walletMock: SnapProvider & WalletMock;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  let snapMock: SnapsGlobalObject & SnapMock;
 
   beforeEach(() => {
-    walletMock = createMockWallet();
+    snapMock = createMockSnap();
   });
 
   describe('keyDidUtils', () => {

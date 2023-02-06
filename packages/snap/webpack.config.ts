@@ -1,11 +1,10 @@
 import { resolve } from 'path';
 import SnapsWebpackPlugin from '@metamask/snaps-webpack-plugin';
-import { Configuration } from 'webpack';
+import { Configuration, ProvidePlugin } from 'webpack';
 import { merge } from 'webpack-merge';
 import WebpackBarPlugin from 'webpackbar';
 import ESLintPlugin from 'eslint-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-
 // Configuration that is shared between the two bundles
 const common: Configuration = {
   // For simplicity, we don't do any optimisations here. Ideally, this would be
@@ -20,7 +19,11 @@ const common: Configuration = {
   },
   resolve: {
     extensions: ['.ts', '.js'],
-    fallback: { stream: false },
+    fallback: {
+      stream: false,
+      buffer: require.resolve('buffer/'),
+      crypto: require.resolve('crypto-browserify/'),
+    },
   },
   module: {
     rules: [
@@ -35,10 +38,15 @@ const common: Configuration = {
           },
         ],
       },
+      { test: /.json$/, type: 'json' },
     ],
   },
   plugins: [
     new WebpackBarPlugin(),
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    new ProvidePlugin({
+      Buffer: ['buffer', 'Buffer'],
+    }),
     new ESLintPlugin({
       extensions: ['ts'],
     }),

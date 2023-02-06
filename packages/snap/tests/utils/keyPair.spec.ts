@@ -1,5 +1,5 @@
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
-import { SnapProvider } from '@metamask/snap-types';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { getEmptyAccountState } from '../../src/utils/config';
 import { getAddressKey, snapGetKeysFromAddress } from '../../src/utils/keyPair';
 import {
@@ -13,13 +13,13 @@ import {
   derivedKeyChainCode,
   derivedKeyDerivationPath,
 } from '../testUtils/constants';
-import { createMockWallet, WalletMock } from '../testUtils/wallet.mock';
+import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
 
 describe('keyPair', function () {
-  let walletMock: SnapProvider & WalletMock;
+  let snapMock: SnapsGlobalObject & SnapMock;
 
   beforeEach(() => {
-    walletMock = createMockWallet();
+    snapMock = createMockSnap();
   });
 
   describe('snapGetKeysFromAddress', () => {
@@ -32,7 +32,7 @@ describe('keyPair', function () {
         bip44Entropy as BIP44CoinTypeNode,
         initialState,
         address,
-        walletMock
+        snapMock
       );
       expect(res).not.toBeNull();
       expect(res?.privateKey).toEqual(privateKey);
@@ -43,7 +43,7 @@ describe('keyPair', function () {
         bip44Entropy as BIP44CoinTypeNode,
         initialState,
         address2,
-        walletMock
+        snapMock
       );
       expect(res2).not.toBeNull();
       expect(res2?.privateKey).toEqual(privateKey2);
@@ -59,7 +59,7 @@ describe('keyPair', function () {
         bip44Entropy as BIP44CoinTypeNode,
         initialState,
         '0x',
-        walletMock
+        snapMock
       );
       expect(res).toBeNull();
       expect.assertions(1);
@@ -71,7 +71,7 @@ describe('keyPair', function () {
       const res = await getAddressKey(bip44Entropy as BIP44CoinTypeNode);
       expect(res).not.toBeNull();
       expect(res?.privateKey).toEqual(privateKey);
-      expect(res?.originalAddressKey).toEqual(
+      expect(res?.originalAddressKey).toBe(
         `${privateKey}${derivedKeyChainCode.split('0x')[1]}`
       );
       expect(res?.derivationPath).toEqual(derivedKeyDerivationPath);

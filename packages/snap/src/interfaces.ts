@@ -1,13 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { IIdentifier, IKey, VerifiableCredential } from '@veramo/core';
+import { IIdentifier, IKey, W3CVerifiableCredential } from '@veramo/core';
 import { ManagedPrivateKey } from '@veramo/key-manager';
 import {
-  SnapDIDStore,
-  SnapVCStore,
-} from './veramo/plugins/snapDataStore/snapDataStore';
-import { AvailableMethods, AvailableVCStores } from './constants/index';
-import { SnapProvider } from '@metamask/snap-types';
+  SSISnapConfig,
+  SSIAccountConfig,
+} from '@blockchain-lab-um/ssi-snap-types';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
+import { MetaMaskInpageProvider } from '@metamask/providers';
 
 export type SSISnapState = {
   /**
@@ -21,7 +20,7 @@ export type SSISnapState = {
   snapConfig: SSISnapConfig;
 };
 
-export type ExtendedVerifiableCredential = VerifiableCredential & {
+export type ExtendedVerifiableCredential = W3CVerifiableCredential & {
   /**
    * key for dictionary
    */
@@ -33,20 +32,6 @@ export type ExtendedVerifiableCredential = VerifiableCredential & {
  */
 export type StoredCredentials = {
   storedCredentials: ExtendedVerifiableCredential[];
-};
-
-export type SSISnapConfig = {
-  snap: {
-    /**
-     * Infura token, used by Veramo agent.
-     */
-    infuraToken: string;
-    acceptedTerms: boolean;
-  };
-  dApp: {
-    disablePopups: boolean;
-    friendlyDapps: string[];
-  };
 };
 
 /**
@@ -68,18 +53,11 @@ export type SSIAccountState = {
   /**
    * Store for {@link SnapVCStore}
    */
-  vcs: Record<string, VerifiableCredential>;
+  vcs: Record<string, W3CVerifiableCredential>;
 
   publicKey: string;
   index?: number;
   accountConfig: SSIAccountConfig;
-};
-
-export type SSIAccountConfig = {
-  ssi: {
-    didMethod: AvailableMethods;
-    vcStore: Record<AvailableVCStores, boolean>;
-  };
 };
 
 export type SnapConfirmParams = {
@@ -90,7 +68,8 @@ export type SnapConfirmParams = {
 
 export interface ApiParams {
   state: SSISnapState;
-  wallet: SnapProvider;
+  snap: SnapsGlobalObject;
+  ethereum: MetaMaskInpageProvider;
   account: string;
   bip44CoinTypeNode?: BIP44CoinTypeNode;
 }

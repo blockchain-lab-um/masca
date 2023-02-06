@@ -1,12 +1,23 @@
-import { RequireOnly, IIdentifier } from '@veramo/core';
+/* eslint-disable max-classes-per-file */
+import { MetaMaskInpageProvider } from '@metamask/providers';
+import {
+  RequireOnly,
+  IIdentifier,
+  W3CVerifiableCredential,
+} from '@veramo/core';
 import { ManagedPrivateKey } from '@veramo/key-manager';
 import { AbstractDIDStore } from '@veramo/did-manager';
 import { v4 as uuidv4 } from 'uuid';
-import { VerifiableCredential } from '@veramo/core';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
+import {
+  AbstractDataStore,
+  IFilterArgs,
+  IQueryResult,
+} from '@blockchain-lab-um/veramo-vc-manager';
+import jsonpath from 'jsonpath';
 import { getSnapState, updateSnapState } from '../../../utils/stateUtils';
-import { SnapProvider } from '@metamask/snap-types';
 import { getCurrentAccount } from '../../../utils/snapUtils';
-import { AbstractVCStore } from '@blockchain-lab-um/veramo-vc-manager';
+import { decodeJWT } from '../../../utils/jwt';
 
 export type ImportablePrivateKey = RequireOnly<
   ManagedPrivateKey,
@@ -18,12 +29,18 @@ export type ImportablePrivateKey = RequireOnly<
  *
  * This is usable by {@link @veramo/did-manager} to hold the did key data.
  */
-
 export class SnapDIDStore extends AbstractDIDStore {
-  wallet: SnapProvider;
-  constructor(walletParam: SnapProvider) {
+  snap: SnapsGlobalObject;
+
+  ethereum: MetaMaskInpageProvider;
+
+  constructor(
+    snapParam: SnapsGlobalObject,
+    ethereumParam: MetaMaskInpageProvider
+  ) {
     super();
-    this.wallet = walletParam;
+    this.snap = snapParam;
+    this.ethereum = ethereumParam;
   }
 
   async get({
@@ -35,16 +52,18 @@ export class SnapDIDStore extends AbstractDIDStore {
     alias: string;
     provider: string;
   }): Promise<IIdentifier> {
-    const state = await getSnapState(this.wallet);
-    const account = await getCurrentAccount(this.wallet);
+    const state = await getSnapState(this.snap);
+    const account = await getCurrentAccount(this.ethereum);
     if (!account) throw Error('User denied error');
-    const identifiers = state.accountState[account].identifiers;
+    const { identifiers } = state.accountState[account];
 
     if (did && !alias) {
       if (!identifiers[did])
         throw Error(`not_found: IIdentifier not found with did=${did}`);
       return identifiers[did];
-    } else if (!did && alias && provider) {
+    }
+    if (!did && alias && provider) {
+      // eslint-disable-next-line no-restricted-syntax
       for (const key of Object.keys(identifiers)) {
         if (
           identifiers[key].alias === alias &&
@@ -62,31 +81,32 @@ export class SnapDIDStore extends AbstractDIDStore {
   }
 
   async delete({ did }: { did: string }) {
-    const state = await getSnapState(this.wallet);
-    const account = await getCurrentAccount(this.wallet);
+    const state = await getSnapState(this.snap);
+    const account = await getCurrentAccount(this.ethereum);
     if (!account) throw Error('User denied error');
 
     if (!state.accountState[account].identifiers[did])
       throw Error('Identifier not found');
 
     delete state.accountState[account].identifiers[did];
-    await updateSnapState(this.wallet, state);
+    await updateSnapState(this.snap, state);
     return true;
   }
 
   async import(args: IIdentifier) {
-    const state = await getSnapState(this.wallet);
-    const account = await getCurrentAccount(this.wallet);
+    const state = await getSnapState(this.snap);
+    const account = await getCurrentAccount(this.ethereum);
     if (!account) throw Error('User denied error');
 
     const identifier = { ...args };
+    // eslint-disable-next-line no-restricted-syntax
     for (const key of identifier.keys) {
       if ('privateKeyHex' in key) {
         delete key.privateKeyHex;
       }
     }
     state.accountState[account].identifiers[args.did] = identifier;
-    await updateSnapState(this.wallet, state);
+    await updateSnapState(this.snap, state);
     return true;
   }
 
@@ -94,11 +114,12 @@ export class SnapDIDStore extends AbstractDIDStore {
     alias?: string;
     provider?: string;
   }): Promise<IIdentifier[]> {
-    const state = await getSnapState(this.wallet);
-    const account = await getCurrentAccount(this.wallet);
+    const state = await getSnapState(this.snap);
+    const account = await getCurrentAccount(this.ethereum);
     if (!account) throw Error('User denied error');
 
     let result: IIdentifier[] = [];
+    // eslint-disable-next-line no-restricted-syntax
     for (const key of Object.keys(state.accountState[account].identifiers)) {
       result.push(state.accountState[account].identifiers[key]);
     }
@@ -118,67 +139,117 @@ export class SnapDIDStore extends AbstractDIDStore {
 }
 
 /**
- * An implementation of {@link AbstractVCStore} that holds everything in snap state.
- *
- * This is usable by {@link @vc-manager/VCManager} to hold the vc data
+ * An implementation of {@link AbstractDataStore} that holds everything in snap state.
  */
+export class SnapVCStore extends AbstractDataStore {
+  snap: SnapsGlobalObject;
 
-export class SnapVCStore extends AbstractVCStore {
-  wallet: SnapProvider;
-  constructor(walletParam: SnapProvider) {
+  ethereum: MetaMaskInpageProvider;
+
+  constructor(
+    snapParam: SnapsGlobalObject,
+    ethereumParam: MetaMaskInpageProvider
+  ) {
     super();
-    this.wallet = walletParam;
+    this.snap = snapParam;
+    this.ethereum = ethereumParam;
   }
 
-  async get(args: { id: string }): Promise<VerifiableCredential | null> {
-    const state = await getSnapState(this.wallet);
-    const account = await getCurrentAccount(this.wallet);
-    if (!account) throw Error('User denied error');
+  async query(args: IFilterArgs): Promise<Array<IQueryResult>> {
+    const { filter } = args;
+    const state = await getSnapState(this.snap);
+    const account = await getCurrentAccount(this.ethereum);
+    if (!account) throw Error('Cannot get current account');
 
-    if (!state.accountState[account].vcs[args.id])
-      throw Error(`not_found: VC with key=${args.id} not found!`);
-    return state.accountState[account].vcs[args.id];
+    if (filter && filter.type === 'id') {
+      try {
+        if (state.accountState[account].vcs[filter.filter as string]) {
+          let vc = state.accountState[account].vcs[
+            filter.filter as string
+          ] as unknown;
+          if (typeof vc === 'string') {
+            vc = decodeJWT(vc);
+          }
+          const obj = [
+            {
+              metadata: { id: filter.filter as string },
+              data: vc,
+            },
+          ];
+          return obj;
+        }
+        return [];
+      } catch (e) {
+        throw new Error('Invalid id');
+      }
+    }
+    if (filter === undefined || (filter && filter.type === 'none')) {
+      return Object.keys(state.accountState[account].vcs).map((k) => {
+        let vc = state.accountState[account].vcs[k] as unknown;
+        if (typeof vc === 'string') {
+          vc = decodeJWT(vc);
+        }
+        return {
+          metadata: { id: k },
+          data: vc,
+        };
+      });
+    }
+    if (filter && filter.type === 'JSONPath') {
+      const objects = Object.keys(state.accountState[account].vcs).map((k) => {
+        let vc = state.accountState[account].vcs[k] as unknown;
+        if (typeof vc === 'string') {
+          vc = decodeJWT(vc);
+        }
+        return {
+          metadata: { id: k },
+          data: vc,
+        };
+      });
+      const filteredObjects = jsonpath.query(objects, filter.filter as string);
+      return filteredObjects as Array<IQueryResult>;
+    }
+    return [];
   }
 
   async delete({ id }: { id: string }) {
-    const state = await getSnapState(this.wallet);
-    const account = await getCurrentAccount(this.wallet);
-    if (!account) throw Error('User denied error');
+    const state = await getSnapState(this.snap);
+    const account = await getCurrentAccount(this.ethereum);
+    if (!account) throw Error('Cannot get current account');
 
-    if (!state.accountState[account].vcs[id]) throw Error('VC not found');
+    if (!state.accountState[account].vcs[id]) throw Error('ID not found');
 
     delete state.accountState[account].vcs[id];
-    await updateSnapState(this.wallet, state);
+    await updateSnapState(this.snap, state);
     return true;
   }
 
-  async import(args: VerifiableCredential) {
-    const state = await getSnapState(this.wallet);
-    const account = await getCurrentAccount(this.wallet);
-    if (!account) throw Error('User denied error');
+  async save(args: { data: W3CVerifiableCredential }): Promise<string> {
+    // TODO check if VC is correct type
 
-    let alias = uuidv4();
-    while (state.accountState[account].vcs[alias]) {
-      alias = uuidv4();
+    const vc = args.data;
+    const state = await getSnapState(this.snap);
+    const account = await getCurrentAccount(this.ethereum);
+    if (!account) throw Error('Cannot get current account');
+
+    let id = uuidv4();
+    while (state.accountState[account].vcs[id]) {
+      id = uuidv4();
     }
 
-    state.accountState[account].vcs[alias] = { ...args };
-    await updateSnapState(this.wallet, state);
-    return true;
+    state.accountState[account].vcs[id] = vc;
+    await updateSnapState(this.snap, state);
+    return id;
   }
 
-  async list(): Promise<VerifiableCredential[]> {
-    const state = await getSnapState(this.wallet);
-    const account = await getCurrentAccount(this.wallet);
-    if (!account) throw Error('User denied error');
-    const result: VerifiableCredential[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public async clear(args: IFilterArgs): Promise<boolean> {
+    // TODO implement filter (in ceramic aswell)
+    const state = await getSnapState(this.snap);
+    const account = await getCurrentAccount(this.ethereum);
+    if (!account) throw Error('Cannot get current account');
 
-    // TODO: Why we adding key -> we have id ?
-    // Return type doesn't match with what we return
-    Object.keys(state.accountState[account].vcs).forEach((key) => {
-      result.push({ ...state.accountState[account].vcs[key], key: key });
-    });
-
-    return result;
+    state.accountState[account].vcs = {};
+    return true;
   }
 }

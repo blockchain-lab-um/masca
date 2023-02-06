@@ -1,9 +1,11 @@
+import { AvailableMethods } from '@blockchain-lab-um/ssi-snap-types';
 import { MetaMaskSSISnap } from './snap';
 import {
   hasMetaMask,
   isMetamaskSnapsSupported,
   isSnapInstalled,
 } from './utils';
+
 const defaultSnapOrigin = 'npm:@blockchain-lab-um/ssi-snap';
 
 export { MetaMaskSSISnap } from './snap';
@@ -13,12 +15,10 @@ export {
   isSnapInstalled,
 } from './utils';
 
-const availableMethods = ['did:ethr', 'did:key'] as const;
-
 export type SnapInstallationParams = {
   snapId?: string;
   version?: string;
-  supportedMethods?: Array<typeof availableMethods[number]>;
+  supportedMethods?: Array<AvailableMethods>;
 };
 
 /**
@@ -49,31 +49,30 @@ export async function enableSSISnap(
     throw new Error("Current Metamask version doesn't support snaps");
   }
 
-  const isInstalled = await isSnapInstalled(snapId);
+  const isInstalled = await isSnapInstalled(snapId, version);
 
   if (!isInstalled) {
     await window.ethereum.request({
-      method: 'wallet_enable',
-      params: [
-        {
-          [`wallet_snap_${snapId}`]: {
-            version: version,
-          },
-        },
-      ],
+      method: 'wallet_requestSnaps',
+      params: {
+        [snapId]: { version },
+      },
     });
   }
 
   // create snap describer
   const snap = new MetaMaskSSISnap(snapId, supportedMethods);
 
-  //initialize snap
+  // initialize snap
   const snapApi = await snap.getSSISnapApi();
-
-  const method = await snapApi.getMethod();
-  if (!snap.supportedMethods.includes(method)) {
+  console.log('Getting DID method...');
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+  const method = await snapApi.getSelectedMethod();
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  if (!snap.supportedMethods.includes(method as AvailableMethods)) {
     console.log('Switching method...', method, snap.supportedMethods[0]);
-    await snapApi.switchMethod(snap.supportedMethods[0]);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    await snapApi.switchDIDMethod(snap.supportedMethods[0]);
   }
 
   // return snap object

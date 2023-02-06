@@ -1,21 +1,42 @@
-import { SnapProvider } from '@metamask/snap-types';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { MetaMaskInpageProvider } from '@metamask/providers';
 import {
   changeCurrentMethod,
   changeCurrentVCStore,
   getCurrentDid,
+  resolveDid,
 } from '../../src/utils/didUtils';
 import {
   address,
   exampleDIDKey,
   getDefaultSnapState,
+  exampleDIDKeyDocumentUniResovler,
+  resolutionInvalidDID,
+  resolutionNotFound,
+  resolutionMethodNotSupported,
+  exampleDID,
+  exampleDIDDocument,
 } from '../testUtils/constants';
-import { createMockWallet, WalletMock } from '../testUtils/wallet.mock';
+import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
+import * as snapUtils from '../../src/utils/snapUtils';
+
+jest
+  .spyOn(snapUtils, 'getCurrentAccount')
+  // eslint-disable-next-line @typescript-eslint/require-await
+  .mockImplementation(async () => address);
+
+jest
+  .spyOn(snapUtils, 'getCurrentNetwork')
+  // eslint-disable-next-line @typescript-eslint/require-await
+  .mockImplementation(async () => '0x5');
 
 describe('Utils [did]', () => {
-  let walletMock: SnapProvider & WalletMock;
+  let snapMock: SnapsGlobalObject & SnapMock;
+  let ethereumMock: MetaMaskInpageProvider;
 
   beforeEach(() => {
-    walletMock = createMockWallet();
+    snapMock = createMockSnap();
+    ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
   });
 
   describe('changeCurrentVCStore', () => {
@@ -23,15 +44,15 @@ describe('Utils [did]', () => {
       const initialState = getDefaultSnapState();
 
       await expect(
-        changeCurrentVCStore(walletMock, initialState, address, 'snap', true)
+        changeCurrentVCStore(snapMock, initialState, address, 'snap', true)
       ).resolves.not.toThrow();
 
       const expectedState = getDefaultSnapState();
 
-      expect(walletMock.rpcMocks.snap_manageState).toHaveBeenCalledWith(
-        'update',
-        expectedState
-      );
+      expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith({
+        operation: 'update',
+        newState: expectedState,
+      });
 
       expect.assertions(2);
     });
@@ -40,17 +61,17 @@ describe('Utils [did]', () => {
       const initialState = getDefaultSnapState();
 
       await expect(
-        changeCurrentVCStore(walletMock, initialState, address, 'ceramic', true)
+        changeCurrentVCStore(snapMock, initialState, address, 'ceramic', true)
       ).resolves.not.toThrow();
 
       const expectedState = getDefaultSnapState();
-      expectedState.accountState[address].accountConfig.ssi.vcStore['ceramic'] =
+      expectedState.accountState[address].accountConfig.ssi.vcStore.ceramic =
         true;
 
-      expect(walletMock.rpcMocks.snap_manageState).toHaveBeenCalledWith(
-        'update',
-        expectedState
-      );
+      expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith({
+        operation: 'update',
+        newState: expectedState,
+      });
 
       expect.assertions(2);
     });
@@ -61,7 +82,7 @@ describe('Utils [did]', () => {
       const initialState = getDefaultSnapState();
 
       await expect(
-        getCurrentDid(walletMock, initialState, address)
+        getCurrentDid(ethereumMock, initialState, address)
       ).resolves.toBe(`did:ethr:0x5:${address}`);
 
       expect.assertions(1);
@@ -73,7 +94,7 @@ describe('Utils [did]', () => {
         'did:key';
 
       await expect(
-        getCurrentDid(walletMock, initialState, address)
+        getCurrentDid(ethereumMock, initialState, address)
       ).resolves.toBe(exampleDIDKey);
 
       expect.assertions(1);
@@ -85,17 +106,23 @@ describe('Utils [did]', () => {
       const initialState = getDefaultSnapState();
 
       await expect(
-        changeCurrentMethod(walletMock, initialState, address, 'did:key')
+        changeCurrentMethod(
+          snapMock,
+          ethereumMock,
+          initialState,
+          address,
+          'did:key'
+        )
       ).resolves.not.toThrow();
 
       const expectedState = getDefaultSnapState();
       expectedState.accountState[address].accountConfig.ssi.didMethod =
         'did:key';
 
-      expect(walletMock.rpcMocks.snap_manageState).toHaveBeenCalledWith(
-        'update',
-        expectedState
-      );
+      expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith({
+        operation: 'update',
+        newState: expectedState,
+      });
 
       expect.assertions(2);
     });
@@ -104,19 +131,53 @@ describe('Utils [did]', () => {
       const initialState = getDefaultSnapState();
 
       await expect(
-        changeCurrentMethod(walletMock, initialState, address, 'did:key')
+        changeCurrentMethod(
+          snapMock,
+          ethereumMock,
+          initialState,
+          address,
+          'did:key'
+        )
       ).resolves.not.toThrow();
 
       const expectedState = getDefaultSnapState();
       expectedState.accountState[address].accountConfig.ssi.didMethod =
         'did:key';
 
-      expect(walletMock.rpcMocks.snap_manageState).toHaveBeenCalledWith(
-        'update',
-        expectedState
-      );
+      expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith({
+        operation: 'update',
+        newState: expectedState,
+      });
 
       expect.assertions(2);
+    });
+
+    describe('resolveDID', () => {
+      it('should succeed resolving did:ethr identifier', async () => {
+        const didDoc = await resolveDid(exampleDID);
+        expect(didDoc.didDocument).toEqual(exampleDIDDocument);
+        expect.assertions(1);
+      });
+      it('should succeed resolving did:key identifier', async () => {
+        const didDoc = await resolveDid(exampleDIDKey);
+        expect(didDoc.didDocument).toEqual(exampleDIDKeyDocumentUniResovler);
+        expect.assertions(1);
+      });
+      it('should resolve invalid did', async () => {
+        const didDoc = await resolveDid('did:ethr:0x5:0x123');
+        expect(didDoc).toEqual(resolutionInvalidDID);
+        expect.assertions(1);
+      });
+      it('should resolve nonExisting did', async () => {
+        const didDoc = await resolveDid('did:key:zQ3shW537');
+        expect(didDoc).toEqual(resolutionNotFound);
+        expect.assertions(1);
+      });
+      it('should resolve methodNotSupported', async () => {
+        const didDoc = await resolveDid('did:keyclopse:zQ3shW537');
+        expect(didDoc).toEqual(resolutionMethodNotSupported);
+        expect.assertions(1);
+      });
     });
   });
 });

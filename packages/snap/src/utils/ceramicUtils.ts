@@ -1,40 +1,47 @@
 import { CeramicClient } from '@ceramicnetwork/http-client';
 import { DIDSession } from 'did-session';
-import { getCurrentAccount } from './snapUtils';
 import { DID } from 'dids';
-import { SnapProvider } from '@metamask/snap-types';
-import { EthereumWebAuth, getAccountId } from '@didtools/pkh-ethereum';
+import { EthereumWebAuth } from '@didtools/pkh-ethereum';
+import { AccountId } from 'caip';
+import { MetaMaskInpageProvider } from '@metamask/providers';
+import { getCurrentAccount, getCurrentNetwork } from './snapUtils';
 
 const ceramicDID = { did: undefined } as { did: DID | undefined };
 
 export const aliases = {
   definitions: {
     StoredCredentials:
-      'kjzl6cwe1jw1475uoed3zn1yq28pnh6pqqq611y21qwhweln9p8er7g09crnwqa',
+      'kjzl6cwe1jw14a05nhefxjqb74krvxgyzdaje4jnrcaie48vw31pwxxoa7qw5z9',
   },
   schemas: {
     StoredCredentials:
-      'ceramic://k3y52l7qbv1fryllp4tpkqpkbg3ndpni8i4czh2gl8hxjozo5uxduknnd9ebma6m8',
+      'ceramic://k3y52l7qbv1frxl7mazhftozd9tpwugrwafoqiyuuludx7s42u7crnzc4jh9ddrls',
   },
   tiles: {},
 };
 
 export async function authenticateWithEthereum(
-  wallet: SnapProvider
+  ethereum: MetaMaskInpageProvider
 ): Promise<DID> {
   if (ceramicDID.did) return ceramicDID.did;
-  const account = await getCurrentAccount(wallet);
+  const account = await getCurrentAccount(ethereum);
   if (!account) throw Error('User denied error');
-  const accountId = await getAccountId(wallet, account);
+  const ethChainId = await getCurrentNetwork(ethereum);
+  const chainId = `eip155:${ethChainId}`;
 
-  const authMethod = await EthereumWebAuth.getAuthMethod(wallet, accountId);
+  const accountId = new AccountId({
+    address: account,
+    chainId,
+  });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
   typeof window;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
   window.location = {} as any;
   window.location.hostname = 'ssi-snap';
 
+  const authMethod = await EthereumWebAuth.getAuthMethod(ethereum, accountId);
   const session = await DIDSession.authorize(authMethod, {
     resources: [`ceramic://*`],
   });
@@ -42,9 +49,11 @@ export async function authenticateWithEthereum(
   return session.did;
 }
 
-export async function getCeramic(wallet: SnapProvider): Promise<CeramicClient> {
+export async function getCeramic(
+  ethereum: MetaMaskInpageProvider
+): Promise<CeramicClient> {
   const ceramic = new CeramicClient('https://ceramic-clay.3boxlabs.com');
-  const did = await authenticateWithEthereum(wallet);
+  const did = await authenticateWithEthereum(ethereum);
   await ceramic.setDID(did);
   return ceramic;
 }

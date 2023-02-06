@@ -1,20 +1,18 @@
-/* eslint-disable consistent-return*/
-import { OnRpcRequestHandler } from '@metamask/snap-types';
-import { togglePopups, changeInfuraToken } from './rpc/snap/configure';
+import { OnRpcRequestHandler } from '@metamask/snaps-types';
+import { togglePopups } from './rpc/snap/configure';
 import { queryVCs } from './rpc/vc/queryVCs';
 import { createVP } from './rpc/vc/createVP';
 import { saveVC } from './rpc/vc/saveVC';
 import {
-  isValidChangeInfuraTokenRequest,
   isValidCreateVPRequest,
   isValidSaveVCRequest,
   isValidSetVCStoreRequest,
   isValidSwitchMethodRequest,
   isValidDeleteVCRequest,
   isValidQueryRequest,
+  isValidResolveDIDRequest,
 } from './utils/params';
 import { switchMethod } from './rpc/did/switchMethod';
-import { init } from './utils/init';
 import { getDid } from './rpc/did/getDID';
 import { getAvailableMethods } from './rpc/did/getAvailableMethods';
 import { setVCStore } from './rpc/vcStore/setVCStore';
@@ -22,24 +20,26 @@ import { getAvailableVCStores } from './rpc/vcStore/getAvailableVCStores';
 import {
   getSnapStateUnchecked,
   initAccountState,
-  setAccountPublicKey,
+  initSnapState,
 } from './utils/stateUtils';
-import { getCurrentAccount } from './utils/snapUtils';
+import { getCurrentAccount, setAccountPublicKey } from './utils/snapUtils';
 import { getAddressKeyDeriver } from './utils/keyPair';
 import { ApiParams } from './interfaces';
+import { deleteVC } from './rpc/vc/deleteVC';
+import { resolveDID } from './rpc/did/resolveDID';
 
 export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
-  let state = await getSnapStateUnchecked(wallet);
-  if (state === null) state = await init(wallet);
+  let state = await getSnapStateUnchecked(snap);
+  if (state === null) state = await initSnapState(snap);
 
-  const account = await getCurrentAccount(wallet);
+  const account = await getCurrentAccount(ethereum);
 
-  // FIXME: HANDLE NULL maybe throw ?
-  if (account === null) return;
+  if (account === null) throw new Error('No account found');
 
   const apiParams: ApiParams = {
     state,
-    wallet,
+    snap,
+    ethereum,
     account,
   };
 
@@ -48,28 +48,35 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
     apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
     await setAccountPublicKey(apiParams);
   }
-
+  let res;
   switch (request.method) {
-    case 'query':
-      isValidQueryRequest(request.params);
-      return await queryVCs(apiParams, request.params);
+    case 'queryVCs':
+      isValidQueryRequest(request.params, apiParams.account, apiParams.state);
+      res = await queryVCs(apiParams, request.params);
+      return res;
     case 'saveVC':
-      isValidSaveVCRequest(request.params);
-      return await saveVC(apiParams, request.params);
+      isValidSaveVCRequest(request.params, apiParams.account, apiParams.state);
+      res = await saveVC(apiParams, request.params);
+      return res;
     case 'createVP':
-      isValidCreateVPRequest(request.params);
+      isValidCreateVPRequest(
+        request.params,
+        apiParams.account,
+        apiParams.state
+      );
       apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
-      return await createVP(apiParams, request.params);
-    case 'changeInfuraToken':
-      isValidChangeInfuraTokenRequest(request.params);
-      return await changeInfuraToken(apiParams, request.params);
+      res = await createVP(apiParams, request.params);
+      return res;
     case 'togglePopups':
-      return await togglePopups(apiParams);
+      res = await togglePopups(apiParams);
+      return res;
     case 'switchDIDMethod':
       isValidSwitchMethodRequest(request.params);
-      return await switchMethod(apiParams, request.params);
+      res = await switchMethod(apiParams, request.params);
+      return res;
     case 'getDID':
-      return await getDid(apiParams);
+      res = await getDid(apiParams);
+      return res;
     case 'getSelectedMethod':
       return state.accountState[account].accountConfig.ssi.didMethod;
     case 'getAvailableMethods':
@@ -78,7 +85,8 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
       return state.accountState[account].accountConfig.ssi.vcStore;
     case 'setVCStore':
       isValidSetVCStoreRequest(request.params);
-      return await setVCStore(apiParams, request.params);
+      res = await setVCStore(apiParams, request.params);
+      return res;
     case 'getAccountSettings':
       return state.accountState[account].accountConfig;
     case 'getSnapSettings':
@@ -86,8 +94,17 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
     case 'getAvailableVCStores':
       return getAvailableVCStores();
     case 'deleteVC':
-      isValidDeleteVCRequest(request.params);
-    //return await deleteVC(apiParams, request.params.id);
+      isValidDeleteVCRequest(
+        request.params,
+        apiParams.account,
+        apiParams.state
+      );
+      res = await deleteVC(apiParams, request.params);
+      return res;
+    case 'resolveDID':
+      isValidResolveDIDRequest(request.params);
+      res = await resolveDID(request.params.did);
+      return res;
     default:
       throw new Error('Method not found.');
   }

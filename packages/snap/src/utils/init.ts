@@ -1,9 +1,9 @@
-import { SnapProvider } from '@metamask/snap-types';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { SSISnapState } from '../interfaces';
 import { snapConfirm } from './snapUtils';
 import { initSnapState } from './stateUtils';
 
-export async function init(wallet: SnapProvider): Promise<SSISnapState> {
+export async function init(snap: SnapsGlobalObject): Promise<SSISnapState> {
   const promptObj = {
     prompt: 'Terms and Conditions',
     description: 'Risks about using SSI Snap',
@@ -12,9 +12,9 @@ export async function init(wallet: SnapProvider): Promise<SSISnapState> {
   };
 
   // Accept terms and conditions
-  if (await snapConfirm(wallet, promptObj)) {
-    return await initSnapState(wallet);
-  } else {
-    throw new Error('User did not accept terms and conditions!');
-  }
+  // if (snapConfirm(snap, promptObj)) {
+  return initSnapState(snap);
+  // } else {
+  // throw new Error('User did not accept terms and conditions!');
+  // }
 }

@@ -1,13 +1,15 @@
-import { getEmptyAccountState } from './../../src/utils/config';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
-import { SnapProvider } from '@metamask/snap-types';
-import { getInitialSnapState } from '../../src/utils/config';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { MetaMaskInpageProvider } from '@metamask/providers';
+import {
+  getEmptyAccountState,
+  getInitialSnapState,
+} from '../../src/utils/config';
 import {
   getSnapState,
   getSnapStateUnchecked,
   initAccountState,
   initSnapState,
-  setAccountPublicKey,
   updateSnapState,
 } from '../../src/utils/stateUtils';
 import {
@@ -16,13 +18,16 @@ import {
   getDefaultSnapState,
   publicKey,
 } from '../testUtils/constants';
-import { createMockWallet, WalletMock } from '../testUtils/wallet.mock';
+import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
+import { setAccountPublicKey } from '../../src/utils/snapUtils';
 
 describe('Utils [state]', () => {
-  let walletMock: SnapProvider & WalletMock;
+  let snapMock: SnapsGlobalObject & SnapMock;
+  let ethereumMock: MetaMaskInpageProvider;
 
   beforeEach(() => {
-    walletMock = createMockWallet();
+    snapMock = createMockSnap();
+    ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
   });
 
   describe('updateSnapState', () => {
@@ -30,13 +35,13 @@ describe('Utils [state]', () => {
       const initialState = getDefaultSnapState();
 
       await expect(
-        updateSnapState(walletMock, initialState)
+        updateSnapState(snapMock, initialState)
       ).resolves.not.toThrow();
 
-      expect(walletMock.rpcMocks.snap_manageState).toHaveBeenCalledWith(
-        'update',
-        initialState
-      );
+      expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith({
+        operation: 'update',
+        newState: initialState,
+      });
 
       expect.assertions(2);
     });
@@ -46,13 +51,13 @@ describe('Utils [state]', () => {
 
       await expect(
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
-        updateSnapState(walletMock, emptyState as any)
+        updateSnapState(snapMock, emptyState as any)
       ).resolves.not.toThrow();
 
-      expect(walletMock.rpcMocks.snap_manageState).toHaveBeenCalledWith(
-        'update',
-        emptyState
-      );
+      expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith({
+        operation: 'update',
+        newState: emptyState,
+      });
 
       expect.assertions(2);
     });
@@ -60,7 +65,7 @@ describe('Utils [state]', () => {
 
   describe('getSnapState', () => {
     it('should fail and throw not initialized error', async () => {
-      await expect(getSnapState(walletMock)).rejects.toThrow(
+      await expect(getSnapState(snapMock)).rejects.toThrow(
         new Error('SSISnapState is not initialized!')
       );
 
@@ -69,9 +74,9 @@ describe('Utils [state]', () => {
 
     it('should succeed getting initial snap state', async () => {
       const initialState = getDefaultSnapState();
-      walletMock.rpcMocks.snap_manageState.mockReturnValueOnce(initialState);
+      snapMock.rpcMocks.snap_manageState.mockReturnValueOnce(initialState);
 
-      await expect(getSnapState(walletMock)).resolves.toEqual(initialState);
+      await expect(getSnapState(snapMock)).resolves.toEqual(initialState);
 
       expect.assertions(1);
     });
@@ -79,16 +84,16 @@ describe('Utils [state]', () => {
 
   describe('getSnapStateUnchecked', () => {
     it('should return null if state is not initialized', async () => {
-      await expect(getSnapStateUnchecked(walletMock)).resolves.toEqual(null);
+      await expect(getSnapStateUnchecked(snapMock)).resolves.toBeNull();
 
       expect.assertions(1);
     });
 
     it('should succeed getting initial snap state', async () => {
       const initialState = getDefaultSnapState();
-      walletMock.rpcMocks.snap_manageState.mockReturnValueOnce(initialState);
+      snapMock.rpcMocks.snap_manageState.mockReturnValueOnce(initialState);
 
-      await expect(getSnapStateUnchecked(walletMock)).resolves.toEqual(
+      await expect(getSnapStateUnchecked(snapMock)).resolves.toEqual(
         initialState
       );
 
@@ -100,12 +105,12 @@ describe('Utils [state]', () => {
     it('should succeed initializing snap state', async () => {
       const initialState = getInitialSnapState();
 
-      await expect(initSnapState(walletMock)).resolves.toEqual(initialState);
+      await expect(initSnapState(snapMock)).resolves.toEqual(initialState);
 
-      expect(walletMock.rpcMocks.snap_manageState).toHaveBeenCalledWith(
-        'update',
-        initialState
-      );
+      expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith({
+        operation: 'update',
+        newState: initialState,
+      });
 
       expect.assertions(2);
     });
@@ -119,17 +124,18 @@ describe('Utils [state]', () => {
 
       await expect(
         initAccountState({
-          wallet: walletMock,
+          snap: snapMock,
+          ethereum: ethereumMock,
           state: initialState,
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         })
       ).resolves.not.toThrow();
 
-      expect(walletMock.rpcMocks.snap_manageState).toHaveBeenCalledWith(
-        'update',
-        defaultState
-      );
+      expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith({
+        operation: 'update',
+        newState: initialState,
+      });
 
       expect.assertions(2);
     });
@@ -144,17 +150,18 @@ describe('Utils [state]', () => {
 
       await expect(
         setAccountPublicKey({
-          wallet: walletMock,
+          snap: snapMock,
+          ethereum: ethereumMock,
           state: initialState,
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         })
       ).resolves.not.toThrow();
 
-      expect(walletMock.rpcMocks.snap_manageState).toHaveBeenCalledWith(
-        'update',
-        defaultState
-      );
+      expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith({
+        operation: 'update',
+        newState: initialState,
+      });
 
       expect.assertions(2);
     });

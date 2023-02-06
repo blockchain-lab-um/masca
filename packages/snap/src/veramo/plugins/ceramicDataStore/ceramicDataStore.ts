@@ -1,94 +1,149 @@
-import { StoredCredentials } from './../../../interfaces';
 import { v4 as uuidv4 } from 'uuid';
-import { VerifiableCredential } from '@veramo/core';
-import { aliases, getCeramic } from '../../../utils/ceramicUtils';
+import { W3CVerifiableCredential } from '@veramo/core';
 import { DIDDataStore } from '@glazed/did-datastore';
-import { SnapProvider } from '@metamask/snap-types';
-import { AbstractVCStore } from '@blockchain-lab-um/veramo-vc-manager';
-export class CeramicVCStore extends AbstractVCStore {
-  wallet: SnapProvider;
-  constructor(walletParam: SnapProvider) {
+import { SnapsGlobalObject } from '@metamask/snaps-types';
+import {
+  AbstractDataStore,
+  IFilterArgs,
+  IQueryResult,
+} from '@blockchain-lab-um/veramo-vc-manager';
+import jsonpath from 'jsonpath';
+import { MetaMaskInpageProvider } from '@metamask/providers';
+import { decodeJWT } from '../../../utils/jwt';
+import { aliases, getCeramic } from '../../../utils/ceramicUtils';
+
+export type StoredCredentials = {
+  vcs: Record<string, W3CVerifiableCredential>;
+};
+export class CeramicVCStore extends AbstractDataStore {
+  snap: SnapsGlobalObject;
+
+  ethereum: MetaMaskInpageProvider;
+
+  constructor(
+    snapParam: SnapsGlobalObject,
+    ethereumParam: MetaMaskInpageProvider
+  ) {
     super();
-    this.wallet = walletParam;
+    this.snap = snapParam;
+    this.ethereum = ethereumParam;
   }
 
-  async get(args: { id: string }): Promise<VerifiableCredential | null> {
-    const ceramic = await getCeramic(this.wallet);
+  async query(args: IFilterArgs): Promise<Array<IQueryResult>> {
+    const { filter } = args;
+    const ceramic = await getCeramic(this.ethereum);
     const datastore = new DIDDataStore({ ceramic, model: aliases });
     const storedCredentials = (await datastore.get(
       'StoredCredentials'
     )) as StoredCredentials;
-    if (storedCredentials.storedCredentials) {
-      const verifiableCredential = storedCredentials.storedCredentials.find(
-        (vc) => vc.key === args.id
-      );
-      if (verifiableCredential)
-        return verifiableCredential as VerifiableCredential;
+    if (storedCredentials && storedCredentials.vcs) {
+      if (filter && filter.type === 'id') {
+        try {
+          if (storedCredentials.vcs[filter.filter as string]) {
+            let vc = storedCredentials.vcs[filter.filter as string] as unknown;
+            if (typeof vc === 'string') {
+              vc = decodeJWT(vc);
+            }
+            const obj = [
+              {
+                metadata: { id: filter.filter as string },
+                data: vc,
+              },
+            ];
+            return obj;
+          }
+          return [];
+        } catch (e) {
+          throw new Error('Invalid id');
+        }
+      }
+      if (filter === undefined || (filter && filter.type === 'none')) {
+        return Object.keys(storedCredentials.vcs).map((k) => {
+          let vc = storedCredentials.vcs[k] as unknown;
+          if (typeof vc === 'string') {
+            vc = decodeJWT(vc);
+          }
+          return {
+            metadata: { id: k },
+            data: vc,
+          };
+        });
+      }
+      if (filter && filter.type === 'JSONPath') {
+        const objects = Object.keys(storedCredentials.vcs).map((k) => {
+          let vc = storedCredentials.vcs[k] as unknown;
+          if (typeof vc === 'string') {
+            vc = decodeJWT(vc);
+          }
+          return {
+            metadata: { id: k },
+            data: vc,
+          };
+        });
+        const filteredObjects = jsonpath.query(
+          objects,
+          filter.filter as string
+        );
+        return filteredObjects as Array<IQueryResult>;
+      }
     }
-    return null;
+    return [];
   }
 
-  // eslint-disable-next-line @typescript-eslint/require-await
-  async delete(args: { id: string }): Promise<boolean> {
-    const ceramic = await getCeramic(this.wallet);
+  async delete({ id }: { id: string }) {
+    const ceramic = await getCeramic(this.ethereum);
     const datastore = new DIDDataStore({ ceramic, model: aliases });
-    const ceramicData = (await datastore.get(
+    const storedCredentials = (await datastore.get(
       'StoredCredentials'
     )) as StoredCredentials;
-    if (ceramicData.storedCredentials) {
-      let found = false;
-      ceramicData.storedCredentials = ceramicData.storedCredentials.filter(
-        (vc) => {
-          if (vc.key !== args.id) return vc;
-          else found = true;
-        }
-      );
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      await datastore.merge('StoredCredentials', ceramicData);
-      return found;
+    if (storedCredentials && storedCredentials.vcs) {
+      if (!storedCredentials.vcs[id]) throw Error('ID not found');
+
+      delete storedCredentials.vcs[id];
+      await datastore.merge('StoredCredentials', storedCredentials);
+      return true;
     }
     return false;
   }
 
-  async import(args: VerifiableCredential) {
-    const alias = uuidv4();
-    const vc = { ...args, key: alias };
+  async save(args: { data: W3CVerifiableCredential }): Promise<string> {
+    // TODO check if VC is correct type
 
-    const ceramic = await getCeramic(this.wallet);
+    const vc = args.data;
+    const ceramic = await getCeramic(this.ethereum);
     const datastore = new DIDDataStore({ ceramic, model: aliases });
     const storedCredentials = (await datastore.get(
       'StoredCredentials'
     )) as StoredCredentials;
-    if (storedCredentials && storedCredentials.storedCredentials) {
-      storedCredentials.storedCredentials.push(vc);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    if (storedCredentials && storedCredentials.vcs) {
+      let id = uuidv4();
+      while (storedCredentials.vcs[id]) {
+        id = uuidv4();
+      }
+
+      storedCredentials.vcs[id] = vc;
       await datastore.merge('StoredCredentials', storedCredentials);
-    } else {
-      const storedCredentialsNew = { storedCredentials: [vc] };
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      await datastore.merge('StoredCredentials', storedCredentialsNew);
+      return id;
     }
-
-    return true;
+    const id = uuidv4();
+    const storedCredentialsNew: StoredCredentials = { vcs: {} };
+    storedCredentialsNew.vcs[id] = vc;
+    await datastore.merge('StoredCredentials', storedCredentialsNew);
+    return id;
   }
 
-  async list(): Promise<VerifiableCredential[]> {
-    const ceramic = await getCeramic(this.wallet);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public async clear(args: IFilterArgs): Promise<boolean> {
+    const ceramic = await getCeramic(this.ethereum);
     const datastore = new DIDDataStore({ ceramic, model: aliases });
     const storedCredentials = (await datastore.get(
       'StoredCredentials'
     )) as StoredCredentials;
-
-    if (storedCredentials && storedCredentials.storedCredentials)
-      return storedCredentials.storedCredentials as VerifiableCredential[];
-    return [];
+    if (storedCredentials && storedCredentials.vcs) {
+      storedCredentials.vcs = {};
+      await datastore.merge('StoredCredentials', storedCredentials);
+      return true;
+    }
+    return false;
   }
-}
-
-export async function clear(wallet: SnapProvider): Promise<boolean> {
-  const ceramic = await getCeramic(wallet);
-  const datastore = new DIDDataStore({ ceramic, model: aliases });
-  const storedCredentialsNew = { storedCredentials: [] };
-  await datastore.merge('StoredCredentials', storedCredentialsNew);
-  return true;
 }

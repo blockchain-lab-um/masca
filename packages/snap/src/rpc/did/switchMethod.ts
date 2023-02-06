@@ -1,4 +1,4 @@
-import { SwitchMethodRequestParams } from 'src/utils/params';
+import { SwitchMethodRequestParams } from '@blockchain-lab-um/ssi-snap-types';
 import { ApiParams } from '../../interfaces';
 import { changeCurrentMethod } from '../../utils/didUtils';
 import { snapConfirm } from '../../utils/snapUtils';
@@ -7,7 +7,7 @@ export async function switchMethod(
   params: ApiParams,
   { didMethod }: SwitchMethodRequestParams
 ): Promise<string> {
-  const { state, wallet, account } = params;
+  const { state, snap, ethereum, account } = params;
   const method = state.accountState[account].accountConfig.ssi.didMethod;
   if (didMethod !== method) {
     const promptObj = {
@@ -16,8 +16,15 @@ export async function switchMethod(
       textAreaContent: didMethod,
     };
 
-    if (await snapConfirm(wallet, promptObj)) {
-      return await changeCurrentMethod(wallet, state, account, didMethod);
+    if (snapConfirm(snap, promptObj)) {
+      const res = await changeCurrentMethod(
+        snap,
+        ethereum,
+        state,
+        account,
+        didMethod
+      );
+      return res;
     }
 
     return '';
