@@ -54,11 +54,11 @@ export const FormatedTab = ({ vc }: FormatedTabProps) => {
       ).getMonth()}.${new Date(
         Date.parse(vc.data.expirationDate)
       ).getFullYear()}`
-    : 'Does not have an expiration date!';
+    : 'Does not expire';
 
   return (
     <div className="relative h-full">
-      <div className="flex flex-col lg:flex-row lg:justify-between m-3 p-5 rounded-3xl bg-orange-500">
+      <div className="flex flex-col lg:flex-row lg:justify-between m-3 py-3 px-8 rounded-3xl bg-orange-500">
         <div className="flex flex-col mb-2 border-b border-orange-300 lg:border-none pb-2 lg:pb-0 lg:mb-0 ">
           <span className="text-xs text-yellow-200/70 -mb-1">VALIDITY</span>
 
@@ -67,7 +67,7 @@ export const FormatedTab = ({ vc }: FormatedTabProps) => {
           </span>
           <span className="text-sm text-yellow-300 mt-4">{expDate}</span>
         </div>
-        <div className="basis-2/3 lg:ml-2 flex flex-col break-all">
+        <div className="lg:ml-2 flex flex-col break-all">
           <span className="text-xs text-yellow-200/70 -mb-1">ISSUER</span>
           <div className="flex">
             <a
@@ -77,7 +77,7 @@ export const FormatedTab = ({ vc }: FormatedTabProps) => {
               className="text-2xl font-semibold text-white underline underline-offset-2 hover:text-gray-100 animated-transition cursor-pointer"
             >
               {issuer.length > 20
-                ? `${issuer.slice(0, 20)}...${issuer.slice(-6)}`
+                ? `${issuer.slice(0, 18)}...${issuer.slice(-4)}`
                 : issuer}
             </a>
             <button
