@@ -15,7 +15,7 @@ import {
   AuthorizationRequest,
   CredentialResponse,
   Credentials,
-  IssuanceRequestParams,
+  CredentialOfferParams,
   IssuerServerMetadata,
   PresentationDefinition,
   TokenResponse,
@@ -25,7 +25,7 @@ import { JsonWebKey, VerificationMethod } from 'did-resolver';
 import { ec as EC } from 'elliptic';
 import { Result } from '../utils';
 import {
-  CreateIssuanceInitiationRequestResposne,
+  CreateCredentialOfferRequestResposne,
   HandleCredentialRequestArgs,
   IPluginConfig,
   IsValidAuthorizationHeaderArgs,
@@ -35,6 +35,7 @@ import {
   HandlePreAuthorizedCodeTokenRequestArgs,
   PrivateKeyToDidResponse,
   HandleAuthorizationResponseArgs,
+  CreateCredentialOfferRequestArgs,
 } from '../types/internal';
 import { IOIDCPlugin, OIDCAgentContext } from '../types/IOIDCPlugin';
 
@@ -55,8 +56,7 @@ export class OIDCPlugin implements IAgentPlugin {
     handleAuthorizationResponse: this.handleAuthorizationResponse.bind(this),
     handleIssuerServerMetadataRequest:
       this.handleIssuerServerMetadataRequest.bind(this),
-    createIssuanceInitiationRequest:
-      this.createIssuanceInitiationRequest.bind(this),
+    createCredentialOfferRequest: this.createCredentialOfferRequest.bind(this),
     isValidTokenRequest: this.isValidTokenRequest.bind(this),
     handlePreAuthorizedCodeTokenRequest:
       this.handlePreAuthorizedCodeTokenRequest.bind(this),
@@ -450,6 +450,7 @@ export class OIDCPlugin implements IAgentPlugin {
     Result<IssuerServerMetadata>
   > {
     const exampleMetadata = {
+      credential_issuer: this.pluginConfig.url,
       issuer: this.pluginConfig.url,
       authorization_endpoint: '',
       token_endpoint: `${this.pluginConfig.url}/token`,
@@ -468,27 +469,93 @@ export class OIDCPlugin implements IAgentPlugin {
     return { success: true, data: exampleMetadata };
   }
 
-  public async createIssuanceInitiationRequest(): Promise<
-    Result<CreateIssuanceInitiationRequestResposne>
-  > {
-    const preAuthorizedCode = randomUUID();
-    const credentials: Credentials = [
-      {
-        format: 'jwt_vc_json',
-        types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
-      },
-    ];
+  public async createCredentialOfferRequest(
+    args: CreateCredentialOfferRequestArgs
+  ): Promise<Result<CreateCredentialOfferRequestResposne>> {
+    const { schema, grants: requestedGrants } = args;
 
-    const params: IssuanceRequestParams = {
-      issuer: this.pluginConfig.url,
-      credentials,
-      'pre-authorized_code': preAuthorizedCode,
-    };
+    const supportedCredentialSchemas =
+      this.pluginConfig.supported_credentials.map(
+        (credential) => credential.schema
+      );
+
+    if (!supportedCredentialSchemas.includes(schema)) {
+      return {
+        success: false,
+        error: new Error(`Unsupported credential schema: ${schema}`),
+      };
+    }
+
+    // Currently only array of schema (ids) is supported
+    const credentials: Credentials = [schema];
+
+    let params: CredentialOfferParams | null = null;
+    let preAuthorizedCode: string | null = null;
+
+    if (requestedGrants) {
+      preAuthorizedCode = randomUUID();
+
+      const includesPreAuthorized = requestedGrants.includes(
+        'urn:ietf:params:oauth:grant-type:pre-authorized_code'
+      );
+      const includesAuthorized = requestedGrants.includes('authorization_code');
+
+      // Add requested grants to params
+      if (!includesPreAuthorized && !includesAuthorized) {
+        params = {
+          credential_issuer: this.pluginConfig.url,
+          credentials,
+        };
+      } else if (includesPreAuthorized && includesAuthorized) {
+        params = {
+          credential_issuer: this.pluginConfig.url,
+          credentials,
+          grants: {
+            'urn:ietf:params:oauth:grant-type:pre-authorized_code': {
+              'pre-authorized_code': preAuthorizedCode,
+            },
+            authorization_code: {
+              // Here we could add `issuer_state`
+            },
+          },
+        };
+      } else if (includesPreAuthorized) {
+        params = {
+          credential_issuer: this.pluginConfig.url,
+          credentials,
+          grants: {
+            'urn:ietf:params:oauth:grant-type:pre-authorized_code': {
+              'pre-authorized_code': preAuthorizedCode,
+            },
+          },
+        };
+      } else if (includesAuthorized) {
+        params = {
+          credential_issuer: this.pluginConfig.url,
+          credentials,
+          grants: {
+            authorization_code: {
+              // Here we could add `issuer_state`
+            },
+          },
+        };
+      }
+    }
+
+    if (!params) {
+      // TODO: How to handle this case?
+      // In this case the Wallet MUST determine the Grant Types
+      // the Credential Issuer's AS supports using the respective metadata
+      params = {
+        credential_issuer: this.pluginConfig.url,
+        credentials,
+      };
+    }
 
     return {
       success: true,
       data: {
-        issuanceInitiationRequest: `openid_initiate_issuance://credential_offer?${qs.stringify(
+        credentialOfferRequest: `openid_credential_offer://credential_offer?${qs.stringify(
           params
         )}`,
         preAuthorizedCode,

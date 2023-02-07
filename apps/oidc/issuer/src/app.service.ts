@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import {
+  CredentialOfferRequest,
   CredentialRequest,
   CredentialResponse,
+  Credentials,
   IssuerServerMetadata,
   TokenRequest,
   TokenResponse,
@@ -32,24 +34,36 @@ export class AppService {
     return issuerServerMetadata.data;
   }
 
-  // FIXME: Query instead of hardcoding
-  async createIssuanceInitiationRequest(): Promise<string> {
+  // FIXME: Query by schema
+  async createCredentialOfferRequest(
+    query: CredentialOfferRequest
+  ): Promise<string> {
+    const { schema } = query;
+
     const res = await this.agentService
       .getAgent()
-      .createIssuanceInitiationRequest();
+      .createCredentialOfferRequest({
+        schema,
+        grants: ['urn:ietf:params:oauth:grant-type:pre-authorized_code'],
+      });
 
     if (isError(res)) {
-      throw Error(res.error.message); // FIXME
+      throw Error(res.error.message); // FIXME - Error handling
     }
 
-    const { issuanceInitiationRequest, preAuthorizedCode, credentials } =
-      res.data;
+    const {
+      credentialOfferRequest,
+      preAuthorizedCode,
+      credentials: requestedCredentials,
+    } = res.data;
 
-    this.dataStoreService.createUserSession(preAuthorizedCode, {
-      credentials,
-    });
+    if (preAuthorizedCode) {
+      this.dataStoreService.createUserSession(preAuthorizedCode, {
+        credentials: requestedCredentials,
+      });
+    }
 
-    return issuanceInitiationRequest;
+    return credentialOfferRequest;
   }
 
   async handleTokenRequest(body: TokenRequest): Promise<TokenResponse> {
@@ -131,6 +145,12 @@ export class AppService {
     }
 
     const identifier = await agent.didManagerGetByAlias({ alias: 'main-did' });
+
+    // TODO: First proof of possession
+
+    // TODO: Then query for credentials
+
+    // TODO: Throw error if no credentials found
 
     const credentialResponse = await agent.handleCredentialRequest({
       body,

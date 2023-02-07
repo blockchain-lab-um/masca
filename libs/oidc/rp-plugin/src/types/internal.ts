@@ -15,9 +15,17 @@ export interface IPluginConfig {
   supported_credentials: SupportedCredential[];
 }
 
-export type CreateIssuanceInitiationRequestResposne = {
-  issuanceInitiationRequest: string;
-  preAuthorizedCode: string;
+export type CreateCredentialOfferRequestArgs = {
+  schema: string;
+  grants?: [
+    | 'urn:ietf:params:oauth:grant-type:pre-authorized_code'
+    | 'authorization_code'
+  ];
+};
+
+export type CreateCredentialOfferRequestResposne = {
+  credentialOfferRequest: string;
+  preAuthorizedCode: string | null;
   credentials: Credentials;
 };
 

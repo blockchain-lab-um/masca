@@ -12,7 +12,8 @@ import {
 } from '@veramo/core';
 import { Result } from '../utils';
 import {
-  CreateIssuanceInitiationRequestResposne,
+  CreateCredentialOfferRequestArgs,
+  CreateCredentialOfferRequestResposne,
   HandleAuthorizationResponseArgs,
   HandleCredentialRequestArgs,
   HandlePreAuthorizedCodeTokenRequestArgs,
@@ -29,9 +30,9 @@ export interface IOIDCPlugin extends IPluginMethodMap {
     context: OIDCAgentContext
   ): Promise<Result<boolean>>;
   handleIssuerServerMetadataRequest(): Promise<Result<IssuerServerMetadata>>;
-  createIssuanceInitiationRequest(): Promise<
-    Result<CreateIssuanceInitiationRequestResposne>
-  >;
+  createCredentialOfferRequest(
+    args: CreateCredentialOfferRequestArgs
+  ): Promise<Result<CreateCredentialOfferRequestResposne>>;
   handlePreAuthorizedCodeTokenRequest(
     args: HandlePreAuthorizedCodeTokenRequestArgs
   ): Promise<Result<TokenResponse>>;

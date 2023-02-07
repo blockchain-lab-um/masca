@@ -36,7 +36,7 @@ export interface CredentialResponse {
 
 export type SupportedCredential = {
   '@context': string[];
-  id: string;
+  schema: string;
   format: SupportedCredentialFormats;
   types: string[];
   cryptographic_binding_methods_supported?: string[];

@@ -18,6 +18,7 @@ import { TEST_ISSUER_URL, TEST_USER_PRIVATE_KEY } from '../tests/constants';
 import { createJWTProof } from '../tests/utils';
 import { AppModule } from './app.module';
 import { AgentService } from './modules/agent/agent.service';
+import { TEST_METADATA } from './tests/constants';
 // import { IConfig } from './config/configuration';
 
 describe('Issuer controler', () => {
@@ -42,17 +43,30 @@ describe('Issuer controler', () => {
     server = app.getHttpServer() as HttpServer;
   });
 
-  describe('[GET]: /metadata', () => {
-    it('todo', () => {});
+  describe('[GET]: /.well-known/openid-credential-issuer', () => {
+    it('Should succeed getting issuer metadata', async () => {
+      const response = await request(server)
+        .get('/.well-known/openid-credential-issuer')
+        .send();
+
+      expect(response.status).toBe(200);
+      expect(response.header['content-type']).toContain('application/json');
+      // TODO: Update later
+      expect(response.body).toEqual(TEST_METADATA);
+      expect.assertions(3);
+    });
   });
 
-  describe('[GET]: /initiation-request', () => {
+  describe('[GET]: /credential-offer', () => {
     describe('Should succeed', () => {
-      it('Should succeed without query', async () => {
+      it('Should succeed with valid query', async () => {
         const response = await request(server)
-          .get('/initiation-request')
+          .get('/credential-offer')
+          .query({
+            schema:
+              'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
+          })
           .send();
-
         expect(response.status).toBe(200);
 
         // TODO: Check response text
@@ -66,20 +80,28 @@ describe('Issuer controler', () => {
   describe('[POST]: /token', () => {
     describe('Should succeed', () => {
       it('With pre-authorized_code', async () => {
-        let response = await request(server).get('/initiation-request').send();
+        let response = await request(server)
+          .get('/credential-offer')
+          .query({
+            schema:
+              'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
+          })
+          .send();
 
         const query = qs.parse(
           response.text.replace(
-            'openid_initiate_issuance://credential_offer?',
+            'openid_credential_offer://credential_offer?',
             ''
           )
-        );
+        ) as any;
 
         expect(response.status).toBe(200);
 
         const tokenRequestData: TokenRequest = {
           grant_type: 'urn:ietf:params:oauth:grant-type:pre-authorized_code',
-          'pre-authorized_code': query['pre-authorized_code'] as string,
+          'pre-authorized_code': query.grants[
+            'urn:ietf:params:oauth:grant-type:pre-authorized_code'
+          ]['pre-authorized_code'] as string,
         };
 
         response = await request(server).post('/token').send(tokenRequestData);
@@ -102,20 +124,28 @@ describe('Issuer controler', () => {
   describe('[POST]: /credential', () => {
     describe('Should succeed', () => {
       it('With valid authorization header and valid credential request', async () => {
-        let response = await request(server).get('/initiation-request').send();
+        let response = await request(server)
+          .get('/credential-offer')
+          .query({
+            schema:
+              'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
+          })
+          .send();
 
         const query = qs.parse(
           response.text.replace(
-            'openid_initiate_issuance://credential_offer?',
+            'openid_credential_offer://credential_offer?',
             ''
           )
-        );
+        ) as any;
 
         expect(response.status).toBe(200);
 
         const tokenRequestData: TokenRequest = {
           grant_type: 'urn:ietf:params:oauth:grant-type:pre-authorized_code',
-          'pre-authorized_code': query['pre-authorized_code'] as string,
+          'pre-authorized_code': query.grants[
+            'urn:ietf:params:oauth:grant-type:pre-authorized_code'
+          ]['pre-authorized_code'] as string,
         };
 
         response = await request(server).post('/token').send(tokenRequestData);

@@ -4,13 +4,16 @@ import { OAuth2AuthorizationServerMetadata } from './oauth2';
 /**
  * Server Metadata
  *
- * Specs: https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-11.2
+ * Specs: https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-10.2.3
  */
 export interface IssuerServerMetadata
   extends OAuth2AuthorizationServerMetadata {
+  credential_issuer: string;
   credential_endpoint: string;
+  authorization_server?: string; // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-10.2.3
   batch_credential_endpoints?: string[];
   credentials_supported: SupportedCredentials[];
+  // TODO: DISPLAY (https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-10.2.3-4.2.1)
 }
 
 /**
@@ -23,7 +26,7 @@ export interface IssuerServerMetadata
 interface SupportedCredentials {
   // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-e.1
   format: SupportedCredentialFormats;
-  id?: string;
+  schema: string;
   // TODO: Define specific types
   // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-8.1
   cryptographic_binding_methods_supported?: string[];

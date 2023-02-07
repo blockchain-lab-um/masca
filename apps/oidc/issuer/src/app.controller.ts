@@ -6,11 +6,13 @@ import {
   Headers,
   HttpCode,
   Post,
+  Query,
   Response,
 } from '@nestjs/common';
 import { FastifyReply } from 'fastify';
 
 import {
+  CredentialOfferRequest,
   CredentialRequest,
   CredentialResponse,
   IssuerServerMetadata,
@@ -23,8 +25,7 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  // TODO: Implement later
-  @Get('/metadata')
+  @Get('/.well-known/openid-credential-issuer')
   @HttpCode(200)
   metadata(): Promise<IssuerServerMetadata> {
     return this.appService.handleIssuerServerMetadataRequest();
@@ -41,11 +42,10 @@ export class AppController {
   }
 
   // TODO: ??
-  @Get('/initiation-request')
-  async initiate(): Promise<string> {
-    // TODO: Define query parameters
-    // TODO: Redirect ?
-    return this.appService.createIssuanceInitiationRequest();
+  @Get('/credential-offer')
+  @HttpCode(200)
+  async initiate(@Query() query: CredentialOfferRequest): Promise<string> {
+    return this.appService.createCredentialOfferRequest(query);
   }
 
   // TODO: Later -> access_token

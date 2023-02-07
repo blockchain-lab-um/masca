@@ -6684,6 +6684,7 @@ packages:
       rxjs: 7.8.0
       tslib: 2.5.0
       uid: 2.0.1
+    dev: false
 
   /@nestjs/common/9.3.2_ufuujcqbszwis444rmt5m3dshy:
     resolution: {integrity: sha512-YUqY9qPMxiMqO/pRNXJehR18LFL6Y9BN5Qn0FylVbdpKd7/QKZHVWRKNaAYNu0mGfyJhRJI6oEr/1Tn5GEo6GQ==}
@@ -6708,7 +6709,6 @@ packages:
       rxjs: 7.8.0
       tslib: 2.5.0
       uid: 2.0.1
-    dev: false
 
   /@nestjs/config/2.3.0_faw27zmqjaamnhwhsycb5q3sc4:
     resolution: {integrity: sha512-VSAqoIagIrc0A3apaqC2O3a8VtQ+asw8xILmxvjK/eHW9m1rmhJ5NqkGf7m+uSv3Yxini4bzyb74Mk62+tB/cA==}
@@ -6717,7 +6717,7 @@ packages:
       reflect-metadata: ^0.1.13
       rxjs: ^6.0.0 || ^7.2.0
     dependencies:
-      '@nestjs/common': 9.3.2_mnr6j2del53muneqly5h4y27ai
+      '@nestjs/common': 9.3.2_ufuujcqbszwis444rmt5m3dshy
       dotenv: 16.0.3
       dotenv-expand: 10.0.0
       lodash: 4.17.21
@@ -6744,7 +6744,7 @@ packages:
       '@nestjs/websockets':
         optional: true
     dependencies:
-      '@nestjs/common': 9.3.2_mnr6j2del53muneqly5h4y27ai
+      '@nestjs/common': 9.3.2_ufuujcqbszwis444rmt5m3dshy
       '@nuxtjs/opencollective': 0.3.2
       fast-safe-stringify: 2.1.1
       iterare: 1.2.1
@@ -6773,7 +6773,7 @@ packages:
       '@fastify/cors': 8.2.0
       '@fastify/formbody': 7.4.0
       '@fastify/middie': 8.1.0
-      '@nestjs/common': 9.3.2_mnr6j2del53muneqly5h4y27ai
+      '@nestjs/common': 9.3.2_ufuujcqbszwis444rmt5m3dshy
       '@nestjs/core': 9.3.2_faw27zmqjaamnhwhsycb5q3sc4
       fastify: 4.12.0
       light-my-request: 5.8.0
@@ -6826,7 +6826,7 @@ packages:
       '@nestjs/platform-express':
         optional: true
     dependencies:
-      '@nestjs/common': 9.3.2_mnr6j2del53muneqly5h4y27ai
+      '@nestjs/common': 9.3.2_ufuujcqbszwis444rmt5m3dshy
       '@nestjs/core': 9.3.2_faw27zmqjaamnhwhsycb5q3sc4
       tslib: 2.5.0
     dev: true
@@ -11329,14 +11329,12 @@ packages:
 
   /class-transformer/0.5.1:
     resolution: {integrity: sha512-SQa1Ws6hUbfC98vKGxZH3KFY0Y1lm5Zm0SY8XX9zbK7FJCyVEac3ATW0RIpwzW+oOfmHE5PMPufDG9hCfoEOMw==}
-    dev: false
 
   /class-validator/0.13.2:
     resolution: {integrity: sha512-yBUcQy07FPlGzUjoLuUfIOXzgynnQPPruyK1Ge2B74k9ROwnle1E+NxLWnUv5OLU8hA/qL5leAE9XnXq3byaBw==}
     dependencies:
       libphonenumber-js: 1.10.19
       validator: 13.9.0
-    dev: false
 
   /clean-css/5.3.2:
     resolution: {integrity: sha512-JVJbM+f3d3Q704rF4bqQ5UUyTtuJ0JRKNbTKVEeujCCBoMdkEi+V+e8oktO9qGQNSvHrFTM6JZRXrUvGR1czww==}
@@ -17445,7 +17443,6 @@ packages:
 
   /libphonenumber-js/1.10.19:
     resolution: {integrity: sha512-MDZ1zLIkfSDZV5xBta3nuvbEOlsnKCPe4z5r3hyup/AXveevkl9A1eSWmLhd2FX4k7pJDe4MrLeQsux0HI/VWg==}
-    dev: false
 
   /light-my-request/5.8.0:
     resolution: {integrity: sha512-4BtD5C+VmyTpzlDPCZbsatZMJVgUIciSOwYhJDCbLffPZ35KoDkDj4zubLeHDEb35b4kkPeEv5imbh+RJxK/Pg==}
