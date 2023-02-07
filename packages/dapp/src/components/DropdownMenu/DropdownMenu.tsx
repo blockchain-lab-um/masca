@@ -37,7 +37,7 @@ const variants: Record<string, string> = {
   secondary:
     'bg-navy-blue-500 text-white btn hover:opacity-80   animated-transition ',
   'primary-active':
-    'text-orange-500 border border-1 border-gray-400 animated-transition ',
+    'text-orange-500 border border-1 border-gray-300 animated-transition ',
   'secondary-active':
     'text-navy-blue-500 border border-1 border-navy-blue-300  animated-transition ',
   gray: 'bg-gray-200 text-gray-800 btn hover:opacity-80 animated-transition ',
