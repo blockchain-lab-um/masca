@@ -48,6 +48,7 @@ interface ToggleSwitchProps {
   rounded?: 'full' | '2xl' | 'xl' | 'lg' | 'none';
   enabled: boolean;
   setEnabled: (enabled: boolean) => void;
+  disabled?: boolean;
 }
 
 function classNames(...classes: string[]) {
@@ -61,9 +62,11 @@ export default function ToggleSwitch({
   rounded = 'full',
   enabled,
   setEnabled,
+  disabled = false,
 }: ToggleSwitchProps) {
   return (
     <Switch
+      disabled={disabled}
       checked={enabled}
       onChange={setEnabled}
       className={classNames(

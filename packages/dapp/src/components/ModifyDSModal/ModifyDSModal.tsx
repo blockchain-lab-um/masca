@@ -11,20 +11,35 @@ interface ModifyDSModalProps {
 }
 
 export function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
-  const availableStores = useSnapStore((state) => state.availableVCStores);
-  const vcStores: Record<string, boolean> = {};
-  availableStores.forEach((store) => {
-    vcStores[store] = false;
-  });
+  const enabledStores = useSnapStore((state) => state.availableVCStores);
+  const keys = Object.keys(enabledStores);
+  const availableStores = keys.filter((key) => enabledStores[key] === true);
+
+  const vcStores: Record<string, { enabled: boolean; saved: boolean }> = {};
+
   if (vc.metadata.store) {
     if (typeof vc.metadata.store === 'string') {
-      vcStores[vc.metadata.store] = true;
+      if (availableStores.includes(vc.metadata.store)) {
+        vcStores[vc.metadata.store] = { enabled: true, saved: true };
+      } else {
+        vcStores[vc.metadata.store] = { enabled: false, saved: true };
+      }
     } else {
       vc.metadata.store.forEach((store) => {
-        vcStores[store] = true;
+        if (availableStores.includes(store)) {
+          vcStores[store] = { enabled: true, saved: true };
+        } else {
+          vcStores[store] = { enabled: false, saved: true };
+        }
       });
     }
   }
+
+  availableStores.forEach((store) => {
+    if (!vcStores[store]) {
+      vcStores[store] = { enabled: true, saved: false };
+    }
+  });
 
   return (
     <Transition appear show={open} as={Fragment}>
@@ -65,17 +80,25 @@ export function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
                   </p>
                 </div>
                 <div className="mt-6 text-gray-800">
-                  {availableStores.map((store, id) => (
+                  {Object.keys(vcStores).map((store, id) => (
                     <div key={id} className="flex justify-between items-center">
                       <div>{store}</div>
-                      <ToggleSwitch
-                        enabled={vcStores[store]}
-                        setEnabled={(e) => {
-                          // TODO update vc in snap (Save VC to new store/Remove VC from store) => update VCS on dApp
-                          console.log(e);
-                        }}
-                        size="xs"
-                      />
+                      <span
+                        className={`${
+                          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+                          !vcStores[store].enabled && 'opacity-60'
+                        }`}
+                      >
+                        <ToggleSwitch
+                          enabled={vcStores[store].saved}
+                          disabled={!vcStores[store].enabled}
+                          setEnabled={(e) => {
+                            // TODO update vc in snap (Save VC to new store/Remove VC from store) => update VCS on dApp
+                            console.log(e);
+                          }}
+                          size="xs"
+                        />
+                      </span>
                     </div>
                   ))}
                 </div>

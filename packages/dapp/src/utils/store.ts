@@ -48,8 +48,8 @@ interface SnapStore {
   currVCStore: AvailableVCStores | undefined;
   currDID: string;
   vcs: QueryVCsRequestResult[];
-  availableVCStores: string[];
-  changeAvailableVCStores: (availableVCStores: string[]) => void;
+  availableVCStores: Record<string, boolean>;
+  changeAvailableVCStores: (availableVCStores: Record<string, boolean>) => void;
   changeSnapApi: (snapApi: SSISnapApi) => void;
   changeAvailableMethods: (availableMethods: string[]) => void;
   changeCurrDIDMethod: (currDIDMethod: string) => void;
@@ -65,8 +65,8 @@ export const useSnapStore = create<SnapStore>()((set) => ({
   currVCStore: undefined,
   currDID: '',
   vcs: VC_DATA,
-  availableVCStores: ['snap', 'ceramic'],
-  changeAvailableVCStores: (availableVCStores: string[]) =>
+  availableVCStores: { snap: true, ceramic: false },
+  changeAvailableVCStores: (availableVCStores: Record<string, boolean>) =>
     set({ availableVCStores }),
   changeSnapApi: (snapApi: SSISnapApi) => set({ snapApi }),
   changeAvailableMethods: (availableMethods: string[]) =>

@@ -51,13 +51,13 @@ export const ConnectButton = () => {
         const did = await api.getDID();
         const availableMethods = await api.getAvailableMethods();
         const method = await api.getSelectedMethod();
-        const availableStores = await api.getAvailableVCStores();
+        const accountSettings = await api.getAccountSettings();
         changeHasSnapInstalled(true);
         changeIsConnected(true);
         changeDID(did);
         changeAvailableMethods(availableMethods);
         changeCurrMethod(method);
-        changeAvailableVCStores(availableStores);
+        changeAvailableVCStores(accountSettings.ssi.vcStore);
         console.log('Successfuly installed snap');
         setLoading(false);
       } catch (err) {
