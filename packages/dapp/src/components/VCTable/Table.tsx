@@ -7,7 +7,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import React, { HTMLProps, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'src/components/Button';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -49,6 +49,7 @@ import { VC_DATA } from './data';
 import TablePagination from './TablePagination';
 import InfoIcon from '../InfoIcon';
 import Tooltip from '../Tooltip';
+import DeleteModal from '../DeleteModal';
 
 export const Table = () => {
   const vcs = useSnapStore((state) => state.vcs);
@@ -60,6 +61,8 @@ export const Table = () => {
   const selectedVCs = useTableStore((state) => state.selectedVCs);
   const setSelectedVCs = useTableStore((state) => state.setSelectedVCs);
   const columnHelper = createColumnHelper<QueryVCsRequestResult>();
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [selectedVC, setSelectedVC] = useState<QueryVCsRequestResult>();
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
@@ -271,7 +274,7 @@ export const Table = () => {
     }),
     columnHelper.display({
       id: 'actions',
-      cell: () => (
+      cell: ({ row }) => (
         <div className="flex items-center justify-center gap-1">
           <button>
             <ArrowDownTrayIcon className="w-6 h-6" />
@@ -279,7 +282,12 @@ export const Table = () => {
           <button>
             <ShareIcon className="w-6 h-6" />
           </button>
-          <button>
+          <button
+            onClick={() => {
+              setDeleteModalOpen(true);
+              setSelectedVC(row.original);
+            }}
+          >
             <TrashIcon className="w-6 h-6" />
           </button>
         </div>
@@ -344,18 +352,19 @@ export const Table = () => {
     );
 
   return (
-    <div className="relative h-full min-h-[50vh] w-full flex flex-col">
-      <table className="min-w-full text-center text-gray-800 text-sm lg:text-md">
-        <thead className="border-b">
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th
-                  className={`px-3 py-4 font-semibold text-md ${
-                    header.id === 'type' || header.id === 'exp_date'
-                      ? 'hidden lg:table-cell'
-                      : ''
-                  }
+    <>
+      <div className="relative h-full min-h-[50vh] w-full flex flex-col">
+        <table className="min-w-full text-center text-gray-800 text-sm lg:text-md">
+          <thead className="border-b">
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <th
+                    className={`px-3 py-4 font-semibold text-md ${
+                      header.id === 'type' || header.id === 'exp_date'
+                        ? 'hidden lg:table-cell'
+                        : ''
+                    }
                   ${
                     header.id === 'date' || header.id === 'subject'
                       ? 'hidden md:table-cell'
@@ -363,55 +372,57 @@ export const Table = () => {
                   }
                   ${header.id === 'actions' ? 'hidden md:table-cell' : ''}
                   `}
-                  key={header.id}
-                  onClick={header.column.getToggleSortingHandler()}
-                >
-                  <div className="flex justify-center items-center">
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                    {{
-                      asc: (
-                        <ChevronDownIcon className="h-4 w-4 text-gray-800" />
-                      ),
-                      desc: <ChevronUpIcon className="h-4 w-4 text-gray-800" />,
-                    }[header.column.getIsSorted() as string] ?? null}
-                  </div>
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody className="border-b text-gray-800 break-all">
-          {table.getRowModel().rows.map((row) => (
-            <tr
-              key={row.id}
-              className={`border-b border-gray-500  animated-transition duration-75 ${
-                row.getIsSelected()
-                  ? 'bg-orange-50 hover:bg-orange-50'
-                  : 'hover:bg-gray-50'
-              }`}
-            >
-              {row.getVisibleCells().map((cell) => (
-                <td
-                  onClick={() => {
-                    if (
-                      cell.column.id !== 'select' &&
-                      cell.column.id !== 'expand' &&
-                      cell.column.id !== 'subject' &&
-                      cell.column.id !== 'issuer' &&
-                      cell.column.id !== 'actions'
-                    )
-                      row.toggleSelected();
-                  }}
-                  className={`py-5 max-h-16  ${
-                    cell.column.id === 'type' || cell.column.id === 'exp_date'
-                      ? 'hidden lg:table-cell'
-                      : ''
-                  }
+                    key={header.id}
+                    onClick={header.column.getToggleSortingHandler()}
+                  >
+                    <div className="flex justify-center items-center">
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                      {{
+                        asc: (
+                          <ChevronDownIcon className="h-4 w-4 text-gray-800" />
+                        ),
+                        desc: (
+                          <ChevronUpIcon className="h-4 w-4 text-gray-800" />
+                        ),
+                      }[header.column.getIsSorted() as string] ?? null}
+                    </div>
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          <tbody className="border-b text-gray-800 break-all">
+            {table.getRowModel().rows.map((row) => (
+              <tr
+                key={row.id}
+                className={`border-b border-gray-500  animated-transition duration-75 ${
+                  row.getIsSelected()
+                    ? 'bg-orange-50 hover:bg-orange-50'
+                    : 'hover:bg-gray-50'
+                }`}
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <td
+                    onClick={() => {
+                      if (
+                        cell.column.id !== 'select' &&
+                        cell.column.id !== 'expand' &&
+                        cell.column.id !== 'subject' &&
+                        cell.column.id !== 'issuer' &&
+                        cell.column.id !== 'actions'
+                      )
+                        row.toggleSelected();
+                    }}
+                    className={`py-5 max-h-16  ${
+                      cell.column.id === 'type' || cell.column.id === 'exp_date'
+                        ? 'hidden lg:table-cell'
+                        : ''
+                    }
                   ${
                     cell.column.id === 'date' || cell.column.id === 'subject'
                       ? 'hidden md:table-cell'
@@ -420,37 +431,43 @@ export const Table = () => {
                   ${
                     cell.column.id === 'actions' ? 'hidden sm:table-cell' : ''
                   }`}
-                  key={cell.id}
-                >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <div className="mt-auto pt-9 flex justify-center pb-9">
-        <TablePagination table={table} />
-      </div>
-      {table.getSelectedRowModel().rows.length > 0 && (
-        <div className="absolute -bottom-5 right-10">
-          <Link href="createVP">
-            <Button
-              variant="primary"
-              size="wd"
-              onClick={() => {
-                setSelectedVCs(
-                  table.getSelectedRowModel().rows.map((r) => r.original)
-                );
-              }}
-            >
-              Create Presentation{' '}
-              {table.getSelectedRowModel().rows.length > 0 &&
-                `(${table.getSelectedRowModel().rows.length})`}
-            </Button>
-          </Link>
+                    key={cell.id}
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div className="mt-auto pt-9 flex justify-center pb-9">
+          <TablePagination table={table} />
         </div>
-      )}
-    </div>
+        {table.getSelectedRowModel().rows.length > 0 && (
+          <div className="absolute -bottom-5 right-10">
+            <Link href="createVP">
+              <Button
+                variant="primary"
+                size="wd"
+                onClick={() => {
+                  setSelectedVCs(
+                    table.getSelectedRowModel().rows.map((r) => r.original)
+                  );
+                }}
+              >
+                Create Presentation{' '}
+                {table.getSelectedRowModel().rows.length > 0 &&
+                  `(${table.getSelectedRowModel().rows.length})`}
+              </Button>
+            </Link>
+          </div>
+        )}
+      </div>
+      <DeleteModal
+        open={deleteModalOpen}
+        setOpen={setDeleteModalOpen}
+        vc={selectedVC}
+      />
+    </>
   );
 };

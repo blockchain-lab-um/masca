@@ -26,6 +26,9 @@ export const ConnectButton = () => {
   );
   const changeSnapApi = useSnapStore((state) => state.changeSnapApi);
   const changeCurrMethod = useSnapStore((state) => state.changeCurrDIDMethod);
+  const changeAvailableVCStores = useSnapStore(
+    (state) => state.changeAvailableVCStores
+  );
 
   const snapId = 'local:http://localhost:8081';
 
@@ -48,11 +51,13 @@ export const ConnectButton = () => {
         const did = await api.getDID();
         const availableMethods = await api.getAvailableMethods();
         const method = await api.getSelectedMethod();
+        const availableStores = await api.getAvailableVCStores();
         changeHasSnapInstalled(true);
         changeIsConnected(true);
         changeDID(did);
         changeAvailableMethods(availableMethods);
         changeCurrMethod(method);
+        changeAvailableVCStores(availableStores);
         console.log('Successfuly installed snap');
         setLoading(false);
       } catch (err) {
