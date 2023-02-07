@@ -40,6 +40,10 @@ import {
 } from '@veramo/credential-ld';
 import { CredentialPlugin, ICredentialIssuer } from '@veramo/credential-w3c';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
+
+import { JwkDIDProvider } from '../did/jwk/jwkDidProvider';
+import { getDidJwkResolver as jwkDidResolver } from '../did/jwk/jwkDidResolver';
+
 import {
   SnapDIDStore,
   SnapVCStore,
@@ -98,6 +102,7 @@ export const getAgent = async (
 
   didProviders['did:key'] = new KeyDIDProvider({ defaultKms: 'web3' });
   didProviders['did:pkh'] = new PkhDIDProvider({ defaultKms: 'web3' });
+  didProviders['did:jwk'] = new JwkDIDProvider({ defaultKms: 'web3' });
 
   vcStorePlugins['snap'] = new SnapVCStore(snap, ethereum);
   if (enabledVCStores.includes('ceramic')) {
@@ -130,6 +135,7 @@ export const getAgent = async (
           ...ethrDidResolver({ networks }),
           ...keyDidResolver(),
           ...pkhDidResolver(),
+          ...jwkDidResolver(),
         }),
       }),
       new DIDManager({
