@@ -7,8 +7,10 @@ type ButtonProps = {
     | 'primary-active'
     | 'secondary-active'
     | 'secondary'
-    | 'connect';
-  size?: 'sm' | 'md' | 'lg' | 'xl' | 'wd';
+    | 'connect'
+    | 'gray'
+    | 'warning';
+  size?: 'popup' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'wd';
   shadow?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'none' | 'inner' | '';
   onClick?: () => void;
   children: React.ReactNode;
@@ -27,9 +29,14 @@ const variants: Record<string, string> = {
     'text-navy-blue-500 outline outline-navy-blue-500 hover:text-white hover:bg-navy-blue-500 animated-transition rounded-full',
   connect:
     'bg-orange-100 text-orange-500 hover:opacity-80  rounded-full animated-transition',
+  gray: 'bg-gray-200 text-gray-800 hover:opacity-80  rounded-full animated-transition',
+  warning:
+    'bg-red-500 hover:bg-red-500/90 animated-transition text-white justify-center rounded-full',
 };
 
 const sizes: Record<string, string> = {
+  popup: 'text-sm py-2 px-2.5 max-w-xs',
+  xs: 'text-h5 py-2 px-3 max-w-xs',
   sm: 'text-h5 py-2 px-5 max-w-xs',
   md: 'text-h4 py-2 px-7 max-w-xs',
   lg: 'text-2xl py-2.5 px-8 font-semibold max-w-xs',

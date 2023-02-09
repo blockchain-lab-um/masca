@@ -3,6 +3,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import { useSnapStore } from 'src/utils/store';
 import ToggleSwitch from '../Switch';
+import Button from '../Button';
 
 interface ModifyDSModalProps {
   open: boolean;
@@ -103,14 +104,14 @@ export function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
                   ))}
                 </div>
                 <div className="flex justify-end items-center">
-                  <div className="mt-4">
-                    <button
-                      type="button"
-                      className="bg-white animated-transition text-gray-700 inline-flex justify-center rounded-full border border-transparent px-3.5 py-1.5 text-sm font-semibold focus:outline-none focus-visible:ring-2 "
+                  <div className="mt-8">
+                    <Button
                       onClick={() => setOpen(false)}
+                      variant="gray"
+                      size="popup"
                     >
                       Done
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </Dialog.Panel>

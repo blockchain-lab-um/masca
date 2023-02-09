@@ -64,8 +64,8 @@ export const CreateVP = () => {
                 ))}
               </tbody>
             </table>
-            <div className="mt-4">
-              <div className="text-orange-500 font-semibold pl-2 text-sm">
+            <div className="mt-8">
+              <div className="text-orange-500 font-semibold pl-2 text-sm ">
                 OPTIONS
               </div>
               <div className="flex justify-between items-center px-4">
@@ -82,7 +82,7 @@ export const CreateVP = () => {
               </div>
             </div>
             <div>
-              <div className="border-b border-gray-300 flex justify-between items-baseline mt-4">
+              <div className="border-b border-gray-300 flex justify-between items-baseline mt-16">
                 <div className="text-orange-500 font-semibold pl-2 text-sm">
                   ADVANCED
                 </div>
@@ -126,7 +126,7 @@ export const CreateVP = () => {
               )}
             </div>
 
-            <div className="flex mt-auto justify-end p-3">
+            <div className="flex mt-8 justify-end p-3">
               <Button variant="primary" size="sm" onClick={handleCreateVP}>
                 Create Presentation
               </Button>

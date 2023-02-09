@@ -43,7 +43,7 @@ export const SelectedVCsTableRow = ({
 
   return (
     <tr className="border-b border-gray-500 hover:bg-gray-50 animated-transition duration-75">
-      <td className="py-2">
+      <td className="py-4">
         <span className="flex justify-center items-center">
           <Link
             href={{
