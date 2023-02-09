@@ -19,8 +19,8 @@ export const AddressPopover = ({
       {({ open }) => (
         <>
           <Popover.Button
-            className={`inline-flex w-full  justify-center bg-purple-50 text-purple-800 px-4 py-2 text-h4 rounded-3xl animated-transition font-medium hover:bg-purple-100 focus:outline-none ${
-              open ? 'bg-purple-100' : ''
+            className={`inline-flex w-full  justify-center bg-pink-50 text-pink-800 px-4 py-2 text-h4 rounded-3xl animated-transition font-medium hover:bg-pink-100 focus:outline-none ${
+              open ? 'bg-pink-100' : ''
             }`}
           >
             <div className="flex">

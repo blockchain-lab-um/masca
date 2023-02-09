@@ -65,7 +65,7 @@ export const useSnapStore = create<SnapStore>()((set) => ({
   currVCStore: undefined,
   currDID: '',
   vcs: VC_DATA,
-  availableVCStores: { snap: true, ceramic: false },
+  availableVCStores: { snap: true, ceramic: true },
   changeAvailableVCStores: (availableVCStores: Record<string, boolean>) =>
     set({ availableVCStores }),
   changeSnapApi: (snapApi: SSISnapApi) => set({ snapApi }),

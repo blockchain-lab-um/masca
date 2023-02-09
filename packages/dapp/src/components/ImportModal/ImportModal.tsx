@@ -1,6 +1,7 @@
 import { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
+import { useSnapStore } from 'src/utils/store';
 import Button from '../Button';
 import DropdownMultiselect from '../DropdownMultiselect';
 
@@ -11,6 +12,12 @@ interface ImportModalProps {
 }
 
 export function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
+  const VCStores = useSnapStore((state) => state.availableVCStores);
+  const availableStores = Object.keys(VCStores).filter(
+    (key) => VCStores[key] === true
+  );
+  console.log(VCStores);
+  console.log(availableStores);
   return (
     <Transition appear show={open} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={() => setOpen(false)}>
@@ -56,8 +63,8 @@ export function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
                     <span className="text-gray-700 text-sm">Storage</span>
                     <div>
                       <DropdownMultiselect
-                        items={['ceramic', 'snap', 'test']}
-                        initialSelectedItems={['snap']}
+                        items={availableStores}
+                        initialSelectedItems={[availableStores[0]]}
                         placeholder="Select storage ssssda "
                         name="storage"
                       />
