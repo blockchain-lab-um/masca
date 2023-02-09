@@ -9,7 +9,8 @@ type ButtonProps = {
     | 'secondary'
     | 'connect'
     | 'gray'
-    | 'warning';
+    | 'warning'
+    | 'white';
   size?: 'popup' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'wd';
   shadow?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'none' | 'inner' | '';
   onClick?: () => void;
@@ -22,14 +23,16 @@ const variants: Record<string, string> = {
   primary:
     'bg-gradient-to-b from-pink-500 to-orange-500 hover:bg-gradient-to-b hover:opacity-80 text-white rounded-full animated-transition',
   'primary-active':
-    'text-orange-500 outline outline-orange-500 hover:text-white hover:bg-orange-500 animated-transition rounded-full',
+    'text-orange-500 border border-orange-500 bg-white hover:text-white hover:bg-orange-500 animated-transition rounded-full',
   secondary:
     'bg-navy-blue-500 text-white btn hover:opacity-80  rounded-full animated-transition',
   'secondary-active':
-    'text-navy-blue-500 outline outline-navy-blue-500 hover:text-white hover:bg-navy-blue-500 animated-transition rounded-full',
+    'text-navy-blue-500 border border-navy-blue-500 hover:text-white hover:bg-navy-blue-500 animated-transition rounded-full',
   connect:
     'bg-orange-100 text-orange-500 hover:opacity-80  rounded-full animated-transition',
   gray: 'bg-gray-200 text-gray-800 hover:opacity-80  rounded-full animated-transition',
+  white:
+    'bg-white text-orange-500 border border-gray-200 hover:opacity-80  rounded-full animated-transition',
   warning:
     'bg-red-500 hover:bg-red-500/90 animated-transition text-white justify-center rounded-full',
 };

@@ -44,7 +44,7 @@ export const CreateVP = () => {
             <div className="mt-6 text-orange-500 font-semibold pl-2 text-sm">
               CREDENTIALS
             </div>
-            <table className="text-sm w-full text-center">
+            <table className="mt-2 text-sm w-full text-center">
               <thead>
                 <tr className="border-b border-gray-800 text-gray-900">
                   <th className="px-3 pb-4 font-semibold"></th>

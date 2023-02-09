@@ -218,7 +218,7 @@ export const Table = () => {
               {info.getValue() === 'true' ? (
                 <CheckCircleIcon className="h-6 w-6 text-green-500" />
               ) : (
-                <MinusCircleIcon className="h-6 w-6 text-red-500" />
+                <XCircleIcon className="h-6 w-6 text-red-500" />
               )}
             </Tooltip>
           </span>
@@ -276,9 +276,6 @@ export const Table = () => {
       id: 'actions',
       cell: ({ row }) => (
         <div className="flex items-center justify-center gap-1">
-          <button>
-            <ArrowDownTrayIcon className="w-6 h-6" />
-          </button>
           <button>
             <ShareIcon className="w-6 h-6" />
           </button>

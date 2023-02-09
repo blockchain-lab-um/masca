@@ -86,7 +86,7 @@ export const SelectedVCsTableRow = ({
             {validity === true ? (
               <CheckCircleIcon className="h-4 w-4 text-green-500" />
             ) : (
-              <MinusCircleIcon className="h-4 w-4 text-red-500" />
+              <XCircleIcon className="h-4 w-4 text-red-500" />
             )}
           </Tooltip>
         </span>

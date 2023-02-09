@@ -59,7 +59,10 @@ export function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
                 </div>
                 <div className="mt-8">
                   <textarea className="bg-gray-100 rounded-2xl border-gray-200 shadow-md border font-jetbrains text-label p-3 w-full focus:outline-none h-[25vh]" />
-                  <div className=" mt-4 flex justify-between items-center">
+                  <div className="text-orange-500 font-semibold mt-8 pl-2 text-sm">
+                    SETTINGS
+                  </div>
+                  <div className="px-4  flex justify-between items-center">
                     <span className="text-gray-700 text-sm">Storage</span>
                     <div>
                       <DropdownMultiselect
