@@ -43,6 +43,13 @@ describe('Issuer controler', () => {
     server = app.getHttpServer() as HttpServer;
   });
 
+  afterAll(async () => {
+    app.enableShutdownHooks();
+    await server.close();
+
+    await app.close();
+  });
+
   describe('[GET]: /.well-known/openid-credential-issuer', () => {
     it('Should succeed getting issuer metadata', async () => {
       const response = await request(server)
@@ -65,12 +72,24 @@ describe('Issuer controler', () => {
           .query({
             schema:
               'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
+            grants: ['urn:ietf:params:oauth:grant-type:pre-authorized_code'],
+            userPinRequired: true,
           })
           .send();
         expect(response.status).toBe(200);
 
-        // TODO: Check response text
-        expect.assertions(1);
+        const query = qs.parse(
+          response.text.replace(
+            'openid_credential_offer://credential_offer?',
+            ''
+          )
+        ) as any;
+        expect(query.credential_issuer).toBeDefined();
+        expect(query.credentials).toStrictEqual([
+          'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
+        ]);
+
+        expect.assertions(3);
       });
     });
 
@@ -85,6 +104,7 @@ describe('Issuer controler', () => {
           .query({
             schema:
               'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
+            grants: ['urn:ietf:params:oauth:grant-type:pre-authorized_code'],
           })
           .send();
 
@@ -104,7 +124,10 @@ describe('Issuer controler', () => {
           ]['pre-authorized_code'] as string,
         };
 
-        response = await request(server).post('/token').send(tokenRequestData);
+        response = await request(server)
+          .post('/token')
+          .type('form')
+          .send(tokenRequestData);
 
         expect(response.status).toBe(200);
 
@@ -129,6 +152,7 @@ describe('Issuer controler', () => {
           .query({
             schema:
               'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
+            grants: ['urn:ietf:params:oauth:grant-type:pre-authorized_code'],
           })
           .send();
 
@@ -148,7 +172,10 @@ describe('Issuer controler', () => {
           ]['pre-authorized_code'] as string,
         };
 
-        response = await request(server).post('/token').send(tokenRequestData);
+        response = await request(server)
+          .post('/token')
+          .type('form')
+          .send(tokenRequestData);
 
         expect(response.status).toBe(200);
 

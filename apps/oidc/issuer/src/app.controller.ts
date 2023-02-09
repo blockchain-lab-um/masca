@@ -31,7 +31,7 @@ export class AppController {
     return this.appService.handleIssuerServerMetadataRequest();
   }
 
-  // TODO: Implement later
+  // TODO Question: Implement later
   @Get('/authorize')
   @HttpCode(302)
   async authorize(
@@ -41,7 +41,6 @@ export class AppController {
     return res.redirect(302, 'https://example.com/redirect');
   }
 
-  // TODO: ??
   @Get('/credential-offer')
   @HttpCode(200)
   async initiate(@Query() query: CredentialOfferRequest): Promise<string> {
@@ -49,12 +48,21 @@ export class AppController {
   }
 
   // TODO: Later -> access_token
-  // TODO: Add header `content-type: application/x-www-form-urlencoded` validation dto
   // TODO: https://www.rfc-editor.org/rfc/rfc6749.html#section-4.1.3
   @Post('/token')
   @HttpCode(200)
   @Header('Cache-Control', 'no-store')
-  async token(@Body() body: TokenRequest): Promise<TokenResponse> {
+  async token(
+    @Headers('content-type') contentType: string,
+    @Body() body: TokenRequest
+  ): Promise<TokenResponse> {
+    // Validate request header content-type
+    if (
+      !contentType.toLowerCase().includes('application/x-www-form-urlencoded')
+    ) {
+      throw new Error(`Invalid content-type: ${contentType}`);
+    }
+
     return this.appService.handleTokenRequest(body);
   }
 

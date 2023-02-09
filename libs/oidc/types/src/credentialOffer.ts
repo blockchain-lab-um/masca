@@ -23,6 +23,11 @@ export type Grants = {
 export interface CredentialOfferRequest {
   schema: string;
   // TODO: Should grants be added here or are they hardcoded on the issuer side?
+  grants?: [
+    | 'urn:ietf:params:oauth:grant-type:pre-authorized_code'
+    | 'authorization_code'
+  ];
+  userPinRequired?: boolean;
 }
 
 export interface CredentialOfferParams {

@@ -10,9 +10,6 @@ export interface TokenRequest extends Omit<TokenRequestOAuth2, 'grant_type'> {
     | 'urn:ietf:params:oauth:grant-type:pre-authorized_code';
   'pre-authorized_code'?: string;
   user_pin?: string;
-
-  // FIXME: Probably not needed, because its only mentioned once and it is only in the example
-  code_verifier?: string;
 }
 
 /**

@@ -1,4 +1,5 @@
 import { ConfigService } from '@nestjs/config';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import cloneDeep from 'lodash.clonedeep';
 import { IConfig } from '../../config/configuration';
 import { UserSession, UserSessionStore } from './datastore.interface';
@@ -26,8 +27,17 @@ export class DatastoreService {
     delete this.userSessionStore[id];
   }
 
-  // TODO: Implement cleanup CronJob
-  cleanUpUserSessions(): void {}
+  @Cron(CronExpression.EVERY_HOUR)
+  cleanUpUserSessions(): void {
+    const now = Date.now();
+    const maxAge = 1000 * 60 * 60; // 1 hour
+    Object.keys(this.userSessionStore).forEach((id) => {
+      if (now - this.userSessionStore[id].created > maxAge) {
+        delete this.userSessionStore[id];
+        console.log(`Deleted user session ${id}`);
+      }
+    });
+  }
 }
 
 export default DatastoreService;

@@ -4,7 +4,6 @@ import {
   CredentialOfferRequest,
   CredentialRequest,
   CredentialResponse,
-  Credentials,
   IssuerServerMetadata,
   TokenRequest,
   TokenResponse,
@@ -34,17 +33,18 @@ export class AppService {
     return issuerServerMetadata.data;
   }
 
-  // FIXME: Query by schema
   async createCredentialOfferRequest(
     query: CredentialOfferRequest
   ): Promise<string> {
-    const { schema } = query;
+    const { schema, grants, userPinRequired } = query;
 
+    // Currently only pre-authorized_code is supported
     const res = await this.agentService
       .getAgent()
       .createCredentialOfferRequest({
         schema,
-        grants: ['urn:ietf:params:oauth:grant-type:pre-authorized_code'],
+        grants: typeof grants === 'string' ? [grants] : grants,
+        userPinRequired,
       });
 
     if (isError(res)) {
@@ -53,13 +53,15 @@ export class AppService {
 
     const {
       credentialOfferRequest,
-      preAuthorizedCode,
       credentials: requestedCredentials,
+      preAuthorizedCode,
+      userPin,
     } = res.data;
 
     if (preAuthorizedCode) {
       this.dataStoreService.createUserSession(preAuthorizedCode, {
         credentials: requestedCredentials,
+        ...(userPin && { user_pin: userPin }),
       });
     }
 
@@ -90,6 +92,7 @@ export class AppService {
         await agent.handlePreAuthorizedCodeTokenRequest({
           body,
           preAuthorizedCode,
+          userPin: userSession.user_pin,
         });
 
       if (isError(tokenRequestResult)) {

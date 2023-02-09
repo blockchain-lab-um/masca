@@ -88,8 +88,10 @@ importers:
       '@nestjs/config': ^2.2.0
       '@nestjs/core': ^9.2.1
       '@nestjs/platform-fastify': ^9.2.1
+      '@nestjs/schedule': ^2.2.0
       '@nestjs/schematics': ^9.0.3
       '@nestjs/testing': ^9.2.1
+      '@types/cron': ^2.0.0
       '@types/elliptic': ^6
       '@types/express': ^4.17.14
       '@types/jest': 29.4.0
@@ -157,6 +159,7 @@ importers:
       '@nestjs/config': 2.3.0_faw27zmqjaamnhwhsycb5q3sc4
       '@nestjs/core': 9.3.2_faw27zmqjaamnhwhsycb5q3sc4
       '@nestjs/platform-fastify': 9.3.2_fnnujyxcjtinmcbby3pisnawpe
+      '@nestjs/schedule': 2.2.0_dvs6bzzwlxted5pypaoawo6uwu
       '@veramo/core': 4.3.1-next.11
       '@veramo/credential-eip712': 4.3.1-next.11
       '@veramo/credential-ld': 4.3.1-next.11
@@ -196,6 +199,7 @@ importers:
       '@nestjs/cli': 9.2.0
       '@nestjs/schematics': 9.0.4_typescript@4.9.5
       '@nestjs/testing': 9.3.2_fnnujyxcjtinmcbby3pisnawpe
+      '@types/cron': 2.0.0
       '@types/elliptic': 6.4.14
       '@types/express': 4.17.17
       '@types/jest': 29.4.0
@@ -6783,6 +6787,20 @@ packages:
       - supports-color
     dev: false
 
+  /@nestjs/schedule/2.2.0_dvs6bzzwlxted5pypaoawo6uwu:
+    resolution: {integrity: sha512-wrDnUONTxBkD6lTWh9ecYk/kvJTbA3PylotjBoRsECmcS1SNvgInFXuL38UnHiFnXM3CHSFnzRLB259Bc1mOdQ==}
+    peerDependencies:
+      '@nestjs/common': ^7.0.0 || ^8.0.0 || ^9.0.0
+      '@nestjs/core': ^7.0.0 || ^8.0.0 || ^9.0.0
+      reflect-metadata: ^0.1.12
+    dependencies:
+      '@nestjs/common': 9.3.2_ufuujcqbszwis444rmt5m3dshy
+      '@nestjs/core': 9.3.2_faw27zmqjaamnhwhsycb5q3sc4
+      cron: 2.2.0
+      reflect-metadata: 0.1.13
+      uuid: 9.0.0
+    dev: false
+
   /@nestjs/schematics/9.0.4_n7i3t5jmyrdrkypb5pvfihcmg4:
     resolution: {integrity: sha512-egurCfAc4e5i1r2TmeAF0UrOKejFmT5oTdv4b7HcOVPupc3QGU7CbEfGleL3mkM5AjrixTQeMxU9bJ00ttAbGg==}
     peerDependencies:
@@ -8060,6 +8078,13 @@ packages:
     resolution: {integrity: sha512-t73xJJrvdTjXrn4jLS9VSGRbz0nUY3cl2DMGDU48lKl+HR9dbbjW2A9r3g40VA++mQpy6uuHg33gy7du2BKpog==}
     dev: true
 
+  /@types/cron/2.0.0:
+    resolution: {integrity: sha512-xZM08fqvwIXgghtPVkSPKNgC+JoMQ2OHazEvyTKnNf7aWu1aB6/4lBbQFrb03Td2cUGG7ITzMv3mFYnMu6xRaQ==}
+    dependencies:
+      '@types/luxon': 3.2.0
+      '@types/node': 18.11.19
+    dev: true
+
   /@types/debug/4.1.7:
     resolution: {integrity: sha512-9AonUzyTjXXhEOa0DnqpzZi6VHlqKMswga9EXjpXnnqxwLtdvPPtlO8evrI5D9S6asFRCQ6v+wpiUKbw+vKqyg==}
     dependencies:
@@ -8190,6 +8215,10 @@ packages:
 
   /@types/lodash/4.14.191:
     resolution: {integrity: sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ==}
+    dev: true
+
+  /@types/luxon/3.2.0:
+    resolution: {integrity: sha512-lGmaGFoaXHuOLXFvuju2bfvZRqxAqkHPx9Y9IQdQABrinJJshJwfNCKV+u7rR3kJbiqfTF/NhOkcxxAFrObyaA==}
     dev: true
 
   /@types/mdast/3.0.10:
@@ -11850,6 +11879,12 @@ packages:
     engines: {node: '>=12.0.0'}
     dependencies:
       luxon: 3.2.1
+
+  /cron/2.2.0:
+    resolution: {integrity: sha512-GPiI3OgMv83XRtEUc2gUdaLvJhO3XbLN288layOBkDTupg0RK5IECNGpkykIMHg+muVR2bxt29b0xvCAcBrjYQ==}
+    dependencies:
+      luxon: 3.2.1
+    dev: false
 
   /cross-fetch/3.1.5_iqh6pvemik3ebzneirvlerj7uq:
     resolution: {integrity: sha512-lvb1SBsI0Z7GDwmuid+mU3kWVBwTVUbe7S0H52yaaAdQOXq2YktTCZdlAcNKFzE6QtRz0snpw9bNiPeOIkkQvw==}

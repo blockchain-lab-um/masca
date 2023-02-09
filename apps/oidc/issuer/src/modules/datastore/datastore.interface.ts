@@ -1,17 +1,17 @@
 import { Credentials } from '@blockchain-lab-um/oidc-types';
 
-interface DataStoreObject<T> {
+export interface DataStoreObject<T> {
   data: T;
   created: number;
 }
 
-interface DataStore<T> {
+export interface DataStore<T> {
   [id: string]: DataStoreObject<T>;
 }
 
 export interface UserSession {
   credentials: Credentials;
-  user_pin_required?: boolean;
+  user_pin?: string;
   expires_in?: number;
   c_nonce?: string;
   c_nonce_expires_in?: number;

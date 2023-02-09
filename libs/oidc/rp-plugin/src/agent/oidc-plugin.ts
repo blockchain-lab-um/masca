@@ -15,7 +15,6 @@ import {
   AuthorizationRequest,
   CredentialResponse,
   Credentials,
-  CredentialOfferParams,
   IssuerServerMetadata,
   PresentationDefinition,
   TokenResponse,
@@ -472,7 +471,7 @@ export class OIDCPlugin implements IAgentPlugin {
   public async createCredentialOfferRequest(
     args: CreateCredentialOfferRequestArgs
   ): Promise<Result<CreateCredentialOfferRequestResposne>> {
-    const { schema, grants: requestedGrants } = args;
+    const { schema, grants: requestedGrants, userPinRequired } = args;
 
     const supportedCredentialSchemas =
       this.pluginConfig.supported_credentials.map(
@@ -488,69 +487,39 @@ export class OIDCPlugin implements IAgentPlugin {
 
     // Currently only array of schema (ids) is supported
     const credentials: Credentials = [schema];
+    const preAuthorizedCode = randomUUID();
+    const userPin = Array.from({ length: 8 }, () =>
+      Math.floor(Math.random() * 10)
+    )
+      .map(String)
+      .join('');
 
-    let params: CredentialOfferParams | null = null;
-    let preAuthorizedCode: string | null = null;
+    const preAuthorizedCodeIncluded = requestedGrants?.includes(
+      'urn:ietf:params:oauth:grant-type:pre-authorized_code'
+    );
 
-    if (requestedGrants) {
-      preAuthorizedCode = randomUUID();
-
-      const includesPreAuthorized = requestedGrants.includes(
-        'urn:ietf:params:oauth:grant-type:pre-authorized_code'
-      );
-      const includesAuthorized = requestedGrants.includes('authorization_code');
-
-      // Add requested grants to params
-      if (!includesPreAuthorized && !includesAuthorized) {
-        params = {
-          credential_issuer: this.pluginConfig.url,
-          credentials,
-        };
-      } else if (includesPreAuthorized && includesAuthorized) {
-        params = {
-          credential_issuer: this.pluginConfig.url,
-          credentials,
-          grants: {
-            'urn:ietf:params:oauth:grant-type:pre-authorized_code': {
-              'pre-authorized_code': preAuthorizedCode,
-            },
+    // TODO: How to handle the case where `grants` is undefined?
+    // In this case the Wallet MUST determine the Grant Types
+    // the Credential Issuer's AS supports using the respective metadata
+    const params = {
+      credential_issuer: this.pluginConfig.url,
+      credentials,
+      ...(requestedGrants && {
+        grants: {
+          ...(requestedGrants.includes('authorization_code') && {
             authorization_code: {
               // Here we could add `issuer_state`
             },
-          },
-        };
-      } else if (includesPreAuthorized) {
-        params = {
-          credential_issuer: this.pluginConfig.url,
-          credentials,
-          grants: {
+          }),
+          ...(preAuthorizedCodeIncluded && {
             'urn:ietf:params:oauth:grant-type:pre-authorized_code': {
               'pre-authorized_code': preAuthorizedCode,
+              ...(userPinRequired && { user_pin_required: userPinRequired }),
             },
-          },
-        };
-      } else if (includesAuthorized) {
-        params = {
-          credential_issuer: this.pluginConfig.url,
-          credentials,
-          grants: {
-            authorization_code: {
-              // Here we could add `issuer_state`
-            },
-          },
-        };
-      }
-    }
-
-    if (!params) {
-      // TODO: How to handle this case?
-      // In this case the Wallet MUST determine the Grant Types
-      // the Credential Issuer's AS supports using the respective metadata
-      params = {
-        credential_issuer: this.pluginConfig.url,
-        credentials,
-      };
-    }
+          }),
+        },
+      }),
+    };
 
     return {
       success: true,
@@ -558,8 +527,9 @@ export class OIDCPlugin implements IAgentPlugin {
         credentialOfferRequest: `openid_credential_offer://credential_offer?${qs.stringify(
           params
         )}`,
-        preAuthorizedCode,
         credentials,
+        ...(preAuthorizedCodeIncluded && { preAuthorizedCode }),
+        ...(userPinRequired && { userPin }),
       },
     };
   }
@@ -575,7 +545,10 @@ export class OIDCPlugin implements IAgentPlugin {
     const { body } = args;
 
     if (body.grant_type === 'authorization_code') {
-      return { success: false, error: new Error('Not implemented') };
+      return {
+        success: false,
+        error: new Error('Grant type authorization_code not implemented'),
+      };
     }
 
     if (
@@ -607,7 +580,7 @@ export class OIDCPlugin implements IAgentPlugin {
   public async handlePreAuthorizedCodeTokenRequest(
     args: HandlePreAuthorizedCodeTokenRequestArgs
   ): Promise<Result<TokenResponse>> {
-    const { body, preAuthorizedCode, userPin } = args;
+    const { body, preAuthorizedCode, userPin, overrides } = args;
     // FIXME - Split authorization_code and pre-authorized_code
 
     if (body['pre-authorized_code'] !== preAuthorizedCode) {
@@ -621,14 +594,16 @@ export class OIDCPlugin implements IAgentPlugin {
     if (userPin && userPin !== body.user_pin) {
       return {
         success: false,
-        error: new Error('Invalid user_pin'),
+        error: new Error('Invalid or missing user_pin'),
       };
     }
 
-    const accessToken = randomUUID();
-    const cNonce = randomUUID();
-    const expCNonce = Date.now() + 1000 * 60 * 60; // 1 hour
-    const exp = Date.now() + 1000 * 60 * 60; // 1 hour
+    const accessToken = overrides?.accessToken ?? randomUUID();
+    const cNonce = overrides?.cNonce ?? randomUUID();
+    const expCNonce =
+      Date.now() + (overrides?.cNonceExpiresIn ?? 1000 * 60 * 60); // 1 hour default
+    const exp =
+      Date.now() + (overrides?.accessTokenExpiresIn ?? 1000 * 60 * 60); // 1 hour default
 
     return {
       success: true,

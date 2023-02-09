@@ -21,18 +21,26 @@ export type CreateCredentialOfferRequestArgs = {
     | 'urn:ietf:params:oauth:grant-type:pre-authorized_code'
     | 'authorization_code'
   ];
+  userPinRequired?: boolean;
 };
 
 export type CreateCredentialOfferRequestResposne = {
   credentialOfferRequest: string;
-  preAuthorizedCode: string | null;
   credentials: Credentials;
+  preAuthorizedCode?: string;
+  userPin?: string;
 };
 
 export type HandlePreAuthorizedCodeTokenRequestArgs = {
   body: TokenRequest;
   preAuthorizedCode: string;
   userPin?: string;
+  overrides?: {
+    accessToken?: string;
+    accessTokenExpiresIn?: number;
+    cNonce?: string;
+    cNonceExpiresIn?: number;
+  };
 };
 
 export type IsValidTokenRequestArgs = {
