@@ -57,7 +57,7 @@ export function DeleteModal({ open, setOpen, vc }: DeleteModalProps) {
                       variant="gray"
                       size="popup"
                     >
-                      Cancle
+                      Cancel
                     </Button>
                   </div>
                   <div className="mt-4 ml-2">

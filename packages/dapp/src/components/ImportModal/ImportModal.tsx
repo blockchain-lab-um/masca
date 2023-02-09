@@ -71,7 +71,7 @@ export function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
                       variant="gray"
                       size="popup"
                     >
-                      Cancle
+                      Cancel
                     </Button>
                   </div>
 
