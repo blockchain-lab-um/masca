@@ -2,6 +2,7 @@ import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import React, { useState } from 'react';
 import Button from 'src/components/Button';
 import ImportModal from 'src/components/ImportModal';
+import ViewTabs from 'src/components/VCTable/ViewTabs';
 import DataStoreCombobox from '../../components/VCTable/DataStoreCombobox';
 import GlobalFilter from '../../components/VCTable/GlobalFilter';
 
@@ -17,12 +18,15 @@ export const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
 
   return (
     <>
-      <div className="flex gap-x-2 justify-between mb-4 mt-6 items-center">
-        <div className="flex">
+      <div className="grid grid-cols-11 mb-4 mt-6">
+        <div className="col-start-1 col-span-5 flex">
           <DataStoreCombobox isConnected={isConnected} vcs={vcs} />
           <GlobalFilter isConnected={isConnected} vcs={vcs} />
         </div>
-        <div>
+        <div className="col-start-6">
+          <ViewTabs />
+        </div>
+        <div className="col-start-12 flex">
           <Button
             variant="white"
             size="sm"

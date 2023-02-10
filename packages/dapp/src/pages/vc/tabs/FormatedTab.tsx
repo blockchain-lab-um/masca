@@ -63,9 +63,17 @@ export const FormatedTab = ({ vc }: FormatedTabProps) => {
   return (
     <>
       <div className="relative h-full">
-        <div className="flex flex-col lg:flex-row lg:justify-between m-3 py-3 px-8 rounded-3xl bg-orange-500">
+        <div className="mx-4 rounded-2xl px-8 py-4 bg-gradient-to-b from-orange-100 to-pink-100 grid grid-cols-3">
+          <div className="col-start-1 col-span-2 truncate">{types}</div>
+          <div className=" col-start-3 text-right">
+            {validity ? 'VALID' : 'EXPIRED'}
+          </div>
+        </div>
+        <div className="flex flex-col lg:flex-row lg:justify-between m-3 py-3 px-8 rounded-3xl bg-gradient-to-b from-orange-50 to-pink-50">
           <div className="flex flex-col mb-2 border-b border-orange-300 lg:border-none pb-2 lg:pb-0 lg:mb-0 ">
-            <span className="text-xs text-yellow-200/70 -mb-1">VALIDITY</span>
+            <span className="text-xs text-yellow-200/70 -mb-1">
+              {validity ? 'VALID' : 'EXPIRED'}
+            </span>
 
             <span className="font-semibold text-2xl text-white">
               {validity ? 'VALID' : 'EXPIRED'}
