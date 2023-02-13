@@ -99,9 +99,7 @@ export async function getPublicKey(params: ApiParams): Promise<string> {
   return res.publicKey;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function uint8ArrayToHex(arr: Uint8Array): string {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   return Buffer.from(arr).toString('hex');
 }
 
