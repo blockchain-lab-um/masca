@@ -31,6 +31,7 @@ function createJWK(
 export function generateJWKfromVerificationMethod(key: VerificationMethod) {
   let bytes = extractPublicKeyBytes(key);
   let hex = bytesToHex(bytes);
+  // Checks if the key is compressed
   if (hex.substring(0, 2) === '02' || hex.substring(0, 2) === '03') {
     hex = getUncompressedPublicKey(hex);
     bytes = hexToBytes(hex);
