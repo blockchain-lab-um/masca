@@ -1,5 +1,3 @@
-import { SnapsGlobalObject } from '@metamask/snaps-types';
-import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
 import { getDidJwkIdentifier } from '../../src/did/jwk/jwkDidUtils';
 import {
   address,
@@ -8,12 +6,7 @@ import {
 } from '../testUtils/constants';
 
 describe('jwkDidUtils', () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  let snapMock: SnapsGlobalObject & SnapMock;
-
-  beforeEach(() => {
-    snapMock = createMockSnap();
-  });
+  beforeEach(() => {});
 
   describe('keyDidUtils', () => {
     it('should generate proper DID', () => {
