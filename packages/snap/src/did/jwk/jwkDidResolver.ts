@@ -64,8 +64,9 @@ function generateDidDocument(jwk: JsonWebKey): Promise<DIDDocument> {
 
 function parseDidJwkIdentifier(didIdentifier: string): JsonWebKey {
   try {
-    const jwk = JSON.parse(decodeBase64url(didIdentifier)) as JsonWebKey;
-    if (!isJWK(jwk)) throw new Error();
+    const jwk = JSON.parse(decodeBase64url(didIdentifier)) as unknown;
+    if (!isJWK(jwk))
+      throw new Error("DID identifier doesn't contain a valid JWK");
     return jwk;
   } catch (error) {
     throw new Error('Invalid DID identifier');
