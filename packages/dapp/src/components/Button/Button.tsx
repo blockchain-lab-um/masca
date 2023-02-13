@@ -11,7 +11,7 @@ type ButtonProps = {
     | 'gray'
     | 'warning'
     | 'white';
-  size?: 'popup' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'wd';
+  size?: 'popup' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'wd' | 'icon';
   shadow?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'none' | 'inner' | '';
   onClick?: () => void;
   children: React.ReactNode;
@@ -45,6 +45,7 @@ const sizes: Record<string, string> = {
   lg: 'text-2xl py-2.5 px-8 font-semibold max-w-xs',
   xl: 'text-h3 py-3 px-9 font-semibold max-w-xs',
   wd: 'text-h4 py-3 px-7 max-w-xs',
+  icon: 'py-2 px-2 max-w-xs',
 };
 
 const Button = ({

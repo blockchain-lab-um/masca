@@ -7,6 +7,7 @@ import {
   ShareIcon,
   TrashIcon,
   Cog6ToothIcon,
+  ArrowDownTrayIcon,
 } from '@heroicons/react/24/outline';
 import Button from 'src/components/Button';
 import DeleteModal from 'src/components/DeleteModal';
@@ -16,11 +17,19 @@ import { useTableStore } from '../../../utils/store';
 
 interface FormatedTabProps {
   vc: QueryVCsRequestResult;
+  deleteModalOpen: boolean;
+  modifyDSModalOpen: boolean;
+  setDeleteModalOpen: (value: boolean) => void;
+  setModifyDSModalOpen: (value: boolean) => void;
 }
 
-export const FormatedTab = ({ vc }: FormatedTabProps) => {
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [modifyDSModalOpen, setModifyDSModalOpen] = useState(false);
+export const FormatedTab = ({
+  vc,
+  setDeleteModalOpen,
+  setModifyDSModalOpen,
+  modifyDSModalOpen,
+  deleteModalOpen,
+}: FormatedTabProps) => {
   const setSelectedVCs = useTableStore((state) => state.setSelectedVCs);
 
   let stores: string[] = [];
@@ -62,105 +71,102 @@ export const FormatedTab = ({ vc }: FormatedTabProps) => {
 
   return (
     <>
-      <div className="relative h-full">
-        <div className="mx-4 rounded-2xl px-8 py-4 bg-gradient-to-b from-orange-100 to-pink-100 grid grid-cols-3">
-          <div className="col-start-1 col-span-2 truncate">{types}</div>
+      <div className="relative h-full px-8">
+        <div className="mt-8 rounded-2xl px-4 py-4 bg-gradient-to-b from-orange-100 to-pink-100 grid grid-cols-3">
+          <div className="col-start-1 col-span-2 row-span-2 truncate pr-2 text-h4 text-orange-500 font-semibold flex place-items-center">
+            {types}
+          </div>
           <div className=" col-start-3 text-right">
             {validity ? 'VALID' : 'EXPIRED'}
           </div>
+          <div className="col-start-3 row-start-2 text-right text-gray-700 text-sm">
+            {expDate}
+          </div>
         </div>
-        <div className="flex flex-col lg:flex-row lg:justify-between m-3 py-3 px-8 rounded-3xl bg-gradient-to-b from-orange-50 to-pink-50">
-          <div className="flex flex-col mb-2 border-b border-orange-300 lg:border-none pb-2 lg:pb-0 lg:mb-0 ">
-            <span className="text-xs text-yellow-200/70 -mb-1">
-              {validity ? 'VALID' : 'EXPIRED'}
-            </span>
 
-            <span className="font-semibold text-2xl text-white">
-              {validity ? 'VALID' : 'EXPIRED'}
+        <div className="mb-8 mt-4 break-all rounded-2xl px-8 py-4 bg-gradient-to-b from-orange-100 to-pink-100 grid grid-cols-1 lg:grid-cols-2">
+          <div className="lg:col-start-1 lg:col-span-2 flex flex-col px-1">
+            <span className="text-sm text-orange-500 font-semibold">
+              SUBJECT
             </span>
-            <span className="text-sm text-yellow-300 mt-4">{expDate}</span>
-          </div>
-          <div className="lg:ml-2 flex flex-col break-all">
-            <span className="text-xs text-yellow-200/70 -mb-1">ISSUER</span>
-            <div className="flex">
-              <a
-                href={`https://dev.uniresolver.io/#${issuer}`}
-                target="_blank"
-                rel="noreferrer"
-                className="text-2xl font-semibold text-white underline underline-offset-2 hover:text-gray-100 animated-transition cursor-pointer"
-              >
-                {issuer.length > 20
-                  ? `${issuer.slice(0, 18)}...${issuer.slice(-4)}`
-                  : issuer}
-              </a>
-              <button
-                className=""
-                onClick={() => {
-                  // eslint-disable-next-line @typescript-eslint/no-floating-promises
-                  navigator.clipboard.writeText(issuer);
-                }}
-              >
-                <DocumentDuplicateIcon className="h-5 w-5 ml-1 text-white hover:text-gray-100 animated-transition" />
-              </button>
-            </div>
-            <span className="mt-4 text-sm text-yellow-300">Unknown</span>
-          </div>
-        </div>
-        <div className="mt-8 pl-4 lg:pl-12 pr-2 lg:pr-8 ">
-          <div className="text-md -mb-0.5 text-orange-500">TYPE</div>
-          <div className="text-xl font-semibold text-orange-700 break-all">
-            {types}
-          </div>
-          <ul className="mt-8">
-            {Object.keys(vc.data.credentialSubject).map((key, id) => (
-              <li key={id} className="mt-4 flex items-center">
-                <div className="w-2 h-2 p-1 rounded-full bg-orange-500" />
-                <div className="ml-2 lg:ml-4">
-                  <div className="text-gray-700 text-sm">{key}</div>
-                  <div className="text-gray-900 font-semibold break-all">
-                    {vc.data.credentialSubject[key]}
+            <ul className="">
+              {Object.keys(vc.data.credentialSubject).map((key, id) => (
+                <li key={id} className="mt-4 flex items-center">
+                  <div className="">
+                    <div className="text-gray-700 text-sm">{key}</div>
+                    <div className="text-gray-900 font-semibold break-all">
+                      {vc.data.credentialSubject[key]}
+                    </div>
                   </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="lg:col-start-3 flex flex-col px-1">
+            <div>
+              <span className="text-sm text-orange-500 font-semibold">
+                ISSUER
+              </span>
+              <div className="text-gray-700 text-sm">DID</div>
+              <div className="text-gray-900 font-semibold text-md break-all">
+                <div className="flex">
+                  <a
+                    href={`https://dev.uniresolver.io/#${issuer}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-md font-semibold text-gray-900 underline underline-offset-2 hover:text-gray-700 animated-transition cursor-pointer"
+                  >
+                    {issuer.length > 20
+                      ? `${issuer.slice(0, 18)}...${issuer.slice(-4)}`
+                      : issuer}
+                  </a>
+                  <button
+                    className=""
+                    onClick={() => {
+                      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+                      navigator.clipboard.writeText(issuer);
+                    }}
+                  >
+                    <DocumentDuplicateIcon className="h-5 w-5 ml-1 text-gray-900 hover:text-gray-700 animated-transition" />
+                  </button>
                 </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="px-4 lg:px-8 mt-4">
-          <span className="text-orange-500 text-sm">STORES</span>
-          <div className="flex justify-between items-center -mt-1">
-            {vc.metadata.store && (
-              <div className="flex">
-                {stores.map((store, id) => (
-                  <StoreIcon store={store} key={id} />
-                ))}
               </div>
-            )}
+            </div>
+            <div className="mt-2">
+              <span className="text-sm text-orange-500 font-semibold">
+                DATES
+              </span>
 
-            <div className="">
-              <button
-                onClick={() => setModifyDSModalOpen(true)}
-                className="text-gray-800 hover:bg-orange-100 p-1 hover:text-orange-700 animated-transition rounded-full"
-              >
-                <Cog6ToothIcon className="w-6 h-6" />
-              </button>
-              <button className="text-gray-800 hover:bg-orange-100 p-1 hover:text-orange-700 animated-transition rounded-full">
-                <ShareIcon className="w-6 h-6" />
-              </button>
-              <button
-                onClick={() => setDeleteModalOpen(true)}
-                className="text-gray-800 hover:bg-orange-100 p-1 hover:text-orange-700 animated-transition rounded-full"
-              >
-                <TrashIcon className="w-6 h-6" />
-              </button>
+              <div className="">
+                <div className="text-gray-700 text-sm">Issuance Date</div>
+                <div className="text-gray-900 font-semibold text-md break-all">
+                  {new Date(Date.parse(vc.data.issuanceDate)).toDateString()}
+                </div>
+                <div className="text-gray-700 text-sm">Expiration Date</div>
+                {vc.data.expirationDate ? (
+                  <div className="text-gray-900 font-semibold text-md break-all">
+                    {new Date(
+                      Date.parse(vc.data.expirationDate)
+                    ).toDateString()}
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </div>
+            </div>
+            <div className="mt-2">
+              <span className="text-sm text-orange-500 font-semibold">
+                DATA STORES
+              </span>
+              {vc.metadata.store && (
+                <div className="flex">
+                  {stores.map((store, id) => (
+                    <StoreIcon store={store} key={id} />
+                  ))}
+                </div>
+              )}
             </div>
           </div>
-        </div>
-
-        <div className="mt-4 px-4">
-          <span className="text-gray-700 text-sm font-semibold">
-            {new Date(Date.parse(vc.data.issuanceDate)).toDateString()}
-          </span>
         </div>
 
         <div className="flex justify-end p-3 lg:hidden">
