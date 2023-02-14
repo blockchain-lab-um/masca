@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import React, { useState } from 'react';
@@ -13,6 +17,7 @@ import Button from 'src/components/Button';
 import DeleteModal from 'src/components/DeleteModal';
 import ModifyDSModal from 'src/components/ModifyDSModal';
 import Link from 'next/link';
+import { convertTypes } from 'src/utils/string';
 import { useTableStore } from '../../../utils/store';
 
 interface FormatedTabProps {
@@ -41,23 +46,20 @@ export const FormatedTab = ({
     }
   }
   let issuer = '';
-  if (typeof vc.data.issuer === 'string') {
-    issuer = vc.data.issuer;
-  } else {
-    issuer = vc.data.issuer.id;
+  if (vc.data.issuer) {
+    if (typeof vc.data.issuer === 'string') {
+      issuer = vc.data.issuer;
+    } else if (vc.data.issuer.id) {
+      issuer = vc.data.issuer.id;
+    }
   }
   let validity = true;
   if (vc.data.expirationDate)
     validity = Date.now() < Date.parse(vc.data.expirationDate);
 
-  let types = '';
-  if (vc.data.type) {
-    if (typeof vc.data.type === 'string') {
-      types = vc.data.type;
-    } else {
-      types = vc.data.type?.join(', ');
-    }
-  }
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  const types = convertTypes(vc.data.type);
+  console.log('types', types);
 
   const expDate = vc.data.expirationDate
     ? `Expires on ${new Date(
@@ -72,19 +74,17 @@ export const FormatedTab = ({
   return (
     <>
       <div className="relative h-full px-8">
-        <div className="mt-8 rounded-2xl px-4 py-4 bg-gradient-to-b from-orange-100 to-pink-100 grid grid-cols-3">
-          <div className="col-start-1 col-span-2 row-span-2 truncate pr-2 text-h4 text-orange-500 font-semibold flex place-items-center">
+        <div className="mt-8 rounded-2xl px-4 py-8 bg-gradient-to-b from-orange-50 to-pink-50 grid grid-cols-3">
+          <div className="col-start-1 col-span-2 row-span-2 truncate pr-2 text-h3 text-orange-500 font-semibold">
             {types}
           </div>
-          <div className=" col-start-3 text-right">
-            {validity ? 'VALID' : 'EXPIRED'}
-          </div>
-          <div className="col-start-3 row-start-2 text-right text-gray-700 text-sm">
-            {expDate}
+          <div className="col-start-3 text-right">
+            <div>{validity ? 'VALID' : 'EXPIRED'}</div>
+            <div className="text-gray-700 text-sm">{expDate}</div>
           </div>
         </div>
 
-        <div className="mb-8 mt-4 break-all rounded-2xl px-8 py-4 bg-gradient-to-b from-orange-100 to-pink-100 grid grid-cols-1 lg:grid-cols-2">
+        <div className="mb-8 mt-6 break-all rounded-2xl px-8 py-4 bg-gradient-to-b from-orange-50 to-pink-50 grid grid-cols-1 lg:grid-cols-2">
           <div className="lg:col-start-1 lg:col-span-2 flex flex-col px-1">
             <span className="text-sm text-orange-500 font-semibold">
               SUBJECT
@@ -92,12 +92,53 @@ export const FormatedTab = ({
             <ul className="">
               {Object.keys(vc.data.credentialSubject).map((key, id) => (
                 <li key={id} className="mt-4 flex items-center">
-                  <div className="">
-                    <div className="text-gray-700 text-sm">{key}</div>
-                    <div className="text-gray-900 font-semibold break-all">
-                      {vc.data.credentialSubject[key]}
+                  {key === 'id' ? (
+                    <div>
+                      <div className="text-gray-700 text-sm">{key}</div>
+                      <div className="text-gray-900 font-semibold text-md break-all">
+                        <div className="flex">
+                          <a
+                            href={`https://dev.uniresolver.io/#${vc.data.credentialSubject[key]}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-md font-semibold text-gray-900 underline underline-offset-2 hover:text-gray-700 animated-transition cursor-pointer"
+                          >
+                            {vc.data.credentialSubject.id && (
+                              <>
+                                {vc.data.credentialSubject.id.length > 20
+                                  ? `${vc.data.credentialSubject.id.slice(
+                                      0,
+                                      22
+                                    )}...${vc.data.credentialSubject.id.slice(
+                                      -4
+                                    )}`
+                                  : vc.data.credentialSubject.id}
+                              </>
+                            )}
+                          </a>
+                          <button
+                            className=""
+                            onClick={() => {
+                              // eslint-disable-next-line @typescript-eslint/no-floating-promises, @typescript-eslint/no-unused-expressions
+                              vc.data.credentialSubject.id &&
+                                navigator.clipboard.writeText(
+                                  vc.data.credentialSubject.id
+                                );
+                            }}
+                          >
+                            <DocumentDuplicateIcon className="h-5 w-5 ml-1 text-gray-900 hover:text-gray-700 animated-transition" />
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="">
+                      <div className="text-gray-700 text-sm">{key}</div>
+                      <div className="text-gray-900 font-semibold break-all">
+                        {vc.data.credentialSubject[key]}
+                      </div>
+                    </div>
+                  )}
                 </li>
               ))}
             </ul>
@@ -167,12 +208,6 @@ export const FormatedTab = ({
               )}
             </div>
           </div>
-        </div>
-
-        <div className="flex justify-end p-3 lg:hidden">
-          <Button variant="primary" size="sm">
-            Create Presentation
-          </Button>
         </div>
 
         <div className="hidden lg:block absolute -bottom-4 right-10">

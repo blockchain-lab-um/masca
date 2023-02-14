@@ -43,6 +43,7 @@ import {
   ArrowsPointingOutIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import { convertTypes } from 'src/utils/string';
 import StoreIcon from '../StoreIcon';
 import { useSnapStore, useTableStore } from '../../utils/store';
 import { VC_DATA } from './data';
@@ -105,24 +106,13 @@ export const Table = () => {
     }),
     columnHelper.accessor(
       (row) => {
-        if (row.data.type) {
-          if (typeof row.data.type === 'string') {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-            return row.data.type;
-          }
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          if (Array.isArray(row.data.type) && row.data.type.length > 0) {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            return row.data.type[row.data.type.length - 1];
-          }
-          return '';
-        }
-        return '';
+        const types = convertTypes(row.data.type);
+        return types.split(',')[0];
       },
       {
         id: 'type',
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-        cell: (info) => <span>{info.getValue().toString()}</span>,
+        cell: (info) => <span className="">{info.getValue().toString()}</span>,
         header: () => <span>TYPE</span>,
       }
     ),
@@ -156,10 +146,12 @@ export const Table = () => {
     ),
     columnHelper.accessor(
       (row) => {
+        if (!row.data.issuer) return '';
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         if (typeof row.data.issuer === 'string') return row.data.issuer;
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
-        return row.data.issuer.id;
+        if (row.data.issuer.id) return row.data.issuer.id;
+        return '';
       },
       {
         id: 'issuer',
