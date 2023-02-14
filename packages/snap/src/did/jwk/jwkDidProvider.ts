@@ -63,7 +63,7 @@ export class JwkDIDProvider extends AbstractIdentifierProvider {
     },
     context: IAgentContext<IKeyManager>
   ): Promise<IIdentifier> {
-    throw new Error('JwkDIDProvider updateIdentifier not supported yet.');
+    throw new Error('JwkDIDProvider updateIdentifier not supported');
   }
 
   async deleteIdentifier(
