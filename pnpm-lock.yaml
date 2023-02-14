@@ -309,7 +309,6 @@ importers:
       ceramic-cacao: ^1.4.0
       class-transformer: ^0.5.1
       class-validator: ^0.13.2
-      create-typeguard: ^1.0.2
       crypto-browserify: ^3.12.0
       did-jwt-vc: 3.1.0
       did-resolver: 4.0.1
@@ -381,7 +380,6 @@ importers:
       ceramic-cacao: 1.4.0
       class-transformer: 0.5.1
       class-validator: 0.13.2
-      create-typeguard: 1.0.2
       crypto-browserify: 3.12.0
       did-jwt-vc: 3.1.0
       did-resolver: 4.0.1
@@ -9073,10 +9071,6 @@ packages:
 
   /create-require/1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
-
-  /create-typeguard/1.0.2:
-    resolution: {integrity: sha512-4l+qxEC/M5CdDpnPo7BgZak1Z/sebC3RtEqB4dP5DYY+Gp6mO2SBZttdrQ3jxbTrS0jvZ6YtG9YmcuLh4EGYog==}
-    dev: false
 
   /credential-status/2.0.5:
     resolution: {integrity: sha512-hh0pOcRidROn4MC1wF3vNURhPEMSzm3RcpFIl5PFVj5HWgCaZy16nXmrOl5cmr50Jhp2WV48cWbNMxh4OFWU+w==}

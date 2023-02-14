@@ -9,14 +9,16 @@ import {
   JsonWebKey,
 } from 'did-resolver';
 import { decodeBase64url } from '@veramo/utils';
-import { createTypeGuard, hasProperties } from 'create-typeguard';
 import { base64urlEncode } from '../../utils/snapUtils';
 
-const isJWK = createTypeGuard<JsonWebKey>((data) => {
+const isJWK = (data: JsonWebKey) => {
   if (
     typeof data === 'object' &&
     data &&
-    hasProperties(data, 'crv', 'kty', 'x', 'y')
+    'crv' in data &&
+    'kty' in data &&
+    'x' in data &&
+    'y' in data
   ) {
     const { crv, kty, x, y } = data;
     if (
@@ -29,7 +31,7 @@ const isJWK = createTypeGuard<JsonWebKey>((data) => {
     }
   }
   return null;
-});
+};
 
 function generateDidDocument(jwk: JsonWebKey): Promise<DIDDocument> {
   return new Promise((resolve, reject) => {
