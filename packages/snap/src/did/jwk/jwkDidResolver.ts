@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   DIDDocument,
   DIDResolutionOptions,
@@ -11,26 +10,23 @@ import {
 import { decodeBase64url } from '@veramo/utils';
 import { base64urlEncode } from '../../utils/snapUtils';
 
-const isJWK = (data: JsonWebKey) => {
+const isJWK = (data: unknown): data is JsonWebKey => {
   if (
     typeof data === 'object' &&
     data &&
     'crv' in data &&
+    typeof data.crv === 'string' &&
     'kty' in data &&
+    typeof data.kty === 'string' &&
     'x' in data &&
-    'y' in data
+    typeof data.x === 'string' &&
+    'y' in data &&
+    typeof data.y === 'string'
   ) {
-    const { crv, kty, x, y } = data;
-    if (
-      typeof crv === 'string' &&
-      typeof kty === 'string' &&
-      typeof x === 'string' &&
-      typeof y === 'string'
-    ) {
-      return { crv, kty, x, y };
-    }
+    return true;
   }
-  return null;
+
+  return false;
 };
 
 function generateDidDocument(jwk: JsonWebKey): Promise<DIDDocument> {
@@ -67,8 +63,10 @@ function generateDidDocument(jwk: JsonWebKey): Promise<DIDDocument> {
 function parseDidJwkIdentifier(didIdentifier: string): JsonWebKey {
   try {
     const jwk = JSON.parse(decodeBase64url(didIdentifier)) as unknown;
-    if (!isJWK(jwk))
+    if (!isJWK(jwk)) {
       throw new Error("DID identifier doesn't contain a valid JWK");
+    }
+
     return jwk;
   } catch (error) {
     throw new Error('Invalid DID identifier');
@@ -78,7 +76,9 @@ function parseDidJwkIdentifier(didIdentifier: string): JsonWebKey {
 export const resolveDidJwk: DIDResolver = async (
   did: string,
   parsed: ParsedDID,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   resolver: Resolvable,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   options: DIDResolutionOptions
 ): Promise<DIDResolutionResult> => {
   try {
