@@ -806,7 +806,6 @@ describe('onRpcRequest', () => {
     it('should succeed creating VP with did:jwk', async () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-      // const agent = await getAgent(snapMock);
 
       await onRpcRequest({
         origin: 'localhost',
@@ -842,7 +841,8 @@ describe('onRpcRequest', () => {
           },
         },
       })) as VerifiablePresentation;
-      console.log(createdVP);
+
+      // TODO: Verify VP
       expect(createdVP).not.toBeNull();
       expect.assertions(1);
     });

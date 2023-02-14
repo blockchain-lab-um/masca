@@ -13,7 +13,7 @@ import {
 } from '@veramo/core';
 import { AbstractIdentifierProvider } from '@veramo/did-manager';
 import { VerificationMethod } from 'did-resolver';
-import { generateJWKfromKey } from './jwkDidUtils';
+import { generateJWKfromVerificationMethod } from './jwkDidUtils';
 
 type IContext = IAgentContext<IKeyManager>;
 
@@ -40,7 +40,7 @@ export class JwkDIDProvider extends AbstractIdentifierProvider {
       type: 'Ed25519',
     });
 
-    const jwk = generateJWKfromKey({
+    const jwk = generateJWKfromVerificationMethod({
       publicKeyHex: key.publicKeyHex,
     } as VerificationMethod);
     const jwkBase64url = Buffer.from(JSON.stringify(jwk)).toString('base64url');
