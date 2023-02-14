@@ -1,0 +1,16 @@
+diff --git a/index.js b/index.js
+index c1ff223cc5fccb383984693efedbfe24d066c1a0..eccfe489b87af61da0e1f6f95ca34ea90b7459d1 100644
+--- a/index.js
++++ b/index.js
+@@ -1,8 +1,8 @@
+ /*!
+  * Copyright (c) 2020 Digital Bazaar, Inc. All rights reserved.
+  */
+-'use strict';
++"use strict";
+ 
+ // translate `main.js` to CommonJS
+-require = require('esm')(module);
+-module.exports = require('./main.js');
++// require = require('esm')(module);
++module.exports = require("./main.js");
