@@ -35,6 +35,8 @@ import {
   PrivateKeyToDidResponse,
   HandleAuthorizationResponseArgs,
   CreateCredentialOfferRequestArgs,
+  ProofOfPossesionArgs,
+  ProofOfPossesionResponseArgs,
 } from '../types/internal';
 import { IOIDCPlugin, OIDCAgentContext } from '../types/IOIDCPlugin';
 
@@ -61,6 +63,7 @@ export class OIDCPlugin implements IAgentPlugin {
       this.handlePreAuthorizedCodeTokenRequest.bind(this),
     handleCredentialRequest: this.handleCredentialRequest.bind(this),
     isValidAuthorizationHeader: this.isValidAuthorizationHeader.bind(this),
+    proofOfPossession: this.proofOfPossession.bind(this),
   };
 
   // Create Self-Issued OpenID Provider Authorization Request
@@ -472,7 +475,6 @@ export class OIDCPlugin implements IAgentPlugin {
     args: CreateCredentialOfferRequestArgs
   ): Promise<Result<CreateCredentialOfferRequestResposne>> {
     const { schema, grants: requestedGrants, userPinRequired } = args;
-
     const supportedCredentialSchemas =
       this.pluginConfig.supported_credentials.map(
         (credential) => credential.schema
@@ -508,7 +510,8 @@ export class OIDCPlugin implements IAgentPlugin {
         grants: {
           ...(requestedGrants.includes('authorization_code') && {
             authorization_code: {
-              // Here we could add `issuer_state`
+              // FIXME: QS removes empty objects, thats why we need to add a placeholder
+              issuer_state: 'placeholder', // Here we could add `issuer_state`
             },
           }),
           ...(preAuthorizedCodeIncluded && {
@@ -662,14 +665,8 @@ export class OIDCPlugin implements IAgentPlugin {
     args: HandleCredentialRequestArgs,
     context: OIDCAgentContext
   ): Promise<Result<CredentialResponse>> {
-    const {
-      body,
-      did: issuerDid,
-      credentialSubjectClaims,
-      c_nonce: cNonce,
-      c_nonce_expires_in: cNonceExpiresIn,
-    } = args;
-    const { format, proof } = body;
+    const { body, issuerDid, subjectDid, credentialSubjectClaims } = args;
+    const { format, schema, types } = body;
 
     if (!format) {
       return {
@@ -678,12 +675,134 @@ export class OIDCPlugin implements IAgentPlugin {
       };
     }
 
-    // TODO: Check if format is supported ?
+    if (types) {
+      return {
+        success: false,
+        error: new Error('Types not supported yet. Use schema instead.'),
+      };
+    }
 
-    // TODO: We REQUIRE proof for now
-    // Later we can implement section 13.2
-    // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-13.2
+    if (!schema) {
+      return {
+        success: false,
+        error: new Error('Missing schema'),
+      };
+    }
+
+    const supportedCredential = this.pluginConfig.supported_credentials.find(
+      (cred) => cred.schema === schema
+    );
+
+    // Check if schema is supported
+    if (!supportedCredential) {
+      return {
+        success: false,
+        error: new Error('Unsupported schema'),
+      };
+    }
+
+    if (!issuerDid) {
+      return {
+        success: false,
+        error: new Error('Missing issuer did'),
+      };
+    }
+
+    if (!subjectDid) {
+      return {
+        success: false,
+        error: new Error('Missing subject did'),
+      };
+    }
+
+    // Check if format is supported for this schema
+    if (supportedCredential.format !== format) {
+      return {
+        success: false,
+        error: new Error(
+          `Unsupported format. Supported format ${supportedCredential.format}.`
+        ),
+      };
+    }
+
+    // FIXME: ISS -> Must be client_id
+    // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#name-proof-types
+    let credentialPayload: CredentialPayload;
+
+    try {
+      // Build credential payload
+      credentialPayload = {
+        issuer: { id: issuerDid },
+        // FIXME: Add credential status ? (https://www.w3.org/TR/vc-data-model/#status)
+        // FIXME: Type field is required, but we are using the crentialSchema field which is optional
+        credentialSchema: {
+          id: schema,
+          type: 'JsonSchemaValidator2018', // TODO: We are not actually using this at the moment
+        },
+        credentialSubject: {
+          id: subjectDid,
+          ...(credentialSubjectClaims as object), // TODO: VALIDATE CLAIMS AGAINST SCHEMA
+        },
+      };
+    } catch (e: any) {
+      return {
+        success: false,
+        error: new Error('Error building credential payload'),
+      };
+    }
+    let credential;
+
+    // Create credential from payload
+    try {
+      credential = await context.agent.createVerifiableCredential({
+        credential: credentialPayload,
+        proofFormat: 'jwt',
+      });
+    } catch (e) {
+      return {
+        success: false,
+        error: new Error('Error creating credential'),
+      };
+    }
+
+    // FIXME: Why would we need to send c_nonce ?
+    // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-8.3
+    return {
+      success: true,
+      data: {
+        format: 'jwt_vc_json',
+        credential: credential.proof.jwt as string,
+      },
+    };
+  }
+
+  public static async privateKeyToDid(
+    privateKey: string,
+    didMethod: string
+  ): Promise<Result<PrivateKeyToDidResponse>> {
+    const ctx = new EC('secp256k1');
+    const ecPrivateKey = ctx.keyFromPrivate(privateKey);
+    const compactPublicKey = `0x${ecPrivateKey.getPublic(true, 'hex')}`;
+    const did = `${didMethod}:${compactPublicKey}`;
+
+    return {
+      success: true,
+      data: {
+        did,
+      },
+    };
+  }
+
+  public async proofOfPossession(
+    args: ProofOfPossesionArgs,
+    context: OIDCAgentContext
+  ): Promise<Result<ProofOfPossesionResponseArgs>> {
+    const { proof, cNonce, cNonceExpiresIn } = args;
+
     if (!proof) {
+      // TODO: We REQUIRE proof for now
+      // Later we can implement section 13.2
+      // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-13.2
       // TODO: Return according to specs
       // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-8.3.2
       return {
@@ -735,6 +854,17 @@ export class OIDCPlugin implements IAgentPlugin {
     let payload;
     let publicKey;
     let did;
+
+    if (protectedHeader.typ !== 'openid4vci-proof+jwt') {
+      return {
+        success: false,
+        error: new Error(
+          `Invalid JWT typ. Expected "openid4vci-proof+jwt" but got "${
+            protectedHeader.typ ?? 'undefined'
+          }"`
+        ),
+      };
+    }
 
     // Check kid
     if (protectedHeader.kid) {
@@ -824,7 +954,11 @@ export class OIDCPlugin implements IAgentPlugin {
 
       publicKey = await importJWK(publicKeyJwk, protectedHeader.alg);
     } else if (protectedHeader.jwk) {
-      publicKey = await importJWK(protectedHeader.jwk);
+      // publicKey = await importJWK(protectedHeader.jwk);
+      return {
+        success: false,
+        error: new Error('jwk not supported'),
+      };
     } else if (protectedHeader.x5c) {
       return {
         success: false,
@@ -889,64 +1023,6 @@ export class OIDCPlugin implements IAgentPlugin {
         error: new Error('Jwt not valid yet'),
       };
     }
-
-    // FIXME: ISS -> Must be client_id
-    // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#name-proof-types
-    let credentialPayload: CredentialPayload;
-
-    try {
-      // Build credential payload
-      credentialPayload = {
-        // FIXME: Replace with issuer DID
-        issuer: { id: issuerDid },
-        // FIXME: Add credential status ? (https://www.w3.org/TR/vc-data-model/#status)
-        // FIXME: Set correct type
-        type: body.types,
-        credentialSubject: {
-          id: did,
-          ...(credentialSubjectClaims as object), // TODO: VALIDATE CLAIMS AGAINST SCHEMA
-        },
-      };
-    } catch (e: any) {
-      return {
-        success: false,
-        error: new Error('Error building credential payload'),
-      };
-    }
-    let credential;
-
-    // Create credential from payload
-    try {
-      credential = await context.agent.createVerifiableCredential({
-        credential: credentialPayload,
-        proofFormat: 'jwt',
-      });
-    } catch (e) {
-      return {
-        success: false,
-        error: new Error('Error creating credential'),
-      };
-    }
-
-    // FIXME: Why would we need to send c_nonce ?
-    // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-8.3
-    return {
-      success: true,
-      data: {
-        format: 'jwt_vc_json',
-        credential: credential.proof.jwt as string,
-      },
-    };
-  }
-
-  public static async privateKeyToDid(
-    privateKey: string,
-    didMethod: string
-  ): Promise<Result<PrivateKeyToDidResponse>> {
-    const ctx = new EC('secp256k1');
-    const ecPrivateKey = ctx.keyFromPrivate(privateKey);
-    const compactPublicKey = `0x${ecPrivateKey.getPublic(true, 'hex')}`;
-    const did = `${didMethod}:${compactPublicKey}`;
 
     return {
       success: true,

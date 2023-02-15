@@ -104,7 +104,7 @@ export class AppService {
         c_nonce: cNonce,
         c_nonce_expires_in: expCNonce,
         expires_in: exp,
-      } = tokenRequestResult.data; // FIXME: Some fields are optional and we not checking some yet
+      } = tokenRequestResult.data;
 
       this.dataStoreService.createUserSession(accessToken, {
         c_nonce: cNonce,
@@ -116,7 +116,7 @@ export class AppService {
       return tokenRequestResult.data;
     }
 
-    throw Error('Not implemented');
+    throw Error(`Not implemented: ${grantType}`);
   }
 
   async handleCredentialRequest(
@@ -147,21 +147,34 @@ export class AppService {
       throw Error('Access token expired');
     }
 
+    console.log('userSession', userSession);
     const identifier = await agent.didManagerGetByAlias({ alias: 'main-did' });
 
-    // TODO: First proof of possession
+    // TODO: Add support for jwk and x5c
+    const proofOfPossesionResult = await agent.proofOfPossession({
+      proof: body.proof,
+      cNonce: userSession.c_nonce,
+      cNonceExpiresIn: userSession.c_nonce_expires_in,
+    });
 
-    // TODO: Then query for credentials
+    if (isError(proofOfPossesionResult)) {
+      throw Error(proofOfPossesionResult.error.message); // FIXME
+    }
 
-    // TODO: Throw error if no credentials found
+    const { did } = proofOfPossesionResult.data;
+
+    // TODO: Then query for claims
+    // TODO: Throw error if no claims found
+    const claims = {
+      name: 'John Doe',
+      email: 'john.doe@gmail.com',
+    };
 
     const credentialResponse = await agent.handleCredentialRequest({
       body,
-      did: identifier.did,
-      credentialSubjectClaims: {
-        name: 'John Doe',
-        email: 'john.doe@gmail.com',
-      },
+      issuerDid: identifier.did,
+      subjectDid: did,
+      credentialSubjectClaims: claims,
     });
 
     if (isError(credentialResponse)) {

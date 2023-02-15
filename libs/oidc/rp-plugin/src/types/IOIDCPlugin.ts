@@ -21,6 +21,8 @@ import {
   IsValidAuthorizationHeaderResponse,
   IsValidTokenRequestArgs,
   IsValidTokenRequestResponse,
+  ProofOfPossesionArgs,
+  ProofOfPossesionResponseArgs,
 } from './internal';
 
 export interface IOIDCPlugin extends IPluginMethodMap {
@@ -46,6 +48,10 @@ export interface IOIDCPlugin extends IPluginMethodMap {
   isValidAuthorizationHeader(
     args: IsValidAuthorizationHeaderArgs
   ): Promise<Result<IsValidAuthorizationHeaderResponse>>;
+  proofOfPossession(
+    args: ProofOfPossesionArgs,
+    context: OIDCAgentContext
+  ): Promise<Result<ProofOfPossesionResponseArgs>>;
 }
 
 /**

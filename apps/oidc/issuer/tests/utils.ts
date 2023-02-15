@@ -11,15 +11,14 @@ type CreateJWTProofParams = {
   privateKey: string;
   audience: string;
   data?: unknown;
-  nonce?: string;
+  typ?: string;
 };
 
-// eslint-disable-next-line import/prefer-default-export
 export const createJWTProof = async ({
   privateKey,
   audience,
   data,
-  nonce,
+  typ,
 }: CreateJWTProofParams) => {
   const ctx = new EC('secp256k1');
   const ecPrivateKey = ctx.keyFromPrivate(privateKey);
@@ -45,13 +44,10 @@ export const createJWTProof = async ({
     jwtPayload = { ...jwtPayload, ...data };
   }
 
-  if (nonce) {
-    jwtPayload.nonce = nonce;
-  }
-
   const jwtHeader = {
     alg: 'ES256K',
     kid,
+    ...(typ && { typ }),
   };
 
   const signingInput = [

@@ -10,16 +10,23 @@ export type SupportedCredentialFormats =
 /**
  * Credential Request
  *
+ * We use schema instead of types
+ *
  * SPECS: https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#name-credential-request
  */
-export interface CredentialRequest {
-  format: SupportedCredentialFormats; // TODO: https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-appendix.e
-  types: string[];
-  proof?: {
-    proof_type: 'jwt';
-    jwt: string;
-  };
-}
+export type CredentialRequest = {
+  format: SupportedCredentialFormats;
+  types?: string[];
+  schema?: string;
+  proof?: Proof;
+};
+
+export type JWTProof = {
+  proof_type: 'jwt';
+  jwt: string;
+};
+
+export type Proof = JWTProof;
 
 /**
  * Credential Response

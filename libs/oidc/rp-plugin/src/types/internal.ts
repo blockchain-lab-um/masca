@@ -2,6 +2,7 @@ import {
   AuthorizationResponse,
   CredentialRequest,
   Credentials,
+  Proof,
   SupportedCredential,
   TokenRequest,
 } from '@blockchain-lab-um/oidc-types';
@@ -70,10 +71,9 @@ export type IsValidAuthorizationHeaderResponse = {
 
 export type HandleCredentialRequestArgs = {
   body: CredentialRequest;
-  did: string; // DID to use for signing the Credential
+  issuerDid: string; // DID to use for signing the Credential
+  subjectDid: string; // DID to which the Credential is issued
   credentialSubjectClaims: unknown; // Claims to use for the credentialSubject
-  c_nonce?: string;
-  c_nonce_expires_in?: number;
 };
 
 export type PrivateKeyToDidRequestArgs = {
@@ -97,4 +97,14 @@ export type CreateJWTProofParams = {
   audience: string;
   data?: any;
   nonce?: string;
+};
+
+export type ProofOfPossesionArgs = {
+  proof?: Proof;
+  cNonce?: string;
+  cNonceExpiresIn?: number;
+};
+
+export type ProofOfPossesionResponseArgs = {
+  did: string;
 };

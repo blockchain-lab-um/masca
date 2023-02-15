@@ -14,14 +14,18 @@ import {
   TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
 import getAgent from '../tests/testAgent';
-import { TEST_ISSUER_URL, TEST_USER_PRIVATE_KEY } from '../tests/constants';
+import {
+  TEST_ISSUER_URL,
+  TEST_USER_PRIVATE_KEY,
+  TEST_METADATA,
+  TEST_SUPPORTED_SCHEMA_URL,
+} from '../tests/constants';
 import { createJWTProof } from '../tests/utils';
 import { AppModule } from './app.module';
 import { AgentService } from './modules/agent/agent.service';
-import { TEST_METADATA } from './tests/constants';
 // import { IConfig } from './config/configuration';
 
-describe('Issuer controler', () => {
+describe('Issuer controller', () => {
   let app: NestFastifyApplication;
   let server: HttpServer;
   // let configService: ConfigService<IConfig, true>;
@@ -66,34 +70,162 @@ describe('Issuer controler', () => {
 
   describe('[GET]: /credential-offer', () => {
     describe('Should succeed', () => {
-      it('Should succeed with valid query', async () => {
+      it('Pre-authorized_code without user_pin', async () => {
         const response = await request(server)
           .get('/credential-offer')
           .query({
-            schema:
-              'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
+            schema: TEST_SUPPORTED_SCHEMA_URL,
             grants: ['urn:ietf:params:oauth:grant-type:pre-authorized_code'],
-            userPinRequired: true,
           })
           .send();
-        expect(response.status).toBe(200);
 
+        expect(response.status).toBe(200);
         const query = qs.parse(
           response.text.replace(
             'openid_credential_offer://credential_offer?',
             ''
           )
         ) as any;
-        expect(query.credential_issuer).toBeDefined();
-        expect(query.credentials).toStrictEqual([
-          'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
-        ]);
 
-        expect.assertions(3);
+        expect(query.credential_issuer).toBeDefined();
+        expect(query.credentials).toStrictEqual([TEST_SUPPORTED_SCHEMA_URL]);
+        expect(query.grants).toStrictEqual({
+          'urn:ietf:params:oauth:grant-type:pre-authorized_code': {
+            'pre-authorized_code': expect.any(String),
+          },
+        });
+
+        expect.assertions(4);
+      });
+
+      it('Pre-authorized_code with user_pin set to `false`', async () => {
+        const response = await request(server)
+          .get('/credential-offer')
+          .query({
+            schema: TEST_SUPPORTED_SCHEMA_URL,
+            grants: ['urn:ietf:params:oauth:grant-type:pre-authorized_code'],
+            userPinRequired: false,
+          })
+          .send();
+
+        expect(response.status).toBe(200);
+        const query = qs.parse(
+          response.text.replace(
+            'openid_credential_offer://credential_offer?',
+            ''
+          )
+        ) as any;
+
+        expect(query.credential_issuer).toBeDefined();
+        expect(query.credentials).toStrictEqual([TEST_SUPPORTED_SCHEMA_URL]);
+        expect(query.grants).toStrictEqual({
+          'urn:ietf:params:oauth:grant-type:pre-authorized_code': {
+            'pre-authorized_code': expect.any(String),
+            user_pin_required: 'false',
+          },
+        });
+
+        expect.assertions(4);
+      });
+
+      it('Pre-authorized_code with user_pin set to `true`', async () => {
+        const response = await request(server)
+          .get('/credential-offer')
+          .query({
+            schema: TEST_SUPPORTED_SCHEMA_URL,
+            grants: ['urn:ietf:params:oauth:grant-type:pre-authorized_code'],
+            userPinRequired: true,
+          })
+          .send();
+
+        expect(response.status).toBe(200);
+        const query = qs.parse(
+          response.text.replace(
+            'openid_credential_offer://credential_offer?',
+            ''
+          )
+        ) as any;
+
+        expect(query.credential_issuer).toBeDefined();
+        expect(query.credentials).toStrictEqual([TEST_SUPPORTED_SCHEMA_URL]);
+        expect(query.grants).toStrictEqual({
+          'urn:ietf:params:oauth:grant-type:pre-authorized_code': {
+            'pre-authorized_code': expect.any(String),
+            user_pin_required: 'true',
+          },
+        });
+
+        expect.assertions(4);
+      });
+
+      it('Authorization_code', async () => {
+        const response = await request(server)
+          .get('/credential-offer')
+          .query({
+            schema: TEST_SUPPORTED_SCHEMA_URL,
+            grants: ['authorization_code'],
+          })
+          .send();
+
+        expect(response.status).toBe(200);
+        const query = qs.parse(
+          response.text.replace(
+            'openid_credential_offer://credential_offer?',
+            ''
+          )
+        ) as any;
+
+        expect(query.credential_issuer).toBeDefined();
+        expect(query.credentials).toStrictEqual([TEST_SUPPORTED_SCHEMA_URL]);
+        expect(query.grants).toStrictEqual({
+          authorization_code: {
+            issuer_state: expect.any(String),
+          },
+        });
+
+        expect.assertions(4);
+      });
+
+      it('Pre-authorized_code & authorization_code (user_pin set to `true`)', async () => {
+        const response = await request(server)
+          .get('/credential-offer')
+          .query({
+            schema: TEST_SUPPORTED_SCHEMA_URL,
+            grants: [
+              'urn:ietf:params:oauth:grant-type:pre-authorized_code',
+              'authorization_code',
+            ],
+            userPinRequired: true,
+          })
+          .send();
+
+        expect(response.status).toBe(200);
+        const query = qs.parse(
+          response.text.replace(
+            'openid_credential_offer://credential_offer?',
+            ''
+          )
+        ) as any;
+
+        expect(query.credential_issuer).toBeDefined();
+        expect(query.credentials).toStrictEqual([TEST_SUPPORTED_SCHEMA_URL]);
+        expect(query.grants).toStrictEqual({
+          authorization_code: {
+            issuer_state: expect.any(String),
+          },
+          'urn:ietf:params:oauth:grant-type:pre-authorized_code': {
+            'pre-authorized_code': expect.any(String),
+            user_pin_required: 'true',
+          },
+        });
+
+        expect.assertions(4);
       });
     });
 
-    describe('Should fail', () => {});
+    describe('Should fail', () => {
+      it.todo("Add 'Should fail' tests");
+    });
   });
 
   describe('[POST]: /token', () => {
@@ -102,8 +234,7 @@ describe('Issuer controler', () => {
         let response = await request(server)
           .get('/credential-offer')
           .query({
-            schema:
-              'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
+            schema: TEST_SUPPORTED_SCHEMA_URL,
             grants: ['urn:ietf:params:oauth:grant-type:pre-authorized_code'],
           })
           .send();
@@ -131,16 +262,72 @@ describe('Issuer controler', () => {
 
         expect(response.status).toBe(200);
 
-        expect.assertions(2);
+        expect(response.body).toStrictEqual({
+          access_token: expect.any(String),
+          expires_in: expect.any(Number),
+          c_nonce: expect.any(String),
+          c_nonce_expires_in: expect.any(Number),
+          token_type: 'Bearer',
+        });
+
+        expect.assertions(3);
       });
 
-      it('TODO With authorization_code', async () => {});
+      it.todo('With authorization_code');
 
-      it('TODO With pre-authorization_code and user_pin', async () => {});
+      it('With pre-authorization_code and user_pin', async () => {
+        jest.spyOn(global.Math, 'random').mockReturnValue(0.5);
+        let response = await request(server)
+          .get('/credential-offer')
+          .query({
+            schema: TEST_SUPPORTED_SCHEMA_URL,
+            grants: ['urn:ietf:params:oauth:grant-type:pre-authorized_code'],
+            userPinRequired: true,
+          })
+          .send();
+
+        const query = qs.parse(
+          response.text.replace(
+            'openid_credential_offer://credential_offer?',
+            ''
+          )
+        ) as any;
+
+        expect(response.status).toBe(200);
+
+        const tokenRequestData: TokenRequest = {
+          grant_type: 'urn:ietf:params:oauth:grant-type:pre-authorized_code',
+          'pre-authorized_code': query.grants[
+            'urn:ietf:params:oauth:grant-type:pre-authorized_code'
+          ]['pre-authorized_code'] as string,
+          user_pin: '55555555',
+        };
+
+        response = await request(server)
+          .post('/token')
+          .type('form')
+          .send(tokenRequestData);
+
+        expect(response.status).toBe(200);
+
+        expect(response.body).toStrictEqual({
+          access_token: expect.any(String),
+          expires_in: expect.any(Number),
+          c_nonce: expect.any(String),
+          c_nonce_expires_in: expect.any(Number),
+          token_type: 'Bearer',
+        });
+
+        expect.assertions(3);
+        jest.spyOn(global.Math, 'random').mockRestore();
+      });
     });
 
     describe('TODO Should fail', () => {
-      it('With invalid pre-authorized_code', async () => {});
+      it.todo('With invalid pre-authorized_code');
+      it.todo('With invalid user_pin');
+      it.todo('With missing pre-authorized_code');
+      it.todo('With missing user_pin');
     });
   });
 
@@ -150,8 +337,7 @@ describe('Issuer controler', () => {
         let response = await request(server)
           .get('/credential-offer')
           .query({
-            schema:
-              'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
+            schema: TEST_SUPPORTED_SCHEMA_URL,
             grants: ['urn:ietf:params:oauth:grant-type:pre-authorized_code'],
           })
           .send();
@@ -179,28 +365,40 @@ describe('Issuer controler', () => {
 
         expect(response.status).toBe(200);
 
-        const {
-          access_token: accessToken,
-          token_type: tokenType,
-          expires_in: expiresIn,
-          c_nonce: cNonce,
-          c_nonce_expires_in: cNonceExpiresIn,
-        } = response.body as TokenResponse;
+        expect(response.body).toStrictEqual({
+          access_token: expect.any(String),
+          expires_in: expect.any(Number),
+          c_nonce: expect.any(String),
+          c_nonce_expires_in: expect.any(Number),
+          token_type: 'Bearer',
+        });
 
-        expect(accessToken).toBeDefined();
-        expect(tokenType).toBeDefined();
-        expect(expiresIn).toBeDefined();
-        expect(cNonce).toBeDefined();
-        expect(cNonceExpiresIn).toBeDefined();
+        const { access_token: accessToken, c_nonce: cNonce } =
+          response.body as TokenResponse;
+
+        // Get credential issuer metadata and select the correct format for the test schema
+        response = await request(server)
+          .get('/.well-known/openid-credential-issuer')
+          .send();
+
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        const supportedCredential = response.body.credentials_supported.find(
+          (credential: any) => credential.schema === TEST_SUPPORTED_SCHEMA_URL
+        );
 
         const credentialRequest: CredentialRequest = {
-          format: 'jwt_vc_json',
-          types: ['VerifiableCredential', 'UniversityDegreeCredential'],
+          format: supportedCredential.format,
+          schema: TEST_SUPPORTED_SCHEMA_URL,
           proof: {
             proof_type: 'jwt',
             jwt: await createJWTProof({
               privateKey: TEST_USER_PRIVATE_KEY,
               audience: TEST_ISSUER_URL,
+              data: {
+                nonce: cNonce,
+                exp: Math.floor(Date.now() / 1000) + 1000 * 60 * 60,
+              },
+              typ: 'openid4vci-proof+jwt',
             }),
           },
         };
@@ -211,25 +409,26 @@ describe('Issuer controler', () => {
           .send(credentialRequest);
 
         expect(response.status).toBe(200);
-        expect(response.body.format).toBe('jwt_vc_json');
-        expect(response.body.credential).toBeDefined();
-
-        console.log(JSON.stringify(response.body.credential));
+        expect(response.body).toStrictEqual({
+          format: 'jwt_vc_json',
+          credential: expect.any(String),
+        });
 
         // Verify credential
         const agent = await getAgent();
         const res = await agent.verifyCredential({
           credential: response.body.credential,
         });
+
         expect(res.verified).toBeTruthy();
 
-        expect.assertions(11);
+        expect.assertions(6);
       });
     });
 
     describe('TODO Should fail', () => {
-      it('With invalid authorization header', () => {});
-      it('With invalid credential request', () => {});
+      it.todo('With invalid authorization header', () => {});
+      it.todo('With missing nonce', () => {});
     });
   });
 });

@@ -2,11 +2,12 @@
 
 import { SupportedCredentialFormats } from './credential';
 
-// TODO: Needs to be implemented correctly
-export type Credential = {
-  format: SupportedCredentialFormats;
-  types: string[];
-};
+export type Credential =
+  | {
+      format: SupportedCredentialFormats;
+      types: string[];
+    }
+  | { format: SupportedCredentialFormats; schema: string };
 
 export type Credentials = (string | Credential)[];
 
