@@ -147,7 +147,6 @@ export class AppService {
       throw Error('Access token expired');
     }
 
-    console.log('userSession', userSession);
     const identifier = await agent.didManagerGetByAlias({ alias: 'main-did' });
 
     // TODO: Add support for jwk and x5c
@@ -166,8 +165,10 @@ export class AppService {
     // TODO: Then query for claims
     // TODO: Throw error if no claims found
     const claims = {
-      name: 'John Doe',
-      email: 'john.doe@gmail.com',
+      accomplishmentType: 'Course Certificate',
+      learnerName: 'John Doe',
+      achievement: "Bachelor's Degree in Computer Science",
+      courseProvider: this.configService.get<string>('ISSUER_URL'),
     };
 
     const credentialResponse = await agent.handleCredentialRequest({

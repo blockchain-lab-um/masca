@@ -22,6 +22,9 @@ import {
 import { jwtVerify, decodeProtectedHeader, importJWK } from 'jose';
 import { JsonWebKey, VerificationMethod } from 'did-resolver';
 import { ec as EC } from 'elliptic';
+import fetch from 'cross-fetch';
+import Ajv from 'ajv';
+import addFormats from 'ajv-formats';
 import { Result } from '../utils';
 import {
   CreateCredentialOfferRequestResposne,
@@ -537,11 +540,6 @@ export class OIDCPlugin implements IAgentPlugin {
     };
   }
 
-  /**
-   *
-   * @param args
-   * @returns
-   */
   public async isValidTokenRequest(
     args: IsValidTokenRequestArgs
   ): Promise<Result<IsValidTokenRequestResponse>> {
@@ -579,7 +577,6 @@ export class OIDCPlugin implements IAgentPlugin {
     };
   }
 
-  // TODO: Optional parameter to change accessToken, cNonce,...
   public async handlePreAuthorizedCodeTokenRequest(
     args: HandlePreAuthorizedCodeTokenRequestArgs
   ): Promise<Result<TokenResponse>> {
@@ -762,6 +759,41 @@ export class OIDCPlugin implements IAgentPlugin {
       return {
         success: false,
         error: new Error('Error creating credential'),
+      };
+    }
+
+    // Fetch schema
+    const schemaFetchResult = await fetch(schema);
+
+    if (!schemaFetchResult.ok) {
+      return {
+        success: false,
+        error: new Error(`Error fetching schema: ${schema}`),
+      };
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const schemaJson = await schemaFetchResult.json();
+
+    // Validate credential subject claims against schema
+    const ajv = new Ajv({ allErrors: true, allowUnionTypes: true });
+
+    // We need to add the formats to the ajv instance
+    addFormats(ajv);
+
+    // FIXME: Better way to handle any extra properties or should we throw and error ?
+    ajv.addVocabulary(['$metadata']);
+    const validate = ajv.compile(schemaJson);
+
+    const valid = validate(credential);
+    if (!valid) {
+      return {
+        success: false,
+        error: new Error(
+          `Invalid credential subject claims. Errors: ${JSON.stringify(
+            validate.errors
+          )}`
+        ),
       };
     }
 

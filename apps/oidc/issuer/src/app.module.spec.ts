@@ -323,7 +323,7 @@ describe('Issuer controller', () => {
       });
     });
 
-    describe('TODO Should fail', () => {
+    describe('Should fail', () => {
       it.todo('With invalid pre-authorized_code');
       it.todo('With invalid user_pin');
       it.todo('With missing pre-authorized_code');
@@ -426,9 +426,9 @@ describe('Issuer controller', () => {
       });
     });
 
-    describe('TODO Should fail', () => {
-      it.todo('With invalid authorization header', () => {});
-      it.todo('With missing nonce', () => {});
+    describe('Should fail', () => {
+      it.todo('With invalid authorization header');
+      it.todo('With missing nonce');
     });
   });
 });

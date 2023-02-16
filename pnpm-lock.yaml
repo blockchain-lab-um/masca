@@ -381,6 +381,9 @@ importers:
       '@veramo/did-manager': ^5.0.0
       '@veramo/key-manager': ^5.0.0
       '@veramo/utils': ^5.0.0
+      ajv: ^8.12.0
+      ajv-formats: ^2.1.1
+      cross-fetch: ^3.1.5
       did-jwt-vc: ^3.1.0
       did-resolver: ^4.0.1
       elliptic: ^6.5.4
@@ -405,6 +408,9 @@ importers:
       '@veramo/did-manager': 5.0.0
       '@veramo/key-manager': 5.0.0
       '@veramo/utils': 5.0.0
+      ajv: 8.12.0
+      ajv-formats: 2.1.1_ajv@8.12.0
+      cross-fetch: 3.1.5_iqh6pvemik3ebzneirvlerj7uq
       did-jwt-vc: 3.1.1
       did-resolver: 4.0.1
       elliptic: 6.5.4
@@ -10117,6 +10123,16 @@ packages:
 
   /ajv-formats/2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependenciesMeta:
+      ajv:
+        optional: true
+    dependencies:
+      ajv: 8.12.0
+
+  /ajv-formats/2.1.1_ajv@8.12.0:
+    resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -21199,7 +21215,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.12.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.12.0
       ajv-keywords: 5.1.0_ajv@8.12.0
 
   /scrypt-js/3.0.1:
