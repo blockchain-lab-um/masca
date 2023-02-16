@@ -2,6 +2,7 @@ import {
   AuthorizationResponse,
   CredentialRequest,
   Credentials,
+  PresentationDefinition,
   Proof,
   SupportedCredential,
   TokenRequest,
@@ -107,4 +108,8 @@ export type ProofOfPossesionArgs = {
 
 export type ProofOfPossesionResponseArgs = {
   did: string;
+};
+
+export type CreateAuthorizationRequestArgs = {
+  presentationDefinition: PresentationDefinition;
 };

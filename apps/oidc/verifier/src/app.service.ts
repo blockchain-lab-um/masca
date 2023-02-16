@@ -13,7 +13,9 @@ export class AppService {
   ) {}
 
   async createAuthorizationRequest(): Promise<string> {
-    const res = await this.agentService.getAgent().createAuthorizationRequest();
+    const agent = this.agentService.getAgent();
+
+    const res = await agent.createAuthorizationRequest();
 
     if (isError(res)) {
       throw Error(res.error.message); // FIXME

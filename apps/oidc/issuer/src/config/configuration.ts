@@ -1,7 +1,14 @@
 import { SupportedCredential } from '@blockchain-lab-um/oidc-types';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
-import { supported_credentials } from '../../supported_credentials.json';
+import {
+  ISSUER_URL,
+  SUPPORTED_CREDENTIALS,
+  SUPPORTED_CURVES,
+  SUPPORTED_DID_METHODS,
+  SUPPORTED_DIGITAL_SIGNATURES,
+  SUPPORTED_SCHEMA_URL,
+} from '../../config';
 
 export interface IConfig {
   INFURA_PROJECT_ID: string;
@@ -15,20 +22,17 @@ export interface IConfig {
 }
 
 const config = (): IConfig => ({
+  // We are reading the important secrets from the .env file
   ISSUER_DB_SECRET: process.env.ISSUER_DB_SECRET || '',
   INFURA_PROJECT_ID: process.env.INFURA_PROJECT_ID || '',
   ISSUER_PRIVATE_KEY: process.env.ISSUER_PRIVATE_KEY || '',
-  SUPPORTED_SCHEMA_URL: process.env.SUPPORTED_SCHEMA_URL || '',
-  SUPPORTED_DID_METHODS: process.env.SUPPORTED_DID_METHODS
-    ? process.env.SUPPORTED_DID_METHODS.split(',')
-    : [],
-  SUPPORTED_CURVES: process.env.SUPPORTED_CURVES
-    ? process.env.SUPPORTED_CURVES.split(',')
-    : [],
-  SUPPORTED_DIGITAL_SIGNATURES: process.env.SUPPORTED_DIGITAL_SIGNATURES
-    ? process.env.SUPPORTED_DIGITAL_SIGNATURES.split(',')
-    : [],
-  ISSUER_URL: process.env.ISSUER_URL || '',
+
+  // We are reading the other configuration from the config.ts file
+  SUPPORTED_SCHEMA_URL: SUPPORTED_SCHEMA_URL || '',
+  SUPPORTED_DID_METHODS: SUPPORTED_DID_METHODS || [],
+  SUPPORTED_CURVES: SUPPORTED_CURVES || [],
+  SUPPORTED_DIGITAL_SIGNATURES: SUPPORTED_DIGITAL_SIGNATURES || [],
+  ISSUER_URL: ISSUER_URL || '',
 });
 
 export default ConfigModule.forRoot({
@@ -38,12 +42,9 @@ export default ConfigModule.forRoot({
     ISSUER_DB_SECRET: Joi.string().required(),
     INFURA_PROJECT_ID: Joi.string().required(),
     ISSUER_PRIVATE_KEY: Joi.string().required(),
-    SUPPORTED_SCHEMA_URL: Joi.string().required(),
-    SUPPORTED_DID_METHODS: Joi.string().required(),
-    SUPPORTED_CURVES: Joi.string().required(),
-    SUPPORTED_DIGITAL_SIGNATURES: Joi.string().required(), // TODO: Better check for this
   }),
+  // TODO: Add custom validation for other variables ?
 });
 
 export const loadSupportedCredentials = (): SupportedCredential[] =>
-  supported_credentials as SupportedCredential[];
+  SUPPORTED_CREDENTIALS;

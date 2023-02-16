@@ -42,10 +42,19 @@ export interface AuthorizationResponse {
   id_token?: string;
 }
 
-type FormatKeys = 'jwt' | 'jwt_vc' | 'jwt_vp' | 'ldp' | 'ldp_vc' | 'ldp_vp';
-type Algorithm = 'ES256K' | 'EdDSA';
+type FormatKeysJwt = 'jwt' | 'jwt_vc' | 'jwt_vp';
+type FormatKeyLdp = 'ldp' | 'ldp_vc' | 'ldp_vp';
+type JWTAlgorithm = 'ES256K' | 'EdDSA' | 'ES384';
+type LDPAlgorithm =
+  | 'JsonWebSignature2020'
+  | 'Ed25519Signature2018'
+  | 'EcdsaSecp256k1Signature2019'
+  | 'RsaSignature2018';
 
-type Format = Partial<Record<FormatKeys, { alg: Algorithm[] }>>;
+type Format = Partial<
+  | Record<FormatKeysJwt, { alg: JWTAlgorithm[] }>
+  | Record<FormatKeyLdp, { proof_type: LDPAlgorithm[] }>
+>;
 
 interface Field {
   path: string[];
