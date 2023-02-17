@@ -16,7 +16,6 @@ import {
   CredentialResponse,
   Credentials,
   IssuerServerMetadata,
-  PresentationDefinition,
   TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
 import { jwtVerify, decodeProtectedHeader, importJWK } from 'jose';
@@ -30,16 +29,15 @@ import {
   CreateCredentialOfferRequestResposne,
   HandleCredentialRequestArgs,
   IPluginConfig,
-  IsValidAuthorizationHeaderArgs,
-  IsValidAuthorizationHeaderResponse,
   IsValidTokenRequestArgs,
   IsValidTokenRequestResponse,
   HandlePreAuthorizedCodeTokenRequestArgs,
-  PrivateKeyToDidResponse,
   HandleAuthorizationResponseArgs,
   CreateCredentialOfferRequestArgs,
   ProofOfPossesionArgs,
   ProofOfPossesionResponseArgs,
+  CreateAuthorizationRequestArgs,
+  CreateAuthorizationRequestResponse,
 } from '../types/internal';
 import { IOIDCPlugin, OIDCAgentContext } from '../types/IOIDCPlugin';
 
@@ -65,7 +63,6 @@ export class OIDCPlugin implements IAgentPlugin {
     handlePreAuthorizedCodeTokenRequest:
       this.handlePreAuthorizedCodeTokenRequest.bind(this),
     handleCredentialRequest: this.handleCredentialRequest.bind(this),
-    isValidAuthorizationHeader: this.isValidAuthorizationHeader.bind(this),
     proofOfPossession: this.proofOfPossession.bind(this),
   };
 
@@ -73,62 +70,32 @@ export class OIDCPlugin implements IAgentPlugin {
   // https://openid.net/specs/openid-connect-self-issued-v2-1_0.html#section-10
   public async createAuthorizationRequest(
     args: CreateAuthorizationRequestArgs
-  ): Promise<Result<string>> {
+  ): Promise<Result<CreateAuthorizationRequestResponse>> {
     // https://identity.foundation/presentation-exchange/
     // https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#section-5
 
-    // TODO: Include either presentation_definition or presentation_definition_uri
-    const presentationDefinition: PresentationDefinition = {
-      id: 'id card credential (example)',
-      // Format type registry: https://identity.foundation/claim-format-registry/#registry
-      // https://identity.foundation/presentation-exchange/#presentation-definition
-      format: {
-        jwt_vc: {
-          alg: ['ES256K'],
-        },
-        jwt_vp: {
-          alg: ['ES256K'],
-        },
-      },
-      input_descriptors: [
-        {
-          id: 'id card credential (example)',
-          name: 'ID Card',
-          purpose: 'To verify your identity',
-          constraints: {
-            limit_disclosure: 'required',
-            fields: [
-              // TODO: Make it generic
-              {
-                path: ['$.type'],
-                filter: {
-                  type: 'string',
-                  pattern: 'IDCardCredential',
-                },
-              },
-              {
-                path: ['$.credentialSubject.givenName'],
-                purpose: 'To verify your identity',
-              },
-            ],
-          },
-        },
-      ],
-    };
+    // TODO: Add support for presentation_definition_uri
+    const { presentationDefinition, clientId, redirectUri, state, overrides } =
+      args;
 
-    const redirectUri = 'https://example.com/redirect'; // Change this to your redirect URI
-    const nonce = randomUUID();
+    const nonce = overrides?.nonce ?? randomUUID();
+    const nonceExpiresIn =
+      Date.now() + (overrides?.nonceExpiresIn ?? 1000 * 60 * 60); // 1 hour default
 
     // TODO: Support signed version of request -> client_id needs to be a DID
     // https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#section-8.2.3 - client_metadata
+    // https://openid.net/specs/openid-connect-self-issued-v2-1_0.html#section-9.2.1
+
     const authorizationRequest: AuthorizationRequest = {
-      response_type: 'vp_token',
-      // https://openid.net/specs/openid-connect-self-issued-v2-1_0.html#section-9.2.1
-      client_id: redirectUri,
-      redirect_uri: redirectUri,
       scope: 'openid',
+      response_type: 'vp_token id_token',
+      // https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#section-a.4
+      id_token_type: 'subject_signed',
+      client_id: clientId,
+      redirect_uri: redirectUri,
       nonce,
       presentation_definition: presentationDefinition,
+      state,
     };
 
     const params = {
@@ -141,7 +108,11 @@ export class OIDCPlugin implements IAgentPlugin {
     // TODO: Redirect handling
     return {
       success: true,
-      data: `openid://?${qs.stringify(params)}`,
+      data: {
+        authorizationRequest: `openid://?${qs.stringify(params)}`,
+        nonce,
+        nonceExpiresIn,
+      },
     };
   }
 
@@ -149,27 +120,7 @@ export class OIDCPlugin implements IAgentPlugin {
     args: HandleAuthorizationResponseArgs,
     context: OIDCAgentContext
   ): Promise<Result<boolean>> {
-    // FIXME: Token response ???
-    // https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#section-6.1-2.3.1
-
-    const {
-      contentTypeHeader,
-      body,
-      c_nonce: cNonce,
-      c_nonce_expires_in: cNonceExpiresIn,
-    } = args;
-    // Response needs to include `Content-Type` header with value `application/x-www-form-urlencoded`
-    // https://openid.net/specs/openid-connect-self-issued-v2-1_0.html#section-11.2
-    if (
-      !contentTypeHeader
-        .toLowerCase()
-        .includes('application/x-www-form-urlencoded')
-    ) {
-      return {
-        success: false,
-        error: new Error(`Invalid content type header: ${contentTypeHeader}`),
-      };
-    }
+    const { body, nonce: cNonce, nonceExpiresIn: cNonceExpiresIn } = args;
 
     if (!body.id_token && !body.vp_token) {
       return {
@@ -184,272 +135,272 @@ export class OIDCPlugin implements IAgentPlugin {
       presentation_submission: presentationSubmission,
     } = body;
 
-    if (idToken) {
-      // TODO: Validate id_token
+    if (!idToken) {
+      return {
+        success: false,
+        error: new Error('id_token must be present'),
+      };
     }
 
-    if (vpToken) {
-      // If vp_token is present, then presentation_definition must be present
-      if (!presentationSubmission) {
+    // Decode id_token
+    // https://openid.bitbucket.io/connect/openid-connect-self-issued-v2-1_0.html#section-6.1-6.8.1
+
+    if (!vpToken) {
+      return {
+        success: false,
+        error: new Error('vp_token must be present'),
+      };
+    }
+
+    if (!presentationSubmission) {
+      return {
+        success: false,
+        error: new Error('presentation_submission must be present'),
+      };
+    }
+
+    // TODO: Handle presentation_submission
+
+    // Decode protected header to get algorithm and key
+    let protectedHeader;
+    try {
+      protectedHeader = decodeProtectedHeader(vpToken);
+    } catch (e) {
+      // FIXME: Maybe we should also include the error message from decodeProtectedHeader
+      return {
+        success: false,
+        error: new Error('Invalid jwt header'),
+      };
+    }
+
+    // Check if more than 1 is present (kid, jwk, x5c)
+    if (
+      [protectedHeader.kid, protectedHeader.jwk, protectedHeader.x5c].filter(
+        (value) => value != null
+      ).length !== 1
+    ) {
+      return {
+        success: false,
+        error: new Error('Exactly one of kid, jwk, x5c must be present'),
+      };
+    }
+
+    let payload;
+    let publicKey;
+    let did;
+
+    // Check kid
+    if (protectedHeader.kid) {
+      // Split kid
+      const [extractedDid, extractedKeyId] = protectedHeader.kid.split('#');
+      did = extractedDid;
+
+      // Check if did and keyId are present
+      if (!did || !extractedKeyId) {
+        return {
+          success: false,
+          error: new Error('Invalid kid'),
+        };
+      }
+
+      const resolvedDid = await context.agent.resolveDid({ didUrl: did });
+      if (resolvedDid.didResolutionMetadata.error || !resolvedDid.didDocument) {
         return {
           success: false,
           error: new Error(
-            'presentation_submission must be present if vp_token is present'
-          ),
-        };
-      }
-
-      // TODO: Handle presentation_submission
-
-      // Decode protected header to get algorithm and key
-      let protectedHeader;
-      try {
-        protectedHeader = decodeProtectedHeader(vpToken);
-      } catch (e) {
-        // FIXME: Maybe we should also include the error message from decodeProtectedHeader
-        return {
-          success: false,
-          error: new Error('Invalid jwt header'),
-        };
-      }
-
-      // Check if more than 1 is present (kid, jwk, x5c)
-      if (
-        [protectedHeader.kid, protectedHeader.jwk, protectedHeader.x5c].filter(
-          (value) => value != null
-        ).length !== 1
-      ) {
-        return {
-          success: false,
-          error: new Error('Exactly one of kid, jwk, x5c must be present'),
-        };
-      }
-
-      let payload;
-      let publicKey;
-      let did;
-
-      // Check kid
-      if (protectedHeader.kid) {
-        // Split kid
-        const [extractedDid, extractedKeyId] = protectedHeader.kid.split('#');
-        did = extractedDid;
-
-        // Check if did and keyId are present
-        if (!did || !extractedKeyId) {
-          return {
-            success: false,
-            error: new Error('Invalid kid'),
-          };
-        }
-
-        const resolvedDid = await context.agent.resolveDid({ didUrl: did });
-        if (
-          resolvedDid.didResolutionMetadata.error ||
-          !resolvedDid.didDocument
-        ) {
-          return {
-            success: false,
-            error: new Error(
-              `Error resolving did. Reason: ${
-                resolvedDid.didResolutionMetadata.error ?? 'Unknown error'
-              }`
-            ),
-          };
-        }
-
-        let fragment;
-
-        try {
-          fragment = (await context.agent.getDIDComponentById({
-            didDocument: resolvedDid.didDocument,
-            didUrl: protectedHeader.kid,
-            section: 'authentication',
-          })) as VerificationMethod;
-        } catch (e) {
-          return {
-            success: false,
-            error: new Error('Invalid kid'),
-          };
-        }
-
-        if (fragment.publicKeyJwk) {
-          return {
-            success: false,
-            error: new Error('PublickKeyJwk not supported yet!'),
-          };
-        }
-        const publicKeyHex = extractPublicKeyHex(
-          fragment as _ExtendedVerificationMethod
-        );
-
-        if (publicKeyHex === '') {
-          return {
-            success: false,
-            error: new Error('Invalid kid or no public key present'),
-          };
-        }
-
-        const supportedTypes = ['EcdsaSecp256k1VerificationKey2019'];
-        if (!supportedTypes.includes(fragment.type)) {
-          return {
-            success: false,
-            error: new Error('Unsupported key type'),
-          };
-        }
-
-        let ctx: EC;
-        let curveName: string;
-
-        if (fragment.type === 'EcdsaSecp256k1VerificationKey2019') {
-          ctx = new EC('secp256k1');
-          curveName = 'secp256k1';
-        } else {
-          return {
-            success: false,
-            error: new Error('Unsupported key type'),
-          };
-        }
-        const pubPoint = ctx.keyFromPublic(publicKeyHex, 'hex').getPublic();
-        const publicKeyJwk: JsonWebKey = {
-          kty: 'EC',
-          crv: curveName,
-          x: bytesToBase64url(pubPoint.getX().toBuffer('be', 32)),
-          y: bytesToBase64url(pubPoint.getY().toBuffer('be', 32)),
-        };
-
-        publicKey = await importJWK(publicKeyJwk, protectedHeader.alg);
-      } else if (protectedHeader.jwk) {
-        publicKey = await importJWK(protectedHeader.jwk);
-      } else if (protectedHeader.x5c) {
-        return {
-          success: false,
-          error: new Error('x5c not supported'),
-        };
-      } else {
-        // Should never happen (here for type safety)
-        return {
-          success: false,
-          error: new Error('Invalid jwt header'),
-        };
-      }
-
-      try {
-        payload = (
-          await jwtVerify(vpToken, publicKey, {
-            issuer: did, // TODO: Does the issuer need to be the did?
-            audience: this.pluginConfig.url,
-          })
-        ).payload;
-      } catch {
-        // TODO: Error and new nonce ?
-        // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-8.3.2
-        return {
-          success: false,
-          error: new Error('Invalid jwt'),
-        };
-      }
-
-      // Check if jwt is valid (we already checked the audiance and issuer)
-      const { exp, nbf, nonce } = payload;
-
-      // Check if session contains cNonce
-      if (cNonce) {
-        // Check if nonce is valid
-        if (nonce !== cNonce) {
-          return {
-            success: false,
-            error: new Error('Invalid c_nonce'),
-          };
-        }
-
-        // Check if cNonce is expired
-        if (cNonceExpiresIn && cNonceExpiresIn < Date.now()) {
-          return {
-            success: false,
-            error: new Error('c_nonce expired'),
-          };
-        }
-      }
-
-      if (exp && 1000 * exp < Date.now()) {
-        return {
-          success: false,
-          error: new Error('Jwt expired'),
-        };
-      }
-
-      if (nbf && 1000 * nbf > Date.now()) {
-        return {
-          success: false,
-          error: new Error('Jwt not valid yet'),
-        };
-      }
-
-      // Verify vp
-      const vp = payload.vp as VerifiablePresentation;
-
-      // TODO: Do we need to support challenge and domain?
-      const verified = await context.agent.verifyPresentation({
-        presentation: vp,
-      });
-
-      if (!verified.verified) {
-        return {
-          success: false,
-          error: new Error(
-            `Invalid vp. Reason: ${verified.error?.message ?? 'Unknown error'}`
-          ),
-        };
-      }
-
-      // TODO: Check if vp contains the correct type
-
-      // TODO: Check if vp contains the correct context
-
-      // Check if vp contains atleast one credential
-      if (!vp.verifiableCredential) {
-        return {
-          success: false,
-          error: new Error('No credentials in vp'),
-        };
-      }
-      // Verify all credentials
-      const verificationResults = await Promise.all(
-        vp.verifiableCredential.map(
-          // FIXME: Do we need to decode if in jwt format?
-          async (vc) =>
-            context.agent.verifyCredential({
-              credential: vc,
-            })
-        )
-      );
-
-      // Check if all credentials are valid
-      const invalidCredentials = verificationResults.filter(
-        (result) => !result.verified
-      );
-
-      if (invalidCredentials.length > 0) {
-        return {
-          success: false,
-          error: new Error(
-            `Atleast one credential is invalid. Reason: ${
-              invalidCredentials[0].error?.message ?? 'Unknown error'
+            `Error resolving did. Reason: ${
+              resolvedDid.didResolutionMetadata.error ?? 'Unknown error'
             }`
           ),
         };
       }
 
+      let fragment;
+
+      try {
+        fragment = (await context.agent.getDIDComponentById({
+          didDocument: resolvedDid.didDocument,
+          didUrl: protectedHeader.kid,
+          section: 'authentication',
+        })) as VerificationMethod;
+      } catch (e) {
+        return {
+          success: false,
+          error: new Error('Invalid kid'),
+        };
+      }
+
+      if (fragment.publicKeyJwk) {
+        return {
+          success: false,
+          error: new Error('PublickKeyJwk not supported yet!'),
+        };
+      }
+      const publicKeyHex = extractPublicKeyHex(
+        fragment as _ExtendedVerificationMethod
+      );
+
+      if (publicKeyHex === '') {
+        return {
+          success: false,
+          error: new Error('Invalid kid or no public key present'),
+        };
+      }
+
+      const supportedTypes = ['EcdsaSecp256k1VerificationKey2019'];
+      if (!supportedTypes.includes(fragment.type)) {
+        return {
+          success: false,
+          error: new Error('Unsupported key type'),
+        };
+      }
+
+      let ctx: EC;
+      let curveName: string;
+
+      if (fragment.type === 'EcdsaSecp256k1VerificationKey2019') {
+        ctx = new EC('secp256k1');
+        curveName = 'secp256k1';
+      } else {
+        return {
+          success: false,
+          error: new Error('Unsupported key type'),
+        };
+      }
+      const pubPoint = ctx.keyFromPublic(publicKeyHex, 'hex').getPublic();
+      const publicKeyJwk: JsonWebKey = {
+        kty: 'EC',
+        crv: curveName,
+        x: bytesToBase64url(pubPoint.getX().toBuffer('be', 32)),
+        y: bytesToBase64url(pubPoint.getY().toBuffer('be', 32)),
+      };
+
+      publicKey = await importJWK(publicKeyJwk, protectedHeader.alg);
+    } else if (protectedHeader.jwk) {
+      publicKey = await importJWK(protectedHeader.jwk);
+    } else if (protectedHeader.x5c) {
       return {
-        success: true,
-        data: true,
+        success: false,
+        error: new Error('x5c not supported'),
+      };
+    } else {
+      // Should never happen (here for type safety)
+      return {
+        success: false,
+        error: new Error('Invalid jwt header'),
+      };
+    }
+
+    try {
+      payload = (
+        await jwtVerify(vpToken, publicKey, {
+          issuer: did, // TODO: Does the issuer need to be the did?
+          audience: this.pluginConfig.url,
+        })
+      ).payload;
+    } catch {
+      // TODO: Error and new nonce ?
+      // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-8.3.2
+      return {
+        success: false,
+        error: new Error('Invalid jwt'),
+      };
+    }
+
+    // Check if jwt is valid (we already checked the audiance and issuer)
+    const { exp, nbf, nonce } = payload;
+
+    // Check if session contains nonce
+    if (cNonce) {
+      // Check if nonce is valid
+      if (nonce !== cNonce) {
+        return {
+          success: false,
+          error: new Error('Invalid nonce'),
+        };
+      }
+
+      // Check if nonce is expired
+      if (cNonceExpiresIn && cNonceExpiresIn < Date.now()) {
+        return {
+          success: false,
+          error: new Error('Nonce expired'),
+        };
+      }
+    }
+
+    if (exp && 1000 * exp < Date.now()) {
+      return {
+        success: false,
+        error: new Error('Jwt expired'),
+      };
+    }
+
+    if (nbf && 1000 * nbf > Date.now()) {
+      return {
+        success: false,
+        error: new Error('Jwt not valid yet'),
+      };
+    }
+
+    // Verify vp
+    const vp = payload.vp as VerifiablePresentation;
+
+    // TODO: Do we need to support challenge and domain?
+    const verified = await context.agent.verifyPresentation({
+      presentation: vp,
+    });
+
+    if (!verified.verified) {
+      return {
+        success: false,
+        error: new Error(
+          `Invalid vp. Reason: ${verified.error?.message ?? 'Unknown error'}`
+        ),
+      };
+    }
+
+    // TODO: Check if vp contains the correct type
+
+    // TODO: Check if vp contains the correct context
+
+    // Check if vp contains atleast one credential
+    if (!vp.verifiableCredential) {
+      return {
+        success: false,
+        error: new Error('No credentials in vp'),
+      };
+    }
+    // Verify all credentials
+    const verificationResults = await Promise.all(
+      vp.verifiableCredential.map(
+        // FIXME: Do we need to decode if in jwt format?
+        async (vc) =>
+          context.agent.verifyCredential({
+            credential: vc,
+          })
+      )
+    );
+
+    // Check if all credentials are valid
+    const invalidCredentials = verificationResults.filter(
+      (result) => !result.verified
+    );
+
+    if (invalidCredentials.length > 0) {
+      return {
+        success: false,
+        error: new Error(
+          `Atleast one credential is invalid. Reason: ${
+            invalidCredentials[0].error?.message ?? 'Unknown error'
+          }`
+        ),
       };
     }
 
     return {
-      success: false,
-      error: new Error('Invalid jwt'),
+      success: true,
+      data: true,
     };
   }
 
@@ -619,47 +570,6 @@ export class OIDCPlugin implements IAgentPlugin {
     };
   }
 
-  public async isValidAuthorizationHeader(
-    args: IsValidAuthorizationHeaderArgs
-  ): Promise<Result<IsValidAuthorizationHeaderResponse>> {
-    const { authorizationHeader } = args;
-
-    // Check if authorization header is present
-    if (!authorizationHeader) {
-      // Missing authorization header
-      return {
-        success: false,
-        error: new Error('Missing authorization header'),
-      };
-    }
-
-    // Check header format (Bearer <token>)
-    const [type, token] = authorizationHeader.split(' ');
-    if (type !== 'Bearer') {
-      // Invalid header format
-      return {
-        success: false,
-        error: new Error('Invalid authorization header format'),
-      };
-    }
-
-    // Check if access token is present
-    if (!token) {
-      // Invalid access token
-      return {
-        success: false,
-        error: new Error('Missing or invalid access token'),
-      };
-    }
-
-    return {
-      success: true,
-      data: {
-        accessToken: token,
-      },
-    };
-  }
-
   public async handleCredentialRequest(
     args: HandleCredentialRequestArgs,
     context: OIDCAgentContext
@@ -806,23 +716,6 @@ export class OIDCPlugin implements IAgentPlugin {
       data: {
         format: 'jwt_vc_json',
         credential: credential.proof.jwt as string,
-      },
-    };
-  }
-
-  public static async privateKeyToDid(
-    privateKey: string,
-    didMethod: string
-  ): Promise<Result<PrivateKeyToDidResponse>> {
-    const ctx = new EC('secp256k1');
-    const ecPrivateKey = ctx.keyFromPrivate(privateKey);
-    const compactPublicKey = `0x${ecPrivateKey.getPublic(true, 'hex')}`;
-    const did = `${didMethod}:${compactPublicKey}`;
-
-    return {
-      success: true,
-      data: {
-        did,
       },
     };
   }

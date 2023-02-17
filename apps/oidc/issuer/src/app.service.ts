@@ -8,7 +8,10 @@ import {
   TokenRequest,
   TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
-import { isError } from '@blockchain-lab-um/oidc-rp-plugin';
+import {
+  isError,
+  isValidAuthorizationHeader,
+} from '@blockchain-lab-um/oidc-rp-plugin';
 import { IConfig } from './config/configuration';
 import { DatastoreService } from './modules/datastore/datastore.service';
 import { AgentService } from './modules/agent/agent.service';
@@ -124,7 +127,7 @@ export class AppService {
     authorizationHeader: string
   ): Promise<CredentialResponse> {
     const agent = this.agentService.getAgent();
-    const authHeaderValidationResult = await agent.isValidAuthorizationHeader({
+    const authHeaderValidationResult = isValidAuthorizationHeader({
       authorizationHeader,
     });
 

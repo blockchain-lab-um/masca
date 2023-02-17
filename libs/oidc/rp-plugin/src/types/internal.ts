@@ -62,14 +62,6 @@ export type IsValidTokenRequestResponse = {
     }
 );
 
-export type IsValidAuthorizationHeaderArgs = {
-  authorizationHeader: string;
-};
-
-export type IsValidAuthorizationHeaderResponse = {
-  accessToken: string;
-};
-
 export type HandleCredentialRequestArgs = {
   body: CredentialRequest;
   issuerDid: string; // DID to use for signing the Credential
@@ -77,19 +69,9 @@ export type HandleCredentialRequestArgs = {
   credentialSubjectClaims: unknown; // Claims to use for the credentialSubject
 };
 
-export type PrivateKeyToDidRequestArgs = {
-  privateKey: string;
-  didMethod: string;
-};
-
-export type PrivateKeyToDidResponse = {
-  did: string;
-};
-
 export type HandleAuthorizationResponseArgs = {
-  contentTypeHeader: string;
-  c_nonce?: string;
-  c_nonce_expires_in?: number;
+  nonce?: string;
+  nonceExpiresIn?: number;
   body: AuthorizationResponse;
 };
 
@@ -111,5 +93,18 @@ export type ProofOfPossesionResponseArgs = {
 };
 
 export type CreateAuthorizationRequestArgs = {
+  clientId: string;
+  redirectUri: string;
   presentationDefinition: PresentationDefinition;
+  state: string;
+  overrides?: {
+    nonce?: string;
+    nonceExpiresIn?: number;
+  };
+};
+
+export type CreateAuthorizationRequestResponse = {
+  authorizationRequest: string;
+  nonce: string;
+  nonceExpiresIn: number;
 };

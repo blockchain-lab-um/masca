@@ -12,13 +12,13 @@ import {
 } from '@veramo/core';
 import { Result } from '../utils';
 import {
+  CreateAuthorizationRequestArgs,
+  CreateAuthorizationRequestResponse,
   CreateCredentialOfferRequestArgs,
   CreateCredentialOfferRequestResposne,
   HandleAuthorizationResponseArgs,
   HandleCredentialRequestArgs,
   HandlePreAuthorizedCodeTokenRequestArgs,
-  IsValidAuthorizationHeaderArgs,
-  IsValidAuthorizationHeaderResponse,
   IsValidTokenRequestArgs,
   IsValidTokenRequestResponse,
   ProofOfPossesionArgs,
@@ -26,7 +26,9 @@ import {
 } from './internal';
 
 export interface IOIDCPlugin extends IPluginMethodMap {
-  createAuthorizationRequest(): Promise<Result<string>>;
+  createAuthorizationRequest(
+    args: CreateAuthorizationRequestArgs
+  ): Promise<Result<CreateAuthorizationRequestResponse>>;
   handleAuthorizationResponse(
     args: HandleAuthorizationResponseArgs,
     context: OIDCAgentContext
@@ -45,9 +47,6 @@ export interface IOIDCPlugin extends IPluginMethodMap {
   isValidTokenRequest(
     args: IsValidTokenRequestArgs
   ): Promise<Result<IsValidTokenRequestResponse>>;
-  isValidAuthorizationHeader(
-    args: IsValidAuthorizationHeaderArgs
-  ): Promise<Result<IsValidAuthorizationHeaderResponse>>;
   proofOfPossession(
     args: ProofOfPossesionArgs,
     context: OIDCAgentContext

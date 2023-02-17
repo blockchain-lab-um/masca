@@ -29,6 +29,7 @@ import {
   IOIDCPlugin,
   isError,
   OIDCPlugin,
+  privateKeyToDid,
 } from '@blockchain-lab-um/oidc-rp-plugin';
 import { CredentialPlugin } from '@veramo/credential-w3c';
 import { IConfig, loadSupportedCredentials } from '../../config/configuration';
@@ -143,10 +144,10 @@ export class AgentService {
         privateKeyHex: this.configService.get<string>('ISSUER_PRIVATE_KEY'),
       };
 
-      const res = await OIDCPlugin.privateKeyToDid(
-        key.privateKeyHex,
-        'did:ethr'
-      );
+      const res = await privateKeyToDid({
+        privateKey: key.privateKeyHex,
+        didMethod: 'did:ethr',
+      });
 
       if (isError(res)) {
         throw Error('Error while creating DID');

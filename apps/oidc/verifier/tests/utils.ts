@@ -2,7 +2,11 @@ import { ec as EC } from 'elliptic';
 import { sha256 } from 'ethereum-cryptography/sha256';
 import { JWTPayload } from 'jose';
 import { encodeBase64url, bytesToBase64url } from '@veramo/utils';
-import { isError, OIDCPlugin } from '@blockchain-lab-um/oidc-rp-plugin';
+import {
+  isError,
+  OIDCPlugin,
+  privateKeyToDid,
+} from '@blockchain-lab-um/oidc-rp-plugin';
 import { IIdentifier, MinimalImportableKey } from '@veramo/core';
 import { v4 as uuidv4 } from 'uuid';
 import { Agent } from './testAgent';
@@ -23,7 +27,10 @@ export const createJWTProof = async ({
 }: CreateJWTProofParams) => {
   const ctx = new EC('secp256k1');
   const ecPrivateKey = ctx.keyFromPrivate(privateKey);
-  const res = await OIDCPlugin.privateKeyToDid(privateKey, 'did:ethr');
+  const res = await privateKeyToDid({
+    privateKey,
+    didMethod: 'did:ethr',
+  });
 
   if (isError(res)) {
     throw new Error(res.error.message);
@@ -95,7 +102,10 @@ export const importDid = async (
       privateKeyHex: privateKey,
     };
 
-    const res = await OIDCPlugin.privateKeyToDid(key.privateKeyHex, 'did:ethr');
+    const res = await privateKeyToDid({
+      privateKey: key.privateKeyHex,
+      didMethod: 'did:ethr',
+    });
 
     if (isError(res)) {
       throw Error('Error while creating DID');

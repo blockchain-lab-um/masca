@@ -240,13 +240,16 @@ importers:
       '@nestjs/config': ^2.2.0
       '@nestjs/core': ^9.2.1
       '@nestjs/platform-fastify': ^9.2.1
+      '@nestjs/schedule': ^2.2.0
       '@nestjs/schematics': ^9.0.3
       '@nestjs/testing': ^9.2.1
       '@nrwl/cli': 15.2.4
       '@nrwl/workspace': 15.2.4
+      '@types/cron': ^2.0.0
       '@types/elliptic': ^6
       '@types/express': ^4.17.14
       '@types/jest': 29.4.0
+      '@types/lodash.clonedeep': ^4.5.7
       '@types/node': ^18.11.19
       '@types/qs': ^6.9.7
       '@types/supertest': ^2.0.12
@@ -281,6 +284,7 @@ importers:
       jest: 29.4.1
       joi: ^17.7.0
       jose: ^4.11.1
+      lodash.clonedeep: ^4.5.0
       nx: 15.2.4
       prettier: ^2.8.0
       qs: ^6.11.0
@@ -304,6 +308,8 @@ importers:
       '@nestjs/config': 2.3.1_jrq2rdgfp2sx67wmylmrqliwxe
       '@nestjs/core': 9.3.9_jrq2rdgfp2sx67wmylmrqliwxe
       '@nestjs/platform-fastify': 9.3.9_77foi4w27ghy47yutmnzv7krjy
+      '@nestjs/schedule': 2.2.0_shbtxdxgogsm4p64bg2toeylku
+      '@types/lodash.clonedeep': 4.5.7
       '@types/qs': 6.9.7
       '@types/uuid': 9.0.0
       '@veramo/core': 5.0.0
@@ -326,6 +332,7 @@ importers:
       fastify: 4.13.0
       joi: 17.7.1
       jose: 4.11.4
+      lodash.clonedeep: 4.5.0
       qs: 6.11.0
       reflect-metadata: 0.1.13
       rxjs: 7.8.0
@@ -341,6 +348,7 @@ importers:
       '@nestjs/testing': 9.3.9_77foi4w27ghy47yutmnzv7krjy
       '@nrwl/cli': 15.2.4
       '@nrwl/workspace': 15.2.4_mxzdk4qzramkuplt6o3inhqlue
+      '@types/cron': 2.0.0
       '@types/elliptic': 6.4.14
       '@types/express': 4.17.17
       '@types/jest': 29.4.0
@@ -6698,7 +6706,6 @@ packages:
       rxjs: 7.8.0
       tslib: 2.5.0
       uid: 2.0.1
-    dev: false
 
   /@nestjs/common/9.3.9_ufuujcqbszwis444rmt5m3dshy:
     resolution: {integrity: sha512-GshTD9Xz+wD2em6NyzU4NXw5IXMUmapgDgD+iuj6XL0258hvDwODmNk37mBBnZvTZlqER+krvIUKnS34etqF/A==}
@@ -6723,6 +6730,7 @@ packages:
       rxjs: 7.8.0
       tslib: 2.5.0
       uid: 2.0.1
+    dev: false
 
   /@nestjs/config/2.3.1_jrq2rdgfp2sx67wmylmrqliwxe:
     resolution: {integrity: sha512-Ckzel0NZ9CWhNsLfE1hxfDuxJuEbhQvGxSlmZ1/X8awjRmAA/g3kT6M1+MO1SHj1wMtPyUfd9WpwkiqFbiwQgA==}
@@ -6731,7 +6739,7 @@ packages:
       reflect-metadata: ^0.1.13
       rxjs: ^6.0.0 || ^7.2.0
     dependencies:
-      '@nestjs/common': 9.3.9_ufuujcqbszwis444rmt5m3dshy
+      '@nestjs/common': 9.3.9_mnr6j2del53muneqly5h4y27ai
       dotenv: 16.0.3
       dotenv-expand: 10.0.0
       lodash: 4.17.21
@@ -6758,7 +6766,7 @@ packages:
       '@nestjs/websockets':
         optional: true
     dependencies:
-      '@nestjs/common': 9.3.9_ufuujcqbszwis444rmt5m3dshy
+      '@nestjs/common': 9.3.9_mnr6j2del53muneqly5h4y27ai
       '@nuxtjs/opencollective': 0.3.2
       fast-safe-stringify: 2.1.1
       iterare: 1.2.1
@@ -6786,7 +6794,7 @@ packages:
       '@fastify/cors': 8.2.0
       '@fastify/formbody': 7.4.0
       '@fastify/middie': 8.1.0
-      '@nestjs/common': 9.3.9_ufuujcqbszwis444rmt5m3dshy
+      '@nestjs/common': 9.3.9_mnr6j2del53muneqly5h4y27ai
       '@nestjs/core': 9.3.9_jrq2rdgfp2sx67wmylmrqliwxe
       fastify: 4.13.0
       light-my-request: 5.8.0
@@ -6803,7 +6811,7 @@ packages:
       '@nestjs/core': ^7.0.0 || ^8.0.0 || ^9.0.0
       reflect-metadata: ^0.1.12
     dependencies:
-      '@nestjs/common': 9.3.9_ufuujcqbszwis444rmt5m3dshy
+      '@nestjs/common': 9.3.9_mnr6j2del53muneqly5h4y27ai
       '@nestjs/core': 9.3.9_jrq2rdgfp2sx67wmylmrqliwxe
       cron: 2.2.0
       reflect-metadata: 0.1.13
@@ -6853,7 +6861,7 @@ packages:
       '@nestjs/platform-express':
         optional: true
     dependencies:
-      '@nestjs/common': 9.3.9_ufuujcqbszwis444rmt5m3dshy
+      '@nestjs/common': 9.3.9_mnr6j2del53muneqly5h4y27ai
       '@nestjs/core': 9.3.9_jrq2rdgfp2sx67wmylmrqliwxe
       tslib: 2.5.0
     dev: true
@@ -8202,11 +8210,9 @@ packages:
     resolution: {integrity: sha512-ccNqkPptFIXrpVqUECi60/DFxjNKsfoQxSQsgcBJCX/fuX1wgyQieojkcWH/KpE3xzLoWN/2k+ZeGqIN3paSvw==}
     dependencies:
       '@types/lodash': 4.14.191
-    dev: true
 
   /@types/lodash/4.14.191:
     resolution: {integrity: sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ==}
-    dev: true
 
   /@types/luxon/3.2.0:
     resolution: {integrity: sha512-lGmaGFoaXHuOLXFvuju2bfvZRqxAqkHPx9Y9IQdQABrinJJshJwfNCKV+u7rR3kJbiqfTF/NhOkcxxAFrObyaA==}
@@ -8877,6 +8883,7 @@ packages:
 
   /@veramo/credential-ld/5.0.0:
     resolution: {integrity: sha512-FSAm/Ct5J4iDrWNBZOR0WPMgHhLddXSxghHsQYyXBdwy80RcoGsdNshV38sRTgoS2544ooHHfPA1DdKq/Gjjfw==}
+    requiresBuild: true
     dependencies:
       '@digitalcredentials/ed25519-signature-2020': 3.0.2
       '@digitalcredentials/ed25519-verification-key-2020': 4.0.0
@@ -10138,6 +10145,7 @@ packages:
         optional: true
     dependencies:
       ajv: 8.12.0
+    dev: false
 
   /ajv-keywords/3.5.2_ajv@6.12.6:
     resolution: {integrity: sha512-5p6WTN0DdTGVQk6VjcEju19IgaHudalcfabD7yhDGeA6bcQnmL+CpveLJq/3hvfwd1aof6L386Ougkx6RfyMIQ==}
@@ -11490,12 +11498,14 @@ packages:
 
   /class-transformer/0.5.1:
     resolution: {integrity: sha512-SQa1Ws6hUbfC98vKGxZH3KFY0Y1lm5Zm0SY8XX9zbK7FJCyVEac3ATW0RIpwzW+oOfmHE5PMPufDG9hCfoEOMw==}
+    dev: false
 
   /class-validator/0.13.2:
     resolution: {integrity: sha512-yBUcQy07FPlGzUjoLuUfIOXzgynnQPPruyK1Ge2B74k9ROwnle1E+NxLWnUv5OLU8hA/qL5leAE9XnXq3byaBw==}
     dependencies:
       libphonenumber-js: 1.10.19
       validator: 13.9.0
+    dev: false
 
   /clean-css/5.3.2:
     resolution: {integrity: sha512-JVJbM+f3d3Q704rF4bqQ5UUyTtuJ0JRKNbTKVEeujCCBoMdkEi+V+e8oktO9qGQNSvHrFTM6JZRXrUvGR1czww==}
@@ -13595,7 +13605,7 @@ packages:
       '@typescript-eslint/eslint-plugin': 5.52.0_6cfvjsbua5ptj65675bqcn6oza
       '@typescript-eslint/utils': 5.52.0_7kw3g6rralp5ps6mg3uyzz6azm
       eslint: 8.34.0
-      jest: 29.4.1_@types+node@18.13.0
+      jest: 29.4.1_ucpl6toqp57nqodtp3vxxi6g5a
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -14715,7 +14725,7 @@ packages:
       semver: 7.3.8
       tapable: 2.2.1
       typescript: 4.9.5
-      webpack: 5.75.0_webpack-cli@5.0.1
+      webpack: 5.75.0
     dev: true
 
   /form-data-encoder/1.7.1:
@@ -17728,6 +17738,7 @@ packages:
 
   /libphonenumber-js/1.10.19:
     resolution: {integrity: sha512-MDZ1zLIkfSDZV5xBta3nuvbEOlsnKCPe4z5r3hyup/AXveevkl9A1eSWmLhd2FX4k7pJDe4MrLeQsux0HI/VWg==}
+    dev: false
 
   /light-my-request/5.8.0:
     resolution: {integrity: sha512-4BtD5C+VmyTpzlDPCZbsatZMJVgUIciSOwYhJDCbLffPZ35KoDkDj4zubLeHDEb35b4kkPeEv5imbh+RJxK/Pg==}
@@ -21215,7 +21226,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.12.0
-      ajv-formats: 2.1.1_ajv@8.12.0
+      ajv-formats: 2.1.1
       ajv-keywords: 5.1.0_ajv@8.12.0
 
   /scrypt-js/3.0.1:
@@ -22664,7 +22675,7 @@ packages:
     dependencies:
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
-      jest: 29.4.1_@types+node@18.13.0
+      jest: 29.4.1_ucpl6toqp57nqodtp3vxxi6g5a
       jest-util: 29.4.2
       json5: 2.2.3
       lodash.memoize: 4.1.2

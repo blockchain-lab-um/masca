@@ -1,4 +1,7 @@
-import { AuthorizationRequestOAuth2 } from './oauth2';
+import {
+  AuthorizationRequestOAuth2,
+  AuthorizationResponseOAuth2,
+} from './oauth2';
 
 /**
  * Authentication Request
@@ -14,7 +17,7 @@ import { AuthorizationRequestOAuth2 } from './oauth2';
  */
 export interface AuthorizationRequest
   extends Omit<AuthorizationRequestOAuth2, 'response_type' | 'redirect_uri'> {
-  response_type: 'id_token' | 'vp_token' | 'code';
+  response_type: 'id_token' | 'vp_token' | 'code' | 'vp_token id_token';
   nonce: string;
   // OpenID4VP
   presentation_definition?: PresentationDefinition;
@@ -36,7 +39,8 @@ export interface AuthorizationRequest
  *
  * SPECS: https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#section-6
  */
-export interface AuthorizationResponse {
+export interface AuthorizationResponse
+  extends Omit<AuthorizationResponseOAuth2, 'code'> {
   presentation_submission?: PresentationSubmission;
   vp_token?: string;
   id_token?: string;
