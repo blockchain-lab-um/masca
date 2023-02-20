@@ -1,10 +1,17 @@
-import { SupportedCredentialFormats } from './credential';
-import { OAuth2AuthorizationServerMetadata } from './oauth2';
+import {
+  SupportedCredentialFormats,
+  SupportedPresentationFormats,
+} from './credential';
+import {
+  OAuth2AuthorizationServerMetadata,
+  OAuth2ClientMetadata,
+} from './oauth2';
 
 /**
- * Server Metadata
+ * Issuer Server Metadata
  *
- * Specs: https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-10.2.3
+ * SPECS:
+ * - https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-10.2.3
  */
 export interface IssuerServerMetadata
   extends OAuth2AuthorizationServerMetadata {
@@ -17,9 +24,25 @@ export interface IssuerServerMetadata
 }
 
 /**
+ * Verifier Server Metadata
+ *
+ * SPECS:
+ * - https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#section-9
+ * - https://openid.bitbucket.io/connect/openid-connect-self-issued-v2-1_0.html#section-7.5
+ *
+ * EXTRAS:
+ * - https://openid.net/specs/openid-connect-registration-1_0.html#ClientMetadata
+ */
+export interface VerifierServerMetadata extends OAuth2ClientMetadata {
+  vp_formats: (SupportedCredentialFormats | SupportedPresentationFormats)[];
+  subject_syntax_types_supported: string[];
+}
+
+/**
  * Supported Credentials
  *
- * Specs: https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-10.2.3.1
+ * Specs:
+ * - https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-10.2.3.1
  *
  * crypto_binding_methods_supported: ['cose_key', 'jwk', 'did', 'did:{method}']
  */
@@ -43,7 +66,8 @@ interface SupportedCredentials {
 /**
  * Credential Display
  *
- * Specs: #TODO
+ * SPECS:
+ * - #TODO
  */
 interface CredentialDisplay {
   name: string;
@@ -56,7 +80,8 @@ interface CredentialDisplay {
 /**
  * Logo
  *
- * Specs: #TODO
+ * SPECS:
+ * - #TODO
  */
 interface Logo {
   url?: string;
@@ -68,8 +93,9 @@ interface Logo {
  * Credential Subject
  *
  * #FIXME: Check if this is correct
- * Specs: https://www.w3.org/TR/vc-data-model/#credential-subject
- * Specs: https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-11.2.1
+ * SPECS:
+ * - https://www.w3.org/TR/vc-data-model/#credential-subject
+ * - https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-11.2.1
  */
 interface CredentialSubject {
   [key: string]: CredentialSubjectProperty;

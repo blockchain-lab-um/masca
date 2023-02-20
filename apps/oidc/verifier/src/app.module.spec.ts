@@ -38,6 +38,10 @@ describe('Verifier controler', () => {
     it('Should succeed without query', async () => {
       const response = await request(server)
         .get('/authorization-request')
+        .query({
+          credentialType: 'test-123',
+          state: 'state-123',
+        })
         .send();
 
       expect(response.status).toBe(200);
@@ -47,21 +51,30 @@ describe('Verifier controler', () => {
 
       const query = qs.parse(response.text.replace('openid://?', ''));
 
-      expect(query.response_type).toBe('vp_token');
-      expect(query.client_id).toBe('https://example.com/redirect');
-      expect(query.redirect_uri).toBe('https://example.com/redirect');
-      expect(query.scope).toBe('openid');
+      expect(query).toStrictEqual({
+        response_type: 'vp_token id_token',
+        client_id: expect.any(String),
+        redirect_uri: expect.any(String),
+        scope: 'openid',
+        id_token_type: 'subject_signed',
+        nonce: expect.any(String),
+        presentation_definition: '{}',
+        state: 'state-123',
+      });
 
-      // TODO: Add more checks ?
-      expect(query.presentation_definition).toBeDefined();
-
-      expect.assertions(7);
+      expect.assertions(3);
     });
   });
 
   describe('[POST]: /authorization-response', () => {
     it('Should succe', async () => {
-      let response = await request(server).get('/authorization-request').send();
+      let response = await request(server)
+        .get('/authorization-request')
+        .query({
+          credentialType: 'test-123',
+          state: 'state-123',
+        })
+        .send();
 
       expect(response.status).toBe(200);
 
@@ -80,7 +93,7 @@ describe('Verifier controler', () => {
       const jwtVc =
         'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiVW5pdmVyc2l0eURlZ3JlZUNyZWRlbnRpYWwiXSwiY3JlZGVudGlhbFN1YmplY3QiOnsibmFtZSI6IkpvaG4gRG9lIiwiZW1haWwiOiJqb2huLmRvZUBnbWFpbC5jb20ifX0sInN1YiI6ImRpZDpldGhyOjB4MDNmZDRmYWMyNWY0N2JlNWNmZjA2NjkyZjQzNjdmZWRkYWU5NjI2NDdjYmY5MzRhOTIzZDA1MTczYmRkYzQyZjVkIiwibmJmIjoxNjcxNzk3MTU0LCJpc3MiOiJkaWQ6ZXRocjoweDAyODBhOWNkNDhmZDQzNmY4YzFmODFiMTU2ZWI2MTU2MThjZDU3M2MzZWIxZTZkOTM3YTE3YjgyMjIwMjdjYWU4NSJ9.rc8UN6Ikx85xsqtzL6BK9pHkr8nOVrOWGVUb-djTorVCiciLyBR9VhEUteKZHQ0vHKIqJwvPtSzG1-NjWpnmXw';
 
-      // FIXME: Handle presentation_submission correctly
+      // TODO: Handle presentation_submission correctly
       const presentationSubmission = 'TODO';
 
       // Create VP
@@ -92,26 +105,37 @@ describe('Verifier controler', () => {
         proofFormat: 'jwt',
       });
 
-      console.log('vp', vp);
-
-      // Create vp_token
+      // Create VP Token
+      // TODO: Split this into a separate function (createVpToken)
       const vpToken = await createJWTProof({
         privateKey: TEST_USER_PRIVATE_KEY,
         audience: TEST_VERIFIER_URL,
-        data: { vp },
+        data: { vp, nonce: query.nonce },
       });
 
-      console.log('vpToken', vpToken);
+      // TODO: Split this into a separate function (createIdToken)
+      const idToken = await createJWTProof({
+        privateKey: TEST_USER_PRIVATE_KEY,
+        audience: TEST_VERIFIER_URL,
+        data: {
+          sub: identifier.did,
+          nonce: query.nonce,
+        },
+      });
 
       response = await request(server)
         .post('/authorization-response')
-        .set('Content-Type', 'application/x-www-form-urlencoded')
+        .type('form')
         .send(
           qs.stringify({
+            state: query.state,
+            id_token: idToken,
             vp_token: vpToken,
             presentation_submission: presentationSubmission,
           })
         );
+
+      expect(response.status).toBe(200);
     });
   });
 });

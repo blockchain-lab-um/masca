@@ -2,7 +2,8 @@
 /**
  * OAuth 2.0 Authorization Server Metadata
  *
- * Specs: https://www.rfc-editor.org/rfc/rfc8414.html#section-2
+ * SPECS:
+ * - https://www.rfc-editor.org/rfc/rfc8414.html#section-2
  */
 export interface OAuth2AuthorizationServerMetadata {
   issuer: string;
@@ -30,9 +31,49 @@ export interface OAuth2AuthorizationServerMetadata {
 }
 
 /**
+ * OAuth 2.0 Client Metadata
+ *
+ * SPECS:
+ * - https://www.rfc-editor.org/rfc/rfc7591.html#section-2
+ */
+export interface OAuth2ClientMetadata {
+  redirect_uris?: string[];
+  token_endpoint_auth_method?: (typeof TOKEN_ENDPOINT_AUTH_METHODS)[number];
+  grant_types?: (typeof GRANT_TYPES)[number][];
+  response_types?: ('code' | 'token')[];
+  client_name?: string;
+  client_uri?: string;
+  logo_uri?: string;
+  scope?: string;
+  contacts?: string[];
+  tos_uri?: string;
+  policy_uri?: string;
+  jwks_uri?: string;
+  jwks?: any;
+  software_id?: string;
+  software_version?: string;
+}
+
+export const TOKEN_ENDPOINT_AUTH_METHODS = [
+  'none',
+  'client_secret_post',
+  'client_secret_basic',
+] as const;
+
+export const GRANT_TYPES = [
+  'authorization_code',
+  'implicit',
+  'password',
+  'client_credentials',
+  'urn:ietf:params:oauth:grant-type:jwt-bearer',
+  'urn:ietf:params:oauth:grant-type:saml2-bearer',
+] as const;
+
+/**
  * OAuth 2.0 Token Request
  *
- * SPECS: https://www.rfc-editor.org/rfc/rfc6749.html#section-4.1.3
+ * SPECS:
+ * - https://www.rfc-editor.org/rfc/rfc6749.html#section-4.1.3
  */
 export interface TokenRequestOAuth2 {
   grant_type: 'authorization_code';
@@ -44,7 +85,8 @@ export interface TokenRequestOAuth2 {
 /**
  * OAuth 2.0 Token Response
  *
- * SPECS: https://www.rfc-editor.org/rfc/rfc6749.html#section-5.1
+ * SPECS:
+ * - https://www.rfc-editor.org/rfc/rfc6749.html#section-5.1
  */
 export interface TokenResponseOAuth2 {
   access_token: string;
@@ -57,7 +99,8 @@ export interface TokenResponseOAuth2 {
 /**
  * OAuth 2.0 Authorization Request
  *
- * SPECS: https://www.rfc-editor.org/rfc/rfc6749.html#section-4.1.1
+ * SPECS:
+ * - https://www.rfc-editor.org/rfc/rfc6749.html#section-4.1.1
  */
 export interface AuthorizationRequestOAuth2 {
   response_type: 'code';
@@ -70,7 +113,8 @@ export interface AuthorizationRequestOAuth2 {
 /**
  * OAuth 2.0 Authorization Response
  *
- * SPECS: https://www.rfc-editor.org/rfc/rfc6749.html#section-4.1.2
+ * SPECS:
+ * - https://www.rfc-editor.org/rfc/rfc6749.html#section-4.1.2
  */
 export interface AuthorizationResponseOAuth2 {
   code: string;

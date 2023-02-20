@@ -1,18 +1,33 @@
+/**
+ * SPECS:
+ * - https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-appendix.e
+ */
 export const supportedCredentialFormats = [
   'jwt_vc_json',
   'jwt_vc_json-ld',
   'ldp_vc',
+  'mso_mdoc',
+] as const;
+
+export const supportedPresentationFormats = [
+  'jwt_vp_json',
+  'jwt_vp_json-ld',
+  'ldp_vp',
 ] as const;
 
 export type SupportedCredentialFormats =
   (typeof supportedCredentialFormats)[number];
+
+export type SupportedPresentationFormats =
+  (typeof supportedPresentationFormats)[number];
 
 /**
  * Credential Request
  *
  * We use schema instead of types
  *
- * SPECS: https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#name-credential-request
+ * SPECS:
+ * - https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#name-credential-request
  */
 export type CredentialRequest = {
   format: SupportedCredentialFormats;
@@ -31,7 +46,8 @@ export type Proof = JWTProof;
 /**
  * Credential Response
  *
- * SPECS: https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#name-credential-response
+ * SPECS:
+ * - https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#name-credential-response
  */
 export interface CredentialResponse {
   format: SupportedCredentialFormats;

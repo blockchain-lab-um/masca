@@ -4,13 +4,14 @@ import {
 } from './oauth2';
 
 /**
- * Authentication Request
+ * Authorization Request
  *
  * SPECS:
  * - https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#name-request
- * - https://openid.net/specs/openid-connect-self-issued-v2-1_0.html#section-10
+ * - https://openid.net/specs/openid-connect-self-issued-v2-1_0.html#section-9
  *
  * EXTRAS:
+ * - https://openid.net/specs/openid-connect-core-1_0.html#Authentication
  * - https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#section-a.5
  * - https://www.rfc-editor.org/rfc/rfc6749.html#section-4.1.1
  * - https://openid.net/specs/oauth-v2-multiple-response-types-1_0.html#ResponseTypesAndModes
@@ -19,9 +20,11 @@ export interface AuthorizationRequest
   extends Omit<AuthorizationRequestOAuth2, 'response_type' | 'redirect_uri'> {
   response_type: 'id_token' | 'vp_token' | 'code' | 'vp_token id_token';
   nonce: string;
+
   // OpenID4VP
   presentation_definition?: PresentationDefinition;
   presentation_definition_uri?: string;
+
   // SIOP
   claims?: any;
   redirect_uri: string;
@@ -37,7 +40,8 @@ export interface AuthorizationRequest
 /**
  * Authorization Response
  *
- * SPECS: https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#section-6
+ * SPECS:
+ * - https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#section-6
  */
 export interface AuthorizationResponse
   extends Omit<AuthorizationResponseOAuth2, 'code'> {
@@ -85,7 +89,8 @@ interface InputDescriptor {
 /**
  * Presentation Definition
  *
- * SPECS: https://identity.foundation/presentation-exchange/#presentation-definition
+ * SPECS:
+ * - https://identity.foundation/presentation-exchange/#presentation-definition
  */
 export interface PresentationDefinition {
   id: string;
@@ -96,7 +101,8 @@ export interface PresentationDefinition {
 /**
  * Presentation Submission
  *
- * SPECS: https://identity.foundation/presentation-exchange/#presentation-submission
+ * SPECS:
+ * - https://identity.foundation/presentation-exchange/#presentation-submission
  */
 export interface PresentationSubmission {
   id: string;

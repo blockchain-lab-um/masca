@@ -1,5 +1,8 @@
 import { isError } from '@blockchain-lab-um/oidc-rp-plugin';
-import { AuthorizationResponse } from '@blockchain-lab-um/oidc-types';
+import {
+  AuthorizationResponse,
+  PresentationDefinition,
+} from '@blockchain-lab-um/oidc-types';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AuthorizationRequest } from './app.interface';
@@ -43,7 +46,7 @@ export class AppService {
       state,
       clientId: url,
       redirectUri: url,
-      presentationDefinition: {},
+      presentationDefinition: {} as unknown as PresentationDefinition,
     });
 
     if (isError(res)) {

@@ -18,7 +18,14 @@ import {
   IssuerServerMetadata,
   TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
-import { jwtVerify, decodeProtectedHeader, importJWK } from 'jose';
+import {
+  jwtVerify,
+  decodeProtectedHeader,
+  importJWK,
+  decodeJwt,
+  calculateJwkThumbprint,
+  JWK,
+} from 'jose';
 import { JsonWebKey, VerificationMethod } from 'did-resolver';
 import { ec as EC } from 'elliptic';
 import fetch from 'cross-fetch';
@@ -122,13 +129,6 @@ export class OIDCPlugin implements IAgentPlugin {
   ): Promise<Result<boolean>> {
     const { body, nonce: cNonce, nonceExpiresIn: cNonceExpiresIn } = args;
 
-    if (!body.id_token && !body.vp_token) {
-      return {
-        success: false,
-        error: new Error('No token present in response'),
-      };
-    }
-
     const {
       id_token: idToken,
       vp_token: vpToken,
@@ -141,9 +141,6 @@ export class OIDCPlugin implements IAgentPlugin {
         error: new Error('id_token must be present'),
       };
     }
-
-    // Decode id_token
-    // https://openid.bitbucket.io/connect/openid-connect-self-issued-v2-1_0.html#section-6.1-6.8.1
 
     if (!vpToken) {
       return {
@@ -158,52 +155,117 @@ export class OIDCPlugin implements IAgentPlugin {
         error: new Error('presentation_submission must be present'),
       };
     }
-
     // TODO: Handle presentation_submission
 
-    // Decode protected header to get algorithm and key
     let protectedHeader;
-    try {
-      protectedHeader = decodeProtectedHeader(vpToken);
-    } catch (e) {
-      // FIXME: Maybe we should also include the error message from decodeProtectedHeader
-      return {
-        success: false,
-        error: new Error('Invalid jwt header'),
-      };
-    }
 
-    // Check if more than 1 is present (kid, jwk, x5c)
-    if (
-      [protectedHeader.kid, protectedHeader.jwk, protectedHeader.x5c].filter(
-        (value) => value != null
-      ).length !== 1
-    ) {
+    // Decode id_token
+    // https://openid.bitbucket.io/connect/openid-connect-self-issued-v2-1_0.html#section-6.1-6.8.1
+    // Self-Issued ID Token Validation:
+    // https://openid.bitbucket.io/connect/openid-connect-self-issued-v2-1_0.html#section-11.1
+    try {
+      protectedHeader = decodeProtectedHeader(idToken);
+    } catch (e) {
       return {
         success: false,
-        error: new Error('Exactly one of kid, jwk, x5c must be present'),
+        error: new Error('Invalid id_token jwt header'),
       };
     }
 
     let payload;
     let publicKey;
-    let did;
+    let fragment;
+    let resolvedDid;
+    let ctx: EC;
+    let curveName: string;
+    let publicKeyHex;
 
-    // Check kid
-    if (protectedHeader.kid) {
-      // Split kid
-      const [extractedDid, extractedKeyId] = protectedHeader.kid.split('#');
-      did = extractedDid;
+    // TODO: Check if method supported
+    // Decode payload
+    try {
+      payload = decodeJwt(idToken);
+    } catch (e) {
+      return {
+        success: false,
+        error: new Error('Invalid id_token jwt payload'),
+      };
+    }
 
-      // Check if did and keyId are present
-      if (!did || !extractedKeyId) {
+    // Check iss and sub are equal
+    if (!payload.iss || !payload.sub || payload.iss !== payload.sub) {
+      return {
+        success: false,
+        error: new Error('id_token iss and sub must be equal'),
+      };
+    }
+
+    // Check exp
+    if (payload.exp && 1000 * payload.exp < Date.now()) {
+      return {
+        success: false,
+        error: new Error('id_token expired'),
+      };
+    }
+
+    // Check nbf
+    if (payload.nbf && 1000 * payload.nbf > Date.now()) {
+      return {
+        success: false,
+        error: new Error('id_token not valid yet'),
+      };
+    }
+
+    // Check audience
+    if (!payload.aud || payload.aud !== this.pluginConfig.url) {
+      return {
+        success: false,
+        error: new Error(
+          `id_token audience is invalid. Must be ${this.pluginConfig.url}`
+        ),
+      };
+    }
+
+    // nonce is checked twice for id_token and vp_token
+    // Check if session contains nonce
+    if (cNonce) {
+      // Check if nonce is valid
+      if (payload.nonce !== cNonce) {
         return {
           success: false,
-          error: new Error('Invalid kid'),
+          error: new Error('Invalid nonce'),
         };
       }
 
-      const resolvedDid = await context.agent.resolveDid({ didUrl: did });
+      // Check if nonce is expired
+      if (cNonceExpiresIn && cNonceExpiresIn < Date.now()) {
+        return {
+          success: false,
+          error: new Error('Nonce expired'),
+        };
+      }
+    }
+
+    // id_token was signed with a DID
+    if (payload.iss.startsWith('did')) {
+      if (payload.sub_jwk) {
+        return {
+          success: false,
+          error: new Error(
+            'id_token must not contain sub_jwk when signed with DID'
+          ),
+        };
+      }
+
+      if (!protectedHeader.kid) {
+        return {
+          success: false,
+          error: new Error(
+            'id_token must contain kid in header when signed with DID'
+          ),
+        };
+      }
+
+      resolvedDid = await context.agent.resolveDid({ didUrl: payload.iss });
       if (resolvedDid.didResolutionMetadata.error || !resolvedDid.didDocument) {
         return {
           success: false,
@@ -214,8 +276,6 @@ export class OIDCPlugin implements IAgentPlugin {
           ),
         };
       }
-
-      let fragment;
 
       try {
         fragment = (await context.agent.getDIDComponentById({
@@ -230,13 +290,15 @@ export class OIDCPlugin implements IAgentPlugin {
         };
       }
 
+      // TODO: Can we remove this and it will work ?
       if (fragment.publicKeyJwk) {
         return {
           success: false,
-          error: new Error('PublickKeyJwk not supported yet!'),
+          error: new Error('PublicKeyJwk not supported yet!'),
         };
       }
-      const publicKeyHex = extractPublicKeyHex(
+
+      publicKeyHex = extractPublicKeyHex(
         fragment as _ExtendedVerificationMethod
       );
 
@@ -255,8 +317,131 @@ export class OIDCPlugin implements IAgentPlugin {
         };
       }
 
-      let ctx: EC;
-      let curveName: string;
+      if (fragment.type === 'EcdsaSecp256k1VerificationKey2019') {
+        ctx = new EC('secp256k1');
+        curveName = 'secp256k1';
+      } else {
+        return {
+          success: false,
+          error: new Error('Unsupported key type'),
+        };
+      }
+      const pubPoint = ctx.keyFromPublic(publicKeyHex, 'hex').getPublic();
+      const publicKeyJwk: JsonWebKey = {
+        kty: 'EC',
+        crv: curveName,
+        x: bytesToBase64url(pubPoint.getX().toBuffer('be', 32)),
+        y: bytesToBase64url(pubPoint.getY().toBuffer('be', 32)),
+      };
+
+      publicKey = await importJWK(publicKeyJwk, protectedHeader.alg);
+    } else {
+      // id_token was signed with a JWK
+
+      // TODO: Check id_token_signing_alg_values_supported
+      if (!payload.sub_jwk) {
+        return {
+          success: false,
+          error: new Error(
+            'id_token must contain sub_jwk when signed with JWK'
+          ),
+        };
+      }
+
+      // Check if jwk thumbprint
+      const jwkThumbprint = await calculateJwkThumbprint(
+        payload.sub_jwk as JWK
+      );
+
+      if (jwkThumbprint !== payload.sub) {
+        return {
+          success: false,
+          error: new Error('id_token sub does not match sub_jwk thumbprint'),
+        };
+      }
+
+      publicKey = await importJWK(payload.sub_jwk as JWK);
+    }
+
+    // Verify signature
+    try {
+      await jwtVerify(idToken, publicKey, {
+        audience: this.pluginConfig.url,
+      });
+    } catch (e) {
+      return {
+        success: false,
+        error: new Error('id_token signature invalid'),
+      };
+    }
+
+    let did;
+
+    // Check kid
+    if (protectedHeader.kid) {
+      // Split kid
+      const [extractedDid, extractedKeyId] = protectedHeader.kid.split('#');
+      did = extractedDid;
+
+      // Check if did and keyId are present
+      if (!did || !extractedKeyId) {
+        return {
+          success: false,
+          error: new Error('Invalid kid'),
+        };
+      }
+
+      resolvedDid = await context.agent.resolveDid({ didUrl: did });
+      if (resolvedDid.didResolutionMetadata.error || !resolvedDid.didDocument) {
+        return {
+          success: false,
+          error: new Error(
+            `Error resolving did. Reason: ${
+              resolvedDid.didResolutionMetadata.error ?? 'Unknown error'
+            }`
+          ),
+        };
+      }
+
+      try {
+        fragment = (await context.agent.getDIDComponentById({
+          didDocument: resolvedDid.didDocument,
+          didUrl: protectedHeader.kid,
+          section: 'authentication',
+        })) as VerificationMethod;
+      } catch (e) {
+        return {
+          success: false,
+          error: new Error('Invalid kid'),
+        };
+      }
+
+      // TODO: Can we remove this and it will work ?
+      if (fragment.publicKeyJwk) {
+        return {
+          success: false,
+          error: new Error('PublicKeyJwk not supported yet!'),
+        };
+      }
+
+      publicKeyHex = extractPublicKeyHex(
+        fragment as _ExtendedVerificationMethod
+      );
+
+      if (publicKeyHex === '') {
+        return {
+          success: false,
+          error: new Error('Invalid kid or no public key present'),
+        };
+      }
+
+      const supportedTypes = ['EcdsaSecp256k1VerificationKey2019'];
+      if (!supportedTypes.includes(fragment.type)) {
+        return {
+          success: false,
+          error: new Error('Unsupported key type'),
+        };
+      }
 
       if (fragment.type === 'EcdsaSecp256k1VerificationKey2019') {
         ctx = new EC('secp256k1');
@@ -294,7 +479,7 @@ export class OIDCPlugin implements IAgentPlugin {
     try {
       payload = (
         await jwtVerify(vpToken, publicKey, {
-          issuer: did, // TODO: Does the issuer need to be the did?
+          issuer: did,
           audience: this.pluginConfig.url,
         })
       ).payload;

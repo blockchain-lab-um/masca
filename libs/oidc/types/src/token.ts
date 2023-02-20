@@ -2,7 +2,8 @@ import { TokenRequestOAuth2, TokenResponseOAuth2 } from './oauth2';
 
 /**
  *
- * SPECS: https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-6.1
+ * SPECS:
+ * - https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-6.1
  */
 export interface TokenRequest extends Omit<TokenRequestOAuth2, 'grant_type'> {
   grant_type:
@@ -15,7 +16,8 @@ export interface TokenRequest extends Omit<TokenRequestOAuth2, 'grant_type'> {
 /**
  * Token Response
  *
- * SPECS: https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-6.2
+ * SPECS:
+ * - https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-6.2
  */
 export interface TokenResponse extends TokenResponseOAuth2 {
   c_nonce?: string;
