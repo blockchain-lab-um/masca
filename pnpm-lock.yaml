@@ -1,15 +1,15 @@
 lockfileVersion: 5.4
 
 patchedDependencies:
-  cross-fetch@3.1.5:
-    hash: iqh6pvemik3ebzneirvlerj7uq
-    path: patches/cross-fetch@3.1.5.patch
   '@metamask/snaps-types@0.27.1':
     hash: rvr7xsi54kylxpxjwsjvbo3fce
     path: patches/@metamask__snaps-types@0.27.1.patch
   '@veramo/did-provider-pkh@5.0.0':
     hash: xbin4eoqvloyhwqbrtzei47slm
     path: patches/@veramo__did-provider-pkh@5.0.0.patch
+  cross-fetch@3.1.5:
+    hash: iqh6pvemik3ebzneirvlerj7uq
+    path: patches/cross-fetch@3.1.5.patch
 
 importers:
 
@@ -74,6 +74,14 @@ importers:
       ts-node: 10.9.1_awa2wsr5thmg3i7jqycphctjfq
       typescript: 4.9.4
       webpack: 5.75.0
+
+  libs/utils:
+    specifiers:
+      rimraf: ^3.0.2
+      typescript: ^4.9.5
+    devDependencies:
+      rimraf: 3.0.2
+      typescript: 4.9.5
 
   packages/connector:
     specifiers:
@@ -270,6 +278,7 @@ importers:
       '@babel/register': ^7.18.9
       '@babel/runtime': 7.20.13
       '@blockchain-lab-um/ssi-snap-types': '*'
+      '@blockchain-lab-um/utils': '*'
       '@blockchain-lab-um/veramo-vc-manager': '*'
       '@ceramicnetwork/http-client': 2.15.0
       '@ceramicnetwork/streamid': 2.10.0
@@ -353,6 +362,7 @@ importers:
     dependencies:
       '@babel/runtime': 7.20.13
       '@blockchain-lab-um/ssi-snap-types': link:../types
+      '@blockchain-lab-um/utils': link:../../libs/utils
       '@blockchain-lab-um/veramo-vc-manager': link:../vcmanager
       '@ceramicnetwork/http-client': 2.15.0
       '@ceramicnetwork/streamid': 2.10.0

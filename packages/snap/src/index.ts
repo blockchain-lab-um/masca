@@ -1,4 +1,5 @@
 import { OnRpcRequestHandler } from '@metamask/snaps-types';
+import { Result, ResultObject } from '@blockchain-lab-um/utils';
 import { togglePopups } from './rpc/snap/configure';
 import { queryVCs } from './rpc/vc/queryVCs';
 import { createVP } from './rpc/vc/createVP';
@@ -27,7 +28,6 @@ import { getAddressKeyDeriver } from './utils/keyPair';
 import { ApiParams } from './interfaces';
 import { deleteVC } from './rpc/vc/deleteVC';
 import { resolveDID } from './rpc/did/resolveDID';
-import { Result, ResultObject } from './utils/result';
 
 export const onRpcRequest: OnRpcRequestHandler = async ({
   request,

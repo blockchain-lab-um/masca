@@ -8,6 +8,7 @@ import { DIDResolutionResult, VerifiablePresentation } from '@veramo/core';
 import * as uuid from 'uuid';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { StreamID } from '@ceramicnetwork/streamid';
+import { isError, isSuccess, Result } from '@blockchain-lab-um/utils';
 import { veramoClearVCs } from '../../src/utils/veramoUtils';
 import {
   exampleDID,
@@ -22,12 +23,6 @@ import { StoredCredentials } from '../../src/interfaces';
 import * as snapUtils from '../../src/utils/snapUtils';
 import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
 import { onRpcRequest } from '../../src/index';
-import {
-  isError,
-  isSuccess,
-  Result,
-  ResultObject,
-} from '../../src/utils/result';
 
 jest.mock('uuid');
 let ceramicData: StoredCredentials;
