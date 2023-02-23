@@ -16,7 +16,7 @@
   },
   "main": "src/index.ts",
   "dependencies": {
-    "@veramo/core": "^4.1.1"
+    "@veramo/core": "^5.0.0"
   },
   "publishConfig": {
     "access": "public"
