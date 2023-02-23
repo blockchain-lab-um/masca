@@ -1,0 +1,24 @@
+diff --git a/build/resolver.js b/build/resolver.js
+index b839acb2698fab57a1ee6256432da360e08c77cd..c68a49931312cb405590eb8b182c5ce21cbd5d87 100644
+--- a/build/resolver.js
++++ b/build/resolver.js
+@@ -1,5 +1,5 @@
+ import { AccountId } from 'caip';
+-import { isValidNamespace, SECPK1_NAMESPACES } from './pkh-did-provider';
++import { isValidNamespace, SECPK1_NAMESPACES } from './pkh-did-provider.js';
+ import Debug from 'debug';
+ const debug = Debug('veramo:pkh-did-resolver');
+ const DID_LD_JSON = 'application/did+ld+json';
+diff --git a/src/resolver.ts b/src/resolver.ts
+index 2ae41f336cbe5d8adc0ba935a1c8e2c8c1791e55..4647ee6eb99dbf94aea977ac95a21f680200e72e 100644
+--- a/src/resolver.ts
++++ b/src/resolver.ts
+@@ -6,7 +6,7 @@ import type {
+   Resolvable,
+   ResolverRegistry,
+ } from 'did-resolver';
+-import { isValidNamespace, SECPK1_NAMESPACES } from './pkh-did-provider';
++import { isValidNamespace, SECPK1_NAMESPACES } from './pkh-did-provider.js';
+ import Debug from 'debug'
+ 
+ const debug = Debug('veramo:pkh-did-resolver')

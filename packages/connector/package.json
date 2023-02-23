@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@blockchain-lab-um/ssi-snap-types": "*",
-    "@veramo/core": "^4.1.1"
+    "@veramo/core": "^5.0.0"
   },
   "devDependencies": {
     "@types/rimraf": "^3.0.2",
