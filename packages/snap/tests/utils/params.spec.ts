@@ -17,7 +17,7 @@ describe('Utils [params]', () => {
     isValidGetVCsRequest
   */
   describe('isValidGetVCsRequest', () => {
-    // TODO
+    it.todo('Add test');
   });
   describe('isValidResolveDIDRequest', () => {
     it('should fail for null', () => {

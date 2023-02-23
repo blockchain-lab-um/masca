@@ -22,6 +22,12 @@ import { StoredCredentials } from '../../src/interfaces';
 import * as snapUtils from '../../src/utils/snapUtils';
 import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
 import { onRpcRequest } from '../../src/index';
+import {
+  isError,
+  isSuccess,
+  Result,
+  ResultObject,
+} from '../../src/utils/result';
 
 jest.mock('uuid');
 let ceramicData: StoredCredentials;
@@ -64,22 +70,26 @@ describe('onRpcRequest', () => {
     it('should succeed saving 1 VC and return id', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'saveVC',
-            params: {
-              verifiableCredential: exampleVC,
-              options: { store: 'snap' },
-            },
+      let res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'saveVC',
+          params: {
+            verifiableCredential: exampleVC,
+            options: { store: 'snap' },
           },
-        })
-      ).resolves.toEqual([{ id: undefined, store: 'snap' }]);
+        },
+      })) as Result<unknown>;
 
-      const result = await onRpcRequest({
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toEqual([{ id: undefined, store: 'snap' }]);
+
+      res = (await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
@@ -87,7 +97,11 @@ describe('onRpcRequest', () => {
           method: 'queryVCs',
           params: {},
         },
-      });
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
 
       const expectedResult = [
         {
@@ -96,7 +110,7 @@ describe('onRpcRequest', () => {
         },
       ];
 
-      expect(result).toEqual(expectedResult);
+      expect(res.data).toEqual(expectedResult);
 
       expect.assertions(2);
     });
@@ -104,21 +118,25 @@ describe('onRpcRequest', () => {
     it('should succeed saving 1 VC without store param and return id', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'saveVC',
-            params: {
-              verifiableCredential: exampleVC,
-            },
+      let res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'saveVC',
+          params: {
+            verifiableCredential: exampleVC,
           },
-        })
-      ).resolves.toEqual([{ id: undefined, store: 'snap' }]);
+        },
+      })) as Result<unknown>;
 
-      const result = await onRpcRequest({
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toEqual([{ id: undefined, store: 'snap' }]);
+
+      res = (await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
@@ -128,7 +146,11 @@ describe('onRpcRequest', () => {
             query: {},
           },
         },
-      });
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
 
       const expectedResult = [
         {
@@ -137,7 +159,7 @@ describe('onRpcRequest', () => {
         },
       ];
 
-      expect(result).toEqual(expectedResult);
+      expect(res.data).toEqual(expectedResult);
 
       expect.assertions(2);
     });
@@ -148,32 +170,40 @@ describe('onRpcRequest', () => {
         operation: 'update',
         newState: getDefaultSnapState(),
       });
+
       await veramoClearVCs({
         snap: snapMock,
         ethereum,
         store: 'ceramic',
       });
+
       snapMock.rpcMocks.snap_manageState({
         operation: 'clear',
       });
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'saveVC',
-            params: {
-              verifiableCredential: exampleVC,
-              options: { store: ['snap', 'ceramic'] },
-            },
+
+      let res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'saveVC',
+          params: {
+            verifiableCredential: exampleVC,
+            options: { store: ['snap', 'ceramic'] },
           },
-        })
-      ).resolves.toEqual([
+        },
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toEqual([
         { id: undefined, store: 'snap' },
         { id: undefined, store: 'ceramic' },
       ]);
-      const result = await onRpcRequest({
+
+      res = (await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
@@ -183,7 +213,11 @@ describe('onRpcRequest', () => {
             query: {},
           },
         },
-      });
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
 
       const expectedResult = [
         {
@@ -196,12 +230,14 @@ describe('onRpcRequest', () => {
         },
       ];
 
-      expect(result).toEqual(expectedResult);
+      expect(res.data).toEqual(expectedResult);
+
       await veramoClearVCs({
         snap: snapMock,
         ethereum,
         store: 'ceramic',
       });
+
       expect.assertions(2);
     });
 
@@ -243,39 +279,47 @@ describe('onRpcRequest', () => {
     it('should throw error because store is not supported', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'saveVC',
-            params: {
-              verifiableCredential: exampleVC,
-              options: { store: 'snapp' },
-            },
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'saveVC',
+          params: {
+            verifiableCredential: exampleVC,
+            options: { store: 'snapp' },
           },
-        })
-      ).rejects.toThrow('Store is not supported!');
+        },
+      })) as Result<unknown>;
+
+      if (isSuccess(res)) {
+        throw new Error('Should return error');
+      }
+
+      expect(res.error.message).toBe('Store is not supported!');
 
       expect.assertions(1);
     });
     it('should throw error because request is not valid', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'saveVC',
-            params: {
-              options: { store: 'snap' },
-            },
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'saveVC',
+          params: {
+            options: { store: 'snap' },
           },
-        })
-      ).rejects.toThrow('Invalid SaveVC request');
+        },
+      })) as Result<unknown>;
+
+      if (isSuccess(res)) {
+        throw new Error('Should return error');
+      }
+
+      expect(res.error.message).toBe('Invalid SaveVC request');
 
       expect.assertions(1);
     });
@@ -283,55 +327,67 @@ describe('onRpcRequest', () => {
     it('should throw error because request is not valid: store format', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'saveVC',
-            params: {
-              verifiableCredential: exampleVC,
-              options: { store: 123 },
-            },
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'saveVC',
+          params: {
+            verifiableCredential: exampleVC,
+            options: { store: 123 },
           },
-        })
-      ).rejects.toThrow('Store is invalid format');
+        },
+      })) as Result<unknown>;
+
+      if (isSuccess(res)) {
+        throw new Error('Should return error');
+      }
+
+      expect(res.error.message).toBe('Store is invalid format');
 
       expect.assertions(1);
     });
     it('should throw error because request is not valid: store not supported in array', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'saveVC',
-            params: {
-              verifiableCredential: exampleVC,
-              options: { store: ['snap', 'snapp'] },
-            },
+      let res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'saveVC',
+          params: {
+            verifiableCredential: exampleVC,
+            options: { store: ['snap', 'snapp'] },
           },
-        })
-      ).rejects.toThrow('Store is not supported!');
+        },
+      })) as Result<unknown>;
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'saveVC',
-            params: {
-              verifiableCredential: exampleVC,
-              options: { store: [] },
-            },
+      if (isSuccess(res)) {
+        throw new Error('Should return error');
+      }
+
+      expect(res.error.message).toBe('Store is not supported!');
+
+      res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'saveVC',
+          params: {
+            verifiableCredential: exampleVC,
+            options: { store: [] },
           },
-        })
-      ).rejects.toThrow('Store is invalid format');
+        },
+      })) as Result<unknown>;
+
+      if (isSuccess(res)) {
+        throw new Error('Should return error');
+      }
+
+      expect(res.error.message).toBe('Store is invalid format');
 
       expect.assertions(2);
     });
@@ -339,17 +395,21 @@ describe('onRpcRequest', () => {
 
   describe('queryVCs', () => {
     it('should succeed with empty array', async () => {
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'queryVCs',
-            params: {},
-          },
-        })
-      ).resolves.toEqual([]);
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'queryVCs',
+          params: {},
+        },
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toEqual([]);
 
       expect.assertions(1);
     });
@@ -378,22 +438,27 @@ describe('onRpcRequest', () => {
         },
       ];
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'queryVCs',
-            params: {
-              filter: {
-                type: 'id',
-                filter: 'test-id',
-              },
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'queryVCs',
+          params: {
+            filter: {
+              type: 'id',
+              filter: 'test-id',
             },
           },
-        })
-      ).resolves.toEqual(expectedResult);
+        },
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toEqual(expectedResult);
+
       expect.assertions(1);
     });
 
@@ -421,17 +486,22 @@ describe('onRpcRequest', () => {
         },
       ];
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'queryVCs',
-            params: {},
-          },
-        })
-      ).resolves.toEqual(expectedResult);
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'queryVCs',
+          params: {},
+        },
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toEqual(expectedResult);
+
       expect.assertions(1);
     });
 
@@ -459,19 +529,24 @@ describe('onRpcRequest', () => {
         },
       ];
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'queryVCs',
-            params: {
-              options: { store: 'snap' },
-            },
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'queryVCs',
+          params: {
+            options: { store: 'snap' },
           },
-        })
-      ).resolves.toEqual(expectedResult);
+        },
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toEqual(expectedResult);
+
       expect.assertions(1);
     });
 
@@ -499,19 +574,24 @@ describe('onRpcRequest', () => {
         },
       ];
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'queryVCs',
-            params: {
-              options: { returnStore: false },
-            },
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'queryVCs',
+          params: {
+            options: { returnStore: false },
           },
-        })
-      ).resolves.toEqual(expectedResult);
+        },
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toEqual(expectedResult);
+
       expect.assertions(1);
     });
 
@@ -539,23 +619,28 @@ describe('onRpcRequest', () => {
         },
       ];
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'queryVCs',
-            params: {
-              options: { store: 'snap' },
-              filter: {
-                type: 'JSONPath',
-                filter: jsonPath,
-              },
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'queryVCs',
+          params: {
+            options: { store: 'snap' },
+            filter: {
+              type: 'JSONPath',
+              filter: jsonPath,
             },
           },
-        })
-      ).resolves.toEqual(expectedResult);
+        },
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toEqual(expectedResult);
+
       expect.assertions(1);
     });
   });
@@ -564,22 +649,26 @@ describe('onRpcRequest', () => {
     it('should succeed saving and deleting 1 VC', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'saveVC',
-            params: {
-              verifiableCredential: exampleVC,
-              options: { store: 'snap' },
-            },
+      let res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'saveVC',
+          params: {
+            verifiableCredential: exampleVC,
+            options: { store: 'snap' },
           },
-        })
-      ).resolves.toEqual([{ id: undefined, store: 'snap' }]);
+        },
+      })) as Result<unknown>;
 
-      const res = await onRpcRequest({
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toEqual([{ id: undefined, store: 'snap' }]);
+
+      res = (await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
@@ -589,10 +678,15 @@ describe('onRpcRequest', () => {
             id: 'undefined',
           },
         },
-      });
+      })) as Result<unknown>;
 
-      expect(res).toEqual([true]);
-      const result = await onRpcRequest({
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toEqual([true]);
+
+      res = (await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
@@ -602,9 +696,13 @@ describe('onRpcRequest', () => {
             query: {},
           },
         },
-      });
+      })) as Result<unknown>;
 
-      expect(result).toHaveLength(0);
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toHaveLength(0);
 
       expect.assertions(3);
     });
@@ -612,22 +710,26 @@ describe('onRpcRequest', () => {
     it('should succeed saving and deleting 1 VC with store', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'saveVC',
-            params: {
-              verifiableCredential: exampleVC,
-              options: { store: 'snap' },
-            },
+      let res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'saveVC',
+          params: {
+            verifiableCredential: exampleVC,
+            options: { store: 'snap' },
           },
-        })
-      ).resolves.toEqual([{ id: undefined, store: 'snap' }]);
+        },
+      })) as Result<unknown>;
 
-      const res = await onRpcRequest({
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toEqual([{ id: undefined, store: 'snap' }]);
+
+      res = (await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
@@ -638,11 +740,15 @@ describe('onRpcRequest', () => {
             options: { store: 'snap' },
           },
         },
-      });
+      })) as Result<unknown>;
 
-      expect(res).toEqual([true]);
+      if (isError(res)) {
+        throw res.error;
+      }
 
-      const result = await onRpcRequest({
+      expect(res.data).toEqual([true]);
+
+      res = (await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
@@ -652,31 +758,39 @@ describe('onRpcRequest', () => {
             query: {},
           },
         },
-      });
+      })) as Result<unknown>;
 
-      expect(result).toHaveLength(0);
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toHaveLength(0);
 
       expect.assertions(3);
     });
     it('should fail deleting 1 VC with wrong id', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'saveVC',
-            params: {
-              verifiableCredential: exampleVC,
-              options: { store: 'snap' },
-            },
+      let res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'saveVC',
+          params: {
+            verifiableCredential: exampleVC,
+            options: { store: 'snap' },
           },
-        })
-      ).resolves.toEqual([{ id: undefined, store: 'snap' }]);
+        },
+      })) as Result<unknown>;
 
-      const res = await onRpcRequest({
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toEqual([{ id: undefined, store: 'snap' }]);
+
+      res = (await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
@@ -687,11 +801,15 @@ describe('onRpcRequest', () => {
             options: { store: 'snap' },
           },
         },
-      });
+      })) as Result<unknown>;
 
-      expect(res).toHaveLength(0);
+      if (isError(res)) {
+        throw res.error;
+      }
 
-      const result = await onRpcRequest({
+      expect(res.data).toHaveLength(0);
+
+      res = (await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
@@ -701,9 +819,13 @@ describe('onRpcRequest', () => {
             query: {},
           },
         },
-      });
+      })) as Result<unknown>;
 
-      expect(result).toHaveLength(1);
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toHaveLength(1);
 
       expect.assertions(3);
     });
@@ -728,7 +850,7 @@ describe('onRpcRequest', () => {
         },
       });
 
-      const createdVP = (await onRpcRequest({
+      const res = (await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
@@ -738,7 +860,13 @@ describe('onRpcRequest', () => {
             vcs: [{ id: 'test-id', metadata: { store: 'snap' } }],
           },
         },
-      })) as VerifiablePresentation;
+      })) as Result<VerifiablePresentation>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      const createdVP = res.data;
 
       expect(createdVP).not.toBeNull();
 
@@ -779,7 +907,7 @@ describe('onRpcRequest', () => {
         },
       });
 
-      const createdVP = (await onRpcRequest({
+      const res = (await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
@@ -789,7 +917,13 @@ describe('onRpcRequest', () => {
             vcs: [{ id: 'test-id' }],
           },
         },
-      })) as VerifiablePresentation;
+      })) as Result<VerifiablePresentation>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      const createdVP = res.data;
 
       expect(createdVP).not.toBeNull();
 
@@ -840,19 +974,23 @@ describe('onRpcRequest', () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'createVP',
-            params: {
-              vcs: [{ id: 'test-id' }],
-            },
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'createVP',
+          params: {
+            vcs: [{ id: 'test-id' }],
           },
-        })
-      ).resolves.toBeNull();
+        },
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toBeNull();
 
       expect.assertions(1);
     });
@@ -862,17 +1000,21 @@ describe('onRpcRequest', () => {
     it('should succeed toggling popups and return true', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'togglePopups',
-            params: {},
-          },
-        })
-      ).resolves.toBe(true);
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'togglePopups',
+          params: {},
+        },
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toBe(true);
 
       expect.assertions(1);
     });
@@ -898,17 +1040,21 @@ describe('onRpcRequest', () => {
 
   describe('getDID', () => {
     it('should succeed returning current did (did:ethr)', async () => {
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'getDID',
-            params: {},
-          },
-        })
-      ).resolves.toEqual(exampleDID);
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'getDID',
+          params: {},
+        },
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toEqual(exampleDID);
 
       expect.assertions(1);
     });
@@ -928,17 +1074,21 @@ describe('onRpcRequest', () => {
         },
       });
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'getDID',
-            params: {},
-          },
-        })
-      ).resolves.toEqual(exampleDIDKey);
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'getDID',
+          params: {},
+        },
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toEqual(exampleDIDKey);
 
       expect.assertions(1);
     });
@@ -948,19 +1098,23 @@ describe('onRpcRequest', () => {
     it('should succeed switching method to did:key and return true', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'switchDIDMethod',
-            params: {
-              didMethod: 'did:key',
-            },
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'switchDIDMethod',
+          params: {
+            didMethod: 'did:key',
           },
-        })
-      ).resolves.toBe(
+        },
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toBe(
         'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik'
       );
 
@@ -990,36 +1144,44 @@ describe('onRpcRequest', () => {
     it('should fail switching method because method is not supported', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'switchDIDMethod',
-            params: {
-              didMethod: 'did:keyy',
-            },
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'switchDIDMethod',
+          params: {
+            didMethod: 'did:keyy',
           },
-        })
-      ).rejects.toThrow('Method is not supported!');
+        },
+      })) as Result<unknown>;
+
+      if (isSuccess(res)) {
+        throw new Error('Should return error');
+      }
+
+      expect(res.error.message).toBe('Did method is not supported!');
 
       expect.assertions(1);
     });
     it('should fail switching method because request is bad', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'switchDIDMethod',
-            params: {},
-          },
-        })
-      ).rejects.toThrow('Invalid switchDIDMethod request.');
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'switchDIDMethod',
+          params: {},
+        },
+      })) as Result<unknown>;
+
+      if (isSuccess(res)) {
+        throw new Error('Should return error');
+      }
+
+      expect(res.error.message).toBe('Invalid switchDIDMethod request.');
 
       expect.assertions(1);
     });
@@ -1027,17 +1189,21 @@ describe('onRpcRequest', () => {
 
   describe('getSelectedMethod', () => {
     it('should succeed and return did:ethr', async () => {
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'getSelectedMethod',
-            params: {},
-          },
-        })
-      ).resolves.toBe('did:ethr');
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'getSelectedMethod',
+          params: {},
+        },
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toBe('did:ethr');
 
       expect.assertions(1);
     });
@@ -1057,17 +1223,21 @@ describe('onRpcRequest', () => {
         },
       });
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'getSelectedMethod',
-            params: {},
-          },
-        })
-      ).resolves.toBe('did:key');
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'getSelectedMethod',
+          params: {},
+        },
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toBe('did:key');
 
       expect.assertions(1);
     });
@@ -1075,17 +1245,21 @@ describe('onRpcRequest', () => {
 
   describe('getAvailableMethods', () => {
     it('should succeed and return available methods', async () => {
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'getAvailableMethods',
-            params: {},
-          },
-        })
-      ).resolves.toEqual(availableMethods);
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'getAvailableMethods',
+          params: {},
+        },
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toEqual(availableMethods);
 
       expect.assertions(1);
     });
@@ -1095,58 +1269,75 @@ describe('onRpcRequest', () => {
     it('should throw and error when using wrong vcStore', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'setVCStore',
-            params: { store: 'ceramicc', value: true },
-          },
-        })
-      ).rejects.toThrow('Store is not supported!');
+      let res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'setVCStore',
+          params: { store: 'ceramicc', value: true },
+        },
+      })) as Result<unknown>;
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'setVCStore',
-            params: { store: 'ceramic', value: 'tlo' },
-          },
-        })
-      ).rejects.toThrow('Invalid setVCStore request.');
+      if (isSuccess(res)) {
+        throw new Error('Should return error');
+      }
+
+      expect(res.error.message).toBe('Store is not supported!');
+
+      res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'setVCStore',
+          params: { store: 'ceramic', value: 'tlo' },
+        },
+      })) as Result<unknown>;
+
+      if (isSuccess(res)) {
+        throw new Error('Should return error');
+      }
+
+      expect(res.error.message).toBe('Invalid setVCStore request.');
+
       expect.assertions(2);
     });
 
     it('should succeed toggling ceramic store to true', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'setVCStore',
-            params: { store: 'ceramic', value: true },
-          },
-        })
-      ).resolves.toBe(true);
+      let res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'setVCStore',
+          params: { store: 'ceramic', value: true },
+        },
+      })) as Result<unknown>;
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'getVCStore',
-            params: {},
-          },
-        })
-      ).resolves.toEqual({ ceramic: true, snap: true });
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toBe(true);
+
+      res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'getVCStore',
+          params: {},
+        },
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toEqual({ ceramic: true, snap: true });
 
       expect.assertions(2);
     });
@@ -1154,33 +1345,43 @@ describe('onRpcRequest', () => {
 
   describe('getVCStore', () => {
     it('should succeed and return snap', async () => {
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'getVCStore',
-            params: {},
-          },
-        })
-      ).resolves.toEqual({ ceramic: true, snap: true });
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'getVCStore',
+          params: {},
+        },
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toEqual({ ceramic: true, snap: true });
+
+      expect.assertions(1);
     });
   });
 
   describe('getAvailableVCStores', () => {
     it('should succeed and return available VC stores', async () => {
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'getAvailableVCStores',
-            params: {},
-          },
-        })
-      ).resolves.toEqual(availableVCStores);
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'getAvailableVCStores',
+          params: {},
+        },
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toEqual(availableVCStores);
 
       expect.assertions(1);
     });
@@ -1188,17 +1389,21 @@ describe('onRpcRequest', () => {
   describe('getAccountSettings', () => {
     const state = getDefaultSnapState();
     it('should succeed and return account settings', async () => {
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'getAccountSettings',
-            params: {},
-          },
-        })
-      ).resolves.toEqual(state.accountState[address].accountConfig);
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'getAccountSettings',
+          params: {},
+        },
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toEqual(state.accountState[address].accountConfig);
 
       expect.assertions(1);
     });
@@ -1206,17 +1411,21 @@ describe('onRpcRequest', () => {
   describe('getSnapSettings', () => {
     const state = getDefaultSnapState();
     it('should succeed and return snap settings', async () => {
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'getSnapSettings',
-            params: {},
-          },
-        })
-      ).resolves.toEqual(state.snapConfig);
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'getSnapSettings',
+          params: {},
+        },
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toEqual(state.snapConfig);
 
       expect.assertions(1);
     });
@@ -1231,8 +1440,13 @@ describe('onRpcRequest', () => {
           method: 'resolveDID',
           params: { did: exampleDID },
         },
-      })) as DIDResolutionResult;
-      expect(res.didDocument).toEqual(exampleDIDDocument);
+      })) as Result<DIDResolutionResult>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data.didDocument).toEqual(exampleDIDDocument);
       expect.assertions(1);
     });
   });

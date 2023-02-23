@@ -78,7 +78,7 @@ export async function veramoClearVCs(args: {
   snap: SnapsGlobalObject;
   ethereum: MetaMaskInpageProvider;
   store?: AvailableVCStores | AvailableVCStores[];
-  filter?: Filter; // TODO: Seperate type from datamanager (currently vcmanager)?
+  filter?: Filter;
 }): Promise<boolean[]> {
   const { snap, ethereum, store, filter } = args;
   let options;

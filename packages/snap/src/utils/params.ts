@@ -169,7 +169,7 @@ export function isValidSwitchMethodRequest(
     param.didMethod !== null
   ) {
     if (!isAvailableMethods(param.didMethod))
-      throw new Error('Method is not supported!');
+      throw new Error('Did method is not supported!');
     return;
   }
   throw new Error('Invalid switchDIDMethod request.');
