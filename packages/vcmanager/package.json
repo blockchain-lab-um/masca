@@ -20,7 +20,8 @@
     "lint:eslint": "eslint .",
     "lint:prettier": "prettier . --check",
     "prepack": "pnpm build",
-    "test": "pnpm jest"
+    "test": "pnpm jest",
+    "test:ci": "pnpm run test --silent --coverage"
   },
   "dependencies": {
     "@blockchain-lab-um/ssi-snap-types": "*",
