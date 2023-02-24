@@ -9,17 +9,120 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  sonarcloud:
-    name: SonarCloud
+  # Snap
+  sonarcloud-snap:
+    name: SonarCloud snap
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Scan Snap
+      - uses: nrwl/nx-set-shas@v3
+        with:
+          main-branch-name: 'develop'
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7.25.1
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.13.0
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Test snap
+        run: pnpm nx test:ci @blockchain-lab-um/ssi-snap
+      - name: Scan snap
         uses: SonarSource/sonarcloud-github-action@master
         with:
           projectBaseDir: packages/snap
+          args: >
+            -Dsonar.organization=blockchain-lab-um
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
+
+  # VC Manager
+  sonarcloud-vcmanager:
+    name: SonarCloud VC Manager
+    runs-on: ubuntu-latest
+    steps:
+     - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: nrwl/nx-set-shas@v3
+        with:
+          main-branch-name: 'develop'
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7.25.1
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.13.0
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Test snap
+        run: pnpm nx test:ci @blockchain-lab-um/veramo-vc-manager
+      - name: Scan VC Manager
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          projectBaseDir: packages/vcmanager
+          args: >
+            -Dsonar.organization=blockchain-lab-um
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
+
+  # Connector
+  sonarcloud-connector:
+    name: SonarCloud connector
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Scan connector
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          projectBaseDir: packages/connector
+          args: >
+            -Dsonar.organization=blockchain-lab-um
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
+
+  # Dapp
+  sonarcloud-dapp:
+    name: SonarCloud dapp
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Scan dapp
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          projectBaseDir: packages/dapp
+          args: >
+            -Dsonar.organization=blockchain-lab-um
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
+
+  # Docs
+  sonarcloud-docs:
+    name: SonarCloud docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Scan docs
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          projectBaseDir: packages/docs
           args: >
             -Dsonar.organization=blockchain-lab-um
         env:
