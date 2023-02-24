@@ -18,8 +18,9 @@ jobs:
           fetch-depth: 0
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
-        with: >
-          -Dsonar.organization=blockchain-lab-um
+        with:
+          args: >
+            -Dsonar.organization=blockchain-lab-um
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
