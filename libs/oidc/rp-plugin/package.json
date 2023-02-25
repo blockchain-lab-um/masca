@@ -21,7 +21,7 @@
     "lint:tsc": "tsc --noEmit",
     "start": "veramo server",
     "test": "jest",
-    "test:ci": "jest --coverage=true --silent",
+    "test:ci": "jest --coverage --silent",
     "test:watch": "pnpm run test --watch --verbose"
   },
   "dependencies": {

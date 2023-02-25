@@ -19,6 +19,7 @@
     "start:dev": "nest start --watch",
     "start:prod": "node dist/main",
     "test": "jest --forceExit",
+    "test:ci": "jest --silent --coverage --forceExit",
     "test:cov": "jest --coverage --forceExit",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:watch": "jest --watch"
