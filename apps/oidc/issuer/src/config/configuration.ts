@@ -36,9 +36,12 @@ const config = (): IConfig => ({
 });
 
 export default ConfigModule.forRoot({
-  envFilePath: ['.env'],
+  envFilePath: [`.env.${process.env.NODE_ENV}`],
   load: [config],
   validationSchema: Joi.object({
+    NODE_ENV: Joi.string()
+      .valid('development', 'production', 'test')
+      .default('development'),
     ISSUER_DB_SECRET: Joi.string().required(),
     INFURA_PROJECT_ID: Joi.string().required(),
     ISSUER_PRIVATE_KEY: Joi.string().required(),
