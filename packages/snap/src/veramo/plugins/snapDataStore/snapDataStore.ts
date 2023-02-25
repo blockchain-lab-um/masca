@@ -43,7 +43,7 @@ export class SnapDIDStore extends AbstractDIDStore {
     this.ethereum = ethereumParam;
   }
 
-  async get({
+  async getDID({
     did,
     alias,
     provider,
@@ -80,7 +80,7 @@ export class SnapDIDStore extends AbstractDIDStore {
     );
   }
 
-  async delete({ did }: { did: string }) {
+  async deleteDID({ did }: { did: string }) {
     const state = await getSnapState(this.snap);
     const account = await getCurrentAccount(this.ethereum);
     if (!account) throw Error('User denied error');
@@ -93,7 +93,7 @@ export class SnapDIDStore extends AbstractDIDStore {
     return true;
   }
 
-  async import(args: IIdentifier) {
+  async importDID(args: IIdentifier) {
     const state = await getSnapState(this.snap);
     const account = await getCurrentAccount(this.ethereum);
     if (!account) throw Error('User denied error');
@@ -110,7 +110,7 @@ export class SnapDIDStore extends AbstractDIDStore {
     return true;
   }
 
-  async list(args: {
+  async listDIDs(args: {
     alias?: string;
     provider?: string;
   }): Promise<IIdentifier[]> {
