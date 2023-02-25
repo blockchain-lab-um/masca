@@ -148,7 +148,7 @@ export const FormatedTab = ({
               <span className="text-sm text-orange-500 font-semibold">
                 ISSUER
               </span>
-              <div className="text-gray-700 text-sm">DID</div>
+              <div className="text-gray-700 text-sm mt-1">DID</div>
               <div className="text-gray-900 font-semibold text-md break-all">
                 <div className="flex">
                   <a
@@ -173,17 +173,19 @@ export const FormatedTab = ({
                 </div>
               </div>
             </div>
-            <div className="mt-2">
+            <div className="mt-4">
               <span className="text-sm text-orange-500 font-semibold">
                 DATES
               </span>
 
               <div className="">
-                <div className="text-gray-700 text-sm">Issuance Date</div>
+                <div className="text-gray-700 text-sm mt-1">Issuance Date</div>
                 <div className="text-gray-900 font-semibold text-md break-all">
                   {new Date(Date.parse(vc.data.issuanceDate)).toDateString()}
                 </div>
-                <div className="text-gray-700 text-sm">Expiration Date</div>
+                <div className="text-gray-700 text-sm mt-1">
+                  Expiration Date
+                </div>
                 {vc.data.expirationDate ? (
                   <div className="text-gray-900 font-semibold text-md break-all">
                     {new Date(
@@ -195,12 +197,12 @@ export const FormatedTab = ({
                 )}
               </div>
             </div>
-            <div className="mt-2">
+            <div className="mt-4">
               <span className="text-sm text-orange-500 font-semibold">
                 DATA STORES
               </span>
               {vc.metadata.store && (
-                <div className="flex">
+                <div className="flex mt-1">
                   {stores.map((store, id) => (
                     <StoreIcon store={store} key={id} />
                   ))}

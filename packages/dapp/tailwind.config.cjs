@@ -70,6 +70,7 @@ module.exports = {
     fontSize: {
       hint: ['10px', { lineHeight: '16px', letterSpacing: '-0.03em' }],
       label: ['12px', { lineHeight: '12px', letterSpacing: '-0.03em' }],
+      '2xs': ['10px', { lineHeight: '10px', letterSpacing: '-0.03em' }],
       xs: ['12px', { lineHeight: '16px', letterSpacing: '-0.03em' }],
       sm: ['14px', { lineHeight: '15px', letterSpacing: '-0.03em' }],
       md: ['16px', { lineHeight: '19px', letterSpacing: '-0.03em' }],
