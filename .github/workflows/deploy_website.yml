@@ -2,12 +2,12 @@ name: Website deploy/build action
 
 on:
   pull_request:
-    branches: [develop]
+    branches: [master]
     types: [opened, synchronize, reopened]
     paths:
       - 'packages/website/**'
   push:
-    branches: [develop]
+    branches: [master]
     paths:
       - 'packages/website/**'
 
@@ -21,7 +21,7 @@ jobs:
           fetch-depth: 0
       - uses: nrwl/nx-set-shas@v3
         with:
-          main-branch-name: 'develop'
+          main-branch-name: 'master'
       - uses: actions/setup-node@v3
         with:
           node-version: 18.12.1
@@ -46,7 +46,7 @@ jobs:
           fetch-depth: 0
       - uses: nrwl/nx-set-shas@v3
         with:
-          main-branch-name: 'develop'
+          main-branch-name: 'master'
       - uses: actions/setup-node@v3
         with:
           node-version: 18.12.1
