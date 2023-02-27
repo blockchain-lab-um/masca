@@ -17,6 +17,7 @@ import Button from 'src/components/Button';
 import DeleteModal from 'src/components/DeleteModal';
 import ModifyDSModal from 'src/components/ModifyDSModal';
 import Link from 'next/link';
+import Tooltip from 'src/components/Tooltip';
 import { convertTypes } from 'src/utils/string';
 import { useTableStore } from '../../../utils/store';
 
@@ -97,25 +98,27 @@ export const FormatedTab = ({
                       <div className="text-gray-700 text-sm">{key}</div>
                       <div className="text-gray-900 font-semibold text-md break-all">
                         <div className="flex">
-                          <a
-                            href={`https://dev.uniresolver.io/#${vc.data.credentialSubject[key]}`}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="text-md font-semibold text-gray-900 underline underline-offset-2 hover:text-gray-700 animated-transition cursor-pointer"
-                          >
-                            {vc.data.credentialSubject.id && (
-                              <>
-                                {vc.data.credentialSubject.id.length > 20
-                                  ? `${vc.data.credentialSubject.id.slice(
-                                      0,
-                                      22
-                                    )}...${vc.data.credentialSubject.id.slice(
-                                      -4
-                                    )}`
-                                  : vc.data.credentialSubject.id}
-                              </>
-                            )}
-                          </a>
+                          <Tooltip tooltip={'Open DID in Universal resolver'}>
+                            <a
+                              href={`https://dev.uniresolver.io/#${vc.data.credentialSubject[key]}`}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="text-md font-semibold text-gray-900 underline underline-offset-2 hover:text-gray-700 animated-transition cursor-pointer"
+                            >
+                              {vc.data.credentialSubject.id && (
+                                <>
+                                  {vc.data.credentialSubject.id.length > 20
+                                    ? `${vc.data.credentialSubject.id.slice(
+                                        0,
+                                        22
+                                      )}...${vc.data.credentialSubject.id.slice(
+                                        -4
+                                      )}`
+                                    : vc.data.credentialSubject.id}
+                                </>
+                              )}
+                            </a>
+                          </Tooltip>
                           <button
                             className=""
                             onClick={() => {
@@ -151,16 +154,18 @@ export const FormatedTab = ({
               <div className="text-gray-700 text-sm mt-1">DID</div>
               <div className="text-gray-900 font-semibold text-md break-all">
                 <div className="flex">
-                  <a
-                    href={`https://dev.uniresolver.io/#${issuer}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-md font-semibold text-gray-900 underline underline-offset-2 hover:text-gray-700 animated-transition cursor-pointer"
-                  >
-                    {issuer.length > 20
-                      ? `${issuer.slice(0, 18)}...${issuer.slice(-4)}`
-                      : issuer}
-                  </a>
+                  <Tooltip tooltip={'Open DID in Universal resolver'}>
+                    <a
+                      href={`https://dev.uniresolver.io/#${issuer}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-md font-semibold text-gray-900 underline underline-offset-2 hover:text-gray-700 animated-transition cursor-pointer"
+                    >
+                      {issuer.length > 20
+                        ? `${issuer.slice(0, 18)}...${issuer.slice(-4)}`
+                        : issuer}
+                    </a>
+                  </Tooltip>
                   <button
                     className=""
                     onClick={() => {
@@ -204,7 +209,11 @@ export const FormatedTab = ({
               {vc.metadata.store && (
                 <div className="flex mt-1">
                   {stores.map((store, id) => (
-                    <StoreIcon store={store} key={id} />
+                    <Tooltip tooltip={store} key={id}>
+                      <div className="mt-1">
+                        <StoreIcon store={store} key={id} />
+                      </div>
+                    </Tooltip>
                   ))}
                 </div>
               )}

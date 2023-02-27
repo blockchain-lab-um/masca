@@ -237,7 +237,11 @@ export const Table = () => {
               .getValue()
               .split(',')
               .map((store, id) => (
-                <StoreIcon store={store} key={id} />
+                <Tooltip tooltip={store} key={id}>
+                  <div className="mt-1">
+                    <StoreIcon store={store} key={id} />
+                  </div>
+                </Tooltip>
               ))}
           </div>
         ),

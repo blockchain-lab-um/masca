@@ -23,7 +23,7 @@ export const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
           <DataStoreCombobox isConnected={isConnected} vcs={vcs} />
           <GlobalFilter isConnected={isConnected} vcs={vcs} />
         </div>
-        <div className="col-start-6">
+        <div className="col-start-6 flex justify-center">
           <ViewTabs />
         </div>
         <div className="col-start-12 flex">

@@ -4,6 +4,7 @@ import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import { useSnapStore } from 'src/utils/store';
 import Button from '../Button';
 import DropdownMultiselect from '../DropdownMultiselect';
+import InfoIcon from '../InfoIcon';
 
 interface ImportModalProps {
   open: boolean;
@@ -63,7 +64,9 @@ export function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
                     SETTINGS
                   </div>
                   <div className="px-4  flex justify-between items-center">
-                    <span className="text-gray-700 text-sm">Storage</span>
+                    <span className="text-gray-700 text-sm flex gap-x-1">
+                      Storage <InfoIcon>Select one or more locations.</InfoIcon>
+                    </span>
                     <div>
                       <DropdownMultiselect
                         items={availableStores}
