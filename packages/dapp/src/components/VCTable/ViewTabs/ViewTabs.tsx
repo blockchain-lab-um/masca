@@ -10,19 +10,23 @@ export const ViewTabs = () => {
     <Switch
       checked={cardView}
       onChange={setCardView}
-      className="bg-white text-lg rounded-full border border-gray-200 shadow-md py-2"
+      className="bg-white text-lg rounded-full border border-gray-200 shadow-md py-2 px-1"
     >
       <span
         className={`${
-          !cardView ? 'bg-orange-500 text-white' : ''
-        } text-orange-500 animated-transition py-2 px-4 rounded-full`}
+          !cardView
+            ? 'bg-orange-100 w-full rounded-full py-2 font-semibold px-4 text-orange-500 animated-transition'
+            : 'text-orange-900 hover:bg-orange-100 hover:text-orange-700'
+        } text-orange-500 animated-transition py-1 px-3 rounded-full`}
       >
         Table
       </span>
       <span
         className={`${
-          cardView ? 'bg-orange-500 text-white' : ''
-        } text-orange-500 animated-transition py-2 px-4 rounded-full`}
+          cardView
+            ? 'bg-orange-100 w-full rounded-full py-2 font-semibold px-4 text-orange-500 animated-transition'
+            : 'text-orange-900 hover:bg-orange-100 hover:text-orange-700'
+        } text-orange-500 animated-transition py-1 px-3 rounded-full`}
       >
         Card
       </span>
