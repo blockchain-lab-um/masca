@@ -92,7 +92,7 @@ export const useTableStore = create<TableStore>()((set) => ({
   globalFilter: '',
   columnFilters: [{ id: 'data_store', value: ['snap', 'ceramic'] }],
   selectedVCs: [],
-  cardView: false,
+  cardView: true,
   setCardView: (cardView: boolean) => set({ cardView }),
   setSelectedVCs: (selectedVCs: QueryVCsRequestResult[]) =>
     set({ selectedVCs }),
