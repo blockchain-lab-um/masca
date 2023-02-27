@@ -19,7 +19,7 @@ export const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
   return (
     <>
       <div className="grid grid-cols-11 mb-4 mt-6">
-        <div className="col-start-1 col-span-5 flex">
+        <div className="col-start-1 col-span-5 flex space-x-1">
           <DataStoreCombobox isConnected={isConnected} vcs={vcs} />
           <GlobalFilter isConnected={isConnected} vcs={vcs} />
         </div>

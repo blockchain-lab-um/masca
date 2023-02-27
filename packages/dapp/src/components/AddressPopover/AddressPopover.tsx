@@ -47,7 +47,7 @@ export const AddressPopover = ({
             leaveTo="transform scale-95 opacity-0"
           >
             <Popover.Panel className="absolute max-md:left-0 max-md:-top-12 max-md:transform max-md:-translate-y-full max-md:mb-2 md:mt-2 right-0 bg-white shadow-xl h-42 w-72  rounded-2xl border border-navy-blue-100">
-              <div className="p-4 rounded-2xl shadow-sm">
+              <div className="pt-3 px-3 pb-1 rounded-2xl shadow-sm">
                 <div className="flex flex-col justify-between gap-3">
                   <div>
                     <div className="text-sm text-gray-700">DID</div>
@@ -91,7 +91,7 @@ export const AddressPopover = ({
                   <div className="mt-2 flex justify-start">
                     <button
                       onClick={disconnect}
-                      className="mt-auto text-sm text-pink-800  font-semibold  hover:text-pink-700 animated-transition"
+                      className="mt-auto text-xs text-pink-800 font-semibold hover:text-pink-700 animated-transition"
                     >
                       DISCONNECT
                     </button>

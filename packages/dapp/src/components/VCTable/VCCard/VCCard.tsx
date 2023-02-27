@@ -31,7 +31,7 @@ export const VCCard = ({ row }: VCCardProps) => {
     </Tooltip>
   );
   return (
-    <div className=" bg-gradient-to-b from-orange-50 to-pink-50 w-72 sm:w-96 h-56 mx-4 mt-8 p-4 rounded-xl  grow-0 shrink-0 ">
+    <div className=" bg-gradient-to-b from-orange-50 to-pink-50 w-72 sm:w-96 h-56 mx-4 mt-8 p-4 rounded-xl shadow-lg border-gray-100 border grow-0 shrink-0 ">
       <div className="flex h-full flex-col justify-between">
         <div className="flex justify-between items-center">
           <Link
@@ -71,7 +71,7 @@ export const VCCard = ({ row }: VCCardProps) => {
             row.getIsSelected()
               ? 'bg-orange-200 text-orange-800 font-semibold'
               : ''
-          } bg-white rounded-full py-1 animated-transition mt-4`}
+          } bg-white rounded-full py-1 mt-4`}
         >
           <div className="grid grid-cols-3">
             <span className="col-start-2">
