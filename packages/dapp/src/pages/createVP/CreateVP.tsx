@@ -69,7 +69,7 @@ export const CreateVP = () => {
                 OPTIONS
               </div>
               <div className="flex justify-between items-center px-4">
-                <div>Format</div>
+                <div className="text-gray-900">Format</div>
                 <DropdownMenu
                   size="sm"
                   rounded="full"
@@ -98,26 +98,26 @@ export const CreateVP = () => {
               </div>
               {advanced && (
                 <div className="px-4">
-                  <div className="text-gray-800 text-xs pl-3 my-2">
-                    CHALLENGE
-                  </div>
+                  <div className="text-gray-700 text-xs my-1">CHALLENGE</div>
                   <div className="max-w-xs">
                     <InputField
                       variant="gray"
                       size="sm"
                       placeholder="challenge"
                       rounded="xl"
+                      shadow="sm"
                       value={challenge}
                       setValue={setChallenge}
                     />
                   </div>
-                  <div className="text-gray-800 text-xs pl-3 my-2">DOMAIN</div>
+                  <div className="text-gray-700 text-xs mt-4 my-1">DOMAIN</div>
                   <div className="max-w-xs">
                     <InputField
                       variant="gray"
                       size="sm"
                       placeholder="domain"
                       rounded="xl"
+                      shadow="sm"
                       value={domain}
                       setValue={setDomain}
                     />

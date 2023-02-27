@@ -45,7 +45,7 @@ export const VCCard = ({ row }: VCCardProps) => {
           <div>{validity === 'true' ? 'valid' : 'invalid'}</div>
         </div>
         <div className="flex justify-between items-center mt-1">
-          <div className="text-md text-gray-700">
+          <div className="text-md text-gray-900">
             <div>
               <span className=" text-2xs text-orange-700">ISSUED BY</span>
               <div className="">{issuerLink}</div>

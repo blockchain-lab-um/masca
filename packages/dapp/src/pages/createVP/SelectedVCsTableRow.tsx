@@ -1,9 +1,6 @@
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
-import {
-  ArrowsPointingOutIcon,
-  XCircleIcon,
-} from '@heroicons/react/24/outline';
-import { CheckCircleIcon, MinusCircleIcon } from '@heroicons/react/24/solid';
+import { ArrowsPointingOutIcon } from '@heroicons/react/24/outline';
+import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 import React from 'react';
 import Tooltip from 'src/components/Tooltip';
@@ -60,16 +57,18 @@ export const SelectedVCsTableRow = ({
       <td>{type}</td>
       <td>
         {
-          <a
-            href={`https://dev.uniresolver.io/#${issuer}`}
-            target="_blank"
-            rel="noreferrer"
-            className="text-orange-500 hover:text-orange-700 underline"
-          >
-            {issuer.length > 20
-              ? `${issuer.slice(0, 8)}...${issuer.slice(-4)}`
-              : issuer}
-          </a>
+          <Tooltip tooltip="Open in Universal Resolver">
+            <a
+              href={`https://dev.uniresolver.io/#${issuer}`}
+              target="_blank"
+              rel="noreferrer"
+              className="text-orange-500 hover:text-orange-700 underline"
+            >
+              {issuer.length > 20
+                ? `${issuer.slice(0, 8)}...${issuer.slice(-4)}`
+                : issuer}
+            </a>
+          </Tooltip>
         }
       </td>
       <td>
@@ -94,7 +93,7 @@ export const SelectedVCsTableRow = ({
       <td>
         <span className="flex justify-center items-center">
           <button onClick={() => handleRemove(vc.metadata.id)}>
-            <XCircleIcon className="h-6 w-6 text-red-500 hover:text-white hover:bg-red-500 rounded-full animated-transition" />
+            <XCircleIcon className="h-6 w-6 text-red-500 hover:text-red-500/90 rounded-full animated-transition" />
           </button>
         </span>
       </td>
