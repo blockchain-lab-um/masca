@@ -30,6 +30,7 @@
   "scripts": {
     "build": "yarn nx affected --target=build",
     "build:all": "yarn nx run-many --target=build --all",
+    "release-build:core": "yarn nx run-many --target=build --projects=@blockchain-lab-um/ssi-snap,@blockchain-lab-um/ssi-snap-connector,@blockchain-lab-um/veramo-vc-manager",
     "build:connector": "yarn nx build @blockchain-lab-um/ssi-snap-connector",
     "build:docs": "yarn nx build @blockchain-lab-um/ssi-snap-docs",
     "build:vcmanager": "yarn nx build @blockchain-lab-um/veramo-vc-manager",
