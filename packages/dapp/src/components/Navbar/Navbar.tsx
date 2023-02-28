@@ -12,6 +12,7 @@ import logo_b from '../../images/ssi_icon_b.png';
 import logo_w from '../../images/ssi_icon_w.png';
 import ConnectButton from '../ConnectButton';
 import AddressPopover from '../AddressPopover';
+import MenuPopover from '../MenuPopover';
 
 export default function Navbar() {
   const router = useRouter();
@@ -52,7 +53,7 @@ export default function Navbar() {
           <NavBtn page="/">Home</NavBtn>
           <NavBtn page="/dashboard">Dashboard</NavBtn>
           <NavBtn page="/settings">Settings</NavBtn>
-          <NavBtn page="/...">...</NavBtn>
+          <MenuPopover />
         </div>
       )}
       <div className="hidden md:block">
