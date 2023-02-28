@@ -97,7 +97,15 @@ export const Table = () => {
             query: { id: row.original.metadata.id },
           }}
         >
-          <button>
+          <button
+            // eslint-disable-next-line @typescript-eslint/no-use-before-define
+            onClick={() =>
+              setSelectedVCs(
+                // eslint-disable-next-line @typescript-eslint/no-use-before-define
+                table.getSelectedRowModel().rows.map((r) => r.original)
+              )
+            }
+          >
             <ArrowsPointingOutIcon className="w-5 h-5" />
           </button>
         </Link>
@@ -293,7 +301,7 @@ export const Table = () => {
   ];
 
   const table = useReactTable({
-    data: VC_DATA,
+    data: vcs,
     columns,
     filterFns: { includesDataStore },
     globalFilterFn: 'includesString',
@@ -315,14 +323,16 @@ export const Table = () => {
   });
 
   const selectRows = () => {
-    console.log('Selected vcs', selectedVCs);
+    // TODO only check IDs after snap bug is fixed (join same VCs with different stores)
     table.getPrePaginationRowModel().rows.forEach((row) => {
       if (
-        selectedVCs.filter((vc) => vc.metadata.id === row.original.metadata.id)
-          .length > 0
+        selectedVCs.filter(
+          (vc) =>
+            vc.metadata.id === row.original.metadata.id &&
+            vc.metadata.store === row.original.metadata.store
+        ).length > 0
       ) {
         row.toggleSelected(true);
-        setSelectedVCs(table.getSelectedRowModel().rows.map((r) => r.original));
       }
     });
   };
