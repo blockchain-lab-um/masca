@@ -69,6 +69,9 @@ export default function Settings() {
                 <span className="text-orange-500 font-semibold text-h4">
                   Advanced
                 </span>
+                <div className="text-red-500 mt-2 text-sm">
+                  Not implemented yet.
+                </div>
                 <div></div>
               </div>
             </div>

@@ -11,6 +11,8 @@ import Button from 'src/components/Button';
 import ToggleSwitch from 'src/components/Switch';
 import InputField from 'src/components/InputField';
 import InfoIcon from 'src/components/InfoIcon';
+import VPModal from 'src/components/VPModal';
+import { W3CVerifiablePresentation } from '@veramo/core';
 import {
   ProofOptions,
   SupportedProofFormats,
@@ -25,6 +27,8 @@ const proofFormats: Record<string, SupportedProofFormats> = {
 };
 
 export const CreateVP = () => {
+  const [vpModalOpen, setVpModalOpen] = useState(false);
+  const [vp, setVp] = useState({});
   const selectedVCs = useTableStore((state) => state.selectedVCs);
   const setSelectedVCs = useTableStore((state) => state.setSelectedVCs);
   const api = useSnapStore((state) => state.snapApi);
@@ -53,6 +57,8 @@ export const CreateVP = () => {
       proofOptions,
     });
     console.log(res);
+    setVp(res);
+    setVpModalOpen(true);
   };
 
   return (
@@ -162,6 +168,11 @@ export const CreateVP = () => {
           </ConnectedGateway>
         </div>
       </div>
+      <VPModal
+        open={vpModalOpen}
+        setOpen={setVpModalOpen}
+        vp={vp as W3CVerifiablePresentation}
+      />
     </MetaMaskGateway>
   );
 };

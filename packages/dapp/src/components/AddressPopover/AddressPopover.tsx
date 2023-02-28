@@ -51,7 +51,7 @@ export const AddressPopover = ({
                 <div className="flex flex-col justify-between gap-3">
                   <div>
                     <div className="text-sm text-gray-700">DID</div>
-                    <div className="flex items-center">
+                    <div className="flex items-center mt-2">
                       <div className=" text-2xl text-gray-900">{`${did.slice(
                         0,
                         12
@@ -67,10 +67,10 @@ export const AddressPopover = ({
                     </div>
                   </div>
                   <div>
-                    <div className=" text-sm text-gray-700">
+                    <div className=" text-sm text-gray-700 mt-2">
                       CONNECTED WITH METAMASK
                     </div>
-                    <div className="flex items-center">
+                    <div className="flex items-center mt-2">
                       <div className="mr-1 mt-0.5">
                         <div className="w-2.5 h-2.5 bg-green-500 rounded-full"></div>
                       </div>

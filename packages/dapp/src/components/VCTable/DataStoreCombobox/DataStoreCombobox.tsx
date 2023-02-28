@@ -34,7 +34,8 @@ export const DataStoreCombobox = ({
     return [];
   }) as string[];
 
-  const dataStoresFull = VC_DATA.filter((vc) => vc.metadata.store !== undefined)
+  const dataStoresFull = vcs
+    .filter((vc) => vc.metadata.store !== undefined)
     .map((vc) => {
       return vc.metadata.store;
     })
