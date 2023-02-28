@@ -1,5 +1,6 @@
 import { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
+import { useSnapStore } from 'src/utils/store';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import Button from '../Button';
 
@@ -10,7 +11,19 @@ interface DeleteModalProps {
 }
 
 export function DeleteModal({ open, setOpen, vc }: DeleteModalProps) {
-  console.log(vc);
+  const api = useSnapStore((state) => state.snapApi);
+
+  const deleteVC = async () => {
+    setOpen(false);
+    if (vc) {
+      await api?.deleteVC(vc.metadata.id);
+      const vcs = await api?.queryVCs();
+      if (vcs) {
+        useSnapStore.getState().changeVcs(vcs);
+      }
+    }
+  };
+
   return (
     <Transition appear show={open} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={() => setOpen(false)}>
@@ -62,7 +75,8 @@ export function DeleteModal({ open, setOpen, vc }: DeleteModalProps) {
                   </div>
                   <div className="mt-4 ml-2">
                     <Button
-                      onClick={() => setOpen(false)}
+                      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                      onClick={() => deleteVC()}
                       variant="warning"
                       size="popup"
                     >

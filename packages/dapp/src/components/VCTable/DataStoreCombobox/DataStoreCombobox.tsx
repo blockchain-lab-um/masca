@@ -53,7 +53,7 @@ export const DataStoreCombobox = ({
         });
 
   return (
-    <div className="w-36">
+    <div className="w-36 h-9">
       <Combobox
         value={selectedItems}
         onChange={(value) => {
@@ -64,10 +64,10 @@ export const DataStoreCombobox = ({
         disabled={!isConnected || vcs.length === 0}
       >
         {({ open }) => (
-          <div className="relative">
-            <div className="relative  w-full cursor-default rounded-full overflow-hidden focus:outline-none bg-whitetext-left  sm:text-sm border border-gray-200 shadow-md">
+          <div className="h-full relative">
+            <div className="relative h-full w-full cursor-default rounded-full overflow-hidden focus:outline-none bg-whitetext-left  sm:text-sm border border-gray-200 shadow-md">
               <Combobox.Input
-                className={`w-full placeholder:text-orange-200 border-none py-2 pl-3 pr-8 text-sm leading-5 focus:outline-none dark:bg-gray-800 text-orange-500 focus:ring-0 ${
+                className={`w-full h-full placeholder:text-orange-200 border-none py-1.5 pl-3 pr-8 text-sm leading-5 focus:outline-none dark:bg-gray-800 text-orange-500 focus:ring-0 ${
                   !isConnected || vcs.length === 0
                     ? 'bg-gray-50 text-gray-300'
                     : ' '

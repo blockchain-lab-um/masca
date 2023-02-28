@@ -1,9 +1,3 @@
-import MetaMaskGateway from '../../components/MetaMaskGateway';
+import Settings from './Settings';
 
-export default function Settings() {
-  return (
-    <MetaMaskGateway>
-      <h1>Hello world from settings</h1>
-    </MetaMaskGateway>
-  );
-}
+export default Settings;

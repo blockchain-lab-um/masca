@@ -1,6 +1,9 @@
 import { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
+import {
+  AvailableVCStores,
+  QueryVCsRequestResult,
+} from '@blockchain-lab-um/ssi-snap-types';
 import { useSnapStore } from 'src/utils/store';
 import Button from '../Button';
 import DropdownMultiselect from '../DropdownMultiselect';
@@ -9,16 +12,15 @@ import InfoIcon from '../InfoIcon';
 interface ImportModalProps {
   open: boolean;
   setOpen: (open: boolean) => void;
-  importVC: (vc: QueryVCsRequestResult) => void;
+  importVC: (vc: string, stores: AvailableVCStores[]) => void;
 }
 
 export function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
+  const [vc, setVC] = useState('');
   const VCStores = useSnapStore((state) => state.availableVCStores);
   const availableStores = Object.keys(VCStores).filter(
     (key) => VCStores[key] === true
   );
-  console.log(VCStores);
-  console.log(availableStores);
   return (
     <Transition appear show={open} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={() => setOpen(false)}>
@@ -59,7 +61,11 @@ export function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
                   </p>
                 </div>
                 <div className="mt-8">
-                  <textarea className="bg-gray-100 rounded-2xl border-gray-200 shadow-md border font-jetbrains text-label p-3 w-full focus:outline-none h-[25vh]" />
+                  <textarea
+                    value={vc}
+                    onChange={(e) => setVC(e.target.value)}
+                    className="bg-gray-100 rounded-2xl border-gray-200 shadow-md border font-jetbrains text-label p-3 w-full focus:outline-none h-[25vh]"
+                  />
                   <div className="text-orange-500 font-semibold mt-8 pl-2 text-sm">
                     SETTINGS
                   </div>
@@ -90,7 +96,10 @@ export function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
 
                   <div className="mt-4 ml-2">
                     <Button
-                      onClick={() => setOpen(false)}
+                      onClick={() => {
+                        importVC(vc, availableStores as AvailableVCStores[]);
+                        setOpen(false);
+                      }}
                       variant="primary"
                       size="popup"
                     >

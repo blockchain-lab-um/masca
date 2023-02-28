@@ -76,6 +76,9 @@ export function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
                   Modify Credential
                 </Dialog.Title>
                 <div className="mt-2">
+                  <p className="text-sm text-red-500 my-2">
+                    Feature not implemented yet.
+                  </p>
                   <p className="text-sm text-gray-500">
                     Here you can define where the credential will be stored.
                   </p>

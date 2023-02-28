@@ -315,12 +315,14 @@ export const Table = () => {
   });
 
   const selectRows = () => {
+    console.log('Selected vcs', selectedVCs);
     table.getPrePaginationRowModel().rows.forEach((row) => {
       if (
         selectedVCs.filter((vc) => vc.metadata.id === row.original.metadata.id)
           .length > 0
       ) {
         row.toggleSelected(true);
+        setSelectedVCs(table.getSelectedRowModel().rows.map((r) => r.original));
       }
     });
   };
@@ -339,8 +341,7 @@ export const Table = () => {
   if (vcs.length === 0)
     return (
       <div className="flex flex-col justify-center items-center min-h-[50vh] ">
-        Load VCs to get Started!
-        <Button variant="primary" size="lg" onClick={handleLoadVcs}>
+        <Button variant="primary" size="md" onClick={handleLoadVcs}>
           Load VCs
         </Button>
       </div>
@@ -411,8 +412,14 @@ export const Table = () => {
                           cell.column.id !== 'subject' &&
                           cell.column.id !== 'issuer' &&
                           cell.column.id !== 'actions'
-                        )
+                        ) {
                           row.toggleSelected();
+                          setSelectedVCs(
+                            table
+                              .getSelectedRowModel()
+                              .rows.map((r) => r.original)
+                          );
+                        }
                       }}
                       className={`py-5 max-h-16  ${
                         cell.column.id === 'type' ||

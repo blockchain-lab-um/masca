@@ -18,7 +18,7 @@ export const GlobalFilter = ({ isConnected, vcs }: GlobalFilterProps) => {
       }`}
     >
       <MagnifyingGlassIcon
-        className={`hidden h-6 w-6 md:block text-orange-500 ml-3 ${
+        className={`hidden h-5 w-5 md:block text-orange-500 ml-3 ${
           !isConnected || vcs.length === 0 ? 'text-gray-300 bg-gray-50' : ''
         }`}
         aria-hidden="true"

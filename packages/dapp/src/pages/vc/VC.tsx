@@ -83,14 +83,19 @@ export const VC = () => {
                 >
                   <Cog6ToothIcon className="w-5 h-5" />
                 </Button>
-                <Button variant="white" size="icon" shadow="md">
+                <Button
+                  variant="white"
+                  size="icon"
+                  shadow="md"
+                  onClick={() => console.log('not implemented yet')}
+                >
                   <ArrowDownTrayIcon className="w-5 h-5" />
                 </Button>
                 <Button
                   variant="white"
                   size="icon"
                   shadow="md"
-                  onClick={() => setDeleteModalOpen(true)}
+                  onClick={() => console.log('not implemented yet')}
                 >
                   <ShareIcon className="w-5 h-5" />
                 </Button>

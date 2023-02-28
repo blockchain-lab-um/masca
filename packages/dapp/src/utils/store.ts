@@ -27,7 +27,7 @@ interface GeneralStore {
 
 export const useGeneralStore = create<GeneralStore>()((set) => ({
   address: '',
-  isConnected: true,
+  isConnected: false,
   did: '',
   hasMetaMask: false,
   isFlask: false,
@@ -65,7 +65,7 @@ export const useSnapStore = create<SnapStore>()((set) => ({
   currVCStore: undefined,
   currDID: '',
   vcs: VC_DATA,
-  availableVCStores: { snap: true, ceramic: true },
+  availableVCStores: { snap: true, ceramic: false },
   changeAvailableVCStores: (availableVCStores: Record<string, boolean>) =>
     set({ availableVCStores }),
   changeSnapApi: (snapApi: SSISnapApi) => set({ snapApi }),
