@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.3.0](https://github.com/blockchain-lab-um/ssi-snap/compare/ssi-snap-connector-v1.0.8...ssi-snap-connector-v1.3.0) (2023-01-13)
+## [1.3.0](https://github.com/blockchain-lab-um/ssi-snap/compare/ssi-snap-connector-v1.0.8...ssi-snap-connector-v1.3.0) (2023-02-27)
 
 
 ### :rocket: Features

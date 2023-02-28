@@ -2,7 +2,7 @@ name: Website deploy/build action
 
 on:
   pull_request:
-    branches: [develop]
+    branches: [master,develop]
     types: [opened, synchronize, reopened]
     paths:
       - 'packages/website/**'
@@ -15,7 +15,7 @@ on:
 
 jobs:
   test-build:
-    # Test build on every PR to DEVELOP
+    # Test build on every PR to DEVELOP and MASTER
     if: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
     steps:

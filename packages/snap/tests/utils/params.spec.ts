@@ -24,6 +24,11 @@ describe('Utils [params]', () => {
       expect(() => isValidResolveDIDRequest(null)).toThrow(Error);
     });
   });
+  describe('isValidResolveDIDRequest', () => {
+    it('should fail for null', () => {
+      expect(() => isValidResolveDIDRequest(null)).toThrow(Error);
+    });
+  });
 
   describe('isValidQueryRequest', () => {
     it('should fail for not enabled store', () => {
