@@ -38,9 +38,9 @@
     "docker:build": "docker build . -t blockchain-lab-um/ssi-snap",
     "lint": "pnpm prettier && pnpm nx affected --target=lint",
     "lint:all": "pnpm prettier && pnpm nx run-many --target=lint --all",
-    "release-build:core": "pnpm nx run-many --target=build --projects=@blockchain-lab-um/ssi-snap,@blockchain-lab-um/ssi-snap-connector,@blockchain-lab-um/veramo-vc-manager",
     "prepare": "is-ci || husky install",
     "prettier": "prettier --write .",
+    "release-build:core": "pnpm nx run-many --target=build --projects=@blockchain-lab-um/ssi-snap,@blockchain-lab-um/ssi-snap-connector,@blockchain-lab-um/veramo-vc-manager",
     "start": "pnpm nx run-many --target=start --all",
     "start:dapp": "pnpm nx start @blockchain-lab-um/website",
     "start:docs": "pnpm nx start @blockchain-lab-um/ssi-snap-docs",
@@ -90,9 +90,9 @@
   },
   "pnpm": {
     "patchedDependencies": {
-      "@metamask/snaps-types@0.27.1": "patches/@metamask__snaps-types@0.27.1.patch",
       "cross-fetch@3.1.5": "patches/cross-fetch@3.1.5.patch",
-      "@veramo/did-provider-pkh@5.0.0": "patches/@veramo__did-provider-pkh@5.0.0.patch"
+      "@veramo/did-provider-pkh@5.0.0": "patches/@veramo__did-provider-pkh@5.0.0.patch",
+      "@metamask/snaps-types@0.28.0": "patches/@metamask__snaps-types@0.28.0.patch"
     }
   }
 }
