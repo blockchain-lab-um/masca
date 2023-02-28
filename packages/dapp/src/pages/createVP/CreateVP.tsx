@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import Link from 'next/link';
@@ -9,12 +10,25 @@ import DropdownMenu from 'src/components/DropdownMenu';
 import Button from 'src/components/Button';
 import ToggleSwitch from 'src/components/Switch';
 import InputField from 'src/components/InputField';
-import { useTableStore } from '../../utils/store';
+import InfoIcon from 'src/components/InfoIcon';
+import {
+  ProofOptions,
+  SupportedProofFormats,
+} from '@blockchain-lab-um/ssi-snap-types';
+import { useSnapStore, useTableStore } from '../../utils/store';
 import { SelectedVCsTableRow } from './SelectedVCsTableRow';
+
+const proofFormats: Record<string, SupportedProofFormats> = {
+  JWT: 'jwt',
+  'JSON-LD': 'lds',
+  EthereumEip712Signature2021: 'EthereumEip712Signature2021',
+};
 
 export const CreateVP = () => {
   const selectedVCs = useTableStore((state) => state.selectedVCs);
   const setSelectedVCs = useTableStore((state) => state.setSelectedVCs);
+  const api = useSnapStore((state) => state.snapApi);
+
   const [format, setFormat] = useState('jwt');
   const [advanced, setAdvanced] = useState(false);
   const [challenge, setChallenge] = useState('');
@@ -24,8 +38,21 @@ export const CreateVP = () => {
     setSelectedVCs(selectedVCs?.filter((vc) => vc.metadata.id !== id));
   };
 
-  const handleCreateVP = () => {
-    console.log('Create VP');
+  const handleCreateVP = async () => {
+    if (!api) return;
+
+    const vcs = selectedVCs.map((vc) => {
+      return { id: vc.metadata.id };
+    });
+
+    const proofOptions = { type: '', domain, challenge };
+
+    const res = await api.createVP({
+      vcs,
+      proofFormat: proofFormats[format],
+      proofOptions,
+    });
+    console.log(res);
   };
 
   return (
@@ -73,18 +100,19 @@ export const CreateVP = () => {
                 <DropdownMenu
                   size="sm"
                   rounded="full"
-                  shadow="lg"
+                  shadow="md"
                   variant="primary-active"
                   selected={format}
                   setSelected={setFormat}
-                  items={['jwt', 'jsonld', 'eip']}
+                  items={['JWT', 'JSON-LD', 'EthereumEip712Signature2021']}
                 />
               </div>
             </div>
             <div>
               <div className="border-b border-gray-300 flex justify-between items-baseline mt-16">
-                <div className="text-orange-500 font-semibold pl-2 text-sm">
-                  ADVANCED
+                <div className="text-orange-500 font-semibold pl-2 text-sm flex gap-x-0.5">
+                  ADVANCED{' '}
+                  <InfoIcon>Only applicable to JWT Proof format.</InfoIcon>
                 </div>
                 <div className="pr-4">
                   <ToggleSwitch
@@ -97,7 +125,7 @@ export const CreateVP = () => {
                 </div>
               </div>
               {advanced && (
-                <div className="px-4">
+                <div className="px-4 mt-4">
                   <div className="text-gray-700 text-xs my-1">CHALLENGE</div>
                   <div className="max-w-xs">
                     <InputField
