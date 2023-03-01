@@ -31,7 +31,8 @@ export const ConnectButton = () => {
     (state) => state.changeAvailableVCStores
   );
 
-  const snapId = 'local:http://localhost:8081';
+  // const snapId = 'local:http://localhost:8081';
+  const snapId = 'npm:@blockchain-lab-um/ssi-snap';
 
   const connect = async () => {
     if (window.ethereum) {

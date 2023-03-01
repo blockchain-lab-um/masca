@@ -74,9 +74,10 @@ export const DataStoreCombobox = ({
                     ? 'bg-gray-50 text-gray-300'
                     : ' '
                 }`}
-                displayValue={(value) => {
-                  if (value === undefined) return '';
+                displayValue={(value: null | string | string[]) => {
+                  if (value === undefined || value === null) return '';
                   if (typeof value === 'string') return value;
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
                   return value.join(', ');
                 }}
                 placeholder="None"

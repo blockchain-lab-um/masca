@@ -3,7 +3,8 @@ import { enableSSISnap } from '@blockchain-lab-um/ssi-snap-connector';
 
 import { useSnapStore } from './store';
 
-const snapId = 'local:http://localhost:8081';
+// const snapId = 'local:http://localhost:8081';
+const snapId = 'npm:@blockchain-lab-um/ssi-snap';
 
 export const connectWallet = async () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
