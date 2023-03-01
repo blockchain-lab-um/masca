@@ -1,7 +1,8 @@
 import { base58btc } from 'multiformats/bases/base58';
-import { getCompressedPublicKey } from '../../utils/snapUtils';
+
 import { SSISnapState } from '../../interfaces';
 import { addMulticodecPrefix } from '../../utils/formatUtils';
+import { getCompressedPublicKey } from '../../utils/snapUtils';
 
 export function getDidKeyIdentifier(
   state: SSISnapState,

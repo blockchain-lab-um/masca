@@ -1,7 +1,8 @@
 import React from 'react';
-import DocusaurusReact from '@site/static/img/undraw_docusaurus_react.svg';
 import DocusaurusMountain from '@site/static/img/undraw_docusaurus_mountain.svg';
+import DocusaurusReact from '@site/static/img/undraw_docusaurus_react.svg';
 import DocusaurusTree from '@site/static/img/undraw_docusaurus_tree.svg';
+
 import styles from './styles.module.css';
 
 const FeatureList = [

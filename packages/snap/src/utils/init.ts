@@ -1,4 +1,5 @@
 import { SnapsGlobalObject } from '@metamask/snaps-types';
+
 import { SSISnapState } from '../interfaces';
 import { snapConfirm } from './snapUtils';
 import { initSnapState } from './stateUtils';

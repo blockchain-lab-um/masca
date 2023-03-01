@@ -1,7 +1,8 @@
-import { VerifiablePresentation } from '@veramo/core';
 import { CreateVPRequestParams } from '@blockchain-lab-um/ssi-snap-types';
-import { veramoCreateVP } from '../../utils/veramoUtils';
+import { VerifiablePresentation } from '@veramo/core';
+
 import { ApiParams } from '../../interfaces';
+import { veramoCreateVP } from '../../utils/veramoUtils';
 
 export async function createVP(
   params: ApiParams,

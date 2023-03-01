@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Member } from '../../constants/Members';
 import styles from './styles.module.css';
 

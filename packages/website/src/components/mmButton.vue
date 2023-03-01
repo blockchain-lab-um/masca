@@ -25,12 +25,13 @@
 </template>
 
 <script setup lang="ts">
+import { useGeneralStore } from '@/stores/general';
+import { useMetamaskStore } from '@/stores/metamask';
+import type { ToastServiceMethods } from 'primevue/toastservice';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { installSnap, initStore, snapId } from '../util/snap';
-import { useMetamaskStore } from '@/stores/metamask';
-import { useGeneralStore } from '@/stores/general';
-import type { ToastServiceMethods } from 'primevue/toastservice';
+
+import { initStore, installSnap, snapId } from '../util/snap';
 
 const generalStore = useGeneralStore();
 const mmStore = useMetamaskStore();

@@ -1,10 +1,11 @@
 import { resolve } from 'path';
 import SnapsWebpackPlugin from '@metamask/snaps-webpack-plugin';
+import ESLintPlugin from 'eslint-webpack-plugin';
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import { Configuration, ProvidePlugin } from 'webpack';
 import { merge } from 'webpack-merge';
 import WebpackBarPlugin from 'webpackbar';
-import ESLintPlugin from 'eslint-webpack-plugin';
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+
 // Configuration that is shared between the two bundles
 const common: Configuration = {
   // For simplicity, we don't do any optimisations here. Ideally, this would be

@@ -1,11 +1,12 @@
-import { ref, computed } from 'vue';
-import { defineStore } from 'pinia';
 import type {
   AvailableVCStores,
   QueryVCsRequestResult,
   SSISnapApi,
 } from '@blockchain-lab-um/ssi-snap-types';
-import type { VerifiableCredential, DIDMethod } from '../util/interfaces';
+import { defineStore } from 'pinia';
+import { computed, ref } from 'vue';
+
+import type { DIDMethod, VerifiableCredential } from '../util/interfaces';
 
 export const useMetamaskStore = defineStore('metamask', () => {
   // Store values

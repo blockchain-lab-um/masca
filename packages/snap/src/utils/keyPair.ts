@@ -1,11 +1,12 @@
-import {
-  getBIP44AddressKeyDeriver,
-  BIP44CoinTypeNode,
-} from '@metamask/key-tree';
-import { ApiParams, SSISnapState } from 'src/interfaces';
-import { ethers } from 'ethers';
 import { didCoinTypeMappping } from '@blockchain-lab-um/ssi-snap-types';
+import {
+  BIP44CoinTypeNode,
+  getBIP44AddressKeyDeriver,
+} from '@metamask/key-tree';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { ethers } from 'ethers';
+import { ApiParams, SSISnapState } from 'src/interfaces';
+
 import { updateSnapState } from './stateUtils';
 
 export function getAccountIndex(

@@ -1,14 +1,15 @@
 import { IAgentPlugin } from '@veramo/core';
+
+import { AbstractDataStore } from '../data-store/abstractDataStore';
 import {
   IDataManager,
-  IDataManagerQueryArgs,
   IDataManagerClearArgs,
   IDataManagerDeleteArgs,
+  IDataManagerQueryArgs,
   IDataManagerQueryResult,
   IDataManagerSaveArgs,
   IDataManagerSaveResult,
 } from '../types/IDataManager';
-import { AbstractDataStore } from '../data-store/abstractDataStore';
 
 export class DataManager implements IAgentPlugin {
   readonly methods: IDataManager = {

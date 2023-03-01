@@ -30,6 +30,7 @@ module.exports = {
     '**/node_modules/**',
     '**/dist/**',
     '**/!.eslintrc.js',
+    '**/!.eslintrc.cjs',
     '**/coverage/**',
     '**/build/**',
     '**/.docusaurus/**',

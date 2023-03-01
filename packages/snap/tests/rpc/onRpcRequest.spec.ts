@@ -1,27 +1,28 @@
+import {
+  availableMethods,
+  availableVCStores,
+} from '@blockchain-lab-um/ssi-snap-types';
+import { StreamID } from '@ceramicnetwork/streamid';
+import { DIDDataStore } from '@glazed/did-datastore';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
-import {
-  availableVCStores,
-  availableMethods,
-} from '@blockchain-lab-um/ssi-snap-types';
 import { DIDResolutionResult, VerifiablePresentation } from '@veramo/core';
 import * as uuid from 'uuid';
-import { DIDDataStore } from '@glazed/did-datastore';
-import { StreamID } from '@ceramicnetwork/streamid';
+
+import { onRpcRequest } from '../../src/index';
+import { StoredCredentials } from '../../src/interfaces';
+import * as snapUtils from '../../src/utils/snapUtils';
 import { veramoClearVCs } from '../../src/utils/veramoUtils';
 import {
+  address,
   exampleDID,
+  exampleDIDDocument,
   exampleDIDKey,
   exampleVC,
   getDefaultSnapState,
   jsonPath,
-  address,
-  exampleDIDDocument,
 } from '../testUtils/constants';
-import { StoredCredentials } from '../../src/interfaces';
-import * as snapUtils from '../../src/utils/snapUtils';
-import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
-import { onRpcRequest } from '../../src/index';
+import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
 
 jest.mock('uuid');
 let ceramicData: StoredCredentials;

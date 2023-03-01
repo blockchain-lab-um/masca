@@ -1,11 +1,13 @@
 /* eslint-disable no-param-reassign */
-import { publicKeyConvert } from 'secp256k1';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
-import { BIP44CoinTypeNode } from '@metamask/key-tree';
+
 import { AvailableVCStores } from '@blockchain-lab-um/ssi-snap-types';
+import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { publicKeyConvert } from 'secp256k1';
+
+import { ApiParams, SSISnapState, SnapConfirmParams } from '../interfaces';
 import { snapGetKeysFromAddress } from './keyPair';
-import { ApiParams, SnapConfirmParams, SSISnapState } from '../interfaces';
 import { updateSnapState } from './stateUtils';
 
 /**

@@ -3,7 +3,8 @@ import {
   SSISnapConfig,
 } from '@blockchain-lab-um/ssi-snap-types';
 import cloneDeep from 'lodash.clonedeep';
-import { SSISnapState, SSIAccountState } from '../interfaces';
+
+import { SSIAccountState, SSISnapState } from '../interfaces';
 
 const emptyAccountState = {
   snapKeyStore: {},

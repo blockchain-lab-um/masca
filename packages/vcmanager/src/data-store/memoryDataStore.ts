@@ -1,11 +1,12 @@
-import { v4 } from 'uuid';
 import jsonpath from 'jsonpath';
+import { v4 } from 'uuid';
+
 import {
   AbstractDataStore,
-  ISaveArgs,
+  IDeleteArgs,
   IFilterArgs,
   IQueryResult,
-  IDeleteArgs,
+  ISaveArgs,
 } from './abstractDataStore';
 
 /**
