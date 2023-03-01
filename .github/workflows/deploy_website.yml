@@ -2,7 +2,7 @@ name: Website deploy/build action
 
 on:
   pull_request:
-    branches: [master,develop]
+    branches: [master, develop]
     types: [opened, synchronize, reopened]
     paths:
       - 'packages/website/**'
