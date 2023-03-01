@@ -13,7 +13,6 @@ import {
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import Button from 'src/components/Button';
-import useUrlQuery from '../../hooks/useUrlQuery';
 import { useSnapStore } from '../../utils/store';
 import { JsonTab, FormatedTab } from './tabs';
 
@@ -24,7 +23,7 @@ function classNames(...classes: string[]) {
 export const VC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
   const router = useRouter();
-  const { id } = useUrlQuery();
+  const { id } = router.query;
   const vcs = useSnapStore((state) => state.vcs);
   const vc = vcs.find((VCobj) => VCobj.metadata.id === id);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
