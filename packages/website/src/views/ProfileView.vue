@@ -107,7 +107,7 @@
       <Textarea
         id="VCImportArea"
         v-model="modalContent"
-        :autoResize="true"
+        :autoResize="false"
         class="vcImport"
         disabled
       />
@@ -116,7 +116,7 @@
         id="metadata"
         v-model="modalContent2"
         disabled
-        :autoResize="true"
+        :autoResize="false"
         class="vcImport"
       />
       <template #footer>
@@ -195,6 +195,7 @@ const vpCreate = async () => {
     }
     const vp = await createVP(selectedVC.value, mmStore.snapApi);
     openModal('Verifiable Presentation', JSON.stringify(vp, null, 2));
+    console.log(vp);
     if (!vp) {
       throw new Error('Failed to create VP');
     }
@@ -241,7 +242,9 @@ const importVC = async () => {
 .vcImport {
   width: 100%;
   margin: 0.5rem;
-  padding: 0.125em;
+  padding: 0.5em;
+  padding-top: 1em;
+  padding-bottom: 1em;
   border-color: #6366f1;
 }
 
