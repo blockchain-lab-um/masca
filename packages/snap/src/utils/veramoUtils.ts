@@ -120,7 +120,29 @@ export async function veramoQueryVCs(args: {
     filter,
     options,
   })) as QueryVCsRequestResult[];
-  return result;
+
+  let resultUnique = result;
+  if (options.returnStore) {
+    resultUnique = result.reduce((acc, item) => {
+      const existingItem = acc.find((i) => i.metadata.id === item.metadata.id);
+      if (existingItem) {
+        if (existingItem.metadata.store && item.metadata.store) {
+          if (typeof existingItem.metadata.store === 'string') {
+            existingItem.metadata.store = [
+              existingItem.metadata.store,
+              item.metadata.store?.toString(),
+            ];
+          } else if (Array.isArray(existingItem.metadata.store)) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+            existingItem.metadata.store.push(item.metadata.store?.toString());
+          }
+          return acc;
+        }
+      }
+      return [...acc, item];
+    }, [] as QueryVCsRequestResult[]);
+  }
+  return resultUnique;
 }
 
 export async function veramoCreateVP(
