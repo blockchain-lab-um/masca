@@ -25,11 +25,13 @@ module.exports = {
       },
     ],
     'prettier/prettier': ['error', { singleQuote: true }],
+    'import/extensions': 'off',
   },
   ignorePatterns: [
     '**/node_modules/**',
     '**/dist/**',
     '**/!.eslintrc.js',
+    '**/!.eslintrc.cjs',
     '**/coverage/**',
     '**/build/**',
     '**/.docusaurus/**',

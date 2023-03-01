@@ -1,9 +1,10 @@
 import ConnectedGateway from 'src/components/ConnectedGateway';
+
 import MetaMaskGateway from '../../components/MetaMaskGateway';
-import { Controlbar } from './Controlbar';
+import Title from '../../components/Title';
 import Table from '../../components/VCTable';
 import { useGeneralStore, useSnapStore } from '../../utils/store';
-import Title from '../../components/Title';
+import { Controlbar } from './Controlbar';
 
 export default function Dashboard() {
   const isConnected = useGeneralStore((state) => state.isConnected);

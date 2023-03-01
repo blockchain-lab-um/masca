@@ -1,17 +1,19 @@
-import { W3CVerifiableCredential } from '@veramo/core';
-import { DIDDataStore } from '@glazed/did-datastore';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
 import {
   AbstractDataStore,
   IFilterArgs,
   IQueryResult,
 } from '@blockchain-lab-um/veramo-vc-manager';
-import jsonpath from 'jsonpath';
+import { DIDDataStore } from '@glazed/did-datastore';
 import { MetaMaskInpageProvider } from '@metamask/providers';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { W3CVerifiableCredential } from '@veramo/core';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { sha256 } from 'js-sha256';
-import { decodeJWT } from '../../../utils/jwt';
+import jsonpath from 'jsonpath';
+import { v4 as uuidv4 } from 'uuid';
+
 import { aliases, getCeramic } from '../../../utils/ceramicUtils';
+import { decodeJWT } from '../../../utils/jwt';
 
 export type StoredCredentials = {
   vcs: Record<string, W3CVerifiableCredential>;

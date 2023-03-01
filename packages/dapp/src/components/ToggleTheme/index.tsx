@@ -1,7 +1,7 @@
-import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, import/no-extraneous-dependencies
 import { MoonIcon, SunIcon } from '@heroicons/react/24/outline';
+import { useTheme } from 'next-themes';
 
 const ToggleTheme = () => {
   const [mounted, setMounted] = useState(false);

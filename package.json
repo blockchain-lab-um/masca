@@ -52,6 +52,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.4.4",
     "@commitlint/config-conventional": "^17.4.4",
+    "@ianvs/prettier-plugin-sort-imports": "^3.7.1",
     "@nrwl/devkit": "15.7.2",
     "@nrwl/jest": "15.7.2",
     "@nrwl/nx-cloud": "^15.1.0",

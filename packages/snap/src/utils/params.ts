@@ -1,17 +1,18 @@
 import {
-  isAvailableVCStores,
-  isAvailableMethods,
-  isSupportedProofFormat,
-  CreateVPRequestParams,
-  SaveVCRequestParams,
-  QueryVCsRequestParams,
-  SwitchMethodRequestParams,
-  SetVCStoreRequestParams,
-  DeleteVCsRequestParams,
   AvailableVCStores,
+  CreateVPRequestParams,
+  DeleteVCsRequestParams,
+  QueryVCsRequestParams,
   ResolveDIDRequestParams,
+  SaveVCRequestParams,
+  SetVCStoreRequestParams,
+  SwitchMethodRequestParams,
+  isAvailableMethods,
+  isAvailableVCStores,
+  isSupportedProofFormat,
 } from '@blockchain-lab-um/ssi-snap-types';
 import { SSISnapState } from 'src/interfaces';
+
 import { isEnabledVCStore } from './snapUtils';
 
 function isStringArray(input: unknown): input is string[] {

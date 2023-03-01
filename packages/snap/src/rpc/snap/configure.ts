@@ -1,7 +1,7 @@
 import { ApiParams } from '../../interfaces';
 import {
-  togglePopups as updatePopups,
   snapConfirm,
+  togglePopups as updatePopups,
 } from '../../utils/snapUtils';
 
 export async function togglePopups(params: ApiParams): Promise<boolean> {

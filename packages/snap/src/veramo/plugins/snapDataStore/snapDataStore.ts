@@ -1,24 +1,25 @@
 /* eslint-disable max-classes-per-file */
-import { MetaMaskInpageProvider } from '@metamask/providers';
-import {
-  RequireOnly,
-  IIdentifier,
-  W3CVerifiableCredential,
-} from '@veramo/core';
-import { ManagedPrivateKey } from '@veramo/key-manager';
-import { AbstractDIDStore } from '@veramo/did-manager';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
 import {
   AbstractDataStore,
   IFilterArgs,
   IQueryResult,
 } from '@blockchain-lab-um/veramo-vc-manager';
-import jsonpath from 'jsonpath';
-// eslint-disable-next-line import/no-extraneous-dependencies
+import { MetaMaskInpageProvider } from '@metamask/providers';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
+import {
+  IIdentifier,
+  RequireOnly,
+  W3CVerifiableCredential,
+} from '@veramo/core';
+import { AbstractDIDStore } from '@veramo/did-manager';
+import { ManagedPrivateKey } from '@veramo/key-manager';
 import { sha256 } from 'js-sha256';
-import { getSnapState, updateSnapState } from '../../../utils/stateUtils';
-import { getCurrentAccount } from '../../../utils/snapUtils';
+import jsonpath from 'jsonpath';
+import { v4 as uuidv4 } from 'uuid';
+
 import { decodeJWT } from '../../../utils/jwt';
+import { getCurrentAccount } from '../../../utils/snapUtils';
+import { getSnapState, updateSnapState } from '../../../utils/stateUtils';
 
 export type ImportablePrivateKey = RequireOnly<
   ManagedPrivateKey,

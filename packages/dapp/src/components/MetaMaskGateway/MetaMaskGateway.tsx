@@ -3,6 +3,7 @@ import {
   hasMetaMask,
   isMetamaskSnapsSupported,
 } from '@blockchain-lab-um/ssi-snap-connector';
+
 import { useGeneralStore } from '../../utils/store';
 
 type MetaMaskGatewayProps = {

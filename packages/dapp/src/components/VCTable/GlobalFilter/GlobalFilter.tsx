@@ -1,6 +1,7 @@
 import React from 'react';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
+
 import { useTableStore } from '../../../utils/store';
 
 type GlobalFilterProps = {

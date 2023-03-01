@@ -1,7 +1,8 @@
 import { Fragment, useState } from 'react';
+import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import { Dialog, Transition } from '@headlessui/react';
 import { useSnapStore } from 'src/utils/store';
-import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
+
 import Button from '../Button';
 
 interface DeleteModalProps {

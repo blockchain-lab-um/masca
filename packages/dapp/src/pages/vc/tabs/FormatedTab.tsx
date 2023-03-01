@@ -3,22 +3,24 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
+
 import React, { useState } from 'react';
-import StoreIcon from 'src/components/StoreIcon';
+import Link from 'next/link';
+import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import {
+  ArrowDownTrayIcon,
+  Cog6ToothIcon,
   DocumentDuplicateIcon,
   ShareIcon,
   TrashIcon,
-  Cog6ToothIcon,
-  ArrowDownTrayIcon,
 } from '@heroicons/react/24/outline';
 import Button from 'src/components/Button';
 import DeleteModal from 'src/components/DeleteModal';
 import ModifyDSModal from 'src/components/ModifyDSModal';
-import Link from 'next/link';
+import StoreIcon from 'src/components/StoreIcon';
 import Tooltip from 'src/components/Tooltip';
 import { convertTypes } from 'src/utils/string';
+
 import { useTableStore } from '../../../utils/store';
 
 interface FormatedTabProps {

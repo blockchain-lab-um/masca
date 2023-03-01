@@ -10,10 +10,10 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
 import { useGeneralStore } from '@/stores/general';
 import { funcWrapper } from '@/util/general';
 import type { ToastServiceMethods } from 'primevue/toastservice';
+import { reactive } from 'vue';
 
 defineProps({
   method: {

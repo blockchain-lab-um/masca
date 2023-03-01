@@ -1,22 +1,24 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import Link from 'next/link';
+
 import React, { useState } from 'react';
-import ConnectedGateway from 'src/components/ConnectedGateway';
-import MetaMaskGateway from 'src/components/MetaMaskGateway';
-import { ArrowLeftIcon } from '@heroicons/react/24/solid';
-import DropdownMenu from 'src/components/DropdownMenu';
-import Button from 'src/components/Button';
-import ToggleSwitch from 'src/components/Switch';
-import InputField from 'src/components/InputField';
-import InfoIcon from 'src/components/InfoIcon';
-import VPModal from 'src/components/VPModal';
-import { W3CVerifiablePresentation } from '@veramo/core';
+import Link from 'next/link';
 import {
   ProofOptions,
   SupportedProofFormats,
 } from '@blockchain-lab-um/ssi-snap-types';
+import { ArrowLeftIcon } from '@heroicons/react/24/solid';
+import { W3CVerifiablePresentation } from '@veramo/core';
+import Button from 'src/components/Button';
+import ConnectedGateway from 'src/components/ConnectedGateway';
+import DropdownMenu from 'src/components/DropdownMenu';
+import InfoIcon from 'src/components/InfoIcon';
+import InputField from 'src/components/InputField';
+import MetaMaskGateway from 'src/components/MetaMaskGateway';
+import ToggleSwitch from 'src/components/Switch';
+import VPModal from 'src/components/VPModal';
+
 import { useSnapStore, useTableStore } from '../../utils/store';
 import { SelectedVCsTableRow } from './SelectedVCsTableRow';
 

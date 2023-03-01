@@ -1,8 +1,9 @@
 import { Fragment, useState } from 'react';
+import { AvailableMethods } from '@blockchain-lab-um/ssi-snap-types';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
 import { useSnapStore } from 'src/utils/store';
-import { AvailableMethods } from '@blockchain-lab-um/ssi-snap-types';
+
 import { DropdownButton } from './MethodDropdownButton';
 
 export default function MethodDropdownMenu() {

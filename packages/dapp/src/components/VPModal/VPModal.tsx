@@ -1,9 +1,10 @@
 import { Fragment, useState } from 'react';
+import { useRouter } from 'next/router';
 import { Dialog, Transition } from '@headlessui/react';
+import { DocumentDuplicateIcon } from '@heroicons/react/24/solid';
 import { W3CVerifiablePresentation } from '@veramo/core';
 import { useSnapStore } from 'src/utils/store';
-import { DocumentDuplicateIcon } from '@heroicons/react/24/solid';
-import { useRouter } from 'next/router';
+
 import Button from '../Button';
 import DropdownMultiselect from '../DropdownMultiselect';
 import InfoIcon from '../InfoIcon';

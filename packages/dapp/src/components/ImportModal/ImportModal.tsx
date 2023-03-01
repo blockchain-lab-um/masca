@@ -1,10 +1,11 @@
 import { Fragment, useState } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
 import {
   AvailableVCStores,
   QueryVCsRequestResult,
 } from '@blockchain-lab-um/ssi-snap-types';
+import { Dialog, Transition } from '@headlessui/react';
 import { useSnapStore } from 'src/utils/store';
+
 import Button from '../Button';
 import DropdownMultiselect from '../DropdownMultiselect';
 import InfoIcon from '../InfoIcon';

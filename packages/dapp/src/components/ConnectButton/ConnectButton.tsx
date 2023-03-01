@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import React from 'react';
-import { enableSSISnap } from '@blockchain-lab-um/ssi-snap-connector';
 import Image from 'next/image';
-import Button from '../Button';
-import { useSnapStore, useGeneralStore } from '../../utils/store';
+import { enableSSISnap } from '@blockchain-lab-um/ssi-snap-connector';
+
 import spinner from '../../images/connect-spinner.png';
+import { useGeneralStore, useSnapStore } from '../../utils/store';
+import Button from '../Button';
 
 declare global {
   interface Window {

@@ -1,18 +1,19 @@
 import React from 'react';
-import { useRouter } from 'next/router';
 import Image from 'next/image';
-import { useGeneralStore, useSnapStore } from 'src/utils/store';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
-import ToggleTheme from '../ToggleTheme';
-import { NavBtn } from './NavBtn';
-import Button from '../Button';
-import DropdownMenu from '../MethodDropdownMenu';
+import { useGeneralStore, useSnapStore } from 'src/utils/store';
+
 import logo_b from '../../images/ssi_icon_b.png';
 import logo_w from '../../images/ssi_icon_w.png';
-import ConnectButton from '../ConnectButton';
 import AddressPopover from '../AddressPopover';
+import Button from '../Button';
+import ConnectButton from '../ConnectButton';
 import MenuPopover from '../MenuPopover';
+import DropdownMenu from '../MethodDropdownMenu';
+import ToggleTheme from '../ToggleTheme';
+import { NavBtn } from './NavBtn';
 
 export default function Navbar() {
   const router = useRouter();

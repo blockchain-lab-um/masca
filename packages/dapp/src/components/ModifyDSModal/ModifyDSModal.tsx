@@ -1,9 +1,10 @@
 import { Fragment, useState } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
+import { Dialog, Transition } from '@headlessui/react';
 import { useSnapStore } from 'src/utils/store';
-import ToggleSwitch from '../Switch';
+
 import Button from '../Button';
+import ToggleSwitch from '../Switch';
 
 interface ModifyDSModalProps {
   open: boolean;

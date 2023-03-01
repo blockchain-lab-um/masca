@@ -7,51 +7,50 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import React, { useState, useEffect } from 'react';
-import Button from 'src/components/Button';
-
-// eslint-disable-next-line import/no-extraneous-dependencies
-import {
-  useReactTable,
-  getCoreRowModel,
-  createColumnHelper,
-  getSortedRowModel,
-  SortingState,
-  flexRender,
-  getPaginationRowModel,
-  getFilteredRowModel,
-  getFacetedRowModel,
-  getFacetedMinMaxValues,
-  getFacetedUniqueValues,
-  FilterFn,
-} from '@tanstack/react-table';
+import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import {
-  MinusCircleIcon,
-  XCircleIcon,
   CheckCircleIcon,
   ChevronDownIcon,
   ChevronUpIcon,
+  MinusCircleIcon,
+  XCircleIcon,
 } from '@heroicons/react/20/solid';
-
 import {
-  PlusCircleIcon,
-  MinusCircleIcon as MinusCircleOutline,
-  TrashIcon,
-  ShareIcon,
   ArrowDownTrayIcon,
   ArrowsPointingOutIcon,
+  MinusCircleIcon as MinusCircleOutline,
+  PlusCircleIcon,
+  ShareIcon,
+  TrashIcon,
 } from '@heroicons/react/24/outline';
-import Link from 'next/link';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import {
+  FilterFn,
+  SortingState,
+  createColumnHelper,
+  flexRender,
+  getCoreRowModel,
+  getFacetedMinMaxValues,
+  getFacetedRowModel,
+  getFacetedUniqueValues,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
+import Button from 'src/components/Button';
 import { convertTypes } from 'src/utils/string';
-import StoreIcon from '../StoreIcon';
+
 import { useSnapStore, useTableStore } from '../../utils/store';
-import { VC_DATA } from './data';
-import TablePagination from './TablePagination';
-import InfoIcon from '../InfoIcon';
-import Tooltip from '../Tooltip';
 import DeleteModal from '../DeleteModal';
+import InfoIcon from '../InfoIcon';
+import StoreIcon from '../StoreIcon';
+import Tooltip from '../Tooltip';
+import TablePagination from './TablePagination';
 import VCCard from './VCCard';
+import { VC_DATA } from './data';
 
 export const Table = () => {
   const vcs = useSnapStore((state) => state.vcs);

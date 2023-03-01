@@ -2,13 +2,13 @@
   "name": "@blockchain-lab-um/dapp",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "build": "next build",
     "build:docker": "next export",
     "dev": "next dev",
     "docker:build": "docker build . -t blockchain-lab-um/dapp:latest",
-    "lint": "pnpm lint:prettier && pnpm lint:next && pnpm lint:tsc && pnpm lint:stylelint",
+    "lint": "pnpm lint:next && pnpm lint:tsc && pnpm lint:prettier && pnpm lint:stylelint",
     "lint-staged": "lint-staged",
     "lint:next": "next lint",
     "lint:prettier": "prettier . --check",
@@ -33,6 +33,7 @@
     "zustand": "^4.3.2"
   },
   "devDependencies": {
+    "@ianvs/prettier-plugin-sort-imports": "^3.7.1",
     "@svgr/webpack": "^6.5.1",
     "@types/eslint": "^8",
     "@types/node": "18.11.18",
@@ -45,7 +46,8 @@
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
     "postcss": "^8.4.21",
-    "prettier": "^2.8.3",
+    "prettier": "^2.8.4",
+    "prettier-plugin-packagejson": "^2.4.3",
     "sass": "^1.57.1",
     "stylelint": "^14.16.1",
     "stylelint-config-css-modules": "^4.1.0",

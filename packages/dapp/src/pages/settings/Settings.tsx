@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ConnectedGateway from 'src/components/ConnectedGateway';
 import ToggleSwitch from 'src/components/Switch';
 import { useSnapStore } from 'src/utils/store';
+
 import MetaMaskGateway from '../../components/MetaMaskGateway';
 
 export default function Settings() {

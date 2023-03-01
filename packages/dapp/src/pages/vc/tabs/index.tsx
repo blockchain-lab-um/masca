@@ -1,5 +1,5 @@
 import { FormatedTab } from './FormatedTab';
-import { QRTab } from './QRTab';
 import { JsonTab } from './JsonTab';
+import { QRTab } from './QRTab';
 
 export { FormatedTab, QRTab, JsonTab };

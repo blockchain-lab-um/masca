@@ -1,11 +1,12 @@
-import React, { useState, Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
+import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import { Combobox, Transition } from '@headlessui/react';
 import {
   CheckIcon,
   ChevronDownIcon,
   ChevronUpIcon,
 } from '@heroicons/react/20/solid';
-import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
+
 import { useTableStore } from '../../../utils/store';
 import { VC_DATA } from '../data';
 

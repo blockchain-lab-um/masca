@@ -1,14 +1,15 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { W3CVerifiableCredential } from '@veramo/core';
-import { create } from 'zustand';
+
 import {
-  QueryVCsRequestResult,
   AvailableVCStores,
+  QueryVCsRequestResult,
   SSISnapApi,
 } from '@blockchain-lab-um/ssi-snap-types';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { ColumnFiltersState, RowModel, Table } from '@tanstack/react-table';
+import { W3CVerifiableCredential } from '@veramo/core';
 import { VC_DATA } from 'src/components/VCTable/data';
+import { create } from 'zustand';
 
 interface GeneralStore {
   address: string;

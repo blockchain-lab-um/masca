@@ -18,9 +18,10 @@
 </template>
 
 <script setup lang="ts">
-import wrappedButton from '@/components/wrappedButton.vue';
 import { useMetamaskStore } from '@/stores/metamask';
 import { createVC } from '@/util/snap';
+
+import wrappedButton from '@/components/wrappedButton.vue';
 
 const mmStore = useMetamaskStore();
 

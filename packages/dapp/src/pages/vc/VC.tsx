@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
-import ConnectedGateway from 'src/components/ConnectedGateway';
-import MetaMaskGateway from 'src/components/MetaMaskGateway';
-import { ArrowLeftIcon } from '@heroicons/react/24/solid';
+import { useRouter } from 'next/router';
 import { Tab } from '@headlessui/react';
 import {
+  ArrowDownTrayIcon,
+  Cog6ToothIcon,
   DocumentDuplicateIcon,
   ShareIcon,
   TrashIcon,
-  Cog6ToothIcon,
-  ArrowDownTrayIcon,
 } from '@heroicons/react/24/outline';
+import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
-import { useRouter } from 'next/router';
 import Button from 'src/components/Button';
+import ConnectedGateway from 'src/components/ConnectedGateway';
+import MetaMaskGateway from 'src/components/MetaMaskGateway';
+
 import { useSnapStore } from '../../utils/store';
-import { JsonTab, FormatedTab } from './tabs';
+import { FormatedTab, JsonTab } from './tabs';
 
 function classNames(...classes: string[]) {
   return clsx(classes);

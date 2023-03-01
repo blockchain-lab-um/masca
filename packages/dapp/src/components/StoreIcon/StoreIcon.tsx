@@ -1,5 +1,6 @@
-import Image, { StaticImageData } from 'next/image';
 import React from 'react';
+import Image, { StaticImageData } from 'next/image';
+
 import ceramicLogo from '../../images/ceramic_logo.png';
 import mascaLogo from '../../images/ssi_icon_b.png';
 

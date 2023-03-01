@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Switch } from '@headlessui/react';
+import { Bars3Icon, Squares2X2Icon } from '@heroicons/react/24/solid';
 import { useTableStore } from 'src/utils/store';
-import { Squares2X2Icon, Bars3Icon } from '@heroicons/react/24/solid';
 
 export const ViewTabs = () => {
   const cardView = useTableStore((state) => state.cardView);

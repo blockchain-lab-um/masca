@@ -1,11 +1,12 @@
 import React from 'react';
 import { useRouter } from 'next/router';
+
+import { useGeneralStore, useSnapStore } from '../../utils/store';
+import AddressPopover from '../AddressPopover';
 import Button from '../Button';
+import ConnectButton from '../ConnectButton';
 import DropdownMenu from '../MethodDropdownMenu';
 import ToggleTheme from '../ToggleTheme';
-import { useGeneralStore, useSnapStore } from '../../utils/store';
-import ConnectButton from '../ConnectButton';
-import AddressPopover from '../AddressPopover';
 
 export const Footer = () => {
   const router = useRouter();

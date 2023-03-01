@@ -1,8 +1,8 @@
+import React from 'react';
+import Link from 'next/link';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Row } from '@tanstack/react-table';
-import Link from 'next/link';
-import React from 'react';
 import Tooltip from 'src/components/Tooltip';
 import { convertTypes } from 'src/utils/string';
 

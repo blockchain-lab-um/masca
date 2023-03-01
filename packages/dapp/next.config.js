@@ -1,4 +1,4 @@
-import StylelintPlugin from 'stylelint-webpack-plugin';
+const StylelintPlugin = require('stylelint-webpack-plugin');
 
 // Content-Security-Policy
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
@@ -85,4 +85,4 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+module.exports = nextConfig;

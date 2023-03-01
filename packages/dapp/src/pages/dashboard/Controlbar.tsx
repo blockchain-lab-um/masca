@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { W3CVerifiableCredential } from '@veramo/core';
 import {
   AvailableVCStores,
   QueryVCsRequestResult,
 } from '@blockchain-lab-um/ssi-snap-types';
+import { ArrowPathIcon } from '@heroicons/react/24/outline';
+import { W3CVerifiableCredential } from '@veramo/core';
 import Button from 'src/components/Button';
 import ImportModal from 'src/components/ImportModal';
 import ViewTabs from 'src/components/VCTable/ViewTabs';
 import { useSnapStore } from 'src/utils/store';
-import { ArrowPathIcon } from '@heroicons/react/24/outline';
+
 import DataStoreCombobox from '../../components/VCTable/DataStoreCombobox';
 import GlobalFilter from '../../components/VCTable/GlobalFilter';
 

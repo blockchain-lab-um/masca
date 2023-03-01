@@ -1,4 +1,5 @@
 import { SnapsGlobalObject } from '@metamask/snaps-types';
+
 import { ApiParams, SSISnapState } from '../interfaces';
 import { getEmptyAccountState, getInitialSnapState } from './config';
 

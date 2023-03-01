@@ -1,7 +1,7 @@
-import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
-import { Popover, Transition } from '@headlessui/react';
 import React from 'react';
+import { Popover, Transition } from '@headlessui/react';
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
+import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 
 type AddressPopoverProps = {
   address: string;

@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import { Popover, Transition } from '@headlessui/react';
-import Image from 'next/image';
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
+
 import { Fragment } from 'react';
+import Image from 'next/image';
+import { Popover, Transition } from '@headlessui/react';
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
+
 import discordLogo from '../../images/discord-mark-blue.png';
 
 const IconDiscord = () => {

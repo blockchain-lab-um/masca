@@ -1,7 +1,7 @@
+import React from 'react';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Table } from '@tanstack/react-table';
-import React from 'react';
 
 interface TablePaginationProps {
   table: Table<QueryVCsRequestResult>;
