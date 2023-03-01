@@ -3,7 +3,6 @@ import { SnapsGlobalObject } from '@metamask/snaps-types';
 import {
   availableVCStores,
   availableMethods,
-  SaveVCRequestResult,
 } from '@blockchain-lab-um/ssi-snap-types';
 import { DIDResolutionResult, VerifiablePresentation } from '@veramo/core';
 import * as uuid from 'uuid';

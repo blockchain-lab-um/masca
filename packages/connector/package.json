@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/ssi-snap-connector",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Library for using the SSI Snap on frontend",
   "keywords": [
     "MetaMask",
@@ -37,19 +37,19 @@
   },
   "dependencies": {
     "@blockchain-lab-um/ssi-snap-types": "*",
-    "@veramo/core": "^4.1.1"
+    "@veramo/core": "^5.0.0"
   },
   "devDependencies": {
     "@types/rimraf": "^3.0.2",
-    "@typescript-eslint/eslint-plugin": "^5.48.2",
-    "@typescript-eslint/parser": "^5.48.2",
-    "eslint": "^8.32.0",
+    "@typescript-eslint/eslint-plugin": "^5.53.0",
+    "@typescript-eslint/parser": "^5.53.0",
+    "eslint": "^8.34.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "^2.8.3",
+    "prettier": "^2.8.4",
     "rimraf": "^3.0.2",
-    "typescript": "^4.9.4"
+    "typescript": "^4.9.5"
   },
   "publishConfig": {
     "access": "public"
