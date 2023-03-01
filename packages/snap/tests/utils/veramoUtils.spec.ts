@@ -259,7 +259,8 @@ describe('Utils [veramo]', () => {
         ethereum: ethereumMock,
         options: { store: ['snap', 'ceramic'], returnStore: true },
       });
-      expect(vcsPreDelete).toHaveLength(2);
+      expect(vcsPreDelete).toHaveLength(1);
+      expect(vcsPreDelete[0].metadata.store).toEqual(['snap', 'ceramic']);
       expect(res).toEqual(expectedResult);
       await veramoDeleteVC({
         snap: snapMock,
@@ -274,6 +275,12 @@ describe('Utils [veramo]', () => {
         options: { returnStore: true },
       });
 
+      const vcsPostDelete = await veramoQueryVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        options: { store: ['snap', 'ceramic'], returnStore: true },
+      });
+
       await veramoClearVCs({
         snap: snapMock,
         ethereum: ethereumMock,
@@ -281,7 +288,8 @@ describe('Utils [veramo]', () => {
       });
 
       expect(vcs).toHaveLength(1);
-      expect.assertions(3);
+      expect(vcsPostDelete[0].metadata.store).toBe('snap');
+      expect.assertions(5);
     });
     it('should succeed deleting VCs in all stores', async () => {
       snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
