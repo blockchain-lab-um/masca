@@ -121,6 +121,7 @@ export async function veramoQueryVCs(args: {
     options,
   })) as QueryVCsRequestResult[];
 
+  // Join identical VCs from different stores
   let resultUnique = result;
   if (options.returnStore) {
     resultUnique = result.reduce((acc, item) => {
