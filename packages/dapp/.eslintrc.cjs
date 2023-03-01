@@ -6,4 +6,7 @@ module.exports = {
     project: './tsconfig.eslint.json',
     sourceType: 'module',
   },
+  rules: {
+    'global-require': 0,
+  },
 };
