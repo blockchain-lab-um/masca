@@ -64,10 +64,9 @@ export function VPModal({ open, setOpen, vp }: VPModalProps) {
 
                     <button
                       onClick={() => {
-                        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-                        navigator.clipboard.writeText(
-                          JSON.stringify(vp, null, 4)
-                        );
+                        navigator.clipboard
+                          .writeText(JSON.stringify(vp, null, 4))
+                          .catch(() => {});
                       }}
                       className="absolute bottom-3 right-6 text-orange-900 p-1 rounded-full bg-orange-300 hover:bg-orange-200 hover:text-orange-800 shadow-md border border-gray-200 animated-transition"
                     >
