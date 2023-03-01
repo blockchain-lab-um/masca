@@ -81,16 +81,6 @@ export function VPModal({ open, setOpen, vp }: VPModalProps) {
                   /> */}
                 </div>
                 <div className="mt-8 flex justify-end items-center">
-                  <div className="mt-4">
-                    <Button
-                      onClick={() => setOpen(false)}
-                      variant="gray"
-                      size="popup"
-                    >
-                      Cancel
-                    </Button>
-                  </div>
-
                   <div className="mt-4 ml-2">
                     <Button
                       onClick={() => {
@@ -101,7 +91,7 @@ export function VPModal({ open, setOpen, vp }: VPModalProps) {
                       variant="primary"
                       size="popup"
                     >
-                      Go to Dashboard
+                      Done
                     </Button>
                   </div>
                 </div>

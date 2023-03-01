@@ -354,6 +354,15 @@ export const Table = () => {
         <Button variant="primary" size="md" onClick={handleLoadVcs}>
           Load VCs
         </Button>
+        <span className="py-4 font-semibold text-lg">or</span>
+        <Link
+          href="https://blockchain-lab-um.github.io/course-dapp"
+          target="_blank"
+        >
+          <Button variant="secondary" size="sm" onClick={() => {}}>
+            Get your first VC
+          </Button>
+        </Link>
       </div>
     );
 

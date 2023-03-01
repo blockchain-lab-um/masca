@@ -19,24 +19,28 @@ const solutions = [
     description: 'Sign custom data using your DID',
     href: '##',
     icon: IconOne,
+    target: '',
   },
   {
     name: 'Profile',
     description: 'Customize your DID:ETHR profile',
     href: '##',
     icon: IconTwo,
+    target: '',
   },
   {
     name: 'Blog',
     description: 'Visit our blog to learn more about the development of Masca',
     href: 'https://medium.com/@blockchainlabum',
     icon: IconThree,
+    target: '_blank',
   },
   {
     name: 'Discord',
     description: 'Join the Blockchain Lab:UM Discord server',
     href: 'https://discord.com/invite/M5xgNz7TTF',
     icon: IconDiscord,
+    target: '_blank',
   },
 ];
 
@@ -78,7 +82,7 @@ export function MenuPopover() {
                       <a
                         key={item.name}
                         href={item.href}
-                        target="_blank"
+                        target={item.target}
                         rel="noreferrer"
                         className="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                       >
