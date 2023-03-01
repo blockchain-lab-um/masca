@@ -19,7 +19,7 @@ const backend_url = 'https://bclabum.informatika.uni-mb.si/ssi-demo-backend';
 export const snapId =
   import.meta.env.PROD && !(import.meta.env.VITE_PRE_PROD === 'true')
     ? 'npm:@blockchain-lab-um/ssi-snap'
-    : 'npm:@blockchain-lab-um/ssi-snap';
+    : 'local:http://localhost:8081';
 
 export async function installSnap(
   snapId?: string,
@@ -85,7 +85,7 @@ export async function createVC(
       .catch((error: any) => {
         console.log(error);
       });
-    console.log(VC);
+
     const res = await saveVC(VC, snapApi, 'snap');
     if (res) return true;
   } catch (err) {
