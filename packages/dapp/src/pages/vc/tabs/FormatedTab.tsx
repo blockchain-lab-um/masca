@@ -14,14 +14,14 @@ import {
   ShareIcon,
   TrashIcon,
 } from '@heroicons/react/24/outline';
-import Button from 'src/components/Button';
-import DeleteModal from 'src/components/DeleteModal';
-import ModifyDSModal from 'src/components/ModifyDSModal';
-import StoreIcon from 'src/components/StoreIcon';
-import Tooltip from 'src/components/Tooltip';
-import { convertTypes } from 'src/utils/string';
 
-import { useTableStore } from '../../../utils/store';
+import Button from '@/components/Button';
+import DeleteModal from '@/components/DeleteModal';
+import ModifyDSModal from '@/components/ModifyDSModal';
+import StoreIcon from '@/components/StoreIcon';
+import Tooltip from '@/components/Tooltip';
+import { useTableStore } from '@/utils/stores';
+import { convertTypes } from '@/utils/string';
 
 interface FormatedTabProps {
   vc: QueryVCsRequestResult;

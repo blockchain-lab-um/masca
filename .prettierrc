@@ -11,10 +11,11 @@
     "",
     "^types$",
     "^@local/(.*)$",
-    "^@/config/(.*)$",
     "^@/lib/(.*)$",
     "^@/components/(.*)$",
     "^@/styles/(.*)$",
+    "^@/utils/(.*)$",
+    "^@/pages/(.*)$",
     "^[./]"
   ],
   "importOrderSeparation": false,

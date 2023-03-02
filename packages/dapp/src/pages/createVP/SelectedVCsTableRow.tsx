@@ -3,7 +3,8 @@ import Link from 'next/link';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import { ArrowsPointingOutIcon } from '@heroicons/react/24/outline';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
-import Tooltip from 'src/components/Tooltip';
+
+import Tooltip from '@/components/Tooltip';
 
 interface SelectedVCsTableRowProps {
   vc: QueryVCsRequestResult;

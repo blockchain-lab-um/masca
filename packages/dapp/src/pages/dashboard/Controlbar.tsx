@@ -5,13 +5,13 @@ import {
 } from '@blockchain-lab-um/ssi-snap-types';
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import { W3CVerifiableCredential } from '@veramo/core';
-import Button from 'src/components/Button';
-import ImportModal from 'src/components/ImportModal';
-import ViewTabs from 'src/components/VCTable/ViewTabs';
-import { useSnapStore } from 'src/utils/store';
 
-import DataStoreCombobox from '../../components/VCTable/DataStoreCombobox';
-import GlobalFilter from '../../components/VCTable/GlobalFilter';
+import Button from '@/components/Button';
+import ImportModal from '@/components/ImportModal';
+import DataStoreCombobox from '@/components/VCTable/DataStoreCombobox';
+import GlobalFilter from '@/components/VCTable/GlobalFilter';
+import ViewTabs from '@/components/VCTable/ViewTabs';
+import { useSnapStore } from '@/utils/stores';
 
 type ControlbarProps = {
   vcs: QueryVCsRequestResult[];
