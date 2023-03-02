@@ -9,7 +9,6 @@ import {
   getCurrentNetwork,
   getPublicKey,
   removeFriendlyDapp,
-  snapConfirm,
   togglePopups,
 } from '../../src/utils/snapUtils';
 import * as snapUtils from '../../src/utils/snapUtils';
@@ -19,7 +18,6 @@ import {
   compressedPublicKey,
   getDefaultSnapState,
   publicKey,
-  snapConfirmParams,
 } from '../testUtils/constants';
 import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
 
