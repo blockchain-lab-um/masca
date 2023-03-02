@@ -75,7 +75,7 @@ export async function createVC(
     };
     const body = {
       name: userName,
-      id: 'did:ethr:rinkeby:' + mmAddress,
+      id: 'did:ethr:0x5:' + mmAddress,
     };
     const VC = await axios
       .post(backend_url + '/api/vc/issue-vc', body, axiosConfig)
@@ -86,7 +86,7 @@ export async function createVC(
         console.log(error);
       });
 
-    const res = await saveVC(VC, snapApi);
+    const res = await saveVC(VC, snapApi, 'snap');
     if (res) return true;
   } catch (err) {
     console.error(err);

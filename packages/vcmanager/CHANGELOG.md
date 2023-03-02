@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.0](https://github.com/blockchain-lab-um/ssi-snap/compare/ssi-snap-vcmanager-v1.3.0...ssi-snap-vcmanager-v1.4.0) (2023-03-01)
+
+
+### :rocket: Features
+
+* move to SonarCloud ([#114](https://github.com/blockchain-lab-um/ssi-snap/issues/114)) ([38e47d7](https://github.com/blockchain-lab-um/ssi-snap/commit/38e47d70f2b080a277aa75a54bdba282cb11863e))
+* switch to pnpm ([#80](https://github.com/blockchain-lab-um/ssi-snap/issues/80)) ([36aa777](https://github.com/blockchain-lab-um/ssi-snap/commit/36aa7772631c8785f527aa15af8e1591611f043f))
+
 ## [1.3.0](https://github.com/blockchain-lab-um/ssi-snap/compare/ssi-snap-vcmanager-v1.0.7...ssi-snap-vcmanager-v1.3.0) (2023-02-27)
 
 
