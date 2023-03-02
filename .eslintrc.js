@@ -9,9 +9,19 @@ module.exports = {
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:prettier/recommended',
   ],
-  plugins: ['@typescript-eslint/eslint-plugin'],
+  plugins: ['@typescript-eslint/eslint-plugin', 'unused-imports'],
   parser: '@typescript-eslint/parser',
   rules: {
+    'no-underscore-dangle': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
+    'unused-imports/no-unused-imports': 'error',
+    'unused-imports/no-unused-vars': [
+      'warn',
+      {
+        args: 'after-used',
+        argsIgnorePattern: '^_',
+      },
+    ],
     'import/prefer-default-export': 0,
     'class-methods-use-this': 'off',
     'import/no-extraneous-dependencies': [
