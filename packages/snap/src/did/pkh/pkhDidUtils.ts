@@ -1,4 +1,5 @@
 import { MetaMaskInpageProvider } from '@metamask/providers';
+
 import { getCurrentNetwork } from '../../utils/snapUtils';
 
 export async function getDidPkhIdentifier(

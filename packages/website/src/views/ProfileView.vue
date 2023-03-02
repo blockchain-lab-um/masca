@@ -93,7 +93,12 @@
           @click="closeImportModal()"
           class="p-button-text"
         />
-        <wrappedButton label="Import" :method="importVC" icon="pi pi-check" />
+        <wrappedButton label="Save" :method="importVC" icon="pi pi-check" />
+        <wrappedButton
+          label="Save on Ceramic"
+          :method="importVCCeramic"
+          icon="pi pi-check"
+        />
       </template>
     </Dialog>
     <Dialog
@@ -133,15 +138,16 @@
 
 <script setup lang="ts">
 import wrappedButton from '@/components/wrappedButton.vue';
-import { ref } from 'vue';
 import { useMetamaskStore } from '@/stores/metamask';
 import { ISOtoLocaleString } from '@/util/general';
-import { checkForVCs, saveVC, createVP } from '@/util/snap';
-import type { VerifiableCredential } from '../util/interfaces';
+import { checkForVCs, createVP, saveVC } from '@/util/snap';
 import type {
   QueryVCsRequestResult,
   SaveVCRequestResult,
 } from '@blockchain-lab-um/ssi-snap-types';
+import { ref } from 'vue';
+
+import type { VerifiableCredential } from '../util/interfaces';
 
 const mmStore = useMetamaskStore();
 const VCImport = ref('');
@@ -219,6 +225,31 @@ const importVC = async () => {
     if (!res) throw new Error('Failed to save VC');
     // console.log('🚀 ~ file: ProfileView.vue ~ line 48 ~ importVC ~ res', res);
     mmStore.vcs.push({ data: VC, metadata: { id: res[0].id } });
+    closeImportModal();
+    return 'Success importing VC';
+  } catch (err: any) {
+    console.error(err);
+    throw err;
+  }
+};
+
+const importVCCeramic = async () => {
+  let VC: VerifiableCredential;
+  // eslint-disable-next-line no-useless-catch
+  try {
+    VC = JSON.parse(VCImport.value) as VerifiableCredential;
+  } catch (err: any) {
+    throw err;
+  }
+  // console.log('🚀 ~ file: ProfileView.vue ~ line 54 ~ importVC ~ VC', VC);
+  try {
+    const res = await saveVC(VC, mmStore.snapApi, 'ceramic');
+    if (!res) throw new Error('Failed to save VC');
+    // console.log('🚀 ~ file: ProfileView.vue ~ line 48 ~ importVC ~ res', res);
+    mmStore.vcs.push({
+      data: VC,
+      metadata: { store: 'ceramic', id: res[0].id },
+    });
     closeImportModal();
     return 'Success importing VC';
   } catch (err: any) {

@@ -1,12 +1,12 @@
-import { IIdentifier, IKey, W3CVerifiableCredential } from '@veramo/core';
-import { ManagedPrivateKey } from '@veramo/key-manager';
 import {
-  SSISnapConfig,
   SSIAccountConfig,
+  SSISnapConfig,
 } from '@blockchain-lab-um/ssi-snap-types';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { IIdentifier, IKey, W3CVerifiableCredential } from '@veramo/core';
+import { ManagedPrivateKey } from '@veramo/key-manager';
 
 export type SSISnapState = {
   /**

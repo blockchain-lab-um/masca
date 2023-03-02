@@ -1,10 +1,12 @@
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { MetaMaskInpageProvider } from '@metamask/providers';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
+
 import {
   getEmptyAccountState,
   getInitialSnapState,
 } from '../../src/utils/config';
+import { setAccountPublicKey } from '../../src/utils/snapUtils';
 import {
   getSnapState,
   getSnapStateUnchecked,
@@ -18,8 +20,7 @@ import {
   getDefaultSnapState,
   publicKey,
 } from '../testUtils/constants';
-import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
-import { setAccountPublicKey } from '../../src/utils/snapUtils';
+import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
 
 describe('Utils [state]', () => {
   let snapMock: SnapsGlobalObject & SnapMock;

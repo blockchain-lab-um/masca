@@ -1,20 +1,21 @@
+import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { DIDResolutionOptions, DIDResolutionResult } from 'did-resolver';
-import { MetaMaskInpageProvider } from '@metamask/providers';
-import {
-  address,
-  exampleDIDKeyResolution,
-  getDefaultSnapState,
-  exampleDIDKey,
-  exampleDIDKeyIdentifier,
-  exampleDIDKeyDocument,
-} from '../testUtils/constants';
-import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
+
 import {
   getDidKeyResolver as resolveDidKey,
   resolveSecp256k1,
 } from '../../src/did/key/keyDidResolver';
 import * as snapUtils from '../../src/utils/snapUtils';
+import {
+  address,
+  exampleDIDKey,
+  exampleDIDKeyDocument,
+  exampleDIDKeyIdentifier,
+  exampleDIDKeyResolution,
+  getDefaultSnapState,
+} from '../testUtils/constants';
+import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
 
 jest
   .spyOn(snapUtils, 'getCurrentAccount')

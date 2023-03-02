@@ -1,5 +1,3 @@
-import type { W3CVerifiableCredential } from '@veramo/core';
-import axios from 'axios';
 import { enableSSISnap } from '@blockchain-lab-um/ssi-snap-connector';
 import type {
   AvailableVCStores,
@@ -7,11 +5,14 @@ import type {
   SSISnapApi,
   VCRequest,
 } from '@blockchain-lab-um/ssi-snap-types';
+import type { W3CVerifiableCredential } from '@veramo/core';
+import axios from 'axios';
+
 import type {
-  SnapInstallationParams,
   DIDMethod,
-  storeInitResponse,
   SnapInitializationResponse,
+  SnapInstallationParams,
+  storeInitResponse,
 } from './interfaces';
 
 const backend_url = 'https://bclabum.informatika.uni-mb.si/ssi-demo-backend';
@@ -62,7 +63,8 @@ export async function checkForVCs(snapApi?: SSISnapApi) {
 export async function createVC(
   userName: string,
   mmAddress?: string,
-  snapApi?: SSISnapApi
+  snapApi?: SSISnapApi,
+  store: AvailableVCStores = 'snap'
 ) {
   try {
     if (!snapApi) throw new Error('No snap API found.');
@@ -86,7 +88,7 @@ export async function createVC(
         console.log(error);
       });
 
-    const res = await saveVC(VC, snapApi, 'snap');
+    const res = await saveVC(VC, snapApi, store);
     if (res) return true;
   } catch (err) {
     console.error(err);

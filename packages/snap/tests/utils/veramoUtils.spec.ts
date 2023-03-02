@@ -1,12 +1,12 @@
+import { StreamID } from '@ceramicnetwork/streamid';
+import { DIDDataStore } from '@glazed/did-datastore';
+import { BIP44CoinTypeNode } from '@metamask/key-tree/dist/BIP44CoinTypeNode';
+import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { IVerifyResult, VerifiablePresentation } from '@veramo/core';
-import { BIP44CoinTypeNode } from '@metamask/key-tree/dist/BIP44CoinTypeNode';
 import { StoredCredentials } from 'src/interfaces';
-import { DIDDataStore } from '@glazed/did-datastore';
-import { StreamID } from '@ceramicnetwork/streamid';
-import { MetaMaskInpageProvider } from '@metamask/providers';
+
 import * as snapUtils from '../../src/utils/snapUtils';
-import { getAgent } from '../../src/veramo/setup';
 import {
   veramoClearVCs,
   veramoCreateVP,
@@ -15,6 +15,7 @@ import {
   veramoQueryVCs,
   veramoSaveVC,
 } from '../../src/utils/veramoUtils';
+import { getAgent } from '../../src/veramo/setup';
 import {
   address,
   bip44Entropy,
@@ -22,8 +23,8 @@ import {
   exampleImportedDIDWIthoutPrivateKey,
   exampleVC,
   exampleVCEIP712,
-  exampleVCinVP,
   exampleVCJSONLD,
+  exampleVCinVP,
   getDefaultSnapState,
   jsonPath,
 } from '../testUtils/constants';

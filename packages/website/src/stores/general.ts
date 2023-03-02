@@ -1,6 +1,6 @@
-import { ref } from 'vue';
 import { defineStore } from 'pinia';
 import type { ToastServiceMethods } from 'primevue/toastservice';
+import { ref } from 'vue';
 
 export const useGeneralStore = defineStore('general', () => {
   // Store values

@@ -1,7 +1,7 @@
 import {
+  SaveVCRequestResult,
   availableMethods,
   availableVCStores,
-  SaveVCRequestResult,
 } from '@blockchain-lab-um/ssi-snap-types';
 import { StreamID } from '@ceramicnetwork/streamid';
 import { DIDDataStore } from '@glazed/did-datastore';
