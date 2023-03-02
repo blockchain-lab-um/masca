@@ -1,16 +1,15 @@
 import React from 'react';
 import Image, { StaticImageData } from 'next/image';
-
-import ceramicLogo from '../../images/ceramic_logo.png';
-import mascaLogo from '../../images/ssi_icon_b.png';
+import ceramicLogo from '@/public/images/ceramic_logo.png';
+import mascaLogo from '@/public/images/ssi_icon_b.png';
 
 type StoreIconProps = {
   store: string;
 };
 
-const logo: Record<string, StaticImageData> = {
-  snap: mascaLogo,
-  ceramic: ceramicLogo,
+const logo: Record<string, string> = {
+  snap: '/images/ssi_icon_b.png',
+  ceramic: '/images/ceramic_logo.png',
 };
 
 const StoreIcon = ({ store }: StoreIconProps) => {

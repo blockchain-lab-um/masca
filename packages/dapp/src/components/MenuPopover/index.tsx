@@ -5,12 +5,14 @@ import Image from 'next/image';
 import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 
-import discordLogo from '../../images/discord-mark-blue.png';
-
 const IconDiscord = () => {
   return (
     <div className="w-12 h-12 bg-orange-100 p-2 rounded-lg flex justify-center items-center">
-      <Image src={discordLogo} alt="discord logo" className="w-full" />
+      <Image
+        src="/images/discord-mark-blue.png"
+        alt="discord logo"
+        className="w-full"
+      />
     </div>
   );
 };

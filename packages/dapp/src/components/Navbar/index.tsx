@@ -2,7 +2,6 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
 import AddressPopover from '@/components/AddressPopover';
 import ConnectButton from '@/components/ConnectButton';
@@ -10,8 +9,6 @@ import MenuPopover from '@/components/MenuPopover';
 import DropdownMenu from '@/components/MethodDropdownMenu';
 import ToggleTheme from '@/components/ToggleTheme';
 import { useGeneralStore, useSnapStore } from '@/utils/stores';
-import logo_b from '../../images/ssi_icon_b.png';
-import logo_w from '../../images/ssi_icon_w.png';
 import { NavBtn } from './NavBtn';
 
 export default function Navbar() {
@@ -33,12 +30,12 @@ export default function Navbar() {
         <button>
           <div className="flex">
             <Image
-              src={logo_b}
+              src="/images/ssi_icon_b.png"
               alt="Masca Logo"
               className="dark:hidden h-[24px] w-[24px] sm:h-[36px] sm:w-[36px] lg:h-[46px] lg:w-[46px] xl:h-[48px] xl:w-[48px] rounded-full object-center"
             />
             <Image
-              src={logo_w}
+              src="/images/ssi_icon_w.png"
               alt="Masca Logo"
               className="hidden dark:block h-[24px] w-[24px] sm:h-[36px] sm:w-[36px] lg:h-[46px] lg:w-[46px] xl:h-[48px] xl:w-[48px] rounded-full object-center"
             />
