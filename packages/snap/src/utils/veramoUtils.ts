@@ -117,34 +117,34 @@ export async function veramoQueryVCs(args: {
 }): Promise<QueryVCsRequestResult[]> {
   const { snap, ethereum, options, filter } = args;
   const agent = await getAgent(snap, ethereum);
-  const result = (await agent.query({
+  const result = await agent.query({
     filter,
     options,
-  })) as QueryVCsRequestResult[];
+  });
 
-  // Join identical VCs from different stores
-  let resultUnique = result;
-  if (options.returnStore) {
-    resultUnique = result.reduce((acc, item) => {
-      const existingItem = acc.find((i) => i.metadata.id === item.metadata.id);
-      if (existingItem) {
-        if (existingItem.metadata.store && item.metadata.store) {
-          if (typeof existingItem.metadata.store === 'string') {
-            existingItem.metadata.store = [
-              existingItem.metadata.store,
-              item.metadata.store?.toString(),
-            ];
-          } else if (Array.isArray(existingItem.metadata.store)) {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-            existingItem.metadata.store.push(item.metadata.store?.toString());
-          }
-          return acc;
-        }
+  const vcs = new Map<string, QueryVCsRequestResult>();
+
+  for (const vc of result) {
+    if (options.returnStore && !vc.metadata.store) {
+      throw new Error('Missing store in VC metadata'); // TODO (Martin): Handle this better
+    }
+
+    const existingVC = vcs.get(vc.metadata.id);
+    if (existingVC) {
+      if (options.returnStore) {
+        existingVC.metadata.store?.push(vc.metadata.store as string);
       }
-      return [...acc, item];
-    }, [] as QueryVCsRequestResult[]);
+    } else {
+      vcs.set(vc.metadata.id, {
+        data: vc.data as W3CVerifiableCredential,
+        metadata: {
+          id: vc.metadata.id,
+          ...(options.returnStore && { store: [vc.metadata.store as string] }),
+        },
+      });
+    }
   }
-  return resultUnique;
+  return [...vcs.values()];
 }
 
 export async function veramoCreateVP(

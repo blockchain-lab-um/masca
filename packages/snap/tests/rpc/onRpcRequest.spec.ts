@@ -101,7 +101,7 @@ describe('onRpcRequest', () => {
           data: exampleVC,
           metadata: {
             id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
-            store: 'snap',
+            store: ['snap'],
           },
         },
       ];
@@ -150,7 +150,7 @@ describe('onRpcRequest', () => {
           data: exampleVC,
           metadata: {
             id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
-            store: 'snap',
+            store: ['snap'],
           },
         },
       ];
@@ -399,7 +399,7 @@ describe('onRpcRequest', () => {
           data: exampleVC,
           metadata: {
             id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
-            store: 'snap',
+            store: ['snap'],
           },
         },
       ];
@@ -446,7 +446,7 @@ describe('onRpcRequest', () => {
           data: exampleVC,
           metadata: {
             id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
-            store: 'snap',
+            store: ['snap'],
           },
         },
       ];
@@ -487,7 +487,7 @@ describe('onRpcRequest', () => {
           data: exampleVC,
           metadata: {
             id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
-            store: 'snap',
+            store: ['snap'],
           },
         },
       ];
@@ -572,7 +572,7 @@ describe('onRpcRequest', () => {
           data: exampleVC,
           metadata: {
             id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
-            store: 'snap',
+            store: ['snap'],
           },
         },
       ];

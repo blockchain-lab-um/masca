@@ -12,7 +12,15 @@ module.exports = {
   plugins: ['@typescript-eslint/eslint-plugin', 'unused-imports'],
   parser: '@typescript-eslint/parser',
   rules: {
+    // other rules
     'no-underscore-dangle': 'off',
+    'no-restricted-syntax': [
+      'error',
+      'ForInStatement',
+      'LabeledStatement',
+      'WithStatement',
+    ],
+    // for unused-imports library
     '@typescript-eslint/no-unused-vars': 'off',
     'unused-imports/no-unused-imports': 'error',
     'unused-imports/no-unused-vars': [
@@ -22,8 +30,10 @@ module.exports = {
         argsIgnorePattern: '^_',
       },
     ],
+    // for nestjs
     'import/prefer-default-export': 0,
     'class-methods-use-this': 'off',
+    // for tests
     'import/no-extraneous-dependencies': [
       'error',
       {
@@ -34,6 +44,7 @@ module.exports = {
         ],
       },
     ],
+    // for prettier
     'prettier/prettier': ['error', { singleQuote: true }],
   },
   ignorePatterns: [
