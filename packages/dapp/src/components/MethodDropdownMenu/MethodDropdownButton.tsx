@@ -1,6 +1,5 @@
 import React from 'react';
 import { Menu } from '@headlessui/react';
-import { CheckIcon } from '@heroicons/react/20/solid';
 import { clsx } from 'clsx';
 
 type DropdownButtonProps = {

@@ -1,8 +1,5 @@
 import { Fragment, useState } from 'react';
-import {
-  AvailableVCStores,
-  QueryVCsRequestResult,
-} from '@blockchain-lab-um/ssi-snap-types';
+import { AvailableVCStores } from '@blockchain-lab-um/ssi-snap-types';
 import { Dialog, Transition } from '@headlessui/react';
 
 import Button from '@/components/Button';
@@ -65,7 +62,7 @@ function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
                   <textarea
                     value={vc}
                     onChange={(e) => setVC(e.target.value)}
-                    className="bg-gray-100 rounded-2xl border-gray-200 shadow-md border font-jetbrains text-label p-3 w-full focus:outline-none h-[25vh]"
+                    className="bg-gray-100 rounded-2xl border-gray-200 shadow-md border font-jetbrains-mono text-label p-3 w-full focus:outline-none h-[25vh]"
                   />
                   <div className="text-orange-500 font-semibold mt-8 pl-2 text-sm">
                     SETTINGS

@@ -4,11 +4,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { useSnapStore, useTableStore } from '@/utils/stores';
-import {
-  ProofOptions,
-  SupportedProofFormats,
-} from '@blockchain-lab-um/ssi-snap-types';
+import { SupportedProofFormats } from '@blockchain-lab-um/ssi-snap-types';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 import { W3CVerifiablePresentation } from '@veramo/core';
 
@@ -20,6 +16,7 @@ import InputField from '@/components/InputField';
 import MetaMaskGateway from '@/components/MetaMaskGateway';
 import ToggleSwitch from '@/components/Switch';
 import VPModal from '@/components/VPModal';
+import { useSnapStore, useTableStore } from '@/utils/stores';
 import { SelectedVCsTableRow } from './SelectedVCsTableRow';
 
 const proofFormats: Record<string, SupportedProofFormats> = {

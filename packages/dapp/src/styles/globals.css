@@ -2,39 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  @font-face {
-    font-family: Cabin;
-    src: url('../../public/fonts/Cabin-Regular.ttf') format('truetype');
-    font-weight: 400;
-    font-display: swap;
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: Cabin;
-    src: url('../../public/fonts/Cabin-SemiBold.ttf') format('truetype');
-    font-weight: 600;
-    font-display: swap;
-    font-style: medium;
-  }
-  @font-face {
-    font-family: Ubuntu;
-    src: url('../../public/fonts/Ubuntu-Bold.ttf') format('truetype');
-    font-weight: 400;
-    font-display: swap;
-    font-style: bold;
-  }
-
-  @font-face {
-    font-family: 'Jetbrains Mono';
-    src: url('../../public/fonts/JetBrainsMono-Regular.ttf') format('truetype');
-    font-weight: 400;
-    font-display: swap;
-    font-style: normal;
-  }
-}
-
 * {
   box-sizing: border-box;
   padding: 0;

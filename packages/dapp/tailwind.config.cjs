@@ -63,9 +63,9 @@ module.exports = {
       'yellow-200': '#FFF1B8',
     },
     fontFamily: {
-      cabin: 'Cabin, sans-serif',
-      ubuntu: 'Ubuntu, sans-serif',
-      jetbrains: 'JetBrains Mono, monospace',
+      cabin: ['var(--font-cabin)'],
+      ubuntu: ['var(--font-ubuntu)'],
+      'jetbrains-mono': ['var(--font-jetbrains-mono)'],
     },
     fontSize: {
       hint: ['10px', { lineHeight: '16px', letterSpacing: '-0.03em' }],

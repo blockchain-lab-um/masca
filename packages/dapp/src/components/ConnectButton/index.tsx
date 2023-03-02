@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { enableSSISnap } from '@blockchain-lab-um/ssi-snap-connector';
 
 import Button from '@/components/Button';
+import { BASE_PATH } from '@/utils/constants';
 import { useGeneralStore, useSnapStore } from '@/utils/stores';
 
 const ConnectButton = () => {
@@ -74,9 +75,10 @@ const ConnectButton = () => {
         Connect Wallet
         {loading && (
           <Image
-            src="/connect-spinner.png"
+            src={`${BASE_PATH}/images/connect-spinner.png`}
             alt="Masca Logo"
             className="w-6 h-6 rounded-full object-center animate-spin"
+            fill={true}
           />
         )}
       </div>

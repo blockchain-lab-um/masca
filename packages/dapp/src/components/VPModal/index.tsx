@@ -55,7 +55,7 @@ function VPModal({ open, setOpen, vp }: VPModalProps) {
                 <div className="mt-8">
                   <div className="relative z-0 group bg-orange-100 pt-1 pr-2 rounded-2xl">
                     <textarea
-                      className="group-hover:scrollbar-thumb-orange-300 scrollbar-thin rounded-2xl scrollbar-thumb-orange-300/0 scrollbar-thumb-rounded-full bg-orange-100 min-h-[60vh] w-full resize-none focus:outline-none p-2 text-orange-900 font-jetbrains "
+                      className="group-hover:scrollbar-thumb-orange-300 scrollbar-thin rounded-2xl scrollbar-thumb-orange-300/0 scrollbar-thumb-rounded-full bg-orange-100 min-h-[60vh] w-full resize-none focus:outline-none p-2 text-orange-900 font-jetbrains-mono "
                       disabled
                       value={JSON.stringify(vp, null, 4)}
                     />
@@ -73,7 +73,7 @@ function VPModal({ open, setOpen, vp }: VPModalProps) {
                   </div>
                   {/* <textarea
                     value={JSON.stringify(vp, null, 2)}
-                    className="bg-gray-100 rounded-2xl border-gray-200 shadow-md border font-jetbrains text-label p-3 w-full focus:outline-none h-[45vh]"
+                    className="bg-gray-100 rounded-2xl border-gray-200 shadow-md border font-jetbrains-mono text-label p-3 w-full focus:outline-none h-[45vh]"
                     readOnly
                   /> */}
                 </div>

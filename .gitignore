@@ -3,7 +3,6 @@ dist/
 build/
 coverage/
 .cache/
-public/
 .yarn/patches
 
 packages/docs/.docusaurus

@@ -4,16 +4,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
-import {
-  ArrowDownTrayIcon,
-  Cog6ToothIcon,
-  DocumentDuplicateIcon,
-  ShareIcon,
-  TrashIcon,
-} from '@heroicons/react/24/outline';
+import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 
 import Button from '@/components/Button';
 import DeleteModal from '@/components/DeleteModal';

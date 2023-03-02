@@ -5,13 +5,16 @@ import Image from 'next/image';
 import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 
+import { BASE_PATH } from '@/utils/constants';
+
 const IconDiscord = () => {
   return (
     <div className="w-12 h-12 bg-orange-100 p-2 rounded-lg flex justify-center items-center">
       <Image
-        src="/images/discord-mark-blue.png"
+        src={`${BASE_PATH}/images/discord-mark-blue.png`}
         alt="discord logo"
         className="w-full"
+        fill={true}
       />
     </div>
   );

@@ -1,9 +1,8 @@
-import { useGeneralStore, useSnapStore } from '@/utils/stores';
-
 import ConnectedGateway from '@/components/ConnectedGateway';
 import MetaMaskGateway from '@/components/MetaMaskGateway';
 import Title from '@/components/Title';
 import Table from '@/components/VCTable';
+import { useGeneralStore, useSnapStore } from '@/utils/stores';
 import { Controlbar } from './Controlbar';
 
 export default function Dashboard() {

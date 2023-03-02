@@ -18,9 +18,7 @@ import {
   XCircleIcon,
 } from '@heroicons/react/20/solid';
 import {
-  ArrowDownTrayIcon,
   ArrowsPointingOutIcon,
-  MinusCircleIcon as MinusCircleOutline,
   PlusCircleIcon,
   ShareIcon,
   TrashIcon,
@@ -50,7 +48,6 @@ import { useSnapStore, useTableStore } from '@/utils/stores';
 import { convertTypes } from '@/utils/string';
 import TablePagination from './TablePagination';
 import VCCard from './VCCard';
-import { VC_DATA } from './data';
 
 const Table = () => {
   const vcs = useSnapStore((state) => state.vcs);

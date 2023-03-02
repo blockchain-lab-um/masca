@@ -1,9 +1,8 @@
 import React, { Fragment, useState } from 'react';
-import { Combobox, Listbox, Transition } from '@headlessui/react';
+import { Listbox, Transition } from '@headlessui/react';
 import {
   CheckIcon,
   ChevronDownIcon,
-  ChevronUpDownIcon,
   ChevronUpIcon,
 } from '@heroicons/react/20/solid';
 
