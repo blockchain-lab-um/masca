@@ -1,23 +1,25 @@
 /* eslint-disable max-classes-per-file */
-import { MetaMaskInpageProvider } from '@metamask/providers';
-import {
-  RequireOnly,
-  IIdentifier,
-  W3CVerifiableCredential,
-} from '@veramo/core';
-import { ManagedPrivateKey } from '@veramo/key-manager';
-import { AbstractDIDStore } from '@veramo/did-manager';
-import { v4 as uuidv4 } from 'uuid';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
+
 import {
   AbstractDataStore,
   IFilterArgs,
   IQueryResult,
 } from '@blockchain-lab-um/veramo-vc-manager';
+import { MetaMaskInpageProvider } from '@metamask/providers';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
+import {
+  IIdentifier,
+  RequireOnly,
+  W3CVerifiableCredential,
+} from '@veramo/core';
+import { AbstractDIDStore } from '@veramo/did-manager';
+import { ManagedPrivateKey } from '@veramo/key-manager';
 import jsonpath from 'jsonpath';
-import { getSnapState, updateSnapState } from '../../../utils/stateUtils';
-import { getCurrentAccount } from '../../../utils/snapUtils';
+import { v4 as uuidv4 } from 'uuid';
+
 import { decodeJWT } from '../../../utils/jwt';
+import { getCurrentAccount } from '../../../utils/snapUtils';
+import { getSnapState, updateSnapState } from '../../../utils/stateUtils';
 
 export type ImportablePrivateKey = RequireOnly<
   ManagedPrivateKey,

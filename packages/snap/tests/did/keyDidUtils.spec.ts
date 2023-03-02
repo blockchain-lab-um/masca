@@ -1,11 +1,12 @@
 import { SnapsGlobalObject } from '@metamask/snaps-types';
-import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
+
 import { getDidKeyIdentifier } from '../../src/did/key/keyDidUtils';
 import {
   address,
   exampleDIDKeyIdentifier,
   getDefaultSnapState,
 } from '../testUtils/constants';
+import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
 
 describe('keyDidUtils', () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

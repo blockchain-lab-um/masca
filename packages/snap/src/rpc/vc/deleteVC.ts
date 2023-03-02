@@ -1,4 +1,5 @@
 import { DeleteVCsRequestParams } from '@blockchain-lab-um/ssi-snap-types';
+
 import { ApiParams } from '../../interfaces';
 import { snapConfirm } from '../../utils/snapUtils';
 import { veramoDeleteVC } from '../../utils/veramoUtils';

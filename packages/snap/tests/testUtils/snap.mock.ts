@@ -1,11 +1,11 @@
+import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { RequestArguments } from '@metamask/providers/dist/BaseProvider';
 import { Maybe } from '@metamask/providers/dist/utils';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
-
 import { Wallet, providers } from 'ethers';
-import { BIP44CoinTypeNode } from '@metamask/key-tree';
-import { address, mnemonic, privateKey } from './constants';
+
 import { SSISnapState } from '../../src/interfaces';
+import { address, mnemonic, privateKey } from './constants';
 
 interface ISnapMock {
   request<T>(args: RequestArguments): Promise<Maybe<T>>;

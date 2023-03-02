@@ -138,15 +138,16 @@
 
 <script setup lang="ts">
 import wrappedButton from '@/components/wrappedButton.vue';
-import { ref } from 'vue';
 import { useMetamaskStore } from '@/stores/metamask';
 import { ISOtoLocaleString } from '@/util/general';
-import { checkForVCs, saveVC, createVP } from '@/util/snap';
-import type { VerifiableCredential } from '../util/interfaces';
+import { checkForVCs, createVP, saveVC } from '@/util/snap';
 import type {
   QueryVCsRequestResult,
   SaveVCRequestResult,
 } from '@blockchain-lab-um/ssi-snap-types';
+import { ref } from 'vue';
+
+import type { VerifiableCredential } from '../util/interfaces';
 
 const mmStore = useMetamaskStore();
 const VCImport = ref('');

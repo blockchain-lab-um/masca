@@ -1,6 +1,7 @@
-import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
+
 import {
   addFriendlyDapp,
   getCompressedPublicKey,
@@ -8,20 +9,17 @@ import {
   getCurrentNetwork,
   getPublicKey,
   removeFriendlyDapp,
-  snapConfirm,
   togglePopups,
 } from '../../src/utils/snapUtils';
-import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
+import * as snapUtils from '../../src/utils/snapUtils';
 import {
   address,
-  publicKey,
-  getDefaultSnapState,
-  snapConfirmParams,
   bip44Entropy,
   compressedPublicKey,
+  getDefaultSnapState,
+  publicKey,
 } from '../testUtils/constants';
-
-import * as snapUtils from '../../src/utils/snapUtils';
+import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
 
 jest
   .spyOn(snapUtils, 'getCurrentAccount')

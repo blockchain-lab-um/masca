@@ -5,14 +5,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/require-await */
 import {
+  IAgentContext,
   IIdentifier,
   IKey,
-  IService,
-  IAgentContext,
   IKeyManager,
+  IService,
 } from '@veramo/core';
 import { AbstractIdentifierProvider } from '@veramo/did-manager';
 import { base58btc } from 'multiformats/bases/base58';
+
 import { addMulticodecPrefix } from '../../utils/formatUtils';
 
 type IContext = IAgentContext<IKeyManager>;

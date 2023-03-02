@@ -12,12 +12,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import { useGeneralStore } from '@/stores/general';
 import { useMetamaskStore } from '@/stores/metamask';
 import { createDIDMethod } from '@/util/snap';
-import type { ToastServiceMethods } from 'primevue/toastservice';
 import type { AvailableMethods } from '@blockchain-lab-um/ssi-snap-types';
+import type { ToastServiceMethods } from 'primevue/toastservice';
+import { ref } from 'vue';
 
 const mmStore = useMetamaskStore();
 const generalStore = useGeneralStore();

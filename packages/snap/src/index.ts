@@ -1,32 +1,33 @@
 import { OnRpcRequestHandler } from '@metamask/snaps-types';
+
+import { ApiParams } from './interfaces';
+import { getAvailableMethods } from './rpc/did/getAvailableMethods';
+import { getDid } from './rpc/did/getDID';
+import { resolveDID } from './rpc/did/resolveDID';
+import { switchMethod } from './rpc/did/switchMethod';
 import { togglePopups } from './rpc/snap/configure';
-import { queryVCs } from './rpc/vc/queryVCs';
 import { createVP } from './rpc/vc/createVP';
+import { deleteVC } from './rpc/vc/deleteVC';
+import { queryVCs } from './rpc/vc/queryVCs';
 import { saveVC } from './rpc/vc/saveVC';
+import { getAvailableVCStores } from './rpc/vcStore/getAvailableVCStores';
+import { setVCStore } from './rpc/vcStore/setVCStore';
+import { getAddressKeyDeriver } from './utils/keyPair';
 import {
   isValidCreateVPRequest,
-  isValidSaveVCRequest,
-  isValidSetVCStoreRequest,
-  isValidSwitchMethodRequest,
   isValidDeleteVCRequest,
   isValidQueryRequest,
   isValidResolveDIDRequest,
+  isValidSaveVCRequest,
+  isValidSetVCStoreRequest,
+  isValidSwitchMethodRequest,
 } from './utils/params';
-import { switchMethod } from './rpc/did/switchMethod';
-import { getDid } from './rpc/did/getDID';
-import { getAvailableMethods } from './rpc/did/getAvailableMethods';
-import { setVCStore } from './rpc/vcStore/setVCStore';
-import { getAvailableVCStores } from './rpc/vcStore/getAvailableVCStores';
+import { getCurrentAccount, setAccountPublicKey } from './utils/snapUtils';
 import {
   getSnapStateUnchecked,
   initAccountState,
   initSnapState,
 } from './utils/stateUtils';
-import { getCurrentAccount, setAccountPublicKey } from './utils/snapUtils';
-import { getAddressKeyDeriver } from './utils/keyPair';
-import { ApiParams } from './interfaces';
-import { deleteVC } from './rpc/vc/deleteVC';
-import { resolveDID } from './rpc/did/resolveDID';
 
 export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
   let state = await getSnapStateUnchecked(snap);
