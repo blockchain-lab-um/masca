@@ -3,10 +3,6 @@ import { Menu } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/20/solid';
 import { clsx } from 'clsx';
 
-function classNames(...classes: string[]) {
-  return clsx(classes);
-}
-
 type DropdownButtonProps = {
   children: React.ReactNode;
   handleBtn: (text: string) => void;
@@ -25,7 +21,7 @@ export const DropdownButton = ({
           onClick={() => {
             handleBtn(children as string);
           }}
-          className={classNames(
+          className={clsx(
             active
               ? 'text-orange-700 bg-orange-100 animated-transition cursor-pointer'
               : 'text-gray-800',

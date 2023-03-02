@@ -2,10 +2,6 @@ import React from 'react';
 import { Menu } from '@headlessui/react';
 import { clsx } from 'clsx';
 
-function classNames(...classes: string[]) {
-  return clsx(classes);
-}
-
 type DropdownMenuItemProps = {
   children: React.ReactNode;
   handleBtn: (text: string) => void;
@@ -47,7 +43,7 @@ export const DropdownMenuItem = ({
           onClick={() => {
             handleBtn(children as string);
           }}
-          className={classNames(
+          className={clsx(
             'block px-4 mx-2 rounded-xl py-2 text-sm',
             active ? variants[variant] : '',
             selected ? variantsSelected[variant] : 'font-normal'

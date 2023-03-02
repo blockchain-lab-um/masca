@@ -21,10 +21,6 @@ interface DropdownMenuProps {
   setSelected: (selected: string) => void;
 }
 
-function classNames(...classes: string[]) {
-  return clsx(classes);
-}
-
 const sizes: Record<string, string> = {
   xs: 'text-h6 py-1 px-3 max-w-xs',
   sm: 'text-h5 py-1.5 px-3.5 max-w-xs',
@@ -67,7 +63,7 @@ export default function DropdownMenu({
         <Fragment>
           <div>
             <Menu.Button
-              className={classNames(
+              className={clsx(
                 'flex justify-center items-center focus:outline-none animated-transition',
                 variants[variant],
                 sizes[size],

@@ -51,10 +51,6 @@ interface ToggleSwitchProps {
   disabled?: boolean;
 }
 
-function classNames(...classes: string[]) {
-  return clsx(classes);
-}
-
 export default function ToggleSwitch({
   variant = 'primary',
   size = 'sm',
@@ -69,7 +65,7 @@ export default function ToggleSwitch({
       disabled={disabled}
       checked={enabled}
       onChange={setEnabled}
-      className={classNames(
+      className={clsx(
         enabled ? variantsEnabled[variant] : variants[variant],
         sizes[size],
         `shadow-${shadow} `,
@@ -79,7 +75,7 @@ export default function ToggleSwitch({
     >
       <span className="sr-only">Enable notifications</span>
       <span
-        className={classNames(
+        className={clsx(
           enabled ? translateEnabled[size] : 'translate-x-0.5',
           sizesToggle[size],
           variantToggle[variant],

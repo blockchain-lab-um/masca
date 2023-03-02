@@ -16,10 +16,6 @@ import MetaMaskGateway from '@/components/MetaMaskGateway';
 import { useSnapStore } from '@/utils/stores';
 import { FormatedTab, JsonTab } from './tabs';
 
-function classNames(...classes: string[]) {
-  return clsx(classes);
-}
-
 const VC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
   const router = useRouter();
@@ -50,7 +46,7 @@ const VC = () => {
               <Tab.List className="flex max-w-fit space-x-1 rounded-full mb-2 text-orange-900 bg-white p-1 shadow-md border border-gray-200">
                 <Tab
                   className={({ selected }) =>
-                    classNames(
+                    clsx(
                       'w-full rounded-full text-sm py-2 font-semibold px-4 text-orange-500 animated-transition',
                       selected
                         ? 'bg-orange-100'
@@ -62,7 +58,7 @@ const VC = () => {
                 </Tab>
                 <Tab
                   className={({ selected }) =>
-                    classNames(
+                    clsx(
                       'w-full rounded-full text-sm py-2 font-semibold px-4 text-orange-500 animated-transition',
                       selected
                         ? 'bg-orange-100'
