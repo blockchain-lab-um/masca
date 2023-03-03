@@ -10,6 +10,7 @@ import { createVP } from './rpc/vc/createVP';
 import { deleteVC } from './rpc/vc/deleteVC';
 import { queryVCs } from './rpc/vc/queryVCs';
 import { saveVC } from './rpc/vc/saveVC';
+import { verifyData } from './rpc/vc/verifyData';
 import { getAvailableVCStores } from './rpc/vcStore/getAvailableVCStores';
 import { setVCStore } from './rpc/vcStore/setVCStore';
 import { getAddressKeyDeriver } from './utils/keyPair';
@@ -21,6 +22,7 @@ import {
   isValidSaveVCRequest,
   isValidSetVCStoreRequest,
   isValidSwitchMethodRequest,
+  isValidVerifyDataRequest,
 } from './utils/params';
 import { getCurrentAccount, setAccountPublicKey } from './utils/snapUtils';
 import {
@@ -105,6 +107,10 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
     case 'resolveDID':
       isValidResolveDIDRequest(request.params);
       res = await resolveDID(request.params.did);
+      return res;
+    case 'verifyData':
+      isValidVerifyDataRequest(request.params);
+      res = await verifyData(apiParams, request.params);
       return res;
     default:
       throw new Error('Method not found.');
