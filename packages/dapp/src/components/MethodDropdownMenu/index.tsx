@@ -1,7 +1,7 @@
 import { Fragment, useState } from 'react';
 import { AvailableMethods } from '@blockchain-lab-um/ssi-snap-types';
 import { Menu, Transition } from '@headlessui/react';
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
+import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { shallow } from 'zustand/shallow';
 
 import { useSnapStore } from '@/utils/stores';
@@ -43,29 +43,11 @@ export default function MethodDropdownMenu() {
               }`}
             >
               {didMethod}
-              {open ? (
-                <>
-                  <ChevronUpIcon
-                    className="hidden -mr-1 ml-2 h-5 w-5 md:block"
-                    aria-hidden="true"
-                  />
-                  <ChevronDownIcon
-                    className="-mr-1 ml-2 h-5 w-5 md:hidden"
-                    aria-hidden="true"
-                  />
-                </>
-              ) : (
-                <>
-                  <ChevronDownIcon
-                    className="hidden -mr-1 ml-2 h-5 w-5 md:block"
-                    aria-hidden="true"
-                  />
-                  <ChevronUpIcon
-                    className="-mr-1 ml-2 h-5 w-5 md:hidden"
-                    aria-hidden="true"
-                  />
-                </>
-              )}
+              <ChevronDownIcon
+                className={`-mr-1 ml-2 h-5 w-5 max-md:rotate-180 animated-transition ${
+                  open ? 'rotate-180' : ''
+                }`}
+              />
             </Menu.Button>
           </div>
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Popover, Transition } from '@headlessui/react';
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
+import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 
 import { copyToClipboard } from '@/utils/string';
@@ -22,17 +22,12 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
           >
             <div className="flex">
               {`${address.slice(0, 6)}...${address.slice(-4)}`}
-              {open ? (
-                <>
-                  <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5 md:hidden" />
-                  <ChevronUpIcon className="-mr-1 ml-2 h-5 w-5 hidden md:block" />
-                </>
-              ) : (
-                <>
-                  <ChevronUpIcon className="-mr-1 ml-2 h-5 w-5 md:hidden" />
-                  <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5 hidden md:block" />
-                </>
-              )}
+
+              <ChevronDownIcon
+                className={`-mr-1 ml-2 h-5 w-5 max-md:rotate-180 animated-transition ${
+                  open ? 'rotate-180' : ''
+                }`}
+              />
             </div>
           </Popover.Button>
           <Transition
