@@ -9,16 +9,17 @@ import { DropdownButton } from './MethodDropdownButton';
 
 export default function MethodDropdownMenu() {
   const [didMethod, setDidMethod] = useState('did:ethr');
-
-  const { api, currMethod, methods, changeCurrDIDMethod } = useSnapStore(
-    (state) => ({
-      api: state.snapApi,
-      currMethod: state.currDIDMethod,
-      methods: state.availableMethods,
-      changeCurrDIDMethod: state.changeCurrDIDMethod,
-    }),
-    shallow
-  );
+  const { api, currMethod, methods, changeCurrDIDMethod, changeDID } =
+    useSnapStore(
+      (state) => ({
+        api: state.snapApi,
+        currMethod: state.currDIDMethod,
+        methods: state.availableMethods,
+        changeCurrDIDMethod: state.changeCurrDIDMethod,
+        changeDID: state.changeCurrDID,
+      }),
+      shallow
+    );
 
   const handleMethodChange = async (method: string) => {
     if (method !== currMethod) {
@@ -26,6 +27,7 @@ export default function MethodDropdownMenu() {
       if (res) {
         setDidMethod(method);
         changeCurrDIDMethod(method);
+        changeDID(res as unknown as string);
       }
     }
   };

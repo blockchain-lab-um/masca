@@ -29,7 +29,10 @@ export default function Navbar() {
       shallow
     );
 
+  const setVcs = useSnapStore((state) => state.changeVcs);
+
   const disconnect = () => {
+    setVcs([]);
     changeIsConnected(false);
   };
 

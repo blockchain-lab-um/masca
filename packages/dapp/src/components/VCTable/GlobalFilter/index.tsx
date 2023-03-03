@@ -20,8 +20,8 @@ const GlobalFilter = ({ isConnected, vcs }: GlobalFilterProps) => {
   );
   return (
     <div
-      className={`flex items-center flex-1 sm:flex-none bg-white w-fit rounded-full dark:bg-gray-800 border border-gray-200 shadow-md ${
-        !isConnected || vcs.length === 0 ? 'bg-gray-50' : ''
+      className={`flex items-center flex-1 sm:flex-none w-fit rounded-full dark:bg-gray-800 border border-gray-200 shadow-md ${
+        !isConnected || vcs.length === 0 ? 'bg-gray-50' : 'bg-white'
       }`}
     >
       <MagnifyingGlassIcon
@@ -35,10 +35,10 @@ const GlobalFilter = ({ isConnected, vcs }: GlobalFilterProps) => {
         onChange={(e) => {
           setGlobalFilter(e.target.value);
         }}
-        className={`font-lg pl-3 pr-2 sm:px-2 w-full h-full rounded-full bg-white text-orange-500 placeholder:text-orange-200 focus:outline-none dark:bg-gray-800 ${
+        className={`font-lg pl-3 pr-2 sm:px-2 w-full h-full rounded-full  text-orange-500 placeholder:text-orange-200 focus:outline-none dark:bg-gray-800 ${
           !isConnected || vcs.length === 0
             ? 'text-gray-300 placeholder:text-gray-300 bg-gray-50'
-            : ''
+            : 'bg-white'
         }`}
         placeholder="Search all columns..."
         disabled={!isConnected || vcs.length === 0}

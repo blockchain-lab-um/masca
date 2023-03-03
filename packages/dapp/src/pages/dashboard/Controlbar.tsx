@@ -52,12 +52,10 @@ export const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
       console.log(err);
       return false;
     }
-    console.log('Saving VC', stores);
-    const res = await api?.saveVC(JSON.parse(vc) as W3CVerifiableCredential, {
+    const res = await api?.saveVC(vcObj, {
       store: stores,
     });
     if (res && res.length > 0) {
-      console.log('VC saved', res);
       const newVcs: QueryVCsRequestResult[] = [];
       res.forEach((metadata) => {
         const finalVC = {
@@ -95,14 +93,16 @@ export const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
               />
             </button>
           )}
-          <Button
-            variant="white"
-            size="sm"
-            shadow="md"
-            onClick={() => setImportModalOpen(true)}
-          >
-            Save VC
-          </Button>
+          {isConnected && (
+            <Button
+              variant="white"
+              size="sm"
+              shadow="md"
+              onClick={() => setImportModalOpen(true)}
+            >
+              Save VC
+            </Button>
+          )}
         </div>
       </div>
       <ImportModal

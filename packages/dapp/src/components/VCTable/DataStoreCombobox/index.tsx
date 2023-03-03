@@ -36,7 +36,6 @@ const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
   const dataStores = dataStoresFull.filter((element, index) => {
     return dataStoresFull.indexOf(element) === index;
   });
-  console.log('ds', dataStores);
 
   const filteredDataStores =
     query === ''
