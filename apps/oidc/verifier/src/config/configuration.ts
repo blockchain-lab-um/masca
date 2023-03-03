@@ -4,15 +4,16 @@ import {
 } from '@blockchain-lab-um/oidc-types';
 import { ConfigModule } from '@nestjs/config';
 import Joi from 'joi';
-import { supported_credentials } from '../../supported_credentials.json';
+
 import {
-  VERIFIER_URL,
+  PRESENTATION_DEFINITIONS,
   SUPPORTED_CURVES,
   SUPPORTED_DID_METHODS,
   SUPPORTED_DIGITAL_SIGNATURES,
   SUPPORTED_SCHEMA_URL,
-  PRESENTATION_DEFINITIONS,
+  VERIFIER_URL,
 } from '../../config';
+import { supported_credentials } from '../../supported_credentials.json';
 
 export interface IConfig {
   INFURA_PROJECT_ID: string;

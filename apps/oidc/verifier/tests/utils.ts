@@ -1,14 +1,11 @@
+import { isError, privateKeyToDid } from '@blockchain-lab-um/oidc-rp-plugin';
+import { IIdentifier, MinimalImportableKey } from '@veramo/core';
+import { bytesToBase64url, encodeBase64url } from '@veramo/utils';
 import { ec as EC } from 'elliptic';
 import { sha256 } from 'ethereum-cryptography/sha256';
 import { JWTPayload } from 'jose';
-import { encodeBase64url, bytesToBase64url } from '@veramo/utils';
-import {
-  isError,
-  OIDCPlugin,
-  privateKeyToDid,
-} from '@blockchain-lab-um/oidc-rp-plugin';
-import { IIdentifier, MinimalImportableKey } from '@veramo/core';
 import { v4 as uuidv4 } from 'uuid';
+
 import { Agent } from './testAgent';
 
 type CreateJWTProofParams = {

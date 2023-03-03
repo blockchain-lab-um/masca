@@ -1,15 +1,5 @@
 /* eslint-disable @typescript-eslint/require-await */
-import {
-  CredentialPayload,
-  IAgentPlugin,
-  VerifiablePresentation,
-} from '@veramo/core';
-import {
-  extractPublicKeyHex,
-  _ExtendedVerificationMethod,
-  bytesToBase64url,
-} from '@veramo/utils';
-import qs from 'qs';
+
 import { randomUUID } from 'crypto';
 import {
   AuthorizationRequest,
@@ -19,34 +9,46 @@ import {
   TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
 import {
-  jwtVerify,
-  decodeProtectedHeader,
-  importJWK,
-  decodeJwt,
-  calculateJwkThumbprint,
-  JWK,
-} from 'jose';
-import { JsonWebKey, VerificationMethod } from 'did-resolver';
-import { ec as EC } from 'elliptic';
-import fetch from 'cross-fetch';
+  CredentialPayload,
+  IAgentPlugin,
+  VerifiablePresentation,
+} from '@veramo/core';
+import {
+  _ExtendedVerificationMethod,
+  bytesToBase64url,
+  extractPublicKeyHex,
+} from '@veramo/utils';
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
-import { Result } from '../utils';
+import fetch from 'cross-fetch';
+import { JsonWebKey, VerificationMethod } from 'did-resolver';
+import { ec as EC } from 'elliptic';
 import {
+  JWK,
+  calculateJwkThumbprint,
+  decodeJwt,
+  decodeProtectedHeader,
+  importJWK,
+  jwtVerify,
+} from 'jose';
+import qs from 'qs';
+
+import { IOIDCPlugin, OIDCAgentContext } from '../types/IOIDCPlugin';
+import {
+  CreateAuthorizationRequestArgs,
+  CreateAuthorizationRequestResponse,
+  CreateCredentialOfferRequestArgs,
   CreateCredentialOfferRequestResposne,
+  HandleAuthorizationResponseArgs,
   HandleCredentialRequestArgs,
+  HandlePreAuthorizedCodeTokenRequestArgs,
   IPluginConfig,
   IsValidTokenRequestArgs,
   IsValidTokenRequestResponse,
-  HandlePreAuthorizedCodeTokenRequestArgs,
-  HandleAuthorizationResponseArgs,
-  CreateCredentialOfferRequestArgs,
   ProofOfPossesionArgs,
   ProofOfPossesionResponseArgs,
-  CreateAuthorizationRequestArgs,
-  CreateAuthorizationRequestResponse,
 } from '../types/internal';
-import { IOIDCPlugin, OIDCAgentContext } from '../types/IOIDCPlugin';
+import { Result } from '../utils';
 
 /**
  * {@inheritDoc IMyAgentPlugin}

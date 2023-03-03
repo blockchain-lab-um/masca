@@ -1,37 +1,21 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/dot-notation */
-import { MetaMaskInpageProvider } from '@metamask/providers';
-import {
-  createAgent,
-  IDIDManager,
-  IResolver,
-  IDataStore,
-  IKeyManager,
-  TAgent,
-} from '@veramo/core';
 
-import { AbstractIdentifierProvider, DIDManager } from '@veramo/did-manager';
-import { EthrDIDProvider } from '@veramo/did-provider-ethr';
 import {
-  PkhDIDProvider,
-  getDidPkhResolver as pkhDidResolver,
-} from '@veramo/did-provider-pkh';
-import {
-  KeyManager,
-  MemoryKeyStore,
-  MemoryPrivateKeyStore,
-} from '@veramo/key-manager';
-import { KeyManagementSystem } from '@veramo/kms-local';
-import { DIDResolverPlugin } from '@veramo/did-resolver';
-import { Resolver } from 'did-resolver';
-import { getResolver as ethrDidResolver } from 'ethr-did-resolver';
-import {
+  AbstractDataStore,
   DataManager,
   IDataManager,
-  AbstractDataStore,
 } from '@blockchain-lab-um/veramo-vc-manager';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { ethers } from 'ethers';
+import { MetaMaskInpageProvider } from '@metamask/providers';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
+import {
+  IDIDManager,
+  IDataStore,
+  IKeyManager,
+  IResolver,
+  TAgent,
+  createAgent,
+} from '@veramo/core';
 import { CredentialIssuerEIP712 } from '@veramo/credential-eip712';
 import {
   CredentialIssuerLD,
@@ -39,18 +23,33 @@ import {
   VeramoEcdsaSecp256k1RecoverySignature2020,
 } from '@veramo/credential-ld';
 import { CredentialPlugin, ICredentialIssuer } from '@veramo/credential-w3c';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { AbstractIdentifierProvider, DIDManager } from '@veramo/did-manager';
+import { EthrDIDProvider } from '@veramo/did-provider-ethr';
+import {
+  PkhDIDProvider,
+  getDidPkhResolver as pkhDidResolver,
+} from '@veramo/did-provider-pkh';
+import { DIDResolverPlugin } from '@veramo/did-resolver';
+import {
+  KeyManager,
+  MemoryKeyStore,
+  MemoryPrivateKeyStore,
+} from '@veramo/key-manager';
+import { KeyManagementSystem } from '@veramo/kms-local';
+import { Resolver } from 'did-resolver';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { ethers } from 'ethers';
+import { getResolver as ethrDidResolver } from 'ethr-did-resolver';
+
+import { KeyDIDProvider } from '../did/key/keyDidProvider';
+import { getDidKeyResolver as keyDidResolver } from '../did/key/keyDidResolver';
+import { getCurrentAccount, getEnabledVCStores } from '../utils/snapUtils';
+import { getSnapState } from '../utils/stateUtils';
+import { CeramicVCStore } from './plugins/ceramicDataStore/ceramicDataStore';
 import {
   SnapDIDStore,
   SnapVCStore,
 } from './plugins/snapDataStore/snapDataStore';
-import { CeramicVCStore } from './plugins/ceramicDataStore/ceramicDataStore';
-
-import { KeyDIDProvider } from '../did/key/keyDidProvider';
-import { getDidKeyResolver as keyDidResolver } from '../did/key/keyDidResolver';
-
-import { getCurrentAccount, getEnabledVCStores } from '../utils/snapUtils';
-import { getSnapState } from '../utils/stateUtils';
 
 export type Agent = TAgent<
   IDIDManager &

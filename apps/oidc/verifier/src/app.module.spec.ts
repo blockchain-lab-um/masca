@@ -1,5 +1,5 @@
 // import { Test, TestingModule } from '@nestjs/testing';
-import request from 'supertest';
+
 import { HttpServer } from '@nestjs/common';
 import {
   FastifyAdapter,
@@ -8,11 +8,12 @@ import {
 import { Test, TestingModule } from '@nestjs/testing';
 import { FastifyInstance } from 'fastify';
 import * as qs from 'qs';
-import { isError, OIDCPlugin } from '@blockchain-lab-um/oidc-rp-plugin';
+import request from 'supertest';
+
 import { TEST_USER_PRIVATE_KEY, TEST_VERIFIER_URL } from '../tests/constants';
+import getAgent from '../tests/testAgent';
 import { createJWTProof, importDid } from '../tests/utils';
 import { AppModule } from './app.module';
-import getAgent from '../tests/testAgent';
 
 describe('Verifier controler', () => {
   let app: NestFastifyApplication;

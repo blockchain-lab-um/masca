@@ -1,6 +1,7 @@
 import { SupportedCredential } from '@blockchain-lab-um/oidc-types';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
+
 import {
   ISSUER_URL,
   SUPPORTED_CREDENTIALS,

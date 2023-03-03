@@ -3,8 +3,9 @@
 </template>
 
 <script setup lang="ts">
-import { useMetamaskStore } from '../stores/metamask';
 import TabMenu from 'primevue/tabmenu';
+
+import { useMetamaskStore } from '../stores/metamask';
 
 const mmStore = useMetamaskStore();
 

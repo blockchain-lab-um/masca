@@ -1,9 +1,10 @@
 import { CeramicClient } from '@ceramicnetwork/http-client';
+import { EthereumWebAuth } from '@didtools/pkh-ethereum';
+import { MetaMaskInpageProvider } from '@metamask/providers';
+import { AccountId } from 'caip';
 import { DIDSession } from 'did-session';
 import { DID } from 'dids';
-import { EthereumWebAuth } from '@didtools/pkh-ethereum';
-import { AccountId } from 'caip';
-import { MetaMaskInpageProvider } from '@metamask/providers';
+
 import { getCurrentAccount, getCurrentNetwork } from './snapUtils';
 
 const ceramicDID = { did: undefined } as { did: DID | undefined };

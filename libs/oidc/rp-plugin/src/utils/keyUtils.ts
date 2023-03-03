@@ -1,4 +1,5 @@
 import { ec as EC } from 'elliptic';
+
 import { Result } from './result';
 
 // TODO: Add keyType as an argument

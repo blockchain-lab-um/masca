@@ -3,6 +3,7 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
+
 import { AppModule } from './app.module';
 import { AgentService } from './modules/agent/agent.service';
 

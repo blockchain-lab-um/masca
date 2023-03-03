@@ -1,4 +1,12 @@
 import {
+  CredentialOfferRequest,
+  CredentialRequest,
+  CredentialResponse,
+  IssuerServerMetadata,
+  TokenRequest,
+  TokenResponse,
+} from '@blockchain-lab-um/oidc-types';
+import {
   Body,
   Controller,
   Get,
@@ -11,14 +19,6 @@ import {
 } from '@nestjs/common';
 import { FastifyReply } from 'fastify';
 
-import {
-  CredentialOfferRequest,
-  CredentialRequest,
-  CredentialResponse,
-  IssuerServerMetadata,
-  TokenRequest,
-  TokenResponse,
-} from '@blockchain-lab-um/oidc-types';
 import { AppService } from './app.service';
 
 @Controller()

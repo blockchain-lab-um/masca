@@ -1,5 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import {
+  isError,
+  isValidAuthorizationHeader,
+} from '@blockchain-lab-um/oidc-rp-plugin';
 import {
   CredentialOfferRequest,
   CredentialRequest,
@@ -8,13 +10,12 @@ import {
   TokenRequest,
   TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
-import {
-  isError,
-  isValidAuthorizationHeader,
-} from '@blockchain-lab-um/oidc-rp-plugin';
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+
 import { IConfig } from './config/configuration';
-import { DatastoreService } from './modules/datastore/datastore.service';
 import { AgentService } from './modules/agent/agent.service';
+import { DatastoreService } from './modules/datastore/datastore.service';
 
 @Injectable()
 export class AppService {

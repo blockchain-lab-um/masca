@@ -1,38 +1,39 @@
 import { IOIDCPlugin, OIDCPlugin } from '@blockchain-lab-um/oidc-rp-plugin';
 import {
-  createAgent,
   ICredentialPlugin,
   IDIDManager,
   IKeyManager,
   IResolver,
   TAgent,
+  createAgent,
 } from '@veramo/core';
 import { CredentialPlugin } from '@veramo/credential-w3c';
 import {
+  DIDStore,
   Entities,
   KeyStore,
-  DIDStore,
   PrivateKeyStore,
   migrations,
 } from '@veramo/data-store';
-import { DataSource } from 'typeorm';
-import { KeyManager } from '@veramo/key-manager';
-import { KeyManagementSystem, SecretBox } from '@veramo/kms-local';
 import { DIDManager } from '@veramo/did-manager';
 import { EthrDIDProvider } from '@veramo/did-provider-ethr';
 import { KeyDIDProvider, getDidKeyResolver } from '@veramo/did-provider-key';
 import { DIDResolverPlugin } from '@veramo/did-resolver';
+import { KeyManager } from '@veramo/key-manager';
+import { KeyManagementSystem, SecretBox } from '@veramo/kms-local';
 import { Resolver } from 'did-resolver';
 import { getResolver as getEthrResolver } from 'ethr-did-resolver';
+import { DataSource } from 'typeorm';
+
+import { loadSupportedCredentials } from '../src/config/configuration';
 import {
   TEST_INFURA_PROJECT_ID,
-  TEST_VERIFIER_DB_SECRET,
-  TEST_VERIFIER_URL,
   TEST_SUPPORTED_CURVES,
   TEST_SUPPORTED_DID_METHODS,
   TEST_SUPPORTED_DIGITAL_SIGNATURES,
+  TEST_VERIFIER_DB_SECRET,
+  TEST_VERIFIER_URL,
 } from './constants';
-import { loadSupportedCredentials } from '../src/config/configuration';
 
 export type Agent = TAgent<
   IDIDManager & IKeyManager & IResolver & IOIDCPlugin & ICredentialPlugin

@@ -5,6 +5,7 @@ import {
 } from '@blockchain-lab-um/oidc-types';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+
 import { AuthorizationRequest } from './app.interface';
 import { IConfig } from './config/configuration';
 import { AgentService } from './modules/agent/agent.service';

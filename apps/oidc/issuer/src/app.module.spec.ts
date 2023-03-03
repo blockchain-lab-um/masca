@@ -1,3 +1,8 @@
+import {
+  CredentialRequest,
+  TokenRequest,
+  TokenResponse,
+} from '@blockchain-lab-um/oidc-types';
 import { HttpServer } from '@nestjs/common';
 // import { ConfigService } from '@nestjs/config';
 import {
@@ -6,23 +11,20 @@ import {
 } from '@nestjs/platform-fastify';
 import { Test, TestingModule } from '@nestjs/testing';
 import { FastifyInstance } from 'fastify';
-import request from 'supertest';
 import * as qs from 'qs';
-import {
-  CredentialRequest,
-  TokenRequest,
-  TokenResponse,
-} from '@blockchain-lab-um/oidc-types';
-import getAgent from '../tests/testAgent';
+import request from 'supertest';
+
 import {
   TEST_ISSUER_URL,
-  TEST_USER_PRIVATE_KEY,
   TEST_METADATA,
   TEST_SUPPORTED_SCHEMA_URL,
+  TEST_USER_PRIVATE_KEY,
 } from '../tests/constants';
+import getAgent from '../tests/testAgent';
 import { createJWTProof } from '../tests/utils';
 import { AppModule } from './app.module';
 import { AgentService } from './modules/agent/agent.service';
+
 // import { IConfig } from './config/configuration';
 
 describe('Issuer controller', () => {

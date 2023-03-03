@@ -10,6 +10,7 @@ import {
   IPluginMethodMap,
   IResolver,
 } from '@veramo/core';
+
 import { Result } from '../utils';
 import {
   CreateAuthorizationRequestArgs,

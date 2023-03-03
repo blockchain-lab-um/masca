@@ -1,5 +1,3 @@
-import type { W3CVerifiableCredential } from '@veramo/core';
-import axios from 'axios';
 import { enableSSISnap } from '@blockchain-lab-um/ssi-snap-connector';
 import type {
   AvailableVCStores,
@@ -7,11 +5,14 @@ import type {
   SSISnapApi,
   VCRequest,
 } from '@blockchain-lab-um/ssi-snap-types';
+import type { W3CVerifiableCredential } from '@veramo/core';
+import axios from 'axios';
+
 import type {
-  SnapInstallationParams,
   DIDMethod,
-  storeInitResponse,
   SnapInitializationResponse,
+  SnapInstallationParams,
+  storeInitResponse,
 } from './interfaces';
 
 const backend_url = 'https://bclabum.informatika.uni-mb.si/ssi-demo-backend';

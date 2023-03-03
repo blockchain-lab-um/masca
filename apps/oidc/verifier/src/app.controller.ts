@@ -9,6 +9,7 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+
 import { AuthorizationRequest } from './app.interface';
 import { AppService } from './app.service';
 

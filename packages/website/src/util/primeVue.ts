@@ -1,17 +1,17 @@
-import PrimeVue from 'primevue/config';
-import ToastService from 'primevue/toastservice';
 import Button from 'primevue/button';
-import InputText from 'primevue/inputtext';
-import Textarea from 'primevue/textarea';
-import Dropdown from 'primevue/dropdown';
-import Toast from 'primevue/toast';
 import Chip from 'primevue/chip';
-import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import ColumnGroup from 'primevue/columngroup';
-import Row from 'primevue/row';
+import PrimeVue from 'primevue/config';
+import DataTable from 'primevue/datatable';
 import Dialog from 'primevue/dialog';
+import Dropdown from 'primevue/dropdown';
 import InputSwitch from 'primevue/inputswitch';
+import InputText from 'primevue/inputtext';
+import Row from 'primevue/row';
+import Textarea from 'primevue/textarea';
+import Toast from 'primevue/toast';
+import ToastService from 'primevue/toastservice';
 
 export const primeVueComponents = {
   PrimeVue,

@@ -1,37 +1,38 @@
+import {
+  IOIDCPlugin,
+  OIDCPlugin,
+  isError,
+  privateKeyToDid,
+} from '@blockchain-lab-um/oidc-rp-plugin';
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import {
-  createAgent,
-  IDIDManager,
-  IResolver,
-  IKeyManager,
-  TAgent,
-  MinimalImportableKey,
   ICredentialPlugin,
+  IDIDManager,
+  IKeyManager,
+  IResolver,
+  MinimalImportableKey,
+  TAgent,
+  createAgent,
 } from '@veramo/core';
-import { DataSource } from 'typeorm';
+import { CredentialPlugin } from '@veramo/credential-w3c';
 import {
+  DIDStore,
   Entities,
   KeyStore,
-  DIDStore,
   PrivateKeyStore,
   migrations,
 } from '@veramo/data-store';
-import { DIDResolverPlugin } from '@veramo/did-resolver';
-import { KeyManager } from '@veramo/key-manager';
-import { KeyManagementSystem, SecretBox } from '@veramo/kms-local';
-import { ConfigService } from '@nestjs/config';
 import { DIDManager } from '@veramo/did-manager';
 import { EthrDIDProvider } from '@veramo/did-provider-ethr';
 import { KeyDIDProvider, getDidKeyResolver } from '@veramo/did-provider-key';
-import { getResolver as getEthrResolver } from 'ethr-did-resolver';
+import { DIDResolverPlugin } from '@veramo/did-resolver';
+import { KeyManager } from '@veramo/key-manager';
+import { KeyManagementSystem, SecretBox } from '@veramo/kms-local';
 import { Resolver } from 'did-resolver';
-import {
-  IOIDCPlugin,
-  isError,
-  OIDCPlugin,
-  privateKeyToDid,
-} from '@blockchain-lab-um/oidc-rp-plugin';
-import { CredentialPlugin } from '@veramo/credential-w3c';
+import { getResolver as getEthrResolver } from 'ethr-did-resolver';
+import { DataSource } from 'typeorm';
+
 import { IConfig, loadSupportedCredentials } from '../../config/configuration';
 
 @Injectable()
