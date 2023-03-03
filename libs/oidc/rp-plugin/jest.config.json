@@ -1,13 +1,16 @@
 {
-  "preset": "ts-jest",
-  "collectCoverageFrom": ["**/*.(t|j)s"],
-  "coverageDirectory": "./coverage",
-  "moduleFileExtensions": ["js", "json", "ts"],
-  "rootDir": "tests",
+  "clearMocks": false,
+  "collectCoverage": false,
+  "coverageDirectory": "coverage",
+  "collectCoverageFrom": ["src/**/*.(t|j)s"],
+  "coveragePathIgnorePatterns": ["/node_modules/", "tests", "src/types"],
+  "coverageProvider": "v8",
+  "moduleFileExtensions": ["js", "json", "ts", "mjs", "cjs"],
   "testEnvironment": "node",
-  "testRegex": ".*\\.spec.ts$",
+  "testRegex": ".*\\.spec\\.ts$",
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
   },
-  "coverageReporters": ["text", "lcov", "json"]
+  "transformIgnorePatterns": ["/node_modules/(?!@veramo/*)/"],
+  "testTimeout": 120000
 }
