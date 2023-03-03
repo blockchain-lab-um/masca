@@ -13,7 +13,6 @@ jobs:
   main:
     name: Nx Cloud - Main Job
     uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.11.3
-    secrets: inherit
     with:
       node-version: 18.13.0
       number-of-agents: 4
@@ -28,7 +27,6 @@ jobs:
   agents:
     name: Nx Cloud - Agents
     uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.11.3
-    secrets: inherit
     with:
       number-of-agents: 4
       node-version: 18.13.0
