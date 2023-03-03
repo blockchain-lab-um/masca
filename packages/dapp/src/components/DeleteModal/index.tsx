@@ -1,5 +1,8 @@
 import { Fragment } from 'react';
-import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
+import {
+  AvailableVCStores,
+  QueryVCsRequestResult,
+} from '@blockchain-lab-um/ssi-snap-types';
 import { Dialog, Transition } from '@headlessui/react';
 import { shallow } from 'zustand/shallow';
 
@@ -31,7 +34,13 @@ function DeleteModal({ open, setOpen, vc }: DeleteModalProps) {
       setTitle('Deleting Credential');
       setToastOpen(true);
       setOpen(false);
-      await api?.deleteVC(vc.metadata.id);
+      let deleteReqOptions;
+      if (vc.metadata.store)
+        deleteReqOptions = {
+          store: vc.metadata.store as AvailableVCStores | AvailableVCStores[],
+        };
+      await api?.deleteVC(vc.metadata.id, deleteReqOptions);
+      // TODO - Delete VC from local state instead of calling queryVCs.
       const vcs = await api?.queryVCs();
       if (vcs) {
         setToastOpen(false);

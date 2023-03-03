@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { SupportedProofFormats } from '@blockchain-lab-um/ssi-snap-types';
+import {
+  AvailableVCStores,
+  SupportedProofFormats,
+  VCRequest,
+} from '@blockchain-lab-um/ssi-snap-types';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 import { W3CVerifiablePresentation } from '@veramo/core';
 import { shallow } from 'zustand/shallow';
@@ -48,7 +52,23 @@ export const CreateVP = () => {
   const handleCreateVP = async () => {
     if (!api) return;
     setLoading(true);
-    const vcs = selectedVCs.map((vc) => {
+    const vcs: VCRequest[] = selectedVCs.map((vc) => {
+      if (vc.metadata.store) {
+        if (typeof vc.metadata.store === 'string')
+          return {
+            id: vc.metadata.id,
+            metadata: {
+              store: vc.metadata.store as AvailableVCStores,
+            },
+          };
+        if (Array.isArray(vc.metadata.store))
+          return {
+            id: vc.metadata.id,
+            metadata: {
+              store: vc.metadata.store[0] as AvailableVCStores,
+            },
+          };
+      }
       return { id: vc.metadata.id };
     });
 
