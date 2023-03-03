@@ -29,11 +29,11 @@ export const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
     shallow
   );
 
-  const refreshVCs = async () => {
-    const res = await api?.queryVCs();
-    if (res) {
-      changeVcs(res);
-    }
+  const refreshVCs = () => {
+    api
+      ?.queryVCs()
+      .then((res) => changeVcs(res))
+      .catch((err) => console.log(err));
   };
 
   const saveVC = async (vc: string, stores: AvailableVCStores[]) => {
@@ -71,7 +71,6 @@ export const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
           {vcs.length > 0 && (
             <button
               className="w-9 h-9 bg-white flex justify-center items-center text-orange-500 rounded-full shadow-md border border-gray-200"
-              // eslint-disable-next-line @typescript-eslint/no-misused-promises
               onClick={() => refreshVCs()}
             >
               <ArrowPathIcon className="w-6 h-6" />
@@ -90,7 +89,6 @@ export const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
       <ImportModal
         open={importModalOpen}
         setOpen={setImportModalOpen}
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         importVC={saveVC}
       />
     </>

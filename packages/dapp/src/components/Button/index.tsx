@@ -13,7 +13,7 @@ type ButtonProps = {
     | 'white';
   size?: 'popup' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'wd' | 'icon';
   shadow?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'none' | 'inner' | '';
-  onClick?: () => void;
+  onClick?: () => Promise<void> | void;
   children: React.ReactNode;
   id?: string;
   disabled?: boolean;

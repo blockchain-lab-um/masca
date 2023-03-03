@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Row } from '@tanstack/react-table';
 
 import Tooltip from '@/components/Tooltip';
@@ -17,8 +16,7 @@ const VCCard = ({ row }: VCCardProps) => {
     new Date(row.getValue('exp_date')).toDateString() !== 'Invalid Date'
       ? new Date(row.getValue('exp_date')).toDateString()
       : 'No expiration date';
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-  const issuer = row.getValue('issuer') as string;
+  const issuer: string = row.getValue('issuer');
   const validity = row.getValue('status');
   const issuerLink = (
     <Tooltip tooltip={'Open DID in Universal resolver'}>

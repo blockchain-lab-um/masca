@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { SupportedProofFormats } from '@blockchain-lab-um/ssi-snap-types';

@@ -34,7 +34,6 @@ const GlobalFilter = ({ isConnected, vcs }: GlobalFilterProps) => {
         value={globalFilter ?? ''}
         onChange={(e) => {
           setGlobalFilter(e.target.value);
-          // table.setGlobalFilter(e.target.value);
         }}
         className={`font-lg pl-3 pr-2 sm:px-2 w-full h-full rounded-full bg-white text-orange-500 placeholder:text-orange-200 focus:outline-none dark:bg-gray-800 ${
           !isConnected || vcs.length === 0

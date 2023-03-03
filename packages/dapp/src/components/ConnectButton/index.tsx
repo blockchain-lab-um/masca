@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import React from 'react';
 import Image from 'next/image';
 import { enableSSISnap } from '@blockchain-lab-um/ssi-snap-connector';
@@ -42,6 +40,7 @@ const ConnectButton = () => {
 
   const connect = async () => {
     if (window.ethereum) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
       window.ethereum
         .request({ method: 'eth_requestAccounts' })
         .then((result: unknown) => {
@@ -81,7 +80,6 @@ const ConnectButton = () => {
   };
 
   return (
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <Button variant="connect" size="md" onClick={handleConnect}>
       <div className="flex">
         Connect Wallet

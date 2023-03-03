@@ -25,12 +25,9 @@ export const SelectedVCsTableRow = ({
   let type = '';
   if (vc.data.type) {
     if (typeof vc.data.type === 'string') {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       type = vc.data.type;
     }
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (Array.isArray(vc.data.type) && vc.data.type.length > 0) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       type = vc.data.type[vc.data.type.length - 1];
     }
   }

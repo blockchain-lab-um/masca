@@ -2,6 +2,8 @@ import React from 'react';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import { DocumentDuplicateIcon } from '@heroicons/react/24/solid';
 
+import { copyToClipboard } from '@/utils/string';
+
 interface JsonTabProps {
   vc: QueryVCsRequestResult;
 }
@@ -18,8 +20,7 @@ export const JsonTab = ({ vc }: JsonTabProps) => {
 
         <button
           onClick={() => {
-            // eslint-disable-next-line @typescript-eslint/no-floating-promises
-            navigator.clipboard.writeText(JSON.stringify(vc.data, null, 4));
+            copyToClipboard(JSON.stringify(vc.data, null, 4));
           }}
           className="absolute bottom-3 right-6 text-orange-900 p-1 rounded-full bg-orange-300 hover:bg-orange-200 hover:text-orange-800 shadow-md border border-gray-200 animated-transition"
         >

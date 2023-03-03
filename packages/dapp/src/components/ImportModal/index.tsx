@@ -10,7 +10,7 @@ import { useSnapStore } from '@/utils/stores';
 interface ImportModalProps {
   open: boolean;
   setOpen: (open: boolean) => void;
-  importVC: (vc: string, stores: AvailableVCStores[]) => void;
+  importVC: (vc: string, stores: AvailableVCStores[]) => Promise<void> | void;
 }
 
 function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
@@ -94,8 +94,12 @@ function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
 
                   <div className="mt-4 ml-2">
                     <Button
-                      onClick={() => {
-                        importVC(vc, availableStores as AvailableVCStores[]);
+                      onClick={async () => {
+                        // Start spinner
+                        await importVC(
+                          vc,
+                          availableStores as AvailableVCStores[]
+                        );
                         setOpen(false);
                       }}
                       variant="primary"

@@ -3,6 +3,8 @@ import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
 import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 
+import { copyToClipboard } from '@/utils/string';
+
 type AddressPopoverProps = {
   address: string;
   did: string;
@@ -53,8 +55,7 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
                       )}...${did.slice(-8)}`}</div>
                       <button
                         onClick={() => {
-                          // eslint-disable-next-line @typescript-eslint/no-floating-promises
-                          navigator.clipboard.writeText(did);
+                          copyToClipboard(did);
                         }}
                       >
                         <DocumentDuplicateIcon className="h-5 w-5 ml-1 text-gray-900 hover:text-gray-600 animated-transition" />
@@ -75,8 +76,7 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
                       )}...${address.slice(-6)}`}</div>
                       <button
                         onClick={() => {
-                          // eslint-disable-next-line @typescript-eslint/no-floating-promises
-                          navigator.clipboard.writeText(address);
+                          copyToClipboard(address);
                         }}
                       >
                         <DocumentDuplicateIcon className="h-5 w-5 ml-1 text-gray-900 hover:text-gray-600 animated-transition" />

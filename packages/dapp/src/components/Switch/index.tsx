@@ -46,7 +46,7 @@ interface ToggleSwitchProps {
   shadow?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'none' | 'inner' | '';
   rounded?: 'full' | '2xl' | 'xl' | 'lg' | 'none';
   enabled: boolean;
-  setEnabled: (enabled: boolean) => void;
+  setEnabled: (enabled: boolean) => Promise<void> | void;
   disabled?: boolean;
 }
 
@@ -63,6 +63,7 @@ export default function ToggleSwitch({
     <Switch
       disabled={disabled}
       checked={enabled}
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onChange={setEnabled}
       className={clsx(
         enabled ? variantsEnabled[variant] : variants[variant],

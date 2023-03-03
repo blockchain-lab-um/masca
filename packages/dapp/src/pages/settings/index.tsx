@@ -47,14 +47,6 @@ export default function Settings() {
                 <div className="text-orange-500 font-semibold text-h4">
                   Data Stores
                 </div>
-                {/* <span className="text-gray-800 flex justify-between mt-4">
-                  Snap{' '}
-                  <ToggleSwitch
-                    enabled={availableVCStores.snap}
-                    setEnabled={handleSnapToggle}
-                    shadow="md"
-                  />
-                </span> */}
                 <div className="mt-2 text-md text-gray-600">
                   Enable or disable data stores. Data stores are places where
                   VCs are stored.{' '}
@@ -63,7 +55,6 @@ export default function Settings() {
                   Ceramic{' '}
                   <ToggleSwitch
                     enabled={availableVCStores.ceramic}
-                    // eslint-disable-next-line @typescript-eslint/no-misused-promises
                     setEnabled={handleCeramicToggle}
                     shadow="md"
                   />

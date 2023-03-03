@@ -4,7 +4,7 @@ import { clsx } from 'clsx';
 
 type DropdownButtonProps = {
   children: React.ReactNode;
-  handleBtn: (text: string) => void;
+  handleBtn: (text: string) => Promise<void>;
   selected: boolean;
 };
 
@@ -18,7 +18,9 @@ export const DropdownButton = ({
       {({ active }) => (
         <a
           onClick={() => {
-            handleBtn(children as string);
+            handleBtn(children as string)
+              .then(() => {})
+              .catch(() => {});
           }}
           className={clsx(
             active

@@ -1,9 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
-
 import React from 'react';
 import Link from 'next/link';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
@@ -15,7 +9,7 @@ import ModifyDSModal from '@/components/ModifyDSModal';
 import StoreIcon from '@/components/StoreIcon';
 import Tooltip from '@/components/Tooltip';
 import { useTableStore } from '@/utils/stores';
-import { convertTypes } from '@/utils/string';
+import { convertTypes, copyToClipboard } from '@/utils/string';
 
 interface FormatedTabProps {
   vc: QueryVCsRequestResult;
@@ -54,7 +48,6 @@ export const FormatedTab = ({
   if (vc.data.expirationDate)
     validity = Date.now() < Date.parse(vc.data.expirationDate);
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   const types = convertTypes(vc.data.type);
   console.log('types', types);
 
@@ -96,7 +89,9 @@ export const FormatedTab = ({
                         <div className="flex">
                           <Tooltip tooltip={'Open DID in Universal resolver'}>
                             <a
-                              href={`https://dev.uniresolver.io/#${vc.data.credentialSubject[key]}`}
+                              href={`https://dev.uniresolver.io/#${
+                                vc.data.credentialSubject[key] as string
+                              }`}
                               target="_blank"
                               rel="noreferrer"
                               className="text-md font-semibold text-gray-900 underline underline-offset-2 hover:text-gray-700 animated-transition cursor-pointer"
@@ -117,13 +112,11 @@ export const FormatedTab = ({
                           </Tooltip>
                           <button
                             className=""
-                            onClick={() => {
-                              // eslint-disable-next-line @typescript-eslint/no-floating-promises, @typescript-eslint/no-unused-expressions
-                              vc.data.credentialSubject.id &&
-                                navigator.clipboard.writeText(
-                                  vc.data.credentialSubject.id
-                                );
-                            }}
+                            onClick={() =>
+                              copyToClipboard(
+                                vc.data.credentialSubject.id?.toString() || ''
+                              )
+                            }
                           >
                             <DocumentDuplicateIcon className="h-5 w-5 ml-1 text-gray-900 hover:text-gray-700 animated-transition" />
                           </button>
@@ -165,8 +158,7 @@ export const FormatedTab = ({
                   <button
                     className=""
                     onClick={() => {
-                      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-                      navigator.clipboard.writeText(issuer);
+                      copyToClipboard(issuer);
                     }}
                   >
                     <DocumentDuplicateIcon className="h-5 w-5 ml-1 text-gray-900 hover:text-gray-700 animated-transition" />

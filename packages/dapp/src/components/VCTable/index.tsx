@@ -1,12 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/no-misused-promises */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
@@ -23,9 +14,7 @@ import {
   ShareIcon,
   TrashIcon,
 } from '@heroicons/react/24/outline';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import {
-  FilterFn,
   SortingState,
   createColumnHelper,
   flexRender,
@@ -49,6 +38,7 @@ import { useSnapStore, useTableStore } from '@/utils/stores';
 import { convertTypes } from '@/utils/string';
 import TablePagination from './TablePagination';
 import VCCard from './VCCard';
+import { includesDataStore, selectRows } from './tableUtils';
 
 const Table = () => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -75,30 +65,11 @@ const Table = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedVC, setSelectedVC] = useState<QueryVCsRequestResult>();
 
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    selectRows();
-  }, []);
-
-  const includesDataStore: FilterFn<any> = (row, columnId, value, addMeta) => {
-    const item = row.getValue('data_store');
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const itemArr = (item as string).split(',');
-    let matching = false;
-    for (let i = 0; i < value.length; i += 1) {
-      if (itemArr.indexOf(value[i]) >= 0) {
-        matching = true;
-      }
-    }
-    return matching;
-  };
-
   const columns = [
     columnHelper.display({
       id: 'expand',
       header: ({ table }) => <></>,
-      cell: ({ row }) => (
-        // <Link href={`/vc/${row.original.metadata.id}`}>
+      cell: ({ row, table }) => (
         <Link
           href={{
             pathname: '/vc',
@@ -106,10 +77,8 @@ const Table = () => {
           }}
         >
           <button
-            // eslint-disable-next-line @typescript-eslint/no-use-before-define
             onClick={() =>
               setSelectedVCs(
-                // eslint-disable-next-line @typescript-eslint/no-use-before-define
                 table.getSelectedRowModel().rows.map((r) => r.original)
               )
             }
@@ -127,7 +96,6 @@ const Table = () => {
       },
       {
         id: 'type',
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         cell: (info) => <span className="">{info.getValue().toString()}</span>,
         header: () => <span>TYPE</span>,
       }
@@ -140,12 +108,10 @@ const Table = () => {
     }),
     columnHelper.accessor(
       (row) =>
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
         row.data.credentialSubject.id ? row.data.credentialSubject.id : '',
       {
         id: 'subject',
         cell: (info) => (
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           <Tooltip tooltip={'Open DID in Universal resolver'}>
             <a
               href={`https://dev.uniresolver.io/#${info.getValue()}`}
@@ -163,16 +129,13 @@ const Table = () => {
     columnHelper.accessor(
       (row) => {
         if (!row.data.issuer) return '';
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         if (typeof row.data.issuer === 'string') return row.data.issuer;
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
         if (row.data.issuer.id) return row.data.issuer.id;
         return '';
       },
       {
         id: 'issuer',
         cell: (info) => (
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           <Tooltip tooltip={'Open DID in Universal resolver'}>
             <a
               href={`https://dev.uniresolver.io/#${info.getValue()}`}
@@ -330,21 +293,6 @@ const Table = () => {
     getFacetedMinMaxValues: getFacetedMinMaxValues(),
   });
 
-  const selectRows = () => {
-    // TODO only check IDs after snap bug is fixed (join same VCs with different stores)
-    table.getPrePaginationRowModel().rows.forEach((row) => {
-      if (
-        selectedVCs.filter(
-          (vc) =>
-            vc.metadata.id === row.original.metadata.id &&
-            vc.metadata.store === row.original.metadata.store
-        ).length > 0
-      ) {
-        row.toggleSelected(true);
-      }
-    });
-  };
-
   const loadVCs = async () => {
     const loadedVCs = await api?.queryVCs();
     if (loadedVCs) {
@@ -355,6 +303,10 @@ const Table = () => {
   const handleLoadVcs = async () => {
     await loadVCs();
   };
+
+  useEffect(() => {
+    selectRows(table, selectedVCs);
+  }, []);
 
   if (vcs.length === 0)
     return (

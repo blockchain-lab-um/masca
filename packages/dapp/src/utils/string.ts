@@ -16,3 +16,10 @@ export const convertTypes = (types: string | string[] | undefined): string => {
   }
   return result;
 };
+
+export const copyToClipboard = (text: string): void => {
+  navigator.clipboard
+    .writeText(text)
+    .then(() => {})
+    .catch(() => {});
+};

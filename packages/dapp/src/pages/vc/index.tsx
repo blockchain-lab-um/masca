@@ -17,7 +17,6 @@ import { useSnapStore } from '@/utils/stores';
 import { FormatedTab, JsonTab } from './tabs';
 
 const VC = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
   const router = useRouter();
   const { id } = router.query;
   const vcs = useSnapStore((state) => state.vcs);

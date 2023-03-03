@@ -82,7 +82,6 @@ export default function MethodDropdownMenu() {
                   return (
                     <DropdownButton
                       selected={method === currMethod}
-                      // eslint-disable-next-line @typescript-eslint/no-misused-promises
                       handleBtn={handleMethodChange}
                       key={id}
                     >

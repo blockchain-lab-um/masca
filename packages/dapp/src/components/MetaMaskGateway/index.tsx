@@ -29,8 +29,9 @@ const MetaMaskGateway = ({ children }: MetaMaskGatewayProps) => {
     };
     const mm = hasMetaMask();
     changeHasMetaMask(mm);
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    isSnapsSupported();
+    isSnapsSupported()
+      .then(() => {})
+      .catch(() => {});
   }, []);
 
   if (hasMM && hasFlask) {

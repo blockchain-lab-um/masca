@@ -90,8 +90,7 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
                       <div>{store}</div>
                       <span
                         className={`${
-                          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-                          !vcStores[store].enabled && 'opacity-60'
+                          !vcStores[store].enabled ? 'opacity-60' : ''
                         }`}
                       >
                         <ToggleSwitch

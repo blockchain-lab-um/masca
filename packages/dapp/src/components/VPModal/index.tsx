@@ -71,19 +71,13 @@ function VPModal({ open, setOpen, vp }: VPModalProps) {
                       <DocumentDuplicateIcon className="w-5 h-5" />
                     </button>
                   </div>
-                  {/* <textarea
-                    value={JSON.stringify(vp, null, 2)}
-                    className="bg-gray-100 rounded-2xl border-gray-200 shadow-md border font-jetbrains-mono text-label p-3 w-full focus:outline-none h-[45vh]"
-                    readOnly
-                  /> */}
                 </div>
                 <div className="mt-8 flex justify-end items-center">
                   <div className="mt-4 ml-2">
                     <Button
-                      onClick={() => {
+                      onClick={async () => {
                         setOpen(false);
-                        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-                        router.push('/dashboard');
+                        await router.push('/dashboard');
                       }}
                       variant="primary"
                       size="popup"

@@ -76,7 +76,6 @@ function DeleteModal({ open, setOpen, vc }: DeleteModalProps) {
                   </div>
                   <div className="mt-4 ml-2">
                     <Button
-                      // eslint-disable-next-line @typescript-eslint/no-misused-promises
                       onClick={() => deleteVC()}
                       variant="warning"
                       size="popup"
