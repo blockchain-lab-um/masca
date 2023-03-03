@@ -1,4 +1,3 @@
-import { MetaMaskInpageProvider } from '@metamask/providers';
 import {
   AvailableVCStores,
   CreateVPRequestParams,
@@ -6,22 +5,24 @@ import {
   QueryVCsRequestResult,
 } from '@blockchain-lab-um/ssi-snap-types';
 import {
+  Filter,
+  IDataManagerSaveResult,
+} from '@blockchain-lab-um/veramo-vc-manager';
+import { BIP44CoinTypeNode } from '@metamask/key-tree';
+import { MetaMaskInpageProvider } from '@metamask/providers';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
+import {
   IIdentifier,
   MinimalImportableKey,
   VerifiablePresentation,
   W3CVerifiableCredential,
 } from '@veramo/core';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
-import { BIP44CoinTypeNode } from '@metamask/key-tree';
-import {
-  IDataManagerSaveResult,
-  Filter,
-} from '@blockchain-lab-um/veramo-vc-manager';
+
+import { ApiParams } from '../interfaces';
 import { Agent, getAgent } from '../veramo/setup';
 import { getCurrentDid } from './didUtils';
-import { getPublicKey, snapConfirm } from './snapUtils';
-import { ApiParams } from '../interfaces';
 import { snapGetKeysFromAddress } from './keyPair';
+import { getPublicKey, snapConfirm } from './snapUtils';
 
 export async function veramoSaveVC(args: {
   snap: SnapsGlobalObject;
@@ -116,11 +117,34 @@ export async function veramoQueryVCs(args: {
 }): Promise<QueryVCsRequestResult[]> {
   const { snap, ethereum, options, filter } = args;
   const agent = await getAgent(snap, ethereum);
-  const result = (await agent.query({
+  const result = await agent.query({
     filter,
     options,
-  })) as QueryVCsRequestResult[];
-  return result;
+  });
+
+  const vcs = new Map<string, QueryVCsRequestResult>();
+
+  for (const vc of result) {
+    if (options.returnStore && !vc.metadata.store) {
+      throw new Error('Missing store in VC metadata'); // TODO (Martin): Handle this better
+    }
+
+    const existingVC = vcs.get(vc.metadata.id);
+    if (existingVC) {
+      if (options.returnStore) {
+        existingVC.metadata.store?.push(vc.metadata.store as string);
+      }
+    } else {
+      vcs.set(vc.metadata.id, {
+        data: vc.data as W3CVerifiableCredential,
+        metadata: {
+          id: vc.metadata.id,
+          ...(options.returnStore && { store: [vc.metadata.store as string] }),
+        },
+      });
+    }
+  }
+  return [...vcs.values()];
 }
 
 export async function veramoCreateVP(

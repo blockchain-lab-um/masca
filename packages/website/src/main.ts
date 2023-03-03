@@ -1,11 +1,9 @@
-import { createApp } from 'vue';
 import { createPinia } from 'pinia';
-
-import { primeVueComponents } from './util/primeVue';
+import { createApp } from 'vue';
 
 import App from './App.vue';
 import router from './router';
-
+import { primeVueComponents } from './util/primeVue';
 import './assets/default.css';
 import 'primevue/resources/themes/tailwind-light/theme.css';
 import 'primevue/resources/primevue.min.css';

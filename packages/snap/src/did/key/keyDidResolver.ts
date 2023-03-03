@@ -1,3 +1,4 @@
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import {
   DIDDocument,
   DIDResolutionOptions,
@@ -6,7 +7,7 @@ import {
   ParsedDID,
   Resolvable,
 } from 'did-resolver';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
+
 import { getCurrentAccount, getPublicKey } from '../../utils/snapUtils';
 import { getSnapState } from '../../utils/stateUtils';
 

@@ -138,15 +138,13 @@
 
 <script setup lang="ts">
 import wrappedButton from '@/components/wrappedButton.vue';
-import { ref } from 'vue';
 import { useMetamaskStore } from '@/stores/metamask';
 import { ISOtoLocaleString } from '@/util/general';
-import { checkForVCs, saveVC, createVP } from '@/util/snap';
+import { checkForVCs, createVP, saveVC } from '@/util/snap';
+import type { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
+import { ref } from 'vue';
+
 import type { VerifiableCredential } from '../util/interfaces';
-import type {
-  QueryVCsRequestResult,
-  SaveVCRequestResult,
-} from '@blockchain-lab-um/ssi-snap-types';
 
 const mmStore = useMetamaskStore();
 const VCImport = ref('');
@@ -247,7 +245,7 @@ const importVCCeramic = async () => {
     // console.log('🚀 ~ file: ProfileView.vue ~ line 48 ~ importVC ~ res', res);
     mmStore.vcs.push({
       data: VC,
-      metadata: { store: 'ceramic', id: res[0].id },
+      metadata: { store: ['ceramic'], id: res[0].id },
     });
     closeImportModal();
     return 'Success importing VC';

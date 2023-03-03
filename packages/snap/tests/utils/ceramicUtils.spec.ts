@@ -1,20 +1,21 @@
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { W3CVerifiableCredential } from '@veramo/core';
-import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
-import {
-  address,
-  exampleVC,
-  exampleVCinVP,
-  getDefaultSnapState,
-} from '../testUtils/constants';
+
+import * as snapUtils from '../../src/utils/snapUtils';
 import {
   veramoClearVCs,
   veramoDeleteVC,
   veramoQueryVCs,
   veramoSaveVC,
 } from '../../src/utils/veramoUtils';
-import * as snapUtils from '../../src/utils/snapUtils';
+import {
+  address,
+  exampleVC,
+  exampleVCinVP,
+  getDefaultSnapState,
+} from '../testUtils/constants';
+import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
 
 jest
   .spyOn(snapUtils, 'getCurrentAccount')

@@ -1,9 +1,4 @@
 import {
-  DIDResolutionResult,
-  VerifiablePresentation,
-  W3CVerifiableCredential,
-} from '@veramo/core';
-import {
   AvailableMethods,
   AvailableVCStores,
   CreateVPRequestParams,
@@ -11,12 +6,17 @@ import {
   MetaMaskSSISnapRPCRequest,
   QueryVCsRequestParams,
   QueryVCsRequestResult,
-  SaveVCOptions,
-  SaveVCRequestResult,
   SSIAccountConfig,
   SSISnapApi,
   SSISnapConfig,
+  SaveVCOptions,
+  SaveVCRequestResult,
 } from '@blockchain-lab-um/ssi-snap-types';
+import {
+  DIDResolutionResult,
+  VerifiablePresentation,
+  W3CVerifiableCredential,
+} from '@veramo/core';
 
 async function sendSnapMethod<T>(
   request: MetaMaskSSISnapRPCRequest,

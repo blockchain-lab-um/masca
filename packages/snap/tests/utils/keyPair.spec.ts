@@ -1,19 +1,20 @@
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
+
 import { getEmptyAccountState } from '../../src/utils/config';
 import { getAddressKey, snapGetKeysFromAddress } from '../../src/utils/keyPair';
 import {
-  bip44Entropy,
-  getDefaultSnapState,
   address,
-  privateKey,
-  publicKey,
   address2,
-  privateKey2,
+  bip44Entropy,
   derivedKeyChainCode,
   derivedKeyDerivationPath,
+  getDefaultSnapState,
+  privateKey,
+  privateKey2,
+  publicKey,
 } from '../testUtils/constants';
-import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
+import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
 
 describe('keyPair', function () {
   let snapMock: SnapsGlobalObject & SnapMock;

@@ -24,11 +24,11 @@
 
 <script setup lang="ts">
 import wrappedButton from '@/components/wrappedButton.vue';
-import { useMetamaskStore } from '@/stores/metamask';
 import { useGeneralStore } from '@/stores/general';
+import { useMetamaskStore } from '@/stores/metamask';
 import { setVCStore } from '@/util/snap';
-import type { ToastServiceMethods } from 'primevue/toastservice';
 import type InputText from 'primevue/inputtext';
+import type { ToastServiceMethods } from 'primevue/toastservice';
 
 const mmStore = useMetamaskStore();
 const generalStore = useGeneralStore();
