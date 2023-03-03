@@ -1,15 +1,18 @@
 lockfileVersion: 5.4
 
 patchedDependencies:
-  cross-fetch@3.1.5:
-    hash: iqh6pvemik3ebzneirvlerj7uq
-    path: patches/cross-fetch@3.1.5.patch
-  '@metamask/snaps-types@0.27.1':
-    hash: rvr7xsi54kylxpxjwsjvbo3fce
-    path: patches/@metamask__snaps-types@0.27.1.patch
+  '@digitalbazaar/http-client@1.2.0':
+    hash: qjsphiybhrvnjoxykkdddbfcyu
+    path: patches/@digitalbazaar__http-client@1.2.0.patch
   '@veramo/did-provider-pkh@5.0.0':
     hash: xbin4eoqvloyhwqbrtzei47slm
     path: patches/@veramo__did-provider-pkh@5.0.0.patch
+  '@metamask/snaps-types@0.27.1':
+    hash: rvr7xsi54kylxpxjwsjvbo3fce
+    path: patches/@metamask__snaps-types@0.27.1.patch
+  cross-fetch@3.1.5:
+    hash: iqh6pvemik3ebzneirvlerj7uq
+    path: patches/cross-fetch@3.1.5.patch
 
 importers:
 
@@ -10636,6 +10639,14 @@ packages:
     dependencies:
       clean-stack: 2.2.0
       indent-string: 4.0.0
+
+  /ajv-formats/2.1.1:
+    resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependenciesMeta:
+      ajv:
+        optional: true
+    dependencies:
+      ajv: 8.12.0
 
   /ajv-formats/2.1.1_ajv@8.11.0:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
@@ -21844,7 +21855,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.12.0
-      ajv-formats: 2.1.1_ajv@8.12.0
+      ajv-formats: 2.1.1
       ajv-keywords: 5.1.0_ajv@8.12.0
 
   /scrypt-js/3.0.1:

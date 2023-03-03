@@ -95,7 +95,8 @@
     "patchedDependencies": {
       "@metamask/snaps-types@0.27.1": "patches/@metamask__snaps-types@0.27.1.patch",
       "cross-fetch@3.1.5": "patches/cross-fetch@3.1.5.patch",
-      "@veramo/did-provider-pkh@5.0.0": "patches/@veramo__did-provider-pkh@5.0.0.patch"
+      "@veramo/did-provider-pkh@5.0.0": "patches/@veramo__did-provider-pkh@5.0.0.patch",
+      "@digitalbazaar/http-client@1.2.0": "patches/@digitalbazaar__http-client@1.2.0.patch"
     }
   }
 }
