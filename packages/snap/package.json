@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/ssi-snap",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Snap for managing VCs and VPs in MetaMask",
   "keywords": [
     "MetaMask",

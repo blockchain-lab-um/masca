@@ -1,6 +1,6 @@
 {
-  "packages/snap": "1.4.0",
-  "packages/connector": "1.4.0",
-  "packages/types": "1.4.0",
-  "packages/vcmanager": "1.4.0"
+  "packages/snap": "1.4.1",
+  "packages/connector": "1.4.1",
+  "packages/types": "1.4.1",
+  "packages/vcmanager": "1.4.1"
 }

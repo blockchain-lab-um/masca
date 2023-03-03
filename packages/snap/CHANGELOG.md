@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1](https://github.com/blockchain-lab-um/ssi-snap/compare/ssi-snap-v1.4.0...ssi-snap-v1.4.1) (2023-03-03)
+
+
+### :bug: Bug Fixes
+
+* join VCs with same ID ([#124](https://github.com/blockchain-lab-um/ssi-snap/issues/124)) ([3268509](https://github.com/blockchain-lab-um/ssi-snap/commit/32685096cd93bdd372f5593e3a91b1e6b4e91263))
+
 ## [1.4.0](https://github.com/blockchain-lab-um/ssi-snap/compare/ssi-snap-v1.3.0...ssi-snap-v1.4.0) (2023-03-01)
 
 
