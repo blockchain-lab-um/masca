@@ -17,6 +17,7 @@ type ButtonProps = {
   children: React.ReactNode;
   id?: string;
   disabled?: boolean;
+  loading?: boolean;
 };
 
 const variants: Record<string, string> = {
@@ -48,6 +49,28 @@ const sizes: Record<string, string> = {
   icon: 'py-2 px-2 max-w-xs',
 };
 
+const loaderSizes: Record<string, string> = {
+  popup: 'w-4 h-4 border-2',
+  xs: 'w-4 h-4 border-2',
+  sm: 'w-4 h-4 border-2',
+  md: 'w-4 h-4 border-2',
+  lg: 'w-6 h-6 border-4',
+  xl: 'w-8 h-8 border-4',
+  wd: 'w-8 h-8 border-4',
+  icon: 'w-4 h-4 border-2',
+};
+
+const loaderColors: Record<string, string> = {
+  primary: 'border-white',
+  'primary-active': 'border-orange-500',
+  secondary: 'border-white',
+  'secondary-active': 'border-navy-blue-500',
+  connect: 'border-orange-500',
+  gray: 'border-gray-800',
+  white: 'border-orange-500',
+  warning: 'border-white',
+};
+
 const Button = ({
   variant = 'primary',
   size = 'md',
@@ -56,6 +79,7 @@ const Button = ({
   onClick,
   children,
   disabled = false,
+  loading = false,
 }: ButtonProps) => {
   return (
     <div className="bg-gray-100 max-w-xs rounded-full">
@@ -63,13 +87,25 @@ const Button = ({
         className={`${clsx(
           variants[variant],
           sizes[size],
-          `shadow-${shadow}`
+          `shadow-${shadow}`,
+          'flex items-center gap-x-2'
         )}`}
         onClick={onClick}
         id={id}
         disabled={disabled}
       >
-        {children}
+        {children}{' '}
+        {loading && (
+          <div className="flex">
+            <div
+              className={clsx(
+                loaderSizes[size],
+                'border-solid animate-spin rounded-full border-t-pink-900/0',
+                loaderColors[variant]
+              )}
+            ></div>
+          </div>
+        )}
       </button>
     </div>
   );

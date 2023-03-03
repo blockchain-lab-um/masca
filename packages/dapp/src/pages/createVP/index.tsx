@@ -23,6 +23,7 @@ const proofFormats: Record<string, SupportedProofFormats> = {
 };
 
 export const CreateVP = () => {
+  const [loading, setLoading] = useState(false);
   const [vpModalOpen, setVpModalOpen] = useState(false);
   const [vp, setVp] = useState({});
   const { selectedVCs, setSelectedVCs } = useTableStore(
@@ -46,7 +47,7 @@ export const CreateVP = () => {
 
   const handleCreateVP = async () => {
     if (!api) return;
-
+    setLoading(true);
     const vcs = selectedVCs.map((vc) => {
       return { id: vc.metadata.id };
     });
@@ -60,7 +61,9 @@ export const CreateVP = () => {
     });
     console.log(res);
     setVp(res);
+
     setVpModalOpen(true);
+    setLoading(false);
   };
 
   return (
@@ -163,7 +166,12 @@ export const CreateVP = () => {
             </div>
 
             <div className="flex mt-8 justify-end p-3">
-              <Button variant="primary" size="sm" onClick={handleCreateVP}>
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={handleCreateVP}
+                loading={loading}
+              >
                 Create Presentation
               </Button>
             </div>

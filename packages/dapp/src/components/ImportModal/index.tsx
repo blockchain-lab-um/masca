@@ -14,6 +14,7 @@ interface ImportModalProps {
 }
 
 function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
+  const [loading, setLoading] = useState(false);
   const [vc, setVC] = useState('');
   const VCStores = useSnapStore((state) => state.availableVCStores);
   const availableStores = Object.keys(VCStores).filter(
@@ -99,12 +100,16 @@ function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
                   <div className="mt-4 ml-2">
                     <Button
                       onClick={async () => {
-                        // Start spinner
+                        setLoading(true);
                         const res = await importVC(vc, selectedItems);
-                        if (res) setOpen(false);
+                        if (res) {
+                          setOpen(false);
+                          setLoading(false);
+                        }
                       }}
                       variant="primary"
                       size="popup"
+                      loading={loading}
                     >
                       Import VC
                     </Button>

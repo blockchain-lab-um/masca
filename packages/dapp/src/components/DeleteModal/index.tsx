@@ -1,9 +1,10 @@
 import { Fragment } from 'react';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import { Dialog, Transition } from '@headlessui/react';
+import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
-import { useSnapStore } from '@/utils/stores';
+import { useSnapStore, useToastStore } from '@/utils/stores';
 
 interface DeleteModalProps {
   open: boolean;
@@ -13,13 +14,32 @@ interface DeleteModalProps {
 
 function DeleteModal({ open, setOpen, vc }: DeleteModalProps) {
   const api = useSnapStore((state) => state.snapApi);
+  const { setTitle, setLoading, setToastOpen } = useToastStore(
+    (state) => ({
+      setTitle: state.setTitle,
+      setText: state.setText,
+      setLoading: state.setLoading,
+      setToastOpen: state.setOpen,
+    }),
+    shallow
+  );
 
   const deleteVC = async () => {
     setOpen(false);
     if (vc) {
+      setLoading(true);
+      setTitle('Deleting Credential');
+      setToastOpen(true);
+      setOpen(false);
       await api?.deleteVC(vc.metadata.id);
       const vcs = await api?.queryVCs();
       if (vcs) {
+        setToastOpen(false);
+        setTimeout(() => {
+          setTitle('Credential deleted');
+          setLoading(false);
+          setToastOpen(true);
+        }, 100);
         useSnapStore.getState().changeVcs(vcs);
       }
     }

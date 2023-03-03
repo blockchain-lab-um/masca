@@ -41,6 +41,7 @@ import VCCard from './VCCard';
 import { includesDataStore, selectRows } from './tableUtils';
 
 const Table = () => {
+  const [loading, setLoading] = useState(false);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const { vcs, changeVcs, api } = useSnapStore(
     (state) => ({
@@ -301,7 +302,9 @@ const Table = () => {
   };
 
   const handleLoadVcs = async () => {
+    setLoading(true);
     await loadVCs();
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -311,7 +314,12 @@ const Table = () => {
   if (vcs.length === 0)
     return (
       <div className="flex flex-col justify-center items-center min-h-[50vh] ">
-        <Button variant="primary" size="md" onClick={handleLoadVcs}>
+        <Button
+          variant="primary"
+          size="md"
+          onClick={handleLoadVcs}
+          loading={loading}
+        >
           Load VCs
         </Button>
         <span className="py-4 font-semibold text-lg">or</span>

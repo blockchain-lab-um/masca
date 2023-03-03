@@ -21,6 +21,7 @@
     "@blockchain-lab-um/ssi-snap-types": "*",
     "@headlessui/react": "^1.7.7",
     "@heroicons/react": "^2.0.13",
+    "@radix-ui/react-toast": "^1.1.2",
     "@tanstack/react-table": "^8.7.8",
     "@veramo/core": "^4.2.0",
     "clsx": "^1.2.1",
