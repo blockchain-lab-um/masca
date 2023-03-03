@@ -1,4 +1,5 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
+import { AvailableVCStores } from '@blockchain-lab-um/ssi-snap-types';
 import { Listbox, Transition } from '@headlessui/react';
 import {
   CheckIcon,
@@ -8,19 +9,19 @@ import {
 
 interface DropdownMultiselectProps {
   items: string[];
-  initialSelectedItems?: string[];
+  selectedItems: AvailableVCStores[];
+  setSelectedItems: (items: AvailableVCStores[]) => void;
   placeholder?: string;
   name?: string;
 }
 
 const DropdownMultiselect = ({
   items,
-  initialSelectedItems = [],
+  selectedItems,
+  setSelectedItems,
   placeholder = '',
   name = '',
 }: DropdownMultiselectProps) => {
-  const [selectedItems, setSelectedItems] =
-    useState<string[]>(initialSelectedItems);
   return (
     <div className="relative">
       <Listbox

@@ -21,6 +21,7 @@ type ControlbarProps = {
 
 export const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
   const [importModalOpen, setImportModalOpen] = useState(false);
+  const [spinner, setSpinner] = useState(false);
   const { api, changeVcs } = useSnapStore(
     (state) => ({
       api: state.snapApi,
@@ -30,13 +31,28 @@ export const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
   );
 
   const refreshVCs = () => {
+    setSpinner(true);
     api
       ?.queryVCs()
-      .then((res) => changeVcs(res))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        changeVcs(res);
+        setSpinner(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setSpinner(false);
+      });
   };
 
   const saveVC = async (vc: string, stores: AvailableVCStores[]) => {
+    let vcObj;
+    try {
+      vcObj = JSON.parse(vc) as W3CVerifiableCredential;
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
+    console.log('Saving VC', stores);
     const res = await api?.saveVC(JSON.parse(vc) as W3CVerifiableCredential, {
       store: stores,
     });
@@ -52,6 +68,7 @@ export const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
       });
       changeVcs([...vcs, ...newVcs]);
     }
+    return true;
   };
 
   return (
@@ -70,10 +87,12 @@ export const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
         <div className="col-start-7 col-span-5 flex justify-end gap-x-1">
           {vcs.length > 0 && (
             <button
-              className="w-9 h-9 bg-white flex justify-center items-center text-orange-500 rounded-full shadow-md border border-gray-200"
+              className={`w-9 h-9 bg-white flex justify-center items-center text-orange-500 rounded-full shadow-md border border-gray-200 `}
               onClick={() => refreshVCs()}
             >
-              <ArrowPathIcon className="w-6 h-6" />
+              <ArrowPathIcon
+                className={`w-6 h-6 ${spinner ? 'animate-spin' : ''}`}
+              />
             </button>
           )}
           <Button

@@ -10,7 +10,7 @@ import { useSnapStore } from '@/utils/stores';
 interface ImportModalProps {
   open: boolean;
   setOpen: (open: boolean) => void;
-  importVC: (vc: string, stores: AvailableVCStores[]) => Promise<void> | void;
+  importVC: (vc: string, stores: AvailableVCStores[]) => Promise<boolean>;
 }
 
 function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
@@ -19,6 +19,9 @@ function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
   const availableStores = Object.keys(VCStores).filter(
     (key) => VCStores[key] === true
   );
+  const [selectedItems, setSelectedItems] = useState<AvailableVCStores[]>([
+    availableStores[0] as AvailableVCStores,
+  ]);
   return (
     <Transition appear show={open} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={() => setOpen(false)}>
@@ -74,7 +77,8 @@ function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
                     <div>
                       <DropdownMultiselect
                         items={availableStores}
-                        initialSelectedItems={[availableStores[0]]}
+                        selectedItems={selectedItems}
+                        setSelectedItems={setSelectedItems}
                         placeholder="Select storage ssssda "
                         name="storage"
                       />
@@ -96,11 +100,8 @@ function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
                     <Button
                       onClick={async () => {
                         // Start spinner
-                        await importVC(
-                          vc,
-                          availableStores as AvailableVCStores[]
-                        );
-                        setOpen(false);
+                        const res = await importVC(vc, selectedItems);
+                        if (res) setOpen(false);
                       }}
                       variant="primary"
                       size="popup"
