@@ -9,12 +9,12 @@ import { BASE_PATH } from '@/utils/constants';
 
 const IconDiscord = () => {
   return (
-    <div className="w-12 h-12 bg-orange-100 p-2 rounded-lg flex justify-center items-center">
+    <div className="relative w-12 h-12 bg-orange-100 rounded-lg flex justify-center items-center">
       <Image
         src={`${BASE_PATH}/images/discord-mark-blue.png`}
         alt="discord logo"
-        className="w-full"
-        fill={true}
+        width={36}
+        height={36}
       />
     </div>
   );
@@ -60,7 +60,7 @@ function MenuPopover() {
             <Popover.Button
               className={`
                 ${open ? 'text-orange-500 after:w-[100%]' : ''}
-                flex nav-btn`}
+                flex items-end nav-btn`}
             >
               <span>Other</span>
               <ChevronDownIcon
@@ -82,7 +82,7 @@ function MenuPopover() {
               leaveFrom="opacity-100 translate-y-0"
               leaveTo="opacity-0 translate-y-1"
             >
-              <Popover.Panel className="absolute left-1/2 z-10 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-md">
+              <Popover.Panel className="absolute left-1/2 z-50 mt-3 w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-md">
                 <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                   <div className="relative grid gap-8 bg-white p-7 lg:grid-cols-1">
                     {solutions.map((item) => (

@@ -14,12 +14,13 @@ const logo: Record<string, string> = {
 
 const StoreIcon = ({ store }: StoreIconProps) => {
   return (
-    <Image
-      fill={true}
-      src={`${BASE_PATH}/images/${logo[store]}`}
-      alt={store}
-      className="w-5 h-5 mx-0.5"
-    />
+    <div className="w-5 h-5 mx-0.5">
+      <Image
+        fill={true}
+        src={`${BASE_PATH}/images/${logo[store]}`}
+        alt={store}
+      />
+    </div>
   );
 };
 

@@ -74,12 +74,13 @@ const ConnectButton = () => {
       <div className="flex">
         Connect Wallet
         {loading && (
-          <Image
-            src={`${BASE_PATH}/images/connect-spinner.png`}
-            alt="Masca Logo"
-            className="w-6 h-6 rounded-full object-center animate-spin"
-            fill={true}
-          />
+          <div className="w-6 h-6 rounded-full object-center animate-spin">
+            <Image
+              src={`${BASE_PATH}/images/connect-spinner.png`}
+              alt="Masca Logo"
+              fill={true}
+            />
+          </div>
         )}
       </div>
     </Button>
