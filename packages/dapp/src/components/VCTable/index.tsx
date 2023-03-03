@@ -38,6 +38,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
+import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
 import DeleteModal from '@/components/DeleteModal';
@@ -50,18 +51,29 @@ import TablePagination from './TablePagination';
 import VCCard from './VCCard';
 
 const Table = () => {
-  const vcs = useSnapStore((state) => state.vcs);
-  const changeVcs = useSnapStore((state) => state.changeVcs);
-  const api = useSnapStore((state) => state.snapApi);
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const columnFilters = useTableStore((state) => state.columnFilters);
-  const globalFilter = useTableStore((state) => state.globalFilter);
-  const selectedVCs = useTableStore((state) => state.selectedVCs);
-  const setSelectedVCs = useTableStore((state) => state.setSelectedVCs);
+  const { vcs, changeVcs, api } = useSnapStore(
+    (state) => ({
+      vcs: state.vcs,
+      changeVcs: state.changeVcs,
+      api: state.snapApi,
+    }),
+    shallow
+  );
+  const { columnFilters, globalFilter, selectedVCs, cardView, setSelectedVCs } =
+    useTableStore(
+      (state) => ({
+        columnFilters: state.columnFilters,
+        globalFilter: state.globalFilter,
+        selectedVCs: state.selectedVCs,
+        cardView: state.cardView,
+        setSelectedVCs: state.setSelectedVCs,
+      }),
+      shallow
+    );
   const columnHelper = createColumnHelper<QueryVCsRequestResult>();
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedVC, setSelectedVC] = useState<QueryVCsRequestResult>();
-  const cardView = useTableStore((state) => state.cardView);
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-use-before-define

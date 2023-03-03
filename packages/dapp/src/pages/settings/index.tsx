@@ -1,4 +1,5 @@
 import React from 'react';
+import { shallow } from 'zustand/shallow';
 
 import ConnectedGateway from '@/components/ConnectedGateway';
 import MetaMaskGateway from '@/components/MetaMaskGateway';
@@ -6,11 +7,14 @@ import ToggleSwitch from '@/components/Switch';
 import { useSnapStore } from '@/utils/stores';
 
 export default function Settings() {
-  const availableVCStores = useSnapStore((state) => state.availableVCStores);
-  const changeAvailableVCStores = useSnapStore(
-    (state) => state.changeAvailableVCStores
+  const { availableVCStores, changeAvailableVCStores, api } = useSnapStore(
+    (state) => ({
+      availableVCStores: state.availableVCStores,
+      changeAvailableVCStores: state.changeAvailableVCStores,
+      api: state.snapApi,
+    }),
+    shallow
   );
-  const api = useSnapStore((state) => state.snapApi);
 
   const snapGetAvailableVCStores = async () => {
     if (!api) return;

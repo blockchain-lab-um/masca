@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { SupportedProofFormats } from '@blockchain-lab-um/ssi-snap-types';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 import { W3CVerifiablePresentation } from '@veramo/core';
+import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
 import ConnectedGateway from '@/components/ConnectedGateway';
@@ -28,8 +29,14 @@ const proofFormats: Record<string, SupportedProofFormats> = {
 export const CreateVP = () => {
   const [vpModalOpen, setVpModalOpen] = useState(false);
   const [vp, setVp] = useState({});
-  const selectedVCs = useTableStore((state) => state.selectedVCs);
-  const setSelectedVCs = useTableStore((state) => state.setSelectedVCs);
+  const { selectedVCs, setSelectedVCs } = useTableStore(
+    (state) => ({
+      selectedVCs: state.selectedVCs,
+      setSelectedVCs: state.setSelectedVCs,
+    }),
+    shallow
+  );
+
   const api = useSnapStore((state) => state.snapApi);
 
   const [format, setFormat] = useState('jwt');

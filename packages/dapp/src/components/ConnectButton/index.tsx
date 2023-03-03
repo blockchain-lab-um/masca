@@ -3,6 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { enableSSISnap } from '@blockchain-lab-um/ssi-snap-connector';
+import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
 import { BASE_PATH } from '@/utils/constants';
@@ -10,19 +11,30 @@ import { useGeneralStore, useSnapStore } from '@/utils/stores';
 
 const ConnectButton = () => {
   const [loading, setLoading] = React.useState(false);
-  const changeAddress = useGeneralStore((state) => state.changeAddress);
-  const changeIsConnected = useGeneralStore((state) => state.changeIsConnected);
-  const changeHasSnapInstalled = useGeneralStore(
-    (state) => state.changeHasSnapInstalled
-  );
-  const changeDID = useSnapStore((state) => state.changeCurrDID);
-  const changeAvailableMethods = useSnapStore(
-    (state) => state.changeAvailableMethods
-  );
-  const changeSnapApi = useSnapStore((state) => state.changeSnapApi);
-  const changeCurrMethod = useSnapStore((state) => state.changeCurrDIDMethod);
-  const changeAvailableVCStores = useSnapStore(
-    (state) => state.changeAvailableVCStores
+  const { changeAddress, changeIsConnected, changeHasSnapInstalled } =
+    useGeneralStore(
+      (state) => ({
+        changeAddress: state.changeAddress,
+        changeIsConnected: state.changeIsConnected,
+        changeHasSnapInstalled: state.changeHasSnapInstalled,
+      }),
+      shallow
+    );
+  const {
+    changeDID,
+    changeAvailableMethods,
+    changeSnapApi,
+    changeCurrMethod,
+    changeAvailableVCStores,
+  } = useSnapStore(
+    (state) => ({
+      changeDID: state.changeCurrDID,
+      changeAvailableMethods: state.changeAvailableMethods,
+      changeSnapApi: state.changeSnapApi,
+      changeCurrMethod: state.changeCurrDIDMethod,
+      changeAvailableVCStores: state.changeAvailableVCStores,
+    }),
+    shallow
   );
 
   // const snapId = 'local:http://localhost:8081';

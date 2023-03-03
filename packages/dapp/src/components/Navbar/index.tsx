@@ -2,6 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { shallow } from 'zustand/shallow';
 
 import AddressPopover from '@/components/AddressPopover';
 import ConnectButton from '@/components/ConnectButton';
@@ -14,12 +15,19 @@ import { NavBtn } from './NavBtn';
 
 export default function Navbar() {
   const router = useRouter();
-  const isConnected = useGeneralStore((state) => state.isConnected);
-  const hasMM = useGeneralStore((state) => state.hasMetaMask);
-  const hasFlask = useGeneralStore((state) => state.isFlask);
-  const address = useGeneralStore((state) => state.address);
   const did = useSnapStore((state) => state.currDID);
-  const changeIsConnected = useGeneralStore((state) => state.changeIsConnected);
+
+  const { isConnected, hasMM, hasFlask, address, changeIsConnected } =
+    useGeneralStore(
+      (state) => ({
+        isConnected: state.isConnected,
+        hasMM: state.hasMetaMask,
+        hasFlask: state.isFlask,
+        address: state.address,
+        changeIsConnected: state.changeIsConnected,
+      }),
+      shallow
+    );
 
   const disconnect = () => {
     changeIsConnected(false);

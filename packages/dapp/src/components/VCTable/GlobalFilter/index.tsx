@@ -1,6 +1,7 @@
 import React from 'react';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
+import { shallow } from 'zustand/shallow';
 
 import { useTableStore } from '@/utils/stores';
 
@@ -10,8 +11,13 @@ type GlobalFilterProps = {
 };
 
 const GlobalFilter = ({ isConnected, vcs }: GlobalFilterProps) => {
-  const setGlobalFilter = useTableStore((state) => state.setGlobalFilter);
-  const globalFilter = useTableStore((state) => state.globalFilter);
+  const { globalFilter, setGlobalFilter } = useTableStore(
+    (state) => ({
+      globalFilter: state.globalFilter,
+      setGlobalFilter: state.setGlobalFilter,
+    }),
+    shallow
+  );
   return (
     <div
       className={`flex items-center flex-1 sm:flex-none bg-white w-fit rounded-full dark:bg-gray-800 border border-gray-200 shadow-md ${

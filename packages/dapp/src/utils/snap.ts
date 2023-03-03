@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { enableSSISnap } from '@blockchain-lab-um/ssi-snap-connector';
 
-import { useSnapStore } from './store';
+import { useSnapStore } from '@/utils/stores';
 
 // const snapId = 'local:http://localhost:8081';
 const snapId = 'npm:@blockchain-lab-um/ssi-snap';

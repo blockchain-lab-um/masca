@@ -1,12 +1,18 @@
 import React from 'react';
 import { Switch } from '@headlessui/react';
 import { Bars3Icon, Squares2X2Icon } from '@heroicons/react/24/solid';
+import { shallow } from 'zustand/shallow';
 
 import { useTableStore } from '@/utils/stores';
 
 const ViewTabs = () => {
-  const cardView = useTableStore((state) => state.cardView);
-  const setCardView = useTableStore((state) => state.setCardView);
+  const { cardView, setCardView } = useTableStore(
+    (state) => ({
+      cardView: state.cardView,
+      setCardView: state.setCardView,
+    }),
+    shallow
+  );
 
   return (
     <Switch

@@ -3,6 +3,7 @@ import {
   hasMetaMask,
   isMetamaskSnapsSupported,
 } from '@blockchain-lab-um/ssi-snap-connector';
+import { shallow } from 'zustand/shallow';
 
 import { useGeneralStore } from '@/utils/stores';
 
@@ -11,10 +12,15 @@ type MetaMaskGatewayProps = {
 };
 
 const MetaMaskGateway = ({ children }: MetaMaskGatewayProps) => {
-  const changeHasMetaMask = useGeneralStore((state) => state.changeHasMetaMask);
-  const changeIsFlask = useGeneralStore((state) => state.changeIsFlask);
-  const hasMM = useGeneralStore((state) => state.hasMetaMask);
-  const hasFlask = useGeneralStore((state) => state.isFlask);
+  const { changeHasMetaMask, changeIsFlask, hasMM, hasFlask } = useGeneralStore(
+    (state) => ({
+      changeHasMetaMask: state.changeHasMetaMask,
+      changeIsFlask: state.changeIsFlask,
+      hasMM: state.hasMetaMask,
+      hasFlask: state.isFlask,
+    }),
+    shallow
+  );
 
   useEffect(() => {
     const isSnapsSupported = async () => {

@@ -5,6 +5,7 @@ import {
 } from '@blockchain-lab-um/ssi-snap-types';
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import { W3CVerifiableCredential } from '@veramo/core';
+import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
 import ImportModal from '@/components/ImportModal';
@@ -20,8 +21,13 @@ type ControlbarProps = {
 
 export const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
   const [importModalOpen, setImportModalOpen] = useState(false);
-  const api = useSnapStore((state) => state.snapApi);
-  const changeVcs = useSnapStore((state) => state.changeVcs);
+  const { api, changeVcs } = useSnapStore(
+    (state) => ({
+      api: state.snapApi,
+      changeVcs: state.changeVcs,
+    }),
+    shallow
+  );
 
   const refreshVCs = async () => {
     const res = await api?.queryVCs();

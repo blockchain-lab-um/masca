@@ -2,17 +2,22 @@ import { Fragment, useState } from 'react';
 import { AvailableMethods } from '@blockchain-lab-um/ssi-snap-types';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
+import { shallow } from 'zustand/shallow';
 
 import { useSnapStore } from '@/utils/stores';
 import { DropdownButton } from './MethodDropdownButton';
 
 export default function MethodDropdownMenu() {
   const [didMethod, setDidMethod] = useState('did:ethr');
-  const methods = useSnapStore((state) => state.availableMethods);
-  const currMethod = useSnapStore((state) => state.currDIDMethod);
-  const api = useSnapStore((state) => state.snapApi);
-  const changeCurrDIDMethod = useSnapStore(
-    (state) => state.changeCurrDIDMethod
+
+  const { api, currMethod, methods, changeCurrDIDMethod } = useSnapStore(
+    (state) => ({
+      api: state.snapApi,
+      currMethod: state.currDIDMethod,
+      methods: state.availableMethods,
+      changeCurrDIDMethod: state.changeCurrDIDMethod,
+    }),
+    shallow
   );
 
   const handleMethodChange = async (method: string) => {
