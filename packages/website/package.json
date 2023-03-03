@@ -1,6 +1,7 @@
 {
   "name": "@blockchain-lab-um/website",
   "version": "0.0.01",
+  "private": true,
   "scripts": {
     "start": "vite",
     "build": "run-p type-check build-only && echo > dist/.nojekyll",

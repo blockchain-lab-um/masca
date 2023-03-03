@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/ssi-snap-connector",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Library for using the SSI Snap on frontend",
   "keywords": [
     "MetaMask",

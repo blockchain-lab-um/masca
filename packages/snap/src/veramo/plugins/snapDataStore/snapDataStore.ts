@@ -1,5 +1,4 @@
 /* eslint-disable max-classes-per-file */
-
 import {
   AbstractDataStore,
   IFilterArgs,
@@ -14,8 +13,8 @@ import {
 } from '@veramo/core';
 import { AbstractDIDStore } from '@veramo/did-manager';
 import { ManagedPrivateKey } from '@veramo/key-manager';
+import { sha256 } from 'js-sha256';
 import jsonpath from 'jsonpath';
-import { v4 as uuidv4 } from 'uuid';
 
 import { decodeJWT } from '../../../utils/jwt';
 import { getCurrentAccount } from '../../../utils/snapUtils';
@@ -234,9 +233,10 @@ export class SnapVCStore extends AbstractDataStore {
     const account = await getCurrentAccount(this.ethereum);
     if (!account) throw Error('Cannot get current account');
 
-    let id = uuidv4();
-    while (state.accountState[account].vcs[id]) {
-      id = uuidv4();
+    const id = sha256(JSON.stringify(vc));
+
+    if (state.accountState[account].vcs[id]) {
+      return id;
     }
 
     state.accountState[account].vcs[id] = vc;

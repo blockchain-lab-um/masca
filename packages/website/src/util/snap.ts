@@ -63,7 +63,8 @@ export async function checkForVCs(snapApi?: SSISnapApi) {
 export async function createVC(
   userName: string,
   mmAddress?: string,
-  snapApi?: SSISnapApi
+  snapApi?: SSISnapApi,
+  store: AvailableVCStores = 'snap'
 ) {
   try {
     if (!snapApi) throw new Error('No snap API found.');
@@ -76,7 +77,7 @@ export async function createVC(
     };
     const body = {
       name: userName,
-      id: 'did:ethr:rinkeby:' + mmAddress,
+      id: 'did:ethr:0x5:' + mmAddress,
     };
     const VC = await axios
       .post(backend_url + '/api/vc/issue-vc', body, axiosConfig)
@@ -87,7 +88,7 @@ export async function createVC(
         console.log(error);
       });
 
-    const res = await saveVC(VC, snapApi);
+    const res = await saveVC(VC, snapApi, store);
     if (res) return true;
   } catch (err) {
     console.error(err);

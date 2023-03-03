@@ -33,7 +33,7 @@
     "build": "pnpm nx affected --target=build",
     "build:all": "pnpm nx run-many --target=build --all",
     "build:connector": "pnpm nx build @blockchain-lab-um/ssi-snap-connector",
-    "build:docker": "./scripts/build-docker.sh",
+    "build:docker": "pnpm nx run-many --target=build --projects=@blockchain-lab-um/ssi-snap-docs,@blockchain-lab-um/website && pnpm nx run @blockchain-lab-um/dapp:build:docker",
     "build:docs": "pnpm nx build @blockchain-lab-um/ssi-snap-docs",
     "build:vcmanager": "pnpm nx build @blockchain-lab-um/veramo-vc-manager",
     "deploy:docs": "pnpm nx deploy @blockchain-lab-um/ssi-snap-docs",
@@ -42,6 +42,7 @@
     "lint:all": "pnpm prettier && pnpm nx run-many --target=lint --all",
     "prepare": "is-ci || husky install",
     "prettier": "prettier --write .",
+    "release-build:core": "pnpm nx run-many --target=build --projects=@blockchain-lab-um/ssi-snap,@blockchain-lab-um/ssi-snap-connector,@blockchain-lab-um/veramo-vc-manager",
     "start": "pnpm nx run-many --target=start --all",
     "start:dapp": "pnpm nx start @blockchain-lab-um/website",
     "start:docs": "pnpm nx start @blockchain-lab-um/ssi-snap-docs",
@@ -70,7 +71,6 @@
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-jest": "^27.2.1",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-unused-imports": "^2.0.0",
     "eslint-webpack-plugin": "^4.0.0",
     "husky": "^8.0.3",
     "is-ci": "^3.0.1",
@@ -95,8 +95,7 @@
     "patchedDependencies": {
       "@metamask/snaps-types@0.27.1": "patches/@metamask__snaps-types@0.27.1.patch",
       "cross-fetch@3.1.5": "patches/cross-fetch@3.1.5.patch",
-      "@veramo/did-provider-pkh@5.0.0": "patches/@veramo__did-provider-pkh@5.0.0.patch",
-      "@digitalbazaar/http-client@1.2.0": "patches/@digitalbazaar__http-client@1.2.0.patch"
+      "@veramo/did-provider-pkh@5.0.0": "patches/@veramo__did-provider-pkh@5.0.0.patch"
     }
   }
 }

@@ -7,8 +7,8 @@ import { DIDDataStore } from '@glazed/did-datastore';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { W3CVerifiableCredential } from '@veramo/core';
+import { sha256 } from 'js-sha256';
 import jsonpath from 'jsonpath';
-import { v4 as uuidv4 } from 'uuid';
 
 import { aliases, getCeramic } from '../../../utils/ceramicUtils';
 import { decodeJWT } from '../../../utils/jwt';
@@ -117,16 +117,17 @@ export class CeramicVCStore extends AbstractDataStore {
       'StoredCredentials'
     )) as StoredCredentials;
     if (storedCredentials && storedCredentials.vcs) {
-      let id = uuidv4();
-      while (storedCredentials.vcs[id]) {
-        id = uuidv4();
+      const id = sha256(JSON.stringify(vc));
+
+      if (storedCredentials.vcs[id]) {
+        return id;
       }
 
       storedCredentials.vcs[id] = vc;
       await datastore.merge('StoredCredentials', storedCredentials);
       return id;
     }
-    const id = uuidv4();
+    const id = sha256(JSON.stringify(vc));
     const storedCredentialsNew: StoredCredentials = { vcs: {} };
     storedCredentialsNew.vcs[id] = vc;
     await datastore.merge('StoredCredentials', storedCredentialsNew);

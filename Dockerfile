@@ -12,9 +12,7 @@ COPY pnpm-lock.yaml package.json pnpm-workspace.yaml ./
 # Copy scripts
 COPY ./scripts ./scripts
 
-# Copy projects package.json files
-
-# PACKAGES
+# Copy projects' package.json files
 COPY ./packages/docs/package.json ./packages/docs/
 COPY ./packages/connector/package.json ./packages/connector/
 COPY ./packages/types/package.json ./packages/types/
