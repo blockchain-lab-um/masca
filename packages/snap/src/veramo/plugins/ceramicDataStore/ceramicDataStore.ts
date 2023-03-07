@@ -7,10 +7,10 @@ import { DIDDataStore } from '@glazed/did-datastore';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { W3CVerifiableCredential } from '@veramo/core';
-// eslint-disable-next-line import/no-extraneous-dependencies
+
 import { sha256 } from 'js-sha256';
 import jsonpath from 'jsonpath';
-import { v4 as uuidv4 } from 'uuid';
+
 
 import { aliases, getCeramic } from '../../../utils/ceramicUtils';
 import { decodeJWT } from '../../../utils/jwt';

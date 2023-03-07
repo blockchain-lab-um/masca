@@ -4,7 +4,8 @@ export interface QueryVCsRequestResult {
   data: VerifiableCredential;
   metadata: {
     id: string;
-    store?: string | string[];
+    store?: string[];
+
   };
 }
 

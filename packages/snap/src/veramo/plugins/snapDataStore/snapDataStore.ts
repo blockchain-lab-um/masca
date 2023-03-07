@@ -15,7 +15,7 @@ import { AbstractDIDStore } from '@veramo/did-manager';
 import { ManagedPrivateKey } from '@veramo/key-manager';
 import { sha256 } from 'js-sha256';
 import jsonpath from 'jsonpath';
-import { v4 as uuidv4 } from 'uuid';
+
 
 import { decodeJWT } from '../../../utils/jwt';
 import { getCurrentAccount } from '../../../utils/snapUtils';

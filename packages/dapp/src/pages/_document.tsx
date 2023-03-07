@@ -1,6 +1,8 @@
 import { Head, Html, Main, NextScript } from 'next/document';
 
+
 import { BASE_PATH } from '@/utils/constants';
+
 
 export default function Document() {
   return (
