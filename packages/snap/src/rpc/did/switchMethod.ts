@@ -14,9 +14,9 @@ export async function switchMethod(
   if (didMethod !== method) {
     const content = panel([
       heading('Switch Method'),
-      text("Would you like to switch your DID's method?"),
+      text('Would you like to switch your DID method?'),
       divider(),
-      text(`New method: ${didMethod}`),
+      text(`Switching to: ${didMethod}`),
     ]);
 
     if (await snapConfirm(snap, content)) {

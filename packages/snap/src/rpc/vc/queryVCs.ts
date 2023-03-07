@@ -28,7 +28,7 @@ export async function queryVCs(
     text('Are you sure you want to share VCs with this dApp?'),
     divider(),
     text(
-      `Some dApps are less secure than others and could save data from VCs against your will. Be careful where you send your private VCs! Number of VCs submitted is ${vcs.length.toString()}`
+      `Some dApps are less secure than others and could save data from VCs against your will. Be careful where you send your VCs! Number of VCs submitted is ${vcs.length.toString()}`
     ),
     text('This popup will not appear again for this dApp.'),
   ]);

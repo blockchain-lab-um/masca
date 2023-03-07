@@ -20,10 +20,16 @@ export async function deleteVC(
     filter: { type: 'id', filter: id },
   });
 
+  let stores = 'All';
+  if (store) {
+    if (typeof store === 'string') stores = store;
+    else stores = store.join(', ');
+  }
   const content = panel([
     heading('Delete VC'),
     text('Are you sure you want to delete this VC?'),
     divider(),
+    text(`Store: ${stores}`),
     text(`VCs: ${JSON.stringify(vcs, null, 2)}`),
   ]);
 

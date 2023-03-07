@@ -14,7 +14,7 @@ export async function togglePopups(params: ApiParams): Promise<boolean> {
     heading('Disable Popups'),
     text('Would you like to disable popups?'),
     divider(),
-    text('If popups are disabled, you will will see less confirmation popups'),
+    text('If popups are disabled, you will see less confirmation popups'),
   ]);
 
   const result = disablePopups || (await snapConfirm(snap, content));
