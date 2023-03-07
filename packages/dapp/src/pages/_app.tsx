@@ -1,11 +1,9 @@
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
-
 import { Cabin, JetBrains_Mono, Ubuntu } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
 
 import Layout from '@/components/Layout';
-import { ThemeProvider } from 'next-themes';
 
 const cabin = Cabin({
   variable: '--font-cabin',

@@ -114,14 +114,12 @@ importers:
 
   packages/dapp:
     specifiers:
-
       '@blockchain-lab-um/ssi-snap-connector': '*'
       '@blockchain-lab-um/ssi-snap-types': '*'
       '@headlessui/react': ^1.7.7
       '@heroicons/react': ^2.0.13
       '@ianvs/prettier-plugin-sort-imports': ^3.7.1
       '@radix-ui/react-toast': ^1.1.2
-
       '@svgr/webpack': ^6.5.1
       '@tanstack/react-table': ^8.7.8
       '@types/eslint': ^8
@@ -137,10 +135,8 @@ importers:
       eslint-config-prettier: ^8.6.0
       eslint-plugin-prettier: ^4.2.1
       eslint-plugin-unused-imports: ^2.0.0
-
       ethers: ^6.0.8
       next: 13.2.3
-
       next-themes: ^0.2.1
       postcss: ^8.4.21
       prettier: ^2.8.4
@@ -21301,10 +21297,8 @@ packages:
       jest-worker: 27.5.1
       schema-utils: 3.1.1
       serialize-javascript: 6.0.1
-
-      terser: 5.16.1
-      webpack: 5.75.0_webpack-cli@5.0.1
-
+      terser: 5.16.5
+      webpack: 5.75.0
 
   /terser/5.16.5:
     resolution: {integrity: sha512-qcwfg4+RZa3YvlFh0qjifnzBHjKGNbtDo9yivMqMFDy9Q6FSaQWSB/j1xKhsoUFJIqDOM3TsN6D5xbrMrFcHbg==}
