@@ -15,11 +15,10 @@
 </template>
 
 <script setup lang="ts">
-
-import vcCourse from '@/components/vcCourse.vue';
 import { useGeneralStore } from '@/stores/general';
 import { useMetamaskStore } from '@/stores/metamask';
 
+import vcCourse from '@/components/vcCourse.vue';
 
 const mmStore = useMetamaskStore();
 const generalStore = useGeneralStore();

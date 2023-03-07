@@ -137,15 +137,13 @@
 </template>
 
 <script setup lang="ts">
-
-import wrappedButton from '@/components/wrappedButton.vue';
 import { useMetamaskStore } from '@/stores/metamask';
 import { ISOtoLocaleString } from '@/util/general';
 import { checkForVCs, createVP, saveVC } from '@/util/snap';
 import type { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import { ref } from 'vue';
 
-
+import wrappedButton from '@/components/wrappedButton.vue';
 import type { VerifiableCredential } from '../util/interfaces';
 
 const mmStore = useMetamaskStore();

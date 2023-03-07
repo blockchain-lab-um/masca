@@ -5,7 +5,6 @@ export interface QueryVCsRequestResult {
   metadata: {
     id: string;
     store?: string[];
-
   };
 }
 

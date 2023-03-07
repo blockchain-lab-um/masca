@@ -16,7 +16,6 @@ import { ManagedPrivateKey } from '@veramo/key-manager';
 import { sha256 } from 'js-sha256';
 import jsonpath from 'jsonpath';
 
-
 import { decodeJWT } from '../../../utils/jwt';
 import { getCurrentAccount } from '../../../utils/snapUtils';
 import { getSnapState, updateSnapState } from '../../../utils/stateUtils';

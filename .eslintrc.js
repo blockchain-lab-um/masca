@@ -12,7 +12,6 @@ module.exports = {
   plugins: ['@typescript-eslint/eslint-plugin', 'unused-imports'],
   parser: '@typescript-eslint/parser',
   rules: {
-
     // other rules
     'no-underscore-dangle': 'off',
     'no-restricted-syntax': [
