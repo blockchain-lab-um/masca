@@ -1,4 +1,6 @@
 import { SetVCStoreRequestParams } from '@blockchain-lab-um/ssi-snap-types';
+import { heading, panel, text } from '@metamask/snaps-ui';
+import { snapConfirm } from 'src/utils/snapUtils';
 
 import { ApiParams } from '../../interfaces';
 import { updateSnapState } from '../../utils/stateUtils';
@@ -9,14 +11,11 @@ export async function setVCStore(
 ): Promise<boolean> {
   const { state, snap, account } = params;
   if (store !== 'snap') {
-    const promptObj = {
-      prompt: 'Change vcStore plugin',
-      description: `Would you like to ${
-        value ? 'enable' : 'disable'
-      } ${store} vcStore plugin?`,
-      textAreaContent: `Content`,
-    };
-    if (true) {
+    const content = panel([
+      heading('Manage VCStore Plugin'),
+      text(`Would you like to ${value ? 'enable' : 'disable'} ${store}?`),
+    ]);
+    if (await snapConfirm(snap, content)) {
       state.accountState[account].accountConfig.ssi.vcStore[store] = value;
       await updateSnapState(snap, state);
       return true;

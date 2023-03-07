@@ -12,13 +12,6 @@ export async function saveVC(
 ): Promise<IDataManagerSaveResult[]> {
   const { store = 'snap' } = options || {};
   const { snap, ethereum } = params;
-  const promptObj = {
-    prompt: 'Save VC',
-    description: `Would you like to save the following VC in ${
-      typeof store === 'string' ? store : store.join(', ')
-    }?`,
-    textAreaContent: JSON.stringify(verifiableCredential).substring(0, 100),
-  };
 
   const content = panel([
     heading('Save VC'),
