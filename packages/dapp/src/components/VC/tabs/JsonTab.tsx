@@ -8,7 +8,7 @@ interface JsonTabProps {
   vc: QueryVCsRequestResult;
 }
 
-export const JsonTab = ({ vc }: JsonTabProps) => {
+const JsonTab = ({ vc }: JsonTabProps) => {
   return (
     <div className="p-4 xl:p-12">
       <div className="relative z-0 group bg-orange-100 pt-1 pr-2 rounded-2xl">
@@ -30,3 +30,5 @@ export const JsonTab = ({ vc }: JsonTabProps) => {
     </div>
   );
 };
+
+export default JsonTab;

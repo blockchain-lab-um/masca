@@ -15,10 +15,10 @@ import DropdownMenu from '@/components/DropdownMenu';
 import InfoIcon from '@/components/InfoIcon';
 import InputField from '@/components/InputField';
 import MetaMaskGateway from '@/components/MetaMaskGateway';
+import SelectedVCsTableRow from '@/components/SelectedVCsTableRow/SelectedVCsTableRow';
 import ToggleSwitch from '@/components/Switch';
 import VPModal from '@/components/VPModal';
 import { useSnapStore, useTableStore } from '@/utils/stores';
-import { SelectedVCsTableRow } from './SelectedVCsTableRow';
 
 const proofFormats: Record<string, SupportedProofFormats> = {
   JWT: 'jwt',
@@ -26,7 +26,7 @@ const proofFormats: Record<string, SupportedProofFormats> = {
   EthereumEip712Signature2021: 'EthereumEip712Signature2021',
 };
 
-export const CreateVP = () => {
+const CreateVP = () => {
   const [loading, setLoading] = useState(false);
   const [vpModalOpen, setVpModalOpen] = useState(false);
   const [vp, setVp] = useState({});

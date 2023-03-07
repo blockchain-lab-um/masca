@@ -11,7 +11,7 @@ interface SelectedVCsTableRowProps {
   handleRemove: (id: string) => void;
 }
 
-export const SelectedVCsTableRow = ({
+const SelectedVCsTableRow = ({
   vc,
   handleRemove,
 }: SelectedVCsTableRowProps) => {
@@ -98,3 +98,5 @@ export const SelectedVCsTableRow = ({
     </tr>
   );
 };
+
+export default SelectedVCsTableRow;

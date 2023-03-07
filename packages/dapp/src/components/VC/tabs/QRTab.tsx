@@ -5,6 +5,8 @@ interface QRTabProps {
   vc: QueryVCsRequestResult;
 }
 
-export const QRTab = ({ vc }: QRTabProps) => {
+const QRTab = ({ vc }: QRTabProps) => {
   return <div>QRTab</div>;
 };
+
+export default QRTab;

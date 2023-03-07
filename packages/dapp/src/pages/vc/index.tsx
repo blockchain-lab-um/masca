@@ -13,8 +13,9 @@ import clsx from 'clsx';
 import Button from '@/components/Button';
 import ConnectedGateway from '@/components/ConnectedGateway';
 import MetaMaskGateway from '@/components/MetaMaskGateway';
+import FormatedTab from '@/components/VC/tabs/FormatedTab';
+import JsonTab from '@/components/VC/tabs/JsonTab';
 import { useSnapStore } from '@/utils/stores';
-import { FormatedTab, JsonTab } from './tabs';
 
 const VC = () => {
   const router = useRouter();

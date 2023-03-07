@@ -19,7 +19,7 @@ type ControlbarProps = {
   isConnected: boolean;
 };
 
-export const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
+const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
   const [importModalOpen, setImportModalOpen] = useState(false);
   const [spinner, setSpinner] = useState(false);
   const { api, changeVcs } = useSnapStore(
@@ -113,3 +113,5 @@ export const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
     </>
   );
 };
+
+export default Controlbar;

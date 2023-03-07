@@ -19,7 +19,7 @@ interface FormatedTabProps {
   setModifyDSModalOpen: (value: boolean) => void;
 }
 
-export const FormatedTab = ({
+const FormatedTab = ({
   vc,
   setDeleteModalOpen,
   setModifyDSModalOpen,
@@ -234,3 +234,5 @@ export const FormatedTab = ({
     </>
   );
 };
+
+export default FormatedTab;
