@@ -187,14 +187,12 @@ export async function veramoCreateVP(
   const config = state.snapConfig;
   const panelArray = [
     heading('Create VP'),
-    text('Would you like to create VP from the following VC(s)?'),
+    text('Would you like to create a VP from the following VC(s)?'),
     divider(),
     text(`VC(s):`),
+    ...vcs.map((vc) => copyable(JSON.stringify(vc, null, 2))),
   ];
-  vcs.forEach((vc) =>
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
-    panelArray.push(copyable(JSON.stringify(vc, null, 2)) as any)
-  );
+
   const content = panel(panelArray);
 
   if (config.dApp.disablePopups || (await snapConfirm(snap, content))) {
