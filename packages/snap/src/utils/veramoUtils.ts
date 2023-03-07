@@ -185,15 +185,13 @@ export async function veramoCreateVP(
 
   if (vcs.length === 0) return null;
   const config = state.snapConfig;
-  const panelArray = [
+  const content = panel([
     heading('Create VP'),
     text('Would you like to create a VP from the following VC(s)?'),
     divider(),
     text(`VC(s):`),
     ...vcs.map((vc) => copyable(JSON.stringify(vc, null, 2))),
-  ];
-
-  const content = panel(panelArray);
+  ]);
 
   if (config.dApp.disablePopups || (await snapConfirm(snap, content))) {
     const vp = await agent.createVerifiablePresentation({
