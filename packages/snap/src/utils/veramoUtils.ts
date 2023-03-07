@@ -117,34 +117,11 @@ export async function veramoQueryVCs(args: {
 }): Promise<QueryVCsRequestResult[]> {
   const { snap, ethereum, options, filter } = args;
   const agent = await getAgent(snap, ethereum);
-  const result = await agent.query({
+  const result = (await agent.query({
     filter,
     options,
-  });
-
-  const vcs = new Map<string, QueryVCsRequestResult>();
-
-  for (const vc of result) {
-    if (options.returnStore && !vc.metadata.store) {
-      throw new Error('Missing store in VC metadata'); // TODO (Martin): Handle this better
-    }
-
-    const existingVC = vcs.get(vc.metadata.id);
-    if (existingVC) {
-      if (options.returnStore) {
-        existingVC.metadata.store?.push(vc.metadata.store as string);
-      }
-    } else {
-      vcs.set(vc.metadata.id, {
-        data: vc.data as W3CVerifiableCredential,
-        metadata: {
-          id: vc.metadata.id,
-          ...(options.returnStore && { store: [vc.metadata.store as string] }),
-        },
-      });
-    }
-  }
-  return [...vcs.values()];
+  })) as QueryVCsRequestResult[];
+  return result;
 }
 
 export async function veramoCreateVP(
