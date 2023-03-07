@@ -7,11 +7,7 @@ interface TooltipProps {
   position?: 'top' | 'bottom' | 'left' | 'right';
 }
 
-export const Tooltip = ({
-  children,
-  tooltip,
-  position = 'top',
-}: TooltipProps) => {
+const Tooltip = ({ children, tooltip, position = 'top' }: TooltipProps) => {
   return (
     <div id="tooltip" className="relative cursor-pointer group">
       {children}

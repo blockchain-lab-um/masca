@@ -8,7 +8,7 @@ import DropdownMenu from '@/components/MethodDropdownMenu';
 import ToggleTheme from '@/components/ToggleTheme';
 import { useGeneralStore, useSnapStore } from '@/utils/stores';
 
-export const Footer = () => {
+const Footer = () => {
   const router = useRouter();
 
   const { isConnected, hasMM, hasFlask, address, changeIsConnected } =
