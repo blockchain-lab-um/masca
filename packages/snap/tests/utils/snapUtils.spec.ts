@@ -9,6 +9,7 @@ import {
   getCurrentNetwork,
   getPublicKey,
   removeFriendlyDapp,
+  snapConfirm,
   togglePopups,
 } from '../../src/utils/snapUtils';
 import * as snapUtils from '../../src/utils/snapUtils';
@@ -16,6 +17,7 @@ import {
   address,
   bip44Entropy,
   compressedPublicKey,
+  content,
   getDefaultSnapState,
   publicKey,
 } from '../testUtils/constants';
@@ -217,17 +219,17 @@ describe('Utils [snap]', () => {
   // describe('getFriendlyDapps', function () {
   //   it('should succeed getting friendly dApps', async function () {
   //     const initialState = getDefaultSnapState();
-  //     initialState.ssiSnapState.snapConfig.dApp.friendlyDapps = [
+  //     initialState.snapConfig.dApp.friendlyDapps = [
   //       'test_dApp_1',
   //       'test_dApp_2',
   //       'test_dApp_3',
   //     ];
 
   //     snapMock.rpcMocks.snap_manageState
-  //       .onCall(0)
+  //       .call(0)
   //       .mockResolvedValue(initialState);
 
-  //     await expect(getFriendlyDapps(snapMock)).to.eventually.be.deep.equal([
+  //     await expect(get).to.eventually.be.deep.equal([
   //       'test_dApp_1',
   //       'test_dApp_2',
   //       'test_dApp_3',
@@ -247,6 +249,7 @@ describe('Utils [snap]', () => {
           state: initialState,
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
+          origin: 'localhost',
         })
       ).resolves.toEqual(publicKey);
 
@@ -263,6 +266,7 @@ describe('Utils [snap]', () => {
           state: initialState,
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
+          origin: 'localhost',
         })
       ).resolves.toEqual(publicKey);
 
@@ -280,6 +284,7 @@ describe('Utils [snap]', () => {
         state: initialState,
         account: address,
         bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
+        origin: 'localhost',
       });
       const compressedPK = getCompressedPublicKey(pk);
 
@@ -288,37 +293,38 @@ describe('Utils [snap]', () => {
   });
 
   describe('snapConfirm', () => {
-    // it('should return true', async () => {
-    //   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    //   snapMock.rpcMocks.snap_dialog.mockResolvedValue(true);
-    //   await expect(snapConfirm(snapMock, snapConfirmParams)).resolves.toEqual(
-    //     true
-    //   );
-    //   expect(snapMock.rpcMocks.snap_dialog).toHaveBeenCalledWith({
-    //     fields: {
-    //       description: 'Test description',
-    //       textAreaContent: 'Test text area content',
-    //       title: 'Test prompt',
-    //     },
-    //     type: 'Confirmation',
-    //   });
-    //   expect.assertions(2);
-    // });
-    // it('should return false', async () => {
-    //   snapMock.rpcMocks.snap_dialog.mockResolvedValue(false);
-    //   await expect(snapConfirm(snapMock, snapConfirmParams)).resolves.toEqual(
-    //     false
-    //   );
-    //   expect(snapMock.rpcMocks.snap_dialog).toHaveBeenCalledWith({
-    //     fields: {
-    //       description: 'Test description',
-    //       textAreaContent: 'Test text area content',
-    //       title: 'Test prompt',
-    //     },
-    //     type: 'Confirmation',
-    //   });
-    //   expect.assertions(2);
-    // });
+    it('should return true', async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      snapMock.rpcMocks.snap_dialog.mockResolvedValue(true);
+
+      await expect(snapConfirm(snapMock, content)).resolves.toBe(true);
+      expect(snapMock.rpcMocks.snap_dialog).toHaveBeenCalledWith({
+        content: {
+          children: [
+            { type: 'heading', value: 'Title of the panel' },
+            { type: 'text', value: 'Text of the panel' },
+          ],
+          type: 'panel',
+        },
+        type: 'Confirmation',
+      });
+    });
+    it('should return false', async () => {
+      snapMock.rpcMocks.snap_dialog.mockResolvedValue(false);
+
+      await expect(snapConfirm(snapMock, content)).resolves.toBe(false);
+      expect(snapMock.rpcMocks.snap_dialog).toHaveBeenCalledWith({
+        content: {
+          children: [
+            { type: 'heading', value: 'Title of the panel' },
+            { type: 'text', value: 'Text of the panel' },
+          ],
+          type: 'panel',
+        },
+        type: 'Confirmation',
+      });
+      expect.assertions(2);
+    });
   });
 
   describe('getEnabledVCStores', () => {

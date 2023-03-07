@@ -29,7 +29,10 @@ import {
   initSnapState,
 } from './utils/stateUtils';
 
-export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
+export const onRpcRequest: OnRpcRequestHandler = async ({
+  request,
+  origin,
+}) => {
   let state = await getSnapStateUnchecked(snap);
   if (state === null) state = await initSnapState(snap);
 
@@ -42,6 +45,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
     snap,
     ethereum,
     account,
+    origin,
   };
 
   if (!(account in state.accountState)) {

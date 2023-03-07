@@ -73,6 +73,7 @@ export async function addFriendlyDapp(
   state: SSISnapState,
   dapp: string
 ) {
+  if (state.snapConfig.dApp.friendlyDapps.includes(dapp)) return;
   state.snapConfig.dApp.friendlyDapps.push(dapp);
   await updateSnapState(snap, state);
 }

@@ -5,7 +5,7 @@ import {
 import { divider, heading, panel, text } from '@metamask/snaps-ui';
 
 import { ApiParams } from '../../interfaces';
-import { snapConfirm } from '../../utils/snapUtils';
+import { addFriendlyDapp, snapConfirm } from '../../utils/snapUtils';
 import { veramoQueryVCs } from '../../utils/veramoUtils';
 
 export async function queryVCs(
@@ -14,7 +14,7 @@ export async function queryVCs(
 ): Promise<QueryVCsRequestResult[]> {
   const { filter, options } = args || {};
   const { store, returnStore = true } = options || {};
-  const { state, snap, ethereum } = params;
+  const { state, snap, ethereum, origin } = params;
 
   const vcs = await veramoQueryVCs({
     snap,
@@ -33,9 +33,10 @@ export async function queryVCs(
   ]);
 
   if (
-    state.snapConfig.dApp.disablePopups ||
+    state.snapConfig.dApp.friendlyDapps.includes(origin) ||
     (await snapConfirm(snap, content))
   ) {
+    await addFriendlyDapp(snap, state, origin);
     return vcs;
   }
 

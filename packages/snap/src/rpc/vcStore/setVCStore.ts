@@ -1,8 +1,8 @@
 import { SetVCStoreRequestParams } from '@blockchain-lab-um/ssi-snap-types';
 import { heading, panel, text } from '@metamask/snaps-ui';
-import { snapConfirm } from 'src/utils/snapUtils';
 
 import { ApiParams } from '../../interfaces';
+import { snapConfirm } from '../../utils/snapUtils';
 import { updateSnapState } from '../../utils/stateUtils';
 
 export async function setVCStore(
