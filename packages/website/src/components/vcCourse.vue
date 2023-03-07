@@ -9,8 +9,13 @@
         placeholder="Username"
       />
       <wrappedButton
-        label="Create VC"
+        label="Save VC"
         :method="VCCreate"
+        cssClass="p-button-sm"
+      />
+      <wrappedButton
+        label="Save VC on Ceramic"
+        :method="VCCreateCeramic"
         cssClass="p-button-sm"
       />
     </div>
@@ -38,6 +43,31 @@ const VCCreate = async () => {
       nameInputValue,
       mmStore.mmAddress,
       mmStore.snapApi
+    );
+    if (!res) {
+      throw new Error('Failed to create VC');
+    }
+    return 'VC created';
+  } catch (err: any) {
+    throw new Error(err.message);
+  }
+};
+
+const VCCreateCeramic = async () => {
+  try {
+    const nameInput = document.getElementById('nameInput');
+    nameInput?.classList.remove('p-invalid');
+    const nameInputValue = (nameInput as HTMLInputElement).value;
+    if (!nameInputValue) {
+      nameInput?.classList.add('p-invalid');
+      return;
+    }
+
+    const res = await createVC(
+      nameInputValue,
+      mmStore.mmAddress,
+      mmStore.snapApi,
+      'ceramic'
     );
     if (!res) {
       throw new Error('Failed to create VC');

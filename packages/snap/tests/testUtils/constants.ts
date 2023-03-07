@@ -1,12 +1,13 @@
-import cloneDeep from 'lodash.clonedeep';
+import { JsonBIP44CoinTypeNode } from '@metamask/key-tree';
 import {
   DIDDocument,
   DIDResolutionResult,
   IIdentifier,
   W3CVerifiableCredential,
 } from '@veramo/core';
-import { JsonBIP44CoinTypeNode } from '@metamask/key-tree';
-import { SnapConfirmParams, SSISnapState } from '../../src/interfaces';
+import cloneDeep from 'lodash.clonedeep';
+
+import { SSISnapState, SnapConfirmParams } from '../../src/interfaces';
 import { getEmptyAccountState } from '../../src/utils/config';
 
 export const mnemonic =

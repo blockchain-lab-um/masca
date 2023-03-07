@@ -1,15 +1,16 @@
-import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
 import {
   AvailableMethods,
   AvailableVCStores,
 } from '@blockchain-lab-um/ssi-snap-types';
+import { MetaMaskInpageProvider } from '@metamask/providers';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { DIDResolutionResult } from 'did-resolver';
+
 import { getDidKeyIdentifier } from '../did/key/keyDidUtils';
+import { getDidPkhIdentifier } from '../did/pkh/pkhDidUtils';
 import { SSISnapState } from '../interfaces';
 import { getCurrentNetwork } from './snapUtils';
 import { updateSnapState } from './stateUtils';
-import { getDidPkhIdentifier } from '../did/pkh/pkhDidUtils';
 
 export async function changeCurrentVCStore(
   snap: SnapsGlobalObject,

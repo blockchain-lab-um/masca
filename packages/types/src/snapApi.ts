@@ -3,6 +3,7 @@ import {
   VerifiablePresentation,
   W3CVerifiableCredential,
 } from '@veramo/core';
+
 import { AvailableMethods, AvailableVCStores } from './constants';
 import {
   CreateVPRequestParams,
@@ -10,7 +11,6 @@ import {
   QueryVCsRequestParams,
   SaveVCOptions,
 } from './params';
-
 import type { QueryVCsRequestResult, SaveVCRequestResult } from './results';
 import { SSIAccountConfig, SSISnapConfig } from './snapInterfaces';
 

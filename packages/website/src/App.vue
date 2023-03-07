@@ -18,13 +18,14 @@
 </template>
 
 <script setup lang="ts">
-import { RouterView } from 'vue-router';
 import { useGeneralStore } from '@/stores/general';
 import { useToast } from 'primevue/usetoast';
-import greetingTitle from './components/greetingTitle.vue';
+import { RouterView } from 'vue-router';
+
 import didSelector from './components/didSelector.vue';
-import navBar from './components/navBar.vue';
+import greetingTitle from './components/greetingTitle.vue';
 import mmButton from './components/mmButton.vue';
+import navBar from './components/navBar.vue';
 
 const generalStore = useGeneralStore();
 generalStore.toast = useToast();

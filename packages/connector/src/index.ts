@@ -1,4 +1,5 @@
 import { AvailableMethods } from '@blockchain-lab-um/ssi-snap-types';
+
 import { MetaMaskSSISnap } from './snap';
 import {
   hasMetaMask,

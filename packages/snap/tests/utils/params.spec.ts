@@ -1,9 +1,4 @@
 import {
-  address,
-  exampleVC,
-  getDefaultSnapState,
-} from '../testUtils/constants';
-import {
   isValidCreateVPRequest,
   isValidDeleteVCRequest,
   isValidQueryRequest,
@@ -11,6 +6,11 @@ import {
   isValidSaveVCRequest,
   isValidSwitchMethodRequest,
 } from '../../src/utils/params';
+import {
+  address,
+  exampleVC,
+  getDefaultSnapState,
+} from '../testUtils/constants';
 
 describe('Utils [params]', () => {
   /*
@@ -18,11 +18,6 @@ describe('Utils [params]', () => {
   */
   describe('isValidGetVCsRequest', () => {
     it.todo('Add test');
-  });
-  describe('isValidResolveDIDRequest', () => {
-    it('should fail for null', () => {
-      expect(() => isValidResolveDIDRequest(null)).toThrow(Error);
-    });
   });
   describe('isValidResolveDIDRequest', () => {
     it('should fail for null', () => {

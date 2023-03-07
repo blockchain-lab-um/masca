@@ -1,4 +1,5 @@
 import { W3CVerifiableCredential } from '@veramo/core';
+
 import {
   AvailableMethods,
   AvailableVCStores,

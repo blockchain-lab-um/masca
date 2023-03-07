@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/ssi-snap-types",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Types for SSI Snap.",
   "keywords": [
     "ssi",
@@ -17,6 +17,11 @@
   "main": "src/index.ts",
   "dependencies": {
     "@veramo/core": "^5.0.0"
+  },
+  "devDependencies": {
+    "@ianvs/prettier-plugin-sort-imports": "^3.7.1",
+    "eslint-plugin-unused-imports": "^2.0.0",
+    "prettier-plugin-packagejson": "^2.4.3"
   },
   "publishConfig": {
     "access": "public"

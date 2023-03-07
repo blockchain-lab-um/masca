@@ -93,7 +93,12 @@
           @click="closeImportModal()"
           class="p-button-text"
         />
-        <wrappedButton label="Import" :method="importVC" icon="pi pi-check" />
+        <wrappedButton label="Save" :method="importVC" icon="pi pi-check" />
+        <wrappedButton
+          label="Save on Ceramic"
+          :method="importVCCeramic"
+          icon="pi pi-check"
+        />
       </template>
     </Dialog>
     <Dialog
@@ -107,7 +112,7 @@
       <Textarea
         id="VCImportArea"
         v-model="modalContent"
-        :autoResize="true"
+        :autoResize="false"
         class="vcImport"
         disabled
       />
@@ -116,7 +121,7 @@
         id="metadata"
         v-model="modalContent2"
         disabled
-        :autoResize="true"
+        :autoResize="false"
         class="vcImport"
       />
       <template #footer>
@@ -133,15 +138,13 @@
 
 <script setup lang="ts">
 import wrappedButton from '@/components/wrappedButton.vue';
-import { ref } from 'vue';
 import { useMetamaskStore } from '@/stores/metamask';
 import { ISOtoLocaleString } from '@/util/general';
-import { checkForVCs, saveVC, createVP } from '@/util/snap';
+import { checkForVCs, createVP, saveVC } from '@/util/snap';
+import type { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
+import { ref } from 'vue';
+
 import type { VerifiableCredential } from '../util/interfaces';
-import type {
-  QueryVCsRequestResult,
-  SaveVCRequestResult,
-} from '@blockchain-lab-um/ssi-snap-types';
 
 const mmStore = useMetamaskStore();
 const VCImport = ref('');
@@ -195,6 +198,7 @@ const vpCreate = async () => {
     }
     const vp = await createVP(selectedVC.value, mmStore.snapApi);
     openModal('Verifiable Presentation', JSON.stringify(vp, null, 2));
+    console.log(vp);
     if (!vp) {
       throw new Error('Failed to create VP');
     }
@@ -225,6 +229,31 @@ const importVC = async () => {
     throw err;
   }
 };
+
+const importVCCeramic = async () => {
+  let VC: VerifiableCredential;
+  // eslint-disable-next-line no-useless-catch
+  try {
+    VC = JSON.parse(VCImport.value) as VerifiableCredential;
+  } catch (err: any) {
+    throw err;
+  }
+  // console.log('🚀 ~ file: ProfileView.vue ~ line 54 ~ importVC ~ VC', VC);
+  try {
+    const res = await saveVC(VC, mmStore.snapApi, 'ceramic');
+    if (!res) throw new Error('Failed to save VC');
+    // console.log('🚀 ~ file: ProfileView.vue ~ line 48 ~ importVC ~ res', res);
+    mmStore.vcs.push({
+      data: VC,
+      metadata: { store: ['ceramic'], id: res[0].id },
+    });
+    closeImportModal();
+    return 'Success importing VC';
+  } catch (err: any) {
+    console.error(err);
+    throw err;
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -241,7 +270,9 @@ const importVC = async () => {
 .vcImport {
   width: 100%;
   margin: 0.5rem;
-  padding: 0.125em;
+  padding: 0.5em;
+  padding-top: 1em;
+  padding-bottom: 1em;
   border-color: #6366f1;
 }
 
