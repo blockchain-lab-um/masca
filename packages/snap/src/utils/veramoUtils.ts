@@ -11,6 +11,7 @@ import {
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
 import {
   IIdentifier,
   MinimalImportableKey,
@@ -184,12 +185,19 @@ export async function veramoCreateVP(
 
   if (vcs.length === 0) return null;
   const config = state.snapConfig;
-  const promptObj = {
-    prompt: 'Alert',
-    description: 'Do you wish to create a VP from the following VC?',
-    textAreaContent: 'Multiple VCs',
-  };
-  if (config.dApp.disablePopups || snapConfirm(snap, promptObj)) {
+  const panelArray = [
+    heading('Create VP'),
+    text('Would you like to create VP from the following VC(s)?'),
+    divider(),
+    text(`VC(s):`),
+  ];
+  vcs.forEach((vc) =>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
+    panelArray.push(copyable(JSON.stringify(vc, null, 2)) as any)
+  );
+  const content = panel(panelArray);
+
+  if (config.dApp.disablePopups || (await snapConfirm(snap, content))) {
     const vp = await agent.createVerifiablePresentation({
       presentation: {
         holder: identifier.did,

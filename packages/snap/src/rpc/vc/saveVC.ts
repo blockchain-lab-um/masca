@@ -1,5 +1,6 @@
 import { SaveVCRequestParams } from '@blockchain-lab-um/ssi-snap-types';
 import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-vc-manager';
+import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
 
 import { ApiParams } from '../../interfaces';
 import { snapConfirm } from '../../utils/snapUtils';
@@ -19,7 +20,16 @@ export async function saveVC(
     textAreaContent: JSON.stringify(verifiableCredential).substring(0, 100),
   };
 
-  if (snapConfirm(snap, promptObj)) {
+  const content = panel([
+    heading('Save VC'),
+    text('Would you like to save following VC?'),
+    divider(),
+    text(`Store(s): ${typeof store === 'string' ? store : store.join(', ')}`),
+    text(`VC:`),
+    copyable(JSON.stringify(verifiableCredential, null, 2)),
+  ]);
+
+  if (await snapConfirm(snap, content)) {
     const res = await veramoSaveVC({
       snap,
       ethereum,

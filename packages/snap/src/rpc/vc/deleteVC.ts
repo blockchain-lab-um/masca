@@ -1,8 +1,9 @@
 import { DeleteVCsRequestParams } from '@blockchain-lab-um/ssi-snap-types';
+import { divider, heading, panel, text } from '@metamask/snaps-ui';
 
 import { ApiParams } from '../../interfaces';
 import { snapConfirm } from '../../utils/snapUtils';
-import { veramoDeleteVC } from '../../utils/veramoUtils';
+import { veramoDeleteVC, veramoQueryVCs } from '../../utils/veramoUtils';
 
 export async function deleteVC(
   params: ApiParams,
@@ -11,13 +12,22 @@ export async function deleteVC(
   const { id, options } = args || {};
   const { snap, ethereum } = params;
   const store = options?.store;
-  const promptObj = {
-    prompt: 'Delete VC',
-    description: `Would you like to delete the following VC?`,
-    textAreaContent: `Content`,
-  };
 
-  if (snapConfirm(snap, promptObj)) {
+  const vcs = await veramoQueryVCs({
+    snap,
+    ethereum,
+    options: { store },
+    filter: { type: 'id', filter: id },
+  });
+
+  const content = panel([
+    heading('Delete VC'),
+    text('Are you sure you want to delete this VC?'),
+    divider(),
+    text(`VCs: ${JSON.stringify(vcs, null, 2)}`),
+  ]);
+
+  if (await snapConfirm(snap, content)) {
     const res = await veramoDeleteVC({
       snap,
       ethereum,

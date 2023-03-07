@@ -1,7 +1,6 @@
 import { SetVCStoreRequestParams } from '@blockchain-lab-um/ssi-snap-types';
 
 import { ApiParams } from '../../interfaces';
-import { snapConfirm } from '../../utils/snapUtils';
 import { updateSnapState } from '../../utils/stateUtils';
 
 export async function setVCStore(
@@ -17,7 +16,7 @@ export async function setVCStore(
       } ${store} vcStore plugin?`,
       textAreaContent: `Content`,
     };
-    if (snapConfirm(snap, promptObj)) {
+    if (true) {
       state.accountState[account].accountConfig.ssi.vcStore[store] = value;
       await updateSnapState(snap, state);
       return true;

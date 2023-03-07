@@ -60,6 +60,7 @@
     "@metamask/key-tree": "^6.0.0",
     "@metamask/providers": "10.2.1",
     "@metamask/snaps-types": "^0.27.1",
+    "@metamask/snaps-ui": "^0.27.1",
     "@types/uuid": "^9.0.1",
     "@veramo/core": "5.0.0",
     "@veramo/credential-eip712": "5.0.0",

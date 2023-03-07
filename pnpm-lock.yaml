@@ -303,6 +303,7 @@ importers:
       '@metamask/providers': 10.2.1
       '@metamask/snaps-cli': ^0.27.1
       '@metamask/snaps-types': ^0.27.1
+      '@metamask/snaps-ui': ^0.27.1
       '@metamask/snaps-webpack-plugin': ^0.27.1
       '@types/jest': ^29.4.0
       '@types/jsonpath': ^0.2.0
@@ -385,6 +386,7 @@ importers:
       '@metamask/key-tree': 6.2.1
       '@metamask/providers': 10.2.1
       '@metamask/snaps-types': 0.27.1_rvr7xsi54kylxpxjwsjvbo3fce
+      '@metamask/snaps-ui': 0.27.1
       '@types/uuid': 9.0.1
       '@veramo/core': 5.0.0
       '@veramo/credential-eip712': 5.0.0
@@ -20607,7 +20609,7 @@ packages:
       schema-utils: 3.1.1
       serialize-javascript: 6.0.1
       terser: 5.16.1
-      webpack: 5.75.0_webpack-cli@5.0.1
+      webpack: 5.75.0
 
   /terser/5.16.1:
     resolution: {integrity: sha512-xvQfyfA1ayT0qdK47zskQgRZeWLoOQ8JQ6mIgRGVNwZKdQMU+5FkCBjmv4QjcrTzyZquRw2FVtlJSRUmMKQslw==}
