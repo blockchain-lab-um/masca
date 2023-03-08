@@ -268,13 +268,7 @@ export class MetaMaskSSISnap {
     this.snapOrigin = snapOrigin;
     this.snapId = `wallet_snap_${this.snapOrigin}`;
     this.supportedMethods = supportedMethods;
-
-    window.ethereum.on('accountsChanged', this.accountChanged);
   }
-
-  public accountChanged = (accounts: Array<string>) => {
-    console.log('Account changed', accounts[0]);
-  };
 
   public getSSISnapApi = (): SSISnapApi => {
     return {
