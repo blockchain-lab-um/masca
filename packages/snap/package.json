@@ -45,7 +45,7 @@
     "lint:prettier": "prettier . --check",
     "serve": "mm-snap serve",
     "start": "mm-snap --version && pnpm build && pnpm serve",
-    "test": "jest",
+    "test": "pnpm jest",
     "test:ci": "pnpm run test --silent --coverage"
   },
   "dependencies": {
