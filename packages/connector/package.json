@@ -23,8 +23,10 @@
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist/**/*",
-    "src/**/*"
+    "dist/",
+    "README.md",
+    "package.json",
+    "LICENSE"
   ],
   "scripts": {
     "build": "pnpm clean && pnpm compile",

@@ -3,13 +3,12 @@
   "version": "1.4.0",
   "license": "MIT",
   "main": "dist/index.js",
-  "source": "src/index.ts",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist/**/*",
-    "src/**/*",
+    "dist/",
     "README.md",
-    "plugin.schema.json",
+    "package.json",
     "LICENSE"
   ],
   "scripts": {
