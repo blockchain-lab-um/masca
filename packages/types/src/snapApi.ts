@@ -1,3 +1,4 @@
+import { Result } from '@blockchain-lab-um/utils';
 import {
   DIDResolutionResult,
   VerifiablePresentation,
@@ -18,22 +19,29 @@ import { SSIAccountConfig, SSISnapConfig } from './snapInterfaces';
 export interface SSISnapEventApi {}
 
 export interface SSISnapApi {
-  queryVCs(params?: QueryVCsRequestParams): Promise<QueryVCsRequestResult[]>;
+  queryVCs(
+    params?: QueryVCsRequestParams
+  ): Promise<Result<QueryVCsRequestResult[]>>;
   saveVC(
     vc: W3CVerifiableCredential,
     options?: SaveVCOptions
-  ): Promise<SaveVCRequestResult[]>;
-  createVP(params: CreateVPRequestParams): Promise<VerifiablePresentation>;
-  togglePopups(): Promise<boolean>;
-  getDID(): Promise<string>;
-  getSelectedMethod(): Promise<string>;
-  getAvailableMethods(): Promise<string[]>;
-  switchDIDMethod(method: AvailableMethods): Promise<boolean>;
-  getVCStore(): Promise<Record<AvailableVCStores, boolean>>;
-  setVCStore(store: AvailableVCStores, value: boolean): Promise<boolean>;
-  getAvailableVCStores(): Promise<string[]>;
-  deleteVC(id: string, options?: DeleteVCsOptions): Promise<boolean[]>;
-  getAccountSettings(): Promise<SSIAccountConfig>;
-  getSnapSettings(): Promise<SSISnapConfig>;
-  resolveDID(did: string): Promise<DIDResolutionResult>;
+  ): Promise<Result<SaveVCRequestResult[]>>;
+  createVP(
+    params: CreateVPRequestParams
+  ): Promise<Result<VerifiablePresentation>>;
+  togglePopups(): Promise<Result<boolean>>;
+  getDID(): Promise<Result<string>>;
+  getSelectedMethod(): Promise<Result<string>>;
+  getAvailableMethods(): Promise<Result<string[]>>;
+  switchDIDMethod(method: AvailableMethods): Promise<Result<boolean>>;
+  getVCStore(): Promise<Result<Record<AvailableVCStores, boolean>>>;
+  setVCStore(
+    store: AvailableVCStores,
+    value: boolean
+  ): Promise<Result<boolean>>;
+  getAvailableVCStores(): Promise<Result<string[]>>;
+  deleteVC(id: string, options?: DeleteVCsOptions): Promise<Result<boolean[]>>;
+  getAccountSettings(): Promise<Result<SSIAccountConfig>>;
+  getSnapSettings(): Promise<Result<SSISnapConfig>>;
+  resolveDID(did: string): Promise<Result<DIDResolutionResult>>;
 }

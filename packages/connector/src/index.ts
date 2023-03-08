@@ -27,9 +27,7 @@ export type SnapInstallationParams = {
  *
  * Checks for existence of Metamask and version compatibility with snaps before installation.
  *
- *
  * @param snapInstallationParams - set snapID, version and a list of supported methods
- *
  *
  * @return MetaMaskSSISnap - adapter object that exposes snap API
  */
