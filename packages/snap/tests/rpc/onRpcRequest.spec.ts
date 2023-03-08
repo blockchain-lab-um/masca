@@ -1,9 +1,9 @@
 import {
-  SaveVCRequestResult,
   availableMethods,
   availableVCStores,
 } from '@blockchain-lab-um/ssi-snap-types';
 import { Result, isError, isSuccess } from '@blockchain-lab-um/utils';
+import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-vc-manager';
 import { StreamID } from '@ceramicnetwork/streamid';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { MetaMaskInpageProvider } from '@metamask/providers';
@@ -84,7 +84,12 @@ describe('onRpcRequest', () => {
         throw res.error;
       }
 
-      expect(res.data).toEqual([{ id: undefined, store: 'snap' }]);
+      expect(res.data).toEqual([
+        {
+          id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+          store: 'snap',
+        },
+      ]);
 
       res = (await onRpcRequest({
         origin: 'localhost',
@@ -134,7 +139,12 @@ describe('onRpcRequest', () => {
         throw res.error;
       }
 
-      expect(res.data).toEqual([{ id: undefined, store: 'snap' }]);
+      expect(res.data).toEqual([
+        {
+          id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+          store: 'snap',
+        },
+      ]);
 
       res = (await onRpcRequest({
         origin: 'localhost',
@@ -202,8 +212,14 @@ describe('onRpcRequest', () => {
       }
 
       expect(res.data).toEqual([
-        { id: undefined, store: 'snap' },
-        { id: undefined, store: 'ceramic' },
+        {
+          id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+          store: 'snap',
+        },
+        {
+          id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+          store: 'ceramic',
+        },
       ]);
 
       res = (await onRpcRequest({
@@ -418,7 +434,6 @@ describe('onRpcRequest', () => {
     });
 
     it('should succeed with 1 VC matching query - filter by ID', async () => {
-      jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       await onRpcRequest({
@@ -453,7 +468,8 @@ describe('onRpcRequest', () => {
           params: {
             filter: {
               type: 'id',
-              filter: 'test-id',
+              filter:
+                '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
             },
           },
         },
@@ -683,7 +699,12 @@ describe('onRpcRequest', () => {
         throw res.error;
       }
 
-      expect(res.data).toEqual([{ id: undefined, store: 'snap' }]);
+      expect(res.data).toEqual([
+        {
+          id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+          store: 'snap',
+        },
+      ]);
 
       res = (await onRpcRequest({
         origin: 'localhost',
@@ -744,7 +765,12 @@ describe('onRpcRequest', () => {
         throw res.error;
       }
 
-      expect(res.data).toEqual([{ id: undefined, store: 'snap' }]);
+      expect(res.data).toEqual([
+        {
+          id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+          store: 'snap',
+        },
+      ]);
 
       res = (await onRpcRequest({
         origin: 'localhost',
@@ -785,6 +811,7 @@ describe('onRpcRequest', () => {
 
       expect.assertions(3);
     });
+
     it('should fail deleting 1 VC with wrong id', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
@@ -805,7 +832,12 @@ describe('onRpcRequest', () => {
         throw res.error;
       }
 
-      expect(res.data).toEqual([{ id: undefined, store: 'snap' }]);
+      expect(res.data).toEqual([
+        {
+          id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+          store: 'snap',
+        },
+      ]);
 
       res = (await onRpcRequest({
         origin: 'localhost',
@@ -853,8 +885,8 @@ describe('onRpcRequest', () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
       // const agent = await getAgent(snapMock);
-
-      const res = (await onRpcRequest({
+      let res;
+      res = (await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
@@ -865,26 +897,29 @@ describe('onRpcRequest', () => {
             options: { store: 'snap' },
           },
         },
-      })) as SaveVCRequestResult[];
+      })) as Result<IDataManagerSaveResult[]>;
 
-      const res2 = (await onRpcRequest({
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      res = (await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
           method: 'createVP',
           params: {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-            vcs: [{ id: res[0].id, metadata: { store: 'snap' } }],
+            vcs: [{ id: res.data[0].id, metadata: { store: 'snap' } }],
           },
         },
       })) as Result<VerifiablePresentation>;
 
-      if (isError(res2)) {
-        throw res2.error;
+      if (isError(res)) {
+        throw res.error;
       }
 
-      const createdVP = res2.data;
+      const createdVP = res.data;
 
       expect(createdVP).not.toBeNull();
 
@@ -900,8 +935,8 @@ describe('onRpcRequest', () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
       // const agent = await getAgent(snapMock);
-
-      const res = (await onRpcRequest({
+      let res;
+      res = (await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
@@ -912,7 +947,11 @@ describe('onRpcRequest', () => {
             options: { store: 'snap' },
           },
         },
-      })) as SaveVCRequestResult[];
+      })) as Result<IDataManagerSaveResult[]>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
 
       await onRpcRequest({
         origin: 'localhost',
@@ -924,24 +963,23 @@ describe('onRpcRequest', () => {
         },
       });
 
-      const res2 = (await onRpcRequest({
+      res = (await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
           method: 'createVP',
           params: {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-            vcs: [{ id: res[0].id }],
+            vcs: [{ id: res.data[0].id }],
           },
         },
       })) as Result<VerifiablePresentation>;
 
-      if (isError(res2)) {
-        throw res2.error;
+      if (isError(res)) {
+        throw res.error;
       }
 
-      const createdVP = res2.data;
+      const createdVP = res.data;
 
       expect(createdVP).not.toBeNull();
 
@@ -1150,6 +1188,7 @@ describe('onRpcRequest', () => {
       //         jsonrpc: '2.0',
       //         method: 'switchDIDMethod',
       //         params: {
+
       //           didMethod: 'did:key',
       //         },
       //       },
