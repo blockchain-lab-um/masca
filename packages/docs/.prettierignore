@@ -2,4 +2,3 @@ build
 node_modules
 coverage
 .docusaurus
-CHANGELOG.md
