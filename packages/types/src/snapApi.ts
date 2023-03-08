@@ -15,9 +15,6 @@ import {
 import type { QueryVCsRequestResult, SaveVCRequestResult } from './results';
 import { SSIAccountConfig, SSISnapConfig } from './snapInterfaces';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface SSISnapEventApi {}
-
 export interface SSISnapApi {
   queryVCs(
     params?: QueryVCsRequestParams

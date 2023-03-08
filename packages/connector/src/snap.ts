@@ -27,7 +27,7 @@ async function sendSnapMethod<T>(
     method: snapId,
     params: request,
   };
-  console.log(mmRequest);
+
   return window.ethereum.request(mmRequest);
 }
 
@@ -255,7 +255,6 @@ export async function resolveDID(
 }
 
 export class MetaMaskSSISnap {
-  // snap parameters
   protected readonly snapOrigin: string;
 
   protected readonly snapId: string;
@@ -273,12 +272,11 @@ export class MetaMaskSSISnap {
     window.ethereum.on('accountsChanged', this.accountChanged);
   }
 
-  public accountChanged = (accounts: string[]) => {
+  public accountChanged = (accounts: Array<string>) => {
     console.log('Account changed', accounts[0]);
   };
 
-  // eslint-disable-next-line @typescript-eslint/require-await
-  public getSSISnapApi = async (): Promise<SSISnapApi> => {
+  public getSSISnapApi = (): SSISnapApi => {
     return {
       saveVC: saveVC.bind(this),
       queryVCs: queryVCs.bind(this),

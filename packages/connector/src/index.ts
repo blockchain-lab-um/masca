@@ -1,20 +1,14 @@
-import { AvailableMethods } from '@blockchain-lab-um/ssi-snap-types';
+import {
+  AvailableMethods,
+  isAvailableMethods,
+} from '@blockchain-lab-um/ssi-snap-types';
+import { Result, ResultObject, isError } from '@blockchain-lab-um/utils';
+import detectEthereumProvider from '@metamask/detect-provider';
 
 import { MetaMaskSSISnap } from './snap';
-import {
-  hasMetaMask,
-  isMetamaskSnapsSupported,
-  isSnapInstalled,
-} from './utils';
-
-const defaultSnapOrigin = 'npm:@blockchain-lab-um/ssi-snap';
 
 export { MetaMaskSSISnap } from './snap';
-export {
-  hasMetaMask,
-  isMetamaskSnapsSupported,
-  isSnapInstalled,
-} from './utils';
+export { isSnapInstalled } from './utils';
 
 export type SnapInstallationParams = {
   snapId?: string;
@@ -22,10 +16,12 @@ export type SnapInstallationParams = {
   supportedMethods?: Array<AvailableMethods>;
 };
 
+const defaultSnapOrigin = 'npm:@blockchain-lab-um/ssi-snap';
+
 /**
  * Install and enable SSI Snap
  *
- * Checks for existence of Metamask and version compatibility with snaps before installation.
+ * Checks for existence of MetaMask Flask and installs SSI Snap if not installed
  *
  * @param snapInstallationParams - set snapID, version and a list of supported methods
  *
@@ -33,47 +29,78 @@ export type SnapInstallationParams = {
  */
 export async function enableSSISnap(
   snapInstallationParams: SnapInstallationParams = {}
-): Promise<MetaMaskSSISnap> {
+): Promise<Result<MetaMaskSSISnap>> {
   const {
     snapId = defaultSnapOrigin,
-    version = 'latest',
+    version = '^1.4.0',
     supportedMethods = ['did:ethr'],
   } = snapInstallationParams;
 
-  // check all conditions
-  if (!hasMetaMask()) {
-    throw new Error('Metamask is not installed');
-  }
-  if (!(await isMetamaskSnapsSupported())) {
-    throw new Error("Current Metamask version doesn't support snaps");
+  // This resolves to the value of window.ethereum or null
+  const provider = await detectEthereumProvider({ mustBeMetaMask: true });
+
+  if (!provider) {
+    return ResultObject.error(new Error('No provider found'));
   }
 
-  const isInstalled = await isSnapInstalled(snapId, version);
+  // web3_clientVersion returns the installed MetaMask version as a string
+  const mmVersion: string = await window.ethereum.request({
+    method: 'web3_clientVersion',
+  });
 
-  if (!isInstalled) {
+  if (!mmVersion.includes('flask')) {
+    return ResultObject.error(
+      new Error('MetaMask is not supported. Please install MetaMask Flask.')
+    );
+  }
+
+  // FIXME (martin): I don't think we need this check anymore
+  // wallet_requestSnaps handles this and allows the use of semver ranges
+
+  // const isInstalled = await isSnapInstalled(snapId, version);
+
+  // if (isError(isInstalled)) {
+  //   return ResultObject.error(isInstalled.error);
+  // }
+
+  try {
     await window.ethereum.request({
       method: 'wallet_requestSnaps',
       params: {
         [snapId]: { version },
       },
     });
+
+    const snap = new MetaMaskSSISnap(snapId, supportedMethods);
+
+    const snapApi = snap.getSSISnapApi();
+
+    const selectedMethodsResult = await snapApi.getSelectedMethod();
+
+    if (isError(selectedMethodsResult)) {
+      return ResultObject.error(selectedMethodsResult.error);
+    }
+
+    const method = selectedMethodsResult.data;
+
+    if (!isAvailableMethods(method)) {
+      const switchResult = await snapApi.switchDIDMethod(
+        snap.supportedMethods[0]
+      );
+
+      if (isError(switchResult)) {
+        return ResultObject.error(switchResult.error);
+      }
+
+      if (!switchResult.data) {
+        return ResultObject.error(
+          new Error('Could not switch to supported DID method')
+        );
+      }
+    }
+
+    return ResultObject.success(snap);
+  } catch (err: unknown) {
+    return ResultObject.error(err as Error);
   }
-
-  // create snap describer
-  const snap = new MetaMaskSSISnap(snapId, supportedMethods);
-
-  // initialize snap
-  const snapApi = await snap.getSSISnapApi();
-  console.log('Getting DID method...');
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
-  const method = await snapApi.getSelectedMethod();
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  if (!snap.supportedMethods.includes(method as AvailableMethods)) {
-    console.log('Switching method...', method, snap.supportedMethods[0]);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    await snapApi.switchDIDMethod(snap.supportedMethods[0]);
-  }
-
-  // return snap object
-  return snap;
 }

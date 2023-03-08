@@ -1,52 +1,47 @@
-export function hasMetaMask(): boolean {
-  if (!window.ethereum) {
-    return false;
-  }
-  return window.ethereum.isMetaMask;
-}
+import { Result, ResultObject } from '@blockchain-lab-um/utils';
 
 export type GetSnapsResponse = {
-  [k: string]: {
-    permissionName?: string;
-    id?: string;
-    version?: string;
+  [snapId: string]: {
+    blocked: boolean;
+    enabled: boolean;
+    id: string;
     initialPermissions?: { [k: string]: unknown };
+    permissionName: string;
+    version: string;
   };
 };
 
-async function getWalletSnaps(): Promise<GetSnapsResponse> {
+const getWalletSnaps = async (): Promise<GetSnapsResponse> => {
   return window.ethereum.request({
     method: 'wallet_getSnaps',
   });
-}
-
-export async function isMetamaskSnapsSupported(): Promise<boolean> {
-  try {
-    await getWalletSnaps();
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
+};
 
 /**
+ * Checks if a snap is installed
  *
- * @returns
+ * @param snapOrigin - snap origin
+ * @param version - snap version
+ *
+ * @returns boolean - true if snap is installed
  */
 export async function isSnapInstalled(
   snapOrigin: string,
-  version?: string
-): Promise<boolean> {
+  version: string
+): Promise<Result<boolean>> {
   const snaps = await getWalletSnaps();
-  console.log('Installed snaps', snaps);
-  try {
-    return !!Object.values(snaps).find(
-      (permission) =>
-        permission.id === snapOrigin &&
-        (!version || permission.version === version)
-    );
-  } catch (e) {
-    console.log('Failed to obtain installed snaps', e);
-    return false;
+
+  if (!(snapOrigin in snaps)) {
+    return ResultObject.success(false);
   }
+
+  if (snaps[snapOrigin].version !== version) {
+    return ResultObject.error(
+      new Error(
+        `Snap version mismatch. Expected ${version} but got ${snaps[snapOrigin].version}`
+      )
+    );
+  }
+
+  return ResultObject.success(true);
 }
