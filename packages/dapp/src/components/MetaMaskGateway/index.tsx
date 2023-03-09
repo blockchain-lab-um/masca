@@ -37,7 +37,13 @@ const MetaMaskGateway = ({ children }: MetaMaskGatewayProps) => {
   if (hasMM && hasFlask) {
     return <>{children}</>;
   }
-  return <>Install MM Flask To use!</>;
+  return (
+    <div className="w-full min-h-full flex justify-center items-center">
+      <h3 className="text-h3 text-gray-800">
+        Install MetaMask Flask to use the dApp!
+      </h3>
+    </div>
+  );
 };
 
 export default MetaMaskGateway;

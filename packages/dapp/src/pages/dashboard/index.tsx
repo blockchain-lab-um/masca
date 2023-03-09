@@ -20,7 +20,7 @@ export default function Dashboard() {
         </div>
       </div>
       <Controlbar vcs={vcs} isConnected={isConnected} />
-      <div className="flex justify-center min-h-[50vh] border border-gray-200 bg-white dark:bg-gray-800 dark:shadow-orange-900 rounded-3xl shadow-lg">
+      <div className="flex justify-center min-h-[50vh] border border-gray-200 bg-white dark:bg-gray-900 dark:shadow-gray-900 dark:border-gray-700 rounded-3xl shadow-lg">
         <ConnectedGateway>
           <Table />
         </ConnectedGateway>
