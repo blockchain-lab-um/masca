@@ -6,13 +6,20 @@ import { StreamID } from '@ceramicnetwork/streamid';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
-import { DIDResolutionResult, VerifiablePresentation } from '@veramo/core';
+import {
+  DIDResolutionResult,
+  IIdentifier,
+  MinimalImportableKey,
+  VerifiableCredential,
+  VerifiablePresentation,
+} from '@veramo/core';
 import * as uuid from 'uuid';
 
 import { onRpcRequest } from '../../src/index';
 import { StoredCredentials } from '../../src/interfaces';
 import * as snapUtils from '../../src/utils/snapUtils';
 import { veramoClearVCs } from '../../src/utils/veramoUtils';
+import { Agent, getAgent } from '../../src/veramo/setup';
 import {
   address,
   exampleDID,
@@ -22,6 +29,7 @@ import {
   getDefaultSnapState,
   jsonPath,
 } from '../testUtils/constants';
+import { createValidVCs } from '../testUtils/generateTestVCs';
 import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
 
 jest.mock('uuid');
@@ -52,6 +60,9 @@ jest
 
 describe('onRpcRequest', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
+  let identifier: IIdentifier;
+  let agent: Agent;
+  let exampleVeramoVCJWT: VerifiableCredential;
 
   beforeEach(() => {
     snapMock = createMockSnap();
@@ -59,6 +70,41 @@ describe('onRpcRequest', () => {
     // snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
     global.snap = snapMock;
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
+  });
+
+  beforeAll(async () => {
+    snapMock = createMockSnap();
+    snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
+    const ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
+    agent = await getAgent(snapMock, ethereumMock);
+    identifier = await agent.didManagerCreate({
+      provider: 'did:ethr',
+      kms: 'snap',
+    });
+    const keyData: MinimalImportableKey = {
+      kid: 'importedTestKey',
+      kms: 'snap',
+      type: 'Secp256k1',
+      privateKeyHex:
+        'e63886b5ba367dc2aff9acea6d955ee7c39115f12eaf2aa6b1a2eaa852036668',
+      meta: { foo: 'bar' },
+    };
+    await agent.keyManagerImport(keyData);
+    ({ exampleVeramoVCJWT } = await createValidVCs(
+      {
+        agent,
+        issuer: identifier.did,
+        type: ['VerifiableCredential', 'CourseCredential'],
+        subject: {
+          accomplishmentType: 'Developer Certificate',
+          learnerName: 'Bob',
+          achievement: 'Certified Solidity Developer 2',
+          courseProvider: 'https://blockchain-lab.um.si/',
+          id: 'did:ethr:goerli:0xb6665128ee91d84590f70c3268765384a9cafbcd',
+        },
+      },
+      { keyRef: 'importedTestKey' }
+    ));
   });
 
   describe('saveVC', () => {
@@ -1234,6 +1280,78 @@ describe('onRpcRequest', () => {
         },
       })) as DIDResolutionResult;
       expect(res.didDocument).toEqual(exampleDIDDocument);
+      expect.assertions(1);
+    });
+  });
+  describe('verifyCredential', () => {
+    it('should succeed verifiying a VC', async () => {
+      jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
+      await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'saveVC',
+          params: {
+            verifiableCredential: exampleVeramoVCJWT,
+            options: { store: 'snap' },
+          },
+        },
+      });
+      const verified = await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'verifyData',
+          params: {
+            credential: exampleVeramoVCJWT,
+          },
+        },
+      });
+
+      expect(verified).toBe(true);
+      expect.assertions(1);
+    });
+    it('should succeed verifying a VP', async () => {
+      console.log(exampleVeramoVCJWT);
+      await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'saveVC',
+          params: {
+            verifiableCredential: exampleVeramoVCJWT,
+            options: { store: 'snap' },
+          },
+        },
+      });
+      const createdVP = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'createVP',
+          params: {
+            vcs: [{ id: 'test-id', metadata: { store: 'snap' } }],
+          },
+        },
+      })) as VerifiablePresentation;
+      const verified = await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'verifyData',
+          params: {
+            presentation: createdVP,
+          },
+        },
+      });
+
+      expect(verified).toBe(true);
       expect.assertions(1);
     });
   });

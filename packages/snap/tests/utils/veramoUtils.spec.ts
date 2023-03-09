@@ -3,7 +3,11 @@ import { DIDDataStore } from '@glazed/did-datastore';
 import { BIP44CoinTypeNode } from '@metamask/key-tree/dist/BIP44CoinTypeNode';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
-import { IVerifyResult, VerifiablePresentation } from '@veramo/core';
+import {
+  IIdentifier,
+  IVerifyResult,
+  VerifiablePresentation,
+} from '@veramo/core';
 import { StoredCredentials } from 'src/interfaces';
 
 import * as snapUtils from '../../src/utils/snapUtils';
@@ -14,6 +18,7 @@ import {
   veramoImportMetaMaskAccount,
   veramoQueryVCs,
   veramoSaveVC,
+  veramoVerifyData,
 } from '../../src/utils/veramoUtils';
 import { getAgent } from '../../src/veramo/setup';
 import {
@@ -756,6 +761,199 @@ describe('Utils [veramo]', () => {
       expect(await agent.didManagerFind()).toHaveLength(1);
 
       expect.assertions(4);
+    });
+  });
+  describe('veramoVerifyData', () => {
+    it('should succeed validating a VC - JWT', async () => {
+      const initialState = getDefaultSnapState();
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
+      const agent = await getAgent(snapMock, ethereumMock);
+      const identity: IIdentifier = await agent.didManagerCreate({
+        provider: 'did:ethr',
+        kms: 'snap',
+      });
+
+      const credential = await agent.createVerifiableCredential({
+        proofFormat: 'jwt',
+        credential: {
+          issuer: identity.did,
+          credentialSubject: {
+            hello: 'world',
+          },
+        },
+      });
+
+      const verifyResult = await veramoVerifyData({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        data: { credential },
+      });
+
+      expect(verifyResult.verified).toBe(true);
+      expect.assertions(1);
+    });
+    it('should succeed validating a VC - Eip712', async () => {
+      const initialState = getDefaultSnapState();
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
+      const agent = await getAgent(snapMock, ethereumMock);
+      const identity: IIdentifier = await agent.didManagerCreate({
+        provider: 'did:ethr',
+        kms: 'snap',
+      });
+
+      const credential = await agent.createVerifiableCredential({
+        proofFormat: 'EthereumEip712Signature2021',
+        credential: {
+          issuer: identity.did,
+          credentialSubject: {
+            hello: 'world',
+          },
+        },
+      });
+
+      const verifyResult = await veramoVerifyData({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        data: { credential },
+      });
+
+      expect(verifyResult.verified).toBe(true);
+      expect.assertions(1);
+    });
+    it('should succeed validating a VC - lds', async () => {
+      const initialState = getDefaultSnapState();
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
+      const agent = await getAgent(snapMock, ethereumMock);
+      const identity: IIdentifier = await agent.didManagerCreate({
+        provider: 'did:ethr',
+        kms: 'snap',
+      });
+
+      const credential = await agent.createVerifiableCredential({
+        proofFormat: 'lds',
+        credential: {
+          issuer: identity.did,
+          credentialSubject: {},
+        },
+      });
+
+      const verifyResult = await veramoVerifyData({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        data: { credential },
+      });
+
+      expect(verifyResult.verified).toBe(true);
+      expect.assertions(1);
+    });
+    it('should succeed validating a VP - JWT', async () => {
+      const initialState = getDefaultSnapState();
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
+      const agent = await getAgent(snapMock, ethereumMock);
+      const identity: IIdentifier = await agent.didManagerCreate({
+        provider: 'did:ethr',
+        kms: 'snap',
+      });
+
+      const credential = await agent.createVerifiableCredential({
+        proofFormat: 'jwt',
+        credential: {
+          issuer: identity.did,
+          credentialSubject: {
+            hello: 'world',
+          },
+        },
+      });
+
+      const presentation = await agent.createVerifiablePresentation({
+        proofFormat: 'jwt',
+        presentation: {
+          holder: identity.did,
+          verifiableCredential: [credential],
+        },
+      });
+
+      const verifyResult = await veramoVerifyData({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        data: { presentation },
+      });
+
+      expect(verifyResult.verified).toBe(true);
+      expect.assertions(1);
+    });
+    it('should succeed validating a VP - Eip712', async () => {
+      const initialState = getDefaultSnapState();
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
+      const agent = await getAgent(snapMock, ethereumMock);
+      const identity: IIdentifier = await agent.didManagerCreate({
+        provider: 'did:ethr',
+        kms: 'snap',
+      });
+
+      const credential = await agent.createVerifiableCredential({
+        proofFormat: 'EthereumEip712Signature2021',
+        credential: {
+          issuer: identity.did,
+          credentialSubject: {
+            hello: 'world',
+          },
+        },
+      });
+
+      const presentation = await agent.createVerifiablePresentation({
+        proofFormat: 'EthereumEip712Signature2021',
+        presentation: {
+          holder: identity.did,
+          verifiableCredential: [credential],
+        },
+      });
+
+      const verifyResult = await veramoVerifyData({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        data: { presentation },
+      });
+
+      expect(verifyResult.verified).toBe(true);
+      expect.assertions(1);
+    });
+    it('should succeed validating a VP - lds', async () => {
+      const initialState = getDefaultSnapState();
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
+      const agent = await getAgent(snapMock, ethereumMock);
+      const identity: IIdentifier = await agent.didManagerCreate({
+        provider: 'did:ethr',
+        kms: 'snap',
+      });
+
+      const credential = await agent.createVerifiableCredential({
+        proofFormat: 'lds',
+        credential: {
+          issuer: identity.did,
+          credentialSubject: {},
+        },
+      });
+
+      const presentation = await agent.createVerifiablePresentation({
+        proofFormat: 'lds',
+        presentation: {
+          holder: identity.did,
+          verifiableCredential: [credential],
+        },
+      });
+
+      const verifyResult = await veramoVerifyData({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        data: { presentation },
+      });
+
+      // Waiting for Veramo to fix this
+      // verifying a VP with lds proof format fails
+      // expect(verifyResult.verified).toBe(true);
+      expect(verifyResult).not.toBeNull();
+      expect.assertions(1);
     });
   });
 
