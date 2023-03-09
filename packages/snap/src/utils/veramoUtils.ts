@@ -126,7 +126,7 @@ export async function veramoQueryVCs(args: {
 
   for (const vc of result) {
     if (options.returnStore && !vc.metadata.store) {
-      throw new Error('Missing store in VC metadata'); // TODO (Martin): Handle this better
+      throw new Error('Missing store in VC metadata');
     }
 
     const existingVC = vcs.get(vc.metadata.id);

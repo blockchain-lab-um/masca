@@ -39,8 +39,6 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
 
     const account = await getCurrentAccount(ethereum);
 
-    if (account === null) throw new Error('No account found');
-
     const apiParams: ApiParams = {
       state,
       snap,

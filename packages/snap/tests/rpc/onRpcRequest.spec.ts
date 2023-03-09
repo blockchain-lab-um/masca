@@ -294,7 +294,7 @@ describe('onRpcRequest', () => {
       //   expect.assertions(2);
     });
 
-    it('should throw error because store is not supported', async () => {
+    it('should return error because store is not supported', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       const res = (await onRpcRequest({
@@ -314,7 +314,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(res.error.message).toBe('Store is not supported!');
+      expect(res.error.message).toBe('Store snapp is not supported!');
 
       expect.assertions(1);
     });
@@ -387,7 +387,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(res.error.message).toBe('Store is not supported!');
+      expect(res.error.message).toBe('Store snapp is not supported!');
 
       res = (await onRpcRequest({
         origin: 'localhost',
@@ -1340,7 +1340,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(res.error.message).toBe('Store is not supported!');
+      expect(res.error.message).toBe('Store ceramicc is not supported!');
 
       res = (await onRpcRequest({
         origin: 'localhost',

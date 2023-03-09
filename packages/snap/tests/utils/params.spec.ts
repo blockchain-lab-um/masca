@@ -31,7 +31,7 @@ describe('Utils [params]', () => {
       state.accountState[address].accountConfig.ssi.vcStore.ceramic = false;
       expect(() =>
         isValidQueryRequest({ options: { store: 'ceramic' } }, address, state)
-      ).toThrow('Store is not enabled!');
+      ).toThrow('Store ceramic is not enabled!');
     });
     it('should not fail for null', () => {
       expect(() =>
@@ -105,7 +105,7 @@ describe('Utils [params]', () => {
           address,
           getDefaultSnapState()
         )
-      ).toThrow('Store is not supported!');
+      ).toThrow('Store snapp is not supported!');
     });
     it('should not fail for options object with wrong type store', () => {
       expect(() =>
@@ -181,7 +181,7 @@ describe('Utils [params]', () => {
   });
 
   /*
-    isValidGetVPRequest
+    isValidCreateVPRequest
   */
   describe('isValidCreateVPRequest', () => {
     it('should fail for not enabled store', () => {
@@ -193,7 +193,7 @@ describe('Utils [params]', () => {
           address,
           state
         )
-      ).toThrow('Store is not enabled!');
+      ).toThrow('Store ceramic is not enabled!');
     });
     it('should succeed if vcId is a string', () => {
       expect(() =>
@@ -323,7 +323,7 @@ describe('Utils [params]', () => {
           address,
           getDefaultSnapState()
         )
-      ).toThrow('Store is not supported!');
+      ).toThrow('Store snapp is not supported!');
     });
 
     it('should not throw request with proofFormat and proofOptions', () => {
@@ -523,7 +523,7 @@ describe('Utils [params]', () => {
           address,
           getDefaultSnapState()
         )
-      ).toThrow('Store is not supported!');
+      ).toThrow('Store snapp is not supported!');
     });
     it('should  throw for list of not string ids', () => {
       expect(() =>
