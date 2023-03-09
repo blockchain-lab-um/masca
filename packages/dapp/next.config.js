@@ -17,7 +17,7 @@ const isProd = process.env.NODE_ENV === 'production';
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
-  // FIXME: On release change to /ssi-snap
+  // FIXME: On release change to /masca
   basePath: '/dapp',
   reactStrictMode: true,
   swcMinify: true,

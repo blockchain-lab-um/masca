@@ -10,12 +10,17 @@ export default function Dashboard() {
   const vcs = useSnapStore((state) => state.vcs);
   return (
     <MetaMaskGateway>
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center">
         <Title>My Credentials</Title>
         <div>
-          <span className="text-xl font-semibold">{vcs.length} </span>
-          <span className="text-gray-80/80 text-lg font-cabin font-normal">
-            VCs
+          <span className="text-orange-400 text-md font-cabin font-normal">
+            Wallet contains{' '}
+          </span>
+          <span className="text-md text-orange-500 font-ubuntu font-extrabold">
+            {vcs.length}{' '}
+          </span>
+          <span className="text-orange-400 text-md font-cabin font-normal">
+            VC(s)
           </span>
         </div>
       </div>

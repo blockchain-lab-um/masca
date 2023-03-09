@@ -344,7 +344,7 @@ const Table = () => {
                 <tr key={headerGroup.id}>
                   {headerGroup.headers.map((header) => (
                     <th
-                      className={`px-3 py-4 font-semibold text-md ${
+                      className={`px-3 py-4 font-bold font-ubuntu text-md ${
                         header.id === 'type' || header.id === 'exp_date'
                           ? 'hidden lg:table-cell'
                           : ''
@@ -434,7 +434,7 @@ const Table = () => {
               ))}
             </tbody>
           </table>
-          <div className="mt-auto pt-9 flex justify-center pb-9">
+          <div className="bg-gray-50 rounded-b-3xl mt-auto pt-3 flex justify-center pb-3">
             <TablePagination table={table} />
           </div>
           {table.getSelectedRowModel().rows.length > 0 && (
@@ -473,7 +473,7 @@ const Table = () => {
             <VCCard key={key} row={row} />
           ))}
         </div>
-        <div className="mt-auto pt-9 flex justify-center pb-9">
+        <div className="bg-gray-50 rounded-b-3xl mt-auto pt-3 flex justify-center pb-3">
           <TablePagination table={table} />
         </div>
         {table.getSelectedRowModel().rows.length > 0 && (

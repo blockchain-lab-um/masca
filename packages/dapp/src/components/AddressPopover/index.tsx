@@ -38,8 +38,8 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
             leaveFrom="transform scale-100 opacity-100"
             leaveTo="transform scale-95 opacity-0"
           >
-            <Popover.Panel className="absolute max-md:left-0 max-md:-top-12 max-md:transform max-md:-translate-y-full max-md:mb-2 md:mt-2 right-0 bg-white shadow-xl h-42 w-72  rounded-2xl border border-navy-blue-100">
-              <div className="pt-3 px-3 pb-1 rounded-2xl shadow-sm">
+            <Popover.Panel className="absolute max-md:left-0 max-md:-top-12 max-md:transform max-md:-translate-y-full max-md:mb-2 md:mt-2 right-0 bg-white shadow-xl rounded-2xl border border-navy-blue-100">
+              <div className="pt-6 px-6 pb-3 rounded-2xl shadow-sm">
                 <div className="flex flex-col justify-between gap-3">
                   <div>
                     <div className="text-sm text-gray-700">DID</div>
@@ -58,7 +58,7 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
                     </div>
                   </div>
                   <div>
-                    <div className=" text-sm text-gray-700 mt-2">
+                    <div className=" text-sm text-gray-700 mt-4">
                       CONNECTED WITH METAMASK
                     </div>
                     <div className="flex items-center mt-2">

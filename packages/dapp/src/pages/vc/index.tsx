@@ -47,10 +47,10 @@ const VC = () => {
                 <Tab
                   className={({ selected }) =>
                     clsx(
-                      'w-full rounded-full text-sm py-2 font-semibold px-4 text-orange-500 animated-transition',
+                      'w-full rounded-full text-sm py-2 font-semibold px-4 text-gray-500 animated-transition',
                       selected
-                        ? 'bg-orange-100'
-                        : 'text-orange-900 hover:bg-orange-100 hover:text-orange-700'
+                        ? 'bg-orange-100 text-orange-500'
+                        : 'hover:bg-orange-100 hover:text-orange-500'
                     )
                   }
                 >
@@ -59,10 +59,10 @@ const VC = () => {
                 <Tab
                   className={({ selected }) =>
                     clsx(
-                      'w-full rounded-full text-sm py-2 font-semibold px-4 text-orange-500 animated-transition',
+                      'w-full rounded-full text-sm py-2 font-semibold px-4 text-gray-500 animated-transition',
                       selected
-                        ? 'bg-orange-100'
-                        : 'text-orange-900 hover:bg-orange-100 hover:text-orange-700'
+                        ? 'bg-orange-100 text-orange-500'
+                        : 'hover:bg-orange-100 hover:text-orange-500'
                     )
                   }
                 >

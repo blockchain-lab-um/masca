@@ -24,10 +24,10 @@ export const DropdownButton = ({
           }}
           className={clsx(
             active
-              ? 'text-orange-700 bg-orange-100 animated-transition cursor-pointer'
-              : 'text-gray-800',
-            selected ? 'font-semibold text-orange-700' : 'font-normal',
-            'block px-4 mx-2 rounded-xl py-2 text-sm'
+              ? 'text-orange-600 bg-orange-100 animated-transition cursor-pointer'
+              : 'text-gray-600',
+            selected ? 'font-semibold text-orange-500' : 'font-normal',
+            'block px-4 mx-2 rounded-xl py-2 text-lg'
           )}
         >
           <span className="flex">{children}</span>

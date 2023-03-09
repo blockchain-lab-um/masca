@@ -136,7 +136,11 @@ function MenuPopover() {
           <>
             <Popover.Button
               className={`
-                ${open ? 'text-orange-500 after:w-[100%]' : ''}
+                ${
+                  open
+                    ? 'text-orange-500 after:w-[100%] font-bold'
+                    : 'text-gray-700'
+                }
                 flex items-end nav-btn`}
             >
               <span>Other</span>
@@ -144,7 +148,7 @@ function MenuPopover() {
                 className={`ml-1 h-5 w-5 animated-transition ${
                   open
                     ? 'rotate-180 text-orange-500'
-                    : 'text-black group-hover:text-orange-500'
+                    : 'text-gray-700 group-hover:text-orange-500'
                 }
                   `}
                 aria-hidden="true"

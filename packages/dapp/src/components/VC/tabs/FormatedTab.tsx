@@ -76,15 +76,13 @@ const FormatedTab = ({
 
         <div className="mb-8 mt-6 break-all rounded-2xl px-8 py-4 bg-gradient-to-b from-orange-50 to-pink-50 grid grid-cols-1 lg:grid-cols-2">
           <div className="lg:col-start-1 lg:col-span-2 flex flex-col px-1">
-            <span className="text-sm text-orange-500 font-semibold">
-              SUBJECT
-            </span>
+            <span className="text-md text-orange-500 font-bold">SUBJECT</span>
             <ul className="">
               {Object.keys(vc.data.credentialSubject).map((key, id) => (
                 <li key={id} className="mt-4 flex items-center">
                   {key === 'id' ? (
                     <div>
-                      <div className="text-gray-700 text-sm">{key}</div>
+                      <div className="text-orange-800 text-sm">{key}</div>
                       <div className="text-gray-900 font-semibold text-md break-all">
                         <div className="flex">
                           <Tooltip tooltip={'Open DID in Universal resolver'}>
@@ -125,7 +123,7 @@ const FormatedTab = ({
                     </div>
                   ) : (
                     <div className="">
-                      <div className="text-gray-700 text-sm">{key}</div>
+                      <div className="text-orange-800 text-sm">{key}</div>
                       <div className="text-gray-900 font-semibold break-all">
                         {vc.data.credentialSubject[key]}
                       </div>
@@ -137,10 +135,8 @@ const FormatedTab = ({
           </div>
           <div className="lg:col-start-3 flex flex-col px-1">
             <div>
-              <span className="text-sm text-orange-500 font-semibold">
-                ISSUER
-              </span>
-              <div className="text-gray-700 text-sm mt-1">DID</div>
+              <span className="text-md text-orange-500 font-bold">ISSUER</span>
+              <div className="text-orange-800 text-sm mt-4">DID</div>
               <div className="text-gray-900 font-semibold text-md break-all">
                 <div className="flex">
                   <Tooltip tooltip={'Open DID in Universal resolver'}>
@@ -167,16 +163,16 @@ const FormatedTab = ({
               </div>
             </div>
             <div className="mt-4">
-              <span className="text-sm text-orange-500 font-semibold">
-                DATES
-              </span>
+              <span className="text-md text-orange-500 font-bold">DATES</span>
 
               <div className="">
-                <div className="text-gray-700 text-sm mt-1">Issuance Date</div>
+                <div className="text-orange-800 text-sm mt-4">
+                  Issuance Date
+                </div>
                 <div className="text-gray-900 font-semibold text-md break-all">
                   {new Date(Date.parse(vc.data.issuanceDate)).toDateString()}
                 </div>
-                <div className="text-gray-700 text-sm mt-1">
+                <div className="text-orange-800 text-sm mt-2">
                   Expiration Date
                 </div>
                 {vc.data.expirationDate ? (
@@ -191,11 +187,11 @@ const FormatedTab = ({
               </div>
             </div>
             <div className="mt-4">
-              <span className="text-sm text-orange-500 font-semibold">
+              <span className="text-md text-orange-500 font-bold">
                 DATA STORES
               </span>
               {vc.metadata.store && (
-                <div className="flex mt-1">
+                <div className="flex mt-2">
                   {stores.map((store, id) => (
                     <Tooltip tooltip={store} key={id}>
                       <div className="mt-1">

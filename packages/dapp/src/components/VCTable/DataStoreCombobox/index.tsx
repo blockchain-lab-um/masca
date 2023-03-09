@@ -106,7 +106,7 @@ const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
                     className={({ active }) =>
                       `relative mx-2 rounded-xl pl-10 py-2 text-sm ${
                         active
-                          ? 'text-orange-700 bg-orange-100 animated-transition cursor-pointer'
+                          ? 'text-orange-600 bg-orange-100 animated-transition cursor-pointer'
                           : 'text-gray-800'
                       }`
                     }
@@ -124,11 +124,11 @@ const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
                         {selected ? (
                           <span
                             className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                              active ? '' : 'text-orange-700'
+                              active ? '' : 'text-orange-500'
                             }`}
                           >
                             <CheckIcon
-                              className="h-5 w-5 text-orange-700"
+                              className="h-5 w-5 text-orange-500"
                               aria-hidden="true"
                             />
                           </span>
