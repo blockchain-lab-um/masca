@@ -176,7 +176,7 @@ describe('Utils [params]', () => {
           address,
           state
         )
-      ).toThrow('Store is not enabled!');
+      ).toThrow('Store ceramic is not enabled!');
     });
   });
 
@@ -464,7 +464,7 @@ describe('Utils [params]', () => {
           address,
           state
         )
-      ).toThrow('Store is not enabled!');
+      ).toThrow('Store ceramic is not enabled!');
     });
     it('should fail if didMethod is a number', () => {
       expect(() =>
