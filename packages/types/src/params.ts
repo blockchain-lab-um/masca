@@ -28,7 +28,7 @@ export type DeleteVCsOptions = {
   store?: AvailableVCStores | AvailableVCStores[];
 };
 
-//TODO (martin): This type is also in vcmanager
+// TODO (martin): This type is also in vcmanager
 export type Filter = {
   type: string;
   filter: unknown;

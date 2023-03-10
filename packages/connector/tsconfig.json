@@ -6,6 +6,7 @@
 
     "declaration": true,
     "inlineSourceMap": true,
+    "allowJs": true,
 
     /* Additional Checks */
     "noUnusedLocals": true /* Report errors on unused locals. */,
@@ -22,8 +23,8 @@
     "typeRoots": [
       "./node_modules/@types",
       "../../node_modules/@types",
-      "src/types"
+      "globals.d.ts"
     ]
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts", "globals.d.ts"]
 }
