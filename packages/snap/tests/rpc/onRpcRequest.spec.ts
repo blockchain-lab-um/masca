@@ -30,7 +30,7 @@ import {
   getDefaultSnapState,
   jsonPath,
 } from '../testUtils/constants';
-import { createValidVCs } from '../testUtils/generateTestVCs';
+import { createTestVCs } from '../testUtils/generateTestVCs';
 import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
 
 jest.mock('uuid');
@@ -91,17 +91,24 @@ describe('onRpcRequest', () => {
       meta: { foo: 'bar' },
     };
     await agent.keyManagerImport(keyData);
-    ({ exampleVeramoVCJWT } = await createValidVCs(
+    ({ exampleVeramoVCJWT } = await createTestVCs(
       {
         agent,
-        issuer: identifier.did,
-        type: ['VerifiableCredential', 'CourseCredential'],
-        subject: {
-          accomplishmentType: 'Developer Certificate',
-          learnerName: 'Bob',
-          achievement: 'Certified Solidity Developer 2',
-          courseProvider: 'https://blockchain-lab.um.si/',
-          id: 'did:ethr:goerli:0xb6665128ee91d84590f70c3268765384a9cafbcd',
+        proofFormat: 'jwt',
+        payload: {
+          issuer: identifier.did,
+          type: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+          credentialSubject: {
+            accomplishmentType: 'Developer Certificate',
+            learnerName: 'Bob',
+            achievement: 'Certified Solidity Developer 2',
+            courseProvider: 'https://blockchain-lab.um.si/',
+            id: 'did:ethr:goerli:0xb6665128ee91d84590f70c3268765384a9cafbcd',
+          },
+          credentialSchema: {
+            id: 'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
+            type: 'JsonSchemaValidator2018',
+          },
         },
       },
       { keyRef: 'importedTestKey' }

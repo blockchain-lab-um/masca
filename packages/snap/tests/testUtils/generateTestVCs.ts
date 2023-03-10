@@ -1,4 +1,8 @@
-import type { ProofFormat, VerifiableCredential } from '@veramo/core';
+import type {
+  CredentialPayload,
+  ProofFormat,
+  VerifiableCredential,
+} from '@veramo/core';
 import type { Agent } from 'src/veramo/setup';
 
 /**
@@ -10,50 +14,48 @@ type TestCredentials = {
 };
 
 /**
- * Parameters for createValidVCs
+ * Parameters for createTestVCs
  * @param agent - Veramo agent
- * @param issuer - Issuer DID
- * @param subject - Credential subject
- * @param id - Credential ID
+ * @param proofFormat - proof format to use for VC creation
+ * @param payload.issuer - issuer of the VC
+ * @param payload.credentialSubject - subject of the VC
+ * @param payload.type - type of the VC
+ * @param payload.'@context' - context of the VC
+ * @param payload.issuanceDate - issuance date of the VC
+ * @param payload.expirationDate - expiration date of the VC
+ * @param payload.credentialStatus - credential status of the VC
+ * @param payload.id - id of the VC
  */
-type CreateValidVCsParams = {
+type CreateTestVCsParams = {
   agent: Agent;
-  issuer: string;
-  subject: { [x: string]: string };
-  proofFormat?: ProofFormat;
-  type?: ['VerifiableCredential', string];
-  id?: string;
+  proofFormat: ProofFormat;
+  payload: CredentialPayload;
 };
 
 /**
- * Options for createValidVCs
+ * Options for createTestVCs
  * @param keyRef - key reference to use for VC creation
  */
-type CreateValidVCsOptions = {
+type CreateTestVCsOptions = {
   keyRef?: string;
 };
 
 /**
  * Creates a set of valid VCs for testing purposes
- * @param {CreateValidVCsParams} args
- * @param {CreateValidVCsOptions} options
+ * @param {CreateTestVCsParams} args
+ * @param {CreateTestVCsOptions} options
  * @returns TestCredentials object
  */
-export async function createValidVCs(
-  args: CreateValidVCsParams,
-  options?: CreateValidVCsOptions
+export async function createTestVCs(
+  args: CreateTestVCsParams,
+  options?: CreateTestVCsOptions
 ): Promise<TestCredentials> {
-  const { agent, issuer, subject, id, type, proofFormat } = args;
+  const { agent, proofFormat, payload } = args;
   const exampleVeramoVCJWT: VerifiableCredential =
     await agent.createVerifiableCredential({
       ...(options?.keyRef && { keyRef: options.keyRef }),
-      proofFormat: proofFormat || 'jwt',
-      credential: {
-        id: id || 'test-vc-jwt',
-        type: type || ['VerifiableCredential', 'Custom'],
-        issuer,
-        credentialSubject: subject,
-      },
+      proofFormat,
+      credential: payload,
     });
   return { exampleVeramoVCJWT } as TestCredentials;
 }
