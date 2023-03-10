@@ -77,10 +77,20 @@ importers:
       typescript: 4.9.5
       webpack: 5.76.0
 
+  libs/utils:
+    specifiers:
+      rimraf: ^3.0.2
+      typescript: ^4.9.5
+    devDependencies:
+      rimraf: 3.0.2
+      typescript: 4.9.5
+
   packages/connector:
     specifiers:
       '@blockchain-lab-um/ssi-snap-types': '*'
+      '@blockchain-lab-um/utils': '*'
       '@ianvs/prettier-plugin-sort-imports': ^3.7.1
+      '@metamask/detect-provider': ^2.0.0
       '@types/rimraf': ^3.0.2
       '@typescript-eslint/eslint-plugin': ^5.53.0
       '@typescript-eslint/parser': ^5.53.0
@@ -96,6 +106,8 @@ importers:
       typescript: ^4.9.5
     dependencies:
       '@blockchain-lab-um/ssi-snap-types': link:../types
+      '@blockchain-lab-um/utils': link:../../libs/utils
+      '@metamask/detect-provider': 2.0.0
       '@veramo/core': 5.1.2
     devDependencies:
       '@ianvs/prettier-plugin-sort-imports': 3.7.1_prettier@2.8.4
@@ -151,9 +163,8 @@ importers:
       stylelint-config-standard-scss: ^6.1.0
       stylelint-prettier: ^2.0.0
       stylelint-webpack-plugin: ^3.3.0
-      tailwind-scrollbar: ^2.1.0
-      tailwindcss: ^3.2.4
-      typescript: ^4.9.4
+      tailwindcss: ^3.2.7
+      typescript: ^4.9.5
       zustand: ^4.3.2
     dependencies:
       '@blockchain-lab-um/ssi-snap-connector': link:../connector
@@ -195,7 +206,6 @@ importers:
       stylelint-config-standard-scss: 6.1.0_w5gtdy6oq4ictd5o4eu6befejy
       stylelint-prettier: 2.0.0_dolz6rwlo5u24hf4fhkbpcxlqi
       stylelint-webpack-plugin: 3.3.0_stylelint@14.16.1
-      tailwind-scrollbar: 2.1.0_tailwindcss@3.2.7
       tailwindcss: 3.2.7_postcss@8.4.21
       typescript: 4.9.5
 
@@ -308,6 +318,7 @@ importers:
       '@babel/register': ^7.21.0
       '@babel/runtime': 7.21.0
       '@blockchain-lab-um/ssi-snap-types': '*'
+      '@blockchain-lab-um/utils': '*'
       '@blockchain-lab-um/veramo-vc-manager': '*'
       '@ceramicnetwork/http-client': 2.15.0
       '@ceramicnetwork/streamid': 2.10.0
@@ -394,6 +405,7 @@ importers:
     dependencies:
       '@babel/runtime': 7.21.0
       '@blockchain-lab-um/ssi-snap-types': link:../types
+      '@blockchain-lab-um/utils': link:../../libs/utils
       '@blockchain-lab-um/veramo-vc-manager': link:../vcmanager
       '@ceramicnetwork/http-client': 2.15.0
       '@ceramicnetwork/streamid': 2.10.0
@@ -489,11 +501,13 @@ importers:
 
   packages/types:
     specifiers:
+      '@blockchain-lab-um/utils': '*'
       '@ianvs/prettier-plugin-sort-imports': ^3.7.1
       '@veramo/core': ^5.0.0
       eslint-plugin-unused-imports: ^2.0.0
       prettier-plugin-packagejson: ^2.4.3
     dependencies:
+      '@blockchain-lab-um/utils': link:../../libs/utils
       '@veramo/core': 5.1.2
     devDependencies:
       '@ianvs/prettier-plugin-sort-imports': 3.7.1
@@ -1167,7 +1181,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.12.9
-      '@babel/helper-plugin-utils': 7.10.4
+      '@babel/helper-plugin-utils': 7.20.2
       '@babel/plugin-syntax-object-rest-spread': 7.8.3_@babel+core@7.12.9
       '@babel/plugin-transform-parameters': 7.20.7_@babel+core@7.12.9
 
@@ -4732,6 +4746,11 @@ packages:
 
   /@mdx-js/util/1.6.22:
     resolution: {integrity: sha512-H1rQc1ZOHANWBvPcW+JpGwr+juXSxM8Q8YCkm3GhZd8REu1fHR3z99CErO1p9pkcfcxZnMdIZdIsXkOHY0NilA==}
+
+  /@metamask/detect-provider/2.0.0:
+    resolution: {integrity: sha512-sFpN+TX13E9fdBDh9lvQeZdJn4qYoRb/6QF2oZZK/Pn559IhCFacPMU1rMuqyXoFQF3JSJfii2l98B87QDPeCQ==}
+    engines: {node: '>=14.0.0'}
+    dev: false
 
   /@metamask/eth-sig-util/5.0.2:
     resolution: {integrity: sha512-RU6fG/H6/UlBol221uBkq5C7w3TwLK611nEZliO2u+kO0vHKGBXnIPlhI0tzKUigjhUeOd9mhCNbNvhh0LKt9Q==}
@@ -19769,15 +19788,6 @@ packages:
       slice-ansi: 4.0.0
       string-width: 4.2.3
       strip-ansi: 6.0.1
-    dev: true
-
-  /tailwind-scrollbar/2.1.0_tailwindcss@3.2.7:
-    resolution: {integrity: sha512-zpvY5mDs0130YzYjZKBiDaw32rygxk5RyJ4KmeHjGnwkvbjm/PszON1m4Bbt2DkMRIXlXsfNevykAESgURN4KA==}
-    engines: {node: '>=12.13.0'}
-    peerDependencies:
-      tailwindcss: 3.x
-    dependencies:
-      tailwindcss: 3.2.7_postcss@8.4.21
     dev: true
 
   /tailwindcss/3.2.7_postcss@8.4.21:

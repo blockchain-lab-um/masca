@@ -1,0 +1,38 @@
+{
+  "name": "@blockchain-lab-um/utils",
+  "version": "1.0.0",
+  "private": "true",
+  "description": "Helper utilities for SSI Snap monorepo",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/blockchain-lab-um/ssi-snap.git"
+  },
+  "license": "(Apache-2.0 AND MIT)",
+  "author": {
+    "name": "Blockchain Lab:UM",
+    "email": "blockchain-lab@um.si",
+    "url": "https://blockchain-lab.um.si"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "pnpm clean && pnpm compile",
+    "clean": "rimraf dist",
+    "compile": "tsc --build tsconfig.build.json",
+    "lint": "pnpm lint:eslint && pnpm lint:prettier",
+    "lint:eslint": "eslint .",
+    "lint:prettier": "prettier . --check"
+  },
+  "devDependencies": {
+    "rimraf": "^3.0.2",
+    "typescript": "^4.9.5"
+  }
+}

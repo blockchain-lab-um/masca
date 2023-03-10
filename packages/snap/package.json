@@ -45,12 +45,13 @@
     "lint:prettier": "prettier . --check",
     "serve": "mm-snap serve",
     "start": "mm-snap --version && pnpm build && pnpm serve",
-    "test": "jest",
+    "test": "pnpm jest",
     "test:ci": "pnpm run test --silent --coverage"
   },
   "dependencies": {
     "@babel/runtime": "7.21.0",
     "@blockchain-lab-um/ssi-snap-types": "*",
+    "@blockchain-lab-um/utils": "*",
     "@blockchain-lab-um/veramo-vc-manager": "*",
     "@ceramicnetwork/http-client": "2.15.0",
     "@ceramicnetwork/streamid": "2.10.0",

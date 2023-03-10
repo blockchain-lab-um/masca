@@ -191,7 +191,7 @@ describe('Utils [veramo]', () => {
       expect(res).toEqual(expectedResult);
       expect.assertions(1);
     });
-    // TODO should fail saving invalid object
+    it.todo('should fail saving invalid object');
   });
 
   describe('veramoDeleteVC', () => {

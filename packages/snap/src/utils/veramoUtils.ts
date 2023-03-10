@@ -14,6 +14,7 @@ import { SnapsGlobalObject } from '@metamask/snaps-types';
 import {
   IIdentifier,
   MinimalImportableKey,
+  VerifiableCredential,
   VerifiablePresentation,
   W3CVerifiableCredential,
 } from '@veramo/core';
@@ -117,11 +118,34 @@ export async function veramoQueryVCs(args: {
 }): Promise<QueryVCsRequestResult[]> {
   const { snap, ethereum, options, filter } = args;
   const agent = await getAgent(snap, ethereum);
-  const result = (await agent.query({
+  const result = await agent.query({
     filter,
     options,
-  })) as QueryVCsRequestResult[];
-  return result;
+  });
+
+  const vcs = new Map<string, QueryVCsRequestResult>();
+
+  for (const vc of result) {
+    if (options.returnStore && !vc.metadata.store) {
+      throw new Error('Missing store in VC metadata');
+    }
+
+    const existingVC = vcs.get(vc.metadata.id);
+    if (existingVC) {
+      if (options.returnStore) {
+        existingVC.metadata.store?.push(vc.metadata.store as string);
+      }
+    } else {
+      vcs.set(vc.metadata.id, {
+        data: vc.data as VerifiableCredential,
+        metadata: {
+          id: vc.metadata.id,
+          ...(options.returnStore && { store: [vc.metadata.store as string] }),
+        },
+      });
+    }
+  }
+  return [...vcs.values()];
 }
 
 export async function veramoCreateVP(

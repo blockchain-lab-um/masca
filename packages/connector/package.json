@@ -39,6 +39,8 @@
   },
   "dependencies": {
     "@blockchain-lab-um/ssi-snap-types": "*",
+    "@blockchain-lab-um/utils": "*",
+    "@metamask/detect-provider": "^2.0.0",
     "@veramo/core": "^5.0.0"
   },
   "devDependencies": {
