@@ -297,7 +297,7 @@ const Table = () => {
   const loadVCs = async () => {
     const loadedVCs = await api?.queryVCs();
     if (loadedVCs) {
-      changeVcs(loadedVCs);
+      // changeVcs(loadedVCs);
     }
   };
 

@@ -53,18 +53,18 @@ const ConnectButton = () => {
       try {
         setLoading(true);
         const snap = await enableSSISnap({ snapId });
-        const api = await snap.getSSISnapApi();
-        changeSnapApi(api);
-        const did = await api.getDID();
-        const availableMethods = await api.getAvailableMethods();
-        const method = await api.getSelectedMethod();
-        const accountSettings = await api.getAccountSettings();
-        changeHasSnapInstalled(true);
-        changeIsConnected(true);
-        changeDID(did);
-        changeAvailableMethods(availableMethods);
-        changeCurrMethod(method);
-        changeAvailableVCStores(accountSettings.ssi.vcStore);
+        // const api = await snap.getSSISnapApi();
+        // changeSnapApi(api);
+        // const did = await api.getDID();
+        // const availableMethods = await api.getAvailableMethods();
+        // const method = await api.getSelectedMethod();
+        // const accountSettings = await api.getAccountSettings();
+        // changeHasSnapInstalled(true);
+        // changeIsConnected(true);
+        // changeDID(did);
+        // changeAvailableMethods(availableMethods);
+        // changeCurrMethod(method);
+        // changeAvailableVCStores(accountSettings.ssi.vcStore);
         console.log('Successfuly installed snap');
         setLoading(false);
       } catch (err) {

@@ -108,7 +108,6 @@ module.exports = {
       },
     },
   },
-  // eslint-disable-next-line import/no-extraneous-dependencies
   plugins: [require('tailwind-scrollbar')],
   variants: {
     scrollbar: ['rounded'],

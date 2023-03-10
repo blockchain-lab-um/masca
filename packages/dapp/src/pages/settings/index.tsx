@@ -19,7 +19,7 @@ export default function Settings() {
   const snapGetAvailableVCStores = async () => {
     if (!api) return;
     const accountSettings = await api.getAccountSettings();
-    changeAvailableVCStores(accountSettings.ssi.vcStore);
+    // changeAvailableVCStores(accountSettings.ssi.vcStore);
   };
 
   const snapChangeAvailableVCStores = async (

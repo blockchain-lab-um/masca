@@ -11,5 +11,5 @@ export const connectWallet = async () => {
   const changeSnapApi = useSnapStore((state) => state.changeSnapApi);
 
   const snap = await enableSSISnap({ snapId });
-  changeSnapApi(await snap.getSSISnapApi());
+  // changeSnapApi(await snap.getSSISnapApi());
 };

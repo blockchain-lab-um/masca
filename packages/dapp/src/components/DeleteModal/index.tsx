@@ -49,7 +49,7 @@ function DeleteModal({ open, setOpen, vc }: DeleteModalProps) {
           setLoading(false);
           setToastOpen(true);
         }, 100);
-        useSnapStore.getState().changeVcs(vcs);
+        // useSnapStore.getState().changeVcs(vcs);
       }
     }
   };

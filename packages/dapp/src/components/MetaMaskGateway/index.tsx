@@ -1,8 +1,4 @@
 import React, { useEffect } from 'react';
-import {
-  hasMetaMask,
-  isMetamaskSnapsSupported,
-} from '@blockchain-lab-um/ssi-snap-connector';
 import { shallow } from 'zustand/shallow';
 
 import { useGeneralStore } from '@/utils/stores';
@@ -23,15 +19,15 @@ const MetaMaskGateway = ({ children }: MetaMaskGatewayProps) => {
   );
 
   useEffect(() => {
-    const isSnapsSupported = async () => {
-      const res = await isMetamaskSnapsSupported();
-      changeIsFlask(res);
-    };
-    const mm = hasMetaMask();
-    changeHasMetaMask(mm);
-    isSnapsSupported()
-      .then(() => {})
-      .catch(() => {});
+    // const isSnapsSupported = async () => {
+    //   const res = await isMetamaskSnapsSupported();
+    //   changeIsFlask(res);
+    // };
+    // const mm = hasMetaMask();
+    // changeHasMetaMask(mm);
+    // isSnapsSupported()
+    //   .then(() => {})
+    //   .catch(() => {});
   }, []);
 
   if (hasMM && hasFlask) {

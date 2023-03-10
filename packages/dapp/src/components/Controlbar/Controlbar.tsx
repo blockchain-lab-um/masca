@@ -32,16 +32,16 @@ const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
 
   const refreshVCs = () => {
     setSpinner(true);
-    api
-      ?.queryVCs()
-      .then((res) => {
-        changeVcs(res);
-        setSpinner(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setSpinner(false);
-      });
+    // api
+    //   ?.queryVCs()
+    //   .then((res) => {
+    //     changeVcs(res);
+    //     setSpinner(false);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     setSpinner(false);
+    //   });
   };
 
   const saveVC = async (vc: string, stores: AvailableVCStores[]) => {
@@ -55,17 +55,17 @@ const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
     const res = await api?.saveVC(vcObj, {
       store: stores,
     });
-    if (res && res.length > 0) {
-      const newVcs: QueryVCsRequestResult[] = [];
-      res.forEach((metadata) => {
-        const finalVC = {
-          data: JSON.parse(vc) as W3CVerifiableCredential,
-          metadata,
-        } as QueryVCsRequestResult;
-        newVcs.push(finalVC);
-      });
-      changeVcs([...vcs, ...newVcs]);
-    }
+    // if (res && res.length > 0) {
+    //   const newVcs: QueryVCsRequestResult[] = [];
+    //   res.forEach((metadata) => {
+    //     const finalVC = {
+    //       data: JSON.parse(vc) as W3CVerifiableCredential,
+    //       metadata,
+    //     } as QueryVCsRequestResult;
+    //     newVcs.push(finalVC);
+    //   });
+    //   changeVcs([...vcs, ...newVcs]);
+    // }
     return true;
   };
 
