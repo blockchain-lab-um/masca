@@ -59,5 +59,6 @@ module.exports = {
     '**/next.config.js',
     '**/out',
     '**/.next',
+    'tsup.config.ts',
   ],
 };
