@@ -265,7 +265,8 @@ describe('Utils [veramo]', () => {
         ethereum: ethereumMock,
         options: { store: ['snap', 'ceramic'], returnStore: true },
       });
-      expect(vcsPreDelete).toHaveLength(2);
+      expect(vcsPreDelete).toHaveLength(1);
+      expect(vcsPreDelete[0].metadata.store).toStrictEqual(['snap', 'ceramic']);
       expect(res).toEqual(expectedResult);
       await veramoDeleteVC({
         snap: snapMock,
@@ -280,6 +281,12 @@ describe('Utils [veramo]', () => {
         options: { returnStore: true },
       });
 
+      const vcsPostDelete = await veramoQueryVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        options: { store: ['snap', 'ceramic'], returnStore: true },
+      });
+
       await veramoClearVCs({
         snap: snapMock,
         ethereum: ethereumMock,
@@ -287,7 +294,8 @@ describe('Utils [veramo]', () => {
       });
 
       expect(vcs).toHaveLength(1);
-      expect.assertions(3);
+      expect(vcsPostDelete[0].metadata.store).toStrictEqual(['snap']);
+      expect.assertions(5);
     });
     it('should succeed deleting VCs in all stores', async () => {
       snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
@@ -438,7 +446,7 @@ describe('Utils [veramo]', () => {
         ethereum: ethereumMock,
         options: {},
       });
-      expect(preQuery).toHaveLength(2);
+      expect(preQuery).toHaveLength(1);
 
       state.accountState[address].accountConfig.ssi.vcStore = {
         snap: true,
@@ -449,13 +457,16 @@ describe('Utils [veramo]', () => {
       const resRet = snapUtils.getEnabledVCStores(address, state);
       expect(resRet).toEqual(['snap']);
 
-      await expect(
-        veramoQueryVCs({
-          snap: snapMock,
-          ethereum: ethereumMock,
-          options: {},
-        })
-      ).resolves.toHaveLength(1);
+      let queryRes = await veramoQueryVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        options: {
+          returnStore: true,
+        },
+      });
+
+      expect(queryRes).toHaveLength(1);
+      expect(queryRes[0].metadata.store).toEqual(['snap']);
 
       state.accountState[address].accountConfig.ssi.vcStore = {
         snap: true,
@@ -466,15 +477,18 @@ describe('Utils [veramo]', () => {
       const resRet2 = snapUtils.getEnabledVCStores(address, state);
       expect(resRet2).toEqual(['snap', 'ceramic']);
 
-      await expect(
-        veramoQueryVCs({
-          snap: snapMock,
-          ethereum: ethereumMock,
-          options: {},
-        })
-      ).resolves.toHaveLength(2);
+      queryRes = await veramoQueryVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        options: {
+          returnStore: true,
+        },
+      });
 
-      expect.assertions(5);
+      expect(queryRes).toHaveLength(1);
+      expect(queryRes[0].metadata.store).toEqual(['snap', 'ceramic']);
+
+      expect.assertions(7);
     });
 
     it('should succeed listing all VCs from snap store', async () => {
@@ -489,7 +503,7 @@ describe('Utils [veramo]', () => {
 
       const expectedVCObject = {
         data: exampleVC,
-        metadata: { id: res[0].id, store: 'snap' },
+        metadata: { id: res[0].id, store: ['snap'] },
       };
       await expect(
         veramoQueryVCs({
@@ -571,7 +585,7 @@ describe('Utils [veramo]', () => {
 
       const expectedVCObject = {
         data: exampleVC,
-        metadata: { id: res[0].id, store: 'snap' },
+        metadata: { id: res[0].id, store: ['snap'] },
       };
       await expect(
         veramoQueryVCs({
@@ -600,7 +614,7 @@ describe('Utils [veramo]', () => {
 
       const expectedVCObject = {
         data: exampleVC,
-        metadata: { id: res[0].id, store: 'snap' },
+        metadata: { id: res[0].id, store: ['snap'] },
       };
 
       const filter = {
@@ -631,7 +645,7 @@ describe('Utils [veramo]', () => {
 
       const expectedVCObject = {
         data: exampleVC,
-        metadata: { id: res[0].id, store: 'snap' },
+        metadata: { id: res[0].id, store: ['snap'] },
       };
       await expect(
         veramoQueryVCs({
@@ -657,8 +671,9 @@ describe('Utils [veramo]', () => {
 
       const expectedVCObject = {
         data: exampleVC,
-        metadata: { id: res[0].id, store: 'snap' },
+        metadata: { id: res[0].id, store: ['snap'] },
       };
+
       await expect(
         veramoQueryVCs({
           snap: snapMock,
