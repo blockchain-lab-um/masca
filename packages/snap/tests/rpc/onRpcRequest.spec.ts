@@ -3,6 +3,7 @@ import {
   availableMethods,
   availableVCStores,
 } from '@blockchain-lab-um/ssi-snap-types';
+import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-vc-manager';
 import { StreamID } from '@ceramicnetwork/streamid';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { MetaMaskInpageProvider } from '@metamask/providers';
@@ -26,7 +27,6 @@ import {
   exampleDID,
   exampleDIDDocument,
   exampleDIDKey,
-  exampleVC,
   getDefaultSnapState,
   jsonPath,
 } from '../testUtils/constants';
@@ -119,24 +119,25 @@ describe('onRpcRequest', () => {
     it('should succeed saving 1 VC and return id', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'saveVC',
-            params: {
-              verifiableCredential: exampleVC,
-              options: { store: 'snap' },
-            },
+      const saveResult = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'saveVC',
+          params: {
+            verifiableCredential: exampleVeramoVCJWT,
+            options: { store: 'snap' },
           },
-        })
-      ).resolves.toEqual([
-        {
-          id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
-          store: 'snap',
         },
+      })) as IDataManagerSaveResult[];
+
+      expect(saveResult).toEqual([
+        expect.objectContaining({
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          id: expect.any(String),
+          store: 'snap',
+        }),
       ]);
 
       const result = await onRpcRequest({
@@ -151,9 +152,9 @@ describe('onRpcRequest', () => {
 
       const expectedResult = [
         {
-          data: exampleVC,
+          data: exampleVeramoVCJWT,
           metadata: {
-            id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+            id: saveResult[0].id,
             store: ['snap'],
           },
         },
@@ -167,23 +168,24 @@ describe('onRpcRequest', () => {
     it('should succeed saving 1 VC without store param and return id', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'saveVC',
-            params: {
-              verifiableCredential: exampleVC,
-            },
+      const saveResult = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'saveVC',
+          params: {
+            verifiableCredential: exampleVeramoVCJWT,
           },
-        })
-      ).resolves.toEqual([
-        {
-          id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
-          store: 'snap',
         },
+      })) as IDataManagerSaveResult[];
+
+      expect(saveResult).toEqual([
+        expect.objectContaining({
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          id: expect.any(String),
+          store: 'snap',
+        }),
       ]);
 
       const result = await onRpcRequest({
@@ -200,9 +202,9 @@ describe('onRpcRequest', () => {
 
       const expectedResult = [
         {
-          data: exampleVC,
+          data: exampleVeramoVCJWT,
           metadata: {
-            id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+            id: saveResult[0].id,
             store: ['snap'],
           },
         },
@@ -227,28 +229,30 @@ describe('onRpcRequest', () => {
       snapMock.rpcMocks.snap_manageState({
         operation: 'clear',
       });
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'saveVC',
-            params: {
-              verifiableCredential: exampleVC,
-              options: { store: ['snap', 'ceramic'] },
-            },
+      const saveResult = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'saveVC',
+          params: {
+            verifiableCredential: exampleVeramoVCJWT,
+            options: { store: ['snap', 'ceramic'] },
           },
-        })
-      ).resolves.toEqual([
-        {
-          id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+        },
+      })) as IDataManagerSaveResult[];
+
+      expect(saveResult).toEqual([
+        expect.objectContaining({
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          id: expect.any(String),
           store: 'snap',
-        },
-        {
-          id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+        }),
+        expect.objectContaining({
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          id: expect.any(String),
           store: 'ceramic',
-        },
+        }),
       ]);
       const result = await onRpcRequest({
         origin: 'localhost',
@@ -264,9 +268,9 @@ describe('onRpcRequest', () => {
 
       const expectedResult = [
         {
-          data: exampleVC,
+          data: exampleVeramoVCJWT,
           metadata: {
-            id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+            id: saveResult[0].id,
             store: ['snap', 'ceramic'],
           },
         },
@@ -292,7 +296,7 @@ describe('onRpcRequest', () => {
     //         jsonrpc: '2.0',
     //         method: 'saveVC',
     //         params: {
-    //           verifiableCredential: exampleVC,
+    //           verifiableCredential: exampleVeramoVCJWT,
     //           options: { store: 'snap' },
     //         },
     //       },
@@ -327,7 +331,7 @@ describe('onRpcRequest', () => {
             jsonrpc: '2.0',
             method: 'saveVC',
             params: {
-              verifiableCredential: exampleVC,
+              verifiableCredential: exampleVeramoVCJWT,
               options: { store: 'snapp' },
             },
           },
@@ -367,7 +371,7 @@ describe('onRpcRequest', () => {
             jsonrpc: '2.0',
             method: 'saveVC',
             params: {
-              verifiableCredential: exampleVC,
+              verifiableCredential: exampleVeramoVCJWT,
               options: { store: 123 },
             },
           },
@@ -387,7 +391,7 @@ describe('onRpcRequest', () => {
             jsonrpc: '2.0',
             method: 'saveVC',
             params: {
-              verifiableCredential: exampleVC,
+              verifiableCredential: exampleVeramoVCJWT,
               options: { store: ['snap', 'snapp'] },
             },
           },
@@ -402,7 +406,7 @@ describe('onRpcRequest', () => {
             jsonrpc: '2.0',
             method: 'saveVC',
             params: {
-              verifiableCredential: exampleVC,
+              verifiableCredential: exampleVeramoVCJWT,
               options: { store: [] },
             },
           },
@@ -434,24 +438,24 @@ describe('onRpcRequest', () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
-      await onRpcRequest({
+      const saveResult = (await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
           method: 'saveVC',
           params: {
-            verifiableCredential: exampleVC,
+            verifiableCredential: exampleVeramoVCJWT,
             options: { store: 'snap' },
           },
         },
-      });
+      })) as IDataManagerSaveResult[];
 
       const expectedResult = [
         {
-          data: exampleVC,
+          data: exampleVeramoVCJWT,
           metadata: {
-            id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+            id: saveResult[0].id,
             store: ['snap'],
           },
         },
@@ -467,8 +471,7 @@ describe('onRpcRequest', () => {
             params: {
               filter: {
                 type: 'id',
-                filter:
-                  '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+                filter: saveResult[0].id,
               },
             },
           },
@@ -481,24 +484,24 @@ describe('onRpcRequest', () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
-      await onRpcRequest({
+      const saveResult = (await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
           method: 'saveVC',
           params: {
-            verifiableCredential: exampleVC,
+            verifiableCredential: exampleVeramoVCJWT,
             options: { store: 'snap' },
           },
         },
-      });
+      })) as IDataManagerSaveResult[];
 
       const expectedResult = [
         {
-          data: exampleVC,
+          data: exampleVeramoVCJWT,
           metadata: {
-            id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+            id: saveResult[0].id,
             store: ['snap'],
           },
         },
@@ -522,24 +525,24 @@ describe('onRpcRequest', () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
-      await onRpcRequest({
+      const saveResult = (await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
           method: 'saveVC',
           params: {
-            verifiableCredential: exampleVC,
+            verifiableCredential: exampleVeramoVCJWT,
             options: { store: 'snap' },
           },
         },
-      });
+      })) as IDataManagerSaveResult[];
 
       const expectedResult = [
         {
-          data: exampleVC,
+          data: exampleVeramoVCJWT,
           metadata: {
-            id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+            id: saveResult[0].id,
             store: ['snap'],
           },
         },
@@ -565,24 +568,24 @@ describe('onRpcRequest', () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
-      await onRpcRequest({
+      const saveResult = (await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
           method: 'saveVC',
           params: {
-            verifiableCredential: exampleVC,
+            verifiableCredential: exampleVeramoVCJWT,
             options: { store: 'snap' },
           },
         },
-      });
+      })) as IDataManagerSaveResult[];
 
       const expectedResult = [
         {
-          data: exampleVC,
+          data: exampleVeramoVCJWT,
           metadata: {
-            id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+            id: saveResult[0].id,
           },
         },
       ];
@@ -607,24 +610,24 @@ describe('onRpcRequest', () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
-      await onRpcRequest({
+      const saveResult = (await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
           method: 'saveVC',
           params: {
-            verifiableCredential: exampleVC,
+            verifiableCredential: exampleVeramoVCJWT,
             options: { store: 'snap' },
           },
         },
-      });
+      })) as IDataManagerSaveResult[];
 
       const expectedResult = [
         {
-          data: exampleVC,
+          data: exampleVeramoVCJWT,
           metadata: {
-            id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+            id: saveResult[0].id,
             store: ['snap'],
           },
         },
@@ -655,24 +658,25 @@ describe('onRpcRequest', () => {
     it('should succeed saving and deleting 1 VC', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'saveVC',
-            params: {
-              verifiableCredential: exampleVC,
-              options: { store: 'snap' },
-            },
+      const saveResult = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'saveVC',
+          params: {
+            verifiableCredential: exampleVeramoVCJWT,
+            options: { store: 'snap' },
           },
-        })
-      ).resolves.toEqual([
-        {
-          id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
-          store: 'snap',
         },
+      })) as IDataManagerSaveResult[];
+
+      expect(saveResult).toEqual([
+        expect.objectContaining({
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          id: expect.any(String),
+          store: 'snap',
+        }),
       ]);
 
       const res = await onRpcRequest({
@@ -682,7 +686,7 @@ describe('onRpcRequest', () => {
           jsonrpc: '2.0',
           method: 'deleteVC',
           params: {
-            id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+            id: saveResult[0].id,
           },
         },
       });
@@ -708,24 +712,25 @@ describe('onRpcRequest', () => {
     it('should succeed saving and deleting 1 VC with store', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'saveVC',
-            params: {
-              verifiableCredential: exampleVC,
-              options: { store: 'snap' },
-            },
+      const saveResult = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'saveVC',
+          params: {
+            verifiableCredential: exampleVeramoVCJWT,
+            options: { store: 'snap' },
           },
-        })
-      ).resolves.toEqual([
-        {
-          id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
-          store: 'snap',
         },
+      })) as IDataManagerSaveResult[];
+
+      expect(saveResult).toEqual([
+        expect.objectContaining({
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          id: expect.any(String),
+          store: 'snap',
+        }),
       ]);
 
       const res = await onRpcRequest({
@@ -735,7 +740,7 @@ describe('onRpcRequest', () => {
           jsonrpc: '2.0',
           method: 'deleteVC',
           params: {
-            id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
+            id: saveResult[0].id,
             options: { store: 'snap' },
           },
         },
@@ -762,24 +767,25 @@ describe('onRpcRequest', () => {
     it('should fail deleting 1 VC with wrong id', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'saveVC',
-            params: {
-              verifiableCredential: exampleVC,
-              options: { store: 'snap' },
-            },
+      const saveResult = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'saveVC',
+          params: {
+            verifiableCredential: exampleVeramoVCJWT,
+            options: { store: 'snap' },
           },
-        })
-      ).resolves.toEqual([
-        {
-          id: '76a8bd7568f458a444e9fb54d09be341cb70d4cc481a88442524fa7f9995b1a0',
-          store: 'snap',
         },
+      })) as IDataManagerSaveResult[];
+
+      expect(saveResult).toEqual([
+        expect.objectContaining({
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          id: expect.any(String),
+          store: 'snap',
+        }),
       ]);
 
       const res = await onRpcRequest({
@@ -828,7 +834,7 @@ describe('onRpcRequest', () => {
           jsonrpc: '2.0',
           method: 'saveVC',
           params: {
-            verifiableCredential: exampleVC,
+            verifiableCredential: exampleVeramoVCJWT,
             options: { store: 'snap' },
           },
         },
@@ -869,7 +875,7 @@ describe('onRpcRequest', () => {
           jsonrpc: '2.0',
           method: 'saveVC',
           params: {
-            verifiableCredential: exampleVC,
+            verifiableCredential: exampleVeramoVCJWT,
             options: { store: 'snap' },
           },
         },
@@ -920,7 +926,7 @@ describe('onRpcRequest', () => {
     //       jsonrpc: '2.0',
     //       method: 'saveVC',
     //       params: {
-    //         verifiableCredential: exampleVC,
+    //         verifiableCredential: exampleVeramoVCJWT,
     //         options: { store: 'snap' },
     //       },
     //     },
@@ -1375,8 +1381,7 @@ describe('onRpcRequest', () => {
       expect.assertions(1);
     });
     it('should succeed verifying a VP', async () => {
-      console.log(exampleVeramoVCJWT);
-      await onRpcRequest({
+      const res = (await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
@@ -1387,7 +1392,8 @@ describe('onRpcRequest', () => {
             options: { store: 'snap' },
           },
         },
-      });
+      })) as SaveVCRequestResult[];
+
       const createdVP = (await onRpcRequest({
         origin: 'localhost',
         request: {
@@ -1395,10 +1401,11 @@ describe('onRpcRequest', () => {
           jsonrpc: '2.0',
           method: 'createVP',
           params: {
-            vcs: [{ id: 'test-id', metadata: { store: 'snap' } }],
+            vcs: [{ id: res[0].id, metadata: { store: 'snap' } }],
           },
         },
       })) as VerifiablePresentation;
+
       const verified = await onRpcRequest({
         origin: 'localhost',
         request: {
