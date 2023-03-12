@@ -14,8 +14,8 @@ export const NavBtn = ({ page, children }: NavBtnProps) => {
       <button
         className={`nav-btn ${
           router.pathname === page
-            ? 'text-orange-500 after:w-[100%] font-bold'
-            : 'dark:text-white text-gray-700'
+            ? 'text-pink-500 dark:text-pink-400 after:w-[100%] font-bold'
+            : 'text-gray-700 dark:text-navy-blue-tone/80'
         }`}
       >
         {children}

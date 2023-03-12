@@ -138,8 +138,8 @@ function MenuPopover() {
               className={`
                 ${
                   open
-                    ? 'text-orange-500 after:w-[100%] font-bold'
-                    : 'text-gray-700'
+                    ? 'dark:text-pink-400 text-pink-500 after:w-[100%] font-bold'
+                    : 'text-gray-700 dark:text-navy-blue-tone/80'
                 }
                 flex items-end nav-btn`}
             >
@@ -147,8 +147,8 @@ function MenuPopover() {
               <ChevronDownIcon
                 className={`ml-1 h-5 w-5 animated-transition ${
                   open
-                    ? 'rotate-180 text-orange-500'
-                    : 'text-gray-700 group-hover:text-orange-500'
+                    ? 'rotate-180 dark:text-pink-400 text-pink-500'
+                    : 'text-gray-700 dark:text-navy-blue-tone/80 group-hover:text-pink-500 dark:group-hover:text-pink-400'
                 }
                   `}
                 aria-hidden="true"

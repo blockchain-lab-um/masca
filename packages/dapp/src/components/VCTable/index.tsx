@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
+import { isError } from '@blockchain-lab-um/utils';
 import {
   CheckCircleIcon,
   ChevronDownIcon,
@@ -118,7 +119,7 @@ const Table = () => {
               href={`https://dev.uniresolver.io/#${info.getValue()}`}
               target="_blank"
               rel="noreferrer"
-              className="text-orange-500 hover:text-orange-700 underline"
+              className="text-pink-400 hover:text-pink-500 underline"
             >{`${info.getValue().slice(0, 8)}....${info
               .getValue()
               .slice(-4)}`}</a>
@@ -142,7 +143,7 @@ const Table = () => {
               href={`https://dev.uniresolver.io/#${info.getValue()}`}
               target="_blank"
               rel="noreferrer"
-              className="text-orange-500 hover:text-orange-700 underline"
+              className="text-pink-400 hover:text-pink-500 underline"
             >{`${info.getValue().slice(0, 8)}....${info
               .getValue()
               .slice(-4)}`}</a>
@@ -241,7 +242,7 @@ const Table = () => {
         <div className="px-1 flex justify-center items-center">
           <button onClick={row.getToggleSelectedHandler()}>
             {row.getIsSelected() ? (
-              <MinusCircleIcon className="w-7 h-7 text-orange-500" />
+              <MinusCircleIcon className="w-7 h-7 text-pink-500 dark:text-white" />
             ) : (
               <PlusCircleIcon className="w-7 h-7" />
             )}
@@ -295,9 +296,14 @@ const Table = () => {
   });
 
   const loadVCs = async () => {
-    const loadedVCs = await api?.queryVCs();
-    if (loadedVCs) {
-      // changeVcs(loadedVCs);
+    if (!api) return;
+    const loadedVCs = await api.queryVCs();
+    if (isError(loadedVCs)) {
+      console.log('Failed to load VCs');
+      return;
+    }
+    if (loadedVCs.data) {
+      changeVcs(loadedVCs.data);
     }
   };
 
@@ -338,7 +344,7 @@ const Table = () => {
     return (
       <>
         <div className="relative h-full min-h-[50vh] w-full flex flex-col">
-          <table className="min-w-full text-center text-gray-800 text-sm lg:text-md">
+          <table className="min-w-full text-center text-gray-800 dark:text-white text-sm lg:text-md">
             <thead className="border-b">
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr key={headerGroup.id}>
@@ -368,10 +374,10 @@ const Table = () => {
                             )}
                         {{
                           asc: (
-                            <ChevronDownIcon className="h-4 w-4 text-gray-800" />
+                            <ChevronDownIcon className="h-4 w-4 text-gray-800 dark:text-white" />
                           ),
                           desc: (
-                            <ChevronUpIcon className="h-4 w-4 text-gray-800" />
+                            <ChevronUpIcon className="h-4 w-4 text-gray-800 dark:text-white" />
                           ),
                         }[header.column.getIsSorted() as string] ?? null}
                       </div>
@@ -380,14 +386,14 @@ const Table = () => {
                 </tr>
               ))}
             </thead>
-            <tbody className="border-b text-gray-800 break-all">
+            <tbody className="border-b  text-gray-800 dark:text-white/60 break-all">
               {table.getRowModel().rows.map((row) => (
                 <tr
                   key={row.id}
-                  className={`border-b border-gray-500  animated-transition duration-75 ${
+                  className={`border-b-2 border-gray-500/30 dark:border-navy-blue-tone/30  animated-transition duration-75 ${
                     row.getIsSelected()
-                      ? 'bg-orange-50 hover:bg-orange-50'
-                      : 'hover:bg-gray-50'
+                      ? 'bg-pink-50 hover:bg-pink-50 dark:bg-navy-blue-400/80'
+                      : 'hover:bg-gray-50 dark:hover:bg-navy-blue-400/30'
                   }`}
                 >
                   {row.getVisibleCells().map((cell) => (
@@ -434,7 +440,7 @@ const Table = () => {
               ))}
             </tbody>
           </table>
-          <div className="bg-gray-50 rounded-b-3xl mt-auto pt-3 flex justify-center pb-3">
+          <div className="bg-gray-50 dark:bg-navy-blue-600 rounded-b-3xl mt-auto pt-3 flex justify-center pb-3">
             <TablePagination table={table} />
           </div>
           {table.getSelectedRowModel().rows.length > 0 && (
@@ -473,7 +479,7 @@ const Table = () => {
             <VCCard key={key} row={row} />
           ))}
         </div>
-        <div className="bg-gray-50 rounded-b-3xl mt-auto pt-3 flex justify-center pb-3">
+        <div className="bg-gray-50 dark:bg-navy-blue-600 rounded-b-3xl mt-auto pt-3 flex justify-center pb-3">
           <TablePagination table={table} />
         </div>
         {table.getSelectedRowModel().rows.length > 0 && (

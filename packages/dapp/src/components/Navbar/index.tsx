@@ -41,21 +41,21 @@ export default function Navbar() {
       <Link href="/">
         <button>
           <div className="flex">
-            <div className="relative dark:hidden h-[24px] w-[24px] sm:h-[36px] sm:w-[36px] lg:h-[46px] lg:w-[46px] xl:h-[48px] xl:w-[48px] rounded-full object-center">
+            <div className="relative dark:hidden h-[24px] w-[24px] sm:h-[36px] sm:w-[36px] lg:h-[46px] lg:w-[46px] xl:h-[48px] xl:w-[50px] rounded-full object-center">
               <Image
                 src={`${BASE_PATH}/images/ssi_icon_b.png`}
                 alt="Masca Logo"
                 fill={true}
               />
             </div>
-            <div className="relative hidden dark:block h-[24px] w-[24px] sm:h-[36px] sm:w-[36px] lg:h-[46px] lg:w-[46px] xl:h-[48px] xl:w-[48px] rounded-full object-center">
+            <div className="relative hidden dark:block h-[24px] w-[24px] sm:h-[36px] sm:w-[36px] lg:h-[46px] lg:w-[46px] xl:h-[48px] xl:w-[50px] rounded-full object-center">
               <Image
                 src={`${BASE_PATH}/images/ssi_icon_w.png`}
                 alt="Masca Logo"
                 fill={true}
               />
             </div>
-            <h1 className="mx-1 font-ubuntu text-h4 sm:text-h2 lg:text-h1 hover:text-orange-500 dark:text-orange-500 dark:hover:text-white animated-transition">
+            <h1 className="mx-1 font-ubuntu text-h4 sm:text-h2 lg:text-h1 hover:text-pink-500 dark:text-pink-400 dark:hover:text-orange-50 animated-transition">
               Masca
             </h1>
           </div>

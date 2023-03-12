@@ -3,6 +3,7 @@ import {
   AvailableVCStores,
   QueryVCsRequestResult,
 } from '@blockchain-lab-um/ssi-snap-types';
+import { isError } from '@blockchain-lab-um/utils';
 import { Dialog, Transition } from '@headlessui/react';
 import { shallow } from 'zustand/shallow';
 
@@ -28,6 +29,7 @@ function DeleteModal({ open, setOpen, vc }: DeleteModalProps) {
   );
 
   const deleteVC = async () => {
+    if (!api) return;
     setOpen(false);
     if (vc) {
       setLoading(true);
@@ -39,17 +41,24 @@ function DeleteModal({ open, setOpen, vc }: DeleteModalProps) {
         deleteReqOptions = {
           store: vc.metadata.store as AvailableVCStores | AvailableVCStores[],
         };
-      await api?.deleteVC(vc.metadata.id, deleteReqOptions);
+      await api.deleteVC(vc.metadata.id, deleteReqOptions);
       // TODO - Delete VC from local state instead of calling queryVCs.
-      const vcs = await api?.queryVCs();
-      if (vcs) {
+
+      const vcs = await api.queryVCs();
+      if (isError(vcs)) {
+        setLoading(false);
+        setTitle('Error');
+        setToastOpen(true);
+        return;
+      }
+      if (vcs.data) {
         setToastOpen(false);
         setTimeout(() => {
           setTitle('Credential deleted');
           setLoading(false);
           setToastOpen(true);
         }, 100);
-        // useSnapStore.getState().changeVcs(vcs);
+        useSnapStore.getState().changeVcs(vcs.data);
       }
     }
   };

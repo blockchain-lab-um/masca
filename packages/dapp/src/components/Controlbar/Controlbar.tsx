@@ -3,6 +3,7 @@ import {
   AvailableVCStores,
   QueryVCsRequestResult,
 } from '@blockchain-lab-um/ssi-snap-types';
+import { isError } from '@blockchain-lab-um/utils';
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import { W3CVerifiableCredential } from '@veramo/core';
 import { shallow } from 'zustand/shallow';
@@ -31,20 +32,27 @@ const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
   );
 
   const refreshVCs = () => {
+    if (!api) return;
     setSpinner(true);
-    // api
-    //   ?.queryVCs()
-    //   .then((res) => {
-    //     changeVcs(res);
-    //     setSpinner(false);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     setSpinner(false);
-    //   });
+    api
+      .queryVCs()
+      .then((res) => {
+        if (isError(res)) {
+          console.log(res);
+          setSpinner(false);
+          return;
+        }
+        changeVcs(res.data);
+        setSpinner(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setSpinner(false);
+      });
   };
 
   const saveVC = async (vc: string, stores: AvailableVCStores[]) => {
+    if (!api) return false;
     let vcObj;
     try {
       vcObj = JSON.parse(vc) as W3CVerifiableCredential;
@@ -52,20 +60,24 @@ const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
       console.log(err);
       return false;
     }
-    const res = await api?.saveVC(vcObj, {
+    const res = await api.saveVC(vcObj, {
       store: stores,
     });
-    // if (res && res.length > 0) {
-    //   const newVcs: QueryVCsRequestResult[] = [];
-    //   res.forEach((metadata) => {
-    //     const finalVC = {
-    //       data: JSON.parse(vc) as W3CVerifiableCredential,
-    //       metadata,
-    //     } as QueryVCsRequestResult;
-    //     newVcs.push(finalVC);
-    //   });
-    //   changeVcs([...vcs, ...newVcs]);
-    // }
+    if (isError(res)) {
+      console.log('error', res);
+      return false;
+    }
+    if (res.data && res.data.length > 0) {
+      const newVcs: QueryVCsRequestResult[] = [];
+      res.data.forEach((metadata) => {
+        const finalVC = {
+          data: JSON.parse(vc) as W3CVerifiableCredential,
+          metadata,
+        } as QueryVCsRequestResult;
+        newVcs.push(finalVC);
+      });
+      changeVcs([...vcs, ...newVcs]);
+    }
     return true;
   };
 

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import detectEthereumProvider from '@metamask/detect-provider';
 import { shallow } from 'zustand/shallow';
 
 import { useGeneralStore } from '@/utils/stores';
@@ -19,15 +20,33 @@ const MetaMaskGateway = ({ children }: MetaMaskGatewayProps) => {
   );
 
   useEffect(() => {
-    // const isSnapsSupported = async () => {
-    //   const res = await isMetamaskSnapsSupported();
-    //   changeIsFlask(res);
-    // };
-    // const mm = hasMetaMask();
-    // changeHasMetaMask(mm);
-    // isSnapsSupported()
-    //   .then(() => {})
-    //   .catch(() => {});
+    const isSnapsSupported = async () => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+      const mmVersion: string = await window.ethereum.request({
+        method: 'web3_clientVersion',
+      });
+
+      if (!mmVersion.includes('flask')) {
+        changeIsFlask(false);
+      }
+      changeIsFlask(true);
+    };
+
+    const isMetaMask = async () => {
+      const provider = await detectEthereumProvider({ mustBeMetaMask: true });
+
+      if (!provider) {
+        changeHasMetaMask(false);
+      }
+      changeHasMetaMask(true);
+    };
+
+    isMetaMask()
+      .then(() => {})
+      .catch(() => {});
+    isSnapsSupported()
+      .then(() => {})
+      .catch(() => {});
   }, []);
 
   if (hasMM && hasFlask) {

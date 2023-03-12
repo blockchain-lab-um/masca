@@ -10,7 +10,8 @@ type ButtonProps = {
     | 'connect'
     | 'gray'
     | 'warning'
-    | 'white';
+    | 'white'
+    | 'white-pink';
   size?: 'popup' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'wd' | 'icon';
   shadow?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'none' | 'inner' | '';
   onClick?: () => Promise<void> | void;
@@ -32,6 +33,8 @@ const variants: Record<string, string> = {
   connect:
     'bg-orange-100 text-orange-500 hover:opacity-80  rounded-full animated-transition',
   gray: 'bg-gray-200 text-gray-800 hover:opacity-80  rounded-full animated-transition',
+  'white-pink':
+    'bg-white text-gray-800 hover:text-white hover:bg-pink-400 rounded-full dark:bg-pink-300 dark:text-gray-800 dark:hover:bg-pink-200 dark:hover:text-pink-500 animated-transition',
   white:
     'bg-white text-orange-500 border border-gray-200 hover:opacity-80  rounded-full animated-transition',
   warning:
@@ -43,9 +46,9 @@ const sizes: Record<string, string> = {
   xs: 'text-h5 py-2 px-3 max-w-xs',
   sm: 'text-h5 py-2 px-5 max-w-xs',
   md: 'text-h4 py-2 px-7 max-w-xs',
-  lg: 'text-2xl py-2.5 px-8 font-semibold max-w-xs',
-  xl: 'text-h3 py-3 px-9 font-semibold max-w-xs',
-  wd: 'text-h4 py-3 px-7 max-w-xs',
+  lg: 'text-2xl py-2 px-8 font-semibold max-w-xs',
+  xl: 'text-h3 py-2.5 px-9 font-semibold max-w-xs',
+  wd: 'text-h4 py-2.5 px-7 max-w-xs',
   icon: 'py-2 px-2 max-w-xs',
 };
 
@@ -55,7 +58,7 @@ const loaderSizes: Record<string, string> = {
   sm: 'w-4 h-4 border-2',
   md: 'w-4 h-4 border-2',
   lg: 'w-6 h-6 border-4',
-  xl: 'w-8 h-8 border-4',
+  xl: 'w-8 h-6 border-4',
   wd: 'w-8 h-8 border-4',
   icon: 'w-4 h-4 border-2',
 };

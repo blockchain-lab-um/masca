@@ -31,15 +31,15 @@ body {
   }
 
   .bg-gradient {
-    @apply bg-gradient-to-t from-pink-50 to-orange-50 text-black dark:bg-gradient-to-t dark:from-black dark:to-black dark:text-white;
+    @apply bg-gradient-to-t from-pink-50 to-orange-50 text-gray-800 dark:from-purple-700 dark:to-purple-700 dark:text-orange-50;
   }
 
   .nav-btn {
-    @apply relative h-fit lg:text-h4 sm:text-h5 text-h6 mx-1 sm:mx-2 lg:mx-4 hover:text-orange-500 animated-transition tracking-[1px];
+    @apply relative h-fit lg:text-h4 sm:text-h5 text-h6 mx-1 sm:mx-2 lg:mx-4 hover:text-pink-500 dark:hover:text-pink-400 animated-transition tracking-[1px];
   }
 
   .nav-btn::after {
-    @apply content-[''] bg-orange-500 h-[0.125em] w-[0%] left-0 -bottom-[0.375em] rounded-xl absolute duration-300;
+    @apply content-[''] bg-pink-500 dark:bg-pink-400 h-[0.125em] w-[0%] left-0 -bottom-[0.375em] rounded-xl absolute duration-300;
   }
 
   .nav-btn:hover::after {

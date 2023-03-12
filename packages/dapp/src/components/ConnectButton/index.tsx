@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { enableSSISnap } from '@blockchain-lab-um/ssi-snap-connector';
+import { isError } from '@blockchain-lab-um/utils';
 import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
@@ -35,8 +36,8 @@ const ConnectButton = () => {
     shallow
   );
 
-  // const snapId = 'local:http://localhost:8081';
-  const snapId = 'npm:@blockchain-lab-um/ssi-snap';
+  const snapId = 'local:http://localhost:8081';
+  // const snapId = 'npm:@blockchain-lab-um/ssi-snap';
 
   const connect = async () => {
     if (window.ethereum) {
@@ -52,19 +53,41 @@ const ConnectButton = () => {
 
       try {
         setLoading(true);
-        const snap = await enableSSISnap({ snapId });
-        // const api = await snap.getSSISnapApi();
-        // changeSnapApi(api);
-        // const did = await api.getDID();
-        // const availableMethods = await api.getAvailableMethods();
-        // const method = await api.getSelectedMethod();
-        // const accountSettings = await api.getAccountSettings();
-        // changeHasSnapInstalled(true);
-        // changeIsConnected(true);
-        // changeDID(did);
-        // changeAvailableMethods(availableMethods);
-        // changeCurrMethod(method);
-        // changeAvailableVCStores(accountSettings.ssi.vcStore);
+        const enableResult = await enableSSISnap({ snapId });
+        if (isError(enableResult)) {
+          console.log("Couldn't connect to SSI Snap", enableResult);
+          return;
+        }
+        const snap = enableResult.data;
+        const api = snap.getSSISnapApi();
+        changeSnapApi(api);
+
+        const did = await api.getDID();
+        if (isError(did)) {
+          console.log("Couldn't get DID", did);
+          return;
+        }
+        const availableMethods = await api.getAvailableMethods();
+        if (isError(availableMethods)) {
+          console.log("Couldn't get available methods", availableMethods);
+          return;
+        }
+        const method = await api.getSelectedMethod();
+        if (isError(method)) {
+          console.log("Couldn't get selected method", method);
+          return;
+        }
+        const accountSettings = await api.getAccountSettings();
+        if (isError(accountSettings)) {
+          console.log("Couldn't get account settings", accountSettings);
+          return;
+        }
+        changeHasSnapInstalled(true);
+        changeIsConnected(true);
+        changeDID(did.data);
+        changeAvailableMethods(availableMethods.data);
+        changeCurrMethod(method.data);
+        changeAvailableVCStores(accountSettings.data.ssi.vcStore);
         console.log('Successfuly installed snap');
         setLoading(false);
       } catch (err) {

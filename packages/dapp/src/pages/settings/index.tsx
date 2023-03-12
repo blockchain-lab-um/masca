@@ -1,4 +1,5 @@
 import React from 'react';
+import { isError } from '@blockchain-lab-um/utils';
 import { shallow } from 'zustand/shallow';
 
 import ConnectedGateway from '@/components/ConnectedGateway';
@@ -19,7 +20,11 @@ export default function Settings() {
   const snapGetAvailableVCStores = async () => {
     if (!api) return;
     const accountSettings = await api.getAccountSettings();
-    // changeAvailableVCStores(accountSettings.ssi.vcStore);
+    if (isError(accountSettings)) {
+      console.log('Error getting account settings', accountSettings);
+      return;
+    }
+    changeAvailableVCStores(accountSettings.data.ssi.vcStore);
   };
 
   const snapChangeAvailableVCStores = async (
