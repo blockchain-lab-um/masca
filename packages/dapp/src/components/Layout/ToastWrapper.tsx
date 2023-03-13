@@ -1,6 +1,5 @@
 import React from 'react';
 import Image from 'next/image';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import * as Toast from '@radix-ui/react-toast';
 import { shallow } from 'zustand/shallow';
 
@@ -25,6 +24,8 @@ export const ToastWrapper = ({ children }: { children: JSX.Element }) => {
     shallow
   );
 
+  // TODO: Add description and use the text prop
+
   return (
     <div>
       <Toast.Provider swipeDirection="right">
@@ -42,7 +43,6 @@ export const ToastWrapper = ({ children }: { children: JSX.Element }) => {
                 <Image
                   src={`${BASE_PATH}/images/connect-spinner.png`}
                   alt="Masca Logo"
-                  className=""
                   width={24}
                   height={24}
                 />
@@ -50,7 +50,7 @@ export const ToastWrapper = ({ children }: { children: JSX.Element }) => {
             )}
           </Toast.Title>
           <Toast.Action className="[grid-area:_action]" asChild altText="Done">
-            <button className="">Close</button>
+            <button>Close</button>
           </Toast.Action>
         </Toast.Root>
         <Toast.Viewport className="[--viewport-padding:_25px] fixed bottom-0 right-0 flex flex-col p-[var(--viewport-padding)] gap-[10px] w-[390px] max-w-[100vw] m-0 list-none z-[2147483647] outline-none" />

@@ -2,22 +2,24 @@ import { create } from 'zustand';
 
 interface ToastStore {
   open: boolean;
-  setOpen: (open: boolean) => void;
   loading: boolean;
-  setLoading: (loading: boolean) => void;
   text: string;
-  setText: (text: string) => void;
   title: string;
+
+  setOpen: (open: boolean) => void;
+  setLoading: (loading: boolean) => void;
+  setText: (text: string) => void;
   setTitle: (title: string) => void;
 }
 
 export const useToastStore = create<ToastStore>()((set) => ({
-  open: false,
-  setOpen: (open) => set({ open }),
-  loading: false,
-  setLoading: (loading) => set({ loading }),
-  text: '',
-  setText: (text) => set({ text }),
   title: '',
+  loading: false,
+  open: false,
+  text: '',
+
+  setOpen: (open) => set({ open }),
+  setLoading: (loading) => set({ loading }),
+  setText: (text) => set({ text }),
   setTitle: (title) => set({ title }),
 }));
