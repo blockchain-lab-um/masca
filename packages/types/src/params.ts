@@ -1,4 +1,7 @@
-import { W3CVerifiableCredential, W3CVerifiablePresentation } from '@veramo/core';
+import {
+  W3CVerifiableCredential,
+  W3CVerifiablePresentation,
+} from '@veramo/core';
 
 import {
   AvailableMethods,
@@ -28,7 +31,7 @@ export type DeleteVCsOptions = {
   store?: AvailableVCStores | AvailableVCStores[];
 };
 
-//TODO: This type is also in vcmanager
+// TODO (martin): This type is also in vcmanager
 export type Filter = {
   type: string;
   filter: unknown;
@@ -88,12 +91,14 @@ export type SetVCStoreRequestParams = {
  * @param {W3CVerifiablePresentation} verifiablePresentation - The verifiable presentation to verify
  * @param {boolean} verbose - Whether to return the full verification result or just a boolean (default: false)
  */
-export type VerifyDataRequestParams = {
-  credential: W3CVerifiableCredential;
-  presentation?: undefined;
-  verbose?: boolean;
-} | {
-  credential?: undefined;
-  presentation: W3CVerifiablePresentation;
-  verbose?: boolean;
-};
+export type VerifyDataRequestParams =
+  | {
+      credential: W3CVerifiableCredential;
+      presentation?: undefined;
+      verbose?: boolean;
+    }
+  | {
+      credential?: undefined;
+      presentation: W3CVerifiablePresentation;
+      verbose?: boolean;
+    };

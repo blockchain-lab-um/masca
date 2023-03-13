@@ -1,3 +1,4 @@
+import { Result, ResultObject } from '@blockchain-lab-um/utils';
 import { OnRpcRequestHandler } from '@metamask/snaps-types';
 
 import { ApiParams } from './interfaces';
@@ -31,88 +32,103 @@ import {
   initSnapState,
 } from './utils/stateUtils';
 
-export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
-  let state = await getSnapStateUnchecked(snap);
-  if (state === null) state = await initSnapState(snap);
+export const onRpcRequest: OnRpcRequestHandler = async ({
+  request,
+}): Promise<Result<unknown>> => {
+  try {
+    let state = await getSnapStateUnchecked(snap);
+    if (state === null) state = await initSnapState(snap);
 
-  const account = await getCurrentAccount(ethereum);
+    const account = await getCurrentAccount(ethereum);
 
-  if (account === null) throw new Error('No account found');
+    const apiParams: ApiParams = {
+      state,
+      snap,
+      ethereum,
+      account,
+    };
 
-  const apiParams: ApiParams = {
-    state,
-    snap,
-    ethereum,
-    account,
-  };
-
-  if (!(account in state.accountState)) {
-    await initAccountState(apiParams);
-    apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
-    await setAccountPublicKey(apiParams);
-  }
-  let res;
-  switch (request.method) {
-    case 'queryVCs':
-      isValidQueryRequest(request.params, apiParams.account, apiParams.state);
-      res = await queryVCs(apiParams, request.params);
-      return res;
-    case 'saveVC':
-      isValidSaveVCRequest(request.params, apiParams.account, apiParams.state);
-      res = await saveVC(apiParams, request.params);
-      return res;
-    case 'createVP':
-      isValidCreateVPRequest(
-        request.params,
-        apiParams.account,
-        apiParams.state
-      );
+    if (!(account in state.accountState)) {
+      await initAccountState(apiParams);
       apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
-      res = await createVP(apiParams, request.params);
-      return res;
-    case 'togglePopups':
-      res = await togglePopups(apiParams);
-      return res;
-    case 'switchDIDMethod':
-      isValidSwitchMethodRequest(request.params);
-      res = await switchMethod(apiParams, request.params);
-      return res;
-    case 'getDID':
-      res = await getDid(apiParams);
-      return res;
-    case 'getSelectedMethod':
-      return state.accountState[account].accountConfig.ssi.didMethod;
-    case 'getAvailableMethods':
-      return getAvailableMethods();
-    case 'getVCStore':
-      return state.accountState[account].accountConfig.ssi.vcStore;
-    case 'setVCStore':
-      isValidSetVCStoreRequest(request.params);
-      res = await setVCStore(apiParams, request.params);
-      return res;
-    case 'getAccountSettings':
-      return state.accountState[account].accountConfig;
-    case 'getSnapSettings':
-      return state.snapConfig;
-    case 'getAvailableVCStores':
-      return getAvailableVCStores();
-    case 'deleteVC':
-      isValidDeleteVCRequest(
-        request.params,
-        apiParams.account,
-        apiParams.state
-      );
-      res = await deleteVC(apiParams, request.params);
-      return res;
-    case 'resolveDID':
-      isValidResolveDIDRequest(request.params);
-      res = await resolveDID(request.params.did);
-      return res;
-    case 'verifyData':
-      isValidVerifyDataRequest(request.params);
-      res = await verifyData(apiParams, request.params);
-      return res;
-    default:
-      throw new Error('Method not found.');
+      await setAccountPublicKey(apiParams);
+    }
+    let res;
+    switch (request.method) {
+      case 'queryVCs':
+        isValidQueryRequest(request.params, apiParams.account, apiParams.state);
+        res = await queryVCs(apiParams, request.params);
+        return ResultObject.success(res);
+      case 'saveVC':
+        isValidSaveVCRequest(
+          request.params,
+          apiParams.account,
+          apiParams.state
+        );
+        res = await saveVC(apiParams, request.params);
+        return ResultObject.success(res);
+      case 'createVP':
+        isValidCreateVPRequest(
+          request.params,
+          apiParams.account,
+          apiParams.state
+        );
+        apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
+        res = await createVP(apiParams, request.params);
+        return ResultObject.success(res);
+      case 'togglePopups':
+        res = await togglePopups(apiParams);
+        return ResultObject.success(res);
+      case 'switchDIDMethod':
+        isValidSwitchMethodRequest(request.params);
+        res = await switchMethod(apiParams, request.params);
+        return ResultObject.success(res);
+      case 'getDID':
+        res = await getDid(apiParams);
+        return ResultObject.success(res);
+      case 'getSelectedMethod':
+        res = state.accountState[account].accountConfig.ssi.didMethod;
+        return ResultObject.success(res);
+      case 'getAvailableMethods':
+        res = getAvailableMethods();
+        return ResultObject.success(res);
+      case 'getVCStore':
+        res = state.accountState[account].accountConfig.ssi.vcStore;
+        return ResultObject.success(res);
+      case 'setVCStore':
+        isValidSetVCStoreRequest(request.params);
+        res = await setVCStore(apiParams, request.params);
+        return ResultObject.success(res);
+      case 'getAccountSettings':
+        res = state.accountState[account].accountConfig;
+        return ResultObject.success(res);
+      case 'getSnapSettings':
+        res = state.snapConfig;
+        return ResultObject.success(res);
+      case 'getAvailableVCStores':
+        res = getAvailableVCStores();
+        return ResultObject.success(res);
+      case 'deleteVC':
+        isValidDeleteVCRequest(
+          request.params,
+          apiParams.account,
+          apiParams.state
+        );
+        res = await deleteVC(apiParams, request.params);
+        return ResultObject.success(res);
+      case 'resolveDID':
+        isValidResolveDIDRequest(request.params);
+        res = await resolveDID(request.params.did);
+        return ResultObject.success(res);
+      case 'verifyData':
+        isValidVerifyDataRequest(request.params);
+        res = await verifyData(apiParams, request.params);
+        return ResultObject.success(res);
+      default:
+        throw new Error('Method not found.');
+    }
+  } catch (e) {
+    // TODO (martin): Check for any and unknown errors
+    return ResultObject.error(e as Error);
   }
 };

@@ -12,6 +12,7 @@ import {
   SaveVCOptions,
   SaveVCRequestResult,
 } from '@blockchain-lab-um/ssi-snap-types';
+import { Result } from '@blockchain-lab-um/utils';
 import {
   DIDResolutionResult,
   VerifiablePresentation,
@@ -26,17 +27,21 @@ async function sendSnapMethod<T>(
     method: snapId,
     params: request,
   };
-  console.log(mmRequest);
+
   return window.ethereum.request(mmRequest);
 }
 
 /**
- * Get a list of VCs stored in the SSI Snap under currently selected MetaMask account
+ * Get a list of VCs stored in SSI Snap under the currently selected MetaMask account
+ *
+ * @param params - optional parameters for querying VCs
+ *
+ * @return Result<QueryVCsRequestResult[]> - list of VCs
  */
 export async function queryVCs(
   this: MetaMaskSSISnap,
   params?: QueryVCsRequestParams
-): Promise<QueryVCsRequestResult[]> {
+): Promise<Result<QueryVCsRequestResult[]>> {
   return sendSnapMethod(
     { method: 'queryVCs', params: params || {} },
     this.snapId
@@ -44,12 +49,16 @@ export async function queryVCs(
 }
 
 /**
- * Create a VP from a VC
+ * Create a VP from a list of VCs stored in SSI Snap under the currently selected MetaMask account
+ *
+ * @param params - parameters for creating a VP
+ *
+ * @return Result<VerifiablePresentation> - VP
  */
 export async function createVP(
   this: MetaMaskSSISnap,
   params: CreateVPRequestParams
-): Promise<VerifiablePresentation> {
+): Promise<Result<VerifiablePresentation>> {
   return sendSnapMethod(
     {
       method: 'createVP',
@@ -60,14 +69,18 @@ export async function createVP(
 }
 
 /**
- * Save a VC in the SSI Snap under currently selected MetaMask account
+ * Save a VC in SSI Snap under the currently selected MetaMask account
+ *
+ * @param vc - VC to be saved
+ * @param options - optional parameters for saving a VC
+ *
+ * @return Result<SaveVCRequestResult[]> - list of saved VCs
  */
 export async function saveVC(
   this: MetaMaskSSISnap,
   vc: W3CVerifiableCredential,
   options?: SaveVCOptions
-): Promise<SaveVCRequestResult[]> {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+): Promise<Result<SaveVCRequestResult[]>> {
   return sendSnapMethod(
     {
       method: 'saveVC',
@@ -80,11 +93,19 @@ export async function saveVC(
   );
 }
 
+/**
+ * Delete a VC from SSI Snap under the currently selected MetaMask account
+ *
+ * @param id - ID of the VC to be deleted
+ * @param options - optional parameters for deleting a VC
+ *
+ * @return Result<boolean[]> - list of results for each VC
+ */
 export async function deleteVC(
   this: MetaMaskSSISnap,
   id: string,
   options?: DeleteVCsOptions
-): Promise<boolean[]> {
+): Promise<Result<boolean[]>> {
   return sendSnapMethod(
     {
       method: 'deleteVC',
@@ -97,26 +118,48 @@ export async function deleteVC(
   );
 }
 
-export async function getDID(this: MetaMaskSSISnap): Promise<string> {
+/**
+ * Get the DID of the currently selected MetaMask account
+ *
+ * @return Result<string> - DID
+ */
+export async function getDID(this: MetaMaskSSISnap): Promise<Result<string>> {
   return sendSnapMethod({ method: 'getDID' }, this.snapId);
 }
 
+/**
+ * Get the currently selected DID method
+ *
+ * @return Result<string> - DID method
+ */
 export async function getSelectedMethod(
   this: MetaMaskSSISnap
-): Promise<string> {
+): Promise<Result<string>> {
   return sendSnapMethod({ method: 'getSelectedMethod' }, this.snapId);
 }
 
+/**
+ * Get a list of available DID methods
+ *
+ * @return Result<string[]> - list of available DID methods
+ */
 export async function getAvailableMethods(
   this: MetaMaskSSISnap
-): Promise<string[]> {
+): Promise<Result<string[]>> {
   return sendSnapMethod({ method: 'getAvailableMethods' }, this.snapId);
 }
 
+/**
+ * Switch the currently selected DID method
+ *
+ * @param method - DID method to be switched to
+ *
+ * @return Result<boolean> - true if the switch was successful
+ */
 export async function switchDIDMethod(
   this: MetaMaskSSISnap,
   method: AvailableMethods
-): Promise<boolean> {
+): Promise<Result<boolean>> {
   return sendSnapMethod(
     { method: 'switchDIDMethod', params: { didMethod: method } },
     this.snapId
@@ -124,56 +167,94 @@ export async function switchDIDMethod(
 }
 
 /**
- * Toggle popups - enable/disable "Are you sure?" confirmation windows when retrieving VCs and generating VPs,...
+ * Enables/disables confirmation popup windows when retrieving VCs, generating VPs,...
  *
+ * @return Result<boolean> - true if the switch was successful
  */
-export async function togglePopups(this: MetaMaskSSISnap): Promise<boolean> {
+export async function togglePopups(
+  this: MetaMaskSSISnap
+): Promise<Result<boolean>> {
   return sendSnapMethod({ method: 'togglePopups' }, this.snapId);
 }
 
+/**
+ * Get the status of available VC stores (i.e. whether they are enabled or not)
+ *
+ * @return Result<Record<AvailableVCStores, boolean>> - status of available VC stores
+ */
 export async function getVCStore(
   this: MetaMaskSSISnap
-): Promise<Record<AvailableVCStores, boolean>> {
+): Promise<Result<Record<AvailableVCStores, boolean>>> {
   return sendSnapMethod({ method: 'getVCStore' }, this.snapId);
 }
 
+/**
+ * Get a list of available VC stores
+ *
+ * @return Result<string[]> - list of available VC stores
+ */
 export async function getAvailableVCStores(
   this: MetaMaskSSISnap
-): Promise<string[]> {
+): Promise<Result<string[]>> {
   return sendSnapMethod({ method: 'getAvailableVCStores' }, this.snapId);
 }
 
+/**
+ * Enables/disables a VC store
+ *
+ * @param store - VC store to be enabled/disabled
+ * @param value - true to enable, false to disable
+ *
+ * @return Result<boolean> - true if the switch was successful
+ */
 export async function setVCStore(
   this: MetaMaskSSISnap,
   store: AvailableVCStores,
   value: boolean
-): Promise<boolean> {
+): Promise<Result<boolean>> {
   return sendSnapMethod(
     { method: 'setVCStore', params: { store, value } },
     this.snapId
   );
 }
 
+/**
+ * Get account settings (i.e. DID method, VC stores,...)
+ *
+ * @return Result<SSIAccountConfig> - account settings
+ */
 export async function getAccountSettings(
   this: MetaMaskSSISnap
-): Promise<SSIAccountConfig> {
+): Promise<Result<SSIAccountConfig>> {
   return sendSnapMethod({ method: 'getAccountSettings' }, this.snapId);
 }
+
+/**
+ * Get SSI Snap settings
+ *
+ * @return Result<SSISnapConfig> - SSI Snap settings
+ */
 export async function getSnapSettings(
   this: MetaMaskSSISnap
-): Promise<SSISnapConfig> {
+): Promise<Result<SSISnapConfig>> {
   return sendSnapMethod({ method: 'getSnapSettings' }, this.snapId);
 }
 
+/**
+ * Resolve a DID
+ *
+ * @param did - DID to be resolved
+ *
+ * @return Result<DIDResolutionResult> - DID resolution result
+ */
 export async function resolveDID(
   this: MetaMaskSSISnap,
   did: string
-): Promise<DIDResolutionResult> {
+): Promise<Result<DIDResolutionResult>> {
   return sendSnapMethod({ method: 'resolveDID', params: { did } }, this.snapId);
 }
 
 export class MetaMaskSSISnap {
-  // snap parameters
   protected readonly snapOrigin: string;
 
   protected readonly snapId: string;
@@ -187,16 +268,9 @@ export class MetaMaskSSISnap {
     this.snapOrigin = snapOrigin;
     this.snapId = `wallet_snap_${this.snapOrigin}`;
     this.supportedMethods = supportedMethods;
-
-    window.ethereum.on('accountsChanged', this.accountChanged);
   }
 
-  public accountChanged = (accounts: string[]) => {
-    console.log('Account changed', accounts[0]);
-  };
-
-  // eslint-disable-next-line @typescript-eslint/require-await
-  public getSSISnapApi = async (): Promise<SSISnapApi> => {
+  public getSSISnapApi = (): SSISnapApi => {
     return {
       saveVC: saveVC.bind(this),
       queryVCs: queryVCs.bind(this),
