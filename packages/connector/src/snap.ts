@@ -159,7 +159,7 @@ export async function getAvailableMethods(
 export async function switchDIDMethod(
   this: MetaMaskSSISnap,
   method: AvailableMethods
-): Promise<Result<boolean>> {
+): Promise<Result<AvailableMethods>> {
   return sendSnapMethod(
     { method: 'switchDIDMethod', params: { didMethod: method } },
     this.snapId
