@@ -18,7 +18,7 @@ const ToggleTheme = () => {
 
   return (
     <button
-      className={`h-[32px] w-[32px] lg:h-[38px] lg:w-[38px] p-1 m-2 flex justify-center items-center rounded-full hover:bg-orange-100 dark:text-gray-300 dark:hover:bg-gray-700 animated-transition ${
+      className={`animated-transition m-2 flex h-[32px] w-[32px] items-center justify-center rounded-full p-1 hover:bg-orange-100 dark:text-gray-300 dark:hover:bg-gray-700 lg:h-[38px] lg:w-[38px] ${
         resolvedTheme === 'dark' ? 'text-white/50' : 'text-black/50'
       }`}
       type="button"

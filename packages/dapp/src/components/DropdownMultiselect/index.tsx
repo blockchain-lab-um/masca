@@ -31,10 +31,10 @@ const DropdownMultiselect = ({
         multiple
       >
         {({ open }) => (
-          <div className="w-24 cursor-default rounded-full overflow-hidden focus:outline-none bg-white text-left  sm:text-sm border border-gray-200 shadow-md">
+          <div className="w-24 cursor-default overflow-hidden rounded-full border border-gray-200 bg-white  text-left shadow-md focus:outline-none sm:text-sm">
             <Listbox.Button
               value={placeholder}
-              className="w-full px-1 flex placeholder:text-orange-200 border-none p-1 text-sm leading-5 focus:outline-none dark:bg-gray-800 text-orange-500 focus:ring-0"
+              className="flex w-full border-none p-1 px-1 text-sm leading-5 text-orange-500 placeholder:text-orange-200 focus:outline-none focus:ring-0 dark:bg-gray-800"
             >
               <div
                 className={`w-3/4 truncate ${
@@ -62,14 +62,14 @@ const DropdownMultiselect = ({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Listbox.Options className="absolute left-0 mt-1 max-h-60 z-50 w-fit shadow-md rounded-xl bg-white py-1 text-base border border-gray-200 sm:text-sm">
+              <Listbox.Options className="absolute left-0 z-50 mt-1 max-h-60 w-fit rounded-xl border border-gray-200 bg-white py-1 text-base shadow-md sm:text-sm">
                 {items.map((item, id) => (
                   <Listbox.Option
                     key={id}
                     className={({ active }) =>
-                      `relative mx-2 rounded-xl pl-10 pr-4 py-2 text-sm ${
+                      `relative mx-2 rounded-xl py-2 pl-10 pr-4 text-sm ${
                         active
-                          ? 'text-orange-600 bg-orange-100 animated-transition cursor-pointer'
+                          ? 'animated-transition cursor-pointer bg-orange-100 text-orange-600'
                           : 'text-gray-800'
                       }`
                     }

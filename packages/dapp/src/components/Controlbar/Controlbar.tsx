@@ -83,8 +83,8 @@ const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
 
   return (
     <>
-      <div className="grid grid-cols-11 mb-4 mt-6">
-        <div className="col-start-1 col-span-5 flex gap-x-1">
+      <div className="mb-4 mt-6 grid grid-cols-11">
+        <div className="col-span-5 col-start-1 flex gap-x-1">
           <DataStoreCombobox isConnected={isConnected} vcs={vcs} />
           <GlobalFilter isConnected={isConnected} vcs={vcs} />
         </div>
@@ -94,14 +94,14 @@ const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
             <ViewTabs />
           </div>
         )}
-        <div className="col-start-7 col-span-5 flex justify-end gap-x-1">
+        <div className="col-span-5 col-start-7 flex justify-end gap-x-1">
           {vcs.length > 0 && (
             <button
-              className={`w-9 h-9 bg-white flex justify-center items-center text-orange-500 rounded-full shadow-md border border-gray-200 `}
+              className={`flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white text-orange-500 shadow-md `}
               onClick={() => refreshVCs()}
             >
               <ArrowPathIcon
-                className={`w-6 h-6 ${spinner ? 'animate-spin' : ''}`}
+                className={`h-6 w-6 ${spinner ? 'animate-spin' : ''}`}
               />
             </button>
           )}

@@ -10,7 +10,7 @@ export default function Document() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href={`${BASE_PATH}/images/ssi_icon_b.png`} />
       </Head>
-      <body className="min-h-screen bg-gradient">
+      <body className="bg-gradient min-h-screen">
         <Main />
         <NextScript />
       </body>

@@ -37,9 +37,9 @@ const SelectedVCsTableRow = ({
     validity = Date.now() < Date.parse(vc.data.expirationDate);
 
   return (
-    <tr className="border-b border-gray-500 hover:bg-gray-50 animated-transition duration-75">
+    <tr className="animated-transition border-b border-gray-500 duration-75 hover:bg-gray-50">
       <td className="py-4">
-        <span className="flex justify-center items-center">
+        <span className="flex items-center justify-center">
           <Link
             href={{
               pathname: '/vc',
@@ -47,7 +47,7 @@ const SelectedVCsTableRow = ({
             }}
           >
             <button>
-              <ArrowsPointingOutIcon className="w-5 h-5" />
+              <ArrowsPointingOutIcon className="h-5 w-5" />
             </button>
           </Link>
         </span>
@@ -60,7 +60,7 @@ const SelectedVCsTableRow = ({
               href={`https://dev.uniresolver.io/#${issuer}`}
               target="_blank"
               rel="noreferrer"
-              className="text-orange-500 hover:text-orange-700 underline"
+              className="text-orange-500 underline hover:text-orange-700"
             >
               {issuer.length > 20
                 ? `${issuer.slice(0, 8)}...${issuer.slice(-4)}`
@@ -70,7 +70,7 @@ const SelectedVCsTableRow = ({
         }
       </td>
       <td>
-        <span className="flex justify-center items-center">
+        <span className="flex items-center justify-center">
           <Tooltip
             tooltip={`${
               vc.data.expirationDate === undefined
@@ -89,9 +89,9 @@ const SelectedVCsTableRow = ({
         </span>
       </td>
       <td>
-        <span className="flex justify-center items-center">
+        <span className="flex items-center justify-center">
           <button onClick={() => handleRemove(vc.metadata.id)}>
-            <XCircleIcon className="h-6 w-6 text-red-500 hover:text-red-500/90 rounded-full animated-transition" />
+            <XCircleIcon className="animated-transition h-6 w-6 rounded-full text-red-500 hover:text-red-500/90" />
           </button>
         </span>
       </td>

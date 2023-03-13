@@ -95,20 +95,20 @@ const CreateVP = () => {
     <>
       <MetaMaskGateway>
         <div className="grid place-items-center">
-          <div className="max-w-sm md:max-w-md lg:max-w-lg xl:max-w-[34rem] xl:w-[34rem] w-full h-full flex flex-col min-h-[40vh] border border-gray-200 bg-white dark:bg-gray-800 dark:shadow-orange-900  rounded-3xl shadow-lg">
+          <div className="flex h-full min-h-[40vh] w-full max-w-sm flex-col rounded-3xl border border-gray-200 bg-white shadow-lg dark:bg-gray-800 dark:shadow-orange-900 md:max-w-md lg:max-w-lg  xl:w-[34rem] xl:max-w-[34rem]">
             <ConnectedGateway>
-              <div className="px-5 pt-5 w-full flex justify-between">
+              <div className="flex w-full justify-between px-5 pt-5">
                 <Link href="dashboard">
-                  <button className="text-gray-900 hover:bg-orange-100 p-1 hover:text-orange-700 animated-transition rounded-full">
-                    <ArrowLeftIcon className="w-6 h-6" />
+                  <button className="animated-transition rounded-full p-1 text-gray-900 hover:bg-orange-100 hover:text-orange-700">
+                    <ArrowLeftIcon className="h-6 w-6" />
                   </button>
                 </Link>
                 <div className="text-h3 font-semibold">Create Presentation</div>
               </div>
-              <div className="mt-6 text-orange-500 font-semibold pl-2 text-sm">
+              <div className="mt-6 pl-2 text-sm font-semibold text-orange-500">
                 CREDENTIALS
               </div>
-              <table className="mt-2 text-sm w-full text-center">
+              <table className="mt-2 w-full text-center text-sm">
                 <thead>
                   <tr className="border-b border-gray-800 text-gray-900">
                     <th className="px-3 pb-4 font-semibold"></th>
@@ -129,10 +129,10 @@ const CreateVP = () => {
                 </tbody>
               </table>
               <div className="mt-8">
-                <div className="text-orange-500 font-semibold pl-2 text-sm ">
+                <div className="pl-2 text-sm font-semibold text-orange-500 ">
                   OPTIONS
                 </div>
-                <div className="flex justify-between items-center px-4">
+                <div className="flex items-center justify-between px-4">
                   <div className="text-gray-900">Format</div>
                   <DropdownMenu
                     size="sm"
@@ -146,8 +146,8 @@ const CreateVP = () => {
                 </div>
               </div>
               <div>
-                <div className="border-b border-gray-300 flex justify-between items-baseline mt-16">
-                  <div className="text-orange-500 font-semibold pl-2 text-sm flex gap-x-0.5">
+                <div className="mt-16 flex items-baseline justify-between border-b border-gray-300">
+                  <div className="flex gap-x-0.5 pl-2 text-sm font-semibold text-orange-500">
                     ADVANCED{' '}
                     <InfoIcon>Only applicable to JWT Proof format.</InfoIcon>
                   </div>
@@ -162,8 +162,8 @@ const CreateVP = () => {
                   </div>
                 </div>
                 {advanced && (
-                  <div className="px-4 mt-4">
-                    <div className="text-gray-700 text-xs my-1">CHALLENGE</div>
+                  <div className="mt-4 px-4">
+                    <div className="my-1 text-xs text-gray-700">CHALLENGE</div>
                     <div className="max-w-xs">
                       <InputField
                         variant="gray"
@@ -175,7 +175,7 @@ const CreateVP = () => {
                         setValue={setChallenge}
                       />
                     </div>
-                    <div className="text-gray-700 text-xs mt-4 my-1">
+                    <div className="my-1 mt-4 text-xs text-gray-700">
                       DOMAIN
                     </div>
                     <div className="max-w-xs">
@@ -193,7 +193,7 @@ const CreateVP = () => {
                 )}
               </div>
 
-              <div className="flex mt-8 justify-end p-3">
+              <div className="mt-8 flex justify-end p-3">
                 <Button
                   variant="primary"
                   size="sm"

@@ -18,20 +18,20 @@ const ViewTabs = () => {
     <Switch
       checked={cardView}
       onChange={setCardView}
-      className="bg-white rounded-full border border-gray-200 shadow-md h-9 w-20 flex items-center justify-between px-2 py-0.5"
+      className="flex h-9 w-20 items-center justify-between rounded-full border border-gray-200 bg-white px-2 py-0.5 shadow-md"
     >
       <Squares2X2Icon
         className={`${
           cardView
-            ? ' w-8 h-8 text-orange-500 animated-transition duration-75'
-            : 'text-orange-200 hover:bg-orange-50 hover:text-orange-300 w-7 h-7'
+            ? ' animated-transition h-8 w-8 text-orange-500 duration-75'
+            : 'h-7 w-7 text-orange-200 hover:bg-orange-50 hover:text-orange-300'
         }  animated-transition rounded-full`}
       />
       <Bars3Icon
         className={`${
           !cardView
-            ? 'w-8 h-8  text-orange-500 animated-transition duration-75'
-            : 'text-orange-200 hover:bg-orange-50 hover:text-orange-300 w-7 h-7'
+            ? 'animated-transition h-8  w-8 text-orange-500 duration-75'
+            : 'h-7 w-7 text-orange-200 hover:bg-orange-50 hover:text-orange-300'
         } animated-transition rounded-full`}
       />
     </Switch>

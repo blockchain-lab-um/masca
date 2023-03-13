@@ -49,7 +49,7 @@ function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md md:max-w-xl lg:max-w-2xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all md:max-w-xl lg:max-w-2xl">
                 <Dialog.Title
                   as="h3"
                   className="text-lg font-semibold leading-6 text-orange-500"
@@ -63,18 +63,18 @@ function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
                   </p>
                 </div>
                 <div className="mt-8">
-                  <div className="relative z-0 group bg-orange-100 pt-1 pr-2 rounded-2xl shadow-md">
+                  <div className="group relative z-0 rounded-2xl bg-orange-100 pt-1 pr-2 shadow-md">
                     <textarea
-                      className="group-hover:scrollbar-thumb-orange-300 scrollbar-thin rounded-2xl scrollbar-thumb-orange-300/0 scrollbar-thumb-rounded-full bg-orange-100 min-h-[60vh] w-full resize-none focus:outline-none p-2 text-orange-900 font-jetbrains-mono "
+                      className="group-hover:scrollbar-thumb-orange-300 scrollbar-thin scrollbar-thumb-orange-300/0 scrollbar-thumb-rounded-full font-jetbrains-mono min-h-[60vh] w-full resize-none rounded-2xl bg-orange-100 p-2 text-orange-900 focus:outline-none "
                       value={vc}
                       onChange={(e) => setVC(e.target.value)}
                     />
                   </div>
-                  <div className="text-orange-500 font-semibold mt-8 pl-2 text-sm">
+                  <div className="mt-8 pl-2 text-sm font-semibold text-orange-500">
                     SETTINGS
                   </div>
-                  <div className="px-4  flex justify-between items-center">
-                    <span className="text-gray-700 text-sm flex gap-x-1">
+                  <div className="flex  items-center justify-between px-4">
+                    <span className="flex gap-x-1 text-sm text-gray-700">
                       Storage <InfoIcon>Select one or more locations.</InfoIcon>
                     </span>
                     <div>
@@ -88,7 +88,7 @@ function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
                     </div>
                   </div>
                 </div>
-                <div className="mt-8 flex justify-end items-center">
+                <div className="mt-8 flex items-center justify-end">
                   <div className="mt-4">
                     <Button
                       onClick={() => setOpen(false)}

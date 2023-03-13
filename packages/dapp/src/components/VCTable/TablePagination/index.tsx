@@ -8,16 +8,16 @@ interface TablePaginationProps {
 
 const TablePagination = ({ table }: TablePaginationProps) => {
   return (
-    <div className="mb-auto flex items-center gap-2 font-cabin font-normal text-gray-500 dark:text-white/40">
+    <div className="font-cabin mb-auto flex items-center gap-2 font-normal text-gray-500 dark:text-white/40">
       <button
-        className="rounded-full px-2 py-1 hover:cursor-pointer hover:bg-gray-100 dark:hover:bg-white/10 animated-transition"
+        className="animated-transition rounded-full px-2 py-1 hover:cursor-pointer hover:bg-gray-100 dark:hover:bg-white/10"
         onClick={() => table.setPageIndex(0)}
         disabled={!table.getCanPreviousPage()}
       >
         {'<<'}
       </button>
       <button
-        className="rounded-full px-3 py-1 hover:cursor-pointer hover:bg-gray-100 dark:hover:bg-white/10 animated-transition"
+        className="animated-transition rounded-full px-3 py-1 hover:cursor-pointer hover:bg-gray-100 dark:hover:bg-white/10"
         onClick={() => table.previousPage()}
         disabled={!table.getCanPreviousPage()}
       >
@@ -35,14 +35,14 @@ const TablePagination = ({ table }: TablePaginationProps) => {
         </span>
       </span>
       <button
-        className="rounded-full px-3 py-1 hover:cursor-pointer hover:bg-gray-100 dark:hover:bg-white/10 animated-transition"
+        className="animated-transition rounded-full px-3 py-1 hover:cursor-pointer hover:bg-gray-100 dark:hover:bg-white/10"
         onClick={() => table.nextPage()}
         disabled={!table.getCanNextPage()}
       >
         {'>'}
       </button>
       <button
-        className="rounded-full px-2 py-1 hover:cursor-pointer hover:bg-gray-100 dark:hover:bg-white/10 animated-transition"
+        className="animated-transition rounded-full px-2 py-1 hover:cursor-pointer hover:bg-gray-100 dark:hover:bg-white/10"
         onClick={() => table.setPageIndex(table.getPageCount() - 1)}
         disabled={!table.getCanNextPage()}
       >

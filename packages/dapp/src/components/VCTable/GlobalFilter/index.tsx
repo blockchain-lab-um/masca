@@ -20,13 +20,13 @@ const GlobalFilter = ({ isConnected, vcs }: GlobalFilterProps) => {
   );
   return (
     <div
-      className={`flex items-center flex-1 sm:flex-none w-fit rounded-full dark:bg-gray-800 border border-gray-200 shadow-md ${
+      className={`flex w-fit flex-1 items-center rounded-full border border-gray-200 shadow-md dark:bg-gray-800 sm:flex-none ${
         !isConnected || vcs.length === 0 ? 'bg-gray-50' : 'bg-white'
       }`}
     >
       <MagnifyingGlassIcon
-        className={`hidden h-5 w-5 md:block text-orange-500 ml-3 ${
-          !isConnected || vcs.length === 0 ? 'text-gray-300 bg-gray-50' : ''
+        className={`ml-3 hidden h-5 w-5 text-orange-500 md:block ${
+          !isConnected || vcs.length === 0 ? 'bg-gray-50 text-gray-300' : ''
         }`}
         aria-hidden="true"
       />
@@ -35,9 +35,9 @@ const GlobalFilter = ({ isConnected, vcs }: GlobalFilterProps) => {
         onChange={(e) => {
           setGlobalFilter(e.target.value);
         }}
-        className={`font-lg pl-3 pr-2 sm:px-2 w-full h-full rounded-full  text-orange-500 placeholder:text-orange-200 focus:outline-none dark:bg-gray-800 ${
+        className={`font-lg h-full w-full rounded-full pl-3 pr-2 text-orange-500  placeholder:text-orange-200 focus:outline-none dark:bg-gray-800 sm:px-2 ${
           !isConnected || vcs.length === 0
-            ? 'text-gray-300 placeholder:text-gray-300 bg-gray-50'
+            ? 'bg-gray-50 text-gray-300 placeholder:text-gray-300'
             : 'bg-white'
         }`}
         placeholder="Search all columns..."

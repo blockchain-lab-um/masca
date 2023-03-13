@@ -85,7 +85,7 @@ const Table = () => {
               )
             }
           >
-            <ArrowsPointingOutIcon className="w-5 h-5" />
+            <ArrowsPointingOutIcon className="h-5 w-5" />
           </button>
         </Link>
       ),
@@ -119,7 +119,7 @@ const Table = () => {
               href={`https://dev.uniresolver.io/#${info.getValue()}`}
               target="_blank"
               rel="noreferrer"
-              className="text-pink-400 hover:text-pink-500 underline"
+              className="text-pink-400 underline hover:text-pink-500"
             >{`${info.getValue().slice(0, 8)}....${info
               .getValue()
               .slice(-4)}`}</a>
@@ -143,7 +143,7 @@ const Table = () => {
               href={`https://dev.uniresolver.io/#${info.getValue()}`}
               target="_blank"
               rel="noreferrer"
-              className="text-pink-400 hover:text-pink-500 underline"
+              className="text-pink-400 underline hover:text-pink-500"
             >{`${info.getValue().slice(0, 8)}....${info
               .getValue()
               .slice(-4)}`}</a>
@@ -178,7 +178,7 @@ const Table = () => {
       {
         id: 'status',
         cell: (info) => (
-          <span className="flex justify-center items-center">
+          <span className="flex items-center justify-center">
             <Tooltip
               tooltip={`${
                 info.cell.row.original.data.expirationDate === undefined
@@ -213,7 +213,7 @@ const Table = () => {
       {
         id: 'data_store',
         cell: (info) => (
-          <div className="flex justify-center items-center">
+          <div className="flex items-center justify-center">
             {info
               .getValue()
               .split(',')
@@ -239,12 +239,12 @@ const Table = () => {
       id: 'select',
       header: ({ table }) => <>SELECT</>,
       cell: ({ row }) => (
-        <div className="px-1 flex justify-center items-center">
+        <div className="flex items-center justify-center px-1">
           <button onClick={row.getToggleSelectedHandler()}>
             {row.getIsSelected() ? (
-              <MinusCircleIcon className="w-7 h-7 text-pink-500 dark:text-white" />
+              <MinusCircleIcon className="h-7 w-7 text-pink-500 dark:text-white" />
             ) : (
-              <PlusCircleIcon className="w-7 h-7" />
+              <PlusCircleIcon className="h-7 w-7" />
             )}
           </button>
         </div>
@@ -256,7 +256,7 @@ const Table = () => {
       cell: ({ row }) => (
         <div className="flex items-center justify-center gap-1">
           <button>
-            <ShareIcon className="w-6 h-6" />
+            <ShareIcon className="h-6 w-6" />
           </button>
           <button
             onClick={() => {
@@ -264,7 +264,7 @@ const Table = () => {
               setSelectedVC(row.original);
             }}
           >
-            <TrashIcon className="w-6 h-6" />
+            <TrashIcon className="h-6 w-6" />
           </button>
         </div>
       ),
@@ -319,7 +319,7 @@ const Table = () => {
 
   if (vcs.length === 0)
     return (
-      <div className="flex flex-col justify-center items-center min-h-[50vh] ">
+      <div className="flex min-h-[50vh] flex-col items-center justify-center ">
         <Button
           variant="primary"
           size="md"
@@ -328,7 +328,7 @@ const Table = () => {
         >
           Load VCs
         </Button>
-        <span className="py-4 font-semibold text-lg">or</span>
+        <span className="py-4 text-lg font-semibold">or</span>
         <Link
           href="https://blockchain-lab-um.github.io/course-dapp"
           target="_blank"
@@ -343,14 +343,14 @@ const Table = () => {
   if (!cardView) {
     return (
       <>
-        <div className="relative h-full min-h-[50vh] w-full flex flex-col">
-          <table className="min-w-full text-center text-gray-800 dark:text-white text-sm lg:text-md">
+        <div className="relative flex h-full min-h-[50vh] w-full flex-col">
+          <table className="lg:text-md min-w-full text-center text-sm text-gray-800 dark:text-white">
             <thead className="border-b">
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr key={headerGroup.id}>
                   {headerGroup.headers.map((header) => (
                     <th
-                      className={`px-3 py-4 font-bold font-ubuntu text-md ${
+                      className={`font-ubuntu text-md px-3 py-4 font-bold ${
                         header.id === 'type' || header.id === 'exp_date'
                           ? 'hidden lg:table-cell'
                           : ''
@@ -365,7 +365,7 @@ const Table = () => {
                       key={header.id}
                       onClick={header.column.getToggleSortingHandler()}
                     >
-                      <div className="flex justify-center items-center">
+                      <div className="flex items-center justify-center">
                         {header.isPlaceholder
                           ? null
                           : flexRender(
@@ -386,14 +386,14 @@ const Table = () => {
                 </tr>
               ))}
             </thead>
-            <tbody className="border-b  text-gray-800 dark:text-white/60 break-all">
+            <tbody className="break-all  border-b text-gray-800 dark:text-white/60">
               {table.getRowModel().rows.map((row) => (
                 <tr
                   key={row.id}
-                  className={`border-b-2 border-gray-500/30 dark:border-navy-blue-tone/30  animated-transition duration-75 ${
+                  className={`dark:border-navy-blue-tone/30 animated-transition border-b-2  border-gray-500/30 duration-75 ${
                     row.getIsSelected()
-                      ? 'bg-pink-50 hover:bg-pink-50 dark:bg-navy-blue-400/80'
-                      : 'hover:bg-gray-50 dark:hover:bg-navy-blue-400/30'
+                      ? 'dark:bg-navy-blue-400/80 bg-pink-50 hover:bg-pink-50'
+                      : 'dark:hover:bg-navy-blue-400/30 hover:bg-gray-50'
                   }`}
                 >
                   {row.getVisibleCells().map((cell) => (
@@ -414,7 +414,7 @@ const Table = () => {
                           );
                         }
                       }}
-                      className={`py-5 max-h-16  ${
+                      className={`max-h-16 py-5  ${
                         cell.column.id === 'type' ||
                         cell.column.id === 'exp_date'
                           ? 'hidden lg:table-cell'
@@ -440,7 +440,7 @@ const Table = () => {
               ))}
             </tbody>
           </table>
-          <div className="bg-gray-50 dark:bg-navy-blue-600 rounded-b-3xl mt-auto pt-3 flex justify-center pb-3">
+          <div className="dark:bg-navy-blue-600 mt-auto flex justify-center rounded-b-3xl bg-gray-50 pt-3 pb-3">
             <TablePagination table={table} />
           </div>
           {table.getSelectedRowModel().rows.length > 0 && (
@@ -473,13 +473,13 @@ const Table = () => {
   }
   return (
     <>
-      <div className="relative h-full min-h-[50vh] w-full flex flex-col">
+      <div className="relative flex h-full min-h-[50vh] w-full flex-col">
         <div className="flex flex-wrap justify-center">
           {table.getRowModel().rows.map((row, key) => (
             <VCCard key={key} row={row} />
           ))}
         </div>
-        <div className="bg-gray-50 dark:bg-navy-blue-600 rounded-b-3xl mt-auto pt-3 flex justify-center pb-3">
+        <div className="dark:bg-navy-blue-600 mt-auto flex justify-center rounded-b-3xl bg-gray-50 pt-3 pb-3">
           <TablePagination table={table} />
         </div>
         {table.getSelectedRowModel().rows.length > 0 && (

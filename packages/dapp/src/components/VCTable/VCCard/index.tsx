@@ -29,9 +29,9 @@ const VCCard = ({ row }: VCCardProps) => {
     </Tooltip>
   );
   return (
-    <div className=" bg-gradient-to-b from-orange-50 to-pink-50 w-72 sm:w-96 h-56 mx-4 mt-8 p-4 rounded-xl shadow-lg border-gray-100 border grow-0 shrink-0 ">
+    <div className=" mx-4 mt-8 h-56 w-72 shrink-0 grow-0 rounded-xl border border-gray-100 bg-gradient-to-b from-orange-50 to-pink-50 p-4 shadow-lg sm:w-96 ">
       <div className="flex h-full flex-col justify-between">
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between">
           <Link
             href={{
               pathname: '/vc',
@@ -42,8 +42,8 @@ const VCCard = ({ row }: VCCardProps) => {
           </Link>
           <div>{validity === 'true' ? 'valid' : 'invalid'}</div>
         </div>
-        <div className="flex justify-between items-center mt-1">
-          <div className="w-[45%] text-md text-gray-900">
+        <div className="mt-1 flex items-center justify-between">
+          <div className="text-md w-[45%] text-gray-900">
             <div>
               <span className=" text-2xs text-orange-700">ISSUED BY</span>
               <div className="">{issuerLink}</div>
@@ -57,7 +57,7 @@ const VCCard = ({ row }: VCCardProps) => {
               <div>{expDate}</div>
             </div>
           </div>
-          <div className="text-h4 text-orange-500 font-semibold text-center">
+          <div className="text-h4 text-center font-semibold text-orange-500">
             {types as string}
           </div>
         </div>
@@ -67,15 +67,15 @@ const VCCard = ({ row }: VCCardProps) => {
           }}
           className={`${
             row.getIsSelected()
-              ? 'bg-orange-200 text-orange-800 font-semibold'
+              ? 'bg-orange-200 font-semibold text-orange-800'
               : ''
-          } bg-white rounded-full py-1 mt-4`}
+          } mt-4 rounded-full bg-white py-1`}
         >
           <div className="grid grid-cols-3">
             <span className="col-start-2">
               {!row.getIsSelected() ? 'Select' : 'Selected'}
             </span>
-            <span className="col-start-3 font-semibold text-right px-2">
+            <span className="col-start-3 px-2 text-right font-semibold">
               {!row.getIsSelected() ? '+' : '-'}
             </span>
           </div>

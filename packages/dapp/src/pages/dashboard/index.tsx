@@ -17,22 +17,22 @@ export default function Dashboard() {
         <meta name="description" content="Dashboard page for Masca." />
       </Head>
       <MetaMaskGateway>
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between">
           <Title>My Credentials</Title>
           <div>
-            <span className="text-orange-400 text-md font-cabin font-normal">
+            <span className="text-md font-cabin font-normal text-orange-400">
               Wallet contains:{' '}
             </span>
-            <span className="text-md text-orange-500 font-ubuntu font-extrabold">
+            <span className="text-md font-ubuntu font-extrabold text-orange-500">
               {vcs.length}{' '}
             </span>
-            <span className="text-orange-400 text-md font-cabin font-normal">
+            <span className="text-md font-cabin font-normal text-orange-400">
               VC(s)
             </span>
           </div>
         </div>
         <Controlbar vcs={vcs} isConnected={isConnected} />
-        <div className="flex justify-center min-h-[50vh]  bg-white dark:bg-navy-blue-500 dark:shadow-none rounded-3xl shadow-lg">
+        <div className="dark:bg-navy-blue-500 flex min-h-[50vh]  justify-center rounded-3xl bg-white shadow-lg dark:shadow-none">
           <ConnectedGateway>
             <Table />
           </ConnectedGateway>

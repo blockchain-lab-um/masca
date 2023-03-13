@@ -13,7 +13,7 @@ const ConnectedGateway = ({ children }: ConnectedGatewayProps) => {
     return <>{children}</>;
   }
   return (
-    <div className="w-full min-h-full flex justify-center items-center">
+    <div className="flex min-h-full w-full items-center justify-center">
       <h3 className="text-h3 text-gray-800">
         Connect MetaMask to use the dApp!
       </h3>

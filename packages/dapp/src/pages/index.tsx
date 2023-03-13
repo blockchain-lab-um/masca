@@ -13,7 +13,7 @@ export default function Home() {
           content="Masca is a decentralized credential management platform"
         />
       </Head>
-      <div className="flex flex-col items-center text-center justify-center mt-[30vh]">
+      <div className="mt-[30vh] flex flex-col items-center justify-center text-center">
         {/* <div className="absolute  left-[-14vw] bottom-[-30%] w-[50vw] h-[50vw] rounded-full bg-pink-500 opacity-10 -z-10"></div>
       <div className="absolute  left-[14vw] bottom-[-25vh] w-[30vw] h-[30vw] rounded-full bg-orange-500 opacity-10 -z-10"></div>
       <div className="absolute  left-[-8vw] bottom-[-15vh] w-[25vw] h-[25vw] rounded-full bg-pink-500 opacity-10 -z-10"></div>
@@ -44,7 +44,7 @@ export default function Home() {
           </span>
         </div>
 
-        <div className=" text-h5 sm:text-h4 lg:text-h3 pt-8 text-gray-80 dark:text-orange-500-60 font-ubuntu">
+        <div className=" text-h5 sm:text-h4 lg:text-h3 text-gray-80 dark:text-orange-500-60 font-ubuntu pt-8">
           Join the world of{' '}
           <span className="text-pink-500 dark:text-pink-400">
             Self - Sovereign Identity{' '}

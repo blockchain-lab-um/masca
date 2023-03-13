@@ -70,7 +70,7 @@ export default function ToggleSwitch({
         sizes[size],
         `shadow-${shadow} `,
         `rounded-${rounded} `,
-        `relative inline-flex items-center border border-1 border-gray-300 `
+        `border-1 relative inline-flex items-center border border-gray-300 `
       )}
     >
       <span className="sr-only">Enable notifications</span>
@@ -79,7 +79,7 @@ export default function ToggleSwitch({
           enabled ? translateEnabled[size] : 'translate-x-0.5',
           sizesToggle[size],
           variantToggle[variant],
-          `inline-block transform rounded-full shadow-sm border-gray-200 border transition`
+          `inline-block transform rounded-full border border-gray-200 shadow-sm transition`
         )}
       />
     </Switch>

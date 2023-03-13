@@ -86,7 +86,7 @@ function IconThree() {
 
 const IconDiscord = () => {
   return (
-    <div className="relative w-12 h-12 bg-orange-100 rounded-lg flex justify-center items-center">
+    <div className="relative flex h-12 w-12 items-center justify-center rounded-lg bg-orange-100">
       <Image
         src={`${BASE_PATH}/images/discord-mark-blue.png`}
         alt="discord logo"
@@ -131,24 +131,24 @@ const solutions = [
 function MenuPopover() {
   return (
     <div className="">
-      <Popover className="relative group">
+      <Popover className="group relative">
         {({ open }) => (
           <>
             <Popover.Button
               className={`
                 ${
                   open
-                    ? 'dark:text-pink-400 text-pink-500 after:w-[100%] font-bold'
-                    : 'text-gray-700 dark:text-navy-blue-tone/80'
+                    ? 'font-bold text-pink-500 after:w-[100%] dark:text-pink-400'
+                    : 'dark:text-navy-blue-tone/80 text-gray-700'
                 }
-                flex items-end nav-btn`}
+                nav-btn flex items-end`}
             >
               <span>Other</span>
               <ChevronDownIcon
-                className={`ml-1 h-5 w-5 animated-transition ${
+                className={`animated-transition ml-1 h-5 w-5 ${
                   open
-                    ? 'rotate-180 dark:text-pink-400 text-pink-500'
-                    : 'text-gray-700 dark:text-navy-blue-tone/80 group-hover:text-pink-500 dark:group-hover:text-pink-400'
+                    ? 'rotate-180 text-pink-500 dark:text-pink-400'
+                    : 'dark:text-navy-blue-tone/80 text-gray-700 group-hover:text-pink-500 dark:group-hover:text-pink-400'
                 }
                   `}
                 aria-hidden="true"

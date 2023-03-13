@@ -64,7 +64,7 @@ export default function DropdownMenu({
           <div>
             <Menu.Button
               className={clsx(
-                'flex justify-center items-center focus:outline-none animated-transition',
+                'animated-transition flex items-center justify-center focus:outline-none',
                 variants[variant],
                 sizes[size],
                 `rounded-${rounded}`,
@@ -101,7 +101,7 @@ export default function DropdownMenu({
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="absolute mt-1 right-0 rounded-xl bg-white shadow-lg border border-gray-200 focus:outline-none">
+            <Menu.Items className="absolute right-0 mt-1 rounded-xl border border-gray-200 bg-white shadow-lg focus:outline-none">
               <div className="py-2">
                 {items.map((item, id) => {
                   return (

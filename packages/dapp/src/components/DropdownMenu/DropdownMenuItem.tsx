@@ -44,7 +44,7 @@ export const DropdownMenuItem = ({
             handleBtn(children as string);
           }}
           className={clsx(
-            'block px-4 mx-2 rounded-xl py-2 text-sm',
+            'mx-2 block rounded-xl px-4 py-2 text-sm',
             active ? variants[variant] : '',
             selected ? variantsSelected[variant] : 'font-normal'
           )}

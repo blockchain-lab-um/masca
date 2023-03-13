@@ -34,7 +34,7 @@ const VC = () => {
           <meta name="description" content="Settings page for Masca." />
         </Head>
         <MetaMaskGateway>
-          <div className="flex justify-center h-full min-h-[50vh] p-5 bg-white dark:bg-gray-800 dark:shadow-orange-900  rounded-3xl shadow-lg">
+          <div className="flex h-full min-h-[50vh] justify-center rounded-3xl bg-white p-5 shadow-lg  dark:bg-gray-800 dark:shadow-orange-900">
             <ConnectedGateway>
               <div className="flex flex-col">VC not found!</div>
             </ConnectedGateway>
@@ -52,14 +52,14 @@ const VC = () => {
       </Head>
       <MetaMaskGateway>
         <div className="grid place-items-center">
-          <div className="max-w-sm md:max-w-xl lg:max-w-2xl xl:max-w-[50rem] xl:w-[50rem] w-full">
+          <div className="w-full max-w-sm md:max-w-xl lg:max-w-2xl xl:w-[50rem] xl:max-w-[50rem]">
             <Tab.Group>
-              <div className="flex justify-between items-center">
-                <Tab.List className="flex max-w-fit space-x-1 rounded-full mb-2 text-orange-900 bg-white p-1 shadow-md border border-gray-200">
+              <div className="flex items-center justify-between">
+                <Tab.List className="mb-2 flex max-w-fit space-x-1 rounded-full border border-gray-200 bg-white p-1 text-orange-900 shadow-md">
                   <Tab
                     className={({ selected }) =>
                       clsx(
-                        'w-full rounded-full text-sm py-2 font-semibold px-4 text-gray-500 animated-transition',
+                        'animated-transition w-full rounded-full py-2 px-4 text-sm font-semibold text-gray-500',
                         selected
                           ? 'bg-orange-100 text-orange-500'
                           : 'hover:bg-orange-100 hover:text-orange-500'
@@ -71,7 +71,7 @@ const VC = () => {
                   <Tab
                     className={({ selected }) =>
                       clsx(
-                        'w-full rounded-full text-sm py-2 font-semibold px-4 text-gray-500 animated-transition',
+                        'animated-transition w-full rounded-full py-2 px-4 text-sm font-semibold text-gray-500',
                         selected
                           ? 'bg-orange-100 text-orange-500'
                           : 'hover:bg-orange-100 hover:text-orange-500'
@@ -88,7 +88,7 @@ const VC = () => {
                     shadow="md"
                     onClick={() => setModifyDSModalOpen(true)}
                   >
-                    <Cog6ToothIcon className="w-5 h-5" />
+                    <Cog6ToothIcon className="h-5 w-5" />
                   </Button>
                   <Button
                     variant="white"
@@ -96,7 +96,7 @@ const VC = () => {
                     shadow="md"
                     onClick={() => console.log('not implemented yet')}
                   >
-                    <ArrowDownTrayIcon className="w-5 h-5" />
+                    <ArrowDownTrayIcon className="h-5 w-5" />
                   </Button>
                   <Button
                     variant="white"
@@ -104,7 +104,7 @@ const VC = () => {
                     shadow="md"
                     onClick={() => console.log('not implemented yet')}
                   >
-                    <ShareIcon className="w-5 h-5" />
+                    <ShareIcon className="h-5 w-5" />
                   </Button>
                   <Button
                     variant="white"
@@ -112,18 +112,18 @@ const VC = () => {
                     shadow="md"
                     onClick={() => setDeleteModalOpen(true)}
                   >
-                    <TrashIcon className="w-5 h-5" />
+                    <TrashIcon className="h-5 w-5" />
                   </Button>
                 </div>
               </div>
-              <div className="h-full w-full bg-white border border-gray-200 pt-2 dark:bg-gray-800 dark:shadow-orange-900 rounded-3xl shadow-lg">
+              <div className="h-full w-full rounded-3xl border border-gray-200 bg-white pt-2 shadow-lg dark:bg-gray-800 dark:shadow-orange-900">
                 <ConnectedGateway>
-                  <div className="w-full flex justify-between px-5 pt-4">
+                  <div className="flex w-full justify-between px-5 pt-4">
                     <button
                       onClick={() => router.back()}
-                      className="text-gray-900 hover:bg-orange-100 p-1 hover:text-orange-700 animated-transition rounded-full"
+                      className="animated-transition rounded-full p-1 text-gray-900 hover:bg-orange-100 hover:text-orange-700"
                     >
-                      <ArrowLeftIcon className="w-6 h-6" />
+                      <ArrowLeftIcon className="h-6 w-6" />
                     </button>
                     <div className="text-h3 font-semibold">
                       Verifiable Credential

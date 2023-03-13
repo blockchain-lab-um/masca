@@ -53,7 +53,7 @@ const MetaMaskGateway = ({ children }: MetaMaskGatewayProps) => {
     return <>{children}</>;
   }
   return (
-    <div className="w-full min-h-full flex justify-center items-center">
+    <div className="flex min-h-full w-full items-center justify-center">
       <h3 className="text-h3 text-gray-800">
         Install MetaMask Flask to use the dApp!
       </h3>

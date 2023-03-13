@@ -14,7 +14,7 @@ const logo: Record<string, string> = {
 
 const StoreIcon = ({ store }: StoreIconProps) => {
   return (
-    <div className="w-5 h-5 mx-0.5">
+    <div className="mx-0.5 h-5 w-5">
       <Image
         fill={true}
         src={`${BASE_PATH}/images/${logo[store]}`}

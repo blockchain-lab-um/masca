@@ -85,7 +85,7 @@ const Button = ({
   loading = false,
 }: ButtonProps) => {
   return (
-    <div className="bg-gray-100 max-w-xs rounded-full">
+    <div className="max-w-xs rounded-full bg-gray-100">
       <button
         className={`${clsx(
           variants[variant],
@@ -103,7 +103,7 @@ const Button = ({
             <div
               className={clsx(
                 loaderSizes[size],
-                'border-solid animate-spin rounded-full border-t-pink-900/0',
+                'animate-spin rounded-full border-solid border-t-pink-900/0',
                 loaderColors[variant]
               )}
             ></div>

@@ -37,32 +37,32 @@ export default function Navbar() {
   };
 
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex items-center justify-between">
       <Link href="/">
         <button>
           <div className="flex">
-            <div className="relative dark:hidden h-[24px] w-[24px] sm:h-[36px] sm:w-[36px] lg:h-[46px] lg:w-[46px] xl:h-[48px] xl:w-[50px] rounded-full object-center">
+            <div className="relative h-[24px] w-[24px] rounded-full object-center dark:hidden sm:h-[36px] sm:w-[36px] lg:h-[46px] lg:w-[46px] xl:h-[48px] xl:w-[50px]">
               <Image
                 src={`${BASE_PATH}/images/ssi_icon_b.png`}
                 alt="Masca Logo"
                 fill={true}
               />
             </div>
-            <div className="relative hidden dark:block h-[24px] w-[24px] sm:h-[36px] sm:w-[36px] lg:h-[46px] lg:w-[46px] xl:h-[48px] xl:w-[50px] rounded-full object-center">
+            <div className="relative hidden h-[24px] w-[24px] rounded-full object-center dark:block sm:h-[36px] sm:w-[36px] lg:h-[46px] lg:w-[46px] xl:h-[48px] xl:w-[50px]">
               <Image
                 src={`${BASE_PATH}/images/ssi_icon_w.png`}
                 alt="Masca Logo"
                 fill={true}
               />
             </div>
-            <h1 className="mx-1 font-ubuntu text-h4 sm:text-h2 lg:text-h1 hover:text-pink-500 dark:text-pink-400 dark:hover:text-orange-50 animated-transition">
+            <h1 className="font-ubuntu text-h4 sm:text-h2 lg:text-h1 animated-transition mx-1 hover:text-pink-500 dark:text-pink-400 dark:hover:text-orange-50">
               Masca
             </h1>
           </div>
         </button>
       </Link>
       {router.pathname !== '/' && (
-        <div className="flex my-auto mx-2">
+        <div className="my-auto mx-2 flex">
           <NavBtn page="/">Home</NavBtn>
           <NavBtn page="/dashboard">Dashboard</NavBtn>
           <NavBtn page="/settings">Settings</NavBtn>
@@ -76,7 +76,7 @@ export default function Navbar() {
               {router.pathname !== '/' && (
                 <>
                   {isConnected ? (
-                    <div className="flex justify-center items-center">
+                    <div className="flex items-center justify-center">
                       <DropdownMenu />
                       <AddressPopover
                         address={address}
@@ -85,7 +85,7 @@ export default function Navbar() {
                       />
                     </div>
                   ) : (
-                    <div className="flex m-auto">
+                    <div className="m-auto flex">
                       <ConnectButton />
                     </div>
                   )}

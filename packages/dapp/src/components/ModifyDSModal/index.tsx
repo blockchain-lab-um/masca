@@ -77,7 +77,7 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
                   Modify Credential
                 </Dialog.Title>
                 <div className="mt-2">
-                  <p className="text-sm text-red-500 my-2">
+                  <p className="my-2 text-sm text-red-500">
                     Feature not implemented yet.
                   </p>
                   <p className="text-sm text-gray-500">
@@ -86,7 +86,7 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
                 </div>
                 <div className="mt-6 text-gray-800">
                   {Object.keys(vcStores).map((store, id) => (
-                    <div key={id} className="flex justify-between items-center">
+                    <div key={id} className="flex items-center justify-between">
                       <div>{store}</div>
                       <span
                         className={`${
@@ -106,7 +106,7 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
                     </div>
                   ))}
                 </div>
-                <div className="flex justify-end items-center">
+                <div className="flex items-center justify-end">
                   <div className="mt-8">
                     <Button
                       onClick={() => setOpen(false)}

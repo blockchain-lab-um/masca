@@ -16,7 +16,7 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
       {({ open }) => (
         <>
           <Popover.Button
-            className={`inline-flex w-full  justify-center  dark:text-orange-600 text-pink-800 px-4 py-2 text-h4 rounded-3xl animated-transition font-medium hover:bg-pink-100 focus:outline-none ${
+            className={`text-h4 animated-transition  inline-flex  w-full justify-center rounded-3xl px-4 py-2 font-medium text-pink-800 hover:bg-pink-100 focus:outline-none dark:text-orange-600 ${
               open
                 ? 'bg-pink-100 dark:bg-purple-500'
                 : 'bg-pink-50 dark:bg-purple-600 dark:hover:bg-purple-500'
@@ -26,7 +26,7 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
               {`${address.slice(0, 6)}...${address.slice(-4)}`}
 
               <ChevronDownIcon
-                className={`-mr-1 ml-2 h-5 w-5 max-md:rotate-180 animated-transition ${
+                className={`animated-transition -mr-1 ml-2 h-5 w-5 max-md:rotate-180 ${
                   open ? 'rotate-180' : ''
                 }`}
               />
@@ -40,14 +40,14 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
             leaveFrom="transform scale-100 opacity-100"
             leaveTo="transform scale-95 opacity-0"
           >
-            <Popover.Panel className="absolute max-md:left-0 max-md:-top-12 max-md:transform max-md:-translate-y-full max-md:mb-2 md:mt-2 right-0 bg-white dark:bg-navy-blue-500 dark:border dark:border-navy-blue-400 shadow-xl rounded-2xl">
-              <div className="pt-6 px-6 pb-3 rounded-2xl shadow-sm">
+            <Popover.Panel className="dark:bg-navy-blue-500 dark:border-navy-blue-400 absolute right-0 rounded-2xl bg-white shadow-xl dark:border max-md:left-0 max-md:-top-12 max-md:mb-2 max-md:-translate-y-full max-md:transform md:mt-2">
+              <div className="rounded-2xl px-6 pt-6 pb-3 shadow-sm">
                 <div className="flex flex-col justify-between gap-3">
                   <div>
-                    <div className="text-sm text-gray-700 dark:text-navy-blue-tone/80">
+                    <div className="dark:text-navy-blue-tone/80 text-sm text-gray-700">
                       DID
                     </div>
-                    <div className="flex items-center mt-2">
+                    <div className="mt-2 flex items-center">
                       <div className=" text-2xl text-gray-900 dark:text-white">{`${did.slice(
                         0,
                         12
@@ -57,17 +57,17 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
                           copyToClipboard(did);
                         }}
                       >
-                        <DocumentDuplicateIcon className="h-5 w-5 ml-1 text-gray-900 dark:text-white hover:text-gray-600 animated-transition" />
+                        <DocumentDuplicateIcon className="animated-transition ml-1 h-5 w-5 text-gray-900 hover:text-gray-600 dark:text-white" />
                       </button>
                     </div>
                   </div>
                   <div>
-                    <div className=" text-sm text-gray-700 dark:text-navy-blue-tone/80 mt-4">
+                    <div className=" dark:text-navy-blue-tone/80 mt-4 text-sm text-gray-700">
                       CONNECTED WITH METAMASK
                     </div>
-                    <div className="flex items-center mt-2">
+                    <div className="mt-2 flex items-center">
                       <div className="mr-1 mt-0.5">
-                        <div className="w-2.5 h-2.5 bg-green-500 rounded-full"></div>
+                        <div className="h-2.5 w-2.5 rounded-full bg-green-500"></div>
                       </div>
                       <div className=" text-lg text-gray-900 dark:text-white ">{`${address.slice(
                         0,
@@ -78,14 +78,14 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
                           copyToClipboard(address);
                         }}
                       >
-                        <DocumentDuplicateIcon className="h-5 w-5 ml-1 text-gray-900 dark:text-white hover:text-gray-600 animated-transition" />
+                        <DocumentDuplicateIcon className="animated-transition ml-1 h-5 w-5 text-gray-900 hover:text-gray-600 dark:text-white" />
                       </button>
                     </div>
                   </div>
                   <div className="mt-2 flex justify-start">
                     <button
                       onClick={disconnect}
-                      className="mt-auto text-xs text-pink-800 dark:text-pink-400 hover:dark:text-pink-500 font-semibold hover:text-pink-700 animated-transition"
+                      className="animated-transition mt-auto text-xs font-semibold text-pink-800 hover:text-pink-700 dark:text-pink-400 hover:dark:text-pink-500"
                     >
                       DISCONNECT
                     </button>

@@ -51,18 +51,18 @@ export default function Settings() {
       </Head>
       <MetaMaskGateway>
         <div className="grid place-items-center">
-          <div className="max-w-sm md:max-w-md lg:max-w-lg xl:max-w-[34rem] xl:w-[34rem] w-full h-full flex flex-col min-h-[40vh] border border-gray-200 bg-white dark:bg-gray-800 dark:shadow-orange-900  rounded-3xl shadow-lg">
+          <div className="flex h-full min-h-[40vh] w-full max-w-sm flex-col rounded-3xl border border-gray-200 bg-white shadow-lg dark:bg-gray-800 dark:shadow-orange-900 md:max-w-md lg:max-w-lg  xl:w-[34rem] xl:max-w-[34rem]">
             <ConnectedGateway>
               <div className="p-4 text-lg">
                 <div>
-                  <div className="text-orange-500 font-semibold text-h4">
+                  <div className="text-h4 font-semibold text-orange-500">
                     Data Stores
                   </div>
-                  <div className="mt-2 text-md text-gray-600">
+                  <div className="text-md mt-2 text-gray-600">
                     Enable or disable data stores. Data stores are places where
                     VCs are stored.{' '}
                   </div>
-                  <span className="text-gray-800 flex justify-between mt-4">
+                  <span className="mt-4 flex justify-between text-gray-800">
                     Ceramic{' '}
                     <ToggleSwitch
                       enabled={availableVCStores.ceramic}
@@ -73,10 +73,10 @@ export default function Settings() {
                 </div>
 
                 <div className="mt-6">
-                  <span className="text-orange-500 font-semibold text-h4">
+                  <span className="text-h4 font-semibold text-orange-500">
                     Advanced
                   </span>
-                  <div className="text-red-500 mt-2 text-sm">
+                  <div className="mt-2 text-sm text-red-500">
                     Not implemented yet.
                   </div>
                   <div></div>

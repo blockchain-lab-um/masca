@@ -102,7 +102,7 @@ function DeleteModal({ open, setOpen, vc }: DeleteModalProps) {
                     wallet. This action cannot be undone.
                   </p>
                 </div>
-                <div className="flex justify-end items-center">
+                <div className="flex items-center justify-end">
                   <div className="mt-4">
                     <Button
                       onClick={() => setOpen(false)}

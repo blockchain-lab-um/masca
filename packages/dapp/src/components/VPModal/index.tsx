@@ -40,7 +40,7 @@ function VPModal({ open, setOpen, vp }: VPModalProps) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md md:max-w-xl lg:max-w-2xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all md:max-w-xl lg:max-w-2xl">
                 <Dialog.Title
                   as="h3"
                   className="text-lg font-semibold leading-6 text-orange-500"
@@ -53,9 +53,9 @@ function VPModal({ open, setOpen, vp }: VPModalProps) {
                   </p>
                 </div>
                 <div className="mt-8">
-                  <div className="relative z-0 group bg-orange-100 pt-1 pr-2 rounded-2xl">
+                  <div className="group relative z-0 rounded-2xl bg-orange-100 pt-1 pr-2">
                     <textarea
-                      className="group-hover:scrollbar-thumb-orange-300 scrollbar-thin rounded-2xl scrollbar-thumb-orange-300/0 scrollbar-thumb-rounded-full bg-orange-100 min-h-[60vh] w-full resize-none focus:outline-none p-2 text-orange-900 font-jetbrains-mono "
+                      className="group-hover:scrollbar-thumb-orange-300 scrollbar-thin scrollbar-thumb-orange-300/0 scrollbar-thumb-rounded-full font-jetbrains-mono min-h-[60vh] w-full resize-none rounded-2xl bg-orange-100 p-2 text-orange-900 focus:outline-none "
                       disabled
                       value={JSON.stringify(vp, null, 4)}
                     />
@@ -66,13 +66,13 @@ function VPModal({ open, setOpen, vp }: VPModalProps) {
                           .writeText(JSON.stringify(vp, null, 4))
                           .catch(() => {});
                       }}
-                      className="absolute bottom-3 right-6 text-orange-900 p-1 rounded-full bg-orange-300 hover:bg-orange-200 hover:text-orange-800 shadow-md border border-gray-200 animated-transition"
+                      className="animated-transition absolute bottom-3 right-6 rounded-full border border-gray-200 bg-orange-300 p-1 text-orange-900 shadow-md hover:bg-orange-200 hover:text-orange-800"
                     >
-                      <DocumentDuplicateIcon className="w-5 h-5" />
+                      <DocumentDuplicateIcon className="h-5 w-5" />
                     </button>
                   </div>
                 </div>
-                <div className="mt-8 flex justify-end items-center">
+                <div className="mt-8 flex items-center justify-end">
                   <div className="mt-4 ml-2">
                     <Button
                       onClick={async () => {

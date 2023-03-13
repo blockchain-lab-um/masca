@@ -33,13 +33,13 @@ const Footer = () => {
     <div
       className={`${
         router.pathname === '/' ? 'hidden' : ''
-      } flex justify-between items-center mt-auto px-5 py-2 bg-orange-500/10 md:hidden`}
+      } mt-auto flex items-center justify-between bg-orange-500/10 px-5 py-2 md:hidden`}
     >
       {hasFlask && hasMM && (
         <>
           {isConnected ? (
             <span>
-              <div className="flex m-auto justify-center items-center">
+              <div className="m-auto flex items-center justify-center">
                 <AddressPopover
                   address={address}
                   did={did}

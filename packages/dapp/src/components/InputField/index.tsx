@@ -47,7 +47,7 @@ const InputField = ({
         sizes[size],
         `rounded-${rounded}`,
         `shadow-${shadow}`,
-        'ring-none outline-none w-full'
+        'ring-none w-full outline-none'
       )}
     />
   );

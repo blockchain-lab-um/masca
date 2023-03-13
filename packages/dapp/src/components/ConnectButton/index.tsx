@@ -107,7 +107,7 @@ const ConnectButton = () => {
       <div className="flex">
         Connect Wallet
         {loading && (
-          <div className="w-6 h-6 rounded-full object-center">
+          <div className="h-6 w-6 rounded-full object-center">
             <Image
               src={`${BASE_PATH}/images/connect-spinner.png`}
               alt="Masca Logo"

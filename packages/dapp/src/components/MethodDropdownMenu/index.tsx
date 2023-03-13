@@ -40,7 +40,7 @@ export default function MethodDropdownMenu() {
         <Fragment>
           <div>
             <Menu.Button
-              className={`inline-flex w-full justify-center text-gray-800 dark:text-navy-blue-tone px-4 py-2 text-h4 rounded-3xl font-medium focus:outline-none animated-transition ${
+              className={`dark:text-navy-blue-tone text-h4 animated-transition inline-flex w-full justify-center rounded-3xl px-4 py-2 font-medium text-gray-800 focus:outline-none ${
                 open
                   ? 'bg-orange-100/50 dark:bg-purple-600'
                   : 'hover:bg-orange-100/50 dark:hover:bg-purple-600'
@@ -48,7 +48,7 @@ export default function MethodDropdownMenu() {
             >
               {currMethod}
               <ChevronDownIcon
-                className={`-mr-1 ml-2 h-5 w-5 max-md:rotate-180 text-gray-600 dark:text-navy-blue-tone/80 animated-transition ${
+                className={`dark:text-navy-blue-tone/80 animated-transition -mr-1 ml-2 h-5 w-5 text-gray-600 max-md:rotate-180 ${
                   open ? 'rotate-180' : ''
                 }`}
               />
@@ -64,7 +64,7 @@ export default function MethodDropdownMenu() {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="max-md:-top-12 max-md:transform max-md:-translate-y-full absolute mt-1 right-0 rounded-xl bg-white dark:bg-navy-blue-500 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <Menu.Items className="dark:bg-navy-blue-500 absolute right-0 mt-1 rounded-xl bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none max-md:-top-12 max-md:-translate-y-full max-md:transform">
               <div className="py-2">
                 {methods.map((method, id) => {
                   return (

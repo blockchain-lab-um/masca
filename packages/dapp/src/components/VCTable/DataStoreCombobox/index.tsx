@@ -45,7 +45,7 @@ const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
         });
 
   return (
-    <div className="w-36 h-9">
+    <div className="h-9 w-36">
       <Combobox
         value={selectedItems}
         onChange={(value) => {
@@ -55,10 +55,10 @@ const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
         disabled={!isConnected || vcs.length === 0}
       >
         {({ open }) => (
-          <div className="h-full relative">
-            <div className="relative h-full w-full cursor-default rounded-full overflow-hidden focus:outline-none bg-whitetext-left  sm:text-sm border border-gray-200 shadow-md">
+          <div className="relative h-full">
+            <div className="bg-whitetext-left relative h-full w-full cursor-default overflow-hidden rounded-full border  border-gray-200 shadow-md focus:outline-none sm:text-sm">
               <Combobox.Input
-                className={`w-full h-full placeholder:text-orange-200 border-none py-1.5 pl-3 pr-8 text-sm leading-5 focus:outline-none dark:bg-gray-800 text-orange-500 focus:ring-0 ${
+                className={`h-full w-full border-none py-1.5 pl-3 pr-8 text-sm leading-5 text-orange-500 placeholder:text-orange-200 focus:outline-none focus:ring-0 dark:bg-gray-800 ${
                   !isConnected || vcs.length === 0
                     ? 'bg-gray-50 text-gray-300'
                     : ' '
@@ -99,14 +99,14 @@ const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
               leaveTo="opacity-0"
               afterLeave={() => setQuery('')}
             >
-              <Combobox.Options className="absolute mt-1 max-h-60 z-50 w-full py-2 shadow-md rounded-xl bg-white text-base border border-gray-200 sm:text-sm">
+              <Combobox.Options className="absolute z-50 mt-1 max-h-60 w-full rounded-xl border border-gray-200 bg-white py-2 text-base shadow-md sm:text-sm">
                 {filteredDataStores.map((data_store, id) => (
                   <Combobox.Option
                     key={id}
                     className={({ active }) =>
-                      `relative mx-2 rounded-xl pl-10 py-2 text-sm ${
+                      `relative mx-2 rounded-xl py-2 pl-10 text-sm ${
                         active
-                          ? 'text-orange-600 bg-orange-100 animated-transition cursor-pointer'
+                          ? 'animated-transition cursor-pointer bg-orange-100 text-orange-600'
                           : 'text-gray-800'
                       }`
                     }
