@@ -40,7 +40,7 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
             leaveFrom="transform scale-100 opacity-100"
             leaveTo="transform scale-95 opacity-0"
           >
-            <Popover.Panel className="dark:bg-navy-blue-500 dark:border-navy-blue-400 dark: absolute right-0 rounded-2xl bg-white shadow-xl max-md:-top-12 max-md:mb-2 max-md:-translate-y-full max-md:transform md:mt-2">
+            <Popover.Panel className="dark:bg-navy-blue-500 dark:border-navy-blue-400 absolute right-0 rounded-2xl bg-white shadow-xl max-md:-top-12 max-md:mb-2 max-md:-translate-y-full max-md:transform md:mt-2">
               <div className="rounded-2xl px-6 pt-6 pb-3 shadow-sm">
                 <div className="flex flex-col justify-between gap-3">
                   <div>
