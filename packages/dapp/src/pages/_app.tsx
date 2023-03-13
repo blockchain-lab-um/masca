@@ -4,6 +4,7 @@ import { Cabin, JetBrains_Mono, Ubuntu } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
 
 import Layout from '@/components/Layout';
+import MetaMaskProvider from '@/components/MetaMaskProvider';
 
 const cabin = Cabin({
   variable: '--font-cabin',
@@ -28,7 +29,9 @@ export default function App({ Component, pageProps }: AppProps) {
         className={`${cabin.variable} ${ubuntu.variable} ${jetBrainsMono.variable} font-cabin`}
       >
         <Layout>
-          <Component {...pageProps} />
+          <MetaMaskProvider>
+            <Component {...pageProps} />
+          </MetaMaskProvider>
         </Layout>
       </div>
     </ThemeProvider>
