@@ -13,7 +13,7 @@ const cabin = Cabin({
 const ubuntu = Ubuntu({
   variable: '--font-ubuntu',
   display: 'swap',
-  weight: ['400', '500', '700'], // TODO: Set the weights you want to load
+  weight: ['400', '500', '700'],
 });
 
 const jetBrainsMono = JetBrains_Mono({
