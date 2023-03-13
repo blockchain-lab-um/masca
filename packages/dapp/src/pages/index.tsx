@@ -38,16 +38,15 @@ export default function Home() {
       <div className="absolute  right-[-20vw] top-[-30vh] w-[50vw] h-[50vw] rounded-full bg-orange-500 opacity-10 -z-10"></div> */}
 
         <div className="text-h4 sm:text-h2 lg:text-h1 font-ubuntu">
-          Take control of your{' '}
-          <span className="text-pink-500 dark:text-pink-400">
+          Take control of your
+          <span className="pl-1.5 text-pink-500 dark:text-pink-400">
             Online Identity
           </span>
         </div>
-
         <div className="text-h5 sm:text-h4 lg:text-h3 text-gray-80 dark:text-orange-500-60 font-ubuntu pt-8">
-          Join the world of{' '}
-          <span className="text-pink-500 dark:text-pink-400">
-            Self - Sovereign Identity{' '}
+          Join the world of
+          <span className="px-1.5 text-pink-500 dark:text-pink-400">
+            Self - Sovereign Identity
           </span>
           with one click
         </div>
