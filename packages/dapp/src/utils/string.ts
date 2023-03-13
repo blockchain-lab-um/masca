@@ -18,8 +18,5 @@ export const convertTypes = (types: string | string[] | undefined): string => {
 };
 
 export const copyToClipboard = (text: string): void => {
-  navigator.clipboard
-    .writeText(text)
-    .then(() => {})
-    .catch(() => {});
+  navigator.clipboard.writeText(text).catch(() => {});
 };
