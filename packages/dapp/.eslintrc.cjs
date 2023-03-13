@@ -7,6 +7,7 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
+    '@typescript-eslint/no-misused-promises': 0,
     'global-require': 0,
   },
 };

@@ -63,7 +63,6 @@ export default function ToggleSwitch({
     <Switch
       disabled={disabled}
       checked={enabled}
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onChange={setEnabled}
       className={clsx(
         enabled ? variantsEnabled[variant] : variants[variant],
