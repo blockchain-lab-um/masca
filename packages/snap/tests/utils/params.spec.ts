@@ -14,9 +14,9 @@ import {
 
 describe('Utils [params]', () => {
   /*
-    isValidGetVCsRequest
+    isValidQueryVCsRequest
   */
-  describe('isValidGetVCsRequest', () => {
+  describe('isValidQueryVCsRequest', () => {
     it.todo('Add test');
   });
   describe('isValidResolveDIDRequest', () => {
