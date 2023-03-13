@@ -1,6 +1,7 @@
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import { Cabin, JetBrains_Mono, Ubuntu } from 'next/font/google';
+import Head from 'next/head';
 import { ThemeProvider } from 'next-themes';
 
 import Layout from '@/components/Layout';
@@ -24,16 +25,25 @@ const jetBrainsMono = JetBrains_Mono({
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <ThemeProvider attribute="class" enableSystem={false} defaultTheme="light">
-      <div
-        className={`${cabin.variable} ${ubuntu.variable} ${jetBrainsMono.variable} font-cabin`}
+    <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
+      <ThemeProvider
+        attribute="class"
+        enableSystem={false}
+        defaultTheme="light"
       >
-        <Layout>
-          <MetaMaskProvider>
-            <Component {...pageProps} />
-          </MetaMaskProvider>
-        </Layout>
-      </div>
-    </ThemeProvider>
+        <div
+          className={`${cabin.variable} ${ubuntu.variable} ${jetBrainsMono.variable} font-cabin`}
+        >
+          <Layout>
+            <MetaMaskProvider>
+              <Component {...pageProps} />
+            </MetaMaskProvider>
+          </Layout>
+        </div>
+      </ThemeProvider>
+    </>
   );
 }
