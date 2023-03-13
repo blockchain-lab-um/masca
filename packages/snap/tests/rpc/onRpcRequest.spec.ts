@@ -11,7 +11,6 @@ import { SnapsGlobalObject } from '@metamask/snaps-types';
 import {
   DIDResolutionResult,
   IIdentifier,
-  MinimalImportableKey,
   VerifiableCredential,
   VerifiablePresentation,
 } from '@veramo/core';
@@ -27,6 +26,8 @@ import {
   exampleDID,
   exampleDIDDocument,
   exampleDIDKey,
+  exampleTestKey,
+  exampleTestVCPayload,
   getDefaultSnapState,
   jsonPath,
 } from '../testUtils/constants';
@@ -82,36 +83,19 @@ describe('onRpcRequest', () => {
       provider: 'did:ethr',
       kms: 'snap',
     });
-    const keyData: MinimalImportableKey = {
-      kid: 'importedTestKey',
-      kms: 'snap',
-      type: 'Secp256k1',
-      privateKeyHex:
-        'e63886b5ba367dc2aff9acea6d955ee7c39115f12eaf2aa6b1a2eaa852036668',
-      meta: { foo: 'bar' },
-    };
-    await agent.keyManagerImport(keyData);
+    await agent.keyManagerImport(exampleTestKey);
     ({ exampleVeramoVCJWT } = await createTestVCs(
       {
         agent,
         proofFormat: 'jwt',
         payload: {
           issuer: identifier.did,
-          type: ['VerifiableCredential', 'ProgramCompletionCertificate'],
-          credentialSubject: {
-            accomplishmentType: 'Developer Certificate',
-            learnerName: 'Bob',
-            achievement: 'Certified Solidity Developer 2',
-            courseProvider: 'https://blockchain-lab.um.si/',
-            id: 'did:ethr:goerli:0xb6665128ee91d84590f70c3268765384a9cafbcd',
-          },
-          credentialSchema: {
-            id: 'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
-            type: 'JsonSchemaValidator2018',
-          },
+          ...exampleTestVCPayload,
         },
       },
-      { keyRef: 'importedTestKey' }
+      {
+        keyRef: 'importedTestKey',
+      }
     ));
   });
 
