@@ -24,7 +24,7 @@ interface SnapStore {
 
 export const useSnapStore = create<SnapStore>()((set) => ({
   snapApi: undefined,
-  availableMethods: ['did:ethr', 'did:key'],
+  availableMethods: [],
   currDIDMethod: undefined,
   currVCStore: undefined,
   currDID: '',

@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { AvailableMethods } from '@blockchain-lab-um/ssi-snap-types';
 import { isError } from '@blockchain-lab-um/utils';
 import { Menu, Transition } from '@headlessui/react';
@@ -9,7 +9,6 @@ import { useSnapStore } from '@/utils/stores';
 import { DropdownButton } from './MethodDropdownButton';
 
 export default function MethodDropdownMenu() {
-  const [didMethod, setDidMethod] = useState('did:ethr');
   const { api, currMethod, methods, changeCurrDIDMethod, changeDID } =
     useSnapStore(
       (state) => ({
@@ -26,10 +25,11 @@ export default function MethodDropdownMenu() {
     if (method !== currMethod) {
       if (!api) return;
       const res = await api.switchDIDMethod(method as AvailableMethods);
+
+      // TODO: Show toast with error message
       if (!isError(res)) {
-        setDidMethod(method);
         changeCurrDIDMethod(method);
-        changeDID(res.data as unknown as string);
+        changeDID(res.data);
       }
     }
   };
@@ -40,13 +40,13 @@ export default function MethodDropdownMenu() {
         <Fragment>
           <div>
             <Menu.Button
-              className={`inline-flex w-full  justify-center text-gray-800 dark:text-navy-blue-tone px-4 py-2 text-h4 rounded-3xl font-medium focus:outline-none animated-transition ${
+              className={`inline-flex w-full justify-center text-gray-800 dark:text-navy-blue-tone px-4 py-2 text-h4 rounded-3xl font-medium focus:outline-none animated-transition ${
                 open
                   ? 'bg-orange-100/50 dark:bg-purple-600'
                   : 'hover:bg-orange-100/50 dark:hover:bg-purple-600'
               }`}
             >
-              {didMethod}
+              {currMethod}
               <ChevronDownIcon
                 className={`-mr-1 ml-2 h-5 w-5 max-md:rotate-180 text-gray-600 dark:text-navy-blue-tone/80 animated-transition ${
                   open ? 'rotate-180' : ''
@@ -69,9 +69,9 @@ export default function MethodDropdownMenu() {
                 {methods.map((method, id) => {
                   return (
                     <DropdownButton
+                      key={id}
                       selected={method === currMethod}
                       handleBtn={handleMethodChange}
-                      key={id}
                     >
                       {method}
                     </DropdownButton>
