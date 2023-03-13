@@ -73,7 +73,7 @@ function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
                   <div className="mt-8 pl-2 text-sm font-semibold text-orange-500">
                     SETTINGS
                   </div>
-                  <div className="flex items-center  justify-between px-4">
+                  <div className="flex items-center justify-between px-4">
                     <span className="flex gap-x-1 text-sm text-gray-700">
                       Storage <InfoIcon>Select one or more locations.</InfoIcon>
                     </span>
