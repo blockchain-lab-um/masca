@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { enableSSISnap } from '@blockchain-lab-um/ssi-snap-connector';
 import { isError } from '@blockchain-lab-um/utils';
@@ -9,7 +9,7 @@ import { BASE_PATH } from '@/utils/constants';
 import { useGeneralStore, useSnapStore } from '@/utils/stores';
 
 const ConnectButton = () => {
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
   const { changeAddress, changeIsConnected, changeHasSnapInstalled } =
     useGeneralStore(
       (state) => ({

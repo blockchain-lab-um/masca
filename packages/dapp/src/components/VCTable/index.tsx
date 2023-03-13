@@ -43,7 +43,7 @@ import { includesDataStore, selectRows } from './tableUtils';
 
 const Table = () => {
   const [loading, setLoading] = useState(false);
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
   const { vcs, changeVcs, api } = useSnapStore(
     (state) => ({
       vcs: state.vcs,

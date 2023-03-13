@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import * as Toast from '@radix-ui/react-toast';
 import { shallow } from 'zustand/shallow';
@@ -7,9 +7,9 @@ import { BASE_PATH } from '@/utils/constants';
 import { useToastStore } from '@/utils/stores';
 
 export const ToastWrapper = ({ children }: { children: JSX.Element }) => {
-  const timerRef = React.useRef(0);
+  const timerRef = useRef(0);
 
-  React.useEffect(() => {
+  useEffect(() => {
     return () => clearTimeout(timerRef.current);
   }, []);
 
