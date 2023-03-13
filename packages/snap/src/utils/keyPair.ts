@@ -69,7 +69,9 @@ export const getKeysFromAddressIndex = async (
   bip44CoinTypeNode: BIP44CoinTypeNode,
   addressIndex: number | undefined
 ) => {
-  if (addressIndex === undefined) throw new Error('Err, index undefined');
+  if (addressIndex === undefined) {
+    throw new Error('addressIndex undefined');
+  }
 
   const result = await getAddressKey(bip44CoinTypeNode, addressIndex);
   if (result === null) return null;

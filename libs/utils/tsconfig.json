@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "typeRoots": ["./node_modules/@types", "../../node_modules/@types"],
+    "declaration": true,
+    "inlineSourceMap": true
+  },
+  "files": [],
+  "include": ["src/**/*", "tests/**/*"]
+}
