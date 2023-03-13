@@ -319,7 +319,7 @@ const Table = () => {
 
   if (vcs.length === 0)
     return (
-      <div className="flex min-h-[50vh] flex-col items-center justify-center ">
+      <div className="flex min-h-[50vh] flex-col items-center justify-center">
         <Button
           variant="primary"
           size="md"

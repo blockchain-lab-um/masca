@@ -44,7 +44,7 @@ export default function Home() {
           </span>
         </div>
 
-        <div className=" text-h5 sm:text-h4 lg:text-h3 text-gray-80 dark:text-orange-500-60 font-ubuntu pt-8">
+        <div className="text-h5 sm:text-h4 lg:text-h3 text-gray-80 dark:text-orange-500-60 font-ubuntu pt-8">
           Join the world of{' '}
           <span className="text-pink-500 dark:text-pink-400">
             Self - Sovereign Identity{' '}

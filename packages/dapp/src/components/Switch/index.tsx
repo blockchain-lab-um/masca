@@ -68,9 +68,9 @@ export default function ToggleSwitch({
       className={clsx(
         enabled ? variantsEnabled[variant] : variants[variant],
         sizes[size],
-        `shadow-${shadow} `,
-        `rounded-${rounded} `,
-        `border-1 relative inline-flex items-center border border-gray-300 `
+        `shadow-${shadow}`,
+        `rounded-${rounded}`,
+        `border-1 relative inline-flex items-center border border-gray-300`
       )}
     >
       <span className="sr-only">Enable notifications</span>

@@ -129,7 +129,7 @@ const CreateVP = () => {
                 </tbody>
               </table>
               <div className="mt-8">
-                <div className="pl-2 text-sm font-semibold text-orange-500 ">
+                <div className="pl-2 text-sm font-semibold text-orange-500">
                   OPTIONS
                 </div>
                 <div className="flex items-center justify-between px-4">

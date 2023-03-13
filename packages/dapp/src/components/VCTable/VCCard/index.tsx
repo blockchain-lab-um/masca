@@ -29,7 +29,7 @@ const VCCard = ({ row }: VCCardProps) => {
     </Tooltip>
   );
   return (
-    <div className=" mx-4 mt-8 h-56 w-72 shrink-0 grow-0 rounded-xl border border-gray-100 bg-gradient-to-b from-orange-50 to-pink-50 p-4 shadow-lg sm:w-96 ">
+    <div className="mx-4 mt-8 h-56 w-72 shrink-0 grow-0 rounded-xl border border-gray-100 bg-gradient-to-b from-orange-50 to-pink-50 p-4 shadow-lg sm:w-96 ">
       <div className="flex h-full flex-col justify-between">
         <div className="flex items-center justify-between">
           <Link
@@ -45,7 +45,7 @@ const VCCard = ({ row }: VCCardProps) => {
         <div className="mt-1 flex items-center justify-between">
           <div className="text-md w-[45%] text-gray-900">
             <div>
-              <span className=" text-2xs text-orange-700">ISSUED BY</span>
+              <span className="text-2xs text-orange-700">ISSUED BY</span>
               <div className="">{issuerLink}</div>
             </div>
             <div className="mt-1">

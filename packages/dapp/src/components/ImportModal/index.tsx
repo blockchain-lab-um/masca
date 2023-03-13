@@ -65,7 +65,7 @@ function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
                 <div className="mt-8">
                   <div className="group relative z-0 rounded-2xl bg-orange-100 pt-1 pr-2 shadow-md">
                     <textarea
-                      className="group-hover:scrollbar-thumb-orange-300 scrollbar-thin scrollbar-thumb-orange-300/0 scrollbar-thumb-rounded-full font-jetbrains-mono min-h-[60vh] w-full resize-none rounded-2xl bg-orange-100 p-2 text-orange-900 focus:outline-none "
+                      className="group-hover:scrollbar-thumb-orange-300 scrollbar-thin scrollbar-thumb-orange-300/0 scrollbar-thumb-rounded-full font-jetbrains-mono min-h-[60vh] w-full resize-none rounded-2xl bg-orange-100 p-2 text-orange-900 focus:outline-none"
                       value={vc}
                       onChange={(e) => setVC(e.target.value)}
                     />

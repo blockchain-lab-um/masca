@@ -16,7 +16,7 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
       {({ open }) => (
         <>
           <Popover.Button
-            className={`text-h4 animated-transition  inline-flex  w-full justify-center rounded-3xl px-4 py-2 font-medium text-pink-800 hover:bg-pink-100 focus:outline-none dark:text-orange-600 ${
+            className={`text-h4 animated-transition inline-flex w-full justify-center rounded-3xl px-4 py-2 font-medium text-pink-800 hover:bg-pink-100 focus:outline-none dark:text-orange-600 ${
               open
                 ? 'bg-pink-100 dark:bg-purple-500'
                 : 'bg-pink-50 dark:bg-purple-600 dark:hover:bg-purple-500'
@@ -48,7 +48,7 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
                       DID
                     </div>
                     <div className="mt-2 flex items-center">
-                      <div className=" text-2xl text-gray-900 dark:text-white">{`${did.slice(
+                      <div className="text-2xl text-gray-900 dark:text-white">{`${did.slice(
                         0,
                         12
                       )}...${did.slice(-8)}`}</div>
@@ -62,14 +62,14 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
                     </div>
                   </div>
                   <div>
-                    <div className=" dark:text-navy-blue-tone/80 mt-4 text-sm text-gray-700">
+                    <div className="dark:text-navy-blue-tone/80 mt-4 text-sm text-gray-700">
                       CONNECTED WITH METAMASK
                     </div>
                     <div className="mt-2 flex items-center">
                       <div className="mr-1 mt-0.5">
                         <div className="h-2.5 w-2.5 rounded-full bg-green-500"></div>
                       </div>
-                      <div className=" text-lg text-gray-900 dark:text-white ">{`${address.slice(
+                      <div className="text-lg text-gray-900 dark:text-white">{`${address.slice(
                         0,
                         8
                       )}...${address.slice(-6)}`}</div>
