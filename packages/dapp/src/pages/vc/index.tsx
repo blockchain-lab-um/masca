@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Tab } from '@headlessui/react';
 import {
@@ -27,118 +28,130 @@ const VC = () => {
 
   if (!vc) {
     return (
-      <MetaMaskGateway>
-        <div className="flex justify-center h-full min-h-[50vh] p-5 bg-white dark:bg-gray-800 dark:shadow-orange-900  rounded-3xl shadow-lg">
-          <ConnectedGateway>
-            <div className="flex flex-col">VC not found!</div>
-          </ConnectedGateway>
-        </div>
-      </MetaMaskGateway>
+      <>
+        <Head>
+          <title>Masca | Settings</title>
+          <meta name="description" content="Settings page for Masca." />
+        </Head>
+        <MetaMaskGateway>
+          <div className="flex justify-center h-full min-h-[50vh] p-5 bg-white dark:bg-gray-800 dark:shadow-orange-900  rounded-3xl shadow-lg">
+            <ConnectedGateway>
+              <div className="flex flex-col">VC not found!</div>
+            </ConnectedGateway>
+          </div>
+        </MetaMaskGateway>
+      </>
     );
   }
 
   return (
-    <MetaMaskGateway>
-      <div className="grid place-items-center">
-        <div className="max-w-sm md:max-w-xl lg:max-w-2xl xl:max-w-[50rem] xl:w-[50rem] w-full">
-          <Tab.Group>
-            <div className="flex justify-between items-center">
-              <Tab.List className="flex max-w-fit space-x-1 rounded-full mb-2 text-orange-900 bg-white p-1 shadow-md border border-gray-200">
-                <Tab
-                  className={({ selected }) =>
-                    clsx(
-                      'w-full rounded-full text-sm py-2 font-semibold px-4 text-gray-500 animated-transition',
-                      selected
-                        ? 'bg-orange-100 text-orange-500'
-                        : 'hover:bg-orange-100 hover:text-orange-500'
-                    )
-                  }
-                >
-                  Normal
-                </Tab>
-                <Tab
-                  className={({ selected }) =>
-                    clsx(
-                      'w-full rounded-full text-sm py-2 font-semibold px-4 text-gray-500 animated-transition',
-                      selected
-                        ? 'bg-orange-100 text-orange-500'
-                        : 'hover:bg-orange-100 hover:text-orange-500'
-                    )
-                  }
-                >
-                  JSON
-                </Tab>
-              </Tab.List>
-              <div className="flex gap-1">
-                <Button
-                  variant="white"
-                  size="icon"
-                  shadow="md"
-                  onClick={() => setModifyDSModalOpen(true)}
-                >
-                  <Cog6ToothIcon className="w-5 h-5" />
-                </Button>
-                <Button
-                  variant="white"
-                  size="icon"
-                  shadow="md"
-                  onClick={() => console.log('not implemented yet')}
-                >
-                  <ArrowDownTrayIcon className="w-5 h-5" />
-                </Button>
-                <Button
-                  variant="white"
-                  size="icon"
-                  shadow="md"
-                  onClick={() => console.log('not implemented yet')}
-                >
-                  <ShareIcon className="w-5 h-5" />
-                </Button>
-                <Button
-                  variant="white"
-                  size="icon"
-                  shadow="md"
-                  onClick={() => setDeleteModalOpen(true)}
-                >
-                  <TrashIcon className="w-5 h-5" />
-                </Button>
-              </div>
-            </div>
-            <div className="h-full w-full bg-white border border-gray-200 pt-2 dark:bg-gray-800 dark:shadow-orange-900 rounded-3xl shadow-lg">
-              <ConnectedGateway>
-                <div className="w-full flex justify-between px-5 pt-4">
-                  <button
-                    onClick={() => router.back()}
-                    className="text-gray-900 hover:bg-orange-100 p-1 hover:text-orange-700 animated-transition rounded-full"
+    <>
+      <Head>
+        <title>Masca | Settings</title>
+        <meta name="description" content="Settings page for Masca." />
+      </Head>
+      <MetaMaskGateway>
+        <div className="grid place-items-center">
+          <div className="max-w-sm md:max-w-xl lg:max-w-2xl xl:max-w-[50rem] xl:w-[50rem] w-full">
+            <Tab.Group>
+              <div className="flex justify-between items-center">
+                <Tab.List className="flex max-w-fit space-x-1 rounded-full mb-2 text-orange-900 bg-white p-1 shadow-md border border-gray-200">
+                  <Tab
+                    className={({ selected }) =>
+                      clsx(
+                        'w-full rounded-full text-sm py-2 font-semibold px-4 text-gray-500 animated-transition',
+                        selected
+                          ? 'bg-orange-100 text-orange-500'
+                          : 'hover:bg-orange-100 hover:text-orange-500'
+                      )
+                    }
                   >
-                    <ArrowLeftIcon className="w-6 h-6" />
-                  </button>
-                  <div className="text-h3 font-semibold">
-                    Verifiable Credential
+                    Normal
+                  </Tab>
+                  <Tab
+                    className={({ selected }) =>
+                      clsx(
+                        'w-full rounded-full text-sm py-2 font-semibold px-4 text-gray-500 animated-transition',
+                        selected
+                          ? 'bg-orange-100 text-orange-500'
+                          : 'hover:bg-orange-100 hover:text-orange-500'
+                      )
+                    }
+                  >
+                    JSON
+                  </Tab>
+                </Tab.List>
+                <div className="flex gap-1">
+                  <Button
+                    variant="white"
+                    size="icon"
+                    shadow="md"
+                    onClick={() => setModifyDSModalOpen(true)}
+                  >
+                    <Cog6ToothIcon className="w-5 h-5" />
+                  </Button>
+                  <Button
+                    variant="white"
+                    size="icon"
+                    shadow="md"
+                    onClick={() => console.log('not implemented yet')}
+                  >
+                    <ArrowDownTrayIcon className="w-5 h-5" />
+                  </Button>
+                  <Button
+                    variant="white"
+                    size="icon"
+                    shadow="md"
+                    onClick={() => console.log('not implemented yet')}
+                  >
+                    <ShareIcon className="w-5 h-5" />
+                  </Button>
+                  <Button
+                    variant="white"
+                    size="icon"
+                    shadow="md"
+                    onClick={() => setDeleteModalOpen(true)}
+                  >
+                    <TrashIcon className="w-5 h-5" />
+                  </Button>
+                </div>
+              </div>
+              <div className="h-full w-full bg-white border border-gray-200 pt-2 dark:bg-gray-800 dark:shadow-orange-900 rounded-3xl shadow-lg">
+                <ConnectedGateway>
+                  <div className="w-full flex justify-between px-5 pt-4">
+                    <button
+                      onClick={() => router.back()}
+                      className="text-gray-900 hover:bg-orange-100 p-1 hover:text-orange-700 animated-transition rounded-full"
+                    >
+                      <ArrowLeftIcon className="w-6 h-6" />
+                    </button>
+                    <div className="text-h3 font-semibold">
+                      Verifiable Credential
+                    </div>
                   </div>
-                </div>
-                <div className="w-full px-2 sm:px-0">
-                  <Tab.Panels className="w-full">
-                    <Tab.Panel>
-                      <FormatedTab
-                        vc={vc}
-                        deleteModalOpen={deleteModalOpen}
-                        setDeleteModalOpen={setDeleteModalOpen}
-                        modifyDSModalOpen={modifyDSModalOpen}
-                        setModifyDSModalOpen={setModifyDSModalOpen}
-                      />
-                    </Tab.Panel>
-                    <Tab.Panel className="w-full">
-                      <JsonTab vc={vc} />
-                    </Tab.Panel>
-                  </Tab.Panels>
-                </div>
-              </ConnectedGateway>
-            </div>
-          </Tab.Group>
+                  <div className="w-full px-2 sm:px-0">
+                    <Tab.Panels className="w-full">
+                      <Tab.Panel>
+                        <FormatedTab
+                          vc={vc}
+                          deleteModalOpen={deleteModalOpen}
+                          setDeleteModalOpen={setDeleteModalOpen}
+                          modifyDSModalOpen={modifyDSModalOpen}
+                          setModifyDSModalOpen={setModifyDSModalOpen}
+                        />
+                      </Tab.Panel>
+                      <Tab.Panel className="w-full">
+                        <JsonTab vc={vc} />
+                      </Tab.Panel>
+                    </Tab.Panels>
+                  </div>
+                </ConnectedGateway>
+              </div>
+            </Tab.Group>
+          </div>
         </div>
-      </div>
-    </MetaMaskGateway>
+      </MetaMaskGateway>
+    </>
   );
 };
 
