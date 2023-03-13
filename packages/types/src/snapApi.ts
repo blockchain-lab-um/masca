@@ -30,7 +30,7 @@ export interface SSISnapApi {
   getDID(): Promise<Result<string>>;
   getSelectedMethod(): Promise<Result<string>>;
   getAvailableMethods(): Promise<Result<string[]>>;
-  switchDIDMethod(method: AvailableMethods): Promise<Result<boolean>>;
+  switchDIDMethod(method: AvailableMethods): Promise<Result<AvailableMethods>>;
   getVCStore(): Promise<Result<Record<AvailableVCStores, boolean>>>;
   setVCStore(
     store: AvailableVCStores,
