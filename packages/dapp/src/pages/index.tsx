@@ -30,14 +30,14 @@ export default function Home() {
 
       <div className="text-h4 sm:text-h2 lg:text-h1 font-ubuntu">
         Take control of your{' '}
-        <span className="text-pink-500 dark:text-pink-400">
+        <span className="text-pink-400 dark:text-pink-400">
           Online Identity
         </span>
       </div>
 
       <div className=" text-h5 sm:text-h4 lg:text-h3 pt-8 text-gray-80 dark:text-orange-500-60 font-ubuntu">
         Join the world of{' '}
-        <span className="text-pink-500 dark:text-pink-400">
+        <span className="text-pink-400 dark:text-pink-400">
           Self - Sovereign Identity{' '}
         </span>
         with one click
