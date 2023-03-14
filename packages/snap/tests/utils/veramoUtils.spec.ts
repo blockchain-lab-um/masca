@@ -1036,7 +1036,6 @@ describe('Utils [veramo]', () => {
         }
       );
 
-      console.log(createdVP);
       expect(createdVP).not.toBeNull();
 
       // Waiting for Veramo to fix this

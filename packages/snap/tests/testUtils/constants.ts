@@ -57,7 +57,6 @@ export const exampleTestKey: MinimalImportableKey = {
   type: 'Secp256k1',
   privateKeyHex:
     'e63886b5ba367dc2aff9acea6d955ee7c39115f12eaf2aa6b1a2eaa852036668',
-  meta: { foo: 'bar' },
 } as const;
 
 export const exampleTestVCPayload = {
