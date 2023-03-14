@@ -122,7 +122,6 @@ describe('onRpcRequest', () => {
 
       expect(saveRes.data).toEqual([
         expect.objectContaining({
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           id: expect.any(String),
           store: 'snap',
         }),
@@ -178,7 +177,6 @@ describe('onRpcRequest', () => {
 
       expect(saveRes.data).toEqual([
         expect.objectContaining({
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           id: expect.any(String),
           store: 'snap',
         }),
@@ -251,12 +249,10 @@ describe('onRpcRequest', () => {
 
       expect(saveRes.data).toEqual([
         expect.objectContaining({
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           id: expect.any(String),
           store: 'snap',
         }),
         expect.objectContaining({
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           id: expect.any(String),
           store: 'ceramic',
         }),
@@ -760,7 +756,6 @@ describe('onRpcRequest', () => {
 
       expect(saveRes.data).toEqual([
         expect.objectContaining({
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           id: expect.any(String),
           store: 'snap',
         }),
@@ -826,7 +821,6 @@ describe('onRpcRequest', () => {
 
       expect(saveRes.data).toEqual([
         expect.objectContaining({
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           id: expect.any(String),
           store: 'snap',
         }),
@@ -893,7 +887,6 @@ describe('onRpcRequest', () => {
 
       expect(saveRes.data).toEqual([
         expect.objectContaining({
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           id: expect.any(String),
           store: 'snap',
         }),
