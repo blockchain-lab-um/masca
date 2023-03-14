@@ -7,10 +7,11 @@ interface TableStore {
   columnFilters: ColumnFiltersState;
   selectedVCs: QueryVCsRequestResult[];
   cardView: boolean;
-  setCardView: (view: boolean) => void;
-  setSelectedVCs: (selectedVCs: QueryVCsRequestResult[]) => void;
-  setColumnFilters: (columnFilters: ColumnFiltersState) => void;
+
   setGlobalFilter: (globalFilter: string) => void;
+  setColumnFilters: (columnFilters: ColumnFiltersState) => void;
+  setSelectedVCs: (selectedVCs: QueryVCsRequestResult[]) => void;
+  setCardView: (view: boolean) => void;
 }
 
 export const useTableStore = create<TableStore>()((set) => ({
@@ -18,10 +19,11 @@ export const useTableStore = create<TableStore>()((set) => ({
   columnFilters: [{ id: 'data_store', value: ['snap', 'ceramic'] }],
   selectedVCs: [],
   cardView: true,
+
+  setGlobalFilter: (globalFilter: string) => set({ globalFilter }),
+  setColumnFilters: (columnFilters: ColumnFiltersState) =>
+    set({ columnFilters }),
   setCardView: (cardView: boolean) => set({ cardView }),
   setSelectedVCs: (selectedVCs: QueryVCsRequestResult[]) =>
     set({ selectedVCs }),
-  setColumnFilters: (columnFilters: ColumnFiltersState) =>
-    set({ columnFilters }),
-  setGlobalFilter: (globalFilter: string) => set({ globalFilter }),
 }));

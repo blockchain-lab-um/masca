@@ -8,23 +8,34 @@ import ConnectButton from '../ConnectButton';
 export const NavConnection = () => {
   const did = useSnapStore((state) => state.currDID);
 
-  const { isConnected, hasMM, hasFlask, address, changeIsConnected } =
-    useGeneralStore(
-      (state) => ({
-        isConnected: state.isConnected,
-        hasMM: state.hasMetaMask,
-        hasFlask: state.isFlask,
-        address: state.address,
-        changeIsConnected: state.changeIsConnected,
-      }),
-      shallow
-    );
+  const {
+    isConnected,
+    hasMM,
+    hasFlask,
+    address,
+    changeIsConnected,
+    changeAddres,
+    changeDid,
+  } = useGeneralStore(
+    (state) => ({
+      isConnected: state.isConnected,
+      hasMM: state.hasMetaMask,
+      hasFlask: state.isFlask,
+      address: state.address,
+      changeIsConnected: state.changeIsConnected,
+      changeAddres: state.changeAddress,
+      changeDid: state.changeDid,
+    }),
+    shallow
+  );
 
   const setVcs = useSnapStore((state) => state.changeVcs);
 
   const disconnect = () => {
     setVcs([]);
     changeIsConnected(false);
+    changeAddres('');
+    changeDid('');
   };
 
   if (!hasMM || !hasFlask) return null;
