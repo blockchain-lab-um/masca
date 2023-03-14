@@ -12,7 +12,7 @@ The SSI Snap is a **MetaMask Snap** (extension) that adds support for **SSI**: i
 
 ### How to start using the SSI Snap?
 
-SSI Snap currently works only on **MetaMask Flask**. You can find it [here](https://metamask.io/flask/). Snaps are expected to come to the main MetaMask in 2023.
+SSI Snap currently works only on **MetaMask Flask**. You can find it [here](https://metamask.io/flask/). Snaps are expected to come to the main MetaMask sometime in the second half of 2023.
 
 After that, connect to any dApp that uses SSI Snap, and you are good to go!
 
