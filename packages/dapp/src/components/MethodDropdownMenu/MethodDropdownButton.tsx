@@ -1,5 +1,6 @@
 import React from 'react';
 import { Menu } from '@headlessui/react';
+import { CheckIcon } from '@heroicons/react/24/solid';
 import { clsx } from 'clsx';
 
 type DropdownButtonProps = {
@@ -24,15 +25,20 @@ export const DropdownButton = ({
           }}
           className={clsx(
             active
-              ? 'dark:bg-navy-blue-400 dark:text-navy-blue-tone animated-transition cursor-pointer bg-gray-100/60'
+              ? 'dark:bg-navy-blue-500 dark:text-orange-accent-dark/95 animated-transition  cursor-pointer bg-pink-50 text-pink-600 '
               : '',
             selected
-              ? 'dark:text-navy-blue-tone font-semibold text-gray-800 dark:font-bold'
-              : 'dark:text-navy-blue-tone/80 font-normal text-gray-600',
-            'mx-2 block rounded-xl px-4 py-2 text-lg'
+              ? 'dark:text-orange-accent-dark dark:bg-navy-blue-600 bg-white text-pink-700'
+              : 'dark:text-navy-blue-100 text-gray-600',
+            'block rounded-full py-2 text-lg'
           )}
         >
-          <span className="flex">{children}</span>
+          <span className="grid grid-cols-3">
+            <span>
+              {selected ? <CheckIcon className="ml-3 h-5 w-5" /> : ''}
+            </span>
+            {children}
+          </span>
         </a>
       )}
     </Menu.Item>

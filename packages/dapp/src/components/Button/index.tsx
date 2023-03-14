@@ -21,16 +21,18 @@ type ButtonProps = {
 
 const variants: Record<string, string> = {
   primary:
-    'bg-gradient-to-b from-pink-500 to-orange-500 hover:bg-gradient-to-b hover:opacity-80 text-white',
+    'bg-pink-500 dark:bg-orange-accent-dark dark:text-navy-blue-900  hover:opacity-80 text-white',
   'primary-active':
     'text-orange-500 border border-orange-500 bg-white hover:text-white hover:bg-orange-500',
-  secondary: 'bg-navy-blue-500 text-white btn hover:opacity-80',
+  secondary:
+    'border-2 border-navy-blue-900 text-navy-blue-900 hover:bg-navy-blue-100/20 dark:border-navy-blue-200 dark:text-navy-blue-200 animated-transition',
   'secondary-active':
-    'text-navy-blue-500 border border-navy-blue-500 hover:text-white hover:bg-navy-blue-500',
-  connect: 'bg-orange-100 text-orange-500 hover:opacity-80',
+    'text-navy-blue-500 border border border-navy-blue-500 hover:text-white hover:bg-navy-blue-500',
+  connect:
+    'bg-green-300 text-green-900/80 hover:opacity-80 border border-green-500',
   gray: 'bg-gray-200 text-gray-800 hover:opacity-80',
   'white-pink':
-    'bg-white text-gray-800 hover:text-white hover:bg-pink-400 dark:bg-pink-300 dark:text-gray-800 dark:hover:bg-pink-200 dark:hover:text-pink-500',
+    'bg-white text-gray-800 hover:text-white hover:bg-pink-400 dark:bg-orange-accent-dark dark:text-gray-900 dark:hover:bg-orange-accent-dark/80',
   white: 'bg-white text-orange-500 border border-gray-200 hover:opacity-80',
   warning: 'bg-red-500 hover:bg-red-500/90 text-white justify-center',
 };
@@ -78,7 +80,7 @@ const Button = ({
   loading = false,
 }: ButtonProps) => {
   return (
-    <div className="rounded-full bg-gray-100">
+    <div className="rounded-ful">
       <button
         className={`${clsx(
           variants[variant],

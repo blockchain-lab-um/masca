@@ -84,10 +84,12 @@ const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
   return (
     <>
       <div className="mb-4 mt-6 grid grid-cols-11">
-        <div className="col-span-5 col-start-1 flex gap-x-1">
-          <DataStoreCombobox isConnected={isConnected} vcs={vcs} />
-          <GlobalFilter isConnected={isConnected} vcs={vcs} />
-        </div>
+        {vcs.length > 0 && (
+          <div className="col-span-5 col-start-1 flex gap-x-1">
+            <DataStoreCombobox isConnected={isConnected} vcs={vcs} />
+            <GlobalFilter isConnected={isConnected} vcs={vcs} />
+          </div>
+        )}
 
         {vcs.length > 0 && (
           <div className="col-start-6 flex justify-center">

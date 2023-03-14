@@ -40,7 +40,7 @@ export default function MethodDropdownMenu() {
         <Fragment>
           <div>
             <Menu.Button
-              className={`dark:text-navy-blue-tone text-h4 animated-transition inline-flex w-full justify-center rounded-3xl px-4 py-2 font-medium text-gray-800 focus:outline-none ${
+              className={`dark:text-navy-blue-tone text-h4 animated-transition inline-flex w-full justify-center rounded-3xl px-4 py-2 font-medium text-gray-700 focus:outline-none ${
                 open
                   ? 'bg-orange-100/50 dark:bg-purple-600'
                   : 'hover:bg-orange-100/50 dark:hover:bg-purple-600'
@@ -64,8 +64,8 @@ export default function MethodDropdownMenu() {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="dark:bg-navy-blue-500 absolute right-0 mt-1 rounded-xl bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none max-md:-top-12 max-md:-translate-y-full max-md:transform">
-              <div className="py-2">
+            <Menu.Items className="dark:bg-navy-blue-600 absolute right-0 mt-1 w-48 rounded-3xl bg-white shadow-lg max-md:-top-12 max-md:-translate-y-full max-md:transform">
+              <div className="p-1 text-center ">
                 {methods.map((method, id) => {
                   return (
                     <DropdownButton

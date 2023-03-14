@@ -73,6 +73,7 @@ const Table = () => {
       header: ({ table }) => <></>,
       cell: ({ row, table }) => (
         <Link
+          className="flex items-center justify-center"
           href={{
             pathname: '/vc',
             query: { id: row.original.metadata.id },
@@ -99,12 +100,18 @@ const Table = () => {
       {
         id: 'type',
         cell: (info) => <span className="">{info.getValue().toString()}</span>,
-        header: () => <span>TYPE</span>,
+        header: () => (
+          <span className="flex items-center justify-center">TYPE</span>
+        ),
       }
     ),
     columnHelper.accessor((row) => Date.parse(row.data.issuanceDate), {
       id: 'date',
-      cell: (info) => <span>{new Date(info.getValue()).toDateString()}</span>,
+      cell: (info) => (
+        <span className="flex items-center justify-center">
+          {new Date(info.getValue()).toDateString()}
+        </span>
+      ),
       header: () => <span>ISSUANCE DATE</span>,
       enableGlobalFilter: false,
     }),
@@ -119,7 +126,7 @@ const Table = () => {
               href={`https://dev.uniresolver.io/#${info.getValue()}`}
               target="_blank"
               rel="noreferrer"
-              className="text-pink-400 underline hover:text-pink-500"
+              className="flex items-center justify-center text-pink-400 underline hover:text-pink-500"
             >{`${info.getValue().slice(0, 8)}....${info
               .getValue()
               .slice(-4)}`}</a>
@@ -143,7 +150,7 @@ const Table = () => {
               href={`https://dev.uniresolver.io/#${info.getValue()}`}
               target="_blank"
               rel="noreferrer"
-              className="text-pink-400 underline hover:text-pink-500"
+              className="flex items-center justify-center text-pink-400 underline hover:text-pink-500"
             >{`${info.getValue().slice(0, 8)}....${info
               .getValue()
               .slice(-4)}`}</a>
@@ -159,7 +166,7 @@ const Table = () => {
       {
         id: 'exp_date',
         cell: (info) => (
-          <span>
+          <span className="flex items-center justify-center">
             {info.getValue() === undefined
               ? '/'
               : new Date(info.getValue() as string).toDateString()}
@@ -344,13 +351,24 @@ const Table = () => {
     return (
       <>
         <div className="relative flex h-full min-h-[50vh] w-full flex-col">
-          <table className="lg:text-md min-w-full text-center text-sm text-gray-800 dark:text-white">
-            <thead className="border-b">
+          <div className="flex items-center justify-between border-b border-gray-400 p-5">
+            <div className="text-h2 font-ubuntu pl-4 font-medium text-gray-900">
+              My Credentials
+            </div>
+            <div className="text-right">
+              <div className="text-h4 text-gray-900">
+                {vcs.length} Credential(s) found
+              </div>
+              <div className="text-h5 text-gray-600">Fetched: today</div>
+            </div>
+          </div>
+          <table className="min-w-full text-center text-lg text-gray-600 dark:text-white">
+            <thead className="">
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr key={headerGroup.id}>
                   {headerGroup.headers.map((header) => (
                     <th
-                      className={`font-ubuntu text-md px-3 py-4 font-bold ${
+                      className={`font-cabin px-3 py-4 text-sm font-normal ${
                         header.id === 'type' || header.id === 'exp_date'
                           ? 'hidden lg:table-cell'
                           : ''
@@ -374,10 +392,10 @@ const Table = () => {
                             )}
                         {{
                           asc: (
-                            <ChevronDownIcon className="h-4 w-4 text-gray-800 dark:text-white" />
+                            <ChevronDownIcon className="h-4 w-4 text-gray-600 dark:text-white" />
                           ),
                           desc: (
-                            <ChevronUpIcon className="h-4 w-4 text-gray-800 dark:text-white" />
+                            <ChevronUpIcon className="h-4 w-4 text-gray-600 dark:text-white" />
                           ),
                         }[header.column.getIsSorted() as string] ?? null}
                       </div>
@@ -386,11 +404,11 @@ const Table = () => {
                 </tr>
               ))}
             </thead>
-            <tbody className="break-all  border-b text-gray-800 dark:text-white/60">
+            <tbody className="break-all border-b text-gray-800 dark:text-white/60">
               {table.getRowModel().rows.map((row) => (
                 <tr
                   key={row.id}
-                  className={`dark:border-navy-blue-tone/30 animated-transition border-b-2  border-gray-500/30 duration-75 ${
+                  className={`dark:border-navy-blue-tone/30 animated-transition border-b border-gray-100 duration-75 ${
                     row.getIsSelected()
                       ? 'dark:bg-navy-blue-400/80 bg-pink-50 hover:bg-pink-50'
                       : 'dark:hover:bg-navy-blue-400/30 hover:bg-gray-50'
@@ -440,7 +458,7 @@ const Table = () => {
               ))}
             </tbody>
           </table>
-          <div className="dark:bg-navy-blue-600 mt-auto flex justify-center rounded-b-3xl bg-gray-50 pt-3 pb-3">
+          <div className=" mt-auto flex justify-center rounded-b-3xl pt-3 pb-3">
             <TablePagination table={table} />
           </div>
           {table.getSelectedRowModel().rows.length > 0 && (
@@ -479,7 +497,7 @@ const Table = () => {
             <VCCard key={key} row={row} />
           ))}
         </div>
-        <div className="dark:bg-navy-blue-600 mt-auto flex justify-center rounded-b-3xl bg-gray-50 pt-3 pb-3">
+        <div className="mt-auto flex justify-center rounded-b-3xl pt-3 pb-3">
           <TablePagination table={table} />
         </div>
         {table.getSelectedRowModel().rows.length > 0 && (

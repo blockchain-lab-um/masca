@@ -14,7 +14,7 @@ export const NavBtn = ({ page, pathname, children }: NavBtnProps) => {
         className={`nav-btn ${
           pathname === page
             ? 'font-bold text-pink-500 after:w-[100%] dark:text-pink-400'
-            : 'dark:text-navy-blue-tone/80 text-gray-700'
+            : 'dark:text-navy-blue-tone/80 text-gray-600'
         }`}
       >
         {children}

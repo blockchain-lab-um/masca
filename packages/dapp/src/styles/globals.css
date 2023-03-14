@@ -31,7 +31,7 @@ body {
   }
 
   .bg-gradient {
-    @apply bg-gradient-to-t from-orange-50 to-orange-50 text-gray-800 dark:from-purple-700 dark:to-purple-700 dark:text-orange-50;
+    @apply dark:from-navy-blue-900 dark:to-navy-blue-900 dark:text-navy-blue-200 bg-gradient-to-t from-orange-50 to-orange-50 text-gray-700;
   }
 
   .nav-btn {

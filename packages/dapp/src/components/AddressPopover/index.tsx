@@ -16,10 +16,8 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
       {({ open }) => (
         <>
           <Popover.Button
-            className={`text-h4 animated-transition inline-flex w-full justify-center rounded-3xl px-4 py-2 font-medium text-pink-800 hover:bg-pink-100 focus:outline-none dark:text-orange-600 ${
-              open
-                ? 'bg-pink-100 dark:bg-purple-500'
-                : 'bg-pink-50 dark:bg-purple-600 dark:hover:bg-purple-500'
+            className={`text-h4 animated-transition dark:bg-orange-accent-dark dark:text-navy-blue-900 inline-flex w-full justify-center rounded-3xl border  border-green-500 bg-green-300 px-4 py-2 font-medium text-green-700 hover:opacity-80 focus:outline-none dark:border-none ${
+              open ? 'opacity-80' : ''
             }`}
           >
             <div className="flex">

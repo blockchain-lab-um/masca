@@ -1,11 +1,8 @@
 import React, { Fragment, useState } from 'react';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import { Combobox, Transition } from '@headlessui/react';
-import {
-  CheckIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-} from '@heroicons/react/20/solid';
+import { CheckIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
+import clsx from 'clsx';
 
 import { useTableStore } from '@/utils/stores';
 
@@ -45,7 +42,7 @@ const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
         });
 
   return (
-    <div className="h-9 w-36">
+    <div className="">
       <Combobox
         value={selectedItems}
         onChange={(value) => {
@@ -55,10 +52,10 @@ const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
         disabled={!isConnected || vcs.length === 0}
       >
         {({ open }) => (
-          <div className="relative h-full">
-            <div className="bg-whitetext-left relative h-full w-full cursor-default overflow-hidden rounded-full border  border-gray-200 shadow-md focus:outline-none sm:text-sm">
+          <div className="relative">
+            <div className="w-34 relative cursor-default overflow-hidden rounded-full shadow-md sm:text-sm">
               <Combobox.Input
-                className={`h-full w-full border-none py-1.5 pl-3 pr-8 text-sm leading-5 text-orange-500 placeholder:text-orange-200 focus:outline-none focus:ring-0 dark:bg-gray-800 ${
+                className={`text-md py-3 pl-5 text-gray-700 focus:outline-none dark:bg-gray-800 ${
                   !isConnected || vcs.length === 0
                     ? 'bg-gray-50 text-gray-300'
                     : ' '
@@ -72,23 +69,13 @@ const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
                 onChange={(event) => setQuery(event.target.value)}
               />
               <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
-                {open ? (
-                  <>
-                    <ChevronUpIcon
-                      className={`h-5 w-5 text-orange-500 ${
-                        !isConnected || vcs.length === 0 ? 'text-gray-300' : ' '
-                      }`}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <ChevronDownIcon
-                      className={`h-5 w-5 text-orange-500 ${
-                        !isConnected || vcs.length === 0 ? 'text-gray-300' : ' '
-                      }`}
-                    />
-                  </>
-                )}
+                <>
+                  <ChevronUpIcon
+                    className={`animated-transition h-5 w-5 text-gray-700 ${
+                      !isConnected || vcs.length === 0 ? 'text-gray-300' : ' '
+                    } ${!open ? 'rotate-180' : ''}`}
+                  />
+                </>
               </Combobox.Button>
             </div>
 
@@ -99,41 +86,32 @@ const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
               leaveTo="opacity-0"
               afterLeave={() => setQuery('')}
             >
-              <Combobox.Options className="absolute z-50 mt-1 max-h-60 w-full rounded-xl border border-gray-200 bg-white py-2 text-base shadow-md sm:text-sm">
+              <Combobox.Options className="dark:bg-navy-blue-600 absolute right-0 z-50 mt-1 w-48 rounded-3xl bg-white p-1 text-center shadow-lg">
                 {filteredDataStores.map((data_store, id) => (
-                  <Combobox.Option
-                    key={id}
-                    className={({ active }) =>
-                      `relative mx-2 rounded-xl py-2 pl-10 text-sm ${
-                        active
-                          ? 'animated-transition cursor-pointer bg-orange-100 text-orange-600'
-                          : 'text-gray-800'
-                      }`
-                    }
-                    value={data_store}
-                  >
+                  <Combobox.Option key={id} value={data_store}>
                     {({ selected, active }) => (
-                      <>
-                        <span
-                          className={`block truncate ${
-                            selected ? 'font-semibold' : 'font-normal'
-                          }`}
-                        >
+                      <span
+                        className={clsx(
+                          active
+                            ? 'dark:bg-navy-blue-500 dark:text-orange-accent-dark/95 animated-transition  cursor-pointer bg-pink-50 text-pink-600 '
+                            : '',
+                          selected
+                            ? 'dark:text-orange-accent-dark dark:bg-navy-blue-600 bg-white text-pink-700'
+                            : 'dark:text-navy-blue-100 text-gray-600',
+                          'block rounded-full py-2 text-lg'
+                        )}
+                      >
+                        <span className="grid grid-cols-3">
+                          <span>
+                            {selected ? (
+                              <CheckIcon className="ml-3 h-5 w-5" />
+                            ) : (
+                              ''
+                            )}
+                          </span>
                           {data_store}
                         </span>
-                        {selected ? (
-                          <span
-                            className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                              active ? '' : 'text-orange-500'
-                            }`}
-                          >
-                            <CheckIcon
-                              className="h-5 w-5 text-orange-500"
-                              aria-hidden="true"
-                            />
-                          </span>
-                        ) : null}
-                      </>
+                      </span>
                     )}
                   </Combobox.Option>
                 ))}

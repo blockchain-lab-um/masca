@@ -9,7 +9,7 @@ const Layout = ({ children }: { children: JSX.Element }) => {
         <ToastWrapper>
           <div className="mx-4 mt-4 lg:mx-8 xl:mx-16">
             <Navbar />
-            <div className="my-8 lg:mt-12">{children}</div>
+            <div className="my-8 mt-4 lg:mt-24">{children}</div>
           </div>
         </ToastWrapper>
         <Footer />

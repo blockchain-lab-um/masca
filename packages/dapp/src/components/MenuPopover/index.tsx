@@ -139,7 +139,7 @@ function MenuPopover() {
                 ${
                   open
                     ? 'font-bold text-pink-500 after:w-[100%] dark:text-pink-400'
-                    : 'dark:text-navy-blue-tone/80 text-gray-700'
+                    : 'dark:text-navy-blue-tone/80 text-gray-600'
                 }
                 nav-btn flex items-end`}
             >
@@ -148,7 +148,7 @@ function MenuPopover() {
                 className={`animated-transition ml-1 h-5 w-5 ${
                   open
                     ? 'rotate-180 text-pink-500 dark:text-pink-400'
-                    : 'dark:text-navy-blue-tone/80 text-gray-700 group-hover:text-pink-500 dark:group-hover:text-pink-400'
+                    : 'text-gray-600 group-hover:text-pink-500 dark:group-hover:text-pink-400'
                 }
                   `}
                 aria-hidden="true"
