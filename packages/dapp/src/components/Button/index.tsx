@@ -52,9 +52,9 @@ const loaderSizes: Record<string, string> = {
   xs: 'w-4 h-4 border-2',
   sm: 'w-4 h-4 border-2',
   md: 'w-4 h-4 border-2',
-  lg: 'w-6 h-6 border-4',
-  xl: 'w-8 h-6 border-4',
-  wd: 'w-8 h-8 border-4',
+  lg: 'w-6 h-6 border-2',
+  xl: 'w-8 h-6 border-2',
+  wd: 'w-8 h-8 border-2',
   icon: 'w-4 h-4 border-2',
 };
 
@@ -63,7 +63,7 @@ const loaderColors: Record<string, string> = {
   'primary-active': 'border-orange-500',
   secondary: 'border-white',
   'secondary-active': 'border-navy-blue-500',
-  connect: 'border-orange-500',
+  connect: 'border-pink-500',
   gray: 'border-gray-800',
   white: 'border-gray-800',
   warning: 'border-white',

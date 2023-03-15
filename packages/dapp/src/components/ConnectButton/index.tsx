@@ -20,21 +20,9 @@ const ConnectButton = () => {
       variant="connect"
       size="md"
       onClick={() => changeIsConnecting(true)}
+      loading={isConnecting}
     >
-      <div className="flex">
-        Connect Wallet
-        {isConnecting && (
-          <div className="h-6 w-6 rounded-full object-center">
-            <Image
-              src={`${BASE_PATH}/images/connect-spinner.png`}
-              alt="Masca Logo"
-              className="animate-spin"
-              width={24}
-              height={24}
-            />
-          </div>
-        )}
-      </div>
+      Connect Wallet
     </Button>
   );
 };

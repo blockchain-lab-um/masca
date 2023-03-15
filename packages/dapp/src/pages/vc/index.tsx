@@ -84,7 +84,7 @@ const VC = () => {
                   shadow="md"
                   onClick={() => setModifyDSModalOpen(true)}
                 >
-                  <Cog6ToothIcon className="h-5 w-5" />
+                  <Cog6ToothIcon className="h-6 w-6 text-gray-700" />
                 </Button>
                 <Button
                   variant="white"
@@ -92,7 +92,7 @@ const VC = () => {
                   shadow="md"
                   onClick={() => console.log('not implemented yet')}
                 >
-                  <ArrowDownTrayIcon className="h-5 w-5" />
+                  <ArrowDownTrayIcon className="h-6 w-6 text-gray-700" />
                 </Button>
                 <Button
                   variant="white"
@@ -100,7 +100,7 @@ const VC = () => {
                   shadow="md"
                   onClick={() => console.log('not implemented yet')}
                 >
-                  <ShareIcon className="h-5 w-5" />
+                  <ShareIcon className="h-6 w-6 text-gray-700" />
                 </Button>
                 <Button
                   variant="white"
@@ -108,11 +108,11 @@ const VC = () => {
                   shadow="md"
                   onClick={() => setDeleteModalOpen(true)}
                 >
-                  <TrashIcon className="h-5 w-5" />
+                  <TrashIcon className="h-6 w-6 text-gray-700" />
                 </Button>
               </div>
             </div>
-            <div className="h-full w-full rounded-3xl border border-gray-200 bg-white pt-2 shadow-lg dark:bg-gray-800 dark:shadow-orange-900">
+            <div className="mt-2 h-full w-full rounded-3xl border border-gray-200 bg-white pt-2 shadow-lg dark:bg-gray-800 dark:shadow-orange-900">
               <ConnectedProvider>
                 <div className="flex w-full justify-between px-5 pt-4">
                   <button
@@ -121,7 +121,7 @@ const VC = () => {
                   >
                     <ArrowLeftIcon className="h-6 w-6" />
                   </button>
-                  <div className="text-h3 font-semibold">
+                  <div className="text-h3 font-semibold text-gray-900">
                     Verifiable Credential
                   </div>
                 </div>

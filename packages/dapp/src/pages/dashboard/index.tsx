@@ -2,7 +2,6 @@ import Head from 'next/head';
 
 import ConnectedProvider from '@/components/ConnectedProvider';
 import Controlbar from '@/components/Controlbar/Controlbar';
-import Title from '@/components/Title';
 import Table from '@/components/VCTable';
 import { useGeneralStore, useSnapStore } from '@/utils/stores';
 

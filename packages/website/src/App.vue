@@ -1,6 +1,6 @@
 <template>
   <header>
-    <div class="grid nav">
+    <div class="nav grid">
       <div class="col-6 mainTitle">
         <greetingTitle msg="SSI Snap dApp" />
       </div>

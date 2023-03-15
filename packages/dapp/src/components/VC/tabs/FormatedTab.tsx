@@ -65,7 +65,7 @@ const FormatedTab = ({
     <>
       <div className="relative h-full px-8">
         <div className="mt-8 grid grid-cols-3 rounded-2xl bg-gradient-to-b from-orange-50 to-pink-50 px-4 py-8">
-          <div className="text-h3 col-span-2 col-start-1 row-span-2 truncate pr-2 font-semibold text-orange-500">
+          <div className="text-h3 col-span-2 col-start-1 row-span-2 truncate pr-2 font-semibold text-pink-500">
             {types}
           </div>
           <div className="col-start-3 text-right">
@@ -74,17 +74,17 @@ const FormatedTab = ({
           </div>
         </div>
 
-        <div className="mb-8 mt-6 grid grid-cols-1 break-all rounded-2xl bg-gradient-to-b from-orange-50 to-pink-50 px-8 py-4 lg:grid-cols-2">
-          <div className="flex flex-col px-1 lg:col-span-2 lg:col-start-1">
-            <span className="text-md font-bold text-orange-500">SUBJECT</span>
-            <ul className="">
+        <div className="mb-8 mt-6 grid grid-cols-1 break-all rounded-2xl bg-gradient-to-b from-orange-50 to-pink-50 px-8 py-10 lg:grid-cols-2">
+          <div className="px-1 lg:col-span-2 lg:col-start-1">
+            <span className="text-md font-medium text-pink-500">SUBJECT</span>
+            <ul className="text-gray-900">
               {Object.keys(vc.data.credentialSubject).map((key, id) => (
-                <li key={id} className="mt-4 flex items-center">
+                <li key={id} className="mt-3 flex items-center">
                   {key === 'id' ? (
                     <div>
-                      <div className="text-sm text-orange-800">{key}</div>
-                      <div className="text-md break-all font-semibold text-gray-900">
-                        <div className="flex">
+                      <div className="text-md break-all">
+                        <span className="flex">
+                          <span className="font-bold">DID:</span>
                           <Tooltip tooltip={'Open DID in Universal resolver'}>
                             <a
                               href={`https://dev.uniresolver.io/#${
@@ -92,7 +92,7 @@ const FormatedTab = ({
                               }`}
                               target="_blank"
                               rel="noreferrer"
-                              className="text-md animated-transition cursor-pointer font-semibold text-gray-900 underline underline-offset-2 hover:text-gray-700"
+                              className="text-md animated-transition ml-1 cursor-pointer font-normal text-gray-900 underline underline-offset-2"
                             >
                               {vc.data.credentialSubject.id && (
                                 <>
@@ -116,15 +116,15 @@ const FormatedTab = ({
                               )
                             }
                           >
-                            <DocumentDuplicateIcon className="animated-transition ml-1 h-5 w-5 text-gray-900 hover:text-gray-700" />
+                            <DocumentDuplicateIcon className="animated-transition ml-1 h-5 w-5 text-gray-900 hover:text-gray-800" />
                           </button>
-                        </div>
+                        </span>
                       </div>
                     </div>
                   ) : (
                     <div className="">
-                      <div className="text-sm text-orange-800">{key}</div>
-                      <div className="break-all font-semibold text-gray-900">
+                      <div className="break-all text-gray-900">
+                        <span className="font-bold">{key}: </span>{' '}
                         {vc.data.credentialSubject[key]}
                       </div>
                     </div>
@@ -135,16 +135,16 @@ const FormatedTab = ({
           </div>
           <div className="flex flex-col px-1 lg:col-start-3">
             <div>
-              <span className="text-md font-bold text-orange-500">ISSUER</span>
-              <div className="mt-4 text-sm text-orange-800">DID</div>
+              <span className="text-md font-medium text-pink-500">ISSUER</span>
               <div className="text-md break-all font-semibold text-gray-900">
-                <div className="flex">
+                <div className="mt-3 flex">
+                  <span className="font-bold">DID:</span>
                   <Tooltip tooltip={'Open DID in Universal resolver'}>
                     <a
                       href={`https://dev.uniresolver.io/#${issuer}`}
                       target="_blank"
                       rel="noreferrer"
-                      className="text-md animated-transition cursor-pointer font-semibold text-gray-900 underline underline-offset-2 hover:text-gray-700"
+                      className="text-md animated-transition ml-1 cursor-pointer font-normal underline underline-offset-2"
                     >
                       {issuer.length > 20
                         ? `${issuer.slice(0, 18)}...${issuer.slice(-4)}`
@@ -157,26 +157,22 @@ const FormatedTab = ({
                       copyToClipboard(issuer);
                     }}
                   >
-                    <DocumentDuplicateIcon className="animated-transition ml-1 h-5 w-5 text-gray-900 hover:text-gray-700" />
+                    <DocumentDuplicateIcon className="animated-transition ml-1 h-5 w-5 text-gray-900 hover:text-gray-800" />
                   </button>
                 </div>
               </div>
             </div>
-            <div className="mt-4">
-              <span className="text-md font-bold text-orange-500">DATES</span>
+            <div className="mt-8">
+              <span className="text-md font-medium text-pink-500">DATES</span>
 
-              <div className="">
-                <div className="mt-4 text-sm text-orange-800">
-                  Issuance Date
-                </div>
-                <div className="text-md break-all font-semibold text-gray-900">
+              <div className="mt-2">
+                <div className="text-md break-all text-gray-900">
+                  <span className="font-bold">Issuance Date: </span>
                   {new Date(Date.parse(vc.data.issuanceDate)).toDateString()}
                 </div>
-                <div className="mt-2 text-sm text-orange-800">
-                  Expiration Date
-                </div>
                 {vc.data.expirationDate ? (
-                  <div className="text-md break-all font-semibold text-gray-900">
+                  <div className="text-md break-all text-gray-900">
+                    <span className="font-bold">Expiration Date: </span>
                     {new Date(
                       Date.parse(vc.data.expirationDate)
                     ).toDateString()}
@@ -186,12 +182,12 @@ const FormatedTab = ({
                 )}
               </div>
             </div>
-            <div className="mt-4">
-              <span className="text-md font-bold text-orange-500">
+            <div className="mt-8">
+              <span className="text-md font-medium text-pink-500">
                 DATA STORES
               </span>
               {vc.metadata.store && (
-                <div className="mt-2 flex">
+                <div className="mt-3 flex">
                   {stores.map((store, id) => (
                     <Tooltip tooltip={store} key={id}>
                       <div className="mt-1">
