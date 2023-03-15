@@ -49,32 +49,32 @@ function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all md:max-w-xl lg:max-w-2xl">
+              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-orange-50 p-6 text-left align-middle shadow-xl transition-all md:max-w-xl lg:max-w-2xl">
                 <Dialog.Title
                   as="h3"
-                  className="text-lg font-semibold leading-6 text-orange-500"
+                  className="text-h3 font-ubuntu font-medium leading-6 text-gray-900"
                 >
                   Import Credential
                 </Dialog.Title>
-                <div className="mt-2">
-                  <p className="text-sm text-gray-500">
+                <div className="mt-5">
+                  <p className="text-md text-gray-600">
                     Add a custom credential to your wallet. Paste JSON of the
                     credential in the textarea bellow.
                   </p>
                 </div>
-                <div className="mt-8">
-                  <div className="group relative z-0 rounded-2xl bg-orange-100 pt-1 pr-2 shadow-md">
+                <div className="mt-5">
+                  <div className="group relative z-0 rounded-2xl border border-gray-200 bg-gray-50 pt-1 pr-2">
                     <textarea
-                      className="group-hover:scrollbar-thumb-orange-300 scrollbar-thin scrollbar-thumb-orange-300/0 scrollbar-thumb-rounded-full font-jetbrains-mono min-h-[60vh] w-full resize-none rounded-2xl bg-orange-100 p-2 text-orange-900 focus:outline-none"
+                      className="group-hover:scrollbar-thumb-orange-300 scrollbar-thin scrollbar-thumb-orange-300/0 scrollbar-thumb-rounded-full font-jetbrains-mono min-h-[60vh] w-full resize-none rounded-2xl bg-gray-50 p-2 text-gray-700 focus:outline-none"
                       value={vc}
                       onChange={(e) => setVC(e.target.value)}
                     />
                   </div>
-                  <div className="mt-8 pl-2 text-sm font-semibold text-orange-500">
+                  <div className="text-h5 font-ubuntu mt-8 pl-2 font-medium text-gray-900">
                     SETTINGS
                   </div>
-                  <div className="flex items-center justify-between px-4">
-                    <span className="flex gap-x-1 text-sm text-gray-700">
+                  <div className="mt-2 flex items-center justify-between px-4">
+                    <span className="text-md flex gap-x-1 text-gray-600">
                       Storage <InfoIcon>Select one or more locations.</InfoIcon>
                     </span>
                     <div>
@@ -82,7 +82,7 @@ function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
                         items={availableStores}
                         selectedItems={selectedItems}
                         setSelectedItems={setSelectedItems}
-                        placeholder="Select storage ssssda "
+                        placeholder="Select storage..."
                         name="storage"
                       />
                     </div>
@@ -92,8 +92,9 @@ function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
                   <div className="mt-4">
                     <Button
                       onClick={() => setOpen(false)}
-                      variant="gray"
-                      size="popup"
+                      variant="secondary"
+                      shadow="md"
+                      size="xs"
                     >
                       Cancel
                     </Button>
@@ -110,7 +111,8 @@ function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
                         }
                       }}
                       variant="primary"
-                      size="popup"
+                      size="sm"
+                      shadow="md"
                       loading={loading}
                     >
                       Import VC

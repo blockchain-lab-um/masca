@@ -28,20 +28,19 @@ const variants: Record<string, string> = {
     'border-2 border-navy-blue-900 text-navy-blue-900 hover:bg-navy-blue-100/20 dark:border-navy-blue-200 dark:text-navy-blue-200 animated-transition',
   'secondary-active':
     'text-navy-blue-500 border border border-navy-blue-500 hover:text-white hover:bg-navy-blue-500',
-  connect:
-    'bg-green-300 text-green-900/80 hover:opacity-80 border border-green-500',
+  connect: 'bg-pink-100 hover:bg-pink-50 text-pink-600',
   gray: 'bg-gray-200 text-gray-800 hover:opacity-80',
   'white-pink':
     'bg-white text-gray-800 hover:text-white hover:bg-pink-400 dark:bg-orange-accent-dark dark:text-gray-900 dark:hover:bg-orange-accent-dark/80',
-  white: 'bg-white text-orange-500 border border-gray-200 hover:opacity-80',
+  white: 'bg-white text-gray-800 hover:opacity-80',
   warning: 'bg-red-500 hover:bg-red-500/90 text-white justify-center',
 };
 
 const sizes: Record<string, string> = {
   popup: 'text-sm py-2 px-2.5',
-  xs: 'text-h5 py-2 px-3',
-  sm: 'text-h5 py-2 px-5',
-  md: 'text-h4 py-2 px-7',
+  xs: 'text-sm py-1.5 px-3',
+  sm: 'text-h5 py-2.5 px-5',
+  md: 'text-h4 py-2.5 px-7',
   lg: 'text-2xl py-2 px-8 font-semibold',
   xl: 'text-h3 py-2.5 px-9 font-semibold',
   wd: 'text-h4 py-2.5 px-7',
@@ -66,7 +65,7 @@ const loaderColors: Record<string, string> = {
   'secondary-active': 'border-navy-blue-500',
   connect: 'border-orange-500',
   gray: 'border-gray-800',
-  white: 'border-orange-500',
+  white: 'border-gray-800',
   warning: 'border-white',
 };
 

@@ -18,22 +18,22 @@ const ViewTabs = () => {
     <Switch
       checked={cardView}
       onChange={setCardView}
-      className="relative flex w-24 items-center justify-between rounded-full bg-white py-0.5 shadow-md"
+      className="relative flex w-28 flex-shrink-0 items-center justify-between rounded-full bg-white py-0.5 shadow-md"
     >
       <div
-        className={` absolute z-10 h-full w-12 rounded-full bg-pink-100 transition-transform ${
-          cardView ? 'translate-x-0' : 'translate-x-full'
+        className={` absolute z-10 h-full w-16 rounded-full bg-pink-100 transition-transform ease-in-out ${
+          cardView ? 'translate-x-0' : 'translate-x-12'
         }`}
       ></div>
       <Squares2X2Icon
         className={`z-20  ${
           cardView ? ' text-pink-600' : ' text-gray-700 hover:text-gray-500'
-        }  ml-2 h-8 w-8 rounded-full`}
+        }  ml-3.5 h-8 w-8 rounded-full`}
       />
       <Bars3Icon
         className={`z-20  ${
           !cardView ? ' text-pink-600' : ' text-gray-700 hover:text-gray-500'
-        }  mr-2 h-8 w-8 rounded-full`}
+        }  mr-3.5 h-8 w-8 rounded-full`}
       />
     </Switch>
   );

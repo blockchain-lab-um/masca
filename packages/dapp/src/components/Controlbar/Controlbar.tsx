@@ -4,11 +4,10 @@ import {
   QueryVCsRequestResult,
 } from '@blockchain-lab-um/ssi-snap-types';
 import { isError } from '@blockchain-lab-um/utils';
-import { ArrowPathIcon } from '@heroicons/react/24/outline';
+import { ArrowPathIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { W3CVerifiableCredential } from '@veramo/core';
 import { shallow } from 'zustand/shallow';
 
-import Button from '@/components/Button';
 import ImportModal from '@/components/ImportModal';
 import DataStoreCombobox from '@/components/VCTable/DataStoreCombobox';
 import GlobalFilter from '@/components/VCTable/GlobalFilter';
@@ -97,25 +96,23 @@ const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
           </div>
         )}
         <div className="col-span-5 col-start-7 flex justify-end gap-x-1">
+          {isConnected && (
+            <button
+              className={`flex h-[43px] w-[43px] items-center justify-center rounded-full bg-white text-gray-700 shadow-md`}
+              onClick={() => setImportModalOpen(true)}
+            >
+              <PlusIcon className={`h-6 w-6`} />
+            </button>
+          )}
           {vcs.length > 0 && (
             <button
-              className={`flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white text-orange-500 shadow-md`}
+              className={`flex h-[43px] w-[43px] items-center justify-center rounded-full bg-white text-gray-700 shadow-md`}
               onClick={() => refreshVCs()}
             >
               <ArrowPathIcon
                 className={`h-6 w-6 ${spinner ? 'animate-spin' : ''}`}
               />
             </button>
-          )}
-          {isConnected && (
-            <Button
-              variant="white"
-              size="sm"
-              shadow="md"
-              onClick={() => setImportModalOpen(true)}
-            >
-              Save VC
-            </Button>
           )}
         </div>
       </div>

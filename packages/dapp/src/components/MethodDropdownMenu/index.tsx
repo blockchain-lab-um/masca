@@ -40,7 +40,7 @@ export default function MethodDropdownMenu() {
         <Fragment>
           <div>
             <Menu.Button
-              className={`dark:text-navy-blue-tone text-h4 animated-transition inline-flex w-full justify-center rounded-3xl px-4 py-2 font-medium text-gray-700 focus:outline-none ${
+              className={`dark:text-navy-blue-tone text-h4 font-ubuntu animated-transition inline-flex w-full justify-center rounded-3xl px-4 py-2 font-thin font-medium text-gray-600 focus:outline-none ${
                 open
                   ? 'bg-orange-100/50 dark:bg-purple-600'
                   : 'hover:bg-orange-100/50 dark:hover:bg-purple-600'

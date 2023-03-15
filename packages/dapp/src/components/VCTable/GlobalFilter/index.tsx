@@ -25,7 +25,7 @@ const GlobalFilter = ({ isConnected, vcs }: GlobalFilterProps) => {
       }`}
     >
       <MagnifyingGlassIcon
-        className={`ml-3 hidden h-5 w-5 text-gray-700 md:block ${
+        className={`ml-3 hidden h-7 w-7 text-gray-700 md:block ${
           !isConnected || vcs.length === 0 ? 'bg-gray-50 text-gray-300' : ''
         }`}
         aria-hidden="true"

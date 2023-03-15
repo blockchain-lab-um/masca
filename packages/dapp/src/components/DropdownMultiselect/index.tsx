@@ -1,11 +1,8 @@
 import React, { Fragment } from 'react';
 import { AvailableVCStores } from '@blockchain-lab-um/ssi-snap-types';
 import { Listbox, Transition } from '@headlessui/react';
-import {
-  CheckIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-} from '@heroicons/react/20/solid';
+import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid';
+import clsx from 'clsx';
 
 interface DropdownMultiselectProps {
   items: string[];
@@ -31,29 +28,27 @@ const DropdownMultiselect = ({
         multiple
       >
         {({ open }) => (
-          <div className="w-24 cursor-default overflow-hidden rounded-full border border-gray-200 bg-white  text-left shadow-md focus:outline-none sm:text-sm">
+          <div className="w-28 cursor-default overflow-hidden rounded-full bg-white text-left shadow-md focus:outline-none sm:text-sm">
             <Listbox.Button
               value={placeholder}
-              className="flex w-full border-none p-1 px-1 text-sm leading-5 text-orange-500 placeholder:text-orange-200 focus:outline-none focus:ring-0 dark:bg-gray-800"
+              className="flex w-full border-none p-2 px-1 text-sm leading-5 text-gray-700 placeholder:text-gray-400 focus:outline-none focus:ring-0 dark:bg-gray-800"
             >
               <div
                 className={`w-3/4 truncate ${
-                  selectedItems.length === 0 ? 'text-orange-200' : ''
+                  selectedItems.length === 0 ? 'text-gray-400' : ''
                 }`}
               >
                 {selectedItems.map((item) => item).join(', ')}
                 {selectedItems.length === 0 && <>{placeholder}</>}
               </div>
               <div>
-                {open ? (
-                  <>
-                    <ChevronUpIcon className={`h-5 w-5 text-orange-500`} />
-                  </>
-                ) : (
-                  <>
-                    <ChevronDownIcon className={`h-5 w-5 text-orange-500`} />
-                  </>
-                )}
+                <>
+                  <ChevronDownIcon
+                    className={`animated-transition h-5 w-5 text-gray-700 ${
+                      open ? 'rotate-180' : ''
+                    }`}
+                  />
+                </>
               </div>
             </Listbox.Button>
             <Transition
@@ -62,40 +57,33 @@ const DropdownMultiselect = ({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Listbox.Options className="absolute left-0 z-50 mt-1 max-h-60 w-fit rounded-xl border border-gray-200 bg-white py-1 text-base shadow-md sm:text-sm">
+              <Listbox.Options className="dark:bg-navy-blue-600 absolute right-0 mt-1 w-48 rounded-3xl bg-white p-1 shadow-lg max-md:-top-12 max-md:-translate-y-full max-md:transform">
                 {items.map((item, id) => (
-                  <Listbox.Option
-                    key={id}
-                    className={({ active }) =>
-                      `relative mx-2 rounded-xl py-2 pl-10 pr-4 text-sm ${
-                        active
-                          ? 'animated-transition cursor-pointer bg-orange-100 text-orange-600'
-                          : 'text-gray-800'
-                      }`
-                    }
-                    value={item}
-                  >
+                  <Listbox.Option key={id} className="" value={item}>
                     {({ selected, active }) => (
                       <>
                         <span
-                          className={`block truncate ${
-                            selected ? 'font-semibold' : 'font-normal'
-                          }`}
+                          className={clsx(
+                            active
+                              ? 'dark:bg-navy-blue-500 dark:text-orange-accent-dark/95 animated-transition  cursor-pointer bg-pink-50 text-pink-600 '
+                              : '',
+                            selected
+                              ? 'dark:text-orange-accent-dark dark:bg-navy-blue-600 bg-white text-pink-700'
+                              : 'dark:text-navy-blue-100 text-gray-600',
+                            'text-md block rounded-full py-2'
+                          )}
                         >
-                          {item}
-                        </span>
-                        {selected ? (
-                          <span
-                            className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                              active ? '' : 'text-orange-500'
-                            }`}
-                          >
-                            <CheckIcon
-                              className="h-5 w-5 text-orange-500"
-                              aria-hidden="true"
-                            />
+                          <span className="grid grid-cols-3">
+                            <span className="flex items-center">
+                              {selected ? (
+                                <CheckIcon className="ml-3 h-4 w-4" />
+                              ) : (
+                                ''
+                              )}
+                            </span>
+                            {item}
                           </span>
-                        ) : null}
+                        </span>
                       </>
                     )}
                   </Listbox.Option>
