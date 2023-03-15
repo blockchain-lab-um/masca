@@ -19,17 +19,20 @@
     "email": "blockchain-lab@um.si",
     "url": "https://blockchain-lab.um.si"
   },
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "source": "./src/index.ts",
+  "types": "./dist/index.d.ts",
   "files": [
-    "dist/**/*",
-    "src/**/*"
+    "dist/",
+    "README.md",
+    "package.json",
+    "LICENSE"
   ],
   "scripts": {
     "build": "pnpm clean && pnpm compile",
     "clean": "rimraf dist",
-    "compile": "tsc --build tsconfig.build.json",
+    "compile": "tsup",
     "lint": "pnpm lint:eslint && pnpm lint:prettier",
     "lint:eslint": "eslint .",
     "lint:prettier": "prettier . --check",
@@ -37,6 +40,8 @@
   },
   "dependencies": {
     "@blockchain-lab-um/ssi-snap-types": "*",
+    "@blockchain-lab-um/utils": "*",
+    "@metamask/detect-provider": "^2.0.0",
     "@veramo/core": "^5.0.0"
   },
   "devDependencies": {
@@ -52,6 +57,7 @@
     "prettier": "^2.8.4",
     "prettier-plugin-packagejson": "^2.4.3",
     "rimraf": "^3.0.2",
+    "tsup": "^6.6.3",
     "typescript": "^4.9.5"
   },
   "publishConfig": {

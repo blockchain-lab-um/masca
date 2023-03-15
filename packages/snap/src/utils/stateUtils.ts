@@ -4,15 +4,13 @@ import { ApiParams, SSISnapState } from '../interfaces';
 import { getEmptyAccountState, getInitialSnapState } from './config';
 
 /**
- * Function for updating SSISnapState object in the MetaMask state
+ * Helper function to update SSISnapState object in the Snaps global object
  *
- * @public
+ * @param snap - Snaps global object
+ * @param snapState - SSISnapState object
  *
- * @param {SSISnapState} snapState - object to replace the current object in the MetaMask state.
- *
- * @beta
- *
- * */
+ * @returns void
+ */
 export async function updateSnapState(
   snap: SnapsGlobalObject,
   snapState: SSISnapState
@@ -24,15 +22,12 @@ export async function updateSnapState(
 }
 
 /**
- * Function to retrieve SSISnapState object from the MetaMask state
+ * Helper function to retrieve SSISnapState object from the Snaps global object
  *
- * @public
+ * @param snap - Snaps global object
  *
- * @returns {Promise<SSISnapState>} object from the state
- *
- * @beta
- *
- * */
+ * @returns SSISnapState - SSISnapState object
+ */
 export async function getSnapState(
   snap: SnapsGlobalObject
 ): Promise<SSISnapState> {
@@ -46,15 +41,13 @@ export async function getSnapState(
 }
 
 /**
- * Function to retrieve SSISnapState object from the MetaMask state
+ * Helper function to retrieve SSISnapState object from the Snaps global object
+ * without throwing an error if it is not initialized
  *
- * @public
+ * @param snap - Snaps global object
  *
- * @returns {Promise<SSISnapState>} object from the state
- *
- * @beta
- *
- * */
+ * @returns SSISnapState | null - SSISnapState object or null
+ */
 export async function getSnapStateUnchecked(
   snap: SnapsGlobalObject
 ): Promise<SSISnapState | null> {
@@ -66,15 +59,12 @@ export async function getSnapStateUnchecked(
 }
 
 /**
- * Function to initialize SSISnapState object
+ * Function that initializes the SSISnapState object in the Snaps global object.
  *
- * @public
+ * @param snap - Snaps global object
  *
- * @returns {Promise<SSISnapState>} object
- *
- * @beta
- *
- * */
+ * @returns SSISnapState - the updated SSISnapState object
+ */
 export async function initSnapState(
   snap: SnapsGlobalObject
 ): Promise<SSISnapState> {
@@ -86,14 +76,10 @@ export async function initSnapState(
 /**
  * Function that creates an empty SSIAccountState object in the SSI Snap state for the provided address.
  *
- * @public
+ * @param params - ApiParams object
  *
- * @param {SSISnapState} state - SSISnapState
- * @param {string} account - MetaMask account
- *
- * @beta
- *
- * */
+ * @returns void
+ */
 export async function initAccountState(params: ApiParams): Promise<void> {
   const { state, snap, account } = params;
   state.accountState[account] = getEmptyAccountState();

@@ -26,7 +26,6 @@ export async function authenticateWithEthereum(
 ): Promise<DID> {
   if (ceramicDID.did) return ceramicDID.did;
   const account = await getCurrentAccount(ethereum);
-  if (!account) throw Error('User denied error');
   const ethChainId = await getCurrentNetwork(ethereum);
   const chainId = `eip155:${ethChainId}`;
 

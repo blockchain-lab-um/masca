@@ -43,6 +43,7 @@ module.exports = {
           '**/webpack.config.ts',
           '**/test/**/*.ts',
           '**/tests/**/*.ts',
+          'tsup.config.ts',
         ],
       },
     ],

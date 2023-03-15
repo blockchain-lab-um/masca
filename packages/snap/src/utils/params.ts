@@ -7,6 +7,7 @@ import {
   SaveVCRequestParams,
   SetVCStoreRequestParams,
   SwitchMethodRequestParams,
+  VerifyDataRequestParams,
   isAvailableMethods,
   isAvailableVCStores,
   isSupportedProofFormat,
@@ -46,20 +47,21 @@ export function isValidSaveVCRequest(
       if ('store' in param.options && param.options?.store !== null) {
         if (typeof param.options?.store === 'string') {
           if (!isAvailableVCStores(param.options?.store)) {
-            throw new Error('Store is not supported!');
+            throw new Error(`Store ${param.options?.store} is not supported!`);
           }
           if (!isEnabledVCStore(account, state, param.options?.store)) {
-            throw new Error('Store is not enabled!');
+            throw new Error(`Store ${param.options?.store} is not enabled!`);
           }
         } else if (
           Array.isArray(param.options?.store) &&
           param.options?.store.length > 0
         ) {
           (param.options?.store as [string]).forEach((store) => {
-            if (!isAvailableVCStores(store))
-              throw new Error('Store is not supported!');
+            if (!isAvailableVCStores(store)) {
+              throw new Error(`Store ${store} is not supported!`);
+            }
             if (!isEnabledVCStore(account, state, store as AvailableVCStores)) {
-              throw new Error('Store is not enabled!');
+              throw new Error(`Store ${store} is not enabled!`);
             }
           });
         } else throw new Error('Store is invalid format');
@@ -67,6 +69,7 @@ export function isValidSaveVCRequest(
     }
     return;
   }
+
   throw new Error('Invalid SaveVC request');
 }
 
@@ -138,7 +141,7 @@ export function isValidCreateVPRequest(
           typeof vc.metadata.store === 'string' &&
           !isAvailableVCStores(vc.metadata.store)
         ) {
-          throw new Error('Store is not supported!');
+          throw new Error(`Store ${vc.metadata.store} is not supported!`);
         }
         if (
           'metadata' in vc &&
@@ -149,7 +152,7 @@ export function isValidCreateVPRequest(
           typeof vc.metadata.store === 'string' &&
           !isEnabledVCStore(account, state, vc.metadata?.store)
         ) {
-          throw new Error('Store is not enabled!');
+          throw new Error(`Store ${vc.metadata.store} is not enabled!`);
         }
       } else throw new Error('VC is invalid format');
     });
@@ -170,7 +173,7 @@ export function isValidSwitchMethodRequest(
     param.didMethod !== null
   ) {
     if (!isAvailableMethods(param.didMethod))
-      throw new Error('Method is not supported!');
+      throw new Error('Did method is not supported!');
     return;
   }
   throw new Error('Invalid switchDIDMethod request.');
@@ -190,7 +193,7 @@ export function isValidSetVCStoreRequest(
     typeof param.value === 'boolean'
   ) {
     if (!isAvailableVCStores(param.store)) {
-      throw new Error('Store is not supported!');
+      throw new Error(`Store ${param.store} is not supported!`);
     }
     return;
   }
@@ -220,10 +223,10 @@ export function isValidDeleteVCRequest(
       if ('store' in param.options && param.options?.store !== null) {
         if (typeof param.options?.store === 'string') {
           if (!isAvailableVCStores(param.options?.store)) {
-            throw new Error('Store is not supported!');
+            throw new Error(`Store ${param.options?.store} is not supported!`);
           }
           if (!isEnabledVCStore(account, state, param.options?.store)) {
-            throw new Error('Store is not enabled!');
+            throw new Error(`Store ${param.options?.store} is not enabled!`);
           }
         } else if (
           Array.isArray(param.options?.store) &&
@@ -231,9 +234,9 @@ export function isValidDeleteVCRequest(
         ) {
           (param.options?.store as [string]).forEach((store) => {
             if (!isAvailableVCStores(store))
-              throw new Error('Store is not supported!');
+              throw new Error(`Store ${store} is not supported!`);
             if (!isEnabledVCStore(account, state, store as AvailableVCStores)) {
-              throw new Error('Store is not enabled!');
+              throw new Error(`Store ${store} is not enabled!`);
             }
           });
         } else throw new Error('Store is invalid format');
@@ -278,10 +281,10 @@ export function isValidQueryRequest(
     if ('store' in param.options && param.options?.store !== null) {
       if (typeof param.options?.store === 'string') {
         if (!isAvailableVCStores(param.options?.store)) {
-          throw new Error('Store is not supported!');
+          throw new Error(`Store ${param.options?.store} is not supported!`);
         }
         if (!isEnabledVCStore(account, state, param.options?.store)) {
-          throw new Error('Store is not enabled!');
+          throw new Error(`Store ${param.options?.store} is not enabled!`);
         }
       } else if (
         Array.isArray(param.options?.store) &&
@@ -289,9 +292,9 @@ export function isValidQueryRequest(
       ) {
         (param.options?.store as [string]).forEach((store) => {
           if (!isAvailableVCStores(store))
-            throw new Error('Store is not supported!');
+            throw new Error(`Store ${store} is not supported!`);
           if (!isEnabledVCStore(account, state, store as AvailableVCStores))
-            throw new Error('Store is not enabled!');
+            throw new Error(`Store ${store} is not enabled!`);
         });
       } else throw new Error('Store is invalid format');
     }
@@ -324,4 +327,19 @@ export function isValidResolveDIDRequest(
     return;
 
   throw new Error('Invalid ResolveDID request');
+}
+
+export function isValidVerifyDataRequest(
+  params: unknown
+): asserts params is VerifyDataRequestParams {
+  const param = params as VerifyDataRequestParams;
+  if (
+    param !== null &&
+    typeof param === 'object' &&
+    (('credential' in param && param.credential !== null) ||
+      ('presentation' in param && param.presentation !== null))
+  )
+    return;
+
+  throw new Error('Invalid VerifyData request');
 }

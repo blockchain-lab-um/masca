@@ -69,7 +69,7 @@ export const getAgent = async (
 
   const didProviders: Record<string, AbstractIdentifierProvider> = {};
   const vcStorePlugins: Record<string, AbstractDataStore> = {};
-  const enabledVCStores = getEnabledVCStores(account as string, state);
+  const enabledVCStores = getEnabledVCStores(account, state);
 
   const networks = [
     {
