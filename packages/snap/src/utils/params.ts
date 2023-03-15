@@ -7,6 +7,7 @@ import {
   SaveVCRequestParams,
   SetVCStoreRequestParams,
   SwitchMethodRequestParams,
+  VerifyDataRequestParams,
   isAvailableMethods,
   isAvailableVCStores,
   isSupportedProofFormat,
@@ -326,4 +327,19 @@ export function isValidResolveDIDRequest(
     return;
 
   throw new Error('Invalid ResolveDID request');
+}
+
+export function isValidVerifyDataRequest(
+  params: unknown
+): asserts params is VerifyDataRequestParams {
+  const param = params as VerifyDataRequestParams;
+  if (
+    param !== null &&
+    typeof param === 'object' &&
+    (('credential' in param && param.credential !== null) ||
+      ('presentation' in param && param.presentation !== null))
+  )
+    return;
+
+  throw new Error('Invalid VerifyData request');
 }
