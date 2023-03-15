@@ -11,7 +11,6 @@ import {
 } from '@nestjs/platform-fastify';
 import { Test, TestingModule } from '@nestjs/testing';
 import { FastifyInstance } from 'fastify';
-import * as qs from 'qs';
 import request from 'supertest';
 
 import {
@@ -82,12 +81,14 @@ describe('Issuer controller', () => {
           .send();
 
         expect(response.status).toBe(200);
-        const query = qs.parse(
-          response.text.replace(
-            'openid_credential_offer://credential_offer?',
-            ''
+        const query = JSON.parse(
+          decodeURIComponent(
+            response.text.replace(
+              'openid_credential_offer://credential_offer?',
+              ''
+            )
           )
-        ) as any;
+        );
 
         expect(query.credential_issuer).toBeDefined();
         expect(query.credentials).toStrictEqual([TEST_SUPPORTED_SCHEMA_URL]);
@@ -111,12 +112,14 @@ describe('Issuer controller', () => {
           .send();
 
         expect(response.status).toBe(200);
-        const query = qs.parse(
-          response.text.replace(
-            'openid_credential_offer://credential_offer?',
-            ''
+        const query = JSON.parse(
+          decodeURIComponent(
+            response.text.replace(
+              'openid_credential_offer://credential_offer?',
+              ''
+            )
           )
-        ) as any;
+        );
 
         expect(query.credential_issuer).toBeDefined();
         expect(query.credentials).toStrictEqual([TEST_SUPPORTED_SCHEMA_URL]);
@@ -141,12 +144,14 @@ describe('Issuer controller', () => {
           .send();
 
         expect(response.status).toBe(200);
-        const query = qs.parse(
-          response.text.replace(
-            'openid_credential_offer://credential_offer?',
-            ''
+        const query = JSON.parse(
+          decodeURIComponent(
+            response.text.replace(
+              'openid_credential_offer://credential_offer?',
+              ''
+            )
           )
-        ) as any;
+        );
 
         expect(query.credential_issuer).toBeDefined();
         expect(query.credentials).toStrictEqual([TEST_SUPPORTED_SCHEMA_URL]);
@@ -170,12 +175,14 @@ describe('Issuer controller', () => {
           .send();
 
         expect(response.status).toBe(200);
-        const query = qs.parse(
-          response.text.replace(
-            'openid_credential_offer://credential_offer?',
-            ''
+        const query = JSON.parse(
+          decodeURIComponent(
+            response.text.replace(
+              'openid_credential_offer://credential_offer?',
+              ''
+            )
           )
-        ) as any;
+        );
 
         expect(query.credential_issuer).toBeDefined();
         expect(query.credentials).toStrictEqual([TEST_SUPPORTED_SCHEMA_URL]);
@@ -202,12 +209,14 @@ describe('Issuer controller', () => {
           .send();
 
         expect(response.status).toBe(200);
-        const query = qs.parse(
-          response.text.replace(
-            'openid_credential_offer://credential_offer?',
-            ''
+        const query = JSON.parse(
+          decodeURIComponent(
+            response.text.replace(
+              'openid_credential_offer://credential_offer?',
+              ''
+            )
           )
-        ) as any;
+        );
 
         expect(query.credential_issuer).toBeDefined();
         expect(query.credentials).toStrictEqual([TEST_SUPPORTED_SCHEMA_URL]);
@@ -241,12 +250,14 @@ describe('Issuer controller', () => {
           })
           .send();
 
-        const query = qs.parse(
-          response.text.replace(
-            'openid_credential_offer://credential_offer?',
-            ''
+        const query = JSON.parse(
+          decodeURIComponent(
+            response.text.replace(
+              'openid_credential_offer://credential_offer?',
+              ''
+            )
           )
-        ) as any;
+        );
 
         expect(response.status).toBe(200);
 
@@ -288,12 +299,14 @@ describe('Issuer controller', () => {
           })
           .send();
 
-        const query = qs.parse(
-          response.text.replace(
-            'openid_credential_offer://credential_offer?',
-            ''
+        const query = JSON.parse(
+          decodeURIComponent(
+            response.text.replace(
+              'openid_credential_offer://credential_offer?',
+              ''
+            )
           )
-        ) as any;
+        );
 
         expect(response.status).toBe(200);
 
@@ -344,12 +357,14 @@ describe('Issuer controller', () => {
           })
           .send();
 
-        const query = qs.parse(
-          response.text.replace(
-            'openid_credential_offer://credential_offer?',
-            ''
+        const query = JSON.parse(
+          decodeURIComponent(
+            response.text.replace(
+              'openid_credential_offer://credential_offer?',
+              ''
+            )
           )
-        ) as any;
+        );
 
         expect(response.status).toBe(200);
 
