@@ -1,4 +1,4 @@
-import { Result } from './result';
+import { Result } from './result.js';
 
 export type IsValidAuthorizationHeaderArgs = {
   authorizationHeader: string;

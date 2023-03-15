@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/require-await */
-
 import { randomUUID } from 'crypto';
 import {
   AuthorizationRequest,
@@ -18,11 +16,11 @@ import {
   bytesToBase64url,
   extractPublicKeyHex,
 } from '@veramo/utils';
-import Ajv from 'ajv';
-import addFormats from 'ajv-formats';
+import _Ajv from 'ajv';
+import _addFormats from 'ajv-formats';
 import fetch from 'cross-fetch';
 import { JsonWebKey, VerificationMethod } from 'did-resolver';
-import { ec as EC } from 'elliptic';
+import elliptic from 'elliptic';
 import {
   JWK,
   calculateJwkThumbprint,
@@ -33,7 +31,7 @@ import {
 } from 'jose';
 import qs from 'qs';
 
-import { IOIDCPlugin, OIDCAgentContext } from '../types/IOIDCPlugin';
+import { IOIDCPlugin, OIDCAgentContext } from '../types/IOIDCPlugin.js';
 import {
   CreateAuthorizationRequestArgs,
   CreateAuthorizationRequestResponse,
@@ -47,8 +45,12 @@ import {
   IsValidTokenRequestResponse,
   ProofOfPossesionArgs,
   ProofOfPossesionResponseArgs,
-} from '../types/internal';
-import { Result } from '../utils';
+} from '../types/internal.js';
+import { Result } from '../utils/index.js';
+
+const { ec: EC } = elliptic;
+const Ajv = _Ajv as unknown as typeof _Ajv.default;
+const addFormats = _addFormats as unknown as typeof _addFormats.default;
 
 /**
  * {@inheritDoc IMyAgentPlugin}
@@ -178,7 +180,7 @@ export class OIDCPlugin implements IAgentPlugin {
     let publicKey;
     let fragment;
     let resolvedDid;
-    let ctx: EC;
+    let ctx: elliptic.ec;
     let curveName: string;
     let publicKeyHex;
 
@@ -1046,7 +1048,7 @@ export class OIDCPlugin implements IAgentPlugin {
         };
       }
 
-      let ctx: EC;
+      let ctx: elliptic.ec;
       let curveName: string;
 
       if (fragment.type === 'EcdsaSecp256k1VerificationKey2019') {

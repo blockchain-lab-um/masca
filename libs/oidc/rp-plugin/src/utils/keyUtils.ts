@@ -1,6 +1,8 @@
-import { ec as EC } from 'elliptic';
+import elliptic from 'elliptic';
 
-import { Result } from './result';
+import { Result } from './result.js';
+
+const { ec: EC } = elliptic;
 
 // TODO: Add keyType as an argument
 // TODO: Add checks for supported key types and did methods

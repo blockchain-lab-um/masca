@@ -11,7 +11,7 @@ import {
   IResolver,
 } from '@veramo/core';
 
-import { Result } from '../utils';
+import { Result } from '../utils/index.js';
 import {
   CreateAuthorizationRequestArgs,
   CreateAuthorizationRequestResponse,
@@ -24,7 +24,7 @@ import {
   IsValidTokenRequestResponse,
   ProofOfPossesionArgs,
   ProofOfPossesionResponseArgs,
-} from './internal';
+} from './internal.js';
 
 export interface IOIDCPlugin extends IPluginMethodMap {
   createAuthorizationRequest(
