@@ -49,21 +49,21 @@ export default function Settings() {
         <meta name="description" content="Settings page for Masca." />
       </Head>
       <div className="grid place-items-center">
-        <div className="flex h-full min-h-[40vh] w-full max-w-sm flex-col rounded-3xl border border-gray-200 bg-white shadow-lg dark:bg-gray-800 dark:shadow-orange-900 md:max-w-md lg:max-w-lg  xl:w-[34rem] xl:max-w-[34rem]">
+        <div className="dark:bg-navy-blue-800 flex h-full min-h-[40vh] w-full max-w-sm flex-col rounded-3xl bg-white shadow-lg  md:max-w-md lg:max-w-lg  xl:w-[34rem] xl:max-w-[34rem]">
           <ConnectedProvider>
             <div className="p-4 text-lg">
               <div>
-                <div className="font-ubuntu text-xl font-medium leading-6 text-gray-900">
+                <div className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6  text-gray-900">
                   Data Stores
                 </div>
                 <div className="mt-5">
-                  <p className="text-md text-gray-600">
+                  <p className="text-md dark:text-navy-blue-400 text-gray-600 ">
                     Enable or disable data stores. Data stores are places where
                     VCs are stored.{' '}
                   </p>
                 </div>
 
-                <span className="mt-10 flex justify-between text-gray-800">
+                <span className="dark:text-navy-blue-200 mt-10 flex justify-between text-gray-800 ">
                   Ceramic{' '}
                   <ToggleSwitch
                     size="md"
@@ -75,7 +75,7 @@ export default function Settings() {
               </div>
 
               <div className="mt-20">
-                <div className="font-ubuntu text-xl font-medium leading-6 text-gray-900">
+                <div className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6  text-gray-900">
                   Advanced
                 </div>
                 <div className="mt-2 text-sm text-red-500">

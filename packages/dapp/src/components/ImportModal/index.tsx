@@ -35,7 +35,7 @@ function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black bg-opacity-25" />
+          <div className="fixed inset-0 bg-black bg-opacity-25 dark:bg-opacity-60" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
@@ -49,32 +49,32 @@ function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-orange-50 p-6 text-left align-middle shadow-xl transition-all md:max-w-xl lg:max-w-2xl">
+              <Dialog.Panel className="dark:bg-navy-blue-500 w-full max-w-md transform overflow-hidden rounded-2xl bg-orange-50 p-6 text-left align-middle shadow-xl transition-all md:max-w-xl lg:max-w-2xl">
                 <Dialog.Title
                   as="h3"
-                  className="text-h3 font-ubuntu font-medium leading-6 text-gray-900"
+                  className="text-h3 font-ubuntu dark:text-navy-blue-50 font-medium leading-6 text-gray-900"
                 >
                   Import Credential
                 </Dialog.Title>
                 <div className="mt-5">
-                  <p className="text-md text-gray-600">
+                  <p className="text-md dark:text-navy-blue-200 text-gray-600">
                     Add a custom credential to your wallet. Paste JSON of the
                     credential in the textarea bellow.
                   </p>
                 </div>
                 <div className="mt-5">
-                  <div className="group relative z-0 rounded-2xl border border-gray-200 bg-gray-50 pt-1 pr-2">
+                  <div className="dark:bg-navy-blue-300 dark:border-navy-blue-400 group relative z-0 rounded-2xl border border-gray-200 bg-gray-50 pt-1 pr-2">
                     <textarea
-                      className="group-hover:scrollbar-thumb-orange-300 scrollbar-thin scrollbar-thumb-orange-300/0 scrollbar-thumb-rounded-full font-jetbrains-mono min-h-[60vh] w-full resize-none rounded-2xl bg-gray-50 p-2 text-gray-700 focus:outline-none"
+                      className="group-hover:scrollbar-thumb-orange-300 dark:text-navy-blue-700 dark:bg-navy-blue-300 scrollbar-thin scrollbar-thumb-orange-300/0 scrollbar-thumb-rounded-full font-jetbrains-mono min-h-[60vh] w-full resize-none rounded-2xl bg-gray-50 p-2 text-gray-700 focus:outline-none"
                       value={vc}
                       onChange={(e) => setVC(e.target.value)}
                     />
                   </div>
-                  <div className="text-h5 font-ubuntu mt-8 pl-2 font-medium text-gray-900">
+                  <div className="text-h5 font-ubuntu dark:text-navy-blue-50 mt-8 pl-2 font-medium text-gray-900">
                     SETTINGS
                   </div>
                   <div className="mt-2 flex items-center justify-between px-4">
-                    <span className="text-md flex gap-x-1 text-gray-600">
+                    <span className="text-md dark:text-navy-blue-200 flex gap-x-1 text-gray-600">
                       Storage <InfoIcon>Select one or more locations.</InfoIcon>
                     </span>
                     <div>

@@ -47,7 +47,7 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
 
   return (
     <div className="flex min-h-full w-full items-center justify-center p-6">
-      <h3 className="text-h3 text-center text-gray-800">
+      <h3 className="text-h3 dark:text-navy-blue-50 text-center text-gray-800">
         Connect MetaMask to use the dApp!
       </h3>
     </div>

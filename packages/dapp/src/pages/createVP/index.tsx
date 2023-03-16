@@ -98,25 +98,25 @@ const CreateVP = () => {
         <meta name="description" content="Create VP page for Masca." />
       </Head>
       <div className="grid place-items-center">
-        <div className="flex h-full min-h-[40vh] w-full max-w-sm flex-col rounded-3xl border border-gray-200 bg-white shadow-lg dark:bg-gray-800 dark:shadow-orange-900 md:max-w-md lg:max-w-xl  xl:w-[34rem] xl:max-w-[40rem]">
+        <div className="dark:bg-navy-blue-800 dark:text-navy-blue-400 flex h-full min-h-[40vh] w-full max-w-sm flex-col rounded-3xl bg-white shadow-lg md:max-w-md lg:max-w-xl  xl:w-[34rem] xl:max-w-[40rem]">
           <ConnectedProvider>
             <div className="flex w-full justify-between px-5 pt-5">
               <Link href="dashboard">
-                <button className="animated-transition rounded-full p-1 text-gray-900 hover:bg-pink-100 hover:text-pink-700">
+                <button className="animated-transition dark:text-navy-blue-50 dark:hover:bg-navy-blue-700 rounded-full p-1 text-gray-900 hover:bg-pink-100 hover:text-pink-700">
                   <ArrowLeftIcon className="h-6 w-6" />
                 </button>
               </Link>
-              <div className="text-h3 font-semibold text-gray-900">
+              <div className="text-h3 dark:text-navy-blue-50 font-semibold text-gray-900">
                 Create Presentation
               </div>
             </div>
             <div className="mt-3">
-              <div className="font-ubuntu border-b border-gray-400 p-5 text-xl font-medium text-gray-800">
+              <div className="font-ubuntu dark:text-navy-blue-100 dark:border-navy-blue-600 border-b border-gray-400 p-5 text-xl font-medium text-gray-800">
                 Selected Credentials
               </div>
               <table className="mt-2 w-full text-center text-sm">
                 <thead>
-                  <tr className=" text-gray-600">
+                  <tr className=" dark:text-navy-blue-400 text-gray-600">
                     <th className="px-3 pb-4 font-semibold"></th>
                     <th className="px-3 pb-4 font-semibold">TYPE</th>
                     <th className="px-3 pb-4 font-semibold">ISSUER</th>
@@ -135,11 +135,13 @@ const CreateVP = () => {
                 </tbody>
               </table>
               <div className="mt-8">
-                <div className="text-h5 font-ubuntu mt-8 pl-2 font-medium text-gray-900">
+                <div className="dark:text-navy-blue-100 text-h5 font-ubuntu mt-8 pl-2 font-medium text-gray-900">
                   OPTIONS
                 </div>
                 <div className="mt-2 flex items-center justify-between px-4">
-                  <div className="text-gray-600">Format</div>
+                  <div className="dark:text-navy-blue-300 text-gray-600 ">
+                    Format
+                  </div>
                   <DropdownMenu
                     size="sm"
                     rounded="full"
@@ -153,7 +155,7 @@ const CreateVP = () => {
               </div>
               <div>
                 <div className="mt-16 flex items-baseline justify-between border-b border-gray-300">
-                  <div className="text-h5 font-ubuntu mt-8 flex pl-2 font-medium text-gray-900">
+                  <div className="text-h5 dark:text-navy-blue-100  font-ubuntu mt-8 flex pl-2 font-medium text-gray-900">
                     ADVANCED{' '}
                     <InfoIcon>Only applicable to JWT Proof format.</InfoIcon>
                   </div>
@@ -169,7 +171,7 @@ const CreateVP = () => {
                 </div>
                 {advanced && (
                   <div className="mt-6 px-4">
-                    <div className="mt-2 text-sm font-medium text-gray-600">
+                    <div className="dark:text-navy-blue-200 mt-2 text-sm font-medium text-gray-600">
                       CHALLENGE
                     </div>
                     <div className="mt-2 max-w-xs">
@@ -183,7 +185,7 @@ const CreateVP = () => {
                         setValue={setChallenge}
                       />
                     </div>
-                    <div className="mt-6 text-sm font-medium text-gray-600">
+                    <div className="dark:text-navy-blue-200 mt-6 text-sm font-medium text-gray-600">
                       DOMAIN
                     </div>
                     <div className="mt-2 max-w-xs">

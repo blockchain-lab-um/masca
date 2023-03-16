@@ -116,7 +116,7 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black bg-opacity-25" />
+          <div className="fixed inset-0 bg-black bg-opacity-25 dark:bg-opacity-60" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
@@ -130,19 +130,19 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="dark:bg-navy-blue-500 w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                 <Dialog.Title
                   as="h3"
-                  className="font-ubuntu text-xl font-medium leading-6 text-gray-900"
+                  className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-900"
                 >
                   Modify Credential
                 </Dialog.Title>
                 <div className="mt-2">
-                  <p className="text-md text-gray-500">
+                  <p className="text-md dark:text-navy-blue-200 text-gray-500">
                     Here you can define where the credential will be stored.
                   </p>
                 </div>
-                <div className="mt-10 px-4 text-gray-700">
+                <div className="dark:text-navy-blue-100 mt-10 px-4 text-gray-700">
                   {Object.keys(vcStores).map((store, id) => (
                     <div
                       key={id}

@@ -31,11 +31,13 @@ const DropdownMultiselect = ({
           <div className="w-28 cursor-default overflow-hidden rounded-full bg-white text-left shadow-md focus:outline-none sm:text-sm">
             <Listbox.Button
               value={placeholder}
-              className="flex w-full border-none p-2 px-1 text-sm leading-5 text-gray-700 placeholder:text-gray-400 focus:outline-none focus:ring-0 dark:bg-gray-800"
+              className="dark:bg-navy-blue-600 dark:text-navy-blue-100 flex w-full border-none p-2 px-1 text-sm leading-5 text-gray-700 placeholder:text-gray-400 focus:outline-none focus:ring-0"
             >
               <div
                 className={`w-3/4 truncate ${
-                  selectedItems.length === 0 ? 'text-gray-400' : ''
+                  selectedItems.length === 0
+                    ? 'dark:text-navy-blue-200 text-gray-400 '
+                    : ''
                 }`}
               >
                 {selectedItems.map((item) => item).join(', ')}
@@ -44,7 +46,7 @@ const DropdownMultiselect = ({
               <div>
                 <>
                   <ChevronDownIcon
-                    className={`animated-transition h-5 w-5 text-gray-700 ${
+                    className={`animated-transition dark:text-navy-blue-100 h-5 w-5 text-gray-700  ${
                       open ? 'rotate-180' : ''
                     }`}
                   />

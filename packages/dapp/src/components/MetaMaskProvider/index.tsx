@@ -174,7 +174,7 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
 
   return (
     <div className="flex min-h-full w-full items-center justify-center">
-      <h3 className="text-h3 text-gray-800">
+      <h3 className="text-h3 dark:text-navy-blue-50 text-gray-800">
         Install MetaMask Flask to use the dApp!
       </h3>
     </div>

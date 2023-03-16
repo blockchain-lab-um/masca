@@ -2,19 +2,19 @@ import { Switch } from '@headlessui/react';
 import clsx from 'clsx';
 
 const variants = {
-  primary: 'bg-gray-600',
-  gray: 'bg-gray-300',
+  primary: 'bg-gray-600 dark:bg-navy-blue-300',
+  gray: 'bg-gray-300 dark:bg-navy-blue-300',
   secondary: 'bg-white',
 };
 
 const variantsEnabled = {
-  primary: 'bg-pink-500',
-  gray: 'bg-gray-600',
+  primary: 'bg-pink-500 dark:bg-orange-accent-dark',
+  gray: 'bg-gray-600 dark:bg-navy-blue-600',
   secondary: 'bg-orange-100',
 };
 
 const variantToggle = {
-  primary: 'bg-white',
+  primary: 'bg-white dark:bg-navy-blue-900',
   gray: 'bg-white',
   secondary: 'bg-orange-500',
 };

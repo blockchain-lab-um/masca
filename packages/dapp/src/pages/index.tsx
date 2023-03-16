@@ -37,13 +37,13 @@ export default function Home() {
       <div className="absolute  right-[13vw] top-[-55vh] w-[50vw] h-[50vw] rounded-full bg-orange-500 opacity-10 -z-10"></div>
       <div className="absolute  right-[-20vw] top-[-30vh] w-[50vw] h-[50vw] rounded-full bg-orange-500 opacity-10 -z-10"></div> */}
 
-        <div className="text-h4 sm:text-h2 lg:text-h1 font-ubuntu text-gray-900">
+        <div className="text-h4 sm:text-h2 lg:text-h1 font-ubuntu dark:text-navy-blue-50 text-gray-900">
           Take control of your
           <span className="dark:text-orange-accent-dark pl-1.5 text-pink-500">
             Online Identity
           </span>
         </div>
-        <div className="text-h5 sm:text-h4 lg:text-h3 dark:text-orange-500-60 font-ubuntu pt-8 text-gray-900">
+        <div className="text-h5 dark:text-navy-blue-50 sm:text-h4 lg:text-h3 dark:text-orange-500-60 font-ubuntu pt-8 text-gray-900">
           Join the world of
           <span className=" dark:text-orange-accent-dark px-1.5 text-pink-500">
             Self - Sovereign Identity

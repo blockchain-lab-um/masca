@@ -29,7 +29,7 @@ const variants: Record<string, string> = {
   'secondary-active':
     'text-navy-blue-500 border border border-navy-blue-500 hover:text-white hover:bg-navy-blue-500',
   connect: 'bg-pink-100 hover:bg-pink-50 text-pink-600',
-  gray: 'bg-gray-200 text-gray-800 hover:opacity-80',
+  gray: 'bg-gray-200 text-gray-800 hover:opacity-80 dark:bg-navy-blue-700 dark:text-white',
   'white-pink':
     'bg-white text-gray-800 hover:text-white hover:bg-pink-400 dark:bg-orange-accent-dark dark:text-gray-900 dark:hover:bg-orange-accent-dark/80',
   white: 'bg-white text-gray-800 hover:opacity-80',
@@ -59,7 +59,7 @@ const loaderSizes: Record<string, string> = {
 };
 
 const loaderColors: Record<string, string> = {
-  primary: 'border-white',
+  primary: 'border-white dark:border-navy-blue-900',
   'primary-active': 'border-orange-500',
   secondary: 'border-white',
   'secondary-active': 'border-navy-blue-500',

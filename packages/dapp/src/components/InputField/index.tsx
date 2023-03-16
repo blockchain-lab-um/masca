@@ -15,7 +15,7 @@ interface InputFieldProps {
 const variants = {
   primary: 'text-orange-500 border-gray-300',
   secondary: 'text-navy-blue-500 border-navy-blue-300',
-  gray: 'text-gray-800 border-gray-300 border-2',
+  gray: 'text-gray-800 border-gray-300 border-2 bg-white dark:bg-navy-blue-200 dark:border-navy-blue-500 dark:text-navy-blue-800 dark:placeholder-navy-blue-600 ',
 };
 
 const sizes = {
@@ -45,7 +45,7 @@ const InputField = ({
         sizes[size],
         `rounded-${rounded}`,
         `shadow-${shadow}`,
-        'ring-none border-1 animated-transition w-full border bg-white outline-none '
+        'ring-none border-1 animated-transition w-full border outline-none '
       )}
     />
   );
