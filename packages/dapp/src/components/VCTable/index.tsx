@@ -126,7 +126,7 @@ const Table = () => {
               href={`https://dev.uniresolver.io/#${info.getValue()}`}
               target="_blank"
               rel="noreferrer"
-              className="flex items-center justify-center text-pink-400 underline hover:text-pink-500"
+              className="dark:text-orange-accent-dark dark:hover:text-orange-accent-dark/80 flex items-center justify-center text-pink-400 underline hover:text-pink-500"
             >{`${info.getValue().slice(0, 8)}....${info
               .getValue()
               .slice(-4)}`}</a>
@@ -150,7 +150,7 @@ const Table = () => {
               href={`https://dev.uniresolver.io/#${info.getValue()}`}
               target="_blank"
               rel="noreferrer"
-              className="flex items-center justify-center text-pink-400 underline hover:text-pink-500"
+              className="dark:text-orange-accent-dark dark:hover:text-orange-accent-dark/80 flex items-center justify-center text-pink-400 underline hover:text-pink-500"
             >{`${info.getValue().slice(0, 8)}....${info
               .getValue()
               .slice(-4)}`}</a>
@@ -249,7 +249,7 @@ const Table = () => {
         <div className="flex items-center justify-center px-1">
           <button onClick={row.getToggleSelectedHandler()}>
             {row.getIsSelected() ? (
-              <MinusCircleIcon className="h-7 w-7 text-pink-500 dark:text-white" />
+              <MinusCircleIcon className="dark:text-orange-accent-dark h-7 w-7 text-pink-500" />
             ) : (
               <PlusCircleIcon className="h-7 w-7" />
             )}
@@ -351,18 +351,20 @@ const Table = () => {
     return (
       <>
         <div className="relative flex h-full min-h-[50vh] w-full flex-col">
-          <div className="flex items-center justify-between border-b border-gray-400 p-5">
-            <div className="text-h2 font-ubuntu pl-4 font-medium text-gray-900">
+          <div className="dark:border-navy-blue-600 flex items-center justify-between border-b border-gray-400 p-5">
+            <div className="text-h2 font-ubuntu dark:text-navy-blue-50 pl-4 font-medium text-gray-900">
               My Credentials
             </div>
             <div className="text-right">
-              <div className="text-h4 text-gray-900">
+              <div className="text-h4 dark:text-navy-blue-50 text-gray-900">
                 {vcs.length} Credential(s) found
               </div>
-              <div className="text-h5 text-gray-600">Fetched: today</div>
+              <div className="text-h5 dark:text-navy-blue-400 text-gray-600">
+                Fetched: today
+              </div>
             </div>
           </div>
-          <table className="min-w-full text-center text-lg text-gray-600 dark:text-white">
+          <table className="dark:text-navy-blue-400 min-w-full text-center text-lg text-gray-600">
             <thead className="">
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr key={headerGroup.id}>
@@ -392,10 +394,10 @@ const Table = () => {
                             )}
                         {{
                           asc: (
-                            <ChevronDownIcon className="h-4 w-4 text-gray-600 dark:text-white" />
+                            <ChevronDownIcon className="dark:text-navy-blue-400 h-4 w-4 text-gray-600" />
                           ),
                           desc: (
-                            <ChevronUpIcon className="h-4 w-4 text-gray-600 dark:text-white" />
+                            <ChevronUpIcon className="dark:text-navy-blue-400 h-4 w-4 text-gray-600" />
                           ),
                         }[header.column.getIsSorted() as string] ?? null}
                       </div>
@@ -404,14 +406,14 @@ const Table = () => {
                 </tr>
               ))}
             </thead>
-            <tbody className="break-all border-b text-gray-800 dark:text-white/60">
+            <tbody className="dark:text-navy-blue-50 break-all border-b text-gray-800">
               {table.getRowModel().rows.map((row) => (
                 <tr
                   key={row.id}
-                  className={`dark:border-navy-blue-tone/30 animated-transition border-b border-gray-100 duration-75 ${
+                  className={`dark:border-navy-blue-tone/30 animated-transition dark:border-navy-blue-700 border-b border-gray-100 duration-75 ${
                     row.getIsSelected()
-                      ? 'dark:bg-navy-blue-400/80 bg-pink-50 hover:bg-pink-50'
-                      : 'dark:hover:bg-navy-blue-400/30 hover:bg-gray-50'
+                      ? 'dark:bg-navy-blue-700 bg-pink-50/60 hover:bg-pink-50'
+                      : 'dark:hover:bg-navy-blue-700/30 hover:bg-gray-50'
                   }`}
                 >
                   {row.getVisibleCells().map((cell) => (

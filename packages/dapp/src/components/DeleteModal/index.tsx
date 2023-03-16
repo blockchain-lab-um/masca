@@ -101,16 +101,16 @@ function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
                 >
                   Delete Credential
                 </Dialog.Title>
-                <div className="mt-2">
+                <div className="mt-4">
                   <p className="text-md text-gray-500">
                     Approving this action will remove the credential from your
                     wallet. This action cannot be undone.
                   </p>
 
                   {store && (
-                    <p className="mt-4 text-sm text-gray-600">
+                    <p className="text-md mt-10 text-gray-600">
                       Deleting VC from store:{' '}
-                      <span className="font-medium text-gray-700">{store}</span>
+                      <span className="font-medium text-gray-800">{store}</span>
                     </p>
                   )}
                 </div>

@@ -85,7 +85,7 @@ const Button = ({
           variants[variant],
           sizes[size],
           `shadow-${shadow}`,
-          'animated-transition flex max-w-xs items-center gap-x-2 rounded-full'
+          'animated-transition font-ubuntu flex max-w-xs items-center gap-x-2 rounded-full font-medium'
         )}`}
         onClick={onClick}
         disabled={disabled}

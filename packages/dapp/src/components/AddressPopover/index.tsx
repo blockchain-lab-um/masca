@@ -38,11 +38,11 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
             leaveFrom="transform scale-100 opacity-100"
             leaveTo="transform scale-95 opacity-0"
           >
-            <Popover.Panel className="dark:bg-navy-blue-500 dark:border-navy-blue-400 absolute right-0 rounded-2xl bg-white shadow-xl max-md:-top-12 max-md:mb-2 max-md:-translate-y-full max-md:transform md:mt-2">
+            <Popover.Panel className="dark:bg-navy-blue-500 absolute right-0 rounded-2xl bg-white shadow-xl max-md:-top-12 max-md:mb-2 max-md:-translate-y-full max-md:transform md:mt-2">
               <div className="rounded-2xl px-6 pt-6 pb-3 shadow-sm">
                 <div className="flex flex-col justify-between gap-3">
                   <div>
-                    <div className="dark:text-navy-blue-tone/80 text-sm text-gray-700">
+                    <div className="dark:text-navy-blue-100 text-sm text-gray-700">
                       DID
                     </div>
                     <div className="mt-2 flex items-center">
@@ -55,12 +55,12 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
                           copyToClipboard(did);
                         }}
                       >
-                        <DocumentDuplicateIcon className="animated-transition ml-1 h-5 w-5 text-gray-900 hover:text-gray-600 dark:text-white" />
+                        <DocumentDuplicateIcon className="animated-transition dark:text-navy-blue-50 ml-1 h-5 w-5 text-gray-900 hover:text-gray-600" />
                       </button>
                     </div>
                   </div>
                   <div>
-                    <div className="dark:text-navy-blue-tone/80 mt-4 text-sm text-gray-700">
+                    <div className="dark:text-navy-blue-100 mt-4 text-sm text-gray-700">
                       CONNECTED WITH METAMASK
                     </div>
                     <div className="mt-2 flex items-center">
@@ -76,14 +76,14 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
                           copyToClipboard(address);
                         }}
                       >
-                        <DocumentDuplicateIcon className="animated-transition ml-1 h-5 w-5 text-gray-900 hover:text-gray-600 dark:text-white" />
+                        <DocumentDuplicateIcon className="animated-transition dark:text-navy-blue-50 ml-1 h-5 w-5 text-gray-900 hover:text-gray-600" />
                       </button>
                     </div>
                   </div>
                   <div className="mt-2 flex justify-start">
                     <button
                       onClick={disconnect}
-                      className="animated-transition mt-auto text-xs font-semibold text-pink-800 hover:text-pink-700 dark:text-pink-400 hover:dark:text-pink-500"
+                      className="animated-transition mt-auto text-xs font-semibold text-pink-800 hover:text-pink-700 dark:text-pink-300 hover:dark:text-pink-400"
                     >
                       DISCONNECT
                     </button>

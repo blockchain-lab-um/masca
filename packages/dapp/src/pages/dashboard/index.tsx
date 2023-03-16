@@ -16,7 +16,7 @@ export default function Dashboard() {
       </Head>
 
       <Controlbar vcs={vcs} isConnected={isConnected} />
-      <div className="dark:bg-navy-blue-500 flex min-h-[50vh]  justify-center rounded-3xl bg-white shadow-lg dark:shadow-none">
+      <div className="dark:bg-navy-blue-800 flex min-h-[50vh]  justify-center rounded-3xl bg-white shadow-lg dark:shadow-none">
         <ConnectedProvider>
           <Table />
         </ConnectedProvider>

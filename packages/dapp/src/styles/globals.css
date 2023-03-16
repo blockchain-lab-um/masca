@@ -35,11 +35,11 @@ body {
   }
 
   .nav-btn {
-    @apply lg:text-h4 sm:text-h5 text-h6 animated-transition font-cabin relative mx-1 h-fit font-semibold tracking-[1px] hover:text-pink-500 dark:hover:text-pink-400 sm:mx-2 lg:mx-4;
+    @apply lg:text-h4 sm:text-h5 text-h6 animated-transition font-cabin dark:hover:text-orange-accent-dark relative mx-1 h-fit tracking-[1px] hover:text-pink-500 sm:mx-2 lg:mx-4;
   }
 
   .nav-btn::after {
-    @apply absolute left-0 -bottom-[0.375em] h-[0.125em] w-[0%] rounded-xl bg-pink-500 duration-300 content-[''] dark:bg-pink-400;
+    @apply dark:bg-orange-accent-dark absolute left-0 -bottom-[0.375em] h-[0.125em] w-[0%] rounded-xl bg-pink-500 duration-300 content-[''];
   }
 
   .nav-btn:hover::after {

@@ -15,7 +15,7 @@ interface InputFieldProps {
 const variants = {
   primary: 'text-orange-500 border-gray-300',
   secondary: 'text-navy-blue-500 border-navy-blue-300',
-  gray: 'text-gray-800 border-gray-300',
+  gray: 'text-gray-800 border-gray-300 border-2',
 };
 
 const sizes = {

@@ -37,7 +37,7 @@ const SelectedVCsTableRow = ({
     validity = Date.now() < Date.parse(vc.data.expirationDate);
 
   return (
-    <tr className="animated-transition border-b border-gray-500 duration-75 hover:bg-gray-50">
+    <tr className="animated-transition border-b border-gray-100 duration-75 hover:bg-gray-50">
       <td className="py-4">
         <span className="flex items-center justify-center">
           <Link
@@ -60,7 +60,7 @@ const SelectedVCsTableRow = ({
               href={`https://dev.uniresolver.io/#${issuer}`}
               target="_blank"
               rel="noreferrer"
-              className="text-orange-500 underline hover:text-orange-700"
+              className="text-pink-500 underline hover:text-pink-400"
             >
               {issuer.length > 20
                 ? `${issuer.slice(0, 8)}...${issuer.slice(-4)}`

@@ -40,22 +40,22 @@ function VPModal({ open, setOpen, vp }: VPModalProps) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all md:max-w-xl lg:max-w-2xl">
+              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-orange-50 p-6 text-left align-middle shadow-xl transition-all md:max-w-xl lg:max-w-2xl">
                 <Dialog.Title
                   as="h3"
-                  className="text-lg font-semibold leading-6 text-orange-500"
+                  className="text-h3 font-ubuntu font-medium leading-6 text-gray-900"
                 >
                   Verifiable Presentation
                 </Dialog.Title>
-                <div className="mt-2">
-                  <p className="text-sm text-gray-500">
+                <div className="mt-5">
+                  <p className="text-md text-gray-600">
                     Here is a presentation consisting of selected credentials.
                   </p>
                 </div>
-                <div className="mt-8">
-                  <div className="group relative z-0 rounded-2xl bg-orange-100 pt-1 pr-2">
+                <div className="mt-5">
+                  <div className="group relative z-0 rounded-2xl border border-gray-200 bg-gray-50 pt-1 pr-2">
                     <textarea
-                      className="group-hover:scrollbar-thumb-orange-300 scrollbar-thin scrollbar-thumb-orange-300/0 scrollbar-thumb-rounded-full font-jetbrains-mono min-h-[60vh] w-full resize-none rounded-2xl bg-orange-100 p-2 text-orange-900 focus:outline-none"
+                      className="group-hover:scrollbar-thumb-orange-300 scrollbar-thin scrollbar-thumb-orange-300/0 scrollbar-thumb-rounded-full font-jetbrains-mono min-h-[60vh] w-full resize-none rounded-2xl bg-gray-50 p-2 text-gray-700 focus:outline-none"
                       disabled
                       value={JSON.stringify(vp, null, 4)}
                     />
@@ -66,7 +66,7 @@ function VPModal({ open, setOpen, vp }: VPModalProps) {
                           .writeText(JSON.stringify(vp, null, 4))
                           .catch(() => {});
                       }}
-                      className="animated-transition absolute bottom-3 right-6 rounded-full border border-gray-200 bg-orange-300 p-1 text-orange-900 shadow-md hover:bg-orange-200 hover:text-orange-800"
+                      className="animated-transition absolute bottom-3 right-6 rounded-full border border-gray-200 bg-gray-500 p-1 text-gray-900 shadow-md hover:bg-gray-400 hover:text-gray-700"
                     >
                       <DocumentDuplicateIcon className="h-5 w-5" />
                     </button>
@@ -80,7 +80,7 @@ function VPModal({ open, setOpen, vp }: VPModalProps) {
                         await router.push('/dashboard');
                       }}
                       variant="primary"
-                      size="popup"
+                      size="sm"
                     >
                       Done
                     </Button>

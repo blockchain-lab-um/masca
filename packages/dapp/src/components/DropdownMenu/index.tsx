@@ -22,9 +22,9 @@ interface DropdownMenuProps {
 }
 
 const sizes: Record<string, string> = {
-  xs: 'text-h6 py-1 px-3 max-w-xs',
-  sm: 'text-h5 py-1.5 px-3.5 max-w-xs',
-  md: 'text-h4 py-2 px-4 max-w-xs',
+  xs: 'text-sm py-1 px-3 max-w-xs',
+  sm: 'text-md py-1.5 px-3.5 max-w-xs',
+  md: 'text-lg py-2 px-4 max-w-xs',
   lg: 'text-2xl py-2.5 px-5 font-semibold max-w-xs',
 };
 
@@ -34,7 +34,7 @@ const variants: Record<string, string> = {
   secondary:
     'bg-navy-blue-500 text-white btn hover:opacity-80   animated-transition ',
   'primary-active':
-    'text-orange-500 border border-1 border-gray-300 animated-transition ',
+    'text-gray-700 border border-2 border-gray-300 animated-transition font-semibold ',
   'secondary-active':
     'text-navy-blue-500 border border-1 border-navy-blue-300  animated-transition ',
   gray: 'bg-gray-200 text-gray-800 btn hover:opacity-80 animated-transition ',
@@ -74,21 +74,13 @@ export default function DropdownMenu({
               )}
             >
               {selected}
-              {open ? (
-                <>
-                  <ChevronUpIcon
-                    className="-mr-1 ml-2 h-5 w-5"
-                    aria-hidden="true"
-                  />
-                </>
-              ) : (
-                <>
-                  <ChevronDownIcon
-                    className="-mr-1 ml-2 h-5 w-5"
-                    aria-hidden="true"
-                  />
-                </>
-              )}
+
+              <ChevronDownIcon
+                className={`animated-transition -mr-1 ml-2 h-5 w-5 ${
+                  open ? 'rotate-180 transform' : ''
+                }`}
+                aria-hidden="true"
+              />
             </Menu.Button>
           </div>
 
@@ -101,8 +93,8 @@ export default function DropdownMenu({
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="absolute right-0 mt-1 rounded-xl border border-gray-200 bg-white shadow-lg focus:outline-none">
-              <div className="py-2">
+            <Menu.Items className="absolute right-0 mt-1 w-48 rounded-3xl bg-white shadow-lg focus:outline-none">
+              <div className="p-1">
                 {items.map((item, id) => {
                   return (
                     <DropdownMenuItem

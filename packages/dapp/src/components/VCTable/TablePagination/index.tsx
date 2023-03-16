@@ -8,7 +8,7 @@ interface TablePaginationProps {
 
 const TablePagination = ({ table }: TablePaginationProps) => {
   return (
-    <div className="font-cabin mb-auto flex items-center gap-2 font-normal text-gray-500 dark:text-white/40">
+    <div className="font-cabin dark:text-navy-blue-400 mb-auto flex items-center gap-2 font-normal text-gray-500">
       <button
         className="animated-transition rounded-full px-2 py-1 hover:cursor-pointer hover:bg-gray-100 dark:hover:bg-white/10"
         onClick={() => table.setPageIndex(0)}
@@ -25,11 +25,11 @@ const TablePagination = ({ table }: TablePaginationProps) => {
       </button>
       <span className="flex items-center gap-1">
         <div>Page</div>
-        <span className="font-semibold text-gray-700 dark:text-white/60">
+        <span className="dark:text-navy-blue-100 font-semibold text-gray-700 ">
           {table.getState().pagination.pageIndex + 1}{' '}
         </span>
         of{' '}
-        <span className="font-semibold text-gray-700 dark:text-white/60">
+        <span className="dark:text-navy-blue-100 font-semibold text-gray-700 ">
           {' '}
           {table.getPageCount()}
         </span>

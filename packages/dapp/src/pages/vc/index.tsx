@@ -43,8 +43,8 @@ const VC = () => {
   return (
     <>
       <Head>
-        <title>Masca | Settings</title>
-        <meta name="description" content="Settings page for Masca." />
+        <title>Masca | VC</title>
+        <meta name="description" content="VC page for Masca." />
       </Head>
       <div className="grid place-items-center">
         <div className="w-full max-w-sm md:max-w-xl lg:max-w-2xl xl:w-[50rem] xl:max-w-[50rem]">
@@ -125,7 +125,7 @@ const VC = () => {
                 <div className="flex w-full justify-between px-5 pt-4">
                   <button
                     onClick={() => router.back()}
-                    className="animated-transition rounded-full p-1 text-gray-900 hover:bg-orange-100 hover:text-orange-700"
+                    className="animated-transition rounded-full p-1 text-gray-900 hover:bg-pink-100 hover:text-pink-700"
                   >
                     <ArrowLeftIcon className="h-6 w-6" />
                   </button>

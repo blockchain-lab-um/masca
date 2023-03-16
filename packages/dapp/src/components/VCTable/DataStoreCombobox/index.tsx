@@ -55,7 +55,7 @@ const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
           <div className="relative">
             <div className="w-34 relative cursor-default overflow-hidden rounded-full shadow-md sm:text-sm">
               <Combobox.Input
-                className={`text-md py-3 pl-5 text-gray-700 focus:outline-none dark:bg-gray-800 ${
+                className={`text-md dark:bg-navy-blue-700 dark:text-navy-blue-50 py-3 pl-5 text-gray-700 focus:outline-none ${
                   !isConnected || vcs.length === 0
                     ? 'bg-gray-50 text-gray-300'
                     : ' '
@@ -71,7 +71,7 @@ const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
               <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
                 <>
                   <ChevronUpIcon
-                    className={`animated-transition h-5 w-5 text-gray-700 ${
+                    className={`animated-transition dark:text-navy-blue-50 h-5 w-5 text-gray-700 ${
                       !isConnected || vcs.length === 0 ? 'text-gray-300' : ' '
                     } ${!open ? 'rotate-180' : ''}`}
                   />

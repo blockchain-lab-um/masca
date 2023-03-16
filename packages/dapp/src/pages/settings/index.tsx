@@ -53,16 +53,20 @@ export default function Settings() {
           <ConnectedProvider>
             <div className="p-4 text-lg">
               <div>
-                <div className="text-h4 font-semibold text-orange-500">
+                <div className="font-ubuntu text-xl font-medium leading-6 text-gray-900">
                   Data Stores
                 </div>
-                <div className="text-md mt-2 text-gray-600">
-                  Enable or disable data stores. Data stores are places where
-                  VCs are stored.{' '}
+                <div className="mt-5">
+                  <p className="text-md text-gray-600">
+                    Enable or disable data stores. Data stores are places where
+                    VCs are stored.{' '}
+                  </p>
                 </div>
-                <span className="mt-4 flex justify-between text-gray-800">
+
+                <span className="mt-10 flex justify-between text-gray-800">
                   Ceramic{' '}
                   <ToggleSwitch
+                    size="md"
                     enabled={availableVCStores.ceramic}
                     setEnabled={handleCeramicToggle}
                     shadow="md"
@@ -70,10 +74,10 @@ export default function Settings() {
                 </span>
               </div>
 
-              <div className="mt-6">
-                <span className="text-h4 font-semibold text-orange-500">
+              <div className="mt-20">
+                <div className="font-ubuntu text-xl font-medium leading-6 text-gray-900">
                   Advanced
-                </span>
+                </div>
                 <div className="mt-2 text-sm text-red-500">
                   Not implemented yet.
                 </div>

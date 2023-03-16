@@ -112,10 +112,10 @@ module.exports = {
         width: 'width, transform, translate',
       },
       boxShadow: {
-        sm: '0 0 5px 0 rgba(0, 0, 0, 0.1)',
-        md: '0 0 7px 0 rgba(0, 0, 0, 0.1)',
-        lg: '0 0 10px 0 rgba(0, 0, 0, 0.1)',
-        xl: '0 0 20px 0 rgba(0, 0, 0, 0.1)',
+        sm: '2px 2px 5px 0 rgba(0, 0, 0, 0.2)',
+        md: '2px 2px 7px 0 rgba(0, 0, 0, 0.2)',
+        lg: '2px 2px 10px 0 rgba(0, 0, 0, 0.2)',
+        xl: '2px 2px 20px 0 rgba(0, 0, 0, 0.2)',
       },
       keyframes: {
         hide: {

@@ -40,15 +40,15 @@ export default function MethodDropdownMenu() {
         <Fragment>
           <div>
             <Menu.Button
-              className={`dark:text-navy-blue-tone text-h4 font-ubuntu animated-transition inline-flex w-full justify-center rounded-3xl px-4 py-2 font-thin font-medium text-gray-600 focus:outline-none ${
+              className={`dark:text-navy-blue-400 text-h4 font-ubuntu animated-transition inline-flex w-full justify-center rounded-3xl px-4 py-2 font-thin text-gray-600 focus:outline-none ${
                 open
-                  ? 'bg-orange-100/50 dark:bg-purple-600'
-                  : 'hover:bg-orange-100/50 dark:hover:bg-purple-600'
+                  ? 'dark:bg-navy-blue-800 bg-orange-100/50'
+                  : 'dark:hover:bg-navy-blue-800 hover:bg-orange-100/50'
               }`}
             >
               {currMethod}
               <ChevronDownIcon
-                className={`dark:text-navy-blue-tone/80 animated-transition -mr-1 ml-2 h-5 w-5 text-gray-600 max-md:rotate-180 ${
+                className={`dark:text-navy-blue-400 animated-transition -mr-1 ml-2 h-5 w-5 text-gray-600 max-md:rotate-180 ${
                   open ? 'rotate-180' : ''
                 }`}
               />
@@ -64,7 +64,7 @@ export default function MethodDropdownMenu() {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="dark:bg-navy-blue-600 absolute right-0 mt-1 w-48 rounded-3xl bg-white shadow-lg max-md:-top-12 max-md:-translate-y-full max-md:transform">
+            <Menu.Items className="dark:bg-navy-blue-500 absolute right-0 mt-1 w-48 rounded-3xl bg-white shadow-lg max-md:-top-12 max-md:-translate-y-full max-md:transform">
               <div className="p-1 text-center ">
                 {methods.map((method, id) => {
                   return (

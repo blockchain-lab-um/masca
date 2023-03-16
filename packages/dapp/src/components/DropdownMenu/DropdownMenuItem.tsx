@@ -1,5 +1,6 @@
 import React from 'react';
 import { Menu } from '@headlessui/react';
+import { CheckIcon } from '@heroicons/react/24/outline';
 import { clsx } from 'clsx';
 
 type DropdownMenuItemProps = {
@@ -17,7 +18,8 @@ type DropdownMenuItemProps = {
 const variants: Record<string, string> = {
   primary: 'bg-orange-100 text-orange-700 ',
   secondary: 'bg-navy-blue-100 text-navy-blue-600 ',
-  'primary-active': 'bg-orange-100 text-orange-700 ',
+  'primary-active':
+    'dark:bg-navy-blue-500 dark:text-orange-accent-dark/95 animated-transition  cursor-pointer bg-pink-50 text-pink-600  ',
   'secondary-active': 'bg-navy-blue-100 text-navy-blue-600 ',
   gray: 'bg-gray-100 text-gray-800 ',
 };
@@ -25,7 +27,8 @@ const variants: Record<string, string> = {
 const variantsSelected: Record<string, string> = {
   primary: 'bg-orange-100 text-orange-700 font-semibold ',
   secondary: 'bg-navy-blue-100 text-navy-blue-600 font-semibold ',
-  'primary-active': 'bg-orange-100 text-orange-700 font-semibold ',
+  'primary-active':
+    'bdark:text-orange-accent-dark dark:bg-navy-blue-600 bg-white text-pink-700 ',
   'secondary-active': 'bg-navy-blue-100 text-navy-blue-600 font-semibold ',
   gray: 'bg-gray-100 font-semibold text-gray-900 ',
 };
@@ -44,12 +47,19 @@ export const DropdownMenuItem = ({
             handleBtn(children as string);
           }}
           className={clsx(
-            'mx-2 block rounded-xl px-4 py-2 text-sm',
+            'text-md block rounded-full py-2 text-center',
             active ? variants[variant] : '',
             selected ? variantsSelected[variant] : 'font-normal'
           )}
         >
-          <span className="flex">{children}</span>
+          <div className="grid grid-cols-5 px-5">
+            <span>
+              {selected ? <CheckIcon className="ml-3 h-5 w-5" /> : ''}
+            </span>
+            <span className=" col-span-4 col-start-2 text-center">
+              {children}
+            </span>
+          </div>
         </a>
       )}
     </Menu.Item>
