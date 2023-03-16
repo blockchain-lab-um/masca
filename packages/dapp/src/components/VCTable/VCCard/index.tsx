@@ -80,7 +80,7 @@ const VCCard = ({ row }: VCCardProps) => {
           }}
           className={`${
             row.getIsSelected()
-              ? 'bg-pink-200/40 font-semibold text-pink-700'
+              ? 'bg-pink-200/60 font-semibold text-pink-700'
               : 'dark:text-navy-blue-500'
           } mt-4 rounded-full bg-white py-1 shadow-md`}
         >
