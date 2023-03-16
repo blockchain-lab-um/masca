@@ -1,4 +1,7 @@
-import { W3CVerifiableCredential } from '@veramo/core';
+import {
+  W3CVerifiableCredential,
+  W3CVerifiablePresentation,
+} from '@veramo/core';
 
 import {
   AvailableMethods,
@@ -77,3 +80,25 @@ export type SetVCStoreRequestParams = {
   store: AvailableVCStores;
   value: boolean;
 };
+
+/**
+ * VerifyDataRequestParams
+ * @description
+ * This type is used to verify a verifiable credential or presentation.
+ * If a verifiable credential is provided, the presentation parameter should be undefined.
+ * If a verifiable presentation is provided, the credential parameter should be undefined.
+ * @param {W3CVerifiableCredential} verifiableCredential - The verifiable credential to verify
+ * @param {W3CVerifiablePresentation} verifiablePresentation - The verifiable presentation to verify
+ * @param {boolean} verbose - Whether to return the full verification result or just a boolean (default: false)
+ */
+export type VerifyDataRequestParams =
+  | {
+      credential: W3CVerifiableCredential;
+      presentation?: undefined;
+      verbose?: boolean;
+    }
+  | {
+      credential?: undefined;
+      presentation: W3CVerifiablePresentation;
+      verbose?: boolean;
+    };

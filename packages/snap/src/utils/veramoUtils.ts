@@ -11,6 +11,7 @@ import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import {
   IIdentifier,
+  IVerifyResult,
   MinimalImportableKey,
   VerifiableCredential,
   VerifiablePresentation,
@@ -221,4 +222,36 @@ export async function veramoCreateVP(
     return vp;
   }
   return null;
+}
+
+export async function veramoVerifyData(args: {
+  snap: SnapsGlobalObject;
+  ethereum: MetaMaskInpageProvider;
+  data: VerifyDataRequestParams;
+}): Promise<IVerifyResult> {
+  try {
+    const { snap, ethereum, data } = args;
+    const { credential, presentation } = data;
+
+    const agent = await getAgent(snap, ethereum);
+
+    if (credential) {
+      const vcResult = (await agent.verifyCredential({
+        credential,
+      })) as IVerifyResult;
+      return vcResult;
+    }
+    if (presentation) {
+      const vpResult = (await agent.verifyPresentation({
+        presentation,
+      })) as IVerifyResult;
+      return vpResult;
+    }
+    return {
+      verified: false,
+      error: new Error('No valid credential or presentation.'),
+    } as IVerifyResult;
+  } catch (error: unknown) {
+    return { verified: false, error: error as Error } as IVerifyResult;
+  }
 }
