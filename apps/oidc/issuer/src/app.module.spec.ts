@@ -3,6 +3,7 @@ import {
   TokenRequest,
   TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
+import { jest } from '@jest/globals';
 import { HttpServer } from '@nestjs/common';
 // import { ConfigService } from '@nestjs/config';
 import {
@@ -18,11 +19,11 @@ import {
   TEST_METADATA,
   TEST_SUPPORTED_SCHEMA_URL,
   TEST_USER_PRIVATE_KEY,
-} from '../tests/constants';
-import getAgent from '../tests/testAgent';
-import { createJWTProof } from '../tests/utils';
-import { AppModule } from './app.module';
-import { AgentService } from './modules/agent/agent.service';
+} from '../tests/constants.js';
+import getAgent from '../tests/testAgent.js';
+import { createJWTProof } from '../tests/utils.js';
+import { AppModule } from './app.module.js';
+import { AgentService } from './modules/agent/agent.service.js';
 
 // import { IConfig } from './config/configuration';
 

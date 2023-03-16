@@ -4,8 +4,8 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 
-import { AppModule } from './app.module';
-import { AgentService } from './modules/agent/agent.service';
+import { AppModule } from './app.module.js';
+import { AgentService } from './modules/agent/agent.service.js';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(

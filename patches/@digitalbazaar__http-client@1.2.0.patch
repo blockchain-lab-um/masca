@@ -14,3 +14,37 @@ index c1ff223cc5fccb383984693efedbfe24d066c1a0..eccfe489b87af61da0e1f6f95ca34ea9
 -module.exports = require('./main.js');
 +// require = require('esm')(module);
 +module.exports = require("./main.js");
+diff --git a/main.js b/main.js
+index 64209b464ade6946bf85a0d4bdedfc3fceb37538..4adb6e9aecef86cbdd967e61997cae44dd48a4d4 100644
+--- a/main.js
++++ b/main.js
+@@ -1,9 +1,9 @@
+ /*!
+  * Copyright (c) 2020 Digital Bazaar, Inc. All rights reserved.
+  */
+-import kyOriginal from 'ky-universal';
++const kyOriginal = require('ky-universal');
+ 
+-export const DEFAULT_HEADERS = {
++const DEFAULT_HEADERS = {
+   Accept: 'application/ld+json, application/json'
+ };
+ 
+@@ -13,7 +13,7 @@ const proxyMethods = new Set([
+   'get', 'post', 'push', 'patch', 'head', 'delete'
+ ]);
+ 
+-export const httpClient = new Proxy(ky, {
++const httpClient = new Proxy(ky, {
+   apply: _handleResponse,
+   get(target, propKey) {
+     const propValue = target[propKey];
+@@ -69,7 +69,7 @@ async function _handleError(e) {
+   throw e;
+ }
+ 
+-export default {
++module.exports = {
+   httpClient,
+   ky: kyOriginal,
+   DEFAULT_HEADERS,

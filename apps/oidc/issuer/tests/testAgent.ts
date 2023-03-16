@@ -25,7 +25,7 @@ import { Resolver } from 'did-resolver';
 import { getResolver as getEthrResolver } from 'ethr-did-resolver';
 import { DataSource } from 'typeorm';
 
-import { loadSupportedCredentials } from '../src/config/configuration';
+import { loadSupportedCredentials } from '../src/config/configuration.js';
 import {
   TEST_INFURA_PROJECT_ID,
   TEST_ISSUER_DB_SECRET,
@@ -33,7 +33,7 @@ import {
   TEST_SUPPORTED_CURVES,
   TEST_SUPPORTED_DID_METHODS,
   TEST_SUPPORTED_DIGITAL_SIGNATURES,
-} from './constants';
+} from './constants.js';
 
 export type Agent = TAgent<
   IDIDManager & IKeyManager & IResolver & IOIDCPlugin & ICredentialPlugin

@@ -13,9 +13,9 @@ import {
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-import { IConfig } from './config/configuration';
-import { AgentService } from './modules/agent/agent.service';
-import { DatastoreService } from './modules/datastore/datastore.service';
+import { IConfig } from './config/configuration.js';
+import { AgentService } from './modules/agent/agent.service.js';
+import { DatastoreService } from './modules/datastore/datastore.service.js';
 
 @Injectable()
 export class AppService {

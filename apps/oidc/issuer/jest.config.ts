@@ -8,10 +8,30 @@ export default {
   testEnvironment: 'node',
   testRegex: '.*\\.spec\\.ts$',
   transform: {
-    // Order is important here, ts-jest must be before babel-jest
-    '^.+\\.ts$': 'ts-jest',
-    '^.+\\.[tj]s$': 'babel-jest',
+    '^.+\\.(t|j)sx?$': [
+      '@swc/jest',
+      {
+        jsc: {
+          target: 'es2022',
+          parser: {
+            syntax: 'typescript',
+            decorators: true,
+            dynamicImport: true,
+          },
+          transform: {
+            legacyDecorator: true,
+            decoratorMetadata: true,
+          },
+          keepClassNames: true,
+          baseUrl: './',
+        },
+      },
+    ],
   },
-  transformIgnorePatterns: ['/node_modules/(?!@veramo/*)/'],
+  moduleNameMapper: {
+    '^(\\.{1,2}/.*)\\.[tj]sx?$': '$1',
+  },
+  extensionsToTreatAsEsm: ['.ts'],
+  transformIgnorePatterns: ['/node_modules/(?!@veramo)/'],
   testTimeout: 120000,
 };

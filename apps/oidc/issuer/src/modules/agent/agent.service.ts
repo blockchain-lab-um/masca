@@ -33,7 +33,10 @@ import { Resolver } from 'did-resolver';
 import { getResolver as getEthrResolver } from 'ethr-did-resolver';
 import { DataSource } from 'typeorm';
 
-import { IConfig, loadSupportedCredentials } from '../../config/configuration';
+import {
+  IConfig,
+  loadSupportedCredentials,
+} from '../../config/configuration.js';
 
 @Injectable()
 export class AgentService {

@@ -1,6 +1,6 @@
 import { SupportedCredential } from '@blockchain-lab-um/oidc-types';
 import { ConfigModule } from '@nestjs/config';
-import * as Joi from 'joi';
+import Joi from 'joi';
 
 import {
   ISSUER_URL,
@@ -9,7 +9,7 @@ import {
   SUPPORTED_DID_METHODS,
   SUPPORTED_DIGITAL_SIGNATURES,
   SUPPORTED_SCHEMA_URL,
-} from '../../config';
+} from '../../config.js';
 
 export interface IConfig {
   INFURA_PROJECT_ID: string;
@@ -37,7 +37,7 @@ const config = (): IConfig => ({
 });
 
 export default ConfigModule.forRoot({
-  envFilePath: [`.env.${process.env.NODE_ENV}`],
+  envFilePath: [`.env`],
   load: [config],
   validationSchema: Joi.object({
     NODE_ENV: Joi.string()

@@ -1,4 +1,4 @@
-import {
+import type {
   CredentialOfferRequest,
   CredentialRequest,
   CredentialResponse,
@@ -17,9 +17,9 @@ import {
   Query,
   Response,
 } from '@nestjs/common';
-import { FastifyReply } from 'fastify';
+import type { FastifyReply } from 'fastify';
 
-import { AppService } from './app.service';
+import { AppService } from './app.service.js';
 
 @Controller()
 export class AppController {

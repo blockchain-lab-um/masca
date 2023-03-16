@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
-import { DatastoreService } from './datastore.service';
+import { DatastoreService } from './datastore.service.js';
 
 @Module({
   imports: [ConfigModule],
