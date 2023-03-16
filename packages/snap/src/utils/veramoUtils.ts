@@ -3,11 +3,9 @@ import {
   CreateVPRequestParams,
   QueryVCsOptions,
   QueryVCsRequestResult,
+  SaveVCRequestResult,
 } from '@blockchain-lab-um/ssi-snap-types';
-import {
-  Filter,
-  IDataManagerSaveResult,
-} from '@blockchain-lab-um/veramo-vc-manager';
+import { Filter } from '@blockchain-lab-um/veramo-vc-manager';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
@@ -30,14 +28,33 @@ export async function veramoSaveVC(args: {
   ethereum: MetaMaskInpageProvider;
   verifiableCredential: W3CVerifiableCredential;
   store: AvailableVCStores | AvailableVCStores[];
-}): Promise<IDataManagerSaveResult[]> {
+}): Promise<SaveVCRequestResult[]> {
   const { snap, ethereum, store, verifiableCredential } = args;
   const agent = await getAgent(snap, ethereum);
-  const res = await agent.save({
+  const result = await agent.save({
     data: verifiableCredential,
     options: { store },
   });
-  return res;
+
+  const vcs = new Map<string, SaveVCRequestResult>();
+
+  for (const vc of result) {
+    if (!vc.store) {
+      throw new Error('Missing store in VC metadata');
+    }
+
+    const existingVC = vcs.get(vc.id);
+    if (existingVC) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      existingVC.store?.push(vc.store);
+    } else {
+      vcs.set(vc.id, {
+        id: vc.id,
+        store: [vc.store],
+      });
+    }
+  }
+  return [...vcs.values()];
 }
 
 export const veramoImportMetaMaskAccount = async (

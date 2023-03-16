@@ -1,9 +1,15 @@
-import { Fragment } from 'react';
-import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
+import { Fragment, useState } from 'react';
+import {
+  AvailableVCStores,
+  QueryVCsRequestResult,
+} from '@blockchain-lab-um/ssi-snap-types';
+import { isError } from '@blockchain-lab-um/utils';
 import { Dialog, Transition } from '@headlessui/react';
+import { shallow } from 'zustand/shallow';
 
-import { useSnapStore } from '@/utils/stores';
+import { useSnapStore, useToastStore } from '@/utils/stores';
 import Button from '../Button';
+import DeleteModal from '../DeleteModal';
 import ToggleSwitch from '../Switch';
 
 interface ModifyDSModalProps {
@@ -13,7 +19,26 @@ interface ModifyDSModalProps {
 }
 
 function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
-  const enabledStores = useSnapStore((state) => state.availableVCStores);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const { setTitle, setLoading, setToastOpen } = useToastStore(
+    (state) => ({
+      setTitle: state.setTitle,
+      setText: state.setText,
+      setLoading: state.setLoading,
+      setToastOpen: state.setOpen,
+    }),
+    shallow
+  );
+  const [deleteModalStore, setDeleteModalStore] = useState<
+    AvailableVCStores | undefined
+  >(undefined);
+  const { enabledStores, snapApi } = useSnapStore(
+    (state) => ({
+      enabledStores: state.availableVCStores,
+      snapApi: state.snapApi,
+    }),
+    shallow
+  );
   const keys = Object.keys(enabledStores);
   const availableStores = keys.filter((key) => enabledStores[key] === true);
 
@@ -42,6 +67,42 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
       vcStores[store] = { enabled: true, saved: false };
     }
   });
+
+  const handleDSChange = async (store: AvailableVCStores, enabled: boolean) => {
+    if (!snapApi) return;
+    if (!enabled) {
+      setDeleteModalStore(store);
+      setDeleteModalOpen(true);
+    } else if (enabled) {
+      setLoading(true);
+      setTitle('Saving Credential');
+      setToastOpen(true);
+      setOpen(false);
+      const res = await snapApi.saveVC(vc.data, { store });
+      if (isError(res)) {
+        setToastOpen(false);
+        setTimeout(() => {
+          setTitle('Error while saving credential');
+          setLoading(false);
+          setToastOpen(true);
+        }, 100);
+        console.log(res.error);
+      } else {
+        setToastOpen(false);
+        setTimeout(() => {
+          setTitle('Credential saved');
+          setLoading(false);
+          setToastOpen(true);
+        }, 100);
+        const vcs = await snapApi.queryVCs();
+        if (isError(vcs)) {
+          console.log(vcs.error);
+        } else {
+          useSnapStore.getState().changeVcs(vcs.data);
+        }
+      }
+    }
+  };
 
   return (
     <Transition appear show={open} as={Fragment}>
@@ -72,21 +133,21 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
               <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                 <Dialog.Title
                   as="h3"
-                  className="text-lg font-medium leading-6 text-gray-800"
+                  className="font-ubuntu text-xl font-medium leading-6 text-gray-900"
                 >
                   Modify Credential
                 </Dialog.Title>
                 <div className="mt-2">
-                  <p className="my-2 text-sm text-red-500">
-                    Feature not implemented yet.
-                  </p>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-md text-gray-500">
                     Here you can define where the credential will be stored.
                   </p>
                 </div>
-                <div className="mt-6 text-gray-800">
+                <div className="mt-10 px-4 text-gray-700">
                   {Object.keys(vcStores).map((store, id) => (
-                    <div key={id} className="flex items-center justify-between">
+                    <div
+                      key={id}
+                      className="mt-3 flex items-center justify-between"
+                    >
                       <div>{store}</div>
                       <span
                         className={`${
@@ -97,21 +158,22 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
                           enabled={vcStores[store].saved}
                           disabled={!vcStores[store].enabled}
                           setEnabled={(e) => {
-                            // TODO update vc in snap (Save VC to new store/Remove VC from store) => update VCS on dApp
-                            console.log(e);
+                            handleDSChange(store as AvailableVCStores, e)
+                              .then(() => {})
+                              .catch(() => {});
                           }}
-                          size="xs"
+                          size="sm"
                         />
                       </span>
                     </div>
                   ))}
                 </div>
                 <div className="flex items-center justify-end">
-                  <div className="mt-8">
+                  <div className="mt-10">
                     <Button
                       onClick={() => setOpen(false)}
                       variant="gray"
-                      size="popup"
+                      size="xs"
                     >
                       Done
                     </Button>
@@ -120,6 +182,12 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
               </Dialog.Panel>
             </Transition.Child>
           </div>
+          <DeleteModal
+            open={deleteModalOpen}
+            setOpen={setDeleteModalOpen}
+            vc={vc}
+            store={deleteModalStore}
+          />
         </div>
       </Dialog>
     </Transition>

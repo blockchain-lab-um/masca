@@ -92,7 +92,7 @@ function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
                   <div className="mt-4">
                     <Button
                       onClick={() => setOpen(false)}
-                      variant="secondary"
+                      variant="gray"
                       shadow="md"
                       size="xs"
                     >

@@ -107,6 +107,10 @@ module.exports = {
       h1: ['40px', { lineHeight: '46px', letterSpacing: '-0.032em' }],
     },
     extend: {
+      transitionProperty: {
+        height: 'height',
+        width: 'width, transform, translate',
+      },
       boxShadow: {
         sm: '0 0 5px 0 rgba(0, 0, 0, 0.1)',
         md: '0 0 7px 0 rgba(0, 0, 0, 0.1)',

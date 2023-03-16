@@ -10,5 +10,5 @@ export interface QueryVCsRequestResult {
 
 export interface SaveVCRequestResult {
   id: string;
-  store?: string;
+  store: string[];
 }

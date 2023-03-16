@@ -14,9 +14,10 @@ interface DeleteModalProps {
   open: boolean;
   setOpen: (open: boolean) => void;
   vc?: QueryVCsRequestResult;
+  store?: AvailableVCStores | undefined;
 }
 
-function DeleteModal({ open, setOpen, vc }: DeleteModalProps) {
+function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
   const api = useSnapStore((state) => state.snapApi);
   const { setTitle, setLoading, setToastOpen } = useToastStore(
     (state) => ({
@@ -37,7 +38,11 @@ function DeleteModal({ open, setOpen, vc }: DeleteModalProps) {
       setToastOpen(true);
       setOpen(false);
       let deleteReqOptions;
-      if (vc.metadata.store)
+      if (store) {
+        deleteReqOptions = {
+          store,
+        };
+      } else if (vc.metadata.store)
         deleteReqOptions = {
           store: vc.metadata.store as AvailableVCStores | AvailableVCStores[],
         };
@@ -92,31 +97,38 @@ function DeleteModal({ open, setOpen, vc }: DeleteModalProps) {
               <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                 <Dialog.Title
                   as="h3"
-                  className="text-lg font-semibold leading-6 text-red-500"
+                  className="font-ubuntu text-xl font-medium leading-6 text-gray-900"
                 >
                   Delete Credential
                 </Dialog.Title>
                 <div className="mt-2">
-                  <p className="text-sm text-gray-500">
+                  <p className="text-md text-gray-500">
                     Approving this action will remove the credential from your
                     wallet. This action cannot be undone.
                   </p>
+
+                  {store && (
+                    <p className="mt-4 text-sm text-gray-600">
+                      Deleting VC from store:{' '}
+                      <span className="font-medium text-gray-700">{store}</span>
+                    </p>
+                  )}
                 </div>
                 <div className="flex items-center justify-end">
-                  <div className="mt-4">
+                  <div className="mt-10">
                     <Button
                       onClick={() => setOpen(false)}
                       variant="gray"
-                      size="popup"
+                      size="xs"
                     >
                       Cancel
                     </Button>
                   </div>
-                  <div className="mt-4 ml-2">
+                  <div className="mt-10 ml-2">
                     <Button
                       onClick={() => deleteVC()}
                       variant="warning"
-                      size="popup"
+                      size="xs"
                     >
                       Delete VC
                     </Button>

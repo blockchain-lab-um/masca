@@ -37,8 +37,8 @@ const variants: Record<string, string> = {
 };
 
 const sizes: Record<string, string> = {
-  popup: 'text-sm py-2 px-2.5',
-  xs: 'text-sm py-1.5 px-3',
+  popup: 'text-sm py-2 px-3.5',
+  xs: 'text-sm py-2.5 px-4',
   sm: 'text-h5 py-2.5 px-5',
   md: 'text-h4 py-2.5 px-7',
   lg: 'text-2xl py-2 px-8 font-semibold',

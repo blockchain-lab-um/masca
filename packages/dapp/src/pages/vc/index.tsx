@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Tab } from '@headlessui/react';
@@ -9,7 +9,6 @@ import {
   TrashIcon,
 } from '@heroicons/react/24/outline';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
-import clsx from 'clsx';
 
 import Button from '@/components/Button';
 import ConnectedProvider from '@/components/ConnectedProvider';
@@ -51,27 +50,36 @@ const VC = () => {
         <div className="w-full max-w-sm md:max-w-xl lg:max-w-2xl xl:w-[50rem] xl:max-w-[50rem]">
           <Tab.Group>
             <div className="flex items-center justify-between">
-              <Tab.List className="mb-2 flex max-w-fit space-x-1 rounded-full border border-gray-200 bg-white p-1 text-orange-900 shadow-md">
-                <Tab
-                  className={({ selected }) =>
-                    clsx(
-                      'animated-transition w-full rounded-full py-2 px-4 text-sm font-semibold text-gray-500',
-                      selected
-                        ? 'bg-orange-100 text-orange-500'
-                        : 'hover:bg-orange-100 hover:text-orange-500'
-                    )
-                  }
-                >
-                  Normal
+              <Tab.List className="h-19 relative flex w-36 flex-shrink-0 justify-between rounded-full bg-white shadow-md">
+                <Tab>
+                  {({ selected }) => (
+                    <div className="relative">
+                      <div
+                        className={`transition-width h-10 rounded-full bg-pink-100 ease-in-out ${
+                          selected
+                            ? 'w-20 translate-x-0'
+                            : ' w-16 translate-x-20'
+                        }`}
+                      ></div>
+                      <span
+                        className={`absolute top-2 left-0 z-20  ${
+                          selected
+                            ? ' text-pink-600'
+                            : ' text-gray-700 hover:text-gray-500'
+                        }  ml-3.5 rounded-full`}
+                      >
+                        Normal
+                      </span>
+                    </div>
+                  )}
                 </Tab>
                 <Tab
                   className={({ selected }) =>
-                    clsx(
-                      'animated-transition w-full rounded-full py-2 px-4 text-sm font-semibold text-gray-500',
+                    `z-20  ${
                       selected
-                        ? 'bg-orange-100 text-orange-500'
-                        : 'hover:bg-orange-100 hover:text-orange-500'
-                    )
+                        ? ' text-pink-600'
+                        : ' text-gray-700 hover:text-gray-500'
+                    }  mr-3 rounded-full`
                   }
                 >
                   JSON
@@ -112,7 +120,7 @@ const VC = () => {
                 </Button>
               </div>
             </div>
-            <div className="mt-2 h-full w-full rounded-3xl border border-gray-200 bg-white pt-2 shadow-lg dark:bg-gray-800 dark:shadow-orange-900">
+            <div className="mt-4 h-full w-full rounded-3xl bg-white py-2 shadow-lg dark:bg-gray-800 dark:shadow-orange-900">
               <ConnectedProvider>
                 <div className="flex w-full justify-between px-5 pt-4">
                   <button
@@ -137,7 +145,13 @@ const VC = () => {
                       />
                     </Tab.Panel>
                     <Tab.Panel className="w-full">
-                      <JsonTab vc={vc} />
+                      <JsonTab
+                        vc={vc}
+                        deleteModalOpen={deleteModalOpen}
+                        setDeleteModalOpen={setDeleteModalOpen}
+                        modifyDSModalOpen={modifyDSModalOpen}
+                        setModifyDSModalOpen={setModifyDSModalOpen}
+                      />
                     </Tab.Panel>
                   </Tab.Panels>
                 </div>

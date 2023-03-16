@@ -8,7 +8,7 @@ const variants = {
 };
 
 const variantsEnabled = {
-  primary: 'bg-gradient-to-b from-pink-500 to-orange-500',
+  primary: 'bg-pink-500',
   gray: 'bg-gray-600',
   secondary: 'bg-orange-100',
 };
@@ -69,7 +69,7 @@ export default function ToggleSwitch({
         sizes[size],
         `shadow-${shadow}`,
         `rounded-${rounded}`,
-        `border-1 relative inline-flex items-center border border-gray-300`
+        `relative inline-flex items-center`
       )}
     >
       <span className="sr-only">Enable notifications</span>
@@ -78,7 +78,7 @@ export default function ToggleSwitch({
           enabled ? translateEnabled[size] : 'translate-x-0.5',
           sizesToggle[size],
           variantToggle[variant],
-          `inline-block transform rounded-full border border-gray-200 shadow-sm transition`
+          `inline-block transform rounded-full shadow-sm transition`
         )}
       />
     </Switch>
