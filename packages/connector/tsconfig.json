@@ -11,10 +11,7 @@
     "declaration": true,
     "inlineSourceMap": true,
     "incremental": false,
-    "removeComments": true,
-
-    "lib": ["dom", "ES2020"],
-    "typeRoots": ["globals.d.ts"]
+    "removeComments": true
   },
   "include": ["src/**/*.ts", "globals.d.ts"]
 }
