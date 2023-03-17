@@ -6,7 +6,6 @@ import {
   getDidKeyResolver as resolveDidKey,
   resolveSecp256k1,
 } from '../../src/did/key/keyDidResolver';
-import * as snapUtils from '../../src/utils/snapUtils';
 import {
   address,
   exampleDIDKey,
@@ -16,16 +15,6 @@ import {
   getDefaultSnapState,
 } from '../testUtils/constants';
 import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
-
-jest
-  .spyOn(snapUtils, 'getCurrentAccount')
-  // eslint-disable-next-line @typescript-eslint/require-await
-  .mockImplementation(async () => address);
-
-jest
-  .spyOn(snapUtils, 'getCurrentNetwork')
-  // eslint-disable-next-line @typescript-eslint/require-await
-  .mockImplementation(async () => '0x5');
 
 describe('keyDidResolver', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
@@ -50,10 +39,8 @@ describe('keyDidResolver', () => {
         },
         {
           resolve(
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            didUrl: string,
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            options?: DIDResolutionOptions | undefined
+            _didUrl: string,
+            _options?: DIDResolutionOptions | undefined
           ): Promise<DIDResolutionResult> {
             throw new Error('Function not implemented.');
           },
@@ -86,10 +73,8 @@ describe('keyDidResolver', () => {
         },
         {
           resolve(
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            didUrl: string,
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            options?: DIDResolutionOptions | undefined
+            _didUrl: string,
+            _options?: DIDResolutionOptions | undefined
           ): Promise<DIDResolutionResult> {
             throw new Error('Function not implemented.');
           },

@@ -9,7 +9,11 @@ module.exports = {
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:prettier/recommended',
   ],
-  plugins: ['@typescript-eslint/eslint-plugin', 'unused-imports'],
+  plugins: [
+    '@typescript-eslint/eslint-plugin',
+    'unused-imports',
+    'jest-extended',
+  ],
   parser: '@typescript-eslint/parser',
   rules: {
     // other rules
@@ -42,6 +46,7 @@ module.exports = {
           '**/*.e2e-spec.ts',
           '**/webpack.config.ts',
           '**/tsup.config.ts',
+          '**/jest.d.ts'
         ],
       },
     ],
