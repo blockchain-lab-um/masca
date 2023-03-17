@@ -31,10 +31,8 @@ export default function Settings() {
     store: 'ceramic' | 'snap',
     value: boolean
   ) => {
-    console.log('Changing available VC store');
     if (!api) return;
     const res = await api.setVCStore(store, value);
-    console.log(res);
     await snapGetAvailableVCStores();
   };
 

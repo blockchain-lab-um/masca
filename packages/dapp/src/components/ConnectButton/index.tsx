@@ -1,9 +1,7 @@
 import React from 'react';
-import Image from 'next/image';
 import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
-import { BASE_PATH } from '@/utils/constants';
 import { useGeneralStore } from '@/utils/stores';
 
 const ConnectButton = () => {

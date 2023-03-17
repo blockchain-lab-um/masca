@@ -138,7 +138,6 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
   };
 
   useEffect(() => {
-    console.log("Checking MetaMask's compatibility...");
     checkMetaMaskCompatibility().catch((error) => {
       console.error(error);
     });

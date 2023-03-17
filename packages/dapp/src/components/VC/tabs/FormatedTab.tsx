@@ -49,7 +49,6 @@ const FormatedTab = ({
     validity = Date.now() < Date.parse(vc.data.expirationDate);
 
   const types = convertTypes(vc.data.type);
-  console.log('types', types);
 
   const expDate = vc.data.expirationDate
     ? `Expires on ${new Date(

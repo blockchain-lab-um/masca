@@ -66,7 +66,6 @@ const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
       console.log('error', res);
       return false;
     }
-    console.log('res', res.data);
     if (res.data && res.data.length > 0) {
       const newVcs: QueryVCsRequestResult[] = [];
       res.data.forEach((metadata) => {

@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
+import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 
 import { DropdownMenuItem } from './DropdownMenuItem';
