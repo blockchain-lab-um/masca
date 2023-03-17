@@ -91,10 +91,10 @@ importers:
       '@blockchain-lab-um/utils': '*'
       '@ianvs/prettier-plugin-sort-imports': ^3.7.1
       '@metamask/detect-provider': ^2.0.0
-      '@types/rimraf': ^3.0.2
+      '@types/rimraf': ^4.0.5
       '@typescript-eslint/eslint-plugin': ^5.53.0
       '@typescript-eslint/parser': ^5.53.0
-      '@veramo/core': ^5.0.0
+      '@veramo/core': ^5.1.2
       eslint: ^8.34.0
       eslint-config-prettier: ^8.6.0
       eslint-plugin-import: ^2.27.5
@@ -102,17 +102,17 @@ importers:
       eslint-plugin-unused-imports: ^2.0.0
       prettier: ^2.8.4
       prettier-plugin-packagejson: ^2.4.3
-      rimraf: ^3.0.2
+      rimraf: ^4.4.0
       tsup: ^6.6.3
       typescript: ^4.9.5
     dependencies:
       '@blockchain-lab-um/ssi-snap-types': link:../types
       '@blockchain-lab-um/utils': link:../../libs/utils
       '@metamask/detect-provider': 2.0.0
-      '@veramo/core': 5.0.0
+      '@veramo/core': 5.1.2
     devDependencies:
       '@ianvs/prettier-plugin-sort-imports': 3.7.1_prettier@2.8.4
-      '@types/rimraf': 3.0.2
+      '@types/rimraf': 4.0.5
       '@typescript-eslint/eslint-plugin': 5.55.0_342y7v4tc7ytrrysmit6jo4wri
       '@typescript-eslint/parser': 5.55.0_vgl77cfdswitgr47lm5swmv43m
       eslint: 8.36.0
@@ -122,7 +122,7 @@ importers:
       eslint-plugin-unused-imports: 2.0.0_dchlkxfdm6cbfc25bfo3oeha6e
       prettier: 2.8.4
       prettier-plugin-packagejson: 2.4.3_prettier@2.8.4
-      rimraf: 3.0.2
+      rimraf: 4.4.0
       tsup: 6.6.3_typescript@4.9.5
       typescript: 4.9.5
 
