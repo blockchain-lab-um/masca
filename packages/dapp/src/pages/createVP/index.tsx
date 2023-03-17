@@ -100,7 +100,7 @@ const CreateVP = () => {
       <div className="grid place-items-center">
         <div className="dark:bg-navy-blue-800 dark:text-navy-blue-400 flex h-full min-h-[40vh] w-full max-w-sm flex-col rounded-3xl bg-white shadow-lg md:max-w-md lg:max-w-xl  xl:w-[34rem] xl:max-w-[40rem]">
           <ConnectedProvider>
-            <div className="flex w-full justify-between px-5 pt-5">
+            <div className="mt-5 flex w-full justify-between px-5">
               <Link href="dashboard">
                 <button className="animated-transition dark:text-navy-blue-50 dark:hover:bg-navy-blue-700 rounded-full p-1 text-gray-900 hover:bg-pink-100 hover:text-pink-700">
                   <ArrowLeftIcon className="h-6 w-6" />
@@ -110,8 +110,8 @@ const CreateVP = () => {
                 Create Presentation
               </div>
             </div>
-            <div className="mt-3">
-              <div className="font-ubuntu dark:text-navy-blue-100 dark:border-navy-blue-600 border-b border-gray-400 p-5 text-xl font-medium text-gray-800">
+            <div className="mt-4">
+              <div className="font-ubuntu dark:text-navy-blue-100 dark:border-navy-blue-600 border-b border-gray-400 p-4 pb-5 text-xl font-medium text-gray-800">
                 Selected Credentials
               </div>
               <table className="mt-2 w-full text-center text-sm">
@@ -134,12 +134,12 @@ const CreateVP = () => {
                   ))}
                 </tbody>
               </table>
-              <div className="mt-8">
+              <div className="mt-8 px-4">
                 <div className="dark:text-navy-blue-100 text-h5 font-ubuntu mt-8 pl-2 font-medium text-gray-900">
                   OPTIONS
                 </div>
                 <div className="mt-2 flex items-center justify-between px-4">
-                  <div className="dark:text-navy-blue-300 text-gray-600 ">
+                  <div className="dark:text-navy-blue-300 px-4 text-gray-600 ">
                     Format
                   </div>
                   <DropdownMenu
@@ -154,7 +154,7 @@ const CreateVP = () => {
                 </div>
               </div>
               <div>
-                <div className="mt-16 flex items-baseline justify-between border-b border-gray-300">
+                <div className="mt-16 flex items-baseline justify-between border-b border-gray-300 px-4">
                   <div className="text-h5 dark:text-navy-blue-100  font-ubuntu mt-8 flex pl-2 font-medium text-gray-900">
                     ADVANCED{' '}
                     <InfoIcon>Only applicable to JWT Proof format.</InfoIcon>
@@ -170,7 +170,7 @@ const CreateVP = () => {
                   </div>
                 </div>
                 {advanced && (
-                  <div className="mt-6 px-4">
+                  <div className="mt-6 px-8">
                     <div className="dark:text-navy-blue-200 mt-2 text-sm font-medium text-gray-600">
                       CHALLENGE
                     </div>

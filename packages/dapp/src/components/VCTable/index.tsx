@@ -220,7 +220,7 @@ const Table = () => {
       {
         id: 'data_store',
         cell: (info) => (
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center gap-x-1">
             {info
               .getValue()
               .split(',')

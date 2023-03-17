@@ -114,7 +114,7 @@ const VC = () => {
             </div>
             <div className="dark:bg-navy-blue-800 mt-4 h-full w-full rounded-3xl bg-white py-2 shadow-lg">
               <ConnectedProvider>
-                <div className="flex w-full justify-between px-5 pt-4">
+                <div className="flex w-full justify-between px-8 pt-4">
                   <button
                     onClick={() => router.back()}
                     className="animated-transition dark:text-navy-blue-50 dark:hover:bg-navy-blue-700 rounded-full p-1 text-gray-900 hover:bg-pink-100 hover:text-pink-700"

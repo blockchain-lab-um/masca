@@ -21,7 +21,7 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
             }`}
           >
             <div className="flex">
-              {`${address.slice(0, 6)}...${address.slice(-4)}`}
+              {`${address.slice(0, 5)}...${address.slice(-4)}`}
 
               <ChevronDownIcon
                 className={`animated-transition -mr-1 ml-2 h-5 w-5 max-md:rotate-180 ${
@@ -46,10 +46,14 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
                       DID
                     </div>
                     <div className="mt-2 flex items-center">
-                      <div className="text-2xl text-gray-900 dark:text-white">{`${did.slice(
+                      <div className="text-2xl text-gray-900 dark:text-white">{`${did.substring(
                         0,
-                        12
-                      )}...${did.slice(-8)}`}</div>
+                        did.lastIndexOf(':')
+                      )}:${did
+                        .split(':')
+                        [did.split(':').length - 1].slice(0, 5)}...${did.slice(
+                        -4
+                      )}`}</div>
                       <button
                         onClick={() => {
                           copyToClipboard(did);
@@ -69,8 +73,8 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
                       </div>
                       <div className="text-lg text-gray-900 dark:text-white">{`${address.slice(
                         0,
-                        8
-                      )}...${address.slice(-6)}`}</div>
+                        5
+                      )}...${address.slice(-4)}`}</div>
                       <button
                         onClick={() => {
                           copyToClipboard(address);
