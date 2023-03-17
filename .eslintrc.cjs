@@ -51,7 +51,6 @@ module.exports = {
   ignorePatterns: [
     '**/node_modules/**',
     '**/dist/**',
-    '**/!.eslintrc.js',
     '**/!.eslintrc.cjs',
     '**/coverage/**',
     '**/build/**',
