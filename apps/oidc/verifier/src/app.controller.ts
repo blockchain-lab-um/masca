@@ -10,8 +10,8 @@ import {
   Query,
 } from '@nestjs/common';
 
-import { AuthorizationRequest } from './app.interface';
-import { AppService } from './app.service';
+import { AuthorizationRequest } from './app.interface.js';
+import { AppService } from './app.service.js';
 
 @Controller()
 export class AppController {

@@ -2,11 +2,11 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import ConfigModule from './config/configuration';
-import { AgentService } from './modules/agent/agent.service';
-import { DatastoreService } from './modules/datastore/datastore.service';
+import { AppController } from './app.controller.js';
+import { AppService } from './app.service.js';
+import ConfigModule from './config/configuration.js';
+import { AgentService } from './modules/agent/agent.service.js';
+import { DatastoreService } from './modules/datastore/datastore.service.js';
 
 @Module({
   imports: [ConfigModule, ScheduleModule.forRoot()],

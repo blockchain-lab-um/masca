@@ -2,12 +2,12 @@ import { ConfigService } from '@nestjs/config';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import cloneDeep from 'lodash.clonedeep';
 
-import { IConfig } from '../../config/configuration';
+import { IConfig } from '../../config/configuration.js';
 import {
   UserSession,
   UserSessionStore,
   VerificationResultsStore,
-} from './datastore.interface';
+} from './datastore.interface.js';
 
 export class DatastoreService {
   private userSessionStore: UserSessionStore;

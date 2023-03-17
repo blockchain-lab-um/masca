@@ -12,7 +12,7 @@ import {
   SUPPORTED_DIGITAL_SIGNATURES,
   SUPPORTED_SCHEMA_URL,
   VERIFIER_URL,
-} from '../../config';
+} from '../../config.js';
 import { supported_credentials } from '../../supported_credentials.json';
 
 export interface IConfig {

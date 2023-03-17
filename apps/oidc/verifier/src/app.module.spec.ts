@@ -10,10 +10,13 @@ import { FastifyInstance } from 'fastify';
 import * as qs from 'qs';
 import request from 'supertest';
 
-import { TEST_USER_PRIVATE_KEY, TEST_VERIFIER_URL } from '../tests/constants';
-import getAgent from '../tests/testAgent';
-import { createJWTProof, importDid } from '../tests/utils';
-import { AppModule } from './app.module';
+import {
+  TEST_USER_PRIVATE_KEY,
+  TEST_VERIFIER_URL,
+} from '../tests/constants.js';
+import getAgent from '../tests/testAgent.js';
+import { createJWTProof, importDid } from '../tests/utils.js';
+import { AppModule } from './app.module.js';
 
 describe('Verifier controler', () => {
   let app: NestFastifyApplication;
@@ -68,7 +71,7 @@ describe('Verifier controler', () => {
   });
 
   describe('[POST]: /authorization-response', () => {
-    it('Should succe', async () => {
+    it('Should succed', async () => {
       let response = await request(server)
         .get('/authorization-request')
         .query({
