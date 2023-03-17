@@ -18,7 +18,6 @@ import * as uuid from 'uuid';
 
 import { onRpcRequest } from '../../src';
 import { StoredCredentials } from '../../src/interfaces';
-import * as snapUtils from '../../src/utils/snapUtils';
 import { veramoClearVCs } from '../../src/utils/veramoUtils';
 import { Agent, getAgent } from '../../src/veramo/setup';
 import {
@@ -35,32 +34,9 @@ import { createTestVCs } from '../testUtils/generateTestVCs';
 import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
 
 jest.mock('uuid');
-let ceramicData: StoredCredentials;
-jest
-  .spyOn(DIDDataStore.prototype, 'get')
-  // eslint-disable-next-line @typescript-eslint/require-await, @typescript-eslint/no-unused-vars
-  .mockImplementation(async (key, did?) => {
-    return ceramicData;
-  });
-jest
-  .spyOn(DIDDataStore.prototype, 'merge')
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/require-await
-  .mockImplementation(async (key, content, options?) => {
-    ceramicData = content as StoredCredentials;
-    return 'ok' as unknown as StreamID;
-  });
-
-jest
-  .spyOn(snapUtils, 'getCurrentAccount')
-  // eslint-disable-next-line @typescript-eslint/require-await
-  .mockImplementation(async () => address);
-
-jest
-  .spyOn(snapUtils, 'getCurrentNetwork')
-  // eslint-disable-next-line @typescript-eslint/require-await
-  .mockImplementation(async () => '0x5');
 
 describe('onRpcRequest', () => {
+  let ceramicData: StoredCredentials;
   let snapMock: SnapsGlobalObject & SnapMock;
   let identifier: IIdentifier;
   let agent: Agent;
@@ -97,6 +73,22 @@ describe('onRpcRequest', () => {
         keyRef: 'importedTestKey',
       }
     ));
+
+    // Ceramic mock
+    DIDDataStore.prototype.get = jest
+      .fn()
+      // eslint-disable-next-line @typescript-eslint/require-await
+      .mockImplementation(async (_key, _did) => {
+        return ceramicData;
+      });
+
+    DIDDataStore.prototype.merge = jest
+      .fn()
+      // eslint-disable-next-line @typescript-eslint/require-await
+      .mockImplementation(async (_key, content, _options?) => {
+        ceramicData = content as StoredCredentials;
+        return 'ok' as unknown as StreamID;
+      });
   });
 
   describe('saveVC', () => {
@@ -121,10 +113,10 @@ describe('onRpcRequest', () => {
       }
 
       expect(saveRes.data).toEqual([
-        expect.objectContaining({
+        {
           id: expect.any(String),
           store: 'snap',
-        }),
+        },
       ]);
 
       const res = (await onRpcRequest({
@@ -176,10 +168,10 @@ describe('onRpcRequest', () => {
       }
 
       expect(saveRes.data).toEqual([
-        expect.objectContaining({
+        {
           id: expect.any(String),
           store: 'snap',
-        }),
+        },
       ]);
 
       const res = (await onRpcRequest({
@@ -247,15 +239,15 @@ describe('onRpcRequest', () => {
         throw saveRes.error;
       }
 
-      expect(saveRes.data).toEqual([
-        expect.objectContaining({
+      expect(saveRes.data).toIncludeSameMembers([
+        {
           id: expect.any(String),
           store: 'snap',
-        }),
-        expect.objectContaining({
+        },
+        {
           id: expect.any(String),
           store: 'ceramic',
-        }),
+        },
       ]);
 
       const res = (await onRpcRequest({
@@ -279,7 +271,7 @@ describe('onRpcRequest', () => {
           data: exampleVeramoVCJWT,
           metadata: {
             id: saveRes.data[0].id,
-            store: ['snap', 'ceramic'],
+            store: expect.arrayContaining(['snap', 'ceramic']),
           },
         },
       ];
@@ -755,10 +747,10 @@ describe('onRpcRequest', () => {
       }
 
       expect(saveRes.data).toEqual([
-        expect.objectContaining({
+        {
           id: expect.any(String),
           store: 'snap',
-        }),
+        },
       ]);
 
       const res = (await onRpcRequest({
@@ -820,10 +812,10 @@ describe('onRpcRequest', () => {
       }
 
       expect(saveRes.data).toEqual([
-        expect.objectContaining({
+        {
           id: expect.any(String),
           store: 'snap',
-        }),
+        },
       ]);
 
       const res = (await onRpcRequest({
@@ -886,10 +878,10 @@ describe('onRpcRequest', () => {
       }
 
       expect(saveRes.data).toEqual([
-        expect.objectContaining({
+        {
           id: expect.any(String),
           store: 'snap',
-        }),
+        },
       ]);
 
       const res = (await onRpcRequest({

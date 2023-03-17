@@ -33,6 +33,7 @@ importers:
       eslint-config-prettier: ^8.7.0
       eslint-plugin-import: ^2.27.5
       eslint-plugin-jest: ^27.2.1
+      eslint-plugin-jest-extended: ^2.0.0
       eslint-plugin-prettier: ^4.2.1
       eslint-webpack-plugin: ^4.0.0
       husky: ^8.0.3
@@ -82,9 +83,11 @@ importers:
   libs/utils:
     specifiers:
       rimraf: ^3.0.2
+      tsup: ^6.6.3
       typescript: ^4.9.5
     devDependencies:
       rimraf: 3.0.2
+      tsup: 6.6.3_typescript@4.9.5
       typescript: 4.9.5
 
   packages/connector:
@@ -345,25 +348,27 @@ importers:
       '@metamask/snaps-cli': ^0.27.1
       '@metamask/snaps-types': ^0.27.1
       '@metamask/snaps-webpack-plugin': ^0.27.1
+      '@swc/core': ^1.3.41
+      '@swc/jest': ^0.2.24
       '@types/jest': ^29.4.0
       '@types/jsonpath': ^0.2.0
       '@types/lodash.clonedeep': ^4.5.7
-      '@types/node': 18.14.1
+      '@types/node': 18.15.3
       '@types/secp256k1': ^4.0.3
       '@types/uuid': ^9.0.1
       '@typescript-eslint/eslint-plugin': ^5.53.0
       '@typescript-eslint/parser': ^5.53.0
-      '@veramo/core': 5.0.0
-      '@veramo/credential-eip712': 5.0.0
+      '@veramo/core': 5.1.2
+      '@veramo/credential-eip712': 5.1.2
       '@veramo/credential-ld': ^5.0.0
-      '@veramo/credential-w3c': 5.0.0
-      '@veramo/did-manager': 5.0.0
-      '@veramo/did-provider-ethr': 5.0.0
-      '@veramo/did-provider-pkh': 5.0.0
-      '@veramo/did-resolver': 5.0.0
-      '@veramo/key-manager': 5.0.0
-      '@veramo/kms-local': 5.0.0
-      '@veramo/utils': 5.0.0
+      '@veramo/credential-w3c': 5.1.4
+      '@veramo/did-manager': 5.1.2
+      '@veramo/did-provider-ethr': 5.1.2
+      '@veramo/did-provider-pkh': 5.1.2
+      '@veramo/did-resolver': 5.1.2
+      '@veramo/key-manager': 5.1.2
+      '@veramo/kms-local': 5.1.2
+      '@veramo/utils': 5.1.2
       audit-ci: ^6.6.0
       babel-loader: ^9.1.2
       buffer: ^6.0.3
@@ -373,7 +378,7 @@ importers:
       class-validator: ^0.13.2
       cross-env: ^7.0.3
       crypto-browserify: ^3.12.0
-      did-jwt-vc: 3.1.0
+      did-jwt-vc: 3.1.2
       did-resolver: 4.0.1
       did-session: 1.0.0
       dids: ^3.4.0
@@ -381,17 +386,19 @@ importers:
       eslint-config-prettier: ^8.6.0
       eslint-plugin-import: ^2.27.5
       eslint-plugin-jest: ^27.2.1
+      eslint-plugin-jest-extended: ^2.0.0
       eslint-plugin-prettier: ^4.2.1
       eslint-plugin-unused-imports: ^2.0.0
-      eslint-webpack-plugin: ^3.2.0
+      eslint-webpack-plugin: ^4.0.0
       eth-sig-util: 3.0.1
       ethers: 5.7.2
       ethr-did: 2.3.6
       ethr-did-resolver: 8.0.0
-      fork-ts-checker-webpack-plugin: ^7.3.0
-      hook-shell-script-webpack-plugin: ^0.1.4
+      fork-ts-checker-webpack-plugin: ^8.0.0
+      hook-shell-script-webpack-plugin: ^0.2.0
       is-ci: ^3.0.1
-      jest: ^29.4.3
+      jest: ^29.5.0
+      jest-extended: ^3.2.4
       js-sha256: ^0.9.0
       json-loader: ^0.5.7
       jsonpath: ^1.1.1
@@ -401,10 +408,10 @@ importers:
       lodash.clonedeep: ^4.5.0
       multiformats: ^11.0.1
       postinstall-postinstall: ^2.1.0
-      precompress: ^9.1.1
+      precompress: ^10.0.1
       prettier: ^2.8.4
       prettier-plugin-packagejson: ^2.4.3
-      rimraf: ^3.0.2
+      rimraf: ^4.4.0
       secp256k1: 4.0.3
       ts-jest: ^29.0.5
       ts-node: ^10.9.1
@@ -429,24 +436,24 @@ importers:
       '@metamask/providers': 10.2.1
       '@metamask/snaps-types': 0.27.1_rvr7xsi54kylxpxjwsjvbo3fce
       '@types/uuid': 9.0.1
-      '@veramo/core': 5.0.0
-      '@veramo/credential-eip712': 5.0.0
+      '@veramo/core': 5.1.2
+      '@veramo/credential-eip712': 5.1.2
       '@veramo/credential-ld': 5.1.2
-      '@veramo/credential-w3c': 5.0.0
-      '@veramo/did-manager': 5.0.0
-      '@veramo/did-provider-ethr': 5.0.0
-      '@veramo/did-provider-pkh': 5.0.0_xbin4eoqvloyhwqbrtzei47slm
-      '@veramo/did-resolver': 5.0.0
-      '@veramo/key-manager': 5.0.0
-      '@veramo/kms-local': 5.0.0
-      '@veramo/utils': 5.0.0
+      '@veramo/credential-w3c': 5.1.4
+      '@veramo/did-manager': 5.1.2
+      '@veramo/did-provider-ethr': 5.1.2
+      '@veramo/did-provider-pkh': 5.1.2
+      '@veramo/did-resolver': 5.1.2
+      '@veramo/key-manager': 5.1.2
+      '@veramo/kms-local': 5.1.2
+      '@veramo/utils': 5.1.2
       buffer: 6.0.3
       caip: 1.1.0
       ceramic-cacao: 1.4.0
       class-transformer: 0.5.1
       class-validator: 0.13.2
       crypto-browserify: 3.12.0
-      did-jwt-vc: 3.1.0
+      did-jwt-vc: 3.1.2
       did-resolver: 4.0.1
       did-session: 1.0.0
       dids: 3.4.0
@@ -474,15 +481,17 @@ importers:
       '@babel/plugin-transform-flow-strip-types': 7.21.0_@babel+core@7.21.3
       '@babel/preset-typescript': 7.21.0_@babel+core@7.21.3
       '@babel/register': 7.21.0_@babel+core@7.21.3
-      '@commitlint/cli': 17.4.4
+      '@commitlint/cli': 17.4.4_@swc+core@1.3.41
       '@commitlint/config-conventional': 17.4.4
       '@ianvs/prettier-plugin-sort-imports': 3.7.1_prettier@2.8.4
       '@metamask/snaps-cli': 0.27.1
       '@metamask/snaps-webpack-plugin': 0.27.1
+      '@swc/core': 1.3.41
+      '@swc/jest': 0.2.24_@swc+core@1.3.41
       '@types/jest': 29.5.0
       '@types/jsonpath': 0.2.0
       '@types/lodash.clonedeep': 4.5.7
-      '@types/node': 18.14.1
+      '@types/node': 18.15.3
       '@types/secp256k1': 4.0.3
       '@typescript-eslint/eslint-plugin': 5.55.0_342y7v4tc7ytrrysmit6jo4wri
       '@typescript-eslint/parser': 5.55.0_vgl77cfdswitgr47lm5swmv43m
@@ -502,11 +511,11 @@ importers:
       jest: 29.5.0_ujxcenvse5zlxdro6vjdmkgl3a
       lint-staged: 13.2.0
       postinstall-postinstall: 2.1.0
-      precompress: 9.1.1
+      precompress: 10.0.1
       prettier: 2.8.4
       prettier-plugin-packagejson: 2.4.3_prettier@2.8.4
-      rimraf: 3.0.2
-      ts-node: 10.9.1_uayvamxqnl5yeiojjysxwopmsy
+      rimraf: 4.4.0
+      ts-node: 10.9.1_72wjdbglblrsksmmmhzpvueijy
       typescript: 4.9.5
       webpack: 5.76.0_webpack-cli@5.0.1
       webpack-cli: 5.0.1_webpack@5.76.0
@@ -3169,7 +3178,7 @@ packages:
       '@ceramicnetwork/common': 2.23.0
       '@ceramicnetwork/streamid': 2.14.0
       caip: 1.1.0
-      did-resolver: 4.0.1
+      did-resolver: 4.1.0
       lodash.clonedeep: 4.5.0
     transitivePeerDependencies:
       - encoding
@@ -3271,6 +3280,26 @@ packages:
       - '@swc/wasm'
     dev: true
 
+  /@commitlint/cli/17.4.4_@swc+core@1.3.41:
+    resolution: {integrity: sha512-HwKlD7CPVMVGTAeFZylVNy14Vm5POVY0WxPkZr7EXLC/os0LH/obs6z4HRvJtH/nHCMYBvUBQhGwnufKfTjd5g==}
+    engines: {node: '>=v14'}
+    hasBin: true
+    dependencies:
+      '@commitlint/format': 17.4.4
+      '@commitlint/lint': 17.4.4
+      '@commitlint/load': 17.4.4_@swc+core@1.3.41
+      '@commitlint/read': 17.4.4
+      '@commitlint/types': 17.4.4
+      execa: 5.1.1
+      lodash.isfunction: 3.0.9
+      resolve-from: 5.0.0
+      resolve-global: 1.0.0
+      yargs: 17.7.1
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+    dev: true
+
   /@commitlint/config-conventional/17.4.4:
     resolution: {integrity: sha512-u6ztvxqzi6NuhrcEDR7a+z0yrh11elY66nRrQIpqsqW6sZmpxYkDLtpRH8jRML+mmxYQ8s4qqF06Q/IQx5aJeQ==}
     engines: {node: '>=v14'}
@@ -3346,6 +3375,29 @@ packages:
       lodash.uniq: 4.5.0
       resolve-from: 5.0.0
       ts-node: 10.9.1_cbfmry4sbbh4vatmdrsmatfg5a
+      typescript: 4.9.5
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+    dev: true
+
+  /@commitlint/load/17.4.4_@swc+core@1.3.41:
+    resolution: {integrity: sha512-z6uFIQ7wfKX5FGBe1AkOF4l/ShOQsaa1ml/nLMkbW7R/xF8galGS7Zh0yHvzVp/srtfS0brC+0bUfQfmpMPFVQ==}
+    engines: {node: '>=v14'}
+    dependencies:
+      '@commitlint/config-validator': 17.4.4
+      '@commitlint/execute-rule': 17.4.0
+      '@commitlint/resolve-extends': 17.4.4
+      '@commitlint/types': 17.4.4
+      '@types/node': 18.15.3
+      chalk: 4.1.2
+      cosmiconfig: 8.1.0
+      cosmiconfig-typescript-loader: 4.3.0_7l6wx57tjccnqi3q2lzmydziha
+      lodash.isplainobject: 4.0.6
+      lodash.merge: 4.6.2
+      lodash.uniq: 4.5.0
+      resolve-from: 5.0.0
+      ts-node: 10.9.1_72wjdbglblrsksmmmhzpvueijy
       typescript: 4.9.5
     transitivePeerDependencies:
       - '@swc/core'
@@ -7399,7 +7451,6 @@ packages:
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core-darwin-x64/1.3.41:
@@ -7408,7 +7459,6 @@ packages:
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core-linux-arm-gnueabihf/1.3.41:
@@ -7417,7 +7467,6 @@ packages:
     cpu: [arm]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core-linux-arm64-gnu/1.3.41:
@@ -7426,7 +7475,6 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core-linux-arm64-musl/1.3.41:
@@ -7435,7 +7483,6 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core-linux-x64-gnu/1.3.41:
@@ -7444,7 +7491,6 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core-linux-x64-musl/1.3.41:
@@ -7453,7 +7499,6 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core-win32-arm64-msvc/1.3.41:
@@ -7462,7 +7507,6 @@ packages:
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core-win32-ia32-msvc/1.3.41:
@@ -7471,7 +7515,6 @@ packages:
     cpu: [ia32]
     os: [win32]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core-win32-x64-msvc/1.3.41:
@@ -7480,7 +7523,6 @@ packages:
     cpu: [x64]
     os: [win32]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@swc/core/1.3.41:
@@ -7498,7 +7540,6 @@ packages:
       '@swc/core-win32-arm64-msvc': 1.3.41
       '@swc/core-win32-ia32-msvc': 1.3.41
       '@swc/core-win32-x64-msvc': 1.3.41
-    dev: true
 
   /@swc/helpers/0.4.14:
     resolution: {integrity: sha512-4C7nX/dvpzB7za4Ql9K81xK3HPxCpHMgwTZVyf+9JQ6VUbn9jjZVN7/Nkdz/Ugzs2CSjqnL/UPXroiVBVHUWUw==}
@@ -8524,19 +8565,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /@veramo/credential-eip712/5.0.0:
-    resolution: {integrity: sha512-cXd63GsghEiduu8hhR/XHau7OCU7vmfNSAv80S3pe4lziX47ZRNBo61+bGDEYXEfxU7gV9qOoCQF1Fug2zCgGw==}
-    dependencies:
-      '@metamask/eth-sig-util': 5.0.2
-      '@veramo/core-types': 5.1.2
-      '@veramo/utils': 5.0.0
-      debug: 4.3.4
-      eip-712-types-generation: 0.1.6
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
-    dev: false
-
   /@veramo/credential-eip712/5.1.2:
     resolution: {integrity: sha512-cPNUqmrBJIvVgWxIXhhjM20LXyo6cPO5/yDCxtNfmfOMdL4Bxf0lKZ+dnTM2ZJLvCit6Js/6IZSMFieEb6goOg==}
     dependencies:
@@ -8548,7 +8576,6 @@ packages:
     transitivePeerDependencies:
       - encoding
       - supports-color
-    dev: true
 
   /@veramo/credential-ld/5.1.2:
     resolution: {integrity: sha512-cq+UcFIEIAUIT0aQbDWBkbGdg5+utyGgYhmekBTRsbXUuDO0TC25HNK4ceYuL+FRPaYHl24vPUuKd609if2L7w==}
@@ -8622,7 +8649,6 @@ packages:
       - react-native
       - supports-color
       - web-streams-polyfill
-    dev: true
 
   /@veramo/data-store/5.1.2_pg@8.10.0+sqlite3@5.1.4:
     resolution: {integrity: sha512-9VtEI7oXD+kiRuTttwBgyZXwqacFEvlUr7KGcMiopC/pPpj2AfFaSkNnzE1TRcF1LoR4r78OFiI1IGJaiNTMWg==}
@@ -8697,15 +8723,6 @@ packages:
       - supports-color
     dev: true
 
-  /@veramo/did-manager/5.0.0:
-    resolution: {integrity: sha512-f0Jy0RCVyULpw5sjdkkS0/T5HKAGK151lR9xmJ7CMhAhKncDGN1pgwPKGdHD65N3G6VdjovzmGfNWGifihEvTg==}
-    dependencies:
-      '@veramo/core-types': 5.1.2
-      '@veramo/did-discovery': 5.1.2
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /@veramo/did-manager/5.1.2:
     resolution: {integrity: sha512-cp847YVlNzXZS2L8x/h3LIeH3qv1WEeHdXdVq2yDvAVFIr69X84K2eGlSueTUGc3Jkk+vUL82GYsOW8aVZ25Lg==}
     dependencies:
@@ -8713,29 +8730,6 @@ packages:
       '@veramo/did-discovery': 5.1.2
     transitivePeerDependencies:
       - supports-color
-    dev: true
-
-  /@veramo/did-provider-ethr/5.0.0:
-    resolution: {integrity: sha512-FoQ+4bDoba5sG28EyCRixflDEnPyLWUaD4S4bu4pW1Zmk0X97vpqYIMEYiWCwFryLjCJHafNwF0YsFJJOrwpnw==}
-    dependencies:
-      '@ethersproject/abstract-provider': 5.7.0
-      '@ethersproject/abstract-signer': 5.7.0
-      '@ethersproject/address': 5.7.0
-      '@ethersproject/bignumber': 5.7.0
-      '@ethersproject/bytes': 5.7.0
-      '@ethersproject/properties': 5.7.0
-      '@ethersproject/providers': 5.7.2
-      '@ethersproject/signing-key': 5.7.0
-      '@ethersproject/transactions': 5.7.0
-      '@veramo/core-types': 5.1.2
-      '@veramo/did-manager': 5.0.0
-      debug: 4.3.4
-      ethr-did: 2.3.6
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-    dev: false
 
   /@veramo/did-provider-ethr/5.1.2:
     resolution: {integrity: sha512-bsecW15NkgU5edYehJprzeOzEX4eStFqvrD2L+scb9p+pwIc5587WCkaVP6dlWnerv03tlFgN+eRxe1EJl0TWQ==}
@@ -8757,7 +8751,6 @@ packages:
       - bufferutil
       - supports-color
       - utf-8-validate
-    dev: true
 
   /@veramo/did-provider-key/5.1.2:
     resolution: {integrity: sha512-BvrGCmZ5eyPPLcOWNO5sXSmWFpRWTagwhIzQI0lrBphcuDeJxvpW3S3jACYO3SbiC/ksM+rGICG+OAcbagUeDw==}
@@ -8778,23 +8771,6 @@ packages:
       - web-streams-polyfill
     dev: true
 
-  /@veramo/did-provider-pkh/5.0.0_xbin4eoqvloyhwqbrtzei47slm:
-    resolution: {integrity: sha512-AOt5WYASzS+PiDbqtQiv069ZDm+9DHP6QZQ/8wmLKa/b4qhanOoKP12uapCvB0hErcMh6Ka/2+z40HqeSGawzQ==}
-    dependencies:
-      '@ethersproject/abstract-provider': 5.7.0
-      '@ethersproject/bignumber': 5.7.0
-      '@ethersproject/signing-key': 5.7.0
-      '@ethersproject/transactions': 5.7.0
-      '@veramo/core-types': 5.1.2
-      '@veramo/did-manager': 5.0.0
-      caip: 1.1.0
-      debug: 4.3.4
-      did-resolver: 4.0.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-    patched: true
-
   /@veramo/did-provider-pkh/5.1.2:
     resolution: {integrity: sha512-JzT2eZKZXKo6vqjK31h0A0ye96BJLCXRKzU7L1IBzE1lcoGJRqrjENUuY1HTbdXeOXRFLGEGKW35WPzB1Rxz0A==}
     dependencies:
@@ -8809,7 +8785,6 @@ packages:
       did-resolver: 4.1.0
     transitivePeerDependencies:
       - supports-color
-    dev: true
 
   /@veramo/did-provider-web/5.1.2:
     resolution: {integrity: sha512-5ZwgQgIfkQFJy6n4+o7nsPRvbWTP65O4ErxMZIQeGhYVcGr5Q6MJk9g+A4bGy/jdJEKzyzD7e1XWcjxJTPJT2w==}
@@ -8820,19 +8795,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
-
-  /@veramo/did-resolver/5.0.0:
-    resolution: {integrity: sha512-vsQO7/cAKVAnlPKGAO/YIsqrmV4+V8XQxCcclNwR/oCWtDrV3284V3tSHbj0+6cBsObY2yX1psjESJqTyaHjzg==}
-    dependencies:
-      '@veramo/core-types': 5.1.2
-      '@veramo/utils': 5.0.0
-      cross-fetch: 3.1.5_iqh6pvemik3ebzneirvlerj7uq
-      debug: 4.3.4
-      did-resolver: 4.0.1
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
-    dev: false
 
   /@veramo/did-resolver/5.1.2:
     resolution: {integrity: sha512-edvF4E6X3XwVUH/eeIsZmYJGfHVL0fFPzdl9lf0jrCiticik76QYiUWLXj67q8E43Lv16mYOIe3S3qQ3/vmsKg==}
@@ -8927,7 +8889,6 @@ packages:
       uint8arrays: 3.1.1
     transitivePeerDependencies:
       - supports-color
-    dev: true
 
   /@veramo/message-handler/5.1.2:
     resolution: {integrity: sha512-fov1wFOe5f4YoNpmjlo8pRyG2GJI0qlSW0Zvo3umhbfMc/yohcx8zAi4ZaR3uqxPGfsdsbCO2zU8+VSfUqcH0Q==}
@@ -10302,7 +10263,7 @@ packages:
   /borsh/0.6.0:
     resolution: {integrity: sha512-sl5k89ViqsThXQpYa9XDtz1sBl3l1lI313cFUY1HKr+wvMILnb+58xpkqTNrYbelh99dY7K8usxoCusQmqix9Q==}
     dependencies:
-      bn.js: 5.2.1
+      bn.js: 5.2.0
       bs58: 4.0.1
       text-encoding-utf-8: 1.0.2
     dev: false
@@ -13011,6 +12972,19 @@ packages:
       - supports-color
     dev: true
 
+  /eslint-plugin-jest-extended/2.0.0_vgl77cfdswitgr47lm5swmv43m:
+    resolution: {integrity: sha512-nMhVVsVcG/+Q6FMshql35WBxwx8xlBhxKgAG08WP3BYWfXrp28oxLpJVu9JSbMpfmfKGVrHwMYJGfPLRKlGB8w==}
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    peerDependencies:
+      eslint: ^7.0.0 || ^8.0.0
+    dependencies:
+      '@typescript-eslint/utils': 5.55.0_vgl77cfdswitgr47lm5swmv43m
+      eslint: 8.36.0
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
+    dev: true
+
   /eslint-plugin-jest/27.2.1_c5np4xxgeczfzqnstagjdh5md4:
     resolution: {integrity: sha512-l067Uxx7ZT8cO9NJuf+eJHvt6bqJyz2Z29wykyEdz/OtmcELQl2MQGQLX8J94O1cSJWAwUSEvCjwjA7KEK3Hmg==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -14115,11 +14089,7 @@ packages:
     engines: {node: '>=12.13.0', yarn: '>=1.0.0'}
     peerDependencies:
       typescript: '>3.6.0'
-      vue-template-compiler: '*'
       webpack: ^5.11.0
-    peerDependenciesMeta:
-      vue-template-compiler:
-        optional: true
     dependencies:
       '@babel/code-frame': 7.18.6
       chalk: 4.1.2
@@ -14808,8 +14778,8 @@ packages:
     dependencies:
       react-is: 16.13.1
 
-  /hook-shell-script-webpack-plugin/0.1.4:
-    resolution: {integrity: sha512-LDv0JiHW9GqYpMJuvn9DuNkGbuzOegEo/M2IJTDsJWZjHF+XlJyeXHq2lVf75m6GkSFKQKFMCk7nbqNUSio4mQ==}
+  /hook-shell-script-webpack-plugin/0.2.0:
+    resolution: {integrity: sha512-1QcokG2yn0YPc+1GhanoYkHlWdDujC+AlLtk1ebekBQNhNwA0bu3mA6GPjF2nJk5I5MgYSFLLZXihKnm0+dlbQ==}
     dev: true
 
   /hosted-git-info/2.8.9:
@@ -15987,45 +15957,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /jest-config/29.5.0_ujxcenvse5zlxdro6vjdmkgl3a:
-    resolution: {integrity: sha512-kvDUKBnNJPNBmFFOhDbm59iu1Fii1Q6SxyhXfvylq3UTHbg6o7j/g8k2dZyXWLvfdKB1vAPxNZnMgtKJcmu3kA==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    peerDependencies:
-      '@types/node': '*'
-      ts-node: '>=9.0.0'
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-      ts-node:
-        optional: true
-    dependencies:
-      '@babel/core': 7.21.3
-      '@jest/test-sequencer': 29.5.0
-      '@jest/types': 29.5.0
-      '@types/node': 18.14.1
-      babel-jest: 29.5.0_@babel+core@7.21.3
-      chalk: 4.1.2
-      ci-info: 3.8.0
-      deepmerge: 4.3.1
-      glob: 7.2.3
-      graceful-fs: 4.2.11
-      jest-circus: 29.5.0
-      jest-environment-node: 29.5.0
-      jest-get-type: 29.4.3
-      jest-regex-util: 29.4.3
-      jest-resolve: 29.5.0
-      jest-runner: 29.5.0
-      jest-util: 29.5.0
-      jest-validate: 29.5.0
-      micromatch: 4.0.5
-      parse-json: 5.2.0
-      pretty-format: 29.5.0
-      slash: 3.0.0
-      strip-json-comments: 3.1.1
-      ts-node: 10.9.1_uayvamxqnl5yeiojjysxwopmsy
-    transitivePeerDependencies:
-      - supports-color
-
   /jest-diff/28.1.3:
     resolution: {integrity: sha512-8RqP1B/OXzjjTWkqMX67iqgwBVJRgCyKD3L9nq+6ZqJMdvjE8RgHktqZ6jNrkdMT+dJuYNI3rhQpxaz7drJHfw==}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
@@ -16101,6 +16032,20 @@ packages:
       '@types/node': 18.15.3
       jest-mock: 29.5.0
       jest-util: 29.5.0
+
+  /jest-extended/3.2.4_jest@29.5.0:
+    resolution: {integrity: sha512-lSEYhSmvXZG/7YXI7KO3LpiUiQ90gi5giwCJNDMMsX5a+/NZhdbQF2G4ALOBN+KcXVT3H6FPVPohAuMXooaLTQ==}
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    peerDependencies:
+      jest: '>=27.2.5'
+    peerDependenciesMeta:
+      jest:
+        optional: true
+    dependencies:
+      jest: 29.5.0_d2dllaz5dte7avnjm55wl7fmsu
+      jest-diff: 29.5.0
+      jest-get-type: 29.4.3
+    dev: true
 
   /jest-get-type/28.0.2:
     resolution: {integrity: sha512-ioj2w9/DxSYHfOm5lJKCdcAmPJzQXmbM/Url3rhlghrPvT3tt+7a/+oXc9azkKmLvoiXjtV83bEWqi+vs5nlPA==}
@@ -16650,7 +16595,6 @@ packages:
       - '@types/node'
       - supports-color
       - ts-node
-    dev: true
 
   /jest/29.5.0_ujxcenvse5zlxdro6vjdmkgl3a:
     resolution: {integrity: sha512-juMg3he2uru1QoXX078zTa7pO85QyB9xajZc6bU+d9yEGwrKX6+vGmJQ3UdVZsvTEUARIdObzH68QItim6OSSQ==}
@@ -19331,6 +19275,12 @@ packages:
     requiresBuild: true
     dev: true
 
+  /precompress/10.0.1:
+    resolution: {integrity: sha512-lqynOEIIW1DYRPHYZL0/m+mTYkpS2MDB2YphmbgsZ/Ec0GKrSrEoQpG5/3ML4Uqm82wKb+2aukzHVCcqXOefMQ==}
+    engines: {node: '>= 16'}
+    hasBin: true
+    dev: true
+
   /precompress/9.1.1:
     resolution: {integrity: sha512-Dvl5Jn78RbohWvlBJViIi7Rm9kG7lxGrj0a9WvifD4dsPqY6j5mdlM4bbmVcJlhh7I8jxYxgfYh+5Jw0djUJzA==}
     engines: {node: '>= 14'}
@@ -22002,6 +21952,38 @@ packages:
       typescript: 4.9.5
     dev: true
 
+  /ts-node/10.9.1_72wjdbglblrsksmmmhzpvueijy:
+    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@swc/core': 1.3.41
+      '@tsconfig/node10': 1.0.9
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.3
+      '@types/node': 18.15.3
+      acorn: 8.8.2
+      acorn-walk: 8.2.0
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 4.9.5
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    dev: true
+
   /ts-node/10.9.1_cbfmry4sbbh4vatmdrsmatfg5a:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
@@ -22022,36 +22004,6 @@ packages:
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.3
       '@types/node': 18.15.3
-      acorn: 8.8.2
-      acorn-walk: 8.2.0
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      typescript: 4.9.5
-      v8-compile-cache-lib: 3.0.1
-      yn: 3.1.1
-
-  /ts-node/10.9.1_uayvamxqnl5yeiojjysxwopmsy:
-    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
-    hasBin: true
-    peerDependencies:
-      '@swc/core': '>=1.2.50'
-      '@swc/wasm': '>=1.2.50'
-      '@types/node': '*'
-      typescript: '>=2.7'
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-      '@swc/wasm':
-        optional: true
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      '@tsconfig/node10': 1.0.9
-      '@tsconfig/node12': 1.0.11
-      '@tsconfig/node14': 1.0.3
-      '@tsconfig/node16': 1.0.3
-      '@types/node': 18.14.1
       acorn: 8.8.2
       acorn-walk: 8.2.0
       arg: 4.1.3
