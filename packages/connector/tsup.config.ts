@@ -6,7 +6,7 @@ export default defineConfig((options: Options) => ({
   splitting: true,
   tsconfig: './tsconfig.build.json',
   entry: ['src/**/*.ts'],
-  format: ['esm', 'cjs'],
+  format: 'esm',
   dts: true,
   minify: false,
   clean: true,
