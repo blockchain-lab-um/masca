@@ -14,7 +14,7 @@
   "dependencies": {
     "@blockchain-lab-um/ssi-snap-connector": "*",
     "@blockchain-lab-um/ssi-snap-types": "*",
-    "@veramo/core": "^5.0.0",
+    "@veramo/core": "^5.1.2",
     "axios": "^1.1.3",
     "ethers": "^5.7.2",
     "pinia": "^2.0.29",
@@ -28,7 +28,7 @@
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^3.7.1",
     "@rushstack/eslint-patch": "^1.2.0",
-    "@types/node": "^18.14.1",
+    "@types/node": "^18.15.3",
     "@vitejs/plugin-vue": "^3.2.0",
     "@vue/eslint-config-prettier": "^7.0.0",
     "@vue/eslint-config-typescript": "^11.0.2",
