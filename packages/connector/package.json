@@ -19,15 +19,15 @@
     "email": "blockchain-lab@um.si",
     "url": "https://blockchain-lab.um.si"
   },
+  "type": "module",
   "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
+  "module": "./dist/index.js",
   "source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist/",
+    "dist/**",
     "README.md",
-    "package.json",
-    "LICENSE"
+    "package.json"
   ],
   "scripts": {
     "build": "pnpm clean && pnpm compile",
