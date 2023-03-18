@@ -16,20 +16,16 @@ COPY ./scripts ./scripts
 COPY ./packages/docs/package.json ./packages/docs/
 COPY ./packages/connector/package.json ./packages/connector/
 COPY ./packages/types/package.json ./packages/types/
-COPY ./packages/website/package.json ./packages/website/
 COPY ./packages/dapp/package.json ./packages/dapp/
 
 # Run script to remove patchedDependencies from package.json file
-RUN node ./scripts/docker_build/remove-patched-dependecies.js
+RUN node ./scripts/docker_build/remove-patched-dependencies.js
 
 # Install all the dependencies
 RUN pnpm install
 
 # Copy all other files
 COPY . .
-
-# Create .env file for website (required to set PRE_PROD env variable)
-RUN echo "VITE_PRE_PROD=true" > ./packages/website/.env
 
 # Build affected projects
 RUN pnpm build:docker
