@@ -24,7 +24,7 @@
     "email": "blockchain-lab@um.si",
     "url": "https://blockchain-lab.um.si"
   },
-  "main": "src/index.ts",
+  "main": "dist/snap.js",
   "files": [
     "dist/snap.js",
     "snap.manifest.json",
@@ -115,6 +115,7 @@
     "@types/lodash.clonedeep": "^4.5.7",
     "@types/node": "18.15.3",
     "@types/secp256k1": "^4.0.3",
+    "@types/webpackbar": "^4.0.3",
     "@typescript-eslint/eslint-plugin": "^5.53.0",
     "@typescript-eslint/parser": "^5.53.0",
     "audit-ci": "^6.6.0",

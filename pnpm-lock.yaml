@@ -323,6 +323,7 @@ importers:
       '@types/node': 18.15.3
       '@types/secp256k1': ^4.0.3
       '@types/uuid': ^9.0.1
+      '@types/webpackbar': ^4.0.3
       '@typescript-eslint/eslint-plugin': ^5.53.0
       '@typescript-eslint/parser': ^5.53.0
       '@veramo/core': 5.1.2
@@ -455,6 +456,7 @@ importers:
       '@types/lodash.clonedeep': 4.5.7
       '@types/node': 18.15.3
       '@types/secp256k1': 4.0.3
+      '@types/webpackbar': 4.0.3
       '@typescript-eslint/eslint-plugin': 5.55.0_342y7v4tc7ytrrysmit6jo4wri
       '@typescript-eslint/parser': 5.55.0_vgl77cfdswitgr47lm5swmv43m
       audit-ci: 6.6.1
@@ -7015,6 +7017,10 @@ packages:
     dependencies:
       '@types/node': 18.15.3
 
+  /@types/source-list-map/0.1.2:
+    resolution: {integrity: sha512-K5K+yml8LTo9bWJI/rECfIPrGgxdpeNbj+d53lwN4QjW1MCwlkhUms+gtdzigTeUyBr09+u8BwOIY3MXvHdcsA==}
+    dev: true
+
   /@types/stack-utils/2.0.1:
     resolution: {integrity: sha512-Hl219/BT5fLAaz6NDkSuhzasy49dwQS/DSdu4MdggFB8zcXv7vflBI3xp7FEmkmdDkBUI2bPUNeMttp2knYdxw==}
 
@@ -7025,11 +7031,47 @@ packages:
       '@types/serve-static': 1.15.1
     dev: true
 
+  /@types/tapable/1.0.8:
+    resolution: {integrity: sha512-ipixuVrh2OdNmauvtT51o3d8z12p6LtFW9in7U79der/kwejjdNchQC5UMn5u/KxNoM7VHHOs/l8KS8uHxhODQ==}
+    dev: true
+
+  /@types/uglify-js/3.17.1:
+    resolution: {integrity: sha512-GkewRA4i5oXacU/n4MA9+bLgt5/L3F1mKrYvFGm7r2ouLXhRKjuWwo9XHNnbx6WF3vlGW21S3fCvgqxvxXXc5g==}
+    dependencies:
+      source-map: 0.6.1
+    dev: true
+
   /@types/unist/2.0.6:
     resolution: {integrity: sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==}
 
   /@types/uuid/9.0.1:
     resolution: {integrity: sha512-rFT3ak0/2trgvp4yYZo5iKFEPsET7vKydKF+VRCxlQ9bpheehyAJH89dAkaLEq/j/RZXJIqcgsmPJKUP1Z28HA==}
+
+  /@types/webpack-sources/3.2.0:
+    resolution: {integrity: sha512-Ft7YH3lEVRQ6ls8k4Ff1oB4jN6oy/XmU6tQISKdhfh+1mR+viZFphS6WL0IrtDOzvefmJg5a0s7ZQoRXwqTEFg==}
+    dependencies:
+      '@types/node': 18.15.3
+      '@types/source-list-map': 0.1.2
+      source-map: 0.7.4
+    dev: true
+
+  /@types/webpack/4.41.33:
+    resolution: {integrity: sha512-PPajH64Ft2vWevkerISMtnZ8rTs4YmRbs+23c402J0INmxDKCrhZNvwZYtzx96gY2wAtXdrK1BS2fiC8MlLr3g==}
+    dependencies:
+      '@types/node': 18.15.3
+      '@types/tapable': 1.0.8
+      '@types/uglify-js': 3.17.1
+      '@types/webpack-sources': 3.2.0
+      anymatch: 3.1.3
+      source-map: 0.6.1
+    dev: true
+
+  /@types/webpackbar/4.0.3:
+    resolution: {integrity: sha512-KKqtt4+Phsw4b0ZevlFeN1fcevUj+qxEGP5Fb60KWCwlBkTKdxe+Zd4FkYKpM1W+wxs6wKhEnEmF5DdFqE3VpQ==}
+    dependencies:
+      '@types/node': 18.15.3
+      '@types/webpack': 4.41.33
+    dev: true
 
   /@types/ws/8.5.4:
     resolution: {integrity: sha512-zdQDHKUgcX/zBc4GrwsE/7dVdAD8JR4EuiAXiiUhhfyIJXXb2+PrGshFyeXWQPMmmZ2XxgaqclgpIC7eTXc1mg==}
@@ -9931,7 +9973,7 @@ packages:
     dependencies:
       '@types/node': 18.15.3
       cosmiconfig: 8.1.0
-      ts-node: 10.9.1_cbfmry4sbbh4vatmdrsmatfg5a
+      ts-node: 10.9.1_72wjdbglblrsksmmmhzpvueijy
       typescript: 4.9.5
     dev: true
 
@@ -11836,7 +11878,7 @@ packages:
       micromatch: 4.0.5
       normalize-path: 3.0.0
       schema-utils: 4.0.0
-      webpack: 5.76.2
+      webpack: 5.76.2_ekwbeb7tvwqtk7vuw5s6r2hbxi
     dev: true
 
   /eslint/8.36.0:
@@ -14509,7 +14551,7 @@ packages:
       pretty-format: 29.5.0
       slash: 3.0.0
       strip-json-comments: 3.1.1
-      ts-node: 10.9.1_cbfmry4sbbh4vatmdrsmatfg5a
+      ts-node: 10.9.1_72wjdbglblrsksmmmhzpvueijy
     transitivePeerDependencies:
       - supports-color
 
@@ -19276,6 +19318,11 @@ packages:
     resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==}
     engines: {node: '>=0.10.0'}
 
+  /source-map/0.7.4:
+    resolution: {integrity: sha512-l3BikUxvPOcn5E74dZiq5BGsTb5yEwhaTSzccU6t4sDOH8NWJCstKO5QT2CvtFoK6F0saL7p9xHAqHOlCPJygA==}
+    engines: {node: '>= 8'}
+    dev: true
+
   /source-map/0.8.0-beta.0:
     resolution: {integrity: sha512-2ymg6oRBpebeZi9UUNsgQ89bhx01TcTkmNTGnNO88imTmbSgy4nfujrgVEFKWpMTEGA11EDkTt7mqObTPdigIA==}
     engines: {node: '>= 8'}
@@ -20385,7 +20432,6 @@ packages:
       typescript: 4.9.5
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
-    dev: true
 
   /ts-node/10.9.1_cbfmry4sbbh4vatmdrsmatfg5a:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
@@ -20416,6 +20462,7 @@ packages:
       typescript: 4.9.5
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
+    dev: true
 
   /tsconfig-paths/3.14.2:
     resolution: {integrity: sha512-o/9iXgCYc5L/JxCHPe3Hvh8Q/2xm5Z+p18PESBU6Ff33695QnCHBEjcytY2q19ua7Mbl/DavtBOLq+oG0RCL+g==}

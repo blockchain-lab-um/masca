@@ -5,18 +5,20 @@
       Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects
       for all imports. Implies 'allowSyntheticDefaultImports'.
     */
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
+    "target": "ES2020",
     "module": "CommonJS",
     "moduleResolution": "Node",
+
     "strict": true,
-    "target": "ES2020",
+    "allowJs": true,
+    "esModuleInterop": true,
+
+    "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
+
     /* Stylize errors and messages using color and context. */
-    "pretty": true,
-    "incremental": true,
-    "allowJs": true
+    "pretty": true
   },
   "exclude": ["node_modules", "dist"]
 }

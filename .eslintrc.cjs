@@ -3,11 +3,30 @@ module.exports = {
   extends: [
     'airbnb-base',
     'airbnb-typescript/base',
-    'plugin:jest/recommended',
-    'plugin:jest/style',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:prettier/recommended',
+  ],
+  overrides: [
+    {
+      files: [
+        '**/*.spec.ts',
+        '**/*.e2e-spec.ts',
+        '**/test/**',
+        '**/tests/**',
+        '**/__tests__/**',
+        '**/*.spec.ts',
+      ],
+      plugins: ['jest'],
+      extends: ['plugin:jest/recommended', 'plugin:jest/style'],
+      rules: {
+        'jest/prefer-expect-assertions': 'off',
+        '@typescript-eslint/no-unsafe-assignment': 'off',
+        '@typescript-eslint/no-explicit-any': 'off',
+        '@typescript-eslint/no-unsafe-member-access': 'off',
+      },
+      env: { jest: true },
+    },
   ],
   plugins: [
     '@typescript-eslint/eslint-plugin',
@@ -46,10 +65,11 @@ module.exports = {
           '**/*.e2e-spec.ts',
           '**/webpack.config.ts',
           '**/tsup.config.ts',
-          '**/jest.d.ts'
+          '**/jest.d.ts',
         ],
       },
     ],
+
     // for prettier
     'prettier/prettier': ['error', { singleQuote: true }],
   },
