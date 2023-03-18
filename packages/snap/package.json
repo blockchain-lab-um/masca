@@ -160,7 +160,7 @@
         "{projectRoot}/tsconfig.json",
         "{projectRoot}/webpack.config.ts",
         "{projectRoot}/babel.config.ts",
-        "{projectRoot}/eslintrc.js",
+        "{projectRoot}/eslintrc.cjs",
         "{projectRoot}/.prettierignore",
         "{projectRoot}/images/**/*"
       ]
