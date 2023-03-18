@@ -44,7 +44,7 @@ export default {
     uint8arrays:
       '<rootDir>/../../node_modules/.pnpm/uint8arrays@4.0.3/node_modules/uint8arrays/src/index.ts',
     '@ipld/dag-cbor':
-      '<rootDir>/../../node_modules/.pnpm/@didtools+cacao@1.2.0/node_modules/@ipld/dag-cbor/index.js',
+      '<rootDir>/../../node_modules/.pnpm/@didtools+cacao@2.0.0/node_modules/@ipld/dag-cbor/dist/index.min.js',
   },
   extensionsToTreatAsEsm: ['.ts'],
   transformIgnorePatterns: ['/node_modules/(?!@veramo)/'],
