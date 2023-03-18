@@ -5,7 +5,7 @@ module.exports = {
     'airbnb-typescript/base',
     'plugin:jest/recommended',
     'plugin:jest/style',
-    '../../../.eslintrc.js',
+    '../../../.eslintrc.cjs',
   ],
   parserOptions: {
     tsconfigRootDir: __dirname,

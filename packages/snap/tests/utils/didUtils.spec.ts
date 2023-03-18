@@ -7,7 +7,6 @@ import {
   getCurrentDid,
   resolveDid,
 } from '../../src/utils/didUtils';
-import * as snapUtils from '../../src/utils/snapUtils';
 import {
   address,
   exampleDID,
@@ -20,16 +19,6 @@ import {
   resolutionNotFound,
 } from '../testUtils/constants';
 import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
-
-jest
-  .spyOn(snapUtils, 'getCurrentAccount')
-  // eslint-disable-next-line @typescript-eslint/require-await
-  .mockImplementation(async () => address);
-
-jest
-  .spyOn(snapUtils, 'getCurrentNetwork')
-  // eslint-disable-next-line @typescript-eslint/require-await
-  .mockImplementation(async () => '0x5');
 
 describe('Utils [did]', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
