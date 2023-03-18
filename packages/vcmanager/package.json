@@ -67,7 +67,7 @@
         "!{projectRoot}/**/*.md",
         "!{projectRoot}/tsconfig.spec.json",
         "!{projectRoot}/jest.config.ts",
-        "!{projectRoot}/.eslintrc.json",
+        "!{projectRoot}/.eslintrc.cjs",
         "!{projectRoot}/tests/**/*.ts"
       ]
     }
