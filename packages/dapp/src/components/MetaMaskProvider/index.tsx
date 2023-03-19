@@ -102,6 +102,7 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
     if (isError(did)) {
       console.log("Couldn't get DID");
       console.error(did.error);
+      changeIsConnecting(false);
       return;
     }
 
