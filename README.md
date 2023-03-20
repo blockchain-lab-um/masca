@@ -26,8 +26,9 @@ Every version of SSI Snap does NOT work with every version of MetaMask Flask! He
 | SSI Snap Version | Flask Version |
 | ---------------- | ------------- |
 | 1.2.2            | up to 10.19.0 |
-| 1.3.0            | 10.25.0       |
-| 1.4.0            | 10.27.1       |
+| 1.3.0            | 10.24.0       |
+| 1.4.0            | 10.25.0       |
+| 1.5.0            | 10.26.1       |
 
 ### Prerequisites
 
