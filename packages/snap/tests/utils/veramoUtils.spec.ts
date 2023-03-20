@@ -75,7 +75,7 @@ describe('Utils [veramo]', () => {
       const expectedResult = [
         {
           id: res[0].id,
-          store: 'snap',
+          store: ['snap'],
         },
       ];
 
@@ -96,7 +96,7 @@ describe('Utils [veramo]', () => {
       const expectedResult = [
         {
           id: res[0].id,
-          store: 'snap',
+          store: ['snap'],
         },
       ];
 
@@ -124,7 +124,7 @@ describe('Utils [veramo]', () => {
       const expectedResult = [
         {
           id: res[0].id,
-          store: 'snap',
+          store: ['snap'],
         },
       ];
 
@@ -157,11 +157,7 @@ describe('Utils [veramo]', () => {
       const expectedResult = [
         {
           id: res[0].id,
-          store: 'snap',
-        },
-        {
-          id: res[1].id,
-          store: 'ceramic',
+          store: expect.arrayContaining(['snap', 'ceramic']),
         },
       ];
 
@@ -181,7 +177,7 @@ describe('Utils [veramo]', () => {
       const expectedResult = [
         {
           id: res[0].id,
-          store: 'snap',
+          store: ['snap'],
         },
       ];
 
@@ -203,7 +199,7 @@ describe('Utils [veramo]', () => {
       const expectedResult = [
         {
           id: res[0].id,
-          store: 'snap',
+          store: ['snap'],
         },
       ];
 
@@ -244,11 +240,7 @@ describe('Utils [veramo]', () => {
       const expectedResult = [
         {
           id: res[0].id,
-          store: 'snap',
-        },
-        {
-          id: res[1].id,
-          store: 'ceramic',
+          store: expect.arrayContaining(['snap', 'ceramic']),
         },
       ];
 
@@ -263,12 +255,12 @@ describe('Utils [veramo]', () => {
         'snap',
         'ceramic',
       ]);
-      expect(res).toIncludeSameMembers(expectedResult);
+      expect(res).toEqual(expectedResult);
 
       await veramoDeleteVC({
         snap: snapMock,
         ethereum: ethereumMock,
-        id: expectedResult[1].id,
+        id: expectedResult[0].id,
         store: ['ceramic'],
       });
 
@@ -313,11 +305,7 @@ describe('Utils [veramo]', () => {
       const expectedResult = [
         {
           id: res[0].id,
-          store: 'snap',
-        },
-        {
-          id: res[1].id,
-          store: 'ceramic',
+          store: expect.arrayContaining(['snap', 'ceramic']),
         },
       ];
 
@@ -334,7 +322,7 @@ describe('Utils [veramo]', () => {
       await veramoDeleteVC({
         snap: snapMock,
         ethereum: ethereumMock,
-        id: expectedResult[1].id,
+        id: expectedResult[0].id,
       });
 
       const vcs = await veramoQueryVCs({
@@ -531,7 +519,7 @@ describe('Utils [veramo]', () => {
       const expectedResult = [
         {
           id: res[0].id,
-          store: 'snap',
+          store: ['snap'],
         },
       ];
 

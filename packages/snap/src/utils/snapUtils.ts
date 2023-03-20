@@ -25,7 +25,6 @@ export async function getCurrentAccount(
     const accounts = (await ethereum.request({
       method: 'eth_requestAccounts',
     })) as Array<string>;
-
     return accounts[0];
   } catch (e) {
     throw new Error('User rejected the request to connect to their wallet.');

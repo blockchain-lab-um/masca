@@ -10,6 +10,12 @@
     "<THIRD_PARTY_MODULES>",
     "",
     "^types$",
+    "^@local/(.*)$",
+    "^@/lib/(.*)$",
+    "^@/components/(.*)$",
+    "^@/styles/(.*)$",
+    "^@/utils/(.*)$",
+    "^@/pages/(.*)$",
     "^[./]"
   ],
   "importOrderSeparation": false,
@@ -20,6 +26,7 @@
   "importOrderCombineTypeAndValueImports": true,
   "plugins": [
     "prettier-plugin-packagejson",
-    "@ianvs/prettier-plugin-sort-imports"
+    "@ianvs/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss"
   ]
 }
