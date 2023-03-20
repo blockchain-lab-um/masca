@@ -7,7 +7,7 @@ import { veramoCreateVP } from '../../utils/veramoUtils';
 export async function createVP(
   params: ApiParams,
   createVPParams: CreateVPRequestParams
-): Promise<VerifiablePresentation | null> {
+): Promise<VerifiablePresentation> {
   const { vcs, proofFormat = 'jwt', proofOptions } = createVPParams;
   const res = await veramoCreateVP(params, { vcs, proofFormat, proofOptions });
   return res;

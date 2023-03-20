@@ -6,20 +6,20 @@ WORKDIR /app
 # Install pnpm
 RUN npm i -g pnpm@7.25.1
 
+# Copy patches
+COPY ./patches ./patches
+
 # Copy root package.json + pnpm-lock.yaml + pnpm-workspace.yaml
 COPY pnpm-lock.yaml package.json pnpm-workspace.yaml ./
 
-# Copy scripts
-COPY ./scripts ./scripts
-
-# Copy projects' package.json files
+# Copy projects package.json files
 COPY ./packages/docs/package.json ./packages/docs/
 COPY ./packages/connector/package.json ./packages/connector/
 COPY ./packages/types/package.json ./packages/types/
 COPY ./packages/dapp/package.json ./packages/dapp/
 
-# Run script to remove patchedDependencies from package.json file
-RUN node ./scripts/docker_build/remove-patched-dependencies.js
+# Copy libs package.json files
+COPY ./libs/utils/package.json ./libs/utils/
 
 # Install all the dependencies
 RUN pnpm install
