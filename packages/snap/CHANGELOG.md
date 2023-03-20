@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.5.0](https://github.com/blockchain-lab-um/ssi-snap/compare/ssi-snap-v1.4.0...ssi-snap-v1.5.0) (2023-03-20)
+
+
+### :bug: Bug Fixes
+
+* join VCs with same ID ([#129](https://github.com/blockchain-lab-um/ssi-snap/issues/129)) ([d04e89c](https://github.com/blockchain-lab-um/ssi-snap/commit/d04e89c35e378ff4e762212d5a2f3584a676dbe3))
+
+
+### :rocket: Features
+
+* adds verify data rpc method ([#133](https://github.com/blockchain-lab-um/ssi-snap/issues/133)) ([48b8a44](https://github.com/blockchain-lab-um/ssi-snap/commit/48b8a440876dfee7a39cd4edfb0d48fc4accd7ec))
+* new error handling ([#111](https://github.com/blockchain-lab-um/ssi-snap/issues/111)) ([f0f012b](https://github.com/blockchain-lab-um/ssi-snap/commit/f0f012b84a836fbc8d383cd93824f216abda2ef3))
+* new popups and snaps 0.28.0 ([#131](https://github.com/blockchain-lab-um/ssi-snap/issues/131)) ([aae6312](https://github.com/blockchain-lab-um/ssi-snap/commit/aae63129d0e3e40ddd9860de8a755a0610997204))
+
 ## [1.4.0](https://github.com/blockchain-lab-um/ssi-snap/compare/ssi-snap-types-v1.3.0...ssi-snap-types-v1.4.0) (2023-03-01)
 
 
