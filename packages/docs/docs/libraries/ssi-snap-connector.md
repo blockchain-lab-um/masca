@@ -6,7 +6,7 @@ sidebar_position: 1
 
 SSI Snap connector is used to install SSI snap and expose API toward snap on dApps and other applications.
 
-For more details on SSI Snap Connector, check [ssi-snap-connector repo](https://github.com/blockchain-lab-um/ssi-snap-connector).
+For more details on SSI Snap Connector, check [GitHub repo](https://github.com/blockchain-lab-um/ssi-snap/tree/master/packages/connector).
 
 ## Usage
 

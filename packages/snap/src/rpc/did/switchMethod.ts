@@ -1,4 +1,5 @@
 import { SwitchMethodRequestParams } from '@blockchain-lab-um/ssi-snap-types';
+import { divider, heading, panel, text } from '@metamask/snaps-ui';
 
 import { ApiParams } from '../../interfaces';
 import { changeCurrentMethod } from '../../utils/didUtils';
@@ -11,13 +12,14 @@ export async function switchMethod(
   const { state, snap, ethereum, account } = params;
   const method = state.accountState[account].accountConfig.ssi.didMethod;
   if (didMethod !== method) {
-    const promptObj = {
-      prompt: 'Change DID method',
-      description: 'Would you like to change did method to the following?',
-      textAreaContent: didMethod,
-    };
+    const content = panel([
+      heading('Switch Method'),
+      text('Would you like to switch your DID method?'),
+      divider(),
+      text(`Switching to: ${didMethod}`),
+    ]);
 
-    if (snapConfirm(snap, promptObj)) {
+    if (await snapConfirm(snap, content)) {
       const res = await changeCurrentMethod(
         snap,
         ethereum,
@@ -28,7 +30,8 @@ export async function switchMethod(
       return res;
     }
 
-    return '';
+    throw new Error('User rejected method switch');
   }
-  return '';
+
+  throw new Error('Method already set');
 }

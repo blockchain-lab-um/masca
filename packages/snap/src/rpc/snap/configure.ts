@@ -1,3 +1,5 @@
+import { divider, heading, panel, text } from '@metamask/snaps-ui';
+
 import { ApiParams } from '../../interfaces';
 import {
   snapConfirm,
@@ -8,17 +10,18 @@ export async function togglePopups(params: ApiParams): Promise<boolean> {
   const { state, snap } = params;
   const { disablePopups } = state.snapConfig.dApp;
 
-  const promptObj = {
-    prompt: 'Toggle Popups',
-    description: 'Would you like to toggle the popups to following?',
-    textAreaContent: disablePopups
-      ? 'Current setting: True\nNew setting: False'
-      : 'Current setting: False\nNew setting: True',
-  };
-  const result = disablePopups || snapConfirm(snap, promptObj);
+  const content = panel([
+    heading('Disable Popups'),
+    text('Would you like to disable popups?'),
+    divider(),
+    text('If popups are disabled, you will see less confirmation popups'),
+  ]);
+
+  const result = disablePopups || (await snapConfirm(snap, content));
   if (result) {
     await updatePopups(snap, state);
     return true;
   }
-  return false;
+
+  throw new Error('User rejected disabling popups');
 }

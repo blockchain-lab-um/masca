@@ -283,39 +283,47 @@ describe('onRpcRequest', () => {
       expect.assertions(2);
     });
 
-    it.skip('should fail saving VC and return false - user denied', () => {
+    it('should fail saving VC and return false - user denied', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
 
-      //   await expect(
-      //     onRpcRequest({
-      //       origin: 'localhost',
-      //       request: {
-      //         id: 'test-id',
-      //         jsonrpc: '2.0',
-      //         method: 'saveVC',
-      //         params: {
-      //           verifiableCredential: exampleVeramoVCJWT,
-      //           options: { store: 'snap' },
-      //         },
-      //       },
-      //     })
-      //   ).rejects.toThrow('User rejected');
+      let res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'saveVC',
+          params: {
+            verifiableCredential: exampleVeramoVCJWT,
+            options: { store: 'snap' },
+          },
+        },
+      })) as Result<unknown>;
 
-      //   await expect(
-      //     onRpcRequest({
-      //       origin: 'localhost',
-      //       request: {
-      //         id: 'test-id',
-      //         jsonrpc: '2.0',
-      //         method: 'queryVCs',
-      //         params: {
-      //           query: {},
-      //         },
-      //       },
-      //     })
-      //   ).resolves.toEqual([]);
+      if (isSuccess(res)) {
+        throw new Error('Should return error');
+      }
 
-      //   expect.assertions(2);
+      expect(res.error.message).toBe('User rejected the request.');
+
+      res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'queryVCs',
+          params: {
+            query: {},
+          },
+        },
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toEqual([]);
+
+      expect.assertions(2);
     });
 
     it('should return error because store is not supported', async () => {
@@ -1032,11 +1040,11 @@ describe('onRpcRequest', () => {
       expect.assertions(1);
     });
 
-    it.skip('should fail creating VP and return null - user denied', async () => {
+    it('should fail creating VP - VC does not exist', async () => {
       jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
 
-      await onRpcRequest({
+      let res = (await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
@@ -1047,30 +1055,13 @@ describe('onRpcRequest', () => {
             options: { store: 'snap' },
           },
         },
-      });
+      })) as Result<unknown>;
 
-      await expect(
-        onRpcRequest({
-          origin: 'localhost',
-          request: {
-            id: 'test-id',
-            jsonrpc: '2.0',
-            method: 'createVP',
-            params: {
-              vcs: [{ id: 'test-id' }],
-            },
-          },
-        })
-      ).rejects.toThrow('User rejected');
+      if (isSuccess(res)) {
+        throw new Error('Should return error');
+      }
 
-      expect.assertions(1);
-    });
-
-    it('should fail creating VP - VC does not exist', async () => {
-      jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
-      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-
-      const res = (await onRpcRequest({
+      res = (await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
@@ -1082,11 +1073,11 @@ describe('onRpcRequest', () => {
         },
       })) as Result<unknown>;
 
-      if (isError(res)) {
-        throw res.error;
+      if (isSuccess(res)) {
+        throw new Error('Should return error');
       }
 
-      expect(res.data).toBeNull();
+      expect(res.error.message).toBe('VC does not exist');
 
       expect.assertions(1);
     });
@@ -1115,22 +1106,26 @@ describe('onRpcRequest', () => {
       expect.assertions(1);
     });
 
-    it.skip('should fail toggling popups and return false', () => {
+    it('should fail toggling popups', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
 
-      //   await expect(
-      //     onRpcRequest({
-      //       origin: 'localhost',
-      //       request: {
-      //         id: 'test-id',
-      //         jsonrpc: '2.0',
-      //         method: 'togglePopups',
-      //         params: {},
-      //       },
-      //     })
-      //   ).resolves.toBe(false);
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'togglePopups',
+          params: {},
+        },
+      })) as Result<unknown>;
 
-      //   expect.assertions(1);
+      if (isSuccess(res)) {
+        throw new Error('Should return error');
+      }
+
+      expect(res.error.message).toBe('User rejected disabling popups');
+
+      expect.assertions(1);
     });
   });
 
@@ -1191,7 +1186,7 @@ describe('onRpcRequest', () => {
   });
 
   describe('switchDIDMethod', () => {
-    it('should succeed switching method to did:key and return true', async () => {
+    it('should succeed switching method to did:key and return did', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       const res = (await onRpcRequest({
@@ -1217,25 +1212,28 @@ describe('onRpcRequest', () => {
       expect.assertions(1);
     });
 
-    it.skip('should fail switching method to did:key and return false', () => {
+    it('should fail switching method to did:key', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
 
-      //   await expect(
-      //     onRpcRequest({
-      //       origin: 'localhost',
-      //       request: {
-      //         id: 'test-id',
-      //         jsonrpc: '2.0',
-      //         method: 'switchDIDMethod',
-      //         params: {
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'switchDIDMethod',
+          params: {
+            didMethod: 'did:key',
+          },
+        },
+      })) as Result<unknown>;
 
-      //           didMethod: 'did:key',
-      //         },
-      //       },
-      //     })
-      //   ).resolves.toBe('');
+      if (isSuccess(res)) {
+        throw new Error('Should return error');
+      }
 
-      //   expect.assertions(1);
+      expect(res.error.message).toBe('User rejected method switch');
+
+      expect.assertions(1);
     });
 
     it('should fail switching method because method is not supported', async () => {
@@ -1261,6 +1259,7 @@ describe('onRpcRequest', () => {
 
       expect.assertions(1);
     });
+
     it('should fail switching method because request is bad', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
 
@@ -1568,7 +1567,10 @@ describe('onRpcRequest', () => {
       expect(verified.data).toBe(true);
       expect.assertions(1);
     });
+
     it('should succeed verifying a VP', async () => {
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
+
       const saveRes = (await onRpcRequest({
         origin: 'localhost',
         request: {

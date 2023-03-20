@@ -4,9 +4,10 @@ import { AvailableVCStores } from '@blockchain-lab-um/ssi-snap-types';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { Component } from '@metamask/snaps-ui';
 import { publicKeyConvert } from 'secp256k1';
 
-import { ApiParams, SSISnapState, SnapConfirmParams } from '../interfaces';
+import { ApiParams, SSISnapState } from '../interfaces';
 import { snapGetKeysFromAddress } from './keyPair';
 import { updateSnapState } from './stateUtils';
 
@@ -77,6 +78,7 @@ export async function addFriendlyDapp(
   state: SSISnapState,
   dapp: string
 ) {
+  if (state.snapConfig.dApp.friendlyDapps.includes(dapp)) return;
   state.snapConfig.dApp.friendlyDapps.push(dapp);
   await updateSnapState(snap, state);
 }
@@ -138,22 +140,18 @@ export function getCompressedPublicKey(publicKey: string): string {
   );
 }
 
-export function snapConfirm(
+export async function snapConfirm(
   snap: SnapsGlobalObject,
-  params: SnapConfirmParams
-): boolean {
-  // return (await snap.request({
-  //   method: 'snap_dialog',
-  //   params: {
-  //     type: 'Confirmation',
-  //     fields: {
-  //       title: params.prompt,
-  //       description: params.description,
-  //       textAreaContent: params.textAreaContent,
-  //     },
-  //   },
-  // })) as boolean;
-  return true;
+  content: Component
+): Promise<boolean> {
+  const res = await snap.request({
+    method: 'snap_dialog',
+    params: {
+      type: 'Confirmation',
+      content,
+    },
+  });
+  return res as boolean;
 }
 
 export function getEnabledVCStores(

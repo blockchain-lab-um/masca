@@ -70,38 +70,37 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Push to private docker registry
         run: docker push bclabum.informatika.uni-mb.si/registry/dapp:latest
-  # TODO: Uncomment when we replace the old dapp
-  # deploy:
-  #   # Deploy only when we PUSH to MASTER
-  #   if: ${{ (github.ref == 'refs/heads/master') && (github.event_name == 'push') }}
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #       with:
-  #         fetch-depth: 0
-  #     - uses: nrwl/nx-set-shas@v3
-  #       with:
-  #         main-branch-name: 'develop'
-  #     - name: Install pnpm
-  #       uses: pnpm/action-setup@v2
-  #       with:
-  #         version: 7.25.1
-  #     - uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 18.13.0
-  #         cache: pnpm
-  #     - name: Install dependencies
-  #       run: pnpm install --frozen-lockfile
-  #     - name: Lint
-  #       run: pnpm nx run @blockchain-lab-um/dapp:lint
-  #       env:
-  #         NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-  #     - name: Test build dapp
-  #       run: pnpm nx run @blockchain-lab-um/dapp:build
-  #       env:
-  #         NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-  #     - name: Deploy to GitHub Pages
-  #       uses: peaceiris/actions-gh-pages@v3
-  #       with:
-  #         github_token: ${{ secrets.GITHUB_TOKEN }}
-  #         publish_dir: ./packages/dapp/.next
+  deploy:
+    # Deploy only when we PUSH to MASTER
+    if: ${{ (github.ref == 'refs/heads/master') && (github.event_name == 'push') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: nrwl/nx-set-shas@v3
+        with:
+          main-branch-name: 'develop'
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7.25.1
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.13.0
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Lint
+        run: pnpm nx run @blockchain-lab-um/dapp:lint
+        env:
+          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+      - name: Test build dapp
+        run: pnpm nx run @blockchain-lab-um/dapp:build
+        env:
+          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./packages/dapp/.next

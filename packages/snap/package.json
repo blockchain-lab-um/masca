@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/ssi-snap",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Snap for managing VCs and VPs in MetaMask",
   "keywords": [
     "MetaMask",
@@ -60,12 +60,13 @@
     "@glazed/did-session": "0.1.1",
     "@metamask/key-tree": "^6.0.0",
     "@metamask/providers": "10.2.1",
-    "@metamask/snaps-types": "^0.27.1",
+    "@metamask/snaps-types": "0.28.0",
+    "@metamask/snaps-ui": "0.28.0",
     "@types/uuid": "^9.0.1",
     "@veramo/core": "5.1.2",
     "@veramo/credential-eip712": "5.1.2",
-    "@veramo/credential-ld": "^5.1.2",
-    "@veramo/credential-w3c": "5.1.4",
+    "@veramo/credential-ld": "5.1.2",
+    "@veramo/credential-w3c": "5.1.2",
     "@veramo/did-manager": "5.1.2",
     "@veramo/did-provider-ethr": "5.1.2",
     "@veramo/did-provider-pkh": "5.1.2",
@@ -142,10 +143,10 @@
     "rimraf": "^4.4.0",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.5",
-    "webpack": "^5.75.0",
-    "webpack-cli": "^5.0.1",
-    "webpack-merge": "^5.8.0",
-    "webpackbar": "^5.0.2"
+    "webpack": "5.75.0",
+    "webpack-cli": "5.0.1",
+    "webpack-merge": "5.8.0",
+    "webpackbar": "5.0.2"
   },
   "publishConfig": {
     "access": "public",

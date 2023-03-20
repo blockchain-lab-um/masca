@@ -10,6 +10,7 @@ import { Filter } from '@blockchain-lab-um/veramo-vc-manager';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
 import {
   IIdentifier,
   IVerifyResult,
@@ -170,7 +171,7 @@ export async function veramoQueryVCs(args: {
 export async function veramoCreateVP(
   params: ApiParams,
   createVPParams: CreateVPRequestParams
-): Promise<VerifiablePresentation | null> {
+): Promise<VerifiablePresentation> {
   const vcsMetadata = createVPParams.vcs;
   const domain = createVPParams.proofOptions?.domain;
   const challenge = createVPParams.proofOptions?.challenge;
@@ -202,14 +203,20 @@ export async function veramoCreateVP(
     }
   }
 
-  if (vcs.length === 0) return null;
+  if (vcs.length === 0) {
+    throw new Error('VC does not exist');
+  }
+
   const config = state.snapConfig;
-  const promptObj = {
-    prompt: 'Alert',
-    description: 'Do you wish to create a VP from the following VC?',
-    textAreaContent: 'Multiple VCs',
-  };
-  if (config.dApp.disablePopups || snapConfirm(snap, promptObj)) {
+  const content = panel([
+    heading('Create VP'),
+    text('Would you like to create a VP from the following VC(s)?'),
+    divider(),
+    text(`VC(s):`),
+    ...vcs.map((vc) => copyable(JSON.stringify(vc, null, 2))),
+  ]);
+
+  if (config.dApp.disablePopups || (await snapConfirm(snap, content))) {
     const vp = await agent.createVerifiablePresentation({
       presentation: {
         holder: identifier.did,
@@ -222,7 +229,8 @@ export async function veramoCreateVP(
     });
     return vp;
   }
-  return null;
+
+  throw new Error('User rejected create VP request');
 }
 
 export async function veramoVerifyData(args: {

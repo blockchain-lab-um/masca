@@ -34,6 +34,7 @@ import {
 
 export const onRpcRequest: OnRpcRequestHandler = async ({
   request,
+  origin,
 }): Promise<Result<unknown>> => {
   try {
     let state = await getSnapStateUnchecked(snap);
@@ -46,6 +47,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       snap,
       ethereum,
       account,
+      origin,
     };
 
     if (!(account in state.accountState)) {

@@ -10,11 +10,12 @@ DID methods:
 
 - [x] `did:ethr`
 - [x] `did:key`
-- [ ] `did:pkh`
-- [ ] `did:cheqd`
+- [x] `did:pkh`
 - [ ] `did:jwk`
-- [ ] `did:ens`
+- [ ] `did:cheqd`
 - [ ] `did:ebsi`
+- [ ] `did:ens`
+- [ ] `did:polygon`
 - [ ] ...
 
 Verifiable Credentials (VCs):
@@ -33,10 +34,19 @@ Verifiable Presentations (VPs):
 - [x] Create with multiple VCs
 - [ ] ...
 
+Storage options:
+
+- [x] MetaMask Snap State (local, off-chain)
+- [x] Ceramic Network
+- [ ] Google Drive
+- [ ] Kepler (SpruceID)
+- [ ] ...
+
 Cryptography:
 
 - [x] Signing with MetaMask keys
-- [ ] Selective Disclosure
+- [ ] Selective Disclosure - SD-JWT
+- [ ] Selective Disclosure - BBS+
 - [ ] Zero-Knowledge Proofs (ZKPs)
 - [ ] ...
 
@@ -48,14 +58,7 @@ Proof formats:
 - [ ] JSON Web Proofs
 - [ ] ...
 
-Storage options:
-
-- [x] MetaMask Snap State (local, off-chain)
-- [x] Ceramic Network
-- [ ] Google Drive
-- [ ] ...
-
-Identity standards:
+Digital identity standards:
 
 - [ ] PEX (Presentation Exchange)
 - [ ] OpenID Connect (SIOP, OIDC4VC, and OIDC4VP)
@@ -64,23 +67,22 @@ Identity standards:
 - [ ] DIDComm
 - [ ] ...
 
-SSI Snap functionality:
-
-- [ ] Manage Profile (did:ethr, ...)
-- [ ] Snap UI Elements
-- [ ] Sync using Ceramic/Google Drive
-- [ ] ...
-
 SSI Snap dApp:
 
 - [x] DID method selection
 - [x] Import, list, and delete VCs
-- [x] Changing JSON API tokens (Infura)
-- [x] Manage Settings
-- [ ] Create JWTs
-- [ ] Import/Export (backup VCs)
-- [ ] Manage Profiles (did:ethr, ...)
-- [ ] Public Profiles (did:ethr, ...)
+- [x] Manage settings
+- [ ] Create VPs
+- [ ] Move VC to another storage
+- [ ] Import/export (backup VCs)
+- [ ] Public profiles
+- [ ] ...
+
+Snaps-related functionality:
+
+- [ ] Snap UI Elements
+- [ ] Settings and storage synchronization across multiple devices
+- [ ] Featured on Snaps registry
 - [ ] ...
 
 dApp integrations:
