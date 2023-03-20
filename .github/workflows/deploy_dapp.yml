@@ -84,10 +84,10 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 7.30.0
+          version: 7.25.1
       - uses: actions/setup-node@v3
         with:
-          node-version: 18.15.0
+          node-version: 18.13.0
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
