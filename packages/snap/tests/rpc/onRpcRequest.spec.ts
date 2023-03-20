@@ -115,7 +115,7 @@ describe('onRpcRequest', () => {
       expect(saveRes.data).toEqual([
         {
           id: expect.any(String),
-          store: 'snap',
+          store: ['snap'],
         },
       ]);
 
@@ -170,7 +170,7 @@ describe('onRpcRequest', () => {
       expect(saveRes.data).toEqual([
         {
           id: expect.any(String),
-          store: 'snap',
+          store: ['snap'],
         },
       ]);
 
@@ -239,14 +239,10 @@ describe('onRpcRequest', () => {
         throw saveRes.error;
       }
 
-      expect(saveRes.data).toIncludeSameMembers([
+      expect(saveRes.data).toEqual([
         {
           id: expect.any(String),
-          store: 'snap',
-        },
-        {
-          id: expect.any(String),
-          store: 'ceramic',
+          store: expect.arrayContaining(['snap', 'ceramic']),
         },
       ]);
 
@@ -749,7 +745,7 @@ describe('onRpcRequest', () => {
       expect(saveRes.data).toEqual([
         {
           id: expect.any(String),
-          store: 'snap',
+          store: ['snap'],
         },
       ]);
 
@@ -814,7 +810,7 @@ describe('onRpcRequest', () => {
       expect(saveRes.data).toEqual([
         {
           id: expect.any(String),
-          store: 'snap',
+          store: ['snap'],
         },
       ]);
 
@@ -880,7 +876,7 @@ describe('onRpcRequest', () => {
       expect(saveRes.data).toEqual([
         {
           id: expect.any(String),
-          store: 'snap',
+          store: ['snap'],
         },
       ]);
 
