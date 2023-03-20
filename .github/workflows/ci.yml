@@ -9,26 +9,32 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   main:
     name: Nx Cloud - Main Job
-    uses: ./.github/workflows/nx-cloud-main.yml
-    secrets: inherit
+    uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.11.3
+    secrets:
+      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     with:
       node-version: 18.13.0
       number-of-agents: 3
       main-branch-name: 'develop'
       init-commands: |
-        pnpm exec nx-cloud start-ci-run --stop-agents-after="build" --agent-count=3
+        pnpm nx-cloud start-ci-run --stop-agents-after="build" --agent-count=3
       parallel-commands-on-agents: |
-        pnpm exec nx affected --target=lint --parallel=3
-        pnpm exec nx affected --target=test:ci --parallel=3
-        pnpm exec nx affected --target=build --parallel=3
+        pnpm nx affected --target=lint --exclude @blockchain-lab-um/website --parallel=3
+        pnpm nx affected --target=test:ci --exclude @blockchain-lab-um/website --parallel=3
+        pnpm nx affected --target=build --exclude @blockchain-lab-um/website --parallel=3
 
   agents:
     name: Nx Cloud - Agents
-    uses: ./.github/workflows/nx-cloud-agents.yml
-    secrets: inherit
+    uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.11.3
+    secrets:
+      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     with:
       number-of-agents: 3
       node-version: 18.13.0

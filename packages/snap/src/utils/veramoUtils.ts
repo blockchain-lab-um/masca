@@ -3,6 +3,7 @@ import {
   CreateVPRequestParams,
   QueryVCsOptions,
   QueryVCsRequestResult,
+  VerifyDataRequestParams,
 } from '@blockchain-lab-um/ssi-snap-types';
 import {
   Filter,
@@ -14,6 +15,7 @@ import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
 import {
   IIdentifier,
+  IVerifyResult,
   MinimalImportableKey,
   VerifiablePresentation,
   W3CVerifiableCredential,
@@ -127,7 +129,7 @@ export async function veramoQueryVCs(args: {
 
   for (const vc of result) {
     if (options.returnStore && !vc.metadata.store) {
-      throw new Error('Missing store in VC metadata'); // TODO (Martin): Handle this better
+      throw new Error('Missing store in VC metadata');
     }
 
     const existingVC = vcs.get(vc.metadata.id);
@@ -151,7 +153,7 @@ export async function veramoQueryVCs(args: {
 export async function veramoCreateVP(
   params: ApiParams,
   createVPParams: CreateVPRequestParams
-): Promise<VerifiablePresentation | null> {
+): Promise<VerifiablePresentation> {
   const vcsMetadata = createVPParams.vcs;
   const domain = createVPParams.proofOptions?.domain;
   const challenge = createVPParams.proofOptions?.challenge;
@@ -183,7 +185,10 @@ export async function veramoCreateVP(
     }
   }
 
-  if (vcs.length === 0) return null;
+  if (vcs.length === 0) {
+    throw new Error('VC does not exist');
+  }
+
   const config = state.snapConfig;
   const content = panel([
     heading('Create VP'),
@@ -206,5 +211,38 @@ export async function veramoCreateVP(
     });
     return vp;
   }
-  return null;
+
+  throw new Error('User rejected create VP request');
+}
+
+export async function veramoVerifyData(args: {
+  snap: SnapsGlobalObject;
+  ethereum: MetaMaskInpageProvider;
+  data: VerifyDataRequestParams;
+}): Promise<IVerifyResult> {
+  try {
+    const { snap, ethereum, data } = args;
+    const { credential, presentation } = data;
+
+    const agent = await getAgent(snap, ethereum);
+
+    if (credential) {
+      const vcResult = (await agent.verifyCredential({
+        credential,
+      })) as IVerifyResult;
+      return vcResult;
+    }
+    if (presentation) {
+      const vpResult = (await agent.verifyPresentation({
+        presentation,
+      })) as IVerifyResult;
+      return vpResult;
+    }
+    return {
+      verified: false,
+      error: new Error('No valid credential or presentation.'),
+    } as IVerifyResult;
+  } catch (error: unknown) {
+    return { verified: false, error: error as Error } as IVerifyResult;
+  }
 }

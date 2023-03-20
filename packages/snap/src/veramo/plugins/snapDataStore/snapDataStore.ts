@@ -55,7 +55,6 @@ export class SnapDIDStore extends AbstractDIDStore {
   }): Promise<IIdentifier> {
     const state = await getSnapState(this.snap);
     const account = await getCurrentAccount(this.ethereum);
-    if (!account) throw Error('User denied error');
     const { identifiers } = state.accountState[account];
 
     if (did && !alias) {
@@ -84,10 +83,10 @@ export class SnapDIDStore extends AbstractDIDStore {
   async deleteDID({ did }: { did: string }) {
     const state = await getSnapState(this.snap);
     const account = await getCurrentAccount(this.ethereum);
-    if (!account) throw Error('User denied error');
 
-    if (!state.accountState[account].identifiers[did])
+    if (!state.accountState[account].identifiers[did]) {
       throw Error('Identifier not found');
+    }
 
     delete state.accountState[account].identifiers[did];
     await updateSnapState(this.snap, state);
@@ -97,8 +96,6 @@ export class SnapDIDStore extends AbstractDIDStore {
   async importDID(args: IIdentifier) {
     const state = await getSnapState(this.snap);
     const account = await getCurrentAccount(this.ethereum);
-    if (!account) throw Error('User denied error');
-
     const identifier = { ...args };
     // eslint-disable-next-line no-restricted-syntax
     for (const key of identifier.keys) {
@@ -117,7 +114,6 @@ export class SnapDIDStore extends AbstractDIDStore {
   }): Promise<IIdentifier[]> {
     const state = await getSnapState(this.snap);
     const account = await getCurrentAccount(this.ethereum);
-    if (!account) throw Error('User denied error');
 
     let result: IIdentifier[] = [];
     // eslint-disable-next-line no-restricted-syntax
@@ -160,7 +156,6 @@ export class SnapVCStore extends AbstractDataStore {
     const { filter } = args;
     const state = await getSnapState(this.snap);
     const account = await getCurrentAccount(this.ethereum);
-    if (!account) throw Error('Cannot get current account');
 
     if (filter && filter.type === 'id') {
       try {
@@ -216,7 +211,6 @@ export class SnapVCStore extends AbstractDataStore {
   async delete({ id }: { id: string }) {
     const state = await getSnapState(this.snap);
     const account = await getCurrentAccount(this.ethereum);
-    if (!account) throw Error('Cannot get current account');
 
     if (!state.accountState[account].vcs[id]) throw Error('ID not found');
 
@@ -231,7 +225,6 @@ export class SnapVCStore extends AbstractDataStore {
     const vc = args.data;
     const state = await getSnapState(this.snap);
     const account = await getCurrentAccount(this.ethereum);
-    if (!account) throw Error('Cannot get current account');
 
     const id = sha256(JSON.stringify(vc));
 
@@ -249,7 +242,6 @@ export class SnapVCStore extends AbstractDataStore {
     // TODO implement filter (in ceramic aswell)
     const state = await getSnapState(this.snap);
     const account = await getCurrentAccount(this.ethereum);
-    if (!account) throw Error('Cannot get current account');
 
     state.accountState[account].vcs = {};
     return true;

@@ -41,6 +41,7 @@ module.exports = {
           '**/*.spec.ts',
           '**/*.e2e-spec.ts',
           '**/webpack.config.ts',
+          'tsup.config.ts',
         ],
       },
     ],

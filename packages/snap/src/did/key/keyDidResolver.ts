@@ -66,11 +66,7 @@ export const resolveDidKey: DIDResolver = async (
   options: DIDResolutionOptions
 ): Promise<DIDResolutionResult> => {
   try {
-    // FIXME: Update this part
     const account = await getCurrentAccount(ethereum);
-    if (!account) throw Error('User denied error');
-    // --------
-
     const startsWith = parsed.did.substring(0, 12);
     if (startsWithMap[startsWith] !== undefined) {
       const didDocument = await startsWithMap[startsWith](

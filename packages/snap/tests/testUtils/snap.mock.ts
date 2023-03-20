@@ -42,7 +42,6 @@ export class SnapMock implements ISnapMock {
     return signature;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private async snapEthCall(data: any[]): Promise<string> {
     const apiKey = 'NRFBwig_CLVL0WnQLY3dUo8YkPmW-7iN';
     const provider = new providers.AlchemyProvider('goerli', apiKey);
@@ -50,7 +49,6 @@ export class SnapMock implements ISnapMock {
     return provider.call(data[0], data[1]);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private async snapEthLogs(data: any[]): Promise<unknown> {
     const apiKey = 'NRFBwig_CLVL0WnQLY3dUo8YkPmW-7iN';
     const provider = new providers.AlchemyProvider('goerli', apiKey);
@@ -59,7 +57,7 @@ export class SnapMock implements ISnapMock {
   }
 
   readonly rpcMocks = {
-    snap_dialog: jest.fn(),
+    snap_dialog: jest.fn().mockReturnValue(true),
     eth_requestAccounts: jest.fn().mockResolvedValue([address]),
     eth_chainId: jest.fn().mockResolvedValue('0x5'),
     net_version: jest.fn().mockResolvedValue('5'),
@@ -91,13 +89,13 @@ export class SnapMock implements ISnapMock {
     eth_signTypedData_v4: jest
       .fn()
       .mockImplementation((...params: unknown[]) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unused-vars, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unused-vars, @typescript-eslint/no-unsafe-argument
         const { domain, types, message } = JSON.parse(params[1] as any);
 
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         delete types.EIP712Domain;
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, no-underscore-dangle
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         return this.snap._signTypedData(domain, types, message);
       }),
   };

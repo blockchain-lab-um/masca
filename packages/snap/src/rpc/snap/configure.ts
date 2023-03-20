@@ -22,5 +22,6 @@ export async function togglePopups(params: ApiParams): Promise<boolean> {
     await updatePopups(snap, state);
     return true;
   }
-  return false;
+
+  throw new Error('User rejected disabling popups');
 }

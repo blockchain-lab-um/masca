@@ -5,6 +5,7 @@ import { CodecName, MULTICODECS } from '../constants';
  *
  * @param {CodecName} multicodec
  * @param {Uint8Array} data
+ *
  * @returns {Uint8Array}
  */
 export const addMulticodecPrefix = (

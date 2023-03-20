@@ -42,5 +42,6 @@ export async function deleteVC(
     });
     return res;
   }
-  throw new Error('User rejected');
+
+  throw new Error('User rejected the request.');
 }
