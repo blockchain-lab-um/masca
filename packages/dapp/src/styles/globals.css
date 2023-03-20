@@ -19,12 +19,6 @@ body {
   overflow-x: hidden;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: light;
-  }
-}
-
 @layer components {
   .animated-transition {
     @apply transition-all duration-200 ease-in;
