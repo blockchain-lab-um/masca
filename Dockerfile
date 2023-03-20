@@ -27,7 +27,5 @@ RUN pnpm install
 # Copy all other files
 COPY . .
 
-ENV NODE_ENV=production
-
 # Build affected projects
 RUN pnpm build:docker
