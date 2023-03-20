@@ -4,6 +4,7 @@ import {
   QueryVCsOptions,
   QueryVCsRequestResult,
   SaveVCRequestResult,
+  VerifyDataRequestParams,
 } from '@blockchain-lab-um/ssi-snap-types';
 import { Filter } from '@blockchain-lab-um/veramo-vc-manager';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
