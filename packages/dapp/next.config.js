@@ -18,7 +18,7 @@ const isProd = process.env.NODE_ENV === 'production';
  */
 const nextConfig = {
   // FIXME: On release change to /masca
-  basePath: '/dapp',
+  basePath: '/ssi-snap',
   reactStrictMode: true,
   swcMinify: true,
   // https://nextjs.org/docs/advanced-features/output-file-tracing#automatically-copying-traced-files
