@@ -15,7 +15,7 @@ As already mentioned, SSI Snap is a MetaMask Snap extension. MetaMask Snaps is a
 
 Veramo client powers the SSI Snap. Inside SSI Snap, Veramo Client is used to manage DIDs and VCs, using Veramos **DIDManager**, **KeyManager** and **PrivateKeyManager** plugins and our custom **[DataManager plugin](../libraries/data-manager)**.
 
-**DIDManager**, **KeyManager**, **PrivateKeyManager** and **[DataManager](../libraries/data-manager)** plugins take care of managing and storing data. They all come with an abstract data-store class, e.g. [AbstractVCStore](https://github.com/blockchain-lab-um/veramo-vc-manager/blob/main/src/vc-store/abstract-vc-store.ts). Using said class, we implemented custom data-store plugins, that save data inside the MetaMask state or on the Ceramic Network.
+**DIDManager**, **KeyManager**, **PrivateKeyManager** and **[DataManager](../libraries/data-manager)** plugins take care of managing and storing data. They all come with an abstract data-store class, e.g. [AbstractDataStore](https://github.com/blockchain-lab-um/ssi-snap/blob/master/packages/vcmanager/src/data-store/abstractDataStore.ts). Using said class, we implemented custom data-store plugins, that save data inside the MetaMask state or on the Ceramic Network.
 
 These abstract classes make implementing different ways of storing data easy.
 

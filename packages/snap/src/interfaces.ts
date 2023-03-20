@@ -72,4 +72,5 @@ export interface ApiParams {
   ethereum: MetaMaskInpageProvider;
   account: string;
   bip44CoinTypeNode?: BIP44CoinTypeNode;
+  origin: string;
 }

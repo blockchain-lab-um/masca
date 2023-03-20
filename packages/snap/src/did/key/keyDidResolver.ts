@@ -22,6 +22,7 @@ export const resolveSecp256k1 = async (
     state,
     account,
     ethereum,
+    origin: '',
   });
 
   // TODO: Change id ?

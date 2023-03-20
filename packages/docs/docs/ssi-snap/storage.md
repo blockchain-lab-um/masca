@@ -17,7 +17,7 @@ Data-store plugins, used by Veramo Client and Manager plugins, modify the state.
 
 :::info Private Keys
 
-It is important to note that MetaMask Account private keys are **NEVER** exported from MetaMask! They are only used during RPC calls and are deleted from memory after the RPC method is done!
+It is important to note that MetaMask Account private keys are **NEVER** exported from MetaMask! They are only used during RPC calls and are deleted from memory after the RPC method finishes with the execution!
 
 :::
 

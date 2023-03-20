@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/blockchain-lab-um/ssi-snap/compare/ssi-snap-vcmanager-v1.4.0...ssi-snap-vcmanager-v1.5.0) (2023-03-20)
+
+
+### chore
+
+* **ssi-snap-vcmanager:** Synchronize ssi-snap-core versions
+
 ## [1.4.0](https://github.com/blockchain-lab-um/ssi-snap/compare/ssi-snap-vcmanager-v1.3.0...ssi-snap-vcmanager-v1.4.0) (2023-03-01)
 
 
