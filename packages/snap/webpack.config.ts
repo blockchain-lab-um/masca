@@ -44,7 +44,6 @@ const common: Configuration = {
   },
   plugins: [
     new WebpackBarPlugin(),
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     new ProvidePlugin({
       Buffer: ['buffer', 'Buffer'],
     }),
@@ -61,7 +60,6 @@ const common: Configuration = {
       },
     }),
   ],
-  //  stats: "errors-only",
   watchOptions: {
     ignored: ['**/snap.manifest.json'],
   },

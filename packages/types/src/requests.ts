@@ -14,7 +14,7 @@ import {
   SetVCStore,
   SwitchMethod,
   TogglePopups,
-} from './methods';
+} from './methods.js';
 
 export type MetaMaskSSISnapRPCRequest =
   | QueryVCs

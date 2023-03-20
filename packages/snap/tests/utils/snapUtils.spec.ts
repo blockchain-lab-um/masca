@@ -23,16 +23,6 @@ import {
 } from '../testUtils/constants';
 import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
 
-jest
-  .spyOn(snapUtils, 'getCurrentAccount')
-  // eslint-disable-next-line @typescript-eslint/require-await
-  .mockImplementation(async () => address);
-
-jest
-  .spyOn(snapUtils, 'getCurrentNetwork')
-  // eslint-disable-next-line @typescript-eslint/require-await
-  .mockImplementation(async () => '0x5');
-
 describe('Utils [snap]', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
   let ethereumMock: MetaMaskInpageProvider;
