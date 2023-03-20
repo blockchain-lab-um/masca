@@ -52,14 +52,11 @@ export async function changeCurrentMethod(
   account: string,
   didMethod: AvailableMethods
 ): Promise<string> {
-  if (state.accountState[account].accountConfig.ssi.didMethod !== didMethod) {
-    // eslint-disable-next-line no-param-reassign
-    state.accountState[account].accountConfig.ssi.didMethod = didMethod;
-    await updateSnapState(snap, state);
-    const did = await getCurrentDid(ethereum, state, account);
-    return did;
-  }
-  return '';
+  // eslint-disable-next-line no-param-reassign
+  state.accountState[account].accountConfig.ssi.didMethod = didMethod;
+  await updateSnapState(snap, state);
+  const did = await getCurrentDid(ethereum, state, account);
+  return did;
 }
 
 export async function resolveDid(did: string): Promise<DIDResolutionResult> {
