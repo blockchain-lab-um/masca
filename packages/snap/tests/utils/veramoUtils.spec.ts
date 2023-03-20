@@ -255,7 +255,7 @@ describe('Utils [veramo]', () => {
         'snap',
         'ceramic',
       ]);
-      expect(res).toEqual(expectedResult);
+      expect(res).toIncludeSameMembers(expectedResult);
 
       await veramoDeleteVC({
         snap: snapMock,
