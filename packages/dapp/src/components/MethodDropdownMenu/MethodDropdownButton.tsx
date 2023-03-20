@@ -25,7 +25,7 @@ export const DropdownButton = ({
           }}
           className={clsx(
             active
-              ? 'dark:bg-navy-blue-400 dark:text-orange-accent-dark/95 animated-transition  cursor-pointer bg-pink-50 text-pink-600 '
+              ? 'dark:bg-navy-blue-400 dark:text-orange-accent-dark/95 animated-transition cursor-pointer bg-pink-50 text-pink-600 '
               : '',
             selected
               ? 'dark:text-orange-accent-dark dark:bg-navy-blue-500 dark:hover:bg-navy-blue-500 bg-white text-pink-700'

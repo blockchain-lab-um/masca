@@ -21,7 +21,7 @@ type ButtonProps = {
 
 const variants: Record<string, string> = {
   primary:
-    'bg-pink-500 dark:bg-orange-accent-dark dark:text-navy-blue-900  hover:opacity-80 text-white',
+    'bg-pink-500 dark:bg-orange-accent-dark dark:text-navy-blue-900 hover:opacity-80 text-white',
   'primary-active':
     'text-orange-500 border border-orange-500 bg-white hover:text-white hover:bg-orange-500',
   secondary:

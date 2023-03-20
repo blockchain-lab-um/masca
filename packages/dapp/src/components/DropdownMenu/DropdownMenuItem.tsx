@@ -19,7 +19,7 @@ const variants: Record<string, string> = {
   primary: 'bg-orange-100 text-orange-700 ',
   secondary: 'bg-navy-blue-100 text-navy-blue-600 ',
   'primary-active':
-    'dark:bg-navy-blue-400 dark:text-orange-accent-dark animated-transition  cursor-pointer bg-pink-50 text-pink-600  ',
+    'dark:bg-navy-blue-400 dark:text-orange-accent-dark animated-transition cursor-pointer bg-pink-50 text-pink-600  ',
   'secondary-active': 'bg-navy-blue-100 text-navy-blue-600 ',
   gray: 'bg-gray-100 text-gray-800 ',
 };
@@ -47,7 +47,7 @@ export const DropdownMenuItem = ({
             handleBtn(children as string);
           }}
           className={clsx(
-            'text-md  block  rounded-full py-2 text-center',
+            'text-md block rounded-full py-2 text-center',
             active ? variants[variant] : '',
             selected
               ? variantsSelected[variant]

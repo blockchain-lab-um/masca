@@ -30,7 +30,7 @@ const VC = () => {
           <title>Masca | Settings</title>
           <meta name="description" content="Settings page for Masca." />
         </Head>
-        <div className="flex h-full min-h-[50vh] justify-center rounded-3xl bg-white p-5 shadow-lg  dark:bg-gray-800 dark:shadow-orange-900">
+        <div className="flex h-full min-h-[50vh] justify-center rounded-3xl bg-white p-5 shadow-lg dark:bg-gray-800 dark:shadow-orange-900">
           <ConnectedProvider>
             <div className="flex flex-col">VC not found!</div>
           </ConnectedProvider>
@@ -46,7 +46,7 @@ const VC = () => {
         <meta name="description" content="VC page for Masca." />
       </Head>
       <div className="grid place-items-center">
-        <div className="w-full  max-w-sm md:max-w-xl lg:max-w-2xl xl:w-[50rem] xl:max-w-[50rem]">
+        <div className="w-full max-w-sm md:max-w-xl lg:max-w-2xl xl:w-[50rem] xl:max-w-[50rem]">
           <Tab.Group>
             <div className="flex items-center justify-between">
               <Tab.List className="h-19 dark:bg-navy-blue-700 relative flex w-36 flex-shrink-0 justify-between rounded-full bg-white shadow-md">

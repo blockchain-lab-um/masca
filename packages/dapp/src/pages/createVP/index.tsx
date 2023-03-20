@@ -98,7 +98,7 @@ const CreateVP = () => {
         <meta name="description" content="Create VP page for Masca." />
       </Head>
       <div className="grid place-items-center">
-        <div className="dark:bg-navy-blue-800 dark:text-navy-blue-400 flex h-full min-h-[40vh] w-full max-w-sm flex-col rounded-3xl bg-white shadow-lg md:max-w-md lg:max-w-xl  xl:w-[34rem] xl:max-w-[40rem]">
+        <div className="dark:bg-navy-blue-800 dark:text-navy-blue-400 flex h-full min-h-[40vh] w-full max-w-sm flex-col rounded-3xl bg-white shadow-lg md:max-w-md lg:max-w-xl xl:w-[34rem] xl:max-w-[40rem]">
           <ConnectedProvider>
             <div className="mt-5 flex w-full justify-between px-5">
               <Link href="dashboard">
@@ -155,7 +155,7 @@ const CreateVP = () => {
               </div>
               <div>
                 <div className="mt-16 flex items-baseline justify-between border-b border-gray-300 px-4">
-                  <div className="text-h5 dark:text-navy-blue-100  font-ubuntu mt-8 flex pl-2 font-medium text-gray-900">
+                  <div className="text-h5 dark:text-navy-blue-100 font-ubuntu mt-8 flex pl-2 font-medium text-gray-900">
                     ADVANCED{' '}
                     <InfoIcon>Only applicable to JWT Proof format.</InfoIcon>
                   </div>

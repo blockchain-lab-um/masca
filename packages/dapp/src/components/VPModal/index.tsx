@@ -43,7 +43,7 @@ function VPModal({ open, setOpen, vp }: VPModalProps) {
               <Dialog.Panel className="dark:bg-navy-blue-500 w-full max-w-md transform overflow-hidden rounded-2xl bg-orange-50 p-6 text-left align-middle shadow-xl transition-all md:max-w-xl lg:max-w-2xl">
                 <Dialog.Title
                   as="h3"
-                  className="text-h3 font-ubuntu dark:text-navy-blue-50 font-medium leading-6  text-gray-900"
+                  className="text-h3 font-ubuntu dark:text-navy-blue-50 font-medium leading-6 text-gray-900"
                 >
                   Verifiable Presentation
                 </Dialog.Title>

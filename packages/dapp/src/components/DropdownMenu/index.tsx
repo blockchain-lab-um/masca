@@ -30,19 +30,19 @@ const sizes: Record<string, string> = {
 
 const variants: Record<string, string> = {
   primary:
-    'bg-gradient-to-b from-pink-500 to-orange-500 hover:bg-gradient-to-b hover:opacity-80 text-white  animated-transition ',
+    'bg-gradient-to-b from-pink-500 to-orange-500 hover:bg-gradient-to-b hover:opacity-80 text-white animated-transition ',
   secondary:
     'bg-navy-blue-500 text-white btn hover:opacity-80   animated-transition ',
   'primary-active':
     'text-gray-700 dark:text-navy-blue-300 border border-2 border-gray-300 animated-transition font-semibold ',
   'secondary-active':
-    'text-navy-blue-500 border border-1 border-navy-blue-300  animated-transition ',
+    'text-navy-blue-500 border border-1 border-navy-blue-300 animated-transition ',
   gray: 'bg-gray-200 text-gray-800 btn hover:opacity-80 animated-transition ',
 };
 
 const variantsHover: Record<string, string> = {
   primary:
-    'bg-gradient-to-b from-pink-500 to-orange-500 hover:bg-gradient-to-b hover:opacity-80 text-white  animated-transition ',
+    'bg-gradient-to-b from-pink-500 to-orange-500 hover:bg-gradient-to-b hover:opacity-80 text-white animated-transition ',
   secondary: 'bg-navy-blue-500 text-white btn hover:opacity-80 ',
   'primary-active': ' ',
   'secondary-active': ' ',
@@ -93,7 +93,7 @@ export default function DropdownMenu({
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="dark:bg-navy-blue-500  absolute right-0 mt-1 w-48 rounded-3xl bg-white shadow-lg focus:outline-none">
+            <Menu.Items className="dark:bg-navy-blue-500 absolute right-0 mt-1 w-48 rounded-3xl bg-white shadow-lg focus:outline-none">
               <div className="p-1">
                 {items.map((item, id) => {
                   return (
