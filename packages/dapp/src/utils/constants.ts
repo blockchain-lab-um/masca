@@ -1,1 +1,1 @@
-export const BASE_PATH = '/dapp';
+export const BASE_PATH = '/ssi-snap';
