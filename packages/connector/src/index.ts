@@ -5,10 +5,10 @@ import {
 import { Result, ResultObject, isError } from '@blockchain-lab-um/utils';
 import detectEthereumProvider from '@metamask/detect-provider';
 
-import { MetaMaskSSISnap } from './snap';
+import { MetaMaskSSISnap } from './snap.js';
 
-export { MetaMaskSSISnap } from './snap';
-export { isSnapInstalled } from './utils';
+export { MetaMaskSSISnap } from './snap.js';
+export { isSnapInstalled } from './utils.js';
 
 export type SnapInstallationParams = {
   snapId?: string;

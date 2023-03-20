@@ -6,7 +6,7 @@ import {
   SaveVCRequestParams,
   SetVCStoreRequestParams,
   SwitchMethodRequestParams,
-} from './params';
+} from './params.js';
 
 export type QueryVCs = {
   method: 'queryVCs';

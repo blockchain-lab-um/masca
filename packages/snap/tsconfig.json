@@ -1,13 +1,16 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "experimentalDecorators": true,
     "outDir": "./dist",
     "baseUrl": ".",
-    "typeRoots": ["./node_modules/@types", "../../node_modules/@types"],
-    "sourceMap": true
+
+    "declaration": true,
+    "inlineSourceMap": true,
+    "incremental": false,
+    "removeComments": true
   },
   "files": [
+    "jest.d.ts",
     "../../node_modules/.pnpm/@metamask+snaps-types@0.27.1_rvr7xsi54kylxpxjwsjvbo3fce/node_modules/@metamask/snaps-types/dist/global.d.ts"
   ],
   "include": ["src/**/*", "tests/**/*"]

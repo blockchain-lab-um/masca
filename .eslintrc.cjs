@@ -3,13 +3,36 @@ module.exports = {
   extends: [
     'airbnb-base',
     'airbnb-typescript/base',
-    'plugin:jest/recommended',
-    'plugin:jest/style',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:prettier/recommended',
   ],
-  plugins: ['@typescript-eslint/eslint-plugin', 'unused-imports'],
+  overrides: [
+    {
+      files: [
+        '**/*.spec.ts',
+        '**/*.e2e-spec.ts',
+        '**/test/**',
+        '**/tests/**',
+        '**/__tests__/**',
+        '**/*.spec.ts',
+      ],
+      plugins: ['jest'],
+      extends: ['plugin:jest/recommended', 'plugin:jest/style'],
+      rules: {
+        'jest/prefer-expect-assertions': 'off',
+        '@typescript-eslint/no-unsafe-assignment': 'off',
+        '@typescript-eslint/no-explicit-any': 'off',
+        '@typescript-eslint/no-unsafe-member-access': 'off',
+      },
+      env: { jest: true },
+    },
+  ],
+  plugins: [
+    '@typescript-eslint/eslint-plugin',
+    'unused-imports',
+    'jest-extended',
+  ],
   parser: '@typescript-eslint/parser',
   rules: {
     // other rules
@@ -41,17 +64,18 @@ module.exports = {
           '**/*.spec.ts',
           '**/*.e2e-spec.ts',
           '**/webpack.config.ts',
-          'tsup.config.ts',
+          '**/tsup.config.ts',
+          '**/jest.d.ts',
         ],
       },
     ],
+
     // for prettier
     'prettier/prettier': ['error', { singleQuote: true }],
   },
   ignorePatterns: [
     '**/node_modules/**',
     '**/dist/**',
-    '**/!.eslintrc.js',
     '**/!.eslintrc.cjs',
     '**/coverage/**',
     '**/build/**',

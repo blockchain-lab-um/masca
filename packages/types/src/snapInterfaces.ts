@@ -1,4 +1,4 @@
-import { AvailableMethods, AvailableVCStores } from './constants';
+import { AvailableMethods, AvailableVCStores } from './constants.js';
 
 export type SSISnapConfig = {
   snap: {
