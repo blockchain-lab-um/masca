@@ -1,5 +1,7 @@
-import { SaveVCRequestParams } from '@blockchain-lab-um/ssi-snap-types';
-import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-vc-manager';
+import {
+  SaveVCRequestParams,
+  SaveVCRequestResult,
+} from '@blockchain-lab-um/ssi-snap-types';
 import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
 
 import { ApiParams } from '../../interfaces';
@@ -9,7 +11,7 @@ import { veramoSaveVC } from '../../utils/veramoUtils';
 export async function saveVC(
   params: ApiParams,
   { verifiableCredential, options }: SaveVCRequestParams
-): Promise<IDataManagerSaveResult[]> {
+): Promise<SaveVCRequestResult[]> {
   const { store = 'snap' } = options || {};
   const { snap, ethereum } = params;
 

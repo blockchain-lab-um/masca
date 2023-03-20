@@ -1,4 +1,4 @@
-import StylelintPlugin from 'stylelint-webpack-plugin';
+const StylelintPlugin = require('stylelint-webpack-plugin');
 
 // Content-Security-Policy
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
@@ -17,7 +17,7 @@ const isProd = process.env.NODE_ENV === 'production';
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
-  // FIXME: On release change to /ssi-snap
+  // FIXME: On release change to /masca
   basePath: '/dapp',
   reactStrictMode: true,
   swcMinify: true,
@@ -85,4 +85,4 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
