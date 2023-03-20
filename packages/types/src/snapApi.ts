@@ -5,15 +5,15 @@ import {
   W3CVerifiableCredential,
 } from '@veramo/core';
 
-import { AvailableMethods, AvailableVCStores } from './constants';
+import { AvailableMethods, AvailableVCStores } from './constants.js';
 import {
   CreateVPRequestParams,
   DeleteVCsOptions,
   QueryVCsRequestParams,
   SaveVCOptions,
-} from './params';
-import type { QueryVCsRequestResult, SaveVCRequestResult } from './results';
-import { SSIAccountConfig, SSISnapConfig } from './snapInterfaces';
+} from './params.js';
+import type { QueryVCsRequestResult, SaveVCRequestResult } from './results.js';
+import { SSIAccountConfig, SSISnapConfig } from './snapInterfaces.js';
 
 export interface SSISnapApi {
   queryVCs(

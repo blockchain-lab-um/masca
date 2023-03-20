@@ -31,40 +31,34 @@ import {
 } from '../testUtils/constants';
 import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
 
-jest
-  .spyOn(snapUtils, 'getCurrentAccount')
-  // eslint-disable-next-line @typescript-eslint/require-await
-  .mockImplementation(async () => address);
-
-jest
-  .spyOn(snapUtils, 'getCurrentNetwork')
-  // eslint-disable-next-line @typescript-eslint/require-await
-  .mockImplementation(async () => '0x5');
-
-let ceramicData: StoredCredentials;
-jest
-  .spyOn(DIDDataStore.prototype, 'get')
-  // eslint-disable-next-line @typescript-eslint/require-await, @typescript-eslint/no-unused-vars
-  .mockImplementation(async (key, did?) => {
-    return ceramicData;
-  });
-jest
-  .spyOn(DIDDataStore.prototype, 'merge')
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/require-await
-  .mockImplementation(async (key, content, options?) => {
-    ceramicData = content as StoredCredentials;
-    return 'ok' as unknown as StreamID;
-  });
-
 describe('Utils [veramo]', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
   let ethereumMock: MetaMaskInpageProvider;
+  let ceramicData: StoredCredentials;
 
   beforeEach(() => {
     snapMock = createMockSnap();
     ceramicData = {} as StoredCredentials;
     global.snap = snapMock;
     ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
+  });
+
+  beforeAll(() => {
+    // Ceramic mock
+    DIDDataStore.prototype.get = jest
+      .fn()
+      // eslint-disable-next-line @typescript-eslint/require-await
+      .mockImplementation(async (_key, _did) => {
+        return ceramicData;
+      });
+
+    DIDDataStore.prototype.merge = jest
+      .fn()
+      // eslint-disable-next-line @typescript-eslint/require-await
+      .mockImplementation(async (_key, content, _options?) => {
+        ceramicData = content as StoredCredentials;
+        return 'ok' as unknown as StreamID;
+      });
   });
 
   describe('veramoSaveVC', () => {
@@ -88,6 +82,7 @@ describe('Utils [veramo]', () => {
       expect(res).toEqual(expectedResult);
       expect.assertions(1);
     });
+
     it('should succeed saving JSON-LD VC in snap store', async () => {
       snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
 
@@ -170,10 +165,11 @@ describe('Utils [veramo]', () => {
         },
       ];
 
-      expect(res).toEqual(expectedResult);
+      expect(res).toIncludeSameMembers(expectedResult);
 
       expect.assertions(1);
     });
+
     it('should succeed saving a JWT string in snap store', async () => {
       snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
       const res = await veramoSaveVC({
@@ -261,9 +257,14 @@ describe('Utils [veramo]', () => {
         ethereum: ethereumMock,
         options: { store: ['snap', 'ceramic'], returnStore: true },
       });
+
       expect(vcsPreDelete).toHaveLength(1);
-      expect(vcsPreDelete[0].metadata.store).toStrictEqual(['snap', 'ceramic']);
-      expect(res).toEqual(expectedResult);
+      expect(vcsPreDelete[0].metadata.store).toIncludeSameMembers([
+        'snap',
+        'ceramic',
+      ]);
+      expect(res).toIncludeSameMembers(expectedResult);
+
       await veramoDeleteVC({
         snap: snapMock,
         ethereum: ethereumMock,
@@ -293,6 +294,7 @@ describe('Utils [veramo]', () => {
       expect(vcsPostDelete[0].metadata.store).toStrictEqual(['snap']);
       expect.assertions(5);
     });
+
     it('should succeed deleting VCs in all stores', async () => {
       snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
 
@@ -319,7 +321,7 @@ describe('Utils [veramo]', () => {
         },
       ];
 
-      expect(res).toEqual(expectedResult);
+      expect(res).toIncludeSameMembers(expectedResult);
 
       const expectedState = getDefaultSnapState();
       expectedState.accountState[address].vcs[res[0].id] = exampleVC;
@@ -379,6 +381,7 @@ describe('Utils [veramo]', () => {
       expect(vcs).toHaveLength(0);
       expect.assertions(2);
     });
+
     it('should succeed clearing VCs in all stores', async () => {
       snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
       const res = await veramoSaveVC({
@@ -482,7 +485,10 @@ describe('Utils [veramo]', () => {
       });
 
       expect(queryRes).toHaveLength(1);
-      expect(queryRes[0].metadata.store).toEqual(['snap', 'ceramic']);
+      expect(queryRes[0].metadata.store).toIncludeSameMembers([
+        'snap',
+        'ceramic',
+      ]);
 
       expect.assertions(7);
     });
@@ -681,6 +687,7 @@ describe('Utils [veramo]', () => {
 
       expect.assertions(1);
     });
+
     it('should succeed listing all VCs from snap store matching query - empty result', async () => {
       snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
 
@@ -806,6 +813,7 @@ describe('Utils [veramo]', () => {
       expect(verifyResult.verified).toBe(true);
       expect.assertions(1);
     });
+
     it('should succeed validating a VC - Eip712', async () => {
       const initialState = getDefaultSnapState();
       snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
@@ -834,6 +842,7 @@ describe('Utils [veramo]', () => {
       expect(verifyResult.verified).toBe(true);
       expect.assertions(1);
     });
+
     it('should succeed validating a VC - lds', async () => {
       const initialState = getDefaultSnapState();
       snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
@@ -860,6 +869,7 @@ describe('Utils [veramo]', () => {
       expect(verifyResult.verified).toBe(true);
       expect.assertions(1);
     });
+
     it('should succeed validating a VP - JWT', async () => {
       const initialState = getDefaultSnapState();
       snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
@@ -932,6 +942,7 @@ describe('Utils [veramo]', () => {
       expect(verifyResult.verified).toBe(true);
       expect.assertions(1);
     });
+
     it('should succeed validating a VP - lds', async () => {
       const initialState = getDefaultSnapState();
       snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);

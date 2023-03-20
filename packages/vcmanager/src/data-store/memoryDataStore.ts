@@ -7,7 +7,7 @@ import {
   IFilterArgs,
   IQueryResult,
   ISaveArgs,
-} from './abstractDataStore';
+} from './abstractDataStore.js';
 
 /**
  * An implementation of {@link AbstractDataStore} that stores everything in memory.

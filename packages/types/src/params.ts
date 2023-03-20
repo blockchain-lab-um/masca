@@ -7,7 +7,7 @@ import {
   AvailableMethods,
   AvailableVCStores,
   SupportedProofFormats,
-} from './constants';
+} from './constants.js';
 
 /**
  * Types

@@ -1,10 +1,10 @@
 module.exports = {
   root: true,
-  extends: ['../../.eslintrc.js'],
+  extends: ['../../.eslintrc.cjs'],
+  plugins: ['import'],
   parserOptions: {
+    tsconfigRootDir: __dirname,
     project: './tsconfig.eslint.json',
     sourceType: 'module',
-    tsconfigRootDir: __dirname,
   },
-  rules: {},
 };

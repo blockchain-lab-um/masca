@@ -1,9 +1,9 @@
 module.exports = {
   root: true,
-  extends: ['next/core-web-vitals', '../../.eslintrc.cjs'],
+  extends: ['../../.eslintrc.cjs'],
   parserOptions: {
-    tsconfigRootDir: __dirname,
     project: './tsconfig.eslint.json',
     sourceType: 'module',
+    tsconfigRootDir: __dirname,
   },
 };

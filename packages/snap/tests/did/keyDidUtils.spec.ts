@@ -9,7 +9,6 @@ import {
 import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
 
 describe('keyDidUtils', () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let snapMock: SnapsGlobalObject & SnapMock;
 
   beforeEach(() => {
