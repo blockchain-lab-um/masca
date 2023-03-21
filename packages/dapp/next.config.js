@@ -25,6 +25,8 @@ const nextConfig = {
   output: 'standalone',
   // https://nextjs.org/docs/messages/next-image-unconfigured-host
   images: {
+    // Disable image optimization
+    unoptimized: true,
     domains: [],
   },
   experimental: {
@@ -32,6 +34,7 @@ const nextConfig = {
       { loader: '@next/font/google', options: { subsets: ['latin'] } },
     ],
   },
+
   // Security headers and CSP
   // https://nextjs.org/docs/advanced-features/security-headers
   // Not supported with `next export`
