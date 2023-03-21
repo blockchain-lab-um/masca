@@ -18,7 +18,7 @@ RUN chown -R nginx:nginx /app && \
 USER nginx
 
 # Copy build artifacts
-COPY --from=builder /app/packages/dapp/out /app/dapp
+COPY --from=builder /app/packages/dapp/out /app/ssi-snap
 
 # Copy nginx config
 COPY --from=builder /app/packages/dapp/nginx.conf /etc/nginx/nginx.conf
