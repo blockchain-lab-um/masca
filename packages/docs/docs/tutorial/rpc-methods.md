@@ -226,13 +226,7 @@ Switch the DID method
 
 #### Parameters
 
-1. didMethod - name of did method ("did:ethr" or "did:key"). Must be one of methods returned by `getAvailableMethods`.
-
-:::danger
-
-DID:KEY support is experimental and still under development!
-
-:::
+1. didMethod - name of did method (`did:ethr`, `did:key`, or `did:pkh`). Must be one of methods returned by `getAvailableMethods`.
 
 ```typescript
 const response = await ethereum.request({
@@ -295,7 +289,7 @@ Change the selected VC Store plugin
 
 :::danger
 
-Ceramic network support is experimental and still under development!
+Ceramic Network support is experimental and still under active development!
 
 :::
 

@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.5.0](https://github.com/blockchain-lab-um/ssi-snap/compare/ssi-snap-types-v1.4.0...ssi-snap-types-v1.5.0) (2023-03-20)
+
+
+### :bug: Bug Fixes
+
+* changes switchDIDMethod return type ([#132](https://github.com/blockchain-lab-um/ssi-snap/issues/132)) ([8cd8a7a](https://github.com/blockchain-lab-um/ssi-snap/commit/8cd8a7a72fccf333c021a69b19fa920c8111ebda))
+* join VCs with same ID ([#129](https://github.com/blockchain-lab-um/ssi-snap/issues/129)) ([d04e89c](https://github.com/blockchain-lab-um/ssi-snap/commit/d04e89c35e378ff4e762212d5a2f3584a676dbe3))
+
+
+### :rocket: Features
+
+* adds verify data rpc method ([#133](https://github.com/blockchain-lab-um/ssi-snap/issues/133)) ([48b8a44](https://github.com/blockchain-lab-um/ssi-snap/commit/48b8a440876dfee7a39cd4edfb0d48fc4accd7ec))
+* new error handling ([#111](https://github.com/blockchain-lab-um/ssi-snap/issues/111)) ([f0f012b](https://github.com/blockchain-lab-um/ssi-snap/commit/f0f012b84a836fbc8d383cd93824f216abda2ef3))
+
 ## [1.4.0](https://github.com/blockchain-lab-um/ssi-snap/compare/ssi-snap-types-v1.3.0...ssi-snap-types-v1.4.0) (2023-03-01)
 
 

@@ -44,6 +44,7 @@ module.exports = {
       'WithStatement',
     ],
     // for unused-imports library
+
     '@typescript-eslint/no-unused-vars': 'off',
     'unused-imports/no-unused-imports': 'error',
     'unused-imports/no-unused-vars': [
@@ -53,7 +54,6 @@ module.exports = {
         argsIgnorePattern: '^_',
       },
     ],
-    // for nestjs
     'import/prefer-default-export': 0,
     'class-methods-use-this': 'off',
     // for tests
@@ -71,9 +71,11 @@ module.exports = {
         ],
       },
     ],
+
     // for prettier
     'prettier/prettier': ['error', { singleQuote: true }],
     '@typescript-eslint/require-await': 'off',
+    'import/extensions': 'off',
   },
   overrides: [
     {
@@ -98,5 +100,8 @@ module.exports = {
     '**/build/**',
     '**/.docusaurus/**',
     '**/next.config.js',
+    '**/out',
+    '**/.next',
+    'tsup.config.ts',
   ],
 };

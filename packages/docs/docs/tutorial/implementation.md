@@ -8,7 +8,7 @@ The **SSI Snap** is a MetaMask Snap, that can handle **DIDs**, securely store **
 
 :::danger
 
-Ceramic network and DID:KEY support are experimental and still under development!
+Ceramic Network support is experimental and still under development!
 
 :::
 

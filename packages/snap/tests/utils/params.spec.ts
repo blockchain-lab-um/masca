@@ -513,7 +513,7 @@ describe('Utils [params]', () => {
         )
       ).not.toThrow(Error);
     });
-    it('should  throw for list of string ids and wrong store', () => {
+    it('should throw for list of string ids and wrong store', () => {
       expect(() =>
         isValidDeleteVCRequest(
           {
@@ -525,7 +525,7 @@ describe('Utils [params]', () => {
         )
       ).toThrow('Store snapp is not supported!');
     });
-    it('should  throw for list of not string ids', () => {
+    it('should throw for list of not string ids', () => {
       expect(() =>
         isValidDeleteVCRequest(
           { id: ['123', 456] },
@@ -534,7 +534,7 @@ describe('Utils [params]', () => {
         )
       ).toThrow('ID is not a string or array of strings');
     });
-    it('should  throw for empty list of ids', () => {
+    it('should throw for empty list of ids', () => {
       expect(() =>
         isValidDeleteVCRequest({ id: [] }, address, getDefaultSnapState())
       ).toThrow('ID is not a string or array of strings');
