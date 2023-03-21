@@ -37,7 +37,7 @@ const config = (): IConfig => ({
 });
 
 export default ConfigModule.forRoot({
-  envFilePath: [`.env`],
+  envFilePath: [`.env.${process.env.NODE_ENV}`],
   load: [config],
   validationSchema: Joi.object({
     NODE_ENV: Joi.string()
