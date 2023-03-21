@@ -1,6 +1,6 @@
 import { TAgent } from '@veramo/core';
 
-import { IOIDCPlugin } from '../../src/types/IOIDCPlugin';
+import { IOIDCPlugin } from '../../src/types/IOIDCPlugin.js';
 
 export type ConfiguredAgent = TAgent<IOIDCPlugin>;
 

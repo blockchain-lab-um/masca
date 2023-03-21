@@ -1,9 +1,7 @@
-// TODO: REMOVE
-/* eslint-disable @typescript-eslint/require-await */
 // import fs from 'fs';
 
 // Shared tests
-import myPluginLogic, { ConfiguredAgent } from './shared/integration';
+import myPluginLogic, { ConfiguredAgent } from './shared/integration.js';
 
 jest.setTimeout(30000);
 
