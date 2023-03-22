@@ -7,6 +7,7 @@ import {
 
 import { AvailableMethods, AvailableVCStores } from './constants.js';
 import {
+  CreateVCRequestParams,
   CreateVPRequestParams,
   DeleteVCsOptions,
   QueryVCsRequestParams,
@@ -41,4 +42,7 @@ export interface SSISnapApi {
   getAccountSettings(): Promise<Result<SSIAccountConfig>>;
   getSnapSettings(): Promise<Result<SSISnapConfig>>;
   resolveDID(did: string): Promise<Result<DIDResolutionResult>>;
+  createVC(
+    params: CreateVCRequestParams
+  ): Promise<Result<W3CVerifiableCredential>>;
 }
