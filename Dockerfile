@@ -1,10 +1,18 @@
-FROM node:18.13.0-alpine3.16
+FROM node:18.13.0-bullseye-slim
 
-RUN apk add --no-cache libc6-compat git
+RUN apt-get update && apt-get install -y \
+  bash \
+  git \
+  g++ \
+  make \
+  python3 \
+  python3-pip \
+  && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
 # Install pnpm
-RUN npm i -g pnpm@7.25.1
+RUN npm i -g pnpm@7.30.0
 
 # Copy patches
 COPY ./patches ./patches
@@ -34,10 +42,13 @@ COPY ./apps/oidc/issuer/package.json ./apps/oidc/issuer/
 COPY ./apps/oidc/verifier/package.json ./apps/oidc/verifier/
 
 # Install all the dependencies
-RUN pnpm install
+RUN pnpm install --frozen-lockfile
 
 # Copy all other files
 COPY . .
+
+# Copy nx-cloud.env
+COPY ./nx-cloud.env ./
 
 # Build affected projects
 RUN pnpm build:docker

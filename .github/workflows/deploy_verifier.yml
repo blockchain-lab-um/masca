@@ -1,0 +1,72 @@
+name: Verifier deploy/build action
+
+on:
+  pull_request:
+    branches: [develop]
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'apps/oidc/verifier/**'
+      - 'Dockerfile'
+  push:
+    branches: [develop]
+    paths:
+      - 'packages/oidc/verifier/**'
+      - 'Dockerfile'
+
+jobs:
+  test-build:
+    # Test build on every PR to DEVELOP
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: nrwl/nx-set-shas@v3
+        with:
+          main-branch-name: 'develop'
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7.30.0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.13.0
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Lint
+        run: pnpm nx run @blockchain-lab-um/dapp:lint
+        env:
+          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+      - name: Test build dapp
+        run: pnpm nx run @blockchain-lab-um/dapp:build
+        env:
+          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+
+  deploy:
+    # Deploy when we PUSH to DEVELOP
+    if: ${{ (github.ref == 'refs/heads/develop') && (github.event_name == 'push') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Create nx-cloud.env
+        run: echo "NX_CLOUD_ACCESS_TOKEN=$NX_CLOUD_ACCESS_TOKEN" > nx-cloud.env
+        env:
+          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+      - name: Build blockchain-lab-um/ssi-snap
+        run: docker build . -t blockchain-lab-um/ssi-snap
+      - name: Build blockchain-lab-um/verifier
+        run: docker build ./apps/oidc/verifier -t blockchain-lab-um/verifier
+      - name: Change image tag
+        run: docker tag blockchain-lab-um/verifier:latest bclabum.informatika.uni-mb.si/registry/verifier:latest
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          registry: bclabum.informatika.uni-mb.si/registry
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Push to private docker registry
+        run: docker push bclabum.informatika.uni-mb.si/registry/verifier:latest
