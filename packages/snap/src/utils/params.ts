@@ -1,5 +1,6 @@
 import {
   AvailableVCStores,
+  CreateVCRequestParams,
   CreateVPRequestParams,
   DeleteVCsRequestParams,
   QueryVCsRequestParams,
@@ -342,4 +343,67 @@ export function isValidVerifyDataRequest(
     return;
 
   throw new Error('Invalid VerifyData request');
+}
+
+export function isValidCreateVCRequest(
+  params: unknown,
+  account: string,
+  state: SSISnapState
+): asserts params is CreateVCRequestParams {
+  const param = params as CreateVCRequestParams;
+  if (
+    param !== null &&
+    typeof param === 'object' &&
+    'minimalUnsignedCredential' in param &&
+    param.minimalUnsignedCredential !== null &&
+    typeof param.minimalUnsignedCredential === 'object'
+  ) {
+    // Check if proofFormat is valid
+    if (
+      'proofFormat' in param &&
+      param.proofFormat !== null &&
+      !isSupportedProofFormat(param.proofFormat as string)
+    ) {
+      throw new Error('Proof format not supported');
+    }
+    if (
+      'options' in param &&
+      param.options !== null &&
+      param.options?.save !== null &&
+      typeof param.options?.save !== 'boolean'
+    ) {
+      throw new Error('Save is not a boolean');
+    }
+
+    if (
+      'options' in param &&
+      param.options !== null &&
+      typeof param.options === 'object' &&
+      'store' in param.options &&
+      param.options?.store !== null
+    ) {
+      if (typeof param.options?.store === 'string') {
+        if (!isAvailableVCStores(param.options?.store)) {
+          throw new Error(`Store ${param.options?.store} is not supported!`);
+        }
+        if (!isEnabledVCStore(account, state, param.options?.store)) {
+          throw new Error(`Store ${param.options?.store} is not enabled!`);
+        }
+      } else if (
+        Array.isArray(param.options?.store) &&
+        param.options?.store.length > 0
+      ) {
+        (param.options?.store as [string]).forEach((store) => {
+          if (!isAvailableVCStores(store))
+            throw new Error(`Store ${store} is not supported!`);
+          if (!isEnabledVCStore(account, state, store as AvailableVCStores))
+            throw new Error(`Store ${store} is not enabled!`);
+        });
+      } else throw new Error('Store is invalid format');
+    }
+
+    return;
+  }
+
+  throw new Error('Invalid CreateVC request');
 }

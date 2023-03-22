@@ -7,6 +7,7 @@ import { getDid } from './rpc/did/getDID';
 import { resolveDID } from './rpc/did/resolveDID';
 import { switchMethod } from './rpc/did/switchMethod';
 import { togglePopups } from './rpc/snap/configure';
+import { createVC } from './rpc/vc/createVC';
 import { createVP } from './rpc/vc/createVP';
 import { deleteVC } from './rpc/vc/deleteVC';
 import { queryVCs } from './rpc/vc/queryVCs';
@@ -16,6 +17,7 @@ import { getAvailableVCStores } from './rpc/vcStore/getAvailableVCStores';
 import { setVCStore } from './rpc/vcStore/setVCStore';
 import { getAddressKeyDeriver } from './utils/keyPair';
 import {
+  isValidCreateVCRequest,
   isValidCreateVPRequest,
   isValidDeleteVCRequest,
   isValidQueryRequest,
@@ -68,6 +70,14 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
           apiParams.state
         );
         res = await saveVC(apiParams, request.params);
+        return ResultObject.success(res);
+      case 'createVC':
+        isValidCreateVCRequest(
+          request.params,
+          apiParams.account,
+          apiParams.state
+        );
+        res = await createVC(apiParams, request.params);
         return ResultObject.success(res);
       case 'createVP':
         isValidCreateVPRequest(

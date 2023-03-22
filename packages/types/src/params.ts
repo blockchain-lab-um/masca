@@ -66,9 +66,9 @@ export type MinimalUnisignedCredential = Pick<
 
 export type CreateVCRequestParams = {
   minimalUnsignedCredential: MinimalUnisignedCredential;
+  proofFormat?: SupportedProofFormats;
   options?: {
     save?: boolean;
-    proofFormat?: SupportedProofFormats;
     store?: AvailableVCStores | AvailableVCStores[];
   };
 };
