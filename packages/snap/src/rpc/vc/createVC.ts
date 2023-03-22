@@ -24,7 +24,6 @@ export async function createVC(
     proofFormat,
     options,
   });
-
   if (save === true) {
     const content = panel([
       heading('Save VC'),

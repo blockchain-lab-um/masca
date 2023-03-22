@@ -77,6 +77,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
           apiParams.account,
           apiParams.state
         );
+        apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
         res = await createVC(apiParams, request.params);
         return ResultObject.success(res);
       case 'createVP':

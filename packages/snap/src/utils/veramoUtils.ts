@@ -279,24 +279,23 @@ export async function veramoCreateVC(
   const agent = await getAgent(snap, ethereum);
   // GET DID
   const identifier = await veramoImportMetaMaskAccount(params, agent);
-
   const credentialPayload = minimalUnsignedCredential;
   credentialPayload.issuer = identifier.did;
 
   const config = state.snapConfig;
-  const content = panel([
-    heading('Create VC'),
-    text('Would you like to create a VC from the following data?'),
-    divider(),
-    text(`Data:`),
-    copyable(JSON.stringify(credentialPayload, null, 2)),
-  ]);
 
   const createVCArgs: ICreateVerifiableCredentialArgs = {
     credential: credentialPayload as CredentialPayload,
     proofFormat,
     save: false,
   };
+  const content = panel([
+    heading('Create VC'),
+    text('Would you like to create a VC from the following data?'),
+    divider(),
+    text(`Data:`),
+    copyable(JSON.stringify(createVCArgs.credential, null, 2)),
+  ]);
 
   if (config.dApp.disablePopups || (await snapConfirm(snap, content))) {
     const vc = await agent.createVerifiableCredential(createVCArgs);
