@@ -1,4 +1,5 @@
 import {
+  isValidCreateVCRequest,
   isValidCreateVPRequest,
   isValidDeleteVCRequest,
   isValidQueryRequest,
@@ -10,6 +11,7 @@ import {
   address,
   exampleVC,
   getDefaultSnapState,
+  unsignedMinimalCredential,
 } from '../testUtils/constants';
 
 describe('Utils [params]', () => {
@@ -538,6 +540,125 @@ describe('Utils [params]', () => {
       expect(() =>
         isValidDeleteVCRequest({ id: [] }, address, getDefaultSnapState())
       ).toThrow('ID is not a string or array of strings');
+    });
+  });
+  describe('isValidCreateVCsRequest', () => {
+    it('should pass with only unsignedVC', () => {
+      const state = getDefaultSnapState();
+      state.accountState[address].accountConfig.ssi.vcStore.ceramic = false;
+      expect(() =>
+        isValidCreateVCRequest(
+          {
+            minimalUnsignedCredential: unsignedMinimalCredential,
+          },
+          address,
+          state
+        )
+      ).not.toThrow();
+    });
+    it('should pass with unsignedVC & PF', () => {
+      const state = getDefaultSnapState();
+      state.accountState[address].accountConfig.ssi.vcStore.ceramic = false;
+      expect(() =>
+        isValidCreateVCRequest(
+          {
+            minimalUnsignedCredential: unsignedMinimalCredential,
+            proofFormat: 'jwt',
+          },
+          address,
+          state
+        )
+      ).not.toThrow();
+    });
+    it('should pass with empty options', () => {
+      const state = getDefaultSnapState();
+      state.accountState[address].accountConfig.ssi.vcStore.ceramic = false;
+      expect(() =>
+        isValidCreateVCRequest(
+          {
+            minimalUnsignedCredential: unsignedMinimalCredential,
+            proofFormat: 'jwt',
+            options: {},
+          },
+          address,
+          state
+        )
+      ).not.toThrow();
+    });
+    it('should pass with save option', () => {
+      const state = getDefaultSnapState();
+      state.accountState[address].accountConfig.ssi.vcStore.ceramic = false;
+      expect(() =>
+        isValidCreateVCRequest(
+          {
+            minimalUnsignedCredential: unsignedMinimalCredential,
+            proofFormat: 'jwt',
+            options: { save: true },
+          },
+          address,
+          state
+        )
+      ).not.toThrow();
+    });
+    it('should pass with full option', () => {
+      const state = getDefaultSnapState();
+      state.accountState[address].accountConfig.ssi.vcStore.ceramic = false;
+      expect(() =>
+        isValidCreateVCRequest(
+          {
+            minimalUnsignedCredential: unsignedMinimalCredential,
+            proofFormat: 'jwt',
+            options: { save: true, store: ['snap'] },
+          },
+          address,
+          state
+        )
+      ).not.toThrow();
+    });
+    it('should fail for not enabled store', () => {
+      const state = getDefaultSnapState();
+      state.accountState[address].accountConfig.ssi.vcStore.ceramic = false;
+      expect(() =>
+        isValidCreateVCRequest(
+          {
+            minimalUnsignedCredential: unsignedMinimalCredential,
+            proofFormat: 'jwt',
+            options: { save: true, store: 'ceramic' },
+          },
+          address,
+          state
+        )
+      ).toThrow('Store ceramic is not enabled!');
+    });
+    it('should fail for invalid store', () => {
+      const state = getDefaultSnapState();
+      state.accountState[address].accountConfig.ssi.vcStore.ceramic = false;
+      expect(() =>
+        isValidCreateVCRequest(
+          {
+            minimalUnsignedCredential: unsignedMinimalCredential,
+            proofFormat: 'jwt',
+            options: { save: true, store: 'ceramicc' },
+          },
+          address,
+          state
+        )
+      ).toThrow('Store ceramicc is not supported!');
+    });
+    it('should fail for invalid PF', () => {
+      const state = getDefaultSnapState();
+      state.accountState[address].accountConfig.ssi.vcStore.ceramic = false;
+      expect(() =>
+        isValidCreateVCRequest(
+          {
+            minimalUnsignedCredential: unsignedMinimalCredential,
+            proofFormat: 'jws',
+            options: { save: true, store: 'snap' },
+          },
+          address,
+          state
+        )
+      ).toThrow('Proof format not supported');
     });
   });
 });

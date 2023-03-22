@@ -369,6 +369,7 @@ export function isValidCreateVCRequest(
     if (
       'options' in param &&
       param.options !== null &&
+      param.options?.save !== undefined &&
       param.options?.save !== null &&
       typeof param.options?.save !== 'boolean'
     ) {
