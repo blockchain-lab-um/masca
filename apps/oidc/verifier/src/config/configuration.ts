@@ -7,13 +7,13 @@ import Joi from 'joi';
 
 import {
   PRESENTATION_DEFINITIONS,
+  SUPPORTED_CREDENTIALS,
   SUPPORTED_CURVES,
   SUPPORTED_DID_METHODS,
   SUPPORTED_DIGITAL_SIGNATURES,
   SUPPORTED_SCHEMA_URL,
   VERIFIER_URL,
 } from '../../config.js';
-import { supported_credentials } from '../../supported_credentials.json';
 
 export interface IConfig {
   INFURA_PROJECT_ID: string;
@@ -54,4 +54,4 @@ export default ConfigModule.forRoot({
 });
 
 export const loadSupportedCredentials = (): SupportedCredential[] =>
-  supported_credentials as SupportedCredential[];
+  SUPPORTED_CREDENTIALS;

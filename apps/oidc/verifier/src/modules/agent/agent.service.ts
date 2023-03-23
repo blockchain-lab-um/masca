@@ -44,7 +44,7 @@ export class AgentService {
 
   constructor(private configService: ConfigService<IConfig, true>) {
     this.dbConnection = new DataSource({
-      type: 'sqlite',
+      type: 'better-sqlite3',
       database: 'database.oidc-demo.verifier',
       synchronize: false,
       migrations,

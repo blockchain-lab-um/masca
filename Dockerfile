@@ -1,13 +1,6 @@
-FROM node:18.13.0-bullseye-slim
+FROM blockchain-lab-um/ssi-snap:latest as builder
 
-RUN apt-get update && apt-get install -y \
-  bash \
-  git \
-  g++ \
-  make \
-  python3 \
-  python3-pip \
-  && rm -rf /var/lib/apt/lists/*
+FROM node:18.13.0-alpine3.16
 
 WORKDIR /app
 
@@ -40,6 +33,9 @@ COPY ./libs/oidc/types/package.json ./libs/oidc/types/
 ##########
 COPY ./apps/oidc/issuer/package.json ./apps/oidc/issuer/
 COPY ./apps/oidc/verifier/package.json ./apps/oidc/verifier/
+
+# Remove prepare script
+RUN npm pkg delete scripts.prepare
 
 # Install all the dependencies
 RUN pnpm install --frozen-lockfile

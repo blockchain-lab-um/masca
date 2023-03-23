@@ -25,7 +25,10 @@ COPY --from=builder /app/libs/oidc/types ./libs/oidc/types
 
 ENV NODE_ENV=production
 
-RUN pnpm install --frozen-lockfile --ignore-scripts
+# Remove prepare script
+RUN npm pkg delete scripts.prepare
+
+RUN pnpm install --frozen-lockfile
 RUN chown node:node /app
 
 USER node

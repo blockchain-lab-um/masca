@@ -47,6 +47,7 @@
     "@veramo/kms-local": "5.1.2",
     "@veramo/message-handler": "5.1.2",
     "@veramo/utils": "5.1.2",
+    "better-sqlite3": "^8.2.0",
     "did-resolver": "^4.0.1",
     "elliptic": "^6.5.4",
     "ethereum-cryptography": "^1.1.2",
@@ -58,7 +59,6 @@
     "qs": "^6.11.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.7",
-    "sqlite3": "^5.1.4",
     "typeorm": "^0.3.10",
     "uuid": "^9.0.0"
   },
