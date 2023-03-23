@@ -5,14 +5,23 @@ import {
 } from '@nestjs/platform-fastify';
 
 import { AppModule } from './app.module.js';
+import { AllExceptionsFilter } from './filters/all-exceptions.filter.js';
 import { AgentService } from './modules/agent/agent.service.js';
 
 async function bootstrap() {
+  // Create fastify adapter and enable CORS
+  const fastifyAdapter = new FastifyAdapter();
+  fastifyAdapter.enableCors({ methods: '*' });
+
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter()
+    fastifyAdapter
   );
 
+  // Set up the global exception filter
+  app.useGlobalFilters(new AllExceptionsFilter());
+
+  // Initialize the agent
   await app.get<AgentService>(AgentService).initializeAgent();
 
   await app.listen(3003, '0.0.0.0');

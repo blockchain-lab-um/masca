@@ -23,6 +23,7 @@ import {
 import getAgent from '../tests/testAgent.js';
 import { createJWTProof } from '../tests/utils.js';
 import { AppModule } from './app.module.js';
+import AllExceptionsFilter from './filters/all-exceptions.filter.js';
 import { AgentService } from './modules/agent/agent.service.js';
 
 // import { IConfig } from './config/configuration';
@@ -44,7 +45,9 @@ describe('Issuer controller', () => {
     // configService = app.get<ConfigService<IConfig, true>>(ConfigService);
     await app.get<AgentService>(AgentService).initializeAgent();
 
+    app.useGlobalFilters(new AllExceptionsFilter());
     await app.init();
+
     await (app.getHttpAdapter().getInstance() as FastifyInstance).ready();
     server = app.getHttpServer() as HttpServer;
   });
