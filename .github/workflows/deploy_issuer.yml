@@ -13,37 +13,6 @@ on:
       - 'packages/oidc/issuer/**'
       - 'Dockerfile'
 
-jobs:
-  test-build:
-    # Test build on every PR to DEVELOP
-    if: ${{ github.event_name == 'pull_request' }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - uses: nrwl/nx-set-shas@v3
-        with:
-          main-branch-name: 'develop'
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 7.30.0
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18.13.0
-          cache: pnpm
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-      - name: Lint
-        run: pnpm nx run @blockchain-lab-um/dapp:lint
-        env:
-          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-      - name: Test build dapp
-        run: pnpm nx run @blockchain-lab-um/dapp:build
-        env:
-          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-
   deploy:
     # Deploy when we PUSH to DEVELOP
     if: ${{ (github.ref == 'refs/heads/develop') && (github.event_name == 'push') }}
