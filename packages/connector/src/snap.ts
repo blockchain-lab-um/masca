@@ -16,6 +16,7 @@ import {
 import { Result } from '@blockchain-lab-um/utils';
 import {
   DIDResolutionResult,
+  VerifiableCredential,
   VerifiablePresentation,
   W3CVerifiableCredential,
 } from '@veramo/core';
@@ -261,7 +262,7 @@ export async function resolveDID(
 export async function createVC(
   this: MetaMaskSSISnap,
   params: CreateVCRequestParams
-): Promise<Result<VerifiablePresentation>> {
+): Promise<Result<VerifiableCredential>> {
   return sendSnapMethod(
     {
       method: 'createVC',
