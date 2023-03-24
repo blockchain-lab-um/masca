@@ -1,6 +1,7 @@
 import { Result } from '@blockchain-lab-um/utils';
 import {
   DIDResolutionResult,
+  VerifiableCredential,
   VerifiablePresentation,
   W3CVerifiableCredential,
 } from '@veramo/core';
@@ -44,5 +45,5 @@ export interface SSISnapApi {
   resolveDID(did: string): Promise<Result<DIDResolutionResult>>;
   createVC(
     params: CreateVCRequestParams
-  ): Promise<Result<W3CVerifiableCredential>>;
+  ): Promise<Result<VerifiableCredential>>;
 }
