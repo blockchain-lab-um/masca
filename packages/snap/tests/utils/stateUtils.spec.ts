@@ -106,7 +106,9 @@ describe('Utils [state]', () => {
     it('should succeed initializing snap state', async () => {
       const initialState = getInitialSnapState();
 
-      await expect(initSnapState(snapMock)).resolves.toEqual(initialState);
+      await expect(initSnapState(snapMock, ethereumMock)).resolves.toEqual(
+        initialState
+      );
 
       expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith({
         operation: 'update',

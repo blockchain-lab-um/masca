@@ -34,7 +34,8 @@ describe('Utils [snap]', () => {
 
   describe('getCurrentAccount', () => {
     it('should succeed and return test account', async () => {
-      await expect(getCurrentAccount(ethereumMock)).resolves.toEqual(address);
+      const state = getDefaultSnapState();
+      await expect(getCurrentAccount(state)).resolves.toEqual(address);
 
       expect.assertions(1);
     });

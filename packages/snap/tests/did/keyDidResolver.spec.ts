@@ -63,6 +63,8 @@ describe('keyDidResolver', () => {
       expect.assertions(1);
     });
     it('should fail', async () => {
+      const initialState = getDefaultSnapState();
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
       const didRes = await resolveDidKey().key(
         '12345',
         {

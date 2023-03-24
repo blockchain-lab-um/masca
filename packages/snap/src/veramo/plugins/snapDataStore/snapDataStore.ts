@@ -54,7 +54,7 @@ export class SnapDIDStore extends AbstractDIDStore {
     provider: string;
   }): Promise<IIdentifier> {
     const state = await getSnapState(this.snap);
-    const account = await getCurrentAccount(this.ethereum);
+    const account = await getCurrentAccount(state);
     const { identifiers } = state.accountState[account];
 
     if (did && !alias) {
@@ -82,7 +82,7 @@ export class SnapDIDStore extends AbstractDIDStore {
 
   async deleteDID({ did }: { did: string }) {
     const state = await getSnapState(this.snap);
-    const account = await getCurrentAccount(this.ethereum);
+    const account = await getCurrentAccount(state);
 
     if (!state.accountState[account].identifiers[did]) {
       throw Error('Identifier not found');
@@ -95,7 +95,7 @@ export class SnapDIDStore extends AbstractDIDStore {
 
   async importDID(args: IIdentifier) {
     const state = await getSnapState(this.snap);
-    const account = await getCurrentAccount(this.ethereum);
+    const account = await getCurrentAccount(state);
     const identifier = { ...args };
     // eslint-disable-next-line no-restricted-syntax
     for (const key of identifier.keys) {
@@ -113,7 +113,7 @@ export class SnapDIDStore extends AbstractDIDStore {
     provider?: string;
   }): Promise<IIdentifier[]> {
     const state = await getSnapState(this.snap);
-    const account = await getCurrentAccount(this.ethereum);
+    const account = await getCurrentAccount(state);
 
     let result: IIdentifier[] = [];
     // eslint-disable-next-line no-restricted-syntax
@@ -155,7 +155,7 @@ export class SnapVCStore extends AbstractDataStore {
   async query(args: IFilterArgs): Promise<Array<IQueryResult>> {
     const { filter } = args;
     const state = await getSnapState(this.snap);
-    const account = await getCurrentAccount(this.ethereum);
+    const account = await getCurrentAccount(state);
 
     if (filter && filter.type === 'id') {
       try {
@@ -210,7 +210,7 @@ export class SnapVCStore extends AbstractDataStore {
 
   async delete({ id }: { id: string }) {
     const state = await getSnapState(this.snap);
-    const account = await getCurrentAccount(this.ethereum);
+    const account = await getCurrentAccount(state);
 
     if (!state.accountState[account].vcs[id]) throw Error('ID not found');
 
@@ -224,7 +224,7 @@ export class SnapVCStore extends AbstractDataStore {
 
     const vc = args.data;
     const state = await getSnapState(this.snap);
-    const account = await getCurrentAccount(this.ethereum);
+    const account = await getCurrentAccount(state);
 
     const id = sha256(JSON.stringify(vc));
 
@@ -241,7 +241,7 @@ export class SnapVCStore extends AbstractDataStore {
   public async clear(args: IFilterArgs): Promise<boolean> {
     // TODO implement filter (in ceramic aswell)
     const state = await getSnapState(this.snap);
-    const account = await getCurrentAccount(this.ethereum);
+    const account = await getCurrentAccount(state);
 
     state.accountState[account].vcs = {};
     return true;

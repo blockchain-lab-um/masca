@@ -81,7 +81,8 @@ export const resolveDidKey: DIDResolver = async (
   options: DIDResolutionOptions
 ): Promise<DIDResolutionResult> => {
   try {
-    const account = await getCurrentAccount(ethereum);
+    const state = await getSnapState(snap);
+    const account = await getCurrentAccount(state);
     const startsWith = parsed.did.substring(0, 12);
     if (startsWithMap[startsWith] !== undefined) {
       const didDocument = await startsWithMap[startsWith](

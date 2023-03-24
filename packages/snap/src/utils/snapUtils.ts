@@ -14,21 +14,15 @@ import { updateSnapState } from './stateUtils';
 /**
  * Function that returns address of the currently selected MetaMask account.
  *
- * @param ethereum - MetaMaskInpageProvider object.
+ * @param state - SSISnapState object.
  *
  * @returns string - address of the currently selected MetaMask account.
  * */
-export async function getCurrentAccount(
-  ethereum: MetaMaskInpageProvider
-): Promise<string> {
-  try {
-    const accounts = (await ethereum.request({
-      method: 'eth_requestAccounts',
-    })) as Array<string>;
-    return accounts[0];
-  } catch (e) {
-    throw new Error('User rejected the request to connect to their wallet.');
-  }
+export async function getCurrentAccount(state: SSISnapState): Promise<string> {
+  return new Promise((resolve, reject) => {
+    if (state.currentAccount === '') reject(new Error('No account selected'));
+    resolve(state.currentAccount);
+  });
 }
 
 /**

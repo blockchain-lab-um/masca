@@ -454,6 +454,7 @@ const defaultSnapState: SSISnapState = {
   accountState: {
     '0xb6665128eE91D84590f70c3268765384A9CAfBCd': getEmptyAccountState(),
   },
+  currentAccount: '0xb6665128eE91D84590f70c3268765384A9CAfBCd',
   snapConfig: {
     dApp: {
       disablePopups: false,

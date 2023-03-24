@@ -6,6 +6,7 @@ import {
   QueryVCsRequestParams,
   ResolveDIDRequestParams,
   SaveVCRequestParams,
+  SetCurrentAccountRequestParams,
   SetVCStoreRequestParams,
   SwitchMethodRequestParams,
   VerifyDataRequestParams,
@@ -318,6 +319,23 @@ export function isValidResolveDIDRequest(
   params: unknown
 ): asserts params is ResolveDIDRequestParams {
   const param = params as ResolveDIDRequestParams;
+  if (
+    param !== null &&
+    typeof param === 'object' &&
+    'did' in param &&
+    param.did !== null &&
+    param.did !== '' &&
+    typeof param.did === 'string'
+  )
+    return;
+
+  throw new Error('Invalid ResolveDID request');
+}
+
+export function isValidSetCurrentAccountRequest(
+  params: unknown
+): asserts params is SetCurrentAccountRequestParams {
+  const param = params as SetCurrentAccountRequestParams;
   if (
     param !== null &&
     typeof param === 'object' &&

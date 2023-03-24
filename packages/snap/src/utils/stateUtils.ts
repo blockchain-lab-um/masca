@@ -67,8 +67,10 @@ export async function getSnapStateUnchecked(
  */
 export async function initSnapState(
   snap: SnapsGlobalObject
+  // ethereum: MetaMaskInpageProvider
 ): Promise<SSISnapState> {
   const state = getInitialSnapState();
+  // state.currentAddress = ethereum.currentAddress || '';
   await updateSnapState(snap, state);
   return state;
 }

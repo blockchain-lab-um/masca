@@ -8,6 +8,7 @@ import { resolveDID } from './rpc/did/resolveDID';
 import { switchMethod } from './rpc/did/switchMethod';
 import { togglePopups } from './rpc/snap/configure';
 import { createVC } from './rpc/vc/createVC';
+import { setCurrentAccount } from './rpc/snap/setCurrentAccount';
 import { createVP } from './rpc/vc/createVP';
 import { deleteVC } from './rpc/vc/deleteVC';
 import { queryVCs } from './rpc/vc/queryVCs';
@@ -23,6 +24,7 @@ import {
   isValidQueryRequest,
   isValidResolveDIDRequest,
   isValidSaveVCRequest,
+  isValidSetCurrentAccountRequest,
   isValidSetVCStoreRequest,
   isValidSwitchMethodRequest,
   isValidVerifyDataRequest,
@@ -41,8 +43,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   try {
     let state = await getSnapStateUnchecked(snap);
     if (state === null) state = await initSnapState(snap);
-
-    const account = await getCurrentAccount(ethereum);
+    const account = await getCurrentAccount(state);
 
     const apiParams: ApiParams = {
       state,
@@ -112,6 +113,10 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       case 'setVCStore':
         isValidSetVCStoreRequest(request.params);
         res = await setVCStore(apiParams, request.params);
+        return ResultObject.success(res);
+      case 'setCurrentAccount':
+        isValidSetCurrentAccountRequest(request.params);
+        res = await setCurrentAccount(apiParams, request.params);
         return ResultObject.success(res);
       case 'getAccountSettings':
         res = state.accountState[account].accountConfig;

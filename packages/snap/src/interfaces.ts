@@ -13,7 +13,10 @@ export type SSISnapState = {
    * Account specific storage
    */
   accountState: Record<string, SSIAccountState>;
-
+  /**
+   * Current account
+   */
+  currentAccount: string;
   /**
    * Configuration for SSISnap
    */
