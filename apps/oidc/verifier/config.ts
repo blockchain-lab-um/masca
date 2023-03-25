@@ -23,12 +23,6 @@ export const SUPPORTED_SCHEMA_URL =
 export const VERIFIER_URL = 'http://localhost:3000';
 export const SUPPORTED_CREDENTIALS: SupportedCredential[] = [
   {
-    schema:
-      'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
-    '@context': [
-      'https://www.w3.org/2018/credentials/v1',
-      'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
-    ],
     types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
     format: 'jwt_vc_json',
     cryptographic_binding_methods_supported: ['did'],

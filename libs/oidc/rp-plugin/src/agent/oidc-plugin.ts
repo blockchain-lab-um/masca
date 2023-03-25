@@ -16,9 +16,9 @@ import {
   bytesToBase64url,
   extractPublicKeyHex,
 } from '@veramo/utils';
-import _Ajv from 'ajv';
-import _addFormats from 'ajv-formats';
-import fetch from 'cross-fetch';
+// Uncomment these lines when implementing schema validation
+// import _Ajv from 'ajv';
+// import _addFormats from 'ajv-formats';
 import { JsonWebKey, VerificationMethod } from 'did-resolver';
 import elliptic from 'elliptic';
 import {
@@ -49,8 +49,11 @@ import {
 import { Result } from '../utils/index.js';
 
 const { ec: EC } = elliptic;
-const Ajv = _Ajv as unknown as typeof _Ajv.default;
-const addFormats = _addFormats as unknown as typeof _addFormats.default;
+// const Ajv = _Ajv as unknown as typeof _Ajv.default;
+// const addFormats = _addFormats as unknown as typeof _addFormats.default;
+
+const compareTypes = (first: string[], second: string[]) =>
+  first.length === second.length && first.every((ele, i) => ele === second[i]);
 
 /**
  * {@inheritDoc IMyAgentPlugin}
@@ -619,21 +622,65 @@ export class OIDCPlugin implements IAgentPlugin {
   public async createCredentialOfferRequest(
     args: CreateCredentialOfferRequestArgs
   ): Promise<Result<CreateCredentialOfferRequestResposne>> {
-    const { schema, grants: requestedGrants, userPinRequired } = args;
-    const supportedCredentialSchemas =
-      this.pluginConfig.supported_credentials.map(
-        (credential) => credential.schema
-      );
+    const {
+      credentials: requestedCredentials,
+      grants: requestedGrants,
+      userPinRequired,
+    } = args;
 
-    if (!supportedCredentialSchemas.includes(schema)) {
+    if (!Array.isArray(requestedCredentials)) {
       return {
         success: false,
-        error: new Error(`Unsupported credential schema: ${schema}`),
+        error: new Error('Requested invalid credentials'),
       };
     }
 
-    // Currently only array of schema (ids) is supported
-    const credentials: Credentials = [schema];
+    const credentials: Credentials = [];
+
+    // Check if requested credentials are supported
+    requestedCredentials.forEach((credential) => {
+      for (const supportedCredential of this.pluginConfig
+        .supported_credentials) {
+        // If credential is a string, check if it is equal to the supported credential id
+        if (typeof credential === 'string') {
+          if (credential === supportedCredential.id) {
+            credentials.push(credential);
+            break;
+          }
+        }
+        // Check msso_mdoc format
+        else if (credential.format === 'mso_mdoc') {
+          if (
+            supportedCredential.format === 'mso_mdoc' &&
+            credential.doctype === supportedCredential.doctype
+          ) {
+            credentials.push({
+              format: supportedCredential.format,
+              doctype: supportedCredential.doctype,
+            });
+            break;
+          }
+        } else if (credential.format === supportedCredential.format) {
+          if (compareTypes(credential.types, supportedCredential.types)) {
+            credentials.push({
+              format: supportedCredential.format,
+              types: supportedCredential.types,
+            });
+            break;
+          }
+        }
+      }
+    });
+
+    if (credentials.length === 0) {
+      return {
+        success: false,
+        error: new Error('No supported credentials found'),
+      };
+    }
+
+    // Use only correct fields
+
     const preAuthorizedCode = randomUUID();
     const userPin = Array.from({ length: 8 }, () =>
       Math.floor(Math.random() * 10)
@@ -764,38 +811,33 @@ export class OIDCPlugin implements IAgentPlugin {
     context: OIDCAgentContext
   ): Promise<Result<CredentialResponse>> {
     const { body, issuerDid, subjectDid, credentialSubjectClaims } = args;
-    const { format, schema, types } = body;
 
-    if (!format) {
+    if (!body.format) {
       return {
         success: false,
         error: new Error('Missing format'),
       };
     }
 
-    if (types) {
-      return {
-        success: false,
-        error: new Error('Types not supported yet. Use schema instead.'),
-      };
-    }
-
-    if (!schema) {
-      return {
-        success: false,
-        error: new Error('Missing schema'),
-      };
-    }
-
     const supportedCredential = this.pluginConfig.supported_credentials.find(
-      (cred) => cred.schema === schema
+      (cred) => {
+        if (body.format === 'mso_mdoc') {
+          return cred.format === body.format && cred.doctype === body.doctype;
+        }
+
+        return (
+          body.format === cred.format &&
+          Array.isArray(body.types) &&
+          compareTypes(cred.types, body.types)
+        );
+      }
     );
 
-    // Check if schema is supported
+    // Check if credential is supported
     if (!supportedCredential) {
       return {
         success: false,
-        error: new Error('Unsupported schema'),
+        error: new Error('Unsupported credential'),
       };
     }
 
@@ -813,13 +855,10 @@ export class OIDCPlugin implements IAgentPlugin {
       };
     }
 
-    // Check if format is supported for this schema
-    if (supportedCredential.format !== format) {
+    if (supportedCredential.format === 'mso_mdoc') {
       return {
         success: false,
-        error: new Error(
-          `Unsupported format. Supported format ${supportedCredential.format}.`
-        ),
+        error: new Error('Currently the mso_mdoc format is not supported'),
       };
     }
 
@@ -832,11 +871,16 @@ export class OIDCPlugin implements IAgentPlugin {
       credentialPayload = {
         issuer: { id: issuerDid },
         // FIXME: Add credential status ? (https://www.w3.org/TR/vc-data-model/#status)
-        // FIXME: Type field is required, but we are using the crentialSchema field which is optional
-        credentialSchema: {
-          id: schema,
-          type: 'JsonSchemaValidator2018', // TODO: We are not actually using this at the moment
-        },
+        type: supportedCredential.types,
+        // Add context if ld proof
+        ...((supportedCredential.format === 'jwt_vc_json-ld' ||
+          supportedCredential.format === 'ldp_vc') && {
+          '@context': supportedCredential['@context'],
+        }),
+        // credentialSchema: {
+        //   id: schema,
+        //   type: 'JsonSchemaValidator2018', // TODO: We are not actually using this at the moment
+        // },
         credentialSubject: {
           id: subjectDid,
           ...(credentialSubjectClaims as object), // TODO: VALIDATE CLAIMS AGAINST SCHEMA
@@ -854,7 +898,7 @@ export class OIDCPlugin implements IAgentPlugin {
     try {
       credential = await context.agent.createVerifiableCredential({
         credential: credentialPayload,
-        proofFormat: 'jwt',
+        proofFormat: supportedCredential.format === 'ldp_vc' ? 'lds' : 'jwt',
       });
     } catch (e) {
       return {
@@ -863,40 +907,41 @@ export class OIDCPlugin implements IAgentPlugin {
       };
     }
 
-    // Fetch schema
-    const schemaFetchResult = await fetch(schema);
+    // TODO: Implement claim validation
+    // // Fetch schema
+    // const schemaFetchResult = await fetch(schema);
 
-    if (!schemaFetchResult.ok) {
-      return {
-        success: false,
-        error: new Error(`Error fetching schema: ${schema}`),
-      };
-    }
+    // if (!schemaFetchResult.ok) {
+    //   return {
+    //     success: false,
+    //     error: new Error(`Error fetching schema: ${schema}`),
+    //   };
+    // }
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const schemaJson = await schemaFetchResult.json();
+    // // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    // const schemaJson = await schemaFetchResult.json();
 
-    // Validate credential subject claims against schema
-    const ajv = new Ajv({ allErrors: true, allowUnionTypes: true });
+    // // Validate credential subject claims against schema
+    // const ajv = new Ajv({ allErrors: true, allowUnionTypes: true });
 
-    // We need to add the formats to the ajv instance
-    addFormats(ajv);
+    // // We need to add the formats to the ajv instance
+    // addFormats(ajv);
 
-    // FIXME: Better way to handle any extra properties or should we throw and error ?
-    ajv.addVocabulary(['$metadata']);
-    const validate = ajv.compile(schemaJson);
+    // // FIXME: Better way to handle any extra properties or should we throw and error ?
+    // ajv.addVocabulary(['$metadata']);
+    // const validate = ajv.compile(schemaJson);
 
-    const valid = validate(credential);
-    if (!valid) {
-      return {
-        success: false,
-        error: new Error(
-          `Invalid credential subject claims. Errors: ${JSON.stringify(
-            validate.errors
-          )}`
-        ),
-      };
-    }
+    // const valid = validate(credential);
+    // if (!valid) {
+    //   return {
+    //     success: false,
+    //     error: new Error(
+    //       `Invalid credential subject claims. Errors: ${JSON.stringify(
+    //         validate.errors
+    //       )}`
+    //     ),
+    //   };
+    // }
 
     // FIXME: Why would we need to send c_nonce ?
     // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-8.3

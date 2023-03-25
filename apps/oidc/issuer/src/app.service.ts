@@ -27,27 +27,35 @@ export class AppService {
 
   async handleIssuerServerMetadataRequest(): Promise<IssuerServerMetadata> {
     const agent = this.agentService.getAgent();
-    const issuerServerMetadata =
-      await agent.handleIssuerServerMetadataRequest();
+    const res = await agent.handleIssuerServerMetadataRequest();
 
-    if (isError(issuerServerMetadata)) {
-      throw Error(issuerServerMetadata.error.message);
+    if (isError(res)) {
+      throw Error(res.error.message);
     }
 
-    return issuerServerMetadata.data;
+    return res.data;
   }
 
   async createCredentialOfferRequest(
     query: CredentialOfferRequest
   ): Promise<string> {
-    const { schema, grants, userPinRequired } = query;
+    let { credentials, grants } = query;
+    const { userPinRequired } = query;
+
+    if (!Array.isArray(credentials)) {
+      credentials = [credentials];
+    }
+
+    if (grants && !Array.isArray(grants)) {
+      grants = [grants];
+    }
 
     // Currently only pre-authorized_code is supported
     const res = await this.agentService
       .getAgent()
       .createCredentialOfferRequest({
-        schema,
-        grants: typeof grants === 'string' ? [grants] : grants,
+        credentials,
+        grants,
         userPinRequired,
       });
 

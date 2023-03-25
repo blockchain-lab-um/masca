@@ -18,6 +18,7 @@ import {
   Response,
 } from '@nestjs/common';
 import type { FastifyReply } from 'fastify';
+import qs from 'qs';
 
 import { AppService } from './app.service.js';
 
@@ -43,8 +44,11 @@ export class AppController {
 
   @Get('/credential-offer')
   @HttpCode(200)
-  async initiate(@Query() query: CredentialOfferRequest): Promise<string> {
-    return this.appService.createCredentialOfferRequest(query);
+  async initiate(@Query() query: unknown): Promise<string> {
+    return this.appService.createCredentialOfferRequest(
+      // TODO: Validate query
+      qs.parse(query as string) as unknown as CredentialOfferRequest
+    );
   }
 
   // TODO: Later -> access_token

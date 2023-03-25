@@ -19,7 +19,7 @@ export interface IssuerServerMetadata
   credential_endpoint: string;
   authorization_server?: string; // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-10.2.3
   batch_credential_endpoints?: string[];
-  credentials_supported: SupportedCredentials[];
+  credentials_supported: SupportedCredential[];
   // TODO: DISPLAY (https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-10.2.3-4.2.1)
 }
 
@@ -39,29 +39,44 @@ export interface VerifierServerMetadata extends OAuth2ClientMetadata {
 }
 
 /**
- * Supported Credentials
+ * Supported Credential
  *
  * Specs:
  * - https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-10.2.3.1
  *
  * crypto_binding_methods_supported: ['cose_key', 'jwk', 'did', 'did:{method}']
  */
-interface SupportedCredentials {
-  // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-e.1
-  format: SupportedCredentialFormats;
-  schema: string;
-  // TODO: Define specific types
-  // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-8.1
-  cryptographic_binding_methods_supported?: string[];
-  // TODO: Define specific types
-  cryptographic_suites_supported?: string[];
-  display?: CredentialDisplay[];
-  // TODO: https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-e.1.1.2
-  // Check differences for JSON-LD
+export type SupportedCredential =
+  | {
+      id?: string;
+      cryptographic_binding_methods_supported?: string[];
+      cryptographic_suites_supported?: string[];
+      display?: CredentialDisplay[];
+      order?: string[];
+    } & (
+      | SupportedCredential_JWT_VC_JSON
+      | SupportedCredential_JWT_VC_JSON_LD
+      | SupportedCredential_MSO_MDOC
+    );
+
+export type SupportedCredential_JWT_VC_JSON = {
+  format: 'jwt_vc_json';
   types: string[];
-  credentialSubject?: CredentialSubject;
-  order?: string[];
-}
+  credentialSubject?: any;
+};
+
+export type SupportedCredential_JWT_VC_JSON_LD = {
+  format: 'jwt_vc_json-ld' | 'ldp_vc';
+  types: string[];
+  '@context': string[];
+  credentialSubject?: any;
+};
+
+export type SupportedCredential_MSO_MDOC = {
+  format: 'mso_mdoc';
+  doctype: string;
+  claims?: any;
+};
 
 /**
  * Credential Display
@@ -85,27 +100,5 @@ interface CredentialDisplay {
  */
 interface Logo {
   url?: string;
-  alternative_text?: string;
-  description?: string;
-}
-
-/**
- * Credential Subject
- *
- * #FIXME: Check if this is correct
- * SPECS:
- * - https://www.w3.org/TR/vc-data-model/#credential-subject
- * - https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-11.2.1
- */
-interface CredentialSubject {
-  [key: string]: CredentialSubjectProperty;
-}
-
-interface CredentialSubjectPropertyDisplay {
-  name?: string;
-  locale?: string;
-}
-
-interface CredentialSubjectProperty {
-  display?: CredentialSubjectPropertyDisplay[];
+  alt_text?: string;
 }

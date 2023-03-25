@@ -2,12 +2,18 @@
 
 import { SupportedCredentialFormats } from './credential';
 
-export type Credential =
+export type Credential = {
+  format: SupportedCredentialFormats;
+} & (
   | {
-      format: SupportedCredentialFormats;
+      format: 'jwt_vc_json' | 'jwt_vc_json-ld' | 'ldp_vc';
       types: string[];
     }
-  | { format: SupportedCredentialFormats; schema: string };
+  | {
+      format: 'mso_mdoc';
+      doctype: string;
+    }
+);
 
 export type Credentials = (string | Credential)[];
 
@@ -22,8 +28,7 @@ export type Grants = {
 };
 
 export interface CredentialOfferRequest {
-  schema: string;
-  // TODO: Should grants be added here or are they hardcoded on the issuer side?
+  credentials: Credentials;
   grants?: [
     | 'urn:ietf:params:oauth:grant-type:pre-authorized_code'
     | 'authorization_code'
