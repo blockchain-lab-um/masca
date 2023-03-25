@@ -174,6 +174,8 @@ export class AppService {
 
     const { did } = proofOfPossesionResult.data;
 
+    // TODO: Check if the requested credentials are the same as the ones in the session
+
     // TODO: Then query for claims
     // TODO: Throw error if no claims found
     const claims = {

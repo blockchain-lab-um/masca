@@ -1,4 +1,9 @@
-import { TokenRequest, TokenResponse } from '@blockchain-lab-um/oidc-types';
+import {
+  CredentialRequest,
+  SupportedCredential,
+  TokenRequest,
+  TokenResponse,
+} from '@blockchain-lab-um/oidc-types';
 import { jest } from '@jest/globals';
 import { HttpServer } from '@nestjs/common';
 // import { ConfigService } from '@nestjs/config';
@@ -11,7 +16,13 @@ import { FastifyInstance } from 'fastify';
 import qs from 'qs';
 import request from 'supertest';
 
-import { TEST_METADATA } from '../tests/constants.js';
+import {
+  TEST_ISSUER_URL,
+  TEST_METADATA,
+  TEST_USER_PRIVATE_KEY,
+} from '../tests/constants.js';
+import getAgent from '../tests/testAgent.js';
+import { createJWTProof } from '../tests/utils.js';
 import { AppModule } from './app.module.js';
 import AllExceptionsFilter from './filters/all-exceptions.filter.js';
 import { AgentService } from './modules/agent/agent.service.js';
@@ -48,6 +59,22 @@ describe('Issuer controller', () => {
 
     await app.close();
   });
+
+  // const client = await OpenID4VCIClient.initiateFromURI({
+  //   issuanceInitiationURI:
+  //     'openid-initiate-issuance://?issuer=http%3A%2F%2F127.0.01:3000&credential_type=OpenBadgeCredentialUrl&pre-authorized_code=4jLs9xZHEfqcoow0kHE7d1a8hUk6Sy-5bVSV2MqBUGUgiFFQi-ImL62T-FmLIo8hKA1UdMPH0lM1xAgcFkJfxIw9L-lI3mVs0hRT8YVwsEM1ma6N3wzuCdwtMU4bcwKp&user_pin_required=true',
+  //   flowType: AuthzFlowType.PRE_AUTHORIZED_CODE_FLOW, // The flow to use
+  //   kid: 'did:example:ebfeb1f712ebc6f1c276e12ec21#key-1', // Our DID.  You can defer this also to when the acquireCredential method is called
+  //   alg: Alg.ES256, // The signing Algorithm we will use. You can defer this also to when the acquireCredential method is called
+  //   clientId: 'test-clientId', // The clientId if the Authrozation Service requires it.  If a clientId is needed you can defer this also to when the acquireAccessToken method is called
+  //   retrieveServerMetadata: true, // Already retrieve the server metadata. Can also be done afterwards by invoking a method yourself.
+  // });
+
+  // console.log(
+  //   await client.acquireAccessToken({
+  //     pin: '55555555',
+  //   })
+  // );
 
   describe('[GET]: /.well-known/openid-credential-issuer', () => {
     it('Should succeed getting issuer metadata', async () => {
@@ -633,12 +660,7 @@ describe('Issuer controller', () => {
         let response = await request(server)
           .get('/credential-offer')
           .query({
-            credentials: [
-              {
-                format: 'jwt_vc_json',
-                types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
-              },
-            ],
+            credentials: ['ProgramCompletionCertificate'],
             grants: ['urn:ietf:params:oauth:grant-type:pre-authorized_code'],
           })
           .send();
@@ -684,47 +706,62 @@ describe('Issuer controller', () => {
           .send();
 
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-        // const supportedCredential = response.body.credentials_supported.find(
-        //   (credential: any) => credential.schema === TEST_SUPPORTED_SCHEMA_URL
-        // );
+        const supportedCredential = response.body.credentials_supported.find(
+          (credential: any) => credential.id === query.credentials[0]
+        ) as SupportedCredential;
 
-        // const credentialRequest: CredentialRequest = {
-        //   format: supportedCredential.format,
-        //   proof: {
-        //     proof_type: 'jwt',
-        //     // type: query.types,
-        //     jwt: await createJWTProof({
-        //       privateKey: TEST_USER_PRIVATE_KEY,
-        //       audience: TEST_ISSUER_URL,
-        //       data: {
-        //         nonce: cNonce,
-        //         exp: Math.floor(Date.now() / 1000) + 1000 * 60 * 60,
-        //       },
-        //       typ: 'openid4vci-proof+jwt',
-        //     }),
-        //   },
-        // };
+        if (!supportedCredential) {
+          throw new Error('No supported credential found');
+        }
 
-        // response = await request(server)
-        //   .post('/credential')
-        //   .auth(accessToken, { type: 'bearer' })
-        //   .send(credentialRequest);
+        const selectedCredential = (
+          supportedCredential.format === 'mso_mdoc'
+            ? {
+                format: 'mso_mdoc',
+                doctype: supportedCredential.doctype,
+              }
+            : {
+                format: supportedCredential.format,
+                types: supportedCredential.types,
+              }
+        ) as SupportedCredential;
 
-        // expect(response.status).toBe(200);
-        // expect(response.body).toStrictEqual({
-        //   format: 'jwt_vc_json',
-        //   credential: expect.any(String),
-        // });
+        const credentialRequest: CredentialRequest = {
+          ...selectedCredential,
+          proof: {
+            proof_type: 'jwt',
+            jwt: await createJWTProof({
+              privateKey: TEST_USER_PRIVATE_KEY,
+              audience: TEST_ISSUER_URL,
+              data: {
+                nonce: cNonce,
+                exp: Math.floor(Date.now() / 1000) + 1000 * 60 * 60,
+              },
+              typ: 'openid4vci-proof+jwt',
+            }),
+          },
+        };
 
-        // // Verify credential
-        // const agent = await getAgent();
-        // const res = await agent.verifyCredential({
-        //   credential: response.body.credential,
-        // });
+        response = await request(server)
+          .post('/credential')
+          .auth(accessToken, { type: 'bearer' })
+          .send(credentialRequest);
 
-        // expect(res.verified).toBeTruthy();
+        expect(response.status).toBe(200);
+        expect(response.body).toStrictEqual({
+          format: 'jwt_vc_json',
+          credential: expect.any(String),
+        });
 
-        // expect.assertions(6);
+        // Verify credential
+        const agent = await getAgent();
+        const res = await agent.verifyCredential({
+          credential: response.body.credential,
+        });
+
+        expect(res.verified).toBeTruthy();
+
+        expect.assertions(6);
       });
     });
 
