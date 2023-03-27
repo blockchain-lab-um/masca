@@ -38,8 +38,8 @@ const VCCard = ({ row }: VCCardProps) => {
               query: { id: row.original.metadata.id },
             }}
           >
-            <button className="font-ubuntu text-sm font-bold text-gray-900">
-              MORE
+            <button className="font-ubuntu align-text-center text-sm font-bold text-gray-900">
+              MORE &nbsp; {'>'}
             </button>
           </Link>
 
@@ -55,22 +55,22 @@ const VCCard = ({ row }: VCCardProps) => {
             )}
           </div>
         </div>
-        <div className="mt-1 flex items-center justify-between">
+        <div className="mt-2 flex items-center justify-between">
           <div className="text-md w-[45%] text-gray-700">
             <div>
-              <span className="text-2xs text-gray-500">ISSUED BY</span>
+              <span className="text-2xs text-pink-400">ISSUED BY</span>
               <div className="">{issuerLink}</div>
             </div>
             <div className="mt-1">
-              <span className="text-2xs text-gray-500">ISSUED ON</span>
+              <span className="text-2xs text-pink-400">ISSUED ON</span>
               <div>{date}</div>
             </div>
             <div className="mt-1">
-              <span className="text-2xs text-gray-500">EXPIRES ON</span>
+              <span className="text-2xs text-pink-400">EXPIRES ON</span>
               <div>{expDate}</div>
             </div>
           </div>
-          <div className="text-h4 font-ubuntu text-center font-normal text-pink-500">
+          <div className="text-h4 font-ubuntu text-right font-normal text-pink-500">
             {types as string}
           </div>
         </div>
@@ -82,11 +82,11 @@ const VCCard = ({ row }: VCCardProps) => {
             row.getIsSelected()
               ? 'bg-pink-200/60 font-semibold text-pink-700'
               : 'dark:text-navy-blue-500'
-          } mt-4 rounded-full bg-white py-1 shadow-md`}
+          } mt-5 mb-1 rounded-full bg-white py-1 shadow-md`}
         >
           <div className="grid grid-cols-3">
             <span className="col-start-2">
-              {!row.getIsSelected() ? 'Select' : 'Selected'}
+              {!row.getIsSelected() ? 'Select Credential' : 'Selected'}
             </span>
             <span className="col-start-3 mr-4 text-right text-lg font-semibold">
               {!row.getIsSelected() ? '+' : '-'}
