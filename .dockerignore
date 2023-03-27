@@ -6,7 +6,7 @@
 **/Dockerfile
 yarn-error.log
 JenkinsfileTest
-.next
+**/.next
 install-state.gz
 **/dist
 **/build
