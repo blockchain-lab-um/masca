@@ -7,8 +7,10 @@ import { shallow } from 'zustand/shallow';
 
 import { useGeneralStore, useSnapStore } from '@/utils/stores';
 
-const snapId = 'local:http://localhost:8081';
-// const snapId = 'npm:@blockchain-lab-um/ssi-snap';
+const snapId =
+  process.env.NODE_ENV === 'production'
+    ? 'npm:@blockchain-lab-um/ssi-snap'
+    : 'local:http://localhost:8081';
 
 type MetaMaskProviderProps = {
   children: React.ReactNode;
@@ -87,7 +89,8 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
 
   const enableSSISnapHandler = async () => {
     const enableResult = await enableSSISnap({ snapId });
-
+    console.log(snapId);
+    console.log(process.env.NODE_ENV);
     if (isError(enableResult)) {
       console.error(enableResult.error);
       changeIsConnecting(false);
