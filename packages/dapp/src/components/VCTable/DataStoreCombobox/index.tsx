@@ -15,6 +15,8 @@ const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
   const [query, setQuery] = useState('');
   const setColumnFilters = useTableStore((state) => state.setColumnFilters);
   const selectedItems = useTableStore((state) => {
+    // eslint-disable-next-line no-console
+    console.log('state', state.columnFilters);
     for (let i = 0; i < state.columnFilters.length; i += 1) {
       if (state.columnFilters[i].id === 'data_store') {
         return state.columnFilters[i].value;
@@ -41,6 +43,9 @@ const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
           return ds.toLowerCase().includes(query.toLowerCase());
         });
 
+  console.log('filtered ds', filteredDataStores);
+  console.log('ds full', dataStoresFull);
+  console.log('ds', dataStores);
   return (
     <div className="">
       <Combobox
@@ -61,6 +66,7 @@ const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
                     : ' '
                 }`}
                 displayValue={(value: null | string | string[]) => {
+                  console.log('value', value);
                   if (value === undefined || value === null) return '';
                   if (typeof value === 'string') return value;
                   return value.join(', ');
