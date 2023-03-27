@@ -1,4 +1,3 @@
-import { MinimalUnisignedCredential } from '@blockchain-lab-um/ssi-snap-types';
 import { JsonBIP44CoinTypeNode } from '@metamask/key-tree';
 import { heading, panel, text } from '@metamask/snaps-ui';
 import {
@@ -74,6 +73,10 @@ export const exampleTestVCPayload = {
     id: 'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
     type: 'JsonSchemaValidator2018',
   },
+  '@context': [
+    'https://www.w3.org/2018/credentials/v1',
+    'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/ld-context.json',
+  ],
 };
 
 export const exampleDIDDocument: DIDDocument = {
@@ -165,25 +168,6 @@ export const exampleDIDKeyDocumentUniResovler = {
   ],
   assertionMethod: [
     'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik#zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
-  ],
-};
-
-export const unsignedMinimalCredential: MinimalUnisignedCredential = {
-  credentialSchema: {
-    id: 'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
-    type: 'JsonSchemaValidator2018',
-  },
-  credentialSubject: {
-    accomplishmentType: 'Developer Certificate',
-    learnerName: 'a',
-    achievement: 'Certified Solidity Developer 2',
-    courseProvider: 'UM FERI',
-    id: 'did:ethr:goerli:0x6A24687621cDD1C77Bb6aCbBEE910d0C517eB443',
-  },
-  type: ['VerifiableCredential', 'ProgramCompletionCertificate'],
-  '@context': [
-    'https://www.w3.org/2018/credentials/v1',
-    'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/ld-context.json',
   ],
 };
 

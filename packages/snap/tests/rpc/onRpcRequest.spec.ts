@@ -29,7 +29,6 @@ import {
   exampleTestVCPayload,
   getDefaultSnapState,
   jsonPath,
-  unsignedMinimalCredential,
 } from '../testUtils/constants';
 import { createTestVCs } from '../testUtils/generateTestVCs';
 import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
@@ -1621,75 +1620,68 @@ describe('onRpcRequest', () => {
 
   describe('createVC', () => {
     it('should succeed creating a VC', async () => {
-      const vc = (await onRpcRequest({
+      const res = (await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
           method: 'createVC',
           params: {
-            minimalUnsignedCredential: unsignedMinimalCredential,
+            minimalUnsignedCredential: exampleTestVCPayload,
           },
         },
-      })) as Result<boolean>;
+      })) as Result<VerifiableCredential>;
 
-      if (isError(vc)) {
-        throw vc.error;
+      if (isError(res)) {
+        throw res.error;
       }
 
-      console.log(vc.data);
-
-      expect(vc.data).toContainKey('proof');
+      expect(res.data).toContainKey('proof');
       expect.assertions(1);
     });
     it('should succeed creating a JWT VC', async () => {
-      const vc = (await onRpcRequest({
+      const res = (await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
           method: 'createVC',
           params: {
-            minimalUnsignedCredential: unsignedMinimalCredential,
+            minimalUnsignedCredential: exampleTestVCPayload,
             proofFormat: 'jwt',
           },
         },
-      })) as Result<boolean>;
+      })) as Result<VerifiableCredential>;
 
-      if (isError(vc)) {
-        throw vc.error;
+      if (isError(res)) {
+        throw res.error;
       }
 
-      expect(vc.data).toContainKey('proof');
-      expect((vc.data as unknown as VerifiableCredential).proof.type).toBe(
-        'JwtProof2020'
-      );
+      expect(res.data).toContainKey('proof');
+      expect(res.data.proof.type).toBe('JwtProof2020');
       expect.assertions(2);
     });
 
     it('should succeed creating a EIP VC', async () => {
-      const vc = (await onRpcRequest({
+      const res = (await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
           method: 'createVC',
           params: {
-            minimalUnsignedCredential: unsignedMinimalCredential,
+            minimalUnsignedCredential: exampleTestVCPayload,
             proofFormat: 'EthereumEip712Signature2021',
           },
         },
-      })) as Result<boolean>;
+      })) as Result<VerifiableCredential>;
 
-      if (isError(vc)) {
-        throw vc.error;
+      if (isError(res)) {
+        throw res.error;
       }
 
-      console.log(vc.data);
-      expect(vc.data).toContainKey('proof');
-      expect((vc.data as unknown as VerifiableCredential).proof.type).toBe(
-        'EthereumEip712Signature2021'
-      );
+      expect(res.data).toContainKey('proof');
+      expect(res.data.proof.type).toBe('EthereumEip712Signature2021');
       expect.assertions(2);
     });
     // TODO fix JSON-LD VC creation
@@ -1701,11 +1693,11 @@ describe('onRpcRequest', () => {
     //       jsonrpc: '2.0',
     //       method: 'createVC',
     //       params: {
-    //         minimalUnsignedCredential: unsignedMinimalCredential,
+    //         minimalUnsignedCredential: exampleTestVCPayload,
     //         proofFormat: 'lds',
     //       },
     //     },
-    //   })) as Result<boolean>;
+    //   })) as Result<VerifiableCredential>;
 
     //   if (isError(vc)) {
     //     throw vc.error;
@@ -1713,7 +1705,7 @@ describe('onRpcRequest', () => {
 
     //   console.log(vc.data);
     //   expect(vc.data).toContainKey('proof');
-    //   expect((vc.data as unknown as VerifiableCredential).proof.type).toBe(
+    //   expect((vc.data).proof.type).toBe(
     //     'EthereumEip712Signature2021'
     //   );
     //   expect.assertions(2);
@@ -1736,7 +1728,7 @@ describe('onRpcRequest', () => {
     //         proofFormat: 'EthereumEip712Signature2021',
     //       },
     //     },
-    //   })) as Result<boolean>;
+    //   })) as Result<VerifiableCredential>;
 
     //   if (isError(vc)) {
     //     throw vc.error;
@@ -1744,38 +1736,36 @@ describe('onRpcRequest', () => {
 
     //   console.log(vc.data);
     //   expect(vc.data).toContainKey('proof');
-    //   expect((vc.data as unknown as VerifiableCredential).proof.type).toBe(
+    //   expect((vc.data).proof.type).toBe(
     //     'EthereumEip712Signature2021'
     //   );
     //   expect.assertions(2);
     // });
     it('should succeed creating and saving a JWT VC', async () => {
-      const vc = (await onRpcRequest({
+      const res = (await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
           method: 'createVC',
           params: {
-            minimalUnsignedCredential: unsignedMinimalCredential,
+            minimalUnsignedCredential: exampleTestVCPayload,
             proofFormat: 'jwt',
             options: {
               save: true,
             },
           },
         },
-      })) as Result<boolean>;
+      })) as Result<VerifiableCredential>;
 
-      if (isError(vc)) {
-        throw vc.error;
+      if (isError(res)) {
+        throw res.error;
       }
 
-      expect(vc.data).toContainKey('proof');
-      expect((vc.data as unknown as VerifiableCredential).proof.type).toBe(
-        'JwtProof2020'
-      );
+      expect(res.data).toContainKey('proof');
+      expect(res.data.proof.type).toBe('JwtProof2020');
 
-      const res = (await onRpcRequest({
+      const resQuery = (await onRpcRequest({
         origin: 'localhost',
         request: {
           id: 'test-id',
@@ -1785,11 +1775,13 @@ describe('onRpcRequest', () => {
         },
       })) as Result<unknown>;
 
-      if (isError(res)) {
-        throw res.error;
+      if (isError(resQuery)) {
+        throw resQuery.error;
       }
-      expect(res.data).toHaveLength(1);
-      expect((res.data as QueryVCsRequestResult[])[0].data).toEqual(vc.data);
+      expect(resQuery.data).toHaveLength(1);
+      expect((resQuery.data as QueryVCsRequestResult[])[0].data).toEqual(
+        res.data
+      );
 
       expect.assertions(4);
     });

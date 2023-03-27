@@ -9,9 +9,9 @@ import {
 } from '../../src/utils/params';
 import {
   address,
+  exampleTestVCPayload,
   exampleVC,
   getDefaultSnapState,
-  unsignedMinimalCredential,
 } from '../testUtils/constants';
 
 describe('Utils [params]', () => {
@@ -549,7 +549,7 @@ describe('Utils [params]', () => {
       expect(() =>
         isValidCreateVCRequest(
           {
-            minimalUnsignedCredential: unsignedMinimalCredential,
+            minimalUnsignedCredential: exampleTestVCPayload,
           },
           address,
           state
@@ -562,7 +562,7 @@ describe('Utils [params]', () => {
       expect(() =>
         isValidCreateVCRequest(
           {
-            minimalUnsignedCredential: unsignedMinimalCredential,
+            minimalUnsignedCredential: exampleTestVCPayload,
             proofFormat: 'jwt',
           },
           address,
@@ -576,7 +576,7 @@ describe('Utils [params]', () => {
       expect(() =>
         isValidCreateVCRequest(
           {
-            minimalUnsignedCredential: unsignedMinimalCredential,
+            minimalUnsignedCredential: exampleTestVCPayload,
             proofFormat: 'jwt',
             options: {},
           },
@@ -591,7 +591,7 @@ describe('Utils [params]', () => {
       expect(() =>
         isValidCreateVCRequest(
           {
-            minimalUnsignedCredential: unsignedMinimalCredential,
+            minimalUnsignedCredential: exampleTestVCPayload,
             proofFormat: 'jwt',
             options: { save: true },
           },
@@ -606,7 +606,7 @@ describe('Utils [params]', () => {
       expect(() =>
         isValidCreateVCRequest(
           {
-            minimalUnsignedCredential: unsignedMinimalCredential,
+            minimalUnsignedCredential: exampleTestVCPayload,
             proofFormat: 'jwt',
             options: { save: true, store: ['snap'] },
           },
@@ -621,7 +621,7 @@ describe('Utils [params]', () => {
       expect(() =>
         isValidCreateVCRequest(
           {
-            minimalUnsignedCredential: unsignedMinimalCredential,
+            minimalUnsignedCredential: exampleTestVCPayload,
             proofFormat: 'jwt',
             options: { save: true, store: 'ceramic' },
           },
@@ -636,7 +636,7 @@ describe('Utils [params]', () => {
       expect(() =>
         isValidCreateVCRequest(
           {
-            minimalUnsignedCredential: unsignedMinimalCredential,
+            minimalUnsignedCredential: exampleTestVCPayload,
             proofFormat: 'jwt',
             options: { save: true, store: 'ceramicc' },
           },
@@ -651,7 +651,7 @@ describe('Utils [params]', () => {
       expect(() =>
         isValidCreateVCRequest(
           {
-            minimalUnsignedCredential: unsignedMinimalCredential,
+            minimalUnsignedCredential: exampleTestVCPayload,
             proofFormat: 'jws',
             options: { save: true, store: 'snap' },
           },

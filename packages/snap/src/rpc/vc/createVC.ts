@@ -1,6 +1,6 @@
 import { CreateVCRequestParams } from '@blockchain-lab-um/ssi-snap-types';
 import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
-import { W3CVerifiableCredential } from '@veramo/core';
+import { VerifiableCredential } from '@veramo/core';
 import { ApiParams } from 'src/interfaces';
 
 import { snapConfirm } from '../../utils/snapUtils';
@@ -9,12 +9,8 @@ import { veramoCreateVC, veramoSaveVC } from '../../utils/veramoUtils';
 export async function createVC(
   params: ApiParams,
   createVCParams: CreateVCRequestParams
-): Promise<W3CVerifiableCredential> {
-  const {
-    minimalUnsignedCredential,
-    proofFormat = 'jwt',
-    options,
-  } = createVCParams;
+): Promise<VerifiableCredential> {
+  const { minimalUnsignedCredential, proofFormat, options } = createVCParams;
 
   const { store = 'snap' } = options || {};
   const { save } = options || {};
@@ -27,7 +23,7 @@ export async function createVC(
   if (save === true) {
     const content = panel([
       heading('Save VC'),
-      text('Would you like to save following VC?'),
+      text('Would you like to save the following VC?'),
       divider(),
       text(`Store(s): ${typeof store === 'string' ? store : store.join(', ')}`),
       text(`VC:`),
