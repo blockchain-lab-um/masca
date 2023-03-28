@@ -130,7 +130,8 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         throw new Error('Method not found.');
     }
   } catch (e) {
-    // TODO (martin): Check for any and unknown errors
-    return ResultObject.error(e as Error);
+    // TODO (martin, urban): Check for any and unknown errors
+    const err = ResultObject.error((e as Error).message);
+    return err;
   }
 };

@@ -4,6 +4,6 @@
  *
  * @packageDocumentation
  */
-export { EbsiDIDProvider } from './ebsi-did-provider.js';
+export { EbsiDIDProvider } from './ebsiDidProvider.js';
 export { getDidEbsiResolver } from './resolver.js';
-export * from './types/ebsi-provider-types.js';
+export * from './types/ebsiProviderTypes.js';
