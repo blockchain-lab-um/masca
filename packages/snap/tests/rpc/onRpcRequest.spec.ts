@@ -1773,15 +1773,13 @@ describe('onRpcRequest', () => {
           method: 'queryVCs',
           params: {},
         },
-      })) as Result<unknown>;
+      })) as Result<QueryVCsRequestResult[]>;
 
       if (isError(resQuery)) {
         throw resQuery.error;
       }
       expect(resQuery.data).toHaveLength(1);
-      expect((resQuery.data as QueryVCsRequestResult[])[0].data).toEqual(
-        res.data
-      );
+      expect(resQuery.data[0].data).toEqual(res.data);
 
       expect.assertions(4);
     });
