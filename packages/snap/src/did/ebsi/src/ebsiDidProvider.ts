@@ -18,20 +18,20 @@ import { bytesToBase64url, hexToBytes } from '@veramo/utils';
 import { ec as EC } from 'elliptic';
 import * as jose from 'jose';
 
-import { onboard } from './ebsi-did-onboarding.js';
+import { onboard } from './ebsiDidOnboarding.js';
 import {
   algoMap,
   generateEbsiSubjectIdentifier,
   generateRandomEbsiSubjectIdentifier,
   privateKeyJwkToHex,
-} from './ebsi-did-utils.js';
+} from './ebsiDidUtils.js';
 import {
   IEbsiCreateIdentifierOptions,
   IEbsiDidSupportedEcdsaAlgo,
   IEbsiDidSupportedHashTypes,
   IEbsiDidSupportedKeyTypes,
   IImportedKey,
-} from './types/ebsi-provider-types.js';
+} from './types/ebsiProviderTypes.js';
 
 type IContext = IAgentContext<IKeyManager & ICredentialPlugin & IResolver>;
 

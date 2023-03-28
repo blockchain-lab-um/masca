@@ -6,7 +6,7 @@ import { base58btc } from 'multiformats/bases/base58';
 import {
   IEbsiDidSupportedEcdsaAlgo,
   IEbsiDidSupportedKeyTypes,
-} from './types/ebsi-provider-types';
+} from './types/ebsiProviderTypes';
 
 export const algoMap: Record<
   IEbsiDidSupportedKeyTypes,
@@ -17,6 +17,7 @@ export const algoMap: Record<
 };
 
 export function generateRandomEbsiSubjectIdentifier(): string {
+  // TODO: probably refactor this to use u8a
   return Buffer.from(
     base58btc.encode(Buffer.concat([new Uint8Array([1]), randomBytes(16)]))
   ).toString();

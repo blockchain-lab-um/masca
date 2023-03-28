@@ -11,7 +11,7 @@ import * as jose from 'jose';
 import { v4 as uuidv4 } from 'uuid';
 
 import { EbsiConfig, EbsiEndpoints } from './constants';
-import { algoMap, privateKeyJwkToHex } from './ebsi-did-utils';
+import { algoMap, privateKeyJwkToHex } from './ebsiDidUtils';
 import {
   IEbsiDidSupportedKeyTypes,
   IKeyJwks,
@@ -20,7 +20,7 @@ import {
   IUnsignedTransaction,
   IVerifiableAuthorization,
   IVerifiablePresentation,
-} from './types/ebsi-provider-types';
+} from './types/ebsiProviderTypes';
 
 async function createVerifiablePresentation(args: {
   verifiableAuthorization: IVerifiableAuthorization;
