@@ -20,6 +20,7 @@ jobs:
     secrets:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     with:
+      pnpm-version: 7.30.0
       node-version: 18.15.0
       number-of-agents: 3
       main-branch-name: 'develop'
