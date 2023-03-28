@@ -1475,6 +1475,7 @@ describe('onRpcRequest', () => {
       expect.assertions(1);
     });
   });
+
   describe('getAccountSettings', () => {
     const state = getDefaultSnapState();
     it('should succeed and return account settings', async () => {
@@ -1497,6 +1498,7 @@ describe('onRpcRequest', () => {
       expect.assertions(1);
     });
   });
+
   describe('getSnapSettings', () => {
     const state = getDefaultSnapState();
     it('should succeed and return snap settings', async () => {
@@ -1519,6 +1521,7 @@ describe('onRpcRequest', () => {
       expect.assertions(1);
     });
   });
+
   describe('resolveDID', () => {
     it('should succeed resolving did:ethr', async () => {
       const res = (await onRpcRequest({
@@ -1539,6 +1542,7 @@ describe('onRpcRequest', () => {
       expect.assertions(1);
     });
   });
+
   describe('verifyCredential', () => {
     it('should succeed verifiying a VC', async () => {
       const verified = (await onRpcRequest({
@@ -1684,63 +1688,11 @@ describe('onRpcRequest', () => {
       expect(res.data.proof.type).toBe('EthereumEip712Signature2021');
       expect.assertions(2);
     });
-    // TODO fix JSON-LD VC creation
-    // it('should succeed creating a JSON-LD VC', async () => {
-    //   const vc = (await onRpcRequest({
-    //     origin: 'localhost',
-    //     request: {
-    //       id: 'test-id',
-    //       jsonrpc: '2.0',
-    //       method: 'createVC',
-    //       params: {
-    //         minimalUnsignedCredential: exampleTestVCPayload,
-    //         proofFormat: 'lds',
-    //       },
-    //     },
-    //   })) as Result<VerifiableCredential>;
 
-    //   if (isError(vc)) {
-    //     throw vc.error;
-    //   }
+    it.todo('should succeed creating a JSON-LD VC');
 
-    //   console.log(vc.data);
-    //   expect(vc.data).toContainKey('proof');
-    //   expect((vc.data).proof.type).toBe(
-    //     'EthereumEip712Signature2021'
-    //   );
-    //   expect.assertions(2);
-    // });
+    it.todo('should fail creating an EIP VC - invalid VC');
 
-    // TODO: throw error for invalid VCs
-    // it('should fail creating a EIP VC', async () => {
-    //   const fakeVC = {
-    //     data: 'jhello',
-    //   };
-
-    //   const vc = (await onRpcRequest({
-    //     origin: 'localhost',
-    //     request: {
-    //       id: 'test-id',
-    //       jsonrpc: '2.0',
-    //       method: 'createVC',
-    //       params: {
-    //         minimalUnsignedCredential: fakeVC,
-    //         proofFormat: 'EthereumEip712Signature2021',
-    //       },
-    //     },
-    //   })) as Result<VerifiableCredential>;
-
-    //   if (isError(vc)) {
-    //     throw vc.error;
-    //   }
-
-    //   console.log(vc.data);
-    //   expect(vc.data).toContainKey('proof');
-    //   expect((vc.data).proof.type).toBe(
-    //     'EthereumEip712Signature2021'
-    //   );
-    //   expect.assertions(2);
-    // });
     it('should succeed creating and saving a JWT VC', async () => {
       const res = (await onRpcRequest({
         origin: 'localhost',
