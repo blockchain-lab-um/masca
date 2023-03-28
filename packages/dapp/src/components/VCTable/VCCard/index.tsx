@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import { Row } from '@tanstack/react-table';
+import { useTranslations } from 'next-intl';
 
 import Tooltip from '@/components/Tooltip';
 
@@ -10,16 +11,17 @@ interface VCCardProps {
 }
 
 const VCCard = ({ row }: VCCardProps) => {
+  const t = useTranslations('Dashboard');
   const types = row.getValue('type');
   const date = new Date(row.getValue('date')).toDateString();
   const expDate =
     new Date(row.getValue('exp_date')).toDateString() !== 'Invalid Date'
       ? new Date(row.getValue('exp_date')).toDateString()
-      : 'No expiration date';
+      : t('card.no-exp-date');
   const issuer: string = row.getValue('issuer');
   const validity = row.getValue('status');
   const issuerLink = (
-    <Tooltip tooltip={'Open DID in Universal resolver'}>
+    <Tooltip tooltip={t('tooltip.open-did')}>
       <a
         href={`https://dev.uniresolver.io/#${issuer}`}
         target="_blank"
@@ -39,7 +41,7 @@ const VCCard = ({ row }: VCCardProps) => {
             }}
           >
             <button className="font-ubuntu text-sm font-bold text-gray-900">
-              MORE
+              {t('card.more')}
             </button>
           </Link>
 
@@ -58,15 +60,19 @@ const VCCard = ({ row }: VCCardProps) => {
         <div className="mt-1 flex items-center justify-between">
           <div className="text-md w-[45%] text-gray-700">
             <div>
-              <span className="text-2xs text-gray-500">ISSUED BY</span>
+              <span className="text-2xs text-gray-500">{t('card.issued')}</span>
               <div className="">{issuerLink}</div>
             </div>
             <div className="mt-1">
-              <span className="text-2xs text-gray-500">ISSUED ON</span>
+              <span className="text-2xs text-gray-500">
+                {t('card.issued-date')}
+              </span>
               <div>{date}</div>
             </div>
             <div className="mt-1">
-              <span className="text-2xs text-gray-500">EXPIRES ON</span>
+              <span className="text-2xs text-gray-500">
+                {t('card.expires')}
+              </span>
               <div>{expDate}</div>
             </div>
           </div>
@@ -86,7 +92,7 @@ const VCCard = ({ row }: VCCardProps) => {
         >
           <div className="grid grid-cols-3">
             <span className="col-start-2">
-              {!row.getIsSelected() ? 'Select' : 'Selected'}
+              {!row.getIsSelected() ? t('card.select') : t('card.selected')}
             </span>
             <span className="col-start-3 mr-4 text-right text-lg font-semibold">
               {!row.getIsSelected() ? '+' : '-'}

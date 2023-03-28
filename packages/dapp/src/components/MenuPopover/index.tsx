@@ -2,6 +2,7 @@ import { Fragment } from 'react';
 import Image from 'next/image';
 import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
+import { useTranslations } from 'next-intl';
 
 import { BASE_PATH } from '@/utils/constants';
 
@@ -97,38 +98,39 @@ const IconDiscord = () => {
   );
 };
 
-const solutions = [
-  {
-    name: 'Create JWT',
-    description: 'Sign custom data using your DID',
-    href: '##',
-    icon: IconOne,
-    target: '',
-  },
-  {
-    name: 'Profile',
-    description: 'Customize your DID:ETHR profile',
-    href: '##',
-    icon: IconTwo,
-    target: '',
-  },
-  {
-    name: 'Blog',
-    description: 'Visit our blog to learn more about the development of Masca',
-    href: 'https://medium.com/@blockchainlabum',
-    icon: IconThree,
-    target: '_blank',
-  },
-  {
-    name: 'Discord',
-    description: 'Join the Blockchain Lab:UM Discord server',
-    href: 'https://discord.com/invite/M5xgNz7TTF',
-    icon: IconDiscord,
-    target: '_blank',
-  },
-];
-
 function MenuPopover() {
+  const t = useTranslations('Navbar');
+
+  const solutions = [
+    {
+      name: 'Create JWT',
+      description: 'Sign custom data using your DID',
+      href: '##',
+      icon: IconOne,
+      target: '',
+    },
+    {
+      name: 'Profile',
+      description: 'Customize your DID:ETHR profile',
+      href: '##',
+      icon: IconTwo,
+      target: '',
+    },
+    {
+      name: t('dropdown.blog'),
+      description: t('dropdown.blog-desc'),
+      href: 'https://medium.com/@blockchainlabum',
+      icon: IconThree,
+      target: '_blank',
+    },
+    {
+      name: 'Discord',
+      description: t('dropdown.discord-desc'),
+      href: 'https://discord.com/invite/M5xgNz7TTF',
+      icon: IconDiscord,
+      target: '_blank',
+    },
+  ];
   return (
     <div className="">
       <Popover className="group relative">
@@ -143,7 +145,7 @@ function MenuPopover() {
                 }
                 nav-btn flex items-end`}
             >
-              <span>Other</span>
+              <span>{t('menu.other')}</span>
               <ChevronDownIcon
                 className={`animated-transition ml-1 h-5 w-5 ${
                   open
@@ -197,11 +199,11 @@ function MenuPopover() {
                     >
                       <span className="flex items-center">
                         <span className="text-sm font-medium text-gray-900">
-                          Documentation
+                          {t('dropdown.documentation')}
                         </span>
                       </span>
                       <span className="block text-sm text-gray-500">
-                        Learn more about Masca
+                        {t('dropdown.learn-more')}
                       </span>
                     </a>
                   </div>

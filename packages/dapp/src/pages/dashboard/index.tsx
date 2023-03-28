@@ -24,3 +24,12 @@ export default function Dashboard() {
     </div>
   );
 }
+
+export async function getStaticProps(context: { locale: any }) {
+  return {
+    props: {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/restrict-template-expressions
+      messages: (await import(`../../locales/${context.locale}.json`)).default,
+    },
+  };
+}

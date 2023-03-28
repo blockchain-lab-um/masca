@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import { Cabin, JetBrains_Mono, Ubuntu } from 'next/font/google';
 import Head from 'next/head';
+import { NextIntlProvider } from 'next-intl';
 import { ThemeProvider } from 'next-themes';
 
 import Layout from '@/components/Layout';
@@ -37,11 +40,13 @@ export default function App({ Component, pageProps }: AppProps) {
         <div
           className={`${cabin.variable} ${ubuntu.variable} ${jetBrainsMono.variable} font-cabin`}
         >
-          <Layout>
-            <MetaMaskProvider>
-              <Component {...pageProps} />
-            </MetaMaskProvider>
-          </Layout>
+          <NextIntlProvider messages={pageProps.messages}>
+            <Layout>
+              <MetaMaskProvider>
+                <Component {...pageProps} />
+              </MetaMaskProvider>
+            </Layout>
+          </NextIntlProvider>
         </div>
       </ThemeProvider>
     </>

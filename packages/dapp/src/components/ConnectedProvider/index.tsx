@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
 import { useGeneralStore } from '@/utils/stores';
@@ -8,6 +9,7 @@ type ConnectedProviderProps = {
 };
 
 const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
+  const t = useTranslations('Gateway');
   const { isConnected, isConnecting, changeAddress, changeIsConnecting } =
     useGeneralStore(
       (state) => ({
@@ -48,7 +50,7 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
   return (
     <div className="flex min-h-full w-full items-center justify-center p-6">
       <h3 className="text-h3 dark:text-navy-blue-50 text-center text-gray-800">
-        Connect MetaMask to use the dApp!
+        {t('connect')}
       </h3>
     </div>
   );

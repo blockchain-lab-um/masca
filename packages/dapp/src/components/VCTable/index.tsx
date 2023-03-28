@@ -28,6 +28,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
+import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
@@ -42,6 +43,7 @@ import VCCard from './VCCard';
 import { includesDataStore, selectRows } from './tableUtils';
 
 const Table = () => {
+  const t = useTranslations('Dashboard');
   const [loading, setLoading] = useState(false);
   const [sorting, setSorting] = useState<SortingState>([]);
   const { vcs, changeVcs, api } = useSnapStore(
@@ -101,7 +103,9 @@ const Table = () => {
         id: 'type',
         cell: (info) => <span className="">{info.getValue().toString()}</span>,
         header: () => (
-          <span className="flex items-center justify-center">TYPE</span>
+          <span className="flex items-center justify-center">
+            {t('table.type')}
+          </span>
         ),
       }
     ),
@@ -112,7 +116,7 @@ const Table = () => {
           {new Date(info.getValue()).toDateString()}
         </span>
       ),
-      header: () => <span>ISSUANCE DATE</span>,
+      header: () => <span>{t('table.issuance-date')}</span>,
       enableGlobalFilter: false,
     }),
     columnHelper.accessor(
@@ -121,7 +125,7 @@ const Table = () => {
       {
         id: 'subject',
         cell: (info) => (
-          <Tooltip tooltip={'Open DID in Universal resolver'}>
+          <Tooltip tooltip={t('tooltip.open-did')}>
             <a
               href={`https://dev.uniresolver.io/#${info.getValue()}`}
               target="_blank"
@@ -132,7 +136,7 @@ const Table = () => {
               .slice(-4)}`}</a>
           </Tooltip>
         ),
-        header: () => <span>SUBJECT</span>,
+        header: () => <span>{t('table.subject')}</span>,
       }
     ),
     columnHelper.accessor(
@@ -145,7 +149,7 @@ const Table = () => {
       {
         id: 'issuer',
         cell: (info) => (
-          <Tooltip tooltip={'Open DID in Universal resolver'}>
+          <Tooltip tooltip={t('tooltip.open-did')}>
             <a
               href={`https://dev.uniresolver.io/#${info.getValue()}`}
               target="_blank"
@@ -156,7 +160,7 @@ const Table = () => {
               .slice(-4)}`}</a>
           </Tooltip>
         ),
-        header: () => <span>ISSUER</span>,
+        header: () => <span>{t('table.issuer')}</span>,
       }
     ),
     columnHelper.accessor(
@@ -172,7 +176,7 @@ const Table = () => {
               : new Date(info.getValue() as string).toDateString()}
           </span>
         ),
-        header: () => <span>EXPIRATION DATE</span>,
+        header: () => <span>{t('table.expiration-date')}</span>,
         enableGlobalFilter: false,
       }
     ),
@@ -189,7 +193,7 @@ const Table = () => {
             <Tooltip
               tooltip={`${
                 info.cell.row.original.data.expirationDate === undefined
-                  ? 'Does not have expiration date'
+                  ? t('tooltip.no-exp-date')
                   : `${
                       info.getValue() === 'true' ? 'Expires' : 'Expired'
                     } on ${new Date(
@@ -207,7 +211,7 @@ const Table = () => {
         ),
         header: () => (
           <span className="flex gap-x-1">
-            STATUS <InfoIcon>Validity of the VC</InfoIcon>
+            {t('table.status')} <InfoIcon>{t('tooltip.status')}</InfoIcon>
           </span>
         ),
       }
@@ -235,7 +239,7 @@ const Table = () => {
         ),
         header: () => (
           <span className="flex gap-x-1">
-            STORE <InfoIcon>Place where VC is stored</InfoIcon>
+            {t('table.store')} <InfoIcon>{t('tooltip.store')}</InfoIcon>
           </span>
         ),
         enableGlobalFilter: false,
@@ -244,7 +248,7 @@ const Table = () => {
     ),
     columnHelper.display({
       id: 'select',
-      header: ({ table }) => <>SELECT</>,
+      header: ({ table }) => <>{t('table.select')}</>,
       cell: ({ row }) => (
         <div className="flex items-center justify-center px-1">
           <button onClick={row.getToggleSelectedHandler()}>
@@ -275,7 +279,7 @@ const Table = () => {
           </button>
         </div>
       ),
-      header: () => <span>ACTIONS</span>,
+      header: () => <span>{t('table.actions')}</span>,
       enableGlobalFilter: false,
     }),
   ];
@@ -333,15 +337,15 @@ const Table = () => {
           onClick={handleLoadVcs}
           loading={loading}
         >
-          Load VCs
+          {t('noVCs.load')}
         </Button>
-        <span className="py-4 text-lg font-semibold">or</span>
+        <span className="py-4 text-lg font-semibold">{t('noVCs.or')}</span>
         <Link
           href="https://blockchain-lab-um.github.io/course-dapp"
           target="_blank"
         >
           <Button variant="secondary" size="sm" onClick={() => {}}>
-            Get your first VC
+            {t('noVCs.get')}
           </Button>
         </Link>
       </div>
@@ -353,14 +357,14 @@ const Table = () => {
         <div className="relative flex h-full min-h-[50vh] w-full flex-col">
           <div className="dark:border-navy-blue-600 flex items-center justify-between border-b border-gray-400 p-5">
             <div className="text-h2 font-ubuntu dark:text-navy-blue-50 pl-4 font-medium text-gray-900">
-              My Credentials
+              {t('table-header.credentials')}
             </div>
             <div className="text-right">
               <div className="text-h4 dark:text-navy-blue-50 text-gray-900">
-                {vcs.length} Credential(s) found
+                {vcs.length} {t('table-header.found')}
               </div>
               <div className="text-h5 dark:text-navy-blue-400 text-gray-600">
-                Fetched: today
+                {t('table-header.fetched')}: today
               </div>
             </div>
           </div>
@@ -475,7 +479,7 @@ const Table = () => {
                     );
                   }}
                 >
-                  Create Presentation{' '}
+                  {t('createVP')}{' '}
                   {table.getSelectedRowModel().rows.length > 0 &&
                     `(${table.getSelectedRowModel().rows.length})`}
                 </Button>
@@ -496,14 +500,14 @@ const Table = () => {
       <div className="relative flex h-full min-h-[50vh] w-full flex-col">
         <div className="dark:border-navy-blue-600 flex items-center justify-between border-b border-gray-400 p-5">
           <div className="text-h2 font-ubuntu dark:text-navy-blue-50 pl-4 font-medium text-gray-900">
-            My Credentials
+            {t('table-header.credentials')}
           </div>
           <div className="text-right">
             <div className="text-h4 dark:text-navy-blue-50 text-gray-900">
-              {vcs.length} Credential(s) found
+              {vcs.length} {t('table-header.found')}
             </div>
             <div className="text-h5 dark:text-navy-blue-400 text-gray-600">
-              Fetched: today
+              {t('table-header.fetched')}: today
             </div>
           </div>
         </div>
@@ -527,7 +531,7 @@ const Table = () => {
                   );
                 }}
               >
-                Create Presentation{' '}
+                {t('createVP')}{' '}
                 {table.getSelectedRowModel().rows.length > 0 &&
                   `(${table.getSelectedRowModel().rows.length})`}
               </Button>

@@ -2,6 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useTranslations } from 'next-intl';
 
 import MenuPopover from '@/components/MenuPopover';
 import ToggleTheme from '@/components/ToggleTheme';
@@ -10,6 +11,7 @@ import { NavBtn } from './NavBtn';
 import { NavConnection } from './NavConnection';
 
 export default function Navbar() {
+  const t = useTranslations('Navbar');
   const router = useRouter();
 
   return (
@@ -40,13 +42,13 @@ export default function Navbar() {
       {router.pathname !== '/' && (
         <div className="my-auto mx-2 flex">
           <NavBtn page="/" pathname={router.pathname}>
-            Home
+            {t('menu.home')}
           </NavBtn>
           <NavBtn page="/dashboard" pathname={router.pathname}>
-            Dashboard
+            {t('menu.dashboard')}
           </NavBtn>
           <NavBtn page="/settings" pathname={router.pathname}>
-            Settings
+            {t('menu.settings')}
           </NavBtn>
           <MenuPopover />
         </div>

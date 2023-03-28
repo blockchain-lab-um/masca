@@ -2,6 +2,7 @@ import React from 'react';
 import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
+import { useTranslations } from 'next-intl';
 
 import { copyToClipboard } from '@/utils/string';
 
@@ -11,6 +12,7 @@ type AddressPopoverProps = {
   disconnect: () => void;
 };
 const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
+  const t = useTranslations('Navbar');
   return (
     <Popover className="relative z-50">
       {({ open }) => (
@@ -65,7 +67,7 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
                   </div>
                   <div>
                     <div className="dark:text-navy-blue-100 mt-4 text-sm text-gray-700">
-                      CONNECTED WITH METAMASK
+                      {t('address.connected')}
                     </div>
                     <div className="mt-2 flex items-center">
                       <div className="mr-1 mt-0.5">
@@ -89,7 +91,7 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
                       onClick={disconnect}
                       className="animated-transition mt-auto text-xs font-semibold text-pink-800 hover:text-pink-700 dark:text-pink-300 hover:dark:text-pink-400"
                     >
-                      DISCONNECT
+                      {t('address.disconnect')}
                     </button>
                   </div>
                 </div>

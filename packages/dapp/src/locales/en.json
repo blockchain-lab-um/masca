@@ -1,0 +1,78 @@
+{
+  "Home": {
+    "title-1": "Take control of your",
+    "title-2": "Online Identity",
+    "hero-text-1": "Join the world of",
+    "SSI": "Self - Sovereign Identity",
+    "hero-text-2": "with one click",
+    "button-1": "Get Started"
+  },
+  "Gateway": {
+    "connect": "Connect MetaMask to use the dapp",
+    "flask": "Install MetaMask Flask to use the dApp!"
+  },
+  "Navbar": {
+    "connect": "Connect Wallet",
+    "menu": {
+      "home": "Home",
+      "dashboard": "Dashboard",
+      "settings": "Settings",
+      "other": "Other"
+    },
+    "dropdown": {
+      "blog": "Blog",
+      "blog-desc": "Read the Blockchain Lab:UM Blog",
+      "discord-desc": "Join the Blockchain Lab:UM Discord Server",
+      "documentation": "Documentation",
+      "learn-more": "Learn more about Masca"
+    },
+    "address": {
+      "connected": "CONNECTED WITH METAMASK",
+      "disconnect": "DISCONNECT"
+    }
+  },
+  "Dashboard": {
+    "noVCs": {
+      "load": "Load VCs",
+      "or": "or",
+      "get": "Get your first VC"
+    },
+    "createVP": "Create Presentation",
+    "search": "Search all columns...",
+    "table-header": {
+      "credentials": "My Credentials",
+      "found": "Credential(s) found",
+      "fetched": "Fetched"
+    },
+    "pagination": {
+      "of": "of",
+      "page": "Page"
+    },
+    "card": {
+      "more": "More",
+      "select": "Select",
+      "selected": "Selected",
+      "expires": "EXPIRES ON",
+      "issued": "ISSUED BY",
+      "issued-date": "ISSUED ON",
+      "no-exp-date": "No Expiration Date"
+    },
+    "table": {
+      "issuance-date": "ISSUANCE DATE",
+      "type": "TYPE",
+      "subject": "SUBJECT",
+      "issuer": "ISSUER",
+      "expiration-date": "EXPIRATION DATE",
+      "status": "STATUS",
+      "select": "SELECT",
+      "store": "STORE",
+      "actions": "ACTIONS"
+    },
+    "tooltip": {
+      "open-did": "Open DID in Universal resolver",
+      "status": "Validity of the VC",
+      "store": "Where the VC is stored",
+      "no-exp-date": "Does not have an expiration date"
+    }
+  }
+}
