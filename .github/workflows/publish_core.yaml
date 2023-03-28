@@ -12,11 +12,11 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 7.25.1
+          version: 7.30.0
       - name: Install node
         uses: actions/setup-node@v3
         with:
-          node-version: 18.13.0
+          node-version: 18.15.0
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
       - name: Install deps
