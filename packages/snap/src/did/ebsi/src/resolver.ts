@@ -42,6 +42,6 @@ const resolveDidEbsi: DIDResolver = async (
  *
  * @public
  */
-export function getDidEbsiResolver() {
+export function ebsiDidResolver() {
   return { ebsi: resolveDidEbsi };
 }

@@ -54,6 +54,7 @@
     "@blockchain-lab-um/utils": "*",
     "@blockchain-lab-um/veramo-vc-manager": "*",
     "@cef-ebsi/ebsi-did-resolver": "^3.0.0",
+    "@cef-ebsi/key-did-resolver": "^1.0.0",
     "@cef-ebsi/siop-auth": "^3.0.0",
     "@cef-ebsi/verifiable-presentation": "^5.0.2",
     "@ceramicnetwork/http-client": "2.20.0",

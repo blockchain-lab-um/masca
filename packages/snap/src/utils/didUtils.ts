@@ -6,7 +6,10 @@ import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { DIDResolutionResult } from 'did-resolver';
 
-import { getDidKeyIdentifier } from '../did/key/keyDidUtils';
+import {
+  getDidEbsiKeyIdentifier,
+  getDidKeyIdentifier,
+} from '../did/key/keyDidUtils';
 import { getDidPkhIdentifier } from '../did/pkh/pkhDidUtils';
 import { SSISnapState } from '../interfaces';
 import { getCurrentNetwork } from './snapUtils';
@@ -38,10 +41,16 @@ export async function getCurrentDid(
     const didUrl = getDidKeyIdentifier(state, account);
     return `did:key:${didUrl}`;
   }
+  if (method === 'did:key:ebsi') {
+    const didUrl = getDidEbsiKeyIdentifier(state, account);
+    return `did:key:${didUrl}`;
+  }
   if (method === 'did:pkh') {
     const didUrl = await getDidPkhIdentifier(ethereum, account);
     return `did:pkh:${didUrl}`;
   }
+  // if (method === "did:key:ebsi") {
+  // }
   return '';
 }
 
@@ -60,6 +69,7 @@ export async function changeCurrentMethod(
 }
 
 export async function resolveDid(did: string): Promise<DIDResolutionResult> {
+  // TODO (urban): implement resolution for did:key ebsi natural persons
   const response = await fetch(
     `https://dev.uniresolver.io/1.0/identifiers/${did}`
   );
