@@ -7095,6 +7095,23 @@ packages:
       '@svgr/babel-plugin-transform-svg-component': 7.0.0_@babel+core@7.21.4
     dev: true
 
+  /@svgr/babel-preset/7.0.0_@babel+core@7.21.3:
+    resolution: {integrity: sha512-EX/NHeFa30j5UjldQGVQikuuQNHUdGmbh9kEpBKofGUtF0GUPJ4T4rhoYiqDAOmBOxojyot36JIFiDUHUK1ilQ==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      '@babel/core': 7.21.3
+      '@svgr/babel-plugin-add-jsx-attribute': 7.0.0_@babel+core@7.21.3
+      '@svgr/babel-plugin-remove-jsx-attribute': 7.0.0_@babel+core@7.21.3
+      '@svgr/babel-plugin-remove-jsx-empty-expression': 7.0.0_@babel+core@7.21.3
+      '@svgr/babel-plugin-replace-jsx-attribute-value': 7.0.0_@babel+core@7.21.3
+      '@svgr/babel-plugin-svg-dynamic-title': 7.0.0_@babel+core@7.21.3
+      '@svgr/babel-plugin-svg-em-dimensions': 7.0.0_@babel+core@7.21.3
+      '@svgr/babel-plugin-transform-react-native-svg': 7.0.0_@babel+core@7.21.3
+      '@svgr/babel-plugin-transform-svg-component': 7.0.0_@babel+core@7.21.3
+    dev: true
+
   /@svgr/core/6.5.1:
     resolution: {integrity: sha512-/xdLSWxK5QkqG524ONSjvg3V/FkNyCv538OIBdQqPNaAta3AsXj/Bd2FbvR87yMbXO2hFSWiAe/Q6IkVPDw+mw==}
     engines: {node: '>=10'}
@@ -20497,11 +20514,11 @@ packages:
       file-loader:
         optional: true
     dependencies:
-      file-loader: 6.2.0_webpack@5.75.0
+      file-loader: 6.2.0_webpack@5.76.3
       loader-utils: 2.0.4
       mime-types: 2.1.35
       schema-utils: 3.1.1
-      webpack: 5.75.0
+      webpack: 5.76.3
 
   /url-parse-lax/3.0.0:
     resolution: {integrity: sha512-NjFKA0DidqPa5ciFcSrXnAltTtzz84ogy+NebPvfEgAck0+TNg4UJ4IN+fB7zRZfbgUf0syOo9MDxFkDSMuFaQ==}
