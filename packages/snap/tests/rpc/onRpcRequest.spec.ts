@@ -1,4 +1,5 @@
 import {
+  QueryVCsRequestResult,
   availableMethods,
   availableVCStores,
 } from '@blockchain-lab-um/ssi-snap-types';
@@ -14,7 +15,6 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
 } from '@veramo/core';
-import * as uuid from 'uuid';
 
 import { onRpcRequest } from '../../src';
 import { StoredCredentials } from '../../src/interfaces';
@@ -45,7 +45,6 @@ describe('onRpcRequest', () => {
   beforeEach(() => {
     snapMock = createMockSnap();
     snapMock.rpcMocks.snap_manageState('update', getDefaultSnapState());
-    // snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
     global.snap = snapMock;
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
   });
@@ -520,7 +519,6 @@ describe('onRpcRequest', () => {
     });
 
     it('should succeed with 1 VC matching query - no filter or store', async () => {
-      jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       const saveRes = (await onRpcRequest({
@@ -570,7 +568,6 @@ describe('onRpcRequest', () => {
     });
 
     it('should succeed with 1 VC matching query - store defined', async () => {
-      jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       const saveRes = (await onRpcRequest({
@@ -622,7 +619,6 @@ describe('onRpcRequest', () => {
     });
 
     it('should succeed with 1 VC matching query - without store', async () => {
-      jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       const saveRes = (await onRpcRequest({
@@ -673,7 +669,6 @@ describe('onRpcRequest', () => {
     });
 
     it('should succeed with 1 VC matching query - filter by JSONPath', async () => {
-      jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       const saveRes = (await onRpcRequest({
@@ -931,7 +926,6 @@ describe('onRpcRequest', () => {
 
   describe('createVP', () => {
     it('should succeed creating VP', async () => {
-      jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
       // const agent = await getAgent(snapMock);
 
@@ -981,7 +975,6 @@ describe('onRpcRequest', () => {
       expect.assertions(1);
     });
     it('should succeed creating VP with did:key', async () => {
-      jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
       // const agent = await getAgent(snapMock);
       const saveRes = (await onRpcRequest({
@@ -1041,7 +1034,6 @@ describe('onRpcRequest', () => {
     });
 
     it('should fail creating VP - VC does not exist', async () => {
-      jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
 
       let res = (await onRpcRequest({
@@ -1482,6 +1474,7 @@ describe('onRpcRequest', () => {
       expect.assertions(1);
     });
   });
+
   describe('getAccountSettings', () => {
     const state = getDefaultSnapState();
     it('should succeed and return account settings', async () => {
@@ -1504,6 +1497,7 @@ describe('onRpcRequest', () => {
       expect.assertions(1);
     });
   });
+
   describe('getSnapSettings', () => {
     const state = getDefaultSnapState();
     it('should succeed and return snap settings', async () => {
@@ -1526,6 +1520,7 @@ describe('onRpcRequest', () => {
       expect.assertions(1);
     });
   });
+
   describe('resolveDID', () => {
     it('should succeed resolving did:ethr', async () => {
       const res = (await onRpcRequest({
@@ -1546,6 +1541,7 @@ describe('onRpcRequest', () => {
       expect.assertions(1);
     });
   });
+
   describe('verifyCredential', () => {
     it('should succeed verifiying a VC', async () => {
       const verified = (await onRpcRequest({
@@ -1622,6 +1618,121 @@ describe('onRpcRequest', () => {
 
       expect(verified.data).toBe(true);
       expect.assertions(1);
+    });
+  });
+
+  describe('createVC', () => {
+    it('should succeed creating a VC', async () => {
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'createVC',
+          params: {
+            minimalUnsignedCredential: exampleTestVCPayload,
+          },
+        },
+      })) as Result<VerifiableCredential>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toContainKey('proof');
+      expect.assertions(1);
+    });
+    it('should succeed creating a JWT VC', async () => {
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'createVC',
+          params: {
+            minimalUnsignedCredential: exampleTestVCPayload,
+            proofFormat: 'jwt',
+          },
+        },
+      })) as Result<VerifiableCredential>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toContainKey('proof');
+      expect(res.data.proof.type).toBe('JwtProof2020');
+      expect.assertions(2);
+    });
+
+    it('should succeed creating a EIP VC', async () => {
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'createVC',
+          params: {
+            minimalUnsignedCredential: exampleTestVCPayload,
+            proofFormat: 'EthereumEip712Signature2021',
+          },
+        },
+      })) as Result<VerifiableCredential>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toContainKey('proof');
+      expect(res.data.proof.type).toBe('EthereumEip712Signature2021');
+      expect.assertions(2);
+    });
+
+    it.todo('should succeed creating a JSON-LD VC');
+
+    it.todo('should fail creating an EIP VC - invalid VC');
+
+    it('should succeed creating and saving a JWT VC', async () => {
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'createVC',
+          params: {
+            minimalUnsignedCredential: exampleTestVCPayload,
+            proofFormat: 'jwt',
+            options: {
+              save: true,
+            },
+          },
+        },
+      })) as Result<VerifiableCredential>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toContainKey('proof');
+      expect(res.data.proof.type).toBe('JwtProof2020');
+
+      const resQuery = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'queryVCs',
+          params: {},
+        },
+      })) as Result<QueryVCsRequestResult[]>;
+
+      if (isError(resQuery)) {
+        throw resQuery.error;
+      }
+      expect(resQuery.data).toHaveLength(1);
+      expect(resQuery.data[0].data).toEqual(res.data);
+
+      expect.assertions(4);
     });
   });
 });
