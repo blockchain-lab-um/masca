@@ -1,4 +1,5 @@
 import {
+  UnsignedCredential,
   W3CVerifiableCredential,
   W3CVerifiablePresentation,
 } from '@veramo/core';
@@ -51,6 +52,25 @@ export type CreateVPRequestParams = {
   vcs: VCRequest[];
   proofFormat?: SupportedProofFormats;
   proofOptions?: ProofOptions;
+};
+
+export type MinimalUnisignedCredential = Pick<
+  UnsignedCredential,
+  | 'credentialSubject'
+  | 'type'
+  | '@context'
+  | 'expirationDate'
+  | 'credentialStatus'
+  | 'id'
+> & { [x: string]: any };
+
+export type CreateVCRequestParams = {
+  minimalUnsignedCredential: MinimalUnisignedCredential;
+  proofFormat?: SupportedProofFormats;
+  options?: {
+    save?: boolean;
+    store?: AvailableVCStores | AvailableVCStores[];
+  };
 };
 
 export type QueryVCsRequestParams = {

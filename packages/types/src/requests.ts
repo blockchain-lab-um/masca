@@ -1,4 +1,5 @@
 import {
+  CreateVC,
   CreateVP,
   DeleteVC,
   GetAccountSettings,
@@ -31,7 +32,8 @@ export type MetaMaskSSISnapRPCRequest =
   | GetAvailableVCStores
   | GetAccountSettings
   | GetSnapSettings
-  | ResolveDID;
+  | ResolveDID
+  | CreateVC;
 
 export type Method = MetaMaskSSISnapRPCRequest['method'];
 
