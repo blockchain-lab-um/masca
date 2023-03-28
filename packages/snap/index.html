@@ -46,6 +46,7 @@
       <option value="EthereumEip712Signature2021">eip</option>
     </select>
     <button id="getVP" class="getVP">Get VP</button>
+    <button id="getVC" class="getVC">Get VC</button>
     <br />
     <hr />
     <select id="didMethod">
@@ -131,6 +132,8 @@
       'button.getAvailableMethods'
     );
 
+    const createVCBtn = document.querySelector('button.getVC');
+
     const popups = document.querySelector('button.togglePopups');
     const infura = document.querySelector('button.changeInfuraToken');
     const resolveDID = document.querySelector('button.resolveDID');
@@ -154,6 +157,8 @@
     saveBothBtn.addEventListener('click', saveVCB);
 
     getVPBtn.addEventListener('click', getVp);
+
+    createVCBtn.addEventListener('click', createVC);
 
     switchMethodBtn.addEventListener('click', switchMethod);
 
@@ -422,6 +427,35 @@
           });
           console.log(response);
         }
+      } catch (err) {
+        console.error(err);
+        alert('Problem happened: ' + err.message || err);
+      }
+    }
+
+    async function createVC() {
+      try {
+        const vc = JSON.parse(document.getElementById('VC').value);
+
+        console.log('VC', vc);
+        const pF = document.getElementById('proofFormat').value;
+        console.log('selected pf:', pF);
+
+        const response = await ethereum.request({
+          method: `wallet_snap_${snapId}`,
+          params: {
+            method: 'createVC',
+            params: {
+              minimalUnsignedCredential: vc,
+              proofFormat: pF,
+              options: {
+                save: true,
+                store: ['snap'],
+              },
+            },
+          },
+        });
+        console.log(response);
       } catch (err) {
         console.error(err);
         alert('Problem happened: ' + err.message || err);
