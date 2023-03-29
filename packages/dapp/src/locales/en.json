@@ -74,5 +74,56 @@
       "store": "Where the VC is stored",
       "no-exp-date": "Does not have an expiration date"
     }
+  },
+  "Settings": {
+    "ds": "Data Stores",
+    "ds-desc": "Enable or disable data stores. Data stores are places where VCs are stored.",
+    "advanced": "Advanced"
+  },
+  "VC": {
+    "vc": "Verifiable Credential",
+    "formatted-tab": {
+      "issuance-date": "Issuance Date",
+      "exp-date": "Expires on",
+      "dates": "DATES",
+      "subject": "SUBJECT",
+      "issuer": "ISSUER",
+      "expiration-date": "Expiration Date",
+      "no-exp-date": "Does not have an expiration date",
+      "store": "DATA STORES",
+      "createVP": "Create Presentation"
+    },
+    "tooltip": {
+      "open-did": "Open DID in Universal resolver"
+    }
+  },
+  "ModifyDS": {
+    "title": "Modify Credential",
+    "desc": "Here you can define where the credential will be stored.",
+    "done": "Done"
+  },
+  "DeleteVC": {
+    "title": "Delete Credential",
+    "desc": "Approving this action will remove the credential from your wallet. This action cannot be undone.",
+    "cancel": "Cancel",
+    "delete": "Delete VC"
+  },
+  "CreateVP": {
+    "title": "Create Presentation",
+    "table": {
+      "title": "Selected Credentials",
+      "type": "TYPE",
+      "issuer": "ISSUER",
+      "status": "STATUS",
+      "remove": "REMOVE"
+    },
+    "options": {
+      "title": "OPTIONS",
+      "format": "Format"
+    },
+    "advanced": {
+      "title": "ADVANCED",
+      "tooltip": "Only applicable to JWT proof format."
+    }
   }
 }

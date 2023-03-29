@@ -4,7 +4,7 @@ import { Combobox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 
-import { useTableStore } from '@/utils/stores';
+import { useSnapStore, useTableStore } from '@/utils/stores';
 
 type DataStoreComboboxProps = {
   isConnected: boolean;
@@ -13,6 +13,8 @@ type DataStoreComboboxProps = {
 
 const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
   const [query, setQuery] = useState('');
+  const availableVCStores = useSnapStore((state) => state.availableVCStores);
+  console.log('aaa', availableVCStores);
   const setColumnFilters = useTableStore((state) => state.setColumnFilters);
   const selectedItems = useTableStore((state) => {
     for (let i = 0; i < state.columnFilters.length; i += 1) {
@@ -44,7 +46,7 @@ const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
   return (
     <div className="">
       <Combobox
-        value={selectedItems}
+        value={dataStores}
         onChange={(value) => {
           setColumnFilters([{ id: 'data_store', value }]);
         }}

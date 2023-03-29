@@ -5,6 +5,7 @@ import {
 } from '@blockchain-lab-um/ssi-snap-types';
 import { isError } from '@blockchain-lab-um/utils';
 import { Dialog, Transition } from '@headlessui/react';
+import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
@@ -18,6 +19,7 @@ interface DeleteModalProps {
 }
 
 function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
+  const t = useTranslations('DeleteVC');
   const api = useSnapStore((state) => state.snapApi);
   const { setTitle, setLoading, setToastOpen } = useToastStore(
     (state) => ({
@@ -99,12 +101,11 @@ function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
                   as="h3"
                   className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-900 "
                 >
-                  Delete Credential
+                  {t('title')}
                 </Dialog.Title>
                 <div className="mt-4">
                   <p className="text-md dark:text-navy-blue-200 text-gray-500 ">
-                    Approving this action will remove the credential from your
-                    wallet. This action cannot be undone.
+                    {t('desc')}
                   </p>
 
                   {store && (
@@ -123,7 +124,7 @@ function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
                       variant="gray"
                       size="xs"
                     >
-                      Cancel
+                      {t('cancel')}
                     </Button>
                   </div>
                   <div className="mt-10 ml-2">
@@ -132,7 +133,7 @@ function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
                       variant="warning"
                       size="xs"
                     >
-                      Delete VC
+                      {t('delete')}
                     </Button>
                   </div>
                 </div>

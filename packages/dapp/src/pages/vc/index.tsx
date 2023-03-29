@@ -9,6 +9,7 @@ import {
   TrashIcon,
 } from '@heroicons/react/24/outline';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
+import { useTranslations } from 'next-intl';
 
 import ConnectedProvider from '@/components/ConnectedProvider';
 import FormatedTab from '@/components/VC/tabs/FormatedTab';
@@ -16,6 +17,7 @@ import JsonTab from '@/components/VC/tabs/JsonTab';
 import { useSnapStore } from '@/utils/stores';
 
 const VC = () => {
+  const t = useTranslations('VC');
   const router = useRouter();
   const { id } = router.query;
   const vcs = useSnapStore((state) => state.vcs);
@@ -121,7 +123,7 @@ const VC = () => {
                     <ArrowLeftIcon className="h-6 w-6" />
                   </button>
                   <div className="text-h3 dark:text-navy-blue-50 font-semibold text-gray-900">
-                    Verifiable Credential
+                    {t('vc')}
                   </div>
                 </div>
                 <div className="w-full px-2 sm:px-0">
@@ -156,3 +158,12 @@ const VC = () => {
 };
 
 export default VC;
+
+export async function getStaticProps(context: { locale: any }) {
+  return {
+    props: {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/restrict-template-expressions
+      messages: (await import(`../../locales/${context.locale}.json`)).default,
+    },
+  };
+}

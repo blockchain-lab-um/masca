@@ -5,6 +5,7 @@ import {
 } from '@blockchain-lab-um/ssi-snap-types';
 import { isError } from '@blockchain-lab-um/utils';
 import { Dialog, Transition } from '@headlessui/react';
+import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
 import { useSnapStore, useToastStore } from '@/utils/stores';
@@ -19,6 +20,7 @@ interface ModifyDSModalProps {
 }
 
 function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
+  const t = useTranslations('ModifyDS');
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const { setTitle, setLoading, setToastOpen } = useToastStore(
     (state) => ({
@@ -135,11 +137,11 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
                   as="h3"
                   className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-900"
                 >
-                  Modify Credential
+                  {t('title')}
                 </Dialog.Title>
                 <div className="mt-2">
                   <p className="text-md dark:text-navy-blue-200 text-gray-500">
-                    Here you can define where the credential will be stored.
+                    {t('desc')}
                   </p>
                 </div>
                 <div className="dark:text-navy-blue-100 mt-10 px-4 text-gray-700">
@@ -175,7 +177,7 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
                       variant="gray"
                       size="xs"
                     >
-                      Done
+                      {t('done')}
                     </Button>
                   </div>
                 </div>

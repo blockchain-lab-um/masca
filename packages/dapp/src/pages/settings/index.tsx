@@ -1,6 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import { isError } from '@blockchain-lab-um/utils';
+import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
 import ConnectedProvider from '@/components/ConnectedProvider';
@@ -8,6 +9,7 @@ import ToggleSwitch from '@/components/Switch';
 import { useSnapStore } from '@/utils/stores';
 
 export default function Settings() {
+  const t = useTranslations('Settings');
   const { availableVCStores, changeAvailableVCStores, api } = useSnapStore(
     (state) => ({
       availableVCStores: state.availableVCStores,
@@ -52,12 +54,11 @@ export default function Settings() {
             <div className="p-4 text-lg">
               <div>
                 <div className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6  text-gray-900">
-                  Data Stores
+                  {t('ds')}
                 </div>
                 <div className="mt-5">
                   <p className="text-md dark:text-navy-blue-400 text-gray-600 ">
-                    Enable or disable data stores. Data stores are places where
-                    VCs are stored.{' '}
+                    {t('ds-desc')}{' '}
                   </p>
                 </div>
 
@@ -74,7 +75,7 @@ export default function Settings() {
 
               <div className="mt-20">
                 <div className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6  text-gray-900">
-                  Advanced
+                  {t('advanced')}
                 </div>
                 <div className="mt-2 text-sm text-red-500">
                   Not implemented yet.
@@ -87,4 +88,13 @@ export default function Settings() {
       </div>
     </>
   );
+}
+
+export async function getStaticProps(context: { locale: any }) {
+  return {
+    props: {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/restrict-template-expressions
+      messages: (await import(`../../locales/${context.locale}.json`)).default,
+    },
+  };
 }

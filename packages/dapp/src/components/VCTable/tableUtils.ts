@@ -21,7 +21,6 @@ export const selectRows = (
   table: Table<QueryVCsRequestResult>,
   selectedVCs: QueryVCsRequestResult[]
 ) => {
-  // TODO only check IDs after snap bug is fixed (join same VCs with different stores)
   table.getPrePaginationRowModel().rows.forEach((row) => {
     if (
       selectedVCs.filter(
