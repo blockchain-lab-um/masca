@@ -48,7 +48,7 @@
     <button id="getVP" class="getVP">Get VP</button>
     <br />
     <hr />
-    <select id="didMethod">
+    <select id="didMethod" onchange="checkIfEbsi(this.value)">
       <option value="did:ethr">did:ethr</option>
       <option value="did:key">did:key</option>
       <option value="did:key:ebsi">did:key:ebsi</option>
@@ -56,6 +56,7 @@
       <option value="did:pkh">did:pkh</option>
       <option value="did:github">did:gh</option>
     </select>
+	<input type="text" id="ebsiBearer" placeholder="Bearer" hidden />
     <button class="switchMethod">Switch current method</button>
     <br />
     <hr />
@@ -177,6 +178,14 @@
 	toggleVCStoreBtn.addEventListener('click', toggleVCStore);
 	getavaiVCstoreBtn.addEventListener('click', getAvailableVCStores);
 
+	async function checkIfEbsi(selectedMethod) {
+		if (selectedMethod === "did:ebsi") {
+			document.getElementById("ebsiBearer").hidden = false;
+		} else {
+			document.getElementById("ebsiBearer").hidden = true;
+		}
+	}
+
 	// here we get permissions to interact with and install the snap
 	async function connect() {
 		console.log('snap id', snapId);
@@ -266,7 +275,20 @@
 	async function switchMethod() {
 		const method = document.getElementById('didMethod').value;
 		console.log('selected method', method);
-		const response = await ethereum.request({
+		let response;
+		if (method === "did:ebsi") {
+			response = await ethereum.request({
+			method: `wallet_snap_${snapId}`,
+			params: {
+				method: 'switchDIDMethod',
+				params: {
+					didMethod: method,
+					bearer: document.getElementById('ebsiBearer').value,
+				},
+			},
+		});
+		}
+		response = await ethereum.request({
 			method: `wallet_snap_${snapId}`,
 			params: {
 				method: 'switchDIDMethod',
@@ -377,9 +399,10 @@
 		console.log('VC ID', vcId, checkBox);
 
 		const pF = document.getElementById('proofFormat').value;
+		let response;
 		console.log('selected pf:', pF);
 		if (!checkBox) {
-			const response = await ethereum.request({
+			response = await ethereum.request({
 				method: `wallet_snap_${snapId}`,
 				params: {
 					method: 'createVP',
@@ -391,7 +414,7 @@
 			});
 			console.log(response);
 		} else {
-			const response = await ethereum.request({
+			response = await ethereum.request({
 				method: `wallet_snap_${snapId}`,
 				params: {
 					method: 'createVP',

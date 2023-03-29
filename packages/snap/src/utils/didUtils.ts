@@ -11,8 +11,9 @@ import {
   getDidKeyIdentifier,
 } from '../did/key/keyDidUtils';
 import { getDidPkhIdentifier } from '../did/pkh/pkhDidUtils';
-import { SSISnapState } from '../interfaces';
+import { ApiParams, SSISnapState } from '../interfaces';
 import { getAgent } from '../veramo/setup';
+import { getDidEbsiIdentifier } from './ebsiUtils';
 import { getCurrentNetwork } from './snapUtils';
 import { updateSnapState } from './stateUtils';
 
@@ -28,12 +29,10 @@ export async function changeCurrentVCStore(
   await updateSnapState(snap, state);
 }
 
-export async function getCurrentDid(
-  ethereum: MetaMaskInpageProvider,
-  state: SSISnapState,
-  account: string
-): Promise<string> {
+export async function getCurrentDid(params: ApiParams): Promise<string> {
+  const { state, account } = params;
   const method = state.accountState[account].accountConfig.ssi.didMethod;
+  // SO FAR DO SEM VSE GOOD
   if (method === 'did:ethr') {
     const CHAIN_ID = await getCurrentNetwork(ethereum);
     return `did:ethr:${CHAIN_ID}:${account}`;
@@ -46,26 +45,31 @@ export async function getCurrentDid(
     const didUrl = getDidEbsiKeyIdentifier(state, account);
     return `did:key:${didUrl}`;
   }
+  if (method === 'did:ebsi') {
+    const didUrl = await getDidEbsiIdentifier(params, {
+      provider: method,
+      kms: 'web3',
+      options: { bearer: params.ebsiBearer },
+    });
+    console.log(didUrl);
+    return `did:ebsi:${didUrl}`;
+  }
   if (method === 'did:pkh') {
     const didUrl = await getDidPkhIdentifier(ethereum, account);
     return `did:pkh:${didUrl}`;
   }
-  // if (method === "did:key:ebsi") {
-  // }
+
   return '';
 }
 
 export async function changeCurrentMethod(
-  snap: SnapsGlobalObject,
-  ethereum: MetaMaskInpageProvider,
-  state: SSISnapState,
-  account: string,
+  params: ApiParams,
   didMethod: AvailableMethods
 ): Promise<string> {
-  // eslint-disable-next-line no-param-reassign
+  const { state, account } = params;
   state.accountState[account].accountConfig.ssi.didMethod = didMethod;
   await updateSnapState(snap, state);
-  const did = await getCurrentDid(ethereum, state, account);
+  const did = await getCurrentDid(params);
   return did;
 }
 
