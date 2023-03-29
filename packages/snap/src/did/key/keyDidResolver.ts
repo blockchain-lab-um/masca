@@ -58,9 +58,8 @@ export const resolveSecp256k1Ebsi = async (
 ): Promise<DIDDocument> => {
   const keyResolver = getResolver();
   const didResolver = new Resolver(keyResolver);
-  console.log(did);
-  const doc = await didResolver.resolve(did);
-  return doc.didDocument as DIDDocument;
+  const resolution = await didResolver.resolve(did);
+  return resolution.didDocument as DIDDocument;
 };
 
 type ResolutionFunction = (

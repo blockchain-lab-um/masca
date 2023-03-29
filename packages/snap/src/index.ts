@@ -120,7 +120,8 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         return ResultObject.success(res);
       case 'resolveDID':
         isValidResolveDIDRequest(request.params);
-        res = await resolveDID(request.params.did);
+        console.log(request.params.did);
+        res = await resolveDID(request.params.did, snap, ethereum);
         return ResultObject.success(res);
       case 'verifyData':
         isValidVerifyDataRequest(request.params);

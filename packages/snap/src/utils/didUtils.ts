@@ -12,6 +12,7 @@ import {
 } from '../did/key/keyDidUtils';
 import { getDidPkhIdentifier } from '../did/pkh/pkhDidUtils';
 import { SSISnapState } from '../interfaces';
+import { getAgent } from '../veramo/setup';
 import { getCurrentNetwork } from './snapUtils';
 import { updateSnapState } from './stateUtils';
 
@@ -68,8 +69,16 @@ export async function changeCurrentMethod(
   return did;
 }
 
-export async function resolveDid(did: string): Promise<DIDResolutionResult> {
-  // TODO (urban): implement resolution for did:key ebsi natural persons
+export async function resolveDid(
+  did: string,
+  snap: SnapsGlobalObject,
+  ethereum: MetaMaskInpageProvider
+): Promise<DIDResolutionResult> {
+  if (did.startsWith('did:key:zBhB') || did.startsWith('did:key:z2dm')) {
+    const agent = await getAgent(snap, ethereum);
+    const didResolution = await agent.resolveDid({ didUrl: did });
+    return didResolution;
+  }
   const response = await fetch(
     `https://dev.uniresolver.io/1.0/identifiers/${did}`
   );
