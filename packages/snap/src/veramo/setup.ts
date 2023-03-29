@@ -41,8 +41,8 @@ import { Resolver } from 'did-resolver';
 import { ethers } from 'ethers';
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver';
 
-// import { EbsiDIDProvider } from '../did/ebsi/src/ebsiDidProvider';
-// import { ebsiDidResolver } from '../did/ebsi/src/resolver';
+import { EbsiDIDProvider } from '../did/ebsi/ebsiDidProvider';
+import { ebsiDidResolver } from '../did/ebsi/ebsiDidResolver';
 import { KeyDIDProvider } from '../did/key/keyDidProvider';
 import { getDidKeyResolver as keyDidResolver } from '../did/key/keyDidResolver';
 import { getCurrentAccount, getEnabledVCStores } from '../utils/snapUtils';
@@ -99,7 +99,7 @@ export const getAgent = async (
 
   didProviders['did:key'] = new KeyDIDProvider({ defaultKms: 'web3' });
   didProviders['did:pkh'] = new PkhDIDProvider({ defaultKms: 'web3' });
-  // didProviders['did:ebsi'] = new EbsiDIDProvider({ defaultKms: 'web3' });
+  didProviders['did:ebsi'] = new EbsiDIDProvider({ defaultKms: 'web3' });
 
   vcStorePlugins['snap'] = new SnapVCStore(snap, ethereum);
   if (enabledVCStores.includes('ceramic')) {
@@ -132,7 +132,7 @@ export const getAgent = async (
           ...ethrDidResolver({ networks }),
           ...keyDidResolver(),
           ...pkhDidResolver(),
-          // ...ebsiDidResolver(),
+          ...ebsiDidResolver(),
         }),
       }),
       new DIDManager({

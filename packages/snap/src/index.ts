@@ -83,6 +83,8 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         return ResultObject.success(res);
       case 'switchDIDMethod':
         isValidSwitchMethodRequest(request.params);
+        apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
+        apiParams.ebsiBearer = request.params.ebsiBearer;
         res = await switchMethod(apiParams, request.params);
         return ResultObject.success(res);
       case 'getDID':
@@ -120,7 +122,6 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         return ResultObject.success(res);
       case 'resolveDID':
         isValidResolveDIDRequest(request.params);
-        console.log(request.params.did);
         res = await resolveDID(request.params.did, snap, ethereum);
         return ResultObject.success(res);
       case 'verifyData':

@@ -18,20 +18,20 @@ import { bytesToBase64url, hexToBytes } from '@veramo/utils';
 import { ec as EC } from 'elliptic';
 import * as jose from 'jose';
 
-import { onboard } from './ebsiDidOnboarding.js';
+import { onboard } from './ebsiDidOnboarding';
 import {
   algoMap,
   generateEbsiSubjectIdentifier,
   generateRandomEbsiSubjectIdentifier,
   privateKeyJwkToHex,
-} from './ebsiDidUtils.js';
+} from './ebsiDidUtils';
 import {
   IEbsiCreateIdentifierOptions,
   IEbsiDidSupportedEcdsaAlgo,
   IEbsiDidSupportedHashTypes,
   IEbsiDidSupportedKeyTypes,
   IImportedKey,
-} from './types/ebsiProviderTypes.js';
+} from './types/ebsiProviderTypes';
 
 type IContext = IAgentContext<IKeyManager & ICredentialPlugin & IResolver>;
 
@@ -64,8 +64,12 @@ export class EbsiDIDProvider extends AbstractIdentifierProvider {
         'Currently, subject identifier id should be provided along with a private key'
       );
     }
+    let privateKeyHex = options?.privateKeyHex;
+    if (privateKeyHex?.startsWith('0x')) {
+      privateKeyHex = privateKeyHex.slice(2);
+    }
 
-    if (options?.privateKeyHex && options?.privateKeyHex?.length !== 64) {
+    if (privateKeyHex && privateKeyHex?.length !== 64) {
       throw new Error(
         'Private key should be 32 bytes (64 characters in hex string) long'
       );
@@ -77,11 +81,11 @@ export class EbsiDIDProvider extends AbstractIdentifierProvider {
     }
     const keyType = options?.keyType || 'Secp256k1';
     const importedKey = await this.importKey({
-      privateKeyHex: options?.privateKeyHex,
+      privateKeyHex,
       id: options?.id,
       keyType,
     });
-    const { privateKeyHex } = importedKey;
+    privateKeyHex = importedKey.privateKeyHex;
 
     const kid = `did:ebsi:${importedKey.subjectIdentifier}#${importedKey.jwkThumbprint}`;
     const did = `did:ebsi:${importedKey.subjectIdentifier}`;
