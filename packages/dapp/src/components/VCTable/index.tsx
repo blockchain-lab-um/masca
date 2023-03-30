@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useSnapStore, useTableStore } from '@/stores';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import { isError } from '@blockchain-lab-um/utils';
 import {
@@ -36,7 +37,6 @@ import DeleteModal from '@/components/DeleteModal';
 import InfoIcon from '@/components/InfoIcon';
 import StoreIcon from '@/components/StoreIcon';
 import Tooltip from '@/components/Tooltip';
-import { useSnapStore, useTableStore } from '@/utils/stores';
 import { convertTypes } from '@/utils/string';
 import TablePagination from './TablePagination';
 import VCCard from './VCCard';

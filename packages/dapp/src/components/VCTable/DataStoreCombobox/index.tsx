@@ -1,10 +1,9 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
+import { useTableStore } from '@/stores';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import { Combobox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
-
-import { useSnapStore, useTableStore } from '@/utils/stores';
 
 type DataStoreComboboxProps = {
   isConnected: boolean;
@@ -13,9 +12,21 @@ type DataStoreComboboxProps = {
 
 const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
   const [query, setQuery] = useState('');
-  const availableVCStores = useSnapStore((state) => state.availableVCStores);
-  console.log('aaa', availableVCStores);
   const setColumnFilters = useTableStore((state) => state.setColumnFilters);
+
+  // Get all data stores from vcs
+  const dataStoresFull = vcs
+    .filter((vc) => vc.metadata.store !== undefined)
+    .map((vc) => {
+      return vc.metadata.store;
+    })
+    .flat() as string[];
+
+  // Remove duplicates
+  const dataStores = dataStoresFull.filter((element, index) => {
+    return dataStoresFull.indexOf(element) === index;
+  });
+
   const selectedItems = useTableStore((state) => {
     for (let i = 0; i < state.columnFilters.length; i += 1) {
       if (state.columnFilters[i].id === 'data_store') {
@@ -25,17 +36,16 @@ const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
     return [];
   }) as string[];
 
-  const dataStoresFull = vcs
-    .filter((vc) => vc.metadata.store !== undefined)
-    .map((vc) => {
-      return vc.metadata.store;
-    })
-    .flat() as string[];
+  useEffect(() => {
+    // inner join selectedItems and dataStores
+    const filteredDataStores = dataStores.filter((ds) =>
+      selectedItems.includes(ds)
+    );
+    console.log('setting column filters', filteredDataStores);
+    setColumnFilters([{ id: 'data_store', value: filteredDataStores }]);
+  }, [vcs]);
 
-  const dataStores = dataStoresFull.filter((element, index) => {
-    return dataStoresFull.indexOf(element) === index;
-  });
-
+  // Search filter
   const filteredDataStores =
     query === ''
       ? dataStores
@@ -46,7 +56,7 @@ const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
   return (
     <div className="">
       <Combobox
-        value={dataStores}
+        value={selectedItems}
         onChange={(value) => {
           setColumnFilters([{ id: 'data_store', value }]);
         }}

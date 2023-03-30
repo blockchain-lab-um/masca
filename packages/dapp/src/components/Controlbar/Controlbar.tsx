@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSnapStore } from '@/stores';
 import {
   AvailableVCStores,
   QueryVCsRequestResult,
@@ -12,7 +13,6 @@ import ImportModal from '@/components/ImportModal';
 import DataStoreCombobox from '@/components/VCTable/DataStoreCombobox';
 import GlobalFilter from '@/components/VCTable/GlobalFilter';
 import ViewTabs from '@/components/VCTable/ViewTabs';
-import { useSnapStore } from '@/utils/stores';
 
 type ControlbarProps = {
   vcs: QueryVCsRequestResult[];
@@ -76,6 +76,15 @@ const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
         newVcs.push(finalVC);
       });
       changeVcs([...vcs, ...newVcs]);
+
+      const queryResult = await api.queryVCs();
+      if (isError(queryResult)) {
+        // TODO error
+        return false;
+      }
+      if (queryResult.data) {
+        useSnapStore.getState().changeVcs(queryResult.data);
+      }
     }
     return true;
   };

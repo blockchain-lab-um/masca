@@ -1,9 +1,9 @@
 import Head from 'next/head';
+import { useGeneralStore, useSnapStore } from '@/stores';
 
 import ConnectedProvider from '@/components/ConnectedProvider';
 import Controlbar from '@/components/Controlbar/Controlbar';
 import Table from '@/components/VCTable';
-import { useGeneralStore, useSnapStore } from '@/utils/stores';
 
 export default function Dashboard() {
   const isConnected = useGeneralStore((state) => state.isConnected);

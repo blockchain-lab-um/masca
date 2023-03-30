@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { useTableStore } from '@/stores';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 import { useTranslations } from 'next-intl';
@@ -9,7 +10,6 @@ import DeleteModal from '@/components/DeleteModal';
 import ModifyDSModal from '@/components/ModifyDSModal';
 import StoreIcon from '@/components/StoreIcon';
 import Tooltip from '@/components/Tooltip';
-import { useTableStore } from '@/utils/stores';
 import { convertTypes, copyToClipboard } from '@/utils/string';
 
 interface FormatedTabProps {

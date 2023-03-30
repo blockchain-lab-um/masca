@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { useSnapStore } from '@/stores';
 import { Tab } from '@headlessui/react';
 import {
   ArrowDownTrayIcon,
@@ -14,7 +15,6 @@ import { useTranslations } from 'next-intl';
 import ConnectedProvider from '@/components/ConnectedProvider';
 import FormatedTab from '@/components/VC/tabs/FormatedTab';
 import JsonTab from '@/components/VC/tabs/JsonTab';
-import { useSnapStore } from '@/utils/stores';
 
 const VC = () => {
   const t = useTranslations('VC');

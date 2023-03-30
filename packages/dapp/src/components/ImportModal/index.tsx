@@ -1,11 +1,11 @@
 import { Fragment, useState } from 'react';
+import { useSnapStore } from '@/stores';
 import { AvailableVCStores } from '@blockchain-lab-um/ssi-snap-types';
 import { Dialog, Transition } from '@headlessui/react';
 
 import Button from '@/components/Button';
 import DropdownMultiselect from '@/components/DropdownMultiselect';
 import InfoIcon from '@/components/InfoIcon';
-import { useSnapStore } from '@/utils/stores';
 
 interface ImportModalProps {
   open: boolean;

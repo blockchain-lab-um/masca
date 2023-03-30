@@ -1,10 +1,9 @@
 import React from 'react';
+import { useTableStore } from '@/stores';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
-
-import { useTableStore } from '@/utils/stores';
 
 type GlobalFilterProps = {
   isConnected: boolean;

@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { useGeneralStore, useSnapStore } from '@/stores';
 import { enableSSISnap } from '@blockchain-lab-um/ssi-snap-connector';
 import { isError } from '@blockchain-lab-um/utils';
 import detectEthereumProvider from '@metamask/detect-provider';
 import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
-
-import { useGeneralStore, useSnapStore } from '@/utils/stores';
 
 const snapId =
   process.env.NODE_ENV === 'production'

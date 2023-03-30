@@ -1,11 +1,11 @@
 import { Fragment } from 'react';
+import { useSnapStore } from '@/stores';
 import { AvailableMethods } from '@blockchain-lab-um/ssi-snap-types';
 import { isError } from '@blockchain-lab-um/utils';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { shallow } from 'zustand/shallow';
 
-import { useSnapStore } from '@/utils/stores';
 import { DropdownButton } from './MethodDropdownButton';
 
 export default function MethodDropdownMenu() {
