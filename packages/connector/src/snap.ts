@@ -1,6 +1,7 @@
 import {
   AvailableMethods,
   AvailableVCStores,
+  CreateVCRequestParams,
   CreateVPRequestParams,
   DeleteVCsOptions,
   MetaMaskSSISnapRPCRequest,
@@ -15,6 +16,7 @@ import {
 import { Result } from '@blockchain-lab-um/utils';
 import {
   DIDResolutionResult,
+  VerifiableCredential,
   VerifiablePresentation,
   W3CVerifiableCredential,
 } from '@veramo/core';
@@ -254,6 +256,22 @@ export async function resolveDID(
   return sendSnapMethod({ method: 'resolveDID', params: { did } }, this.snapId);
 }
 
+/**
+ * Create a Verifiable Presentation
+ */
+export async function createVC(
+  this: MetaMaskSSISnap,
+  params: CreateVCRequestParams
+): Promise<Result<VerifiableCredential>> {
+  return sendSnapMethod(
+    {
+      method: 'createVC',
+      params,
+    },
+    this.snapId
+  );
+}
+
 export class MetaMaskSSISnap {
   protected readonly snapOrigin: string;
 
@@ -287,6 +305,7 @@ export class MetaMaskSSISnap {
       getSnapSettings: getSnapSettings.bind(this),
       getAccountSettings: getAccountSettings.bind(this),
       resolveDID: resolveDID.bind(this),
+      createVC: createVC.bind(this),
     };
   };
 }
