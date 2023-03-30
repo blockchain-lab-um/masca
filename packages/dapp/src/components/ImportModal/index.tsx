@@ -108,6 +108,8 @@ function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
                         if (res) {
                           setOpen(false);
                           setLoading(false);
+                        } else {
+                          setLoading(false);
                         }
                       }}
                       variant="primary"

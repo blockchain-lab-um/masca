@@ -22,12 +22,13 @@ interface ModifyDSModalProps {
 function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
   const t = useTranslations('ModifyDS');
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const { setTitle, setLoading, setToastOpen } = useToastStore(
+  const { setTitle, setLoading, setToastOpen, setType } = useToastStore(
     (state) => ({
       setTitle: state.setTitle,
       setText: state.setText,
       setLoading: state.setLoading,
       setToastOpen: state.setOpen,
+      setType: state.setType,
     }),
     shallow
   );
@@ -77,12 +78,14 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
       setDeleteModalOpen(true);
     } else if (enabled) {
       setLoading(true);
+      setType('normal');
       setTitle('Saving Credential');
       setToastOpen(true);
       setOpen(false);
       const res = await snapApi.saveVC(vc.data, { store });
       if (isError(res)) {
         setToastOpen(false);
+        setType('error');
         setTimeout(() => {
           setTitle('Error while saving credential');
           setLoading(false);
@@ -92,6 +95,7 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
       } else {
         setToastOpen(false);
         setTimeout(() => {
+          setType('success');
           setTitle('Credential saved');
           setLoading(false);
           setToastOpen(true);

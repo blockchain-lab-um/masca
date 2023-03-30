@@ -21,12 +21,13 @@ interface DeleteModalProps {
 function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
   const t = useTranslations('DeleteVC');
   const api = useSnapStore((state) => state.snapApi);
-  const { setTitle, setLoading, setToastOpen } = useToastStore(
+  const { setTitle, setLoading, setToastOpen, setType } = useToastStore(
     (state) => ({
       setTitle: state.setTitle,
       setText: state.setText,
       setLoading: state.setLoading,
       setToastOpen: state.setOpen,
+      setType: state.setType,
     }),
     shallow
   );
@@ -36,6 +37,7 @@ function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
     setOpen(false);
     if (vc) {
       setLoading(true);
+      setType('normal');
       setTitle('Deleting Credential');
       setToastOpen(true);
       setOpen(false);
@@ -48,24 +50,41 @@ function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
         deleteReqOptions = {
           store: vc.metadata.store as AvailableVCStores | AvailableVCStores[],
         };
-      await api.deleteVC(vc.metadata.id, deleteReqOptions);
-      // TODO - Delete VC from local state instead of calling queryVCs.
-
-      const vcs = await api.queryVCs();
-      if (isError(vcs)) {
-        setLoading(false);
-        setTitle('Error');
-        setToastOpen(true);
-        return;
-      }
-      if (vcs.data) {
+      const res = await api.deleteVC(vc.metadata.id, deleteReqOptions);
+      console.log(res);
+      if (isError(res)) {
         setToastOpen(false);
         setTimeout(() => {
-          setTitle('Credential deleted');
+          setTitle('Failed to delete credential');
+          setType('error');
           setLoading(false);
           setToastOpen(true);
         }, 100);
-        useSnapStore.getState().changeVcs(vcs.data);
+        console.log('error', res.error);
+      } else {
+        // TODO - Delete VC from local state instead of calling queryVCs.
+
+        const vcs = await api.queryVCs();
+        if (isError(vcs)) {
+          setToastOpen(false);
+          setTimeout(() => {
+            setType('error');
+            setTitle('Failed to load credentials');
+            setLoading(false);
+            setToastOpen(true);
+          }, 100);
+          return;
+        }
+        if (vcs.data) {
+          setToastOpen(false);
+          setTimeout(() => {
+            setType('success');
+            setTitle('Credential deleted');
+            setLoading(false);
+            setToastOpen(true);
+          }, 100);
+          useSnapStore.getState().changeVcs(vcs.data);
+        }
       }
     }
   };

@@ -41,7 +41,6 @@ const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
     const filteredDataStores = dataStores.filter((ds) =>
       selectedItems.includes(ds)
     );
-    console.log('setting column filters', filteredDataStores);
     setColumnFilters([{ id: 'data_store', value: filteredDataStores }]);
   }, [vcs]);
 

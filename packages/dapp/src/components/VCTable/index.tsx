@@ -101,7 +101,9 @@ const Table = () => {
       },
       {
         id: 'type',
-        cell: (info) => <span className="">{info.getValue().toString()}</span>,
+        cell: (info) => {
+          return <span className="">{info.getValue().toString()}</span>;
+        },
         header: () => (
           <span className="flex items-center justify-center">
             {t('table.type')}

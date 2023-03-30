@@ -79,7 +79,6 @@ const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
 
       const queryResult = await api.queryVCs();
       if (isError(queryResult)) {
-        // TODO error
         return false;
       }
       if (queryResult.data) {
