@@ -23,11 +23,8 @@ export const selectRows = (
 ) => {
   table.getPrePaginationRowModel().rows.forEach((row) => {
     if (
-      selectedVCs.filter(
-        (vc) =>
-          vc.metadata.id === row.original.metadata.id &&
-          vc.metadata.store === row.original.metadata.store
-      ).length > 0
+      selectedVCs.filter((vc) => vc.metadata.id === row.original.metadata.id)
+        .length > 0
     ) {
       row.toggleSelected(true);
     }

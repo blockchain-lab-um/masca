@@ -107,10 +107,8 @@ function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
                         const res = await importVC(vc, selectedItems);
                         if (res) {
                           setOpen(false);
-                          setLoading(false);
-                        } else {
-                          setLoading(false);
                         }
+                        setLoading(false);
                       }}
                       variant="primary"
                       size="sm"

@@ -82,7 +82,7 @@ const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
         return false;
       }
       if (queryResult.data) {
-        useSnapStore.getState().changeVcs(queryResult.data);
+        changeVcs(queryResult.data);
       }
     }
     return true;
