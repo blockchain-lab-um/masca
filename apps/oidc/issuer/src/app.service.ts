@@ -1,4 +1,5 @@
 import {
+  DetailedError,
   isError,
   isValidAuthorizationHeader,
 } from '@blockchain-lab-um/oidc-rp-plugin';
@@ -7,6 +8,7 @@ import {
   CredentialRequest,
   CredentialResponse,
   IssuerServerMetadata,
+  TOKEN_ERRORS,
   TokenRequest,
   TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
@@ -30,7 +32,7 @@ export class AppService {
     const res = await agent.handleIssuerServerMetadataRequest();
 
     if (isError(res)) {
-      throw Error(res.error.message);
+      throw res.error;
     }
 
     return res.data;
@@ -60,7 +62,7 @@ export class AppService {
       });
 
     if (isError(res)) {
-      throw Error(res.error.message); // FIXME - Error handling
+      throw res.error;
     }
 
     const {
@@ -85,7 +87,7 @@ export class AppService {
     const validationResult = await agent.isValidTokenRequest({ body });
 
     if (isError(validationResult)) {
-      throw Error(validationResult.error.message); // FIXME
+      throw validationResult.error;
     }
 
     const { grantType } = validationResult.data;
@@ -97,7 +99,10 @@ export class AppService {
         this.dataStoreService.getUserSession(preAuthorizedCode);
 
       if (!userSession) {
-        throw Error('Invalid or missing pre-authorized_code');
+        throw new DetailedError(
+          'invalid_request',
+          'Invalid or missing pre-authorized_code.'
+        );
       }
 
       const tokenRequestResult =
@@ -108,7 +113,7 @@ export class AppService {
         });
 
       if (isError(tokenRequestResult)) {
-        throw Error(tokenRequestResult.error.message); // FIXME
+        throw tokenRequestResult.error;
       }
 
       const {
@@ -128,7 +133,10 @@ export class AppService {
       return tokenRequestResult.data;
     }
 
-    throw Error(`Not implemented: ${grantType}`);
+    throw new DetailedError(
+      'unsupported_grant_type',
+      TOKEN_ERRORS.unsupported_grant_type
+    );
   }
 
   async handleCredentialRequest(
@@ -141,7 +149,7 @@ export class AppService {
     });
 
     if (isError(authHeaderValidationResult)) {
-      throw Error(authHeaderValidationResult.error.message); // FIXME
+      throw authHeaderValidationResult.error;
     }
 
     // Check if access token is valid
@@ -151,12 +159,15 @@ export class AppService {
 
     // Session does not exist
     if (!userSession) {
-      throw Error('Missing or invalid access token');
+      throw new DetailedError(
+        'invalid_token',
+        'Missing or invalid access token.'
+      );
     }
 
     // Check if expiration is set and access token is not expired
     if (userSession.expires_in && userSession.expires_in < Date.now()) {
-      throw Error('Access token expired');
+      throw new DetailedError('invalid_token', 'Access token expired.');
     }
 
     const identifier = await agent.didManagerGetByAlias({ alias: 'main-did' });
@@ -169,7 +180,7 @@ export class AppService {
     });
 
     if (isError(proofOfPossesionResult)) {
-      throw Error(proofOfPossesionResult.error.message); // FIXME
+      throw proofOfPossesionResult.error;
     }
 
     const { did } = proofOfPossesionResult.data;
@@ -193,7 +204,7 @@ export class AppService {
     });
 
     if (isError(credentialResponse)) {
-      throw Error(credentialResponse.error.message); // FIXME
+      throw credentialResponse.error;
     }
 
     return credentialResponse.data;

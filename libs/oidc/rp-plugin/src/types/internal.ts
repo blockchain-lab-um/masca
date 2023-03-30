@@ -19,10 +19,10 @@ export interface IPluginConfig {
 
 export type CreateCredentialOfferRequestArgs = {
   credentials: Credentials;
-  grants?: [
+  grants?: (
     | 'urn:ietf:params:oauth:grant-type:pre-authorized_code'
     | 'authorization_code'
-  ];
+  )[];
   userPinRequired?: boolean;
 };
 

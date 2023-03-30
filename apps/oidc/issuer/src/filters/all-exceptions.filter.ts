@@ -1,3 +1,4 @@
+import { DetailedError } from '@blockchain-lab-um/oidc-rp-plugin';
 import {
   ArgumentsHost,
   Catch,
@@ -9,29 +10,38 @@ import { FastifyReply } from 'fastify';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
-  catch(exception: any, host: ArgumentsHost): FastifyReply {
+  catch(exception: unknown, host: ArgumentsHost): FastifyReply {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<FastifyReply>();
 
-    const httpStatus =
-      exception instanceof HttpException
-        ? exception.getStatus()
-        : HttpStatus.INTERNAL_SERVER_ERROR;
-
-    let message;
+    let error: DetailedError;
+    let httpStatus;
 
     if (exception instanceof HttpException) {
-      message = exception.getResponse();
-    } else if (exception instanceof Error) {
-      message = exception.message;
+      const exceptionResponse = exception.getResponse();
+      error = new DetailedError(
+        'http_exception',
+        typeof exceptionResponse === 'string'
+          ? exceptionResponse
+          : JSON.stringify(exceptionResponse)
+      );
+
+      httpStatus = exception.getStatus();
+    } else if (exception instanceof DetailedError) {
+      error = exception;
+      httpStatus = exception.statusCode;
     } else {
-      message = 'Internal server error';
+      error = new DetailedError(
+        'internal_server_error',
+        'The server encountered an internal error and was unable to complete your request.'
+      );
+      httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
     }
 
-    // TODO: Look into application/problem+json (https://www.rfc-editor.org/rfc/rfc7807)
-    return response.code(httpStatus).type('application/json').send({
-      message,
-    });
+    return response
+      .code(httpStatus)
+      .type('application/json')
+      .send(error.toJSON());
   }
 }
 

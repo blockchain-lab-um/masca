@@ -43,12 +43,14 @@ export interface AuthorizationRequest
  * SPECS:
  * - https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#section-6
  */
-export interface AuthorizationResponse
-  extends Omit<AuthorizationResponseOAuth2, 'code'> {
+export type AuthorizationResponse = Omit<
+  AuthorizationResponseOAuth2,
+  'code'
+> & {
   presentation_submission?: PresentationSubmission;
   vp_token?: string;
   id_token?: string;
-}
+};
 
 type FormatKeysJwt = 'jwt' | 'jwt_vc' | 'jwt_vp';
 type FormatKeyLdp = 'ldp' | 'ldp_vc' | 'ldp_vp';
@@ -64,27 +66,27 @@ type Format = Partial<
   | Record<FormatKeyLdp, { proof_type: LDPAlgorithm[] }>
 >;
 
-interface Field {
+type Field = {
   path: string[];
   id?: string;
   purpose?: string;
   name?: string;
   filter?: any;
-}
+};
 
 // One or both of these are required
-interface Constraints {
+type Constraints = {
   limit_disclosure?: 'required' | 'preferred';
   fields?: Field[];
-}
+};
 
-interface InputDescriptor {
+type InputDescriptor = {
   id: string;
   name?: string;
   purpose?: string;
   format?: Format;
   constraints: Constraints;
-}
+};
 
 /**
  * Presentation Definition
@@ -92,11 +94,11 @@ interface InputDescriptor {
  * SPECS:
  * - https://identity.foundation/presentation-exchange/#presentation-definition
  */
-export interface PresentationDefinition {
+export type PresentationDefinition = {
   id: string;
   format?: Format;
   input_descriptors: InputDescriptor[];
-}
+};
 
 /**
  * Presentation Submission
@@ -104,15 +106,15 @@ export interface PresentationDefinition {
  * SPECS:
  * - https://identity.foundation/presentation-exchange/#presentation-submission
  */
-export interface PresentationSubmission {
+export type PresentationSubmission = {
   id: string;
   definition_id: string;
   descriptor_map: DescriptorMap[];
-}
+};
 
-interface DescriptorMap {
+type DescriptorMap = {
   id: string;
   format: Format;
   path: string;
   path_nested?: string;
-}
+};

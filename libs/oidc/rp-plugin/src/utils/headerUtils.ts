@@ -1,3 +1,4 @@
+import DetailedError from './detailedError.js';
 import { Result } from './result.js';
 
 export type IsValidAuthorizationHeaderArgs = {
@@ -18,17 +19,24 @@ export const isValidAuthorizationHeader = (
     // Missing authorization header
     return {
       success: false,
-      error: new Error('Missing authorization header'),
+      error: new DetailedError(
+        'invalid_request',
+        'Missing authorization header.'
+      ),
     };
   }
 
   // Check header format (Bearer <token>)
   const [type, token] = authorizationHeader.split(' ');
+
   if (type !== 'Bearer') {
     // Invalid header format
     return {
       success: false,
-      error: new Error('Invalid authorization header format'),
+      error: new DetailedError(
+        'invalid_request',
+        'Invalid authorization header format.'
+      ),
     };
   }
 
@@ -37,7 +45,10 @@ export const isValidAuthorizationHeader = (
     // Invalid access token
     return {
       success: false,
-      error: new Error('Missing or invalid access token'),
+      error: new DetailedError(
+        'invalid_token',
+        'Missing or invalid access token.'
+      ),
     };
   }
 

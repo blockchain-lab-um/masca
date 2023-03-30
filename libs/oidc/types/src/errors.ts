@@ -1,7 +1,6 @@
-type ErrorObject = {
+export type ErrorObject = {
   error: string;
-  error_description?: string;
-  error_uri?: string;
+  error_description: string;
 };
 
 /**
@@ -25,42 +24,26 @@ const AUTHORIZATION_ERROR_CODES = [
 
 export const AUTHORIZATION_ERRORS: Record<
   (typeof AUTHORIZATION_ERROR_CODES)[number],
-  ErrorObject
+  string
 > = {
-  invalid_request: {
-    error: 'invalid_request',
-    error_description:
-      'The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed.',
-  },
-  unauthorized_client: {
-    error: 'unauthorized_client',
-    error_description:
-      'The client is not authorized to request an authorization code using this method.',
-  },
-  access_denied: {
-    error: 'access_denied',
-    error_description:
-      'The resource owner or authorization server denied the request.',
-  },
-  unsupported_response_type: {
-    error: 'unsupported_response_type',
-    error_description:
-      'The authorization server does not support obtaining an authorization code using this method.',
-  },
-  invalid_scope: {
-    error: 'invalid_scope',
-    error_description: 'The requested scope is invalid, unknown, or malformed.',
-  },
-  server_error: {
-    error: 'server_error',
-    error_description:
-      'The authorization server encountered an unexpected condition that prevented it from fulfilling the request.',
-  },
-  temporarily_unavailable: {
-    error: 'temporarily_unavailable',
-    error_description:
-      'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.',
-  },
+  invalid_request:
+    'The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed.',
+
+  unauthorized_client:
+    'The client is not authorized to request an authorization code using this method.',
+
+  access_denied:
+    'The resource owner or authorization server denied the request.',
+  unsupported_response_type:
+    'The authorization server does not support obtaining an authorization code using this method.',
+
+  invalid_scope: 'The requested scope is invalid, unknown, or malformed.',
+
+  server_error:
+    'The authorization server encountered an unexpected condition that prevented it from fulfilling the request.',
+
+  temporarily_unavailable:
+    'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.',
 };
 
 /**
@@ -81,41 +64,21 @@ const TOKEN_ERROR_CODES = [
   'invalid_scope',
 ] as const;
 
-export const TOKEN_ERRORS: Record<
-  (typeof TOKEN_ERROR_CODES)[number],
-  ErrorObject
-> = {
-  invalid_request: {
-    error: 'invalid_request',
-    error_description:
+export const TOKEN_ERRORS: Record<(typeof TOKEN_ERROR_CODES)[number], string> =
+  {
+    invalid_request:
       'The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed.',
-  },
-  invalid_client: {
-    error: 'invalid_client',
-    error_description:
+    invalid_client:
       'Client authentication failed (e.g., unknown client, no client authentication included, or unsupported authentication method).',
-  },
-  invalid_grant: {
-    error: 'invalid_grant',
-    error_description:
+    invalid_grant:
       'The provided authorization grant (e.g., authorization code, resource owner credentials) or refresh token is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.',
-  },
-  unauthorized_client: {
-    error: 'unauthorized_client',
-    error_description:
+    unauthorized_client:
       'The authenticated client is not authorized to use this authorization grant type.',
-  },
-  unsupported_grant_type: {
-    error: 'unsupported_grant_type',
-    error_description:
+    unsupported_grant_type:
       'The authorization grant type is not supported by the authorization server.',
-  },
-  invalid_scope: {
-    error: 'invalid_scope',
-    error_description:
+    invalid_scope:
       'The requested scope is invalid, unknown, malformed, or exceeds the scope granted by the resource owner.',
-  },
-};
+  };
 
 /**
  * Credential Error Response
@@ -137,34 +100,16 @@ const CREDENTIAL_ERROR_CODES = [
 
 export const CREDENTIAL_ERRORS: Record<
   (typeof CREDENTIAL_ERROR_CODES)[number],
-  ErrorObject
+  string
 > = {
-  invalid_request: {
-    error: 'invalid_request',
-    error_description:
-      'The request is missing a required parameter (i.e. format, proof), includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed.',
-  },
-  invalid_token: {
-    error: 'invalid_token',
-    error_description:
-      'The access token provided is expired, revoked, malformed, or invalid for other reasons.',
-  },
-  insufficient_scope: {
-    error: 'insufficient_scope',
-    error_description:
-      'The request requires higher privileges than provided by the access token.',
-  },
-  unsupported_credential_type: {
-    error: 'unsupported_credential_type',
-    error_description: 'The credential type is not supported.',
-  },
-  unsupported_credential_format: {
-    error: 'unsupported_credential_format',
-    error_description: 'The credential format is not supported.',
-  },
-  invalid_or_missing_proof: {
-    error: 'invalid_or_missing_proof',
-    error_description:
-      'Credential Request did not contain a proof, or proof was invalid, i.e. it was not bound to a Credential Issuer provided nonce.',
-  },
+  invalid_request:
+    'The request is missing a required parameter (i.e. format, proof), includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed.',
+  invalid_token:
+    'The access token provided is expired, revoked, malformed, or invalid for other reasons.',
+  insufficient_scope:
+    'The request requires higher privileges than provided by the access token.',
+  unsupported_credential_type: 'The credential type is not supported.',
+  unsupported_credential_format: 'The credential format is not supported.',
+  invalid_or_missing_proof:
+    'Credential Request did not contain a proof, or proof was invalid, i.e. it was not bound to a Credential Issuer provided nonce.',
 };

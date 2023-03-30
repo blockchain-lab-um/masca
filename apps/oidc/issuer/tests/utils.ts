@@ -1,4 +1,8 @@
-import { isError, privateKeyToDid } from '@blockchain-lab-um/oidc-rp-plugin';
+import {
+  DetailedError,
+  isError,
+  privateKeyToDid,
+} from '@blockchain-lab-um/oidc-rp-plugin';
 import { MinimalImportableKey } from '@veramo/core';
 import { bytesToBase64url, encodeBase64url } from '@veramo/utils';
 import elliptic from 'elliptic';
@@ -12,35 +16,31 @@ const { ec: EC } = elliptic;
 
 type CreateJWTProofParams = {
   privateKey: string;
-  audience: string;
+  audience?: string;
+  bindingType: 'kid' | 'jwk' | 'x5c';
   data?: unknown;
   typ?: string;
+  invalidHeader?: boolean;
+  invalidFragment?: boolean;
+  headerExtra?: any;
 };
 
 export const createJWTProof = async ({
   privateKey,
   audience,
+  bindingType,
   data,
   typ,
+  invalidHeader,
+  invalidFragment,
+  headerExtra,
 }: CreateJWTProofParams) => {
   const ctx = new EC('secp256k1');
   const ecPrivateKey = ctx.keyFromPrivate(privateKey);
-  const res = await privateKeyToDid({
-    privateKey,
-    didMethod: 'did:ethr',
-  });
-
-  if (isError(res)) {
-    throw new Error(res.error.message);
-  }
-
-  const { did } = res.data;
-  const kid = `${did}#controllerKey`;
 
   let jwtPayload: Partial<JWTPayload> = {
-    sub: audience,
-    aud: audience,
-    iss: did,
+    ...(audience && { sub: audience }),
+    ...(audience && { aud: audience }),
     exp: Math.floor(Date.now() / 1000) + 60 * 60,
     iat: Math.floor(Date.now() / 1000),
     nbf: Math.floor(Date.now() / 1000),
@@ -50,11 +50,65 @@ export const createJWTProof = async ({
     jwtPayload = { ...jwtPayload, ...data };
   }
 
-  const jwtHeader = {
-    alg: 'ES256K',
-    kid,
-    ...(typ && { typ }),
-  };
+  let jwtHeader;
+  if (invalidHeader) {
+    jwtHeader = 'invalid';
+  } else {
+    jwtHeader = {
+      alg: 'ES256K',
+      ...(typ && { typ }),
+    };
+
+    if (bindingType === 'kid') {
+      const res = await privateKeyToDid({
+        privateKey,
+        didMethod: 'did:ethr',
+      });
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      const { did } = res.data;
+
+      let kid = `${did}#controllerKey`;
+
+      if (invalidFragment) {
+        kid = `${did}#invalid`;
+      }
+
+      jwtHeader = {
+        ...jwtHeader,
+        kid,
+      };
+    } else if (bindingType === 'jwk') {
+      const jwk = {
+        kty: 'EC',
+        crv: 'secp256k1',
+        x: encodeBase64url(ecPrivateKey.getPublic().getX().toString('hex')),
+        y: encodeBase64url(ecPrivateKey.getPublic().getY().toString('hex')),
+      };
+
+      jwtHeader = {
+        ...jwtHeader,
+        jwk,
+      };
+    } else {
+      const x5c = 'Random x5c';
+
+      jwtHeader = {
+        ...jwtHeader,
+        x5c,
+      };
+    }
+
+    if (headerExtra) {
+      jwtHeader = {
+        ...jwtHeader,
+        ...headerExtra,
+      };
+    }
+  }
 
   const signingInput = [
     encodeBase64url(JSON.stringify(jwtHeader)),
@@ -103,7 +157,10 @@ export const importKey = async (
     });
 
     if (isError(res)) {
-      throw Error('Error while creating DID');
+      throw new DetailedError(
+        'internal_server_error',
+        'Error while creating a DID'
+      );
     }
 
     const { did } = res.data;

@@ -4,6 +4,7 @@ import {
   CredentialResponse,
   Credentials,
   IssuerServerMetadata,
+  TOKEN_ERRORS,
   TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
 import {
@@ -46,6 +47,7 @@ import {
   ProofOfPossesionArgs,
   ProofOfPossesionResponseArgs,
 } from '../types/internal.js';
+import DetailedError from '../utils/detailedError.js';
 import { Result } from '../utils/index.js';
 
 const { ec: EC } = elliptic;
@@ -145,21 +147,21 @@ export class OIDCPlugin implements IAgentPlugin {
     if (!idToken) {
       return {
         success: false,
-        error: new Error('id_token must be present'),
+        error: new DetailedError('', 'id_token must be present'),
       };
     }
 
     if (!vpToken) {
       return {
         success: false,
-        error: new Error('vp_token must be present'),
+        error: new DetailedError('', 'vp_token must be present'),
       };
     }
 
     if (!presentationSubmission) {
       return {
         success: false,
-        error: new Error('presentation_submission must be present'),
+        error: new DetailedError('', 'presentation_submission must be present'),
       };
     }
     // TODO: Handle presentation_submission
@@ -175,7 +177,7 @@ export class OIDCPlugin implements IAgentPlugin {
     } catch (e) {
       return {
         success: false,
-        error: new Error('Invalid id_token jwt header'),
+        error: new DetailedError('', 'Invalid id_token jwt header'),
       };
     }
 
@@ -194,7 +196,7 @@ export class OIDCPlugin implements IAgentPlugin {
     } catch (e) {
       return {
         success: false,
-        error: new Error('Invalid id_token jwt payload'),
+        error: new DetailedError('', 'Invalid id_token jwt payload'),
       };
     }
 
@@ -202,7 +204,7 @@ export class OIDCPlugin implements IAgentPlugin {
     if (!payload.iss || !payload.sub || payload.iss !== payload.sub) {
       return {
         success: false,
-        error: new Error('id_token iss and sub must be equal'),
+        error: new DetailedError('', 'id_token iss and sub must be equal'),
       };
     }
 
@@ -210,7 +212,7 @@ export class OIDCPlugin implements IAgentPlugin {
     if (payload.exp && 1000 * payload.exp < Date.now()) {
       return {
         success: false,
-        error: new Error('id_token expired'),
+        error: new DetailedError('', 'id_token expired'),
       };
     }
 
@@ -218,7 +220,7 @@ export class OIDCPlugin implements IAgentPlugin {
     if (payload.nbf && 1000 * payload.nbf > Date.now()) {
       return {
         success: false,
-        error: new Error('id_token not valid yet'),
+        error: new DetailedError('', 'id_token not valid yet'),
       };
     }
 
@@ -226,7 +228,8 @@ export class OIDCPlugin implements IAgentPlugin {
     if (!payload.aud || payload.aud !== this.pluginConfig.url) {
       return {
         success: false,
-        error: new Error(
+        error: new DetailedError(
+          '',
           `id_token audience is invalid. Must be ${this.pluginConfig.url}`
         ),
       };
@@ -239,7 +242,7 @@ export class OIDCPlugin implements IAgentPlugin {
       if (payload.nonce !== cNonce) {
         return {
           success: false,
-          error: new Error('Invalid nonce'),
+          error: new DetailedError('', 'Invalid nonce'),
         };
       }
 
@@ -247,7 +250,7 @@ export class OIDCPlugin implements IAgentPlugin {
       if (cNonceExpiresIn && cNonceExpiresIn < Date.now()) {
         return {
           success: false,
-          error: new Error('Nonce expired'),
+          error: new DetailedError('', 'Nonce expired'),
         };
       }
     }
@@ -257,7 +260,8 @@ export class OIDCPlugin implements IAgentPlugin {
       if (payload.sub_jwk) {
         return {
           success: false,
-          error: new Error(
+          error: new DetailedError(
+            '',
             'id_token must not contain sub_jwk when signed with DID'
           ),
         };
@@ -266,7 +270,8 @@ export class OIDCPlugin implements IAgentPlugin {
       if (!protectedHeader.kid) {
         return {
           success: false,
-          error: new Error(
+          error: new DetailedError(
+            '',
             'id_token must contain kid in header when signed with DID'
           ),
         };
@@ -276,8 +281,9 @@ export class OIDCPlugin implements IAgentPlugin {
       if (resolvedDid.didResolutionMetadata.error || !resolvedDid.didDocument) {
         return {
           success: false,
-          error: new Error(
-            `Error resolving did. Reason: ${
+          error: new DetailedError(
+            '',
+            `DetailedError resolving did. Reason: ${
               resolvedDid.didResolutionMetadata.error ?? 'Unknown error'
             }`
           ),
@@ -293,7 +299,7 @@ export class OIDCPlugin implements IAgentPlugin {
       } catch (e) {
         return {
           success: false,
-          error: new Error('Invalid kid'),
+          error: new DetailedError('', 'Invalid kid'),
         };
       }
 
@@ -301,7 +307,7 @@ export class OIDCPlugin implements IAgentPlugin {
       if (fragment.publicKeyJwk) {
         return {
           success: false,
-          error: new Error('PublicKeyJwk not supported yet!'),
+          error: new DetailedError('', 'PublicKeyJwk not supported yet!'),
         };
       }
 
@@ -312,7 +318,7 @@ export class OIDCPlugin implements IAgentPlugin {
       if (publicKeyHex === '') {
         return {
           success: false,
-          error: new Error('Invalid kid or no public key present'),
+          error: new DetailedError('', 'Invalid kid or no public key present'),
         };
       }
 
@@ -320,7 +326,7 @@ export class OIDCPlugin implements IAgentPlugin {
       if (!supportedTypes.includes(fragment.type)) {
         return {
           success: false,
-          error: new Error('Unsupported key type'),
+          error: new DetailedError('', 'Unsupported key type'),
         };
       }
 
@@ -330,7 +336,7 @@ export class OIDCPlugin implements IAgentPlugin {
       } else {
         return {
           success: false,
-          error: new Error('Unsupported key type'),
+          error: new DetailedError('', 'Unsupported key type'),
         };
       }
       const pubPoint = ctx.keyFromPublic(publicKeyHex, 'hex').getPublic();
@@ -349,7 +355,8 @@ export class OIDCPlugin implements IAgentPlugin {
       if (!payload.sub_jwk) {
         return {
           success: false,
-          error: new Error(
+          error: new DetailedError(
+            '',
             'id_token must contain sub_jwk when signed with JWK'
           ),
         };
@@ -363,7 +370,10 @@ export class OIDCPlugin implements IAgentPlugin {
       if (jwkThumbprint !== payload.sub) {
         return {
           success: false,
-          error: new Error('id_token sub does not match sub_jwk thumbprint'),
+          error: new DetailedError(
+            '',
+            'id_token sub does not match sub_jwk thumbprint'
+          ),
         };
       }
 
@@ -378,7 +388,7 @@ export class OIDCPlugin implements IAgentPlugin {
     } catch (e) {
       return {
         success: false,
-        error: new Error('id_token signature invalid'),
+        error: new DetailedError('', 'id_token signature invalid'),
       };
     }
 
@@ -394,7 +404,7 @@ export class OIDCPlugin implements IAgentPlugin {
       if (!did || !extractedKeyId) {
         return {
           success: false,
-          error: new Error('Invalid kid'),
+          error: new DetailedError('', 'Invalid kid'),
         };
       }
 
@@ -402,8 +412,9 @@ export class OIDCPlugin implements IAgentPlugin {
       if (resolvedDid.didResolutionMetadata.error || !resolvedDid.didDocument) {
         return {
           success: false,
-          error: new Error(
-            `Error resolving did. Reason: ${
+          error: new DetailedError(
+            '',
+            `DetailedError resolving did. Reason: ${
               resolvedDid.didResolutionMetadata.error ?? 'Unknown error'
             }`
           ),
@@ -419,7 +430,7 @@ export class OIDCPlugin implements IAgentPlugin {
       } catch (e) {
         return {
           success: false,
-          error: new Error('Invalid kid'),
+          error: new DetailedError('', 'Invalid kid'),
         };
       }
 
@@ -427,7 +438,7 @@ export class OIDCPlugin implements IAgentPlugin {
       if (fragment.publicKeyJwk) {
         return {
           success: false,
-          error: new Error('PublicKeyJwk not supported yet!'),
+          error: new DetailedError('', 'PublicKeyJwk not supported yet!'),
         };
       }
 
@@ -438,7 +449,7 @@ export class OIDCPlugin implements IAgentPlugin {
       if (publicKeyHex === '') {
         return {
           success: false,
-          error: new Error('Invalid kid or no public key present'),
+          error: new DetailedError('', 'Invalid kid or no public key present'),
         };
       }
 
@@ -446,7 +457,7 @@ export class OIDCPlugin implements IAgentPlugin {
       if (!supportedTypes.includes(fragment.type)) {
         return {
           success: false,
-          error: new Error('Unsupported key type'),
+          error: new DetailedError('', 'Unsupported key type'),
         };
       }
 
@@ -456,7 +467,7 @@ export class OIDCPlugin implements IAgentPlugin {
       } else {
         return {
           success: false,
-          error: new Error('Unsupported key type'),
+          error: new DetailedError('', 'Unsupported key type'),
         };
       }
       const pubPoint = ctx.keyFromPublic(publicKeyHex, 'hex').getPublic();
@@ -473,13 +484,13 @@ export class OIDCPlugin implements IAgentPlugin {
     } else if (protectedHeader.x5c) {
       return {
         success: false,
-        error: new Error('x5c not supported'),
+        error: new DetailedError('', 'x5c not supported'),
       };
     } else {
       // Should never happen (here for type safety)
       return {
         success: false,
-        error: new Error('Invalid jwt header'),
+        error: new DetailedError('', 'Invalid jwt header'),
       };
     }
 
@@ -491,11 +502,11 @@ export class OIDCPlugin implements IAgentPlugin {
         })
       ).payload;
     } catch {
-      // TODO: Error and new nonce ?
+      // TODO: DetailedError and new nonce ?
       // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-8.3.2
       return {
         success: false,
-        error: new Error('Invalid jwt'),
+        error: new DetailedError('', 'Invalid jwt'),
       };
     }
 
@@ -508,7 +519,7 @@ export class OIDCPlugin implements IAgentPlugin {
       if (nonce !== cNonce) {
         return {
           success: false,
-          error: new Error('Invalid nonce'),
+          error: new DetailedError('', 'Invalid nonce'),
         };
       }
 
@@ -516,7 +527,7 @@ export class OIDCPlugin implements IAgentPlugin {
       if (cNonceExpiresIn && cNonceExpiresIn < Date.now()) {
         return {
           success: false,
-          error: new Error('Nonce expired'),
+          error: new DetailedError('', 'Nonce expired'),
         };
       }
     }
@@ -524,14 +535,14 @@ export class OIDCPlugin implements IAgentPlugin {
     if (exp && 1000 * exp < Date.now()) {
       return {
         success: false,
-        error: new Error('Jwt expired'),
+        error: new DetailedError('', 'Jwt expired'),
       };
     }
 
     if (nbf && 1000 * nbf > Date.now()) {
       return {
         success: false,
-        error: new Error('Jwt not valid yet'),
+        error: new DetailedError('', 'Jwt not valid yet'),
       };
     }
 
@@ -546,7 +557,8 @@ export class OIDCPlugin implements IAgentPlugin {
     if (!verified.verified) {
       return {
         success: false,
-        error: new Error(
+        error: new DetailedError(
+          '',
           `Invalid vp. Reason: ${verified.error?.message ?? 'Unknown error'}`
         ),
       };
@@ -560,7 +572,7 @@ export class OIDCPlugin implements IAgentPlugin {
     if (!vp.verifiableCredential) {
       return {
         success: false,
-        error: new Error('No credentials in vp'),
+        error: new DetailedError('', 'No credentials in vp'),
       };
     }
     // Verify all credentials
@@ -582,7 +594,8 @@ export class OIDCPlugin implements IAgentPlugin {
     if (invalidCredentials.length > 0) {
       return {
         success: false,
-        error: new Error(
+        error: new DetailedError(
+          '',
           `Atleast one credential is invalid. Reason: ${
             invalidCredentials[0].error?.message ?? 'Unknown error'
           }`
@@ -628,10 +641,21 @@ export class OIDCPlugin implements IAgentPlugin {
       userPinRequired,
     } = args;
 
-    if (!Array.isArray(requestedCredentials)) {
+    // Check if requested credentials are valid
+    if (
+      !Array.isArray(requestedCredentials) ||
+      !requestedCredentials.every(
+        (credential) =>
+          typeof credential === 'string' ||
+          (typeof credential === 'object' && credential !== null)
+      )
+    ) {
       return {
         success: false,
-        error: new Error('Requested invalid credentials'),
+        error: new DetailedError(
+          'invalid_request',
+          'Requested invalid credentials.'
+        ),
       };
     }
 
@@ -675,11 +699,12 @@ export class OIDCPlugin implements IAgentPlugin {
     if (credentials.length === 0) {
       return {
         success: false,
-        error: new Error('No supported credentials found'),
+        error: new DetailedError(
+          'invalid_request',
+          'No supported credentials found.'
+        ),
       };
     }
-
-    // Use only correct fields
 
     const preAuthorizedCode = randomUUID();
     const userPin = Array.from({ length: 8 }, () =>
@@ -737,7 +762,10 @@ export class OIDCPlugin implements IAgentPlugin {
     if (body.grant_type === 'authorization_code') {
       return {
         success: false,
-        error: new Error('Grant type authorization_code not implemented'),
+        error: new DetailedError(
+          'unsupported_grant_type',
+          TOKEN_ERRORS.unsupported_grant_type
+        ),
       };
     }
 
@@ -747,7 +775,11 @@ export class OIDCPlugin implements IAgentPlugin {
       if (!body['pre-authorized_code']) {
         return {
           success: false,
-          error: new Error('Invalid or missing pre-authorized_code'),
+          error: new DetailedError(
+            'invalid_request',
+            'Invalid or missing pre-authorized_code.'
+            // TODO: Those this error need have status code 401?
+          ),
         };
       }
 
@@ -762,7 +794,10 @@ export class OIDCPlugin implements IAgentPlugin {
 
     return {
       success: false,
-      error: new Error('Invalid grant_type'),
+      error: new DetailedError(
+        'unsupported_grant_type',
+        TOKEN_ERRORS.unsupported_grant_type
+      ),
     };
   }
 
@@ -776,14 +811,20 @@ export class OIDCPlugin implements IAgentPlugin {
       // TODO: Implement
       return {
         success: false,
-        error: new Error('Invalid or missing pre-authorized_code'),
+        error: new DetailedError(
+          'invalid_request',
+          'Invalid or missing pre-authorized_code.'
+        ),
       };
     }
 
     if (userPin && userPin !== body.user_pin) {
       return {
         success: false,
-        error: new Error('Invalid or missing user_pin'),
+        error: new DetailedError(
+          'invalid_request',
+          'Invalid or missing user_pin.'
+        ),
       };
     }
 
@@ -815,7 +856,7 @@ export class OIDCPlugin implements IAgentPlugin {
     if (!body.format) {
       return {
         success: false,
-        error: new Error('Missing format'),
+        error: new DetailedError('invalid_request', 'Missing format.'),
       };
     }
 
@@ -837,28 +878,31 @@ export class OIDCPlugin implements IAgentPlugin {
     if (!supportedCredential) {
       return {
         success: false,
-        error: new Error('Unsupported credential'),
+        error: new DetailedError('invalid_request', 'Unsupported credential.'),
       };
     }
 
     if (!issuerDid) {
       return {
         success: false,
-        error: new Error('Missing issuer did'),
+        error: new DetailedError('invalid_request', 'Missing issuer did.'),
       };
     }
 
     if (!subjectDid) {
       return {
         success: false,
-        error: new Error('Missing subject did'),
+        error: new DetailedError('invalid_request', 'Missing subject did.'),
       };
     }
 
     if (supportedCredential.format === 'mso_mdoc') {
       return {
         success: false,
-        error: new Error('Currently the mso_mdoc format is not supported'),
+        error: new DetailedError(
+          'invalid_request',
+          'Currently the mso_mdoc format is not supported.'
+        ),
       };
     }
 
@@ -889,7 +933,11 @@ export class OIDCPlugin implements IAgentPlugin {
     } catch (e: any) {
       return {
         success: false,
-        error: new Error('Error building credential payload'),
+        error: new DetailedError(
+          'internal_server_error',
+          'Error building credential payload',
+          500
+        ),
       };
     }
     let credential;
@@ -903,7 +951,11 @@ export class OIDCPlugin implements IAgentPlugin {
     } catch (e) {
       return {
         success: false,
-        error: new Error('Error creating credential'),
+        error: new DetailedError(
+          'internal_server_error',
+          'Error creating credential',
+          500
+        ),
       };
     }
 
@@ -914,7 +966,7 @@ export class OIDCPlugin implements IAgentPlugin {
     // if (!schemaFetchResult.ok) {
     //   return {
     //     success: false,
-    //     error: new Error(`Error fetching schema: ${schema}`),
+    //     error: new DetailedError(`DetailedError fetching schema: ${schema}`),
     //   };
     // }
 
@@ -935,7 +987,7 @@ export class OIDCPlugin implements IAgentPlugin {
     // if (!valid) {
     //   return {
     //     success: false,
-    //     error: new Error(
+    //     error: new DetailedError(
     //       `Invalid credential subject claims. Errors: ${JSON.stringify(
     //         validate.errors
     //       )}`
@@ -968,7 +1020,10 @@ export class OIDCPlugin implements IAgentPlugin {
       // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-8.3.2
       return {
         success: false,
-        error: new Error('Proof is required'),
+        error: new DetailedError(
+          'invalid_or_missing_proof',
+          'Proof is required.'
+        ),
       };
     }
 
@@ -976,7 +1031,10 @@ export class OIDCPlugin implements IAgentPlugin {
     if (proof.proof_type !== 'jwt') {
       return {
         success: false,
-        error: new Error('Proof format missing or not supported'),
+        error: new DetailedError(
+          'invalid_or_missing_proof',
+          'Proof format missing or not supported.'
+        ),
       };
     }
 
@@ -984,7 +1042,10 @@ export class OIDCPlugin implements IAgentPlugin {
     if (!proof.jwt) {
       return {
         success: false,
-        error: new Error('Missing or invalid jwt'),
+        error: new DetailedError(
+          'invalid_or_missing_proof',
+          'Missing or invalid jwt.'
+        ),
       };
     }
 
@@ -993,10 +1054,9 @@ export class OIDCPlugin implements IAgentPlugin {
     try {
       protectedHeader = decodeProtectedHeader(proof.jwt);
     } catch (e) {
-      // FIXME: Maybe we should also include the error message from decodeProtectedHeader
       return {
         success: false,
-        error: new Error('Invalid jwt header'),
+        error: new DetailedError('invalid_request', 'Invalid jwt header.'),
       };
     }
 
@@ -1008,7 +1068,10 @@ export class OIDCPlugin implements IAgentPlugin {
     ) {
       return {
         success: false,
-        error: new Error('Exactly one of kid, jwk, x5c must be present'),
+        error: new DetailedError(
+          'invalid_request',
+          'Exactly one of kid, jwk, x5c must be present.'
+        ),
       };
     }
 
@@ -1019,10 +1082,11 @@ export class OIDCPlugin implements IAgentPlugin {
     if (protectedHeader.typ !== 'openid4vci-proof+jwt') {
       return {
         success: false,
-        error: new Error(
+        error: new DetailedError(
+          'invalid_request',
           `Invalid JWT typ. Expected "openid4vci-proof+jwt" but got "${
             protectedHeader.typ ?? 'undefined'
-          }"`
+          }".`
         ),
       };
     }
@@ -1037,7 +1101,7 @@ export class OIDCPlugin implements IAgentPlugin {
       if (!did || !extractedKeyId) {
         return {
           success: false,
-          error: new Error('Invalid kid'),
+          error: new DetailedError('invalid_request', 'Invalid kid.'),
         };
       }
 
@@ -1045,10 +1109,11 @@ export class OIDCPlugin implements IAgentPlugin {
       if (resolvedDid.didResolutionMetadata.error || !resolvedDid.didDocument) {
         return {
           success: false,
-          error: new Error(
+          error: new DetailedError(
+            'invalid_request',
             `Error resolving did. Reason: ${
               resolvedDid.didResolutionMetadata.error ?? 'Unknown error'
-            }`
+            }.`
           ),
         };
       }
@@ -1064,14 +1129,17 @@ export class OIDCPlugin implements IAgentPlugin {
       } catch (e) {
         return {
           success: false,
-          error: new Error('Invalid kid'),
+          error: new DetailedError('invalid_request', 'Invalid kid.'),
         };
       }
 
       if (fragment.publicKeyJwk) {
         return {
           success: false,
-          error: new Error('PublickKeyJwk not supported yet!'),
+          error: new DetailedError(
+            'invalid_request',
+            'PublickKeyJwk not supported yet.'
+          ),
         };
       }
       const publicKeyHex = extractPublicKeyHex(
@@ -1081,7 +1149,10 @@ export class OIDCPlugin implements IAgentPlugin {
       if (publicKeyHex === '') {
         return {
           success: false,
-          error: new Error('Invalid kid or no public key present'),
+          error: new DetailedError(
+            'invalid_request',
+            'Invalid kid or no public key present.'
+          ),
         };
       }
 
@@ -1089,7 +1160,7 @@ export class OIDCPlugin implements IAgentPlugin {
       if (!supportedTypes.includes(fragment.type)) {
         return {
           success: false,
-          error: new Error('Unsupported key type'),
+          error: new DetailedError('invalid_request', 'Unsupported key type.'),
         };
       }
 
@@ -1102,9 +1173,10 @@ export class OIDCPlugin implements IAgentPlugin {
       } else {
         return {
           success: false,
-          error: new Error('Unsupported key type'),
+          error: new DetailedError('invalid_request', 'Unsupported key type.'),
         };
       }
+
       const pubPoint = ctx.keyFromPublic(publicKeyHex, 'hex').getPublic();
       const publicKeyJwk: JsonWebKey = {
         kty: 'EC',
@@ -1118,39 +1190,42 @@ export class OIDCPlugin implements IAgentPlugin {
       // publicKey = await importJWK(protectedHeader.jwk);
       return {
         success: false,
-        error: new Error('jwk not supported'),
+        error: new DetailedError('invalid_request', 'jwk not supported.'),
       };
     } else if (protectedHeader.x5c) {
       return {
         success: false,
-        error: new Error('x5c not supported'),
+        error: new DetailedError('invalid_request', 'x5c not supported.'),
       };
     } else {
       // Should never happen (here for type safety)
       return {
         success: false,
-        error: new Error('Invalid jwt header'),
+        error: new DetailedError('invalid_request', 'Invalid jwt header.'),
       };
     }
 
     try {
       payload = (
         await jwtVerify(proof.jwt, publicKey, {
-          // TODO: Maybe check ISS here ?
+          // TODO: Maybe check ISS here ? -> MUST BE OMITTED in pre-auth flow
           audience: this.pluginConfig.url,
         })
       ).payload;
-    } catch {
-      // TODO: Error and new nonce ?
+    } catch (e: unknown) {
+      // TODO: new nonce ?
       // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-8.3.2
       return {
         success: false,
-        error: new Error('Invalid jwt'),
+        error: new DetailedError(
+          'invalid_or_missing_proof',
+          (e as Error).toString()
+        ),
       };
     }
 
     // Check if jwt is valid
-    const { exp, nbf, nonce } = payload;
+    const { nonce } = payload;
 
     // Check if session contains cNonce
     if (cNonce) {
@@ -1158,7 +1233,10 @@ export class OIDCPlugin implements IAgentPlugin {
       if (nonce !== cNonce) {
         return {
           success: false,
-          error: new Error('Invalid c_nonce'),
+          error: new DetailedError(
+            'invalid_or_missing_proof',
+            'Invalid or missing nonce.'
+          ),
         };
       }
 
@@ -1166,23 +1244,12 @@ export class OIDCPlugin implements IAgentPlugin {
       if (cNonceExpiresIn && cNonceExpiresIn < Date.now()) {
         return {
           success: false,
-          error: new Error('c_nonce expired'),
+          error: new DetailedError(
+            'invalid_or_missing_proof',
+            'nonce expired.'
+          ),
         };
       }
-    }
-
-    if (exp && 1000 * exp < Date.now()) {
-      return {
-        success: false,
-        error: new Error('Jwt expired'),
-      };
-    }
-
-    if (nbf && 1000 * nbf > Date.now()) {
-      return {
-        success: false,
-        error: new Error('Jwt not valid yet'),
-      };
     }
 
     return {

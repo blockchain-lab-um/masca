@@ -393,6 +393,7 @@ importers:
   libs/oidc/rp-plugin:
     specifiers:
       '@blockchain-lab-um/oidc-types': '*'
+      '@blockchain-lab-um/utils': '*'
       '@ianvs/prettier-plugin-sort-imports': ^3.7.1
       '@swc/core': ^1.3.42
       '@swc/jest': ^0.2.24
@@ -403,10 +404,10 @@ importers:
       '@typescript-eslint/eslint-plugin': ^5.45.0
       '@typescript-eslint/parser': ^5.45.0
       '@veramo/cli': 5.0.0
-      '@veramo/core': ^5.0.0
-      '@veramo/did-manager': ^5.0.0
-      '@veramo/key-manager': ^5.0.0
-      '@veramo/utils': ^5.0.0
+      '@veramo/core': 5.1.2
+      '@veramo/did-manager': 5.1.2
+      '@veramo/key-manager': 5.1.2
+      '@veramo/utils': 5.1.2
       ajv: ^8.12.0
       ajv-formats: ^2.1.1
       cross-fetch: ^3.1.5
@@ -432,7 +433,6 @@ importers:
       typescript: 4.9.5
     dependencies:
       '@blockchain-lab-um/oidc-types': link:../types
-      '@types/qs': 6.9.7
       '@veramo/core': 5.1.2
       '@veramo/did-manager': 5.1.2
       '@veramo/key-manager': 5.1.2
@@ -446,12 +446,14 @@ importers:
       jose: 4.13.1
       qs: 6.11.1
     devDependencies:
+      '@blockchain-lab-um/utils': link:../../utils
       '@ianvs/prettier-plugin-sort-imports': 3.7.1_prettier@2.8.6
       '@swc/core': 1.3.42
       '@swc/jest': 0.2.24_@swc+core@1.3.42
       '@types/elliptic': 6.4.14
       '@types/jest': 29.4.0
       '@types/node': 18.15.3
+      '@types/qs': 6.9.7
       '@typescript-eslint/eslint-plugin': 5.56.0_iskin7c6dxqunwflhstekcjqmq
       '@typescript-eslint/parser': 5.56.0_vgl77cfdswitgr47lm5swmv43m
       '@veramo/cli': 5.0.0_@types+node@18.15.3
@@ -473,6 +475,7 @@ importers:
 
   libs/oidc/types:
     specifiers:
+      '@blockchain-lab-um/utils': '*'
       '@ianvs/prettier-plugin-sort-imports': ^3.7.1
       '@typescript-eslint/eslint-plugin': ^5.45.0
       '@typescript-eslint/parser': ^5.45.0
@@ -487,6 +490,7 @@ importers:
       prettier-plugin-packagejson: ^2.4.3
       typescript: 4.9.5
     devDependencies:
+      '@blockchain-lab-um/utils': link:../../utils
       '@ianvs/prettier-plugin-sort-imports': 3.7.1_prettier@2.8.6
       '@typescript-eslint/eslint-plugin': 5.56.0_iskin7c6dxqunwflhstekcjqmq
       '@typescript-eslint/parser': 5.56.0_vgl77cfdswitgr47lm5swmv43m
@@ -1142,7 +1146,7 @@ packages:
         optional: true
     dependencies:
       ajv: 8.11.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.11.0
       jsonc-parser: 3.2.0
       rxjs: 6.6.7
       source-map: 0.7.4
@@ -1158,7 +1162,7 @@ packages:
         optional: true
     dependencies:
       ajv: 8.11.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.11.0
       chokidar: 3.5.3
       jsonc-parser: 3.2.0
       rxjs: 6.6.7
@@ -1175,7 +1179,7 @@ packages:
         optional: true
     dependencies:
       ajv: 8.12.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.12.0
       chokidar: 3.5.3
       jsonc-parser: 3.2.0
       rxjs: 6.6.7
@@ -4937,7 +4941,7 @@ packages:
     resolution: {integrity: sha512-ebbEtlI7dxXF5ziNdr05mOY8NnDiPB1XvAlLHctRt/Rc+C3LCOVW5imUVX+mhvUhnNzmPBHewUkOFgGlCxgdAA==}
     dependencies:
       ajv: 8.12.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.12.0
       fast-uri: 2.2.0
     dev: false
 
@@ -9471,13 +9475,16 @@ packages:
       clean-stack: 2.2.0
       indent-string: 4.0.0
 
-  /ajv-formats/2.1.1:
+  /ajv-formats/2.1.1_ajv@8.11.0:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
     dependencies:
-      ajv: 8.12.0
+      ajv: 8.11.0
+    dev: true
 
   /ajv-formats/2.1.1_ajv@8.12.0:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
@@ -13715,7 +13722,7 @@ packages:
     dependencies:
       '@fastify/deepmerge': 1.3.0
       ajv: 8.12.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.12.0
       fast-deep-equal: 3.1.3
       fast-uri: 2.2.0
       rfdc: 1.3.0
@@ -16006,7 +16013,7 @@ packages:
       pretty-format: 29.5.0
       slash: 3.0.0
       strip-json-comments: 3.1.1
-      ts-node: 10.9.1_etd2ldttxnytaqlvttjo65to7q
+      ts-node: 10.9.1_cbfmry4sbbh4vatmdrsmatfg5a
     transitivePeerDependencies:
       - supports-color
 
@@ -22284,7 +22291,6 @@ packages:
       typescript: 4.9.5
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
-    dev: true
 
   /ts-node/10.9.1_etd2ldttxnytaqlvttjo65to7q:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}

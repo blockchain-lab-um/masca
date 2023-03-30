@@ -29,10 +29,10 @@ export type Grants = {
 
 export interface CredentialOfferRequest {
   credentials: Credentials;
-  grants?: [
+  grants?: (
     | 'urn:ietf:params:oauth:grant-type:pre-authorized_code'
     | 'authorization_code'
-  ];
+  )[];
   userPinRequired?: boolean;
 }
 

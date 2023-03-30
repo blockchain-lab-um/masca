@@ -1,3 +1,5 @@
+import DetailedError from './detailedError.js';
+
 export type Result<T> = {
   success: boolean;
 } & (
@@ -7,10 +9,13 @@ export type Result<T> = {
     }
   | {
       success: false;
-      error: Error;
+      error: DetailedError;
     }
 );
 
 export const isError = <T>(
   result: Result<T>
-): result is { success: false; error: Error } => !result.success;
+): result is {
+  success: false;
+  error: DetailedError;
+} => !result.success;
