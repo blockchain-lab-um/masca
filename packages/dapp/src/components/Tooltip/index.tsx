@@ -14,7 +14,7 @@ const Tooltip = ({ children, tooltip, position = 'top' }: TooltipProps) => {
       <div className="opacity-0 transition duration-500 group-hover:opacity-100">
         <span
           className={clsx(
-            'border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700 invisible absolute z-20 whitespace-nowrap rounded-lg border py-1 px-2 text-sm group-hover:visible',
+            'invisible absolute z-20 whitespace-nowrap rounded-lg border border-gray-300 bg-gray-100 py-1 px-2 text-sm text-gray-700 group-hover:visible',
             position === 'top'
               ? 'left-1/2 bottom-[calc(100%+5px)] mb-1 -translate-x-1/2'
               : '',

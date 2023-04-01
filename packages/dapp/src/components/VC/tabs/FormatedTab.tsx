@@ -65,10 +65,10 @@ const FormatedTab = ({
   return (
     <>
       <div className="relative h-full px-8">
-        <div className="dark:from-navy-blue-700 dark:to-navy-blue-700 mt-8 grid grid-cols-3 rounded-2xl bg-gradient-to-b from-orange-50 to-pink-50 px-4 py-8">
+        <div className="dark:from-navy-blue-700 dark:to-navy-blue-700 mt-6 grid grid-cols-3 rounded-2xl bg-gradient-to-b from-orange-100 to-pink-100 px-4 py-8 shadow-md">
           <div className="col-span-2 row-span-2 flex w-full flex-col justify-center">
             <Tooltip tooltip={types}>
-              <div className="font-ubuntu dark:text-orange-accent-dark truncate pr-2 text-2xl font-medium text-gray-900">
+              <div className="font-ubuntu dark:text-orange-accent-dark truncate pr-2 text-2xl font-medium text-pink-500">
                 {types}
               </div>
             </Tooltip>
@@ -83,7 +83,7 @@ const FormatedTab = ({
           </div>
         </div>
 
-        <div className="dark:from-navy-blue-700 dark:to-navy-blue-700 mb-8 mt-6 grid grid-cols-1 break-all rounded-2xl bg-gradient-to-b from-orange-50 to-pink-50 px-8 py-10 lg:grid-cols-2">
+        <div className="dark:from-navy-blue-700 dark:to-navy-blue-700 mb-8 mt-6 grid grid-cols-1 break-all rounded-2xl  px-8 pt-5 pb-14 lg:grid-cols-2">
           <div className="px-1 lg:col-span-2 lg:col-start-1">
             <span className="text-md dark:text-orange-accent-dark font-medium text-pink-500">
               {t('formatted-tab.subject')}

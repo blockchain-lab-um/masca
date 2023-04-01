@@ -49,9 +49,9 @@
       "page": "Page"
     },
     "card": {
-      "more": "More",
-      "select": "Select",
-      "selected": "Selected",
+      "more": "MORE >",
+      "select": "SELECT",
+      "selected": "DESELECT",
       "expires": "EXPIRES ON",
       "issued": "ISSUED BY",
       "issued-date": "ISSUED ON",
