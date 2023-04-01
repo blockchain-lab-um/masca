@@ -1,6 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
+import {
+  CheckCircleIcon,
+  ExclamationCircleIcon,
+  PlusIcon,
+  XMarkIcon,
+} from '@heroicons/react/24/outline';
+import { MinusIcon } from '@heroicons/react/24/solid';
 import { Row } from '@tanstack/react-table';
 import { useTranslations } from 'next-intl';
 
@@ -31,7 +38,7 @@ const VCCard = ({ row }: VCCardProps) => {
     </Tooltip>
   );
   return (
-    <div className="min-h-56 mx-4 mt-8 w-72 shrink-0 grow-0 rounded-xl bg-gradient-to-b from-pink-500/80 to-orange-500/80 p-4 shadow-lg sm:w-96 ">
+    <div className="min-h-56 mx-4 mt-8 w-72 shrink-0 grow-0 rounded-xl bg-gradient-to-b from-orange-500/80 to-pink-500/80 px-4 py-4 shadow-lg sm:w-96 ">
       <div className="flex h-full flex-col justify-between">
         <div className="flex items-center justify-between">
           <div className="w-full">
@@ -39,31 +46,27 @@ const VCCard = ({ row }: VCCardProps) => {
               onClick={() => {
                 row.toggleSelected();
               }}
-              className={`${
-                row.getIsSelected()
-                  ? 'bg-pink-100 font-semibold text-pink-500'
-                  : 'dark:text-navy-blue-500'
-              } mt-4 rounded-full bg-orange-100 py-1 shadow-md`}
             >
-              <div className="px-2.5">
-                <span className="col-start-2">
-                  {!row.getIsSelected() ? t('card.select') : t('card.selected')}
-                </span>
-                <span className="col-start-3 text-right text-lg font-semibold">
-                  {!row.getIsSelected() ? '+' : '-'}
-                </span>
-              </div>
+              {!row.getIsSelected() ? (
+                <div className="animated-transition flex h-8 w-8 items-center justify-center rounded-full bg-orange-100 shadow-md hover:opacity-90">
+                  <PlusIcon className="h-7 w-7 text-orange-500" />
+                </div>
+              ) : (
+                <div className="animated-transition flex h-8 w-8 items-center justify-center rounded-full bg-yellow-500 shadow-md hover:opacity-80">
+                  <MinusIcon className="h-7 w-7 text-orange-500" />
+                </div>
+              )}
             </button>
           </div>
           <div>
             {validity === 'true' ? (
-              <span className="rounded-full bg-green-300/80 px-4 py-1 text-green-700">
-                valid
-              </span>
+              <Tooltip tooltip="Credential is valid">
+                <CheckCircleIcon className="h-8 w-8 text-orange-100" />
+              </Tooltip>
             ) : (
-              <span className="rounded-full bg-red-100 px-3.5 py-1 text-red-900">
-                invalid
-              </span>
+              <Tooltip tooltip="Credential is invalid">
+                <ExclamationCircleIcon className="h-8 w-8 text-red-700" />
+              </Tooltip>
             )}
           </div>
         </div>
@@ -88,7 +91,7 @@ const VCCard = ({ row }: VCCardProps) => {
               <div>{expDate}</div>
             </div>
           </div>
-          <div className="font-cabin text-center text-2xl font-medium text-orange-100">
+          <div className="font-cabin text-right text-2xl font-medium text-orange-100">
             {types as string}
           </div>
         </div>
@@ -98,8 +101,8 @@ const VCCard = ({ row }: VCCardProps) => {
             query: { id: row.original.metadata.id },
           }}
         >
-          <button className="font-ubuntu text-md font-bold text-orange-50 underline-offset-4 hover:underline">
-            {t('card.more')} {'>'}
+          <button className="font-ubuntu text-md mt-4 w-full text-right font-bold text-orange-50 underline-offset-4 hover:underline">
+            {t('card.more')}
           </button>
         </Link>
       </div>

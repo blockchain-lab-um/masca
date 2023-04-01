@@ -16,7 +16,7 @@ interface TableStore {
 
 export const useTableStore = create<TableStore>()((set) => ({
   globalFilter: '',
-  columnFilters: [{ id: 'data_store', value: ['snap', 'ceramic'] }],
+  columnFilters: [{ id: 'data_store', value: ['snap'] }],
   selectedVCs: [],
   cardView: true,
 
