@@ -13,7 +13,7 @@ import {
   isAvailableVCStores,
   isSupportedProofFormat,
 } from '@blockchain-lab-um/ssi-snap-types';
-import { SSISnapState } from 'src/interfaces';
+import { MascaState } from 'src/interfaces';
 
 import { isEnabledVCStore } from './snapUtils';
 
@@ -31,7 +31,7 @@ function isArray(input: unknown): input is unknown[] {
 export function isValidSaveVCRequest(
   params: unknown,
   account: string,
-  state: SSISnapState
+  state: MascaState
 ): asserts params is SaveVCRequestParams {
   const param = params as SaveVCRequestParams;
   if (
@@ -77,7 +77,7 @@ export function isValidSaveVCRequest(
 export function isValidCreateVPRequest(
   params: unknown,
   account: string,
-  state: SSISnapState
+  state: MascaState
 ): asserts params is CreateVPRequestParams {
   const param = params as CreateVPRequestParams;
   if (
@@ -205,7 +205,7 @@ export function isValidSetVCStoreRequest(
 export function isValidDeleteVCRequest(
   params: unknown,
   account: string,
-  state: SSISnapState
+  state: MascaState
 ): asserts params is DeleteVCsRequestParams {
   const param = params as DeleteVCsRequestParams;
   if (
@@ -252,7 +252,7 @@ export function isValidDeleteVCRequest(
 export function isValidQueryRequest(
   params: unknown,
   account: string,
-  state: SSISnapState
+  state: MascaState
 ): asserts params is QueryVCsRequestParams {
   if (params == null) return;
   const param = params as QueryVCsRequestParams;
@@ -349,7 +349,7 @@ export function isValidVerifyDataRequest(
 export function isValidCreateVCRequest(
   params: unknown,
   account: string,
-  state: SSISnapState
+  state: MascaState
 ): asserts params is CreateVCRequestParams {
   const param = params as CreateVCRequestParams;
   if (

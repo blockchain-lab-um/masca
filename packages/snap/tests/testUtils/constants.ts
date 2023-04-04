@@ -9,7 +9,7 @@ import {
 } from '@veramo/core';
 import cloneDeep from 'lodash.clonedeep';
 
-import { SSISnapState, SnapConfirmParams } from '../../src/interfaces';
+import { MascaState, SnapConfirmParams } from '../../src/interfaces';
 import { getEmptyAccountState } from '../../src/utils/config';
 
 export const mnemonic =
@@ -450,7 +450,7 @@ export const exampleVCJWT = {
   },
 };
 
-const defaultSnapState: SSISnapState = {
+const defaultSnapState: MascaState = {
   accountState: {
     '0xb6665128eE91D84590f70c3268765384A9CAfBCd': getEmptyAccountState(),
   },
@@ -465,7 +465,7 @@ const defaultSnapState: SSISnapState = {
   },
 };
 
-export const getDefaultSnapState = (): SSISnapState => {
+export const getDefaultSnapState = (): MascaState => {
   defaultSnapState.accountState[address].publicKey = publicKey;
   return cloneDeep(defaultSnapState);
 };

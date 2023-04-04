@@ -3,12 +3,12 @@ import { bytesToBase64url, hexToBytes } from '@veramo/utils';
 import { ec as EC } from 'elliptic';
 import { base58btc } from 'multiformats/bases/base58';
 
-import { SSISnapState } from '../../interfaces';
+import { MascaState } from '../../interfaces';
 import { addMulticodecPrefix } from '../../utils/formatUtils';
 import { getCompressedPublicKey } from '../../utils/snapUtils';
 
 export function getDidKeyIdentifier(
-  state: SSISnapState,
+  state: MascaState,
   account: string
 ): string {
   const compressedKey = getCompressedPublicKey(

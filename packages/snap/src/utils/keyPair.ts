@@ -5,12 +5,12 @@ import {
 } from '@metamask/key-tree';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { ethers } from 'ethers';
-import { SSISnapState } from 'src/interfaces';
+import { MascaState } from 'src/interfaces';
 
 import { updateSnapState } from './stateUtils';
 
 export function getAccountIndex(
-  state: SSISnapState,
+  state: MascaState,
   account: string
 ): number | undefined {
   if (state.accountState[account].index)
@@ -20,7 +20,7 @@ export function getAccountIndex(
 
 export async function setAccountIndex(
   snap: SnapsGlobalObject,
-  state: SSISnapState,
+  state: MascaState,
   account: string,
   index: number
 ) {
@@ -31,7 +31,7 @@ export async function setAccountIndex(
 
 export async function getAddressKeyDeriver(
   params: {
-    state: SSISnapState;
+    state: MascaState;
     snap: SnapsGlobalObject;
     account: string;
   },
@@ -112,7 +112,7 @@ export const getKeysFromAddress = async (
 
 export const snapGetKeysFromAddress = async (
   bip44CoinTypeNode: BIP44CoinTypeNode,
-  state: SSISnapState,
+  state: MascaState,
   account: string,
   snap: SnapsGlobalObject,
   maxScan = 20

@@ -1,10 +1,10 @@
 import {
-  SSIAccountConfig,
-  SSISnapConfig,
+  MascaAccountConfig,
+  MascaConfig,
 } from '@blockchain-lab-um/ssi-snap-types';
 import cloneDeep from 'lodash.clonedeep';
 
-import { SSIAccountState, SSISnapState } from '../interfaces';
+import { MascaAccountState, MascaState } from '../interfaces';
 
 const emptyAccountState = {
   snapKeyStore: {},
@@ -22,8 +22,8 @@ const emptyAccountState = {
       },
     },
     ceramic: {},
-  } as SSIAccountConfig,
-} as SSIAccountState;
+  } as MascaAccountConfig,
+} as MascaAccountState;
 
 export const getEmptyAccountState = () => {
   return cloneDeep(emptyAccountState);
@@ -37,9 +37,9 @@ export const defaultConfig = {
   snap: {
     acceptedTerms: true,
   },
-} as SSISnapConfig;
+} as MascaConfig;
 
-const initialSnapState: SSISnapState = {
+const initialSnapState: MascaState = {
   accountState: {},
   snapConfig: {
     dApp: {

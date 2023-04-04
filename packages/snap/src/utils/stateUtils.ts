@@ -1,19 +1,19 @@
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 
-import { ApiParams, SSISnapState } from '../interfaces';
+import { ApiParams, MascaState } from '../interfaces';
 import { getEmptyAccountState, getInitialSnapState } from './config';
 
 /**
- * Helper function to update SSISnapState object in the Snaps global object
+ * Helper function to update MascaState object in the Snaps global object
  *
  * @param snap - Snaps global object
- * @param snapState - SSISnapState object
+ * @param snapState - MascaState object
  *
  * @returns void
  */
 export async function updateSnapState(
   snap: SnapsGlobalObject,
-  snapState: SSISnapState
+  snapState: MascaState
 ) {
   await snap.request({
     method: 'snap_manageState',
@@ -22,59 +22,59 @@ export async function updateSnapState(
 }
 
 /**
- * Helper function to retrieve SSISnapState object from the Snaps global object
+ * Helper function to retrieve MascaState object from the Snaps global object
  *
  * @param snap - Snaps global object
  *
- * @returns SSISnapState - SSISnapState object
+ * @returns MascaState - MascaState object
  */
 export async function getSnapState(
   snap: SnapsGlobalObject
-): Promise<SSISnapState> {
+): Promise<MascaState> {
   const state = (await snap.request({
     method: 'snap_manageState',
     params: { operation: 'get' },
-  })) as SSISnapState | null;
+  })) as MascaState | null;
 
-  if (!state) throw Error('SSISnapState is not initialized!');
+  if (!state) throw Error('MascaState is not initialized!');
   return state;
 }
 
 /**
- * Helper function to retrieve SSISnapState object from the Snaps global object
+ * Helper function to retrieve MascaState object from the Snaps global object
  * without throwing an error if it is not initialized
  *
  * @param snap - Snaps global object
  *
- * @returns SSISnapState | null - SSISnapState object or null
+ * @returns MascaState | null - MascaState object or null
  */
 export async function getSnapStateUnchecked(
   snap: SnapsGlobalObject
-): Promise<SSISnapState | null> {
+): Promise<MascaState | null> {
   const state = (await snap.request({
     method: 'snap_manageState',
     params: { operation: 'get' },
-  })) as SSISnapState | null;
+  })) as MascaState | null;
   return state;
 }
 
 /**
- * Function that initializes the SSISnapState object in the Snaps global object.
+ * Function that initializes the MascaState object in the Snaps global object.
  *
  * @param snap - Snaps global object
  *
- * @returns SSISnapState - the updated SSISnapState object
+ * @returns MascaState - the updated MascaState object
  */
 export async function initSnapState(
   snap: SnapsGlobalObject
-): Promise<SSISnapState> {
+): Promise<MascaState> {
   const state = getInitialSnapState();
   await updateSnapState(snap, state);
   return state;
 }
 
 /**
- * Function that creates an empty SSIAccountState object in the SSI Snap state for the provided address.
+ * Function that creates an empty MascaAccountState object in the Masca state for the provided address.
  *
  * @param params - ApiParams object
  *

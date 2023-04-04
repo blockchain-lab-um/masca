@@ -4,7 +4,7 @@ import { Maybe } from '@metamask/providers/dist/utils';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { Wallet, providers } from 'ethers';
 
-import { SSISnapState } from '../../src/interfaces';
+import { MascaState } from '../../src/interfaces';
 import { address, mnemonic, privateKey } from './constants';
 
 interface ISnapMock {
@@ -17,11 +17,11 @@ interface SnapManageState {
 }
 
 export class SnapMock implements ISnapMock {
-  private snapState: SSISnapState | null = null;
+  private snapState: MascaState | null = null;
 
   private snap: Wallet = new Wallet(privateKey);
 
-  private snapManageState(params: SnapManageState): SSISnapState | null {
+  private snapManageState(params: SnapManageState): MascaState | null {
     if (!params) {
       return null;
     }
@@ -29,7 +29,7 @@ export class SnapMock implements ISnapMock {
       return this.snapState;
     }
     if (params.operation === 'update') {
-      this.snapState = params.newState as SSISnapState;
+      this.snapState = params.newState as MascaState;
     } else if (params.operation === 'clear') {
       this.snapState = null;
     }

@@ -11,7 +11,7 @@ import {
   getDidKeyIdentifier,
 } from '../did/key/keyDidUtils';
 import { getDidPkhIdentifier } from '../did/pkh/pkhDidUtils';
-import { SSISnapState } from '../interfaces';
+import { MascaState } from '../interfaces';
 import { getAgent } from '../veramo/setup';
 import { getDidEbsiIdentifier } from './ebsiUtils';
 import { getCurrentNetwork } from './snapUtils';
@@ -19,7 +19,7 @@ import { updateSnapState } from './stateUtils';
 
 export async function changeCurrentVCStore(params: {
   snap: SnapsGlobalObject;
-  state: SSISnapState;
+  state: MascaState;
   account: string;
   didStore: AvailableVCStores;
   value: boolean;
@@ -31,7 +31,7 @@ export async function changeCurrentVCStore(params: {
 }
 
 export async function getCurrentDid(params: {
-  state: SSISnapState;
+  state: MascaState;
   snap: SnapsGlobalObject;
   account: string;
   ethereum: MetaMaskInpageProvider;
@@ -74,14 +74,15 @@ export async function getCurrentDid(params: {
 }
 
 export async function changeCurrentMethod(params: {
-  state: SSISnapState;
   snap: SnapsGlobalObject;
-  account: string;
   ethereum: MetaMaskInpageProvider;
+  state: MascaState;
+  account: string;
   didMethod: AvailableMethods;
 }): Promise<string> {
-  const { state, snap, account, ethereum, didMethod } = params;
-  state.accountState[account].accountConfig.ssi.didMethod = params.didMethod;
+  const { snap, ethereum, state, account, didMethod } = params;
+  // eslint-disable-next-line no-param-reassign
+  state.accountState[account].accountConfig.ssi.didMethod = didMethod;
   await updateSnapState(snap, state);
   const did = await getCurrentDid({ state, snap, account, ethereum });
   return did;

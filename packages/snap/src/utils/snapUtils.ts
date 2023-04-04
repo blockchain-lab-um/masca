@@ -7,7 +7,7 @@ import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { Component } from '@metamask/snaps-ui';
 import { publicKeyConvert } from 'secp256k1';
 
-import { ApiParams, SSISnapState } from '../interfaces';
+import { ApiParams, MascaState } from '../interfaces';
 import { snapGetKeysFromAddress } from './keyPair';
 import { updateSnapState } from './stateUtils';
 
@@ -56,10 +56,7 @@ export async function getCurrentNetwork(
  *
  * @returns void
  */
-export async function togglePopups(
-  snap: SnapsGlobalObject,
-  state: SSISnapState
-) {
+export async function togglePopups(snap: SnapsGlobalObject, state: MascaState) {
   state.snapConfig.dApp.disablePopups = !state.snapConfig.dApp.disablePopups;
   await updateSnapState(snap, state);
 }
@@ -75,7 +72,7 @@ export async function togglePopups(
  */
 export async function addFriendlyDapp(
   snap: SnapsGlobalObject,
-  state: SSISnapState,
+  state: MascaState,
   dapp: string
 ) {
   if (state.snapConfig.dApp.friendlyDapps.includes(dapp)) return;
@@ -94,7 +91,7 @@ export async function addFriendlyDapp(
  */
 export async function removeFriendlyDapp(
   snap: SnapsGlobalObject,
-  state: SSISnapState,
+  state: MascaState,
   dapp: string
 ) {
   state.snapConfig.dApp.friendlyDapps =
@@ -156,7 +153,7 @@ export async function snapConfirm(
 
 export function getEnabledVCStores(
   account: string,
-  state: SSISnapState,
+  state: MascaState,
   vcstores?: AvailableVCStores[]
 ): string[] {
   if (!vcstores) {
@@ -175,7 +172,7 @@ export function getEnabledVCStores(
 
 export function isEnabledVCStore(
   account: string,
-  state: SSISnapState,
+  state: MascaState,
   store: AvailableVCStores
 ): boolean {
   return state.accountState[account].accountConfig.ssi.vcStore[store];
