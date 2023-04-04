@@ -17,7 +17,7 @@ import {
 import type { QueryVCsRequestResult, SaveVCRequestResult } from './results.js';
 import { MascaAccountConfig, MascaConfig } from './snapInterfaces.js';
 
-export interface SSISnapApi {
+export interface MascaApi {
   queryVCs(
     params?: QueryVCsRequestParams
   ): Promise<Result<QueryVCsRequestResult[]>>;

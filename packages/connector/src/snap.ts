@@ -4,12 +4,12 @@ import {
   CreateVCRequestParams,
   CreateVPRequestParams,
   DeleteVCsOptions,
-  MetaMaskSSISnapRPCRequest,
+  MascaAccountConfig,
+  MascaApi,
+  MascaConfig,
+  MascaRPCRequest,
   QueryVCsRequestParams,
   QueryVCsRequestResult,
-  SSIAccountConfig,
-  SSISnapApi,
-  SSISnapConfig,
   SaveVCOptions,
   SaveVCRequestResult,
 } from '@blockchain-lab-um/ssi-snap-types';
@@ -22,7 +22,7 @@ import {
 } from '@veramo/core';
 
 async function sendSnapMethod<T>(
-  request: MetaMaskSSISnapRPCRequest,
+  request: MascaRPCRequest,
   snapId: string
 ): Promise<T> {
   const mmRequest = {
@@ -34,14 +34,14 @@ async function sendSnapMethod<T>(
 }
 
 /**
- * Get a list of VCs stored in SSI Snap under the currently selected MetaMask account
+ * Get a list of VCs stored in Masca under the currently selected MetaMask account
  *
  * @param params - optional parameters for querying VCs
  *
  * @return Result<QueryVCsRequestResult[]> - list of VCs
  */
 export async function queryVCs(
-  this: MetaMaskSSISnap,
+  this: Masca,
   params?: QueryVCsRequestParams
 ): Promise<Result<QueryVCsRequestResult[]>> {
   return sendSnapMethod(
@@ -51,14 +51,14 @@ export async function queryVCs(
 }
 
 /**
- * Create a VP from a list of VCs stored in SSI Snap under the currently selected MetaMask account
+ * Create a VP from a list of VCs stored in Masca under the currently selected MetaMask account
  *
  * @param params - parameters for creating a VP
  *
  * @return Result<VerifiablePresentation> - VP
  */
 export async function createVP(
-  this: MetaMaskSSISnap,
+  this: Masca,
   params: CreateVPRequestParams
 ): Promise<Result<VerifiablePresentation>> {
   return sendSnapMethod(
@@ -71,7 +71,7 @@ export async function createVP(
 }
 
 /**
- * Save a VC in SSI Snap under the currently selected MetaMask account
+ * Save a VC in Masca under the currently selected MetaMask account
  *
  * @param vc - VC to be saved
  * @param options - optional parameters for saving a VC
@@ -79,7 +79,7 @@ export async function createVP(
  * @return Result<SaveVCRequestResult[]> - list of saved VCs
  */
 export async function saveVC(
-  this: MetaMaskSSISnap,
+  this: Masca,
   vc: W3CVerifiableCredential,
   options?: SaveVCOptions
 ): Promise<Result<SaveVCRequestResult[]>> {
@@ -96,7 +96,7 @@ export async function saveVC(
 }
 
 /**
- * Delete a VC from SSI Snap under the currently selected MetaMask account
+ * Delete a VC from Masca under the currently selected MetaMask account
  *
  * @param id - ID of the VC to be deleted
  * @param options - optional parameters for deleting a VC
@@ -104,7 +104,7 @@ export async function saveVC(
  * @return Result<boolean[]> - list of results for each VC
  */
 export async function deleteVC(
-  this: MetaMaskSSISnap,
+  this: Masca,
   id: string,
   options?: DeleteVCsOptions
 ): Promise<Result<boolean[]>> {
@@ -125,7 +125,7 @@ export async function deleteVC(
  *
  * @return Result<string> - DID
  */
-export async function getDID(this: MetaMaskSSISnap): Promise<Result<string>> {
+export async function getDID(this: Masca): Promise<Result<string>> {
   return sendSnapMethod({ method: 'getDID' }, this.snapId);
 }
 
@@ -134,9 +134,7 @@ export async function getDID(this: MetaMaskSSISnap): Promise<Result<string>> {
  *
  * @return Result<string> - DID method
  */
-export async function getSelectedMethod(
-  this: MetaMaskSSISnap
-): Promise<Result<string>> {
+export async function getSelectedMethod(this: Masca): Promise<Result<string>> {
   return sendSnapMethod({ method: 'getSelectedMethod' }, this.snapId);
 }
 
@@ -146,7 +144,7 @@ export async function getSelectedMethod(
  * @return Result<string[]> - list of available DID methods
  */
 export async function getAvailableMethods(
-  this: MetaMaskSSISnap
+  this: Masca
 ): Promise<Result<string[]>> {
   return sendSnapMethod({ method: 'getAvailableMethods' }, this.snapId);
 }
@@ -159,7 +157,7 @@ export async function getAvailableMethods(
  * @return Result<boolean> - true if the switch was successful
  */
 export async function switchDIDMethod(
-  this: MetaMaskSSISnap,
+  this: Masca,
   method: AvailableMethods
 ): Promise<Result<AvailableMethods>> {
   return sendSnapMethod(
@@ -173,9 +171,7 @@ export async function switchDIDMethod(
  *
  * @return Result<boolean> - true if the switch was successful
  */
-export async function togglePopups(
-  this: MetaMaskSSISnap
-): Promise<Result<boolean>> {
+export async function togglePopups(this: Masca): Promise<Result<boolean>> {
   return sendSnapMethod({ method: 'togglePopups' }, this.snapId);
 }
 
@@ -185,7 +181,7 @@ export async function togglePopups(
  * @return Result<Record<AvailableVCStores, boolean>> - status of available VC stores
  */
 export async function getVCStore(
-  this: MetaMaskSSISnap
+  this: Masca
 ): Promise<Result<Record<AvailableVCStores, boolean>>> {
   return sendSnapMethod({ method: 'getVCStore' }, this.snapId);
 }
@@ -196,7 +192,7 @@ export async function getVCStore(
  * @return Result<string[]> - list of available VC stores
  */
 export async function getAvailableVCStores(
-  this: MetaMaskSSISnap
+  this: Masca
 ): Promise<Result<string[]>> {
   return sendSnapMethod({ method: 'getAvailableVCStores' }, this.snapId);
 }
@@ -210,7 +206,7 @@ export async function getAvailableVCStores(
  * @return Result<boolean> - true if the switch was successful
  */
 export async function setVCStore(
-  this: MetaMaskSSISnap,
+  this: Masca,
   store: AvailableVCStores,
   value: boolean
 ): Promise<Result<boolean>> {
@@ -223,22 +219,22 @@ export async function setVCStore(
 /**
  * Get account settings (i.e. DID method, VC stores,...)
  *
- * @return Result<SSIAccountConfig> - account settings
+ * @return Result<MascaAccountConfig> - account settings
  */
 export async function getAccountSettings(
-  this: MetaMaskSSISnap
-): Promise<Result<SSIAccountConfig>> {
+  this: Masca
+): Promise<Result<MascaAccountConfig>> {
   return sendSnapMethod({ method: 'getAccountSettings' }, this.snapId);
 }
 
 /**
- * Get SSI Snap settings
+ * Get Masca settings
  *
- * @return Result<SSISnapConfig> - SSI Snap settings
+ * @return Result<MascaConfig> - Masca settings
  */
 export async function getSnapSettings(
-  this: MetaMaskSSISnap
-): Promise<Result<SSISnapConfig>> {
+  this: Masca
+): Promise<Result<MascaConfig>> {
   return sendSnapMethod({ method: 'getSnapSettings' }, this.snapId);
 }
 
@@ -250,7 +246,7 @@ export async function getSnapSettings(
  * @return Result<DIDResolutionResult> - DID resolution result
  */
 export async function resolveDID(
-  this: MetaMaskSSISnap,
+  this: Masca,
   did: string
 ): Promise<Result<DIDResolutionResult>> {
   return sendSnapMethod({ method: 'resolveDID', params: { did } }, this.snapId);
@@ -260,7 +256,7 @@ export async function resolveDID(
  * Create a Verifiable Presentation
  */
 export async function createVC(
-  this: MetaMaskSSISnap,
+  this: Masca,
   params: CreateVCRequestParams
 ): Promise<Result<VerifiableCredential>> {
   return sendSnapMethod(
@@ -272,7 +268,7 @@ export async function createVC(
   );
 }
 
-export class MetaMaskSSISnap {
+export class Masca {
   protected readonly snapOrigin: string;
 
   protected readonly snapId: string;
@@ -288,7 +284,7 @@ export class MetaMaskSSISnap {
     this.supportedMethods = supportedMethods;
   }
 
-  public getSSISnapApi = (): SSISnapApi => {
+  public getMascaApi = (): MascaApi => {
     return {
       saveVC: saveVC.bind(this),
       queryVCs: queryVCs.bind(this),

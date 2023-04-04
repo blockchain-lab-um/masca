@@ -5,9 +5,9 @@ import {
 import { Result, ResultObject, isError } from '@blockchain-lab-um/utils';
 import detectEthereumProvider from '@metamask/detect-provider';
 
-import { MetaMaskSSISnap } from './snap.js';
+import { Masca } from './snap.js';
 
-export { MetaMaskSSISnap } from './snap.js';
+export { Masca } from './snap.js';
 export { isSnapInstalled } from './utils.js';
 
 export type SnapInstallationParams = {
@@ -19,17 +19,17 @@ export type SnapInstallationParams = {
 const defaultSnapOrigin = 'npm:@blockchain-lab-um/ssi-snap';
 
 /**
- * Install and enable SSI Snap
+ * Install and enable Masca
  *
- * Checks for existence of MetaMask Flask and installs SSI Snap if not installed
+ * Checks for existence of MetaMask Flask and installs Masca if not installed
  *
  * @param snapInstallationParams - set snapID, version and a list of supported methods
  *
- * @return MetaMaskSSISnap - adapter object that exposes snap API
+ * @return Masca - adapter object that exposes snap API
  */
-export async function enableSSISnap(
+export async function enableMasca(
   snapInstallationParams: SnapInstallationParams = {}
-): Promise<Result<MetaMaskSSISnap>> {
+): Promise<Result<Masca>> {
   const {
     snapId = defaultSnapOrigin,
     version = '^1.4.0',
@@ -71,9 +71,9 @@ export async function enableSSISnap(
       },
     });
 
-    const snap = new MetaMaskSSISnap(snapId, supportedMethods);
+    const snap = new Masca(snapId, supportedMethods);
 
-    const snapApi = snap.getSSISnapApi();
+    const snapApi = snap.getMascaApi();
 
     const selectedMethodsResult = await snapApi.getSelectedMethod();
 

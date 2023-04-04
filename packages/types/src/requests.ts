@@ -17,7 +17,7 @@ import {
   TogglePopups,
 } from './methods.js';
 
-export type MetaMaskSSISnapRPCRequest =
+export type MascaRPCRequest =
   | QueryVCs
   | SaveVC
   | CreateVP
@@ -35,7 +35,7 @@ export type MetaMaskSSISnapRPCRequest =
   | ResolveDID
   | CreateVC;
 
-export type Method = MetaMaskSSISnapRPCRequest['method'];
+export type Method = MascaRPCRequest['method'];
 
 export interface WalletEnableRequest {
   method: 'wallet_enable';
@@ -48,7 +48,7 @@ export interface GetSnapsRequest {
 
 export interface SnapRpcMethodRequest {
   method: string;
-  params: [MetaMaskSSISnapRPCRequest];
+  params: [MascaRPCRequest];
 }
 
 export type MetamaskRpcRequest =
