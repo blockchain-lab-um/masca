@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { enableSSISnap } from '@blockchain-lab-um/masca-connector';
+import { enableMasca } from '@blockchain-lab-um/masca-connector';
 import { isError } from '@blockchain-lab-um/utils';
 import detectEthereumProvider from '@metamask/detect-provider';
 import { useTranslations } from 'next-intl';
@@ -90,7 +90,7 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
   };
 
   const enableSSISnapHandler = async () => {
-    const enableResult = await enableSSISnap({ snapId });
+    const enableResult = await enableMasca({ snapId });
     console.log(snapId);
     console.log(process.env.NODE_ENV);
     if (isError(enableResult)) {
@@ -99,7 +99,7 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
       return;
     }
 
-    const api = enableResult.data.getSSISnapApi();
+    const api = enableResult.data.getMascaApi();
 
     changeSnapApi(api);
 
