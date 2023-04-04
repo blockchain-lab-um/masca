@@ -46,7 +46,7 @@ export abstract class AbstractDataStore {
 }
 ```
 
-This abstract class enabled [`SnapVCStore`](../ssi-snap/architecture.md) plugin, which stores the array of VCs in MetaMask State and `CeramicVCStore` which stores VCs on Ceramic Network.
+This abstract class enabled [`SnapVCStore`](../masca/architecture.md) plugin, which stores the array of VCs in MetaMask State and `CeramicVCStore` which stores VCs on Ceramic Network.
 
 ### How to use
 

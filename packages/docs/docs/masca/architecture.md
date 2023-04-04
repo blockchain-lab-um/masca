@@ -4,16 +4,16 @@ sidebar_position: 4
 
 # Architecture
 
-As already mentioned, SSI Snap is a MetaMask Snap extension. MetaMask Snaps is a system that allows anyone to expand the capabilities of MetaMask safely. This ranges from adding support for other non-EVM blockchains to managing online identity. You can learn more about MetaMask Snaps in [this section](./snaps.md).
+As already mentioned, Masca is a MetaMask Snap extension. MetaMask Snaps is a system that allows anyone to expand the capabilities of MetaMask safely. This ranges from adding support for other non-EVM blockchains to managing online identity. You can learn more about MetaMask Snaps in [this section](./snaps.md).
 
-![SSI Snap Architecture](https://i.imgur.com/YiAnoly.png)
+![Masca Architecture](https://i.imgur.com/YiAnoly.png)
 
-<center> Figure 1: SSI Snap Architecture </center>
+<center> Figure 1: Masca Architecture </center>
 <br />
 
 ## Veramo Client
 
-Veramo client powers the SSI Snap. Inside SSI Snap, Veramo Client is used to manage DIDs and VCs, using Veramos **DIDManager**, **KeyManager** and **PrivateKeyManager** plugins and our custom **[DataManager plugin](../libraries/data-manager)**.
+Veramo client powers the Masca. Inside Masca, Veramo Client is used to manage DIDs and VCs, using Veramos **DIDManager**, **KeyManager** and **PrivateKeyManager** plugins and our custom **[DataManager plugin](../libraries/data-manager)**.
 
 **DIDManager**, **KeyManager**, **PrivateKeyManager** and **[DataManager](../libraries/data-manager)** plugins take care of managing and storing data. They all come with an abstract data-store class, e.g. [AbstractDataStore](https://github.com/blockchain-lab-um/ssi-snap/blob/master/packages/vcmanager/src/data-store/abstractDataStore.ts). Using said class, we implemented custom data-store plugins, that save data inside the MetaMask state or on the Ceramic Network.
 

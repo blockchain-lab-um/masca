@@ -4,7 +4,7 @@ sidebar_position: 8
 
 # Roadmap
 
-Are you interested in how SSI Snap will evolve in the future?
+Are you interested in how Masca will evolve in the future?
 
 DID methods:
 
@@ -67,7 +67,7 @@ Digital identity standards:
 - [ ] DIDComm
 - [ ] ...
 
-SSI Snap dApp:
+Masca dApp:
 
 - [x] DID method selection
 - [x] Import, list, and delete VCs

@@ -34,7 +34,7 @@ async function sendSnapMethod<T>(
 }
 
 /**
- * Get a list of VCs stored in SSI Snap under the currently selected MetaMask account
+ * Get a list of VCs stored in Masca under the currently selected MetaMask account
  *
  * @param params - optional parameters for querying VCs
  *
@@ -51,7 +51,7 @@ export async function queryVCs(
 }
 
 /**
- * Create a VP from a list of VCs stored in SSI Snap under the currently selected MetaMask account
+ * Create a VP from a list of VCs stored in Masca under the currently selected MetaMask account
  *
  * @param params - parameters for creating a VP
  *
@@ -71,7 +71,7 @@ export async function createVP(
 }
 
 /**
- * Save a VC in SSI Snap under the currently selected MetaMask account
+ * Save a VC in Masca under the currently selected MetaMask account
  *
  * @param vc - VC to be saved
  * @param options - optional parameters for saving a VC
@@ -96,7 +96,7 @@ export async function saveVC(
 }
 
 /**
- * Delete a VC from SSI Snap under the currently selected MetaMask account
+ * Delete a VC from Masca under the currently selected MetaMask account
  *
  * @param id - ID of the VC to be deleted
  * @param options - optional parameters for deleting a VC
@@ -232,9 +232,9 @@ export async function getAccountSettings(
 }
 
 /**
- * Get SSI Snap settings
+ * Get Masca settings
  *
- * @return Result<SSISnapConfig> - SSI Snap settings
+ * @return Result<SSISnapConfig> - Masca settings
  */
 export async function getSnapSettings(
   this: MetaMaskSSISnap

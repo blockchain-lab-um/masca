@@ -7,18 +7,18 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'SSI Snap',
+  title: 'Masca',
   tagline: 'Self-Sovereign Identity is cool',
   url: 'https://blockchain-lab-um.github.io/',
-  baseUrl: '/ssi-snap-docs/',
+  baseUrl: '/masca-docs/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-  favicon: 'img/ssi_snap_logo_2.svg',
+  favicon: 'img/masca_icon_b.png',
   trailingSlash: false,
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'blockchain-lab-um', // Usually your GitHub org/user name.
-  projectName: 'ssi-snap-docs', // Usually your repo name.
+  projectName: 'masca-docs', // Usually your repo name.
   customFields: {},
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
@@ -57,10 +57,10 @@ const config = {
 
   themeConfig: {
     navbar: {
-      title: 'SSI Snap Docs',
+      title: 'Masca Docs',
       logo: {
-        alt: 'SSI Snap Logo',
-        src: 'img/ssi_snap_logo_2.svg',
+        alt: 'Masca Logo',
+        src: 'img/masca_icon_b.png',
       },
       items: [
         { to: '/docs/introduction', label: 'Docs', position: 'left' },

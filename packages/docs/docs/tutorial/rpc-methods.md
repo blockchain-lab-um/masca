@@ -12,7 +12,7 @@ All of the types mentioned below can be found in the library `@blockchain-lab-um
 
 #### Description
 
-Used to store a VC in SSI Snap. VC can be saved in one or more supported stores.
+Used to store a VC in Masca. VC can be saved in one or more supported stores.
 
 #### Parameters
 
@@ -350,7 +350,7 @@ const response = await ethereum.request({
 
 #### Description
 
-change the Infura token used by SSI Snap
+change the Infura token used by Masca
 
 #### Parameters
 
@@ -420,7 +420,7 @@ const response = await ethereum.request({
 Object with type
 
 ```typescript
-export type SSISnapConfig = {
+export type MascaConfig = {
   snap: {
     infuraToken: string;
     acceptedTerms: boolean;

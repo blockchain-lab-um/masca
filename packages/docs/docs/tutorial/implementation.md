@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # How To Implement It?
 
-The **SSI Snap** is a MetaMask Snap, that can handle **DIDs**, securely store **VCs**, create **VPs** and is designed to be blockchain-agnostic.
+The **Masca** is a MetaMask Snap, that can handle **DIDs**, securely store **VCs**, create **VPs** and is designed to be blockchain-agnostic.
 
 :::danger
 
@@ -14,26 +14,26 @@ Ceramic Network support is experimental and still under development!
 
 ## Implementing the Snap in a dApp
 
-### Using the SSI Snap Connector
+### Using the Masca Connector
 
 `yarn add @blockchain-lab-um/ssi-snap-connector`
 
 Connector has exposed function for installing the Snap.
 
-After snap installation, this function returns `MetamaskSSISnap` object that can be used to retrieve snap API.
-An example of initializing SSI snap and invoking snap API is shown below.
+After snap installation, this function returns `MetamaskMasca` object that can be used to retrieve snap API.
+An example of initializing Masca and invoking snap API is shown below.
 
 ```typescript
 // install snap and fetch API
-const snap = await enableSSISnap({
+const snap = await enableMasca({
   snapId: snapId,
   version: 'latest',
   supportedMethods: ['did:ethr', 'did:key'],
 });
-const api = await snap.getSSISnapApi();
+const api = await snap.getMascaApi();
 ```
 
-SSI Snap Connector will take care of initializing the Snap for other DID methods (Needed to extract the public key) during the enableSSISnap function and whenever account changes.
+Masca Connector will take care of initializing the Snap for other DID methods (Needed to extract the public key) during the enableMasca function and whenever account changes.
 
 ### Save VC
 
@@ -198,7 +198,7 @@ const res = await api.togglePopups();
 
 _NOTE:_ _Snap can also be installed using a 3rd party Platform such as our [Platform](https://blockchain-lab-um.github.io/course-dapp/) or [Snaplist](https://snaplist.org/)._
 
-#### For a more detailed look at SSI Snap Connector visit its [documentation](../libraries/ssi-snap-connector)!
+#### For a more detailed look at Masca Connector visit its [documentation](../libraries/masca-connector)!
 
 If you need more help with implementation feel free to contact us in Discord, or check the [DEMO Platform repo](https://github.com/blockchain-lab-um/course-dapp)!
 
