@@ -5,7 +5,6 @@ import {
   CheckCircleIcon,
   ExclamationCircleIcon,
   PlusIcon,
-  XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { MinusIcon } from '@heroicons/react/24/solid';
 import { Row } from '@tanstack/react-table';

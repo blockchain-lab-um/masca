@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-throw-literal */
 import {
   QueryVCsRequestResult,
   availableMethods,
@@ -302,7 +303,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(res.error.message).toBe('User rejected the request.');
+      expect(res.error).toBe('Error: User rejected the request.');
 
       res = (await onRpcRequest({
         origin: 'localhost',
@@ -345,7 +346,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(saveRes.error.message).toBe('Store snapp is not supported!');
+      expect(saveRes.error).toBe('Error: Store snapp is not supported!');
 
       expect.assertions(1);
     });
@@ -369,7 +370,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(saveRes.error.message).toBe('Invalid SaveVC request');
+      expect(saveRes.error).toBe('Error: Invalid SaveVC request');
 
       expect.assertions(1);
     });
@@ -394,7 +395,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(saveRes.error.message).toBe('Store is invalid format');
+      expect(saveRes.error).toBe('Error: Store is invalid format');
 
       expect.assertions(1);
     });
@@ -418,7 +419,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(saveRes.error.message).toBe('Store snapp is not supported!');
+      expect(saveRes.error).toBe('Error: Store snapp is not supported!');
 
       saveRes = (await onRpcRequest({
         origin: 'localhost',
@@ -437,7 +438,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(saveRes.error.message).toBe('Store is invalid format');
+      expect(saveRes.error).toBe('Error: Store is invalid format');
 
       expect.assertions(2);
     });
@@ -1069,7 +1070,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(res.error.message).toBe('VC does not exist');
+      expect(res.error).toBe('Error: VC does not exist');
 
       expect.assertions(1);
     });
@@ -1115,7 +1116,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(res.error.message).toBe('User rejected disabling popups');
+      expect(res.error).toBe('Error: User rejected disabling popups');
 
       expect.assertions(1);
     });
@@ -1223,7 +1224,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(res.error.message).toBe('User rejected method switch');
+      expect(res.error).toBe('Error: User rejected method switch');
 
       expect.assertions(1);
     });
@@ -1247,7 +1248,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(res.error.message).toBe('Did method is not supported!');
+      expect(res.error).toBe('Error: Did method is not supported!');
 
       expect.assertions(1);
     });
@@ -1269,7 +1270,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(res.error.message).toBe('Invalid switchDIDMethod request.');
+      expect(res.error).toBe('Error: Invalid switchDIDMethod request.');
 
       expect.assertions(1);
     });
@@ -1371,7 +1372,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(res.error.message).toBe('Store ceramicc is not supported!');
+      expect(res.error).toBe('Error: Store ceramicc is not supported!');
 
       res = (await onRpcRequest({
         origin: 'localhost',
@@ -1387,7 +1388,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(res.error.message).toBe('Invalid setVCStore request.');
+      expect(res.error).toBe('Error: Invalid setVCStore request.');
 
       expect.assertions(2);
     });

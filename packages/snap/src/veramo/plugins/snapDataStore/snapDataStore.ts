@@ -226,7 +226,6 @@ export class SnapVCStore extends AbstractDataStore {
     const state = await getSnapState(this.snap);
     const account = await getCurrentAccount(this.ethereum);
 
-    console.log('VC Snap', vc);
     const id = sha256(JSON.stringify(vc));
 
     if (state.accountState[account].vcs[id]) {
