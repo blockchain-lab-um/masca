@@ -13,7 +13,7 @@ export type Result<T> = {
 
 export const isError = <T>(
   result: Result<T>
-): result is { success: false; error: Error } => !result.success;
+): result is { success: false; error: Error | string } => !result.success;
 
 export const isSuccess = <T>(
   result: Result<T>
