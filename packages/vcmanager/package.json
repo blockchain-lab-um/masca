@@ -24,7 +24,7 @@
     "test:ci": "pnpm run test --silent --coverage"
   },
   "dependencies": {
-    "@blockchain-lab-um/ssi-snap-types": "*",
+    "@blockchain-lab-um/masca-types": "*",
     "@types/jsonpath": "^0.2.0",
     "@veramo/core": "5.1.2",
     "jsonpath": "^1.1.1",
