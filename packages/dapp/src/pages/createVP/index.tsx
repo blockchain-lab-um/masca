@@ -5,7 +5,7 @@ import {
   AvailableVCStores,
   SupportedProofFormats,
   VCRequest,
-} from '@blockchain-lab-um/ssi-snap-types';
+} from '@blockchain-lab-um/masca-types';
 import { isError } from '@blockchain-lab-um/utils';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 import { W3CVerifiablePresentation } from '@veramo/core';

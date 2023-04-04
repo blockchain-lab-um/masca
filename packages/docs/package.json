@@ -1,5 +1,5 @@
 {
-  "name": "@blockchain-lab-um/ssi-snap-docs",
+  "name": "@blockchain-lab-um/masca-docs",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -9,7 +9,7 @@
     "clear": "docusaurus clear",
     "compress": "precompress build --types gz --include html,css,js,map",
     "deploy": "docusaurus deploy",
-    "docker:build": "docker build . -t blockchain-lab-um/ssi-snap-docs",
+    "docker:build": "docker build . -t blockchain-lab-um/masca-docs",
     "docusaurus": "docusaurus",
     "lint": "pnpm lint:eslint && pnpm lint:prettier",
     "lint:eslint": "eslint .",
@@ -34,8 +34,8 @@
     ]
   },
   "dependencies": {
-    "@blockchain-lab-um/ssi-snap-connector": "*",
-    "@blockchain-lab-um/ssi-snap-types": "*",
+    "@blockchain-lab-um/masca-connector": "*",
+    "@blockchain-lab-um/masca-types": "*",
     "@docusaurus/core": "2.3.1",
     "@docusaurus/preset-classic": "2.3.1",
     "@emotion/react": "^11.10.6",

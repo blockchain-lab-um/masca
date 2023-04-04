@@ -1,4 +1,4 @@
-import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
+import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-types';
 import { FilterFn, Table } from '@tanstack/react-table';
 
 export const includesDataStore: FilterFn<any> = (

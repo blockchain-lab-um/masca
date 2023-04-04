@@ -17,8 +17,8 @@
     "start": "next start"
   },
   "dependencies": {
-    "@blockchain-lab-um/ssi-snap-connector": "*",
-    "@blockchain-lab-um/ssi-snap-types": "*",
+    "@blockchain-lab-um/masca-connector": "*",
+    "@blockchain-lab-um/masca-types": "*",
     "@blockchain-lab-um/utils": "*",
     "@headlessui/react": "^1.7.7",
     "@heroicons/react": "^2.0.13",

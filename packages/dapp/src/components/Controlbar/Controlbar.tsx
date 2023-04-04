@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
   AvailableVCStores,
   QueryVCsRequestResult,
-} from '@blockchain-lab-um/ssi-snap-types';
+} from '@blockchain-lab-um/masca-types';
 import { isError } from '@blockchain-lab-um/utils';
 import { ArrowPathIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { W3CVerifiableCredential } from '@veramo/core';

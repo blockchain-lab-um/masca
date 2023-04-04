@@ -39,7 +39,7 @@ export async function authenticateWithEthereum(
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
   window.location = {} as any;
-  window.location.hostname = 'ssi-snap';
+  window.location.hostname = 'masca';
 
   const authMethod = await EthereumWebAuth.getAuthMethod(ethereum, accountId);
   const session = await DIDSession.authorize(authMethod, {

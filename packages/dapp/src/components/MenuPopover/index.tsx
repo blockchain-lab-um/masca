@@ -192,7 +192,7 @@ function MenuPopover() {
                   </div>
                   <div className="bg-gray-50 p-4">
                     <a
-                      href="https://blockchain-lab-um.github.io/ssi-snap-docs/"
+                      href="https://blockchain-lab-um.github.io/masca-docs/"
                       target="_blank"
                       rel="noreferrer"
                       className="flow-root rounded-md px-2 py-2 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"

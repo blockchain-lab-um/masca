@@ -1,4 +1,4 @@
-import { CreateVPRequestParams } from '@blockchain-lab-um/ssi-snap-types';
+import { CreateVPRequestParams } from '@blockchain-lab-um/masca-types';
 import { VerifiablePresentation } from '@veramo/core';
 
 import { ApiParams } from '../../interfaces';

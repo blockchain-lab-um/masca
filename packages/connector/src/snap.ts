@@ -12,7 +12,7 @@ import {
   QueryVCsRequestResult,
   SaveVCOptions,
   SaveVCRequestResult,
-} from '@blockchain-lab-um/ssi-snap-types';
+} from '@blockchain-lab-um/masca-types';
 import { Result } from '@blockchain-lab-um/utils';
 import {
   DIDResolutionResult,

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { enableSSISnap } from '@blockchain-lab-um/ssi-snap-connector';
+import { enableSSISnap } from '@blockchain-lab-um/masca-connector';
 import { isError } from '@blockchain-lab-um/utils';
 import detectEthereumProvider from '@metamask/detect-provider';
 import { useTranslations } from 'next-intl';
@@ -10,7 +10,7 @@ import { useGeneralStore, useSnapStore } from '@/stores';
 
 const snapId =
   process.env.NODE_ENV === 'production'
-    ? 'npm:@blockchain-lab-um/ssi-snap'
+    ? 'npm:@blockchain-lab-um/masca'
     : 'local:http://localhost:8081';
 
 type MetaMaskProviderProps = {

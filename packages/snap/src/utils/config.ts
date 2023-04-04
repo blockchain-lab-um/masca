@@ -1,7 +1,7 @@
 import {
   MascaAccountConfig,
   MascaConfig,
-} from '@blockchain-lab-um/ssi-snap-types';
+} from '@blockchain-lab-um/masca-types';
 import cloneDeep from 'lodash.clonedeep';
 
 import { MascaAccountState, MascaState } from '../interfaces';

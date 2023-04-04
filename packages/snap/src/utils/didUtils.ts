@@ -1,7 +1,7 @@
 import {
   AvailableMethods,
   AvailableVCStores,
-} from '@blockchain-lab-um/ssi-snap-types';
+} from '@blockchain-lab-um/masca-types';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { DIDResolutionResult } from 'did-resolver';

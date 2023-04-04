@@ -6,7 +6,7 @@ import {
   QueryVCsRequestResult,
   SaveVCRequestResult,
   VerifyDataRequestParams,
-} from '@blockchain-lab-um/ssi-snap-types';
+} from '@blockchain-lab-um/masca-types';
 import { Filter } from '@blockchain-lab-um/veramo-vc-manager';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';

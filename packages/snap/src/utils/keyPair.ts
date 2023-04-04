@@ -1,4 +1,4 @@
-import { didCoinTypeMappping } from '@blockchain-lab-um/ssi-snap-types';
+import { didCoinTypeMappping } from '@blockchain-lab-um/masca-types';
 import {
   BIP44CoinTypeNode,
   getBIP44AddressKeyDeriver,

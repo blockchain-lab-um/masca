@@ -1,5 +1,5 @@
 {
-  "name": "@blockchain-lab-um/ssi-snap-connector",
+  "name": "@blockchain-lab-um/masca-connector",
   "version": "1.5.0",
   "description": "Library for using the Masca on frontend",
   "keywords": [
@@ -39,7 +39,7 @@
     "prepack": "pnpm build"
   },
   "dependencies": {
-    "@blockchain-lab-um/ssi-snap-types": "*",
+    "@blockchain-lab-um/masca-types": "*",
     "@blockchain-lab-um/utils": "*",
     "@metamask/detect-provider": "^2.0.0",
     "@veramo/core": "5.1.2"

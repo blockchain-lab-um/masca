@@ -1,7 +1,7 @@
 import {
   SaveVCRequestParams,
   SaveVCRequestResult,
-} from '@blockchain-lab-um/ssi-snap-types';
+} from '@blockchain-lab-um/masca-types';
 import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
 
 import { ApiParams } from '../../interfaces';

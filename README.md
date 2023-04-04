@@ -1,10 +1,10 @@
-# SSI Snap &middot; [![npm version](https://img.shields.io/npm/v/@blockchain-lab-um/ssi-snap.svg?style=flat)](https://www.npmjs.com/package/@blockchain-lab-um/ssi-snap)
+# SSI Snap &middot; [![npm version](https://img.shields.io/npm/v/@blockchain-lab-um/masca.svg?style=flat)](https://www.npmjs.com/package/@blockchain-lab-um/masca)
 
 The SSI Snap enables everyone to build their **decentralized and self-sovereign identity by enhancing MetaMask with functionalities to manage DIDs, VCs, and VPs.** Any dApp can connect it to access identity data, and dApp developers can already start with the integration!
 
-- [Website](https://blockchain-lab-um.github.io/ssi-snap/)
+- [Website](https://blockchain-lab-um.github.io/masca/)
 - [Demo](https://blockchain-lab-um.github.io/course-dapp/)
-- [Docs](https://blockchain-lab-um.github.io/ssi-snap-docs/)
+- [Docs](https://blockchain-lab-um.github.io/masca-docs/)
 - [Blog post](https://medium.com/@blockchainlabum/open-sourcing-ssi-snap-for-metamask-aaa176775be2)
 
 # Features
@@ -15,7 +15,7 @@ The SSI Snap is built agnostic, leaving the user to choose his preferred **block
 - **DID methods:** `did:ethr`, `did:key`, `did:pkh`
 - **Data storage providers:** Local MetaMask Snap state, Ceramic Network
 
-Many new features are already in the works. For more information, please check the [roadmap](https://blockchain-lab-um.github.io/ssi-snap-docs/docs/roadmap) on the documentation.
+Many new features are already in the works. For more information, please check the [roadmap](https://blockchain-lab-um.github.io/masca-docs/docs/roadmap) on the documentation.
 
 # Development
 

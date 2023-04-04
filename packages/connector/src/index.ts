@@ -1,7 +1,7 @@
 import {
   AvailableMethods,
   isAvailableMethods,
-} from '@blockchain-lab-um/ssi-snap-types';
+} from '@blockchain-lab-um/masca-types';
 import { Result, ResultObject, isError } from '@blockchain-lab-um/utils';
 import detectEthereumProvider from '@metamask/detect-provider';
 
@@ -16,7 +16,7 @@ export type SnapInstallationParams = {
   supportedMethods?: Array<AvailableMethods>;
 };
 
-const defaultSnapOrigin = 'npm:@blockchain-lab-um/ssi-snap';
+const defaultSnapOrigin = 'npm:@blockchain-lab-um/masca';
 
 /**
  * Install and enable Masca

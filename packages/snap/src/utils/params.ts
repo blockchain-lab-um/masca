@@ -12,7 +12,7 @@ import {
   isAvailableMethods,
   isAvailableVCStores,
   isSupportedProofFormat,
-} from '@blockchain-lab-um/ssi-snap-types';
+} from '@blockchain-lab-um/masca-types';
 import { MascaState } from 'src/interfaces';
 
 import { isEnabledVCStore } from './snapUtils';

@@ -1,12 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
-import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
-import {
-  CheckCircleIcon,
-  DocumentDuplicateIcon,
-  ExclamationCircleIcon,
-} from '@heroicons/react/24/outline';
-import { useTranslations } from 'next-intl';
+import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-types';
+import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 
 import Button from '@/components/Button';
 import DeleteModal from '@/components/DeleteModal';

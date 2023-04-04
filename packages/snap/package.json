@@ -1,5 +1,5 @@
 {
-  "name": "@blockchain-lab-um/ssi-snap",
+  "name": "@blockchain-lab-um/masca",
   "version": "1.5.0",
   "description": "Snap for managing VCs and VPs in MetaMask",
   "keywords": [
@@ -16,7 +16,7 @@
   "homepage": "https://github.com/blockchain-lab-um/SSISnap",
   "repository": {
     "type": "git",
-    "url": "https://github.com/blockchain-lab-um/ssi-snap.git"
+    "url": "https://github.com/blockchain-lab-um/masca.git"
   },
   "license": "(Apache-2.0 AND MIT)",
   "author": {
@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "@babel/runtime": "7.21.0",
-    "@blockchain-lab-um/ssi-snap-types": "*",
+    "@blockchain-lab-um/masca-types": "*",
     "@blockchain-lab-um/utils": "*",
     "@blockchain-lab-um/veramo-vc-manager": "*",
     "@cef-ebsi/ebsi-did-resolver": "^3.0.0",

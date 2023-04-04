@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 import {
   AvailableVCStores,
   QueryVCsRequestResult,
-} from '@blockchain-lab-um/ssi-snap-types';
+} from '@blockchain-lab-um/masca-types';
 import { isError } from '@blockchain-lab-um/utils';
 import { Dialog, Transition } from '@headlessui/react';
 import { useTranslations } from 'next-intl';

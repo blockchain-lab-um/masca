@@ -1,5 +1,5 @@
 import { Fragment, useState } from 'react';
-import { AvailableVCStores } from '@blockchain-lab-um/ssi-snap-types';
+import { AvailableVCStores } from '@blockchain-lab-um/masca-types';
 import { Dialog, Transition } from '@headlessui/react';
 
 import Button from '@/components/Button';

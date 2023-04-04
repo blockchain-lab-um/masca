@@ -2,7 +2,7 @@ import {
   AvailableVCStores,
   QueryVCsRequestResult,
   SSISnapApi,
-} from '@blockchain-lab-um/ssi-snap-types';
+} from '@blockchain-lab-um/masca-types';
 import { create } from 'zustand';
 
 interface SnapStore {

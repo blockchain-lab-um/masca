@@ -8,7 +8,7 @@ export async function init(snap: SnapsGlobalObject): Promise<MascaState> {
     prompt: 'Terms and Conditions',
     description: 'Risks about using Masca',
     textAreaContent:
-      'Masca does not access your private keys. You are in control of what VCs and VPs you sign and what you use your DIDs for. To learn more about Masca visit the documentation: https://blockchain-lab-um.github.io/ssi-snap-docs/',
+      'Masca does not access your private keys. You are in control of what VCs and VPs you sign and what you use your DIDs for. To learn more about Masca visit the documentation: https://blockchain-lab-um.github.io/masca-docs/',
   };
 
   // Accept terms and conditions
