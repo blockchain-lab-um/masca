@@ -7,7 +7,7 @@ export type Result<T> = {
     }
   | {
       success: false;
-      error: Error;
+      error: Error | string;
     }
 );
 
@@ -24,7 +24,7 @@ export class ResultObject {
     return { success: true, data };
   }
 
-  static error<T>(error: Error): Result<T> {
+  static error<T>(error: Error | string): Result<T> {
     return { success: false, error };
   }
 }
