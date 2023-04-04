@@ -32,7 +32,7 @@ import { AgentService } from './modules/agent/agent.service.js';
 
 const credOfferAndTokenRequest = async (server: HttpServer<any, any>) => {
   const credentialRequestData: CredentialOfferRequest = {
-    credentials: ['ProgramCompletionCertificate'],
+    credentials: ['GmCredential'],
     grants: ['urn:ietf:params:oauth:grant-type:pre-authorized_code'],
   };
 
@@ -164,7 +164,7 @@ describe('Issuer controller', () => {
        */
       it('Credential offer by credential id', async () => {
         const credentialOfferRequestData: CredentialOfferRequest = {
-          credentials: ['ProgramCompletionCertificate'],
+          credentials: ['GmCredential'],
           grants: ['urn:ietf:params:oauth:grant-type:pre-authorized_code'],
         };
 
@@ -184,9 +184,7 @@ describe('Issuer controller', () => {
           )
         );
 
-        expect(query.credentials).toStrictEqual([
-          'ProgramCompletionCertificate',
-        ]);
+        expect(query.credentials).toStrictEqual(['GmCredential']);
         expect(query.credential_issuer).toBeDefined();
         expect(query.grants).toStrictEqual({
           'urn:ietf:params:oauth:grant-type:pre-authorized_code': {
@@ -205,7 +203,7 @@ describe('Issuer controller', () => {
           credentials: [
             {
               format: 'jwt_vc_json',
-              types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+              types: ['VerifiableCredential', 'GmCredential'],
             },
           ],
           grants: ['urn:ietf:params:oauth:grant-type:pre-authorized_code'],
@@ -230,7 +228,7 @@ describe('Issuer controller', () => {
         expect(query.credentials).toStrictEqual([
           {
             format: 'jwt_vc_json',
-            types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+            types: ['VerifiableCredential', 'GmCredential'],
           },
         ]);
         expect(query.credential_issuer).toBeDefined();
@@ -251,7 +249,7 @@ describe('Issuer controller', () => {
           credentials: [
             {
               format: 'jwt_vc_json-ld',
-              types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+              types: ['VerifiableCredential', 'GmCredential'],
             },
           ],
           grants: ['urn:ietf:params:oauth:grant-type:pre-authorized_code'],
@@ -276,7 +274,7 @@ describe('Issuer controller', () => {
         expect(query.credentials).toStrictEqual([
           {
             format: 'jwt_vc_json-ld',
-            types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+            types: ['VerifiableCredential', 'GmCredential'],
           },
         ]);
         expect(query.credential_issuer).toBeDefined();
@@ -297,7 +295,7 @@ describe('Issuer controller', () => {
           credentials: [
             {
               format: 'ldp_vc',
-              types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+              types: ['VerifiableCredential', 'GmCredential'],
             },
           ],
           grants: ['urn:ietf:params:oauth:grant-type:pre-authorized_code'],
@@ -322,7 +320,7 @@ describe('Issuer controller', () => {
         expect(query.credentials).toStrictEqual([
           {
             format: 'ldp_vc',
-            types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+            types: ['VerifiableCredential', 'GmCredential'],
           },
         ]);
         expect(query.credential_issuer).toBeDefined();
@@ -343,15 +341,15 @@ describe('Issuer controller', () => {
           credentials: [
             {
               format: 'jwt_vc_json',
-              types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+              types: ['VerifiableCredential', 'GmCredential'],
             },
             {
               format: 'jwt_vc_json-ld',
-              types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+              types: ['VerifiableCredential', 'GmCredential'],
             },
             {
               format: 'ldp_vc',
-              types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+              types: ['VerifiableCredential', 'GmCredential'],
             },
             {
               format: 'mso_mdoc',
@@ -380,15 +378,15 @@ describe('Issuer controller', () => {
         expect(query.credentials).toStrictEqual([
           {
             format: 'jwt_vc_json',
-            types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+            types: ['VerifiableCredential', 'GmCredential'],
           },
           {
             format: 'jwt_vc_json-ld',
-            types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+            types: ['VerifiableCredential', 'GmCredential'],
           },
           {
             format: 'ldp_vc',
-            types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+            types: ['VerifiableCredential', 'GmCredential'],
           },
           {
             format: 'mso_mdoc',
@@ -413,7 +411,7 @@ describe('Issuer controller', () => {
           credentials: [
             {
               format: 'jwt_vc_json',
-              types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+              types: ['VerifiableCredential', 'GmCredential'],
             },
           ],
           grants: ['urn:ietf:params:oauth:grant-type:pre-authorized_code'],
@@ -438,7 +436,7 @@ describe('Issuer controller', () => {
         expect(query.credentials).toStrictEqual([
           {
             format: 'jwt_vc_json',
-            types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+            types: ['VerifiableCredential', 'GmCredential'],
           },
         ]);
         expect(query.credential_issuer).toBeDefined();
@@ -459,7 +457,7 @@ describe('Issuer controller', () => {
           credentials: [
             {
               format: 'jwt_vc_json',
-              types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+              types: ['VerifiableCredential', 'GmCredential'],
             },
           ],
           grants: ['urn:ietf:params:oauth:grant-type:pre-authorized_code'],
@@ -485,7 +483,7 @@ describe('Issuer controller', () => {
         expect(query.credentials).toStrictEqual([
           {
             format: 'jwt_vc_json',
-            types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+            types: ['VerifiableCredential', 'GmCredential'],
           },
         ]);
         expect(query.credential_issuer).toBeDefined();
@@ -507,7 +505,7 @@ describe('Issuer controller', () => {
           credentials: [
             {
               format: 'jwt_vc_json',
-              types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+              types: ['VerifiableCredential', 'GmCredential'],
             },
           ],
           grants: ['urn:ietf:params:oauth:grant-type:pre-authorized_code'],
@@ -533,7 +531,7 @@ describe('Issuer controller', () => {
         expect(query.credentials).toStrictEqual([
           {
             format: 'jwt_vc_json',
-            types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+            types: ['VerifiableCredential', 'GmCredential'],
           },
         ]);
         expect(query.credential_issuer).toBeDefined();
@@ -555,7 +553,7 @@ describe('Issuer controller', () => {
           credentials: [
             {
               format: 'jwt_vc_json',
-              types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+              types: ['VerifiableCredential', 'GmCredential'],
             },
           ],
           grants: ['authorization_code'],
@@ -580,7 +578,7 @@ describe('Issuer controller', () => {
         expect(query.credentials).toStrictEqual([
           {
             format: 'jwt_vc_json',
-            types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+            types: ['VerifiableCredential', 'GmCredential'],
           },
         ]);
         expect(query.credential_issuer).toBeDefined();
@@ -601,7 +599,7 @@ describe('Issuer controller', () => {
           credentials: [
             {
               format: 'jwt_vc_json',
-              types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+              types: ['VerifiableCredential', 'GmCredential'],
             },
           ],
           grants: [
@@ -630,7 +628,7 @@ describe('Issuer controller', () => {
         expect(query.credentials).toStrictEqual([
           {
             format: 'jwt_vc_json',
-            types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+            types: ['VerifiableCredential', 'GmCredential'],
           },
         ]);
         expect(query.credential_issuer).toBeDefined();
@@ -692,7 +690,7 @@ describe('Issuer controller', () => {
           credentials: [
             {
               format: 'jwt_vc_json',
-              types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+              types: ['VerifiableCredential', 'GmCredential'],
             },
           ],
           grants: ['urn:ietf:params:oauth:grant-type:pre-authorized_code'],
@@ -748,7 +746,7 @@ describe('Issuer controller', () => {
           credentials: [
             {
               format: 'jwt_vc_json',
-              types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+              types: ['VerifiableCredential', 'GmCredential'],
             },
           ],
           grants: ['urn:ietf:params:oauth:grant-type:pre-authorized_code'],
@@ -813,7 +811,7 @@ describe('Issuer controller', () => {
           credentials: [
             {
               format: 'jwt_vc_json',
-              types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+              types: ['VerifiableCredential', 'GmCredential'],
             },
           ],
           grants: ['urn:ietf:params:oauth:grant-type:pre-authorized_code'],
@@ -857,7 +855,7 @@ describe('Issuer controller', () => {
           credentials: [
             {
               format: 'jwt_vc_json',
-              types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+              types: ['VerifiableCredential', 'GmCredential'],
             },
           ],
           grants: ['urn:ietf:params:oauth:grant-type:pre-authorized_code'],
@@ -913,7 +911,7 @@ describe('Issuer controller', () => {
           credentials: [
             {
               format: 'jwt_vc_json',
-              types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+              types: ['VerifiableCredential', 'GmCredential'],
             },
           ],
           grants: ['urn:ietf:params:oauth:grant-type:pre-authorized_code'],
@@ -956,7 +954,7 @@ describe('Issuer controller', () => {
           credentials: [
             {
               format: 'jwt_vc_json',
-              types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+              types: ['VerifiableCredential', 'GmCredential'],
             },
           ],
           grants: ['urn:ietf:params:oauth:grant-type:pre-authorized_code'],
@@ -1011,7 +1009,7 @@ describe('Issuer controller', () => {
           credentials: [
             {
               format: 'jwt_vc_json',
-              types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+              types: ['VerifiableCredential', 'GmCredential'],
             },
           ],
           grants: ['authorization_code'],

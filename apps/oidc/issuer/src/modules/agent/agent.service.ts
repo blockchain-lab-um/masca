@@ -78,6 +78,8 @@ export class AgentService {
 
     this.agent = createAgent<
       IDIDManager & IKeyManager & IResolver & IOIDCPlugin & ICredentialPlugin
+      // &
+      // ICredentialIssuerLDPlugin
     >({
       plugins: [
         new KeyManager({

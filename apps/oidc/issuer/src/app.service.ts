@@ -189,12 +189,7 @@ export class AppService {
 
     // TODO: Then query for claims
     // TODO: Throw error if no claims found
-    const claims = {
-      accomplishmentType: 'Course Certificate',
-      learnerName: 'John Doe',
-      achievement: "Bachelor's Degree in Computer Science",
-      courseProvider: this.configService.get<string>('ISSUER_URL'),
-    };
+    const claims = {};
 
     const credentialResponse = await agent.handleCredentialRequest({
       body,

@@ -53,6 +53,7 @@ export type SupportedCredential =
       cryptographic_suites_supported?: string[];
       display?: CredentialDisplay[];
       order?: string[];
+      credentialSchema: CredentialSchema; // Not in specs
     } & (
       | SupportedCredential_JWT_VC_JSON
       | SupportedCredential_JWT_VC_JSON_LD
@@ -76,6 +77,11 @@ export type SupportedCredential_MSO_MDOC = {
   format: 'mso_mdoc';
   doctype: string;
   claims?: any;
+};
+
+export type CredentialSchema = {
+  id: string;
+  type: string;
 };
 
 /**

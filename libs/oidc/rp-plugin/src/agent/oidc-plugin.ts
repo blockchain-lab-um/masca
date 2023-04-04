@@ -17,9 +17,8 @@ import {
   bytesToBase64url,
   extractPublicKeyHex,
 } from '@veramo/utils';
-// Uncomment these lines when implementing schema validation
-// import _Ajv from 'ajv';
-// import _addFormats from 'ajv-formats';
+import _Ajv from 'ajv';
+import _addFormats from 'ajv-formats';
 import { JsonWebKey, VerificationMethod } from 'did-resolver';
 import elliptic from 'elliptic';
 import {
@@ -51,8 +50,8 @@ import DetailedError from '../utils/detailedError.js';
 import { Result } from '../utils/index.js';
 
 const { ec: EC } = elliptic;
-// const Ajv = _Ajv as unknown as typeof _Ajv.default;
-// const addFormats = _addFormats as unknown as typeof _addFormats.default;
+const Ajv = _Ajv as unknown as typeof _Ajv.default;
+const addFormats = _addFormats as unknown as typeof _addFormats.default;
 
 const compareTypes = (first: string[], second: string[]) =>
   first.length === second.length && first.every((ele, i) => ele === second[i]);
@@ -921,10 +920,10 @@ export class OIDCPlugin implements IAgentPlugin {
           supportedCredential.format === 'ldp_vc') && {
           '@context': supportedCredential['@context'],
         }),
-        // credentialSchema: {
-        //   id: schema,
-        //   type: 'JsonSchemaValidator2018', // TODO: We are not actually using this at the moment
-        // },
+        credentialSchema: supportedCredential.credentialSchema,
+        // SUB field is required or else Veramo deletes the credentialSubject.id field
+        // -> this throws an error for empty credentialSubject
+        sub: subjectDid,
         credentialSubject: {
           id: subjectDid,
           ...(credentialSubjectClaims as object), // TODO: VALIDATE CLAIMS AGAINST SCHEMA
@@ -959,41 +958,145 @@ export class OIDCPlugin implements IAgentPlugin {
       };
     }
 
-    // TODO: Implement claim validation
-    // // Fetch schema
-    // const schemaFetchResult = await fetch(schema);
+    // Fetch schema
+    // const schemaFetchResult = await fetch(
+    //   supportedCredential.credentialSchema.id
+    // );
 
     // if (!schemaFetchResult.ok) {
     //   return {
     //     success: false,
-    //     error: new DetailedError(`DetailedError fetching schema: ${schema}`),
-    //   };
-    // }
-
-    // // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    // const schemaJson = await schemaFetchResult.json();
-
-    // // Validate credential subject claims against schema
-    // const ajv = new Ajv({ allErrors: true, allowUnionTypes: true });
-
-    // // We need to add the formats to the ajv instance
-    // addFormats(ajv);
-
-    // // FIXME: Better way to handle any extra properties or should we throw and error ?
-    // ajv.addVocabulary(['$metadata']);
-    // const validate = ajv.compile(schemaJson);
-
-    // const valid = validate(credential);
-    // if (!valid) {
-    //   return {
-    //     success: false,
     //     error: new DetailedError(
-    //       `Invalid credential subject claims. Errors: ${JSON.stringify(
-    //         validate.errors
-    //       )}`
+    //       'internal_server_error',
+    //       `DetailedError fetching schema: ${supportedCredential.credentialSchema.id}`
     //     ),
     //   };
     // }
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    // const schemaJson = await schemaFetchResult.json();
+    const schemaJson = {
+      $id: 'https://raw.githubusercontent.com/discoxyz/disco-schemas/main/json/GMCredential/1-0-0.json',
+      $schema: 'http://json-schema.org/draft-07/schema#',
+      description:
+        'Send a GM greeting to colleagues and friends in your network.',
+      properties: {
+        '@context': {
+          anyOf: [
+            {
+              type: 'string',
+            },
+            {
+              type: 'array',
+            },
+            {
+              type: 'object',
+            },
+          ],
+        },
+        credentialSchema: {
+          properties: {
+            id: {
+              format: 'uri',
+              type: 'string',
+            },
+            type: {
+              type: 'string',
+            },
+          },
+          required: ['id', 'type'],
+          type: 'object',
+        },
+        credentialSubject: {
+          properties: {
+            id: {
+              format: 'uri',
+              title: 'Recipient DID',
+              type: 'string',
+            },
+          },
+          required: ['id'],
+          type: 'object',
+        },
+        expirationDate: {
+          format: 'date-time',
+          type: 'string',
+        },
+        id: {
+          format: 'uri',
+          type: 'string',
+        },
+        issuanceDate: {
+          format: 'date-time',
+          type: 'string',
+        },
+        issuer: {
+          anyOf: [
+            {
+              format: 'uri',
+              type: 'string',
+            },
+            {
+              properties: {
+                id: {
+                  format: 'uri',
+                  type: 'string',
+                },
+              },
+              required: ['id'],
+              type: 'object',
+            },
+          ],
+        },
+        type: {
+          anyOf: [
+            {
+              type: 'string',
+            },
+            {
+              items: {
+                type: 'string',
+              },
+              type: 'array',
+            },
+          ],
+        },
+      },
+      required: [
+        '@context',
+        'type',
+        'issuer',
+        'issuanceDate',
+        'credentialSubject',
+      ],
+      title: 'GM Credential',
+      type: 'object',
+    };
+
+    // Validate credential subject claims against schema
+    const ajv = new Ajv({ allErrors: true, allowUnionTypes: true });
+
+    // // We need to add the formats to the ajv instance
+    addFormats(ajv);
+
+    // FIXME: Better way to handle any extra properties or should we throw and error ?
+    // ajv.addVocabulary(['$metadata']);
+
+    const validate = ajv.compile(schemaJson);
+
+    const valid = validate(credential);
+
+    if (!valid) {
+      return {
+        success: false,
+        error: new DetailedError(
+          'internal_server_error',
+          `Invalid credential subject claims. Errors: ${JSON.stringify(
+            validate.errors
+          )}`
+        ),
+      };
+    }
 
     // FIXME: Why would we need to send c_nonce ?
     // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-8.3

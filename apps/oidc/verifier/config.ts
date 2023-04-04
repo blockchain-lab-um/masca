@@ -23,7 +23,7 @@ export const SUPPORTED_SCHEMA_URL =
 export const VERIFIER_URL = 'http://localhost:3000';
 export const SUPPORTED_CREDENTIALS: SupportedCredential[] = [
   {
-    types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+    types: ['VerifiableCredential', 'GmCredential'],
     format: 'jwt_vc_json',
     cryptographic_binding_methods_supported: ['did'],
     cryptographic_suites_supported: ['ES256K'],

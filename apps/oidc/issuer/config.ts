@@ -22,33 +22,44 @@ export const ISSUER_URL = 'http://127.0.0.1:3003';
 
 export const SUPPORTED_CREDENTIALS: SupportedCredential[] = [
   {
-    id: 'ProgramCompletionCertificate',
+    id: 'GmCredential',
+    credentialSchema: {
+      id: 'https://raw.githubusercontent.com/discoxyz/disco-schemas/main/json/GMCredential/1-0-0.json',
+      type: 'JsonSchemaValidator2018',
+    },
     format: 'jwt_vc_json',
-    types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
+    types: ['VerifiableCredential', 'GmCredential'],
     cryptographic_binding_methods_supported: ['did'],
     cryptographic_suites_supported: ['ES256K'],
   },
   {
+    credentialSchema: {
+      id: 'https://raw.githubusercontent.com/discoxyz/disco-schemas/main/json/GMCredential/1-0-0.json',
+      type: 'JsonSchemaValidator2018',
+    },
     format: 'jwt_vc_json-ld',
-    types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
-    '@context': [
-      'https://www.w3.org/2018/credentials/v1',
-      'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
-    ],
+    types: ['VerifiableCredential', 'GmCredential'],
+    '@context': ['https://www.w3.org/2018/credentials/v1'],
     cryptographic_binding_methods_supported: ['did'],
     cryptographic_suites_supported: ['ES256K'],
   },
   {
+    credentialSchema: {
+      id: 'https://raw.githubusercontent.com/discoxyz/disco-schemas/main/json/GMCredential/1-0-0.json',
+      type: 'JsonSchemaValidator2018',
+    },
     format: 'ldp_vc',
-    types: ['VerifiableCredential', 'ProgramCompletionCertificate'],
-    '@context': [
-      'https://www.w3.org/2018/credentials/v1',
-      'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
-    ],
+    types: ['VerifiableCredential', 'GmCredential'],
+    '@context': ['https://www.w3.org/2018/credentials/v1'],
     cryptographic_binding_methods_supported: ['did'],
     cryptographic_suites_supported: ['ES256K'],
   },
+  // This is only used to for tests
   {
+    credentialSchema: {
+      id: 'https://raw.githubusercontent.com/discoxyz/disco-schemas/main/json/GMCredential/1-0-0.json',
+      type: 'JsonSchemaValidator2018',
+    },
     format: 'mso_mdoc',
     doctype: 'org.iso.18013.5.1.mDL',
     cryptographic_binding_methods_supported: ['did'],
