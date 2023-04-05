@@ -210,7 +210,7 @@ const FormatedTab = ({
                 {t('formatted-tab.store')}
               </span>
               {vc.metadata.store && (
-                <div className="mt-3 flex">
+                <div className="mt-3 flex gap-x-1">
                   {stores.map((store, id) => (
                     <Tooltip tooltip={store} key={id}>
                       <div className="mt-1">

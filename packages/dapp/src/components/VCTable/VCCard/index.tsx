@@ -5,6 +5,7 @@ import {
   CheckCircleIcon,
   ExclamationCircleIcon,
   PlusIcon,
+  XCircleIcon,
 } from '@heroicons/react/24/outline';
 import { MinusIcon } from '@heroicons/react/24/solid';
 import { Row } from '@tanstack/react-table';
@@ -37,7 +38,7 @@ const VCCard = ({ row }: VCCardProps) => {
     </Tooltip>
   );
   return (
-    <div className="min-h-56 mx-4 mt-8 w-72 shrink-0 grow-0 rounded-xl bg-gradient-to-b from-orange-500/80 to-pink-500/80 px-4 py-4 shadow-lg sm:w-96 ">
+    <div className="mx-4 mt-8 h-56 w-72 shrink-0 grow-0 rounded-xl bg-gradient-to-b from-orange-500 to-pink-500 px-4 py-4 shadow-lg dark:from-orange-600 dark:to-pink-600 sm:w-96 ">
       <div className="flex h-full flex-col justify-between">
         <div className="flex items-center justify-between">
           <div className="w-full">
@@ -47,63 +48,68 @@ const VCCard = ({ row }: VCCardProps) => {
               }}
             >
               {!row.getIsSelected() ? (
-                <div className="animated-transition flex h-8 w-8 items-center justify-center rounded-full bg-orange-100 shadow-md hover:opacity-90">
-                  <PlusIcon className="h-7 w-7 text-orange-500" />
+                <div className="animated-transition flex h-7 w-7 items-center justify-center rounded-full bg-orange-100 shadow-md hover:opacity-90">
+                  <PlusIcon className="h-6 w-6 text-orange-500" />
                 </div>
               ) : (
-                <div className="animated-transition flex h-8 w-8 items-center justify-center rounded-full bg-yellow-500 shadow-md hover:opacity-80">
-                  <MinusIcon className="h-7 w-7 text-orange-500" />
+                <div className="animated-transition flex h-7 w-7 items-center justify-center rounded-full bg-yellow-500 shadow-md hover:opacity-80 dark:bg-yellow-500">
+                  <MinusIcon className="h-6 w-6 text-orange-500" />
                 </div>
               )}
             </button>
           </div>
           <div>
-            {validity === 'true' ? (
+            {validity !== 'true' ? (
               <Tooltip tooltip="Credential is valid">
                 <CheckCircleIcon className="h-8 w-8 text-orange-100" />
               </Tooltip>
             ) : (
               <Tooltip tooltip="Credential is invalid">
-                <ExclamationCircleIcon className="h-8 w-8 text-red-700" />
+                <XCircleIcon className="h-8 w-8 text-red-700 dark:text-red-900" />
               </Tooltip>
             )}
           </div>
         </div>
-        <div className="mt-1 flex items-center justify-between">
-          <div className="text-md w-[45%] text-white">
-            <div>
-              <span className="text-2xs text-orange-100">
-                {t('card.issued')}
-              </span>
-              <div className="">{issuerLink}</div>
-            </div>
-            <div className="mt-1">
-              <span className="text-2xs text-orange-100">
-                {t('card.issued-date')}
-              </span>
-              <div>{date}</div>
-            </div>
-            <div className="mt-1">
-              <span className="text-2xs text-orange-100">
-                {t('card.expires')}
-              </span>
-              <div>{expDate}</div>
+        <div className="grid grid-cols-3">
+          <div>
+            <div className="col-span-1 text-white">
+              <div>
+                <span className="text-2xs text-orange-100 dark:text-pink-100">
+                  {t('card.issued')}
+                </span>
+                <div className="">{issuerLink}</div>
+              </div>
+              <div className="mt-1">
+                <span className="text-2xs text-orange-100 dark:text-pink-100">
+                  {t('card.issued-date')}
+                </span>
+                <div>{date}</div>
+              </div>
+              <div className="mt-1">
+                <span className="text-2xs text-orange-100 dark:text-pink-100">
+                  {t('card.expires')}
+                </span>
+                <div>{expDate}</div>
+              </div>
             </div>
           </div>
-          <div className="font-cabin text-right text-2xl font-medium text-orange-100">
-            {types as string}
+          <div className="col-span-2 flex flex-col items-end justify-between">
+            <div></div>
+            <div className="font-cabin text-right text-[1.3rem] text-orange-100">
+              {types as string}
+            </div>
+            <Link
+              href={{
+                pathname: '/vc',
+                query: { id: row.original.metadata.id },
+              }}
+            >
+              <button className=" font-ubuntu mt-4 text-right text-sm font-medium text-pink-50/80 underline-offset-4 hover:underline">
+                {t('card.more')}
+              </button>
+            </Link>
           </div>
         </div>
-        <Link
-          href={{
-            pathname: '/vc',
-            query: { id: row.original.metadata.id },
-          }}
-        >
-          <button className="font-ubuntu text-md mt-4 w-full text-right font-bold text-orange-50 underline-offset-4 hover:underline">
-            {t('card.more')}
-          </button>
-        </Link>
       </div>
     </div>
   );
