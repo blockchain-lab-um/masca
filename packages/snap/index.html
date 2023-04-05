@@ -1,92 +1,90 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Hello, Snaps!</title>
-    <link rel="icon" type="image/svg" href="./images/icon.svg" />
-  </head>
 
-  <body>
-    <h1>Hello, Snaps!</h1>
-    <details>
-      <summary>Instructions</summary>
-      <ul>
-        <li>First, click "Connect". Then, try out the other buttons!</li>
-        <li>Please note that:</li>
-        <ul>
-          <li>
-            If you want to generate a VP you need a VC ID. To get it, you need a
-            VC saved in MetaMask state (use Save VC). Then you need to retrieve
-            id of VC by using Get VCS button and searching for "key" property in
-            the console.
-          </li>
-        </ul>
-      </ul>
-    </details>
-    <br />
+<head>
+	<title>Hello, Snaps!</title>
+	<link rel="icon" type="image/svg" href="./images/icon.svg" />
+</head>
 
-    <button class="connect">Connect</button>
-    <br />
-    <hr />
-    <button class="getVCs">Get VCS</button>
-    <br />
-    <hr />
-    <textarea id="VC" rows="30" cols="50"></textarea>
-    <br />
-    <button class="saveVC">Save VC</button>
-    <button class="saveVCC">Save VC Ceramic</button>
-    <button class="saveVCB">Save VC Both</button>
-    <br />
-    <hr />
-    <input type="text" id="vcId" placeholder="VC ID" />
-    With challenge
-    <input type="checkbox" id="withChallenge" placeholder="false" />
-    <select id="proofFormat">
-      <option value="jwt">jwt</option>
-      <option value="lds">lds</option>
-      <option value="EthereumEip712Signature2021">eip</option>
-    </select>
-    <button id="getVP" class="getVP">Get VP</button>
-    <br />
-    <hr />
-    <select id="didMethod" onchange="checkIfEbsi(this.value)">
-      <option value="did:ethr">did:ethr</option>
-      <option value="did:key">did:key</option>
-      <option value="did:key:ebsi">did:key:ebsi</option>
-      <option value="did:ebsi">did:ebsi</option>
-      <option value="did:pkh">did:pkh</option>
-      <option value="did:github">did:gh</option>
-    </select>
+<body>
+	<h1>Hello, Snaps!</h1>
+	<details>
+		<summary>Instructions</summary>
+		<ul>
+			<li>First, click "Connect". Then, try out the other buttons!</li>
+			<li>Please note that:</li>
+			<ul>
+				<li>
+					If you want to generate a VP you need a VC ID. To get it, you need a
+					VC saved in MetaMask state (use Save VC). Then you need to retrieve
+					id of VC by using Get VCS button and searching for "key" property in
+					the console.
+				</li>
+			</ul>
+		</ul>
+	</details>
+	<br />
+
+	<button class="connect">Connect</button>
+	<br />
+	<hr />
+	<button class="getVCs">Get VCS</button>
+	<br />
+	<hr />
+	<textarea id="VC" rows="30" cols="50"></textarea>
+	<br />
+	<button class="saveVC">Save VC</button>
+	<button class="saveVCC">Save VC Ceramic</button>
+	<button class="saveVCB">Save VC Both</button>
+	<br />
+	<hr />
+	<input type="text" id="vcId" placeholder="VC ID" />
+	With challenge
+	<input type="checkbox" id="withChallenge" placeholder="false" />
+	<select id="proofFormat">
+		<option value="jwt">jwt</option>
+		<option value="lds">lds</option>
+		<option value="EthereumEip712Signature2021">eip</option>
+	</select>
+	<button id="getVP" class="getVP">Get VP</button>
+	<br />
+	<hr />
+	<select id="didMethod" onchange="checkIfEbsi(this.value)">
+		<option value="did:ethr">did:ethr</option>
+		<option value="did:key">did:key</option>
+		<option value="did:key:ebsi">did:key:ebsi</option>
+		<option value="did:ebsi">did:ebsi</option>
+		<option value="did:pkh">did:pkh</option>
+		<option value="did:github">did:gh</option>
+	</select>
 	<input type="text" id="ebsiBearer" placeholder="Bearer" hidden />
-    <button class="switchMethod">Switch current method</button>
-    <br />
-    <hr />
-    <button class="getCurrentDid">Get current DID</button>
-    <button class="getCurrentMethod">Get current method</button>
-    <button class="getAvailableMethods">Get available methods</button>
-    <br />
-    <hr />
-    <button class="togglePopups">TogglePopups</button>
-    <br />
-    <hr />
-    <input type="text" id="infura_token" placeholder="Infura token" />
-    <button class="changeInfuraToken">ChangeInfuraToken</button>
-    <br />
-    <hr />
-    <button class="getVCStore">Get current VCStore</button>
-    <button class="toggleVCStore">Toggle current VCStore</button>
-    <button class="getAvailableVCStores">Get available vc stores</button>
+	<button class="switchMethod">Switch current method</button>
+	<br />
+	<hr />
+	<button class="getCurrentDid">Get current DID</button>
+	<button class="getCurrentMethod">Get current method</button>
+	<button class="getAvailableMethods">Get available methods</button>
+	<br />
+	<hr />
+	<button class="togglePopups">TogglePopups</button>
+	<br />
+	<hr />
+	<input type="text" id="infura_token" placeholder="Infura token" />
+	<button class="changeInfuraToken">ChangeInfuraToken</button>
+	<br />
+	<hr />
+	<button class="getVCStore">Get current VCStore</button>
+	<button class="toggleVCStore">Toggle current VCStore</button>
+	<button class="getAvailableVCStores">Get available vc stores</button>
 	<br />
 	<hr />
 	<input type="text" id="did" placeholder="DID" />
 	<button class="resolveDID">resolveDID</button>
 	<br />
 	<textarea id="didDocument" rows="30" cols="50" hidden></textarea>
-  </body>
-  <script
-    src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
-    type="text/javascript"
-  ></script>
-  <script>
+</body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script>
 
 	const snapId = `local:${window.location.href.substring(
 		0,
@@ -278,15 +276,15 @@
 		let response;
 		if (method === "did:ebsi") {
 			response = await ethereum.request({
-			method: `wallet_snap_${snapId}`,
-			params: {
-				method: 'switchDIDMethod',
+				method: `wallet_snap_${snapId}`,
 				params: {
-					didMethod: method,
-					bearer: document.getElementById('ebsiBearer').value,
+					method: 'switchDIDMethod',
+					params: {
+						didMethod: method,
+						bearer: document.getElementById('ebsiBearer').value,
+					},
 				},
-			},
-		});
+			});
 		}
 		response = await ethereum.request({
 			method: `wallet_snap_${snapId}`,
@@ -503,5 +501,6 @@
 		}
 	}
 
-  </script>
+</script>
+
 </html>
