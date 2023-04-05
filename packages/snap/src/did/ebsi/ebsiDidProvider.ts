@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/require-await */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable unused-imports/no-unused-vars */
 import {
   IAgentContext,
   IIdentifier,
@@ -45,7 +43,6 @@ export class EbsiDIDProvider extends AbstractIdentifierProvider {
   }
 
   async createIdentifier(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
     { kms, options }: { kms?: string; options?: IEbsiCreateIdentifierOptions },
     context: IContext
   ): Promise<Omit<IIdentifier, 'provider'>> {
@@ -233,24 +230,21 @@ export class EbsiDIDProvider extends AbstractIdentifierProvider {
   }
 
   async updateIdentifier(
-    // eslint-disable-next-line unused-imports/no-unused-vars
     args: {
       did: string;
       kms?: string | undefined;
       alias?: string | undefined;
       options?: any;
     },
-    // eslint-disable-next-line unused-imports/no-unused-vars
     context: IAgentContext<IKeyManager>
   ): Promise<IIdentifier> {
-    throw new Error('KeyDIDProvider updateIdentifier not supported yet.');
+    throw new Error('EbsiDIDProvider updateIdentifier not supported yet.');
   }
 
   async deleteIdentifier(
     identifier: IIdentifier,
     context: IContext
   ): Promise<boolean> {
-    // eslint-disable-next-line no-restricted-syntax
     for (const { kid } of identifier.keys) {
       // eslint-disable-next-line no-await-in-loop
       await context.agent.keyManagerDelete({ kid });
@@ -266,7 +260,7 @@ export class EbsiDIDProvider extends AbstractIdentifierProvider {
     }: { identifier: IIdentifier; key: IKey; options?: any },
     context: IContext
   ): Promise<any> {
-    throw Error('KeyDIDProvider addKey not supported');
+    throw Error('EbsiDIDProvider addKey not supported');
   }
 
   async addService(
@@ -277,20 +271,20 @@ export class EbsiDIDProvider extends AbstractIdentifierProvider {
     }: { identifier: IIdentifier; service: IService; options?: any },
     context: IContext
   ): Promise<any> {
-    throw Error('KeyDIDProvider addService not supported');
+    throw Error('EbsiDIDProvider addService not supported');
   }
 
   async removeKey(
     args: { identifier: IIdentifier; kid: string; options?: any },
     context: IContext
   ): Promise<any> {
-    throw Error('KeyDIDProvider removeKey not supported');
+    throw Error('EbsiDIDProvider removeKey not supported');
   }
 
   async removeService(
     args: { identifier: IIdentifier; id: string; options?: any },
     context: IContext
   ): Promise<any> {
-    throw Error('KeyDIDProvider removeService not supported');
+    throw Error('EbsiDIDProvider removeService not supported');
   }
 }

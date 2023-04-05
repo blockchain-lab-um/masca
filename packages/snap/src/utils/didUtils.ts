@@ -32,7 +32,6 @@ export async function changeCurrentVCStore(
 export async function getCurrentDid(params: ApiParams): Promise<string> {
   const { state, account } = params;
   const method = state.accountState[account].accountConfig.ssi.didMethod;
-  // SO FAR DO SEM VSE GOOD
   if (method === 'did:ethr') {
     const CHAIN_ID = await getCurrentNetwork(ethereum);
     return `did:ethr:${CHAIN_ID}:${account}`;
