@@ -28,14 +28,14 @@ const ViewTabs = () => {
         className={`animated-transition z-20 ${
           cardView
             ? ' dark:text-navy-blue-800 text-gray-800'
-            : ' dark:text-navy-blue-300 dark:hover:text-navy-blue-200 text-gray-700 hover:text-gray-500'
+            : ' dark:text-navy-blue-300 dark:hover:text-navy-blue-200 text-gray-500 hover:text-gray-700'
         }  ml-4 h-7 w-7 rounded-full`}
       />
       <Bars3Icon
         className={`animated-transition z-20  ${
           !cardView
             ? ' dark:text-navy-blue-800 text-gray-800'
-            : ' dark:text-navy-blue-400 dark:hover:text-navy-blue-300 text-gray-700 hover:text-gray-500'
+            : ' dark:text-navy-blue-400 dark:hover:text-navy-blue-300 text-gray-500 hover:text-gray-700'
         }  mr-3.5 h-8 w-8 rounded-full`}
       />
     </Switch>

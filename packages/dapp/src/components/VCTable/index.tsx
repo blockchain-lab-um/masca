@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useSnapStore, useTableStore } from '@/stores';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import { isError } from '@blockchain-lab-um/utils';
@@ -43,6 +44,7 @@ import VCCard from './VCCard';
 import { includesDataStore, selectRows } from './tableUtils';
 
 const Table = () => {
+  const router = useRouter();
   const t = useTranslations('Dashboard');
   const [loading, setLoading] = useState(false);
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -70,30 +72,6 @@ const Table = () => {
   const [selectedVC, setSelectedVC] = useState<QueryVCsRequestResult>();
 
   const columns = [
-    columnHelper.display({
-      id: 'expand',
-      header: ({ table }) => <></>,
-      cell: ({ row, table }) => (
-        <Link
-          className="flex items-center justify-center"
-          href={{
-            pathname: '/vc',
-            query: { id: row.original.metadata.id },
-          }}
-        >
-          <button
-            onClick={() =>
-              setSelectedVCs(
-                table.getSelectedRowModel().rows.map((r) => r.original)
-              )
-            }
-          >
-            <ArrowsPointingOutIcon className="h-5 w-5" />
-          </button>
-        </Link>
-      ),
-      enableGlobalFilter: false,
-    }),
     columnHelper.accessor(
       (row) => {
         const types = convertTypes(row.data.type);
@@ -102,13 +80,11 @@ const Table = () => {
       {
         id: 'type',
         cell: (info) => {
-          return <span className="">{info.getValue().toString()}</span>;
+          return (
+            <span className="font-bold">{info.getValue().toString()}</span>
+          );
         },
-        header: () => (
-          <span className="flex items-center justify-center">
-            {t('table.type')}
-          </span>
-        ),
+        header: () => <span className="">{t('table.type')}</span>,
       }
     ),
     columnHelper.accessor((row) => Date.parse(row.data.issuanceDate), {
@@ -377,15 +353,11 @@ const Table = () => {
                   {headerGroup.headers.map((header) => (
                     <th
                       className={`font-cabin px-3 py-4 text-sm font-normal ${
-                        header.id === 'type' || header.id === 'exp_date'
+                        header.id === 'date' || header.id === 'exp_date'
                           ? 'hidden lg:table-cell'
                           : ''
                       }
-                  ${
-                    header.id === 'date' || header.id === 'subject'
-                      ? 'hidden md:table-cell'
-                      : ''
-                  }
+                      ${header.id === 'subject' ? 'hidden xl:table-cell' : ''}
                   ${header.id === 'actions' ? 'hidden md:table-cell' : ''}
                   `}
                       key={header.id}
@@ -412,11 +384,11 @@ const Table = () => {
                 </tr>
               ))}
             </thead>
-            <tbody className="dark:text-navy-blue-50 break-all border-b text-gray-800">
+            <tbody className="dark:text-navy-blue-50 break-before-auto border-b text-gray-800">
               {table.getRowModel().rows.map((row) => (
                 <tr
                   key={row.id}
-                  className={`dark:border-navy-blue-tone/30 animated-transition dark:border-navy-blue-700 border-b border-gray-100 duration-75 ${
+                  className={`dark:border-navy-blue-tone/30 animated-transition dark:border-navy-blue-700 border-b border-gray-100 duration-75 hover:cursor-pointer ${
                     row.getIsSelected()
                       ? 'dark:bg-navy-blue-700 bg-pink-50/60 hover:bg-pink-50'
                       : 'dark:hover:bg-navy-blue-700/30 hover:bg-gray-50'
@@ -429,30 +401,39 @@ const Table = () => {
                           cell.column.id !== 'select' &&
                           cell.column.id !== 'expand' &&
                           cell.column.id !== 'subject' &&
+                          cell.column.id !== 'status' &&
+                          cell.column.id !== 'data_store' &&
                           cell.column.id !== 'issuer' &&
                           cell.column.id !== 'actions'
                         ) {
-                          row.toggleSelected();
-                          setSelectedVCs(
-                            table
-                              .getSelectedRowModel()
-                              .rows.map((r) => r.original)
-                          );
+                          console.log('router');
+                          router
+                            .push(
+                              {
+                                pathname: '/vc',
+                                query: { id: row.original.metadata.id },
+                              },
+                              undefined,
+                              { shallow: true }
+                            )
+                            .then(() => {})
+                            .catch(() => {});
                         }
                       }}
                       className={`max-h-16 py-5  ${
-                        cell.column.id === 'type' ||
-                        cell.column.id === 'exp_date'
+                        cell.column.id === 'exp_date' ||
+                        cell.column.id === 'date'
                           ? 'hidden lg:table-cell'
                           : ''
                       }
+                        ${
+                          cell.column.id === 'type'
+                            ? ' w-[20%] max-w-[20%] px-2'
+                            : ''
+                        }
+                  ${cell.column.id === 'actions' ? 'hidden sm:table-cell' : ''}
                   ${
-                    cell.column.id === 'date' || cell.column.id === 'subject'
-                      ? 'hidden md:table-cell'
-                      : ''
-                  }
-                  ${
-                    cell.column.id === 'actions' ? 'hidden sm:table-cell' : ''
+                    cell.column.id === 'subject' ? 'hidden xl:table-cell' : ''
                   }`}
                       key={cell.id}
                     >
@@ -470,7 +451,7 @@ const Table = () => {
             <TablePagination table={table} />
           </div>
           {table.getSelectedRowModel().rows.length > 0 && (
-            <div className="absolute -bottom-5 right-10">
+            <div className="mb-2 max-lg:flex max-lg:justify-center lg:absolute lg:right-10 lg:-bottom-5">
               <Link href="createVP">
                 <Button
                   variant="primary"

@@ -2,7 +2,11 @@ import React from 'react';
 import Link from 'next/link';
 import { useTableStore } from '@/stores';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
-import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
+import {
+  CheckCircleIcon,
+  DocumentDuplicateIcon,
+  ExclamationCircleIcon,
+} from '@heroicons/react/24/outline';
 import { useTranslations } from 'next-intl';
 
 import Button from '@/components/Button';
@@ -65,21 +69,24 @@ const FormatedTab = ({
   return (
     <>
       <div className="relative h-full px-8">
-        <div className="dark:from-navy-blue-700 dark:to-navy-blue-700 mt-6 grid grid-cols-3 rounded-2xl bg-gradient-to-b from-orange-100 to-pink-100 px-4 py-8 shadow-md">
-          <div className="col-span-2 row-span-2 flex w-full flex-col justify-center">
+        <div className="dark:from-navy-blue-700 dark:to-navy-blue-700 mt-6 flex rounded-2xl bg-gradient-to-b from-orange-100 to-pink-100 px-8 shadow-md">
+          <div className="flex w-[90%] py-8 lg:w-[90%]">
             <Tooltip tooltip={types}>
-              <div className="font-ubuntu dark:text-orange-accent-dark truncate pr-2 text-2xl font-medium text-pink-500">
+              <div className="font-ubuntu dark:text-orange-accent-dark w-[55%] truncate text-2xl font-medium text-pink-500 lg:w-[70%]">
                 {types}
               </div>
             </Tooltip>
           </div>
-          <div className="col-start-3 text-right">
-            <div className="dark:text-navy-blue-50 font-bold text-gray-800">
-              {validity ? 'VALID' : 'EXPIRED'}
-            </div>
-            <div className="dark:text-navy-blue-400 text-sm text-gray-800">
-              {expDate}
-            </div>
+          <div className="flex items-center justify-end">
+            {validity ? (
+              <Tooltip tooltip={'Credential is valid'}>
+                <CheckCircleIcon className="dark:text-orange-accent-dark h-12 w-12 text-pink-500" />
+              </Tooltip>
+            ) : (
+              <Tooltip tooltip={'Credential expired'}>
+                <ExclamationCircleIcon className="dark:text-orange-accent-dark h-12 w-12 text-pink-500" />
+              </Tooltip>
+            )}
           </div>
         </div>
 

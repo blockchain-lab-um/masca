@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSnapStore } from '@/stores';
+import { useSnapStore, useToastStore } from '@/stores';
 import {
   AvailableVCStores,
   QueryVCsRequestResult,
@@ -22,6 +22,16 @@ type ControlbarProps = {
 const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
   const [importModalOpen, setImportModalOpen] = useState(false);
   const [spinner, setSpinner] = useState(false);
+  const { setTitle, setLoading, setToastOpen, setType } = useToastStore(
+    (state) => ({
+      setTitle: state.setTitle,
+      setText: state.setText,
+      setLoading: state.setLoading,
+      setToastOpen: state.setOpen,
+      setType: state.setType,
+    }),
+    shallow
+  );
   const { api, changeVcs } = useSnapStore(
     (state) => ({
       api: state.snapApi,
@@ -39,6 +49,13 @@ const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
         if (isError(res)) {
           console.log(res);
           setSpinner(false);
+          setToastOpen(false);
+          setTimeout(() => {
+            setTitle('Failed to query credentials');
+            setType('error');
+            setLoading(false);
+            setToastOpen(true);
+          }, 100);
           return;
         }
         changeVcs(res.data);
@@ -90,20 +107,20 @@ const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
 
   return (
     <>
-      <div className="mb-4 mt-6 grid grid-cols-11">
+      <div className="lg-mt-6 mb-4 mt-12 grid grid-cols-11 grid-rows-2 gap-y-4 md:grid-rows-1">
         {vcs.length > 0 && (
-          <div className="col-span-5 col-start-1 flex gap-x-2">
+          <div className="col-span-11 col-start-1 row-start-2 flex gap-x-2 md:col-span-5 md:row-start-1">
             <DataStoreCombobox isConnected={isConnected} vcs={vcs} />
             <GlobalFilter isConnected={isConnected} vcs={vcs} />
           </div>
         )}
 
         {vcs.length > 0 && (
-          <div className="col-start-6 flex justify-center">
+          <div className="col-span-5 col-start-1 row-start-1 flex justify-start sm:row-start-1 md:col-span-1 md:col-start-7 lg:col-start-6">
             <ViewTabs />
           </div>
         )}
-        <div className="col-span-5 col-start-7 flex justify-end gap-x-2">
+        <div className="col-span-5 col-start-7 flex justify-end gap-x-2 max-md:row-start-2 max-sm:row-start-1 md:row-start-1">
           {isConnected && (
             <button
               className={`dark:bg-navy-blue-700 dark:text-navy-blue-50 group flex h-[43px] w-[43px] items-center justify-center rounded-full bg-white text-gray-700 shadow-md`}
