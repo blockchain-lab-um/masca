@@ -7,13 +7,13 @@ export type Result<T> = {
     }
   | {
       success: false;
-      error: string;
+      error: string | Error;
     }
 );
 
 export const isError = <T>(
   result: Result<T>
-): result is { success: false; error: string } => !result.success;
+): result is { success: false; error: Error | string } => !result.success;
 
 export const isSuccess = <T>(
   result: Result<T>
@@ -24,7 +24,7 @@ export class ResultObject {
     return { success: true, data };
   }
 
-  static error<T>(error: string): Result<T> {
+  static error<T>(error: Error | string): Result<T> {
     return { success: false, error };
   }
 }
