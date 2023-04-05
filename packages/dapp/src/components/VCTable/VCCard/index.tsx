@@ -1,13 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
-import {
-  CheckCircleIcon,
-  ExclamationCircleIcon,
-  PlusIcon,
-  XCircleIcon,
-} from '@heroicons/react/24/outline';
-import { MinusIcon } from '@heroicons/react/24/solid';
+import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import { Row } from '@tanstack/react-table';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
