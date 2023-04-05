@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 	<title>Hello, Snaps!</title>
 	<link rel="icon" type="image/svg" href="./images/icon.svg" />
@@ -47,6 +46,7 @@
 		<option value="EthereumEip712Signature2021">eip</option>
 	</select>
 	<button id="getVP" class="getVP">Get VP</button>
+  <button id="getVC" class="getVC">Get VC</button>
 	<br />
 	<hr />
 	<select id="didMethod" onchange="checkIfEbsi(this.value)">
@@ -430,9 +430,36 @@
 			alert(response.error)
 		}
 	}
+  
+  async function createVC() {
+    try {
+      const vc = JSON.parse(document.getElementById('VC').value);
+      console.log('VC', vc);
+      const pF = document.getElementById('proofFormat').value;
+      console.log('selected pf:', pF);
+      const response = await ethereum.request({
+        method: `wallet_snap_${snapId}`,
+        params: {
+          method: 'createVC',
+          params: {
+            minimalUnsignedCredential: vc,
+              proofFormat: pF,
+              options: {
+                save: true,
+                store: ['snap'],
+              },
+            },
+          },
+        });
+        console.log(response);
+      } catch (err) {
+        console.error(err);
+        alert('Problem happened: ' + err.message || err);
+      }
+  }
 
 	async function isInit() {
-		const response = await ethereum.request({
+	  const response = await ethereum.request({
 			method: 'wallet_invokeSnap',
 			params: [
 				snapId,

@@ -73,6 +73,10 @@ export const exampleTestVCPayload = {
     id: 'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
     type: 'JsonSchemaValidator2018',
   },
+  '@context': [
+    'https://www.w3.org/2018/credentials/v1',
+    'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/ld-context.json',
+  ],
 };
 
 export const exampleDIDDocument: DIDDocument = {

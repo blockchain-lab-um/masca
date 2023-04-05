@@ -1,4 +1,5 @@
 import {
+  CreateVCRequestParams,
   CreateVPRequestParams,
   DeleteVCsRequestParams,
   QueryVCsRequestParams,
@@ -11,6 +12,11 @@ import {
 export type QueryVCs = {
   method: 'queryVCs';
   params: QueryVCsRequestParams;
+};
+
+export type CreateVC = {
+  method: 'createVC';
+  params: CreateVCRequestParams;
 };
 
 export type SaveVC = {

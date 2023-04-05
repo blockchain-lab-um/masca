@@ -1,0 +1,13 @@
+diff --git a/dist/global.d.ts b/dist/global.d.ts
+index 8fae519549309c0afd6efa0c5c1896506926fff6..a206609fb7a24638299103d756c4aa96ad5e3a0b 100644
+--- a/dist/global.d.ts
++++ b/dist/global.d.ts
+@@ -1,6 +1,6 @@
+ import { MetaMaskInpageProvider } from '@metamask/providers';
+ import { SnapsGlobalObject } from '@metamask/snaps-utils';
+ declare global {
+-    const ethereum: MetaMaskInpageProvider;
+-    const snap: SnapsGlobalObject;
++    var ethereum: MetaMaskInpageProvider;
++    var snap: SnapsGlobalObject;
+ }

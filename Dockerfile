@@ -1,10 +1,10 @@
-FROM node:18.13.0-alpine3.16
+FROM node:18.15.0-alpine3.16
 
 RUN apk add --no-cache libc6-compat git
 WORKDIR /app
 
 # Install pnpm
-RUN npm i -g pnpm@7.25.1
+RUN npm i -g pnpm@7.30.0
 
 # Copy patches
 COPY ./patches ./patches
@@ -26,6 +26,8 @@ RUN pnpm install
 
 # Copy all other files
 COPY . .
+
+ENV NODE_ENV=production
 
 # Build affected projects
 RUN pnpm build:docker
