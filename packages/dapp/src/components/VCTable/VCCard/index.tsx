@@ -9,6 +9,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { MinusIcon } from '@heroicons/react/24/solid';
 import { Row } from '@tanstack/react-table';
+import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
 import Tooltip from '@/components/Tooltip';
@@ -38,9 +39,17 @@ const VCCard = ({ row }: VCCardProps) => {
     </Tooltip>
   );
   return (
-    <div className="mx-4 mt-8 h-56 w-72 shrink-0 grow-0 rounded-xl bg-gradient-to-b from-orange-500 to-pink-500 px-4 py-4 shadow-lg dark:from-orange-600 dark:to-pink-600 sm:w-96 ">
-      <div className="flex h-full flex-col justify-between">
-        <div className="flex items-center justify-between">
+    <div
+      onClick={() => {
+        row.toggleSelected();
+      }}
+      className={clsx(
+        'animated-transition mx-4 mt-8 h-52 w-72 shrink-0 grow-0 cursor-pointer rounded-xl bg-gradient-to-b from-orange-500 to-pink-500 px-4 py-4 shadow-md shadow-black/50 duration-75 hover:scale-105 dark:from-orange-600 dark:to-pink-600 sm:w-96',
+        row.getIsSelected() ? 'outline outline-[0.35rem] outline-blue-500' : ''
+      )}
+    >
+      <div className="h-full">
+        {/*  <div className="flex items-center justify-between">
           <div className="w-full">
             <button
               onClick={() => {
@@ -58,21 +67,10 @@ const VCCard = ({ row }: VCCardProps) => {
               )}
             </button>
           </div>
-          <div>
-            {validity !== 'true' ? (
-              <Tooltip tooltip="Credential is valid">
-                <CheckCircleIcon className="h-8 w-8 text-orange-100" />
-              </Tooltip>
-            ) : (
-              <Tooltip tooltip="Credential is invalid">
-                <XCircleIcon className="h-8 w-8 text-red-700 dark:text-red-900" />
-              </Tooltip>
-            )}
-          </div>
-        </div>
-        <div className="grid grid-cols-3">
-          <div>
-            <div className="col-span-1 text-white">
+        </div> */}
+        <div className="grid h-full grid-cols-3">
+          <div className="">
+            <div className="col-span-1 flex h-full flex-col justify-center text-white">
               <div>
                 <span className="text-2xs text-orange-100 dark:text-pink-100">
                   {t('card.issued')}
@@ -94,17 +92,30 @@ const VCCard = ({ row }: VCCardProps) => {
             </div>
           </div>
           <div className="col-span-2 flex flex-col items-end justify-between">
-            <div></div>
+            <div>
+              {validity === 'true' ? (
+                <Tooltip tooltip="Credential is valid">
+                  <CheckCircleIcon className="h-8 w-8 text-orange-100" />
+                </Tooltip>
+              ) : (
+                <Tooltip tooltip="Credential is invalid">
+                  <XCircleIcon className="h-8 w-8 text-red-700 dark:text-red-900" />
+                </Tooltip>
+              )}
+            </div>
             <div className="font-cabin text-right text-[1.3rem] text-orange-100">
               {types as string}
             </div>
             <Link
+              onClick={() => {
+                row.toggleSelected();
+              }}
               href={{
                 pathname: '/vc',
                 query: { id: row.original.metadata.id },
               }}
             >
-              <button className=" font-ubuntu mt-4 text-right text-sm font-medium text-pink-50/80 underline-offset-4 hover:underline">
+              <button className=" font-ubuntu animated-transition mt-4 text-right text-sm font-medium text-pink-50/80 underline-offset-4 hover:text-pink-700">
                 {t('card.more')}
               </button>
             </Link>
