@@ -92,7 +92,7 @@ const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
     <>
       <div className="mb-4 mt-6 grid grid-cols-11">
         {vcs.length > 0 && (
-          <div className="col-span-5 col-start-1 flex gap-x-1">
+          <div className="col-span-5 col-start-1 flex gap-x-2">
             <DataStoreCombobox isConnected={isConnected} vcs={vcs} />
             <GlobalFilter isConnected={isConnected} vcs={vcs} />
           </div>
@@ -103,22 +103,24 @@ const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
             <ViewTabs />
           </div>
         )}
-        <div className="col-span-5 col-start-7 flex justify-end gap-x-1">
+        <div className="col-span-5 col-start-7 flex justify-end gap-x-2">
           {isConnected && (
             <button
-              className={`dark:bg-navy-blue-700 dark:text-navy-blue-50 flex h-[43px] w-[43px] items-center justify-center rounded-full bg-white text-gray-700 shadow-md`}
+              className={`dark:bg-navy-blue-700 dark:text-navy-blue-50 group flex h-[43px] w-[43px] items-center justify-center rounded-full bg-white text-gray-700 shadow-md`}
               onClick={() => setImportModalOpen(true)}
             >
-              <PlusIcon className={`h-6 w-6`} />
+              <PlusIcon className={`group-hover:animate-pingOnce h-6 w-6`} />
             </button>
           )}
           {vcs.length > 0 && (
             <button
-              className={`dark:bg-navy-blue-700 dark:text-navy-blue-50 flex h-[43px] w-[43px] items-center justify-center rounded-full bg-white text-gray-700 shadow-md`}
+              className={`dark:bg-navy-blue-700 dark:text-navy-blue-50 group flex h-[43px] w-[43px] items-center justify-center rounded-full bg-white text-gray-700 shadow-md`}
               onClick={() => refreshVCs()}
             >
               <ArrowPathIcon
-                className={`h-6 w-6 ${spinner ? 'animate-spin' : ''}`}
+                className={`group-hover:animate-spinOnce h-6 w-6 duration-75 ${
+                  spinner ? 'animate-spinRefresh duration-75' : ''
+                }`}
               />
             </button>
           )}

@@ -49,7 +49,7 @@ function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="dark:bg-navy-blue-500 w-full max-w-md transform overflow-hidden rounded-2xl bg-orange-50 p-6 text-left align-middle shadow-xl transition-all md:max-w-xl lg:max-w-2xl">
+              <Dialog.Panel className="dark:bg-navy-blue-500 w-full max-w-xl transform overflow-hidden rounded-2xl bg-orange-50 px-8 pt-10 pb-6 text-left align-middle shadow-xl transition-all md:max-w-2xl lg:max-w-2xl">
                 <Dialog.Title
                   as="h3"
                   className="text-h3 font-ubuntu dark:text-navy-blue-50 font-medium leading-6 text-gray-900"

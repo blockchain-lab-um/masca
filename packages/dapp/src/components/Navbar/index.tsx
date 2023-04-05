@@ -33,7 +33,7 @@ export default function Navbar() {
                 fill={true}
               />
             </div>
-            <h1 className="font-ubuntu text-h4 sm:text-h2 lg:text-h1 animated-transition dark:text-orange-accent-dark mx-1 text-gray-900 hover:text-pink-500 dark:hover:text-orange-200">
+            <h1 className="font-ubuntu text-h4 sm:text-h2 lg:text-h1 animated-transition dark:text-navy-blue-300 ml-4 text-gray-900 hover:text-pink-400 dark:hover:text-orange-200">
               Masca
             </h1>
           </div>

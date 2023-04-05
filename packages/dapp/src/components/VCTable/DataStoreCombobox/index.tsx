@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { useTableStore } from '@/stores';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import { Combobox, Transition } from '@headlessui/react';
-import { CheckIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
+import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 
 type DataStoreComboboxProps = {
@@ -81,10 +81,10 @@ const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
               />
               <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
                 <>
-                  <ChevronUpIcon
+                  <ChevronDownIcon
                     className={`animated-transition dark:text-navy-blue-50 h-5 w-5 text-gray-700 ${
                       !isConnected || vcs.length === 0 ? 'text-gray-300' : ' '
-                    } ${!open ? 'rotate-180' : ''}`}
+                    } ${open ? 'rotate-180' : ''}`}
                   />
                 </>
               </Combobox.Button>
