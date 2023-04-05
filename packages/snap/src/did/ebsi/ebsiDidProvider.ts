@@ -5,11 +5,9 @@
 /* eslint-disable @typescript-eslint/require-await */
 import {
   IAgentContext,
-  ICredentialPlugin,
   IIdentifier,
   IKey,
   IKeyManager,
-  IResolver,
   IService,
   ManagedKeyInfo,
 } from '@veramo/core';
@@ -26,14 +24,13 @@ import {
   privateKeyJwkToHex,
 } from './ebsiDidUtils';
 import {
+  IContext,
   IEbsiCreateIdentifierOptions,
   IEbsiDidSupportedEcdsaAlgo,
   IEbsiDidSupportedHashTypes,
   IEbsiDidSupportedKeyTypes,
   IImportedKey,
 } from './types/ebsiProviderTypes';
-
-type IContext = IAgentContext<IKeyManager & ICredentialPlugin & IResolver>;
 
 /**
  * {@link @veramo/did-manager#DIDManager} identifier provider for `did:ebsi` identifiers

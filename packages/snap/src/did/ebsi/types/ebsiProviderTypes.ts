@@ -1,5 +1,15 @@
 import { EbsiVerifiablePresentation } from '@cef-ebsi/verifiable-presentation';
+import {
+  IAgentContext,
+  ICredentialIssuer,
+  IKeyManager,
+  IResolver,
+} from '@veramo/core';
 import { JWK } from 'jose';
+
+export type IContext = IAgentContext<
+  IKeyManager & ICredentialIssuer & IResolver
+>;
 
 export type IRequestVerifiableAuthorizationArgs = {
   /**

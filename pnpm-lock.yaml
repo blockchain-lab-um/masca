@@ -324,7 +324,7 @@ importers:
       '@cef-ebsi/ebsi-did-resolver': ^3.0.0
       '@cef-ebsi/key-did-resolver': ^1.0.0
       '@cef-ebsi/siop-auth': ^3.0.0
-      '@cef-ebsi/verifiable-presentation': ^5.0.2
+      '@cef-ebsi/verifiable-presentation': ^5.0.5
       '@ceramicnetwork/http-client': 2.20.0
       '@ceramicnetwork/streamid': 2.14.0
       '@commitlint/cli': ^17.4.4
@@ -425,7 +425,7 @@ importers:
       '@cef-ebsi/ebsi-did-resolver': 3.0.0
       '@cef-ebsi/key-did-resolver': 1.0.0
       '@cef-ebsi/siop-auth': 3.0.0
-      '@cef-ebsi/verifiable-presentation': 5.0.2
+      '@cef-ebsi/verifiable-presentation': 5.0.5
       '@ceramicnetwork/http-client': 2.20.0
       '@ceramicnetwork/streamid': 2.14.0
       '@didtools/pkh-ethereum': 0.0.2
@@ -2060,8 +2060,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@cef-ebsi/verifiable-credential/4.0.2:
-    resolution: {integrity: sha512-l372ds0k81O2nYYgkTRMEm2Q1f02/hwJiGmd5hffdrll8f4y2vskDk6Gz2qx0sFiTnoVuzHQHPeNqhC4dCPCZw==}
+  /@cef-ebsi/verifiable-credential/4.1.2:
+    resolution: {integrity: sha512-xNYWRiRVgeKlbN1w4nAODMdFOswQ7rlF/t0KacK8aH9x7SFGn96IdA3CBZ0ColAzw5zDnj3huQLN762Fv2cYeQ==}
     engines: {node: '>=16.10.0'}
     dependencies:
       '@cef-ebsi/ebsi-did-resolver': 3.0.0
@@ -2078,6 +2078,7 @@ packages:
       lodash.clonedeep: 4.5.0
       mem: 8.1.1
       multiformats: 9.9.0
+      pako: 2.1.0
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -2087,13 +2088,13 @@ packages:
       - web-streams-polyfill
     dev: false
 
-  /@cef-ebsi/verifiable-presentation/5.0.2:
-    resolution: {integrity: sha512-tBxYEh1FOnmJEsTAyaq+pYPlzUWI7x3/wMCmIgB4wA2/uWb8Zf2D6ZKNKZQYWscqX5vW1w/x2iPls5NG35NjQw==}
+  /@cef-ebsi/verifiable-presentation/5.0.5:
+    resolution: {integrity: sha512-NuKSTIMp3XzhY2KxczgLfj/QqLegOWMJCy5F27XZE5MyS9gUALIrrYnKCutVX58ytHgZaZ2gMHCGk/lw0bVsHA==}
     engines: {node: '>=16.10.0'}
     dependencies:
       '@cef-ebsi/ebsi-did-resolver': 3.0.0
       '@cef-ebsi/key-did-resolver': 1.0.0
-      '@cef-ebsi/verifiable-credential': 4.0.2
+      '@cef-ebsi/verifiable-credential': 4.1.2
       '@transmute/json-web-signature': 0.7.0-unstable.80
       '@transmute/vc.js': 0.7.0-unstable.80
       ajv: 8.12.0
@@ -16203,6 +16204,10 @@ packages:
   /pako/1.0.11:
     resolution: {integrity: sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==}
     dev: true
+
+  /pako/2.1.0:
+    resolution: {integrity: sha512-w+eufiZ1WuJYgPXbV/PO3NCMEc3xqylkKHzp8bxp1uW4qaSNQUkwmLLEc3kKsfz8lpV1F8Ht3U1Cm+9Srog2ug==}
+    dev: false
 
   /param-case/3.0.4:
     resolution: {integrity: sha512-RXlj7zCYokReqWpOPH9oYivUzLYZ5vAPIfEmCTNViosC78F8F0H9y7T7gG2M39ymgutxF5gcFEsyZQSph9Bp3A==}

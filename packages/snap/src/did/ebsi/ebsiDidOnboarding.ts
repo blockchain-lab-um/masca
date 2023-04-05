@@ -53,6 +53,8 @@ async function createVerifiablePresentation(args: {
     verifiableCredential: [verifiableAuthorization],
   } as EbsiVerifiablePresentation;
 
+  // FIXME: find a way around this function, it uses a library which prevents the
+  // snap from building
   const jwtVp = await createVerifiablePresentationJwt(
     payload,
     issuer,
