@@ -9,7 +9,6 @@ import {
   IKey,
   IKeyManager,
   IService,
-  ManagedKeyInfo,
 } from '@veramo/core';
 import { AbstractIdentifierProvider } from '@veramo/did-manager';
 import { bytesToBase64url, hexToBytes } from '@veramo/utils';
@@ -86,7 +85,12 @@ export class EbsiDIDProvider extends AbstractIdentifierProvider {
 
     const kid = `did:ebsi:${importedKey.subjectIdentifier}#${importedKey.jwkThumbprint}`;
     const did = `did:ebsi:${importedKey.subjectIdentifier}`;
-    let key: ManagedKeyInfo;
+    const key = await context.agent.keyManagerImport({
+      kid,
+      privateKeyHex,
+      type: keyType === 'P-256' ? 'Secp256r1' : keyType,
+      kms: this.defaultKms || 'local',
+    });
     const resolution = await context.agent.resolveDid({ didUrl: did });
 
     if (resolution.didDocument) {
@@ -98,12 +102,6 @@ export class EbsiDIDProvider extends AbstractIdentifierProvider {
           `${kid} does not match any key id in resolved did doc's verification method, check provided crv: ${keyType}`
         );
       }
-      key = await context.agent.keyManagerImport({
-        kid,
-        privateKeyHex,
-        type: keyType === 'P-256' ? 'Secp256r1' : keyType,
-        kms: this.defaultKms || 'local',
-      });
       return {
         did,
         controllerKeyId: kid,
@@ -118,12 +116,6 @@ export class EbsiDIDProvider extends AbstractIdentifierProvider {
       );
     }
     const { bearer } = options;
-    key = await context.agent.keyManagerImport({
-      kid,
-      privateKeyHex,
-      type: keyType === 'P-256' ? 'Secp256r1' : keyType,
-      kms: this.defaultKms || 'local',
-    });
 
     const identifier = {
       did,
