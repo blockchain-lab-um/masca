@@ -10,7 +10,6 @@ export async function getDidEbsiIdentifier(
   params: ApiParams,
   args: IDIDManagerCreateArgs
 ): Promise<string> {
-  // args.options.bearer je bearer token
   const { state, snap, account, bip44CoinTypeNode } = params;
   const agent = await getAgent(snap, ethereum);
   const provider = state.accountState[account].accountConfig.ssi.didMethod;
