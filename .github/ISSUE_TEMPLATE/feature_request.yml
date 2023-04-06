@@ -1,6 +1,6 @@
 name: 'Feature Request'
 description: 'Request a new feature.'
-title: '[feature](<package>): '
+title: '[feature](package): '
 labels: ['feature']
 body:
   - type: textarea
