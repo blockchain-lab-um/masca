@@ -25,7 +25,8 @@
     "url": "https://blockchain-lab.um.si"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "libs/*"
   ],
   "scripts": {
     "build": "pnpm nx affected --target=build --exclude @blockchain-lab-um/website",
