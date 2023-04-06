@@ -37,6 +37,7 @@ export async function getCurrentDid(
   snap: SnapsGlobalObject,
   account: string
 ): Promise<string> {
+  const agent = await getAgent(snap, ethereum);
   const state = await getSnapState(snap);
   const method = state.accountState[account].accountConfig.ssi.didMethod;
   if (method === 'did:ethr') {
