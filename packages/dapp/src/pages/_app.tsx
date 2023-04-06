@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import { Cabin, JetBrains_Mono, Ubuntu } from 'next/font/google';
@@ -40,6 +38,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <div
           className={`${cabin.variable} ${ubuntu.variable} ${jetBrainsMono.variable} font-cabin`}
         >
+          {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */}
           <NextIntlProvider messages={pageProps.messages}>
             <Layout>
               <MetaMaskProvider>
