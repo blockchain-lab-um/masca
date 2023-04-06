@@ -41,6 +41,7 @@
     "prepare": "is-ci || husky install",
     "prettier": "prettier --write .",
     "release-build:core": "pnpm nx run-many --target=build --projects=@blockchain-lab-um/ssi-snap,@blockchain-lab-um/ssi-snap-connector,@blockchain-lab-um/veramo-vc-manager",
+    "release-build:utils": "pnpm nx build @blockchain-lab-um/utils",
     "start": "pnpm nx run-many --target=start --all",
     "start:dapp": "pnpm nx start @blockchain-lab-um/website",
     "start:docs": "pnpm nx start @blockchain-lab-um/ssi-snap-docs",
