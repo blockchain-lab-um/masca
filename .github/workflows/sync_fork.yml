@@ -1,13 +1,13 @@
 name: Sync fork
 
 on:
+  workflow_dispatch:
   pull_request:
     branches: [develop]
     types: [opened, synchronize, reopened]
   push:
     branches:
       - '**'
-  workflow_dispatch:
 
 jobs:
   sync:
