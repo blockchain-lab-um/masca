@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
-import { useGeneralStore } from '@/stores';
 import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
+
+import { useGeneralStore } from '@/stores';
 
 type ConnectedProviderProps = {
   children: React.ReactNode;

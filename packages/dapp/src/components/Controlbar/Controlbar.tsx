@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useSnapStore, useToastStore } from '@/stores';
 import {
   AvailableVCStores,
   QueryVCsRequestResult,
@@ -13,6 +12,7 @@ import ImportModal from '@/components/ImportModal';
 import DataStoreCombobox from '@/components/VCTable/DataStoreCombobox';
 import GlobalFilter from '@/components/VCTable/GlobalFilter';
 import ViewTabs from '@/components/VCTable/ViewTabs';
+import { useSnapStore, useToastStore } from '@/stores';
 
 type ControlbarProps = {
   vcs: QueryVCsRequestResult[];

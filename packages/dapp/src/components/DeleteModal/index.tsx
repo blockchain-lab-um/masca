@@ -1,5 +1,4 @@
 import { Fragment } from 'react';
-import { useSnapStore, useToastStore } from '@/stores';
 import {
   AvailableVCStores,
   QueryVCsRequestResult,
@@ -10,6 +9,7 @@ import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
+import { useSnapStore, useToastStore } from '@/stores';
 
 interface DeleteModalProps {
   open: boolean;

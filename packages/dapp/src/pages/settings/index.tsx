@@ -1,12 +1,12 @@
 import React from 'react';
 import Head from 'next/head';
-import { useSnapStore, useToastStore } from '@/stores';
 import { isError } from '@blockchain-lab-um/utils';
 import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
 import ConnectedProvider from '@/components/ConnectedProvider';
 import ToggleSwitch from '@/components/Switch';
+import { useSnapStore, useToastStore } from '@/stores';
 
 export default function Settings() {
   const t = useTranslations('Settings');

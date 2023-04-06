@@ -1,9 +1,10 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { useTableStore } from '@/stores';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import { Combobox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
+
+import { useTableStore } from '@/stores';
 
 type DataStoreComboboxProps = {
   isConnected: boolean;

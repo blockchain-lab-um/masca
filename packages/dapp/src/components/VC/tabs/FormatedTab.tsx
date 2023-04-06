@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import { useTableStore } from '@/stores';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import {
   CheckCircleIcon,
@@ -15,6 +14,7 @@ import ModifyDSModal from '@/components/ModifyDSModal';
 import StoreIcon from '@/components/StoreIcon';
 import Tooltip from '@/components/Tooltip';
 import { convertTypes, copyToClipboard } from '@/utils/string';
+import { useTableStore } from '@/stores';
 
 interface FormatedTabProps {
   vc: QueryVCsRequestResult;

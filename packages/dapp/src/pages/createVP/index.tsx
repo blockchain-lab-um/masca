@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { useSnapStore, useTableStore } from '@/stores';
 import {
   AvailableVCStores,
   SupportedProofFormats,
@@ -21,6 +20,7 @@ import InputField from '@/components/InputField';
 import SelectedVCsTableRow from '@/components/SelectedVCsTableRow/SelectedVCsTableRow';
 import ToggleSwitch from '@/components/Switch';
 import VPModal from '@/components/VPModal';
+import { useSnapStore, useTableStore } from '@/stores';
 
 const proofFormats: Record<string, SupportedProofFormats> = {
   JWT: 'jwt',

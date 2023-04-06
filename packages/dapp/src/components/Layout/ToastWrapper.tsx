@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import { useToastStore } from '@/stores';
 import { XCircleIcon } from '@heroicons/react/24/outline';
 import {
   CheckCircleIcon,
@@ -9,6 +8,8 @@ import {
 import * as Toast from '@radix-ui/react-toast';
 import clsx from 'clsx';
 import { shallow } from 'zustand/shallow';
+
+import { useToastStore } from '@/stores';
 
 export const ToastWrapper = ({ children }: { children: JSX.Element }) => {
   const timerRef = useRef(0);

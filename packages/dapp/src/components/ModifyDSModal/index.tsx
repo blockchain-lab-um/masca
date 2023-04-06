@@ -1,5 +1,4 @@
 import { Fragment, useState } from 'react';
-import { useSnapStore, useToastStore } from '@/stores';
 import {
   AvailableVCStores,
   QueryVCsRequestResult,
@@ -9,6 +8,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
+import { useSnapStore, useToastStore } from '@/stores';
 import Button from '../Button';
 import DeleteModal from '../DeleteModal';
 import ToggleSwitch from '../Switch';

@@ -1,9 +1,9 @@
 import React from 'react';
-import { useGeneralStore } from '@/stores';
 import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
+import { useGeneralStore } from '@/stores';
 
 const ConnectButton = () => {
   const t = useTranslations('Navbar');
