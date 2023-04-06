@@ -12,7 +12,6 @@ import {
   XCircleIcon,
 } from '@heroicons/react/20/solid';
 import {
-  ArrowsPointingOutIcon,
   PlusCircleIcon,
   ShareIcon,
   TrashIcon,
