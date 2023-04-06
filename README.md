@@ -1,5 +1,9 @@
-<div  align="center" id="logo">
-  <img src="https://0x0.st/HXPD.svg" width="250" height="250" />
+<div align="center" id="logo">
+  <picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/masca_logo_dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/masca_logo_light.svg">
+  <img width="250" height="250" alt="Masca logo" src="assets/masca_logo_dark.svg">
+  </picture>
 </div>
 
 ## [![npm version](https://img.shields.io/npm/v/@blockchain-lab-um/masca.svg?style=flat)](https://www.npmjs.com/package/@blockchain-lab-um/masca)
