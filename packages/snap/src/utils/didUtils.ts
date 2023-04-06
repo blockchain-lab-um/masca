@@ -11,11 +11,10 @@ import {
   getDidKeyIdentifier,
 } from '../did/key/keyDidUtils';
 import { getDidJwkIdentifier } from '../did/jwk/jwkDidUtils';
-import { getDidKeyIdentifier } from '../did/key/keyDidUtils';
-import { getDidPkhIdentifier } from '../did/pkh/pkhDidUtils';
-import { SSISnapState } from '../interfaces';
+import { ApiParams, SSISnapState } from '../interfaces';
 import { getAgent } from '../veramo/setup';
 import { getDidEbsiIdentifier } from './ebsiUtils';
+import { getAddressKeyDeriver, snapGetKeysFromAddress } from './keyPair';
 import { getCurrentNetwork } from './snapUtils';
 import { getSnapState, updateSnapState } from './stateUtils';
 
@@ -35,9 +34,9 @@ export async function changeCurrentVCStore(params: {
 export async function getCurrentDid(
   ethereum: MetaMaskInpageProvider,
   snap: SnapsGlobalObject,
-  account: string
+  account: string,
+  origin: string
 ): Promise<string> {
-  const agent = await getAgent(snap, ethereum);
   const state = await getSnapState(snap);
   const method = state.accountState[account].accountConfig.ssi.didMethod;
   if (method === 'did:ethr') {
@@ -68,28 +67,52 @@ export async function getCurrentDid(
     return `did:ebsi:${didUrl}`;
   }
   if (method === 'did:pkh') {
+  /* if (method === 'did:pkh') {
+    const agent = await getAgent(snap, ethereum);
     const didUrl = await getDidPkhIdentifier(ethereum, account);
     return `did:pkh:${didUrl}`;
-  }
-  // TODO update did:jwk provider on Veramo to support did creation with only the public key
-  if (method === 'did:jwk') {
-    const didUrl = getDidJwkIdentifier(state, account);
-    return `did:jwk:${didUrl}`;
+  } */
+  if (method === 'did:jwk' || method === 'did:pkh') {
+    const agent = await getAgent(snap, ethereum);
+    const bip44CoinTypeNode = await getAddressKeyDeriver({
+      state,
+      snap,
+      ethereum,
+      account,
+      origin,
+    } as ApiParams);
+    const res = await snapGetKeysFromAddress(
+      bip44CoinTypeNode,
+      state,
+      account,
+      snap
+    );
+    if (!res) throw new Error('Failed to get keys');
+    const identifier = await agent.didManagerCreate({
+      provider: method,
+      kms: 'snap',
+      options: {
+        privateKeyHex: res.privateKey.split('0x')[1],
+        keyType: 'Secp256k1',
+      },
+    });
+    return identifier.did;
   }
   return '';
 }
 
-export async function changeCurrentMethod(params: {
-  state: SSISnapState;
-  snap: SnapsGlobalObject;
-  account: string;
-  ethereum: MetaMaskInpageProvider;
-  didMethod: AvailableMethods;
-}): Promise<string> {
-  const { state, snap, account, ethereum, didMethod } = params;
-  state.accountState[account].accountConfig.ssi.didMethod = params.didMethod;
+export async function changeCurrentMethod(
+  snap: SnapsGlobalObject,
+  ethereum: MetaMaskInpageProvider,
+  state: SSISnapState,
+  account: string,
+  didMethod: AvailableMethods,
+  origin: string
+): Promise<string> {
+  // eslint-disable-next-line no-param-reassign
+  state.accountState[account].accountConfig.ssi.didMethod = didMethod;
   await updateSnapState(snap, state);
-  const did = await getCurrentDid(ethereum, snap, account);
+  const did = await getCurrentDid(ethereum, snap, account, origin);
   return did;
 }
 

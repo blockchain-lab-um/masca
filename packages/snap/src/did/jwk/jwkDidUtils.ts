@@ -13,6 +13,8 @@ import type { JsonWebKey, VerificationMethod } from 'did-resolver';
 import elliptic from 'elliptic';
 
 import { SSISnapState } from '../../interfaces';
+// import { snapGetKeysFromAddress } from '../../utils/keyPair';
+import type { Agent } from '../../veramo/setup';
 
 const EC = elliptic.ec;
 
@@ -136,10 +138,27 @@ export function generateJwkFromVerificationMethod(
   return createJWK(keyType, extractPublicKeyHex(key), keyUse);
 }
 
-export function getDidJwkIdentifier(
+export async function getDidJwkIdentifier(
   state: SSISnapState,
-  account: string
-): string {
+  account: string,
+  agent?: Agent
+): Promise<string> {
+  if (agent) {
+    /* const res = await snapGetKeysFromAddress(
+      bip44CoinTypeNode as BIP44CoinTypeNode,
+      state,
+      account,
+      snap
+    );
+    if (!res) throw new Error('Failed to get keys'); */
+    const identifier = await agent.didManagerCreate({
+      provider: 'did:jwk',
+      options: {
+        keyType: 'Secp256k1',
+      },
+    });
+    return identifier.did;
+  }
   const { publicKey } = state.accountState[account];
   const jwk = generateJwkFromVerificationMethod('Secp256k1', {
     publicKeyHex: publicKey,

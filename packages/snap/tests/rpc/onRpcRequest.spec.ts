@@ -1176,6 +1176,72 @@ describe('onRpcRequest', () => {
 
       expect.assertions(1);
     });
+    it('should succeed returning current did (did:pkh)', async () => {
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
+
+      await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'switchDIDMethod',
+          params: {
+            didMethod: 'did:pkh',
+          },
+        },
+      });
+
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'getDID',
+          params: {},
+        },
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toInclude('did:pkh:');
+
+      expect.assertions(1);
+    });
+    it('should succeed returning current did (did:jwk)', async () => {
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
+
+      await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'switchDIDMethod',
+          params: {
+            didMethod: 'did:jwk',
+          },
+        },
+      });
+
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'getDID',
+          params: {},
+        },
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw res.error;
+      }
+
+      expect(res.data).toInclude('did:jwk:');
+
+      expect.assertions(1);
+    });
   });
 
   describe('switchDIDMethod', () => {
