@@ -1,4 +1,8 @@
-# Masca &middot; [![npm version](https://img.shields.io/npm/v/@blockchain-lab-um/masca.svg?style=flat)](https://www.npmjs.com/package/@blockchain-lab-um/masca)
+<div  align="center" id="logo">
+  <img src="https://0x0.st/HXPD.svg" width="250" height="250" />
+</div>
+
+## [![npm version](https://img.shields.io/npm/v/@blockchain-lab-um/masca.svg?style=flat)](https://www.npmjs.com/package/@blockchain-lab-um/masca)
 
 The SSI Snap enables everyone to build their **decentralized and self-sovereign identity by enhancing MetaMask with functionalities to manage DIDs, VCs, and VPs.** Any dApp can connect it to access identity data, and dApp developers can already start with the integration!
 
