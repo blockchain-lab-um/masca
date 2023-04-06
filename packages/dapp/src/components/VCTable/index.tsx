@@ -405,7 +405,6 @@ const Table = () => {
                           cell.column.id !== 'issuer' &&
                           cell.column.id !== 'actions'
                         ) {
-                          console.log('router');
                           router
                             .push(
                               {

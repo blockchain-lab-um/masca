@@ -82,11 +82,13 @@ const CreateVP = () => {
       proofFormat: proofFormats[format],
       proofOptions,
     });
+
     if (isError(res)) {
       console.error(res);
       setLoading(false);
       return;
     }
+
     setVp(res.data);
 
     setVpModalOpen(true);

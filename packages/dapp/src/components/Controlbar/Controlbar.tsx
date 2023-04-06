@@ -40,31 +40,28 @@ const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
     shallow
   );
 
-  const refreshVCs = () => {
+  const refreshVCs = async () => {
     if (!api) return;
     setSpinner(true);
-    api
-      .queryVCs()
-      .then((res) => {
-        if (isError(res)) {
-          console.log(res);
-          setSpinner(false);
-          setToastOpen(false);
-          setTimeout(() => {
-            setTitle('Failed to query credentials');
-            setType('error');
-            setLoading(false);
-            setToastOpen(true);
-          }, 100);
-          return;
-        }
-        changeVcs(res.data);
-        setSpinner(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setSpinner(false);
-      });
+
+    const res = await api.queryVCs();
+
+    if (isError(res)) {
+      console.log(res.error);
+
+      setSpinner(false);
+      setToastOpen(false);
+      setTimeout(() => {
+        setTitle('Failed to query credentials');
+        setType('error');
+        setLoading(false);
+        setToastOpen(true);
+      }, 100);
+      return;
+    }
+
+    changeVcs(res.data);
+    setSpinner(false);
   };
 
   const saveVC = async (vc: string, stores: AvailableVCStores[]) => {

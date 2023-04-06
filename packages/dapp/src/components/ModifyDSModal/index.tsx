@@ -73,41 +73,50 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
 
   const handleDSChange = async (store: AvailableVCStores, enabled: boolean) => {
     if (!snapApi) return;
+
     if (!enabled) {
       setDeleteModalStore(store);
       setDeleteModalOpen(true);
-    } else if (enabled) {
-      setLoading(true);
-      setType('normal');
-      setTitle('Saving Credential');
-      setToastOpen(true);
-      setOpen(false);
-      const res = await snapApi.saveVC(vc.data, { store });
-      if (isError(res)) {
-        setToastOpen(false);
-        setType('error');
-        setTimeout(() => {
-          setTitle('Error while saving credential');
-          setLoading(false);
-          setToastOpen(true);
-        }, 100);
-        console.log(res.error);
-      } else {
-        setToastOpen(false);
-        setTimeout(() => {
-          setType('success');
-          setTitle('Credential saved');
-          setLoading(false);
-          setToastOpen(true);
-        }, 100);
-        const vcs = await snapApi.queryVCs();
-        if (isError(vcs)) {
-          console.log(vcs.error);
-        } else {
-          useSnapStore.getState().changeVcs(vcs.data);
-        }
-      }
+      return;
     }
+
+    setLoading(true);
+    setType('normal');
+    setTitle('Saving Credential');
+    setToastOpen(true);
+    setOpen(false);
+
+    const res = await snapApi.saveVC(vc.data, { store });
+
+    if (isError(res)) {
+      setToastOpen(false);
+      setType('error');
+      setTimeout(() => {
+        setTitle('Error while saving credential');
+        setLoading(false);
+        setToastOpen(true);
+      }, 100);
+      console.log(res.error);
+      return;
+    }
+
+    setToastOpen(false);
+
+    setTimeout(() => {
+      setType('success');
+      setTitle('Credential saved');
+      setLoading(false);
+      setToastOpen(true);
+    }, 100);
+
+    const vcs = await snapApi.queryVCs();
+
+    if (isError(vcs)) {
+      console.log(vcs.error);
+      return;
+    }
+
+    useSnapStore.getState().changeVcs(vcs.data);
   };
 
   return (
