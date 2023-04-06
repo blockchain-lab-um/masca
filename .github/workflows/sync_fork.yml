@@ -1,0 +1,26 @@
+name: Sync fork
+
+on:
+  pull_request:
+    branches: [master, develop]
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [master, develop]
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: webfactory/ssh-agent@v0.6.0
+        with:
+          ssh-private-key: ${{ secrets.FORK_KEY }}
+      - name: Push to fork repo
+        env:
+          USE_SSH: true
+        run: |
+          git remote add fork git@github.com:bclabum/ssi-snap.git
+          git config --global user.email "blockchain-lab@um.si"
+          git config --global user.name "blockchain-lab"
+          git push fork --force
