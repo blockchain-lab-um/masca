@@ -1,7 +1,6 @@
 {
   "name": "@blockchain-lab-um/utils",
   "version": "1.0.0",
-  "private": "false",
   "description": "Helper utilities for SSI Snap monorepo",
   "keywords": [],
   "repository": {
