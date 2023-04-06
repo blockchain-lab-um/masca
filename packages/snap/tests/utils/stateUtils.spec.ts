@@ -106,9 +106,7 @@ describe('Utils [state]', () => {
     it('should succeed initializing snap state', async () => {
       const initialState = getInitialSnapState();
 
-      await expect(initSnapState(snapMock, ethereumMock)).resolves.toEqual(
-        initialState
-      );
+      await expect(initSnapState(snapMock)).resolves.toEqual(initialState);
 
       expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith({
         operation: 'update',
@@ -132,7 +130,7 @@ describe('Utils [state]', () => {
           state: initialState,
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
-          origin: 'test',
+          origin: 'localhost',
         })
       ).resolves.not.toThrow();
 
@@ -159,7 +157,7 @@ describe('Utils [state]', () => {
           state: initialState,
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
-          origin: 'test',
+          origin: 'localhost',
         })
       ).resolves.not.toThrow();
 

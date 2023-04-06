@@ -10,12 +10,14 @@ import {
   getDidEbsiKeyIdentifier,
   getDidKeyIdentifier,
 } from '../did/key/keyDidUtils';
+import { getDidJwkIdentifier } from '../did/jwk/jwkDidUtils';
+import { getDidKeyIdentifier } from '../did/key/keyDidUtils';
 import { getDidPkhIdentifier } from '../did/pkh/pkhDidUtils';
 import { SSISnapState } from '../interfaces';
 import { getAgent } from '../veramo/setup';
 import { getDidEbsiIdentifier } from './ebsiUtils';
 import { getCurrentNetwork } from './snapUtils';
-import { updateSnapState } from './stateUtils';
+import { getSnapState, updateSnapState } from './stateUtils';
 
 export async function changeCurrentVCStore(params: {
   snap: SnapsGlobalObject;
@@ -30,13 +32,12 @@ export async function changeCurrentVCStore(params: {
   await updateSnapState(snap, state);
 }
 
-export async function getCurrentDid(params: {
-  state: SSISnapState;
-  snap: SnapsGlobalObject;
-  account: string;
-  ethereum: MetaMaskInpageProvider;
-}): Promise<string> {
-  const { state, snap, account, ethereum } = params;
+export async function getCurrentDid(
+  ethereum: MetaMaskInpageProvider,
+  snap: SnapsGlobalObject,
+  account: string
+): Promise<string> {
+  const state = await getSnapState(snap);
   const method = state.accountState[account].accountConfig.ssi.didMethod;
   if (method === 'did:ethr') {
     const CHAIN_ID = await getCurrentNetwork(ethereum);
@@ -69,7 +70,11 @@ export async function getCurrentDid(params: {
     const didUrl = await getDidPkhIdentifier(ethereum, account);
     return `did:pkh:${didUrl}`;
   }
-
+  // TODO update did:jwk provider on Veramo to support did creation with only the public key
+  if (method === 'did:jwk') {
+    const didUrl = getDidJwkIdentifier(state, account);
+    return `did:jwk:${didUrl}`;
+  }
   return '';
 }
 
@@ -83,7 +88,7 @@ export async function changeCurrentMethod(params: {
   const { state, snap, account, ethereum, didMethod } = params;
   state.accountState[account].accountConfig.ssi.didMethod = params.didMethod;
   await updateSnapState(snap, state);
-  const did = await getCurrentDid({ state, snap, account, ethereum });
+  const did = await getCurrentDid(ethereum, snap, account);
   return did;
 }
 

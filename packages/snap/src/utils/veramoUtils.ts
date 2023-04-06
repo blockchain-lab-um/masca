@@ -69,7 +69,7 @@ export const veramoImportMetaMaskAccount = async (
 ): Promise<IIdentifier> => {
   const { state, snap, account, bip44CoinTypeNode } = params;
   const method = state.accountState[account].accountConfig.ssi.didMethod;
-  const did = await getCurrentDid(params);
+  const did = await getCurrentDid(ethereum, snap, account);
 
   const res = await snapGetKeysFromAddress(
     bip44CoinTypeNode as BIP44CoinTypeNode,

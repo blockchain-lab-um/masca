@@ -7,6 +7,7 @@ import {
   getCurrentDid,
   resolveDid,
 } from '../../src/utils/didUtils';
+import { updateSnapState } from '../../src/utils/stateUtils';
 import {
   address,
   exampleDID,
@@ -31,6 +32,7 @@ describe('Utils [did]', () => {
 
   describe('changeCurrentVCStore', () => {
     it("should succeed setting VC store to 'snap'", async () => {
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
       const initialState = getDefaultSnapState();
 
       await expect(
@@ -54,6 +56,7 @@ describe('Utils [did]', () => {
     });
 
     it("should succeed setting VC store to 'ceramic'", async () => {
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
       const initialState = getDefaultSnapState();
 
       await expect(
@@ -81,15 +84,9 @@ describe('Utils [did]', () => {
 
   describe('getCurrentDid', () => {
     it('should return did:ethr', async () => {
-      const initialState = getDefaultSnapState();
-
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
       await expect(
-        getCurrentDid({
-          state: initialState,
-          snap: snapMock,
-          account: address,
-          ethereum: ethereumMock,
-        })
+        getCurrentDid(ethereumMock, snapMock, address)
       ).resolves.toBe(`did:ethr:0x5:${address}`);
 
       expect.assertions(1);
@@ -99,14 +96,10 @@ describe('Utils [did]', () => {
       const initialState = getDefaultSnapState();
       initialState.accountState[address].accountConfig.ssi.didMethod =
         'did:key';
+      await updateSnapState(snapMock, initialState);
 
       await expect(
-        getCurrentDid({
-          state: initialState,
-          snap: snapMock,
-          account: address,
-          ethereum: ethereumMock,
-        })
+        getCurrentDid(ethereumMock, snapMock, address)
       ).resolves.toBe(exampleDIDKey);
 
       expect.assertions(1);
@@ -115,6 +108,7 @@ describe('Utils [did]', () => {
 
   describe('changeCurrentMethod', () => {
     it("should succeed setting DID method to 'did:ethr'", async () => {
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
       const initialState = getDefaultSnapState();
 
       await expect(
@@ -140,6 +134,7 @@ describe('Utils [did]', () => {
     });
 
     it("should succeed setting DID method to 'did:key'", async () => {
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
       const initialState = getDefaultSnapState();
 
       await expect(

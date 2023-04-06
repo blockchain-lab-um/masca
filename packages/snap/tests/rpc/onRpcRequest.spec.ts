@@ -45,6 +45,7 @@ describe('onRpcRequest', () => {
   beforeEach(() => {
     snapMock = createMockSnap();
     snapMock.rpcMocks.snap_manageState('update', getDefaultSnapState());
+    snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
     global.snap = snapMock;
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
   });
@@ -1693,6 +1694,9 @@ describe('onRpcRequest', () => {
     it.todo('should fail creating an EIP VC - invalid VC');
 
     it('should succeed creating and saving a JWT VC', async () => {
+      const initialState = getDefaultSnapState();
+      snapMock.rpcMocks.snap_manageState.mockReturnValue(initialState);
+
       const res = (await onRpcRequest({
         origin: 'localhost',
         request: {
