@@ -1,0 +1,31 @@
+name: 'Proposal'
+description: 'Create a general proposal regarding Masca.'
+title: '[proposal]: '
+labels: ['proposal']
+assignees:
+  - plesastapevka,Vid201,andyv09,martines3000,tadejpodrekar
+body:
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: "What is your motivation behind this proposal?"
+      placeholder: "It has been eight months since our last update of the issue templates. Many new features and packages have been added, and many things changed. Updating the templates would make reporting issues easier."
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: Proposal itself.
+      placeholder: |
+        We should update the issues templates to make reporting new issues more intuitive and consistent.
+        I propose creating a template so that the issue's title categorizes the issue.
+        Some examples:
+        - [feature](libs): add did-ebsi-provider
+        - [bug](snap): error handling always throws the same error
+        - [proposal]: change the release pipeline to auto publish npm packages
+        
+        I also propose introducing a new label, proposal, which gets auto-assigned to all new open issues of type [proposal]. Bodies and required fields of different issue types (especially [proposal]) should be discussed.
+    validations:
+      required: true
