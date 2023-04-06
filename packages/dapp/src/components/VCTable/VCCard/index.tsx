@@ -43,25 +43,6 @@ const VCCard = ({ row }: VCCardProps) => {
       )}
     >
       <div className="h-full">
-        {/*  <div className="flex items-center justify-between">
-          <div className="w-full">
-            <button
-              onClick={() => {
-                row.toggleSelected();
-              }}
-            >
-              {!row.getIsSelected() ? (
-                <div className="animated-transition flex h-7 w-7 items-center justify-center rounded-full bg-orange-100 shadow-md hover:opacity-90">
-                  <PlusIcon className="h-6 w-6 text-orange-500" />
-                </div>
-              ) : (
-                <div className="animated-transition flex h-7 w-7 items-center justify-center rounded-full bg-yellow-500 shadow-md hover:opacity-80 dark:bg-yellow-500">
-                  <MinusIcon className="h-6 w-6 text-orange-500" />
-                </div>
-              )}
-            </button>
-          </div>
-        </div> */}
         <div className="grid h-full grid-cols-3">
           <div className="">
             <div className="col-span-1 flex h-full flex-col justify-center text-white">

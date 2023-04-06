@@ -35,9 +35,6 @@ export default function Home() {
               {t('button-1')}
             </Button>
           </Link>
-          {/* <Link href={''} locale="si">
-            <button>සිංහල</button>
-          </Link> */}
         </div>
       </div>
     </>
