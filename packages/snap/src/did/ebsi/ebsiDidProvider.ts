@@ -57,13 +57,6 @@ export class EbsiDIDProvider extends AbstractIdentifierProvider {
         'Currently, subject identifier id should be provided along with a private key'
       );
     }
-
-    if (!options?.bearer) {
-      throw new Error(
-        'Bearer token is required for onboarding, it should be passed as options parameter'
-      );
-    }
-
     let privateKeyHex = options?.privateKeyHex;
     if (privateKeyHex?.startsWith('0x')) {
       privateKeyHex = privateKeyHex.slice(2);
@@ -114,6 +107,11 @@ export class EbsiDIDProvider extends AbstractIdentifierProvider {
       } as Omit<IIdentifier, 'provider'>;
     }
 
+    if (!options?.bearer) {
+      throw new Error(
+        'Bearer token is required for onboarding, it should be passed as options parameter'
+      );
+    }
     const { bearer } = options;
 
     const identifier = {
@@ -159,7 +157,6 @@ export class EbsiDIDProvider extends AbstractIdentifierProvider {
   }): Promise<IImportedKey> {
     let jwkThumbprint: string;
     let privateKeyJwk: jose.JWK;
-    let { privateKeyHex } = args;
     let publicKeyJwk: jose.JWK;
     let subjectIdentifier: string;
     const keyType: IEbsiDidSupportedKeyTypes = args.keyType || 'Secp256k1';
@@ -186,6 +183,8 @@ export class EbsiDIDProvider extends AbstractIdentifierProvider {
         );
     }
 
+    let privateKeyHex;
+
     if (args.privateKeyHex) {
       const privateKey = curve.keyFromPrivate(args.privateKeyHex, 'hex');
       const y = bytesToBase64url(
@@ -195,13 +194,13 @@ export class EbsiDIDProvider extends AbstractIdentifierProvider {
         hexToBytes(privateKey.getPublic().getX().toString('hex'))
       );
       const d = bytesToBase64url(hexToBytes(args.privateKeyHex));
-      privateKeyJwk = {
+      publicKeyJwk = {
         kty: 'EC',
         crv,
-        d,
         x,
         y,
       };
+      privateKeyJwk = { ...publicKeyJwk, d };
       publicKeyJwk = { ...privateKeyJwk };
       delete publicKeyJwk.d;
       jwkThumbprint = await jose.calculateJwkThumbprint(

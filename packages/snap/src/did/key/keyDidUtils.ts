@@ -26,6 +26,7 @@ export function getDidEbsiKeyIdentifier(
   state: SSISnapState,
   account: string
 ): string {
+  console.log(state.accountState[account].publicKey);
   const curve = new EC('secp256k1');
   const publicKey = curve.keyFromPublic(
     state.accountState[account].publicKey.slice(2),

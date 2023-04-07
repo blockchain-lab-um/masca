@@ -1,5 +1,4 @@
 import { randomBytes } from 'crypto';
-import { DIDDocument } from 'did-resolver';
 import * as jose from 'jose';
 import { base58btc } from 'multiformats/bases/base58';
 
@@ -47,17 +46,4 @@ export function privateKeyJwkToHex(privateKeyJwk: jose.JWK): string {
     throw new Error('Key does not contain private key material');
   }
   return Buffer.from(privateKeyJwk.d, 'base64').toString('hex');
-}
-
-export function isOwner({
-  didDoc,
-  did,
-}: {
-  didDoc: DIDDocument;
-  did: string;
-}): boolean {
-  if (didDoc.id === did) {
-    return true;
-  }
-  return false;
 }
