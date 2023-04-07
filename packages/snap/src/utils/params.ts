@@ -175,11 +175,6 @@ export function isValidSwitchMethodRequest(
   ) {
     if (!isAvailableMethods(param.didMethod))
       throw new Error('Did method is not supported!');
-    if (
-      (param.ebsiBearer && typeof param.ebsiBearer !== 'string') ||
-      (param.ebsiBearer && !param.ebsiBearer.startsWith('ey'))
-    )
-      throw new Error('Invalid bearer token!');
 
     return;
   }

@@ -94,7 +94,6 @@ export type ResolveDIDRequestParams = {
 
 export type SwitchMethodRequestParams = {
   didMethod: AvailableMethods;
-  ebsiBearer?: string;
 };
 
 export type SetVCStoreRequestParams = {

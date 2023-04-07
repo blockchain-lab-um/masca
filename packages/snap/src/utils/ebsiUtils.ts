@@ -1,21 +1,28 @@
-import { BIP44CoinTypeNode } from '@metamask/key-tree';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { IDIDManagerCreateArgs } from '@veramo/core';
 import { keccak256 } from 'ethers/lib/utils';
 
-import { ApiParams } from '../interfaces';
+import { SSISnapState } from '../interfaces';
 import { getAgent } from '../veramo/setup';
-import { snapGetKeysFromAddress } from './keyPair';
+import { getAddressKeyDeriver, snapGetKeysFromAddress } from './keyPair';
 
-export async function getDidEbsiIdentifier(
-  params: ApiParams,
-  args: IDIDManagerCreateArgs
-): Promise<string> {
-  const { state, snap, account, bip44CoinTypeNode } = params;
+export async function getDidEbsiIdentifier(params: {
+  state: SSISnapState;
+  snap: SnapsGlobalObject;
+  account: string;
+  args: IDIDManagerCreateArgs;
+}): Promise<string> {
+  const { state, snap, account, args } = params;
+  const bip44CoinTypeNode = await getAddressKeyDeriver({
+    state,
+    snap,
+    account,
+  });
   const agent = await getAgent(snap, ethereum);
   const provider = state.accountState[account].accountConfig.ssi.didMethod;
 
   const res = await snapGetKeysFromAddress(
-    bip44CoinTypeNode as BIP44CoinTypeNode,
+    bip44CoinTypeNode,
     state,
     account,
     snap

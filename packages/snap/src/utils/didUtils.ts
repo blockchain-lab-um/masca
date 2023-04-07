@@ -11,26 +11,32 @@ import {
   getDidKeyIdentifier,
 } from '../did/key/keyDidUtils';
 import { getDidPkhIdentifier } from '../did/pkh/pkhDidUtils';
-import { ApiParams, SSISnapState } from '../interfaces';
+import { SSISnapState } from '../interfaces';
 import { getAgent } from '../veramo/setup';
 import { getDidEbsiIdentifier } from './ebsiUtils';
 import { getCurrentNetwork } from './snapUtils';
 import { updateSnapState } from './stateUtils';
 
-export async function changeCurrentVCStore(
-  snap: SnapsGlobalObject,
-  state: SSISnapState,
-  account: string,
-  didStore: AvailableVCStores,
-  value: boolean
-): Promise<void> {
+export async function changeCurrentVCStore(params: {
+  snap: SnapsGlobalObject;
+  state: SSISnapState;
+  account: string;
+  didStore: AvailableVCStores;
+  value: boolean;
+}): Promise<void> {
   // eslint-disable-next-line no-param-reassign
+  const { snap, state, account, didStore, value } = params;
   state.accountState[account].accountConfig.ssi.vcStore[didStore] = value;
   await updateSnapState(snap, state);
 }
 
-export async function getCurrentDid(params: ApiParams): Promise<string> {
-  const { state, account } = params;
+export async function getCurrentDid(params: {
+  state: SSISnapState;
+  snap: SnapsGlobalObject;
+  account: string;
+  ethereum: MetaMaskInpageProvider;
+}): Promise<string> {
+  const { state, snap, account, ethereum } = params;
   const method = state.accountState[account].accountConfig.ssi.didMethod;
   if (method === 'did:ethr') {
     const CHAIN_ID = await getCurrentNetwork(ethereum);
@@ -45,12 +51,18 @@ export async function getCurrentDid(params: ApiParams): Promise<string> {
     return `did:key:${didUrl}`;
   }
   if (method === 'did:ebsi') {
-    const didUrl = await getDidEbsiIdentifier(params, {
-      provider: method,
-      kms: 'web3',
-      options: { bearer: params.ebsiBearer },
+    // TODO: handle ebsi bearer token workflow
+    const bearer = '';
+    const didUrl = await getDidEbsiIdentifier({
+      state,
+      snap,
+      account,
+      args: {
+        provider: method,
+        kms: 'web3',
+        options: { bearer },
+      },
     });
-    console.log(didUrl);
     return `did:ebsi:${didUrl}`;
   }
   if (method === 'did:pkh') {
@@ -61,22 +73,26 @@ export async function getCurrentDid(params: ApiParams): Promise<string> {
   return '';
 }
 
-export async function changeCurrentMethod(
-  params: ApiParams,
-  didMethod: AvailableMethods
-): Promise<string> {
-  const { state, account } = params;
-  state.accountState[account].accountConfig.ssi.didMethod = didMethod;
+export async function changeCurrentMethod(params: {
+  state: SSISnapState;
+  snap: SnapsGlobalObject;
+  account: string;
+  ethereum: MetaMaskInpageProvider;
+  didMethod: AvailableMethods;
+}): Promise<string> {
+  const { state, snap, account, ethereum, didMethod } = params;
+  state.accountState[account].accountConfig.ssi.didMethod = params.didMethod;
   await updateSnapState(snap, state);
-  const did = await getCurrentDid(params);
+  const did = await getCurrentDid({ state, snap, account, ethereum });
   return did;
 }
 
-export async function resolveDid(
-  did: string,
-  snap: SnapsGlobalObject,
-  ethereum: MetaMaskInpageProvider
-): Promise<DIDResolutionResult> {
+export async function resolveDid(params: {
+  did: string;
+  snap: SnapsGlobalObject;
+  ethereum: MetaMaskInpageProvider;
+}): Promise<DIDResolutionResult> {
+  const { did, snap, ethereum } = params;
   if (did.startsWith('did:key:zBhB') || did.startsWith('did:key:z2dm')) {
     const agent = await getAgent(snap, ethereum);
     const didResolution = await agent.resolveDid({ didUrl: did });

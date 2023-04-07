@@ -20,7 +20,7 @@ export async function switchMethod(
     ]);
 
     if (await snapConfirm(snap, content)) {
-      const res = await changeCurrentMethod(params, didMethod);
+      const res = await changeCurrentMethod({ ...params, didMethod });
       return res;
     }
 
