@@ -57,6 +57,13 @@ export class EbsiDIDProvider extends AbstractIdentifierProvider {
         'Currently, subject identifier id should be provided along with a private key'
       );
     }
+
+    if (!options?.bearer) {
+      throw new Error(
+        'Bearer token is required for onboarding, it should be passed as options parameter'
+      );
+    }
+
     let privateKeyHex = options?.privateKeyHex;
     if (privateKeyHex?.startsWith('0x')) {
       privateKeyHex = privateKeyHex.slice(2);
@@ -107,11 +114,6 @@ export class EbsiDIDProvider extends AbstractIdentifierProvider {
       } as Omit<IIdentifier, 'provider'>;
     }
 
-    if (!options?.bearer) {
-      throw new Error(
-        'Bearer token is required for onboarding, it should be passed as options parameter'
-      );
-    }
     const { bearer } = options;
 
     const identifier = {
