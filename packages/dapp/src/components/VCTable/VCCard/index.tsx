@@ -82,8 +82,8 @@ const VCCard = ({ row }: VCCardProps) => {
               {types as string}
             </div>
             <Link
-              onClick={() => {
-                row.toggleSelected();
+              onClick={(e) => {
+                e.stopPropagation();
               }}
               href={{
                 pathname: '/vc',
