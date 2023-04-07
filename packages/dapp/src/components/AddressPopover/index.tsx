@@ -18,7 +18,7 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
       {({ open }) => (
         <>
           <Popover.Button
-            className={`text-h4 animated-transition dark:bg-orange-accent-dark dark:text-navy-blue-900 rounded-3xlpx-4 font-ubuntu inline-flex w-full justify-center rounded-full bg-pink-100 py-2.5 px-7 font-normal text-gray-800 hover:opacity-80 focus:outline-none dark:border-none ${
+            className={`text-h4 animated-transition dark:bg-orange-accent-dark dark:text-navy-blue-900 rounded-3xlpx-4 font-ubuntu inline-flex w-full justify-center rounded-full bg-pink-100 px-7 py-2.5 font-normal text-gray-800 hover:opacity-80 focus:outline-none dark:border-none ${
               open ? 'opacity-80' : ''
             }`}
           >
@@ -41,7 +41,7 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
             leaveTo="transform scale-95 opacity-0"
           >
             <Popover.Panel className="dark:bg-navy-blue-500 absolute right-0 rounded-2xl bg-white shadow-xl max-md:-top-12 max-md:mb-2 max-md:-translate-y-full max-md:transform md:mt-2">
-              <div className="rounded-2xl px-6 pt-6 pb-3 shadow-sm">
+              <div className="rounded-2xl px-6 pb-3 pt-6 shadow-sm">
                 <div className="flex flex-col justify-between gap-3">
                   <div>
                     <div className="dark:text-navy-blue-100 text-sm text-gray-700">

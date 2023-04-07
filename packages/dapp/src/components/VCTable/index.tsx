@@ -445,11 +445,11 @@ const Table = () => {
               ))}
             </tbody>
           </table>
-          <div className=" mt-auto flex justify-center rounded-b-3xl pt-3 pb-3">
+          <div className=" mt-auto flex justify-center rounded-b-3xl pb-3 pt-3">
             <TablePagination table={table} />
           </div>
           {table.getSelectedRowModel().rows.length > 0 && (
-            <div className="mb-2 max-lg:flex max-lg:justify-center lg:absolute lg:right-10 lg:-bottom-5">
+            <div className="mb-2 max-lg:flex max-lg:justify-center lg:absolute lg:-bottom-5 lg:right-10">
               <Link href="createVP">
                 <Button
                   variant="primary"
@@ -497,7 +497,7 @@ const Table = () => {
             <VCCard key={key} row={row} />
           ))}
         </div>
-        <div className="mt-auto flex justify-center rounded-b-3xl pt-3 pb-3">
+        <div className="mt-auto flex justify-center rounded-b-3xl pb-3 pt-3">
           <TablePagination table={table} />
         </div>
         {table.getSelectedRowModel().rows.length > 0 && (

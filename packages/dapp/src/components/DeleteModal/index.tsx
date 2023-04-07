@@ -150,7 +150,7 @@ function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
                       {t('cancel')}
                     </Button>
                   </div>
-                  <div className="mt-10 ml-2">
+                  <div className="ml-2 mt-10">
                     <Button
                       onClick={() => deleteVC()}
                       variant="warning"

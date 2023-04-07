@@ -40,7 +40,7 @@ export default function Navbar() {
         </button>
       </Link>
       {router.pathname !== '/' && (
-        <div className="my-auto mx-2 flex">
+        <div className="mx-2 my-auto flex">
           <NavBtn page="/" pathname={router.pathname}>
             {t('menu.home')}
           </NavBtn>

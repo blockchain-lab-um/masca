@@ -63,7 +63,7 @@ const VC = () => {
                         }`}
                       ></div>
                       <span
-                        className={`absolute top-2 left-0 z-20  ${
+                        className={`absolute left-0 top-2 z-20  ${
                           selected
                             ? ' dark:text-navy-blue-900 text-pink-600'
                             : ' dark:text-navy-blue-300 dark:hover:text-navy-blue-200 text-gray-700 hover:text-gray-500'

@@ -90,7 +90,7 @@ const FormatedTab = ({
           </div>
         </div>
 
-        <div className="dark:from-navy-blue-700 dark:to-navy-blue-700 mb-8 mt-6 grid grid-cols-1 break-all rounded-2xl  px-8 pt-5 pb-14 lg:grid-cols-2">
+        <div className="dark:from-navy-blue-700 dark:to-navy-blue-700 mb-8 mt-6 grid grid-cols-1 break-all rounded-2xl  px-8 pb-14 pt-5 lg:grid-cols-2">
           <div className="px-1 lg:col-span-2 lg:col-start-1">
             <span className="text-md dark:text-orange-accent-dark font-medium text-pink-500">
               {t('formatted-tab.subject')}
