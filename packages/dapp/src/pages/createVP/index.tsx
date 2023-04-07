@@ -9,6 +9,7 @@ import {
 import { isError } from '@blockchain-lab-um/utils';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 import { W3CVerifiablePresentation } from '@veramo/core';
+import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
@@ -19,7 +20,7 @@ import InputField from '@/components/InputField';
 import SelectedVCsTableRow from '@/components/SelectedVCsTableRow/SelectedVCsTableRow';
 import ToggleSwitch from '@/components/Switch';
 import VPModal from '@/components/VPModal';
-import { useSnapStore, useTableStore } from '@/utils/stores';
+import { useSnapStore, useTableStore } from '@/stores';
 
 const proofFormats: Record<string, SupportedProofFormats> = {
   JWT: 'jwt',
@@ -28,6 +29,7 @@ const proofFormats: Record<string, SupportedProofFormats> = {
 };
 
 const CreateVP = () => {
+  const t = useTranslations('CreateVP');
   const [loading, setLoading] = useState(false);
   const [vpModalOpen, setVpModalOpen] = useState(false);
   const [vp, setVp] = useState({});
@@ -80,11 +82,13 @@ const CreateVP = () => {
       proofFormat: proofFormats[format],
       proofOptions,
     });
+
     if (isError(res)) {
       console.error(res);
       setLoading(false);
       return;
     }
+
     setVp(res.data);
 
     setVpModalOpen(true);
@@ -107,21 +111,29 @@ const CreateVP = () => {
                 </button>
               </Link>
               <div className="text-h3 dark:text-navy-blue-50 font-semibold text-gray-900">
-                Create Presentation
+                {t('title')}
               </div>
             </div>
             <div className="mt-4">
               <div className="font-ubuntu dark:text-navy-blue-100 dark:border-navy-blue-600 border-b border-gray-400 p-4 pb-5 text-xl font-medium text-gray-800">
-                Selected Credentials
+                {t('table.title')}
               </div>
               <table className="mt-2 w-full text-center text-sm">
                 <thead>
                   <tr className=" dark:text-navy-blue-400 text-gray-600">
                     <th className="px-3 pb-4 font-semibold"></th>
-                    <th className="px-3 pb-4 font-semibold">TYPE</th>
-                    <th className="px-3 pb-4 font-semibold">ISSUER</th>
-                    <th className="px-3 pb-4 font-semibold">STATUS</th>
-                    <th className="px-3 pb-4 font-semibold">REMOVE</th>
+                    <th className="px-3 pb-4 font-semibold">
+                      {t('table.type')}
+                    </th>
+                    <th className="px-3 pb-4 font-semibold">
+                      {t('table.issuer')}
+                    </th>
+                    <th className="px-3 pb-4 font-semibold">
+                      {t('table.status')}
+                    </th>
+                    <th className="px-3 pb-4 font-semibold">
+                      {t('table.remove')}
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="text-md break-all text-gray-800">
@@ -136,11 +148,11 @@ const CreateVP = () => {
               </table>
               <div className="mt-8 px-4">
                 <div className="dark:text-navy-blue-100 text-h5 font-ubuntu mt-8 pl-2 font-medium text-gray-900">
-                  OPTIONS
+                  {t('options.title')}
                 </div>
                 <div className="mt-2 flex items-center justify-between px-4">
                   <div className="dark:text-navy-blue-300 px-4 text-gray-600 ">
-                    Format
+                    {t('options.format')}
                   </div>
                   <DropdownMenu
                     size="sm"
@@ -156,8 +168,8 @@ const CreateVP = () => {
               <div>
                 <div className="mt-16 flex items-baseline justify-between border-b border-gray-300 px-4">
                   <div className="text-h5 dark:text-navy-blue-100 font-ubuntu mt-8 flex pl-2 font-medium text-gray-900">
-                    ADVANCED{' '}
-                    <InfoIcon>Only applicable to JWT Proof format.</InfoIcon>
+                    {t('advanced.title')}{' '}
+                    <InfoIcon>{t('advanced.tooltip')}</InfoIcon>
                   </div>
                   <div className="pr-4">
                     <ToggleSwitch
@@ -210,7 +222,7 @@ const CreateVP = () => {
                 onClick={handleCreateVP}
                 loading={loading}
               >
-                Create Presentation
+                {t('title')}
               </Button>
             </div>
           </ConnectedProvider>
@@ -226,3 +238,12 @@ const CreateVP = () => {
 };
 
 export default CreateVP;
+
+export async function getStaticProps(context: { locale: any }) {
+  return {
+    props: {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/restrict-template-expressions
+      messages: (await import(`../../locales/${context.locale}.json`)).default,
+    },
+  };
+}

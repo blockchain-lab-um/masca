@@ -1,12 +1,14 @@
 import React from 'react';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import { Table } from '@tanstack/react-table';
+import { useTranslations } from 'next-intl';
 
 interface TablePaginationProps {
   table: Table<QueryVCsRequestResult>;
 }
 
 const TablePagination = ({ table }: TablePaginationProps) => {
+  const t = useTranslations('Dashboard');
   return (
     <div className="font-cabin dark:text-navy-blue-400 mb-auto flex items-center gap-2 font-normal text-gray-500">
       <button
@@ -24,11 +26,11 @@ const TablePagination = ({ table }: TablePaginationProps) => {
         {'<'}
       </button>
       <span className="flex items-center gap-1">
-        <div>Page</div>
+        <div>{t('pagination.page')}</div>
         <span className="dark:text-navy-blue-100 font-semibold text-gray-700 ">
           {table.getState().pagination.pageIndex + 1}{' '}
         </span>
-        of{' '}
+        {t('pagination.of')}{' '}
         <span className="dark:text-navy-blue-100 font-semibold text-gray-700 ">
           {' '}
           {table.getPageCount()}

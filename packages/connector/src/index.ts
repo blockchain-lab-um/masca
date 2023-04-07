@@ -40,7 +40,7 @@ export async function enableSSISnap(
   const provider = await detectEthereumProvider({ mustBeMetaMask: true });
 
   if (!provider) {
-    return ResultObject.error(new Error('No provider found'));
+    return ResultObject.error('No provider found');
   }
 
   // web3_clientVersion returns the installed MetaMask version as a string
@@ -50,7 +50,7 @@ export async function enableSSISnap(
 
   if (!mmVersion.includes('flask')) {
     return ResultObject.error(
-      new Error('MetaMask is not supported. Please install MetaMask Flask.')
+      'MetaMask is not supported. Please install MetaMask Flask.'
     );
   }
 
@@ -93,14 +93,12 @@ export async function enableSSISnap(
       }
 
       if (!switchResult.data) {
-        return ResultObject.error(
-          new Error('Could not switch to supported DID method')
-        );
+        return ResultObject.error('Could not switch to supported DID method');
       }
     }
 
     return ResultObject.success(snap);
   } catch (err: unknown) {
-    return ResultObject.error(err as Error);
+    return ResultObject.error((err as Error).toString());
   }
 }

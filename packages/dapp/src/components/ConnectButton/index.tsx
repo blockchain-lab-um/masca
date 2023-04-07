@@ -1,10 +1,12 @@
 import React from 'react';
+import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
-import { useGeneralStore } from '@/utils/stores';
+import { useGeneralStore } from '@/stores';
 
 const ConnectButton = () => {
+  const t = useTranslations('Navbar');
   const { isConnecting, changeIsConnecting } = useGeneralStore(
     (state) => ({
       isConnecting: state.isConnecting,
@@ -20,7 +22,7 @@ const ConnectButton = () => {
       onClick={() => changeIsConnecting(true)}
       loading={isConnecting}
     >
-      Connect Wallet
+      {t('connect')}
     </Button>
   );
 };

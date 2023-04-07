@@ -8,7 +8,7 @@ body:
     attributes:
       label: Describe the bug
       description: A clear and concise description of what the bug is.
-      placeholder: "When clicking on \"Load VCs\" button, nothing happens. In browser's console log, the following error is thrown: <Error>."
+      placeholder: 'When clicking on "Load VCs" button, nothing happens. In browser''s console log, the following error is thrown: <Error>.'
     validations:
       required: true
   - type: textarea
