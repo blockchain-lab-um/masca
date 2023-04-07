@@ -59,6 +59,15 @@
           "jsonpath": "$.version"
         }
       ]
+    },
+    "libs/utils": {
+      "release-as": "1.0.0",
+      "component": "utils",
+      "releaseType": "node",
+      "bumpMinorPreMajor": false,
+      "bumpPatchForMinorPreMajor": false,
+      "changelogPath": "CHANGELOG.md",
+      "versioning": "default"
     }
   },
   "plugins": [
