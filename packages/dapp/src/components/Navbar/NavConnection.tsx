@@ -1,7 +1,7 @@
 import { shallow } from 'zustand/shallow';
 
 import MethodDropdownMenu from '@/components/MethodDropdownMenu';
-import { useGeneralStore, useSnapStore } from '@/utils/stores';
+import { useGeneralStore, useSnapStore } from '@/stores';
 import AddressPopover from '../AddressPopover';
 import ConnectButton from '../ConnectButton';
 

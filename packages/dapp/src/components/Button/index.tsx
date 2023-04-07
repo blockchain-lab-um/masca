@@ -41,7 +41,7 @@ const sizes: Record<string, string> = {
   xs: 'text-sm py-2.5 px-4',
   sm: 'text-h5 py-2.5 px-5',
   md: 'text-h4 py-2.5 px-7',
-  lg: 'text-2xl py-2 px-8 font-semibold',
+  lg: 'text-2xl py-2 px-8 font-normal',
   xl: 'text-h3 py-2.5 px-9 font-semibold',
   wd: 'text-h4 py-2.5 px-7',
   icon: 'py-2 px-2',

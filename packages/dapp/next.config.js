@@ -34,6 +34,10 @@ const nextConfig = {
       { loader: '@next/font/google', options: { subsets: ['latin'] } },
     ],
   },
+  i18n: {
+    locales: ['en', 'si'],
+    defaultLocale: 'en',
+  },
 
   // Security headers and CSP
   // https://nextjs.org/docs/advanced-features/security-headers

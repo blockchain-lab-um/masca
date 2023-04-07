@@ -133,11 +133,25 @@ module.exports = {
           from: { transform: 'translateX(var(--radix-toast-swipe-end-x))' },
           to: { transform: 'translateX(calc(100% + var(--viewport-padding)))' },
         },
+        spinRefresh: {
+          from: { transform: 'rotate(0deg)' },
+          to: { transform: 'rotate(360deg)' },
+        },
+        spinOnce: {
+          from: { transform: 'rotate(0deg)' },
+          to: { transform: 'rotate(360deg)' },
+        },
+        pingOnce: {
+          '75%': { transform: 'scale(1.5)', opacity: 20 },
+        },
       },
       animation: {
         hide: 'hide 100ms ease-in',
         slideIn: 'slideIn 150ms cubic-bezier(0.16, 1, 0.3, 1)',
         swipeOut: 'swipeOut 100ms ease-out',
+        spinRefresh: 'spinRefresh 1.5s ease-in infinite',
+        spinOnce: 'spinOnce 1s ease-in-out',
+        pingOnce: 'pingOnce 1s cubic-bezier(0, 0, 0.2, 1)',
       },
     },
   },

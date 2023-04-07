@@ -5,7 +5,7 @@ import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { shallow } from 'zustand/shallow';
 
-import { useSnapStore } from '@/utils/stores';
+import { useSnapStore, useToastStore } from '@/stores';
 import { DropdownButton } from './MethodDropdownButton';
 
 export default function MethodDropdownMenu() {
@@ -20,6 +20,16 @@ export default function MethodDropdownMenu() {
       }),
       shallow
     );
+  const { setTitle, setLoading, setToastOpen, setType } = useToastStore(
+    (state) => ({
+      setTitle: state.setTitle,
+      setText: state.setText,
+      setLoading: state.setLoading,
+      setToastOpen: state.setOpen,
+      setType: state.setType,
+    }),
+    shallow
+  );
 
   const handleMethodChange = async (method: string) => {
     if (method !== currMethod) {
@@ -30,6 +40,14 @@ export default function MethodDropdownMenu() {
       if (!isError(res)) {
         changeCurrDIDMethod(method);
         changeDID(res.data);
+      } else {
+        setToastOpen(false);
+        setTimeout(() => {
+          setTitle('Failed to change method');
+          setType('error');
+          setLoading(false);
+          setToastOpen(true);
+        }, 100);
       }
     }
   };

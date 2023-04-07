@@ -10,7 +10,7 @@ interface InfoIconProps {
 const InfoIcon = ({ children }: InfoIconProps) => {
   return (
     <Tooltip tooltip={children} position="top">
-      <InformationCircleIcon className="h-3 w-3" />
+      <InformationCircleIcon className="h-3.5 w-3.5" />
     </Tooltip>
   );
 };

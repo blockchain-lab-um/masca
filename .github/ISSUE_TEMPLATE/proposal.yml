@@ -9,8 +9,8 @@ body:
     id: motivation
     attributes:
       label: Motivation
-      description: "What is your motivation behind this proposal?"
-      placeholder: "It has been eight months since our last update of the issue templates. Many new features and packages have been added, and many things changed. Updating the templates would make reporting issues easier."
+      description: 'What is your motivation behind this proposal?'
+      placeholder: 'It has been eight months since our last update of the issue templates. Many new features and packages have been added, and many things changed. Updating the templates would make reporting issues easier.'
     validations:
       required: true
   - type: textarea
@@ -25,7 +25,7 @@ body:
         - [feature](libs): add did-ebsi-provider
         - [bug](snap): error handling always throws the same error
         - [proposal]: change the release pipeline to auto publish npm packages
-        
+
         I also propose introducing a new label, proposal, which gets auto-assigned to all new open issues of type [proposal]. Bodies and required fields of different issue types (especially [proposal]) should be discussed.
     validations:
       required: true
