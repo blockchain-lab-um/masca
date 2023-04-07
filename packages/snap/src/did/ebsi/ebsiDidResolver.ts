@@ -25,8 +25,7 @@ const resolveDidEbsi: DIDResolver = async (
 
     const didResolution = await didResolver.resolve(did);
     return didResolution;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err: any) {
+  } catch (err: unknown) {
     return {
       didDocumentMetadata: {},
       didResolutionMetadata: {
