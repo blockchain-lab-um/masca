@@ -94,6 +94,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         return ResultObject.success(res);
       case 'switchDIDMethod':
         isValidSwitchMethodRequest(request.params);
+        apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
         res = await switchMethod(apiParams, request.params);
         return ResultObject.success(res);
       case 'getDID':
@@ -131,7 +132,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         return ResultObject.success(res);
       case 'resolveDID':
         isValidResolveDIDRequest(request.params);
-        res = await resolveDID(request.params.did);
+        res = await resolveDID(apiParams, request.params.did);
         return ResultObject.success(res);
       case 'verifyData':
         isValidVerifyDataRequest(request.params);
@@ -141,7 +142,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         throw new Error('Method not found.');
     }
   } catch (e) {
-    // TODO (martin): Check for any and unknown errors
+    // TODO (martin, urban): Check for any and unknown errors
     return ResultObject.error((e as Error).toString());
   }
 };

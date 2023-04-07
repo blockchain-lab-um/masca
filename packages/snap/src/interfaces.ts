@@ -73,4 +73,5 @@ export interface ApiParams {
   account: string;
   bip44CoinTypeNode?: BIP44CoinTypeNode;
   origin: string;
+  ebsiBearer?: string;
 }

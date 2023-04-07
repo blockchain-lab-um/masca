@@ -130,6 +130,7 @@ describe('Utils [state]', () => {
           state: initialState,
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
+          origin: 'test',
         })
       ).resolves.not.toThrow();
 
@@ -156,6 +157,7 @@ describe('Utils [state]', () => {
           state: initialState,
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
+          origin: 'test',
         })
       ).resolves.not.toThrow();
 

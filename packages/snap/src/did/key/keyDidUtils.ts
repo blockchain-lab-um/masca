@@ -1,3 +1,6 @@
+import { util } from '@cef-ebsi/key-did-resolver';
+import { bytesToBase64url, hexToBytes } from '@veramo/utils';
+import { ec as EC } from 'elliptic';
 import { base58btc } from 'multiformats/bases/base58';
 
 import { SSISnapState } from '../../interfaces';
@@ -17,4 +20,29 @@ export function getDidKeyIdentifier(
       addMulticodecPrefix('secp256k1-pub', Buffer.from(compressedKey, 'hex'))
     )
   ).toString();
+}
+
+export function getDidEbsiKeyIdentifier(
+  state: SSISnapState,
+  account: string
+): string {
+  const curve = new EC('secp256k1');
+  const publicKey = curve.keyFromPublic(
+    state.accountState[account].publicKey.slice(2),
+    'hex'
+  );
+  const y = bytesToBase64url(
+    hexToBytes(publicKey.getPublic().getY().toString('hex'))
+  );
+  const x = bytesToBase64url(
+    hexToBytes(publicKey.getPublic().getX().toString('hex'))
+  );
+  const jwk = {
+    kty: 'EC',
+    crv: 'secp256k1',
+    x,
+    y,
+  };
+  const did = util.createDid(jwk);
+  return did.split(':')[2];
 }

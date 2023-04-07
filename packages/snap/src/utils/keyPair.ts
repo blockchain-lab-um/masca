@@ -5,7 +5,7 @@ import {
 } from '@metamask/key-tree';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { ethers } from 'ethers';
-import { ApiParams, SSISnapState } from 'src/interfaces';
+import { SSISnapState } from 'src/interfaces';
 
 import { updateSnapState } from './stateUtils';
 
@@ -30,11 +30,15 @@ export async function setAccountIndex(
 }
 
 export async function getAddressKeyDeriver(
-  params: ApiParams,
+  params: {
+    state: SSISnapState;
+    snap: SnapsGlobalObject;
+    account: string;
+  },
   coin_type?: number
 ) {
-  const { state, snap, account } = params;
   let ct = coin_type;
+  const { state, snap, account } = params;
   if (ct === undefined) {
     const method = state.accountState[account].accountConfig.ssi.didMethod;
     ct = didCoinTypeMappping[method];

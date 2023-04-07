@@ -1,3 +1,4 @@
+import { getResolver } from '@cef-ebsi/key-did-resolver';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import {
   DIDDocument,
@@ -6,6 +7,7 @@ import {
   DIDResolver,
   ParsedDID,
   Resolvable,
+  Resolver,
 } from 'did-resolver';
 
 import { getCurrentAccount, getPublicKey } from '../../utils/snapUtils';
@@ -49,6 +51,17 @@ export const resolveSecp256k1 = async (
   return didDocument;
 };
 
+export const resolveSecp256k1Ebsi = async (
+  snap: SnapsGlobalObject,
+  account: string,
+  did: string
+): Promise<DIDDocument> => {
+  const keyResolver = getResolver();
+  const didResolver = new Resolver(keyResolver);
+  const resolution = await didResolver.resolve(did);
+  return resolution.didDocument as DIDDocument;
+};
+
 type ResolutionFunction = (
   snap: SnapsGlobalObject,
   account: string,
@@ -57,6 +70,8 @@ type ResolutionFunction = (
 
 const startsWithMap: Record<string, ResolutionFunction> = {
   'did:key:zQ3s': resolveSecp256k1,
+  'did:key:z2dm': resolveSecp256k1Ebsi,
+  'did:key:zBhB': resolveSecp256k1Ebsi,
 };
 
 export const resolveDidKey: DIDResolver = async (
