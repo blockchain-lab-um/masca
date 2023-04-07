@@ -1,4 +1,3 @@
-/* eslint-disable unused-imports/no-unused-vars */
 import { getResolver } from '@cef-ebsi/ebsi-did-resolver';
 import {
   DIDResolutionOptions,
@@ -13,9 +12,9 @@ import { EbsiConfig } from './constants';
 
 const resolveDidEbsi: DIDResolver = async (
   did: string,
-  parsed: ParsedDID,
-  resolver: Resolvable,
-  options: DIDResolutionOptions
+  _parsed: ParsedDID,
+  _resolver: Resolvable,
+  _options: DIDResolutionOptions
 ): Promise<DIDResolutionResult> => {
   try {
     const resolverConfig = {
@@ -26,8 +25,7 @@ const resolveDidEbsi: DIDResolver = async (
 
     const didResolution = await didResolver.resolve(did);
     return didResolution;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (err: any) {
+  } catch (err: unknown) {
     return {
       didDocumentMetadata: {},
       didResolutionMetadata: {
