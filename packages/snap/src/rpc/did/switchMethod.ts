@@ -24,9 +24,8 @@ export async function switchMethod(
       return res;
     }
 
-    // throw new Error('User rejected method switch');
+    throw new Error('User rejected method switch');
   }
-  return '';
 
-  // throw new Error('Method already set');
+  throw new Error('Method already set');
 }
