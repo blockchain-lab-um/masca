@@ -32,7 +32,8 @@ export async function getDidEbsiIdentifier(
     });
     return identifier.did;
   } catch (e) {
-    console.log(e);
-    return '';
+    throw new Error(
+      `Failed to create new EBSI identifier: ${(e as Error).message}`
+    );
   }
 }

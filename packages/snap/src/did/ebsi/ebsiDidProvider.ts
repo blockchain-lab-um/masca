@@ -185,7 +185,6 @@ export class EbsiDIDProvider extends AbstractIdentifierProvider {
     }
 
     if (args.privateKeyHex) {
-      // Import existing custom private key along with the subject identifier
       const privateKey = curve.keyFromPrivate(args.privateKeyHex, 'hex');
       const y = bytesToBase64url(
         hexToBytes(privateKey.getPublic().getY().toString('hex'))
