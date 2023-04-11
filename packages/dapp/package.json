@@ -5,7 +5,6 @@
   "type": "commonjs",
   "scripts": {
     "build": "next build",
-    "build:docker": "next export",
     "dev": "next dev",
     "docker:build": "docker build . -t blockchain-lab-um/dapp:latest",
     "lint": "pnpm lint:next && pnpm lint:tsc && pnpm lint:prettier && pnpm lint:stylelint",
@@ -35,6 +34,7 @@
     "prop-types": "^15.8.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "sharp": "^0.32.0",
     "tailwind-scrollbar": "^3.0.0",
     "zustand": "^4.3.2"
   },
@@ -86,13 +86,6 @@
         "outputs": [
           "{projectRoot}/.next"
         ]
-      },
-      "build:docker": {
-        "inputs": [],
-        "dependsOn": [
-          "build"
-        ],
-        "outputs": []
       },
       "start": {
         "inputs": [

@@ -32,7 +32,7 @@
     "build": "pnpm nx affected --target=build",
     "build:all": "pnpm nx run-many --target=build --all",
     "build:connector": "pnpm nx build @blockchain-lab-um/masca-connector",
-    "build:docker": "pnpm nx run-many --target=build --projects=@blockchain-lab-um/masca-docs && pnpm nx run @blockchain-lab-um/dapp:build:docker",
+    "build:docker": "pnpm nx run-many --target=build --projects=@blockchain-lab-um/masca-docs,@blockchain-lab-um/dapp",
     "build:docs": "pnpm nx build @blockchain-lab-um/masca-docs",
     "build:vcmanager": "pnpm nx build @blockchain-lab-um/veramo-vc-manager",
     "deploy:docs": "pnpm nx deploy @blockchain-lab-um/masca-docs",

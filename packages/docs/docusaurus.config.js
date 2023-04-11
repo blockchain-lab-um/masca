@@ -10,7 +10,7 @@ const config = {
   title: 'SSI Snap',
   tagline: 'Self-Sovereign Identity is cool',
   url: 'https://blockchain-lab-um.github.io/',
-  baseUrl: '/masca-docs/',
+  baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/ssi_snap_logo_2.svg',

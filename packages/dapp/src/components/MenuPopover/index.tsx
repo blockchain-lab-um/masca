@@ -4,8 +4,6 @@ import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { useTranslations } from 'next-intl';
 
-import { BASE_PATH } from '@/utils/constants';
-
 function IconOne() {
   return (
     <svg
@@ -89,7 +87,7 @@ const IconDiscord = () => {
   return (
     <div className="relative flex h-12 w-12 items-center justify-center rounded-lg bg-pink-50">
       <Image
-        src={`${BASE_PATH}/images/discord-mark-blue.png`}
+        src={`/images/discord-mark-blue.png`}
         alt="discord logo"
         width={36}
         height={36}

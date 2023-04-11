@@ -17,17 +17,14 @@ const isProd = process.env.NODE_ENV === 'production';
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
-  // FIXME: On release change to /masca
-  basePath: '/masca',
   reactStrictMode: true,
   swcMinify: true,
   // https://nextjs.org/docs/advanced-features/output-file-tracing#automatically-copying-traced-files
   output: 'standalone',
   // https://nextjs.org/docs/messages/next-image-unconfigured-host
   images: {
-    // Disable image optimization
-    unoptimized: true,
-    domains: [],
+    domains: ['localhost'],
+    loader: 'default',
   },
   experimental: {
     fontLoaders: [
