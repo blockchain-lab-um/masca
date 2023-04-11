@@ -12,7 +12,7 @@ import ImportModal from '@/components/ImportModal';
 import DataStoreCombobox from '@/components/VCTable/DataStoreCombobox';
 import GlobalFilter from '@/components/VCTable/GlobalFilter';
 import ViewTabs from '@/components/VCTable/ViewTabs';
-import { useSnapStore, useToastStore } from '@/stores';
+import { useMascaStore, useToastStore } from '@/stores';
 
 type ControlbarProps = {
   vcs: QueryVCsRequestResult[];
@@ -32,9 +32,9 @@ const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
     }),
     shallow
   );
-  const { api, changeVcs } = useSnapStore(
+  const { api, changeVcs } = useMascaStore(
     (state) => ({
-      api: state.snapApi,
+      api: state.mascaApi,
       changeVcs: state.changeVcs,
     }),
     shallow

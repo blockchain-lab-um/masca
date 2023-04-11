@@ -73,9 +73,9 @@ export async function enableMasca(
 
     const snap = new Masca(snapId, supportedMethods);
 
-    const snapApi = snap.getMascaApi();
+    const api = snap.getMascaApi();
 
-    const selectedMethodsResult = await snapApi.getSelectedMethod();
+    const selectedMethodsResult = await api.getSelectedMethod();
 
     if (isError(selectedMethodsResult)) {
       return ResultObject.error(selectedMethodsResult.error);
@@ -84,9 +84,7 @@ export async function enableMasca(
     const method = selectedMethodsResult.data;
 
     if (!isAvailableMethods(method)) {
-      const switchResult = await snapApi.switchDIDMethod(
-        snap.supportedMethods[0]
-      );
+      const switchResult = await api.switchDIDMethod(snap.supportedMethods[0]);
 
       if (isError(switchResult)) {
         return ResultObject.error(switchResult.error);

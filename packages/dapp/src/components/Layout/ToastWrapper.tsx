@@ -18,12 +18,11 @@ export const ToastWrapper = ({ children }: { children: JSX.Element }) => {
     return () => clearTimeout(timerRef.current);
   }, []);
 
-  const { open, setOpen, loading, text, type, title } = useToastStore(
+  const { open, setOpen, loading, type, title } = useToastStore(
     (state) => ({
       open: state.open,
       setOpen: state.setOpen,
       loading: state.loading,
-      text: state.text,
       title: state.title,
       type: state.type,
     }),

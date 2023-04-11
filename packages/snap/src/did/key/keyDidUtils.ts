@@ -23,7 +23,7 @@ export function getDidKeyIdentifier(
 }
 
 export function getDidEbsiKeyIdentifier(
-  state: SSISnapState,
+  state: MascaState,
   account: string
 ): string {
   const curve = new EC('secp256k1');

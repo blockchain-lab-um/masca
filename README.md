@@ -32,11 +32,11 @@ Many new features are already in the works. For more information, please check t
 Every version of Masca does NOT work with every version of MetaMask Flask! Here is a table of compatible versions:
 
 | Masca version | MetaMask Flask version |
-| ---------------- | ------------- |
-| 1.2.2            | up to 10.19.0 |
-| 1.3.0            | 10.24.0       |
-| 1.4.0            | 10.25.0       |
-| 1.5.0            | 10.26.1       |
+| ------------- | ---------------------- |
+| 1.2.2         | up to 10.19.0          |
+| 1.3.0         | 10.24.0                |
+| 1.4.0         | 10.25.0                |
+| 1.5.0         | 10.26.1                |
 
 ### Prerequisites
 

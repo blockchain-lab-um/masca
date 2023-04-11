@@ -2,12 +2,12 @@ import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { IDIDManagerCreateArgs } from '@veramo/core';
 import { keccak256 } from 'ethers/lib/utils';
 
-import { SSISnapState } from '../interfaces';
+import { MascaState } from '../interfaces';
 import { getAgent } from '../veramo/setup';
 import { getAddressKeyDeriver, snapGetKeysFromAddress } from './keyPair';
 
 export async function getDidEbsiIdentifier(params: {
-  state: SSISnapState;
+  state: MascaState;
   snap: SnapsGlobalObject;
   account: string;
   args: IDIDManagerCreateArgs;

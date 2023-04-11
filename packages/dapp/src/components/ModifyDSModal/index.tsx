@@ -8,7 +8,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
-import { useSnapStore, useToastStore } from '@/stores';
+import { useMascaStore, useToastStore } from '@/stores';
 import Button from '../Button';
 import DeleteModal from '../DeleteModal';
 import ToggleSwitch from '../Switch';
@@ -35,10 +35,11 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
   const [deleteModalStore, setDeleteModalStore] = useState<
     AvailableVCStores | undefined
   >(undefined);
-  const { enabledStores, snapApi } = useSnapStore(
+  const { enabledStores, api, changeVcs } = useMascaStore(
     (state) => ({
       enabledStores: state.availableVCStores,
-      snapApi: state.snapApi,
+      api: state.mascaApi,
+      changeVcs: state.changeVcs,
     }),
     shallow
   );
@@ -72,7 +73,7 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
   });
 
   const handleDSChange = async (store: AvailableVCStores, enabled: boolean) => {
-    if (!snapApi) return;
+    if (!api) return;
 
     if (!enabled) {
       setDeleteModalStore(store);
@@ -86,7 +87,7 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
     setToastOpen(true);
     setOpen(false);
 
-    const res = await snapApi.saveVC(vc.data, { store });
+    const res = await api.saveVC(vc.data, { store });
 
     if (isError(res)) {
       setToastOpen(false);
@@ -109,14 +110,14 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
       setToastOpen(true);
     }, 100);
 
-    const vcs = await snapApi.queryVCs();
+    const vcs = await api.queryVCs();
 
     if (isError(vcs)) {
       console.log(vcs.error);
       return;
     }
 
-    useSnapStore.getState().changeVcs(vcs.data);
+    changeVcs(vcs.data);
   };
 
   return (

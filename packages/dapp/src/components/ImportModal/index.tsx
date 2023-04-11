@@ -5,7 +5,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import Button from '@/components/Button';
 import DropdownMultiselect from '@/components/DropdownMultiselect';
 import InfoIcon from '@/components/InfoIcon';
-import { useSnapStore } from '@/stores';
+import { useMascaStore } from '@/stores';
 
 interface ImportModalProps {
   open: boolean;
@@ -16,7 +16,7 @@ interface ImportModalProps {
 function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
   const [loading, setLoading] = useState(false);
   const [vc, setVC] = useState('');
-  const VCStores = useSnapStore((state) => state.availableVCStores);
+  const VCStores = useMascaStore((state) => state.availableVCStores);
   const availableStores = Object.keys(VCStores).filter(
     (key) => VCStores[key] === true
   );

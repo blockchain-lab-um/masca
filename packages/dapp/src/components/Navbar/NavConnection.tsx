@@ -1,12 +1,15 @@
 import { shallow } from 'zustand/shallow';
 
 import MethodDropdownMenu from '@/components/MethodDropdownMenu';
-import { useGeneralStore, useSnapStore } from '@/stores';
+import { useGeneralStore, useMascaStore } from '@/stores';
 import AddressPopover from '../AddressPopover';
 import ConnectButton from '../ConnectButton';
 
 export const NavConnection = () => {
-  const did = useSnapStore((state) => state.currDID);
+  const { did, changeVcs } = useMascaStore(
+    (state) => ({ did: state.currDID, changeVcs: state.changeVcs }),
+    shallow
+  );
 
   const {
     isConnected,
@@ -29,10 +32,8 @@ export const NavConnection = () => {
     shallow
   );
 
-  const setVcs = useSnapStore((state) => state.changeVcs);
-
   const disconnect = () => {
-    setVcs([]);
+    changeVcs([]);
     changeIsConnected(false);
     changeAddres('');
     changeDid('');

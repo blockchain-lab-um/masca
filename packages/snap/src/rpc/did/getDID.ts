@@ -1,11 +1,11 @@
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 
-import { SSISnapState } from '../../interfaces';
+import { MascaState } from '../../interfaces';
 import { getCurrentDid } from '../../utils/didUtils';
 
 export async function getDid(params: {
-  state: SSISnapState;
+  state: MascaState;
   snap: SnapsGlobalObject;
   account: string;
   ethereum: MetaMaskInpageProvider;
