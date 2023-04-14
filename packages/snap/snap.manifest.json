@@ -7,7 +7,7 @@
     "url": "https://github.com/blockchain-lab-um/ssi-snap.git"
   },
   "source": {
-    "shasum": "xQSLLV1NhDVMnM2upDAqBD/30H0y2wSg6a5BC1N9yYo=",
+    "shasum": "YLfNFoGB1uZxYD9jwhTHPB6c1vcNp5NPPoH3vK34oRA=",
     "location": {
       "npm": {
         "filePath": "dist/snap.js",
@@ -18,7 +18,6 @@
     }
   },
   "initialPermissions": {
-    "snap_confirm": {},
     "snap_dialog": {},
     "snap_getBip44Entropy": [
       {
@@ -27,7 +26,6 @@
     ],
     "snap_manageState": {},
     "endowment:network-access": {},
-    "eth_accounts": {},
     "endowment:rpc": {
       "snaps": true,
       "dapps": true
