@@ -4,13 +4,14 @@ import {
 } from '@blockchain-lab-um/ssi-snap-types';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { IIdentifier } from '@veramo/core';
 import { DIDResolutionResult } from 'did-resolver';
 
+import { getDidJwkIdentifier } from '../did/jwk/jwkDidUtils';
 import {
   getDidEbsiKeyIdentifier,
   getDidKeyIdentifier,
 } from '../did/key/keyDidUtils';
-import { getDidJwkIdentifier } from '../did/jwk/jwkDidUtils';
 import { ApiParams, SSISnapState } from '../interfaces';
 import { getAgent } from '../veramo/setup';
 import { getDidEbsiIdentifier } from './ebsiUtils';
@@ -66,13 +67,12 @@ export async function getCurrentDid(
     });
     return `did:ebsi:${didUrl}`;
   }
+  if (method === 'did:jwk') {
+    const didUrl = await getDidJwkIdentifier(state, account);
+    return `did:jwk:${didUrl}`;
+  }
+  // TODO: handle did:jwk when veramo supports it
   if (method === 'did:pkh') {
-  /* if (method === 'did:pkh') {
-    const agent = await getAgent(snap, ethereum);
-    const didUrl = await getDidPkhIdentifier(ethereum, account);
-    return `did:pkh:${didUrl}`;
-  } */
-  if (method === 'did:jwk' || method === 'did:pkh') {
     const agent = await getAgent(snap, ethereum);
     const bip44CoinTypeNode = await getAddressKeyDeriver({
       state,
@@ -88,7 +88,7 @@ export async function getCurrentDid(
       snap
     );
     if (!res) throw new Error('Failed to get keys');
-    const identifier = await agent.didManagerCreate({
+    const identifier: IIdentifier = await agent.didManagerCreate({
       provider: method,
       kms: 'snap',
       options: {
@@ -96,6 +96,7 @@ export async function getCurrentDid(
         keyType: 'Secp256k1',
       },
     });
+    if (!identifier?.did) throw new Error('Failed to create identifier');
     return identifier.did;
   }
   return '';

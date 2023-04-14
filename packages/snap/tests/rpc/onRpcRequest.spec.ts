@@ -1202,7 +1202,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toInclude('did:pkh:');
@@ -1235,7 +1235,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toInclude('did:jwk:');

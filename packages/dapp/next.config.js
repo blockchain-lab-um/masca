@@ -1,5 +1,4 @@
 const StylelintPlugin = require('stylelint-webpack-plugin');
-const path = require('path');
 
 // Content-Security-Policy
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
@@ -34,7 +33,6 @@ const nextConfig = {
     fontLoaders: [
       { loader: '@next/font/google', options: { subsets: ['latin'] } },
     ],
-    outputFileTracingRoot: path.join(__dirname, '../../'),
   },
   i18n: {
     locales: ['en', 'si'],
