@@ -7,6 +7,7 @@ import { getDid } from './rpc/did/getDID';
 import { resolveDID } from './rpc/did/resolveDID';
 import { switchMethod } from './rpc/did/switchMethod';
 import { togglePopups } from './rpc/snap/configure';
+import { createVC } from './rpc/vc/createVC';
 import { createVP } from './rpc/vc/createVP';
 import { deleteVC } from './rpc/vc/deleteVC';
 import { queryVCs } from './rpc/vc/queryVCs';
@@ -16,6 +17,7 @@ import { getAvailableVCStores } from './rpc/vcStore/getAvailableVCStores';
 import { setVCStore } from './rpc/vcStore/setVCStore';
 import { getAddressKeyDeriver } from './utils/keyPair';
 import {
+  isValidCreateVCRequest,
   isValidCreateVPRequest,
   isValidDeleteVCRequest,
   isValidQueryRequest,
@@ -69,6 +71,15 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         );
         res = await saveVC(apiParams, request.params);
         return ResultObject.success(res);
+      case 'createVC':
+        isValidCreateVCRequest(
+          request.params,
+          apiParams.account,
+          apiParams.state
+        );
+        apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
+        res = await createVC(apiParams, request.params);
+        return ResultObject.success(res);
       case 'createVP':
         isValidCreateVPRequest(
           request.params,
@@ -83,6 +94,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         return ResultObject.success(res);
       case 'switchDIDMethod':
         isValidSwitchMethodRequest(request.params);
+        apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
         res = await switchMethod(apiParams, request.params);
         return ResultObject.success(res);
       case 'getDID':
@@ -120,7 +132,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         return ResultObject.success(res);
       case 'resolveDID':
         isValidResolveDIDRequest(request.params);
-        res = await resolveDID(request.params.did);
+        res = await resolveDID(apiParams, request.params.did);
         return ResultObject.success(res);
       case 'verifyData':
         isValidVerifyDataRequest(request.params);
@@ -130,7 +142,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         throw new Error('Method not found.');
     }
   } catch (e) {
-    // TODO (martin): Check for any and unknown errors
-    return ResultObject.error(e as Error);
+    // TODO (martin, urban): Check for any and unknown errors
+    return ResultObject.error((e as Error).toString());
   }
 };

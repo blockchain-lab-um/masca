@@ -5,10 +5,11 @@ import {
 } from '@blockchain-lab-um/ssi-snap-types';
 import { isError } from '@blockchain-lab-um/utils';
 import { Dialog, Transition } from '@headlessui/react';
+import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
-import { useSnapStore, useToastStore } from '@/utils/stores';
+import { useSnapStore, useToastStore } from '@/stores';
 
 interface DeleteModalProps {
   open: boolean;
@@ -18,13 +19,15 @@ interface DeleteModalProps {
 }
 
 function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
+  const t = useTranslations('DeleteVC');
   const api = useSnapStore((state) => state.snapApi);
-  const { setTitle, setLoading, setToastOpen } = useToastStore(
+  const { setTitle, setLoading, setToastOpen, setType } = useToastStore(
     (state) => ({
       setTitle: state.setTitle,
       setText: state.setText,
       setLoading: state.setLoading,
       setToastOpen: state.setOpen,
+      setType: state.setType,
     }),
     shallow
   );
@@ -34,31 +37,53 @@ function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
     setOpen(false);
     if (vc) {
       setLoading(true);
+      setType('normal');
       setTitle('Deleting Credential');
       setToastOpen(true);
       setOpen(false);
+
       let deleteReqOptions;
+
       if (store) {
         deleteReqOptions = {
           store,
         };
-      } else if (vc.metadata.store)
+      } else if (vc.metadata.store) {
         deleteReqOptions = {
           store: vc.metadata.store as AvailableVCStores | AvailableVCStores[],
         };
-      await api.deleteVC(vc.metadata.id, deleteReqOptions);
+      }
+
+      const res = await api.deleteVC(vc.metadata.id, deleteReqOptions);
+
+      if (isError(res)) {
+        setToastOpen(false);
+        setTimeout(() => {
+          setTitle('Failed to delete credential');
+          setType('error');
+          setLoading(false);
+          setToastOpen(true);
+        }, 100);
+        console.log(res.error);
+        return;
+      }
       // TODO - Delete VC from local state instead of calling queryVCs.
 
       const vcs = await api.queryVCs();
       if (isError(vcs)) {
-        setLoading(false);
-        setTitle('Error');
-        setToastOpen(true);
+        setToastOpen(false);
+        setTimeout(() => {
+          setType('error');
+          setTitle('Failed to load credentials');
+          setLoading(false);
+          setToastOpen(true);
+        }, 100);
         return;
       }
       if (vcs.data) {
         setToastOpen(false);
         setTimeout(() => {
+          setType('success');
           setTitle('Credential deleted');
           setLoading(false);
           setToastOpen(true);
@@ -99,12 +124,11 @@ function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
                   as="h3"
                   className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-900 "
                 >
-                  Delete Credential
+                  {t('title')}
                 </Dialog.Title>
                 <div className="mt-4">
                   <p className="text-md dark:text-navy-blue-200 text-gray-500 ">
-                    Approving this action will remove the credential from your
-                    wallet. This action cannot be undone.
+                    {t('desc')}
                   </p>
 
                   {store && (
@@ -123,16 +147,16 @@ function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
                       variant="gray"
                       size="xs"
                     >
-                      Cancel
+                      {t('cancel')}
                     </Button>
                   </div>
-                  <div className="mt-10 ml-2">
+                  <div className="ml-2 mt-10">
                     <Button
                       onClick={() => deleteVC()}
                       variant="warning"
                       size="xs"
                     >
-                      Delete VC
+                      {t('delete')}
                     </Button>
                   </div>
                 </div>

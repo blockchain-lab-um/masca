@@ -46,11 +46,14 @@
       <option value="EthereumEip712Signature2021">eip</option>
     </select>
     <button id="getVP" class="getVP">Get VP</button>
+    <button id="getVC" class="getVC">Get VC</button>
     <br />
     <hr />
     <select id="didMethod">
       <option value="did:ethr">did:ethr</option>
       <option value="did:key">did:key</option>
+      <option value="did:key:ebsi">did:key:ebsi</option>
+      <option value="did:ebsi">did:ebsi</option>
       <option value="did:pkh">did:pkh</option>
       <option value="did:github">did:gh</option>
     </select>
@@ -67,12 +70,17 @@
     <hr />
     <input type="text" id="infura_token" placeholder="Infura token" />
     <button class="changeInfuraToken">ChangeInfuraToken</button>
-    <button class="resolveDID">resolveDID</button>
     <br />
     <hr />
     <button class="getVCStore">Get current VCStore</button>
     <button class="toggleVCStore">Toggle current VCStore</button>
     <button class="getAvailableVCStores">Get available vc stores</button>
+    <br />
+    <hr />
+    <input type="text" id="did" placeholder="DID" />
+    <button class="resolveDID">resolveDID</button>
+    <br />
+    <textarea id="didDocument" rows="30" cols="50" hidden></textarea>
   </body>
   <script
     src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
@@ -142,7 +150,7 @@
     );
 
     $(document).ready(function () {
-      $('textarea#VC').text(JSON.stringify(placeholderVC));
+      $('textarea#VC').text(JSON.stringify(placeholderVC, null, 2));
     });
 
     connectButton.addEventListener('click', connect);
@@ -185,91 +193,82 @@
     }
 
     async function getDID() {
-      try {
-        console.log('snap id', snapId);
-        console.log('getDID', `wallet_snap_${snapId}`);
-        const response = await ethereum.request({
-          method: `wallet_snap_${snapId}`,
-          params: {
-            method: 'getDID',
-          },
-        });
-        console.log('DID: ', response);
-      } catch (err) {
-        console.error(err);
-        alert('Problem happened: ' + err.message || err);
+      console.log('snap id', snapId);
+      console.log('getDID', `wallet_snap_${snapId}`);
+      const response = await ethereum.request({
+        method: `wallet_snap_${snapId}`,
+        params: {
+          method: 'getDID',
+        },
+      });
+      console.log('DID: ', response);
+      if (!response.success) {
+        alert(response.error);
       }
     }
 
     async function getVCStore() {
-      try {
-        const response = await ethereum.request({
-          method: `wallet_snap_${snapId}`,
-          params: {
-            method: 'getVCStore',
-          },
-        });
-        console.log('DID: ', response);
-      } catch (err) {
-        console.error(err);
-        alert('Problem happened: ' + err.message || err);
+      const response = await ethereum.request({
+        method: `wallet_snap_${snapId}`,
+        params: {
+          method: 'getVCStore',
+        },
+      });
+      console.log('DID: ', response);
+      if (!response.success) {
+        alert(response.error);
       }
     }
 
     async function toggleVCStore() {
-      try {
-        const response = await ethereum.request({
-          method: `wallet_snap_${snapId}`,
+      const response = await ethereum.request({
+        method: `wallet_snap_${snapId}`,
+        params: {
+          method: 'setVCStore',
           params: {
-            method: 'setVCStore',
-            params: {
-              store: 'ceramic',
-              value: true,
-            },
+            store: 'ceramic',
+            value: true,
           },
-        });
-        console.log('DID: ', response);
-      } catch (err) {
-        console.error(err);
-        alert('Problem happened: ' + err.message || err);
+        },
+      });
+      console.log('DID: ', response);
+      if (!response.success) {
+        alert(response.error);
       }
     }
 
     async function getAvailableMethods() {
-      try {
-        const response = await ethereum.request({
-          method: `wallet_snap_${snapId}`,
-          params: {
-            method: 'getAvailableMethods',
-          },
-        });
-        console.log('AvailableMethods: ', response);
-      } catch (err) {
-        console.error(err);
-        alert('Problem happened: ' + err.message || err);
+      const response = await ethereum.request({
+        method: `wallet_snap_${snapId}`,
+        params: {
+          method: 'getAvailableMethods',
+        },
+      });
+      console.log('AvailableMethods: ', response);
+      if (!response.success) {
+        alert(response.error);
       }
     }
 
     async function getAvailableVCStores() {
-      try {
-        const response = await ethereum.request({
-          method: `wallet_snap_${snapId}`,
-          params: {
-            method: 'getAvailableVCStores',
-          },
-        });
-        console.log('AvailableMethods: ', response);
-      } catch (err) {
-        console.error(err);
-        alert('Problem happened: ' + err.message || err);
+      const response = await ethereum.request({
+        method: `wallet_snap_${snapId}`,
+        params: {
+          method: 'getAvailableVCStores',
+        },
+      });
+      console.log('AvailableMethods: ', response);
+      if (!response.success) {
+        alert(response.error);
       }
     }
 
     async function switchMethod() {
-      try {
-        const method = document.getElementById('didMethod').value;
-        console.log('selected method', method);
-        const response = await ethereum.request({
+      const method = document.getElementById('didMethod').value;
+      console.log('selected method', method);
+      let response;
+      if (method === 'did:ebsi') {
+        response = await ethereum.request({
           method: `wallet_snap_${snapId}`,
           params: {
             method: 'switchDIDMethod',
@@ -278,150 +277,173 @@
             },
           },
         });
-        console.log('switch: ', response);
-      } catch (err) {
-        console.error(err);
-        alert('Problem happened: ' + err.message || err);
+      }
+      response = await ethereum.request({
+        method: `wallet_snap_${snapId}`,
+        params: {
+          method: 'switchDIDMethod',
+          params: {
+            didMethod: method,
+          },
+        },
+      });
+      console.log('switch: ', response);
+      if (!response.success) {
+        alert(response.error);
       }
     }
 
     async function getMethod() {
-      try {
-        const response = await ethereum.request({
-          method: `wallet_snap_${snapId}`,
-          params: {
-            method: 'getSelectedMethod',
-          },
-        });
-        console.log('Method: ', response);
-      } catch (err) {
-        console.error(err);
-        alert('Problem happened: ' + err.message || err);
+      const response = await ethereum.request({
+        method: `wallet_snap_${snapId}`,
+        params: {
+          method: 'getSelectedMethod',
+        },
+      });
+      console.log('Method: ', response);
+      if (!response.success) {
+        alert(response.error);
       }
     }
 
     async function saveVC() {
-      try {
-        const vc = JSON.parse(document.getElementById('VC').value);
-        const response = await ethereum.request({
-          method: `wallet_snap_${snapId}`,
+      const vc = JSON.parse(document.getElementById('VC').value);
+      const response = await ethereum.request({
+        method: `wallet_snap_${snapId}`,
+        params: {
+          method: 'saveVC',
           params: {
-            method: 'saveVC',
-            params: {
-              verifiableCredential: vc,
-            },
+            verifiableCredential: vc,
           },
-        });
-      } catch (err) {
-        console.error(err);
-        alert('Problem happened: ' + err.message || err);
+        },
+      });
+      if (!response.success) {
+        alert(response.error);
       }
     }
 
     async function saveVCC() {
-      try {
-        const vc = JSON.parse(document.getElementById('VC').value);
-        console.log('saving ceramic');
-        const response = await ethereum.request({
-          method: `wallet_snap_${snapId}`,
+      const vc = JSON.parse(document.getElementById('VC').value);
+      console.log('saving ceramic');
+      const response = await ethereum.request({
+        method: `wallet_snap_${snapId}`,
+        params: {
+          method: 'saveVC',
           params: {
-            method: 'saveVC',
-            params: {
-              verifiableCredential: vc,
-              options: { store: ['ceramic'] },
-            },
+            verifiableCredential: vc,
+            options: { store: ['ceramic'] },
           },
-        });
-      } catch (err) {
-        console.error(err);
-        alert('Problem happened: ' + err.message || err);
+        },
+      });
+      if (!response.success) {
+        alert(response.error);
       }
     }
 
     async function saveVCB() {
-      try {
-        const vc = JSON.parse(document.getElementById('VC').value);
-        console.log('saving ceramic');
-        const response = await ethereum.request({
-          method: `wallet_snap_${snapId}`,
+      const vc = JSON.parse(document.getElementById('VC').value);
+      console.log('saving ceramic');
+      const response = await ethereum.request({
+        method: `wallet_snap_${snapId}`,
+        params: {
+          method: 'saveVC',
           params: {
-            method: 'saveVC',
-            params: {
-              verifiableCredential: vc,
-              options: { store: ['snap', 'ceramic'] },
-            },
+            verifiableCredential: vc,
+            options: { store: ['snap', 'ceramic'] },
           },
-        });
-      } catch (err) {
-        console.error(err);
-        alert('Problem happened: ' + err.message || err);
+        },
+      });
+      if (!response.success) {
+        alert(response.error);
       }
     }
+
     async function getVCs() {
-      console.log('doing this..');
-      try {
-        const response = await ethereum.request({
-          method: `wallet_snap_${snapId}`,
-          params: {
-            method: 'queryVCs',
-          },
-        });
-        console.log(response);
-      } catch (err) {
-        console.error(err);
-        alert('Problem happened: ' + err.message || err);
+      const response = await ethereum.request({
+        method: `wallet_snap_${snapId}`,
+        params: {
+          method: 'queryVCs',
+        },
+      });
+      console.log(response);
+      if (!response.success) {
+        alert(response.error);
       }
     }
     async function getVCAddr() {
-      try {
-        const response = await ethereum.request({
-          method: `wallet_snap_${snapId}`,
-          params: {
-            method: 'getAccountSettings',
-          },
-        });
-        console.log(response);
-      } catch (err) {
-        console.error(err);
-        alert('Problem happened: ' + err.message || err);
+      const response = await ethereum.request({
+        method: `wallet_snap_${snapId}`,
+        params: {
+          method: 'getAccountSettings',
+        },
+      });
+      console.log(response);
+      if (!response.success) {
+        alert(response.error);
       }
     }
 
     async function getVp() {
-      try {
-        const vcId = document.getElementById('vcId').value.toString();
-        const checkBox = document.getElementById('withChallenge').checked;
-        console.log('VC ID', vcId, checkBox);
+      const vcId = document.getElementById('vcId').value.toString();
+      const checkBox = document.getElementById('withChallenge').checked;
+      console.log('VC ID', vcId, checkBox);
 
+      const pF = document.getElementById('proofFormat').value;
+      let response;
+      console.log('selected pf:', pF);
+      if (!checkBox) {
+        response = await ethereum.request({
+          method: `wallet_snap_${snapId}`,
+          params: {
+            method: 'createVP',
+            params: {
+              vcs: [{ id: vcId }],
+              proofFormat: pF,
+            },
+          },
+        });
+        console.log(response);
+      } else {
+        response = await ethereum.request({
+          method: `wallet_snap_${snapId}`,
+          params: {
+            method: 'createVP',
+            params: {
+              vcs: [{ id: vcId }],
+              proofOptions: {
+                challenge: '123-456-789',
+              },
+            },
+          },
+        });
+        console.log(response);
+      }
+      if (!response.success) {
+        alert(response.error);
+      }
+    }
+
+    async function createVC() {
+      try {
+        const vc = JSON.parse(document.getElementById('VC').value);
+        console.log('VC', vc);
         const pF = document.getElementById('proofFormat').value;
         console.log('selected pf:', pF);
-        if (!checkBox) {
-          const response = await ethereum.request({
-            method: `wallet_snap_${snapId}`,
+        const response = await ethereum.request({
+          method: `wallet_snap_${snapId}`,
+          params: {
+            method: 'createVC',
             params: {
-              method: 'createVP',
-              params: {
-                vcs: [{ id: vcId }],
-                proofFormat: pF,
+              minimalUnsignedCredential: vc,
+              proofFormat: pF,
+              options: {
+                save: true,
+                store: ['snap'],
               },
             },
-          });
-          console.log(response);
-        } else {
-          const response = await ethereum.request({
-            method: `wallet_snap_${snapId}`,
-            params: {
-              method: 'createVP',
-              params: {
-                vcs: [{ id: vcId }],
-                proofOptions: {
-                  challenge: '123-456-789',
-                },
-              },
-            },
-          });
-          console.log(response);
-        }
+          },
+        });
+        console.log(response);
       } catch (err) {
         console.error(err);
         alert('Problem happened: ' + err.message || err);
@@ -429,76 +451,72 @@
     }
 
     async function isInit() {
-      try {
-        const response = await ethereum.request({
-          method: 'wallet_invokeSnap',
-          params: [
-            snapId,
-            {
-              method: 'getVP',
-              params: [0, vcId, '61dcecc0-c9df-44e9-8386-473ecb004ecd'],
-            },
-          ],
-        });
-        console.log(response);
-      } catch (err) {
-        console.error(err);
-        alert('Problem happened: ' + err.message || err);
+      const response = await ethereum.request({
+        method: 'wallet_invokeSnap',
+        params: [
+          snapId,
+          {
+            method: 'getVP',
+            params: [0, vcId, '61dcecc0-c9df-44e9-8386-473ecb004ecd'],
+          },
+        ],
+      });
+      console.log(response);
+      if (!response.success) {
+        alert(response.error);
       }
     }
 
     async function changeInfuraToken() {
-      try {
-        const infuraToken = document
-          .getElementById('infura_token')
-          .value.toString();
-        const response = await ethereum.request({
-          method: `wallet_snap_${snapId}`,
+      const infuraToken = document
+        .getElementById('infura_token')
+        .value.toString();
+      const response = await ethereum.request({
+        method: `wallet_snap_${snapId}`,
+        params: {
+          method: 'changeInfuraToken',
           params: {
-            method: 'changeInfuraToken',
-            params: {
-              infuraToken,
-            },
+            infuraToken,
           },
-        });
-        console.log(response);
-      } catch (err) {
-        console.error(err);
-        alert('Problem happened: ' + err.message || err);
+        },
+      });
+      console.log(response);
+      if (!response.success) {
+        alert(response.error);
       }
     }
 
     async function resolveDIDDocument() {
-      try {
-        const did = document.getElementById('infura_token').value.toString();
-        const response = await ethereum.request({
-          method: `wallet_snap_${snapId}`,
+      const did = document.getElementById('did').value.toString();
+      const response = await ethereum.request({
+        method: `wallet_snap_${snapId}`,
+        params: {
+          method: 'resolveDID',
           params: {
-            method: 'resolveDID',
-            params: {
-              did,
-            },
+            did,
           },
-        });
-        console.log(response);
-      } catch (err) {
-        console.error(err);
-        alert('Problem happened: ' + err.message || err);
+        },
+      });
+      console.log(response);
+      if (!response.success) {
+        alert(response.error);
+        return;
       }
+      const didDocBox = document.getElementById('didDocument');
+      didDocBox.hidden = false;
+      didDocBox.value = JSON.stringify(response.data.didDocument, null, 2);
     }
 
     async function togglePopups() {
-      try {
-        const response = await ethereum.request({
-          method: `wallet_snap_${snapId}`,
-          params: {
-            method: 'togglePopups',
-          },
-        });
-        console.log(response);
-      } catch (err) {
-        console.error(err);
-        alert('Problem happened: ' + err.message || err);
+      const response = await ethereum.request({
+        method: `wallet_snap_${snapId}`,
+        params: {
+          method: 'togglePopups',
+        },
+      });
+      console.log(response);
+      if (!response.success) {
+        alert(response.error);
       }
     }
   </script>

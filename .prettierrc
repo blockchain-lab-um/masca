@@ -16,6 +16,7 @@
     "^@/styles/(.*)$",
     "^@/utils/(.*)$",
     "^@/pages/(.*)$",
+    "^@/stores",
     "^[./]"
   ],
   "importOrderSeparation": false,

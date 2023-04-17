@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import { isError } from '@blockchain-lab-um/utils';
 import {
@@ -10,7 +11,6 @@ import {
   XCircleIcon,
 } from '@heroicons/react/20/solid';
 import {
-  ArrowsPointingOutIcon,
   PlusCircleIcon,
   ShareIcon,
   TrashIcon,
@@ -28,6 +28,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
+import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
@@ -35,13 +36,15 @@ import DeleteModal from '@/components/DeleteModal';
 import InfoIcon from '@/components/InfoIcon';
 import StoreIcon from '@/components/StoreIcon';
 import Tooltip from '@/components/Tooltip';
-import { useSnapStore, useTableStore } from '@/utils/stores';
 import { convertTypes } from '@/utils/string';
+import { useSnapStore, useTableStore } from '@/stores';
 import TablePagination from './TablePagination';
 import VCCard from './VCCard';
 import { includesDataStore, selectRows } from './tableUtils';
 
 const Table = () => {
+  const router = useRouter();
+  const t = useTranslations('Dashboard');
   const [loading, setLoading] = useState(false);
   const [sorting, setSorting] = useState<SortingState>([]);
   const { vcs, changeVcs, api } = useSnapStore(
@@ -68,30 +71,6 @@ const Table = () => {
   const [selectedVC, setSelectedVC] = useState<QueryVCsRequestResult>();
 
   const columns = [
-    columnHelper.display({
-      id: 'expand',
-      header: ({ table }) => <></>,
-      cell: ({ row, table }) => (
-        <Link
-          className="flex items-center justify-center"
-          href={{
-            pathname: '/vc',
-            query: { id: row.original.metadata.id },
-          }}
-        >
-          <button
-            onClick={() =>
-              setSelectedVCs(
-                table.getSelectedRowModel().rows.map((r) => r.original)
-              )
-            }
-          >
-            <ArrowsPointingOutIcon className="h-5 w-5" />
-          </button>
-        </Link>
-      ),
-      enableGlobalFilter: false,
-    }),
     columnHelper.accessor(
       (row) => {
         const types = convertTypes(row.data.type);
@@ -99,10 +78,12 @@ const Table = () => {
       },
       {
         id: 'type',
-        cell: (info) => <span className="">{info.getValue().toString()}</span>,
-        header: () => (
-          <span className="flex items-center justify-center">TYPE</span>
-        ),
+        cell: (info) => {
+          return (
+            <span className="font-bold">{info.getValue().toString()}</span>
+          );
+        },
+        header: () => <span className="">{t('table.type')}</span>,
       }
     ),
     columnHelper.accessor((row) => Date.parse(row.data.issuanceDate), {
@@ -112,7 +93,7 @@ const Table = () => {
           {new Date(info.getValue()).toDateString()}
         </span>
       ),
-      header: () => <span>ISSUANCE DATE</span>,
+      header: () => <span>{t('table.issuance-date')}</span>,
       enableGlobalFilter: false,
     }),
     columnHelper.accessor(
@@ -121,7 +102,7 @@ const Table = () => {
       {
         id: 'subject',
         cell: (info) => (
-          <Tooltip tooltip={'Open DID in Universal resolver'}>
+          <Tooltip tooltip={t('tooltip.open-did')}>
             <a
               href={`https://dev.uniresolver.io/#${info.getValue()}`}
               target="_blank"
@@ -132,7 +113,7 @@ const Table = () => {
               .slice(-4)}`}</a>
           </Tooltip>
         ),
-        header: () => <span>SUBJECT</span>,
+        header: () => <span>{t('table.subject')}</span>,
       }
     ),
     columnHelper.accessor(
@@ -145,7 +126,7 @@ const Table = () => {
       {
         id: 'issuer',
         cell: (info) => (
-          <Tooltip tooltip={'Open DID in Universal resolver'}>
+          <Tooltip tooltip={t('tooltip.open-did')}>
             <a
               href={`https://dev.uniresolver.io/#${info.getValue()}`}
               target="_blank"
@@ -156,7 +137,7 @@ const Table = () => {
               .slice(-4)}`}</a>
           </Tooltip>
         ),
-        header: () => <span>ISSUER</span>,
+        header: () => <span>{t('table.issuer')}</span>,
       }
     ),
     columnHelper.accessor(
@@ -172,7 +153,7 @@ const Table = () => {
               : new Date(info.getValue() as string).toDateString()}
           </span>
         ),
-        header: () => <span>EXPIRATION DATE</span>,
+        header: () => <span>{t('table.expiration-date')}</span>,
         enableGlobalFilter: false,
       }
     ),
@@ -189,7 +170,7 @@ const Table = () => {
             <Tooltip
               tooltip={`${
                 info.cell.row.original.data.expirationDate === undefined
-                  ? 'Does not have expiration date'
+                  ? t('tooltip.no-exp-date')
                   : `${
                       info.getValue() === 'true' ? 'Expires' : 'Expired'
                     } on ${new Date(
@@ -207,7 +188,7 @@ const Table = () => {
         ),
         header: () => (
           <span className="flex gap-x-1">
-            STATUS <InfoIcon>Validity of the VC</InfoIcon>
+            {t('table.status')} <InfoIcon>{t('tooltip.status')}</InfoIcon>
           </span>
         ),
       }
@@ -235,7 +216,7 @@ const Table = () => {
         ),
         header: () => (
           <span className="flex gap-x-1">
-            STORE <InfoIcon>Place where VC is stored</InfoIcon>
+            {t('table.store')} <InfoIcon>{t('tooltip.store')}</InfoIcon>
           </span>
         ),
         enableGlobalFilter: false,
@@ -244,7 +225,7 @@ const Table = () => {
     ),
     columnHelper.display({
       id: 'select',
-      header: ({ table }) => <>SELECT</>,
+      header: ({ table }) => <>{t('table.select')}</>,
       cell: ({ row }) => (
         <div className="flex items-center justify-center px-1">
           <button onClick={row.getToggleSelectedHandler()}>
@@ -275,7 +256,7 @@ const Table = () => {
           </button>
         </div>
       ),
-      header: () => <span>ACTIONS</span>,
+      header: () => <span>{t('table.actions')}</span>,
       enableGlobalFilter: false,
     }),
   ];
@@ -333,15 +314,15 @@ const Table = () => {
           onClick={handleLoadVcs}
           loading={loading}
         >
-          Load VCs
+          {t('noVCs.load')}
         </Button>
-        <span className="py-4 text-lg font-semibold">or</span>
+        <span className="py-4 text-lg font-semibold">{t('noVCs.or')}</span>
         <Link
           href="https://blockchain-lab-um.github.io/course-dapp"
           target="_blank"
         >
           <Button variant="secondary" size="sm" onClick={() => {}}>
-            Get your first VC
+            {t('noVCs.get')}
           </Button>
         </Link>
       </div>
@@ -353,14 +334,14 @@ const Table = () => {
         <div className="relative flex h-full min-h-[50vh] w-full flex-col">
           <div className="dark:border-navy-blue-600 flex items-center justify-between border-b border-gray-400 p-5">
             <div className="text-h2 font-ubuntu dark:text-navy-blue-50 pl-4 font-medium text-gray-900">
-              My Credentials
+              {t('table-header.credentials')}
             </div>
             <div className="text-right">
               <div className="text-h4 dark:text-navy-blue-50 text-gray-900">
-                {vcs.length} Credential(s) found
+                {vcs.length} {t('table-header.found')}
               </div>
               <div className="text-h5 dark:text-navy-blue-400 text-gray-600">
-                Fetched: today
+                {t('table-header.fetched')}: today
               </div>
             </div>
           </div>
@@ -371,15 +352,11 @@ const Table = () => {
                   {headerGroup.headers.map((header) => (
                     <th
                       className={`font-cabin px-3 py-4 text-sm font-normal ${
-                        header.id === 'type' || header.id === 'exp_date'
+                        header.id === 'date' || header.id === 'exp_date'
                           ? 'hidden lg:table-cell'
                           : ''
                       }
-                  ${
-                    header.id === 'date' || header.id === 'subject'
-                      ? 'hidden md:table-cell'
-                      : ''
-                  }
+                      ${header.id === 'subject' ? 'hidden xl:table-cell' : ''}
                   ${header.id === 'actions' ? 'hidden md:table-cell' : ''}
                   `}
                       key={header.id}
@@ -406,11 +383,11 @@ const Table = () => {
                 </tr>
               ))}
             </thead>
-            <tbody className="dark:text-navy-blue-50 break-all border-b text-gray-800">
+            <tbody className="dark:text-navy-blue-50 break-before-auto border-b text-gray-800">
               {table.getRowModel().rows.map((row) => (
                 <tr
                   key={row.id}
-                  className={`dark:border-navy-blue-tone/30 animated-transition dark:border-navy-blue-700 border-b border-gray-100 duration-75 ${
+                  className={`dark:border-navy-blue-tone/30 animated-transition dark:border-navy-blue-700 border-b border-gray-100 duration-75 hover:cursor-pointer ${
                     row.getIsSelected()
                       ? 'dark:bg-navy-blue-700 bg-pink-50/60 hover:bg-pink-50'
                       : 'dark:hover:bg-navy-blue-700/30 hover:bg-gray-50'
@@ -423,30 +400,38 @@ const Table = () => {
                           cell.column.id !== 'select' &&
                           cell.column.id !== 'expand' &&
                           cell.column.id !== 'subject' &&
+                          cell.column.id !== 'status' &&
+                          cell.column.id !== 'data_store' &&
                           cell.column.id !== 'issuer' &&
                           cell.column.id !== 'actions'
                         ) {
-                          row.toggleSelected();
-                          setSelectedVCs(
-                            table
-                              .getSelectedRowModel()
-                              .rows.map((r) => r.original)
-                          );
+                          router
+                            .push(
+                              {
+                                pathname: '/vc',
+                                query: { id: row.original.metadata.id },
+                              },
+                              undefined,
+                              { shallow: true }
+                            )
+                            .then(() => {})
+                            .catch(() => {});
                         }
                       }}
                       className={`max-h-16 py-5  ${
-                        cell.column.id === 'type' ||
-                        cell.column.id === 'exp_date'
+                        cell.column.id === 'exp_date' ||
+                        cell.column.id === 'date'
                           ? 'hidden lg:table-cell'
                           : ''
                       }
+                        ${
+                          cell.column.id === 'type'
+                            ? ' w-[20%] max-w-[20%] px-2'
+                            : ''
+                        }
+                  ${cell.column.id === 'actions' ? 'hidden sm:table-cell' : ''}
                   ${
-                    cell.column.id === 'date' || cell.column.id === 'subject'
-                      ? 'hidden md:table-cell'
-                      : ''
-                  }
-                  ${
-                    cell.column.id === 'actions' ? 'hidden sm:table-cell' : ''
+                    cell.column.id === 'subject' ? 'hidden xl:table-cell' : ''
                   }`}
                       key={cell.id}
                     >
@@ -460,11 +445,11 @@ const Table = () => {
               ))}
             </tbody>
           </table>
-          <div className=" mt-auto flex justify-center rounded-b-3xl pt-3 pb-3">
+          <div className=" mt-auto flex justify-center rounded-b-3xl pb-3 pt-3">
             <TablePagination table={table} />
           </div>
           {table.getSelectedRowModel().rows.length > 0 && (
-            <div className="absolute -bottom-5 right-10">
+            <div className="mb-2 max-lg:flex max-lg:justify-center lg:absolute lg:-bottom-5 lg:right-10">
               <Link href="createVP">
                 <Button
                   variant="primary"
@@ -475,7 +460,7 @@ const Table = () => {
                     );
                   }}
                 >
-                  Create Presentation{' '}
+                  {t('createVP')}{' '}
                   {table.getSelectedRowModel().rows.length > 0 &&
                     `(${table.getSelectedRowModel().rows.length})`}
                 </Button>
@@ -496,14 +481,14 @@ const Table = () => {
       <div className="relative flex h-full min-h-[50vh] w-full flex-col">
         <div className="dark:border-navy-blue-600 flex items-center justify-between border-b border-gray-400 p-5">
           <div className="text-h2 font-ubuntu dark:text-navy-blue-50 pl-4 font-medium text-gray-900">
-            My Credentials
+            {t('table-header.credentials')}
           </div>
           <div className="text-right">
             <div className="text-h4 dark:text-navy-blue-50 text-gray-900">
-              {vcs.length} Credential(s) found
+              {vcs.length} {t('table-header.found')}
             </div>
             <div className="text-h5 dark:text-navy-blue-400 text-gray-600">
-              Fetched: today
+              {t('table-header.fetched')}: today
             </div>
           </div>
         </div>
@@ -512,7 +497,7 @@ const Table = () => {
             <VCCard key={key} row={row} />
           ))}
         </div>
-        <div className="mt-auto flex justify-center rounded-b-3xl pt-3 pb-3">
+        <div className="mt-auto flex justify-center rounded-b-3xl pb-3 pt-3">
           <TablePagination table={table} />
         </div>
         {table.getSelectedRowModel().rows.length > 0 && (
@@ -527,7 +512,7 @@ const Table = () => {
                   );
                 }}
               >
-                Create Presentation{' '}
+                {t('createVP')}{' '}
                 {table.getSelectedRowModel().rows.length > 0 &&
                   `(${table.getSelectedRowModel().rows.length})`}
               </Button>

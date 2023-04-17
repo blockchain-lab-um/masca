@@ -33,7 +33,7 @@ body {
   }
 
   .nav-btn::after {
-    @apply dark:bg-orange-accent-dark absolute left-0 -bottom-[0.375em] h-[0.125em] w-[0%] rounded-xl bg-pink-500 duration-300 content-[''];
+    @apply dark:bg-orange-accent-dark absolute -bottom-[0.375em] left-0 h-[0.125em] w-[0%] rounded-xl bg-pink-500 duration-300 content-[''];
   }
 
   .nav-btn:hover::after {

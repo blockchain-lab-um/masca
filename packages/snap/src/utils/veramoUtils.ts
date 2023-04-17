@@ -1,5 +1,6 @@
 import {
   AvailableVCStores,
+  CreateVCRequestParams,
   CreateVPRequestParams,
   QueryVCsOptions,
   QueryVCsRequestResult,
@@ -12,6 +13,8 @@ import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
 import {
+  CredentialPayload,
+  ICreateVerifiableCredentialArgs,
   IIdentifier,
   IVerifyResult,
   MinimalImportableKey,
@@ -64,9 +67,9 @@ export const veramoImportMetaMaskAccount = async (
   params: ApiParams,
   agent: Agent
 ): Promise<IIdentifier> => {
-  const { state, snap, ethereum, account, bip44CoinTypeNode } = params;
+  const { state, snap, account, bip44CoinTypeNode } = params;
   const method = state.accountState[account].accountConfig.ssi.didMethod;
-  const did = await getCurrentDid(ethereum, state, account);
+  const did = await getCurrentDid(params);
 
   const res = await snapGetKeysFromAddress(
     bip44CoinTypeNode as BIP44CoinTypeNode,
@@ -263,4 +266,41 @@ export async function veramoVerifyData(args: {
   } catch (error: unknown) {
     return { verified: false, error: error as Error } as IVerifyResult;
   }
+}
+
+export async function veramoCreateVC(
+  params: ApiParams,
+  createVCParams: CreateVCRequestParams
+): Promise<VerifiableCredential> {
+  const { state, snap, ethereum } = params;
+  const { minimalUnsignedCredential, proofFormat = 'jwt' } = createVCParams;
+
+  // Get Veramo agent
+  const agent = await getAgent(snap, ethereum);
+  // GET DID
+  const identifier = await veramoImportMetaMaskAccount(params, agent);
+  const credentialPayload = minimalUnsignedCredential;
+  credentialPayload.issuer = identifier.did;
+
+  const config = state.snapConfig;
+
+  const createVCArgs: ICreateVerifiableCredentialArgs = {
+    credential: credentialPayload as CredentialPayload,
+    proofFormat,
+    save: false,
+  };
+  const content = panel([
+    heading('Create VC'),
+    text('Would you like to create a VC from the following data?'),
+    divider(),
+    text(`Data:`),
+    copyable(JSON.stringify(createVCArgs.credential, null, 2)),
+  ]);
+
+  if (config.dApp.disablePopups || (await snapConfirm(snap, content))) {
+    const vc = await agent.createVerifiableCredential(createVCArgs);
+    return vc;
+  }
+
+  throw new Error('User rejected create VC request');
 }

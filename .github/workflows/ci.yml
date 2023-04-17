@@ -20,7 +20,8 @@ jobs:
     secrets:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     with:
-      node-version: 18.13.0
+      pnpm-version: 7.30.0
+      node-version: 18.15.0
       number-of-agents: 3
       main-branch-name: 'develop'
       init-commands: |
@@ -37,4 +38,5 @@ jobs:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     with:
       number-of-agents: 3
-      node-version: 18.13.0
+      pnpm-version: 7.30.0
+      node-version: 18.15.0

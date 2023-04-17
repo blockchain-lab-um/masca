@@ -1,15 +1,20 @@
 import React from 'react';
 import Link from 'next/link';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
-import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
+import {
+  CheckCircleIcon,
+  DocumentDuplicateIcon,
+  ExclamationCircleIcon,
+} from '@heroicons/react/24/outline';
+import { useTranslations } from 'next-intl';
 
 import Button from '@/components/Button';
 import DeleteModal from '@/components/DeleteModal';
 import ModifyDSModal from '@/components/ModifyDSModal';
 import StoreIcon from '@/components/StoreIcon';
 import Tooltip from '@/components/Tooltip';
-import { useTableStore } from '@/utils/stores';
 import { convertTypes, copyToClipboard } from '@/utils/string';
+import { useTableStore } from '@/stores';
 
 interface FormatedTabProps {
   vc: QueryVCsRequestResult;
@@ -26,6 +31,7 @@ const FormatedTab = ({
   modifyDSModalOpen,
   deleteModalOpen,
 }: FormatedTabProps) => {
+  const t = useTranslations('VC');
   const setSelectedVCs = useTableStore((state) => state.setSelectedVCs);
 
   let stores: string[] = [];
@@ -51,40 +57,43 @@ const FormatedTab = ({
   const types = convertTypes(vc.data.type);
 
   const expDate = vc.data.expirationDate
-    ? `Expires on ${new Date(
+    ? `${t('formatted-tab.exp-date')} ${new Date(
         Date.parse(vc.data.expirationDate)
       ).getDay()}.${new Date(
         Date.parse(vc.data.expirationDate)
       ).getMonth()}.${new Date(
         Date.parse(vc.data.expirationDate)
       ).getFullYear()}`
-    : 'Does not expire';
+    : t('formatted-tab.no-exp-date');
 
   return (
     <>
       <div className="relative h-full px-8">
-        <div className="dark:from-navy-blue-700 dark:to-navy-blue-700 mt-8 grid grid-cols-3 rounded-2xl bg-gradient-to-b from-orange-50 to-pink-50 px-4 py-8">
-          <div className="col-span-2 row-span-2 flex w-full flex-col justify-center">
+        <div className="dark:from-navy-blue-700 dark:to-navy-blue-700 mt-6 flex rounded-2xl bg-gradient-to-b from-orange-100 to-pink-100 px-8 shadow-md">
+          <div className="flex w-[90%] py-8 lg:w-[90%]">
             <Tooltip tooltip={types}>
-              <div className="font-ubuntu dark:text-orange-accent-dark truncate pr-2 text-2xl font-medium text-gray-900">
+              <div className="font-ubuntu dark:text-orange-accent-dark w-[55%] truncate text-2xl font-medium text-pink-500 lg:w-[70%]">
                 {types}
               </div>
             </Tooltip>
           </div>
-          <div className="col-start-3 text-right">
-            <div className="dark:text-navy-blue-50 font-bold text-gray-800">
-              {validity ? 'VALID' : 'EXPIRED'}
-            </div>
-            <div className="dark:text-navy-blue-400 text-sm text-gray-800">
-              {expDate}
-            </div>
+          <div className="flex items-center justify-end">
+            {validity ? (
+              <Tooltip tooltip={'Credential is valid'}>
+                <CheckCircleIcon className="dark:text-orange-accent-dark h-12 w-12 text-pink-500" />
+              </Tooltip>
+            ) : (
+              <Tooltip tooltip={'Credential expired'}>
+                <ExclamationCircleIcon className="dark:text-orange-accent-dark h-12 w-12 text-pink-500" />
+              </Tooltip>
+            )}
           </div>
         </div>
 
-        <div className="dark:from-navy-blue-700 dark:to-navy-blue-700 mb-8 mt-6 grid grid-cols-1 break-all rounded-2xl bg-gradient-to-b from-orange-50 to-pink-50 px-8 py-10 lg:grid-cols-2">
+        <div className="dark:from-navy-blue-700 dark:to-navy-blue-700 mb-8 mt-6 grid grid-cols-1 break-all rounded-2xl  px-8 pb-14 pt-5 lg:grid-cols-2">
           <div className="px-1 lg:col-span-2 lg:col-start-1">
             <span className="text-md dark:text-orange-accent-dark font-medium text-pink-500">
-              SUBJECT
+              {t('formatted-tab.subject')}
             </span>
             <ul className="dark:text-navy-blue-200 text-gray-900">
               {Object.keys(vc.data.credentialSubject).map((key, id) => (
@@ -147,14 +156,14 @@ const FormatedTab = ({
           <div className="flex flex-col px-1 lg:col-start-3">
             <div>
               <span className="text-md dark:text-orange-accent-dark font-medium text-pink-500">
-                ISSUER
+                {t('formatted-tab.issuer')}
               </span>
               <div className="text-md dark:text-navy-blue-200 break-all font-semibold text-gray-800">
                 <div className="mt-3 flex">
                   <span className="dark:text-navy-blue-200 font-bold text-gray-900">
                     DID:
                   </span>
-                  <Tooltip tooltip={'Open DID in Universal resolver'}>
+                  <Tooltip tooltip={t('tooltip.open-did')}>
                     <a
                       href={`https://dev.uniresolver.io/#${issuer}`}
                       target="_blank"
@@ -179,20 +188,20 @@ const FormatedTab = ({
             </div>
             <div className="mt-8">
               <span className="text-md dark:text-orange-accent-dark font-medium text-pink-500">
-                DATES
+                {t('formatted-tab.dates')}
               </span>
 
               <div className="mt-2">
                 <div className="text-md dark:text-navy-blue-300 break-all text-gray-800">
                   <span className="dark:text-navy-blue-200 font-bold text-gray-900">
-                    Issuance Date:{' '}
+                    {t('formatted-tab.issuance-date')}:{' '}
                   </span>
                   {new Date(Date.parse(vc.data.issuanceDate)).toDateString()}
                 </div>
                 {vc.data.expirationDate ? (
                   <div className="text-md dark:text-navy-blue-200 break-all text-gray-800">
                     <span className="dark:text-navy-blue-200 font-bold text-gray-900">
-                      Expiration Date:{' '}
+                      {t('formatted-tab.expiration-date')}:{' '}
                     </span>
                     {new Date(
                       Date.parse(vc.data.expirationDate)
@@ -205,10 +214,10 @@ const FormatedTab = ({
             </div>
             <div className="mt-8">
               <span className="text-md dark:text-orange-accent-dark font-medium text-pink-500">
-                DATA STORES
+                {t('formatted-tab.store')}
               </span>
               {vc.metadata.store && (
-                <div className="mt-3 flex">
+                <div className="mt-3 flex gap-x-1">
                   {stores.map((store, id) => (
                     <Tooltip tooltip={store} key={id}>
                       <div className="mt-1">
@@ -229,7 +238,7 @@ const FormatedTab = ({
               onClick={() => setSelectedVCs([vc])}
               size="sm"
             >
-              Create Presentation
+              {t('formatted-tab.createVP')}
             </Button>
           </Link>
         </div>

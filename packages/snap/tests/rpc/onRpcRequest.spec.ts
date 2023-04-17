@@ -1,4 +1,5 @@
 import {
+  QueryVCsRequestResult,
   availableMethods,
   availableVCStores,
 } from '@blockchain-lab-um/ssi-snap-types';
@@ -14,7 +15,6 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
 } from '@veramo/core';
-import * as uuid from 'uuid';
 
 import { onRpcRequest } from '../../src';
 import { StoredCredentials } from '../../src/interfaces';
@@ -45,7 +45,6 @@ describe('onRpcRequest', () => {
   beforeEach(() => {
     snapMock = createMockSnap();
     snapMock.rpcMocks.snap_manageState('update', getDefaultSnapState());
-    // snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
     global.snap = snapMock;
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
   });
@@ -109,7 +108,7 @@ describe('onRpcRequest', () => {
       })) as Result<IDataManagerSaveResult[]>;
 
       if (isError(saveRes)) {
-        throw saveRes.error;
+        throw new Error(saveRes.error);
       }
 
       expect(saveRes.data).toEqual([
@@ -130,7 +129,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       const expectedResult = [
@@ -164,7 +163,7 @@ describe('onRpcRequest', () => {
       })) as Result<IDataManagerSaveResult[]>;
 
       if (isError(saveRes)) {
-        throw saveRes.error;
+        throw new Error(saveRes.error);
       }
 
       expect(saveRes.data).toEqual([
@@ -187,7 +186,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       const expectedResult = [
@@ -236,7 +235,7 @@ describe('onRpcRequest', () => {
       })) as Result<IDataManagerSaveResult[]>;
 
       if (isError(saveRes)) {
-        throw saveRes.error;
+        throw new Error(saveRes.error);
       }
 
       expect(saveRes.data).toEqual([
@@ -259,7 +258,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       const expectedResult = [
@@ -303,7 +302,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(res.error.message).toBe('User rejected the request.');
+      expect(res.error).toBe('Error: User rejected the request.');
 
       res = (await onRpcRequest({
         origin: 'localhost',
@@ -318,7 +317,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual([]);
@@ -346,7 +345,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(saveRes.error.message).toBe('Store snapp is not supported!');
+      expect(saveRes.error).toBe('Error: Store snapp is not supported!');
 
       expect.assertions(1);
     });
@@ -370,7 +369,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(saveRes.error.message).toBe('Invalid SaveVC request');
+      expect(saveRes.error).toBe('Error: Invalid SaveVC request');
 
       expect.assertions(1);
     });
@@ -395,7 +394,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(saveRes.error.message).toBe('Store is invalid format');
+      expect(saveRes.error).toBe('Error: Store is invalid format');
 
       expect.assertions(1);
     });
@@ -419,7 +418,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(saveRes.error.message).toBe('Store snapp is not supported!');
+      expect(saveRes.error).toBe('Error: Store snapp is not supported!');
 
       saveRes = (await onRpcRequest({
         origin: 'localhost',
@@ -438,7 +437,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(saveRes.error.message).toBe('Store is invalid format');
+      expect(saveRes.error).toBe('Error: Store is invalid format');
 
       expect.assertions(2);
     });
@@ -457,7 +456,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual([]);
@@ -482,7 +481,7 @@ describe('onRpcRequest', () => {
       })) as Result<IDataManagerSaveResult[]>;
 
       if (isError(saveRes)) {
-        throw saveRes.error;
+        throw new Error(saveRes.error);
       }
 
       const expectedResult = [
@@ -511,7 +510,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual(expectedResult);
@@ -520,7 +519,6 @@ describe('onRpcRequest', () => {
     });
 
     it('should succeed with 1 VC matching query - no filter or store', async () => {
-      jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       const saveRes = (await onRpcRequest({
@@ -537,7 +535,7 @@ describe('onRpcRequest', () => {
       })) as Result<IDataManagerSaveResult[]>;
 
       if (isError(saveRes)) {
-        throw saveRes.error;
+        throw new Error(saveRes.error);
       }
 
       const expectedResult = [
@@ -561,7 +559,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual(expectedResult);
@@ -570,7 +568,6 @@ describe('onRpcRequest', () => {
     });
 
     it('should succeed with 1 VC matching query - store defined', async () => {
-      jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       const saveRes = (await onRpcRequest({
@@ -587,7 +584,7 @@ describe('onRpcRequest', () => {
       })) as Result<IDataManagerSaveResult[]>;
 
       if (isError(saveRes)) {
-        throw saveRes.error;
+        throw new Error(saveRes.error);
       }
 
       const expectedResult = [
@@ -613,7 +610,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual(expectedResult);
@@ -622,7 +619,6 @@ describe('onRpcRequest', () => {
     });
 
     it('should succeed with 1 VC matching query - without store', async () => {
-      jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       const saveRes = (await onRpcRequest({
@@ -639,7 +635,7 @@ describe('onRpcRequest', () => {
       })) as Result<IDataManagerSaveResult[]>;
 
       if (isError(saveRes)) {
-        throw saveRes.error;
+        throw new Error(saveRes.error);
       }
 
       const expectedResult = [
@@ -664,7 +660,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual(expectedResult);
@@ -673,7 +669,6 @@ describe('onRpcRequest', () => {
     });
 
     it('should succeed with 1 VC matching query - filter by JSONPath', async () => {
-      jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       const saveRes = (await onRpcRequest({
@@ -690,7 +685,7 @@ describe('onRpcRequest', () => {
       })) as Result<IDataManagerSaveResult[]>;
 
       if (isError(saveRes)) {
-        throw saveRes.error;
+        throw new Error(saveRes.error);
       }
 
       const expectedResult = [
@@ -720,7 +715,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual(expectedResult);
@@ -747,7 +742,7 @@ describe('onRpcRequest', () => {
       })) as Result<IDataManagerSaveResult[]>;
 
       if (isError(saveRes)) {
-        throw saveRes.error;
+        throw new Error(saveRes.error);
       }
 
       expect(saveRes.data).toEqual([
@@ -770,7 +765,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual([true]);
@@ -787,7 +782,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(result)) {
-        throw result.error;
+        throw new Error(result.error);
       }
 
       expect(result.data).toHaveLength(0);
@@ -812,7 +807,7 @@ describe('onRpcRequest', () => {
       })) as Result<IDataManagerSaveResult[]>;
 
       if (isError(saveRes)) {
-        throw saveRes.error;
+        throw new Error(saveRes.error);
       }
 
       expect(saveRes.data).toEqual([
@@ -836,7 +831,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual([true]);
@@ -854,7 +849,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(result)) {
-        throw result.error;
+        throw new Error(result.error);
       }
 
       expect(result.data).toHaveLength(0);
@@ -878,7 +873,7 @@ describe('onRpcRequest', () => {
       })) as Result<IDataManagerSaveResult[]>;
 
       if (isError(saveRes)) {
-        throw saveRes.error;
+        throw new Error(saveRes.error);
       }
 
       expect(saveRes.data).toEqual([
@@ -902,7 +897,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toHaveLength(0);
@@ -920,7 +915,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(result)) {
-        throw result.error;
+        throw new Error(result.error);
       }
 
       expect(result.data).toHaveLength(1);
@@ -931,7 +926,6 @@ describe('onRpcRequest', () => {
 
   describe('createVP', () => {
     it('should succeed creating VP', async () => {
-      jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
       // const agent = await getAgent(snapMock);
 
@@ -949,7 +943,7 @@ describe('onRpcRequest', () => {
       })) as Result<IDataManagerSaveResult[]>;
 
       if (isError(saveRes)) {
-        throw saveRes.error;
+        throw new Error(saveRes.error);
       }
 
       const VPRes = (await onRpcRequest({
@@ -965,7 +959,7 @@ describe('onRpcRequest', () => {
       })) as Result<VerifiablePresentation>;
 
       if (isError(VPRes)) {
-        throw VPRes.error;
+        throw new Error(VPRes.error);
       }
 
       const createdVP = VPRes.data;
@@ -981,7 +975,6 @@ describe('onRpcRequest', () => {
       expect.assertions(1);
     });
     it('should succeed creating VP with did:key', async () => {
-      jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
       // const agent = await getAgent(snapMock);
       const saveRes = (await onRpcRequest({
@@ -998,7 +991,7 @@ describe('onRpcRequest', () => {
       })) as Result<IDataManagerSaveResult[]>;
 
       if (isError(saveRes)) {
-        throw saveRes.error;
+        throw new Error(saveRes.error);
       }
 
       await onRpcRequest({
@@ -1024,7 +1017,7 @@ describe('onRpcRequest', () => {
       })) as Result<VerifiablePresentation>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       const createdVP = res.data;
@@ -1041,7 +1034,6 @@ describe('onRpcRequest', () => {
     });
 
     it('should fail creating VP - VC does not exist', async () => {
-      jest.spyOn(uuid, 'v4').mockReturnValueOnce('test-id');
       snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
 
       let res = (await onRpcRequest({
@@ -1077,7 +1069,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(res.error.message).toBe('VC does not exist');
+      expect(res.error).toBe('Error: VC does not exist');
 
       expect.assertions(1);
     });
@@ -1098,7 +1090,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toBe(true);
@@ -1123,7 +1115,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(res.error.message).toBe('User rejected disabling popups');
+      expect(res.error).toBe('Error: User rejected disabling popups');
 
       expect.assertions(1);
     });
@@ -1142,7 +1134,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual(exampleDID);
@@ -1176,7 +1168,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual(exampleDIDKey);
@@ -1202,7 +1194,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toBe(
@@ -1231,7 +1223,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(res.error.message).toBe('User rejected method switch');
+      expect(res.error).toBe('Error: User rejected method switch');
 
       expect.assertions(1);
     });
@@ -1255,7 +1247,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(res.error.message).toBe('Did method is not supported!');
+      expect(res.error).toBe('Error: Did method is not supported!');
 
       expect.assertions(1);
     });
@@ -1277,7 +1269,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(res.error.message).toBe('Invalid switchDIDMethod request.');
+      expect(res.error).toBe('Error: Invalid switchDIDMethod request.');
 
       expect.assertions(1);
     });
@@ -1296,7 +1288,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toBe('did:ethr');
@@ -1330,7 +1322,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toBe('did:key');
@@ -1352,7 +1344,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual(availableMethods);
@@ -1379,7 +1371,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(res.error.message).toBe('Store ceramicc is not supported!');
+      expect(res.error).toBe('Error: Store ceramicc is not supported!');
 
       res = (await onRpcRequest({
         origin: 'localhost',
@@ -1395,7 +1387,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(res.error.message).toBe('Invalid setVCStore request.');
+      expect(res.error).toBe('Error: Invalid setVCStore request.');
 
       expect.assertions(2);
     });
@@ -1414,7 +1406,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toBe(true);
@@ -1430,7 +1422,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual({ ceramic: true, snap: true });
@@ -1452,7 +1444,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual({ ceramic: true, snap: true });
@@ -1474,7 +1466,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual(availableVCStores);
@@ -1482,6 +1474,7 @@ describe('onRpcRequest', () => {
       expect.assertions(1);
     });
   });
+
   describe('getAccountSettings', () => {
     const state = getDefaultSnapState();
     it('should succeed and return account settings', async () => {
@@ -1496,7 +1489,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual(state.accountState[address].accountConfig);
@@ -1504,6 +1497,7 @@ describe('onRpcRequest', () => {
       expect.assertions(1);
     });
   });
+
   describe('getSnapSettings', () => {
     const state = getDefaultSnapState();
     it('should succeed and return snap settings', async () => {
@@ -1518,7 +1512,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual(state.snapConfig);
@@ -1526,6 +1520,7 @@ describe('onRpcRequest', () => {
       expect.assertions(1);
     });
   });
+
   describe('resolveDID', () => {
     it('should succeed resolving did:ethr', async () => {
       const res = (await onRpcRequest({
@@ -1539,13 +1534,14 @@ describe('onRpcRequest', () => {
       })) as Result<DIDResolutionResult>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data.didDocument).toEqual(exampleDIDDocument);
       expect.assertions(1);
     });
   });
+
   describe('verifyCredential', () => {
     it('should succeed verifiying a VC', async () => {
       const verified = (await onRpcRequest({
@@ -1561,7 +1557,7 @@ describe('onRpcRequest', () => {
       })) as Result<boolean>;
 
       if (isError(verified)) {
-        throw verified.error;
+        throw new Error(verified.error);
       }
 
       expect(verified.data).toBe(true);
@@ -1585,7 +1581,7 @@ describe('onRpcRequest', () => {
       })) as Result<IDataManagerSaveResult[]>;
 
       if (isError(saveRes)) {
-        throw saveRes.error;
+        throw new Error(saveRes.error);
       }
 
       const createdVP = (await onRpcRequest({
@@ -1601,7 +1597,7 @@ describe('onRpcRequest', () => {
       })) as Result<VerifiablePresentation>;
 
       if (isError(createdVP)) {
-        throw createdVP.error;
+        throw new Error(createdVP.error);
       }
 
       const verified = (await onRpcRequest({
@@ -1617,11 +1613,126 @@ describe('onRpcRequest', () => {
       })) as Result<boolean>;
 
       if (isError(verified)) {
-        throw verified.error;
+        throw new Error(verified.error);
       }
 
       expect(verified.data).toBe(true);
       expect.assertions(1);
+    });
+  });
+
+  describe('createVC', () => {
+    it('should succeed creating a VC', async () => {
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'createVC',
+          params: {
+            minimalUnsignedCredential: exampleTestVCPayload,
+          },
+        },
+      })) as Result<VerifiableCredential>;
+
+      if (isError(res)) {
+        throw new Error(res.error);
+      }
+
+      expect(res.data).toContainKey('proof');
+      expect.assertions(1);
+    });
+    it('should succeed creating a JWT VC', async () => {
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'createVC',
+          params: {
+            minimalUnsignedCredential: exampleTestVCPayload,
+            proofFormat: 'jwt',
+          },
+        },
+      })) as Result<VerifiableCredential>;
+
+      if (isError(res)) {
+        throw new Error(res.error);
+      }
+
+      expect(res.data).toContainKey('proof');
+      expect(res.data.proof.type).toBe('JwtProof2020');
+      expect.assertions(2);
+    });
+
+    it('should succeed creating a EIP VC', async () => {
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'createVC',
+          params: {
+            minimalUnsignedCredential: exampleTestVCPayload,
+            proofFormat: 'EthereumEip712Signature2021',
+          },
+        },
+      })) as Result<VerifiableCredential>;
+
+      if (isError(res)) {
+        throw new Error(res.error);
+      }
+
+      expect(res.data).toContainKey('proof');
+      expect(res.data.proof.type).toBe('EthereumEip712Signature2021');
+      expect.assertions(2);
+    });
+
+    it.todo('should succeed creating a JSON-LD VC');
+
+    it.todo('should fail creating an EIP VC - invalid VC');
+
+    it('should succeed creating and saving a JWT VC', async () => {
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'createVC',
+          params: {
+            minimalUnsignedCredential: exampleTestVCPayload,
+            proofFormat: 'jwt',
+            options: {
+              save: true,
+            },
+          },
+        },
+      })) as Result<VerifiableCredential>;
+
+      if (isError(res)) {
+        throw new Error(res.error);
+      }
+
+      expect(res.data).toContainKey('proof');
+      expect(res.data.proof.type).toBe('JwtProof2020');
+
+      const resQuery = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'queryVCs',
+          params: {},
+        },
+      })) as Result<QueryVCsRequestResult[]>;
+
+      if (isError(resQuery)) {
+        throw new Error(resQuery.error);
+      }
+      expect(resQuery.data).toHaveLength(1);
+      expect(resQuery.data[0].data).toEqual(res.data);
+
+      expect.assertions(4);
     });
   });
 });

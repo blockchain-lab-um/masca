@@ -3,18 +3,22 @@ import { useRouter } from 'next/router';
 import { enableSSISnap } from '@blockchain-lab-um/ssi-snap-connector';
 import { isError } from '@blockchain-lab-um/utils';
 import detectEthereumProvider from '@metamask/detect-provider';
+import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
-import { useGeneralStore, useSnapStore } from '@/utils/stores';
+import { useGeneralStore, useSnapStore } from '@/stores';
 
-const snapId = 'local:http://localhost:8081';
-// const snapId = 'npm:@blockchain-lab-um/ssi-snap';
+const snapId =
+  process.env.NODE_ENV === 'production'
+    ? 'npm:@blockchain-lab-um/ssi-snap'
+    : 'local:http://localhost:8081';
 
 type MetaMaskProviderProps = {
   children: React.ReactNode;
 };
 
 const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
+  const t = useTranslations('Gateway');
   const {
     hasMM,
     hasFlask,
@@ -87,7 +91,8 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
 
   const enableSSISnapHandler = async () => {
     const enableResult = await enableSSISnap({ snapId });
-
+    console.log(snapId);
+    console.log(process.env.NODE_ENV);
     if (isError(enableResult)) {
       console.error(enableResult.error);
       changeIsConnecting(false);
@@ -175,7 +180,7 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
   return (
     <div className="flex min-h-full w-full items-center justify-center">
       <h3 className="text-h3 dark:text-navy-blue-50 text-gray-800">
-        Install MetaMask Flask to use the dApp!
+        {t('flask')}
       </h3>
     </div>
   );

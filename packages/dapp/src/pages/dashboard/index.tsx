@@ -3,7 +3,7 @@ import Head from 'next/head';
 import ConnectedProvider from '@/components/ConnectedProvider';
 import Controlbar from '@/components/Controlbar/Controlbar';
 import Table from '@/components/VCTable';
-import { useGeneralStore, useSnapStore } from '@/utils/stores';
+import { useGeneralStore, useSnapStore } from '@/stores';
 
 export default function Dashboard() {
   const isConnected = useGeneralStore((state) => state.isConnected);
@@ -23,4 +23,13 @@ export default function Dashboard() {
       </div>
     </div>
   );
+}
+
+export async function getStaticProps(context: { locale: any }) {
+  return {
+    props: {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/restrict-template-expressions
+      messages: (await import(`../../locales/${context.locale}.json`)).default,
+    },
+  };
 }

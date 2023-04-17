@@ -1,6 +1,4 @@
-FROM blockchain-lab-um/ssi-snap:latest as builder
-
-FROM node:18.13.0-alpine3.16
+FROM node:18.15.0-alpine3.16
 
 WORKDIR /app
 
@@ -45,6 +43,7 @@ COPY . .
 
 # Copy nx-cloud.env
 COPY ./nx-cloud.env ./
+ENV NODE_ENV=production
 
 # Build affected projects
 RUN pnpm build:docker

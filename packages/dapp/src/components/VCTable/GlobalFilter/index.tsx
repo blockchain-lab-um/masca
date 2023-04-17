@@ -1,9 +1,10 @@
 import React from 'react';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
+import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
-import { useTableStore } from '@/utils/stores';
+import { useTableStore } from '@/stores';
 
 type GlobalFilterProps = {
   isConnected: boolean;
@@ -11,6 +12,7 @@ type GlobalFilterProps = {
 };
 
 const GlobalFilter = ({ isConnected, vcs }: GlobalFilterProps) => {
+  const t = useTranslations('Dashboard');
   const { globalFilter, setGlobalFilter } = useTableStore(
     (state) => ({
       globalFilter: state.globalFilter,
@@ -40,7 +42,7 @@ const GlobalFilter = ({ isConnected, vcs }: GlobalFilterProps) => {
             ? 'bg-gray-50 text-gray-300 placeholder:text-gray-300'
             : 'bg-white'
         }`}
-        placeholder="Search all columns..."
+        placeholder={t('search')}
         disabled={!isConnected || vcs.length === 0}
       />
     </div>
