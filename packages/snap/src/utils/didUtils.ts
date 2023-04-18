@@ -32,12 +32,13 @@ export async function changeCurrentVCStore(params: {
   await updateSnapState(snap, state);
 }
 
-export async function getCurrentDid(
-  ethereum: MetaMaskInpageProvider,
-  snap: SnapsGlobalObject,
-  account: string,
-  origin: string
-): Promise<string> {
+export async function getCurrentDid(params: {
+  ethereum: MetaMaskInpageProvider;
+  snap: SnapsGlobalObject;
+  account: string;
+  origin: string;
+}): Promise<string> {
+  const { ethereum, snap, account, origin } = params;
   const state = await getSnapState(snap);
   const method = state.accountState[account].accountConfig.ssi.didMethod;
   if (method === 'did:ethr') {
@@ -102,18 +103,19 @@ export async function getCurrentDid(
   return '';
 }
 
-export async function changeCurrentMethod(
-  snap: SnapsGlobalObject,
-  ethereum: MetaMaskInpageProvider,
-  state: SSISnapState,
-  account: string,
-  didMethod: AvailableMethods,
-  origin: string
-): Promise<string> {
+export async function changeCurrentMethod(params: {
+  snap: SnapsGlobalObject;
+  ethereum: MetaMaskInpageProvider;
+  state: SSISnapState;
+  account: string;
+  didMethod: AvailableMethods;
+  origin: string;
+}): Promise<string> {
   // eslint-disable-next-line no-param-reassign
+  const { snap, ethereum, state, account, didMethod, origin } = params;
   state.accountState[account].accountConfig.ssi.didMethod = didMethod;
   await updateSnapState(snap, state);
-  const did = await getCurrentDid(ethereum, snap, account, origin);
+  const did = await getCurrentDid({ ethereum, snap, account, origin });
   return did;
 }
 

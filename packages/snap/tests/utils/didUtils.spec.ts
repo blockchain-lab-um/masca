@@ -86,7 +86,12 @@ describe('Utils [did]', () => {
     it('should return did:ethr', async () => {
       snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
       await expect(
-        getCurrentDid(ethereumMock, snapMock, address)
+        getCurrentDid({
+          ethereum: ethereumMock,
+          snap: snapMock,
+          account: address,
+          origin: 'localhost',
+        })
       ).resolves.toBe(`did:ethr:0x5:${address}`);
 
       expect.assertions(1);
@@ -99,7 +104,12 @@ describe('Utils [did]', () => {
       await updateSnapState(snapMock, initialState);
 
       await expect(
-        getCurrentDid(ethereumMock, snapMock, address)
+        getCurrentDid({
+          ethereum: ethereumMock,
+          snap: snapMock,
+          account: address,
+          origin: 'localhost',
+        })
       ).resolves.toBe(exampleDIDKey);
 
       expect.assertions(1);
@@ -118,6 +128,7 @@ describe('Utils [did]', () => {
           account: address,
           ethereum: ethereumMock,
           didMethod: 'did:key',
+          origin: 'localhost',
         })
       ).resolves.not.toThrow();
 
@@ -144,6 +155,7 @@ describe('Utils [did]', () => {
           account: address,
           ethereum: ethereumMock,
           didMethod: 'did:key',
+          origin: 'localhost',
         })
       ).resolves.not.toThrow();
 

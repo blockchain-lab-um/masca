@@ -20,14 +20,14 @@ export async function switchMethod(
     ]);
 
     if (await snapConfirm(snap, content)) {
-      const res = await changeCurrentMethod(
+      const res = await changeCurrentMethod({
         snap,
         ethereum,
         state,
         account,
         didMethod,
-        origin
-      );
+        origin,
+      });
       return res;
     }
 
