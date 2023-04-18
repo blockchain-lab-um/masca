@@ -6,7 +6,7 @@
   "scripts": {
     "build": "next build",
     "build:docker": "next export",
-    "dev": "cross-env NODE_ENV=dev && next dev",
+    "dev": "cross-env NODE_ENV=development && next dev",
     "docker:build": "docker build . -t blockchain-lab-um/dapp:latest",
     "lint": "pnpm lint:next && pnpm lint:tsc && pnpm lint:prettier && pnpm lint:stylelint",
     "lint-staged": "lint-staged",
