@@ -145,6 +145,7 @@ importers:
       '@veramo/core': 5.1.2
       autoprefixer: ^10.4.13
       clsx: ^1.2.1
+      cross-env: ^7.0.3
       eslint: ^8.32.0
       eslint-config-next: ^13.1.3
       eslint-config-prettier: ^8.6.0
@@ -202,6 +203,7 @@ importers:
       '@types/react': 18.0.30
       '@types/react-dom': 18.0.11
       autoprefixer: 10.4.14_postcss@8.4.21
+      cross-env: 7.0.3
       eslint: 8.37.0
       eslint-config-next: 13.3.0_ip5up2nocltd47wbnuyybe5dxu
       eslint-config-prettier: 8.8.0_eslint@8.37.0
