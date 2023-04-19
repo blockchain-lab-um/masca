@@ -5,7 +5,8 @@
   "type": "commonjs",
   "scripts": {
     "build": "next build",
-    "dev": "next dev",
+    "build:docker": "next export",
+    "dev": "cross-env USE_LOCAL='true' next dev",
     "docker:build": "docker build . -t blockchain-lab-um/dapp:latest",
     "lint": "pnpm lint:next && pnpm lint:tsc && pnpm lint:prettier && pnpm lint:stylelint",
     "lint-staged": "lint-staged",
@@ -47,6 +48,7 @@
     "@types/react": "18.0.30",
     "@types/react-dom": "18.0.11",
     "autoprefixer": "^10.4.13",
+    "cross-env": "^7.0.3",
     "eslint": "^8.32.0",
     "eslint-config-next": "^13.1.3",
     "eslint-config-prettier": "^8.6.0",

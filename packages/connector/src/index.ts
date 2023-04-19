@@ -32,7 +32,7 @@ export async function enableMasca(
 ): Promise<Result<Masca>> {
   const {
     snapId = defaultSnapOrigin,
-    version = '^1.4.0',
+    version = '^1.5.0',
     supportedMethods = ['did:ethr'],
   } = snapInstallationParams;
 
@@ -53,15 +53,6 @@ export async function enableMasca(
       'MetaMask is not supported. Please install MetaMask Flask.'
     );
   }
-
-  // FIXME (martin): I don't think we need this check anymore
-  // wallet_requestSnaps handles this and allows the use of semver ranges
-
-  // const isInstalled = await isSnapInstalled(snapId, version);
-
-  // if (isError(isInstalled)) {
-  //   return ResultObject.error(isInstalled.error);
-  // }
 
   try {
     await window.ethereum.request({

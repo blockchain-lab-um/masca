@@ -1,4 +1,4 @@
-import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { Json, SnapsGlobalObject } from '@metamask/snaps-types';
 
 import { ApiParams, MascaState } from '../interfaces';
 import { getEmptyAccountState, getInitialSnapState } from './config';
@@ -17,7 +17,10 @@ export async function updateSnapState(
 ) {
   await snap.request({
     method: 'snap_manageState',
-    params: { operation: 'update', newState: snapState },
+    params: {
+      operation: 'update',
+      newState: snapState as unknown as Record<string, Json>,
+    },
   });
 }
 
