@@ -13,7 +13,6 @@ import type { JsonWebKey, VerificationMethod } from 'did-resolver';
 import elliptic from 'elliptic';
 
 import { SSISnapState } from '../../interfaces';
-// import { snapGetKeysFromAddress } from '../../utils/keyPair';
 import type { Agent } from '../../veramo/setup';
 
 const EC = elliptic.ec;
@@ -75,7 +74,6 @@ function createJWK(
   const keyUse = getKeyUse(keyType, passedKeyUse);
   switch (keyType) {
     case SupportedKeyTypes.Secp256k1: {
-      // eslint-disable-next-line new-cap
       const ctx = new EC('secp256k1');
       const pubPoint = ctx.keyFromPublic(pubKey, 'hex').getPublic();
       const x = pubPoint.getX();
@@ -144,13 +142,6 @@ export async function getDidJwkIdentifier(
   agent?: Agent
 ): Promise<string> {
   if (agent) {
-    /* const res = await snapGetKeysFromAddress(
-      bip44CoinTypeNode as BIP44CoinTypeNode,
-      state,
-      account,
-      snap
-    );
-    if (!res) throw new Error('Failed to get keys'); */
     const identifier = await agent.didManagerCreate({
       provider: 'did:jwk',
       options: {

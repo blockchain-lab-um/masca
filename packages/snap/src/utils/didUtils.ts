@@ -2,6 +2,7 @@ import {
   AvailableMethods,
   AvailableVCStores,
 } from '@blockchain-lab-um/ssi-snap-types';
+import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { IIdentifier } from '@veramo/core';
@@ -12,12 +13,12 @@ import {
   getDidEbsiKeyIdentifier,
   getDidKeyIdentifier,
 } from '../did/key/keyDidUtils';
-import { ApiParams, SSISnapState } from '../interfaces';
+import { SSISnapState } from '../interfaces';
 import { getAgent } from '../veramo/setup';
 import { getDidEbsiIdentifier } from './ebsiUtils';
-import { getAddressKeyDeriver, snapGetKeysFromAddress } from './keyPair';
+import { snapGetKeysFromAddress } from './keyPair';
 import { getCurrentNetwork } from './snapUtils';
-import { getSnapState, updateSnapState } from './stateUtils';
+import { updateSnapState } from './stateUtils';
 
 export async function changeCurrentVCStore(params: {
   snap: SnapsGlobalObject;
@@ -26,7 +27,6 @@ export async function changeCurrentVCStore(params: {
   didStore: AvailableVCStores;
   value: boolean;
 }): Promise<void> {
-  // eslint-disable-next-line no-param-reassign
   const { snap, state, account, didStore, value } = params;
   state.accountState[account].accountConfig.ssi.vcStore[didStore] = value;
   await updateSnapState(snap, state);
@@ -35,12 +35,15 @@ export async function changeCurrentVCStore(params: {
 export async function getCurrentDid(params: {
   ethereum: MetaMaskInpageProvider;
   snap: SnapsGlobalObject;
+  state: SSISnapState;
   account: string;
-  origin: string;
+  bip44CoinTypeNode: BIP44CoinTypeNode;
 }): Promise<string> {
-  const { ethereum, snap, account, origin } = params;
-  const state = await getSnapState(snap);
+  const { ethereum, snap, state, account, bip44CoinTypeNode } = params;
+
   const method = state.accountState[account].accountConfig.ssi.didMethod;
+
+  // TODO: Use switch statement
   if (method === 'did:ethr') {
     const CHAIN_ID = await getCurrentNetwork(ethereum);
     return `did:ethr:${CHAIN_ID}:${account}`;
@@ -75,20 +78,16 @@ export async function getCurrentDid(params: {
   // TODO: handle did:jwk when veramo supports it
   if (method === 'did:pkh') {
     const agent = await getAgent(snap, ethereum);
-    const bip44CoinTypeNode = await getAddressKeyDeriver({
-      state,
-      snap,
-      ethereum,
-      account,
-      origin,
-    } as ApiParams);
+
     const res = await snapGetKeysFromAddress(
       bip44CoinTypeNode,
       state,
       account,
       snap
     );
+
     if (!res) throw new Error('Failed to get keys');
+
     const identifier: IIdentifier = await agent.didManagerCreate({
       provider: method,
       kms: 'snap',
@@ -97,10 +96,11 @@ export async function getCurrentDid(params: {
         keyType: 'Secp256k1',
       },
     });
+
     if (!identifier?.did) throw new Error('Failed to create identifier');
     return identifier.did;
   }
-  return '';
+  return ''; // TODO: Throw error
 }
 
 export async function changeCurrentMethod(params: {
@@ -108,14 +108,20 @@ export async function changeCurrentMethod(params: {
   ethereum: MetaMaskInpageProvider;
   state: SSISnapState;
   account: string;
+  bip44CoinTypeNode: BIP44CoinTypeNode;
   didMethod: AvailableMethods;
-  origin: string;
 }): Promise<string> {
-  // eslint-disable-next-line no-param-reassign
-  const { snap, ethereum, state, account, didMethod, origin } = params;
+  const { snap, ethereum, state, account, bip44CoinTypeNode, didMethod } =
+    params;
   state.accountState[account].accountConfig.ssi.didMethod = didMethod;
   await updateSnapState(snap, state);
-  const did = await getCurrentDid({ ethereum, snap, account, origin });
+  const did = await getCurrentDid({
+    ethereum,
+    snap,
+    state,
+    account,
+    bip44CoinTypeNode,
+  });
   return did;
 }
 

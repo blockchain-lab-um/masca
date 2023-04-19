@@ -18,11 +18,11 @@ import { updateSnapState } from './stateUtils';
  *
  * @returns string - address of the currently selected MetaMask account.
  * */
-export async function getCurrentAccount(state: SSISnapState): Promise<string> {
-  return new Promise((resolve, reject) => {
-    if (state.currentAccount === '') reject(new Error('No account selected'));
-    resolve(state.currentAccount);
-  });
+export function getCurrentAccount(state: SSISnapState): string {
+  if (state.currentAccount === '') {
+    throw new Error('No account set. Use setCurrentAccount to set an account.');
+  }
+  return state.currentAccount;
 }
 
 /**
@@ -103,7 +103,12 @@ export async function removeFriendlyDapp(
  *
  * @returns string - public key for the current account.
  */
-export async function getPublicKey(params: ApiParams): Promise<string> {
+export async function getPublicKey(params: {
+  snap: SnapsGlobalObject;
+  state: SSISnapState;
+  account: string;
+  bip44CoinTypeNode: BIP44CoinTypeNode;
+}): Promise<string> {
   const { snap, state, account, bip44CoinTypeNode } = params;
 
   if (state.accountState[account].publicKey !== '') {
@@ -111,7 +116,7 @@ export async function getPublicKey(params: ApiParams): Promise<string> {
   }
 
   const res = await snapGetKeysFromAddress(
-    bip44CoinTypeNode as BIP44CoinTypeNode,
+    bip44CoinTypeNode,
     state,
     account,
     snap
@@ -176,8 +181,13 @@ export function isEnabledVCStore(
 }
 
 export async function setAccountPublicKey(params: ApiParams): Promise<void> {
-  const { state, snap, account } = params;
-  const publicKey = await getPublicKey(params);
+  const { state, snap, account, bip44CoinTypeNode } = params;
+  const publicKey = await getPublicKey({
+    snap,
+    state,
+    account,
+    bip44CoinTypeNode: bip44CoinTypeNode as BIP44CoinTypeNode,
+  });
   state.accountState[account].publicKey = publicKey;
   await updateSnapState(snap, state);
 }

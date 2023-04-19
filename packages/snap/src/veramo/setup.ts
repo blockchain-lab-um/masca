@@ -71,7 +71,7 @@ export const getAgent = async (
   ethereum: MetaMaskInpageProvider
 ): Promise<Agent> => {
   const state = await getSnapState(snap);
-  const account = await getCurrentAccount(state);
+  const account = getCurrentAccount(state);
 
   const didProviders: Record<string, AbstractIdentifierProvider> = {};
   const vcStorePlugins: Record<string, AbstractDataStore> = {};

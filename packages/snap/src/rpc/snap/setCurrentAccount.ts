@@ -6,10 +6,10 @@ import { updateSnapState } from '../../utils/stateUtils';
 export async function setCurrentAccount(
   params: ApiParams,
   args: SetCurrentAccountRequestParams
-): Promise<string> {
+): Promise<boolean> {
   const { state, snap } = params;
   const { currentAccount } = args;
   state.currentAccount = currentAccount;
   await updateSnapState(snap, state);
-  return '';
+  return true;
 }

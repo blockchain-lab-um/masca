@@ -27,7 +27,7 @@ export async function authenticateWithEthereum(
   state: SSISnapState
 ): Promise<DID> {
   if (ceramicDID.did) return ceramicDID.did;
-  const account = await getCurrentAccount(state);
+  const account = getCurrentAccount(state);
   const ethChainId = await getCurrentNetwork(ethereum);
   const chainId = `eip155:${ethChainId}`;
 

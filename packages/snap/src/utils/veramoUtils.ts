@@ -23,7 +23,7 @@ import {
   W3CVerifiableCredential,
 } from '@veramo/core';
 
-import { ApiParams } from '../interfaces';
+import { ApiParams, SSISnapState } from '../interfaces';
 import { Agent, getAgent } from '../veramo/setup';
 import { getCurrentDid } from './didUtils';
 import { snapGetKeysFromAddress } from './keyPair';
@@ -64,22 +64,39 @@ export async function veramoSaveVC(args: {
 }
 
 export const veramoImportMetaMaskAccount = async (
-  params: ApiParams,
+  params: {
+    snap: SnapsGlobalObject;
+    ethereum: MetaMaskInpageProvider;
+    state: SSISnapState;
+    account: string;
+    bip44CoinTypeNode: BIP44CoinTypeNode;
+  },
   agent: Agent
 ): Promise<IIdentifier> => {
-  const { state, snap, ethereum, account, bip44CoinTypeNode, origin } = params;
+  const { snap, ethereum, state, account, bip44CoinTypeNode } = params;
   const method = state.accountState[account].accountConfig.ssi.didMethod;
-  const did = await getCurrentDid({ ethereum, snap, account, origin });
+  const did = await getCurrentDid({
+    snap,
+    ethereum,
+    state,
+    account,
+    bip44CoinTypeNode,
+  });
 
   const res = await snapGetKeysFromAddress(
-    bip44CoinTypeNode as BIP44CoinTypeNode,
+    bip44CoinTypeNode,
     state,
     account,
     snap
   );
   if (!res) throw new Error('Failed to get keys');
 
-  const publicKey = await getPublicKey(params);
+  const publicKey = await getPublicKey({
+    snap,
+    state,
+    account,
+    bip44CoinTypeNode,
+  });
   const controllerKeyId = `metamask-${account}`;
 
   const identifier = await agent.didManagerImport({
@@ -172,7 +189,13 @@ export async function veramoQueryVCs(args: {
 }
 
 export async function veramoCreateVP(
-  params: ApiParams,
+  params: {
+    snap: SnapsGlobalObject;
+    state: SSISnapState;
+    ethereum: MetaMaskInpageProvider;
+    account: string;
+    bip44CoinTypeNode: BIP44CoinTypeNode;
+  },
   createVPParams: CreateVPRequestParams
 ): Promise<VerifiablePresentation> {
   const vcsMetadata = createVPParams.vcs;
@@ -182,15 +205,23 @@ export async function veramoCreateVP(
     ? createVPParams.proofFormat
     : 'jwt';
 
-  const { state, snap, ethereum } = params;
+  const { state, snap, ethereum, account, bip44CoinTypeNode } = params;
   // Get Veramo agent
   const agent = await getAgent(snap, ethereum);
   // GET DID
-  const identifier = await veramoImportMetaMaskAccount(params, agent);
+  const identifier = await veramoImportMetaMaskAccount(
+    {
+      snap,
+      ethereum,
+      state,
+      account,
+      bip44CoinTypeNode,
+    },
+    agent
+  );
 
   const vcs: W3CVerifiableCredential[] = [];
 
-  // eslint-disable-next-line no-restricted-syntax
   for (const vcMetadata of vcsMetadata) {
     // eslint-disable-next-line no-await-in-loop
     const vcObj = (await agent.query({
@@ -272,13 +303,22 @@ export async function veramoCreateVC(
   params: ApiParams,
   createVCParams: CreateVCRequestParams
 ): Promise<VerifiableCredential> {
-  const { state, snap, ethereum } = params;
+  const { snap, state, ethereum, account, bip44CoinTypeNode } = params;
   const { minimalUnsignedCredential, proofFormat = 'jwt' } = createVCParams;
 
   // Get Veramo agent
   const agent = await getAgent(snap, ethereum);
   // GET DID
-  const identifier = await veramoImportMetaMaskAccount(params, agent);
+  const identifier = await veramoImportMetaMaskAccount(
+    {
+      snap,
+      state,
+      ethereum,
+      account,
+      bip44CoinTypeNode: bip44CoinTypeNode as BIP44CoinTypeNode,
+    },
+    agent
+  );
   const credentialPayload = minimalUnsignedCredential;
   credentialPayload.issuer = identifier.did;
 

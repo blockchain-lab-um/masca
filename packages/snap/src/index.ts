@@ -43,7 +43,19 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   try {
     let state = await getSnapStateUnchecked(snap);
     if (state === null) state = await initSnapState(snap);
-    const account = await getCurrentAccount(state);
+
+    let res;
+
+    if (request.method === 'setCurrentAccount') {
+      isValidSetCurrentAccountRequest(request.params);
+      res = await setCurrentAccount(
+        { state, snap, ethereum, account: '', origin },
+        request.params
+      );
+      return ResultObject.success(res);
+    }
+
+    const account = getCurrentAccount(state);
 
     const apiParams: ApiParams = {
       state,
@@ -58,7 +70,6 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
       await setAccountPublicKey(apiParams);
     }
-    let res;
     switch (request.method) {
       case 'queryVCs':
         isValidQueryRequest(request.params, apiParams.account, apiParams.state);
@@ -99,6 +110,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         res = await switchMethod(apiParams, request.params);
         return ResultObject.success(res);
       case 'getDID':
+        apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
         res = await getDid(apiParams);
         return ResultObject.success(res);
       case 'getSelectedMethod':
@@ -113,10 +125,6 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       case 'setVCStore':
         isValidSetVCStoreRequest(request.params);
         res = await setVCStore(apiParams, request.params);
-        return ResultObject.success(res);
-      case 'setCurrentAccount':
-        isValidSetCurrentAccountRequest(request.params);
-        res = await setCurrentAccount(apiParams, request.params);
         return ResultObject.success(res);
       case 'getAccountSettings':
         res = state.accountState[account].accountConfig;

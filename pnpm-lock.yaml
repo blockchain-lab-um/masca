@@ -1,9 +1,9 @@
 lockfileVersion: 5.4
 
 patchedDependencies:
-  '@metamask/snaps-types@0.28.0':
-    hash: rvr7xsi54kylxpxjwsjvbo3fce
-    path: patches/@metamask__snaps-types@0.28.0.patch
+  '@metamask/snaps-types@0.30.0':
+    hash: kxvx7oauvzzozwjf53rqnijmxy
+    path: patches/@metamask__snaps-types@0.30.0.patch
   cross-fetch@3.1.5:
     hash: b7u473fsyomrwof2p2enxrunba
     path: patches/cross-fetch@3.1.5.patch
@@ -442,7 +442,7 @@ importers:
       '@glazed/did-session': 0.1.1
       '@metamask/key-tree': 6.2.1
       '@metamask/providers': 10.2.1
-      '@metamask/snaps-types': 0.30.0
+      '@metamask/snaps-types': 0.30.0_kxvx7oauvzzozwjf53rqnijmxy
       '@metamask/snaps-ui': 0.30.0
       '@types/uuid': 9.0.1
       '@veramo/core': 5.1.2
@@ -5718,7 +5718,7 @@ packages:
       - supports-color
       - utf-8-validate
 
-  /@metamask/snaps-types/0.30.0:
+  /@metamask/snaps-types/0.30.0_kxvx7oauvzzozwjf53rqnijmxy:
     resolution: {integrity: sha512-6tfWRe5OcdJd1yxAFs8rqOhIxZxCqooJuCLo85xivvoqM5wAMFSRGPP4QiKx+UxBVetyZmno/NjJ9sRKVMLu/g==}
     engines: {node: '>=16.0.0'}
     dependencies:
@@ -5732,6 +5732,7 @@ packages:
       - supports-color
       - utf-8-validate
     dev: false
+    patched: true
 
   /@metamask/snaps-ui/0.30.0:
     resolution: {integrity: sha512-XNt3LQAKN/y5jmu5M0krXC3mJWE9ZJfVgZ2SaZXPVJmPeDnlda8jHwgRznY2NAS50qtRAbxqQu+DVf+b2ExrQQ==}

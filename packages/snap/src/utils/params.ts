@@ -339,14 +339,14 @@ export function isValidSetCurrentAccountRequest(
   if (
     param !== null &&
     typeof param === 'object' &&
-    'did' in param &&
-    param.did !== null &&
-    param.did !== '' &&
-    typeof param.did === 'string'
+    'currentAccount' in param &&
+    param.currentAccount !== null &&
+    param.currentAccount !== '' &&
+    typeof param.currentAccount === 'string'
   )
     return;
 
-  throw new Error('Invalid ResolveDID request');
+  throw new Error('Invalid SetCurrentAccount request');
 }
 
 export function isValidVerifyDataRequest(
