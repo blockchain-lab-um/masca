@@ -29,6 +29,10 @@ const common: Configuration = {
   module: {
     rules: [
       {
+        test: /@chainsafe\/as-sha256/u,
+        use: 'null-loader',
+      },
+      {
         test: /\.(m?js|ts)x?$/u,
         use: [
           {

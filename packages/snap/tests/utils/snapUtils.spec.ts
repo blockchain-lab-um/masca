@@ -296,7 +296,7 @@ describe('Utils [snap]', () => {
           ],
           type: 'panel',
         },
-        type: 'Confirmation',
+        type: 'confirmation',
       });
     });
     it('should return false', async () => {
@@ -311,7 +311,7 @@ describe('Utils [snap]', () => {
           ],
           type: 'panel',
         },
-        type: 'Confirmation',
+        type: 'confirmation',
       });
       expect.assertions(2);
     });
