@@ -38,6 +38,9 @@ const nextConfig = {
     locales: ['en', 'si'],
     defaultLocale: 'en',
   },
+  env: {
+    USE_LOCAL: process.env.USE_LOCAL || 'false',
+  },
 
   // Security headers and CSP
   // https://nextjs.org/docs/advanced-features/security-headers

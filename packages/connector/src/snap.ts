@@ -25,12 +25,13 @@ async function sendSnapMethod<T>(
   request: MetaMaskSSISnapRPCRequest,
   snapId: string
 ): Promise<T> {
-  const mmRequest = {
-    method: snapId,
-    params: request,
-  };
-
-  return window.ethereum.request(mmRequest);
+  return window.ethereum.request({
+    method: 'wallet_invokeSnap',
+    params: {
+      snapId,
+      request,
+    },
+  });
 }
 
 /**
@@ -273,18 +274,15 @@ export async function createVC(
 }
 
 export class MetaMaskSSISnap {
-  protected readonly snapOrigin: string;
-
   protected readonly snapId: string;
 
   public readonly supportedMethods: Array<AvailableMethods>;
 
   public constructor(
-    snapOrigin: string,
+    snapId: string,
     supportedMethods: Array<AvailableMethods>
   ) {
-    this.snapOrigin = snapOrigin;
-    this.snapId = `wallet_snap_${this.snapOrigin}`;
+    this.snapId = snapId;
     this.supportedMethods = supportedMethods;
   }
 

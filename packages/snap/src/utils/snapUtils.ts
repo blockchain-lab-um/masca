@@ -141,7 +141,7 @@ export async function snapConfirm(
   const res = await snap.request({
     method: 'snap_dialog',
     params: {
-      type: 'Confirmation',
+      type: 'confirmation',
       content,
     },
   });
