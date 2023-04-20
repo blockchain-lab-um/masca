@@ -1,4 +1,4 @@
-import { SwitchMethodRequestParams } from '@blockchain-lab-um/ssi-snap-types';
+import { SwitchMethodRequestParams } from '@blockchain-lab-um/masca-types';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { divider, heading, panel, text } from '@metamask/snaps-ui';
 

@@ -3,11 +3,11 @@ import Head from 'next/head';
 import ConnectedProvider from '@/components/ConnectedProvider';
 import Controlbar from '@/components/Controlbar/Controlbar';
 import Table from '@/components/VCTable';
-import { useGeneralStore, useSnapStore } from '@/stores';
+import { useGeneralStore, useMascaStore } from '@/stores';
 
 export default function Dashboard() {
   const isConnected = useGeneralStore((state) => state.isConnected);
-  const vcs = useSnapStore((state) => state.vcs);
+  const vcs = useMascaStore((state) => state.vcs);
   return (
     <div className="">
       <Head>

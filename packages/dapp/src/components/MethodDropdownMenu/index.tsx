@@ -1,18 +1,18 @@
 import { Fragment } from 'react';
-import { AvailableMethods } from '@blockchain-lab-um/ssi-snap-types';
+import { AvailableMethods } from '@blockchain-lab-um/masca-types';
 import { isError } from '@blockchain-lab-um/utils';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { shallow } from 'zustand/shallow';
 
-import { useSnapStore, useToastStore } from '@/stores';
+import { useMascaStore, useToastStore } from '@/stores';
 import { DropdownButton } from './MethodDropdownButton';
 
 export default function MethodDropdownMenu() {
   const { api, currMethod, methods, changeCurrDIDMethod, changeDID } =
-    useSnapStore(
+    useMascaStore(
       (state) => ({
-        api: state.snapApi,
+        api: state.mascaApi,
         currMethod: state.currDIDMethod,
         methods: state.availableMethods,
         changeCurrDIDMethod: state.changeCurrDIDMethod,

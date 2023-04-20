@@ -1,8 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
 
-import { BASE_PATH } from '@/utils/constants';
-
 type StoreIconProps = {
   store: string;
 };
@@ -15,11 +13,7 @@ const logo: Record<string, string> = {
 const StoreIcon = ({ store }: StoreIconProps) => {
   return (
     <div className="mx-0.5 h-5 w-5">
-      <Image
-        fill={true}
-        src={`${BASE_PATH}/images/${logo[store]}`}
-        alt={store}
-      />
+      <Image fill={true} src={`/images/${logo[store]}`} alt={store} />
     </div>
   );
 };

@@ -1,26 +1,26 @@
 import {
-  SSIAccountConfig,
-  SSISnapConfig,
-} from '@blockchain-lab-um/ssi-snap-types';
+  MascaAccountConfig,
+  MascaConfig,
+} from '@blockchain-lab-um/masca-types';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { IIdentifier, IKey, W3CVerifiableCredential } from '@veramo/core';
 import { ManagedPrivateKey } from '@veramo/key-manager';
 
-export type SSISnapState = {
+export type MascaState = {
   /**
    * Account specific storage
    */
-  accountState: Record<string, SSIAccountState>;
+  accountState: Record<string, MascaAccountState>;
   /**
    * Current account
    */
   currentAccount: string;
   /**
-   * Configuration for SSISnap
+   * Configuration for Masca
    */
-  snapConfig: SSISnapConfig;
+  snapConfig: MascaConfig;
 };
 
 export type ExtendedVerifiableCredential = W3CVerifiableCredential & {
@@ -38,9 +38,9 @@ export type StoredCredentials = {
 };
 
 /**
- * SSI Snap State for a MetaMask address
+ * Masca State for a MetaMask address
  */
-export type SSIAccountState = {
+export type MascaAccountState = {
   /**
    * Store for {@link SnapPrivateKeyStore}
    */
@@ -60,7 +60,7 @@ export type SSIAccountState = {
 
   publicKey: string;
   index?: number;
-  accountConfig: SSIAccountConfig;
+  accountConfig: MascaAccountConfig;
 };
 
 export type SnapConfirmParams = {
@@ -70,7 +70,7 @@ export type SnapConfirmParams = {
 };
 
 export interface ApiParams {
-  state: SSISnapState;
+  state: MascaState;
   snap: SnapsGlobalObject;
   ethereum: MetaMaskInpageProvider;
   account: string;

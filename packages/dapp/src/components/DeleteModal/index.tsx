@@ -2,14 +2,14 @@ import { Fragment } from 'react';
 import {
   AvailableVCStores,
   QueryVCsRequestResult,
-} from '@blockchain-lab-um/ssi-snap-types';
+} from '@blockchain-lab-um/masca-types';
 import { isError } from '@blockchain-lab-um/utils';
 import { Dialog, Transition } from '@headlessui/react';
 import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
-import { useSnapStore, useToastStore } from '@/stores';
+import { useMascaStore, useToastStore } from '@/stores';
 
 interface DeleteModalProps {
   open: boolean;
@@ -20,7 +20,13 @@ interface DeleteModalProps {
 
 function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
   const t = useTranslations('DeleteVC');
-  const api = useSnapStore((state) => state.snapApi);
+  const { api, changeVcs } = useMascaStore(
+    (state) => ({
+      api: state.mascaApi,
+      changeVcs: state.changeVcs,
+    }),
+    shallow
+  );
   const { setTitle, setLoading, setToastOpen, setType } = useToastStore(
     (state) => ({
       setTitle: state.setTitle,
@@ -47,11 +53,11 @@ function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
       if (store) {
         deleteReqOptions = {
           store,
-        };
+        } as { store: AvailableVCStores };
       } else if (vc.metadata.store) {
         deleteReqOptions = {
-          store: vc.metadata.store as AvailableVCStores | AvailableVCStores[],
-        };
+          store: vc.metadata.store,
+        } as { store: AvailableVCStores[] };
       }
 
       const res = await api.deleteVC(vc.metadata.id, deleteReqOptions);
@@ -88,7 +94,7 @@ function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
           setLoading(false);
           setToastOpen(true);
         }, 100);
-        useSnapStore.getState().changeVcs(vcs.data);
+        changeVcs(vcs.data);
       }
     }
   };

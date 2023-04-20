@@ -6,7 +6,7 @@ import {
   QueryVCsRequestResult,
   SaveVCRequestResult,
   VerifyDataRequestParams,
-} from '@blockchain-lab-um/ssi-snap-types';
+} from '@blockchain-lab-um/masca-types';
 import { Filter } from '@blockchain-lab-um/veramo-vc-manager';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
@@ -23,7 +23,7 @@ import {
   W3CVerifiableCredential,
 } from '@veramo/core';
 
-import { ApiParams, SSISnapState } from '../interfaces';
+import { ApiParams, MascaState } from '../interfaces';
 import { Agent, getAgent } from '../veramo/setup';
 import { getCurrentDid } from './didUtils';
 import { snapGetKeysFromAddress } from './keyPair';
@@ -67,7 +67,7 @@ export const veramoImportMetaMaskAccount = async (
   params: {
     snap: SnapsGlobalObject;
     ethereum: MetaMaskInpageProvider;
-    state: SSISnapState;
+    state: MascaState;
     account: string;
     bip44CoinTypeNode: BIP44CoinTypeNode;
   },
@@ -191,7 +191,7 @@ export async function veramoQueryVCs(args: {
 export async function veramoCreateVP(
   params: {
     snap: SnapsGlobalObject;
-    state: SSISnapState;
+    state: MascaState;
     ethereum: MetaMaskInpageProvider;
     account: string;
     bip44CoinTypeNode: BIP44CoinTypeNode;

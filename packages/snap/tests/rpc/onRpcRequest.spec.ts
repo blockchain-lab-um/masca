@@ -2,7 +2,7 @@ import {
   QueryVCsRequestResult,
   availableMethods,
   availableVCStores,
-} from '@blockchain-lab-um/ssi-snap-types';
+} from '@blockchain-lab-um/masca-types';
 import { Result, isError, isSuccess } from '@blockchain-lab-um/utils';
 import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-vc-manager';
 import { DIDDataStore } from '@glazed/did-datastore';

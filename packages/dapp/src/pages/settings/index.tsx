@@ -6,7 +6,7 @@ import { shallow } from 'zustand/shallow';
 
 import ConnectedProvider from '@/components/ConnectedProvider';
 import ToggleSwitch from '@/components/Switch';
-import { useSnapStore, useToastStore } from '@/stores';
+import { useMascaStore, useToastStore } from '@/stores';
 
 export default function Settings() {
   const t = useTranslations('Settings');
@@ -20,11 +20,11 @@ export default function Settings() {
     }),
     shallow
   );
-  const { availableVCStores, changeAvailableVCStores, api } = useSnapStore(
+  const { api, availableVCStores, changeAvailableVCStores } = useMascaStore(
     (state) => ({
+      api: state.mascaApi,
       availableVCStores: state.availableVCStores,
       changeAvailableVCStores: state.changeAvailableVCStores,
-      api: state.snapApi,
     }),
     shallow
   );

@@ -1,24 +1,24 @@
 /* eslint-disable no-param-reassign */
 
-import { AvailableVCStores } from '@blockchain-lab-um/ssi-snap-types';
+import { AvailableVCStores } from '@blockchain-lab-um/masca-types';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { Component } from '@metamask/snaps-ui';
 import { publicKeyConvert } from 'secp256k1';
 
-import { ApiParams, SSISnapState } from '../interfaces';
+import { ApiParams, MascaState } from '../interfaces';
 import { snapGetKeysFromAddress } from './keyPair';
 import { updateSnapState } from './stateUtils';
 
 /**
  * Function that returns address of the currently selected MetaMask account.
  *
- * @param state - SSISnapState object.
+ * @param state - MascaState object.
  *
  * @returns string - address of the currently selected MetaMask account.
  * */
-export function getCurrentAccount(state: SSISnapState): string {
+export function getCurrentAccount(state: MascaState): string {
   if (state.currentAccount === '') {
     throw new Error('No account set. Use setCurrentAccount to set an account.');
   }
@@ -50,10 +50,7 @@ export async function getCurrentNetwork(
  *
  * @returns void
  */
-export async function togglePopups(
-  snap: SnapsGlobalObject,
-  state: SSISnapState
-) {
+export async function togglePopups(snap: SnapsGlobalObject, state: MascaState) {
   state.snapConfig.dApp.disablePopups = !state.snapConfig.dApp.disablePopups;
   await updateSnapState(snap, state);
 }
@@ -69,7 +66,7 @@ export async function togglePopups(
  */
 export async function addFriendlyDapp(
   snap: SnapsGlobalObject,
-  state: SSISnapState,
+  state: MascaState,
   dapp: string
 ) {
   if (state.snapConfig.dApp.friendlyDapps.includes(dapp)) return;
@@ -88,7 +85,7 @@ export async function addFriendlyDapp(
  */
 export async function removeFriendlyDapp(
   snap: SnapsGlobalObject,
-  state: SSISnapState,
+  state: MascaState,
   dapp: string
 ) {
   state.snapConfig.dApp.friendlyDapps =
@@ -105,7 +102,7 @@ export async function removeFriendlyDapp(
  */
 export async function getPublicKey(params: {
   snap: SnapsGlobalObject;
-  state: SSISnapState;
+  state: MascaState;
   account: string;
   bip44CoinTypeNode: BIP44CoinTypeNode;
 }): Promise<string> {
@@ -155,7 +152,7 @@ export async function snapConfirm(
 
 export function getEnabledVCStores(
   account: string,
-  state: SSISnapState,
+  state: MascaState,
   vcstores?: AvailableVCStores[]
 ): string[] {
   if (!vcstores) {
@@ -174,7 +171,7 @@ export function getEnabledVCStores(
 
 export function isEnabledVCStore(
   account: string,
-  state: SSISnapState,
+  state: MascaState,
   store: AvailableVCStores
 ): boolean {
   return state.accountState[account].accountConfig.ssi.vcStore[store];

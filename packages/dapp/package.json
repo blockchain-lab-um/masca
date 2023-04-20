@@ -17,8 +17,8 @@
     "start": "next start"
   },
   "dependencies": {
-    "@blockchain-lab-um/ssi-snap-connector": "*",
-    "@blockchain-lab-um/ssi-snap-types": "*",
+    "@blockchain-lab-um/masca-connector": "*",
+    "@blockchain-lab-um/masca-types": "*",
     "@blockchain-lab-um/utils": "*",
     "@headlessui/react": "^1.7.7",
     "@heroicons/react": "^2.0.13",
@@ -35,6 +35,7 @@
     "prop-types": "^15.8.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "sharp": "^0.32.0",
     "tailwind-scrollbar": "^3.0.0",
     "zustand": "^4.3.2"
   },
@@ -87,13 +88,6 @@
         "outputs": [
           "{projectRoot}/.next"
         ]
-      },
-      "build:docker": {
-        "inputs": [],
-        "dependsOn": [
-          "build"
-        ],
-        "outputs": []
       },
       "start": {
         "inputs": [

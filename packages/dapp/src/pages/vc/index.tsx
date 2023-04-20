@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Tab } from '@headlessui/react';
@@ -14,13 +14,13 @@ import { useTranslations } from 'next-intl';
 import ConnectedProvider from '@/components/ConnectedProvider';
 import FormatedTab from '@/components/VC/tabs/FormatedTab';
 import JsonTab from '@/components/VC/tabs/JsonTab';
-import { useSnapStore } from '@/stores';
+import { useMascaStore } from '@/stores';
 
 const VC = () => {
   const t = useTranslations('VC');
   const router = useRouter();
   const { id } = router.query;
-  const vcs = useSnapStore((state) => state.vcs);
+  const vcs = useMascaStore((state) => state.vcs);
   const vc = vcs.find((VCobj) => VCobj.metadata.id === id);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [modifyDSModalOpen, setModifyDSModalOpen] = useState(false);

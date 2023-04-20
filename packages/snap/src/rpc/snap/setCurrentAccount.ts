@@ -1,4 +1,4 @@
-import { SetCurrentAccountRequestParams } from '@blockchain-lab-um/ssi-snap-types';
+import { SetCurrentAccountRequestParams } from '@blockchain-lab-um/masca-types';
 
 import { ApiParams } from '../../interfaces';
 import { updateSnapState } from '../../utils/stateUtils';

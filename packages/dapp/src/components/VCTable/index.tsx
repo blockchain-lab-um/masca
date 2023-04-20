@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
+import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-types';
 import { isError } from '@blockchain-lab-um/utils';
 import {
   CheckCircleIcon,
@@ -37,7 +37,7 @@ import InfoIcon from '@/components/InfoIcon';
 import StoreIcon from '@/components/StoreIcon';
 import Tooltip from '@/components/Tooltip';
 import { convertTypes } from '@/utils/string';
-import { useSnapStore, useTableStore } from '@/stores';
+import { useMascaStore, useTableStore } from '@/stores';
 import TablePagination from './TablePagination';
 import VCCard from './VCCard';
 import { includesDataStore, selectRows } from './tableUtils';
@@ -47,11 +47,11 @@ const Table = () => {
   const t = useTranslations('Dashboard');
   const [loading, setLoading] = useState(false);
   const [sorting, setSorting] = useState<SortingState>([]);
-  const { vcs, changeVcs, api } = useSnapStore(
+  const { api, vcs, changeVcs } = useMascaStore(
     (state) => ({
+      api: state.mascaApi,
       vcs: state.vcs,
       changeVcs: state.changeVcs,
-      api: state.snapApi,
     }),
     shallow
   );
@@ -225,7 +225,7 @@ const Table = () => {
     ),
     columnHelper.display({
       id: 'select',
-      header: ({ table }) => <>{t('table.select')}</>,
+      header: () => <>{t('table.select')}</>,
       cell: ({ row }) => (
         <div className="flex items-center justify-center px-1">
           <button onClick={row.getToggleSelectedHandler()}>

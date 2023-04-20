@@ -12,7 +12,7 @@ import {
 import type { JsonWebKey, VerificationMethod } from 'did-resolver';
 import elliptic from 'elliptic';
 
-import { SSISnapState } from '../../interfaces';
+import { MascaState } from '../../interfaces';
 import type { Agent } from '../../veramo/setup';
 
 const EC = elliptic.ec;
@@ -137,7 +137,7 @@ export function generateJwkFromVerificationMethod(
 }
 
 export async function getDidJwkIdentifier(
-  state: SSISnapState,
+  state: MascaState,
   account: string,
   agent?: Agent
 ): Promise<string> {

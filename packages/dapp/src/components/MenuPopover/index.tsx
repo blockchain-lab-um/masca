@@ -4,8 +4,6 @@ import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { useTranslations } from 'next-intl';
 
-import { BASE_PATH } from '@/utils/constants';
-
 function IconOne() {
   return (
     <svg
@@ -89,7 +87,7 @@ const IconDiscord = () => {
   return (
     <div className="relative flex h-12 w-12 items-center justify-center rounded-lg bg-pink-50">
       <Image
-        src={`${BASE_PATH}/images/discord-mark-blue.png`}
+        src={`/images/discord-mark-blue.png`}
         alt="discord logo"
         width={36}
         height={36}
@@ -192,7 +190,7 @@ function MenuPopover() {
                   </div>
                   <div className="bg-gray-50 p-4">
                     <a
-                      href="https://blockchain-lab-um.github.io/ssi-snap-docs/"
+                      href="https://blockchain-lab-um.github.io/masca-docs/"
                       target="_blank"
                       rel="noreferrer"
                       className="flow-root rounded-md px-2 py-2 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"

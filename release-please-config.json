@@ -22,7 +22,7 @@
   ],
   "packages": {
     "packages/connector": {
-      "component": "ssi-snap-connector",
+      "component": "masca-connector",
       "releaseType": "node",
       "bumpMinorPreMajor": false,
       "bumpPatchForMinorPreMajor": false,
@@ -30,7 +30,7 @@
       "versioning": "default"
     },
     "packages/types": {
-      "component": "ssi-snap-types",
+      "component": "masca-types",
       "releaseType": "node",
       "bumpMinorPreMajor": false,
       "bumpPatchForMinorPreMajor": false,
@@ -38,7 +38,7 @@
       "versioning": "default"
     },
     "packages/vcmanager": {
-      "component": "ssi-snap-vcmanager",
+      "component": "masca-vcmanager",
       "releaseType": "node",
       "bumpMinorPreMajor": false,
       "bumpPatchForMinorPreMajor": false,
@@ -46,7 +46,7 @@
       "versioning": "default"
     },
     "packages/snap": {
-      "component": "ssi-snap",
+      "component": "masca",
       "releaseType": "node",
       "bumpMinorPreMajor": false,
       "bumpPatchForMinorPreMajor": false,
@@ -73,12 +73,12 @@
   "plugins": [
     {
       "type": "linked-versions",
-      "groupName": "ssi-snap-core",
+      "groupName": "masca-core",
       "components": [
-        "ssi-snap-connector",
-        "ssi-snap-types",
-        "ssi-snap-vcmanager",
-        "ssi-snap"
+        "masca-connector",
+        "masca-types",
+        "masca-vcmanager",
+        "masca"
       ]
     }
   ]

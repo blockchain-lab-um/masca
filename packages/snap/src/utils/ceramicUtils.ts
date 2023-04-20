@@ -4,7 +4,7 @@ import { MetaMaskInpageProvider } from '@metamask/providers';
 import { AccountId } from 'caip';
 import { DIDSession } from 'did-session';
 import { DID } from 'dids';
-import { SSISnapState } from 'src/interfaces';
+import { MascaState } from 'src/interfaces';
 
 import { getCurrentAccount, getCurrentNetwork } from './snapUtils';
 
@@ -24,7 +24,7 @@ export const aliases = {
 
 export async function authenticateWithEthereum(
   ethereum: MetaMaskInpageProvider,
-  state: SSISnapState
+  state: MascaState
 ): Promise<DID> {
   if (ceramicDID.did) return ceramicDID.did;
   const account = getCurrentAccount(state);
@@ -41,7 +41,7 @@ export async function authenticateWithEthereum(
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
   window.location = {} as any;
-  window.location.hostname = 'ssi-snap';
+  window.location.hostname = 'masca';
 
   const authMethod = await EthereumWebAuth.getAuthMethod(ethereum, accountId);
   const session = await DIDSession.authorize(authMethod, {
@@ -53,7 +53,7 @@ export async function authenticateWithEthereum(
 
 export async function getCeramic(
   ethereum: MetaMaskInpageProvider,
-  state: SSISnapState
+  state: MascaState
 ): Promise<CeramicClient> {
   const ceramic = new CeramicClient('https://ceramic-clay.3boxlabs.com');
   const did = await authenticateWithEthereum(ethereum, state);

@@ -1,4 +1,4 @@
-import { VerifyDataRequestParams } from '@blockchain-lab-um/ssi-snap-types';
+import { VerifyDataRequestParams } from '@blockchain-lab-um/masca-types';
 import { IVerifyResult } from '@veramo/core';
 
 import { ApiParams } from '../../interfaces';

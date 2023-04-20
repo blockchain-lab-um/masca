@@ -1,7 +1,7 @@
 import {
   AvailableMethods,
   AvailableVCStores,
-} from '@blockchain-lab-um/ssi-snap-types';
+} from '@blockchain-lab-um/masca-types';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
@@ -13,7 +13,7 @@ import {
   getDidEbsiKeyIdentifier,
   getDidKeyIdentifier,
 } from '../did/key/keyDidUtils';
-import { SSISnapState } from '../interfaces';
+import { MascaState } from '../interfaces';
 import { getAgent } from '../veramo/setup';
 import { getDidEbsiIdentifier } from './ebsiUtils';
 import { snapGetKeysFromAddress } from './keyPair';
@@ -22,7 +22,7 @@ import { updateSnapState } from './stateUtils';
 
 export async function changeCurrentVCStore(params: {
   snap: SnapsGlobalObject;
-  state: SSISnapState;
+  state: MascaState;
   account: string;
   didStore: AvailableVCStores;
   value: boolean;
@@ -34,8 +34,8 @@ export async function changeCurrentVCStore(params: {
 
 export async function getCurrentDid(params: {
   ethereum: MetaMaskInpageProvider;
+  state: MascaState;
   snap: SnapsGlobalObject;
-  state: SSISnapState;
   account: string;
   bip44CoinTypeNode: BIP44CoinTypeNode;
 }): Promise<string> {
@@ -106,12 +106,12 @@ export async function getCurrentDid(params: {
 export async function changeCurrentMethod(params: {
   snap: SnapsGlobalObject;
   ethereum: MetaMaskInpageProvider;
-  state: SSISnapState;
+  state: MascaState;
   account: string;
   bip44CoinTypeNode: BIP44CoinTypeNode;
   didMethod: AvailableMethods;
 }): Promise<string> {
-  const { snap, ethereum, state, account, bip44CoinTypeNode, didMethod } =
+  const { snap, ethereum, state, account, didMethod, bip44CoinTypeNode } =
     params;
   state.accountState[account].accountConfig.ssi.didMethod = didMethod;
   await updateSnapState(snap, state);

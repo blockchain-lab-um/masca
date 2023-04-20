@@ -1,13 +1,13 @@
 import {
   AvailableMethods,
   isAvailableMethods,
-} from '@blockchain-lab-um/ssi-snap-types';
+} from '@blockchain-lab-um/masca-types';
 import { Result, ResultObject, isError } from '@blockchain-lab-um/utils';
 import detectEthereumProvider from '@metamask/detect-provider';
 
-import { MetaMaskSSISnap } from './snap.js';
+import { Masca } from './snap.js';
 
-export { MetaMaskSSISnap } from './snap.js';
+export { Masca } from './snap.js';
 export { isSnapInstalled } from './utils.js';
 
 export type SnapInstallationParams = {
@@ -16,20 +16,20 @@ export type SnapInstallationParams = {
   supportedMethods?: Array<AvailableMethods>;
 };
 
-const defaultSnapOrigin = 'npm:@blockchain-lab-um/ssi-snap';
+const defaultSnapOrigin = 'npm:@blockchain-lab-um/masca';
 
 /**
- * Install and enable SSI Snap
+ * Install and enable Masca
  *
- * Checks for existence of MetaMask Flask and installs SSI Snap if not installed
+ * Checks for existence of MetaMask Flask and installs Masca if not installed
  *
  * @param snapInstallationParams - set snapID, version and a list of supported methods
  *
- * @return MetaMaskSSISnap - adapter object that exposes snap API
+ * @return Masca - adapter object that exposes snap API
  */
-export async function enableSSISnap(
+export async function enableMasca(
   snapInstallationParams: SnapInstallationParams = {}
-): Promise<Result<MetaMaskSSISnap>> {
+): Promise<Result<Masca>> {
   const {
     snapId = defaultSnapOrigin,
     version = '^1.5.0',
@@ -62,11 +62,11 @@ export async function enableSSISnap(
       },
     });
 
-    const snap = new MetaMaskSSISnap(snapId, supportedMethods);
+    const snap = new Masca(snapId, supportedMethods);
 
-    const snapApi = snap.getSSISnapApi();
+    const api = snap.getMascaApi();
 
-    const selectedMethodsResult = await snapApi.getSelectedMethod();
+    const selectedMethodsResult = await api.getSelectedMethod();
 
     if (isError(selectedMethodsResult)) {
       return ResultObject.error(selectedMethodsResult.error);
@@ -75,9 +75,7 @@ export async function enableSSISnap(
     const method = selectedMethodsResult.data;
 
     if (!isAvailableMethods(method)) {
-      const switchResult = await snapApi.switchDIDMethod(
-        snap.supportedMethods[0]
-      );
+      const switchResult = await api.switchDIDMethod(snap.supportedMethods[0]);
 
       if (isError(switchResult)) {
         return ResultObject.error(switchResult.error);

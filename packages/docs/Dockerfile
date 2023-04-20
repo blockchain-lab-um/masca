@@ -1,4 +1,4 @@
-FROM blockchain-lab-um/ssi-snap:latest as builder
+FROM blockchain-lab-um/masca:latest as builder
 
 FROM nginx:1.23.3-alpine
 
@@ -18,7 +18,7 @@ RUN chown -R nginx:nginx /app && \
 USER nginx
 
 # Copy build artifacts
-COPY --from=builder /app/packages/docs/build /app/ssi-snap-docs
+COPY --from=builder /app/packages/docs/build /app
 
 # Copy nginx config
 COPY --from=builder /app/packages/docs/nginx.conf /etc/nginx/nginx.conf

@@ -3,9 +3,10 @@ import Head from 'next/head';
 import Link from 'next/link';
 import {
   AvailableVCStores,
+  QueryVCsRequestResult,
   SupportedProofFormats,
   VCRequest,
-} from '@blockchain-lab-um/ssi-snap-types';
+} from '@blockchain-lab-um/masca-types';
 import { isError } from '@blockchain-lab-um/utils';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 import { W3CVerifiablePresentation } from '@veramo/core';
@@ -20,7 +21,7 @@ import InputField from '@/components/InputField';
 import SelectedVCsTableRow from '@/components/SelectedVCsTableRow/SelectedVCsTableRow';
 import ToggleSwitch from '@/components/Switch';
 import VPModal from '@/components/VPModal';
-import { useSnapStore, useTableStore } from '@/stores';
+import { useMascaStore, useTableStore } from '@/stores';
 
 const proofFormats: Record<string, SupportedProofFormats> = {
   JWT: 'jwt',
@@ -41,7 +42,7 @@ const CreateVP = () => {
     shallow
   );
 
-  const api = useSnapStore((state) => state.snapApi);
+  const api = useMascaStore((state) => state.mascaApi);
 
   const [format, setFormat] = useState('JWT');
   const [advanced, setAdvanced] = useState(false);
@@ -49,7 +50,9 @@ const CreateVP = () => {
   const [domain, setDomain] = useState('');
 
   const handleRemove = (id: string) => {
-    setSelectedVCs(selectedVCs?.filter((vc) => vc.metadata.id !== id));
+    setSelectedVCs(
+      selectedVCs?.filter((vc: QueryVCsRequestResult) => vc.metadata.id !== id)
+    );
   };
 
   const handleCreateVP = async () => {

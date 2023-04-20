@@ -75,7 +75,7 @@ describe('Utils [state]', () => {
       });
 
       await expect(getSnapState(snapMock)).rejects.toThrow(
-        new Error('SSISnapState is not initialized!')
+        new Error('MascaState is not initialized!')
       );
 
       expect.assertions(1);
