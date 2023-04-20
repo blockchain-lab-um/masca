@@ -104,6 +104,18 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
 
     changeMascaApi(api);
 
+    // Set currently connected address
+    const setAccountRes = await api.setCurrentAccount({
+      currentAccount: address,
+    });
+
+    if (isError(setAccountRes)) {
+      console.log("Couldn't set current account");
+      console.error(setAccountRes.error);
+      changeIsConnecting(false);
+      return;
+    }
+
     const did = await api.getDID();
     if (isError(did)) {
       console.log("Couldn't get DID");
