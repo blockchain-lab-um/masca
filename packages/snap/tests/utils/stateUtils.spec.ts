@@ -28,6 +28,10 @@ describe('Utils [state]', () => {
 
   beforeEach(() => {
     snapMock = createMockSnap();
+    snapMock.rpcMocks.snap_manageState({
+      operation: 'update',
+      newState: getDefaultSnapState(),
+    });
     ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
   });
 
@@ -66,6 +70,10 @@ describe('Utils [state]', () => {
 
   describe('getSnapState', () => {
     it('should fail and throw not initialized error', async () => {
+      snapMock.rpcMocks.snap_manageState({
+        operation: 'clear',
+      });
+
       await expect(getSnapState(snapMock)).rejects.toThrow(
         new Error('MascaState is not initialized!')
       );
@@ -75,7 +83,6 @@ describe('Utils [state]', () => {
 
     it('should succeed getting initial snap state', async () => {
       const initialState = getDefaultSnapState();
-      snapMock.rpcMocks.snap_manageState.mockReturnValueOnce(initialState);
 
       await expect(getSnapState(snapMock)).resolves.toEqual(initialState);
 
@@ -85,6 +92,10 @@ describe('Utils [state]', () => {
 
   describe('getSnapStateUnchecked', () => {
     it('should return null if state is not initialized', async () => {
+      snapMock.rpcMocks.snap_manageState({
+        operation: 'clear',
+      });
+
       await expect(getSnapStateUnchecked(snapMock)).resolves.toBeNull();
 
       expect.assertions(1);
@@ -92,7 +103,6 @@ describe('Utils [state]', () => {
 
     it('should succeed getting initial snap state', async () => {
       const initialState = getDefaultSnapState();
-      snapMock.rpcMocks.snap_manageState.mockReturnValueOnce(initialState);
 
       await expect(getSnapStateUnchecked(snapMock)).resolves.toEqual(
         initialState
@@ -130,7 +140,7 @@ describe('Utils [state]', () => {
           state: initialState,
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
-          origin: 'test',
+          origin: 'localhost',
         })
       ).resolves.not.toThrow();
 
@@ -157,7 +167,7 @@ describe('Utils [state]', () => {
           state: initialState,
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
-          origin: 'test',
+          origin: 'localhost',
         })
       ).resolves.not.toThrow();
 

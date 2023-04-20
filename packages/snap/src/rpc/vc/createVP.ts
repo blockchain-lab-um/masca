@@ -1,4 +1,5 @@
 import { CreateVPRequestParams } from '@blockchain-lab-um/masca-types';
+import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { VerifiablePresentation } from '@veramo/core';
 
 import { ApiParams } from '../../interfaces';
@@ -9,6 +10,15 @@ export async function createVP(
   createVPParams: CreateVPRequestParams
 ): Promise<VerifiablePresentation> {
   const { vcs, proofFormat = 'jwt', proofOptions } = createVPParams;
-  const res = await veramoCreateVP(params, { vcs, proofFormat, proofOptions });
+  const res = await veramoCreateVP(
+    {
+      snap: params.snap,
+      state: params.state,
+      ethereum: params.ethereum,
+      account: params.account,
+      bip44CoinTypeNode: params.bip44CoinTypeNode as BIP44CoinTypeNode,
+    },
+    { vcs, proofFormat, proofOptions }
+  );
   return res;
 }

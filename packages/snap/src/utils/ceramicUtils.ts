@@ -4,6 +4,7 @@ import { MetaMaskInpageProvider } from '@metamask/providers';
 import { AccountId } from 'caip';
 import { DIDSession } from 'did-session';
 import { DID } from 'dids';
+import { MascaState } from 'src/interfaces';
 
 import { getCurrentAccount, getCurrentNetwork } from './snapUtils';
 
@@ -22,10 +23,11 @@ export const aliases = {
 };
 
 export async function authenticateWithEthereum(
-  ethereum: MetaMaskInpageProvider
+  ethereum: MetaMaskInpageProvider,
+  state: MascaState
 ): Promise<DID> {
   if (ceramicDID.did) return ceramicDID.did;
-  const account = await getCurrentAccount(ethereum);
+  const account = getCurrentAccount(state);
   const ethChainId = await getCurrentNetwork(ethereum);
   const chainId = `eip155:${ethChainId}`;
 
@@ -50,10 +52,11 @@ export async function authenticateWithEthereum(
 }
 
 export async function getCeramic(
-  ethereum: MetaMaskInpageProvider
+  ethereum: MetaMaskInpageProvider,
+  state: MascaState
 ): Promise<CeramicClient> {
   const ceramic = new CeramicClient('https://ceramic-clay.3boxlabs.com');
-  const did = await authenticateWithEthereum(ethereum);
+  const did = await authenticateWithEthereum(ethereum, state);
   await ceramic.setDID(did);
   return ceramic;
 }

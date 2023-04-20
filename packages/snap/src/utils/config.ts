@@ -41,6 +41,7 @@ export const defaultConfig = {
 
 const initialSnapState: MascaState = {
   accountState: {},
+  currentAccount: '',
   snapConfig: {
     dApp: {
       disablePopups: false,

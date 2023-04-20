@@ -16,6 +16,7 @@ export const availableMethods = [
   'did:key:ebsi',
   'did:pkh',
   'did:ebsi',
+  'did:jwk',
 ] as const;
 export type AvailableMethods = (typeof availableMethods)[number];
 export const isAvailableMethods = (x: string) =>
@@ -27,6 +28,7 @@ export const didCoinTypeMappping: Record<string, number> = {
   'did:pkh': 60,
   'did:ebsi': 60,
   'did:key:ebsi': 60,
+  'did:jwk': 60,
 };
 
 export const supportedProofFormats = [

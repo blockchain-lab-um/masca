@@ -5,7 +5,6 @@ import {
 } from '@blockchain-lab-um/masca-types';
 import { Result, isError, isSuccess } from '@blockchain-lab-um/utils';
 import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-vc-manager';
-import { StreamID } from '@ceramicnetwork/streamid';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
@@ -44,14 +43,20 @@ describe('onRpcRequest', () => {
 
   beforeEach(() => {
     snapMock = createMockSnap();
-    snapMock.rpcMocks.snap_manageState('update', getDefaultSnapState());
+    snapMock.rpcMocks.snap_manageState({
+      operation: 'update',
+      newState: getDefaultSnapState(),
+    });
     global.snap = snapMock;
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
   });
 
   beforeAll(async () => {
     snapMock = createMockSnap();
-    snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
+    snapMock.rpcMocks.snap_manageState({
+      operation: 'update',
+      newState: getDefaultSnapState(),
+    });
     const ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
     agent = await getAgent(snapMock, ethereumMock);
     identifier = await agent.didManagerCreate({
@@ -76,17 +81,19 @@ describe('onRpcRequest', () => {
     // Ceramic mock
     DIDDataStore.prototype.get = jest
       .fn()
-      // eslint-disable-next-line @typescript-eslint/require-await
       .mockImplementation(async (_key, _did) => {
-        return ceramicData;
+        return new Promise((resolve) => {
+          resolve(ceramicData);
+        });
       });
 
     DIDDataStore.prototype.merge = jest
       .fn()
-      // eslint-disable-next-line @typescript-eslint/require-await
       .mockImplementation(async (_key, content, _options?) => {
-        ceramicData = content as StoredCredentials;
-        return 'ok' as unknown as StreamID;
+        return new Promise((resolve) => {
+          ceramicData = content as StoredCredentials;
+          resolve(ceramicData);
+        });
       });
   });
 
@@ -206,19 +213,11 @@ describe('onRpcRequest', () => {
 
     it('should succeed saving 1 VC in Snap & Ceramic', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-      snapMock.rpcMocks.snap_manageState({
-        operation: 'update',
-        newState: getDefaultSnapState(),
-      });
 
       await veramoClearVCs({
         snap: snapMock,
         ethereum,
         store: 'ceramic',
-      });
-
-      snapMock.rpcMocks.snap_manageState({
-        operation: 'clear',
       });
 
       const saveRes = (await onRpcRequest({
@@ -1175,6 +1174,72 @@ describe('onRpcRequest', () => {
 
       expect.assertions(1);
     });
+    it('should succeed returning current did (did:pkh)', async () => {
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
+
+      await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'switchDIDMethod',
+          params: {
+            didMethod: 'did:pkh',
+          },
+        },
+      });
+
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'getDID',
+          params: {},
+        },
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw new Error(res.error);
+      }
+
+      expect(res.data).toInclude('did:pkh:');
+
+      expect.assertions(1);
+    });
+    it('should succeed returning current did (did:jwk)', async () => {
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
+
+      await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'switchDIDMethod',
+          params: {
+            didMethod: 'did:jwk',
+          },
+        },
+      });
+
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'getDID',
+          params: {},
+        },
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw new Error(res.error);
+      }
+
+      expect(res.data).toInclude('did:jwk:');
+
+      expect.assertions(1);
+    });
   });
 
   describe('switchDIDMethod', () => {
@@ -1733,6 +1798,82 @@ describe('onRpcRequest', () => {
       expect(resQuery.data[0].data).toEqual(res.data);
 
       expect.assertions(4);
+    });
+  });
+
+  describe('setCurrentAccount', () => {
+    it('should succeed setting the current account', async () => {
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'setCurrentAccount',
+          params: {
+            currentAccount: '0x41B821bB31902f05eD241b40A8fa3fE56aA76e68',
+          },
+        },
+      })) as Result<void>;
+
+      if (isError(res)) {
+        throw new Error(res.error);
+      }
+
+      expect(res.data).toBeTrue();
+      expect.assertions(1);
+    });
+
+    it('should fail setting the current account - missing current account parameter', async () => {
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'setCurrentAccount',
+          params: {},
+        },
+      })) as Result<void>;
+
+      if (isSuccess(res)) {
+        throw new Error('Should return error');
+      }
+
+      expect(res.error).toBe('Error: Invalid SetCurrentAccount request');
+      expect.assertions(1);
+    });
+
+    it('should fail onRpcRequest - current account not set', async () => {
+      const defaultState = getDefaultSnapState();
+      defaultState.currentAccount = '';
+      snapMock.rpcMocks.snap_manageState({
+        operation: 'update',
+        newState: defaultState,
+      });
+
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'createVC',
+          params: {
+            minimalUnsignedCredential: exampleTestVCPayload,
+            proofFormat: 'jwt',
+            options: {
+              save: true,
+            },
+          },
+        },
+      })) as Result<VerifiableCredential>;
+
+      if (isSuccess(res)) {
+        throw new Error('Should return error');
+      }
+
+      expect(res.error).toBe(
+        'Error: No account set. Use setCurrentAccount to set an account.'
+      );
+      expect.assertions(1);
     });
   });
 });

@@ -29,12 +29,17 @@ describe('Utils [snap]', () => {
 
   beforeEach(() => {
     snapMock = createMockSnap();
+    snapMock.rpcMocks.snap_manageState({
+      operation: 'update',
+      newState: getDefaultSnapState(),
+    });
     ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
   });
 
   describe('getCurrentAccount', () => {
-    it('should succeed and return test account', async () => {
-      await expect(getCurrentAccount(ethereumMock)).resolves.toEqual(address);
+    it('should succeed and return test account', () => {
+      const state = getDefaultSnapState();
+      expect(getCurrentAccount(state)).toBe(address);
 
       expect.assertions(1);
     });
@@ -99,8 +104,6 @@ describe('Utils [snap]', () => {
       const dApp = 'test_dApp_42';
       const initialState = getDefaultSnapState();
 
-      snapMock.rpcMocks.snap_manageState.mockResolvedValue(initialState);
-
       await expect(
         addFriendlyDapp(snapMock, initialState, dApp)
       ).resolves.not.toThrow();
@@ -126,7 +129,10 @@ describe('Utils [snap]', () => {
         'test_dApp_3',
       ];
 
-      snapMock.rpcMocks.snap_manageState.mockResolvedValue(initialState);
+      snapMock.rpcMocks.snap_manageState({
+        operation: 'update',
+        newState: initialState,
+      });
 
       await expect(
         addFriendlyDapp(snapMock, initialState, dApp)
@@ -156,7 +162,10 @@ describe('Utils [snap]', () => {
       const initialState = getDefaultSnapState();
       initialState.snapConfig.dApp.friendlyDapps = [dApp];
 
-      snapMock.rpcMocks.snap_manageState.mockResolvedValue(initialState);
+      snapMock.rpcMocks.snap_manageState({
+        operation: 'update',
+        newState: initialState,
+      });
 
       await expect(
         removeFriendlyDapp(snapMock, initialState, dApp)
@@ -183,7 +192,10 @@ describe('Utils [snap]', () => {
         'test_dApp_3',
       ];
 
-      snapMock.rpcMocks.snap_manageState.mockResolvedValue(initialState);
+      snapMock.rpcMocks.snap_manageState({
+        operation: 'update',
+        newState: initialState,
+      });
 
       await expect(
         removeFriendlyDapp(snapMock, initialState, dApp)
@@ -206,27 +218,6 @@ describe('Utils [snap]', () => {
     });
   });
 
-  // describe('getFriendlyDapps', function () {
-  //   it('should succeed getting friendly dApps', async function () {
-  //     const initialState = getDefaultSnapState();
-  //     initialState.snapConfig.dApp.friendlyDapps = [
-  //       'test_dApp_1',
-  //       'test_dApp_2',
-  //       'test_dApp_3',
-  //     ];
-
-  //     snapMock.rpcMocks.snap_manageState
-  //       .call(0)
-  //       .mockResolvedValue(initialState);
-
-  //     await expect(get).to.eventually.be.deep.equal([
-  //       'test_dApp_1',
-  //       'test_dApp_2',
-  //       'test_dApp_3',
-  //     ]);
-  //   });
-  // });
-
   describe('getPublicKey', () => {
     it('should succeed getting public key', async () => {
       const initialState = getDefaultSnapState();
@@ -235,11 +226,9 @@ describe('Utils [snap]', () => {
       await expect(
         getPublicKey({
           snap: snapMock,
-          ethereum: ethereumMock,
           state: initialState,
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
-          origin: 'localhost',
         })
       ).resolves.toEqual(publicKey);
 
@@ -252,11 +241,9 @@ describe('Utils [snap]', () => {
       await expect(
         getPublicKey({
           snap: snapMock,
-          ethereum: ethereumMock,
           state: initialState,
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
-          origin: 'localhost',
         })
       ).resolves.toEqual(publicKey);
 
@@ -270,11 +257,9 @@ describe('Utils [snap]', () => {
       initialState.accountState[address].publicKey = '';
       const pk = await getPublicKey({
         snap: snapMock,
-        ethereum: ethereumMock,
         state: initialState,
         account: address,
         bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
-        origin: 'localhost',
       });
       const compressedPK = getCompressedPublicKey(pk);
 

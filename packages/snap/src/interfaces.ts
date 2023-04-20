@@ -13,7 +13,10 @@ export type MascaState = {
    * Account specific storage
    */
   accountState: Record<string, MascaAccountState>;
-
+  /**
+   * Current account
+   */
+  currentAccount: string;
   /**
    * Configuration for Masca
    */
