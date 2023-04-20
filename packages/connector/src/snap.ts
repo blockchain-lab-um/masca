@@ -12,6 +12,7 @@ import {
   QueryVCsRequestResult,
   SaveVCOptions,
   SaveVCRequestResult,
+  SetCurrentAccountRequestParams,
 } from '@blockchain-lab-um/masca-types';
 import { Result } from '@blockchain-lab-um/utils';
 import {
@@ -269,6 +270,22 @@ export async function createVC(
   );
 }
 
+/**
+ * Set the currently selected MetaMask account
+ */
+export async function setCurrentAccount(
+  this: Masca,
+  params: SetCurrentAccountRequestParams
+): Promise<Result<boolean>> {
+  return sendSnapMethod(
+    {
+      method: 'setCurrentAccount',
+      params,
+    },
+    this.snapId
+  );
+}
+
 export class Masca {
   protected readonly snapId: string;
 
@@ -300,6 +317,7 @@ export class Masca {
       getAccountSettings: getAccountSettings.bind(this),
       resolveDID: resolveDID.bind(this),
       createVC: createVC.bind(this),
+      setCurrentAccount: setCurrentAccount.bind(this),
     };
   };
 }

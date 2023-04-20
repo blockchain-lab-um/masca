@@ -12,6 +12,7 @@ import {
   QueryVCs,
   ResolveDID,
   SaveVC,
+  SetCurrentAccount,
   SetVCStore,
   SwitchMethod,
   TogglePopups,
@@ -33,7 +34,8 @@ export type MascaRPCRequest =
   | GetAccountSettings
   | GetSnapSettings
   | ResolveDID
-  | CreateVC;
+  | CreateVC
+  | SetCurrentAccount;
 
 export type Method = MascaRPCRequest['method'];
 

@@ -13,6 +13,7 @@ import {
   DeleteVCsOptions,
   QueryVCsRequestParams,
   SaveVCOptions,
+  SetCurrentAccountRequestParams,
 } from './params.js';
 import type { QueryVCsRequestResult, SaveVCRequestResult } from './results.js';
 import { MascaAccountConfig, MascaConfig } from './snapInterfaces.js';
@@ -46,4 +47,7 @@ export interface MascaApi {
   createVC(
     params: CreateVCRequestParams
   ): Promise<Result<VerifiableCredential>>;
+  setCurrentAccount(
+    params: SetCurrentAccountRequestParams
+  ): Promise<Result<boolean>>;
 }
