@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Head from 'next/head';
 import Link from 'next/link';
 import {
   AvailableVCStores,
@@ -100,10 +99,6 @@ const CreateVP = () => {
 
   return (
     <>
-      <Head>
-        <title>Masca | Create Presentation</title>
-        <meta name="description" content="Create VP page for Masca." />
-      </Head>
       <div className="grid place-items-center">
         <div className="dark:bg-navy-blue-800 dark:text-navy-blue-400 flex h-full min-h-[40vh] w-full max-w-sm flex-col rounded-3xl bg-white shadow-lg md:max-w-md lg:max-w-xl xl:w-[34rem] xl:max-w-[40rem]">
           <ConnectedProvider>
