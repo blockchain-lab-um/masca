@@ -9,13 +9,9 @@ import { IIdentifier } from '@veramo/core';
 import { DIDResolutionResult } from 'did-resolver';
 
 import { getDidJwkIdentifier } from '../did/jwk/jwkDidUtils';
-import {
-  getDidEbsiKeyIdentifier,
-  getDidKeyIdentifier,
-} from '../did/key/keyDidUtils';
+import { getDidKeyIdentifier } from '../did/key/keyDidUtils';
 import { MascaState } from '../interfaces';
 import { getAgent } from '../veramo/setup';
-import { getDidEbsiIdentifier } from './ebsiUtils';
 import { snapGetKeysFromAddress } from './keyPair';
 import { getCurrentNetwork } from './snapUtils';
 import { updateSnapState } from './stateUtils';
@@ -52,25 +48,25 @@ export async function getCurrentDid(params: {
     const didUrl = getDidKeyIdentifier(state, account);
     return `did:key:${didUrl}`;
   }
-  if (method === 'did:key:ebsi') {
-    const didUrl = getDidEbsiKeyIdentifier(state, account);
-    return `did:key:${didUrl}`;
-  }
-  if (method === 'did:ebsi') {
-    // TODO: handle ebsi bearer token workflow
-    const bearer = '';
-    const didUrl = await getDidEbsiIdentifier({
-      state,
-      snap,
-      account,
-      args: {
-        provider: method,
-        kms: 'web3',
-        options: { bearer },
-      },
-    });
-    return `did:ebsi:${didUrl}`;
-  }
+  // if (method === 'did:key:ebsi') {
+  //   const didUrl = getDidEbsiKeyIdentifier(state, account);
+  //   return `did:key:${didUrl}`;
+  // }
+  // if (method === 'did:ebsi') {
+  //   // TODO: handle ebsi bearer token workflow
+  //   const bearer = '';
+  //   const didUrl = await getDidEbsiIdentifier({
+  //     state,
+  //     snap,
+  //     account,
+  //     args: {
+  //       provider: method,
+  //       kms: 'web3',
+  //       options: { bearer },
+  //     },
+  //   });
+  //   return `did:ebsi:${didUrl}`;
+  // }
   if (method === 'did:jwk') {
     const didUrl = await getDidJwkIdentifier(state, account);
     return `did:jwk:${didUrl}`;
