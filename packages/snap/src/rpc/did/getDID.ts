@@ -1,15 +1,14 @@
-import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { BIP44CoinTypeNode } from '@metamask/key-tree';
 
-import { SSISnapState } from '../../interfaces';
+import { ApiParams } from '../../interfaces';
 import { getCurrentDid } from '../../utils/didUtils';
 
-export async function getDid(params: {
-  state: SSISnapState;
-  snap: SnapsGlobalObject;
-  account: string;
-  ethereum: MetaMaskInpageProvider;
-}): Promise<string> {
-  const res = await getCurrentDid(params);
-  return res;
+export async function getDid(params: ApiParams): Promise<string> {
+  return getCurrentDid({
+    ethereum: params.ethereum,
+    snap: params.snap,
+    state: params.state,
+    account: params.account,
+    bip44CoinTypeNode: params.bip44CoinTypeNode as BIP44CoinTypeNode,
+  });
 }

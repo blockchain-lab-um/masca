@@ -48,6 +48,11 @@ export type VCRequest = {
     store?: AvailableVCStores;
   };
 };
+
+export type SetCurrentAccountRequestParams = {
+  currentAccount: string;
+};
+
 export type CreateVPRequestParams = {
   vcs: VCRequest[];
   proofFormat?: SupportedProofFormats;

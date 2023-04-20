@@ -25,7 +25,6 @@ describe('Utils [ceramic]', () => {
       operation: 'update',
       newState: getDefaultSnapState(),
     });
-
     ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
 
     await veramoClearVCs({
@@ -37,13 +36,16 @@ describe('Utils [ceramic]', () => {
 
   beforeEach(() => {
     snapMock = createMockSnap();
+    snapMock.rpcMocks.snap_manageState({
+      operation: 'update',
+      newState: getDefaultSnapState(),
+    });
     global.snap = snapMock;
     global.ethereum = ethereumMock;
   });
 
   describe('ceramicVCStore', () => {
     it('should clear all VCs stored on ceramic', async () => {
-      snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
       await veramoClearVCs({
         snap: snapMock,
         ethereum: ethereumMock,
@@ -62,8 +64,6 @@ describe('Utils [ceramic]', () => {
 
     // FIXME: this test is failing
     it.skip('should succeed saving VC on ceramic network', async () => {
-      snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
-
       const expectedVCObject = { id: 'test-id', store: 'ceramic' };
 
       const ids = await veramoSaveVC({
@@ -79,8 +79,6 @@ describe('Utils [ceramic]', () => {
     });
 
     it('should fail saving wrong object on ceramic network', async () => {
-      snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
-
       await expect(
         veramoSaveVC({
           snap: snapMock,
@@ -93,7 +91,6 @@ describe('Utils [ceramic]', () => {
 
     // FIXME: this test is failing
     it.skip('should succeed retrieving VC from ceramic network', async () => {
-      snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
       const expectedVCObject = {
         data: exampleVC,
         metadata: { id: 'test-id', store: 'ceramic' },
@@ -112,8 +109,6 @@ describe('Utils [ceramic]', () => {
 
     // FIXME: this test is failing
     it.skip('should succeed deleting VC from ceramic network', async () => {
-      snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
-
       await veramoClearVCs({
         snap: snapMock,
         ethereum: ethereumMock,
@@ -150,8 +145,6 @@ describe('Utils [ceramic]', () => {
 
     // FIXME: this test is failing
     it.skip('should succeed storing and querying JWT from ceramic network', async () => {
-      snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
-
       await veramoClearVCs({
         snap: snapMock,
         ethereum: ethereumMock,

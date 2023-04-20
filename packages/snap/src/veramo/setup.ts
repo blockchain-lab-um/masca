@@ -26,6 +26,10 @@ import { CredentialPlugin, ICredentialIssuer } from '@veramo/credential-w3c';
 import { AbstractIdentifierProvider, DIDManager } from '@veramo/did-manager';
 import { EthrDIDProvider } from '@veramo/did-provider-ethr';
 import {
+  JwkDIDProvider,
+  getDidJwkResolver as jwkDidResolver,
+} from '@veramo/did-provider-jwk';
+import {
   PkhDIDProvider,
   getDidPkhResolver as pkhDidResolver,
 } from '@veramo/did-provider-pkh';
@@ -67,7 +71,7 @@ export const getAgent = async (
   ethereum: MetaMaskInpageProvider
 ): Promise<Agent> => {
   const state = await getSnapState(snap);
-  const account = await getCurrentAccount(ethereum);
+  const account = getCurrentAccount(state);
 
   const didProviders: Record<string, AbstractIdentifierProvider> = {};
   const vcStorePlugins: Record<string, AbstractDataStore> = {};
@@ -100,6 +104,7 @@ export const getAgent = async (
   didProviders['did:key'] = new KeyDIDProvider({ defaultKms: 'web3' });
   didProviders['did:pkh'] = new PkhDIDProvider({ defaultKms: 'web3' });
   // didProviders['did:ebsi'] = new EbsiDIDProvider({ defaultKms: 'web3' });
+  didProviders['did:jwk'] = new JwkDIDProvider({ defaultKms: 'web3' });
 
   vcStorePlugins['snap'] = new SnapVCStore(snap, ethereum);
   if (enabledVCStores.includes('ceramic')) {
@@ -133,6 +138,7 @@ export const getAgent = async (
           ...keyDidResolver(),
           ...pkhDidResolver(),
           // ...ebsiDidResolver(),
+          ...jwkDidResolver(),
         }),
       }),
       new DIDManager({

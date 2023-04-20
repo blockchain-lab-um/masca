@@ -10,22 +10,19 @@ import {
   Resolver,
 } from 'did-resolver';
 
-import { getCurrentAccount, getPublicKey } from '../../utils/snapUtils';
+import { getCurrentAccount } from '../../utils/snapUtils';
 import { getSnapState } from '../../utils/stateUtils';
 
+// FIXME: We also shouldn't use account here and extract te public key from the did
 export const resolveSecp256k1 = async (
   snap: SnapsGlobalObject,
   account: string,
   did: string
 ): Promise<DIDDocument> => {
   const state = await getSnapState(snap);
-  const publicKey = await getPublicKey({
-    snap,
-    state,
-    account,
-    ethereum,
-    origin: '',
-  });
+
+  // FIXME: This is wrong (previously was getPublicKey -> which is also wrong)
+  const { publicKey } = state.accountState[account];
 
   // TODO: Change id ?
   const didDocument: DIDDocument = {
@@ -81,7 +78,8 @@ export const resolveDidKey: DIDResolver = async (
   options: DIDResolutionOptions
 ): Promise<DIDResolutionResult> => {
   try {
-    const account = await getCurrentAccount(ethereum);
+    const state = await getSnapState(snap);
+    const account = getCurrentAccount(state);
     const startsWith = parsed.did.substring(0, 12);
     if (startsWithMap[startsWith] !== undefined) {
       const didDocument = await startsWithMap[startsWith](
