@@ -41,14 +41,27 @@ Masca is installed and enabled using the function `enableMasca`. After the Snap 
 A minimal example of initializing Masca and invoking one of the API methods:
 
 ```typescript
+import { enableMasca } from '@blockchain-lab-um/masca-connector';
+import { isError } from '@blockchain-lab-um/utils';
 // install Masca and retrieve API interface
 const masca = await enableMasca();
-const api = masca.getMascaApi();
+
+if(isError(masca)){
+    console.error(enableResult.error);
+    return;
+}
+
+const api = masca.data.getMascaApi();
 
 // invoke API
 const vcs = await api.queryVCs();
 
-console.log('list of VCs:', vcs);
+if(isError(masca)){
+    console.error(vcs.error);
+    return;
+}
+
+console.log('list of VCs:', vcs.data);
 ```
 
 More detailed documentation of **Masca Connector** can be found **[here](libraries/masca-connector)**.

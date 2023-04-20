@@ -12,7 +12,7 @@ For more details on Masca Connector, check [GitHub repo](https://github.com/bloc
 
 ### Install
 
-`yarn add @blockchain-lab-um/ssi-snap-connector`
+`yarn add @blockchain-lab-um/masca-connector`
 
 Connector has exposed function for installing the Snap.
 
@@ -22,7 +22,8 @@ export async function enableMasca(
     snapId?: string;
     version?: string;
     supportedMethods?: Array<typeof availableMethods[number]>;
-  }): Promise<MetaMaskMasca>;
+  }
+): Promise<Result<MetaMaskMasca>>;
 ```
 
 When installing the Masca it is possible to set a custom `snapId` if you do not want to instal it from the official repository.
@@ -39,14 +40,27 @@ More detailed description of methods & parameters is provided in chapter [JSON-R
 :::
 
 ```typescript
-// install snap and fetch API
-const snap = await enableMasca({ version: 'latest' });
-const api = await snap.getMascaApi();
+import { enableMasca } from '@blockchain-lab-um/masca-connector';
+import { isError } from '@blockchain-lab-um/utils';
+// install Masca and retrieve API interface
+const masca = await enableMasca();
+
+if(isError(masca)){
+    console.error(enableResult.error);
+    return;
+}
+
+const api = masca.data.getMascaApi();
 
 // invoke API
 const vcs = await api.queryVCs();
 
-console.log('list of VCs:', vcs);
+if(isError(masca)){
+    console.error(vcs.error);
+    return;
+}
+
+console.log('list of VCs:', vcs.data);
 ```
 
 ## Connector methods
@@ -141,6 +155,8 @@ const snapSettings = await api.getSnapSettings();
 
 const accountSettings = await api.getAccountSettings();
 ```
+
+**More detailed list of methods can be found [here](./../tutorial/implementation.md)!**
 
 ## Utility methods
 

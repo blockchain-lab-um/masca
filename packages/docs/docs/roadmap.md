@@ -8,10 +8,11 @@ Are you interested in how Masca will evolve in the future?
 
 DID methods:
 
+- [x] Resolve DIDs
 - [x] `did:ethr`
 - [x] `did:key`
 - [x] `did:pkh`
-- [ ] `did:jwk`
+- [x] `did:jwk`
 - [ ] `did:cheqd`
 - [ ] `did:ebsi`
 - [ ] `did:ens`
@@ -24,6 +25,7 @@ Verifiable Credentials (VCs):
 - [x] Retrieval from single storage
 - [x] Retrieval from multiple storages
 - [x] Filtering based on query (e.g., JSONPath query)
+- [x] Create custom VC
 - [ ] Structure verification
 - [ ] Revocation
 - [ ] ...
@@ -72,9 +74,9 @@ Masca dApp:
 - [x] DID method selection
 - [x] Import, list, and delete VCs
 - [x] Manage settings
-- [ ] Create VPs
-- [ ] Move VC to another storage
-- [ ] Import/export (backup VCs)
+- [x] Create VPs
+- [x] Move VC to another storage
+- [x] Import/export (backup VCs)
 - [ ] Public profiles
 - [ ] ...
 

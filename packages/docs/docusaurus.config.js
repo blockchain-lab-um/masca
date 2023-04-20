@@ -66,7 +66,7 @@ const config = {
         { to: '/docs/introduction', label: 'Docs', position: 'left' },
         { to: '/docs/getting-started', label: 'Quickstart', position: 'left' },
         {
-          href: 'https://blockchain-lab-um.github.io/ssi-snap',
+          href: 'https://masca.io',
           label: 'App',
           position: 'left',
         },
