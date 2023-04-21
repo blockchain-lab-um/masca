@@ -7,7 +7,7 @@ import {
   SaveVCRequestResult,
   VerifyDataRequestParams,
 } from '@blockchain-lab-um/masca-types';
-import { Filter } from '@blockchain-lab-um/veramo-vc-manager';
+import { Filter } from '@blockchain-lab-um/veramo-datamanager';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
@@ -120,7 +120,7 @@ export async function veramoClearVCs(args: {
   snap: SnapsGlobalObject;
   ethereum: MetaMaskInpageProvider;
   store?: AvailableVCStores | AvailableVCStores[];
-  filter?: Filter; // TODO: Seperate type from datamanager (currently vcmanager)?
+  filter?: Filter; // TODO: Seperate type from datamanager ?
 }): Promise<boolean[]> {
   const { snap, ethereum, store, filter } = args;
   let options;

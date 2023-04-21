@@ -52,7 +52,7 @@
     "@babel/runtime": "7.21.0",
     "@blockchain-lab-um/masca-types": "*",
     "@blockchain-lab-um/utils": "*",
-    "@blockchain-lab-um/veramo-vc-manager": "*",
+    "@blockchain-lab-um/veramo-datamanager": "*",
     "@cef-ebsi/ebsi-did-resolver": "^3.0.0",
     "@cef-ebsi/key-did-resolver": "^1.0.0",
     "@cef-ebsi/siop-auth": "^3.0.0",
