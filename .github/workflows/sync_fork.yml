@@ -24,7 +24,7 @@ jobs:
         env:
           USE_SSH: true
         run: |
-          git remote add fork git@github.com:bclabum/ssi-snap.git
+          git remote add fork git@github.com:bclabum/masca.git
           git config --global user.email "blockchain-lab@um.si"
           git config --global user.name "blockchain-lab"
           git push fork --force
