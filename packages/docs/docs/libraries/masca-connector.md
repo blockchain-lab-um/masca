@@ -2,35 +2,36 @@
 sidebar_position: 1
 ---
 
-# SSI Snap Connector
+# Masca Connector
 
-SSI Snap connector is used to install SSI snap and expose API toward snap on dApps and other applications.
+Masca connector is used to install Masca and expose API toward snap on dApps and other applications.
 
-For more details on SSI Snap Connector, check [GitHub repo](https://github.com/blockchain-lab-um/ssi-snap/tree/master/packages/connector).
+For more details on Masca Connector, check [GitHub repo](https://github.com/blockchain-lab-um/ssi-snap/tree/master/packages/connector).
 
 ## Usage
 
 ### Install
 
-`yarn add @blockchain-lab-um/ssi-snap-connector`
+`yarn add @blockchain-lab-um/masca-connector`
 
 Connector has exposed function for installing the Snap.
 
 ```typescript
-export async function enableSSISnap(
+export async function enableMasca(
   {
     snapId?: string;
     version?: string;
     supportedMethods?: Array<typeof availableMethods[number]>;
-  }): Promise<MetaMaskSSISnap>;
+  }
+): Promise<Result<Masca>>;
 ```
 
-When installing the SSI Snap it is possible to set a custom `snapId` if you do not want to instal it from the official repository.
+When installing Masca it is possible to set a custom `snapId` if you do not want to instal it from the official repository.
 
-It is also possible to use custom version and set a list of supported methods. If connected SSI Snap does not currently have one of the supported methods selected, `switchMethod` RPC method will be automatically called.
+It is also possible to use custom version and set a list of supported methods. If connected Masca does not currently have one of the supported methods selected, `switchMethod` RPC method will be automatically called.
 
-After snap installation, this function returns `MetamaskSSISnap` object that can be used to retrieve snap API.
-An example of initializing SSI snap and invoking snap API is shown below.
+After snap installation, this function returns `Masca` object that can be used to retrieve snap API.
+An example of initializing Masca and invoking snap API is shown below.
 
 :::tip
 
@@ -39,14 +40,27 @@ More detailed description of methods & parameters is provided in chapter [JSON-R
 :::
 
 ```typescript
-// install snap and fetch API
-const snap = await enableSSISnap({ version: 'latest' });
-const api = await snap.getSSISnapApi();
+import { enableMasca } from '@blockchain-lab-um/masca-connector';
+import { isError } from '@blockchain-lab-um/utils';
+// install Masca and retrieve API interface
+const masca = await enableMasca();
+
+if(isError(masca)){
+    console.error(enableResult.error);
+    return;
+}
+
+const api = masca.data.getMascaApi();
 
 // invoke API
 const vcs = await api.queryVCs();
 
-console.log('list of VCs:', vcs);
+if(isError(masca)){
+    console.error(vcs.error);
+    return;
+}
+
+console.log('list of VCs:', vcs.data);
 ```
 
 ## Connector methods
@@ -100,7 +114,7 @@ const vp = await api.createVP({
 });
 
 /**
- * Save a VC in the SSI Snap under currently selected MetaMask account
+ * Save a VC in Masca under currently selected MetaMask account
  *
  * @param {W3CVerifiableCredential} vc - vc
  * @param {SaveVCOptions} options? - optional options param
@@ -142,6 +156,4 @@ const snapSettings = await api.getSnapSettings();
 const accountSettings = await api.getAccountSettings();
 ```
 
-## Utility methods
-
-SSI Snap Connector also comes with additional utility methods such as `isSnapInstalled`, `isMetamaskSnapsSupported` and `hasMetamask`.
+**More detailed list of methods can be found [here](./../tutorial/implementation.md)!**

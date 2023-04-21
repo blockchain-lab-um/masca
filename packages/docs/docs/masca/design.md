@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Design
 
-**SSI Snap** is a MetaMask Snap that adds support for **SSI**: it can manage **DIDs**, store **VCs**, and create the **VPs**. It is designed to be blockchain-agnostic. SSI Snap works on existing MetaMask accounts (which are already DIDs of some methods) and their private keys to create new DIDs, without the need to create new private keys and worry about their security!
+**Masca** is a MetaMask Snap that adds support for **SSI**: it can manage **DIDs**, store **VCs**, and create the **VPs**. It is designed to be blockchain-agnostic. Masca works on existing MetaMask accounts (which are already DIDs of some methods) and their private keys to create new DIDs, without the need to create new private keys and worry about their security!
 
 ## DID Methods
 
@@ -23,11 +23,11 @@ Now you might ask yourselves why we have decided to build a proof of concept on 
 - Huge developer community with many already established frameworks, including various SSI & DID frameworks and battle-tested `did:ethr` method.
 - DID Documents don't have to be changed often (or even never in some cases); hence gas fees do not present such a huge problem.
 
-But a single DID method cannot fit all the different use cases and projects. Thus we are developing SSI Snap in a way that the user can change the DID method that she is currently using (similar to selecting a network in MetaMask), or dApp/app can enforce the usage of a specific DID method if its functionalities depend on it.
+But a single DID method cannot fit all the different use cases and projects. Thus we are developing Masca in a way that the user can change the DID method that she is currently using (similar to selecting a network in MetaMask), or dApp/app can enforce the usage of a specific DID method if its functionalities depend on it.
 
 ### Switching between different DID methods
 
-In SSI Snap, users can pick a different DID method for every MetaMask account. For example, if they want to use `did:ethr` on Account 1 and `did:key` on Account 2, they can!
+In Masca, users can pick a different DID method for every MetaMask account. For example, if they want to use `did:ethr` on Account 1 and `did:key` on Account 2, they can!
 
 For the complete list of supported DID methods, check [this page](./supported).
 
@@ -37,17 +37,17 @@ There are two types of Verifiable Data in the SSI trust model and lifecycle; **V
 
 ### Verifiable Credentials (VCs)
 
-SSI Snap supports storing VCs in its local storage or on different supported networks. It also enables storing some data locally, such as personal passports and driving licenses, while other less critical data, like conference certificates or course applications, can be stored on public networks. Best of all, users can decide where their data should end up!
+Masca supports storing VCs in its local storage or on different supported networks. It also enables storing some data locally, such as personal passports and driving licenses, while other less critical data, like conference certificates or course applications, can be stored on public networks. Best of all, users can decide where their data should end up!
 
 For more information on the storage, check [this page](./storage).
 
 ### Verifiable Presentations (VPs)
 
-On the other hand, VPs are signed by holders using their wallets (which is SSI Snap). Usually, they are signed on the go when requested by different applications. SSI Snap supports creating VP from single or multiple VCs.
+On the other hand, VPs are signed by holders using their wallets (which is Masca). Usually, they are signed on the go when requested by different applications. Masca supports creating VP from single or multiple VCs.
 
 ### Signing Credentials
 
-[**JWT**](https://www.rfc-editor.org/rfc/rfc7519) is one of the most popular proof formats for VCs. To support this proof type, we changed how SSI Snap retrieves private keys from MetaMask. From now on, we are using the Snap RPC method [`snap_getBip44Entropy`](https://docs.metamask.io/guide/snaps-rpc-api.html#restricted-methods), which is also the preferred way for all Snaps (see discussion: https://github.com/MetaMask/SIPs/discussions/64#discussioncomment-3963830).
+[**JWT**](https://www.rfc-editor.org/rfc/rfc7519) is one of the most popular proof formats for VCs. To support this proof type, we changed how Masca retrieves private keys from MetaMask. From now on, we are using the Snap RPC method [`snap_getBip44Entropy`](https://docs.metamask.io/guide/snaps-rpc-api.html#restricted-methods), which is also the preferred way for all Snaps (see discussion: https://github.com/MetaMask/SIPs/discussions/64#discussioncomment-3963830).
 
 During the runtime of each RPC method, private keys are retrieved (and derived) from MetaMask using the Snap RPC method `snap_getBip44Entropy`. After the RPC method is finished, private keys are cleared from the memory and are never stored anywhere. For now, we are using only keys derived for the Ethereum network, but in the future, this same Snap method will help us with keys for other blockchain networks.
 
@@ -75,7 +75,7 @@ We are also looking into pairing-friendly elliptic curves, which enable advanced
 
 ### Proof formats
 
-There are different ways to digitally sign and represent digital signatures alongside the data or payload (VC or VP). In the SSI and web3 world, currently, three approaches are most adopted: **JWT**, **Linked Data Proofs**, and **EIP712**. SSI Snap supports all three types.
+There are different ways to digitally sign and represent digital signatures alongside the data or payload (VC or VP). In the SSI and web3 world, currently, three approaches are most adopted: **JWT**, **Linked Data Proofs**, and **EIP712**. Masca supports all three types.
 
 For the complete list of supported proof formats, check [this page](./supported).
 
@@ -87,4 +87,4 @@ For the complete list of supported data storage providers, check [this page](./s
 
 ## Decentralized Identity Framework
 
-Using a framework is the best way to handle DIDs and VCs in the code. SSI Snap uses **[Veramo](https://veramo.io/)** for that purpose. Veramo is a performant and modular API for Verifiable Data and Decentralized Identity/SSI. It's a library that allows the creation and management of DIDs, VCs, and VPs and makes developers' lives working with them much easier. We highly encourage you to check their website!
+Using a framework is the best way to handle DIDs and VCs in the code. Masca uses **[Veramo](https://veramo.io/)** for that purpose. Veramo is a performant and modular API for Verifiable Data and Decentralized Identity/SSI. It's a library that allows the creation and management of DIDs, VCs, and VPs and makes developers' lives working with them much easier. We highly encourage you to check their website!
