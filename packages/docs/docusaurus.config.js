@@ -19,7 +19,6 @@ const config = {
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'blockchain-lab-um', // Usually your GitHub org/user name.
   projectName: 'masca-docs', // Usually your repo name.
-  projectName: 'masca-docs', // Usually your repo name.
   customFields: {},
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
