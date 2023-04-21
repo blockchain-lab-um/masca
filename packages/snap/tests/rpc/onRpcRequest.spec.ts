@@ -4,7 +4,7 @@ import {
   availableVCStores,
 } from '@blockchain-lab-um/masca-types';
 import { Result, isError, isSuccess } from '@blockchain-lab-um/utils';
-import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-vc-manager';
+import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-datamanager';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';

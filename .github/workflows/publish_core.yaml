@@ -26,6 +26,6 @@ jobs:
         env:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
       - name: Publish
-        run: npm publish -w @blockchain-lab-um/masca -w @blockchain-lab-um/masca-connector -w @blockchain-lab-um/veramo-vc-manager -w @blockchain-lab-um/masca-types
+        run: npm publish -w @blockchain-lab-um/masca -w @blockchain-lab-um/masca-connector -w @blockchain-lab-um/veramo-datamanager -w @blockchain-lab-um/masca-types
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}

@@ -45,8 +45,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
 
   # VC Manager
-  sonarcloud-vcmanager:
-    name: SonarCloud VC Manager
+  sonarcloud-datamanager:
+    name: SonarCloud Datamanager
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -66,13 +66,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Test snap
-        run: pnpm nx test:ci @blockchain-lab-um/veramo-vc-manager
+        run: pnpm nx test:ci @blockchain-lab-um/veramo-datamanager
         env:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-      - name: Scan VC Manager
+      - name: Scan Datamanager
         uses: SonarSource/sonarcloud-github-action@master
         with:
-          projectBaseDir: packages/vcmanager
+          projectBaseDir: packages/datamanager
           args: >
             -Dsonar.organization=blockchain-lab-um
         env:

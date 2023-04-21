@@ -3,7 +3,7 @@ import {
   AbstractDataStore,
   IFilterArgs,
   IQueryResult,
-} from '@blockchain-lab-um/veramo-vc-manager';
+} from '@blockchain-lab-um/veramo-datamanager';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import {
