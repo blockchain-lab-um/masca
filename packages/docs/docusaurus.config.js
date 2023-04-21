@@ -10,7 +10,7 @@ const config = {
   title: 'Masca',
   tagline: 'Self-Sovereign Identity is cool',
   url: 'https://blockchain-lab-um.github.io/',
-  baseUrl: '/masca-docs/',
+  baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/masca_icon_b.png',
