@@ -7,13 +7,13 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'SSI Snap',
+  title: 'Masca',
   tagline: 'Self-Sovereign Identity is cool',
   url: 'https://blockchain-lab-um.github.io/',
-  baseUrl: '/',
+  baseUrl: '/masca-docs/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-  favicon: 'img/ssi_snap_logo_2.svg',
+  favicon: 'img/masca_icon_b.png',
   trailingSlash: false,
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -57,16 +57,16 @@ const config = {
 
   themeConfig: {
     navbar: {
-      title: 'SSI Snap Docs',
+      title: 'Masca Docs',
       logo: {
-        alt: 'SSI Snap Logo',
-        src: 'img/ssi_snap_logo_2.svg',
+        alt: 'Masca Logo',
+        src: 'img/masca_icon_b.png',
       },
       items: [
         { to: '/docs/introduction', label: 'Docs', position: 'left' },
         { to: '/docs/getting-started', label: 'Quickstart', position: 'left' },
         {
-          href: 'https://blockchain-lab-um.github.io/masca',
+          href: 'https://masca.io',
           label: 'App',
           position: 'left',
         },

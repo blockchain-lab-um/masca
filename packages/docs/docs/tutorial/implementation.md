@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # How To Implement It?
 
-The **SSI Snap** is a MetaMask Snap, that can handle **DIDs**, securely store **VCs**, create **VPs** and is designed to be blockchain-agnostic.
+**Masca** is a MetaMask Snap, that can handle **DIDs**, securely store **VCs**, create **VPs** and is designed to be blockchain-agnostic.
 
 :::danger
 
@@ -14,26 +14,54 @@ Ceramic Network support is experimental and still under development!
 
 ## Implementing the Snap in a dApp
 
-### Using the SSI Snap Connector
+### Using the Masca Connector
 
-`yarn add @blockchain-lab-um/ssi-snap-connector`
+`yarn add @blockchain-lab-um/masca-connector`
 
 Connector has exposed function for installing the Snap.
 
-After snap installation, this function returns `MetamaskSSISnap` object that can be used to retrieve snap API.
-An example of initializing SSI snap and invoking snap API is shown below.
+After snap installation, this function returns `Masca` object that can be used to retrieve snap API.
+An example of initializing Masca and invoking snap API is shown below.
 
 ```typescript
+import { enableMasca } from '@blockchain-lab-um/masca-connector';
+import { isError } from '@blockchain-lab-um/utils';
+
 // install snap and fetch API
-const snap = await enableSSISnap({
+const masca = await enableMasca({
   snapId: snapId,
   version: 'latest',
   supportedMethods: ['did:ethr', 'did:key'],
 });
-const api = await snap.getSSISnapApi();
+
+//Check if RPC method failed
+if(isError(masca)) {
+  console.error(setAccountRes.error);
+  return;
+}
+
+const api = await masca.data.getMascaApi();
 ```
 
-SSI Snap Connector will take care of initializing the Snap for other DID methods (Needed to extract the public key) during the enableSSISnap function and whenever account changes.
+Every RPC call will return an object that can be Success or Error. More on error handling can be found [here](./../masca/architecture).
+
+Masca Connector will take care of initializing the Snap for other DID methods (Needed to extract the public key) during the enableMasca function.
+
+### Account Switching
+
+Account switching must be handled by the dApp!
+
+```typescript
+//When account changes in dApp
+const setAccountRes = await api.setCurrentAccount({
+      currentAccount: address,
+});
+
+if (isError(setAccountRes)) {
+    console.error(setAccountRes.error);
+    return;
+}
+```
 
 ### Save VC
 
@@ -90,7 +118,8 @@ const vcs = await api.queryVCs({
     returnStore: true,
   },
 });
-console.log('VCs', vcs);
+
+console.log('VCs', vcs.data);
 
 // To return every VC
 const vcs = await api.queryVCs();
@@ -137,6 +166,41 @@ const vp = await api.createVP({
   },
 });
 ```
+
+### Create VC
+
+`createVC` is used to return a VC created from provided payload. This VC can be optionally stored in Masca.
+
+```typescript
+const payload: MinimalUnsignedCredential = {
+  type: ['VerifiableCredential', 'Test Certificate'],
+  credentialSubject: {
+    accomplishmentType: 'Test Certificate',
+    id: 'did:ethr:goerli:0x123...321',
+  },
+  credentialSchema: {
+    id: 'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
+    type: 'JsonSchemaValidator2018',
+  },
+  '@context': [
+    'https://www.w3.org/2018/credentials/v1',
+    'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/ld-context.json',
+  ],
+};
+
+const res = await api.createVC({
+  minimalUnsignedCredential: payload,
+  proofFormat: 'jwt',
+  options: {
+    save: 'true',
+    store: ['snap'],
+  },
+});
+```
+
+`minimalUnsignedCredential` is an minimal object which is used to create a VC. It needs to contain at least `credentialSubject`, `type` & `@context`.
+
+`proofFormat` is used to specify which proof format is used to sign the VC. `options` allow dApps to specify whether they want and where to store the VC.
 
 ### Delete VC
 
@@ -186,9 +250,19 @@ await api.switchMethod('did:key');
 const res = await api.setVCStore('ceramic', false);
 ```
 
+### Resolve DID
+
+`resolveDID` is used to resolve a specified DID and returns `DIDResolutionResult` which contains DID Document, if the resolution is successful.
+
+```typescript
+const didRes = await api.resolveDID('did:ethr:0x01:0x123...4567');
+```
+
 ### Snap Settings
 
 `togglePopups` and `changeInfuraToken` are used to enable/disable "Are you sure?" alerts and to change the infuraToken.
+
+`getSnapSettings` and `getAccountSettings` are used to retrieve global settings and settings for currently selected account.
 
 ```typescript
 const res = await api.changeInfuraToken('new token');
@@ -196,9 +270,16 @@ const res = await api.changeInfuraToken('new token');
 const res = await api.togglePopups();
 ```
 
+```typescript
+const res = await api.getSnapSettings();
+
+const res = await api.getAccountSettings();
+
+```
+
 _NOTE:_ _Snap can also be installed using a 3rd party Platform such as our [Platform](https://blockchain-lab-um.github.io/course-dapp/) or [Snaplist](https://snaplist.org/)._
 
-#### For a more detailed look at SSI Snap Connector visit its [documentation](../libraries/ssi-snap-connector)!
+#### For a more detailed look at Masca Connector visit its [documentation](../libraries/masca-connector)!
 
 If you need more help with implementation feel free to contact us in Discord, or check the [DEMO Platform repo](https://github.com/blockchain-lab-um/course-dapp)!
 

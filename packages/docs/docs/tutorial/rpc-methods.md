@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # JSON-RPC API
 
-All of the types mentioned below can be found in the library `@blockchain-lab-um/ssi-snap-types`.
+All of the types mentioned below can be found in the library `@blockchain-lab-um/masca-types`.
 
 ## VC Methods
 
@@ -12,7 +12,7 @@ All of the types mentioned below can be found in the library `@blockchain-lab-um
 
 #### Description
 
-Used to store a VC in SSI Snap. VC can be saved in one or more supported stores.
+Used to store a VC in Masca. VC can be saved in one or more supported stores.
 
 #### Parameters
 
@@ -22,11 +22,14 @@ Used to store a VC in SSI Snap. VC can be saved in one or more supported stores.
 
 ```typescript
 const response = await ethereum.request({
-  method: `wallet_snap_${snapId}`,
+  method: 'wallet_invokeSnap',
   params: {
-    method: 'saveVC',
-    params: {
-      verifiableCredential: vc,
+    snapId: snapId,
+    request: {
+      method: 'saveVC',
+      params: {
+        verifiableCredential: vc,
+      },
     },
   },
 });
@@ -79,17 +82,20 @@ Options defines where to search for VCs. One or more supported stores can be pro
 
 ```typescript
 const response = await ethereum.request({
-  method: `wallet_snap_${snapId}`,
+  method: 'wallet_invokeSnap',
   params: {
-    method: 'queryVCs',
-    params: {
-      filter: {
-        type: 'id',
-        filter: '0x123456789',
-      },
-      options: {
-        store: 'snap',
-        returnStore: true,
+    snapId: snapId,
+    request: {
+      method: 'queryVCs',
+      params: {
+        filter: {
+          type: 'id',
+          filter: '0x123456789',
+        },
+        options: {
+          store: 'snap',
+          returnStore: true,
+        },
       },
     },
   },
@@ -113,13 +119,16 @@ Used to delete a VC from one or more stores, based on an ID obtained with `query
 
 ```typescript
 const response = await ethereum.request({
-  method: `wallet_snap_${snapId}`,
+  method: 'wallet_invokeSnap',
   params: {
-    method: 'deleteVC',
-    params: {
-      id: '123',
-      options: {
-        store: 'snap',
+    snapId: snapId,
+    request: {
+      method: 'deleteVC',
+      params: {
+        id: '123',
+        options: {
+          store: 'snap',
+        },
       },
     },
   },
@@ -129,6 +138,59 @@ const response = await ethereum.request({
 #### Returns
 
 An array of boolean (true, if VC deleted from store X, false if there was an error, or VC was not found)
+
+### createVC
+
+#### Description
+
+Used to create a VC from payload. Proof format can be selected and the created VC can be optionally stored in snap.
+
+#### Parameters
+
+1. minimalUnsignedCredential - payload used to create VC. Needs to contain at least `type`, `credentialSubject`, `credentialSchema` and `@context`.
+2. proofFormat - Can be `jwt`, `json-ld` or `EthereumEIP712Signature`.
+3. options (optional) - `CreateVCOptions` object
+
+```typescript
+
+const payload: MinimalUnsignedCredential = {
+  type: ['VerifiableCredential', 'Test Certificate'],
+  credentialSubject: {
+    accomplishmentType: 'Test Certificate',
+    id: 'did:ethr:goerli:0x123...321',
+  },
+  credentialSchema: {
+    id: 'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
+    type: 'JsonSchemaValidator2018',
+  },
+  '@context': [
+    'https://www.w3.org/2018/credentials/v1',
+    'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/ld-context.json',
+  ],
+};
+
+const response = await ethereum.request({
+  method: 'wallet_invokeSnap',
+  params: {
+    snapId: snapId,
+    request: {
+      method: 'createVC'
+      params: {
+        minimalUnsignedCredential: payload,
+        proofFormat: 'jwt',
+        options: {
+          save: 'true',
+          store: ['snap'],
+        },
+    },
+  },
+  }
+});
+```
+
+#### Returns
+
+Returns a VC.
 
 ### createVP
 
@@ -171,12 +233,18 @@ export type VCRequest = {
 
 ```typescript
 const response = await ethereum.request({
-  method: `wallet_snap_${snapId}`,
+  method: 'wallet_invokeSnap',
   params: {
-    vcs: [{ id: '123', metadata: { store: 'ceramic' } }, { id: '456' }],
-    proofFormat: 'jwt',
-    options: {
-      challenge: '123456789',
+    snapId: snapId,
+    request: {
+      method: 'createVP',
+      params: {
+        vcs: [{ id: '123', metadata: { store: 'ceramic' } }, { id: '456' }],
+        proofFormat: 'jwt',
+        options: {
+          challenge: '123456789',
+        },
+      },
     },
   },
 });
@@ -196,9 +264,12 @@ Generates and returns a DID based on currently selected MetaMask Account and DID
 
 ```typescript
 const response = await ethereum.request({
-  method: `wallet_snap_${snapId}`,
+  method: 'wallet_invokeSnap',
   params: {
-    method: 'getDID',
+    snapId: snapId,
+    request: {
+      method: 'getDID',
+    },
   },
 });
 ```
@@ -211,9 +282,12 @@ Returns currently selected DID method
 
 ```typescript
 const response = await ethereum.request({
-  method: `wallet_snap_${snapId}`,
+  method: 'wallet_invokeSnap',
   params: {
-    method: 'getDIDMethod',
+    snapId: snapId,
+    request: {
+      method: 'getDIDMethod',
+    },
   },
 });
 ```
@@ -230,15 +304,22 @@ Switch the DID method
 
 ```typescript
 const response = await ethereum.request({
-  method: `wallet_snap_${snapId}`,
+  method: 'wallet_invokeSnap',
   params: {
-    method: 'switchDIDMethod',
-    params: {
-      didMethod: 'did:ethr',
+    snapId: snapId,
+    request: {
+      method: 'switchDIDMethod',
+      params: {
+        didMethod: 'did:ethr',
+      },
     },
   },
 });
 ```
+
+#### Returns
+
+New DID for current account
 
 ### getAvailableMethods
 
@@ -248,9 +329,12 @@ Returns a list of supported DID methods
 
 ```typescript
 const response = await ethereum.request({
-  method: `wallet_snap_${snapId}`,
+  method: 'wallet_invokeSnap',
   params: {
-    method: 'getAvailableMethods',
+    snapId: snapId,
+    request: {
+      method: 'getAvailableMethods',
+    },
   },
 });
 ```
@@ -265,9 +349,12 @@ Get selected VC Store plugin
 
 ```typescript
 const response = await ethereum.request({
-  method: `wallet_snap_${snapId}`,
+  method: 'wallet_invokeSnap',
   params: {
-    method: 'getVCStore',
+    snapId: snapId,
+    request: {
+      method: 'getVCStore',
+    },
   },
 });
 ```
@@ -295,12 +382,15 @@ Ceramic Network support is experimental and still under active development!
 
 ```typescript
 const response = await ethereum.request({
-  method: `wallet_snap_${snapId}`,
+  method: 'wallet_invokeSnap',
   params: {
-    method: 'setVCStore',
-    params: {
-      store: 'ceramic',
-      value: false,
+    snapId: snapId,
+    request: {
+      method: 'setVCStore',
+      params: {
+        store: 'ceramic',
+        value: false,
+      },
     },
   },
 });
@@ -318,9 +408,12 @@ Get a list of supported VC Store plugins
 
 ```typescript
 const response = await ethereum.request({
-  method: `wallet_snap_${snapId}`,
+  method: 'wallet_invokeSnap',
   params: {
-    method: 'getAvailableVCStores',
+    snapId: snapId,
+    request: {
+      method: 'getAvailableVCStores',
+    },
   },
 });
 ```
@@ -339,30 +432,36 @@ Used to disable popups that show up whenever user tries to save a VC, generate a
 
 ```typescript
 const response = await ethereum.request({
-  method: `wallet_snap_${snapId}`,
+  method: 'wallet_invokeSnap',
   params: {
-    method: 'togglePopups',
+    snapId: snapId,
+    request: {
+      method: 'togglePopups',
+    },
   },
 });
 ```
 
-### changeInfuraToken
+### resolveDID
 
 #### Description
 
-change the Infura token used by SSI Snap
+Resolve a DID
 
 #### Parameters
 
-1. infuraToken - new infura token
+1. did - did string
 
 ```typescript
 const response = await ethereum.request({
-  method: `wallet_snap_${snapId}`,
+  method: 'wallet_invokeSnap',
   params: {
-    method: 'changeInfuraToken',
-    params: {
-      infuraToken: 'abcdefg',
+    snapId: snapId,
+    request: {
+      method: 'resolveDID',
+      params: {
+        did: 'did:ethr:0x01:0x123...321',
+      },
     },
   },
 });
@@ -370,7 +469,7 @@ const response = await ethereum.request({
 
 #### Returns
 
-boolean
+`DIDResolutionResult` object, which contains DID Document if successful.
 
 ### getAccountSettings
 
@@ -380,9 +479,12 @@ Used to obtain settings of currently selected account
 
 ```typescript
 const response = await ethereum.request({
-  method: `wallet_snap_${snapId}`,
+  method: 'wallet_invokeSnap',
   params: {
-    method: 'getAccountSettings',
+    snapId: snapId,
+    request: {
+      method: 'getAccountSettings',
+    },
   },
 });
 ```
@@ -408,9 +510,12 @@ Used to obtain settings of the snap
 
 ```typescript
 const response = await ethereum.request({
-  method: `wallet_snap_${snapId}`,
+  method: 'wallet_invokeSnap',
   params: {
-    method: 'getSnapSettings',
+    snapId: snapId,
+    request: {
+      method: 'getSnapSettings',
+    },
   },
 });
 ```
@@ -420,7 +525,7 @@ const response = await ethereum.request({
 Object with type
 
 ```typescript
-export type SSISnapConfig = {
+export type MascaConfig = {
   snap: {
     infuraToken: string;
     acceptedTerms: boolean;

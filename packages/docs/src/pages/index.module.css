@@ -17,7 +17,7 @@
 }
 
 .homeSlogan {
-  color: #a495ff;
+  color: #fa577b;
   font-weight: bold;
   font-size: larger;
 }
@@ -39,15 +39,14 @@
 }
 
 .homeButton {
-  background: rgb(104 96 232);
-  background: linear-gradient(
-    0deg,
-    rgb(104 96 232 / 100%) 0%,
-    rgb(104 96 232 / 100%) 0%,
-    rgb(134 71 181 / 100%) 100%
-  );
+  background: #fe3d67;
   padding: 0.5rem 1rem;
   font-size: x-large;
   border-radius: 1.25rem;
+  color: white;
+}
+
+.homeButton:hover {
+  background: #fa577b;
   color: white;
 }

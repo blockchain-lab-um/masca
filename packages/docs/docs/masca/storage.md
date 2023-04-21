@@ -4,11 +4,11 @@ sidebar_position: 5
 
 # Storage
 
-SSI Snap utilizes MetaMask's state to store data. SSI Snap modifies the **`SSISnapState`** object.
+Masca utilizes MetaMask's state to store data. Masca modifies the **`MascaState`** object.
 
-In the `SSISnapState` object, data for every MetaMask account is stored in property, named after the said MetaMask account. Inside this property DIDs, VCs, Snap & Account Configuration are stored.
+In the `MascaState` object, data for every MetaMask account is stored in property, named after the said MetaMask account. Inside this property DIDs, VCs, Snap & Account Configuration are stored.
 
-There is also global configuration object in the SSISnapState object
+There is also global configuration object in the MascaState object
 
 Data-store plugins, used by Veramo Client and Manager plugins, modify the state.
 
@@ -25,9 +25,9 @@ Structure of the state stored in MetaMask:
 
 ```typescript
 {
-  SSISnapState:
+  MascaState:
     {
-      SSISnapConfig:
+      MascaConfig:
       {
         snap: {
           infuraToken: string;
