@@ -23,14 +23,14 @@ export async function enableMasca(
     version?: string;
     supportedMethods?: Array<typeof availableMethods[number]>;
   }
-): Promise<Result<MetaMaskMasca>>;
+): Promise<Result<Masca>>;
 ```
 
-When installing the Masca it is possible to set a custom `snapId` if you do not want to instal it from the official repository.
+When installing Masca it is possible to set a custom `snapId` if you do not want to instal it from the official repository.
 
 It is also possible to use custom version and set a list of supported methods. If connected Masca does not currently have one of the supported methods selected, `switchMethod` RPC method will be automatically called.
 
-After snap installation, this function returns `MetamaskMasca` object that can be used to retrieve snap API.
+After snap installation, this function returns `Masca` object that can be used to retrieve snap API.
 An example of initializing Masca and invoking snap API is shown below.
 
 :::tip
@@ -114,7 +114,7 @@ const vp = await api.createVP({
 });
 
 /**
- * Save a VC in the Masca under currently selected MetaMask account
+ * Save a VC in Masca under currently selected MetaMask account
  *
  * @param {W3CVerifiableCredential} vc - vc
  * @param {SaveVCOptions} options? - optional options param
@@ -157,7 +157,3 @@ const accountSettings = await api.getAccountSettings();
 ```
 
 **More detailed list of methods can be found [here](./../tutorial/implementation.md)!**
-
-## Utility methods
-
-Masca Connector also comes with additional utility methods such as `isSnapInstalled`, `isMetamaskSnapsSupported` and `hasMetamask`.

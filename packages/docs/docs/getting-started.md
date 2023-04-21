@@ -4,13 +4,13 @@ sidebar_position: 2
 
 # Getting Started
 
-The Masca is a **MetaMask Snap** (extension) that adds support for **SSI**: it can manage **DIDs**, store **VCs**, and create the **VPs**. It is designed to be blockchain-agnostic.
+Masca is a **MetaMask Snap** (extension) that adds support for **SSI**: it can manage **DIDs**, store **VCs**, and create the **VPs**. It is designed to be blockchain-agnostic.
 
 ---
 
 ## User
 
-### How to start using the Masca?
+### How to start using Masca?
 
 Masca currently works only on **MetaMask Flask**. You can find it [here](https://metamask.io/flask/). Snaps are expected to come to the main MetaMask sometime in the second half of 2023.
 
@@ -36,7 +36,7 @@ Installing Masca Connector to your project:
 
 `yarn add @blockchain-lab-um/masca-connector`
 
-Masca is installed and enabled using the function `enableMasca`. After the Snap is installed, this function returns `MetamaskMasca` object that you can use to retrieve the API interface.
+Masca is installed and enabled using the function `enableMasca`. After the Snap is installed, this function returns `Masca` object that you can use to retrieve the API interface.
 
 A minimal example of initializing Masca and invoking one of the API methods:
 

@@ -6,7 +6,7 @@ sidebar_position: 1
 
 Welcome web3 explorers! Did you ever feel that your **Decentralized Application (dApp)** is missing something, like better knowledge of your users and a more robust identity layer? Now you can integrate the powerful world of **Decentralized Identity/Self-Sovereign Identity (SSI)**, **Decentralized Identifiers (DIDs)**, and **Verifiable Credentials (VCs)** with just a few steps. No need for additional platforms and wallets; only one of the most popular **web3** wallets is required - MetaMask.
 
-The Masca is a **MetaMask Snap** (extension) that adds support for **SSI**: it can manage **DIDs**, store **VCs**, and create the **VPs**. These docs are a great place to learn about the SSI and find all the necessary information to start using it immediately!
+Masca is a **MetaMask Snap** (extension) that adds support for **SSI**: it can manage **DIDs**, store **VCs**, and create the **VPs**. These docs are a great place to learn about the SSI and find all the necessary information to start using it immediately!
 
 Why use Masca?
 

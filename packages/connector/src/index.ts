@@ -8,7 +8,6 @@ import detectEthereumProvider from '@metamask/detect-provider';
 import { Masca } from './snap.js';
 
 export { Masca } from './snap.js';
-export { isSnapInstalled } from './utils.js';
 
 export type SnapInstallationParams = {
   snapId?: string;

@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # How To Implement It?
 
-The **Masca** is a MetaMask Snap, that can handle **DIDs**, securely store **VCs**, create **VPs** and is designed to be blockchain-agnostic.
+**Masca** is a MetaMask Snap, that can handle **DIDs**, securely store **VCs**, create **VPs** and is designed to be blockchain-agnostic.
 
 :::danger
 
@@ -20,7 +20,7 @@ Ceramic Network support is experimental and still under development!
 
 Connector has exposed function for installing the Snap.
 
-After snap installation, this function returns `MetamaskMasca` object that can be used to retrieve snap API.
+After snap installation, this function returns `Masca` object that can be used to retrieve snap API.
 An example of initializing Masca and invoking snap API is shown below.
 
 ```typescript
@@ -35,7 +35,10 @@ const masca = await enableMasca({
 });
 
 //Check if RPC method failed
-if(isError(masca))
+if(isError(masca)) {
+  console.error(setAccountRes.error);
+  return;
+}
 
 const api = await masca.data.getMascaApi();
 ```

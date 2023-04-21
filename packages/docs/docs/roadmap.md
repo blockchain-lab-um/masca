@@ -76,7 +76,8 @@ Masca dApp:
 - [x] Manage settings
 - [x] Create VPs
 - [x] Move VC to another storage
-- [x] Import/export (backup VCs)
+- [x] Import VCs
+- [ ] Export VCs
 - [ ] Public profiles
 - [ ] ...
 
