@@ -80,7 +80,7 @@
       "components": [
         "masca-connector",
         "masca-types",
-        "masca-datamanager",
+        "veramo-datamanager",
         "masca"
       ]
     }
