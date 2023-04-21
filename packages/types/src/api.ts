@@ -13,11 +13,12 @@ import {
   DeleteVCsOptions,
   QueryVCsRequestParams,
   SaveVCOptions,
+  SetCurrentAccountRequestParams,
 } from './params.js';
 import type { QueryVCsRequestResult, SaveVCRequestResult } from './results.js';
-import { SSIAccountConfig, SSISnapConfig } from './snapInterfaces.js';
+import { MascaAccountConfig, MascaConfig } from './snapInterfaces.js';
 
-export interface SSISnapApi {
+export interface MascaApi {
   queryVCs(
     params?: QueryVCsRequestParams
   ): Promise<Result<QueryVCsRequestResult[]>>;
@@ -40,10 +41,13 @@ export interface SSISnapApi {
   ): Promise<Result<boolean>>;
   getAvailableVCStores(): Promise<Result<string[]>>;
   deleteVC(id: string, options?: DeleteVCsOptions): Promise<Result<boolean[]>>;
-  getAccountSettings(): Promise<Result<SSIAccountConfig>>;
-  getSnapSettings(): Promise<Result<SSISnapConfig>>;
+  getAccountSettings(): Promise<Result<MascaAccountConfig>>;
+  getSnapSettings(): Promise<Result<MascaConfig>>;
   resolveDID(did: string): Promise<Result<DIDResolutionResult>>;
   createVC(
     params: CreateVCRequestParams
   ): Promise<Result<VerifiableCredential>>;
+  setCurrentAccount(
+    params: SetCurrentAccountRequestParams
+  ): Promise<Result<boolean>>;
 }

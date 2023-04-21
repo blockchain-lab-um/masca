@@ -2,6 +2,7 @@ import React from 'react';
 import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
+import { useTranslations } from 'next-intl';
 
 import { copyToClipboard } from '@/utils/string';
 
@@ -11,12 +12,13 @@ type AddressPopoverProps = {
   disconnect: () => void;
 };
 const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
+  const t = useTranslations('Navbar');
   return (
     <Popover className="relative z-50">
       {({ open }) => (
         <>
           <Popover.Button
-            className={`text-h4 animated-transition dark:bg-orange-accent-dark dark:text-navy-blue-900 rounded-3xlpx-4 font-ubuntu inline-flex w-full justify-center rounded-full bg-pink-100 py-2.5 px-7 font-normal text-gray-800 hover:opacity-80 focus:outline-none dark:border-none ${
+            className={`text-h4 animated-transition dark:bg-orange-accent-dark dark:text-navy-blue-900 rounded-3xlpx-4 font-ubuntu inline-flex w-full justify-center rounded-full bg-pink-100 px-7 py-2.5 font-normal text-gray-800 hover:opacity-80 focus:outline-none dark:border-none ${
               open ? 'opacity-80' : ''
             }`}
           >
@@ -39,7 +41,7 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
             leaveTo="transform scale-95 opacity-0"
           >
             <Popover.Panel className="dark:bg-navy-blue-500 absolute right-0 rounded-2xl bg-white shadow-xl max-md:-top-12 max-md:mb-2 max-md:-translate-y-full max-md:transform md:mt-2">
-              <div className="rounded-2xl px-6 pt-6 pb-3 shadow-sm">
+              <div className="rounded-2xl px-6 pb-3 pt-6 shadow-sm">
                 <div className="flex flex-col justify-between gap-3">
                   <div>
                     <div className="dark:text-navy-blue-100 text-sm text-gray-700">
@@ -65,7 +67,7 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
                   </div>
                   <div>
                     <div className="dark:text-navy-blue-100 mt-4 text-sm text-gray-700">
-                      CONNECTED WITH METAMASK
+                      {t('address.connected')}
                     </div>
                     <div className="mt-2 flex items-center">
                       <div className="mr-1 mt-0.5">
@@ -87,9 +89,9 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
                   <div className="mt-2 flex justify-start">
                     <button
                       onClick={disconnect}
-                      className="animated-transition mt-auto text-xs font-semibold text-pink-800 hover:text-pink-700 dark:text-pink-300 hover:dark:text-pink-400"
+                      className="animated-transition dark:text-pink-accent-dark mt-auto text-xs font-semibold text-pink-500 hover:text-pink-700 hover:dark:text-pink-400"
                     >
-                      DISCONNECT
+                      {t('address.disconnect')}
                     </button>
                   </div>
                 </div>

@@ -1,12 +1,12 @@
 import {
   AvailableVCStores,
+  MascaApi,
   QueryVCsRequestResult,
-  SSISnapApi,
-} from '@blockchain-lab-um/ssi-snap-types';
+} from '@blockchain-lab-um/masca-types';
 import { create } from 'zustand';
 
 interface SnapStore {
-  snapApi: SSISnapApi | undefined;
+  snapApi: MascaApi | undefined;
   availableMethods: string[];
   currDIDMethod: string | undefined;
   currVCStore: AvailableVCStores | undefined;
@@ -15,7 +15,7 @@ interface SnapStore {
   availableVCStores: Record<string, boolean>;
 
   changeAvailableVCStores: (availableVCStores: Record<string, boolean>) => void;
-  changeSnapApi: (snapApi: SSISnapApi) => void;
+  changeSnapApi: (snapApi: MascaApi) => void;
   changeAvailableMethods: (availableMethods: string[]) => void;
   changeCurrDIDMethod: (currDIDMethod: string) => void;
   changeCurrVCStore: (currVCStore: AvailableVCStores) => void;
@@ -34,7 +34,7 @@ export const useSnapStore = create<SnapStore>()((set) => ({
 
   changeAvailableVCStores: (availableVCStores: Record<string, boolean>) =>
     set({ availableVCStores }),
-  changeSnapApi: (snapApi: SSISnapApi) => set({ snapApi }),
+  changeSnapApi: (snapApi: MascaApi) => set({ snapApi }),
   changeAvailableMethods: (availableMethods: string[]) =>
     set({ availableMethods }),
   changeCurrDIDMethod: (currDIDMethod: string) => set({ currDIDMethod }),

@@ -1,30 +1,28 @@
-FROM blockchain-lab-um/ssi-snap:latest as builder
+FROM blockchain-lab-um/masca:latest as builder
 
-FROM nginx:1.23.3-alpine
+FROM node:18.15-alpine
 
 # Create app directory
 RUN mkdir -p /app
 WORKDIR /app
 
-# Change file ownership
-RUN chown -R nginx:nginx /app && \
-  chmod -R 755 /app && \
-  chown -R nginx:nginx /var/cache/nginx && \
-  chown -R nginx:nginx /var/log/nginx && \
-  chown -R nginx:nginx /etc/nginx/conf.d && \
-  touch /var/run/nginx.pid && \
-  chown -R nginx:nginx /var/run/nginx.pid
+ENV NODE_ENV production
 
-USER nginx
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
 
-# Copy build artifacts
-COPY --from=builder /app/packages/dapp/out /app/ssi-snap
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=builder --chown=nextjs:nodejs /app/packages/dapp/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/packages/dapp/.next/static ./packages/dapp/.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/packages/dapp/public ./packages/dapp/public
 
-# Copy nginx config
-COPY --from=builder /app/packages/dapp/nginx.conf /etc/nginx/nginx.conf
+USER nextjs
 
-# Expose port 80
-EXPOSE 80
+EXPOSE 3000
 
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+ENV PORT 3000
+
+WORKDIR /app/packages/dapp
+
+CMD ["node", "server.js"]

@@ -1,18 +1,29 @@
 import React from 'react';
-import Head from 'next/head';
 import { isError } from '@blockchain-lab-um/utils';
+import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
 import ConnectedProvider from '@/components/ConnectedProvider';
 import ToggleSwitch from '@/components/Switch';
-import { useSnapStore } from '@/utils/stores';
+import { useMascaStore, useToastStore } from '@/stores';
 
 export default function Settings() {
-  const { availableVCStores, changeAvailableVCStores, api } = useSnapStore(
+  const t = useTranslations('Settings');
+  const { setTitle, setLoading, setToastOpen, setType } = useToastStore(
     (state) => ({
+      setTitle: state.setTitle,
+      setText: state.setText,
+      setLoading: state.setLoading,
+      setToastOpen: state.setOpen,
+      setType: state.setType,
+    }),
+    shallow
+  );
+  const { api, availableVCStores, changeAvailableVCStores } = useMascaStore(
+    (state) => ({
+      api: state.mascaApi,
       availableVCStores: state.availableVCStores,
       changeAvailableVCStores: state.changeAvailableVCStores,
-      api: state.snapApi,
     }),
     shallow
   );
@@ -34,6 +45,15 @@ export default function Settings() {
     if (!api) return;
     const res = await api.setVCStore(store, value);
     await snapGetAvailableVCStores();
+    if (isError(res)) {
+      setToastOpen(false);
+      setTimeout(() => {
+        setTitle('Failed to toggle ceramic');
+        setType('error');
+        setLoading(false);
+        setToastOpen(true);
+      }, 100);
+    }
   };
 
   const handleCeramicToggle = async (enabled: boolean) => {
@@ -41,50 +61,52 @@ export default function Settings() {
   };
 
   return (
-    <>
-      <Head>
-        <title>Masca | Settings</title>
-        <meta name="description" content="Settings page for Masca." />
-      </Head>
-      <div className="grid place-items-center">
-        <div className="dark:bg-navy-blue-800 flex h-full min-h-[40vh] w-full max-w-sm flex-col rounded-3xl bg-white shadow-lg  md:max-w-md lg:max-w-lg  xl:w-[34rem] xl:max-w-[34rem]">
-          <ConnectedProvider>
-            <div className="p-4 text-lg">
-              <div>
-                <div className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6  text-gray-900">
-                  Data Stores
-                </div>
-                <div className="mt-5">
-                  <p className="text-md dark:text-navy-blue-400 text-gray-600 ">
-                    Enable or disable data stores. Data stores are places where
-                    VCs are stored.{' '}
-                  </p>
-                </div>
-
-                <span className="dark:text-navy-blue-200 mt-10 flex justify-between text-gray-800 ">
-                  Ceramic{' '}
-                  <ToggleSwitch
-                    size="md"
-                    enabled={availableVCStores.ceramic}
-                    setEnabled={handleCeramicToggle}
-                    shadow="md"
-                  />
-                </span>
+    <div className="grid place-items-center">
+      <div className="dark:bg-navy-blue-800 flex h-full min-h-[40vh] w-full max-w-sm flex-col rounded-3xl bg-white shadow-lg  md:max-w-md lg:max-w-lg  xl:w-[34rem] xl:max-w-[34rem]">
+        <ConnectedProvider>
+          <div className="p-4 text-lg">
+            <div>
+              <div className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6  text-gray-900">
+                {t('ds')}
+              </div>
+              <div className="mt-5">
+                <p className="text-md dark:text-navy-blue-400 text-gray-600 ">
+                  {t('ds-desc')}{' '}
+                </p>
               </div>
 
-              <div className="mt-20">
-                <div className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6  text-gray-900">
-                  Advanced
-                </div>
-                <div className="mt-2 text-sm text-red-500">
-                  Not implemented yet.
-                </div>
-                <div></div>
-              </div>
+              <span className="dark:text-navy-blue-200 mt-10 flex justify-between text-gray-800 ">
+                Ceramic{' '}
+                <ToggleSwitch
+                  size="md"
+                  enabled={availableVCStores.ceramic}
+                  setEnabled={handleCeramicToggle}
+                  shadow="md"
+                />
+              </span>
             </div>
-          </ConnectedProvider>
-        </div>
+
+            <div className="mt-20">
+              <div className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6  text-gray-900">
+                {t('advanced')}
+              </div>
+              <div className="mt-2 text-sm text-red-500">
+                Not implemented yet.
+              </div>
+              <div></div>
+            </div>
+          </div>
+        </ConnectedProvider>
       </div>
-    </>
+    </div>
   );
+}
+
+export async function getStaticProps(context: { locale: any }) {
+  return {
+    props: {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/restrict-template-expressions
+      messages: (await import(`../../locales/${context.locale}.json`)).default,
+    },
+  };
 }

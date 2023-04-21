@@ -1,5 +1,5 @@
 import React from 'react';
-import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
+import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-types';
 
 interface QRTabProps {
   vc: QueryVCsRequestResult;

@@ -6,7 +6,7 @@
   "scripts": {
     "build": "next build",
     "build:docker": "next export",
-    "dev": "next dev",
+    "dev": "cross-env USE_LOCAL='true' next dev",
     "docker:build": "docker build . -t blockchain-lab-um/dapp:latest",
     "lint": "pnpm lint:next && pnpm lint:tsc && pnpm lint:prettier && pnpm lint:stylelint",
     "lint-staged": "lint-staged",
@@ -17,8 +17,8 @@
     "start": "next start"
   },
   "dependencies": {
-    "@blockchain-lab-um/ssi-snap-connector": "*",
-    "@blockchain-lab-um/ssi-snap-types": "*",
+    "@blockchain-lab-um/masca-connector": "*",
+    "@blockchain-lab-um/masca-types": "*",
     "@blockchain-lab-um/utils": "*",
     "@headlessui/react": "^1.7.7",
     "@heroicons/react": "^2.0.13",
@@ -29,11 +29,13 @@
     "clsx": "^1.2.1",
     "ethers": "^6.0.8",
     "next": "13.2.4",
+    "next-intl": "^2.12.0",
     "next-themes": "^0.2.1",
     "prettier-plugin-tailwindcss": "^0.2.4",
     "prop-types": "^15.8.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "sharp": "^0.32.0",
     "tailwind-scrollbar": "^3.0.0",
     "zustand": "^4.3.2"
   },
@@ -46,6 +48,7 @@
     "@types/react": "18.0.30",
     "@types/react-dom": "18.0.11",
     "autoprefixer": "^10.4.13",
+    "cross-env": "^7.0.3",
     "eslint": "^8.32.0",
     "eslint-config-next": "^13.1.3",
     "eslint-config-prettier": "^8.6.0",
@@ -85,13 +88,6 @@
         "outputs": [
           "{projectRoot}/.next"
         ]
-      },
-      "build:docker": {
-        "inputs": [],
-        "dependsOn": [
-          "build"
-        ],
-        "outputs": []
       },
       "start": {
         "inputs": [

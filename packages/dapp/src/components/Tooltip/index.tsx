@@ -14,18 +14,18 @@ const Tooltip = ({ children, tooltip, position = 'top' }: TooltipProps) => {
       <div className="opacity-0 transition duration-500 group-hover:opacity-100">
         <span
           className={clsx(
-            'border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700 invisible absolute z-20 whitespace-nowrap rounded-lg border py-1 px-2 text-sm group-hover:visible',
+            'border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700 invisible absolute z-20 whitespace-nowrap rounded-lg border px-2 py-1 text-sm group-hover:visible',
             position === 'top'
-              ? 'left-1/2 bottom-[calc(100%+5px)] mb-1 -translate-x-1/2'
+              ? 'bottom-[calc(100%+5px)] left-1/2 mb-1 -translate-x-1/2'
               : '',
             position === 'bottom'
               ? 'left-1/2 top-[calc(100%+5px)] mt-1 -translate-x-1/2'
               : '',
             position === 'left'
-              ? 'top-1/2 right-[calc(100%+3px)] mr-1 -translate-y-1/2'
+              ? 'right-[calc(100%+3px)] top-1/2 mr-1 -translate-y-1/2'
               : '',
             position === 'right'
-              ? 'top-1/2 left-[calc(100%+3px)] ml-1 -translate-y-1/2'
+              ? 'left-[calc(100%+3px)] top-1/2 ml-1 -translate-y-1/2'
               : ''
           )}
         >
@@ -33,18 +33,18 @@ const Tooltip = ({ children, tooltip, position = 'top' }: TooltipProps) => {
         </span>
         <span
           className={clsx(
-            'bg-navy-blue-300 invisible absolute z-10 h-3 w-3 rotate-45 group-hover:visible',
+            'dark:bg-navy-blue-300 invisible absolute z-10 h-3 w-3 rotate-45 bg-blue-300 group-hover:visible',
             position === 'top'
-              ? 'left-1/2 bottom-full mb-1 -translate-x-1/2'
+              ? 'bottom-full left-1/2 mb-1 -translate-x-1/2'
               : '',
             position === 'bottom'
               ? 'left-1/2 top-full mt-1 -translate-x-1/2'
               : '',
             position === 'left'
-              ? 'top-1/2 right-full mr-1 -translate-y-1/2'
+              ? 'right-full top-1/2 mr-1 -translate-y-1/2'
               : '',
             position === 'right'
-              ? 'top-1/2 left-full ml-1 -translate-y-1/2'
+              ? 'left-full top-1/2 ml-1 -translate-y-1/2'
               : ''
           )}
         ></span>

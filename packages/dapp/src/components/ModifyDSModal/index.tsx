@@ -2,12 +2,13 @@ import { Fragment, useState } from 'react';
 import {
   AvailableVCStores,
   QueryVCsRequestResult,
-} from '@blockchain-lab-um/ssi-snap-types';
+} from '@blockchain-lab-um/masca-types';
 import { isError } from '@blockchain-lab-um/utils';
 import { Dialog, Transition } from '@headlessui/react';
+import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
-import { useSnapStore, useToastStore } from '@/utils/stores';
+import { useMascaStore, useToastStore } from '@/stores';
 import Button from '../Button';
 import DeleteModal from '../DeleteModal';
 import ToggleSwitch from '../Switch';
@@ -19,23 +20,26 @@ interface ModifyDSModalProps {
 }
 
 function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
+  const t = useTranslations('ModifyDS');
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const { setTitle, setLoading, setToastOpen } = useToastStore(
+  const { setTitle, setLoading, setToastOpen, setType } = useToastStore(
     (state) => ({
       setTitle: state.setTitle,
       setText: state.setText,
       setLoading: state.setLoading,
       setToastOpen: state.setOpen,
+      setType: state.setType,
     }),
     shallow
   );
   const [deleteModalStore, setDeleteModalStore] = useState<
     AvailableVCStores | undefined
   >(undefined);
-  const { enabledStores, snapApi } = useSnapStore(
+  const { enabledStores, api, changeVcs } = useMascaStore(
     (state) => ({
       enabledStores: state.availableVCStores,
-      snapApi: state.snapApi,
+      api: state.mascaApi,
+      changeVcs: state.changeVcs,
     }),
     shallow
   );
@@ -69,39 +73,51 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
   });
 
   const handleDSChange = async (store: AvailableVCStores, enabled: boolean) => {
-    if (!snapApi) return;
+    if (!api) return;
+
     if (!enabled) {
       setDeleteModalStore(store);
       setDeleteModalOpen(true);
-    } else if (enabled) {
-      setLoading(true);
-      setTitle('Saving Credential');
-      setToastOpen(true);
-      setOpen(false);
-      const res = await snapApi.saveVC(vc.data, { store });
-      if (isError(res)) {
-        setToastOpen(false);
-        setTimeout(() => {
-          setTitle('Error while saving credential');
-          setLoading(false);
-          setToastOpen(true);
-        }, 100);
-        console.log(res.error);
-      } else {
-        setToastOpen(false);
-        setTimeout(() => {
-          setTitle('Credential saved');
-          setLoading(false);
-          setToastOpen(true);
-        }, 100);
-        const vcs = await snapApi.queryVCs();
-        if (isError(vcs)) {
-          console.log(vcs.error);
-        } else {
-          useSnapStore.getState().changeVcs(vcs.data);
-        }
-      }
+      return;
     }
+
+    setLoading(true);
+    setType('normal');
+    setTitle('Saving Credential');
+    setToastOpen(true);
+    setOpen(false);
+
+    const res = await api.saveVC(vc.data, { store });
+
+    if (isError(res)) {
+      setToastOpen(false);
+      setType('error');
+      setTimeout(() => {
+        setTitle('Error while saving credential');
+        setLoading(false);
+        setToastOpen(true);
+      }, 100);
+      console.log(res.error);
+      return;
+    }
+
+    setToastOpen(false);
+
+    setTimeout(() => {
+      setType('success');
+      setTitle('Credential saved');
+      setLoading(false);
+      setToastOpen(true);
+    }, 100);
+
+    const vcs = await api.queryVCs();
+
+    if (isError(vcs)) {
+      console.log(vcs.error);
+      return;
+    }
+
+    changeVcs(vcs.data);
   };
 
   return (
@@ -135,11 +151,11 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
                   as="h3"
                   className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-900"
                 >
-                  Modify Credential
+                  {t('title')}
                 </Dialog.Title>
                 <div className="mt-2">
                   <p className="text-md dark:text-navy-blue-200 text-gray-500">
-                    Here you can define where the credential will be stored.
+                    {t('desc')}
                   </p>
                 </div>
                 <div className="dark:text-navy-blue-100 mt-10 px-4 text-gray-700">
@@ -175,7 +191,7 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
                       variant="gray"
                       size="xs"
                     >
-                      Done
+                      {t('done')}
                     </Button>
                   </div>
                 </div>

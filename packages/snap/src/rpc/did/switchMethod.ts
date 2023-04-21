@@ -1,4 +1,5 @@
-import { SwitchMethodRequestParams } from '@blockchain-lab-um/ssi-snap-types';
+import { SwitchMethodRequestParams } from '@blockchain-lab-um/masca-types';
+import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { divider, heading, panel, text } from '@metamask/snaps-ui';
 
 import { ApiParams } from '../../interfaces';
@@ -9,7 +10,7 @@ export async function switchMethod(
   params: ApiParams,
   { didMethod }: SwitchMethodRequestParams
 ): Promise<string> {
-  const { state, snap, ethereum, account } = params;
+  const { state, snap, ethereum, account, bip44CoinTypeNode } = params;
   const method = state.accountState[account].accountConfig.ssi.didMethod;
   if (didMethod !== method) {
     const content = panel([
@@ -20,13 +21,14 @@ export async function switchMethod(
     ]);
 
     if (await snapConfirm(snap, content)) {
-      const res = await changeCurrentMethod(
+      const res = await changeCurrentMethod({
         snap,
         ethereum,
         state,
         account,
-        didMethod
-      );
+        didMethod,
+        bip44CoinTypeNode: bip44CoinTypeNode as BIP44CoinTypeNode,
+      });
       return res;
     }
 

@@ -1,16 +1,14 @@
 name: 'Feature Request'
-description: 'Request new Feature to adapter/snap'
-title: '[feature]: '
-labels: ['enhancement', 'unconfirmed']
-assignees:
-  - BeroBurny
+description: 'Request a new feature.'
+title: '[feature](package): '
+labels: ['feature']
 body:
   - type: textarea
     id: summary
     attributes:
       label: Summary
       description: Summary of the context why you want to do this.
-      placeholder: Tell us!!!
+      placeholder: "Add the P-256 curve support for EBSI. That way, the Snap can be used with issuer and verifier throughout EBSI's environment."
     validations:
       required: true
   - type: textarea
@@ -18,13 +16,6 @@ body:
     attributes:
       label: Expected behavior / User Story
       description: Describe how you expect this improvement to behave once in production.
-      placeholder: Users will feel safe...
+      placeholder: When selecting `did:ebsi` method, I would like to select the curve used for generating keys.
     validations:
-      required: true
-  - type: textarea
-    id: completion
-    attributes:
-      label: Completion
-      placeholder: When i press that want that to do
-    validations:
-      required: true
+      required: false

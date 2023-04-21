@@ -7,6 +7,7 @@ import { getDid } from './rpc/did/getDID';
 import { resolveDID } from './rpc/did/resolveDID';
 import { switchMethod } from './rpc/did/switchMethod';
 import { togglePopups } from './rpc/snap/configure';
+import { setCurrentAccount } from './rpc/snap/setCurrentAccount';
 import { createVC } from './rpc/vc/createVC';
 import { createVP } from './rpc/vc/createVP';
 import { deleteVC } from './rpc/vc/deleteVC';
@@ -23,6 +24,7 @@ import {
   isValidQueryRequest,
   isValidResolveDIDRequest,
   isValidSaveVCRequest,
+  isValidSetCurrentAccountRequest,
   isValidSetVCStoreRequest,
   isValidSwitchMethodRequest,
   isValidVerifyDataRequest,
@@ -42,7 +44,18 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     let state = await getSnapStateUnchecked(snap);
     if (state === null) state = await initSnapState(snap);
 
-    const account = await getCurrentAccount(ethereum);
+    let res;
+
+    if (request.method === 'setCurrentAccount') {
+      isValidSetCurrentAccountRequest(request.params);
+      res = await setCurrentAccount(
+        { state, snap, ethereum, account: '', origin },
+        request.params
+      );
+      return ResultObject.success(res);
+    }
+
+    const account = getCurrentAccount(state);
 
     const apiParams: ApiParams = {
       state,
@@ -57,7 +70,6 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
       await setAccountPublicKey(apiParams);
     }
-    let res;
     switch (request.method) {
       case 'queryVCs':
         isValidQueryRequest(request.params, apiParams.account, apiParams.state);
@@ -94,9 +106,11 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         return ResultObject.success(res);
       case 'switchDIDMethod':
         isValidSwitchMethodRequest(request.params);
+        apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
         res = await switchMethod(apiParams, request.params);
         return ResultObject.success(res);
       case 'getDID':
+        apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
         res = await getDid(apiParams);
         return ResultObject.success(res);
       case 'getSelectedMethod':
@@ -131,7 +145,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         return ResultObject.success(res);
       case 'resolveDID':
         isValidResolveDIDRequest(request.params);
-        res = await resolveDID(request.params.did);
+        res = await resolveDID(apiParams, request.params.did);
         return ResultObject.success(res);
       case 'verifyData':
         isValidVerifyDataRequest(request.params);
@@ -141,7 +155,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         throw new Error('Method not found.');
     }
   } catch (e) {
-    // TODO (martin): Check for any and unknown errors
-    return ResultObject.error(e as Error);
+    // TODO (martin, urban): Check for any and unknown errors
+    return ResultObject.error((e as Error).toString());
   }
 };

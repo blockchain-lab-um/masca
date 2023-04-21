@@ -18,7 +18,7 @@ RUN chown -R nginx:nginx /app && \
 USER nginx
 
 # Copy build artifacts
-COPY --from=builder /app/packages/docs/build /app/masca-docs
+COPY --from=builder /app/packages/docs/build /app
 
 # Copy nginx config
 COPY --from=builder /app/packages/docs/nginx.conf /etc/nginx/nginx.conf

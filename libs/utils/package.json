@@ -1,12 +1,12 @@
 {
   "name": "@blockchain-lab-um/utils",
   "version": "1.0.0",
-  "private": "true",
+  "private": false,
   "description": "Helper utilities for SSI Snap monorepo",
   "keywords": [],
   "repository": {
     "type": "git",
-    "url": "https://github.com/blockchain-lab-um/ssi-snap.git"
+    "url": "https://github.com/blockchain-lab-um/masca.git"
   },
   "license": "(Apache-2.0 AND MIT)",
   "author": {
@@ -36,5 +36,8 @@
     "rimraf": "^4.4.0",
     "tsup": "^6.6.3",
     "typescript": "^4.9.5"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

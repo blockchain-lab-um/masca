@@ -5,6 +5,7 @@ import {
   QueryVCsRequestParams,
   ResolveDIDRequestParams,
   SaveVCRequestParams,
+  SetCurrentAccountRequestParams,
   SetVCStoreRequestParams,
   SwitchMethodRequestParams,
 } from './params.js';
@@ -79,4 +80,9 @@ export type GetAvailableVCStores = {
 export type ResolveDID = {
   method: 'resolveDID';
   params: ResolveDIDRequestParams;
+};
+
+export type SetCurrentAccount = {
+  method: 'setCurrentAccount';
+  params: SetCurrentAccountRequestParams;
 };

@@ -2,10 +2,9 @@ import {
   QueryVCsRequestResult,
   availableMethods,
   availableVCStores,
-} from '@blockchain-lab-um/ssi-snap-types';
+} from '@blockchain-lab-um/masca-types';
 import { Result, isError, isSuccess } from '@blockchain-lab-um/utils';
 import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-vc-manager';
-import { StreamID } from '@ceramicnetwork/streamid';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
@@ -44,14 +43,20 @@ describe('onRpcRequest', () => {
 
   beforeEach(() => {
     snapMock = createMockSnap();
-    snapMock.rpcMocks.snap_manageState('update', getDefaultSnapState());
+    snapMock.rpcMocks.snap_manageState({
+      operation: 'update',
+      newState: getDefaultSnapState(),
+    });
     global.snap = snapMock;
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
   });
 
   beforeAll(async () => {
     snapMock = createMockSnap();
-    snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
+    snapMock.rpcMocks.snap_manageState({
+      operation: 'update',
+      newState: getDefaultSnapState(),
+    });
     const ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
     agent = await getAgent(snapMock, ethereumMock);
     identifier = await agent.didManagerCreate({
@@ -76,17 +81,19 @@ describe('onRpcRequest', () => {
     // Ceramic mock
     DIDDataStore.prototype.get = jest
       .fn()
-      // eslint-disable-next-line @typescript-eslint/require-await
       .mockImplementation(async (_key, _did) => {
-        return ceramicData;
+        return new Promise((resolve) => {
+          resolve(ceramicData);
+        });
       });
 
     DIDDataStore.prototype.merge = jest
       .fn()
-      // eslint-disable-next-line @typescript-eslint/require-await
       .mockImplementation(async (_key, content, _options?) => {
-        ceramicData = content as StoredCredentials;
-        return 'ok' as unknown as StreamID;
+        return new Promise((resolve) => {
+          ceramicData = content as StoredCredentials;
+          resolve(ceramicData);
+        });
       });
   });
 
@@ -108,7 +115,7 @@ describe('onRpcRequest', () => {
       })) as Result<IDataManagerSaveResult[]>;
 
       if (isError(saveRes)) {
-        throw saveRes.error;
+        throw new Error(saveRes.error);
       }
 
       expect(saveRes.data).toEqual([
@@ -129,7 +136,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       const expectedResult = [
@@ -163,7 +170,7 @@ describe('onRpcRequest', () => {
       })) as Result<IDataManagerSaveResult[]>;
 
       if (isError(saveRes)) {
-        throw saveRes.error;
+        throw new Error(saveRes.error);
       }
 
       expect(saveRes.data).toEqual([
@@ -186,7 +193,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       const expectedResult = [
@@ -206,19 +213,11 @@ describe('onRpcRequest', () => {
 
     it('should succeed saving 1 VC in Snap & Ceramic', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-      snapMock.rpcMocks.snap_manageState({
-        operation: 'update',
-        newState: getDefaultSnapState(),
-      });
 
       await veramoClearVCs({
         snap: snapMock,
         ethereum,
         store: 'ceramic',
-      });
-
-      snapMock.rpcMocks.snap_manageState({
-        operation: 'clear',
       });
 
       const saveRes = (await onRpcRequest({
@@ -235,7 +234,7 @@ describe('onRpcRequest', () => {
       })) as Result<IDataManagerSaveResult[]>;
 
       if (isError(saveRes)) {
-        throw saveRes.error;
+        throw new Error(saveRes.error);
       }
 
       expect(saveRes.data).toEqual([
@@ -258,7 +257,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       const expectedResult = [
@@ -302,7 +301,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(res.error.message).toBe('User rejected the request.');
+      expect(res.error).toBe('Error: User rejected the request.');
 
       res = (await onRpcRequest({
         origin: 'localhost',
@@ -317,7 +316,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual([]);
@@ -345,7 +344,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(saveRes.error.message).toBe('Store snapp is not supported!');
+      expect(saveRes.error).toBe('Error: Store snapp is not supported!');
 
       expect.assertions(1);
     });
@@ -369,7 +368,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(saveRes.error.message).toBe('Invalid SaveVC request');
+      expect(saveRes.error).toBe('Error: Invalid SaveVC request');
 
       expect.assertions(1);
     });
@@ -394,7 +393,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(saveRes.error.message).toBe('Store is invalid format');
+      expect(saveRes.error).toBe('Error: Store is invalid format');
 
       expect.assertions(1);
     });
@@ -418,7 +417,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(saveRes.error.message).toBe('Store snapp is not supported!');
+      expect(saveRes.error).toBe('Error: Store snapp is not supported!');
 
       saveRes = (await onRpcRequest({
         origin: 'localhost',
@@ -437,7 +436,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(saveRes.error.message).toBe('Store is invalid format');
+      expect(saveRes.error).toBe('Error: Store is invalid format');
 
       expect.assertions(2);
     });
@@ -456,7 +455,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual([]);
@@ -481,7 +480,7 @@ describe('onRpcRequest', () => {
       })) as Result<IDataManagerSaveResult[]>;
 
       if (isError(saveRes)) {
-        throw saveRes.error;
+        throw new Error(saveRes.error);
       }
 
       const expectedResult = [
@@ -510,7 +509,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual(expectedResult);
@@ -535,7 +534,7 @@ describe('onRpcRequest', () => {
       })) as Result<IDataManagerSaveResult[]>;
 
       if (isError(saveRes)) {
-        throw saveRes.error;
+        throw new Error(saveRes.error);
       }
 
       const expectedResult = [
@@ -559,7 +558,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual(expectedResult);
@@ -584,7 +583,7 @@ describe('onRpcRequest', () => {
       })) as Result<IDataManagerSaveResult[]>;
 
       if (isError(saveRes)) {
-        throw saveRes.error;
+        throw new Error(saveRes.error);
       }
 
       const expectedResult = [
@@ -610,7 +609,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual(expectedResult);
@@ -635,7 +634,7 @@ describe('onRpcRequest', () => {
       })) as Result<IDataManagerSaveResult[]>;
 
       if (isError(saveRes)) {
-        throw saveRes.error;
+        throw new Error(saveRes.error);
       }
 
       const expectedResult = [
@@ -660,7 +659,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual(expectedResult);
@@ -685,7 +684,7 @@ describe('onRpcRequest', () => {
       })) as Result<IDataManagerSaveResult[]>;
 
       if (isError(saveRes)) {
-        throw saveRes.error;
+        throw new Error(saveRes.error);
       }
 
       const expectedResult = [
@@ -715,7 +714,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual(expectedResult);
@@ -742,7 +741,7 @@ describe('onRpcRequest', () => {
       })) as Result<IDataManagerSaveResult[]>;
 
       if (isError(saveRes)) {
-        throw saveRes.error;
+        throw new Error(saveRes.error);
       }
 
       expect(saveRes.data).toEqual([
@@ -765,7 +764,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual([true]);
@@ -782,7 +781,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(result)) {
-        throw result.error;
+        throw new Error(result.error);
       }
 
       expect(result.data).toHaveLength(0);
@@ -807,7 +806,7 @@ describe('onRpcRequest', () => {
       })) as Result<IDataManagerSaveResult[]>;
 
       if (isError(saveRes)) {
-        throw saveRes.error;
+        throw new Error(saveRes.error);
       }
 
       expect(saveRes.data).toEqual([
@@ -831,7 +830,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual([true]);
@@ -849,7 +848,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(result)) {
-        throw result.error;
+        throw new Error(result.error);
       }
 
       expect(result.data).toHaveLength(0);
@@ -873,7 +872,7 @@ describe('onRpcRequest', () => {
       })) as Result<IDataManagerSaveResult[]>;
 
       if (isError(saveRes)) {
-        throw saveRes.error;
+        throw new Error(saveRes.error);
       }
 
       expect(saveRes.data).toEqual([
@@ -897,7 +896,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toHaveLength(0);
@@ -915,7 +914,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(result)) {
-        throw result.error;
+        throw new Error(result.error);
       }
 
       expect(result.data).toHaveLength(1);
@@ -943,7 +942,7 @@ describe('onRpcRequest', () => {
       })) as Result<IDataManagerSaveResult[]>;
 
       if (isError(saveRes)) {
-        throw saveRes.error;
+        throw new Error(saveRes.error);
       }
 
       const VPRes = (await onRpcRequest({
@@ -959,7 +958,7 @@ describe('onRpcRequest', () => {
       })) as Result<VerifiablePresentation>;
 
       if (isError(VPRes)) {
-        throw VPRes.error;
+        throw new Error(VPRes.error);
       }
 
       const createdVP = VPRes.data;
@@ -991,7 +990,7 @@ describe('onRpcRequest', () => {
       })) as Result<IDataManagerSaveResult[]>;
 
       if (isError(saveRes)) {
-        throw saveRes.error;
+        throw new Error(saveRes.error);
       }
 
       await onRpcRequest({
@@ -1017,7 +1016,7 @@ describe('onRpcRequest', () => {
       })) as Result<VerifiablePresentation>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       const createdVP = res.data;
@@ -1069,7 +1068,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(res.error.message).toBe('VC does not exist');
+      expect(res.error).toBe('Error: VC does not exist');
 
       expect.assertions(1);
     });
@@ -1090,7 +1089,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toBe(true);
@@ -1115,7 +1114,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(res.error.message).toBe('User rejected disabling popups');
+      expect(res.error).toBe('Error: User rejected disabling popups');
 
       expect.assertions(1);
     });
@@ -1134,7 +1133,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual(exampleDID);
@@ -1168,10 +1167,76 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual(exampleDIDKey);
+
+      expect.assertions(1);
+    });
+    it('should succeed returning current did (did:pkh)', async () => {
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
+
+      await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'switchDIDMethod',
+          params: {
+            didMethod: 'did:pkh',
+          },
+        },
+      });
+
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'getDID',
+          params: {},
+        },
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw new Error(res.error);
+      }
+
+      expect(res.data).toInclude('did:pkh:');
+
+      expect.assertions(1);
+    });
+    it('should succeed returning current did (did:jwk)', async () => {
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
+
+      await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'switchDIDMethod',
+          params: {
+            didMethod: 'did:jwk',
+          },
+        },
+      });
+
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'getDID',
+          params: {},
+        },
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw new Error(res.error);
+      }
+
+      expect(res.data).toInclude('did:jwk:');
 
       expect.assertions(1);
     });
@@ -1194,7 +1259,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toBe(
@@ -1223,7 +1288,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(res.error.message).toBe('User rejected method switch');
+      expect(res.error).toBe('Error: User rejected method switch');
 
       expect.assertions(1);
     });
@@ -1247,7 +1312,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(res.error.message).toBe('Did method is not supported!');
+      expect(res.error).toBe('Error: Did method is not supported!');
 
       expect.assertions(1);
     });
@@ -1269,7 +1334,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(res.error.message).toBe('Invalid switchDIDMethod request.');
+      expect(res.error).toBe('Error: Invalid switchDIDMethod request.');
 
       expect.assertions(1);
     });
@@ -1288,7 +1353,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toBe('did:ethr');
@@ -1322,7 +1387,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toBe('did:key');
@@ -1344,7 +1409,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual(availableMethods);
@@ -1371,7 +1436,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(res.error.message).toBe('Store ceramicc is not supported!');
+      expect(res.error).toBe('Error: Store ceramicc is not supported!');
 
       res = (await onRpcRequest({
         origin: 'localhost',
@@ -1387,7 +1452,7 @@ describe('onRpcRequest', () => {
         throw new Error('Should return error');
       }
 
-      expect(res.error.message).toBe('Invalid setVCStore request.');
+      expect(res.error).toBe('Error: Invalid setVCStore request.');
 
       expect.assertions(2);
     });
@@ -1406,7 +1471,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toBe(true);
@@ -1422,7 +1487,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual({ ceramic: true, snap: true });
@@ -1444,7 +1509,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual({ ceramic: true, snap: true });
@@ -1466,7 +1531,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual(availableVCStores);
@@ -1489,7 +1554,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual(state.accountState[address].accountConfig);
@@ -1512,7 +1577,7 @@ describe('onRpcRequest', () => {
       })) as Result<unknown>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toEqual(state.snapConfig);
@@ -1534,7 +1599,7 @@ describe('onRpcRequest', () => {
       })) as Result<DIDResolutionResult>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data.didDocument).toEqual(exampleDIDDocument);
@@ -1557,7 +1622,7 @@ describe('onRpcRequest', () => {
       })) as Result<boolean>;
 
       if (isError(verified)) {
-        throw verified.error;
+        throw new Error(verified.error);
       }
 
       expect(verified.data).toBe(true);
@@ -1581,7 +1646,7 @@ describe('onRpcRequest', () => {
       })) as Result<IDataManagerSaveResult[]>;
 
       if (isError(saveRes)) {
-        throw saveRes.error;
+        throw new Error(saveRes.error);
       }
 
       const createdVP = (await onRpcRequest({
@@ -1597,7 +1662,7 @@ describe('onRpcRequest', () => {
       })) as Result<VerifiablePresentation>;
 
       if (isError(createdVP)) {
-        throw createdVP.error;
+        throw new Error(createdVP.error);
       }
 
       const verified = (await onRpcRequest({
@@ -1613,7 +1678,7 @@ describe('onRpcRequest', () => {
       })) as Result<boolean>;
 
       if (isError(verified)) {
-        throw verified.error;
+        throw new Error(verified.error);
       }
 
       expect(verified.data).toBe(true);
@@ -1636,7 +1701,7 @@ describe('onRpcRequest', () => {
       })) as Result<VerifiableCredential>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toContainKey('proof');
@@ -1657,7 +1722,7 @@ describe('onRpcRequest', () => {
       })) as Result<VerifiableCredential>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toContainKey('proof');
@@ -1680,7 +1745,7 @@ describe('onRpcRequest', () => {
       })) as Result<VerifiableCredential>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toContainKey('proof');
@@ -1710,7 +1775,7 @@ describe('onRpcRequest', () => {
       })) as Result<VerifiableCredential>;
 
       if (isError(res)) {
-        throw res.error;
+        throw new Error(res.error);
       }
 
       expect(res.data).toContainKey('proof');
@@ -1727,12 +1792,88 @@ describe('onRpcRequest', () => {
       })) as Result<QueryVCsRequestResult[]>;
 
       if (isError(resQuery)) {
-        throw resQuery.error;
+        throw new Error(resQuery.error);
       }
       expect(resQuery.data).toHaveLength(1);
       expect(resQuery.data[0].data).toEqual(res.data);
 
       expect.assertions(4);
+    });
+  });
+
+  describe('setCurrentAccount', () => {
+    it('should succeed setting the current account', async () => {
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'setCurrentAccount',
+          params: {
+            currentAccount: '0x41B821bB31902f05eD241b40A8fa3fE56aA76e68',
+          },
+        },
+      })) as Result<void>;
+
+      if (isError(res)) {
+        throw new Error(res.error);
+      }
+
+      expect(res.data).toBeTrue();
+      expect.assertions(1);
+    });
+
+    it('should fail setting the current account - missing current account parameter', async () => {
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'setCurrentAccount',
+          params: {},
+        },
+      })) as Result<void>;
+
+      if (isSuccess(res)) {
+        throw new Error('Should return error');
+      }
+
+      expect(res.error).toBe('Error: Invalid SetCurrentAccount request');
+      expect.assertions(1);
+    });
+
+    it('should fail onRpcRequest - current account not set', async () => {
+      const defaultState = getDefaultSnapState();
+      defaultState.currentAccount = '';
+      snapMock.rpcMocks.snap_manageState({
+        operation: 'update',
+        newState: defaultState,
+      });
+
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'createVC',
+          params: {
+            minimalUnsignedCredential: exampleTestVCPayload,
+            proofFormat: 'jwt',
+            options: {
+              save: true,
+            },
+          },
+        },
+      })) as Result<VerifiableCredential>;
+
+      if (isSuccess(res)) {
+        throw new Error('Should return error');
+      }
+
+      expect(res.error).toBe(
+        'Error: No account set. Use setCurrentAccount to set an account.'
+      );
+      expect.assertions(1);
     });
   });
 });

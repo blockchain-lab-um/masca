@@ -37,9 +37,7 @@ export async function isSnapInstalled(
 
   if (snaps[snapOrigin].version !== version) {
     return ResultObject.error(
-      new Error(
-        `Snap version mismatch. Expected ${version} but got ${snaps[snapOrigin].version}`
-      )
+      `Snap version mismatch. Expected ${version} but got ${snaps[snapOrigin].version}`
     );
   }
 

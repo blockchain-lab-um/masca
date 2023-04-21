@@ -13,10 +13,10 @@
     "DID:ETHR",
     "Veramo"
   ],
-  "homepage": "https://github.com/blockchain-lab-um/SSISnap",
+  "homepage": "https://github.com/blockchain-lab-um/Masca",
   "repository": {
     "type": "git",
-    "url": "https://github.com/blockchain-lab-um/ssi-snap.git"
+    "url": "https://github.com/blockchain-lab-um/masca.git"
   },
   "license": "(Apache-2.0 AND MIT)",
   "author": {
@@ -25,26 +25,27 @@
     "url": "https://blockchain-lab.um.si"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "libs/*"
   ],
   "scripts": {
     "build": "pnpm nx affected --target=build",
     "build:all": "pnpm nx run-many --target=build --all",
-    "build:connector": "pnpm nx build @blockchain-lab-um/ssi-snap-connector",
-    "build:docker": "pnpm nx run-many --target=build --projects=@blockchain-lab-um/ssi-snap-docs && pnpm nx run @blockchain-lab-um/dapp:build:docker",
-    "build:docs": "pnpm nx build @blockchain-lab-um/ssi-snap-docs",
+    "build:connector": "pnpm nx build @blockchain-lab-um/masca-connector",
+    "build:docker": "pnpm nx run-many --target=build --projects=@blockchain-lab-um/masca-docs,@blockchain-lab-um/dapp",
+    "build:docs": "pnpm nx build @blockchain-lab-um/masca-docs",
     "build:vcmanager": "pnpm nx build @blockchain-lab-um/veramo-vc-manager",
-    "deploy:docs": "pnpm nx deploy @blockchain-lab-um/ssi-snap-docs",
-    "docker:build": "docker build . -t blockchain-lab-um/ssi-snap",
+    "deploy:docs": "pnpm nx deploy @blockchain-lab-um/masca-docs",
+    "docker:build": "docker build . -t blockchain-lab-um/masca",
     "lint": "pnpm prettier && pnpm nx affected --target=lint",
     "lint:all": "pnpm prettier && pnpm nx run-many --target=lint --all",
     "prepare": "is-ci || husky install",
     "prettier": "prettier --write .",
-    "release-build:core": "pnpm nx run-many --target=build --projects=@blockchain-lab-um/ssi-snap,@blockchain-lab-um/ssi-snap-connector,@blockchain-lab-um/veramo-vc-manager",
+    "release-build:core": "pnpm nx run-many --target=build --projects=@blockchain-lab-um/masca,@blockchain-lab-um/masca-connector,@blockchain-lab-um/veramo-vc-manager",
     "start": "pnpm nx run-many --target=start --all",
     "start:dapp": "pnpm nx start @blockchain-lab-um/dapp",
-    "start:docs": "pnpm nx start @blockchain-lab-um/ssi-snap-docs",
-    "start:snap": "pnpm nx start @blockchain-lab-um/ssi-snap",
+    "start:docs": "pnpm nx start @blockchain-lab-um/masca-docs",
+    "start:snap": "pnpm nx start @blockchain-lab-um/masca",
     "test": "pnpm nx affected --target=test",
     "test:all": "pnpm nx run-many --target=test --all",
     "test:ci": "pnpm nx affected --target=test:ci"
@@ -92,7 +93,7 @@
   "pnpm": {
     "patchedDependencies": {
       "cross-fetch@3.1.5": "patches/cross-fetch@3.1.5.patch",
-      "@metamask/snaps-types@0.28.0": "patches/@metamask__snaps-types@0.28.0.patch"
+      "@metamask/snaps-types@0.30.0": "patches/@metamask__snaps-types@0.30.0.patch"
     },
     "allowNonAppliedPatches": true
   }

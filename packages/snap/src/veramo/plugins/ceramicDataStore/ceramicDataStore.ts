@@ -12,6 +12,7 @@ import jsonpath from 'jsonpath';
 
 import { aliases, getCeramic } from '../../../utils/ceramicUtils';
 import { decodeJWT } from '../../../utils/jwt';
+import { getSnapState } from '../../../utils/stateUtils';
 
 export type StoredCredentials = {
   vcs: Record<string, W3CVerifiableCredential>;
@@ -32,7 +33,8 @@ export class CeramicVCStore extends AbstractDataStore {
 
   async query(args: IFilterArgs): Promise<Array<IQueryResult>> {
     const { filter } = args;
-    const ceramic = await getCeramic(this.ethereum);
+    const state = await getSnapState(this.snap);
+    const ceramic = await getCeramic(this.ethereum, state);
     const datastore = new DIDDataStore({ ceramic, model: aliases });
     const storedCredentials = (await datastore.get(
       'StoredCredentials'
@@ -92,7 +94,8 @@ export class CeramicVCStore extends AbstractDataStore {
   }
 
   async delete({ id }: { id: string }) {
-    const ceramic = await getCeramic(this.ethereum);
+    const state = await getSnapState(this.snap);
+    const ceramic = await getCeramic(this.ethereum, state);
     const datastore = new DIDDataStore({ ceramic, model: aliases });
     const storedCredentials = (await datastore.get(
       'StoredCredentials'
@@ -111,7 +114,8 @@ export class CeramicVCStore extends AbstractDataStore {
     // TODO check if VC is correct type
 
     const vc = args.data;
-    const ceramic = await getCeramic(this.ethereum);
+    const state = await getSnapState(this.snap);
+    const ceramic = await getCeramic(this.ethereum, state);
     const datastore = new DIDDataStore({ ceramic, model: aliases });
     const storedCredentials = (await datastore.get(
       'StoredCredentials'
@@ -127,6 +131,7 @@ export class CeramicVCStore extends AbstractDataStore {
       await datastore.merge('StoredCredentials', storedCredentials);
       return id;
     }
+    console.log('VC ceramic', vc);
     const id = sha256(JSON.stringify(vc));
     const storedCredentialsNew: StoredCredentials = { vcs: {} };
     storedCredentialsNew.vcs[id] = vc;
@@ -136,7 +141,8 @@ export class CeramicVCStore extends AbstractDataStore {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async clear(args: IFilterArgs): Promise<boolean> {
-    const ceramic = await getCeramic(this.ethereum);
+    const state = await getSnapState(this.snap);
+    const ceramic = await getCeramic(this.ethereum, state);
     const datastore = new DIDDataStore({ ceramic, model: aliases });
     const storedCredentials = (await datastore.get(
       'StoredCredentials'

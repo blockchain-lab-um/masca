@@ -1,4 +1,4 @@
-import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
+import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-types';
 import { FilterFn, Table } from '@tanstack/react-table';
 
 export const includesDataStore: FilterFn<any> = (
@@ -21,14 +21,10 @@ export const selectRows = (
   table: Table<QueryVCsRequestResult>,
   selectedVCs: QueryVCsRequestResult[]
 ) => {
-  // TODO only check IDs after snap bug is fixed (join same VCs with different stores)
   table.getPrePaginationRowModel().rows.forEach((row) => {
     if (
-      selectedVCs.filter(
-        (vc) =>
-          vc.metadata.id === row.original.metadata.id &&
-          vc.metadata.store === row.original.metadata.store
-      ).length > 0
+      selectedVCs.filter((vc) => vc.metadata.id === row.original.metadata.id)
+        .length > 0
     ) {
       row.toggleSelected(true);
     }

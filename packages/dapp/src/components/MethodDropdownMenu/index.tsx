@@ -1,18 +1,18 @@
 import { Fragment } from 'react';
-import { AvailableMethods } from '@blockchain-lab-um/ssi-snap-types';
+import { AvailableMethods } from '@blockchain-lab-um/masca-types';
 import { isError } from '@blockchain-lab-um/utils';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { shallow } from 'zustand/shallow';
 
-import { useSnapStore } from '@/utils/stores';
+import { useMascaStore, useToastStore } from '@/stores';
 import { DropdownButton } from './MethodDropdownButton';
 
 export default function MethodDropdownMenu() {
   const { api, currMethod, methods, changeCurrDIDMethod, changeDID } =
-    useSnapStore(
+    useMascaStore(
       (state) => ({
-        api: state.snapApi,
+        api: state.mascaApi,
         currMethod: state.currDIDMethod,
         methods: state.availableMethods,
         changeCurrDIDMethod: state.changeCurrDIDMethod,
@@ -20,6 +20,16 @@ export default function MethodDropdownMenu() {
       }),
       shallow
     );
+  const { setTitle, setLoading, setToastOpen, setType } = useToastStore(
+    (state) => ({
+      setTitle: state.setTitle,
+      setText: state.setText,
+      setLoading: state.setLoading,
+      setToastOpen: state.setOpen,
+      setType: state.setType,
+    }),
+    shallow
+  );
 
   const handleMethodChange = async (method: string) => {
     if (method !== currMethod) {
@@ -30,12 +40,20 @@ export default function MethodDropdownMenu() {
       if (!isError(res)) {
         changeCurrDIDMethod(method);
         changeDID(res.data);
+      } else {
+        setToastOpen(false);
+        setTimeout(() => {
+          setTitle('Failed to change method');
+          setType('error');
+          setLoading(false);
+          setToastOpen(true);
+        }, 100);
       }
     }
   };
 
   return (
-    <Menu as="div" className="relative mx-2">
+    <Menu as="div" className="relative z-20 mx-2">
       {({ open }) => (
         <Fragment>
           <div>

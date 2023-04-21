@@ -1,3 +1,4 @@
+import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 
@@ -9,6 +10,7 @@ import {
 } from '../../src/utils/didUtils';
 import {
   address,
+  bip44Entropy,
   exampleDID,
   exampleDIDDocument,
   exampleDIDKey,
@@ -26,6 +28,10 @@ describe('Utils [did]', () => {
 
   beforeEach(() => {
     snapMock = createMockSnap();
+    snapMock.rpcMocks.snap_manageState({
+      operation: 'update',
+      newState: getDefaultSnapState(),
+    });
     ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
   });
 
@@ -34,7 +40,13 @@ describe('Utils [did]', () => {
       const initialState = getDefaultSnapState();
 
       await expect(
-        changeCurrentVCStore(snapMock, initialState, address, 'snap', true)
+        changeCurrentVCStore({
+          snap: snapMock,
+          state: initialState,
+          account: address,
+          didStore: 'snap',
+          value: true,
+        })
       ).resolves.not.toThrow();
 
       const expectedState = getDefaultSnapState();
@@ -51,7 +63,13 @@ describe('Utils [did]', () => {
       const initialState = getDefaultSnapState();
 
       await expect(
-        changeCurrentVCStore(snapMock, initialState, address, 'ceramic', true)
+        changeCurrentVCStore({
+          snap: snapMock,
+          state: initialState,
+          account: address,
+          didStore: 'ceramic',
+          value: true,
+        })
       ).resolves.not.toThrow();
 
       const expectedState = getDefaultSnapState();
@@ -72,7 +90,13 @@ describe('Utils [did]', () => {
       const initialState = getDefaultSnapState();
 
       await expect(
-        getCurrentDid(ethereumMock, initialState, address)
+        getCurrentDid({
+          ethereum: ethereumMock,
+          snap: snapMock,
+          state: initialState,
+          account: address,
+          bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
+        })
       ).resolves.toBe(`did:ethr:0x5:${address}`);
 
       expect.assertions(1);
@@ -84,7 +108,13 @@ describe('Utils [did]', () => {
         'did:key';
 
       await expect(
-        getCurrentDid(ethereumMock, initialState, address)
+        getCurrentDid({
+          ethereum: ethereumMock,
+          snap: snapMock,
+          state: initialState,
+          account: address,
+          bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
+        })
       ).resolves.toBe(exampleDIDKey);
 
       expect.assertions(1);
@@ -96,13 +126,15 @@ describe('Utils [did]', () => {
       const initialState = getDefaultSnapState();
 
       await expect(
-        changeCurrentMethod(
-          snapMock,
-          ethereumMock,
-          initialState,
-          address,
-          'did:key'
-        )
+        changeCurrentMethod({
+          state: initialState,
+          snap: snapMock,
+          account: address,
+          ethereum: ethereumMock,
+          bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
+
+          didMethod: 'did:key',
+        })
       ).resolves.not.toThrow();
 
       const expectedState = getDefaultSnapState();
@@ -121,13 +153,14 @@ describe('Utils [did]', () => {
       const initialState = getDefaultSnapState();
 
       await expect(
-        changeCurrentMethod(
-          snapMock,
-          ethereumMock,
-          initialState,
-          address,
-          'did:key'
-        )
+        changeCurrentMethod({
+          state: initialState,
+          snap: snapMock,
+          account: address,
+          ethereum: ethereumMock,
+          bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
+          didMethod: 'did:key',
+        })
       ).resolves.not.toThrow();
 
       const expectedState = getDefaultSnapState();
@@ -144,27 +177,47 @@ describe('Utils [did]', () => {
 
     describe('resolveDID', () => {
       it('should succeed resolving did:ethr identifier', async () => {
-        const didDoc = await resolveDid(exampleDID);
+        const didDoc = await resolveDid({
+          did: exampleDID,
+          snap: snapMock,
+          ethereum: ethereumMock,
+        });
         expect(didDoc.didDocument).toEqual(exampleDIDDocument);
         expect.assertions(1);
       });
       it('should succeed resolving did:key identifier', async () => {
-        const didDoc = await resolveDid(exampleDIDKey);
+        const didDoc = await resolveDid({
+          did: exampleDIDKey,
+          snap: snapMock,
+          ethereum: ethereumMock,
+        });
         expect(didDoc.didDocument).toEqual(exampleDIDKeyDocumentUniResovler);
         expect.assertions(1);
       });
       it('should resolve invalid did', async () => {
-        const didDoc = await resolveDid('did:ethr:0x5:0x123');
+        const didDoc = await resolveDid({
+          did: 'did:ethr:0x5:0x123',
+          snap: snapMock,
+          ethereum: ethereumMock,
+        });
         expect(didDoc).toEqual(resolutionInvalidDID);
         expect.assertions(1);
       });
       it('should resolve nonExisting did', async () => {
-        const didDoc = await resolveDid('did:key:zQ3shW537');
+        const didDoc = await resolveDid({
+          did: 'did:key:zQ3shW537',
+          snap: snapMock,
+          ethereum: ethereumMock,
+        });
         expect(didDoc).toEqual(resolutionNotFound);
         expect.assertions(1);
       });
       it('should resolve methodNotSupported', async () => {
-        const didDoc = await resolveDid('did:keyclopse:zQ3shW537');
+        const didDoc = await resolveDid({
+          did: 'did:keyclopse:zQ3shW537',
+          snap: snapMock,
+          ethereum: ethereumMock,
+        });
         expect(didDoc).toEqual(resolutionMethodNotSupported);
         expect.assertions(1);
       });
