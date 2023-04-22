@@ -4,11 +4,12 @@ const StylelintPlugin = require('stylelint-webpack-plugin');
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
 const contentSecurityPolicy = `
   default-src 'self';
-  script-src 'self';
+  script-src 'self' 'unsafe-inline' cdn.vercel-insights.com;
   child-src 'none';
   img-src 'self' data:;
   style-src 'self' 'unsafe-inline';
   font-src 'self';
+  connect-src *;
 `;
 
 const isProd = process.env.NODE_ENV === 'production';
