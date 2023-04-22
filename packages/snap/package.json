@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/masca",
-  "version": "1.5.0",
+  "version": "0.1.0",
   "description": "Snap for managing VCs and VPs in MetaMask",
   "keywords": [
     "MetaMask",
