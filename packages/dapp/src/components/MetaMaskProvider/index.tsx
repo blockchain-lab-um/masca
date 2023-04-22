@@ -8,9 +8,10 @@ import { shallow } from 'zustand/shallow';
 
 import { useGeneralStore, useMascaStore } from '@/stores';
 
-const snapId = process.env.USE_LOCAL
-  ? 'local:http://localhost:8081'
-  : 'npm:@blockchain-lab-um/masca';
+const snapId =
+  process.env.USE_LOCAL === 'true'
+    ? 'local:http://localhost:8081'
+    : 'npm:@blockchain-lab-um/masca';
 
 type MetaMaskProviderProps = {
   children: React.ReactNode;
