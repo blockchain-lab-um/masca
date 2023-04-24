@@ -72,6 +72,14 @@
       "bumpPatchForMinorPreMajor": false,
       "changelogPath": "CHANGELOG.md",
       "versioning": "default"
+    },
+    "libs/did-provider-ebsi": {
+      "component": "did-provider-ebsi",
+      "releaseType": "node",
+      "bumpMinorPreMajor": false,
+      "bumpPatchForMinorPreMajor": false,
+      "changelogPath": "CHANGELOG.md",
+      "versioning": "default"
     }
   },
   "plugins": [
