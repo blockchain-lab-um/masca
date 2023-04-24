@@ -1,9 +1,9 @@
 lockfileVersion: 5.4
 
 patchedDependencies:
-  '@metamask/snaps-types@0.30.0':
+  '@metamask/snaps-types@0.32.2':
     hash: kxvx7oauvzzozwjf53rqnijmxy
-    path: patches/@metamask__snaps-types@0.30.0.patch
+    path: patches/@metamask__snaps-types@0.32.2.patch
   cross-fetch@3.1.5:
     hash: b7u473fsyomrwof2p2enxrunba
     path: patches/cross-fetch@3.1.5.patch
@@ -395,10 +395,10 @@ importers:
       '@ianvs/prettier-plugin-sort-imports': ^3.7.1
       '@metamask/key-tree': ^6.0.0
       '@metamask/providers': 10.2.1
-      '@metamask/snaps-cli': 0.30.0
-      '@metamask/snaps-types': 0.30.0
-      '@metamask/snaps-ui': 0.30.0
-      '@metamask/snaps-webpack-plugin': 0.30.0
+      '@metamask/snaps-cli': 0.32.2
+      '@metamask/snaps-types': 0.32.2
+      '@metamask/snaps-ui': 0.32.2
+      '@metamask/snaps-webpack-plugin': 0.32.2
       '@swc/core': ^1.3.41
       '@swc/jest': ^0.2.24
       '@types/elliptic': ^6.4.14
@@ -495,8 +495,8 @@ importers:
       '@glazed/did-session': 0.1.1
       '@metamask/key-tree': 6.2.1
       '@metamask/providers': 10.2.1
-      '@metamask/snaps-types': 0.30.0_kxvx7oauvzzozwjf53rqnijmxy
-      '@metamask/snaps-ui': 0.30.0
+      '@metamask/snaps-types': 0.32.2_kxvx7oauvzzozwjf53rqnijmxy
+      '@metamask/snaps-ui': 0.32.2
       '@types/uuid': 9.0.1
       '@veramo/core': 5.1.2
       '@veramo/credential-eip712': 5.1.2
@@ -544,8 +544,8 @@ importers:
       '@commitlint/cli': 17.6.1_@swc+core@1.3.52
       '@commitlint/config-conventional': 17.6.1
       '@ianvs/prettier-plugin-sort-imports': 3.7.2_prettier@2.8.7
-      '@metamask/snaps-cli': 0.30.0
-      '@metamask/snaps-webpack-plugin': 0.30.0
+      '@metamask/snaps-cli': 0.32.2
+      '@metamask/snaps-webpack-plugin': 0.32.2
       '@swc/core': 1.3.52
       '@swc/jest': 0.2.26_@swc+core@1.3.52
       '@types/elliptic': 6.4.14
@@ -5591,6 +5591,20 @@ packages:
       - supports-color
     dev: false
 
+  /@metamask/key-tree/7.0.0:
+    resolution: {integrity: sha512-FFSRF/hIa7MSu7oBKVjdum8oAtuiPyDfaOkbNozGFTTjEQ2kbpeOSA562FITN9BSshCi+zWEJ3LE64wODl7KAQ==}
+    engines: {node: '>=16.0.0'}
+    dependencies:
+      '@metamask/scure-bip39': 2.1.0
+      '@metamask/utils': 3.6.0
+      '@noble/ed25519': 1.7.3
+      '@noble/hashes': 1.3.0
+      '@noble/secp256k1': 1.7.1
+      '@scure/base': 1.1.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@metamask/object-multiplex/1.2.0:
     resolution: {integrity: sha512-hksV602d3NWE2Q30Mf2Np1WfVKaGqfJRy9vpHAmelbaD0OkDt06/0KQkRR6UVYdMbTbkuEu8xN5JDUU80inGwQ==}
     engines: {node: '>=12.0.0'}
@@ -5633,17 +5647,17 @@ packages:
       pump: 3.0.0
       webextension-polyfill-ts: 0.25.0
 
-  /@metamask/rpc-methods/0.30.0:
-    resolution: {integrity: sha512-8YqOofszfyLN92wTXOKJHGk6D59v+ayEIZdXyH2+Yz83J/opmGN9mvVIbOxWweCgeeipQlaW5Ap7UWsrovmYyg==}
+  /@metamask/rpc-methods/0.32.2:
+    resolution: {integrity: sha512-UmY4PsxamCPi5J6oH2Z+d1caGIFSGtZ+CMYDUYGLKi52+BC7jkw9tExDVcU0xuGUg7TuB20QnoelIGFHo5yiCg==}
     engines: {node: '>=16.0.0'}
     dependencies:
       '@metamask/browser-passworder': 4.1.0
-      '@metamask/key-tree': 6.2.1
+      '@metamask/key-tree': 7.0.0
       '@metamask/permission-controller': 3.1.0
-      '@metamask/snaps-ui': 0.30.0
-      '@metamask/snaps-utils': 0.30.0
+      '@metamask/snaps-ui': 0.32.2
+      '@metamask/snaps-utils': 0.32.2
       '@metamask/types': 1.1.0
-      '@metamask/utils': 3.6.0
+      '@metamask/utils': 5.0.1
       '@noble/hashes': 1.3.0
       eth-rpc-errors: 4.0.3
       nanoid: 3.3.6
@@ -5665,11 +5679,11 @@ packages:
       '@scure/base': 1.1.1
     dev: false
 
-  /@metamask/snaps-browserify-plugin/0.30.0:
-    resolution: {integrity: sha512-wCqtuBhGm2y7j/e62iW1Kk9rh6hCU1prdtfgNsi+9/ByAe8sXUejGQRwrJOea1J+XhSSLsJX2Vg0Jhqx0GkIhw==}
+  /@metamask/snaps-browserify-plugin/0.32.2:
+    resolution: {integrity: sha512-sTqlrqZpemQiyVeN8Qci49/wg031mkHkEB68GrfSutCszvDKfRomGSwZPbHP6AsOl2t19OpL+Z3ivWzdbQ1LIw==}
     engines: {node: '>=16.0.0'}
     dependencies:
-      '@metamask/snaps-utils': 0.30.0
+      '@metamask/snaps-utils': 0.32.2
       convert-source-map: 1.9.0
     transitivePeerDependencies:
       - bufferutil
@@ -5678,8 +5692,8 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@metamask/snaps-cli/0.30.0:
-    resolution: {integrity: sha512-l14ud6lJWRc5aQ0BLD7mBBlOAKM8Ni+/dGaOFektUTJzBTVjQYNuhOem8YqxkNH5FQY/0Pbf7GdLr0ujdUSvuA==}
+  /@metamask/snaps-cli/0.32.2:
+    resolution: {integrity: sha512-PZqYFSBv0ytL4hF/7btib23NSuLgKEVmyAMJZ9FrgcAUdQgVzgaaR/m7qu/1hujQ4qSpewaHMTrigXiYPAGV1g==}
     engines: {node: '>=16.0.0'}
     hasBin: true
     dependencies:
@@ -5691,9 +5705,9 @@ packages:
       '@babel/plugin-transform-runtime': 7.21.4_@babel+core@7.21.4
       '@babel/preset-env': 7.21.4_@babel+core@7.21.4
       '@babel/preset-typescript': 7.21.4_@babel+core@7.21.4
-      '@metamask/snaps-browserify-plugin': 0.30.0
-      '@metamask/snaps-utils': 0.30.0
-      '@metamask/utils': 3.6.0
+      '@metamask/snaps-browserify-plugin': 0.32.2
+      '@metamask/snaps-utils': 0.32.2
+      '@metamask/utils': 5.0.1
       babelify: 10.0.0_@babel+core@7.21.4
       browserify: 17.0.0
       chokidar: 3.5.3
@@ -5723,14 +5737,14 @@ packages:
       - supports-color
       - utf-8-validate
 
-  /@metamask/snaps-types/0.30.0_kxvx7oauvzzozwjf53rqnijmxy:
-    resolution: {integrity: sha512-6tfWRe5OcdJd1yxAFs8rqOhIxZxCqooJuCLo85xivvoqM5wAMFSRGPP4QiKx+UxBVetyZmno/NjJ9sRKVMLu/g==}
+  /@metamask/snaps-types/0.32.2_kxvx7oauvzzozwjf53rqnijmxy:
+    resolution: {integrity: sha512-4+LYk2camq3fQ7PJrBwworTpuWMi3FV7W4l/p8/IZRxj1ylhavDXauDYn1LR/8ylhKgUx9MGlQwVhwfUEaXweg==}
     engines: {node: '>=16.0.0'}
     dependencies:
       '@metamask/providers': 10.2.1
-      '@metamask/rpc-methods': 0.30.0
-      '@metamask/snaps-utils': 0.30.0
-      '@metamask/utils': 3.6.0
+      '@metamask/rpc-methods': 0.32.2
+      '@metamask/snaps-utils': 0.32.2
+      '@metamask/utils': 5.0.1
     transitivePeerDependencies:
       - bufferutil
       - c-kzg
@@ -5739,26 +5753,30 @@ packages:
     dev: false
     patched: true
 
-  /@metamask/snaps-ui/0.30.0:
-    resolution: {integrity: sha512-XNt3LQAKN/y5jmu5M0krXC3mJWE9ZJfVgZ2SaZXPVJmPeDnlda8jHwgRznY2NAS50qtRAbxqQu+DVf+b2ExrQQ==}
+  /@metamask/snaps-ui/0.32.2:
+    resolution: {integrity: sha512-Iim0OmAmmccJvUHr+1ubgjHiXJmu6R1tcoFpmYID5iMXtLKxCJc5kPAR4eI7H80Uo90mKTbMihuCP9hKxzWNmQ==}
     engines: {node: '>=16.0.0'}
     dependencies:
-      '@metamask/utils': 3.6.0
+      '@metamask/utils': 5.0.1
       superstruct: 1.0.3
     transitivePeerDependencies:
+      - bufferutil
+      - c-kzg
       - supports-color
+      - utf-8-validate
 
-  /@metamask/snaps-utils/0.30.0:
-    resolution: {integrity: sha512-ejNZV0IpU33bRHW14z5854Ue3thxxnw+xhf1q0B6f8tUGXNKIqm5/OWeQG2t2OxUqV1+/DiIMXZ8Qm+JbIGeLA==}
+  /@metamask/snaps-utils/0.32.2:
+    resolution: {integrity: sha512-oL+DTXWAq+GEqXDFIyLB5bo14ypa1c3ztuPSym3KLcgIUqJiyy3dK1I4AJbls8wxji+nB2TPQG/86i5rEduhWA==}
     engines: {node: '>=16.0.0'}
     dependencies:
       '@babel/core': 7.21.4
       '@babel/types': 7.21.4
+      '@metamask/base-controller': 2.0.0
       '@metamask/permission-controller': 3.1.0
       '@metamask/providers': 10.2.1
       '@metamask/snaps-registry': 1.2.0
-      '@metamask/snaps-ui': 0.30.0
-      '@metamask/utils': 3.6.0
+      '@metamask/snaps-ui': 0.32.2
+      '@metamask/utils': 5.0.1
       '@noble/hashes': 1.3.0
       '@scure/base': 1.1.1
       cron-parser: 4.8.1
@@ -5776,12 +5794,12 @@ packages:
       - supports-color
       - utf-8-validate
 
-  /@metamask/snaps-webpack-plugin/0.30.0:
-    resolution: {integrity: sha512-azFUG8l2ac8bvNhiyRsS67GLQJsh+v+yj2CPO48X/9HeAc3tFrl/rM17KmI5ry5TNNJOHv54EcxhhJlXT0wK9Q==}
+  /@metamask/snaps-webpack-plugin/0.32.2:
+    resolution: {integrity: sha512-ZgN0dbkqp2EoqHwqdBgIz7fJGg//CFJqmLWu2VWJE0kx+Hzz7/024qENHD0GqbUdPXIwdPjeqyJZRxYEzLBhrg==}
     engines: {node: '>=16.0.0'}
     dependencies:
-      '@metamask/snaps-utils': 0.30.0
-      '@metamask/utils': 3.6.0
+      '@metamask/snaps-utils': 0.32.2
+      '@metamask/utils': 5.0.1
       webpack-sources: 3.2.3
     transitivePeerDependencies:
       - bufferutil
@@ -9825,7 +9843,7 @@ packages:
     resolution: {integrity: sha512-rpwfAcS/CMqo0oCqDf3r9eeLgScRE3l/xHDCXhM3UyrfvIn7PrLq63uHh7yYbv8NzaZn5MVsVhIRpQ+5GZ5HyA==}
     engines: {node: '>=8'}
     dependencies:
-      '@noble/hashes': 1.1.5
+      '@noble/hashes': 1.3.0
       base-x: 4.0.0
     dev: false
 
