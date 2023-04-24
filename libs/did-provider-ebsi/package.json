@@ -1,5 +1,5 @@
 {
-  "name": "@blockchain-lab-um/utils",
+  "name": "@blockchain-lab-um/did-provider-ebsi",
   "version": "1.0.0",
   "private": false,
   "description": "Helper utilities for Masca monorepo",
