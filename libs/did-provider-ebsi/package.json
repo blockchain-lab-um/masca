@@ -2,7 +2,7 @@
   "name": "@blockchain-lab-um/did-provider-ebsi",
   "version": "1.0.0",
   "private": false,
-  "description": "Helper utilities for Masca monorepo",
+  "description": "Veramo plugin that can enable creation and control of EBSI DIDs",
   "keywords": [],
   "repository": {
     "type": "git",
