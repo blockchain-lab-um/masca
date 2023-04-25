@@ -74,6 +74,7 @@
       "versioning": "default"
     },
     "libs/did-provider-ebsi": {
+      "release-as": "1.0.0",
       "component": "did-provider-ebsi",
       "releaseType": "node",
       "bumpMinorPreMajor": false,
