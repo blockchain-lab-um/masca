@@ -8,7 +8,7 @@ import {
   Resolver,
 } from 'did-resolver';
 
-import { EbsiConfig } from './constants';
+import { EbsiConfig } from './constants.js';
 
 const resolveDidEbsi: DIDResolver = async (
   did: string,

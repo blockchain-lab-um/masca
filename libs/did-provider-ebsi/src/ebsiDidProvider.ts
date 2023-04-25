@@ -13,13 +13,13 @@ import { bytesToBase64url, hexToBytes } from '@veramo/utils';
 import { ec as EC } from 'elliptic';
 import * as jose from 'jose';
 
-import { onboard } from './ebsiDidOnboarding';
+import { onboard } from './ebsiDidOnboarding.js';
 import {
   algoMap,
   generateEbsiSubjectIdentifier,
   generateRandomEbsiSubjectIdentifier,
   privateKeyJwkToHex,
-} from './ebsiDidUtils';
+} from './ebsiDidUtils.js';
 import {
   IContext,
   IEbsiCreateIdentifierOptions,
@@ -27,7 +27,7 @@ import {
   IEbsiDidSupportedHashTypes,
   IEbsiDidSupportedKeyTypes,
   IImportedKey,
-} from './types/ebsiProviderTypes';
+} from './types/ebsiProviderTypes.js';
 
 /**
  * {@link @veramo/did-manager#DIDManager} identifier provider for `did:ebsi` identifiers

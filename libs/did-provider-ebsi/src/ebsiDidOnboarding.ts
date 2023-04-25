@@ -10,8 +10,8 @@ import { ethers } from 'ethers';
 import * as jose from 'jose';
 import { v4 as uuidv4 } from 'uuid';
 
-import { EbsiConfig, EbsiEndpoints } from './constants';
-import { algoMap, privateKeyJwkToHex } from './ebsiDidUtils';
+import { EbsiConfig, EbsiEndpoints } from './constants.js';
+import { algoMap, privateKeyJwkToHex } from './ebsiDidUtils.js';
 import {
   IEbsiDidSupportedKeyTypes,
   IKeyJwks,
@@ -20,7 +20,7 @@ import {
   IUnsignedTransaction,
   IVerifiableAuthorization,
   IVerifiablePresentation,
-} from './types/ebsiProviderTypes';
+} from './types/ebsiProviderTypes.js';
 
 async function createVerifiablePresentation(args: {
   verifiableAuthorization: IVerifiableAuthorization;
