@@ -5,7 +5,7 @@ import { base58btc } from 'multiformats/bases/base58';
 import {
   IEbsiDidSupportedEcdsaAlgo,
   IEbsiDidSupportedKeyTypes,
-} from './types/ebsiProviderTypes';
+} from './types/ebsiProviderTypes.js';
 
 export const algoMap: Record<
   IEbsiDidSupportedKeyTypes,

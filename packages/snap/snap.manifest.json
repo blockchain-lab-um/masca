@@ -1,5 +1,5 @@
 {
-  "version": "1.5.0",
+  "version": "0.1.0",
   "description": "Snap for managing VCs and VPs in MetaMask",
   "proposedName": "masca",
   "repository": {
@@ -7,7 +7,7 @@
     "url": "https://github.com/blockchain-lab-um/masca.git"
   },
   "source": {
-    "shasum": "rNi+HvyNMcnk9mljHR56oY3xkBN4roIVOeMhIsy04mM=",
+    "shasum": "iJkezthPFsTd8CiwMsZ2BqVLlsa6oP/ap1v7ppBU4ig=",
     "location": {
       "npm": {
         "filePath": "dist/snap.js",

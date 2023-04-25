@@ -1,0 +1,31 @@
+name: Publish EBSI DID Provider
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7.30.0
+      - name: Install node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.13.0
+          registry-url: https://registry.npmjs.org/
+          cache: 'pnpm'
+      - name: Install deps
+        run: pnpm install --frozen-lockfile
+      - name: Build
+        run: pnpm release-build:did-provider-ebsi
+        env:
+          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+      - name: Publish
+        run: npm publish -w @blockchain-lab-um/did-provider-ebsi
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
