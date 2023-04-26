@@ -27,6 +27,7 @@ const defaultSnapOrigin = 'npm:@blockchain-lab-um/masca';
  * @return Masca - adapter object that exposes snap API
  */
 export async function enableMasca(
+  address: string,
   snapInstallationParams: SnapInstallationParams = {}
 ): Promise<Result<Masca>> {
   const {
@@ -64,6 +65,14 @@ export async function enableMasca(
     const snap = new Masca(snapId, supportedMethods);
 
     const api = snap.getMascaApi();
+
+    const setAccountRes = await api.setCurrentAccount({
+      currentAccount: address,
+    });
+
+    if (isError(setAccountRes)) {
+      return ResultObject.error(setAccountRes.error);
+    }
 
     const selectedMethodsResult = await api.getSelectedMethod();
 

@@ -92,7 +92,7 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
   };
 
   const enableMascaHandler = async () => {
-    const enableResult = await enableMasca({ snapId });
+    const enableResult = await enableMasca(address, { snapId });
     console.log(snapId);
     console.log(process.env.NODE_ENV);
     if (isError(enableResult)) {
@@ -100,7 +100,6 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
       changeIsConnecting(false);
       return;
     }
-
     const api = enableResult.data.getMascaApi();
 
     changeMascaApi(api);
