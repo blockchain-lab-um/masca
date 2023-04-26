@@ -17,11 +17,11 @@ import {
   createAgent,
 } from '@veramo/core';
 import { CredentialIssuerEIP712 } from '@veramo/credential-eip712';
-import {
-  CredentialIssuerLD,
-  LdDefaultContexts,
-  VeramoEcdsaSecp256k1RecoverySignature2020,
-} from '@veramo/credential-ld';
+// import {
+//   CredentialIssuerLD,
+//   LdDefaultContexts,
+//   VeramoEcdsaSecp256k1RecoverySignature2020,
+// } from '@veramo/credential-ld';
 import { CredentialPlugin, ICredentialIssuer } from '@veramo/credential-w3c';
 import { AbstractIdentifierProvider, DIDManager } from '@veramo/did-manager';
 import { EthrDIDProvider } from '@veramo/did-provider-ethr';
@@ -121,10 +121,10 @@ export const getAgent = async (
     plugins: [
       new CredentialPlugin(),
       new CredentialIssuerEIP712(),
-      new CredentialIssuerLD({
-        contextMaps: [LdDefaultContexts],
-        suites: [new VeramoEcdsaSecp256k1RecoverySignature2020()],
-      }),
+      // new CredentialIssuerLD({
+      //   contextMaps: [LdDefaultContexts],
+      //   suites: [new VeramoEcdsaSecp256k1RecoverySignature2020()],
+      // }),
       new KeyManager({
         store: new MemoryKeyStore(),
         kms: {
