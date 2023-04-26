@@ -1,6 +1,6 @@
-# Veamo DID EBSI Provider
+# Veramo DID EBSI Provider
 
-Veramo plugin extending `AbstractIdentifierProvider` enabling use of EBSI DID method.
+Veramo plugin extending `AbstractIdentifierProvider` enabling the use of EBSI DID method.
 
 ## License
 
