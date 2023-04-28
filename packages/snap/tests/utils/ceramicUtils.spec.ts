@@ -93,7 +93,7 @@ describe('Utils [ceramic]', () => {
     it.skip('should succeed retrieving VC from ceramic network', async () => {
       const expectedVCObject = {
         data: exampleVC,
-        metadata: { id: 'test-id', store: 'ceramic' },
+        metadata: { id: 'test-id', store: ['ceramic'] },
       };
       const vcs = await veramoQueryVCs({
         snap: snapMock,
