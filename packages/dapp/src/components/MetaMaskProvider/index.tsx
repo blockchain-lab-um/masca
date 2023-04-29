@@ -23,22 +23,26 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
     hasMM,
     hasFlask,
     address,
+    chainId,
     changeHasMetaMask,
     changeIsFlask,
     changeAddress,
     changeIsConnected,
     changeIsConnecting,
+    changeChainId,
   } = useGeneralStore(
     (state) => ({
       hasMM: state.hasMetaMask,
       hasFlask: state.isFlask,
       address: state.address,
       isConnected: state.isConnected,
+      chainId: state.chainId,
       changeHasMetaMask: state.changeHasMetaMask,
       changeIsFlask: state.changeIsFlask,
       changeAddress: state.changeAddress,
       changeIsConnected: state.changeIsConnected,
       changeIsConnecting: state.changeIsConnecting,
+      changeChainId: state.changeChainId,
     }),
     shallow
   );
@@ -168,7 +172,20 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
       window.ethereum.on('accountsChanged', (accounts: string[]) => {
         changeAddress(accounts[0]);
       });
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+      window.ethereum.on('chainChanged', (chain: string) => {
+        changeChainId(chain);
+      });
+      const setChainId = async () => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+        const chain = await window.ethereum.request({
+          method: 'eth_chainId',
+        });
+        changeChainId(chain as string);
+      };
+      setChainId().catch((err) => {});
     }
+
     return () => {
       if (window.ethereum) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
