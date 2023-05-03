@@ -82,10 +82,10 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
 
     changeHasMetaMask(true);
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-    const mmVersion: string = await window.ethereum.request({
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+    const mmVersion = (await window.ethereum.request({
       method: 'web3_clientVersion',
-    });
+    })) as string;
 
     if (!mmVersion.includes('flask')) {
       changeIsFlask(false);
@@ -169,27 +169,21 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
   useEffect(() => {
     if (hasMM && hasFlask && window.ethereum) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-      window.ethereum.on('accountsChanged', (accounts: string[]) => {
+      window.ethereum.on('accountsChanged', (...accounts: string[]) => {
         changeAddress(accounts[0]);
       });
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-      window.ethereum.on('chainChanged', (chain: string) => {
-        changeChainId(chain);
+      window.ethereum.on('chainChanged', (...chain: string[]) => {
+        changeChainId(chain[0]);
       });
-      const setChainId = async () => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-        const chain = await window.ethereum.request({
-          method: 'eth_chainId',
-        });
-        changeChainId(chain as string);
-      };
-      setChainId().catch((err) => {});
     }
 
     return () => {
       if (window.ethereum) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
         window.ethereum.removeAllListeners('accountsChanged');
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+        window.ethereum.removeAllListeners('chainChanged');
       }
     };
   }, [hasMM, hasFlask]);

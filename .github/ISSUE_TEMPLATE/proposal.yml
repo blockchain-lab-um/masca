@@ -2,8 +2,6 @@ name: 'Proposal'
 description: 'Create a general proposal regarding Masca.'
 title: '[proposal]: '
 labels: ['proposal']
-assignees:
-  - plesastapevka,Vid201,andyv09,martines3000,tadejpodrekar
 body:
   - type: textarea
     id: motivation
