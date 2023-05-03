@@ -1,24 +1,23 @@
 {
-  "version": "1.5.0",
+  "version": "0.1.0",
   "description": "Snap for managing VCs and VPs in MetaMask",
-  "proposedName": "ssi-snap",
+  "proposedName": "masca",
   "repository": {
     "type": "git",
-    "url": "https://github.com/blockchain-lab-um/ssi-snap.git"
+    "url": "https://github.com/blockchain-lab-um/masca.git"
   },
   "source": {
     "shasum": "zrdDax9K5PJ5r0htMsR5+W1SQgKNlcDO7RHdlrO5znk=",
     "location": {
       "npm": {
         "filePath": "dist/snap.js",
-        "packageName": "@blockchain-lab-um/ssi-snap",
+        "packageName": "@blockchain-lab-um/masca",
         "iconPath": "images/icon.svg",
         "registry": "https://registry.npmjs.org"
       }
     }
   },
   "initialPermissions": {
-    "snap_confirm": {},
     "snap_dialog": {},
     "snap_getBip44Entropy": [
       {
@@ -27,7 +26,6 @@
     ],
     "snap_manageState": {},
     "endowment:network-access": {},
-    "eth_accounts": {},
     "endowment:rpc": {
       "snaps": true,
       "dapps": true

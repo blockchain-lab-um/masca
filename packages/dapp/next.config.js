@@ -4,11 +4,12 @@ const StylelintPlugin = require('stylelint-webpack-plugin');
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
 const contentSecurityPolicy = `
   default-src 'self';
-  script-src 'self';
+  script-src 'self' 'unsafe-inline' cdn.vercel-insights.com vercel.live;
   child-src 'none';
   img-src 'self' data:;
   style-src 'self' 'unsafe-inline';
   font-src 'self';
+  connect-src *;
 `;
 
 const isProd = process.env.NODE_ENV === 'production';
@@ -17,17 +18,14 @@ const isProd = process.env.NODE_ENV === 'production';
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
-  // FIXME: On release change to /masca
-  basePath: '/ssi-snap',
   reactStrictMode: true,
   swcMinify: true,
   // https://nextjs.org/docs/advanced-features/output-file-tracing#automatically-copying-traced-files
   output: 'standalone',
   // https://nextjs.org/docs/messages/next-image-unconfigured-host
   images: {
-    // Disable image optimization
-    unoptimized: true,
-    domains: [],
+    domains: ['localhost'],
+    loader: 'default',
   },
   experimental: {
     fontLoaders: [
@@ -37,6 +35,9 @@ const nextConfig = {
   i18n: {
     locales: ['en', 'si'],
     defaultLocale: 'en',
+  },
+  env: {
+    USE_LOCAL: process.env.USE_LOCAL || 'false',
   },
 
   // Security headers and CSP

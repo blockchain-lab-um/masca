@@ -1,3 +1,4 @@
+import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 
@@ -9,6 +10,7 @@ import {
 } from '../../src/utils/didUtils';
 import {
   address,
+  bip44Entropy,
   exampleDID,
   exampleDIDDocument,
   exampleDIDKey,
@@ -26,6 +28,10 @@ describe('Utils [did]', () => {
 
   beforeEach(() => {
     snapMock = createMockSnap();
+    snapMock.rpcMocks.snap_manageState({
+      operation: 'update',
+      newState: getDefaultSnapState(),
+    });
     ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
   });
 
@@ -85,10 +91,11 @@ describe('Utils [did]', () => {
 
       await expect(
         getCurrentDid({
-          state: initialState,
-          snap: snapMock,
-          account: address,
           ethereum: ethereumMock,
+          snap: snapMock,
+          state: initialState,
+          account: address,
+          bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         })
       ).resolves.toBe(`did:ethr:0x5:${address}`);
 
@@ -102,10 +109,11 @@ describe('Utils [did]', () => {
 
       await expect(
         getCurrentDid({
-          state: initialState,
-          snap: snapMock,
-          account: address,
           ethereum: ethereumMock,
+          snap: snapMock,
+          state: initialState,
+          account: address,
+          bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         })
       ).resolves.toBe(exampleDIDKey);
 
@@ -123,6 +131,8 @@ describe('Utils [did]', () => {
           snap: snapMock,
           account: address,
           ethereum: ethereumMock,
+          bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
+
           didMethod: 'did:key',
         })
       ).resolves.not.toThrow();
@@ -148,6 +158,7 @@ describe('Utils [did]', () => {
           snap: snapMock,
           account: address,
           ethereum: ethereumMock,
+          bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
           didMethod: 'did:key',
         })
       ).resolves.not.toThrow();

@@ -1,11 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
-import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
+import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-types';
+import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 import {
   CheckCircleIcon,
-  DocumentDuplicateIcon,
   ExclamationCircleIcon,
-} from '@heroicons/react/24/outline';
+} from '@heroicons/react/24/solid';
 import { useTranslations } from 'next-intl';
 
 import Button from '@/components/Button';
@@ -55,16 +55,6 @@ const FormatedTab = ({
     validity = Date.now() < Date.parse(vc.data.expirationDate);
 
   const types = convertTypes(vc.data.type);
-
-  const expDate = vc.data.expirationDate
-    ? `${t('formatted-tab.exp-date')} ${new Date(
-        Date.parse(vc.data.expirationDate)
-      ).getDay()}.${new Date(
-        Date.parse(vc.data.expirationDate)
-      ).getMonth()}.${new Date(
-        Date.parse(vc.data.expirationDate)
-      ).getFullYear()}`
-    : t('formatted-tab.no-exp-date');
 
   return (
     <>

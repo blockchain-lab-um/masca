@@ -21,14 +21,16 @@ describe('keyDidResolver', () => {
 
   beforeEach(() => {
     snapMock = createMockSnap();
-    snapMock.rpcMocks.snap_manageState('update', getDefaultSnapState());
+    snapMock.rpcMocks.snap_manageState({
+      operation: 'update',
+      newState: getDefaultSnapState(),
+    });
     global.snap = snapMock;
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
   });
 
   describe('resolveDidKey', () => {
     it('should return correct did key resolution', async () => {
-      snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
       const didRes = await resolveDidKey().key(
         exampleDIDKeyIdentifier,
         {
@@ -51,8 +53,6 @@ describe('keyDidResolver', () => {
       expect.assertions(1);
     });
     it('should return proper DID Document', async () => {
-      snapMock.rpcMocks.snap_manageState.mockReturnValue(getDefaultSnapState());
-
       const didRes = await resolveSecp256k1(
         snapMock,
         address,
@@ -62,7 +62,7 @@ describe('keyDidResolver', () => {
       expect(didRes).toEqual(exampleDIDKeyResolution.didDocument);
       expect.assertions(1);
     });
-    it('should fail', async () => {
+    it('should fail with invalid did:key', async () => {
       const didRes = await resolveDidKey().key(
         '12345',
         {

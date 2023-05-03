@@ -1,34 +1,41 @@
-# SSI Snap &middot; [![npm version](https://img.shields.io/npm/v/@blockchain-lab-um/ssi-snap.svg?style=flat)](https://www.npmjs.com/package/@blockchain-lab-um/ssi-snap)
+<div align="center" id="logo">
+  
+  ![Masca logo](assets/masca_logo_dark.svg#gh-dark-mode-only)
+  ![Masca logo](assets/masca_logo_light.svg#gh-light-mode-only)
+  
+</div>
 
-The SSI Snap enables everyone to build their **decentralized and self-sovereign identity by enhancing MetaMask with functionalities to manage DIDs, VCs, and VPs.** Any dApp can connect it to access identity data, and dApp developers can already start with the integration!
+## [![npm version](https://img.shields.io/npm/v/@blockchain-lab-um/masca.svg?style=flat)](https://www.npmjs.com/package/@blockchain-lab-um/masca)
 
-- [Website](https://blockchain-lab-um.github.io/ssi-snap/)
+Masca enables everyone to build their **decentralized and self-sovereign identity by enhancing MetaMask with functionalities to manage DIDs, VCs, and VPs.** Any dApp can connect it to access identity data, and dApp developers can already start with the integration!
+
+- [Website](https://blockchain-lab-um.github.io/masca/)
 - [Demo](https://blockchain-lab-um.github.io/course-dapp/)
-- [Docs](https://blockchain-lab-um.github.io/ssi-snap-docs/)
+- [Docs](https://blockchain-lab-um.github.io/masca-docs/)
 - [Blog post](https://medium.com/@blockchainlabum/open-sourcing-ssi-snap-for-metamask-aaa176775be2)
 
 # Features
 
-The SSI Snap is built agnostic, leaving the user to choose his preferred **blockchain, DID method, and data storage provider.** Everything is configurable, just like selecting the network in MetaMask. Currently supported technologies:
+Masca is built agnostic, leaving the user to choose his preferred **blockchain, DID method, and data storage provider.** Everything is configurable, just like selecting the network in MetaMask. Currently supported technologies:
 
 - **Blockchains:** Any EVM-based blockchain that is supported by DID methods
-- **DID methods:** `did:ethr`, `did:key`, `did:pkh`
+- **DID methods:** `did:ethr`, `did:key`, `did:pkh`, `did:jwk`
 - **Data storage providers:** Local MetaMask Snap state, Ceramic Network
 
-Many new features are already in the works. For more information, please check the [roadmap](https://blockchain-lab-um.github.io/ssi-snap-docs/docs/roadmap) on the documentation.
+Many new features are already in the works. For more information, please check the [roadmap](https://blockchain-lab-um.github.io/masca-docs/docs/roadmap) on the documentation.
 
 # Development
 
 ### Versions
 
-Every version of SSI Snap does NOT work with every version of MetaMask Flask! Here is a table of compatible versions:
+Every version of Masca does NOT work with every version of MetaMask Flask! Here is a table of compatible versions:
 
-| SSI Snap Version | Flask Version |
-| ---------------- | ------------- |
-| 1.2.2            | up to 10.19.0 |
-| 1.3.0            | 10.24.0       |
-| 1.4.0            | 10.25.0       |
-| 1.5.0            | 10.26.1       |
+| Masca version | MetaMask Flask version |
+| ------------- | ---------------------- |
+| 1.2.2         | up to 10.19.0          |
+| 1.3.0         | 10.24.0                |
+| 1.4.0         | 10.25.0                |
+| 1.5.0         | 10.26.1                |
 
 ### Prerequisites
 
@@ -44,7 +51,7 @@ Every version of SSI Snap does NOT work with every version of MetaMask Flask! He
 ### Snap
 
 - To start the Snap run `pnpm start:snap`
-- Snap can be tested on `localhost:8081/` or on SSI Snap Website
+- Snap can be tested on `localhost:8081/` or on Masca website
 
 ### Website
 
@@ -56,7 +63,11 @@ Every version of SSI Snap does NOT work with every version of MetaMask Flask! He
 
 # Feature requests
 
-Is SSI Snap missing some crucial features? For new features and other enhancements, please open a new issue. If you are unsure if it fits in the Snap, start a new discussion under the Discussions tab.
+Is Masca missing some crucial features? For new features and other enhancements, please open a new issue. If you are unsure if it fits in the Snap, start a new discussion under the Discussions tab.
+
+# Rebrand
+
+Masca was previously called SSI Snap; thus, the old name can still appear in some places. You can also find earlier versions of the Snap under the SSI Snap packages.
 
 # Licenses
 

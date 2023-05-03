@@ -7,18 +7,18 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'SSI Snap',
+  title: 'Masca',
   tagline: 'Self-Sovereign Identity is cool',
   url: 'https://blockchain-lab-um.github.io/',
-  baseUrl: '/ssi-snap-docs/',
+  baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-  favicon: 'img/ssi_snap_logo_2.svg',
+  favicon: 'img/masca_icon_b.png',
   trailingSlash: false,
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'blockchain-lab-um', // Usually your GitHub org/user name.
-  projectName: 'ssi-snap-docs', // Usually your repo name.
+  projectName: 'masca-docs', // Usually your repo name.
   customFields: {},
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
@@ -37,7 +37,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/blockchain-lab-um/ssi-snap/edit/develop/packages/docs/',
+            'https://github.com/blockchain-lab-um/masca/edit/develop/packages/docs/',
         },
         blog: {
           blogSidebarTitle: 'Titles',
@@ -46,7 +46,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/blockchain-lab-um/ssi-snap/packages/docs/edit/develop/',
+            'https://github.com/blockchain-lab-um/masca/packages/docs/edit/develop/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -57,16 +57,16 @@ const config = {
 
   themeConfig: {
     navbar: {
-      title: 'SSI Snap Docs',
+      title: 'Masca Docs',
       logo: {
-        alt: 'SSI Snap Logo',
-        src: 'img/ssi_snap_logo_2.svg',
+        alt: 'Masca Logo',
+        src: 'img/masca_icon_b.png',
       },
       items: [
         { to: '/docs/introduction', label: 'Docs', position: 'left' },
         { to: '/docs/getting-started', label: 'Quickstart', position: 'left' },
         {
-          href: 'https://blockchain-lab-um.github.io/ssi-snap',
+          href: 'https://masca.io',
           label: 'App',
           position: 'left',
         },
@@ -81,7 +81,7 @@ const config = {
           position: 'right',
         },
         {
-          href: 'https://github.com/blockchain-lab-um/ssi-snap',
+          href: 'https://github.com/blockchain-lab-um/masca',
           label: 'GitHub',
           position: 'right',
         },

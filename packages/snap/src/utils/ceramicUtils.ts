@@ -1,11 +1,14 @@
 import { CeramicClient } from '@ceramicnetwork/http-client';
-import { EthereumWebAuth } from '@didtools/pkh-ethereum';
+import { EthereumNodeAuth, getAccountId } from '@didtools/pkh-ethereum';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import { AccountId } from 'caip';
+import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { DIDSession } from 'did-session';
 import { DID } from 'dids';
+import { ethers } from 'ethers';
+import { MascaState } from 'src/interfaces';
 
-import { getCurrentAccount, getCurrentNetwork } from './snapUtils';
+import { getAddressKeyDeriver, snapGetKeysFromAddress } from './keyPair';
+import { getCurrentAccount } from './snapUtils';
 
 const ceramicDID = { did: undefined } as { did: DID | undefined };
 
@@ -21,39 +24,97 @@ export const aliases = {
   tiles: {},
 };
 
-export async function authenticateWithEthereum(
-  ethereum: MetaMaskInpageProvider
-): Promise<DID> {
-  if (ceramicDID.did) return ceramicDID.did;
-  const account = await getCurrentAccount(ethereum);
-  const ethChainId = await getCurrentNetwork(ethereum);
-  const chainId = `eip155:${ethChainId}`;
+class CustomProvider {
+  constructor(
+    private readonly wallet: ethers.Wallet,
+    private readonly metamask: MetaMaskInpageProvider
+  ) {
+    this.wallet = wallet;
+    this.metamask = metamask;
+  }
 
-  const accountId = new AccountId({
-    address: account,
-    chainId,
+  async request(args: { method: string; params: Array<string> }) {
+    const { method, params } = args;
+
+    if (method === 'personal_sign') {
+      // First parameter is the message to sign, second parameter is the address
+      const [message] = params;
+      return this.wallet.signMessage(message);
+    }
+
+    if (method === 'eth_chainId') {
+      return this.metamask.request(args);
+    }
+
+    throw new Error('Unsupported method');
+  }
+}
+
+async function authenticateWithEthers(params: {
+  ethereum: MetaMaskInpageProvider;
+  snap: SnapsGlobalObject;
+  state: MascaState;
+}) {
+  if (ceramicDID.did) return ceramicDID.did;
+
+  const { ethereum, snap, state } = params;
+
+  const account = getCurrentAccount(state);
+
+  const bip44CoinTypeNode = await getAddressKeyDeriver({
+    state,
+    snap,
+    account,
   });
+
+  const res = await snapGetKeysFromAddress(
+    bip44CoinTypeNode,
+    state,
+    account,
+    snap
+  );
+
+  if (res === null) throw new Error('Could not get keys from address');
+
+  const { privateKey } = res;
+
+  // Ethers is required to sign the DID auth message
+  const wallet = new ethers.Wallet(privateKey);
+
+  const customProvider = new CustomProvider(wallet, ethereum);
+
+  const accountId = await getAccountId(customProvider, wallet.address);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-expressions
   typeof window;
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
   window.location = {} as any;
-  window.location.hostname = 'ssi-snap';
+  window.location.hostname = 'masca';
 
-  const authMethod = await EthereumWebAuth.getAuthMethod(ethereum, accountId);
+  const authMethod = await EthereumNodeAuth.getAuthMethod(
+    customProvider,
+    accountId,
+    'masca'
+  );
+
   const session = await DIDSession.authorize(authMethod, {
     resources: [`ceramic://*`],
   });
+
   ceramicDID.did = session.did;
   return session.did;
 }
 
 export async function getCeramic(
-  ethereum: MetaMaskInpageProvider
+  ethereum: MetaMaskInpageProvider,
+  snap: SnapsGlobalObject,
+  state: MascaState
 ): Promise<CeramicClient> {
   const ceramic = new CeramicClient('https://ceramic-clay.3boxlabs.com');
-  const did = await authenticateWithEthereum(ethereum);
+
+  const did = await authenticateWithEthers({ ethereum, snap, state });
+
   await ceramic.setDID(did);
   return ceramic;
 }

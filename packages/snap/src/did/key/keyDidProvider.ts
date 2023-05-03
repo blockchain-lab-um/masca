@@ -107,7 +107,6 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     identifier: IIdentifier,
     context: IContext
   ): Promise<boolean> {
-    // eslint-disable-next-line no-restricted-syntax
     for (const { kid } of identifier.keys) {
       // eslint-disable-next-line no-await-in-loop
       await context.agent.keyManagerDelete({ kid });

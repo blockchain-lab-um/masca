@@ -6,7 +6,6 @@ import { useTranslations } from 'next-intl';
 
 import MenuPopover from '@/components/MenuPopover';
 import ToggleTheme from '@/components/ToggleTheme';
-import { BASE_PATH } from '@/utils/constants';
 import { NavBtn } from './NavBtn';
 import { NavConnection } from './NavConnection';
 
@@ -22,13 +21,13 @@ export default function Navbar() {
             <div className="relative h-[24px] w-[28px] rounded-full object-center sm:h-[36px] sm:w-[40px] lg:h-[46px] lg:w-[50px] xl:h-[48px] xl:w-[54px]">
               <Image
                 className="dark:hidden"
-                src={`${BASE_PATH}/images/ssi_icon_b.png`}
+                src={'/images/ssi_icon_b.png'}
                 alt="Masca Logo"
                 fill={true}
               />
               <Image
                 className="hidden dark:block"
-                src={`${BASE_PATH}/images/ssi_icon_w.png`}
+                src={'/images/ssi_icon_w.png'}
                 alt="Masca Logo"
                 fill={true}
               />

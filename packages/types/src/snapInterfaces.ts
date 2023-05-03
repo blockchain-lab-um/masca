@@ -1,6 +1,6 @@
 import { AvailableMethods, AvailableVCStores } from './constants.js';
 
-export type SSISnapConfig = {
+export type MascaConfig = {
   snap: {
     acceptedTerms: boolean;
   };
@@ -10,7 +10,7 @@ export type SSISnapConfig = {
   };
 };
 
-export type SSIAccountConfig = {
+export type MascaAccountConfig = {
   ssi: {
     didMethod: AvailableMethods;
     vcStore: Record<AvailableVCStores, boolean>;

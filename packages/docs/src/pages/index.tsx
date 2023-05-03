@@ -30,7 +30,7 @@ function HomepageHeader() {
 
 export default function Home() {
   return (
-    <Layout title="SSI Snap Docs" description="SSI Snap Documentation">
+    <Layout title="Masca Docs" description="Masca Documentation">
       <HomepageHeader />
       <main>
         <HomepageFeatures />

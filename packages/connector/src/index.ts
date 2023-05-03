@@ -1,14 +1,13 @@
 import {
   AvailableMethods,
   isAvailableMethods,
-} from '@blockchain-lab-um/ssi-snap-types';
+} from '@blockchain-lab-um/masca-types';
 import { Result, ResultObject, isError } from '@blockchain-lab-um/utils';
 import detectEthereumProvider from '@metamask/detect-provider';
 
-import { MetaMaskSSISnap } from './snap.js';
+import { Masca } from './snap.js';
 
-export { MetaMaskSSISnap } from './snap.js';
-export { isSnapInstalled } from './utils.js';
+export { Masca } from './snap.js';
 
 export type SnapInstallationParams = {
   snapId?: string;
@@ -16,23 +15,24 @@ export type SnapInstallationParams = {
   supportedMethods?: Array<AvailableMethods>;
 };
 
-const defaultSnapOrigin = 'npm:@blockchain-lab-um/ssi-snap';
+const defaultSnapOrigin = 'npm:@blockchain-lab-um/masca';
 
 /**
- * Install and enable SSI Snap
+ * Install and enable Masca
  *
- * Checks for existence of MetaMask Flask and installs SSI Snap if not installed
+ * Checks for existence of MetaMask Flask and installs Masca if not installed
  *
  * @param snapInstallationParams - set snapID, version and a list of supported methods
  *
- * @return MetaMaskSSISnap - adapter object that exposes snap API
+ * @return Masca - adapter object that exposes snap API
  */
-export async function enableSSISnap(
+export async function enableMasca(
+  address: string,
   snapInstallationParams: SnapInstallationParams = {}
-): Promise<Result<MetaMaskSSISnap>> {
+): Promise<Result<Masca>> {
   const {
     snapId = defaultSnapOrigin,
-    version = '^1.4.0',
+    version = '^0.1.0',
     supportedMethods = ['did:ethr'],
   } = snapInstallationParams;
 
@@ -54,15 +54,6 @@ export async function enableSSISnap(
     );
   }
 
-  // FIXME (martin): I don't think we need this check anymore
-  // wallet_requestSnaps handles this and allows the use of semver ranges
-
-  // const isInstalled = await isSnapInstalled(snapId, version);
-
-  // if (isError(isInstalled)) {
-  //   return ResultObject.error(isInstalled.error);
-  // }
-
   try {
     await window.ethereum.request({
       method: 'wallet_requestSnaps',
@@ -71,11 +62,19 @@ export async function enableSSISnap(
       },
     });
 
-    const snap = new MetaMaskSSISnap(snapId, supportedMethods);
+    const snap = new Masca(snapId, supportedMethods);
 
-    const snapApi = snap.getSSISnapApi();
+    const api = snap.getMascaApi();
 
-    const selectedMethodsResult = await snapApi.getSelectedMethod();
+    const setAccountRes = await api.setCurrentAccount({
+      currentAccount: address,
+    });
+
+    if (isError(setAccountRes)) {
+      return ResultObject.error(setAccountRes.error);
+    }
+
+    const selectedMethodsResult = await api.getSelectedMethod();
 
     if (isError(selectedMethodsResult)) {
       return ResultObject.error(selectedMethodsResult.error);
@@ -84,9 +83,7 @@ export async function enableSSISnap(
     const method = selectedMethodsResult.data;
 
     if (!isAvailableMethods(method)) {
-      const switchResult = await snapApi.switchDIDMethod(
-        snap.supportedMethods[0]
-      );
+      const switchResult = await api.switchDIDMethod(snap.supportedMethods[0]);
 
       if (isError(switchResult)) {
         return ResultObject.error(switchResult.error);

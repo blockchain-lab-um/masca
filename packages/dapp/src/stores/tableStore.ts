@@ -1,4 +1,4 @@
-import { QueryVCsRequestResult } from '@blockchain-lab-um/ssi-snap-types';
+import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-types';
 import { ColumnFiltersState } from '@tanstack/react-table';
 import { create } from 'zustand';
 

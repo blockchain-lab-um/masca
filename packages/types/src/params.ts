@@ -32,7 +32,7 @@ export type DeleteVCsOptions = {
   store?: AvailableVCStores | AvailableVCStores[];
 };
 
-// TODO (martin): This type is also in vcmanager
+// TODO (martin): This type is also in datamanager
 export type Filter = {
   type: string;
   filter: unknown;
@@ -48,6 +48,11 @@ export type VCRequest = {
     store?: AvailableVCStores;
   };
 };
+
+export type SetCurrentAccountRequestParams = {
+  currentAccount: string;
+};
+
 export type CreateVPRequestParams = {
   vcs: VCRequest[];
   proofFormat?: SupportedProofFormats;

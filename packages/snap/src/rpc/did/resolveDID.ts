@@ -1,15 +1,8 @@
-import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { ApiParams } from 'src/interfaces';
 
 import { resolveDid } from '../../utils/didUtils';
 
-export async function resolveDID(
-  params: {
-    snap: SnapsGlobalObject;
-    ethereum: MetaMaskInpageProvider;
-  },
-  did: string
-) {
+export async function resolveDID(params: ApiParams, did: string) {
   if (did === '') return { message: 'DID is empty' };
   const res = await resolveDid({ ...params, did });
   return res;

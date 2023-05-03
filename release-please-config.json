@@ -1,5 +1,7 @@
 {
+  "bootstrap-sha": "fb5be641c5170d6febd191eb63cec57819635689",
   "releaseType": "node",
+  "separate-pull-requests": true,
   "changelog-sections": [
     {
       "type": "feat",
@@ -22,34 +24,38 @@
   ],
   "packages": {
     "packages/connector": {
-      "component": "ssi-snap-connector",
+      "release-as": "0.1.0",
+      "component": "masca-connector",
       "releaseType": "node",
-      "bumpMinorPreMajor": false,
-      "bumpPatchForMinorPreMajor": false,
+      "bumpMinorPreMajor": true,
+      "bumpPatchForMinorPreMajor": true,
       "changelogPath": "CHANGELOG.md",
       "versioning": "default"
     },
     "packages/types": {
-      "component": "ssi-snap-types",
+      "release-as": "0.1.0",
+      "component": "masca-types",
       "releaseType": "node",
-      "bumpMinorPreMajor": false,
-      "bumpPatchForMinorPreMajor": false,
+      "bumpMinorPreMajor": true,
+      "bumpPatchForMinorPreMajor": true,
       "changelogPath": "CHANGELOG.md",
       "versioning": "default"
     },
-    "packages/vcmanager": {
-      "component": "ssi-snap-vcmanager",
+    "packages/datamanager": {
+      "release-as": "0.1.0",
+      "component": "veramo-datamanager",
       "releaseType": "node",
-      "bumpMinorPreMajor": false,
-      "bumpPatchForMinorPreMajor": false,
+      "bumpMinorPreMajor": true,
+      "bumpPatchForMinorPreMajor": true,
       "changelogPath": "CHANGELOG.md",
       "versioning": "default"
     },
     "packages/snap": {
-      "component": "ssi-snap",
+      "release-as": "0.1.0",
+      "component": "masca",
       "releaseType": "node",
-      "bumpMinorPreMajor": false,
-      "bumpPatchForMinorPreMajor": false,
+      "bumpMinorPreMajor": true,
+      "bumpPatchForMinorPreMajor": true,
       "changelogPath": "CHANGELOG.md",
       "versioning": "default",
       "extra-files": [
@@ -61,8 +67,16 @@
       ]
     },
     "libs/utils": {
-      "release-as": "1.0.0",
       "component": "utils",
+      "releaseType": "node",
+      "bumpMinorPreMajor": false,
+      "bumpPatchForMinorPreMajor": false,
+      "changelogPath": "CHANGELOG.md",
+      "versioning": "default"
+    },
+    "libs/did-provider-ebsi": {
+      "release-as": "1.0.0",
+      "component": "did-provider-ebsi",
       "releaseType": "node",
       "bumpMinorPreMajor": false,
       "bumpPatchForMinorPreMajor": false,
@@ -73,12 +87,12 @@
   "plugins": [
     {
       "type": "linked-versions",
-      "groupName": "ssi-snap-core",
+      "groupName": "masca-core",
       "components": [
-        "ssi-snap-connector",
-        "ssi-snap-types",
-        "ssi-snap-vcmanager",
-        "ssi-snap"
+        "masca-connector",
+        "masca-types",
+        "veramo-datamanager",
+        "masca"
       ]
     }
   ]

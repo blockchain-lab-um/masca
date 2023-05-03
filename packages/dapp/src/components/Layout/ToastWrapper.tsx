@@ -18,12 +18,11 @@ export const ToastWrapper = ({ children }: { children: JSX.Element }) => {
     return () => clearTimeout(timerRef.current);
   }, []);
 
-  const { open, setOpen, loading, text, type, title } = useToastStore(
+  const { open, setOpen, loading, type, title } = useToastStore(
     (state) => ({
       open: state.open,
       setOpen: state.setOpen,
       loading: state.loading,
-      text: state.text,
       title: state.title,
       type: state.type,
     }),
@@ -64,7 +63,7 @@ export const ToastWrapper = ({ children }: { children: JSX.Element }) => {
         {children}
 
         <Toast.Root
-          className="data-[state=open]:animate-slideIn data-[state=closed]:animate-hide data-[swipe=end]:animate-swipeOut grid grid-cols-[auto_max-content] items-center gap-x-[15px] rounded-2xl bg-white shadow-md [grid-template-areas:_'title_action'_'description_action'] data-[swipe=cancel]:translate-x-0 data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=cancel]:transition-[transform_200ms_ease-out]"
+          className="data-[state=open]:animate-slideIn data-[state=closed]:animate-hide data-[swipe=end]:animate-swipeOut grid grid-cols-[auto_max-content] items-center gap-x-[15px] rounded-md bg-white p-4 shadow-md [grid-template-areas:_'title_action'_'description_action'] data-[swipe=cancel]:translate-x-0 data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=cancel]:transition-[transform_200ms_ease-out]"
           open={open}
           onOpenChange={setOpen}
         >

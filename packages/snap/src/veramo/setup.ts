@@ -5,7 +5,7 @@ import {
   AbstractDataStore,
   DataManager,
   IDataManager,
-} from '@blockchain-lab-um/veramo-vc-manager';
+} from '@blockchain-lab-um/veramo-datamanager';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import {
@@ -17,14 +17,18 @@ import {
   createAgent,
 } from '@veramo/core';
 import { CredentialIssuerEIP712 } from '@veramo/credential-eip712';
-import {
-  CredentialIssuerLD,
-  LdDefaultContexts,
-  VeramoEcdsaSecp256k1RecoverySignature2020,
-} from '@veramo/credential-ld';
+// import {
+//   CredentialIssuerLD,
+//   LdDefaultContexts,
+//   VeramoEcdsaSecp256k1RecoverySignature2020,
+// } from '@veramo/credential-ld';
 import { CredentialPlugin, ICredentialIssuer } from '@veramo/credential-w3c';
 import { AbstractIdentifierProvider, DIDManager } from '@veramo/did-manager';
 import { EthrDIDProvider } from '@veramo/did-provider-ethr';
+import {
+  JwkDIDProvider,
+  getDidJwkResolver as jwkDidResolver,
+} from '@veramo/did-provider-jwk';
 import {
   PkhDIDProvider,
   getDidPkhResolver as pkhDidResolver,
@@ -67,7 +71,7 @@ export const getAgent = async (
   ethereum: MetaMaskInpageProvider
 ): Promise<Agent> => {
   const state = await getSnapState(snap);
-  const account = await getCurrentAccount(ethereum);
+  const account = getCurrentAccount(state);
 
   const didProviders: Record<string, AbstractIdentifierProvider> = {};
   const vcStorePlugins: Record<string, AbstractDataStore> = {};
@@ -100,6 +104,7 @@ export const getAgent = async (
   didProviders['did:key'] = new KeyDIDProvider({ defaultKms: 'web3' });
   didProviders['did:pkh'] = new PkhDIDProvider({ defaultKms: 'web3' });
   // didProviders['did:ebsi'] = new EbsiDIDProvider({ defaultKms: 'web3' });
+  didProviders['did:jwk'] = new JwkDIDProvider({ defaultKms: 'web3' });
 
   vcStorePlugins['snap'] = new SnapVCStore(snap, ethereum);
   if (enabledVCStores.includes('ceramic')) {
@@ -116,10 +121,10 @@ export const getAgent = async (
     plugins: [
       new CredentialPlugin(),
       new CredentialIssuerEIP712(),
-      new CredentialIssuerLD({
-        contextMaps: [LdDefaultContexts],
-        suites: [new VeramoEcdsaSecp256k1RecoverySignature2020()],
-      }),
+      // new CredentialIssuerLD({
+      //   contextMaps: [LdDefaultContexts],
+      //   suites: [new VeramoEcdsaSecp256k1RecoverySignature2020()],
+      // }),
       new KeyManager({
         store: new MemoryKeyStore(),
         kms: {
@@ -133,6 +138,7 @@ export const getAgent = async (
           ...keyDidResolver(),
           ...pkhDidResolver(),
           // ...ebsiDidResolver(),
+          ...jwkDidResolver(),
         }),
       }),
       new DIDManager({

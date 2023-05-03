@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import Head from 'next/head';
 import Link from 'next/link';
 import {
   AvailableVCStores,
+  QueryVCsRequestResult,
   SupportedProofFormats,
   VCRequest,
-} from '@blockchain-lab-um/ssi-snap-types';
+} from '@blockchain-lab-um/masca-types';
 import { isError } from '@blockchain-lab-um/utils';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 import { W3CVerifiablePresentation } from '@veramo/core';
@@ -20,7 +20,7 @@ import InputField from '@/components/InputField';
 import SelectedVCsTableRow from '@/components/SelectedVCsTableRow/SelectedVCsTableRow';
 import ToggleSwitch from '@/components/Switch';
 import VPModal from '@/components/VPModal';
-import { useSnapStore, useTableStore } from '@/stores';
+import { useMascaStore, useTableStore } from '@/stores';
 
 const proofFormats: Record<string, SupportedProofFormats> = {
   JWT: 'jwt',
@@ -41,7 +41,7 @@ const CreateVP = () => {
     shallow
   );
 
-  const api = useSnapStore((state) => state.snapApi);
+  const api = useMascaStore((state) => state.mascaApi);
 
   const [format, setFormat] = useState('JWT');
   const [advanced, setAdvanced] = useState(false);
@@ -49,7 +49,9 @@ const CreateVP = () => {
   const [domain, setDomain] = useState('');
 
   const handleRemove = (id: string) => {
-    setSelectedVCs(selectedVCs?.filter((vc) => vc.metadata.id !== id));
+    setSelectedVCs(
+      selectedVCs?.filter((vc: QueryVCsRequestResult) => vc.metadata.id !== id)
+    );
   };
 
   const handleCreateVP = async () => {
@@ -95,10 +97,6 @@ const CreateVP = () => {
 
   return (
     <>
-      <Head>
-        <title>Masca | Create Presentation</title>
-        <meta name="description" content="Create VP page for Masca." />
-      </Head>
       <div className="grid place-items-center">
         <div className="dark:bg-navy-blue-800 dark:text-navy-blue-400 flex h-full min-h-[40vh] w-full max-w-sm flex-col rounded-3xl bg-white shadow-lg md:max-w-md lg:max-w-xl xl:w-[34rem] xl:max-w-[40rem]">
           <ConnectedProvider>

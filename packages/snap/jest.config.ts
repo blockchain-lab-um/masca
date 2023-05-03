@@ -8,7 +8,7 @@ export default {
   testEnvironment: 'node',
   testRegex: '.*\\.spec\\.ts$',
   setupFilesAfterEnv: ['jest-extended/all'],
-  globals: { window: { location: { hostname: 'ssi-snap' } } },
+  globals: { window: { location: { hostname: 'masca' } } },
   transform: {
     '^.+\\.(t|j)sx?$': [
       '@swc/jest',

@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { enableSSISnap } from '@blockchain-lab-um/ssi-snap-connector';
+import { enableMasca } from '@blockchain-lab-um/masca-connector';
 import { isError } from '@blockchain-lab-um/utils';
 import detectEthereumProvider from '@metamask/detect-provider';
 import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
-import { useGeneralStore, useSnapStore } from '@/stores';
+import { useGeneralStore, useMascaStore } from '@/stores';
 
 const snapId =
-  process.env.NODE_ENV === 'production'
-    ? 'npm:@blockchain-lab-um/ssi-snap'
-    : 'local:http://localhost:8081';
+  process.env.USE_LOCAL === 'true'
+    ? 'local:http://localhost:8081'
+    : 'npm:@blockchain-lab-um/masca';
 
 type MetaMaskProviderProps = {
   children: React.ReactNode;
@@ -44,19 +44,21 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
   );
 
   const {
-    changeSnapApi,
+    changeMascaApi,
     changeDID,
     changeAvailableMethods,
     changeCurrMethod,
     changeAvailableVCStores,
-  } = useSnapStore((state) => ({
-    snapApi: state.snapApi,
-    changeSnapApi: state.changeSnapApi,
-    changeDID: state.changeCurrDID,
-    changeAvailableMethods: state.changeAvailableMethods,
-    changeCurrMethod: state.changeCurrDIDMethod,
-    changeAvailableVCStores: state.changeAvailableVCStores,
-  }));
+  } = useMascaStore(
+    (state) => ({
+      changeMascaApi: state.changeMascaApi,
+      changeDID: state.changeCurrDID,
+      changeAvailableMethods: state.changeAvailableMethods,
+      changeCurrMethod: state.changeCurrDIDMethod,
+      changeAvailableVCStores: state.changeAvailableVCStores,
+    }),
+    shallow
+  );
 
   const router = useRouter();
 
@@ -89,8 +91,8 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
     changeIsFlask(true);
   };
 
-  const enableSSISnapHandler = async () => {
-    const enableResult = await enableSSISnap({ snapId });
+  const enableMascaHandler = async () => {
+    const enableResult = await enableMasca(address, { snapId });
     console.log(snapId);
     console.log(process.env.NODE_ENV);
     if (isError(enableResult)) {
@@ -98,10 +100,21 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
       changeIsConnecting(false);
       return;
     }
+    const api = enableResult.data.getMascaApi();
 
-    const api = enableResult.data.getSSISnapApi();
+    changeMascaApi(api);
 
-    changeSnapApi(api);
+    // Set currently connected address
+    const setAccountRes = await api.setCurrentAccount({
+      currentAccount: address,
+    });
+
+    if (isError(setAccountRes)) {
+      console.log("Couldn't set current account");
+      console.error(setAccountRes.error);
+      changeIsConnecting(false);
+      return;
+    }
 
     const did = await api.getDID();
     if (isError(did)) {
@@ -167,7 +180,7 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
   useEffect(() => {
     if (!hasMM || !hasFlask || !address) return;
     console.log('Address changed to', address);
-    enableSSISnapHandler().catch((err) => {
+    enableMascaHandler().catch((err) => {
       console.error(err);
       changeIsConnecting(false);
     });

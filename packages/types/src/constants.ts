@@ -13,9 +13,10 @@ export const isAvailableVCStores = (x: string) =>
 export const availableMethods = [
   'did:ethr',
   'did:key',
-  'did:key:ebsi',
+  // 'did:key:ebsi',
   'did:pkh',
-  'did:ebsi',
+  // 'did:ebsi',
+  'did:jwk',
 ] as const;
 export type AvailableMethods = (typeof availableMethods)[number];
 export const isAvailableMethods = (x: string) =>
@@ -25,8 +26,9 @@ export const didCoinTypeMappping: Record<string, number> = {
   'did:ethr': 60,
   'did:key': 60,
   'did:pkh': 60,
-  'did:ebsi': 60,
-  'did:key:ebsi': 60,
+  // 'did:ebsi': 60,
+  // 'did:key:ebsi': 60,
+  'did:jwk': 60,
 };
 
 export const supportedProofFormats = [
