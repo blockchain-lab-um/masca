@@ -1,6 +1,7 @@
 import { shallow } from 'zustand/shallow';
 
 import MethodDropdownMenu from '@/components/MethodDropdownMenu';
+import { NETWORKS } from '@/utils/constants';
 import { useGeneralStore, useMascaStore } from '@/stores';
 import AddressPopover from '../AddressPopover';
 import ConnectButton from '../ConnectButton';
@@ -41,24 +42,15 @@ export const NavConnection = () => {
     shallow
   );
 
-  const networks: Record<string, string> = {
-    '0x1': 'Ethereum',
-    '0x5': 'Goerli Testnet',
-  };
-
   const getNetwork = (): string => {
-    if (networks[chainId]) return networks[chainId];
+    if (NETWORKS[chainId]) return NETWORKS[chainId];
     return 'Switch chain';
   };
 
-  // eslint-disable-next-line @typescript-eslint/require-await
-  const setNetwork = async (newNetwork: string) => {
-    const key = Object.keys(networks).find(
-      (val) => networks[val] === newNetwork
-    );
-    if (window.ethereum) {
+  const setNetwork = async (network: string) => {
+    const key = Object.keys(NETWORKS).find((val) => NETWORKS[val] === network);
+    if (window.ethereum && key) {
       try {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
           params: [{ chainId: key }],
@@ -87,7 +79,7 @@ export const NavConnection = () => {
             rounded="full"
             shadow="none"
             variant="primary-active"
-            items={Object.values(networks)}
+            items={Object.values(NETWORKS)}
             selected={getNetwork()}
             setSelected={setNetwork}
           />
