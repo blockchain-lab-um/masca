@@ -14,8 +14,9 @@ interface DropdownMenuProps {
     | 'secondary'
     | 'primary-active'
     | 'secondary-active'
-    | 'gray';
-  size?: 'xs' | 'sm' | 'md' | 'lg';
+    | 'gray'
+    | 'method';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'method';
   rounded?: 'full' | '2xl' | 'xl' | 'lg' | 'none';
   shadow?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'none' | 'inner' | '';
   setSelected: (selected: string) => void;
@@ -26,6 +27,8 @@ const sizes: Record<string, string> = {
   sm: 'text-md py-1.5 px-3.5 max-w-xs',
   md: 'text-lg py-2 px-4 max-w-xs',
   lg: 'text-2xl py-2.5 px-5 font-semibold max-w-xs',
+  method:
+    'text-h5 font-ubuntu animated-transition inline-flex w-full justify-center rounded-3xl px-4 py-2 font-thin focus:outline-none',
 };
 
 const variants: Record<string, string> = {
@@ -38,6 +41,8 @@ const variants: Record<string, string> = {
   'secondary-active':
     'text-navy-blue-500 border border-1 border-navy-blue-300 animated-transition ',
   gray: 'bg-gray-200 text-gray-800 btn hover:opacity-80 animated-transition ',
+  method:
+    'dark:text-navy-blue-400 text-gray-600 dark:hover:bg-navy-blue-800 hover:bg-orange-100/50',
 };
 
 const variantsHover: Record<string, string> = {
@@ -47,6 +52,7 @@ const variantsHover: Record<string, string> = {
   'primary-active': ' ',
   'secondary-active': ' ',
   gray: 'opacity-80',
+  method: 'dark:bg-navy-blue-800 bg-orange-100/50',
 };
 export default function DropdownMenu({
   items,

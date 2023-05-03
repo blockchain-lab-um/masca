@@ -1,13 +1,19 @@
 import { shallow } from 'zustand/shallow';
 
 import MethodDropdownMenu from '@/components/MethodDropdownMenu';
+import { NETWORKS } from '@/utils/constants';
 import { useGeneralStore, useMascaStore } from '@/stores';
 import AddressPopover from '../AddressPopover';
 import ConnectButton from '../ConnectButton';
+import DropdownMenu from '../DropdownMenu';
 
 export const NavConnection = () => {
-  const { did, changeVcs } = useMascaStore(
-    (state) => ({ did: state.currDID, changeVcs: state.changeVcs }),
+  const { did, currMethod, changeVcs } = useMascaStore(
+    (state) => ({
+      did: state.currDID,
+      currMethod: state.currDIDMethod,
+      changeVcs: state.changeVcs,
+    }),
     shallow
   );
 
@@ -16,6 +22,8 @@ export const NavConnection = () => {
     hasMM,
     hasFlask,
     address,
+    chainId,
+    changeChainId,
     changeIsConnected,
     changeAddres,
     changeDid,
@@ -25,12 +33,34 @@ export const NavConnection = () => {
       hasMM: state.hasMetaMask,
       hasFlask: state.isFlask,
       address: state.address,
+      chainId: state.chainId,
       changeIsConnected: state.changeIsConnected,
       changeAddres: state.changeAddress,
       changeDid: state.changeDid,
+      changeChainId: state.changeChainId,
     }),
     shallow
   );
+
+  const getNetwork = (): string => {
+    if (NETWORKS[chainId]) return NETWORKS[chainId];
+    return 'Switch chain';
+  };
+
+  const setNetwork = async (network: string) => {
+    const key = Object.keys(NETWORKS).find((val) => NETWORKS[val] === network);
+    if (window.ethereum && key) {
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+        await window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: key }],
+        });
+      } catch (switchError) {
+        console.error(switchError);
+      }
+    }
+  };
 
   const disconnect = () => {
     changeVcs([]);
@@ -44,6 +74,17 @@ export const NavConnection = () => {
   if (isConnected) {
     return (
       <div className="flex items-center justify-center">
+        {(currMethod === 'did:ethr' || currMethod === 'did:pkh') && (
+          <DropdownMenu
+            size="method"
+            rounded="full"
+            shadow="none"
+            variant="method"
+            items={Object.values(NETWORKS)}
+            selected={getNetwork()}
+            setSelected={setNetwork}
+          />
+        )}
         <MethodDropdownMenu />
         <AddressPopover address={address} did={did} disconnect={disconnect} />
       </div>

@@ -23,22 +23,26 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
     hasMM,
     hasFlask,
     address,
+    chainId,
     changeHasMetaMask,
     changeIsFlask,
     changeAddress,
     changeIsConnected,
     changeIsConnecting,
+    changeChainId,
   } = useGeneralStore(
     (state) => ({
       hasMM: state.hasMetaMask,
       hasFlask: state.isFlask,
       address: state.address,
       isConnected: state.isConnected,
+      chainId: state.chainId,
       changeHasMetaMask: state.changeHasMetaMask,
       changeIsFlask: state.changeIsFlask,
       changeAddress: state.changeAddress,
       changeIsConnected: state.changeIsConnected,
       changeIsConnecting: state.changeIsConnecting,
+      changeChainId: state.changeChainId,
     }),
     shallow
   );
@@ -78,10 +82,9 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
 
     changeHasMetaMask(true);
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-    const mmVersion: string = await window.ethereum.request({
+    const mmVersion = (await window.ethereum.request({
       method: 'web3_clientVersion',
-    });
+    })) as string;
 
     if (!mmVersion.includes('flask')) {
       changeIsFlask(false);
@@ -164,15 +167,18 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
 
   useEffect(() => {
     if (hasMM && hasFlask && window.ethereum) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-      window.ethereum.on('accountsChanged', (accounts: string[]) => {
-        changeAddress(accounts[0]);
+      window.ethereum.on('accountsChanged', (...accounts) => {
+        changeAddress(accounts[0] as string);
+      });
+      window.ethereum.on('chainChanged', (...chain) => {
+        changeChainId(chain[0] as string);
       });
     }
+
     return () => {
       if (window.ethereum) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
         window.ethereum.removeAllListeners('accountsChanged');
+        window.ethereum.removeAllListeners('chainChanged');
       }
     };
   }, [hasMM, hasFlask]);
