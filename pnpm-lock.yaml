@@ -1,6 +1,9 @@
 lockfileVersion: '6.0'
 
 patchedDependencies:
+  '@ceramicnetwork/common@2.24.0':
+    hash: uqwtqun5atcy5jjekxssfbohei
+    path: patches/@ceramicnetwork__common@2.24.0.patch
   '@metamask/snaps-types@0.32.2':
     hash: kxvx7oauvzzozwjf53rqnijmxy
     path: patches/@metamask__snaps-types@0.32.2.patch
@@ -348,6 +351,9 @@ importers:
       prettier-plugin-packagejson:
         specifier: ^2.4.3
         version: 2.4.3(prettier@2.8.7)
+      rimraf:
+        specifier: ^4.4.0
+        version: 4.4.1
       sass:
         specifier: ^1.57.1
         version: 1.62.0
@@ -2465,7 +2471,7 @@ packages:
       - encoding
     dev: false
 
-  /@ceramicnetwork/common@2.24.0:
+  /@ceramicnetwork/common@2.24.0(patch_hash=uqwtqun5atcy5jjekxssfbohei):
     resolution: {integrity: sha512-Q3GBlJd5XrSDCP/6KJy2sz+5MfAVhMrEDoW9SIaxG19xPC+QGeMRouNbZf+qfe3tGQintaRn3FhoqSAtjFxE1g==}
     dependencies:
       '@ceramicnetwork/streamid': 2.14.0
@@ -2488,11 +2494,12 @@ packages:
     transitivePeerDependencies:
       - encoding
     dev: false
+    patched: true
 
   /@ceramicnetwork/http-client@2.20.0:
     resolution: {integrity: sha512-nwxxcm1Wt2A+QRByxC0PFGCGNfkzWMobduxeaixgkGhJN5SX7Edu7hi4EmhV0PZmXJRitCaNJDXZiRRZ903D1Q==}
     dependencies:
-      '@ceramicnetwork/common': 2.24.0
+      '@ceramicnetwork/common': 2.24.0(patch_hash=uqwtqun5atcy5jjekxssfbohei)
       '@ceramicnetwork/stream-caip10-link': 2.19.0
       '@ceramicnetwork/stream-model': 1.6.0
       '@ceramicnetwork/stream-model-instance': 1.6.0
@@ -2507,7 +2514,7 @@ packages:
   /@ceramicnetwork/stream-caip10-link@2.19.0:
     resolution: {integrity: sha512-h9kXbAsngj7e3amHE2vIPAyCKa537rLdc41xfYX1NSI8vDN7WwWht5xzT3DkRO91AmqGKPvCh801IcjqVHRC/w==}
     dependencies:
-      '@ceramicnetwork/common': 2.24.0
+      '@ceramicnetwork/common': 2.24.0(patch_hash=uqwtqun5atcy5jjekxssfbohei)
       '@ceramicnetwork/streamid': 2.14.0
       caip: 1.1.0
       did-resolver: 4.0.1
@@ -2519,7 +2526,7 @@ packages:
   /@ceramicnetwork/stream-model-instance@1.6.0:
     resolution: {integrity: sha512-qa7EUFV+/eZTiCyT0AvpNyvFMNbzH4sbXAJUsSKJ2YxXy3fo3X5QEVx51pKnVnc6JomNBz6S/pQj0kOR8o+hqA==}
     dependencies:
-      '@ceramicnetwork/common': 2.24.0
+      '@ceramicnetwork/common': 2.24.0(patch_hash=uqwtqun5atcy5jjekxssfbohei)
       '@ceramicnetwork/streamid': 2.14.0
       '@ipld/dag-cbor': 7.0.3
       '@stablelib/random': 1.0.2
@@ -2533,7 +2540,7 @@ packages:
   /@ceramicnetwork/stream-model@1.6.0:
     resolution: {integrity: sha512-rdX2bZmYLbpjQexLWBOGe37jg+5FV+1/GlwAleZjgBS6zc0mzWpwn901FmuXB+P6Lan2fQ1py5EOICoVYklqnA==}
     dependencies:
-      '@ceramicnetwork/common': 2.24.0
+      '@ceramicnetwork/common': 2.24.0(patch_hash=uqwtqun5atcy5jjekxssfbohei)
       '@ceramicnetwork/streamid': 2.14.0
       '@ipld/dag-cbor': 7.0.3
       '@stablelib/random': 1.0.2
@@ -2549,7 +2556,7 @@ packages:
   /@ceramicnetwork/stream-tile@2.20.0:
     resolution: {integrity: sha512-aBHegw35+p+QZbZGKKuaCy3bNrpztNTDlNaedReNlUVvVTSl2VecTBCY7CpbqVjIj6+wE3yBrpUfTOBlTbjyuw==}
     dependencies:
-      '@ceramicnetwork/common': 2.24.0
+      '@ceramicnetwork/common': 2.24.0(patch_hash=uqwtqun5atcy5jjekxssfbohei)
       '@ceramicnetwork/streamid': 2.14.0
       '@ipld/dag-cbor': 7.0.3
       '@stablelib/random': 1.0.2
@@ -10637,6 +10644,7 @@ packages:
   /commander@9.5.0:
     resolution: {integrity: sha512-KRs7WVDKg86PWiuAqhDrAQnTXZKraVcCc6vFdL14qrZ/DcWwuRo7VoiYXalXO7S5GKpqYiVEwCbgFDfxNHKJBQ==}
     engines: {node: ^12.20.0 || >=14}
+    requiresBuild: true
 
   /commondir@1.0.1:
     resolution: {integrity: sha512-W9pAhw0ja1Edb5GVdIF1mjZw/ASI0AlShXM83UUGe2DVr5TdAPEA1OA8m/g8zWp9x6On7gqufY+FatDbC3MDQg==}

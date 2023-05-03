@@ -34,7 +34,7 @@ export class CeramicVCStore extends AbstractDataStore {
   async query(args: IFilterArgs): Promise<Array<IQueryResult>> {
     const { filter } = args;
     const state = await getSnapState(this.snap);
-    const ceramic = await getCeramic(this.ethereum, state);
+    const ceramic = await getCeramic(this.ethereum, this.snap, state);
     const datastore = new DIDDataStore({ ceramic, model: aliases });
     const storedCredentials = (await datastore.get(
       'StoredCredentials'
@@ -95,7 +95,7 @@ export class CeramicVCStore extends AbstractDataStore {
 
   async delete({ id }: { id: string }) {
     const state = await getSnapState(this.snap);
-    const ceramic = await getCeramic(this.ethereum, state);
+    const ceramic = await getCeramic(this.ethereum, this.snap, state);
     const datastore = new DIDDataStore({ ceramic, model: aliases });
     const storedCredentials = (await datastore.get(
       'StoredCredentials'
@@ -115,7 +115,7 @@ export class CeramicVCStore extends AbstractDataStore {
 
     const vc = args.data;
     const state = await getSnapState(this.snap);
-    const ceramic = await getCeramic(this.ethereum, state);
+    const ceramic = await getCeramic(this.ethereum, this.snap, state);
     const datastore = new DIDDataStore({ ceramic, model: aliases });
     const storedCredentials = (await datastore.get(
       'StoredCredentials'
@@ -142,7 +142,7 @@ export class CeramicVCStore extends AbstractDataStore {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async clear(args: IFilterArgs): Promise<boolean> {
     const state = await getSnapState(this.snap);
-    const ceramic = await getCeramic(this.ethereum, state);
+    const ceramic = await getCeramic(this.ethereum, this.snap, state);
     const datastore = new DIDDataStore({ ceramic, model: aliases });
     const storedCredentials = (await datastore.get(
       'StoredCredentials'
