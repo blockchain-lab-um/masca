@@ -83,10 +83,10 @@ export const NavConnection = () => {
       <div className="flex items-center justify-center">
         {(currMethod === 'did:ethr' || currMethod === 'did:pkh') && (
           <DropdownMenu
-            size="sm"
+            size="method"
             rounded="full"
             shadow="none"
-            variant="primary-active"
+            variant="method"
             items={Object.values(networks)}
             selected={getNetwork()}
             setSelected={setNetwork}
