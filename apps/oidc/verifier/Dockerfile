@@ -1,6 +1,6 @@
-FROM blockchain-lab-um/ssi-snap:latest as builder
+FROM blockchain-lab-um/masca:latest as builder
 
-FROM node:18.13.0-bullseye-slim
+FROM node:18.15.0-bullseye-slim
 
 RUN apt-get update && apt-get install -y \
   bash \
