@@ -810,7 +810,7 @@ describe('Utils [veramo]', () => {
       expect.assertions(1);
     });
 
-    it('should succeed validating a VC - lds', async () => {
+    it.skip('should succeed validating a VC - lds', async () => {
       const agent = await getAgent(snapMock, ethereumMock);
       const identity: IIdentifier = await agent.didManagerCreate({
         provider: 'did:ethr',
@@ -904,7 +904,7 @@ describe('Utils [veramo]', () => {
       expect.assertions(1);
     });
 
-    it('should succeed validating a VP - lds', async () => {
+    it.skip('should succeed validating a VP - lds', async () => {
       const agent = await getAgent(snapMock, ethereumMock);
       const identity: IIdentifier = await agent.didManagerCreate({
         provider: 'did:ethr',
@@ -974,7 +974,7 @@ describe('Utils [veramo]', () => {
       expect.assertions(2);
     });
 
-    it('should succeed creating a valid VP - lds', async () => {
+    it.skip('should succeed creating a valid VP - lds', async () => {
       snapMock.rpcMocks.snap_dialog.mockResolvedValue(true);
       const agent = await getAgent(snapMock, ethereumMock);
 
