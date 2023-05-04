@@ -35,15 +35,15 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
         method: 'eth_requestAccounts',
       });
 
-      // Set the address
-      changeAddress((result as string[])[0]);
-
       const chain = (await window.ethereum.request({
         method: 'eth_chainId',
       })) as string;
 
       // Set the chainId
       changeChainId(chain);
+
+      // Set the address
+      changeAddress((result as string[])[0]);
     }
   };
 

@@ -168,7 +168,7 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
   useEffect(() => {
     if (hasMM && hasFlask && window.ethereum) {
       window.ethereum.on('accountsChanged', (...accounts) => {
-        changeAddress(accounts[0] as string);
+        changeAddress((accounts[0] as string[])[0]);
       });
       window.ethereum.on('chainChanged', (...chain) => {
         changeChainId(chain[0] as string);
