@@ -3,6 +3,13 @@
 ## [0.1.0](https://github.com/blockchain-lab-um/masca/compare/masca-v0.1.0...masca-v0.1.0) (2023-05-04)
 
 
+### chore
+
+* **masca:** Synchronize masca-core versions
+
+## [0.1.0](https://github.com/blockchain-lab-um/masca/compare/masca-v0.1.0...masca-v0.1.0) (2023-05-04)
+
+
 ### :page_with_curl: Documentation
 
 * change ssi snap to masca ([#156](https://github.com/blockchain-lab-um/masca/issues/156)) ([08469af](https://github.com/blockchain-lab-um/masca/commit/08469af60103bb25e8e1fc8e7747686af8e6868a))
