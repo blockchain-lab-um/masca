@@ -95,6 +95,30 @@ const IconDiscord = () => {
     </div>
   );
 };
+const IconGithub = () => {
+  return (
+    <div className="relative flex h-12 w-12 items-center justify-center rounded-lg bg-pink-50">
+      <Image
+        src={`/images/github-mark.png`}
+        alt="discord logo"
+        width={36}
+        height={36}
+      />
+    </div>
+  );
+};
+const IconTwitter = () => {
+  return (
+    <div className="relative flex h-12 w-12 items-center justify-center rounded-lg bg-pink-50">
+      <Image
+        src={`/images/twitter-logo-blue.png`}
+        alt="discord logo"
+        width={36}
+        height={36}
+      />
+    </div>
+  );
+};
 
 function MenuPopover() {
   const t = useTranslations('Navbar');
@@ -126,6 +150,20 @@ function MenuPopover() {
       description: t('dropdown.discord-desc'),
       href: 'https://discord.com/invite/M5xgNz7TTF',
       icon: IconDiscord,
+      target: '_blank',
+    },
+    {
+      name: 'Twitter',
+      description: t('dropdown.twitter-desc'),
+      href: 'https://discord.com/invite/M5xgNz7TTF',
+      icon: IconTwitter,
+      target: '_blank',
+    },
+    {
+      name: 'Code',
+      description: t('dropdown.github-desc'),
+      href: 'https://discord.com/invite/M5xgNz7TTF',
+      icon: IconGithub,
       target: '_blank',
     },
   ];

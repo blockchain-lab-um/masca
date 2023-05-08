@@ -37,7 +37,7 @@ import InfoIcon from '@/components/InfoIcon';
 import StoreIcon from '@/components/StoreIcon';
 import Tooltip from '@/components/Tooltip';
 import { convertTypes } from '@/utils/string';
-import { useMascaStore, useTableStore } from '@/stores';
+import { useMascaStore, useTableStore, useToastStore } from '@/stores';
 import TablePagination from './TablePagination';
 import VCCard from './VCCard';
 import { includesDataStore, selectRows } from './tableUtils';
@@ -66,6 +66,17 @@ const Table = () => {
       }),
       shallow
     );
+  const { setTitle, setToastLoading, setToastOpen, setType } = useToastStore(
+    (state) => ({
+      setTitle: state.setTitle,
+      setText: state.setText,
+      setToastLoading: state.setLoading,
+      setToastOpen: state.setOpen,
+      setType: state.setType,
+    }),
+    shallow
+  );
+
   const columnHelper = createColumnHelper<QueryVCsRequestResult>();
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedVC, setSelectedVC] = useState<QueryVCsRequestResult>();
@@ -287,11 +298,28 @@ const Table = () => {
     if (!api) return;
     const loadedVCs = await api.queryVCs();
     if (isError(loadedVCs)) {
+      setToastOpen(false);
+      setTimeout(() => {
+        setTitle('Failed to load credential');
+        setType('error');
+        setToastLoading(false);
+        setToastOpen(true);
+      }, 100);
       console.log('Failed to load VCs');
       return;
     }
     if (loadedVCs.data) {
       changeVcs(loadedVCs.data);
+
+      if (loadedVCs.data.length === 0) {
+        setToastOpen(false);
+        setTimeout(() => {
+          setTitle('No credentials found');
+          setType('error');
+          setLoading(false);
+          setToastOpen(true);
+        }, 100);
+      }
     }
   };
 
