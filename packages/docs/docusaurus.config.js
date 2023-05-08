@@ -8,8 +8,8 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Masca',
-  tagline: 'Self-Sovereign Identity is cool',
-  url: 'https://blockchain-lab-um.github.io/',
+  tagline: 'Decentralized Identity is cool',
+  url: 'https://www.docs.masca.io/',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
