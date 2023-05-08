@@ -9,7 +9,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'Masca',
   tagline: 'Decentralized Identity is cool',
-  url: 'https://www.docs.masca.io/',
+  url: 'https://docs.masca.io/',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -112,11 +112,11 @@ const config = {
         },
         {
           label: 'LinkedIn',
-          href: 'https://www.linkedin.com/company/blockchain-lab-um',
+          href: 'https://linkedin.com/company/blockchain-lab-um',
         },
         {
           label: 'YouTube',
-          href: 'https://www.youtube.com/@blockchainlabum',
+          href: 'https://youtube.com/@blockchainlabum',
         },
         {
           label: 'Email',
