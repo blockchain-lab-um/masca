@@ -11,7 +11,7 @@ Masca enables everyone to build their **decentralized and self-sovereign identit
 
 - [Website](https://blockchain-lab-um.github.io/masca/)
 - [Demo](https://blockchain-lab-um.github.io/course-dapp/)
-- [Docs](https://blockchain-lab-um.github.io/masca-docs/)
+- [Docs](https://docs.masca.io/)
 - [Blog post](https://medium.com/@blockchainlabum/open-sourcing-ssi-snap-for-metamask-aaa176775be2)
 
 # Features
