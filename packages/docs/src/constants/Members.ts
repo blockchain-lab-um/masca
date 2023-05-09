@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import andraz from '@site/static/img/team/andraz_photo.jpg';
 import martin from '@site/static/img/team/martin_photo.jpg';
+import muhamed from '@site/static/img/team/muhamed_photo.jpg';
 import patrik from '@site/static/img/team/patrik_photo.jpg';
 import spela from '@site/static/img/team/spela_photo.jpg';
 import urban from '@site/static/img/team/urban_photo.jpg';
@@ -22,8 +23,7 @@ const members: Member[] = [
     title: 'Head of BlockchainLab:UM',
     description: '',
     linkedin: 'https://www.linkedin.com/in/muhamedturkanovic/',
-    image:
-      'https://blockchain-lab.um.si/wp-content/uploads/2019/12/Turkanovic_Muhamed.png',
+    image: muhamed,
     twitter: '',
     github: '',
   },
