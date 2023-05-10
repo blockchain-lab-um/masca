@@ -7,6 +7,7 @@ import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
 import { useGeneralStore, useMascaStore } from '@/stores';
+import Button from '../Button';
 
 const snapId =
   process.env.USE_LOCAL === 'true'
@@ -200,6 +201,30 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
     <div className="flex min-h-full w-full items-center justify-center">
       <h3 className="text-h3 dark:text-navy-blue-50 text-gray-800">
         {t('flask')}
+        <div className="mt-16 flex items-center justify-center">
+          <Button
+            variant="gray"
+            onClick={() => {
+              window.open('https://metamask.io/flask/');
+            }}
+          >
+            MetaMask Flask
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="h-6 w-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
+              />
+            </svg>
+          </Button>
+        </div>
       </h3>
     </div>
   );

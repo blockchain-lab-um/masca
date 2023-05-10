@@ -95,25 +95,35 @@ const IconDiscord = () => {
     </div>
   );
 };
+const IconGithub = () => {
+  return (
+    <div className="relative flex h-12 w-12 items-center justify-center rounded-lg bg-pink-50">
+      <Image
+        src={`/images/github-mark.png`}
+        alt="discord logo"
+        width={36}
+        height={36}
+      />
+    </div>
+  );
+};
+const IconTwitter = () => {
+  return (
+    <div className="relative flex h-12 w-12 items-center justify-center rounded-lg bg-pink-50">
+      <Image
+        src={`/images/twitter-logo-blue.png`}
+        alt="discord logo"
+        width={36}
+        height={36}
+      />
+    </div>
+  );
+};
 
 function MenuPopover() {
   const t = useTranslations('Navbar');
 
   const solutions = [
-    {
-      name: 'Create JWT',
-      description: 'Sign custom data using your DID',
-      href: '##',
-      icon: IconOne,
-      target: '',
-    },
-    {
-      name: 'Profile',
-      description: 'Customize your DID:ETHR profile',
-      href: '##',
-      icon: IconTwo,
-      target: '',
-    },
     {
       name: t('dropdown.blog'),
       description: t('dropdown.blog-desc'),
@@ -126,6 +136,20 @@ function MenuPopover() {
       description: t('dropdown.discord-desc'),
       href: 'https://discord.com/invite/M5xgNz7TTF',
       icon: IconDiscord,
+      target: '_blank',
+    },
+    {
+      name: 'Twitter',
+      description: t('dropdown.twitter-desc'),
+      href: 'https://twitter.com/masca_io',
+      icon: IconTwitter,
+      target: '_blank',
+    },
+    {
+      name: 'Code',
+      description: t('dropdown.github-desc'),
+      href: 'https://github.com/blockchain-lab-um/masca',
+      icon: IconGithub,
       target: '_blank',
     },
   ];
