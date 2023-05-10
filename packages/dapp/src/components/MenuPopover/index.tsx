@@ -63,24 +63,18 @@ function IconTwo() {
   );
 }
 
-function IconThree() {
+const IconMedium = () => {
   return (
-    <svg
-      width="48"
-      height="48"
-      viewBox="0 0 48 48"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <rect x="13" y="32" width="2" height="4" fill="#FF8BA7" />
-      <rect x="17" y="28" width="2" height="8" fill="#FF8BA7" />
-      <rect x="21" y="24" width="2" height="12" fill="#FF8BA7" />
-      <rect x="25" y="20" width="2" height="16" fill="#FF8BA7" />
-      <rect x="29" y="16" width="2" height="20" fill="#FE3D67" />
-      <rect x="33" y="12" width="2" height="24" fill="#FE3D67" />
-    </svg>
+    <div className="relative flex h-12 w-12 items-center justify-center">
+      <Image
+        src={`/images/medium.png`}
+        alt="medium logo"
+        width={36}
+        height={36}
+      />
+    </div>
   );
-}
+};
 
 const IconDiscord = () => {
   return (
@@ -94,6 +88,7 @@ const IconDiscord = () => {
     </div>
   );
 };
+
 const IconGithub = () => {
   return (
     <div className="relative flex h-12 w-12 items-center justify-center">
@@ -106,6 +101,7 @@ const IconGithub = () => {
     </div>
   );
 };
+
 const IconTwitter = () => {
   return (
     <div className="relative flex h-12 w-12 items-center justify-center">
@@ -127,7 +123,7 @@ function MenuPopover() {
       name: t('dropdown.blog'),
       description: t('dropdown.blog-desc'),
       href: 'https://medium.com/@blockchainlabum',
-      icon: IconThree,
+      icon: IconMedium,
       target: '_blank',
     },
     {
