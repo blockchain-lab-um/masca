@@ -5,9 +5,19 @@
   width: 100%;
 }
 
-.featureSvg {
+.featureSpecialist {
   height: 200px;
-  width: 200px;
+  width: 280px;
+}
+
+.featureBeach {
+  height: 200px;
+  width: 180px;
+}
+
+.featureRocket {
+  height: 200px;
+  width: 150px;
 }
 
 .featureTitle {
