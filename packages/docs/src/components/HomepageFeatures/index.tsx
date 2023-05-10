@@ -1,28 +1,28 @@
 import React from 'react';
-import DocusaurusMountain from '@site/static/img/undraw_docusaurus_mountain.svg';
-import DocusaurusReact from '@site/static/img/undraw_docusaurus_react.svg';
-import DocusaurusTree from '@site/static/img/undraw_docusaurus_tree.svg';
+import Beach from '@site/static/img/beach.svg';
+import Rocket from '@site/static/img/rocket.svg';
+import Specialist from '@site/static/img/specialist.svg';
 
 import styles from './styles.module.css';
 
 const FeatureList = [
   {
     title: 'Self-Sovereignty',
-    svg: <DocusaurusReact role="presentation" className={styles.featureSvg} />,
+    svg: (
+      <Specialist role="presentation" className={styles.featureSpecialist} />
+    ),
     description:
       "Decentralized identity (or Self-sovereign identity - SSI) turns the world of digital identity upside down - but for the better! web3 is all about self-ownership; it's time to take that leap for personal data and attestations.",
   },
   {
     title: 'Easy-to-Use',
-    svg: (
-      <DocusaurusMountain role="presentation" className={styles.featureSvg} />
-    ),
+    svg: <Beach role="presentation" className={styles.featureBeach} />,
     description:
       "Masca adds support for Decentralized Identifiers (DIDs) and Verifiable Credentials (VCs) directly to MetaMask, without requiring an additional snap or extension. And that's not even the best part: identity is fully configurable by users - they should decide where their identity data should be stored!",
   },
   {
     title: '(Really) Fast Integration',
-    svg: <DocusaurusTree role="presentation" className={styles.featureSvg} />,
+    svg: <Rocket role="presentation" className={styles.featureRocket} />,
     description:
       "Not entirely sure how to handle user data and what methods/networks you should support? You can unlock the power of decentralized identity with just some additional RPC methods without going into the details of where the user's data is stored.",
   },

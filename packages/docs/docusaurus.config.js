@@ -8,8 +8,8 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Masca',
-  tagline: 'Self-Sovereign Identity is cool',
-  url: 'https://blockchain-lab-um.github.io/',
+  tagline: 'Decentralized Identity is cool',
+  url: 'https://docs.masca.io/',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -112,18 +112,18 @@ const config = {
         },
         {
           label: 'LinkedIn',
-          href: 'https://www.linkedin.com/company/blockchain-lab-um',
+          href: 'https://linkedin.com/company/blockchain-lab-um',
         },
         {
           label: 'YouTube',
-          href: 'https://www.youtube.com/@blockchainlabum',
+          href: 'https://youtube.com/@blockchainlabum',
         },
         {
           label: 'Email',
           href: 'mailto:blockchain-lab@um.si',
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Blockchain Lab:UM. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Blockchain Lab:UM. Built with <a href="https://docusaurus.io/" target="_blank" rel="noopener noreferrer" class="footer__link-item">Docusaurus</a>. Images from <a href="https://www.freepik.com/" target="_blank" rel="noopener noreferrer" class="footer__link-item">Freepik</a>.`,
     },
     prism: {
       theme: lightCodeTheme,
