@@ -18,7 +18,6 @@ export default function TeamCard({ member }: TeamCardProps) {
         <h2 className={styles.cardTitle}>{member.name}</h2>
         <h2 className={styles.cardSubtitle}>{member.title}</h2>
         <hr className={styles.cardHr} />
-        <p className={styles.cardDescription}>{member.description}</p>
       </div>
       <div className={styles.cardIcons}>
         {member.linkedin && (

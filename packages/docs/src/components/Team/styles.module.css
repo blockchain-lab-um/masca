@@ -22,6 +22,13 @@
   transform: scale(1.03);
 }
 
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
 .cardImageHolder {
   display: flex;
   justify-content: center;
@@ -44,7 +51,7 @@
 
 .cardSubtitle {
   padding-left: 1rem;
-  font-weight: 100;
+  font-weight: 200;
 }
 
 .cardDescription {

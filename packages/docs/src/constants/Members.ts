@@ -29,7 +29,7 @@ const members: Member[] = [
   },
   {
     name: 'Vid Keršič',
-    title: 'Project Leader',
+    title: 'Project Leader & Researcher',
     description: '',
     linkedin: 'https://www.linkedin.com/in/vid-kersic/',
     image: vid,
@@ -38,7 +38,7 @@ const members: Member[] = [
   },
   {
     name: 'Andraž Vrečko',
-    title: 'developer & researcher',
+    title: 'Developer & Researcher',
     description: '',
     linkedin: 'https://www.linkedin.com/in/andrazvrecko/',
     image: andraz,
@@ -47,7 +47,7 @@ const members: Member[] = [
   },
   {
     name: 'Martin Domajnko',
-    title: 'developer & researcher',
+    title: 'Developer & Researcher',
     description: '',
     linkedin: 'https://www.linkedin.com/in/martin-domajnko/',
     image: martin,
@@ -56,7 +56,7 @@ const members: Member[] = [
   },
   {
     name: 'Urban Vidovič',
-    title: 'developer & researcher',
+    title: 'Developer & Researcher',
     description: '',
     linkedin: 'https://www.linkedin.com/in/urbanvidovic',
     image: urban,
@@ -65,7 +65,7 @@ const members: Member[] = [
   },
   {
     name: 'Tadej Podrekar',
-    title: 'developer & researcher',
+    title: 'Developer & Researcher',
     description: '',
     linkedin: 'https://www.linkedin.com/in/tadej-podrekar/',
     image: 'https://via.placeholder.com/150',
@@ -74,7 +74,7 @@ const members: Member[] = [
   },
   {
     name: 'Špela Čučko',
-    title: 'researcher & UI/UX designer',
+    title: 'Researcher & UI/UX Designer',
     description: '',
     linkedin: 'https://www.linkedin.com/in/spelacucko/',
     image: spela,
@@ -83,7 +83,7 @@ const members: Member[] = [
   },
   {
     name: 'Patrik Rek',
-    title: 'developer & researcher',
+    title: 'Developer & Researcher',
     description: '',
     linkedin: 'https://www.linkedin.com/in/patrik-rek/',
     image: patrik,
