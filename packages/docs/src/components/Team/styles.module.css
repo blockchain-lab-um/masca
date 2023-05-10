@@ -44,18 +44,26 @@
   border: 0 solid var(--ifm-color-primary);
 }
 
+.cardText {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 1.2rem;
+  text-align: center;
+}
+
 .cardTitle {
-  padding-left: 1rem;
-  padding-top: 1rem;
+  font-weight: 600;
+  font-size: 1.4rem;
 }
 
 .cardSubtitle {
-  padding-left: 1rem;
-  font-weight: 200;
+  font-weight: 400;
+  font-size: 1.1rem;
 }
 
 .cardDescription {
-  padding: 0 1rem;
 }
 
 .cardIcons {

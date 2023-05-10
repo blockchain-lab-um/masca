@@ -15,8 +15,10 @@ export default function TeamCard({ member }: TeamCardProps) {
         <div className={styles.cardImageHolder}>
           <img className={styles.cardImage} src={member.image} alt="team" />
         </div>
-        <h2 className={styles.cardTitle}>{member.name}</h2>
-        <h2 className={styles.cardSubtitle}>{member.title}</h2>
+        <div className={styles.cardText}>
+          <h2 className={styles.cardTitle}>{member.name}</h2>
+          <h2 className={styles.cardSubtitle}>{member.title}</h2>
+        </div>
         <hr className={styles.cardHr} />
       </div>
       <div className={styles.cardIcons}>
