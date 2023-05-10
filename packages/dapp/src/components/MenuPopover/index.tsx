@@ -72,7 +72,6 @@ function IconThree() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <rect width="48" height="48" rx="8" fill="#FFE5E6" />
       <rect x="13" y="32" width="2" height="4" fill="#FF8BA7" />
       <rect x="17" y="28" width="2" height="8" fill="#FF8BA7" />
       <rect x="21" y="24" width="2" height="12" fill="#FF8BA7" />
@@ -85,7 +84,7 @@ function IconThree() {
 
 const IconDiscord = () => {
   return (
-    <div className="relative flex h-12 w-12 items-center justify-center rounded-lg bg-pink-50">
+    <div className="relative flex h-12 w-12 items-center justify-center">
       <Image
         src={`/images/discord-mark-blue.png`}
         alt="discord logo"
@@ -97,7 +96,7 @@ const IconDiscord = () => {
 };
 const IconGithub = () => {
   return (
-    <div className="relative flex h-12 w-12 items-center justify-center rounded-lg bg-pink-50">
+    <div className="relative flex h-12 w-12 items-center justify-center">
       <Image
         src={`/images/github-mark.png`}
         alt="discord logo"
@@ -109,7 +108,7 @@ const IconGithub = () => {
 };
 const IconTwitter = () => {
   return (
-    <div className="relative flex h-12 w-12 items-center justify-center rounded-lg bg-pink-50">
+    <div className="relative flex h-12 w-12 items-center justify-center">
       <Image
         src={`/images/twitter-logo-blue.png`}
         alt="discord logo"
@@ -189,14 +188,14 @@ function MenuPopover() {
             >
               <Popover.Panel className="absolute right-0 z-50 mt-3 w-screen max-w-xs">
                 <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                  <div className="dark:bg-navy-blue-500 relative grid gap-8 bg-white p-7 lg:grid-cols-1">
+                  <div className="dark:bg-navy-blue-400 relative grid gap-8 bg-white p-7 lg:grid-cols-1">
                     {solutions.map((item) => (
                       <a
                         key={item.name}
                         href={item.href}
                         target={item.target}
                         rel="noreferrer"
-                        className="dark:hover:bg-navy-blue-600 -m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                        className="dark:hover:bg-navy-blue-500 -m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                       >
                         <div className="flex h-10 w-10 shrink-0 items-center justify-center text-white sm:h-12 sm:w-12">
                           <item.icon aria-hidden="true" />
@@ -212,7 +211,7 @@ function MenuPopover() {
                       </a>
                     ))}
                   </div>
-                  <div className="dark:bg-navy-blue-600 bg-gray-50 p-4">
+                  <div className="dark:bg-navy-blue-500 bg-gray-50 p-4">
                     <a
                       href="https://docs.masca.io/"
                       target="_blank"
