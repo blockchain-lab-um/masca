@@ -123,7 +123,7 @@ const config = {
           href: 'mailto:blockchain-lab@um.si',
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Blockchain Lab:UM. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Blockchain Lab:UM. Built with <a href="https://docusaurus.io/" target="_blank" rel="noopener noreferrer" class="footer__link-item">Docusaurus</a>. Images from <a href="https://www.freepik.com/" target="_blank" rel="noopener noreferrer" class="footer__link-item">Freepik</a>.`,
     },
     prism: {
       theme: lightCodeTheme,
