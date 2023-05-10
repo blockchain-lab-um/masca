@@ -125,20 +125,6 @@ function MenuPopover() {
 
   const solutions = [
     {
-      name: 'Create JWT',
-      description: 'Sign custom data using your DID',
-      href: '##',
-      icon: IconOne,
-      target: '',
-    },
-    {
-      name: 'Profile',
-      description: 'Customize your DID:ETHR profile',
-      href: '##',
-      icon: IconTwo,
-      target: '',
-    },
-    {
       name: t('dropdown.blog'),
       description: t('dropdown.blog-desc'),
       href: 'https://medium.com/@blockchainlabum',
@@ -155,14 +141,14 @@ function MenuPopover() {
     {
       name: 'Twitter',
       description: t('dropdown.twitter-desc'),
-      href: 'https://discord.com/invite/M5xgNz7TTF',
+      href: 'https://twitter.com/masca_io',
       icon: IconTwitter,
       target: '_blank',
     },
     {
       name: 'Code',
       description: t('dropdown.github-desc'),
-      href: 'https://discord.com/invite/M5xgNz7TTF',
+      href: 'https://github.com/blockchain-lab-um/masca',
       icon: IconGithub,
       target: '_blank',
     },
