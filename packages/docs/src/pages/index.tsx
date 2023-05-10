@@ -21,7 +21,7 @@ function HomepageHeader() {
           className={clsx('button', styles.homeButton)}
           to="/docs/getting-started"
         >
-          Get started
+          GET STARTED
         </Link>
       </div>
     </div>
