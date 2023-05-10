@@ -29,7 +29,9 @@
     "dist/snap.js",
     "snap.manifest.json",
     "package.json",
-    "images"
+    "images",
+    "README.md",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "prebuild": "pnpm clean",
