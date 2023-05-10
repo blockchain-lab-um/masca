@@ -22,6 +22,8 @@
 		<img alt="NPM Release" src="https://img.shields.io/npm/v/@blockchain-lab-um/masca.svg?style=for-the-badge&logo=npm&color=FA4B4B&logoColor=AE0000&labelColor=302D41"/></a>
 	<a href="https://discord.gg/M5xgNz7TTF">
 		<img alt="Discord" src="https://img.shields.io/discord/1001401167932313600?style=for-the-badge&logo=discord&color=A1A8F4&logoColor=5865F2&labelColor=302D41"></a>
+  <a href="https://twitter.com/masca_io">
+    <img alt="Twitter" src="https://img.shields.io/twitter/follow/masca_io?color=%2338B3FF&label=twitter&logo=Twitter&style=for-the-badge"></a>
 </p>
 
 <p align="center">· &nbsp&nbsp&nbsp· &nbsp&nbsp&nbsp·</p>
