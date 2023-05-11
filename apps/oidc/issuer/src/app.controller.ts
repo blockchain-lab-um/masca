@@ -7,6 +7,7 @@ import type {
   TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
@@ -47,7 +48,10 @@ export class AppController {
   async initiate(@Query() query: unknown): Promise<string> {
     return this.appService.createCredentialOfferRequest(
       // TODO: Validate query
-      qs.parse(query as string) as unknown as CredentialOfferRequest
+      qs.parse(query as string, {
+        depth: 50,
+        parameterLimit: 1000,
+      }) as unknown as CredentialOfferRequest
     );
   }
 
@@ -64,7 +68,7 @@ export class AppController {
     if (
       !contentType.toLowerCase().includes('application/x-www-form-urlencoded')
     ) {
-      throw new Error(`Invalid content-type: ${contentType}`);
+      throw new BadRequestException(`Invalid content-type: ${contentType}`);
     }
 
     return this.appService.handleTokenRequest(body);

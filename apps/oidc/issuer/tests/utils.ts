@@ -159,7 +159,8 @@ export const importKey = async (
     if (isError(res)) {
       throw new DetailedError(
         'internal_server_error',
-        'Error while creating a DID'
+        'Error while creating a DID',
+        500
       );
     }
 

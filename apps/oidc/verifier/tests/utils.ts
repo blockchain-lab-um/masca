@@ -17,7 +17,6 @@ type CreateJWTProofParams = {
   nonce?: string;
 };
 
-// eslint-disable-next-line import/prefer-default-export
 export const createJWTProof = async ({
   privateKey,
   audience,
@@ -32,7 +31,7 @@ export const createJWTProof = async ({
   });
 
   if (isError(res)) {
-    throw new Error(res.error.message);
+    throw res.error;
   }
 
   const { did } = res.data;

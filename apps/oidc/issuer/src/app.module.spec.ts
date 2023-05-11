@@ -7,7 +7,6 @@ import {
   TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
 import { HttpServer } from '@nestjs/common';
-// import { ConfigService } from '@nestjs/config';
 import {
   FastifyAdapter,
   NestFastifyApplication,
@@ -27,8 +26,6 @@ import { createJWTProof } from '../tests/utils.js';
 import { AppModule } from './app.module.js';
 import AllExceptionsFilter from './filters/all-exceptions.filter.js';
 import { AgentService } from './modules/agent/agent.service.js';
-
-// import { IConfig } from './config/configuration';
 
 const credOfferAndTokenRequest = async (server: HttpServer<any, any>) => {
   const credentialRequestData: CredentialOfferRequest = {
@@ -104,8 +101,26 @@ describe('Issuer controller', () => {
       imports: [AppModule],
     }).compile();
 
+    const fastifyAdapter = new FastifyAdapter();
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, global-require, @typescript-eslint/no-var-requires
+    await fastifyAdapter.register(require('@fastify/formbody'), {
+      parser: (str: string) => {
+        return qs.parse(str, {
+          depth: 50,
+          parameterLimit: 1000,
+        });
+      },
+    });
+
     app = testingModule.createNestApplication<NestFastifyApplication>(
-      new FastifyAdapter()
+      fastifyAdapter,
+      { bodyParser: false }
+    );
+
+    app = testingModule.createNestApplication<NestFastifyApplication>(
+      fastifyAdapter,
+      { bodyParser: false }
     );
 
     // configService = app.get<ConfigService<IConfig, true>>(ConfigService);
@@ -124,22 +139,6 @@ describe('Issuer controller', () => {
 
     await app.close();
   });
-
-  // const client = await OpenID4VCIClient.initiateFromURI({
-  //   issuanceInitiationURI:
-  //     'openid-initiate-issuance://?issuer=http%3A%2F%2F127.0.01:3000&credential_type=OpenBadgeCredentialUrl&pre-authorized_code=4jLs9xZHEfqcoow0kHE7d1a8hUk6Sy-5bVSV2MqBUGUgiFFQi-ImL62T-FmLIo8hKA1UdMPH0lM1xAgcFkJfxIw9L-lI3mVs0hRT8YVwsEM1ma6N3wzuCdwtMU4bcwKp&user_pin_required=true',
-  //   flowType: AuthzFlowType.PRE_AUTHORIZED_CODE_FLOW, // The flow to use
-  //   kid: 'did:example:ebfeb1f712ebc6f1c276e12ec21#key-1', // Our DID.  You can defer this also to when the acquireCredential method is called
-  //   alg: Alg.ES256, // The signing Algorithm we will use. You can defer this also to when the acquireCredential method is called
-  //   clientId: 'test-clientId', // The clientId if the Authrozation Service requires it.  If a clientId is needed you can defer this also to when the acquireAccessToken method is called
-  //   retrieveServerMetadata: true, // Already retrieve the server metadata. Can also be done afterwards by invoking a method yourself.
-  // });
-
-  // console.log(
-  //   await client.acquireAccessToken({
-  //     pin: '55555555',
-  //   })
-  // );
 
   describe('[GET]: /.well-known/openid-credential-issuer', () => {
     it('Should succeed getting issuer metadata', async () => {
@@ -646,6 +645,9 @@ describe('Issuer controller', () => {
       });
     });
 
+    /**
+     * Fail cases
+     */
     describe('Should fail', () => {
       it('Credential offer with credentials undefined', async () => {
         const response = await request(server)
@@ -684,6 +686,9 @@ describe('Issuer controller', () => {
   });
 
   describe('[POST]: /token', () => {
+    /**
+     * Success cases
+     */
     describe('Should succeed', () => {
       it('With pre-authorized_code', async () => {
         const crednetialOfferRequestData: CredentialOfferRequest = {
@@ -1092,6 +1097,7 @@ describe('Issuer controller', () => {
           credential: expect.any(String),
         });
 
+        console.log(response.body.credential);
         // Verify credential
         const agent = await getAgent();
         const res = await agent.verifyCredential({
@@ -1896,7 +1902,7 @@ describe('Issuer controller', () => {
         expect(response.body).toStrictEqual({
           error: 'invalid_or_missing_proof',
           error_description:
-            'JWTClaimValidationFailed: unexpected "aud" claim value',
+            'JWTClaimValidationFailed: missing required "aud" claim',
         });
 
         expect.assertions(5);

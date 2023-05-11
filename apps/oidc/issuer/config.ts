@@ -7,17 +7,14 @@ import { SupportedCredential } from '@blockchain-lab-um/oidc-types';
  * - Supported DID methods
  * - Supported curves
  * - Supported digital signatures
- * - Supported schema URLs
  * - Issuer URL
  * - Supported credentials
- * - Presentation definitions
  */
 
 export const SUPPORTED_DID_METHODS = ['did:ethr', 'did:key'];
 export const SUPPORTED_CURVES = ['secp256k1', 'P-256', 'P-384', 'P-521'];
 export const SUPPORTED_DIGITAL_SIGNATURES = ['ES256K'];
-export const SUPPORTED_SCHEMA_URL =
-  'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json';
+
 export const ISSUER_URL = 'http://127.0.0.1:3003';
 
 export const SUPPORTED_CREDENTIALS: SupportedCredential[] = [

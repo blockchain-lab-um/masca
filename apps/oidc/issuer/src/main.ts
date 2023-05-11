@@ -18,9 +18,7 @@ async function bootstrap() {
   await fastifyAdapter.register(require('@fastify/formbody'), {
     parser: (str: string) => {
       return qs.parse(str, {
-        // Parse up to 50 children deep
         depth: 50,
-        // Parse up to 1000 parameters
         parameterLimit: 1000,
       });
     },

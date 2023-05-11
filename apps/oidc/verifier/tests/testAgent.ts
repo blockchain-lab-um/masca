@@ -7,6 +7,17 @@ import {
   TAgent,
   createAgent,
 } from '@veramo/core';
+import {
+  CredentialIssuerEIP712,
+  ICredentialIssuerEIP712,
+} from '@veramo/credential-eip712';
+import {
+  CredentialIssuerLD,
+  ICredentialIssuerLD,
+  LdDefaultContexts,
+  VeramoEcdsaSecp256k1RecoverySignature2020,
+  VeramoEd25519Signature2018,
+} from '@veramo/credential-ld';
 import { CredentialPlugin } from '@veramo/credential-w3c';
 import {
   DIDStore,
@@ -25,7 +36,6 @@ import { Resolver } from 'did-resolver';
 import { getResolver as getEthrResolver } from 'ethr-did-resolver';
 import { DataSource } from 'typeorm';
 
-import { loadSupportedCredentials } from '../src/config/configuration.js';
 import {
   TEST_INFURA_PROJECT_ID,
   TEST_SUPPORTED_CURVES,
@@ -36,7 +46,13 @@ import {
 } from './constants.js';
 
 export type Agent = TAgent<
-  IDIDManager & IKeyManager & IResolver & IOIDCPlugin & ICredentialPlugin
+  IDIDManager &
+    IKeyManager &
+    IResolver &
+    IOIDCPlugin &
+    ICredentialPlugin &
+    ICredentialIssuerEIP712 &
+    ICredentialIssuerLD
 >;
 
 const getAgent = async (): Promise<Agent> => {
@@ -64,7 +80,13 @@ const getAgent = async (): Promise<Agent> => {
   });
 
   return createAgent<
-    IDIDManager & IKeyManager & IResolver & IOIDCPlugin & ICredentialPlugin
+    IDIDManager &
+      IKeyManager &
+      IResolver &
+      IOIDCPlugin &
+      ICredentialPlugin &
+      ICredentialIssuerEIP712 &
+      ICredentialIssuerLD
   >({
     plugins: [
       new KeyManager({
@@ -104,9 +126,16 @@ const getAgent = async (): Promise<Agent> => {
         supported_curves: TEST_SUPPORTED_CURVES,
         supported_did_methods: TEST_SUPPORTED_DID_METHODS,
         supported_digital_signatures: TEST_SUPPORTED_DIGITAL_SIGNATURES,
-        supported_credentials: loadSupportedCredentials(),
       }),
       new CredentialPlugin(),
+      new CredentialIssuerEIP712(),
+      new CredentialIssuerLD({
+        contextMaps: [LdDefaultContexts],
+        suites: [
+          new VeramoEcdsaSecp256k1RecoverySignature2020(),
+          new VeramoEd25519Signature2018(),
+        ],
+      }),
     ],
   });
 };

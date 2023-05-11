@@ -14,7 +14,7 @@ export interface IPluginConfig {
   supported_digital_signatures: string[]; // e.g. jwt, json_ld
   db_secret: string;
   url: string;
-  supported_credentials: SupportedCredential[];
+  supported_credentials?: SupportedCredential[];
 }
 
 export type CreateCredentialOfferRequestArgs = {
@@ -72,6 +72,7 @@ export type HandleCredentialRequestArgs = {
 export type HandleAuthorizationResponseArgs = {
   nonce?: string;
   nonceExpiresIn?: number;
+  presentationDefinition: PresentationDefinition;
   body: AuthorizationResponse;
 };
 

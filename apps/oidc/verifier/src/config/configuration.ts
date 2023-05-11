@@ -1,17 +1,12 @@
-import {
-  PresentationDefinition,
-  SupportedCredential,
-} from '@blockchain-lab-um/oidc-types';
+import { PresentationDefinition } from '@blockchain-lab-um/oidc-types';
 import { ConfigModule } from '@nestjs/config';
 import Joi from 'joi';
 
 import {
   PRESENTATION_DEFINITIONS,
-  SUPPORTED_CREDENTIALS,
   SUPPORTED_CURVES,
   SUPPORTED_DID_METHODS,
   SUPPORTED_DIGITAL_SIGNATURES,
-  SUPPORTED_SCHEMA_URL,
   VERIFIER_URL,
 } from '../../config.js';
 
@@ -20,7 +15,6 @@ export interface IConfig {
   VERIFIER_URL: string;
   VERIFIER_PRIVATE_KEY: string;
   VERIFIER_DB_SECRET: string;
-  SUPPORTED_SCHEMA_URL: string;
   SUPPORTED_DID_METHODS: string[]; // e.g. ['ethr', 'key']
   SUPPORTED_CURVES: string[]; // e.g. secp256k1, ed25519, etc
   SUPPORTED_DIGITAL_SIGNATURES: string[]; // jwt, json_ld
@@ -31,7 +25,6 @@ const config = (): IConfig => ({
   INFURA_PROJECT_ID: process.env.INFURA_PROJECT_ID || '',
   VERIFIER_PRIVATE_KEY: process.env.VERIFIER_PRIVATE_KEY || '',
   VERIFIER_DB_SECRET: process.env.VERIFIER_DB_SECRET || '',
-  SUPPORTED_SCHEMA_URL: SUPPORTED_SCHEMA_URL || '',
   SUPPORTED_DID_METHODS: SUPPORTED_DID_METHODS || [],
   SUPPORTED_CURVES: SUPPORTED_CURVES || [],
   SUPPORTED_DIGITAL_SIGNATURES: SUPPORTED_DIGITAL_SIGNATURES || [],
@@ -52,6 +45,3 @@ export default ConfigModule.forRoot({
     // TODO: Add custom validation for other variables ?
   }),
 });
-
-export const loadSupportedCredentials = (): SupportedCredential[] =>
-  SUPPORTED_CREDENTIALS;

@@ -21,9 +21,6 @@ module.exports = {
       extends: ['plugin:jest/recommended', 'plugin:jest/style'],
       rules: {
         'jest/prefer-expect-assertions': 'off',
-        '@typescript-eslint/no-unsafe-assignment': 'off',
-        '@typescript-eslint/no-explicit-any': 'off',
-        '@typescript-eslint/no-unsafe-member-access': 'off',
       },
       env: { jest: true },
     },
@@ -43,8 +40,10 @@ module.exports = {
       'LabeledStatement',
       'WithStatement',
     ],
+    '@typescript-eslint/no-unsafe-assignment': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-unsafe-member-access': 'off',
     // for unused-imports library
-
     '@typescript-eslint/no-unused-vars': 'off',
     'unused-imports/no-unused-imports': 'error',
     'unused-imports/no-unused-vars': [

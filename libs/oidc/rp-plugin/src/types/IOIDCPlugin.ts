@@ -10,6 +10,8 @@ import {
   IPluginMethodMap,
   IResolver,
 } from '@veramo/core';
+import { ICredentialIssuerEIP712 } from '@veramo/credential-eip712';
+import { ICredentialIssuerLD } from '@veramo/credential-ld';
 
 import { Result } from '../utils/index.js';
 import {
@@ -65,5 +67,7 @@ export interface IOIDCPlugin extends IPluginMethodMap {
 export type OIDCAgentContext = IAgentContext<
   IResolver &
     Pick<ICredentialIssuer, 'createVerifiableCredential'> &
-    ICredentialVerifier
+    ICredentialVerifier &
+    ICredentialIssuerLD &
+    ICredentialIssuerEIP712
 >;

@@ -1,6 +1,6 @@
 // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-appendix.e
 
-import { SupportedCredentialFormats } from './credential';
+import { SupportedCredentialFormats } from './credential.js';
 
 export type Credential = {
   format: SupportedCredentialFormats;

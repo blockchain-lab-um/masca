@@ -1,5 +1,6 @@
 import { AuthorizationResponse } from '@blockchain-lab-um/oidc-types';
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
@@ -34,7 +35,7 @@ export class AppController {
     if (
       !contentType.toLowerCase().includes('application/x-www-form-urlencoded')
     ) {
-      throw new Error(`Invalid content-type: ${contentType}`);
+      throw new BadRequestException(`Invalid content-type: ${contentType}`);
     }
 
     return this.appService.handleAuthorizationResponse(body);

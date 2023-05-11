@@ -1,38 +1,39 @@
 import { randomUUID } from 'crypto';
 import {
-  AuthorizationRequest,
-  CredentialResponse,
-  Credentials,
-  IssuerServerMetadata,
   TOKEN_ERRORS,
-  TokenResponse,
+  type AuthorizationRequest,
+  type CredentialResponse,
+  type Credentials,
+  type IssuerServerMetadata,
+  type TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
+import { PEX, Status, type EvaluationResults } from '@sphereon/pex';
+import type {
+  IVerifiableCredential,
+  OriginalVerifiablePresentation,
+} from '@sphereon/ssi-types';
+import { CredentialPayload, IAgentPlugin } from '@veramo/core';
 import {
-  CredentialPayload,
-  IAgentPlugin,
-  VerifiablePresentation,
-} from '@veramo/core';
-import {
-  _ExtendedVerificationMethod,
   bytesToBase64url,
   extractPublicKeyHex,
+  type _ExtendedVerificationMethod,
 } from '@veramo/utils';
 import _Ajv from 'ajv';
 import _addFormats from 'ajv-formats';
-import { JsonWebKey, VerificationMethod } from 'did-resolver';
+import type { JsonWebKey, VerificationMethod } from 'did-resolver';
 import elliptic from 'elliptic';
 import {
-  JWK,
   calculateJwkThumbprint,
   decodeJwt,
   decodeProtectedHeader,
   importJWK,
   jwtVerify,
+  type JWK,
 } from 'jose';
 import qs from 'qs';
 
-import { IOIDCPlugin, OIDCAgentContext } from '../types/IOIDCPlugin.js';
-import {
+import type { IOIDCPlugin, OIDCAgentContext } from '../types/IOIDCPlugin.js';
+import type {
   CreateAuthorizationRequestArgs,
   CreateAuthorizationRequestResponse,
   CreateCredentialOfferRequestArgs,
@@ -47,8 +48,9 @@ import {
   ProofOfPossesionResponseArgs,
 } from '../types/internal.js';
 import DetailedError from '../utils/detailedError.js';
-import { Result } from '../utils/index.js';
+import type { Result } from '../utils/index.js';
 
+const pex: PEX = new PEX();
 const { ec: EC } = elliptic;
 const Ajv = _Ajv as unknown as typeof _Ajv.default;
 const addFormats = _addFormats as unknown as typeof _addFormats.default;
@@ -86,9 +88,6 @@ export class OIDCPlugin implements IAgentPlugin {
   public async createAuthorizationRequest(
     args: CreateAuthorizationRequestArgs
   ): Promise<Result<CreateAuthorizationRequestResponse>> {
-    // https://identity.foundation/presentation-exchange/
-    // https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#section-5
-
     // TODO: Add support for presentation_definition_uri
     const { presentationDefinition, clientId, redirectUri, state, overrides } =
       args;
@@ -98,13 +97,14 @@ export class OIDCPlugin implements IAgentPlugin {
       Date.now() + (overrides?.nonceExpiresIn ?? 1000 * 60 * 60); // 1 hour default
 
     // TODO: Support signed version of request -> client_id needs to be a DID
-    // https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#section-8.2.3 - client_metadata
-    // https://openid.net/specs/openid-connect-self-issued-v2-1_0.html#section-9.2.1
+    // https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#name-verifier-metadata-managemen
+
+    // TODO: => ???
+    // https://openid.net/specs/openid-connect-self-issued-v2-1_0.html#name-self-issued-openid-provider-a
 
     const authorizationRequest: AuthorizationRequest = {
       scope: 'openid',
       response_type: 'vp_token id_token',
-      // https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#section-a.4
       id_token_type: 'subject_signed',
       client_id: clientId,
       redirect_uri: redirectUri,
@@ -115,16 +115,15 @@ export class OIDCPlugin implements IAgentPlugin {
 
     const params = {
       ...authorizationRequest,
-      presentation_definition: JSON.stringify(
-        authorizationRequest.presentation_definition
-      ),
+      presentation_definition: authorizationRequest.presentation_definition,
     };
 
-    // TODO: Redirect handling
     return {
       success: true,
       data: {
-        authorizationRequest: `openid://?${qs.stringify(params)}`,
+        authorizationRequest: `openid://?${qs.stringify(params, {
+          encode: true,
+        })}`,
         nonce,
         nonceExpiresIn,
       },
@@ -135,48 +134,68 @@ export class OIDCPlugin implements IAgentPlugin {
     args: HandleAuthorizationResponseArgs,
     context: OIDCAgentContext
   ): Promise<Result<boolean>> {
-    const { body, nonce: cNonce, nonceExpiresIn: cNonceExpiresIn } = args;
+    const {
+      body,
+      nonce: cNonce,
+      nonceExpiresIn: cNonceExpiresIn,
+      presentationDefinition,
+    } = args;
 
     const {
       id_token: idToken,
-      vp_token: vpToken,
+      vp_token: vpToken, // TODO: For now its always a string (jwt) ? qs.parse for object ?
       presentation_submission: presentationSubmission,
     } = body;
 
+    // https://openid.bitbucket.io/connect/openid-connect-self-issued-v2-1_0.html#name-self-issued-id-token
+    // TODO: Support JWT Thumbprint and sub_jwk
     if (!idToken) {
       return {
         success: false,
-        error: new DetailedError('', 'id_token must be present'),
+        error: new DetailedError('invalid_request', 'id_token must be present'),
       };
     }
 
     if (!vpToken) {
       return {
         success: false,
-        error: new DetailedError('', 'vp_token must be present'),
+        error: new DetailedError('invalid_request', 'vp_token must be present'),
       };
     }
 
     if (!presentationSubmission) {
       return {
         success: false,
-        error: new DetailedError('', 'presentation_submission must be present'),
+        error: new DetailedError(
+          'invalid_request',
+          'presentation_submission must be present'
+        ),
       };
     }
-    // TODO: Handle presentation_submission
+
+    if (!presentationDefinition) {
+      return {
+        success: false,
+        error: new DetailedError(
+          'invalid_request',
+          'presentationDefinition must be present'
+        ),
+      };
+    }
 
     let protectedHeader;
 
-    // Decode id_token
-    // https://openid.bitbucket.io/connect/openid-connect-self-issued-v2-1_0.html#section-6.1-6.8.1
     // Self-Issued ID Token Validation:
-    // https://openid.bitbucket.io/connect/openid-connect-self-issued-v2-1_0.html#section-11.1
+    // https://openid.bitbucket.io/connect/openid-connect-self-issued-v2-1_0.html#name-self-issued-id-token-valida
     try {
       protectedHeader = decodeProtectedHeader(idToken);
     } catch (e) {
       return {
         success: false,
-        error: new DetailedError('', 'Invalid id_token jwt header'),
+        error: new DetailedError(
+          'invalid_request',
+          'Invalid id_token jwt header'
+        ),
       };
     }
 
@@ -189,78 +208,89 @@ export class OIDCPlugin implements IAgentPlugin {
     let publicKeyHex;
 
     // TODO: Check if method supported
-    // Decode payload
+    // ID_TOKEN: Decode payload
     try {
       payload = decodeJwt(idToken);
     } catch (e) {
       return {
         success: false,
-        error: new DetailedError('', 'Invalid id_token jwt payload'),
-      };
-    }
-
-    // Check iss and sub are equal
-    if (!payload.iss || !payload.sub || payload.iss !== payload.sub) {
-      return {
-        success: false,
-        error: new DetailedError('', 'id_token iss and sub must be equal'),
-      };
-    }
-
-    // Check exp
-    if (payload.exp && 1000 * payload.exp < Date.now()) {
-      return {
-        success: false,
-        error: new DetailedError('', 'id_token expired'),
-      };
-    }
-
-    // Check nbf
-    if (payload.nbf && 1000 * payload.nbf > Date.now()) {
-      return {
-        success: false,
-        error: new DetailedError('', 'id_token not valid yet'),
-      };
-    }
-
-    // Check audience
-    if (!payload.aud || payload.aud !== this.pluginConfig.url) {
-      return {
-        success: false,
         error: new DetailedError(
-          '',
-          `id_token audience is invalid. Must be ${this.pluginConfig.url}`
+          'invalid_request',
+          'Invalid id_token jwt payload'
         ),
       };
     }
 
-    // nonce is checked twice for id_token and vp_token
+    // ID_TOKEN: Check iss and sub are equal
+    if (!payload.iss || !payload.sub || payload.iss !== payload.sub) {
+      return {
+        success: false,
+        error: new DetailedError(
+          'invalid_request',
+          'id_token iss and sub must be equal'
+        ),
+      };
+    }
+
+    // ID_TOKEN: Check exp
+    if (payload.exp && 1000 * payload.exp < Date.now()) {
+      return {
+        success: false,
+        error: new DetailedError('invalid_request', 'id_token expired'),
+      };
+    }
+
+    // ID_TOKEN: Check nbf
+    if (payload.nbf && 1000 * payload.nbf > Date.now()) {
+      return {
+        success: false,
+        error: new DetailedError('invalid_request', 'id_token not valid yet'),
+      };
+    }
+
+    // TODO: Sign auth requests
+    // ID_TOKEN: Check audience:
+    // Needs to be the Client ID sent in the Authorization Request or
+    // if the request was signed, it can also be a DID or HTTPS URL
+    if (
+      !payload.aud ||
+      payload.aud !== `${this.pluginConfig.url}/authorization-response`
+    ) {
+      return {
+        success: false,
+        error: new DetailedError(
+          'invalid_request',
+          `id_token audience is invalid. Must be ${this.pluginConfig.url}/authorization-response`
+        ),
+      };
+    }
+
     // Check if session contains nonce
     if (cNonce) {
-      // Check if nonce is valid
+      // ID_TOKEN: Check if nonce is valid
       if (payload.nonce !== cNonce) {
         return {
           success: false,
-          error: new DetailedError('', 'Invalid nonce'),
+          error: new DetailedError('invalid_request', 'Invalid nonce'),
         };
       }
 
-      // Check if nonce is expired
+      // ID_TOKEN: Check if nonce is expired
       if (cNonceExpiresIn && cNonceExpiresIn < Date.now()) {
         return {
           success: false,
-          error: new DetailedError('', 'Nonce expired'),
+          error: new DetailedError('invalid_request', 'Nonce expired'),
         };
       }
     }
 
-    // id_token was signed with a DID
+    // ID_TOKEN was signed with a DID
     if (payload.iss.startsWith('did')) {
       if (payload.sub_jwk) {
         return {
           success: false,
           error: new DetailedError(
-            '',
+            'invalid_request',
             'id_token must not contain sub_jwk when signed with DID'
           ),
         };
@@ -270,7 +300,7 @@ export class OIDCPlugin implements IAgentPlugin {
         return {
           success: false,
           error: new DetailedError(
-            '',
+            'invalid_request',
             'id_token must contain kid in header when signed with DID'
           ),
         };
@@ -281,8 +311,8 @@ export class OIDCPlugin implements IAgentPlugin {
         return {
           success: false,
           error: new DetailedError(
-            '',
-            `DetailedError resolving did. Reason: ${
+            'invalid_request',
+            `Error resolving did. Reason: ${
               resolvedDid.didResolutionMetadata.error ?? 'Unknown error'
             }`
           ),
@@ -298,15 +328,7 @@ export class OIDCPlugin implements IAgentPlugin {
       } catch (e) {
         return {
           success: false,
-          error: new DetailedError('', 'Invalid kid'),
-        };
-      }
-
-      // TODO: Can we remove this and it will work ?
-      if (fragment.publicKeyJwk) {
-        return {
-          success: false,
-          error: new DetailedError('', 'PublicKeyJwk not supported yet!'),
+          error: new DetailedError('invalid_request', 'Invalid kid'),
         };
       }
 
@@ -317,7 +339,10 @@ export class OIDCPlugin implements IAgentPlugin {
       if (publicKeyHex === '') {
         return {
           success: false,
-          error: new DetailedError('', 'Invalid kid or no public key present'),
+          error: new DetailedError(
+            'invalid_request',
+            'Invalid kid or no public key present'
+          ),
         };
       }
 
@@ -325,7 +350,7 @@ export class OIDCPlugin implements IAgentPlugin {
       if (!supportedTypes.includes(fragment.type)) {
         return {
           success: false,
-          error: new DetailedError('', 'Unsupported key type'),
+          error: new DetailedError('invalid_request', 'Unsupported key type'),
         };
       }
 
@@ -335,7 +360,7 @@ export class OIDCPlugin implements IAgentPlugin {
       } else {
         return {
           success: false,
-          error: new DetailedError('', 'Unsupported key type'),
+          error: new DetailedError('invalid_request', 'Unsupported key type'),
         };
       }
       const pubPoint = ctx.keyFromPublic(publicKeyHex, 'hex').getPublic();
@@ -348,20 +373,19 @@ export class OIDCPlugin implements IAgentPlugin {
 
       publicKey = await importJWK(publicKeyJwk, protectedHeader.alg);
     } else {
-      // id_token was signed with a JWK
-
+      // ID_TOKEN was signed with a JWK
       // TODO: Check id_token_signing_alg_values_supported
       if (!payload.sub_jwk) {
         return {
           success: false,
           error: new DetailedError(
-            '',
+            'invalid_request',
             'id_token must contain sub_jwk when signed with JWK'
           ),
         };
       }
 
-      // Check if jwk thumbprint
+      // Check jwk thumbprint
       const jwkThumbprint = await calculateJwkThumbprint(
         payload.sub_jwk as JWK
       );
@@ -370,7 +394,7 @@ export class OIDCPlugin implements IAgentPlugin {
         return {
           success: false,
           error: new DetailedError(
-            '',
+            'invalid_request',
             'id_token sub does not match sub_jwk thumbprint'
           ),
         };
@@ -382,222 +406,196 @@ export class OIDCPlugin implements IAgentPlugin {
     // Verify signature
     try {
       await jwtVerify(idToken, publicKey, {
-        audience: this.pluginConfig.url,
+        audience: `${this.pluginConfig.url}/authorization-response`,
       });
     } catch (e) {
       return {
         success: false,
-        error: new DetailedError('', 'id_token signature invalid'),
-      };
-    }
-
-    let did;
-
-    // Check kid
-    if (protectedHeader.kid) {
-      // Split kid
-      const [extractedDid, extractedKeyId] = protectedHeader.kid.split('#');
-      did = extractedDid;
-
-      // Check if did and keyId are present
-      if (!did || !extractedKeyId) {
-        return {
-          success: false,
-          error: new DetailedError('', 'Invalid kid'),
-        };
-      }
-
-      resolvedDid = await context.agent.resolveDid({ didUrl: did });
-      if (resolvedDid.didResolutionMetadata.error || !resolvedDid.didDocument) {
-        return {
-          success: false,
-          error: new DetailedError(
-            '',
-            `DetailedError resolving did. Reason: ${
-              resolvedDid.didResolutionMetadata.error ?? 'Unknown error'
-            }`
-          ),
-        };
-      }
-
-      try {
-        fragment = (await context.agent.getDIDComponentById({
-          didDocument: resolvedDid.didDocument,
-          didUrl: protectedHeader.kid,
-          section: 'authentication',
-        })) as VerificationMethod;
-      } catch (e) {
-        return {
-          success: false,
-          error: new DetailedError('', 'Invalid kid'),
-        };
-      }
-
-      // TODO: Can we remove this and it will work ?
-      if (fragment.publicKeyJwk) {
-        return {
-          success: false,
-          error: new DetailedError('', 'PublicKeyJwk not supported yet!'),
-        };
-      }
-
-      publicKeyHex = extractPublicKeyHex(
-        fragment as _ExtendedVerificationMethod
-      );
-
-      if (publicKeyHex === '') {
-        return {
-          success: false,
-          error: new DetailedError('', 'Invalid kid or no public key present'),
-        };
-      }
-
-      const supportedTypes = ['EcdsaSecp256k1VerificationKey2019'];
-      if (!supportedTypes.includes(fragment.type)) {
-        return {
-          success: false,
-          error: new DetailedError('', 'Unsupported key type'),
-        };
-      }
-
-      if (fragment.type === 'EcdsaSecp256k1VerificationKey2019') {
-        ctx = new EC('secp256k1');
-        curveName = 'secp256k1';
-      } else {
-        return {
-          success: false,
-          error: new DetailedError('', 'Unsupported key type'),
-        };
-      }
-      const pubPoint = ctx.keyFromPublic(publicKeyHex, 'hex').getPublic();
-      const publicKeyJwk: JsonWebKey = {
-        kty: 'EC',
-        crv: curveName,
-        x: bytesToBase64url(pubPoint.getX().toBuffer('be', 32)),
-        y: bytesToBase64url(pubPoint.getY().toBuffer('be', 32)),
-      };
-
-      publicKey = await importJWK(publicKeyJwk, protectedHeader.alg);
-    } else if (protectedHeader.jwk) {
-      publicKey = await importJWK(protectedHeader.jwk);
-    } else if (protectedHeader.x5c) {
-      return {
-        success: false,
-        error: new DetailedError('', 'x5c not supported'),
-      };
-    } else {
-      // Should never happen (here for type safety)
-      return {
-        success: false,
-        error: new DetailedError('', 'Invalid jwt header'),
-      };
-    }
-
-    try {
-      payload = (
-        await jwtVerify(vpToken, publicKey, {
-          issuer: did,
-          audience: this.pluginConfig.url,
-        })
-      ).payload;
-    } catch {
-      // TODO: DetailedError and new nonce ?
-      // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-8.3.2
-      return {
-        success: false,
-        error: new DetailedError('', 'Invalid jwt'),
-      };
-    }
-
-    // Check if jwt is valid (we already checked the audiance and issuer)
-    const { exp, nbf, nonce } = payload;
-
-    // Check if session contains nonce
-    if (cNonce) {
-      // Check if nonce is valid
-      if (nonce !== cNonce) {
-        return {
-          success: false,
-          error: new DetailedError('', 'Invalid nonce'),
-        };
-      }
-
-      // Check if nonce is expired
-      if (cNonceExpiresIn && cNonceExpiresIn < Date.now()) {
-        return {
-          success: false,
-          error: new DetailedError('', 'Nonce expired'),
-        };
-      }
-    }
-
-    if (exp && 1000 * exp < Date.now()) {
-      return {
-        success: false,
-        error: new DetailedError('', 'Jwt expired'),
-      };
-    }
-
-    if (nbf && 1000 * nbf > Date.now()) {
-      return {
-        success: false,
-        error: new DetailedError('', 'Jwt not valid yet'),
-      };
-    }
-
-    // Verify vp
-    const vp = payload.vp as VerifiablePresentation;
-
-    // TODO: Do we need to support challenge and domain?
-    const verified = await context.agent.verifyPresentation({
-      presentation: vp,
-    });
-
-    if (!verified.verified) {
-      return {
-        success: false,
         error: new DetailedError(
-          '',
-          `Invalid vp. Reason: ${verified.error?.message ?? 'Unknown error'}`
+          'invalid_request',
+          'id_token signature invalid'
         ),
       };
     }
 
-    // TODO: Check if vp contains the correct type
-
-    // TODO: Check if vp contains the correct context
-
-    // Check if vp contains atleast one credential
-    if (!vp.verifiableCredential) {
-      return {
-        success: false,
-        error: new DetailedError('', 'No credentials in vp'),
-      };
-    }
-    // Verify all credentials
-    const verificationResults = await Promise.all(
-      vp.verifiableCredential.map(
-        // FIXME: Do we need to decode if in jwt format?
-        async (vc) =>
-          context.agent.verifyCredential({
-            credential: vc,
-          })
-      )
-    );
-
-    // Check if all credentials are valid
-    const invalidCredentials = verificationResults.filter(
-      (result) => !result.verified
-    );
-
-    if (invalidCredentials.length > 0) {
+    if (
+      !Array.isArray(presentationSubmission.descriptor_map) ||
+      presentationSubmission.descriptor_map.length === 0
+    ) {
       return {
         success: false,
         error: new DetailedError(
-          '',
-          `Atleast one credential is invalid. Reason: ${
-            invalidCredentials[0].error?.message ?? 'Unknown error'
-          }`
+          'invalid_request',
+          'presentation_submission descriptor_map must be an array with at least one element'
+        ),
+      };
+    }
+
+    if (presentationSubmission.definition_id !== presentationDefinition.id) {
+      return {
+        success: false,
+        error: new DetailedError(
+          'invalid_request',
+          'presentation_submission definition_id does not match presentation_definition id'
+        ),
+      };
+    }
+
+    try {
+      // Array of verifiable presentation
+      if (Array.isArray(vpToken)) {
+        // TODO: Add support for array of verifiable presentations
+        return {
+          success: false,
+          error: new DetailedError(
+            'internal_server_error',
+            'Array of verifiable presentations not supported yet',
+            500
+          ),
+        };
+      }
+
+      // TODO: Check type/context with presentation_definition (maybe already works)
+      let evalResult: EvaluationResults;
+
+      evalResult = pex.evaluatePresentation(
+        presentationDefinition,
+        vpToken as OriginalVerifiablePresentation,
+        {
+          presentationSubmission, // TODO: This is not being used
+          restrictToDIDMethods: this.pluginConfig.supported_did_methods,
+          ...(presentationDefinition.format && {
+            restrictToFormats: presentationDefinition.format, // FIXME: This is not working (ldp, and eio)
+          }),
+        }
+      );
+
+      if (evalResult.areRequiredCredentialsPresent === Status.WARN) {
+        console.log('Method was called with more credentials than required.');
+      } else if (evalResult.areRequiredCredentialsPresent === Status.ERROR) {
+        return {
+          success: false,
+          error: new DetailedError(
+            'invalid_request',
+            "The presentation you've sent didn't satisfy the requirement defined presentationDefinition object."
+          ),
+        };
+      }
+
+      if (evalResult.errors && evalResult.errors.length > 0) {
+        console.log(evalResult.errors);
+        return {
+          success: false,
+          error: new DetailedError(
+            'invalid_request',
+            "The presentation you've sent didn't satisfy the requirement defined presentationDefinition object."
+          ),
+        };
+      }
+
+      if (evalResult.warnings && evalResult.warnings.length > 0) {
+        console.log(evalResult.warnings);
+      }
+
+      evalResult = pex.evaluateCredentials(
+        presentationDefinition,
+        evalResult.verifiableCredential,
+        {
+          restrictToDIDMethods: this.pluginConfig.supported_did_methods,
+          ...(presentationDefinition.format && {
+            restrictToFormats: presentationDefinition.format,
+          }),
+        }
+      );
+
+      if (evalResult.areRequiredCredentialsPresent === Status.WARN) {
+        console.log('Method was called with more credentials than required.');
+      } else if (evalResult.areRequiredCredentialsPresent === Status.ERROR) {
+        return {
+          success: false,
+          error: new DetailedError(
+            'invalid_request',
+            "The credentials you've sent didn't satisfy the requirement defined presentationDefinition object."
+          ),
+        };
+      }
+
+      if (evalResult.errors && evalResult.errors.length > 0) {
+        console.log(evalResult.errors);
+        return {
+          success: false,
+          error: new DetailedError(
+            'invalid_request',
+            "The credentials you've sent didn't satisfy the requirement defined presentationDefinition object."
+          ),
+        };
+      }
+
+      if (evalResult.warnings && evalResult.warnings.length > 0) {
+        console.log(evalResult.warnings);
+      }
+
+      // Challange is the nonce if it exists for the session
+      const verified = await context.agent.verifyPresentation({
+        presentation: vpToken,
+        domain: `${this.pluginConfig.url}/authorization-response`,
+        ...(cNonce && { challenge: cNonce }),
+      });
+
+      if (!verified.verified) {
+        return {
+          success: false,
+          error: new DetailedError(
+            'invalid_request',
+            `Invalid vp. Reason: ${verified.error?.message ?? 'Unknown error'}`
+          ),
+        };
+      }
+
+      const credentials: IVerifiableCredential[] =
+        evalResult.verifiableCredential ?? [];
+
+      // Check if vp contains atleast one credential
+      if (!credentials) {
+        return {
+          success: false,
+          error: new DetailedError('invalid_request', 'No credentials in vp'),
+        };
+      }
+
+      // Verify all credentials
+      const verificationResults = await Promise.all(
+        credentials.map(async (vc) =>
+          context.agent.verifyCredential({
+            credential: vc,
+          })
+        )
+      );
+
+      // Check if all credentials are valid
+      const invalidCredentials = verificationResults.filter(
+        (result) => !result.verified
+      );
+
+      if (invalidCredentials.length > 0) {
+        return {
+          success: false,
+          error: new DetailedError(
+            'invalid_request',
+            `Atleast one credential is invalid. Reason: ${
+              invalidCredentials[0].error?.message ?? 'Unknown error'
+            }`
+          ),
+        };
+      }
+    } catch (e) {
+      console.log(e);
+      return {
+        success: false,
+        error: new DetailedError(
+          'internal_server_error',
+          'Unexpected error occured while verifying vp_token',
+          500
         ),
       };
     }
@@ -625,7 +623,7 @@ export class OIDCPlugin implements IAgentPlugin {
         'code token',
         'code id_token token',
       ],
-      credentials_supported: this.pluginConfig.supported_credentials,
+      credentials_supported: this.pluginConfig.supported_credentials ?? [],
     };
 
     return { success: true, data: exampleMetadata };
@@ -663,7 +661,7 @@ export class OIDCPlugin implements IAgentPlugin {
     // Check if requested credentials are supported
     requestedCredentials.forEach((credential) => {
       for (const supportedCredential of this.pluginConfig
-        .supported_credentials) {
+        .supported_credentials ?? []) {
         // If credential is a string, check if it is equal to the supported credential id
         if (typeof credential === 'string') {
           if (credential === supportedCredential.id) {
@@ -859,7 +857,7 @@ export class OIDCPlugin implements IAgentPlugin {
       };
     }
 
-    const supportedCredential = this.pluginConfig.supported_credentials.find(
+    const supportedCredential = this.pluginConfig.supported_credentials?.find(
       (cred) => {
         if (body.format === 'mso_mdoc') {
           return cred.format === body.format && cred.doctype === body.doctype;
@@ -1090,7 +1088,7 @@ export class OIDCPlugin implements IAgentPlugin {
       return {
         success: false,
         error: new DetailedError(
-          'internal_server_error',
+          'invalid_request',
           `Invalid credential subject claims. Errors: ${JSON.stringify(
             validate.errors
           )}`
@@ -1119,8 +1117,6 @@ export class OIDCPlugin implements IAgentPlugin {
       // TODO: We REQUIRE proof for now
       // Later we can implement section 13.2
       // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-13.2
-      // TODO: Return according to specs
-      // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-8.3.2
       return {
         success: false,
         error: new DetailedError(

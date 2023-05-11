@@ -1,4 +1,4 @@
-import { isError } from '@blockchain-lab-um/oidc-rp-plugin';
+import { DetailedError, isError } from '@blockchain-lab-um/oidc-rp-plugin';
 import {
   AuthorizationResponse,
   PresentationDefinition,
@@ -26,38 +26,54 @@ export class AppService {
 
     // State is required (UUID is recommended)
     if (!state) {
-      throw Error('State is required');
+      throw new DetailedError('invalid_request', 'State is required.');
     }
 
     // Credential type is required
     if (!credentialType) {
-      throw Error('Credential type is required');
+      throw new DetailedError(
+        'invalid_request',
+        'Credential type is required.'
+      );
     }
 
     const agent = this.agentService.getAgent();
 
     const url = `${this.configService.get<string>(
       'VERIFIER_URL'
-    )}/authorization-response
-    `;
+    )}/authorization-response`;
 
     // Select correct presentation definition
+    const presentationDefinition = this.configService
+      .get<PresentationDefinition[]>('PRESENTATION_DEFINITIONS')
+      .find((pd) => pd.id === credentialType);
+
+    if (!presentationDefinition) {
+      throw new DetailedError(
+        'invalid_request',
+        'Presentation definition not supported.'
+      );
+    }
 
     const res = await agent.createAuthorizationRequest({
       state,
       clientId: url,
       redirectUri: url,
-      presentationDefinition: {} as unknown as PresentationDefinition,
+      presentationDefinition,
     });
 
     if (isError(res)) {
-      throw Error(res.error.message); // FIXME
+      throw res.error;
     }
 
     const { authorizationRequest, nonce, nonceExpiresIn } = res.data;
 
     if (this.dataStoreService.getUserSession(state)) {
-      throw Error('State already exists');
+      throw new DetailedError(
+        'internal_server_error',
+        'Authorization request with this state already exists.',
+        500
+      );
     }
 
     this.dataStoreService.createUserSession(state, {
@@ -75,30 +91,43 @@ export class AppService {
     const agent = this.agentService.getAgent();
 
     if (!body.state) {
-      throw Error('State is required');
+      throw new DetailedError('invalid_request', 'State is required.');
     }
 
     const userSession = this.dataStoreService.getUserSession(body.state);
 
     if (!userSession) {
-      throw Error('State does not exist');
+      throw new DetailedError(
+        'invalid_request',
+        'User session does not exist.'
+      );
     }
 
-    // FIXME: id_token must be included -> proofOfPossession -> replay attack
+    // Select correct presentation definition
+    const presentationDefinition = this.configService
+      .get<PresentationDefinition[]>('PRESENTATION_DEFINITIONS')
+      .find((pd) => pd.id === userSession.credentialType);
+
+    if (!presentationDefinition) {
+      throw new DetailedError(
+        'internal_server_error',
+        'Presentation definition not found.',
+        500
+      );
+    }
 
     const res = await agent.handleAuthorizationResponse({
       body,
+      nonce: userSession.nonce,
+      nonceExpiresIn: userSession.nonceExpiresIn,
+      presentationDefinition,
     });
 
     if (isError(res)) {
-      throw Error(res.error.message); // FIXME
+      throw res.error;
     }
 
     return true;
   }
-
-  // selectPresentationDefinition(
-  //   credentialType: string
-  // ): PresentationDefinition {}
 }
 export default AppService;

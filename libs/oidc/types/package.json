@@ -14,6 +14,7 @@
     "email": "blockchain-lab@um.si",
     "url": "https://blockchain-lab.um.si"
   },
+  "type": "module",
   "files": [
     "index.ts"
   ],
@@ -25,6 +26,7 @@
     "@ianvs/prettier-plugin-sort-imports": "^3.7.1",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
+    "@veramo/core": "5.1.2",
     "eslint": "^8.33.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^17.0.0",

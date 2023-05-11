@@ -1,11 +1,11 @@
 import {
   SupportedCredentialFormats,
   SupportedPresentationFormats,
-} from './credential';
+} from './credential.js';
 import {
   OAuth2AuthorizationServerMetadata,
   OAuth2ClientMetadata,
-} from './oauth2';
+} from './oauth2.js';
 
 /**
  * Issuer Server Metadata
@@ -44,7 +44,7 @@ export interface VerifierServerMetadata extends OAuth2ClientMetadata {
  * Specs:
  * - https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-10.2.3.1
  *
- * crypto_binding_methods_supported: ['cose_key', 'jwk', 'did', 'did:{method}']
+ * cryptographic_binding_methods_supported: ['cose_key', 'jwk', 'did', 'did:{method}']
  */
 export type SupportedCredential =
   | {

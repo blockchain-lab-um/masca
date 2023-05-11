@@ -9,6 +9,17 @@ import {
   TAgent,
   createAgent,
 } from '@veramo/core';
+import {
+  CredentialIssuerEIP712,
+  ICredentialIssuerEIP712,
+} from '@veramo/credential-eip712';
+import {
+  CredentialIssuerLD,
+  ICredentialIssuerLD,
+  LdDefaultContexts,
+  VeramoEcdsaSecp256k1RecoverySignature2020,
+  VeramoEd25519Signature2018,
+} from '@veramo/credential-ld';
 import { CredentialPlugin } from '@veramo/credential-w3c';
 import {
   DIDStore,
@@ -27,15 +38,17 @@ import { Resolver } from 'did-resolver';
 import { getResolver as getEthrResolver } from 'ethr-did-resolver';
 import { DataSource } from 'typeorm';
 
-import {
-  IConfig,
-  loadSupportedCredentials,
-} from '../../config/configuration.js';
+import { IConfig } from '../../config/configuration.js';
 
 @Injectable()
 export class AgentService {
   private agent: TAgent<
-    IDIDManager & IKeyManager & IResolver & IOIDCPlugin & ICredentialPlugin
+    IDIDManager &
+      IKeyManager &
+      IResolver &
+      IOIDCPlugin &
+      ICredentialPlugin &
+      ICredentialIssuerEIP712
   >;
 
   private dbConnection: DataSource;
@@ -71,7 +84,13 @@ export class AgentService {
     };
 
     this.agent = createAgent<
-      IDIDManager & IKeyManager & IResolver & IOIDCPlugin & ICredentialPlugin
+      IDIDManager &
+        IKeyManager &
+        IResolver &
+        IOIDCPlugin &
+        ICredentialPlugin &
+        ICredentialIssuerEIP712 &
+        ICredentialIssuerLD
     >({
       plugins: [
         new KeyManager({
@@ -118,14 +137,28 @@ export class AgentService {
           supported_digital_signatures: this.configService.get<string[]>(
             'SUPPORTED_DIGITAL_SIGNATURES'
           ),
-          supported_credentials: loadSupportedCredentials(),
         }),
         new CredentialPlugin(),
+        new CredentialIssuerEIP712(),
+        new CredentialIssuerLD({
+          contextMaps: [LdDefaultContexts],
+          suites: [
+            new VeramoEcdsaSecp256k1RecoverySignature2020(),
+            new VeramoEd25519Signature2018(),
+          ],
+        }),
       ],
     });
   }
 
-  getAgent(): TAgent<IDIDManager & IKeyManager & IResolver & IOIDCPlugin> {
+  getAgent(): TAgent<
+    IDIDManager &
+      IKeyManager &
+      IResolver &
+      IOIDCPlugin &
+      ICredentialIssuerEIP712 &
+      ICredentialIssuerLD
+  > {
     return this.agent;
   }
 }

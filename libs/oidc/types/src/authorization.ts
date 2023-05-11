@@ -1,7 +1,9 @@
+import { W3CVerifiablePresentation } from '@veramo/core';
+
 import {
   AuthorizationRequestOAuth2,
   AuthorizationResponseOAuth2,
-} from './oauth2';
+} from './oauth2.js';
 
 /**
  * Authorization Request
@@ -48,7 +50,7 @@ export type AuthorizationResponse = Omit<
   'code'
 > & {
   presentation_submission?: PresentationSubmission;
-  vp_token?: string;
+  vp_token?: W3CVerifiablePresentation | W3CVerifiablePresentation[];
   id_token?: string;
 };
 
@@ -114,7 +116,7 @@ export type PresentationSubmission = {
 
 type DescriptorMap = {
   id: string;
-  format: Format;
+  format: string;
   path: string;
-  path_nested?: string;
+  path_nested?: DescriptorMap;
 };
