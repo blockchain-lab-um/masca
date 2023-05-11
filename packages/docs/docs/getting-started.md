@@ -18,7 +18,7 @@ After that, connect to any dApp that uses Masca, and you are good to go!
 
 ### Configuration dApp
 
-We implemented an easy-to-use dApp to configure Masca according to your needs and display your data. You can find it [here](https://blockchain-lab-um.github.io/ssi-snap).
+We implemented an easy-to-use dApp to configure Masca according to your needs and display your data. You can find it [here](https://github.com/blockchain-lab-um/masca).
 
 ### Demo Platform
 

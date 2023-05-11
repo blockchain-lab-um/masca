@@ -42,7 +42,7 @@ Masca is built agnostic, leaving the user to choose his preferred **blockchain, 
 - **DID methods:** `did:ethr`, `did:key`, `did:pkh`, `did:jwk`
 - **Data storage providers:** Local MetaMask Snap state, Ceramic Network
 
-Many new features are already in the works. For more information, please check the [roadmap](https://blockchain-lab-um.github.io/masca-docs/docs/roadmap) on the documentation.
+Many new features are already in the works. For more information, please check the [roadmap](https://www.docs.masca.io/docs/roadmap) on the documentation.
 
 # Development
 
