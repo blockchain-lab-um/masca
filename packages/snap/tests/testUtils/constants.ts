@@ -107,7 +107,7 @@ export const resolutionNotFound = {
   didDocument: null,
   didResolutionMetadata: {
     error: 'notFound',
-    errorMessage: '404 Not Found (notFound)',
+    errorMessage: '404 Not Found (Dereferencing failed: notFound)',
     contentType: 'application/did+ld+json',
   },
   didDocumentMetadata: {},
