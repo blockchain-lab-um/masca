@@ -10,7 +10,7 @@
   ·
   <a href="https://blockchain-lab-um.github.io/course-dapp/">Get your first VC</a>
   ·
-  <a href="https://www.docs.masca.io/">Docs</a>
+  <a href="https://docs.masca.io/">Docs</a>
   ·
   <a href="https://medium.com/@blockchainlabum/open-sourcing-ssi-snap-for-metamask-aaa176775be2">Blog</a>
 </h6>
@@ -18,7 +18,7 @@
 <p align="center">
 	<a href="https://github.com/blockchain-lab-um/masca/stargazers">
 		<img alt="Stargazers" src="https://img.shields.io/github/stars/blockchain-lab-um/masca?style=for-the-badge&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NDAiIGhlaWdodD0iNjQwIiB2aWV3Qm94PSIwIDAgNjQwIDY0MCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHBhdGggc3R5bGU9InN0cm9rZTojNWZiYjBjO3N0cm9rZS13aWR0aDowO3N0cm9rZS1kYXNoYXJyYXk6bm9uZTtzdHJva2UtbGluZWNhcDpidXR0O3N0cm9rZS1kYXNob2Zmc2V0OjA7c3Ryb2tlLWxpbmVqb2luOm1pdGVyO3N0cm9rZS1taXRlcmxpbWl0OjQ7ZmlsbDojZmZkMzU5O2ZpbGwtcnVsZTpub256ZXJvO29wYWNpdHk6MSIgdmVjdG9yLWVmZmVjdD0ibm9uLXNjYWxpbmctc3Ryb2tlIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSguMDA0IDE1LjY2Nikgc2NhbGUoMTUuOTgyMjMpIiBkPSJtMjAuMDIyIDAgNS45NCAxMi44NzcgMTQuMDgyIDEuNjctMTAuNDExIDkuNjI4IDIuNzY0IDEzLjkxLTEyLjM3NS02LjkyNy0xMi4zNzQgNi45MjcgMi43NjQtMTMuOTFMMCAxNC41NDdsMTQuMDgzLTEuNjd6Ii8+PC9zdmc+&color=FFE7A6&labelColor=302D41"></a>
-	<a href="https://www.npmjs.com/package/@blockchain-lab-um/masca">
+	<a href="https://npmjs.com/package/@blockchain-lab-um/masca">
 		<img alt="NPM Release" src="https://img.shields.io/npm/v/@blockchain-lab-um/masca.svg?style=for-the-badge&logo=npm&color=FA4B4B&logoColor=AE0000&labelColor=302D41"/></a>
 	<a href="https://discord.gg/M5xgNz7TTF">
 		<img alt="Discord" src="https://img.shields.io/discord/1001401167932313600?style=for-the-badge&logo=discord&color=A1A8F4&logoColor=5865F2&labelColor=302D41"></a>
@@ -42,7 +42,7 @@ Masca is built agnostic, leaving the user to choose his preferred **blockchain, 
 - **DID methods:** `did:ethr`, `did:key`, `did:pkh`, `did:jwk`
 - **Data storage providers:** Local MetaMask Snap state, Ceramic Network
 
-Many new features are already in the works. For more information, please check the [roadmap](https://blockchain-lab-um.github.io/masca-docs/docs/roadmap) on the documentation.
+Many new features are already in the works. For more information, please check the [roadmap](https://docs.masca.io/docs/roadmap) on the documentation.
 
 # Development
 
