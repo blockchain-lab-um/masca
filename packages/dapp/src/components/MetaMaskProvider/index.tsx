@@ -7,6 +7,7 @@ import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
 import { useGeneralStore, useMascaStore } from '@/stores';
+import Button from '../Button';
 
 const snapId =
   process.env.USE_LOCAL === 'true'
@@ -23,22 +24,26 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
     hasMM,
     hasFlask,
     address,
+    chainId,
     changeHasMetaMask,
     changeIsFlask,
     changeAddress,
     changeIsConnected,
     changeIsConnecting,
+    changeChainId,
   } = useGeneralStore(
     (state) => ({
       hasMM: state.hasMetaMask,
       hasFlask: state.isFlask,
       address: state.address,
       isConnected: state.isConnected,
+      chainId: state.chainId,
       changeHasMetaMask: state.changeHasMetaMask,
       changeIsFlask: state.changeIsFlask,
       changeAddress: state.changeAddress,
       changeIsConnected: state.changeIsConnected,
       changeIsConnecting: state.changeIsConnecting,
+      changeChainId: state.changeChainId,
     }),
     shallow
   );
@@ -78,10 +83,9 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
 
     changeHasMetaMask(true);
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-    const mmVersion: string = await window.ethereum.request({
+    const mmVersion = (await window.ethereum.request({
       method: 'web3_clientVersion',
-    });
+    })) as string;
 
     if (!mmVersion.includes('flask')) {
       changeIsFlask(false);
@@ -164,15 +168,18 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
 
   useEffect(() => {
     if (hasMM && hasFlask && window.ethereum) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-      window.ethereum.on('accountsChanged', (accounts: string[]) => {
-        changeAddress(accounts[0]);
+      window.ethereum.on('accountsChanged', (...accounts) => {
+        changeAddress((accounts[0] as string[])[0]);
+      });
+      window.ethereum.on('chainChanged', (...chain) => {
+        changeChainId(chain[0] as string);
       });
     }
+
     return () => {
       if (window.ethereum) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
         window.ethereum.removeAllListeners('accountsChanged');
+        window.ethereum.removeAllListeners('chainChanged');
       }
     };
   }, [hasMM, hasFlask]);
@@ -194,6 +201,30 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
     <div className="flex min-h-full w-full items-center justify-center">
       <h3 className="text-h3 dark:text-navy-blue-50 text-gray-800">
         {t('flask')}
+        <div className="mt-16 flex items-center justify-center">
+          <Button
+            variant="gray"
+            onClick={() => {
+              window.open('https://metamask.io/flask/');
+            }}
+          >
+            MetaMask Flask
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="h-6 w-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
+              />
+            </svg>
+          </Button>
+        </div>
       </h3>
     </div>
   );

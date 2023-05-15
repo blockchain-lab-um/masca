@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React from 'react';
 
 import { Member } from '../../constants/Members';
@@ -14,21 +15,28 @@ export default function TeamCard({ member }: TeamCardProps) {
         <div className={styles.cardImageHolder}>
           <img className={styles.cardImage} src={member.image} alt="team" />
         </div>
-        <h2 className={styles.cardTitle}>{member.name}</h2>
-        <h2 className={styles.cardSubtitle}>{member.title}</h2>
+        <div className={styles.cardText}>
+          <h2 className={styles.cardTitle}>{member.name}</h2>
+          <h2 className={styles.cardSubtitle}>{member.title}</h2>
+        </div>
         <hr className={styles.cardHr} />
-        <p className={styles.cardDescription}>{member.description}</p>
       </div>
       <div className={styles.cardIcons}>
-        <a href={member.linkedin} target="_blank" rel="noreferrer">
-          <i className="fa-brands fa-linkedin" />
-        </a>
-        <a href={member.twitter} target="_blank" rel="noreferrer">
-          <i className="fa-brands fa-square-twitter" />
-        </a>
-        <a href={member.github} target="_blank" rel="noreferrer">
-          <i className="fa-brands fa-square-github" />
-        </a>
+        {member.linkedin && (
+          <a href={member.linkedin} target="_blank" rel="noreferrer">
+            <i className="fa-brands fa-linkedin" />
+          </a>
+        )}
+        {member.twitter && (
+          <a href={member.twitter} target="_blank" rel="noreferrer">
+            <i className="fa-brands fa-square-twitter" />
+          </a>
+        )}
+        {member.github && (
+          <a href={member.github} target="_blank" rel="noreferrer">
+            <i className="fa-brands fa-square-github" />
+          </a>
+        )}
       </div>
     </div>
   );

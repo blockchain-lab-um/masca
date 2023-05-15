@@ -44,6 +44,7 @@
     "prettier": "prettier --write .",
     "release-build:core": "pnpm nx run-many --target=build --projects=@blockchain-lab-um/masca,@blockchain-lab-um/masca-connector,@blockchain-lab-um/veramo-datamanager",
     "release-build:did-provider-ebsi": "pnpm nx build @blockchain-lab-um/did-provider-ebsi",
+    "release-build:utils": "pnpm nx build @blockchain-lab-um/utils",
     "start": "pnpm nx run-many --target=start --all",
     "start:dapp": "pnpm nx start @blockchain-lab-um/dapp",
     "start:docs": "pnpm nx start @blockchain-lab-um/masca-docs",

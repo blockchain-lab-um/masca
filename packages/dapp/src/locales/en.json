@@ -3,12 +3,12 @@
     "title-1": "Take control of your",
     "title-2": "Online Identity",
     "hero-text-1": "Join the world of",
-    "SSI": "Self - Sovereign Identity",
+    "SSI": "Decentralized Identity",
     "hero-text-2": "with one click",
     "button-1": "Get Started"
   },
   "Gateway": {
-    "connect": "Connect MetaMask to use the dapp",
+    "connect": "Connect MetaMask to use the dApp",
     "flask": "Install MetaMask Flask to use the dApp!"
   },
   "Navbar": {
@@ -21,8 +21,10 @@
     },
     "dropdown": {
       "blog": "Blog",
-      "blog-desc": "Read the Blockchain Lab:UM Blog",
+      "blog-desc": "Read the Blockchain Lab:UM Medium Blog",
       "discord-desc": "Join the Blockchain Lab:UM Discord Server",
+      "twitter-desc": "Follow Masca on Twitter",
+      "github-desc": "View Masca code on Github",
       "documentation": "Documentation",
       "learn-more": "Learn more about Masca"
     },

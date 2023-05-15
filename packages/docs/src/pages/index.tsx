@@ -19,9 +19,9 @@ function HomepageHeader() {
       <div className={styles.buttons}>
         <Link
           className={clsx('button', styles.homeButton)}
-          to="https://blockchain-lab-um.github.io/course-dapp/"
+          to="/docs/getting-started"
         >
-          Live Demo
+          GET STARTED
         </Link>
       </div>
     </div>

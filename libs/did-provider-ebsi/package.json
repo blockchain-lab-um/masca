@@ -22,7 +22,8 @@
   "files": [
     "dist/**",
     "README.md",
-    "package.json"
+    "package.json",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "build": "pnpm clean && pnpm compile",

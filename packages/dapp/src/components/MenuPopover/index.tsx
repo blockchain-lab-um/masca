@@ -63,31 +63,50 @@ function IconTwo() {
   );
 }
 
-function IconThree() {
+const IconMedium = () => {
   return (
-    <svg
-      width="48"
-      height="48"
-      viewBox="0 0 48 48"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <rect width="48" height="48" rx="8" fill="#FFE5E6" />
-      <rect x="13" y="32" width="2" height="4" fill="#FF8BA7" />
-      <rect x="17" y="28" width="2" height="8" fill="#FF8BA7" />
-      <rect x="21" y="24" width="2" height="12" fill="#FF8BA7" />
-      <rect x="25" y="20" width="2" height="16" fill="#FF8BA7" />
-      <rect x="29" y="16" width="2" height="20" fill="#FE3D67" />
-      <rect x="33" y="12" width="2" height="24" fill="#FE3D67" />
-    </svg>
+    <div className="relative flex h-12 w-12 items-center justify-center">
+      <Image
+        src={`/images/medium.png`}
+        alt="medium logo"
+        width={36}
+        height={36}
+      />
+    </div>
   );
-}
+};
 
 const IconDiscord = () => {
   return (
-    <div className="relative flex h-12 w-12 items-center justify-center rounded-lg bg-pink-50">
+    <div className="relative flex h-12 w-12 items-center justify-center">
       <Image
         src={`/images/discord-mark-blue.png`}
+        alt="discord logo"
+        width={36}
+        height={36}
+      />
+    </div>
+  );
+};
+
+const IconGithub = () => {
+  return (
+    <div className="relative flex h-12 w-12 items-center justify-center">
+      <Image
+        src={`/images/github-mark.png`}
+        alt="discord logo"
+        width={36}
+        height={36}
+      />
+    </div>
+  );
+};
+
+const IconTwitter = () => {
+  return (
+    <div className="relative flex h-12 w-12 items-center justify-center">
+      <Image
+        src={`/images/twitter-logo-blue.png`}
         alt="discord logo"
         width={36}
         height={36}
@@ -101,24 +120,10 @@ function MenuPopover() {
 
   const solutions = [
     {
-      name: 'Create JWT',
-      description: 'Sign custom data using your DID',
-      href: '##',
-      icon: IconOne,
-      target: '',
-    },
-    {
-      name: 'Profile',
-      description: 'Customize your DID:ETHR profile',
-      href: '##',
-      icon: IconTwo,
-      target: '',
-    },
-    {
       name: t('dropdown.blog'),
       description: t('dropdown.blog-desc'),
       href: 'https://medium.com/@blockchainlabum',
-      icon: IconThree,
+      icon: IconMedium,
       target: '_blank',
     },
     {
@@ -126,6 +131,20 @@ function MenuPopover() {
       description: t('dropdown.discord-desc'),
       href: 'https://discord.com/invite/M5xgNz7TTF',
       icon: IconDiscord,
+      target: '_blank',
+    },
+    {
+      name: 'Twitter',
+      description: t('dropdown.twitter-desc'),
+      href: 'https://twitter.com/masca_io',
+      icon: IconTwitter,
+      target: '_blank',
+    },
+    {
+      name: 'Code',
+      description: t('dropdown.github-desc'),
+      href: 'https://github.com/blockchain-lab-um/masca',
+      icon: IconGithub,
       target: '_blank',
     },
   ];
@@ -163,44 +182,44 @@ function MenuPopover() {
               leaveFrom="opacity-100 translate-y-0"
               leaveTo="opacity-0 translate-y-1"
             >
-              <Popover.Panel className="absolute right-0 z-50 mt-3 w-screen max-w-xs lg:max-w-md">
+              <Popover.Panel className="absolute right-0 z-50 mt-3 w-screen max-w-xs">
                 <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                  <div className="relative grid gap-8 bg-white p-7 lg:grid-cols-1">
+                  <div className="dark:bg-navy-blue-400 relative grid gap-8 bg-white p-7 lg:grid-cols-1">
                     {solutions.map((item) => (
                       <a
                         key={item.name}
                         href={item.href}
                         target={item.target}
                         rel="noreferrer"
-                        className="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                        className="dark:hover:bg-navy-blue-500 -m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                       >
                         <div className="flex h-10 w-10 shrink-0 items-center justify-center text-white sm:h-12 sm:w-12">
                           <item.icon aria-hidden="true" />
                         </div>
                         <div className="ml-4">
-                          <p className="text-sm font-medium text-gray-900">
+                          <p className="pb-0.5 text-sm font-medium text-gray-900 dark:text-white">
                             {item.name}{' '}
                           </p>
-                          <p className="text-sm text-gray-500">
+                          <p className="text-sm text-gray-500 dark:text-gray-300">
                             {item.description}
                           </p>
                         </div>
                       </a>
                     ))}
                   </div>
-                  <div className="bg-gray-50 p-4">
+                  <div className="dark:bg-navy-blue-500 bg-gray-50 p-4">
                     <a
-                      href="https://blockchain-lab-um.github.io/masca-docs/"
+                      href="https://docs.masca.io/"
                       target="_blank"
                       rel="noreferrer"
-                      className="flow-root rounded-md px-2 py-2 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                      className="dark:hover:bg-navy-blue-700 flow-root rounded-md px-2 py-2 transition duration-150 ease-in-out hover:bg-gray-100  focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                     >
                       <span className="flex items-center">
-                        <span className="text-sm font-medium text-gray-900">
+                        <span className="text-sm font-medium text-gray-900 dark:text-white">
                           {t('dropdown.documentation')}
                         </span>
                       </span>
-                      <span className="block text-sm text-gray-500">
+                      <span className="block text-sm text-gray-500 dark:text-gray-300">
                         {t('dropdown.learn-more')}
                       </span>
                     </a>

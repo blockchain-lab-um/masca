@@ -10,26 +10,39 @@ type ConnectedProviderProps = {
 
 const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
   const t = useTranslations('Gateway');
-  const { isConnected, isConnecting, changeAddress, changeIsConnecting } =
-    useGeneralStore(
-      (state) => ({
-        isConnected: state.isConnected,
-        isConnecting: state.isConnecting,
-        address: state.address,
-        changeAddress: state.changeAddress,
-        changeIsConnected: state.changeIsConnected,
-        changeIsConnecting: state.changeIsConnecting,
-      }),
-      shallow
-    );
+  const {
+    isConnected,
+    isConnecting,
+    changeAddress,
+    changeIsConnecting,
+    changeChainId,
+  } = useGeneralStore(
+    (state) => ({
+      isConnected: state.isConnected,
+      isConnecting: state.isConnecting,
+      address: state.address,
+      changeAddress: state.changeAddress,
+      changeIsConnected: state.changeIsConnected,
+      changeIsConnecting: state.changeIsConnecting,
+      changeChainId: state.changeChainId,
+    }),
+    shallow
+  );
 
   const connectHandler = async () => {
     if (window.ethereum) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
       const result: unknown = await window.ethereum.request({
         method: 'eth_requestAccounts',
       });
 
+      const chain = (await window.ethereum.request({
+        method: 'eth_chainId',
+      })) as string;
+
+      // Set the chainId
+      changeChainId(chain);
+
+      // Set the address
       changeAddress((result as string[])[0]);
     }
   };

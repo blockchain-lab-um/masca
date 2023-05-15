@@ -2,7 +2,7 @@
 
 Masca connector is used to install Masca and expose API toward snap on dApps and other applications.
 
-For more details on SSI snap itself see [snap repo](https://github.com/blockchain-lab-um/masca) or read full [SSI Snap documentation](https://blockchain-lab-um.github.io/masca-docs/).
+For more details on SSI snap itself see [snap repo](https://github.com/blockchain-lab-um/masca) or read full [SSI Snap documentation](https://www.docs.masca.io/).
 
 ## License
 

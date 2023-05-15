@@ -12,7 +12,8 @@ type DropdownMenuItemProps = {
     | 'secondary'
     | 'primary-active'
     | 'secondary-active'
-    | 'gray';
+    | 'gray'
+    | 'method';
 };
 
 const variants: Record<string, string> = {
@@ -22,6 +23,8 @@ const variants: Record<string, string> = {
     'dark:bg-navy-blue-400 dark:text-orange-accent-dark animated-transition cursor-pointer bg-pink-50 text-pink-600  ',
   'secondary-active': 'bg-navy-blue-100 text-navy-blue-600 ',
   gray: 'bg-gray-100 text-gray-800 ',
+  method:
+    'dark:bg-navy-blue-400 dark:text-orange-accent-dark animated-transition cursor-pointer bg-pink-50 text-pink-600  ',
 };
 
 const variantsSelected: Record<string, string> = {
@@ -31,6 +34,8 @@ const variantsSelected: Record<string, string> = {
     'dark:text-orange-accent-dark dark:bg-navy-blue-500 bg-white text-pink-700 ',
   'secondary-active': 'bg-navy-blue-100 text-navy-blue-600 font-semibold ',
   gray: 'bg-gray-100 font-semibold text-gray-900 ',
+  method:
+    'dark:text-orange-accent-dark dark:bg-navy-blue-500 bg-white text-pink-700 ',
 };
 
 export const DropdownMenuItem = ({
@@ -54,7 +59,7 @@ export const DropdownMenuItem = ({
               : 'dark:text-navy-blue-50 font-normal'
           )}
         >
-          <div className="grid grid-cols-5 px-5">
+          <div className="grid grid-cols-6">
             <span>
               {selected ? <CheckIcon className="ml-3 h-5 w-5" /> : ''}
             </span>
