@@ -29,7 +29,6 @@ import {
 import { DIDManager } from '@veramo/did-manager';
 import { EthrDIDProvider } from '@veramo/did-provider-ethr';
 import { KeyDIDProvider, getDidKeyResolver } from '@veramo/did-provider-key';
-import { getDidPkhResolver } from '@veramo/did-provider-pkh';
 import { DIDResolverPlugin } from '@veramo/did-resolver';
 import { KeyManager } from '@veramo/key-manager';
 import { KeyManagementSystem, SecretBox } from '@veramo/kms-local';
@@ -119,7 +118,6 @@ const getAgent = async (): Promise<Agent> => {
         resolver: new Resolver({
           ...getEthrResolver(providerConfig),
           ...getDidKeyResolver(),
-          ...getDidPkhResolver(),
         }),
       }),
       new OIDCPlugin({
