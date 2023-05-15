@@ -219,11 +219,11 @@ describe('Verifier controler', () => {
         const agent = await getAgent();
 
         // Import the did of the test user
-        const identifier = await importDid(
+        const identifier = await importDid({
           agent,
-          TEST_USER_PRIVATE_KEY,
-          'testuser'
-        );
+          privateKey: TEST_USER_PRIVATE_KEY,
+          alias: 'testuser',
+        });
 
         const jwtVc =
           'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
@@ -305,11 +305,11 @@ describe('Verifier controler', () => {
         const agent = await getAgent();
 
         // Import the did of the test user
-        const identifier = await importDid(
+        const identifier = await importDid({
           agent,
-          TEST_USER_PRIVATE_KEY,
-          'testuser'
-        );
+          privateKey: TEST_USER_PRIVATE_KEY,
+          alias: 'testuser',
+        });
 
         const jwtVc =
           'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
@@ -389,11 +389,11 @@ describe('Verifier controler', () => {
         const agent = await getAgent();
 
         // Import the did of the test user
-        const identifier = await importDid(
+        const identifier = await importDid({
           agent,
-          TEST_USER_PRIVATE_KEY,
-          'testuser'
-        );
+          privateKey: TEST_USER_PRIVATE_KEY,
+          alias: 'testuser',
+        });
 
         const jwtVc =
           'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
@@ -474,11 +474,11 @@ describe('Verifier controler', () => {
         const agent = await getAgent();
 
         // Import the did of the test user
-        const identifier = await importDid(
+        const identifier = await importDid({
           agent,
-          TEST_USER_PRIVATE_KEY,
-          'testuser'
-        );
+          privateKey: TEST_USER_PRIVATE_KEY,
+          alias: 'testuser',
+        });
 
         const jwtVc =
           'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
@@ -560,11 +560,11 @@ describe('Verifier controler', () => {
         const agent = await getAgent();
 
         // Import the did of the test user
-        const identifier = await importDid(
+        const identifier = await importDid({
           agent,
-          TEST_USER_PRIVATE_KEY,
-          'testuser'
-        );
+          privateKey: TEST_USER_PRIVATE_KEY,
+          alias: 'testuser',
+        });
 
         const jwtVc =
           'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
@@ -646,11 +646,11 @@ describe('Verifier controler', () => {
         const agent = await getAgent();
 
         // Import the did of the test user
-        const identifier = await importDid(
+        const identifier = await importDid({
           agent,
-          TEST_USER_PRIVATE_KEY,
-          'testuser'
-        );
+          privateKey: TEST_USER_PRIVATE_KEY,
+          alias: 'testuser',
+        });
 
         const jwtVc =
           'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
@@ -732,11 +732,11 @@ describe('Verifier controler', () => {
         const agent = await getAgent();
 
         // Import the did of the test user
-        const identifier = await importDid(
+        const identifier = await importDid({
           agent,
-          TEST_USER_PRIVATE_KEY,
-          'testuser'
-        );
+          privateKey: TEST_USER_PRIVATE_KEY,
+          alias: 'testuser',
+        });
 
         const jwtVc =
           'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
@@ -805,11 +805,11 @@ describe('Verifier controler', () => {
         const agent = await getAgent();
 
         // Import the did of the test user
-        const identifier = await importDid(
+        const identifier = await importDid({
           agent,
-          TEST_USER_PRIVATE_KEY,
-          'testuser'
-        );
+          privateKey: TEST_USER_PRIVATE_KEY,
+          alias: 'testuser',
+        });
 
         const jwtVc =
           'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
@@ -892,11 +892,11 @@ describe('Verifier controler', () => {
         const agent = await getAgent();
 
         // Import the did of the test user
-        const identifier = await importDid(
+        const identifier = await importDid({
           agent,
-          TEST_USER_PRIVATE_KEY,
-          'testuser'
-        );
+          privateKey: TEST_USER_PRIVATE_KEY,
+          alias: 'testuser',
+        });
 
         const jwtVc =
           'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
@@ -980,11 +980,11 @@ describe('Verifier controler', () => {
         const agent = await getAgent();
 
         // Import the did of the test user
-        const identifier = await importDid(
+        const identifier = await importDid({
           agent,
-          TEST_USER_PRIVATE_KEY,
-          'testuser'
-        );
+          privateKey: TEST_USER_PRIVATE_KEY,
+          alias: 'testuser',
+        });
 
         const jwtVc =
           'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
@@ -1071,11 +1071,11 @@ describe('Verifier controler', () => {
         const agent = await getAgent();
 
         // Import the did of the test user
-        const identifier = await importDid(
+        const identifier = await importDid({
           agent,
-          TEST_USER_PRIVATE_KEY,
-          'testuser'
-        );
+          privateKey: TEST_USER_PRIVATE_KEY,
+          alias: 'testuser',
+        });
 
         const jwtVc =
           'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
@@ -1158,11 +1158,11 @@ describe('Verifier controler', () => {
         const agent = await getAgent();
 
         // Import the did of the test user
-        const identifier = await importDid(
+        const identifier = await importDid({
           agent,
-          TEST_USER_PRIVATE_KEY,
-          'testuser'
-        );
+          privateKey: TEST_USER_PRIVATE_KEY,
+          alias: 'testuser',
+        });
 
         const jwtVc =
           'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
@@ -1220,10 +1220,447 @@ describe('Verifier controler', () => {
         expect.assertions(3);
       });
 
-      it.todo('With invalid did method in VC', async () => {});
-      it.todo('With invalid did method in VP', async () => {});
+      it.todo('With invalid did method in VC');
 
-      it.todo('With invalid id_token');
+      /**
+       * With unsupported did method in VP
+       */
+      it.skip('With unsupported did method in VP', async () => {
+        const state = randomUUID();
+        let response = await request(server)
+          .get('/authorization-request')
+          .query({
+            credentialType: 'test_presentation_definition_1',
+            state,
+          })
+          .send();
+
+        expect(response.status).toBe(200);
+
+        const query = qs.parse(response.text.replace('openid://?', ''), {
+          depth: 50,
+          parameterLimit: 1000,
+        });
+
+        const agent = await getAgent();
+
+        // Import the did of the test user
+        const identifier = await importDid({
+          agent,
+          privateKey: TEST_USER_PRIVATE_KEY,
+          alias: 'testuser',
+          options: {
+            did: 'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
+            provider: 'did:key',
+          },
+        });
+
+        const jwtVc =
+          'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
+
+        const { verifiableCredential } = pex.selectFrom(
+          query.presentation_definition as PresentationDefinition,
+          [jwtVc]
+        );
+
+        const presentationSubmission = pex.presentationSubmissionFrom(
+          query.presentation_definition as PresentationDefinition,
+          verifiableCredential ?? []
+        );
+
+        // Create VP
+        const vp = await agent.createVerifiablePresentation({
+          presentation: {
+            holder: identifier.did,
+            verifiableCredential,
+          },
+          proofFormat: 'jwt',
+          challenge: query.nonce as string,
+          domain: query.client_id as string,
+        });
+
+        const idToken = await createJWTProof({
+          privateKey: TEST_USER_PRIVATE_KEY,
+          audience: query.client_id as string,
+          data: {
+            sub: identifier.did,
+            nonce: query.nonce,
+          },
+          options: {
+            did: identifier.did,
+            kid: 'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik#zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
+          },
+        });
+
+        response = await request(server)
+          .post('/authorization-response')
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+          .send(
+            qs.stringify(
+              {
+                state: query.state,
+                id_token: idToken,
+                vp_token: vp,
+                presentation_submission: presentationSubmission,
+              },
+              { encode: true }
+            )
+          );
+
+        expect(response.status).toBe(400);
+        expect(response.body).toStrictEqual({
+          error: 'invalid_request',
+          error_description:
+            "The presentation you've sent didn't satisfy the requirement defined presentationDefinition object.",
+        });
+        expect.assertions(3);
+      });
+
+      /**
+       * Invalid id_token - iss and sub do not match
+       */
+      it('With invalid id_token - iss and sub do not match', async () => {
+        const state = randomUUID();
+        let response = await request(server)
+          .get('/authorization-request')
+          .query({
+            credentialType: 'test_presentation_definition_1',
+            state,
+          })
+          .send();
+
+        expect(response.status).toBe(200);
+
+        const query = qs.parse(response.text.replace('openid://?', ''), {
+          depth: 50,
+          parameterLimit: 1000,
+        });
+
+        const agent = await getAgent();
+
+        // Import the did of the test user
+        const identifier = await importDid({
+          agent,
+          privateKey: TEST_USER_PRIVATE_KEY,
+          alias: 'testuser',
+        });
+
+        const jwtVc =
+          'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
+
+        const { verifiableCredential } = pex.selectFrom(
+          query.presentation_definition as PresentationDefinition,
+          [jwtVc]
+        );
+
+        const presentationSubmission = pex.presentationSubmissionFrom(
+          query.presentation_definition as PresentationDefinition,
+          verifiableCredential ?? []
+        );
+
+        // Create VP
+        const vp = await agent.createVerifiablePresentation({
+          presentation: {
+            holder: identifier.did,
+            verifiableCredential,
+          },
+          proofFormat: 'jwt',
+          challenge: query.nonce as string,
+          domain: query.client_id as string,
+        });
+
+        const idToken = await createJWTProof({
+          privateKey: TEST_USER_PRIVATE_KEY,
+          audience: query.client_id as string,
+          data: {
+            sub: 'random-subject',
+            nonce: query.nonce,
+          },
+        });
+
+        response = await request(server)
+          .post('/authorization-response')
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+          .send(
+            qs.stringify(
+              {
+                state: query.state,
+                id_token: idToken,
+                vp_token: vp,
+                presentation_submission: presentationSubmission,
+              },
+              { encode: true }
+            )
+          );
+
+        expect(response.status).toBe(400);
+        expect(response.body).toStrictEqual({
+          error: 'invalid_request',
+          error_description: 'id_token iss and sub must be equal',
+        });
+
+        expect.assertions(3);
+      });
+
+      /**
+       * Invalid id_token - expired
+       */
+      it('With invalid id_token - expired', async () => {
+        const state = randomUUID();
+        let response = await request(server)
+          .get('/authorization-request')
+          .query({
+            credentialType: 'test_presentation_definition_1',
+            state,
+          })
+          .send();
+
+        expect(response.status).toBe(200);
+
+        const query = qs.parse(response.text.replace('openid://?', ''), {
+          depth: 50,
+          parameterLimit: 1000,
+        });
+
+        const agent = await getAgent();
+
+        // Import the did of the test user
+        const identifier = await importDid({
+          agent,
+          privateKey: TEST_USER_PRIVATE_KEY,
+          alias: 'testuser',
+        });
+
+        const jwtVc =
+          'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
+
+        const { verifiableCredential } = pex.selectFrom(
+          query.presentation_definition as PresentationDefinition,
+          [jwtVc]
+        );
+
+        const presentationSubmission = pex.presentationSubmissionFrom(
+          query.presentation_definition as PresentationDefinition,
+          verifiableCredential ?? []
+        );
+
+        // Create VP
+        const vp = await agent.createVerifiablePresentation({
+          presentation: {
+            holder: identifier.did,
+            verifiableCredential,
+          },
+          proofFormat: 'jwt',
+          challenge: query.nonce as string,
+          domain: query.client_id as string,
+        });
+
+        const idToken = await createJWTProof({
+          privateKey: TEST_USER_PRIVATE_KEY,
+          audience: query.client_id as string,
+          data: {
+            sub: identifier.did,
+            nonce: query.nonce,
+            exp: Date.now() / 1000 - 1000,
+          },
+        });
+
+        response = await request(server)
+          .post('/authorization-response')
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+          .send(
+            qs.stringify(
+              {
+                state: query.state,
+                id_token: idToken,
+                vp_token: vp,
+                presentation_submission: presentationSubmission,
+              },
+              { encode: true }
+            )
+          );
+
+        expect(response.status).toBe(400);
+        expect(response.body).toStrictEqual({
+          error: 'invalid_request',
+          error_description: 'id_token expired',
+        });
+
+        expect.assertions(3);
+      });
+
+      /**
+       * Invalid id_token - not yet valid
+       */
+      it('With invalid id_token - not yet valid', async () => {
+        const state = randomUUID();
+        let response = await request(server)
+          .get('/authorization-request')
+          .query({
+            credentialType: 'test_presentation_definition_1',
+            state,
+          })
+          .send();
+
+        expect(response.status).toBe(200);
+
+        const query = qs.parse(response.text.replace('openid://?', ''), {
+          depth: 50,
+          parameterLimit: 1000,
+        });
+
+        const agent = await getAgent();
+
+        // Import the did of the test user
+        const identifier = await importDid({
+          agent,
+          privateKey: TEST_USER_PRIVATE_KEY,
+          alias: 'testuser',
+        });
+
+        const jwtVc =
+          'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
+
+        const { verifiableCredential } = pex.selectFrom(
+          query.presentation_definition as PresentationDefinition,
+          [jwtVc]
+        );
+
+        const presentationSubmission = pex.presentationSubmissionFrom(
+          query.presentation_definition as PresentationDefinition,
+          verifiableCredential ?? []
+        );
+
+        // Create VP
+        const vp = await agent.createVerifiablePresentation({
+          presentation: {
+            holder: identifier.did,
+            verifiableCredential,
+          },
+          proofFormat: 'jwt',
+          challenge: query.nonce as string,
+          domain: query.client_id as string,
+        });
+
+        const idToken = await createJWTProof({
+          privateKey: TEST_USER_PRIVATE_KEY,
+          audience: query.client_id as string,
+          data: {
+            sub: identifier.did,
+            nonce: query.nonce,
+            nbf: Date.now() / 1000 + 10000,
+          },
+        });
+
+        response = await request(server)
+          .post('/authorization-response')
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+          .send(
+            qs.stringify(
+              {
+                state: query.state,
+                id_token: idToken,
+                vp_token: vp,
+                presentation_submission: presentationSubmission,
+              },
+              { encode: true }
+            )
+          );
+
+        expect(response.status).toBe(400);
+        expect(response.body).toStrictEqual({
+          error: 'invalid_request',
+          error_description: 'id_token not valid yet',
+        });
+
+        expect.assertions(3);
+      });
+
+      /**
+       * Invalid id_token - invalid nonce
+       */
+      it('With invalid id_token - invalid nonce', async () => {
+        const state = randomUUID();
+        let response = await request(server)
+          .get('/authorization-request')
+          .query({
+            credentialType: 'test_presentation_definition_1',
+            state,
+          })
+          .send();
+
+        expect(response.status).toBe(200);
+
+        const query = qs.parse(response.text.replace('openid://?', ''), {
+          depth: 50,
+          parameterLimit: 1000,
+        });
+
+        const agent = await getAgent();
+
+        // Import the did of the test user
+        const identifier = await importDid({
+          agent,
+          privateKey: TEST_USER_PRIVATE_KEY,
+          alias: 'testuser',
+        });
+
+        const jwtVc =
+          'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
+
+        const { verifiableCredential } = pex.selectFrom(
+          query.presentation_definition as PresentationDefinition,
+          [jwtVc]
+        );
+
+        const presentationSubmission = pex.presentationSubmissionFrom(
+          query.presentation_definition as PresentationDefinition,
+          verifiableCredential ?? []
+        );
+
+        // Create VP
+        const vp = await agent.createVerifiablePresentation({
+          presentation: {
+            holder: identifier.did,
+            verifiableCredential,
+          },
+          proofFormat: 'jwt',
+          challenge: query.nonce as string,
+          domain: query.client_id as string,
+        });
+
+        const idToken = await createJWTProof({
+          privateKey: TEST_USER_PRIVATE_KEY,
+          audience: query.client_id as string,
+          data: {
+            sub: identifier.did,
+            nonce: 'invalid-nonce',
+          },
+        });
+
+        response = await request(server)
+          .post('/authorization-response')
+          .set('Content-Type', 'application/x-www-form-urlencoded')
+          .send(
+            qs.stringify(
+              {
+                state: query.state,
+                id_token: idToken,
+                vp_token: vp,
+                presentation_submission: presentationSubmission,
+              },
+              { encode: true }
+            )
+          );
+
+        expect(response.status).toBe(400);
+        expect(response.body).toStrictEqual({
+          error: 'invalid_request',
+          error_description: 'Invalid nonce',
+        });
+
+        expect.assertions(3);
+      });
     });
   });
 });

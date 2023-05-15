@@ -31,6 +31,7 @@ import {
 import { DIDManager } from '@veramo/did-manager';
 import { EthrDIDProvider } from '@veramo/did-provider-ethr';
 import { KeyDIDProvider, getDidKeyResolver } from '@veramo/did-provider-key';
+import { getDidPkhResolver } from '@veramo/did-provider-pkh';
 import { DIDResolverPlugin } from '@veramo/did-resolver';
 import { KeyManager } from '@veramo/key-manager';
 import { KeyManagementSystem, SecretBox } from '@veramo/kms-local';
@@ -48,7 +49,8 @@ export class AgentService {
       IResolver &
       IOIDCPlugin &
       ICredentialPlugin &
-      ICredentialIssuerEIP712
+      ICredentialIssuerEIP712 &
+      ICredentialIssuerLD
   >;
 
   private dbConnection: DataSource;
@@ -124,6 +126,7 @@ export class AgentService {
           resolver: new Resolver({
             ...getEthrResolver(this.providerConfig),
             ...getDidKeyResolver(),
+            ...getDidPkhResolver(),
           }),
         }),
         new OIDCPlugin({
@@ -156,6 +159,7 @@ export class AgentService {
       IKeyManager &
       IResolver &
       IOIDCPlugin &
+      ICredentialPlugin &
       ICredentialIssuerEIP712 &
       ICredentialIssuerLD
   > {

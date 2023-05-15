@@ -11,7 +11,7 @@ import { PresentationDefinition } from '@blockchain-lab-um/oidc-types';
  * - Presentation definitions
  */
 
-export const SUPPORTED_DID_METHODS = ['did:ethr', 'did:key'];
+export const SUPPORTED_DID_METHODS = ['did:ethr'];
 export const SUPPORTED_CURVES = ['secp256k1', 'P-256', 'P-384', 'P-521'];
 export const SUPPORTED_DIGITAL_SIGNATURES = ['ES256K'];
 

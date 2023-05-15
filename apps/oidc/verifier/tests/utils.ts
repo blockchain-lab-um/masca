@@ -15,6 +15,10 @@ type CreateJWTProofParams = {
   audience: string;
   data?: any;
   nonce?: string;
+  options?: {
+    did?: string;
+    kid?: string;
+  };
 };
 
 export const createJWTProof = async ({
@@ -22,20 +26,34 @@ export const createJWTProof = async ({
   audience,
   data,
   nonce,
+  options,
 }: CreateJWTProofParams) => {
   const ctx = new EC('secp256k1');
   const ecPrivateKey = ctx.keyFromPrivate(privateKey);
-  const res = await privateKeyToDid({
-    privateKey,
-    didMethod: 'did:ethr',
-  });
 
-  if (isError(res)) {
-    throw res.error;
+  let did;
+  let kid;
+
+  if (!options?.did) {
+    const res = await privateKeyToDid({
+      privateKey,
+      didMethod: 'did:ethr',
+    });
+
+    if (isError(res)) {
+      throw res.error;
+    }
+
+    did = res.data.did;
+  } else {
+    did = options.did;
   }
 
-  const { did } = res.data;
-  const kid = `${did}#controllerKey`;
+  if (!options?.kid) {
+    kid = `${did}#controllerKey`;
+  } else {
+    kid = options.kid;
+  }
 
   let jwtPayload: Partial<JWTPayload> = {
     sub: audience,
@@ -80,11 +98,22 @@ export const createJWTProof = async ({
   return signedJwt;
 };
 
-export const importDid = async (
-  agent: Agent,
-  privateKey: string,
-  alias: string
-): Promise<IIdentifier> => {
+type ImportDidParams = {
+  agent: Agent;
+  privateKey: string;
+  alias: string;
+  options?: {
+    did: string;
+    provider: string;
+  };
+};
+
+export const importDid = async ({
+  agent,
+  alias,
+  privateKey,
+  options,
+}: ImportDidParams): Promise<IIdentifier> => {
   const uuid = uuidv4().replace(/-/g, '');
   try {
     // Check if did exists
@@ -100,20 +129,30 @@ export const importDid = async (
       privateKeyHex: privateKey,
     };
 
-    const res = await privateKeyToDid({
-      privateKey: key.privateKeyHex,
-      didMethod: 'did:ethr',
-    });
+    let did;
+    let provider;
 
-    if (isError(res)) {
-      throw Error('Error while creating DID');
+    if (!options?.did) {
+      const res = await privateKeyToDid({
+        privateKey: key.privateKeyHex,
+        didMethod: 'did:ethr',
+      });
+
+      if (isError(res)) {
+        throw Error('Error while creating DID');
+      }
+
+      did = res.data.did;
+      provider = 'did:ethr';
+    } else {
+      did = options.did;
+      provider = options.provider;
     }
 
-    const { did } = res.data;
     return await agent.didManagerImport({
       did,
       alias,
-      provider: 'did:ethr',
+      provider,
       controllerKeyId: uuid, // TODO: Handle key ID better
       keys: [key],
     });

@@ -3,7 +3,7 @@ export const TEST_USER_PRIVATE_KEY =
 export const TEST_ISSUER_URL = 'http://127.0.0.1:3003';
 export const TEST_ISSUER_DB_SECRET =
   '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c';
-export const TEST_SUPPORTED_DID_METHODS = ['ethr', 'web'];
+export const TEST_SUPPORTED_DID_METHODS = ['did:ethr'];
 export const TEST_SUPPORTED_CURVES = ['secp256k1', 'P-256', 'P-384', 'P-521'];
 export const TEST_SUPPORTED_DIGITAL_SIGNATURES = ['ES256K'];
 export const TEST_INFURA_PROJECT_ID = '0ec03090465d400c988a14831aacfe37';

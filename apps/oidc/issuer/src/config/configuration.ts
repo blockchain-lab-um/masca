@@ -8,13 +8,11 @@ import {
   SUPPORTED_CURVES,
   SUPPORTED_DID_METHODS,
   SUPPORTED_DIGITAL_SIGNATURES,
-  SUPPORTED_SCHEMA_URL,
 } from '../../config.js';
 
 export interface IConfig {
   INFURA_PROJECT_ID: string;
   ISSUER_PRIVATE_KEY: string;
-  SUPPORTED_SCHEMA_URL: string;
   SUPPORTED_DID_METHODS: string[]; // e.g. ['ethr', 'key']
   SUPPORTED_CURVES: string[]; // e.g. secp256k1, ed25519, etc
   SUPPORTED_DIGITAL_SIGNATURES: string[]; // jwt, json_ld
@@ -29,7 +27,6 @@ const config = (): IConfig => ({
   ISSUER_PRIVATE_KEY: process.env.ISSUER_PRIVATE_KEY || '',
 
   // We are reading the other configuration from the config.ts file
-  SUPPORTED_SCHEMA_URL: SUPPORTED_SCHEMA_URL || '',
   SUPPORTED_DID_METHODS: SUPPORTED_DID_METHODS || [],
   SUPPORTED_CURVES: SUPPORTED_CURVES || [],
   SUPPORTED_DIGITAL_SIGNATURES: SUPPORTED_DIGITAL_SIGNATURES || [],

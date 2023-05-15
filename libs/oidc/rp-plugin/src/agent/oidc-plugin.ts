@@ -501,7 +501,7 @@ export class OIDCPlugin implements IAgentPlugin {
         presentationDefinition,
         evalResult.verifiableCredential,
         {
-          restrictToDIDMethods: this.pluginConfig.supported_did_methods,
+          restrictToDIDMethods: this.pluginConfig.supported_did_methods, // TODO: Doesn't check subject (only issuer)
           ...(presentationDefinition.format && {
             restrictToFormats: presentationDefinition.format,
           }),
