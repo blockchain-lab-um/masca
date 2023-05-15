@@ -741,8 +741,9 @@ export class OIDCPlugin implements IAgentPlugin {
     return {
       success: true,
       data: {
-        credentialOfferRequest: `openid_credential_offer://credential_offer?${encodeURIComponent(
-          JSON.stringify(params)
+        credentialOfferRequest: `openid_credential_offer://credential_offer?${qs.stringify(
+          params,
+          { encode: true }
         )}`,
         credentials,
         ...(preAuthorizedCodeIncluded && { preAuthorizedCode }),

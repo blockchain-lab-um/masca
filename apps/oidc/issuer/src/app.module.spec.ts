@@ -38,16 +38,14 @@ const credOfferAndTokenRequest = async (server: HttpServer<any, any>) => {
     .query(credentialRequestData)
     .send();
 
-  const query = JSON.parse(
-    decodeURIComponent(
-      response.text.replace('openid_credential_offer://credential_offer?', '')
-    )
+  const query = qs.parse(
+    response.text.replace('openid_credential_offer://credential_offer?', '')
   );
 
   expect(response.status).toBe(200);
   const tokenRequestData: TokenRequest = {
     grant_type: 'urn:ietf:params:oauth:grant-type:pre-authorized_code',
-    'pre-authorized_code': query.grants[
+    'pre-authorized_code': (query.grants as any)[
       'urn:ietf:params:oauth:grant-type:pre-authorized_code'
     ]['pre-authorized_code'] as string,
   };
@@ -77,7 +75,7 @@ const credOfferAndTokenRequest = async (server: HttpServer<any, any>) => {
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   const supportedCredential = response.body.credentials_supported.find(
-    (credential: any) => credential.id === query.credentials[0]
+    (credential: any) => credential.id === (query.credentials as string)[0]
   ) as SupportedCredential;
 
   if (!supportedCredential) {
@@ -174,12 +172,10 @@ describe('Issuer controller', () => {
 
         expect(response.status).toBe(200);
 
-        const query = JSON.parse(
-          decodeURIComponent(
-            response.text.replace(
-              'openid_credential_offer://credential_offer?',
-              ''
-            )
+        const query = qs.parse(
+          response.text.replace(
+            'openid_credential_offer://credential_offer?',
+            ''
           )
         );
 
@@ -215,12 +211,10 @@ describe('Issuer controller', () => {
 
         expect(response.status).toBe(200);
 
-        const query = JSON.parse(
-          decodeURIComponent(
-            response.text.replace(
-              'openid_credential_offer://credential_offer?',
-              ''
-            )
+        const query = qs.parse(
+          response.text.replace(
+            'openid_credential_offer://credential_offer?',
+            ''
           )
         );
 
@@ -261,12 +255,10 @@ describe('Issuer controller', () => {
 
         expect(response.status).toBe(200);
 
-        const query = JSON.parse(
-          decodeURIComponent(
-            response.text.replace(
-              'openid_credential_offer://credential_offer?',
-              ''
-            )
+        const query = qs.parse(
+          response.text.replace(
+            'openid_credential_offer://credential_offer?',
+            ''
           )
         );
 
@@ -307,12 +299,10 @@ describe('Issuer controller', () => {
 
         expect(response.status).toBe(200);
 
-        const query = JSON.parse(
-          decodeURIComponent(
-            response.text.replace(
-              'openid_credential_offer://credential_offer?',
-              ''
-            )
+        const query = qs.parse(
+          response.text.replace(
+            'openid_credential_offer://credential_offer?',
+            ''
           )
         );
 
@@ -365,12 +355,10 @@ describe('Issuer controller', () => {
 
         expect(response.status).toBe(200);
 
-        const query = JSON.parse(
-          decodeURIComponent(
-            response.text.replace(
-              'openid_credential_offer://credential_offer?',
-              ''
-            )
+        const query = qs.parse(
+          response.text.replace(
+            'openid_credential_offer://credential_offer?',
+            ''
           )
         );
 
@@ -423,12 +411,10 @@ describe('Issuer controller', () => {
 
         expect(response.status).toBe(200);
 
-        const query = JSON.parse(
-          decodeURIComponent(
-            response.text.replace(
-              'openid_credential_offer://credential_offer?',
-              ''
-            )
+        const query = qs.parse(
+          response.text.replace(
+            'openid_credential_offer://credential_offer?',
+            ''
           )
         );
 
@@ -470,12 +456,10 @@ describe('Issuer controller', () => {
 
         expect(response.status).toBe(200);
 
-        const query = JSON.parse(
-          decodeURIComponent(
-            response.text.replace(
-              'openid_credential_offer://credential_offer?',
-              ''
-            )
+        const query = qs.parse(
+          response.text.replace(
+            'openid_credential_offer://credential_offer?',
+            ''
           )
         );
 
@@ -518,12 +502,10 @@ describe('Issuer controller', () => {
 
         expect(response.status).toBe(200);
 
-        const query = JSON.parse(
-          decodeURIComponent(
-            response.text.replace(
-              'openid_credential_offer://credential_offer?',
-              ''
-            )
+        const query = qs.parse(
+          response.text.replace(
+            'openid_credential_offer://credential_offer?',
+            ''
           )
         );
 
@@ -565,12 +547,10 @@ describe('Issuer controller', () => {
 
         expect(response.status).toBe(200);
 
-        const query = JSON.parse(
-          decodeURIComponent(
-            response.text.replace(
-              'openid_credential_offer://credential_offer?',
-              ''
-            )
+        const query = qs.parse(
+          response.text.replace(
+            'openid_credential_offer://credential_offer?',
+            ''
           )
         );
 
@@ -615,12 +595,10 @@ describe('Issuer controller', () => {
 
         expect(response.status).toBe(200);
 
-        const query = JSON.parse(
-          decodeURIComponent(
-            response.text.replace(
-              'openid_credential_offer://credential_offer?',
-              ''
-            )
+        const query = qs.parse(
+          response.text.replace(
+            'openid_credential_offer://credential_offer?',
+            ''
           )
         );
 
@@ -706,12 +684,10 @@ describe('Issuer controller', () => {
           .query(crednetialOfferRequestData)
           .send();
 
-        const query = JSON.parse(
-          decodeURIComponent(
-            response.text.replace(
-              'openid_credential_offer://credential_offer?',
-              ''
-            )
+        const query = qs.parse(
+          response.text.replace(
+            'openid_credential_offer://credential_offer?',
+            ''
           )
         );
 
@@ -719,7 +695,7 @@ describe('Issuer controller', () => {
 
         const tokenRequestData: TokenRequest = {
           grant_type: 'urn:ietf:params:oauth:grant-type:pre-authorized_code',
-          'pre-authorized_code': query.grants[
+          'pre-authorized_code': (query.grants as any)[
             'urn:ietf:params:oauth:grant-type:pre-authorized_code'
           ]['pre-authorized_code'] as string,
         };
@@ -763,12 +739,10 @@ describe('Issuer controller', () => {
           .query(credentialOfferRequestData)
           .send();
 
-        const query = JSON.parse(
-          decodeURIComponent(
-            response.text.replace(
-              'openid_credential_offer://credential_offer?',
-              ''
-            )
+        const query = qs.parse(
+          response.text.replace(
+            'openid_credential_offer://credential_offer?',
+            ''
           )
         );
 
@@ -776,7 +750,7 @@ describe('Issuer controller', () => {
 
         const tokenRequestData: TokenRequest = {
           grant_type: 'urn:ietf:params:oauth:grant-type:pre-authorized_code',
-          'pre-authorized_code': query.grants[
+          'pre-authorized_code': (query.grants as any)[
             'urn:ietf:params:oauth:grant-type:pre-authorized_code'
           ]['pre-authorized_code'] as string,
           user_pin: '55555555',
@@ -874,18 +848,16 @@ describe('Issuer controller', () => {
 
         expect(response.status).toBe(200);
 
-        const query = JSON.parse(
-          decodeURIComponent(
-            response.text.replace(
-              'openid_credential_offer://credential_offer?',
-              ''
-            )
+        const query = qs.parse(
+          response.text.replace(
+            'openid_credential_offer://credential_offer?',
+            ''
           )
         );
 
         const tokenRequestData: TokenRequest = {
           grant_type: 'urn:ietf:params:oauth:grant-type:pre-authorized_code',
-          'pre-authorized_code': query.grants[
+          'pre-authorized_code': (query.grants as any)[
             'urn:ietf:params:oauth:grant-type:pre-authorized_code'
           ]['pre-authorized_code'] as string,
           user_pin: 'invalid',
@@ -973,18 +945,16 @@ describe('Issuer controller', () => {
 
         expect(response.status).toBe(200);
 
-        const query = JSON.parse(
-          decodeURIComponent(
-            response.text.replace(
-              'openid_credential_offer://credential_offer?',
-              ''
-            )
+        const query = qs.parse(
+          response.text.replace(
+            'openid_credential_offer://credential_offer?',
+            ''
           )
         );
 
         const tokenRequestData: TokenRequest = {
           grant_type: 'urn:ietf:params:oauth:grant-type:pre-authorized_code',
-          'pre-authorized_code': query.grants[
+          'pre-authorized_code': (query.grants as any)[
             'urn:ietf:params:oauth:grant-type:pre-authorized_code'
           ]['pre-authorized_code'] as string,
         };
