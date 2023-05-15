@@ -4,6 +4,7 @@ import martin from '@site/static/img/team/martin_photo.jpg';
 import muhamed from '@site/static/img/team/muhamed_photo.jpg';
 import patrik from '@site/static/img/team/patrik_photo.jpg';
 import spela from '@site/static/img/team/spela_photo.jpg';
+import tadej from '@site/static/img/team/tadej_photo.jpg';
 import urban from '@site/static/img/team/urban_photo.jpg';
 import vid from '@site/static/img/team/vid_photo.jpg';
 
@@ -68,7 +69,7 @@ const members: Member[] = [
     title: 'Developer & Researcher',
     description: '',
     linkedin: 'https://www.linkedin.com/in/tadej-podrekar/',
-    image: 'https://via.placeholder.com/150',
+    image: tadej,
     twitter: '',
     github: '',
   },
