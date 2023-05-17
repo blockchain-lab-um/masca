@@ -4,7 +4,6 @@ import {
   Body,
   Controller,
   Get,
-  Header,
   Headers,
   HttpCode,
   Post,
@@ -20,7 +19,6 @@ export class AppController {
 
   @Get('/authorization-request')
   @HttpCode(200)
-  @Header('Content-Type', 'text/plain; charset=utf-8')
   async authorize(@Query() query: AuthorizationRequest): Promise<string> {
     return this.appService.createAuthorizationRequest(query);
   }

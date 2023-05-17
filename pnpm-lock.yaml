@@ -643,6 +643,100 @@ importers:
         specifier: ^4.9.5
         version: 4.9.5
 
+  libs/oidc/client-plugin:
+    dependencies:
+      '@blockchain-lab-um/oidc-types':
+        specifier: '*'
+        version: link:../types
+      '@blockchain-lab-um/utils':
+        specifier: ^1.1.0
+        version: link:../../utils
+      '@veramo/core':
+        specifier: 5.1.2
+        version: 5.1.2
+      '@veramo/utils':
+        specifier: 5.1.2
+        version: 5.1.2
+      cross-fetch:
+        specifier: ^3.1.5
+        version: 3.1.5(patch_hash=b7u473fsyomrwof2p2enxrunba)
+      qs:
+        specifier: ^6.11.0
+        version: 6.11.0
+    devDependencies:
+      '@ianvs/prettier-plugin-sort-imports':
+        specifier: ^3.7.1
+        version: 3.7.2(prettier@2.8.7)
+      '@sphereon/ssi-types':
+        specifier: ^0.11.0
+        version: 0.11.0
+      '@swc/core':
+        specifier: ^1.3.42
+        version: 1.3.52
+      '@swc/jest':
+        specifier: ^0.2.24
+        version: 0.2.26(@swc/core@1.3.52)
+      '@types/elliptic':
+        specifier: ^6
+        version: 6.4.14
+      '@types/jest':
+        specifier: 29.4.0
+        version: 29.4.0
+      '@types/node':
+        specifier: ^18.11.19
+        version: 18.15.10
+      '@types/qs':
+        specifier: ^6.9.7
+        version: 6.9.7
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^5.45.0
+        version: 5.59.0(@typescript-eslint/parser@5.59.0)(eslint@8.38.0)(typescript@4.9.5)
+      '@typescript-eslint/parser':
+        specifier: ^5.45.0
+        version: 5.59.0(eslint@8.38.0)(typescript@4.9.5)
+      eslint:
+        specifier: ^8.33.0
+        version: 8.38.0
+      eslint-config-airbnb-base:
+        specifier: ^15.0.0
+        version: 15.0.0(eslint-plugin-import@2.27.5)(eslint@8.38.0)
+      eslint-config-airbnb-typescript:
+        specifier: ^17.0.0
+        version: 17.0.0(@typescript-eslint/eslint-plugin@5.59.0)(@typescript-eslint/parser@5.59.0)(eslint-plugin-import@2.27.5)(eslint@8.38.0)
+      eslint-config-prettier:
+        specifier: ^8.5.0
+        version: 8.8.0(eslint@8.38.0)
+      eslint-plugin-import:
+        specifier: ^2.26.0
+        version: 2.27.5(@typescript-eslint/parser@5.59.0)(eslint@8.38.0)
+      eslint-plugin-jest:
+        specifier: ^27.1.6
+        version: 27.2.1(@typescript-eslint/eslint-plugin@5.59.0)(eslint@8.38.0)(jest@29.4.1)(typescript@4.9.5)
+      eslint-plugin-prettier:
+        specifier: ^4.2.1
+        version: 4.2.1(eslint-config-prettier@8.8.0)(eslint@8.38.0)(prettier@2.8.7)
+      eslint-plugin-unused-imports:
+        specifier: ^2.0.0
+        version: 2.0.0(@typescript-eslint/eslint-plugin@5.59.0)(eslint@8.38.0)
+      jest:
+        specifier: 29.4.1
+        version: 29.4.1(@types/node@18.15.10)
+      prettier:
+        specifier: ^2.8.0
+        version: 2.8.7
+      prettier-plugin-packagejson:
+        specifier: ^2.4.3
+        version: 2.4.3(prettier@2.8.7)
+      rimraf:
+        specifier: ^3.0.2
+        version: 3.0.2
+      tsup:
+        specifier: ^6.6.3
+        version: 6.7.0(@swc/core@1.3.52)(typescript@4.9.5)
+      typescript:
+        specifier: 4.9.5
+        version: 4.9.5
+
   libs/oidc/rp-plugin:
     dependencies:
       '@blockchain-lab-um/oidc-types':
@@ -777,6 +871,10 @@ importers:
         version: 4.9.5
 
   libs/oidc/types:
+    dependencies:
+      '@veramo/core':
+        specifier: 5.1.2
+        version: 5.1.2
     devDependencies:
       '@blockchain-lab-um/utils':
         specifier: '*'
@@ -790,9 +888,6 @@ importers:
       '@typescript-eslint/parser':
         specifier: ^5.45.0
         version: 5.59.0(eslint@8.38.0)(typescript@4.9.5)
-      '@veramo/core':
-        specifier: 5.1.2
-        version: 5.1.2
       eslint:
         specifier: ^8.33.0
         version: 8.38.0
@@ -820,6 +915,12 @@ importers:
       prettier-plugin-packagejson:
         specifier: ^2.4.3
         version: 2.4.3(prettier@2.8.7)
+      rimraf:
+        specifier: ^5.0.0
+        version: 5.0.0
+      tsup:
+        specifier: ^6.6.3
+        version: 6.7.0(typescript@4.9.5)
       typescript:
         specifier: 4.9.5
         version: 4.9.5
@@ -947,6 +1048,9 @@ importers:
       prop-types:
         specifier: ^15.8.1
         version: 15.8.1
+      qs:
+        specifier: ^6.11.0
+        version: 6.11.0
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -978,6 +1082,9 @@ importers:
       '@types/prettier':
         specifier: ^2
         version: 2.7.2
+      '@types/qs':
+        specifier: ^6.9.7
+        version: 6.9.7
       '@types/react':
         specifier: 18.0.30
         version: 18.0.30
@@ -1268,6 +1375,9 @@ importers:
       '@blockchain-lab-um/masca-types':
         specifier: '*'
         version: link:../types
+      '@blockchain-lab-um/oidc-client-plugin':
+        specifier: '*'
+        version: link:../../libs/oidc/client-plugin
       '@blockchain-lab-um/utils':
         specifier: '*'
         version: link:../../libs/utils
@@ -6277,6 +6387,18 @@ packages:
       multiformats: 11.0.2
     dev: false
 
+  /@isaacs/cliui@8.0.2:
+    resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
+    engines: {node: '>=12'}
+    dependencies:
+      string-width: 5.1.2
+      string-width-cjs: /string-width@4.2.3
+      strip-ansi: 7.0.1
+      strip-ansi-cjs: /strip-ansi@6.0.1
+      wrap-ansi: 8.1.0
+      wrap-ansi-cjs: /wrap-ansi@7.0.0
+    dev: true
+
   /@istanbuljs/load-nyc-config@1.1.0:
     resolution: {integrity: sha512-VjeHSlIzpv/NyD3N0YuHfXOPDIixcA1q2ZV98wsMqcYlPmv2n3Yb2lYP9XMElnaFVXg5A7YLTeLu6V84uQDjmQ==}
     engines: {node: '>=8'}
@@ -8297,6 +8419,13 @@ packages:
       typescript: 4.9.5
     dev: true
 
+  /@pkgjs/parseargs@0.11.0:
+    resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
+    engines: {node: '>=14'}
+    requiresBuild: true
+    dev: true
+    optional: true
+
   /@pkgr/utils@2.3.1:
     resolution: {integrity: sha512-wfzX8kc1PMyUILA+1Z/EqoE4UCXGy0iRGMhPwdfae1+f0OXlLqCk+By+aMzgJBzR9AzS4CDizioG6Ss1gvAFJw==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
@@ -9886,7 +10015,7 @@ packages:
     resolution: {integrity: sha512-DTCZoIQotB2SUJnYgrEx43cQIUYOlNZz0AZPbKU4PSLYTUdML5Gox0++z4F9kQocxStrCmRNhi4x5x/UlwtKUA==}
     deprecated: This is a stub types definition. rimraf provides its own type definitions, so you do not need this installed.
     dependencies:
-      rimraf: 4.4.1
+      rimraf: 5.0.0
     dev: true
 
   /@types/sax@1.2.4:
@@ -15750,6 +15879,14 @@ packages:
   /foreach@2.0.6:
     resolution: {integrity: sha512-k6GAGDyqLe9JaebCsFCoudPPWfihKu8pylYXRlqP1J7ms39iPoTtk2fviNglIeQEwdh0bQeKJ01ZPyuyQvKzwg==}
 
+  /foreground-child@3.1.1:
+    resolution: {integrity: sha512-TMKDUnIte6bfb5nWv7V/caI169OHgvwjb7V4WkeUvbQQdjr5rWKqHFiKWb/fcOwB+CzBT+qbWjvj+DVwRskpIg==}
+    engines: {node: '>=14'}
+    dependencies:
+      cross-spawn: 7.0.3
+      signal-exit: 4.0.2
+    dev: true
+
   /forever-agent@0.6.1:
     resolution: {integrity: sha512-j0KLYPhm6zeac4lz3oJ3o65qvgQCcPubiyotZrXqEaG4hNagNYO8qdlUrX5vwqv9ohqeT/Z3j6+yW067yWWdUw==}
     dev: false
@@ -16102,6 +16239,18 @@ packages:
 
   /glob-to-regexp@0.4.1:
     resolution: {integrity: sha512-lkX1HJXwyMcprw/5YUZc2s7DrpAiHB21/V+E1rHUrVNokkvB6bqMzT0VfV6/86ZNabt1k14YOIaT7nDvOX3Iiw==}
+
+  /glob@10.2.4:
+    resolution: {integrity: sha512-fDboBse/sl1oXSLhIp0FcCJgzW9KmhC/q8ULTKC82zc+DL3TL7FNb8qlt5qqXN53MsKEUSIcb+7DLmEygOE5Yw==}
+    engines: {node: '>=16 || 14 >=14.17'}
+    hasBin: true
+    dependencies:
+      foreground-child: 3.1.1
+      jackspeak: 2.2.0
+      minimatch: 9.0.0
+      minipass: 5.0.0
+      path-scurry: 1.7.0
+    dev: true
 
   /glob@7.1.4:
     resolution: {integrity: sha512-hkLPepehmnKk41pUGm3sYxoFs/umurYfYJCerbXEyFIWcAzvpipAgVkBqqT9RBKMGjnq6kMuyYwha6csxbiM1A==}
@@ -17440,6 +17589,15 @@ packages:
   /iterare@1.2.1:
     resolution: {integrity: sha512-RKYVTCjAnRthyJes037NX/IiqeidgN1xc3j1RjFfECFp28A1GVwK9nA+i0rJPaHqSZwygLzRnFlzUuHFoWWy+Q==}
     engines: {node: '>=6'}
+
+  /jackspeak@2.2.0:
+    resolution: {integrity: sha512-r5XBrqIJfwRIjRt/Xr5fv9Wh09qyhHfKnYddDlpM+ibRR20qrYActpCAgU6U+d53EOEjzkvxPMVHSlgR7leXrQ==}
+    engines: {node: '>=14'}
+    dependencies:
+      '@isaacs/cliui': 8.0.2
+    optionalDependencies:
+      '@pkgjs/parseargs': 0.11.0
+    dev: true
 
   /jake@10.8.5:
     resolution: {integrity: sha512-sVpxYeuAhWt0OTWITwT98oyV0GsXyMlXCF+3L1SuafBVUIr/uILGRB+NqwkzhgXKvoJpDIpQvqkUALgdmQsQxw==}
@@ -19362,6 +19520,13 @@ packages:
 
   /minimatch@8.0.4:
     resolution: {integrity: sha512-W0Wvr9HyFXZRGIDgCicunpQ299OKXs9RgZfaukz4qAW/pJhcpUfupc9c+OObPOFueNy8VSrZgEmDtk6Kh4WzDA==}
+    engines: {node: '>=16 || 14 >=14.17'}
+    dependencies:
+      brace-expansion: 2.0.1
+    dev: true
+
+  /minimatch@9.0.0:
+    resolution: {integrity: sha512-0jJj8AvgKqWN05mrwuqi8QYKx1WmYSUoKSxu5Qhs9prezTz10sxAHGNZe9J9cqIJzta8DWsleh2KaVaLl6Ru2w==}
     engines: {node: '>=16 || 14 >=14.17'}
     dependencies:
       brace-expansion: 2.0.1
@@ -22319,6 +22484,14 @@ packages:
       glob: 9.3.5
     dev: true
 
+  /rimraf@5.0.0:
+    resolution: {integrity: sha512-Jf9llaP+RvaEVS5nPShYFhtXIrb3LRKP281ib3So0KkeZKo2wIKyq0Re7TOSwanasA423PSr6CCIL4bP6T040g==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dependencies:
+      glob: 10.2.4
+    dev: true
+
   /ripemd160-min@0.0.6:
     resolution: {integrity: sha512-+GcJgQivhs6S9qvLogusiTcS9kQUfgR75whKuy5jIhuiOfQuJ8fjqxV6EGD5duH1Y/FawFUMtMhyeq3Fbnib8A==}
     engines: {node: '>=8'}
@@ -22737,6 +22910,11 @@ packages:
 
   /signal-exit@3.0.7:
     resolution: {integrity: sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==}
+
+  /signal-exit@4.0.2:
+    resolution: {integrity: sha512-MY2/qGx4enyjprQnFaZsHib3Yadh3IXyV2C321GY0pjGfVBu4un0uDJkwgdxqO+Rdx8JMT8IfJIRwbYVz3Ob3Q==}
+    engines: {node: '>=14'}
+    dev: true
 
   /simple-concat@1.0.1:
     resolution: {integrity: sha512-cSFtAPtRhljv69IK0hTVZQ+OfE9nePi/rtJmw5UjHeVyVroEqJXP1sFztKUy1qU+xvz3u/sfYJLa947b7nAN2Q==}

@@ -32,7 +32,10 @@ import {
 } from 'jose';
 import qs from 'qs';
 
-import type { IOIDCPlugin, OIDCAgentContext } from '../types/IOIDCPlugin.js';
+import type {
+  IOIDCRPPlugin,
+  OIDCRPAgentContext,
+} from '../types/IOIDCRPPlugin.js';
 import type {
   CreateAuthorizationRequestArgs,
   CreateAuthorizationRequestResponse,
@@ -62,7 +65,7 @@ const compareTypes = (first: string[], second: string[]) =>
  * {@inheritDoc IMyAgentPlugin}
  * @beta
  */
-export class OIDCPlugin implements IAgentPlugin {
+export class OIDCRPPlugin implements IAgentPlugin {
   // readonly schema = schema.OIDCPlugin;
   private pluginConfig: IPluginConfig = {} as IPluginConfig;
 
@@ -70,7 +73,7 @@ export class OIDCPlugin implements IAgentPlugin {
     this.pluginConfig = config;
   }
 
-  readonly methods: IOIDCPlugin = {
+  readonly methods: IOIDCRPPlugin = {
     createAuthorizationRequest: this.createAuthorizationRequest.bind(this),
     handleAuthorizationResponse: this.handleAuthorizationResponse.bind(this),
     handleIssuerServerMetadataRequest:
@@ -132,7 +135,7 @@ export class OIDCPlugin implements IAgentPlugin {
 
   public async handleAuthorizationResponse(
     args: HandleAuthorizationResponseArgs,
-    context: OIDCAgentContext
+    context: OIDCRPAgentContext
   ): Promise<Result<boolean>> {
     const {
       body,
@@ -741,7 +744,7 @@ export class OIDCPlugin implements IAgentPlugin {
     return {
       success: true,
       data: {
-        credentialOfferRequest: `openid_credential_offer://credential_offer?${qs.stringify(
+        credentialOfferRequest: `openid-credential-offer://credential_offer?${qs.stringify(
           params,
           { encode: true }
         )}`,
@@ -847,7 +850,7 @@ export class OIDCPlugin implements IAgentPlugin {
 
   public async handleCredentialRequest(
     args: HandleCredentialRequestArgs,
-    context: OIDCAgentContext
+    context: OIDCRPAgentContext
   ): Promise<Result<CredentialResponse>> {
     const { body, issuerDid, subjectDid, credentialSubjectClaims } = args;
 
@@ -1110,7 +1113,7 @@ export class OIDCPlugin implements IAgentPlugin {
 
   public async proofOfPossession(
     args: ProofOfPossesionArgs,
-    context: OIDCAgentContext
+    context: OIDCRPAgentContext
   ): Promise<Result<ProofOfPossesionResponseArgs>> {
     const { proof, cNonce, cNonceExpiresIn } = args;
 
@@ -1361,4 +1364,4 @@ export class OIDCPlugin implements IAgentPlugin {
   }
 }
 
-export default OIDCPlugin;
+export default OIDCRPPlugin;

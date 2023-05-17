@@ -1,3 +1,4 @@
+import { fastifyFormbody } from '@fastify/formbody';
 import { NestFactory } from '@nestjs/core';
 import {
   FastifyAdapter,
@@ -14,8 +15,9 @@ async function bootstrap() {
   const fastifyAdapter = new FastifyAdapter();
   fastifyAdapter.enableCors({ methods: '*', origin: '*' });
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, global-require, @typescript-eslint/no-var-requires
-  await fastifyAdapter.register(require('@fastify/formbody'), {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  await fastifyAdapter.register(fastifyFormbody, {
     parser: (str: string) => {
       return qs.parse(str, {
         depth: 50,

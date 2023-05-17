@@ -54,6 +54,7 @@
     "@babel/runtime": "7.21.0",
     "@blockchain-lab-um/did-provider-ebsi": "*",
     "@blockchain-lab-um/masca-types": "*",
+    "@blockchain-lab-um/oidc-client-plugin": "*",
     "@blockchain-lab-um/utils": "*",
     "@blockchain-lab-um/veramo-datamanager": "*",
     "@cef-ebsi/key-did-resolver": "^1.0.0",

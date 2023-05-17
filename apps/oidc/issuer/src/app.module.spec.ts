@@ -1,10 +1,10 @@
 import {
-  CredentialOfferRequest,
-  CredentialRequest,
-  SupportedCredential,
   TOKEN_ERRORS,
-  TokenRequest,
-  TokenResponse,
+  type CredentialOfferRequest,
+  type CredentialRequest,
+  type SupportedCredential,
+  type TokenRequest,
+  type TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
 import { HttpServer } from '@nestjs/common';
 import {
@@ -35,11 +35,11 @@ const credOfferAndTokenRequest = async (server: HttpServer<any, any>) => {
 
   let response = await request(server)
     .get('/credential-offer')
-    .query(credentialRequestData)
+    .query(qs.stringify(credentialRequestData, { encode: true }))
     .send();
 
   const query = qs.parse(
-    response.text.replace('openid_credential_offer://credential_offer?', '')
+    response.text.replace('openid-credential-offer://credential_offer?', '')
   );
 
   expect(response.status).toBe(200);
@@ -174,7 +174,7 @@ describe('Issuer controller', () => {
 
         const query = qs.parse(
           response.text.replace(
-            'openid_credential_offer://credential_offer?',
+            'openid-credential-offer://credential_offer?',
             ''
           )
         );
@@ -213,7 +213,7 @@ describe('Issuer controller', () => {
 
         const query = qs.parse(
           response.text.replace(
-            'openid_credential_offer://credential_offer?',
+            'openid-credential-offer://credential_offer?',
             ''
           )
         );
@@ -257,7 +257,7 @@ describe('Issuer controller', () => {
 
         const query = qs.parse(
           response.text.replace(
-            'openid_credential_offer://credential_offer?',
+            'openid-credential-offer://credential_offer?',
             ''
           )
         );
@@ -301,7 +301,7 @@ describe('Issuer controller', () => {
 
         const query = qs.parse(
           response.text.replace(
-            'openid_credential_offer://credential_offer?',
+            'openid-credential-offer://credential_offer?',
             ''
           )
         );
@@ -357,7 +357,7 @@ describe('Issuer controller', () => {
 
         const query = qs.parse(
           response.text.replace(
-            'openid_credential_offer://credential_offer?',
+            'openid-credential-offer://credential_offer?',
             ''
           )
         );
@@ -413,7 +413,7 @@ describe('Issuer controller', () => {
 
         const query = qs.parse(
           response.text.replace(
-            'openid_credential_offer://credential_offer?',
+            'openid-credential-offer://credential_offer?',
             ''
           )
         );
@@ -458,7 +458,7 @@ describe('Issuer controller', () => {
 
         const query = qs.parse(
           response.text.replace(
-            'openid_credential_offer://credential_offer?',
+            'openid-credential-offer://credential_offer?',
             ''
           )
         );
@@ -504,7 +504,7 @@ describe('Issuer controller', () => {
 
         const query = qs.parse(
           response.text.replace(
-            'openid_credential_offer://credential_offer?',
+            'openid-credential-offer://credential_offer?',
             ''
           )
         );
@@ -549,7 +549,7 @@ describe('Issuer controller', () => {
 
         const query = qs.parse(
           response.text.replace(
-            'openid_credential_offer://credential_offer?',
+            'openid-credential-offer://credential_offer?',
             ''
           )
         );
@@ -597,7 +597,7 @@ describe('Issuer controller', () => {
 
         const query = qs.parse(
           response.text.replace(
-            'openid_credential_offer://credential_offer?',
+            'openid-credential-offer://credential_offer?',
             ''
           )
         );
@@ -686,7 +686,7 @@ describe('Issuer controller', () => {
 
         const query = qs.parse(
           response.text.replace(
-            'openid_credential_offer://credential_offer?',
+            'openid-credential-offer://credential_offer?',
             ''
           )
         );
@@ -741,7 +741,7 @@ describe('Issuer controller', () => {
 
         const query = qs.parse(
           response.text.replace(
-            'openid_credential_offer://credential_offer?',
+            'openid-credential-offer://credential_offer?',
             ''
           )
         );
@@ -850,7 +850,7 @@ describe('Issuer controller', () => {
 
         const query = qs.parse(
           response.text.replace(
-            'openid_credential_offer://credential_offer?',
+            'openid-credential-offer://credential_offer?',
             ''
           )
         );
@@ -947,7 +947,7 @@ describe('Issuer controller', () => {
 
         const query = qs.parse(
           response.text.replace(
-            'openid_credential_offer://credential_offer?',
+            'openid-credential-offer://credential_offer?',
             ''
           )
         );

@@ -1,4 +1,4 @@
-import { IOIDCPlugin, OIDCPlugin } from '@blockchain-lab-um/oidc-rp-plugin';
+import { IOIDCRPPlugin, OIDCRPPlugin } from '@blockchain-lab-um/oidc-rp-plugin';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import {
@@ -46,7 +46,7 @@ export class AgentService {
     IDIDManager &
       IKeyManager &
       IResolver &
-      IOIDCPlugin &
+      IOIDCRPPlugin &
       ICredentialPlugin &
       ICredentialIssuerEIP712 &
       ICredentialIssuerLD
@@ -88,7 +88,7 @@ export class AgentService {
       IDIDManager &
         IKeyManager &
         IResolver &
-        IOIDCPlugin &
+        IOIDCRPPlugin &
         ICredentialPlugin &
         ICredentialIssuerEIP712 &
         ICredentialIssuerLD
@@ -127,7 +127,7 @@ export class AgentService {
             ...getDidKeyResolver(),
           }),
         }),
-        new OIDCPlugin({
+        new OIDCRPPlugin({
           url: this.configService.get<string>('VERIFIER_URL'),
           db_secret: this.configService.get<string>('VERIFIER_DB_SECRET'),
           supported_curves:
@@ -156,7 +156,7 @@ export class AgentService {
     IDIDManager &
       IKeyManager &
       IResolver &
-      IOIDCPlugin &
+      IOIDCRPPlugin &
       ICredentialPlugin &
       ICredentialIssuerEIP712 &
       ICredentialIssuerLD

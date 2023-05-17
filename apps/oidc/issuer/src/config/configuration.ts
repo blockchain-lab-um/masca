@@ -1,4 +1,4 @@
-import { SupportedCredential } from '@blockchain-lab-um/oidc-types';
+import { type SupportedCredential } from '@blockchain-lab-um/oidc-types';
 import { ConfigModule } from '@nestjs/config';
 import Joi from 'joi';
 
@@ -34,7 +34,7 @@ const config = (): IConfig => ({
 });
 
 export default ConfigModule.forRoot({
-  envFilePath: [`.env.${process.env.NODE_ENV}`],
+  envFilePath: [`.env`],
   load: [config],
   validationSchema: Joi.object({
     NODE_ENV: Joi.string()

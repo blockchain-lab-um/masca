@@ -1,6 +1,6 @@
 import {
-  IOIDCPlugin,
-  OIDCPlugin,
+  IOIDCRPPlugin,
+  OIDCRPPlugin,
   isError,
   privateKeyToDid,
 } from '@blockchain-lab-um/oidc-rp-plugin';
@@ -41,7 +41,7 @@ import {
 @Injectable()
 export class AgentService {
   private agent: TAgent<
-    IDIDManager & IKeyManager & IResolver & IOIDCPlugin & ICredentialPlugin
+    IDIDManager & IKeyManager & IResolver & IOIDCRPPlugin & ICredentialPlugin
   >;
 
   private dbConnection: DataSource;
@@ -77,7 +77,7 @@ export class AgentService {
     };
 
     this.agent = createAgent<
-      IDIDManager & IKeyManager & IResolver & IOIDCPlugin & ICredentialPlugin
+      IDIDManager & IKeyManager & IResolver & IOIDCRPPlugin & ICredentialPlugin
       // &
       // ICredentialIssuerLDPlugin
     >({
@@ -115,7 +115,7 @@ export class AgentService {
             ...getDidKeyResolver(),
           }),
         }),
-        new OIDCPlugin({
+        new OIDCRPPlugin({
           url: this.configService.get<string>('ISSUER_URL'),
           db_secret: this.configService.get<string>('ISSUER_DB_SECRET'),
           supported_curves:
@@ -173,7 +173,7 @@ export class AgentService {
     }
   }
 
-  getAgent(): TAgent<IDIDManager & IKeyManager & IResolver & IOIDCPlugin> {
+  getAgent(): TAgent<IDIDManager & IKeyManager & IResolver & IOIDCRPPlugin> {
     return this.agent;
   }
 }

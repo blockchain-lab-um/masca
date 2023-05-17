@@ -127,3 +127,10 @@ export type VerifyDataRequestParams =
       presentation: W3CVerifiablePresentation;
       verbose?: boolean;
     };
+
+/**
+ * HandleOIDCCredentialOfferRequestParams
+ */
+export type HandleOIDCCredentialOfferRequestParams = {
+  credentialOfferURI: string;
+};

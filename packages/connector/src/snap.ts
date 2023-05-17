@@ -4,6 +4,7 @@ import {
   CreateVCRequestParams,
   CreateVPRequestParams,
   DeleteVCsOptions,
+  HandleOIDCCredentialOfferRequestParams,
   MascaAccountConfig,
   MascaApi,
   MascaConfig,
@@ -286,6 +287,19 @@ export async function setCurrentAccount(
   );
 }
 
+export async function handleOIDCCredentialOffer(
+  this: Masca,
+  params: HandleOIDCCredentialOfferRequestParams
+): Promise<Result<string>> {
+  return sendSnapMethod(
+    {
+      method: 'handleOIDCCredentialOffer',
+      params,
+    },
+    this.snapId
+  );
+}
+
 export class Masca {
   protected readonly snapId: string;
 
@@ -318,6 +332,7 @@ export class Masca {
       resolveDID: resolveDID.bind(this),
       createVC: createVC.bind(this),
       setCurrentAccount: setCurrentAccount.bind(this),
+      handleOIDCCredentialOffer: handleOIDCCredentialOffer.bind(this),
     };
   };
 }

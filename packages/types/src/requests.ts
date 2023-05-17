@@ -9,6 +9,7 @@ import {
   GetMethod,
   GetSnapSettings,
   GetVCStore,
+  HandleOIDCCredentialOffer,
   QueryVCs,
   ResolveDID,
   SaveVC,
@@ -35,7 +36,8 @@ export type MascaRPCRequest =
   | GetSnapSettings
   | ResolveDID
   | CreateVC
-  | SetCurrentAccount;
+  | SetCurrentAccount
+  | HandleOIDCCredentialOffer;
 
 export type Method = MascaRPCRequest['method'];
 

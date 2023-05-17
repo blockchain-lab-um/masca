@@ -1,4 +1,4 @@
-import { IOIDCPlugin, OIDCPlugin } from '@blockchain-lab-um/oidc-rp-plugin';
+import { IOIDCRPPlugin, OIDCRPPlugin } from '@blockchain-lab-um/oidc-rp-plugin';
 import {
   ICredentialPlugin,
   IDIDManager,
@@ -36,7 +36,7 @@ import {
 } from './constants.js';
 
 export type Agent = TAgent<
-  IDIDManager & IKeyManager & IResolver & IOIDCPlugin & ICredentialPlugin
+  IDIDManager & IKeyManager & IResolver & IOIDCRPPlugin & ICredentialPlugin
 >;
 
 const getAgent = async (): Promise<Agent> => {
@@ -64,7 +64,7 @@ const getAgent = async (): Promise<Agent> => {
   });
 
   return createAgent<
-    IDIDManager & IKeyManager & IResolver & IOIDCPlugin & ICredentialPlugin
+    IDIDManager & IKeyManager & IResolver & IOIDCRPPlugin & ICredentialPlugin
   >({
     plugins: [
       new KeyManager({
@@ -98,7 +98,7 @@ const getAgent = async (): Promise<Agent> => {
           ...getDidKeyResolver(),
         }),
       }),
-      new OIDCPlugin({
+      new OIDCRPPlugin({
         url: TEST_ISSUER_URL,
         db_secret: TEST_ISSUER_DB_SECRET,
         supported_curves: TEST_SUPPORTED_CURVES,

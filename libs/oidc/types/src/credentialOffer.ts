@@ -36,7 +36,7 @@ export interface CredentialOfferRequest {
   userPinRequired?: boolean;
 }
 
-export interface CredentialOfferParams {
+export interface CredentialOffer {
   credential_issuer: string;
   credentials: Credentials;
   grants?: Grants;

@@ -2,6 +2,7 @@ import {
   CreateVCRequestParams,
   CreateVPRequestParams,
   DeleteVCsRequestParams,
+  HandleOIDCCredentialOfferRequestParams,
   QueryVCsRequestParams,
   ResolveDIDRequestParams,
   SaveVCRequestParams,
@@ -85,4 +86,9 @@ export type ResolveDID = {
 export type SetCurrentAccount = {
   method: 'setCurrentAccount';
   params: SetCurrentAccountRequestParams;
+};
+
+export type HandleOIDCCredentialOffer = {
+  method: 'handleOIDCCredentialOffer';
+  params: HandleOIDCCredentialOfferRequestParams;
 };

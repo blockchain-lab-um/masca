@@ -11,6 +11,7 @@ import {
   CreateVCRequestParams,
   CreateVPRequestParams,
   DeleteVCsOptions,
+  HandleOIDCCredentialOfferRequestParams,
   QueryVCsRequestParams,
   SaveVCOptions,
   SetCurrentAccountRequestParams,
@@ -50,4 +51,7 @@ export interface MascaApi {
   setCurrentAccount(
     params: SetCurrentAccountRequestParams
   ): Promise<Result<boolean>>;
+  handleOIDCCredentialOffer(
+    params: HandleOIDCCredentialOfferRequestParams
+  ): Promise<Result<string>>;
 }

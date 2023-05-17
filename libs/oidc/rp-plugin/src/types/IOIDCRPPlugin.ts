@@ -28,13 +28,13 @@ import {
   ProofOfPossesionResponseArgs,
 } from './internal.js';
 
-export interface IOIDCPlugin extends IPluginMethodMap {
+export interface IOIDCRPPlugin extends IPluginMethodMap {
   createAuthorizationRequest(
     args: CreateAuthorizationRequestArgs
   ): Promise<Result<CreateAuthorizationRequestResponse>>;
   handleAuthorizationResponse(
     args: HandleAuthorizationResponseArgs,
-    context: OIDCAgentContext
+    context: OIDCRPAgentContext
   ): Promise<Result<boolean>>;
   handleIssuerServerMetadataRequest(): Promise<Result<IssuerServerMetadata>>;
   createCredentialOfferRequest(
@@ -45,14 +45,14 @@ export interface IOIDCPlugin extends IPluginMethodMap {
   ): Promise<Result<TokenResponse>>;
   handleCredentialRequest(
     args: HandleCredentialRequestArgs,
-    context: OIDCAgentContext
+    context: OIDCRPAgentContext
   ): Promise<Result<CredentialResponse>>;
   isValidTokenRequest(
     args: IsValidTokenRequestArgs
   ): Promise<Result<IsValidTokenRequestResponse>>;
   proofOfPossession(
     args: ProofOfPossesionArgs,
-    context: OIDCAgentContext
+    context: OIDCRPAgentContext
   ): Promise<Result<ProofOfPossesionResponseArgs>>;
 }
 
@@ -64,7 +64,7 @@ export interface IOIDCPlugin extends IPluginMethodMap {
  *
  * @beta
  */
-export type OIDCAgentContext = IAgentContext<
+export type OIDCRPAgentContext = IAgentContext<
   IResolver &
     Pick<ICredentialIssuer, 'createVerifiableCredential'> &
     ICredentialVerifier &

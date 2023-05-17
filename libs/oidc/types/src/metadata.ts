@@ -55,25 +55,25 @@ export type SupportedCredential =
       order?: string[];
       credentialSchema: CredentialSchema; // Not in specs
     } & (
-      | SupportedCredential_JWT_VC_JSON
-      | SupportedCredential_JWT_VC_JSON_LD
-      | SupportedCredential_MSO_MDOC
+      | SupportedCredentialJwtVcJson
+      | SupportedCredentialJwtVcJsonLd
+      | SupportedCredentialMsoMdoc
     );
 
-export type SupportedCredential_JWT_VC_JSON = {
+export type SupportedCredentialJwtVcJson = {
   format: 'jwt_vc_json';
   types: string[];
   credentialSubject?: any;
 };
 
-export type SupportedCredential_JWT_VC_JSON_LD = {
+export type SupportedCredentialJwtVcJsonLd = {
   format: 'jwt_vc_json-ld' | 'ldp_vc';
   types: string[];
   '@context': string[];
   credentialSubject?: any;
 };
 
-export type SupportedCredential_MSO_MDOC = {
+export type SupportedCredentialMsoMdoc = {
   format: 'mso_mdoc';
   doctype: string;
   claims?: any;

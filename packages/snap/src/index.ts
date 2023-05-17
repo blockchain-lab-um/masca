@@ -1,3 +1,4 @@
+import { HandleOIDCCredentialOfferRequestParams } from '@blockchain-lab-um/masca-types';
 import { Result, ResultObject } from '@blockchain-lab-um/utils';
 import { OnRpcRequestHandler } from '@metamask/snaps-types';
 
@@ -6,6 +7,7 @@ import { getAvailableMethods } from './rpc/did/getAvailableMethods';
 import { getDid } from './rpc/did/getDID';
 import { resolveDID } from './rpc/did/resolveDID';
 import { switchMethod } from './rpc/did/switchMethod';
+import { handleOIDCCredentialOffer } from './rpc/oidc/handleOIDCCredentialOffer';
 import { togglePopups } from './rpc/snap/configure';
 import { setCurrentAccount } from './rpc/snap/setCurrentAccount';
 import { createVC } from './rpc/vc/createVC';
@@ -151,6 +153,14 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         isValidVerifyDataRequest(request.params);
         res = await verifyData(apiParams, request.params);
         return ResultObject.success(res);
+      case 'handleOIDCCredentialOffer':
+        console.log('handleOIDCCredentialOffer');
+        console.log(request.params);
+        await handleOIDCCredentialOffer(
+          apiParams,
+          request.params as unknown as HandleOIDCCredentialOfferRequestParams
+        );
+        return ResultObject.success('Not implemented yet.');
       default:
         throw new Error('Method not found.');
     }

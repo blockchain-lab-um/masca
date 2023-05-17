@@ -4,13 +4,13 @@ import {
   isValidAuthorizationHeader,
 } from '@blockchain-lab-um/oidc-rp-plugin';
 import {
-  CredentialOfferRequest,
-  CredentialRequest,
-  CredentialResponse,
-  IssuerServerMetadata,
   TOKEN_ERRORS,
-  TokenRequest,
-  TokenResponse,
+  type CredentialOfferRequest,
+  type CredentialRequest,
+  type CredentialResponse,
+  type IssuerServerMetadata,
+  type TokenRequest,
+  type TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -71,6 +71,8 @@ export class AppService {
       preAuthorizedCode,
       userPin,
     } = res.data;
+
+    console.log(userPin);
 
     if (preAuthorizedCode) {
       this.dataStoreService.createUserSession(preAuthorizedCode, {

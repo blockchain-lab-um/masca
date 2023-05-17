@@ -47,7 +47,6 @@ export class AppController {
   @HttpCode(200)
   async initiate(@Query() query: unknown): Promise<string> {
     return this.appService.createCredentialOfferRequest(
-      // TODO: Validate query
       qs.parse(query as string, {
         depth: 50,
         parameterLimit: 1000,
