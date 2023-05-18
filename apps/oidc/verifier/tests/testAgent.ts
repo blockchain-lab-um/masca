@@ -71,7 +71,7 @@ const getAgent = async (): Promise<Agent> => {
 
   const dbConnection = new DataSource({
     type: 'sqlite',
-    database: 'database.oidc-demo.issuer.test',
+    database: 'database.oidc-demo.verifier.test',
     synchronize: false,
     migrations,
     migrationsRun: true,

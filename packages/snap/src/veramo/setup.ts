@@ -2,6 +2,10 @@
 /* eslint-disable @typescript-eslint/dot-notation */
 
 import {
+  IOIDCClientPlugin,
+  OIDCClientPlugin,
+} from '@blockchain-lab-um/oidc-client-plugin';
+import {
   AbstractDataStore,
   DataManager,
   IDataManager,
@@ -63,7 +67,8 @@ export type Agent = TAgent<
     IDataStore &
     IResolver &
     IDataManager &
-    ICredentialIssuer
+    ICredentialIssuer &
+    IOIDCClientPlugin
 >;
 
 export const getAgent = async (
@@ -80,17 +85,14 @@ export const getAgent = async (
   const networks = [
     {
       name: 'mainnet',
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       provider: new ethers.providers.Web3Provider(ethereum as any),
     },
     {
       name: '0x05',
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       provider: new ethers.providers.Web3Provider(ethereum as any),
     },
     {
       name: 'goerli',
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       provider: new ethers.providers.Web3Provider(ethereum as any),
       chainId: '0x5',
     },
@@ -116,7 +118,8 @@ export const getAgent = async (
       IDataStore &
       IResolver &
       IDataManager &
-      ICredentialIssuer
+      ICredentialIssuer &
+      IOIDCClientPlugin
   >({
     plugins: [
       new CredentialPlugin(),
@@ -146,6 +149,7 @@ export const getAgent = async (
         defaultProvider: 'metamask',
         providers: didProviders,
       }),
+      new OIDCClientPlugin(),
     ],
   });
   return agent;

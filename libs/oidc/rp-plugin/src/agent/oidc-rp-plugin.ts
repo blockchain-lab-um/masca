@@ -1199,7 +1199,7 @@ export class OIDCRPPlugin implements IAgentPlugin {
       // Split kid
       const [extractedDid, extractedKeyId] = protectedHeader.kid.split('#');
       did = extractedDid;
-
+      console.log('did', did);
       // Check if did and keyId are present
       if (!did || !extractedKeyId) {
         return {
@@ -1288,6 +1288,8 @@ export class OIDCRPPlugin implements IAgentPlugin {
         y: bytesToBase64url(pubPoint.getY().toBuffer('be', 32)),
       };
 
+      console.log(publicKeyJwk);
+
       publicKey = await importJWK(publicKeyJwk, protectedHeader.alg);
     } else if (protectedHeader.jwk) {
       // publicKey = await importJWK(protectedHeader.jwk);
@@ -1308,6 +1310,7 @@ export class OIDCRPPlugin implements IAgentPlugin {
       };
     }
 
+    console.log(proof.jwt);
     try {
       payload = (
         await jwtVerify(proof.jwt, publicKey, {
@@ -1326,6 +1329,8 @@ export class OIDCRPPlugin implements IAgentPlugin {
         ),
       };
     }
+
+    console.log('here');
 
     // Check if jwt is valid
     const { nonce } = payload;

@@ -2,6 +2,7 @@ import {
   CredentialOffer,
   CredentialResponse,
   Proof,
+  SupportedCredential,
   TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
 import { Result } from '@blockchain-lab-um/utils';
@@ -9,6 +10,7 @@ import { IAgentContext, IPluginMethodMap, IResolver } from '@veramo/core';
 
 import {
   CredentialRequestArgs,
+  GetCredentialInfoByIdArgs,
   ParseOIDCCredentialOfferURIArgs,
   ProofOfPossesionArgs,
   TokenRequestArgs,
@@ -23,6 +25,9 @@ export interface IOIDCClientPlugin extends IPluginMethodMap {
   credentialRequest(
     args: CredentialRequestArgs
   ): Promise<Result<CredentialResponse>>;
+  getCredentialInfoById(
+    args: GetCredentialInfoByIdArgs
+  ): Promise<Result<SupportedCredential>>;
 
   // For verification handling
 

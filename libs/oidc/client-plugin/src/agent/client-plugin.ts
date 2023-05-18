@@ -3,16 +3,18 @@ import {
   CredentialResponse,
   IssuerServerMetadata,
   Proof,
+  SupportedCredential,
   TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
 import { Result, ResultObject } from '@blockchain-lab-um/utils';
 import { IAgentPlugin } from '@veramo/core';
-import fetch from 'cross-fetch';
+import { fetch } from 'cross-fetch';
 import qs from 'qs';
 
 import type { IOIDCClientPlugin } from '../types/IOIDCClientPlugin.js';
 import {
   CredentialRequestArgs,
+  GetCredentialInfoByIdArgs,
   ParseOIDCCredentialOfferURIArgs,
   ProofOfPossesionArgs,
   TokenRequestArgs,
@@ -36,11 +38,15 @@ export class OIDCClientPlugin implements IAgentPlugin {
   };
 
   readonly methods: IOIDCClientPlugin = {
+    // For issuance handling
     parseOIDCCredentialOfferURI: this.parseOIDCCredentialOfferURI.bind(this),
-
     tokenRequest: this.tokenRequest.bind(this),
     credentialRequest: this.credentialRequest.bind(this),
+    getCredentialInfoById: this.getCredentialInfoById.bind(this),
 
+    // For verification handling
+
+    // Common
     proofOfPossession: this.proofOfPossession.bind(this),
     reset: this.reset.bind(this),
   };
@@ -51,9 +57,12 @@ export class OIDCClientPlugin implements IAgentPlugin {
     let credentialOffer: CredentialOffer;
 
     try {
-      credentialOffer = qs.parse(
-        args.credentialOfferURI
-      ) as unknown as CredentialOffer;
+      const query = args.credentialOfferURI.split('?')[1];
+
+      credentialOffer = qs.parse(query, {
+        depth: 50,
+        parameterLimit: 1000,
+      }) as unknown as CredentialOffer;
 
       if (!credentialOffer) {
         return ResultObject.error('Invalid credential offer URI');
@@ -73,7 +82,7 @@ export class OIDCClientPlugin implements IAgentPlugin {
 
       // Fetch issuer server metadata
       const response = await fetch(
-        `${credentialOffer.credential_issuer}/.well-known/oidc-configuration`
+        `${credentialOffer.credential_issuer}/.well-known/openid-credential-issuer`
       );
 
       if (!response.ok) {
@@ -92,6 +101,7 @@ export class OIDCClientPlugin implements IAgentPlugin {
 
       return ResultObject.success(credentialOffer);
     } catch (e) {
+      console.log(e);
       return ResultObject.error(
         `An unexpected error occurred: ${JSON.stringify(e)}`
       );
@@ -253,6 +263,28 @@ export class OIDCClientPlugin implements IAgentPlugin {
       proof_type: 'jwt',
       jwt,
     });
+  }
+
+  public async getCredentialInfoById(
+    args: GetCredentialInfoByIdArgs
+  ): Promise<Result<SupportedCredential>> {
+    // Search for credential in issuer server metadata supported credentials
+
+    if (!this.current.issuerServerMetadata) {
+      return ResultObject.error('Issuer server metadata not found');
+    }
+
+    const { issuerServerMetadata } = this.current;
+
+    const credential = issuerServerMetadata.credentials_supported.find(
+      (cred) => cred.id === args.id
+    );
+
+    if (!credential) {
+      return ResultObject.error('Credential not found');
+    }
+
+    return ResultObject.success(credential);
   }
 
   public async reset(): Promise<void> {

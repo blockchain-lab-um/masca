@@ -18,3 +18,7 @@ export type SignArgs = {
 export type ProofOfPossesionArgs = {
   sign: (args: SignArgs) => Promise<string>;
 };
+
+export type GetCredentialInfoByIdArgs = {
+  id: string;
+};

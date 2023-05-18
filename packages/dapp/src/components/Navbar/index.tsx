@@ -49,6 +49,9 @@ export default function Navbar() {
           <NavBtn page="/settings" pathname={router.pathname}>
             {t('menu.settings')}
           </NavBtn>
+          <NavBtn page="/issue" pathname={router.pathname}>
+            Test issuer
+          </NavBtn>
           <MenuPopover />
         </div>
       )}

@@ -154,8 +154,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         res = await verifyData(apiParams, request.params);
         return ResultObject.success(res);
       case 'handleOIDCCredentialOffer':
-        console.log('handleOIDCCredentialOffer');
-        console.log(request.params);
+        apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
         await handleOIDCCredentialOffer(
           apiParams,
           request.params as unknown as HandleOIDCCredentialOfferRequestParams

@@ -7,6 +7,7 @@ import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { IIdentifier } from '@veramo/core';
 import { DIDResolutionResult } from 'did-resolver';
+import elliptic from 'elliptic';
 
 import { getDidJwkIdentifier } from '../did/jwk/jwkDidUtils';
 import { getDidKeyIdentifier } from '../did/key/keyDidUtils';
@@ -15,6 +16,8 @@ import { getAgent } from '../veramo/setup';
 import { snapGetKeysFromAddress } from './keyPair';
 import { getCurrentNetwork } from './snapUtils';
 import { updateSnapState } from './stateUtils';
+
+const { ec: EC } = elliptic;
 
 export async function changeCurrentVCStore(params: {
   snap: SnapsGlobalObject;
@@ -42,7 +45,14 @@ export async function getCurrentDid(params: {
   // TODO: Use switch statement
   if (method === 'did:ethr') {
     const CHAIN_ID = await getCurrentNetwork(ethereum);
-    return `did:ethr:${CHAIN_ID}:${account}`;
+    const ctx = new EC('secp256k1');
+    const ecPublicKey = ctx.keyFromPublic(
+      state.accountState[account].publicKey.slice(2),
+      'hex'
+    );
+    const compactPublicKey = `0x${ecPublicKey.getPublic(true, 'hex')}`;
+
+    return `did:ethr:${CHAIN_ID}:${compactPublicKey}`;
   }
   if (method === 'did:key') {
     const didUrl = getDidKeyIdentifier(state, account);
