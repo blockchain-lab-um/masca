@@ -199,7 +199,7 @@ describe('Verifier controler', () => {
      * Success cases
      */
     describe('Should succeed', () => {
-      it('With valid VC, valid VP and valdi presentation submission', async () => {
+      it('With valid VC, valid VP and valid presentation submission', async () => {
         const state = randomUUID();
         let response = await request(server)
           .get('/authorization-request')
