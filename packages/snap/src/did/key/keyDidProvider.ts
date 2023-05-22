@@ -12,14 +12,18 @@ import {
   IKey,
   IKeyManager,
   IService,
+  RequireOnly,
 } from '@veramo/core';
 import { AbstractIdentifierProvider } from '@veramo/did-manager';
 import { bytesToBase64url, hexToBytes } from '@veramo/utils';
 import { ec as EC } from 'elliptic';
-import { base58btc } from 'multiformats/bases/base58';
+import Multibase from 'multibase';
+// import { addMulticodecPrefix } from '../../utils/formatUtils';
+import Multicodec from 'multicodec';
 
-import { addMulticodecPrefix } from '../../utils/formatUtils';
-import { IKeyCreateIdentifierOptionsany } from './types/keyProviderTypes';
+// import { base58btc } from 'multiformats/bases/base58';
+
+import { CreateKeyDidOptions, keyOptions } from './types/keyProviderTypes';
 
 type IContext = IAgentContext<IKeyManager>;
 
@@ -38,10 +42,7 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
 
   async createIdentifier(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    {
-      kms,
-      options,
-    }: { kms?: string; options?: IKeyCreateIdentifierOptionsany },
+    { kms, options }: { kms?: string; options?: CreateKeyDidOptions },
     context: IContext
   ): Promise<Omit<IIdentifier, 'provider'>> {
     if (options?.type === 'ebsi') {
@@ -72,13 +73,31 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
       };
       return identifier;
     }
-    const key = await context.agent.keyManagerCreate({
-      kms: kms || this.defaultKms,
-      type: 'Ed25519',
-    });
+    const keyType =
+      (options?.keyType && keyOptions[options?.keyType] && options.keyType) ||
+      'Ed25519';
+
+    const key = await this.importOrGenerateKey(
+      {
+        kms: kms || this.defaultKms,
+        options: {
+          keyType,
+          ...(options?.privateKeyHex && {
+            privateKeyHex: options.privateKeyHex,
+          }),
+        },
+      },
+      context
+    );
+    console.log('🚀 ~ file: keyDidProvider.ts:90 ~ KeyDIDProvider ~ key:', key);
+
     const methodSpecificId = Buffer.from(
-      base58btc.encode(
-        addMulticodecPrefix('ed25519-pub', Buffer.from(key.publicKeyHex, 'hex'))
+      Multibase.encode(
+        'base58btc',
+        Multicodec.addPrefix(
+          keyOptions[keyType],
+          Buffer.from(key.publicKeyHex, 'hex')
+        )
       )
     ).toString();
 
@@ -148,5 +167,25 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     context: IContext
   ): Promise<any> {
     throw Error('KeyDIDProvider removeService not supported');
+  }
+
+  private async importOrGenerateKey(
+    args: {
+      kms: string;
+      options: RequireOnly<CreateKeyDidOptions, 'keyType'>;
+    },
+    context: IContext
+  ): Promise<IKey> {
+    if (args.options.privateKeyHex) {
+      return context.agent.keyManagerImport({
+        kms: args.kms || this.defaultKms,
+        type: args.options.keyType,
+        privateKeyHex: args.options.privateKeyHex,
+      });
+    }
+    return context.agent.keyManagerCreate({
+      kms: args.kms || this.defaultKms,
+      type: args.options.keyType,
+    });
   }
 }

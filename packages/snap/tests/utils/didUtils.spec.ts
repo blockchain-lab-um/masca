@@ -133,13 +133,13 @@ describe('Utils [did]', () => {
           ethereum: ethereumMock,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
 
-          didMethod: 'did:key',
+          didMethod: 'did:ethr',
         })
       ).resolves.not.toThrow();
 
       const expectedState = getDefaultSnapState();
       expectedState.accountState[address].accountConfig.ssi.didMethod =
-        'did:key';
+        'did:ethr';
 
       expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith({
         operation: 'update',

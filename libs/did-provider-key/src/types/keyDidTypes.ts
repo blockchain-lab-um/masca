@@ -1,10 +1,14 @@
+export type IKeyCreateIdentifierOptions = {
+  type?: string;
+};
+
 export type CreateKeyDidOptions = {
   keyType?: keyof typeof keyOptions;
   privateKeyHex?: string;
-  type?: 'ebsi'; // Type whether to use classic did key or did key for EBSI NP
+  type?: string;
 };
 
-export const keyOptions = {
+const keyOptions = {
   Ed25519: 'ed25519-pub',
   X25519: 'x25519-pub',
   Secp256k1: 'secp256k1-pub',

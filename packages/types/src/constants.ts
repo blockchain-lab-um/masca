@@ -13,7 +13,7 @@ export const isAvailableVCStores = (x: string) =>
 export const availableMethods = [
   'did:ethr',
   'did:key',
-  // 'did:key:ebsi',
+  'did:key:ebsi',
   'did:pkh',
   // 'did:ebsi',
   'did:jwk',
@@ -27,7 +27,7 @@ export const didCoinTypeMappping: Record<string, number> = {
   'did:key': 60,
   'did:pkh': 60,
   // 'did:ebsi': 60,
-  // 'did:key:ebsi': 60,
+  'did:key:ebsi': 60,
   'did:jwk': 60,
 };
 

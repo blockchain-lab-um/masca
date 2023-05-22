@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/dot-notation */
 
+// import { MascaKeyDidProvider } from '@blockchain-lab-um/did-provider-key';
 import {
   AbstractDataStore,
   DataManager,
@@ -29,6 +30,7 @@ import {
   JwkDIDProvider,
   getDidJwkResolver as jwkDidResolver,
 } from '@veramo/did-provider-jwk';
+// import { KeyDIDProvider } from '@veramo/did-provider-key';
 import {
   PkhDIDProvider,
   getDidPkhResolver as pkhDidResolver,

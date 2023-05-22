@@ -8,8 +8,10 @@ import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { IIdentifier } from '@veramo/core';
 import { DIDResolutionResult } from 'did-resolver';
 
-import { getDidJwkIdentifier } from '../did/jwk/jwkDidUtils';
-import { getDidKeyIdentifier } from '../did/key/keyDidUtils';
+/* import {
+  // getDidEbsiKeyIdentifier,
+  getDidKeyIdentifier,
+} from '../did/key/keyDidUtils'; */
 import { MascaState } from '../interfaces';
 import { getAgent } from '../veramo/setup';
 import { snapGetKeysFromAddress } from './keyPair';
@@ -44,35 +46,31 @@ export async function getCurrentDid(params: {
     const CHAIN_ID = await getCurrentNetwork(ethereum);
     return `did:ethr:${CHAIN_ID}:${account}`;
   }
-  if (method === 'did:key') {
+  /* if (method === 'did:key') {
     const didUrl = getDidKeyIdentifier(state, account);
     return `did:key:${didUrl}`;
-  }
-  // if (method === 'did:key:ebsi') {
-  //   const didUrl = getDidEbsiKeyIdentifier(state, account);
-  //   return `did:key:${didUrl}`;
-  // }
-  // if (method === 'did:ebsi') {
-  //   // TODO: handle ebsi bearer token workflow
-  //   const bearer = '';
-  //   const didUrl = await getDidEbsiIdentifier({
-  //     state,
-  //     snap,
-  //     account,
-  //     args: {
-  //       provider: method,
-  //       kms: 'web3',
-  //       options: { bearer },
-  //     },
-  //   });
-  //   return `did:ebsi:${didUrl}`;
-  // }
-  if (method === 'did:jwk') {
-    const didUrl = await getDidJwkIdentifier(state, account);
-    return `did:jwk:${didUrl}`;
-  }
+  } */
+  /* if (method === 'did:key:ebsi') {
+    const didUrl = getDidEbsiKeyIdentifier(state, account);
+    return `did:key:${didUrl}`;
+  } */
+  /* if (method === 'did:ebsi') {
+    // TODO: handle ebsi bearer token workflow
+    const bearer = '';
+    const didUrl = await getDidEbsiIdentifier({
+      state,
+      snap,
+      account,
+      args: {
+        provider: method,
+        kms: 'web3',
+        options: { bearer },
+      },
+    });
+    return `did:ebsi:${didUrl}`;
+  } */
   // TODO: handle did:jwk when veramo supports it
-  if (method === 'did:pkh') {
+  if (method === 'did:pkh' || method === 'did:jwk' || method === 'did:key') {
     const agent = await getAgent(snap, ethereum);
 
     const res = await snapGetKeysFromAddress(
