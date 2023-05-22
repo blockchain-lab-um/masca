@@ -801,12 +801,6 @@ importers:
       lodash.clonedeep:
         specifier: ^4.5.0
         version: 4.5.0
-      multibase:
-        specifier: ^4.0.6
-        version: 4.0.6
-      multicodec:
-        specifier: ^3.2.1
-        version: 3.2.1
       multiformats:
         specifier: ^11.0.2
         version: 11.0.2
@@ -2472,7 +2466,7 @@ packages:
       '@transmute/json-web-signature': 0.7.0-unstable.80
       '@transmute/vc.js': 0.7.0-unstable.80
       ajv: 8.12.0
-      ajv-formats: 2.1.1(ajv@8.12.0)
+      ajv-formats: 2.1.1
       axios: 1.3.6
       did-resolver: 4.1.0
       elliptic: 6.5.4
@@ -9452,10 +9446,8 @@ packages:
       clean-stack: 2.2.0
       indent-string: 4.0.0
 
-  /ajv-formats@2.1.1(ajv@8.12.0):
+  /ajv-formats@2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
-    peerDependencies:
-      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -19823,7 +19815,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.12.0
-      ajv-formats: 2.1.1(ajv@8.12.0)
+      ajv-formats: 2.1.1
       ajv-keywords: 5.1.0(ajv@8.12.0)
 
   /scrypt-js@3.0.1:

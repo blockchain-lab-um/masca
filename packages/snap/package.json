@@ -104,8 +104,6 @@
     "key-did-provider-ed25519": "^2.0.1",
     "key-did-resolver": "2.3.0",
     "lodash.clonedeep": "^4.5.0",
-    "multibase": "^4.0.6",
-    "multicodec": "^3.2.1",
     "multiformats": "^11.0.2",
     "secp256k1": "4.0.3",
     "ts-jest": "^29.0.5",

@@ -17,12 +17,14 @@ import {
 import { AbstractIdentifierProvider } from '@veramo/did-manager';
 import { bytesToBase64url, hexToBytes } from '@veramo/utils';
 import { ec as EC } from 'elliptic';
-import Multibase from 'multibase';
+import { base58btc } from 'multiformats/bases/base58';
+
+import { addMulticodecPrefix } from '../../utils/formatUtils';
+// import Multibase from 'multibase';
 // import { addMulticodecPrefix } from '../../utils/formatUtils';
-import Multicodec from 'multicodec';
+// import Multicodec from 'multicodec';
 
-// import { base58btc } from 'multiformats/bases/base58';
-
+import { getCompressedPublicKey } from '../../utils/snapUtils';
 import { CreateKeyDidOptions, keyOptions } from './types/keyProviderTypes';
 
 type IContext = IAgentContext<IKeyManager>;
@@ -89,14 +91,13 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
       },
       context
     );
-    console.log('🚀 ~ file: keyDidProvider.ts:90 ~ KeyDIDProvider ~ key:', key);
 
+    const compressedKey = getCompressedPublicKey(`0x${key.publicKeyHex}`);
     const methodSpecificId = Buffer.from(
-      Multibase.encode(
-        'base58btc',
-        Multicodec.addPrefix(
+      base58btc.encode(
+        addMulticodecPrefix(
           keyOptions[keyType],
-          Buffer.from(key.publicKeyHex, 'hex')
+          Buffer.from(compressedKey, 'hex')
         )
       )
     ).toString();
