@@ -1,4 +1,5 @@
-import { useState } from 'react';
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+import { useEffect, useState } from 'react';
 import qs from 'qs';
 
 import Button from '@/components/Button';
@@ -9,6 +10,9 @@ export default function Issue() {
   const api = useMascaStore((state) => state.mascaApi);
 
   const [credentialOfferURI, setCredentialOfferURI] = useState('');
+  const [parsedCredentialOfferURI, setParsedCredentialOfferURI] = useState<any>(
+    {}
+  );
 
   const getCredentialOfferRequestURI = async () => {
     const query = {
@@ -28,8 +32,6 @@ export default function Issue() {
   };
 
   const handleCredentialOfferRequest = async () => {
-    console.log(credentialOfferURI);
-
     if (!api) return;
 
     await api.handleOIDCCredentialOffer({
@@ -37,16 +39,44 @@ export default function Issue() {
     });
   };
 
+  useEffect(() => {
+    if (!credentialOfferURI) return;
+
+    const parsedOffer = qs.parse(credentialOfferURI.split('?')[1], {
+      depth: 50,
+      parameterLimit: 1000,
+    });
+
+    setParsedCredentialOfferURI(parsedOffer);
+  }, [credentialOfferURI]);
+
   return (
     <div className="dark:bg-navy-blue-800 flex min-h-[50vh] justify-center rounded-3xl bg-white shadow-lg">
       <ConnectedProvider>
-        <h1>issue</h1>
-        <Button variant="primary" onClick={getCredentialOfferRequestURI}>
-          getCredentialOfferRequest
-        </Button>
-        <Button variant="secondary" onClick={handleCredentialOfferRequest}>
-          handleCredentialOfferRequest
-        </Button>
+        <div className="flex flex-col items-center space-y-4 p-4">
+          <div className="flex-1">
+            <>
+              {parsedCredentialOfferURI &&
+                // Map trought keys and show keys and values
+                Object.keys(parsedCredentialOfferURI).map((key) => (
+                  <div key={key} className="flex flex-row">
+                    <div className="font-bold">{key}:</div>
+                    <div className="ml-2">
+                      {JSON.stringify(parsedCredentialOfferURI[key])}
+                    </div>
+                  </div>
+                ))}
+            </>
+          </div>
+          <div className="flex flex-row space-x-4">
+            <Button variant="primary" onClick={getCredentialOfferRequestURI}>
+              Get Credential Offer
+            </Button>
+            <Button variant="secondary" onClick={handleCredentialOfferRequest}>
+              Handle Credential Offer
+            </Button>
+          </div>
+        </div>
       </ConnectedProvider>
     </div>
   );

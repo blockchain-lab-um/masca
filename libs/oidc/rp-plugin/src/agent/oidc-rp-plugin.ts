@@ -721,30 +721,32 @@ export class OIDCRPPlugin implements IAgentPlugin {
     // In this case the Wallet MUST determine the Grant Types
     // the Credential Issuer's AS supports using the respective metadata
     const params = {
-      credential_issuer: this.pluginConfig.url,
-      credentials,
-      ...(requestedGrants && {
-        grants: {
-          ...(requestedGrants.includes('authorization_code') && {
-            authorization_code: {
-              // FIXME: QS removes empty objects, thats why we need to add a placeholder
-              issuer_state: 'placeholder', // Here we could add `issuer_state`
-            },
-          }),
-          ...(preAuthorizedCodeIncluded && {
-            'urn:ietf:params:oauth:grant-type:pre-authorized_code': {
-              'pre-authorized_code': preAuthorizedCode,
-              ...(userPinRequired && { user_pin_required: userPinRequired }),
-            },
-          }),
-        },
-      }),
+      credential_offer: {
+        credential_issuer: this.pluginConfig.url,
+        credentials,
+        ...(requestedGrants && {
+          grants: {
+            ...(requestedGrants.includes('authorization_code') && {
+              authorization_code: {
+                // FIXME: QS removes empty objects, thats why we need to add a placeholder
+                issuer_state: 'placeholder', // Here we could add `issuer_state`
+              },
+            }),
+            ...(preAuthorizedCodeIncluded && {
+              'urn:ietf:params:oauth:grant-type:pre-authorized_code': {
+                'pre-authorized_code': preAuthorizedCode,
+                ...(userPinRequired && { user_pin_required: userPinRequired }),
+              },
+            }),
+          },
+        }),
+      },
     };
 
     return {
       success: true,
       data: {
-        credentialOfferRequest: `openid-credential-offer://credential_offer?${qs.stringify(
+        credentialOfferRequest: `openid-credential-offer://?${qs.stringify(
           params,
           { encode: true }
         )}`,

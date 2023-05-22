@@ -120,8 +120,7 @@ export async function handleOIDCCredentialOffer(
 
   const sign = async (args: SignArgs) => {
     const ctx = new EC('secp256k1');
-    console.log('signing');
-    console.log(res.privateKey);
+
     const ecPrivateKey = ctx.keyFromPrivate(res.privateKey.slice(2));
 
     const jwtPayload = {
@@ -129,6 +128,7 @@ export async function handleOIDCCredentialOffer(
       exp: Math.floor(Date.now() / 1000) + 60 * 60,
       iat: Math.floor(Date.now() / 1000),
       nbf: Math.floor(Date.now() / 1000),
+      iss: did,
     };
 
     const jwtHeader = {
