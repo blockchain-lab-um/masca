@@ -1,4 +1,8 @@
-import { CredentialRequest } from '@blockchain-lab-um/oidc-types';
+import type {
+  CredentialRequest,
+  PresentationDefinition,
+} from '@blockchain-lab-um/oidc-types';
+import type { OriginalVerifiableCredential } from '@sphereon/ssi-types';
 
 export type ParseOIDCCredentialOfferURIArgs = {
   credentialOfferURI: string;
@@ -21,4 +25,18 @@ export type ProofOfPossesionArgs = {
 
 export type GetCredentialInfoByIdArgs = {
   id: string;
+};
+
+export type ParseOIDCAuthorizationRequestURIArgs = {
+  authorizationRequestURI: string;
+};
+
+export type SelectCredentialsArgs = {
+  credentials: OriginalVerifiableCredential[];
+  presentationDefinition?: PresentationDefinition;
+};
+
+export type CreatePresentationSubmissionArgs = {
+  credentials: OriginalVerifiableCredential[];
+  presentationDefinition: PresentationDefinition;
 };

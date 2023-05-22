@@ -1,18 +1,22 @@
-import {
+import type {
+  AuthorizationRequest,
   CredentialOffer,
   CredentialResponse,
   Proof,
   SupportedCredential,
   TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
-import { Result } from '@blockchain-lab-um/utils';
-import { IAgentContext, IPluginMethodMap, IResolver } from '@veramo/core';
+import type { Result } from '@blockchain-lab-um/utils';
+import type { IVerifiableCredential } from '@sphereon/ssi-types';
+import type { IAgentContext, IPluginMethodMap, IResolver } from '@veramo/core';
 
-import {
+import type {
   CredentialRequestArgs,
   GetCredentialInfoByIdArgs,
+  ParseOIDCAuthorizationRequestURIArgs,
   ParseOIDCCredentialOfferURIArgs,
   ProofOfPossesionArgs,
+  SelectCredentialsArgs,
   TokenRequestArgs,
 } from './internal.js';
 
@@ -30,8 +34,20 @@ export interface IOIDCClientPlugin extends IPluginMethodMap {
   ): Promise<Result<SupportedCredential>>;
 
   // For verification handling
+  parseOIDCAuthorizationRequestURI(
+    args: ParseOIDCAuthorizationRequestURIArgs
+  ): Promise<Result<AuthorizationRequest>>;
+
+  selectCredentials(
+    args: SelectCredentialsArgs
+  ): Promise<Result<IVerifiableCredential[]>>;
+
+  // createPresentationSubmission(
+  //   args: CreatePresentationDefinitionArgs
+  // ): Promise<Result<PresentationSubmission>>;
 
   // Common
+  // TODO: There is a difference for the verifier and the issuer
   proofOfPossession(args: ProofOfPossesionArgs): Promise<Result<Proof>>;
   reset(): Promise<void>;
 }
