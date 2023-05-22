@@ -16,6 +16,7 @@ import {
   IKey,
   IKeyManager,
   IService,
+  ManagedKeyInfo,
   RequireOnly,
 } from '@veramo/core';
 import { AbstractIdentifierProvider } from '@veramo/did-manager';
@@ -45,13 +46,34 @@ export class MascaKeyDidProvider extends AbstractIdentifierProvider {
     { kms, options }: { kms?: string; options?: CreateKeyDidOptions },
     context: IContext
   ): Promise<Omit<IIdentifier, 'provider'>> {
+    let key: ManagedKeyInfo;
+    const keyType =
+      (options?.keyType && keyOptions[options?.keyType] && options.keyType) ||
+      'Ed25519';
     if (options?.type === 'ebsi') {
-      const key = await context.agent.keyManagerCreate({
-        kms: kms || this.defaultKms,
-        type: 'Secp256k1',
-      });
+      if (keyType === 'Secp256k1' && options?.privateKeyHex) {
+        key = await this.importOrGenerateKey(
+          {
+            kms: kms || this.defaultKms,
+            options: {
+              keyType,
+              ...(options?.privateKeyHex && {
+                privateKeyHex: options.privateKeyHex,
+              }),
+            },
+          },
+          context
+        );
+      } else {
+        key = await context.agent.keyManagerCreate({
+          kms: kms || this.defaultKms,
+          type: 'Secp256k1',
+        });
+      }
+      const compressedKey = getCompressedPublicKey(`0x${key.publicKeyHex}`);
+
       const curve = new EC('secp256k1');
-      const publicKey = curve.keyFromPublic(key.publicKeyHex, 'hex');
+      const publicKey = curve.keyFromPublic(compressedKey, 'hex');
       const y = bytesToBase64url(
         hexToBytes(publicKey.getPublic().getY().toString('hex'))
       );
@@ -73,11 +95,8 @@ export class MascaKeyDidProvider extends AbstractIdentifierProvider {
       };
       return identifier;
     }
-    const keyType =
-      (options?.keyType && keyOptions[options?.keyType] && options.keyType) ||
-      'Ed25519';
 
-    const key = await this.importOrGenerateKey(
+    key = await this.importOrGenerateKey(
       {
         kms: kms || this.defaultKms,
         options: {
@@ -90,7 +109,11 @@ export class MascaKeyDidProvider extends AbstractIdentifierProvider {
       context
     );
 
-    const compressedKey = getCompressedPublicKey(`0x${key.publicKeyHex}`);
+    const compressedKey =
+      keyType === 'Secp256k1'
+        ? getCompressedPublicKey(`0x${key.publicKeyHex}`)
+        : key.publicKeyHex;
+
     const methodSpecificId = Buffer.from(
       base58btc.encode(
         addMulticodecPrefix(
