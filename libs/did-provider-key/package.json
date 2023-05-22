@@ -34,8 +34,10 @@
     "lint:prettier": "prettier . --check"
   },
   "dependencies": {
+    "@blockchain-lab-um/utils": "*",
     "@cef-ebsi/key-did-resolver": "^1.0.0",
     "@veramo/core": "5.2.0",
+    "@veramo/did-manager": "5.1.2",
     "@veramo/did-provider-key": "5.2.0",
     "@veramo/utils": "5.2.0",
     "elliptic": "^6.5.4",

@@ -151,6 +151,7 @@ describe('Utils [did]', () => {
 
     it("should succeed setting DID method to 'did:key'", async () => {
       const initialState = getDefaultSnapState();
+      const expectedState = getDefaultSnapState();
 
       await expect(
         changeCurrentMethod({
@@ -163,7 +164,6 @@ describe('Utils [did]', () => {
         })
       ).resolves.not.toThrow();
 
-      const expectedState = getDefaultSnapState();
       expectedState.accountState[address].accountConfig.ssi.didMethod =
         'did:key';
 

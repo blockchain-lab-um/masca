@@ -1,5 +1,8 @@
-import { addMulticodecPrefix } from '../../src/utils/formatUtils';
-import { getCompressedPublicKey } from '../../src/utils/snapUtils';
+import {
+  addMulticodecPrefix,
+  getCompressedPublicKey,
+} from '@blockchain-lab-um/utils';
+
 import { publicKey } from '../testUtils/constants';
 
 describe('Utils [format]', () => {

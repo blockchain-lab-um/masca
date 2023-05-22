@@ -5,6 +5,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/require-await */
 
+import {
+  addMulticodecPrefix,
+  getCompressedPublicKey,
+} from '@blockchain-lab-um/utils';
 import { util } from '@cef-ebsi/key-did-resolver';
 import {
   IAgentContext,
@@ -19,12 +23,6 @@ import { bytesToBase64url, hexToBytes } from '@veramo/utils';
 import { ec as EC } from 'elliptic';
 import { base58btc } from 'multiformats/bases/base58';
 
-import { addMulticodecPrefix } from '../../utils/formatUtils';
-// import Multibase from 'multibase';
-// import { addMulticodecPrefix } from '../../utils/formatUtils';
-// import Multicodec from 'multicodec';
-
-import { getCompressedPublicKey } from '../../utils/snapUtils';
 import { CreateKeyDidOptions, keyOptions } from './types/keyProviderTypes';
 
 type IContext = IAgentContext<IKeyManager>;

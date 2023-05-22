@@ -1,11 +1,13 @@
+import {
+  addMulticodecPrefix,
+  getCompressedPublicKey,
+} from '@blockchain-lab-um/utils';
 import { util } from '@cef-ebsi/key-did-resolver';
 import { bytesToBase64url, hexToBytes } from '@veramo/utils';
 import { ec as EC } from 'elliptic';
 import { base58btc } from 'multiformats/bases/base58';
 
 import { MascaState } from '../../interfaces';
-import { addMulticodecPrefix } from '../../utils/formatUtils';
-import { getCompressedPublicKey } from '../../utils/snapUtils';
 
 export function getDidKeyIdentifier(
   state: MascaState,

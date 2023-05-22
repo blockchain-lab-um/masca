@@ -2,6 +2,11 @@
 /* eslint-disable @typescript-eslint/dot-notation */
 
 // import { MascaKeyDidProvider } from '@blockchain-lab-um/did-provider-key';
+
+// import { EbsiDIDProvider } from '../did/ebsi/ebsiDidProvider';
+// import { ebsiDidResolver } from '../did/ebsi/ebsiDidResolver';
+// import { KeyDIDProvider } from '../did/key/keyDidProvider';
+import { MascaKeyDidProvider } from '@blockchain-lab-um/did-provider-key';
 import {
   AbstractDataStore,
   DataManager,
@@ -47,9 +52,6 @@ import { Resolver } from 'did-resolver';
 import { ethers } from 'ethers';
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver';
 
-// import { EbsiDIDProvider } from '../did/ebsi/ebsiDidProvider';
-// import { ebsiDidResolver } from '../did/ebsi/ebsiDidResolver';
-import { KeyDIDProvider } from '../did/key/keyDidProvider';
 import { getDidKeyResolver as keyDidResolver } from '../did/key/keyDidResolver';
 import { getCurrentAccount, getEnabledVCStores } from '../utils/snapUtils';
 import { getSnapState } from '../utils/stateUtils';
@@ -103,7 +105,7 @@ export const getAgent = async (
     networks,
   });
 
-  didProviders['did:key'] = new KeyDIDProvider({ defaultKms: 'web3' });
+  didProviders['did:key'] = new MascaKeyDidProvider({ defaultKms: 'web3' });
   didProviders['did:pkh'] = new PkhDIDProvider({ defaultKms: 'web3' });
   // didProviders['did:ebsi'] = new EbsiDIDProvider({ defaultKms: 'web3' });
   didProviders['did:jwk'] = new JwkDIDProvider({ defaultKms: 'web3' });

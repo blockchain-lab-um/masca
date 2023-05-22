@@ -5,5 +5,4 @@
  * @packageDocumentation
  */
 export { MascaKeyDidProvider } from './keyDidProvider.js';
-// export { KeyDidResolver } from './keyDidResolver.js';
 export * from './types/keyDidTypes.js';
