@@ -5,7 +5,6 @@
 
 // import { EbsiDIDProvider } from '../did/ebsi/ebsiDidProvider';
 // import { ebsiDidResolver } from '../did/ebsi/ebsiDidResolver';
-// import { KeyDIDProvider } from '../did/key/keyDidProvider';
 import {
   MascaKeyDidProvider,
   getMascaDidKeyResolver as mascaKeyDidResolver,
@@ -38,7 +37,6 @@ import {
   JwkDIDProvider,
   getDidJwkResolver as jwkDidResolver,
 } from '@veramo/did-provider-jwk';
-// import { KeyDIDProvider } from '@veramo/did-provider-key';
 import {
   PkhDIDProvider,
   getDidPkhResolver as pkhDidResolver,
@@ -55,7 +53,6 @@ import { Resolver } from 'did-resolver';
 import { ethers } from 'ethers';
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver';
 
-// import { getDidKeyResolver as keyDidResolver } from '../did/key/keyDidResolver';
 import { getCurrentAccount, getEnabledVCStores } from '../utils/snapUtils';
 import { getSnapState } from '../utils/stateUtils';
 import { CeramicVCStore } from './plugins/ceramicDataStore/ceramicDataStore';
