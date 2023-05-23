@@ -9,3 +9,10 @@ export const keyOptions = {
   X25519: 'x25519-pub',
   Secp256k1: 'secp256k1-pub',
 } as const;
+
+export type DidComponents = {
+  scheme: string;
+  method: string;
+  version: string;
+  multibaseValue: string;
+};

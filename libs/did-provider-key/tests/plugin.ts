@@ -74,7 +74,52 @@ export default (testContext: {
         },
       });
 
-      expect(identifier).toBe('identifier');
+      expect(identifier).toStrictEqual({
+        controllerKeyId:
+          '04bc44732939b07a44bdbf87085baf74c6705d6a742e753cbd811932d6187068424e7065bd9b5b243603e57b6b6601866b9518751c5d147e2f25f66706978905bd',
+        did: 'did:key:zBhBLmYmyihtomRdJJNEKzbPj51o4a3GYFeZoRHSABKUwqdjiQPY2gGUYckfRXAFJdwJVD5cgJ2C27D5U2uXsF5Cnn4Er6U7BL4a5rvqjWNxC8y19htTFR63EPnZRCqWBQTH3NKdZyKCFqdh4kiZmvb5ndFmPtg56VrHfbpx53uYKZXonU4W65A',
+        keys: [
+          {
+            kid: '04bc44732939b07a44bdbf87085baf74c6705d6a742e753cbd811932d6187068424e7065bd9b5b243603e57b6b6601866b9518751c5d147e2f25f66706978905bd',
+            kms: 'local',
+            meta: {
+              algorithms: [
+                'ES256K',
+                'ES256K-R',
+                'eth_signTransaction',
+                'eth_signTypedData',
+                'eth_signMessage',
+                'eth_rawSign',
+              ],
+            },
+            publicKeyHex:
+              '04bc44732939b07a44bdbf87085baf74c6705d6a742e753cbd811932d6187068424e7065bd9b5b243603e57b6b6601866b9518751c5d147e2f25f66706978905bd',
+            type: 'Secp256k1',
+          },
+        ],
+        provider: 'did:key',
+        services: [],
+      });
+    });
+
+    it('should resolve key did', async () => {
+      const didUrl =
+        'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik';
+      const result = await agent.resolveDid({ didUrl });
+      const didDoc = result.didDocument;
+      expect(didDoc?.id).toEqual(didUrl);
+      expect(result).toHaveProperty('didDocumentMetadata');
+      expect(result).toHaveProperty('didResolutionMetadata');
+    });
+
+    it('should resolve key did ebsi', async () => {
+      const didUrl =
+        'did:key:zBhBLmYmyihtomRdJJNEKzbPj51o4a3GYFeZoRHSABKUwqdjiQPY2gGUYckfRXAFJdwJVD5cgJ2C27D5U2uXsF5Cnn4Er6U7BL4a5rvqjWNxC8y19htTFR63EPnZRCqWBQTH3NKdZyKCFqdh4kiZmvb5ndFmPtg56VrHfbpx53uYKZXonU4W65A';
+      const result = await agent.resolveDid({ didUrl });
+      const didDoc = result.didDocument;
+      expect(didDoc?.id).toEqual(didUrl);
+      expect(result).toHaveProperty('didDocumentMetadata');
+      expect(result).toHaveProperty('didResolutionMetadata');
     });
   });
 };

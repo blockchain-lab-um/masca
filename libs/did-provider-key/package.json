@@ -31,7 +31,8 @@
     "compile": "tsc --build tsconfig.build.json",
     "lint": "pnpm lint:eslint && pnpm lint:prettier",
     "lint:eslint": "eslint .",
-    "lint:prettier": "prettier . --check"
+    "lint:prettier": "prettier . --check",
+    "test": "pnpm jest tests/agent.spec.ts"
   },
   "dependencies": {
     "@blockchain-lab-um/masca-types": "*",

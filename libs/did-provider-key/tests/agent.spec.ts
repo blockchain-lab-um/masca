@@ -80,7 +80,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       }),
       new DIDManager({
         store: new DIDStore(dbConnection),
-        defaultProvider: 'did:cheqd',
+        defaultProvider: 'did:key',
         providers: {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-call
           'did:key': new MascaKeyDidProvider({

@@ -1,5 +1,5 @@
+import { uint8ArrayToHex } from '@blockchain-lab-um/utils';
 import { getResolver } from '@cef-ebsi/key-did-resolver';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
 import {
   DIDDocument,
   DIDResolutionOptions,
@@ -9,47 +9,73 @@ import {
   Resolvable,
   Resolver,
 } from 'did-resolver';
+import { base58btc } from 'multiformats/bases/base58';
 
-import { getCurrentAccount, getSnapState } from './utils/keyDidUtils.js';
+import type { DidComponents } from './types/keyDidTypes.js';
 
-// FIXME: We also shouldn't use account here and extract te public key from the did
-export const resolveSecp256k1 = async (
-  snap: SnapsGlobalObject,
-  account: string,
-  did: string
-): Promise<DIDDocument> => {
-  const state = await getSnapState(snap);
+export function checkDidComponents(did: string): DidComponents | never {
+  const components = did.split(':');
+  if (components.length === 3) {
+    components.splice(2, 0, '1');
+  }
+  const [scheme, method, version, multibaseValue] = components;
+  if (components.length !== 4 && components.length !== 3) {
+    throw new Error('invalidDid: invalid number of components');
+  }
+  if (scheme !== 'did' || method !== 'key') {
+    throw new Error('invalidDid: invalid scheme or method');
+  }
+  const parsedVersion = parseInt(version, 10);
+  if (Number.isNaN(parsedVersion) || parsedVersion <= 0) {
+    throw new Error('invalidDid: invalid version');
+  }
+  if (multibaseValue.length === 0 || !multibaseValue.startsWith('z')) {
+    throw new Error('invalidDid: invalid multibase value');
+  }
+  const DidComponents: DidComponents = {
+    scheme,
+    method,
+    version,
+    multibaseValue,
+  };
+  return DidComponents;
+}
 
-  // FIXME: This is wrong (previously was getPublicKey -> which is also wrong)
-  const { publicKey } = state.accountState[account];
+export function decodePublicKey(multibaseValue: string, options: any): string {
+  const publicKeyBytes = base58btc.decode(multibaseValue);
+  return uint8ArrayToHex(publicKeyBytes);
+}
 
-  // TODO: Change id ?
+export const resolveSecp256k1 = (did: string): Promise<DIDDocument> => {
+  const components: DidComponents = checkDidComponents(did);
+  const didIdentifier = components.multibaseValue;
+  const publicKey = decodePublicKey(components.multibaseValue, {});
   const didDocument: DIDDocument = {
-    id: `did:key:${did}#${did}`,
+    id: `did:key:${didIdentifier}`,
     '@context': [
       'https://www.w3.org/ns/did/v1',
       'https://w3id.org/security/suites/secp256k1-2019/v1',
     ],
-    assertionMethod: [`did:key:${did}#${did}`],
-    authentication: [`did:key:${did}#${did}`],
-    capabilityInvocation: [`did:key:${did}#${did}`],
-    capabilityDelegation: [`did:key:${did}#${did}`],
-    keyAgreement: [`did:key:${did}#${did}`],
+    assertionMethod: [`did:key:${didIdentifier}#${didIdentifier}`],
+    authentication: [`did:key:${didIdentifier}#${didIdentifier}`],
+    capabilityInvocation: [`did:key:${didIdentifier}#${didIdentifier}`],
+    capabilityDelegation: [`did:key:${didIdentifier}#${didIdentifier}`],
+    keyAgreement: [`did:key:${didIdentifier}#${didIdentifier}`],
     verificationMethod: [
       {
-        id: `did:key:${did}#${did}`,
+        id: `did:key:${didIdentifier}#${didIdentifier}`,
         type: 'EcdsaSecp256k1RecoveryMethod2020',
-        controller: `did:key:${did}#${did}`,
-        publicKeyHex: publicKey.split('0x')[1],
+        controller: `did:key:${didIdentifier}#${didIdentifier}`,
+        publicKeyHex: publicKey,
       },
     ],
   };
-  return didDocument;
+  return new Promise((resolve) => {
+    resolve(didDocument);
+  });
 };
 
 export const resolveSecp256k1Ebsi = async (
-  snap: SnapsGlobalObject,
-  account: string,
   did: string
 ): Promise<DIDDocument> => {
   const keyResolver = getResolver();
@@ -58,11 +84,7 @@ export const resolveSecp256k1Ebsi = async (
   return resolution.didDocument as DIDDocument;
 };
 
-type ResolutionFunction = (
-  snap: SnapsGlobalObject,
-  account: string,
-  did: string
-) => Promise<DIDDocument>;
+type ResolutionFunction = (did: string) => Promise<DIDDocument>;
 
 const startsWithMap: Record<string, ResolutionFunction> = {
   'did:key:zQ3s': resolveSecp256k1,
@@ -77,15 +99,9 @@ export const resolveDidKey: DIDResolver = async (
   options: DIDResolutionOptions
 ): Promise<DIDResolutionResult> => {
   try {
-    const state = await getSnapState(snap);
-    const account = getCurrentAccount(state);
     const startsWith = parsed.did.substring(0, 12);
     if (startsWithMap[startsWith] !== undefined) {
-      const didDocument = await startsWithMap[startsWith](
-        snap,
-        account,
-        didUrl
-      );
+      const didDocument = await startsWithMap[startsWith](didUrl);
       return {
         didDocumentMetadata: {},
         didResolutionMetadata: {},
