@@ -25,7 +25,7 @@ export default (testContext: {
     afterAll(testContext.tearDown);
 
     let identifier: IIdentifier;
-    it('should create did:key identifier', async () => {
+    it('should create did:key identifier (Secp256k1)', async () => {
       identifier = await agent.didManagerCreate({
         provider: 'did:key',
         options: {
@@ -56,6 +56,66 @@ export default (testContext: {
             publicKeyHex:
               '0480a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae850a9f561d414001a8bdefdb713c619d2caf08a0c9655b0cf42de065bc51e0169a',
             type: 'Secp256k1',
+          },
+        ],
+        provider: 'did:key',
+        services: [],
+      });
+    });
+    it('should create did:key identifier (Ed25519)', async () => {
+      identifier = await agent.didManagerCreate({
+        provider: 'did:key',
+        options: {
+          keyType: 'Ed25519',
+          privateKeyHex:
+            '63ce0077f0d617dbf54d5f335de2983313c6356f25b45e0f68f85bee1490a6ae63ce0077f0d617dbf54d5f335de2983313c6356f25b45e0f68f85bee1490a6ae',
+        },
+      });
+
+      expect(identifier).toStrictEqual({
+        controllerKeyId:
+          '63ce0077f0d617dbf54d5f335de2983313c6356f25b45e0f68f85bee1490a6ae',
+        did: 'did:key:z6MkmArbZHXCFE744TDd6qNCLiu8JUeELNH11MjtVyHwTaW9',
+        keys: [
+          {
+            kid: '63ce0077f0d617dbf54d5f335de2983313c6356f25b45e0f68f85bee1490a6ae',
+            kms: 'local',
+            meta: {
+              algorithms: ['Ed25519', 'EdDSA'],
+            },
+            publicKeyHex:
+              '63ce0077f0d617dbf54d5f335de2983313c6356f25b45e0f68f85bee1490a6ae',
+            type: 'Ed25519',
+          },
+        ],
+        provider: 'did:key',
+        services: [],
+      });
+    });
+    it('should create did:key identifier (X25519)', async () => {
+      identifier = await agent.didManagerCreate({
+        provider: 'did:key',
+        options: {
+          keyType: 'X25519',
+          privateKeyHex:
+            '63ce0077f0d617dbf54d5f335de2983313c6356f25b45e0f68f85bee1490a6ae',
+        },
+      });
+
+      expect(identifier).toStrictEqual({
+        controllerKeyId:
+          'd6a490bf2b4f793c19bdd60584401ae25dd7b5ac5a1c5f6886c8b0cfde9c2b47',
+        did: 'did:key:z6P4wgDiU76DMNYonnmvwRhi2HjKK3mAGAAUz9RQzfWmtJ5c',
+        keys: [
+          {
+            kid: 'd6a490bf2b4f793c19bdd60584401ae25dd7b5ac5a1c5f6886c8b0cfde9c2b47',
+            kms: 'local',
+            meta: {
+              algorithms: ['ECDH', 'ECDH-ES', 'ECDH-1PU'],
+            },
+            publicKeyHex:
+              'd6a490bf2b4f793c19bdd60584401ae25dd7b5ac5a1c5f6886c8b0cfde9c2b47',
+            type: 'X25519',
           },
         ],
         provider: 'did:key',
