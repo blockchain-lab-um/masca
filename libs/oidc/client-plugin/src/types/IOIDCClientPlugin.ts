@@ -19,8 +19,8 @@ import type {
   ParseOIDCCredentialOfferURIArgs,
   ProofOfPossesionArgs,
   SelectCredentialsArgs,
-  SendAuthorizationResponseArgs,
   SendCredentialRequestArgs,
+  SendOIDCAuthorizationResponseArgs,
   SendTokenRequestArgs,
 } from './internal.js';
 
@@ -50,8 +50,8 @@ export interface IOIDCClientPlugin extends IPluginMethodMap {
   createIdToken(args: CreateIdTokenArgs): Promise<Result<string>>;
   getChallenge(): Promise<Result<string>>;
   getDomain(): Promise<Result<string>>;
-  sendAuthorizationResponse(
-    args: SendAuthorizationResponseArgs
+  sendOIDCAuthorizationResponse(
+    args: SendOIDCAuthorizationResponseArgs
   ): Promise<Result<boolean>>;
 
   // Common

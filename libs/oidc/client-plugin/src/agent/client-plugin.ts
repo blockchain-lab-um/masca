@@ -26,8 +26,8 @@ import type {
   ParseOIDCCredentialOfferURIArgs,
   ProofOfPossesionArgs,
   SelectCredentialsArgs,
-  SendAuthorizationResponseArgs,
   SendCredentialRequestArgs,
+  SendOIDCAuthorizationResponseArgs,
   SendTokenRequestArgs,
 } from '../types/internal.js';
 
@@ -79,7 +79,8 @@ export class OIDCClientPlugin implements IAgentPlugin {
     getChallenge: this.getChallenge.bind(this),
     getDomain: this.getDomain.bind(this),
     createIdToken: this.createIdToken.bind(this),
-    sendAuthorizationResponse: this.sendAuthorizationResponse.bind(this),
+    sendOIDCAuthorizationResponse:
+      this.sendOIDCAuthorizationResponse.bind(this),
 
     // Common
     proofOfPossession: this.proofOfPossession.bind(this),
@@ -577,8 +578,8 @@ export class OIDCClientPlugin implements IAgentPlugin {
     return ResultObject.success(jwt);
   }
 
-  public async sendAuthorizationResponse(
-    args: SendAuthorizationResponseArgs
+  public async sendOIDCAuthorizationResponse(
+    args: SendOIDCAuthorizationResponseArgs
   ): Promise<Result<boolean>> {
     const { authorizationRequest } = this.current;
     if (!authorizationRequest) {
@@ -607,6 +608,8 @@ export class OIDCClientPlugin implements IAgentPlugin {
       },
       body: qs.stringify(body, { encode: true }),
     });
+
+    console.log(response);
 
     if (!response.ok) {
       return ResultObject.error('Failed to send authorization response');

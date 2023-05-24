@@ -62,16 +62,16 @@ export default function Settings() {
 
   return (
     <div className="flex justify-center">
-      <div className="dark:bg-navy-blue-800 flex h-full min-h-[40vh] w-full max-w-sm flex-col rounded-3xl bg-white shadow-lg  md:max-w-md lg:max-w-lg  xl:w-[34rem] xl:max-w-[34rem]">
+      <div className="dark:bg-navy-blue-800 flex min-h-[40vh] w-full max-w-sm flex-col justify-center rounded-3xl bg-white shadow-lg  md:max-w-md lg:max-w-lg  xl:w-[34rem] xl:max-w-[34rem]">
         <ConnectedProvider>
-          <div className="p-4 text-lg">
+          <div className="h-full p-6 text-lg">
             <div>
               <div className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6  text-gray-900">
-                {t('ds')}
+                {t('data-store')}
               </div>
               <div className="mt-5">
                 <p className="text-md dark:text-navy-blue-400 text-gray-600 ">
-                  {t('ds-desc')}{' '}
+                  {t('data-store-desc')}{' '}
                 </p>
               </div>
 

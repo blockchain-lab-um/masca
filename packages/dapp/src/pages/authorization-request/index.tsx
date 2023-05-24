@@ -1,14 +1,36 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { AuthorizationRequest } from '@blockchain-lab-um/oidc-types';
+import { isError } from '@blockchain-lab-um/utils';
+import type { IVerifiableCredential } from '@sphereon/ssi-types';
 import qs from 'qs';
+import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
 import ConnectedProvider from '@/components/ConnectedProvider';
 import InputField from '@/components/InputField';
-import { useMascaStore } from '@/stores';
+import SelectCredentialsModal from '@/components/SelectCredentialsModal';
+import { useMascaStore, useToastStore } from '@/stores';
 
 export default function Verify() {
   const api = useMascaStore((state) => state.mascaApi);
+
+  const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
+  const [credentials, setCredentials] = useState<IVerifiableCredential[]>([]);
+  const [selectedCredentials, setSelectedCredentials] = useState<
+    IVerifiableCredential[]
+  >([]);
+
+  const { setTitle, setText, setLoading, setToastOpen, setType } =
+    useToastStore(
+      (state) => ({
+        setTitle: state.setTitle,
+        setText: state.setText,
+        setLoading: state.setLoading,
+        setToastOpen: state.setOpen,
+        setType: state.setType,
+      }),
+      shallow
+    );
 
   const [authorizationRequestURI, setAuthorizationRequestURI] = useState<
     string | null
@@ -46,6 +68,14 @@ export default function Verify() {
       );
       setAuthorizationRequestURI(await authorizationRequestResponse.text());
     } catch (e) {
+      setToastOpen(false);
+      setType('error');
+      setTimeout(() => {
+        setTitle('Error while getting Demo Authorization Request');
+        setLoading(false);
+        setToastOpen(true);
+      }, 100);
+
       console.log(e);
     }
   };
@@ -55,12 +85,71 @@ export default function Verify() {
       return;
     }
 
-    console.log('handleAuthorizationRequest', authorizationRequestURI);
+    const handleAuthorizationRequestResponse =
+      await api.handleOIDCAuthorizationRequest({
+        authorizationRequestURI,
+      });
+
+    console.log(handleAuthorizationRequestResponse);
+
+    if (isError(handleAuthorizationRequestResponse)) {
+      setToastOpen(false);
+      setType('error');
+      setTimeout(() => {
+        setTitle('Error while handling authorization request');
+        setText(handleAuthorizationRequestResponse.error);
+        setLoading(false);
+        setToastOpen(true);
+      }, 100);
+
+      return;
+    }
+
+    setCredentials(handleAuthorizationRequestResponse.data);
   };
+
+  const sendAuthorizationResponse = async () => {
+    if (!api || !authorizationRequestURI || !parsedAuthorizationRequestURI) {
+      return;
+    }
+
+    const sendOIDCAuthorizationResponseResponse =
+      await api.sendOIDCAuthorizationResponse({
+        authorizationRequestURI,
+        credentials: selectedCredentials,
+      });
+
+    console.log(sendOIDCAuthorizationResponseResponse);
+
+    if (isError(sendOIDCAuthorizationResponseResponse)) {
+      setToastOpen(false);
+      setType('error');
+      setTimeout(() => {
+        setTitle('Error while sending authorization response');
+        setText(sendOIDCAuthorizationResponseResponse.error);
+        setLoading(false);
+        setToastOpen(true);
+      }, 100);
+
+      return;
+    }
+
+    console.log(sendOIDCAuthorizationResponseResponse);
+  };
+
+  useEffect(() => {
+    if (!credentials.length) return;
+    setIsSelectModalOpen(true);
+  }, [credentials]);
+
+  useEffect(() => {
+    if (!selectedCredentials.length) return;
+    sendAuthorizationResponse().catch((e) => console.log(e));
+  }, [selectedCredentials]);
 
   return (
     <div className="flex h-full justify-center sm:h-fit">
-      <div className="dark:bg-navy-blue-800 xl:max-w-[50rem]justify-center flex h-full min-h-[50vh] w-full rounded-3xl bg-white shadow-lg md:max-w-4xl lg:max-w-6xl">
+      <div className="dark:bg-navy-blue-800 flex h-full min-h-[50vh] w-full justify-center rounded-3xl bg-white shadow-lg">
         <ConnectedProvider>
           <div className="flex w-full flex-col items-center space-y-4 p-4">
             <div className="flex h-fit w-full flex-col items-baseline justify-center space-y-2 sm:flex-row sm:space-x-4">
@@ -106,7 +195,7 @@ export default function Verify() {
                   value={authorizationRequestURI ?? ''}
                   variant="gray"
                   size="lg"
-                  placeholder="Credential Offer URI"
+                  placeholder="Authorization Request URI"
                   rounded="xl"
                   shadow="none"
                   setValue={setAuthorizationRequestURI}
@@ -123,6 +212,12 @@ export default function Verify() {
           </div>
         </ConnectedProvider>
       </div>
+      <SelectCredentialsModal
+        open={isSelectModalOpen}
+        setOpen={setIsSelectModalOpen}
+        credentials={credentials}
+        selectCredentials={setSelectedCredentials}
+      />
     </div>
   );
 }

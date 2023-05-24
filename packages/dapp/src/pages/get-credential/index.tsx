@@ -1,14 +1,27 @@
 import { useState } from 'react';
 import type { CredentialOffer } from '@blockchain-lab-um/oidc-types';
+import { isError } from '@blockchain-lab-um/utils';
 import qs from 'qs';
+import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
 import ConnectedProvider from '@/components/ConnectedProvider';
 import InputField from '@/components/InputField';
-import { useMascaStore } from '@/stores';
+import { useMascaStore, useToastStore } from '@/stores';
 
 export default function Issue() {
   const api = useMascaStore((state) => state.mascaApi);
+  const { setTitle, setText, setLoading, setToastOpen, setType } =
+    useToastStore(
+      (state) => ({
+        setTitle: state.setTitle,
+        setText: state.setText,
+        setLoading: state.setLoading,
+        setToastOpen: state.setOpen,
+        setType: state.setType,
+      }),
+      shallow
+    );
 
   const [credentialOfferURI, setCredentialOfferURI] = useState<string | null>(
     null
@@ -27,6 +40,13 @@ export default function Issue() {
 
       setParsedCredentialOfferURI(parsedOffer);
     } catch (e) {
+      setToastOpen(false);
+      setType('error');
+      setTimeout(() => {
+        setTitle('Failed to parse credential offer URI');
+        setLoading(false);
+        setToastOpen(true);
+      }, 100);
       console.log(e);
     }
   };
@@ -48,6 +68,13 @@ export default function Issue() {
 
       setCredentialOfferURI(await credentialOfferRequestResponse.text());
     } catch (e) {
+      setToastOpen(false);
+      setType('error');
+      setTimeout(() => {
+        setTitle('Failed to get DEMO credential offer URI');
+        setLoading(false);
+        setToastOpen(true);
+      }, 100);
       console.log(e);
     }
   };
@@ -55,14 +82,57 @@ export default function Issue() {
   const handleCredentialOfferRequest = async () => {
     if (!api || !credentialOfferURI || !parsedCredentialOfferURI) return;
 
-    await api.handleOIDCCredentialOffer({
+    setLoading(true);
+    setType('normal');
+    setTitle('Handling credential offer');
+    setToastOpen(true);
+
+    const handleCredentialOfferResponse = await api.handleOIDCCredentialOffer({
       credentialOfferURI,
     });
+
+    if (isError(handleCredentialOfferResponse)) {
+      setToastOpen(false);
+      setType('error');
+      setTimeout(() => {
+        setTitle('Error while handling credential offer');
+        setText(handleCredentialOfferResponse.error);
+
+        setLoading(false);
+        setToastOpen(true);
+      }, 100);
+      console.log(handleCredentialOfferResponse.error);
+      return;
+    }
+
+    const credential = handleCredentialOfferResponse.data;
+
+    setLoading(true);
+    setType('normal');
+    setTitle('Saving Credential');
+    setToastOpen(true);
+
+    // Save credential
+    // TODO: Convert credential to VC first
+    const saveCredentialResponse = await api.saveVC(credential, {
+      store: ['snap'],
+    });
+
+    if (isError(saveCredentialResponse)) {
+      setToastOpen(false);
+      setType('error');
+      setTimeout(() => {
+        setTitle('Error while saving credential');
+        setLoading(false);
+        setToastOpen(true);
+      }, 100);
+      console.log(saveCredentialResponse.error);
+    }
   };
 
   return (
     <div className="flex h-full justify-center sm:h-fit">
-      <div className="dark:bg-navy-blue-800 xl:max-w-[50rem]justify-center flex h-full min-h-[50vh] w-full rounded-3xl bg-white shadow-lg md:max-w-4xl lg:max-w-6xl">
+      <div className="dark:bg-navy-blue-800 flex h-full min-h-[50vh] w-full justify-center rounded-3xl bg-white shadow-lg">
         <ConnectedProvider>
           <div className="flex w-full flex-col items-center space-y-4 p-4">
             <div className="flex h-fit w-full flex-col items-baseline justify-center space-y-2 sm:flex-row sm:space-x-4">

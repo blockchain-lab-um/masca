@@ -8,6 +8,7 @@ import {
   TrashIcon,
 } from '@heroicons/react/24/outline';
 import { ArrowLeftIcon } from '@heroicons/react/24/solid';
+import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
 import ConnectedProvider from '@/components/ConnectedProvider';
@@ -16,7 +17,7 @@ import JsonTab from '@/components/VC/tabs/JsonTab';
 import { useMascaStore } from '@/stores';
 
 const VC = () => {
-  const t = useTranslations('VC');
+  const t = useTranslations('VerifiableCredential');
   const router = useRouter();
   const { id } = router.query;
   const vcs = useMascaStore((state) => state.vcs);
@@ -44,16 +45,18 @@ const VC = () => {
                 {({ selected }) => (
                   <div className="relative">
                     <div
-                      className={`transition-width dark:bg-orange-accent-dark h-10 rounded-full bg-pink-100 ease-in-out ${
-                        selected ? 'w-20 translate-x-0' : ' w-16 translate-x-20'
-                      }`}
+                      className={clsx(
+                        'transition-width dark:bg-orange-accent-dark h-10 rounded-full bg-pink-100 ease-in-out',
+                        selected ? 'w-20 translate-x-0' : 'w-16 translate-x-20'
+                      )}
                     ></div>
                     <span
-                      className={`absolute left-0 top-2 z-20  ${
+                      className={clsx(
+                        'animated-transition absolute left-0 top-2 z-20 ml-3.5 rounded-full',
                         selected
-                          ? ' dark:text-navy-blue-900 text-pink-600'
-                          : ' dark:text-navy-blue-300 dark:hover:text-navy-blue-200 text-gray-700 hover:text-gray-500'
-                      }  animated-transition ml-3.5 rounded-full`}
+                          ? 'dark:text-navy-blue-900 text-pink-600'
+                          : 'dark:text-navy-blue-300 dark:hover:text-navy-blue-200 text-gray-700 hover:text-gray-500'
+                      )}
                     >
                       Normal
                     </span>
@@ -62,37 +65,38 @@ const VC = () => {
               </Tab>
               <Tab
                 className={({ selected }) =>
-                  `z-20  ${
+                  clsx(
+                    'animated-transition z-20 mr-3 rounded-full',
                     selected
-                      ? ' dark:text-navy-blue-900 text-pink-600'
-                      : ' dark:text-navy-blue-300 dark:hover:text-navy-blue-200 text-gray-700 hover:text-gray-500'
-                  }  animated-transition mr-3 rounded-full`
+                      ? 'dark:text-navy-blue-900 text-pink-600'
+                      : 'dark:text-navy-blue-300 dark:hover:text-navy-blue-200 text-gray-700 hover:text-gray-500'
+                  )
                 }
               >
                 JSON
               </Tab>
             </Tab.List>
-            <div className="flex gap-1">
+            <div className="flex gap-1.5">
               <button
-                className={`dark:bg-navy-blue-700 dark:text-navy-blue-50 flex h-[43px] w-[43px] items-center justify-center rounded-full bg-white text-gray-700 shadow-md`}
+                className="dark:bg-navy-blue-700 dark:text-navy-blue-50 flex h-11 w-11 items-center justify-center rounded-full bg-white text-gray-700 shadow-md"
                 onClick={() => setModifyDSModalOpen(true)}
               >
                 <Cog6ToothIcon className="h-6 w-6" />
               </button>
               <button
-                className={`dark:bg-navy-blue-700 dark:text-navy-blue-50 flex h-[43px] w-[43px] items-center justify-center rounded-full bg-white text-gray-700 shadow-md`}
+                className="dark:bg-navy-blue-700 dark:text-navy-blue-50 flex h-11 w-11 items-center justify-center rounded-full bg-white text-gray-700 shadow-md"
                 onClick={() => console.log('not implemented yet')}
               >
                 <ArrowDownTrayIcon className="h-6 w-6" />
               </button>
               <button
-                className={`dark:bg-navy-blue-700 dark:text-navy-blue-50 flex h-[43px] w-[43px] items-center justify-center rounded-full bg-white text-gray-700 shadow-md`}
+                className="dark:bg-navy-blue-700 dark:text-navy-blue-50 flex h-11 w-11 items-center justify-center rounded-full bg-white text-gray-700 shadow-md"
                 onClick={() => console.log('not implemented yet')}
               >
                 <ShareIcon className="h-6 w-6 " />
               </button>
               <button
-                className={`dark:bg-navy-blue-700 dark:text-navy-blue-50 flex h-[43px] w-[43px] items-center justify-center rounded-full bg-white text-gray-700 shadow-md`}
+                className="dark:bg-navy-blue-700 dark:text-navy-blue-50 flex h-11 w-11 items-center justify-center rounded-full bg-white text-gray-700 shadow-md"
                 onClick={() => setDeleteModalOpen(true)}
               >
                 <TrashIcon className="h-6 w-6" />

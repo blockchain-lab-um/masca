@@ -342,15 +342,17 @@ const Table = () => {
           onClick={handleLoadVcs}
           loading={loading}
         >
-          {t('noVCs.load')}
+          {t('no-credentials.load')}
         </Button>
-        <span className="py-4 text-lg font-semibold">{t('noVCs.or')}</span>
+        <span className="py-4 text-lg font-semibold">
+          {t('no-credentials.or')}
+        </span>
         <Link
           href="https://blockchain-lab-um.github.io/course-dapp"
           target="_blank"
         >
           <Button variant="secondary" size="sm" onClick={() => {}}>
-            {t('noVCs.get')}
+            {t('no-credentials.get')}
           </Button>
         </Link>
       </div>

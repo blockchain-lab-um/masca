@@ -124,6 +124,7 @@ export class AppService {
     });
 
     if (isError(res)) {
+      console.log(res.error);
       throw res.error;
     }
 

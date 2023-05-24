@@ -141,3 +141,11 @@ export type HandleOIDCCredentialOfferRequestParams = {
 export type HandleOIDCAuthorizationRequestParams = {
   authorizationRequestURI: string;
 };
+
+/**
+ * SendOIDCAuthorizationResponseParams
+ */
+export type SendOIDCAuthorizationResponseParams = {
+  authorizationRequestURI: string;
+  credentials: W3CVerifiableCredential[];
+};

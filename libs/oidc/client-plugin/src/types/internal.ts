@@ -47,7 +47,7 @@ export type CreateIdTokenArgs = {
   sign: (args: SignArgs) => Promise<string>;
 };
 
-export type SendAuthorizationResponseArgs = {
+export type SendOIDCAuthorizationResponseArgs = {
   presentationSubmission: PresentationSubmission;
   idToken: string;
   verifiablePresentation:

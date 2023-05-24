@@ -34,7 +34,7 @@
     }
   },
   "Dashboard": {
-    "noVCs": {
+    "no-credentials": {
       "load": "Load VCs",
       "or": "or",
       "get": "Get your first VC"
@@ -78,11 +78,11 @@
     }
   },
   "Settings": {
-    "ds": "Data Stores",
-    "ds-desc": "Enable or disable data stores. Data stores are places where VCs are stored.",
+    "data-store": "Data Stores",
+    "data-store-desc": "Enable or disable data stores. Data stores are places where VCs are stored.",
     "advanced": "Advanced"
   },
-  "VC": {
+  "VerifiableCredential": {
     "vc": "Verifiable Credential",
     "formatted-tab": {
       "issuance-date": "Issuance Date",
@@ -99,18 +99,18 @@
       "open-did": "Open DID in Universal resolver"
     }
   },
-  "ModifyDS": {
+  "ModifyDataStoreModal": {
     "title": "Modify Credential",
     "desc": "Here you can define where the credential will be stored.",
     "done": "Done"
   },
-  "DeleteVC": {
+  "DeleteCredentialModal": {
     "title": "Delete Credential",
     "desc": "Approving this action will remove the credential from your wallet. This action cannot be undone.",
     "cancel": "Cancel",
     "delete": "Delete VC"
   },
-  "create-verifiable-presentation": {
+  "CreateVerifiablePresentation": {
     "title": "Create Presentation",
     "table": {
       "title": "Selected Credentials",
@@ -127,5 +127,11 @@
       "title": "ADVANCED",
       "tooltip": "Only applicable to JWT proof format."
     }
+  },
+  "SelectCredentialsModal": {
+    "title": "Select Credentials",
+    "desc": "Select the credentials you want to include in the presentation.",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
   }
 }

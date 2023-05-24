@@ -31,7 +31,7 @@ const FormatedTab = ({
   modifyDSModalOpen,
   deleteModalOpen,
 }: FormatedTabProps) => {
-  const t = useTranslations('VC');
+  const t = useTranslations('VerifiableCredential');
   const setSelectedVCs = useTableStore((state) => state.setSelectedVCs);
 
   let stores: string[] = [];

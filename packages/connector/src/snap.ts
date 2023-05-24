@@ -1,9 +1,10 @@
-import {
+import type {
   AvailableMethods,
   AvailableVCStores,
   CreateVCRequestParams,
   CreateVPRequestParams,
   DeleteVCsOptions,
+  HandleOIDCAuthorizationRequestParams,
   HandleOIDCCredentialOfferRequestParams,
   MascaAccountConfig,
   MascaApi,
@@ -13,10 +14,12 @@ import {
   QueryVCsRequestResult,
   SaveVCOptions,
   SaveVCRequestResult,
+  SendOIDCAuthorizationResponseParams,
   SetCurrentAccountRequestParams,
 } from '@blockchain-lab-um/masca-types';
-import { Result } from '@blockchain-lab-um/utils';
-import {
+import type { Result } from '@blockchain-lab-um/utils';
+import type { IVerifiableCredential } from '@sphereon/ssi-types';
+import type {
   DIDResolutionResult,
   VerifiableCredential,
   VerifiablePresentation,
@@ -300,6 +303,32 @@ export async function handleOIDCCredentialOffer(
   );
 }
 
+export async function handleOIDCAuthorizationRequest(
+  this: Masca,
+  params: HandleOIDCAuthorizationRequestParams
+): Promise<Result<IVerifiableCredential[]>> {
+  return sendSnapMethod(
+    {
+      method: 'handleOIDCAuthorizationRequest',
+      params,
+    },
+    this.snapId
+  );
+}
+
+export async function sendOIDCAuthorizationResponse(
+  this: Masca,
+  params: SendOIDCAuthorizationResponseParams
+): Promise<Result<boolean>> {
+  return sendSnapMethod(
+    {
+      method: 'sendOIDCAuthorizationResponse',
+      params,
+    },
+    this.snapId
+  );
+}
+
 export class Masca {
   protected readonly snapId: string;
 
@@ -333,6 +362,8 @@ export class Masca {
       createVC: createVC.bind(this),
       setCurrentAccount: setCurrentAccount.bind(this),
       handleOIDCCredentialOffer: handleOIDCCredentialOffer.bind(this),
+      handleOIDCAuthorizationRequest: handleOIDCAuthorizationRequest.bind(this),
+      sendOIDCAuthorizationResponse: sendOIDCAuthorizationResponse.bind(this),
     };
   };
 }

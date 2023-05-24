@@ -29,7 +29,7 @@ const proofFormats: Record<string, SupportedProofFormats> = {
 };
 
 const CreateVP = () => {
-  const t = useTranslations('create-verifiable-presentation');
+  const t = useTranslations('CreateVerifiablePresentation');
   const [loading, setLoading] = useState(false);
   const [vpModalOpen, setVpModalOpen] = useState(false);
   const [vp, setVp] = useState({});

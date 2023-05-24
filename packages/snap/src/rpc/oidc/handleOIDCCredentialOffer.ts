@@ -3,15 +3,12 @@ import { SignArgs } from '@blockchain-lab-um/oidc-client-plugin';
 import { CredentialRequest } from '@blockchain-lab-um/oidc-types';
 import { isError } from '@blockchain-lab-um/utils';
 import { heading, panel } from '@metamask/snaps-ui';
-import elliptic from 'elliptic';
 
 import { ApiParams } from '../../interfaces';
 import { getCurrentDid } from '../../utils/didUtils';
 import { snapGetKeysFromAddress } from '../../utils/keyPair';
 import { sign } from '../../utils/sign';
 import { getAgent } from '../../veramo/setup';
-
-const { ec: EC } = elliptic;
 
 export async function handleOIDCCredentialOffer(
   params: ApiParams,

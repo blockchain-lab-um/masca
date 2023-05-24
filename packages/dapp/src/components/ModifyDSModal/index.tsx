@@ -8,10 +8,10 @@ import { Dialog, Transition } from '@headlessui/react';
 import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
+import Button from '@/components//Button';
+import ToggleSwitch from '@/components//Switch';
+import DeleteModal from '@/components/DeleteModal';
 import { useMascaStore, useToastStore } from '@/stores';
-import Button from '../Button';
-import DeleteModal from '../DeleteModal';
-import ToggleSwitch from '../Switch';
 
 interface ModifyDSModalProps {
   open: boolean;
@@ -20,12 +20,11 @@ interface ModifyDSModalProps {
 }
 
 function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
-  const t = useTranslations('ModifyDS');
+  const t = useTranslations('ModifyDataStoreModal');
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const { setTitle, setLoading, setToastOpen, setType } = useToastStore(
     (state) => ({
       setTitle: state.setTitle,
-      setText: state.setText,
       setLoading: state.setLoading,
       setToastOpen: state.setOpen,
       setType: state.setType,

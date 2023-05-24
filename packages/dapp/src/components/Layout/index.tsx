@@ -46,9 +46,9 @@ const Layout = ({ children }: { children: JSX.Element }) => {
       <div className="flex h-screen flex-col">
         <>
           <ToastWrapper>
-            <div className="mx-4 mt-4 h-full lg:mx-8 xl:mx-16">
+            <div className="mx-4 flex h-full flex-col pt-4 lg:mx-8 xl:mx-16">
               <Navbar />
-              <div className="my-8 mt-4 h-full lg:mt-24">{children}</div>
+              <div className="flex-1 pt-24">{children}</div>
             </div>
           </ToastWrapper>
           <Footer />
