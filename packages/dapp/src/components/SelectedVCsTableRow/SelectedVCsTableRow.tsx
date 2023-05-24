@@ -42,7 +42,7 @@ const SelectedVCsTableRow = ({
         <span className="flex items-center justify-center">
           <Link
             href={{
-              pathname: '/vc',
+              pathname: '/verifiable-credential',
               query: { id: vc.metadata.id },
             }}
           >

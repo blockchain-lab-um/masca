@@ -39,7 +39,7 @@
       "or": "or",
       "get": "Get your first VC"
     },
-    "createVP": "Create Presentation",
+    "create-verifiable-presentation": "Create Presentation",
     "search": "Search all columns...",
     "table-header": {
       "credentials": "My Credentials",
@@ -93,7 +93,7 @@
       "expiration-date": "Expiration Date",
       "no-exp-date": "Does not have an expiration date",
       "store": "DATA STORES",
-      "createVP": "Create Presentation"
+      "create-verifiable-presentation": "Create Presentation"
     },
     "tooltip": {
       "open-did": "Open DID in Universal resolver"
@@ -110,7 +110,7 @@
     "cancel": "Cancel",
     "delete": "Delete VC"
   },
-  "CreateVP": {
+  "create-verifiable-presentation": {
     "title": "Create Presentation",
     "table": {
       "title": "Selected Credentials",

@@ -29,7 +29,7 @@ const proofFormats: Record<string, SupportedProofFormats> = {
 };
 
 const CreateVP = () => {
-  const t = useTranslations('CreateVP');
+  const t = useTranslations('create-verifiable-presentation');
   const [loading, setLoading] = useState(false);
   const [vpModalOpen, setVpModalOpen] = useState(false);
   const [vp, setVp] = useState({});
@@ -97,7 +97,7 @@ const CreateVP = () => {
 
   return (
     <>
-      <div className="grid place-items-center">
+      <div className="flex justify-center">
         <div className="dark:bg-navy-blue-800 dark:text-navy-blue-400 flex h-full min-h-[40vh] w-full max-w-sm flex-col rounded-3xl bg-white shadow-lg md:max-w-md lg:max-w-xl xl:w-[34rem] xl:max-w-[40rem]">
           <ConnectedProvider>
             <div className="mt-5 flex w-full justify-between px-5">

@@ -2,6 +2,7 @@ import type {
   AuthorizationRequest,
   CredentialOffer,
   CredentialResponse,
+  PresentationSubmission,
   Proof,
   SupportedCredential,
   TokenResponse,
@@ -11,13 +12,16 @@ import type { IVerifiableCredential } from '@sphereon/ssi-types';
 import type { IAgentContext, IPluginMethodMap, IResolver } from '@veramo/core';
 
 import type {
-  CredentialRequestArgs,
+  CreateIdTokenArgs,
+  CreatePresentationSubmissionArgs,
   GetCredentialInfoByIdArgs,
   ParseOIDCAuthorizationRequestURIArgs,
   ParseOIDCCredentialOfferURIArgs,
   ProofOfPossesionArgs,
   SelectCredentialsArgs,
-  TokenRequestArgs,
+  SendAuthorizationResponseArgs,
+  SendCredentialRequestArgs,
+  SendTokenRequestArgs,
 } from './internal.js';
 
 export interface IOIDCClientPlugin extends IPluginMethodMap {
@@ -25,9 +29,9 @@ export interface IOIDCClientPlugin extends IPluginMethodMap {
   parseOIDCCredentialOfferURI(
     args: ParseOIDCCredentialOfferURIArgs
   ): Promise<Result<CredentialOffer>>;
-  tokenRequest(args: TokenRequestArgs): Promise<Result<TokenResponse>>;
-  credentialRequest(
-    args: CredentialRequestArgs
+  sendTokenRequest(args: SendTokenRequestArgs): Promise<Result<TokenResponse>>;
+  sendCredentialRequest(
+    args: SendCredentialRequestArgs
   ): Promise<Result<CredentialResponse>>;
   getCredentialInfoById(
     args: GetCredentialInfoByIdArgs
@@ -37,17 +41,20 @@ export interface IOIDCClientPlugin extends IPluginMethodMap {
   parseOIDCAuthorizationRequestURI(
     args: ParseOIDCAuthorizationRequestURIArgs
   ): Promise<Result<AuthorizationRequest>>;
-
   selectCredentials(
     args: SelectCredentialsArgs
   ): Promise<Result<IVerifiableCredential[]>>;
-
-  // createPresentationSubmission(
-  //   args: CreatePresentationDefinitionArgs
-  // ): Promise<Result<PresentationSubmission>>;
+  createPresentationSubmission(
+    args: CreatePresentationSubmissionArgs
+  ): Promise<Result<PresentationSubmission>>;
+  createIdToken(args: CreateIdTokenArgs): Promise<Result<string>>;
+  getChallenge(): Promise<Result<string>>;
+  getDomain(): Promise<Result<string>>;
+  sendAuthorizationResponse(
+    args: SendAuthorizationResponseArgs
+  ): Promise<Result<boolean>>;
 
   // Common
-  // TODO: There is a difference for the verifier and the issuer
   proofOfPossession(args: ProofOfPossesionArgs): Promise<Result<Proof>>;
   reset(): Promise<void>;
 }

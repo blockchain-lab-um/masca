@@ -134,3 +134,10 @@ export type VerifyDataRequestParams =
 export type HandleOIDCCredentialOfferRequestParams = {
   credentialOfferURI: string;
 };
+
+/**
+ * HandleOIDCAuthorizationRequestParams
+ */
+export type HandleOIDCAuthorizationRequestParams = {
+  authorizationRequestURI: string;
+};

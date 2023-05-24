@@ -19,14 +19,16 @@ import qs from 'qs';
 
 import type { IOIDCClientPlugin } from '../types/IOIDCClientPlugin.js';
 import type {
+  CreateIdTokenArgs,
   CreatePresentationSubmissionArgs,
-  CredentialRequestArgs,
   GetCredentialInfoByIdArgs,
   ParseOIDCAuthorizationRequestURIArgs,
   ParseOIDCCredentialOfferURIArgs,
   ProofOfPossesionArgs,
   SelectCredentialsArgs,
-  TokenRequestArgs,
+  SendAuthorizationResponseArgs,
+  SendCredentialRequestArgs,
+  SendTokenRequestArgs,
 } from '../types/internal.js';
 
 const pex: PEX = new PEX();
@@ -65,8 +67,8 @@ export class OIDCClientPlugin implements IAgentPlugin {
   readonly methods: IOIDCClientPlugin = {
     // For issuance handling
     parseOIDCCredentialOfferURI: this.parseOIDCCredentialOfferURI.bind(this),
-    tokenRequest: this.tokenRequest.bind(this),
-    credentialRequest: this.credentialRequest.bind(this),
+    sendTokenRequest: this.sendTokenRequest.bind(this),
+    sendCredentialRequest: this.sendCredentialRequest.bind(this),
     getCredentialInfoById: this.getCredentialInfoById.bind(this),
 
     // For verification handling
@@ -74,6 +76,10 @@ export class OIDCClientPlugin implements IAgentPlugin {
       this.parseOIDCAuthorizationRequestURI.bind(this),
     selectCredentials: this.selectCredentials.bind(this),
     createPresentationSubmission: this.createPresentationSubmission.bind(this),
+    getChallenge: this.getChallenge.bind(this),
+    getDomain: this.getDomain.bind(this),
+    createIdToken: this.createIdToken.bind(this),
+    sendAuthorizationResponse: this.sendAuthorizationResponse.bind(this),
 
     // Common
     proofOfPossession: this.proofOfPossession.bind(this),
@@ -171,8 +177,8 @@ export class OIDCClientPlugin implements IAgentPlugin {
     }
   }
 
-  public async tokenRequest(
-    args: TokenRequestArgs
+  public async sendTokenRequest(
+    args: SendTokenRequestArgs
   ): Promise<Result<TokenResponse>> {
     if (!this.current.issuerServerMetadata) {
       return ResultObject.error('Issuer server metadata not found');
@@ -228,7 +234,7 @@ export class OIDCClientPlugin implements IAgentPlugin {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: qs.stringify(body),
+        body: qs.stringify(body, { encode: true }),
       });
 
       if (!response.ok) {
@@ -250,8 +256,8 @@ export class OIDCClientPlugin implements IAgentPlugin {
     return ResultObject.error('Grant type not supported');
   }
 
-  public async credentialRequest(
-    args: CredentialRequestArgs
+  public async sendCredentialRequest(
+    args: SendCredentialRequestArgs
   ): Promise<Result<CredentialResponse>> {
     if (!this.current.issuerServerMetadata) {
       return ResultObject.error('Issuer server metadata not found');
@@ -314,11 +320,9 @@ export class OIDCClientPlugin implements IAgentPlugin {
       return ResultObject.error('Token response not found');
     }
 
-    const { credentialOffer, issuerServerMetadata, tokenResponse } =
-      this.current;
+    const { issuerServerMetadata, tokenResponse } = this.current;
 
     const payload = {
-      sub: credentialOffer.credential_issuer,
       aud: issuerServerMetadata.credential_issuer,
       ...(tokenResponse.c_nonce && { nonce: tokenResponse.c_nonce }),
     };
@@ -463,31 +467,21 @@ export class OIDCClientPlugin implements IAgentPlugin {
   public async selectCredentials(
     args: SelectCredentialsArgs
   ): Promise<Result<IVerifiableCredential[]>> {
-    const { credentials, presentationDefinition } = args;
+    const { credentials } = args;
 
     if (!credentials) {
       return ResultObject.error('Credentials are required');
     }
 
-    if (presentationDefinition) {
-      const { verifiableCredential } = pex.selectFrom(
-        presentationDefinition,
-        credentials
-      );
+    const presentationDefinition =
+      args.presentationDefinition ?? this.current.presentationDefinition;
 
-      if (!verifiableCredential) {
-        return ResultObject.error('Failed to select credentials');
-      }
-
-      return ResultObject.success(verifiableCredential);
-    }
-
-    if (!this.current.presentationDefinition) {
+    if (!presentationDefinition) {
       return ResultObject.error('Presentation definition not found');
     }
 
     const { verifiableCredential } = pex.selectFrom(
-      this.current.presentationDefinition,
+      presentationDefinition,
       credentials
     );
 
@@ -501,8 +495,124 @@ export class OIDCClientPlugin implements IAgentPlugin {
   public async createPresentationSubmission(
     args: CreatePresentationSubmissionArgs
   ): Promise<Result<PresentationSubmission>> {
-    console.log(args);
-    return ResultObject.error('Issuer server metadata not found');
+    const { credentials } = args;
+
+    if (!credentials) {
+      return ResultObject.error('Credentials are required');
+    }
+
+    const presentationDefinition =
+      args.presentationDefinition ?? this.current.presentationDefinition;
+
+    if (!presentationDefinition) {
+      return ResultObject.error('Presentation definition not found');
+    }
+
+    const presentationSubmission = pex.presentationSubmissionFrom(
+      presentationDefinition,
+      credentials
+    );
+
+    return ResultObject.success(presentationSubmission);
+  }
+
+  public async getChallenge(): Promise<Result<string>> {
+    if (!this.current.authorizationRequest) {
+      return ResultObject.error('Authorization request not found');
+    }
+
+    const { nonce } = this.current.authorizationRequest;
+
+    if (!nonce) {
+      return ResultObject.error('Challenge (nonce) not found');
+    }
+
+    return ResultObject.success(nonce);
+  }
+
+  public async getDomain(): Promise<Result<string>> {
+    if (!this.current.authorizationRequest) {
+      return ResultObject.error('Authorization request not found');
+    }
+
+    const { client_id: clientId } = this.current.authorizationRequest;
+
+    if (!clientId) {
+      return ResultObject.error('Domain (client_id) not found');
+    }
+
+    return ResultObject.success(clientId);
+  }
+
+  public async createIdToken(args: CreateIdTokenArgs): Promise<Result<string>> {
+    if (!this.current.authorizationRequest) {
+      return ResultObject.error('Authorization request not found');
+    }
+
+    const { nonce, client_id: clientId } = this.current.authorizationRequest;
+
+    if (!nonce) {
+      return ResultObject.error('Nonce not found');
+    }
+
+    if (!clientId) {
+      return ResultObject.error('Client id not found');
+    }
+
+    const payload = {
+      aud: clientId,
+      nonce,
+    };
+
+    const { sign } = args;
+
+    if (!sign) {
+      return ResultObject.error('Sign function not provided');
+    }
+
+    const jwt = await sign({
+      payload,
+    });
+
+    return ResultObject.success(jwt);
+  }
+
+  public async sendAuthorizationResponse(
+    args: SendAuthorizationResponseArgs
+  ): Promise<Result<boolean>> {
+    const { authorizationRequest } = this.current;
+    if (!authorizationRequest) {
+      return ResultObject.error('Authorization request not found');
+    }
+
+    const { redirect_uri: redirectUri } = authorizationRequest;
+
+    if (!redirectUri) {
+      return ResultObject.error('Redirect uri not found');
+    }
+
+    const { state } = authorizationRequest;
+
+    const body = {
+      id_token: args.idToken,
+      vp_token: args.verifiablePresentation,
+      presentation_submission: args.presentationSubmission,
+      ...(state && { state }),
+    };
+
+    const response = await fetch(redirectUri, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: qs.stringify(body, { encode: true }),
+    });
+
+    if (!response.ok) {
+      return ResultObject.error('Failed to send authorization response');
+    }
+
+    return ResultObject.success(true);
   }
 
   public async reset(): Promise<void> {

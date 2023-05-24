@@ -56,8 +56,8 @@ export const createJWTProof = async ({
   }
 
   let jwtPayload: Partial<JWTPayload> = {
-    sub: audience,
     aud: audience,
+    sub: did,
     iss: did,
     exp: Math.floor(Date.now() / 1000) + 60 * 60,
     iat: Math.floor(Date.now() / 1000),

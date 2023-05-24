@@ -40,6 +40,7 @@ module.exports = {
       'LabeledStatement',
       'WithStatement',
     ],
+    'no-nested-ternary': 'off',
     '@typescript-eslint/no-unsafe-assignment': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-unsafe-member-access': 'off',

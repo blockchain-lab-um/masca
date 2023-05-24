@@ -49,11 +49,11 @@ export default function Navbar() {
           <NavBtn page="/settings" pathname={router.pathname}>
             {t('menu.settings')}
           </NavBtn>
-          <NavBtn page="/issue" pathname={router.pathname}>
-            Test issuer
+          <NavBtn page="/get-credential" pathname={router.pathname}>
+            Get credential
           </NavBtn>
-          <NavBtn page="/verify" pathname={router.pathname}>
-            Test verifier
+          <NavBtn page="/authorization-request" pathname={router.pathname}>
+            Authorization request
           </NavBtn>
           <MenuPopover />
         </div>

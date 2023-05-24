@@ -61,7 +61,7 @@ export default function Settings() {
   };
 
   return (
-    <div className="grid place-items-center">
+    <div className="flex justify-center">
       <div className="dark:bg-navy-blue-800 flex h-full min-h-[40vh] w-full max-w-sm flex-col rounded-3xl bg-white shadow-lg  md:max-w-md lg:max-w-lg  xl:w-[34rem] xl:max-w-[34rem]">
         <ConnectedProvider>
           <div className="p-4 text-lg">

@@ -35,7 +35,7 @@ const VC = () => {
   }
 
   return (
-    <div className="grid place-items-center">
+    <div className="flex justify-center">
       <div className="w-full max-w-sm md:max-w-xl lg:max-w-2xl xl:w-[50rem] xl:max-w-[50rem]">
         <Tab.Group>
           <div className="flex items-center justify-between">

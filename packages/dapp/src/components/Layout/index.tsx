@@ -15,13 +15,21 @@ const METADATA: { [key: string]: { title: string; description: string } } = {
     title: 'Settings',
     description: 'Settings page for Masca.',
   },
-  '/vc': {
-    title: 'VC',
-    description: 'VC page for Masca.',
+  '/verifiable-credential': {
+    title: 'Verifiable Credential',
+    description: 'Verifiable Credential page for Masca.',
   },
-  '/createVP': {
+  '/create-verifiable-presentation': {
     title: 'Verifiable Presentation',
-    description: 'Create VP page for Masca.',
+    description: 'Create erifiable Presentation page for Masca.',
+  },
+  '/get-credential': {
+    title: 'Get Credential',
+    description: 'Get Credential page for Masca.',
+  },
+  '/authorization-request': {
+    title: 'Authorization Request',
+    description: 'Authorization Request page for Masca.',
   },
 } as const;
 
@@ -38,9 +46,9 @@ const Layout = ({ children }: { children: JSX.Element }) => {
       <div className="flex h-screen flex-col">
         <>
           <ToastWrapper>
-            <div className="mx-4 mt-4 lg:mx-8 xl:mx-16">
+            <div className="mx-4 mt-4 h-full lg:mx-8 xl:mx-16">
               <Navbar />
-              <div className="my-8 mt-4 lg:mt-24">{children}</div>
+              <div className="my-8 mt-4 h-full lg:mt-24">{children}</div>
             </div>
           </ToastWrapper>
           <Footer />

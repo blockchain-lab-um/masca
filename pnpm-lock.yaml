@@ -1070,6 +1070,9 @@ importers:
         specifier: ^4.3.2
         version: 4.3.7(react@18.2.0)
     devDependencies:
+      '@blockchain-lab-um/oidc-types':
+        specifier: workspace:*
+        version: link:../../libs/oidc/types
       '@ianvs/prettier-plugin-sort-imports':
         specifier: ^3.7.1
         version: 3.7.2(prettier@2.8.7)

@@ -155,11 +155,14 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         return ResultObject.success(res);
       case 'handleOIDCCredentialOffer':
         apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
-        await handleOIDCCredentialOffer(
+        res = await handleOIDCCredentialOffer(
           apiParams,
           request.params as unknown as HandleOIDCCredentialOfferRequestParams
         );
-        return ResultObject.success('Not implemented yet.');
+        return ResultObject.success(res);
+      case 'handleOIDCAuthorizationRequest':
+        apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
+
       default:
         throw new Error('Method not found.');
     }

@@ -3,15 +3,13 @@ import { SignArgs } from '@blockchain-lab-um/oidc-client-plugin';
 import { CredentialRequest } from '@blockchain-lab-um/oidc-types';
 import { isError } from '@blockchain-lab-um/utils';
 import { heading, panel } from '@metamask/snaps-ui';
-import { bytesToBase64url, encodeBase64url } from '@veramo/utils';
 import elliptic from 'elliptic';
-import { sha256 } from 'ethereum-cryptography/sha256.js';
 
 import { ApiParams } from '../../interfaces';
 import { getCurrentDid } from '../../utils/didUtils';
 import { snapGetKeysFromAddress } from '../../utils/keyPair';
+import { sign } from '../../utils/sign';
 import { getAgent } from '../../veramo/setup';
-import { saveVC } from '../vc/saveVC';
 
 const { ec: EC } = elliptic;
 
@@ -31,8 +29,6 @@ export async function handleOIDCCredentialOffer(
     credentialOfferURI: handleOIDCCredentialOfferParams.credentialOfferURI,
   });
 
-  console.log(credentialOfferResult);
-
   if (isError(credentialOfferResult)) {
     throw new Error(credentialOfferResult.error);
   }
@@ -40,8 +36,6 @@ export async function handleOIDCCredentialOffer(
   const credentialOffer = credentialOfferResult.data;
 
   const { credentials } = credentialOffer;
-
-  console.log(credentialOffer);
 
   // Ask user for PIN
   const pin = await snap.request({
@@ -59,19 +53,13 @@ export async function handleOIDCCredentialOffer(
     throw new Error('PIN is required');
   }
 
-  console.log(pin);
-
-  const tokenRequestResult = await agent.tokenRequest({ pin });
-
-  console.log(tokenRequestResult);
+  const tokenRequestResult = await agent.sendTokenRequest({ pin });
 
   if (isError(tokenRequestResult)) {
     throw new Error(tokenRequestResult.error);
   }
 
   const tokenResponse = tokenRequestResult.data;
-
-  console.log(tokenResponse);
 
   // TODO: Handle multiple credentials
   let selectedCredential = credentials[0];
@@ -118,51 +106,12 @@ export async function handleOIDCCredentialOffer(
 
   const kid = `${did}#controllerKey`;
 
-  const sign = async (args: SignArgs) => {
-    const ctx = new EC('secp256k1');
-
-    const ecPrivateKey = ctx.keyFromPrivate(res.privateKey.slice(2));
-
-    const jwtPayload = {
-      ...args.payload,
-      exp: Math.floor(Date.now() / 1000) + 60 * 60,
-      iat: Math.floor(Date.now() / 1000),
-      nbf: Math.floor(Date.now() / 1000),
-      iss: did,
-    };
-
-    const jwtHeader = {
-      ...args.header,
-      alg: 'ES256K',
-      kid,
-    };
-
-    const signingInput = [
-      encodeBase64url(JSON.stringify(jwtHeader)),
-      encodeBase64url(JSON.stringify(jwtPayload)),
-    ].join('.');
-
-    const hash = sha256(Buffer.from(signingInput));
-
-    const signature = ecPrivateKey.sign(hash);
-
-    const signatureBuffer = Buffer.concat([
-      signature.r.toArrayLike(Buffer, 'be', 32),
-      signature.s.toArrayLike(Buffer, 'be', 32),
-    ]);
-
-    const signatureBase64 = bytesToBase64url(signatureBuffer);
-
-    const signedJwt = [signingInput, signatureBase64].join('.');
-
-    console.log(signedJwt);
-
-    return signedJwt;
-  };
+  const customSign = async (args: SignArgs) =>
+    sign(args, { privateKey: res.privateKey, did, kid });
 
   // Create proof of possession
   const proofOfPossessionResult = await agent.proofOfPossession({
-    sign,
+    sign: customSign,
   });
 
   if (isError(proofOfPossessionResult)) {
@@ -171,11 +120,9 @@ export async function handleOIDCCredentialOffer(
 
   credentialRequest.proof = proofOfPossessionResult.data;
 
-  const credentialRequestResult = await agent.credentialRequest(
+  const credentialRequestResult = await agent.sendCredentialRequest(
     credentialRequest
   );
-
-  console.log(credentialRequestResult);
 
   if (isError(credentialRequestResult)) {
     throw new Error(credentialRequestResult.error);
@@ -185,11 +132,9 @@ export async function handleOIDCCredentialOffer(
 
   console.log(credentialResponse);
 
-  if (credentialResponse.credential) {
-    await saveVC(params, {
-      verifiableCredential: credentialResponse.credential,
-    });
+  if (!credentialResponse.credential) {
+    throw new Error('An error occurred while requesting the credential');
   }
 
-  return '';
+  return credentialResponse.credential;
 }

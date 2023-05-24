@@ -436,7 +436,7 @@ const Table = () => {
                           router
                             .push(
                               {
-                                pathname: '/vc',
+                                pathname: '/verifiable-credential',
                                 query: { id: row.original.metadata.id },
                               },
                               undefined,
@@ -478,7 +478,7 @@ const Table = () => {
           </div>
           {table.getSelectedRowModel().rows.length > 0 && (
             <div className="mb-2 max-lg:flex max-lg:justify-center lg:absolute lg:-bottom-5 lg:right-10">
-              <Link href="createVP">
+              <Link href="create-verifiable-presentation">
                 <Button
                   variant="primary"
                   size="wd"
@@ -488,7 +488,7 @@ const Table = () => {
                     );
                   }}
                 >
-                  {t('createVP')}{' '}
+                  {t('create-verifiable-presentation')}{' '}
                   {table.getSelectedRowModel().rows.length > 0 &&
                     `(${table.getSelectedRowModel().rows.length})`}
                 </Button>
@@ -530,7 +530,7 @@ const Table = () => {
         </div>
         {table.getSelectedRowModel().rows.length > 0 && (
           <div className="absolute -bottom-5 right-10">
-            <Link href="createVP">
+            <Link href="create-verifiable-presentation">
               <Button
                 variant="primary"
                 size="wd"
@@ -540,7 +540,7 @@ const Table = () => {
                   );
                 }}
               >
-                {t('createVP')}{' '}
+                {t('create-verifiable-presentation')}{' '}
                 {table.getSelectedRowModel().rows.length > 0 &&
                   `(${table.getSelectedRowModel().rows.length})`}
               </Button>

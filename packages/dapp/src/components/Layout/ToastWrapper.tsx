@@ -58,7 +58,7 @@ export const ToastWrapper = ({ children }: { children: JSX.Element }) => {
   };
 
   return (
-    <div>
+    <div className="h-full">
       <Toast.Provider swipeDirection="right">
         {children}
 
