@@ -26,7 +26,7 @@ import { KeyManagementSystem, SecretBox } from '@veramo/kms-local';
 import { Resolver } from 'did-resolver';
 import { DataSource, DataSourceOptions } from 'typeorm';
 
-import { MascaKeyDidProvider, getMascaDidKeyResolver } from '../src';
+import { MascaKeyDidProvider, getMascaDidKeyResolver } from '../src/index.js';
 import plugin from './plugin';
 
 jest.setTimeout(60000);

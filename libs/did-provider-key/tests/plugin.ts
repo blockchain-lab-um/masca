@@ -25,6 +25,49 @@ export default (testContext: {
     afterAll(testContext.tearDown);
 
     let identifier: IIdentifier;
+    it('should create did:key identifier (Secp256k1), without private key import', async () => {
+      identifier = await agent.didManagerCreate({
+        provider: 'did:key',
+        options: {
+          keyType: 'Secp256k1',
+        },
+      });
+
+      expect(identifier.provider).toBe('did:key');
+      expect.assertions(1);
+    });
+    it('should create did:key identifier (Ed25519), without private key import', async () => {
+      identifier = await agent.didManagerCreate({
+        provider: 'did:key',
+        options: {
+          keyType: 'Ed25519',
+        },
+      });
+
+      expect(identifier.provider).toBe('did:key');
+      expect.assertions(1);
+    });
+    it('should create did:key identifier (X25519), without private key import', async () => {
+      identifier = await agent.didManagerCreate({
+        provider: 'did:key',
+        options: {
+          keyType: 'X25519',
+        },
+      });
+
+      expect(identifier.provider).toBe('did:key');
+      expect.assertions(1);
+    });
+    it('should create did:key ebsi identifier without key import', async () => {
+      identifier = await agent.didManagerCreate({
+        provider: 'did:key',
+        options: {
+          type: 'ebsi',
+        },
+      });
+
+      expect(identifier.provider).toBe('did:key');
+    });
     it('should create did:key identifier (Secp256k1)', async () => {
       identifier = await agent.didManagerCreate({
         provider: 'did:key',
@@ -122,7 +165,6 @@ export default (testContext: {
         services: [],
       });
     });
-
     it('should create did:key ebsi identifier', async () => {
       identifier = await agent.didManagerCreate({
         provider: 'did:key',
@@ -161,7 +203,6 @@ export default (testContext: {
         services: [],
       });
     });
-
     it('should resolve key did', async () => {
       const didUrl =
         'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik';
@@ -171,7 +212,6 @@ export default (testContext: {
       expect(result).toHaveProperty('didDocumentMetadata');
       expect(result).toHaveProperty('didResolutionMetadata');
     });
-
     it('should resolve key did ebsi', async () => {
       const didUrl =
         'did:key:zBhBLmYmyihtomRdJJNEKzbPj51o4a3GYFeZoRHSABKUwqdjiQPY2gGUYckfRXAFJdwJVD5cgJ2C27D5U2uXsF5Cnn4Er6U7BL4a5rvqjWNxC8y19htTFR63EPnZRCqWBQTH3NKdZyKCFqdh4kiZmvb5ndFmPtg56VrHfbpx53uYKZXonU4W65A';

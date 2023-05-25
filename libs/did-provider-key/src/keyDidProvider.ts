@@ -20,7 +20,7 @@ import { bytesToBase64url, hexToBytes } from '@veramo/utils';
 import { ec as EC } from 'elliptic';
 import { base58btc } from 'multiformats/bases/base58';
 
-import { CreateKeyDidOptions, keyOptions } from './types/keyDidTypes.js';
+import { ICreateKeyDidOptions, keyOptions } from './types/keyDidTypes.js';
 
 type IContext = IAgentContext<IKeyManager>;
 
@@ -39,13 +39,14 @@ export class MascaKeyDidProvider extends AbstractIdentifierProvider {
 
   async createIdentifier(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    { kms, options }: { kms?: string; options?: CreateKeyDidOptions },
+    { kms, options }: { kms?: string; options?: ICreateKeyDidOptions },
     context: IContext
   ): Promise<Omit<IIdentifier, 'provider'>> {
     let key: ManagedKeyInfo;
     const keyType =
       (options?.keyType && keyOptions[options?.keyType] && options.keyType) ||
       'Ed25519';
+
     if (options?.type === 'ebsi') {
       if (keyType === 'Secp256k1' && options?.privateKeyHex) {
         key = await this.importOrGenerateKey(
@@ -190,7 +191,7 @@ export class MascaKeyDidProvider extends AbstractIdentifierProvider {
   private async importOrGenerateKey(
     args: {
       kms: string;
-      options: RequireOnly<CreateKeyDidOptions, 'keyType'>;
+      options: RequireOnly<ICreateKeyDidOptions, 'keyType'>;
     },
     context: IContext
   ): Promise<IKey> {

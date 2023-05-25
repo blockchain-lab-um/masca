@@ -1,4 +1,4 @@
-export type CreateKeyDidOptions = {
+export type ICreateKeyDidOptions = {
   keyType?: keyof typeof keyOptions;
   privateKeyHex?: string;
   type?: 'ebsi'; // Type whether to use classic did key or did key for EBSI NP
