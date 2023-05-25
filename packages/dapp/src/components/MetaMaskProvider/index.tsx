@@ -100,9 +100,7 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
     console.log(snapId);
     console.log(process.env.NODE_ENV);
     if (isError(enableResult)) {
-      console.error(enableResult.error);
-      changeIsConnecting(false);
-      return;
+      throw new Error(enableResult.error);
     }
     const api = enableResult.data.getMascaApi();
 
@@ -115,41 +113,31 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
 
     if (isError(setAccountRes)) {
       console.log("Couldn't set current account");
-      console.error(setAccountRes.error);
-      changeIsConnecting(false);
-      return;
+      throw new Error(setAccountRes.error);
     }
 
     const did = await api.getDID();
     if (isError(did)) {
       console.log("Couldn't get DID");
-      console.error(did.error);
-      changeIsConnecting(false);
-      return;
+      throw new Error(did.error);
     }
 
     const availableMethods = await api.getAvailableMethods();
     if (isError(availableMethods)) {
       console.log("Couldn't get available methods");
-      console.error(availableMethods.error);
-      changeIsConnecting(false);
-      return;
+      throw new Error(availableMethods.error);
     }
 
     const method = await api.getSelectedMethod();
     if (isError(method)) {
       console.log("Couldn't get selected method");
-      console.error(method.error);
-      changeIsConnecting(false);
-      return;
+      throw new Error(method.error);
     }
 
     const accountSettings = await api.getAccountSettings();
     if (isError(accountSettings)) {
       console.log("Couldn't get account settings");
-      console.error(accountSettings.error);
-      changeIsConnecting(false);
-      return;
+      throw new Error(accountSettings.error);
     }
 
     changeDID(did.data);
@@ -190,6 +178,7 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
     enableMascaHandler().catch((err) => {
       console.error(err);
       changeIsConnecting(false);
+      changeAddress('');
     });
   }, [hasMM, hasFlask, address]);
 

@@ -1,5 +1,4 @@
 import type { Result } from '@blockchain-lab-um/utils';
-import type { IVerifiableCredential } from '@sphereon/ssi-types';
 import type {
   DIDResolutionResult,
   VerifiableCredential,
@@ -56,10 +55,10 @@ export interface MascaApi {
   ): Promise<Result<boolean>>;
   handleOIDCCredentialOffer(
     params: HandleOIDCCredentialOfferRequestParams
-  ): Promise<Result<string>>;
+  ): Promise<Result<VerifiableCredential>>;
   handleOIDCAuthorizationRequest(
     params: HandleOIDCAuthorizationRequestParams
-  ): Promise<Result<IVerifiableCredential[]>>;
+  ): Promise<Result<VerifiableCredential[]>>;
   sendOIDCAuthorizationResponse(
     params: SendOIDCAuthorizationResponseParams
   ): Promise<Result<boolean>>;

@@ -3,6 +3,8 @@ import { SignArgs } from '@blockchain-lab-um/oidc-client-plugin';
 import { CredentialRequest } from '@blockchain-lab-um/oidc-types';
 import { isError } from '@blockchain-lab-um/utils';
 import { heading, panel } from '@metamask/snaps-ui';
+import type { VerifiableCredential } from '@veramo/core';
+import { decodeCredentialToObject } from '@veramo/utils';
 
 import { ApiParams } from '../../interfaces';
 import { getCurrentDid } from '../../utils/didUtils';
@@ -13,7 +15,7 @@ import { getAgent } from '../../veramo/setup';
 export async function handleOIDCCredentialOffer(
   params: ApiParams,
   handleOIDCCredentialOfferParams: HandleOIDCCredentialOfferRequestParams
-): Promise<string> {
+): Promise<VerifiableCredential> {
   const { account, ethereum, snap, state, bip44CoinTypeNode } = params;
 
   if (!bip44CoinTypeNode) {
@@ -55,8 +57,6 @@ export async function handleOIDCCredentialOffer(
   if (isError(tokenRequestResult)) {
     throw new Error(tokenRequestResult.error);
   }
-
-  const tokenResponse = tokenRequestResult.data;
 
   // TODO: Handle multiple credentials
   let selectedCredential = credentials[0];
@@ -133,5 +133,7 @@ export async function handleOIDCCredentialOffer(
     throw new Error('An error occurred while requesting the credential');
   }
 
-  return credentialResponse.credential;
+  const credential = decodeCredentialToObject(credentialResponse.credential);
+
+  return credential;
 }

@@ -18,7 +18,6 @@ import type {
   SetCurrentAccountRequestParams,
 } from '@blockchain-lab-um/masca-types';
 import type { Result } from '@blockchain-lab-um/utils';
-import type { IVerifiableCredential } from '@sphereon/ssi-types';
 import type {
   DIDResolutionResult,
   VerifiableCredential,
@@ -293,7 +292,7 @@ export async function setCurrentAccount(
 export async function handleOIDCCredentialOffer(
   this: Masca,
   params: HandleOIDCCredentialOfferRequestParams
-): Promise<Result<string>> {
+): Promise<Result<VerifiableCredential>> {
   return sendSnapMethod(
     {
       method: 'handleOIDCCredentialOffer',
@@ -306,7 +305,7 @@ export async function handleOIDCCredentialOffer(
 export async function handleOIDCAuthorizationRequest(
   this: Masca,
   params: HandleOIDCAuthorizationRequestParams
-): Promise<Result<IVerifiableCredential[]>> {
+): Promise<Result<VerifiableCredential[]>> {
   return sendSnapMethod(
     {
       method: 'handleOIDCAuthorizationRequest',

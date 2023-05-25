@@ -15,7 +15,7 @@ import {
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-import { IConfig } from './config/configuration.js';
+import type { IConfig } from './config/configuration.js';
 import { AgentService } from './modules/agent/agent.service.js';
 import { DatastoreService } from './modules/datastore/datastore.service.js';
 

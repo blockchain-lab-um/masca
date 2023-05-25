@@ -1,6 +1,6 @@
 import { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import type { IVerifiableCredential } from '@sphereon/ssi-types';
+import type { VerifiableCredential } from '@veramo/core';
 import { useTranslations } from 'next-intl';
 
 import Button from '@/components/Button';
@@ -8,8 +8,8 @@ import Button from '@/components/Button';
 interface SelectCredentialsModalProps {
   open: boolean;
   setOpen: (open: boolean) => void;
-  credentials: IVerifiableCredential[];
-  selectCredentials: (credentials: IVerifiableCredential[]) => void;
+  credentials: VerifiableCredential[];
+  selectCredentials: (credentials: VerifiableCredential[]) => void;
 }
 
 function SelectCredentialsModal({
@@ -20,7 +20,7 @@ function SelectCredentialsModal({
 }: SelectCredentialsModalProps) {
   const t = useTranslations('SelectCredentialsModal');
   const [selectedCredentials, setSelectedCredentials] = useState<
-    IVerifiableCredential[]
+    VerifiableCredential[]
   >([]);
 
   const handleConfirm = () => {
@@ -30,7 +30,7 @@ function SelectCredentialsModal({
 
   const handleSelectionChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    credential: IVerifiableCredential
+    credential: VerifiableCredential
   ) => {
     if (e.target.checked) {
       setSelectedCredentials([...selectedCredentials, credential]);
@@ -79,9 +79,9 @@ function SelectCredentialsModal({
                   <p className="text-md dark:text-navy-blue-200 text-gray-500 ">
                     {t('desc')}
                   </p>
-                  {credentials.map((credential) => (
+                  {credentials.map((credential, index) => (
                     <div
-                      key={credential.id}
+                      key={index}
                       className="mt-4 flex items-center justify-between"
                     >
                       <div className="flex items-center">
@@ -97,8 +97,10 @@ function SelectCredentialsModal({
                           >
                             {credential.name}
                           </label>
-                          <p className="dark:text-navy-blue-200 text-gray-500">
-                            {credential.description}
+                          <p className="dark:text-navy-blue-200 space-x-1 text-gray-500">
+                            {(credential.type as string[]).map((type) => (
+                              <span key={type}>{type},</span>
+                            ))}
                           </p>
                           <p className="dark:text-navy-blue-200 text-gray-500">
                             {credential.issuanceDate}

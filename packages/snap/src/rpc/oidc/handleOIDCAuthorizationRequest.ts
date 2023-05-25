@@ -3,16 +3,17 @@ import type {
   HandleOIDCAuthorizationRequestParams,
 } from '@blockchain-lab-um/masca-types';
 import { isError } from '@blockchain-lab-um/utils';
-import type { IVerifiableCredential } from '@sphereon/ssi-types';
+import type { VerifiableCredential } from '@veramo/core';
+import { decodeCredentialToObject } from '@veramo/utils';
 
-import { ApiParams } from '../../interfaces';
+import type { ApiParams } from '../../interfaces';
 import { veramoQueryVCs } from '../../utils/veramoUtils';
 import { getAgent } from '../../veramo/setup';
 
 export async function handleOIDCAuthorizationRequest(
   params: ApiParams,
   handleOIDCAuthorizationRequestParams: HandleOIDCAuthorizationRequestParams
-): Promise<IVerifiableCredential[]> {
+): Promise<VerifiableCredential[]> {
   const { ethereum, snap, bip44CoinTypeNode } = params;
 
   if (!bip44CoinTypeNode) {
@@ -56,5 +57,9 @@ export async function handleOIDCAuthorizationRequest(
     throw new Error("No credentials match the verifier's request");
   }
 
-  return selectCredentialsResult.data;
+  const decodedCredentials = selectCredentialsResult.data.map((credential) =>
+    decodeCredentialToObject(credential)
+  );
+
+  return decodedCredentials;
 }

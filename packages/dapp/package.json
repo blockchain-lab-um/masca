@@ -44,7 +44,6 @@
   "devDependencies": {
     "@blockchain-lab-um/oidc-types": "workspace:*",
     "@ianvs/prettier-plugin-sort-imports": "^3.7.1",
-    "@sphereon/ssi-types": "^0.11.0",
     "@svgr/webpack": "^7.0.0",
     "@types/eslint": "^8",
     "@types/node": "18.15.10",

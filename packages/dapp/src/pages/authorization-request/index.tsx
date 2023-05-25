@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { AuthorizationRequest } from '@blockchain-lab-um/oidc-types';
 import { isError } from '@blockchain-lab-um/utils';
-import type { IVerifiableCredential } from '@sphereon/ssi-types';
+import { VerifiableCredential } from '@veramo/core';
 import qs from 'qs';
 import { shallow } from 'zustand/shallow';
 
@@ -15,9 +15,9 @@ export default function Verify() {
   const api = useMascaStore((state) => state.mascaApi);
 
   const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
-  const [credentials, setCredentials] = useState<IVerifiableCredential[]>([]);
+  const [credentials, setCredentials] = useState<VerifiableCredential[]>([]);
   const [selectedCredentials, setSelectedCredentials] = useState<
-    IVerifiableCredential[]
+    VerifiableCredential[]
   >([]);
 
   const { setTitle, setText, setLoading, setToastOpen, setType } =
@@ -50,6 +50,13 @@ export default function Verify() {
       setParsedAuthorizationRequestURI(parsedRequest);
     } catch (e) {
       console.log(e);
+      setToastOpen(false);
+      setType('error');
+      setTimeout(() => {
+        setTitle('Error while parsing authorization request');
+        setLoading(false);
+        setToastOpen(true);
+      }, 100);
     }
   };
 
@@ -90,8 +97,6 @@ export default function Verify() {
         authorizationRequestURI,
       });
 
-    console.log(handleAuthorizationRequestResponse);
-
     if (isError(handleAuthorizationRequestResponse)) {
       setToastOpen(false);
       setType('error');
@@ -119,8 +124,6 @@ export default function Verify() {
         credentials: selectedCredentials,
       });
 
-    console.log(sendOIDCAuthorizationResponseResponse);
-
     if (isError(sendOIDCAuthorizationResponseResponse)) {
       setToastOpen(false);
       setType('error');
@@ -134,7 +137,16 @@ export default function Verify() {
       return;
     }
 
-    console.log(sendOIDCAuthorizationResponseResponse);
+    const result = sendOIDCAuthorizationResponseResponse.data;
+
+    // Show result in toast
+    setToastOpen(false);
+    setType(result ? 'success' : 'error');
+    setTimeout(() => {
+      setTitle(`Authorization response is: ${result ? 'valid' : 'invalid'}`);
+      setLoading(false);
+      setToastOpen(true);
+    }, 100);
   };
 
   useEffect(() => {
@@ -144,6 +156,7 @@ export default function Verify() {
 
   useEffect(() => {
     if (!selectedCredentials.length) return;
+
     sendAuthorizationResponse().catch((e) => console.log(e));
   }, [selectedCredentials]);
 

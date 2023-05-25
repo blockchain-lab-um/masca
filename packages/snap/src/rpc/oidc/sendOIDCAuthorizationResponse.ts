@@ -2,6 +2,7 @@ import type { SendOIDCAuthorizationResponseParams } from '@blockchain-lab-um/mas
 import type { SignArgs } from '@blockchain-lab-um/oidc-client-plugin';
 import { isError } from '@blockchain-lab-um/utils';
 import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
+import { decodeCredentialToObject } from '@veramo/utils';
 
 import { ApiParams } from '../../interfaces';
 import { getCurrentDid } from '../../utils/didUtils';
@@ -36,8 +37,6 @@ export async function sendOIDCAuthorizationResponse(
   if (isError(authorizationRequestResult)) {
     throw new Error(authorizationRequestResult.error);
   }
-
-  const authorizationRequest = authorizationRequestResult.data;
 
   const selectCredentialsResult = await agent.selectCredentials({
     credentials: sendOIDCAuthorizationResponseParams.credentials as any,
@@ -108,12 +107,16 @@ export async function sendOIDCAuthorizationResponse(
 
   const idToken = createIdTokenResult.data;
 
+  const decodedCredentials = selectedCredentials.map((credential) =>
+    decodeCredentialToObject(credential)
+  );
+
   const content = panel([
     heading('Create VP'),
     text('Would you like to create a VP from the following data?'),
     divider(),
     text(`Data:`),
-    ...selectedCredentials.map((credential) =>
+    ...decodedCredentials.map((credential) =>
       copyable(JSON.stringify(credential, null, 2))
     ),
   ]);
@@ -139,7 +142,7 @@ export async function sendOIDCAuthorizationResponse(
   const presentation = await agent.createVerifiablePresentation({
     presentation: {
       holder: identifier.did,
-      verifiableCredential: [],
+      verifiableCredential: decodedCredentials,
     },
     proofFormat: 'jwt',
     domain,
