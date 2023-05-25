@@ -1,6 +1,6 @@
-# Veramo DID EBSI Provider
+# Veramo DID Key Provider
 
-Veramo plugin extending `AbstractIdentifierProvider` enabling the use of EBSI DID method.
+Veramo plugin extending `AbstractIdentifierProvider` enabling the use of Key DID method.
 
 ## License
 
