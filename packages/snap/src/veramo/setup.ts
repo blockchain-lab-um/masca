@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/dot-notation */
 
-// import { MascaKeyDidProvider } from '@blockchain-lab-um/did-provider-key';
-
 // import { EbsiDIDProvider } from '../did/ebsi/ebsiDidProvider';
 // import { ebsiDidResolver } from '../did/ebsi/ebsiDidResolver';
 import {

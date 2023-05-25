@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable unused-imports/no-unused-vars */
 import { uint8ArrayToHex } from '@blockchain-lab-um/utils';
 import { getResolver } from '@cef-ebsi/key-did-resolver';
 import {
