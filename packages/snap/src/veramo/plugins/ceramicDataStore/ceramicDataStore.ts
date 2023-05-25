@@ -131,7 +131,7 @@ export class CeramicVCStore extends AbstractDataStore {
       await datastore.merge('StoredCredentials', storedCredentials);
       return id;
     }
-    // console.log('VC ceramic', vc);
+    
     const id = sha256(JSON.stringify(vc));
     const storedCredentialsNew: StoredCredentials = { vcs: {} };
     storedCredentialsNew.vcs[id] = vc;
