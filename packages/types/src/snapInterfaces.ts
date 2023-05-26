@@ -1,7 +1,7 @@
-import { IIdentifier, IKey, W3CVerifiableCredential } from '@veramo/core';
-import { ManagedPrivateKey } from '@veramo/key-manager';
+import type { IIdentifier, IKey, W3CVerifiableCredential } from '@veramo/core';
+import type { ManagedPrivateKey } from '@veramo/key-manager';
 
-import { AvailableMethods, AvailableVCStores } from './constants.js';
+import type { AvailableMethods, AvailableVCStores } from './constants.js';
 
 export type MascaConfig = {
   snap: {

@@ -1,21 +1,20 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable unused-imports/no-unused-vars */
 import { uint8ArrayToHex } from '@blockchain-lab-um/utils';
 import { getResolver } from '@cef-ebsi/key-did-resolver';
 import {
-  DIDDocument,
-  DIDResolutionOptions,
-  DIDResolutionResult,
-  DIDResolver,
-  ParsedDID,
-  Resolvable,
   Resolver,
+  type DIDDocument,
+  type DIDResolutionOptions,
+  type DIDResolutionResult,
+  type DIDResolver,
+  type ParsedDID,
+  type Resolvable,
 } from 'did-resolver';
 import { base58btc } from 'multiformats/bases/base58';
 
 import type { DidComponents } from './types/keyDidTypes.js';
 
-export function checkDidComponents(did: string): DidComponents | never {
+export function checkDidComponents(did: string): DidComponents {
   const components = did.split(':');
   if (components.length === 3) {
     components.splice(2, 0, '1');
@@ -34,13 +33,13 @@ export function checkDidComponents(did: string): DidComponents | never {
   if (multibaseValue.length === 0 || !multibaseValue.startsWith('z')) {
     throw new Error('invalidDid: invalid multibase value');
   }
-  const DidComponents: DidComponents = {
+  const didComponents: DidComponents = {
     scheme,
     method,
     version,
     multibaseValue,
   };
-  return DidComponents;
+  return didComponents;
 }
 
 export function decodePublicKey(multibaseValue: string, options: any): string {

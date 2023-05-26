@@ -1,13 +1,13 @@
-import { Result } from '@blockchain-lab-um/utils';
-import {
+import type { Result } from '@blockchain-lab-um/utils';
+import type {
   DIDResolutionResult,
   VerifiableCredential,
   VerifiablePresentation,
   W3CVerifiableCredential,
 } from '@veramo/core';
 
-import { AvailableMethods, AvailableVCStores } from './constants.js';
-import {
+import type { AvailableMethods, AvailableVCStores } from './constants.js';
+import type {
   CreateVCRequestParams,
   CreateVPRequestParams,
   DeleteVCsOptions,
@@ -16,7 +16,7 @@ import {
   SetCurrentAccountRequestParams,
 } from './params.js';
 import type { QueryVCsRequestResult, SaveVCRequestResult } from './results.js';
-import { MascaAccountConfig, MascaConfig } from './snapInterfaces.js';
+import type { MascaAccountConfig, MascaConfig } from './snapInterfaces.js';
 
 export interface MascaApi {
   queryVCs(

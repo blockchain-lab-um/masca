@@ -19,7 +19,7 @@ import {
   PrivateKeyStore,
   migrations,
 } from '@veramo/data-store';
-import { AbstractIdentifierProvider, DIDManager } from '@veramo/did-manager';
+import { DIDManager } from '@veramo/did-manager';
 import { DIDResolverPlugin } from '@veramo/did-resolver';
 import { KeyManager } from '@veramo/key-manager';
 import { KeyManagementSystem, SecretBox } from '@veramo/kms-local';
@@ -82,16 +82,13 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         store: new DIDStore(dbConnection),
         defaultProvider: 'did:key',
         providers: {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-call
           'did:key': new MascaKeyDidProvider({
             defaultKms: 'local',
-          }) as AbstractIdentifierProvider,
+          }),
         },
       }),
       new DIDResolverPlugin({
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         resolver: new Resolver({
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-call
           ...getMascaDidKeyResolver(),
         }),
       }),
@@ -104,7 +101,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
 const tearDown = async (): Promise<boolean> => {
   try {
     await (await dbConnection).dropDatabase();
-    await (await dbConnection).close();
+    await (await dbConnection).destroy();
   } catch (e) {
     // nop
   }

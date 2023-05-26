@@ -1,10 +1,10 @@
-import {
+import type {
   UnsignedCredential,
   W3CVerifiableCredential,
   W3CVerifiablePresentation,
 } from '@veramo/core';
 
-import {
+import type {
   AvailableMethods,
   AvailableVCStores,
   SupportedProofFormats,

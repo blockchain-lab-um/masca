@@ -1,4 +1,4 @@
-import { VerifiableCredential } from '@veramo/core';
+import type { VerifiableCredential } from '@veramo/core';
 
 export interface QueryVCsRequestResult {
   data: VerifiableCredential;

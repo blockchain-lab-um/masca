@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/require-await */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable unused-imports/no-unused-vars */
 import {
   addMulticodecPrefix,
@@ -38,7 +37,6 @@ export class MascaKeyDidProvider extends AbstractIdentifierProvider {
   }
 
   async createIdentifier(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     { kms, options }: { kms?: string; options?: ICreateKeyDidOptions },
     context: IContext
   ): Promise<Omit<IIdentifier, 'provider'>> {
