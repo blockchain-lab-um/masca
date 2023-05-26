@@ -59,7 +59,7 @@
     "@cef-ebsi/key-did-resolver": "^1.0.0",
     "@ceramicnetwork/http-client": "2.22.0",
     "@ceramicnetwork/streamid": "2.14.0",
-    "@didtools/pkh-ethereum": "^0.0.2",
+    "@didtools/pkh-ethereum": "^0.3.0",
     "@glazed/did-datastore": "0.3.2",
     "@glazed/did-session": "0.1.1",
     "@metamask/key-tree": "^7.0.0",
