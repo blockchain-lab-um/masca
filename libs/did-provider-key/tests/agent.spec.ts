@@ -1,15 +1,14 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import * as fs from 'fs';
 import {
-  IAgentOptions,
-  ICredentialPlugin,
-  IDIDManager,
-  IDataStore,
-  IDataStoreORM,
-  IKeyManager,
-  IResolver,
-  TAgent,
   createAgent,
+  type IAgentOptions,
+  type ICredentialPlugin,
+  type IDIDManager,
+  type IDataStore,
+  type IDataStoreORM,
+  type IKeyManager,
+  type IResolver,
+  type TAgent,
 } from '@veramo/core';
 import { CredentialPlugin } from '@veramo/credential-w3c';
 import {
@@ -24,7 +23,7 @@ import { DIDResolverPlugin } from '@veramo/did-resolver';
 import { KeyManager } from '@veramo/key-manager';
 import { KeyManagementSystem, SecretBox } from '@veramo/kms-local';
 import { Resolver } from 'did-resolver';
-import { DataSource, DataSourceOptions } from 'typeorm';
+import { DataSource, type DataSourceOptions } from 'typeorm';
 
 import { MascaKeyDidProvider, getMascaDidKeyResolver } from '../src/index.js';
 import plugin from './plugin';

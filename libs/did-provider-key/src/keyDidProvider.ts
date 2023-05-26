@@ -5,7 +5,7 @@ import {
   getCompressedPublicKey,
 } from '@blockchain-lab-um/utils';
 import { util } from '@cef-ebsi/key-did-resolver';
-import {
+import type {
   IAgentContext,
   IIdentifier,
   IKey,
@@ -19,7 +19,7 @@ import { bytesToBase64url, hexToBytes } from '@veramo/utils';
 import { ec as EC } from 'elliptic';
 import { base58btc } from 'multiformats/bases/base58';
 
-import { ICreateKeyDidOptions, keyOptions } from './types/keyDidTypes.js';
+import { keyOptions, type ICreateKeyDidOptions } from './types/keyDidTypes.js';
 
 type IContext = IAgentContext<IKeyManager>;
 
