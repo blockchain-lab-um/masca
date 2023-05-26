@@ -1,10 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import {
-  IDIDManager,
-  IIdentifier,
-  IKeyManager,
-  TAgent,
-} from '@veramo/core-types';
+import type { IDIDManager, IKeyManager, TAgent } from '@veramo/core-types';
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager>;
 
@@ -20,13 +14,12 @@ export default (testContext: {
     beforeAll(async () => {
       await testContext.setup();
       agent = testContext.getAgent();
-      return true;
     });
+
     afterAll(testContext.tearDown);
 
-    let identifier: IIdentifier;
     it('should create did:key identifier (Secp256k1), without private key import', async () => {
-      identifier = await agent.didManagerCreate({
+      const identifier = await agent.didManagerCreate({
         provider: 'did:key',
         options: {
           keyType: 'Secp256k1',
@@ -36,8 +29,9 @@ export default (testContext: {
       expect(identifier.provider).toBe('did:key');
       expect.assertions(1);
     });
+
     it('should create did:key identifier (Ed25519), without private key import', async () => {
-      identifier = await agent.didManagerCreate({
+      const identifier = await agent.didManagerCreate({
         provider: 'did:key',
         options: {
           keyType: 'Ed25519',
@@ -47,8 +41,9 @@ export default (testContext: {
       expect(identifier.provider).toBe('did:key');
       expect.assertions(1);
     });
+
     it('should create did:key identifier (X25519), without private key import', async () => {
-      identifier = await agent.didManagerCreate({
+      const identifier = await agent.didManagerCreate({
         provider: 'did:key',
         options: {
           keyType: 'X25519',
@@ -58,8 +53,9 @@ export default (testContext: {
       expect(identifier.provider).toBe('did:key');
       expect.assertions(1);
     });
+
     it('should create did:key ebsi identifier without key import', async () => {
-      identifier = await agent.didManagerCreate({
+      const identifier = await agent.didManagerCreate({
         provider: 'did:key',
         options: {
           type: 'ebsi',
@@ -68,8 +64,9 @@ export default (testContext: {
 
       expect(identifier.provider).toBe('did:key');
     });
+
     it('should create did:key identifier (Secp256k1)', async () => {
-      identifier = await agent.didManagerCreate({
+      const identifier = await agent.didManagerCreate({
         provider: 'did:key',
         options: {
           keyType: 'Secp256k1',
@@ -104,9 +101,11 @@ export default (testContext: {
         provider: 'did:key',
         services: [],
       });
+      expect.assertions(1);
     });
+
     it('should create did:key identifier (Ed25519)', async () => {
-      identifier = await agent.didManagerCreate({
+      const identifier = await agent.didManagerCreate({
         provider: 'did:key',
         options: {
           keyType: 'Ed25519',
@@ -134,9 +133,12 @@ export default (testContext: {
         provider: 'did:key',
         services: [],
       });
+
+      expect.assertions(1);
     });
+
     it('should create did:key identifier (X25519)', async () => {
-      identifier = await agent.didManagerCreate({
+      const identifier = await agent.didManagerCreate({
         provider: 'did:key',
         options: {
           keyType: 'X25519',
@@ -164,9 +166,12 @@ export default (testContext: {
         provider: 'did:key',
         services: [],
       });
+
+      expect.assertions(1);
     });
+
     it('should create did:key ebsi identifier', async () => {
-      identifier = await agent.didManagerCreate({
+      const identifier = await agent.didManagerCreate({
         provider: 'did:key',
         options: {
           keyType: 'Secp256k1',
@@ -202,24 +207,95 @@ export default (testContext: {
         provider: 'did:key',
         services: [],
       });
+
+      expect.assertions(1);
     });
+
     it('should resolve key did', async () => {
       const didUrl =
         'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik';
       const result = await agent.resolveDid({ didUrl });
       const didDoc = result.didDocument;
-      expect(didDoc?.id).toEqual(didUrl);
-      expect(result).toHaveProperty('didDocumentMetadata');
-      expect(result).toHaveProperty('didResolutionMetadata');
+
+      expect(didDoc).toStrictEqual({
+        '@context': [
+          'https://www.w3.org/ns/did/v1',
+          {
+            EcdsaSecp256k1VerificationKey2019:
+              'https://w3id.org/security#EcdsaSecp256k1VerificationKey2019',
+            publicKeyJwk: {
+              '@id': 'https://w3id.org/security#publicKeyJwk',
+              '@type': '@json',
+            },
+          },
+        ],
+        id: 'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
+        verificationMethod: [
+          {
+            id: 'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik#zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
+            type: 'EcdsaSecp256k1VerificationKey2019',
+            controller:
+              'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
+            publicKeyJwk: {
+              kty: 'EC',
+              crv: 'secp256k1',
+              x: 'gKnNSP1Db4wfgbFW62FWGM1XPD6x5tk3oXuCIgJ8roU',
+              y: 'Cp9WHUFAAai979txPGGdLK8IoMllWwz0LeBlvFHgFpo',
+            },
+          },
+        ],
+        authentication: [
+          'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik#zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
+        ],
+        assertionMethod: [
+          'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik#zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
+        ],
+      });
+
+      expect.assertions(1);
     });
+
     it('should resolve key did ebsi', async () => {
       const didUrl =
         'did:key:zBhBLmYmyihtomRdJJNEKzbPj51o4a3GYFeZoRHSABKUwqdjiQPY2gGUYckfRXAFJdwJVD5cgJ2C27D5U2uXsF5Cnn4Er6U7BL4a5rvqjWNxC8y19htTFR63EPnZRCqWBQTH3NKdZyKCFqdh4kiZmvb5ndFmPtg56VrHfbpx53uYKZXonU4W65A';
       const result = await agent.resolveDid({ didUrl });
       const didDoc = result.didDocument;
-      expect(didDoc?.id).toEqual(didUrl);
-      expect(result).toHaveProperty('didDocumentMetadata');
-      expect(result).toHaveProperty('didResolutionMetadata');
+
+      expect(didDoc).toStrictEqual({
+        '@context': [
+          'https://www.w3.org/ns/did/v1',
+          'https://w3id.org/security/suites/jws-2020/v1',
+        ],
+        id: 'did:key:zBhBLmYmyihtomRdJJNEKzbPj51o4a3GYFeZoRHSABKUwqdjiQPY2gGUYckfRXAFJdwJVD5cgJ2C27D5U2uXsF5Cnn4Er6U7BL4a5rvqjWNxC8y19htTFR63EPnZRCqWBQTH3NKdZyKCFqdh4kiZmvb5ndFmPtg56VrHfbpx53uYKZXonU4W65A',
+        verificationMethod: [
+          {
+            id: 'did:key:zBhBLmYmyihtomRdJJNEKzbPj51o4a3GYFeZoRHSABKUwqdjiQPY2gGUYckfRXAFJdwJVD5cgJ2C27D5U2uXsF5Cnn4Er6U7BL4a5rvqjWNxC8y19htTFR63EPnZRCqWBQTH3NKdZyKCFqdh4kiZmvb5ndFmPtg56VrHfbpx53uYKZXonU4W65A#zBhBLmYmyihtomRdJJNEKzbPj51o4a3GYFeZoRHSABKUwqdjiQPY2gGUYckfRXAFJdwJVD5cgJ2C27D5U2uXsF5Cnn4Er6U7BL4a5rvqjWNxC8y19htTFR63EPnZRCqWBQTH3NKdZyKCFqdh4kiZmvb5ndFmPtg56VrHfbpx53uYKZXonU4W65A',
+            type: 'JsonWebKey2020',
+            controller:
+              'did:key:zBhBLmYmyihtomRdJJNEKzbPj51o4a3GYFeZoRHSABKUwqdjiQPY2gGUYckfRXAFJdwJVD5cgJ2C27D5U2uXsF5Cnn4Er6U7BL4a5rvqjWNxC8y19htTFR63EPnZRCqWBQTH3NKdZyKCFqdh4kiZmvb5ndFmPtg56VrHfbpx53uYKZXonU4W65A',
+            publicKeyJwk: {
+              crv: 'secp256k1',
+              kty: 'EC',
+              x: 'vERzKTmwekS9v4cIW690xnBdanQudTy9gRky1hhwaEI',
+              y: 'TnBlvZtbJDYD5XtrZgGGa5UYdRxdFH4vJfZnBpeJBb0',
+            },
+          },
+        ],
+        authentication: [
+          'did:key:zBhBLmYmyihtomRdJJNEKzbPj51o4a3GYFeZoRHSABKUwqdjiQPY2gGUYckfRXAFJdwJVD5cgJ2C27D5U2uXsF5Cnn4Er6U7BL4a5rvqjWNxC8y19htTFR63EPnZRCqWBQTH3NKdZyKCFqdh4kiZmvb5ndFmPtg56VrHfbpx53uYKZXonU4W65A#zBhBLmYmyihtomRdJJNEKzbPj51o4a3GYFeZoRHSABKUwqdjiQPY2gGUYckfRXAFJdwJVD5cgJ2C27D5U2uXsF5Cnn4Er6U7BL4a5rvqjWNxC8y19htTFR63EPnZRCqWBQTH3NKdZyKCFqdh4kiZmvb5ndFmPtg56VrHfbpx53uYKZXonU4W65A',
+        ],
+        assertionMethod: [
+          'did:key:zBhBLmYmyihtomRdJJNEKzbPj51o4a3GYFeZoRHSABKUwqdjiQPY2gGUYckfRXAFJdwJVD5cgJ2C27D5U2uXsF5Cnn4Er6U7BL4a5rvqjWNxC8y19htTFR63EPnZRCqWBQTH3NKdZyKCFqdh4kiZmvb5ndFmPtg56VrHfbpx53uYKZXonU4W65A#zBhBLmYmyihtomRdJJNEKzbPj51o4a3GYFeZoRHSABKUwqdjiQPY2gGUYckfRXAFJdwJVD5cgJ2C27D5U2uXsF5Cnn4Er6U7BL4a5rvqjWNxC8y19htTFR63EPnZRCqWBQTH3NKdZyKCFqdh4kiZmvb5ndFmPtg56VrHfbpx53uYKZXonU4W65A',
+        ],
+        capabilityInvocation: [
+          'did:key:zBhBLmYmyihtomRdJJNEKzbPj51o4a3GYFeZoRHSABKUwqdjiQPY2gGUYckfRXAFJdwJVD5cgJ2C27D5U2uXsF5Cnn4Er6U7BL4a5rvqjWNxC8y19htTFR63EPnZRCqWBQTH3NKdZyKCFqdh4kiZmvb5ndFmPtg56VrHfbpx53uYKZXonU4W65A#zBhBLmYmyihtomRdJJNEKzbPj51o4a3GYFeZoRHSABKUwqdjiQPY2gGUYckfRXAFJdwJVD5cgJ2C27D5U2uXsF5Cnn4Er6U7BL4a5rvqjWNxC8y19htTFR63EPnZRCqWBQTH3NKdZyKCFqdh4kiZmvb5ndFmPtg56VrHfbpx53uYKZXonU4W65A',
+        ],
+        capabilityDelegation: [
+          'did:key:zBhBLmYmyihtomRdJJNEKzbPj51o4a3GYFeZoRHSABKUwqdjiQPY2gGUYckfRXAFJdwJVD5cgJ2C27D5U2uXsF5Cnn4Er6U7BL4a5rvqjWNxC8y19htTFR63EPnZRCqWBQTH3NKdZyKCFqdh4kiZmvb5ndFmPtg56VrHfbpx53uYKZXonU4W65A#zBhBLmYmyihtomRdJJNEKzbPj51o4a3GYFeZoRHSABKUwqdjiQPY2gGUYckfRXAFJdwJVD5cgJ2C27D5U2uXsF5Cnn4Er6U7BL4a5rvqjWNxC8y19htTFR63EPnZRCqWBQTH3NKdZyKCFqdh4kiZmvb5ndFmPtg56VrHfbpx53uYKZXonU4W65A',
+        ],
+      });
+
+      expect.assertions(1);
     });
   });
 };

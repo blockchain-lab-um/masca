@@ -66,6 +66,8 @@ module.exports = {
           '**/webpack.config.ts',
           '**/tsup.config.ts',
           '**/jest.d.ts',
+          '**/test/**',
+          '**/tests/**',
         ],
       },
     ],

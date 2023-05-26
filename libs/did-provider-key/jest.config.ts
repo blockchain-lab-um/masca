@@ -19,7 +19,6 @@ export default {
             syntax: 'typescript',
             dynamicImport: true,
           },
-          baseUrl: './',
         },
       },
     ],
