@@ -4,7 +4,7 @@ RUN apk add --no-cache libc6-compat git
 WORKDIR /app
 
 # Install pnpm
-RUN npm i -g pnpm@7.30.0
+RUN npm i -g pnpm@8.5.1
 
 # Copy patches
 COPY ./patches ./patches

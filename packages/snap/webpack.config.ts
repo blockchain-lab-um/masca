@@ -22,6 +22,9 @@ const common: Configuration = {
     extensions: ['.ts', '.js'],
     fallback: {
       stream: false,
+      http: false,
+      https: false,
+      zlib: false,
       buffer: require.resolve('buffer/'),
       crypto: require.resolve('crypto-browserify/'),
     },

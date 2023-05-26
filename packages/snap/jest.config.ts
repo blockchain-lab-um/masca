@@ -36,6 +36,8 @@ export default {
       '<rootDir>/node_modules/multiformats/src/hashes/sha2.js',
     'multiformats/hashes/digest':
       '<rootDir>/node_modules/multiformats/src/hashes/digest.js',
+    'multiformats/hashes/identity':
+      '<rootDir>/node_modules/multiformats/src/hashes/identity.js',
     'multiformats/basics': '<rootDir>/node_modules/multiformats/src/basics.js',
     'multiformats/cid': '<rootDir>/node_modules/multiformats/src/cid.js',
     'multiformats/block': '<rootDir>/node_modules/multiformats/src/block.js',
