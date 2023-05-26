@@ -61,7 +61,7 @@
     "@nrwl/nx-cloud": "^15.2.3",
     "@types/eslint": "^8.21.2",
     "@types/jest": "^29.5.0",
-    "@types/node": "^18.15.10",
+    "@types/node": "^18.16.15",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
     "audit-ci": "^6.6.1",
@@ -86,10 +86,10 @@
   },
   "packageManager": "pnpm@7.30.0",
   "engines": {
-    "node": ">=18.15.0"
+    "node": ">=18.16.0"
   },
   "volta": {
-    "node": "18.15.0",
+    "node": "18.16.0",
     "pnpm": "7.30.0"
   },
   "pnpm": {
