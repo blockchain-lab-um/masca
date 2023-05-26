@@ -28,6 +28,8 @@ export default {
     '^(\\.{1,2}/.*)\\.js$': '$1',
     // Waiting for this issue to be implemented:
     // https://github.com/facebook/jest/issues/9771
+    'multiformats/bases/base64':
+      '<rootDir>/node_modules/multiformats/src/bases/base64.js',
     'multiformats/bases/base58':
       '<rootDir>/node_modules/multiformats/src/bases/base58.js',
     'multiformats/bases/base36':

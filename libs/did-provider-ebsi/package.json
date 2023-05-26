@@ -41,7 +41,7 @@
     "@veramo/core": "5.2.0",
     "@veramo/did-manager": "5.1.2",
     "@veramo/utils": "5.2.0",
-    "did-resolver": "4.0.1",
+    "did-resolver": "4.1.0",
     "elliptic": "^6.5.4",
     "ethers": "5.7.2",
     "jose": "^4.14.4",
