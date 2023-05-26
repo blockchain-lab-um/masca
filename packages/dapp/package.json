@@ -23,7 +23,7 @@
     "@headlessui/react": "^1.7.14",
     "@heroicons/react": "^2.0.18",
     "@metamask/detect-provider": "^2.0.0",
-    "@metamask/providers": "^10.2.1",
+    "@metamask/providers": "^10.2.0",
     "@radix-ui/react-toast": "^1.1.4",
     "@tanstack/react-table": "^8.9.1",
     "@veramo/core": "5.2.0",

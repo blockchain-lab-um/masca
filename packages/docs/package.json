@@ -42,7 +42,7 @@
     "@emotion/styled": "^11.11.0",
     "@ethersproject/providers": "^5.7.2",
     "@mdx-js/react": "1.6.22",
-    "@metamask/providers": "^10.2.1",
+    "@metamask/providers": "^10.2.0",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.2",
     "clsx": "^1.2.1",

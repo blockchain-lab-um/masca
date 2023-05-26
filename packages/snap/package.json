@@ -63,7 +63,7 @@
     "@glazed/did-datastore": "0.3.2",
     "@glazed/did-session": "0.1.1",
     "@metamask/key-tree": "^7.0.0",
-    "@metamask/providers": "10.2.1",
+    "@metamask/providers": "^10.2.0",
     "@metamask/snaps-types": "0.32.2",
     "@metamask/snaps-ui": "0.32.2",
     "@types/uuid": "^9.0.1",

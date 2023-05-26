@@ -255,7 +255,7 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
       '@metamask/providers':
-        specifier: ^10.2.1
+        specifier: ^10.2.0
         version: 10.2.1
       '@radix-ui/react-toast':
         specifier: ^1.1.4
@@ -479,7 +479,7 @@ importers:
         specifier: 1.6.22
         version: 1.6.22(react@18.2.0)
       '@metamask/providers':
-        specifier: ^10.2.1
+        specifier: ^10.2.0
         version: 10.2.1
       '@mui/icons-material':
         specifier: ^5.11.16
@@ -627,7 +627,7 @@ importers:
         specifier: ^7.0.0
         version: 7.0.0
       '@metamask/providers':
-        specifier: 10.2.1
+        specifier: ^10.2.0
         version: 10.2.1
       '@metamask/snaps-types':
         specifier: 0.32.2
