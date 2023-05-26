@@ -51,7 +51,7 @@
     "test:ci": "pnpm run test --silent --coverage"
   },
   "dependencies": {
-    "@babel/runtime": "7.21.0",
+    "@babel/runtime": "7.22.0",
     "@blockchain-lab-um/did-provider-ebsi": "*",
     "@blockchain-lab-um/masca-types": "*",
     "@blockchain-lab-um/utils": "*",
@@ -89,7 +89,7 @@
     "dids": "^3.4.0",
     "elliptic": "^6.5.4",
     "ethers": "5.7.2",
-    "ethr-did": "2.3.6",
+    "ethr-did": "2.3.12",
     "ethr-did-resolver": "8.0.0",
     "jose": "^4.14.4",
     "js-sha256": "^0.9.0",
@@ -99,14 +99,14 @@
     "key-did-resolver": "2.3.0",
     "lodash.clonedeep": "^4.5.0",
     "multiformats": "^11.0.2",
-    "secp256k1": "4.0.3",
+    "secp256k1": "5.0.0",
     "ts-jest": "^29.1.0",
-    "web-did-resolver": "2.0.22"
+    "web-did-resolver": "2.0.24"
   },
   "devDependencies": {
-    "@babel/core": "^7.21.3",
+    "@babel/core": "^7.22.0",
     "@babel/plugin-syntax-import-assertions": "^7.20.0",
-    "@babel/preset-typescript": "^7.21.0",
+    "@babel/preset-typescript": "^7.21.5",
     "@commitlint/cli": "^17.5.1",
     "@commitlint/config-conventional": "^17.4.4",
     "@ianvs/prettier-plugin-sort-imports": "^3.7.1",
@@ -133,7 +133,7 @@
     "eslint-plugin-jest-extended": "^2.0.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-unused-imports": "^2.0.0",
-    "eslint-webpack-plugin": "^4.0.0",
+    "eslint-webpack-plugin": "^4.0.1",
     "fork-ts-checker-webpack-plugin": "^8.0.0",
     "hook-shell-script-webpack-plugin": "^0.2.0",
     "is-ci": "^3.0.1",
