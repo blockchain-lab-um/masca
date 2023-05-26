@@ -11,17 +11,20 @@ import MetaMaskProvider from '@/components/MetaMaskProvider';
 const cabin = Cabin({
   variable: '--font-cabin',
   display: 'swap',
+  subsets: ['latin-ext'],
 });
 
 const ubuntu = Ubuntu({
   variable: '--font-ubuntu',
   display: 'swap',
   weight: ['400', '500', '700'],
+  subsets: ['latin-ext'],
 });
 
 const jetBrainsMono = JetBrains_Mono({
   variable: '--font-jetbrains-mono',
   display: 'swap',
+  subsets: ['latin-ext'],
 });
 
 export default function App({ Component, pageProps }: AppProps) {
