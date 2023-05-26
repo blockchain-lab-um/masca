@@ -30,7 +30,6 @@ import plugin from './plugin';
 
 jest.setTimeout(60000);
 
-// const INFURA_PROJECT_ID = '3586660d179141e3801c3895de1c2eba';
 const KMS_SECRET_KEY =
   '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c';
 
