@@ -44,7 +44,7 @@
     "did-resolver": "4.0.1",
     "elliptic": "^6.5.4",
     "ethers": "5.7.2",
-    "jose": "^4.14.0",
+    "jose": "^4.14.4",
     "multiformats": "^11.0.2",
     "uuid": "^9.0.0"
   },
