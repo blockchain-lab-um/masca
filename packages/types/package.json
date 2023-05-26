@@ -35,9 +35,6 @@
   },
   "dependencies": {
     "@blockchain-lab-um/utils": "*",
-    "@metamask/key-tree": "^6.0.0",
-    "@metamask/providers": "^11.0.0",
-    "@metamask/snaps-types": "0.32.2",
     "@veramo/core": "5.1.2",
     "@veramo/key-manager": "5.1.2"
   },
