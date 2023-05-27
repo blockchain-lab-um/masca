@@ -10,6 +10,7 @@ export default (testContext: {
 }) => {
   describe('DID manager', () => {
     let agent: ConfiguredAgent;
+    const keytypes = ['Ed25519', 'X25519', 'Secp256k1', 'Secp256r1'];
 
     beforeAll(async () => {
       await testContext.setup();
@@ -18,7 +19,7 @@ export default (testContext: {
 
     afterAll(testContext.tearDown);
 
-    it('should create did:key identifier (Secp256k1), without private key import', async () => {
+    /* it('should create did:key identifier (Secp256k1), without private key import', async () => {
       const identifier = await agent.didManagerCreate({
         provider: 'did:key',
         options: {
@@ -52,18 +53,33 @@ export default (testContext: {
 
       expect(identifier.provider).toBe('did:key');
       expect.assertions(1);
-    });
+    }); */
+    test.each(keytypes)(
+      'should create did:key identifier with key type %s, without private key import',
+      async (keyType) => {
+        const identifier = await agent.didManagerCreate({
+          provider: 'did:key',
+          options: {
+            keyType,
+          },
+        });
+        expect(identifier.provider).toBe('did:key');
+      }
+    );
 
-    it('should create did:key ebsi identifier without key import', async () => {
-      const identifier = await agent.didManagerCreate({
-        provider: 'did:key',
-        options: {
-          type: 'ebsi',
-        },
-      });
-
-      expect(identifier.provider).toBe('did:key');
-    });
+    test.each(keytypes)(
+      'should create did:key ebsi identifier with key type %s',
+      async (keyType) => {
+        const identifier = await agent.didManagerCreate({
+          provider: 'did:key',
+          options: {
+            keyType,
+            type: 'ebsi',
+          },
+        });
+        expect(identifier.provider).toBe('did:key');
+      }
+    );
 
     it('should create did:key identifier (Secp256k1)', async () => {
       const identifier = await agent.didManagerCreate({

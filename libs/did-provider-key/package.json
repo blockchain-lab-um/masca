@@ -42,7 +42,6 @@
     "@veramo/did-manager": "5.1.2",
     "@veramo/utils": "5.1.2",
     "did-resolver": "4.0.1",
-    "elliptic": "^6.5.4",
     "multiformats": "^11.0.2"
   },
   "devDependencies": {

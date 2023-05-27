@@ -2,6 +2,7 @@
 /* eslint-disable unused-imports/no-unused-vars */
 import {
   addMulticodecPrefix,
+  createJWK,
   getCompressedPublicKey,
 } from '@blockchain-lab-um/utils';
 import { util } from '@cef-ebsi/key-did-resolver';
@@ -15,8 +16,6 @@ import type {
   RequireOnly,
 } from '@veramo/core';
 import { AbstractIdentifierProvider } from '@veramo/did-manager';
-import { bytesToBase64url, hexToBytes } from '@veramo/utils';
-import { ec as EC } from 'elliptic';
 import { base58btc } from 'multiformats/bases/base58';
 
 import { keyOptions, type ICreateKeyDidOptions } from './types/keyDidTypes.js';
@@ -40,58 +39,10 @@ export class MascaKeyDidProvider extends AbstractIdentifierProvider {
     { kms, options }: { kms?: string; options?: ICreateKeyDidOptions },
     context: IContext
   ): Promise<Omit<IIdentifier, 'provider'>> {
-    let key: ManagedKeyInfo;
     const keyType =
       (options?.keyType && keyOptions[options?.keyType] && options.keyType) ||
       'Ed25519';
-
-    if (options?.type === 'ebsi') {
-      if (keyType === 'Secp256k1' && options?.privateKeyHex) {
-        key = await this.importOrGenerateKey(
-          {
-            kms: kms || this.defaultKms,
-            options: {
-              keyType,
-              ...(options?.privateKeyHex && {
-                privateKeyHex: options.privateKeyHex,
-              }),
-            },
-          },
-          context
-        );
-      } else {
-        key = await context.agent.keyManagerCreate({
-          kms: kms || this.defaultKms,
-          type: 'Secp256k1',
-        });
-      }
-      const compressedKey = getCompressedPublicKey(`0x${key.publicKeyHex}`);
-
-      const curve = new EC('secp256k1');
-      const publicKey = curve.keyFromPublic(compressedKey, 'hex');
-      const y = bytesToBase64url(
-        hexToBytes(publicKey.getPublic().getY().toString('hex'))
-      );
-      const x = bytesToBase64url(
-        hexToBytes(publicKey.getPublic().getX().toString('hex'))
-      );
-      const jwk = {
-        kty: 'EC',
-        crv: 'secp256k1',
-        x,
-        y,
-      };
-      const did = util.createDid(jwk);
-      const identifier: Omit<IIdentifier, 'provider'> = {
-        did,
-        controllerKeyId: key.kid,
-        keys: [key],
-        services: [],
-      };
-      return identifier;
-    }
-
-    key = await this.importOrGenerateKey(
+    const key: ManagedKeyInfo = await this.importOrGenerateKey(
       {
         kms: kms || this.defaultKms,
         options: {
@@ -103,6 +54,23 @@ export class MascaKeyDidProvider extends AbstractIdentifierProvider {
       },
       context
     );
+
+    if (options?.type === 'ebsi') {
+      const compressedKey =
+        keyType === 'Secp256k1'
+          ? getCompressedPublicKey(`0x${key.publicKeyHex}`)
+          : key.publicKeyHex;
+      const jwk = createJWK(keyType, compressedKey);
+
+      const did = util.createDid(jwk);
+      const identifier: Omit<IIdentifier, 'provider'> = {
+        did,
+        controllerKeyId: key.kid,
+        keys: [key],
+        services: [],
+      };
+      return identifier;
+    }
 
     const compressedKey =
       keyType === 'Secp256k1'

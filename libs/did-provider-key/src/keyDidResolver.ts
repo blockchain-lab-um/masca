@@ -50,6 +50,7 @@ export function decodePublicKey(multibaseValue: string, options: any): string {
 export const resolveSecp256k1 = (did: string): Promise<DIDDocument> => {
   const components: DidComponents = checkDidComponents(did);
   const didIdentifier = components.multibaseValue;
+  const didWithIdentifier = `did:key:${didIdentifier}#${didIdentifier}`;
   const publicKey = decodePublicKey(components.multibaseValue, {});
   const didDocument: DIDDocument = {
     id: `did:key:${didIdentifier}`,
@@ -57,16 +58,16 @@ export const resolveSecp256k1 = (did: string): Promise<DIDDocument> => {
       'https://www.w3.org/ns/did/v1',
       'https://w3id.org/security/suites/secp256k1-2019/v1',
     ],
-    assertionMethod: [`did:key:${didIdentifier}#${didIdentifier}`],
-    authentication: [`did:key:${didIdentifier}#${didIdentifier}`],
-    capabilityInvocation: [`did:key:${didIdentifier}#${didIdentifier}`],
-    capabilityDelegation: [`did:key:${didIdentifier}#${didIdentifier}`],
-    keyAgreement: [`did:key:${didIdentifier}#${didIdentifier}`],
+    assertionMethod: [didWithIdentifier],
+    authentication: [didWithIdentifier],
+    capabilityInvocation: [didWithIdentifier],
+    capabilityDelegation: [didWithIdentifier],
+    keyAgreement: [didWithIdentifier],
     verificationMethod: [
       {
-        id: `did:key:${didIdentifier}#${didIdentifier}`,
+        id: didWithIdentifier,
         type: 'EcdsaSecp256k1RecoveryMethod2020',
-        controller: `did:key:${didIdentifier}#${didIdentifier}`,
+        controller: didWithIdentifier,
         publicKeyHex: publicKey,
       },
     ],
