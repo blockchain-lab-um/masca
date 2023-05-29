@@ -19,41 +19,6 @@ export default (testContext: {
 
     afterAll(testContext.tearDown);
 
-    /* it('should create did:key identifier (Secp256k1), without private key import', async () => {
-      const identifier = await agent.didManagerCreate({
-        provider: 'did:key',
-        options: {
-          keyType: 'Secp256k1',
-        },
-      });
-
-      expect(identifier.provider).toBe('did:key');
-      expect.assertions(1);
-    });
-
-    it('should create did:key identifier (Ed25519), without private key import', async () => {
-      const identifier = await agent.didManagerCreate({
-        provider: 'did:key',
-        options: {
-          keyType: 'Ed25519',
-        },
-      });
-
-      expect(identifier.provider).toBe('did:key');
-      expect.assertions(1);
-    });
-
-    it('should create did:key identifier (X25519), without private key import', async () => {
-      const identifier = await agent.didManagerCreate({
-        provider: 'did:key',
-        options: {
-          keyType: 'X25519',
-        },
-      });
-
-      expect(identifier.provider).toBe('did:key');
-      expect.assertions(1);
-    }); */
     test.each(keytypes)(
       'should create did:key identifier with key type %s, without private key import',
       async (keyType) => {

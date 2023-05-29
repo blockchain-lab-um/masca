@@ -1,4 +1,4 @@
-// Source: https://github.com/multiformats/multicodec/blob/master/table.csv
+// Source: https://pkg.go.dev/github.com/multiformats/go-multicodec
 export type CodecName =
   | 'secp256k1-priv'
   | 'secp256k1-pub'

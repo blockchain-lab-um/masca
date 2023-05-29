@@ -10,6 +10,7 @@ import {
   type ParsedDID,
   type Resolvable,
 } from 'did-resolver';
+import { varint } from 'multiformats';
 import { base58btc } from 'multiformats/bases/base58';
 
 import type { DidComponents } from './types/keyDidTypes.js';
@@ -42,16 +43,24 @@ export function checkDidComponents(did: string): DidComponents {
   return didComponents;
 }
 
-export function decodePublicKey(multibaseValue: string, options: any): string {
-  const publicKeyBytes = base58btc.decode(multibaseValue);
-  return uint8ArrayToHex(publicKeyBytes);
-}
+export const decodePublicKey = (publicKey: string) => {
+  const multicodecPubKey = base58btc.decode(publicKey);
+  const [code, sizeOffset] = varint.decode(multicodecPubKey);
+  const pubKeyBytes = multicodecPubKey.slice(sizeOffset);
 
-export const resolveSecp256k1 = (did: string): Promise<DIDDocument> => {
+  return {
+    pubKeyBytes,
+    code,
+  };
+};
+
+export const resolveDid = (did: string): Promise<DIDDocument> => {
   const components: DidComponents = checkDidComponents(did);
   const didIdentifier = components.multibaseValue;
   const didWithIdentifier = `did:key:${didIdentifier}#${didIdentifier}`;
-  const publicKey = decodePublicKey(components.multibaseValue, {});
+  const publicKey = decodePublicKey(components.multibaseValue);
+  const pk = uint8ArrayToHex(publicKey.pubKeyBytes);
+  console.log('🚀 ~ file: keyDidResolver.ts:63 ~ resolveSecp256k1 ~ pk:', pk);
   const didDocument: DIDDocument = {
     id: `did:key:${didIdentifier}`,
     '@context': [
@@ -60,15 +69,12 @@ export const resolveSecp256k1 = (did: string): Promise<DIDDocument> => {
     ],
     assertionMethod: [didWithIdentifier],
     authentication: [didWithIdentifier],
-    capabilityInvocation: [didWithIdentifier],
-    capabilityDelegation: [didWithIdentifier],
-    keyAgreement: [didWithIdentifier],
     verificationMethod: [
       {
         id: didWithIdentifier,
         type: 'EcdsaSecp256k1RecoveryMethod2020',
-        controller: didWithIdentifier,
-        publicKeyHex: publicKey,
+        controller: `did:key:${didIdentifier}`,
+        publicKeyHex: pk,
       },
     ],
   };
@@ -89,9 +95,16 @@ export const resolveSecp256k1Ebsi = async (
 type ResolutionFunction = (did: string) => Promise<DIDDocument>;
 
 const startsWithMap: Record<string, ResolutionFunction> = {
-  'did:key:zQ3s': resolveSecp256k1,
+  'did:key:zQ3s': resolveDid,
   'did:key:z2dm': resolveSecp256k1Ebsi,
   'did:key:zBhB': resolveSecp256k1Ebsi,
+};
+
+const startsWithMapCurve: Record<string, string> = {
+  'did:key:zQ3s': 'secp256k1',
+  'did:key:z2dm': 'secp256k1',
+  'did:key:zBhB': 'secp256k1',
+  'did:key:zDn': 'p256',
 };
 
 export const resolveDidKey: DIDResolver = async (

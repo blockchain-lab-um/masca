@@ -29,6 +29,8 @@ export default {
     // https://github.com/facebook/jest/issues/9771
     'multiformats/bases/base58':
       '<rootDir>/node_modules/multiformats/src/bases/base58.js',
+    'multiformats/basics': '<rootDir>/node_modules/multiformats/src/basics.js',
+    multiformats: '<rootDir>/node_modules/multiformats/src/index.js',
   },
   extensionsToTreatAsEsm: ['.ts'],
   transformIgnorePatterns: ['/node_modules/(?!@veramo)/'],
