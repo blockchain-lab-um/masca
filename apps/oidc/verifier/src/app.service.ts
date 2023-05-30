@@ -9,6 +9,7 @@ import { ConfigService } from '@nestjs/config';
 import { AuthorizationRequest } from './app.interface.js';
 import { IConfig } from './config/configuration.js';
 import { AgentService } from './modules/agent/agent.service.js';
+import { VerificationResults } from './modules/datastore/datastore.interface.js';
 import { DatastoreService } from './modules/datastore/datastore.service.js';
 
 @Injectable()
@@ -125,10 +126,32 @@ export class AppService {
 
     if (isError(res)) {
       console.log(res.error);
+      this.dataStoreService.createVerificationResults(
+        body.state,
+        false,
+        res.error.message
+      );
+
       throw res.error;
     }
 
+    this.dataStoreService.createVerificationResults(body.state, true);
+
     return true;
+  }
+
+  async getVerificationResults(id: string): Promise<VerificationResults> {
+    const verificationResults =
+      this.dataStoreService.getVerificationResults(id);
+
+    if (!verificationResults) {
+      throw new DetailedError(
+        'invalid_request',
+        'Verification results not found.'
+      );
+    }
+
+    return verificationResults;
   }
 }
 export default AppService;

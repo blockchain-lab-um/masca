@@ -17,6 +17,7 @@ export type UserSessionStore = DataStore<UserSession>;
 
 export interface VerificationResults {
   verified: boolean;
+  error?: string;
 }
 
 export type VerificationResultsStore = DataStore<VerificationResults>;

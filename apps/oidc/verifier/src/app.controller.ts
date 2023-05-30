@@ -12,6 +12,7 @@ import {
 
 import { AuthorizationRequest } from './app.interface.js';
 import { AppService } from './app.service.js';
+import { VerificationResults } from './modules/datastore/datastore.interface.js';
 
 @Controller()
 export class AppController {
@@ -37,6 +38,14 @@ export class AppController {
     }
 
     return this.appService.handleAuthorizationResponse(body);
+  }
+
+  @Get('/verification-results')
+  @HttpCode(200)
+  async verificationResults(
+    @Query('id') id: string
+  ): Promise<VerificationResults> {
+    return this.appService.getVerificationResults(id);
   }
 }
 

@@ -35,4 +35,6 @@ lerna-debug.log*
 !.vscode/extensions.json
 .env
 !.env.test
+
 database.oidc-demo.verifier
+database.oidc-demo.verifier.test

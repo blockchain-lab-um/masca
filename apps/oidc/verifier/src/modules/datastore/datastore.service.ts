@@ -6,6 +6,7 @@ import { IConfig } from '../../config/configuration.js';
 import {
   UserSession,
   UserSessionStore,
+  VerificationResults,
   VerificationResultsStore,
 } from './datastore.interface.js';
 
@@ -24,9 +25,9 @@ export class DatastoreService {
     return cloneDeep(this.userSessionStore[id].data);
   }
 
-  getVerificationResults(id: string): boolean | null {
+  getVerificationResults(id: string): VerificationResults | null {
     if (!this.verificationResultsStore[id]) return null;
-    return cloneDeep(this.verificationResultsStore[id].data.verified);
+    return cloneDeep(this.verificationResultsStore[id].data);
   }
 
   createUserSession(id: string, userSession: UserSession): void {
@@ -36,10 +37,15 @@ export class DatastoreService {
     };
   }
 
-  createVerificationResults(id: string, verificationResults: boolean): void {
+  createVerificationResults(
+    id: string,
+    verificationResults: boolean,
+    error?: string
+  ): void {
     this.verificationResultsStore[id] = {
       data: {
         verified: verificationResults,
+        error,
       },
       created: Date.now(),
     };
