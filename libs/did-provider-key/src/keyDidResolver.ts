@@ -1,58 +1,25 @@
 /* eslint-disable unused-imports/no-unused-vars */
-import { uint8ArrayToHex } from '@blockchain-lab-um/utils';
+import {
+  createJWK,
+  decodePublicKey,
+  uint8ArrayToHex,
+} from '@blockchain-lab-um/utils';
 import { getResolver } from '@cef-ebsi/key-did-resolver';
+import { convertPublicKeyToX25519 } from '@stablelib/ed25519';
 import {
   Resolver,
+  VerificationMethod,
   type DIDDocument,
   type DIDResolutionOptions,
   type DIDResolutionResult,
   type DIDResolver,
+  type JsonWebKey,
   type ParsedDID,
   type Resolvable,
 } from 'did-resolver';
-import { varint } from 'multiformats';
-import { base58btc } from 'multiformats/bases/base58';
 
+import { checkDidComponents, getContext, getKeyType } from './keyDidUtils.js';
 import type { DidComponents } from './types/keyDidTypes.js';
-
-export function checkDidComponents(did: string): DidComponents {
-  const components = did.split(':');
-  if (components.length === 3) {
-    components.splice(2, 0, '1');
-  }
-  const [scheme, method, version, multibaseValue] = components;
-  if (components.length !== 4 && components.length !== 3) {
-    throw new Error('invalidDid: invalid number of components');
-  }
-  if (scheme !== 'did' || method !== 'key') {
-    throw new Error('invalidDid: invalid scheme or method');
-  }
-  const parsedVersion = parseInt(version, 10);
-  if (Number.isNaN(parsedVersion) || parsedVersion <= 0) {
-    throw new Error('invalidDid: invalid version');
-  }
-  if (multibaseValue.length === 0 || !multibaseValue.startsWith('z')) {
-    throw new Error('invalidDid: invalid multibase value');
-  }
-  const didComponents: DidComponents = {
-    scheme,
-    method,
-    version,
-    multibaseValue,
-  };
-  return didComponents;
-}
-
-export const decodePublicKey = (publicKey: string) => {
-  const multicodecPubKey = base58btc.decode(publicKey);
-  const [code, sizeOffset] = varint.decode(multicodecPubKey);
-  const pubKeyBytes = multicodecPubKey.slice(sizeOffset);
-
-  return {
-    pubKeyBytes,
-    code,
-  };
-};
 
 export const resolveDid = (did: string): Promise<DIDDocument> => {
   const components: DidComponents = checkDidComponents(did);
@@ -60,23 +27,47 @@ export const resolveDid = (did: string): Promise<DIDDocument> => {
   const didWithIdentifier = `did:key:${didIdentifier}#${didIdentifier}`;
   const publicKey = decodePublicKey(components.multibaseValue);
   const pk = uint8ArrayToHex(publicKey.pubKeyBytes);
-  console.log('🚀 ~ file: keyDidResolver.ts:63 ~ resolveSecp256k1 ~ pk:', pk);
+  const keyType = getKeyType(publicKey.code);
+  /* console.log(
+    '🚀 ~ file: keyDidResolver.ts:61 ~ resolveDid ~ keyType:',
+    keyType
+  ); */
+  let x25519Key: string;
+  let verificationMethod;
+  let keyAgreement;
+  if (keyType === 'Ed25519') {
+    x25519Key = uint8ArrayToHex(
+      convertPublicKeyToX25519(publicKey.pubKeyBytes)
+    );
+    verificationMethod = {
+      id: didWithIdentifier,
+      type: 'Ed25519VerificationKey2020',
+      controller: `did:key:${didIdentifier}`,
+      publicKeyMultibase: didIdentifier,
+    } as VerificationMethod;
+    keyAgreement = {
+      id: `${didWithIdentifier}#${x25519Key}`,
+      type: 'X25519KeyAgreementKey2020',
+      controller: `did:key:${didIdentifier}`,
+      publicKeyMultibase: x25519Key,
+    } as VerificationMethod;
+  } else {
+    const jwk = createJWK(keyType, pk) as JsonWebKey;
+    if (!jwk) throw new Error('Cannot create JWK');
+    verificationMethod = {
+      id: didWithIdentifier,
+      type: 'EcdsaSecp256k1VerificationKey2019',
+      controller: `did:key:${didIdentifier}`,
+      publicKeyJwk: jwk,
+    } as VerificationMethod;
+  }
   const didDocument: DIDDocument = {
     id: `did:key:${didIdentifier}`,
-    '@context': [
-      'https://www.w3.org/ns/did/v1',
-      'https://w3id.org/security/suites/secp256k1-2019/v1',
-    ],
+    '@context': ['https://www.w3.org/ns/did/v1', ...getContext(keyType)],
     assertionMethod: [didWithIdentifier],
     authentication: [didWithIdentifier],
-    verificationMethod: [
-      {
-        id: didWithIdentifier,
-        type: 'EcdsaSecp256k1RecoveryMethod2020',
-        controller: `did:key:${didIdentifier}`,
-        publicKeyHex: pk,
-      },
-    ],
+    verificationMethod: [verificationMethod],
+    ...(keyAgreement && { keyAgreement: [keyAgreement] }),
   };
   return new Promise((resolve) => {
     resolve(didDocument);
@@ -95,7 +86,9 @@ export const resolveSecp256k1Ebsi = async (
 type ResolutionFunction = (did: string) => Promise<DIDDocument>;
 
 const startsWithMap: Record<string, ResolutionFunction> = {
-  'did:key:zQ3s': resolveDid,
+  'did:key:zQ3s': resolveDid, // Secp256k1
+  'did:key:zDn': resolveDid, // P256
+  'did:key:z6Mk': resolveDid, // Ed25519
   'did:key:z2dm': resolveSecp256k1Ebsi,
   'did:key:zBhB': resolveSecp256k1Ebsi,
 };

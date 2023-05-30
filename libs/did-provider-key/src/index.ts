@@ -6,4 +6,5 @@
  */
 export { MascaKeyDidProvider } from './keyDidProvider.js';
 export { getMascaDidKeyResolver } from './keyDidResolver.js';
+export * from './keyDidUtils.js';
 export * from './types/keyDidTypes.js';

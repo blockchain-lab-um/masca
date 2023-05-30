@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/require-await */
 /* eslint-disable unused-imports/no-unused-vars */
 import {
-  addMulticodecPrefix,
   createJWK,
+  encodePublicKey,
   getCompressedPublicKey,
 } from '@blockchain-lab-um/utils';
 import { util } from '@cef-ebsi/key-did-resolver';
@@ -16,9 +16,8 @@ import type {
   RequireOnly,
 } from '@veramo/core';
 import { AbstractIdentifierProvider } from '@veramo/did-manager';
-import { base58btc } from 'multiformats/bases/base58';
 
-import { keyOptions, type ICreateKeyDidOptions } from './types/keyDidTypes.js';
+import { KeyOptions, type ICreateKeyDidOptions } from './types/keyDidTypes.js';
 
 type IContext = IAgentContext<IKeyManager>;
 
@@ -40,7 +39,7 @@ export class MascaKeyDidProvider extends AbstractIdentifierProvider {
     context: IContext
   ): Promise<Omit<IIdentifier, 'provider'>> {
     const keyType =
-      (options?.keyType && keyOptions[options?.keyType] && options.keyType) ||
+      (options?.keyType && KeyOptions[options?.keyType] && options.keyType) ||
       'Ed25519';
     const key: ManagedKeyInfo = await this.importOrGenerateKey(
       {
@@ -77,14 +76,10 @@ export class MascaKeyDidProvider extends AbstractIdentifierProvider {
         ? getCompressedPublicKey(`0x${key.publicKeyHex}`)
         : key.publicKeyHex;
 
-    const methodSpecificId = Buffer.from(
-      base58btc.encode(
-        addMulticodecPrefix(
-          keyOptions[keyType],
-          Buffer.from(compressedKey, 'hex')
-        )
-      )
-    ).toString();
+    const methodSpecificId = encodePublicKey(
+      Buffer.from(compressedKey, 'hex'),
+      KeyOptions[keyType]
+    );
 
     const identifier: Omit<IIdentifier, 'provider'> = {
       did: `did:key:${methodSpecificId}`,

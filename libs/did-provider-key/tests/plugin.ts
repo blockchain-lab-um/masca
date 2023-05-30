@@ -46,45 +46,6 @@ export default (testContext: {
       }
     );
 
-    it('should create did:key identifier (Secp256k1)', async () => {
-      const identifier = await agent.didManagerCreate({
-        provider: 'did:key',
-        options: {
-          keyType: 'Secp256k1',
-          privateKeyHex:
-            '63ce0077f0d617dbf54d5f335de2983313c6356f25b45e0f68f85bee1490a6ae',
-        },
-      });
-
-      expect(identifier).toStrictEqual({
-        controllerKeyId:
-          '0480a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae850a9f561d414001a8bdefdb713c619d2caf08a0c9655b0cf42de065bc51e0169a',
-        did: 'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
-        keys: [
-          {
-            kid: '0480a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae850a9f561d414001a8bdefdb713c619d2caf08a0c9655b0cf42de065bc51e0169a',
-            kms: 'local',
-            meta: {
-              algorithms: [
-                'ES256K',
-                'ES256K-R',
-                'eth_signTransaction',
-                'eth_signTypedData',
-                'eth_signMessage',
-                'eth_rawSign',
-              ],
-            },
-            publicKeyHex:
-              '0480a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae850a9f561d414001a8bdefdb713c619d2caf08a0c9655b0cf42de065bc51e0169a',
-            type: 'Secp256k1',
-          },
-        ],
-        provider: 'did:key',
-        services: [],
-      });
-      expect.assertions(1);
-    });
-
     it('should create did:key identifier (Ed25519)', async () => {
       const identifier = await agent.didManagerCreate({
         provider: 'did:key',
@@ -131,7 +92,7 @@ export default (testContext: {
       expect(identifier).toStrictEqual({
         controllerKeyId:
           'd6a490bf2b4f793c19bdd60584401ae25dd7b5ac5a1c5f6886c8b0cfde9c2b47',
-        did: 'did:key:z6P4wgDiU76DMNYonnmvwRhi2HjKK3mAGAAUz9RQzfWmtJ5c',
+        did: 'did:key:z6LSr83xLED4sD1MkZr4daovyH4HNCHgqc25N52vK2soUc4N',
         keys: [
           {
             kid: 'd6a490bf2b4f793c19bdd60584401ae25dd7b5ac5a1c5f6886c8b0cfde9c2b47',
@@ -142,6 +103,78 @@ export default (testContext: {
             publicKeyHex:
               'd6a490bf2b4f793c19bdd60584401ae25dd7b5ac5a1c5f6886c8b0cfde9c2b47',
             type: 'X25519',
+          },
+        ],
+        provider: 'did:key',
+        services: [],
+      });
+
+      expect.assertions(1);
+    });
+
+    it('should create did:key identifier (Secp256k1)', async () => {
+      const identifier = await agent.didManagerCreate({
+        provider: 'did:key',
+        options: {
+          keyType: 'Secp256k1',
+          privateKeyHex:
+            '63ce0077f0d617dbf54d5f335de2983313c6356f25b45e0f68f85bee1490a6ae',
+        },
+      });
+
+      expect(identifier).toStrictEqual({
+        controllerKeyId:
+          '0480a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae850a9f561d414001a8bdefdb713c619d2caf08a0c9655b0cf42de065bc51e0169a',
+        did: 'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
+        keys: [
+          {
+            kid: '0480a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae850a9f561d414001a8bdefdb713c619d2caf08a0c9655b0cf42de065bc51e0169a',
+            kms: 'local',
+            meta: {
+              algorithms: [
+                'ES256K',
+                'ES256K-R',
+                'eth_signTransaction',
+                'eth_signTypedData',
+                'eth_signMessage',
+                'eth_rawSign',
+              ],
+            },
+            publicKeyHex:
+              '0480a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae850a9f561d414001a8bdefdb713c619d2caf08a0c9655b0cf42de065bc51e0169a',
+            type: 'Secp256k1',
+          },
+        ],
+        provider: 'did:key',
+        services: [],
+      });
+      expect.assertions(1);
+    });
+
+    it('should create did:key identifier (Secp256r1)', async () => {
+      const identifier = await agent.didManagerCreate({
+        provider: 'did:key',
+        options: {
+          keyType: 'Secp256r1',
+          privateKeyHex:
+            '63ce0077f0d617dbf54d5f335de2983313c6356f25b45e0f68f85bee1490a6ae',
+        },
+      });
+
+      expect(identifier).toStrictEqual({
+        controllerKeyId:
+          '033b2ee13287ae5d35ef26dd2169c665d1a2771d1f85843367d15ba9c0b6d8d5e3',
+        did: 'did:key:zDnaemeJvzACkb7K8yRSRCeTKHGtCyXs6e2UxsDD6SFtxnx8z',
+        keys: [
+          {
+            kid: '033b2ee13287ae5d35ef26dd2169c665d1a2771d1f85843367d15ba9c0b6d8d5e3',
+            kms: 'local',
+            meta: {
+              algorithms: ['ES256'],
+            },
+            publicKeyHex:
+              '033b2ee13287ae5d35ef26dd2169c665d1a2771d1f85843367d15ba9c0b6d8d5e3',
+            type: 'Secp256r1',
           },
         ],
         provider: 'did:key',
@@ -192,7 +225,50 @@ export default (testContext: {
       expect.assertions(1);
     });
 
-    it('should resolve key did', async () => {
+    it('should resolve key did (Ed25519)', async () => {
+      const didUrl = 'did:key:z6MkmArbZHXCFE744TDd6qNCLiu8JUeELNH11MjtVyHwTaW9';
+      const result = await agent.resolveDid({ didUrl });
+      const didDoc = result.didDocument;
+
+      expect(didDoc).toStrictEqual({
+        '@context': [
+          'https://www.w3.org/ns/did/v1',
+          'https://w3id.org/security/suites/ed25519-2020/v1',
+          'https://w3id.org/security/suites/x25519-2020/v1',
+        ],
+        id: 'did:key:z6MkmArbZHXCFE744TDd6qNCLiu8JUeELNH11MjtVyHwTaW9',
+        verificationMethod: [
+          {
+            id: 'did:key:z6MkmArbZHXCFE744TDd6qNCLiu8JUeELNH11MjtVyHwTaW9#z6MkmArbZHXCFE744TDd6qNCLiu8JUeELNH11MjtVyHwTaW9',
+            type: 'Ed25519VerificationKey2020',
+            controller:
+              'did:key:z6MkmArbZHXCFE744TDd6qNCLiu8JUeELNH11MjtVyHwTaW9',
+            publicKeyMultibase:
+              'z6MkmArbZHXCFE744TDd6qNCLiu8JUeELNH11MjtVyHwTaW9',
+          },
+        ],
+        authentication: [
+          'did:key:z6MkmArbZHXCFE744TDd6qNCLiu8JUeELNH11MjtVyHwTaW9#z6MkmArbZHXCFE744TDd6qNCLiu8JUeELNH11MjtVyHwTaW9',
+        ],
+        assertionMethod: [
+          'did:key:z6MkmArbZHXCFE744TDd6qNCLiu8JUeELNH11MjtVyHwTaW9#z6MkmArbZHXCFE744TDd6qNCLiu8JUeELNH11MjtVyHwTaW9',
+        ],
+        keyAgreement: [
+          {
+            id: 'did:key:z6MkmArbZHXCFE744TDd6qNCLiu8JUeELNH11MjtVyHwTaW9#z6MkmArbZHXCFE744TDd6qNCLiu8JUeELNH11MjtVyHwTaW9#59de720a234205d4966be028a13ff252c1c7dd80092728411da3ef0ca146593a',
+            type: 'X25519KeyAgreementKey2020',
+            controller:
+              'did:key:z6MkmArbZHXCFE744TDd6qNCLiu8JUeELNH11MjtVyHwTaW9',
+            publicKeyMultibase:
+              '59de720a234205d4966be028a13ff252c1c7dd80092728411da3ef0ca146593a',
+          },
+        ],
+      });
+
+      expect.assertions(1);
+    });
+
+    it('should resolve key did (Secp256k1)', async () => {
       const didUrl =
         'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik';
       const result = await agent.resolveDid({ didUrl });
@@ -201,14 +277,8 @@ export default (testContext: {
       expect(didDoc).toStrictEqual({
         '@context': [
           'https://www.w3.org/ns/did/v1',
-          {
-            EcdsaSecp256k1VerificationKey2019:
-              'https://w3id.org/security#EcdsaSecp256k1VerificationKey2019',
-            publicKeyJwk: {
-              '@id': 'https://w3id.org/security#publicKeyJwk',
-              '@type': '@json',
-            },
-          },
+          'https://w3id.org/security#EcdsaSecp256k1VerificationKey2019',
+          'https://w3id.org/security#publicKeyJwk',
         ],
         id: 'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
         verificationMethod: [
@@ -218,8 +288,10 @@ export default (testContext: {
             controller:
               'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
             publicKeyJwk: {
+              alg: 'ES256K',
               kty: 'EC',
               crv: 'secp256k1',
+              use: 'sig',
               x: 'gKnNSP1Db4wfgbFW62FWGM1XPD6x5tk3oXuCIgJ8roU',
               y: 'Cp9WHUFAAai979txPGGdLK8IoMllWwz0LeBlvFHgFpo',
             },

@@ -1,5 +1,6 @@
 /* eslint-disable new-cap */
 import { bytesToBase64url, hexToBytes } from '@veramo/utils';
+import type { JsonWebKey } from 'did-resolver';
 import elliptic from 'elliptic';
 
 export enum IJWKSupportedKeyTypes {

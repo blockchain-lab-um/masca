@@ -39,6 +39,7 @@ export default {
     'multiformats/basics': '<rootDir>/node_modules/multiformats/src/basics.js',
     'multiformats/cid': '<rootDir>/node_modules/multiformats/src/cid.js',
     'multiformats/block': '<rootDir>/node_modules/multiformats/src/block.js',
+    multiformats: '<rootDir>/node_modules/multiformats/src/index.js',
     mapmoize:
       '<rootDir>/../../node_modules/.pnpm/mapmoize@1.2.1/node_modules/mapmoize/dist/index.js',
     uint8arrays:
