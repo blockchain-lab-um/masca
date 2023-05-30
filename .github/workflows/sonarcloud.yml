@@ -132,3 +132,38 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
+
+  # Did-provider-key
+  sonarcloud-did-provider-key:
+    name: SonarCloud did-provider-key
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: nrwl/nx-set-shas@v3
+        with:
+          main-branch-name: 'develop'
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7.30.0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.15.0
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Test snap
+        run: pnpm nx test:ci @blockchain-lab-um/did-provider-key
+        env:
+          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+      - name: Scan snap
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          projectBaseDir: libs/did-provider-key
+          args: >
+            -Dsonar.organization=blockchain-lab-um
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}

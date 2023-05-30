@@ -1,5 +1,3 @@
-const esModules = ['@veramo'].join('|');
-
 export default {
   clearMocks: false,
   collectCoverage: false,
@@ -10,7 +8,7 @@ export default {
   testEnvironment: 'node',
   testRegex: '.*\\.spec\\.ts$',
   setupFilesAfterEnv: ['jest-extended/all'],
-  globals: { window: { location: { hostname: 'masca' } } },
+  globals: {},
   transform: {
     '^.+\\.(t|j)sx?$': [
       '@swc/jest',
@@ -21,7 +19,6 @@ export default {
             syntax: 'typescript',
             dynamicImport: true,
           },
-          baseUrl: './',
         },
       },
     ],
@@ -32,14 +29,8 @@ export default {
     // https://github.com/facebook/jest/issues/9771
     '^multiformats/(.*)$': '<rootDir>/node_modules/multiformats/src/$1.js',
     '^multiformats$': '<rootDir>/node_modules/multiformats/src/index.js',
-    mapmoize:
-      '<rootDir>/../../node_modules/.pnpm/mapmoize@1.2.1/node_modules/mapmoize/dist/index.js',
-    uint8arrays:
-      '<rootDir>/../../node_modules/.pnpm/uint8arrays@4.0.3/node_modules/uint8arrays/src/index.ts',
-    '@ipld/dag-cbor':
-      '<rootDir>/../../node_modules/.pnpm/@didtools+cacao@2.0.0/node_modules/@ipld/dag-cbor/dist/index.min.js',
   },
   extensionsToTreatAsEsm: ['.ts'],
-  transformIgnorePatterns: [`/node_modules/(?!${esModules})/`],
+  transformIgnorePatterns: ['/node_modules/(?!@veramo)/'],
   testTimeout: 120000,
 };

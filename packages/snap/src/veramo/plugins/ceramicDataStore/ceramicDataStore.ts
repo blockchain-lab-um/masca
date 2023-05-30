@@ -131,7 +131,7 @@ export class CeramicVCStore extends AbstractDataStore {
       await datastore.merge('StoredCredentials', storedCredentials);
       return id;
     }
-    console.log('VC ceramic', vc);
+
     const id = sha256(JSON.stringify(vc));
     const storedCredentialsNew: StoredCredentials = { vcs: {} };
     storedCredentialsNew.vcs[id] = vc;
@@ -139,7 +139,7 @@ export class CeramicVCStore extends AbstractDataStore {
     return id;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line unused-imports/no-unused-vars
   public async clear(args: IFilterArgs): Promise<boolean> {
     const state = await getSnapState(this.snap);
     const ceramic = await getCeramic(this.ethereum, this.snap, state);
