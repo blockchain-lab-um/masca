@@ -41,13 +41,11 @@
     "@stablelib/ed25519": "^1.0.3",
     "@veramo/core": "5.1.2",
     "@veramo/did-manager": "5.1.2",
-    "@veramo/utils": "5.1.2",
     "did-resolver": "4.0.1"
   },
   "devDependencies": {
     "@swc/core": "^1.3.41",
     "@swc/jest": "^0.2.24",
-    "@types/elliptic": "^6.4.14",
     "@types/jest": "^29.5.1",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",

@@ -19,7 +19,7 @@ export default (testContext: {
 
     afterAll(testContext.tearDown);
 
-    test.each(keytypes)(
+    it.each(keytypes)(
       'should create did:key identifier with key type %s, without private key import',
       async (keyType) => {
         const identifier = await agent.didManagerCreate({
@@ -28,12 +28,15 @@ export default (testContext: {
             keyType,
           },
         });
+
         expect(identifier.provider).toBe('did:key');
+
+        expect.assertions(1);
       }
     );
 
-    test.each(keytypes)(
-      'should create did:key ebsi identifier with key type %s',
+    it.each(keytypes)(
+      'should create did:key identifier (EBSI) with key type %s',
       async (keyType) => {
         const identifier = await agent.didManagerCreate({
           provider: 'did:key',
@@ -42,7 +45,10 @@ export default (testContext: {
             type: 'ebsi',
           },
         });
+
         expect(identifier.provider).toBe('did:key');
+
+        expect.assertions(1);
       }
     );
 
@@ -148,6 +154,7 @@ export default (testContext: {
         provider: 'did:key',
         services: [],
       });
+
       expect.assertions(1);
     });
 
@@ -184,7 +191,7 @@ export default (testContext: {
       expect.assertions(1);
     });
 
-    it('should create did:key ebsi identifier', async () => {
+    it('should create did:key identifier (EBSI)', async () => {
       const identifier = await agent.didManagerCreate({
         provider: 'did:key',
         options: {
@@ -225,7 +232,7 @@ export default (testContext: {
       expect.assertions(1);
     });
 
-    it('should resolve key did (Ed25519)', async () => {
+    it('should resolve did:key identifier (Ed25519)', async () => {
       const didUrl = 'did:key:z6MkmArbZHXCFE744TDd6qNCLiu8JUeELNH11MjtVyHwTaW9';
       const result = await agent.resolveDid({ didUrl });
       const didDoc = result.didDocument;
@@ -268,7 +275,7 @@ export default (testContext: {
       expect.assertions(1);
     });
 
-    it('should resolve key did (Secp256k1)', async () => {
+    it('should resolve did:key identifier (Secp256k1)', async () => {
       const didUrl =
         'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik';
       const result = await agent.resolveDid({ didUrl });
@@ -308,7 +315,7 @@ export default (testContext: {
       expect.assertions(1);
     });
 
-    it('should resolve key did ebsi', async () => {
+    it('should resolve did:key identifier (EBSI)', async () => {
       const didUrl =
         'did:key:zBhBLmYmyihtomRdJJNEKzbPj51o4a3GYFeZoRHSABKUwqdjiQPY2gGUYckfRXAFJdwJVD5cgJ2C27D5U2uXsF5Cnn4Er6U7BL4a5rvqjWNxC8y19htTFR63EPnZRCqWBQTH3NKdZyKCFqdh4kiZmvb5ndFmPtg56VrHfbpx53uYKZXonU4W65A';
       const result = await agent.resolveDid({ didUrl });

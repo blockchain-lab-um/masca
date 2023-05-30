@@ -17,7 +17,11 @@ import type {
 } from '@veramo/core';
 import { AbstractIdentifierProvider } from '@veramo/did-manager';
 
-import { KeyOptions, type ICreateKeyDidOptions } from './types/keyDidTypes.js';
+import {
+  KEY_TYPE_TO_MULTICODEC_NAME,
+  isSupportedKeyType,
+  type ICreateKeyDidOptions,
+} from './types/keyDidTypes.js';
 
 type IContext = IAgentContext<IKeyManager>;
 
@@ -39,8 +43,10 @@ export class MascaKeyDidProvider extends AbstractIdentifierProvider {
     context: IContext
   ): Promise<Omit<IIdentifier, 'provider'>> {
     const keyType =
-      (options?.keyType && KeyOptions[options?.keyType] && options.keyType) ||
-      'Ed25519';
+      options?.keyType && isSupportedKeyType(options.keyType)
+        ? options.keyType
+        : 'Ed25519';
+
     const key: ManagedKeyInfo = await this.importOrGenerateKey(
       {
         kms: kms || this.defaultKms,
@@ -59,6 +65,7 @@ export class MascaKeyDidProvider extends AbstractIdentifierProvider {
         keyType === 'Secp256k1'
           ? getCompressedPublicKey(`0x${key.publicKeyHex}`)
           : key.publicKeyHex;
+
       const jwk = createJWK(keyType, compressedKey);
 
       const did = util.createDid(jwk);
@@ -68,6 +75,7 @@ export class MascaKeyDidProvider extends AbstractIdentifierProvider {
         keys: [key],
         services: [],
       };
+
       return identifier;
     }
 
@@ -78,7 +86,7 @@ export class MascaKeyDidProvider extends AbstractIdentifierProvider {
 
     const methodSpecificId = encodePublicKey(
       Buffer.from(compressedKey, 'hex'),
-      KeyOptions[keyType]
+      KEY_TYPE_TO_MULTICODEC_NAME[keyType]
     );
 
     const identifier: Omit<IIdentifier, 'provider'> = {
@@ -87,6 +95,7 @@ export class MascaKeyDidProvider extends AbstractIdentifierProvider {
       keys: [key],
       services: [],
     };
+
     return identifier;
   }
 

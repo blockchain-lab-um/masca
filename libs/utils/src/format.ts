@@ -2,14 +2,14 @@ import { varint } from 'multiformats';
 import { base58btc } from 'multiformats/bases/base58';
 import { publicKeyConvert } from 'secp256k1';
 
-import { CodecName, MULTICODECSCODES } from './multicodecs.js';
+import { MULTICODEC_NAME_TO_CODE, type CodecName } from './multicodecs.js';
 
 export const encodePublicKey = (
   pubKeyBytes: Uint8Array,
   multicodec: CodecName
 ): string => {
-  if (MULTICODECSCODES[multicodec]) {
-    const code = parseInt(MULTICODECSCODES[multicodec], 16);
+  if (MULTICODEC_NAME_TO_CODE[multicodec]) {
+    const code = parseInt(MULTICODEC_NAME_TO_CODE[multicodec], 16);
     const size = pubKeyBytes.byteLength;
     const sizeOffset = varint.encodingLength(code);
 
@@ -19,6 +19,7 @@ export const encodePublicKey = (
 
     return base58btc.encode(bytes);
   }
+
   throw new Error('multicodec not recognized');
 };
 

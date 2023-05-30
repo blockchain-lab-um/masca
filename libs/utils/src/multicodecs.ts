@@ -10,7 +10,7 @@ export type CodecName =
   | 'p256-priv'
   | 'p256-pub';
 
-export const MULTICODECSCODES: Record<CodecName, string> = {
+export const MULTICODEC_NAME_TO_CODE: Record<CodecName, string> = {
   'secp256k1-priv': '0x1301',
   'secp256k1-pub': '0xe7',
   'ed25519-priv': '0x1300',
@@ -22,7 +22,19 @@ export const MULTICODECSCODES: Record<CodecName, string> = {
   'p256-pub': '0x1200',
 };
 
-export const keyLengthsMap: Record<CodecName, number> = {
+export const MULTICODEC_CODE_TO_NAME: Record<string, CodecName> = {
+  '0x1301': 'secp256k1-priv',
+  '0xe7': 'secp256k1-pub',
+  '0x1300': 'ed25519-priv',
+  '0xed': 'ed25519-pub',
+  '0xeb51': 'jwk_jcs-pub',
+  '0x1302': 'x25519-priv',
+  '0xec': 'x25519-pub',
+  '0x1306': 'p256-priv',
+  '0x1200': 'p256-pub',
+};
+
+export const KEY_LENGTHS: Record<CodecName, number> = {
   'secp256k1-priv': 32,
   'secp256k1-pub': 33,
   'ed25519-priv': 32,

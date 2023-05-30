@@ -17,13 +17,18 @@ import type { DidComponents } from './types/keyDidTypes.js';
 
 export const resolveDid = (did: string): Promise<DIDDocument> => {
   const components: DidComponents = checkDidComponents(did);
-  const didIdentifier = components.multibaseValue;
   const publicKey = decodePublicKey(components.multibaseValue);
   const keyType = getKeyType(publicKey.code);
 
-  if (!curveResolverMap[keyType])
+  if (!curveResolverMap[keyType]) {
     throw new Error('invalidDid: invalid key type');
-  return curveResolverMap[keyType]({ didIdentifier, publicKey, keyType });
+  }
+
+  return curveResolverMap[keyType]({
+    didIdentifier: components.multibaseValue,
+    publicKey,
+    keyType,
+  });
 };
 
 export const resolveSecp256k1Ebsi = async (
@@ -45,15 +50,6 @@ const startsWithMap: Record<string, ResolutionFunction> = {
   'did:key:zBhB': resolveSecp256k1Ebsi,
 };
 
-const startsWithMapCurve: Record<string, string> = {
-  'did:key:zQ3s': 'secp256k1',
-  'did:key:z2dm': 'secp256k1Ebsi',
-  'did:key:zBhB': 'secp256k1Ebsi',
-  'did:key:z6Mk': 'ed25519',
-  'did:key:z6LS': 'x25519',
-  'did:key:zDn': 'p256', // Secp256r1
-};
-
 export const resolveDidKey: DIDResolver = async (
   didUrl: string,
   parsed: ParsedDID,
@@ -62,6 +58,7 @@ export const resolveDidKey: DIDResolver = async (
 ): Promise<DIDResolutionResult> => {
   try {
     const startsWith = parsed.did.substring(0, 12);
+
     if (startsWithMap[startsWith] !== undefined) {
       const didDocument = await startsWithMap[startsWith](didUrl);
       return {
