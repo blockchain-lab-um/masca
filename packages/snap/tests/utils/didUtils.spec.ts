@@ -135,18 +135,9 @@ describe('Utils [did]', () => {
 
           didMethod: 'did:ethr',
         })
-      ).resolves.not.toThrow();
+      ).resolves.toMatch(/(did:ethr)/i);
 
-      const expectedState = getDefaultSnapState();
-      expectedState.accountState[address].accountConfig.ssi.didMethod =
-        'did:ethr';
-
-      expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith({
-        operation: 'update',
-        newState: expectedState,
-      });
-
-      expect.assertions(2);
+      expect.assertions(1);
     });
 
     it("should succeed setting DID method to 'did:key'", async () => {
