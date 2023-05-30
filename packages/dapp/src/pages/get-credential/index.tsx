@@ -60,7 +60,9 @@ export default function Issue() {
 
     try {
       const credentialOfferRequestResponse = await fetch(
-        `http://localhost:3003/credential-offer?${qs.stringify(query)}`,
+        `${
+          process.env.NEXT_PUBLIC_DEMO_ISSUER as string
+        }/credential-offer?${qs.stringify(query)}`,
         {
           method: 'GET',
         }

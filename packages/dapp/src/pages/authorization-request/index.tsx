@@ -74,7 +74,9 @@ export default function Verify() {
 
     try {
       const authorizationRequestResponse = await fetch(
-        `http://localhost:3004/authorization-request?${qs.stringify(query)}`,
+        `${
+          process.env.NEXT_PUBLIC_DEMO_VERIFIER as string
+        }/authorization-request?${qs.stringify(query)}`,
         {
           method: 'GET',
         }
