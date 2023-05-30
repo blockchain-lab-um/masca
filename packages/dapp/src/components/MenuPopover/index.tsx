@@ -147,6 +147,13 @@ function MenuPopover() {
       icon: IconGithub,
       target: '_blank',
     },
+    {
+      name: 'Ecosystem',
+      description: 'Projects using Masca',
+      href: '/ecosystem',
+      icon: IconOne,
+      target: '_self',
+    },
   ];
   return (
     <div className="">
