@@ -32,7 +32,8 @@
     "lint": "pnpm lint:eslint && pnpm lint:prettier",
     "lint:eslint": "eslint .",
     "lint:prettier": "prettier . --check",
-    "test": "pnpm jest tests/agent.spec.ts"
+    "test": "pnpm jest tests/agent.spec.ts",
+    "test:ci": "pnpm run test --silent --coverage"
   },
   "dependencies": {
     "@blockchain-lab-um/masca-types": "*",
