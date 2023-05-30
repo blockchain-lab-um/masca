@@ -255,7 +255,7 @@ export default (testContext: {
         ],
         keyAgreement: [
           {
-            id: 'did:key:z6MkmArbZHXCFE744TDd6qNCLiu8JUeELNH11MjtVyHwTaW9#z6MkmArbZHXCFE744TDd6qNCLiu8JUeELNH11MjtVyHwTaW9#59de720a234205d4966be028a13ff252c1c7dd80092728411da3ef0ca146593a',
+            id: 'did:key:z6MkmArbZHXCFE744TDd6qNCLiu8JUeELNH11MjtVyHwTaW9#59de720a234205d4966be028a13ff252c1c7dd80092728411da3ef0ca146593a',
             type: 'X25519KeyAgreementKey2020',
             controller:
               'did:key:z6MkmArbZHXCFE744TDd6qNCLiu8JUeELNH11MjtVyHwTaW9',

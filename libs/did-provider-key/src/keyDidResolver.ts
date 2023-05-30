@@ -1,77 +1,29 @@
 /* eslint-disable unused-imports/no-unused-vars */
-import {
-  createJWK,
-  decodePublicKey,
-  uint8ArrayToHex,
-} from '@blockchain-lab-um/utils';
+import { decodePublicKey } from '@blockchain-lab-um/utils';
 import { getResolver } from '@cef-ebsi/key-did-resolver';
-import { convertPublicKeyToX25519 } from '@stablelib/ed25519';
 import {
   Resolver,
-  VerificationMethod,
   type DIDDocument,
   type DIDResolutionOptions,
   type DIDResolutionResult,
   type DIDResolver,
-  type JsonWebKey,
   type ParsedDID,
   type Resolvable,
 } from 'did-resolver';
 
-import { checkDidComponents, getContext, getKeyType } from './keyDidUtils.js';
+import { curveResolverMap } from './curves.js';
+import { checkDidComponents, getKeyType } from './keyDidUtils.js';
 import type { DidComponents } from './types/keyDidTypes.js';
 
 export const resolveDid = (did: string): Promise<DIDDocument> => {
   const components: DidComponents = checkDidComponents(did);
   const didIdentifier = components.multibaseValue;
-  const didWithIdentifier = `did:key:${didIdentifier}#${didIdentifier}`;
   const publicKey = decodePublicKey(components.multibaseValue);
-  const pk = uint8ArrayToHex(publicKey.pubKeyBytes);
   const keyType = getKeyType(publicKey.code);
-  /* console.log(
-    '🚀 ~ file: keyDidResolver.ts:61 ~ resolveDid ~ keyType:',
-    keyType
-  ); */
-  let x25519Key: string;
-  let verificationMethod;
-  let keyAgreement;
-  if (keyType === 'Ed25519') {
-    x25519Key = uint8ArrayToHex(
-      convertPublicKeyToX25519(publicKey.pubKeyBytes)
-    );
-    verificationMethod = {
-      id: didWithIdentifier,
-      type: 'Ed25519VerificationKey2020',
-      controller: `did:key:${didIdentifier}`,
-      publicKeyMultibase: didIdentifier,
-    } as VerificationMethod;
-    keyAgreement = {
-      id: `${didWithIdentifier}#${x25519Key}`,
-      type: 'X25519KeyAgreementKey2020',
-      controller: `did:key:${didIdentifier}`,
-      publicKeyMultibase: x25519Key,
-    } as VerificationMethod;
-  } else {
-    const jwk = createJWK(keyType, pk) as JsonWebKey;
-    if (!jwk) throw new Error('Cannot create JWK');
-    verificationMethod = {
-      id: didWithIdentifier,
-      type: 'EcdsaSecp256k1VerificationKey2019',
-      controller: `did:key:${didIdentifier}`,
-      publicKeyJwk: jwk,
-    } as VerificationMethod;
-  }
-  const didDocument: DIDDocument = {
-    id: `did:key:${didIdentifier}`,
-    '@context': ['https://www.w3.org/ns/did/v1', ...getContext(keyType)],
-    assertionMethod: [didWithIdentifier],
-    authentication: [didWithIdentifier],
-    verificationMethod: [verificationMethod],
-    ...(keyAgreement && { keyAgreement: [keyAgreement] }),
-  };
-  return new Promise((resolve) => {
-    resolve(didDocument);
-  });
+
+  if (!curveResolverMap[keyType])
+    throw new Error('invalidDid: invalid key type');
+  return curveResolverMap[keyType]({ didIdentifier, publicKey, keyType });
 };
 
 export const resolveSecp256k1Ebsi = async (
@@ -95,9 +47,11 @@ const startsWithMap: Record<string, ResolutionFunction> = {
 
 const startsWithMapCurve: Record<string, string> = {
   'did:key:zQ3s': 'secp256k1',
-  'did:key:z2dm': 'secp256k1',
-  'did:key:zBhB': 'secp256k1',
-  'did:key:zDn': 'p256',
+  'did:key:z2dm': 'secp256k1Ebsi',
+  'did:key:zBhB': 'secp256k1Ebsi',
+  'did:key:z6Mk': 'ed25519',
+  'did:key:z6LS': 'x25519',
+  'did:key:zDn': 'p256', // Secp256r1
 };
 
 export const resolveDidKey: DIDResolver = async (
