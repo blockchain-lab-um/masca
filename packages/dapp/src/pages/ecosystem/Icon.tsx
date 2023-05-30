@@ -9,8 +9,7 @@ interface IconProps {
   width: number;
   height: number;
 }
-
-export const Icon = ({ icon, href, alt, width, height }: IconProps) => {
+const Icon = ({ icon, href, alt, width, height }: IconProps) => {
   return (
     <div className="relative flex items-center justify-center">
       <Link href={href}>
@@ -19,3 +18,5 @@ export const Icon = ({ icon, href, alt, width, height }: IconProps) => {
     </div>
   );
 };
+
+export default Icon;
