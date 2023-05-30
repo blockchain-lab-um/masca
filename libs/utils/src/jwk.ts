@@ -1,7 +1,6 @@
-/* eslint-disable new-cap */
 import { bytesToBase64url, hexToBytes } from '@veramo/utils';
 import type { JsonWebKey } from 'did-resolver';
-import elliptic from 'elliptic';
+import { ec as EC } from 'elliptic';
 
 export enum IJWKSupportedKeyTypes {
   Secp256r1 = 'Secp256r1',
@@ -52,8 +51,8 @@ export function createJWK(
   const keyUse = getKeyUse(keyType, passedKeyUse);
   switch (keyType) {
     case IJWKSupportedKeyTypes.Secp256k1: {
-      const EC = new elliptic.ec('secp256k1');
-      const pubPoint = EC.keyFromPublic(pubKey, 'hex').getPublic();
+      const ctx = new EC('secp256k1');
+      const pubPoint = ctx.keyFromPublic(pubKey, 'hex').getPublic();
       const x = pubPoint.getX();
       const y = pubPoint.getY();
 
@@ -67,8 +66,8 @@ export function createJWK(
       } as JsonWebKey;
     }
     case IJWKSupportedKeyTypes.Secp256r1: {
-      const EC = new elliptic.ec('p256');
-      const pubPoint = EC.keyFromPublic(pubKey, 'hex').getPublic();
+      const ctx = new EC('p256');
+      const pubPoint = ctx.keyFromPublic(pubKey, 'hex').getPublic();
       const x = pubPoint.getX();
       const y = pubPoint.getY();
 
