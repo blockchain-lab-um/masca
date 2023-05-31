@@ -1,9 +1,9 @@
 import {
-  QueryVCsRequestResult,
   availableMethods,
   availableVCStores,
+  QueryVCsRequestResult,
 } from '@blockchain-lab-um/masca-types';
-import { Result, isError, isSuccess } from '@blockchain-lab-um/utils';
+import { isError, isSuccess, Result } from '@blockchain-lab-um/utils';
 import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-datamanager';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { MetaMaskInpageProvider } from '@metamask/providers';
@@ -30,7 +30,7 @@ import {
   jsonPath,
 } from '../testUtils/constants';
 import { createTestVCs } from '../testUtils/generateTestVCs';
-import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
+import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
 
 jest.mock('uuid');
 

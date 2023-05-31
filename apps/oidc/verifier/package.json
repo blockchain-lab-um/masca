@@ -66,12 +66,12 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@ianvs/prettier-plugin-sort-imports": "^3.7.1",
+    "@ianvs/prettier-plugin-sort-imports": "^4.0.1",
     "@nestjs/cli": "^9.1.5",
     "@nestjs/schematics": "^9.0.3",
     "@nestjs/testing": "^9.2.1",
-    "@nrwl/cli": "15.2.4",
-    "@nrwl/workspace": "15.2.4",
+    "@nrwl/cli": "15.9.3",
+    "@nrwl/workspace": "16.2.2",
     "@sphereon/pex": "^2.0.1",
     "@swc/core": "^1.3.41",
     "@swc/jest": "^0.2.24",

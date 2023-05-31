@@ -1,4 +1,5 @@
 import '@/styles/globals.css';
+
 import type { AppProps } from 'next/app';
 import { Cabin, JetBrains_Mono, Ubuntu } from 'next/font/google';
 import Head from 'next/head';

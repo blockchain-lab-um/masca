@@ -1,31 +1,31 @@
 import {
   IOIDCRPPlugin,
-  OIDCRPPlugin,
   isError,
+  OIDCRPPlugin,
   privateKeyToDid,
 } from '@blockchain-lab-um/oidc-rp-plugin';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import {
+  createAgent,
   ICredentialPlugin,
   IDIDManager,
   IKeyManager,
   IResolver,
   MinimalImportableKey,
   TAgent,
-  createAgent,
 } from '@veramo/core';
 import { CredentialPlugin } from '@veramo/credential-w3c';
 import {
   DIDStore,
   Entities,
   KeyStore,
-  PrivateKeyStore,
   migrations,
+  PrivateKeyStore,
 } from '@veramo/data-store';
 import { DIDManager } from '@veramo/did-manager';
 import { EthrDIDProvider } from '@veramo/did-provider-ethr';
-import { KeyDIDProvider, getDidKeyResolver } from '@veramo/did-provider-key';
+import { getDidKeyResolver, KeyDIDProvider } from '@veramo/did-provider-key';
 import { DIDResolverPlugin } from '@veramo/did-resolver';
 import { KeyManager } from '@veramo/key-manager';
 import { KeyManagementSystem, SecretBox } from '@veramo/kms-local';

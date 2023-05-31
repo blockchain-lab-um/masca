@@ -1,9 +1,9 @@
 import { randomBytes } from 'crypto';
 import { Agent } from '@cef-ebsi/siop-auth';
 import {
+  createVerifiablePresentationJwt,
   EbsiIssuer,
   EbsiVerifiablePresentation,
-  createVerifiablePresentationJwt,
 } from '@cef-ebsi/verifiable-presentation';
 import { IIdentifier } from '@veramo/core';
 import { ethers } from 'ethers';

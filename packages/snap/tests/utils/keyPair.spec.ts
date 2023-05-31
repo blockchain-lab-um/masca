@@ -14,7 +14,7 @@ import {
   privateKey2,
   publicKey,
 } from '../testUtils/constants';
-import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
+import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
 
 describe('keyPair', function () {
   let snapMock: SnapsGlobalObject & SnapMock;

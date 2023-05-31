@@ -19,12 +19,12 @@ import {
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import {
-  IDIDManager,
+  createAgent,
   IDataStore,
+  IDIDManager,
   IKeyManager,
   IResolver,
   TAgent,
-  createAgent,
 } from '@veramo/core';
 import { CredentialIssuerEIP712 } from '@veramo/credential-eip712';
 // import {

@@ -50,7 +50,6 @@
     "@veramo/utils": "5.2.0",
     "better-sqlite3": "^8.3.0",
     "class-transformer": "^0.5.1",
-    "class-validator": "^0.13.2",
     "did-jwt": "^6.11.5",
     "did-resolver": "^4.1.0",
     "elliptic": "^6.5.4",
@@ -70,7 +69,7 @@
     "vite": "4.1.4"
   },
   "devDependencies": {
-    "@ianvs/prettier-plugin-sort-imports": "^3.7.1",
+    "@ianvs/prettier-plugin-sort-imports": "^4.0.1",
     "@jest/globals": "^29.5.0",
     "@nestjs/cli": "^9.1.5",
     "@nestjs/schematics": "^9.0.3",
