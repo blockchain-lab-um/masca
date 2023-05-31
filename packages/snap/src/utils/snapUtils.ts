@@ -5,7 +5,6 @@ import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { Component } from '@metamask/snaps-ui';
-import { publicKeyConvert } from 'secp256k1';
 
 import { ApiParams, MascaState } from '../interfaces';
 import { snapGetKeysFromAddress } from './keyPair';
@@ -121,19 +120,6 @@ export async function getPublicKey(params: {
 
   if (res === null) throw new Error('Could not get keys from address');
   return res.publicKey;
-}
-
-export function uint8ArrayToHex(arr: Uint8Array) {
-  return Buffer.from(arr).toString('hex');
-}
-
-export function hexToUint8Array(str: string): Uint8Array {
-  return new Uint8Array(Buffer.from(str, 'hex'));
-}
-export function getCompressedPublicKey(publicKey: string): string {
-  return uint8ArrayToHex(
-    publicKeyConvert(hexToUint8Array(publicKey.split('0x')[1]), true)
-  );
 }
 
 export async function snapConfirm(

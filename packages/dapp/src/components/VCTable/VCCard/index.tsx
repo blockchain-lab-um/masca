@@ -86,7 +86,7 @@ const VCCard = ({ row }: VCCardProps) => {
                 e.stopPropagation();
               }}
               href={{
-                pathname: '/vc',
+                pathname: '/verifiable-credential',
                 query: { id: row.original.metadata.id },
               }}
             >

@@ -6,6 +6,7 @@ import {
 import { isError } from '@blockchain-lab-um/utils';
 import { ArrowPathIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { W3CVerifiableCredential } from '@veramo/core';
+import clsx from 'clsx';
 import { shallow } from 'zustand/shallow';
 
 import ImportModal from '@/components/ImportModal';
@@ -103,7 +104,7 @@ const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
   };
 
   return (
-    <>
+    <div className={clsx(isConnected ? '' : 'hidden')}>
       <div className="lg-mt-6 mb-4 mt-12 grid grid-cols-11 grid-rows-2 gap-y-4 md:grid-rows-1">
         {vcs.length > 0 && (
           <div className="col-span-11 col-start-1 row-start-2 flex gap-x-2 md:col-span-5 md:row-start-1">
@@ -145,7 +146,7 @@ const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
         setOpen={setImportModalOpen}
         importVC={saveVC}
       />
-    </>
+    </div>
   );
 };
 

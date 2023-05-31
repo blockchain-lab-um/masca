@@ -26,16 +26,17 @@
   },
   "workspaces": [
     "packages/*",
-    "libs/*"
+    "apps/**/*",
+    "libs/**/*"
   ],
   "scripts": {
     "build": "pnpm nx affected --target=build",
     "build:all": "pnpm nx run-many --target=build --all",
     "build:connector": "pnpm nx build @blockchain-lab-um/masca-connector",
     "build:datamanager": "pnpm nx build @blockchain-lab-um/veramo-datamanager",
-    "build:docker": "pnpm nx run-many --target=build --projects=@blockchain-lab-um/masca-docs,@blockchain-lab-um/dapp",
+    "build:docker": "./scripts/build-docker.sh",
     "build:docs": "pnpm nx build @blockchain-lab-um/masca-docs",
-    "deploy:docs": "pnpm nx deploy @blockchain-lab-um/masca-docs",
+    "build:vcmanager": "pnpm nx build @blockchain-lab-um/veramo-vc-manager",
     "docker:build": "docker build . -t blockchain-lab-um/masca",
     "lint": "pnpm prettier && pnpm nx affected --target=lint",
     "lint:all": "pnpm prettier && pnpm nx run-many --target=lint --all",

@@ -8,7 +8,6 @@
     "postbuild": "pnpm compress",
     "clear": "docusaurus clear",
     "compress": "precompress build --types gz --include html,css,js,map",
-    "deploy": "docusaurus deploy",
     "docker:build": "docker build . -t blockchain-lab-um/masca-docs",
     "docusaurus": "docusaurus",
     "lint": "pnpm lint:eslint && pnpm lint:prettier",

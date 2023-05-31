@@ -2,9 +2,12 @@ import {
   CreateVCRequestParams,
   CreateVPRequestParams,
   DeleteVCsRequestParams,
+  HandleOIDCAuthorizationRequestParams,
+  HandleOIDCCredentialOfferRequestParams,
   QueryVCsRequestParams,
   ResolveDIDRequestParams,
   SaveVCRequestParams,
+  SendOIDCAuthorizationResponseParams,
   SetCurrentAccountRequestParams,
   SetVCStoreRequestParams,
   SwitchMethodRequestParams,
@@ -85,4 +88,19 @@ export type ResolveDID = {
 export type SetCurrentAccount = {
   method: 'setCurrentAccount';
   params: SetCurrentAccountRequestParams;
+};
+
+export type HandleOIDCCredentialOffer = {
+  method: 'handleOIDCCredentialOffer';
+  params: HandleOIDCCredentialOfferRequestParams;
+};
+
+export type HandleOIDCAuthorizationRequest = {
+  method: 'handleOIDCAuthorizationRequest';
+  params: HandleOIDCAuthorizationRequestParams;
+};
+
+export type SendOIDCAuthorizationResponse = {
+  method: 'sendOIDCAuthorizationResponse';
+  params: SendOIDCAuthorizationResponseParams;
 };

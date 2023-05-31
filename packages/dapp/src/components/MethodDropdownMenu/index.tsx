@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { AvailableMethods } from '@blockchain-lab-um/masca-types';
+import type { AvailableMethods } from '@blockchain-lab-um/masca-types';
 import { isError } from '@blockchain-lab-um/utils';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
