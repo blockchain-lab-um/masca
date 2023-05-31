@@ -91,7 +91,7 @@
     "did-session": "2.0.1",
     "dids": "^4.0.1",
     "elliptic": "^6.5.4",
-    "ethereum-cryptography": "^1.1.2",
+    "ethereum-cryptography": "^2.0.0",
     "ethers": "5.7.2",
     "ethr-did": "2.3.12",
     "ethr-did-resolver": "8.0.0",

@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@blockchain-lab-um/utils": "*",
-    "@veramo/core": "5.1.2",
+    "@veramo/core": "5.2.0",
     "@veramo/key-manager": "5.1.2"
   },
   "devDependencies": {

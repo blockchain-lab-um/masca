@@ -29,6 +29,8 @@ export default {
     // https://github.com/facebook/jest/issues/9771
     '^multiformats/(.*)$': '<rootDir>/node_modules/multiformats/src/$1.js',
     '^multiformats$': '<rootDir>/node_modules/multiformats/src/index.js',
+    uint8arrays:
+      '<rootDir>/../../node_modules/.pnpm/uint8arrays@4.0.3/node_modules/uint8arrays/src/index.ts',
   },
   extensionsToTreatAsEsm: ['.ts'],
   transformIgnorePatterns: ['/node_modules/(?!@veramo)/'],
