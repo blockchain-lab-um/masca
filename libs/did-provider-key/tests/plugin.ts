@@ -2,7 +2,6 @@ import type { IDIDManager, IKeyManager, TAgent } from '@veramo/core-types';
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager>;
 
-// eslint-disable-next-line jest/no-export
 export default (testContext: {
   getAgent: () => ConfiguredAgent;
   setup: () => Promise<boolean>;

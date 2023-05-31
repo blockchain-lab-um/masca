@@ -27,7 +27,7 @@ import { ApiParams, MascaState } from '../interfaces';
 import { Agent, getAgent } from '../veramo/setup';
 import { getCurrentDid } from './didUtils';
 import { snapGetKeysFromAddress } from './keyPair';
-import { getPublicKey, snapConfirm } from './snapUtils';
+import { snapConfirm } from './snapUtils';
 
 export async function veramoSaveVC(args: {
   snap: SnapsGlobalObject;
@@ -91,12 +91,6 @@ export const veramoImportMetaMaskAccount = async (
   );
   if (!res) throw new Error('Failed to get keys');
 
-  const publicKey = await getPublicKey({
-    snap,
-    state,
-    account,
-    bip44CoinTypeNode,
-  });
   const controllerKeyId = `metamask-${account}`;
 
   const identifier = await agent.didManagerImport({
@@ -109,7 +103,7 @@ export const veramoImportMetaMaskAccount = async (
         type: 'Secp256k1',
         kms: 'snap',
         privateKeyHex: res.privateKey.split('0x')[1],
-        publicKeyHex: publicKey.split('0x')[1],
+        publicKeyHex: res.publicKey.split('0x')[1],
       } as MinimalImportableKey,
     ],
   });

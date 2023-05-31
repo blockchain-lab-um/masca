@@ -21,9 +21,6 @@ module.exports = {
       extends: ['plugin:jest/recommended', 'plugin:jest/style'],
       rules: {
         'jest/prefer-expect-assertions': 'off',
-        '@typescript-eslint/no-unsafe-assignment': 'off',
-        '@typescript-eslint/no-explicit-any': 'off',
-        '@typescript-eslint/no-unsafe-member-access': 'off',
       },
       env: { jest: true },
     },
@@ -43,7 +40,10 @@ module.exports = {
       'LabeledStatement',
       'WithStatement',
     ],
+    'no-nested-ternary': 'off',
+    '@typescript-eslint/no-unsafe-assignment': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-unsafe-member-access': 'off',
     // for unused-imports library
     '@typescript-eslint/no-unused-vars': 'off',
     'unused-imports/no-unused-imports': 'error',
@@ -64,6 +64,8 @@ module.exports = {
           '**/*.spec.ts',
           '**/*.e2e-spec.ts',
           '**/webpack.config.ts',
+          '**/test/**/*.ts',
+          '**/tests/**/*.ts',
           '**/tsup.config.ts',
           '**/jest.d.ts',
           '**/test/**',
@@ -73,8 +75,24 @@ module.exports = {
     ],
     // for prettier
     'prettier/prettier': ['error', { singleQuote: true }],
+    '@typescript-eslint/require-await': 'off',
     'import/extensions': 'off',
   },
+  overrides: [
+    {
+      // Disable in test files
+      files: [
+        '**/*.spec.ts',
+        '**/*.e2e-spec.ts',
+        '**/test/**/*.ts',
+        '**/tests/**/*.ts',
+      ],
+      rules: {
+        '@typescript-eslint/no-unsafe-member-access': 'off',
+        '@typescript-eslint/no-unsafe-assignment': 'off',
+      },
+    },
+  ],
   ignorePatterns: [
     '**/node_modules/**',
     '**/dist/**',

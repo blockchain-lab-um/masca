@@ -33,9 +33,9 @@ export const exampleDIDKeyIdentifier =
   'zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik';
 export const exampleDIDKey = `did:key:${exampleDIDKeyIdentifier}`;
 export const exampleDID =
-  'did:ethr:0x5:0xb6665128eE91D84590f70c3268765384A9CAfBCd';
+  'did:ethr:0x5:0x0280a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae85';
 export const exampleImportedDID: IIdentifier = {
-  did: 'did:ethr:0x5:0xb6665128eE91D84590f70c3268765384A9CAfBCd',
+  did: 'did:ethr:0x5:0x0280a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae85',
   provider: 'did:ethr',
   controllerKeyId: 'metamask-0xb6665128eE91D84590f70c3268765384A9CAfBCd',
   keys: [
@@ -84,21 +84,32 @@ export const exampleDIDDocument: DIDDocument = {
     'https://www.w3.org/ns/did/v1',
     'https://w3id.org/security/suites/secp256k1recovery-2020/v2',
   ],
-  id: 'did:ethr:0x5:0xb6665128eE91D84590f70c3268765384A9CAfBCd',
+  id: 'did:ethr:0x5:0x0280a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae85',
   verificationMethod: [
     {
-      id: 'did:ethr:0x5:0xb6665128eE91D84590f70c3268765384A9CAfBCd#controller',
+      id: 'did:ethr:0x5:0x0280a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae85#controller',
       type: 'EcdsaSecp256k1RecoveryMethod2020',
-      controller: 'did:ethr:0x5:0xb6665128eE91D84590f70c3268765384A9CAfBCd',
+      controller:
+        'did:ethr:0x5:0x0280a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae85',
       blockchainAccountId:
         'eip155:5:0xb6665128eE91D84590f70c3268765384A9CAfBCd',
     },
+    {
+      id: 'did:ethr:0x5:0x0280a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae85#controllerKey',
+      type: 'EcdsaSecp256k1VerificationKey2019',
+      controller:
+        'did:ethr:0x5:0x0280a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae85',
+      publicKeyHex:
+        '0280a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae85',
+    },
   ],
   authentication: [
-    'did:ethr:0x5:0xb6665128eE91D84590f70c3268765384A9CAfBCd#controller',
+    'did:ethr:0x5:0x0280a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae85#controller',
+    'did:ethr:0x5:0x0280a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae85#controllerKey',
   ],
   assertionMethod: [
-    'did:ethr:0x5:0xb6665128eE91D84590f70c3268765384A9CAfBCd#controller',
+    'did:ethr:0x5:0x0280a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae85#controller',
+    'did:ethr:0x5:0x0280a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae85#controllerKey',
   ],
 };
 
@@ -210,7 +221,7 @@ export const exampleDIDKeyResolution: DIDResolutionResult = {
 };
 
 export const exampleImportedDIDWIthoutPrivateKey: IIdentifier = {
-  did: 'did:ethr:0x5:0xb6665128eE91D84590f70c3268765384A9CAfBCd',
+  did: 'did:ethr:0x5:0x0280a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae85',
   provider: 'did:ethr',
   controllerKeyId: 'metamask-0xb6665128eE91D84590f70c3268765384A9CAfBCd',
   keys: [
@@ -440,7 +451,8 @@ export const exampleVCJWT = {
       },
     },
   ],
-  holder: 'did:ethr:0x5:0xb6665128ee91d84590f70c3268765384a9cafbcd',
+  holder:
+    'did:ethr:0x5:0x0280a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae85',
   type: ['VerifiablePresentation', 'Custom'],
   '@context': ['https://www.w3.org/2018/credentials/v1'],
   issuanceDate: '2022-11-08T12:43:09.000Z',

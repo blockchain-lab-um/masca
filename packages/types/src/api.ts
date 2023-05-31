@@ -11,8 +11,11 @@ import type {
   CreateVCRequestParams,
   CreateVPRequestParams,
   DeleteVCsOptions,
+  HandleOIDCAuthorizationRequestParams,
+  HandleOIDCCredentialOfferRequestParams,
   QueryVCsRequestParams,
   SaveVCOptions,
+  SendOIDCAuthorizationResponseParams,
   SetCurrentAccountRequestParams,
 } from './params.js';
 import type { QueryVCsRequestResult, SaveVCRequestResult } from './results.js';
@@ -49,5 +52,14 @@ export interface MascaApi {
   ): Promise<Result<VerifiableCredential>>;
   setCurrentAccount(
     params: SetCurrentAccountRequestParams
+  ): Promise<Result<boolean>>;
+  handleOIDCCredentialOffer(
+    params: HandleOIDCCredentialOfferRequestParams
+  ): Promise<Result<VerifiableCredential>>;
+  handleOIDCAuthorizationRequest(
+    params: HandleOIDCAuthorizationRequestParams
+  ): Promise<Result<VerifiableCredential[]>>;
+  sendOIDCAuthorizationResponse(
+    params: SendOIDCAuthorizationResponseParams
   ): Promise<Result<boolean>>;
 }

@@ -37,7 +37,6 @@
     "@swc/jest": "^0.2.24",
     "@types/jest": "^29.4.0",
     "@types/prettier": "^2.7.2",
-    "@types/rimraf": "^4.0.5",
     "@types/uuid": "^9.0.1",
     "eslint": "^8.34.0",
     "eslint-config-prettier": "^8.6.0",

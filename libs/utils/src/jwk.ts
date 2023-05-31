@@ -47,7 +47,7 @@ export function createJWK(
   keyType: keyof typeof IJWKSupportedKeyTypes,
   pubKey: string | Uint8Array,
   passedKeyUse?: KeyUse
-): JsonWebKey | undefined {
+): JsonWebKey {
   const keyUse = getKeyUse(keyType, passedKeyUse);
   switch (keyType) {
     case IJWKSupportedKeyTypes.Secp256k1: {

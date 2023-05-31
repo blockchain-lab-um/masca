@@ -40,7 +40,6 @@
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^3.7.1",
-    "@types/rimraf": "^4.0.5",
     "eslint-plugin-unused-imports": "^2.0.0",
     "prettier-plugin-packagejson": "^2.4.3",
     "rimraf": "^4.4.0",
@@ -49,8 +48,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "script": {
-    "doc": "jsdoc -c jsdoc.json"
   }
 }

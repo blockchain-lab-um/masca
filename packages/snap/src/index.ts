@@ -1,4 +1,9 @@
-import { Result, ResultObject } from '@blockchain-lab-um/utils';
+import type {
+  HandleOIDCAuthorizationRequestParams,
+  HandleOIDCCredentialOfferRequestParams,
+  SendOIDCAuthorizationResponseParams,
+} from '@blockchain-lab-um/masca-types';
+import { ResultObject, type Result } from '@blockchain-lab-um/utils';
 import { OnRpcRequestHandler } from '@metamask/snaps-types';
 
 import { ApiParams } from './interfaces';
@@ -6,6 +11,9 @@ import { getAvailableMethods } from './rpc/did/getAvailableMethods';
 import { getDid } from './rpc/did/getDID';
 import { resolveDID } from './rpc/did/resolveDID';
 import { switchMethod } from './rpc/did/switchMethod';
+import { handleOIDCAuthorizationRequest } from './rpc/oidc/handleOIDCAuthorizationRequest';
+import { handleOIDCCredentialOffer } from './rpc/oidc/handleOIDCCredentialOffer';
+import { sendOIDCAuthorizationResponse } from './rpc/oidc/sendOIDCAuthorizationResponse';
 import { togglePopups } from './rpc/snap/configure';
 import { setCurrentAccount } from './rpc/snap/setCurrentAccount';
 import { createVC } from './rpc/vc/createVC';
@@ -150,6 +158,27 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       case 'verifyData':
         isValidVerifyDataRequest(request.params);
         res = await verifyData(apiParams, request.params);
+        return ResultObject.success(res);
+      case 'handleOIDCCredentialOffer':
+        apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
+        res = await handleOIDCCredentialOffer(
+          apiParams,
+          request.params as unknown as HandleOIDCCredentialOfferRequestParams
+        );
+        return ResultObject.success(res);
+      case 'handleOIDCAuthorizationRequest':
+        apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
+        res = await handleOIDCAuthorizationRequest(
+          apiParams,
+          request.params as unknown as HandleOIDCAuthorizationRequestParams
+        );
+        return ResultObject.success(res);
+      case 'sendOIDCAuthorizationResponse':
+        apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
+        res = await sendOIDCAuthorizationResponse(
+          apiParams,
+          request.params as unknown as SendOIDCAuthorizationResponseParams
+        );
         return ResultObject.success(res);
       default:
         throw new Error('Method not found.');
