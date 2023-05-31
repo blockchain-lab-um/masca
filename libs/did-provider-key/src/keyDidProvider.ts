@@ -1,25 +1,27 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/require-await */
-
-import { util } from '@cef-ebsi/key-did-resolver';
+/* eslint-disable unused-imports/no-unused-vars */
 import {
+  createJWK,
+  encodePublicKey,
+  getCompressedPublicKey,
+} from '@blockchain-lab-um/utils';
+import { util } from '@cef-ebsi/key-did-resolver';
+import type {
   IAgentContext,
   IIdentifier,
   IKey,
   IKeyManager,
   IService,
+  ManagedKeyInfo,
+  RequireOnly,
 } from '@veramo/core';
 import { AbstractIdentifierProvider } from '@veramo/did-manager';
-import { bytesToBase64url, hexToBytes } from '@veramo/utils';
-import { ec as EC } from 'elliptic';
-import { base58btc } from 'multiformats/bases/base58';
 
-import { addMulticodecPrefix } from '../../utils/formatUtils';
-import { IKeyCreateIdentifierOptionsany } from './types/keyProviderTypes';
+import {
+  KEY_TYPE_TO_MULTICODEC_NAME,
+  isSupportedKeyType,
+  type ICreateKeyDidOptions,
+} from './types/keyDidTypes.js';
 
 type IContext = IAgentContext<IKeyManager>;
 
@@ -28,7 +30,7 @@ type IContext = IAgentContext<IKeyManager>;
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export class KeyDIDProvider extends AbstractIdentifierProvider {
+export class MascaKeyDidProvider extends AbstractIdentifierProvider {
   private defaultKms: string;
 
   constructor(options: { defaultKms: string }) {
@@ -37,32 +39,35 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
   }
 
   async createIdentifier(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    {
-      kms,
-      options,
-    }: { kms?: string; options?: IKeyCreateIdentifierOptionsany },
+    { kms, options }: { kms?: string; options?: ICreateKeyDidOptions },
     context: IContext
   ): Promise<Omit<IIdentifier, 'provider'>> {
-    if (options?.type === 'ebsi') {
-      const key = await context.agent.keyManagerCreate({
+    const keyType =
+      options?.keyType && isSupportedKeyType(options.keyType)
+        ? options.keyType
+        : 'Ed25519';
+
+    const key: ManagedKeyInfo = await this.importOrGenerateKey(
+      {
         kms: kms || this.defaultKms,
-        type: 'Secp256k1',
-      });
-      const curve = new EC('secp256k1');
-      const publicKey = curve.keyFromPublic(key.publicKeyHex, 'hex');
-      const y = bytesToBase64url(
-        hexToBytes(publicKey.getPublic().getY().toString('hex'))
-      );
-      const x = bytesToBase64url(
-        hexToBytes(publicKey.getPublic().getX().toString('hex'))
-      );
-      const jwk = {
-        kty: 'EC',
-        crv: 'secp256k1',
-        x,
-        y,
-      };
+        options: {
+          keyType,
+          ...(options?.privateKeyHex && {
+            privateKeyHex: options.privateKeyHex,
+          }),
+        },
+      },
+      context
+    );
+
+    if (options?.type === 'ebsi') {
+      const compressedKey =
+        keyType === 'Secp256k1'
+          ? getCompressedPublicKey(`0x${key.publicKeyHex}`)
+          : key.publicKeyHex;
+
+      const jwk = createJWK(keyType, compressedKey);
+
       const did = util.createDid(jwk);
       const identifier: Omit<IIdentifier, 'provider'> = {
         did,
@@ -70,17 +75,19 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
         keys: [key],
         services: [],
       };
+
       return identifier;
     }
-    const key = await context.agent.keyManagerCreate({
-      kms: kms || this.defaultKms,
-      type: 'Ed25519',
-    });
-    const methodSpecificId = Buffer.from(
-      base58btc.encode(
-        addMulticodecPrefix('ed25519-pub', Buffer.from(key.publicKeyHex, 'hex'))
-      )
-    ).toString();
+
+    const compressedKey =
+      keyType === 'Secp256k1'
+        ? getCompressedPublicKey(`0x${key.publicKeyHex}`)
+        : key.publicKeyHex;
+
+    const methodSpecificId = encodePublicKey(
+      Buffer.from(compressedKey, 'hex'),
+      KEY_TYPE_TO_MULTICODEC_NAME[keyType]
+    );
 
     const identifier: Omit<IIdentifier, 'provider'> = {
       did: `did:key:${methodSpecificId}`,
@@ -88,6 +95,7 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
       keys: [key],
       services: [],
     };
+
     return identifier;
   }
 
@@ -148,5 +156,25 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     context: IContext
   ): Promise<any> {
     throw Error('KeyDIDProvider removeService not supported');
+  }
+
+  private async importOrGenerateKey(
+    args: {
+      kms: string;
+      options: RequireOnly<ICreateKeyDidOptions, 'keyType'>;
+    },
+    context: IContext
+  ): Promise<IKey> {
+    if (args.options.privateKeyHex) {
+      return context.agent.keyManagerImport({
+        kms: args.kms || this.defaultKms,
+        type: args.options.keyType,
+        privateKeyHex: args.options.privateKeyHex,
+      });
+    }
+    return context.agent.keyManagerCreate({
+      kms: args.kms || this.defaultKms,
+      type: args.options.keyType,
+    });
   }
 }

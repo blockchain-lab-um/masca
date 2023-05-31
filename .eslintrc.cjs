@@ -68,10 +68,11 @@ module.exports = {
           '**/tests/**/*.ts',
           '**/tsup.config.ts',
           '**/jest.d.ts',
+          '**/test/**',
+          '**/tests/**',
         ],
       },
     ],
-
     // for prettier
     'prettier/prettier': ['error', { singleQuote: true }],
     '@typescript-eslint/require-await': 'off',

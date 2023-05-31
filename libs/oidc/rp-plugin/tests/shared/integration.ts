@@ -4,7 +4,6 @@ import { IOIDCRPPlugin } from '../../src/types/IOIDCRPPlugin.js';
 
 export type ConfiguredAgent = TAgent<IOIDCRPPlugin>;
 
-// eslint-disable-next-line jest/no-export
 export default (testContext: {
   getAgent: () => ConfiguredAgent;
   setup: () => Promise<boolean>;

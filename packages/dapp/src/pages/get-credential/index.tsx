@@ -55,7 +55,7 @@ export default function Issue() {
     const query = {
       credentials: ['GmCredential'],
       grants: 'urn:ietf:params:oauth:grant-type:pre-authorized_code',
-      userPinRequired: true,
+      userPinRequired: false,
     };
 
     try {

@@ -1,33 +1,29 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const isIn = <T>(values: readonly T[], value: any): value is T => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  return values.includes(value);
-};
+import { isIn } from '@blockchain-lab-um/utils';
 
 export const availableVCStores = ['snap', 'ceramic'] as const;
 export type AvailableVCStores = (typeof availableVCStores)[number];
 
 export const isAvailableVCStores = (x: string) =>
-  isIn<AvailableVCStores[number]>(availableVCStores, x);
+  isIn<AvailableVCStores>(availableVCStores, x);
 
 export const availableMethods = [
   'did:ethr',
   'did:key',
-  // 'did:key:ebsi',
+  'did:key:ebsi',
   'did:pkh',
   // 'did:ebsi',
   'did:jwk',
 ] as const;
 export type AvailableMethods = (typeof availableMethods)[number];
 export const isAvailableMethods = (x: string) =>
-  isIn<AvailableMethods[number]>(availableMethods, x);
+  isIn<AvailableMethods>(availableMethods, x);
 
 export const didCoinTypeMappping: Record<string, number> = {
   'did:ethr': 60,
   'did:key': 60,
   'did:pkh': 60,
   // 'did:ebsi': 60,
-  // 'did:key:ebsi': 60,
+  'did:key:ebsi': 60,
   'did:jwk': 60,
 };
 
@@ -40,4 +36,4 @@ export const supportedProofFormats = [
 export type SupportedProofFormats = (typeof supportedProofFormats)[number];
 
 export const isSupportedProofFormat = (x: string) =>
-  isIn(supportedProofFormats, x);
+  isIn<SupportedProofFormats>(supportedProofFormats, x);

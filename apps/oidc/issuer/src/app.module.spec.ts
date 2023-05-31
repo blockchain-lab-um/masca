@@ -28,6 +28,9 @@ import { AppModule } from './app.module.js';
 import AllExceptionsFilter from './filters/all-exceptions.filter.js';
 import { AgentService } from './modules/agent/agent.service.js';
 
+const compareTypes = (first: string[], second: string[]) =>
+  first.length === second.length && first.every((ele, i) => ele === second[i]);
+
 const credOfferAndTokenRequest = async (server: HttpServer<any, any>) => {
   const credentialRequestData: CredentialOfferRequest = {
     credentials: ['GmCredential'],
@@ -74,10 +77,36 @@ const credOfferAndTokenRequest = async (server: HttpServer<any, any>) => {
     .get('/.well-known/openid-credential-issuer')
     .send();
 
+  const queriedCredential = query.credentials[0];
+
   // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   const supportedCredential = response.body.credentials_supported.find(
-    (credential: any) => credential.id === (query.credentials as string)[0]
-  ) as SupportedCredential;
+    (credential: any) => {
+      if (typeof queriedCredential === 'string') {
+        return credential.id === queriedCredential;
+      }
+
+      if (queriedCredential.format === credential.format) {
+        if (
+          queriedCredential.format === 'mso_mdoc' &&
+          credential.format === 'mso_mdoc' &&
+          queriedCredential.doctype === credential.doctype
+        ) {
+          return true;
+        }
+
+        if (
+          queriedCredential.format !== 'mso_mdoc' &&
+          credential.format !== 'mso_mdoc' &&
+          compareTypes(queriedCredential.types, credential.types as string[])
+        ) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+  ) as SupportedCredential | null;
 
   if (!supportedCredential) {
     throw new Error('No supported credential found');
@@ -1026,7 +1055,6 @@ describe('Issuer controller', () => {
           credential: expect.any(String),
         });
 
-        console.log(response.body.credential);
         // Verify credential
         const agent = await getAgent();
         const res = await agent.verifyCredential({

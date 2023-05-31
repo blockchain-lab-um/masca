@@ -4,7 +4,6 @@ import { IOIDCClientPlugin } from '../../src/types/IOIDCClientPlugin.js';
 
 export type ConfiguredAgent = TAgent<IOIDCClientPlugin>;
 
-// eslint-disable-next-line jest/no-export
 export default (testContext: {
   getAgent: () => ConfiguredAgent;
   setup: () => Promise<boolean>;

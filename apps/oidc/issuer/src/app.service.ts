@@ -72,8 +72,6 @@ export class AppService {
       userPin,
     } = res.data;
 
-    console.log(userPin);
-
     if (preAuthorizedCode) {
       this.dataStoreService.createUserSession(preAuthorizedCode, {
         credentials: requestedCredentials,

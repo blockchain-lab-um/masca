@@ -184,7 +184,7 @@ importers:
         specifier: 5.1.2
         version: 5.1.2
       better-sqlite3:
-        specifier: ^8.2.0
+        specifier: ^8.3.0
         version: 8.3.0
       class-transformer:
         specifier: ^0.5.1
@@ -232,8 +232,8 @@ importers:
         specifier: ^7.5.7
         version: 7.8.0
       typeorm:
-        specifier: ^0.3.10
-        version: 0.3.15(better-sqlite3@8.3.0)(ts-node@10.9.1)
+        specifier: ^0.3.16
+        version: 0.3.16(better-sqlite3@8.3.0)(ts-node@10.9.1)
       uint8arrays:
         specifier: ^4.0.2
         version: 4.0.3
@@ -431,7 +431,7 @@ importers:
         specifier: 5.1.2
         version: 5.1.2
       better-sqlite3:
-        specifier: ^8.2.0
+        specifier: ^8.3.0
         version: 8.3.0
       did-resolver:
         specifier: ^4.0.1
@@ -467,8 +467,8 @@ importers:
         specifier: ^7.5.7
         version: 7.8.0
       typeorm:
-        specifier: ^0.3.10
-        version: 0.3.15(better-sqlite3@8.3.0)(ts-node@10.9.1)
+        specifier: ^0.3.16
+        version: 0.3.16(better-sqlite3@8.3.0)(ts-node@10.9.1)
       uuid:
         specifier: ^9.0.0
         version: 9.0.0
@@ -639,6 +639,121 @@ importers:
       tsup:
         specifier: ^6.6.3
         version: 6.7.0(typescript@4.9.5)
+      typescript:
+        specifier: ^4.9.5
+        version: 4.9.5
+
+  libs/did-provider-key:
+    dependencies:
+      '@blockchain-lab-um/masca-types':
+        specifier: '*'
+        version: link:../../packages/types
+      '@blockchain-lab-um/utils':
+        specifier: '*'
+        version: link:../utils
+      '@cef-ebsi/key-did-resolver':
+        specifier: ^1.0.0
+        version: 1.0.0
+      '@stablelib/ed25519':
+        specifier: ^1.0.3
+        version: 1.0.3
+      '@veramo/core':
+        specifier: 5.1.2
+        version: 5.1.2
+      '@veramo/did-manager':
+        specifier: 5.1.2
+        version: 5.1.2
+      did-resolver:
+        specifier: 4.0.1
+        version: 4.0.1
+    devDependencies:
+      '@swc/core':
+        specifier: ^1.3.41
+        version: 1.3.52
+      '@swc/jest':
+        specifier: ^0.2.24
+        version: 0.2.26(@swc/core@1.3.52)
+      '@types/jest':
+        specifier: ^29.5.1
+        version: 29.5.1
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^5.55.0
+        version: 5.59.0(@typescript-eslint/parser@5.59.0)(eslint@8.38.0)(typescript@4.9.5)
+      '@typescript-eslint/parser':
+        specifier: ^5.55.0
+        version: 5.59.0(eslint@8.38.0)(typescript@4.9.5)
+      '@veramo/core-types':
+        specifier: 5.1.2
+        version: 5.1.2
+      '@veramo/credential-w3c':
+        specifier: 5.1.2
+        version: 5.1.2
+      '@veramo/data-store':
+        specifier: 5.1.2
+        version: 5.1.2(sqlite3@5.1.6)
+      '@veramo/did-resolver':
+        specifier: 5.1.2
+        version: 5.1.2
+      '@veramo/key-manager':
+        specifier: 5.1.2
+        version: 5.1.2
+      '@veramo/kms-local':
+        specifier: 5.1.2
+        version: 5.1.2
+      eslint:
+        specifier: ^8.36.0
+        version: 8.38.0
+      eslint-config-prettier:
+        specifier: ^8.7.0
+        version: 8.8.0(eslint@8.38.0)
+      eslint-plugin-import:
+        specifier: ^2.27.5
+        version: 2.27.5(@typescript-eslint/parser@5.59.0)(eslint@8.38.0)
+      eslint-plugin-jest:
+        specifier: ^27.2.1
+        version: 27.2.1(@typescript-eslint/eslint-plugin@5.59.0)(eslint@8.38.0)(jest@29.5.0)(typescript@4.9.5)
+      eslint-plugin-jest-extended:
+        specifier: ^2.0.0
+        version: 2.0.0(eslint@8.38.0)(typescript@4.9.5)
+      eslint-plugin-prettier:
+        specifier: ^4.2.1
+        version: 4.2.1(eslint-config-prettier@8.8.0)(eslint@8.38.0)(prettier@2.8.7)
+      eslint-plugin-unused-imports:
+        specifier: ^2.0.0
+        version: 2.0.0(@typescript-eslint/eslint-plugin@5.59.0)(eslint@8.38.0)
+      jest:
+        specifier: ^29.5.0
+        version: 29.5.0
+      jest-extended:
+        specifier: ^3.2.4
+        version: 3.2.4(jest@29.5.0)
+      lint-staged:
+        specifier: ^13.2.0
+        version: 13.2.1
+      multiformats:
+        specifier: ^11.0.2
+        version: 11.0.2
+      prettier:
+        specifier: ^2.8.4
+        version: 2.8.7
+      prettier-plugin-packagejson:
+        specifier: ^2.4.3
+        version: 2.4.3(prettier@2.8.7)
+      rimraf:
+        specifier: ^4.4.0
+        version: 4.4.1
+      sqlite3:
+        specifier: ^5.1.6
+        version: 5.1.6
+      ts-jest:
+        specifier: ^29.0.5
+        version: 29.0.5(jest@29.5.0)(typescript@4.9.5)
+      tsup:
+        specifier: ^6.6.3
+        version: 6.7.0(@swc/core@1.3.52)(typescript@4.9.5)
+      typeorm:
+        specifier: ^0.3.16
+        version: 0.3.16(sqlite3@5.1.6)
       typescript:
         specifier: ^4.9.5
         version: 4.9.5
@@ -929,7 +1044,29 @@ importers:
         version: 4.9.5
 
   libs/utils:
+    dependencies:
+      '@veramo/utils':
+        specifier: 5.2.0
+        version: 5.2.0
+      did-resolver:
+        specifier: 4.0.1
+        version: 4.0.1
+      elliptic:
+        specifier: ^6.5.4
+        version: 6.5.4
+      multiformats:
+        specifier: 11.0.2
+        version: 11.0.2
+      secp256k1:
+        specifier: 4.0.3
+        version: 4.0.3
     devDependencies:
+      '@types/elliptic':
+        specifier: ^6.4.14
+        version: 6.4.14
+      '@types/secp256k1':
+        specifier: ^4.0.3
+        version: 4.0.3
       rimraf:
         specifier: ^4.4.0
         version: 4.4.1
@@ -1378,6 +1515,9 @@ importers:
       '@blockchain-lab-um/did-provider-ebsi':
         specifier: '*'
         version: link:../../libs/did-provider-ebsi
+      '@blockchain-lab-um/did-provider-key':
+        specifier: '*'
+        version: link:../../libs/did-provider-key
       '@blockchain-lab-um/masca-types':
         specifier: '*'
         version: link:../types
@@ -1445,8 +1585,8 @@ importers:
         specifier: 5.1.2
         version: 5.1.2
       '@veramo/did-provider-jwk':
-        specifier: 5.1.2
-        version: 5.1.2
+        specifier: 5.2.0
+        version: 5.2.0
       '@veramo/did-provider-pkh':
         specifier: 5.1.2
         version: 5.1.2
@@ -1475,8 +1615,8 @@ importers:
         specifier: ^0.5.1
         version: 0.5.1
       class-validator:
-        specifier: ^0.13.2
-        version: 0.13.2
+        specifier: ^0.14.0
+        version: 0.14.0
       crypto-browserify:
         specifier: ^3.12.0
         version: 3.12.0
@@ -1531,9 +1671,6 @@ importers:
       multiformats:
         specifier: ^11.0.2
         version: 11.0.2
-      secp256k1:
-        specifier: 4.0.3
-        version: 4.0.3
       ts-jest:
         specifier: ^29.0.5
         version: 29.1.0(@babel/core@7.21.4)(jest@29.5.0)(typescript@4.9.5)
@@ -1586,9 +1723,6 @@ importers:
       '@types/node':
         specifier: 18.15.10
         version: 18.15.10
-      '@types/secp256k1':
-        specifier: ^4.0.3
-        version: 4.0.3
       '@types/webpack':
         specifier: ^5.28.0
         version: 5.28.1(@swc/core@1.3.52)(webpack-cli@5.0.1)
@@ -1598,9 +1732,6 @@ importers:
       '@typescript-eslint/parser':
         specifier: ^5.55.0
         version: 5.59.0(eslint@8.38.0)(typescript@4.9.5)
-      audit-ci:
-        specifier: ^6.6.0
-        version: 6.6.1
       babel-loader:
         specifier: ^9.1.2
         version: 9.1.2(@babel/core@7.21.4)(webpack@5.76.3)
@@ -1692,6 +1823,9 @@ importers:
         specifier: '*'
         version: link:../../libs/utils
       '@veramo/core':
+        specifier: 5.1.2
+        version: 5.1.2
+      '@veramo/key-manager':
         specifier: 5.1.2
         version: 5.1.2
     devDependencies:
@@ -10090,6 +10224,10 @@ packages:
   /@types/uuid@9.0.1:
     resolution: {integrity: sha512-rFT3ak0/2trgvp4yYZo5iKFEPsET7vKydKF+VRCxlQ9bpheehyAJH89dAkaLEq/j/RZXJIqcgsmPJKUP1Z28HA==}
 
+  /@types/validator@13.7.17:
+    resolution: {integrity: sha512-aqayTNmeWrZcvnG2MG9eGYI6b7S5fl+yKgPs6bAjOTwPS316R5SxBGKvtSExfyoJU7pIeHJfsHI0Ji41RVMkvQ==}
+    dev: false
+
   /@types/webpack@5.28.1(@swc/core@1.3.52)(webpack-cli@5.0.1):
     resolution: {integrity: sha512-qw1MqGZclCoBrpiSe/hokSgQM/su8Ocpl3L/YHE0L6moyaypg4+5F7Uzq7NgaPKPxUxUbQ4fLPLpDWdR27bCZw==}
     dependencies:
@@ -10328,7 +10466,7 @@ packages:
       sqlite3: 5.1.6
       swagger-ui-express: 4.6.2(express@4.18.2)
       ts-json-schema-generator: 1.2.0
-      typeorm: 0.3.15(pg@8.10.0)(sqlite3@5.1.6)
+      typeorm: 0.3.16(pg@8.10.0)(sqlite3@5.1.6)
       url-parse: 1.5.10
       web-did-resolver: 2.0.22
       ws: 8.13.0
@@ -10425,7 +10563,7 @@ packages:
     dependencies:
       '@veramo/core-types': 5.1.2
       '@veramo/message-handler': 5.1.2
-      '@veramo/utils': 5.1.2
+      '@veramo/utils': 5.2.0
       canonicalize: 1.0.8
       debug: 4.3.4
       did-jwt: 6.11.6
@@ -10442,7 +10580,6 @@ packages:
       - react-native
       - supports-color
       - web-streams-polyfill
-    dev: false
 
   /@veramo/credential-w3c@5.1.4:
     resolution: {integrity: sha512-Ry2wvbYMg8EjAHQf57QVl8gymm9GnMW2dhXKx/o0wcQ5zm37FbMkRLAuazh61GnmsY6GAYdsVPcCFnt/HWV/iQ==}
@@ -10474,10 +10611,10 @@ packages:
       '@veramo/did-discovery': 5.1.2
       '@veramo/did-manager': 5.1.2
       '@veramo/key-manager': 5.1.2
-      '@veramo/utils': 5.1.2
+      '@veramo/utils': 5.2.0
       debug: 4.3.4
       did-jwt-vc: 3.1.2
-      typeorm: 0.3.15(better-sqlite3@8.3.0)(ts-node@10.9.1)
+      typeorm: 0.3.16(better-sqlite3@8.3.0)(ts-node@10.9.1)
       uuid: 9.0.0
     transitivePeerDependencies:
       - '@google-cloud/spanner'
@@ -10508,10 +10645,44 @@ packages:
       '@veramo/did-discovery': 5.1.2
       '@veramo/did-manager': 5.1.2
       '@veramo/key-manager': 5.1.2
-      '@veramo/utils': 5.1.2
+      '@veramo/utils': 5.2.0
       debug: 4.3.4
       did-jwt-vc: 3.1.2
-      typeorm: 0.3.15(pg@8.10.0)(sqlite3@5.1.6)
+      typeorm: 0.3.16(pg@8.10.0)(sqlite3@5.1.6)
+      uuid: 9.0.0
+    transitivePeerDependencies:
+      - '@google-cloud/spanner'
+      - '@sap/hana-client'
+      - better-sqlite3
+      - encoding
+      - hdb-pool
+      - ioredis
+      - mongodb
+      - mssql
+      - mysql2
+      - oracledb
+      - pg
+      - pg-native
+      - pg-query-stream
+      - redis
+      - sql.js
+      - sqlite3
+      - supports-color
+      - ts-node
+      - typeorm-aurora-data-api-driver
+    dev: true
+
+  /@veramo/data-store@5.1.2(sqlite3@5.1.6):
+    resolution: {integrity: sha512-9VtEI7oXD+kiRuTttwBgyZXwqacFEvlUr7KGcMiopC/pPpj2AfFaSkNnzE1TRcF1LoR4r78OFiI1IGJaiNTMWg==}
+    dependencies:
+      '@veramo/core-types': 5.1.2
+      '@veramo/did-discovery': 5.1.2
+      '@veramo/did-manager': 5.1.2
+      '@veramo/key-manager': 5.1.2
+      '@veramo/utils': 5.2.0
+      debug: 4.3.4
+      did-jwt-vc: 3.1.2
+      typeorm: 0.3.16(sqlite3@5.1.6)
       uuid: 9.0.0
     transitivePeerDependencies:
       - '@google-cloud/spanner'
@@ -10602,12 +10773,12 @@ packages:
       - supports-color
       - utf-8-validate
 
-  /@veramo/did-provider-jwk@5.1.2:
-    resolution: {integrity: sha512-nEZbNQifRHj/Q6fnl5BMkbvryawGiTuV45gNNp0G6G3ElC8u32seuv4c14+Atq14NZjesId/1QTDnEGmx6qB5A==}
+  /@veramo/did-provider-jwk@5.2.0:
+    resolution: {integrity: sha512-/pf2ljsmGogleBmnoqFKBVlOLgG51cU+A4qQfnvfNZZ4gwpUoaNgUm6gnZCQDgYY5NZIdg/u6reaY8qTqp3lXw==}
     dependencies:
       '@veramo/core-types': 5.1.2
       '@veramo/did-manager': 5.1.2
-      '@veramo/utils': 5.1.2
+      '@veramo/utils': 5.2.0
       debug: 4.3.4
       did-resolver: 4.1.0
       elliptic: 6.5.4
@@ -12710,6 +12881,14 @@ packages:
       libphonenumber-js: 1.10.28
       validator: 13.9.0
 
+  /class-validator@0.14.0:
+    resolution: {integrity: sha512-ct3ltplN8I9fOwUd8GrP8UQixwff129BkEtuWDKL5W45cQuLd19xqmTLu5ge78YDm/fdje6FMt0hGOhl0lii3A==}
+    dependencies:
+      '@types/validator': 13.7.17
+      libphonenumber-js: 1.10.28
+      validator: 13.9.0
+    dev: false
+
   /clean-css@5.3.2:
     resolution: {integrity: sha512-JVJbM+f3d3Q704rF4bqQ5UUyTtuJ0JRKNbTKVEeujCCBoMdkEi+V+e8oktO9qGQNSvHrFTM6JZRXrUvGR1czww==}
     engines: {node: '>= 10.0'}
@@ -13573,7 +13752,6 @@ packages:
     engines: {node: '>=0.11'}
     dependencies:
       '@babel/runtime': 7.21.0
-    dev: true
 
   /debug@2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
@@ -18007,7 +18185,7 @@ packages:
       jest:
         optional: true
     dependencies:
-      jest: 29.5.0(@types/node@18.15.10)(ts-node@10.9.1)
+      jest: 29.5.0
       jest-diff: 29.5.0
       jest-get-type: 29.4.3
     dev: true
@@ -19786,7 +19964,6 @@ packages:
   /multiformats@11.0.2:
     resolution: {integrity: sha512-b5mYMkOkARIuVZCpvijFj9a6m5wMVLC7cf/jIPd5D/ARDOfLC5+IFkbgDXQgcU2goIsTD/O9NY4DI/Mt4OGvlg==}
     engines: {node: '>=16.0.0', npm: '>=7.0.0'}
-    dev: false
 
   /multiformats@9.9.0:
     resolution: {integrity: sha512-HoMUjhH9T8DDBNT+6xzkrd9ga/XiBI4xLr58LJACwK6G3HTOPeMz4nB4KJs33L2BelrIJa7P0VuNaVF3hMYfjg==}
@@ -24730,8 +24907,8 @@ packages:
       - supports-color
     dev: true
 
-  /typeorm@0.3.15(better-sqlite3@8.3.0)(ts-node@10.9.1):
-    resolution: {integrity: sha512-R4JSw8QjDP1W+ypeRz/XrCXIqubrLSnNAzJAp9EQSQIPHTv+YmUHZis8g08lOwFpuhqL9m8jkPSz8GWEKlU/ow==}
+  /typeorm@0.3.16(better-sqlite3@8.3.0)(ts-node@10.9.1):
+    resolution: {integrity: sha512-wJ4Qy1oqRKNDdZiBTTaVMqwo/XxC52Q7uNPTjltPgLhvIW173bL6Iad0lhptMOsFlpixFPaUu3PNziaRBwX2Zw==}
     engines: {node: '>= 12.9.0'}
     hasBin: true
     peerDependencies:
@@ -24794,6 +24971,7 @@ packages:
       buffer: 6.0.3
       chalk: 4.1.2
       cli-highlight: 2.1.11
+      date-fns: 2.30.0
       debug: 4.3.4
       dotenv: 16.0.3
       glob: 8.1.0
@@ -24808,8 +24986,8 @@ packages:
       - supports-color
     dev: false
 
-  /typeorm@0.3.15(pg@8.10.0)(sqlite3@5.1.6):
-    resolution: {integrity: sha512-R4JSw8QjDP1W+ypeRz/XrCXIqubrLSnNAzJAp9EQSQIPHTv+YmUHZis8g08lOwFpuhqL9m8jkPSz8GWEKlU/ow==}
+  /typeorm@0.3.16(pg@8.10.0)(sqlite3@5.1.6):
+    resolution: {integrity: sha512-wJ4Qy1oqRKNDdZiBTTaVMqwo/XxC52Q7uNPTjltPgLhvIW173bL6Iad0lhptMOsFlpixFPaUu3PNziaRBwX2Zw==}
     engines: {node: '>= 12.9.0'}
     hasBin: true
     peerDependencies:
@@ -24871,11 +25049,90 @@ packages:
       buffer: 6.0.3
       chalk: 4.1.2
       cli-highlight: 2.1.11
+      date-fns: 2.30.0
       debug: 4.3.4
       dotenv: 16.0.3
       glob: 8.1.0
       mkdirp: 2.1.6
       pg: 8.10.0
+      reflect-metadata: 0.1.13
+      sha.js: 2.4.11
+      sqlite3: 5.1.6
+      tslib: 2.5.0
+      uuid: 9.0.0
+      yargs: 17.7.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /typeorm@0.3.16(sqlite3@5.1.6):
+    resolution: {integrity: sha512-wJ4Qy1oqRKNDdZiBTTaVMqwo/XxC52Q7uNPTjltPgLhvIW173bL6Iad0lhptMOsFlpixFPaUu3PNziaRBwX2Zw==}
+    engines: {node: '>= 12.9.0'}
+    hasBin: true
+    peerDependencies:
+      '@google-cloud/spanner': ^5.18.0
+      '@sap/hana-client': ^2.12.25
+      better-sqlite3: ^7.1.2 || ^8.0.0
+      hdb-pool: ^0.1.6
+      ioredis: ^5.0.4
+      mongodb: ^5.2.0
+      mssql: ^9.1.1
+      mysql2: ^2.2.5 || ^3.0.1
+      oracledb: ^5.1.0
+      pg: ^8.5.1
+      pg-native: ^3.0.0
+      pg-query-stream: ^4.0.0
+      redis: ^3.1.1 || ^4.0.0
+      sql.js: ^1.4.0
+      sqlite3: ^5.0.3
+      ts-node: ^10.7.0
+      typeorm-aurora-data-api-driver: ^2.0.0
+    peerDependenciesMeta:
+      '@google-cloud/spanner':
+        optional: true
+      '@sap/hana-client':
+        optional: true
+      better-sqlite3:
+        optional: true
+      hdb-pool:
+        optional: true
+      ioredis:
+        optional: true
+      mongodb:
+        optional: true
+      mssql:
+        optional: true
+      mysql2:
+        optional: true
+      oracledb:
+        optional: true
+      pg:
+        optional: true
+      pg-native:
+        optional: true
+      pg-query-stream:
+        optional: true
+      redis:
+        optional: true
+      sql.js:
+        optional: true
+      sqlite3:
+        optional: true
+      ts-node:
+        optional: true
+      typeorm-aurora-data-api-driver:
+        optional: true
+    dependencies:
+      '@sqltools/formatter': 1.2.5
+      app-root-path: 3.1.0
+      buffer: 6.0.3
+      chalk: 4.1.2
+      cli-highlight: 2.1.11
+      date-fns: 2.30.0
+      debug: 4.3.4
+      dotenv: 16.0.3
+      glob: 8.1.0
+      mkdirp: 2.1.6
       reflect-metadata: 0.1.13
       sha.js: 2.4.11
       sqlite3: 5.1.6

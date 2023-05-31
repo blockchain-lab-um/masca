@@ -24,7 +24,6 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
     hasMM,
     hasFlask,
     address,
-    chainId,
     changeHasMetaMask,
     changeIsFlask,
     changeAddress,
@@ -37,7 +36,6 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
       hasFlask: state.isFlask,
       address: state.address,
       isConnected: state.isConnected,
-      chainId: state.chainId,
       changeHasMetaMask: state.changeHasMetaMask,
       changeIsFlask: state.changeIsFlask,
       changeAddress: state.changeAddress,
@@ -97,9 +95,8 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
 
   const enableMascaHandler = async () => {
     const enableResult = await enableMasca(address, { snapId });
-    console.log(snapId);
-    console.log(process.env.NODE_ENV);
     if (isError(enableResult)) {
+      // FIXME: This error is shown as [Object object]
       throw new Error(enableResult.error);
     }
     const api = enableResult.data.getMascaApi();
