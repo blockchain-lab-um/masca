@@ -5,7 +5,7 @@
   "type": "commonjs",
   "scripts": {
     "build": "rimraf .next && next build",
-    "build:docker": "next export",
+    "build:docker": "pnpm build",
     "dev": "cross-env USE_LOCAL='true' next dev",
     "docker:build": "docker build . -t blockchain-lab-um/dapp:latest",
     "lint": "pnpm lint:next && pnpm lint:tsc && pnpm lint:prettier && pnpm lint:stylelint",
