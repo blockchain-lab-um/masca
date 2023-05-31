@@ -1,14 +1,6 @@
 import React from 'react';
 
-import Icon from './Icon';
-
-interface IconProps {
-  icon: string;
-  href: string;
-  alt: string;
-  width: number;
-  height: number;
-}
+import Icon, { IconProps } from './Icon';
 
 const integrations: IconProps[] = [];
 

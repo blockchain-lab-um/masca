@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-interface IconProps {
+export interface IconProps {
   icon: string;
   href: string;
   alt: string;
