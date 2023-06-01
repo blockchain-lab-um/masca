@@ -191,8 +191,8 @@ importers:
         specifier: ^0.5.1
         version: 0.5.1
       did-jwt:
-        specifier: ^6.11.5
-        version: 6.11.5
+        specifier: ^7.2.0
+        version: 7.2.0
       did-resolver:
         specifier: ^4.1.0
         version: 4.1.0
@@ -423,7 +423,7 @@ importers:
         specifier: ^8.4.0
         version: 8.4.0
       did-resolver:
-        specifier: ^4.0.1
+        specifier: ^4.1.0
         version: 4.1.0
       elliptic:
         specifier: ^6.5.4
@@ -601,8 +601,8 @@ importers:
         specifier: ^6.5.4
         version: 6.5.4
       ethers:
-        specifier: 5.7.2
-        version: 5.7.2
+        specifier: 6.4.0
+        version: 6.4.0
       jose:
         specifier: ^4.14.4
         version: 4.14.4
@@ -650,8 +650,8 @@ importers:
         specifier: 5.1.2
         version: 5.1.2
       did-resolver:
-        specifier: 4.0.1
-        version: 4.0.1
+        specifier: 4.1.0
+        version: 4.1.0
     devDependencies:
       '@swc/core':
         specifier: 1.3.52
@@ -880,7 +880,7 @@ importers:
         specifier: ^3.1.0
         version: 3.2.1
       did-resolver:
-        specifier: ^4.0.1
+        specifier: ^4.1.0
         version: 4.1.0
       elliptic:
         specifier: ^6.5.4
@@ -1035,8 +1035,8 @@ importers:
         specifier: 5.2.0
         version: 5.2.0
       did-resolver:
-        specifier: 4.0.1
-        version: 4.0.1
+        specifier: 4.1.0
+        version: 4.1.0
       elliptic:
         specifier: ^6.5.4
         version: 6.5.4
@@ -1157,8 +1157,8 @@ importers:
         specifier: ^1.2.1
         version: 1.2.1
       ethers:
-        specifier: ^6.0.8
-        version: 6.0.8
+        specifier: ^6.4.0
+        version: 6.4.0
       next:
         specifier: 13.4.4
         version: 13.4.4(@babel/core@7.22.1)(react-dom@18.2.0)(react@18.2.0)(sass@1.62.1)
@@ -1375,8 +1375,8 @@ importers:
         specifier: ^1.2.1
         version: 1.2.1
       ethers:
-        specifier: ^5.7.2
-        version: 5.7.2
+        specifier: ^6.4.0
+        version: 6.4.0
       prism-react-renderer:
         specifier: ^2.0.4
         version: 2.0.4(react@18.2.0)
@@ -1510,6 +1510,9 @@ importers:
       '@didtools/pkh-ethereum':
         specifier: ^0.3.0
         version: 0.3.0
+      '@ethersproject/providers':
+        specifier: ^5.7.2
+        version: 5.7.2
       '@glazed/did-datastore':
         specifier: 0.3.2
         version: 0.3.2
@@ -1598,8 +1601,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
       ethers:
-        specifier: 5.7.2
-        version: 5.7.2
+        specifier: 6.4.0
+        version: 6.4.0
       ethr-did:
         specifier: 2.3.12
         version: 2.3.12
@@ -1808,10 +1811,6 @@ importers:
         version: 4.9.5
 
 packages:
-
-  /@adraffy/ens-normalize@1.8.9:
-    resolution: {integrity: sha512-93OmGCV0vO8+JQ3FHG+gZk/MPHzzMPDRiCiFcCQNTCnHaaxsacO3ScTPGlu2wX2dOtgfalbchPcw1cOYYjHCYQ==}
-    dev: false
 
   /@algolia/autocomplete-core@1.8.2:
     resolution: {integrity: sha512-mTeshsyFhAqw/ebqNsQpMtbnjr+qVOSKXArEj4K0d7sqc8It1XD0gkASwecm9mF/jlOQ4Z9RNg1HbdA8JPdRwQ==}
@@ -10331,7 +10330,7 @@ packages:
   /@types/bonjour@3.5.10:
     resolution: {integrity: sha512-p7ienRMiS41Nu2/igbJxxLDWrSZ0WxM8UQgCeO9KhoVF7cOVFkrKsiDr1EsJIla8vV3oEEjGcz11jc5yimhzZw==}
     dependencies:
-      '@types/node': 18.16.15
+      '@types/node': 20.2.5
 
   /@types/chrome@0.0.136:
     resolution: {integrity: sha512-XDEiRhLkMd+SB7Iw3ZUIj/fov3wLd4HyTdLltVszkgl1dBfc3Rb7oPMVZ2Mz2TLqnF7Ow+StbR8E7r9lqpb4DA==}
@@ -10343,7 +10342,7 @@ packages:
     resolution: {integrity: sha512-4x5FkPpLipqwthjPsF7ZRbOv3uoLUFkTA9G9v583qi4pACvq0uTELrB8OLUzPWUI4IJIyvM85vzkV1nyiI2Lig==}
     dependencies:
       '@types/express-serve-static-core': 4.17.35
-      '@types/node': 18.16.15
+      '@types/node': 20.2.5
 
   /@types/connect@3.4.35:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
@@ -10435,7 +10434,7 @@ packages:
   /@types/http-proxy@1.17.11:
     resolution: {integrity: sha512-HC8G7c1WmaF2ekqpnFq626xd3Zz0uvaqFmBJNRZCGEZCXkvSdJoNFn/8Ygbd9fKNQj8UzLdCETaI0UWPAjK7IA==}
     dependencies:
-      '@types/node': 18.16.15
+      '@types/node': 20.2.5
 
   /@types/istanbul-lib-coverage@2.0.4:
     resolution: {integrity: sha512-z/QT1XN4K4KYuslS23k62yDIDLwLFkzxOuMplDtObz0+y7VqJCaO2o+SPwHCvLFZh7xazvvoor2tA/hPz9ee7g==}
@@ -10470,7 +10469,7 @@ packages:
   /@types/keyv@3.1.4:
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
     dependencies:
-      '@types/node': 18.16.15
+      '@types/node': 20.2.5
 
   /@types/lodash.clonedeep@4.5.7:
     resolution: {integrity: sha512-ccNqkPptFIXrpVqUECi60/DFxjNKsfoQxSQsgcBJCX/fuX1wgyQieojkcWH/KpE3xzLoWN/2k+ZeGqIN3paSvw==}
@@ -10506,6 +10505,10 @@ packages:
     resolution: {integrity: sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==}
     dev: false
 
+  /@types/node@18.15.13:
+    resolution: {integrity: sha512-N+0kuo9KgrUQ1Sn/ifDXsvg0TTleP7rIy4zOBGECxAljqvqfqpTfzx0Q1NUedOixRMBfe2Whhb056a42cWs26Q==}
+    dev: false
+
   /@types/node@18.16.15:
     resolution: {integrity: sha512-fv9H0101Lom0m76x5UekmudO0Vu611ElbTCLOeSbyX5WM6sme3gJ10PHP83pA1/eXbZpnDoTkeY40jykH38ptQ==}
 
@@ -10525,7 +10528,7 @@ packages:
   /@types/pbkdf2@3.1.0:
     resolution: {integrity: sha512-Cf63Rv7jCQ0LaL8tNXmEyqTHuIJxRdlS5vMh1mj5voN4+QFhVZnlZruezqpWYDiJ8UTzhP0VmeLXCmBk66YrMQ==}
     dependencies:
-      '@types/node': 18.16.15
+      '@types/node': 20.2.5
 
   /@types/prettier@2.7.3:
     resolution: {integrity: sha512-+68kP9yzs4LMp7VNh8gdzMSPZFL44MLGqiHWvttYJe+6qnuVr4Ek9wSBQoveqY/r+LwjCcU29kNVkidwim+kYA==}
@@ -10590,7 +10593,7 @@ packages:
   /@types/responselike@1.0.0:
     resolution: {integrity: sha512-85Y2BjiufFzaMIlvJDvTTB8Fxl2xfLo4HgmHzVBz08w4wDePCTjYw66PdrolO0kzli3yam/YCgRufyo1DdQVTA==}
     dependencies:
-      '@types/node': 18.16.15
+      '@types/node': 20.2.5
 
   /@types/retry@0.12.0:
     resolution: {integrity: sha512-wWKOClTTiizcZhXnPY4wikVAwmdYHp8q6DmC+EJUzAMsycb7HB32Kh9RN4+0gExjmPmZSAQjgURXIGATPegAvA==}
@@ -10598,7 +10601,7 @@ packages:
   /@types/sax@1.2.4:
     resolution: {integrity: sha512-pSAff4IAxJjfAXUG6tFkO7dsSbTmf8CtUpfhhZ5VhkRpC4628tJhh3+V6H1E+/Gs9piSzYKT5yzHO5M4GG9jkw==}
     dependencies:
-      '@types/node': 18.16.15
+      '@types/node': 17.0.45
     dev: false
 
   /@types/scheduler@0.16.3:
@@ -10633,7 +10636,7 @@ packages:
   /@types/sockjs@0.3.33:
     resolution: {integrity: sha512-f0KEEe05NvUnat+boPTZ0dgaLZ4SfSouXUgv5noUiefG2ajgKjmETo9ZJyuqsl7dfl2aHlLJUiki6B4ZYldiiw==}
     dependencies:
-      '@types/node': 18.16.15
+      '@types/node': 20.2.5
 
   /@types/stack-utils@2.0.1:
     resolution: {integrity: sha512-Hl219/BT5fLAaz6NDkSuhzasy49dwQS/DSdu4MdggFB8zcXv7vflBI3xp7FEmkmdDkBUI2bPUNeMttp2knYdxw==}
@@ -10680,7 +10683,7 @@ packages:
   /@types/ws@8.5.4:
     resolution: {integrity: sha512-zdQDHKUgcX/zBc4GrwsE/7dVdAD8JR4EuiAXiiUhhfyIJXXb2+PrGshFyeXWQPMmmZ2XxgaqclgpIC7eTXc1mg==}
     dependencies:
-      '@types/node': 18.16.15
+      '@types/node': 20.2.5
 
   /@types/yargs-parser@21.0.0:
     resolution: {integrity: sha512-iO9ZQHkZxHn4mSakYV0vFHAVDyEOIJQrV2uZ06HxEPcx+mt8swXoZHIbaaJ2crJYFfErySgktuTZ3BeLz+XmFA==}
@@ -11090,7 +11093,7 @@ packages:
       '@veramo/utils': 5.2.0
       canonicalize: 2.0.0
       debug: 4.3.4
-      did-jwt: 6.11.5
+      did-jwt: 6.11.6
       did-jwt-vc: 3.2.1
       did-resolver: 4.1.0
       uint8arrays: 3.1.1
@@ -11183,7 +11186,7 @@ packages:
       '@veramo/utils': 5.2.0
       cross-fetch: 3.1.6(patch_hash=iqh6pvemik3ebzneirvlerj7uq)
       debug: 4.3.4
-      did-jwt: 6.11.5
+      did-jwt: 6.11.6
       did-resolver: 4.1.0
       uint8arrays: 3.1.1
       uuid: 9.0.0
@@ -11206,7 +11209,7 @@ packages:
       '@veramo/core-types': 5.1.2
       '@veramo/message-handler': 5.1.2
       debug: 4.3.4
-      did-jwt: 6.11.5
+      did-jwt: 6.11.6
       did-resolver: 4.1.0
     transitivePeerDependencies:
       - supports-color
@@ -11339,7 +11342,7 @@ packages:
       '@stablelib/ed25519': 1.0.3
       '@veramo/core-types': 5.1.2
       debug: 4.3.4
-      did-jwt: 6.11.5
+      did-jwt: 6.11.6
       uint8arrays: 3.1.1
       uuid: 9.0.0
     transitivePeerDependencies:
@@ -11363,7 +11366,7 @@ packages:
       '@veramo/key-manager': 5.1.2
       base-58: 0.0.1
       debug: 4.3.4
-      did-jwt: 6.11.5
+      did-jwt: 6.11.6
       elliptic: 6.5.4
       uint8arrays: 3.1.1
     transitivePeerDependencies:
@@ -11415,7 +11418,7 @@ packages:
       '@veramo/message-handler': 5.1.2
       '@veramo/utils': 5.2.0
       debug: 4.3.4
-      did-jwt: 6.11.5
+      did-jwt: 6.11.6
       uuid: 9.0.0
     transitivePeerDependencies:
       - encoding
@@ -11446,7 +11449,7 @@ packages:
       credential-status: 2.0.5
       cross-fetch: 3.1.6(patch_hash=iqh6pvemik3ebzneirvlerj7uq)
       debug: 4.3.4
-      did-jwt: 6.11.5
+      did-jwt: 6.11.6
       did-jwt-vc: 3.2.1
       did-resolver: 4.1.0
       elliptic: 6.5.4
@@ -11705,8 +11708,8 @@ packages:
   /aes-js@3.0.0:
     resolution: {integrity: sha512-H7wUZRn8WpTq9jocdxQ2c8x2sKo9ZVmzfRE13GiNJXfp7NcKYEdvl3vspKjXox6RIG2VtaRe4JFvxG4rqp2Zuw==}
 
-  /aes-js@4.0.0-beta.3:
-    resolution: {integrity: sha512-/xJX0/VTPcbc5xQE2VUP91y1xN8q/rDfhEzLm+vLc3hYvb5+qHCnpJRuFcrKn63zumK/sCwYYzhG8HP78JYSTA==}
+  /aes-js@4.0.0-beta.5:
+    resolution: {integrity: sha512-G965FqalsNyrPqgEGON7nIx1e/OVENSgiEIzyC63haUMuvNnwIgIjMs52hlTCKhkBny7A2ORNlfY9Zu+jmGk1Q==}
     dev: false
 
   /agent-base@6.0.2:
@@ -13922,7 +13925,7 @@ packages:
   /credential-status@2.0.5:
     resolution: {integrity: sha512-hh0pOcRidROn4MC1wF3vNURhPEMSzm3RcpFIl5PFVj5HWgCaZy16nXmrOl5cmr50Jhp2WV48cWbNMxh4OFWU+w==}
     dependencies:
-      did-jwt: 6.11.5
+      did-jwt: 6.11.6
       did-resolver: 4.1.0
 
   /credentials-context@2.0.0:
@@ -14579,22 +14582,6 @@ packages:
       did-jwt: 7.2.0
       did-resolver: 4.1.0
 
-  /did-jwt@6.11.5:
-    resolution: {integrity: sha512-7Ew4rftHd2RTxLDfAjN6cz0wCMjTzmRBOtFBVuXUPguJF6ct01hJqlM1fr+IuI+bW7gH9QSeh9kDrvlOJnkf9w==}
-    dependencies:
-      '@stablelib/ed25519': 1.0.3
-      '@stablelib/random': 1.0.2
-      '@stablelib/sha256': 1.0.1
-      '@stablelib/x25519': 1.0.3
-      '@stablelib/xchacha20poly1305': 1.0.1
-      bech32: 2.0.0
-      canonicalize: 1.0.8
-      did-resolver: 4.1.0
-      elliptic: 6.5.4
-      js-sha3: 0.8.0
-      multiformats: 9.9.0
-      uint8arrays: 3.1.1
-
   /did-jwt@6.11.6:
     resolution: {integrity: sha512-OfbWknRxJuUqH6Lk0x+H1FsuelGugLbBDEwsoJnicFOntIG/A4y19fn0a8RLxaQbWQ5gXg0yDq5E2huSBiiXzw==}
     dependencies:
@@ -14610,7 +14597,6 @@ packages:
       js-sha3: 0.8.0
       multiformats: 9.9.0
       uint8arrays: 3.1.1
-    dev: false
 
   /did-jwt@7.2.0:
     resolution: {integrity: sha512-VLtK4eJKm7eRB4SmQrGJwhqlmxKGqGfoNjc711Guiw6aVIryziYzBj01bDHw1rJO9bJQ53Q0CWlXAVpgmOa7KQ==}
@@ -14623,10 +14609,6 @@ packages:
       did-resolver: 4.1.0
       multiformats: 11.0.2
       uint8arrays: 4.0.3
-
-  /did-resolver@4.0.1:
-    resolution: {integrity: sha512-eHs2VLKhcANmh08S87PKvOauIAmSOd7nb7AlhNxcvOyDAIGQY1UfbiqI1VOW5IDKvOO6aEWY+5edOt1qrCp1Eg==}
-    dev: false
 
   /did-resolver@4.1.0:
     resolution: {integrity: sha512-S6fWHvCXkZg2IhS4RcVHxwuyVejPR7c+a4Go0xbQ9ps5kILa8viiYQgrM4gfTyeTjJ0ekgJH9gk/BawTpmkbZA==}
@@ -15678,14 +15660,15 @@ packages:
       - utf-8-validate
     dev: false
 
-  /ethers@6.0.8:
-    resolution: {integrity: sha512-j5smdMwn4t4vEARcfUv54mTJ2NMCorYLL51wPjFInEnrRr2SF5Sl9a7Z4DXS8UO1fBJVGHnjDDrF1b7msY3f7Q==}
+  /ethers@6.4.0:
+    resolution: {integrity: sha512-nksaMCwX+BOdV2NQ1/57OehSD2JtujbhrdC2+Fb9VpvBO0WO6h+WWwu3oMMw7aUiTa5lvQcWX1vl4aOy7Q3CTg==}
     engines: {node: '>=14.0.0'}
     dependencies:
-      '@adraffy/ens-normalize': 1.8.9
+      '@adraffy/ens-normalize': github.com/ricmoo/ens-normalize.js/2d040533e57e4f25f9a7cc4715e219658ad454b5
       '@noble/hashes': 1.1.2
       '@noble/secp256k1': 1.7.1
-      aes-js: 4.0.0-beta.3
+      '@types/node': 18.15.13
+      aes-js: 4.0.0-beta.5
       tslib: 2.4.0
       ws: 8.5.0
     transitivePeerDependencies:
@@ -15749,7 +15732,7 @@ packages:
     resolution: {integrity: sha512-EzV94NYKoO09GLXGjXj9JIlXijVck4ONSr5wiCWDvhsvj5jxSrzTmRU/9C1DyB6uToszLs8aifA6NQ7lEQdvFw==}
     engines: {node: '>= 0.8'}
     dependencies:
-      '@types/node': 18.16.15
+      '@types/node': 20.2.5
       require-like: 0.1.2
 
   /event-stream@4.0.1:
@@ -26951,6 +26934,12 @@ packages:
 
   /zwitch@1.0.5:
     resolution: {integrity: sha512-V50KMwwzqJV0NpZIZFwfOD5/lyny3WlSzRiXgA0G7VUnRlqttta1L6UQIHzd6EuBY/cHGfwTIck7w1yH6Q5zUw==}
+
+  github.com/ricmoo/ens-normalize.js/2d040533e57e4f25f9a7cc4715e219658ad454b5:
+    resolution: {tarball: https://codeload.github.com/ricmoo/ens-normalize.js/tar.gz/2d040533e57e4f25f9a7cc4715e219658ad454b5}
+    name: '@adraffy/ens-normalize'
+    version: 1.9.0
+    dev: false
 
   github.com/uport-project/EcdsaSecp256k1RecoverySignature2020/ab0db52de6f4e6663ef271a48009ba26e688ef9b(expo@48.0.19)(react-native@0.71.8):
     resolution: {tarball: https://codeload.github.com/uport-project/EcdsaSecp256k1RecoverySignature2020/tar.gz/ab0db52de6f4e6663ef271a48009ba26e688ef9b}

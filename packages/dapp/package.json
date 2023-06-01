@@ -29,7 +29,7 @@
     "@tanstack/react-table": "^8.9.1",
     "@veramo/core": "5.2.0",
     "clsx": "^1.2.1",
-    "ethers": "^6.0.8",
+    "ethers": "^6.4.0",
     "next": "13.4.4",
     "next-intl": "^2.14.6",
     "next-themes": "^0.2.1",

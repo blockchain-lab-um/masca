@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@veramo/utils": "5.2.0",
-    "did-resolver": "4.0.1",
+    "did-resolver": "4.1.0",
     "elliptic": "^6.5.4",
     "multiformats": "11.0.2",
     "secp256k1": "5.0.0"

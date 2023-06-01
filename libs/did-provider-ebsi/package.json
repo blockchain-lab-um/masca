@@ -43,7 +43,7 @@
     "@veramo/utils": "5.2.0",
     "did-resolver": "4.1.0",
     "elliptic": "^6.5.4",
-    "ethers": "5.7.2",
+    "ethers": "6.4.0",
     "jose": "^4.14.4",
     "multiformats": "^11.0.2",
     "uuid": "^9.0.0"

@@ -1,6 +1,6 @@
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { IDIDManagerCreateArgs } from '@veramo/core';
-import { keccak256 } from 'ethers/lib/utils';
+import { keccak256 } from 'ethers';
 
 import { MascaState } from '../interfaces';
 import { getAgent } from '../veramo/setup';
