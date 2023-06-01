@@ -22,7 +22,7 @@ jobs:
     with:
       pnpm-version: 8.6.0
       node-version: 18.16.0
-      number-of-agents: 3
+      number-of-agents: 4
       main-branch-name: 'develop'
       init-commands: |
         pnpm nx-cloud start-ci-run --stop-agents-after="build" --agent-count=4
