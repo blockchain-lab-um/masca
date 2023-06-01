@@ -59,7 +59,7 @@
     "@blockchain-lab-um/oidc-types": "*",
     "@blockchain-lab-um/utils": "*",
     "@blockchain-lab-um/veramo-datamanager": "*",
-    "@cef-ebsi/key-did-resolver": "^1.0.0",
+    "@cef-ebsi/key-did-resolver": "^1.1.0",
     "@ceramicnetwork/http-client": "2.22.0",
     "@ceramicnetwork/streamid": "2.14.0",
     "@didtools/pkh-ethereum": "^0.3.0",
