@@ -61,7 +61,7 @@
     "@nx/devkit": "16.2.2",
     "@nx/jest": "16.2.2",
     "@types/eslint": "^8.40.0",
-    "@types/jest": "^29.5.1",
+    "@types/jest": "^29.5.2",
     "@types/node": "^18.16.15",
     "@typescript-eslint/eslint-plugin": "^5.59.7",
     "@typescript-eslint/parser": "^5.59.7",
