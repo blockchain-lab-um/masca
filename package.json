@@ -57,7 +57,7 @@
     "@commitlint/cli": "^17.6.3",
     "@commitlint/config-conventional": "^17.6.3",
     "@ianvs/prettier-plugin-sort-imports": "^4.0.1",
-    "@nrwl/nx-cloud": "16.0.5",
+    "@nrwl/nx-cloud": "^16.0.5",
     "@nx/devkit": "16.3.0",
     "@nx/jest": "16.3.0",
     "@types/eslint": "^8.40.0",
