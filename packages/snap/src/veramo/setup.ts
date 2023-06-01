@@ -55,6 +55,7 @@ import { Resolver } from 'did-resolver';
 import { ethers } from 'ethers';
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver';
 
+import { getUniversalDidResolver as universalDidResolver } from '../did/universal/universalDidResolver';
 import { getCurrentAccount, getEnabledVCStores } from '../utils/snapUtils';
 import { getSnapState } from '../utils/stateUtils';
 import { CeramicVCStore } from './plugins/ceramicDataStore/ceramicDataStore';
@@ -144,6 +145,7 @@ export const getAgent = async (
           ...pkhDidResolver(),
           // ...ebsiDidResolver(),
           ...jwkDidResolver(),
+          ...universalDidResolver(),
         }),
       }),
       new DIDManager({
