@@ -48,7 +48,7 @@
     "@veramo/kms-local": "5.1.2",
     "@veramo/message-handler": "5.1.2",
     "@veramo/utils": "5.2.0",
-    "better-sqlite3": "^8.3.0",
+    "better-sqlite3": "^8.4.0",
     "class-transformer": "^0.5.1",
     "did-jwt": "^6.11.5",
     "did-resolver": "^4.1.0",

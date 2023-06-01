@@ -49,7 +49,7 @@
     "@veramo/kms-local": "5.1.2",
     "@veramo/message-handler": "5.1.2",
     "@veramo/utils": "5.2.0",
-    "better-sqlite3": "^8.3.0",
+    "better-sqlite3": "^8.4.0",
     "did-resolver": "^4.0.1",
     "elliptic": "^6.5.4",
     "ethereum-cryptography": "^2.0.0",
