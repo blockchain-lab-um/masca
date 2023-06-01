@@ -51,7 +51,7 @@
     "test:ci": "pnpm run test --silent --coverage"
   },
   "dependencies": {
-    "@babel/runtime": "7.22.0",
+    "@babel/runtime": "7.22.3",
     "@blockchain-lab-um/did-provider-ebsi": "*",
     "@blockchain-lab-um/did-provider-key": "*",
     "@blockchain-lab-um/masca-types": "*",
