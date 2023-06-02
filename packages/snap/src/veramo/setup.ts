@@ -19,6 +19,7 @@ import {
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import {
+  ICredentialVerifier,
   IDIDManager,
   IDataStore,
   IKeyManager,
@@ -71,6 +72,7 @@ export type Agent = TAgent<
     IResolver &
     IDataManager &
     ICredentialIssuer &
+    ICredentialVerifier &
     IOIDCClientPlugin
 >;
 

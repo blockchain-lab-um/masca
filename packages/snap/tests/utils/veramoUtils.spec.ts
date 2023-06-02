@@ -3,7 +3,7 @@ import { DIDDataStore } from '@glazed/did-datastore';
 import { BIP44CoinTypeNode } from '@metamask/key-tree/dist/BIP44CoinTypeNode';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
-import { IIdentifier, IVerifyResult } from '@veramo/core';
+import { IIdentifier } from '@veramo/core';
 import { StoredCredentials } from 'src/interfaces';
 
 import * as snapUtils from '../../src/utils/snapUtils';
@@ -20,6 +20,7 @@ import { getAgent } from '../../src/veramo/setup';
 import {
   address,
   bip44Entropy,
+  didWebVC,
   exampleDID,
   exampleImportedDIDWIthoutPrivateKey,
   exampleVC,
@@ -783,6 +784,17 @@ describe('Utils [veramo]', () => {
       expect.assertions(1);
     });
 
+    it('should succeed validating a VC signed by an unsupported DID - JWT', async () => {
+      const verifyResult = await veramoVerifyData({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        data: { credential: didWebVC },
+      });
+
+      expect(verifyResult.verified).toBe(true);
+      expect.assertions(1);
+    });
+
     it('should succeed validating a VC - Eip712', async () => {
       const agent = await getAgent(snapMock, ethereumMock);
       const identity: IIdentifier = await agent.didManagerCreate({
@@ -965,9 +977,9 @@ describe('Utils [veramo]', () => {
       );
       expect(createdVP).not.toBeNull();
 
-      const verifyResult = (await agent.verifyPresentation({
+      const verifyResult = await agent.verifyPresentation({
         presentation: createdVP,
-      })) as IVerifyResult;
+      });
 
       expect(verifyResult.verified).toBe(true);
 
@@ -1037,9 +1049,9 @@ describe('Utils [veramo]', () => {
       );
       expect(createdVP).not.toBeNull();
 
-      const verifyResult = (await agent.verifyPresentation({
+      const verifyResult = await agent.verifyPresentation({
         presentation: createdVP,
-      })) as IVerifyResult;
+      });
 
       expect(verifyResult.verified).toBe(true);
 
@@ -1069,9 +1081,9 @@ describe('Utils [veramo]', () => {
       );
       expect(createdVP).not.toBeNull();
 
-      const verifyResult = (await agent.verifyPresentation({
+      const verifyResult = await agent.verifyPresentation({
         presentation: createdVP,
-      })) as IVerifyResult;
+      });
 
       expect(verifyResult.verified).toBe(true);
 
@@ -1101,9 +1113,9 @@ describe('Utils [veramo]', () => {
       );
       expect(createdVP).not.toBeNull();
 
-      const verifyResult = (await agent.verifyPresentation({
+      const verifyResult = await agent.verifyPresentation({
         presentation: createdVP,
-      })) as IVerifyResult;
+      });
 
       expect(createdVP?.verifiableCredential).toStrictEqual([
         exampleVCinVP,
@@ -1165,9 +1177,9 @@ describe('Utils [veramo]', () => {
       );
       expect(createdVP).not.toBeNull();
 
-      const verifyResult = (await agent.verifyPresentation({
+      const verifyResult = await agent.verifyPresentation({
         presentation: createdVP,
-      })) as IVerifyResult;
+      });
 
       expect(createdVP?.verifiableCredential).toStrictEqual([
         exampleVCinVP,
