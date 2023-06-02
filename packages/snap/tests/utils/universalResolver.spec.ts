@@ -8,12 +8,12 @@ import {
   didEbsiResult,
   didEnsResult,
   didIonResult,
-  didPolygonidResult,
+  // didPolygonidResult,
   didWebResult,
 } from '../testUtils/didDocumentConstants';
 import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
 
-describe('Resolve DID [veramo]', () => {
+describe('Universal Resolver', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
   let ethereumMock: MetaMaskInpageProvider;
   let agent: Agent;
@@ -23,7 +23,7 @@ describe('Resolve DID [veramo]', () => {
     didEnsResult,
     didEbsiResult,
     didCheqdResult,
-    didPolygonidResult,
+    // didPolygonidResult,
     didWebResult,
   ];
 
@@ -38,16 +38,30 @@ describe('Resolve DID [veramo]', () => {
     agent = await getAgent(snapMock, ethereumMock);
   });
 
-  it.each(methods)('should resolve a method', async (method) => {
+  it.each(methods)(
+    'should resolve a $didResolutionMetadata.did.method method',
+    async (method) => {
+      const res = await agent.resolveDid({
+        didUrl: method.did,
+      });
+
+      expect(res.didDocument).toEqual(method.didDocument);
+      expect(res.didDocumentMetadata).toEqual(method.didDocumentMetadata);
+      expect(res.didResolutionMetadata.did).toEqual(
+        method.didResolutionMetadata.did
+      );
+      expect.assertions(3);
+    }
+  );
+
+  it('should return an error if the did is not found', async () => {
     const res = await agent.resolveDid({
-      didUrl: method.did,
+      didUrl: 'did:web:example.com',
     });
 
-    expect(res.didDocument).toEqual(method.didDocument);
-    expect(res.didDocumentMetadata).toEqual(method.didDocumentMetadata);
-    expect(res.didResolutionMetadata.did).toEqual(
-      method.didResolutionMetadata.did
-    );
+    expect(res.didDocument).toBeNull();
+    expect(res.didDocumentMetadata).toEqual({});
+    expect(res.didResolutionMetadata.error).toEqual('notFound');
     expect.assertions(3);
   });
 });

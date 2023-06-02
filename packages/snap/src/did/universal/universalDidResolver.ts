@@ -12,18 +12,23 @@ export const resolveDid: DIDResolver = async (
   resolver: Resolvable,
   options: DIDResolutionOptions
 ): Promise<DIDResolutionResult> => {
-  const response = await fetch(
-    `https://dev.uniresolver.io/1.0/identifiers/${did}`
-  );
-  const data = (await response.json()) as DIDResolutionResult;
-  return data;
+  try {
+    const response = await fetch(
+      `https://dev.uniresolver.io/1.0/identifiers/${did}`
+    );
+    const data = (await response.json()) as DIDResolutionResult;
+    return data;
+  } catch (e) {
+    return {
+      didDocument: null,
+      didDocumentMetadata: {},
+      didResolutionMetadata: {
+        error: 'couldnt resolve did',
+      },
+    };
+  }
 };
 
-/**
- * Provides a mapping to a did:jwk resolver, usable by {@link did-resolver#Resolver}.
- *
- * @public
- */
 export function getUniversalDidResolver() {
   return {
     ens: resolveDid,
