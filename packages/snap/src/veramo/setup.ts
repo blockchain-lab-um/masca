@@ -124,6 +124,7 @@ export const getAgent = async (
       IResolver &
       IDataManager &
       ICredentialIssuer &
+      ICredentialVerifier &
       IOIDCClientPlugin
   >({
     plugins: [
