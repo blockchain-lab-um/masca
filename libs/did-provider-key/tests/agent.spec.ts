@@ -3,9 +3,9 @@ import {
   createAgent,
   type IAgentOptions,
   type ICredentialPlugin,
-  type IDIDManager,
   type IDataStore,
   type IDataStoreORM,
+  type IDIDManager,
   type IKeyManager,
   type IResolver,
   type TAgent,
@@ -15,8 +15,8 @@ import {
   DIDStore,
   Entities,
   KeyStore,
-  PrivateKeyStore,
   migrations,
+  PrivateKeyStore,
 } from '@veramo/data-store';
 import { DIDManager } from '@veramo/did-manager';
 import { DIDResolverPlugin } from '@veramo/did-resolver';
@@ -25,7 +25,7 @@ import { KeyManagementSystem, SecretBox } from '@veramo/kms-local';
 import { Resolver } from 'did-resolver';
 import { DataSource, type DataSourceOptions } from 'typeorm';
 
-import { MascaKeyDidProvider, getMascaDidKeyResolver } from '../src/index.js';
+import { getMascaDidKeyResolver, MascaKeyDidProvider } from '../src/index.js';
 import plugin from './plugin';
 
 jest.setTimeout(60000);

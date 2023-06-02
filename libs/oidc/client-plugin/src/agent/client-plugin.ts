@@ -17,7 +17,6 @@ import type { IAgentPlugin } from '@veramo/core';
 import { fetch } from 'cross-fetch';
 import qs from 'qs';
 
-import type { IOIDCClientPlugin } from '../types/IOIDCClientPlugin.js';
 import type {
   CreateIdTokenArgs,
   CreatePresentationSubmissionArgs,
@@ -30,6 +29,7 @@ import type {
   SendOIDCAuthorizationResponseArgs,
   SendTokenRequestArgs,
 } from '../types/internal.js';
+import type { IOIDCClientPlugin } from '../types/IOIDCClientPlugin.js';
 
 const pex: PEX = new PEX();
 

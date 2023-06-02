@@ -18,8 +18,8 @@ import type {
 import { AbstractIdentifierProvider } from '@veramo/did-manager';
 
 import {
-  KEY_TYPE_TO_MULTICODEC_NAME,
   isSupportedKeyType,
+  KEY_TYPE_TO_MULTICODEC_NAME,
   type ICreateKeyDidOptions,
 } from './types/keyDidTypes.js';
 

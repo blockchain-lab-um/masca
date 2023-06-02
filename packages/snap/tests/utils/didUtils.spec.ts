@@ -21,7 +21,7 @@ import {
   resolutionMethodNotSupported,
   resolutionNotFound,
 } from '../testUtils/constants';
-import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
+import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
 
 const { ec: EC } = elliptic;
 

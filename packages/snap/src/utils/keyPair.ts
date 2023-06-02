@@ -4,7 +4,7 @@ import {
   getBIP44AddressKeyDeriver,
 } from '@metamask/key-tree';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
-import { ethers } from 'ethers';
+import { Wallet } from 'ethers';
 import { MascaState } from 'src/interfaces';
 
 import { updateSnapState } from './stateUtils';
@@ -80,11 +80,11 @@ export const getKeysFromAddressIndex = async (
   const result = await getAddressKey(bip44CoinTypeNode, addressIndex);
   if (result === null) return null;
   const { privateKey, derivationPath } = result;
-  const snap = new ethers.Wallet(privateKey);
+  const snap = new Wallet(privateKey);
 
   return {
     privateKey,
-    publicKey: snap.publicKey,
+    publicKey: snap.signingKey.publicKey,
     address: snap.address,
     addressIndex,
     derivationPath,

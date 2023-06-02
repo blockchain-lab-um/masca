@@ -19,17 +19,13 @@
     "^@/stores",
     "^[./]"
   ],
-  "importOrderSeparation": false,
-  "importOrderSortSpecifiers": true,
-  "importOrderBuiltinModulesToTop": true,
   "importOrderParserPlugins": [
     "typescript",
     "jsx",
     "decorators-legacy",
     "importAssertions"
   ],
-  "importOrderMergeDuplicateImports": true,
-  "importOrderCombineTypeAndValueImports": true,
+  "importOrderTypeScriptVersion": "4.9.5",
   "plugins": [
     "prettier-plugin-packagejson",
     "@ianvs/prettier-plugin-sort-imports",

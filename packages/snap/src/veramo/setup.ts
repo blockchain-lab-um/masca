@@ -16,15 +16,16 @@ import {
   DataManager,
   IDataManager,
 } from '@blockchain-lab-um/veramo-datamanager';
+import { Web3Provider } from '@ethersproject/providers';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import {
-  IDIDManager,
+  createAgent,
   IDataStore,
+  IDIDManager,
   IKeyManager,
   IResolver,
   TAgent,
-  createAgent,
 } from '@veramo/core';
 import { CredentialIssuerEIP712 } from '@veramo/credential-eip712';
 // import {
@@ -51,8 +52,6 @@ import {
 } from '@veramo/key-manager';
 import { KeyManagementSystem } from '@veramo/kms-local';
 import { Resolver } from 'did-resolver';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { ethers } from 'ethers';
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver';
 
 import { getCurrentAccount, getEnabledVCStores } from '../utils/snapUtils';
@@ -87,15 +86,15 @@ export const getAgent = async (
   const networks = [
     {
       name: 'mainnet',
-      provider: new ethers.providers.Web3Provider(ethereum as any),
+      provider: new Web3Provider(ethereum as any),
     },
     {
       name: '0x05',
-      provider: new ethers.providers.Web3Provider(ethereum as any),
+      provider: new Web3Provider(ethereum as any),
     },
     {
       name: 'goerli',
-      provider: new ethers.providers.Web3Provider(ethereum as any),
+      provider: new Web3Provider(ethereum as any),
       chainId: '0x5',
     },
   ];
