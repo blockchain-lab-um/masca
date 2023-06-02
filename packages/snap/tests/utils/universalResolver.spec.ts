@@ -11,7 +11,7 @@ import {
   // didPolygonidResult,
   didWebResult,
 } from '../testUtils/didDocumentConstants';
-import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
+import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
 
 describe('Universal Resolver', () => {
   let snapMock: SnapsGlobalObject & SnapMock;

@@ -20,8 +20,8 @@ import { Web3Provider } from '@ethersproject/providers';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import {
-  ICredentialVerifier,
   createAgent,
+  ICredentialVerifier,
   IDataStore,
   IDIDManager,
   IKeyManager,
