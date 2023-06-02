@@ -3,6 +3,9 @@ import {
   CreateVCRequestParams,
   CreateVPRequestParams,
   DeleteVCsRequestParams,
+  isAvailableMethods,
+  isAvailableVCStores,
+  isSupportedProofFormat,
   QueryVCsRequestParams,
   ResolveDIDRequestParams,
   SaveVCRequestParams,
@@ -10,9 +13,6 @@ import {
   SetVCStoreRequestParams,
   SwitchMethodRequestParams,
   VerifyDataRequestParams,
-  isAvailableMethods,
-  isAvailableVCStores,
-  isSupportedProofFormat,
 } from '@blockchain-lab-um/masca-types';
 import { MascaState } from 'src/interfaces';
 

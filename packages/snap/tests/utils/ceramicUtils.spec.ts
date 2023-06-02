@@ -13,7 +13,7 @@ import {
   exampleVCinVP,
   getDefaultSnapState,
 } from '../testUtils/constants';
-import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
+import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
 
 describe('Utils [ceramic]', () => {
   let snapMock: SnapsGlobalObject & SnapMock;

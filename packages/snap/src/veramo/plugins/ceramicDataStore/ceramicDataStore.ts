@@ -1,13 +1,13 @@
 import {
   AbstractDataStore,
-  IFilterArgs,
-  IQueryResult,
+  type IFilterArgs,
+  type IQueryResult,
 } from '@blockchain-lab-um/veramo-datamanager';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { W3CVerifiableCredential } from '@veramo/core';
-import { sha256 } from 'ethereum-cryptography/sha256.js';
+import { sha256 } from 'ethereum-cryptography/sha256';
 import jsonpath from 'jsonpath';
 
 import { aliases, getCeramic } from '../../../utils/ceramicUtils';

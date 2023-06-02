@@ -16,27 +16,27 @@ concurrency:
 jobs:
   main:
     name: Nx Cloud - Main Job
-    uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.11.3
+    uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.13.0
     secrets:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     with:
-      pnpm-version: 7.30.0
-      node-version: 18.15.0
-      number-of-agents: 3
+      pnpm-version: 8.6.0
+      node-version: 18.16.0
+      number-of-agents: 4
       main-branch-name: 'develop'
       init-commands: |
-        pnpm nx-cloud start-ci-run --stop-agents-after="build" --agent-count=3
+        pnpm exec nx-cloud start-ci-run --stop-agents-after="build" --agent-count=4
       parallel-commands-on-agents: |
-        pnpm nx affected --target=lint --parallel=3
-        pnpm nx affected --target=test:ci --parallel=3
-        pnpm nx affected --target=build --parallel=3
+        pnpm exec nx affected --target=lint --parallel=4
+        pnpm exec nx affected --target=test:ci --parallel=4
+        pnpm exec nx affected --target=build --parallel=4
 
   agents:
     name: Nx Cloud - Agents
-    uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.11.3
+    uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.13.0
     secrets:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     with:
-      number-of-agents: 3
-      pnpm-version: 7.30.0
-      node-version: 18.15.0
+      number-of-agents: 4
+      pnpm-version: 8.6.0
+      node-version: 18.16.0

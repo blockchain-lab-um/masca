@@ -13,7 +13,7 @@ import {
 } from '@veramo/core';
 import { AbstractDIDStore } from '@veramo/did-manager';
 import { ManagedPrivateKey } from '@veramo/key-manager';
-import { sha256 } from 'ethereum-cryptography/sha256.js';
+import { sha256 } from 'ethereum-cryptography/sha256';
 import jsonpath from 'jsonpath';
 
 import { decodeJWT } from '../../../utils/jwt';

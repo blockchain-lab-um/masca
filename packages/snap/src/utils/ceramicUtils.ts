@@ -4,7 +4,7 @@ import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { DIDSession } from 'did-session';
 import { DID } from 'dids';
-import { ethers } from 'ethers';
+import { Wallet } from 'ethers';
 import { MascaState } from 'src/interfaces';
 
 import { getAddressKeyDeriver, snapGetKeysFromAddress } from './keyPair';
@@ -26,7 +26,7 @@ export const aliases = {
 
 class CustomProvider {
   constructor(
-    private readonly wallet: ethers.Wallet,
+    private readonly wallet: Wallet,
     private readonly metamask: MetaMaskInpageProvider
   ) {
     this.wallet = wallet;
@@ -79,7 +79,7 @@ async function authenticateWithEthers(params: {
   const { privateKey } = res;
 
   // Ethers is required to sign the DID auth message
-  const wallet = new ethers.Wallet(privateKey);
+  const wallet = new Wallet(privateKey);
 
   const customProvider = new CustomProvider(wallet, ethereum);
 

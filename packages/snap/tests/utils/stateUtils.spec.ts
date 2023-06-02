@@ -20,7 +20,7 @@ import {
   getDefaultSnapState,
   publicKey,
 } from '../testUtils/constants';
-import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
+import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
 
 describe('Utils [state]', () => {
   let snapMock: SnapsGlobalObject & SnapMock;

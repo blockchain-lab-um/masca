@@ -33,10 +33,6 @@ import {
 import qs from 'qs';
 
 import type {
-  IOIDCRPPlugin,
-  OIDCRPAgentContext,
-} from '../types/IOIDCRPPlugin.js';
-import type {
   CreateAuthorizationRequestArgs,
   CreateAuthorizationRequestResponse,
   CreateCredentialOfferRequestArgs,
@@ -50,6 +46,10 @@ import type {
   ProofOfPossesionArgs,
   ProofOfPossesionResponseArgs,
 } from '../types/internal.js';
+import type {
+  IOIDCRPPlugin,
+  OIDCRPAgentContext,
+} from '../types/IOIDCRPPlugin.js';
 import DetailedError from '../utils/detailedError.js';
 import type { Result } from '../utils/index.js';
 
