@@ -25,12 +25,12 @@ import {
   exampleImportedDIDWIthoutPrivateKey,
   exampleVC,
   exampleVCEIP712,
-  exampleVCJSONLD,
   exampleVCinVP,
+  exampleVCJSONLD,
   getDefaultSnapState,
   jsonPath,
 } from '../testUtils/constants';
-import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
+import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
 
 describe('Utils [veramo]', () => {
   let snapMock: SnapsGlobalObject & SnapMock;

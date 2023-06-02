@@ -1,11 +1,11 @@
 import { IOIDCRPPlugin, OIDCRPPlugin } from '@blockchain-lab-um/oidc-rp-plugin';
 import {
+  createAgent,
   ICredentialPlugin,
   IDIDManager,
   IKeyManager,
   IResolver,
   TAgent,
-  createAgent,
 } from '@veramo/core';
 import {
   CredentialIssuerEIP712,
@@ -23,12 +23,12 @@ import {
   DIDStore,
   Entities,
   KeyStore,
-  PrivateKeyStore,
   migrations,
+  PrivateKeyStore,
 } from '@veramo/data-store';
 import { DIDManager } from '@veramo/did-manager';
 import { EthrDIDProvider } from '@veramo/did-provider-ethr';
-import { KeyDIDProvider, getDidKeyResolver } from '@veramo/did-provider-key';
+import { getDidKeyResolver, KeyDIDProvider } from '@veramo/did-provider-key';
 import { DIDResolverPlugin } from '@veramo/did-resolver';
 import { KeyManager } from '@veramo/key-manager';
 import { KeyManagementSystem, SecretBox } from '@veramo/kms-local';

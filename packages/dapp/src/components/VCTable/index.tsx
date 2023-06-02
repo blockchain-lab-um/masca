@@ -16,7 +16,6 @@ import {
   TrashIcon,
 } from '@heroicons/react/24/outline';
 import {
-  SortingState,
   createColumnHelper,
   flexRender,
   getCoreRowModel,
@@ -26,6 +25,7 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  SortingState,
   useReactTable,
 } from '@tanstack/react-table';
 import { useTranslations } from 'next-intl';
@@ -39,8 +39,8 @@ import Tooltip from '@/components/Tooltip';
 import { convertTypes } from '@/utils/string';
 import { useMascaStore, useTableStore, useToastStore } from '@/stores';
 import TablePagination from './TablePagination';
-import VCCard from './VCCard';
 import { includesDataStore, selectRows } from './tableUtils';
+import VCCard from './VCCard';
 
 const Table = () => {
   const router = useRouter();
