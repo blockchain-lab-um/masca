@@ -3,7 +3,8 @@ import type {
   ProofFormat,
   VerifiableCredential,
 } from '@veramo/core';
-import type { Agent } from 'src/veramo/setup';
+
+import type { Agent } from '../../src/veramo/setup';
 
 /**
  * Test credentials
