@@ -18,6 +18,11 @@ import FormatedTab from '@/components/VC/tabs/FormatedTab';
 import JsonTab from '@/components/VC/tabs/JsonTab';
 import { useMascaStore } from '@/stores';
 
+// export const metadata: Metadata = {
+//   title: 'Verifiable Credential',
+//   description: 'Page to view a Verifiable Credential.',
+// };
+
 export default function Page() {
   const t = useTranslations('VerifiableCredential');
   const searchParams = useSearchParams();

@@ -13,6 +13,12 @@ import InputField from '@/components/InputField';
 import SelectCredentialsModal from '@/components/SelectCredentialsModal';
 import { useMascaStore, useToastStore } from '@/stores';
 
+// export const metadata: Metadata = {
+//   title: 'Authorization Request',
+//   description:
+//     'User interface to initiate the authorization flow using an OIDC Authorization Request URI.',
+// };
+
 export default function Page() {
   const api = useMascaStore((state) => state.mascaApi);
 

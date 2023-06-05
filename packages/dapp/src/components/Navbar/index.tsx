@@ -25,13 +25,13 @@ export default function Navbar() {
             <div className="relative h-[24px] w-[28px] rounded-full object-center sm:h-[36px] sm:w-[40px] lg:h-[46px] lg:w-[50px] xl:h-[48px] xl:w-[54px]">
               <Image
                 className="dark:hidden"
-                src={'/images/ssi_icon_b.png'}
+                src={'/images/masca_black.png'}
                 alt="Masca Logo"
                 fill={true}
               />
               <Image
                 className="hidden dark:block"
-                src={'/images/ssi_icon_w.png'}
+                src={'/images/masca_white.png'}
                 alt="Masca Logo"
                 fill={true}
               />

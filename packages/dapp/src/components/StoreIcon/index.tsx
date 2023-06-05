@@ -6,7 +6,7 @@ type StoreIconProps = {
 };
 
 const logo: Record<string, string> = {
-  snap: 'ssi_icon_b.png',
+  snap: 'masca_black.png',
   ceramic: 'ceramic_logo.png',
 };
 

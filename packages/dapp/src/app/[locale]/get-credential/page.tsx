@@ -11,6 +11,12 @@ import ConnectedProvider from '@/components/ConnectedProvider';
 import InputField from '@/components/InputField';
 import { useMascaStore, useToastStore } from '@/stores';
 
+// export const metadata: Metadata = {
+//   title: 'Get Credential',
+//   description:
+//     'User interface to get a credential using OIDC Credential Offer URI.',
+// };
+
 export default async function Page() {
   const api = useMascaStore((state) => state.mascaApi);
   const { setTitle, setText, setLoading, setToastOpen, setType } =

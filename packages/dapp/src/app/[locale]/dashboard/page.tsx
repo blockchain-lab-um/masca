@@ -1,6 +1,13 @@
+import { Metadata } from 'next';
+
 import ConnectedProvider from '@/components/ConnectedProvider';
 import Controlbar from '@/components/Controlbar/Controlbar';
 import Table from '@/components/VCTable';
+
+export const metadata: Metadata = {
+  title: 'Dashboard',
+  description: 'Dashboard for Masca Dapp.',
+};
 
 export default function Page() {
   return (

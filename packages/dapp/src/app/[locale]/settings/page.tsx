@@ -9,6 +9,11 @@ import ConnectedProvider from '@/components/ConnectedProvider';
 import ToggleSwitch from '@/components/Switch';
 import { useMascaStore, useToastStore } from '@/stores';
 
+// export const metadata: Metadata = {
+//   title: 'Settings',
+//   description: "Settings page for changing Masca's configuration.",
+// };
+
 export default function Page() {
   const t = useTranslations('Settings');
   const { setTitle, setLoading, setToastOpen, setType } = useToastStore(

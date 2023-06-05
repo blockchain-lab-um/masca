@@ -30,6 +30,12 @@ const proofFormats: Record<string, SupportedProofFormats> = {
   EIP712Signature: 'EthereumEip712Signature2021',
 };
 
+// export const metadata: Metadata = {
+//   title: 'Create Verifiable Presentation',
+//   description:
+//     'Page to create a Verifiable Presentation from selected Verifiable Credentials.',
+// };
+
 export default function Page() {
   const t = useTranslations('CreateVerifiablePresentation');
   const [loading, setLoading] = useState(false);

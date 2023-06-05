@@ -1,5 +1,6 @@
 import '@/styles/globals.css';
 
+import { Metadata } from 'next';
 import { Cabin, JetBrains_Mono, Ubuntu } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import clsx from 'clsx';
@@ -29,6 +30,49 @@ const jetBrainsMono = JetBrains_Mono({
   display: 'swap',
   subsets: ['latin-ext'],
 });
+
+export const metadata: Metadata = {
+  title: {
+    default: 'Masca',
+    template: '%s | Masca',
+  },
+  description: 'Masca is a decentralized credential management platform.',
+  openGraph: {
+    title: 'Masca',
+    description: 'Masca is a decentralized credential management platform.',
+    locale: 'en_US',
+    url: 'https://masca.io',
+    siteName: 'Masca',
+    images: [
+      {
+        url: 'https://masca.xyz/images/masca_black.png',
+        width: 211,
+        height: 186,
+        alt: 'Masca Logo',
+      },
+    ],
+    type: 'website',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+    },
+  },
+  twitter: {
+    title: 'Masca',
+    card: 'summary_large_image',
+  },
+  icons: {
+    shortcut: '/images/masca_black.png',
+  },
+  verification: {
+    google: 'snsvYv9eAKOZ7FrIjpUSnUtqgoFiSXQWROVrStPBc8I',
+  },
+};
 
 export function generateStaticParams() {
   return [{ locale: 'en' }];
