@@ -1,0 +1,12 @@
+diff --git a/src/utils/form-data.js b/src/utils/form-data.js
+index 1fd23b0ad925feaa22f1c9e642a8f8068bda936a..90a8ff26d4fa64ea55a0f7e99b829f53967dd4de 100644
+--- a/src/utils/form-data.js
++++ b/src/utils/form-data.js
+@@ -1,6 +1,7 @@
+ import {randomBytes} from 'crypto';
+ 
+ import {isBlob} from './is.js';
++import {Buffer} from "node:buffer";
+ 
+ const carriage = '\r\n';
+ const dashes = '-'.repeat(2);
