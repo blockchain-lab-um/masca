@@ -8,7 +8,6 @@ import { NextIntlClientProvider } from 'next-intl';
 import Footer from '@/components/Footer';
 import MetaMaskProvider from '@/components/MetaMaskProvider';
 import Navbar from '@/components/Navbar';
-import StoreInitializer from '@/components/StoreInitializer';
 import ThemeProvider from '@/components/ThemeProvider';
 import ToastWrapper from '@/components/ToastWrapper';
 
@@ -60,7 +59,6 @@ export default async function LocaleLayout({
           'bg-gradient min-h-screen'
         )}
       >
-        <StoreInitializer />
         <NextIntlClientProvider locale={params.locale} messages={messages}>
           <ThemeProvider>
             <div className="flex h-screen flex-col">
