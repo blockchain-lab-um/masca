@@ -7,11 +7,13 @@ on:
     paths:
       - 'apps/oidc/issuer/**'
       - 'Dockerfile'
+      - .github/workflows/deploy_issuer.yml
   push:
     branches: [develop]
     paths:
       - 'packages/oidc/issuer/**'
       - 'Dockerfile'
+      - .github/workflows/deploy_issuer.yml
 
 jobs:
   deploy:

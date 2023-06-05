@@ -7,11 +7,13 @@ on:
     paths:
       - 'apps/oidc/verifier/**'
       - 'Dockerfile'
+      - .github/workflows/deploy_verifier.yml
   push:
     branches: [develop]
     paths:
       - 'packages/oidc/verifier/**'
       - 'Dockerfile'
+      - .github/workflows/deploy_verifier.yml
 
 jobs:
   deploy:
