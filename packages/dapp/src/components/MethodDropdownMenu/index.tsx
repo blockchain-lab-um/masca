@@ -1,3 +1,5 @@
+'use client';
+
 import { Fragment } from 'react';
 import type { AvailableMethods } from '@blockchain-lab-um/masca-types';
 import { isError } from '@blockchain-lab-um/utils';

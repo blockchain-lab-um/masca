@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import {
   AvailableVCStores,
@@ -13,16 +15,16 @@ import ImportModal from '@/components/ImportModal';
 import DataStoreCombobox from '@/components/VCTable/DataStoreCombobox';
 import GlobalFilter from '@/components/VCTable/GlobalFilter';
 import ViewTabs from '@/components/VCTable/ViewTabs';
-import { useMascaStore, useToastStore } from '@/stores';
+import { useGeneralStore, useMascaStore, useToastStore } from '@/stores';
 
-type ControlbarProps = {
-  vcs: QueryVCsRequestResult[];
-  isConnected: boolean;
-};
-
-const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
+const Controlbar = () => {
+  // Local state
   const [importModalOpen, setImportModalOpen] = useState(false);
   const [spinner, setSpinner] = useState(false);
+
+  // Stores
+  const isConnected = useGeneralStore((state) => state.isConnected);
+  const vcs = useMascaStore((state) => state.vcs);
   const { setTitle, setLoading, setToastOpen, setType } = useToastStore(
     (state) => ({
       setTitle: state.setTitle,

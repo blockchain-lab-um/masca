@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { Switch } from '@headlessui/react';
 import { Bars3Icon, Squares2X2Icon } from '@heroicons/react/20/solid';

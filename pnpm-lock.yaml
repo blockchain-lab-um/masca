@@ -1160,11 +1160,11 @@ importers:
         specifier: ^6.4.0
         version: 6.4.0
       next:
-        specifier: 13.4.4
+        specifier: ~13.4.4
         version: 13.4.4(@babel/core@7.22.1)(react-dom@18.2.0)(react@18.2.0)(sass@1.62.1)
       next-intl:
-        specifier: ^2.14.6
-        version: 2.14.6(next@13.4.4)(react@18.2.0)
+        specifier: 2.15.0-beta.5
+        version: 2.15.0-beta.5(next@13.4.4)(react@18.2.0)
       next-themes:
         specifier: ^0.2.1
         version: 0.2.1(next@13.4.4)(react-dom@18.2.0)(react@18.2.0)
@@ -20479,8 +20479,8 @@ packages:
     resolution: {integrity: sha512-SrQrok4CATudVzBS7coSz26QRSmlK9TzzoFbeKfcPBUFPjcQM9Rqvr/DlJkOrwI/0KcgvMub1n1g5Jt9EgRn4A==}
     optional: true
 
-  /next-intl@2.14.6(next@13.4.4)(react@18.2.0):
-    resolution: {integrity: sha512-RZgQQMAUlGWmPx6gequHRCZf7NKD6ixCskyovRd1AMx0UeNqAZggbL7nFsGA8M7mZbE0twv3+4JLrPse8xbwsg==}
+  /next-intl@2.15.0-beta.5(next@13.4.4)(react@18.2.0):
+    resolution: {integrity: sha512-E6k/+ta9/RVNhQJnHLY+WZbDyygp4mICsqrMCsRyMfuOm9h+uonNmrM8Blc0PiX0plAF6oKc9OtH90/eVaPRYA==}
     engines: {node: '>=10'}
     peerDependencies:
       next: ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0
@@ -20490,6 +20490,7 @@ packages:
       negotiator: 0.6.3
       next: 13.4.4(@babel/core@7.22.1)(react-dom@18.2.0)(react@18.2.0)(sass@1.62.1)
       react: 18.2.0
+      server-only: 0.0.1
       use-intl: 2.14.6(react@18.2.0)
     dev: false
 
@@ -23740,6 +23741,10 @@ packages:
       send: 0.18.0
     transitivePeerDependencies:
       - supports-color
+
+  /server-only@0.0.1:
+    resolution: {integrity: sha512-qepMx2JxAa5jjfzxG79yPPq+8BuFToHd1hm7kI+Z4zAq1ftQiP7HcxMhDDItrbtwVeLg/cY2JnKnrcFkmiswNA==}
+    dev: false
 
   /ses@0.18.4:
     resolution: {integrity: sha512-Ph0PC38Q7uutHmMM9XPqA7rp/2taiRwW6pIZJwTr4gz90DtrBvy/x7AmNPH2uqNPhKriZpYKvPi1xKWjM9xJuQ==}

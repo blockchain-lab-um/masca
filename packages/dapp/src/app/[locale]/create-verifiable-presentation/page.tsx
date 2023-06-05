@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import Link from 'next/link';
 import {
@@ -28,7 +30,7 @@ const proofFormats: Record<string, SupportedProofFormats> = {
   EIP712Signature: 'EthereumEip712Signature2021',
 };
 
-const CreateVP = () => {
+export default function Page() {
   const t = useTranslations('CreateVerifiablePresentation');
   const [loading, setLoading] = useState(false);
   const [vpModalOpen, setVpModalOpen] = useState(false);
@@ -231,15 +233,4 @@ const CreateVP = () => {
       />
     </>
   );
-};
-
-export default CreateVP;
-
-export async function getStaticProps(context: { locale: any }) {
-  return {
-    props: {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/restrict-template-expressions
-      messages: (await import(`../../locales/${context.locale}.json`)).default,
-    },
-  };
 }

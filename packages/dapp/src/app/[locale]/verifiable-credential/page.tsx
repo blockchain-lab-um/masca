@@ -1,5 +1,7 @@
+'use client';
+
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Tab } from '@headlessui/react';
 import {
   ArrowDownTrayIcon,
@@ -16,14 +18,16 @@ import FormatedTab from '@/components/VC/tabs/FormatedTab';
 import JsonTab from '@/components/VC/tabs/JsonTab';
 import { useMascaStore } from '@/stores';
 
-const VC = () => {
+export default function Page() {
   const t = useTranslations('VerifiableCredential');
+  const searchParams = useSearchParams();
   const router = useRouter();
-  const { id } = router.query;
+  const id = searchParams.get('id');
   const vcs = useMascaStore((state) => state.vcs);
-  const vc = vcs.find((VCobj) => VCobj.metadata.id === id);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [modifyDSModalOpen, setModifyDSModalOpen] = useState(false);
+
+  const vc = vcs.find((VCobj) => VCobj.metadata.id === id);
 
   if (!vc) {
     return (
@@ -144,15 +148,4 @@ const VC = () => {
       </div>
     </div>
   );
-};
-
-export default VC;
-
-export async function getStaticProps(context: { locale: any }) {
-  return {
-    props: {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/restrict-template-expressions
-      messages: (await import(`../../locales/${context.locale}.json`)).default,
-    },
-  };
 }

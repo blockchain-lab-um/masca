@@ -27,14 +27,9 @@ const nextConfig = {
     domains: ['localhost'],
     loader: 'default',
   },
+  optimizeFonts: true,
   experimental: {
-    fontLoaders: [
-      { loader: '@next/font/google', options: { subsets: ['latin'] } },
-    ],
-  },
-  i18n: {
-    locales: ['en', 'si'],
-    defaultLocale: 'en',
+    appDir: true,
   },
   env: {
     USE_LOCAL: process.env.USE_LOCAL || 'false',

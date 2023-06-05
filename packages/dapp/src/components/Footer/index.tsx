@@ -1,16 +1,18 @@
+'use client';
+
 import React from 'react';
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 
 import { NavConnection } from '@/components/Navbar/NavConnection';
 import ToggleTheme from '@/components/ToggleTheme';
 
 const Footer = () => {
-  const router = useRouter();
+  const pathname = usePathname();
 
   return (
     <div
       className={`${
-        router.pathname === '/' ? 'hidden' : ''
+        pathname === '/' ? 'hidden' : ''
       } mt-auto flex items-center justify-between bg-orange-500/10 px-5 py-2 md:hidden`}
     >
       <ToggleTheme />

@@ -1,6 +1,4 @@
-import { useGeneralStore } from './generalStore';
-import { useMascaStore } from './snapStore';
-import { useTableStore } from './tableStore';
-import { useToastStore } from './toastStore';
-
-export { useGeneralStore, useMascaStore, useTableStore, useToastStore };
+export * from './generalStore';
+export * from './snapStore';
+export * from './tableStore';
+export * from './toastStore';

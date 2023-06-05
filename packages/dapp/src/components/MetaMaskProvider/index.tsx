@@ -1,5 +1,7 @@
+'use client';
+
 import React, { useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 import { enableMasca } from '@blockchain-lab-um/masca-connector';
 import { isError } from '@blockchain-lab-um/utils';
 import detectEthereumProvider from '@metamask/detect-provider';
@@ -10,7 +12,7 @@ import { useGeneralStore, useMascaStore } from '@/stores';
 import Button from '../Button';
 
 const snapId =
-  process.env.USE_LOCAL === 'true'
+  process.env.USE_LOCAL === 'false'
     ? 'local:http://localhost:8081'
     : 'npm:@blockchain-lab-um/masca';
 
@@ -63,7 +65,7 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
     shallow
   );
 
-  const router = useRouter();
+  const pathname = usePathname();
 
   const checkMetaMaskCompatibility = async () => {
     try {
@@ -179,7 +181,7 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
     });
   }, [hasMM, hasFlask, address]);
 
-  if (router.pathname === '/' || (hasMM && hasFlask)) {
+  if (pathname === '/' || (hasMM && hasFlask)) {
     return <>{children}</>;
   }
 

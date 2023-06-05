@@ -1,6 +1,8 @@
+'use client';
+
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-types';
 import { isError } from '@blockchain-lab-um/utils';
 import {
@@ -28,6 +30,7 @@ import {
   SortingState,
   useReactTable,
 } from '@tanstack/react-table';
+import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
@@ -435,34 +438,27 @@ const Table = () => {
                           cell.column.id !== 'issuer' &&
                           cell.column.id !== 'actions'
                         ) {
-                          router
-                            .push(
-                              {
-                                pathname: '/verifiable-credential',
-                                query: { id: row.original.metadata.id },
-                              },
-                              undefined,
-                              { shallow: true }
-                            )
-                            .then(() => {})
-                            .catch(() => {});
+                          router.push(
+                            `/verifiable-credential?id=${row.original.metadata.id}`
+                          );
                         }
                       }}
-                      className={`max-h-16 py-5  ${
+                      className={clsx(
+                        'max-h-16 py-5',
                         cell.column.id === 'exp_date' ||
-                        cell.column.id === 'date'
+                          cell.column.id === 'date'
                           ? 'hidden lg:table-cell'
+                          : '',
+                        cell.column.id === 'type'
+                          ? 'w-[20%] max-w-[20%] px-2'
+                          : '',
+                        cell.column.id === 'actions'
+                          ? 'hidden sm:table-cell'
+                          : '',
+                        cell.column.id === 'subject'
+                          ? 'hidden xl:table-cell'
                           : ''
-                      }
-                        ${
-                          cell.column.id === 'type'
-                            ? ' w-[20%] max-w-[20%] px-2'
-                            : ''
-                        }
-                  ${cell.column.id === 'actions' ? 'hidden sm:table-cell' : ''}
-                  ${
-                    cell.column.id === 'subject' ? 'hidden xl:table-cell' : ''
-                  }`}
+                      )}
                       key={cell.id}
                     >
                       {flexRender(
@@ -475,7 +471,7 @@ const Table = () => {
               ))}
             </tbody>
           </table>
-          <div className=" mt-auto flex justify-center rounded-b-3xl pb-3 pt-3">
+          <div className="mt-auto flex justify-center rounded-b-3xl pb-3 pt-3">
             <TablePagination table={table} />
           </div>
           {table.getSelectedRowModel().rows.length > 0 && (

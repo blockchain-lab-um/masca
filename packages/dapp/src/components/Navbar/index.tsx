@@ -1,7 +1,9 @@
+'use client';
+
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
 import MenuPopover from '@/components/MenuPopover';
@@ -11,7 +13,9 @@ import { NavConnection } from './NavConnection';
 
 export default function Navbar() {
   const t = useTranslations('Navbar');
-  const router = useRouter();
+  const pathname = usePathname() ?? '/';
+
+  console.log(pathname);
 
   return (
     <div className="flex items-center justify-between">
@@ -38,21 +42,21 @@ export default function Navbar() {
           </div>
         </button>
       </Link>
-      {router.pathname !== '/' && (
+      {pathname !== '/' && (
         <div className="mx-2 my-auto flex">
-          <NavBtn page="/" pathname={router.pathname}>
+          <NavBtn page="/" pathname={pathname}>
             {t('menu.home')}
           </NavBtn>
-          <NavBtn page="/dashboard" pathname={router.pathname}>
+          <NavBtn page="/dashboard" pathname={pathname}>
             {t('menu.dashboard')}
           </NavBtn>
-          <NavBtn page="/settings" pathname={router.pathname}>
+          <NavBtn page="/settings" pathname={pathname}>
             {t('menu.settings')}
           </NavBtn>
-          <NavBtn page="/get-credential" pathname={router.pathname}>
+          <NavBtn page="/get-credential" pathname={pathname}>
             Get credential
           </NavBtn>
-          <NavBtn page="/authorization-request" pathname={router.pathname}>
+          <NavBtn page="/authorization-request" pathname={pathname}>
             Authorization request
           </NavBtn>
           <MenuPopover />
@@ -60,7 +64,7 @@ export default function Navbar() {
       )}
       <div className="hidden md:block">
         <div className="flex justify-between">
-          {router.pathname !== '/' && <NavConnection />}
+          {pathname !== '/' && <NavConnection />}
           <ToggleTheme />
         </div>
       </div>

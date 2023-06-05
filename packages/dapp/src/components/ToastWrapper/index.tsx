@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useRef } from 'react';
 import { XCircleIcon } from '@heroicons/react/24/outline';
 import {
@@ -11,7 +13,7 @@ import { shallow } from 'zustand/shallow';
 
 import { useToastStore } from '@/stores';
 
-export const ToastWrapper = ({ children }: { children: JSX.Element }) => {
+const ToastWrapper = ({ children }: { children: JSX.Element }) => {
   const timerRef = useRef(0);
 
   useEffect(() => {
@@ -94,3 +96,5 @@ export const ToastWrapper = ({ children }: { children: JSX.Element }) => {
     </div>
   );
 };
+
+export default ToastWrapper;

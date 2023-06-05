@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
@@ -11,6 +13,7 @@ type AddressPopoverProps = {
   did: string;
   disconnect: () => void;
 };
+
 const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
   const t = useTranslations('Navbar');
   return (

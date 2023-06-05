@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { isError } from '@blockchain-lab-um/utils';
 import { useTranslations } from 'next-intl';
@@ -7,7 +9,7 @@ import ConnectedProvider from '@/components/ConnectedProvider';
 import ToggleSwitch from '@/components/Switch';
 import { useMascaStore, useToastStore } from '@/stores';
 
-export default function Settings() {
+export default function Page() {
   const t = useTranslations('Settings');
   const { setTitle, setLoading, setToastOpen, setType } = useToastStore(
     (state) => ({
@@ -100,13 +102,4 @@ export default function Settings() {
       </div>
     </div>
   );
-}
-
-export async function getStaticProps(context: { locale: any }) {
-  return {
-    props: {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/restrict-template-expressions
-      messages: (await import(`../../locales/${context.locale}.json`)).default,
-    },
-  };
 }

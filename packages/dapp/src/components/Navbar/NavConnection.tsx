@@ -1,3 +1,5 @@
+'use client';
+
 import { shallow } from 'zustand/shallow';
 
 import AddressPopover from '@/components//AddressPopover';

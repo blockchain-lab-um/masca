@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import type { CredentialOffer } from '@blockchain-lab-um/oidc-types';
 import { isError } from '@blockchain-lab-um/utils';
@@ -9,7 +11,7 @@ import ConnectedProvider from '@/components/ConnectedProvider';
 import InputField from '@/components/InputField';
 import { useMascaStore, useToastStore } from '@/stores';
 
-export default function Issue() {
+export default async function Page() {
   const api = useMascaStore((state) => state.mascaApi);
   const { setTitle, setText, setLoading, setToastOpen, setType } =
     useToastStore(
@@ -199,13 +201,4 @@ export default function Issue() {
       </div>
     </div>
   );
-}
-
-export async function getStaticProps(context: { locale: any }) {
-  return {
-    props: {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/restrict-template-expressions
-      messages: (await import(`../../locales/${context.locale}.json`)).default,
-    },
-  };
 }

@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';

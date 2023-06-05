@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 import type { AuthorizationRequest } from '@blockchain-lab-um/oidc-types';
 import { isError } from '@blockchain-lab-um/utils';
@@ -11,7 +13,7 @@ import InputField from '@/components/InputField';
 import SelectCredentialsModal from '@/components/SelectCredentialsModal';
 import { useMascaStore, useToastStore } from '@/stores';
 
-export default function Verify() {
+export default function Page() {
   const api = useMascaStore((state) => state.mascaApi);
 
   const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
@@ -288,13 +290,4 @@ export default function Verify() {
       />
     </div>
   );
-}
-
-export async function getStaticProps(context: { locale: any }) {
-  return {
-    props: {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/restrict-template-expressions
-      messages: (await import(`../../locales/${context.locale}.json`)).default,
-    },
-  };
 }

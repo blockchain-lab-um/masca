@@ -14,11 +14,15 @@ interface TableStore {
   setCardView: (view: boolean) => void;
 }
 
-export const useTableStore = create<TableStore>()((set) => ({
+export const tableStoreInitialState = {
   globalFilter: '',
   columnFilters: [{ id: 'data_store', value: ['snap'] }],
   selectedVCs: [],
   cardView: true,
+};
+
+export const useTableStore = create<TableStore>()((set) => ({
+  ...tableStoreInitialState,
 
   setGlobalFilter: (globalFilter: string) => set({ globalFilter }),
   setColumnFilters: (columnFilters: ColumnFiltersState) =>
