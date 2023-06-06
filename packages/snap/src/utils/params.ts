@@ -14,8 +14,8 @@ import {
   SwitchMethodRequestParams,
   VerifyDataRequestParams,
 } from '@blockchain-lab-um/masca-types';
-import { MascaState } from 'src/interfaces';
 
+import { MascaState } from '../interfaces';
 import { isEnabledVCStore } from './snapUtils';
 
 function isStringArray(input: unknown): input is string[] {
