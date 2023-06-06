@@ -51,14 +51,12 @@ describe('Utils [veramo]', () => {
     // Ceramic mock
     DIDDataStore.prototype.get = jest
       .fn()
-      // eslint-disable-next-line @typescript-eslint/require-await
       .mockImplementation(async (_key, _did) => {
         return ceramicData;
       });
 
     DIDDataStore.prototype.merge = jest
       .fn()
-      // eslint-disable-next-line @typescript-eslint/require-await
       .mockImplementation(async (_key, content, _options?) => {
         ceramicData = content as StoredCredentials;
         return 'ok' as unknown as StreamID;

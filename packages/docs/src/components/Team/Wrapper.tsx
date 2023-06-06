@@ -1,4 +1,3 @@
-/* eslint-disable import/extensions */
 import React from 'react';
 
 import members from '../../constants/Members';

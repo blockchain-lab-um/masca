@@ -44,7 +44,6 @@ let agent: TAgent<
 let dbConnection: Promise<DataSource>;
 let databaseFile: string;
 
-// eslint-disable-next-line @typescript-eslint/require-await
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
   databaseFile = options?.context?.databaseFile || ':memory:';
   dbConnection = new DataSource({

@@ -55,7 +55,6 @@ describe('Utils [state]', () => {
       const emptyState = {};
 
       await expect(
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         updateSnapState(snapMock, emptyState as any)
       ).resolves.not.toThrow();
 

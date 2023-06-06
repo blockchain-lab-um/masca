@@ -269,7 +269,6 @@ describe('Utils [snap]', () => {
 
   describe('snapConfirm', () => {
     it('should return true', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       snapMock.rpcMocks.snap_dialog.mockResolvedValue(true);
 
       await expect(snapConfirm(snapMock, content)).resolves.toBe(true);
@@ -326,7 +325,6 @@ describe('Utils [snap]', () => {
 
     it('should return snap', () => {
       const state = getDefaultSnapState();
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       state.accountState[address].accountConfig.ssi.vcStore.ceramic = false;
       expect(snapUtils.getEnabledVCStores(address, state)).toEqual(['snap']);
 
@@ -334,7 +332,6 @@ describe('Utils [snap]', () => {
     });
     it('should return snap (when ceramic is passed aswell)', () => {
       const state = getDefaultSnapState();
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       state.accountState[address].accountConfig.ssi.vcStore.ceramic = false;
       expect(
         snapUtils.getEnabledVCStores(address, state, ['snap', 'ceramic'])

@@ -1,8 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/dot-notation */
-
-// import { EbsiDIDProvider } from '../did/ebsi/ebsiDidProvider';
-// import { ebsiDidResolver } from '../did/ebsi/ebsiDidResolver';
 import {
   MascaKeyDidProvider,
   getMascaDidKeyResolver as mascaKeyDidResolver,
@@ -28,11 +23,6 @@ import {
   type TAgent,
 } from '@veramo/core';
 import { CredentialIssuerEIP712 } from '@veramo/credential-eip712';
-// import {
-//   CredentialIssuerLD,
-//   LdDefaultContexts,
-//   VeramoEcdsaSecp256k1RecoverySignature2020,
-// } from '@veramo/credential-ld';
 import {
   CredentialPlugin,
   type ICredentialIssuer,
@@ -109,12 +99,11 @@ export const getAgent = async (
 
   didProviders['did:key'] = new MascaKeyDidProvider({ defaultKms: 'web3' });
   didProviders['did:pkh'] = new PkhDIDProvider({ defaultKms: 'web3' });
-  // didProviders['did:ebsi'] = new EbsiDIDProvider({ defaultKms: 'web3' });
   didProviders['did:jwk'] = new JwkDIDProvider({ defaultKms: 'web3' });
 
-  vcStorePlugins['snap'] = new SnapVCStore(snap, ethereum);
+  vcStorePlugins.snap = new SnapVCStore(snap, ethereum);
   if (enabledVCStores.includes('ceramic')) {
-    vcStorePlugins['ceramic'] = new CeramicVCStore(snap, ethereum);
+    vcStorePlugins.ceramic = new CeramicVCStore(snap, ethereum);
   }
   const agent = createAgent<
     IDIDManager &
@@ -128,10 +117,6 @@ export const getAgent = async (
     plugins: [
       new CredentialPlugin(),
       new CredentialIssuerEIP712(),
-      // new CredentialIssuerLD({
-      //   contextMaps: [LdDefaultContexts],
-      //   suites: [new VeramoEcdsaSecp256k1RecoverySignature2020()],
-      // }),
       new KeyManager({
         store: new MemoryKeyStore(),
         kms: {
@@ -144,7 +129,6 @@ export const getAgent = async (
           ...ethrDidResolver({ networks }),
           ...mascaKeyDidResolver(),
           ...pkhDidResolver(),
-          // ...ebsiDidResolver(),
           ...jwkDidResolver(),
         }),
       }),

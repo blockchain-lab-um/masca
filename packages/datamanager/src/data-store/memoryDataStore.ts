@@ -15,14 +15,12 @@ import {
 export class MemoryDataStore extends AbstractDataStore {
   private data: Record<string, unknown> = {};
 
-  // eslint-disable-next-line @typescript-eslint/require-await
   public async save(args: ISaveArgs): Promise<string> {
     const id = v4();
     this.data[id] = args.data;
     return id;
   }
 
-  // eslint-disable-next-line @typescript-eslint/require-await
   public async delete(args: IDeleteArgs): Promise<boolean> {
     const { id } = args;
     if (id in this.data) {
@@ -32,7 +30,6 @@ export class MemoryDataStore extends AbstractDataStore {
     return false;
   }
 
-  // eslint-disable-next-line @typescript-eslint/require-await
   public async query(args: IFilterArgs): Promise<Array<IQueryResult>> {
     const { filter } = args;
     if (filter && filter.type === 'id') {
@@ -72,7 +69,6 @@ export class MemoryDataStore extends AbstractDataStore {
     return [];
   }
 
-  // eslint-disable-next-line @typescript-eslint/require-await
   public async clear(args: IFilterArgs): Promise<boolean> {
     this.data = {};
     return true;

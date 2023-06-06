@@ -51,8 +51,7 @@ export async function veramoSaveVC(args: {
 
     const existingVC = vcs.get(vc.id);
     if (existingVC) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      existingVC.store?.push(vc.store);
+      existingVC.store.push(vc.store);
     } else {
       vcs.set(vc.id, {
         id: vc.id,

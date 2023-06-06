@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/require-await */
-/* eslint-disable unused-imports/no-unused-vars */
 import {
   createJWK,
   encodePublicKey,
@@ -100,13 +98,13 @@ export class MascaKeyDidProvider extends AbstractIdentifierProvider {
   }
 
   async updateIdentifier(
-    args: {
+    _args: {
       did: string;
       kms?: string | undefined;
       alias?: string | undefined;
       options?: any;
     },
-    context: IAgentContext<IKeyManager>
+    _context: IAgentContext<IKeyManager>
   ): Promise<IIdentifier> {
     throw new Error('KeyDIDProvider updateIdentifier not supported yet.');
   }
@@ -123,37 +121,29 @@ export class MascaKeyDidProvider extends AbstractIdentifierProvider {
   }
 
   async addKey(
-    {
-      identifier,
-      key,
-      options,
-    }: { identifier: IIdentifier; key: IKey; options?: any },
-    context: IContext
+    _args: { identifier: IIdentifier; key: IKey; options?: any },
+    _context: IContext
   ): Promise<any> {
     throw Error('KeyDIDProvider addKey not supported');
   }
 
   async addService(
-    {
-      identifier,
-      service,
-      options,
-    }: { identifier: IIdentifier; service: IService; options?: any },
-    context: IContext
+    _args: { identifier: IIdentifier; service: IService; options?: any },
+    _context: IContext
   ): Promise<any> {
     throw Error('KeyDIDProvider addService not supported');
   }
 
   async removeKey(
-    args: { identifier: IIdentifier; kid: string; options?: any },
-    context: IContext
+    _args: { identifier: IIdentifier; kid: string; options?: any },
+    _context: IContext
   ): Promise<any> {
     throw Error('KeyDIDProvider removeKey not supported');
   }
 
   async removeService(
-    args: { identifier: IIdentifier; id: string; options?: any },
-    context: IContext
+    _args: { identifier: IIdentifier; id: string; options?: any },
+    _context: IContext
   ): Promise<any> {
     throw Error('KeyDIDProvider removeService not supported');
   }

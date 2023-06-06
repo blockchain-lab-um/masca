@@ -99,7 +99,6 @@ export class SnapMock implements ISnapMock {
 
         delete types.EIP712Domain;
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         return this.snap.signTypedData(domain, types, message);
       }),
   };

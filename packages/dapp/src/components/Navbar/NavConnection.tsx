@@ -51,7 +51,6 @@ export const NavConnection = () => {
     const key = Object.keys(NETWORKS).find((val) => NETWORKS[val] === network);
     if (window.ethereum && key) {
       try {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
           params: [{ chainId: key }],
