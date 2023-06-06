@@ -7,7 +7,6 @@ import type {
   MinimalImportableKey,
   W3CVerifiableCredential,
 } from '@veramo/core';
-import cloneDeep from 'lodash.clonedeep';
 
 import type { MascaState, SnapConfirmParams } from '../../src/interfaces';
 import { getEmptyAccountState } from '../../src/utils/config';
@@ -482,7 +481,7 @@ const defaultSnapState: MascaState = {
 
 export const getDefaultSnapState = (): MascaState => {
   defaultSnapState.accountState[address].publicKey = publicKey;
-  return cloneDeep(defaultSnapState);
+  return structuredClone(defaultSnapState);
 };
 
 export const snapConfirmParams: SnapConfirmParams = {

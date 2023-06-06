@@ -217,9 +217,6 @@ importers:
       jose:
         specifier: ^4.13.1
         version: 4.14.4
-      lodash.clonedeep:
-        specifier: ^4.5.0
-        version: 4.5.0
       multiformats:
         specifier: ^11.0.2
         version: 11.0.2
@@ -272,9 +269,6 @@ importers:
       '@types/jest':
         specifier: 29.5.2
         version: 29.5.2
-      '@types/lodash.clonedeep':
-        specifier: ^4.5.7
-        version: 4.5.7
       '@types/node':
         specifier: ^18.15.3
         version: 18.16.15
@@ -371,9 +365,6 @@ importers:
       '@nestjs/schedule':
         specifier: ^2.2.2
         version: 2.2.2(@nestjs/common@9.4.2)(@nestjs/core@9.4.2)(reflect-metadata@0.1.13)
-      '@types/lodash.clonedeep':
-        specifier: ^4.5.7
-        version: 4.5.7
       '@types/qs':
         specifier: ^6.9.7
         version: 6.9.7
@@ -446,9 +437,6 @@ importers:
       jose:
         specifier: ^4.11.1
         version: 4.14.4
-      lodash.clonedeep:
-        specifier: ^4.5.0
-        version: 4.5.0
       multiformats:
         specifier: ^11.0.2
         version: 11.0.2
@@ -1510,9 +1498,6 @@ importers:
       '@ethersproject/providers':
         specifier: ^5.7.2
         version: 5.7.2
-      '@ethersproject/wallet':
-        specifier: ^5.7.0
-        version: 5.7.0
       '@glazed/did-datastore':
         specifier: 0.3.2
         version: 0.3.2
@@ -1618,9 +1603,6 @@ importers:
       jsonpath:
         specifier: ^1.1.1
         version: 1.1.1
-      lodash.clonedeep:
-        specifier: ^4.5.0
-        version: 4.5.0
       multiformats:
         specifier: ^11.0.2
         version: 11.0.2
@@ -1670,9 +1652,6 @@ importers:
       '@types/jsonpath':
         specifier: ^0.2.0
         version: 0.2.0
-      '@types/lodash.clonedeep':
-        specifier: ^4.5.7
-        version: 4.5.7
       '@types/node':
         specifier: ^18.16.15
         version: 18.16.15
@@ -10445,14 +10424,6 @@ packages:
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
     dependencies:
       '@types/node': 20.2.5
-
-  /@types/lodash.clonedeep@4.5.7:
-    resolution: {integrity: sha512-ccNqkPptFIXrpVqUECi60/DFxjNKsfoQxSQsgcBJCX/fuX1wgyQieojkcWH/KpE3xzLoWN/2k+ZeGqIN3paSvw==}
-    dependencies:
-      '@types/lodash': 4.14.195
-
-  /@types/lodash@4.14.195:
-    resolution: {integrity: sha512-Hwx9EUgdwf2GLarOjQp5ZH8ZmblzcbTBC2wtQWNKARBSxM9ezRIAUpeDTgoQRAFB0+8CNWXVA9+MaSOzOF3nPg==}
 
   /@types/luxon@3.3.0:
     resolution: {integrity: sha512-uKRI5QORDnrGFYgcdAVnHvEIvEZ8noTpP/Bg+HeUzZghwinDlIS87DEenV5r1YoOF9G4x600YsUXLWZ19rmTmg==}

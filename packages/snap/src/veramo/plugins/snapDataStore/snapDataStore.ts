@@ -13,7 +13,7 @@ import type {
 } from '@veramo/core';
 import { AbstractDIDStore } from '@veramo/did-manager';
 import type { ManagedPrivateKey } from '@veramo/key-manager';
-import { sha256 } from 'ethereum-cryptography/sha256';
+import { sha256 } from 'ethers';
 import jsonpath from 'jsonpath';
 
 import { decodeJWT } from '../../../utils/jwt';
@@ -217,8 +217,6 @@ export class SnapVCStore extends AbstractDataStore {
   }
 
   async save(args: { data: W3CVerifiableCredential }): Promise<string> {
-    // TODO check if VC is correct type
-
     const vc = args.data;
     const state = await getSnapState(this.snap);
     const account = getCurrentAccount(state);

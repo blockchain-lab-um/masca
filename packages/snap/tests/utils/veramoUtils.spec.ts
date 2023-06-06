@@ -530,7 +530,7 @@ describe('Utils [veramo]', () => {
       });
 
       expect(vcs).toHaveLength(1);
-      expect(vcs[0].data).toStrictEqual(exampleVCinVP);
+      expect(vcs[0].data).toEqual(exampleVCinVP);
 
       expect.assertions(3);
     });
