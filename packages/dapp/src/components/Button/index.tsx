@@ -77,34 +77,32 @@ const Button = ({
   children,
   disabled = false,
   loading = false,
-}: ButtonProps) => {
-  return (
-    <div className="rounded-ful">
-      <button
-        className={`${clsx(
-          variants[variant],
-          sizes[size],
-          `shadow-${shadow}`,
-          'animated-transition font-ubuntu flex max-w-xs items-center gap-x-2 rounded-full font-medium'
-        )}`}
-        onClick={onClick}
-        disabled={disabled}
-      >
-        {children}
-        {loading && (
-          <div className="flex">
-            <div
-              className={clsx(
-                loaderSizes[size],
-                'ml-1 animate-spin rounded-full border-solid border-t-pink-900/0',
-                loaderColors[variant]
-              )}
-            ></div>
-          </div>
-        )}
-      </button>
-    </div>
-  );
-};
+}: ButtonProps) => (
+  <div className="rounded-ful">
+    <button
+      className={`${clsx(
+        variants[variant],
+        sizes[size],
+        `shadow-${shadow}`,
+        'animated-transition font-ubuntu flex max-w-xs items-center gap-x-2 rounded-full font-medium'
+      )}`}
+      onClick={onClick}
+      disabled={disabled}
+    >
+      {children}
+      {loading && (
+        <div className="flex">
+          <div
+            className={clsx(
+              loaderSizes[size],
+              'ml-1 animate-spin rounded-full border-solid border-t-pink-900/0',
+              loaderColors[variant]
+            )}
+          ></div>
+        </div>
+      )}
+    </button>
+  </div>
+);
 
 export default Button;

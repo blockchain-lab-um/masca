@@ -51,9 +51,7 @@ describe('Utils [veramo]', () => {
     // Ceramic mock
     DIDDataStore.prototype.get = jest
       .fn()
-      .mockImplementation(async (_key, _did) => {
-        return ceramicData;
-      });
+      .mockImplementation(async (_key, _did) => ceramicData);
 
     DIDDataStore.prototype.merge = jest
       .fn()

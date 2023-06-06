@@ -23,9 +23,7 @@ const emptyAccountState = {
   } as MascaAccountConfig,
 } as MascaAccountState;
 
-export const getEmptyAccountState = () => {
-  return structuredClone(emptyAccountState);
-};
+export const getEmptyAccountState = () => structuredClone(emptyAccountState);
 
 export const defaultConfig = {
   dApp: {
@@ -51,6 +49,4 @@ const initialSnapState: MascaState = {
   },
 };
 
-export const getInitialSnapState = () => {
-  return structuredClone(initialSnapState);
-};
+export const getInitialSnapState = () => structuredClone(initialSnapState);

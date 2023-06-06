@@ -23,7 +23,7 @@ describe('keyPair', () => {
   });
 
   describe('snapGetKeysFromAddress', () => {
-    it('should get the ground address key of a specific address index from the BIP-44 entropy correctly', async function () {
+    it('should get the ground address key of a specific address index from the BIP-44 entropy correctly', async () => {
       // Initial state
       const initialState = getDefaultSnapState();
 

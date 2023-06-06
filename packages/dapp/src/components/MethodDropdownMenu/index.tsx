@@ -84,17 +84,15 @@ export default function MethodDropdownMenu() {
           >
             <Menu.Items className="dark:bg-navy-blue-500 absolute right-0 mt-1 w-48 rounded-3xl bg-white shadow-lg max-md:-top-12 max-md:-translate-y-full max-md:transform">
               <div className="p-1 text-center ">
-                {methods.map((method, id) => {
-                  return (
-                    <DropdownButton
-                      key={id}
-                      selected={method === currMethod}
-                      handleBtn={handleMethodChange}
-                    >
-                      {method}
-                    </DropdownButton>
-                  );
-                })}
+                {methods.map((method, id) => (
+                  <DropdownButton
+                    key={id}
+                    selected={method === currMethod}
+                    handleBtn={handleMethodChange}
+                  >
+                    {method}
+                  </DropdownButton>
+                ))}
               </div>
             </Menu.Items>
           </Transition>

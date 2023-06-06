@@ -132,12 +132,11 @@ describe('Issuer controller', () => {
 
     // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
     await fastifyAdapter.register(require('@fastify/formbody'), {
-      parser: (str: string) => {
-        return qs.parse(str, {
+      parser: (str: string) =>
+        qs.parse(str, {
           depth: 50,
           parameterLimit: 1000,
-        });
-      },
+        }),
     });
 
     app = testingModule.createNestApplication<NestFastifyApplication>(

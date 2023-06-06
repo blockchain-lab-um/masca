@@ -79,22 +79,20 @@ describe('onRpcRequest', () => {
     ));
 
     // Ceramic mock
-    DIDDataStore.prototype.get = jest
-      .fn()
-      .mockImplementation(async (_key, _did) => {
-        return new Promise((resolve) => {
+    DIDDataStore.prototype.get = jest.fn().mockImplementation(
+      async (_key, _did) =>
+        new Promise((resolve) => {
           resolve(ceramicData);
-        });
-      });
+        })
+    );
 
-    DIDDataStore.prototype.merge = jest
-      .fn()
-      .mockImplementation(async (_key, content, _options?) => {
-        return new Promise((resolve) => {
+    DIDDataStore.prototype.merge = jest.fn().mockImplementation(
+      async (_key, content, _options?) =>
+        new Promise((resolve) => {
           ceramicData = content as StoredCredentials;
           resolve(ceramicData);
-        });
-      });
+        })
+    );
   });
 
   describe('saveVC', () => {

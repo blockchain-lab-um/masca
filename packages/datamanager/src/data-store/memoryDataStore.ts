@@ -49,20 +49,16 @@ export class MemoryDataStore extends AbstractDataStore {
       }
     }
     if (filter === undefined || (filter && filter.type === 'none')) {
-      return Object.keys(this.data).map((k) => {
-        return {
-          metadata: { id: k },
-          data: this.data[k],
-        };
-      });
+      return Object.keys(this.data).map((k) => ({
+        metadata: { id: k },
+        data: this.data[k],
+      }));
     }
     if (filter && filter.type === 'jsonpath') {
-      const objects = Object.keys(this.data).map((k) => {
-        return {
-          metadata: { id: k },
-          data: this.data[k],
-        };
-      });
+      const objects = Object.keys(this.data).map((k) => ({
+        metadata: { id: k },
+        data: this.data[k],
+      }));
       const filteredObjects = jsonpath.query(objects, filter.filter as string);
       return filteredObjects as Array<IQueryResult>;
     }
