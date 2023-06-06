@@ -12,7 +12,7 @@ export async function saveVC(
   params: ApiParams,
   { verifiableCredential, options }: SaveVCRequestParams
 ): Promise<SaveVCRequestResult[]> {
-  const { store = 'snap' } = options || {};
+  const { store = 'snap' } = options ?? {};
   const { snap, ethereum } = params;
 
   const content = panel([

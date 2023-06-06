@@ -223,12 +223,11 @@ export class SnapVCStore extends AbstractDataStore {
 
     const id = sha256(Buffer.from(JSON.stringify(vc))).toString();
 
-    if (state.accountState[account].vcs[id]) {
-      return id;
+    if (!state.accountState[account].vcs[id]) {
+      state.accountState[account].vcs[id] = vc;
+      await updateSnapState(this.snap, state);
     }
 
-    state.accountState[account].vcs[id] = vc;
-    await updateSnapState(this.snap, state);
     return id;
   }
 
