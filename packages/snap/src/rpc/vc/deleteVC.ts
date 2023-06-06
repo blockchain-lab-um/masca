@@ -9,7 +9,7 @@ export async function deleteVC(
   params: ApiParams,
   args: DeleteVCsRequestParams
 ): Promise<boolean[]> {
-  const { id, options } = args || {};
+  const { id, options } = args ?? {};
   const { snap, ethereum } = params;
   const store = options?.store;
 

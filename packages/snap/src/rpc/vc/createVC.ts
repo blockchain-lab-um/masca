@@ -12,8 +12,8 @@ export async function createVC(
 ): Promise<VerifiableCredential> {
   const { minimalUnsignedCredential, proofFormat, options } = createVCParams;
 
-  const { store = 'snap' } = options || {};
-  const { save } = options || {};
+  const { store = 'snap' } = options ?? {};
+  const { save } = options ?? {};
 
   const vc = await veramoCreateVC(params, {
     minimalUnsignedCredential,

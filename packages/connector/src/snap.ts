@@ -50,7 +50,7 @@ export async function queryVCs(
   params?: QueryVCsRequestParams
 ): Promise<Result<QueryVCsRequestResult[]>> {
   return sendSnapMethod(
-    { method: 'queryVCs', params: params || {} },
+    { method: 'queryVCs', params: params ?? {} },
     this.snapId
   );
 }
