@@ -18,7 +18,7 @@ export default function Ecosystem() {
   return (
     <div className="grid place-items-center">
       <div className="p-4 text-lg">
-        <div className="font-ubuntu dark:text-navy-blue-50 text-center text-2xl font-medium leading-6  text-gray-900">
+        <div className="font-ubuntu dark:text-navy-blue-50 text-center text-2xl font-medium leading-6 text-gray-900">
           Integrations
         </div>
         <div className="my-12 flex justify-center gap-x-12">
@@ -26,7 +26,7 @@ export default function Ecosystem() {
             <Icon key={integration.href} {...integration} />
           ))}
         </div>
-        <div className="font-ubuntu dark:text-navy-blue-50 pt-12 text-center text-2xl font-medium leading-6  text-gray-900">
+        <div className="font-ubuntu dark:text-navy-blue-50 pt-12 text-center text-2xl font-medium leading-6 text-gray-900">
           Collaborations
         </div>
         <div className="my-12 flex justify-center gap-x-12">
