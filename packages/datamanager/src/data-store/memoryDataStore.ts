@@ -3,10 +3,10 @@ import { v4 } from 'uuid';
 
 import {
   AbstractDataStore,
-  IDeleteArgs,
-  IFilterArgs,
-  IQueryResult,
-  ISaveArgs,
+  type IDeleteArgs,
+  type IFilterArgs,
+  type IQueryResult,
+  type ISaveArgs,
 } from './abstractDataStore.js';
 
 /**

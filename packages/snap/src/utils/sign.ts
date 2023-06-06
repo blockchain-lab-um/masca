@@ -1,4 +1,4 @@
-import { SignArgs } from '@blockchain-lab-um/oidc-client-plugin';
+import type { SignArgs } from '@blockchain-lab-um/oidc-client-plugin';
 import { bytesToBase64url, encodeBase64url } from '@veramo/utils';
 import elliptic from 'elliptic';
 import { sha256 } from 'ethereum-cryptography/sha256';

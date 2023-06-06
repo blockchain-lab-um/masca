@@ -1,10 +1,10 @@
-import {
+import type {
   QueryVCsRequestParams,
   QueryVCsRequestResult,
 } from '@blockchain-lab-um/masca-types';
 import { divider, heading, panel, text } from '@metamask/snaps-ui';
 
-import { ApiParams } from '../../interfaces';
+import type { ApiParams } from '../../interfaces';
 import { addFriendlyDapp, snapConfirm } from '../../utils/snapUtils';
 import { veramoQueryVCs } from '../../utils/veramoUtils';
 

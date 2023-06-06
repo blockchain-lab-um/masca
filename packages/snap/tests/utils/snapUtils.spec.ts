@@ -1,7 +1,7 @@
 import { getCompressedPublicKey } from '@blockchain-lab-um/utils';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
+import type { SnapsGlobalObject } from '@metamask/snaps-types';
 
 import {
   addFriendlyDapp,

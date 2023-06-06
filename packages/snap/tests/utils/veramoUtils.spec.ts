@@ -2,10 +2,10 @@ import { StreamID } from '@ceramicnetwork/streamid';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { BIP44CoinTypeNode } from '@metamask/key-tree/dist/BIP44CoinTypeNode';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
-import { IIdentifier, IVerifyResult } from '@veramo/core';
+import type { SnapsGlobalObject } from '@metamask/snaps-types';
+import type { IIdentifier, IVerifyResult } from '@veramo/core';
 
-import { StoredCredentials } from '../../src/interfaces';
+import type { StoredCredentials } from '../../src/interfaces';
 import * as snapUtils from '../../src/utils/snapUtils';
 import {
   veramoClearVCs,

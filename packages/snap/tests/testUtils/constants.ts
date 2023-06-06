@@ -1,6 +1,6 @@
-import { JsonBIP44CoinTypeNode } from '@metamask/key-tree';
+import type { JsonBIP44CoinTypeNode } from '@metamask/key-tree';
 import { heading, panel, text } from '@metamask/snaps-ui';
-import {
+import type {
   DIDDocument,
   DIDResolutionResult,
   IIdentifier,
@@ -9,7 +9,7 @@ import {
 } from '@veramo/core';
 import cloneDeep from 'lodash.clonedeep';
 
-import { MascaState, SnapConfirmParams } from '../../src/interfaces';
+import type { MascaState, SnapConfirmParams } from '../../src/interfaces';
 import { getEmptyAccountState } from '../../src/utils/config';
 
 export const mnemonic =

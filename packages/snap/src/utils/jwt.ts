@@ -1,4 +1,4 @@
-import { VerifiableCredential } from '@veramo/core';
+import type { VerifiableCredential } from '@veramo/core';
 import { normalizeCredential } from 'did-jwt-vc';
 import cloneDeep from 'lodash.clonedeep';
 

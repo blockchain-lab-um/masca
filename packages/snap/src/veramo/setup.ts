@@ -14,18 +14,18 @@ import {
 import {
   AbstractDataStore,
   DataManager,
-  IDataManager,
+  type IDataManager,
 } from '@blockchain-lab-um/veramo-datamanager';
 import { Web3Provider } from '@ethersproject/providers';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
+import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import {
   createAgent,
-  IDataStore,
-  IDIDManager,
-  IKeyManager,
-  IResolver,
-  TAgent,
+  type IDataStore,
+  type IDIDManager,
+  type IKeyManager,
+  type IResolver,
+  type TAgent,
 } from '@veramo/core';
 import { CredentialIssuerEIP712 } from '@veramo/credential-eip712';
 // import {
@@ -33,7 +33,10 @@ import { CredentialIssuerEIP712 } from '@veramo/credential-eip712';
 //   LdDefaultContexts,
 //   VeramoEcdsaSecp256k1RecoverySignature2020,
 // } from '@veramo/credential-ld';
-import { CredentialPlugin, ICredentialIssuer } from '@veramo/credential-w3c';
+import {
+  CredentialPlugin,
+  type ICredentialIssuer,
+} from '@veramo/credential-w3c';
 import { AbstractIdentifierProvider, DIDManager } from '@veramo/did-manager';
 import { EthrDIDProvider } from '@veramo/did-provider-ethr';
 import {

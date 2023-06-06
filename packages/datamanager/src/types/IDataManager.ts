@@ -1,4 +1,4 @@
-import { IPluginMethodMap } from '@veramo/core';
+import type { IPluginMethodMap } from '@veramo/core';
 
 export interface IDataManager extends IPluginMethodMap {
   query(args: IDataManagerQueryArgs): Promise<Array<IDataManagerQueryResult>>;

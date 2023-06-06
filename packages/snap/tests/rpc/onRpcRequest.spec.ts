@@ -1,14 +1,14 @@
 import {
   availableMethods,
   availableVCStores,
-  QueryVCsRequestResult,
+  type QueryVCsRequestResult,
 } from '@blockchain-lab-um/masca-types';
-import { isError, isSuccess, Result } from '@blockchain-lab-um/utils';
-import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-datamanager';
+import { isError, isSuccess, type Result } from '@blockchain-lab-um/utils';
+import type { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-datamanager';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
-import {
+import type { SnapsGlobalObject } from '@metamask/snaps-types';
+import type {
   DIDResolutionResult,
   IIdentifier,
   VerifiableCredential,
@@ -16,9 +16,9 @@ import {
 } from '@veramo/core';
 
 import { onRpcRequest } from '../../src';
-import { StoredCredentials } from '../../src/interfaces';
+import type { StoredCredentials } from '../../src/interfaces';
 import { veramoClearVCs } from '../../src/utils/veramoUtils';
-import { Agent, getAgent } from '../../src/veramo/setup';
+import { getAgent, type Agent } from '../../src/veramo/setup';
 import {
   address,
   exampleDID,

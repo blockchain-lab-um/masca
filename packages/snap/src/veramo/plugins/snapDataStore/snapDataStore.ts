@@ -1,18 +1,18 @@
 /* eslint-disable max-classes-per-file */
 import {
   AbstractDataStore,
-  IFilterArgs,
-  IQueryResult,
+  type IFilterArgs,
+  type IQueryResult,
 } from '@blockchain-lab-um/veramo-datamanager';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
-import {
+import type { SnapsGlobalObject } from '@metamask/snaps-types';
+import type {
   IIdentifier,
   RequireOnly,
   W3CVerifiableCredential,
 } from '@veramo/core';
 import { AbstractDIDStore } from '@veramo/did-manager';
-import { ManagedPrivateKey } from '@veramo/key-manager';
+import type { ManagedPrivateKey } from '@veramo/key-manager';
 import { sha256 } from 'ethereum-cryptography/sha256';
 import jsonpath from 'jsonpath';
 

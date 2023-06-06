@@ -1,7 +1,7 @@
-import { VerifyDataRequestParams } from '@blockchain-lab-um/masca-types';
-import { IVerifyResult } from '@veramo/core';
+import type { VerifyDataRequestParams } from '@blockchain-lab-um/masca-types';
+import type { IVerifyResult } from '@veramo/core';
 
-import { ApiParams } from '../../interfaces';
+import type { ApiParams } from '../../interfaces';
 import { veramoVerifyData } from '../../utils/veramoUtils';
 
 export async function verifyData(
