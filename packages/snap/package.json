@@ -62,7 +62,6 @@
     "@ceramicnetwork/http-client": "2.22.0",
     "@didtools/pkh-ethereum": "0.0.2",
     "@ethersproject/providers": "^5.7.2",
-    "@ethersproject/wallet": "^5.7.0",
     "@glazed/did-datastore": "0.3.2",
     "@metamask/key-tree": "^7.0.0",
     "@metamask/providers": "^10.2.0",

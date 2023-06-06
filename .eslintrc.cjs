@@ -40,6 +40,8 @@ module.exports = {
       'LabeledStatement',
       'WithStatement',
     ],
+    'no-param-reassign': [2, { props: false }],
+    'no-await-in-loop': 'off',
     'no-nested-ternary': 'off',
     '@typescript-eslint/no-unsafe-assignment': 'off',
     '@typescript-eslint/no-explicit-any': 'off',

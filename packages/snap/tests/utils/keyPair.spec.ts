@@ -1,22 +1,21 @@
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
+import type { SnapsGlobalObject } from '@metamask/snaps-types';
 
 import { getEmptyAccountState } from '../../src/utils/config';
-import { getAddressKey, snapGetKeysFromAddress } from '../../src/utils/keyPair';
+import { snapGetKeysFromAddress } from '../../src/utils/keyPair';
 import {
   address,
   address2,
   bip44Entropy,
-  derivedKeyChainCode,
-  derivedKeyDerivationPath,
   getDefaultSnapState,
   privateKey,
   privateKey2,
   publicKey,
+  publicKey2,
 } from '../testUtils/constants';
 import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
 
-describe('keyPair', function () {
+describe('keyPair', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
 
   beforeEach(() => {
@@ -25,58 +24,61 @@ describe('keyPair', function () {
 
   describe('snapGetKeysFromAddress', () => {
     it('should get the ground address key of a specific address index from the BIP-44 entropy correctly', async function () {
+      // Initial state
       const initialState = getDefaultSnapState();
+
+      // Add another account
       initialState.accountState[address2] = getEmptyAccountState();
-      initialState.accountState[address].index = undefined;
-      initialState.accountState[address2].index = undefined;
-      const res = await snapGetKeysFromAddress(
+
+      // Derive keys for the first account
+      let res = await snapGetKeysFromAddress(
         bip44Entropy as BIP44CoinTypeNode,
         initialState,
         address,
         snapMock
       );
-      expect(res).not.toBeNull();
-      expect(res?.privateKey).toEqual(privateKey);
-      expect(res?.publicKey).toEqual(publicKey);
-      expect(res?.address).toEqual(address);
 
-      const res2 = await snapGetKeysFromAddress(
+      expect(res).toStrictEqual({
+        address,
+        addressIndex: 0,
+        derivationPath: "m / bip32:44' / bip32:60' / bip32:0' / bip32:0",
+        privateKey,
+        publicKey,
+      });
+
+      // Derive keys for the second account
+      res = await snapGetKeysFromAddress(
         bip44Entropy as BIP44CoinTypeNode,
         initialState,
         address2,
         snapMock
       );
-      expect(res2).not.toBeNull();
-      expect(res2?.privateKey).toEqual(privateKey2);
-      expect(res2?.address).toEqual(address2);
 
-      expect.assertions(7);
+      expect(res).toStrictEqual({
+        address: address2,
+        addressIndex: 1,
+        derivationPath: "m / bip32:44' / bip32:60' / bip32:0' / bip32:0",
+        privateKey: privateKey2,
+        publicKey: publicKey2,
+      });
+
+      expect.assertions(2);
     });
 
-    it('should fail to get a ground key', async function () {
+    it('should fail to get a ground key', async () => {
       const initialState = getDefaultSnapState();
       initialState.accountState['0x'] = getEmptyAccountState();
-      const res = await snapGetKeysFromAddress(
-        bip44Entropy as BIP44CoinTypeNode,
-        initialState,
-        '0x',
-        snapMock
-      );
-      expect(res).toBeNull();
-      expect.assertions(1);
-    });
-  });
 
-  describe('getAddressKey', () => {
-    it('should get the address key of a specific address index and BIP-44 Coin Type Node', async function () {
-      const res = await getAddressKey(bip44Entropy as BIP44CoinTypeNode);
-      expect(res).not.toBeNull();
-      expect(res?.privateKey).toEqual(privateKey);
-      expect(res?.originalAddressKey).toBe(
-        `${privateKey}${derivedKeyChainCode.split('0x')[1]}`
-      );
-      expect(res?.derivationPath).toEqual(derivedKeyDerivationPath);
-      expect.assertions(4);
+      await expect(
+        snapGetKeysFromAddress(
+          bip44Entropy as BIP44CoinTypeNode,
+          initialState,
+          '0x',
+          snapMock
+        )
+      ).rejects.toThrow('Failed to get keys');
+
+      expect.assertions(1);
     });
   });
 });
