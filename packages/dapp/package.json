@@ -12,7 +12,7 @@
     "lint-staged": "lint-staged",
     "lint:next": "next lint",
     "lint:prettier": "prettier . --check",
-    "lint:stylelint": "stylelint \"**/*.{css,scss}\"",
+    "lint:stylelint": "stylelint \"src/**/*.{css,scss}\"",
     "lint:tsc": "tsc -p tsconfig.json --noEmit --incremental false",
     "start": "next start"
   },
