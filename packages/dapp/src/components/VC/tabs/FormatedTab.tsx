@@ -31,7 +31,7 @@ const FormatedTab = ({
   modifyDSModalOpen,
   deleteModalOpen,
 }: FormatedTabProps) => {
-  const t = useTranslations('VC');
+  const t = useTranslations('VerifiableCredential');
   const setSelectedVCs = useTableStore((state) => state.setSelectedVCs);
 
   let stores: string[] = [];
@@ -222,13 +222,13 @@ const FormatedTab = ({
         </div>
 
         <div className="absolute -bottom-4 right-10 hidden lg:block">
-          <Link href="createVP">
+          <Link href="create-verifiable-presentation">
             <Button
               variant="primary"
               onClick={() => setSelectedVCs([vc])}
               size="sm"
             >
-              {t('formatted-tab.createVP')}
+              {t('formatted-tab.create-verifiable-presentation')}
             </Button>
           </Link>
         </div>

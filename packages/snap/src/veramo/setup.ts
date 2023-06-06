@@ -1,20 +1,31 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/dot-notation */
 
+// import { EbsiDIDProvider } from '../did/ebsi/ebsiDidProvider';
+// import { ebsiDidResolver } from '../did/ebsi/ebsiDidResolver';
+import {
+  MascaKeyDidProvider,
+  getMascaDidKeyResolver as mascaKeyDidResolver,
+} from '@blockchain-lab-um/did-provider-key';
+import {
+  IOIDCClientPlugin,
+  OIDCClientPlugin,
+} from '@blockchain-lab-um/oidc-client-plugin';
 import {
   AbstractDataStore,
   DataManager,
   IDataManager,
 } from '@blockchain-lab-um/veramo-datamanager';
+import { Web3Provider } from '@ethersproject/providers';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import {
-  IDIDManager,
+  createAgent,
   IDataStore,
+  IDIDManager,
   IKeyManager,
   IResolver,
   TAgent,
-  createAgent,
 } from '@veramo/core';
 import { CredentialIssuerEIP712 } from '@veramo/credential-eip712';
 // import {
@@ -41,14 +52,8 @@ import {
 } from '@veramo/key-manager';
 import { KeyManagementSystem } from '@veramo/kms-local';
 import { Resolver } from 'did-resolver';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { ethers } from 'ethers';
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver';
 
-// import { EbsiDIDProvider } from '../did/ebsi/ebsiDidProvider';
-// import { ebsiDidResolver } from '../did/ebsi/ebsiDidResolver';
-import { KeyDIDProvider } from '../did/key/keyDidProvider';
-import { getDidKeyResolver as keyDidResolver } from '../did/key/keyDidResolver';
 import { getCurrentAccount, getEnabledVCStores } from '../utils/snapUtils';
 import { getSnapState } from '../utils/stateUtils';
 import { CeramicVCStore } from './plugins/ceramicDataStore/ceramicDataStore';
@@ -63,7 +68,8 @@ export type Agent = TAgent<
     IDataStore &
     IResolver &
     IDataManager &
-    ICredentialIssuer
+    ICredentialIssuer &
+    IOIDCClientPlugin
 >;
 
 export const getAgent = async (
@@ -80,18 +86,15 @@ export const getAgent = async (
   const networks = [
     {
       name: 'mainnet',
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      provider: new ethers.providers.Web3Provider(ethereum as any),
+      provider: new Web3Provider(ethereum as any),
     },
     {
       name: '0x05',
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      provider: new ethers.providers.Web3Provider(ethereum as any),
+      provider: new Web3Provider(ethereum as any),
     },
     {
       name: 'goerli',
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      provider: new ethers.providers.Web3Provider(ethereum as any),
+      provider: new Web3Provider(ethereum as any),
       chainId: '0x5',
     },
   ];
@@ -101,7 +104,7 @@ export const getAgent = async (
     networks,
   });
 
-  didProviders['did:key'] = new KeyDIDProvider({ defaultKms: 'web3' });
+  didProviders['did:key'] = new MascaKeyDidProvider({ defaultKms: 'web3' });
   didProviders['did:pkh'] = new PkhDIDProvider({ defaultKms: 'web3' });
   // didProviders['did:ebsi'] = new EbsiDIDProvider({ defaultKms: 'web3' });
   didProviders['did:jwk'] = new JwkDIDProvider({ defaultKms: 'web3' });
@@ -116,7 +119,8 @@ export const getAgent = async (
       IDataStore &
       IResolver &
       IDataManager &
-      ICredentialIssuer
+      ICredentialIssuer &
+      IOIDCClientPlugin
   >({
     plugins: [
       new CredentialPlugin(),
@@ -135,7 +139,7 @@ export const getAgent = async (
       new DIDResolverPlugin({
         resolver: new Resolver({
           ...ethrDidResolver({ networks }),
-          ...keyDidResolver(),
+          ...mascaKeyDidResolver(),
           ...pkhDidResolver(),
           // ...ebsiDidResolver(),
           ...jwkDidResolver(),
@@ -146,6 +150,7 @@ export const getAgent = async (
         defaultProvider: 'metamask',
         providers: didProviders,
       }),
+      new OIDCClientPlugin(),
     ],
   });
   return agent;

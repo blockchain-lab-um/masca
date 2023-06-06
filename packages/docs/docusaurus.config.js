@@ -2,8 +2,9 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
-const lightCodeTheme = require('prism-react-renderer/themes/github');
-const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+const {
+  themes: { github, dracula },
+} = require('prism-react-renderer');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -126,8 +127,8 @@ const config = {
       copyright: `Copyright © ${new Date().getFullYear()} Blockchain Lab:UM. Built with <a href="https://docusaurus.io/" target="_blank" rel="noopener noreferrer" class="footer__link-item">Docusaurus</a>. Images from <a href="https://www.freepik.com/" target="_blank" rel="noopener noreferrer" class="footer__link-item">Freepik</a>.`,
     },
     prism: {
-      theme: lightCodeTheme,
-      darkTheme: darkCodeTheme,
+      theme: github,
+      darkTheme: dracula,
     },
   },
 };

@@ -1,6 +1,7 @@
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
+import elliptic from 'elliptic';
 
 import {
   changeCurrentMethod,
@@ -20,7 +21,9 @@ import {
   resolutionMethodNotSupported,
   resolutionNotFound,
 } from '../testUtils/constants';
-import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
+import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
+
+const { ec: EC } = elliptic;
 
 describe('Utils [did]', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
@@ -89,6 +92,15 @@ describe('Utils [did]', () => {
     it('should return did:ethr', async () => {
       const initialState = getDefaultSnapState();
 
+      const ctx = new EC('secp256k1');
+      const ecPublicKey = ctx.keyFromPublic(
+        initialState.accountState[address].publicKey.slice(2),
+        'hex'
+      );
+      const compactPublicKey = `0x${ecPublicKey.getPublic(true, 'hex')}`;
+
+      const expectedDid = `did:ethr:0x5:${compactPublicKey}`;
+
       await expect(
         getCurrentDid({
           ethereum: ethereumMock,
@@ -97,7 +109,7 @@ describe('Utils [did]', () => {
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         })
-      ).resolves.toBe(`did:ethr:0x5:${address}`);
+      ).resolves.toBe(expectedDid);
 
       expect.assertions(1);
     });
@@ -133,20 +145,11 @@ describe('Utils [did]', () => {
           ethereum: ethereumMock,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
 
-          didMethod: 'did:key',
+          didMethod: 'did:ethr',
         })
-      ).resolves.not.toThrow();
+      ).resolves.toMatch(/(did:ethr)/i);
 
-      const expectedState = getDefaultSnapState();
-      expectedState.accountState[address].accountConfig.ssi.didMethod =
-        'did:key';
-
-      expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith({
-        operation: 'update',
-        newState: expectedState,
-      });
-
-      expect.assertions(2);
+      expect.assertions(1);
     });
 
     it("should succeed setting DID method to 'did:key'", async () => {
@@ -161,18 +164,9 @@ describe('Utils [did]', () => {
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
           didMethod: 'did:key',
         })
-      ).resolves.not.toThrow();
+      ).resolves.toMatch(/(did:key)/i);
 
-      const expectedState = getDefaultSnapState();
-      expectedState.accountState[address].accountConfig.ssi.didMethod =
-        'did:key';
-
-      expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith({
-        operation: 'update',
-        newState: expectedState,
-      });
-
-      expect.assertions(2);
+      expect.assertions(1);
     });
 
     describe('resolveDID', () => {

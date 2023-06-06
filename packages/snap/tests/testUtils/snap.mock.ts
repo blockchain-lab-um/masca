@@ -2,7 +2,7 @@ import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { RequestArguments } from '@metamask/providers/dist/BaseProvider';
 import { Maybe } from '@metamask/providers/dist/utils';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
-import { Wallet, providers } from 'ethers';
+import { AlchemyProvider, Filter, TransactionRequest, Wallet } from 'ethers';
 
 import { MascaState } from '../../src/interfaces';
 import { address, mnemonic, privateKey } from './constants';
@@ -44,16 +44,17 @@ export class SnapMock implements ISnapMock {
 
   private async snapEthCall(data: any[]): Promise<string> {
     const apiKey = 'NRFBwig_CLVL0WnQLY3dUo8YkPmW-7iN';
-    const provider = new providers.AlchemyProvider('goerli', apiKey);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    return provider.call(data[0], data[1]);
+    const provider = new AlchemyProvider('goerli', apiKey);
+    return provider.call({
+      ...data[0],
+      blockTag: data[1],
+    } as TransactionRequest);
   }
 
   private async snapEthLogs(data: any[]): Promise<unknown> {
     const apiKey = 'NRFBwig_CLVL0WnQLY3dUo8YkPmW-7iN';
-    const provider = new providers.AlchemyProvider('goerli', apiKey);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    return provider.getLogs(data[0]);
+    const provider = new AlchemyProvider('goerli', apiKey);
+    return provider.getLogs(data[0] as Filter);
   }
 
   readonly rpcMocks = {
@@ -96,7 +97,7 @@ export class SnapMock implements ISnapMock {
         delete types.EIP712Domain;
 
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        return this.snap._signTypedData(domain, types, message);
+        return this.snap.signTypedData(domain, types, message);
       }),
   };
 

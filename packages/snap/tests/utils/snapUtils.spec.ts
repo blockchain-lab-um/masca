@@ -1,10 +1,10 @@
+import { getCompressedPublicKey } from '@blockchain-lab-um/utils';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 
 import {
   addFriendlyDapp,
-  getCompressedPublicKey,
   getCurrentAccount,
   getCurrentNetwork,
   getPublicKey,
@@ -21,7 +21,7 @@ import {
   getDefaultSnapState,
   publicKey,
 } from '../testUtils/constants';
-import { SnapMock, createMockSnap } from '../testUtils/snap.mock';
+import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
 
 describe('Utils [snap]', () => {
   let snapMock: SnapsGlobalObject & SnapMock;

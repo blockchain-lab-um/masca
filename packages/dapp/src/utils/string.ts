@@ -18,7 +18,6 @@ export const convertTypes = (types: string | string[] | undefined): string => {
       result = convertWords(types).reverse().join(', ');
     }
   }
-
   return result;
 };
 

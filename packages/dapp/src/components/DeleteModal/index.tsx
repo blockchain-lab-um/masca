@@ -19,7 +19,7 @@ interface DeleteModalProps {
 }
 
 function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
-  const t = useTranslations('DeleteVC');
+  const t = useTranslations('DeleteCredentialModal');
   const { api, changeVcs } = useMascaStore(
     (state) => ({
       api: state.mascaApi,

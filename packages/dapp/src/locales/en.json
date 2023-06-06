@@ -34,12 +34,12 @@
     }
   },
   "Dashboard": {
-    "noVCs": {
+    "no-credentials": {
       "load": "Load VCs",
       "or": "or",
       "get": "Get your first VC"
     },
-    "createVP": "Create Presentation",
+    "create-verifiable-presentation": "Create Presentation",
     "search": "Search all columns...",
     "table-header": {
       "credentials": "My Credentials",
@@ -78,11 +78,11 @@
     }
   },
   "Settings": {
-    "ds": "Data Stores",
-    "ds-desc": "Enable or disable data stores. Data stores are places where VCs are stored.",
+    "data-store": "Data Stores",
+    "data-store-desc": "Enable or disable data stores. Data stores are places where VCs are stored.",
     "advanced": "Advanced"
   },
-  "VC": {
+  "VerifiableCredential": {
     "vc": "Verifiable Credential",
     "formatted-tab": {
       "issuance-date": "Issuance Date",
@@ -93,24 +93,24 @@
       "expiration-date": "Expiration Date",
       "no-exp-date": "Does not have an expiration date",
       "store": "DATA STORES",
-      "createVP": "Create Presentation"
+      "create-verifiable-presentation": "Create Presentation"
     },
     "tooltip": {
       "open-did": "Open DID in Universal resolver"
     }
   },
-  "ModifyDS": {
+  "ModifyDataStoreModal": {
     "title": "Modify Credential",
     "desc": "Here you can define where the credential will be stored.",
     "done": "Done"
   },
-  "DeleteVC": {
+  "DeleteCredentialModal": {
     "title": "Delete Credential",
     "desc": "Approving this action will remove the credential from your wallet. This action cannot be undone.",
     "cancel": "Cancel",
     "delete": "Delete VC"
   },
-  "CreateVP": {
+  "CreateVerifiablePresentation": {
     "title": "Create Presentation",
     "table": {
       "title": "Selected Credentials",
@@ -127,5 +127,11 @@
       "title": "ADVANCED",
       "tooltip": "Only applicable to JWT proof format."
     }
+  },
+  "SelectCredentialsModal": {
+    "title": "Select Credentials",
+    "desc": "Select the credentials you want to include in the presentation.",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
   }
 }

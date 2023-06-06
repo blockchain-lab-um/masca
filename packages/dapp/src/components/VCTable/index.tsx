@@ -16,7 +16,6 @@ import {
   TrashIcon,
 } from '@heroicons/react/24/outline';
 import {
-  SortingState,
   createColumnHelper,
   flexRender,
   getCoreRowModel,
@@ -26,6 +25,7 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  SortingState,
   useReactTable,
 } from '@tanstack/react-table';
 import { useTranslations } from 'next-intl';
@@ -39,8 +39,8 @@ import Tooltip from '@/components/Tooltip';
 import { convertTypes } from '@/utils/string';
 import { useMascaStore, useTableStore, useToastStore } from '@/stores';
 import TablePagination from './TablePagination';
-import VCCard from './VCCard';
 import { includesDataStore, selectRows } from './tableUtils';
+import VCCard from './VCCard';
 
 const Table = () => {
   const router = useRouter();
@@ -342,15 +342,17 @@ const Table = () => {
           onClick={handleLoadVcs}
           loading={loading}
         >
-          {t('noVCs.load')}
+          {t('no-credentials.load')}
         </Button>
-        <span className="py-4 text-lg font-semibold">{t('noVCs.or')}</span>
+        <span className="py-4 text-lg font-semibold">
+          {t('no-credentials.or')}
+        </span>
         <Link
           href="https://blockchain-lab-um.github.io/course-dapp"
           target="_blank"
         >
           <Button variant="secondary" size="sm" onClick={() => {}}>
-            {t('noVCs.get')}
+            {t('no-credentials.get')}
           </Button>
         </Link>
       </div>
@@ -436,7 +438,7 @@ const Table = () => {
                           router
                             .push(
                               {
-                                pathname: '/vc',
+                                pathname: '/verifiable-credential',
                                 query: { id: row.original.metadata.id },
                               },
                               undefined,
@@ -478,7 +480,7 @@ const Table = () => {
           </div>
           {table.getSelectedRowModel().rows.length > 0 && (
             <div className="mb-2 max-lg:flex max-lg:justify-center lg:absolute lg:-bottom-5 lg:right-10">
-              <Link href="createVP">
+              <Link href="create-verifiable-presentation">
                 <Button
                   variant="primary"
                   size="wd"
@@ -488,7 +490,7 @@ const Table = () => {
                     );
                   }}
                 >
-                  {t('createVP')}{' '}
+                  {t('create-verifiable-presentation')}{' '}
                   {table.getSelectedRowModel().rows.length > 0 &&
                     `(${table.getSelectedRowModel().rows.length})`}
                 </Button>
@@ -530,7 +532,7 @@ const Table = () => {
         </div>
         {table.getSelectedRowModel().rows.length > 0 && (
           <div className="absolute -bottom-5 right-10">
-            <Link href="createVP">
+            <Link href="create-verifiable-presentation">
               <Button
                 variant="primary"
                 size="wd"
@@ -540,7 +542,7 @@ const Table = () => {
                   );
                 }}
               >
-                {t('createVP')}{' '}
+                {t('create-verifiable-presentation')}{' '}
                 {table.getSelectedRowModel().rows.length > 0 &&
                   `(${table.getSelectedRowModel().rows.length})`}
               </Button>

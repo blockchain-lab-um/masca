@@ -1,11 +1,11 @@
 import { shallow } from 'zustand/shallow';
 
+import AddressPopover from '@/components//AddressPopover';
+import ConnectButton from '@/components//ConnectButton';
+import DropdownMenu from '@/components//DropdownMenu';
 import MethodDropdownMenu from '@/components/MethodDropdownMenu';
 import { NETWORKS } from '@/utils/constants';
 import { useGeneralStore, useMascaStore } from '@/stores';
-import AddressPopover from '../AddressPopover';
-import ConnectButton from '../ConnectButton';
-import DropdownMenu from '../DropdownMenu';
 
 export const NavConnection = () => {
   const { did, currMethod, changeVcs } = useMascaStore(
