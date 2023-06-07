@@ -80,10 +80,7 @@ describe('onRpcRequest', () => {
 
     // Ceramic mock
     DIDDataStore.prototype.get = jest.fn().mockImplementation(
-      async (_key, _did) =>
-        new Promise((resolve) => {
-          resolve(ceramicData);
-        })
+      async (_key, _did) => Promise.resolve(ceramicData)
     );
 
     DIDDataStore.prototype.merge = jest.fn().mockImplementation(

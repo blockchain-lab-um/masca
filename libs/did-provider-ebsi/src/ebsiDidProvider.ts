@@ -230,7 +230,7 @@ export class EbsiDIDProvider extends AbstractIdentifierProvider {
   async updateIdentifier(
     _args: {
       did: string;
-      kms?: string | undefined;
+      kms?: string;
       alias?: string | undefined;
       options?: any;
     },
