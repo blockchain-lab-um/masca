@@ -193,7 +193,11 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
     });
   }, [hasMM, hasFlask, address]);
 
-  if (router.pathname === '/' || (hasMM && hasFlask)) {
+  if (
+    router.pathname === '/' ||
+    (hasMM && hasFlask) ||
+    router.pathname === '/ecosystem'
+  ) {
     return <>{children}</>;
   }
 
