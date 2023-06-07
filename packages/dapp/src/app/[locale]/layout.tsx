@@ -32,6 +32,7 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://masca.io'),
   title: {
     default: 'Masca',
     template: '%s | Masca',
@@ -86,6 +87,7 @@ export default async function LocaleLayout({
   params: { locale: string };
 }) {
   let messages;
+
   try {
     messages = (await import(`../../messages/${params.locale}.json`)).default;
   } catch (error) {
