@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { notFound, useRouter } from 'next/navigation';
 import { Tab } from '@headlessui/react';
 import {
   ArrowDownTrayIcon,
@@ -18,11 +18,13 @@ import { useMascaStore } from '@/stores';
 import FormatedTab from './FormatedPanel';
 import JsonTab from './JsonPanel';
 
-const CredentialDisplay = () => {
+type CredentialDisplayProps = {
+  id: string;
+};
+
+const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
   const t = useTranslations('VerifiableCredential');
-  const searchParams = useSearchParams();
   const router = useRouter();
-  const id = searchParams.get('id');
   const vcs = useMascaStore((state) => state.vcs);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [modifyDSModalOpen, setModifyDSModalOpen] = useState(false);
@@ -30,14 +32,9 @@ const CredentialDisplay = () => {
   const vc = vcs.find((VCobj) => VCobj.metadata.id === id);
 
   if (!vc) {
-    return (
-      <div className="flex h-full min-h-[50vh] justify-center rounded-3xl bg-white p-5 shadow-lg dark:bg-gray-800 dark:shadow-orange-900">
-        <ConnectedProvider>
-          <div className="flex flex-col">VC not found!</div>
-        </ConnectedProvider>
-      </div>
-    );
+    notFound();
   }
+
   return (
     <Tab.Group>
       <div className="flex items-center justify-between">

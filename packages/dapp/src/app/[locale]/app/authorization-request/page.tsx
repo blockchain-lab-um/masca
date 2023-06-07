@@ -10,10 +10,8 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <div className="flex h-full justify-center sm:h-fit">
-      <div className="dark:bg-navy-blue-800 flex h-full min-h-[50vh] w-full justify-center rounded-3xl bg-white shadow-lg">
-        <AuthorizationRequestFlow />
-      </div>
+    <div className="dark:bg-navy-blue-800 flex flex-1 rounded-3xl bg-white shadow-lg">
+      <AuthorizationRequestFlow />
     </div>
   );
 }

@@ -11,12 +11,14 @@
     "connect": "Connect MetaMask to use the dApp",
     "flask": "Install MetaMask Flask to use the dApp!"
   },
-  "Navbar": {
+  "AppNavbar": {
     "connect": "Connect Wallet",
     "menu": {
       "home": "Home",
       "dashboard": "Dashboard",
       "settings": "Settings",
+      "get-credential": "Get Credential",
+      "authorization-request": "Authorization Request",
       "other": "Other"
     },
     "dropdown": {
@@ -32,6 +34,14 @@
       "connected": "CONNECTED WITH METAMASK",
       "disconnect": "DISCONNECT"
     }
+  },
+  "PublicNavbar": {
+    "ecosystem": "Ecosystem",
+    "blog": "Blog",
+    "discord": "Discord",
+    "twitter": "Twitter",
+    "github": "Github",
+    "app": "App"
   },
   "Dashboard": {
     "no-credentials": {

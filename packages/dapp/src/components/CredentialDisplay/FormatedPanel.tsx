@@ -222,7 +222,7 @@ const FormatedTab = ({
         </div>
 
         <div className="absolute -bottom-4 right-10 hidden lg:block">
-          <Link href="create-verifiable-presentation">
+          <Link href="/app/create-verifiable-presentation">
             <Button
               variant="primary"
               onClick={() => setSelectedVCs([vc])}

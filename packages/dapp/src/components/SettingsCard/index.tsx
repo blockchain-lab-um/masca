@@ -63,7 +63,7 @@ const SettingsCard = () => {
   return (
     <div className="h-full p-6 text-lg">
       <div>
-        <div className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6  text-gray-900">
+        <div className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-900">
           {t('data-store')}
         </div>
         <div className="mt-5">

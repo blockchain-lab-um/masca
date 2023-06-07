@@ -6,11 +6,7 @@ import { notFound } from 'next/navigation';
 import clsx from 'clsx';
 import { NextIntlClientProvider } from 'next-intl';
 
-import Footer from '@/components/Footer';
-import MetaMaskProvider from '@/components/MetaMaskProvider';
-import Navbar from '@/components/Navbar';
 import ThemeProvider from '@/components/ThemeProvider';
-import ToastWrapper from '@/components/ToastWrapper';
 
 const cabin = Cabin({
   variable: '--font-cabin',
@@ -102,21 +98,13 @@ export default async function LocaleLayout({
       <body
         className={clsx(
           `${cabin.variable} ${ubuntu.variable} ${jetBrainsMono.variable} font-cabin`,
-          'bg-gradient min-h-screen'
+          'bg-gradient h-screen min-h-screen'
         )}
       >
         <NextIntlClientProvider locale={params.locale} messages={messages}>
           <ThemeProvider>
-            <div className="flex h-screen flex-col">
-              <ToastWrapper>
-                <div className="mx-4 flex h-full flex-col pt-4 lg:mx-8 xl:mx-16">
-                  <Navbar />
-                  <div className="flex-1 pt-24">
-                    <MetaMaskProvider>{children}</MetaMaskProvider>
-                  </div>
-                </div>
-              </ToastWrapper>
-              <Footer />
+            <div className="flex h-full">
+              <div className="flex-1 overflow-hidden">{children}</div>
             </div>
           </ThemeProvider>
         </NextIntlClientProvider>

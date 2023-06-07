@@ -107,7 +107,7 @@ const Controlbar = () => {
 
   return (
     <div className={clsx(isConnected ? '' : 'hidden')}>
-      <div className="lg-mt-6 mb-4 mt-12 grid grid-cols-11 grid-rows-2 gap-y-4 md:grid-rows-1">
+      <div className="mb-4 grid grid-cols-11 grid-rows-2 gap-y-4 md:grid-rows-1">
         {vcs.length > 0 && (
           <div className="col-span-11 col-start-1 row-start-2 flex gap-x-2 md:col-span-5 md:row-start-1">
             <DataStoreCombobox isConnected={isConnected} vcs={vcs} />

@@ -3,10 +3,11 @@ import { Metadata } from 'next';
 import LandingPage from '@/components/LandingPage';
 
 export const metadata: Metadata = {
-  title: 'Settings',
-  description: "Settings page for changing Masca's configuration.",
+  title: 'Home',
+  description:
+    'Home page the decentralized credential management platform Masca.',
 };
 
-export default function Home() {
+export default function Page() {
   return <LandingPage />;
 }

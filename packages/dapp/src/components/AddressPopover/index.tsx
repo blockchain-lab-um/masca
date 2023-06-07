@@ -15,7 +15,7 @@ type AddressPopoverProps = {
 };
 
 const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
-  const t = useTranslations('Navbar');
+  const t = useTranslations('AppNavbar');
   return (
     <Popover className="relative z-50">
       {({ open }) => (

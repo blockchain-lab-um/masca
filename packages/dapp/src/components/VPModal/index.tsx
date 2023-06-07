@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { Dialog, Transition } from '@headlessui/react';
 import { DocumentDuplicateIcon } from '@heroicons/react/24/solid';
 import { W3CVerifiablePresentation } from '@veramo/core';
@@ -14,6 +14,7 @@ interface VPModalProps {
 
 function VPModal({ open, setOpen, vp }: VPModalProps) {
   const router = useRouter();
+
   return (
     <Transition appear show={open} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={() => setOpen(false)}>
@@ -77,7 +78,7 @@ function VPModal({ open, setOpen, vp }: VPModalProps) {
                     <Button
                       onClick={async () => {
                         setOpen(false);
-                        await router.push('/dashboard');
+                        router.push('/app');
                       }}
                       variant="primary"
                       size="sm"

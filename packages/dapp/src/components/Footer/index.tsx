@@ -3,7 +3,7 @@
 import React from 'react';
 import { usePathname } from 'next/navigation';
 
-import { NavConnection } from '@/components/Navbar/NavConnection';
+import { NavConnection } from '@/components/AppNavbar/NavConnection';
 import ToggleTheme from '@/components/ToggleTheme';
 
 const Footer = () => {

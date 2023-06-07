@@ -59,7 +59,7 @@ const IconTwitter = () => {
 };
 
 function MenuPopover() {
-  const t = useTranslations('Navbar');
+  const t = useTranslations('AppNavbar');
 
   const solutions = [
     {
