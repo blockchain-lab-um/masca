@@ -1,8 +1,8 @@
 import { CreateVCRequestParams } from '@blockchain-lab-um/masca-types';
 import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
 import { VerifiableCredential } from '@veramo/core';
-import { ApiParams } from 'src/interfaces';
 
+import { ApiParams } from '../../interfaces';
 import { snapConfirm } from '../../utils/snapUtils';
 import { veramoCreateVC, veramoSaveVC } from '../../utils/veramoUtils';
 

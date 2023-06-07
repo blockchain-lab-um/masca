@@ -5,8 +5,8 @@ import {
 } from '@metamask/key-tree';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { Wallet } from 'ethers';
-import { MascaState } from 'src/interfaces';
 
+import { MascaState } from '../interfaces';
 import { updateSnapState } from './stateUtils';
 
 export function getAccountIndex(
