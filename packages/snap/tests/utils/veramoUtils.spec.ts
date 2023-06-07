@@ -20,7 +20,6 @@ import { getAgent } from '../../src/veramo/setup';
 import {
   address,
   bip44Entropy,
-  didWebVC,
   exampleDID,
   exampleImportedDIDWIthoutPrivateKey,
   exampleVC,
@@ -779,18 +778,6 @@ describe('Utils [veramo]', () => {
         ethereum: ethereumMock,
         data: { credential },
       });
-
-      expect(verifyResult.verified).toBe(true);
-      expect.assertions(1);
-    });
-
-    it.skip('should succeed validating a VC signed by an unsupported DID - JWT', async () => {
-      const verifyResult = await veramoVerifyData({
-        snap: snapMock,
-        ethereum: ethereumMock,
-        data: { credential: didWebVC },
-      });
-      console.log(verifyResult);
 
       expect(verifyResult.verified).toBe(true);
       expect.assertions(1);
