@@ -47,7 +47,7 @@ export class MascaKeyDidProvider extends AbstractIdentifierProvider {
 
     const key: ManagedKeyInfo = await this.importOrGenerateKey(
       {
-        kms: kms || this.defaultKms,
+        kms: kms ?? this.defaultKms,
         options: {
           keyType,
           ...(options?.privateKeyHex && {
