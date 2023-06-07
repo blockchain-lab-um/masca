@@ -37,6 +37,5 @@ export function getUniversalDidResolver() {
     web: resolveDid,
     github: resolveDid,
     cheqd: resolveDid,
-    polygonid: resolveDid,
   };
 }
