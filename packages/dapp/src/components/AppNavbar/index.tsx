@@ -43,7 +43,7 @@ export default function AppNavbar() {
           <Link
             className={clsx(
               'nav-btn',
-              pathname === '/ecosystem'
+              pathname === href
                 ? 'dark:text-orange-accent-dark text-pink-300'
                 : null
             )}
