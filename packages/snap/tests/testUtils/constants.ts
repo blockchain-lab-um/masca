@@ -114,36 +114,27 @@ export const exampleDIDDocument: DIDDocument = {
 };
 
 export const resolutionNotFound = {
-  '@context': 'https://w3id.org/did-resolution/v1',
   didDocument: null,
   didResolutionMetadata: {
-    error: 'notFound',
-    errorMessage: '404 Not Found (Dereferencing failed: notFound)',
-    contentType: 'application/did+ld+json',
+    error: 'invalidDid',
+    message: 'Error: invalidDid: invalid key type',
   },
   didDocumentMetadata: {},
 };
 
 export const resolutionMethodNotSupported = {
-  '@context': 'https://w3id.org/did-resolution/v1',
   didDocument: null,
   didResolutionMetadata: {
-    error: 'methodNotSupported',
-    errorMessage: 'Method not supported: keyclopse',
-    contentType: 'application/did+ld+json',
+    error: 'unsupportedDidMethod',
   },
   didDocumentMetadata: {},
 };
 
 export const resolutionInvalidDID = {
-  '@context': 'https://w3id.org/did-resolution/v1',
   didDocument: null,
   didResolutionMetadata: {
     error: 'invalidDid',
     message: 'Not a valid did:ethr: 0x5:0x123',
-    contentType: 'application/did+ld+json',
-    convertedFrom: 'application/did+json',
-    convertedTo: 'application/did+ld+json',
   },
   didDocumentMetadata: {},
 };
@@ -151,14 +142,8 @@ export const resolutionInvalidDID = {
 export const exampleDIDKeyDocumentUniResovler = {
   '@context': [
     'https://www.w3.org/ns/did/v1',
-    {
-      EcdsaSecp256k1VerificationKey2019:
-        'https://w3id.org/security#EcdsaSecp256k1VerificationKey2019',
-      publicKeyJwk: {
-        '@id': 'https://w3id.org/security#publicKeyJwk',
-        '@type': '@json',
-      },
-    },
+    'https://w3id.org/security#EcdsaSecp256k1VerificationKey2019',
+    'https://w3id.org/security#publicKeyJwk',
   ],
   id: 'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
   verificationMethod: [
@@ -168,6 +153,8 @@ export const exampleDIDKeyDocumentUniResovler = {
       controller: 'did:key:zQ3shW537fJMvkiw69S1FLvBaE8pyzAx4agHu6iaYzTCejuik',
       publicKeyJwk: {
         kty: 'EC',
+        alg: 'ES256K',
+        use: 'sig',
         crv: 'secp256k1',
         x: 'gKnNSP1Db4wfgbFW62FWGM1XPD6x5tk3oXuCIgJ8roU',
         y: 'Cp9WHUFAAai979txPGGdLK8IoMllWwz0LeBlvFHgFpo',
@@ -511,3 +498,37 @@ export const content = panel([
   heading('Title of the panel'),
   text('Text of the panel'),
 ]);
+
+export const didWebVC = {
+  credentialSubject: {
+    currentAddress: '2570 24th Street',
+    dateOfBirth: '1985-05-25',
+    familyName: 'Doe',
+    gender: 'F',
+    givenName: 'Susan',
+    issued: '2020-08-01',
+    personalIdentifier: 'I1234561',
+    placeOfBirth: 'Asgard',
+    userId: 'auth0|6371065f0d58f1830efa260d',
+    id: 'did:ethr:0x02e85a63c1efa1ce3a4d0c0ad2b784f19f1595008fd50d5d9f61134c372fab68a9',
+  },
+  issuer: {
+    id: 'did:web:asgard-state.auth0lab.com',
+  },
+  id: '574a0a69-eef6-4da7-846b-19cf77f25558',
+  type: ['VerifiableCredential', 'IDCard'],
+  credentialStatus: {
+    id: 'https://asgard-state.auth0lab.com/vcs/credential/status/3#105',
+    type: 'StatusList2021Entry',
+    statusPurpose: 'revocation',
+    statusListIndex: 105,
+    statusListCredential:
+      'https://asgard-state.auth0lab.com/vcs/credential/status/3',
+  },
+  '@context': ['https://www.w3.org/2018/credentials/v1'],
+  issuanceDate: '2022-11-13T14:59:54.000Z',
+  proof: {
+    type: 'JwtProof2020',
+    jwt: 'eyJraWQiOiJkaWQ6d2ViOmFzZ2FyZC1zdGF0ZS5hdXRoMGxhYi5jb20jMDRiYTAxMmNhMzhhYTZjYTgyMjAyMzVhYTNkYTdkODVmNzg2ODg0ZTUwMjFmNzM3ODg2MDZhODYyYmMwMTNhNTAyODYyY2U5NmM5Y2U3ZWQ4OTJmZmY2ZDBmZjliZDg5MTg5OWE0MzI3Y2Q0ZDQ0NDY3MTdkMjg5NzhhMDYwYjU1NCIsImFsZyI6IkVTMjU2SyIsInR5cCI6IkpXVCJ9.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiSURDYXJkIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImN1cnJlbnRBZGRyZXNzIjoiMjU3MCAyNHRoIFN0cmVldCIsImRhdGVPZkJpcnRoIjoiMTk4NS0wNS0yNSIsImZhbWlseU5hbWUiOiJEb2UiLCJnZW5kZXIiOiJGIiwiZ2l2ZW5OYW1lIjoiU3VzYW4iLCJpc3N1ZWQiOiIyMDIwLTA4LTAxIiwicGVyc29uYWxJZGVudGlmaWVyIjoiSTEyMzQ1NjEiLCJwbGFjZU9mQmlydGgiOiJBc2dhcmQiLCJ1c2VySWQiOiJhdXRoMHw2MzcxMDY1ZjBkNThmMTgzMGVmYTI2MGQifSwiY3JlZGVudGlhbFN0YXR1cyI6eyJpZCI6Imh0dHBzOi8vYXNnYXJkLXN0YXRlLmF1dGgwbGFiLmNvbS92Y3MvY3JlZGVudGlhbC9zdGF0dXMvMyMxMDUiLCJ0eXBlIjoiU3RhdHVzTGlzdDIwMjFFbnRyeSIsInN0YXR1c1B1cnBvc2UiOiJyZXZvY2F0aW9uIiwic3RhdHVzTGlzdEluZGV4IjoxMDUsInN0YXR1c0xpc3RDcmVkZW50aWFsIjoiaHR0cHM6Ly9hc2dhcmQtc3RhdGUuYXV0aDBsYWIuY29tL3Zjcy9jcmVkZW50aWFsL3N0YXR1cy8zIn19LCJzdWIiOiJkaWQ6ZXRocjoweDAyZTg1YTYzYzFlZmExY2UzYTRkMGMwYWQyYjc4NGYxOWYxNTk1MDA4ZmQ1MGQ1ZDlmNjExMzRjMzcyZmFiNjhhOSIsImp0aSI6IjU3NGEwYTY5LWVlZjYtNGRhNy04NDZiLTE5Y2Y3N2YyNTU1OCIsIm5iZiI6MTY2ODM1MTU5NCwiaXNzIjoiZGlkOndlYjphc2dhcmQtc3RhdGUuYXV0aDBsYWIuY29tIn0.dQB8vT_aNtUJfjtjMECNSSSUvEDKOXXueV9mNNdu3gzeTFgsLCsxjkTx2qTGOr-9AC3PZq1aczc9vXRnZ7zKaw',
+  },
+};

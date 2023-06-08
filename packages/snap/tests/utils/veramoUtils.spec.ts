@@ -3,7 +3,7 @@ import { DIDDataStore } from '@glazed/did-datastore';
 import { BIP44CoinTypeNode } from '@metamask/key-tree/dist/BIP44CoinTypeNode';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
-import { IIdentifier, IVerifyResult } from '@veramo/core';
+import { IIdentifier } from '@veramo/core';
 
 import { StoredCredentials } from '../../src/interfaces';
 import * as snapUtils from '../../src/utils/snapUtils';
@@ -965,9 +965,9 @@ describe('Utils [veramo]', () => {
       );
       expect(createdVP).not.toBeNull();
 
-      const verifyResult = (await agent.verifyPresentation({
+      const verifyResult = await agent.verifyPresentation({
         presentation: createdVP,
-      })) as IVerifyResult;
+      });
 
       expect(verifyResult.verified).toBe(true);
 
@@ -1037,9 +1037,9 @@ describe('Utils [veramo]', () => {
       );
       expect(createdVP).not.toBeNull();
 
-      const verifyResult = (await agent.verifyPresentation({
+      const verifyResult = await agent.verifyPresentation({
         presentation: createdVP,
-      })) as IVerifyResult;
+      });
 
       expect(verifyResult.verified).toBe(true);
 
@@ -1069,9 +1069,9 @@ describe('Utils [veramo]', () => {
       );
       expect(createdVP).not.toBeNull();
 
-      const verifyResult = (await agent.verifyPresentation({
+      const verifyResult = await agent.verifyPresentation({
         presentation: createdVP,
-      })) as IVerifyResult;
+      });
 
       expect(verifyResult.verified).toBe(true);
 
@@ -1101,9 +1101,9 @@ describe('Utils [veramo]', () => {
       );
       expect(createdVP).not.toBeNull();
 
-      const verifyResult = (await agent.verifyPresentation({
+      const verifyResult = await agent.verifyPresentation({
         presentation: createdVP,
-      })) as IVerifyResult;
+      });
 
       expect(createdVP?.verifiableCredential).toStrictEqual([
         exampleVCinVP,
@@ -1165,9 +1165,9 @@ describe('Utils [veramo]', () => {
       );
       expect(createdVP).not.toBeNull();
 
-      const verifyResult = (await agent.verifyPresentation({
+      const verifyResult = await agent.verifyPresentation({
         presentation: createdVP,
-      })) as IVerifyResult;
+      });
 
       expect(createdVP?.verifiableCredential).toStrictEqual([
         exampleVCinVP,

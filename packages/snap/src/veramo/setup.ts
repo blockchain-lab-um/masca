@@ -21,6 +21,7 @@ import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 import {
   createAgent,
+  ICredentialVerifier,
   IDataStore,
   IDIDManager,
   IKeyManager,
@@ -54,6 +55,7 @@ import { KeyManagementSystem } from '@veramo/kms-local';
 import { Resolver } from 'did-resolver';
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver';
 
+import { getUniversalDidResolver as universalDidResolver } from '../did/universal/universalDidResolver';
 import { getCurrentAccount, getEnabledVCStores } from '../utils/snapUtils';
 import { getSnapState } from '../utils/stateUtils';
 import { CeramicVCStore } from './plugins/ceramicDataStore/ceramicDataStore';
@@ -69,6 +71,7 @@ export type Agent = TAgent<
     IResolver &
     IDataManager &
     ICredentialIssuer &
+    ICredentialVerifier &
     IOIDCClientPlugin
 >;
 
@@ -120,6 +123,7 @@ export const getAgent = async (
       IResolver &
       IDataManager &
       ICredentialIssuer &
+      ICredentialVerifier &
       IOIDCClientPlugin
   >({
     plugins: [
@@ -143,6 +147,7 @@ export const getAgent = async (
           ...pkhDidResolver(),
           // ...ebsiDidResolver(),
           ...jwkDidResolver(),
+          ...universalDidResolver(),
         }),
       }),
       new DIDManager({
