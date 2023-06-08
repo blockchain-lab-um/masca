@@ -38,6 +38,16 @@ const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
   }) as string[];
 
   useEffect(() => {
+    // If there is only ceramic, select it (snap is selected by default)
+    if (
+      dataStores.length === 1 &&
+      dataStores.includes('ceramic') &&
+      !selectedItems.includes('ceramic')
+    ) {
+      setColumnFilters([{ id: 'data_store', value: ['ceramic'] }]);
+      selectedItems.push('ceramic');
+    }
+
     // inner join selectedItems and dataStores
     const filteredDataStores = dataStores.filter((ds) =>
       selectedItems.includes(ds)
