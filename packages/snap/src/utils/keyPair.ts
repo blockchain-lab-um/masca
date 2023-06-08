@@ -52,7 +52,7 @@ export async function getAddressKeyDeriver(
   return bip44CoinTypeNode;
 }
 
-export async function getAddressKey(
+export async function getAddressKeyPair(
   bip44CoinTypeNode: BIP44CoinTypeNode,
   addressIndex = 0
 ) {
@@ -77,7 +77,7 @@ export const getKeysFromAddressIndex = async (
     throw new Error('addressIndex undefined');
   }
 
-  const result = await getAddressKey(bip44CoinTypeNode, addressIndex);
+  const result = await getAddressKeyPair(bip44CoinTypeNode, addressIndex);
   if (result === null) return null;
   const { privateKey, derivationPath } = result;
   const snap = new Wallet(privateKey);

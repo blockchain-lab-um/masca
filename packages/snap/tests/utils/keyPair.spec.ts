@@ -2,7 +2,10 @@ import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 
 import { getEmptyAccountState } from '../../src/utils/config';
-import { getAddressKey, snapGetKeysFromAddress } from '../../src/utils/keyPair';
+import {
+  getAddressKeyPair,
+  snapGetKeysFromAddress,
+} from '../../src/utils/keyPair';
 import {
   address,
   address2,
@@ -69,7 +72,7 @@ describe('keyPair', function () {
 
   describe('getAddressKey', () => {
     it('should get the address key of a specific address index and BIP-44 Coin Type Node', async function () {
-      const res = await getAddressKey(bip44Entropy as BIP44CoinTypeNode);
+      const res = await getAddressKeyPair(bip44Entropy as BIP44CoinTypeNode);
       expect(res).not.toBeNull();
       expect(res?.privateKey).toEqual(privateKey);
       expect(res?.originalAddressKey).toBe(
