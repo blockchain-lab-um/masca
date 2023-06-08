@@ -181,6 +181,23 @@
     toggleVCStoreBtn.addEventListener('click', toggleVCStore);
     getavaiVCstoreBtn.addEventListener('click', getAvailableVCStores);
 
+    window.ethereum.on('accountsChanged', (...accounts) => {
+      account = (accounts[0])[0];
+      ethereum.request({
+        method: 'wallet_invokeSnap',
+        params: {
+          snapId: snapId,
+          request: {
+            method: 'setCurrentAccount',
+            params: {
+              currentAccount: account
+            }
+          },
+        },
+      });
+      console.log('account changed to ', account);
+    });
+
     // here we get permissions to interact with and install the snap
     async function connect() {
       console.log('snap id', snapId);
@@ -194,6 +211,21 @@
           [snapId]: { version: 'latest' },
         },
       });
+      let account = (await ethereum.request({ method: 'eth_requestAccounts' }))[0];
+      
+      await ethereum.request({
+        method: 'wallet_invokeSnap',
+        params: {
+          snapId: snapId,
+          request: {
+            method: 'setCurrentAccount',
+            params: {
+              currentAccount: account
+            }
+          },
+        },
+      });
+      console.log("current account set to: ", account);
     }
 
     async function getDID() {

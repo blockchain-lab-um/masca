@@ -9,6 +9,14 @@ export async function setCurrentAccount(
 ): Promise<boolean> {
   const { state, snap } = params;
   const { currentAccount } = args;
+  const entropy = await snap.request({
+    method: 'snap_getEntropy',
+    params: {
+      version: 1,
+      salt: currentAccount,
+    },
+  });
+  console.log(entropy);
   state.currentAccount = currentAccount;
   await updateSnapState(snap, state);
   return true;

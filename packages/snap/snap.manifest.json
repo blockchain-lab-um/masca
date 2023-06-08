@@ -7,7 +7,7 @@
     "url": "https://github.com/blockchain-lab-um/masca.git"
   },
   "source": {
-    "shasum": "QTVMnG4B2UW5tYoKxTxeWNoQUFDt1WHP2B/YTlzrtqg=",
+    "shasum": "BNa7SdA0Ec9Om8B3N4BBrs+KblSaXXZvBSOcEY5R9JU=",
     "location": {
       "npm": {
         "filePath": "dist/snap.js",
@@ -24,6 +24,7 @@
         "coinType": 60
       }
     ],
+    "snap_getEntropy": {},
     "snap_manageState": {},
     "endowment:network-access": {},
     "endowment:rpc": {
