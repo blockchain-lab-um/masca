@@ -41,7 +41,8 @@
     "discord": "Discord",
     "twitter": "Twitter",
     "github": "GitHub",
-    "app": "App"
+    "app": "App",
+    "menu": "Menu"
   },
   "Dashboard": {
     "no-credentials": {

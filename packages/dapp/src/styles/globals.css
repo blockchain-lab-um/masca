@@ -20,23 +20,23 @@ body {
 }
 
 @layer components {
+  .main-bg {
+    @apply dark:bg-navy-blue-900 dark:text-navy-blue-200 bg-orange-50 text-gray-700;
+  }
+
   .animated-transition {
     @apply transition-all duration-200 ease-in;
   }
 
-  .bg-gradient {
-    @apply dark:from-navy-blue-900 dark:to-navy-blue-900 dark:text-navy-blue-200 bg-gradient-to-t from-orange-50 to-orange-50 text-gray-700;
-  }
-
   .nav-btn {
-    @apply lg:text-h4 sm:text-h5 text-h6 animated-transition font-cabin dark:hover:text-orange-accent-dark relative mx-1 h-fit tracking-[1px] hover:text-pink-500 sm:mx-2 lg:mx-4;
+    @apply lg:text-h4 sm:text-h5 text-h6 animated-transition font-cabin dark:hover:text-orange-accent-dark relative h-fit tracking-[1px] hover:text-pink-500 mx-1 sm:mx-2 lg:mx-4;
   }
 
   .nav-btn::after {
-    @apply dark:bg-orange-accent-dark absolute -bottom-[0.375em] left-0 h-[0.125em] w-[0%] rounded-xl bg-pink-500 duration-300 content-[''];
+    @apply dark:bg-orange-accent-dark absolute -bottom-[0.375em] left-0 h-[0.125rem] w-0 rounded-full bg-pink-500 duration-200 content-[''];
   }
 
   .nav-btn:hover::after {
-    @apply w-[100%];
+    @apply w-full;
   }
 }

@@ -5,12 +5,12 @@ import ProjectIcon, { type ProjectIconProps } from '@/components/ProjectIcon';
 export const metadata: Metadata = {
   title: 'Ecosystem',
   description:
-    'Ecosystem page where you can find all our collaborations and projects that use Masca.',
+    'Ecosystem page where you can find all our partners and projects that use Masca.',
 };
 
 // const integrations: ProjectIconProps[] = [];
 
-const collaborations: ProjectIconProps[] = [
+const partners: ProjectIconProps[] = [
   {
     icon: '/images/monokee_logo.png',
     href: 'https://monokee.com/en/homepage/',
@@ -35,11 +35,11 @@ export default function Page() {
       </div> */}
       <div>
         <h1 className="font-ubuntu dark:text-navy-blue-50 mb-4 text-center text-2xl font-medium text-gray-900">
-          Collaborations
+          Partners
         </h1>
         <div className="flex flex-wrap justify-center gap-x-12">
-          {collaborations.map((collaboration) => (
-            <ProjectIcon key={collaboration.href} {...collaboration} />
+          {partners.map((partner) => (
+            <ProjectIcon key={partner.href} {...partner} />
           ))}
         </div>
       </div>

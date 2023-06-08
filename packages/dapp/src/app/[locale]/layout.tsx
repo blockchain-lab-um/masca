@@ -98,7 +98,8 @@ export default async function LocaleLayout({
       <body
         className={clsx(
           `${cabin.variable} ${ubuntu.variable} ${jetBrainsMono.variable} font-cabin`,
-          'bg-gradient h-screen min-h-screen'
+          'h-screen min-h-screen',
+          'main-bg'
         )}
       >
         <NextIntlClientProvider locale={params.locale} messages={messages}>
