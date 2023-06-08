@@ -1,6 +1,6 @@
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 
-import { ApiParams } from '../../interfaces';
+import type { ApiParams } from '../../interfaces';
 import { getCurrentDid } from '../../utils/didUtils';
 
 export async function getDid(params: ApiParams): Promise<string> {

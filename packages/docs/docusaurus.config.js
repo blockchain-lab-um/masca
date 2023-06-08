@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-var-requires */
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 

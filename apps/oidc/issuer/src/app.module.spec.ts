@@ -79,34 +79,33 @@ const credOfferAndTokenRequest = async (server: HttpServer<any, any>) => {
 
   const queriedCredential = query.credentials[0];
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-  const supportedCredential = response.body.credentials_supported.find(
-    (credential: any) => {
-      if (typeof queriedCredential === 'string') {
-        return credential.id === queriedCredential;
-      }
-
-      if (queriedCredential.format === credential.format) {
-        if (
-          queriedCredential.format === 'mso_mdoc' &&
-          credential.format === 'mso_mdoc' &&
-          queriedCredential.doctype === credential.doctype
-        ) {
-          return true;
-        }
-
-        if (
-          queriedCredential.format !== 'mso_mdoc' &&
-          credential.format !== 'mso_mdoc' &&
-          compareTypes(queriedCredential.types, credential.types as string[])
-        ) {
-          return true;
-        }
-      }
-
-      return false;
+  const supportedCredential = (
+    response.body.credentials_supported as any[]
+  ).find((credential: any) => {
+    if (typeof queriedCredential === 'string') {
+      return credential.id === queriedCredential;
     }
-  ) as SupportedCredential | null;
+
+    if (queriedCredential.format === credential.format) {
+      if (
+        queriedCredential.format === 'mso_mdoc' &&
+        credential.format === 'mso_mdoc' &&
+        queriedCredential.doctype === credential.doctype
+      ) {
+        return true;
+      }
+
+      if (
+        queriedCredential.format !== 'mso_mdoc' &&
+        credential.format !== 'mso_mdoc' &&
+        compareTypes(queriedCredential.types, credential.types as string[])
+      ) {
+        return true;
+      }
+    }
+
+    return false;
+  }) as SupportedCredential | null;
 
   if (!supportedCredential) {
     throw new Error('No supported credential found');
@@ -131,14 +130,13 @@ describe('Issuer controller', () => {
 
     const fastifyAdapter = new FastifyAdapter();
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, global-require, @typescript-eslint/no-var-requires
+    // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
     await fastifyAdapter.register(require('@fastify/formbody'), {
-      parser: (str: string) => {
-        return qs.parse(str, {
+      parser: (str: string) =>
+        qs.parse(str, {
           depth: 50,
           parameterLimit: 1000,
-        });
-      },
+        }),
     });
 
     app = testingModule.createNestApplication<NestFastifyApplication>(

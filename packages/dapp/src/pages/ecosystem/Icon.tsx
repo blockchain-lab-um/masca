@@ -9,14 +9,12 @@ export interface IconProps {
   width: number;
   height: number;
 }
-const Icon = ({ icon, href, alt, width, height }: IconProps) => {
-  return (
-    <div className="relative flex items-center justify-center">
-      <Link href={href}>
-        <Image src={icon} alt={alt} width={width} height={height} />
-      </Link>
-    </div>
-  );
-};
+const Icon = ({ icon, href, alt, width, height }: IconProps) => (
+  <div className="relative flex items-center justify-center">
+    <Link href={href}>
+      <Image src={icon} alt={alt} width={width} height={height} />
+    </Link>
+  </div>
+);
 
 export default Icon;

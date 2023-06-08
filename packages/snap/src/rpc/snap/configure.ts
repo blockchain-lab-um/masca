@@ -1,6 +1,6 @@
 import { divider, heading, panel, text } from '@metamask/snaps-ui';
 
-import { ApiParams } from '../../interfaces';
+import type { ApiParams } from '../../interfaces';
 import {
   snapConfirm,
   togglePopups as updatePopups,

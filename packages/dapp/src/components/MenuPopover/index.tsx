@@ -36,57 +36,49 @@ function IconOne() {
   );
 }
 
-const IconMedium = () => {
-  return (
-    <div className="relative flex h-12 w-12 items-center justify-center">
-      <Image
-        src={`/images/medium.png`}
-        alt="medium logo"
-        width={36}
-        height={36}
-      />
-    </div>
-  );
-};
+const IconMedium = () => (
+  <div className="relative flex h-12 w-12 items-center justify-center">
+    <Image
+      src={`/images/medium.png`}
+      alt="medium logo"
+      width={36}
+      height={36}
+    />
+  </div>
+);
 
-const IconDiscord = () => {
-  return (
-    <div className="relative flex h-12 w-12 items-center justify-center">
-      <Image
-        src={`/images/discord-mark-blue.png`}
-        alt="discord logo"
-        width={36}
-        height={36}
-      />
-    </div>
-  );
-};
+const IconDiscord = () => (
+  <div className="relative flex h-12 w-12 items-center justify-center">
+    <Image
+      src={`/images/discord-mark-blue.png`}
+      alt="discord logo"
+      width={36}
+      height={36}
+    />
+  </div>
+);
 
-const IconGithub = () => {
-  return (
-    <div className="relative flex h-12 w-12 items-center justify-center">
-      <Image
-        src={`/images/github-mark.png`}
-        alt="discord logo"
-        width={36}
-        height={36}
-      />
-    </div>
-  );
-};
+const IconGithub = () => (
+  <div className="relative flex h-12 w-12 items-center justify-center">
+    <Image
+      src={`/images/github-mark.png`}
+      alt="discord logo"
+      width={36}
+      height={36}
+    />
+  </div>
+);
 
-const IconTwitter = () => {
-  return (
-    <div className="relative flex h-12 w-12 items-center justify-center">
-      <Image
-        src={`/images/twitter-logo-blue.png`}
-        alt="discord logo"
-        width={36}
-        height={36}
-      />
-    </div>
-  );
-};
+const IconTwitter = () => (
+  <div className="relative flex h-12 w-12 items-center justify-center">
+    <Image
+      src={`/images/twitter-logo-blue.png`}
+      alt="discord logo"
+      width={36}
+      height={36}
+    />
+  </div>
+);
 
 function MenuPopover() {
   const t = useTranslations('Navbar');

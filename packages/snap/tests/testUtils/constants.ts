@@ -1,15 +1,14 @@
-import { JsonBIP44CoinTypeNode } from '@metamask/key-tree';
+import type { JsonBIP44CoinTypeNode } from '@metamask/key-tree';
 import { heading, panel, text } from '@metamask/snaps-ui';
-import {
+import type {
   DIDDocument,
   DIDResolutionResult,
   IIdentifier,
   MinimalImportableKey,
   W3CVerifiableCredential,
 } from '@veramo/core';
-import cloneDeep from 'lodash.clonedeep';
 
-import { MascaState, SnapConfirmParams } from '../../src/interfaces';
+import type { MascaState, SnapConfirmParams } from '../../src/interfaces';
 import { getEmptyAccountState } from '../../src/utils/config';
 
 export const mnemonic =
@@ -22,6 +21,8 @@ export const address = '0xb6665128eE91D84590f70c3268765384A9CAfBCd';
 export const address2 = '0x461e557A07AC110BC947F18b3828e26f013dac39';
 export const publicKey =
   '0x0480a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae850a9f561d414001a8bdefdb713c619d2caf08a0c9655b0cf42de065bc51e0169a';
+export const publicKey2 =
+  '0x048b551f480b75379ab40abf9fb89dbf1ecc850dfc5855eb7016d5f6c5a76abdc96bfc53007fa105b863c618c4e7767e585e1aa5c0c0dacc75884ee80a48a05508';
 export const compressedPublicKey =
   '0280a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae85';
 export const signedMsg =
@@ -467,7 +468,7 @@ const defaultSnapState: MascaState = {
 
 export const getDefaultSnapState = (): MascaState => {
   defaultSnapState.accountState[address].publicKey = publicKey;
-  return cloneDeep(defaultSnapState);
+  return structuredClone(defaultSnapState);
 };
 
 export const snapConfirmParams: SnapConfirmParams = {
