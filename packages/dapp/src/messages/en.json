@@ -26,7 +26,7 @@
       "blog-desc": "Read the Blockchain Lab:UM Medium Blog",
       "discord-desc": "Join the Blockchain Lab:UM Discord Server",
       "twitter-desc": "Follow Masca on Twitter",
-      "github-desc": "View Masca code on Github",
+      "github-desc": "View Masca code on GitHub",
       "documentation": "Documentation",
       "learn-more": "Learn more about Masca"
     },
@@ -40,7 +40,7 @@
     "blog": "Blog",
     "discord": "Discord",
     "twitter": "Twitter",
-    "github": "Github",
+    "github": "GitHub",
     "app": "App"
   },
   "Dashboard": {

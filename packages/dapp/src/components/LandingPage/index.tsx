@@ -22,13 +22,6 @@ const LandingPage = () => {
           </span>
           {t('hero-text-2')}
         </div>
-        {/* <div className="mt-16 flex justify-center">
-          <Link href="/dashboard">
-            <Button variant="white-pink" size="lg" shadow="lg">
-              {t('button-1')}
-            </Button>
-          </Link>
-        </div> */}
       </div>
     </div>
   );

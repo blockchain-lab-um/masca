@@ -41,7 +41,7 @@ const PublicNavbar = () => {
   const pathname = usePathname() ?? '/';
 
   return (
-    <div className="flex">
+    <div className="mb-8 flex ">
       <Link href="/">
         <HomeLogo />
       </Link>
