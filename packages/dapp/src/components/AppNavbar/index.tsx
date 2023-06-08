@@ -34,7 +34,7 @@ export default function AppNavbar() {
   const pathname = usePathname() ?? '/';
 
   return (
-    <div className="mb-8 flex items-center justify-between">
+    <div className="mb-20 flex items-center justify-between">
       <Link href="/">
         <HomeLogo />
       </Link>

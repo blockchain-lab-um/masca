@@ -8,7 +8,7 @@ export default async function AppLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex h-full flex-col p-4 sm:p-8">
+    <div className="flex h-full flex-col p-4 sm:p-12">
       <AppNavbar />
       <div className="flex flex-1">
         <MetaMaskProvider>
