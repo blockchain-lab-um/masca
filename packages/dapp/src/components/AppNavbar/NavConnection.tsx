@@ -71,9 +71,6 @@ export const NavConnection = () => {
     changeDid('');
   };
 
-  console.log('hasMM: ', hasMM);
-  console.log('hasFlask: ', hasFlask);
-
   if (!hasMM || !hasFlask) return null;
 
   if (isConnected) {

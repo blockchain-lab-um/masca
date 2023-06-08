@@ -20,7 +20,7 @@ const ViewTabs = () => {
     <Switch
       checked={cardView}
       onChange={setCardView}
-      className="dark:bg-navy-blue-700 relative flex w-28 flex-shrink-0 items-center justify-between rounded-full bg-white py-0.5 shadow-md"
+      className="dark:bg-navy-blue-700 relative flex w-28 flex-shrink-0 items-center justify-between rounded-full bg-white py-0.5 shadow-md outline-none focus-visible:outline-none"
     >
       <div
         className={` dark:bg-orange-accent-dark absolute z-10 h-full w-16 rounded-full bg-pink-100 transition-transform ease-in-out ${

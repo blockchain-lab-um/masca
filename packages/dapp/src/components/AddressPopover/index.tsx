@@ -4,6 +4,7 @@ import React from 'react';
 import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
+import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
 import { copyToClipboard } from '@/utils/string';
@@ -21,9 +22,11 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
       {({ open }) => (
         <>
           <Popover.Button
-            className={`text-h4 animated-transition dark:bg-orange-accent-dark dark:text-navy-blue-900 rounded-3xlpx-4 font-ubuntu inline-flex w-full justify-center rounded-full bg-pink-100 px-7 py-2.5 font-normal text-gray-800 hover:opacity-80 focus:outline-none dark:border-none ${
+            className={clsx(
+              'text-h4 animated-transition dark:bg-orange-accent-dark dark:text-navy-blue-900 rounded-3xlpx-4 font-ubuntu inline-flex w-full justify-center rounded-full border-none bg-pink-100 px-7 py-2.5 font-normal text-gray-800 hover:opacity-80',
+              'outline-none focus-visible:outline-none',
               open ? 'opacity-80' : ''
-            }`}
+            )}
           >
             <div className="flex">
               {`${address.slice(0, 5)}...${address.slice(-4)}`}

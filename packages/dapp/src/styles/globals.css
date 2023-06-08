@@ -29,7 +29,7 @@ body {
   }
 
   .nav-btn {
-    @apply lg:text-h4 sm:text-h5 text-h6 animated-transition font-cabin dark:hover:text-orange-accent-dark relative h-fit tracking-[1px] hover:text-pink-500 mx-1 sm:mx-2 lg:mx-4;
+    @apply focus-visible:outline-none outline-none lg:text-h4 sm:text-h5 text-h6 animated-transition font-cabin dark:hover:text-orange-accent-dark relative h-fit tracking-[1px] hover:text-pink-500 mx-1 sm:mx-2 lg:mx-4;
   }
 
   .nav-btn::after {

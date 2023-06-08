@@ -39,7 +39,7 @@ const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
     <Tab.Group>
       <div className="flex items-center justify-between">
         <Tab.List className="h-19 dark:bg-navy-blue-700 relative flex w-36 flex-shrink-0 justify-between rounded-full bg-white shadow-md">
-          <Tab>
+          <Tab className="outline-none focus-visible:outline-none">
             {({ selected }) => (
               <div className="relative">
                 <div
@@ -64,7 +64,7 @@ const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
           <Tab
             className={({ selected }) =>
               clsx(
-                'animated-transition z-20 mr-3 rounded-full',
+                'animated-transition z-20 mr-3 rounded-full outline-none focus-visible:outline-none',
                 selected
                   ? 'dark:text-navy-blue-900 text-pink-600'
                   : 'dark:text-navy-blue-300 dark:hover:text-navy-blue-200 text-gray-700 hover:text-gray-500'

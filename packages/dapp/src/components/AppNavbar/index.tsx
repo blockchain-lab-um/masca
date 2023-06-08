@@ -7,6 +7,7 @@ import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
 import HomeLogo from '@/components/HomeLogo';
+import MenuPopover from '@/components/MenuPopover';
 import ToggleTheme from '@/components/ToggleTheme';
 import { NavConnection } from './NavConnection';
 
@@ -35,7 +36,7 @@ export default function AppNavbar() {
 
   return (
     <div className="mb-20 flex items-center justify-between">
-      <Link href="/">
+      <Link href="/" className="focus-visible:outline-none">
         <HomeLogo />
       </Link>
       <div className="mx-2 my-auto flex">
@@ -53,6 +54,7 @@ export default function AppNavbar() {
             {t(`menu.${name}`)}
           </Link>
         ))}
+        <MenuPopover />
       </div>
       <div className="hidden md:block">
         <div className="flex justify-between">

@@ -1,6 +1,9 @@
 'use client';
 
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+
+import Button from '@/components/Button';
 
 // TODO: Move this back to page.tsx when we fully convert to server components for translations
 const LandingPage = () => {
@@ -21,6 +24,13 @@ const LandingPage = () => {
             {t('SSI')}
           </span>
           {t('hero-text-2')}
+        </div>
+        <div className="mt-16 flex justify-center">
+          <Link href="/app">
+            <Button variant="white-pink" size="lg" shadow="lg">
+              {t('button-1')}
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

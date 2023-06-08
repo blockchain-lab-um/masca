@@ -4,6 +4,7 @@ import { Fragment } from 'react';
 import Image from 'next/image';
 import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
+import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
 const IconMedium = () => {
@@ -92,88 +93,85 @@ function MenuPopover() {
     },
   ];
   return (
-    <div className="">
-      <Popover className="group relative">
-        {({ open }) => (
-          <>
-            <Popover.Button
-              className={`
-                ${
-                  open
-                    ? 'dark:text-orange-accent-dark text-pink-300'
-                    : 'dark:text-navy-blue-400 text-gray-600'
-                }
-                nav-btn flex items-end`}
-            >
-              <span>{t('menu.other')}</span>
-              <ChevronDownIcon
-                className={`animated-transition ml-1 h-5 w-5 ${
-                  open
-                    ? 'dark:text-orange-accent-dark rotate-180 text-pink-300'
-                    : 'dark:group-hover:text-orange-accent-dark text-gray-600 group-hover:text-pink-500 '
-                }
+    <Popover className="group relative">
+      {({ open }) => (
+        <>
+          <Popover.Button
+            className={clsx(
+              'nav-btn flex items-end',
+              open
+                ? 'dark:text-orange-accent-dark text-pink-300'
+                : 'dark:text-navy-blue-400 text-gray-600'
+            )}
+          >
+            <span>{t('menu.other')}</span>
+            <ChevronDownIcon
+              className={`animated-transition ml-1 h-5 w-5 ${
+                open
+                  ? 'dark:text-orange-accent-dark rotate-180 text-pink-300'
+                  : 'dark:group-hover:text-orange-accent-dark text-gray-600 group-hover:text-pink-500 '
+              }
                   `}
-                aria-hidden="true"
-              />
-            </Popover.Button>
-            <Transition
-              as={Fragment}
-              enter="transition ease-out duration-200"
-              enterFrom="opacity-0 translate-y-1"
-              enterTo="opacity-100 translate-y-0"
-              leave="transition ease-in duration-150"
-              leaveFrom="opacity-100 translate-y-0"
-              leaveTo="opacity-0 translate-y-1"
-            >
-              <Popover.Panel className="absolute right-0 z-50 mt-3 w-screen max-w-xs">
-                <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                  <div className="dark:bg-navy-blue-400 relative grid gap-8 bg-white p-7 lg:grid-cols-1">
-                    {solutions.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        target={item.target}
-                        rel="noreferrer"
-                        className="dark:hover:bg-navy-blue-500 -m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
-                      >
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center text-white sm:h-12 sm:w-12">
-                          <item.icon aria-hidden="true" />
-                        </div>
-                        <div className="ml-4">
-                          <p className="pb-0.5 text-sm font-medium text-gray-900 dark:text-white">
-                            {item.name}{' '}
-                          </p>
-                          <p className="text-sm text-gray-500 dark:text-gray-300">
-                            {item.description}
-                          </p>
-                        </div>
-                      </a>
-                    ))}
-                  </div>
-                  <div className="dark:bg-navy-blue-500 bg-gray-50 p-4">
+              aria-hidden="true"
+            />
+          </Popover.Button>
+          <Transition
+            as={Fragment}
+            enter="transition ease-out duration-200"
+            enterFrom="opacity-0 translate-y-1"
+            enterTo="opacity-100 translate-y-0"
+            leave="transition ease-in duration-150"
+            leaveFrom="opacity-100 translate-y-0"
+            leaveTo="opacity-0 translate-y-1"
+          >
+            <Popover.Panel className="absolute right-0 z-50 mt-3 w-screen max-w-xs">
+              <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                <div className="dark:bg-navy-blue-400 relative grid gap-8 bg-white p-7 lg:grid-cols-1">
+                  {solutions.map((item) => (
                     <a
-                      href="https://docs.masca.io/"
-                      target="_blank"
+                      key={item.name}
+                      href={item.href}
+                      target={item.target}
                       rel="noreferrer"
-                      className="dark:hover:bg-navy-blue-700 flow-root rounded-md px-2 py-2 transition duration-150 ease-in-out hover:bg-gray-100  focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                      className="dark:hover:bg-navy-blue-500 -m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                     >
-                      <span className="flex items-center">
-                        <span className="text-sm font-medium text-gray-900 dark:text-white">
-                          {t('dropdown.documentation')}
-                        </span>
-                      </span>
-                      <span className="block text-sm text-gray-500 dark:text-gray-300">
-                        {t('dropdown.learn-more')}
-                      </span>
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center text-white sm:h-12 sm:w-12">
+                        <item.icon aria-hidden="true" />
+                      </div>
+                      <div className="ml-4">
+                        <p className="pb-0.5 text-sm font-medium text-gray-900 dark:text-white">
+                          {item.name}{' '}
+                        </p>
+                        <p className="text-sm text-gray-500 dark:text-gray-300">
+                          {item.description}
+                        </p>
+                      </div>
                     </a>
-                  </div>
+                  ))}
                 </div>
-              </Popover.Panel>
-            </Transition>
-          </>
-        )}
-      </Popover>
-    </div>
+                <div className="dark:bg-navy-blue-500 bg-gray-50 p-4">
+                  <a
+                    href="https://docs.masca.io/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="dark:hover:bg-navy-blue-700 flow-root rounded-md px-2 py-2 transition duration-150 ease-in-out hover:bg-gray-100  focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                  >
+                    <span className="flex items-center">
+                      <span className="text-sm font-medium text-gray-900 dark:text-white">
+                        {t('dropdown.documentation')}
+                      </span>
+                    </span>
+                    <span className="block text-sm text-gray-500 dark:text-gray-300">
+                      {t('dropdown.learn-more')}
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </Popover.Panel>
+          </Transition>
+        </>
+      )}
+    </Popover>
   );
 }
 

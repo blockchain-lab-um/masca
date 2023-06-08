@@ -45,7 +45,7 @@ const PublicNavbar = () => {
 
   return (
     <div className="mb-8 flex">
-      <Link href="/">
+      <Link href="/" className="focus-visible:outline-none">
         <HomeLogo />
       </Link>
       <div className="hidden flex-1 items-center justify-end md:flex">
@@ -76,7 +76,7 @@ const PublicNavbar = () => {
           shadow="md"
           onClick={() => router.push('/app')}
         >
-          App
+          {t('app')}
         </Button>
       </div>
       <div className="flex flex-1 items-center justify-end md:hidden">

@@ -5,6 +5,7 @@ import type { AvailableMethods } from '@blockchain-lab-um/masca-types';
 import { isError } from '@blockchain-lab-um/utils';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
+import clsx from 'clsx';
 import { shallow } from 'zustand/shallow';
 
 import { useMascaStore, useToastStore } from '@/stores';
@@ -60,11 +61,12 @@ export default function MethodDropdownMenu() {
         <Fragment>
           <div>
             <Menu.Button
-              className={`dark:text-navy-blue-400 text-h5 font-ubuntu animated-transition inline-flex w-full justify-center rounded-3xl px-4 py-2 font-thin text-gray-600 focus:outline-none ${
+              className={clsx(
+                'dark:text-navy-blue-400 text-h5 font-ubuntu animated-transition inline-flex w-full justify-center rounded-3xl px-4 py-2 font-thin text-gray-600 outline-none focus:outline-none focus-visible:outline-none',
                 open
                   ? 'dark:bg-navy-blue-800 bg-orange-100/50'
                   : 'dark:hover:bg-navy-blue-800 hover:bg-orange-100/50'
-              }`}
+              )}
             >
               {currMethod}
               <ChevronDownIcon
