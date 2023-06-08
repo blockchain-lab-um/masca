@@ -110,14 +110,7 @@ export async function resolveDid(params: {
   ethereum: MetaMaskInpageProvider;
 }): Promise<DIDResolutionResult> {
   const { did, snap, ethereum } = params;
-  if (did.startsWith('did:key:zBhB') || did.startsWith('did:key:z2dm')) {
-    const agent = await getAgent(snap, ethereum);
-    const didResolution = await agent.resolveDid({ didUrl: did });
-    return didResolution;
-  }
-  const response = await fetch(
-    `https://dev.uniresolver.io/1.0/identifiers/${did}`
-  );
-  const data = (await response.json()) as DIDResolutionResult;
-  return data;
+  const agent = await getAgent(snap, ethereum);
+  const didResolution = await agent.resolveDid({ didUrl: did });
+  return didResolution;
 }
