@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 import clsx from 'clsx';
 import { NextIntlClientProvider } from 'next-intl';
 
+import AnalyticsWrapper from '@/components/AnalyticsWrapper';
 import ThemeProvider from '@/components/ThemeProvider';
 
 const cabin = Cabin({
@@ -109,6 +110,7 @@ export default async function LocaleLayout({
             </div>
           </ThemeProvider>
         </NextIntlClientProvider>
+        <AnalyticsWrapper />
       </body>
     </html>
   );

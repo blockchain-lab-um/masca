@@ -1153,6 +1153,9 @@ importers:
       '@veramo/core':
         specifier: 5.2.0
         version: 5.2.0
+      '@vercel/analytics':
+        specifier: ^1.0.1
+        version: 1.0.1
       clsx:
         specifier: ^1.2.1
         version: 1.2.1
@@ -1161,7 +1164,7 @@ importers:
         version: 6.4.0
       next:
         specifier: 13.4.4
-        version: 13.4.4(@babel/core@7.22.1)(react-dom@18.2.0)(react@18.2.0)(sass@1.62.1)
+        version: 13.4.4(@babel/core@7.22.0)(react-dom@18.2.0)(react@18.2.0)(sass@1.62.1)
       next-intl:
         specifier: 2.15.0-beta.5
         version: 2.15.0-beta.5(next@13.4.4)(react@18.2.0)
@@ -11459,6 +11462,10 @@ packages:
       - encoding
       - supports-color
 
+  /@vercel/analytics@1.0.1:
+    resolution: {integrity: sha512-Ux0c9qUfkcPqng3vrR0GTrlQdqNJ2JREn/2ydrVuKwM3RtMfF2mWX31Ijqo1opSjNAq6rK76PwtANw6kl6TAow==}
+    dev: false
+
   /@webassemblyjs/ast@1.11.6:
     resolution: {integrity: sha512-IN1xI7PwOvLPgjcf180gC1bqn3q/QaOCwYUahIOhbYUu8KA/3tw2RT/T0Gidi1l7Hhj5D/INhJxiICObqpMu4Q==}
     dependencies:
@@ -20488,7 +20495,7 @@ packages:
     dependencies:
       '@formatjs/intl-localematcher': 0.2.32
       negotiator: 0.6.3
-      next: 13.4.4(@babel/core@7.22.1)(react-dom@18.2.0)(react@18.2.0)(sass@1.62.1)
+      next: 13.4.4(@babel/core@7.22.0)(react-dom@18.2.0)(react@18.2.0)(sass@1.62.1)
       react: 18.2.0
       server-only: 0.0.1
       use-intl: 2.14.6(react@18.2.0)
@@ -20501,12 +20508,12 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      next: 13.4.4(@babel/core@7.22.1)(react-dom@18.2.0)(react@18.2.0)(sass@1.62.1)
+      next: 13.4.4(@babel/core@7.22.0)(react-dom@18.2.0)(react@18.2.0)(sass@1.62.1)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /next@13.4.4(@babel/core@7.22.1)(react-dom@18.2.0)(react@18.2.0)(sass@1.62.1):
+  /next@13.4.4(@babel/core@7.22.0)(react-dom@18.2.0)(react@18.2.0)(sass@1.62.1):
     resolution: {integrity: sha512-C5S0ysM0Ily9McL4Jb48nOQHT1BukOWI59uC3X/xCMlYIh9rJZCv7nzG92J6e1cOBqQbKovlpgvHWFmz4eKKEA==}
     engines: {node: '>=16.8.0'}
     hasBin: true
@@ -20532,7 +20539,7 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       sass: 1.62.1
-      styled-jsx: 5.1.1(@babel/core@7.22.1)(react@18.2.0)
+      styled-jsx: 5.1.1(@babel/core@7.22.0)(react@18.2.0)
       zod: 3.21.4
     optionalDependencies:
       '@next/swc-darwin-arm64': 13.4.4
@@ -24489,7 +24496,7 @@ packages:
     dependencies:
       inline-style-parser: 0.1.1
 
-  /styled-jsx@5.1.1(@babel/core@7.22.1)(react@18.2.0):
+  /styled-jsx@5.1.1(@babel/core@7.22.0)(react@18.2.0):
     resolution: {integrity: sha512-pW7uC1l4mBZ8ugbiZrcIsiIvVx1UmTfw7UkC3Um2tmfUq9Bhk8IiyEIPl6F8agHgjzku6j0xQEZbfA5uSgSaCw==}
     engines: {node: '>= 12.0.0'}
     peerDependencies:
@@ -24502,7 +24509,7 @@ packages:
       babel-plugin-macros:
         optional: true
     dependencies:
-      '@babel/core': 7.22.1
+      '@babel/core': 7.22.0
       client-only: 0.0.1
       react: 18.2.0
     dev: false
