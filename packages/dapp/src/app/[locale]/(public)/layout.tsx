@@ -6,9 +6,11 @@ export default async function PublicLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex h-full flex-col p-4 sm:p-12">
+    <div className="relative min-h-screen px-4 sm:px-12">
       <PublicNavbar />
-      <div className="flex-1">{children}</div>
+      <div className="flex min-h-screen pt-24">
+        <div className="flex-1">{children}</div>
+      </div>
     </div>
   );
 }

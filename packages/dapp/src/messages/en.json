@@ -22,13 +22,20 @@
       "other": "Other"
     },
     "dropdown": {
+      "ecosystem": "Ecosystem",
       "blog": "Blog",
-      "blog-desc": "Read the Blockchain Lab:UM Medium Blog",
-      "discord-desc": "Join the Blockchain Lab:UM Discord Server",
-      "twitter-desc": "Follow Masca on Twitter",
-      "github-desc": "View Masca code on GitHub",
+      "discord": "Discord",
+      "twitter": "Twitter",
+      "github": "GitHub",
       "documentation": "Documentation",
-      "learn-more": "Learn more about Masca"
+      "description": {
+        "ecosystem": "View the Masca Ecosystem",
+        "blog": "Read the Blockchain Lab:UM Medium Blog",
+        "discord": "Join the Blockchain Lab:UM Discord Server",
+        "twitter": "Follow Masca on Twitter",
+        "github": "View Masca code on GitHub",
+        "documentation": "Read the Masca documentation"
+      }
     },
     "address": {
       "connected": "CONNECTED WITH METAMASK",

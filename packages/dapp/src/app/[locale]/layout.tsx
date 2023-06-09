@@ -104,11 +104,7 @@ export default async function LocaleLayout({
         )}
       >
         <NextIntlClientProvider locale={params.locale} messages={messages}>
-          <ThemeProvider>
-            <div className="flex h-full">
-              <div className="flex-1 overflow-hidden">{children}</div>
-            </div>
-          </ThemeProvider>
+          <ThemeProvider>{children}</ThemeProvider>
         </NextIntlClientProvider>
         <AnalyticsWrapper />
       </body>

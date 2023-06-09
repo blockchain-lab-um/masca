@@ -22,7 +22,7 @@ const partners: ProjectIconProps[] = [
 
 export default function Page() {
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center pt-20">
       {/* <div>
         <h1 className="font-ubuntu dark:text-navy-blue-50 mb-4 mb-8 text-center text-2xl font-medium text-gray-900">
           Integrations
