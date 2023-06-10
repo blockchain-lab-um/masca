@@ -11,6 +11,12 @@
     "connect": "Connect MetaMask to use the dApp",
     "flask": "Install MetaMask Flask to use the dApp!"
   },
+  "AppBottomBar": {
+    "dashboard": "Dashboard",
+    "settings": "Settings",
+    "get-credential": "Get Credential",
+    "authorization-request": "Authorization Request"
+  },
   "AppNavbar": {
     "connect": "Connect Wallet",
     "menu": {

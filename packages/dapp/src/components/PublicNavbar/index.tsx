@@ -44,17 +44,15 @@ const PublicNavbar = () => {
   const pathname = usePathname() ?? '/';
 
   return (
-    <div className="absolute left-0 right-0 top-0 m-0 flex h-24 w-screen items-center">
+    <div className="fixed left-0 right-0 top-0 m-0 flex h-24 w-screen items-center">
       <div className="flex flex-1 items-center px-4 sm:px-12">
         <Link href="/" className="focus-visible:outline-none">
-          <Link href="/" className="focus-visible:outline-none">
-            <div className="flex">
-              <MascaLogo />
-              <h1 className="font-ubuntu text-h4 sm:text-h2 lg:text-h1 animated-transition dark:text-navy-blue-300 ml-4 text-gray-900 hover:text-pink-400 dark:hover:text-orange-200">
-                Masca
-              </h1>
-            </div>
-          </Link>
+          <div className="flex">
+            <MascaLogo />
+            <h1 className="font-ubuntu text-h4 sm:text-h2 lg:text-h1 animated-transition dark:text-navy-blue-300 ml-4 text-gray-900 hover:text-pink-400 dark:hover:text-orange-200">
+              Masca
+            </h1>
+          </div>
         </Link>
         <div className="hidden flex-1 items-center justify-end md:flex">
           <div className="mr-4">
@@ -100,7 +98,7 @@ const PublicNavbar = () => {
         <div
           className={clsx(
             'main-bg',
-            'absolute left-0 top-0 z-50 h-screen w-screen transition-transform duration-300',
+            'fixed left-0 top-0 z-50 h-screen w-screen transition-transform duration-300',
             isMenuOpen
               ? 'translate-x-0 transform'
               : '-translate-x-full transform'

@@ -81,12 +81,13 @@ const Button = ({
   return (
     <div className="rounded-ful">
       <button
-        className={`${clsx(
+        className={clsx(
           variants[variant],
           sizes[size],
           `shadow-${shadow}`,
-          'animated-transition font-ubuntu flex max-w-xs items-center gap-x-2 rounded-full font-medium'
-        )}`}
+          'animated-transition font-ubuntu flex max-w-xs items-center gap-x-2 rounded-full font-medium',
+          'outline-none focus:outline-none'
+        )}
         onClick={onClick}
         disabled={disabled}
       >

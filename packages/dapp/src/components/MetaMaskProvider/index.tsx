@@ -7,8 +7,8 @@ import detectEthereumProvider from '@metamask/detect-provider';
 import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
+import Button from '@/components/Button';
 import { useGeneralStore, useMascaStore } from '@/stores';
-import Button from '../Button';
 
 const snapId =
   process.env.USE_LOCAL === 'false'

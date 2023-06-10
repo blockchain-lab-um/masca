@@ -25,7 +25,6 @@ export const NavConnection = () => {
     hasFlask,
     address,
     chainId,
-    changeChainId,
     changeIsConnected,
     changeAddres,
     changeDid,
@@ -39,7 +38,6 @@ export const NavConnection = () => {
       changeIsConnected: state.changeIsConnected,
       changeAddres: state.changeAddress,
       changeDid: state.changeDid,
-      changeChainId: state.changeChainId,
     }),
     shallow
   );
@@ -93,9 +91,5 @@ export const NavConnection = () => {
     );
   }
 
-  return (
-    <div className="m-auto flex">
-      <ConnectButton />
-    </div>
-  );
+  return <ConnectButton />;
 };

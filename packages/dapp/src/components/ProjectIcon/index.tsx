@@ -11,7 +11,7 @@ export interface ProjectIconProps {
 
 const ProjectIcon = ({ icon, href, alt, width, height }: ProjectIconProps) => {
   return (
-    <div className="relative flex items-center justify-center">
+    <div className="flex items-center justify-center">
       <Link href={href}>
         <Image src={icon} alt={alt} width={width} height={height} />
       </Link>

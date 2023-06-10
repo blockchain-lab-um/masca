@@ -6,9 +6,9 @@ import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
+import MascaLogo from '@/components/MascaLogo';
 import MenuPopover from '@/components/MenuPopover';
 import ToggleTheme from '@/components/ToggleTheme';
-import MascaLogo from '../MascaLogo';
 import { NavConnection } from './NavConnection';
 
 const LINKS = [
@@ -35,7 +35,7 @@ export default function AppNavbar() {
   const pathname = usePathname() ?? '/';
 
   return (
-    <div className="absolute left-0 right-0 top-0 m-0 flex h-24 w-screen items-center">
+    <div className="fixed left-0 right-0 top-0 m-0 flex h-24 w-screen items-center">
       <div className="flex flex-1 items-center px-4 sm:px-12">
         <Link href="/" className="focus-visible:outline-none">
           <div className="flex">
@@ -45,7 +45,7 @@ export default function AppNavbar() {
             </h1>
           </div>
         </Link>
-        <div className="mx-2 flex flex-1 items-center justify-center">
+        <div className="mx-2 hidden flex-1 items-center justify-center md:flex">
           {LINKS.map(({ name, href }) => (
             <Link
               className={clsx(
@@ -62,8 +62,8 @@ export default function AppNavbar() {
           ))}
           <MenuPopover />
         </div>
-        <div className="hidden md:block">
-          <div className="flex justify-between">
+        <div className="flex-1 md:flex-none">
+          <div className="flex items-center justify-end">
             <NavConnection />
             <ToggleTheme />
           </div>

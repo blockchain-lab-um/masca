@@ -65,7 +65,7 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
   return (
     <div className="dark:bg-navy-blue-800 dark:text-navy-blue-400 flex-1 rounded-3xl bg-white shadow-lg">
       <div className="flex h-full items-center justify-center">
-        <h3 className="text-h3 dark:text-navy-blue-50 text-gray-800">
+        <h3 className="text-h4 md:text-h3 dark:text-navy-blue-50 text-gray-800">
           {t('connect')}
         </h3>
       </div>

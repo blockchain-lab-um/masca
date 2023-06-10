@@ -100,7 +100,7 @@ const CreatePresentationDisplay = () => {
     <>
       <ConnectedProvider>
         <div className="mt-5 flex w-full justify-between px-5">
-          <Link href="dashboard">
+          <Link href="/app/dashboard">
             <button className="animated-transition dark:text-navy-blue-50 dark:hover:bg-navy-blue-700 rounded-full p-1 text-gray-900 hover:bg-pink-100 hover:text-pink-700">
               <ArrowLeftIcon className="h-6 w-6" />
             </button>
