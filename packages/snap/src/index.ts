@@ -57,7 +57,13 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     if (request.method === 'setCurrentAccount') {
       isValidSetCurrentAccountRequest(request.params);
       res = await setCurrentAccount(
-        { state, snap, ethereum, account: '', origin },
+        {
+          state,
+          snap,
+          ethereum,
+          account: '',
+          origin,
+        },
         request.params
       );
       return ResultObject.success(res);

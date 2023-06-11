@@ -103,18 +103,16 @@ export default function DropdownMenu({
           >
             <Menu.Items className="dark:bg-navy-blue-500 absolute right-0 mt-1 w-48 rounded-3xl bg-white shadow-lg focus:outline-none">
               <div className="p-1">
-                {items.map((item, id) => {
-                  return (
-                    <DropdownMenuItem
-                      selected={item === selected}
-                      handleBtn={setSelected}
-                      key={id}
-                      variant={variant}
-                    >
-                      {item}
-                    </DropdownMenuItem>
-                  );
-                })}
+                {items.map((item, id) => (
+                  <DropdownMenuItem
+                    selected={item === selected}
+                    handleBtn={setSelected}
+                    key={id}
+                    variant={variant}
+                  >
+                    {item}
+                  </DropdownMenuItem>
+                ))}
               </div>
             </Menu.Items>
           </Transition>

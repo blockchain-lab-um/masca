@@ -1,11 +1,11 @@
 FROM blockchain-lab-um/masca:latest as builder
 
-FROM node:18.15.0-alpine3.16
+FROM node:18.16.0-alpine3.16
 
 WORKDIR /app
 
 # Install pnpm
-RUN npm i -g pnpm@7.30.0
+RUN npm i -g pnpm@8.6.0
 
 # Copy patches
 COPY --from=builder /app/patches ./patches
@@ -29,6 +29,10 @@ ENV NODE_ENV=production
 RUN npm pkg delete scripts.prepare
 
 RUN pnpm install --frozen-lockfile
+
+# Copy .env
+COPY .env .env
+
 RUN chown node:node /app
 
 USER node

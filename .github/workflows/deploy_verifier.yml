@@ -7,11 +7,13 @@ on:
     paths:
       - 'apps/oidc/verifier/**'
       - 'Dockerfile'
+      - .github/workflows/deploy_verifier.yml
   push:
     branches: [develop]
     paths:
       - 'packages/oidc/verifier/**'
       - 'Dockerfile'
+      - .github/workflows/deploy_verifier.yml
 
 jobs:
   deploy:
@@ -26,8 +28,8 @@ jobs:
         run: echo "NX_CLOUD_ACCESS_TOKEN=$NX_CLOUD_ACCESS_TOKEN" > nx-cloud.env
         env:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-      - name: Build blockchain-lab-um/ssi-snap
-        run: docker build . -t blockchain-lab-um/ssi-snap
+      - name: Build blockchain-lab-um/masca
+        run: docker build . -t blockchain-lab-um/masca
       - name: Build blockchain-lab-um/verifier
         run: docker build ./apps/oidc/verifier -t blockchain-lab-um/verifier
       - name: Change image tag

@@ -1,6 +1,6 @@
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
-import { W3CVerifiableCredential } from '@veramo/core';
+import type { SnapsGlobalObject } from '@metamask/snaps-types';
+import type { W3CVerifiableCredential } from '@veramo/core';
 
 import {
   veramoClearVCs,

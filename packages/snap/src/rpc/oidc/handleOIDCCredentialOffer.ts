@@ -1,12 +1,12 @@
-import { HandleOIDCCredentialOfferRequestParams } from '@blockchain-lab-um/masca-types';
-import { SignArgs } from '@blockchain-lab-um/oidc-client-plugin';
-import { CredentialRequest } from '@blockchain-lab-um/oidc-types';
+import type { HandleOIDCCredentialOfferRequestParams } from '@blockchain-lab-um/masca-types';
+import type { SignArgs } from '@blockchain-lab-um/oidc-client-plugin';
+import type { CredentialRequest } from '@blockchain-lab-um/oidc-types';
 import { isError } from '@blockchain-lab-um/utils';
 import { heading, panel } from '@metamask/snaps-ui';
 import type { VerifiableCredential } from '@veramo/core';
 import { decodeCredentialToObject } from '@veramo/utils';
 
-import { ApiParams } from '../../interfaces';
+import type { ApiParams } from '../../interfaces';
 import { getCurrentDid } from '../../utils/didUtils';
 import { snapGetKeysFromAddress } from '../../utils/keyPair';
 import { sign } from '../../utils/sign';

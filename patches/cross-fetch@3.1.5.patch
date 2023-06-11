@@ -1,5 +1,5 @@
 diff --git a/dist/browser-ponyfill.js b/dist/browser-ponyfill.js
-index f216aa35a9d32f86df5701c78cf7b039bc2cd47c..a5f764e94a12b2848dd1938b00117a8fe20614f8 100644
+index f216aa35a9d32f86df5701c78cf7b039bc2cd47c..1c46402f4a1bebc530fb0bc9c9878879f87b300b 100644
 --- a/dist/browser-ponyfill.js
 +++ b/dist/browser-ponyfill.js
 @@ -543,12 +543,22 @@ __self__.fetch.ponyfill = true;
@@ -14,6 +14,7 @@ index f216aa35a9d32f86df5701c78cf7b039bc2cd47c..a5f764e94a12b2848dd1938b00117a8f
 -exports.Headers = ctx.Headers
 -exports.Request = ctx.Request
 -exports.Response = ctx.Response
+-module.exports = exports
 +var ctx = global.fetch ? global : __self__;
 +// var ctx = __self__; // this line disable service worker support temporarily
 +// exports = ctx.fetch // To enable: import fetch from 'cross-fetch'
@@ -29,7 +30,7 @@ index f216aa35a9d32f86df5701c78cf7b039bc2cd47c..a5f764e94a12b2848dd1938b00117a8f
 +  fetch: ctx.fetch,
 +  Headers: ctx.Headers,
 +  Request: ctx.Request,
-+  Response: ctx.Response,
++  Response: ctx.Response
 +};
 +
- module.exports = exports
++module.exports = exports;

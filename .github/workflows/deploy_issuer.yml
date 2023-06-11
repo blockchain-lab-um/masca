@@ -7,11 +7,13 @@ on:
     paths:
       - 'apps/oidc/issuer/**'
       - 'Dockerfile'
+      - .github/workflows/deploy_issuer.yml
   push:
     branches: [develop]
     paths:
       - 'packages/oidc/issuer/**'
       - 'Dockerfile'
+      - .github/workflows/deploy_issuer.yml
 
 jobs:
   deploy:
@@ -26,8 +28,8 @@ jobs:
         run: echo "NX_CLOUD_ACCESS_TOKEN=$NX_CLOUD_ACCESS_TOKEN" > nx-cloud.env
         env:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-      - name: Build blockchain-lab-um/ssi-snap
-        run: docker build . -t blockchain-lab-um/ssi-snap
+      - name: Build blockchain-lab-um/masca
+        run: docker build . -t blockchain-lab-um/masca
       - name: Build blockchain-lab-um/issuer
         run: docker build ./apps/oidc/issuer -t blockchain-lab-um/issuer
       - name: Change image tag

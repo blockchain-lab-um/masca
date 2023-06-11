@@ -1,4 +1,3 @@
-/* eslint-disable unused-imports/no-unused-vars */
 import { decodePublicKey } from '@blockchain-lab-um/utils';
 import { getResolver } from '@cef-ebsi/key-did-resolver';
 import {
@@ -53,8 +52,8 @@ const startsWithMap: Record<string, ResolutionFunction> = {
 export const resolveDidKey: DIDResolver = async (
   didUrl: string,
   parsed: ParsedDID,
-  resolver: Resolvable,
-  options: DIDResolutionOptions
+  _resolver: Resolvable,
+  _options: DIDResolutionOptions
 ): Promise<DIDResolutionResult> => {
   try {
     const startsWith = parsed.did.substring(0, 12);

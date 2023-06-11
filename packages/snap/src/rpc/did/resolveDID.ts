@@ -1,5 +1,4 @@
-import { ApiParams } from 'src/interfaces';
-
+import type { ApiParams } from '../../interfaces';
 import { resolveDid } from '../../utils/didUtils';
 
 export async function resolveDID(params: ApiParams, did: string) {

@@ -5,7 +5,7 @@ module.exports = {
     'airbnb-typescript/base',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
-    'plugin:prettier/recommended',
+    'prettier',
   ],
   overrides: [
     {
@@ -40,10 +40,14 @@ module.exports = {
       'LabeledStatement',
       'WithStatement',
     ],
+    'no-param-reassign': [2, { props: false }],
+    'no-await-in-loop': 'off',
     'no-nested-ternary': 'off',
     '@typescript-eslint/no-unsafe-assignment': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-unsafe-member-access': 'off',
+    '@typescript-eslint/no-unsafe-argument': 'off',
+    '@typescript-eslint/require-await': 'off',
     // for unused-imports library
     '@typescript-eslint/no-unused-vars': 'off',
     'unused-imports/no-unused-imports': 'error',
@@ -73,9 +77,6 @@ module.exports = {
         ],
       },
     ],
-    // for prettier
-    'prettier/prettier': ['error', { singleQuote: true }],
-    '@typescript-eslint/require-await': 'off',
     'import/extensions': 'off',
   },
   overrides: [

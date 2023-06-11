@@ -5,9 +5,9 @@ import {
 } from '@blockchain-lab-um/veramo-datamanager';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
-import { W3CVerifiableCredential } from '@veramo/core';
-import { sha256 } from 'ethereum-cryptography/sha256';
+import type { SnapsGlobalObject } from '@metamask/snaps-types';
+import type { W3CVerifiableCredential } from '@veramo/core';
+import { sha256 } from 'ethers';
 import jsonpath from 'jsonpath';
 
 import { aliases, getCeramic } from '../../../utils/ceramicUtils';
@@ -131,7 +131,6 @@ export class CeramicVCStore extends AbstractDataStore {
       await datastore.merge('StoredCredentials', storedCredentials);
       return id;
     }
-    console.log('VC ceramic', vc);
     const id = sha256(Buffer.from(JSON.stringify(vc))).toString();
     const storedCredentialsNew: StoredCredentials = { vcs: {} };
     storedCredentialsNew.vcs[id] = vc;
@@ -139,8 +138,7 @@ export class CeramicVCStore extends AbstractDataStore {
     return id;
   }
 
-  // eslint-disable-next-line unused-imports/no-unused-vars
-  public async clear(args: IFilterArgs): Promise<boolean> {
+  public async clear(_args: IFilterArgs): Promise<boolean> {
     const state = await getSnapState(this.snap);
     const ceramic = await getCeramic(this.ethereum, this.snap, state);
     const datastore = new DIDDataStore({ ceramic, model: aliases });

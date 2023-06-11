@@ -50,7 +50,7 @@ export async function queryVCs(
   params?: QueryVCsRequestParams
 ): Promise<Result<QueryVCsRequestResult[]>> {
   return sendSnapMethod(
-    { method: 'queryVCs', params: params || {} },
+    { method: 'queryVCs', params: params ?? {} },
     this.snapId
   );
 }
@@ -341,28 +341,26 @@ export class Masca {
     this.supportedMethods = supportedMethods;
   }
 
-  public getMascaApi = (): MascaApi => {
-    return {
-      saveVC: saveVC.bind(this),
-      queryVCs: queryVCs.bind(this),
-      createVP: createVP.bind(this),
-      togglePopups: togglePopups.bind(this),
-      getDID: getDID.bind(this),
-      getSelectedMethod: getSelectedMethod.bind(this),
-      getAvailableMethods: getAvailableMethods.bind(this),
-      switchDIDMethod: switchDIDMethod.bind(this),
-      getVCStore: getVCStore.bind(this),
-      setVCStore: setVCStore.bind(this),
-      getAvailableVCStores: getAvailableVCStores.bind(this),
-      deleteVC: deleteVC.bind(this),
-      getSnapSettings: getSnapSettings.bind(this),
-      getAccountSettings: getAccountSettings.bind(this),
-      resolveDID: resolveDID.bind(this),
-      createVC: createVC.bind(this),
-      setCurrentAccount: setCurrentAccount.bind(this),
-      handleOIDCCredentialOffer: handleOIDCCredentialOffer.bind(this),
-      handleOIDCAuthorizationRequest: handleOIDCAuthorizationRequest.bind(this),
-      sendOIDCAuthorizationResponse: sendOIDCAuthorizationResponse.bind(this),
-    };
-  };
+  public getMascaApi = (): MascaApi => ({
+    saveVC: saveVC.bind(this),
+    queryVCs: queryVCs.bind(this),
+    createVP: createVP.bind(this),
+    togglePopups: togglePopups.bind(this),
+    getDID: getDID.bind(this),
+    getSelectedMethod: getSelectedMethod.bind(this),
+    getAvailableMethods: getAvailableMethods.bind(this),
+    switchDIDMethod: switchDIDMethod.bind(this),
+    getVCStore: getVCStore.bind(this),
+    setVCStore: setVCStore.bind(this),
+    getAvailableVCStores: getAvailableVCStores.bind(this),
+    deleteVC: deleteVC.bind(this),
+    getSnapSettings: getSnapSettings.bind(this),
+    getAccountSettings: getAccountSettings.bind(this),
+    resolveDID: resolveDID.bind(this),
+    createVC: createVC.bind(this),
+    setCurrentAccount: setCurrentAccount.bind(this),
+    handleOIDCCredentialOffer: handleOIDCCredentialOffer.bind(this),
+    handleOIDCAuthorizationRequest: handleOIDCAuthorizationRequest.bind(this),
+    sendOIDCAuthorizationResponse: sendOIDCAuthorizationResponse.bind(this),
+  });
 }

@@ -1,6 +1,6 @@
-import { SetCurrentAccountRequestParams } from '@blockchain-lab-um/masca-types';
+import type { SetCurrentAccountRequestParams } from '@blockchain-lab-um/masca-types';
 
-import { ApiParams } from '../../interfaces';
+import type { ApiParams } from '../../interfaces';
 import { updateSnapState } from '../../utils/stateUtils';
 
 export async function setCurrentAccount(

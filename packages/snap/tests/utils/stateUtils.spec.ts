@@ -1,6 +1,6 @@
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
+import type { SnapsGlobalObject } from '@metamask/snaps-types';
 
 import {
   getEmptyAccountState,
@@ -55,7 +55,6 @@ describe('Utils [state]', () => {
       const emptyState = {};
 
       await expect(
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         updateSnapState(snapMock, emptyState as any)
       ).resolves.not.toThrow();
 

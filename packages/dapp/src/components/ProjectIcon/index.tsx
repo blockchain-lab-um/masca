@@ -9,14 +9,12 @@ export interface ProjectIconProps {
   height: number;
 }
 
-const ProjectIcon = ({ icon, href, alt, width, height }: ProjectIconProps) => {
-  return (
-    <div className="flex items-center justify-center">
-      <Link href={href}>
-        <Image src={icon} alt={alt} width={width} height={height} />
-      </Link>
-    </div>
-  );
-};
+const ProjectIcon = ({ icon, href, alt, width, height }: ProjectIconProps) => (
+  <div className="flex items-center justify-center">
+    <Link href={href}>
+      <Image src={icon} alt={alt} width={width} height={height} />
+    </Link>
+  </div>
+);
 
 export default ProjectIcon;

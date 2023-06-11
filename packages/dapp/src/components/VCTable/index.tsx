@@ -92,11 +92,9 @@ const Table = () => {
       },
       {
         id: 'type',
-        cell: (info) => {
-          return (
-            <span className="font-bold">{info.getValue().toString()}</span>
-          );
-        },
+        cell: (info) => (
+          <span className="font-bold">{info.getValue().toString()}</span>
+        ),
         header: () => <span className="">{t('table.type')}</span>,
       }
     ),
@@ -154,23 +152,18 @@ const Table = () => {
         header: () => <span>{t('table.issuer')}</span>,
       }
     ),
-    columnHelper.accessor(
-      (row) => {
-        return row.data.expirationDate;
-      },
-      {
-        id: 'exp_date',
-        cell: (info) => (
-          <span className="flex items-center justify-center">
-            {info.getValue() === undefined
-              ? '/'
-              : new Date(info.getValue() as string).toDateString()}
-          </span>
-        ),
-        header: () => <span>{t('table.expiration-date')}</span>,
-        enableGlobalFilter: false,
-      }
-    ),
+    columnHelper.accessor((row) => row.data.expirationDate, {
+      id: 'exp_date',
+      cell: (info) => (
+        <span className="flex items-center justify-center">
+          {info.getValue() === undefined
+            ? '/'
+            : new Date(info.getValue() as string).toDateString()}
+        </span>
+      ),
+      header: () => <span>{t('table.expiration-date')}</span>,
+      enableGlobalFilter: false,
+    }),
     columnHelper.accessor(
       (row) => {
         if (row.data.expirationDate)

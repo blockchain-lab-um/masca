@@ -18,15 +18,13 @@ const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
   // Get all data stores from vcs
   const dataStoresFull = vcs
     .filter((vc) => vc.metadata.store !== undefined)
-    .map((vc) => {
-      return vc.metadata.store;
-    })
+    .map((vc) => vc.metadata.store)
     .flat() as string[];
 
   // Remove duplicates
-  const dataStores = dataStoresFull.filter((element, index) => {
-    return dataStoresFull.indexOf(element) === index;
-  });
+  const dataStores = dataStoresFull.filter(
+    (element, index) => dataStoresFull.indexOf(element) === index
+  );
 
   const selectedItems = useTableStore((state) => {
     for (let i = 0; i < state.columnFilters.length; i += 1) {
@@ -59,9 +57,9 @@ const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
   const filteredDataStores =
     query === ''
       ? dataStores
-      : dataStores.filter((ds) => {
-          return ds.toLowerCase().includes(query.toLowerCase());
-        });
+      : dataStores.filter((ds) =>
+          ds.toLowerCase().includes(query.toLowerCase())
+        );
 
   return (
     <div className="">

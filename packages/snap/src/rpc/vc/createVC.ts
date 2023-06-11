@@ -1,8 +1,8 @@
-import { CreateVCRequestParams } from '@blockchain-lab-um/masca-types';
+import type { CreateVCRequestParams } from '@blockchain-lab-um/masca-types';
 import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
-import { VerifiableCredential } from '@veramo/core';
-import { ApiParams } from 'src/interfaces';
+import type { VerifiableCredential } from '@veramo/core';
 
+import type { ApiParams } from '../../interfaces';
 import { snapConfirm } from '../../utils/snapUtils';
 import { veramoCreateVC, veramoSaveVC } from '../../utils/veramoUtils';
 
@@ -12,8 +12,8 @@ export async function createVC(
 ): Promise<VerifiableCredential> {
   const { minimalUnsignedCredential, proofFormat, options } = createVCParams;
 
-  const { store = 'snap' } = options || {};
-  const { save } = options || {};
+  const { store = 'snap' } = options ?? {};
+  const { save } = options ?? {};
 
   const vc = await veramoCreateVC(params, {
     minimalUnsignedCredential,

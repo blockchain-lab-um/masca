@@ -1,7 +1,7 @@
-import { SetVCStoreRequestParams } from '@blockchain-lab-um/masca-types';
+import type { SetVCStoreRequestParams } from '@blockchain-lab-um/masca-types';
 import { heading, panel, text } from '@metamask/snaps-ui';
 
-import { ApiParams } from '../../interfaces';
+import type { ApiParams } from '../../interfaces';
 import { snapConfirm } from '../../utils/snapUtils';
 import { updateSnapState } from '../../utils/stateUtils';
 

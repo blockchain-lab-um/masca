@@ -16,9 +16,7 @@ import { useToastStore } from '@/stores';
 const ToastWrapper = ({ children }: { children: JSX.Element }) => {
   const timerRef = useRef(0);
 
-  useEffect(() => {
-    return () => clearTimeout(timerRef.current);
-  }, []);
+  useEffect(() => () => clearTimeout(timerRef.current), []);
 
   const { open, setOpen, loading, type, title } = useToastStore(
     (state) => ({

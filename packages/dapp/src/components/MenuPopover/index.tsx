@@ -8,89 +8,79 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
-const IconEcosystem = () => {
-  return (
-    <svg
-      width="48"
-      height="48"
-      viewBox="0 0 48 48"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M24 11L35.2583 17.5V30.5L24 37L12.7417 30.5V17.5L24 11Z"
-        stroke="#FE3D67"
-        strokeWidth="2"
-      />
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M16.7417 19.8094V28.1906L24 32.3812L31.2584 28.1906V19.8094L24 15.6188L16.7417 19.8094Z"
-        stroke="#FF8BA7"
-        strokeWidth="2"
-      />
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M20.7417 22.1196V25.882L24 27.7632L27.2584 25.882V22.1196L24 20.2384L20.7417 22.1196Z"
-        stroke="#FF8BA7"
-        strokeWidth="2"
-      />
-    </svg>
-  );
-};
+const IconEcosystem = () => (
+  <svg
+    width="48"
+    height="48"
+    viewBox="0 0 48 48"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M24 11L35.2583 17.5V30.5L24 37L12.7417 30.5V17.5L24 11Z"
+      stroke="#FE3D67"
+      strokeWidth="2"
+    />
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M16.7417 19.8094V28.1906L24 32.3812L31.2584 28.1906V19.8094L24 15.6188L16.7417 19.8094Z"
+      stroke="#FF8BA7"
+      strokeWidth="2"
+    />
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M20.7417 22.1196V25.882L24 27.7632L27.2584 25.882V22.1196L24 20.2384L20.7417 22.1196Z"
+      stroke="#FF8BA7"
+      strokeWidth="2"
+    />
+  </svg>
+);
 
-const IconMedium = () => {
-  return (
-    <div className="relative flex h-12 w-12 items-center justify-center">
-      <Image
-        src={`/images/medium.png`}
-        alt="medium logo"
-        width={36}
-        height={36}
-      />
-    </div>
-  );
-};
+const IconMedium = () => (
+  <div className="relative flex h-12 w-12 items-center justify-center">
+    <Image
+      src={`/images/medium.png`}
+      alt="medium logo"
+      width={36}
+      height={36}
+    />
+  </div>
+);
 
-const IconDiscord = () => {
-  return (
-    <div className="relative flex h-12 w-12 items-center justify-center">
-      <Image
-        src={`/images/discord-mark-blue.png`}
-        alt="discord logo"
-        width={36}
-        height={36}
-      />
-    </div>
-  );
-};
+const IconDiscord = () => (
+  <div className="relative flex h-12 w-12 items-center justify-center">
+    <Image
+      src={`/images/discord-mark-blue.png`}
+      alt="discord logo"
+      width={36}
+      height={36}
+    />
+  </div>
+);
 
-const IconGithub = () => {
-  return (
-    <div className="relative flex h-12 w-12 items-center justify-center">
-      <Image
-        src={`/images/github-mark.png`}
-        alt="discord logo"
-        width={36}
-        height={36}
-      />
-    </div>
-  );
-};
+const IconGithub = () => (
+  <div className="relative flex h-12 w-12 items-center justify-center">
+    <Image
+      src={`/images/github-mark.png`}
+      alt="discord logo"
+      width={36}
+      height={36}
+    />
+  </div>
+);
 
-const IconTwitter = () => {
-  return (
-    <div className="relative flex h-12 w-12 items-center justify-center">
-      <Image
-        src={`/images/twitter-logo-blue.png`}
-        alt="discord logo"
-        width={36}
-        height={36}
-      />
-    </div>
-  );
-};
+const IconTwitter = () => (
+  <div className="relative flex h-12 w-12 items-center justify-center">
+    <Image
+      src={`/images/twitter-logo-blue.png`}
+      alt="discord logo"
+      width={36}
+      height={36}
+    />
+  </div>
+);
 
 type LinkProps = {
   name: string;
@@ -135,23 +125,19 @@ type DropDownItemProps = {
   description: string;
 };
 
-const DropDownItem = ({ SVGIcon, name, description }: DropDownItemProps) => {
-  return (
-    <>
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center text-white sm:h-12 sm:w-12">
-        <SVGIcon aria-hidden="true" />
-      </div>
-      <div className="ml-4">
-        <p className="pb-0.5 text-sm font-medium text-gray-900 dark:text-white">
-          {name}{' '}
-        </p>
-        <p className="text-sm text-gray-500 dark:text-gray-300">
-          {description}
-        </p>
-      </div>
-    </>
-  );
-};
+const DropDownItem = ({ SVGIcon, name, description }: DropDownItemProps) => (
+  <>
+    <div className="flex h-10 w-10 shrink-0 items-center justify-center text-white sm:h-12 sm:w-12">
+      <SVGIcon aria-hidden="true" />
+    </div>
+    <div className="ml-4">
+      <p className="pb-0.5 text-sm font-medium text-gray-900 dark:text-white">
+        {name}{' '}
+      </p>
+      <p className="text-sm text-gray-500 dark:text-gray-300">{description}</p>
+    </div>
+  </>
+);
 
 function MenuPopover() {
   const t = useTranslations('AppNavbar');

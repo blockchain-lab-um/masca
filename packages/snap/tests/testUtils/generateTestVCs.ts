@@ -3,7 +3,8 @@ import type {
   ProofFormat,
   VerifiableCredential,
 } from '@veramo/core';
-import type { Agent } from 'src/veramo/setup';
+
+import type { Agent } from '../../src/veramo/setup';
 
 /**
  * Test credentials
@@ -51,11 +52,13 @@ export async function createTestVCs(
   options?: CreateTestVCsOptions
 ): Promise<TestCredentials> {
   const { agent, proofFormat, payload } = args;
+
   const exampleVeramoVCJWT: VerifiableCredential =
     await agent.createVerifiableCredential({
       ...(options?.keyRef && { keyRef: options.keyRef }),
       proofFormat,
       credential: payload,
     });
-  return { exampleVeramoVCJWT } as TestCredentials;
+
+  return { exampleVeramoVCJWT };
 }

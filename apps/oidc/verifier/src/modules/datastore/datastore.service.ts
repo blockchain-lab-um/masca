@@ -1,6 +1,5 @@
 import { ConfigService } from '@nestjs/config';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import cloneDeep from 'lodash.clonedeep';
 
 import { IConfig } from '../../config/configuration.js';
 import {
@@ -22,12 +21,12 @@ export class DatastoreService {
 
   getUserSession(id: string): UserSession | null {
     if (!this.userSessionStore[id]) return null;
-    return cloneDeep(this.userSessionStore[id].data);
+    return structuredClone(this.userSessionStore[id].data);
   }
 
   getVerificationResults(id: string): VerificationResults | null {
     if (!this.verificationResultsStore[id]) return null;
-    return cloneDeep(this.verificationResultsStore[id].data);
+    return structuredClone(this.verificationResultsStore[id].data);
   }
 
   createUserSession(id: string, userSession: UserSession): void {
