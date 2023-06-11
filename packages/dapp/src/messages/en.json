@@ -29,6 +29,8 @@
     },
     "dropdown": {
       "ecosystem": "Ecosystem",
+      "get-credential": "Get Credential",
+      "authorization-request": "Authorization Request",
       "blog": "Blog",
       "discord": "Discord",
       "twitter": "Twitter",
@@ -36,6 +38,8 @@
       "documentation": "Documentation",
       "description": {
         "ecosystem": "View the Masca Ecosystem",
+        "get-credential": "Get your credential using the OpenID Connect protocol",
+        "authorization-request": "Create a verifiable presentation using the OpenID Connect protocol",
         "blog": "Read the Blockchain Lab:UM Medium Blog",
         "discord": "Join the Blockchain Lab:UM Discord Server",
         "twitter": "Follow Masca on Twitter",

@@ -96,6 +96,19 @@ const INTERNAL_LINKS: LinkProps[] = [
   },
 ];
 
+const INTERNAL_EXTRA_LINKS = [
+  {
+    name: 'get-credential',
+    href: '/app/get-credential',
+    icon: IconEcosystem,
+  },
+  {
+    name: 'authorization-request',
+    href: '/app/authorization-request',
+    icon: IconEcosystem,
+  },
+];
+
 const EXTERNAL_LINKS: LinkProps[] = [
   {
     name: 'blog',
@@ -182,6 +195,19 @@ function MenuPopover() {
                       key={link.name}
                       href={link.href}
                       className="dark:hover:bg-navy-blue-500 -m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                    >
+                      <DropDownItem
+                        SVGIcon={link.icon}
+                        name={t(`dropdown.${link.name}`)}
+                        description={t(`dropdown.description.${link.name}`)}
+                      />
+                    </Link>
+                  ))}
+                  {INTERNAL_EXTRA_LINKS.map((link) => (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      className="dark:hover:bg-navy-blue-500 -m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50 xl:hidden"
                     >
                       <DropDownItem
                         SVGIcon={link.icon}

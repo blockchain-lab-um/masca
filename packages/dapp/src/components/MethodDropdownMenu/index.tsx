@@ -56,7 +56,7 @@ export default function MethodDropdownMenu() {
   };
 
   return (
-    <Menu as="div" className="relative z-20 mx-2 hidden sm:block">
+    <Menu as="div" className="relative z-20 mx-2 hidden md:block">
       {({ open }) => (
         <Fragment>
           <div>
