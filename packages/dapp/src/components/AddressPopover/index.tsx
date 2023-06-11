@@ -32,7 +32,7 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
               {`${address.slice(0, 5)}...${address.slice(-4)}`}
 
               <ChevronDownIcon
-                className={`animated-transition -mr-1 ml-2 h-5 w-5 max-md:rotate-180 ${
+                className={`animated-transition -mr-1 ml-2 h-5 w-5 ${
                   open ? 'rotate-180' : ''
                 }`}
               />
@@ -46,7 +46,7 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
             leaveFrom="transform scale-100 opacity-100"
             leaveTo="transform scale-95 opacity-0"
           >
-            <Popover.Panel className="dark:bg-navy-blue-500 absolute right-0 rounded-2xl bg-white shadow-xl max-md:-top-12 max-md:mb-2 max-md:-translate-y-full max-md:transform md:mt-2">
+            <Popover.Panel className="dark:bg-navy-blue-500 absolute right-0 mt-2 rounded-2xl bg-white shadow-xl">
               <div className="rounded-2xl px-6 pb-3 pt-6 shadow-sm">
                 <div className="flex flex-col justify-between gap-3">
                   <div>

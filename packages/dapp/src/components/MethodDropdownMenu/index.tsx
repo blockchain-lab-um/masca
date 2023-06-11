@@ -56,7 +56,7 @@ export default function MethodDropdownMenu() {
   };
 
   return (
-    <Menu as="div" className="relative z-20 mx-2">
+    <Menu as="div" className="relative z-20 mx-2 hidden sm:block">
       {({ open }) => (
         <Fragment>
           <div>
@@ -70,9 +70,10 @@ export default function MethodDropdownMenu() {
             >
               {currMethod}
               <ChevronDownIcon
-                className={`dark:text-navy-blue-400 animated-transition -mr-1 ml-2 h-5 w-5 text-gray-600 max-md:rotate-180 ${
+                className={clsx(
+                  'dark:text-navy-blue-400 animated-transition -mr-1 ml-2 h-5 w-5 text-gray-600',
                   open ? 'rotate-180' : ''
-                }`}
+                )}
               />
             </Menu.Button>
           </div>
@@ -86,7 +87,7 @@ export default function MethodDropdownMenu() {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="dark:bg-navy-blue-500 absolute right-0 mt-1 w-48 rounded-3xl bg-white shadow-lg max-md:-top-12 max-md:-translate-y-full max-md:transform">
+            <Menu.Items className="dark:bg-navy-blue-500 absolute right-0 mt-1 w-48 rounded-3xl bg-white shadow-lg">
               <div className="p-1 text-center ">
                 {methods.map((method, id) => (
                   <DropdownButton

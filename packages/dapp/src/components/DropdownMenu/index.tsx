@@ -66,7 +66,7 @@ export default function DropdownMenu({
   shadow = 'sm',
 }: DropdownMenuProps) {
   return (
-    <Menu as="div" className="relative z-10">
+    <Menu as="div" className="relative z-10 hidden sm:block">
       {({ open }) => (
         <Fragment>
           <div>
