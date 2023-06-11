@@ -63,7 +63,7 @@ export default function AppNavbar() {
               {t(`menu.${name}`)}
             </Link>
           ))}
-            {EXTRA_LINKS.map(({ name, href }) => (
+          {EXTRA_LINKS.map(({ name, href }) => (
             <Link
               className={clsx(
                 'nav-btn',
