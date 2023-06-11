@@ -11,7 +11,7 @@ import Button from '@/components/Button';
 import { useGeneralStore, useMascaStore } from '@/stores';
 
 const snapId =
-  process.env.USE_LOCAL === 'false'
+  process.env.USE_LOCAL === 'true'
     ? 'local:http://localhost:8081'
     : 'npm:@blockchain-lab-um/masca';
 
