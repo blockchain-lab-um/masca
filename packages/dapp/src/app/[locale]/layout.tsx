@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     siteName: 'Masca',
     images: [
       {
-        url: 'https://masca.xyz/images/masca_black.png',
+        url: 'https://masca.io/images/masca_black.png',
         width: 211,
         height: 186,
         alt: 'Masca Logo',
