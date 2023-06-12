@@ -57,5 +57,5 @@ jobs:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
       - name: Build blockchain-lab-um/masca
         run: docker build . -t blockchain-lab-um/masca
-      - name: Build blockchain-lab-um/verifier
-        run: docker build ./apps/oidc/verifier -t blockchain-lab-um/verifier
+      - name: Build blockchain-lab-um/issuer
+        run: docker build ./apps/oidc/issuer -t blockchain-lab-um/issuer
