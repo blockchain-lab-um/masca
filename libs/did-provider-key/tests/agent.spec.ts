@@ -48,7 +48,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
   databaseFile = options?.context?.databaseFile || ':memory:';
   dbConnection = new DataSource({
     name: options?.context?.dbName || 'test',
-    type: 'sqlite',
+    type: 'better-sqlite3',
     database: databaseFile,
     synchronize: false,
     migrations,
