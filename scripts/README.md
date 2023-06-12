@@ -13,8 +13,12 @@
 
 ## `init-provider.sh`
 
+### Additional requirements
+- `rsync`
+
 This script initializes a new Veramo DID Provider plugin and prepares the package in the correct folder.
 
+### Running the script
 Example run:
 
 ```
@@ -39,6 +43,9 @@ ROOT_DIR/libs/did-provider-github
 ├── tsconfig.build.json
 ├── tsconfig.eslint.json
 ├── tsconfig.json
+├── .eslintrc.cjs
+├── .lintstagedrc.cjs
+├── .prettierignore
 ├── tsup.config.ts
 ├── README.md
 ├── jest.config.ts
