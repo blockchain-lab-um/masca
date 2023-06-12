@@ -432,7 +432,7 @@ const Table = () => {
                           cell.column.id !== 'actions'
                         ) {
                           router.push(
-                            `/verifiable-credential?id=${row.original.metadata.id}`
+                            `/app/verifiable-credential/${row.original.metadata.id}`
                           );
                         }
                       }}
