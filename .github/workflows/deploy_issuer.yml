@@ -1,6 +1,7 @@
 name: Issuer deploy/build action
 
 on:
+  workflow_dispatch:
   pull_request:
     branches: [develop]
     types: [opened, synchronize, reopened]
@@ -42,3 +43,19 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Push to private docker registry
         run: docker push bclabum.informatika.uni-mb.si/registry/issuer:latest
+  test-build:
+    # Test build on every PR to DEVELOP
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Create nx-cloud.env
+        run: echo "NX_CLOUD_ACCESS_TOKEN=$NX_CLOUD_ACCESS_TOKEN" > nx-cloud.env
+        env:
+          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+      - name: Build blockchain-lab-um/masca
+        run: docker build . -t blockchain-lab-um/masca
+      - name: Build blockchain-lab-um/issuer
+        run: docker build ./apps/oidc/issuer -t blockchain-lab-um/issuer
