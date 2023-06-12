@@ -16,10 +16,12 @@ import type {
   SaveVCRequestResult,
   SendOIDCAuthorizationResponseParams,
   SetCurrentAccountRequestParams,
+  VerifyDataRequestParams,
 } from '@blockchain-lab-um/masca-types';
 import type { Result } from '@blockchain-lab-um/utils';
 import type {
   DIDResolutionResult,
+  IVerifyResult,
   VerifiableCredential,
   VerifiablePresentation,
   W3CVerifiableCredential,
@@ -289,6 +291,22 @@ export async function setCurrentAccount(
   );
 }
 
+/**
+ * Verify VC/VP
+ */
+export async function verifyData(
+  this: Masca,
+  params: VerifyDataRequestParams
+): Promise<Result<boolean | IVerifyResult>> {
+  return sendSnapMethod(
+    {
+      method: 'verifyData',
+      params,
+    },
+    this.snapId
+  );
+}
+
 export async function handleOIDCCredentialOffer(
   this: Masca,
   params: HandleOIDCCredentialOfferRequestParams
@@ -359,6 +377,7 @@ export class Masca {
     resolveDID: resolveDID.bind(this),
     createVC: createVC.bind(this),
     setCurrentAccount: setCurrentAccount.bind(this),
+    verifyData: verifyData.bind(this),
     handleOIDCCredentialOffer: handleOIDCCredentialOffer.bind(this),
     handleOIDCAuthorizationRequest: handleOIDCAuthorizationRequest.bind(this),
     sendOIDCAuthorizationResponse: sendOIDCAuthorizationResponse.bind(this),

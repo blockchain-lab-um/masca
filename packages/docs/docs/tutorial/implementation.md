@@ -23,12 +23,14 @@ Connector has exposed function for installing the Snap.
 After snap installation, this function returns `Masca` object that can be used to retrieve snap API.
 An example of initializing Masca and invoking snap API is shown below.
 
+For snap to work properly, address has to be set. Initially this can be done by passing address as a parameter to `enableMasca` function. Later, address can be changed using `setCurrentAddress` RPC method!
+
 ```typescript
 import { enableMasca } from '@blockchain-lab-um/masca-connector';
 import { isError } from '@blockchain-lab-um/utils';
 
 // install snap and fetch API
-const masca = await enableMasca({
+const masca = await enableMasca(address, {
   snapId: snapId,
   version: 'latest',
   supportedMethods: ['did:ethr', 'did:key'],
@@ -256,6 +258,18 @@ const res = await api.setVCStore('ceramic', false);
 
 ```typescript
 const didRes = await api.resolveDID('did:ethr:0x01:0x123...4567');
+```
+
+### Verify Data
+
+`verifyData` is used to verify a VC or a VP in Masca.
+
+By default, this RPC method only returns a boolean. This can be extended by setting `verbose` to true, which results in RPC method returning Veramos `IResult` object.
+
+```typescript
+const vcRes = await api.verifyData({credential: VC, verbose: true})
+// OR
+const vpRes = await api.verifyData({presentation: VP, verbose: true})
 ```
 
 ### Snap Settings
