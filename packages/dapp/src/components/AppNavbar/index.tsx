@@ -38,7 +38,7 @@ export default function AppNavbar() {
   const pathname = usePathname() ?? '/';
 
   return (
-    <div className="fixed left-0 right-0 top-0 m-0 flex h-24 w-screen items-center">
+    <div className="main-bg fixed left-0 right-0 top-0 z-50 m-0 flex h-24 w-screen items-center">
       <div className="flex flex-1 items-center px-4 sm:px-12">
         <Link href="/" className="focus-visible:outline-none">
           <div className="flex">
