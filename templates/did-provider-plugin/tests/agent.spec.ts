@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import * as fs from 'fs';
 import {
   createAgent,
@@ -48,12 +47,11 @@ let agent: TAgent<
 let dbConnection: Promise<DataSource>;
 let databaseFile: string;
 
-// eslint-disable-next-line @typescript-eslint/require-await
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
   databaseFile = options?.context?.databaseFile || ':memory:';
   dbConnection = new DataSource({
     name: options?.context?.dbName || 'test',
-    type: 'sqlite',
+    type: 'better-sqlite3',
     database: databaseFile,
     synchronize: false,
     migrations,

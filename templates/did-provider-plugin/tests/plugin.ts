@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import type { IDIDManager, IKeyManager, TAgent } from '@veramo/core-types';
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager>;
