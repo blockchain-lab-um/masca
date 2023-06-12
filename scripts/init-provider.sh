@@ -13,5 +13,10 @@ mkdir -p ../libs/did-provider-$lower
 rsync -av --exclude='node_modules' ../templates/did-provider-plugin/ ../libs/did-provider-$lower
 find ../libs/did-provider-$lower -type f -name "*pluginTemplate*" -exec bash -c 'mv "$0" "${0//pluginTemplate/$1}"' {} $lower \;
 find ../libs/did-provider-$lower -type f -exec sed -i '' -e "s/pluginTemplate/$lower/g;s/PluginTemplate/$capital/g" {} +
-cd ../libs/did-provider-$lower
+
+echo "module.exports = {
+  '*.{js,ts}': ['eslint --fix'],
+  '*.{md,json,yml,yaml}': ['prettier --write'],
+};" > ../libs/did-provider-$lower/.lintstagedrc.cjs
+
 pnpm install
