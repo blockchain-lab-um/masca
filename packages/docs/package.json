@@ -69,7 +69,6 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-unused-imports": "^2.0.0",
-    "lint-staged": "^13.1.2",
     "precompress": "^11.2.1",
     "prettier": "^2.8.4",
     "prettier-plugin-packagejson": "^2.4.3",

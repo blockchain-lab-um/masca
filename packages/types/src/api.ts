@@ -49,7 +49,9 @@ export interface MascaApi {
   getAccountSettings(): Promise<Result<MascaAccountConfig>>;
   getSnapSettings(): Promise<Result<MascaConfig>>;
   resolveDID(did: string): Promise<Result<DIDResolutionResult>>;
-  verifyData(params: VerifyDataRequestParams): Promise<Result<boolean | IVerifyResult>>;
+  verifyData(
+    params: VerifyDataRequestParams
+  ): Promise<Result<boolean | IVerifyResult>>;
   createVC(
     params: CreateVCRequestParams
   ): Promise<Result<VerifiableCredential>>;

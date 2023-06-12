@@ -267,9 +267,9 @@ const didRes = await api.resolveDID('did:ethr:0x01:0x123...4567');
 By default, this RPC method only returns a boolean. This can be extended by setting `verbose` to true, which results in RPC method returning Veramos `IResult` object.
 
 ```typescript
-const vcRes = await api.verifyData({credential: VC, verbose: true})
+const vcRes = await api.verifyData({ credential: VC, verbose: true });
 // OR
-const vpRes = await api.verifyData({presentation: VP, verbose: true})
+const vpRes = await api.verifyData({ presentation: VP, verbose: true });
 ```
 
 ### Snap Settings

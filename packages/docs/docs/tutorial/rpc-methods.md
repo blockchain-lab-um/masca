@@ -480,9 +480,9 @@ Verify a VC or a VP validity.
 #### Parameters
 
 1. presentation - `W3CVerifiablePresentation` type object
-OR
+   OR
 1. credential - `W3CVerifiableCredential` type object
-2. verbose(optional) - boolean that changes the return value of this method 
+1. verbose(optional) - boolean that changes the return value of this method
 
 ```typescript
 const response = await ethereum.request({
@@ -493,7 +493,7 @@ const response = await ethereum.request({
       method: 'verifyData',
       params: {
         credential: VC,
-        verbose: true
+        verbose: true,
       },
     },
   },
@@ -505,7 +505,6 @@ const response = await ethereum.request({
 `boolean` if VC/VP is valid.
 
 If `verbose` is set to true, it returns `IVerifyResult` instead, which also contains Error message.
-
 
 ### getAccountSettings
 
