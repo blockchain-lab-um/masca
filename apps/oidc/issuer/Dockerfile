@@ -30,9 +30,6 @@ RUN npm pkg delete scripts.prepare
 
 RUN pnpm install --frozen-lockfile
 
-# Copy .env
-COPY .env .env
-
 RUN chown node:node /app
 
 USER node
