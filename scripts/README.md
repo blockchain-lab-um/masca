@@ -49,9 +49,10 @@ ROOT_DIR/libs/did-provider-github
 ├── tsup.config.ts
 ├── README.md
 ├── jest.config.ts
+├── sonar-project.properties
 └── package.json
 
-27 directories, 13 files
+27 directories, 14 files
 ```
 
 Check `package.json` for configured scripts.

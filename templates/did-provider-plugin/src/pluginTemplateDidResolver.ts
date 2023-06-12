@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import {
   DIDResolutionOptions,
   DIDResolutionResult,
@@ -15,7 +16,7 @@ const resolveDidPluginTemplate: DIDResolver = async (
   try {
     // resolve
     const didResolution = {};
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+
     return didResolution as DIDResolutionResult;
   } catch (err: unknown) {
     return {
