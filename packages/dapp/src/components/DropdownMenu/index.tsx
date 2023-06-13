@@ -25,10 +25,10 @@ interface DropdownMenuProps {
 }
 
 const sizes: Record<string, string> = {
-  xs: 'text-sm py-1 px-3 max-w-xs',
-  sm: 'text-md py-1.5 px-3.5 max-w-xs',
-  md: 'text-lg py-2 px-4 max-w-xs',
-  lg: 'text-2xl py-2.5 px-5 font-semibold max-w-xs',
+  xs: 'md:text-sm md:py-1 md:px-3 text-xs py-1 px-2 max-w-xs',
+  sm: 'md:text-md md:py-1.5 md:px-3.5 text-sm py-1 px-3 max-w-xs',
+  md: 'lg:text-lg lg:py-2 lg:px-4 md:text-md md:py-1.5 md:px-3.5 text-sm py-1 px-3 max-w-xs',
+  lg: 'lg:text-2xl lg:py-2.5 lg:px-5 md:text-lg md:py-2 md:px-4 text-md py-1.5 px-3.5 max-w-xs font-semibold max-w-xs',
   method:
     'text-h5 font-ubuntu animated-transition inline-flex w-full justify-center rounded-3xl px-4 py-2 font-thin focus:outline-none',
 };
@@ -66,7 +66,7 @@ export default function DropdownMenu({
   shadow = 'sm',
 }: DropdownMenuProps) {
   return (
-    <Menu as="div" className="relative z-10 hidden sm:block">
+    <Menu as="div" className="relative z-10">
       {({ open }) => (
         <Fragment>
           <div>

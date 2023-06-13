@@ -37,25 +37,25 @@ const variants: Record<string, string> = {
 };
 
 const sizes: Record<string, string> = {
-  popup: 'text-sm py-2 px-3.5',
-  xs: 'text-sm py-2.5 px-4',
-  sm: 'text-h5 py-2.5 px-5',
-  md: 'text-h4 py-2.5 px-7',
-  lg: 'text-2xl py-2 px-8 font-normal',
-  xl: 'text-h3 py-2.5 px-9 font-semibold',
-  wd: 'text-h4 py-2.5 px-7',
+  popup: 'md:text-sm py-2 px-3.5 text-xs',
+  xs: 'lg:text-sm lg:py-2.5 lg:px-4 text-xs py-1.5 px-3',
+  sm: 'lg:text-h5 lg:py-2.5 lg:px-5 md:text-h5 md:py-2.5 md:px-4 text-sm py-2 px-3.5',
+  md: 'lg:text-h4 lg:py-2.5 lg:px-7 md:text-h5 md:py-2.5 md:px-5 text-sm py-2.5 px-4',
+  lg: 'lg:text-2xl lg:py-2 lg:px-8 lg:font-normal md:text-h4 md:py-2.5 md:px-7 text-h5 py-2.5 px-5',
+  xl: 'lg:text-h3 lg:py-2.5 lg:px-9 lg:font-semibold md:text-2xl md:py-2 md:px-8 md:font-normal text-h4 py-2.5 px-7',
+  wd: 'lg:text-h4 lg:py-2.5 lg:px-7 md:text-h5 md:py-2 md:px-6 text-h5 py-1.5 px-6',
   icon: 'py-2 px-2',
 };
 
 const loaderSizes: Record<string, string> = {
-  popup: 'w-4 h-4 border-2',
-  xs: 'w-4 h-4 border-2',
-  sm: 'w-4 h-4 border-2',
-  md: 'w-4 h-4 border-2',
-  lg: 'w-6 h-6 border-2',
-  xl: 'w-8 h-6 border-2',
-  wd: 'w-8 h-8 border-2',
-  icon: 'w-4 h-4 border-2',
+  popup: 'md:w-4 md:h-4 h-3 w-3 border-2',
+  xs: 'md:w-4 md:h-4 h-3 w-3 border-2',
+  sm: 'lg:w-4 lg:h-4 border-2 w-3 h-3',
+  md: 'md:w-4 md:h-4 w-3 h-3 border-2',
+  lg: 'lg:w-6 lg:h-6 border-2 md:w-4 md:h-4 w-4 h-4',
+  xl: 'lg:w-8 lg:h-6 border-2 md:w-6 md:h-6 w-4 h-4',
+  wd: 'lg:w-8 lg:h-8 border-2 md:w-8 md:h-6 w-6 h-6 ',
+  icon: 'md:w-4 md:h-4 h-3 w-3 border-2',
 };
 
 const loaderColors: Record<string, string> = {

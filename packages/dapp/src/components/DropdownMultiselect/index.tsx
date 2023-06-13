@@ -27,7 +27,7 @@ const DropdownMultiselect = ({
       multiple
     >
       {({ open }) => (
-        <div className="w-28 cursor-default overflow-hidden rounded-full bg-white text-left shadow-md focus:outline-none sm:text-sm">
+        <div className="md:w-28 w-24 cursor-default overflow-hidden rounded-full bg-white text-left shadow-md focus:outline-none text-sm md:text-md">
           <Listbox.Button
             value={placeholder}
             className="dark:bg-navy-blue-600 dark:text-navy-blue-100 flex w-full border-none p-2 px-1 text-sm leading-5 text-gray-700 placeholder:text-gray-400 focus:outline-none focus:ring-0"
@@ -58,7 +58,7 @@ const DropdownMultiselect = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="dark:bg-navy-blue-600 absolute right-0 mt-1 w-48 rounded-3xl bg-white p-1 shadow-lg max-md:-top-12 max-md:-translate-y-full max-md:transform">
+            <Listbox.Options className="dark:bg-navy-blue-600 absolute right-0 mt-1 md:w-44 w-36 rounded-3xl bg-white p-1 shadow-lg max-md:-top-2 max-md:-translate-y-full max-md:transform">
               {items.map((item, id) => (
                 <Listbox.Option key={id} className="" value={item}>
                   {({ selected, active }) => (
@@ -71,13 +71,13 @@ const DropdownMultiselect = ({
                           selected
                             ? 'dark:text-orange-accent-dark dark:bg-navy-blue-600 bg-white text-pink-700'
                             : 'dark:text-navy-blue-100 text-gray-600',
-                          'text-md block rounded-full py-2'
+                          'md:text-md block rounded-full text-center text-sm py-2'
                         )}
                       >
                         <span className="grid grid-cols-3">
                           <span className="flex items-center">
                             {selected ? (
-                              <CheckIcon className="ml-3 h-4 w-4" />
+                              <CheckIcon className="ml-3 md:h-4 md:w-4 w-3 h-3" />
                             ) : (
                               ''
                             )}

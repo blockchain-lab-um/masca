@@ -120,10 +120,10 @@ const Controlbar = () => {
             <ViewTabs />
           </div>
         )}
-        <div className="col-span-5 col-start-7 flex justify-end gap-x-2 max-md:row-start-2 max-sm:row-start-1 md:row-start-1">
+        <div className={`col-span-5 col-start-7 flex justify-end gap-x-2 ${vcs.length === 0 ? 'row-start-2' : " max-md:row-start-2 max-sm:row-start-1 md:row-start-1"}`}>
           {isConnected && (
             <button
-              className={`dark:bg-navy-blue-700 dark:text-navy-blue-50 group flex h-[43px] w-[43px] items-center justify-center rounded-full bg-white text-gray-700 shadow-md`}
+              className={`dark:bg-navy-blue-700 dark:text-navy-blue-50 group flex md:h-[43px] md:w-[43px] h-[37px] w-[37px] items-center justify-center rounded-full bg-white text-gray-700 shadow-md`}
               onClick={() => setImportModalOpen(true)}
             >
               <PlusIcon className={`group-hover:animate-pingOnce h-6 w-6`} />
@@ -131,7 +131,7 @@ const Controlbar = () => {
           )}
           {vcs.length > 0 && (
             <button
-              className={`dark:bg-navy-blue-700 dark:text-navy-blue-50 group flex h-[43px] w-[43px] items-center justify-center rounded-full bg-white text-gray-700 shadow-md`}
+              className={`dark:bg-navy-blue-700 dark:text-navy-blue-50 group flex md:h-[43px] md:w-[43px] h-[37px] w-[37px] items-center justify-center rounded-full bg-white text-gray-700 shadow-md`}
               onClick={() => refreshVCs()}
             >
               <ArrowPathIcon
