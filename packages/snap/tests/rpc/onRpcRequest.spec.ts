@@ -20,7 +20,7 @@ import { StoredCredentials } from '../../src/interfaces';
 import { veramoClearVCs } from '../../src/utils/veramoUtils';
 import { Agent, getAgent } from '../../src/veramo/setup';
 import {
-  address,
+  account,
   exampleDID,
   exampleDIDDocument,
   exampleDIDKey,
@@ -1557,7 +1557,7 @@ describe('onRpcRequest', () => {
         throw new Error(res.error);
       }
 
-      expect(res.data).toEqual(state.accountState[address].accountConfig);
+      expect(res.data).toEqual(state.accountState[account].accountConfig);
 
       expect.assertions(1);
     });

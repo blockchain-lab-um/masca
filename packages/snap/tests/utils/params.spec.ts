@@ -8,7 +8,7 @@ import {
   isValidSwitchMethodRequest,
 } from '../../src/utils/params';
 import {
-  address,
+  account,
   exampleTestVCPayload,
   exampleVC,
   getDefaultSnapState,
@@ -30,31 +30,31 @@ describe('Utils [params]', () => {
   describe('isValidQueryRequest', () => {
     it('should fail for not enabled store', () => {
       const state = getDefaultSnapState();
-      state.accountState[address].accountConfig.ssi.vcStore.ceramic = false;
+      state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
       expect(() =>
-        isValidQueryRequest({ options: { store: 'ceramic' } }, address, state)
+        isValidQueryRequest({ options: { store: 'ceramic' } }, account, state)
       ).toThrow('Store ceramic is not enabled!');
     });
     it('should not fail for null', () => {
       expect(() =>
-        isValidQueryRequest(null, address, getDefaultSnapState())
+        isValidQueryRequest(null, account, getDefaultSnapState())
       ).not.toThrow(Error);
     });
     it('should not fail for undefined', () => {
       expect(() =>
-        isValidQueryRequest(undefined, address, getDefaultSnapState())
+        isValidQueryRequest(undefined, account, getDefaultSnapState())
       ).not.toThrow(Error);
     });
     it('should not fail for empty object', () => {
       expect(() =>
-        isValidQueryRequest({}, address, getDefaultSnapState())
+        isValidQueryRequest({}, account, getDefaultSnapState())
       ).not.toThrow(Error);
     });
     it('should not fail for object with filter', () => {
       expect(() =>
         isValidQueryRequest(
           { filter: { type: 'abc', filter: {} } },
-          address,
+          account,
           getDefaultSnapState()
         )
       ).not.toThrow(Error);
@@ -63,7 +63,7 @@ describe('Utils [params]', () => {
       expect(() =>
         isValidQueryRequest(
           { filter: { filter: {} } },
-          address,
+          account,
           getDefaultSnapState()
         )
       ).toThrow('Filter type is missing or not a string!');
@@ -72,21 +72,21 @@ describe('Utils [params]', () => {
       expect(() =>
         isValidQueryRequest(
           { filter: { type: 123, filter: {} } },
-          address,
+          account,
           getDefaultSnapState()
         )
       ).toThrow('Filter type is missing or not a string!');
     });
     it('should not fail for empty options object', () => {
       expect(() =>
-        isValidQueryRequest({ options: {} }, address, getDefaultSnapState())
+        isValidQueryRequest({ options: {} }, account, getDefaultSnapState())
       ).not.toThrow('Filter type is missing or not a string!');
     });
     it('should not fail for options object with one store', () => {
       expect(() =>
         isValidQueryRequest(
           { options: { store: 'snap' } },
-          address,
+          account,
           getDefaultSnapState()
         )
       ).not.toThrow('Filter type is missing or not a string!');
@@ -95,7 +95,7 @@ describe('Utils [params]', () => {
       expect(() =>
         isValidQueryRequest(
           { options: { store: ['snap', 'ceramic'] } },
-          address,
+          account,
           getDefaultSnapState()
         )
       ).not.toThrow('Filter type is missing or not a string!');
@@ -104,7 +104,7 @@ describe('Utils [params]', () => {
       expect(() =>
         isValidQueryRequest(
           { options: { store: ['snapp', 'ceramic'] } },
-          address,
+          account,
           getDefaultSnapState()
         )
       ).toThrow('Store snapp is not supported!');
@@ -113,7 +113,7 @@ describe('Utils [params]', () => {
       expect(() =>
         isValidQueryRequest(
           { options: { store: true } },
-          address,
+          account,
           getDefaultSnapState()
         )
       ).toThrow('Store is invalid format');
@@ -124,7 +124,7 @@ describe('Utils [params]', () => {
           {
             options: { store: ['snap', 'ceramic'], returnStore: false },
           },
-          address,
+          account,
           getDefaultSnapState()
         )
       ).not.toThrow('Filter type is missing or not a string!');
@@ -135,7 +135,7 @@ describe('Utils [params]', () => {
           {
             options: { store: ['snap', 'ceramic'], returnStore: 123 },
           },
-          address,
+          account,
           getDefaultSnapState()
         )
       ).toThrow('ReturnStore is invalid format');
@@ -148,34 +148,34 @@ describe('Utils [params]', () => {
   describe('isValidSaveVCRequest', () => {
     it('should fail for null', () => {
       expect(() =>
-        isValidSaveVCRequest(null, address, getDefaultSnapState())
+        isValidSaveVCRequest(null, account, getDefaultSnapState())
       ).toThrow(Error);
     });
 
     it('should fail for empty object', () => {
       expect(() =>
-        isValidSaveVCRequest({}, address, getDefaultSnapState())
+        isValidSaveVCRequest({}, account, getDefaultSnapState())
       ).toThrow(Error);
     });
 
     it('should fail for string', () => {
       expect(() =>
-        isValidSaveVCRequest('infuraToken', address, getDefaultSnapState())
+        isValidSaveVCRequest('infuraToken', account, getDefaultSnapState())
       ).toThrow(Error);
     });
 
     it('should fail for number', () => {
       expect(() =>
-        isValidSaveVCRequest(42, address, getDefaultSnapState())
+        isValidSaveVCRequest(42, account, getDefaultSnapState())
       ).toThrow(Error);
     });
     it('should fail for not enabled store', () => {
       const state = getDefaultSnapState();
-      state.accountState[address].accountConfig.ssi.vcStore.ceramic = false;
+      state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
       expect(() =>
         isValidSaveVCRequest(
           { verifiableCredential: exampleVC, options: { store: 'ceramic' } },
-          address,
+          account,
           state
         )
       ).toThrow('Store ceramic is not enabled!');
@@ -188,11 +188,11 @@ describe('Utils [params]', () => {
   describe('isValidCreateVPRequest', () => {
     it('should fail for not enabled store', () => {
       const state = getDefaultSnapState();
-      state.accountState[address].accountConfig.ssi.vcStore.ceramic = false;
+      state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
       expect(() =>
         isValidCreateVPRequest(
           { vcs: [{ id: '123', metadata: { store: 'ceramic' } }] },
-          address,
+          account,
           state
         )
       ).toThrow('Store ceramic is not enabled!');
@@ -203,7 +203,7 @@ describe('Utils [params]', () => {
           {
             vcs: [{ id: 'test-id' }, { id: 'test-id-2' }],
           },
-          address,
+          account,
           getDefaultSnapState()
         )
       ).not.toThrow();
@@ -215,7 +215,7 @@ describe('Utils [params]', () => {
           {
             vcs: [{ id: 'test-id' }, { id: 'test-id-2' }],
           },
-          address,
+          account,
           getDefaultSnapState()
         )
       ).not.toThrow();
@@ -223,25 +223,25 @@ describe('Utils [params]', () => {
 
     it('should fail for null', () => {
       expect(() =>
-        isValidCreateVPRequest(null, address, getDefaultSnapState())
+        isValidCreateVPRequest(null, account, getDefaultSnapState())
       ).toThrow(Error);
     });
 
     it('should fail for empty object', () => {
       expect(() =>
-        isValidCreateVPRequest({}, address, getDefaultSnapState())
+        isValidCreateVPRequest({}, account, getDefaultSnapState())
       ).toThrow(Error);
     });
 
     it('should fail for string', () => {
       expect(() =>
-        isValidCreateVPRequest('infuraToken', address, getDefaultSnapState())
+        isValidCreateVPRequest('infuraToken', account, getDefaultSnapState())
       ).toThrow(Error);
     });
 
     it('should fail for number', () => {
       expect(() =>
-        isValidCreateVPRequest(42, address, getDefaultSnapState())
+        isValidCreateVPRequest(42, account, getDefaultSnapState())
       ).toThrow(Error);
     });
 
@@ -251,7 +251,7 @@ describe('Utils [params]', () => {
           {
             vcs: [],
           },
-          address,
+          account,
           getDefaultSnapState()
         )
       ).toThrow(Error);
@@ -263,7 +263,7 @@ describe('Utils [params]', () => {
           {
             vcs: [{ id: 123 }],
           },
-          address,
+          account,
           getDefaultSnapState()
         )
       ).toThrow('VC is invalid format');
@@ -274,7 +274,7 @@ describe('Utils [params]', () => {
           {
             vcs: null,
           },
-          address,
+          account,
           getDefaultSnapState()
         )
       ).toThrow('Invalid CreateVP request');
@@ -286,7 +286,7 @@ describe('Utils [params]', () => {
             vcs: [{ id: 'test-id' }],
             proofFormat: 'wrong',
           },
-          address,
+          account,
           getDefaultSnapState()
         )
       ).toThrow('Proof format not supported');
@@ -298,7 +298,7 @@ describe('Utils [params]', () => {
             vcs: [{ id: 'test-id', metadata: {} }],
             proofFormat: 'jwt',
           },
-          address,
+          account,
           getDefaultSnapState()
         )
       ).not.toThrow('err');
@@ -310,7 +310,7 @@ describe('Utils [params]', () => {
             vcs: [{ id: 'test-id', metadata: { store: 'snap' } }],
             proofFormat: 'jwt',
           },
-          address,
+          account,
           getDefaultSnapState()
         )
       ).not.toThrow('err');
@@ -322,7 +322,7 @@ describe('Utils [params]', () => {
             vcs: [{ id: 'test-id', metadata: { store: 'snapp' } }],
             proofFormat: 'jwt',
           },
-          address,
+          account,
           getDefaultSnapState()
         )
       ).toThrow('Store snapp is not supported!');
@@ -336,7 +336,7 @@ describe('Utils [params]', () => {
             proofFormat: 'jwt',
             proofOptions: {},
           },
-          address,
+          account,
           getDefaultSnapState()
         )
       ).not.toThrow('Store is not supported!');
@@ -349,7 +349,7 @@ describe('Utils [params]', () => {
             proofFormat: 'jwt',
             proofOptions: { domain: 'test', challenge: 'test' },
           },
-          address,
+          account,
           getDefaultSnapState()
         )
       ).not.toThrow('Store is not supported!');
@@ -362,7 +362,7 @@ describe('Utils [params]', () => {
             proofFormat: 'jwt',
             proofOptions: { domain: 123, challenge: 'test' },
           },
-          address,
+          account,
           getDefaultSnapState()
         )
       ).toThrow('Domain is not a string');
@@ -375,7 +375,7 @@ describe('Utils [params]', () => {
             proofFormat: 'jwt',
             proofOptions: { challenge: 123, domain: 'test' },
           },
-          address,
+          account,
           getDefaultSnapState()
         )
       ).toThrow('Challenge is not a string');
@@ -388,7 +388,7 @@ describe('Utils [params]', () => {
             proofFormat: 'jwt',
             proofOptions: { type: 123, challenge: 'test', domain: 'test' },
           },
-          address,
+          account,
           getDefaultSnapState()
         )
       ).toThrow('Type is not a string');
@@ -406,7 +406,7 @@ describe('Utils [params]', () => {
             proofFormat: 'lds',
             proofOptions: { type: 'Eth', domain: 'test', challenge: 'test' },
           },
-          address,
+          account,
           getDefaultSnapState()
         )
       ).not.toThrow('Store is not supported!');
@@ -459,11 +459,11 @@ describe('Utils [params]', () => {
   describe('isValidDeleteVCsRequest', () => {
     it('should fail for not enabled store', () => {
       const state = getDefaultSnapState();
-      state.accountState[address].accountConfig.ssi.vcStore.ceramic = false;
+      state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
       expect(() =>
         isValidDeleteVCRequest(
           { id: '123', options: { store: 'ceramic' } },
-          address,
+          account,
           state
         )
       ).toThrow('Store ceramic is not enabled!');
@@ -472,21 +472,21 @@ describe('Utils [params]', () => {
       expect(() =>
         isValidDeleteVCRequest(
           { didMethod: 42 },
-          address,
+          account,
           getDefaultSnapState()
         )
       ).toThrow(Error);
     });
     it('should not throw for string id', () => {
       expect(() =>
-        isValidDeleteVCRequest({ id: '123' }, address, getDefaultSnapState())
+        isValidDeleteVCRequest({ id: '123' }, account, getDefaultSnapState())
       ).not.toThrow(Error);
     });
     it('should not throw for list of string ids', () => {
       expect(() =>
         isValidDeleteVCRequest(
           { id: ['123', '456'] },
-          address,
+          account,
           getDefaultSnapState()
         )
       ).not.toThrow(Error);
@@ -498,7 +498,7 @@ describe('Utils [params]', () => {
             id: ['123', '456'],
             options: { store: 'snap' },
           },
-          address,
+          account,
           getDefaultSnapState()
         )
       ).not.toThrow(Error);
@@ -510,7 +510,7 @@ describe('Utils [params]', () => {
             id: ['123', '456'],
             options: { store: ['snap', 'ceramic'] },
           },
-          address,
+          account,
           getDefaultSnapState()
         )
       ).not.toThrow(Error);
@@ -522,7 +522,7 @@ describe('Utils [params]', () => {
             id: ['123', '456'],
             options: { store: 'snapp' },
           },
-          address,
+          account,
           getDefaultSnapState()
         )
       ).toThrow('Store snapp is not supported!');
@@ -531,48 +531,48 @@ describe('Utils [params]', () => {
       expect(() =>
         isValidDeleteVCRequest(
           { id: ['123', 456] },
-          address,
+          account,
           getDefaultSnapState()
         )
       ).toThrow('ID is not a string or array of strings');
     });
     it('should throw for empty list of ids', () => {
       expect(() =>
-        isValidDeleteVCRequest({ id: [] }, address, getDefaultSnapState())
+        isValidDeleteVCRequest({ id: [] }, account, getDefaultSnapState())
       ).toThrow('ID is not a string or array of strings');
     });
   });
   describe('isValidCreateVCsRequest', () => {
     it('should pass with only unsignedVC', () => {
       const state = getDefaultSnapState();
-      state.accountState[address].accountConfig.ssi.vcStore.ceramic = false;
+      state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
       expect(() =>
         isValidCreateVCRequest(
           {
             minimalUnsignedCredential: exampleTestVCPayload,
           },
-          address,
+          account,
           state
         )
       ).not.toThrow();
     });
     it('should pass with unsignedVC & PF', () => {
       const state = getDefaultSnapState();
-      state.accountState[address].accountConfig.ssi.vcStore.ceramic = false;
+      state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
       expect(() =>
         isValidCreateVCRequest(
           {
             minimalUnsignedCredential: exampleTestVCPayload,
             proofFormat: 'jwt',
           },
-          address,
+          account,
           state
         )
       ).not.toThrow();
     });
     it('should pass with empty options', () => {
       const state = getDefaultSnapState();
-      state.accountState[address].accountConfig.ssi.vcStore.ceramic = false;
+      state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
       expect(() =>
         isValidCreateVCRequest(
           {
@@ -580,14 +580,14 @@ describe('Utils [params]', () => {
             proofFormat: 'jwt',
             options: {},
           },
-          address,
+          account,
           state
         )
       ).not.toThrow();
     });
     it('should pass with save option', () => {
       const state = getDefaultSnapState();
-      state.accountState[address].accountConfig.ssi.vcStore.ceramic = false;
+      state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
       expect(() =>
         isValidCreateVCRequest(
           {
@@ -595,14 +595,14 @@ describe('Utils [params]', () => {
             proofFormat: 'jwt',
             options: { save: true },
           },
-          address,
+          account,
           state
         )
       ).not.toThrow();
     });
     it('should pass with full option', () => {
       const state = getDefaultSnapState();
-      state.accountState[address].accountConfig.ssi.vcStore.ceramic = false;
+      state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
       expect(() =>
         isValidCreateVCRequest(
           {
@@ -610,14 +610,14 @@ describe('Utils [params]', () => {
             proofFormat: 'jwt',
             options: { save: true, store: ['snap'] },
           },
-          address,
+          account,
           state
         )
       ).not.toThrow();
     });
     it('should fail for not enabled store', () => {
       const state = getDefaultSnapState();
-      state.accountState[address].accountConfig.ssi.vcStore.ceramic = false;
+      state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
       expect(() =>
         isValidCreateVCRequest(
           {
@@ -625,14 +625,14 @@ describe('Utils [params]', () => {
             proofFormat: 'jwt',
             options: { save: true, store: 'ceramic' },
           },
-          address,
+          account,
           state
         )
       ).toThrow('Store ceramic is not enabled!');
     });
     it('should fail for invalid store', () => {
       const state = getDefaultSnapState();
-      state.accountState[address].accountConfig.ssi.vcStore.ceramic = false;
+      state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
       expect(() =>
         isValidCreateVCRequest(
           {
@@ -640,14 +640,14 @@ describe('Utils [params]', () => {
             proofFormat: 'jwt',
             options: { save: true, store: 'ceramicc' },
           },
-          address,
+          account,
           state
         )
       ).toThrow('Store ceramicc is not supported!');
     });
     it('should fail for invalid PF', () => {
       const state = getDefaultSnapState();
-      state.accountState[address].accountConfig.ssi.vcStore.ceramic = false;
+      state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
       expect(() =>
         isValidCreateVCRequest(
           {
@@ -655,7 +655,7 @@ describe('Utils [params]', () => {
             proofFormat: 'jws',
             options: { save: true, store: 'snap' },
           },
-          address,
+          account,
           state
         )
       ).toThrow('Proof format not supported');

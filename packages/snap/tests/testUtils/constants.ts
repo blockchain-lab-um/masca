@@ -18,8 +18,8 @@ export const privateKey =
   '0x63ce0077f0d617dbf54d5f335de2983313c6356f25b45e0f68f85bee1490a6ae';
 export const privateKey2 =
   '0xb29764680b2a07fa4a762d255e3f689fb5c05cc885e6dfd3de5d5948b5a6b47f';
-export const address = '0xb6665128eE91D84590f70c3268765384A9CAfBCd';
-export const address2 = '0x461e557A07AC110BC947F18b3828e26f013dac39';
+export const account = '0xb6665128eE91D84590f70c3268765384A9CAfBCd';
+export const account2 = '0x461e557A07AC110BC947F18b3828e26f013dac39';
 export const publicKey =
   '0x0480a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae850a9f561d414001a8bdefdb713c619d2caf08a0c9655b0cf42de065bc51e0169a';
 export const compressedPublicKey =
@@ -479,7 +479,7 @@ const defaultSnapState: MascaState = {
 };
 
 export const getDefaultSnapState = (): MascaState => {
-  defaultSnapState.accountState[address].publicKey = publicKey;
+  defaultSnapState.accountState[account].publicKey = publicKey;
   return cloneDeep(defaultSnapState);
 };
 

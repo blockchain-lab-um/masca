@@ -111,12 +111,10 @@ export async function getPublicKey(params: {
     return state.accountState[account].publicKey;
   }
 
-  const res = await snapGetKeysFromAddress(
+  const res = await snapGetKeysFromAddress({
     bip44CoinTypeNode,
-    state,
     account,
-    snap
-  );
+  });
 
   if (res === null) throw new Error('Could not get keys from address');
   return res.publicKey;
@@ -170,31 +168,6 @@ export function getEnabledVCStores(
     );
   });
   return res;
-}
-
-/**
- * Function that returns the address index used in Masca, derived from the snap's entropy for the passed account.
- *
- * @param account - account to get the index for.
- *
- * @returns number - address index.
- *
- * The returned index is used to derive private keys for the account.
- */
-export async function getMascaAddressIndex(params: {
-  account: string;
-}): Promise<number> {
-  const { account } = params;
-  const entropy = await snap.request({
-    method: 'snap_getEntropy',
-    params: {
-      version: 1,
-      salt: account,
-    },
-  });
-
-  const index = parseInt(entropy.slice(-8), 16);
-  return index;
 }
 
 /**

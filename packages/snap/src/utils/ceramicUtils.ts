@@ -67,12 +67,10 @@ async function authenticateWithEthers(params: {
     account,
   });
 
-  const res = await snapGetKeysFromAddress(
+  const res = await snapGetKeysFromAddress({
     bip44CoinTypeNode,
-    state,
     account,
-    snap
-  );
+  });
 
   if (res === null) throw new Error('Could not get keys from address');
 

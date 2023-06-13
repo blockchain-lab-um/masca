@@ -4,6 +4,9 @@ patchedDependencies:
   '@ceramicnetwork/common@2.25.0':
     hash: uqwtqun5atcy5jjekxssfbohei
     path: patches/@ceramicnetwork__common@2.25.0.patch
+  '@ceramicnetwork/common@2.26.0':
+    hash: uqwtqun5atcy5jjekxssfbohei
+    path: patches/@ceramicnetwork__common@2.26.0.patch
   '@digitalbazaar/http-client@1.2.0':
     hash: yl3b524jp4dtc7mdahww7krgi4
     path: patches/@digitalbazaar__http-client@1.2.0.patch
@@ -3593,7 +3596,7 @@ packages:
       uint8arrays: 4.0.3
     dev: false
 
-  /@ceramicnetwork/common@2.26.0:
+  /@ceramicnetwork/common@2.26.0(patch_hash=uqwtqun5atcy5jjekxssfbohei):
     resolution: {integrity: sha512-bNLQw6LJsyMcxA7vSY4uLVryWAIJCLAESaJfWtSJSLh0pJxC7Jrf9ESt7knvcoETSSD91klHaBCjf9NeW9mGXA==}
     dependencies:
       '@ceramicnetwork/codecs': 1.1.0
@@ -3617,11 +3620,12 @@ packages:
     transitivePeerDependencies:
       - encoding
     dev: false
+    patched: true
 
   /@ceramicnetwork/http-client@2.22.0:
     resolution: {integrity: sha512-H5v6WZ67Oik6TNDXc/Blaht0t8AeeUHQG8YPkTp1dh0qBxI6c6KOWx0+1QmxxvO/OQH2ny6esOmxBFOtWk7mBQ==}
     dependencies:
-      '@ceramicnetwork/common': 2.26.0
+      '@ceramicnetwork/common': 2.26.0(patch_hash=uqwtqun5atcy5jjekxssfbohei)
       '@ceramicnetwork/stream-caip10-link': 2.21.0
       '@ceramicnetwork/stream-model': 1.8.0
       '@ceramicnetwork/stream-model-instance': 1.8.0
@@ -3636,7 +3640,7 @@ packages:
   /@ceramicnetwork/stream-caip10-link@2.21.0:
     resolution: {integrity: sha512-8nlBrSwjGSOTpRavEWmJ2WYYoYGOebJ2fg/GLReqeBxf/OFC8dBTaScYHOvifhzfYuO6r00CzU/6H40CcUvQnA==}
     dependencies:
-      '@ceramicnetwork/common': 2.26.0
+      '@ceramicnetwork/common': 2.26.0(patch_hash=uqwtqun5atcy5jjekxssfbohei)
       '@ceramicnetwork/streamid': 2.14.0
       caip: 1.1.0
       did-resolver: 4.1.0
@@ -3648,7 +3652,7 @@ packages:
   /@ceramicnetwork/stream-model-instance@1.8.0:
     resolution: {integrity: sha512-uzPxpwopnAbJKxQVROCCokTuI/FqNLzQCS8ds21ChFbqib7h9ENPHN+srBEQ3oSMEdKVtUe31zIK/cA0mqSdwQ==}
     dependencies:
-      '@ceramicnetwork/common': 2.26.0
+      '@ceramicnetwork/common': 2.26.0(patch_hash=uqwtqun5atcy5jjekxssfbohei)
       '@ceramicnetwork/streamid': 2.14.0
       '@ipld/dag-cbor': 7.0.3
       '@stablelib/random': 1.0.2
@@ -3662,7 +3666,7 @@ packages:
   /@ceramicnetwork/stream-model@1.8.0:
     resolution: {integrity: sha512-AGng+0mXiLPCIzwr920iEhV1wVG67bGgJBAFD1Fep1mDOqiC2PKd7RPZkHbPCfmydsAfCOW+EqAvS6bKMTsUrQ==}
     dependencies:
-      '@ceramicnetwork/common': 2.26.0
+      '@ceramicnetwork/common': 2.26.0(patch_hash=uqwtqun5atcy5jjekxssfbohei)
       '@ceramicnetwork/streamid': 2.14.0
       '@ipld/dag-cbor': 7.0.3
       '@stablelib/random': 1.0.2
@@ -3677,7 +3681,7 @@ packages:
   /@ceramicnetwork/stream-tile@2.22.0:
     resolution: {integrity: sha512-l2LFvalrZiixJusFk0KnMs9PAk/THZ9wPGuTWEwv9ZpHAywRq6vp+VBJwGs4HakD0ZG5dhfXX7QxL7NplbK9fQ==}
     dependencies:
-      '@ceramicnetwork/common': 2.26.0
+      '@ceramicnetwork/common': 2.26.0(patch_hash=uqwtqun5atcy5jjekxssfbohei)
       '@ceramicnetwork/streamid': 2.14.0
       '@ipld/dag-cbor': 7.0.3
       '@stablelib/random': 1.0.2

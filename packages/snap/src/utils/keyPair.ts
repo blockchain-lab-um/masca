@@ -7,26 +7,31 @@ import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { Wallet } from 'ethers';
 
 import { MascaState } from '../interfaces';
-import { updateSnapState } from './stateUtils';
 
-export function getAccountIndex(
-  state: MascaState,
-  account: string
-): number | undefined {
-  if (state.accountState[account].index)
-    return state.accountState[account].index;
-  return undefined;
-}
-
-export async function setAccountIndex(
-  snap: SnapsGlobalObject,
-  state: MascaState,
-  account: string,
-  index: number
-) {
-  // eslint-disable-next-line no-param-reassign
-  state.accountState[account].index = index;
-  await updateSnapState(snap, state);
+/**
+ * Function that returns the address index used in Masca, derived from the snap's entropy for the passed account.
+ *
+ * @param params - object containing the account to get the index for.
+ * @param params.account - account to get the index for.
+ *
+ * @returns number - address index.
+ *
+ * The returned index is used to derive private keys for the account.
+ */
+export async function getAddressIndexFromEntropy(params: {
+  account: string;
+}): Promise<number> {
+  const { account } = params;
+  const entropy = await snap.request({
+    method: 'snap_getEntropy',
+    params: {
+      version: 1,
+      salt: account,
+    },
+  });
+  // eslint-disable-next-line no-bitwise
+  const index = parseInt(entropy.slice(-8), 16) >>> 1;
+  return index;
 }
 
 export async function getAddressKeyDeriver(
@@ -43,6 +48,8 @@ export async function getAddressKeyDeriver(
     const method = state.accountState[account].accountConfig.ssi.didMethod;
     ct = didCoinTypeMappping[method];
   }
+
+  // FIXME: in future coinType 60 will be rejected when passed to this method
   const bip44CoinTypeNode = (await snap.request({
     method: 'snap_getBip44Entropy',
     params: {
@@ -52,14 +59,14 @@ export async function getAddressKeyDeriver(
   return bip44CoinTypeNode;
 }
 
-export async function getAddressKeyPair(
-  bip44CoinTypeNode: BIP44CoinTypeNode,
-  addressIndex = 0
-) {
+export async function getAddressKeyPair(params: {
+  bip44CoinTypeNode: BIP44CoinTypeNode;
+  addressIndex: number;
+}) {
+  const { bip44CoinTypeNode, addressIndex } = params;
   const keyDeriver = await getBIP44AddressKeyDeriver(bip44CoinTypeNode);
   const derivedKey = await keyDeriver(addressIndex);
-  const { privateKey } = derivedKey;
-  const { chainCode } = derivedKey;
+  const { privateKey, chainCode } = derivedKey;
   const addressKey = `${privateKey as string}${chainCode.split('0x')[1]}`;
   if (privateKey === undefined) return null;
   return {
@@ -69,16 +76,17 @@ export async function getAddressKeyPair(
   };
 }
 
-export const getKeysFromAddressIndex = async (
-  bip44CoinTypeNode: BIP44CoinTypeNode,
-  addressIndex: number | undefined
-) => {
+export const getKeysFromAddressIndex = async (params: {
+  bip44CoinTypeNode: BIP44CoinTypeNode;
+  addressIndex: number | undefined;
+}) => {
+  const { bip44CoinTypeNode, addressIndex } = params;
   if (addressIndex === undefined) {
     throw new Error('addressIndex undefined');
   }
 
-  const result = await getAddressKeyPair(bip44CoinTypeNode, addressIndex);
-  if (result === null) return null;
+  const result = await getAddressKeyPair({ bip44CoinTypeNode, addressIndex });
+  if (result === null) throw new Error("Couldn't derive key pair");
   const { privateKey, derivationPath } = result;
   const snap = new Wallet(privateKey);
 
@@ -91,48 +99,17 @@ export const getKeysFromAddressIndex = async (
   };
 };
 
-export const getKeysFromAddress = async (
-  bip44CoinTypeNode: BIP44CoinTypeNode,
-  account: string,
-  maxScan = 20,
-  addressIndex?: number
-): Promise<KeysType | null> => {
-  if (addressIndex !== undefined)
-    return getKeysFromAddressIndex(bip44CoinTypeNode, addressIndex);
-
-  for (let i = 0; i < maxScan; i += 1) {
-    // eslint-disable-next-line no-await-in-loop
-    const keys = await getKeysFromAddressIndex(bip44CoinTypeNode, i);
-    if (keys && keys.address.toUpperCase() === account.toUpperCase())
-      return keys;
-  }
-
-  return null;
-};
-
-export const snapGetKeysFromAddress = async (
-  bip44CoinTypeNode: BIP44CoinTypeNode,
-  state: MascaState,
-  account: string,
-  snap: SnapsGlobalObject,
-  maxScan = 20
-): Promise<KeysType | null> => {
-  const addressIndex = getAccountIndex(state, account);
-  if (addressIndex) {
-    return getKeysFromAddress(
-      bip44CoinTypeNode,
-      account,
-      maxScan,
-      addressIndex
-    );
-  }
-  const res = await getKeysFromAddress(bip44CoinTypeNode, account, maxScan);
-  if (res) {
-    await setAccountIndex(snap, state, account, res.addressIndex);
-    return res;
-  }
-
-  return null;
+export const snapGetKeysFromAddress = async (params: {
+  bip44CoinTypeNode: BIP44CoinTypeNode;
+  account: string;
+}): Promise<KeysType | null> => {
+  const { bip44CoinTypeNode, account } = params;
+  const addressIndex = await getAddressIndexFromEntropy({ account });
+  const keys = await getKeysFromAddressIndex({
+    bip44CoinTypeNode,
+    addressIndex,
+  });
+  return keys;
 };
 
 type KeysType = {

@@ -15,7 +15,7 @@ import {
   updateSnapState,
 } from '../../src/utils/stateUtils';
 import {
-  address,
+  account,
   bip44Entropy,
   getDefaultSnapState,
   publicKey,
@@ -131,14 +131,14 @@ describe('Utils [state]', () => {
     it('should succeed initializing empty account state', async () => {
       const initialState = getInitialSnapState();
       const defaultState = getDefaultSnapState();
-      defaultState.accountState[address].publicKey = '';
+      defaultState.accountState[account].publicKey = '';
 
       await expect(
         initAccountState({
           snap: snapMock,
           ethereum: ethereumMock,
           state: initialState,
-          account: address,
+          account,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
           origin: 'localhost',
         })
@@ -156,16 +156,16 @@ describe('Utils [state]', () => {
   describe('setPublicKey', () => {
     it('should succeed setting public key', async () => {
       const initialState = getInitialSnapState();
-      initialState.accountState[address] = getEmptyAccountState();
+      initialState.accountState[account] = getEmptyAccountState();
       const defaultState = getDefaultSnapState();
-      defaultState.accountState[address].publicKey = publicKey;
+      defaultState.accountState[account].publicKey = publicKey;
 
       await expect(
         setAccountPublicKey({
           snap: snapMock,
           ethereum: ethereumMock,
           state: initialState,
-          account: address,
+          account,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
           origin: 'localhost',
         })

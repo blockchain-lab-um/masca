@@ -5,7 +5,7 @@ import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { AlchemyProvider, Filter, TransactionRequest, Wallet } from 'ethers';
 
 import { MascaState } from '../../src/interfaces';
-import { address, mnemonic, privateKey } from './constants';
+import { account, mnemonic, privateKey } from './constants';
 
 interface ISnapMock {
   request<T>(args: RequestArguments): Promise<Maybe<T>>;
@@ -59,7 +59,7 @@ export class SnapMock implements ISnapMock {
 
   readonly rpcMocks = {
     snap_dialog: jest.fn().mockReturnValue(true),
-    eth_requestAccounts: jest.fn().mockResolvedValue([address]),
+    eth_requestAccounts: jest.fn().mockResolvedValue([account]),
     eth_chainId: jest.fn().mockResolvedValue('0x5'),
     net_version: jest.fn().mockResolvedValue('5'),
     snap_getBip44Entropy: jest

@@ -21,12 +21,10 @@ export async function getDidEbsiIdentifier(params: {
   const agent = await getAgent(snap, ethereum);
   const provider = state.accountState[account].accountConfig.ssi.didMethod;
 
-  const res = await snapGetKeysFromAddress(
+  const res = await snapGetKeysFromAddress({
     bip44CoinTypeNode,
-    state,
     account,
-    snap
-  );
+  });
   try {
     const identifier = await agent.didManagerCreate({
       provider,
