@@ -17,6 +17,5 @@ export async function verifyData(
     data: args,
   });
   if (res.error) throw new Error(res.error.message);
-  const parsedRes = JSON.parse(JSON.stringify(res)) as IVerifyResult;
-  return verbose ? parsedRes : parsedRes.verified;
+  return verbose ? res : res.verified;
 }

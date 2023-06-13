@@ -275,13 +275,13 @@ export async function veramoVerifyData(args: {
       const vcResult = await agent.verifyCredential({
         credential,
       });
-      return vcResult;
+      return JSON.parse(JSON.stringify(vcResult)) as IVerifyResult;
     }
     if (presentation) {
       const vpResult = await agent.verifyPresentation({
         presentation,
       });
-      return vpResult;
+      return JSON.parse(JSON.stringify(vpResult)) as IVerifyResult;;
     }
     return {
       verified: false,
