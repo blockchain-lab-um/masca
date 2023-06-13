@@ -23,7 +23,7 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
         <>
           <Popover.Button
             className={clsx(
-              'lg:text-h4 lg:py-2.5 lg:px-7 md:text-h5 md:py-2.5 md:px-5 text-sm py-2.5 px-4 animated-transition dark:bg-orange-accent-dark dark:text-navy-blue-900 font-ubuntu inline-flex w-full justify-center rounded-full border-none bg-pink-100 text-gray-800 hover:opacity-80',
+              'lg:text-h4 md:text-h5 animated-transition dark:bg-orange-accent-dark dark:text-navy-blue-900 font-ubuntu inline-flex w-full justify-center rounded-full border-none bg-pink-100 px-4 py-2.5 text-sm text-gray-800 hover:opacity-80 md:px-5 md:py-2.5 lg:px-7 lg:py-2.5',
               'outline-none focus-visible:outline-none',
               open ? 'opacity-80' : ''
             )}
@@ -32,7 +32,7 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
               {`${address.slice(0, 5)}...${address.slice(-4)}`}
 
               <ChevronDownIcon
-                className={`animated-transition -mr-1 ml-2 lg:h-5 lg:w-5 md:h-4 md:w-4 w-3 h-3 ${
+                className={`animated-transition -mr-1 ml-2 h-3 w-3 md:h-4 md:w-4 lg:h-5 lg:w-5 ${
                   open ? 'rotate-180' : ''
                 }`}
               />

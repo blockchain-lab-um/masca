@@ -111,7 +111,9 @@ export async function handleOIDCCredentialOffer(
 
   // if(did.startsWith('did:ethr') || did.startsWith('did:pkh')) throw new Error('did:ethr and did:pkh are not supported');
 
-  const kid =  did.startsWith("did:ethr") ? `${did}#controllerKey` : `${did}#${did.split(':')[2]}`;
+  const kid = did.startsWith('did:ethr')
+    ? `${did}#controllerKey`
+    : `${did}#${did.split(':')[2]}`;
 
   const customSign = async (args: SignArgs) =>
     sign(args, { privateKey: res.privateKey, did, kid });

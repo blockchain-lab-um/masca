@@ -51,7 +51,7 @@ export const DropdownMenuItem = ({
           handleBtn(children as string);
         }}
         className={clsx(
-          'md:text-md text-sm block rounded-full py-2',
+          'md:text-md block rounded-full py-2 text-sm',
           active ? variants[variant] : '',
           selected
             ? variantsSelected[variant]
@@ -59,10 +59,14 @@ export const DropdownMenuItem = ({
         )}
       >
         <div className="grid grid-cols-6">
-          <span>{selected ? <CheckIcon className="ml-3 lg:h-5 lg:w-5 w-4 h-4" /> : ''}</span>
-          <span className="col-span-4 col-start-2 text-center">
-            {children}
+          <span>
+            {selected ? (
+              <CheckIcon className="ml-3 h-4 w-4 lg:h-5 lg:w-5" />
+            ) : (
+              ''
+            )}
           </span>
+          <span className="col-span-4 col-start-2 text-center">{children}</span>
         </div>
       </a>
     )}

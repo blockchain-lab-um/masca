@@ -22,7 +22,7 @@ const GlobalFilter = ({ isConnected, vcs }: GlobalFilterProps) => {
   );
   return (
     <div
-      className={`dark:bg-navy-blue-700 dark:text-navy-blue-50 flex flex-1 items-center rounded-full shadow-md sm:flex-none md:h-[43px] h-[37px] ${
+      className={`dark:bg-navy-blue-700 dark:text-navy-blue-50 flex h-[37px] flex-1 items-center rounded-full shadow-md sm:flex-none md:h-[43px] ${
         !isConnected || vcs.length === 0 ? 'bg-gray-50' : 'bg-white'
       }`}
     >
@@ -37,7 +37,7 @@ const GlobalFilter = ({ isConnected, vcs }: GlobalFilterProps) => {
         onChange={(e) => {
           setGlobalFilter(e.target.value);
         }}
-        className={`md:text-lg text-md dark:bg-navy-blue-700 dark:text-navy-blue-50 dark:placeholder:text-navy-blue-500 h-full w-full rounded-full pl-3 pr-2 text-gray-700 placeholder:text-gray-400 focus:outline-none sm:px-2 ${
+        className={`text-md dark:bg-navy-blue-700 dark:text-navy-blue-50 dark:placeholder:text-navy-blue-500 h-full w-full rounded-full pl-3 pr-2 text-gray-700 placeholder:text-gray-400 focus:outline-none sm:px-2 md:text-lg ${
           !isConnected || vcs.length === 0
             ? 'bg-gray-50 text-gray-300 placeholder:text-gray-300'
             : 'bg-white'

@@ -1284,9 +1284,8 @@ export class OIDCRPPlugin implements IAgentPlugin {
 
       const pubPoint = ctx.keyFromPublic(publicKeyHex, 'hex').getPublic();
 
-      console.log( bytesToBase64url(pubPoint.getX().toBuffer('be', 32)));
-      console.log( bytesToBase64url(pubPoint.getY().toBuffer('be', 32)));
-
+      console.log(bytesToBase64url(pubPoint.getX().toBuffer('be', 32)));
+      console.log(bytesToBase64url(pubPoint.getY().toBuffer('be', 32)));
 
       const publicKeyJwk: JsonWebKey = {
         kty: 'EC',

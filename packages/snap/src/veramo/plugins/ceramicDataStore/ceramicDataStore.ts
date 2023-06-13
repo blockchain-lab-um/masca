@@ -1,3 +1,4 @@
+import { uint8ArrayToHex } from '@blockchain-lab-um/utils';
 import {
   AbstractDataStore,
   type IFilterArgs,
@@ -10,7 +11,6 @@ import type { W3CVerifiableCredential } from '@veramo/core';
 import { sha256 } from 'ethereum-cryptography/sha256.js';
 import jsonpath from 'jsonpath';
 
-import { uint8ArrayToHex } from '@blockchain-lab-um/utils';
 import { aliases, getCeramic } from '../../../utils/ceramicUtils';
 import { decodeJWT } from '../../../utils/jwt';
 import { getSnapState } from '../../../utils/stateUtils';

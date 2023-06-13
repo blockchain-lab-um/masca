@@ -1,4 +1,5 @@
 /* eslint-disable max-classes-per-file */
+import { uint8ArrayToHex } from '@blockchain-lab-um/utils';
 import {
   AbstractDataStore,
   type IFilterArgs,
@@ -16,7 +17,6 @@ import type { ManagedPrivateKey } from '@veramo/key-manager';
 import { sha256 } from 'ethereum-cryptography/sha256';
 import jsonpath from 'jsonpath';
 
-import { uint8ArrayToHex } from '@blockchain-lab-um/utils';
 import { decodeJWT } from '../../../utils/jwt';
 import { getCurrentAccount } from '../../../utils/snapUtils';
 import { getSnapState, updateSnapState } from '../../../utils/stateUtils';

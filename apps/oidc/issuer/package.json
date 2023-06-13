@@ -25,10 +25,10 @@
     "test:watch": "pnpm jest --watch"
   },
   "dependencies": {
+    "@blockchain-lab-um/did-provider-key": "*",
     "@blockchain-lab-um/oidc-rp-plugin": "*",
     "@blockchain-lab-um/oidc-types": "*",
     "@blockchain-lab-um/utils": "*",
-    "@blockchain-lab-um/did-provider-key": "*",
     "@ethereumjs/util": "^8.0.6",
     "@fastify/formbody": "^7.4.0",
     "@nestjs/common": "^9.4.2",

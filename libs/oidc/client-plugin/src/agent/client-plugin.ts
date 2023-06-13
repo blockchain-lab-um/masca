@@ -10,7 +10,11 @@ import {
   type SupportedCredential,
   type TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
-import { ResultObject, type Result, qsCustomDecoder } from '@blockchain-lab-um/utils';
+import {
+  qsCustomDecoder,
+  ResultObject,
+  type Result,
+} from '@blockchain-lab-um/utils';
 import { PEX } from '@sphereon/pex';
 import type { IVerifiableCredential } from '@sphereon/ssi-types';
 import type { IAgentPlugin } from '@veramo/core';

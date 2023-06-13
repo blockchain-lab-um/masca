@@ -7,6 +7,7 @@ import {
   type TokenRequest,
   type TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
+import { qsCustomDecoder } from '@blockchain-lab-um/utils';
 import { HttpServer } from '@nestjs/common';
 import {
   FastifyAdapter,
@@ -17,7 +18,6 @@ import { FastifyInstance } from 'fastify';
 import qs from 'qs';
 import request from 'supertest';
 
-import { qsCustomDecoder } from '@blockchain-lab-um/utils';
 import {
   TEST_ISSUER_URL,
   TEST_METADATA,
@@ -44,12 +44,13 @@ const credOfferAndTokenRequest = async (server: HttpServer<any, any>) => {
     .send();
 
   const query = qs.parse(
-    response.text.replace('openid-credential-offer://?', ''), {
+    response.text.replace('openid-credential-offer://?', ''),
+    {
       depth: 50,
       parameterLimit: 1000,
       decoder: qsCustomDecoder,
     }
-  ).credential_offer  as CredentialOffer;
+  ).credential_offer as CredentialOffer;
 
   expect(response.status).toBe(200);
   const tokenRequestData: TokenRequest = {
@@ -206,12 +207,13 @@ describe('Issuer controller', () => {
         expect(response.status).toBe(200);
 
         const query = qs.parse(
-          response.text.replace('openid-credential-offer://?', ''), {
+          response.text.replace('openid-credential-offer://?', ''),
+          {
             depth: 50,
             parameterLimit: 1000,
             decoder: qsCustomDecoder,
           }
-        ).credential_offer  as CredentialOffer;
+        ).credential_offer as CredentialOffer;
 
         expect(query.credentials).toStrictEqual(['GmCredential']);
         expect(query.credential_issuer).toBeDefined();
@@ -247,12 +249,13 @@ describe('Issuer controller', () => {
         expect(response.status).toBe(200);
 
         const query = qs.parse(
-          response.text.replace('openid-credential-offer://?', ''), {
+          response.text.replace('openid-credential-offer://?', ''),
+          {
             depth: 50,
             parameterLimit: 1000,
             decoder: qsCustomDecoder,
           }
-        ).credential_offer  as CredentialOffer;
+        ).credential_offer as CredentialOffer;
 
         expect(query.credentials).toStrictEqual([
           {
@@ -293,12 +296,13 @@ describe('Issuer controller', () => {
         expect(response.status).toBe(200);
 
         const query = qs.parse(
-          response.text.replace('openid-credential-offer://?', ''), {
+          response.text.replace('openid-credential-offer://?', ''),
+          {
             depth: 50,
             parameterLimit: 1000,
             decoder: qsCustomDecoder,
           }
-        ).credential_offer  as CredentialOffer;
+        ).credential_offer as CredentialOffer;
 
         expect(query.credentials).toStrictEqual([
           {
@@ -339,12 +343,13 @@ describe('Issuer controller', () => {
         expect(response.status).toBe(200);
 
         const query = qs.parse(
-          response.text.replace('openid-credential-offer://?', ''), {
+          response.text.replace('openid-credential-offer://?', ''),
+          {
             depth: 50,
             parameterLimit: 1000,
             decoder: qsCustomDecoder,
           }
-        ).credential_offer  as CredentialOffer;
+        ).credential_offer as CredentialOffer;
 
         expect(query.credentials).toStrictEqual([
           {
@@ -397,12 +402,13 @@ describe('Issuer controller', () => {
         expect(response.status).toBe(200);
 
         const query = qs.parse(
-          response.text.replace('openid-credential-offer://?', ''), {
+          response.text.replace('openid-credential-offer://?', ''),
+          {
             depth: 50,
             parameterLimit: 1000,
             decoder: qsCustomDecoder,
           }
-        ).credential_offer  as CredentialOffer;
+        ).credential_offer as CredentialOffer;
 
         expect(query.credentials).toStrictEqual([
           {
@@ -455,12 +461,13 @@ describe('Issuer controller', () => {
         expect(response.status).toBe(200);
 
         const query = qs.parse(
-          response.text.replace('openid-credential-offer://?', ''), {
+          response.text.replace('openid-credential-offer://?', ''),
+          {
             depth: 50,
             parameterLimit: 1000,
             decoder: qsCustomDecoder,
           }
-        ).credential_offer  as CredentialOffer;
+        ).credential_offer as CredentialOffer;
 
         expect(query.credentials).toStrictEqual([
           {
@@ -502,12 +509,13 @@ describe('Issuer controller', () => {
         expect(response.status).toBe(200);
 
         const query = qs.parse(
-          response.text.replace('openid-credential-offer://?', ''), {
+          response.text.replace('openid-credential-offer://?', ''),
+          {
             depth: 50,
             parameterLimit: 1000,
             decoder: qsCustomDecoder,
           }
-        ).credential_offer  as CredentialOffer;
+        ).credential_offer as CredentialOffer;
 
         expect(query.credentials).toStrictEqual([
           {
@@ -549,12 +557,13 @@ describe('Issuer controller', () => {
         expect(response.status).toBe(200);
 
         const query = qs.parse(
-          response.text.replace('openid-credential-offer://?', ''), {
+          response.text.replace('openid-credential-offer://?', ''),
+          {
             depth: 50,
             parameterLimit: 1000,
             decoder: qsCustomDecoder,
           }
-        ).credential_offer  as CredentialOffer;
+        ).credential_offer as CredentialOffer;
 
         expect(query.credentials).toStrictEqual([
           {
@@ -595,12 +604,13 @@ describe('Issuer controller', () => {
         expect(response.status).toBe(200);
 
         const query = qs.parse(
-          response.text.replace('openid-credential-offer://?', ''), {
+          response.text.replace('openid-credential-offer://?', ''),
+          {
             depth: 50,
             parameterLimit: 1000,
             decoder: qsCustomDecoder,
           }
-        ).credential_offer  as CredentialOffer;
+        ).credential_offer as CredentialOffer;
 
         expect(query.credentials).toStrictEqual([
           {
@@ -644,12 +654,13 @@ describe('Issuer controller', () => {
         expect(response.status).toBe(200);
 
         const query = qs.parse(
-          response.text.replace('openid-credential-offer://?', ''), {
+          response.text.replace('openid-credential-offer://?', ''),
+          {
             depth: 50,
             parameterLimit: 1000,
             decoder: qsCustomDecoder,
           }
-        ).credential_offer  as CredentialOffer;
+        ).credential_offer as CredentialOffer;
 
         expect(query.credentials).toStrictEqual([
           {
@@ -734,12 +745,13 @@ describe('Issuer controller', () => {
           .send();
 
         const query = qs.parse(
-          response.text.replace('openid-credential-offer://?', ''), {
+          response.text.replace('openid-credential-offer://?', ''),
+          {
             depth: 50,
             parameterLimit: 1000,
             decoder: qsCustomDecoder,
           }
-        ).credential_offer  as CredentialOffer;
+        ).credential_offer as CredentialOffer;
 
         expect(response.status).toBe(200);
 
@@ -790,12 +802,13 @@ describe('Issuer controller', () => {
           .send();
 
         const query = qs.parse(
-          response.text.replace('openid-credential-offer://?', ''), {
+          response.text.replace('openid-credential-offer://?', ''),
+          {
             depth: 50,
             parameterLimit: 1000,
             decoder: qsCustomDecoder,
           }
-        ).credential_offer  as CredentialOffer;
+        ).credential_offer as CredentialOffer;
 
         expect(response.status).toBe(200);
 
@@ -900,12 +913,13 @@ describe('Issuer controller', () => {
         expect(response.status).toBe(200);
 
         const query = qs.parse(
-          response.text.replace('openid-credential-offer://?', ''), {
+          response.text.replace('openid-credential-offer://?', ''),
+          {
             depth: 50,
             parameterLimit: 1000,
             decoder: qsCustomDecoder,
           }
-        ).credential_offer  as CredentialOffer;
+        ).credential_offer as CredentialOffer;
 
         const tokenRequestData: TokenRequest = {
           grant_type: 'urn:ietf:params:oauth:grant-type:pre-authorized_code',
@@ -998,12 +1012,13 @@ describe('Issuer controller', () => {
         expect(response.status).toBe(200);
 
         const query = qs.parse(
-          response.text.replace('openid-credential-offer://?', ''), {
+          response.text.replace('openid-credential-offer://?', ''),
+          {
             depth: 50,
             parameterLimit: 1000,
             decoder: qsCustomDecoder,
           }
-        ).credential_offer  as CredentialOffer;
+        ).credential_offer as CredentialOffer;
 
         const tokenRequestData: TokenRequest = {
           grant_type: 'urn:ietf:params:oauth:grant-type:pre-authorized_code',

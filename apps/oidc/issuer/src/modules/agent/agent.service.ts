@@ -1,4 +1,8 @@
 import {
+  getMascaDidKeyResolver,
+  MascaKeyDidProvider,
+} from '@blockchain-lab-um/did-provider-key';
+import {
   IOIDCRPPlugin,
   isError,
   OIDCRPPlugin,
@@ -32,8 +36,6 @@ import { Resolver } from 'did-resolver';
 import { getResolver as getEthrResolver } from 'ethr-did-resolver';
 import { DataSource } from 'typeorm';
 
-
-import { getMascaDidKeyResolver, MascaKeyDidProvider } from '@blockchain-lab-um/did-provider-key';
 import {
   IConfig,
   loadSupportedCredentials,
