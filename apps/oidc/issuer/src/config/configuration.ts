@@ -42,7 +42,7 @@ export default ConfigModule.forRoot({
     ISSUER_DB_SECRET: Joi.string().required(),
     INFURA_PROJECT_ID: Joi.string().required(),
     ISSUER_PRIVATE_KEY: Joi.string().required(),
-    ISSUER_URL: Joi.string().required()
+    ISSUER_URL: Joi.string().required(),
   }),
   // TODO: Add custom validation for other variables ?
 });

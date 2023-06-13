@@ -10,7 +10,7 @@ import {
   type SupportedCredential,
   type TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
-import { ResultObject, type Result } from '@blockchain-lab-um/utils';
+import { ResultObject, type Result, qsCustomDecoder } from '@blockchain-lab-um/utils';
 import { PEX } from '@sphereon/pex';
 import type { IVerifiableCredential } from '@sphereon/ssi-types';
 import type { IAgentPlugin } from '@veramo/core';
@@ -98,7 +98,8 @@ export class OIDCClientPlugin implements IAgentPlugin {
       credentialOffer = qs.parse(query, {
         depth: 50,
         parameterLimit: 1000,
-      }).credential_offer as unknown as CredentialOffer;
+        decoder: qsCustomDecoder,
+      }).credential_offer as CredentialOffer;
 
       if (!credentialOffer) {
         return ResultObject.error('Invalid credential offer URI');
@@ -227,8 +228,6 @@ export class OIDCClientPlugin implements IAgentPlugin {
         'pre-authorized_code': preAuthorizedCode,
         ...(userPinRequired && { user_pin: args.pin }),
       };
-
-      console.log(body);
 
       const response = await fetch(tokenEndpoint, {
         method: 'POST',

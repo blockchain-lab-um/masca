@@ -78,7 +78,7 @@ const AuthorizationRequestFlow = () => {
       const authorizationRequestResponse = await fetch(
         `${
           process.env.NEXT_PUBLIC_DEMO_VERIFIER as string
-        }/authorization-request?${qs.stringify(query)}`,
+        }/authorization-request?${qs.stringify(query, { encode: true })}`,
         {
           method: 'GET',
         }

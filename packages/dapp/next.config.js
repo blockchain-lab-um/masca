@@ -21,7 +21,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   // https://nextjs.org/docs/advanced-features/output-file-tracing#automatically-copying-traced-files
-  output: 'standalone',
+  // output: 'standalone',
   // https://nextjs.org/docs/messages/next-image-unconfigured-host
   images: {
     domains: ['localhost'],
@@ -32,7 +32,7 @@ const nextConfig = {
     appDir: true,
   },
   env: {
-    USE_LOCAL: process.env.USE_LOCAL || 'false',
+    USE_LOCAL: process.env.USE_LOCAL || 'true',
   },
 
   // Security headers and CSP

@@ -27,6 +27,8 @@
   "dependencies": {
     "@blockchain-lab-um/oidc-rp-plugin": "*",
     "@blockchain-lab-um/oidc-types": "*",
+    "@blockchain-lab-um/utils": "*",
+    "@blockchain-lab-um/did-provider-key": "*",
     "@ethereumjs/util": "^8.0.6",
     "@fastify/formbody": "^7.4.0",
     "@nestjs/common": "^9.4.2",
@@ -43,7 +45,6 @@
     "@veramo/did-jwt": "5.2.0",
     "@veramo/did-manager": "5.1.2",
     "@veramo/did-provider-ethr": "5.1.2",
-    "@veramo/did-provider-key": "5.2.0",
     "@veramo/did-resolver": "5.2.0",
     "@veramo/key-manager": "5.1.2",
     "@veramo/kms-local": "5.1.2",

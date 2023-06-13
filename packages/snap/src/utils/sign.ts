@@ -39,7 +39,7 @@ export const sign = async (signArgs: SignArgs, signOptions: SignOptions) => {
 
   const hash = sha256(Buffer.from(signingInput));
 
-  const signature = ecPrivateKey.sign(hash);
+  const signature = ecPrivateKey.sign(hash.slice(2));
 
   const signatureBuffer = Buffer.concat([
     signature.r.toArrayLike(Buffer, 'be', 32),
