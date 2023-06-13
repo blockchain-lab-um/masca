@@ -264,7 +264,7 @@ const didRes = await api.resolveDID('did:ethr:0x01:0x123...4567');
 
 `verifyData` is used to verify a VC or a VP in Masca.
 
-By default, this RPC method only returns a boolean. This can be extended by setting `verbose` to true, which results in RPC method returning Veramos `IResult` object.
+By default, this RPC method only returns a boolean. This can be extended by setting `verbose` to true, which results in RPC method returning Veramo's `IResult` object.
 
 ```typescript
 const vcRes = await api.verifyData({ credential: VC, verbose: true });
