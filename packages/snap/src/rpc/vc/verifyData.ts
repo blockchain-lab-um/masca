@@ -16,7 +16,7 @@ export async function verifyData(
     ethereum,
     data: args,
   });
-
   if (res.error) throw new Error(res.error.message);
-  return verbose ? res : res.verified;
+  const parsedRes = JSON.parse(JSON.stringify(res)) as IVerifyResult;
+  return verbose ? parsedRes : parsedRes.verified;
 }
