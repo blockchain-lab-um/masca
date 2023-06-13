@@ -13,9 +13,10 @@ import type {
 } from '@veramo/core';
 import { AbstractDIDStore } from '@veramo/did-manager';
 import type { ManagedPrivateKey } from '@veramo/key-manager';
-import { sha256 } from 'ethers';
+import { sha256 } from 'ethereum-cryptography/sha256';
 import jsonpath from 'jsonpath';
 
+import { uint8ArrayToHex } from '@blockchain-lab-um/utils';
 import { decodeJWT } from '../../../utils/jwt';
 import { getCurrentAccount } from '../../../utils/snapUtils';
 import { getSnapState, updateSnapState } from '../../../utils/stateUtils';
@@ -221,7 +222,7 @@ export class SnapVCStore extends AbstractDataStore {
     const state = await getSnapState(this.snap);
     const account = getCurrentAccount(state);
 
-    const id = sha256(Buffer.from(JSON.stringify(vc))).toString();
+    const id = uint8ArrayToHex(sha256(Buffer.from(JSON.stringify(vc))));
 
     if (!state.accountState[account].vcs[id]) {
       state.accountState[account].vcs[id] = vc;

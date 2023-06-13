@@ -7,9 +7,10 @@ import { DIDDataStore } from '@glazed/did-datastore';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import type { W3CVerifiableCredential } from '@veramo/core';
-import { sha256 } from 'ethers';
+import { sha256 } from 'ethereum-cryptography/sha256.js';
 import jsonpath from 'jsonpath';
 
+import { uint8ArrayToHex } from '@blockchain-lab-um/utils';
 import { aliases, getCeramic } from '../../../utils/ceramicUtils';
 import { decodeJWT } from '../../../utils/jwt';
 import { getSnapState } from '../../../utils/stateUtils';
@@ -121,7 +122,7 @@ export class CeramicVCStore extends AbstractDataStore {
       'StoredCredentials'
     )) as StoredCredentials;
     if (storedCredentials && storedCredentials.vcs) {
-      const id = sha256(Buffer.from(JSON.stringify(vc))).toString();
+      const id = uint8ArrayToHex(sha256(Buffer.from(JSON.stringify(vc))));
 
       if (storedCredentials.vcs[id]) {
         return id;
@@ -131,7 +132,7 @@ export class CeramicVCStore extends AbstractDataStore {
       await datastore.merge('StoredCredentials', storedCredentials);
       return id;
     }
-    const id = sha256(Buffer.from(JSON.stringify(vc))).toString();
+    const id = uint8ArrayToHex(sha256(Buffer.from(JSON.stringify(vc))));
     const storedCredentialsNew: StoredCredentials = { vcs: {} };
     storedCredentialsNew.vcs[id] = vc;
     await datastore.merge('StoredCredentials', storedCredentialsNew);

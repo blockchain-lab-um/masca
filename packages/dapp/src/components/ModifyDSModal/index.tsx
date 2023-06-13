@@ -84,7 +84,6 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
     setType('normal');
     setTitle('Saving Credential');
     setToastOpen(true);
-    setOpen(false);
 
     const res = await api.saveVC(vc.data, { store });
 

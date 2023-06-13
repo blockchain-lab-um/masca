@@ -496,50 +496,48 @@ const Table = () => {
     );
   }
   return (
-    <>
-      <div className="relative flex h-full min-h-[50vh] w-full flex-col">
-        <div className="dark:border-navy-blue-600 flex items-center justify-between border-b border-gray-400 p-5">
-          <div className="text-h2 font-ubuntu dark:text-navy-blue-50 pl-4 font-medium text-gray-900">
-            {t('table-header.credentials')}
+    <div className="relative flex h-full min-h-[50vh] w-full flex-col">
+      <div className="dark:border-navy-blue-600 flex items-center justify-between border-b border-gray-400 p-5">
+        <div className="text-h2 font-ubuntu dark:text-navy-blue-50 pl-4 font-medium text-gray-900">
+          {t('table-header.credentials')}
+        </div>
+        <div className="text-right">
+          <div className="text-h4 dark:text-navy-blue-50 text-gray-900">
+            {vcs.length} {t('table-header.found')}
           </div>
-          <div className="text-right">
-            <div className="text-h4 dark:text-navy-blue-50 text-gray-900">
-              {vcs.length} {t('table-header.found')}
-            </div>
-            <div className="text-h5 dark:text-navy-blue-400 text-gray-600">
-              {t('table-header.fetched')}: today
-            </div>
+          <div className="text-h5 dark:text-navy-blue-400 text-gray-600">
+            {t('table-header.fetched')}: today
           </div>
         </div>
-        <div className="flex flex-wrap justify-center">
-          {table.getRowModel().rows.map((row, key) => (
-            <VCCard key={key} row={row} />
-          ))}
-        </div>
-        <div className="mt-auto flex justify-center rounded-b-3xl pb-3 pt-3">
-          <TablePagination table={table} />
-        </div>
-        {table.getSelectedRowModel().rows.length > 0 && (
-          <div className="absolute lg:-bottom-5 md:-bottom-4 -bottom-3 right-10">
-            <Link href="create-verifiable-presentation">
-              <Button
-                variant="primary"
-                size="wd"
-                onClick={() => {
-                  setSelectedVCs(
-                    table.getSelectedRowModel().rows.map((r) => r.original)
-                  );
-                }}
-              >
-                {t('create-verifiable-presentation')}{' '}
-                {table.getSelectedRowModel().rows.length > 0 &&
-                  `(${table.getSelectedRowModel().rows.length})`}
-              </Button>
-            </Link>
-          </div>
-        )}
       </div>
-    </>
+      <div className="flex flex-wrap justify-center">
+        {table.getRowModel().rows.map((row, key) => (
+          <VCCard key={key} row={row} />
+        ))}
+      </div>
+      <div className="mt-auto flex justify-center rounded-b-3xl pb-3 pt-3">
+        <TablePagination table={table} />
+      </div>
+      {table.getSelectedRowModel().rows.length > 0 && (
+        <div className="absolute -bottom-3 right-10 md:-bottom-4 lg:-bottom-5">
+          <Link href="/app/create-verifiable-presentation">
+            <Button
+              variant="primary"
+              size="wd"
+              onClick={() => {
+                setSelectedVCs(
+                  table.getSelectedRowModel().rows.map((r) => r.original)
+                );
+              }}
+            >
+              {t('create-verifiable-presentation')}{' '}
+              {table.getSelectedRowModel().rows.length > 0 &&
+                `(${table.getSelectedRowModel().rows.length})`}
+            </Button>
+          </Link>
+        </div>
+      )}
+    </div>
   );
 };
 

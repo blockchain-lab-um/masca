@@ -1,7 +1,7 @@
 import type { SignArgs } from '@blockchain-lab-um/oidc-client-plugin';
 import { bytesToBase64url, encodeBase64url } from '@veramo/utils';
 import elliptic from 'elliptic';
-import { sha256 } from 'ethers';
+import { sha256 } from 'ethereum-cryptography/sha256';
 
 const { ec: EC } = elliptic;
 
@@ -39,7 +39,7 @@ export const sign = async (signArgs: SignArgs, signOptions: SignOptions) => {
 
   const hash = sha256(Buffer.from(signingInput));
 
-  const signature = ecPrivateKey.sign(hash.slice(2));
+  const signature = ecPrivateKey.sign(hash);
 
   const signatureBuffer = Buffer.concat([
     signature.r.toArrayLike(Buffer, 'be', 32),
