@@ -105,5 +105,6 @@ module.exports = {
     '**/out',
     '**/.next',
     'tsup.config.ts',
+    'templates',
   ],
 };
