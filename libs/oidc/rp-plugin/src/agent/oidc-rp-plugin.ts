@@ -1239,62 +1239,55 @@ export class OIDCRPPlugin implements IAgentPlugin {
       }
 
       if (fragment.publicKeyJwk) {
-        return {
-          success: false,
-          error: new DetailedError(
-            'invalid_request',
-            'PublickKeyJwk not supported yet.'
-          ),
-        };
-      }
-      const publicKeyHex = extractPublicKeyHex(
-        fragment as _ExtendedVerificationMethod
-      );
-
-      if (publicKeyHex === '') {
-        return {
-          success: false,
-          error: new DetailedError(
-            'invalid_request',
-            'Invalid kid or no public key present.'
-          ),
-        };
-      }
-
-      const supportedTypes = ['EcdsaSecp256k1VerificationKey2019'];
-      if (!supportedTypes.includes(fragment.type)) {
-        return {
-          success: false,
-          error: new DetailedError('invalid_request', 'Unsupported key type.'),
-        };
-      }
-
-      let ctx: elliptic.ec;
-      let curveName: string;
-
-      if (fragment.type === 'EcdsaSecp256k1VerificationKey2019') {
-        ctx = new EC('secp256k1');
-        curveName = 'secp256k1';
+        publicKey = await importJWK(fragment.publicKeyJwk, protectedHeader.alg);
       } else {
-        return {
-          success: false,
-          error: new DetailedError('invalid_request', 'Unsupported key type.'),
+
+        const publicKeyHex = extractPublicKeyHex(
+          fragment as _ExtendedVerificationMethod
+        );
+
+        if (publicKeyHex === '') {
+          return {
+            success: false,
+            error: new DetailedError(
+              'invalid_request',
+              'Invalid kid or no public key present.'
+            ),
+          };
+        }
+
+        const supportedTypes = ['EcdsaSecp256k1VerificationKey2019'];
+        if (!supportedTypes.includes(fragment.type)) {
+          return {
+            success: false,
+            error: new DetailedError('invalid_request', 'Unsupported key type.'),
+          };
+        }
+
+        let ctx: elliptic.ec;
+        let curveName: string;
+
+        if (fragment.type === 'EcdsaSecp256k1VerificationKey2019') {
+          ctx = new EC('secp256k1');
+          curveName = 'secp256k1';
+        } else {
+          return {
+            success: false,
+            error: new DetailedError('invalid_request', 'Unsupported key type.'),
+          };
+        }
+
+        const pubPoint = ctx.keyFromPublic(publicKeyHex, 'hex').getPublic();
+
+        const publicKeyJwk: JsonWebKey = {
+          kty: 'EC',
+          crv: curveName,
+          x: bytesToBase64url(pubPoint.getX().toBuffer('be', 32)),
+          y: bytesToBase64url(pubPoint.getY().toBuffer('be', 32)),
         };
+
+        publicKey = await importJWK(publicKeyJwk, protectedHeader.alg);
       }
-
-      const pubPoint = ctx.keyFromPublic(publicKeyHex, 'hex').getPublic();
-
-      console.log(bytesToBase64url(pubPoint.getX().toBuffer('be', 32)));
-      console.log(bytesToBase64url(pubPoint.getY().toBuffer('be', 32)));
-
-      const publicKeyJwk: JsonWebKey = {
-        kty: 'EC',
-        crv: curveName,
-        x: bytesToBase64url(pubPoint.getX().toBuffer('be', 32)),
-        y: bytesToBase64url(pubPoint.getY().toBuffer('be', 32)),
-      };
-
-      publicKey = await importJWK(publicKeyJwk, protectedHeader.alg);
     } else if (protectedHeader.jwk) {
       // publicKey = await importJWK(protectedHeader.jwk);
       return {
