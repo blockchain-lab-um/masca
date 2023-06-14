@@ -1,4 +1,3 @@
-import React from 'react';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-types';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import { useTranslations } from 'next-intl';

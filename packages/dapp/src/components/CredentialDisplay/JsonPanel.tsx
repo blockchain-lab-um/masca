@@ -1,4 +1,3 @@
-import React from 'react';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-types';
 import { DocumentDuplicateIcon } from '@heroicons/react/24/solid';
 

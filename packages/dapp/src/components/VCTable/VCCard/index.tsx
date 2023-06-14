@@ -1,4 +1,3 @@
-import React from 'react';
 import Link from 'next/link';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-types';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';

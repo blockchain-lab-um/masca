@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { XCircleIcon } from '@heroicons/react/24/outline';
 import {
   CheckCircleIcon,

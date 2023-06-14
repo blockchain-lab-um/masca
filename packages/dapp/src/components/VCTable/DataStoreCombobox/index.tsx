@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-types';
 import { Combobox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid';

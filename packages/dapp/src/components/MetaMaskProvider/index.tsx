@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { enableMasca } from '@blockchain-lab-um/masca-connector';
 import { isError } from '@blockchain-lab-um/utils';
 import detectEthereumProvider from '@metamask/detect-provider';

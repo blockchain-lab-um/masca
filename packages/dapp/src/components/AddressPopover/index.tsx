@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
