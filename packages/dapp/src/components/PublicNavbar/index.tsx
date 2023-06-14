@@ -99,9 +99,7 @@ const PublicNavbar = () => {
           className={clsx(
             'main-bg',
             'fixed left-0 top-0 z-50 h-screen w-screen transition-transform duration-300',
-            isMenuOpen
-              ? 'translate-x-0'
-              : '-translate-x-full'
+            isMenuOpen ? 'translate-x-0' : '-translate-x-full'
           )}
         >
           <div className="flex h-full flex-col space-y-4 p-6">
