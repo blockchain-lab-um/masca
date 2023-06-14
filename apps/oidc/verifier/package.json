@@ -9,7 +9,7 @@
   "scripts": {
     "build": "pnpm build-clean && pnpm nest build",
     "build-clean": "rimraf dist",
-    "docker:build": "docker build . -t bclabum/verifier",
+    "docker:build": "docker build . -t blockchain-lab-um/verifier",
     "format": "pnpm prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "pnpm lint:eslint && pnpm lint:tsc && pnpm lint:prettier",
     "lint:eslint": "eslint . --ext .js,.ts --fix",
@@ -57,6 +57,7 @@
     "fastify": "^4.17.0",
     "joi": "^17.9.2",
     "jose": "^4.11.1",
+    "lint-staged": "^13.2.2",
     "multiformats": "^11.0.2",
     "qs": "^6.11.2",
     "reflect-metadata": "^0.1.13",

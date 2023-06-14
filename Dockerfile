@@ -25,6 +25,7 @@ COPY ./packages/dapp/package.json ./packages/dapp/
 COPY ./libs/utils/package.json ./libs/utils/
 COPY ./libs/oidc/rp-plugin/package.json ./libs/oidc/rp-plugin/
 COPY ./libs/oidc/types/package.json ./libs/oidc/types/
+COPY ./libs/did-provider-key/package.json ./libs/did-provider-key/
 
 ##########
 #  APPS  #

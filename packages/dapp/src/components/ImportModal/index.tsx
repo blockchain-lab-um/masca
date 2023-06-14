@@ -1,6 +1,7 @@
 import { Fragment, useState } from 'react';
 import { AvailableVCStores } from '@blockchain-lab-um/masca-types';
 import { Dialog, Transition } from '@headlessui/react';
+import clsx from 'clsx';
 
 import Button from '@/components/Button';
 import DropdownMultiselect from '@/components/DropdownMultiselect';
@@ -35,7 +36,7 @@ function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black bg-opacity-25 dark:bg-opacity-60" />
+          <div className="fixed inset-0 bg-black/25 dark:bg-black/60" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
@@ -49,7 +50,12 @@ function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="dark:bg-navy-blue-500 w-full max-w-xl transform overflow-hidden rounded-2xl bg-orange-50 px-8 pb-6 pt-10 text-left align-middle shadow-xl transition-all md:max-w-2xl lg:max-w-2xl">
+              <Dialog.Panel
+                className={clsx(
+                  'animated-transition dark:bg-navy-blue-500 w-full max-w-xl overflow-hidden rounded-2xl bg-orange-50 px-8 pb-6 pt-10',
+                  'text-left align-middle shadow-xl md:max-w-2xl lg:max-w-2xl'
+                )}
+              >
                 <Dialog.Title
                   as="h3"
                   className="text-h3 font-ubuntu dark:text-navy-blue-50 font-medium leading-6 text-gray-900"
@@ -65,19 +71,23 @@ function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
                 <div className="mt-5">
                   <div className="dark:bg-navy-blue-300 dark:border-navy-blue-400 group relative z-0 rounded-2xl border border-gray-200 bg-gray-50 pr-2 pt-1">
                     <textarea
-                      className="group-hover:scrollbar-thumb-orange-300 dark:text-navy-blue-700 dark:bg-navy-blue-300 scrollbar-thin scrollbar-thumb-orange-300/0 scrollbar-thumb-rounded-full font-jetbrains-mono min-h-[60vh] w-full resize-none rounded-2xl bg-gray-50 p-2 text-gray-700 focus:outline-none"
+                      className={clsx(
+                        'group-hover:scrollbar-thumb-orange-300 dark:text-navy-blue-700 dark:bg-navy-blue-300',
+                        'scrollbar-thin scrollbar-thumb-orange-300/0 scrollbar-thumb-rounded-full font-jetbrains-mono',
+                        'min-h-[60vh] w-full resize-none rounded-2xl bg-gray-50 p-2 text-gray-700 focus:outline-none'
+                      )}
                       value={vc}
                       onChange={(e) => setVC(e.target.value)}
                     />
                   </div>
-                  <div className="text-h5 font-ubuntu dark:text-navy-blue-50 mt-8 pl-2 font-medium text-gray-900">
+                  <div className="text-h5 font-ubuntu dark:text-navy-blue-50 mt-8 font-medium text-gray-900">
                     SETTINGS
                   </div>
-                  <div className="mt-2 flex items-center justify-between px-4">
+                  <div className="mt-2 flex items-center justify-between gap-x-8">
                     <span className="text-md dark:text-navy-blue-200 flex gap-x-1 text-gray-600">
                       Storage <InfoIcon>Select one or more locations.</InfoIcon>
                     </span>
-                    <div>
+                    <div className="flex flex-1">
                       <DropdownMultiselect
                         items={availableStores}
                         selectedItems={selectedItems}

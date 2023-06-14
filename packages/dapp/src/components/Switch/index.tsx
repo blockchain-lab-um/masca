@@ -78,7 +78,7 @@ export default function ToggleSwitch({
           enabled ? translateEnabled[size] : 'translate-x-0.5',
           sizesToggle[size],
           variantToggle[variant],
-          `inline-block transform rounded-full shadow-sm transition`
+          `inline-block rounded-full shadow-sm transition`
         )}
       />
     </Switch>

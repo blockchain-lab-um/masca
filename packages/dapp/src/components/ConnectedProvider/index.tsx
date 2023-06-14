@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
@@ -61,10 +63,12 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
   }
 
   return (
-    <div className="flex min-h-full w-full items-center justify-center p-6">
-      <h3 className="text-h3 dark:text-navy-blue-50 text-center text-gray-800">
-        {t('connect')}
-      </h3>
+    <div className="dark:bg-navy-blue-800 dark:text-navy-blue-400 flex-1 rounded-3xl bg-white shadow-lg">
+      <div className="flex h-full items-center justify-center">
+        <h3 className="text-h4 md:text-h3 dark:text-navy-blue-50 text-gray-800">
+          {t('connect')}
+        </h3>
+      </div>
     </div>
   );
 };

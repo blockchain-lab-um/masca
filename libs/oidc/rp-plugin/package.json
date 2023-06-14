@@ -44,6 +44,7 @@
     "did-resolver": "^4.1.0",
     "elliptic": "^6.5.4",
     "jose": "^4.11.1",
+    "lint-staged": "^13.2.2",
     "qs": "^6.11.2"
   },
   "devDependencies": {

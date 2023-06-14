@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 import { AvailableVCStores } from '@blockchain-lab-um/masca-types';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid';
@@ -19,7 +19,7 @@ const DropdownMultiselect = ({
   placeholder = '',
   name = '',
 }: DropdownMultiselectProps) => (
-  <div className="relative">
+  <div className="relative flex flex-1 justify-end">
     <Listbox
       value={selectedItems}
       onChange={setSelectedItems}
@@ -27,29 +27,34 @@ const DropdownMultiselect = ({
       multiple
     >
       {({ open }) => (
-        <div className="w-28 cursor-default overflow-hidden rounded-full bg-white text-left shadow-md focus:outline-none sm:text-sm">
+        <div className="md:text-md overflow-hidden rounded-full bg-white text-left text-sm shadow-md focus:outline-none">
           <Listbox.Button
             value={placeholder}
             className="dark:bg-navy-blue-600 dark:text-navy-blue-100 flex w-full border-none p-2 px-1 text-sm leading-5 text-gray-700 placeholder:text-gray-400 focus:outline-none focus:ring-0"
           >
             <div
-              className={`w-3/4 truncate ${
+              className={clsx(
+                'animated-transition flex flex-1 items-center justify-center gap-x-1 pl-4',
                 selectedItems.length === 0
                   ? 'dark:text-navy-blue-200 text-gray-400 '
-                  : ''
-              }`}
+                  : null
+              )}
             >
-              {selectedItems.map((item) => item).join(', ')}
+              {selectedItems.map((item, i) => (
+                <span key={item}>
+                  {item}
+                  {i !== selectedItems.length - 1 ? ', ' : null}
+                </span>
+              ))}
               {selectedItems.length === 0 && <>{placeholder}</>}
             </div>
-            <div>
-              <>
-                <ChevronDownIcon
-                  className={`animated-transition dark:text-navy-blue-100 h-5 w-5 text-gray-700  ${
-                    open ? 'rotate-180' : ''
-                  }`}
-                />
-              </>
+            <div className="px-2">
+              <ChevronDownIcon
+                className={clsx(
+                  'animated-transition dark:text-navy-blue-100 h-5 w-5 text-gray-700',
+                  open ? 'rotate-180' : null
+                )}
+              />
             </div>
           </Listbox.Button>
           <Transition
@@ -58,7 +63,7 @@ const DropdownMultiselect = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="dark:bg-navy-blue-600 absolute right-0 mt-1 w-48 rounded-3xl bg-white p-1 shadow-lg max-md:-top-12 max-md:-translate-y-full max-md:transform">
+            <Listbox.Options className="dark:bg-navy-blue-600 absolute right-0 mt-1 w-36 rounded-3xl bg-white p-1 shadow-lg max-md:-top-2 max-md:-translate-y-full md:w-44">
               {items.map((item, id) => (
                 <Listbox.Option key={id} className="" value={item}>
                   {({ selected, active }) => (
@@ -71,13 +76,13 @@ const DropdownMultiselect = ({
                           selected
                             ? 'dark:text-orange-accent-dark dark:bg-navy-blue-600 bg-white text-pink-700'
                             : 'dark:text-navy-blue-100 text-gray-600',
-                          'text-md block rounded-full py-2'
+                          'md:text-md block rounded-full py-2 text-center text-sm'
                         )}
                       >
                         <span className="grid grid-cols-3">
                           <span className="flex items-center">
                             {selected ? (
-                              <CheckIcon className="ml-3 h-4 w-4" />
+                              <CheckIcon className="ml-3 h-3 w-3 md:h-4 md:w-4" />
                             ) : (
                               ''
                             )}

@@ -34,25 +34,33 @@ export async function handleOIDCCredentialOffer(
 
   const credentialOffer = credentialOfferResult.data;
 
-  const { credentials } = credentialOffer;
+  const { credentials, grants } = credentialOffer;
+
+  const isPinRequired =
+    grants?.['urn:ietf:params:oauth:grant-type:pre-authorized_code']
+      ?.user_pin_required ?? false;
+
+  let pin;
 
   // Ask user for PIN
-  const pin = await snap.request({
-    method: 'snap_dialog',
-    params: {
-      type: 'prompt',
-      content: panel([
-        heading('Please enter the PIN you received from the issuer'),
-      ]),
-      placeholder: 'PIN...',
-    },
-  });
+  if (isPinRequired) {
+    pin = await snap.request({
+      method: 'snap_dialog',
+      params: {
+        type: 'prompt',
+        content: panel([
+          heading('Please enter the PIN you received from the issuer'),
+        ]),
+        placeholder: 'PIN...',
+      },
+    });
 
-  if (!pin || typeof pin !== 'string') {
-    throw new Error('PIN is required');
+    if (!pin || typeof pin !== 'string') {
+      throw new Error('PIN is required');
+    }
   }
 
-  const tokenRequestResult = await agent.sendTokenRequest({ pin });
+  const tokenRequestResult = await agent.sendTokenRequest(pin ? { pin } : {});
 
   if (isError(tokenRequestResult)) {
     throw new Error(tokenRequestResult.error);
@@ -101,7 +109,11 @@ export async function handleOIDCCredentialOffer(
     bip44CoinTypeNode,
   });
 
-  const kid = `${did}#controllerKey`;
+  // if(did.startsWith('did:ethr') || did.startsWith('did:pkh')) throw new Error('did:ethr and did:pkh are not supported');
+
+  const kid = did.startsWith('did:ethr')
+    ? `${did}#controllerKey`
+    : `${did}#${did.split(':')[2]}`;
 
   const customSign = async (args: SignArgs) =>
     sign(args, { privateKey: res.privateKey, did, kid });

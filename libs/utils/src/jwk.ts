@@ -1,6 +1,8 @@
 import { bytesToBase64url, hexToBytes } from '@veramo/utils';
 import type { JsonWebKey } from 'did-resolver';
-import { ec as EC } from 'elliptic';
+import elliptic from 'elliptic';
+
+const { ec: EC } = elliptic;
 
 export enum IJWKSupportedKeyTypes {
   Secp256r1 = 'Secp256r1',
