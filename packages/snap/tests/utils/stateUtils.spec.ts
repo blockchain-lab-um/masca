@@ -159,7 +159,6 @@ describe('Utils [state]', () => {
       initialState.accountState[account] = getEmptyAccountState();
       const defaultState = getDefaultSnapState();
       defaultState.accountState[account].publicKey = publicKey;
-
       await expect(
         setAccountPublicKey({
           snap: snapMock,

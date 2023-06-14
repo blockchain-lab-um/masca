@@ -16,8 +16,8 @@ import * as snapUtils from '../../src/utils/snapUtils';
 import {
   account,
   bip44Entropy,
-  compressedPublicKey,
   content,
+  entropyDerivedPublicKey,
   getDefaultSnapState,
   publicKey,
 } from '../testUtils/constants';
@@ -230,7 +230,7 @@ describe('Utils [snap]', () => {
           account,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         })
-      ).resolves.toEqual(publicKey);
+      ).resolves.toEqual(entropyDerivedPublicKey);
 
       expect.assertions(1);
     });
@@ -263,7 +263,7 @@ describe('Utils [snap]', () => {
       });
       const compressedPK = getCompressedPublicKey(pk);
 
-      expect(compressedPK).toEqual(compressedPublicKey);
+      expect(compressedPK).toEqual(entropyDerivedCompressedPublicKey);
     });
   });
 

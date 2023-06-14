@@ -76,6 +76,7 @@ export async function sendOIDCAuthorizationResponse(
   const domain = getDomainResult.data;
 
   const res = await snapGetKeysFromAddress({
+    snap,
     bip44CoinTypeNode,
     account,
   });

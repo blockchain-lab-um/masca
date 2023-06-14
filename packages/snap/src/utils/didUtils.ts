@@ -84,6 +84,7 @@ export async function getCurrentDid(params: {
     const agent = await getAgent(snap, ethereum);
 
     const res = await snapGetKeysFromAddress({
+      snap,
       bip44CoinTypeNode,
       account,
     });

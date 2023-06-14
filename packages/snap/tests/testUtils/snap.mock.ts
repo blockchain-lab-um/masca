@@ -15,7 +15,6 @@ interface SnapManageState {
   operation: 'get' | 'update' | 'clear';
   newState: unknown;
 }
-
 export class SnapMock implements ISnapMock {
   private snapState: MascaState | null = null;
 
@@ -35,6 +34,20 @@ export class SnapMock implements ISnapMock {
     }
 
     return null;
+  }
+
+  private snapGetEntropy(params: { salt: string }): string {
+    if (
+      params.salt.toLowerCase() === '0xb6665128ee91d84590f70c3268765384a9cafbcd'
+    ) {
+      return '0x77160f04a3daf2ba6b21991da8c82a075ebbb677863e6e21bc1b2c96848c9649';
+    }
+    if (
+      params.salt.toLowerCase() === '0x461e557a07ac110bc947f18b3828e26f013dac39'
+    ) {
+      return '0x7ca467fedb2f46903cc9e09273957ec6911ebfc602ed57c94701b6b0e504080a';
+    }
+    return '0x0000000000000000000000000000000000000000000000000000000000000000';
   }
 
   private async snapPersonalSign(data: string[]): Promise<string> {
@@ -73,6 +86,11 @@ export class SnapMock implements ISnapMock {
 
         return node.toJSON();
       }),
+    snap_getEntropy: jest
+      .fn()
+      .mockImplementation((params: { account: string }) =>
+        this.snapGetEntropy(params as { account: string })
+      ),
     snap_manageState: jest
       .fn()
       .mockImplementation((params: unknown) =>

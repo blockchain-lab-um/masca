@@ -68,6 +68,7 @@ async function authenticateWithEthers(params: {
   });
 
   const res = await snapGetKeysFromAddress({
+    snap,
     bip44CoinTypeNode,
     account,
   });

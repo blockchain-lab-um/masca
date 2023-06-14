@@ -12,12 +12,15 @@ import {
   bip44Entropy,
   derivedKeyChainCode,
   derivedKeyDerivationPath,
+  entropyDerivedPrivateKey,
+  entropyDerivedPrivateKey2,
+  entropyDerivedPublicKey,
   getDefaultSnapState,
   privateKey,
-  privateKey2,
-  publicKey,
 } from '../testUtils/constants';
 import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
+
+// global.snap = createMockSnap();
 
 describe('keyPair', function () {
   let snapMock: SnapsGlobalObject & SnapMock;
@@ -33,19 +36,24 @@ describe('keyPair', function () {
       initialState.accountState[account].index = undefined;
       initialState.accountState[account2].index = undefined;
       const bip44CoinTypeNode = bip44Entropy as BIP44CoinTypeNode;
-      const res = await snapGetKeysFromAddress({ bip44CoinTypeNode, account });
+      const res = await snapGetKeysFromAddress({
+        snap: snapMock,
+        bip44CoinTypeNode,
+        account,
+      });
       expect(res).not.toBeNull();
-      expect(res?.privateKey).toEqual(privateKey);
-      expect(res?.publicKey).toEqual(publicKey);
+      expect(res?.privateKey).toEqual(entropyDerivedPrivateKey);
+      expect(res?.publicKey).toEqual(entropyDerivedPublicKey);
       expect(res?.address).toEqual(account);
 
       const res2 = await snapGetKeysFromAddress({
+        snap: snapMock,
         bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         account: account2,
       });
       expect(res2).not.toBeNull();
-      expect(res2?.privateKey).toEqual(privateKey2);
       expect(res2?.address).toEqual(account2);
+      expect(res2?.privateKey).toEqual(entropyDerivedPrivateKey2);
 
       expect.assertions(7);
     });
@@ -55,6 +63,7 @@ describe('keyPair', function () {
       initialState.accountState['0x'] = getEmptyAccountState();
       const bip44CoinTypeNode = bip44Entropy as BIP44CoinTypeNode;
       const res = await snapGetKeysFromAddress({
+        snap: snapMock,
         bip44CoinTypeNode,
         account: '0x',
       });

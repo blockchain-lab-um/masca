@@ -8,20 +8,11 @@ import { Wallet } from 'ethers';
 
 import { MascaState } from '../interfaces';
 
-/**
- * Function that returns the address index used in Masca, derived from the snap's entropy for the passed account.
- *
- * @param params - object containing the account to get the index for.
- * @param params.account - account to get the index for.
- *
- * @returns number - address index.
- *
- * The returned index is used to derive private keys for the account.
- */
 export async function getAddressIndexFromEntropy(params: {
+  snap: SnapsGlobalObject;
   account: string;
 }): Promise<number> {
-  const { account } = params;
+  const { snap, account } = params;
   const entropy = await snap.request({
     method: 'snap_getEntropy',
     params: {
@@ -89,7 +80,8 @@ export const getKeysFromAddressIndex = async (params: {
   if (result === null) throw new Error("Couldn't derive key pair");
   const { privateKey, derivationPath } = result;
   const snap = new Wallet(privateKey);
-
+  // FIXME: due to the entropy based derivation of the address index,
+  // the address is not the same as the one currently selected account in metamask
   return {
     privateKey,
     publicKey: snap.signingKey.publicKey,
@@ -100,15 +92,21 @@ export const getKeysFromAddressIndex = async (params: {
 };
 
 export const snapGetKeysFromAddress = async (params: {
+  snap: SnapsGlobalObject;
   bip44CoinTypeNode: BIP44CoinTypeNode;
   account: string;
 }): Promise<KeysType | null> => {
-  const { bip44CoinTypeNode, account } = params;
-  const addressIndex = await getAddressIndexFromEntropy({ account });
+  const { snap, bip44CoinTypeNode, account } = params;
+  const regex = /^0x[a-fA-F0-9]{40}$/;
+  if (!regex.test(account)) return null;
+  const addressIndex = await getAddressIndexFromEntropy({ snap, account });
+  // FIXME: due to the entropy based derivation of the address index,
+  // the address is not the same as the one currently selected account in metamask
   const keys = await getKeysFromAddressIndex({
     bip44CoinTypeNode,
     addressIndex,
   });
+  keys.address = account;
   return keys;
 };
 

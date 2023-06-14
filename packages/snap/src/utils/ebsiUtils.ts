@@ -22,6 +22,7 @@ export async function getDidEbsiIdentifier(params: {
   const provider = state.accountState[account].accountConfig.ssi.didMethod;
 
   const res = await snapGetKeysFromAddress({
+    snap,
     bip44CoinTypeNode,
     account,
   });

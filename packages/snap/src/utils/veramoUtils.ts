@@ -84,6 +84,7 @@ export const veramoImportMetaMaskAccount = async (
   });
 
   const res = await snapGetKeysFromAddress({
+    snap,
     bip44CoinTypeNode,
     account,
   });

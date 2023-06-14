@@ -85,6 +85,7 @@ export async function handleOIDCCredentialOffer(
         };
 
   const res = await snapGetKeysFromAddress({
+    snap,
     bip44CoinTypeNode,
     account,
   });

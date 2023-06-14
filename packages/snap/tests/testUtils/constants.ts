@@ -14,16 +14,31 @@ import { getEmptyAccountState } from '../../src/utils/config';
 
 export const mnemonic =
   'prosper pair similar canoe work humble loud wild aunt reunion olive obscure';
+
 export const privateKey =
   '0x63ce0077f0d617dbf54d5f335de2983313c6356f25b45e0f68f85bee1490a6ae';
 export const privateKey2 =
-  '0xb29764680b2a07fa4a762d255e3f689fb5c05cc885e6dfd3de5d5948b5a6b47f';
+  '0x63ce0077f0d617dbf54d5f335de2983313c6356f25b45e0f68f85bee1490a6ae';
+export const entropyDerivedPrivateKey =
+  '0x35687cd85698431531ac153d69b90020ec922a8ae3529211ea3a13531ff014c2';
+export const entropyDerivedPrivateKey2 =
+  '0xf65d3b6c774d5073e37f377a5fd0be1afc555cbd0e1f61a848fd5d06a6556e05';
+
 export const account = '0xb6665128eE91D84590f70c3268765384A9CAfBCd';
+export const entropyDerivedAccount =
+  '0x4a172e8D68d98e280aC0165D862614684d9a4f7A';
 export const account2 = '0x461e557A07AC110BC947F18b3828e26f013dac39';
+
 export const publicKey =
   '0x0480a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae850a9f561d414001a8bdefdb713c619d2caf08a0c9655b0cf42de065bc51e0169a';
+export const entropyDerivedPublicKey =
+  '0x04f072afd683b55d64b286b48bb1bb48d2fd32ceb22838e383293bcf7a4a9a4a2b7f2164c1c886031fbac2b36573edf2554dfdaa130185a4ea58f60a0509b1676a';
 export const compressedPublicKey =
   '0280a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae85';
+
+export const entropyDerivedCompressedPublicKey =
+  '02f072afd683b55d64b286b48bb1bb48d2fd32ceb22838e383293bcf7a4a9a4a2b';
+
 export const signedMsg =
   '0x30eb4dbf93e7bfdb109ed03f7803f2378fa27d18ddc233cb3d121b5ba13253fe2515076d1ba66f3dc282c182479b843c925c62eb1f5a0676bcaf995e8e7552941c';
 export const infuraToken = '0ec03090465d400c988a14831aacfe37';
@@ -230,7 +245,7 @@ export const exampleImportedDIDWIthoutPrivateKey: IIdentifier = {
       type: 'Secp256k1',
       kms: 'snap',
       publicKeyHex:
-        '0480a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae850a9f561d414001a8bdefdb713c619d2caf08a0c9655b0cf42de065bc51e0169a',
+        '04f072afd683b55d64b286b48bb1bb48d2fd32ceb22838e383293bcf7a4a9a4a2b7f2164c1c886031fbac2b36573edf2554dfdaa130185a4ea58f60a0509b1676a',
       meta: {
         algorithms: [
           'ES256K',
