@@ -11,6 +11,7 @@ import type {
   SetCurrentAccountRequestParams,
   SetVCStoreRequestParams,
   SwitchMethodRequestParams,
+  VerifyDataRequestParams,
 } from './params.js';
 
 export type QueryVCs = {
@@ -83,6 +84,11 @@ export type GetAvailableVCStores = {
 export type ResolveDID = {
   method: 'resolveDID';
   params: ResolveDIDRequestParams;
+};
+
+export type VerifyData = {
+  method: 'verifyData';
+  params: VerifyDataRequestParams;
 };
 
 export type SetCurrentAccount = {
