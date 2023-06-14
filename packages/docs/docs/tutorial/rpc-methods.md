@@ -504,7 +504,7 @@ const response = await ethereum.request({
 
 `boolean` if VC/VP is valid.
 
-If `verbose` is set to true, it returns `IVerifyResult` instead, which also contains Error message.
+If `verbose` is set to true, it returns `IVerifyResult` instead, which also contains an Error message.
 
 ### getAccountSettings
 
