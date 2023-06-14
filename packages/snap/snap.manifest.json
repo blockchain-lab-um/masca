@@ -7,7 +7,7 @@
     "url": "https://github.com/blockchain-lab-um/masca.git"
   },
   "source": {
-    "shasum": "/3AGAwr+dGwfpc9rtgkvinzhaEBXNfVJHmpAVcpGWxM=",
+    "shasum": "kpxsf6Amegq82TeSNWiMdndc9CS6n6FMuKKG6mGPGAg=",
     "location": {
       "npm": {
         "filePath": "dist/snap.js",

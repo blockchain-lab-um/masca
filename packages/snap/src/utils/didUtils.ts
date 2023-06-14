@@ -52,6 +52,7 @@ export async function getCurrentDid(params: {
 
       return `did:ethr:${CHAIN_ID}:${compactPublicKey}`;
     }
+    case 'did:key:ebsi':
     case 'did:key':
     case 'did:pkh':
     case 'did:jwk': {
@@ -66,11 +67,12 @@ export async function getCurrentDid(params: {
       if (!res) throw new Error('Failed to get keys');
 
       const identifier: IIdentifier = await agent.didManagerCreate({
-        provider: method,
+        provider: method === 'did:key:ebsi' ? 'did:key' : method,
         kms: 'snap',
         options: {
           privateKeyHex: res.privateKey.slice(2),
           keyType: 'Secp256k1',
+          ...(method === 'did:key:ebsi' && {type:'ebsi'}),
         },
       });
 

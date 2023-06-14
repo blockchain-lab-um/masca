@@ -1264,6 +1264,32 @@ describe('onRpcRequest', () => {
       expect.assertions(1);
     });
 
+    it('should succeed switching method to did:key:ebsi and return did', async () => {
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
+
+      const res = (await onRpcRequest({
+        origin: 'localhost',
+        request: {
+          id: 'test-id',
+          jsonrpc: '2.0',
+          method: 'switchDIDMethod',
+          params: {
+            didMethod: 'did:key:ebsi',
+          },
+        },
+      })) as Result<unknown>;
+
+      if (isError(res)) {
+        throw new Error(res.error);
+      }
+
+      expect(res.data).toBe(
+        'did:key:zBhBLmYmyihtomRdJJNEKzbPj51o4a3GYFeZoRHSABKUwqdjiQPY2f6geyy4qmWsbqyd1juUr3tNwKrGCgftPAwFbp1CFFZoyfVwRScvCDcfhuUYaT3YLVrTNmNdmWkKUMEKJjyRXWCTcaTeNdMAvNEKHAUJHrjKBRL29wsznXWnGnqAyhqKvyA'
+      );
+
+      expect.assertions(1);
+    });
+
     it('should fail switching method to did:key', async () => {
       snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
 
