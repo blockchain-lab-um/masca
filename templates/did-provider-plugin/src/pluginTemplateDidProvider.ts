@@ -1,13 +1,14 @@
-import {
+import type {
   IAgentContext,
   IIdentifier,
   IKey,
   IKeyManager,
   IService,
+  RequireOnly,
 } from '@veramo/core';
 import { AbstractIdentifierProvider } from '@veramo/did-manager';
 
-import {
+import type {
   IContext,
   IPluginTemplateCreateIdentifierOptions,
 } from './types/pluginTemplateProviderTypes.js';
@@ -104,5 +105,25 @@ export class PluginTemplateDIDProvider extends AbstractIdentifierProvider {
     context: IContext
   ): Promise<any> {
     throw Error('PluginTemplateDIDProvider removeService not supported');
+  }
+
+  private async importOrGenerateKey(
+    args: {
+      kms: string;
+      options: RequireOnly<IPluginTemplateCreateIdentifierOptions, 'keyType'>;
+    },
+    context: IContext
+  ): Promise<IKey> {
+    if (args.options.privateKeyHex) {
+      return context.agent.keyManagerImport({
+        kms: args.kms || this.defaultKms,
+        type: args.options.keyType,
+        privateKeyHex: args.options.privateKeyHex,
+      });
+    }
+    return context.agent.keyManagerCreate({
+      kms: args.kms || this.defaultKms,
+      type: args.options.keyType,
+    });
   }
 }

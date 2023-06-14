@@ -14,11 +14,13 @@
 ## `init-provider.sh`
 
 ### Additional requirements
+
 - `rsync`
 
 This script initializes a new Veramo DID Provider plugin and prepares the package in the correct folder.
 
 ### Running the script
+
 Example run:
 
 ```

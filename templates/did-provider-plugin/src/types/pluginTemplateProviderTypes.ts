@@ -1,4 +1,4 @@
-import {
+import type {
   IAgentContext,
   ICredentialIssuer,
   IKeyManager,
@@ -25,6 +25,10 @@ export type IPluginTemplateCreateIdentifierOptions = {
   hashType?: IPluginTemplateDidSupportedHashTypes;
 };
 
-export type IPluginTemplateDidSupportedKeyTypes = 'Secp256k1' | 'P-256';
+export type IPluginTemplateDidSupportedKeyTypes =
+  | 'Secp256k1'
+  | 'Ed25519'
+  | 'Secp256r1'
+  | 'X25519';
 export type IPluginTemplateDidSupportedHashTypes = 'sha256';
 export type IPluginTemplateDidSupportedEcdsaAlgo = 'ES256' | 'ES256K';
