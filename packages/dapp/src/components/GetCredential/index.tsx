@@ -30,14 +30,32 @@ const GetCredential = () => {
   const [parsedCredentialOfferURI, setParsedCredentialOfferURI] =
     useState<CredentialOffer | null>(null);
 
-  const parseCredentialOffer = () => {
+  const parseCredentialOffer = async () => {
     if (!credentialOfferURI) return;
 
     try {
-      const parsedOffer = qs.parse(credentialOfferURI.split('?')[1], {
+      let parsedOffer: CredentialOffer;
+
+      const parsedOfferURI = qs.parse(credentialOfferURI.split('?')[1], {
         depth: 50,
         parameterLimit: 1000,
-      }).credential_offer as unknown as CredentialOffer;
+      });
+
+      if(parsedOfferURI.credential_offer_uri) {
+        // Fetch credential offer from URI
+        const response = await fetch(
+          parsedOfferURI.credential_offer_uri as string
+        );
+
+        if (!response.ok) {
+          throw new Error(await response.text());
+        }
+
+        parsedOffer = await response.json();
+
+      } else {
+        parsedOffer = parsedOfferURI.credential_offer as unknown as CredentialOffer;
+      }
 
       setParsedCredentialOfferURI(parsedOffer);
     } catch (e) {
