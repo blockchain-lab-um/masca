@@ -25,6 +25,11 @@ COPY --from=builder /app/libs/oidc/types ./libs/oidc/types
 
 # Copy did-provider-key
 COPY --from=builder /app/libs/did-provider-key/dist ./libs/did-provider-key/dist
+COPY --from=builder /app/libs/did-provider-key/package.json ./libs/did-provider-key/package.json
+
+# Copy utils
+COPY --from=builder /app/libs/utils/dist ./libs/utils/dist
+COPY --from=builder /app/libs/utils/package.json ./libs/utils/package.json
 
 ENV NODE_ENV=production
 
