@@ -41,7 +41,7 @@ const GetCredential = () => {
         parameterLimit: 1000,
       });
 
-      if(parsedOfferURI.credential_offer_uri) {
+      if (parsedOfferURI.credential_offer_uri) {
         // Fetch credential offer from URI
         const response = await fetch(
           parsedOfferURI.credential_offer_uri as string
@@ -52,9 +52,9 @@ const GetCredential = () => {
         }
 
         parsedOffer = await response.json();
-
       } else {
-        parsedOffer = parsedOfferURI.credential_offer as unknown as CredentialOffer;
+        parsedOffer =
+          parsedOfferURI.credential_offer as unknown as CredentialOffer;
       }
 
       setParsedCredentialOfferURI(parsedOffer);

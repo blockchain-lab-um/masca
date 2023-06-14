@@ -99,7 +99,6 @@ export class OIDCClientPlugin implements IAgentPlugin {
     try {
       const query = args.credentialOfferURI.split('?')[1];
 
-
       const parsedCredentialOfferUri = qs.parse(query, {
         depth: 50,
         parameterLimit: 1000,
@@ -110,9 +109,10 @@ export class OIDCClientPlugin implements IAgentPlugin {
         return ResultObject.error('Invalid credential offer URI');
       }
 
-      if(parsedCredentialOfferUri.credential_offer){
-        credentialOffer = parsedCredentialOfferUri.credential_offer as CredentialOffer;
-      } else if(parsedCredentialOfferUri.credential_offer_uri){
+      if (parsedCredentialOfferUri.credential_offer) {
+        credentialOffer =
+          parsedCredentialOfferUri.credential_offer as CredentialOffer;
+      } else if (parsedCredentialOfferUri.credential_offer_uri) {
         // Fetch credential offer from the URI
         const response = await fetch(
           parsedCredentialOfferUri.credential_offer_uri as string

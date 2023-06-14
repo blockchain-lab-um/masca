@@ -1241,7 +1241,6 @@ export class OIDCRPPlugin implements IAgentPlugin {
       if (fragment.publicKeyJwk) {
         publicKey = await importJWK(fragment.publicKeyJwk, protectedHeader.alg);
       } else {
-
         const publicKeyHex = extractPublicKeyHex(
           fragment as _ExtendedVerificationMethod
         );
@@ -1260,7 +1259,10 @@ export class OIDCRPPlugin implements IAgentPlugin {
         if (!supportedTypes.includes(fragment.type)) {
           return {
             success: false,
-            error: new DetailedError('invalid_request', 'Unsupported key type.'),
+            error: new DetailedError(
+              'invalid_request',
+              'Unsupported key type.'
+            ),
           };
         }
 
@@ -1273,7 +1275,10 @@ export class OIDCRPPlugin implements IAgentPlugin {
         } else {
           return {
             success: false,
-            error: new DetailedError('invalid_request', 'Unsupported key type.'),
+            error: new DetailedError(
+              'invalid_request',
+              'Unsupported key type.'
+            ),
           };
         }
 

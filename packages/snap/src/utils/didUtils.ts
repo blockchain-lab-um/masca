@@ -72,7 +72,7 @@ export async function getCurrentDid(params: {
         options: {
           privateKeyHex: res.privateKey.slice(2),
           keyType: 'Secp256k1',
-          ...(method === 'did:key:ebsi' && {type:'ebsi'}),
+          ...(method === 'did:key:ebsi' && { type: 'ebsi' }),
         },
       });
 
