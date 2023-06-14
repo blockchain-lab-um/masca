@@ -23,6 +23,10 @@ COPY --from=builder /app/libs/oidc/rp-plugin/package.json ./libs/oidc/rp-plugin/
 # Copy oidc-types
 COPY --from=builder /app/libs/oidc/types ./libs/oidc/types
 
+# Copy did-provider-key
+COPY --from=builder /app/libs/did-provider-key/dist ./libs/did-provider-key/dist
+
+
 ENV NODE_ENV=production
 
 # Remove prepare script
