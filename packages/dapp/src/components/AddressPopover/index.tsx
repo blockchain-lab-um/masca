@@ -39,11 +39,11 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
           </Popover.Button>
           <Transition
             enter="transition duration-100 ease-out"
-            enterFrom="transform scale-95 opacity-0"
-            enterTo="transform scale-100 opacity-100"
+            enterFrom="scale-95 opacity-0"
+            enterTo="scale-100 opacity-100"
             leave="transition duration-75 ease-out"
-            leaveFrom="transform scale-100 opacity-100"
-            leaveTo="transform scale-95 opacity-0"
+            leaveFrom="scale-100 opacity-100"
+            leaveTo="scale-95 opacity-0"
           >
             <Popover.Panel className="dark:bg-navy-blue-500 absolute right-0 mt-2 rounded-2xl bg-white shadow-xl">
               <div className="rounded-2xl px-6 pb-3 pt-6 shadow-sm">

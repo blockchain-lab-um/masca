@@ -188,13 +188,13 @@ function MenuPopover() {
             leaveTo="opacity-0 translate-y-1"
           >
             <Popover.Panel className="absolute right-0 z-50 mt-3 w-screen max-w-xs">
-              <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+              <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black/5">
                 <div className="dark:bg-navy-blue-400 relative grid gap-8 bg-white p-7 lg:grid-cols-1">
                   {INTERNAL_LINKS.map((link) => (
                     <Link
                       key={link.name}
                       href={link.href}
-                      className="dark:hover:bg-navy-blue-500 -m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                      className="dark:hover:bg-navy-blue-500 -m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50"
                     >
                       <DropDownItem
                         SVGIcon={link.icon}
@@ -207,7 +207,7 @@ function MenuPopover() {
                     <Link
                       key={link.name}
                       href={link.href}
-                      className="dark:hover:bg-navy-blue-500 -m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50 xl:hidden"
+                      className="dark:hover:bg-navy-blue-500 -m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50 xl:hidden"
                     >
                       <DropDownItem
                         SVGIcon={link.icon}
@@ -221,7 +221,7 @@ function MenuPopover() {
                       key={link.name}
                       href={link.href}
                       target="_blank"
-                      className="dark:hover:bg-navy-blue-500 -m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                      className="dark:hover:bg-navy-blue-500 -m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50"
                     >
                       <DropDownItem
                         SVGIcon={link.icon}
@@ -236,7 +236,7 @@ function MenuPopover() {
                     href="https://docs.masca.io/"
                     target="_blank"
                     rel="noreferrer"
-                    className="dark:hover:bg-navy-blue-700 flow-root rounded-md px-2 py-2 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                    className="dark:hover:bg-navy-blue-700 flow-root rounded-md px-2 py-2 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50"
                   >
                     <span className="flex items-center">
                       <span className="text-sm font-medium text-gray-900 dark:text-white">

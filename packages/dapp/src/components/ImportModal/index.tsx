@@ -36,7 +36,7 @@ function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black bg-opacity-25 dark:bg-opacity-60" />
+          <div className="fixed inset-0 bg-black/25 dark:bg-black/60" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">

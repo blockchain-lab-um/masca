@@ -63,7 +63,7 @@ const DropdownMultiselect = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="dark:bg-navy-blue-600 absolute right-0 mt-1 w-36 rounded-3xl bg-white p-1 shadow-lg max-md:-top-2 max-md:-translate-y-full max-md:transform md:w-44">
+            <Listbox.Options className="dark:bg-navy-blue-600 absolute right-0 mt-1 w-36 rounded-3xl bg-white p-1 shadow-lg max-md:-top-2 max-md:-translate-y-full md:w-44">
               {items.map((item, id) => (
                 <Listbox.Option key={id} className="" value={item}>
                   {({ selected, active }) => (

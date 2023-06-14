@@ -38,7 +38,7 @@ const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
   return (
     <Tab.Group>
       <div className="flex items-center justify-between">
-        <Tab.List className="h-19 dark:bg-navy-blue-700 relative flex w-36 flex-shrink-0 justify-between rounded-full bg-white shadow-md">
+        <Tab.List className="h-19 dark:bg-navy-blue-700 relative flex w-36 shrink-0 justify-between rounded-full bg-white shadow-md">
           <Tab className="outline-none focus-visible:outline-none">
             {({ selected }) => (
               <div className="relative">

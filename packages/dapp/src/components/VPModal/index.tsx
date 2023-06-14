@@ -27,7 +27,7 @@ function VPModal({ open, setOpen, vp }: VPModalProps) {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black bg-opacity-25 dark:bg-opacity-60" />
+          <div className="fixed inset-0 bg-black/25 dark:bg-black/60" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
@@ -41,7 +41,7 @@ function VPModal({ open, setOpen, vp }: VPModalProps) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="dark:bg-navy-blue-500 w-full max-w-md transform overflow-hidden rounded-2xl bg-orange-50 p-6 text-left align-middle shadow-xl transition-all md:max-w-xl lg:max-w-2xl">
+              <Dialog.Panel className="dark:bg-navy-blue-500 w-full max-w-md overflow-hidden rounded-2xl bg-orange-50 p-6 text-left align-middle shadow-xl transition-all md:max-w-xl lg:max-w-2xl">
                 <Dialog.Title
                   as="h3"
                   className="text-h3 font-ubuntu dark:text-navy-blue-50 font-medium leading-6 text-gray-900"

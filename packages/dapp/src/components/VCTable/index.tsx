@@ -468,7 +468,7 @@ const Table = () => {
             <TablePagination table={table} />
           </div>
           {table.getSelectedRowModel().rows.length > 0 && (
-            <div className="mb-2 max-lg:flex max-lg:justify-center lg:absolute lg:-bottom-5 lg:right-10">
+            <div className="absolute -bottom-3 right-10 md:-bottom-4 lg:-bottom-5">
               <Link href="/app/create-verifiable-presentation">
                 <Button
                   variant="primary"
