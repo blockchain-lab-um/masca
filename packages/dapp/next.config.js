@@ -6,10 +6,11 @@ const contentSecurityPolicy = `
   default-src 'self';
   script-src 'self' 'unsafe-inline' cdn.vercel-insights.com vercel.live;
   child-src 'none';
-  img-src 'self' data:;
+  img-src 'self' assets.vercel.com data:;
   style-src 'self' 'unsafe-inline';
   font-src 'self';
   connect-src *;
+  frame-src vercel.live;
 `;
 
 const isProd = process.env.NODE_ENV === 'production';
