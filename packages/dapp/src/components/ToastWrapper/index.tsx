@@ -57,10 +57,6 @@ const ToastWrapper = () => {
     info: <QuestionMarkCircleIcon className="mx-3 h-6 w-6 text-blue-700" />,
   };
 
-  useEffect(() => {
-    console.log('open', open);
-  }, [open]);
-
   return (
     <Toast.Provider swipeDirection="right">
       <Toast.Root
