@@ -19,6 +19,7 @@ import type {
   SetVCStore,
   SwitchMethod,
   TogglePopups,
+  VerifyData,
 } from './methods.js';
 
 export type MascaRPCRequest =
@@ -39,6 +40,7 @@ export type MascaRPCRequest =
   | ResolveDID
   | CreateVC
   | SetCurrentAccount
+  | VerifyData
   | HandleOIDCCredentialOffer
   | HandleOIDCAuthorizationRequest
   | SendOIDCAuthorizationResponse;
