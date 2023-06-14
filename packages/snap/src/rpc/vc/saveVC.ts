@@ -1,10 +1,10 @@
-import {
+import type {
   SaveVCRequestParams,
   SaveVCRequestResult,
 } from '@blockchain-lab-um/masca-types';
 import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
 
-import { ApiParams } from '../../interfaces';
+import type { ApiParams } from '../../interfaces';
 import { snapConfirm } from '../../utils/snapUtils';
 import { veramoSaveVC } from '../../utils/veramoUtils';
 
@@ -12,7 +12,7 @@ export async function saveVC(
   params: ApiParams,
   { verifiableCredential, options }: SaveVCRequestParams
 ): Promise<SaveVCRequestResult[]> {
-  const { store = 'snap' } = options || {};
+  const { store = 'snap' } = options ?? {};
   const { snap, ethereum } = params;
 
   const content = panel([

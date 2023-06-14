@@ -1,4 +1,3 @@
-import React from 'react';
 import { Menu } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/24/outline';
 import { clsx } from 'clsx';
@@ -43,32 +42,32 @@ export const DropdownMenuItem = ({
   handleBtn,
   selected,
   variant = 'primary',
-}: DropdownMenuItemProps) => {
-  return (
-    <Menu.Item>
-      {({ active }) => (
-        <a
-          onClick={() => {
-            handleBtn(children as string);
-          }}
-          className={clsx(
-            'text-md block rounded-full py-2 text-center',
-            active ? variants[variant] : '',
-            selected
-              ? variantsSelected[variant]
-              : 'dark:text-navy-blue-50 font-normal'
-          )}
-        >
-          <div className="grid grid-cols-6">
-            <span>
-              {selected ? <CheckIcon className="ml-3 h-5 w-5" /> : ''}
-            </span>
-            <span className=" col-span-4 col-start-2 text-center">
-              {children}
-            </span>
-          </div>
-        </a>
-      )}
-    </Menu.Item>
-  );
-};
+}: DropdownMenuItemProps) => (
+  <Menu.Item>
+    {({ active }) => (
+      <a
+        onClick={() => {
+          handleBtn(children as string);
+        }}
+        className={clsx(
+          'md:text-md block rounded-full py-2 text-sm',
+          active ? variants[variant] : '',
+          selected
+            ? variantsSelected[variant]
+            : 'dark:text-navy-blue-50 font-normal'
+        )}
+      >
+        <div className="grid grid-cols-6">
+          <span>
+            {selected ? (
+              <CheckIcon className="ml-3 h-4 w-4 lg:h-5 lg:w-5" />
+            ) : (
+              ''
+            )}
+          </span>
+          <span className="col-span-4 col-start-2 text-center">{children}</span>
+        </div>
+      </a>
+    )}
+  </Menu.Item>
+);

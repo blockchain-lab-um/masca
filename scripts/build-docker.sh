@@ -8,7 +8,8 @@ projects="\
 @blockchain-lab-um/masca-connector,\
 @blockchain-lab-um/oidc-issuer,\
 @blockchain-lab-um/oidc-verifier,\
-@blockchain-lab-um/oidc-rp-plugin\
+@blockchain-lab-um/oidc-rp-plugin,\
+@blockchain-lab-um/did-provider-key\
 "
 
 pnpm nx run-many \

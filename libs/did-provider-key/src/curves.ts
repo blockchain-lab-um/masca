@@ -28,6 +28,7 @@ export function buildDidDoc({
     verificationMethod: [verificationMethod],
     ...(keyAgreement && { keyAgreement: [keyAgreement] }),
   };
+
   return didDocument;
 }
 
@@ -52,9 +53,9 @@ export function resolveSecp256k1(
     'https://w3id.org/security#publicKeyJwk',
   ];
 
-  return new Promise((resolve) => {
-    resolve(buildDidDoc({ didIdentifier, context, verificationMethod }));
-  });
+  return Promise.resolve(
+    buildDidDoc({ didIdentifier, context, verificationMethod })
+  );
 }
 
 export function resolveEd25519(
@@ -84,11 +85,9 @@ export function resolveEd25519(
     'https://w3id.org/security/suites/x25519-2020/v1',
   ];
 
-  return new Promise((resolve) => {
-    resolve(
-      buildDidDoc({ didIdentifier, context, verificationMethod, keyAgreement })
-    );
-  });
+  return Promise.resolve(
+    buildDidDoc({ didIdentifier, context, verificationMethod, keyAgreement })
+  );
 }
 
 export const curveResolverMap: Record<string, CurveResolutionFunction> = {

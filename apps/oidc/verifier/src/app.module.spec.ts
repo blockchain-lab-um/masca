@@ -32,12 +32,11 @@ describe('Verifier controler', () => {
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, global-require, @typescript-eslint/no-var-requires
     await fastifyAdapter.register(require('@fastify/formbody'), {
-      parser: (str: string) => {
-        return qs.parse(str, {
+      parser: (str: string) =>
+        qs.parse(str, {
           depth: 50,
           parameterLimit: 1000,
-        });
-      },
+        }),
     });
 
     app = testingModule.createNestApplication<NestFastifyApplication>(

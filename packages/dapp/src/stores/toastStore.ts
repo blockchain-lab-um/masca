@@ -14,12 +14,16 @@ interface ToastStore {
   setType: (type: string) => void;
 }
 
-export const useToastStore = create<ToastStore>()((set) => ({
-  title: '',
-  loading: false,
+export const toastStoreInitialState = {
   open: false,
+  loading: false,
   text: '',
+  title: '',
   type: 'info',
+};
+
+export const useToastStore = create<ToastStore>()((set) => ({
+  ...toastStoreInitialState,
 
   setType: (type) => set({ type }),
   setOpen: (open) => set({ open }),

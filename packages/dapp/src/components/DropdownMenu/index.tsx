@@ -1,3 +1,5 @@
+'use client';
+
 import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
@@ -23,10 +25,10 @@ interface DropdownMenuProps {
 }
 
 const sizes: Record<string, string> = {
-  xs: 'text-sm py-1 px-3 max-w-xs',
-  sm: 'text-md py-1.5 px-3.5 max-w-xs',
-  md: 'text-lg py-2 px-4 max-w-xs',
-  lg: 'text-2xl py-2.5 px-5 font-semibold max-w-xs',
+  xs: 'md:text-sm md:py-1 md:px-3 text-xs py-1 px-2 max-w-xs',
+  sm: 'md:text-md md:py-1.5 md:px-3.5 text-sm py-1 px-3 max-w-xs',
+  md: 'lg:text-lg lg:py-2 lg:px-4 md:text-md md:py-1.5 md:px-3.5 text-sm py-1 px-3 max-w-xs',
+  lg: 'lg:text-2xl lg:py-2.5 lg:px-5 md:text-lg md:py-2 md:px-4 text-md py-1.5 px-3.5 max-w-xs font-semibold max-w-xs',
   method:
     'text-h5 font-ubuntu animated-transition inline-flex w-full justify-center rounded-3xl px-4 py-2 font-thin focus:outline-none',
 };
@@ -83,7 +85,7 @@ export default function DropdownMenu({
 
               <ChevronDownIcon
                 className={`animated-transition -mr-1 ml-2 h-5 w-5 ${
-                  open ? 'rotate-180 transform' : ''
+                  open ? 'rotate-180 ' : ''
                 }`}
                 aria-hidden="true"
               />
@@ -93,26 +95,24 @@ export default function DropdownMenu({
           <Transition
             show={open}
             enter="transition ease-out duration-100"
-            enterFrom="transform opacity-0 scale-95"
-            enterTo="transform opacity-100 scale-100"
+            enterFrom=" opacity-0 scale-95"
+            enterTo=" opacity-100 scale-100"
             leave="transition ease-in duration-75"
-            leaveFrom="transform opacity-100 scale-100"
-            leaveTo="transform opacity-0 scale-95"
+            leaveFrom=" opacity-100 scale-100"
+            leaveTo=" opacity-0 scale-95"
           >
             <Menu.Items className="dark:bg-navy-blue-500 absolute right-0 mt-1 w-48 rounded-3xl bg-white shadow-lg focus:outline-none">
               <div className="p-1">
-                {items.map((item, id) => {
-                  return (
-                    <DropdownMenuItem
-                      selected={item === selected}
-                      handleBtn={setSelected}
-                      key={id}
-                      variant={variant}
-                    >
-                      {item}
-                    </DropdownMenuItem>
-                  );
-                })}
+                {items.map((item, id) => (
+                  <DropdownMenuItem
+                    selected={item === selected}
+                    handleBtn={setSelected}
+                    key={id}
+                    variant={variant}
+                  >
+                    {item}
+                  </DropdownMenuItem>
+                ))}
               </div>
             </Menu.Items>
           </Transition>

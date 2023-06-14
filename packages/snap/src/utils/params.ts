@@ -1,21 +1,21 @@
 import {
-  AvailableVCStores,
-  CreateVCRequestParams,
-  CreateVPRequestParams,
-  DeleteVCsRequestParams,
   isAvailableMethods,
   isAvailableVCStores,
   isSupportedProofFormat,
-  QueryVCsRequestParams,
-  ResolveDIDRequestParams,
-  SaveVCRequestParams,
-  SetCurrentAccountRequestParams,
-  SetVCStoreRequestParams,
-  SwitchMethodRequestParams,
-  VerifyDataRequestParams,
+  type AvailableVCStores,
+  type CreateVCRequestParams,
+  type CreateVPRequestParams,
+  type DeleteVCsRequestParams,
+  type QueryVCsRequestParams,
+  type ResolveDIDRequestParams,
+  type SaveVCRequestParams,
+  type SetCurrentAccountRequestParams,
+  type SetVCStoreRequestParams,
+  type SwitchMethodRequestParams,
+  type VerifyDataRequestParams,
 } from '@blockchain-lab-um/masca-types';
 
-import { MascaState } from '../interfaces';
+import type { MascaState } from '../interfaces';
 import { isEnabledVCStore } from './snapUtils';
 
 function isStringArray(input: unknown): input is string[] {

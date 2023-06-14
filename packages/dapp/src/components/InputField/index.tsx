@@ -1,4 +1,3 @@
-import React from 'react';
 import clsx from 'clsx';
 
 interface InputFieldProps {
@@ -33,22 +32,20 @@ const InputField = ({
   disabled = false,
   shadow = 'lg',
   rounded = 'full',
-}: InputFieldProps) => {
-  return (
-    <input
-      value={value}
-      onChange={(e) => setValue(e.target.value)}
-      placeholder={placeholder}
-      disabled={disabled}
-      className={clsx(
-        variants[variant],
-        sizes[size],
-        `rounded-${rounded}`,
-        `shadow-${shadow}`,
-        'ring-none border-1 animated-transition w-full border outline-none '
-      )}
-    />
-  );
-};
+}: InputFieldProps) => (
+  <input
+    value={value}
+    onChange={(e) => setValue(e.target.value)}
+    placeholder={placeholder}
+    disabled={disabled}
+    className={clsx(
+      variants[variant],
+      sizes[size],
+      `rounded-${rounded}`,
+      `shadow-${shadow}`,
+      'ring-none border-1 animated-transition w-full border outline-none '
+    )}
+  />
+);
 
 export default InputField;

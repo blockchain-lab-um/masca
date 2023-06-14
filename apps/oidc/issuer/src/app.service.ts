@@ -42,7 +42,10 @@ export class AppService {
     query: CredentialOfferRequest
   ): Promise<string> {
     let { credentials, grants } = query;
-    const { userPinRequired } = query;
+
+    // We need to cast the type, because qs.parse returns only strings
+    const userPinRequired =
+      (query.userPinRequired as unknown as string) === 'true';
 
     if (!Array.isArray(credentials)) {
       credentials = [credentials];

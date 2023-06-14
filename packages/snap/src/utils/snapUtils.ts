@@ -1,12 +1,10 @@
-/* eslint-disable no-param-reassign */
-
-import { AvailableVCStores } from '@blockchain-lab-um/masca-types';
+import type { AvailableVCStores } from '@blockchain-lab-um/masca-types';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
-import { Component } from '@metamask/snaps-ui';
+import type { SnapsGlobalObject } from '@metamask/snaps-types';
+import type { Component } from '@metamask/snaps-ui';
 
-import { ApiParams, MascaState } from '../interfaces';
+import type { ApiParams, MascaState } from '../interfaces';
 import { snapGetKeysFromAddress } from './keyPair';
 import { updateSnapState } from './stateUtils';
 
@@ -141,18 +139,15 @@ export function getEnabledVCStores(
   state: MascaState,
   vcstores?: AvailableVCStores[]
 ): string[] {
-  if (!vcstores) {
-    vcstores = Object.keys(
+  const stores =
+    vcstores ??
+    (Object.keys(
       state.accountState[account].accountConfig.ssi.vcStore
-    ) as AvailableVCStores[];
-  }
+    ) as AvailableVCStores[]);
 
-  const res = vcstores.filter((vcstore) => {
-    return (
-      state.accountState[account].accountConfig.ssi.vcStore[vcstore] === true
-    );
-  });
-  return res;
+  return stores.filter(
+    (store) => state.accountState[account].accountConfig.ssi.vcStore[store]
+  );
 }
 
 export function isEnabledVCStore(

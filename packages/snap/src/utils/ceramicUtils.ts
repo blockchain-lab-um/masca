@@ -1,11 +1,11 @@
 import { CeramicClient } from '@ceramicnetwork/http-client';
 import { EthereumNodeAuth, getAccountId } from '@didtools/pkh-ethereum';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
+import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import { DIDSession } from 'did-session';
 import { DID } from 'dids';
 import { Wallet } from 'ethers';
-import { MascaState } from 'src/interfaces';
+import type { MascaState } from 'src/interfaces';
 
 import { getAddressKeyDeriver, snapGetKeysFromAddress } from './keyPair';
 import { getCurrentAccount } from './snapUtils';
@@ -84,13 +84,6 @@ async function authenticateWithEthers(params: {
   const customProvider = new CustomProvider(wallet, ethereum);
 
   const accountId = await getAccountId(customProvider, wallet.address);
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-  typeof window;
-
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
-  window.location = {} as any;
-  window.location.hostname = 'masca';
 
   const authMethod = await EthereumNodeAuth.getAuthMethod(
     customProvider,

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import andraz from '@site/static/img/team/andraz_photo.jpg';
 import martin from '@site/static/img/team/martin_photo.jpg';
 import muhamed from '@site/static/img/team/muhamed_photo.jpg';

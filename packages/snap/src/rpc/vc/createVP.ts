@@ -1,8 +1,8 @@
-import { CreateVPRequestParams } from '@blockchain-lab-um/masca-types';
+import type { CreateVPRequestParams } from '@blockchain-lab-um/masca-types';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
-import { VerifiablePresentation } from '@veramo/core';
+import type { VerifiablePresentation } from '@veramo/core';
 
-import { ApiParams } from '../../interfaces';
+import type { ApiParams } from '../../interfaces';
 import { veramoCreateVP } from '../../utils/veramoUtils';
 
 export async function createVP(

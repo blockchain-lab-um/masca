@@ -1,7 +1,7 @@
-import { IAgentPlugin } from '@veramo/core';
+import type { IAgentPlugin } from '@veramo/core';
 
 import { AbstractDataStore } from '../data-store/abstractDataStore.js';
-import {
+import type {
   IDataManager,
   IDataManagerClearArgs,
   IDataManagerDeleteArgs,

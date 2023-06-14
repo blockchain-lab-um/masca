@@ -1,6 +1,6 @@
-import { Json, SnapsGlobalObject } from '@metamask/snaps-types';
+import type { Json, SnapsGlobalObject } from '@metamask/snaps-types';
 
-import { ApiParams, MascaState } from '../interfaces';
+import type { ApiParams, MascaState } from '../interfaces';
 import { getEmptyAccountState, getInitialSnapState } from './config';
 
 /**

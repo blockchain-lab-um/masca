@@ -39,6 +39,9 @@
       "dependsOn": ["^build"],
       "outputs": []
     },
+    "lint:fix": {
+      "dependsOn": ["^build"]
+    },
     "test": {
       "inputs": ["test", "^production"],
       "dependsOn": ["^build"],

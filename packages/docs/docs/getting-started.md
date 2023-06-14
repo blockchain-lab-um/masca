@@ -44,10 +44,14 @@ A minimal example of initializing Masca and invoking one of the API methods:
 import { enableMasca } from '@blockchain-lab-um/masca-connector';
 import { isError } from '@blockchain-lab-um/utils';
 // install Masca and retrieve API interface
-const masca = await enableMasca();
+
+//Connect wallet & get Address
+const address = ...
+
+const masca = await enableMasca(address);
 
 if(isError(masca)){
-    console.error(enableResult.error);
+    console.error(masca.error);
     return;
 }
 

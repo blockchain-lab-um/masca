@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { Dialog, Transition } from '@headlessui/react';
 import { DocumentDuplicateIcon } from '@heroicons/react/24/solid';
 import { W3CVerifiablePresentation } from '@veramo/core';
@@ -14,6 +14,7 @@ interface VPModalProps {
 
 function VPModal({ open, setOpen, vp }: VPModalProps) {
   const router = useRouter();
+
   return (
     <Transition appear show={open} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={() => setOpen(false)}>
@@ -26,7 +27,7 @@ function VPModal({ open, setOpen, vp }: VPModalProps) {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black bg-opacity-25 dark:bg-opacity-60" />
+          <div className="fixed inset-0 bg-black/25 dark:bg-black/60" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
@@ -40,7 +41,7 @@ function VPModal({ open, setOpen, vp }: VPModalProps) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="dark:bg-navy-blue-500 w-full max-w-md transform overflow-hidden rounded-2xl bg-orange-50 p-6 text-left align-middle shadow-xl transition-all md:max-w-xl lg:max-w-2xl">
+              <Dialog.Panel className="dark:bg-navy-blue-500 w-full max-w-md overflow-hidden rounded-2xl bg-orange-50 p-6 text-left align-middle shadow-xl transition-all md:max-w-xl lg:max-w-2xl">
                 <Dialog.Title
                   as="h3"
                   className="text-h3 font-ubuntu dark:text-navy-blue-50 font-medium leading-6 text-gray-900"
@@ -77,7 +78,7 @@ function VPModal({ open, setOpen, vp }: VPModalProps) {
                     <Button
                       onClick={async () => {
                         setOpen(false);
-                        await router.push('/dashboard');
+                        router.push('/app');
                       }}
                       variant="primary"
                       size="sm"

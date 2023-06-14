@@ -1,12 +1,12 @@
-import {
+import type {
   MascaAccountConfig,
   MascaConfig,
 } from '@blockchain-lab-um/masca-types';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
-import { IIdentifier, IKey, W3CVerifiableCredential } from '@veramo/core';
-import { ManagedPrivateKey } from '@veramo/key-manager';
+import type { SnapsGlobalObject } from '@metamask/snaps-types';
+import type { IIdentifier, IKey, W3CVerifiableCredential } from '@veramo/core';
+import type { ManagedPrivateKey } from '@veramo/key-manager';
 
 export type MascaState = {
   /**
