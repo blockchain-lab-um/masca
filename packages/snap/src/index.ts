@@ -14,6 +14,10 @@ import { switchMethod } from './rpc/did/switchMethod';
 import { handleOIDCAuthorizationRequest } from './rpc/oidc/handleOIDCAuthorizationRequest';
 import { handleOIDCCredentialOffer } from './rpc/oidc/handleOIDCCredentialOffer';
 import { sendOIDCAuthorizationResponse } from './rpc/oidc/sendOIDCAuthorizationResponse';
+import {
+  setCeramicSessionKey,
+  verifyStoredCeramicSessionKey,
+} from './rpc/snap/ceramic';
 import { togglePopups } from './rpc/snap/configure';
 import { setCurrentAccount } from './rpc/snap/setCurrentAccount';
 import { createVC } from './rpc/vc/createVC';
@@ -43,7 +47,6 @@ import {
   initAccountState,
   initSnapState,
 } from './utils/stateUtils';
-import { setCeramicSessionKey, verifyStoredCeramicSessionKey } from './rpc/snap/ceramic';
 
 export const onRpcRequest: OnRpcRequestHandler = async ({
   request,
@@ -189,7 +192,10 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         return ResultObject.success(res);
       case 'setCeramicSessionKey':
         // TODO (andy) validate request params
-        res = await setCeramicSessionKey(apiParams, (request.params as any).sessionKey as string);
+        res = await setCeramicSessionKey(
+          apiParams,
+          (request.params as any).sessionKey as string
+        );
         return ResultObject.success(res);
       case 'verifyStoredCeramicSessionKey':
         res = await verifyStoredCeramicSessionKey(apiParams);

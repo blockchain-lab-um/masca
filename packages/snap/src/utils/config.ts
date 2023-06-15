@@ -1,11 +1,10 @@
 import type {
   MascaAccountConfig,
+  MascaAccountState,
   MascaConfig,
-  MascaState, 
-  MascaAccountState
+  MascaState,
 } from '@blockchain-lab-um/masca-types';
 import cloneDeep from 'lodash.clonedeep';
-
 
 const emptyAccountState = {
   snapKeyStore: {},

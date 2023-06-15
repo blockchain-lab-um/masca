@@ -59,5 +59,5 @@ export type MascaAccountState = {
   publicKey: string;
   index?: number;
   accountConfig: MascaAccountConfig;
-  ceramicSession?: string; 
+  ceramicSession?: string;
 };

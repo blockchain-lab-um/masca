@@ -1,3 +1,4 @@
+import type { MascaState } from '@blockchain-lab-um/masca-types';
 import { CeramicClient } from '@ceramicnetwork/http-client';
 import { EthereumNodeAuth, getAccountId } from '@didtools/pkh-ethereum';
 import { MetaMaskInpageProvider } from '@metamask/providers';
@@ -5,7 +6,6 @@ import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import { DIDSession } from 'did-session';
 import { DID } from 'dids';
 import { Wallet } from 'ethers';
-import type { MascaState } from '@blockchain-lab-um/masca-types';
 
 import { getAddressKeyDeriver, snapGetKeysFromAddress } from './keyPair';
 import { getCurrentAccount, getEnabledVCStores } from './snapUtils';
@@ -52,35 +52,30 @@ class CustomProvider {
 }
 
 // Should return key or throw an error
-async function verifySession(
-  sessionKey: string,
-): Promise<string>{
+async function verifySession(sessionKey: string): Promise<string> {
   const session = await DIDSession.fromSession(sessionKey);
-  if(session.isExpired){
+  if (session.isExpired) {
     throw new Error('Session expired');
   }
 
-  if(session.expireInSecs < 3600){
+  if (session.expireInSecs < 3600) {
     throw new Error('Session will expire soon');
   }
   return sessionKey;
 }
 
 // Returns session key if session is valid, returns empty string if ceramic is disabled and throws an error if something goes wrong
-export async function verifyStoredSession(
-  state: MascaState,
-): Promise<string> {
-
+export async function verifyStoredSession(state: MascaState): Promise<string> {
   const account = getCurrentAccount(state);
   const enabledVCStores = getEnabledVCStores(account, state);
   // Retrun if ceramic isnt enabled
   if (!enabledVCStores.includes('ceramic')) {
-    return "";
+    return '';
   }
 
   const sessionKey = state.accountState[state.currentAccount].ceramicSession;
-  
-  if(!sessionKey){
+
+  if (!sessionKey) {
     throw new Error('No session found');
   }
   return verifySession(sessionKey);
@@ -89,7 +84,7 @@ export async function verifyStoredSession(
 export async function setSession(
   snap: SnapsGlobalObject,
   state: MascaState,
-  sessionKey: string,
+  sessionKey: string
 ): Promise<boolean> {
   await verifySession(sessionKey);
 
@@ -147,7 +142,7 @@ async function authenticateWithEthers(params: {
   return session.did;
 }
 
-async function authenticateWithSessionKey(state: MascaState){
+async function authenticateWithSessionKey(state: MascaState) {
   const sessionKey = await verifyStoredSession(state);
   const session = await DIDSession.fromSession(sessionKey);
   return session.did;
@@ -166,5 +161,3 @@ export async function getCeramic(
   await ceramic.setDID(did);
   return ceramic;
 }
-
-

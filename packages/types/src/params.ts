@@ -153,4 +153,4 @@ export type SendOIDCAuthorizationResponseParams = {
 
 export type SetCeramicSessionKeyRequestParams = {
   sessionKey: string;
-}
+};

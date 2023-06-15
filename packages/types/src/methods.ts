@@ -115,8 +115,8 @@ export type SendOIDCAuthorizationResponse = {
 export type SetCeramicSessionKey = {
   method: 'setCeramicSessionKey';
   params: SetCeramicSessionKeyRequestParams;
-}
+};
 
 export type VerifyStoredCeramicSessionKey = {
   method: 'verifyStoredCeramicSessionKey';
-}
+};

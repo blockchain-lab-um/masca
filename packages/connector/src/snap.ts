@@ -17,6 +17,7 @@ import type {
   SendOIDCAuthorizationResponseParams,
   SetCurrentAccountRequestParams,
   VerifyDataRequestParams,
+  VCRequest
 } from '@blockchain-lab-um/masca-types';
 import type { Result } from '@blockchain-lab-um/utils';
 import type {
@@ -26,7 +27,9 @@ import type {
   VerifiablePresentation,
   W3CVerifiableCredential,
 } from '@veramo/core';
+
 import { verifyAndSetCeramicSession } from './utils.js';
+
 
 async function sendSnapMethod<T>(
   request: MascaRPCRequest,
@@ -52,10 +55,14 @@ export async function queryVCs(
   this: Masca,
   params?: QueryVCsRequestParams
 ): Promise<Result<QueryVCsRequestResult[]>> {
-
-  if(!params || !params.options || !params.options.store || params.options.store.includes('ceramic')){
+  if (
+    !params ||
+    !params.options ||
+    !params.options.store ||
+    params.options.store.includes('ceramic')
+  ) {
     const sessionSet = await verifyAndSetCeramicSession(this);
-    if(typeof sessionSet === 'object'){
+    if (typeof sessionSet === 'object') {
       return sessionSet as Result<QueryVCsRequestResult[]>;
     }
   }
@@ -77,10 +84,16 @@ export async function createVP(
   this: Masca,
   params: CreateVPRequestParams
 ): Promise<Result<VerifiablePresentation>> {
-
-  if(params.vcs.some(vc => !vc.metadata || !vc.metadata.store || vc.metadata.store.includes('ceramic'))){
+  if (
+    params.vcs.some(
+      (vc: VCRequest) =>
+        !vc.metadata ||
+        !vc.metadata.store ||
+        vc.metadata.store.includes('ceramic')
+    )
+  ) {
     const sessionSet = await verifyAndSetCeramicSession(this);
-    if(typeof sessionSet === 'object'){
+    if (typeof sessionSet === 'object') {
       return sessionSet as Result<VerifiablePresentation>;
     }
   }
@@ -107,10 +120,9 @@ export async function saveVC(
   vc: W3CVerifiableCredential,
   options?: SaveVCOptions
 ): Promise<Result<SaveVCRequestResult[]>> {
-
-  if(!options || !options.store || options.store.includes('ceramic')){
+  if (!options || !options.store || options.store.includes('ceramic')) {
     const sessionSet = await verifyAndSetCeramicSession(this);
-    if(typeof sessionSet === 'object'){
+    if (typeof sessionSet === 'object') {
       return sessionSet as Result<SaveVCRequestResult[]>;
     }
   }
@@ -139,9 +151,9 @@ export async function deleteVC(
   id: string,
   options?: DeleteVCsOptions
 ): Promise<Result<boolean[]>> {
-  if(!options || !options.store || options.store.includes('ceramic')){
+  if (!options || !options.store || options.store.includes('ceramic')) {
     const sessionSet = await verifyAndSetCeramicSession(this);
-    if(typeof sessionSet === 'object'){
+    if (typeof sessionSet === 'object') {
       return sessionSet as Result<boolean[]>;
     }
   }
@@ -297,10 +309,12 @@ export async function createVC(
   this: Masca,
   params: CreateVCRequestParams
 ): Promise<Result<VerifiableCredential>> {
-
-  if(params.options?.save === true && (!params.options?.store || params.options?.store.includes('ceramic'))){
+  if (
+    params.options?.save === true &&
+    (!params.options?.store || params.options?.store.includes('ceramic'))
+  ) {
     const sessionSet = await verifyAndSetCeramicSession(this);
-    if(typeof sessionSet === 'object'){
+    if (typeof sessionSet === 'object') {
       return sessionSet as Result<VerifiableCredential>;
     }
   }
@@ -388,7 +402,7 @@ export async function sendOIDCAuthorizationResponse(
 export async function setCeramicSessionKey(
   this: Masca,
   sessionKey: string
-): Promise<Result<boolean>>{
+): Promise<Result<boolean>> {
   return sendSnapMethod(
     {
       method: 'setCeramicSessionKey',
@@ -398,7 +412,9 @@ export async function setCeramicSessionKey(
   );
 }
 
-export async function verifyStoredCeramicSessionKey(this: Masca): Promise<Result<string>>{
+export async function verifyStoredCeramicSessionKey(
+  this: Masca
+): Promise<Result<string>> {
   return sendSnapMethod(
     {
       method: 'verifyStoredCeramicSessionKey',
