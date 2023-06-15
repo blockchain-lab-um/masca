@@ -16,8 +16,8 @@ import type {
   SaveVCRequestResult,
   SendOIDCAuthorizationResponseParams,
   SetCurrentAccountRequestParams,
+  VCRequest,
   VerifyDataRequestParams,
-  VCRequest
 } from '@blockchain-lab-um/masca-types';
 import type { Result } from '@blockchain-lab-um/utils';
 import type {
@@ -29,7 +29,6 @@ import type {
 } from '@veramo/core';
 
 import { verifyAndSetCeramicSession } from './utils.js';
-
 
 async function sendSnapMethod<T>(
   request: MascaRPCRequest,

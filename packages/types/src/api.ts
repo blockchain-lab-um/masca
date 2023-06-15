@@ -68,5 +68,5 @@ export interface MascaApi {
     params: SendOIDCAuthorizationResponseParams
   ): Promise<Result<boolean>>;
   setCeramicSessionKey(sessionKey: string): Promise<Result<boolean>>;
-  verifyStoredCeramicSessionKey(): Promise<Result<boolean>>;
+  verifyStoredCeramicSessionKey(): Promise<Result<string>>;
 }
