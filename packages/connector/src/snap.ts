@@ -26,6 +26,7 @@ import type {
   VerifiablePresentation,
   W3CVerifiableCredential,
 } from '@veramo/core';
+import { verifyAndSetCeramicSession } from './utils.js';
 
 async function sendSnapMethod<T>(
   request: MascaRPCRequest,
@@ -90,6 +91,9 @@ export async function saveVC(
   vc: W3CVerifiableCredential,
   options?: SaveVCOptions
 ): Promise<Result<SaveVCRequestResult[]>> {
+
+  await verifyAndSetCeramicSession(this);
+
   return sendSnapMethod(
     {
       method: 'saveVC',
@@ -346,6 +350,28 @@ export async function sendOIDCAuthorizationResponse(
   );
 }
 
+export async function setCeramicSessionKey(
+  this: Masca,
+  sessionKey: string
+): Promise<Result<boolean>>{
+  return sendSnapMethod(
+    {
+      method: 'setCeramicSessionKey',
+      params: { sessionKey },
+    },
+    this.snapId
+  );
+}
+
+export async function verifyStoredCeramicSessionKey(this: Masca): Promise<Result<string>>{
+  return sendSnapMethod(
+    {
+      method: 'verifyStoredCeramicSessionKey',
+    },
+    this.snapId
+  );
+}
+
 export class Masca {
   protected readonly snapId: string;
 
@@ -381,5 +407,7 @@ export class Masca {
     handleOIDCCredentialOffer: handleOIDCCredentialOffer.bind(this),
     handleOIDCAuthorizationRequest: handleOIDCAuthorizationRequest.bind(this),
     sendOIDCAuthorizationResponse: sendOIDCAuthorizationResponse.bind(this),
+    setCeramicSessionKey: setCeramicSessionKey.bind(this),
+    verifyStoredCeramicSessionKey: verifyStoredCeramicSessionKey.bind(this),
   });
 }

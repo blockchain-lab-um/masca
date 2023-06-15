@@ -43,6 +43,7 @@ import {
   initAccountState,
   initSnapState,
 } from './utils/stateUtils';
+import { setCeramicSessionKey, verifyStoredCeramicSessionKey } from './rpc/snap/ceramic';
 
 export const onRpcRequest: OnRpcRequestHandler = async ({
   request,
@@ -185,6 +186,13 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
           apiParams,
           request.params as unknown as SendOIDCAuthorizationResponseParams
         );
+        return ResultObject.success(res);
+      case 'setCeramicSessionKey':
+        // TODO (andy) validate request params
+        res = await setCeramicSessionKey(apiParams, request.params as unknown as string);
+        return ResultObject.success(res);
+      case 'verifyStoredCeramicSessionKey':
+        res = await verifyStoredCeramicSessionKey(apiParams);
         return ResultObject.success(res);
       default:
         throw new Error('Method not found.');

@@ -8,6 +8,7 @@ import type {
   ResolveDIDRequestParams,
   SaveVCRequestParams,
   SendOIDCAuthorizationResponseParams,
+  SetCeramicSessionKeyRequestParams,
   SetCurrentAccountRequestParams,
   SetVCStoreRequestParams,
   SwitchMethodRequestParams,
@@ -110,3 +111,12 @@ export type SendOIDCAuthorizationResponse = {
   method: 'sendOIDCAuthorizationResponse';
   params: SendOIDCAuthorizationResponseParams;
 };
+
+export type SetCeramicSessionKey = {
+  method: 'setCeramicSessionKey';
+  params: SetCeramicSessionKeyRequestParams;
+}
+
+export type VerifyStoredCeramicSessionKey = {
+  method: 'verifyStoredCeramicSessionKey';
+}

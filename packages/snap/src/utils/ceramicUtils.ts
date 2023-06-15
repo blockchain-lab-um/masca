@@ -5,10 +5,11 @@ import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import { DIDSession } from 'did-session';
 import { DID } from 'dids';
 import { Wallet } from 'ethers';
-import type { MascaState } from 'src/interfaces';
+import type { MascaState } from '@blockchain-lab-um/masca-types';
 
 import { getAddressKeyDeriver, snapGetKeysFromAddress } from './keyPair';
 import { getCurrentAccount } from './snapUtils';
+import { updateSnapState } from './stateUtils';
 
 const ceramicDID = { did: undefined } as { did: DID | undefined };
 
@@ -48,6 +49,52 @@ class CustomProvider {
 
     throw new Error('Unsupported method');
   }
+}
+
+// Should return key or throw an error
+async function verifySession(
+  sessionKey: string,
+): Promise<string>{
+  console.log('verifySession', sessionKey)
+  const session = await DIDSession.fromSession(sessionKey);
+  if(session.isExpired){
+    throw new Error('Session expired');
+  }
+
+  if(session.expireInSecs < 3600){
+    throw new Error('Session will expire soon');
+  }
+  console.log("returning from session")
+  return sessionKey;
+}
+
+// Should return key or throw an error
+export async function verifyStoredSession(
+  state: MascaState,
+): Promise<string> {
+  console.log('verify stored session')
+  const sessionKey = state.accountState[state.currentAccount].ceramicSession;
+  
+  if(!sessionKey){
+    throw new Error('No session found');
+  }
+  console.log('ret verify stored session')
+  return verifySession(sessionKey);
+}
+
+export async function setSession(
+  snap: SnapsGlobalObject,
+  state: MascaState,
+  sessionKey: string,
+): Promise<boolean> {
+  console.log('set session')
+  await verifySession(sessionKey);
+
+  console.log('done verify session in set session')
+  state.accountState[state.currentAccount].ceramicSession = sessionKey;
+  await updateSnapState(snap, state);
+  console.log('return set session')
+  return true;
 }
 
 async function authenticateWithEthers(params: {
@@ -99,6 +146,15 @@ async function authenticateWithEthers(params: {
   return session.did;
 }
 
+async function authenticateWithSessionKey(state: MascaState){
+  console.log("auth with session key")
+  const sessionKey = await verifyStoredSession(state);
+  console.log('auth sessionKey', sessionKey)
+  const session = await DIDSession.fromSession(sessionKey);
+  console.log('end auth with session key')
+  return session.did;
+}
+
 export async function getCeramic(
   ethereum: MetaMaskInpageProvider,
   snap: SnapsGlobalObject,
@@ -106,8 +162,11 @@ export async function getCeramic(
 ): Promise<CeramicClient> {
   const ceramic = new CeramicClient('https://ceramic-clay.3boxlabs.com');
 
-  const did = await authenticateWithEthers({ ethereum, snap, state });
+  // const did = await authenticateWithEthers({ ethereum, snap, state });
+  const did = await authenticateWithSessionKey(state);
 
   await ceramic.setDID(did);
   return ceramic;
 }
+
+

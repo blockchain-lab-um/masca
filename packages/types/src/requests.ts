@@ -15,11 +15,13 @@ import type {
   ResolveDID,
   SaveVC,
   SendOIDCAuthorizationResponse,
+  SetCeramicSessionKey,
   SetCurrentAccount,
   SetVCStore,
   SwitchMethod,
   TogglePopups,
   VerifyData,
+  VerifyStoredCeramicSessionKey,
 } from './methods.js';
 
 export type MascaRPCRequest =
@@ -43,7 +45,9 @@ export type MascaRPCRequest =
   | VerifyData
   | HandleOIDCCredentialOffer
   | HandleOIDCAuthorizationRequest
-  | SendOIDCAuthorizationResponse;
+  | SendOIDCAuthorizationResponse
+  | SetCeramicSessionKey
+  | VerifyStoredCeramicSessionKey;
 
 export type Method = MascaRPCRequest['method'];
 
