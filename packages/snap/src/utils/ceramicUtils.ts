@@ -8,7 +8,7 @@ import { Wallet } from 'ethers';
 import type { MascaState } from '@blockchain-lab-um/masca-types';
 
 import { getAddressKeyDeriver, snapGetKeysFromAddress } from './keyPair';
-import { getCurrentAccount } from './snapUtils';
+import { getCurrentAccount, getEnabledVCStores } from './snapUtils';
 import { updateSnapState } from './stateUtils';
 
 const ceramicDID = { did: undefined } as { did: DID | undefined };
@@ -55,7 +55,6 @@ class CustomProvider {
 async function verifySession(
   sessionKey: string,
 ): Promise<string>{
-  console.log('verifySession', sessionKey)
   const session = await DIDSession.fromSession(sessionKey);
   if(session.isExpired){
     throw new Error('Session expired');
@@ -64,21 +63,26 @@ async function verifySession(
   if(session.expireInSecs < 3600){
     throw new Error('Session will expire soon');
   }
-  console.log("returning from session")
   return sessionKey;
 }
 
-// Should return key or throw an error
+// Returns session key if session is valid, returns empty string if ceramic is disabled and throws an error if something goes wrong
 export async function verifyStoredSession(
   state: MascaState,
 ): Promise<string> {
-  console.log('verify stored session')
+
+  const account = getCurrentAccount(state);
+  const enabledVCStores = getEnabledVCStores(account, state);
+  // Retrun if ceramic isnt enabled
+  if (!enabledVCStores.includes('ceramic')) {
+    return "";
+  }
+
   const sessionKey = state.accountState[state.currentAccount].ceramicSession;
   
   if(!sessionKey){
     throw new Error('No session found');
   }
-  console.log('ret verify stored session')
   return verifySession(sessionKey);
 }
 
@@ -87,13 +91,10 @@ export async function setSession(
   state: MascaState,
   sessionKey: string,
 ): Promise<boolean> {
-  console.log('set session')
   await verifySession(sessionKey);
 
-  console.log('done verify session in set session')
   state.accountState[state.currentAccount].ceramicSession = sessionKey;
   await updateSnapState(snap, state);
-  console.log('return set session')
   return true;
 }
 
@@ -147,11 +148,8 @@ async function authenticateWithEthers(params: {
 }
 
 async function authenticateWithSessionKey(state: MascaState){
-  console.log("auth with session key")
   const sessionKey = await verifyStoredSession(state);
-  console.log('auth sessionKey', sessionKey)
   const session = await DIDSession.fromSession(sessionKey);
-  console.log('end auth with session key')
   return session.did;
 }
 

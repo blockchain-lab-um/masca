@@ -52,6 +52,14 @@ export async function queryVCs(
   this: Masca,
   params?: QueryVCsRequestParams
 ): Promise<Result<QueryVCsRequestResult[]>> {
+
+  if(!params || !params.options || !params.options.store || params.options.store.includes('ceramic')){
+    const sessionSet = await verifyAndSetCeramicSession(this);
+    if(typeof sessionSet === 'object'){
+      return sessionSet as Result<QueryVCsRequestResult[]>;
+    }
+  }
+
   return sendSnapMethod(
     { method: 'queryVCs', params: params ?? {} },
     this.snapId
@@ -69,6 +77,14 @@ export async function createVP(
   this: Masca,
   params: CreateVPRequestParams
 ): Promise<Result<VerifiablePresentation>> {
+
+  if(params.vcs.some(vc => !vc.metadata || !vc.metadata.store || vc.metadata.store.includes('ceramic'))){
+    const sessionSet = await verifyAndSetCeramicSession(this);
+    if(typeof sessionSet === 'object'){
+      return sessionSet as Result<VerifiablePresentation>;
+    }
+  }
+
   return sendSnapMethod(
     {
       method: 'createVP',
@@ -92,8 +108,12 @@ export async function saveVC(
   options?: SaveVCOptions
 ): Promise<Result<SaveVCRequestResult[]>> {
 
-  await verifyAndSetCeramicSession(this);
-
+  if(!options || !options.store || options.store.includes('ceramic')){
+    const sessionSet = await verifyAndSetCeramicSession(this);
+    if(typeof sessionSet === 'object'){
+      return sessionSet as Result<SaveVCRequestResult[]>;
+    }
+  }
   return sendSnapMethod(
     {
       method: 'saveVC',
@@ -119,6 +139,13 @@ export async function deleteVC(
   id: string,
   options?: DeleteVCsOptions
 ): Promise<Result<boolean[]>> {
+  if(!options || !options.store || options.store.includes('ceramic')){
+    const sessionSet = await verifyAndSetCeramicSession(this);
+    if(typeof sessionSet === 'object'){
+      return sessionSet as Result<boolean[]>;
+    }
+  }
+
   return sendSnapMethod(
     {
       method: 'deleteVC',
@@ -270,6 +297,14 @@ export async function createVC(
   this: Masca,
   params: CreateVCRequestParams
 ): Promise<Result<VerifiableCredential>> {
+
+  if(params.options?.save === true && (!params.options?.store || params.options?.store.includes('ceramic'))){
+    const sessionSet = await verifyAndSetCeramicSession(this);
+    if(typeof sessionSet === 'object'){
+      return sessionSet as Result<VerifiableCredential>;
+    }
+  }
+
   return sendSnapMethod(
     {
       method: 'createVC',
