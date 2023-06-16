@@ -8,7 +8,7 @@ import { DID } from 'dids';
 import { Wallet } from 'ethers';
 
 import { getAddressKeyDeriver, snapGetKeysFromAddress } from './keyPair';
-import { getCurrentAccount, getEnabledVCStores } from './snapUtils';
+import { getCurrentAccount } from './snapUtils';
 import { updateSnapState } from './stateUtils';
 
 const ceramicDID = { did: undefined } as { did: DID | undefined };
@@ -64,14 +64,8 @@ async function verifySession(sessionKey: string): Promise<string> {
   return sessionKey;
 }
 
-// Returns session key if session is valid, returns empty string if ceramic is disabled and throws an error if something goes wrong
+// Returns session key if session is valid and throws an error if something goes wrong
 export async function verifyStoredSession(state: MascaState): Promise<string> {
-  const account = getCurrentAccount(state);
-  const enabledVCStores = getEnabledVCStores(account, state);
-  // Retrun if ceramic isnt enabled
-  if (!enabledVCStores.includes('ceramic')) {
-    return '';
-  }
 
   const sessionKey = state.accountState[state.currentAccount].ceramicSession;
 
@@ -86,7 +80,6 @@ export async function setSession(
   state: MascaState,
   sessionKey: string
 ): Promise<boolean> {
-  await verifySession(sessionKey);
 
   state.accountState[state.currentAccount].ceramicSession = sessionKey;
   await updateSnapState(snap, state);

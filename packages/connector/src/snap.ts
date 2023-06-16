@@ -413,7 +413,7 @@ export async function setCeramicSessionKey(
 
 export async function verifyStoredCeramicSessionKey(
   this: Masca
-): Promise<Result<string>> {
+): Promise<Result<boolean>> {
   return sendSnapMethod(
     {
       method: 'verifyStoredCeramicSessionKey',

@@ -198,8 +198,8 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         );
         return ResultObject.success(res);
       case 'verifyStoredCeramicSessionKey':
-        res = await verifyStoredCeramicSessionKey(apiParams);
-        return ResultObject.success(res);
+        await verifyStoredCeramicSessionKey(apiParams);
+        return ResultObject.success(true);
       default:
         throw new Error('Method not found.');
     }
