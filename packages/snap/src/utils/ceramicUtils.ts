@@ -66,7 +66,6 @@ async function verifySession(sessionKey: string): Promise<string> {
 
 // Returns session key if session is valid and throws an error if something goes wrong
 export async function verifyStoredSession(state: MascaState): Promise<string> {
-
   const sessionKey = state.accountState[state.currentAccount].ceramicSession;
 
   if (!sessionKey) {
@@ -80,7 +79,6 @@ export async function setSession(
   state: MascaState,
   sessionKey: string
 ): Promise<boolean> {
-
   state.accountState[state.currentAccount].ceramicSession = sessionKey;
   await updateSnapState(snap, state);
   return true;

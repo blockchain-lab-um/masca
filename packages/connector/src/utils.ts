@@ -1,4 +1,4 @@
-import { ResultObject, isError, isSuccess } from '@blockchain-lab-um/utils';
+import { isError, isSuccess, ResultObject } from '@blockchain-lab-um/utils';
 import { EthereumWebAuth, getAccountId } from '@didtools/pkh-ethereum';
 // import detectEthereumProvider from '@metamask/detect-provider';
 import { DIDSession } from 'did-session';
@@ -11,8 +11,8 @@ export async function verifyAndSetCeramicSession(masca: Masca) {
 
   // Check if ceramic is enabled
   const enabledVCStores = await api.getVCStore();
-  if(isSuccess(enabledVCStores)) {
-    if(enabledVCStores.data.ceramic === false) {
+  if (isSuccess(enabledVCStores)) {
+    if (enabledVCStores.data.ceramic === false) {
       return true;
     }
   }
@@ -31,7 +31,10 @@ export async function verifyAndSetCeramicSession(masca: Masca) {
     method: 'eth_requestAccounts',
   });
   // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-  const accountId = await getAccountId(window.ethereum, (addresses as string[])[0]);
+  const accountId = await getAccountId(
+    window.ethereum,
+    (addresses as string[])[0]
+  );
   // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   const authMethod = await EthereumWebAuth.getAuthMethod(
     window.ethereum,
@@ -49,7 +52,7 @@ export async function verifyAndSetCeramicSession(masca: Masca) {
   const serializedSession = newSession.serialize();
   const result = await api.setCeramicSessionKey(serializedSession);
   if (isError(result)) {
-    return ResultObject.error('Failed to set session in Masca.'); 
+    return ResultObject.error('Failed to set session in Masca.');
   }
   return true;
 }
