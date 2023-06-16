@@ -1,11 +1,12 @@
-import { isError, isSuccess, ResultObject } from '@blockchain-lab-um/utils';
+import { isError, isSuccess } from '@blockchain-lab-um/utils';
 import { EthereumWebAuth, getAccountId } from '@didtools/pkh-ethereum';
-// import detectEthereumProvider from '@metamask/detect-provider';
 import { DIDSession } from 'did-session';
 
 import { Masca } from './snap.js';
 
-export async function verifyAndSetCeramicSession(masca: Masca) {
+export async function validateAndSetCeramicSession(
+  masca: Masca
+): Promise<void> {
   // Check if there is valid session in Masca
   const api = masca.getMascaApi();
 
@@ -13,20 +14,15 @@ export async function verifyAndSetCeramicSession(masca: Masca) {
   const enabledVCStores = await api.getVCStore();
   if (isSuccess(enabledVCStores)) {
     if (enabledVCStores.data.ceramic === false) {
-      return true;
+      return;
     }
   }
 
-  const session = await api.verifyStoredCeramicSessionKey();
+  const session = await api.validateStoredCeramicSession();
   if (!isError(session)) {
-    return true;
+    return;
   }
 
-  // Start new session if there is no valid session
-  // const ethProvider = await detectEthereumProvider();
-  // if (!ethProvider) {
-  //   return ResultObject.error('No Ethereum provider found.');
-  // }
   const addresses = await window.ethereum.request({
     method: 'eth_requestAccounts',
   });
@@ -47,12 +43,11 @@ export async function verifyAndSetCeramicSession(masca: Masca) {
       resources: [`ceramic://*`],
     });
   } catch (e) {
-    return ResultObject.error('User failed to sign session.');
+    throw new Error('User failed to sign session.');
   }
   const serializedSession = newSession.serialize();
-  const result = await api.setCeramicSessionKey(serializedSession);
+  const result = await api.setCeramicSession(serializedSession);
   if (isError(result)) {
-    return ResultObject.error('Failed to set session in Masca.');
+    throw new Error('Failed to set session in Masca.');
   }
-  return true;
 }

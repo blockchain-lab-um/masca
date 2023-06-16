@@ -16,10 +16,9 @@ import type {
   SaveVCRequestResult,
   SendOIDCAuthorizationResponseParams,
   SetCurrentAccountRequestParams,
-  VCRequest,
   VerifyDataRequestParams,
 } from '@blockchain-lab-um/masca-types';
-import type { Result } from '@blockchain-lab-um/utils';
+import { ResultObject, type Result } from '@blockchain-lab-um/utils';
 import type {
   DIDResolutionResult,
   IVerifyResult,
@@ -28,7 +27,7 @@ import type {
   W3CVerifiableCredential,
 } from '@veramo/core';
 
-import { verifyAndSetCeramicSession } from './utils.js';
+import { validateAndSetCeramicSession } from './utils.js';
 
 async function sendSnapMethod<T>(
   request: MascaRPCRequest,
@@ -54,17 +53,7 @@ export async function queryVCs(
   this: Masca,
   params?: QueryVCsRequestParams
 ): Promise<Result<QueryVCsRequestResult[]>> {
-  if (
-    !params ||
-    !params.options ||
-    !params.options.store ||
-    params.options.store.includes('ceramic')
-  ) {
-    const sessionSet = await verifyAndSetCeramicSession(this);
-    if (typeof sessionSet === 'object') {
-      return sessionSet as Result<QueryVCsRequestResult[]>;
-    }
-  }
+  await validateAndSetCeramicSession(this);
 
   return sendSnapMethod(
     { method: 'queryVCs', params: params ?? {} },
@@ -83,19 +72,7 @@ export async function createVP(
   this: Masca,
   params: CreateVPRequestParams
 ): Promise<Result<VerifiablePresentation>> {
-  if (
-    params.vcs.some(
-      (vc: VCRequest) =>
-        !vc.metadata ||
-        !vc.metadata.store ||
-        vc.metadata.store.includes('ceramic')
-    )
-  ) {
-    const sessionSet = await verifyAndSetCeramicSession(this);
-    if (typeof sessionSet === 'object') {
-      return sessionSet as Result<VerifiablePresentation>;
-    }
-  }
+  await validateAndSetCeramicSession(this);
 
   return sendSnapMethod(
     {
@@ -119,12 +96,8 @@ export async function saveVC(
   vc: W3CVerifiableCredential,
   options?: SaveVCOptions
 ): Promise<Result<SaveVCRequestResult[]>> {
-  if (!options || !options.store || options.store.includes('ceramic')) {
-    const sessionSet = await verifyAndSetCeramicSession(this);
-    if (typeof sessionSet === 'object') {
-      return sessionSet as Result<SaveVCRequestResult[]>;
-    }
-  }
+  await validateAndSetCeramicSession(this);
+
   return sendSnapMethod(
     {
       method: 'saveVC',
@@ -150,12 +123,7 @@ export async function deleteVC(
   id: string,
   options?: DeleteVCsOptions
 ): Promise<Result<boolean[]>> {
-  if (!options || !options.store || options.store.includes('ceramic')) {
-    const sessionSet = await verifyAndSetCeramicSession(this);
-    if (typeof sessionSet === 'object') {
-      return sessionSet as Result<boolean[]>;
-    }
-  }
+  await validateAndSetCeramicSession(this);
 
   return sendSnapMethod(
     {
@@ -308,15 +276,7 @@ export async function createVC(
   this: Masca,
   params: CreateVCRequestParams
 ): Promise<Result<VerifiableCredential>> {
-  if (
-    params.options?.save === true &&
-    (!params.options?.store || params.options?.store.includes('ceramic'))
-  ) {
-    const sessionSet = await verifyAndSetCeramicSession(this);
-    if (typeof sessionSet === 'object') {
-      return sessionSet as Result<VerifiableCredential>;
-    }
-  }
+  await validateAndSetCeramicSession(this);
 
   return sendSnapMethod(
     {
@@ -398,29 +358,39 @@ export async function sendOIDCAuthorizationResponse(
   );
 }
 
-export async function setCeramicSessionKey(
+export async function setCeramicSession(
   this: Masca,
   sessionKey: string
 ): Promise<Result<boolean>> {
   return sendSnapMethod(
     {
-      method: 'setCeramicSessionKey',
+      method: 'setCeramicSession',
       params: { sessionKey },
     },
     this.snapId
   );
 }
 
-export async function verifyStoredCeramicSessionKey(
+export async function validateStoredCeramicSession(
   this: Masca
 ): Promise<Result<boolean>> {
   return sendSnapMethod(
     {
-      method: 'verifyStoredCeramicSessionKey',
+      method: 'validateStoredCeramicSession',
     },
     this.snapId
   );
 }
+
+const wrapper =
+  <T extends any[], R>(fn: (...args: T) => Promise<Result<R>>) =>
+  async (...args: T): Promise<Result<R>> => {
+    try {
+      return await fn(...args);
+    } catch (e) {
+      return ResultObject.error((e as Error).toString());
+    }
+  };
 
 export class Masca {
   protected readonly snapId: string;
@@ -436,28 +406,34 @@ export class Masca {
   }
 
   public getMascaApi = (): MascaApi => ({
-    saveVC: saveVC.bind(this),
-    queryVCs: queryVCs.bind(this),
-    createVP: createVP.bind(this),
-    togglePopups: togglePopups.bind(this),
-    getDID: getDID.bind(this),
-    getSelectedMethod: getSelectedMethod.bind(this),
-    getAvailableMethods: getAvailableMethods.bind(this),
-    switchDIDMethod: switchDIDMethod.bind(this),
-    getVCStore: getVCStore.bind(this),
-    setVCStore: setVCStore.bind(this),
-    getAvailableVCStores: getAvailableVCStores.bind(this),
-    deleteVC: deleteVC.bind(this),
-    getSnapSettings: getSnapSettings.bind(this),
-    getAccountSettings: getAccountSettings.bind(this),
-    resolveDID: resolveDID.bind(this),
-    createVC: createVC.bind(this),
-    setCurrentAccount: setCurrentAccount.bind(this),
-    verifyData: verifyData.bind(this),
-    handleOIDCCredentialOffer: handleOIDCCredentialOffer.bind(this),
-    handleOIDCAuthorizationRequest: handleOIDCAuthorizationRequest.bind(this),
-    sendOIDCAuthorizationResponse: sendOIDCAuthorizationResponse.bind(this),
-    setCeramicSessionKey: setCeramicSessionKey.bind(this),
-    verifyStoredCeramicSessionKey: verifyStoredCeramicSessionKey.bind(this),
+    saveVC: wrapper(saveVC.bind(this)),
+    queryVCs: wrapper(queryVCs.bind(this)),
+    createVP: wrapper(createVP.bind(this)),
+    togglePopups: wrapper(togglePopups.bind(this)),
+    getDID: wrapper(getDID.bind(this)),
+    getSelectedMethod: wrapper(getSelectedMethod.bind(this)),
+    getAvailableMethods: wrapper(getAvailableMethods.bind(this)),
+    switchDIDMethod: wrapper(switchDIDMethod.bind(this)),
+    getVCStore: wrapper(getVCStore.bind(this)),
+    setVCStore: wrapper(setVCStore.bind(this)),
+    getAvailableVCStores: wrapper(getAvailableVCStores.bind(this)),
+    deleteVC: wrapper(deleteVC.bind(this)),
+    getSnapSettings: wrapper(getSnapSettings.bind(this)),
+    getAccountSettings: wrapper(getAccountSettings.bind(this)),
+    resolveDID: wrapper(resolveDID.bind(this)),
+    createVC: wrapper(createVC.bind(this)),
+    setCurrentAccount: wrapper(setCurrentAccount.bind(this)),
+    verifyData: wrapper(verifyData.bind(this)),
+    handleOIDCCredentialOffer: wrapper(handleOIDCCredentialOffer.bind(this)),
+    handleOIDCAuthorizationRequest: wrapper(
+      handleOIDCAuthorizationRequest.bind(this)
+    ),
+    sendOIDCAuthorizationResponse: wrapper(
+      sendOIDCAuthorizationResponse.bind(this)
+    ),
+    setCeramicSession: wrapper(setCeramicSession.bind(this)),
+    validateStoredCeramicSession: wrapper(
+      validateStoredCeramicSession.bind(this)
+    ),
   });
 }

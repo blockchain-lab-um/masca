@@ -52,7 +52,7 @@ class CustomProvider {
 }
 
 // Should return key or throw an error
-async function verifySession(sessionKey: string): Promise<string> {
+async function validateSession(sessionKey: string): Promise<string> {
   const session = await DIDSession.fromSession(sessionKey);
   if (session.isExpired) {
     throw new Error('Session expired');
@@ -65,13 +65,15 @@ async function verifySession(sessionKey: string): Promise<string> {
 }
 
 // Returns session key if session is valid and throws an error if something goes wrong
-export async function verifyStoredSession(state: MascaState): Promise<string> {
+export async function validateStoredSession(
+  state: MascaState
+): Promise<string> {
   const sessionKey = state.accountState[state.currentAccount].ceramicSession;
 
   if (!sessionKey) {
     throw new Error('No session found');
   }
-  return verifySession(sessionKey);
+  return validateSession(sessionKey);
 }
 
 export async function setSession(
@@ -134,7 +136,7 @@ async function authenticateWithEthers(params: {
 }
 
 async function authenticateWithSessionKey(state: MascaState) {
-  const sessionKey = await verifyStoredSession(state);
+  const sessionKey = await validateStoredSession(state);
   const session = await DIDSession.fromSession(sessionKey);
   return session.did;
 }

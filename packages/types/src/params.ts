@@ -151,6 +151,6 @@ export type SendOIDCAuthorizationResponseParams = {
   credentials: VerifiableCredential[];
 };
 
-export type SetCeramicSessionKeyRequestParams = {
+export type SetCeramicSessionRequestParams = {
   sessionKey: string;
 };
