@@ -8,7 +8,10 @@ import {
 } from '@blockchain-lab-um/masca-types';
 import { isError } from '@blockchain-lab-um/utils';
 import { ArrowLeftIcon } from '@heroicons/react/20/solid';
-import { W3CVerifiableCredential, W3CVerifiablePresentation } from '@veramo/core';
+import {
+  W3CVerifiableCredential,
+  W3CVerifiablePresentation,
+} from '@veramo/core';
 import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 

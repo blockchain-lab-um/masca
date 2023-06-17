@@ -191,7 +191,7 @@ export async function veramoCreateVP(
   },
   createVPParams: CreateVPRequestParams
 ): Promise<VerifiablePresentation> {
-  const {vcs} = createVPParams;
+  const { vcs } = createVPParams;
   const domain = createVPParams.proofOptions?.domain;
   const challenge = createVPParams.proofOptions?.challenge;
   const proofFormat = createVPParams.proofFormat
@@ -212,7 +212,6 @@ export async function veramoCreateVP(
     },
     agent
   );
-
 
   if (vcs.length === 0) {
     throw new Error('VC does not exist');
