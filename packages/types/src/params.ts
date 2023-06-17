@@ -55,7 +55,7 @@ export type SetCurrentAccountRequestParams = {
 };
 
 export type CreateVPRequestParams = {
-  vcs: VCRequest[];
+  vcs: W3CVerifiableCredential[];
   proofFormat?: SupportedProofFormats;
   proofOptions?: ProofOptions;
 };

@@ -191,7 +191,7 @@ export async function veramoCreateVP(
   },
   createVPParams: CreateVPRequestParams
 ): Promise<VerifiablePresentation> {
-  const vcsMetadata = createVPParams.vcs;
+  const {vcs} = createVPParams;
   const domain = createVPParams.proofOptions?.domain;
   const challenge = createVPParams.proofOptions?.challenge;
   const proofFormat = createVPParams.proofFormat
@@ -213,22 +213,6 @@ export async function veramoCreateVP(
     agent
   );
 
-  const vcs: W3CVerifiableCredential[] = [];
-
-  for (const vcMetadata of vcsMetadata) {
-    // eslint-disable-next-line no-await-in-loop
-    const vcObj = (await agent.query({
-      filter: {
-        type: 'id',
-        filter: vcMetadata.id,
-      },
-      options: { store: vcMetadata.metadata?.store },
-    })) as QueryVCsRequestResult[];
-    if (vcObj.length > 0) {
-      const vc: W3CVerifiableCredential = vcObj[0].data;
-      vcs.push(vc);
-    }
-  }
 
   if (vcs.length === 0) {
     throw new Error('VC does not exist');

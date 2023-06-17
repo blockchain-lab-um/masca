@@ -3,14 +3,12 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import {
-  AvailableVCStores,
   QueryVCsRequestResult,
   SupportedProofFormats,
-  VCRequest,
 } from '@blockchain-lab-um/masca-types';
 import { isError } from '@blockchain-lab-um/utils';
 import { ArrowLeftIcon } from '@heroicons/react/20/solid';
-import { W3CVerifiablePresentation } from '@veramo/core';
+import { W3CVerifiableCredential, W3CVerifiablePresentation } from '@veramo/core';
 import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
@@ -59,25 +57,7 @@ const CreatePresentationDisplay = () => {
   const handleCreateVP = async () => {
     if (!api) return;
     setLoading(true);
-    const vcs: VCRequest[] = selectedVCs.map((vc) => {
-      if (vc.metadata.store) {
-        if (typeof vc.metadata.store === 'string')
-          return {
-            id: vc.metadata.id,
-            metadata: {
-              store: vc.metadata.store as AvailableVCStores,
-            },
-          };
-        if (Array.isArray(vc.metadata.store))
-          return {
-            id: vc.metadata.id,
-            metadata: {
-              store: vc.metadata.store[0] as AvailableVCStores,
-            },
-          };
-      }
-      return { id: vc.metadata.id };
-    });
+    const vcs: W3CVerifiableCredential[] = selectedVCs.map((vc) => vc.data);
 
     const proofOptions = { type: '', domain, challenge };
 
