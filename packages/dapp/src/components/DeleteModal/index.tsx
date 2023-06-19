@@ -77,6 +77,7 @@ function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
       // TODO - Delete VC from local state instead of calling queryVCs.
 
       const vcs = await api.queryVCs();
+      changeLastFetch(Date.now());
       if (isError(vcs)) {
         setToastOpen(false);
         setTimeout(() => {
@@ -96,7 +97,6 @@ function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
           setToastOpen(true);
         }, 100);
         changeVcs(vcs.data);
-        changeLastFetch(Date.now());
       }
     }
   };

@@ -101,12 +101,12 @@ const Controlbar = () => {
       changeVcs([...vcs, ...newVcs]);
 
       const queryResult = await api.queryVCs();
+      changeLastFetch(Date.now());
       if (isError(queryResult)) {
         return false;
       }
       if (queryResult.data) {
         changeVcs(queryResult.data);
-        changeLastFetch(Date.now());
       }
     }
     return true;

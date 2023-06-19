@@ -31,10 +31,10 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import clsx from 'clsx';
+import { DateTime } from 'luxon';
 import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
-import { DateTime } from 'luxon';
 import Button from '@/components/Button';
 import DeleteModal from '@/components/DeleteModal';
 import InfoIcon from '@/components/InfoIcon';
@@ -51,17 +51,26 @@ const Table = () => {
   const t = useTranslations('Dashboard');
   const [loading, setLoading] = useState(false);
   const [sorting, setSorting] = useState<SortingState>([]);
-  const { api, vcs, lastFetchString, lastFetchUnix, changeVcs, changeLastFetch } = useMascaStore(
+  const {
+    api,
+    vcs,
+    lastFetchString,
+    lastFetchUnix,
+    changeVcs,
+    changeLastFetch,
+  } = useMascaStore(
     (state) => ({
       api: state.mascaApi,
       vcs: state.vcs,
       lastFetchUnix: state.lastFetch,
-      lastFetchString: state.lastFetch ? (DateTime.fromMillis(state.lastFetch).toRelative() || '-') : '-',
+      lastFetchString: state.lastFetch
+        ? DateTime.fromMillis(state.lastFetch).toRelative() || '-'
+        : '-',
       changeVcs: state.changeVcs,
       changeLastFetch: state.changeLastFetch,
     }),
     shallow
-    );
+  );
   const { columnFilters, globalFilter, selectedVCs, cardView, setSelectedVCs } =
     useTableStore(
       (state) => ({
@@ -297,6 +306,7 @@ const Table = () => {
   const loadVCs = async () => {
     if (!api) return;
     const loadedVCs = await api.queryVCs();
+    changeLastFetch(Date.now());
     if (isError(loadedVCs)) {
       setToastOpen(false);
       setTimeout(() => {
@@ -310,7 +320,6 @@ const Table = () => {
     }
     if (loadedVCs.data) {
       changeVcs(loadedVCs.data);
-      changeLastFetch(Date.now());
       if (loadedVCs.data.length === 0) {
         setToastOpen(false);
         setTimeout(() => {
@@ -330,8 +339,8 @@ const Table = () => {
   };
 
   const interval = setInterval(() => {
-    if(lastFetchUnix) changeLastFetch(lastFetchUnix);
-  }, 30000);
+    if (lastFetchUnix) changeLastFetch(lastFetchUnix);
+  }, 10000);
 
   useEffect(() => {
     selectRows(table, selectedVCs);
