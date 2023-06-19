@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/blockchain-lab-um/masca/compare/masca-connector-v0.2.0...masca-connector-v0.2.0) (2023-06-19)
+
+
+### chore
+
+* **masca-connector:** Synchronize masca-core versions
+
 ## [0.2.0](https://github.com/blockchain-lab-um/masca/compare/masca-connector-v0.1.0...masca-connector-v0.2.0) (2023-06-19)
 
 
