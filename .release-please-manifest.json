@@ -1,6 +1,6 @@
 {
   "packages/snap": "0.1.0",
-  "packages/connector": "0.1.0",
+  "packages/connector": "0.2.0",
   "packages/types": "0.1.0",
   "packages/datamanager": "0.2.0",
   "libs/utils": "1.1.0",
