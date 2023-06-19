@@ -1,4 +1,4 @@
-import { isError, isSuccess } from '@blockchain-lab-um/utils';
+import { isError } from '@blockchain-lab-um/utils';
 import { EthereumWebAuth, getAccountId } from '@didtools/pkh-ethereum';
 import { DIDSession } from 'did-session';
 
@@ -10,12 +10,14 @@ export async function validateAndSetCeramicSession(
   // Check if there is valid session in Masca
   const api = masca.getMascaApi();
 
+  const enabledVCStoresResult = await api.getVCStore();
+  if (isError(enabledVCStoresResult)) {
+    throw new Error('Failed to get enabled VC stores.');
+  }
+
   // Check if ceramic is enabled
-  const enabledVCStores = await api.getVCStore();
-  if (isSuccess(enabledVCStores)) {
-    if (enabledVCStores.data.ceramic === false) {
-      return;
-    }
+  if (enabledVCStoresResult.data.ceramic === false) {
+    return;
   }
 
   const session = await api.validateStoredCeramicSession();
@@ -23,19 +25,17 @@ export async function validateAndSetCeramicSession(
     return;
   }
 
-  const addresses = await window.ethereum.request({
+  const addresses: string[] = await window.ethereum.request({
     method: 'eth_requestAccounts',
   });
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-  const accountId = await getAccountId(
-    window.ethereum,
-    (addresses as string[])[0]
-  );
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
+  const accountId = await getAccountId(window.ethereum, addresses[0]);
+
   const authMethod = await EthereumWebAuth.getAuthMethod(
     window.ethereum,
     accountId
   );
+
   let newSession;
   try {
     newSession = await DIDSession.authorize(authMethod, {
