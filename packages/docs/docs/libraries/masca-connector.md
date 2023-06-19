@@ -43,7 +43,7 @@ More detailed description of methods & parameters is provided in chapter [JSON-R
 import { enableMasca } from '@blockchain-lab-um/masca-connector';
 import { isError } from '@blockchain-lab-um/utils';
 // install Masca and retrieve API interface
-const masca = await enableMasca();
+const masca = await enableMasca(address);
 
 if(isError(masca)){
     console.error(enableResult.error);
