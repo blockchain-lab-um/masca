@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/blockchain-lab-um/masca/compare/masca-v0.2.0...masca-v0.2.1) (2023-06-19)
+
+
+### :bug: Bug Fixes
+
+* update masca readme ([f2d1731](https://github.com/blockchain-lab-um/masca/commit/f2d17314256435357957620664674f9fd1d64698))
+
 ## [0.2.0](https://github.com/blockchain-lab-um/masca/compare/masca-v0.1.0...masca-v0.2.0) (2023-06-19)
 
 
