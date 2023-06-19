@@ -33,7 +33,7 @@ const nextConfig = {
     appDir: true,
   },
   env: {
-    USE_LOCAL: process.env.USE_LOCAL || 'true',
+    USE_LOCAL: process.env.USE_LOCAL || 'false',
   },
 
   // Security headers and CSP
