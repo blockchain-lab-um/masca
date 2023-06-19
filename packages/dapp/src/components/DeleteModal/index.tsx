@@ -97,6 +97,7 @@ function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
           setToastOpen(true);
         }, 100);
         changeVcs(vcs.data);
+        changeLastFetch(Date.now());
       }
     }
   };

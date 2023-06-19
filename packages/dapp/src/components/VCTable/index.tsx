@@ -70,7 +70,7 @@ const Table = () => {
       changeLastFetch: state.changeLastFetch,
     }),
     shallow
-  );
+    );
   const { columnFilters, globalFilter, selectedVCs, cardView, setSelectedVCs } =
     useTableStore(
       (state) => ({
@@ -320,6 +320,7 @@ const Table = () => {
     }
     if (loadedVCs.data) {
       changeVcs(loadedVCs.data);
+      changeLastFetch(Date.now());
       if (loadedVCs.data.length === 0) {
         setToastOpen(false);
         setTimeout(() => {

@@ -107,6 +107,7 @@ const Controlbar = () => {
       }
       if (queryResult.data) {
         changeVcs(queryResult.data);
+        changeLastFetch(Date.now());
       }
     }
     return true;
