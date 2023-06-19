@@ -340,7 +340,7 @@ const Table = () => {
 
   const interval = setInterval(() => {
     if (lastFetchUnix) changeLastFetch(lastFetchUnix);
-  }, 10000);
+  }, 60000);
 
   useEffect(() => {
     selectRows(table, selectedVCs);
