@@ -32,7 +32,7 @@ export async function enableMasca(
 ): Promise<Result<Masca>> {
   const {
     snapId = defaultSnapOrigin,
-    version = '^0.1.0',
+    version = 'latest',
     supportedMethods = ['did:ethr'],
   } = snapInstallationParams;
 
