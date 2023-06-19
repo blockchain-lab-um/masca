@@ -192,7 +192,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         // TODO (andy) validate request params
         res = await setCeramicSession(
           apiParams,
-          (request.params as any).sessionKey as string
+          (request.params as any).serializedSession as string
         );
         return ResultObject.success(res);
       case 'validateStoredCeramicSession':

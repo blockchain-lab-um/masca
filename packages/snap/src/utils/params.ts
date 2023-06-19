@@ -6,6 +6,7 @@ import {
   type CreateVCRequestParams,
   type CreateVPRequestParams,
   type DeleteVCsRequestParams,
+  type MascaState,
   type QueryVCsRequestParams,
   type ResolveDIDRequestParams,
   type SaveVCRequestParams,
@@ -15,7 +16,6 @@ import {
   type VerifyDataRequestParams,
 } from '@blockchain-lab-um/masca-types';
 
-import type { MascaState } from '../interfaces';
 import { isEnabledVCStore } from './snapUtils';
 
 function isStringArray(input: unknown): input is string[] {

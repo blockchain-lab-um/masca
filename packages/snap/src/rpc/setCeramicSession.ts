@@ -1,10 +1,12 @@
 import { ApiParams } from '../interfaces';
-import { setSession } from '../utils/ceramicUtils';
+import { updateSnapState } from '../utils/stateUtils';
 
 export async function setCeramicSession(
   params: ApiParams,
-  sessionKey: string
+  serializedSession: string
 ): Promise<boolean> {
-  const res = await setSession(params.snap, params.state, sessionKey);
-  return res;
+  const { state } = params;
+  state.accountState[state.currentAccount].ceramicSession = serializedSession;
+  await updateSnapState(snap, state);
+  return true;
 }

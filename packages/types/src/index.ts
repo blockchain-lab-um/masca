@@ -4,4 +4,4 @@ export * from './api.js';
 export * from './constants.js';
 export * from './params.js';
 export * from './results.js';
-export * from './snapInterfaces.js';
+export * from './state.js';

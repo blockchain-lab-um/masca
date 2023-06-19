@@ -5,7 +5,6 @@ import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import type { IIdentifier } from '@veramo/core';
 
-import type { StoredCredentials } from '../../src/interfaces';
 import * as snapUtils from '../../src/utils/snapUtils';
 import {
   veramoClearVCs,
@@ -16,6 +15,7 @@ import {
   veramoSaveVC,
   veramoVerifyData,
 } from '../../src/utils/veramoUtils';
+import type { StoredCredentials } from '../../src/veramo/plugins/ceramicDataStore/ceramicDataStore';
 import { getAgent } from '../../src/veramo/setup';
 import {
   address,

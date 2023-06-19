@@ -360,12 +360,12 @@ export async function sendOIDCAuthorizationResponse(
 
 export async function setCeramicSession(
   this: Masca,
-  sessionKey: string
+  serializedSession: string
 ): Promise<Result<boolean>> {
   return sendSnapMethod(
     {
       method: 'setCeramicSession',
-      params: { sessionKey },
+      params: { serializedSession },
     },
     this.snapId
   );

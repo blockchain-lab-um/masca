@@ -1,4 +1,7 @@
-import { didCoinTypeMappping } from '@blockchain-lab-um/masca-types';
+import {
+  didCoinTypeMappping,
+  type MascaState,
+} from '@blockchain-lab-um/masca-types';
 import {
   BIP44CoinTypeNode,
   getBIP44AddressKeyDeriver,
@@ -6,7 +9,6 @@ import {
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import { Wallet } from 'ethers';
 
-import type { MascaState } from '../interfaces';
 import { updateSnapState } from './stateUtils';
 
 export async function setAccountIndex(

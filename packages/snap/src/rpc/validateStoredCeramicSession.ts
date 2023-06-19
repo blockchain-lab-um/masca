@@ -1,9 +1,12 @@
 import { ApiParams } from '../interfaces';
-import { validateStoredSession } from '../utils/ceramicUtils';
+import { validateSession } from '../utils/ceramicUtils';
 
 export async function validateStoredCeramicSession(
   params: ApiParams
 ): Promise<string> {
-  const sessionKey = validateStoredSession(params.state);
-  return sessionKey;
+  const { state } = params;
+  const serializedSession = await validateSession(
+    state.accountState[state.currentAccount].ceramicSession
+  );
+  return serializedSession;
 }

@@ -152,5 +152,5 @@ export type SendOIDCAuthorizationResponseParams = {
 };
 
 export type SetCeramicSessionRequestParams = {
-  sessionKey: string;
+  serializedSession: string;
 };

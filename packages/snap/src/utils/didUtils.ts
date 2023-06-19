@@ -1,6 +1,7 @@
 import type {
   AvailableMethods,
   AvailableVCStores,
+  MascaState,
 } from '@blockchain-lab-um/masca-types';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
@@ -9,7 +10,6 @@ import type { IIdentifier } from '@veramo/core';
 import type { DIDResolutionResult } from 'did-resolver';
 import elliptic from 'elliptic';
 
-import type { MascaState } from '../interfaces';
 import { getAgent } from '../veramo/setup';
 import { snapGetKeysFromAddress } from './keyPair';
 import { getCurrentNetwork } from './snapUtils';
