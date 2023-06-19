@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.0](https://github.com/blockchain-lab-um/masca/compare/utils-v1.1.0...utils-v1.2.0) (2023-06-19)
+
+
+### :rocket: Features
+
+* nextjs app dir ([#227](https://github.com/blockchain-lab-um/masca/issues/227)) ([be5dce3](https://github.com/blockchain-lab-um/masca/commit/be5dce37ef6485bd0c97b11057ef015205b9cb10))
+* OIDC apps and libs ([#88](https://github.com/blockchain-lab-um/masca/issues/88)) ([14feb50](https://github.com/blockchain-lab-um/masca/commit/14feb5022e578002ce475892c29b5ebedf61778d))
+
 ## [1.1.0](https://github.com/blockchain-lab-um/masca/compare/utils-v1.0.0...utils-v1.1.0) (2023-05-03)
 
 
