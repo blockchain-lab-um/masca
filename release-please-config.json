@@ -82,6 +82,15 @@
       "bumpPatchForMinorPreMajor": false,
       "changelogPath": "CHANGELOG.md",
       "versioning": "default"
+    },
+    "libs/did-provider-key": {
+      "release-as": "1.0.0",
+      "component": "did-provider-key",
+      "releaseType": "node",
+      "bumpMinorPreMajor": false,
+      "bumpPatchForMinorPreMajor": false,
+      "changelogPath": "CHANGELOG.md",
+      "versioning": "default"
     }
   },
   "plugins": [
