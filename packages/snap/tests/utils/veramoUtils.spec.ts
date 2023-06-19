@@ -1151,12 +1151,7 @@ describe('Utils [veramo]', () => {
         },
         {
           proofFormat: 'jwt',
-          vcs: [
-            exampleVC,
-            exampleVC,
-            exampleVCJSONLD,
-            exampleVCEIP712,
-          ],
+          vcs: [exampleVC, exampleVC, exampleVCJSONLD, exampleVCEIP712],
         }
       );
       expect(createdVP).not.toBeNull();
@@ -1176,7 +1171,6 @@ describe('Utils [veramo]', () => {
 
       expect.assertions(3);
     });
-
 
     it('should fail creating a VP and throw user rejected error', async () => {
       snapMock.rpcMocks.snap_dialog.mockResolvedValue(false);

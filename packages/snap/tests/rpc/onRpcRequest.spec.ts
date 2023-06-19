@@ -1027,7 +1027,6 @@ describe('onRpcRequest', () => {
 
       expect.assertions(1);
     });
-
   });
 
   describe('togglePopups', () => {
