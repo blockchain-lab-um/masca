@@ -21,7 +21,7 @@ import type {
   VerifyDataRequestParams,
 } from './params.js';
 import type { QueryVCsRequestResult, SaveVCRequestResult } from './results.js';
-import type { MascaAccountConfig, MascaConfig } from './snapInterfaces.js';
+import type { MascaAccountConfig, MascaConfig } from './state.js';
 
 export interface MascaApi {
   queryVCs(
@@ -67,4 +67,6 @@ export interface MascaApi {
   sendOIDCAuthorizationResponse(
     params: SendOIDCAuthorizationResponseParams
   ): Promise<Result<boolean>>;
+  setCeramicSession(serializedSession: string): Promise<Result<boolean>>;
+  validateStoredCeramicSession(): Promise<Result<boolean>>;
 }

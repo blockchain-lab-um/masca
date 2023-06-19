@@ -2,6 +2,7 @@ import type {
   AvailableVCStores,
   CreateVCRequestParams,
   CreateVPRequestParams,
+  MascaState,
   QueryVCsOptions,
   QueryVCsRequestResult,
   SaveVCRequestResult,
@@ -23,7 +24,7 @@ import type {
   W3CVerifiableCredential,
 } from '@veramo/core';
 
-import type { ApiParams, MascaState } from '../interfaces';
+import type { ApiParams } from '../interfaces';
 import { getAgent, type Agent } from '../veramo/setup';
 import { getCurrentDid } from './didUtils';
 import { snapGetKeysFromAddress } from './keyPair';
