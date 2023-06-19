@@ -1,4 +1,5 @@
 {
+  "bootstrap-sha": "fb5be641c5170d6febd191eb63cec57819635689",
   "releaseType": "node",
   "separate-pull-requests": true,
   "changelog-sections": [
