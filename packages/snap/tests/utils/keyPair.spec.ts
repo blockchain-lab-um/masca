@@ -76,7 +76,7 @@ describe('keyPair', function () {
     it('should get the address key of a specific address index and BIP-44 Coin Type Node', async function () {
       const res = await getAddressKeyPair({
         bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
-        addressIndex: 0,
+        accountIndex: 0,
       });
       expect(res).not.toBeNull();
       expect(res?.privateKey).toEqual(privateKey);
