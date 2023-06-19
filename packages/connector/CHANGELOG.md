@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/blockchain-lab-um/masca/compare/masca-connector-v0.2.0...masca-connector-v0.2.1) (2023-06-19)
+
+
+### :bug: Bug Fixes
+
+* update masca version in connector ([52bd268](https://github.com/blockchain-lab-um/masca/commit/52bd268c56cf5a02d8ad8637d36f583357cf34f9))
+
 ## [0.2.0](https://github.com/blockchain-lab-um/masca/compare/masca-connector-v0.1.0...masca-connector-v0.2.0) (2023-06-19)
 
 
