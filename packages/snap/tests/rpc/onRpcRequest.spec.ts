@@ -16,8 +16,8 @@ import type {
 } from '@veramo/core';
 
 import { onRpcRequest } from '../../src';
-import type { StoredCredentials } from '../../src/interfaces';
 import { veramoClearVCs } from '../../src/utils/veramoUtils';
+import type { StoredCredentials } from '../../src/veramo/plugins/ceramicDataStore/ceramicDataStore';
 import { getAgent, type Agent } from '../../src/veramo/setup';
 import {
   address,

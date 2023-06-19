@@ -1,10 +1,13 @@
-import type { AvailableVCStores } from '@blockchain-lab-um/masca-types';
+import type {
+  AvailableVCStores,
+  MascaState,
+} from '@blockchain-lab-um/masca-types';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import type { Component } from '@metamask/snaps-ui';
 
-import type { ApiParams, MascaState } from '../interfaces';
+import type { ApiParams } from '../interfaces';
 import { snapGetKeysFromAddress } from './keyPair';
 import { updateSnapState } from './stateUtils';
 

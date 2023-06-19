@@ -1,3 +1,4 @@
+import type { MascaState } from '@blockchain-lab-um/masca-types';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import type { RequestArguments } from '@metamask/providers/dist/BaseProvider';
 import type { Maybe } from '@metamask/providers/dist/utils';
@@ -9,7 +10,6 @@ import {
   type TransactionRequest,
 } from 'ethers';
 
-import type { MascaState } from '../../src/interfaces';
 import { address, mnemonic, privateKey } from './constants';
 
 interface ISnapMock {

@@ -1,6 +1,7 @@
+import type { MascaState } from '@blockchain-lab-um/masca-types';
 import type { Json, SnapsGlobalObject } from '@metamask/snaps-types';
 
-import type { ApiParams, MascaState } from '../interfaces';
+import type { ApiParams } from '../interfaces';
 import { getEmptyAccountState, getInitialSnapState } from './config';
 
 /**
