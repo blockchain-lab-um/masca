@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/blockchain-lab-um/masca/compare/masca-types-v0.2.0...masca-types-v0.2.0) (2023-06-19)
+
+
+### chore
+
+* **masca-types:** Synchronize masca-core versions
+
 ## [0.2.0](https://github.com/blockchain-lab-um/masca/compare/masca-types-v0.1.0...masca-types-v0.2.0) (2023-06-19)
 
 
