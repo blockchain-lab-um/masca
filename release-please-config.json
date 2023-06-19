@@ -1,5 +1,4 @@
 {
-  "bootstrap-sha": "fb5be641c5170d6febd191eb63cec57819635689",
   "releaseType": "node",
   "separate-pull-requests": true,
   "changelog-sections": [
@@ -24,7 +23,6 @@
   ],
   "packages": {
     "packages/connector": {
-      "release-as": "0.1.0",
       "component": "masca-connector",
       "releaseType": "node",
       "bumpMinorPreMajor": true,
@@ -33,7 +31,6 @@
       "versioning": "default"
     },
     "packages/types": {
-      "release-as": "0.1.0",
       "component": "masca-types",
       "releaseType": "node",
       "bumpMinorPreMajor": true,
@@ -42,7 +39,6 @@
       "versioning": "default"
     },
     "packages/datamanager": {
-      "release-as": "0.1.0",
       "component": "veramo-datamanager",
       "releaseType": "node",
       "bumpMinorPreMajor": true,
@@ -51,7 +47,6 @@
       "versioning": "default"
     },
     "packages/snap": {
-      "release-as": "0.1.0",
       "component": "masca",
       "releaseType": "node",
       "bumpMinorPreMajor": true,
@@ -75,7 +70,6 @@
       "versioning": "default"
     },
     "libs/did-provider-ebsi": {
-      "release-as": "1.0.0",
       "component": "did-provider-ebsi",
       "releaseType": "node",
       "bumpMinorPreMajor": false,
