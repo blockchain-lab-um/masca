@@ -26,6 +26,7 @@ import {
   exampleDIDKey,
   exampleTestKey,
   exampleTestVCPayload,
+  exampleVC,
   getDefaultSnapState,
   jsonPath,
 } from '../testUtils/constants';
@@ -947,7 +948,7 @@ describe('onRpcRequest', () => {
           jsonrpc: '2.0',
           method: 'createVP',
           params: {
-            vcs: [{ id: saveRes.data[0].id, metadata: { store: 'snap' } }],
+            vcs: [exampleVC],
           },
         },
       })) as Result<VerifiablePresentation>;
@@ -1005,7 +1006,7 @@ describe('onRpcRequest', () => {
           jsonrpc: '2.0',
           method: 'createVP',
           params: {
-            vcs: [{ id: saveRes.data[0].id }],
+            vcs: [exampleVC],
           },
         },
       })) as Result<VerifiablePresentation>;
@@ -1027,46 +1028,6 @@ describe('onRpcRequest', () => {
       expect.assertions(1);
     });
 
-    it('should fail creating VP - VC does not exist', async () => {
-      snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
-
-      let res = (await onRpcRequest({
-        origin: 'localhost',
-        request: {
-          id: 'test-id',
-          jsonrpc: '2.0',
-          method: 'saveVC',
-          params: {
-            verifiableCredential: exampleVeramoVCJWT,
-            options: { store: 'snap' },
-          },
-        },
-      })) as Result<unknown>;
-
-      if (isSuccess(res)) {
-        throw new Error('Should return error');
-      }
-
-      res = (await onRpcRequest({
-        origin: 'localhost',
-        request: {
-          id: 'test-id',
-          jsonrpc: '2.0',
-          method: 'createVP',
-          params: {
-            vcs: [{ id: 'test-id' }],
-          },
-        },
-      })) as Result<unknown>;
-
-      if (isSuccess(res)) {
-        throw new Error('Should return error');
-      }
-
-      expect(res.error).toBe('Error: VC does not exist');
-
-      expect.assertions(1);
-    });
   });
 
   describe('togglePopups', () => {
@@ -1677,7 +1638,7 @@ describe('onRpcRequest', () => {
           jsonrpc: '2.0',
           method: 'createVP',
           params: {
-            vcs: [{ id: saveRes.data[0].id, metadata: { store: 'snap' } }],
+            vcs: [exampleVC],
           },
         },
       })) as Result<VerifiablePresentation>;
