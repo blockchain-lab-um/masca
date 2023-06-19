@@ -34,6 +34,7 @@ import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
+import { DateTime } from 'luxon';
 import Button from '@/components/Button';
 import DeleteModal from '@/components/DeleteModal';
 import InfoIcon from '@/components/InfoIcon';
@@ -50,14 +51,17 @@ const Table = () => {
   const t = useTranslations('Dashboard');
   const [loading, setLoading] = useState(false);
   const [sorting, setSorting] = useState<SortingState>([]);
-  const { api, vcs, changeVcs } = useMascaStore(
+  const { api, vcs, lastFetchString, lastFetchUnix, changeVcs, changeLastFetch } = useMascaStore(
     (state) => ({
       api: state.mascaApi,
       vcs: state.vcs,
+      lastFetchUnix: state.lastFetch,
+      lastFetchString: state.lastFetch ? (DateTime.fromMillis(state.lastFetch).toRelative() || '-') : '-',
       changeVcs: state.changeVcs,
+      changeLastFetch: state.changeLastFetch,
     }),
     shallow
-  );
+    );
   const { columnFilters, globalFilter, selectedVCs, cardView, setSelectedVCs } =
     useTableStore(
       (state) => ({
@@ -306,7 +310,7 @@ const Table = () => {
     }
     if (loadedVCs.data) {
       changeVcs(loadedVCs.data);
-
+      changeLastFetch(Date.now());
       if (loadedVCs.data.length === 0) {
         setToastOpen(false);
         setTimeout(() => {
@@ -325,8 +329,13 @@ const Table = () => {
     setLoading(false);
   };
 
+  const interval = setInterval(() => {
+    if(lastFetchUnix) changeLastFetch(lastFetchUnix);
+  }, 30000);
+
   useEffect(() => {
     selectRows(table, selectedVCs);
+    return () => clearInterval(interval);
   }, []);
 
   if (vcs.length === 0)
@@ -367,7 +376,7 @@ const Table = () => {
                 {vcs.length} {t('table-header.found')}
               </div>
               <div className="text-h5 dark:text-navy-blue-400 text-gray-600">
-                {t('table-header.fetched')}: today
+                {t('table-header.fetched')}: {lastFetchString}
               </div>
             </div>
           </div>
@@ -506,7 +515,7 @@ const Table = () => {
             {vcs.length} {t('table-header.found')}
           </div>
           <div className="text-h5 dark:text-navy-blue-400 text-gray-600">
-            {t('table-header.fetched')}: today
+            {t('table-header.fetched')}: {lastFetchString}
           </div>
         </div>
       </div>

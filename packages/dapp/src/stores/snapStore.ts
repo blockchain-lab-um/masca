@@ -13,6 +13,7 @@ interface MascaStore {
   currDID: string;
   vcs: QueryVCsRequestResult[];
   availableVCStores: Record<string, boolean>;
+  lastFetch: number | undefined;
 
   changeAvailableVCStores: (availableVCStores: Record<string, boolean>) => void;
   changeMascaApi: (mascaApi: MascaApi) => void;
@@ -21,6 +22,7 @@ interface MascaStore {
   changeCurrVCStore: (currVCStore: AvailableVCStores) => void;
   changeCurrDID: (currDID: string) => void;
   changeVcs: (vcs: QueryVCsRequestResult[]) => void;
+  changeLastFetch: (lastFetch: number) => void;
 }
 
 export const mascaStoreInitialState = {
@@ -31,6 +33,7 @@ export const mascaStoreInitialState = {
   currDID: '',
   vcs: [],
   availableVCStores: { snap: true, ceramic: false },
+  lastFetch: undefined,
 };
 
 export const useMascaStore = create<MascaStore>()((set) => ({
@@ -45,4 +48,5 @@ export const useMascaStore = create<MascaStore>()((set) => ({
   changeCurrVCStore: (currVCStore: AvailableVCStores) => set({ currVCStore }),
   changeCurrDID: (currDID: string) => set({ currDID }),
   changeVcs: (vcs: QueryVCsRequestResult[]) => set({ vcs }),
+  changeLastFetch: (lastFetch: number) => set({ lastFetch }),
 }));
