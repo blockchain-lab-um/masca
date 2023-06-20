@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 /**
  * OAuth 2.0 Authorization Server Metadata
  *

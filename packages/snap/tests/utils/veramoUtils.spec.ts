@@ -2,10 +2,9 @@ import { StreamID } from '@ceramicnetwork/streamid';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { BIP44CoinTypeNode } from '@metamask/key-tree/dist/BIP44CoinTypeNode';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
-import { IIdentifier, IVerifyResult } from '@veramo/core';
+import type { SnapsGlobalObject } from '@metamask/snaps-types';
+import type { IIdentifier } from '@veramo/core';
 
-import { StoredCredentials } from '../../src/interfaces';
 import * as snapUtils from '../../src/utils/snapUtils';
 import {
   veramoClearVCs,
@@ -16,6 +15,7 @@ import {
   veramoSaveVC,
   veramoVerifyData,
 } from '../../src/utils/veramoUtils';
+import type { StoredCredentials } from '../../src/veramo/plugins/ceramicDataStore/ceramicDataStore';
 import { getAgent } from '../../src/veramo/setup';
 import {
   account,
@@ -51,14 +51,10 @@ describe('Utils [veramo]', () => {
     // Ceramic mock
     DIDDataStore.prototype.get = jest
       .fn()
-      // eslint-disable-next-line @typescript-eslint/require-await
-      .mockImplementation(async (_key, _did) => {
-        return ceramicData;
-      });
+      .mockImplementation(async (_key, _did) => ceramicData);
 
     DIDDataStore.prototype.merge = jest
       .fn()
-      // eslint-disable-next-line @typescript-eslint/require-await
       .mockImplementation(async (_key, content, _options?) => {
         ceramicData = content as StoredCredentials;
         return 'ok' as unknown as StreamID;
@@ -530,7 +526,7 @@ describe('Utils [veramo]', () => {
       });
 
       expect(vcs).toHaveLength(1);
-      expect(vcs[0].data).toStrictEqual(exampleVCinVP);
+      expect(vcs[0].data).toEqual(exampleVCinVP);
 
       expect.assertions(3);
     });
@@ -965,9 +961,9 @@ describe('Utils [veramo]', () => {
       );
       expect(createdVP).not.toBeNull();
 
-      const verifyResult = (await agent.verifyPresentation({
+      const verifyResult = await agent.verifyPresentation({
         presentation: createdVP,
-      })) as IVerifyResult;
+      });
 
       expect(verifyResult.verified).toBe(true);
 
@@ -1037,9 +1033,9 @@ describe('Utils [veramo]', () => {
       );
       expect(createdVP).not.toBeNull();
 
-      const verifyResult = (await agent.verifyPresentation({
+      const verifyResult = await agent.verifyPresentation({
         presentation: createdVP,
-      })) as IVerifyResult;
+      });
 
       expect(verifyResult.verified).toBe(true);
 
@@ -1069,9 +1065,9 @@ describe('Utils [veramo]', () => {
       );
       expect(createdVP).not.toBeNull();
 
-      const verifyResult = (await agent.verifyPresentation({
+      const verifyResult = await agent.verifyPresentation({
         presentation: createdVP,
-      })) as IVerifyResult;
+      });
 
       expect(verifyResult.verified).toBe(true);
 
@@ -1101,9 +1097,9 @@ describe('Utils [veramo]', () => {
       );
       expect(createdVP).not.toBeNull();
 
-      const verifyResult = (await agent.verifyPresentation({
+      const verifyResult = await agent.verifyPresentation({
         presentation: createdVP,
-      })) as IVerifyResult;
+      });
 
       expect(createdVP?.verifiableCredential).toStrictEqual([
         exampleVCinVP,
@@ -1165,9 +1161,9 @@ describe('Utils [veramo]', () => {
       );
       expect(createdVP).not.toBeNull();
 
-      const verifyResult = (await agent.verifyPresentation({
+      const verifyResult = await agent.verifyPresentation({
         presentation: createdVP,
-      })) as IVerifyResult;
+      });
 
       expect(createdVP?.verifiableCredential).toStrictEqual([
         exampleVCinVP,

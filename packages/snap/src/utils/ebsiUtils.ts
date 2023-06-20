@@ -1,8 +1,8 @@
-import { SnapsGlobalObject } from '@metamask/snaps-types';
-import { IDIDManagerCreateArgs } from '@veramo/core';
+import type { MascaState } from '@blockchain-lab-um/masca-types';
+import type { SnapsGlobalObject } from '@metamask/snaps-types';
+import type { IDIDManagerCreateArgs } from '@veramo/core';
 import { keccak256 } from 'ethers';
 
-import { MascaState } from '../interfaces';
 import { getAgent } from '../veramo/setup';
 import { getAddressKeyDeriver, snapGetKeysFromAddress } from './keyPair';
 

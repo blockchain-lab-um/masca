@@ -1,7 +1,7 @@
 import { getCompressedPublicKey } from '@blockchain-lab-um/utils';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
+import type { SnapsGlobalObject } from '@metamask/snaps-types';
 
 import {
   addFriendlyDapp,
@@ -16,8 +16,8 @@ import * as snapUtils from '../../src/utils/snapUtils';
 import {
   account,
   bip44Entropy,
+  compressedPublicKey,
   content,
-  entropyDerivedPublicKey,
   getDefaultSnapState,
   publicKey,
 } from '../testUtils/constants';
@@ -230,7 +230,7 @@ describe('Utils [snap]', () => {
           account,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         })
-      ).resolves.toEqual(entropyDerivedPublicKey);
+      ).resolves.toEqual(publicKey);
 
       expect.assertions(1);
     });
@@ -263,13 +263,12 @@ describe('Utils [snap]', () => {
       });
       const compressedPK = getCompressedPublicKey(pk);
 
-      expect(compressedPK).toEqual(entropyDerivedCompressedPublicKey);
+      expect(compressedPK).toEqual(compressedPublicKey);
     });
   });
 
   describe('snapConfirm', () => {
     it('should return true', async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       snapMock.rpcMocks.snap_dialog.mockResolvedValue(true);
 
       await expect(snapConfirm(snapMock, content)).resolves.toBe(true);
@@ -326,7 +325,6 @@ describe('Utils [snap]', () => {
 
     it('should return snap', () => {
       const state = getDefaultSnapState();
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
       expect(snapUtils.getEnabledVCStores(account, state)).toEqual(['snap']);
 

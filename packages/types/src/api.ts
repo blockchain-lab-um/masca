@@ -1,6 +1,7 @@
 import type { Result } from '@blockchain-lab-um/utils';
 import type {
   DIDResolutionResult,
+  IVerifyResult,
   VerifiableCredential,
   VerifiablePresentation,
   W3CVerifiableCredential,
@@ -17,9 +18,10 @@ import type {
   SaveVCOptions,
   SendOIDCAuthorizationResponseParams,
   SetCurrentAccountRequestParams,
+  VerifyDataRequestParams,
 } from './params.js';
 import type { QueryVCsRequestResult, SaveVCRequestResult } from './results.js';
-import type { MascaAccountConfig, MascaConfig } from './snapInterfaces.js';
+import type { MascaAccountConfig, MascaConfig } from './state.js';
 
 export interface MascaApi {
   queryVCs(
@@ -47,6 +49,9 @@ export interface MascaApi {
   getAccountSettings(): Promise<Result<MascaAccountConfig>>;
   getSnapSettings(): Promise<Result<MascaConfig>>;
   resolveDID(did: string): Promise<Result<DIDResolutionResult>>;
+  verifyData(
+    params: VerifyDataRequestParams
+  ): Promise<Result<boolean | IVerifyResult>>;
   createVC(
     params: CreateVCRequestParams
   ): Promise<Result<VerifiableCredential>>;
@@ -62,4 +67,6 @@ export interface MascaApi {
   sendOIDCAuthorizationResponse(
     params: SendOIDCAuthorizationResponseParams
   ): Promise<Result<boolean>>;
+  setCeramicSession(serializedSession: string): Promise<Result<boolean>>;
+  validateStoredCeramicSession(): Promise<Result<boolean>>;
 }

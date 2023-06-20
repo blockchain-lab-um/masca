@@ -10,7 +10,11 @@ import {
   type SupportedCredential,
   type TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
-import { ResultObject, type Result } from '@blockchain-lab-um/utils';
+import {
+  qsCustomDecoder,
+  ResultObject,
+  type Result,
+} from '@blockchain-lab-um/utils';
 import { PEX } from '@sphereon/pex';
 import type { IVerifiableCredential } from '@sphereon/ssi-types';
 import type { IAgentPlugin } from '@veramo/core';
@@ -95,12 +99,36 @@ export class OIDCClientPlugin implements IAgentPlugin {
     try {
       const query = args.credentialOfferURI.split('?')[1];
 
-      credentialOffer = qs.parse(query, {
+      const parsedCredentialOfferUri = qs.parse(query, {
         depth: 50,
         parameterLimit: 1000,
-      }).credential_offer as unknown as CredentialOffer;
+        decoder: qsCustomDecoder,
+      });
 
-      if (!credentialOffer) {
+      if (!parsedCredentialOfferUri) {
+        return ResultObject.error('Invalid credential offer URI');
+      }
+
+      if (parsedCredentialOfferUri.credential_offer) {
+        credentialOffer =
+          parsedCredentialOfferUri.credential_offer as CredentialOffer;
+      } else if (parsedCredentialOfferUri.credential_offer_uri) {
+        // Fetch credential offer from the URI
+        const response = await fetch(
+          parsedCredentialOfferUri.credential_offer_uri as string
+        );
+
+        if (!response.ok) {
+          console.log(await response.text());
+          return ResultObject.error('Failed to fetch credential offer');
+        }
+
+        credentialOffer = await response.json();
+
+        if (!credentialOffer) {
+          return ResultObject.error('Failed to parse credential offer');
+        }
+      } else {
         return ResultObject.error('Invalid credential offer URI');
       }
 
@@ -227,8 +255,6 @@ export class OIDCClientPlugin implements IAgentPlugin {
         'pre-authorized_code': preAuthorizedCode,
         ...(userPinRequired && { user_pin: args.pin }),
       };
-
-      console.log(body);
 
       const response = await fetch(tokenEndpoint, {
         method: 'POST',

@@ -76,13 +76,12 @@ describe('DataManager', () => {
     });
     it('should clear objects from multiple stores', async () => {
       const data = { test: 'test' };
-      const res = await dataManager.save({
+      await dataManager.save({
         data,
         options: { store: ['memory1', 'memory2'] },
       });
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const rews = await dataManager.clear({});
+      await dataManager.clear({});
       const allData = await dataManager.query({});
       expect(allData).toHaveLength(0);
       expect.assertions(1);
@@ -124,7 +123,7 @@ describe('DataManager', () => {
     });
     it('should fail query object by id in specific store', async () => {
       const data = { test: 'test' };
-      const res = await dataManager.save({
+      await dataManager.save({
         data,
         options: { store: 'memory1' },
       });
@@ -138,7 +137,7 @@ describe('DataManager', () => {
     });
     it('should fail query object by id in multiple stores once', async () => {
       const data = { test: 'test' };
-      const res = await dataManager.save({
+      await dataManager.save({
         data,
         options: { store: 'memory1' },
       });
@@ -217,7 +216,7 @@ describe('DataManager', () => {
     it('should query object by jsonpath (multiple conditions)', async () => {
       const data = { test: 'test' };
       const data2 = { test: 'test', test2: 'test2' };
-      const res = await dataManager.save({
+      await dataManager.save({
         data,
         options: { store: 'memory1' },
       });
@@ -246,7 +245,7 @@ describe('DataManager', () => {
         options: { store: 'memory2' },
       });
 
-      const del = await dataManager.delete({ id: res[0].id });
+      await dataManager.delete({ id: res[0].id });
       const allData = await dataManager.query({});
       expect(allData).toHaveLength(0);
       expect.assertions(1);
@@ -258,7 +257,7 @@ describe('DataManager', () => {
         options: { store: 'memory2' },
       });
 
-      const del = await dataManager.delete({
+      await dataManager.delete({
         id: res[0].id,
         options: { store: 'memory2' },
       });
@@ -273,7 +272,7 @@ describe('DataManager', () => {
         options: { store: ['memory2', 'memory1'] },
       });
 
-      const del = await dataManager.delete({
+      await dataManager.delete({
         id: res[0].id,
         options: { store: ['memory2', 'memory1'] },
       });

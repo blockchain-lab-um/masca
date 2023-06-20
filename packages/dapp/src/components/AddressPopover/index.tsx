@@ -1,7 +1,9 @@
-import React from 'react';
+'use client';
+
 import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
+import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
 import { copyToClipboard } from '@/utils/string';
@@ -11,22 +13,25 @@ type AddressPopoverProps = {
   did: string;
   disconnect: () => void;
 };
+
 const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
-  const t = useTranslations('Navbar');
+  const t = useTranslations('AppNavbar');
   return (
     <Popover className="relative z-50">
       {({ open }) => (
         <>
           <Popover.Button
-            className={`text-h4 animated-transition dark:bg-orange-accent-dark dark:text-navy-blue-900 rounded-3xlpx-4 font-ubuntu inline-flex w-full justify-center rounded-full bg-pink-100 px-7 py-2.5 font-normal text-gray-800 hover:opacity-80 focus:outline-none dark:border-none ${
+            className={clsx(
+              'lg:text-h4 md:text-h5 animated-transition dark:bg-orange-accent-dark dark:text-navy-blue-900 font-ubuntu inline-flex w-full justify-center rounded-full border-none bg-pink-100 px-4 py-2.5 text-sm text-gray-800 hover:opacity-80 md:px-5 md:py-2.5 lg:px-7 lg:py-2.5',
+              'outline-none focus-visible:outline-none',
               open ? 'opacity-80' : ''
-            }`}
+            )}
           >
             <div className="flex">
               {`${address.slice(0, 5)}...${address.slice(-4)}`}
 
               <ChevronDownIcon
-                className={`animated-transition -mr-1 ml-2 h-5 w-5 max-md:rotate-180 ${
+                className={`animated-transition -mr-1 ml-2 h-3 w-3 md:h-4 md:w-4 lg:h-5 lg:w-5 ${
                   open ? 'rotate-180' : ''
                 }`}
               />
@@ -34,13 +39,13 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
           </Popover.Button>
           <Transition
             enter="transition duration-100 ease-out"
-            enterFrom="transform scale-95 opacity-0"
-            enterTo="transform scale-100 opacity-100"
+            enterFrom="scale-95 opacity-0"
+            enterTo="scale-100 opacity-100"
             leave="transition duration-75 ease-out"
-            leaveFrom="transform scale-100 opacity-100"
-            leaveTo="transform scale-95 opacity-0"
+            leaveFrom="scale-100 opacity-100"
+            leaveTo="scale-95 opacity-0"
           >
-            <Popover.Panel className="dark:bg-navy-blue-500 absolute right-0 rounded-2xl bg-white shadow-xl max-md:-top-12 max-md:mb-2 max-md:-translate-y-full max-md:transform md:mt-2">
+            <Popover.Panel className="dark:bg-navy-blue-500 absolute right-0 mt-2 rounded-2xl bg-white shadow-xl">
               <div className="rounded-2xl px-6 pb-3 pt-6 shadow-sm">
                 <div className="flex flex-col justify-between gap-3">
                   <div>

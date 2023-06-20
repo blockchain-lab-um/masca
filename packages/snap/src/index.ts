@@ -14,8 +14,10 @@ import { switchMethod } from './rpc/did/switchMethod';
 import { handleOIDCAuthorizationRequest } from './rpc/oidc/handleOIDCAuthorizationRequest';
 import { handleOIDCCredentialOffer } from './rpc/oidc/handleOIDCCredentialOffer';
 import { sendOIDCAuthorizationResponse } from './rpc/oidc/sendOIDCAuthorizationResponse';
+import { setCeramicSession } from './rpc/setCeramicSession';
 import { togglePopups } from './rpc/snap/configure';
 import { setCurrentAccount } from './rpc/snap/setCurrentAccount';
+import { validateStoredCeramicSession } from './rpc/validateStoredCeramicSession';
 import { createVC } from './rpc/vc/createVC';
 import { createVP } from './rpc/vc/createVP';
 import { deleteVC } from './rpc/vc/deleteVC';
@@ -57,7 +59,13 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     if (request.method === 'setCurrentAccount') {
       isValidSetCurrentAccountRequest(request.params);
       res = await setCurrentAccount(
-        { state, snap, ethereum, account: '', origin },
+        {
+          state,
+          snap,
+          ethereum,
+          account: '',
+          origin,
+        },
         request.params
       );
       return ResultObject.success(res);
@@ -180,6 +188,16 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
           request.params as unknown as SendOIDCAuthorizationResponseParams
         );
         return ResultObject.success(res);
+      case 'setCeramicSession':
+        // TODO (andy) validate request params
+        res = await setCeramicSession(
+          apiParams,
+          (request.params as any).serializedSession as string
+        );
+        return ResultObject.success(res);
+      case 'validateStoredCeramicSession':
+        await validateStoredCeramicSession(apiParams);
+        return ResultObject.success(true);
       default:
         throw new Error('Method not found.');
     }

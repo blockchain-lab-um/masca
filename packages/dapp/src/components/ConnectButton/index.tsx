@@ -1,4 +1,3 @@
-import React from 'react';
 import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
@@ -6,7 +5,7 @@ import Button from '@/components/Button';
 import { useGeneralStore } from '@/stores';
 
 const ConnectButton = () => {
-  const t = useTranslations('Navbar');
+  const t = useTranslations('AppNavbar');
   const { isConnecting, changeIsConnecting } = useGeneralStore(
     (state) => ({
       isConnecting: state.isConnecting,

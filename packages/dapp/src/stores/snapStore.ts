@@ -23,7 +23,7 @@ interface MascaStore {
   changeVcs: (vcs: QueryVCsRequestResult[]) => void;
 }
 
-export const useMascaStore = create<MascaStore>()((set) => ({
+export const mascaStoreInitialState = {
   mascaApi: undefined,
   availableMethods: [],
   currDIDMethod: undefined,
@@ -31,6 +31,10 @@ export const useMascaStore = create<MascaStore>()((set) => ({
   currDID: '',
   vcs: [],
   availableVCStores: { snap: true, ceramic: false },
+};
+
+export const useMascaStore = create<MascaStore>()((set) => ({
+  ...mascaStoreInitialState,
 
   changeAvailableVCStores: (availableVCStores: Record<string, boolean>) =>
     set({ availableVCStores }),

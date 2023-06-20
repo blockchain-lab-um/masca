@@ -1,4 +1,3 @@
-import React from 'react';
 import Link from 'next/link';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-types';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
@@ -85,12 +84,9 @@ const VCCard = ({ row }: VCCardProps) => {
               onClick={(e) => {
                 e.stopPropagation();
               }}
-              href={{
-                pathname: '/verifiable-credential',
-                query: { id: row.original.metadata.id },
-              }}
+              href={`/app/verifiable-credential/${row.original.metadata.id}`}
             >
-              <button className=" font-ubuntu animated-transition mt-4 text-right text-sm font-medium text-pink-50/80 underline-offset-4 hover:text-pink-700">
+              <button className="font-ubuntu animated-transition mt-4 text-right text-sm font-medium text-pink-50/80 underline-offset-4 hover:text-pink-700">
                 {t('card.more')}
               </button>
             </Link>

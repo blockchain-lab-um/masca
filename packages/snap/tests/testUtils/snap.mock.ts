@@ -1,10 +1,15 @@
+import type { MascaState } from '@blockchain-lab-um/masca-types';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
-import { RequestArguments } from '@metamask/providers/dist/BaseProvider';
-import { Maybe } from '@metamask/providers/dist/utils';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
-import { AlchemyProvider, Filter, TransactionRequest, Wallet } from 'ethers';
+import type { RequestArguments } from '@metamask/providers/dist/BaseProvider';
+import type { Maybe } from '@metamask/providers/dist/utils';
+import type { SnapsGlobalObject } from '@metamask/snaps-types';
+import {
+  AlchemyProvider,
+  Wallet,
+  type Filter,
+  type TransactionRequest,
+} from 'ethers';
 
-import { MascaState } from '../../src/interfaces';
 import { account, mnemonic, privateKey } from './constants';
 
 interface ISnapMock {
@@ -96,25 +101,28 @@ export class SnapMock implements ISnapMock {
       .mockImplementation((params: unknown) =>
         this.snapManageState(params as SnapManageState)
       ),
-    personal_sign: jest.fn().mockImplementation(async (data: unknown) => {
-      return this.snapPersonalSign(data as string[]);
-    }),
-    eth_call: jest.fn().mockImplementation(async (data: unknown) => {
-      return this.snapEthCall(data as any[]);
-    }),
-    eth_getLogs: jest.fn().mockImplementation(async (data: unknown) => {
-      return this.snapEthLogs(data as any[]);
-    }),
+    personal_sign: jest
+      .fn()
+      .mockImplementation(async (data: unknown) =>
+        this.snapPersonalSign(data as string[])
+      ),
+    eth_call: jest
+      .fn()
+      .mockImplementation(async (data: unknown) =>
+        this.snapEthCall(data as any[])
+      ),
+    eth_getLogs: jest
+      .fn()
+      .mockImplementation(async (data: unknown) =>
+        this.snapEthLogs(data as any[])
+      ),
     eth_signTypedData_v4: jest
       .fn()
       .mockImplementation((...params: unknown[]) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unused-vars, @typescript-eslint/no-unsafe-argument
-        const { domain, types, message } = JSON.parse(params[1] as any);
+        const { domain, types, message } = JSON.parse(params[1] as string);
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         delete types.EIP712Domain;
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         return this.snap.signTypedData(domain, types, message);
       }),
   };

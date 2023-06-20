@@ -20,7 +20,7 @@ interface GeneralStore {
   changeChainId: (chainId: string) => void;
 }
 
-export const useGeneralStore = create<GeneralStore>()((set) => ({
+export const generalStoreInitialState = {
   address: '',
   isConnected: false,
   isConnecting: false,
@@ -29,6 +29,10 @@ export const useGeneralStore = create<GeneralStore>()((set) => ({
   isFlask: false,
   hasSnapInstalled: false,
   chainId: '',
+};
+
+export const useGeneralStore = create<GeneralStore>()((set) => ({
+  ...generalStoreInitialState,
 
   changeAddress: (address: string) => set({ address }),
   changeIsConnected: (isConnected: boolean) => set({ isConnected }),

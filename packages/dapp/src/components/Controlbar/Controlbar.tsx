@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+'use client';
+
+import { useState } from 'react';
 import {
   AvailableVCStores,
   QueryVCsRequestResult,
@@ -13,16 +15,16 @@ import ImportModal from '@/components/ImportModal';
 import DataStoreCombobox from '@/components/VCTable/DataStoreCombobox';
 import GlobalFilter from '@/components/VCTable/GlobalFilter';
 import ViewTabs from '@/components/VCTable/ViewTabs';
-import { useMascaStore, useToastStore } from '@/stores';
+import { useGeneralStore, useMascaStore, useToastStore } from '@/stores';
 
-type ControlbarProps = {
-  vcs: QueryVCsRequestResult[];
-  isConnected: boolean;
-};
-
-const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
+const Controlbar = () => {
+  // Local state
   const [importModalOpen, setImportModalOpen] = useState(false);
   const [spinner, setSpinner] = useState(false);
+
+  // Stores
+  const isConnected = useGeneralStore((state) => state.isConnected);
+  const vcs = useMascaStore((state) => state.vcs);
   const { setTitle, setLoading, setToastOpen, setType } = useToastStore(
     (state) => ({
       setTitle: state.setTitle,
@@ -105,7 +107,7 @@ const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
 
   return (
     <div className={clsx(isConnected ? '' : 'hidden')}>
-      <div className="lg-mt-6 mb-4 mt-12 grid grid-cols-11 grid-rows-2 gap-y-4 md:grid-rows-1">
+      <div className="mb-4 grid grid-cols-11 grid-rows-2 gap-y-4 md:grid-rows-1">
         {vcs.length > 0 && (
           <div className="col-span-11 col-start-1 row-start-2 flex gap-x-2 md:col-span-5 md:row-start-1">
             <DataStoreCombobox isConnected={isConnected} vcs={vcs} />
@@ -118,10 +120,19 @@ const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
             <ViewTabs />
           </div>
         )}
-        <div className="col-span-5 col-start-7 flex justify-end gap-x-2 max-md:row-start-2 max-sm:row-start-1 md:row-start-1">
+        <div
+          className={`col-span-5 col-start-7 flex justify-end gap-x-2 ${
+            vcs.length === 0
+              ? 'row-start-2'
+              : ' max-md:row-start-2 max-sm:row-start-1 md:row-start-1'
+          }`}
+        >
           {isConnected && (
             <button
-              className={`dark:bg-navy-blue-700 dark:text-navy-blue-50 group flex h-[43px] w-[43px] items-center justify-center rounded-full bg-white text-gray-700 shadow-md`}
+              className={clsx(
+                'dark:bg-navy-blue-700 dark:text-navy-blue-50 group flex h-[37px] w-[37px] md:h-[43px] md:w-[43px]',
+                'items-center justify-center rounded-full bg-white text-gray-700 shadow-md outline-none focus:outline-none'
+              )}
               onClick={() => setImportModalOpen(true)}
             >
               <PlusIcon className={`group-hover:animate-pingOnce h-6 w-6`} />
@@ -129,7 +140,10 @@ const Controlbar = ({ vcs, isConnected }: ControlbarProps) => {
           )}
           {vcs.length > 0 && (
             <button
-              className={`dark:bg-navy-blue-700 dark:text-navy-blue-50 group flex h-[43px] w-[43px] items-center justify-center rounded-full bg-white text-gray-700 shadow-md`}
+              className={clsx(
+                'dark:bg-navy-blue-700 dark:text-navy-blue-50 group flex h-[37px] w-[37px] md:h-[43px] md:w-[43px]',
+                'items-center justify-center rounded-full bg-white text-gray-700 shadow-md outline-none focus:outline-none'
+              )}
               onClick={() => refreshVCs()}
             >
               <ArrowPathIcon

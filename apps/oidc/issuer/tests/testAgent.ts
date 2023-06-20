@@ -1,3 +1,7 @@
+import {
+  getMascaDidKeyResolver,
+  MascaKeyDidProvider,
+} from '@blockchain-lab-um/did-provider-key';
 import { IOIDCRPPlugin, OIDCRPPlugin } from '@blockchain-lab-um/oidc-rp-plugin';
 import {
   createAgent,
@@ -17,7 +21,6 @@ import {
 } from '@veramo/data-store';
 import { DIDManager } from '@veramo/did-manager';
 import { EthrDIDProvider } from '@veramo/did-provider-ethr';
-import { getDidKeyResolver, KeyDIDProvider } from '@veramo/did-provider-key';
 import { DIDResolverPlugin } from '@veramo/did-resolver';
 import { KeyManager } from '@veramo/key-manager';
 import { KeyManagementSystem, SecretBox } from '@veramo/kms-local';
@@ -87,7 +90,7 @@ const getAgent = async (): Promise<Agent> => {
             defaultKms: 'local',
             networks: providerConfig.networks,
           }),
-          'did:key': new KeyDIDProvider({
+          'did:key': new MascaKeyDidProvider({
             defaultKms: 'local',
           }),
         },
@@ -95,7 +98,7 @@ const getAgent = async (): Promise<Agent> => {
       new DIDResolverPlugin({
         resolver: new Resolver({
           ...getEthrResolver(providerConfig),
-          ...getDidKeyResolver(),
+          ...getMascaDidKeyResolver(),
         }),
       }),
       new OIDCRPPlugin({

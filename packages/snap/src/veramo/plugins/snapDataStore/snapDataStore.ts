@@ -1,18 +1,19 @@
 /* eslint-disable max-classes-per-file */
+import { uint8ArrayToHex } from '@blockchain-lab-um/utils';
 import {
   AbstractDataStore,
-  IFilterArgs,
-  IQueryResult,
+  type IFilterArgs,
+  type IQueryResult,
 } from '@blockchain-lab-um/veramo-datamanager';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
-import {
+import type { SnapsGlobalObject } from '@metamask/snaps-types';
+import type {
   IIdentifier,
   RequireOnly,
   W3CVerifiableCredential,
 } from '@veramo/core';
 import { AbstractDIDStore } from '@veramo/did-manager';
-import { ManagedPrivateKey } from '@veramo/key-manager';
+import type { ManagedPrivateKey } from '@veramo/key-manager';
 import { sha256 } from 'ethereum-cryptography/sha256';
 import jsonpath from 'jsonpath';
 
@@ -217,25 +218,21 @@ export class SnapVCStore extends AbstractDataStore {
   }
 
   async save(args: { data: W3CVerifiableCredential }): Promise<string> {
-    // TODO check if VC is correct type
-
     const vc = args.data;
     const state = await getSnapState(this.snap);
     const account = getCurrentAccount(state);
 
-    const id = sha256(Buffer.from(JSON.stringify(vc))).toString();
+    const id = uint8ArrayToHex(sha256(Buffer.from(JSON.stringify(vc))));
 
-    if (state.accountState[account].vcs[id]) {
-      return id;
+    if (!state.accountState[account].vcs[id]) {
+      state.accountState[account].vcs[id] = vc;
+      await updateSnapState(this.snap, state);
     }
 
-    state.accountState[account].vcs[id] = vc;
-    await updateSnapState(this.snap, state);
     return id;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async clear(args: IFilterArgs): Promise<boolean> {
+  public async clear(_args: IFilterArgs): Promise<boolean> {
     // TODO implement filter (in ceramic aswell)
     const state = await getSnapState(this.snap);
     const account = getCurrentAccount(state);

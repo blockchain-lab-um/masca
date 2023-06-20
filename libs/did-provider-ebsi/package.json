@@ -31,6 +31,7 @@
     "compile": "tsc --build tsconfig.build.json",
     "lint": "pnpm lint:eslint && pnpm lint:prettier",
     "lint:eslint": "eslint .",
+    "lint:fix": "eslint . --fix && prettier . --write",
     "lint:prettier": "prettier . --check"
   },
   "dependencies": {
@@ -51,6 +52,13 @@
   "devDependencies": {
     "@types/elliptic": "^6.4.14",
     "@types/uuid": "^9.0.1",
+    "eslint": "^8.36.0",
+    "eslint-config-prettier": "^8.7.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-unused-imports": "^2.0.0",
+    "lint-staged": "^13.2.2",
+    "prettier": "^2.8.4",
+    "prettier-plugin-packagejson": "^2.4.3",
     "rimraf": "^5.0.1",
     "tsup": "^6.7.0",
     "typescript": "^5.1.3"

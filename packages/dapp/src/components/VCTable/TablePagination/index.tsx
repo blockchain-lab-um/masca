@@ -1,4 +1,3 @@
-import React from 'react';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-types';
 import { Table } from '@tanstack/react-table';
 import { useTranslations } from 'next-intl';

@@ -1,10 +1,5 @@
-node_modules
-build
-dist
-.docusaurus
-coverage
-CHANGELOG.md
+# Ignore this becuase we want to format only the files in the root directory
+apps
+libs
+packages
 pnpm-lock.yaml
-pnpm-workspace.yaml
-out
-.next

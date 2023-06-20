@@ -3,7 +3,6 @@ import { ConfigModule } from '@nestjs/config';
 import Joi from 'joi';
 
 import {
-  ISSUER_URL,
   SUPPORTED_CREDENTIALS,
   SUPPORTED_CURVES,
   SUPPORTED_DID_METHODS,
@@ -25,12 +24,12 @@ const config = (): IConfig => ({
   ISSUER_DB_SECRET: process.env.ISSUER_DB_SECRET || '',
   INFURA_PROJECT_ID: process.env.INFURA_PROJECT_ID || '',
   ISSUER_PRIVATE_KEY: process.env.ISSUER_PRIVATE_KEY || '',
+  ISSUER_URL: process.env.ISSUER_URL || '',
 
   // We are reading the other configuration from the config.ts file
   SUPPORTED_DID_METHODS: SUPPORTED_DID_METHODS || [],
   SUPPORTED_CURVES: SUPPORTED_CURVES || [],
   SUPPORTED_DIGITAL_SIGNATURES: SUPPORTED_DIGITAL_SIGNATURES || [],
-  ISSUER_URL: ISSUER_URL || '',
 });
 
 export default ConfigModule.forRoot({
@@ -43,6 +42,7 @@ export default ConfigModule.forRoot({
     ISSUER_DB_SECRET: Joi.string().required(),
     INFURA_PROJECT_ID: Joi.string().required(),
     ISSUER_PRIVATE_KEY: Joi.string().required(),
+    ISSUER_URL: Joi.string().required(),
   }),
   // TODO: Add custom validation for other variables ?
 });

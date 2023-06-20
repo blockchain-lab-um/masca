@@ -10,7 +10,7 @@ export default {
   testEnvironment: 'node',
   testRegex: '.*\\.spec\\.ts$',
   setupFilesAfterEnv: ['jest-extended/all'],
-  globals: { window: { location: { hostname: 'masca' } } },
+  globals: {},
   transform: {
     '^.+\\.(t|j)sx?$': [
       '@swc/jest',

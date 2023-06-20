@@ -1,3 +1,4 @@
+import { uint8ArrayToHex } from '@blockchain-lab-um/utils';
 import {
   AbstractDataStore,
   type IFilterArgs,
@@ -5,9 +6,9 @@ import {
 } from '@blockchain-lab-um/veramo-datamanager';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
-import { W3CVerifiableCredential } from '@veramo/core';
-import { sha256 } from 'ethereum-cryptography/sha256';
+import type { SnapsGlobalObject } from '@metamask/snaps-types';
+import type { W3CVerifiableCredential } from '@veramo/core';
+import { sha256 } from 'ethereum-cryptography/sha256.js';
 import jsonpath from 'jsonpath';
 
 import { aliases, getCeramic } from '../../../utils/ceramicUtils';
@@ -121,7 +122,7 @@ export class CeramicVCStore extends AbstractDataStore {
       'StoredCredentials'
     )) as StoredCredentials;
     if (storedCredentials && storedCredentials.vcs) {
-      const id = sha256(Buffer.from(JSON.stringify(vc))).toString();
+      const id = uint8ArrayToHex(sha256(Buffer.from(JSON.stringify(vc))));
 
       if (storedCredentials.vcs[id]) {
         return id;
@@ -131,15 +132,14 @@ export class CeramicVCStore extends AbstractDataStore {
       await datastore.merge('StoredCredentials', storedCredentials);
       return id;
     }
-    const id = sha256(Buffer.from(JSON.stringify(vc))).toString();
+    const id = uint8ArrayToHex(sha256(Buffer.from(JSON.stringify(vc))));
     const storedCredentialsNew: StoredCredentials = { vcs: {} };
     storedCredentialsNew.vcs[id] = vc;
     await datastore.merge('StoredCredentials', storedCredentialsNew);
     return id;
   }
 
-  // eslint-disable-next-line unused-imports/no-unused-vars
-  public async clear(args: IFilterArgs): Promise<boolean> {
+  public async clear(_args: IFilterArgs): Promise<boolean> {
     const state = await getSnapState(this.snap);
     const ceramic = await getCeramic(this.ethereum, this.snap, state);
     const datastore = new DIDDataStore({ ceramic, model: aliases });

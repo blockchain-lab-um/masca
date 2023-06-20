@@ -52,11 +52,13 @@ export async function createTestVCs(
   options?: CreateTestVCsOptions
 ): Promise<TestCredentials> {
   const { agent, proofFormat, payload } = args;
+
   const exampleVeramoVCJWT: VerifiableCredential =
     await agent.createVerifiableCredential({
       ...(options?.keyRef && { keyRef: options.keyRef }),
       proofFormat,
       credential: payload,
     });
-  return { exampleVeramoVCJWT } as TestCredentials;
+
+  return { exampleVeramoVCJWT };
 }

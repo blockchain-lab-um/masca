@@ -1,8 +1,10 @@
 import { varint } from 'multiformats';
 import { base58btc } from 'multiformats/bases/base58';
-import { publicKeyConvert } from 'secp256k1';
+import secp256k1 from 'secp256k1';
 
 import { MULTICODEC_NAME_TO_CODE, type CodecName } from './multicodecs.js';
+
+const { publicKeyConvert } = secp256k1;
 
 export const encodePublicKey = (
   pubKeyBytes: Uint8Array,
@@ -44,6 +46,6 @@ export function hexToUint8Array(str: string): Uint8Array {
 
 export function getCompressedPublicKey(publicKey: string): string {
   return uint8ArrayToHex(
-    publicKeyConvert(hexToUint8Array(publicKey.split('0x')[1]), true)
+    publicKeyConvert(hexToUint8Array(publicKey.slice(2)), true)
   );
 }

@@ -1,7 +1,7 @@
-import { VerifyDataRequestParams } from '@blockchain-lab-um/masca-types';
-import { IVerifyResult } from '@veramo/core';
+import type { VerifyDataRequestParams } from '@blockchain-lab-um/masca-types';
+import type { IVerifyResult } from '@veramo/core';
 
-import { ApiParams } from '../../interfaces';
+import type { ApiParams } from '../../interfaces';
 import { veramoVerifyData } from '../../utils/veramoUtils';
 
 export async function verifyData(
@@ -16,6 +16,6 @@ export async function verifyData(
     ethereum,
     data: args,
   });
-  if (res.error) throw res.error as Error;
+  if (res.error) throw new Error(res.error.message);
   return verbose ? res : res.verified;
 }

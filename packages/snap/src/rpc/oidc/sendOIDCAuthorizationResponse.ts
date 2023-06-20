@@ -4,7 +4,7 @@ import { isError } from '@blockchain-lab-um/utils';
 import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
 import { decodeCredentialToObject } from '@veramo/utils';
 
-import { ApiParams } from '../../interfaces';
+import type { ApiParams } from '../../interfaces';
 import { getCurrentDid } from '../../utils/didUtils';
 import { snapGetKeysFromAddress } from '../../utils/keyPair';
 import { sign } from '../../utils/sign';

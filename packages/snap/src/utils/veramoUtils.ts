@@ -1,18 +1,19 @@
-import {
+import type {
   AvailableVCStores,
   CreateVCRequestParams,
   CreateVPRequestParams,
+  MascaState,
   QueryVCsOptions,
   QueryVCsRequestResult,
   SaveVCRequestResult,
   VerifyDataRequestParams,
 } from '@blockchain-lab-um/masca-types';
-import { Filter } from '@blockchain-lab-um/veramo-datamanager';
+import type { Filter } from '@blockchain-lab-um/veramo-datamanager';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
+import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
-import {
+import type {
   CredentialPayload,
   ICreateVerifiableCredentialArgs,
   IIdentifier,
@@ -23,8 +24,8 @@ import {
   W3CVerifiableCredential,
 } from '@veramo/core';
 
-import { ApiParams, MascaState } from '../interfaces';
-import { Agent, getAgent } from '../veramo/setup';
+import type { ApiParams } from '../interfaces';
+import { getAgent, type Agent } from '../veramo/setup';
 import { getCurrentDid } from './didUtils';
 import { snapGetKeysFromAddress } from './keyPair';
 import { snapConfirm } from './snapUtils';
@@ -51,8 +52,7 @@ export async function veramoSaveVC(args: {
 
     const existingVC = vcs.get(vc.id);
     if (existingVC) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      existingVC.store?.push(vc.store);
+      existingVC.store.push(vc.store);
     } else {
       vcs.set(vc.id, {
         id: vc.id,
@@ -272,16 +272,16 @@ export async function veramoVerifyData(args: {
     const agent = await getAgent(snap, ethereum);
 
     if (credential) {
-      const vcResult = (await agent.verifyCredential({
+      const vcResult = await agent.verifyCredential({
         credential,
-      })) as IVerifyResult;
-      return vcResult;
+      });
+      return JSON.parse(JSON.stringify(vcResult)) as IVerifyResult;
     }
     if (presentation) {
-      const vpResult = (await agent.verifyPresentation({
+      const vpResult = await agent.verifyPresentation({
         presentation,
-      })) as IVerifyResult;
-      return vpResult;
+      });
+      return JSON.parse(JSON.stringify(vpResult)) as IVerifyResult;
     }
     return {
       verified: false,

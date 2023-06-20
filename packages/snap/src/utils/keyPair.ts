@@ -1,12 +1,13 @@
-import { didCoinTypeMappping } from '@blockchain-lab-um/masca-types';
+import {
+  didCoinTypeMappping,
+  type MascaState,
+} from '@blockchain-lab-um/masca-types';
 import {
   BIP44CoinTypeNode,
   getBIP44AddressKeyDeriver,
 } from '@metamask/key-tree';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
+import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import { Wallet } from 'ethers';
-
-import { MascaState } from '../interfaces';
 
 export async function getAccountIndexFromEntropy(params: {
   snap: SnapsGlobalObject;
@@ -24,7 +25,6 @@ export async function getAccountIndexFromEntropy(params: {
   const index = parseInt(entropy.slice(-8), 16) >>> 1;
   return index;
 }
-
 export async function getAddressKeyDeriver(
   params: {
     state: MascaState;
@@ -69,7 +69,7 @@ export async function getAddressKeyPair(params: {
   };
 }
 
-export const getKeysFromAddressIndex = async (params: {
+export const getKeysFromAccountIndex = async (params: {
   bip44CoinTypeNode: BIP44CoinTypeNode;
   accountIndex: number | undefined;
 }) => {
@@ -104,7 +104,7 @@ export const snapGetKeysFromAddress = async (params: {
   const accountIndex = await getAccountIndexFromEntropy({ snap, account });
   // FIXME: due to the entropy based derivation of the address index,
   // the address is not the same as the one currently selected account in metamask
-  const keys = await getKeysFromAddressIndex({
+  const keys = await getKeysFromAccountIndex({
     bip44CoinTypeNode,
     accountIndex,
   });
