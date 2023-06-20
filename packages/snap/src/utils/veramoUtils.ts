@@ -83,12 +83,12 @@ export const veramoImportMetaMaskAccount = async (
     bip44CoinTypeNode,
   });
 
-  const res = await snapGetKeysFromAddress(
+  const res = await snapGetKeysFromAddress({
+    snap,
     bip44CoinTypeNode,
-    state,
     account,
-    snap
-  );
+    state,
+  });
   if (!res) throw new Error('Failed to get keys');
 
   const controllerKeyId = `metamask-${account}`;

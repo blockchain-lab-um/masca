@@ -18,7 +18,7 @@ import {
 import type { StoredCredentials } from '../../src/veramo/plugins/ceramicDataStore/ceramicDataStore';
 import { getAgent } from '../../src/veramo/setup';
 import {
-  address,
+  account,
   bip44Entropy,
   exampleDID,
   exampleImportedDIDWIthoutPrivateKey,
@@ -194,7 +194,7 @@ describe('Utils [veramo]', () => {
       ];
 
       const expectedState = getDefaultSnapState();
-      expectedState.accountState[address].vcs[res[0].id] = exampleVC;
+      expectedState.accountState[account].vcs[res[0].id] = exampleVC;
       expect(res).toEqual(expectedResult);
       expect(snapMock.rpcMocks.snap_manageState).toHaveBeenLastCalledWith({
         operation: 'update',
@@ -298,7 +298,7 @@ describe('Utils [veramo]', () => {
       expect(res).toIncludeSameMembers(expectedResult);
 
       const expectedState = getDefaultSnapState();
-      expectedState.accountState[address].vcs[res[0].id] = exampleVC;
+      expectedState.accountState[account].vcs[res[0].id] = exampleVC;
       await veramoDeleteVC({
         snap: snapMock,
         ethereum: ethereumMock,
@@ -332,7 +332,7 @@ describe('Utils [veramo]', () => {
       });
 
       const expectedState = getDefaultSnapState();
-      expectedState.accountState[address].vcs[res[0].id] = exampleVC;
+      expectedState.accountState[account].vcs[res[0].id] = exampleVC;
 
       expect(snapMock.rpcMocks.snap_manageState).toHaveBeenLastCalledWith({
         operation: 'update',
@@ -364,7 +364,7 @@ describe('Utils [veramo]', () => {
       });
 
       const expectedState = getDefaultSnapState();
-      expectedState.accountState[address].vcs[res[0].id] = exampleVC;
+      expectedState.accountState[account].vcs[res[0].id] = exampleVC;
 
       expect(snapMock.rpcMocks.snap_manageState).toHaveBeenLastCalledWith({
         operation: 'update',
@@ -421,7 +421,7 @@ describe('Utils [veramo]', () => {
         operation: 'get',
       });
 
-      state.accountState[address].accountConfig.ssi.vcStore = {
+      state.accountState[account].accountConfig.ssi.vcStore = {
         snap: true,
         ceramic: false,
       };
@@ -431,7 +431,7 @@ describe('Utils [veramo]', () => {
         newState: state,
       });
 
-      const resRet = snapUtils.getEnabledVCStores(address, state);
+      const resRet = snapUtils.getEnabledVCStores(account, state);
       expect(resRet).toEqual(['snap']);
 
       let queryRes = await veramoQueryVCs({
@@ -449,7 +449,7 @@ describe('Utils [veramo]', () => {
         operation: 'get',
       });
 
-      state.accountState[address].accountConfig.ssi.vcStore = {
+      state.accountState[account].accountConfig.ssi.vcStore = {
         snap: true,
         ceramic: true,
       };
@@ -459,7 +459,7 @@ describe('Utils [veramo]', () => {
         newState: state,
       });
 
-      const resRet2 = snapUtils.getEnabledVCStores(address, state);
+      const resRet2 = snapUtils.getEnabledVCStores(account, state);
       expect(resRet2).toEqual(['snap', 'ceramic']);
 
       queryRes = await veramoQueryVCs({
@@ -693,7 +693,7 @@ describe('Utils [veramo]', () => {
               snap: snapMock,
               ethereum: ethereumMock,
               state: initialState,
-              account: address,
+              account,
               bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
             },
             agent
@@ -720,7 +720,7 @@ describe('Utils [veramo]', () => {
               snap: snapMock,
               ethereum: ethereumMock,
               state: initialState,
-              account: address,
+              account,
               bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
             },
             agent
@@ -738,7 +738,7 @@ describe('Utils [veramo]', () => {
               snap: snapMock,
               ethereum: ethereumMock,
               state: initialState,
-              account: address,
+              account,
               bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
             },
             agent
@@ -954,7 +954,7 @@ describe('Utils [veramo]', () => {
           snap: snapMock,
           ethereum: ethereumMock,
           state: snapMock.rpcMocks.snap_manageState({ operation: 'get' }),
-          account: address,
+          account,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         },
         { proofFormat: 'jwt', vcs: [exampleVC] }
@@ -987,7 +987,7 @@ describe('Utils [veramo]', () => {
           snap: snapMock,
           ethereum: ethereumMock,
           state: snapMock.rpcMocks.snap_manageState({ operation: 'get' }),
-          account: address,
+          account,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         },
         {
@@ -1026,7 +1026,7 @@ describe('Utils [veramo]', () => {
           snap: snapMock,
           ethereum: ethereumMock,
           state: snapMock.rpcMocks.snap_manageState({ operation: 'get' }),
-          account: address,
+          account,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         },
         { proofFormat: 'EthereumEip712Signature2021', vcs: [exampleVC] }
@@ -1058,7 +1058,7 @@ describe('Utils [veramo]', () => {
           snap: snapMock,
           ethereum: ethereumMock,
           state: snapMock.rpcMocks.snap_manageState({ operation: 'get' }),
-          account: address,
+          account,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         },
         { proofFormat: 'jwt', vcs: [exampleVC] }
@@ -1090,7 +1090,7 @@ describe('Utils [veramo]', () => {
           snap: snapMock,
           ethereum: ethereumMock,
           state: snapMock.rpcMocks.snap_manageState({ operation: 'get' }),
-          account: address,
+          account,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         },
         { proofFormat: 'jwt', vcs: [exampleVC, exampleVC] }
@@ -1146,7 +1146,7 @@ describe('Utils [veramo]', () => {
           snap: snapMock,
           ethereum: ethereumMock,
           state: snapMock.rpcMocks.snap_manageState({ operation: 'get' }),
-          account: address,
+          account,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         },
         {
@@ -1188,7 +1188,7 @@ describe('Utils [veramo]', () => {
             snap: snapMock,
             ethereum: ethereumMock,
             state: snapMock.rpcMocks.snap_manageState({ operation: 'get' }),
-            account: address,
+            account,
             bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
           },
           { proofFormat: 'jwt', vcs: [{ id: res[0].id }] }

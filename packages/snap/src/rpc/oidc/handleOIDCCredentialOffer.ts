@@ -92,12 +92,12 @@ export async function handleOIDCCredentialOffer(
           types: selectedCredential.types,
         };
 
-  const res = await snapGetKeysFromAddress(
+  const res = await snapGetKeysFromAddress({
+    snap,
     bip44CoinTypeNode,
-    state,
     account,
-    snap
-  );
+    state,
+  });
 
   if (res === null) throw new Error('Could not get keys from address');
 

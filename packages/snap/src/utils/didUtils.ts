@@ -57,12 +57,12 @@ export async function getCurrentDid(params: {
     case 'did:pkh':
     case 'did:jwk': {
       const agent = await getAgent(snap, ethereum);
-      const res = await snapGetKeysFromAddress(
+      const res = await snapGetKeysFromAddress({
         bip44CoinTypeNode,
-        state,
         account,
-        snap
-      );
+        snap,
+        state,
+      });
 
       if (!res) throw new Error('Failed to get keys');
 

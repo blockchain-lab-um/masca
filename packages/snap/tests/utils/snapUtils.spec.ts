@@ -14,7 +14,7 @@ import {
 } from '../../src/utils/snapUtils';
 import * as snapUtils from '../../src/utils/snapUtils';
 import {
-  address,
+  account,
   bip44Entropy,
   compressedPublicKey,
   content,
@@ -39,7 +39,7 @@ describe('Utils [snap]', () => {
   describe('getCurrentAccount', () => {
     it('should succeed and return test account', () => {
       const state = getDefaultSnapState();
-      expect(getCurrentAccount(state)).toBe(address);
+      expect(getCurrentAccount(state)).toBe(account);
 
       expect.assertions(1);
     });
@@ -221,13 +221,13 @@ describe('Utils [snap]', () => {
   describe('getPublicKey', () => {
     it('should succeed getting public key', async () => {
       const initialState = getDefaultSnapState();
-      initialState.accountState[address].publicKey = '';
+      initialState.accountState[account].publicKey = '';
 
       await expect(
         getPublicKey({
           snap: snapMock,
           state: initialState,
-          account: address,
+          account,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         })
       ).resolves.toEqual(publicKey);
@@ -242,7 +242,7 @@ describe('Utils [snap]', () => {
         getPublicKey({
           snap: snapMock,
           state: initialState,
-          account: address,
+          account,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         })
       ).resolves.toEqual(publicKey);
@@ -254,11 +254,11 @@ describe('Utils [snap]', () => {
   describe('getCompressedPublicKey', () => {
     it('should generate correct compressed public key', async () => {
       const initialState = getDefaultSnapState();
-      initialState.accountState[address].publicKey = '';
+      initialState.accountState[account].publicKey = '';
       const pk = await getPublicKey({
         snap: snapMock,
         state: initialState,
-        account: address,
+        account,
         bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
       });
       const compressedPK = getCompressedPublicKey(pk);
@@ -305,7 +305,7 @@ describe('Utils [snap]', () => {
     it('should return ceramic & snap', () => {
       const state = getDefaultSnapState();
 
-      expect(snapUtils.getEnabledVCStores(address, state)).toEqual([
+      expect(snapUtils.getEnabledVCStores(account, state)).toEqual([
         'snap',
         'ceramic',
       ]);
@@ -317,7 +317,7 @@ describe('Utils [snap]', () => {
       const state = getDefaultSnapState();
 
       expect(
-        snapUtils.getEnabledVCStores(address, state, ['snap', 'ceramic'])
+        snapUtils.getEnabledVCStores(account, state, ['snap', 'ceramic'])
       ).toEqual(['snap', 'ceramic']);
 
       expect.assertions(1);
@@ -325,16 +325,17 @@ describe('Utils [snap]', () => {
 
     it('should return snap', () => {
       const state = getDefaultSnapState();
-      state.accountState[address].accountConfig.ssi.vcStore.ceramic = false;
-      expect(snapUtils.getEnabledVCStores(address, state)).toEqual(['snap']);
+      state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
+      expect(snapUtils.getEnabledVCStores(account, state)).toEqual(['snap']);
 
       expect.assertions(1);
     });
     it('should return snap (when ceramic is passed aswell)', () => {
       const state = getDefaultSnapState();
-      state.accountState[address].accountConfig.ssi.vcStore.ceramic = false;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
       expect(
-        snapUtils.getEnabledVCStores(address, state, ['snap', 'ceramic'])
+        snapUtils.getEnabledVCStores(account, state, ['snap', 'ceramic'])
       ).toEqual(['snap']);
 
       expect.assertions(1);
