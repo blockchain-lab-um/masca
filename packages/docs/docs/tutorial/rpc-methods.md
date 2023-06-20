@@ -200,7 +200,7 @@ Returns a VC.
 
 ```typescript
 export type CreateVPRequestParams = {
-  vcs: VCRequest[];
+  vcs: W3CVerifiableCredential[];
   proofFormat?: 'jwt' | 'lds' | 'EthereumEip712Signature2021';
   proofOptions?: {
     type?: string;
@@ -217,7 +217,7 @@ export type VCRequest = {
 };
 ```
 
-`vcs` is a list of VCs to be included in a VP. Its an array of objects that need to contain `id` of a VC (Which can be obtained using the `queryVCs` method). `metadata` property is optional and it contains `store` property which defines where to look for VC with id `id`.
+`vcs` is a list of VCs of type `W3CVerifiableCredential`.
 
 `proofFormat` can be jwt, jsonld or EthereumEip712Signature2021.
 
