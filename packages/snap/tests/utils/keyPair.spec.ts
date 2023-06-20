@@ -4,8 +4,8 @@ import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import { getEmptyAccountState } from '../../src/utils/config';
 import { snapGetKeysFromAddress } from '../../src/utils/keyPair';
 import {
-  address,
-  address2,
+  account,
+  account2,
   bip44Entropy,
   getDefaultSnapState,
   privateKey,
@@ -28,18 +28,17 @@ describe('keyPair', () => {
       const initialState = getDefaultSnapState();
 
       // Add another account
-      initialState.accountState[address2] = getEmptyAccountState();
+      initialState.accountState[account2] = getEmptyAccountState();
 
       // Derive keys for the first account
-      let res = await snapGetKeysFromAddress(
-        bip44Entropy as BIP44CoinTypeNode,
-        initialState,
-        address,
-        snapMock
-      );
+      let res = await snapGetKeysFromAddress({
+        bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
+        account,
+        snap: snapMock,
+      });
 
       expect(res).toStrictEqual({
-        address,
+        account,
         addressIndex: 0,
         derivationPath: "m / bip32:44' / bip32:60' / bip32:0' / bip32:0",
         privateKey,
@@ -47,15 +46,14 @@ describe('keyPair', () => {
       });
 
       // Derive keys for the second account
-      res = await snapGetKeysFromAddress(
-        bip44Entropy as BIP44CoinTypeNode,
-        initialState,
-        address2,
-        snapMock
-      );
+      res = await snapGetKeysFromAddress({
+        bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
+        account: account2,
+        snap: snapMock,
+      });
 
       expect(res).toStrictEqual({
-        address: address2,
+        address: account2,
         addressIndex: 1,
         derivationPath: "m / bip32:44' / bip32:60' / bip32:0' / bip32:0",
         privateKey: privateKey2,
@@ -70,12 +68,11 @@ describe('keyPair', () => {
       initialState.accountState['0x'] = getEmptyAccountState();
 
       await expect(
-        snapGetKeysFromAddress(
-          bip44Entropy as BIP44CoinTypeNode,
-          initialState,
-          '0x',
-          snapMock
-        )
+        snapGetKeysFromAddress({
+          bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
+          account: '0x',
+          snap: snapMock,
+        })
       ).rejects.toThrow('Failed to get keys');
 
       expect.assertions(1);

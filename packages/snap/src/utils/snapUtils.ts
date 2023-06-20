@@ -112,17 +112,25 @@ export async function getPublicKey(params: {
     return state.accountState[account].publicKey;
   }
 
-  const res = await snapGetKeysFromAddress(
+  const res = await snapGetKeysFromAddress({
+    snap,
     bip44CoinTypeNode,
-    state,
     account,
-    snap
-  );
+    state,
+  });
 
   if (res === null) throw new Error('Could not get keys from address');
   return res.publicKey;
 }
 
+/**
+ * Function that returns whether the user has confirmed the snap dialog.
+ *
+ * @param snap - snaps global object.
+ * @param content - content to display in the snap dialog.
+ *
+ * @returns boolean - whether the user has confirmed the snap dialog.
+ */
 export async function snapConfirm(
   snap: SnapsGlobalObject,
   content: Component
@@ -137,6 +145,15 @@ export async function snapConfirm(
   return res as boolean;
 }
 
+/**
+ * Function that returns the available VC stores for the passed account.
+ *
+ * @param account - account to get the available stores for.
+ * @param state - masca state object.
+ * @param vcstores - optional list of vcstores to check if enabled.
+ *
+ * @returns - list of available vcstores.
+ */
 export function getEnabledVCStores(
   account: string,
   state: MascaState,
@@ -153,6 +170,15 @@ export function getEnabledVCStores(
   );
 }
 
+/**
+ * Checks if the passed VC store is enabled for the passed account.
+ *
+ * @param account - account to check.
+ * @param state - masca state object.
+ * @param store - vc store to check.
+ *
+ * @returns boolean - whether the vc store is enabled.
+ */
 export function isEnabledVCStore(
   account: string,
   state: MascaState,
@@ -161,6 +187,18 @@ export function isEnabledVCStore(
   return state.accountState[account].accountConfig.ssi.vcStore[store];
 }
 
+/**
+ * Sets the passed public key to the passed account.
+ *
+ * @param state - masca state object.
+ * @param snap - snaps global object.
+ * @param ethereum - metamask inpage provider.
+ * @param account - account to set the public key for.
+ * @param bip44CoinTypeNode - optional bip44 coin type node.
+ * @param origin - origin of the request.
+ *
+ * @returns void
+ */
 export async function setAccountPublicKey(params: ApiParams): Promise<void> {
   const { state, snap, account, bip44CoinTypeNode } = params;
   const publicKey = await getPublicKey({

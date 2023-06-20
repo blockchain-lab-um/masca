@@ -21,12 +21,12 @@ export async function getDidEbsiIdentifier(params: {
   const agent = await getAgent(snap, ethereum);
   const provider = state.accountState[account].accountConfig.ssi.didMethod;
 
-  const res = await snapGetKeysFromAddress(
+  const res = await snapGetKeysFromAddress({
+    snap,
     bip44CoinTypeNode,
-    state,
     account,
-    snap
-  );
+    state,
+  });
   try {
     const identifier = await agent.didManagerCreate({
       provider,
@@ -34,7 +34,7 @@ export async function getDidEbsiIdentifier(params: {
       options: {
         ...args.options,
         privateKey: res?.privateKey,
-        id: keccak256(Buffer.from(res?.privateKey)).slice(2, 18), // usually random 16 bytes, in our case first 16 bytes of keccak hashed priv key
+        id: keccak256(Buffer.from(res?.privateKey as string)).slice(2, 18), // usually random 16 bytes, in our case first 16 bytes of keccak hashed priv key
       },
     });
     return identifier.did;
