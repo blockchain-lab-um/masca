@@ -245,7 +245,6 @@ describe('Utils [params]', () => {
         )
       ).toThrow(Error);
     });
-
     it('should fail if vcs is null', () => {
       expect(() =>
         isValidCreateVPRequest(
