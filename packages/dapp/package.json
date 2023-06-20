@@ -5,6 +5,7 @@
   "type": "commonjs",
   "scripts": {
     "build": "rimraf .next && next build",
+    "postbuild": "next-sitemap --config=next-sitemap.config.js",
     "build:docker": "pnpm build",
     "dev": "cross-env USE_LOCAL='true' next dev",
     "docker:build": "docker build . -t blockchain-lab-um/dapp:latest",
@@ -34,6 +35,7 @@
     "lint-staged": "^13.2.2",
     "next": "13.4.5",
     "next-intl": "2.15.0-beta.5",
+    "next-sitemap": "^4.1.3",
     "next-themes": "^0.2.1",
     "prettier-plugin-tailwindcss": "^0.3.0",
     "prop-types": "^15.8.1",

@@ -35,6 +35,16 @@ export const metadata: Metadata = {
     template: '%s | Masca',
   },
   description: 'Masca is a decentralized credential management platform.',
+  keywords: [
+    'Masca',
+    'MetaMask',
+    'Snaps',
+    'Self-Sovereign Identity',
+    'Next.js',
+    'Credential Management',
+    'Web3',
+    'DIDs',
+  ],
   openGraph: {
     title: 'Masca',
     description: 'Masca is a decentralized credential management platform.',
@@ -70,6 +80,7 @@ export const metadata: Metadata = {
   verification: {
     google: 'snsvYv9eAKOZ7FrIjpUSnUtqgoFiSXQWROVrStPBc8I',
   },
+  manifest: '/manifest.json',
 };
 
 export function generateStaticParams() {
