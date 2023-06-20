@@ -1,5 +1,4 @@
 import { clsx } from 'clsx';
-import React from 'react';
 
 interface TooltipProps {
   children: React.ReactNode;

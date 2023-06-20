@@ -6,7 +6,6 @@ import { notFound } from 'next/navigation';
 import clsx from 'clsx';
 import { NextIntlClientProvider } from 'next-intl';
 
-import React from 'react';
 import AnalyticsWrapper from '@/components/AnalyticsWrapper';
 import ThemeProvider from '@/components/ThemeProvider';
 
