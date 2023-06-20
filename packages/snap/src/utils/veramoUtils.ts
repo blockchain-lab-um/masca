@@ -87,6 +87,7 @@ export const veramoImportMetaMaskAccount = async (
     snap,
     bip44CoinTypeNode,
     account,
+    state,
   });
   if (!res) throw new Error('Failed to get keys');
 

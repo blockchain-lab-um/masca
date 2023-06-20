@@ -79,6 +79,7 @@ export async function sendOIDCAuthorizationResponse(
     snap,
     bip44CoinTypeNode,
     account,
+    state,
   });
 
   if (res === null) throw new Error('Could not get keys from address');

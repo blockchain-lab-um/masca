@@ -61,6 +61,7 @@ export async function getCurrentDid(params: {
         bip44CoinTypeNode,
         account,
         snap,
+        state,
       });
 
       if (!res) throw new Error('Failed to get keys');

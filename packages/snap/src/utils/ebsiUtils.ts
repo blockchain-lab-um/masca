@@ -25,6 +25,7 @@ export async function getDidEbsiIdentifier(params: {
     snap,
     bip44CoinTypeNode,
     account,
+    state,
   });
   try {
     const identifier = await agent.didManagerCreate({
