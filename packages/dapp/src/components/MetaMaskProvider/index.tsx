@@ -95,7 +95,7 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
   const enableMascaHandler = async () => {
     const enableResult = await enableMasca(address, {
       snapId,
-      version: 'latest',
+      version: '^0.2.1',
     });
     if (isError(enableResult)) {
       // FIXME: This error is shown as [Object object]
