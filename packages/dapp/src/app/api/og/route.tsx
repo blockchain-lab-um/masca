@@ -3,18 +3,18 @@ import { ImageResponse } from '@vercel/og';
 
 export const runtime = 'edge';
 
-const interRegular = fetch(
-  new URL('../../../../public/fonts/Inter-Regular.ttf', import.meta.url)
-).then((res) => res.arrayBuffer());
-
-const interBold = fetch(
-  new URL('../../../../public/fonts/Inter-Bold.ttf', import.meta.url)
-).then((res) => res.arrayBuffer());
-
 export async function GET(req: Request) {
+  const interRegular = fetch(
+    new URL('../../../../public/fonts/Inter-Regular.ttf', import.meta.url)
+  ).then((res) => res.arrayBuffer());
+
+  const calSansSemiBold = fetch(
+    new URL('../../../../public/fonts/CalSans-SemiBold.ttf', import.meta.url)
+  ).then((res) => res.arrayBuffer());
+
   try {
     const fontRegular = await interRegular;
-    const fontBold = await interBold;
+    const fontBold = await calSansSemiBold;
 
     const { searchParams } = new URL(req.url);
 
@@ -43,9 +43,9 @@ export async function GET(req: Request) {
             <div tw="flex w-full flex-col p-12 md:flex-row md:items-center">
               <div tw="flex flex-3 flex-col">
                 <h2
-                  tw="tracking-tight text-6xl"
+                  tw="text-6xl"
                   style={{
-                    fontFamily: 'Inter Bold',
+                    fontFamily: 'Cal Sans SemiBold',
                     fontWeight: 'bold',
                   }}
                 >
@@ -84,7 +84,7 @@ export async function GET(req: Request) {
             style: 'normal',
           },
           {
-            name: 'Inter Bold',
+            name: 'Cal Sans SemiBold',
             data: fontBold,
             weight: 700,
             style: 'normal',
