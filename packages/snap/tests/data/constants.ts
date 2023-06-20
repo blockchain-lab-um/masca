@@ -9,6 +9,12 @@ export const privateKey2 =
 
 
 
+// Query params
+
+export const jsonPath =
+  '$[?(@.data.credentialSubject.placeOfBirth == "Asgard")]';
+
+
 // Errors
 
 export const resolutionNotFound = {

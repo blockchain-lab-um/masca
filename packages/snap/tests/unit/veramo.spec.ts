@@ -5,16 +5,24 @@ import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 
 import {
-  veramoImportMetaMaskAccount,
+    veramoClearVCs,
+  veramoDeleteVC,
+  veramoImportMetaMaskAccount, veramoQueryVCs, veramoSaveVC,
 } from '../../src/utils/veramoUtils';
 import type { StoredCredentials } from '../../src/veramo/plugins/ceramicDataStore/ceramicDataStore';
 import { getAgent } from '../../src/veramo/setup';
 import {
-  account,
+  account, jsonPath,
 } from '../data/constants';
 import { exampleDIDKey, exampleDIDKeyImportedAccount } from '../data/identifiers/didKey';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
+import { getEnabledVCStores } from '../../src/utils/snapUtils';
+
+import * as exampleVC from '../data/verifiable-credentials/exampleJWT.json'
+import * as exampleVCJSONLD from '../data/verifiable-credentials/exampleJSONLD.json'
+import * as exampleVCEIP712 from '../data/verifiable-credentials/exampleEIP712.json'
+
 
 describe('Utils [veramo]', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
@@ -47,625 +55,625 @@ describe('Utils [veramo]', () => {
       });
   });
 
-//   describe('veramoSaveVC', () => {
-//     it('should succeed saving VC in snap store', async () => {
-//       const res = await veramoSaveVC({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         verifiableCredential: exampleVC,
-//         store: ['snap'],
-//       });
-
-//       const expectedResult = [
-//         {
-//           id: res[0].id,
-//           store: ['snap'],
-//         },
-//       ];
-
-//       expect(res).toEqual(expectedResult);
-//       expect.assertions(1);
-//     });
-
-//     it('should succeed saving JSON-LD VC in snap store', async () => {
-//       const res = await veramoSaveVC({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         verifiableCredential: exampleVCJSONLD,
-//         store: ['snap'],
-//       });
-
-//       const expectedResult = [
-//         {
-//           id: res[0].id,
-//           store: ['snap'],
-//         },
-//       ];
-
-//       expect(res).toEqual(expectedResult);
-
-//       const query = await veramoQueryVCs({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         options: {},
-//       });
-//       expect(query[0].data).toEqual(exampleVCJSONLD);
-//       expect.assertions(2);
-//     });
-
-//     it('should succeed saving EIP712 VC in snap store', async () => {
-//       const res = await veramoSaveVC({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         verifiableCredential: exampleVCEIP712,
-//         store: ['snap'],
-//       });
-
-//       const expectedResult = [
-//         {
-//           id: res[0].id,
-//           store: ['snap'],
-//         },
-//       ];
-
-//       expect(res).toEqual(expectedResult);
-//       const query = await veramoQueryVCs({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         options: {},
-//       });
-//       expect(query[0].data).toEqual(exampleVCEIP712);
-//       expect.assertions(2);
-//     });
-
-//     it('should succeed saving VC in snap and ceramic store', async () => {
-//       await veramoClearVCs({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         store: ['ceramic'],
-//       });
-
-//       const res = await veramoSaveVC({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         verifiableCredential: exampleVC,
-//         store: ['snap', 'ceramic'],
-//       });
-
-//       const expectedResult = [
-//         {
-//           id: res[0].id,
-//           store: expect.arrayContaining(['snap', 'ceramic']),
-//         },
-//       ];
-
-//       expect(res).toIncludeSameMembers(expectedResult);
-
-//       expect.assertions(1);
-//     });
-
-//     it('should succeed saving a JWT string in snap store', async () => {
-//       const res = await veramoSaveVC({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         verifiableCredential: exampleVC.proof.jwt,
-//         store: ['snap'],
-//       });
-//       const expectedResult = [
-//         {
-//           id: res[0].id,
-//           store: ['snap'],
-//         },
-//       ];
-
-//       expect(res).toEqual(expectedResult);
-//       expect.assertions(1);
-//     });
-//     it.todo('should fail saving invalid object');
-//   });
-
-//   describe('veramoDeleteVC', () => {
-//     it('should succeed deleting VCs in snap store', async () => {
-//       const res = await veramoSaveVC({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         verifiableCredential: exampleVC,
-//         store: ['snap'],
-//       });
-//       const expectedResult = [
-//         {
-//           id: res[0].id,
-//           store: ['snap'],
-//         },
-//       ];
-
-//       const expectedState = getDefaultSnapState(account);
-//       expectedState.accountState[account].vcs[res[0].id] = exampleVC;
-//       expect(res).toEqual(expectedResult);
-//       expect(snapMock.rpcMocks.snap_manageState).toHaveBeenLastCalledWith({
-//         operation: 'update',
-//         newState: expectedState,
-//       });
-
-//       await veramoDeleteVC({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         id: expectedResult[0].id,
-//         store: ['snap'],
-//       });
-
-//       const vcs = await veramoQueryVCs({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         options: { store: ['snap'], returnStore: true },
-//       });
-
-//       expect(vcs).toHaveLength(0);
-//       expect.assertions(3);
-//     });
-
-//     it('should succeed deleting VCs in ceramic store', async () => {
-//       const res = await veramoSaveVC({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         verifiableCredential: exampleVC,
-//         store: ['snap', 'ceramic'],
-//       });
-//       const expectedResult = [
-//         {
-//           id: res[0].id,
-//           store: expect.arrayContaining(['snap', 'ceramic']),
-//         },
-//       ];
-
-//       const vcsPreDelete = await veramoQueryVCs({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         options: { store: ['snap', 'ceramic'], returnStore: true },
-//       });
-
-//       expect(vcsPreDelete).toHaveLength(1);
-//       expect(vcsPreDelete[0].metadata.store).toIncludeSameMembers([
-//         'snap',
-//         'ceramic',
-//       ]);
-//       expect(res).toIncludeSameMembers(expectedResult);
-
-//       await veramoDeleteVC({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         id: expectedResult[0].id,
-//         store: ['ceramic'],
-//       });
-
-//       const vcs = await veramoQueryVCs({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         options: { returnStore: true },
-//       });
-
-//       const vcsPostDelete = await veramoQueryVCs({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         options: { store: ['snap', 'ceramic'], returnStore: true },
-//       });
-
-//       await veramoClearVCs({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         store: ['ceramic'],
-//       });
-
-//       expect(vcs).toHaveLength(1);
-//       expect(vcsPostDelete[0].metadata.store).toStrictEqual(['snap']);
-//       expect.assertions(5);
-//     });
-
-//     it('should succeed deleting VCs in all stores', async () => {
-//       await veramoClearVCs({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         store: ['ceramic'],
-//       });
-
-//       const res = await veramoSaveVC({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         verifiableCredential: exampleVC,
-//         store: ['snap', 'ceramic'],
-//       });
-//       const expectedResult = [
-//         {
-//           id: res[0].id,
-//           store: expect.arrayContaining(['snap', 'ceramic']),
-//         },
-//       ];
-
-//       expect(res).toIncludeSameMembers(expectedResult);
-
-//       const expectedState = getDefaultSnapState(account);
-//       expectedState.accountState[account].vcs[res[0].id] = exampleVC;
-//       await veramoDeleteVC({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         id: expectedResult[0].id,
-//       });
-
-//       await veramoDeleteVC({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         id: expectedResult[0].id,
-//       });
-
-//       const vcs = await veramoQueryVCs({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         options: { returnStore: true },
-//       });
-
-//       expect(vcs).toHaveLength(0);
-//       expect.assertions(2);
-//     });
-//   });
-
-//   describe('veramoClearVC', () => {
-//     it('should succeed clearing VCs in snap store', async () => {
-//       const res = await veramoSaveVC({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         verifiableCredential: exampleVC,
-//         store: ['snap'],
-//       });
-
-//       const expectedState = getDefaultSnapState(account);
-//       expectedState.accountState[account].vcs[res[0].id] = exampleVC;
-
-//       expect(snapMock.rpcMocks.snap_manageState).toHaveBeenLastCalledWith({
-//         operation: 'update',
-//         newState: expectedState,
-//       });
-
-//       await veramoClearVCs({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         store: ['snap'],
-//       });
-
-//       const vcs = await veramoQueryVCs({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         options: { store: ['snap'], returnStore: true },
-//       });
-
-//       expect(vcs).toHaveLength(0);
-//       expect.assertions(2);
-//     });
-
-//     it('should succeed clearing VCs in all stores', async () => {
-//       const res = await veramoSaveVC({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         verifiableCredential: exampleVC,
-//         store: ['snap'],
-//       });
-
-//       const expectedState = getDefaultSnapState(account);
-//       expectedState.accountState[account].vcs[res[0].id] = exampleVC;
-
-//       expect(snapMock.rpcMocks.snap_manageState).toHaveBeenLastCalledWith({
-//         operation: 'update',
-//         newState: expectedState,
-//       });
-
-//       await veramoClearVCs({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//       });
-
-//       const vcs = await veramoQueryVCs({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         options: { store: ['snap'], returnStore: true },
-//       });
-
-//       expect(vcs).toHaveLength(0);
-//       expect.assertions(2);
-//     });
-//   });
-
-//   describe('veramoQueryVCs', () => {
-//     it('should succeed listing all VCs from snap store - empty result', async () => {
-//       await expect(
-//         veramoQueryVCs({
-//           snap: snapMock,
-//           ethereum: ethereumMock,
-//           options: { store: ['snap'], returnStore: true },
-//         })
-//       ).resolves.toEqual([]);
-
-//       expect.assertions(1);
-//     });
-
-//     it('should return all VCs from snap store - toggle ceramicVCStore', async () => {
-//       let state = getDefaultSnapState(account);
-
-//       await veramoSaveVC({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         verifiableCredential: exampleVC,
-//         store: ['snap', 'ceramic'],
-//       });
-
-//       const preQuery = await veramoQueryVCs({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         options: {},
-//       });
-//       expect(preQuery).toHaveLength(1);
-
-//       state = snapMock.rpcMocks.snap_manageState({
-//         operation: 'get',
-//       });
-
-//       state.accountState[account].accountConfig.ssi.vcStore = {
-//         snap: true,
-//         ceramic: false,
-//       };
-
-//       snapMock.rpcMocks.snap_manageState({
-//         operation: 'update',
-//         newState: state,
-//       });
-
-//       const resRet = snapUtils.getEnabledVCStores(account, state);
-//       expect(resRet).toEqual(['snap']);
-
-//       let queryRes = await veramoQueryVCs({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         options: {
-//           returnStore: true,
-//         },
-//       });
-
-//       expect(queryRes).toHaveLength(1);
-//       expect(queryRes[0].metadata.store).toEqual(['snap']);
-
-//       state = snapMock.rpcMocks.snap_manageState({
-//         operation: 'get',
-//       });
-
-//       state.accountState[account].accountConfig.ssi.vcStore = {
-//         snap: true,
-//         ceramic: true,
-//       };
-
-//       snapMock.rpcMocks.snap_manageState({
-//         operation: 'update',
-//         newState: state,
-//       });
-
-//       const resRet2 = snapUtils.getEnabledVCStores(account, state);
-//       expect(resRet2).toEqual(['snap', 'ceramic']);
-
-//       queryRes = await veramoQueryVCs({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         options: {
-//           returnStore: true,
-//         },
-//       });
-
-//       expect(queryRes).toHaveLength(1);
-//       expect(queryRes[0].metadata.store).toIncludeSameMembers([
-//         'snap',
-//         'ceramic',
-//       ]);
-
-//       expect.assertions(7);
-//     });
-
-//     it('should succeed listing all VCs from snap store', async () => {
-//       const res = await veramoSaveVC({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         verifiableCredential: exampleVC,
-//         store: ['snap'],
-//       });
-
-//       const expectedVCObject = {
-//         data: exampleVC,
-//         metadata: { id: res[0].id, store: ['snap'] },
-//       };
-//       await expect(
-//         veramoQueryVCs({
-//           snap: snapMock,
-//           ethereum: ethereumMock,
-//           options: { store: ['snap'], returnStore: true },
-//         })
-//       ).resolves.toEqual([expectedVCObject]);
-
-//       expect.assertions(1);
-//     });
-
-//     it('should succeed listing JWT VC from snap store', async () => {
-//       const res = await veramoSaveVC({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         verifiableCredential: exampleVC.proof.jwt,
-//         store: ['snap'],
-//       });
-
-//       const expectedResult = [
-//         {
-//           id: res[0].id,
-//           store: ['snap'],
-//         },
-//       ];
-
-//       expect(res).toEqual(expectedResult);
-
-//       const vcs = await veramoQueryVCs({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         options: { store: ['snap'], returnStore: true },
-//       });
-
-//       expect(vcs).toHaveLength(1);
-//       expect(vcs[0].data).toEqual(exampleVCinVP);
-
-//       expect.assertions(3);
-//     });
-
-//     it('should succeed listing all VCs from snap store - without returnStore', async () => {
-//       const res = await veramoSaveVC({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         verifiableCredential: exampleVC,
-//         store: ['snap'],
-//       });
-
-//       const expectedVCObject = {
-//         data: exampleVC,
-//         metadata: { id: res[0].id },
-//       };
-
-//       const queryRes = await veramoQueryVCs({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         options: { store: ['snap'], returnStore: false },
-//       });
-//       expect(queryRes).toStrictEqual([expectedVCObject]);
-//       expect(queryRes[0].metadata.store).toBeUndefined();
-
-//       expect.assertions(2);
-//     });
-
-//     it('should succeed querying all VCs from snap store that match JSONPath', async () => {
-//       const res = await veramoSaveVC({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         verifiableCredential: exampleVC,
-//         store: ['snap'],
-//       });
-
-//       const expectedVCObject = {
-//         data: exampleVC,
-//         metadata: { id: res[0].id, store: ['snap'] },
-//       };
-//       await expect(
-//         veramoQueryVCs({
-//           snap: snapMock,
-//           ethereum: ethereumMock,
-//           options: { store: ['snap'], returnStore: true },
-//           filter: {
-//             type: 'JSONPath',
-//             filter: jsonPath,
-//           },
-//         })
-//       ).resolves.toEqual([expectedVCObject]);
-
-//       expect.assertions(1);
-//     });
-
-//     it('should succeed querying all VCs from all stores that match JSONPath', async () => {
-//       const res = await veramoSaveVC({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         verifiableCredential: exampleVC,
-//         store: ['snap'],
-//       });
-
-//       const expectedVCObject = {
-//         data: exampleVC,
-//         metadata: { id: res[0].id, store: ['snap'] },
-//       };
-
-//       const filter = {
-//         type: 'JSONPath',
-//         filter: jsonPath,
-//       };
-//       await expect(
-//         veramoQueryVCs({
-//           snap: snapMock,
-//           ethereum: ethereumMock,
-//           filter,
-//           options: { store: ['snap'], returnStore: true },
-//         })
-//       ).resolves.toEqual([expectedVCObject]);
-
-//       expect.assertions(1);
-//     });
-
-//     it('should succeed listing all VCs from snap store matching query - empty query', async () => {
-//       const res = await veramoSaveVC({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         verifiableCredential: exampleVC,
-//         store: ['snap'],
-//       });
-
-//       const expectedVCObject = {
-//         data: exampleVC,
-//         metadata: { id: res[0].id, store: ['snap'] },
-//       };
-//       await expect(
-//         veramoQueryVCs({
-//           snap: snapMock,
-//           ethereum: ethereumMock,
-//           options: { store: ['snap'], returnStore: true },
-//           filter: { type: 'none', filter: {} },
-//         })
-//       ).resolves.toEqual([expectedVCObject]);
-
-//       expect.assertions(1);
-//     });
-
-//     it('should succeed listing all VCs from snap store matching query', async () => {
-//       const res = await veramoSaveVC({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         verifiableCredential: exampleVC,
-//         store: ['snap'],
-//       });
-
-//       const expectedVCObject = {
-//         data: exampleVC,
-//         metadata: { id: res[0].id, store: ['snap'] },
-//       };
-
-//       await expect(
-//         veramoQueryVCs({
-//           snap: snapMock,
-//           ethereum: ethereumMock,
-//           options: { store: ['snap'], returnStore: true },
-//           filter: { type: 'id', filter: res[0].id },
-//         })
-//       ).resolves.toEqual([expectedVCObject]);
-
-//       expect.assertions(1);
-//     });
-
-//     it('should succeed listing all VCs from snap store matching query - empty result', async () => {
-//       await veramoSaveVC({
-//         snap: snapMock,
-//         ethereum: ethereumMock,
-//         verifiableCredential: exampleVC,
-//         store: ['snap'],
-//       });
-
-//       await expect(
-//         veramoQueryVCs({
-//           snap: snapMock,
-//           ethereum: ethereumMock,
-//           options: { store: ['snap'], returnStore: true },
-//           filter: { type: 'id', filter: 'test-idd' },
-//         })
-//       ).resolves.toEqual([]);
-
-//       expect.assertions(1);
-//     });
-//   });
+  describe('veramoSaveVC', () => {
+    it('should succeed saving VC in snap store', async () => {
+      const res = await veramoSaveVC({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        verifiableCredential: exampleVC,
+        store: ['snap'],
+      });
+
+      const expectedResult = [
+        {
+          id: res[0].id,
+          store: ['snap'],
+        },
+      ];
+
+      expect(res).toEqual(expectedResult);
+      expect.assertions(1);
+    });
+
+    it('should succeed saving JSON-LD VC in snap store', async () => {
+      const res = await veramoSaveVC({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        verifiableCredential: exampleVCJSONLD,
+        store: ['snap'],
+      });
+
+      const expectedResult = [
+        {
+          id: res[0].id,
+          store: ['snap'],
+        },
+      ];
+
+      expect(res).toEqual(expectedResult);
+
+      const query = await veramoQueryVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        options: {},
+      });
+      expect(query[0].data).toEqual(exampleVCJSONLD);
+      expect.assertions(2);
+    });
+
+    it('should succeed saving EIP712 VC in snap store', async () => {
+      const res = await veramoSaveVC({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        verifiableCredential: exampleVCEIP712,
+        store: ['snap'],
+      });
+
+      const expectedResult = [
+        {
+          id: res[0].id,
+          store: ['snap'],
+        },
+      ];
+
+      expect(res).toEqual(expectedResult);
+      const query = await veramoQueryVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        options: {},
+      });
+      expect(query[0].data).toEqual(exampleVCEIP712);
+      expect.assertions(2);
+    });
+
+    it('should succeed saving VC in snap and ceramic store', async () => {
+      await veramoClearVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        store: ['ceramic'],
+      });
+
+      const res = await veramoSaveVC({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        verifiableCredential: exampleVC,
+        store: ['snap', 'ceramic'],
+      });
+
+      const expectedResult = [
+        {
+          id: res[0].id,
+          store: expect.arrayContaining(['snap', 'ceramic']),
+        },
+      ];
+
+      expect(res).toIncludeSameMembers(expectedResult);
+
+      expect.assertions(1);
+    });
+
+    it('should succeed saving a JWT string in snap store', async () => {
+      const res = await veramoSaveVC({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        verifiableCredential: exampleVC.proof.jwt,
+        store: ['snap'],
+      });
+      const expectedResult = [
+        {
+          id: res[0].id,
+          store: ['snap'],
+        },
+      ];
+
+      expect(res).toEqual(expectedResult);
+      expect.assertions(1);
+    });
+    it.todo('should fail saving invalid object');
+  });
+
+  describe('veramoDeleteVC', () => {
+    it('should succeed deleting VCs in snap store', async () => {
+      const res = await veramoSaveVC({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        verifiableCredential: exampleVC,
+        store: ['snap'],
+      });
+      const expectedResult = [
+        {
+          id: res[0].id,
+          store: ['snap'],
+        },
+      ];
+
+      const expectedState = getDefaultSnapState(account);
+      expectedState.accountState[account].vcs[res[0].id] = exampleVC;
+      expect(res).toEqual(expectedResult);
+      expect(snapMock.rpcMocks.snap_manageState).toHaveBeenLastCalledWith({
+        operation: 'update',
+        newState: expectedState,
+      });
+
+      await veramoDeleteVC({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        id: expectedResult[0].id,
+        store: ['snap'],
+      });
+
+      const vcs = await veramoQueryVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        options: { store: ['snap'], returnStore: true },
+      });
+
+      expect(vcs).toHaveLength(0);
+      expect.assertions(3);
+    });
+
+    it('should succeed deleting VCs in ceramic store', async () => {
+      const res = await veramoSaveVC({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        verifiableCredential: exampleVC,
+        store: ['snap', 'ceramic'],
+      });
+      const expectedResult = [
+        {
+          id: res[0].id,
+          store: expect.arrayContaining(['snap', 'ceramic']),
+        },
+      ];
+
+      const vcsPreDelete = await veramoQueryVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        options: { store: ['snap', 'ceramic'], returnStore: true },
+      });
+
+      expect(vcsPreDelete).toHaveLength(1);
+      expect(vcsPreDelete[0].metadata.store).toIncludeSameMembers([
+        'snap',
+        'ceramic',
+      ]);
+      expect(res).toIncludeSameMembers(expectedResult);
+
+      await veramoDeleteVC({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        id: expectedResult[0].id,
+        store: ['ceramic'],
+      });
+
+      const vcs = await veramoQueryVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        options: { returnStore: true },
+      });
+
+      const vcsPostDelete = await veramoQueryVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        options: { store: ['snap', 'ceramic'], returnStore: true },
+      });
+
+      await veramoClearVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        store: ['ceramic'],
+      });
+
+      expect(vcs).toHaveLength(1);
+      expect(vcsPostDelete[0].metadata.store).toStrictEqual(['snap']);
+      expect.assertions(5);
+    });
+
+    it('should succeed deleting VCs in all stores', async () => {
+      await veramoClearVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        store: ['ceramic'],
+      });
+
+      const res = await veramoSaveVC({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        verifiableCredential: exampleVC,
+        store: ['snap', 'ceramic'],
+      });
+      const expectedResult = [
+        {
+          id: res[0].id,
+          store: expect.arrayContaining(['snap', 'ceramic']),
+        },
+      ];
+
+      expect(res).toIncludeSameMembers(expectedResult);
+
+      const expectedState = getDefaultSnapState(account);
+      expectedState.accountState[account].vcs[res[0].id] = exampleVC;
+      await veramoDeleteVC({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        id: expectedResult[0].id,
+      });
+
+      await veramoDeleteVC({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        id: expectedResult[0].id,
+      });
+
+      const vcs = await veramoQueryVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        options: { returnStore: true },
+      });
+
+      expect(vcs).toHaveLength(0);
+      expect.assertions(2);
+    });
+  });
+
+  describe('veramoClearVC', () => {
+    it('should succeed clearing VCs in snap store', async () => {
+      const res = await veramoSaveVC({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        verifiableCredential: exampleVC,
+        store: ['snap'],
+      });
+
+      const expectedState = getDefaultSnapState(account);
+      expectedState.accountState[account].vcs[res[0].id] = exampleVC;
+
+      expect(snapMock.rpcMocks.snap_manageState).toHaveBeenLastCalledWith({
+        operation: 'update',
+        newState: expectedState,
+      });
+
+      await veramoClearVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        store: ['snap'],
+      });
+
+      const vcs = await veramoQueryVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        options: { store: ['snap'], returnStore: true },
+      });
+
+      expect(vcs).toHaveLength(0);
+      expect.assertions(2);
+    });
+
+    it('should succeed clearing VCs in all stores', async () => {
+      const res = await veramoSaveVC({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        verifiableCredential: exampleVC,
+        store: ['snap'],
+      });
+
+      const expectedState = getDefaultSnapState(account);
+      expectedState.accountState[account].vcs[res[0].id] = exampleVC;
+
+      expect(snapMock.rpcMocks.snap_manageState).toHaveBeenLastCalledWith({
+        operation: 'update',
+        newState: expectedState,
+      });
+
+      await veramoClearVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+      });
+
+      const vcs = await veramoQueryVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        options: { store: ['snap'], returnStore: true },
+      });
+
+      expect(vcs).toHaveLength(0);
+      expect.assertions(2);
+    });
+  });
+
+  describe('veramoQueryVCs', () => {
+    it('should succeed listing all VCs from snap store - empty result', async () => {
+      await expect(
+        veramoQueryVCs({
+          snap: snapMock,
+          ethereum: ethereumMock,
+          options: { store: ['snap'], returnStore: true },
+        })
+      ).resolves.toEqual([]);
+
+      expect.assertions(1);
+    });
+
+    it('should return all VCs from snap store - toggle ceramicVCStore', async () => {
+      let state = getDefaultSnapState(account);
+
+      await veramoSaveVC({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        verifiableCredential: exampleVC,
+        store: ['snap', 'ceramic'],
+      });
+
+      const preQuery = await veramoQueryVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        options: {},
+      });
+      expect(preQuery).toHaveLength(1);
+
+      state = snapMock.rpcMocks.snap_manageState({
+        operation: 'get',
+      });
+
+      state.accountState[account].accountConfig.ssi.vcStore = {
+        snap: true,
+        ceramic: false,
+      };
+
+      snapMock.rpcMocks.snap_manageState({
+        operation: 'update',
+        newState: state,
+      });
+
+      const resRet = getEnabledVCStores(account, state);
+      expect(resRet).toEqual(['snap']);
+
+      let queryRes = await veramoQueryVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        options: {
+          returnStore: true,
+        },
+      });
+
+      expect(queryRes).toHaveLength(1);
+      expect(queryRes[0].metadata.store).toEqual(['snap']);
+
+      state = snapMock.rpcMocks.snap_manageState({
+        operation: 'get',
+      });
+
+      state.accountState[account].accountConfig.ssi.vcStore = {
+        snap: true,
+        ceramic: true,
+      };
+
+      snapMock.rpcMocks.snap_manageState({
+        operation: 'update',
+        newState: state,
+      });
+
+      const resRet2 = getEnabledVCStores(account, state);
+      expect(resRet2).toEqual(['snap', 'ceramic']);
+
+      queryRes = await veramoQueryVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        options: {
+          returnStore: true,
+        },
+      });
+
+      expect(queryRes).toHaveLength(1);
+      expect(queryRes[0].metadata.store).toIncludeSameMembers([
+        'snap',
+        'ceramic',
+      ]);
+
+      expect.assertions(7);
+    });
+
+    it('should succeed listing all VCs from snap store', async () => {
+      const res = await veramoSaveVC({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        verifiableCredential: exampleVC,
+        store: ['snap'],
+      });
+
+      const expectedVCObject = {
+        data: exampleVC,
+        metadata: { id: res[0].id, store: ['snap'] },
+      };
+      await expect(
+        veramoQueryVCs({
+          snap: snapMock,
+          ethereum: ethereumMock,
+          options: { store: ['snap'], returnStore: true },
+        })
+      ).resolves.toEqual([expectedVCObject]);
+
+      expect.assertions(1);
+    });
+
+    it('should succeed listing JWT VC from snap store', async () => {
+      
+        const res = await veramoSaveVC({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        verifiableCredential: exampleVC.proof.jwt,
+        store: ['snap'],
+      });
+
+      const expectedResult = [
+        {
+          id: res[0].id,
+          store: ['snap'],
+        },
+      ];
+
+      expect(res).toEqual(expectedResult);
+
+      const vcs = await veramoQueryVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        options: { store: ['snap'], returnStore: true },
+      });
+
+      expect(vcs).toHaveLength(1);
+      expect(vcs[0].data).toContainAllKeys(["credentialSubject", "issuer", "id", "type", "credentialStatus", "@context", "issuanceDate", "proof"]);
+      expect.assertions(3);
+    });
+
+    it('should succeed listing all VCs from snap store - without returnStore', async () => {
+      const res = await veramoSaveVC({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        verifiableCredential: exampleVC,
+        store: ['snap'],
+      });
+
+      const expectedVCObject = {
+        data: exampleVC,
+        metadata: { id: res[0].id },
+      };
+
+      const queryRes = await veramoQueryVCs({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        options: { store: ['snap'], returnStore: false },
+      });
+      expect(queryRes).toStrictEqual([expectedVCObject]);
+      expect(queryRes[0].metadata.store).toBeUndefined();
+
+      expect.assertions(2);
+    });
+
+    it('should succeed querying all VCs from snap store that match JSONPath', async () => {
+      const res = await veramoSaveVC({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        verifiableCredential: exampleVC,
+        store: ['snap'],
+      });
+
+      const expectedVCObject = {
+        data: exampleVC,
+        metadata: { id: res[0].id, store: ['snap'] },
+      };
+      await expect(
+        veramoQueryVCs({
+          snap: snapMock,
+          ethereum: ethereumMock,
+          options: { store: ['snap'], returnStore: true },
+          filter: {
+            type: 'JSONPath',
+            filter: jsonPath,
+          },
+        })
+      ).resolves.toEqual([expectedVCObject]);
+
+      expect.assertions(1);
+    });
+
+    it('should succeed querying all VCs from all stores that match JSONPath', async () => {
+      const res = await veramoSaveVC({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        verifiableCredential: exampleVC,
+        store: ['snap'],
+      });
+
+      const expectedVCObject = {
+        data: exampleVC,
+        metadata: { id: res[0].id, store: ['snap'] },
+      };
+
+      const filter = {
+        type: 'JSONPath',
+        filter: jsonPath,
+      };
+      await expect(
+        veramoQueryVCs({
+          snap: snapMock,
+          ethereum: ethereumMock,
+          filter,
+          options: { store: ['snap'], returnStore: true },
+        })
+      ).resolves.toEqual([expectedVCObject]);
+
+      expect.assertions(1);
+    });
+
+    it('should succeed listing all VCs from snap store matching query - empty query', async () => {
+      const res = await veramoSaveVC({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        verifiableCredential: exampleVC,
+        store: ['snap'],
+      });
+
+      const expectedVCObject = {
+        data: exampleVC,
+        metadata: { id: res[0].id, store: ['snap'] },
+      };
+      await expect(
+        veramoQueryVCs({
+          snap: snapMock,
+          ethereum: ethereumMock,
+          options: { store: ['snap'], returnStore: true },
+          filter: { type: 'none', filter: {} },
+        })
+      ).resolves.toEqual([expectedVCObject]);
+
+      expect.assertions(1);
+    });
+
+    it('should succeed listing all VCs from snap store matching query', async () => {
+      const res = await veramoSaveVC({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        verifiableCredential: exampleVC,
+        store: ['snap'],
+      });
+
+      const expectedVCObject = {
+        data: exampleVC,
+        metadata: { id: res[0].id, store: ['snap'] },
+      };
+
+      await expect(
+        veramoQueryVCs({
+          snap: snapMock,
+          ethereum: ethereumMock,
+          options: { store: ['snap'], returnStore: true },
+          filter: { type: 'id', filter: res[0].id },
+        })
+      ).resolves.toEqual([expectedVCObject]);
+
+      expect.assertions(1);
+    });
+
+    it('should succeed listing all VCs from snap store matching query - empty result', async () => {
+      await veramoSaveVC({
+        snap: snapMock,
+        ethereum: ethereumMock,
+        verifiableCredential: exampleVC,
+        store: ['snap'],
+      });
+
+      await expect(
+        veramoQueryVCs({
+          snap: snapMock,
+          ethereum: ethereumMock,
+          options: { store: ['snap'], returnStore: true },
+          filter: { type: 'id', filter: 'test-idd' },
+        })
+      ).resolves.toEqual([]);
+
+      expect.assertions(1);
+    });
+  });
 
   describe('veramoImportMetaMaskAccount', () => {
     it('should succeed importing metamask account', async () => {
