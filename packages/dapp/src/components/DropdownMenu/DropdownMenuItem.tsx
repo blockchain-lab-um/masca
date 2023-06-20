@@ -1,7 +1,6 @@
 import { Menu } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/24/outline';
 import { clsx } from 'clsx';
-import React from 'react';
 
 type DropdownMenuItemProps = {
   children: React.ReactNode;
