@@ -10,7 +10,7 @@ import {
   resolveDid,
 } from '../../src/utils/didUtils';
 import {
-  address,
+  account,
   bip44Entropy,
   exampleDID,
   exampleDIDDocument,
@@ -46,7 +46,7 @@ describe('Utils [did]', () => {
         changeCurrentVCStore({
           snap: snapMock,
           state: initialState,
-          account: address,
+          account,
           didStore: 'snap',
           value: true,
         })
@@ -69,14 +69,14 @@ describe('Utils [did]', () => {
         changeCurrentVCStore({
           snap: snapMock,
           state: initialState,
-          account: address,
+          account,
           didStore: 'ceramic',
           value: true,
         })
       ).resolves.not.toThrow();
 
       const expectedState = getDefaultSnapState();
-      expectedState.accountState[address].accountConfig.ssi.vcStore.ceramic =
+      expectedState.accountState[account].accountConfig.ssi.vcStore.ceramic =
         true;
 
       expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith({
@@ -94,7 +94,7 @@ describe('Utils [did]', () => {
 
       const ctx = new EC('secp256k1');
       const ecPublicKey = ctx.keyFromPublic(
-        initialState.accountState[address].publicKey.slice(2),
+        initialState.accountState[account].publicKey.slice(2),
         'hex'
       );
       const compactPublicKey = `0x${ecPublicKey.getPublic(true, 'hex')}`;
@@ -106,7 +106,7 @@ describe('Utils [did]', () => {
           ethereum: ethereumMock,
           snap: snapMock,
           state: initialState,
-          account: address,
+          account,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         })
       ).resolves.toBe(expectedDid);
@@ -116,7 +116,7 @@ describe('Utils [did]', () => {
 
     it('should return did:key', async () => {
       const initialState = getDefaultSnapState();
-      initialState.accountState[address].accountConfig.ssi.didMethod =
+      initialState.accountState[account].accountConfig.ssi.didMethod =
         'did:key';
 
       await expect(
@@ -124,7 +124,7 @@ describe('Utils [did]', () => {
           ethereum: ethereumMock,
           snap: snapMock,
           state: initialState,
-          account: address,
+          account,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         })
       ).resolves.toBe(exampleDIDKey);
@@ -141,7 +141,7 @@ describe('Utils [did]', () => {
         changeCurrentMethod({
           state: initialState,
           snap: snapMock,
-          account: address,
+          account,
           ethereum: ethereumMock,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
 
@@ -159,7 +159,7 @@ describe('Utils [did]', () => {
         changeCurrentMethod({
           state: initialState,
           snap: snapMock,
-          account: address,
+          account,
           ethereum: ethereumMock,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
           didMethod: 'did:key',
