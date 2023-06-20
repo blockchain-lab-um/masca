@@ -1,5 +1,40 @@
 # Changelog
 
+## [0.2.1](https://github.com/blockchain-lab-um/masca/compare/masca-types-v0.2.0...masca-types-v0.2.1) (2023-06-19)
+
+
+### chore
+
+* **masca-types:** Synchronize masca-core versions
+
+## [0.2.0](https://github.com/blockchain-lab-um/masca/compare/masca-types-v0.1.0...masca-types-v0.2.0) (2023-06-19)
+
+
+### :bug: Bug Fixes
+
+* add verifyData rpc method to connector ([#243](https://github.com/blockchain-lab-um/masca/issues/243)) ([a67606a](https://github.com/blockchain-lab-um/masca/commit/a67606a279a20247e7d59bd7bbea62eca49b8fa9))
+
+
+### :rocket: Features
+
+* implement ceramic session ([#246](https://github.com/blockchain-lab-um/masca/issues/246)) ([dc6f985](https://github.com/blockchain-lab-um/masca/commit/dc6f985892dbbb2608b736d3d0693827bf3ec25f))
+* nextjs app dir ([#227](https://github.com/blockchain-lab-um/masca/issues/227)) ([be5dce3](https://github.com/blockchain-lab-um/masca/commit/be5dce37ef6485bd0c97b11057ef015205b9cb10))
+* OIDC apps and libs ([#88](https://github.com/blockchain-lab-um/masca/issues/88)) ([14feb50](https://github.com/blockchain-lab-um/masca/commit/14feb5022e578002ce475892c29b5ebedf61778d))
+
+## [0.2.0](https://github.com/blockchain-lab-um/masca/compare/masca-types-v0.1.0...masca-types-v0.2.0) (2023-06-19)
+
+
+### :bug: Bug Fixes
+
+* add verifyData rpc method to connector ([#243](https://github.com/blockchain-lab-um/masca/issues/243)) ([a67606a](https://github.com/blockchain-lab-um/masca/commit/a67606a279a20247e7d59bd7bbea62eca49b8fa9))
+
+
+### :rocket: Features
+
+* implement ceramic session ([#246](https://github.com/blockchain-lab-um/masca/issues/246)) ([dc6f985](https://github.com/blockchain-lab-um/masca/commit/dc6f985892dbbb2608b736d3d0693827bf3ec25f))
+* nextjs app dir ([#227](https://github.com/blockchain-lab-um/masca/issues/227)) ([be5dce3](https://github.com/blockchain-lab-um/masca/commit/be5dce37ef6485bd0c97b11057ef015205b9cb10))
+* OIDC apps and libs ([#88](https://github.com/blockchain-lab-um/masca/issues/88)) ([14feb50](https://github.com/blockchain-lab-um/masca/commit/14feb5022e578002ce475892c29b5ebedf61778d))
+
 ## [0.1.0](https://github.com/blockchain-lab-um/masca/compare/masca-types-v0.1.0...masca-types-v0.1.0) (2023-05-04)
 
 

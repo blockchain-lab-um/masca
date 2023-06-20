@@ -203,7 +203,7 @@ function MenuPopover() {
                       />
                     </Link>
                   ))}
-                  {INTERNAL_EXTRA_LINKS.map((link) => (
+                  {/* {INTERNAL_EXTRA_LINKS.map((link) => (
                     <Link
                       key={link.name}
                       href={link.href}
@@ -215,7 +215,7 @@ function MenuPopover() {
                         description={t(`dropdown.description.${link.name}`)}
                       />
                     </Link>
-                  ))}
+                  ))} */}
                   {EXTERNAL_LINKS.map((link) => (
                     <a
                       key={link.name}

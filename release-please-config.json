@@ -1,7 +1,7 @@
 {
   "bootstrap-sha": "fb5be641c5170d6febd191eb63cec57819635689",
   "releaseType": "node",
-  "separate-pull-requests": true,
+  "separate-pull-requests": false,
   "changelog-sections": [
     {
       "type": "feat",
@@ -24,7 +24,6 @@
   ],
   "packages": {
     "packages/connector": {
-      "release-as": "0.1.0",
       "component": "masca-connector",
       "releaseType": "node",
       "bumpMinorPreMajor": true,
@@ -33,7 +32,6 @@
       "versioning": "default"
     },
     "packages/types": {
-      "release-as": "0.1.0",
       "component": "masca-types",
       "releaseType": "node",
       "bumpMinorPreMajor": true,
@@ -42,7 +40,6 @@
       "versioning": "default"
     },
     "packages/datamanager": {
-      "release-as": "0.1.0",
       "component": "veramo-datamanager",
       "releaseType": "node",
       "bumpMinorPreMajor": true,
@@ -51,7 +48,6 @@
       "versioning": "default"
     },
     "packages/snap": {
-      "release-as": "0.1.0",
       "component": "masca",
       "releaseType": "node",
       "bumpMinorPreMajor": true,
@@ -67,6 +63,7 @@
       ]
     },
     "libs/utils": {
+      "separate-pull-requests": true,
       "component": "utils",
       "releaseType": "node",
       "bumpMinorPreMajor": false,
@@ -75,8 +72,18 @@
       "versioning": "default"
     },
     "libs/did-provider-ebsi": {
-      "release-as": "1.0.0",
+      "separate-pull-requests": true,
       "component": "did-provider-ebsi",
+      "releaseType": "node",
+      "bumpMinorPreMajor": false,
+      "bumpPatchForMinorPreMajor": false,
+      "changelogPath": "CHANGELOG.md",
+      "versioning": "default"
+    },
+    "libs/did-provider-key": {
+      "separate-pull-requests": true,
+      "release-as": "1.0.0",
+      "component": "did-provider-key",
       "releaseType": "node",
       "bumpMinorPreMajor": false,
       "bumpPatchForMinorPreMajor": false,
@@ -86,6 +93,7 @@
   },
   "plugins": [
     {
+      "separate-pull-requests": true,
       "type": "linked-versions",
       "groupName": "masca-core",
       "components": [
