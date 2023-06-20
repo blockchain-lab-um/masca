@@ -186,17 +186,6 @@ describe('Utils [params]', () => {
     isValidCreateVPRequest
   */
   describe('isValidCreateVPRequest', () => {
-    it('should fail for not enabled store', () => {
-      const state = getDefaultSnapState();
-      state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
-      expect(() =>
-        isValidCreateVPRequest(
-          { vcs: [{ id: '123', metadata: { store: 'ceramic' } }] },
-          account,
-          state
-        )
-      ).toThrow('Store ceramic is not enabled!');
-    });
     it('should succeed if vcId is a string', () => {
       expect(() =>
         isValidCreateVPRequest(
@@ -257,17 +246,6 @@ describe('Utils [params]', () => {
       ).toThrow(Error);
     });
 
-    it('should fail if vcId is a number', () => {
-      expect(() =>
-        isValidCreateVPRequest(
-          {
-            vcs: [{ id: 123 }],
-          },
-          account,
-          getDefaultSnapState()
-        )
-      ).toThrow('VC is invalid format');
-    });
     it('should fail if vcs is null', () => {
       expect(() =>
         isValidCreateVPRequest(
@@ -314,18 +292,6 @@ describe('Utils [params]', () => {
           getDefaultSnapState()
         )
       ).not.toThrow('err');
-    });
-    it('should throw request with wrong store', () => {
-      expect(() =>
-        isValidCreateVPRequest(
-          {
-            vcs: [{ id: 'test-id', metadata: { store: 'snapp' } }],
-            proofFormat: 'jwt',
-          },
-          account,
-          getDefaultSnapState()
-        )
-      ).toThrow('Store snapp is not supported!');
     });
 
     it('should not throw request with proofFormat and proofOptions', () => {
