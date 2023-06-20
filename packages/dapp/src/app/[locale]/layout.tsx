@@ -53,10 +53,9 @@ export const metadata: Metadata = {
     siteName: 'Masca',
     images: [
       {
-        url: 'https://masca.io/images/masca_black.png',
-        width: 211,
-        height: 186,
-        alt: 'Masca Logo',
+        url: 'https://masca.io/api/og',
+        width: 1920,
+        height: 1080,
       },
     ],
     type: 'website',
