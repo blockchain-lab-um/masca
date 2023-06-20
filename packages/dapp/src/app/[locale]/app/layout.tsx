@@ -1,3 +1,4 @@
+import React from 'react';
 import AppBottomBar from '@/components/AppBottomBar';
 import AppNavbar from '@/components/AppNavbar';
 import ConnectedProvider from '@/components/ConnectedProvider';
