@@ -957,7 +957,7 @@ describe('Utils [veramo]', () => {
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         },
-        { proofFormat: 'jwt', vcs: [{ id: res[0].id }] }
+        { proofFormat: 'jwt', vcs: [exampleVC] }
       );
       expect(createdVP).not.toBeNull();
 
@@ -1029,7 +1029,7 @@ describe('Utils [veramo]', () => {
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         },
-        { proofFormat: 'EthereumEip712Signature2021', vcs: [{ id: res[0].id }] }
+        { proofFormat: 'EthereumEip712Signature2021', vcs: [exampleVC] }
       );
       expect(createdVP).not.toBeNull();
 
@@ -1061,7 +1061,7 @@ describe('Utils [veramo]', () => {
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         },
-        { proofFormat: 'jwt', vcs: [{ id: res[0].id }, { id: 'wrong_id' }] }
+        { proofFormat: 'jwt', vcs: [exampleVC] }
       );
       expect(createdVP).not.toBeNull();
 
@@ -1093,7 +1093,7 @@ describe('Utils [veramo]', () => {
           account: address,
           bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
         },
-        { proofFormat: 'jwt', vcs: [{ id: res[0].id }, { id: res[0].id }] }
+        { proofFormat: 'jwt', vcs: [exampleVC, exampleVC] }
       );
       expect(createdVP).not.toBeNull();
 
@@ -1151,12 +1151,7 @@ describe('Utils [veramo]', () => {
         },
         {
           proofFormat: 'jwt',
-          vcs: [
-            { id: res[0].id, metadata: { store: 'snap' } },
-            { id: resjwt[0].id, metadata: { store: 'snap' } },
-            { id: res2[0].id, metadata: { store: 'snap' } },
-            { id: res3[0].id, metadata: { store: 'snap' } },
-          ],
+          vcs: [exampleVC, exampleVC, exampleVCJSONLD, exampleVCEIP712],
         }
       );
       expect(createdVP).not.toBeNull();
@@ -1175,27 +1170,6 @@ describe('Utils [veramo]', () => {
       expect(verifyResult.verified).toBe(true);
 
       expect.assertions(3);
-    });
-
-    it('should fail creating a VP and throw VC does not exist', async () => {
-      const initialState = getDefaultSnapState();
-
-      snapMock.rpcMocks.snap_dialog.mockResolvedValue(true);
-
-      await expect(
-        veramoCreateVP(
-          {
-            snap: snapMock,
-            ethereum: ethereumMock,
-            state: initialState,
-            account: address,
-            bip44CoinTypeNode: bip44Entropy as BIP44CoinTypeNode,
-          },
-          { proofFormat: 'jwt', vcs: [{ id: 'test-id' }] }
-        )
-      ).rejects.toThrow('VC does not exist');
-
-      expect.assertions(1);
     });
 
     it('should fail creating a VP and throw user rejected error', async () => {
