@@ -35,6 +35,16 @@ export const metadata: Metadata = {
     template: '%s | Masca',
   },
   description: 'Masca is a decentralized credential management platform.',
+  keywords: [
+    'Masca',
+    'MetaMask',
+    'Snaps',
+    'Self-Sovereign Identity',
+    'Next.js',
+    'Credential Management',
+    'Web3',
+    'DIDs',
+  ],
   openGraph: {
     title: 'Masca',
     description: 'Masca is a decentralized credential management platform.',
@@ -43,10 +53,9 @@ export const metadata: Metadata = {
     siteName: 'Masca',
     images: [
       {
-        url: 'https://masca.io/images/masca_black.png',
-        width: 211,
-        height: 186,
-        alt: 'Masca Logo',
+        url: 'https://masca.io/api/og',
+        width: 1920,
+        height: 1080,
       },
     ],
     type: 'website',
@@ -65,11 +74,12 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
   },
   icons: {
-    shortcut: '/images/masca_black.png',
+    shortcut: '/favicon.ico',
   },
   verification: {
     google: 'snsvYv9eAKOZ7FrIjpUSnUtqgoFiSXQWROVrStPBc8I',
   },
+  manifest: '/manifest.json',
 };
 
 export function generateStaticParams() {
