@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
   },
   icons: {
-    shortcut: '/images/masca_black.png',
+    shortcut: '/favicon.ico',
   },
   verification: {
     google: 'snsvYv9eAKOZ7FrIjpUSnUtqgoFiSXQWROVrStPBc8I',
