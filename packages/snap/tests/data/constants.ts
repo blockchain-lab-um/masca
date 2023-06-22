@@ -1,3 +1,5 @@
+import { MinimalImportableKey } from "@veramo/core";
+
 export const mnemonic =
   'prosper pair similar canoe work humble loud wild aunt reunion olive obscure';
 export const account = '0xb6665128eE91D84590f70c3268765384A9CAfBCd';
@@ -6,6 +8,14 @@ export const privateKey =
   '0x63ce0077f0d617dbf54d5f335de2983313c6356f25b45e0f68f85bee1490a6ae';
 export const privateKey2 =
   '0xb29764680b2a07fa4a762d255e3f689fb5c05cc885e6dfd3de5d5948b5a6b47f';
+
+  export const importablePrivateKey: MinimalImportableKey = {
+    kid: 'importedTestKey',
+    kms: 'snap',
+    type: 'Secp256k1',
+    privateKeyHex:
+      privateKey.substring(2),
+  } as const;
 
 
 

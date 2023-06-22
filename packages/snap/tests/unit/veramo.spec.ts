@@ -703,49 +703,50 @@ describe('Utils [veramo]', () => {
       expect.assertions(2);
     });
 
-//     it('should succeed importing metamask account when DID already exists', async () => {
-//       const initialState = getDefaultSnapState(account);
-//       snapMock.rpcMocks.snap_manageState.mockResolvedValue(initialState);
+    it('should succeed importing metamask account when DID already exists', async () => {
+      const initialState = getDefaultSnapState(account);
+      initialState.accountState[account].accountConfig.ssi.didMethod = 'did:key';
+      snapMock.rpcMocks.snap_manageState.mockResolvedValue(initialState);
 
-//       const agent = await getAgent(snapMock, ethereumMock);
-//       expect(
-//         (
-//           await veramoImportMetaMaskAccount(
-//             {
-//               snap: snapMock,
-//               ethereum: ethereumMock,
-//               state: initialState,
-//               account,
-//               bip44CoinTypeNode: bip44Entropy ,
-//             },
-//             agent
-//           )
-//         ).did
-//       ).toEqual(exampleDIDKey);
+      const agent = await getAgent(snapMock, ethereumMock);
+      expect(
+        (
+          await veramoImportMetaMaskAccount(
+            {
+              snap: snapMock,
+              ethereum: ethereumMock,
+              state: initialState,
+              account,
+              bip44CoinTypeNode: bip44Entropy ,
+            },
+            agent
+          )
+        ).did
+      ).toEqual(exampleDIDKey);
 
-//       await expect(agent.didManagerGet({ did: exampleDIDKey })).resolves.toEqual(
-//         exampleImportedDIDWIthoutPrivateKey
-//       );
-//       expect(
-//         (
-//           await veramoImportMetaMaskAccount(
-//             {
-//               snap: snapMock,
-//               ethereum: ethereumMock,
-//               state: initialState,
-//               account,
-//               bip44CoinTypeNode: bip44Entropy ,
-//             },
-//             agent
-//           )
-//         ).did
-//       ).toEqual(exampleDIDKey);
+      await expect(agent.didManagerGet({ did: exampleDIDKey })).resolves.toEqual(
+        exampleDIDKeyImportedAccount
+      );
+      expect(
+        (
+          await veramoImportMetaMaskAccount(
+            {
+              snap: snapMock,
+              ethereum: ethereumMock,
+              state: initialState,
+              account,
+              bip44CoinTypeNode: bip44Entropy ,
+            },
+            agent
+          )
+        ).did
+      ).toEqual(exampleDIDKey);
 
-//       expect(await agent.didManagerFind()).toHaveLength(1);
+      expect(await agent.didManagerFind()).toHaveLength(1);
 
-//       expect.assertions(4);
-//     });
-//   });
+      expect.assertions(4);
+    });
+  });
 //   describe('veramoVerifyData', () => {
 //     it('should succeed validating a VC - JWT', async () => {
 //       const agent = await getAgent(snapMock, ethereumMock);
@@ -1192,5 +1193,5 @@ describe('Utils [veramo]', () => {
 
 //       expect.assertions(1);
 //     });
-   });
+//   });
 });
