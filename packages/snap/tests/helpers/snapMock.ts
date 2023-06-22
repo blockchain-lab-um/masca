@@ -3,11 +3,7 @@ import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import type { RequestArguments } from '@metamask/providers/dist/BaseProvider';
 import type { Maybe } from '@metamask/providers/dist/utils';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
-import {
-  AlchemyProvider,
-  type Filter,
-  type TransactionRequest,
-} from 'ethers';
+import { AlchemyProvider, type Filter, type TransactionRequest } from 'ethers';
 
 import { account, mnemonic } from '../data/constants';
 
@@ -50,13 +46,12 @@ export class SnapMock implements ISnapMock {
       default:
         return '0x0000000000000000000000000000000000000000000000000000000000000000';
     }
-
   }
 
-//   private async snapPersonalSign(data: string[]): Promise<string> {
-//     const signature = await this.snap.signMessage(data[0]);
-//     return signature;
-//   }
+  //   private async snapPersonalSign(data: string[]): Promise<string> {
+  //     const signature = await this.snap.signMessage(data[0]);
+  //     return signature;
+  //   }
 
   private async snapEthCall(data: any[]): Promise<string> {
     const apiKey = 'NRFBwig_CLVL0WnQLY3dUo8YkPmW-7iN';

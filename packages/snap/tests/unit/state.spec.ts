@@ -1,9 +1,7 @@
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 
-import {
-  getInitialSnapState,
-} from '../../src/utils/config';
+import { getInitialSnapState } from '../../src/utils/config';
 import {
   getSnapState,
   getSnapStateUnchecked,
@@ -11,10 +9,8 @@ import {
   initSnapState,
   updateSnapState,
 } from '../../src/utils/stateUtils';
-import {
-  account,
-} from '../data/constants';
-import { getDefaultSnapState} from '../data/defaultSnapState';
+import { account } from '../data/constants';
+import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
 describe('Utils [state]', () => {

@@ -15,10 +15,16 @@ import {
   resolutionMethodNotSupported,
   resolutionNotFound,
 } from '../data/constants';
-import {getDefaultSnapState} from '../data/defaultSnapState';
+import { getDefaultSnapState } from '../data/defaultSnapState';
+import {
+  exampleDIDEthrMainnet,
+  exampleDIDEthrMainnetDocument,
+} from '../data/identifiers/didEthrMainnet';
+import {
+  exampleDIDKey,
+  exampleDIDKeyDocument,
+} from '../data/identifiers/didKey';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
-import { exampleDIDKey, exampleDIDKeyDocument } from '../data/identifiers/didKey';
-import { exampleDIDEthrMainnet, exampleDIDEthrMainnetDocument } from '../data/identifiers/didEthrMainnet';
 
 const { ec: EC } = elliptic;
 
@@ -89,7 +95,9 @@ describe('Utils [did]', () => {
     it.skip('should return did:ethr', async () => {
       const initialState = getDefaultSnapState(account);
 
-     const bip44Entropy = await snapMock.rpcMocks.snap_getBip44Entropy({coinType: 1236});
+      const bip44Entropy = await snapMock.rpcMocks.snap_getBip44Entropy({
+        coinType: 1236,
+      });
 
       const expectedDid = `did:ethr:0x5`;
 
@@ -111,7 +119,9 @@ describe('Utils [did]', () => {
       initialState.accountState[account].accountConfig.ssi.didMethod =
         'did:key';
 
-        const bip44Entropy = await snapMock.rpcMocks.snap_getBip44Entropy({coinType: 1236});
+      const bip44Entropy = await snapMock.rpcMocks.snap_getBip44Entropy({
+        coinType: 1236,
+      });
 
       await expect(
         getCurrentDid({
@@ -131,7 +141,9 @@ describe('Utils [did]', () => {
     it.skip("should succeed setting DID method to 'did:ethr'", async () => {
       const initialState = getDefaultSnapState(account);
 
-      const bip44Entropy = await snapMock.rpcMocks.snap_getBip44Entropy({coinType: 1236});
+      const bip44Entropy = await snapMock.rpcMocks.snap_getBip44Entropy({
+        coinType: 1236,
+      });
 
       await expect(
         changeCurrentMethod({
@@ -150,7 +162,9 @@ describe('Utils [did]', () => {
     it("should succeed setting DID method to 'did:key'", async () => {
       const initialState = getDefaultSnapState(account);
 
-      const bip44Entropy = await snapMock.rpcMocks.snap_getBip44Entropy({coinType: 1236});
+      const bip44Entropy = await snapMock.rpcMocks.snap_getBip44Entropy({
+        coinType: 1236,
+      });
 
       await expect(
         changeCurrentMethod({

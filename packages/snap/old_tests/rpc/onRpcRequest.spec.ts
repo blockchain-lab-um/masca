@@ -19,6 +19,7 @@ import { onRpcRequest } from '../../src';
 import { veramoClearVCs } from '../../src/utils/veramoUtils';
 import type { StoredCredentials } from '../../src/veramo/plugins/ceramicDataStore/ceramicDataStore';
 import { getAgent, type Agent } from '../../src/veramo/setup';
+import { createTestVCs } from '../../tests/helpers/generateTestVCs';
 import {
   account,
   exampleDID,
@@ -30,7 +31,6 @@ import {
   getDefaultSnapState,
   jsonPath,
 } from '../testUtils/constants';
-import { createTestVCs } from '../testUtils/generateTestVCs';
 import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
 
 jest.mock('uuid');

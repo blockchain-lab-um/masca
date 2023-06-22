@@ -1,4 +1,4 @@
-import { MinimalImportableKey } from "@veramo/core";
+import { MinimalImportableKey } from '@veramo/core';
 
 export const mnemonic =
   'prosper pair similar canoe work humble loud wild aunt reunion olive obscure';
@@ -9,21 +9,17 @@ export const privateKey =
 export const privateKey2 =
   '0xb29764680b2a07fa4a762d255e3f689fb5c05cc885e6dfd3de5d5948b5a6b47f';
 
-  export const importablePrivateKey: MinimalImportableKey = {
-    kid: 'importedTestKey',
-    kms: 'snap',
-    type: 'Secp256k1',
-    privateKeyHex:
-      privateKey.substring(2),
-  } as const;
-
-
+export const importablePrivateKey: MinimalImportableKey = {
+  kid: 'importedTestKey',
+  kms: 'snap',
+  type: 'Secp256k1',
+  privateKeyHex: privateKey.substring(2),
+} as const;
 
 // Query params
 
 export const jsonPath =
   '$[?(@.data.credentialSubject.placeOfBirth == "Asgard")]';
-
 
 // Errors
 

@@ -9,12 +9,10 @@ import {
   veramoQueryVCs,
   veramoSaveVC,
 } from '../../src/utils/veramoUtils';
-import {
-account
-} from '../data/constants';
-import { createMockSnap, SnapMock } from '../helpers/snapMock';
+import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
-import * as exampleVC from '../data/verifiable-credentials/exampleJWT.json'
+import * as exampleVC from '../data/verifiable-credentials/exampleJWT.json';
+import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
 describe('Utils [ceramic]', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
