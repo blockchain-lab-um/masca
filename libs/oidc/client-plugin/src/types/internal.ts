@@ -12,6 +12,8 @@ export type ParseOIDCCredentialOfferURIArgs = {
 
 export type SendTokenRequestArgs = {
   pin?: string;
+  code?: string;
+  clientId?: string;
 };
 
 export type SendCredentialRequestArgs = CredentialRequest;
@@ -47,12 +49,15 @@ export type CreateIdTokenArgs = {
   sign: (args: SignArgs) => Promise<string>;
 };
 
+export type CreateVpTokenArgs = {
+  sign: (args: SignArgs) => Promise<string>;
+  vp: W3CVerifiablePresentation;
+};
+
 export type SendOIDCAuthorizationResponseArgs = {
   presentationSubmission?: PresentationSubmission;
   idToken?: string;
-  verifiablePresentation?:
-    | W3CVerifiablePresentation
-    | W3CVerifiablePresentation[];
+  vpToken?: string;
 };
 
 export type GetAuthorizationRequestArgs = {

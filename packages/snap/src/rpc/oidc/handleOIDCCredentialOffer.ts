@@ -6,11 +6,15 @@ import type {
   SendOIDCAuthorizationResponseArgs,
   SignArgs,
 } from '@blockchain-lab-um/oidc-client-plugin';
-import type { CredentialRequest } from '@blockchain-lab-um/oidc-types';
-import { isError } from '@blockchain-lab-um/utils';
+import type {
+  CredentialRequest,
+  TokenResponse,
+} from '@blockchain-lab-um/oidc-types';
+import { isError, Result } from '@blockchain-lab-um/utils';
 import { heading, panel } from '@metamask/snaps-ui';
 import type { VerifiableCredential } from '@veramo/core';
 import { decodeCredentialToObject } from '@veramo/utils';
+import qs from 'qs';
 
 import type { ApiParams } from '../../interfaces';
 import { getCurrentDid } from '../../utils/didUtils';
@@ -91,8 +95,18 @@ export async function handleOIDCCredentialOffer(
     ? `${did}#controllerKey`
     : `${did}#${did.split(':')[2]}`;
 
+  const isDidKeyEbsi =
+    state.accountState[account].accountConfig.ssi.didMethod === 'did:key:ebsi';
+
   const customSign = async (args: SignArgs) =>
-    sign(args, { privateKey: res.privateKey, did, kid });
+    sign(args, {
+      privateKey: res.privateKey,
+      curve: isDidKeyEbsi ? 'p256' : 'secp256k1',
+      did,
+      kid,
+    });
+
+  let tokenRequestResult: Result<TokenResponse>;
 
   if (grants?.authorization_code) {
     const authorizationRequestURIResult = await agent.getAuthorizationRequest({
@@ -144,16 +158,16 @@ export async function handleOIDCCredentialOffer(
         options: { store, returnStore: false },
       });
 
-      console.log(queryResults);
-
       const queriedCredentials: any = queryResults.map((result) => result.data);
 
-      console.log(credentials);
+      console.log('queriedCredentials');
+      console.log(queriedCredentials);
 
       const selectCredentialsResult = await agent.selectCredentials({
         credentials: queriedCredentials,
       });
 
+      console.log('selectCredentialsResult');
       console.log(selectCredentialsResult);
 
       if (isError(selectCredentialsResult)) {
@@ -204,21 +218,26 @@ export async function handleOIDCCredentialOffer(
 
       const presentation = await agent.createVerifiablePresentation({
         presentation: {
-          holder: identifier.did,
+          holder: did,
           verifiableCredential: decodedCredentials,
         },
         proofFormat: 'jwt',
-        domain,
-        challenge,
       });
+
+      const createVpTokenResult = await agent.createVpToken({
+        sign: customSign,
+        vp: presentation,
+      });
+
+      if (isError(createVpTokenResult)) {
+        throw new Error(createVpTokenResult.error);
+      }
+
+      const vpToken = createVpTokenResult.data;
 
       sendOIDCAuthorizationResponseArgs.presentationSubmission =
         presentationSubmission;
-      sendOIDCAuthorizationResponseArgs.verifiablePresentation = presentation;
-
-      console.log(presentation);
-      // Create vp token
-      // const vpTokenResult = await agent.
+      sendOIDCAuthorizationResponseArgs.vpToken = vpToken;
     }
 
     // POST /auth-mock/direct_post
@@ -231,77 +250,92 @@ export async function handleOIDCCredentialOffer(
       throw new Error(authorizationResponseResult.error);
     }
 
-    // token request
+    const authorizationResponse = authorizationResponseResult.data;
 
-    // Credential request
-
-    throw new Error('Unsupported grant type');
-  } else if (grants?.['urn:ietf:params:oauth:grant-type:pre-authorized_code']) {
-    const tokenRequestResult = await agent.sendTokenRequest(pin ? { pin } : {});
-
-    if (isError(tokenRequestResult)) {
-      throw new Error(tokenRequestResult.error);
-    }
-
-    // TODO: Handle multiple credentials
-    let selectedCredential = credentials[0];
-
-    if (typeof selectedCredential === 'string') {
-      const getCredentialResult = await agent.getCredentialInfoById({
-        id: selectedCredential,
-      });
-
-      if (isError(getCredentialResult)) {
-        throw new Error(getCredentialResult.error);
-      }
-
-      selectedCredential = getCredentialResult.data;
-    }
-
-    const credentialRequest: CredentialRequest =
-      selectedCredential.format === 'mso_mdoc'
-        ? {
-            format: 'mso_mdoc',
-            doctype: selectedCredential.doctype,
-          }
-        : {
-            format: selectedCredential.format,
-            types: selectedCredential.types,
-          };
-
-    // Create proof of possession
-    const proofOfPossessionResult = await agent.proofOfPossession({
-      sign: customSign,
-    });
-
-    if (isError(proofOfPossessionResult)) {
-      throw new Error(proofOfPossessionResult.error);
-    }
-
-    credentialRequest.proof = proofOfPossessionResult.data;
-
-    // if(did.startsWith('did:ethr') || did.startsWith('did:pkh')) throw new Error('did:ethr and did:pkh are not supported');
-
-    const credentialRequestResult = await agent.sendCredentialRequest(
-      credentialRequest
+    const authorizationResponseData: any = qs.parse(
+      authorizationResponse.split('?')[1]
     );
 
-    if (isError(credentialRequestResult)) {
-      throw new Error(credentialRequestResult.error);
+    if (!authorizationResponseData.code) {
+      throw new Error('Authorization code is required');
     }
 
-    const credentialResponse = credentialRequestResult.data;
-
-    console.log(credentialResponse);
-
-    if (!credentialResponse.credential) {
-      throw new Error('An error occurred while requesting the credential');
+    if (!authorizationResponseData.state) {
+      throw new Error('State is required');
     }
 
-    const credential = decodeCredentialToObject(credentialResponse.credential);
-
-    return credential;
+    tokenRequestResult = await agent.sendTokenRequest({
+      code: authorizationResponseData.code,
+      clientId: did,
+    });
+  } else if (grants?.['urn:ietf:params:oauth:grant-type:pre-authorized_code']) {
+    tokenRequestResult = await agent.sendTokenRequest(pin ? { pin } : {});
   } else {
     throw new Error('Unsupported grant type');
   }
+
+  if (isError(tokenRequestResult)) {
+    throw new Error(tokenRequestResult.error);
+  }
+
+  console.log('here');
+
+  // TODO: Handle multiple credentials
+  let selectedCredential = credentials[0];
+
+  if (typeof selectedCredential === 'string') {
+    const getCredentialResult = await agent.getCredentialInfoById({
+      id: selectedCredential,
+    });
+
+    if (isError(getCredentialResult)) {
+      throw new Error(getCredentialResult.error);
+    }
+
+    selectedCredential = getCredentialResult.data;
+  }
+
+  const credentialRequest: CredentialRequest =
+    selectedCredential.format === 'mso_mdoc'
+      ? {
+          format: 'mso_mdoc',
+          doctype: selectedCredential.doctype,
+        }
+      : {
+          format: selectedCredential.format,
+          types: selectedCredential.types,
+        };
+
+  // Create proof of possession
+  const proofOfPossessionResult = await agent.proofOfPossession({
+    sign: customSign,
+  });
+
+  if (isError(proofOfPossessionResult)) {
+    throw new Error(proofOfPossessionResult.error);
+  }
+
+  credentialRequest.proof = proofOfPossessionResult.data;
+
+  // if(did.startsWith('did:ethr') || did.startsWith('did:pkh')) throw new Error('did:ethr and did:pkh are not supported');
+
+  const credentialRequestResult = await agent.sendCredentialRequest(
+    credentialRequest
+  );
+
+  if (isError(credentialRequestResult)) {
+    throw new Error(credentialRequestResult.error);
+  }
+
+  const credentialResponse = credentialRequestResult.data;
+
+  console.log(credentialResponse);
+
+  if (!credentialResponse.credential) {
+    throw new Error('An error occurred while requesting the credential');
+  }
+
+  const credential = decodeCredentialToObject(credentialResponse.credential);
+
+  return credential;
 }

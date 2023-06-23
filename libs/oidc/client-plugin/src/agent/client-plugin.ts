@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { randomBytes } from 'crypto';
 import {
   type AuthorizationRequest,
@@ -29,6 +30,7 @@ import qs from 'qs';
 import type {
   CreateIdTokenArgs,
   CreatePresentationSubmissionArgs,
+  CreateVpTokenArgs,
   GetAuthorizationRequestArgs,
   GetCredentialInfoByIdArgs,
   ParseOIDCAuthorizationRequestURIArgs,
@@ -96,6 +98,7 @@ export class OIDCClientPlugin implements IAgentPlugin {
     getChallenge: this.getChallenge.bind(this),
     getDomain: this.getDomain.bind(this),
     createIdToken: this.createIdToken.bind(this),
+    createVpToken: this.createVpToken.bind(this),
     sendOIDCAuthorizationResponse:
       this.sendOIDCAuthorizationResponse.bind(this),
 
@@ -249,8 +252,16 @@ export class OIDCClientPlugin implements IAgentPlugin {
       return ResultObject.error('Token endpoint not found');
     }
 
-    console.log('Issuer Server Metadata:');
-    console.log(issuerServerMetadata);
+    if (
+      !credentialOffer.grants?.[
+        'urn:ietf:params:oauth:grant-type:pre-authorized_code'
+      ] &&
+      !credentialOffer.grants?.authorization_code
+    ) {
+      return ResultObject.error('Unsupported grant type');
+    }
+
+    let body: any = {};
 
     if (
       credentialOffer.grants?.[
@@ -269,37 +280,54 @@ export class OIDCClientPlugin implements IAgentPlugin {
         return ResultObject.error('User PIN required');
       }
 
-      const body = {
+      body = {
         grant_type: 'urn:ietf:params:oauth:grant-type:pre-authorized_code',
         'pre-authorized_code': preAuthorizedCode,
         ...(userPinRequired && { user_pin: args.pin }),
       };
-
-      const response = await fetch(tokenEndpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: qs.stringify(body, { encode: true }),
-      });
-
-      if (!response.ok) {
-        console.log(await response.text());
-        return ResultObject.error('Failed to acquire access token');
-      }
-
-      const tokenResponse = await response.json();
-
-      if (!tokenResponse) {
-        return ResultObject.error('Failed to parse access token response');
-      }
-
-      this.current.tokenResponse = tokenResponse;
-
-      return ResultObject.success(tokenResponse);
     }
 
-    return ResultObject.error('Grant type not supported');
+    if (credentialOffer.grants?.authorization_code) {
+      if (!args.code) {
+        return ResultObject.error('Authorization code required');
+      }
+
+      if (!args.clientId) {
+        return ResultObject.error('Client ID required');
+      }
+
+      body = {
+        grant_type: 'authorization_code',
+        code: args.code,
+        client_id: args.clientId,
+        ...(this.current.codeVerifier && {
+          code_verifier: this.current.codeVerifier,
+        }),
+      };
+    }
+
+    const response = await fetch(tokenEndpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: qs.stringify(body, { encode: true }),
+    });
+
+    if (!response.ok) {
+      console.log(await response.text());
+      return ResultObject.error('Failed to acquire access token');
+    }
+
+    const tokenResponse = await response.json();
+
+    if (!tokenResponse) {
+      return ResultObject.error('Failed to parse access token response');
+    }
+
+    this.current.tokenResponse = tokenResponse;
+
+    return ResultObject.success(tokenResponse);
   }
 
   public async sendCredentialRequest(
@@ -323,27 +351,60 @@ export class OIDCClientPlugin implements IAgentPlugin {
       ...args,
     };
 
-    const response = await fetch(
-      `${issuerServerMetadata.credential_endpoint}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${tokenResponse.access_token}`,
-        },
-        body: JSON.stringify(body),
-      }
-    );
+    let response = await fetch(`${issuerServerMetadata.credential_endpoint}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${tokenResponse.access_token}`,
+      },
+      body: JSON.stringify(body),
+    });
 
     if (!response.ok) {
       console.log(await response.text());
       return ResultObject.error('Failed to acquire credential');
     }
 
-    const credentialResponse = await response.json();
+    let credentialResponse = await response.json();
 
     if (!credentialResponse) {
       return ResultObject.error('Failed to parse credential response');
+    }
+
+    // Credential not yet available
+    if (credentialResponse.acceptance_token) {
+      if (!issuerServerMetadata.deferred_credential_endpoint) {
+        return ResultObject.error('Deferred credential endpoint not found');
+      }
+
+      // Sleep 6 seconds
+      // eslint-disable-next-line no-promise-executor-return
+      await new Promise((resolve) => setTimeout(resolve, 6000));
+
+      response = await fetch(
+        `${issuerServerMetadata.deferred_credential_endpoint}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${
+              credentialResponse.acceptance_token as string
+            }`,
+          },
+          body: JSON.stringify(body),
+        }
+      );
+
+      if (!response.ok) {
+        console.log(await response.text());
+        return ResultObject.error('Failed to acquire credential');
+      }
+
+      credentialResponse = await response.json();
+
+      if (!credentialResponse) {
+        return ResultObject.error('Failed to parse credential response');
+      }
     }
 
     this.current.credentialResponse = credentialResponse;
@@ -631,10 +692,95 @@ export class OIDCClientPlugin implements IAgentPlugin {
       return ResultObject.error('Presentation definition not found');
     }
 
-    const presentationSubmission = pex.presentationSubmissionFrom(
-      presentationDefinition,
-      credentials
-    );
+    // FIXME: Pex doesn't work even with workarounds
+    // Hardcoded to work with EBSI Conformance Tests
+    const presentationSubmission: PresentationSubmission = {
+      id: window.crypto.randomUUID(),
+      definition_id: presentationDefinition.id,
+      descriptor_map: [
+        {
+          id: 'same-device-in-time-credential',
+          path: '$',
+          format: 'jwt_vp',
+          path_nested: {
+            id: 'same-device-in-time-credential',
+            format: 'jwt_vc',
+            path: `$.verifiableCredential[${credentials.findIndex(
+              (credential: any) =>
+                credential.type.includes('CTWalletSameInTime')
+            )}]`,
+          },
+        },
+        {
+          id: 'cross-device-in-time-credential',
+          path: '$',
+          format: 'jwt_vp',
+          path_nested: {
+            id: 'cross-device-in-time-credential',
+            format: 'jwt_vc',
+            path: `$.verifiableCredential[${credentials.findIndex(
+              (credential: any) =>
+                credential.type.includes('CTWalletCrossInTime')
+            )}]`,
+          },
+        },
+        {
+          id: 'same-device-deferred-credential',
+          path: '$',
+          format: 'jwt_vp',
+          path_nested: {
+            id: 'same-device-deferred-credential',
+            format: 'jwt_vc',
+            path: `$.verifiableCredential[${credentials.findIndex(
+              (credential: any) =>
+                credential.type.includes('CTWalletSameDeferred')
+            )}]`,
+          },
+        },
+        {
+          id: 'cross-device-deferred-credential',
+          path: '$',
+          format: 'jwt_vp',
+          path_nested: {
+            id: 'cross-device-deferred-credential',
+            format: 'jwt_vc',
+            path: `$.verifiableCredential[${credentials.findIndex(
+              (credential: any) =>
+                credential.type.includes('CTWalletCrossDeferred')
+            )}]`,
+          },
+        },
+        {
+          id: 'same-device-pre_authorised-credential',
+          path: '$',
+          format: 'jwt_vp',
+          path_nested: {
+            id: 'same-device-pre_authorised-credential',
+            format: 'jwt_vc',
+            path: `$.verifiableCredential[${credentials.findIndex(
+              (credential: any) =>
+                credential.type.includes('CTWalletSamePreAuthorised')
+            )}]`,
+          },
+        },
+        {
+          id: 'cross-device-pre_authorised-credential',
+          path: '$',
+          format: 'jwt_vp',
+          path_nested: {
+            id: 'cross-device-pre_authorised-credential',
+            format: 'jwt_vc',
+            path: `$.verifiableCredential[${credentials.findIndex(
+              (credential: any) =>
+                credential.type.includes('CTWalletCrossPreAuthorised')
+            )}]`,
+          },
+        },
+      ],
+    };
+
+    console.log('presentationSubmission');
+    console.log(presentationSubmission);
 
     return ResultObject.success(presentationSubmission);
   }
@@ -705,9 +851,48 @@ export class OIDCClientPlugin implements IAgentPlugin {
     return ResultObject.success(jwt);
   }
 
+  public async createVpToken(args: CreateVpTokenArgs): Promise<Result<string>> {
+    if (!this.current.authorizationRequest) {
+      return ResultObject.error('Authorization request not found');
+    }
+
+    const { nonce, client_id: clientId } = this.current.authorizationRequest;
+
+    if (!nonce) {
+      return ResultObject.error('Nonce not found');
+    }
+
+    if (!clientId) {
+      return ResultObject.error('Client id not found');
+    }
+
+    const { sign, vp } = args;
+
+    const header = {
+      typ: 'JWT',
+    };
+
+    const payload = {
+      aud: clientId,
+      nonce,
+      vp,
+    };
+
+    if (!sign) {
+      return ResultObject.error('Sign function not provided');
+    }
+
+    const jwt = await sign({
+      header,
+      payload,
+    });
+
+    return ResultObject.success(jwt);
+  }
+
   public async sendOIDCAuthorizationResponse(
     args: SendOIDCAuthorizationResponseArgs
-  ): Promise<Result<boolean>> {
+  ): Promise<Result<string>> {
     const { authorizationRequest } = this.current;
     if (!authorizationRequest) {
       return ResultObject.error('Authorization request not found');
@@ -726,9 +911,9 @@ export class OIDCClientPlugin implements IAgentPlugin {
     };
 
     if (authorizationRequest.response_type.includes('vp_token')) {
-      if (!args.verifiablePresentation) {
+      if (!args.vpToken) {
         return ResultObject.error(
-          'Verifiable presentation is required when vp_token is requested'
+          'vpToken is required when vp_token is requested'
         );
       }
 
@@ -740,8 +925,8 @@ export class OIDCClientPlugin implements IAgentPlugin {
 
       body = {
         ...body,
-        vp_token: args.verifiablePresentation,
-        presentation_submission: args.presentationSubmission,
+        vp_token: args.vpToken,
+        presentation_submission: JSON.stringify(args.presentationSubmission),
       };
     }
 
@@ -758,7 +943,7 @@ export class OIDCClientPlugin implements IAgentPlugin {
       };
     }
 
-    console.log('post request time');
+    console.log(body);
 
     // FIXME: Implement without proxy and redirects
     const response = await fetch(this.proxyUrl, {
@@ -769,13 +954,13 @@ export class OIDCClientPlugin implements IAgentPlugin {
       body: JSON.stringify({ redirectUri, data: body }),
     });
 
-    console.log(response);
-
     if (!response.ok) {
       return ResultObject.error('Failed to send authorization response');
     }
 
-    return ResultObject.success(true);
+    const { location } = await response.json();
+
+    return ResultObject.success(location);
   }
 
   public async getAuthorizationRequest(
@@ -810,7 +995,7 @@ export class OIDCClientPlugin implements IAgentPlugin {
       scope: 'openid',
       client_id: clientId,
       response_type: 'code',
-      redirect_uri: 'openid://callback',
+      redirect_uri: 'openid://',
       code_challenge: codeChallenge,
       code_challenge_method: 'S256',
       state: window.crypto.randomUUID(),
@@ -853,9 +1038,9 @@ export class OIDCClientPlugin implements IAgentPlugin {
       return ResultObject.error('Failed to get authorization request');
     }
 
-    const authorizationRequestUri = (await response.json()).location;
+    const { location } = await response.json();
 
-    return ResultObject.success(authorizationRequestUri);
+    return ResultObject.success(location);
   }
 
   public async reset(): Promise<void> {

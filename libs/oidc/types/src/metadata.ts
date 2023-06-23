@@ -19,6 +19,7 @@ export interface IssuerServerMetadata
   credential_endpoint: string;
   authorization_server?: string; // https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-10.2.3
   batch_credential_endpoints?: string[];
+  deferred_credential_endpoint?: string;
   credentials_supported: SupportedCredential[];
   // TODO: DISPLAY (https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#section-10.2.3-4.2.1)
 }

@@ -7,13 +7,14 @@ const { ec: EC } = elliptic;
 
 export type SignOptions = {
   privateKey: string;
+  curve: 'secp256k1' | 'p256';
   did: string;
   kid: string;
 };
 
 export const sign = async (signArgs: SignArgs, signOptions: SignOptions) => {
-  const { privateKey, did, kid } = signOptions;
-  const ctx = new EC('secp256k1');
+  const { privateKey, did, kid, curve} = signOptions;
+  const ctx = new EC(curve);
 
   const ecPrivateKey = ctx.keyFromPrivate(privateKey.slice(2));
 
@@ -28,7 +29,7 @@ export const sign = async (signArgs: SignArgs, signOptions: SignOptions) => {
 
   const jwtHeader = {
     ...signArgs.header,
-    alg: 'ES256K',
+    alg: curve === 'secp256k1' ? 'ES256K' : 'ES256',
     kid,
   };
 

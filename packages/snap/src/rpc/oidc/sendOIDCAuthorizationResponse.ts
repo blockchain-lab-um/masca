@@ -95,7 +95,7 @@ export async function sendOIDCAuthorizationResponse(
   const kid = `${did}#controllerKey`;
 
   const customSign = async (args: SignArgs) =>
-    sign(args, { privateKey: res.privateKey, did, kid });
+    sign(args, { privateKey: res.privateKey, curve: 'p256', did, kid });
 
   const createIdTokenResult = await agent.createIdToken({
     sign: customSign,
@@ -149,16 +149,28 @@ export async function sendOIDCAuthorizationResponse(
     challenge,
   });
 
+  const vpTokenResult = await agent.createVpToken({
+    sign: customSign,
+    vp: presentation,
+  });
+
+  if (isError(vpTokenResult)) {
+    throw new Error(vpTokenResult.error);
+  }
+
+  const vpToken = vpTokenResult.data;
+
   const sendOIDCAuthorizationResponseResult =
     await agent.sendOIDCAuthorizationResponse({
       idToken,
       presentationSubmission,
-      verifiablePresentation: presentation,
+      vpToken,
     });
 
   if (isError(sendOIDCAuthorizationResponseResult)) {
     throw new Error(sendOIDCAuthorizationResponseResult.error);
   }
 
-  return sendOIDCAuthorizationResponseResult.data;
+  // return sendOIDCAuthorizationResponseResult.data;
+  return true;
 }
