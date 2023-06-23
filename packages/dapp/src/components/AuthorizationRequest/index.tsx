@@ -158,8 +158,8 @@ const AuthorizationRequestFlow = () => {
 
     // Show result in toast
     setToastOpen(false);
-    setType(result ? 'success' : 'error');
     setTimeout(() => {
+      setType(result ? 'success' : 'error');
       setTitle(`Authorization response is: ${result ? 'valid' : 'invalid'}`);
       setLoading(false);
       setToastOpen(true);

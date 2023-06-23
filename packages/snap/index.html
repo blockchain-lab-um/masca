@@ -212,7 +212,7 @@
         },
       });
       let account = (await ethereum.request({ method: 'eth_requestAccounts' }))[0];
-      
+
       await ethereum.request({
         method: 'wallet_invokeSnap',
         params: {

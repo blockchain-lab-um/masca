@@ -48,9 +48,13 @@ export type CreateIdTokenArgs = {
 };
 
 export type SendOIDCAuthorizationResponseArgs = {
-  presentationSubmission: PresentationSubmission;
-  idToken: string;
-  verifiablePresentation:
+  presentationSubmission?: PresentationSubmission;
+  idToken?: string;
+  verifiablePresentation?:
     | W3CVerifiablePresentation
     | W3CVerifiablePresentation[];
+};
+
+export type GetAuthorizationRequestArgs = {
+  clientId: string;
 };

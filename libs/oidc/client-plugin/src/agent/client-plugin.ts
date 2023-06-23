@@ -1,3 +1,4 @@
+import { randomBytes } from 'crypto';
 import {
   type AuthorizationRequest,
   type CredentialOffer,
@@ -13,17 +14,22 @@ import {
 import {
   qsCustomDecoder,
   ResultObject,
+  uint8ArrayToHex,
   type Result,
 } from '@blockchain-lab-um/utils';
 import { PEX } from '@sphereon/pex';
 import type { IVerifiableCredential } from '@sphereon/ssi-types';
 import type { IAgentPlugin } from '@veramo/core';
+import { bytesToBase64url } from '@veramo/utils';
 import { fetch } from 'cross-fetch';
+import { sha256 } from 'ethereum-cryptography/sha256.js';
+import { decodeJwt } from 'jose';
 import qs from 'qs';
 
 import type {
   CreateIdTokenArgs,
   CreatePresentationSubmissionArgs,
+  GetAuthorizationRequestArgs,
   GetCredentialInfoByIdArgs,
   ParseOIDCAuthorizationRequestURIArgs,
   ParseOIDCCredentialOfferURIArgs,
@@ -55,6 +61,9 @@ export class OIDCClientPlugin implements IAgentPlugin {
 
     //
     authorizationServerMetadata: OAuth2AuthorizationServerMetadata | null;
+
+    // PKCE (Proof Key for Code Exchange)
+    codeVerifier: string | null;
   } = {
     issuerServerMetadata: null,
     credentialOffer: null,
@@ -66,7 +75,11 @@ export class OIDCClientPlugin implements IAgentPlugin {
     presentationSubmission: null,
     //
     authorizationServerMetadata: null,
+    //
+    codeVerifier: null,
   };
+
+  public proxyUrl = 'http://localhost:3000/api/proxy';
 
   readonly methods: IOIDCClientPlugin = {
     // For issuance handling
@@ -87,8 +100,12 @@ export class OIDCClientPlugin implements IAgentPlugin {
       this.sendOIDCAuthorizationResponse.bind(this),
 
     // Common
+    getAuthorizationRequest: this.getAuthorizationRequest.bind(this),
     proofOfPossession: this.proofOfPossession.bind(this),
     reset: this.reset.bind(this),
+
+    // Other
+    setProxyUrl: this.setProxyUrl.bind(this),
   };
 
   public async parseOIDCCredentialOfferURI(
@@ -191,6 +208,7 @@ export class OIDCClientPlugin implements IAgentPlugin {
         }
 
         this.current.authorizationServerMetadata = authorizationServerMetadata;
+        console.log('Authorization Server Metadata:');
         console.log(authorizationServerMetadata);
       }
 
@@ -231,6 +249,7 @@ export class OIDCClientPlugin implements IAgentPlugin {
       return ResultObject.error('Token endpoint not found');
     }
 
+    console.log('Issuer Server Metadata:');
     console.log(issuerServerMetadata);
 
     if (
@@ -407,48 +426,53 @@ export class OIDCClientPlugin implements IAgentPlugin {
     try {
       const query = args.authorizationRequestURI.split('?')[1];
 
-      authorizationRequest = qs.parse(query, {
+      const parsedAuthorizationRequest = qs.parse(query, {
         depth: 50,
         parameterLimit: 1000,
-      }) as unknown as AuthorizationRequest;
+      });
 
-      if (!authorizationRequest) {
-        return ResultObject.error('Failed to parse authorization request');
+      if (!parsedAuthorizationRequest) {
+        return ResultObject.error('Invalid authorization request');
+      }
+
+      if (parsedAuthorizationRequest.request_uri) {
+        // Fetch authorization request from the URI
+        const response = await fetch(
+          parsedAuthorizationRequest.request_uri as string
+        );
+
+        if (!response.ok) {
+          console.log(await response.text());
+          return ResultObject.error('Failed to fetch authorization request');
+        }
+
+        const authorizationRequestJWT = await response.text();
+        console.log(authorizationRequestJWT);
+        const decodedAuthorizationRequest = decodeJwt(authorizationRequestJWT);
+        console.log(decodedAuthorizationRequest);
+        authorizationRequest =
+          decodedAuthorizationRequest as unknown as AuthorizationRequest;
+      } else {
+        authorizationRequest =
+          parsedAuthorizationRequest as unknown as AuthorizationRequest;
+      }
+
+      if (
+        authorizationRequest.response_type !== 'vp_token' &&
+        authorizationRequest.response_type !== 'vp_token id_token' &&
+        authorizationRequest.response_type !== 'id_token'
+      ) {
+        return ResultObject.error(
+          'Only `vp_token` or `vp_token id_token` or `id_token` response types are supported'
+        );
       }
 
       if (!authorizationRequest.nonce) {
         return ResultObject.error('Nonce is required');
       }
 
-      if (
-        !authorizationRequest.presentation_definition &&
-        !authorizationRequest.presentation_definition_uri
-      ) {
-        return ResultObject.error(
-          'Presentation definition or presentation definition uri is required'
-        );
-      }
-
-      if (
-        authorizationRequest.id_token_type &&
-        authorizationRequest.id_token_type !== 'subject_signed'
-      ) {
-        return ResultObject.error(
-          'Only subject_signed id token type is supported'
-        );
-      }
-
       if (authorizationRequest.scope !== 'openid') {
         return ResultObject.error('Only openid scope is supported');
-      }
-
-      if (
-        authorizationRequest.response_type !== 'vp_token' &&
-        authorizationRequest.response_type !== 'vp_token id_token'
-      ) {
-        return ResultObject.error(
-          'Only vp_token or vp_token id_token response type is supported'
-        );
       }
 
       if (!authorizationRequest.client_id) {
@@ -459,25 +483,53 @@ export class OIDCClientPlugin implements IAgentPlugin {
         return ResultObject.error('Redirect uri is required');
       }
 
-      if (authorizationRequest.presentation_definition_uri) {
-        const response = await fetch(
-          authorizationRequest.presentation_definition_uri
-        );
+      if (authorizationRequest.response_type.includes('vp_token')) {
+        console.log(authorizationRequest);
 
-        if (!response.ok) {
-          return ResultObject.error('Failed to fetch presentation definition');
+        if (
+          !authorizationRequest.presentation_definition &&
+          !authorizationRequest.presentation_definition_uri
+        ) {
+          return ResultObject.error(
+            'Presentation definition or presentation definition uri is required'
+          );
         }
 
-        const presentationDefinition = await response.json();
+        if (authorizationRequest.presentation_definition_uri) {
+          const response = await fetch(
+            authorizationRequest.presentation_definition_uri
+          );
 
-        if (!presentationDefinition) {
-          return ResultObject.error('Failed to parse presentation definition');
+          if (!response.ok) {
+            return ResultObject.error(
+              'Failed to fetch presentation definition'
+            );
+          }
+
+          const presentationDefinition = await response.json();
+
+          if (!presentationDefinition) {
+            return ResultObject.error(
+              'Failed to parse presentation definition'
+            );
+          }
+
+          authorizationRequest.presentation_definition = presentationDefinition;
+        } else {
+          this.current.presentationDefinition = JSON.parse(
+            authorizationRequest.presentation_definition as unknown as string
+          ) as unknown as PresentationDefinition;
         }
 
-        authorizationRequest.presentation_definition = presentationDefinition;
-      } else {
-        this.current.presentationDefinition =
-          authorizationRequest.presentation_definition as PresentationDefinition;
+        // This is only if we combine the specs with SIOPv2
+        // if (
+        //   authorizationRequest.id_token_type &&
+        //   authorizationRequest.id_token_type !== 'subject_signed'
+        // ) {
+        //   return ResultObject.error(
+        //     'Only subject_signed id token type is supported'
+        //   );
+        // }
       }
 
       this.current.authorizationRequest = authorizationRequest;
@@ -507,10 +559,54 @@ export class OIDCClientPlugin implements IAgentPlugin {
       return ResultObject.error('Presentation definition not found');
     }
 
-    const { verifiableCredential } = pex.selectFrom(
-      presentationDefinition,
-      credentials
-    );
+    console.log('here');
+
+    console.log(this.current.presentationDefinition);
+
+    const map = new Map<string, IVerifiableCredential>();
+
+    const errors: string[] = [];
+
+    presentationDefinition.input_descriptors.forEach((inputDescriptor) => {
+      const presentationDefinitionSplit: PresentationDefinition = {
+        id: presentationDefinition.id,
+        format: presentationDefinition.format,
+        input_descriptors: [inputDescriptor],
+      };
+
+      const { verifiableCredential } = pex.selectFrom(
+        presentationDefinitionSplit,
+        credentials
+      );
+
+      console.log(verifiableCredential);
+
+      if (!verifiableCredential || verifiableCredential.length === 0) {
+        errors.push(inputDescriptor.id);
+      } else {
+        for (const credential of verifiableCredential) {
+          const hash = uint8ArrayToHex(
+            sha256(Buffer.from(JSON.stringify(credential)))
+          );
+
+          if (!map.has(hash)) {
+            map.set(hash, credential);
+          }
+        }
+      }
+    });
+
+    console.log(errors);
+
+    if (errors.length > 0) {
+      return ResultObject.error(
+        `Failed to select credentials for input descriptors: ${errors.join(
+          ', '
+        )}`
+      );
+    }
+
+    const verifiableCredential = Array.from(map.values());
 
     if (!verifiableCredential) {
       return ResultObject.error('Failed to select credentials');
@@ -586,6 +682,10 @@ export class OIDCClientPlugin implements IAgentPlugin {
       return ResultObject.error('Client id not found');
     }
 
+    const header = {
+      typ: 'JWT',
+    };
+
     const payload = {
       aud: clientId,
       nonce,
@@ -598,6 +698,7 @@ export class OIDCClientPlugin implements IAgentPlugin {
     }
 
     const jwt = await sign({
+      header,
       payload,
     });
 
@@ -620,19 +721,52 @@ export class OIDCClientPlugin implements IAgentPlugin {
 
     const { state } = authorizationRequest;
 
-    const body = {
-      id_token: args.idToken,
-      vp_token: args.verifiablePresentation,
-      presentation_submission: args.presentationSubmission,
+    let body: any = {
       ...(state && { state }),
     };
 
-    const response = await fetch(redirectUri, {
+    if (authorizationRequest.response_type.includes('vp_token')) {
+      if (!args.verifiablePresentation) {
+        return ResultObject.error(
+          'Verifiable presentation is required when vp_token is requested'
+        );
+      }
+
+      if (!args.presentationSubmission) {
+        return ResultObject.error(
+          'Presentation submission is required when vp_token is requested'
+        );
+      }
+
+      body = {
+        ...body,
+        vp_token: args.verifiablePresentation,
+        presentation_submission: args.presentationSubmission,
+      };
+    }
+
+    if (authorizationRequest.response_type.includes('id_token')) {
+      if (!args.idToken) {
+        return ResultObject.error(
+          'Id token is required when id_token is requested'
+        );
+      }
+
+      body = {
+        ...body,
+        id_token: args.idToken,
+      };
+    }
+
+    console.log('post request time');
+
+    // FIXME: Implement without proxy and redirects
+    const response = await fetch(this.proxyUrl, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
       },
-      body: qs.stringify(body, { encode: true }),
+      body: JSON.stringify({ redirectUri, data: body }),
     });
 
     console.log(response);
@@ -642,6 +776,86 @@ export class OIDCClientPlugin implements IAgentPlugin {
     }
 
     return ResultObject.success(true);
+  }
+
+  public async getAuthorizationRequest(
+    args: GetAuthorizationRequestArgs
+  ): Promise<Result<string>> {
+    if (!this.current.authorizationServerMetadata) {
+      return ResultObject.error('Authorization server metadata not found');
+    }
+
+    if (!this.current.issuerServerMetadata) {
+      return ResultObject.error('Issuer server metadata not found');
+    }
+
+    const { authorization_endpoint: authorizationEndpoint } =
+      this.current.authorizationServerMetadata;
+
+    if (!authorizationEndpoint) {
+      return ResultObject.error('Authorization endpoint not found');
+    }
+
+    const { clientId } = args;
+
+    // Create code verifier and challenge for PKCE
+    const codeVerifier = bytesToBase64url(new Uint8Array(randomBytes(50)));
+    const codeChallenge = bytesToBase64url(sha256(Buffer.from(codeVerifier)));
+
+    // Save code verifier for token request
+    this.current.codeVerifier = codeVerifier;
+
+    // FIXME: How to distinguish what we need to include in the query
+    const query = {
+      scope: 'openid',
+      client_id: clientId,
+      response_type: 'code',
+      redirect_uri: 'openid://callback',
+      code_challenge: codeChallenge,
+      code_challenge_method: 'S256',
+      state: window.crypto.randomUUID(),
+      ...(this.current.credentialOffer?.grants?.authorization_code
+        ?.issuer_state && {
+        issuer_state:
+          this.current.credentialOffer?.grants?.authorization_code
+            ?.issuer_state,
+      }),
+      // client_metadata: JSON.stringify({
+      //   authorization_endpoint: "http://localhost:3000/oidc/authorization",
+      // }),
+      // TODO: Handle if credential is string
+      authorization_details: JSON.stringify(
+        this.current.credentialOffer?.credentials.map((credential) => {
+          const cred = credential as any;
+          return {
+            type: 'openid_credential',
+            format: cred.format,
+            locations: [this.current.issuerServerMetadata?.credential_issuer],
+            types: cred.types,
+          };
+        })
+      ),
+    };
+
+    console.log(query.authorization_details);
+
+    const url = `${authorizationEndpoint}?${qs.stringify(query, {
+      encode: true,
+    })}`;
+
+    // FIXME: Implement without proxy and redirects
+    const response = await fetch(
+      `${this.proxyUrl}?url=${encodeURIComponent(url)}`
+    );
+
+    if (!response.ok) {
+      console.log(JSON.stringify(response.text()));
+      return ResultObject.error('Failed to get authorization request');
+    }
+
+    const authorizationRequestUri = (await response.json()).location;
+
+    return ResultObject.success(authorizationRequestUri);
   }
 
   public async reset(): Promise<void> {
@@ -658,7 +872,14 @@ export class OIDCClientPlugin implements IAgentPlugin {
 
       //
       authorizationServerMetadata: null,
+
+      //
+      codeVerifier: null,
     };
+  }
+
+  public async setProxyUrl(url: string): Promise<void> {
+    this.proxyUrl = url;
   }
 }
 
