@@ -70,7 +70,7 @@ const Table = () => {
       changeLastFetch: state.changeLastFetch,
     }),
     shallow
-    );
+  );
   const { columnFilters, globalFilter, selectedVCs, cardView, setSelectedVCs } =
     useTableStore(
       (state) => ({
