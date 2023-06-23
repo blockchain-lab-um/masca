@@ -35,7 +35,6 @@ import { DateTime } from 'luxon';
 import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
-import { DateTime } from 'luxon';
 import Button from '@/components/Button';
 import DeleteModal from '@/components/DeleteModal';
 import InfoIcon from '@/components/InfoIcon';
