@@ -3,7 +3,6 @@
 import React, { useEffect } from 'react';
 import { enableMasca } from '@blockchain-lab-um/masca-connector';
 import { isError } from '@blockchain-lab-um/utils';
-import detectEthereumProvider from '@metamask/detect-provider';
 import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
@@ -25,8 +24,6 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
     hasMM,
     hasFlask,
     address,
-    changeHasMetaMask,
-    changeIsFlask,
     changeAddress,
     changeIsConnected,
     changeIsConnecting,
@@ -37,8 +34,6 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
       hasFlask: state.isFlask,
       address: state.address,
       isConnected: state.isConnected,
-      changeHasMetaMask: state.changeHasMetaMask,
-      changeIsFlask: state.changeIsFlask,
       changeAddress: state.changeAddress,
       changeIsConnected: state.changeIsConnected,
       changeIsConnecting: state.changeIsConnecting,
@@ -63,34 +58,6 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
     }),
     shallow
   );
-
-  const checkMetaMaskCompatibility = async () => {
-    try {
-      const provider = await detectEthereumProvider({ mustBeMetaMask: true });
-
-      if (!provider) {
-        changeHasMetaMask(false);
-        changeIsFlask(false);
-        return;
-      }
-    } catch (error) {
-      changeHasMetaMask(false);
-      changeIsFlask(false);
-    }
-
-    changeHasMetaMask(true);
-
-    const mmVersion = (await window.ethereum.request({
-      method: 'web3_clientVersion',
-    })) as string;
-
-    if (!mmVersion.includes('flask')) {
-      changeIsFlask(false);
-      return;
-    }
-
-    changeIsFlask(true);
-  };
 
   const enableMascaHandler = async () => {
     const enableResult = await enableMasca(address, {
@@ -146,12 +113,6 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
     changeIsConnected(true);
     changeIsConnecting(false);
   };
-
-  useEffect(() => {
-    checkMetaMaskCompatibility().catch((error) => {
-      console.error(error);
-    });
-  }, []);
 
   useEffect(() => {
     if (hasMM && hasFlask && window.ethereum) {
