@@ -1,0 +1,27 @@
+import { VerifiableCredential } from "@veramo/core";
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const exampleVC_2: VerifiableCredential = {
+  credentialSubject: {
+    accomplishmentType: 'Developer Certificate',
+    learnerName: 'John Doe',
+    achievement: 'Certified Solidity Developer 2',
+    courseProvider: 'https://blockchain-lab.um.si/',
+    id: 'did:web:example.johndoe.com'
+  },
+  issuer: { id: 'did:key:zQ3shXkB5EzLZ9rPa4Pr6nf4zuUMcmN4KyHZg9EjaNnQzx3PG' },
+  type: [ 'VerifiableCredential', 'ProgramCompletionCertificate' ],
+  credentialSchema: {
+    id: 'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
+    type: 'JsonSchemaValidator2018'
+  },
+  '@context': [
+    'https://www.w3.org/2018/credentials/v1',
+    'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/ld-context.json'
+  ],
+  issuanceDate: '2023-06-25T19:25:47.000Z',
+  proof: {
+    type: 'JwtProof2020',
+    jwt: 'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSIsImh0dHBzOi8vYmV0YS5hcGkuc2NoZW1hcy5zZXJ0by5pZC92MS9wdWJsaWMvcHJvZ3JhbS1jb21wbGV0aW9uLWNlcnRpZmljYXRlLzEuMC9sZC1jb250ZXh0Lmpzb24iXSwidHlwZSI6WyJWZXJpZmlhYmxlQ3JlZGVudGlhbCIsIlByb2dyYW1Db21wbGV0aW9uQ2VydGlmaWNhdGUiXSwiY3JlZGVudGlhbFN1YmplY3QiOnsiYWNjb21wbGlzaG1lbnRUeXBlIjoiRGV2ZWxvcGVyIENlcnRpZmljYXRlIiwibGVhcm5lck5hbWUiOiJKb2huIERvZSIsImFjaGlldmVtZW50IjoiQ2VydGlmaWVkIFNvbGlkaXR5IERldmVsb3BlciAyIiwiY291cnNlUHJvdmlkZXIiOiJodHRwczovL2Jsb2NrY2hhaW4tbGFiLnVtLnNpLyJ9LCJjcmVkZW50aWFsU2NoZW1hIjp7ImlkIjoiaHR0cHM6Ly9iZXRhLmFwaS5zY2hlbWFzLnNlcnRvLmlkL3YxL3B1YmxpYy9wcm9ncmFtLWNvbXBsZXRpb24tY2VydGlmaWNhdGUvMS4wL2pzb24tc2NoZW1hLmpzb24iLCJ0eXBlIjoiSnNvblNjaGVtYVZhbGlkYXRvcjIwMTgifX0sInN1YiI6ImRpZDp3ZWI6ZXhhbXBsZS5qb2huZG9lLmNvbSIsIm5iZiI6MTY4NzcyMTE0NywiaXNzIjoiZGlkOmtleTp6UTNzaFhrQjVFekxaOXJQYTRQcjZuZjR6dVVNY21ONEt5SFpnOUVqYU5uUXp4M1BHIn0.kYYHASC6HSAEaDzQcnGIK4kkjKnYkHClY3IpNsc5QpEcJZXFcb7aWBtYwAHu9unb4Y3OejbJ6xWtu49JsG-9AA'
+  }
+}

@@ -73,6 +73,7 @@
     "@veramo/core": "5.2.0",
     "@veramo/credential-eip712": "5.2.0",
     "@veramo/credential-ld": "5.2.0",
+    "@veramo/credential-status": "5.1.2",
     "@veramo/credential-w3c": "5.2.0",
     "@veramo/did-manager": "5.1.2",
     "@veramo/did-provider-ethr": "5.1.2",

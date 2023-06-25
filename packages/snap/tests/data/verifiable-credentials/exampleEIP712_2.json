@@ -14,5 +14,19 @@
   "@context": [
     "https://www.w3.org/2018/credentials/v1",
     "https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/ld-context.json"
-  ]
+  ],
+  "issuer": "did:key:zQ3shXkB5EzLZ9rPa4Pr6nf4zuUMcmN4KyHZg9EjaNnQzx3PG",
+  "issuanceDate": "2023-06-23T17:51:13.597Z",
+  "proof": {
+    "verificationMethod": "did:key:zQ3shXkB5EzLZ9rPa4Pr6nf4zuUMcmN4KyHZg9EjaNnQzx3PG#zQ3shXkB5EzLZ9rPa4Pr6nf4zuUMcmN4KyHZg9EjaNnQzx3PG",
+    "created": "2023-06-23T17:51:13.597Z",
+    "proofPurpose": "assertionMethod",
+    "type": "EthereumEip712Signature2021",
+    "proofValue": "0x852e325db53cc3af1953f7650fa64e88948644156c7e5223cbc307300ba20fe2169c0c15cd7c4037abae0e866be17d049a57ef5256c35d1617dd3055956b867f1c",
+    "eip712": {
+      "domain": [null],
+      "types": [null],
+      "primaryType": "VerifiableCredential"
+    }
+  }
 }

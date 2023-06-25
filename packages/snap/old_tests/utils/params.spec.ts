@@ -15,15 +15,15 @@ import {
 } from '../testUtils/constants';
 
 describe('Utils [params]', () => {
-  /*
-    isValidQueryVCsRequest
-  */
   describe('isValidQueryVCsRequest', () => {
     it.todo('Add test');
   });
   describe('isValidResolveDIDRequest', () => {
     it('should fail for null', () => {
       expect(() => isValidResolveDIDRequest(null)).toThrow(Error);
+    });
+    it('should fail for wrong type', () => {
+      expect(() => isValidResolveDIDRequest({did: 123})).toThrow(Error);
     });
   });
 

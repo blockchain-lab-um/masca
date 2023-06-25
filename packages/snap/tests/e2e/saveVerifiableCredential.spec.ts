@@ -13,7 +13,7 @@ import { onRpcRequest } from '../../src';
 import type { StoredCredentials } from '../../src/veramo/plugins/ceramicDataStore/ceramicDataStore';
 import { getAgent, type Agent } from '../../src/veramo/setup';
 import { account, importablePrivateKey } from '../data/constants';
-import * as examplePayload from '../data/credentials/examplePayload.json';
+import examplePayload from '../data/credentials/examplePayload.json';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createTestVCs } from '../helpers/generateTestVCs';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
@@ -98,6 +98,7 @@ describe('Save VerifiableCredential', () => {
       }
     );
     generatedVC = res.exampleVeramoVCJWT;
+    console.log('generatedVC', generatedVC);
 
     // Ceramic mock
     DIDDataStore.prototype.get = jest
@@ -256,7 +257,7 @@ describe('Save VerifiableCredential', () => {
       if (isError(res)) {
         throw new Error(res.error);
       }
-
+      // console.log("String JWT", res.data[0].data)
       const expectedResult = [
         {
           data: generatedVC,
