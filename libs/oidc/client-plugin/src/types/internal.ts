@@ -4,7 +4,7 @@ import type {
   PresentationSubmission,
 } from '@blockchain-lab-um/oidc-types';
 import type { OriginalVerifiableCredential } from '@sphereon/ssi-types';
-import type { W3CVerifiablePresentation } from '@veramo/core';
+import type { UnsignedPresentation } from '@veramo/core';
 
 export type ParseOIDCCredentialOfferURIArgs = {
   credentialOfferURI: string;
@@ -51,7 +51,7 @@ export type CreateIdTokenArgs = {
 
 export type CreateVpTokenArgs = {
   sign: (args: SignArgs) => Promise<string>;
-  vp: W3CVerifiablePresentation;
+  vp: UnsignedPresentation;
 };
 
 export type SendOIDCAuthorizationResponseArgs = {

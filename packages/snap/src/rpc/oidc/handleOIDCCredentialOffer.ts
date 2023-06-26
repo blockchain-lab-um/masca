@@ -12,7 +12,7 @@ import type {
 } from '@blockchain-lab-um/oidc-types';
 import { isError, Result } from '@blockchain-lab-um/utils';
 import { heading, panel } from '@metamask/snaps-ui';
-import type { VerifiableCredential } from '@veramo/core';
+import type { UnsignedPresentation, VerifiableCredential } from '@veramo/core';
 import { decodeCredentialToObject } from '@veramo/utils';
 import qs from 'qs';
 
@@ -186,7 +186,8 @@ export async function handleOIDCCredentialOffer(
       const presentationSubmission = createPresentationSubmissionResult.data;
 
       const decodedCredentials = selectCredentialsResult.data.map(
-        (credential) => decodeCredentialToObject(credential)
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+        (credential) => decodeCredentialToObject(credential).proof.jwt
       );
 
       const identifier = await veramoImportMetaMaskAccount(
@@ -200,23 +201,23 @@ export async function handleOIDCCredentialOffer(
         agent
       );
 
-      const getChallengeResult = await agent.getChallenge();
+      // const getChallengeResult = await agent.getChallenge();
 
-      if (isError(getChallengeResult)) {
-        throw new Error(getChallengeResult.error);
-      }
+      // if (isError(getChallengeResult)) {
+      //   throw new Error(getChallengeResult.error);
+      // }
 
-      const challenge = getChallengeResult.data;
+      // const challenge = getChallengeResult.data;
 
-      const getDomainResult = await agent.getDomain();
+      // const getDomainResult = await agent.getDomain();
 
-      if (isError(getDomainResult)) {
-        throw new Error(getDomainResult.error);
-      }
+      // if (isError(getDomainResult)) {
+      //   throw new Error(getDomainResult.error);
+      // }
 
-      const domain = getDomainResult.data;
+      // const domain = getDomainResult.data;
 
-      const presentation = await agent.createVerifiablePresentation({
+      const veramoPresentation = await agent.createVerifiablePresentation({
         presentation: {
           holder: did,
           verifiableCredential: decodedCredentials,
@@ -224,9 +225,18 @@ export async function handleOIDCCredentialOffer(
         proofFormat: 'jwt',
       });
 
+      const { '@context': context, holder, type } = veramoPresentation;
+
+      const vp: UnsignedPresentation = {
+        '@context': context,
+        holder,
+        type,
+        verifiableCredential: decodedCredentials,
+      };
+
       const createVpTokenResult = await agent.createVpToken({
         sign: customSign,
-        vp: presentation,
+        vp,
       });
 
       if (isError(createVpTokenResult)) {

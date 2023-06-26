@@ -13,7 +13,7 @@ export type SignOptions = {
 };
 
 export const sign = async (signArgs: SignArgs, signOptions: SignOptions) => {
-  const { privateKey, did, kid, curve} = signOptions;
+  const { privateKey, did, kid, curve } = signOptions;
   const ctx = new EC(curve);
 
   const ecPrivateKey = ctx.keyFromPrivate(privateKey.slice(2));

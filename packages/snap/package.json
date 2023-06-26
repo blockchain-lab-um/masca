@@ -35,7 +35,7 @@
   ],
   "scripts": {
     "build": "pnpm mm-snap --version && pnpm build:webpack && pnpm build:snap",
-    "build:snap": "pnpm build:snap:postprocess && pnpm mm-snap manifest --fix && pnpm build:snap:eval",
+    "build:snap": "pnpm build:snap:postprocess && pnpm mm-snap manifest --fix",
     "build:snap:eval": "mm-snap eval -b dist/snap.js",
     "build:snap:postprocess": "node ./src/post-process/post-process.js",
     "build:webpack": "cross-env NODE_OPTIONS=--max-old-space-size=4096 webpack",
@@ -100,6 +100,7 @@
     "jsonpath": "^1.1.1",
     "lodash.clonedeep": "^4.5.0",
     "multiformats": "^11.0.2",
+    "qs": "^6.11.2",
     "ts-jest": "^29.1.0"
   },
   "devDependencies": {
@@ -118,6 +119,7 @@
     "@types/jest": "^29.5.2",
     "@types/jsonpath": "^0.2.0",
     "@types/node": "^18.16.15",
+    "@types/qs": "^6.9.7",
     "@types/webpack": "^5.28.1",
     "@typescript-eslint/eslint-plugin": "^5.59.8",
     "@typescript-eslint/parser": "^5.59.8",

@@ -211,8 +211,6 @@ export class OIDCClientPlugin implements IAgentPlugin {
         }
 
         this.current.authorizationServerMetadata = authorizationServerMetadata;
-        console.log('Authorization Server Metadata:');
-        console.log(authorizationServerMetadata);
       }
 
       this.current.issuerServerMetadata = serverMetadata;
@@ -459,7 +457,6 @@ export class OIDCClientPlugin implements IAgentPlugin {
     args: GetCredentialInfoByIdArgs
   ): Promise<Result<SupportedCredential>> {
     // Search for credential in issuer server metadata supported credentials
-
     if (!this.current.issuerServerMetadata) {
       return ResultObject.error('Issuer server metadata not found');
     }
@@ -481,7 +478,6 @@ export class OIDCClientPlugin implements IAgentPlugin {
     args: ParseOIDCAuthorizationRequestURIArgs
   ): Promise<Result<AuthorizationRequest>> {
     // TODO: Support for jwks encryption ?
-
     let authorizationRequest: AuthorizationRequest;
 
     try {
@@ -508,11 +504,9 @@ export class OIDCClientPlugin implements IAgentPlugin {
         }
 
         const authorizationRequestJWT = await response.text();
-        console.log(authorizationRequestJWT);
-        const decodedAuthorizationRequest = decodeJwt(authorizationRequestJWT);
-        console.log(decodedAuthorizationRequest);
-        authorizationRequest =
-          decodedAuthorizationRequest as unknown as AuthorizationRequest;
+        authorizationRequest = decodeJwt(
+          authorizationRequestJWT
+        ) as unknown as AuthorizationRequest;
       } else {
         authorizationRequest =
           parsedAuthorizationRequest as unknown as AuthorizationRequest;
@@ -545,8 +539,6 @@ export class OIDCClientPlugin implements IAgentPlugin {
       }
 
       if (authorizationRequest.response_type.includes('vp_token')) {
-        console.log(authorizationRequest);
-
         if (
           !authorizationRequest.presentation_definition &&
           !authorizationRequest.presentation_definition_uri
@@ -620,14 +612,11 @@ export class OIDCClientPlugin implements IAgentPlugin {
       return ResultObject.error('Presentation definition not found');
     }
 
-    console.log('here');
-
-    console.log(this.current.presentationDefinition);
-
     const map = new Map<string, IVerifiableCredential>();
 
     const errors: string[] = [];
 
+    // FIXME: Workaround, because PEX doesn't work correctly with multiple input descriptors
     presentationDefinition.input_descriptors.forEach((inputDescriptor) => {
       const presentationDefinitionSplit: PresentationDefinition = {
         id: presentationDefinition.id,
@@ -640,11 +629,10 @@ export class OIDCClientPlugin implements IAgentPlugin {
         credentials
       );
 
-      console.log(verifiableCredential);
-
       if (!verifiableCredential || verifiableCredential.length === 0) {
         errors.push(inputDescriptor.id);
       } else {
+        // Add credentials to hash map (unique by hash)
         for (const credential of verifiableCredential) {
           const hash = uint8ArrayToHex(
             sha256(Buffer.from(JSON.stringify(credential)))
@@ -656,8 +644,6 @@ export class OIDCClientPlugin implements IAgentPlugin {
         }
       }
     });
-
-    console.log(errors);
 
     if (errors.length > 0) {
       return ResultObject.error(
@@ -778,9 +764,6 @@ export class OIDCClientPlugin implements IAgentPlugin {
         },
       ],
     };
-
-    console.log('presentationSubmission');
-    console.log(presentationSubmission);
 
     return ResultObject.success(presentationSubmission);
   }
@@ -943,8 +926,6 @@ export class OIDCClientPlugin implements IAgentPlugin {
       };
     }
 
-    console.log(body);
-
     // FIXME: Implement without proxy and redirects
     const response = await fetch(this.proxyUrl, {
       method: 'POST',
@@ -1005,6 +986,7 @@ export class OIDCClientPlugin implements IAgentPlugin {
           this.current.credentialOffer?.grants?.authorization_code
             ?.issuer_state,
       }),
+      // This can be used to tell the auth server where we want to get redirected
       // client_metadata: JSON.stringify({
       //   authorization_endpoint: "http://localhost:3000/oidc/authorization",
       // }),
@@ -1021,8 +1003,6 @@ export class OIDCClientPlugin implements IAgentPlugin {
         })
       ),
     };
-
-    console.log(query.authorization_details);
 
     const url = `${authorizationEndpoint}?${qs.stringify(query, {
       encode: true,
