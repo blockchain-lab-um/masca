@@ -1,0 +1,316 @@
+  import { isError, Result } from '@blockchain-lab-um/utils';
+  import { MetaMaskInpageProvider } from '@metamask/providers';
+  import type {  SnapsGlobalObject } from '@metamask/snaps-types';
+  
+import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-datamanager';
+  import { onRpcRequest } from '../../src';
+  import { getAgent, type Agent } from '../../src/veramo/setup';
+  import { account, jsonPath } from '../data/constants';
+  import { getDefaultSnapState } from '../data/defaultSnapState';
+  import { createMockSnap, SnapMock } from '../helpers/snapMock';
+import exampleVC from '../data/verifiable-credentials/exampleJWT.json';
+
+
+describe('Query Verifiable Credentials', () => {
+    let snapMock: SnapsGlobalObject & SnapMock;
+    let agent: Agent;
+  
+    beforeAll(async () => {
+      snapMock = createMockSnap();
+      snapMock.rpcMocks.snap_manageState({
+        operation: 'update',
+        newState: getDefaultSnapState(account),
+      });
+      const ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
+      agent = await getAgent(snapMock, ethereumMock);
+      global.snap = snapMock;
+      global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
+
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
+    });
+
+    beforeEach(async () => {
+        await agent.clear({ options: { store: ['snap', 'ceramic'] } });
+    });
+
+    describe('queryVCs', () => {
+        it('should succeed with empty array', async () => {
+        const res = (await onRpcRequest({
+            origin: 'localhost',
+            request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'queryVCs',
+            params: {},
+            },
+        })) as Result<unknown>;
+
+        if (isError(res)) {
+            throw new Error(res.error);
+        }
+
+        expect(res.data).toEqual([]);
+
+        expect.assertions(1);
+        });
+
+        it('should succeed with 1 VC matching query - filter by ID', async () => {
+        snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
+
+        const saveRes = (await onRpcRequest({
+            origin: 'localhost',
+            request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'saveVC',
+            params: {
+                verifiableCredential: exampleVC,
+                options: { store: 'snap' },
+            },
+            },
+        })) as Result<IDataManagerSaveResult[]>;
+
+        if (isError(saveRes)) {
+            throw new Error(saveRes.error);
+        }
+
+        const expectedResult = [
+            {
+            data: exampleVC,
+            metadata: {
+                id: saveRes.data[0].id,
+                store: ['snap'],
+            },
+            },
+        ];
+
+        const res = (await onRpcRequest({
+            origin: 'localhost',
+            request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'queryVCs',
+            params: {
+                filter: {
+                type: 'id',
+                filter: saveRes.data[0].id,
+                },
+            },
+            },
+        })) as Result<unknown>;
+
+        if (isError(res)) {
+            throw new Error(res.error);
+        }
+
+        expect(res.data).toEqual(expectedResult);
+
+        expect.assertions(1);
+        });
+
+        it('should succeed with 1 VC matching query - no filter or store', async () => {
+        snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
+
+        const saveRes = (await onRpcRequest({
+            origin: 'localhost',
+            request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'saveVC',
+            params: {
+                verifiableCredential: exampleVC,
+                options: { store: 'snap' },
+            },
+            },
+        })) as Result<IDataManagerSaveResult[]>;
+
+        if (isError(saveRes)) {
+            throw new Error(saveRes.error);
+        }
+
+        const expectedResult = [
+            {
+            data: exampleVC,
+            metadata: {
+                id: saveRes.data[0].id,
+                store: ['snap'],
+            },
+            },
+        ];
+
+        const res = (await onRpcRequest({
+            origin: 'localhost',
+            request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'queryVCs',
+            params: {},
+            },
+        })) as Result<unknown>;
+
+        if (isError(res)) {
+            throw new Error(res.error);
+        }
+
+        expect(res.data).toEqual(expectedResult);
+
+        expect.assertions(1);
+        });
+
+        it('should succeed with 1 VC matching query - store defined', async () => {
+        snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
+
+        const saveRes = (await onRpcRequest({
+            origin: 'localhost',
+            request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'saveVC',
+            params: {
+                verifiableCredential: exampleVC,
+                options: { store: 'snap' },
+            },
+            },
+        })) as Result<IDataManagerSaveResult[]>;
+
+        if (isError(saveRes)) {
+            throw new Error(saveRes.error);
+        }
+
+        const expectedResult = [
+            {
+            data: exampleVC,
+            metadata: {
+                id: saveRes.data[0].id,
+                store: ['snap'],
+            },
+            },
+        ];
+
+        const res = (await onRpcRequest({
+            origin: 'localhost',
+            request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'queryVCs',
+            params: {
+                options: { store: 'snap' },
+            },
+            },
+        })) as Result<unknown>;
+
+        if (isError(res)) {
+            throw new Error(res.error);
+        }
+
+        expect(res.data).toEqual(expectedResult);
+
+        expect.assertions(1);
+        });
+
+        it('should succeed with 1 VC matching query - without store', async () => {
+        snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
+
+        const saveRes = (await onRpcRequest({
+            origin: 'localhost',
+            request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'saveVC',
+            params: {
+                verifiableCredential: exampleVC,
+                options: { store: 'snap' },
+            },
+            },
+        })) as Result<IDataManagerSaveResult[]>;
+
+        if (isError(saveRes)) {
+            throw new Error(saveRes.error);
+        }
+
+        const expectedResult = [
+            {
+            data: exampleVC,
+            metadata: {
+                id: saveRes.data[0].id,
+            },
+            },
+        ];
+
+        const res = (await onRpcRequest({
+            origin: 'localhost',
+            request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'queryVCs',
+            params: {
+                options: { returnStore: false },
+            },
+            },
+        })) as Result<unknown>;
+
+        if (isError(res)) {
+            throw new Error(res.error);
+        }
+
+        expect(res.data).toEqual(expectedResult);
+
+        expect.assertions(1);
+        });
+
+        it('should succeed with 1 VC matching query - filter by JSONPath', async () => {
+        snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
+
+        const saveRes = (await onRpcRequest({
+            origin: 'localhost',
+            request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'saveVC',
+            params: {
+                verifiableCredential: exampleVC,
+                options: { store: 'snap' },
+            },
+            },
+        })) as Result<IDataManagerSaveResult[]>;
+
+        if (isError(saveRes)) {
+            throw new Error(saveRes.error);
+        }
+
+        const expectedResult = [
+            {
+            data: exampleVC,
+            metadata: {
+                id: saveRes.data[0].id,
+                store: ['snap'],
+            },
+            },
+        ];
+
+        const res = (await onRpcRequest({
+            origin: 'localhost',
+            request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'queryVCs',
+            params: {
+                options: { store: 'snap' },
+                filter: {
+                type: 'JSONPath',
+                filter: jsonPath,
+                },
+            },
+            },
+        })) as Result<unknown>;
+
+        if (isError(res)) {
+            throw new Error(res.error);
+        }
+
+        expect(res.data).toEqual(expectedResult);
+
+        expect.assertions(1);
+        });
+    });
+});
