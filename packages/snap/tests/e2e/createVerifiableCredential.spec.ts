@@ -95,6 +95,7 @@ import {
             
             const validity = await agent.verifyCredential({ credential: vc.data });
             expect(validity.verified).toBe(true);
+
             if(typeof vc.data.issuer === 'string') {
                 expect(vc.data.issuer).toBe(issuer);
             }
@@ -144,8 +145,6 @@ import {
                 throw new Error(res.error);
               }
 
-              console.log('query.vc')
-              console.log(res.data[0].data)
 
               expect(res.data[0].data).toEqual(vc.data);
               expect(res.data[0].metadata.store).toEqual([store])

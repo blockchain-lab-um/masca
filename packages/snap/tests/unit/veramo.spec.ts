@@ -25,12 +25,11 @@ import {
 import exampleVCEIP712 from '../data/verifiable-credentials/exampleEIP712.json';
 import exampleVCJSONLD from '../data/verifiable-credentials/exampleJSONLD.json';
 import exampleVC from '../data/verifiable-credentials/exampleJWT.json';
-// eslint-disable-next-line import/no-named-default
-import {exampleVC_2} from '../data/verifiable-credentials/constants'
+import exampleVC_2 from '../data/verifiable-credentials/exampleJWT_2.json';
+import exampleVC_3 from '../data/verifiable-credentials/exampleJWT_3.json';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
-// const credentials = [exampleVC, exampleVC_2, exampleVC_3, exampleVCEIP712, exampleVCEIP712_2];
-const credentials = [exampleVC_2];
+const credentials = [exampleVC, exampleVC_2, exampleVC_3, exampleVCEIP712];
 
 describe('Utils [veramo]', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
@@ -775,26 +774,14 @@ describe('Utils [veramo]', () => {
           data: { credential },
         });
 
-        // console.log("VCCC:", credential)
-
-        // const agent = await getAgent(snapMock, ethereumMock);
-        // const verifyResult = await agent.verifyCredential({credential})
-        
-        // console.log(credential)
-        
-        // if(typeof credential.issuer === 'string')
-        //   console.log(credential.issuer)
-        // else
-        //   console.log(credential.issuer.id)
-        // console.log(credential.proof.type)
-        // console.log(verifyResult.error)
+        console.log(verifyResult.error);
         
         
         expect(verifyResult.verified).toBe(true);
         expect.assertions(1);
       });
 
-      it.skip('should succeed validating a VP - JWT', async () => {
+      it('should succeed validating a VP - JWT', async () => {
         const agent = await getAgent(snapMock, ethereumMock);
         const identity: IIdentifier = await agent.didManagerCreate({
           provider: 'did:ethr',
@@ -828,7 +815,7 @@ describe('Utils [veramo]', () => {
         expect(verifyResult.verified).toBe(true);
         expect.assertions(1);
       });
-      it.skip('should succeed validating a VP - Eip712', async () => {
+      it('should succeed validating a VP - Eip712', async () => {
         const agent = await getAgent(snapMock, ethereumMock);
         const identity: IIdentifier = await agent.didManagerCreate({
           provider: 'did:ethr',

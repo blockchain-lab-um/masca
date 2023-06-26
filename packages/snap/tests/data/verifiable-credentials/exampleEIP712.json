@@ -1,46 +1,128 @@
 {
-  "issuer": "did:key:zQ3shYMgaxxFxwm3ipuCPD3n6WT58Up6qUaJUAnYZUeb7EBXW",
-  "type": ["VerifiableCredential", "Custom"],
+  "type": ["VerifiableCredential", "ProgramCompletionCertificate"],
   "credentialSubject": {
     "accomplishmentType": "Developer Certificate",
-    "learnerName": "Bob",
+    "learnerName": "John Doe",
     "achievement": "Certified Solidity Developer 2",
     "courseProvider": "https://blockchain-lab.um.si/",
-    "id": "did:ethr:goerli:0xb6665128ee91d84590f70c3268765384a9cafbcd"
+    "id": "did:web:example.johndoe.com"
   },
-  "@context": ["https://www.w3.org/2018/credentials/v1"],
-  "issuanceDate": "2022-08-12T08:56:59.619Z",
+  "credentialSchema": {
+    "id": "https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json",
+    "type": "JsonSchemaValidator2018"
+  },
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1",
+    "https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/ld-context.json"
+  ],
+  "issuer": "did:key:zQ3shXkB5EzLZ9rPa4Pr6nf4zuUMcmN4KyHZg9EjaNnQzx3PG",
+  "issuanceDate": "2023-06-26T07:22:41.573Z",
   "proof": {
-    "verificationMethod": "did:key:zQ3shYMgaxxFxwm3ipuCPD3n6WT58Up6qUaJUAnYZUeb7EBXW#zQ3shYMgaxxFxwm3ipuCPD3n6WT58Up6qUaJUAnYZUeb7EBXW",
-    "created": "2022-08-12T08:56:59.619Z",
+    "verificationMethod": "did:key:zQ3shXkB5EzLZ9rPa4Pr6nf4zuUMcmN4KyHZg9EjaNnQzx3PG#zQ3shXkB5EzLZ9rPa4Pr6nf4zuUMcmN4KyHZg9EjaNnQzx3PG",
+    "created": "2023-06-26T07:22:41.573Z",
     "proofPurpose": "assertionMethod",
     "type": "EthereumEip712Signature2021",
-    "proofValue": "0xdf3910af95b8207e6fd1cbbc9beb21941fcbff0eb4032aee356ee52eb340ca2d26bfd8156c811460b4651d140f5b7130532c5e8228e488696435564236f4a0f71c",
+    "proofValue": "0xc978fd3dbd394a882e4a8c7ae7db59d38425e0b74168ac16b53d02a22f342acf007d524e6d83ce70abbb5c00ac9967926e7efa5fe76407d3e9debcf097b2cd611b",
     "eip712": {
       "domain": {
-        "chainId": 4,
+        "chainId": 1,
         "name": "VerifiableCredential",
         "version": "1"
       },
-      "messageSchema": {
+      "types": {
         "EIP712Domain": [
-          { "name": "name", "type": "string" },
-          { "name": "version", "type": "string" },
-          { "name": "chainId", "type": "uint256" }
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "version",
+            "type": "string"
+          },
+          {
+            "name": "chainId",
+            "type": "uint256"
+          }
+        ],
+        "CredentialSchema": [
+          {
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "type": "string"
+          }
+        ],
+        "CredentialSubject": [
+          {
+            "name": "accomplishmentType",
+            "type": "string"
+          },
+          {
+            "name": "achievement",
+            "type": "string"
+          },
+          {
+            "name": "courseProvider",
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "name": "learnerName",
+            "type": "string"
+          }
         ],
         "Proof": [
-          { "name": "created", "type": "string" },
-          { "name": "proofPurpose", "type": "string" },
-          { "name": "type", "type": "string" },
-          { "name": "verificationMethod", "type": "string" }
+          {
+            "name": "created",
+            "type": "string"
+          },
+          {
+            "name": "proofPurpose",
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "type": "string"
+          },
+          {
+            "name": "verificationMethod",
+            "type": "string"
+          }
         ],
-        "VerifiablePresentation": [
-          { "name": "@context", "type": "string[]" },
-          { "name": "holder", "type": "string" },
-          { "name": "issuanceDate", "type": "string" },
-          { "name": "proof", "type": "Proof" },
-          { "name": "type", "type": "string[]" },
-          { "name": "verifiableCredential", "type": "string[]" }
+        "VerifiableCredential": [
+          {
+            "name": "@context",
+            "type": "string[]"
+          },
+          {
+            "name": "credentialSchema",
+            "type": "CredentialSchema"
+          },
+          {
+            "name": "credentialSubject",
+            "type": "CredentialSubject"
+          },
+          {
+            "name": "issuanceDate",
+            "type": "string"
+          },
+          {
+            "name": "issuer",
+            "type": "string"
+          },
+          {
+            "name": "proof",
+            "type": "Proof"
+          },
+          {
+            "name": "type",
+            "type": "string[]"
+          }
         ]
       },
       "primaryType": "VerifiableCredential"
