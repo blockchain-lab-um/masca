@@ -30,6 +30,10 @@ const EXTRA_LINKS = [
     name: 'authorization-request',
     href: '/app/authorization-request',
   },
+  {
+    name: 'qr-code-session',
+    href: '/app/qr-code-session',
+  },
 ];
 
 export default function AppNavbar() {
@@ -62,7 +66,7 @@ export default function AppNavbar() {
               {t(`menu.${name}`)}
             </Link>
           ))}
-          {/* {EXTRA_LINKS.map(({ name, href }) => (
+          {EXTRA_LINKS.map(({ name, href }) => (
             <Link
               className={clsx(
                 'nav-btn',
@@ -76,7 +80,7 @@ export default function AppNavbar() {
             >
               {t(`menu.${name}`)}
             </Link>
-          ))} */}
+          ))}
           <MenuPopover />
         </div>
         <div className="flex-1 md:flex-none">

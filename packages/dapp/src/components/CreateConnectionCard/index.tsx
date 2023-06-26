@@ -30,10 +30,9 @@ const CreateConnectionCard = () => {
         </div>
         <div className="flex justify-center">
           <Button
-            // variant={isConnected ? 'primary' : 'gray'}
-            variant="primary"
+            variant={isConnected ? 'primary' : 'gray'}
             onClick={() => setIsModalOpen(true)}
-            // disabled={!isConnected}
+            disabled={!isConnected}
           >
             Create Connection
           </Button>

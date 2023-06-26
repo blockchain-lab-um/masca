@@ -19,7 +19,7 @@ const QRCodeScanner = ({
   useEffect(() => {
     setScanner(
       new Html5Qrcode('reader', {
-        verbose: true,
+        verbose: false,
       })
     );
 

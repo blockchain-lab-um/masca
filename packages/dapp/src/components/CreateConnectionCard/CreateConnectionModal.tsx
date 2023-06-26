@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { QRCodeSVG } from 'qrcode.react';
 import { shallow } from 'zustand/shallow';
@@ -16,6 +16,7 @@ const CreateConnectionModal = ({
   open,
   setOpen,
 }: CreateConnectionModalProps) => {
+  const [connectionData, setConnectionData] = useState<string | null>(null);
   const { changeSessionId, changeKey, changeExp } = useSessionStore(
     (state) => ({
       changeSessionId: state.changeSessionId,
@@ -42,8 +43,7 @@ const CreateConnectionModal = ({
     const keyData = await crypto.subtle.exportKey('jwk', key);
 
     // Set expiration date (1 hour from now)
-    const exp = new Date();
-    exp.setHours(exp.getHours() + 1);
+    const exp = Date.now() + 1000 * 60 * 60;
 
     // Set global session data
     changeSessionId(sessionId);
@@ -54,14 +54,14 @@ const CreateConnectionModal = ({
     return JSON.stringify({
       sessionId,
       keyData,
-      exp: exp.toISOString(),
+      exp,
     });
   };
 
   useEffect(() => {
     if (open) {
       createSession()
-        .then((a) => console.log(a.length))
+        .then((data) => setConnectionData(data))
         .catch(console.error);
     }
   }, [open]);
@@ -99,9 +99,15 @@ const CreateConnectionModal = ({
                 >
                   Connection QR Code
                 </Dialog.Title>
-                <div className="mt-8 flex w-full justify-center">
-                  <div className="dark:border-orange-accent-dark border- rounded-xl border-2 border-pink-500 bg-white p-4">
-                    <QRCodeSVG value="https://www.google.com" />
+                <div className="flex w-full justify-center p-4 pt-8">
+                  <div className="dark:border-orange-accent-dark rounded-xl border-2 border-pink-500 bg-white p-4">
+                    {connectionData && (
+                      <QRCodeSVG
+                        value={connectionData}
+                        height={300}
+                        width={300}
+                      />
+                    )}
                   </div>
                 </div>
               </Dialog.Panel>
