@@ -18,8 +18,13 @@ export const importablePrivateKey: MinimalImportableKey = {
 
 // Query params
 
+// For exampleJWT.json
 export const jsonPath =
   '$[?(@.data.credentialSubject.placeOfBirth == "Asgard")]';
+
+// For exampleJWT_2.json & VCs returned by createTestVCs()
+export const jsonPath2 = 
+  '$[?(@.data.credentialSubject.accomplishmentType == "Developer Certificate")]';
 
 // Errors
 

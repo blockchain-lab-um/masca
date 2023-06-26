@@ -1,0 +1,40 @@
+{
+  "did": "did:ebsi:ziE2n8Ckhi6ut5Z8Cexrihd",
+  "didDocumentMetadata": {},
+  "didResolutionMetadata": {
+    "contentType": "application/did+ld+json",
+    "pattern": "^(did:ebsi:.+)$",
+    "driverUrl": "https://api-pilot.ebsi.eu/did-registry/v3/identifiers/$1",
+    "duration": 953,
+    "did": {
+      "didString": "did:ebsi:ziE2n8Ckhi6ut5Z8Cexrihd",
+      "methodSpecificId": "ziE2n8Ckhi6ut5Z8Cexrihd",
+      "method": "ebsi"
+    }
+  },
+  "didDocument": {
+    "@context": [
+      "https://www.w3.org/ns/did/v1",
+      "https://w3id.org/security/suites/jws-2020/v1"
+    ],
+    "authentication": ["did:ebsi:ziE2n8Ckhi6ut5Z8Cexrihd#key-1"],
+    "service": [],
+    "id": "did:ebsi:ziE2n8Ckhi6ut5Z8Cexrihd",
+    "assertionMethod": ["did:ebsi:ziE2n8Ckhi6ut5Z8Cexrihd#key-1"],
+    "verificationMethod": [
+      {
+        "id": "did:ebsi:ziE2n8Ckhi6ut5Z8Cexrihd#key-1",
+        "controller": "did:ebsi:ziE2n8Ckhi6ut5Z8Cexrihd",
+        "type": "JsonWebKey2020",
+        "publicKeyJwk": {
+          "kty": "EC",
+          "crv": "secp256k1",
+          "x": "masUHNuJ0oH0C_e5rLUu5VKwmU2l-a7rrNTqA__afN8",
+          "y": "UmGGX_WgRFXbw6qTli9xcQ0owtkZVuUGVyM23e8rZe8",
+          "kid": "did:ebsi:ziE2n8Ckhi6ut5Z8Cexrihd#keys-1"
+        }
+      }
+    ]
+  },
+  "@context": "https://w3id.org/did-resolution/v1"
+}

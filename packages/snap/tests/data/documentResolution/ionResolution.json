@@ -1,0 +1,58 @@
+{
+  "did": "did:ion:EiClkZMDxPKqC9c-umQfTkR8vvZ9JPhl_xLDI9Nfk38w5w",
+  "didDocumentMetadata": {
+    "method": {
+      "published": true,
+      "recoveryCommitment": "EiDKYXZ2MkHRCYDVtXI7ONiTkTdVfs9Tnb-tDDHGXLzmOw",
+      "updateCommitment": "EiDNk40DUvxCef8_BinU5DDIAhNWE4e7Ea9Q6P7GAbJ6VA"
+    },
+    "canonicalId": "did:ion:EiClkZMDxPKqC9c-umQfTkR8vvZ9JPhl_xLDI9Nfk38w5w"
+  },
+  "didResolutionMetadata": {
+    "contentType": "application/did+ld+json",
+    "pattern": "^(did:ion:(?!test).+)$",
+    "driverUrl": "http://driver-did-ion:8080/1.0/identifiers/",
+    "duration": 21,
+    "did": {
+      "didString": "did:ion:EiClkZMDxPKqC9c-umQfTkR8vvZ9JPhl_xLDI9Nfk38w5w",
+      "methodSpecificId": "EiClkZMDxPKqC9c-umQfTkR8vvZ9JPhl_xLDI9Nfk38w5w",
+      "method": "ion"
+    }
+  },
+  "didDocument": {
+    "id": "did:ion:EiClkZMDxPKqC9c-umQfTkR8vvZ9JPhl_xLDI9Nfk38w5w",
+    "@context": [
+      "https://www.w3.org/ns/did/v1",
+      {
+        "@base": "did:ion:EiClkZMDxPKqC9c-umQfTkR8vvZ9JPhl_xLDI9Nfk38w5w"
+      }
+    ],
+    "service": [
+      {
+        "id": "#linkedin",
+        "type": "linkedin",
+        "serviceEndpoint": "linkedin.com/in/henry-tsai-6b884014"
+      },
+      {
+        "id": "#github",
+        "type": "github",
+        "serviceEndpoint": "github.com/thehenrytsai"
+      }
+    ],
+    "verificationMethod": [
+      {
+        "id": "#someKeyId",
+        "controller": "did:ion:EiClkZMDxPKqC9c-umQfTkR8vvZ9JPhl_xLDI9Nfk38w5w",
+        "type": "EcdsaSecp256k1VerificationKey2019",
+        "publicKeyJwk": {
+          "kty": "EC",
+          "crv": "secp256k1",
+          "x": "WfY7Px6AgH6x-_dgAoRbg8weYRJA36ON-gQiFnETrqw",
+          "y": "IzFx3BUGztK0cyDStiunXbrZYYTtKbOUzx16SUK0sAY"
+        }
+      }
+    ],
+    "authentication": ["#someKeyId"]
+  },
+  "@context": "https://w3id.org/did-resolution/v1"
+}

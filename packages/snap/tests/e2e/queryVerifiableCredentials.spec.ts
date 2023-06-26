@@ -3,18 +3,21 @@
   import type {  SnapsGlobalObject } from '@metamask/snaps-types';
   
 import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-datamanager';
+import { VerifiableCredential } from '@veramo/core';
   import { onRpcRequest } from '../../src';
   import { getAgent, type Agent } from '../../src/veramo/setup';
-  import { account, jsonPath } from '../data/constants';
+  import { account, importablePrivateKey, jsonPath2 } from '../data/constants';
   import { getDefaultSnapState } from '../data/defaultSnapState';
   import { createMockSnap, SnapMock } from '../helpers/snapMock';
-import exampleVC from '../data/verifiable-credentials/exampleJWT.json';
+import { createTestVCs } from '../helpers/generateTestVCs';
+import examplePayload from '../data/credentials/examplePayload.json';
 
 
 describe('Query Verifiable Credentials', () => {
     let snapMock: SnapsGlobalObject & SnapMock;
     let agent: Agent;
-  
+    let generatedVC: VerifiableCredential;
+
     beforeAll(async () => {
       snapMock = createMockSnap();
       snapMock.rpcMocks.snap_manageState({
@@ -25,6 +28,26 @@ describe('Query Verifiable Credentials', () => {
       agent = await getAgent(snapMock, ethereumMock);
       global.snap = snapMock;
       global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
+
+      const identifier = await agent.didManagerCreate({
+        provider: 'did:ethr',
+        kms: 'snap',
+      });
+      await agent.keyManagerImport(importablePrivateKey);
+      const res = await createTestVCs(
+        {
+          agent,
+          proofFormat: 'jwt',
+          payload: {
+            issuer: identifier.did,
+            ...examplePayload,
+          },
+        },
+        {
+          keyRef: 'importedTestKey',
+        }
+      );
+      generatedVC = res.exampleVeramoVCJWT;  
 
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
     });
@@ -64,7 +87,7 @@ describe('Query Verifiable Credentials', () => {
             jsonrpc: '2.0',
             method: 'saveVC',
             params: {
-                verifiableCredential: exampleVC,
+                verifiableCredential: generatedVC,
                 options: { store: 'snap' },
             },
             },
@@ -76,7 +99,7 @@ describe('Query Verifiable Credentials', () => {
 
         const expectedResult = [
             {
-            data: exampleVC,
+            data: generatedVC,
             metadata: {
                 id: saveRes.data[0].id,
                 store: ['snap'],
@@ -118,7 +141,7 @@ describe('Query Verifiable Credentials', () => {
             jsonrpc: '2.0',
             method: 'saveVC',
             params: {
-                verifiableCredential: exampleVC,
+                verifiableCredential: generatedVC,
                 options: { store: 'snap' },
             },
             },
@@ -130,7 +153,7 @@ describe('Query Verifiable Credentials', () => {
 
         const expectedResult = [
             {
-            data: exampleVC,
+            data: generatedVC,
             metadata: {
                 id: saveRes.data[0].id,
                 store: ['snap'],
@@ -167,7 +190,7 @@ describe('Query Verifiable Credentials', () => {
             jsonrpc: '2.0',
             method: 'saveVC',
             params: {
-                verifiableCredential: exampleVC,
+                verifiableCredential: generatedVC,
                 options: { store: 'snap' },
             },
             },
@@ -179,7 +202,7 @@ describe('Query Verifiable Credentials', () => {
 
         const expectedResult = [
             {
-            data: exampleVC,
+            data: generatedVC,
             metadata: {
                 id: saveRes.data[0].id,
                 store: ['snap'],
@@ -218,7 +241,7 @@ describe('Query Verifiable Credentials', () => {
             jsonrpc: '2.0',
             method: 'saveVC',
             params: {
-                verifiableCredential: exampleVC,
+                verifiableCredential: generatedVC,
                 options: { store: 'snap' },
             },
             },
@@ -230,7 +253,7 @@ describe('Query Verifiable Credentials', () => {
 
         const expectedResult = [
             {
-            data: exampleVC,
+            data: generatedVC,
             metadata: {
                 id: saveRes.data[0].id,
             },
@@ -268,7 +291,7 @@ describe('Query Verifiable Credentials', () => {
             jsonrpc: '2.0',
             method: 'saveVC',
             params: {
-                verifiableCredential: exampleVC,
+                verifiableCredential: generatedVC,
                 options: { store: 'snap' },
             },
             },
@@ -280,7 +303,7 @@ describe('Query Verifiable Credentials', () => {
 
         const expectedResult = [
             {
-            data: exampleVC,
+            data: generatedVC,
             metadata: {
                 id: saveRes.data[0].id,
                 store: ['snap'],
@@ -298,7 +321,7 @@ describe('Query Verifiable Credentials', () => {
                 options: { store: 'snap' },
                 filter: {
                 type: 'JSONPath',
-                filter: jsonPath,
+                filter: jsonPath2,
                 },
             },
             },

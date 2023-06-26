@@ -98,8 +98,6 @@ describe('Save VerifiableCredential', () => {
       }
     );
     generatedVC = res.exampleVeramoVCJWT;
-    console.log('generatedVC', generatedVC);
-
     // Ceramic mock
     DIDDataStore.prototype.get = jest
       .fn()

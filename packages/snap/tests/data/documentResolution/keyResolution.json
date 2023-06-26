@@ -1,0 +1,34 @@
+{
+  "didDocumentMetadata": {},
+  "didResolutionMetadata": {},
+  "didDocument": {
+    "id": "did:key:zQ3shXkB5EzLZ9rPa4Pr6nf4zuUMcmN4KyHZg9EjaNnQzx3PG",
+    "@context": [
+      "https://www.w3.org/ns/did/v1",
+      "https://w3id.org/security#EcdsaSecp256k1VerificationKey2019",
+      "https://w3id.org/security#publicKeyJwk"
+    ],
+    "assertionMethod": [
+      "did:key:zQ3shXkB5EzLZ9rPa4Pr6nf4zuUMcmN4KyHZg9EjaNnQzx3PG#zQ3shXkB5EzLZ9rPa4Pr6nf4zuUMcmN4KyHZg9EjaNnQzx3PG"
+    ],
+    "authentication": [
+      "did:key:zQ3shXkB5EzLZ9rPa4Pr6nf4zuUMcmN4KyHZg9EjaNnQzx3PG#zQ3shXkB5EzLZ9rPa4Pr6nf4zuUMcmN4KyHZg9EjaNnQzx3PG"
+    ],
+    "verificationMethod": [
+      {
+        "id": "did:key:zQ3shXkB5EzLZ9rPa4Pr6nf4zuUMcmN4KyHZg9EjaNnQzx3PG#zQ3shXkB5EzLZ9rPa4Pr6nf4zuUMcmN4KyHZg9EjaNnQzx3PG",
+        "type": "EcdsaSecp256k1VerificationKey2019",
+        "controller": "did:key:zQ3shXkB5EzLZ9rPa4Pr6nf4zuUMcmN4KyHZg9EjaNnQzx3PG",
+        "publicKeyJwk": {
+          "alg": "ES256K",
+          "crv": "secp256k1",
+          "kty": "EC",
+          "use": "sig",
+          "x": "mYwjizdBUXEAX_SWUFaBm37kIYv9tFuFzjOnsSVhtps",
+          "y": "O0F2sHia0CfabHJrh03MaAkzto9ECoXTjmenM-H2vsw"
+        }
+      }
+    ]
+  },
+  "did": "did:key:zQ3shXkB5EzLZ9rPa4Pr6nf4zuUMcmN4KyHZg9EjaNnQzx3PG"
+}
