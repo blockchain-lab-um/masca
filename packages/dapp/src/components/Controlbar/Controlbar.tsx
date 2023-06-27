@@ -16,6 +16,7 @@ import DataStoreCombobox from '@/components/VCTable/DataStoreCombobox';
 import GlobalFilter from '@/components/VCTable/GlobalFilter';
 import ViewTabs from '@/components/VCTable/ViewTabs';
 import { useGeneralStore, useMascaStore, useToastStore } from '@/stores';
+import { normalizeCredential } from 'did-jwt-vc';
 
 const Controlbar = () => {
   // Local state
@@ -77,24 +78,37 @@ const Controlbar = () => {
   const saveVC = async (vc: string, stores: AvailableVCStores[]) => {
     if (!api) return false;
     let vcObj;
-    try {
-      vcObj = JSON.parse(vc) as W3CVerifiableCredential;
-    } catch (err) {
-      console.log(err);
-      return false;
+    if(typeof vc !== 'string'){
+      try {
+        vcObj = JSON.parse(vc) as W3CVerifiableCredential;
+      } catch (err) {
+        console.log(err);
+        return false;
+      }
+    }
+    else {
+      vcObj = vc as W3CVerifiableCredential;
     }
     const res = await api.saveVC(vcObj, {
       store: stores,
     });
+    console.log(res);
     if (isError(res)) {
       console.log('error', res);
       return false;
     }
     if (res.data && res.data.length > 0) {
       const newVcs: QueryVCsRequestResult[] = [];
+      let data: W3CVerifiableCredential;
+      if(typeof vc === 'string'){
+        data = normalizeCredential(vc) as W3CVerifiableCredential
+      }
+      else {
+        data = JSON.parse(vc) as W3CVerifiableCredential;
+      }
       res.data.forEach((metadata) => {
         const finalVC = {
-          data: JSON.parse(vc) as W3CVerifiableCredential,
+          data,
           metadata,
         } as QueryVCsRequestResult;
         newVcs.push(finalVC);

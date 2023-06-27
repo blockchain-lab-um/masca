@@ -1180,6 +1180,9 @@ importers:
       clsx:
         specifier: ^1.2.1
         version: 1.2.1
+      did-jwt-vc:
+        specifier: ^3.2.4
+        version: 3.2.4
       ethers:
         specifier: ^6.5.1
         version: 6.5.1
@@ -10330,7 +10333,7 @@ packages:
     resolution: {integrity: sha512-bcKpo1oj54hGholplGLpqPHRbIsnbixFtc06nwuNM5/dwSXOq/AAYoIBRsBmnZJSdfeNW5rnff7NTAz3ZCqR9Q==}
     dependencies:
       '@noble/curves': 1.0.0
-      '@noble/hashes': 1.3.0
+      '@noble/hashes': 1.3.1
       '@scure/base': 1.1.1
 
   /@scure/bip39@1.1.0:
@@ -10343,7 +10346,7 @@ packages:
   /@scure/bip39@1.2.0:
     resolution: {integrity: sha512-SX/uKq52cuxm4YFXWFaVByaSHJh2w3BnokVSeUJVCv6K7WulT9u2BuNRBhuFl8vAuYnzx9bEu9WgpcNYTrYieg==}
     dependencies:
-      '@noble/hashes': 1.3.0
+      '@noble/hashes': 1.3.1
       '@scure/base': 1.1.1
 
   /@segment/loosely-validate-event@2.0.0:
@@ -12112,7 +12115,7 @@ packages:
     dependencies:
       credential-status: 2.0.5
       debug: 4.3.4
-      did-jwt-vc: 3.2.1
+      did-jwt-vc: 3.2.4
       did-resolver: 4.1.0
     transitivePeerDependencies:
       - supports-color
@@ -12174,7 +12177,7 @@ packages:
       canonicalize: 2.0.0
       debug: 4.3.4
       did-jwt: 6.11.6
-      did-jwt-vc: 3.2.1
+      did-jwt-vc: 3.2.4
       did-resolver: 4.1.0
       uint8arrays: 3.1.1
       uuid: 9.0.0
@@ -12197,7 +12200,7 @@ packages:
       '@veramo/key-manager': 5.1.2
       '@veramo/utils': 5.2.0
       debug: 4.3.4
-      did-jwt-vc: 3.2.1
+      did-jwt-vc: 3.2.4
       typeorm: 0.3.16(better-sqlite3@8.4.0)(ts-node@10.9.1)
       uuid: 9.0.0
     transitivePeerDependencies:
@@ -12230,7 +12233,7 @@ packages:
       '@veramo/key-manager': 5.1.2
       '@veramo/utils': 5.2.0
       debug: 4.3.4
-      did-jwt-vc: 3.2.1
+      did-jwt-vc: 3.2.4
       typeorm: 0.3.16(pg@8.11.0)(sqlite3@5.1.6)(ts-node@10.9.1)
       uuid: 9.0.0
     transitivePeerDependencies:
@@ -12529,7 +12532,7 @@ packages:
       cross-fetch: 3.1.6(patch_hash=b7u473fsyomrwof2p2enxrunba)
       debug: 4.3.4
       did-jwt: 6.11.6
-      did-jwt-vc: 3.2.1
+      did-jwt-vc: 3.2.4
       did-resolver: 4.1.0
       elliptic: 6.5.4
       multiformats: 9.9.0
@@ -15678,6 +15681,14 @@ packages:
 
   /did-jwt-vc@3.2.1:
     resolution: {integrity: sha512-jzYBD9jDqa7Cv/i24HfXNMxQVjH/rYDS/IKXScHj3S/2G1ofqZY17Q4Nr6lGju5BO46FClaho303fD4oh2coCQ==}
+    engines: {node: '>=18'}
+    dependencies:
+      did-jwt: 7.2.0
+      did-resolver: 4.1.0
+    dev: false
+
+  /did-jwt-vc@3.2.4:
+    resolution: {integrity: sha512-aCes7YJ0+/CwLdC5Nw/MaLkGFzvyRfH3/iYrUi/nhTP0YJ6R2zOkmaXzYFZS+8vTcUnxZk/aj2i06/N5W8ylzw==}
     engines: {node: '>=18'}
     dependencies:
       did-jwt: 7.2.0
