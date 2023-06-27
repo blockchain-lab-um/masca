@@ -42,5 +42,4 @@ export default {
   extensionsToTreatAsEsm: ['.ts'],
   transformIgnorePatterns: [`/node_modules/(?!${esModules})/`],
   testTimeout: 120000,
-  modulePathIgnorePatterns: ['<rootDir>/old_tests/'],
 };
