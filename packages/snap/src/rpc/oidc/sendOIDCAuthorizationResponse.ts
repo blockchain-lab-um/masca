@@ -5,11 +5,10 @@ import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
 import { decodeCredentialToObject } from '@veramo/utils';
 
 import type { ApiParams } from '../../interfaces';
-import { getCurrentDid } from '../../utils/didUtils';
+import { getCurrentDidIdentifier } from '../../utils/didUtils';
 import { snapGetKeysFromAddress } from '../../utils/keyPair';
 import { sign } from '../../utils/sign';
 import { snapConfirm } from '../../utils/snapUtils';
-import { veramoImportMetaMaskAccount } from '../../utils/veramoUtils';
 import { getAgent } from '../../veramo/setup';
 
 export async function sendOIDCAuthorizationResponse(
@@ -84,7 +83,7 @@ export async function sendOIDCAuthorizationResponse(
 
   if (res === null) throw new Error('Could not get keys from address');
 
-  const did = await getCurrentDid({
+  const identifier = await getCurrentDidIdentifier({
     account,
     ethereum,
     snap,
@@ -92,10 +91,10 @@ export async function sendOIDCAuthorizationResponse(
     bip44CoinTypeNode,
   });
 
-  const kid = `${did}#controllerKey`;
+  const kid = `${identifier.did}#controllerKey`;
 
   const customSign = async (args: SignArgs) =>
-    sign(args, { privateKey: res.privateKey, did, kid });
+    sign(args, { privateKey: res.privateKey, did: identifier.did, kid });
 
   const createIdTokenResult = await agent.createIdToken({
     sign: customSign,
@@ -121,16 +120,16 @@ export async function sendOIDCAuthorizationResponse(
     ),
   ]);
 
-  const identifier = await veramoImportMetaMaskAccount(
-    {
-      snap,
-      ethereum,
-      state,
-      account,
-      bip44CoinTypeNode,
-    },
-    agent
-  );
+  // const identifier = await veramoImportMetaMaskAccount(
+  //   {
+  //     snap,
+  //     ethereum,
+  //     state,
+  //     account,
+  //     bip44CoinTypeNode,
+  //   },
+  //   agent
+  // );
 
   if (
     !state.snapConfig.dApp.disablePopups &&

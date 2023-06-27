@@ -7,7 +7,7 @@ import type { VerifiableCredential } from '@veramo/core';
 import { decodeCredentialToObject } from '@veramo/utils';
 
 import type { ApiParams } from '../../interfaces';
-import { getCurrentDid } from '../../utils/didUtils';
+import { getCurrentDidIdentifier } from '../../utils/didUtils';
 import { snapGetKeysFromAddress } from '../../utils/keyPair';
 import { sign } from '../../utils/sign';
 import { getAgent } from '../../veramo/setup';
@@ -101,7 +101,7 @@ export async function handleOIDCCredentialOffer(
 
   if (res === null) throw new Error('Could not get keys from address');
 
-  const did = await getCurrentDid({
+  const identifier = await getCurrentDidIdentifier({
     account,
     ethereum,
     snap,
@@ -111,12 +111,12 @@ export async function handleOIDCCredentialOffer(
 
   // if(did.startsWith('did:ethr') || did.startsWith('did:pkh')) throw new Error('did:ethr and did:pkh are not supported');
 
-  const kid = did.startsWith('did:ethr')
-    ? `${did}#controllerKey`
-    : `${did}#${did.split(':')[2]}`;
+  const kid = identifier.did.startsWith('did:ethr')
+    ? `${identifier.did}#controllerKey`
+    : `${identifier.did}#${identifier.did.split(':')[2]}`;
 
   const customSign = async (args: SignArgs) =>
-    sign(args, { privateKey: res.privateKey, did, kid });
+    sign(args, { privateKey: res.privateKey, did: identifier.did, kid });
 
   // Create proof of possession
   const proofOfPossessionResult = await agent.proofOfPossession({

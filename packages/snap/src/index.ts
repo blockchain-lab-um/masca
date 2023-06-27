@@ -39,7 +39,7 @@ import {
   isValidSwitchMethodRequest,
   isValidVerifyDataRequest,
 } from './utils/params';
-import { getCurrentAccount, setAccountPublicKey } from './utils/snapUtils';
+import { getCurrentAccount } from './utils/snapUtils';
 import {
   getSnapStateUnchecked,
   initAccountState,
@@ -84,7 +84,6 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     if (!(account in state.accountState)) {
       await initAccountState(apiParams);
       apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
-      await setAccountPublicKey(apiParams);
     }
     switch (request.method) {
       case 'queryVCs':

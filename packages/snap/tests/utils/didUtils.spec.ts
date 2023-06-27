@@ -6,7 +6,7 @@ import elliptic from 'elliptic';
 import {
   changeCurrentMethod,
   changeCurrentVCStore,
-  getCurrentDid,
+  getCurrentDidIdentifier,
   resolveDid,
 } from '../../src/utils/didUtils';
 import {
@@ -102,7 +102,7 @@ describe('Utils [did]', () => {
       const expectedDid = `did:ethr:0x5:${compactPublicKey}`;
 
       await expect(
-        getCurrentDid({
+        getCurrentDidIdentifier({
           ethereum: ethereumMock,
           snap: snapMock,
           state: initialState,
@@ -120,7 +120,7 @@ describe('Utils [did]', () => {
         'did:key';
 
       await expect(
-        getCurrentDid({
+        getCurrentDidIdentifier({
           ethereum: ethereumMock,
           snap: snapMock,
           state: initialState,

@@ -7,7 +7,6 @@ import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import type { Component } from '@metamask/snaps-ui';
 
-import type { ApiParams } from '../interfaces';
 import { snapGetKeysFromAddress } from './keyPair';
 import { updateSnapState } from './stateUtils';
 
@@ -199,14 +198,14 @@ export function isEnabledVCStore(
  *
  * @returns void
  */
-export async function setAccountPublicKey(params: ApiParams): Promise<void> {
-  const { state, snap, account, bip44CoinTypeNode } = params;
-  const publicKey = await getPublicKey({
-    snap,
-    state,
-    account,
-    bip44CoinTypeNode: bip44CoinTypeNode as BIP44CoinTypeNode,
-  });
-  state.accountState[account].publicKey = publicKey;
-  await updateSnapState(snap, state);
-}
+// export async function setAccountPublicKey(params: ApiParams): Promise<void> {
+//   const { state, snap, account, bip44CoinTypeNode } = params;
+//   const publicKey = await getPublicKey({
+//     snap,
+//     state,
+//     account,
+//     bip44CoinTypeNode: bip44CoinTypeNode as BIP44CoinTypeNode,
+//   });
+//   state.accountState[account].publicKey = publicKey;
+//   await updateSnapState(snap, state);
+// }
