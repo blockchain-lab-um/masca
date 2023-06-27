@@ -3,3 +3,4 @@ apps
 libs
 packages
 pnpm-lock.yaml
+.vercel

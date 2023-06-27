@@ -26,11 +26,12 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
   const [deleteModalStore, setDeleteModalStore] = useState<
     AvailableVCStores | undefined
   >(undefined);
-  const { enabledStores, api, changeVcs } = useMascaStore(
+  const { enabledStores, api, changeVcs, changeLastFetch } = useMascaStore(
     (state) => ({
       enabledStores: state.availableVCStores,
       api: state.mascaApi,
       changeVcs: state.changeVcs,
+      changeLastFetch: state.changeLastFetch,
     }),
     shallow
   );
@@ -112,6 +113,7 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
     }
 
     changeVcs(vcs.data);
+    changeLastFetch(Date.now());
   };
 
   return (
