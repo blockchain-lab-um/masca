@@ -188,7 +188,7 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
                   <div className="mt-10">
                     <Button
                       onClick={() => setOpen(false)}
-                      variant="gray"
+                      variant="done"
                       size="xs"
                     >
                       {t('done')}

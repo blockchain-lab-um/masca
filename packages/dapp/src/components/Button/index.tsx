@@ -12,7 +12,8 @@ type ButtonProps = {
     | 'cancel'
     | 'cancel-red'
     | 'white'
-    | 'white-pink';
+    | 'white-pink'
+    | 'done';
   size?: 'popup' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'wd' | 'icon';
   shadow?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'none' | 'inner' | '';
   onClick?: () => Promise<void> | void;
@@ -37,9 +38,10 @@ const variants: Record<string, string> = {
   white: 'bg-white text-gray-800 hover:opacity-80',
   warning: 'bg-red-500 hover:bg-red-500/90 text-white justify-center',
   cancel:
-    'text-pink-500 dark:text-red-300 hover:opacity-80 underline underline-pink-500 dark:underline-orange-accent-dark underline-offset-4',
+    'text-pink-500 dark:text-orange-accent-dark hover:opacity-80 underline underline-pink-500 dark:underline-orange-accent-dark underline-offset-4',
   'cancel-red':
-    'text-red-500 dark:bg-red-100 dark:text-red-700 dark:no-underline hover:opacity-80 underline underline-red-500 underline-offset-4',
+    'text-red-500 dark:text-red-500 hover:opacity-80 underline underline-red-500 underline-offset-4',
+  done: 'text-gray-600 dark:text-navy-blue-200 underline underline-gray-600 dark:underline-navy-blue-200 underline-offset-4 hover:opacity-80',
 };
 
 const sizes: Record<string, string> = {
