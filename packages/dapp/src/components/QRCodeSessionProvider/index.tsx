@@ -5,7 +5,7 @@ import { hexToUint8Array } from '@blockchain-lab-um/utils';
 import useSWR from 'swr';
 import { shallow } from 'zustand/shallow';
 
-import { useGeneralStore, useSessionStore } from '@/stores';
+import { useGeneralStore, useSessionStore, useToastStore } from '@/stores';
 import CredentialOfferModal from '../CredentialOfferModal';
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
@@ -75,9 +75,22 @@ const QRCodeSessionProvider = () => {
 
     decryptData()
       .then((_data) => {
-        if (_data.startsWith('openid-credential-offer')) {
-          setDecryptedData(_data);
+        if (
+          !_data.startsWith('openid-credential-offer://') &&
+          !_data.startsWith('openid://')
+        ) {
+          setTimeout(() => {
+            useToastStore.setState({
+              open: true,
+              title: 'Unsuported QR code data received',
+              type: 'error',
+              loading: false,
+            });
+          }, 200);
+          return;
         }
+
+        setDecryptedData(_data);
       })
       .catch((e) => console.log(e));
   }, [data, key]);

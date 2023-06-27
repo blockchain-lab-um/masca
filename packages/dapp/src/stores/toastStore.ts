@@ -1,17 +1,13 @@
 import { create } from 'zustand';
 
+type ToastType = 'info' | 'success' | 'error' | 'normal';
+
 interface ToastStore {
   open: boolean;
   loading: boolean;
   text: string;
   title: string;
-  type: string;
-
-  setOpen: (open: boolean) => void;
-  setLoading: (loading: boolean) => void;
-  setText: (text: string) => void;
-  setTitle: (title: string) => void;
-  setType: (type: string) => void;
+  type: ToastType;
 }
 
 export const toastStoreInitialState = {
@@ -19,15 +15,9 @@ export const toastStoreInitialState = {
   loading: false,
   text: '',
   title: '',
-  type: 'info',
+  type: 'info' as ToastType,
 };
 
-export const useToastStore = create<ToastStore>()((set) => ({
+export const useToastStore = create<ToastStore>()(() => ({
   ...toastStoreInitialState,
-
-  setType: (type) => set({ type }),
-  setOpen: (open) => set({ open }),
-  setLoading: (loading) => set({ loading }),
-  setText: (text) => set({ text }),
-  setTitle: (title) => set({ title }),
 }));

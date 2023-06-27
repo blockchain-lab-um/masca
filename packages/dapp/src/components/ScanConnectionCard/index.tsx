@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { uint8ArrayToHex } from '@blockchain-lab-um/utils';
 import { shallow } from 'zustand/shallow';
 
-import { useSessionStore } from '@/stores';
+import { useSessionStore, useToastStore } from '@/stores';
 import Button from '../Button';
 import ScanQRCodesModal from './ScanQRCodeModal';
 
@@ -42,8 +42,24 @@ const ScanConnectionCard = () => {
         key: decryptionKey,
         exp: data.exp,
       });
+
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: 'Connection created',
+          type: 'success',
+          loading: false,
+        });
+      }, 200);
     } catch (e) {
-      // TODO: Show invalid QR code error TOAST
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: 'Invalid QR code',
+          type: 'error',
+          loading: false,
+        });
+      }, 200);
     }
   };
 
@@ -52,6 +68,22 @@ const ScanConnectionCard = () => {
     setIsQRCodeModalOpen(false);
 
     try {
+      if (
+        !decodedText.startsWith('openid-credential-offer://') &&
+        !decodedText.startsWith('openid://')
+      ) {
+        setTimeout(() => {
+          useToastStore.setState({
+            open: true,
+            title: 'Unsupported QR code',
+            type: 'error',
+            loading: false,
+          });
+        }, 200);
+
+        return;
+      }
+
       // Encrypt data
       const iv = crypto.getRandomValues(new Uint8Array(12));
 
@@ -82,9 +114,23 @@ const ScanConnectionCard = () => {
 
       if (!response.ok) throw new Error();
 
-      // TODO: Show success TOAST
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: 'QR data sent',
+          type: 'success',
+          loading: false,
+        });
+      }, 200);
     } catch (e) {
-      // TODO: Show invalid QR code error TOAST
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: 'An unexpected error occurred',
+          type: 'error',
+          loading: false,
+        });
+      }, 200);
     }
   };
 

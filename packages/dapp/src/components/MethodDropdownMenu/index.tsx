@@ -23,35 +23,48 @@ export default function MethodDropdownMenu() {
       }),
       shallow
     );
-  const { setTitle, setLoading, setToastOpen, setType } = useToastStore(
-    (state) => ({
-      setTitle: state.setTitle,
-      setText: state.setText,
-      setLoading: state.setLoading,
-      setToastOpen: state.setOpen,
-      setType: state.setType,
-    }),
-    shallow
-  );
 
   const handleMethodChange = async (method: string) => {
     if (method !== currMethod) {
       if (!api) return;
-      const res = await api.switchDIDMethod(method as AvailableMethods);
 
-      // TODO: Show toast with error message
-      if (!isError(res)) {
-        changeCurrDIDMethod(method);
-        changeDID(res.data);
-      } else {
-        setToastOpen(false);
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: 'Switching did method',
+          type: 'normal',
+          loading: true,
+        });
+      }, 200);
+
+      const res = await api.switchDIDMethod(method as AvailableMethods);
+      useToastStore.setState({
+        open: false,
+      });
+
+      if (isError(res)) {
         setTimeout(() => {
-          setTitle('Failed to change method');
-          setType('error');
-          setLoading(false);
-          setToastOpen(true);
-        }, 100);
+          useToastStore.setState({
+            open: true,
+            title: 'Failed to change method',
+            type: 'error',
+            loading: false,
+          });
+        }, 200);
+        return;
       }
+
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: `Successfully changed method to ${method}`,
+          type: 'success',
+          loading: false,
+        });
+      }, 200);
+
+      changeCurrDIDMethod(method);
+      changeDID(res.data);
     }
   };
 

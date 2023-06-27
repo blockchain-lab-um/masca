@@ -27,26 +27,19 @@ function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
     }),
     shallow
   );
-  const { setTitle, setLoading, setToastOpen, setType } = useToastStore(
-    (state) => ({
-      setTitle: state.setTitle,
-      setText: state.setText,
-      setLoading: state.setLoading,
-      setToastOpen: state.setOpen,
-      setType: state.setType,
-    }),
-    shallow
-  );
 
   const deleteVC = async () => {
     if (!api) return;
     setOpen(false);
     if (vc) {
-      setLoading(true);
-      setType('normal');
-      setTitle('Deleting Credential');
-      setToastOpen(true);
-      setOpen(false);
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: 'Deleting Credential',
+          type: 'normal',
+          loading: true,
+        });
+      }, 200);
 
       let deleteReqOptions;
 
@@ -61,39 +54,40 @@ function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
       }
 
       const res = await api.deleteVC(vc.metadata.id, deleteReqOptions);
+      useToastStore.setState({
+        open: false,
+      });
 
       if (isError(res)) {
-        setToastOpen(false);
         setTimeout(() => {
-          setTitle('Failed to delete credential');
-          setType('error');
-          setLoading(false);
-          setToastOpen(true);
-        }, 100);
+          useToastStore.setState({
+            open: true,
+            title: 'Failed to delete credential',
+            type: 'error',
+            loading: false,
+          });
+        }, 200);
         console.log(res.error);
         return;
       }
-      // TODO - Delete VC from local state instead of calling queryVCs.
 
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: 'Credential deleted',
+          type: 'success',
+          loading: false,
+        });
+      }, 200);
+
+      // TODO - Delete VC from local state instead of calling queryVCs.
       const vcs = await api.queryVCs();
       if (isError(vcs)) {
-        setToastOpen(false);
-        setTimeout(() => {
-          setType('error');
-          setTitle('Failed to load credentials');
-          setLoading(false);
-          setToastOpen(true);
-        }, 100);
+        console.log(vcs.error);
         return;
       }
+
       if (vcs.data) {
-        setToastOpen(false);
-        setTimeout(() => {
-          setType('success');
-          setTitle('Credential deleted');
-          setLoading(false);
-          setToastOpen(true);
-        }, 100);
         changeVcs(vcs.data);
       }
     }
