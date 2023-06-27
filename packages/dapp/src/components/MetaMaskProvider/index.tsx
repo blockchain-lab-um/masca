@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { enableMasca } from '@blockchain-lab-um/masca-connector';
 import { isError } from '@blockchain-lab-um/utils';
 import detectEthereumProvider from '@metamask/detect-provider';
@@ -95,7 +95,7 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
   const enableMascaHandler = async () => {
     const enableResult = await enableMasca(address, {
       snapId,
-      version: 'latest',
+      version: '^0.2.1',
     });
     if (isError(enableResult)) {
       // FIXME: This error is shown as [Object object]

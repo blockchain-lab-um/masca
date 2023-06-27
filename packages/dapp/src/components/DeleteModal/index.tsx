@@ -20,10 +20,11 @@ interface DeleteModalProps {
 
 function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
   const t = useTranslations('DeleteCredentialModal');
-  const { api, changeVcs } = useMascaStore(
+  const { api, changeVcs, changeLastFetch } = useMascaStore(
     (state) => ({
       api: state.mascaApi,
       changeVcs: state.changeVcs,
+      changeLastFetch: state.changeLastFetch,
     }),
     shallow
   );
@@ -86,6 +87,9 @@ function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
         }, 100);
         return;
       }
+
+      changeLastFetch(Date.now());
+
       if (vcs.data) {
         setToastOpen(false);
         setTimeout(() => {
