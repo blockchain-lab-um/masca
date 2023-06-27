@@ -9,6 +9,7 @@ import { isError } from '@blockchain-lab-um/utils';
 import { ArrowPathIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { W3CVerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
+import { normalizeCredential } from 'did-jwt-vc';
 import { shallow } from 'zustand/shallow';
 
 import ImportModal from '@/components/ImportModal';
@@ -16,7 +17,6 @@ import DataStoreCombobox from '@/components/VCTable/DataStoreCombobox';
 import GlobalFilter from '@/components/VCTable/GlobalFilter';
 import ViewTabs from '@/components/VCTable/ViewTabs';
 import { useGeneralStore, useMascaStore, useToastStore } from '@/stores';
-import { normalizeCredential } from 'did-jwt-vc';
 
 const Controlbar = () => {
   // Local state
@@ -78,15 +78,14 @@ const Controlbar = () => {
   const saveVC = async (vc: string, stores: AvailableVCStores[]) => {
     if (!api) return false;
     let vcObj;
-    if(typeof vc !== 'string'){
+    if (typeof vc !== 'string') {
       try {
         vcObj = JSON.parse(vc) as W3CVerifiableCredential;
       } catch (err) {
         console.log(err);
         return false;
       }
-    }
-    else {
+    } else {
       vcObj = vc as W3CVerifiableCredential;
     }
     const res = await api.saveVC(vcObj, {
@@ -100,10 +99,9 @@ const Controlbar = () => {
     if (res.data && res.data.length > 0) {
       const newVcs: QueryVCsRequestResult[] = [];
       let data: W3CVerifiableCredential;
-      if(typeof vc === 'string'){
-        data = normalizeCredential(vc) as W3CVerifiableCredential
-      }
-      else {
+      if (typeof vc === 'string') {
+        data = normalizeCredential(vc) as W3CVerifiableCredential;
+      } else {
         data = JSON.parse(vc) as W3CVerifiableCredential;
       }
       res.data.forEach((metadata) => {
