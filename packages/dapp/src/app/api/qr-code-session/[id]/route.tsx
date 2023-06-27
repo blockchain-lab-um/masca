@@ -109,5 +109,10 @@ export async function POST(
 export async function OPTIONS(_: Request) {
   return new NextResponse(null, {
     status: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
   });
 }
