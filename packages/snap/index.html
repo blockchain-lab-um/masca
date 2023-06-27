@@ -39,6 +39,11 @@
   <button class="saveVCB">Save VC Both</button>
   <br />
   <hr />
+  <textarea id="unsignedVC" rows="30" cols="50"></textarea>
+  <br />
+  <button class="createVC">Create VC</button>
+  <br />
+  <hr />
   <input type="text" id="vcId" placeholder="VC ID" />
   With challenge
   <input type="checkbox" id="withChallenge" placeholder="false" />
@@ -93,6 +98,32 @@
 
   console.log(snapId);
 
+  const placeholderUnsignedVC = {
+    "credentialSchema": {
+      id: "https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json",
+      type: "JsonSchemaValidator2018"
+    },
+    credentialSubject: {
+      accomplishmentType: "Developer Certificate",
+      learnerName: "a",
+      achievement: "Certified Solidity Developer 2",
+      courseProvider: "UM FERI",
+      id: "did:key:zQ3shtkNHKxLwWnJnqJbhZhcnAHhMpzZ75RiGs3avfupmzpqt"
+    },
+    issuer: {
+      id: "did:key:zQ3shtkNHKxLwWnJnqJbhZhcnAHhMpzZ75RiGs3avfupmzpqt"
+    },
+    type: [
+      "VerifiableCredential",
+      "ProgramCompletionCertificate"
+    ],
+    "@context": [
+      "https://www.w3.org/2018/credentials/v1",
+      "https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/ld-context.json"
+    ],
+    issuanceDate: "2022-06-13T12:08:10.000Z"
+  }
+
   const placeholderVC = {
     credentialSchema: {
       id: 'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
@@ -139,7 +170,7 @@
     'button.getAvailableMethods'
   );
 
-  const createVCBtn = document.querySelector('button.getVC');
+  const createVCBtn = document.querySelector('button.createVC');
 
   const popups = document.querySelector('button.togglePopups');
   const infura = document.querySelector('button.changeInfuraToken');
@@ -153,6 +184,7 @@
 
   $(document).ready(function () {
     $('textarea#VC').text(JSON.stringify(placeholderVC, null, 2));
+    $('textarea#unsignedVC').text(JSON.stringify(placeholderUnsignedVC, null, 2));
   });
 
   connectButton.addEventListener('click', connect);
@@ -208,10 +240,10 @@
       method: 'wallet_getSnaps',
     });
     console.log('Installed snaps...', snaps);
-    await ethereum.request({
+    await window.ethereum.request({
       method: 'wallet_requestSnaps',
       params: {
-        [snapId]: { version: 'latest' },
+        [snapId]: { version: "^0.2.1" },
       },
     });
     let account = (await ethereum.request({ method: 'eth_requestAccounts' }))[0];
@@ -510,8 +542,8 @@
 
   async function createVC() {
     try {
-      const vc = JSON.parse(document.getElementById('VC').value);
-      console.log('VC', vc);
+      const vc = JSON.parse(document.getElementById('unsignedVC').value);
+      console.log('VC', JSON.stringify(vc));
       const pF = document.getElementById('proofFormat').value;
       console.log('selected pf:', pF);
       const response = await ethereum.request({
@@ -531,7 +563,7 @@
           },
         },
       });
-      console.log(response);
+      console.log(JSON.stringify(response.data, null, 2));
     } catch (err) {
       console.error(err);
       alert('Problem happened: ' + err.message || err);

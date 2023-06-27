@@ -98,8 +98,6 @@ export const getKeysFromAccountIndex = async (params: {
   if (result === null) throw new Error("Couldn't derive key pair");
   const { privateKey, derivationPath } = result;
   const snap = new Wallet(privateKey);
-  // FIXME: due to the entropy based derivation of the account index,
-  // the address is not the same as the one currently selected account in metamask
   return {
     privateKey,
     publicKey: snap.signingKey.publicKey,

@@ -16,15 +16,18 @@ import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
 import type {
   CredentialPayload,
   ICreateVerifiableCredentialArgs,
+  IIdentifier,
   IVerifyResult,
+  MinimalImportableKey,
   VerifiableCredential,
   VerifiablePresentation,
   W3CVerifiableCredential,
 } from '@veramo/core';
 
 import type { ApiParams } from '../interfaces';
-import { getAgent } from '../veramo/setup';
+import { getAgent, type Agent } from '../veramo/setup';
 import { getCurrentDidIdentifier } from './didUtils';
+import { snapGetKeysFromAddress } from './keyPair';
 import { snapConfirm } from './snapUtils';
 
 export async function veramoSaveVC(args: {
@@ -60,53 +63,46 @@ export async function veramoSaveVC(args: {
   return [...vcs.values()];
 }
 
-// export const veramoImportMetaMaskAccount = async (
-//   params: {
-//     snap: SnapsGlobalObject;
-//     ethereum: MetaMaskInpageProvider;
-//     state: MascaState;
-//     account: string;
-//     bip44CoinTypeNode: BIP44CoinTypeNode;
-//   },
-//   agent: Agent
-// ): Promise<IIdentifier> => {
-//   const { snap, ethereum, state, account, bip44CoinTypeNode } = params;
-//   const method = state.accountState[account].accountConfig.ssi.didMethod;
-//   const currentIdentifier = await getCurrentDidIdentifier({
-//     snap,
-//     ethereum,
-//     state,
-//     account,
-//     bip44CoinTypeNode,
-//   });
+export async function veramoImportMetaMaskAccount(
+  params: {
+    snap: SnapsGlobalObject;
+    ethereum: MetaMaskInpageProvider;
+    state: MascaState;
+    account: string;
+    did: string;
+    bip44CoinTypeNode: BIP44CoinTypeNode;
+  },
+  agent: Agent
+): Promise<IIdentifier> {
+  const { snap, bip44CoinTypeNode, did, account, state } = params;
+  const method =
+    params.state.accountState[params.account].accountConfig.ssi.didMethod;
+  const res = await snapGetKeysFromAddress({
+    snap,
+    bip44CoinTypeNode,
+    account,
+    state,
+  });
+  if (!res) throw new Error('Failed to get keys');
 
-//   const res = await snapGetKeysFromAddress({
-//     snap,
-//     bip44CoinTypeNode,
-//     account,
-//     state,
-//   });
-//   if (!res) throw new Error('Failed to get keys');
+  const controllerKeyId = `metamask-${account}`;
 
-//   const controllerKeyId = `metamask-${account}`;
-
-//   const identifier = await agent.didManagerImport({
-//     did,
-//     provider: method,
-//     controllerKeyId,
-//     keys: [
-//       {
-//         kid: controllerKeyId,
-//         type: 'Secp256k1',
-//         kms: 'snap',
-//         privateKeyHex: res.privateKey.split('0x')[1],
-//         publicKeyHex: res.publicKey.split('0x')[1],
-//       } as MinimalImportableKey,
-//     ],
-//   });
-//   return identifier;
-// };
-
+  const identifier = await agent.didManagerImport({
+    did,
+    provider: method,
+    controllerKeyId,
+    keys: [
+      {
+        kid: controllerKeyId,
+        type: 'Secp256k1',
+        kms: 'snap',
+        privateKeyHex: res.privateKey.split('0x')[1],
+        publicKeyHex: res.publicKey.split('0x')[1],
+      } as MinimalImportableKey,
+    ],
+  });
+  return identifier;
+}
 export async function veramoClearVCs(args: {
   snap: SnapsGlobalObject;
   ethereum: MetaMaskInpageProvider;
@@ -276,10 +272,7 @@ export async function veramoCreateVC(
 ): Promise<VerifiableCredential> {
   const { snap, state, ethereum, account, bip44CoinTypeNode } = params;
   const { minimalUnsignedCredential, proofFormat = 'jwt' } = createVCParams;
-
-  // Get Veramo agent
   const agent = await getAgent(snap, ethereum);
-  // GET DID
   const identifier = await getCurrentDidIdentifier({
     snap,
     state,
@@ -287,8 +280,17 @@ export async function veramoCreateVC(
     account,
     bip44CoinTypeNode: bip44CoinTypeNode as BIP44CoinTypeNode,
   });
+  const importedIdentifier = await veramoImportMetaMaskAccount(
+    {
+      ...params,
+      did: identifier.did,
+      bip44CoinTypeNode: bip44CoinTypeNode as BIP44CoinTypeNode,
+    },
+    agent
+  );
+
   const credentialPayload = minimalUnsignedCredential;
-  credentialPayload.issuer = identifier.did;
+  credentialPayload.issuer = importedIdentifier.did;
 
   const config = state.snapConfig;
 
