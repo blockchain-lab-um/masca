@@ -51,21 +51,14 @@ const Table = () => {
   const t = useTranslations('Dashboard');
   const [loading, setLoading] = useState(false);
   const [sorting, setSorting] = useState<SortingState>([]);
-  const {
-    api,
-    vcs,
-    lastFetchString,
-    lastFetchUnix,
-    changeVcs,
-    changeLastFetch,
-  } = useMascaStore(
+  const [elapsedTimeSinceLastFetch, setElapsedTimeSinceLastFetch] = useState<
+    string | null
+  >(null);
+
+  const { api, vcs, changeVcs, changeLastFetch } = useMascaStore(
     (state) => ({
       api: state.mascaApi,
       vcs: state.vcs,
-      lastFetchUnix: state.lastFetch,
-      lastFetchString: state.lastFetch
-        ? DateTime.fromMillis(state.lastFetch).toRelative() || '-'
-        : '-',
       changeVcs: state.changeVcs,
       changeLastFetch: state.changeLastFetch,
     }),
@@ -306,7 +299,6 @@ const Table = () => {
   const loadVCs = async () => {
     if (!api) return;
     const loadedVCs = await api.queryVCs();
-    changeLastFetch(Date.now());
     if (isError(loadedVCs)) {
       setToastOpen(false);
       setTimeout(() => {
@@ -318,9 +310,11 @@ const Table = () => {
       console.log('Failed to load VCs');
       return;
     }
+
+    changeLastFetch(Date.now());
+
     if (loadedVCs.data) {
       changeVcs(loadedVCs.data);
-      changeLastFetch(Date.now());
       if (loadedVCs.data.length === 0) {
         setToastOpen(false);
         setTimeout(() => {
@@ -339,11 +333,16 @@ const Table = () => {
     setLoading(false);
   };
 
-  const interval = setInterval(() => {
-    if (lastFetchUnix) changeLastFetch(lastFetchUnix);
-  }, 60000);
-
   useEffect(() => {
+    const interval = setInterval(() => {
+      const { lastFetch } = useMascaStore.getState();
+      if (lastFetch) {
+        setElapsedTimeSinceLastFetch(
+          DateTime.fromMillis(lastFetch).toRelative()
+        );
+      }
+    }, 1000);
+
     selectRows(table, selectedVCs);
     return () => clearInterval(interval);
   }, []);
@@ -386,7 +385,7 @@ const Table = () => {
                 {vcs.length} {t('table-header.found')}
               </div>
               <div className="text-h5 dark:text-navy-blue-400 text-gray-600">
-                {t('table-header.fetched')}: {lastFetchString}
+                {t('table-header.fetched')}: {elapsedTimeSinceLastFetch ?? '-'}
               </div>
             </div>
           </div>
@@ -514,6 +513,7 @@ const Table = () => {
       </>
     );
   }
+
   return (
     <div className="relative flex h-full min-h-[50vh] w-full flex-col">
       <div className="dark:border-navy-blue-600 flex items-center justify-between border-b border-gray-400 p-5">
@@ -525,7 +525,7 @@ const Table = () => {
             {vcs.length} {t('table-header.found')}
           </div>
           <div className="text-h5 dark:text-navy-blue-400 text-gray-600">
-            {t('table-header.fetched')}: {lastFetchString}
+            {t('table-header.fetched')}: {elapsedTimeSinceLastFetch ?? '-'}
           </div>
         </div>
       </div>

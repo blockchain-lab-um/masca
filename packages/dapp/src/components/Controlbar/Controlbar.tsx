@@ -69,6 +69,7 @@ const Controlbar = () => {
       return;
     }
 
+    changeLastFetch(Date.now());
     changeVcs(res.data);
     setSpinner(false);
   };
@@ -101,13 +102,14 @@ const Controlbar = () => {
       changeVcs([...vcs, ...newVcs]);
 
       const queryResult = await api.queryVCs();
-      changeLastFetch(Date.now());
       if (isError(queryResult)) {
         return false;
       }
+
+      changeLastFetch(Date.now());
+
       if (queryResult.data) {
         changeVcs(queryResult.data);
-        changeLastFetch(Date.now());
       }
     }
     return true;
