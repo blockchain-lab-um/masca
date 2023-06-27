@@ -23,7 +23,7 @@ describe('Utils [params]', () => {
       expect(() => isValidResolveDIDRequest(null)).toThrow(Error);
     });
     it('should fail for wrong type', () => {
-      expect(() => isValidResolveDIDRequest({did: 123})).toThrow(Error);
+      expect(() => isValidResolveDIDRequest({ did: 123 })).toThrow(Error);
     });
   });
 

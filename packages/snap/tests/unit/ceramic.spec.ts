@@ -11,7 +11,7 @@ import {
 } from '../../src/utils/veramoUtils';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
-import  exampleVC from '../data/verifiable-credentials/exampleJWT.json';
+import exampleVC from '../data/verifiable-credentials/exampleJWT.json';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
 describe('Utils [ceramic]', () => {

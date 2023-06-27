@@ -1,16 +1,15 @@
 import { isError, Result } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import type {  SnapsGlobalObject } from '@metamask/snaps-types';
-
+import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import { VerifiableCredential, VerifiablePresentation } from '@veramo/core';
+
 import { onRpcRequest } from '../../src';
 import { getAgent, type Agent } from '../../src/veramo/setup';
 import { account, importablePrivateKey } from '../data/constants';
-import { getDefaultSnapState } from '../data/defaultSnapState';
-import { createMockSnap, SnapMock } from '../helpers/snapMock';
-import { createTestVCs } from '../helpers/generateTestVCs';
 import examplePayload from '../data/credentials/examplePayload.json';
-
+import { getDefaultSnapState } from '../data/defaultSnapState';
+import { createTestVCs } from '../helpers/generateTestVCs';
+import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
 describe('Verify Data', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
@@ -47,13 +46,13 @@ describe('Verify Data', () => {
       }
     );
     generatedVC = res.exampleVeramoVCJWT;
-    console.log('generatedVC', generatedVC)
+    console.log('generatedVC', generatedVC);
 
     snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
   });
 
   beforeEach(async () => {
-      await agent.clear({ options: { store: ['snap', 'ceramic'] } });
+    await agent.clear({ options: { store: ['snap', 'ceramic'] } });
   });
 
   describe('verifyData', () => {
@@ -88,7 +87,7 @@ describe('Verify Data', () => {
           jsonrpc: '2.0',
           method: 'switchDIDMethod',
           params: {
-            didMethod: 'did:key'
+            didMethod: 'did:key',
           },
         },
       })) as Result<string>;
@@ -131,5 +130,4 @@ describe('Verify Data', () => {
 
     it.todo('should succeed verifying a VP with domain and challenge');
   });
-  
 });

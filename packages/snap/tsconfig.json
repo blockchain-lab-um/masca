@@ -11,5 +11,5 @@
     "resolveJsonModule": true
   },
   "files": ["jest.d.ts"],
-  "include": ["src/**/*", "tests/**/*"]
+  "include": ["src/**/*"]
 }
