@@ -87,7 +87,7 @@ export default function MethodDropdownMenu() {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <Menu.Items className="dark:bg-navy-blue-500 absolute right-0 mt-1 w-48 rounded-3xl bg-white shadow-lg">
+            <Menu.Items className="dark:bg-navy-blue-600 absolute right-0 z-50 mt-1 w-48 rounded-3xl bg-white shadow-lg">
               <div className="p-1 text-center ">
                 {methods.map((method, id) => (
                   <DropdownButton

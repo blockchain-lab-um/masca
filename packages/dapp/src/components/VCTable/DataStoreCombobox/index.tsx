@@ -88,7 +88,7 @@ const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
                 placeholder="None"
                 onChange={(event) => setQuery(event.target.value)}
               />
-              <Combobox.Button className="dark:bg-navy-blue-700 bg-white">
+              <Combobox.Button className="dark:bg-navy-blue-700 bg-white pr-2">
                 <>
                   <ChevronDownIcon
                     className={`animated-transition dark:text-navy-blue-50 h-3 w-3 text-gray-700 md:h-4 md:w-4 lg:h-5 lg:w-5 ${

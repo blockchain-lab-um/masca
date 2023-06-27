@@ -82,13 +82,13 @@ const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
             <Cog6ToothIcon className="h-6 w-6" />
           </button>
           <button
-            className="dark:bg-navy-blue-700 dark:text-navy-blue-50 flex h-11 w-11 items-center justify-center rounded-full bg-white text-gray-700 shadow-md"
+            className="dark:bg-navy-blue-800 dark:text-navy-blue-500 cursor-default flex h-11 w-11 items-center justify-center rounded-full bg-gray-100 text-gray-500 shadow-md"
             onClick={() => console.log('not implemented yet')}
           >
             <ArrowDownTrayIcon className="h-6 w-6" />
           </button>
           <button
-            className="dark:bg-navy-blue-700 dark:text-navy-blue-50 flex h-11 w-11 items-center justify-center rounded-full bg-white text-gray-700 shadow-md"
+            className="dark:bg-navy-blue-800 dark:text-navy-blue-500 cursor-default flex h-11 w-11 items-center justify-center rounded-full bg-gray-100 text-gray-500 shadow-md"
             onClick={() => console.log('not implemented yet')}
           >
             <ShareIcon className="h-6 w-6 " />
