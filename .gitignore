@@ -79,3 +79,4 @@ nx-cloud.env
 .yarn/install-state.gz
 .pnp.*
 .vscode
+.vercel
