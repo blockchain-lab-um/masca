@@ -24,7 +24,13 @@ const Controlbar = () => {
 
   // Stores
   const isConnected = useGeneralStore((state) => state.isConnected);
-  const vcs = useMascaStore((state) => state.vcs);
+  const { vcs, changeLastFetch } = useMascaStore(
+    (state) => ({
+      vcs: state.vcs,
+      changeLastFetch: state.changeLastFetch,
+    }),
+    shallow
+  );
   const { setTitle, setLoading, setToastOpen, setType } = useToastStore(
     (state) => ({
       setTitle: state.setTitle,
@@ -63,6 +69,7 @@ const Controlbar = () => {
       return;
     }
 
+    changeLastFetch(Date.now());
     changeVcs(res.data);
     setSpinner(false);
   };
@@ -98,6 +105,9 @@ const Controlbar = () => {
       if (isError(queryResult)) {
         return false;
       }
+
+      changeLastFetch(Date.now());
+
       if (queryResult.data) {
         changeVcs(queryResult.data);
       }
