@@ -14,7 +14,6 @@ import type {
   QueryVCs,
   ResolveDID,
   SaveVC,
-  SendOIDCAuthorizationResponse,
   SetCeramicSession,
   SetCurrentAccount,
   SetVCStore,
@@ -45,7 +44,6 @@ export type MascaRPCRequest =
   | VerifyData
   | HandleOIDCCredentialOffer
   | HandleOIDCAuthorizationRequest
-  | SendOIDCAuthorizationResponse
   | SetCeramicSession
   | ValidateStoredCeramicSession;
 
