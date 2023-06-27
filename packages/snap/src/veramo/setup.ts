@@ -126,8 +126,8 @@ export const getAgent = async (
       new CredentialStatusPlugin({
         // TODO implement this
         StatusList2021Entry: (
-          credential: any,
-          didDoc: any
+          _credential: any,
+          _didDoc: any
         ): Promise<CredentialStatus> => Promise.resolve({ revoked: false }),
       }),
       new KeyManager({
