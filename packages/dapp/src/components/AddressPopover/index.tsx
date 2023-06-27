@@ -94,7 +94,7 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
                   <div className="mt-2 flex justify-start">
                     <button
                       onClick={disconnect}
-                      className="animated-transition dark:text-red-300 mt-auto text-xs font-semibold text-red-500 hover:text-red-700 hover:dark:text-red-500"
+                      className="animated-transition mt-auto text-xs font-semibold text-red-500 hover:text-red-700 dark:text-red-300 hover:dark:text-red-500"
                     >
                       {t('address.disconnect')}
                     </button>

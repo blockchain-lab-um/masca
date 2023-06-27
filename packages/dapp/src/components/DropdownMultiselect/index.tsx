@@ -30,7 +30,7 @@ const DropdownMultiselect = ({
         <div className="md:text-md overflow-hidden rounded-full text-left text-sm shadow-md">
           <Listbox.Button
             value={placeholder}
-            className="dark:bg-navy-blue-700 bg-white dark:text-navy-blue-100 flex w-full border-none p-2 px-1 text-sm leading-5 text-gray-700 placeholder:text-gray-400 outline-none ring-0"
+            className="dark:bg-navy-blue-700 dark:text-navy-blue-100 flex w-full border-none bg-white p-2 px-1 text-sm leading-5 text-gray-700 outline-none ring-0 placeholder:text-gray-400"
           >
             <div
               className={clsx(
@@ -63,7 +63,7 @@ const DropdownMultiselect = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="dark:bg-navy-blue-600 z-50 absolute right-0 mt-1 w-36 rounded-3xl bg-white p-1 shadow-lg max-md:-top-2 max-md:-translate-y-full md:w-44">
+            <Listbox.Options className="dark:bg-navy-blue-600 absolute right-0 z-50 mt-1 w-36 rounded-3xl bg-white p-1 shadow-lg max-md:-top-2 max-md:-translate-y-full md:w-44">
               {items.map((item, id) => (
                 <Listbox.Option key={id} className="" value={item}>
                   {({ selected, active }) => (

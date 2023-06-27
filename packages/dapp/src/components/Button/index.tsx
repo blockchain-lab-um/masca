@@ -36,8 +36,10 @@ const variants: Record<string, string> = {
     'bg-white text-gray-800 hover:text-white hover:bg-pink-400 dark:bg-orange-accent-dark dark:text-gray-900 dark:hover:bg-orange-accent-dark/80',
   white: 'bg-white text-gray-800 hover:opacity-80',
   warning: 'bg-red-500 hover:bg-red-500/90 text-white justify-center',
-  cancel: 'text-pink-500 dark:text-red-300 hover:opacity-80 underline underline-pink-500 dark:underline-orange-accent-dark underline-offset-4',
-  'cancel-red': 'text-red-500 dark:bg-red-100 dark:text-red-700 dark:no-underline hover:opacity-80 underline underline-red-500 underline-offset-4',
+  cancel:
+    'text-pink-500 dark:text-red-300 hover:opacity-80 underline underline-pink-500 dark:underline-orange-accent-dark underline-offset-4',
+  'cancel-red':
+    'text-red-500 dark:bg-red-100 dark:text-red-700 dark:no-underline hover:opacity-80 underline underline-red-500 underline-offset-4',
 };
 
 const sizes: Record<string, string> = {
@@ -63,7 +65,8 @@ const loaderSizes: Record<string, string> = {
 };
 
 const loaderColors: Record<string, string> = {
-  primary: 'border-white dark:border-navy-blue-900 border-t-pink-900/0 dark:border-t-orange-accent-dark/0',
+  primary:
+    'border-white dark:border-navy-blue-900 border-t-pink-900/0 dark:border-t-orange-accent-dark/0',
   'primary-active': 'border-orange-500',
   secondary: 'border-white',
   'secondary-active': 'border-navy-blue-500',

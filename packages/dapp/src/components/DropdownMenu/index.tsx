@@ -39,7 +39,7 @@ const variants: Record<string, string> = {
   secondary:
     'text-pink-500 border-[0.135rem] border-pink-500 dark:text-orange-accent-dark dark:border-orange-accent-dark  animated-transition ',
   'primary-active':
-  'text-pink-500 border-[0.135rem] border-pink-500 dark:text-orange-accent-dark dark:border-orange-accent-dark  animated-transition ',
+    'text-pink-500 border-[0.135rem] border-pink-500 dark:text-orange-accent-dark dark:border-orange-accent-dark  animated-transition ',
   'secondary-active':
     'text-navy-blue-500 border border-1 border-navy-blue-300 animated-transition ',
   gray: 'bg-gray-200 text-gray-800 btn hover:opacity-80 animated-transition ',
@@ -48,8 +48,7 @@ const variants: Record<string, string> = {
 };
 
 const variantsHover: Record<string, string> = {
-  primary:
-    'bg-pink-500 dark:bg-orange-accent-dark opacity-80',
+  primary: 'bg-pink-500 dark:bg-orange-accent-dark opacity-80',
   secondary: 'bg-navy-blue-500 text-white btn hover:opacity-80 ',
   'primary-active': ' ',
   'secondary-active': ' ',

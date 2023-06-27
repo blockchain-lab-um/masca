@@ -189,7 +189,7 @@ const CreatePresentationDisplay = () => {
           <Button
             variant="primary"
             size="sm"
-            shadow='sm'
+            shadow="sm"
             onClick={handleCreateVP}
             loading={loading}
           >

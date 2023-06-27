@@ -78,30 +78,33 @@ const Controlbar = () => {
   const saveVC = async (vc: string, stores: AvailableVCStores[]) => {
     if (!api) return false;
     let vcObj: W3CVerifiableCredential;
-    
+
+    try {
+      vcObj = JSON.parse(vc) as W3CVerifiableCredential;
+    } catch (err) {
       try {
-        vcObj = JSON.parse(vc) as W3CVerifiableCredential;
-      } catch (err) {
-        try{
-          vcObj = normalizeCredential(vc) as W3CVerifiableCredential;
-        } catch(normalizationError){
-          console.log(normalizationError);
+        vcObj = normalizeCredential(vc) as W3CVerifiableCredential;
+      } catch (normalizationError) {
+        console.log(normalizationError);
 
         setSpinner(false);
         setToastOpen(false);
         setTimeout(() => {
-          useToastStore.setState({ open: true,
-          title: 'Failed to save VC; VC was invalid', type: 'error', loading: false
-         });
-      }, 100);
+          useToastStore.setState({
+            open: true,
+            title: 'Failed to save VC; VC was invalid',
+            type: 'error',
+            loading: false,
+          });
+        }, 100);
 
-          return false;
-        }
+        return false;
       }
+    }
 
-      const res = await api.saveVC(vcObj, {
-        store: stores,
-      });
+    const res = await api.saveVC(vcObj, {
+      store: stores,
+    });
 
     if (isError(res)) {
       console.log('error', res);

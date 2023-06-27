@@ -16,10 +16,11 @@ type DropdownMenuItemProps = {
 };
 
 const variants: Record<string, string> = {
-  primary: 'dark:bg-navy-blue-500 dark:text-orange-accent-dark/95 animated-transition cursor-pointer bg-pink-50 text-pink-600  ',
+  primary:
+    'dark:bg-navy-blue-500 dark:text-orange-accent-dark/95 animated-transition cursor-pointer bg-pink-50 text-pink-600  ',
   secondary: 'bg-navy-blue-100 text-navy-blue-600 ',
   'primary-active':
-  'dark:bg-navy-blue-500 dark:text-orange-accent-dark/95 animated-transition cursor-pointer bg-pink-50 text-pink-600  ',
+    'dark:bg-navy-blue-500 dark:text-orange-accent-dark/95 animated-transition cursor-pointer bg-pink-50 text-pink-600  ',
   'secondary-active': 'bg-navy-blue-100 text-navy-blue-600 ',
   gray: 'bg-gray-100 text-gray-800 ',
   method:
@@ -27,7 +28,8 @@ const variants: Record<string, string> = {
 };
 
 const variantsSelected: Record<string, string> = {
-  primary: 'dark:text-orange-accent-dark dark:bg-navy-blue-600 bg-white text-pink-700 ',
+  primary:
+    'dark:text-orange-accent-dark dark:bg-navy-blue-600 bg-white text-pink-700 ',
   secondary: 'bg-navy-blue-100 text-navy-blue-600 font-semibold ',
   'primary-active':
     'dark:text-orange-accent-dark dark:bg-navy-blue-600 bg-white text-pink-700 ',
@@ -40,12 +42,10 @@ const variantsSelected: Record<string, string> = {
 const variantsSelectedElse: Record<string, string> = {
   primary: 'dark:text-navy-blue-100 text-gray-600 ',
   secondary: 'bg-navy-blue-100 text-navy-blue-600 font-semibold ',
-  'primary-active':
-  'dark:text-navy-blue-100 text-gray-600 ',
+  'primary-active': 'dark:text-navy-blue-100 text-gray-600 ',
   'secondary-active': 'bg-navy-blue-100 text-navy-blue-600 font-semibold ',
   gray: 'bg-gray-100 font-semibold text-gray-900 ',
-  method:
-    ' ',
+  method: ' ',
 };
 
 export const DropdownMenuItem = ({
@@ -63,9 +63,7 @@ export const DropdownMenuItem = ({
         className={clsx(
           'md:text-md block rounded-full py-2 text-sm',
           active ? variants[variant] : '',
-          selected
-            ? variantsSelected[variant]
-            : variantsSelectedElse[variant]
+          selected ? variantsSelected[variant] : variantsSelectedElse[variant]
         )}
       >
         <div className="grid grid-cols-6">
