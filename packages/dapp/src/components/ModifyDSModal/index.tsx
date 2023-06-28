@@ -22,15 +22,7 @@ interface ModifyDSModalProps {
 function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
   const t = useTranslations('ModifyDataStoreModal');
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const { setTitle, setLoading, setToastOpen, setType } = useToastStore(
-    (state) => ({
-      setTitle: state.setTitle,
-      setLoading: state.setLoading,
-      setToastOpen: state.setOpen,
-      setType: state.setType,
-    }),
-    shallow
-  );
+
   const [deleteModalStore, setDeleteModalStore] = useState<
     AvailableVCStores | undefined
   >(undefined);
@@ -81,33 +73,37 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
       return;
     }
 
-    setLoading(true);
-    setType('normal');
-    setTitle('Saving Credential');
-    setToastOpen(true);
+    setTimeout(() => {
+      useToastStore.setState({
+        open: true,
+        title: 'Saving credential',
+        type: 'normal',
+        loading: true,
+      });
+    }, 200);
 
     const res = await api.saveVC(vc.data, { store });
 
     if (isError(res)) {
-      setToastOpen(false);
-      setType('error');
       setTimeout(() => {
-        setTitle('Error while saving credential');
-        setLoading(false);
-        setToastOpen(true);
-      }, 100);
-      console.log(res.error);
+        useToastStore.setState({
+          open: true,
+          title: 'Error while saving credential',
+          type: 'error',
+          loading: false,
+        });
+      }, 200);
       return;
     }
 
-    setToastOpen(false);
-
     setTimeout(() => {
-      setType('success');
-      setTitle('Credential saved');
-      setLoading(false);
-      setToastOpen(true);
-    }, 100);
+      useToastStore.setState({
+        open: true,
+        title: 'Credential saved',
+        type: 'success',
+        loading: false,
+      });
+    }, 200);
 
     const vcs = await api.queryVCs();
 
