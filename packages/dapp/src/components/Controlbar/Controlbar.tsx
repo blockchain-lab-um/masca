@@ -32,16 +32,7 @@ const Controlbar = () => {
     }),
     shallow
   );
-  const { setTitle, setLoading, setToastOpen, setType } = useToastStore(
-    (state) => ({
-      setTitle: state.setTitle,
-      setText: state.setText,
-      setLoading: state.setLoading,
-      setToastOpen: state.setOpen,
-      setType: state.setType,
-    }),
-    shallow
-  );
+
   const { api, changeVcs } = useMascaStore(
     (state) => ({
       api: state.mascaApi,
@@ -54,21 +45,42 @@ const Controlbar = () => {
     if (!api) return;
     setSpinner(true);
 
+    setTimeout(() => {
+      useToastStore.setState({
+        open: true,
+        title: 'Querying credentials',
+        type: 'normal',
+        loading: true,
+      });
+    }, 200);
+
     const res = await api.queryVCs();
+    useToastStore.setState({
+      open: false,
+    });
 
     if (isError(res)) {
       console.log(res.error);
-
       setSpinner(false);
-      setToastOpen(false);
       setTimeout(() => {
-        setTitle('Failed to query credentials');
-        setType('error');
-        setLoading(false);
-        setToastOpen(true);
-      }, 100);
+        useToastStore.setState({
+          open: true,
+          title: 'Failed to query credentials',
+          type: 'error',
+          loading: false,
+        });
+      }, 200);
       return;
     }
+
+    setTimeout(() => {
+      useToastStore.setState({
+        open: true,
+        title: 'Successfully queried credentials',
+        type: 'success',
+        loading: false,
+      });
+    }, 200);
 
     changeLastFetch(Date.now());
     changeVcs(res.data);

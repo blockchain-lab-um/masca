@@ -1,8 +1,7 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useTranslations } from 'next-intl';
-import { shallow } from 'zustand/shallow';
 
 import { useGeneralStore } from '@/stores';
 
@@ -12,51 +11,7 @@ type ConnectedProviderProps = {
 
 const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
   const t = useTranslations('Gateway');
-  const {
-    isConnected,
-    isConnecting,
-    changeAddress,
-    changeIsConnecting,
-    changeChainId,
-  } = useGeneralStore(
-    (state) => ({
-      isConnected: state.isConnected,
-      isConnecting: state.isConnecting,
-      address: state.address,
-      changeAddress: state.changeAddress,
-      changeIsConnected: state.changeIsConnected,
-      changeIsConnecting: state.changeIsConnecting,
-      changeChainId: state.changeChainId,
-    }),
-    shallow
-  );
-
-  const connectHandler = async () => {
-    if (window.ethereum) {
-      const result: unknown = await window.ethereum.request({
-        method: 'eth_requestAccounts',
-      });
-
-      const chain = (await window.ethereum.request({
-        method: 'eth_chainId',
-      })) as string;
-
-      // Set the chainId
-      changeChainId(chain);
-
-      // Set the address
-      changeAddress((result as string[])[0]);
-    }
-  };
-
-  useEffect(() => {
-    if (isConnected || !isConnecting) return;
-    console.log('Connecting to MetaMask...');
-    connectHandler().catch((err) => {
-      console.error(err);
-      changeIsConnecting(false);
-    });
-  }, [isConnected, isConnecting]);
+  const isConnected = useGeneralStore((state) => state.isConnected);
 
   if (isConnected) {
     return <>{children}</>;
