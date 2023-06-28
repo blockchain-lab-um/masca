@@ -176,33 +176,32 @@ export async function veramoQueryVCs(args: {
 }
 
 export async function veramoCreateVP(
-  params: {
-    snap: SnapsGlobalObject;
-    state: MascaState;
-    ethereum: MetaMaskInpageProvider;
-    account: string;
-    bip44CoinTypeNode: BIP44CoinTypeNode;
-  },
+  params: ApiParams,
   createVPParams: CreateVPRequestParams
 ): Promise<VerifiablePresentation> {
+  const { state, snap, ethereum, account, bip44CoinTypeNode } = params;
   const { vcs } = createVPParams;
   const domain = createVPParams.proofOptions?.domain;
   const challenge = createVPParams.proofOptions?.challenge;
   const proofFormat = createVPParams.proofFormat
     ? createVPParams.proofFormat
     : 'jwt';
-
-  const { state, snap, ethereum, account, bip44CoinTypeNode } = params;
-  // Get Veramo agent
   const agent = await getAgent(snap, ethereum);
-  // GET DID
   const identifier = await getCurrentDidIdentifier({
     snap,
     ethereum,
     state,
     account,
-    bip44CoinTypeNode,
+    bip44CoinTypeNode: bip44CoinTypeNode as BIP44CoinTypeNode,
   });
+  const importedIdentifier = await veramoImportMetaMaskAccount(
+    {
+      ...params,
+      did: identifier.did,
+      bip44CoinTypeNode: bip44CoinTypeNode as BIP44CoinTypeNode,
+    },
+    agent
+  );
 
   if (vcs.length === 0) {
     throw new Error('VC does not exist');
@@ -220,7 +219,7 @@ export async function veramoCreateVP(
   if (config.dApp.disablePopups || (await snapConfirm(snap, content))) {
     const vp = await agent.createVerifiablePresentation({
       presentation: {
-        holder: identifier.did,
+        holder: importedIdentifier.did,
         type: ['VerifiablePresentation', 'Custom'],
         verifiableCredential: vcs,
       },

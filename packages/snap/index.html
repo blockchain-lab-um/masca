@@ -477,6 +477,7 @@
     if (!response.success) {
       alert(response.error);
     }
+    return response.data;
   }
   async function getVCAddr() {
     const response = await ethereum.request({
@@ -502,6 +503,9 @@
     const pF = document.getElementById('proofFormat').value;
     let response;
     console.log('selected pf:', pF);
+    const vcs = await getVCs();
+    const vc = await vcs.find((vc) => vc.metadata.id === vcId);
+    console.log(vc)
     if (!checkBox) {
       response = await ethereum.request({
         method: 'wallet_invokeSnap',
@@ -510,7 +514,7 @@
           request: {
             method: 'createVP',
             params: {
-              vcs: [{ id: vcId }],
+              vcs: [vc.data],
               proofFormat: pF,
             },
           },
