@@ -46,7 +46,6 @@ describe('verifyData', () => {
       }
     );
     generatedVC = res.exampleVeramoVCJWT;
-    console.log('generatedVC', generatedVC);
 
     snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
   });

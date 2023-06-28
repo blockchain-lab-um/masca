@@ -60,13 +60,7 @@ describe.each(methods)(
       global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
 
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-    });
 
-    beforeEach(async () => {
-      await agent.clear({ options: { store: ['snap', 'ceramic'] } });
-    });
-
-    it('Should switch DID method', async () => {
       const switchMethod = (await onRpcRequest({
         origin: 'localhost',
         request: {
@@ -78,14 +72,15 @@ describe.each(methods)(
           },
         },
       })) as Result<string>;
-
+  
       if (isError(switchMethod)) {
         throw new Error(switchMethod.error);
       }
-
-      expect(switchMethod.data.substring(0, method.length)).toBe(method);
       issuer = switchMethod.data;
-      expect.assertions(1);
+    });
+
+    beforeEach(async () => {
+      await agent.clear({ options: { store: ['snap', 'ceramic'] } });
     });
 
     describe.each(proofFormats)('Using Proof Format: %s', (proofFormat) => {
@@ -218,9 +213,8 @@ describe.each(methods)(
         throw new Error('Should have failed');
       }
 
-      expect(isError(vp)).toBe(true);
       expect(vp.error).toBe('Error: Invalid CreateVP request');
-      expect.assertions(2);
+      expect.assertions(1);
     });
 
     it('Should fail creating a VP with invalid VC', async () => {
@@ -240,11 +234,10 @@ describe.each(methods)(
         throw new Error('Should have failed');
       }
 
-      expect(isError(vp)).toBe(true);
       expect(vp.error).toBe(
         `TypeError: Cannot read properties of undefined (reading 'jwt')`
       );
-      expect.assertions(2);
+      expect.assertions(1);
     });
   }
 );

@@ -48,13 +48,7 @@ describe.each(methods)('Create VerifiableCredential with %s', (method) => {
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
 
     snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-  });
 
-  beforeEach(async () => {
-    await agent.clear({ options: { store: ['snap', 'ceramic'] } });
-  });
-
-  it('Should switch DID method', async () => {
     const switchMethod = (await onRpcRequest({
       origin: 'localhost',
       request: {
@@ -70,10 +64,12 @@ describe.each(methods)('Create VerifiableCredential with %s', (method) => {
     if (isError(switchMethod)) {
       throw new Error(switchMethod.error);
     }
-
-    expect(switchMethod.data.substring(0, method.length)).toBe(method);
     issuer = switchMethod.data;
-    expect.assertions(1);
+
+  });
+
+  beforeEach(async () => {
+    await agent.clear({ options: { store: ['snap', 'ceramic'] } });
   });
 
   describe.each(proofFormats)('Using Proof Format: %s', (proofFormat) => {
@@ -127,7 +123,6 @@ describe.each(methods)('Create VerifiableCredential with %s', (method) => {
           },
         })) as Result<VerifiableCredential>;
 
-        expect(isError(vc)).toBe(false);
         if (isError(vc)) {
           throw new Error(vc.error);
         }
@@ -142,7 +137,6 @@ describe.each(methods)('Create VerifiableCredential with %s', (method) => {
           },
         })) as Result<QueryVCsRequestResult[]>;
 
-        expect(isError(res)).toBe(false);
         if (isError(res)) {
           throw new Error(res.error);
         }
@@ -150,7 +144,7 @@ describe.each(methods)('Create VerifiableCredential with %s', (method) => {
         expect(res.data[0].data).toEqual(vc.data);
         expect(res.data[0].metadata.store).toEqual([store]);
 
-        expect.assertions(4);
+        expect.assertions(2);
       }
     );
   });
@@ -197,9 +191,8 @@ describe.each(methods)('Create VerifiableCredential with %s', (method) => {
     if (!isError(vc)) {
       throw new Error('Should have failed');
     }
-    expect(isError(vc)).toBe(true);
     expect(vc.error).toBe('Error: Invalid CreateVC request');
-    expect.assertions(2);
+    expect.assertions(1);
   });
 
   it('Should fail creating a VC with invalid minimalUnsignedCredential', async () => {
@@ -218,10 +211,9 @@ describe.each(methods)('Create VerifiableCredential with %s', (method) => {
     if (!isError(vc)) {
       throw new Error('Should have failed');
     }
-    expect(isError(vc)).toBe(true);
     expect(vc.error).toBe(
       'TypeError: schema_error: credentialSubject must not be empty'
     );
-    expect.assertions(2);
+    expect.assertions(1);
   });
 });

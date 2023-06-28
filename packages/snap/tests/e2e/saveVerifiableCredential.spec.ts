@@ -137,7 +137,6 @@ describe('saveVerifiableCredential', () => {
         },
       })) as Result<IDataManagerSaveResult[]>;
 
-      expect(isError(saveRes)).toBe(false);
 
       if (isError(saveRes)) {
         throw new Error(saveRes.error);
@@ -149,7 +148,7 @@ describe('saveVerifiableCredential', () => {
           store: store.results,
         },
       ]);
-      expect.assertions(2);
+      expect.assertions(1);
     }
   );
 
@@ -171,7 +170,6 @@ describe('saveVerifiableCredential', () => {
         },
       })) as Result<IDataManagerSaveResult[]>;
 
-      expect(isError(saveRes)).toBe(false);
       if (isError(saveRes)) {
         throw new Error(saveRes.error);
       }
@@ -192,7 +190,6 @@ describe('saveVerifiableCredential', () => {
         },
       })) as Result<unknown>;
 
-      expect(isError(res)).toBe(false);
       if (isError(res)) {
         throw new Error(res.error);
       }
@@ -208,7 +205,7 @@ describe('saveVerifiableCredential', () => {
       ];
       expect(res.data).toEqual(expectedResult);
 
-      expect.assertions(4);
+      expect.assertions(2);
     }
   );
 
@@ -230,7 +227,6 @@ describe('saveVerifiableCredential', () => {
         },
       })) as Result<IDataManagerSaveResult[]>;
 
-      expect(isError(saveRes)).toBe(false);
       if (isError(saveRes)) {
         throw new Error(saveRes.error);
       }
@@ -251,7 +247,6 @@ describe('saveVerifiableCredential', () => {
         },
       })) as Result<unknown>;
 
-      expect(isError(res)).toBe(false);
       if (isError(res)) {
         throw new Error(res.error);
       }
@@ -267,7 +262,7 @@ describe('saveVerifiableCredential', () => {
       ];
       expect(res.data).toEqual(expectedResult);
 
-      expect.assertions(4);
+      expect.assertions(2);
     }
   );
 
@@ -290,11 +285,10 @@ describe('saveVerifiableCredential', () => {
     if (!isError(saveRes)) {
       throw new Error('Should have failed');
     }
-    expect(isError(saveRes)).toBe(true);
     expect(saveRes.error).toEqual(
       'Error: Store non-existent-store is not supported!'
     );
-    expect.assertions(2);
+    expect.assertions(1);
   });
 
   it('should fail saving VC and return false - user denied', async () => {

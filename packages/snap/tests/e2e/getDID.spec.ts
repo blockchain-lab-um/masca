@@ -18,6 +18,11 @@ const methods = [
     method: 'did:jwk',
     did: 'did:jwk:eyJhbGciOiJFUzI1NksiLCJjcnYiOiJzZWNwMjU2azEiLCJrdHkiOiJFQyIsInVzZSI6InNpZyIsIngiOiJlU01sN3BRMWRfX0JzOEpYM1lKb1V3ZVpyTFZ2Zm1TSEUzdG9IenMwbnpjIiwieSI6IlNoajV1M0ZiQkNEZnpEX1lFSW5tVmRWUmdNVU9PdGV3X0lsZEpwT2duaWMifQ',
   },
+  {
+    method: 'did:key:ebsi',
+    underlyingMethod: 'did:key',
+    did: 'did:key:zBhBLmYmyihtomRdJJNEKzbPj51o4a3GYFeZoRHSABKUwqdjiQPY2fa6K44b7RtyESctmKyS3RTWEcXJUa749Zst4jc5mtxcVUSFEE7bYmZ6Srqj9Mv9vjCdi369c9W9XDekwR7C6o1YwejLq61PoNaY55CVMA87xD3JWct6rpZPuzdjoNg7fcx'
+  }
 ];
 
 describe('Get DID', () => {
@@ -65,9 +70,13 @@ describe('Get DID', () => {
         throw new Error(switchMethod.error);
       }
 
+      if(methodObj.underlyingMethod) {
+        expect(switchMethod.data.substring(0, methodObj.underlyingMethod.length)).toBe(methodObj.underlyingMethod);
+      } else {
       expect(switchMethod.data.substring(0, methodObj.method.length)).toBe(
         methodObj.method
       );
+      }
 
       const did = (await onRpcRequest({
         origin: 'localhost',

@@ -46,10 +46,6 @@ describe('resolveDID', () => {
   it.each(methods)(
     'should resolve a $didResolutionMetadata.did.method method',
     async (method) => {
-      //   const res = await agent.resolveDid({
-      //     didUrl: method.did,
-      //   });
-
       const res = (await onRpcRequest({
         origin: 'localhost',
         request: {
@@ -76,13 +72,25 @@ describe('resolveDID', () => {
   );
 
   it('should return an error if the did is not found', async () => {
-    const res = await agent.resolveDid({
-      didUrl: 'did:web:example.com',
-    });
+    const res = (await onRpcRequest({
+      origin: 'localhost',
+      request: {
+        id: 'test-id',
+        jsonrpc: '2.0',
+        method: 'resolveDID',
+        params: {
+          did: 'did:web:example.com',
+        },
+      },
+    })) as Result<DIDResolutionResult>;
 
-    expect(res.didDocument).toBeNull();
-    expect(res.didDocumentMetadata).toEqual({});
-    expect(res.didResolutionMetadata.error).toEqual('notFound');
+    if (isError(res)) {
+      throw new Error(res.error);
+    }
+
+    expect(res.data.didDocument).toBeNull();
+    expect(res.data.didDocumentMetadata).toEqual({});
+    expect(res.data.didResolutionMetadata.error).toEqual('notFound');
     expect.assertions(3);
   });
 });
