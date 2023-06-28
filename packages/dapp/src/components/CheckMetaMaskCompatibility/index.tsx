@@ -1,0 +1,214 @@
+'use client';
+
+import { useEffect } from 'react';
+import { enableMasca } from '@blockchain-lab-um/masca-connector';
+import { isError } from '@blockchain-lab-um/utils';
+import detectEthereumProvider from '@metamask/detect-provider';
+import { shallow } from 'zustand/shallow';
+
+import { useGeneralStore, useMascaStore } from '@/stores';
+
+const snapId =
+  process.env.USE_LOCAL === 'true'
+    ? 'local:http://localhost:8081'
+    : 'npm:@blockchain-lab-um/masca';
+
+const CheckMetaMaskCompatibility = () => {
+  const { changeHasMetaMask, changeIsFlask } = useGeneralStore(
+    (state) => ({
+      changeHasMetaMask: state.changeHasMetaMask,
+      changeIsFlask: state.changeIsFlask,
+    }),
+    shallow
+  );
+
+  const {
+    hasMM,
+    hasFlask,
+    address,
+    isConnected,
+    isConnecting,
+    changeAddress,
+    changeIsConnected,
+    changeIsConnecting,
+    changeChainId,
+  } = useGeneralStore(
+    (state) => ({
+      hasMM: state.hasMetaMask,
+      hasFlask: state.isFlask,
+      address: state.address,
+      isConnected: state.isConnected,
+      isConnecting: state.isConnecting,
+      changeAddress: state.changeAddress,
+      changeIsConnected: state.changeIsConnected,
+      changeIsConnecting: state.changeIsConnecting,
+      changeChainId: state.changeChainId,
+    }),
+    shallow
+  );
+
+  const {
+    changeMascaApi,
+    changeDID,
+    changeAvailableMethods,
+    changeCurrMethod,
+    changeAvailableVCStores,
+  } = useMascaStore(
+    (state) => ({
+      changeMascaApi: state.changeMascaApi,
+      changeDID: state.changeCurrDID,
+      changeAvailableMethods: state.changeAvailableMethods,
+      changeCurrMethod: state.changeCurrDIDMethod,
+      changeAvailableVCStores: state.changeAvailableVCStores,
+    }),
+    shallow
+  );
+
+  const connectHandler = async () => {
+    if (window.ethereum) {
+      const result: unknown = await window.ethereum.request({
+        method: 'eth_requestAccounts',
+      });
+
+      const chain = (await window.ethereum.request({
+        method: 'eth_chainId',
+      })) as string;
+
+      // Set the chainId
+      changeChainId(chain);
+
+      // Set the address
+      changeAddress((result as string[])[0]);
+    }
+  };
+
+  const checkMetaMaskCompatibility = async () => {
+    try {
+      const provider = await detectEthereumProvider({ mustBeMetaMask: true });
+
+      if (!provider) {
+        changeHasMetaMask(false);
+        changeIsFlask(false);
+        return;
+      }
+    } catch (error) {
+      changeHasMetaMask(false);
+      changeIsFlask(false);
+    }
+
+    changeHasMetaMask(true);
+
+    const mmVersion = (await window.ethereum.request({
+      method: 'web3_clientVersion',
+    })) as string;
+
+    if (!mmVersion.includes('flask')) {
+      changeIsFlask(false);
+      return;
+    }
+
+    changeIsFlask(true);
+  };
+
+  const enableMascaHandler = async () => {
+    const enableResult = await enableMasca(address, {
+      snapId,
+      version: '^0.2.1',
+    });
+    if (isError(enableResult)) {
+      // FIXME: This error is shown as [Object object]
+      throw new Error(enableResult.error);
+    }
+    const api = enableResult.data.getMascaApi();
+
+    changeMascaApi(api);
+
+    // Set currently connected address
+    const setAccountRes = await api.setCurrentAccount({
+      currentAccount: address,
+    });
+
+    if (isError(setAccountRes)) {
+      console.log("Couldn't set current account");
+      throw new Error(setAccountRes.error);
+    }
+
+    const did = await api.getDID();
+    if (isError(did)) {
+      console.log("Couldn't get DID");
+      throw new Error(did.error);
+    }
+
+    const availableMethods = await api.getAvailableMethods();
+    if (isError(availableMethods)) {
+      console.log("Couldn't get available methods");
+      throw new Error(availableMethods.error);
+    }
+
+    const method = await api.getSelectedMethod();
+    if (isError(method)) {
+      console.log("Couldn't get selected method");
+      throw new Error(method.error);
+    }
+
+    const accountSettings = await api.getAccountSettings();
+    if (isError(accountSettings)) {
+      console.log("Couldn't get account settings");
+      throw new Error(accountSettings.error);
+    }
+
+    changeDID(did.data);
+    changeAvailableMethods(availableMethods.data);
+    changeCurrMethod(method.data);
+    changeAvailableVCStores(accountSettings.data.ssi.vcStore);
+    changeIsConnected(true);
+    changeIsConnecting(false);
+  };
+
+  useEffect(() => {
+    if (hasMM && hasFlask && window.ethereum) {
+      window.ethereum.on('accountsChanged', (...accounts) => {
+        changeAddress((accounts[0] as string[])[0]);
+      });
+      window.ethereum.on('chainChanged', (...chain) => {
+        changeChainId(chain[0] as string);
+      });
+    }
+
+    return () => {
+      if (window.ethereum) {
+        window.ethereum.removeAllListeners('accountsChanged');
+        window.ethereum.removeAllListeners('chainChanged');
+      }
+    };
+  }, [hasMM, hasFlask]);
+
+  useEffect(() => {
+    if (!hasMM || !hasFlask || !address) return;
+    console.log('Address changed to', address);
+    enableMascaHandler().catch((err) => {
+      console.error(err);
+      changeIsConnecting(false);
+      changeAddress('');
+    });
+  }, [hasMM, hasFlask, address]);
+
+  useEffect(() => {
+    checkMetaMaskCompatibility().catch((error) => {
+      console.error(error);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (isConnected || !isConnecting) return;
+    console.log('Connecting to MetaMask...');
+    connectHandler().catch((err) => {
+      console.error(err);
+      changeIsConnecting(false);
+    });
+  }, [isConnected, isConnecting]);
+
+  return null;
+};
+
+export default CheckMetaMaskCompatibility;

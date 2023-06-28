@@ -45,7 +45,7 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
             leaveFrom="scale-100 opacity-100"
             leaveTo="scale-95 opacity-0"
           >
-            <Popover.Panel className="dark:bg-navy-blue-500 absolute right-0 mt-2 rounded-2xl bg-white shadow-xl">
+            <Popover.Panel className="dark:bg-navy-blue-600 absolute right-0 mt-2 rounded-2xl bg-white shadow-xl">
               <div className="rounded-2xl px-6 pb-3 pt-6 shadow-sm">
                 <div className="flex flex-col justify-between gap-3">
                   <div>
@@ -94,7 +94,7 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
                   <div className="mt-2 flex justify-start">
                     <button
                       onClick={disconnect}
-                      className="animated-transition dark:text-pink-accent-dark mt-auto text-xs font-semibold text-pink-500 hover:text-pink-700 hover:dark:text-pink-400"
+                      className="animated-transition mt-auto text-xs font-semibold text-red-500 hover:text-red-700 dark:text-red-300 hover:dark:text-red-500"
                     >
                       {t('address.disconnect')}
                     </button>

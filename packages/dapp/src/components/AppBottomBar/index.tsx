@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { EllipsisHorizontalIcon } from '@heroicons/react/24/solid';
+import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
 const MAIN_LINKS = [
@@ -23,6 +25,10 @@ const OTHER_LINKS = [
   {
     name: 'authorization-request',
     href: '/app/authorization-request',
+  },
+  {
+    name: 'qr-code-session',
+    href: '/app/qr-code-session',
   },
 ];
 
@@ -51,15 +57,15 @@ const AppBottomBar = () => {
               </Link>
             ))}
           </div>
-          {/* <button
+          <button
             onClick={toggleMenu}
             className="animated-transition dark:bg-navy-blue-700 dark:hover:bg-navy-blue-600 rounded-lg bg-pink-100 p-2 text-pink-600 hover:bg-pink-50 dark:text-white"
           >
             <EllipsisHorizontalIcon className="h-6 w-6" />
-          </button> */}
+          </button>
         </div>
       </div>
-      {/* <div
+      <div
         className={clsx(
           'fixed bottom-14 left-0 z-10 mb-1 w-screen rounded-lg px-1 transition-transform duration-300 md:hidden',
           isMenuOpen ? 'translate-y-0' : 'translate-y-40'
@@ -77,7 +83,7 @@ const AppBottomBar = () => {
             </Link>
           ))}
         </div>
-      </div> */}
+      </div>
     </>
   );
 };

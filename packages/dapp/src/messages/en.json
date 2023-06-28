@@ -15,7 +15,8 @@
     "dashboard": "Dashboard",
     "settings": "Settings",
     "get-credential": "Get Credential",
-    "authorization-request": "Authorization Request"
+    "authorization-request": "Authorization Request",
+    "qr-code-session": "QR Code Session"
   },
   "AppNavbar": {
     "connect": "Connect Wallet",
@@ -25,6 +26,7 @@
       "settings": "Settings",
       "get-credential": "Get Credential",
       "authorization-request": "Authorization Request",
+      "qr-code-session": "QR Code Session",
       "other": "Other"
     },
     "dropdown": {

@@ -79,7 +79,7 @@ export const metadata: Metadata = {
   verification: {
     google: 'snsvYv9eAKOZ7FrIjpUSnUtqgoFiSXQWROVrStPBc8I',
   },
-  manifest: '/manifest.json',
+  manifest: null,
 };
 
 export function generateStaticParams() {

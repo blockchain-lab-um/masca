@@ -75,16 +75,6 @@ const Table = () => {
       }),
       shallow
     );
-  const { setTitle, setToastLoading, setToastOpen, setType } = useToastStore(
-    (state) => ({
-      setTitle: state.setTitle,
-      setText: state.setText,
-      setToastLoading: state.setLoading,
-      setToastOpen: state.setOpen,
-      setType: state.setType,
-    }),
-    shallow
-  );
 
   const columnHelper = createColumnHelper<QueryVCsRequestResult>();
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -256,7 +246,7 @@ const Table = () => {
       id: 'actions',
       cell: ({ row }) => (
         <div className="flex items-center justify-center gap-1">
-          <button>
+          <button className="dark:text-navy-blue-500 cursor-default text-gray-500">
             <ShareIcon className="h-6 w-6" />
           </button>
           <button
@@ -299,15 +289,16 @@ const Table = () => {
   const loadVCs = async () => {
     if (!api) return;
     const loadedVCs = await api.queryVCs();
+
     if (isError(loadedVCs)) {
-      setToastOpen(false);
       setTimeout(() => {
-        setTitle('Failed to load credential');
-        setType('error');
-        setToastLoading(false);
-        setToastOpen(true);
-      }, 100);
-      console.log('Failed to load VCs');
+        useToastStore.setState({
+          open: true,
+          title: 'Failed to load credentials',
+          type: 'error',
+          loading: false,
+        });
+      }, 200);
       return;
     }
 
@@ -316,14 +307,25 @@ const Table = () => {
     if (loadedVCs.data) {
       changeVcs(loadedVCs.data);
       if (loadedVCs.data.length === 0) {
-        setToastOpen(false);
         setTimeout(() => {
-          setTitle('No credentials found');
-          setType('error');
-          setLoading(false);
-          setToastOpen(true);
-        }, 100);
+          useToastStore.setState({
+            open: true,
+            title: 'No credentials found',
+            type: 'info',
+            loading: false,
+          });
+        }, 200);
+        return;
       }
+
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: 'Credentials loaded',
+          type: 'success',
+          loading: false,
+        });
+      }, 200);
     }
   };
 
