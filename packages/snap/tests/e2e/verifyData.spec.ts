@@ -11,7 +11,7 @@ import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createTestVCs } from '../helpers/generateTestVCs';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
-describe('Verify Data', () => {
+describe('verifyData', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
   let agent: Agent;
   let generatedVC: VerifiableCredential;
@@ -55,79 +55,77 @@ describe('Verify Data', () => {
     await agent.clear({ options: { store: ['snap', 'ceramic'] } });
   });
 
-  describe('verifyData', () => {
-    it('should succeed verifiying a VC', async () => {
-      const verified = (await onRpcRequest({
-        origin: 'localhost',
-        request: {
-          id: 'test-id',
-          jsonrpc: '2.0',
-          method: 'verifyData',
-          params: {
-            credential: generatedVC,
-          },
+  it('should succeed verifiying a VC', async () => {
+    const verified = (await onRpcRequest({
+      origin: 'localhost',
+      request: {
+        id: 'test-id',
+        jsonrpc: '2.0',
+        method: 'verifyData',
+        params: {
+          credential: generatedVC,
         },
-      })) as Result<boolean>;
+      },
+    })) as Result<boolean>;
 
-      if (isError(verified)) {
-        throw new Error(verified.error);
-      }
+    if (isError(verified)) {
+      throw new Error(verified.error);
+    }
 
-      expect(verified.data).toBe(true);
-      expect.assertions(1);
-    });
-
-    it('should succeed verifying a VP', async () => {
-      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-
-      const switchMethod = (await onRpcRequest({
-        origin: 'localhost',
-        request: {
-          id: 'test-id',
-          jsonrpc: '2.0',
-          method: 'switchDIDMethod',
-          params: {
-            didMethod: 'did:key',
-          },
-        },
-      })) as Result<string>;
-
-      const createdVP = (await onRpcRequest({
-        origin: 'localhost',
-        request: {
-          id: 'test-id',
-          jsonrpc: '2.0',
-          method: 'createVP',
-          params: {
-            vcs: [generatedVC],
-          },
-        },
-      })) as Result<VerifiablePresentation>;
-
-      if (isError(createdVP)) {
-        throw new Error(createdVP.error);
-      }
-
-      const verified = (await onRpcRequest({
-        origin: 'localhost',
-        request: {
-          id: 'test-id',
-          jsonrpc: '2.0',
-          method: 'verifyData',
-          params: {
-            presentation: createdVP.data,
-          },
-        },
-      })) as Result<boolean>;
-
-      if (isError(verified)) {
-        throw new Error(verified.error);
-      }
-
-      expect(verified.data).toBe(true);
-      expect.assertions(1);
-    });
-
-    it.todo('should succeed verifying a VP with domain and challenge');
+    expect(verified.data).toBe(true);
+    expect.assertions(1);
   });
+
+  it('should succeed verifying a VP', async () => {
+    snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
+
+    const switchMethod = (await onRpcRequest({
+      origin: 'localhost',
+      request: {
+        id: 'test-id',
+        jsonrpc: '2.0',
+        method: 'switchDIDMethod',
+        params: {
+          didMethod: 'did:key',
+        },
+      },
+    })) as Result<string>;
+
+    const createdVP = (await onRpcRequest({
+      origin: 'localhost',
+      request: {
+        id: 'test-id',
+        jsonrpc: '2.0',
+        method: 'createVP',
+        params: {
+          vcs: [generatedVC],
+        },
+      },
+    })) as Result<VerifiablePresentation>;
+
+    if (isError(createdVP)) {
+      throw new Error(createdVP.error);
+    }
+
+    const verified = (await onRpcRequest({
+      origin: 'localhost',
+      request: {
+        id: 'test-id',
+        jsonrpc: '2.0',
+        method: 'verifyData',
+        params: {
+          presentation: createdVP.data,
+        },
+      },
+    })) as Result<boolean>;
+
+    if (isError(verified)) {
+      throw new Error(verified.error);
+    }
+
+    expect(verified.data).toBe(true);
+    expect.assertions(1);
+  });
+
+  it.todo('should succeed verifying a VP with domain and challenge');
 });

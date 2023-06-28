@@ -16,12 +16,15 @@ import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
 const methods: AvailableMethods[] = ['did:key', 'did:jwk'];
-const proofFormats = ['jwt', /* 'lds', */ 'EthereumEip712Signature2021'];
+// TODO: Resolve bugs for lds and EthereumEip712Signature2021
+const proofFormats = ['jwt' /* 'lds', */ /* 'EthereumEip712Signature2021' */];
 const proofTypes: Record<string, string> = {
   jwt: 'JwtProof2020',
   lds: 'Ed25519Signature2018',
   EthereumEip712Signature2021: 'EthereumEip712Signature2021',
 };
+
+// TODO: Enable ceramic
 const stores: AvailableVCStores[][] = [
   ['snap'],
   // ['ceramic'],

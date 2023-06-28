@@ -97,7 +97,6 @@ export class SnapMock implements ISnapMock {
       .mockImplementation(async (data: unknown) =>
         this.snapEthLogs(data as any[])
       ),
-
   };
 
   request<T>(args: RequestArguments): Promise<Maybe<T>> {

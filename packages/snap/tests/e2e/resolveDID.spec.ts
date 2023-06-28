@@ -16,7 +16,7 @@ import keyResolution from '../data/documentResolution/keyResolution.json';
 import webResolution from '../data/documentResolution/webResolution.json';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
-describe('Universal Resolver', () => {
+describe('resolveDID', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
   let ethereumMock: MetaMaskInpageProvider;
   let agent: Agent;

@@ -18,7 +18,7 @@ import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createTestVCs } from '../helpers/generateTestVCs';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
-describe('Save VerifiableCredential', () => {
+describe('saveVerifiableCredential', () => {
   let ceramicData: StoredCredentials;
   let snapMock: SnapsGlobalObject & SnapMock;
   let identifier: IIdentifier;
