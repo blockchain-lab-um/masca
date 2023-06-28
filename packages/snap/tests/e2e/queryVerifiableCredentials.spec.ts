@@ -96,8 +96,6 @@ describe('queryVerifiableCredentials', () => {
   });
 
   it('should succeed with 1 VC matching query - filter by ID', async () => {
-    snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-
     const saveRes = (await onRpcRequest({
       origin: 'localhost',
       request: {
@@ -150,8 +148,6 @@ describe('queryVerifiableCredentials', () => {
   });
 
   it('should succeed with 1 VC matching query - no filter or store', async () => {
-    snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-
     const saveRes = (await onRpcRequest({
       origin: 'localhost',
       request: {
@@ -199,8 +195,6 @@ describe('queryVerifiableCredentials', () => {
   });
 
   it('should succeed with 1 VC matching query - store defined', async () => {
-    snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-
     const saveRes = (await onRpcRequest({
       origin: 'localhost',
       request: {
@@ -250,8 +244,6 @@ describe('queryVerifiableCredentials', () => {
   });
 
   it('should succeed with 1 VC matching query - without store', async () => {
-    snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-
     const saveRes = (await onRpcRequest({
       origin: 'localhost',
       request: {
@@ -300,8 +292,6 @@ describe('queryVerifiableCredentials', () => {
   });
 
   it('should succeed with 1 VC matching query - filter by JSONPath', async () => {
-    snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-
     const saveRes = (await onRpcRequest({
       origin: 'localhost',
       request: {

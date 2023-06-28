@@ -77,6 +77,7 @@ describe('saveVerifiableCredential', () => {
       operation: 'update',
       newState: getDefaultSnapState(account),
     });
+    snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
     const ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
     agent = await getAgent(snapMock, ethereumMock);
     identifier = await agent.didManagerCreate({
@@ -127,8 +128,6 @@ describe('saveVerifiableCredential', () => {
   it.each(options)(
     'Should save VC in correct store - $title',
     async (store) => {
-      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-
       const saveRes = (await onRpcRequest({
         origin: 'localhost',
         request: {
@@ -159,8 +158,6 @@ describe('saveVerifiableCredential', () => {
   it.each(options)(
     'Should save & query VC in correct store - $title',
     async (store) => {
-      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-
       const saveRes = (await onRpcRequest({
         origin: 'localhost',
         request: {
@@ -216,8 +213,6 @@ describe('saveVerifiableCredential', () => {
   it.each(stores)(
     'Should succeed saving a JWT string and retrieving whole VC - %s',
     async (store) => {
-      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-
       const saveRes = (await onRpcRequest({
         origin: 'localhost',
         request: {
@@ -271,8 +266,6 @@ describe('saveVerifiableCredential', () => {
   );
 
   it('Should fail because store does not exist', async () => {
-    snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-
     const saveRes = (await onRpcRequest({
       origin: 'localhost',
       request: {
@@ -339,8 +332,6 @@ describe('saveVerifiableCredential', () => {
   });
 
   it('should throw error because request is not valid', async () => {
-    snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-
     const saveRes = (await onRpcRequest({
       origin: 'localhost',
       request: {
@@ -363,8 +354,6 @@ describe('saveVerifiableCredential', () => {
   });
 
   it('should throw error because request is not valid: store format', async () => {
-    snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-
     const saveRes = (await onRpcRequest({
       origin: 'localhost',
       request: {
@@ -387,8 +376,6 @@ describe('saveVerifiableCredential', () => {
     expect.assertions(1);
   });
   it('should throw error because request is not valid: store not supported in array', async () => {
-    snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-
     let saveRes = (await onRpcRequest({
       origin: 'localhost',
       request: {

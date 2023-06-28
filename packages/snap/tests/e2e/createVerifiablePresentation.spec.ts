@@ -41,9 +41,8 @@ const vcs = [
   { title: 'JSON-LD & EIP712', vcs: [exampleVCJSONLD, exampleVCEIP712] },
 ];
 
-describe.each(methods)(
-  'Create VerifiablePresentation with method %s',
-  (method) => {
+describe('createVerifiablePresentation', () => {
+  describe.each(methods)('Using method %s', (method) => {
     let snapMock: SnapsGlobalObject & SnapMock;
     let issuer: string;
     let agent: Agent;
@@ -59,7 +58,6 @@ describe.each(methods)(
       agent = await getAgent(snapMock, ethereumMock);
       global.snap = snapMock;
       global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
-      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       const switchMethod = (await onRpcRequest({
         origin: 'localhost',
@@ -240,5 +238,5 @@ describe.each(methods)(
       );
       expect.assertions(1);
     });
-  }
-);
+  });
+});

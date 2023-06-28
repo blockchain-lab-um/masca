@@ -26,6 +26,7 @@ describe('deleteVC', () => {
       operation: 'update',
       newState: getDefaultSnapState(account),
     });
+    snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
     const ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
     agent = await getAgent(snapMock, ethereumMock);
 
@@ -89,8 +90,6 @@ describe('deleteVC', () => {
   });
 
   it('should succeed saving and deleting 1 VC', async () => {
-    snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-
     const saveRes = (await onRpcRequest({
       origin: 'localhost',
       request: {
@@ -154,8 +153,6 @@ describe('deleteVC', () => {
   });
 
   it('should succeed saving and deleting 1 VC with store', async () => {
-    snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-
     const saveRes = (await onRpcRequest({
       origin: 'localhost',
       request: {
@@ -220,8 +217,6 @@ describe('deleteVC', () => {
     expect.assertions(3);
   });
   it('should fail deleting 1 VC with wrong id', async () => {
-    snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-
     const saveRes = (await onRpcRequest({
       origin: 'localhost',
       request: {

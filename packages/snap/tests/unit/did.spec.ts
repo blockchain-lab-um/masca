@@ -176,53 +176,53 @@ describe('Utils [did]', () => {
 
       expect.assertions(1);
     });
+  });
 
-    describe('resolveDID', () => {
-      it('should succeed resolving did:ethr identifier', async () => {
-        const didDoc = await resolveDid({
-          did: exampleDIDEthrMainnet,
-          snap: snapMock,
-          ethereum: ethereumMock,
-        });
-        expect(didDoc.didDocument).toEqual(exampleDIDEthrMainnetDocument);
-        expect.assertions(1);
+  describe('resolveDID', () => {
+    it('should succeed resolving did:ethr identifier', async () => {
+      const didDoc = await resolveDid({
+        did: exampleDIDEthrMainnet,
+        snap: snapMock,
+        ethereum: ethereumMock,
       });
-      it('should succeed resolving did:key identifier', async () => {
-        const didDoc = await resolveDid({
-          did: exampleDIDKey,
-          snap: snapMock,
-          ethereum: ethereumMock,
-        });
-        expect(didDoc.didDocument).toEqual(exampleDIDKeyDocument);
-        expect.assertions(1);
+      expect(didDoc.didDocument).toEqual(exampleDIDEthrMainnetDocument);
+      expect.assertions(1);
+    });
+    it('should succeed resolving did:key identifier', async () => {
+      const didDoc = await resolveDid({
+        did: exampleDIDKey,
+        snap: snapMock,
+        ethereum: ethereumMock,
       });
-      it('should resolve invalid did', async () => {
-        const didDoc = await resolveDid({
-          did: 'did:ethr:0x5:0x123',
-          snap: snapMock,
-          ethereum: ethereumMock,
-        });
-        expect(didDoc).toEqual(resolutionInvalidDID);
-        expect.assertions(1);
+      expect(didDoc.didDocument).toEqual(exampleDIDKeyDocument);
+      expect.assertions(1);
+    });
+    it('should resolve invalid did', async () => {
+      const didDoc = await resolveDid({
+        did: 'did:ethr:0x5:0x123',
+        snap: snapMock,
+        ethereum: ethereumMock,
       });
-      it('should resolve nonExisting did', async () => {
-        const didDoc = await resolveDid({
-          did: 'did:key:zQ3shW537',
-          snap: snapMock,
-          ethereum: ethereumMock,
-        });
-        expect(didDoc).toEqual(resolutionNotFound);
-        expect.assertions(1);
+      expect(didDoc).toEqual(resolutionInvalidDID);
+      expect.assertions(1);
+    });
+    it('should resolve nonExisting did', async () => {
+      const didDoc = await resolveDid({
+        did: 'did:key:zQ3shW537',
+        snap: snapMock,
+        ethereum: ethereumMock,
       });
-      it('should resolve methodNotSupported', async () => {
-        const didDoc = await resolveDid({
-          did: 'did:keyclopse:zQ3shW537',
-          snap: snapMock,
-          ethereum: ethereumMock,
-        });
-        expect(didDoc).toEqual(resolutionMethodNotSupported);
-        expect.assertions(1);
+      expect(didDoc).toEqual(resolutionNotFound);
+      expect.assertions(1);
+    });
+    it('should resolve methodNotSupported', async () => {
+      const didDoc = await resolveDid({
+        did: 'did:keyclopse:zQ3shW537',
+        snap: snapMock,
+        ethereum: ethereumMock,
       });
+      expect(didDoc).toEqual(resolutionMethodNotSupported);
+      expect.assertions(1);
     });
   });
 });

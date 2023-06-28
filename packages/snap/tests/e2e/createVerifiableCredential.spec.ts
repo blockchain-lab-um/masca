@@ -31,9 +31,8 @@ const stores: AvailableVCStores[][] = [
   // ['snap', 'ceramic'],
 ];
 
-describe.each(methods)(
-  'Create VerifiableCredential with method %s',
-  (method) => {
+describe('createVerifiableCredential', () => {
+  describe.each(methods)('Using method %s', (method) => {
     let snapMock: SnapsGlobalObject & SnapMock;
     let issuer: string;
     let agent: Agent;
@@ -49,7 +48,6 @@ describe.each(methods)(
       agent = await getAgent(snapMock, ethereumMock);
       global.snap = snapMock;
       global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
-      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       const switchMethod = (await onRpcRequest({
         origin: 'localhost',
@@ -93,7 +91,9 @@ describe.each(methods)(
           throw new Error(vc.error);
         }
 
-        const validity = await agent.verifyCredential({ credential: vc.data });
+        const validity = await agent.verifyCredential({
+          credential: vc.data,
+        });
         expect(validity.verified).toBe(true);
 
         if (typeof vc.data.issuer === 'string') {
@@ -218,5 +218,5 @@ describe.each(methods)(
       );
       expect.assertions(1);
     });
-  }
-);
+  });
+});

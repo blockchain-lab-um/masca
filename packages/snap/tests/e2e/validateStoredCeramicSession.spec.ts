@@ -7,7 +7,7 @@ import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
-describe('getSelectedMethod', () => {
+describe('validateStoredCeramicSession', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
 
   beforeAll(async () => {
@@ -16,50 +16,22 @@ describe('getSelectedMethod', () => {
       operation: 'update',
       newState: getDefaultSnapState(account),
     });
-    snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
     global.snap = snapMock;
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
   });
 
-  it('should succeed and return did:ethr', async () => {
-    const res = (await onRpcRequest({
-      origin: 'localhost',
-      request: {
-        id: 'test-id',
-        jsonrpc: '2.0',
-        method: 'getSelectedMethod',
-        params: {},
-      },
-    })) as Result<unknown>;
-
-    if (isError(res)) {
-      throw new Error(res.error);
-    }
-
-    expect(res.data).toBe('did:ethr');
-
-    expect.assertions(1);
-  });
-
-  it('should succeed and return did:key', async () => {
-    await onRpcRequest({
-      origin: 'localhost',
-      request: {
-        id: 'test-id',
-        jsonrpc: '2.0',
-        method: 'switchDIDMethod',
-        params: {
-          didMethod: 'did:key',
-        },
-      },
+  it('should return true for valid session', async () => {
+    const defaultState = getDefaultSnapState(account);
+    snapMock.rpcMocks.snap_manageState({
+      operation: 'update',
+      newState: defaultState,
     });
-
     const res = (await onRpcRequest({
       origin: 'localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'getSelectedMethod',
+        method: 'validateStoredCeramicSession',
         params: {},
       },
     })) as Result<unknown>;
@@ -68,8 +40,36 @@ describe('getSelectedMethod', () => {
       throw new Error(res.error);
     }
 
-    expect(res.data).toBe('did:key');
+    expect(res.data).toEqual(true);
 
     expect.assertions(1);
   });
+
+  it('should fail setting and invalid session string', async () => {
+    const defaultState = getDefaultSnapState(account);
+    defaultState.accountState[account].ceramicSession = 'invalid-session';
+    snapMock.rpcMocks.snap_manageState({
+      operation: 'update',
+      newState: defaultState,
+    });
+    const res = (await onRpcRequest({
+      origin: 'localhost',
+      request: {
+        id: 'test-id',
+        jsonrpc: '2.0',
+        method: 'validateStoredCeramicSession',
+        params: {},
+      },
+    })) as Result<unknown>;
+
+    if (!isError(res)) {
+      throw new Error('Should return error');
+    }
+
+    expect(res.error).toEqual('SyntaxError: Unexpected end of data');
+
+    expect.assertions(1);
+  });
+
+  it.todo('Set expired session and return false');
 });

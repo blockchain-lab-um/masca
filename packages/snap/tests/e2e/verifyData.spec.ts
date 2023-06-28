@@ -66,7 +66,7 @@ describe('verifyData', () => {
   });
 
   it('should succeed verifiying a VC', async () => {
-    const verified = (await onRpcRequest({
+    const verifyDataResult = (await onRpcRequest({
       origin: 'localhost',
       request: {
         id: 'test-id',
@@ -78,18 +78,16 @@ describe('verifyData', () => {
       },
     })) as Result<boolean>;
 
-    if (isError(verified)) {
-      throw new Error(verified.error);
+    if (isError(verifyDataResult)) {
+      throw new Error(verifyDataResult.error);
     }
 
-    expect(verified.data).toBe(true);
+    expect(verifyDataResult.data).toBe(true);
     expect.assertions(1);
   });
 
   it('should succeed verifying a VP', async () => {
-    snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-
-    const switchMethod = (await onRpcRequest({
+    const switchMethodResult = (await onRpcRequest({
       origin: 'localhost',
       request: {
         id: 'test-id',
@@ -101,7 +99,11 @@ describe('verifyData', () => {
       },
     })) as Result<string>;
 
-    const createdVP = (await onRpcRequest({
+    if (isError(switchMethodResult)) {
+      throw new Error(switchMethodResult.error);
+    }
+
+    const createVPResult = (await onRpcRequest({
       origin: 'localhost',
       request: {
         id: 'test-id',
@@ -113,8 +115,8 @@ describe('verifyData', () => {
       },
     })) as Result<VerifiablePresentation>;
 
-    if (isError(createdVP)) {
-      throw new Error(createdVP.error);
+    if (isError(createVPResult)) {
+      throw new Error(createVPResult.error);
     }
 
     const verified = (await onRpcRequest({
@@ -124,7 +126,7 @@ describe('verifyData', () => {
         jsonrpc: '2.0',
         method: 'verifyData',
         params: {
-          presentation: createdVP.data,
+          presentation: createVPResult.data,
         },
       },
     })) as Result<boolean>;
