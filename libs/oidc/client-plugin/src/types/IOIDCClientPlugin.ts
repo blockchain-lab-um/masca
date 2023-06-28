@@ -14,6 +14,8 @@ import type { IAgentContext, IPluginMethodMap, IResolver } from '@veramo/core';
 import type {
   CreateIdTokenArgs,
   CreatePresentationSubmissionArgs,
+  CreateVpTokenArgs,
+  GetAuthorizationRequestArgs,
   GetCredentialInfoByIdArgs,
   ParseOIDCAuthorizationRequestURIArgs,
   ParseOIDCCredentialOfferURIArgs,
@@ -48,15 +50,22 @@ export interface IOIDCClientPlugin extends IPluginMethodMap {
     args: CreatePresentationSubmissionArgs
   ): Promise<Result<PresentationSubmission>>;
   createIdToken(args: CreateIdTokenArgs): Promise<Result<string>>;
+  createVpToken(args: CreateVpTokenArgs): Promise<Result<string>>;
   getChallenge(): Promise<Result<string>>;
   getDomain(): Promise<Result<string>>;
   sendOIDCAuthorizationResponse(
     args: SendOIDCAuthorizationResponseArgs
-  ): Promise<Result<boolean>>;
+  ): Promise<Result<string>>;
 
   // Common
+  getAuthorizationRequest(
+    args: GetAuthorizationRequestArgs
+  ): Promise<Result<string>>;
   proofOfPossession(args: ProofOfPossesionArgs): Promise<Result<Proof>>;
   reset(): Promise<void>;
+
+  // Other
+  setProxyUrl(url: string): Promise<void>;
 }
 
 /**

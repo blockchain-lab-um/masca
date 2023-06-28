@@ -233,39 +233,35 @@
     console.log('account changed to ', account);
   });
 
-  // here we get permissions to interact with and install the snap
-  async function connect() {
-    console.log('snap id', snapId);
-    const snaps = await window.ethereum.request({
-      method: 'wallet_getSnaps',
-    });
-    console.log('Installed snaps...', snaps);
-    await window.ethereum.request({
-      method: 'wallet_requestSnaps',
-      params: {
-        [snapId]: { version: "^0.2.1" },
-      },
-    });
-    let account = (await ethereum.request({ method: 'eth_requestAccounts' }))[0];
-
-    await ethereum.request({
-      method: 'wallet_invokeSnap',
-      params: {
-        snapId: snapId,
-        request: {
-          method: 'setCurrentAccount',
-          params: {
-            currentAccount: account
-          }
+    // here we get permissions to interact with and install the snap
+    async function connect() {
+      console.log('snap id', snapId);
+      const snaps = await window.ethereum.request({
+        method: 'wallet_getSnaps',
+      });
+      console.log('Installed snaps...', snaps);
+      await ethereum.request({
+        method: 'wallet_requestSnaps',
+        params: {
+          [snapId]: { version: 'latest' },
         },
-      },
-    });
-    connectedAccount.textContent = account;
-    connectedAccount.hidden = false
-    connectButton.hidden = true;
-    console.log("current account set to: ", account);
-
-  }
+      });
+      let account = (await ethereum.request({ method: 'eth_requestAccounts' }))[0];
+      
+      await ethereum.request({
+        method: 'wallet_invokeSnap',
+        params: {
+          snapId: snapId,
+          request: {
+            method: 'setCurrentAccount',
+            params: {
+              currentAccount: account
+            }
+          },
+        },
+      });
+      console.log("current account set to: ", account);
+    }
 
   async function getDID() {
     console.log('snap id', snapId);

@@ -11,6 +11,9 @@ import {
  * SPECS:
  * - https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#name-request
  * - https://openid.net/specs/openid-connect-self-issued-v2-1_0.html#section-9
+ * - https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#name-authorization-endpoint
+ * - https://datatracker.ietf.org/doc/html/rfc9101#name-authorization-request
+ * - https://datatracker.ietf.org/doc/html/rfc7636
  *
  * EXTRAS:
  * - https://openid.net/specs/openid-connect-core-1_0.html#Authentication
@@ -19,24 +22,37 @@ import {
  * - https://openid.net/specs/oauth-v2-multiple-response-types-1_0.html#ResponseTypesAndModes
  */
 export interface AuthorizationRequest
-  extends Omit<AuthorizationRequestOAuth2, 'response_type' | 'redirect_uri'> {
+  extends Omit<AuthorizationRequestOAuth2, 'response_type'> {
   response_type: 'id_token' | 'vp_token' | 'code' | 'vp_token id_token';
-  nonce: string;
 
   // OpenID4VP
+  nonce: string;
   presentation_definition?: PresentationDefinition;
   presentation_definition_uri?: string;
 
+  // OpenID4VC
+  authorization_details?: string;
+
   // SIOP
-  claims?: any;
-  redirect_uri: string;
-  response_mode?: 'post' | 'fragment' | 'query';
-  id_token_hint?: string;
-  clinet_metadata?: any; // FIXME: Define later
+  client_metadata?: string;
   client_metadata_uri?: string;
-  request?: any; // FXIME: Define later
-  request_uri?: string;
   id_token_type?: string;
+
+  // OpenID Connect Core
+  response_mode?: 'post' | 'fragment' | 'query';
+  display?: string;
+  prompt?: string;
+  max_age?: number;
+  ui_locales?: string;
+  id_token_hint?: string;
+  acr_values?: string;
+  claims?: string;
+  request?: string; // JWT that holds the JSON encoded OAuth 2.0 Authorization Request parameters
+  request_uri?: string;
+
+  // PKCE (Proof Key for Code Exchange)
+  code_challenge?: string;
+  code_challenge_method?: string;
 }
 
 /**

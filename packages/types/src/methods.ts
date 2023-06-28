@@ -7,7 +7,6 @@ import type {
   QueryVCsRequestParams,
   ResolveDIDRequestParams,
   SaveVCRequestParams,
-  SendOIDCAuthorizationResponseParams,
   SetCeramicSessionRequestParams,
   SetCurrentAccountRequestParams,
   SetVCStoreRequestParams,
@@ -105,11 +104,6 @@ export type HandleOIDCCredentialOffer = {
 export type HandleOIDCAuthorizationRequest = {
   method: 'handleOIDCAuthorizationRequest';
   params: HandleOIDCAuthorizationRequestParams;
-};
-
-export type SendOIDCAuthorizationResponse = {
-  method: 'sendOIDCAuthorizationResponse';
-  params: SendOIDCAuthorizationResponseParams;
 };
 
 export type SetCeramicSession = {

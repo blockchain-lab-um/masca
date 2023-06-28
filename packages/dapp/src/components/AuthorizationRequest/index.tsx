@@ -117,44 +117,7 @@ const AuthorizationRequestFlow = () => {
       return;
     }
 
-    const sendOIDCAuthorizationResponseResponse =
-      await api.sendOIDCAuthorizationResponse({
-        authorizationRequestURI,
-        credentials: selectedCredentials,
-      });
-
-    if (isError(sendOIDCAuthorizationResponseResponse)) {
-      setTimeout(() => {
-        useToastStore.setState({
-          open: true,
-          title: 'Error while sending authorization response',
-          type: 'error',
-          loading: false,
-        });
-      }, 200);
-
-      setAuthorizationResponseError(
-        sendOIDCAuthorizationResponseResponse.error
-      );
-
-      setIsAuthorizationResponseValid(false);
-
-      return;
-    }
-
-    const result = sendOIDCAuthorizationResponseResponse.data;
-
-    setIsAuthorizationResponseValid(result);
-
-    // Show result in toast
-    setTimeout(() => {
-      useToastStore.setState({
-        open: true,
-        title: `Authorization response is: ${result ? 'valid' : 'invalid'}`,
-        type: result ? 'success' : 'error',
-        loading: false,
-      });
-    }, 200);
+    console.log('here');
   };
 
   useEffect(() => {
@@ -165,7 +128,9 @@ const AuthorizationRequestFlow = () => {
   useEffect(() => {
     if (!selectedCredentials.length) return;
 
-    sendAuthorizationResponse().catch((e) => console.log(e));
+    console.log(selectedCredentials);
+    // TODO:
+    // sendAuthorizationResponse().catch((e) => console.log(e));
   }, [selectedCredentials]);
 
   return (

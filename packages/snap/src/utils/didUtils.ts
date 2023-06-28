@@ -73,7 +73,7 @@ export async function getCurrentDidIdentifier(params: {
         kms: 'snap',
         options: {
           privateKeyHex: res.privateKey.slice(2),
-          keyType: 'Secp256k1',
+          keyType: method === 'did:key:ebsi' ? 'Secp256r1' : 'Secp256k1',
           ...(method === 'did:key:ebsi' && { type: 'ebsi' }),
         },
       });
