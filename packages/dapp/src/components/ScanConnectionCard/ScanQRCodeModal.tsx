@@ -22,7 +22,7 @@ const ScanQRCodeModal = ({
   const [scanner, setScanner] = useState<Html5Qrcode | null>(null);
 
   useEffect(() => {
-    if (!open && scanner) {
+    if (!open && scanner && scanner.isScanning) {
       scanner.stop().catch((error) => console.error(error));
     }
 
@@ -69,6 +69,7 @@ const ScanQRCodeModal = ({
                     onScanSuccess={onScanSuccess}
                     scanner={scanner}
                     setScanner={setScanner}
+                    setOpen={setOpen}
                   />
                 </div>
               </Dialog.Panel>
