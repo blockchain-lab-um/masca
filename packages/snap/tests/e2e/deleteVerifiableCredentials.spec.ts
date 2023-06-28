@@ -57,8 +57,8 @@ describe('deleteVC', () => {
       credential: generatedVC,
     });
 
-    if(verifyResult.verified === false) {
-      throw new Error('Generated VC is not valid')
+    if (verifyResult.verified === false) {
+      throw new Error('Generated VC is not valid');
     }
 
     // Ceramic mock

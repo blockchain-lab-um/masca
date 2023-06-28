@@ -106,8 +106,8 @@ describe('saveVerifiableCredential', () => {
       credential: generatedVC,
     });
 
-    if(verifyResult.verified === false) {
-      throw new Error('Generated VC is not valid')
+    if (verifyResult.verified === false) {
+      throw new Error('Generated VC is not valid');
     }
 
     // Ceramic mock
@@ -141,7 +141,6 @@ describe('saveVerifiableCredential', () => {
           },
         },
       })) as Result<IDataManagerSaveResult[]>;
-
 
       if (isError(saveRes)) {
         throw new Error(saveRes.error);

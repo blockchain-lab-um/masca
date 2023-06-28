@@ -36,7 +36,7 @@ describe('queryVerifiableCredentials', () => {
     });
     await agent.keyManagerImport(importablePrivateKey);
 
-     // Create test VC
+    // Create test VC
     const res = await createTestVCs(
       {
         agent,
@@ -57,8 +57,8 @@ describe('queryVerifiableCredentials', () => {
       credential: generatedVC,
     });
 
-    if(verifyResult.verified === false) {
-      throw new Error('Generated VC is not valid')
+    if (verifyResult.verified === false) {
+      throw new Error('Generated VC is not valid');
     }
   });
 
