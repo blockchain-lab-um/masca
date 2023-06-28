@@ -1,0 +1,26 @@
+{
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1",
+    "https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/ld-context.json"
+  ],
+  "type": ["VerifiableCredential", "CourseCredential"],
+  "issuer": {
+    "id": "did:key:z6MkndAHigYrXNpape7jgaC7jHiWwxzB3chuKUGXJg2b5RSj",
+    "name": "tenant"
+  },
+  "issuanceDate": "2021-07-26T01:05:05.152Z",
+  "credentialSubject": {
+    "accomplishmentType": "Developer Certificate",
+    "learnerName": "Bob",
+    "achievement": "Certified Solidity Developer 2",
+    "courseProvider": "https://blockchain-lab.um.si/",
+    "id": "did:ethr:goerli:0xb6665128ee91d84590f70c3268765384a9cafbcd"
+  },
+  "proof": {
+    "type": "Ed25519Signature2018",
+    "created": "2021-07-26T01:05:06Z",
+    "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..o6hnrrWpArG8LQz2Ex_u66_BtuPdp3Hkz18nhNdNhJ7J1k_2lmCCwsNdmo-kNFirZdSIMzqO-V3wEjMDphVEAA",
+    "proofPurpose": "assertionMethod",
+    "verificationMethod": "did:key:z6MkndAHigYrXNpape7jgaC7jHiWwxzB3chuKUGXJg2b5RSj#z6MkndAHigYrXNpape7jgaC7jHiWwxzB3chuKUGXJg2b5RSj"
+  }
+}

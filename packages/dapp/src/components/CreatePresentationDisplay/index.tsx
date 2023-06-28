@@ -82,9 +82,9 @@ const CreatePresentationDisplay = () => {
   return (
     <>
       <ConnectedProvider>
-        <div className="mt-5 flex w-full justify-between px-5">
+        <div className="mt-5 flex w-full justify-between px-6 pt-2">
           <Link href="/app">
-            <button className="animated-transition dark:text-navy-blue-50 dark:hover:bg-navy-blue-700 rounded-full p-1 text-gray-900 hover:bg-pink-100 hover:text-pink-700">
+            <button className="animated-transition dark:text-navy-blue-50 dark:hover:bg-navy-blue-700 rounded-full text-gray-900 hover:bg-pink-100 hover:text-pink-700">
               <ArrowLeftIcon className="h-6 w-6" />
             </button>
           </Link>
@@ -99,7 +99,7 @@ const CreatePresentationDisplay = () => {
           <table className="mt-2 w-full text-center text-sm">
             <thead>
               <tr className=" dark:text-navy-blue-400 text-gray-600">
-                <th className="px-3 pb-4 font-semibold"></th>
+                <th className="px-3 pb-4 pl-4 font-semibold"></th>
                 <th className="px-3 pb-4 font-semibold">{t('table.type')}</th>
                 <th className="px-3 pb-4 font-semibold">{t('table.issuer')}</th>
                 <th className="px-3 pb-4 font-semibold">{t('table.status')}</th>
@@ -117,17 +117,17 @@ const CreatePresentationDisplay = () => {
             </tbody>
           </table>
           <div className="mt-8 px-4">
-            <div className="dark:text-navy-blue-100 text-h5 font-ubuntu mt-8 pl-2 font-medium text-gray-900">
+            <div className="dark:text-navy-blue-100 text-h5 font-ubuntu mt-8 font-medium text-gray-900">
               {t('options.title')}
             </div>
-            <div className="mt-2 flex items-center justify-between px-4">
-              <div className="dark:text-navy-blue-300 px-4 text-gray-600 ">
+            <div className="mt-2 flex items-center justify-between">
+              <div className="dark:text-navy-blue-300 text-gray-600 ">
                 {t('options.format')}
               </div>
               <DropdownMenu
-                size="sm"
+                size="xs"
                 rounded="full"
-                shadow="none"
+                shadow="sm"
                 variant="primary-active"
                 selected={format}
                 setSelected={setFormat}
@@ -137,11 +137,11 @@ const CreatePresentationDisplay = () => {
           </div>
           <div>
             <div className="mt-16 flex items-baseline justify-between border-b border-gray-300 px-4">
-              <div className="text-h5 dark:text-navy-blue-100 font-ubuntu mt-8 flex pl-2 font-medium text-gray-900">
+              <div className="text-h5 dark:text-navy-blue-100 font-ubuntu mt-8 flex font-medium text-gray-900">
                 {t('advanced.title')}{' '}
                 <InfoIcon>{t('advanced.tooltip')}</InfoIcon>
               </div>
-              <div className="pr-4">
+              <div className="">
                 <ToggleSwitch
                   variant="gray"
                   size="sm"
@@ -152,30 +152,30 @@ const CreatePresentationDisplay = () => {
               </div>
             </div>
             {advanced && (
-              <div className="mt-6 px-8">
-                <div className="dark:text-navy-blue-200 mt-2 text-sm font-medium text-gray-600">
-                  CHALLENGE
+              <div className="mt-6 px-4">
+                <div className="dark:text-navy-blue-100 mt-2 text-sm font-medium text-gray-700">
+                  Challenge
                 </div>
                 <div className="mt-2 max-w-xs">
                   <InputField
-                    variant="gray"
-                    size="sm"
-                    placeholder="challenge"
-                    rounded="xl"
+                    variant="primary"
+                    size="lg"
+                    placeholder="Nonce"
+                    rounded="lg"
                     shadow="none"
                     value={challenge}
                     setValue={setChallenge}
                   />
                 </div>
-                <div className="dark:text-navy-blue-200 mt-6 text-sm font-medium text-gray-600">
-                  DOMAIN
+                <div className="dark:text-navy-blue-100 mt-6 text-sm font-medium text-gray-700">
+                  Domain
                 </div>
                 <div className="mt-2 max-w-xs">
                   <InputField
-                    variant="gray"
-                    size="sm"
-                    placeholder="domain"
-                    rounded="xl"
+                    variant="primary"
+                    size="lg"
+                    placeholder="www.example.com"
+                    rounded="lg"
                     shadow="none"
                     value={domain}
                     setValue={setDomain}
@@ -189,6 +189,7 @@ const CreatePresentationDisplay = () => {
           <Button
             variant="primary"
             size="sm"
+            shadow="sm"
             onClick={handleCreateVP}
             loading={loading}
           >

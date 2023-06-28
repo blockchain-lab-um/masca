@@ -1,0 +1,26 @@
+{
+  "didDocumentMetadata": {},
+  "didResolutionMetadata": { "contentType": "application/did+ld+json" },
+  "didDocument": {
+    "@context": [
+      "https://www.w3.org/ns/did/v1",
+      "https://w3id.org/security/suites/secp256k1recovery-2020/v2"
+    ],
+    "id": "did:ethr:0x1:0xb6665128eE91D84590f70c3268765384A9CAfBCd",
+    "verificationMethod": [
+      {
+        "id": "did:ethr:0x1:0xb6665128eE91D84590f70c3268765384A9CAfBCd#controller",
+        "type": "EcdsaSecp256k1RecoveryMethod2020",
+        "controller": "did:ethr:0x1:0xb6665128eE91D84590f70c3268765384A9CAfBCd",
+        "blockchainAccountId": "eip155:1:0xb6665128eE91D84590f70c3268765384A9CAfBCd"
+      }
+    ],
+    "authentication": [
+      "did:ethr:0x1:0xb6665128eE91D84590f70c3268765384A9CAfBCd#controller"
+    ],
+    "assertionMethod": [
+      "did:ethr:0x1:0xb6665128eE91D84590f70c3268765384A9CAfBCd#controller"
+    ]
+  },
+  "did": "did:ethr:0x1:0xb6665128eE91D84590f70c3268765384A9CAfBCd#controller"
+}

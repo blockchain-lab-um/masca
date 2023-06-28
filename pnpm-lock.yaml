@@ -1171,6 +1171,9 @@ importers:
       '@metamask/providers':
         specifier: ^10.2.0
         version: 10.2.0
+      '@prisma/client':
+        specifier: ^4.16.1
+        version: 4.16.1(prisma@4.16.1)
       '@radix-ui/react-toast':
         specifier: ^1.1.4
         version: 1.1.4(@types/react-dom@18.2.6)(@types/react@18.2.7)(react-dom@18.2.0)(react@18.2.0)
@@ -1189,9 +1192,15 @@ importers:
       clsx:
         specifier: ^1.2.1
         version: 1.2.1
+      did-jwt-vc:
+        specifier: ^3.2.4
+        version: 3.2.4
       ethers:
         specifier: ^6.5.1
         version: 6.5.1
+      html5-qrcode:
+        specifier: ^2.3.8
+        version: 2.3.8
       lint-staged:
         specifier: ^13.2.2
         version: 13.2.2
@@ -1216,6 +1225,9 @@ importers:
       prop-types:
         specifier: ^15.8.1
         version: 15.8.1
+      qrcode.react:
+        specifier: ^3.1.0
+        version: 3.1.0(react@18.2.0)
       qs:
         specifier: ^6.11.2
         version: 6.11.2
@@ -1225,6 +1237,9 @@ importers:
       react-dom:
         specifier: 18.2.0
         version: 18.2.0(react@18.2.0)
+      swr:
+        specifier: ^2.2.0
+        version: 2.2.0(react@18.2.0)
       tailwind-scrollbar:
         specifier: ^3.0.4
         version: 3.0.4(tailwindcss@3.3.2)
@@ -1286,6 +1301,9 @@ importers:
       prettier-plugin-packagejson:
         specifier: ^2.4.3
         version: 2.4.3(prettier@2.8.8)
+      prisma:
+        specifier: ^4.16.1
+        version: 4.16.1
       rimraf:
         specifier: ^5.0.1
         version: 5.0.1
@@ -1576,6 +1594,9 @@ importers:
       '@veramo/credential-ld':
         specifier: 5.2.0
         version: 5.2.0(expo@48.0.19)(react-native@0.71.11)
+      '@veramo/credential-status':
+        specifier: 5.1.2
+        version: 5.1.2
       '@veramo/credential-w3c':
         specifier: 5.2.0
         version: 5.2.0(patch_hash=eh2ypjs4hqd36f7gspeq5gcgbu)(expo@48.0.19)(react-native@0.71.11)
@@ -7921,6 +7942,28 @@ packages:
     resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
     dev: false
 
+  /@prisma/client@4.16.1(prisma@4.16.1):
+    resolution: {integrity: sha512-CoDHu7Bt+NuDo40ijoeHP79EHtECsPBTy3yte5Yo3op8TqXt/kV0OT5OrsWewKvQGKFMHhYQ+ePed3zzjYdGAw==}
+    engines: {node: '>=14.17'}
+    requiresBuild: true
+    peerDependencies:
+      prisma: '*'
+    peerDependenciesMeta:
+      prisma:
+        optional: true
+    dependencies:
+      '@prisma/engines-version': 4.16.0-66.b20ead4d3ab9e78ac112966e242ded703f4a052c
+      prisma: 4.16.1
+    dev: false
+
+  /@prisma/engines-version@4.16.0-66.b20ead4d3ab9e78ac112966e242ded703f4a052c:
+    resolution: {integrity: sha512-tMWAF/qF00fbUH1HB4Yjmz6bjh7fzkb7Y3NRoUfMlHu6V+O45MGvqwYxqwBjn1BIUXkl3r04W351D4qdJjrgvA==}
+    dev: false
+
+  /@prisma/engines@4.16.1:
+    resolution: {integrity: sha512-gpZG0kGGxfemgvK/LghHdBIz+crHkZjzszja94xp4oytpsXrgt/Ice82MvPsWMleVIniKuARrowtsIsim0PFJQ==}
+    requiresBuild: true
+
   /@radix-ui/primitive@1.0.1:
     resolution: {integrity: sha512-yQ8oGX2GVsEYMWGxcovu1uGWPCxV5BFfeeYxqPmuAzUyLT9qmaMXSAhXpb0WrspIeqYzdJpkh2vHModJPgRIaw==}
     dependencies:
@@ -8454,7 +8497,7 @@ packages:
     resolution: {integrity: sha512-bcKpo1oj54hGholplGLpqPHRbIsnbixFtc06nwuNM5/dwSXOq/AAYoIBRsBmnZJSdfeNW5rnff7NTAz3ZCqR9Q==}
     dependencies:
       '@noble/curves': 1.0.0
-      '@noble/hashes': 1.3.0
+      '@noble/hashes': 1.3.1
       '@scure/base': 1.1.1
 
   /@scure/bip39@1.1.0:
@@ -8467,7 +8510,7 @@ packages:
   /@scure/bip39@1.2.0:
     resolution: {integrity: sha512-SX/uKq52cuxm4YFXWFaVByaSHJh2w3BnokVSeUJVCv6K7WulT9u2BuNRBhuFl8vAuYnzx9bEu9WgpcNYTrYieg==}
     dependencies:
-      '@noble/hashes': 1.3.0
+      '@noble/hashes': 1.3.1
       '@scure/base': 1.1.1
 
   /@segment/loosely-validate-event@2.0.0:
@@ -10167,7 +10210,7 @@ packages:
     dependencies:
       credential-status: 2.0.5
       debug: 4.3.4
-      did-jwt-vc: 3.2.1
+      did-jwt-vc: 3.2.4
       did-resolver: 4.1.0
     transitivePeerDependencies:
       - supports-color
@@ -10220,6 +10263,19 @@ packages:
       - supports-color
       - web-streams-polyfill
 
+  /@veramo/credential-status@5.1.2:
+    resolution: {integrity: sha512-ToRLVgQqR3bsL4/jsTtqKcXvI7ktmp2a17JQ+5RHX0McygTLv1mqNcOPfebMC4UMhQkdy4QUbQeaSjPG5S9ZFg==}
+    dependencies:
+      '@veramo/core-types': 5.1.2
+      '@veramo/utils': 5.2.0
+      credential-status: 2.0.5
+      did-jwt: 6.11.6
+      did-resolver: 4.1.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
   /@veramo/credential-w3c@5.2.0(patch_hash=eh2ypjs4hqd36f7gspeq5gcgbu)(expo@48.0.19)(react-native@0.71.11):
     resolution: {integrity: sha512-wQ6dzFChBC1DJivzghSDqe4vzZtg/IP1bjhIHh91q4Su4BmPYasvyFcwq0JjgPr4SyrPQGowZUBmGOmLZdM05g==}
     dependencies:
@@ -10229,7 +10285,7 @@ packages:
       canonicalize: 2.0.0
       debug: 4.3.4
       did-jwt: 6.11.6
-      did-jwt-vc: 3.2.1
+      did-jwt-vc: 3.2.4
       did-resolver: 4.1.0
       uint8arrays: 3.1.1
       uuid: 9.0.0
@@ -10253,7 +10309,7 @@ packages:
       '@veramo/key-manager': 5.1.2
       '@veramo/utils': 5.2.0
       debug: 4.3.4
-      did-jwt-vc: 3.2.1
+      did-jwt-vc: 3.2.4
       typeorm: 0.3.16(better-sqlite3@8.4.0)(ts-node@10.9.1)
       uuid: 9.0.0
     transitivePeerDependencies:
@@ -10286,7 +10342,7 @@ packages:
       '@veramo/key-manager': 5.1.2
       '@veramo/utils': 5.2.0
       debug: 4.3.4
-      did-jwt-vc: 3.2.1
+      did-jwt-vc: 3.2.4
       typeorm: 0.3.16(pg@8.11.0)(sqlite3@5.1.6)(ts-node@10.9.1)
       uuid: 9.0.0
     transitivePeerDependencies:
@@ -10585,7 +10641,7 @@ packages:
       cross-fetch: 3.1.6(patch_hash=b7u473fsyomrwof2p2enxrunba)
       debug: 4.3.4
       did-jwt: 6.11.6
-      did-jwt-vc: 3.2.1
+      did-jwt-vc: 3.2.4
       did-resolver: 4.1.0
       elliptic: 6.5.4
       multiformats: 9.9.0
@@ -13684,6 +13740,14 @@ packages:
     dependencies:
       did-jwt: 7.2.0
       did-resolver: 4.1.0
+    dev: false
+
+  /did-jwt-vc@3.2.4:
+    resolution: {integrity: sha512-aCes7YJ0+/CwLdC5Nw/MaLkGFzvyRfH3/iYrUi/nhTP0YJ6R2zOkmaXzYFZS+8vTcUnxZk/aj2i06/N5W8ylzw==}
+    engines: {node: '>=18'}
+    dependencies:
+      did-jwt: 7.2.0
+      did-resolver: 4.1.0
 
   /did-jwt@6.11.6:
     resolution: {integrity: sha512-OfbWknRxJuUqH6Lk0x+H1FsuelGugLbBDEwsoJnicFOntIG/A4y19fn0a8RLxaQbWQ5gXg0yDq5E2huSBiiXzw==}
@@ -16463,6 +16527,10 @@ packages:
       pretty-error: 4.0.0
       tapable: 2.2.1
       webpack: 5.82.1(@swc/core@1.3.52)(webpack-cli@5.1.1)
+
+  /html5-qrcode@2.3.8:
+    resolution: {integrity: sha512-jsr4vafJhwoLVEDW3n1KvPnCCXWaQfRng0/EEYk1vNcQGcG/htAdhJX0be8YyqMoSz7+hZvOZSTAepsabiuhiQ==}
+    dev: false
 
   /htmlescape@1.1.1:
     resolution: {integrity: sha512-eVcrzgbR4tim7c7soKQKtxa/kQM4TzjnlU83rcZ9bHU6t31ehfV7SktN6McWgwPWg+JYMA/O3qpGxBvFq1z2Jg==}
@@ -21470,6 +21538,14 @@ packages:
       react: 18.2.0
     dev: false
 
+  /prisma@4.16.1:
+    resolution: {integrity: sha512-C2Xm7yxHxjFjjscBEW4tmoraPHH/Vyu/A0XABdbaFtoiOZARsxvOM7rwc2iZ0qVxbh0bGBGBWZUSXO/52/nHBQ==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    requiresBuild: true
+    dependencies:
+      '@prisma/engines': 4.16.1
+
   /prismjs@1.29.0:
     resolution: {integrity: sha512-Kx/1w86q/epKcmte75LNrEoT+lX8pBpavuAbvJWRXar7Hz8jrtF+e3vY751p0R8H9HdArwaCTNDDzHg/ScJK1Q==}
     engines: {node: '>=6'}
@@ -21612,6 +21688,14 @@ packages:
     resolution: {integrity: sha512-EXtzRZmC+YGmGlDFbXKxQiMZNwCLEO6BANKXG4iCtSIM0yqc/pappSx3RIKr4r0uh5JsBckOXeKrB3Iz7mdQpQ==}
     hasBin: true
     dev: true
+
+  /qrcode.react@3.1.0(react@18.2.0):
+    resolution: {integrity: sha512-oyF+Urr3oAMUG/OiOuONL3HXM+53wvuH3mtIWQrYmsXoAq0DkvZp2RYUWFSMFtbdOpuS++9v+WAkzNVkMlNW6Q==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /qs@6.11.0:
     resolution: {integrity: sha512-MvjoMCJwEarSbUYk5O+nmoSzSutSsTwF85zcHPQ9OrlFoZOYIjaqBAJIqIXjptyD5vThxGq52Xu/MaJzRkIk4Q==}
@@ -23936,6 +24020,15 @@ packages:
       express: 4.18.2
       swagger-ui-dist: 5.1.0
     dev: true
+
+  /swr@2.2.0(react@18.2.0):
+    resolution: {integrity: sha512-AjqHOv2lAhkuUdIiBu9xbuettzAzWXmCEcLONNKJRba87WAefz8Ca9d6ds/SzrPc235n1IxWYdhJ2zF3MNUaoQ==}
+    peerDependencies:
+      react: ^16.11.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+      use-sync-external-store: 1.2.0(react@18.2.0)
+    dev: false
 
   /symbol-observable@4.0.0:
     resolution: {integrity: sha512-b19dMThMV4HVFynSAM1++gBHAbk2Tc/osgLIBZMKsyqh34jb2e8Os7T6ZW/Bt3pJFdBTd2JwAnAAEQV7rSNvcQ==}

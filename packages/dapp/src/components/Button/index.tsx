@@ -9,8 +9,11 @@ type ButtonProps = {
     | 'connect'
     | 'gray'
     | 'warning'
+    | 'cancel'
+    | 'cancel-red'
     | 'white'
-    | 'white-pink';
+    | 'white-pink'
+    | 'done';
   size?: 'popup' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'wd' | 'icon';
   shadow?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'none' | 'inner' | '';
   onClick?: () => Promise<void> | void;
@@ -25,7 +28,7 @@ const variants: Record<string, string> = {
   'primary-active':
     'text-orange-500 border border-orange-500 bg-white hover:text-white hover:bg-orange-500',
   secondary:
-    'border-2 border-navy-blue-900 text-navy-blue-900 hover:bg-navy-blue-100/20 dark:border-navy-blue-200 dark:text-navy-blue-200 animated-transition',
+    'border-[0.225rem] border-pink-500 text-pink-500 hover:bg-pink-500/5 dark:hover:bg-orange-accent-dark/5 dark:border-orange-accent-dark dark:text-orange-accent-dark animated-transition',
   'secondary-active':
     'text-navy-blue-500 border border border-navy-blue-500 hover:text-white hover:bg-navy-blue-500',
   connect: 'bg-pink-100 hover:bg-pink-50 text-pink-600',
@@ -34,6 +37,11 @@ const variants: Record<string, string> = {
     'bg-white text-gray-800 hover:text-white hover:bg-pink-400 dark:bg-orange-accent-dark dark:text-gray-900 dark:hover:bg-orange-accent-dark/80',
   white: 'bg-white text-gray-800 hover:opacity-80',
   warning: 'bg-red-500 hover:bg-red-500/90 text-white justify-center',
+  cancel:
+    'text-pink-500 dark:text-orange-accent-dark hover:opacity-80 underline underline-pink-500 dark:underline-orange-accent-dark underline-offset-4',
+  'cancel-red':
+    'text-red-500 dark:text-red-500 hover:opacity-80 underline underline-red-500 underline-offset-4',
+  done: 'text-gray-600 dark:text-navy-blue-200 underline underline-gray-600 dark:underline-navy-blue-200 underline-offset-4 hover:opacity-80',
 };
 
 const sizes: Record<string, string> = {
@@ -59,7 +67,8 @@ const loaderSizes: Record<string, string> = {
 };
 
 const loaderColors: Record<string, string> = {
-  primary: 'border-white dark:border-navy-blue-900',
+  primary:
+    'border-white dark:border-navy-blue-900 border-t-pink-900/0 dark:border-t-orange-accent-dark/0',
   'primary-active': 'border-orange-500',
   secondary: 'border-white',
   'secondary-active': 'border-navy-blue-500',
@@ -96,7 +105,7 @@ const Button = ({
           <div
             className={clsx(
               loaderSizes[size],
-              'ml-1 animate-spin rounded-full border-solid border-t-pink-900/0',
+              'ml-1 animate-spin rounded-full  border-solid',
               loaderColors[variant]
             )}
           ></div>

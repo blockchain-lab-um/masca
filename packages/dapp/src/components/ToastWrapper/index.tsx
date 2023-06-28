@@ -18,10 +18,9 @@ const ToastWrapper = () => {
 
   useEffect(() => () => clearTimeout(timerRef.current), []);
 
-  const { open, setOpen, loading, type, title } = useToastStore(
+  const { open, loading, type, title } = useToastStore(
     (state) => ({
       open: state.open,
-      setOpen: state.setOpen,
       loading: state.loading,
       title: state.title,
       type: state.type,
@@ -67,7 +66,7 @@ const ToastWrapper = () => {
           'data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=cancel]:transition-[transform_200ms_ease-out]'
         )}
         open={open}
-        onOpenChange={setOpen}
+        onOpenChange={(_open) => useToastStore.setState({ open: _open })}
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center">

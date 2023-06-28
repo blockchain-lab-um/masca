@@ -9,16 +9,6 @@ import { useMascaStore, useToastStore } from '@/stores';
 
 const SettingsCard = () => {
   const t = useTranslations('Settings');
-  const { setTitle, setLoading, setToastOpen, setType } = useToastStore(
-    (state) => ({
-      setTitle: state.setTitle,
-      setText: state.setText,
-      setLoading: state.setLoading,
-      setToastOpen: state.setOpen,
-      setType: state.setType,
-    }),
-    shallow
-  );
   const { api, availableVCStores, changeAvailableVCStores } = useMascaStore(
     (state) => ({
       api: state.mascaApi,
@@ -46,14 +36,25 @@ const SettingsCard = () => {
     const res = await api.setVCStore(store, value);
     await snapGetAvailableVCStores();
     if (isError(res)) {
-      setToastOpen(false);
       setTimeout(() => {
-        setTitle('Failed to toggle ceramic');
-        setType('error');
-        setLoading(false);
-        setToastOpen(true);
-      }, 100);
+        useToastStore.setState({
+          open: true,
+          title: 'Failed to toggle ceramic',
+          type: 'error',
+          loading: false,
+        });
+      }, 200);
+      return;
     }
+
+    setTimeout(() => {
+      useToastStore.setState({
+        open: true,
+        title: 'Successfully toggled ceramic',
+        type: 'success',
+        loading: false,
+      });
+    }, 200);
   };
 
   const handleCeramicToggle = async (enabled: boolean) => {

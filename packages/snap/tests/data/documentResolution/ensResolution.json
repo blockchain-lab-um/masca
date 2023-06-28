@@ -1,0 +1,48 @@
+{
+  "did": "did:ens:vitalik.eth",
+  "didDocumentMetadata": {},
+  "didResolutionMetadata": {
+    "pattern": "^(did:ens:.+)$",
+    "driverUrl": "http://uni-resolver-driver-did-uport:8081/1.0/identifiers/",
+    "duration": 461,
+    "did": {
+      "didString": "did:ens:vitalik.eth",
+      "methodSpecificId": "vitalik.eth",
+      "method": "ens"
+    },
+    "contentType": "application/did+ld+json",
+    "convertedFrom": "application/did+json",
+    "convertedTo": "application/did+ld+json"
+  },
+  "didDocument": {
+    "assertionMethod": [
+      "did:ens:vitalik.eth#0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"
+    ],
+    "service": [
+      {
+        "id": "did:ens:vitalik.eth#Web3PublicProfile-0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
+        "type": "Web3PublicProfile",
+        "serviceEndpoint": "vitalik.eth"
+      }
+    ],
+    "capabilityDelegation": [
+      "did:ens:vitalik.eth#0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"
+    ],
+    "id": "did:ens:vitalik.eth",
+    "verificationMethod": [
+      {
+        "id": "did:ens:vitalik.eth#0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
+        "type": "EcdsaSecp256k1RecoveryMethod2020",
+        "controller": "did:ens:vitalik.eth",
+        "blockchainAccountId": "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045@eip155:1"
+      }
+    ],
+    "capabilityInvocation": [
+      "did:ens:vitalik.eth#0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"
+    ],
+    "authentication": [
+      "did:ens:vitalik.eth#0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"
+    ]
+  },
+  "@context": "https://w3id.org/did-resolution/v1"
+}

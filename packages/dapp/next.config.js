@@ -1,4 +1,5 @@
 const StylelintPlugin = require('stylelint-webpack-plugin');
+const path = require('path');
 
 // Content-Security-Policy
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
@@ -31,6 +32,14 @@ const nextConfig = {
   optimizeFonts: true,
   experimental: {
     appDir: true,
+    outputFileTracingRoot: path.join(__dirname, '../../'),
+    outputFileTracingExcludes: {
+      '*': [
+        'node_modules/@swc/core-linux-x64-gnu',
+        'node_modules/@swc/core-linux-x64-musl',
+        'node_modules/@esbuild/linux-x64',
+      ],
+    },
   },
   env: {
     USE_LOCAL: process.env.USE_LOCAL || 'false',

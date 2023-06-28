@@ -25,21 +25,21 @@ interface DropdownMenuProps {
 }
 
 const sizes: Record<string, string> = {
-  xs: 'md:text-sm md:py-1 md:px-3 text-xs py-1 px-2 max-w-xs',
-  sm: 'md:text-md md:py-1.5 md:px-3.5 text-sm py-1 px-3 max-w-xs',
-  md: 'lg:text-lg lg:py-2 lg:px-4 md:text-md md:py-1.5 md:px-3.5 text-sm py-1 px-3 max-w-xs',
-  lg: 'lg:text-2xl lg:py-2.5 lg:px-5 md:text-lg md:py-2 md:px-4 text-md py-1.5 px-3.5 max-w-xs font-semibold max-w-xs',
+  xs: 'md:text-sm md:py-1 md:px-3 text-sm py-1 px-2 max-w-xs',
+  sm: 'md:text-md md:py-1.5 md:px-3.5 text-md font-medium py-1 px-3 max-w-xs',
+  md: 'lg:text-lg lg:py-2 lg:px-4 md:text-md font-medium md:py-1.5 md:px-3.5 text-sm py-1 px-3 max-w-xs',
+  lg: 'lg:text-2xl lg:py-2.5 lg:px-5 md:text-lg md:py-2 font-medium md:px-4 text-md py-1.5 px-3.5 max-w-xs font-semibold max-w-xs',
   method:
     'text-h5 font-ubuntu animated-transition inline-flex w-full justify-center rounded-3xl px-4 py-2 font-thin focus:outline-none',
 };
 
 const variants: Record<string, string> = {
   primary:
-    'bg-gradient-to-b from-pink-500 to-orange-500 hover:bg-gradient-to-b hover:opacity-80 text-white animated-transition ',
+    'bg-pink-500 dark:bg-orange-accent-dark hover:opacity-80 text-white dark:text-navy-blue-800 animated-transition ',
   secondary:
-    'bg-navy-blue-500 text-white btn hover:opacity-80   animated-transition ',
+    'text-pink-500 border-[0.135rem] border-pink-500 dark:text-orange-accent-dark dark:border-orange-accent-dark  animated-transition ',
   'primary-active':
-    'text-gray-700 dark:text-navy-blue-300 border border-2 border-gray-300 animated-transition font-semibold ',
+    'text-pink-500 border-[0.135rem] border-pink-500 dark:text-orange-accent-dark dark:border-orange-accent-dark  animated-transition ',
   'secondary-active':
     'text-navy-blue-500 border border-1 border-navy-blue-300 animated-transition ',
   gray: 'bg-gray-200 text-gray-800 btn hover:opacity-80 animated-transition ',
@@ -48,8 +48,7 @@ const variants: Record<string, string> = {
 };
 
 const variantsHover: Record<string, string> = {
-  primary:
-    'bg-gradient-to-b from-pink-500 to-orange-500 hover:bg-gradient-to-b hover:opacity-80 text-white animated-transition ',
+  primary: 'bg-pink-500 dark:bg-orange-accent-dark opacity-80',
   secondary: 'bg-navy-blue-500 text-white btn hover:opacity-80 ',
   'primary-active': ' ',
   'secondary-active': ' ',
@@ -101,7 +100,7 @@ export default function DropdownMenu({
             leaveFrom=" opacity-100 scale-100"
             leaveTo=" opacity-0 scale-95"
           >
-            <Menu.Items className="dark:bg-navy-blue-500 absolute right-0 mt-1 w-48 rounded-3xl bg-white shadow-lg focus:outline-none">
+            <Menu.Items className="dark:bg-navy-blue-600 absolute right-0 mt-1 w-48 rounded-3xl bg-white shadow-lg focus:outline-none">
               <div className="p-1">
                 {items.map((item, id) => (
                   <DropdownMenuItem

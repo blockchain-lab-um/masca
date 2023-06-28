@@ -35,7 +35,7 @@
   ],
   "scripts": {
     "build": "pnpm mm-snap --version && pnpm build:webpack && pnpm build:snap",
-    "build:snap": "pnpm build:snap:postprocess && pnpm mm-snap manifest --fix",
+    "build:snap": "pnpm build:snap:postprocess && pnpm mm-snap manifest --fix && pnpm build:snap:eval",
     "build:snap:eval": "mm-snap eval -b dist/snap.js",
     "build:snap:postprocess": "node ./src/post-process/post-process.js",
     "build:webpack": "cross-env NODE_OPTIONS=--max-old-space-size=4096 webpack",
@@ -47,7 +47,7 @@
     "lint:prettier": "prettier . --check",
     "serve": "mm-snap serve",
     "start": "pnpm build && pnpm serve",
-    "test": "pnpm jest",
+    "test": "cross-env NODE_OPTIONS=--max-old-space-size=4096 jest",
     "test:ci": "pnpm run test --silent --coverage"
   },
   "dependencies": {
@@ -72,6 +72,7 @@
     "@veramo/core": "5.2.0",
     "@veramo/credential-eip712": "5.2.0",
     "@veramo/credential-ld": "5.2.0",
+    "@veramo/credential-status": "5.1.2",
     "@veramo/credential-w3c": "5.2.0",
     "@veramo/did-manager": "5.1.2",
     "@veramo/did-provider-ethr": "5.1.2",

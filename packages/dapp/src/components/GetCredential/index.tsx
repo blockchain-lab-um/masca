@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { CredentialOffer } from '@blockchain-lab-um/oidc-types';
 import { isError } from '@blockchain-lab-um/utils';
 import qs from 'qs';
-import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
 import InputField from '@/components/InputField';
@@ -12,17 +11,6 @@ import { useMascaStore, useToastStore } from '@/stores';
 
 const GetCredential = () => {
   const api = useMascaStore((state) => state.mascaApi);
-  const { setTitle, setText, setLoading, setToastOpen, setType } =
-    useToastStore(
-      (state) => ({
-        setTitle: state.setTitle,
-        setText: state.setText,
-        setLoading: state.setLoading,
-        setToastOpen: state.setOpen,
-        setType: state.setType,
-      }),
-      shallow
-    );
 
   const [credentialOfferURI, setCredentialOfferURI] = useState<string | null>(
     null
@@ -59,14 +47,16 @@ const GetCredential = () => {
 
       setParsedCredentialOfferURI(parsedOffer);
     } catch (e) {
-      setToastOpen(false);
-      setType('error');
-      setTimeout(() => {
-        setTitle('Failed to parse credential offer URI');
-        setLoading(false);
-        setToastOpen(true);
-      }, 100);
       console.log(e);
+
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: 'Failed to parse credential offer URI',
+          type: 'error',
+          loading: false,
+        });
+      }, 200);
     }
   };
 
@@ -89,13 +79,14 @@ const GetCredential = () => {
 
       setCredentialOfferURI(await credentialOfferRequestResponse.text());
     } catch (e) {
-      setToastOpen(false);
-      setType('error');
       setTimeout(() => {
-        setTitle('Failed to get DEMO credential offer URI');
-        setLoading(false);
-        setToastOpen(true);
-      }, 100);
+        useToastStore.setState({
+          open: true,
+          title: 'Failed to get DEMO credential offer URI',
+          type: 'error',
+          loading: false,
+        });
+      }, 200);
       console.log(e);
     }
   };
@@ -103,35 +94,41 @@ const GetCredential = () => {
   const handleCredentialOfferRequest = async () => {
     if (!api || !credentialOfferURI || !parsedCredentialOfferURI) return;
 
-    setLoading(true);
-    setType('normal');
-    setTitle('Handling credential offer');
-    setToastOpen(true);
-
+    setTimeout(() => {
+      useToastStore.setState({
+        open: true,
+        title: 'Handling credential offer',
+        type: 'normal',
+        loading: true,
+      });
+    }, 200);
     const handleCredentialOfferResponse = await api.handleOIDCCredentialOffer({
       credentialOfferURI,
     });
 
     if (isError(handleCredentialOfferResponse)) {
-      setToastOpen(false);
-      setType('error');
       setTimeout(() => {
-        setTitle('Error while handling credential offer');
-        setText(handleCredentialOfferResponse.error);
-
-        setLoading(false);
-        setToastOpen(true);
-      }, 100);
+        useToastStore.setState({
+          open: true,
+          title: 'Error while handling credential offer',
+          type: 'error',
+          loading: false,
+        });
+      }, 200);
       console.log(handleCredentialOfferResponse.error);
       return;
     }
 
     const credential = handleCredentialOfferResponse.data;
 
-    setLoading(true);
-    setType('normal');
-    setTitle('Saving Credential');
-    setToastOpen(true);
+    setTimeout(() => {
+      useToastStore.setState({
+        open: true,
+        title: 'Saving credential',
+        type: 'normal',
+        loading: true,
+      });
+    }, 200);
 
     // Save credential
     // TODO: Convert credential to VC first
@@ -140,13 +137,15 @@ const GetCredential = () => {
     });
 
     if (isError(saveCredentialResponse)) {
-      setToastOpen(false);
-      setType('error');
       setTimeout(() => {
-        setTitle('Error while saving credential');
-        setLoading(false);
-        setToastOpen(true);
-      }, 100);
+        useToastStore.setState({
+          open: true,
+          title: 'Error while saving credential',
+          type: 'error',
+          loading: false,
+        });
+      }, 200);
+
       console.log(saveCredentialResponse.error);
     }
   };

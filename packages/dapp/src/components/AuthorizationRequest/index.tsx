@@ -5,7 +5,6 @@ import type { AuthorizationRequest } from '@blockchain-lab-um/oidc-types';
 import { isError } from '@blockchain-lab-um/utils';
 import { VerifiableCredential } from '@veramo/core';
 import qs from 'qs';
-import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
 import ConnectedProvider from '@/components/ConnectedProvider';
@@ -34,18 +33,6 @@ const AuthorizationRequestFlow = () => {
   const [isAuthorizationResponseValid, setIsAuthorizationResponseValid] =
     useState<boolean | null>(null);
 
-  const { setTitle, setText, setLoading, setToastOpen, setType } =
-    useToastStore(
-      (state) => ({
-        setTitle: state.setTitle,
-        setText: state.setText,
-        setLoading: state.setLoading,
-        setToastOpen: state.setOpen,
-        setType: state.setType,
-      }),
-      shallow
-    );
-
   const parseAuthorizationRequest = () => {
     if (!authorizationRequestURI) return;
 
@@ -58,13 +45,14 @@ const AuthorizationRequestFlow = () => {
       setParsedAuthorizationRequestURI(parsedRequest);
     } catch (e) {
       console.log(e);
-      setToastOpen(false);
-      setType('error');
       setTimeout(() => {
-        setTitle('Error while parsing authorization request');
-        setLoading(false);
-        setToastOpen(true);
-      }, 100);
+        useToastStore.setState({
+          open: true,
+          title: 'Error while parsing authorization request',
+          type: 'error',
+          loading: false,
+        });
+      }, 200);
     }
   };
 
@@ -85,13 +73,14 @@ const AuthorizationRequestFlow = () => {
       );
       setAuthorizationRequestURI(await authorizationRequestResponse.text());
     } catch (e) {
-      setToastOpen(false);
-      setType('error');
       setTimeout(() => {
-        setTitle('Error while getting Demo Authorization Request');
-        setLoading(false);
-        setToastOpen(true);
-      }, 100);
+        useToastStore.setState({
+          open: true,
+          title: 'Error while getting DEMO authorization request',
+          type: 'error',
+          loading: false,
+        });
+      }, 200);
 
       console.log(e);
     }
@@ -108,14 +97,14 @@ const AuthorizationRequestFlow = () => {
       });
 
     if (isError(handleAuthorizationRequestResponse)) {
-      setToastOpen(false);
-      setType('error');
       setTimeout(() => {
-        setTitle('Error while handling authorization request');
-        setText(handleAuthorizationRequestResponse.error);
-        setLoading(false);
-        setToastOpen(true);
-      }, 100);
+        useToastStore.setState({
+          open: true,
+          title: 'Error while handling authorization request',
+          type: 'error',
+          loading: false,
+        });
+      }, 200);
 
       return;
     }
