@@ -9,6 +9,7 @@ import { isError } from '@blockchain-lab-um/utils';
 import { ArrowPathIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { W3CVerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
+import { normalizeCredential } from 'did-jwt-vc';
 import { shallow } from 'zustand/shallow';
 
 import ImportModal from '@/components/ImportModal';
@@ -76,25 +77,45 @@ const Controlbar = () => {
 
   const saveVC = async (vc: string, stores: AvailableVCStores[]) => {
     if (!api) return false;
-    let vcObj;
+    let vcObj: W3CVerifiableCredential;
+
     try {
       vcObj = JSON.parse(vc) as W3CVerifiableCredential;
     } catch (err) {
-      console.log(err);
-      return false;
+      try {
+        vcObj = normalizeCredential(vc) as W3CVerifiableCredential;
+      } catch (normalizationError) {
+        console.log(normalizationError);
+
+        setSpinner(false);
+        setToastOpen(false);
+        setTimeout(() => {
+          useToastStore.setState({
+            open: true,
+            title: 'Failed to save VC; VC was invalid',
+            type: 'error',
+            loading: false,
+          });
+        }, 100);
+
+        return false;
+      }
     }
+
     const res = await api.saveVC(vcObj, {
       store: stores,
     });
+
     if (isError(res)) {
       console.log('error', res);
       return false;
     }
+
     if (res.data && res.data.length > 0) {
       const newVcs: QueryVCsRequestResult[] = [];
-      res.data.forEach((metadata) => {
+      res.data.forEach((metadata: any) => {
         const finalVC = {
-          data: JSON.parse(vc) as W3CVerifiableCredential,
+          data: vcObj,
           metadata,
         } as QueryVCsRequestResult;
         newVcs.push(finalVC);

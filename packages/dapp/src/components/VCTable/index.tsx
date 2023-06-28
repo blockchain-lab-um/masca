@@ -256,7 +256,7 @@ const Table = () => {
       id: 'actions',
       cell: ({ row }) => (
         <div className="flex items-center justify-center gap-1">
-          <button>
+          <button className="dark:text-navy-blue-500 cursor-default text-gray-500">
             <ShareIcon className="h-6 w-6" />
           </button>
           <button

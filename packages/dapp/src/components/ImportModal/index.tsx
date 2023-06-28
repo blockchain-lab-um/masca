@@ -52,7 +52,7 @@ function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
             >
               <Dialog.Panel
                 className={clsx(
-                  'animated-transition dark:bg-navy-blue-500 w-full max-w-xl overflow-hidden rounded-2xl bg-orange-50 px-8 pb-6 pt-10',
+                  'animated-transition dark:bg-navy-blue-600 w-full max-w-xl overflow-hidden rounded-2xl bg-orange-50 px-8 pb-6 pt-10',
                   'text-left align-middle shadow-xl md:max-w-2xl lg:max-w-2xl'
                 )}
               >
@@ -69,10 +69,10 @@ function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
                   </p>
                 </div>
                 <div className="mt-5">
-                  <div className="dark:bg-navy-blue-300 dark:border-navy-blue-400 group relative z-0 rounded-2xl border border-gray-200 bg-gray-50 pr-2 pt-1">
+                  <div className="dark:bg-navy-blue-400 dark:border-navy-blue-400 group relative z-0 rounded-2xl border border-gray-200 bg-gray-50 pr-2 pt-1">
                     <textarea
                       className={clsx(
-                        'group-hover:scrollbar-thumb-orange-300 dark:text-navy-blue-700 dark:bg-navy-blue-300',
+                        'group-hover:scrollbar-thumb-orange-300 dark:text-navy-blue-800 dark:bg-navy-blue-400',
                         'scrollbar-thin scrollbar-thumb-orange-300/0 scrollbar-thumb-rounded-full font-jetbrains-mono',
                         'min-h-[60vh] w-full resize-none rounded-2xl bg-gray-50 p-2 text-gray-700 focus:outline-none'
                       )}
@@ -102,9 +102,9 @@ function ImportModal({ open, setOpen, importVC }: ImportModalProps) {
                   <div className="mt-4">
                     <Button
                       onClick={() => setOpen(false)}
-                      variant="gray"
-                      shadow="md"
-                      size="xs"
+                      variant="cancel"
+                      shadow="none"
+                      size="sm"
                     >
                       Cancel
                     </Button>
