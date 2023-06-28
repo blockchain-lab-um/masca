@@ -37,9 +37,13 @@ const JsonTab = ({
         <DocumentDuplicateIcon className="h-5 w-5" />
       </button>
     </div>
-    <DeleteModal open={deleteModalOpen} setOpen={setDeleteModalOpen} vc={vc} />
+    <DeleteModal
+      isOpen={deleteModalOpen}
+      setOpen={setDeleteModalOpen}
+      vc={vc}
+    />
     <ModifyDSModal
-      open={modifyDSModalOpen}
+      isOpen={modifyDSModalOpen}
       setOpen={setModifyDSModalOpen}
       vc={vc}
     />

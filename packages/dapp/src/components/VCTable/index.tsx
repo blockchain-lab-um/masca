@@ -508,7 +508,7 @@ const Table = () => {
           )}
         </div>
         <DeleteModal
-          open={deleteModalOpen}
+          isOpen={deleteModalOpen}
           setOpen={setDeleteModalOpen}
           vc={selectedVC}
         />

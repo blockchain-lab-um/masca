@@ -198,7 +198,7 @@ const CreatePresentationDisplay = () => {
         </div>
       </ConnectedProvider>
       <VPModal
-        open={vpModalOpen}
+        isOpen={vpModalOpen}
         setOpen={setVpModalOpen}
         vp={vp as W3CVerifiablePresentation}
       />

@@ -237,7 +237,7 @@ const AuthorizationRequestFlow = () => {
         )}
       </ConnectedProvider>
       <SelectCredentialsModal
-        open={isSelectModalOpen}
+        isOpen={isSelectModalOpen}
         setOpen={setIsSelectModalOpen}
         credentials={credentials}
         selectCredentials={setSelectedCredentials}

@@ -112,7 +112,7 @@ const QRCodeSessionProvider = () => {
   return (
     <CredentialOfferModal
       credentialOffer={decryptedData}
-      open={isCredentialOfferModalOpen}
+      isOpen={isCredentialOfferModalOpen}
       setOpen={setIsCredentialOfferModalOpen}
     />
   );

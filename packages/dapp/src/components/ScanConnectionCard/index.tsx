@@ -164,13 +164,13 @@ const ScanConnectionCard = () => {
       <ScanQRCodesModal
         onScanSuccess={onScanSuccessConnectionQRCode}
         title="Scan Connection QR Code"
-        open={isConnectionModalOpen}
+        isOpen={isConnectionModalOpen}
         setOpen={setIsConnectionModalOpen}
       />
       <ScanQRCodesModal
         onScanSuccess={onScanSuccessQRCode}
         title="Scan QR Code"
-        open={isQRCodeModalOpen}
+        isOpen={isQRCodeModalOpen}
         setOpen={setIsQRCodeModalOpen}
       />
     </>

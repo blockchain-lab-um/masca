@@ -233,12 +233,12 @@ const FormatedTab = ({
         </div>
       </div>
       <DeleteModal
-        open={deleteModalOpen}
+        isOpen={deleteModalOpen}
         setOpen={setDeleteModalOpen}
         vc={vc}
       />
       <ModifyDSModal
-        open={modifyDSModalOpen}
+        isOpen={modifyDSModalOpen}
         setOpen={setModifyDSModalOpen}
         vc={vc}
       />

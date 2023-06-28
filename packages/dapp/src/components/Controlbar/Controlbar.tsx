@@ -198,7 +198,7 @@ const Controlbar = () => {
         </div>
       </div>
       <ImportModal
-        open={importModalOpen}
+        isOpen={importModalOpen}
         setOpen={setImportModalOpen}
         importVC={saveVC}
       />

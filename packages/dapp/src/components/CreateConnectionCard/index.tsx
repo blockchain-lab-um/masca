@@ -38,7 +38,7 @@ const CreateConnectionCard = () => {
           </Button>
         </div>
       </div>
-      <CreateConnectionModal open={isModalOpen} setOpen={setIsModalOpen} />
+      <CreateConnectionModal isOpen={isModalOpen} setOpen={setIsModalOpen} />
     </>
   );
 };
