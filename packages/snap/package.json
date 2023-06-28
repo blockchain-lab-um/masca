@@ -48,7 +48,7 @@
     "lint:prettier": "prettier . --check",
     "serve": "mm-snap serve",
     "start": "pnpm mm-snap --version && pnpm build && pnpm serve",
-    "test": "pnpm jest",
+    "test": "cross-env NODE_OPTIONS=--max-old-space-size=4096 jest",
     "test:ci": "pnpm run test --silent --coverage"
   },
   "dependencies": {
@@ -73,6 +73,7 @@
     "@veramo/core": "5.2.0",
     "@veramo/credential-eip712": "5.2.0",
     "@veramo/credential-ld": "5.2.0",
+    "@veramo/credential-status": "5.1.2",
     "@veramo/credential-w3c": "5.2.0",
     "@veramo/did-manager": "5.1.2",
     "@veramo/did-provider-ethr": "5.1.2",

@@ -14,8 +14,8 @@ const methodIndexMapping: Record<AvailableMethods, number> = {
   'did:key': 0,
   'did:key:ebsi': 0,
   'did:jwk': 1,
-  'did:ethr': 0,
-  'did:pkh': 0,
+  'did:ethr': 3,
+  'did:pkh': 3,
 };
 
 export async function getAccountIndexFromEntropy(params: {
@@ -50,11 +50,10 @@ export async function getAddressKeyDeriver(
     ct = didCoinTypeMappping[method];
   }
 
-  // FIXME: in future coinType 60 will be rejected when passed to this method
   const bip44CoinTypeNode = (await snap.request({
     method: 'snap_getBip44Entropy',
     params: {
-      coinType: ct,
+      coinType: 1236,
     },
   })) as BIP44CoinTypeNode;
   return bip44CoinTypeNode;
