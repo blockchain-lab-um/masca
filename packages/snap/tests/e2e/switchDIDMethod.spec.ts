@@ -21,7 +21,7 @@ const methods = [
   {
     method: 'did:key:ebsi',
     underlyingMethod: 'did:key',
-    did: 'did:key:zBhBLmYmyihtomRdJJNEKzbPj51o4a3GYFeZoRHSABKUwqdjiQPY2fa6K44b7RtyESctmKyS3RTWEcXJUa749Zst4jc5mtxcVUSFEE7bYmZ6Srqj9Mv9vjCdi369c9W9XDekwR7C6o1YwejLq61PoNaY55CVMA87xD3JWct6rpZPuzdjoNg7fcx',
+    did: 'did:key:z2dmzD81cgPx8Vki7JbuuMmFYrWPgYoytykUZ3eyqht1j9KbnA1s63s5ENMUxERdtWmShjBmsDon3RB8K2oziDHXQeagfUbskVFKbZbyuDt4uRD4BiykyXoHaKTAWVUeC5TkSTAb3GpWFNWRbqMuge6uvG17vV1MFzbfv3SWhNAm2SCQSp',
   },
 ];
 

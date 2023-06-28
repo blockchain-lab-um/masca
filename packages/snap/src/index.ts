@@ -1,7 +1,6 @@
 import type {
   HandleOIDCAuthorizationRequestParams,
   HandleOIDCCredentialOfferRequestParams,
-  SendOIDCAuthorizationResponseParams,
 } from '@blockchain-lab-um/masca-types';
 import { ResultObject, type Result } from '@blockchain-lab-um/utils';
 import { OnRpcRequestHandler } from '@metamask/snaps-types';
@@ -13,7 +12,6 @@ import { resolveDID } from './rpc/did/resolveDID';
 import { switchMethod } from './rpc/did/switchMethod';
 import { handleOIDCAuthorizationRequest } from './rpc/oidc/handleOIDCAuthorizationRequest';
 import { handleOIDCCredentialOffer } from './rpc/oidc/handleOIDCCredentialOffer';
-import { sendOIDCAuthorizationResponse } from './rpc/oidc/sendOIDCAuthorizationResponse';
 import { setCeramicSession } from './rpc/setCeramicSession';
 import { togglePopups } from './rpc/snap/configure';
 import { setCurrentAccount } from './rpc/snap/setCurrentAccount';
@@ -179,13 +177,6 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         res = await handleOIDCAuthorizationRequest(
           apiParams,
           request.params as unknown as HandleOIDCAuthorizationRequestParams
-        );
-        return ResultObject.success(res);
-      case 'sendOIDCAuthorizationResponse':
-        apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
-        res = await sendOIDCAuthorizationResponse(
-          apiParams,
-          request.params as unknown as SendOIDCAuthorizationResponseParams
         );
         return ResultObject.success(res);
       case 'setCeramicSession':

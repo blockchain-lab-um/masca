@@ -16,7 +16,6 @@ import type {
   HandleOIDCCredentialOfferRequestParams,
   QueryVCsRequestParams,
   SaveVCOptions,
-  SendOIDCAuthorizationResponseParams,
   SetCurrentAccountRequestParams,
   VerifyDataRequestParams,
 } from './params.js';
@@ -64,9 +63,6 @@ export interface MascaApi {
   handleOIDCAuthorizationRequest(
     params: HandleOIDCAuthorizationRequestParams
   ): Promise<Result<VerifiableCredential[]>>;
-  sendOIDCAuthorizationResponse(
-    params: SendOIDCAuthorizationResponseParams
-  ): Promise<Result<boolean>>;
   setCeramicSession(serializedSession: string): Promise<Result<boolean>>;
   validateStoredCeramicSession(): Promise<Result<boolean>>;
 }

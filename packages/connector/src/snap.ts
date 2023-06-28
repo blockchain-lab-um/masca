@@ -14,7 +14,6 @@ import type {
   QueryVCsRequestResult,
   SaveVCOptions,
   SaveVCRequestResult,
-  SendOIDCAuthorizationResponseParams,
   SetCurrentAccountRequestParams,
   VerifyDataRequestParams,
 } from '@blockchain-lab-um/masca-types';
@@ -345,19 +344,6 @@ export async function handleOIDCAuthorizationRequest(
   );
 }
 
-export async function sendOIDCAuthorizationResponse(
-  this: Masca,
-  params: SendOIDCAuthorizationResponseParams
-): Promise<Result<boolean>> {
-  return sendSnapMethod(
-    {
-      method: 'sendOIDCAuthorizationResponse',
-      params,
-    },
-    this.snapId
-  );
-}
-
 export async function setCeramicSession(
   this: Masca,
   serializedSession: string
@@ -427,9 +413,6 @@ export class Masca {
     handleOIDCCredentialOffer: wrapper(handleOIDCCredentialOffer.bind(this)),
     handleOIDCAuthorizationRequest: wrapper(
       handleOIDCAuthorizationRequest.bind(this)
-    ),
-    sendOIDCAuthorizationResponse: wrapper(
-      sendOIDCAuthorizationResponse.bind(this)
     ),
     setCeramicSession: wrapper(setCeramicSession.bind(this)),
     validateStoredCeramicSession: wrapper(

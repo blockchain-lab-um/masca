@@ -100,10 +100,10 @@ export const veramoImportMetaMaskAccount = async (
     keys: [
       {
         kid: controllerKeyId,
-        type: 'Secp256k1',
+        type: method === 'did:key:ebsi' ? 'Secp256r1' : 'Secp256k1',
         kms: 'snap',
-        privateKeyHex: res.privateKey.split('0x')[1],
-        publicKeyHex: res.publicKey.split('0x')[1],
+        privateKeyHex: res.privateKey.slice(2),
+        publicKeyHex: res.publicKey.slice(2),
       } as MinimalImportableKey,
     ],
   });

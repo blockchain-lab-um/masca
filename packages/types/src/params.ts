@@ -1,6 +1,5 @@
 import type {
   UnsignedCredential,
-  VerifiableCredential,
   W3CVerifiableCredential,
   W3CVerifiablePresentation,
 } from '@veramo/core';
@@ -141,14 +140,6 @@ export type HandleOIDCCredentialOfferRequestParams = {
  */
 export type HandleOIDCAuthorizationRequestParams = {
   authorizationRequestURI: string;
-};
-
-/**
- * SendOIDCAuthorizationResponseParams
- */
-export type SendOIDCAuthorizationResponseParams = {
-  authorizationRequestURI: string;
-  credentials: VerifiableCredential[];
 };
 
 export type SetCeramicSessionRequestParams = {
