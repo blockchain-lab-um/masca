@@ -100,7 +100,6 @@ const Controlbar = () => {
         console.log(normalizationError);
 
         setSpinner(false);
-        setToastOpen(false);
         setTimeout(() => {
           useToastStore.setState({
             open: true,
