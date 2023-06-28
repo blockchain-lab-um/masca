@@ -22,16 +22,20 @@ describe('verifyData', () => {
       operation: 'update',
       newState: getDefaultSnapState(account),
     });
+    snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
     const ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
     agent = await getAgent(snapMock, ethereumMock);
     global.snap = snapMock;
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
 
+    // Create test identifier for issuing the VC
     const identifier = await agent.didManagerCreate({
       provider: 'did:ethr',
       kms: 'snap',
     });
     await agent.keyManagerImport(importablePrivateKey);
+
+     // Create test VC
     const res = await createTestVCs(
       {
         agent,
@@ -47,7 +51,14 @@ describe('verifyData', () => {
     );
     generatedVC = res.exampleVeramoVCJWT;
 
-    snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
+    // Created VC should be valid
+    const verifyResult = await agent.verifyCredential({
+      credential: generatedVC,
+    });
+
+    if(verifyResult.verified === false) {
+      throw new Error('Generated VC is not valid')
+    }
   });
 
   beforeEach(async () => {

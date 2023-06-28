@@ -54,11 +54,11 @@ describe.each(methods)(
         operation: 'update',
         newState: getDefaultSnapState(account),
       });
+      snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
       const ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
       agent = await getAgent(snapMock, ethereumMock);
       global.snap = snapMock;
       global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
-
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
       const switchMethod = (await onRpcRequest({
@@ -72,10 +72,11 @@ describe.each(methods)(
           },
         },
       })) as Result<string>;
-  
+
       if (isError(switchMethod)) {
         throw new Error(switchMethod.error);
       }
+
       issuer = switchMethod.data;
     });
 

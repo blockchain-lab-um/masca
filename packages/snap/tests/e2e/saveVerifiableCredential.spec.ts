@@ -6,7 +6,7 @@ import { isError, isSuccess, Result } from '@blockchain-lab-um/utils';
 import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-datamanager';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import type { Json, SnapsGlobalObject } from '@metamask/snaps-types';
+import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import type { IIdentifier, VerifiableCredential } from '@veramo/core';
 
 import { onRpcRequest } from '../../src';
@@ -65,10 +65,10 @@ describe('saveVerifiableCredential', () => {
       newState: getDefaultSnapState(account),
     });
     global.snap = snapMock;
-    const ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
-    agent = await getAgent(snapMock, ethereumMock);
-    await agent.clear({ options: { store: ['snap', 'ceramic'] } });
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
+
+    // Clear stores before each test
+    await agent.clear({ options: { store: ['snap', 'ceramic'] } });
   });
 
   beforeAll(async () => {
@@ -84,6 +84,8 @@ describe('saveVerifiableCredential', () => {
       kms: 'snap',
     });
     await agent.keyManagerImport(importablePrivateKey);
+
+    // Create test VC
     const res = await createTestVCs(
       {
         agent,
@@ -98,6 +100,16 @@ describe('saveVerifiableCredential', () => {
       }
     );
     generatedVC = res.exampleVeramoVCJWT;
+
+    // Created VC should be valid
+    const verifyResult = await agent.verifyCredential({
+      credential: generatedVC,
+    });
+
+    if(verifyResult.verified === false) {
+      throw new Error('Generated VC is not valid')
+    }
+
     // Ceramic mock
     DIDDataStore.prototype.get = jest
       .fn()
@@ -110,13 +122,6 @@ describe('saveVerifiableCredential', () => {
           resolve(ceramicData);
         })
     );
-  });
-
-  it('Should produce a valid VC', async () => {
-    const res = await agent.verifyCredential({ credential: generatedVC });
-    expect(generatedVC).toBeDefined();
-    expect(res.verified).toBe(true);
-    expect.assertions(2);
   });
 
   it.each(options)(
@@ -132,7 +137,7 @@ describe('saveVerifiableCredential', () => {
           method: 'saveVC',
           params: {
             verifiableCredential: generatedVC,
-            options: store.options as Json,
+            options: store.options as SaveVCOptions,
           },
         },
       })) as Result<IDataManagerSaveResult[]>;
@@ -165,7 +170,7 @@ describe('saveVerifiableCredential', () => {
           method: 'saveVC',
           params: {
             verifiableCredential: generatedVC,
-            options: store.options as Json,
+            options: store.options as SaveVCOptions,
           },
         },
       })) as Result<IDataManagerSaveResult[]>;

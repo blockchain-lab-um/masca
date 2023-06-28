@@ -25,7 +25,7 @@ const methods = [
   }
 ];
 
-describe('Get DID', () => {
+describe('getDID', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
   let agent: Agent;
 
@@ -35,12 +35,11 @@ describe('Get DID', () => {
       operation: 'update',
       newState: getDefaultSnapState(account),
     });
+    snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
     const ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
     agent = await getAgent(snapMock, ethereumMock);
     global.snap = snapMock;
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
-
-    snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
   });
 
   beforeEach(async () => {

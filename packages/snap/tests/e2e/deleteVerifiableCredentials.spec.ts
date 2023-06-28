@@ -3,7 +3,7 @@ import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-datamanager';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
-import type { IIdentifier, VerifiableCredential } from '@veramo/core';
+import type { VerifiableCredential } from '@veramo/core';
 
 import { onRpcRequest } from '../../src';
 import type { StoredCredentials } from '../../src/veramo/plugins/ceramicDataStore/ceramicDataStore';
@@ -14,25 +14,11 @@ import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createTestVCs } from '../helpers/generateTestVCs';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
-describe('Delete Verifiable Credentials', () => {
+describe('deleteVC', () => {
   let ceramicData: StoredCredentials;
   let snapMock: SnapsGlobalObject & SnapMock;
-  let identifier: IIdentifier;
   let agent: Agent;
   let generatedVC: VerifiableCredential;
-
-  beforeEach(async () => {
-    snapMock = createMockSnap();
-    snapMock.rpcMocks.snap_manageState({
-      operation: 'update',
-      newState: getDefaultSnapState(account),
-    });
-    global.snap = snapMock;
-    const ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
-    agent = await getAgent(snapMock, ethereumMock);
-    await agent.clear({ options: { store: ['snap', 'ceramic'] } });
-    global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
-  });
 
   beforeAll(async () => {
     snapMock = createMockSnap();
@@ -42,11 +28,15 @@ describe('Delete Verifiable Credentials', () => {
     });
     const ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
     agent = await getAgent(snapMock, ethereumMock);
-    identifier = await agent.didManagerCreate({
+
+    // Create test identifier for issuing the VC
+    const identifier = await agent.didManagerCreate({
       provider: 'did:ethr',
       kms: 'snap',
     });
     await agent.keyManagerImport(importablePrivateKey);
+
+    // Create test VC
     const res = await createTestVCs(
       {
         agent,
@@ -61,6 +51,16 @@ describe('Delete Verifiable Credentials', () => {
       }
     );
     generatedVC = res.exampleVeramoVCJWT;
+
+    // Created VC should be valid
+    const verifyResult = await agent.verifyCredential({
+      credential: generatedVC,
+    });
+
+    if(verifyResult.verified === false) {
+      throw new Error('Generated VC is not valid')
+    }
+
     // Ceramic mock
     DIDDataStore.prototype.get = jest
       .fn()
@@ -73,6 +73,19 @@ describe('Delete Verifiable Credentials', () => {
           resolve(ceramicData);
         })
     );
+  });
+
+  beforeEach(async () => {
+    snapMock = createMockSnap();
+    snapMock.rpcMocks.snap_manageState({
+      operation: 'update',
+      newState: getDefaultSnapState(account),
+    });
+    global.snap = snapMock;
+    global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
+
+    // Clear stores before each test
+    await agent.clear({ options: { store: ['snap', 'ceramic'] } });
   });
 
   it('should succeed saving and deleting 1 VC', async () => {
