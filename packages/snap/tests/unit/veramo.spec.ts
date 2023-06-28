@@ -776,8 +776,6 @@ describe('Utils [veramo]', () => {
           data: { credential },
         });
 
-        console.log(verifyResult.error);
-
         expect(verifyResult.verified).toBe(true);
         expect.assertions(1);
       }
