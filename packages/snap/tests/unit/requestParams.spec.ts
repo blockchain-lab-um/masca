@@ -7,29 +7,29 @@ import {
   isValidSaveVCRequest,
   isValidSwitchMethodRequest,
 } from '../../src/utils/params';
-import {
-  account,
-  exampleTestVCPayload,
-  exampleVC,
-  getDefaultSnapState,
-} from '../testUtils/constants';
+import { account } from '../data/constants';
+import * as exampleVCPayload from '../data/credentials/examplePayload.json';
+import { getDefaultSnapState } from '../data/defaultSnapState';
+import * as exampleVC from '../data/verifiable-credentials/exampleJWT.json';
 
 describe('Utils [params]', () => {
-  /*
-    isValidQueryVCsRequest
-  */
-  describe('isValidQueryVCsRequest', () => {
-    it.todo('Add test');
-  });
   describe('isValidResolveDIDRequest', () => {
+    it('should not fail for proper request', () => {
+      expect(() =>
+        isValidResolveDIDRequest({ did: 'did:ethr:0x1234321' })
+      ).not.toThrow(Error);
+    });
     it('should fail for null', () => {
       expect(() => isValidResolveDIDRequest(null)).toThrow(Error);
+    });
+    it('should fail for wrong type', () => {
+      expect(() => isValidResolveDIDRequest({ did: 123 })).toThrow(Error);
     });
   });
 
   describe('isValidQueryRequest', () => {
     it('should fail for not enabled store', () => {
-      const state = getDefaultSnapState();
+      const state = getDefaultSnapState(account);
       state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
       expect(() =>
         isValidQueryRequest({ options: { store: 'ceramic' } }, account, state)
@@ -37,17 +37,17 @@ describe('Utils [params]', () => {
     });
     it('should not fail for null', () => {
       expect(() =>
-        isValidQueryRequest(null, account, getDefaultSnapState())
+        isValidQueryRequest(null, account, getDefaultSnapState(account))
       ).not.toThrow(Error);
     });
     it('should not fail for undefined', () => {
       expect(() =>
-        isValidQueryRequest(undefined, account, getDefaultSnapState())
+        isValidQueryRequest(undefined, account, getDefaultSnapState(account))
       ).not.toThrow(Error);
     });
     it('should not fail for empty object', () => {
       expect(() =>
-        isValidQueryRequest({}, account, getDefaultSnapState())
+        isValidQueryRequest({}, account, getDefaultSnapState(account))
       ).not.toThrow(Error);
     });
     it('should not fail for object with filter', () => {
@@ -55,7 +55,7 @@ describe('Utils [params]', () => {
         isValidQueryRequest(
           { filter: { type: 'abc', filter: {} } },
           account,
-          getDefaultSnapState()
+          getDefaultSnapState(account)
         )
       ).not.toThrow(Error);
     });
@@ -64,7 +64,7 @@ describe('Utils [params]', () => {
         isValidQueryRequest(
           { filter: { filter: {} } },
           account,
-          getDefaultSnapState()
+          getDefaultSnapState(account)
         )
       ).toThrow('Filter type is missing or not a string!');
     });
@@ -73,13 +73,17 @@ describe('Utils [params]', () => {
         isValidQueryRequest(
           { filter: { type: 123, filter: {} } },
           account,
-          getDefaultSnapState()
+          getDefaultSnapState(account)
         )
       ).toThrow('Filter type is missing or not a string!');
     });
     it('should not fail for empty options object', () => {
       expect(() =>
-        isValidQueryRequest({ options: {} }, account, getDefaultSnapState())
+        isValidQueryRequest(
+          { options: {} },
+          account,
+          getDefaultSnapState(account)
+        )
       ).not.toThrow('Filter type is missing or not a string!');
     });
     it('should not fail for options object with one store', () => {
@@ -87,7 +91,7 @@ describe('Utils [params]', () => {
         isValidQueryRequest(
           { options: { store: 'snap' } },
           account,
-          getDefaultSnapState()
+          getDefaultSnapState(account)
         )
       ).not.toThrow('Filter type is missing or not a string!');
     });
@@ -96,7 +100,7 @@ describe('Utils [params]', () => {
         isValidQueryRequest(
           { options: { store: ['snap', 'ceramic'] } },
           account,
-          getDefaultSnapState()
+          getDefaultSnapState(account)
         )
       ).not.toThrow('Filter type is missing or not a string!');
     });
@@ -105,7 +109,7 @@ describe('Utils [params]', () => {
         isValidQueryRequest(
           { options: { store: ['snapp', 'ceramic'] } },
           account,
-          getDefaultSnapState()
+          getDefaultSnapState(account)
         )
       ).toThrow('Store snapp is not supported!');
     });
@@ -114,7 +118,7 @@ describe('Utils [params]', () => {
         isValidQueryRequest(
           { options: { store: true } },
           account,
-          getDefaultSnapState()
+          getDefaultSnapState(account)
         )
       ).toThrow('Store is invalid format');
     });
@@ -125,7 +129,7 @@ describe('Utils [params]', () => {
             options: { store: ['snap', 'ceramic'], returnStore: false },
           },
           account,
-          getDefaultSnapState()
+          getDefaultSnapState(account)
         )
       ).not.toThrow('Filter type is missing or not a string!');
     });
@@ -136,41 +140,45 @@ describe('Utils [params]', () => {
             options: { store: ['snap', 'ceramic'], returnStore: 123 },
           },
           account,
-          getDefaultSnapState()
+          getDefaultSnapState(account)
         )
       ).toThrow('ReturnStore is invalid format');
     });
   });
 
   /*
-    isValidSaveVCRequest
-  */
+      isValidSaveVCRequest
+    */
   describe('isValidSaveVCRequest', () => {
     it('should fail for null', () => {
       expect(() =>
-        isValidSaveVCRequest(null, account, getDefaultSnapState())
+        isValidSaveVCRequest(null, account, getDefaultSnapState(account))
       ).toThrow(Error);
     });
 
     it('should fail for empty object', () => {
       expect(() =>
-        isValidSaveVCRequest({}, account, getDefaultSnapState())
+        isValidSaveVCRequest({}, account, getDefaultSnapState(account))
       ).toThrow(Error);
     });
 
     it('should fail for string', () => {
       expect(() =>
-        isValidSaveVCRequest('infuraToken', account, getDefaultSnapState())
+        isValidSaveVCRequest(
+          'infuraToken',
+          account,
+          getDefaultSnapState(account)
+        )
       ).toThrow(Error);
     });
 
     it('should fail for number', () => {
       expect(() =>
-        isValidSaveVCRequest(42, account, getDefaultSnapState())
+        isValidSaveVCRequest(42, account, getDefaultSnapState(account))
       ).toThrow(Error);
     });
     it('should fail for not enabled store', () => {
-      const state = getDefaultSnapState();
+      const state = getDefaultSnapState(account);
       state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
       expect(() =>
         isValidSaveVCRequest(
@@ -183,8 +191,8 @@ describe('Utils [params]', () => {
   });
 
   /*
-    isValidCreateVPRequest
-  */
+      isValidCreateVPRequest
+    */
   describe('isValidCreateVPRequest', () => {
     it('should succeed if vcId is a string', () => {
       expect(() =>
@@ -193,7 +201,7 @@ describe('Utils [params]', () => {
             vcs: [{ id: 'test-id' }, { id: 'test-id-2' }],
           },
           account,
-          getDefaultSnapState()
+          getDefaultSnapState(account)
         )
       ).not.toThrow();
     });
@@ -205,32 +213,36 @@ describe('Utils [params]', () => {
             vcs: [{ id: 'test-id' }, { id: 'test-id-2' }],
           },
           account,
-          getDefaultSnapState()
+          getDefaultSnapState(account)
         )
       ).not.toThrow();
     });
 
     it('should fail for null', () => {
       expect(() =>
-        isValidCreateVPRequest(null, account, getDefaultSnapState())
+        isValidCreateVPRequest(null, account, getDefaultSnapState(account))
       ).toThrow(Error);
     });
 
     it('should fail for empty object', () => {
       expect(() =>
-        isValidCreateVPRequest({}, account, getDefaultSnapState())
+        isValidCreateVPRequest({}, account, getDefaultSnapState(account))
       ).toThrow(Error);
     });
 
     it('should fail for string', () => {
       expect(() =>
-        isValidCreateVPRequest('infuraToken', account, getDefaultSnapState())
+        isValidCreateVPRequest(
+          'infuraToken',
+          account,
+          getDefaultSnapState(account)
+        )
       ).toThrow(Error);
     });
 
     it('should fail for number', () => {
       expect(() =>
-        isValidCreateVPRequest(42, account, getDefaultSnapState())
+        isValidCreateVPRequest(42, account, getDefaultSnapState(account))
       ).toThrow(Error);
     });
 
@@ -241,7 +253,7 @@ describe('Utils [params]', () => {
             vcs: [],
           },
           account,
-          getDefaultSnapState()
+          getDefaultSnapState(account)
         )
       ).toThrow(Error);
     });
@@ -253,7 +265,7 @@ describe('Utils [params]', () => {
             vcs: null,
           },
           account,
-          getDefaultSnapState()
+          getDefaultSnapState(account)
         )
       ).toThrow('Invalid CreateVP request');
     });
@@ -265,7 +277,7 @@ describe('Utils [params]', () => {
             proofFormat: 'wrong',
           },
           account,
-          getDefaultSnapState()
+          getDefaultSnapState(account)
         )
       ).toThrow('Proof format not supported');
     });
@@ -277,7 +289,7 @@ describe('Utils [params]', () => {
             proofFormat: 'jwt',
           },
           account,
-          getDefaultSnapState()
+          getDefaultSnapState(account)
         )
       ).not.toThrow('err');
     });
@@ -289,7 +301,7 @@ describe('Utils [params]', () => {
             proofFormat: 'jwt',
           },
           account,
-          getDefaultSnapState()
+          getDefaultSnapState(account)
         )
       ).not.toThrow('err');
     });
@@ -303,7 +315,7 @@ describe('Utils [params]', () => {
             proofOptions: {},
           },
           account,
-          getDefaultSnapState()
+          getDefaultSnapState(account)
         )
       ).not.toThrow('Store is not supported!');
     });
@@ -316,7 +328,7 @@ describe('Utils [params]', () => {
             proofOptions: { domain: 'test', challenge: 'test' },
           },
           account,
-          getDefaultSnapState()
+          getDefaultSnapState(account)
         )
       ).not.toThrow('Store is not supported!');
     });
@@ -329,7 +341,7 @@ describe('Utils [params]', () => {
             proofOptions: { domain: 123, challenge: 'test' },
           },
           account,
-          getDefaultSnapState()
+          getDefaultSnapState(account)
         )
       ).toThrow('Domain is not a string');
     });
@@ -342,7 +354,7 @@ describe('Utils [params]', () => {
             proofOptions: { challenge: 123, domain: 'test' },
           },
           account,
-          getDefaultSnapState()
+          getDefaultSnapState(account)
         )
       ).toThrow('Challenge is not a string');
     });
@@ -355,7 +367,7 @@ describe('Utils [params]', () => {
             proofOptions: { type: 123, challenge: 'test', domain: 'test' },
           },
           account,
-          getDefaultSnapState()
+          getDefaultSnapState(account)
         )
       ).toThrow('Type is not a string');
     });
@@ -373,15 +385,15 @@ describe('Utils [params]', () => {
             proofOptions: { type: 'Eth', domain: 'test', challenge: 'test' },
           },
           account,
-          getDefaultSnapState()
+          getDefaultSnapState(account)
         )
       ).not.toThrow('Store is not supported!');
     });
   });
 
   /*
-    isValidSwitchMethodRequest
-  */
+      isValidSwitchMethodRequest
+    */
   describe('isValidSwitchMethodRequest', () => {
     it('should succeed if didMethod is a valid string', () => {
       expect(() =>
@@ -424,7 +436,7 @@ describe('Utils [params]', () => {
   });
   describe('isValidDeleteVCsRequest', () => {
     it('should fail for not enabled store', () => {
-      const state = getDefaultSnapState();
+      const state = getDefaultSnapState(account);
       state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
       expect(() =>
         isValidDeleteVCRequest(
@@ -439,13 +451,17 @@ describe('Utils [params]', () => {
         isValidDeleteVCRequest(
           { didMethod: 42 },
           account,
-          getDefaultSnapState()
+          getDefaultSnapState(account)
         )
       ).toThrow(Error);
     });
     it('should not throw for string id', () => {
       expect(() =>
-        isValidDeleteVCRequest({ id: '123' }, account, getDefaultSnapState())
+        isValidDeleteVCRequest(
+          { id: '123' },
+          account,
+          getDefaultSnapState(account)
+        )
       ).not.toThrow(Error);
     });
     it('should not throw for list of string ids', () => {
@@ -453,7 +469,7 @@ describe('Utils [params]', () => {
         isValidDeleteVCRequest(
           { id: ['123', '456'] },
           account,
-          getDefaultSnapState()
+          getDefaultSnapState(account)
         )
       ).not.toThrow(Error);
     });
@@ -465,7 +481,7 @@ describe('Utils [params]', () => {
             options: { store: 'snap' },
           },
           account,
-          getDefaultSnapState()
+          getDefaultSnapState(account)
         )
       ).not.toThrow(Error);
     });
@@ -477,7 +493,7 @@ describe('Utils [params]', () => {
             options: { store: ['snap', 'ceramic'] },
           },
           account,
-          getDefaultSnapState()
+          getDefaultSnapState(account)
         )
       ).not.toThrow(Error);
     });
@@ -489,7 +505,7 @@ describe('Utils [params]', () => {
             options: { store: 'snapp' },
           },
           account,
-          getDefaultSnapState()
+          getDefaultSnapState(account)
         )
       ).toThrow('Store snapp is not supported!');
     });
@@ -498,24 +514,28 @@ describe('Utils [params]', () => {
         isValidDeleteVCRequest(
           { id: ['123', 456] },
           account,
-          getDefaultSnapState()
+          getDefaultSnapState(account)
         )
       ).toThrow('ID is not a string or array of strings');
     });
     it('should throw for empty list of ids', () => {
       expect(() =>
-        isValidDeleteVCRequest({ id: [] }, account, getDefaultSnapState())
+        isValidDeleteVCRequest(
+          { id: [] },
+          account,
+          getDefaultSnapState(account)
+        )
       ).toThrow('ID is not a string or array of strings');
     });
   });
   describe('isValidCreateVCsRequest', () => {
     it('should pass with only unsignedVC', () => {
-      const state = getDefaultSnapState();
+      const state = getDefaultSnapState(account);
       state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
       expect(() =>
         isValidCreateVCRequest(
           {
-            minimalUnsignedCredential: exampleTestVCPayload,
+            minimalUnsignedCredential: exampleVCPayload,
           },
           account,
           state
@@ -523,12 +543,12 @@ describe('Utils [params]', () => {
       ).not.toThrow();
     });
     it('should pass with unsignedVC & PF', () => {
-      const state = getDefaultSnapState();
+      const state = getDefaultSnapState(account);
       state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
       expect(() =>
         isValidCreateVCRequest(
           {
-            minimalUnsignedCredential: exampleTestVCPayload,
+            minimalUnsignedCredential: exampleVCPayload,
             proofFormat: 'jwt',
           },
           account,
@@ -537,12 +557,12 @@ describe('Utils [params]', () => {
       ).not.toThrow();
     });
     it('should pass with empty options', () => {
-      const state = getDefaultSnapState();
+      const state = getDefaultSnapState(account);
       state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
       expect(() =>
         isValidCreateVCRequest(
           {
-            minimalUnsignedCredential: exampleTestVCPayload,
+            minimalUnsignedCredential: exampleVCPayload,
             proofFormat: 'jwt',
             options: {},
           },
@@ -552,12 +572,12 @@ describe('Utils [params]', () => {
       ).not.toThrow();
     });
     it('should pass with save option', () => {
-      const state = getDefaultSnapState();
+      const state = getDefaultSnapState(account);
       state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
       expect(() =>
         isValidCreateVCRequest(
           {
-            minimalUnsignedCredential: exampleTestVCPayload,
+            minimalUnsignedCredential: exampleVCPayload,
             proofFormat: 'jwt',
             options: { save: true },
           },
@@ -567,12 +587,12 @@ describe('Utils [params]', () => {
       ).not.toThrow();
     });
     it('should pass with full option', () => {
-      const state = getDefaultSnapState();
+      const state = getDefaultSnapState(account);
       state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
       expect(() =>
         isValidCreateVCRequest(
           {
-            minimalUnsignedCredential: exampleTestVCPayload,
+            minimalUnsignedCredential: exampleVCPayload,
             proofFormat: 'jwt',
             options: { save: true, store: ['snap'] },
           },
@@ -582,12 +602,12 @@ describe('Utils [params]', () => {
       ).not.toThrow();
     });
     it('should fail for not enabled store', () => {
-      const state = getDefaultSnapState();
+      const state = getDefaultSnapState(account);
       state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
       expect(() =>
         isValidCreateVCRequest(
           {
-            minimalUnsignedCredential: exampleTestVCPayload,
+            minimalUnsignedCredential: exampleVCPayload,
             proofFormat: 'jwt',
             options: { save: true, store: 'ceramic' },
           },
@@ -597,12 +617,12 @@ describe('Utils [params]', () => {
       ).toThrow('Store ceramic is not enabled!');
     });
     it('should fail for invalid store', () => {
-      const state = getDefaultSnapState();
+      const state = getDefaultSnapState(account);
       state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
       expect(() =>
         isValidCreateVCRequest(
           {
-            minimalUnsignedCredential: exampleTestVCPayload,
+            minimalUnsignedCredential: exampleVCPayload,
             proofFormat: 'jwt',
             options: { save: true, store: 'ceramicc' },
           },
@@ -612,12 +632,12 @@ describe('Utils [params]', () => {
       ).toThrow('Store ceramicc is not supported!');
     });
     it('should fail for invalid PF', () => {
-      const state = getDefaultSnapState();
+      const state = getDefaultSnapState(account);
       state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
       expect(() =>
         isValidCreateVCRequest(
           {
-            minimalUnsignedCredential: exampleTestVCPayload,
+            minimalUnsignedCredential: exampleVCPayload,
             proofFormat: 'jws',
             options: { save: true, store: 'snap' },
           },

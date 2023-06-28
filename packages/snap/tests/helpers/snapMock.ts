@@ -3,14 +3,9 @@ import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import type { RequestArguments } from '@metamask/providers/dist/BaseProvider';
 import type { Maybe } from '@metamask/providers/dist/utils';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
-import {
-  AlchemyProvider,
-  Wallet,
-  type Filter,
-  type TransactionRequest,
-} from 'ethers';
+import { AlchemyProvider, type Filter, type TransactionRequest } from 'ethers';
 
-import { account, mnemonic, privateKey } from './constants';
+import { account, mnemonic } from '../data/constants';
 
 interface ISnapMock {
   request<T>(args: RequestArguments): Promise<Maybe<T>>;
@@ -20,10 +15,9 @@ interface SnapManageState {
   operation: 'get' | 'update' | 'clear';
   newState: unknown;
 }
+
 export class SnapMock implements ISnapMock {
   private snapState: MascaState | null = null;
-
-  private snap: Wallet = new Wallet(privateKey);
 
   private snapManageState(params: SnapManageState): MascaState | null {
     if (!params) {
@@ -50,11 +44,6 @@ export class SnapMock implements ISnapMock {
       default:
         return '0x0000000000000000000000000000000000000000000000000000000000000000';
     }
-  }
-
-  private async snapPersonalSign(data: string[]): Promise<string> {
-    const signature = await this.snap.signMessage(data[0]);
-    return signature;
   }
 
   private async snapEthCall(data: any[]): Promise<string> {
@@ -98,11 +87,6 @@ export class SnapMock implements ISnapMock {
       .mockImplementation((params: unknown) =>
         this.snapManageState(params as SnapManageState)
       ),
-    personal_sign: jest
-      .fn()
-      .mockImplementation(async (data: unknown) =>
-        this.snapPersonalSign(data as string[])
-      ),
     eth_call: jest
       .fn()
       .mockImplementation(async (data: unknown) =>
@@ -113,20 +97,10 @@ export class SnapMock implements ISnapMock {
       .mockImplementation(async (data: unknown) =>
         this.snapEthLogs(data as any[])
       ),
-    eth_signTypedData_v4: jest
-      .fn()
-      .mockImplementation((...params: unknown[]) => {
-        const { domain, types, message } = JSON.parse(params[1] as string);
-
-        delete types.EIP712Domain;
-
-        return this.snap.signTypedData(domain, types, message);
-      }),
   };
 
   request<T>(args: RequestArguments): Promise<Maybe<T>> {
     const { method, params } = args;
-    // @ts-expect-error Args params won't cause an issue
     // eslint-disable-next-line
     return this.rpcMocks[method](params);
   }

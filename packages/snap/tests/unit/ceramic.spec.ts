@@ -1,3 +1,4 @@
+// TODO Revisit after composeDB is implemented
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import type { W3CVerifiableCredential } from '@veramo/core';
@@ -8,12 +9,10 @@ import {
   veramoQueryVCs,
   veramoSaveVC,
 } from '../../src/utils/veramoUtils';
-import {
-  exampleVC,
-  exampleVCinVP,
-  getDefaultSnapState,
-} from '../testUtils/constants';
-import { createMockSnap, SnapMock } from '../testUtils/snap.mock';
+import { account } from '../data/constants';
+import { getDefaultSnapState } from '../data/defaultSnapState';
+import exampleVC from '../data/verifiable-credentials/exampleJWT.json';
+import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
 describe('Utils [ceramic]', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
@@ -23,7 +22,7 @@ describe('Utils [ceramic]', () => {
     snapMock = createMockSnap();
     snapMock.rpcMocks.snap_manageState({
       operation: 'update',
-      newState: getDefaultSnapState(),
+      newState: getDefaultSnapState(account),
     });
     ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
 
@@ -38,7 +37,7 @@ describe('Utils [ceramic]', () => {
     snapMock = createMockSnap();
     snapMock.rpcMocks.snap_manageState({
       operation: 'update',
-      newState: getDefaultSnapState(),
+      newState: getDefaultSnapState(account),
     });
     global.snap = snapMock;
     global.ethereum = ethereumMock;
@@ -164,7 +163,7 @@ describe('Utils [ceramic]', () => {
         options: { store: ['ceramic'], returnStore: true },
       });
       expect(vcs).toHaveLength(1);
-      expect(vcs[0].data).toStrictEqual(exampleVCinVP);
+      expect(vcs[0].data).toStrictEqual(exampleVC);
 
       expect.assertions(2);
     });

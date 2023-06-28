@@ -100,7 +100,9 @@ export function isValidCreateVPRequest(
     if (
       'proofOptions' in param &&
       param.proofOptions !== null &&
+      param.proofOptions !== undefined &&
       param.proofOptions?.domain !== null &&
+      param.proofOptions?.domain !== undefined &&
       typeof param.proofOptions?.domain !== 'string'
     ) {
       throw new Error('Domain is not a string');
@@ -110,7 +112,9 @@ export function isValidCreateVPRequest(
     if (
       'proofOptions' in param &&
       param.proofOptions !== null &&
+      param.proofOptions !== undefined &&
       param.proofOptions?.challenge !== null &&
+      param.proofOptions?.challenge !== undefined &&
       typeof param.proofOptions?.challenge !== 'string'
     ) {
       throw new Error('Challenge is not a string');
@@ -120,7 +124,9 @@ export function isValidCreateVPRequest(
     if (
       'proofOptions' in param &&
       param.proofOptions !== null &&
+      param.proofOptions !== undefined &&
       param.proofOptions?.type !== null &&
+      param.proofOptions?.type !== undefined &&
       typeof param.proofOptions?.type !== 'string'
     ) {
       throw new Error('Type is not a string');

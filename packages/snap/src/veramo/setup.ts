@@ -16,6 +16,7 @@ import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import {
   createAgent,
+  CredentialStatus,
   type ICredentialVerifier,
   type IDataStore,
   type IDIDManager,
@@ -24,6 +25,7 @@ import {
   type TAgent,
 } from '@veramo/core';
 import { CredentialIssuerEIP712 } from '@veramo/credential-eip712';
+import { CredentialStatusPlugin } from '@veramo/credential-status';
 import {
   CredentialPlugin,
   type ICredentialIssuer,
@@ -121,6 +123,13 @@ export const getAgent = async (
     plugins: [
       new CredentialPlugin(),
       new CredentialIssuerEIP712(),
+      new CredentialStatusPlugin({
+        // TODO implement this
+        StatusList2021Entry: (
+          _credential: any,
+          _didDoc: any
+        ): Promise<CredentialStatus> => Promise.resolve({ revoked: false }),
+      }),
       new KeyManager({
         store: new MemoryKeyStore(),
         kms: {

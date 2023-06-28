@@ -7,8 +7,9 @@
     "declaration": true,
     "inlineSourceMap": true,
     "incremental": false,
-    "removeComments": true
+    "removeComments": true,
+    "resolveJsonModule": true
   },
   "files": ["jest.d.ts"],
-  "include": ["src/**/*", "tests/**/*"]
+  "include": ["src/**/*"]
 }
