@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { hexToUint8Array } from '@blockchain-lab-um/utils';
+import { W3CVerifiableCredential } from '@veramo/core';
 import useSWR from 'swr';
 import { shallow } from 'zustand/shallow';
 
@@ -14,6 +15,8 @@ const QRCodeSessionProvider = () => {
   const [decryptedData, setDecryptedData] = useState<string | null>(null);
   const [isCredentialOfferModalOpen, setIsCredentialOfferModalOpen] =
     useState(false);
+  const [recievedCredential, setRecievedCredential] =
+    useState<W3CVerifiableCredential | null>(null);
 
   const { sessionId, key, exp } = useSessionStore(
     (state) => ({
@@ -47,6 +50,7 @@ const QRCodeSessionProvider = () => {
     }
   }, [exp]);
 
+  // Decrypt received data
   useEffect(() => {
     if (!key || !data) return;
 
@@ -95,10 +99,12 @@ const QRCodeSessionProvider = () => {
       .catch((e) => console.log(e));
   }, [data, key]);
 
+  // Open modal when decrypted data is available
   useEffect(() => {
     setIsCredentialOfferModalOpen(!!decryptedData);
   }, [decryptedData]);
 
+  // Reset decrypted data when modal is closed
   useEffect(() => {
     if (!isCredentialOfferModalOpen) {
       setDecryptedData(null);
@@ -114,6 +120,7 @@ const QRCodeSessionProvider = () => {
       credentialOffer={decryptedData}
       isOpen={isCredentialOfferModalOpen}
       setOpen={setIsCredentialOfferModalOpen}
+      setRecievedCredential={setRecievedCredential}
     />
   );
 };

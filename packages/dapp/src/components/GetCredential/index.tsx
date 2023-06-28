@@ -102,6 +102,7 @@ const GetCredential = () => {
         loading: true,
       });
     }, 200);
+
     const handleCredentialOfferResponse = await api.handleOIDCCredentialOffer({
       credentialOfferURI,
     });
