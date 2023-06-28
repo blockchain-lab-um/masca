@@ -34,11 +34,12 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
   const [deleteModalStore, setDeleteModalStore] = useState<
     AvailableVCStores | undefined
   >(undefined);
-  const { enabledStores, api, changeVcs } = useMascaStore(
+  const { enabledStores, api, changeVcs, changeLastFetch } = useMascaStore(
     (state) => ({
       enabledStores: state.availableVCStores,
       api: state.mascaApi,
       changeVcs: state.changeVcs,
+      changeLastFetch: state.changeLastFetch,
     }),
     shallow
   );
@@ -116,6 +117,7 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
     }
 
     changeVcs(vcs.data);
+    changeLastFetch(Date.now());
   };
 
   return (
@@ -144,7 +146,7 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="dark:bg-navy-blue-500 w-full max-w-md overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="dark:bg-navy-blue-600 w-full max-w-md overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                 <Dialog.Title
                   as="h3"
                   className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-900"
@@ -156,7 +158,7 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
                     {t('desc')}
                   </p>
                 </div>
-                <div className="dark:text-navy-blue-100 mt-10 px-4 text-gray-700">
+                <div className="dark:text-navy-blue-100 mt-10 text-gray-700">
                   {Object.keys(vcStores).map((store, id) => (
                     <div
                       key={id}
@@ -186,7 +188,7 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
                   <div className="mt-10">
                     <Button
                       onClick={() => setOpen(false)}
-                      variant="gray"
+                      variant="done"
                       size="xs"
                     >
                       {t('done')}

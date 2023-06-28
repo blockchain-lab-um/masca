@@ -20,10 +20,11 @@ interface DeleteModalProps {
 
 function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
   const t = useTranslations('DeleteCredentialModal');
-  const { api, changeVcs } = useMascaStore(
+  const { api, changeVcs, changeLastFetch } = useMascaStore(
     (state) => ({
       api: state.mascaApi,
       changeVcs: state.changeVcs,
+      changeLastFetch: state.changeLastFetch,
     }),
     shallow
   );
@@ -86,6 +87,9 @@ function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
         }, 100);
         return;
       }
+
+      changeLastFetch(Date.now());
+
       if (vcs.data) {
         setToastOpen(false);
         setTimeout(() => {
@@ -125,7 +129,7 @@ function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="dark:bg-navy-blue-500 w-full max-w-md overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="dark:bg-navy-blue-600 w-full max-w-md overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                 <Dialog.Title
                   as="h3"
                   className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-900 "
@@ -150,7 +154,7 @@ function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
                   <div className="mt-10">
                     <Button
                       onClick={() => setOpen(false)}
-                      variant="gray"
+                      variant="cancel-red"
                       size="xs"
                     >
                       {t('cancel')}
