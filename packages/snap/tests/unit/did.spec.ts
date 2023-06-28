@@ -1,7 +1,6 @@
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
-import elliptic from 'elliptic';
 
 import {
   changeCurrentMethod,
@@ -25,8 +24,6 @@ import {
   exampleDIDKeyDocument,
 } from '../data/identifiers/didKey';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
-
-const { ec: EC } = elliptic;
 
 describe('Utils [did]', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
