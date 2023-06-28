@@ -1,6 +1,5 @@
 import {
   AvailableMethods,
-  didCoinTypeMappping,
   type MascaState,
 } from '@blockchain-lab-um/masca-types';
 import {
@@ -35,21 +34,12 @@ export async function getAccountIndexFromEntropy(params: {
   return index;
 }
 
-export async function getAddressKeyDeriver(
-  params: {
-    state: MascaState;
-    snap: SnapsGlobalObject;
-    account: string;
-  },
-  coin_type?: number
-) {
-  let ct = coin_type;
-  const { state, snap, account } = params;
-  if (ct === undefined) {
-    const method = state.accountState[account].accountConfig.ssi.didMethod;
-    ct = didCoinTypeMappping[method];
-  }
-
+export async function getAddressKeyDeriver(params: {
+  state: MascaState;
+  snap: SnapsGlobalObject;
+  account: string;
+}) {
+  const { snap } = params;
   const bip44CoinTypeNode = (await snap.request({
     method: 'snap_getBip44Entropy',
     params: {
