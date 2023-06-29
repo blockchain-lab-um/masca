@@ -17,12 +17,13 @@ import DataStoreCombobox from '@/components/VCTable/DataStoreCombobox';
 import GlobalFilter from '@/components/VCTable/GlobalFilter';
 import ViewTabs from '@/components/VCTable/ViewTabs';
 import { useGeneralStore, useMascaStore, useToastStore } from '@/stores';
-import PlaygroundModal from '../PlaygroundModal';
+
+// import PlaygroundModal from '../PlaygroundModal';
 
 const Controlbar = () => {
   // Local state
   const [importModalOpen, setImportModalOpen] = useState(false);
-  const [playgroundModalOpen, setPlaygroundModalOpen] = useState(false);
+  // const [playgroundModalOpen, setPlaygroundModalOpen] = useState(false);
   const [spinner, setSpinner] = useState(false);
 
   // Stores
@@ -215,10 +216,10 @@ const Controlbar = () => {
         setOpen={setImportModalOpen}
         importVC={saveVC}
       />
-      <PlaygroundModal
+      {/* <PlaygroundModal
         open={playgroundModalOpen}
         setOpen={setPlaygroundModalOpen}
-      />
+      /> */}
     </div>
   );
 };
