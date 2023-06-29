@@ -1,10 +1,38 @@
-import type { SwitchMethodRequestParams } from '@blockchain-lab-um/masca-types';
+import {
+  AvailableMethods,
+  didMethodChainIdMapping,
+  type SwitchMethodRequestParams,
+} from '@blockchain-lab-um/masca-types';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { divider, heading, panel, text } from '@metamask/snaps-ui';
 
 import type { ApiParams } from '../../interfaces';
 import { changeCurrentMethod } from '../../utils/didUtils';
-import { snapConfirm } from '../../utils/snapUtils';
+import { getCurrentNetwork, snapConfirm } from '../../utils/snapUtils';
+
+async function requestNetworkSwitch(params: {
+  didMethod: AvailableMethods;
+}): Promise<boolean> {
+  const { didMethod } = params;
+  const requestNetworkSwitchContent = panel([
+    heading('Switch Network'),
+    text(
+      `${didMethod} is not available for your currently selected network. Would you like to switch your network?`
+    ),
+    divider(),
+    text(
+      `Switching to: ${didMethod} on chainId: ${didMethodChainIdMapping[didMethod][0]}}`
+    ),
+  ]);
+  if (!(await snapConfirm(snap, requestNetworkSwitchContent))) {
+    throw new Error('User rejected network switch');
+  }
+  await ethereum.request({
+    method: 'wallet_switchEthereumChain',
+    params: [{ chainId: didMethodChainIdMapping[didMethod][0] }],
+  });
+  return true;
+}
 
 export async function switchMethod(
   params: ApiParams,
@@ -12,15 +40,23 @@ export async function switchMethod(
 ): Promise<string> {
   const { state, snap, ethereum, account, bip44CoinTypeNode } = params;
   const method = state.accountState[account].accountConfig.ssi.didMethod;
+  const chainId = await getCurrentNetwork(ethereum);
+  if (
+    !didMethodChainIdMapping[didMethod].includes(chainId) &&
+    !didMethodChainIdMapping[didMethod].includes('*') &&
+    !(await requestNetworkSwitch({ didMethod }))
+  ) {
+    throw new Error('Invalid network');
+  }
   if (didMethod !== method) {
-    const content = panel([
+    const switchNetworkContent = panel([
       heading('Switch Method'),
-      text('Would you like to switch your DID method?'),
+      text('Would you like to switch DID method?'),
       divider(),
       text(`Switching to: ${didMethod}`),
     ]);
 
-    if (await snapConfirm(snap, content)) {
+    if (await snapConfirm(snap, switchNetworkContent)) {
       const res = await changeCurrentMethod({
         snap,
         ethereum,

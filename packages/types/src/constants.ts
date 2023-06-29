@@ -32,10 +32,13 @@ export const didCoinTypeMapping: Record<AvailableMethods, number> = {
  * Supported networks for each method, '*' means all networks
  * Explore networks here: https://chainlist.org/
  */
-export const didMethodChainIdMapping: Record<AvailableMethods, readonly string[]> = {
+export const didMethodChainIdMapping: Record<
+  AvailableMethods,
+  readonly string[]
+> = {
   'did:ethr': ['*'],
   'did:key': ['*'],
-  'did:pkh': ['0x1, 0x89'],
+  'did:pkh': ['0x1', '0x89'],
   'did:key:ebsi': ['*'],
   'did:jwk': ['*'],
 } as const;
