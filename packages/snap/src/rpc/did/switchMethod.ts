@@ -1,5 +1,6 @@
 import {
   AvailableMethods,
+  chainIdNetworkParamsMapping,
   didMethodChainIdMapping,
   type SwitchMethodRequestParams,
 } from '@blockchain-lab-um/masca-types';
@@ -27,11 +28,25 @@ async function requestNetworkSwitch(params: {
   if (!(await snapConfirm(snap, requestNetworkSwitchContent))) {
     throw new Error('User rejected network switch');
   }
-  await ethereum.request({
-    method: 'wallet_switchEthereumChain',
-    params: [{ chainId: didMethodChainIdMapping[didMethod][0] }],
-  });
-  return true;
+  const chainId = didMethodChainIdMapping[didMethod][0];
+  try {
+    await ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId }],
+    });
+    return true;
+  } catch (err) {
+    if (
+      (err as { code?: number; message: string; stack: string }).code === 4902
+    ) {
+      await ethereum.request({
+        method: 'wallet_addEthereumChain',
+        params: [chainIdNetworkParamsMapping[chainId]],
+      });
+      return true;
+    }
+    throw err as Error;
+  }
 }
 
 export async function switchMethod(
