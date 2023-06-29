@@ -39,6 +39,7 @@ export async function getAddressKeyDeriver(params: {
       coinType: 1236,
     },
   })) as BIP44CoinTypeNode;
+
   return bip44CoinTypeNode;
 }
 
@@ -66,7 +67,7 @@ export const getKeysFromAccountIndex = async (params: {
   bip44CoinTypeNode: BIP44CoinTypeNode;
   accountIndex: number | undefined;
   method: AvailableMethods;
-}) => {
+}): Promise<KeysType> => {
   const { bip44CoinTypeNode, accountIndex, method } = params;
   if (accountIndex === undefined) {
     throw new Error('addressIndex undefined');
@@ -84,6 +85,7 @@ export const getKeysFromAccountIndex = async (params: {
     privateKey,
     publicKey: snap.signingKey.publicKey,
     address: snap.address,
+    addressIndex: methodIndexMapping[method],
     accountIndex,
     derivationPath,
   };
@@ -116,5 +118,6 @@ type KeysType = {
   publicKey: string;
   address: string;
   accountIndex: number;
+  addressIndex?: number;
   derivationPath: string;
 };
