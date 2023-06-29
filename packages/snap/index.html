@@ -534,32 +534,30 @@
   }
 
   async function createVC() {
-    try {
-      const vc = JSON.parse(document.getElementById('unsignedVC').value);
-      console.log('VC', JSON.stringify(vc));
-      const pF = document.getElementById('proofFormat').value;
-      console.log('selected pf:', pF);
-      const response = await ethereum.request({
-        method: 'wallet_invokeSnap',
-        params: {
-          snapId: snapId,
-          request: {
-            method: 'createVC',
-            params: {
-              minimalUnsignedCredential: vc,
-              proofFormat: pF,
-              options: {
-                save: true,
-                store: ['snap'],
-              },
+    const vc = JSON.parse(document.getElementById('unsignedVC').value);
+    console.log('VC', JSON.stringify(vc));
+    const pF = document.getElementById('proofFormat').value;
+    console.log('selected pf:', pF);
+    const response = await ethereum.request({
+      method: 'wallet_invokeSnap',
+      params: {
+        snapId: snapId,
+        request: {
+          method: 'createVC',
+          params: {
+            minimalUnsignedCredential: vc,
+            proofFormat: pF,
+            options: {
+              save: true,
+              store: ['snap'],
             },
           },
         },
-      });
-      console.log(JSON.stringify(response.data, null, 2));
-    } catch (err) {
-      console.error(err);
-      alert('Problem happened: ' + err.message || err);
+      },
+    });
+    console.log(JSON.stringify(response.data, null, 2));
+    if (!response.success) {
+      alert(response.error);
     }
   }
 

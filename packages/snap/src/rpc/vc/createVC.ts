@@ -21,9 +21,6 @@ async function createUnsignedVC(params: {
     typeof vc.type === 'string' &&
     vc.type !== 'VerifiableCredential'
   ) {
-    console.log(
-      `🚀 ~ Error: createVC.ts:25 ~ vc.type: ${vc.type}: Invalid type`
-    );
     throw new Error('Invalid type');
   }
 
@@ -31,7 +28,6 @@ async function createUnsignedVC(params: {
     (vc.issuer && typeof vc.issuer === 'string' && vc.issuer !== did) ||
     (vc.issuer?.id && vc.issuer.id && vc.issuer.id !== did)
   ) {
-    console.log(`🚀 ~ Error: createVC.ts:35 - Invalid issuer`);
     throw new Error('Invalid issuer');
   }
 
@@ -54,10 +50,6 @@ async function createUnsignedVC(params: {
     issuer: vc.issuer ? vc.issuer : did,
     issuanceDate: vc.issuanceDate ? vc.issuanceDate : new Date().toISOString(),
   };
-  console.log(
-    '🚀 ~ file: createVC.ts:50 ~ unsignedVc: ',
-    JSON.stringify(unsignedVc, null, 2)
-  );
   return unsignedVc;
 }
 
