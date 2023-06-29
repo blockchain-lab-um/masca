@@ -79,17 +79,19 @@ export async function createVP(
       params,
     },
     this.snapId
-  ) ;
+  );
 
-  if (isError(result)) {
-    return result;
+  const vpResult = result as Result<VerifiablePresentation>;
+
+  if (isError(vpResult)) {
+    return vpResult;
   }
 
-  if (result.data.proof) {
-    return result;
+  if (vpResult.data.proof) {
+    return vpResult;
   }
 
-  const signedResult = ResultObject.success(await signVP(result.data));
+  const signedResult = ResultObject.success(await signVP(vpResult.data));
 
   return signedResult;
 }
@@ -295,17 +297,19 @@ export async function createVC(
       params,
     },
     this.snapId
-  ) ;
+  );
 
-  if (isError(result)) {
-    return result;
+  const vcResult = result as Result<VerifiableCredential>;
+
+  if (isError(vcResult)) {
+    return vcResult;
   }
 
-  if (result.data.proof) {
-    return result;
+  if (vcResult.data.proof) {
+    return vcResult;
   }
 
-  const signedResult = ResultObject.success(await signVC(result.data));
+  const signedResult = ResultObject.success(await signVC(vcResult.data));
 
   return signedResult;
 }
