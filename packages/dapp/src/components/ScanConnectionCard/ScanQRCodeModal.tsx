@@ -40,7 +40,7 @@ const ScanQRCodeModal = ({
       >
         {title}
       </Dialog.Title>
-      <div>
+      <div className="w-[48rem] max-w-full">
         <QRCodeScanner
           onScanSuccess={onScanSuccess}
           scanner={scanner}

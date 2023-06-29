@@ -2,7 +2,7 @@
 
 import { isError } from '@blockchain-lab-um/utils';
 import { Dialog } from '@headlessui/react';
-import { W3CVerifiableCredential } from '@veramo/core';
+import { VerifiableCredential } from '@veramo/core';
 
 import Button from '@/components/Button';
 import Modal from '@/components/Modal';
@@ -12,7 +12,7 @@ type CredentialOfferModalProps = {
   isOpen: boolean;
   setOpen: (open: boolean) => void;
   credentialOffer: string;
-  setRecievedCredential: (credential: W3CVerifiableCredential) => void;
+  setRecievedCredential: (credential: VerifiableCredential) => void;
 };
 
 const CredentialOfferModal = ({
@@ -65,15 +65,15 @@ const CredentialOfferModal = ({
     <Modal isOpen={isOpen} setOpen={setOpen}>
       <Dialog.Title
         as="h3"
-        className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-900 "
+        className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-900"
       >
         New Credential Offer Recieved
       </Dialog.Title>
-      <div className="mt-2">
-        <p className="text-sm text-gray-500">
+      <div className="mt-4">
+        <p className="text-md dark:text-navy-blue-200 text-gray-500">
           You have recieved a new credential offer. Do you want to accept it?
         </p>
-        <div className="mt-4">
+        <div className="mt-8 flex justify-end">
           <Button
             onClick={() => setOpen(false)}
             variant="cancel"
@@ -82,7 +82,7 @@ const CredentialOfferModal = ({
           >
             Cancel
           </Button>
-          <Button onClick={handleCredentialOffer} variant="done">
+          <Button onClick={handleCredentialOffer} variant="primary">
             Proceed
           </Button>
         </div>

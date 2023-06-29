@@ -6,7 +6,7 @@ import { shallow } from 'zustand/shallow';
 
 import { useSessionStore, useToastStore } from '@/stores';
 import Button from '../Button';
-import ScanQRCodesModal from './ScanQRCodeModal';
+import ScanQRCodeModal from './ScanQRCodeModal';
 
 const ScanConnectionCard = () => {
   const { sessionId, key, exp } = useSessionStore(
@@ -161,13 +161,13 @@ const ScanConnectionCard = () => {
           </Button>
         </div>
       </div>
-      <ScanQRCodesModal
+      <ScanQRCodeModal
         onScanSuccess={onScanSuccessConnectionQRCode}
         title="Scan Connection QR Code"
         isOpen={isConnectionModalOpen}
         setOpen={setIsConnectionModalOpen}
       />
-      <ScanQRCodesModal
+      <ScanQRCodeModal
         onScanSuccess={onScanSuccessQRCode}
         title="Scan QR Code"
         isOpen={isQRCodeModalOpen}

@@ -149,7 +149,7 @@ function ModifyDSModal({ isOpen, setOpen, vc }: ModifyDSModalProps) {
         ))}
       </div>
       <div className="flex items-center justify-end">
-        <div className="mt-10">
+        <div className="-mr-2 mt-10">
           <Button onClick={() => setOpen(false)} variant="done" size="xs">
             {t('done')}
           </Button>

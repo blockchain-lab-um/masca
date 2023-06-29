@@ -2,21 +2,24 @@
 
 import { useEffect, useState } from 'react';
 import { hexToUint8Array } from '@blockchain-lab-um/utils';
-import { W3CVerifiableCredential } from '@veramo/core';
+import { VerifiableCredential } from '@veramo/core';
 import useSWR from 'swr';
 import { shallow } from 'zustand/shallow';
 
+import CredentialModal from '@/components/CredentialModal';
+import CredentialOfferModal from '@/components/CredentialOfferModal';
 import { useGeneralStore, useSessionStore, useToastStore } from '@/stores';
-import CredentialOfferModal from '../CredentialOfferModal';
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
 const QRCodeSessionProvider = () => {
   const [decryptedData, setDecryptedData] = useState<string | null>(null);
+  const [recievedCredential, setRecievedCredential] =
+    useState<VerifiableCredential | null>(null);
+
   const [isCredentialOfferModalOpen, setIsCredentialOfferModalOpen] =
     useState(false);
-  const [recievedCredential, setRecievedCredential] =
-    useState<W3CVerifiableCredential | null>(null);
+  const [isCredentialModalOpen, setIsCredentialModalOpen] = useState(false);
 
   const { sessionId, key, exp } = useSessionStore(
     (state) => ({
@@ -101,27 +104,39 @@ const QRCodeSessionProvider = () => {
 
   // Open modal when decrypted data is available
   useEffect(() => {
-    setIsCredentialOfferModalOpen(!!decryptedData);
+    if (!decryptedData) return;
+    setIsCredentialOfferModalOpen(true);
   }, [decryptedData]);
 
   // Reset decrypted data when modal is closed
   useEffect(() => {
-    if (!isCredentialOfferModalOpen) {
-      setDecryptedData(null);
-    }
+    if (!isCredentialOfferModalOpen) setDecryptedData(null);
   }, [isCredentialOfferModalOpen]);
 
-  if (!decryptedData) {
-    return null;
-  }
+  // Open credential modal when credential is received
+  useEffect(() => {
+    if (!recievedCredential) return;
+    setIsCredentialModalOpen(true);
+  }, [recievedCredential]);
 
   return (
-    <CredentialOfferModal
-      credentialOffer={decryptedData}
-      isOpen={isCredentialOfferModalOpen}
-      setOpen={setIsCredentialOfferModalOpen}
-      setRecievedCredential={setRecievedCredential}
-    />
+    <>
+      {recievedCredential && (
+        <CredentialModal
+          isOpen={isCredentialModalOpen}
+          setOpen={setIsCredentialModalOpen}
+          credential={recievedCredential}
+        />
+      )}
+      {decryptedData && (
+        <CredentialOfferModal
+          credentialOffer={decryptedData}
+          isOpen={isCredentialOfferModalOpen}
+          setOpen={setIsCredentialOfferModalOpen}
+          setRecievedCredential={setRecievedCredential}
+        />
+      )}
+    </>
   );
 };
 

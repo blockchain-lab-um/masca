@@ -7,7 +7,6 @@ import { VerifiableCredential } from '@veramo/core';
 import qs from 'qs';
 
 import Button from '@/components/Button';
-import ConnectedProvider from '@/components/ConnectedProvider';
 import InputField from '@/components/InputField';
 import SelectCredentialsModal from '@/components/SelectCredentialsModal';
 import { useMascaStore, useToastStore } from '@/stores';
@@ -135,107 +134,101 @@ const AuthorizationRequestFlow = () => {
 
   return (
     <>
-      <ConnectedProvider>
-        {isAuthorizationResponseValid === null && (
-          <div className="flex w-full flex-col items-center space-y-4 p-4">
-            <div className="flex h-fit w-full flex-col items-baseline justify-center space-y-2 sm:flex-row sm:space-x-4">
-              <Button
-                variant={authorizationRequestURI ? 'secondary' : 'primary'}
-                onClick={getDemoAuthorizationRequestURI}
-              >
-                Get Demo Authorization Request
-              </Button>
-              <Button
-                variant={
-                  authorizationRequestURI
-                    ? parsedAuthorizationRequestURI
-                      ? 'secondary'
-                      : 'primary'
-                    : 'gray'
-                }
-                onClick={parseAuthorizationRequest}
-                disabled={!authorizationRequestURI}
-              >
-                Parse Authorization Request
-              </Button>
-              <Button
-                variant={parsedAuthorizationRequestURI ? 'primary' : 'gray'}
-                disabled={!parsedAuthorizationRequestURI}
-                onClick={handleAuthorizationRequest}
-              >
-                Handle Authorization Request
-              </Button>
-              <Button
-                variant="secondary"
-                onClick={() => {
-                  setAuthorizationRequestURI(null);
-                  setParsedAuthorizationRequestURI(null);
-                }}
-              >
-                Reset
-              </Button>
-            </div>
-            {!parsedAuthorizationRequestURI && (
-              <div className="w-full pt-4">
-                <InputField
-                  value={authorizationRequestURI ?? ''}
-                  variant="gray"
-                  size="lg"
-                  placeholder="Authorization Request URI"
-                  rounded="xl"
-                  shadow="none"
-                  setValue={setAuthorizationRequestURI}
-                />
-              </div>
-            )}
-            {parsedAuthorizationRequestURI && (
-              <textarea
-                className="group-hover:scrollbar-thumb-orange-300 dark:text-navy-blue-700 dark:bg-navy-blue-300 scrollbar-thin scrollbar-thumb-orange-300/0 scrollbar-thumb-rounded-full font-jetbrains-mono h-full w-full resize-none rounded-2xl bg-gray-200 p-2 text-gray-800 focus:outline-none"
-                disabled
-                value={JSON.stringify(parsedAuthorizationRequestURI, null, 4)}
+      {isAuthorizationResponseValid === null && (
+        <div className="flex w-full flex-col items-center space-y-4 p-4">
+          <div className="flex h-fit w-full flex-col items-baseline justify-center space-y-2 sm:flex-row sm:space-x-4">
+            <Button
+              variant={authorizationRequestURI ? 'secondary' : 'primary'}
+              onClick={getDemoAuthorizationRequestURI}
+            >
+              Get Demo Authorization Request
+            </Button>
+            <Button
+              variant={
+                authorizationRequestURI
+                  ? parsedAuthorizationRequestURI
+                    ? 'secondary'
+                    : 'primary'
+                  : 'gray'
+              }
+              onClick={parseAuthorizationRequest}
+              disabled={!authorizationRequestURI}
+            >
+              Parse Authorization Request
+            </Button>
+            <Button
+              variant={parsedAuthorizationRequestURI ? 'primary' : 'gray'}
+              disabled={!parsedAuthorizationRequestURI}
+              onClick={handleAuthorizationRequest}
+            >
+              Handle Authorization Request
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                setAuthorizationRequestURI(null);
+                setParsedAuthorizationRequestURI(null);
+              }}
+            >
+              Reset
+            </Button>
+          </div>
+          {!parsedAuthorizationRequestURI && (
+            <div className="w-full pt-4">
+              <InputField
+                value={authorizationRequestURI ?? ''}
+                variant="gray"
+                size="lg"
+                placeholder="Authorization Request URI"
+                rounded="xl"
+                shadow="none"
+                setValue={setAuthorizationRequestURI}
               />
-            )}
-          </div>
-        )}
-        {/* Show response validity and error if present */}
-        {isAuthorizationResponseValid !== null && (
-          <div className="flex w-full flex-col items-center p-8">
-            <div className="mb-8">
-              <Button
-                variant="secondary"
-                onClick={() => {
-                  setIsAuthorizationResponseValid(null);
-                  setAuthorizationResponseError(null);
-                }}
-              >
-                Reset
-              </Button>
             </div>
-            <div className="flex w-full flex-row items-center justify-center p-4">
-              <div className="text-xl font-bold">
-                Authorization Response is:
-              </div>
-              <div
-                className={`pl-2 text-xl font-bold ${
-                  isAuthorizationResponseValid
-                    ? 'text-green-500'
-                    : 'text-red-500'
-                }`}
-              >
-                {isAuthorizationResponseValid ? 'Valid' : 'Invalid'}
+          )}
+          {parsedAuthorizationRequestURI && (
+            <textarea
+              className="group-hover:scrollbar-thumb-orange-300 dark:text-navy-blue-700 dark:bg-navy-blue-300 scrollbar-thin scrollbar-thumb-orange-300/0 scrollbar-thumb-rounded-full font-jetbrains-mono h-full w-full resize-none rounded-2xl bg-gray-200 p-2 text-gray-800 focus:outline-none"
+              disabled
+              value={JSON.stringify(parsedAuthorizationRequestURI, null, 4)}
+            />
+          )}
+        </div>
+      )}
+      {/* Show response validity and error if present */}
+      {isAuthorizationResponseValid !== null && (
+        <div className="flex w-full flex-col items-center p-8">
+          <div className="mb-8">
+            <Button
+              variant="secondary"
+              onClick={() => {
+                setIsAuthorizationResponseValid(null);
+                setAuthorizationResponseError(null);
+              }}
+            >
+              Reset
+            </Button>
+          </div>
+          <div className="flex w-full flex-row items-center justify-center p-4">
+            <div className="text-xl font-bold">Authorization Response is:</div>
+            <div
+              className={`pl-2 text-xl font-bold ${
+                isAuthorizationResponseValid ? 'text-green-500' : 'text-red-500'
+              }`}
+            >
+              {isAuthorizationResponseValid ? 'Valid' : 'Invalid'}
+            </div>
+          </div>
+          {authorizationResponseError && (
+            <div className="flex flex-col items-center space-y-2 p-4">
+              <div className="text-xl font-bold">Error:</div>
+              <div className="text-md font-bold text-red-500">
+                {authorizationResponseError}
               </div>
             </div>
-            {authorizationResponseError && (
-              <div className="flex flex-col items-center space-y-2 p-4">
-                <div className="text-xl font-bold">Error:</div>
-                <div className="text-md font-bold text-red-500">
-                  {authorizationResponseError}
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-      </ConnectedProvider>
+          )}
+        </div>
+      )}
       <SelectCredentialsModal
         isOpen={isSelectModalOpen}
         setOpen={setIsSelectModalOpen}
