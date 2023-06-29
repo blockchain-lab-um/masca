@@ -16,6 +16,9 @@ async function createUnsignedVC(params: {
   did: string;
 }): Promise<UnsignedCredential> {
   const { vc, did } = params;
+  if (!vc.credentialSubject) {
+    throw new Error('Verifiable credential must have a credentialSubject');
+  }
   if (
     vc.type &&
     typeof vc.type === 'string' &&
@@ -36,7 +39,7 @@ async function createUnsignedVC(params: {
     Array.isArray(vc.type) &&
     !vc.type.includes('VerifiableCredential')
   ) {
-    vc.type.push('VerifiableCredential');
+    vc.type.unshift('VerifiableCredential');
   }
 
   if (!vc.type) {
