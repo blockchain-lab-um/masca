@@ -39,8 +39,9 @@ export async function getCurrentDidIdentifier(params: {
   switch (method) {
     case 'did:pkh':
     case 'did:ethr': {
-      const chainId = parseInt(await getCurrentNetwork(ethereum), 16);
-      if (method === 'did:pkh' && chainId !== 1 && chainId !== 137) {
+      const chainId = await getCurrentNetwork(ethereum);
+
+      if (method === 'did:pkh' && chainId !== '0x1' && chainId !== '0x89') {
         throw new Error(
           `Unspported network with chainid ${chainId} for ${method} }}`
         );

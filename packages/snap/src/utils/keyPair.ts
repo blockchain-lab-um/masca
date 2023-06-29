@@ -1,5 +1,6 @@
 import {
-  AvailableMethods,
+  methodIndexMapping,
+  type AvailableMethods,
   type MascaState,
 } from '@blockchain-lab-um/masca-types';
 import {
@@ -8,14 +9,6 @@ import {
 } from '@metamask/key-tree';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import { Wallet } from 'ethers';
-
-const methodIndexMapping: Record<AvailableMethods, number> = {
-  'did:key': 0,
-  'did:key:ebsi': 0,
-  'did:jwk': 1,
-  'did:ethr': 3,
-  'did:pkh': 3,
-};
 
 export async function getAccountIndexFromEntropy(params: {
   snap: SnapsGlobalObject;
