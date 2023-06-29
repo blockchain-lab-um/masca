@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { uint8ArrayToHex } from '@blockchain-lab-um/utils';
+import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
 import { useSessionStore, useToastStore } from '@/stores';
@@ -9,6 +10,7 @@ import Button from '../Button';
 import ScanQRCodeModal from './ScanQRCodeModal';
 
 const ScanConnectionCard = () => {
+  const t = useTranslations('ScanConnectionCard');
   const { sessionId, key, exp } = useSessionStore(
     (state) => ({
       sessionId: state.sessionId,
@@ -138,38 +140,33 @@ const ScanConnectionCard = () => {
     <>
       <div className="flex flex-1 flex-col space-y-4 p-4">
         <div className="flex-1 space-y-2">
-          <p>
-            Use this on your mobile device to first scan the connection QR code
-            to astablish a connection with your browser. After that you can scan
-            any other QR code that you want to pass to your browser to be
-            handled by the Masca Dapp.
-          </p>
+          <p>{t('desc')}</p>
         </div>
         <div className="flex justify-center space-x-4">
           <Button
             variant="primary"
             onClick={() => setIsConnectionModalOpen(true)}
           >
-            Scan Connection
+            {t('scan-connection')}
           </Button>
           <Button
             variant={sessionId ? 'primary' : 'gray'}
             onClick={() => setIsQRCodeModalOpen(true)}
             disabled={!sessionId}
           >
-            Scan QR Code
+            {t('scan-qr-code')}
           </Button>
         </div>
       </div>
       <ScanQRCodeModal
         onScanSuccess={onScanSuccessConnectionQRCode}
-        title="Scan Connection QR Code"
+        title={t('scan-connection-modal-title')}
         isOpen={isConnectionModalOpen}
         setOpen={setIsConnectionModalOpen}
       />
       <ScanQRCodeModal
         onScanSuccess={onScanSuccessQRCode}
-        title="Scan QR Code"
+        title={t('scan-qr-code-modal-title')}
         isOpen={isQRCodeModalOpen}
         setOpen={setIsQRCodeModalOpen}
       />

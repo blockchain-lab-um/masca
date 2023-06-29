@@ -2,6 +2,7 @@ import { isError } from '@blockchain-lab-um/utils';
 import { Tab } from '@headlessui/react';
 import { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 
 import Button from '@/components/Button';
 import FormatedPanel from '@/components/CredentialDisplay/FormatedPanel';
@@ -20,6 +21,7 @@ const CredentialModal = ({
   setOpen,
   credential,
 }: CredentialModalProps) => {
+  const t = useTranslations('CredentialModal');
   const mascaApi = useMascaStore((state) => state.mascaApi);
 
   const handleSaveCredential = async () => {
@@ -100,10 +102,10 @@ const CredentialModal = ({
         </Tab.Panels>
         <div className="mt-8 flex justify-end">
           <Button variant="cancel" onClick={() => setOpen(false)}>
-            Cancel
+            {t('cancel')}
           </Button>
           <Button variant="primary" onClick={() => handleSaveCredential()}>
-            Save credential
+            {t('save')}
           </Button>
         </div>
       </Tab.Group>

@@ -5,6 +5,7 @@ import {
 } from '@heroicons/react/20/solid';
 import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 import { VerifiableCredential } from '@veramo/core';
+import { useTranslations } from 'next-intl';
 
 import Tooltip from '@/components/Tooltip';
 import { convertTypes, copyToClipboard } from '@/utils/string';
@@ -13,28 +14,31 @@ type FormatedPanelProps = {
   credential: VerifiableCredential;
 };
 
-const DIDDisplay = ({ did }: { did: string }) => (
-  <div className="flex">
-    <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-900">
-      DID:
-    </h2>
+const DIDDisplay = ({ did }: { did: string }) => {
+  const t = useTranslations('DIDDisplay');
+  return (
     <div className="flex">
-      <Tooltip tooltip="Open DID in Universal resolver">
-        <a
-          href={`https://dev.uniresolver.io/#${did}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-md animated-transition dark:text-navy-blue-300 cursor-pointer font-normal text-gray-800 underline underline-offset-2"
-        >
-          {did.length > 20 ? `${did.slice(0, 16)}...${did.slice(-4)}` : did}
-        </a>
-      </Tooltip>
-      <button className="pl-1" onClick={() => copyToClipboard(did)}>
-        <DocumentDuplicateIcon className="animated-transition dark:text-navy-blue-300 ml-1 h-5 w-5 text-gray-800 hover:text-gray-700" />
-      </button>
+      <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-900">
+        DID:
+      </h2>
+      <div className="flex">
+        <Tooltip tooltip={t('tooltip')}>
+          <a
+            href={`https://dev.uniresolver.io/#${did}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-md animated-transition dark:text-navy-blue-300 cursor-pointer font-normal text-gray-800 underline underline-offset-2"
+          >
+            {did.length > 20 ? `${did.slice(0, 16)}...${did.slice(-4)}` : did}
+          </a>
+        </Tooltip>
+        <button className="pl-1" onClick={() => copyToClipboard(did)}>
+          <DocumentDuplicateIcon className="animated-transition dark:text-navy-blue-300 ml-1 h-5 w-5 text-gray-800 hover:text-gray-700" />
+        </button>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const DisplayDate = ({ text, date }: { text: string; date: string }) => (
   <div className="flex items-center">
@@ -48,6 +52,7 @@ const DisplayDate = ({ text, date }: { text: string; date: string }) => (
 );
 
 const FormatedPanel = ({ credential }: FormatedPanelProps) => {
+  const t = useTranslations('FormatedPanel');
   const types = useMemo(() => convertTypes(credential.type), [credential.type]);
   const isValid = useMemo(() => {
     if (!credential.expirationDate) return true;
@@ -75,9 +80,9 @@ const FormatedPanel = ({ credential }: FormatedPanelProps) => {
         </div>
       </div>
       <div className="flex flex-col space-y-8 px-6 md:flex-row md:space-x-16 md:space-y-0">
-        <div className="flex flex-1 flex-col items-start space-y-2 overflow-hidden">
+        <div className="flex flex-1 flex-col items-start space-y-2">
           <h1 className="text-md dark:text-orange-accent-dark font-medium text-pink-500">
-            SUBJECT
+            {t('subject')}
           </h1>
           {Object.entries(credential.credentialSubject).map(
             ([key, value]: [string, string]) => (
@@ -102,7 +107,7 @@ const FormatedPanel = ({ credential }: FormatedPanelProps) => {
           <div className="flex flex-col space-y-8">
             <div className="flex flex-col items-start justify-center space-y-2 ">
               <h1 className="text-md dark:text-orange-accent-dark font-medium text-pink-500">
-                ISSUER
+                {t('issuer')}
               </h1>
               <DIDDisplay
                 did={
@@ -114,7 +119,7 @@ const FormatedPanel = ({ credential }: FormatedPanelProps) => {
             </div>
             <div className="flex flex-col items-start space-y-2">
               <h1 className="text-md dark:text-orange-accent-dark font-medium text-pink-500">
-                DATES
+                {t('dates')}
               </h1>
               <DisplayDate
                 text="Issuance date"

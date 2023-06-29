@@ -1,169 +1,209 @@
 {
-  "Home": {
-    "title-1": "Take control of your",
-    "title-2": "Online Identity",
-    "hero-text-1": "Join the world of",
-    "SSI": "Decentralized Identity",
-    "hero-text-2": "with one click",
-    "button-1": "Get Started"
-  },
-  "Gateway": {
-    "connect": "Connect MetaMask to use the dApp",
-    "flask": "Install MetaMask Flask to use the dApp!"
-  },
   "AppBottomBar": {
-    "dashboard": "Dashboard",
-    "settings": "Settings",
-    "get-credential": "Get Credential",
     "authorization-request": "Authorization Request",
-    "qr-code-session": "QR Code Session"
+    "dashboard": "Dashboard",
+    "get-credential": "Get Credential",
+    "qr-code-session": "QR Code Session",
+    "settings": "Settings"
   },
   "AppNavbar": {
-    "connect": "Connect Wallet",
-    "menu": {
-      "home": "Home",
-      "dashboard": "Dashboard",
-      "settings": "Settings",
-      "get-credential": "Get Credential",
-      "authorization-request": "Authorization Request",
-      "qr-code-session": "QR Code Session",
-      "other": "Other"
-    },
-    "dropdown": {
-      "ecosystem": "Ecosystem",
-      "get-credential": "Get Credential",
-      "authorization-request": "Authorization Request",
-      "qr-code-session": "QR Code Session",
-      "blog": "Blog",
-      "discord": "Discord",
-      "twitter": "Twitter",
-      "github": "GitHub",
-      "documentation": "Documentation",
-      "description": {
-        "ecosystem": "View the Masca Ecosystem",
-        "get-credential": "Get your credential using the OpenID Connect protocol",
-        "authorization-request": "Create a verifiable presentation using the OpenID Connect protocol",
-        "qr-code-session": "Create session to scan QR codes using your mobile device",
-        "blog": "Read the Blockchain Lab:UM Medium Blog",
-        "discord": "Join the Blockchain Lab:UM Discord Server",
-        "twitter": "Follow Masca on Twitter",
-        "github": "View Masca code on GitHub",
-        "documentation": "Read the Masca documentation"
-      }
-    },
     "address": {
       "connected": "CONNECTED WITH METAMASK",
       "disconnect": "DISCONNECT"
+    },
+    "dropdown": {
+      "authorization-request": "Authorization Request",
+      "blog": "Blog",
+      "description": {
+        "authorization-request": "Create a verifiable presentation using the OpenID Connect protocol",
+        "blog": "Read the Blockchain Lab:UM Medium Blog",
+        "discord": "Join the Blockchain Lab:UM Discord Server",
+        "documentation": "Read the Masca documentation",
+        "ecosystem": "View the Masca Ecosystem",
+        "get-credential": "Get your credential using the OpenID Connect protocol",
+        "github": "View Masca code on GitHub",
+        "qr-code-session": "Create session to scan QR codes using your mobile device",
+        "twitter": "Follow Masca on Twitter"
+      },
+      "discord": "Discord",
+      "documentation": "Documentation",
+      "ecosystem": "Ecosystem",
+      "get-credential": "Get Credential",
+      "github": "GitHub",
+      "qr-code-session": "QR Code Session",
+      "twitter": "Twitter"
+    },
+    "menu": {
+      "authorization-request": "Authorization Request",
+      "dashboard": "Dashboard",
+      "get-credential": "Get Credential",
+      "home": "Home",
+      "other": "Other",
+      "qr-code-session": "QR Code Session",
+      "settings": "Settings"
     }
   },
-  "PublicNavbar": {
-    "ecosystem": "Ecosystem",
-    "blog": "Blog",
-    "discord": "Discord",
-    "twitter": "Twitter",
-    "github": "GitHub",
-    "app": "Launch App",
-    "menu": "Menu"
+  "ConnectButton": {
+    "connect": "Connect Wallet"
+  },
+  "ConnectedProvider": {
+    "connect": "Connect MetaMask to use the dApp"
+  },
+  "CreateConnectionCard": {
+    "create-connection": "Create Connection",
+    "desc-1": "You can use this page to create a connection with your mobile device and use it as a QR code scanner.",
+    "desc-2": "The Create Connection button will show a QR code that contains your session ID and a secret encryption key. This allows for end to end encryption of your data between your mobile device and your browser.",
+    "desc-3": "To create a connection on your browser you need to be connected to MetaMask and Masca, but your mobile device does not need to be."
+  },
+  "CreateConnectionModal": {
+    "title": "Connection QR Code"
+  },
+  "CreateVerifiablePresentation": {
+    "advanced": {
+      "title": "ADVANCED",
+      "tooltip": "Only applicable to JWT proof format."
+    },
+    "options": {
+      "format": "Format",
+      "title": "OPTIONS"
+    },
+    "table": {
+      "issuer": "ISSUER",
+      "remove": "REMOVE",
+      "status": "STATUS",
+      "title": "Selected Credentials",
+      "type": "TYPE"
+    },
+    "title": "Create Presentation"
+  },
+  "CredentialDisplay": {
+    "create-presentation": "Create Verifiable Presentation",
+    "datastores": "DATASTORES",
+    "title": "Verifiable Credential"
+  },
+  "CredentialModal": {
+    "cancel": "Cancel",
+    "save": "Save credential"
+  },
+  "CredentialOfferModal": {
+    "cancel": "Cancel",
+    "desc": "You have received a new credential offer. Do you want to accept it?",
+    "proceed": "Proceed",
+    "title": "New credential offer received"
+  },
+  "DIDDisplay": {
+    "tooltip": "Open DID in Universal resolver"
   },
   "Dashboard": {
-    "no-credentials": {
-      "load": "Load VCs",
-      "or": "or",
-      "get": "Get your first VC"
+    "card": {
+      "expires": "EXPIRES ON",
+      "issued": "ISSUED BY",
+      "issued-date": "ISSUED ON",
+      "more": "MORE >",
+      "no-exp-date": "No Expiration",
+      "select": "SELECT",
+      "selected": "DESELECT"
     },
     "create-verifiable-presentation": "Create Presentation",
-    "search": "Search all columns...",
-    "table-header": {
-      "credentials": "My Credentials",
-      "found": "Credential(s) found",
-      "fetched": "Fetched"
+    "no-credentials": {
+      "get": "Get your first VC",
+      "load": "Load VCs",
+      "or": "or"
     },
     "pagination": {
       "of": "of",
       "page": "Page"
     },
-    "card": {
-      "more": "MORE >",
-      "select": "SELECT",
-      "selected": "DESELECT",
-      "expires": "EXPIRES ON",
-      "issued": "ISSUED BY",
-      "issued-date": "ISSUED ON",
-      "no-exp-date": "No Expiration"
-    },
+    "search": "Search all columns...",
     "table": {
-      "issuance-date": "ISSUANCE DATE",
-      "type": "TYPE",
-      "subject": "SUBJECT",
-      "issuer": "ISSUER",
+      "actions": "ACTIONS",
       "expiration-date": "EXPIRATION DATE",
-      "status": "STATUS",
+      "issuance-date": "ISSUANCE DATE",
+      "issuer": "ISSUER",
       "select": "SELECT",
+      "status": "STATUS",
       "store": "STORE",
-      "actions": "ACTIONS"
+      "subject": "SUBJECT",
+      "type": "TYPE"
+    },
+    "table-header": {
+      "credentials": "My Credentials",
+      "fetched": "Fetched",
+      "found": "Credential(s) found"
     },
     "tooltip": {
+      "no-exp-date": "Does not have an expiration date",
       "open-did": "Open DID in Universal resolver",
       "status": "Validity of the VC",
-      "store": "Where the VC is stored",
-      "no-exp-date": "Does not have an expiration date"
+      "store": "Where the VC is stored"
     }
-  },
-  "Settings": {
-    "data-store": "Data Stores",
-    "data-store-desc": "Enable or disable data stores. Data stores are places where VCs are stored.",
-    "advanced": "Advanced"
-  },
-  "VerifiableCredential": {
-    "vc": "Verifiable Credential",
-    "formatted-tab": {
-      "issuance-date": "Issuance Date",
-      "exp-date": "Expires on",
-      "dates": "DATES",
-      "subject": "SUBJECT",
-      "issuer": "ISSUER",
-      "expiration-date": "Expiration Date",
-      "no-exp-date": "Does not have an expiration date",
-      "store": "DATA STORES",
-      "create-verifiable-presentation": "Create Presentation"
-    },
-    "tooltip": {
-      "open-did": "Open DID in Universal resolver"
-    }
-  },
-  "ModifyDataStoreModal": {
-    "title": "Modify Credential",
-    "desc": "Here you can define where the credential will be stored.",
-    "done": "Done"
   },
   "DeleteCredentialModal": {
-    "title": "Delete Credential",
-    "desc": "Approving this action will remove the credential from your wallet. This action cannot be undone.",
     "cancel": "Cancel",
-    "delete": "Delete VC"
+    "delete": "Delete VC",
+    "deleting-vc": "Deleting VC from store",
+    "desc": "Approving this action will remove the credential from your wallet. This action cannot be undone.",
+    "title": "Delete Credential"
   },
-  "CreateVerifiablePresentation": {
-    "title": "Create Presentation",
-    "table": {
-      "title": "Selected Credentials",
-      "type": "TYPE",
-      "issuer": "ISSUER",
-      "status": "STATUS",
-      "remove": "REMOVE"
-    },
-    "options": {
-      "title": "OPTIONS",
-      "format": "Format"
-    },
-    "advanced": {
-      "title": "ADVANCED",
-      "tooltip": "Only applicable to JWT proof format."
-    }
+  "FormatedPanel": {
+    "dates": "DATES",
+    "expiration-date": "Expiration Date",
+    "issuer": "ISSUER",
+    "isuance-date": "Issuance Date",
+    "subject": "SUBJECT"
+  },
+  "Home": {
+    "SSI": "Decentralized Identity",
+    "button-1": "Get Started",
+    "hero-text-1": "Join the world of",
+    "hero-text-2": "with one click",
+    "title-1": "Take control of your",
+    "title-2": "Online Identity"
+  },
+  "ImportModal": {
+    "cancel": "Cancel",
+    "desc": "Add a custom credential to your wallet. Paste JSON of the credential in the textarea bellow.",
+    "import": "Import",
+    "select-storage-placeholder": "Select Storage...",
+    "settings": "SETTINGS",
+    "storage": "Storage",
+    "storage-desc": "Select one ore more data stores where the credential will be stored.",
+    "title": "Import Credential"
+  },
+  "MetaMaskProvider": {
+    "flask": "Install MetaMask Flask to use the dApp!"
+  },
+  "ModifyDataStoreModal": {
+    "desc": "Here you can define where the credential will be stored.",
+    "done": "Done",
+    "title": "Modify Credential"
+  },
+  "PublicNavbar": {
+    "app": "Launch App",
+    "blog": "Blog",
+    "discord": "Discord",
+    "ecosystem": "Ecosystem",
+    "github": "GitHub",
+    "menu": "Menu",
+    "twitter": "Twitter"
+  },
+  "ScanConnectionCard": {
+    "desc": "Use this on your mobile device to first scan the connection QR code to astablish a connection with your browser. After that you can scan any other QR code that you want to pass to your browser to be handled by the Masca Dapp.",
+    "scan-connection": "Scan Connection",
+    "scan-connection-modal-title": "Scan Connection QR Code",
+    "scan-qr-code": "Scan QR Code",
+    "scan-qr-code-modal-title": "Scan QR Code"
   },
   "SelectCredentialsModal": {
-    "title": "Select Credentials",
-    "desc": "Select the credentials you want to include in the presentation.",
     "cancel": "Cancel",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "desc": "Select the credentials you want to include in the presentation.",
+    "title": "Select Credentials"
+  },
+  "SettingsCard": {
+    "advanced": "Advanced",
+    "data-store": "Data Stores",
+    "data-store-desc": "Enable or disable data stores. Data stores are places where VCs are stored.",
+    "not-implemented": "Not implemented yet"
   }
 }

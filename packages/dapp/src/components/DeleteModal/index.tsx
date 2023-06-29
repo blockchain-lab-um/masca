@@ -111,7 +111,7 @@ function DeleteModal({ isOpen, setOpen, vc, store }: DeleteModalProps) {
 
         {store && (
           <p className="text-md dark:text-navy-blue-200 mt-10 text-gray-600 ">
-            Deleting VC from store:{' '}
+            {t('deleting-vc')}:{' '}
             <span className="dark:text-navy-blue-100 font-medium text-gray-800 ">
               {store}
             </span>

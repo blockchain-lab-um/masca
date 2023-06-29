@@ -28,7 +28,7 @@ type CredentialDisplayProps = {
 };
 
 const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
-  const t = useTranslations('VerifiableCredential');
+  const t = useTranslations('CredentialDisplay');
   const router = useRouter();
   const vcs = useMascaStore((state) => state.vcs);
   const setSelectedVCs = useTableStore((state) => state.setSelectedVCs);
@@ -118,7 +118,7 @@ const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
               <ArrowLeftIcon className="h-6 w-6" />
             </button>
             <div className="text-h4 dark:text-navy-blue-50 font-semibold text-gray-900">
-              {t('vc')}
+              {t('title')}
             </div>
           </div>
           <div className="w-full px-2 sm:px-0">
@@ -127,7 +127,7 @@ const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
                 <FormatedPanel credential={vc.data} />
                 <div className="mt-8 flex flex-col space-y-2 px-6">
                   <h1 className="text-md dark:text-orange-accent-dark font-medium text-pink-500">
-                    DATA STORES
+                    {t('datastores')}
                   </h1>
                   {vc.metadata.store && (
                     <div className="flex gap-x-1">
@@ -148,7 +148,7 @@ const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
                         onClick={() => setSelectedVCs([vc])}
                         size="sm"
                       >
-                        {t('formatted-tab.create-verifiable-presentation')}
+                        {t('create-presentation')}
                       </Button>
                     </Link>
                   </div>
@@ -165,7 +165,7 @@ const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
                         onClick={() => setSelectedVCs([vc])}
                         size="sm"
                       >
-                        {t('formatted-tab.create-verifiable-presentation')}
+                        {t('create-presentation')}
                       </Button>
                     </Link>
                   </div>

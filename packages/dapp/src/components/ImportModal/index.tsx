@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { AvailableVCStores } from '@blockchain-lab-um/masca-types';
 import { Dialog } from '@headlessui/react';
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 
 import Button from '@/components/Button';
 import DropdownMultiselect from '@/components/DropdownMultiselect';
@@ -16,6 +17,7 @@ interface ImportModalProps {
 }
 
 function ImportModal({ isOpen, setOpen, importVC }: ImportModalProps) {
+  const t = useTranslations('ImportModal');
   const [loading, setLoading] = useState(false);
   const [vc, setVC] = useState('');
   const VCStores = useMascaStore((state) => state.availableVCStores);
@@ -31,12 +33,11 @@ function ImportModal({ isOpen, setOpen, importVC }: ImportModalProps) {
         as="h3"
         className="text-h3 font-ubuntu dark:text-navy-blue-50 font-medium leading-6 text-gray-900"
       >
-        Import Credential
+        {t('title')}
       </Dialog.Title>
       <div className="mt-5">
         <p className="text-md dark:text-navy-blue-200 text-gray-600">
-          Add a custom credential to your wallet. Paste JSON of the credential
-          in the textarea bellow.
+          {t('desc')}
         </p>
       </div>
       <div className="mt-5">
@@ -52,18 +53,18 @@ function ImportModal({ isOpen, setOpen, importVC }: ImportModalProps) {
           />
         </div>
         <div className="text-h5 font-ubuntu dark:text-navy-blue-50 mt-8 font-medium text-gray-900">
-          SETTINGS
+          {t('settings')}
         </div>
         <div className="mt-2 flex items-center justify-between gap-x-8">
           <span className="text-md dark:text-navy-blue-200 flex gap-x-1 text-gray-600">
-            Storage <InfoIcon>Select one or more locations.</InfoIcon>
+            {t('storage')} <InfoIcon>{t('storage-desc')}</InfoIcon>
           </span>
           <div className="flex flex-1">
             <DropdownMultiselect
               items={availableStores}
               selectedItems={selectedItems}
               setSelectedItems={setSelectedItems}
-              placeholder="Select storage..."
+              placeholder={t('select-storage-placeholder')}
               name="storage"
             />
           </div>
@@ -77,7 +78,7 @@ function ImportModal({ isOpen, setOpen, importVC }: ImportModalProps) {
             shadow="none"
             size="sm"
           >
-            Cancel
+            {t('cancel')}
           </Button>
         </div>
 
@@ -96,7 +97,7 @@ function ImportModal({ isOpen, setOpen, importVC }: ImportModalProps) {
             shadow="md"
             loading={loading}
           >
-            Import VC
+            {t('import')}
           </Button>
         </div>
       </div>

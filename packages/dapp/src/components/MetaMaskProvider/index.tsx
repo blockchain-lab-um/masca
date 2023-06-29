@@ -12,7 +12,7 @@ type MetaMaskProviderProps = {
 };
 
 const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
-  const t = useTranslations('Gateway');
+  const t = useTranslations('MetaMaskProvider');
 
   const { hasMM, hasFlask } = useGeneralStore(
     (state) => ({

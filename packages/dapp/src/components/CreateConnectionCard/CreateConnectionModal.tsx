@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Dialog } from '@headlessui/react';
+import { useTranslations } from 'next-intl';
 import { QRCodeSVG } from 'qrcode.react';
 import { shallow } from 'zustand/shallow';
 
@@ -17,6 +18,7 @@ const CreateConnectionModal = ({
   isOpen,
   setOpen,
 }: CreateConnectionModalProps) => {
+  const t = useTranslations('CreateConnectionModal');
   const [connectionData, setConnectionData] = useState<string | null>(null);
   const { changeSessionId, changeKey, changeExp } = useSessionStore(
     (state) => ({
@@ -73,7 +75,7 @@ const CreateConnectionModal = ({
         as="h3"
         className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-900 "
       >
-        Connection QR Code
+        {t('title')}
       </Dialog.Title>
       <div className="flex w-full justify-center p-4 pt-8">
         <div className="dark:border-orange-accent-dark rounded-xl border-2 border-pink-500 bg-white p-4">

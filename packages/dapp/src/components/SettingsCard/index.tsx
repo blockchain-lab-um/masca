@@ -8,7 +8,7 @@ import ToggleSwitch from '@/components/Switch';
 import { useMascaStore, useToastStore } from '@/stores';
 
 const SettingsCard = () => {
-  const t = useTranslations('Settings');
+  const t = useTranslations('SettingsCard');
   const { api, availableVCStores, changeAvailableVCStores } = useMascaStore(
     (state) => ({
       api: state.mascaApi,
@@ -88,7 +88,7 @@ const SettingsCard = () => {
         <div className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6  text-gray-900">
           {t('advanced')}
         </div>
-        <div className="mt-2 text-sm text-red-500">Not implemented yet.</div>
+        <div className="mt-2 text-sm text-red-500">{t('not-implemented')}</div>
         <div></div>
       </div>
     </div>
