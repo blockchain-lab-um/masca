@@ -1104,6 +1104,9 @@ importers:
       did-session:
         specifier: 2.0.1
         version: 2.0.1
+      eip-712-types-generation:
+        specifier: ^0.1.6
+        version: 0.1.6
     devDependencies:
       '@ianvs/prettier-plugin-sort-imports':
         specifier: ^4.0.1

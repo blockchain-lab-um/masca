@@ -43,7 +43,7 @@ export async function getCurrentDidIdentifier(params: {
 
       if (method === 'did:pkh' && chainId !== '0x1' && chainId !== '0x89') {
         throw new Error(
-          `Unspported network with chainid ${chainId} for ${method} }}`
+          `Unsupported network with chainid ${chainId} for ${method}`
         );
       }
       const identifier: IIdentifier = {
