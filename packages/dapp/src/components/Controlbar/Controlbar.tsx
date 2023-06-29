@@ -173,7 +173,7 @@ const Controlbar = () => {
         >
           {isConnected && (
             <>
-              <button
+              {/* <button
                 className={clsx(
                   'dark:bg-navy-blue-700 dark:text-navy-blue-50 group flex h-[37px] w-[37px] md:h-[43px] md:w-[43px]',
                   'items-center justify-center rounded-full bg-white text-gray-700 shadow-md outline-none focus:outline-none'
@@ -181,7 +181,7 @@ const Controlbar = () => {
                 onClick={() => setPlaygroundModalOpen(true)}
               >
                 <PlusIcon className={`group-hover:animate-pingOnce h-6 w-6`} />
-              </button>
+              </button> */}
               <button
                 className={clsx(
                   'dark:bg-navy-blue-700 dark:text-navy-blue-50 group flex h-[37px] w-[37px] md:h-[43px] md:w-[43px]',

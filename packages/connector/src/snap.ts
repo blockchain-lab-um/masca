@@ -79,7 +79,7 @@ export async function createVP(
       params,
     },
     this.snapId
-  );
+  ) ;
 
   if (isError(result)) {
     return result;
@@ -295,7 +295,7 @@ export async function createVC(
       params,
     },
     this.snapId
-  );
+  ) ;
 
   if (isError(result)) {
     return result;
