@@ -12,6 +12,7 @@ import Button from '@/components//Button';
 import ToggleSwitch from '@/components//Switch';
 import DeleteModal from '@/components/DeleteModal';
 import { useMascaStore, useToastStore } from '@/stores';
+import { stringifyCredentialSubject } from '@/utils/format';
 
 interface ModifyDSModalProps {
   open: boolean;
@@ -112,7 +113,7 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
       return;
     }
 
-    changeVcs(vcs.data);
+    changeVcs(vcs.data.map(modifyVC => stringifyCredentialSubject(modifyVC)));
     changeLastFetch(Date.now());
   };
 

@@ -22,9 +22,7 @@ const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
     .flat() as string[];
 
   // Remove duplicates
-  const dataStores = dataStoresFull.filter(
-    (element, index) => dataStoresFull.indexOf(element) === index
-  );
+  const dataStores = [...new Set(dataStoresFull)];
 
   const selectedItems = useTableStore((state) => {
     for (let i = 0; i < state.columnFilters.length; i += 1) {

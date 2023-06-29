@@ -40,10 +40,11 @@ import DeleteModal from '@/components/DeleteModal';
 import InfoIcon from '@/components/InfoIcon';
 import StoreIcon from '@/components/StoreIcon';
 import Tooltip from '@/components/Tooltip';
+import { stringifyCredentialSubject } from '@/utils/format';
 import { convertTypes } from '@/utils/string';
 import { useMascaStore, useTableStore, useToastStore } from '@/stores';
 import TablePagination from './TablePagination';
-import { includesDataStore, selectRows } from './tableUtils';
+import { includesDataStore, recursiveIncludes, selectRows } from './tableUtils';
 import VCCard from './VCCard';
 
 const Table = () => {
@@ -105,8 +106,7 @@ const Table = () => {
       enableGlobalFilter: false,
     }),
     columnHelper.accessor(
-      (row) =>
-        row.data.credentialSubject.id ? row.data.credentialSubject.id : '',
+      (row) => row.data.credentialSubject.id ? row.data.credentialSubject.id : '',
       {
         id: 'subject',
         cell: (info) => (
@@ -128,8 +128,7 @@ const Table = () => {
       (row) => {
         if (!row.data.issuer) return '';
         if (typeof row.data.issuer === 'string') return row.data.issuer;
-        if (row.data.issuer.id) return row.data.issuer.id;
-        return '';
+        return row.data.issuer.id ? row.data.issuer.id : '';
       },
       {
         id: 'issuer',
@@ -197,10 +196,7 @@ const Table = () => {
       }
     ),
     columnHelper.accessor(
-      (row) => {
-        if (row.metadata.store) return row.metadata.store.toString();
-        return '';
-      },
+      (row) => row.metadata.store ? row.metadata.store.toString() : '',
       {
         id: 'data_store',
         cell: (info) => (
@@ -224,6 +220,12 @@ const Table = () => {
         ),
         enableGlobalFilter: false,
         filterFn: includesDataStore,
+      }
+    ),
+    columnHelper.accessor(
+      (row) => row.data.credentialSubject?.filterString ? row.data.credentialSubject.filterString as string : '',
+      {
+        id: 'credential_subject',
       }
     ),
     columnHelper.display({
@@ -267,12 +269,13 @@ const Table = () => {
   const table = useReactTable({
     data: vcs,
     columns,
-    filterFns: { includesDataStore },
-    globalFilterFn: 'includesString',
+    filterFns: { includesDataStore, recursiveIncludes },
+    globalFilterFn: recursiveIncludes,
     state: {
       sorting,
       globalFilter,
       columnFilters,
+      columnVisibility: { 'credential_subject': false }
     },
     initialState: { pagination: { pageIndex: 0, pageSize: 9 } },
     enableGlobalFilter: true,
@@ -305,7 +308,7 @@ const Table = () => {
     changeLastFetch(Date.now());
 
     if (loadedVCs.data) {
-      changeVcs(loadedVCs.data);
+      changeVcs(loadedVCs.data.map(vc => stringifyCredentialSubject(vc)));
       if (loadedVCs.data.length === 0) {
         setTimeout(() => {
           useToastStore.setState({

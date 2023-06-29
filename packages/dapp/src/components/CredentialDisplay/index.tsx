@@ -15,6 +15,7 @@ import { useTranslations } from 'next-intl';
 
 import ConnectedProvider from '@/components/ConnectedProvider';
 import { useMascaStore } from '@/stores';
+import { removeStringifyCredentialSubject } from '@/utils/format';
 import FormatedTab from './FormatedPanel';
 import JsonTab from './JsonPanel';
 
@@ -29,11 +30,12 @@ const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [modifyDSModalOpen, setModifyDSModalOpen] = useState(false);
 
-  const vc = vcs.find((VCobj) => VCobj.metadata.id === id);
+  let vc = vcs.find((VCobj) => VCobj.metadata.id === id);
 
   if (!vc) {
     notFound();
   }
+  vc = removeStringifyCredentialSubject(vc);
 
   return (
     <Tab.Group>

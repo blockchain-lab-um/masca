@@ -24,6 +24,7 @@ import SelectedVCsTableRow from '@/components/SelectedVCsTableRow/SelectedVCsTab
 import ToggleSwitch from '@/components/Switch';
 import VPModal from '@/components/VPModal';
 import { useMascaStore, useTableStore } from '@/stores';
+import { removeStringifyCredentialSubject } from '@/utils/format';
 
 const proofFormats: Record<string, SupportedProofFormats> = {
   JWT: 'jwt',
@@ -60,7 +61,9 @@ const CreatePresentationDisplay = () => {
   const handleCreateVP = async () => {
     if (!api) return;
     setLoading(true);
-    const vcs: W3CVerifiableCredential[] = selectedVCs.map((vc) => vc.data);
+    const vcs: W3CVerifiableCredential[] = selectedVCs
+      .map(vc => removeStringifyCredentialSubject(vc))
+      .map((vc) => vc.data);
 
     const proofOptions = { type: '', domain, challenge };
 
