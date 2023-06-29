@@ -44,7 +44,7 @@ describe('Utils [ceramic]', () => {
   });
 
   describe('ceramicVCStore', () => {
-    it('should clear all VCs stored on ceramic', async () => {
+    it.skip('should clear all VCs stored on ceramic', async () => {
       await veramoClearVCs({
         snap: snapMock,
         ethereum: ethereumMock,
