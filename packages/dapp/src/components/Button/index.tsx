@@ -72,7 +72,7 @@ const loaderColors: Record<string, string> = {
   'primary-active': 'border-orange-500',
   secondary: 'border-white',
   'secondary-active': 'border-navy-blue-500',
-  connect: 'border-pink-500',
+  connect: 'border-pink-500 border-t-pink-900/0',
   gray: 'border-gray-800',
   white: 'border-gray-800',
   warning: 'border-white',

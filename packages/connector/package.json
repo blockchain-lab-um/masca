@@ -46,7 +46,8 @@
     "@didtools/pkh-ethereum": "0.0.2",
     "@metamask/detect-provider": "^2.0.0",
     "@veramo/core": "5.2.0",
-    "did-session": "2.0.1"
+    "did-session": "2.0.1",
+    "eip-712-types-generation": "^0.1.6"
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.0.1",
