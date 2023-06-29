@@ -16,7 +16,7 @@ function PlaygroundModal({ open, setOpen }: PlaygroundModalProps) {
   const [loading, setLoading] = useState(false);
   const [vc, setVC] = useState('');
 
-  const { api, changeVcs } = useMascaStore(
+  const { api } = useMascaStore(
     (state) => ({
       api: state.mascaApi,
       changeVcs: state.changeVcs,
