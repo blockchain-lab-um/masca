@@ -1,4 +1,4 @@
-import { AvailableMethods } from '@blockchain-lab-um/masca-types';
+import { InternalSigMethods } from '@blockchain-lab-um/masca-types';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
@@ -12,7 +12,7 @@ import { account, didMethodAccountMapping } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
-const methods: AvailableMethods[] = ['did:key', 'did:jwk'];
+const methods: InternalSigMethods[] = ['did:key', 'did:jwk'];
 
 describe('Utils [keyPair]', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
