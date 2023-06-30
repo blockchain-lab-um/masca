@@ -1,6 +1,7 @@
 module.exports = {
   root: true,
   extends: ['next/core-web-vitals', '../../.eslintrc.cjs'],
+  ignorePatterns: ['**/src/utils/typiaGenerated/*.ts'],
   parserOptions: {
     tsconfigRootDir: __dirname,
     project: './tsconfig.eslint.json',
@@ -10,5 +11,4 @@ module.exports = {
     '@typescript-eslint/no-misused-promises': 0,
     'global-require': 0,
   },
-  ignorePatterns: ['**/src/utils/typiaGenerated/*.ts']
 };
