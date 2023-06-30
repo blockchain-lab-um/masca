@@ -18,7 +18,7 @@ export const stringifyCredentialSubject = (queryVCsRequestResult: QueryVCsReques
   return modifiedQueryVCsRequestResult;
 }
 
-export const removeStringifyCredentialSubject = (queryVCsRequestResult: QueryVCsRequestResult): QueryVCsRequestResult => {
+export const removeCredentialSubjectFilterString = (queryVCsRequestResult: QueryVCsRequestResult): QueryVCsRequestResult => {
   const verifiableCredential = queryVCsRequestResult.data;
   const { credentialSubject } = verifiableCredential;
   const { filterString, ...rest } = credentialSubject;

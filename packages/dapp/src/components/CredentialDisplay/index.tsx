@@ -15,7 +15,7 @@ import { useTranslations } from 'next-intl';
 
 import ConnectedProvider from '@/components/ConnectedProvider';
 import { useMascaStore } from '@/stores';
-import { removeStringifyCredentialSubject } from '@/utils/format';
+import { removeCredentialSubjectFilterString } from '@/utils/format';
 import FormatedTab from './FormatedPanel';
 import JsonTab from './JsonPanel';
 
@@ -35,7 +35,7 @@ const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
   if (!vc) {
     notFound();
   }
-  vc = removeStringifyCredentialSubject(vc);
+  vc = removeCredentialSubjectFilterString(vc);
 
   return (
     <Tab.Group>
