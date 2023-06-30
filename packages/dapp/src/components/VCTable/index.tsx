@@ -106,7 +106,8 @@ const Table = () => {
       enableGlobalFilter: false,
     }),
     columnHelper.accessor(
-      (row) => row.data.credentialSubject.id ? row.data.credentialSubject.id : '',
+      (row) =>
+        row.data.credentialSubject.id ? row.data.credentialSubject.id : '',
       {
         id: 'subject',
         cell: (info) => (
@@ -196,7 +197,7 @@ const Table = () => {
       }
     ),
     columnHelper.accessor(
-      (row) => row.metadata.store ? row.metadata.store.toString() : '',
+      (row) => (row.metadata.store ? row.metadata.store.toString() : ''),
       {
         id: 'data_store',
         cell: (info) => (
@@ -223,7 +224,10 @@ const Table = () => {
       }
     ),
     columnHelper.accessor(
-      (row) => row.data.credentialSubject?.filterString ? row.data.credentialSubject.filterString as string : '',
+      (row) =>
+        row.data.credentialSubject?.filterString
+          ? (row.data.credentialSubject.filterString as string)
+          : '',
       {
         id: 'credential_subject',
       }
@@ -275,7 +279,7 @@ const Table = () => {
       sorting,
       globalFilter,
       columnFilters,
-      columnVisibility: { 'credential_subject': false }
+      columnVisibility: { credential_subject: false },
     },
     initialState: { pagination: { pageIndex: 0, pageSize: 9 } },
     enableGlobalFilter: true,
@@ -308,7 +312,7 @@ const Table = () => {
     changeLastFetch(Date.now());
 
     if (loadedVCs.data) {
-      changeVcs(loadedVCs.data.map(vc => stringifyCredentialSubject(vc)));
+      changeVcs(loadedVCs.data.map((vc) => stringifyCredentialSubject(vc)));
       if (loadedVCs.data.length === 0) {
         setTimeout(() => {
           useToastStore.setState({

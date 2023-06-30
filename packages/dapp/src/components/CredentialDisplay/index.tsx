@@ -14,8 +14,8 @@ import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
 import ConnectedProvider from '@/components/ConnectedProvider';
-import { useMascaStore } from '@/stores';
 import { removeCredentialSubjectFilterString } from '@/utils/format';
+import { useMascaStore } from '@/stores';
 import FormatedTab from './FormatedPanel';
 import JsonTab from './JsonPanel';
 

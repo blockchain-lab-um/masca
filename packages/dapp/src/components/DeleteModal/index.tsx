@@ -9,8 +9,8 @@ import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
-import { useMascaStore, useToastStore } from '@/stores';
 import { stringifyCredentialSubject } from '@/utils/format';
+import { useMascaStore, useToastStore } from '@/stores';
 
 interface DeleteModalProps {
   open: boolean;
@@ -92,7 +92,9 @@ function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
       changeLastFetch(Date.now());
 
       if (vcs.data) {
-        changeVcs(vcs.data.map(modifyVC => stringifyCredentialSubject(modifyVC)));
+        changeVcs(
+          vcs.data.map((modifyVC) => stringifyCredentialSubject(modifyVC))
+        );
       }
     }
   };

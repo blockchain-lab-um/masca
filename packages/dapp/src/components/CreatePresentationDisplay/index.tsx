@@ -23,8 +23,8 @@ import InputField from '@/components/InputField';
 import SelectedVCsTableRow from '@/components/SelectedVCsTableRow/SelectedVCsTableRow';
 import ToggleSwitch from '@/components/Switch';
 import VPModal from '@/components/VPModal';
-import { useMascaStore, useTableStore } from '@/stores';
 import { removeCredentialSubjectFilterString } from '@/utils/format';
+import { useMascaStore, useTableStore } from '@/stores';
 
 const proofFormats: Record<string, SupportedProofFormats> = {
   JWT: 'jwt',
@@ -62,7 +62,7 @@ const CreatePresentationDisplay = () => {
     if (!api) return;
     setLoading(true);
     const vcs: W3CVerifiableCredential[] = selectedVCs
-      .map(vc => removeCredentialSubjectFilterString(vc))
+      .map((vc) => removeCredentialSubjectFilterString(vc))
       .map((vc) => vc.data);
 
     const proofOptions = { type: '', domain, challenge };

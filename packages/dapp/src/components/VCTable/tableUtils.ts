@@ -20,14 +20,17 @@ export const includesDataStore: FilterFn<any> = (
 function recursiveSearch(obj: any, searchString: string): boolean {
   if (typeof obj === 'string') return obj.includes(searchString);
   if (typeof obj === 'number') return obj.toString() === searchString;
-  if (Array.isArray(obj)) return obj.some((item: any) => recursiveSearch(item, searchString));
+  if (Array.isArray(obj))
+    return obj.some((item: any) => recursiveSearch(item, searchString));
   return Object.keys(obj).some((key) => {
     const value = obj[key];
-    
+
     if (typeof value === 'string') return value.includes(searchString);
     if (typeof value === 'number') return value.toString() === searchString;
-    if (Array.isArray(value)) return value.some((item: any) => recursiveSearch(item, searchString));
-    if (typeof value === 'object' && value !== null) return recursiveSearch(value, searchString);
+    if (Array.isArray(value))
+      return value.some((item: any) => recursiveSearch(item, searchString));
+    if (typeof value === 'object' && value !== null)
+      return recursiveSearch(value, searchString);
     return false;
   });
 }
@@ -38,9 +41,10 @@ export const recursiveIncludes: FilterFn<any> = (
   value: string
 ) => {
   if (!value) return false;
-  const item = columnId === 'credential_subject' ? 
-    JSON.parse(row.getValue(columnId)) : 
-    row.getValue(columnId)?.toString()?.toLowerCase();
+  const item =
+    columnId === 'credential_subject'
+      ? JSON.parse(row.getValue(columnId))
+      : row.getValue(columnId)?.toString()?.toLowerCase();
   if (recursiveSearch(item, value)) return true;
   return false;
 };

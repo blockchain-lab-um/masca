@@ -11,8 +11,8 @@ import { shallow } from 'zustand/shallow';
 import Button from '@/components//Button';
 import ToggleSwitch from '@/components//Switch';
 import DeleteModal from '@/components/DeleteModal';
-import { useMascaStore, useToastStore } from '@/stores';
 import { stringifyCredentialSubject } from '@/utils/format';
+import { useMascaStore, useToastStore } from '@/stores';
 
 interface ModifyDSModalProps {
   open: boolean;
@@ -113,7 +113,7 @@ function ModifyDSModal({ open, setOpen, vc }: ModifyDSModalProps) {
       return;
     }
 
-    changeVcs(vcs.data.map(modifyVC => stringifyCredentialSubject(modifyVC)));
+    changeVcs(vcs.data.map((modifyVC) => stringifyCredentialSubject(modifyVC)));
     changeLastFetch(Date.now());
   };
 

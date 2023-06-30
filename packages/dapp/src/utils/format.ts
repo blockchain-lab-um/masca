@@ -1,7 +1,9 @@
 import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-types';
 import { CredentialSubject } from '@veramo/core';
 
-export const stringifyCredentialSubject = (queryVCsRequestResult: QueryVCsRequestResult): QueryVCsRequestResult => {
+export const stringifyCredentialSubject = (
+  queryVCsRequestResult: QueryVCsRequestResult
+): QueryVCsRequestResult => {
   const verifiableCredential = queryVCsRequestResult.data;
   const { credentialSubject } = verifiableCredential;
   const modifiedQueryVCsRequestResult = {
@@ -14,11 +16,13 @@ export const stringifyCredentialSubject = (queryVCsRequestResult: QueryVCsReques
       } as CredentialSubject,
     },
   };
-  
-  return modifiedQueryVCsRequestResult;
-}
 
-export const removeCredentialSubjectFilterString = (queryVCsRequestResult: QueryVCsRequestResult): QueryVCsRequestResult => {
+  return modifiedQueryVCsRequestResult;
+};
+
+export const removeCredentialSubjectFilterString = (
+  queryVCsRequestResult: QueryVCsRequestResult
+): QueryVCsRequestResult => {
   const verifiableCredential = queryVCsRequestResult.data;
   const { credentialSubject } = verifiableCredential;
   const { filterString, ...rest } = credentialSubject;
@@ -31,4 +35,4 @@ export const removeCredentialSubjectFilterString = (queryVCsRequestResult: Query
   };
 
   return modifiedQueryVCsRequestResult;
-}
+};
