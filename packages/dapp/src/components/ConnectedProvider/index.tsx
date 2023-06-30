@@ -10,7 +10,7 @@ type ConnectedProviderProps = {
 };
 
 const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
-  const t = useTranslations('Gateway');
+  const t = useTranslations('ConnectedProvider');
   const isConnected = useGeneralStore((state) => state.isConnected);
 
   if (isConnected) {

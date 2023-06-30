@@ -47,8 +47,8 @@ import { includesDataStore, selectRows } from './tableUtils';
 import VCCard from './VCCard';
 
 const Table = () => {
-  const router = useRouter();
   const t = useTranslations('Dashboard');
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [elapsedTimeSinceLastFetch, setElapsedTimeSinceLastFetch] = useState<
@@ -294,7 +294,7 @@ const Table = () => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Failed to load credentials',
+          title: t('query-error'),
           type: 'error',
           loading: false,
         });
@@ -310,7 +310,7 @@ const Table = () => {
         setTimeout(() => {
           useToastStore.setState({
             open: true,
-            title: 'No credentials found',
+            title: t('query-no-credentials'),
             type: 'info',
             loading: false,
           });
@@ -321,7 +321,7 @@ const Table = () => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Credentials loaded',
+          title: t('query-success'),
           type: 'success',
           loading: false,
         });
@@ -508,7 +508,7 @@ const Table = () => {
           )}
         </div>
         <DeleteModal
-          open={deleteModalOpen}
+          isOpen={deleteModalOpen}
           setOpen={setDeleteModalOpen}
           vc={selectedVC}
         />

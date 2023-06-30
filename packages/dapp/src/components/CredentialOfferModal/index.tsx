@@ -1,72 +1,104 @@
 'use client';
 
-import { Fragment, useEffect } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
+import { isError } from '@blockchain-lab-um/utils';
+import { Dialog } from '@headlessui/react';
+import { VerifiableCredential } from '@veramo/core';
+import { useTranslations } from 'next-intl';
 
-import { useMascaStore } from '@/stores';
+import Button from '@/components/Button';
+import Modal from '@/components/Modal';
+import { useMascaStore, useToastStore } from '@/stores';
 
 type CredentialOfferModalProps = {
-  open: boolean;
+  isOpen: boolean;
   setOpen: (open: boolean) => void;
   credentialOffer: string;
+  setRecievedCredential: (credential: VerifiableCredential) => void;
 };
 
 const CredentialOfferModal = ({
-  open,
+  isOpen,
   setOpen,
   credentialOffer,
+  setRecievedCredential,
 }: CredentialOfferModalProps) => {
+  const t = useTranslations('CredentialOfferModal');
   const api = useMascaStore((state) => state.mascaApi);
 
-  useEffect(() => {
+  const handleCredentialOffer = async () => {
     if (!api) return;
 
-    api
-      .handleOIDCCredentialOffer({
-        credentialOfferURI: credentialOffer,
-      })
-      .catch((error) => console.error);
-  }, [api, credentialOffer]);
+    setOpen(false);
+
+    setTimeout(() => {
+      useToastStore.setState({
+        open: true,
+        title: t('handling'),
+        type: 'normal',
+        loading: true,
+      });
+    }, 200);
+
+    const handleCredentialOfferResponse = await api.handleOIDCCredentialOffer({
+      credentialOfferURI: credentialOffer,
+    });
+
+    useToastStore.setState({
+      open: false,
+    });
+
+    if (isError(handleCredentialOfferResponse)) {
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: t('handling-error'),
+          type: 'error',
+          loading: false,
+        });
+      }, 200);
+      console.log(handleCredentialOfferResponse.error);
+      return;
+    }
+
+    setTimeout(() => {
+      useToastStore.setState({
+        open: true,
+        title: t('handling-success'),
+        type: 'success',
+        loading: false,
+      });
+    }, 200);
+
+    setRecievedCredential(handleCredentialOfferResponse.data);
+  };
 
   return (
-    <Transition appear show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={() => setOpen(false)}>
-        <Transition.Child
-          as={Fragment}
-          enter="ease-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <div className="fixed inset-0 bg-black/25 dark:bg-black/60" />
-        </Transition.Child>
-
-        <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4 text-center">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
-              <Dialog.Panel className="dark:bg-navy-blue-500 w-full max-w-md overflow-hidden rounded-2xl bg-white p-6 shadow-xl transition-all">
-                <Dialog.Title
-                  as="h3"
-                  className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-900 "
-                >
-                  {credentialOffer}
-                </Dialog.Title>
-              </Dialog.Panel>
-            </Transition.Child>
-          </div>
+    <Modal isOpen={isOpen} setOpen={setOpen}>
+      <Dialog.Title
+        as="h3"
+        className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-900"
+      >
+        {t('title')}
+      </Dialog.Title>
+      <div className="mt-4">
+        <p className="text-md dark:text-navy-blue-200 text-gray-500">
+          {t('desc')}
+        </p>
+        <div className="mt-8 flex justify-end">
+          <Button
+            onClick={() => setOpen(false)}
+            variant="cancel"
+            shadow="none"
+            size="sm"
+          >
+            {t('cancel')}
+          </Button>
+          <Button onClick={handleCredentialOffer} variant="primary">
+            {t('proceed')}
+          </Button>
         </div>
-      </Dialog>
-    </Transition>
+      </div>
+    </Modal>
   );
 };
 

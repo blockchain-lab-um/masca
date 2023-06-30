@@ -10,6 +10,7 @@ import { ArrowPathIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { W3CVerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 import { normalizeCredential } from 'did-jwt-vc';
+import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
 import ImportModal from '@/components/ImportModal';
@@ -19,6 +20,7 @@ import ViewTabs from '@/components/VCTable/ViewTabs';
 import { useGeneralStore, useMascaStore, useToastStore } from '@/stores';
 
 const Controlbar = () => {
+  const t = useTranslations('Controlbar');
   // Local state
   const [importModalOpen, setImportModalOpen] = useState(false);
   const [spinner, setSpinner] = useState(false);
@@ -48,7 +50,7 @@ const Controlbar = () => {
     setTimeout(() => {
       useToastStore.setState({
         open: true,
-        title: 'Querying credentials',
+        title: t('query'),
         type: 'normal',
         loading: true,
       });
@@ -65,7 +67,7 @@ const Controlbar = () => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Failed to query credentials',
+          title: t('query-error'),
           type: 'error',
           loading: false,
         });
@@ -76,7 +78,7 @@ const Controlbar = () => {
     setTimeout(() => {
       useToastStore.setState({
         open: true,
-        title: 'Successfully queried credentials',
+        title: t('query-success'),
         type: 'success',
         loading: false,
       });
@@ -103,11 +105,11 @@ const Controlbar = () => {
         setTimeout(() => {
           useToastStore.setState({
             open: true,
-            title: 'Failed to save VC; VC was invalid',
+            title: t('save-error'),
             type: 'error',
             loading: false,
           });
-        }, 100);
+        }, 200);
 
         return false;
       }
@@ -198,7 +200,7 @@ const Controlbar = () => {
         </div>
       </div>
       <ImportModal
-        open={importModalOpen}
+        isOpen={importModalOpen}
         setOpen={setImportModalOpen}
         importVC={saveVC}
       />

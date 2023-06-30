@@ -6,12 +6,14 @@ import { isError } from '@blockchain-lab-um/utils';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
 import { useMascaStore, useToastStore } from '@/stores';
 import { DropdownButton } from './MethodDropdownButton';
 
 export default function MethodDropdownMenu() {
+  const t = useTranslations('MethodDropdownMenu');
   const { api, currMethod, methods, changeCurrDIDMethod, changeDID } =
     useMascaStore(
       (state) => ({
@@ -31,7 +33,7 @@ export default function MethodDropdownMenu() {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Switching did method',
+          title: t('switching'),
           type: 'normal',
           loading: true,
         });
@@ -46,7 +48,7 @@ export default function MethodDropdownMenu() {
         setTimeout(() => {
           useToastStore.setState({
             open: true,
-            title: 'Failed to change method',
+            title: t('switching-error'),
             type: 'error',
             loading: false,
           });
@@ -57,7 +59,7 @@ export default function MethodDropdownMenu() {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: `Successfully changed method to ${method}`,
+          title: `${t('switching-success')} ${method}`,
           type: 'success',
           loading: false,
         });
