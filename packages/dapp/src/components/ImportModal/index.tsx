@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AvailableVCStores } from '@blockchain-lab-um/masca-types';
 import { Dialog } from '@headlessui/react';
+import { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
@@ -8,7 +9,8 @@ import Button from '@/components/Button';
 import DropdownMultiselect from '@/components/DropdownMultiselect';
 import InfoIcon from '@/components/InfoIcon';
 import Modal from '@/components/Modal';
-import { useMascaStore } from '@/stores';
+import { checkVCType } from '@/utils/typiaGenerated/typeChecks';
+import { useMascaStore, useToastStore } from '@/stores';
 
 interface ImportModalProps {
   isOpen: boolean;
@@ -86,6 +88,18 @@ function ImportModal({ isOpen, setOpen, importVC }: ImportModalProps) {
           <Button
             onClick={async () => {
               setLoading(true);
+              if (!checkVCType(JSON.parse(vc) as VerifiableCredential)) {
+                setTimeout(() => {
+                  useToastStore.setState({
+                    open: true,
+                    title: 'Invalid verifiable credential type',
+                    type: 'error',
+                    loading: false,
+                  });
+                }, 200);
+                setLoading(false);
+                return;
+              }
               const res = await importVC(vc, selectedItems);
               if (res) {
                 setOpen(false);

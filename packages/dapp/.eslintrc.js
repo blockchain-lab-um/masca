@@ -10,4 +10,5 @@ module.exports = {
     '@typescript-eslint/no-misused-promises': 0,
     'global-require': 0,
   },
+  ignorePatterns: ['**/src/utils/typiaGenerated/*.ts']
 };
