@@ -3,7 +3,6 @@ import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 
 import { onRpcRequest } from '../../src';
-import { getAgent, type Agent } from '../../src/veramo/setup';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
@@ -35,7 +34,6 @@ const methods = [
 
 describe('switchDIDMethod', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
-  let agent: Agent;
 
   beforeAll(async () => {
     snapMock = createMockSnap();
@@ -44,8 +42,6 @@ describe('switchDIDMethod', () => {
       newState: getDefaultSnapState(account),
     });
     snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-    const ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
-    agent = await getAgent(snapMock, ethereumMock);
     global.snap = snapMock;
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
   });
