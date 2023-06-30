@@ -28,12 +28,14 @@ const CredentialModal = ({
     if (!mascaApi) return;
     setOpen(false);
 
-    useToastStore.setState({
-      open: true,
-      text: 'Saving credential.',
-      type: 'normal',
-      loading: true,
-    });
+    setTimeout(() => {
+      useToastStore.setState({
+        open: true,
+        text: t('saving'),
+        type: 'normal',
+        loading: true,
+      });
+    }, 200);
 
     const saveCredentialResult = await mascaApi.saveVC(credential);
 
@@ -42,13 +44,25 @@ const CredentialModal = ({
     });
 
     if (isError(saveCredentialResult)) {
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          text: t('saving-error'),
+          type: 'error',
+          loading: false,
+        });
+      }, 200);
+      return;
+    }
+
+    setTimeout(() => {
       useToastStore.setState({
         open: true,
-        text: 'Error saving credential.',
-        type: 'error',
+        text: t('saving-success'),
+        type: 'success',
         loading: false,
       });
-    }
+    }, 200);
   };
 
   return (

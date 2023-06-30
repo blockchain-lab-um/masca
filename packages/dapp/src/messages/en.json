@@ -49,6 +49,12 @@
   "ConnectedProvider": {
     "connect": "Connect MetaMask to use the dApp"
   },
+  "Controlbar": {
+    "query": "Querying credentials",
+    "query-error": "Failed to query credentials",
+    "query-success": "Successfully queried credentials",
+    "save-error": "Failed to save credential. VC was invalid"
+  },
   "CreateConnectionCard": {
     "create-connection": "Create Connection",
     "desc-1": "You can use this page to create a connection with your mobile device and use it as a QR code scanner.",
@@ -83,11 +89,17 @@
   },
   "CredentialModal": {
     "cancel": "Cancel",
-    "save": "Save credential"
+    "save": "Save credential",
+    "saving": "Saving credential",
+    "saving-error": "Failed to save credential",
+    "saving-success": "Successfully saved credential"
   },
   "CredentialOfferModal": {
     "cancel": "Cancel",
     "desc": "You have received a new credential offer. Do you want to accept it?",
+    "handling": "Handling credential offer",
+    "handling-error": "Failed to handle credential offer",
+    "handling-success": "Successfully handled credential offer",
     "proceed": "Proceed",
     "title": "New credential offer received"
   },
@@ -114,6 +126,9 @@
       "of": "of",
       "page": "Page"
     },
+    "query-error": "Failed to query credentials",
+    "query-no-credentials": "No credentials found",
+    "query-success": "Successfully queried credentials",
     "search": "Search all columns...",
     "table": {
       "actions": "ACTIONS",
@@ -141,7 +156,9 @@
   "DeleteCredentialModal": {
     "cancel": "Cancel",
     "delete": "Delete VC",
-    "deleting-vc": "Deleting VC from store",
+    "deleting": "Deleting credential from store",
+    "deleting-error": "Failed to delete credential from store",
+    "deleting-success": "Successfully deleted credential from store",
     "desc": "Approving this action will remove the credential from your wallet. This action cannot be undone.",
     "title": "Delete Credential"
   },
@@ -151,6 +168,15 @@
     "issuer": "ISSUER",
     "isuance-date": "Issuance Date",
     "subject": "SUBJECT"
+  },
+  "GetCredential": {
+    "handling": "Handling credential offer",
+    "handling-error": "Failed to handle credential offer",
+    "handling-success": "Successfully handled credential offer",
+    "parsing-error": "Failed to parse credential offer URI",
+    "saving": "Saving credential",
+    "saving-error": "Failed to save credential",
+    "saving-success": "Successfully saved credential"
   },
   "Home": {
     "SSI": "Decentralized Identity",
@@ -173,9 +199,17 @@
   "MetaMaskProvider": {
     "flask": "Install MetaMask Flask to use the dApp!"
   },
+  "MethodDropdownMenu": {
+    "switching": "Switching did method",
+    "switching-error": "Failed to switch did method",
+    "switching-success": "Successfully switched did method to"
+  },
   "ModifyDataStoreModal": {
     "desc": "Here you can define where the credential will be stored.",
     "done": "Done",
+    "saving": "Saving credential",
+    "saving-error": "Failed to save credential",
+    "saving-success": "Successfully saved credential",
     "title": "Modify Credential"
   },
   "PublicNavbar": {
@@ -187,12 +221,24 @@
     "menu": "Menu",
     "twitter": "Twitter"
   },
+  "QRCodeScanner": {
+    "initialize-error": "Failed to initialize QR code scanner",
+    "starting-error": "Failed to start QR code scanner"
+  },
+  "QRCodeSessionProvider": {
+    "unsuported": "Unsuported QR code data received"
+  },
   "ScanConnectionCard": {
+    "connection-created": "Connection created",
     "desc": "Use this on your mobile device to first scan the connection QR code to astablish a connection with your browser. After that you can scan any other QR code that you want to pass to your browser to be handled by the Masca Dapp.",
+    "invalid-qr-code": "Invalid QR code",
+    "qr-data-sent": "QR data sent",
     "scan-connection": "Scan Connection",
     "scan-connection-modal-title": "Scan Connection QR Code",
     "scan-qr-code": "Scan QR Code",
-    "scan-qr-code-modal-title": "Scan QR Code"
+    "scan-qr-code-modal-title": "Scan QR Code",
+    "unexpected-error": "An unexpected error occured",
+    "unsuported-qr-code": "Unsuported QR code"
   },
   "SelectCredentialsModal": {
     "cancel": "Cancel",
@@ -202,6 +248,8 @@
   },
   "SettingsCard": {
     "advanced": "Advanced",
+    "ceramic-error": "Failed to toggle Ceramic",
+    "ceramic-success": "Successfully toggled Ceramic",
     "data-store": "Data Stores",
     "data-store-desc": "Enable or disable data stores. Data stores are places where VCs are stored.",
     "not-implemented": "Not implemented yet"

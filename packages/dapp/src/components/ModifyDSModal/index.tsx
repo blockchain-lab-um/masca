@@ -76,7 +76,7 @@ function ModifyDSModal({ isOpen, setOpen, vc }: ModifyDSModalProps) {
     setTimeout(() => {
       useToastStore.setState({
         open: true,
-        title: 'Saving credential',
+        title: t('saving'),
         type: 'normal',
         loading: true,
       });
@@ -84,11 +84,15 @@ function ModifyDSModal({ isOpen, setOpen, vc }: ModifyDSModalProps) {
 
     const res = await api.saveVC(vc.data, { store });
 
+    useToastStore.setState({
+      open: false,
+    });
+
     if (isError(res)) {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Error while saving credential',
+          title: t('saving-error'),
           type: 'error',
           loading: false,
         });
@@ -99,7 +103,7 @@ function ModifyDSModal({ isOpen, setOpen, vc }: ModifyDSModalProps) {
     setTimeout(() => {
       useToastStore.setState({
         open: true,
-        title: 'Credential saved',
+        title: t('saving-success'),
         type: 'success',
         loading: false,
       });

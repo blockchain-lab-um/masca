@@ -36,7 +36,7 @@ function DeleteModal({ isOpen, setOpen, vc, store }: DeleteModalProps) {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Deleting Credential',
+          title: t('deleting'),
           type: 'normal',
           loading: true,
         });
@@ -55,6 +55,7 @@ function DeleteModal({ isOpen, setOpen, vc, store }: DeleteModalProps) {
       }
 
       const res = await api.deleteVC(vc.metadata.id, deleteReqOptions);
+
       useToastStore.setState({
         open: false,
       });
@@ -63,7 +64,7 @@ function DeleteModal({ isOpen, setOpen, vc, store }: DeleteModalProps) {
         setTimeout(() => {
           useToastStore.setState({
             open: true,
-            title: 'Failed to delete credential',
+            title: t('deleting-error'),
             type: 'error',
             loading: false,
           });
@@ -75,7 +76,7 @@ function DeleteModal({ isOpen, setOpen, vc, store }: DeleteModalProps) {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Credential deleted',
+          title: t('deleting-success'),
           type: 'success',
           loading: false,
         });
@@ -111,7 +112,7 @@ function DeleteModal({ isOpen, setOpen, vc, store }: DeleteModalProps) {
 
         {store && (
           <p className="text-md dark:text-navy-blue-200 mt-10 text-gray-600 ">
-            {t('deleting-vc')}:{' '}
+            {t('deleting')}:{' '}
             <span className="dark:text-navy-blue-100 font-medium text-gray-800 ">
               {store}
             </span>

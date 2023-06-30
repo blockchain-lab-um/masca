@@ -33,7 +33,7 @@ const CredentialOfferModal = ({
     setTimeout(() => {
       useToastStore.setState({
         open: true,
-        title: 'Handling credential offer',
+        title: t('handling'),
         type: 'normal',
         loading: true,
       });
@@ -51,7 +51,7 @@ const CredentialOfferModal = ({
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Error while handling credential offer',
+          title: t('handling-error'),
           type: 'error',
           loading: false,
         });
@@ -59,6 +59,15 @@ const CredentialOfferModal = ({
       console.log(handleCredentialOfferResponse.error);
       return;
     }
+
+    setTimeout(() => {
+      useToastStore.setState({
+        open: true,
+        title: t('handling-success'),
+        type: 'success',
+        loading: false,
+      });
+    }, 200);
 
     setRecievedCredential(handleCredentialOfferResponse.data);
   };

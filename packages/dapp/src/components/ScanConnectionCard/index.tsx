@@ -48,7 +48,7 @@ const ScanConnectionCard = () => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Connection created',
+          title: t('connection-created'),
           type: 'success',
           loading: false,
         });
@@ -57,7 +57,7 @@ const ScanConnectionCard = () => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Invalid QR code',
+          title: t('invalid-qr-code'),
           type: 'error',
           loading: false,
         });
@@ -77,7 +77,7 @@ const ScanConnectionCard = () => {
         setTimeout(() => {
           useToastStore.setState({
             open: true,
-            title: 'Unsupported QR code',
+            title: t('unsuported-qr-code'),
             type: 'error',
             loading: false,
           });
@@ -119,7 +119,7 @@ const ScanConnectionCard = () => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'QR data sent',
+          title: t('qr-data-sent'),
           type: 'success',
           loading: false,
         });
@@ -128,7 +128,7 @@ const ScanConnectionCard = () => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'An unexpected error occurred',
+          title: t('unexpected-error'),
           type: 'error',
           loading: false,
         });

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { hexToUint8Array } from '@blockchain-lab-um/utils';
 import { VerifiableCredential } from '@veramo/core';
+import { useTranslations } from 'next-intl';
 import useSWR from 'swr';
 import { shallow } from 'zustand/shallow';
 
@@ -13,6 +14,7 @@ import { useGeneralStore, useSessionStore, useToastStore } from '@/stores';
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
 const QRCodeSessionProvider = () => {
+  const t = useTranslations('QRCodeSessionProvider');
   const [decryptedData, setDecryptedData] = useState<string | null>(null);
   const [recievedCredential, setRecievedCredential] =
     useState<VerifiableCredential | null>(null);
@@ -89,7 +91,7 @@ const QRCodeSessionProvider = () => {
           setTimeout(() => {
             useToastStore.setState({
               open: true,
-              title: 'Unsuported QR code data received',
+              title: t('unsuported'),
               type: 'error',
               loading: false,
             });

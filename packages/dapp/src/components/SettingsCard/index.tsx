@@ -39,7 +39,7 @@ const SettingsCard = () => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Failed to toggle ceramic',
+          title: t('ceramic-error'),
           type: 'error',
           loading: false,
         });
@@ -50,7 +50,7 @@ const SettingsCard = () => {
     setTimeout(() => {
       useToastStore.setState({
         open: true,
-        title: 'Successfully toggled ceramic',
+        title: t('ceramic-success'),
         type: 'success',
         loading: false,
       });
