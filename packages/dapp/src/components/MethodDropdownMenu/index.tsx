@@ -108,7 +108,7 @@ export default function MethodDropdownMenu() {
                     selected={method === currMethod}
                     handleBtn={handleMethodChange}
                   >
-                    {method}
+                    {method === 'did:key:ebsi' ? 'did:key (EBSI)' : method}
                   </DropdownButton>
                 ))}
               </div>
