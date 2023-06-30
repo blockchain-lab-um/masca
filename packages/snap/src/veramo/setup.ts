@@ -1,6 +1,6 @@
 import {
   KeyDIDProvider,
-  getDidKeyResolver as mascaKeyDidResolver,
+  getDidKeyResolver as keyDidResolver,
 } from '@blockchain-lab-um/did-provider-key';
 import {
   IOIDCClientPlugin,
@@ -140,7 +140,7 @@ export const getAgent = async (
       new DIDResolverPlugin({
         resolver: new Resolver({
           ...ethrDidResolver({ networks }),
-          ...mascaKeyDidResolver(),
+          ...keyDidResolver(),
           ...pkhDidResolver(),
           ...jwkDidResolver(),
           ...universalDidResolver(),
