@@ -102,9 +102,14 @@ const INTERNAL_EXTRA_LINKS = [
     href: '/app/get-credential',
     icon: IconEcosystem,
   },
+  // {
+  //   name: 'authorization-request',
+  //   href: '/app/authorization-request',
+  //   icon: IconEcosystem,
+  // },
   {
-    name: 'authorization-request',
-    href: '/app/authorization-request',
+    name: 'qr-code-session',
+    href: '/app/qr-code-session',
     icon: IconEcosystem,
   },
 ];
@@ -203,7 +208,7 @@ function MenuPopover() {
                       />
                     </Link>
                   ))}
-                  {/* {INTERNAL_EXTRA_LINKS.map((link) => (
+                  {INTERNAL_EXTRA_LINKS.map((link) => (
                     <Link
                       key={link.name}
                       href={link.href}
@@ -215,7 +220,7 @@ function MenuPopover() {
                         description={t(`dropdown.description.${link.name}`)}
                       />
                     </Link>
-                  ))} */}
+                  ))}
                   {EXTERNAL_LINKS.map((link) => (
                     <a
                       key={link.name}
