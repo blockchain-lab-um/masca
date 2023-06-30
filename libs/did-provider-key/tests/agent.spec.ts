@@ -25,7 +25,7 @@ import { KeyManagementSystem, SecretBox } from '@veramo/kms-local';
 import { Resolver } from 'did-resolver';
 import { DataSource, type DataSourceOptions } from 'typeorm';
 
-import { getMascaDidKeyResolver, MascaKeyDidProvider } from '../src/index.js';
+import { getDidKeyResolver, KeyDIDProvider } from '../src/index.js';
 import plugin from './plugin';
 
 jest.setTimeout(60000);
@@ -79,14 +79,14 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
         store: new DIDStore(dbConnection),
         defaultProvider: 'did:key',
         providers: {
-          'did:key': new MascaKeyDidProvider({
+          'did:key': new KeyDIDProvider({
             defaultKms: 'local',
           }),
         },
       }),
       new DIDResolverPlugin({
         resolver: new Resolver({
-          ...getMascaDidKeyResolver(),
+          ...getDidKeyResolver(),
         }),
       }),
       new CredentialPlugin(),

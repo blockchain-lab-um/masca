@@ -1,6 +1,6 @@
 import {
-  getMascaDidKeyResolver,
-  MascaKeyDidProvider,
+  getDidKeyResolver,
+  KeyDIDProvider,
 } from '@blockchain-lab-um/did-provider-key';
 import { IOIDCRPPlugin, OIDCRPPlugin } from '@blockchain-lab-um/oidc-rp-plugin';
 import {
@@ -90,7 +90,7 @@ const getAgent = async (): Promise<Agent> => {
             defaultKms: 'local',
             networks: providerConfig.networks,
           }),
-          'did:key': new MascaKeyDidProvider({
+          'did:key': new KeyDIDProvider({
             defaultKms: 'local',
           }),
         },
@@ -98,7 +98,7 @@ const getAgent = async (): Promise<Agent> => {
       new DIDResolverPlugin({
         resolver: new Resolver({
           ...getEthrResolver(providerConfig),
-          ...getMascaDidKeyResolver(),
+          ...getDidKeyResolver(),
         }),
       }),
       new OIDCRPPlugin({

@@ -92,6 +92,6 @@ export const resolveDidKey: DIDResolver = async (
  *
  * @public
  */
-export function getMascaDidKeyResolver() {
+export function getDidKeyResolver() {
   return { key: resolveDidKey };
 }

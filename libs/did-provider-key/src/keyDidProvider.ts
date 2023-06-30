@@ -28,7 +28,7 @@ type IContext = IAgentContext<IKeyManager>;
  *
  * @beta This API may change without a BREAKING CHANGE notice.
  */
-export class MascaKeyDidProvider extends AbstractIdentifierProvider {
+export class KeyDIDProvider extends AbstractIdentifierProvider {
   private defaultKms: string;
 
   constructor(options: { defaultKms: string }) {
