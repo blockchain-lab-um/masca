@@ -1,10 +1,11 @@
 import {
-  AvailableMethods,
   chainIdNetworkParamsMapping,
   didMethodChainIdMapping,
+  requiresNetwork,
+  type MethodsRequiringNetwork,
   type SwitchMethodRequestParams,
 } from '@blockchain-lab-um/masca-types';
-import { BIP44CoinTypeNode } from '@metamask/key-tree';
+import type { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { divider, heading, panel, text } from '@metamask/snaps-ui';
 
 import type { ApiParams } from '../../interfaces';
@@ -12,8 +13,8 @@ import { changeCurrentMethod } from '../../utils/didUtils';
 import { getCurrentNetwork, snapConfirm } from '../../utils/snapUtils';
 
 async function requestNetworkSwitch(params: {
-  didMethod: AvailableMethods;
-}): Promise<boolean> {
+  didMethod: MethodsRequiringNetwork;
+}): Promise<void> {
   const { didMethod } = params;
   const requestNetworkSwitchContent = panel([
     heading('Switch Network'),
@@ -22,7 +23,7 @@ async function requestNetworkSwitch(params: {
     ),
     divider(),
     text(
-      `Switching to: ${didMethod} on chainId: ${didMethodChainIdMapping[didMethod][0]}}`
+      `Switching to: ${didMethod} on chainId: ${didMethodChainIdMapping[didMethod][0]}`
     ),
   ]);
   if (!(await snapConfirm(snap, requestNetworkSwitchContent))) {
@@ -34,7 +35,6 @@ async function requestNetworkSwitch(params: {
       method: 'wallet_switchEthereumChain',
       params: [{ chainId }],
     });
-    return true;
   } catch (err) {
     if (
       (err as { code?: number; message: string; stack: string }).code === 4902
@@ -43,9 +43,21 @@ async function requestNetworkSwitch(params: {
         method: 'wallet_addEthereumChain',
         params: [chainIdNetworkParamsMapping[chainId]],
       });
-      return true;
     }
     throw err as Error;
+  }
+}
+
+async function handleNetwork(params: {
+  didMethod: MethodsRequiringNetwork;
+}): Promise<void> {
+  const { didMethod } = params;
+  const chainId = await getCurrentNetwork(ethereum);
+  if (
+    !didMethodChainIdMapping[didMethod].includes(chainId) &&
+    !didMethodChainIdMapping[didMethod].includes('*')
+  ) {
+    await requestNetworkSwitch({ didMethod });
   }
 }
 
@@ -55,14 +67,10 @@ export async function switchMethod(
 ): Promise<string> {
   const { state, snap, ethereum, account, bip44CoinTypeNode } = params;
   const method = state.accountState[account].accountConfig.ssi.didMethod;
-  const chainId = await getCurrentNetwork(ethereum);
-  if (
-    !didMethodChainIdMapping[didMethod].includes(chainId) &&
-    !didMethodChainIdMapping[didMethod].includes('*') &&
-    !(await requestNetworkSwitch({ didMethod }))
-  ) {
-    throw new Error('Invalid network');
+  if (requiresNetwork(didMethod)) {
+    await handleNetwork({ didMethod: didMethod as MethodsRequiringNetwork });
   }
+
   if (didMethod !== method) {
     const switchNetworkContent = panel([
       heading('Switch Method'),
