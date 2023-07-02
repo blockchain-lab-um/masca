@@ -26,7 +26,11 @@ import type {
   W3CVerifiableCredential,
 } from '@veramo/core';
 
-import { signVC, signVP, validateAndSetCeramicSession } from './utils.js';
+import {
+  signVerifiableCredential,
+  signVerifiablePresentation,
+  validateAndSetCeramicSession,
+} from './utils.js';
 
 async function sendSnapMethod<T>(
   request: MascaRPCRequest,
@@ -73,7 +77,7 @@ export async function createVP(
 ): Promise<Result<VerifiablePresentation>> {
   await validateAndSetCeramicSession(this);
 
-  const result = await sendSnapMethod(
+  const result = await sendSnapMethod<Result<VerifiablePresentation>>(
     {
       method: 'createVP',
       params,
@@ -81,17 +85,17 @@ export async function createVP(
     this.snapId
   );
 
-  const vpResult = result as Result<VerifiablePresentation>;
-
-  if (isError(vpResult)) {
-    return vpResult;
+  if (isError(result)) {
+    return result;
   }
 
-  if (vpResult.data.proof) {
-    return vpResult;
+  if (result.data.proof) {
+    return result;
   }
 
-  const signedResult = ResultObject.success(await signVP(vpResult.data));
+  const signedResult = ResultObject.success(
+    await signVerifiablePresentation(result.data)
+  );
 
   return signedResult;
 }
@@ -309,7 +313,9 @@ export async function createVC(
     return vcResult;
   }
 
-  const signedResult = ResultObject.success(await signVC(vcResult.data));
+  const signedResult = ResultObject.success(
+    await signVerifiableCredential(vcResult.data)
+  );
 
   return signedResult;
 }

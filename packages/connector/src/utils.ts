@@ -1,6 +1,11 @@
 import { isError } from '@blockchain-lab-um/utils';
 import { EthereumWebAuth, getAccountId } from '@didtools/pkh-ethereum';
-import { VerifiableCredential, VerifiablePresentation } from '@veramo/core';
+import {
+  UnsignedCredential,
+  UnsignedPresentation,
+  VerifiableCredential,
+  VerifiablePresentation,
+} from '@veramo/core';
 import { DIDSession } from 'did-session';
 import { getEthTypesFromInputDoc } from 'eip-712-types-generation';
 
@@ -54,7 +59,9 @@ export async function validateAndSetCeramicSession(
   }
 }
 
-export async function signVP(presentation: VerifiablePresentation) {
+export async function signVerifiablePresentation(
+  presentation: UnsignedPresentation
+): Promise<VerifiablePresentation> {
   const addresses: string[] = await window.ethereum.request({
     method: 'eth_requestAccounts',
   });
@@ -83,13 +90,9 @@ export async function signVP(presentation: VerifiablePresentation) {
   };
 
   const primaryType = 'VerifiablePresentation';
-  const allTypes = getEthTypesFromInputDoc(presentation, primaryType);
-  const types = { ...allTypes };
+  const types = getEthTypesFromInputDoc(presentation, primaryType);
 
   const data = JSON.stringify({ domain, types, message, primaryType });
-
-  console.log('Signing data');
-  console.log(data);
 
   const signature = await window.ethereum.request({
     method: 'eth_signTypedData_v4',
@@ -100,14 +103,16 @@ export async function signVP(presentation: VerifiablePresentation) {
 
   presentation.proof.eip712 = {
     domain,
-    types: allTypes,
+    types,
     primaryType,
   };
 
-  return presentation;
+  return presentation as VerifiablePresentation;
 }
 
-export async function signVC(credential: VerifiableCredential) {
+export async function signVerifiableCredential(
+  credential: UnsignedCredential
+): Promise<VerifiableCredential> {
   const addresses: string[] = await window.ethereum.request({
     method: 'eth_requestAccounts',
   });
@@ -148,9 +153,6 @@ export async function signVC(credential: VerifiableCredential) {
 
   const data = JSON.stringify({ domain, types, message, primaryType });
 
-  console.log('Signing data');
-  console.log(data);
-
   const signature = await window.ethereum.request({
     method: 'eth_signTypedData_v4',
     params: [addresses[0], data],
@@ -164,5 +166,5 @@ export async function signVC(credential: VerifiableCredential) {
     primaryType,
   };
 
-  return credential;
+  return credential as VerifiableCredential;
 }

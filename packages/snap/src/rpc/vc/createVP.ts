@@ -10,11 +10,12 @@ import type { ApiParams } from '../../interfaces';
 import { getCurrentDidIdentifier } from '../../utils/didUtils';
 import { veramoCreateVP } from '../../utils/veramoUtils';
 
-async function createUnsignedVP(params: {
+async function createUnsignedVerifiablePresentation(params: {
   vcs: W3CVerifiableCredential[];
   did: string;
 }): Promise<UnsignedPresentation> {
   const { vcs, did } = params;
+  // FIXME: there's an issue here
   const canonicalizedVcs = vcs.map((vc) => {
     // code from
     // https://github.com/uport-project/veramo/blob/2ce705680173174e7399c4d0607b67b7303c6c97/packages/credential-eip712/src/agent/CredentialEIP712.ts#L215
@@ -37,10 +38,10 @@ async function createUnsignedVP(params: {
   return unsignedVp;
 }
 
-export async function createVP(
+export async function createVerifiablePresentation(
   params: ApiParams,
   createVPParams: CreateVPRequestParams
-): Promise<VerifiablePresentation> {
+): Promise<UnsignedPresentation | VerifiablePresentation> {
   const { state, account, bip44CoinTypeNode } = params;
   const { vcs, proofFormat = 'jwt', proofOptions } = createVPParams;
   const method = state.accountState[account].accountConfig.ssi.didMethod;
@@ -52,11 +53,11 @@ export async function createVP(
       ...params,
       bip44CoinTypeNode: bip44CoinTypeNode as BIP44CoinTypeNode,
     });
-    const unsignedVp = await createUnsignedVP({
+    const unsignedVp = await createUnsignedVerifiablePresentation({
       vcs: createVPParams.vcs,
       did: identifier.did,
     });
-    return unsignedVp as VerifiablePresentation;
+    return unsignedVp;
   }
   const res = await veramoCreateVP(params, {
     vcs,

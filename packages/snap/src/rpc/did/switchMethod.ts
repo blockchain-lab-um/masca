@@ -16,7 +16,7 @@ async function requestNetworkSwitch(params: {
   didMethod: MethodsRequiringNetwork;
 }): Promise<void> {
   const { didMethod } = params;
-  const requestNetworkSwitchContent = panel([
+  const content = panel([
     heading('Switch Network'),
     text(
       `${didMethod} is not available for your currently selected network. Would you like to switch your network?`
@@ -26,7 +26,7 @@ async function requestNetworkSwitch(params: {
       `Switching to: ${didMethod} on chainId: ${didMethodChainIdMapping[didMethod][0]}`
     ),
   ]);
-  if (!(await snapConfirm(snap, requestNetworkSwitchContent))) {
+  if (!(await snapConfirm(snap, content))) {
     throw new Error('User rejected network switch');
   }
   const chainId = didMethodChainIdMapping[didMethod][0];
@@ -72,14 +72,14 @@ export async function switchMethod(
   }
 
   if (didMethod !== method) {
-    const switchNetworkContent = panel([
+    const content = panel([
       heading('Switch Method'),
       text('Would you like to switch DID method?'),
       divider(),
       text(`Switching to: ${didMethod}`),
     ]);
 
-    if (await snapConfirm(snap, switchNetworkContent)) {
+    if (await snapConfirm(snap, content)) {
       const res = await changeCurrentMethod({
         snap,
         ethereum,

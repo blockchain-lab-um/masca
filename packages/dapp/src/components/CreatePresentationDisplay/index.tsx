@@ -43,11 +43,13 @@ const CreatePresentationDisplay = () => {
     }),
     shallow
   );
-  const { didMethod } = useMascaStore((state) => ({
-    didMethod: state.currDIDMethod,
-  }));
-
-  const api = useMascaStore((state) => state.mascaApi);
+  const { didMethod, api } = useMascaStore(
+    (state) => ({
+      didMethod: state.currDIDMethod,
+      api: state.mascaApi,
+    }),
+    shallow
+  );
 
   const [format, setFormat] = useState('JWT');
   const [advanced, setAdvanced] = useState(false);
@@ -60,7 +62,7 @@ const CreatePresentationDisplay = () => {
   ]);
 
   useEffect(() => {
-    if ((didMethod && didMethod === 'did:ethr') || didMethod === 'did:pkh') {
+    if (didMethod === 'did:ethr' || didMethod === 'did:pkh') {
       setAvailableProofFormats(['EIP712Signature']);
       setFormat('EIP712Signature');
     } else {

@@ -1,6 +1,6 @@
 import type {
   CreateVCRequestParams,
-  MinimalUnisignedCredential,
+  MinimalUnsignedCredential,
 } from '@blockchain-lab-um/masca-types';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
@@ -11,8 +11,8 @@ import { getCurrentDidIdentifier } from '../../utils/didUtils';
 import { snapConfirm } from '../../utils/snapUtils';
 import { veramoCreateVC, veramoSaveVC } from '../../utils/veramoUtils';
 
-async function createUnsignedVC(params: {
-  vc: MinimalUnisignedCredential;
+async function createUnsignedVerifiableCredential(params: {
+  vc: MinimalUnsignedCredential;
   did: string;
 }): Promise<UnsignedCredential> {
   const { vc, did } = params;
@@ -56,10 +56,10 @@ async function createUnsignedVC(params: {
   return unsignedVc;
 }
 
-export async function createVC(
+export async function createVerifiableCredential(
   params: ApiParams,
   createVCParams: CreateVCRequestParams
-): Promise<Omit<VerifiableCredential, 'proof'>> {
+): Promise<UnsignedCredential | VerifiableCredential> {
   const { state, bip44CoinTypeNode } = params;
   const { minimalUnsignedCredential, proofFormat, options } = createVCParams;
   const { store = 'snap' } = options ?? {};
@@ -71,7 +71,7 @@ export async function createVC(
       ...params,
       bip44CoinTypeNode: bip44CoinTypeNode as BIP44CoinTypeNode,
     });
-    const unsignedVc = await createUnsignedVC({
+    const unsignedVc = await createUnsignedVerifiableCredential({
       vc: minimalUnsignedCredential,
       did: identifier.did,
     });

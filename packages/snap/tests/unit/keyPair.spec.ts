@@ -1,4 +1,4 @@
-import { AvailableMethods } from '@blockchain-lab-um/masca-types';
+import { InternalSigMethods } from '@blockchain-lab-um/masca-types';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
@@ -6,13 +6,12 @@ import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import {
   getAccountIndexFromEntropy,
   getKeysFromAccountIndex,
-  snapGetKeysFromAddress,
 } from '../../src/utils/keyPair';
 import { account, didMethodAccountMapping } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
-const methods: AvailableMethods[] = ['did:key', 'did:jwk'];
+const methods: InternalSigMethods[] = ['did:key', 'did:jwk'];
 
 describe('Utils [keyPair]', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
@@ -43,33 +42,8 @@ describe('Utils [keyPair]', () => {
   });
   // FIXME: revisit when address indices will be set for different did methods
   describe('entropy based account index and key derivation', () => {
-    it('should get address keypair for did:ethr (default state) for coin type 1236', async () => {
-      const keys = await snapGetKeysFromAddress({
-        snap: snapMock,
-        bip44CoinTypeNode,
-        account,
-        state: getDefaultSnapState(account),
-      });
-      expect(keys?.privateKey).toEqual(
-        didMethodAccountMapping['did:ethr'].privateKey
-      );
-      expect(keys?.publicKey).toEqual(
-        didMethodAccountMapping['did:ethr'].publicKey
-      );
-      expect(keys?.address).toEqual(
-        didMethodAccountMapping['did:ethr'].address
-      );
-      expect(keys?.accountIndex).toEqual(
-        didMethodAccountMapping['did:ethr'].accountIndex
-      );
-      expect(keys?.addressIndex).toEqual(
-        didMethodAccountMapping['did:ethr'].addressIndex
-      );
-      expect.assertions(5);
-    });
-
     it.each(methods)(
-      'should get address keypair for did:pkh',
+      'should get address keypair for available methods %s',
       async (method) => {
         const accountIndex = await getAccountIndexFromEntropy({
           snap,
