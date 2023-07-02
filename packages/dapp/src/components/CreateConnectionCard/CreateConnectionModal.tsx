@@ -1,21 +1,24 @@
 'use client';
 
-import { Fragment, useEffect, useState } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
+import { useEffect, useState } from 'react';
+import { Dialog } from '@headlessui/react';
+import { useTranslations } from 'next-intl';
 import { QRCodeSVG } from 'qrcode.react';
 import { shallow } from 'zustand/shallow';
 
+import Modal from '@/components/Modal';
 import { useSessionStore } from '@/stores';
 
 type CreateConnectionModalProps = {
-  open: boolean;
+  isOpen: boolean;
   setOpen: (open: boolean) => void;
 };
 
 const CreateConnectionModal = ({
-  open,
+  isOpen,
   setOpen,
 }: CreateConnectionModalProps) => {
+  const t = useTranslations('CreateConnectionModal');
   const [connectionData, setConnectionData] = useState<string | null>(null);
   const { changeSessionId, changeKey, changeExp } = useSessionStore(
     (state) => ({
@@ -59,63 +62,29 @@ const CreateConnectionModal = ({
   };
 
   useEffect(() => {
-    if (open) {
+    if (isOpen) {
       createSession()
         .then((data) => setConnectionData(data))
         .catch(console.error);
     }
-  }, [open]);
+  }, [isOpen]);
 
   return (
-    <Transition appear show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={() => setOpen(false)}>
-        <Transition.Child
-          as={Fragment}
-          enter="ease-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <div className="fixed inset-0 bg-black/25 dark:bg-black/60" />
-        </Transition.Child>
-
-        <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4 text-center">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
-              <Dialog.Panel className="dark:bg-navy-blue-500 w-full max-w-md overflow-hidden rounded-2xl bg-white p-6 shadow-xl transition-all">
-                <Dialog.Title
-                  as="h3"
-                  className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-900 "
-                >
-                  Connection QR Code
-                </Dialog.Title>
-                <div className="flex w-full justify-center p-4 pt-8">
-                  <div className="dark:border-orange-accent-dark rounded-xl border-2 border-pink-500 bg-white p-4">
-                    {connectionData && (
-                      <QRCodeSVG
-                        value={connectionData}
-                        height={300}
-                        width={300}
-                      />
-                    )}
-                  </div>
-                </div>
-              </Dialog.Panel>
-            </Transition.Child>
-          </div>
+    <Modal isOpen={isOpen} setOpen={setOpen}>
+      <Dialog.Title
+        as="h3"
+        className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-900 "
+      >
+        {t('title')}
+      </Dialog.Title>
+      <div className="flex w-full justify-center p-4 pt-8">
+        <div className="dark:border-orange-accent-dark rounded-xl border-2 border-pink-500 bg-white p-4">
+          {connectionData && (
+            <QRCodeSVG value={connectionData} height={300} width={300} />
+          )}
         </div>
-      </Dialog>
-    </Transition>
+      </div>
+    </Modal>
   );
 };
 
