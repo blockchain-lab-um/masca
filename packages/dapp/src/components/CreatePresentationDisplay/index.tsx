@@ -143,13 +143,13 @@ const CreatePresentationDisplay = () => {
               {t('options.format')}
             </div>
             <DropdownMenu
-                size="xs"
-                rounded="full"
-                shadow="sm"
-                variant="primary-active"
-                selected={format}
-                setSelected={setFormat}
-                items={availableProofFormats}
+              size="xs"
+              rounded="full"
+              shadow="sm"
+              variant="primary-active"
+              selected={format}
+              setSelected={setFormat}
+              items={availableProofFormats}
             />
           </div>
         </div>
