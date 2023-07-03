@@ -66,9 +66,7 @@ describe('createVerifiableCredential', () => {
       }
 
       issuer = switchMethod.data;
-    });
 
-    beforeEach(async () => {
       await agent.clear({ options: { store: ['snap', 'ceramic'] } });
     });
 
@@ -147,6 +145,8 @@ describe('createVerifiableCredential', () => {
           expect(res.data[0].metadata.store).toEqual([store]);
 
           expect.assertions(2);
+
+          await agent.clear({ options: { store: ['snap', 'ceramic'] } });
         }
       );
     });

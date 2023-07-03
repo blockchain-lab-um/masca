@@ -76,9 +76,7 @@ describe('createVerifiablePresentation', () => {
       }
 
       issuer = switchMethod.data;
-    });
 
-    beforeEach(async () => {
       await agent.clear({ options: { store: ['snap', 'ceramic'] } });
     });
 
