@@ -17,7 +17,7 @@ import type {
   SetCurrentAccountRequestParams,
   VerifyDataRequestParams,
 } from '@blockchain-lab-um/masca-types';
-import { ResultObject, type Result } from '@blockchain-lab-um/utils';
+import { isError, ResultObject, type Result } from '@blockchain-lab-um/utils';
 import type {
   DIDResolutionResult,
   IVerifyResult,
@@ -26,7 +26,11 @@ import type {
   W3CVerifiableCredential,
 } from '@veramo/core';
 
-import { validateAndSetCeramicSession } from './utils.js';
+import {
+  signVerifiableCredential,
+  signVerifiablePresentation,
+  validateAndSetCeramicSession,
+} from './utils.js';
 
 async function sendSnapMethod<T>(
   request: MascaRPCRequest,
@@ -73,13 +77,27 @@ export async function createVP(
 ): Promise<Result<VerifiablePresentation>> {
   await validateAndSetCeramicSession(this);
 
-  return sendSnapMethod(
+  const result = await sendSnapMethod<Result<VerifiablePresentation>>(
     {
       method: 'createVP',
       params,
     },
     this.snapId
   );
+
+  if (isError(result)) {
+    return result;
+  }
+
+  if (result.data.proof) {
+    return result;
+  }
+
+  const signedResult = ResultObject.success(
+    await signVerifiablePresentation(result.data)
+  );
+
+  return signedResult;
 }
 
 /**
@@ -277,13 +295,29 @@ export async function createVC(
 ): Promise<Result<VerifiableCredential>> {
   await validateAndSetCeramicSession(this);
 
-  return sendSnapMethod(
+  const result = await sendSnapMethod(
     {
       method: 'createVC',
       params,
     },
     this.snapId
   );
+
+  const vcResult = result as Result<VerifiableCredential>;
+
+  if (isError(vcResult)) {
+    return vcResult;
+  }
+
+  if (vcResult.data.proof) {
+    return vcResult;
+  }
+
+  const signedResult = ResultObject.success(
+    await signVerifiableCredential(vcResult.data)
+  );
+
+  return signedResult;
 }
 
 /**

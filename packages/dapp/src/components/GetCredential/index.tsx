@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { CredentialOffer } from '@blockchain-lab-um/oidc-types';
 import { isError } from '@blockchain-lab-um/utils';
+import { useTranslations } from 'next-intl';
 import qs from 'qs';
 
 import Button from '@/components/Button';
@@ -10,6 +11,7 @@ import InputField from '@/components/InputField';
 import { useMascaStore, useToastStore } from '@/stores';
 
 const GetCredential = () => {
+  const t = useTranslations('GetCredential');
   const api = useMascaStore((state) => state.mascaApi);
 
   const [credentialOfferURI, setCredentialOfferURI] = useState<string | null>(
@@ -52,7 +54,7 @@ const GetCredential = () => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Failed to parse credential offer URI',
+          title: t('parsing-error'),
           type: 'error',
           loading: false,
         });
@@ -97,20 +99,25 @@ const GetCredential = () => {
     setTimeout(() => {
       useToastStore.setState({
         open: true,
-        title: 'Handling credential offer',
+        title: t('handling'),
         type: 'normal',
         loading: true,
       });
     }, 200);
+
     const handleCredentialOfferResponse = await api.handleOIDCCredentialOffer({
       credentialOfferURI,
+    });
+
+    useToastStore.setState({
+      open: false,
     });
 
     if (isError(handleCredentialOfferResponse)) {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Error while handling credential offer',
+          title: t('handling-error'),
           type: 'error',
           loading: false,
         });
@@ -124,7 +131,7 @@ const GetCredential = () => {
     setTimeout(() => {
       useToastStore.setState({
         open: true,
-        title: 'Saving credential',
+        title: t('saving'),
         type: 'normal',
         loading: true,
       });
@@ -136,18 +143,32 @@ const GetCredential = () => {
       store: ['snap'],
     });
 
+    useToastStore.setState({
+      open: false,
+    });
+
     if (isError(saveCredentialResponse)) {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Error while saving credential',
+          title: t('saving-error'),
           type: 'error',
           loading: false,
         });
       }, 200);
 
       console.log(saveCredentialResponse.error);
+      return;
     }
+
+    setTimeout(() => {
+      useToastStore.setState({
+        open: true,
+        title: t('saving-success'),
+        type: 'success',
+        loading: false,
+      });
+    }, 200);
   };
 
   return (

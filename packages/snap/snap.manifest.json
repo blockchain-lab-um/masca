@@ -7,31 +7,31 @@
     "url": "https://github.com/blockchain-lab-um/masca.git"
   },
   "source": {
-    "shasum": "Bz48yfgRc+sMgE96vXJNSmG+36qMCkkxKEKM3jgq8Jo=",
     "location": {
       "npm": {
         "filePath": "dist/snap.js",
-        "packageName": "@blockchain-lab-um/masca",
         "iconPath": "images/icon.svg",
+        "packageName": "@blockchain-lab-um/masca",
         "registry": "https://registry.npmjs.org"
       }
-    }
+    },
+    "shasum": "OZ+Y1J+wBac/zJqNXZ8uoSIFKF5ePN3N0kxFCJ7WSgY="
   },
   "initialPermissions": {
-    "snap_getEntropy": {},
+    "endowment:ethereum-provider": {},
+    "endowment:network-access": {},
+    "endowment:rpc": {
+      "dapps": true,
+      "snaps": true
+    },
     "snap_dialog": {},
     "snap_getBip44Entropy": [
       {
         "coinType": 1236
       }
     ],
-    "snap_manageState": {},
-    "endowment:network-access": {},
-    "endowment:rpc": {
-      "snaps": true,
-      "dapps": true
-    },
-    "endowment:ethereum-provider": {}
+    "snap_getEntropy": {},
+    "snap_manageState": {}
   },
   "manifestVersion": "0.1"
 }

@@ -59,7 +59,7 @@ export type CreateVPRequestParams = {
   proofOptions?: ProofOptions;
 };
 
-export type MinimalUnisignedCredential = Pick<
+export type MinimalUnsignedCredential = Pick<
   UnsignedCredential,
   | 'credentialSubject'
   | 'type'
@@ -70,7 +70,7 @@ export type MinimalUnisignedCredential = Pick<
 > & { [x: string]: any };
 
 export type CreateVCRequestParams = {
-  minimalUnsignedCredential: MinimalUnisignedCredential;
+  minimalUnsignedCredential: MinimalUnsignedCredential;
   proofFormat?: SupportedProofFormats;
   options?: {
     save?: boolean;

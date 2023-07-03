@@ -10,6 +10,7 @@ import { ArrowPathIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { W3CVerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 import { normalizeCredential } from 'did-jwt-vc';
+import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
 import ImportModal from '@/components/ImportModal';
@@ -19,9 +20,13 @@ import ViewTabs from '@/components/VCTable/ViewTabs';
 import { stringifyCredentialSubject } from '@/utils/format';
 import { useGeneralStore, useMascaStore, useToastStore } from '@/stores';
 
+// import PlaygroundModal from '../PlaygroundModal';
+
 const Controlbar = () => {
+  const t = useTranslations('Controlbar');
   // Local state
   const [importModalOpen, setImportModalOpen] = useState(false);
+  // const [playgroundModalOpen, setPlaygroundModalOpen] = useState(false);
   const [spinner, setSpinner] = useState(false);
 
   // Stores
@@ -49,7 +54,7 @@ const Controlbar = () => {
     setTimeout(() => {
       useToastStore.setState({
         open: true,
-        title: 'Querying credentials',
+        title: t('query'),
         type: 'normal',
         loading: true,
       });
@@ -66,7 +71,7 @@ const Controlbar = () => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Failed to query credentials',
+          title: t('query-error'),
           type: 'error',
           loading: false,
         });
@@ -77,7 +82,7 @@ const Controlbar = () => {
     setTimeout(() => {
       useToastStore.setState({
         open: true,
-        title: 'Successfully queried credentials',
+        title: t('query-success'),
         type: 'success',
         loading: false,
       });
@@ -104,11 +109,11 @@ const Controlbar = () => {
         setTimeout(() => {
           useToastStore.setState({
             open: true,
-            title: 'Failed to save VC; VC was invalid',
+            title: t('save-error'),
             type: 'error',
             loading: false,
           });
-        }, 100);
+        }, 200);
 
         return false;
       }
@@ -179,15 +184,26 @@ const Controlbar = () => {
           }`}
         >
           {isConnected && (
-            <button
-              className={clsx(
-                'dark:bg-navy-blue-700 dark:text-navy-blue-50 group flex h-[37px] w-[37px] md:h-[43px] md:w-[43px]',
-                'items-center justify-center rounded-full bg-white text-gray-700 shadow-md outline-none focus:outline-none'
-              )}
-              onClick={() => setImportModalOpen(true)}
-            >
-              <PlusIcon className={`group-hover:animate-pingOnce h-6 w-6`} />
-            </button>
+            <>
+              {/* <button
+                className={clsx(
+                  'dark:bg-navy-blue-700 dark:text-navy-blue-50 group flex h-[37px] w-[37px] md:h-[43px] md:w-[43px]',
+                  'items-center justify-center rounded-full bg-white text-gray-700 shadow-md outline-none focus:outline-none'
+                )}
+                onClick={() => setPlaygroundModalOpen(true)}
+              >
+                <PlusIcon className={`group-hover:animate-pingOnce h-6 w-6`} />
+              </button> */}
+              <button
+                className={clsx(
+                  'dark:bg-navy-blue-700 dark:text-navy-blue-50 group flex h-[37px] w-[37px] md:h-[43px] md:w-[43px]',
+                  'items-center justify-center rounded-full bg-white text-gray-700 shadow-md outline-none focus:outline-none'
+                )}
+                onClick={() => setImportModalOpen(true)}
+              >
+                <PlusIcon className={`group-hover:animate-pingOnce h-6 w-6`} />
+              </button>
+            </>
           )}
           {vcs.length > 0 && (
             <button
@@ -207,10 +223,14 @@ const Controlbar = () => {
         </div>
       </div>
       <ImportModal
-        open={importModalOpen}
+        isOpen={importModalOpen}
         setOpen={setImportModalOpen}
         importVC={saveVC}
       />
+      {/* <PlaygroundModal
+        open={playgroundModalOpen}
+        setOpen={setPlaygroundModalOpen}
+      /> */}
     </div>
   );
 };

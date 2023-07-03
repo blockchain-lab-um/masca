@@ -10,7 +10,7 @@ import type { VerifiableCredential } from '@veramo/core';
 import { decodeCredentialToObject } from '@veramo/utils';
 
 import type { ApiParams } from '../../interfaces';
-import { getCurrentDid } from '../../utils/didUtils';
+import { getCurrentDidIdentifier } from '../../utils/didUtils';
 import { snapGetKeysFromAddress } from '../../utils/keyPair';
 import {
   handleAuthorizationRequest,
@@ -30,13 +30,14 @@ export async function handleOIDCCredentialOffer(
     throw new Error('bip44CoinTypeNode is required');
   }
 
-  const did = await getCurrentDid({
+  const identifier = await getCurrentDidIdentifier({
     account,
     ethereum,
     snap,
     state,
     bip44CoinTypeNode,
   });
+  const { did } = identifier;
 
   if (did.startsWith('did:ethr') || did.startsWith('did:pkh'))
     throw new Error('did:ethr and did:pkh are not supported');
@@ -64,17 +65,15 @@ export async function handleOIDCCredentialOffer(
 
   await veramoImportMetaMaskAccount(
     {
-      snap,
-      ethereum,
-      state,
-      account,
+      ...params,
+      did: identifier.did,
       bip44CoinTypeNode,
     },
     agent
   );
 
   // TODO: Is this fine or should we improve it ?
-  const kid = `${did}#${did.split(':')[2]}`;
+  const kid = `${identifier.did}#${identifier.did.split(':')[2]}`;
 
   const isDidKeyEbsi =
     state.accountState[account].accountConfig.ssi.didMethod === 'did:key:ebsi';
@@ -84,7 +83,7 @@ export async function handleOIDCCredentialOffer(
     sign(args, {
       privateKey: res.privateKey,
       curve: isDidKeyEbsi ? 'p256' : 'secp256k1',
-      did,
+      did: identifier.did,
       kid,
     });
 
@@ -92,7 +91,7 @@ export async function handleOIDCCredentialOffer(
 
   if (grants?.authorization_code) {
     const authorizationRequestURIResult = await agent.getAuthorizationRequest({
-      clientId: did,
+      clientId: identifier.did,
     });
 
     if (isError(authorizationRequestURIResult)) {

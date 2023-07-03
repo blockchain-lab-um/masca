@@ -8,14 +8,11 @@ import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import type { IIdentifier } from '@veramo/core';
 import type { DIDResolutionResult } from 'did-resolver';
-import elliptic from 'elliptic';
 
 import { getAgent } from '../veramo/setup';
 import { snapGetKeysFromAddress } from './keyPair';
 import { getCurrentNetwork } from './snapUtils';
 import { updateSnapState } from './stateUtils';
-
-const { ec: EC } = elliptic;
 
 export async function changeCurrentVCStore(params: {
   snap: SnapsGlobalObject;
@@ -29,34 +26,40 @@ export async function changeCurrentVCStore(params: {
   await updateSnapState(snap, state);
 }
 
-export async function getCurrentDid(params: {
+export async function getCurrentDidIdentifier(params: {
   ethereum: MetaMaskInpageProvider;
   state: MascaState;
   snap: SnapsGlobalObject;
   account: string;
   bip44CoinTypeNode: BIP44CoinTypeNode;
-}): Promise<string> {
+}): Promise<IIdentifier> {
   const { ethereum, snap, state, account, bip44CoinTypeNode } = params;
-
   const method = state.accountState[account].accountConfig.ssi.didMethod;
-
+  const agent = await getAgent(snap, ethereum);
   switch (method) {
+    case 'did:pkh':
     case 'did:ethr': {
-      const CHAIN_ID = await getCurrentNetwork(ethereum);
-      const ctx = new EC('secp256k1');
-      const ecPublicKey = ctx.keyFromPublic(
-        state.accountState[account].publicKey.slice(2),
-        'hex'
-      );
-      const compactPublicKey = `0x${ecPublicKey.getPublic(true, 'hex')}`;
+      const chainId = await getCurrentNetwork(ethereum);
 
-      return `did:ethr:${CHAIN_ID}:${compactPublicKey}`;
+      if (method === 'did:pkh' && chainId !== '0x1' && chainId !== '0x89') {
+        throw new Error(
+          `Unsupported network with chainid ${chainId} for ${method}`
+        );
+      }
+      const identifier: IIdentifier = {
+        provider: method,
+        did:
+          method === 'did:ethr'
+            ? `did:ethr:${chainId}:${state.currentAccount}`
+            : `did:pkh:eip155:${chainId}:${state.currentAccount}`,
+        keys: [],
+        services: [],
+      };
+      return identifier;
     }
     case 'did:key:ebsi':
     case 'did:key':
-    case 'did:pkh':
     case 'did:jwk': {
-      const agent = await getAgent(snap, ethereum);
       const res = await snapGetKeysFromAddress({
         bip44CoinTypeNode,
         account,
@@ -77,7 +80,7 @@ export async function getCurrentDid(params: {
       });
 
       if (!identifier?.did) throw new Error('Failed to create identifier');
-      return identifier.did;
+      return identifier;
     }
     default:
       throw new Error('Unsupported DID method');
@@ -96,14 +99,14 @@ export async function changeCurrentMethod(params: {
     params;
   state.accountState[account].accountConfig.ssi.didMethod = didMethod;
   await updateSnapState(snap, state);
-  const did = await getCurrentDid({
+  const identifier = await getCurrentDidIdentifier({
     ethereum,
     snap,
     state,
     account,
     bip44CoinTypeNode,
   });
-  return did;
+  return identifier.did;
 }
 
 export async function resolveDid(params: {

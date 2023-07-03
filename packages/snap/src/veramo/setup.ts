@@ -95,6 +95,11 @@ export const getAgent = async (
       provider: new Web3Provider(ethereum as any),
       chainId: '0x5',
     },
+    {
+      name: 'sepolia',
+      provider: new Web3Provider(ethereum as any),
+      chainId: '0xaa36a7',
+    },
   ];
 
   didProviders['did:ethr'] = new EthrDIDProvider({

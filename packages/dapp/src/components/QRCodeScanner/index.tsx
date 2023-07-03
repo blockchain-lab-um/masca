@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { Html5Qrcode, Html5QrcodeCameraScanConfig } from 'html5-qrcode';
+import { useTranslations } from 'next-intl';
 
 import { useToastStore } from '@/stores';
 
@@ -18,6 +19,7 @@ const QRCodeScanner = ({
   setScanner,
   setOpen,
 }: QRCodeScannerProps) => {
+  const t = useTranslations('QRCodeScanner');
   const onScanFailure = (_: any) => {};
 
   useEffect(() => {
@@ -31,7 +33,7 @@ const QRCodeScanner = ({
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Error initializing QR Code Scanner',
+          title: t('initialize-error'),
           type: 'error',
           loading: false,
         });
@@ -65,7 +67,7 @@ const QRCodeScanner = ({
         setTimeout(() => {
           useToastStore.setState({
             open: true,
-            title: 'Error starting QR Code Scanner',
+            title: t('start-error'),
             type: 'error',
             loading: false,
           });

@@ -1,12 +1,13 @@
 'use client';
 
+import { chainIdNetworkParamsMapping } from '@blockchain-lab-um/masca-types';
 import { shallow } from 'zustand/shallow';
 
 import AddressPopover from '@/components//AddressPopover';
 import ConnectButton from '@/components//ConnectButton';
 import DropdownMenu from '@/components//DropdownMenu';
 import MethodDropdownMenu from '@/components/MethodDropdownMenu';
-import { NETWORKS } from '@/utils/constants';
+import { getAvailableNetworksList, NETWORKS } from '@/utils/networks';
 import { useGeneralStore, useMascaStore } from '@/stores';
 
 export const NavConnection = () => {
@@ -56,6 +57,15 @@ export const NavConnection = () => {
           params: [{ chainId: key }],
         });
       } catch (switchError) {
+        if (
+          (switchError as { code?: number; message: string; stack: string })
+            .code === 4902
+        ) {
+          await window.ethereum.request({
+            method: 'wallet_addEthereumChain',
+            params: [chainIdNetworkParamsMapping[key]],
+          });
+        }
         console.error(switchError);
       }
     }
@@ -79,7 +89,7 @@ export const NavConnection = () => {
             rounded="full"
             shadow="none"
             variant="method"
-            items={Object.values(NETWORKS)}
+            items={getAvailableNetworksList(currMethod)}
             selected={getNetwork()}
             setSelected={setNetwork}
           />

@@ -5,7 +5,7 @@ import Button from '@/components/Button';
 import { useGeneralStore } from '@/stores';
 
 const ConnectButton = () => {
-  const t = useTranslations('AppNavbar');
+  const t = useTranslations('ConnectButton');
   const { isConnecting, changeIsConnecting } = useGeneralStore(
     (state) => ({
       isConnecting: state.isConnecting,

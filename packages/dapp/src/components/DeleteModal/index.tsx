@@ -1,25 +1,25 @@
-import { Fragment } from 'react';
 import {
   AvailableVCStores,
   QueryVCsRequestResult,
 } from '@blockchain-lab-um/masca-types';
 import { isError } from '@blockchain-lab-um/utils';
-import { Dialog, Transition } from '@headlessui/react';
+import { Dialog } from '@headlessui/react';
 import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
+import Modal from '@/components/Modal';
 import { stringifyCredentialSubject } from '@/utils/format';
 import { useMascaStore, useToastStore } from '@/stores';
 
 interface DeleteModalProps {
-  open: boolean;
+  isOpen: boolean;
   setOpen: (open: boolean) => void;
   vc?: QueryVCsRequestResult;
   store?: AvailableVCStores | undefined;
 }
 
-function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
+function DeleteModal({ isOpen, setOpen, vc, store }: DeleteModalProps) {
   const t = useTranslations('DeleteCredentialModal');
   const { api, changeVcs, changeLastFetch } = useMascaStore(
     (state) => ({
@@ -37,7 +37,7 @@ function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Deleting Credential',
+          title: t('deleting'),
           type: 'normal',
           loading: true,
         });
@@ -56,6 +56,7 @@ function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
       }
 
       const res = await api.deleteVC(vc.metadata.id, deleteReqOptions);
+
       useToastStore.setState({
         open: false,
       });
@@ -64,7 +65,7 @@ function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
         setTimeout(() => {
           useToastStore.setState({
             open: true,
-            title: 'Failed to delete credential',
+            title: t('deleting-error'),
             type: 'error',
             loading: false,
           });
@@ -76,7 +77,7 @@ function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Credential deleted',
+          title: t('deleting-success'),
           type: 'success',
           loading: false,
         });
@@ -100,78 +101,40 @@ function DeleteModal({ open, setOpen, vc, store }: DeleteModalProps) {
   };
 
   return (
-    <Transition appear show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={() => setOpen(false)}>
-        <Transition.Child
-          as={Fragment}
-          enter="ease-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <div className="fixed inset-0 bg-black/25 dark:bg-black/60" />
-        </Transition.Child>
+    <Modal isOpen={isOpen} setOpen={setOpen}>
+      <Dialog.Title
+        as="h3"
+        className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-900 "
+      >
+        {t('title')}
+      </Dialog.Title>
+      <div className="mt-4">
+        <p className="text-md dark:text-navy-blue-200 text-gray-500 ">
+          {t('desc')}
+        </p>
 
-        <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4 text-center">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
-              <Dialog.Panel className="dark:bg-navy-blue-600 w-full max-w-md overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                <Dialog.Title
-                  as="h3"
-                  className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-900 "
-                >
-                  {t('title')}
-                </Dialog.Title>
-                <div className="mt-4">
-                  <p className="text-md dark:text-navy-blue-200 text-gray-500 ">
-                    {t('desc')}
-                  </p>
-
-                  {store && (
-                    <p className="text-md dark:text-navy-blue-200 mt-10 text-gray-600 ">
-                      Deleting VC from store:{' '}
-                      <span className="dark:text-navy-blue-100 font-medium text-gray-800 ">
-                        {store}
-                      </span>
-                    </p>
-                  )}
-                </div>
-                <div className="flex items-center justify-end">
-                  <div className="mt-10">
-                    <Button
-                      onClick={() => setOpen(false)}
-                      variant="cancel-red"
-                      size="xs"
-                    >
-                      {t('cancel')}
-                    </Button>
-                  </div>
-                  <div className="ml-2 mt-10">
-                    <Button
-                      onClick={() => deleteVC()}
-                      variant="warning"
-                      size="xs"
-                    >
-                      {t('delete')}
-                    </Button>
-                  </div>
-                </div>
-              </Dialog.Panel>
-            </Transition.Child>
-          </div>
+        {store && (
+          <p className="text-md dark:text-navy-blue-200 mt-10 text-gray-600 ">
+            {t('deleting')}:{' '}
+            <span className="dark:text-navy-blue-100 font-medium text-gray-800 ">
+              {store}
+            </span>
+          </p>
+        )}
+      </div>
+      <div className="flex items-center justify-end">
+        <div className="mt-10">
+          <Button onClick={() => setOpen(false)} variant="cancel-red" size="xs">
+            {t('cancel')}
+          </Button>
         </div>
-      </Dialog>
-    </Transition>
+        <div className="ml-2 mt-10">
+          <Button onClick={() => deleteVC()} variant="warning" size="xs">
+            {t('delete')}
+          </Button>
+        </div>
+      </div>
+    </Modal>
   );
 }
 

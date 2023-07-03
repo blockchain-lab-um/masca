@@ -26,10 +26,10 @@ const EXTRA_LINKS = [
     name: 'get-credential',
     href: '/app/get-credential',
   },
-  {
-    name: 'authorization-request',
-    href: '/app/authorization-request',
-  },
+  // {
+  //   name: 'authorization-request',
+  //   href: '/app/authorization-request',
+  // },
   {
     name: 'qr-code-session',
     href: '/app/qr-code-session',
@@ -72,7 +72,7 @@ export default function AppNavbar() {
                 'nav-btn',
                 pathname === href
                   ? 'dark:text-orange-accent-dark text-pink-300'
-                  : null,
+                  : 'dark:text-navy-blue-400 text-gray-600',
                 'hidden xl:block'
               )}
               key={name}

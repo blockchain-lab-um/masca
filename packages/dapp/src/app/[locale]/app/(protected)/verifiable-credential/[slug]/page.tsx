@@ -13,8 +13,8 @@ export default function Page({
   params: { slug: string };
 }) {
   return (
-    <div className="flex flex-1 items-start justify-center">
-      <div className="w-full max-w-sm md:max-w-xl lg:max-w-2xl xl:max-w-[50rem]">
+    <div className="flex w-full flex-1 items-start justify-center">
+      <div className="flex-1 md:max-w-3xl">
         <CredentialDisplay id={slug} />
       </div>
     </div>

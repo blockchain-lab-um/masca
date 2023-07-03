@@ -17,7 +17,7 @@ export async function saveVC(
 
   const content = panel([
     heading('Save VC'),
-    text('Would you like to save following VC?'),
+    text('Would you like to save the following VC?'),
     divider(),
     text(`Store(s): ${typeof store === 'string' ? store : store.join(', ')}`),
     text(`VC:`),
