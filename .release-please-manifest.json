@@ -5,5 +5,5 @@
   "packages/datamanager": "0.2.1",
   "libs/utils": "1.2.0",
   "libs/did-provider-ebsi": "1.0.0",
-  "libs/did-provider-key": "1.0.0"
+  "libs/did-provider-key": "1.0.1"
 }

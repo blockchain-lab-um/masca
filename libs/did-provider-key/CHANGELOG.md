@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/blockchain-lab-um/masca/compare/did-provider-key-v1.0.0...did-provider-key-v1.0.1) (2023-07-03)
+
+
+### :bug: Bug Fixes
+
+* rename did key provider exports ([764b182](https://github.com/blockchain-lab-um/masca/commit/764b182e686e421afa58bab00af56faf6517b8e7))
+
 ## [1.0.0](https://github.com/blockchain-lab-um/masca/compare/did-provider-key-v1.0.0...did-provider-key-v1.0.0) (2023-06-19)
 
 
