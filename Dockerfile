@@ -46,5 +46,8 @@ COPY . .
 COPY ./nx-cloud.env ./
 ENV NODE_ENV=production
 
+# For Dapp to build as Standalone
+ENV DOCKER_BUILD=true
+
 # Build affected projects
 RUN pnpm build:docker
