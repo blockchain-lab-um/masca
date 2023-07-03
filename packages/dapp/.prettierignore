@@ -2,4 +2,4 @@ dist
 node_modules
 .next
 out
-src/utils/typiaGenerated/*.ts
+src/utils/typia-generated/*.ts

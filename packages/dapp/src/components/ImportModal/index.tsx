@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { AvailableVCStores } from '@blockchain-lab-um/masca-types';
 import { Dialog } from '@headlessui/react';
-import { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
@@ -9,7 +8,7 @@ import Button from '@/components/Button';
 import DropdownMultiselect from '@/components/DropdownMultiselect';
 import InfoIcon from '@/components/InfoIcon';
 import Modal from '@/components/Modal';
-import { checkVCType } from '@/utils/typiaGenerated/typeChecks';
+import { checkVCType } from '@/utils/typia-generated';
 import { useMascaStore, useToastStore } from '@/stores';
 
 interface ImportModalProps {
@@ -88,7 +87,7 @@ function ImportModal({ isOpen, setOpen, importVC }: ImportModalProps) {
           <Button
             onClick={async () => {
               setLoading(true);
-              if (!checkVCType(JSON.parse(vc) as VerifiableCredential)) {
+              if (!checkVCType(JSON.parse(vc))) {
                 setTimeout(() => {
                   useToastStore.setState({
                     open: true,

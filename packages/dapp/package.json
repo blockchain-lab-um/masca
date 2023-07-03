@@ -17,7 +17,7 @@
     "lint:stylelint": "stylelint \"src/**/*.{css,scss}\"",
     "lint:tsc": "tsc -p tsconfig.json --noEmit --incremental false",
     "start": "next start",
-    "typia:generate": "pnpm typia generate --input src/utils/typiaTemplates --output src/utils/typiaGenerated --project tsconfig.json"
+    "typia:generate": "pnpm typia generate --input src/utils/typia-templates --output src/utils/typia-generated --project tsconfig.json"
   },
   "dependencies": {
     "@blockchain-lab-um/masca-connector": "*",
