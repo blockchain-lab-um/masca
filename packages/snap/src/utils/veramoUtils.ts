@@ -26,7 +26,7 @@ import type {
 
 import type { ApiParams } from '../interfaces';
 import { getAgent, type Agent } from '../veramo/setup';
-import { getCurrentDid } from './didUtils';
+import { getCurrentDidIdentifier } from './didUtils';
 import { snapGetKeysFromAddress } from './keyPair';
 import { snapConfirm } from './snapUtils';
 
@@ -63,26 +63,20 @@ export async function veramoSaveVC(args: {
   return [...vcs.values()];
 }
 
-export const veramoImportMetaMaskAccount = async (
+export async function veramoImportMetaMaskAccount(
   params: {
     snap: SnapsGlobalObject;
     ethereum: MetaMaskInpageProvider;
     state: MascaState;
     account: string;
+    did: string;
     bip44CoinTypeNode: BIP44CoinTypeNode;
   },
   agent: Agent
-): Promise<IIdentifier> => {
-  const { snap, ethereum, state, account, bip44CoinTypeNode } = params;
-  const method = state.accountState[account].accountConfig.ssi.didMethod;
-  const did = await getCurrentDid({
-    snap,
-    ethereum,
-    state,
-    account,
-    bip44CoinTypeNode,
-  });
-
+): Promise<IIdentifier> {
+  const { snap, bip44CoinTypeNode, did, account, state } = params;
+  const method =
+    params.state.accountState[params.account].accountConfig.ssi.didMethod;
   const res = await snapGetKeysFromAddress({
     snap,
     bip44CoinTypeNode,
@@ -108,8 +102,7 @@ export const veramoImportMetaMaskAccount = async (
     ],
   });
   return identifier;
-};
-
+}
 export async function veramoClearVCs(args: {
   snap: SnapsGlobalObject;
   ethereum: MetaMaskInpageProvider;
@@ -183,33 +176,29 @@ export async function veramoQueryVCs(args: {
 }
 
 export async function veramoCreateVP(
-  params: {
-    snap: SnapsGlobalObject;
-    state: MascaState;
-    ethereum: MetaMaskInpageProvider;
-    account: string;
-    bip44CoinTypeNode: BIP44CoinTypeNode;
-  },
+  params: ApiParams,
   createVPParams: CreateVPRequestParams
 ): Promise<VerifiablePresentation> {
+  const { state, snap, ethereum, account, bip44CoinTypeNode } = params;
   const { vcs } = createVPParams;
   const domain = createVPParams.proofOptions?.domain;
   const challenge = createVPParams.proofOptions?.challenge;
   const proofFormat = createVPParams.proofFormat
     ? createVPParams.proofFormat
     : 'jwt';
-
-  const { state, snap, ethereum, account, bip44CoinTypeNode } = params;
-  // Get Veramo agent
   const agent = await getAgent(snap, ethereum);
-  // GET DID
-  const identifier = await veramoImportMetaMaskAccount(
+  const identifier = await getCurrentDidIdentifier({
+    snap,
+    ethereum,
+    state,
+    account,
+    bip44CoinTypeNode: bip44CoinTypeNode as BIP44CoinTypeNode,
+  });
+  const importedIdentifier = await veramoImportMetaMaskAccount(
     {
-      snap,
-      ethereum,
-      state,
-      account,
-      bip44CoinTypeNode,
+      ...params,
+      did: identifier.did,
+      bip44CoinTypeNode: bip44CoinTypeNode as BIP44CoinTypeNode,
     },
     agent
   );
@@ -230,7 +219,7 @@ export async function veramoCreateVP(
   if (config.dApp.disablePopups || (await snapConfirm(snap, content))) {
     const vp = await agent.createVerifiablePresentation({
       presentation: {
-        holder: identifier.did,
+        holder: importedIdentifier.did,
         type: ['VerifiablePresentation', 'Custom'],
         verifiableCredential: vcs,
       },
@@ -282,22 +271,25 @@ export async function veramoCreateVC(
 ): Promise<VerifiableCredential> {
   const { snap, state, ethereum, account, bip44CoinTypeNode } = params;
   const { minimalUnsignedCredential, proofFormat = 'jwt' } = createVCParams;
-
-  // Get Veramo agent
   const agent = await getAgent(snap, ethereum);
-  // GET DID
-  const identifier = await veramoImportMetaMaskAccount(
+  const identifier = await getCurrentDidIdentifier({
+    snap,
+    state,
+    ethereum,
+    account,
+    bip44CoinTypeNode: bip44CoinTypeNode as BIP44CoinTypeNode,
+  });
+  const importedIdentifier = await veramoImportMetaMaskAccount(
     {
-      snap,
-      state,
-      ethereum,
-      account,
+      ...params,
+      did: identifier.did,
       bip44CoinTypeNode: bip44CoinTypeNode as BIP44CoinTypeNode,
     },
     agent
   );
+
   const credentialPayload = minimalUnsignedCredential;
-  credentialPayload.issuer = identifier.did;
+  credentialPayload.issuer = importedIdentifier.did;
 
   const config = state.snapConfig;
 

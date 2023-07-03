@@ -3,7 +3,6 @@ import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 
 import { onRpcRequest } from '../../src';
-import { getAgent, type Agent } from '../../src/veramo/setup';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
@@ -23,11 +22,18 @@ const methods = [
     underlyingMethod: 'did:key',
     did: 'did:key:z2dmzD81cgPx8Vki7JbuuMmFYrWPgYoytykUZ3eyqht1j9KbnA1s63s5ENMUxERdtWmShjBmsDon3RB8K2oziDHXQeagfUbskVFKbZbyuDt4uRD4BiykyXoHaKTAWVUeC5TkSTAb3GpWFNWRbqMuge6uvG17vV1MFzbfv3SWhNAm2SCQSp',
   },
+  {
+    method: 'did:ethr',
+    did: 'did:ethr:0x1:0xb6665128eE91D84590f70c3268765384A9CAfBCd',
+  },
+  {
+    method: 'did:pkh',
+    did: 'did:pkh:eip155:0x1:0xb6665128eE91D84590f70c3268765384A9CAfBCd',
+  },
 ];
 
-describe('getDID', () => {
+describe('switchDIDMethod', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
-  let agent: Agent;
 
   beforeAll(async () => {
     snapMock = createMockSnap();
@@ -36,14 +42,8 @@ describe('getDID', () => {
       newState: getDefaultSnapState(account),
     });
     snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-    const ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
-    agent = await getAgent(snapMock, ethereumMock);
     global.snap = snapMock;
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
-  });
-
-  beforeEach(async () => {
-    await agent.clear({ options: { store: ['snap', 'ceramic'] } });
   });
 
   it.todo('Should return correct did:ethr');

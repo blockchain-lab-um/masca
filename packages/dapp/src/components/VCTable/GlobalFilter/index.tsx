@@ -19,6 +19,7 @@ const GlobalFilter = ({ isConnected, vcs }: GlobalFilterProps) => {
     }),
     shallow
   );
+
   return (
     <div
       className={`dark:bg-navy-blue-700 dark:text-navy-blue-50 flex h-[37px] flex-1 items-center rounded-full shadow-md sm:flex-none md:h-[43px] ${

@@ -1,22 +1,14 @@
 import {
-  AvailableMethods,
-  didCoinTypeMappping,
+  methodIndexMapping,
+  type InternalSigMethods,
   type MascaState,
 } from '@blockchain-lab-um/masca-types';
 import {
-  BIP44CoinTypeNode,
   getBIP44AddressKeyDeriver,
+  type BIP44CoinTypeNode,
 } from '@metamask/key-tree';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import { Wallet } from 'ethers';
-
-const methodIndexMapping: Record<AvailableMethods, number> = {
-  'did:key': 0,
-  'did:key:ebsi': 0,
-  'did:jwk': 1,
-  'did:ethr': 3,
-  'did:pkh': 3,
-};
 
 export async function getAccountIndexFromEntropy(params: {
   snap: SnapsGlobalObject;
@@ -35,34 +27,26 @@ export async function getAccountIndexFromEntropy(params: {
   return index;
 }
 
-export async function getAddressKeyDeriver(
-  params: {
-    state: MascaState;
-    snap: SnapsGlobalObject;
-    account: string;
-  },
-  coin_type?: number
-) {
-  let ct = coin_type;
-  const { state, snap, account } = params;
-  if (ct === undefined) {
-    const method = state.accountState[account].accountConfig.ssi.didMethod;
-    ct = didCoinTypeMappping[method];
-  }
-
+export async function getAddressKeyDeriver(params: {
+  state: MascaState;
+  snap: SnapsGlobalObject;
+  account: string;
+}) {
+  const { snap } = params;
   const bip44CoinTypeNode = (await snap.request({
     method: 'snap_getBip44Entropy',
     params: {
       coinType: 1236,
     },
   })) as BIP44CoinTypeNode;
+
   return bip44CoinTypeNode;
 }
 
 export async function getAddressKeyPair(params: {
   bip44CoinTypeNode: BIP44CoinTypeNode;
   accountIndex: number;
-  method: AvailableMethods;
+  method: InternalSigMethods;
 }) {
   const { bip44CoinTypeNode, accountIndex, method } = params;
   const keyDeriver = await getBIP44AddressKeyDeriver(bip44CoinTypeNode, {
@@ -82,8 +66,8 @@ export async function getAddressKeyPair(params: {
 export const getKeysFromAccountIndex = async (params: {
   bip44CoinTypeNode: BIP44CoinTypeNode;
   accountIndex: number | undefined;
-  method: AvailableMethods;
-}) => {
+  method: InternalSigMethods;
+}): Promise<KeysType> => {
   const { bip44CoinTypeNode, accountIndex, method } = params;
   if (accountIndex === undefined) {
     throw new Error('addressIndex undefined');
@@ -97,12 +81,11 @@ export const getKeysFromAccountIndex = async (params: {
   if (result === null) throw new Error("Couldn't derive key pair");
   const { privateKey, derivationPath } = result;
   const snap = new Wallet(privateKey);
-  // FIXME: due to the entropy based derivation of the account index,
-  // the address is not the same as the one currently selected account in metamask
   return {
     privateKey,
     publicKey: snap.signingKey.publicKey,
     address: snap.address,
+    addressIndex: methodIndexMapping[method],
     accountIndex,
     derivationPath,
   };
@@ -115,7 +98,8 @@ export const snapGetKeysFromAddress = async (params: {
   state: MascaState;
 }): Promise<KeysType | null> => {
   const { snap, bip44CoinTypeNode, account, state } = params;
-  const method = state.accountState[account].accountConfig.ssi.didMethod;
+  const method = state.accountState[account].accountConfig.ssi
+    .didMethod as InternalSigMethods;
   const regex = /^0x[a-fA-F0-9]{40}$/;
   if (!regex.test(account)) return null;
   const accountIndex = await getAccountIndexFromEntropy({ snap, account });
@@ -135,5 +119,6 @@ type KeysType = {
   publicKey: string;
   address: string;
   accountIndex: number;
+  addressIndex?: number;
   derivationPath: string;
 };

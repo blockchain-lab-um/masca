@@ -3,7 +3,7 @@ import { SignArgs } from '@blockchain-lab-um/oidc-client-plugin';
 import type { VerifiableCredential } from '@veramo/core';
 
 import type { ApiParams } from '../../interfaces';
-import { getCurrentDid } from '../../utils/didUtils';
+import { getCurrentDidIdentifier } from '../../utils/didUtils';
 import { snapGetKeysFromAddress } from '../../utils/keyPair';
 import {
   handleAuthorizationRequest,
@@ -23,13 +23,15 @@ export async function handleOIDCAuthorizationRequest(
     throw new Error('bip44CoinTypeNode is required');
   }
 
-  const did = await getCurrentDid({
+  const identifier = await getCurrentDidIdentifier({
     account,
     ethereum,
     snap,
     state,
     bip44CoinTypeNode,
   });
+
+  const { did } = identifier;
 
   if (did.startsWith('did:ethr') || did.startsWith('did:pkh'))
     throw new Error('did:ethr and did:pkh are not supported');

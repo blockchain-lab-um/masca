@@ -9,6 +9,39 @@ export const privateKey =
 export const privateKey2 =
   '0xb29764680b2a07fa4a762d255e3f689fb5c05cc885e6dfd3de5d5948b5a6b47f';
 
+export const didMethodAccountMapping = {
+  'did:key': {
+    privateKey:
+      '0xe575b0914215561e7b78838e40e1a8c3d67dc726f67ac052919288814b9ff717',
+    publicKey:
+      '0x04998c238b37415171005ff4965056819b7ee4218bfdb45b85ce33a7b12561b69b3b4176b0789ad027da6c726b874dcc680933b68f440a85d38e67a733e1f6becc',
+    address: '0x64B2095542bAa166266A5EEdb5c934AF6186e710',
+    addressIndex: 0,
+    accountIndex: 1111903012,
+    derivationPath: "m / bip32:44' / bip32:1236' / bip32:1111903012' / bip32:0",
+  },
+  'did:jwk': {
+    privateKey:
+      '0x6ff3368eebbe4d72e0f8b44404c4a391adecffb16efffce4cb8f42dffdf68b73',
+    publicKey:
+      '0x04792325ee943577ffc1b3c257dd8268530799acb56f7e6487137b681f3b349f374a18f9bb715b0420dfcc3fd81089e655d55180c50e3ad7b0fc895d2693a09e27',
+    address: '0xb2A1AE512c703184e8b43708CEAdD68D4eBb38Df',
+    addressIndex: 1,
+    accountIndex: 1111903012,
+    derivationPath: "m / bip32:44' / bip32:1236' / bip32:1111903012' / bip32:0",
+  },
+  'did:ethr': {
+    privateKey:
+      '0x4dbf66e4ba578040e523e5c4df34bd7b6f3440177732c126d0bbc6cde5ab6b15',
+    publicKey:
+      '0x04698e12e94e076822cede99ae5d0e54f0156c7846accebb23b74340a7c5e27cbce036f54264147c8b6f529cfb59608abf9c8ee41db0945f6458677c245c7ed9cf',
+    address: '0xb6665128eE91D84590f70c3268765384A9CAfBCd',
+    addressIndex: 3,
+    accountIndex: 1111903012,
+    derivationPath: "m / bip32:44' / bip32:1236' / bip32:1111903012' / bip32:0",
+  },
+};
+
 export const importablePrivateKey: MinimalImportableKey = {
   kid: 'importedTestKey',
   kms: 'snap',

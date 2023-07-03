@@ -64,7 +64,7 @@ export class SnapMock implements ISnapMock {
   readonly rpcMocks = {
     snap_dialog: jest.fn().mockReturnValue(true),
     eth_requestAccounts: jest.fn().mockResolvedValue([account]),
-    eth_chainId: jest.fn().mockResolvedValue('0x5'),
+    eth_chainId: jest.fn().mockResolvedValue('0x1'),
     net_version: jest.fn().mockResolvedValue('5'),
     snap_getBip44Entropy: jest
       .fn()
