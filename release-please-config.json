@@ -82,7 +82,6 @@
     },
     "libs/did-provider-key": {
       "separate-pull-requests": true,
-      "release-as": "1.0.0",
       "component": "did-provider-key",
       "releaseType": "node",
       "bumpMinorPreMajor": false,
