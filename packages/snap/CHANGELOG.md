@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.3.0](https://github.com/blockchain-lab-um/masca/compare/masca-v0.2.1...masca-v0.3.0) (2023-07-03)
+
+
+### :bug: Bug Fixes
+
+* dApp does not accept JWT string ([#292](https://github.com/blockchain-lab-um/masca/issues/292)) ([68677ad](https://github.com/blockchain-lab-um/masca/commit/68677ad9763e2fd02ab0992866bd2a525fe5043a))
+* fetched label showing elapsed time ([#284](https://github.com/blockchain-lab-um/masca/issues/284)) ([8f4d511](https://github.com/blockchain-lab-um/masca/commit/8f4d511d37de15f149bc9930ccfb1c5e8f8e4d64))
+
+
+### :rocket: Features
+
+* add global vc filter ([#298](https://github.com/blockchain-lab-um/masca/issues/298)) ([6eac029](https://github.com/blockchain-lab-um/masca/commit/6eac0298cdfef4561ab8f908c3d7c0db6af021d8))
+* combine qr scanning with OIDC ([#297](https://github.com/blockchain-lab-um/masca/issues/297)) ([f475c1a](https://github.com/blockchain-lab-um/masca/commit/f475c1a615f13c1212992f6c0ffe3abfdeccae3a))
+* createVP  rpc method accepts VCs instead of VC IDs ([#247](https://github.com/blockchain-lab-um/masca/issues/247)) ([6cdd597](https://github.com/blockchain-lab-um/masca/commit/6cdd5976ad99babc5ca1d83b2ecd33e3c0e7342e))
+* handle did:ethr and did:pkh ([#296](https://github.com/blockchain-lab-um/masca/issues/296)) ([af3e878](https://github.com/blockchain-lab-um/masca/commit/af3e8786729472bd084af0c37ff899256546be04))
+* initial implementation of entropy based account indices handling ([#239](https://github.com/blockchain-lab-um/masca/issues/239)) ([4160d4e](https://github.com/blockchain-lab-um/masca/commit/4160d4e1ad466bc2ce1da5ac4c6129c91bb08dca))
+* pass EBSI holder wallet conformance tests ([#291](https://github.com/blockchain-lab-um/masca/issues/291)) ([cdd7b63](https://github.com/blockchain-lab-um/masca/commit/cdd7b635c2a07237834fd2dccadb3dacf137f54b))
+* refactor tests ([#286](https://github.com/blockchain-lab-um/masca/issues/286)) ([62bd89c](https://github.com/blockchain-lab-um/masca/commit/62bd89c4b08215cb6968955fdfaa01f19460ce76))
+
 ## [0.2.1](https://github.com/blockchain-lab-um/masca/compare/masca-v0.2.0...masca-v0.2.1) (2023-06-19)
 
 

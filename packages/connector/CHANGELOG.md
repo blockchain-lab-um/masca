@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.0](https://github.com/blockchain-lab-um/masca/compare/masca-connector-v0.2.1...masca-connector-v0.3.0) (2023-07-03)
+
+
+### :rocket: Features
+
+* handle did:ethr and did:pkh ([#296](https://github.com/blockchain-lab-um/masca/issues/296)) ([af3e878](https://github.com/blockchain-lab-um/masca/commit/af3e8786729472bd084af0c37ff899256546be04))
+* pass EBSI holder wallet conformance tests ([#291](https://github.com/blockchain-lab-um/masca/issues/291)) ([cdd7b63](https://github.com/blockchain-lab-um/masca/commit/cdd7b635c2a07237834fd2dccadb3dacf137f54b))
+
 ## [0.2.1](https://github.com/blockchain-lab-um/masca/compare/masca-connector-v0.2.0...masca-connector-v0.2.1) (2023-06-19)
 
 
