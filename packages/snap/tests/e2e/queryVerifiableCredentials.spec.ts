@@ -1,10 +1,12 @@
 import { isError, Result } from '@blockchain-lab-um/utils';
 import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-datamanager';
+import { DIDDataStore } from '@glazed/did-datastore';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import { VerifiableCredential } from '@veramo/core';
 
 import { onRpcRequest } from '../../src';
+import { StoredCredentials } from '../../src/veramo/plugins/ceramicDataStore/ceramicDataStore';
 import { getAgent, type Agent } from '../../src/veramo/setup';
 import { account, importablePrivateKey, jsonPath2 } from '../data/constants';
 import examplePayload from '../data/credentials/examplePayload.json';
@@ -13,6 +15,7 @@ import { createTestVCs } from '../helpers/generateTestVCs';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
 describe('queryVerifiableCredentials', () => {
+  let ceramicData: StoredCredentials;
   let snapMock: SnapsGlobalObject & SnapMock;
   let agent: Agent;
   let generatedVC: VerifiableCredential;
@@ -60,6 +63,19 @@ describe('queryVerifiableCredentials', () => {
     if (verifyResult.verified === false) {
       throw new Error('Generated VC is not valid');
     }
+
+    // Ceramic mock
+    DIDDataStore.prototype.get = jest
+      .fn()
+      .mockImplementation(async (_key, _did) => Promise.resolve(ceramicData));
+
+    DIDDataStore.prototype.merge = jest.fn().mockImplementation(
+      async (_key, content, _options?) =>
+        new Promise((resolve) => {
+          ceramicData = content as StoredCredentials;
+          resolve(ceramicData);
+        })
+    );
   });
 
   beforeEach(async () => {

@@ -72,7 +72,7 @@ export default function AppNavbar() {
                 'nav-btn',
                 pathname === href
                   ? 'dark:text-orange-accent-dark text-pink-300'
-                  : null,
+                  : 'dark:text-navy-blue-400 text-gray-600',
                 'hidden xl:block'
               )}
               key={name}

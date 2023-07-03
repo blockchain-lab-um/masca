@@ -32,11 +32,12 @@ export const exampleDIDKeyDocument = {
 };
 
 export const exampleDIDKeyImportedAccount = {
-  controllerKeyId: 'metamask-0xb6665128eE91D84590f70c3268765384A9CAfBCd',
+  controllerKeyId:
+    '04998c238b37415171005ff4965056819b7ee4218bfdb45b85ce33a7b12561b69b3b4176b0789ad027da6c726b874dcc680933b68f440a85d38e67a733e1f6becc',
   did: 'did:key:zQ3shXkB5EzLZ9rPa4Pr6nf4zuUMcmN4KyHZg9EjaNnQzx3PG',
   keys: [
     {
-      kid: 'metamask-0xb6665128eE91D84590f70c3268765384A9CAfBCd',
+      kid: '04998c238b37415171005ff4965056819b7ee4218bfdb45b85ce33a7b12561b69b3b4176b0789ad027da6c726b874dcc680933b68f440a85d38e67a733e1f6becc',
       kms: 'snap',
       meta: {
         algorithms: [

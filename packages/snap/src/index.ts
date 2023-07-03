@@ -16,8 +16,8 @@ import { setCeramicSession } from './rpc/setCeramicSession';
 import { togglePopups } from './rpc/snap/configure';
 import { setCurrentAccount } from './rpc/snap/setCurrentAccount';
 import { validateStoredCeramicSession } from './rpc/validateStoredCeramicSession';
-import { createVC } from './rpc/vc/createVC';
-import { createVP } from './rpc/vc/createVP';
+import { createVerifiableCredential } from './rpc/vc/createVC';
+import { createVerifiablePresentation } from './rpc/vc/createVP';
 import { deleteVC } from './rpc/vc/deleteVC';
 import { queryVCs } from './rpc/vc/queryVCs';
 import { saveVC } from './rpc/vc/saveVC';
@@ -37,7 +37,7 @@ import {
   isValidSwitchMethodRequest,
   isValidVerifyDataRequest,
 } from './utils/params';
-import { getCurrentAccount, setAccountPublicKey } from './utils/snapUtils';
+import { getCurrentAccount } from './utils/snapUtils';
 import {
   getSnapStateUnchecked,
   initAccountState,
@@ -82,7 +82,6 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     if (!(account in state.accountState)) {
       await initAccountState(apiParams);
       apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
-      await setAccountPublicKey(apiParams);
     }
     switch (request.method) {
       case 'queryVCs':
@@ -104,7 +103,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
           apiParams.state
         );
         apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
-        res = await createVC(apiParams, request.params);
+        res = await createVerifiableCredential(apiParams, request.params);
         return ResultObject.success(res);
       case 'createVP':
         isValidCreateVPRequest(
@@ -113,7 +112,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
           apiParams.state
         );
         apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
-        res = await createVP(apiParams, request.params);
+        res = await createVerifiablePresentation(apiParams, request.params);
         return ResultObject.success(res);
       case 'togglePopups':
         res = await togglePopups(apiParams);

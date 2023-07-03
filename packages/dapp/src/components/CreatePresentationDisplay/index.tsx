@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   QueryVCsRequestResult,
@@ -42,13 +42,33 @@ const CreatePresentationDisplay = () => {
     }),
     shallow
   );
-
-  const api = useMascaStore((state) => state.mascaApi);
+  const { didMethod, api } = useMascaStore(
+    (state) => ({
+      didMethod: state.currDIDMethod,
+      api: state.mascaApi,
+    }),
+    shallow
+  );
 
   const [format, setFormat] = useState('JWT');
   const [advanced, setAdvanced] = useState(false);
   const [challenge, setChallenge] = useState('');
   const [domain, setDomain] = useState('');
+  const [availableProofFormats, setAvailableProofFormats] = useState([
+    'JWT',
+    'JSON-LD',
+    'EIP712Signature',
+  ]);
+
+  useEffect(() => {
+    if (didMethod === 'did:ethr' || didMethod === 'did:pkh') {
+      setAvailableProofFormats(['EIP712Signature']);
+      setFormat('EIP712Signature');
+    } else {
+      setAvailableProofFormats(['JWT', 'JSON-LD', 'EIP712Signature']);
+      setFormat('JWT');
+    }
+  }, [didMethod]);
 
   const handleRemove = (id: string) => {
     setSelectedVCs(
@@ -129,7 +149,7 @@ const CreatePresentationDisplay = () => {
               variant="primary-active"
               selected={format}
               setSelected={setFormat}
-              items={['JWT', 'JSON-LD', 'EIP712Signature']}
+              items={availableProofFormats}
             />
           </div>
         </div>

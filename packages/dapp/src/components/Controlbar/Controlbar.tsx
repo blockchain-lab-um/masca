@@ -19,10 +19,13 @@ import GlobalFilter from '@/components/VCTable/GlobalFilter';
 import ViewTabs from '@/components/VCTable/ViewTabs';
 import { useGeneralStore, useMascaStore, useToastStore } from '@/stores';
 
+// import PlaygroundModal from '../PlaygroundModal';
+
 const Controlbar = () => {
   const t = useTranslations('Controlbar');
   // Local state
   const [importModalOpen, setImportModalOpen] = useState(false);
+  // const [playgroundModalOpen, setPlaygroundModalOpen] = useState(false);
   const [spinner, setSpinner] = useState(false);
 
   // Stores
@@ -172,15 +175,26 @@ const Controlbar = () => {
           }`}
         >
           {isConnected && (
-            <button
-              className={clsx(
-                'dark:bg-navy-blue-700 dark:text-navy-blue-50 group flex h-[37px] w-[37px] md:h-[43px] md:w-[43px]',
-                'items-center justify-center rounded-full bg-white text-gray-700 shadow-md outline-none focus:outline-none'
-              )}
-              onClick={() => setImportModalOpen(true)}
-            >
-              <PlusIcon className={`group-hover:animate-pingOnce h-6 w-6`} />
-            </button>
+            <>
+              {/* <button
+                className={clsx(
+                  'dark:bg-navy-blue-700 dark:text-navy-blue-50 group flex h-[37px] w-[37px] md:h-[43px] md:w-[43px]',
+                  'items-center justify-center rounded-full bg-white text-gray-700 shadow-md outline-none focus:outline-none'
+                )}
+                onClick={() => setPlaygroundModalOpen(true)}
+              >
+                <PlusIcon className={`group-hover:animate-pingOnce h-6 w-6`} />
+              </button> */}
+              <button
+                className={clsx(
+                  'dark:bg-navy-blue-700 dark:text-navy-blue-50 group flex h-[37px] w-[37px] md:h-[43px] md:w-[43px]',
+                  'items-center justify-center rounded-full bg-white text-gray-700 shadow-md outline-none focus:outline-none'
+                )}
+                onClick={() => setImportModalOpen(true)}
+              >
+                <PlusIcon className={`group-hover:animate-pingOnce h-6 w-6`} />
+              </button>
+            </>
           )}
           {vcs.length > 0 && (
             <button
@@ -204,6 +218,10 @@ const Controlbar = () => {
         setOpen={setImportModalOpen}
         importVC={saveVC}
       />
+      {/* <PlaygroundModal
+        open={playgroundModalOpen}
+        setOpen={setPlaygroundModalOpen}
+      /> */}
     </div>
   );
 };

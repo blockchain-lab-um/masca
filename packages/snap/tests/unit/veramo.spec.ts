@@ -9,7 +9,6 @@ import { getEnabledVCStores } from '../../src/utils/snapUtils';
 import {
   veramoClearVCs,
   veramoDeleteVC,
-  veramoImportMetaMaskAccount,
   veramoQueryVCs,
   veramoSaveVC,
   veramoVerifyData,
@@ -18,10 +17,6 @@ import type { StoredCredentials } from '../../src/veramo/plugins/ceramicDataStor
 import { getAgent } from '../../src/veramo/setup';
 import { account, jsonPath } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
-import {
-  exampleDIDKey,
-  exampleDIDKeyImportedAccount,
-} from '../data/identifiers/didKey';
 import exampleVCEIP712 from '../data/verifiable-credentials/exampleEIP712.json';
 import exampleVCJSONLD from '../data/verifiable-credentials/exampleJSONLD.json';
 import exampleVC_2 from '../data/verifiable-credentials/exampleJWT_2.json';
@@ -689,81 +684,6 @@ describe('Utils [veramo]', () => {
       ).resolves.toEqual([]);
 
       expect.assertions(1);
-    });
-  });
-
-  describe('veramoImportMetaMaskAccount', () => {
-    it('should succeed importing metamask account', async () => {
-      const initialState = getDefaultSnapState(account);
-      initialState.accountState[account].accountConfig.ssi.didMethod =
-        'did:key';
-      snapMock.rpcMocks.snap_manageState.mockResolvedValue(initialState);
-      const agent = await getAgent(snapMock, ethereumMock);
-      expect(
-        (
-          await veramoImportMetaMaskAccount(
-            {
-              snap: snapMock,
-              ethereum: ethereumMock,
-              state: initialState,
-              account,
-              bip44CoinTypeNode: bip44Entropy,
-            },
-            agent
-          )
-        ).did
-      ).toEqual(exampleDIDKey);
-
-      await expect(
-        agent.didManagerGet({ did: exampleDIDKey })
-      ).resolves.toEqual(exampleDIDKeyImportedAccount);
-
-      expect.assertions(2);
-    });
-
-    it('should succeed importing metamask account when DID already exists', async () => {
-      const initialState = getDefaultSnapState(account);
-      initialState.accountState[account].accountConfig.ssi.didMethod =
-        'did:key';
-      snapMock.rpcMocks.snap_manageState.mockResolvedValue(initialState);
-
-      const agent = await getAgent(snapMock, ethereumMock);
-      expect(
-        (
-          await veramoImportMetaMaskAccount(
-            {
-              snap: snapMock,
-              ethereum: ethereumMock,
-              state: initialState,
-              account,
-              bip44CoinTypeNode: bip44Entropy,
-            },
-            agent
-          )
-        ).did
-      ).toEqual(exampleDIDKey);
-
-      await expect(
-        agent.didManagerGet({ did: exampleDIDKey })
-      ).resolves.toEqual(exampleDIDKeyImportedAccount);
-      expect(
-        (
-          await veramoImportMetaMaskAccount(
-            {
-              snap: snapMock,
-              ethereum: ethereumMock,
-              state: initialState,
-              account,
-              bip44CoinTypeNode: bip44Entropy,
-            },
-            agent
-          )
-        ).did
-      ).toEqual(exampleDIDKey);
-
-      expect(await agent.didManagerFind()).toHaveLength(1);
-
-      expect.assertions(4);
     });
   });
   describe('veramoVerifyData', () => {
