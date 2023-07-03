@@ -1,6 +1,6 @@
 import {
-  MascaKeyDidProvider,
-  getMascaDidKeyResolver as mascaKeyDidResolver,
+  KeyDIDProvider,
+  getDidKeyResolver as keyDidResolver,
 } from '@blockchain-lab-um/did-provider-key';
 import {
   IOIDCClientPlugin,
@@ -107,7 +107,7 @@ export const getAgent = async (
     networks,
   });
 
-  didProviders['did:key'] = new MascaKeyDidProvider({ defaultKms: 'web3' });
+  didProviders['did:key'] = new KeyDIDProvider({ defaultKms: 'web3' });
   didProviders['did:pkh'] = new PkhDIDProvider({ defaultKms: 'web3' });
   didProviders['did:jwk'] = new JwkDIDProvider({ defaultKms: 'web3' });
 
@@ -145,7 +145,7 @@ export const getAgent = async (
       new DIDResolverPlugin({
         resolver: new Resolver({
           ...ethrDidResolver({ networks }),
-          ...mascaKeyDidResolver(),
+          ...keyDidResolver(),
           ...pkhDidResolver(),
           ...jwkDidResolver(),
           ...universalDidResolver(),

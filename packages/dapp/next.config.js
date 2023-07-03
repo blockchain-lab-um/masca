@@ -23,7 +23,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   // https://nextjs.org/docs/advanced-features/output-file-tracing#automatically-copying-traced-files
-  // output: 'standalone',
+  output: process.env.DOCKER_BUILD === 'true' ? 'standalone' : undefined,
   // https://nextjs.org/docs/messages/next-image-unconfigured-host
   images: {
     domains: ['localhost'],

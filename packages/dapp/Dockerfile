@@ -1,6 +1,6 @@
 FROM blockchain-lab-um/masca:latest as builder
 
-FROM node:18.15-alpine
+FROM node:18.16.0-alpine3.16
 
 # Create app directory
 RUN mkdir -p /app

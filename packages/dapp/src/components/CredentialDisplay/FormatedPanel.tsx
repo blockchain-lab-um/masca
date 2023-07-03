@@ -88,7 +88,7 @@ const FormatedPanel = ({ credential }: FormatedPanelProps) => {
             ([key, value]: [string, string]) => (
               <>
                 {key === 'id' ? (
-                  <DIDDisplay did={value} />
+                  <DIDDisplay did={value} key={key} />
                 ) : (
                   <div key={key} className="flex w-full items-center">
                     <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-900">
