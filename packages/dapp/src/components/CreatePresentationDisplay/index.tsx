@@ -22,6 +22,7 @@ import InputField from '@/components/InputField';
 import SelectedVCsTableRow from '@/components/SelectedVCsTableRow/SelectedVCsTableRow';
 import ToggleSwitch from '@/components/Switch';
 import VPModal from '@/components/VPModal';
+import { removeCredentialSubjectFilterString } from '@/utils/format';
 import { useMascaStore, useTableStore } from '@/stores';
 
 const proofFormats: Record<string, SupportedProofFormats> = {
@@ -79,7 +80,9 @@ const CreatePresentationDisplay = () => {
   const handleCreateVP = async () => {
     if (!api) return;
     setLoading(true);
-    const vcs: W3CVerifiableCredential[] = selectedVCs.map((vc) => vc.data);
+    const vcs: W3CVerifiableCredential[] = selectedVCs.map(
+      (vc) => removeCredentialSubjectFilterString(vc).data
+    );
 
     const proofOptions = { type: '', domain, challenge };
 

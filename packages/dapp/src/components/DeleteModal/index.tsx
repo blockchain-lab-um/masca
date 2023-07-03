@@ -9,6 +9,7 @@ import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
 import Modal from '@/components/Modal';
+import { stringifyCredentialSubject } from '@/utils/format';
 import { useMascaStore, useToastStore } from '@/stores';
 
 interface DeleteModalProps {
@@ -92,7 +93,9 @@ function DeleteModal({ isOpen, setOpen, vc, store }: DeleteModalProps) {
       changeLastFetch(Date.now());
 
       if (vcs.data) {
-        changeVcs(vcs.data);
+        changeVcs(
+          vcs.data.map((modifyVC) => stringifyCredentialSubject(modifyVC))
+        );
       }
     }
   };

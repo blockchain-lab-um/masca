@@ -19,6 +19,7 @@ import DeleteModal from '@/components/DeleteModal';
 import ModifyDSModal from '@/components/ModifyDSModal';
 import StoreIcon from '@/components/StoreIcon';
 import Tooltip from '@/components/Tooltip';
+import { removeCredentialSubjectFilterString } from '@/utils/format';
 import { useMascaStore, useTableStore } from '@/stores';
 import FormatedPanel from './FormatedPanel';
 import JsonPanel from './JsonPanel';
@@ -36,10 +37,13 @@ const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [modifyDSModalOpen, setModifyDSModalOpen] = useState(false);
 
-  const vc = vcs.find((VCobj) => VCobj.metadata.id === id);
+  const vcWithFilterString = vcs.find((vcObj) => vcObj.metadata.id === id);
+  const vc = vcWithFilterString
+    ? removeCredentialSubjectFilterString(vcWithFilterString)
+    : null;
 
   if (!vc) {
-    notFound();
+    return notFound();
   }
 
   return (

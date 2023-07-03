@@ -17,6 +17,7 @@ import ImportModal from '@/components/ImportModal';
 import DataStoreCombobox from '@/components/VCTable/DataStoreCombobox';
 import GlobalFilter from '@/components/VCTable/GlobalFilter';
 import ViewTabs from '@/components/VCTable/ViewTabs';
+import { stringifyCredentialSubject } from '@/utils/format';
 import { useGeneralStore, useMascaStore, useToastStore } from '@/stores';
 
 // import PlaygroundModal from '../PlaygroundModal';
@@ -88,7 +89,7 @@ const Controlbar = () => {
     }, 200);
 
     changeLastFetch(Date.now());
-    changeVcs(res.data);
+    changeVcs(res.data.map((vc) => stringifyCredentialSubject(vc)));
     setSpinner(false);
   };
 
@@ -136,7 +137,11 @@ const Controlbar = () => {
         } as QueryVCsRequestResult;
         newVcs.push(finalVC);
       });
-      changeVcs([...vcs, ...newVcs]);
+      changeVcs(
+        [...vcs, ...newVcs].map((modifyVC) =>
+          stringifyCredentialSubject(modifyVC)
+        )
+      );
 
       const queryResult = await api.queryVCs();
       if (isError(queryResult)) {
@@ -146,7 +151,11 @@ const Controlbar = () => {
       changeLastFetch(Date.now());
 
       if (queryResult.data) {
-        changeVcs(queryResult.data);
+        changeVcs(
+          queryResult.data.map((modifyVC) =>
+            stringifyCredentialSubject(modifyVC)
+          )
+        );
       }
     }
     return true;
