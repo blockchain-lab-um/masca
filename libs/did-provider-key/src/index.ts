@@ -1,6 +1,6 @@
 /**
  * Provides `did:key` {@link @veramo/did-provider-key#KeyDIDProvider | identifier provider } for the
- * {@link @veramo/did-manager#DIDManager}, extended with EBSI specific functionality
+ * {@link @veramo/did-manager#DIDManager}, extended with EBSI specific functionality (jwk_jcs-pub multicodec)
  *
  * @packageDocumentation
  */
