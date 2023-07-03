@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/blockchain-lab-um/masca/compare/veramo-datamanager-v0.2.1...veramo-datamanager-v0.3.0) (2023-07-03)
+
+
+### chore
+
+* **veramo-datamanager:** Synchronize masca-core versions
+
 ## [0.2.1](https://github.com/blockchain-lab-um/masca/compare/veramo-datamanager-v0.2.0...veramo-datamanager-v0.2.1) (2023-06-19)
 
 
