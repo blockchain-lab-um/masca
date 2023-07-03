@@ -30,7 +30,7 @@ const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [modifyDSModalOpen, setModifyDSModalOpen] = useState(false);
 
-  let vc = vcs.find((VCobj) => VCobj.metadata.id === id);
+  let vc = vcs.find((vcObj) => vcObj.metadata.id === id);
 
   if (!vc) {
     notFound();

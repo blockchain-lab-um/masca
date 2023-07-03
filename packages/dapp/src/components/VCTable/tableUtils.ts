@@ -3,7 +3,7 @@ import { FilterFn, Table } from '@tanstack/react-table';
 
 export const includesDataStore: FilterFn<any> = (
   row,
-  columnId: string,
+  _: string,
   value: string[]
 ) => {
   const item = row.getValue('data_store');
@@ -17,22 +17,18 @@ export const includesDataStore: FilterFn<any> = (
   return matching;
 };
 
-function recursiveSearch(obj: any, searchString: string): boolean {
-  if (typeof obj === 'string') return obj.includes(searchString);
-  if (typeof obj === 'number') return obj.toString() === searchString;
-  if (Array.isArray(obj))
-    return obj.some((item: any) => recursiveSearch(item, searchString));
-  return Object.keys(obj).some((key) => {
-    const value = obj[key];
+const extractValues = (obj: any): string[] => {
+  if (typeof obj === 'string') return [obj.toLowerCase()];
+  if (typeof obj === 'number') return [obj.toString()];
+  if (typeof obj === 'boolean') return [obj.toString()];
+  if (obj === null) return ['null'];
+  if (obj === undefined) return ['undefined'];
+  return Object.values(obj).flatMap((value) => extractValues(value));
+};
 
-    if (typeof value === 'string') return value.includes(searchString);
-    if (typeof value === 'number') return value.toString() === searchString;
-    if (Array.isArray(value))
-      return value.some((item: any) => recursiveSearch(item, searchString));
-    if (typeof value === 'object' && value !== null)
-      return recursiveSearch(value, searchString);
-    return false;
-  });
+function search(obj: any, searchString: string): boolean {
+  const values = extractValues(obj);
+  return values.some((value) => value.includes(searchString.toLowerCase()));
 }
 
 export const recursiveIncludes: FilterFn<any> = (
@@ -45,8 +41,8 @@ export const recursiveIncludes: FilterFn<any> = (
     columnId === 'credential_subject'
       ? JSON.parse(row.getValue(columnId))
       : row.getValue(columnId)?.toString()?.toLowerCase();
-  if (recursiveSearch(item, value)) return true;
-  return false;
+
+  return search(item, value);
 };
 
 export const selectRows = (

@@ -61,9 +61,9 @@ const CreatePresentationDisplay = () => {
   const handleCreateVP = async () => {
     if (!api) return;
     setLoading(true);
-    const vcs: W3CVerifiableCredential[] = selectedVCs
-      .map((vc) => removeCredentialSubjectFilterString(vc))
-      .map((vc) => vc.data);
+    const vcs: W3CVerifiableCredential[] = selectedVCs.map(
+      (vc) => removeCredentialSubjectFilterString(vc).data
+    );
 
     const proofOptions = { type: '', domain, challenge };
 
