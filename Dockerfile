@@ -36,11 +36,13 @@ COPY ./apps/oidc/verifier/package.json ./apps/oidc/verifier/
 # Remove prepare script
 RUN npm pkg delete scripts.prepare
 
-# Install all the dependencies
-RUN pnpm install --frozen-lockfile
-
 # Copy all other files
 COPY . .
+
+# Install all the dependencies
+# This would be better before COPY . . but we use postinstall scripts
+# that depend on some of the files copied above
+RUN pnpm install --frozen-lockfile
 
 # Copy nx-cloud.env
 COPY ./nx-cloud.env ./
