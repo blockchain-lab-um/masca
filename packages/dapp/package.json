@@ -117,6 +117,16 @@
           "build"
         ],
         "outputs": []
+      },
+      "lint": {
+        "inputs": [
+          "{projectRoot}/**/*"
+        ],
+        "dependsOn": [
+          "^build",
+          "prebuild"
+        ],
+        "outputs": []
       }
     }
   }
