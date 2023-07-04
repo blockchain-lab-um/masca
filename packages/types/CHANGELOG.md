@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/blockchain-lab-um/masca/compare/masca-types-v0.3.0...masca-types-v0.3.1) (2023-07-04)
+
+
+### :bug: Bug Fixes
+
+* did key jwk jcs ([#304](https://github.com/blockchain-lab-um/masca/issues/304)) ([3112bc1](https://github.com/blockchain-lab-um/masca/commit/3112bc163def2cfbe4083559fa8fde29632918d4))
+
 ## [0.3.0](https://github.com/blockchain-lab-um/masca/compare/masca-types-v0.2.1...masca-types-v0.3.0) (2023-07-03)
 
 
