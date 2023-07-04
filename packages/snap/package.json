@@ -34,8 +34,10 @@
     "CHANGELOG.md"
   ],
   "scripts": {
-    "build": "pnpm mm-snap --version && pnpm build:esbuild && pnpm bundle:postprocess && pnpm bundle:eval && pnpm bundle:manifest",
+    "build": "pnpm mm-snap --version && pnpm concurrently -c \"auto\" --names \"esbuild,tsc\" \"pnpm build:main\" \"pnpm build:type-check\"",
     "build:esbuild": "node build.js",
+    "build:main": "pnpm build:esbuild && pnpm bundle:postprocess && pnpm bundle:eval && pnpm bundle:manifest",
+    "build:type-check": "tsc --noEmit --project tsconfig.build.json",
     "bundle:eval": "mm-snap eval -b dist/snap.js",
     "bundle:manifest": "mm-snap manifest --fix",
     "bundle:postprocess": "node ./src/post-process/post-process.js",
@@ -86,7 +88,6 @@
     "@veramo/key-manager": "5.1.2",
     "@veramo/kms-local": "5.1.2",
     "@veramo/utils": "5.2.0",
-    "buffer": "^6.0.3",
     "caip": "1.1.0",
     "ceramic-cacao": "^1.4.0",
     "did-jwt-vc": "3.2.1",
@@ -127,6 +128,7 @@
     "@typescript-eslint/eslint-plugin": "^5.59.8",
     "@typescript-eslint/parser": "^5.59.8",
     "babel-loader": "^9.1.2",
+    "concurrently": "^8.2.0",
     "cross-env": "^7.0.3",
     "esbuild": "^0.18.11",
     "eslint": "^8.36.0",
