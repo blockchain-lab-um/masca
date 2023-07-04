@@ -1,8 +1,9 @@
 const fs = require('fs');
 const pathUtils = require('path');
 
+console.log('Post-processing bundle');
+
 const bundlePath = pathUtils.join('dist', 'snap.js');
-console.log('Bundle path', bundlePath);
 
 let bundleString = fs.readFileSync(bundlePath, 'utf8');
 
@@ -70,4 +71,11 @@ bundleString = bundleString.replaceAll(
 // Remove 'use asm' tokens; they cause pointless console warnings
 bundleString = bundleString.replace(/^\s*'use asm';?\n?/gmu, '');
 
+bundleString = bundleString.replace(
+  "/** @type {import('cborg').TagDecoder[]} */",
+  ''
+);
+
 fs.writeFileSync(bundlePath, bundleString);
+
+console.log('Finished post-processing bundle');
