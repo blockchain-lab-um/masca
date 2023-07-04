@@ -1,6 +1,15 @@
 const esbuild = require('esbuild');
 const plugin = require('node-stdlib-browser/helpers/esbuild/plugin');
-const stdLibBrowser = require('node-stdlib-browser');
+let stdLibBrowser = require('node-stdlib-browser');
+const path = require('path');
+
+stdLibBrowser = {
+  ...stdLibBrowser,
+  '@0xpolygonid/js-sdk': path.join(
+    __dirname,
+    'node_modules/@0xpolygonid/js-sdk/dist/esm/index.js'
+  ),
+};
 
 console.log('Building snap with esbuild...');
 
@@ -11,11 +20,13 @@ esbuild.build({
   platform: 'browser',
   format: 'cjs',
   target: 'es2020',
-  tsconfig: 'tsconfig.build.json',
   treeShaking: true,
-  minify: false,
   plugins: [plugin(stdLibBrowser)],
-  define: {},
+  define: {
+    global: 'global',
+    process: 'process',
+    Buffer: 'Buffer',
+  },
   inject: [require.resolve('node-stdlib-browser/helpers/esbuild/shim')],
 });
 
