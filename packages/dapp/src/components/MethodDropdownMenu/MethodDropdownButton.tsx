@@ -17,7 +17,6 @@ export const DropdownButton = ({
     {({ active }) => (
       <span
         onClick={() => {
-          console.log(children as string);
           handleBtn(children as string)
             .then(() => {})
             .catch(() => {});
