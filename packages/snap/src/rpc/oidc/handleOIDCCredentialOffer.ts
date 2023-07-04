@@ -76,7 +76,8 @@ export async function handleOIDCCredentialOffer(
   const kid = `${identifier.did}#${identifier.did.split(':')[2]}`;
 
   const isDidKeyEbsi =
-    state.accountState[account].accountConfig.ssi.didMethod === 'did:key:ebsi';
+    state.accountState[account].accountConfig.ssi.didMethod ===
+    'did:key:jwk_jcs-pub';
 
   // TODO: Select curve based on the key in the identifier ?
   const customSign = async (args: SignArgs) =>

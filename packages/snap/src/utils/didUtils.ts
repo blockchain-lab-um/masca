@@ -57,7 +57,7 @@ export async function getCurrentDidIdentifier(params: {
       };
       return identifier;
     }
-    case 'did:key:ebsi':
+    case 'did:key:jwk_jcs-pub':
     case 'did:key':
     case 'did:jwk': {
       const res = await snapGetKeysFromAddress({
@@ -70,12 +70,12 @@ export async function getCurrentDidIdentifier(params: {
       if (!res) throw new Error('Failed to get keys');
 
       const identifier: IIdentifier = await agent.didManagerCreate({
-        provider: method === 'did:key:ebsi' ? 'did:key' : method,
+        provider: method === 'did:key:jwk_jcs-pub' ? 'did:key' : method,
         kms: 'snap',
         options: {
           privateKeyHex: res.privateKey.slice(2),
-          keyType: method === 'did:key:ebsi' ? 'Secp256r1' : 'Secp256k1',
-          ...(method === 'did:key:ebsi' && { type: 'ebsi' }),
+          keyType: method === 'did:key:jwk_jcs-pub' ? 'Secp256r1' : 'Secp256k1',
+          ...(method === 'did:key:jwk_jcs-pub' && { type: 'ebsi' }),
         },
       });
 

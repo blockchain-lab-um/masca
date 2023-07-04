@@ -17,6 +17,7 @@ export const DropdownButton = ({
     {({ active }) => (
       <span
         onClick={() => {
+          console.log(children as string);
           handleBtn(children as string)
             .then(() => {})
             .catch(() => {});
@@ -39,7 +40,9 @@ export const DropdownButton = ({
               ''
             )}
           </span>
-          <span className="col-span-4 col-start-2 text-center">{children}</span>
+          <span className="col-span-4 col-start-2 text-center">
+            {children === 'did:key:jwk_jcs-pub' ? 'did:key (EBSI)' : children}
+          </span>
         </div>
       </span>
     )}

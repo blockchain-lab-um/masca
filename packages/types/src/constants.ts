@@ -11,7 +11,7 @@ export type ExternalSigMethods = (typeof externalSigMethods)[number];
 
 export const internalSigMethods = [
   'did:key',
-  'did:key:ebsi',
+  'did:key:jwk_jcs-pub',
   'did:jwk',
   // 'did:ebsi',
 ] as const;
@@ -53,7 +53,7 @@ export const didMethodChainIdMapping: Record<
  */
 export const methodIndexMapping: Record<InternalSigMethods, number> = {
   'did:key': 0,
-  'did:key:ebsi': 0,
+  'did:key:jwk_jcs-pub': 0,
   'did:jwk': 1,
 } as const;
 
