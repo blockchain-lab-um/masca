@@ -19,7 +19,7 @@ const methods = [
     did: 'did:jwk:eyJhbGciOiJFUzI1NksiLCJjcnYiOiJzZWNwMjU2azEiLCJrdHkiOiJFQyIsInVzZSI6InNpZyIsIngiOiJlU01sN3BRMWRfX0JzOEpYM1lKb1V3ZVpyTFZ2Zm1TSEUzdG9IenMwbnpjIiwieSI6IlNoajV1M0ZiQkNEZnpEX1lFSW5tVmRWUmdNVU9PdGV3X0lsZEpwT2duaWMifQ',
   },
   {
-    method: 'did:key:ebsi',
+    method: 'did:key:jwk_jcs-pub',
     underlyingMethod: 'did:key',
     did: 'did:key:z2dmzD81cgPx8Vki7JbuuMmFYrWPgYoytykUZ3eyqht1j9KbnA1s63s5ENMUxERdtWmShjBmsDon3RB8K2oziDHXQeagfUbskVFKbZbyuDt4uRD4BiykyXoHaKTAWVUeC5TkSTAb3GpWFNWRbqMuge6uvG17vV1MFzbfv3SWhNAm2SCQSp',
   },
