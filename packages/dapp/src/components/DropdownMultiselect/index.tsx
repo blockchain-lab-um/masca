@@ -30,13 +30,13 @@ const DropdownMultiselect = ({
         <div className="md:text-md overflow-hidden rounded-full text-left text-sm shadow-md">
           <Listbox.Button
             value={placeholder}
-            className="dark:bg-navy-blue-700 dark:text-navy-blue-100 flex w-full border-none bg-white p-2 px-1 text-sm leading-5 text-gray-700 outline-none ring-0 placeholder:text-gray-400"
+            className="dark:bg-navy-blue-700 dark:text-navy-blue-100 flex w-full rounded-full bg-white border-pink-500 border-2 text-pink-500  p-2 px-1 text-sm leading-5 placeholder:text-gray-400"
           >
             <div
               className={clsx(
                 'animated-transition flex flex-1 items-center justify-center gap-x-1 pl-4',
                 selectedItems.length === 0
-                  ? 'dark:text-navy-blue-200 text-gray-400 '
+                  ? 'dark:text-navy-blue-200 text-pink-500 '
                   : null
               )}
             >
@@ -51,7 +51,7 @@ const DropdownMultiselect = ({
             <div className="px-2">
               <ChevronDownIcon
                 className={clsx(
-                  'animated-transition dark:text-navy-blue-100 h-5 w-5 text-gray-700',
+                  'animated-transition dark:text-navy-blue-100 h-5 w-5 text-pink-500',
                   open ? 'rotate-180' : null
                 )}
               />

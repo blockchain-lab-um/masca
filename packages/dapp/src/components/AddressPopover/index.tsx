@@ -53,14 +53,15 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
                       DID
                     </div>
                     <div className="mt-2 flex items-center">
-                      <div className="text-2xl text-gray-900 dark:text-white">{`${did.substring(
+                      <a href={`https://dev.uniresolver.io/#${did}`} target="_blank"
+              rel="noreferrer" className="text-2xl text-gray-900 dark:text-white underline cursor-pointer hover:text-gray-700 dark:hover:text-gray-100 animated-transition">{`${did.substring(
                         0,
                         did.lastIndexOf(':')
                       )}:${did
                         .split(':')
                         [did.split(':').length - 1].slice(0, 5)}...${did.slice(
                         -4
-                      )}`}</div>
+                      )}`}</a>
                       <button
                         onClick={() => {
                           copyToClipboard(did);
