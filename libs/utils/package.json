@@ -29,12 +29,12 @@
     "build": "pnpm clean && pnpm compile",
     "clean": "rimraf dist",
     "compile": "tsc --build tsconfig.build.json",
+    "postinstall": "pnpm typia:generate",
     "lint": "pnpm lint:eslint && pnpm lint:prettier",
     "lint:eslint": "eslint .",
     "lint:fix": "eslint . --fix && prettier . --write",
     "lint:prettier": "prettier . --check",
-    "typia:generate": "pnpm typia generate --input src/typia-templates --output src/typia-generated --project tsconfig.json",
-    "postinstall": "pnpm typia:generate"
+    "typia:generate": "pnpm typia generate --input src/typia-templates --output src/typia-generated --project tsconfig.json"
   },
   "dependencies": {
     "@veramo/core": "5.2.0",
