@@ -24,6 +24,7 @@ export class SnapMock implements ISnapMock {
       return null;
     }
     if (params.operation === 'get') {
+      // console.log(JSON.stringify(this.snapState));
       return this.snapState;
     }
     if (params.operation === 'update') {

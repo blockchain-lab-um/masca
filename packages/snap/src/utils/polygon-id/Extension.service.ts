@@ -7,7 +7,6 @@ import {
   EthStateStorage,
   IdentityStorage,
   IdentityWallet,
-  InMemoryMerkleTreeStorage,
   JWSPacker,
   KMS,
   PackageManager,
@@ -21,6 +20,7 @@ import { proving } from '@iden3/js-jwz';
 
 import { CircuitStorageInstance } from './CircuitStorage';
 import { defaultEthConnectionConfig, INIT } from './constants';
+import { SnapMerkleTreeStorage } from './storage';
 import { WalletService } from './Wallet.service';
 
 export class ExtensionService {
@@ -32,7 +32,7 @@ export class ExtensionService {
     dataStorage: {
       credential: CredentialStorage;
       identity: IdentityStorage;
-      mt: InMemoryMerkleTreeStorage;
+      mt: SnapMerkleTreeStorage;
       states: EthStateStorage;
     };
     authHandler: AuthHandler;
@@ -66,15 +66,15 @@ export class ExtensionService {
 
     // TODO: Handle account switch
     // if (!this.instance) {
-      this.instance = {
-        packageMgr,
-        proofService,
-        credWallet,
-        wallet,
-        dataStorage,
-        authHandler,
-        status: INIT,
-      };
+    this.instance = {
+      packageMgr,
+      proofService,
+      credWallet,
+      wallet,
+      dataStorage,
+      authHandler,
+      status: INIT,
+    };
     // }
     return this.instance;
   }

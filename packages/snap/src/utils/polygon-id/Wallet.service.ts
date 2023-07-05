@@ -7,7 +7,6 @@ import {
   EthStateStorage,
   IdentityStorage,
   IdentityWallet,
-  InMemoryMerkleTreeStorage,
   InMemoryPrivateKeyStore,
   IssuerResolver,
   KMS,
@@ -17,22 +16,25 @@ import {
 } from '@0xpolygonid/js-sdk';
 
 import { defaultEthConnectionConfig } from './constants';
-import { SnapDataSource } from './storage';
+import { SnapDataSource, SnapMerkleTreeStorage } from './storage';
 
 export class WalletService {
   static async createWallet(account: string) {
     const memoryKeyStore = new InMemoryPrivateKeyStore();
+    // const snapKeyStore = new SnapStoragePrivateKeyStore(account);
     const bjjProvider = new BjjProvider(KmsKeyType.BabyJubJub, memoryKeyStore);
     const kms = new KMS();
     kms.registerKeyProvider(KmsKeyType.BabyJubJub, bjjProvider);
 
     const dataStorage = {
-      credential: new CredentialStorage(new SnapDataSource(account, CredentialStorage.storageKey)),
+      credential: new CredentialStorage(
+        new SnapDataSource(account, CredentialStorage.storageKey)
+      ),
       identity: new IdentityStorage(
         new SnapDataSource(account, IdentityStorage.identitiesStorageKey),
         new SnapDataSource(account, IdentityStorage.profilesStorageKey)
       ),
-      mt: new InMemoryMerkleTreeStorage(40),
+      mt: new SnapMerkleTreeStorage(account, 40),
       states: new EthStateStorage(defaultEthConnectionConfig),
     };
 

@@ -1,23 +1,33 @@
+import { CredentialStatusType, MerkleTreeType } from '@0xpolygonid/js-sdk';
 import type {
   AvailableMethods,
   AvailableVCStores,
   MascaState,
 } from '@blockchain-lab-um/masca-types';
+import {
+  Blockchain,
+  buildDIDType,
+  DID,
+  DidMethod,
+  Id,
+  NetworkId,
+} from '@iden3/js-iden3-core';
+import { hashElems, ZERO_HASH } from '@iden3/js-merkletree';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import type { IIdentifier } from '@veramo/core';
-import type { DIDResolutionResult } from 'did-resolver';
-
-import { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
 import { hexToBytes } from '@veramo/utils';
-import { CredentialStatusType } from '@0xpolygonid/js-sdk';
+import { sha256js } from 'cross-sha256';
+import type { DIDResolutionResult } from 'did-resolver';
+import * as uuid from 'uuid';
+
 import { getAgent } from '../veramo/setup';
 import { snapGetKeysFromAddress } from './keyPair';
+import { RHS_URL } from './polygon-id/constants';
+import { ExtensionService } from './polygon-id/Extension.service';
 import { getCurrentNetwork } from './snapUtils';
 import { updateSnapState } from './stateUtils';
-import { ExtensionService } from './polygon-id/Extension.service';
-import { RHS_URL } from './polygon-id/constants';
 
 export async function changeCurrentVCStore(params: {
   snap: SnapsGlobalObject;
@@ -88,35 +98,85 @@ export async function getCurrentDidIdentifier(params: {
       return identifier;
     }
     case 'did:polygon':
-      case 'did:iden3':
-        {
-          const entropy = await snap.request({
-            method: 'snap_getEntropy',
-            params: { version: 1, salt: account },
-          });
+    case 'did:iden3': {
+      try {
+        const entropy = await snap.request({
+          method: 'snap_getEntropy',
+          params: { version: 1, salt: account },
+        });
 
-          const { wallet } = ExtensionService.getExtensionServiceInstance();
+        const { wallet, dataStorage } =
+          ExtensionService.getExtensionServiceInstance();
+        const selectedMethod =
+          method === 'did:iden3' ? DidMethod.Iden3 : DidMethod.PolygonId;
+        const selectedBlockchain = Blockchain.Polygon;
+        const selectedNetworkId = NetworkId.Mumbai;
 
-          const { did } = await wallet.createIdentity({
-            method:method=== 'did:iden3' ? DidMethod.Iden3 : DidMethod.PolygonId,
-            blockchain: Blockchain.Polygon,
-            networkId: NetworkId.Mumbai,
+        const treeId = uuid.v5(
+          // eslint-disable-next-line new-cap
+          new sha256js().update(hexToBytes(entropy)).digest('hex'),
+          uuid.NIL
+        );
+        const claimsTree = await dataStorage.mt.getMerkleTreeByTreeIdAndType(
+          `${treeId}+${MerkleTreeType.Claims}`,
+          MerkleTreeType.Claims
+        );
+        let did: string | null = null;
+
+        if (claimsTree) {
+          const currentState = hashElems([
+            (await claimsTree.root()).bigInt(),
+            ZERO_HASH.bigInt(),
+            ZERO_HASH.bigInt(),
+          ]);
+
+          const didType = buildDIDType(
+            selectedMethod,
+            selectedBlockchain,
+            selectedNetworkId
+          );
+          const genesisIdentifier = Id.idGenesisFromIdenState(
+            didType,
+            currentState.bigInt()
+          );
+          const identity = await dataStorage.identity.getIdentity(
+            DID.parseFromId(genesisIdentifier).string()
+          );
+
+          if (identity) {
+            // TODO: Import key to memorykeystore
+            did = identity.identifier;
+          }
+        }
+
+        if (!did) {
+          const newIdentity = await wallet.createIdentity({
+            method: selectedMethod,
+            blockchain: selectedBlockchain,
+            networkId: selectedNetworkId,
             seed: hexToBytes(entropy),
             revocationOpts: {
               id: RHS_URL,
               type: CredentialStatusType.Iden3ReverseSparseMerkleTreeProof,
-            }
+            },
           });
 
-          const identifier: IIdentifier = {
-            did: did.id,
-            provider: method,
-            keys:[],
-            services: [],
-          };
+          did = newIdentity.did.id;
+        }
 
-          return identifier;
+        const identifier: IIdentifier = {
+          did,
+          provider: method,
+          keys: [],
+          services: [],
+        };
+
+        return identifier;
+      } catch (e) {
+        console.log(e);
+        throw new Error('Failed to create identifier');
       }
+    }
     default:
       throw new Error('Unsupported DID method');
   }

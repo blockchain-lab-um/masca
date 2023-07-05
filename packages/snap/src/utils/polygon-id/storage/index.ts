@@ -1,1 +1,3 @@
-export * from "./snapDataSource";
+export * from './SnapDataSource';
+export * from './SnapMerkleTreeStorage';
+export * from './SnapTreeStorage';

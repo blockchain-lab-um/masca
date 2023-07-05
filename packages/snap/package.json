@@ -91,6 +91,7 @@
     "@veramo/utils": "5.2.0",
     "caip": "1.1.0",
     "ceramic-cacao": "^1.4.0",
+    "cross-sha256": "^1.2.0",
     "did-jwt-vc": "3.2.1",
     "did-resolver": "4.1.0",
     "did-session": "2.0.1",
@@ -109,7 +110,8 @@
     "multiformats": "^11.0.2",
     "node-stdlib-browser": "^1.2.0",
     "qs": "^6.11.2",
-    "ts-jest": "^29.1.0"
+    "ts-jest": "^29.1.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.22.1",

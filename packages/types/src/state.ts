@@ -1,6 +1,6 @@
 import type { IIdentifier, W3CVerifiableCredential } from '@veramo/core';
 
-import { Identity, Profile, W3CCredential } from '@0xpolygonid/js-sdk';
+import { Identity, IdentityMerkleTreeMetaInformation, Profile, W3CCredential } from '@0xpolygonid/js-sdk';
 import type { AvailableMethods, AvailableVCStores } from './constants.js';
 
 export type MascaConfig = {
@@ -58,5 +58,9 @@ export type PolygonState = {
   credentials: Record<string, W3CCredential>;
   identities: Record<string, Identity>;
   profiles: Record<string, Profile>;
-};
+  // TODO: Maybe we can replace array with Record here
+  merkleTreeMeta: IdentityMerkleTreeMetaInformation[];
+  merkleTree: Record<string, string>;
+  keystore: Record<string, {alias: string,  value: string}>;
+} ;
 
