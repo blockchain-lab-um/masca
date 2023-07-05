@@ -2,6 +2,7 @@ import type {
   SaveVCRequestParams,
   SaveVCRequestResult,
 } from '@blockchain-lab-um/masca-types';
+import { isVerifiableCredential } from '@blockchain-lab-um/utils';
 import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
 
 import type { ApiParams } from '../../interfaces';
@@ -14,6 +15,9 @@ export async function saveVC(
 ): Promise<SaveVCRequestResult[]> {
   const { store = 'snap' } = options ?? {};
   const { snap, ethereum } = params;
+
+  if (!isVerifiableCredential(verifiableCredential))
+    throw new Error('Invalid VC');
 
   const content = panel([
     heading('Save VC'),

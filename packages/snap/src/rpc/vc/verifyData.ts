@@ -1,4 +1,8 @@
 import type { VerifyDataRequestParams } from '@blockchain-lab-um/masca-types';
+import {
+  isVerifiableCredential,
+  isVerifiablePresentation,
+} from '@blockchain-lab-um/utils';
 import type { IVerifyResult } from '@veramo/core';
 
 import type { ApiParams } from '../../interfaces';
@@ -10,6 +14,11 @@ export async function verifyData(
 ): Promise<boolean | IVerifyResult> {
   const { snap, ethereum } = params;
   const verbose = args.verbose || false;
+
+  if (args.credential && !isVerifiableCredential(args.credential))
+    throw new Error('Invalid VC');
+  if (args.presentation && !isVerifiablePresentation(args.presentation))
+    throw new Error('Invalid VP');
 
   const res = await veramoVerifyData({
     snap,
