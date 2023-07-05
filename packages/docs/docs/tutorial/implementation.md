@@ -12,18 +12,20 @@ Ceramic Network support is experimental and still under development!
 
 :::
 
-## Implementing the Snap in a dApp
+## Implementing Masca in a dApp
 
 ### Using the Masca Connector
 
-`yarn add @blockchain-lab-um/masca-connector`
+```bash
+yarn add @blockchain-lab-um/masca-connector @blockchain-lab-um/utils
+```
 
-Connector has exposed function for installing the Snap.
+Connector has exposed function for installing Masca.
 
-After the snap installation, this function returns a `Masca` object that can be used to retrieve the snap API.
-An example of initializing Masca and invoking the snap's API is shown below.
+After Masca installation, this function returns a `Masca` object that can be used to retrieve Masca API.
+An example of initializing Masca and invoking Masca's API is shown below.
 
-For the snap to work properly, it needs to know the address of the connected account. Initially this can be done by passing the address as a parameter to `enableMasca` function. Later, the address can be changed using the `setCurrentAccount` RPC method!
+For Masca to work properly, it needs to know the address of the connected account. Initially this can be done by passing the address as a parameter to `enableMasca` function. Later, the address can be changed using the `setCurrentAccount` RPC method!
 
 ```typescript
 import { enableMasca } from '@blockchain-lab-um/masca-connector';
@@ -47,11 +49,11 @@ const api = await masca.data.getMascaApi();
 
 Every RPC call will return an object that can be Success or Error. More on error handling can be found [here](./../masca/architecture).
 
-Masca Connector will take care of initializing the Snap for other DID methods (Needed to extract the public key) during the enableMasca function.
+Masca Connector will take care of initializing Masca for other DID methods (Needed to extract the public key) during the enableMasca function.
 
 ### Account Switching
 
-Account switching must be handled by the dApp!
+Account switching must be handled by the dApp! This is required for Masca to work properly. Without approprietly calling this method, switching Accounts in MetaMask will NOT result in switching accounts in Masca!
 
 ```typescript
 // When account changes in dApp
@@ -154,7 +156,7 @@ export type CreateVPRequestParams = {
 ```typescript
 // Get VP
 const vp = await api.createVP({
-  vcs: [{ id: '123', metadata: { store: 'ceramic' } }, { id: '456' }],
+  vcs: [verifiableCredentialObject],
   proofFormat: 'jwt',
   options: {
     challenge: '123456789',
@@ -267,13 +269,11 @@ const vpRes = await api.verifyData({ presentation: VP, verbose: true });
 
 ### Snap Settings
 
-`togglePopups` and `changeInfuraToken` are used to enable/disable "Are you sure?" alerts and to change the infuraToken.
+`togglePopups` is used to enable/disable "Are you sure?" alerts..
 
 `getSnapSettings` and `getAccountSettings` are used to retrieve global settings and settings for currently selected account.
 
 ```typescript
-const res = await api.changeInfuraToken('new token');
-
 const res = await api.togglePopups();
 ```
 

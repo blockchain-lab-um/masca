@@ -24,5 +24,5 @@ Ceramic Network support is experimental and still under active development!
 Proof Formats:
 
 - [JWT](https://www.rfc-editor.org/rfc/rfc7519)
-- [JSON-LD](https://w3c.github.io/vc-data-integrity/#proofs)
 - [EIP712](https://w3c-ccg.github.io/ethereum-eip712-signature-2021-spec/)
+- [JSON-LD (Currently bugged)](https://w3c.github.io/vc-data-integrity/#proofs)
