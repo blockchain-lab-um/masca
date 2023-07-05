@@ -9,7 +9,6 @@ import Button from '@/components/Button';
 import DropdownMultiselect from '@/components/DropdownMultiselect';
 import InfoIcon from '@/components/InfoIcon';
 import Modal from '@/components/Modal';
-// import { checkVCType } from '@/utils/typia-generated';
 import { useMascaStore, useToastStore } from '@/stores';
 
 interface ImportModalProps {
