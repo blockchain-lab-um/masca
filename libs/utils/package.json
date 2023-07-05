@@ -32,14 +32,18 @@
     "lint": "pnpm lint:eslint && pnpm lint:prettier",
     "lint:eslint": "eslint .",
     "lint:fix": "eslint . --fix && prettier . --write",
-    "lint:prettier": "prettier . --check"
+    "lint:prettier": "prettier . --check",
+    "typia:generate": "pnpm typia generate --input src/typia-templates --output src/typia-generated --project tsconfig.json",
+    "postinstall": "pnpm typia:generate"
   },
   "dependencies": {
+    "@veramo/core": "5.2.0",
     "@veramo/utils": "5.2.0",
     "did-resolver": "4.1.0",
     "elliptic": "^6.5.4",
     "multiformats": "11.0.2",
-    "secp256k1": "5.0.0"
+    "secp256k1": "5.0.0",
+    "typia": "^4.1.2"
   },
   "devDependencies": {
     "@types/elliptic": "^6.4.14",
