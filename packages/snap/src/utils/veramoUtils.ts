@@ -94,7 +94,7 @@ export async function veramoImportMetaMaskAccount(
     keys: [
       {
         kid: controllerKeyId,
-        type: method === 'did:key:ebsi' ? 'Secp256r1' : 'Secp256k1',
+        type: method === 'did:key:jwk_jcs-pub' ? 'Secp256r1' : 'Secp256k1',
         kms: 'snap',
         privateKeyHex: res.privateKey.slice(2),
         publicKeyHex: res.publicKey.slice(2),

@@ -113,7 +113,7 @@ const CheckMetaMaskCompatibility = () => {
   const enableMascaHandler = async () => {
     const enableResult = await enableMasca(address, {
       snapId,
-      version: '0.3.0',
+      version: '0.3.1',
     });
     if (isError(enableResult)) {
       // FIXME: This error is shown as [Object object]
