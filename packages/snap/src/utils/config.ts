@@ -7,8 +7,11 @@ import type {
 import cloneDeep from 'lodash.clonedeep';
 
 const emptyAccountState = {
-  snapKeyStore: {},
-  snapPrivateKeyStore: {},
+  polygonState: {
+    credentials: {},
+    identities: {},
+    profiles: {},
+  },
   vcs: {},
   identifiers: {},
   publicKey: '',

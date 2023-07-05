@@ -35,6 +35,7 @@
     "lint:prettier": "prettier . --check"
   },
   "dependencies": {
+    "@0xpolygonid/js-sdk": "https://github.com/0xPolygonID/js-sdk#v2",
     "@blockchain-lab-um/utils": "*",
     "@veramo/core": "5.2.0",
     "@veramo/key-manager": "5.1.2"

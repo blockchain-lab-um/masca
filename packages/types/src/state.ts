@@ -1,6 +1,6 @@
-import type { IIdentifier, IKey, W3CVerifiableCredential } from '@veramo/core';
-import type { ManagedPrivateKey } from '@veramo/key-manager';
+import type { IIdentifier, W3CVerifiableCredential } from '@veramo/core';
 
+import { Identity, Profile, W3CCredential } from '@0xpolygonid/js-sdk';
 import type { AvailableMethods, AvailableVCStores } from './constants.js';
 
 export type MascaConfig = {
@@ -39,14 +39,7 @@ export type MascaState = {
  * Masca State for a MetaMask address
  */
 export type MascaAccountState = {
-  /**
-   * Store for {@link SnapPrivateKeyStore}
-   */
-  snapPrivateKeyStore: Record<string, ManagedPrivateKey>;
-  /**
-   * Store for {@link SnapKeyStore}
-   */
-  snapKeyStore: Record<string, IKey>;
+  polygonState: PolygonState;
   /**
    * Store for {@link SnapDIDStore}
    */
@@ -55,9 +48,15 @@ export type MascaAccountState = {
    * Store for {@link SnapVCStore}
    */
   vcs: Record<string, W3CVerifiableCredential>;
-
   publicKey: string;
   index?: number;
   accountConfig: MascaAccountConfig;
   ceramicSession?: string;
 };
+
+export type PolygonState = {
+  credentials: Record<string, W3CCredential>;
+  identities: Record<string, Identity>;
+  profiles: Record<string, Profile>;
+};
+

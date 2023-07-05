@@ -9,10 +9,15 @@ import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import type { IIdentifier } from '@veramo/core';
 import type { DIDResolutionResult } from 'did-resolver';
 
+import { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
+import { hexToBytes } from '@veramo/utils';
+import { CredentialStatusType } from '@0xpolygonid/js-sdk';
 import { getAgent } from '../veramo/setup';
 import { snapGetKeysFromAddress } from './keyPair';
 import { getCurrentNetwork } from './snapUtils';
 import { updateSnapState } from './stateUtils';
+import { ExtensionService } from './polygon-id/Extension.service';
+import { RHS_URL } from './polygon-id/constants';
 
 export async function changeCurrentVCStore(params: {
   snap: SnapsGlobalObject;
@@ -82,6 +87,36 @@ export async function getCurrentDidIdentifier(params: {
       if (!identifier?.did) throw new Error('Failed to create identifier');
       return identifier;
     }
+    case 'did:polygon':
+      case 'did:iden3':
+        {
+          const entropy = await snap.request({
+            method: 'snap_getEntropy',
+            params: { version: 1, salt: account },
+          });
+
+          const { wallet } = ExtensionService.getExtensionServiceInstance();
+
+          const { did } = await wallet.createIdentity({
+            method:method=== 'did:iden3' ? DidMethod.Iden3 : DidMethod.PolygonId,
+            blockchain: Blockchain.Polygon,
+            networkId: NetworkId.Mumbai,
+            seed: hexToBytes(entropy),
+            revocationOpts: {
+              id: RHS_URL,
+              type: CredentialStatusType.Iden3ReverseSparseMerkleTreeProof,
+            }
+          });
+
+          const identifier: IIdentifier = {
+            did: did.id,
+            provider: method,
+            keys:[],
+            services: [],
+          };
+
+          return identifier;
+      }
     default:
       throw new Error('Unsupported DID method');
   }

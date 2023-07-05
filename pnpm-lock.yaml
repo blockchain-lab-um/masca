@@ -1699,9 +1699,6 @@ importers:
       lodash.clonedeep:
         specifier: ^4.5.0
         version: 4.5.0
-      lve:
-        specifier: ^5.3.4
-        version: 5.3.4
       multiformats:
         specifier: ^11.0.2
         version: 11.0.2
@@ -1829,6 +1826,9 @@ importers:
 
   packages/types:
     dependencies:
+      '@0xpolygonid/js-sdk':
+        specifier: https://github.com/0xPolygonID/js-sdk#v2
+        version: github.com/0xPolygonID/js-sdk/2609c06e3924732a449291252e18cc71f9518aae(@babel/core@7.22.1)(@swc/core@1.3.52)(@types/node@18.16.15)(@typescript-eslint/parser@5.59.8)(eslint@8.43.0)(node-fetch@3.3.1)(webpack@5.88.1)
       '@blockchain-lab-um/utils':
         specifier: '*'
         version: link:../../libs/utils
@@ -14101,10 +14101,6 @@ packages:
   /csstype@3.1.2:
     resolution: {integrity: sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==}
 
-  /d3-color@1.4.1:
-    resolution: {integrity: sha512-p2sTHSLCJI2QKunbGb7ocOh7DgTAn8IrLx21QRc/BSnodXM4sv6aLQlnfpvehFMLZEfBc6g9pH9SWQccFYfJ9Q==}
-    dev: false
-
   /dag-jose-utils@3.0.0:
     resolution: {integrity: sha512-gu+XutOTy3kD8fDcA1SMjZ2U0mUOb/hxoRVZaMCizXN7Ssbc5dKOzeXQ4GquV4BdQzs3w5Y7irOpn2plFPIJfg==}
     dependencies:
@@ -19308,10 +19304,6 @@ packages:
       elliptic: 6.5.4
     dev: false
 
-  /keycode@2.2.1:
-    resolution: {integrity: sha512-Rdgz9Hl9Iv4QKi8b0OlCRQEzp4AgVxyCtz5S/+VIHezDmrDhkp2N2TqBWOLz0/gbeREXOOiI9/4b8BY9uw2vFg==}
-    dev: false
-
   /keyv@3.1.0:
     resolution: {integrity: sha512-9ykJ/46SN/9KPM/sichzQ7OvXyGDYKGTaDlKMGCAlg2UK8KRy4jb0d8sFc+0Tt0YYnThq8X2RZgCg74RPxgcVA==}
     dependencies:
@@ -19696,14 +19688,6 @@ packages:
   /luxon@3.3.0:
     resolution: {integrity: sha512-An0UCfG/rSiqtAIiBPO0Y9/zAnHUZxAMiCpTd5h2smgsj7GGmcenvrvww2cqNA8/4A5ZrD1gJpHN2mIHZQF+Mg==}
     engines: {node: '>=12'}
-
-  /lve@5.3.4:
-    resolution: {integrity: sha512-CzYnojdYVvmxKtwcOHJNGVXHYsfI8ixAB/Ikr1EwEDxRg+oRpooL5ck54R/LPUtQbyO4lqv/fAJFeU0KfbRtIw==}
-    dependencies:
-      d3-color: 1.4.1
-      keycode: 2.2.1
-      screenfull: 5.2.0
-    dev: false
 
   /macos-release@2.5.1:
     resolution: {integrity: sha512-DXqXhEM7gW59OjZO8NIjBCz9AQ1BEMrfiOAl4AYByHCtVHRF4KoGNO8mqQeM8lRCtQe/UnJ4imO/d2HdkKsd+A==}
@@ -23894,11 +23878,6 @@ packages:
       ajv: 8.12.0
       ajv-formats: 2.1.1(ajv@8.12.0)
       ajv-keywords: 5.1.0(ajv@8.12.0)
-
-  /screenfull@5.2.0:
-    resolution: {integrity: sha512-9BakfsO2aUQN2K9Fdbj87RJIEZ82Q9IGim7FqM5OsebfoFC6ZHXgDq/KvniuLTPdeM8wY2o6Dj3WQ7KeQCj3cA==}
-    engines: {node: '>=0.10.0'}
-    dev: false
 
   /scrypt-js@3.0.1:
     resolution: {integrity: sha512-cdwTTnqPu0Hyvf5in5asVdZocVDTNRmR7XEcJuIzMjJeSHybHl7vpB66AzwTaIg6CLSbtjcxc8fqcySfnTkccA==}

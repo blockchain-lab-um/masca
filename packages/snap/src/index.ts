@@ -1,3 +1,5 @@
+import './polyfills/intl';
+
 import type {
   HandleOIDCAuthorizationRequestParams,
   HandleOIDCCredentialOfferRequestParams,
@@ -37,6 +39,7 @@ import {
   isValidSwitchMethodRequest,
   isValidVerifyDataRequest,
 } from './utils/params';
+import { ExtensionService } from './utils/polygon-id/Extension.service';
 import { getCurrentAccount } from './utils/snapUtils';
 import {
   getSnapStateUnchecked,
@@ -71,6 +74,8 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
 
     const account = getCurrentAccount(state);
 
+    await ExtensionService.init(account);
+
     const apiParams: ApiParams = {
       state,
       snap,
@@ -83,6 +88,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       await initAccountState(apiParams);
       apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
     }
+
     switch (request.method) {
       case 'queryVCs':
         isValidQueryRequest(request.params, apiParams.account, apiParams.state);

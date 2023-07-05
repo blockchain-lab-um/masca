@@ -13,6 +13,8 @@ export const internalSigMethods = [
   'did:key',
   'did:key:ebsi',
   'did:jwk',
+  'did:polygon',
+  'did:iden3'
   // 'did:ebsi',
 ] as const;
 export type InternalSigMethods = (typeof internalSigMethods)[number];
@@ -55,6 +57,8 @@ export const methodIndexMapping: Record<InternalSigMethods, number> = {
   'did:key': 0,
   'did:key:ebsi': 0,
   'did:jwk': 1,
+  'did:polygon': 2,
+  'did:iden3': 3,
 } as const;
 
 export const supportedProofFormats = [

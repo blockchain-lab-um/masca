@@ -31,6 +31,16 @@ const methods = [
     method: 'did:pkh',
     did: 'did:pkh:eip155:0x1:0xb6665128eE91D84590f70c3268765384A9CAfBCd',
   },
+  {
+    method: 'did:polygon',
+    underlyingMethod: 'polygon:mumbai',
+    did:'polygon:mumbai:2qFwNnw1NXKgbbn6DEZdSy8iVkEKZ4wtr5G4Z1C6dx',
+  },
+  {
+    method: 'did:iden3',
+    underlyingMethod: 'polygon:mumbai',
+    did: 'polygon:mumbai:wxoLMzRss6gDNR8b9hotQEKcR2NxqNgeDtsrqDyMc'
+  }
 ];
 
 describe('getDID', () => {
