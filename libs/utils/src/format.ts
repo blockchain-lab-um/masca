@@ -49,8 +49,3 @@ export function getCompressedPublicKey(publicKey: string): string {
     publicKeyConvert(hexToUint8Array(publicKey.slice(2)), true)
   );
 }
-
-export function isJWT(jwt: string): boolean {
-  if (typeof jwt !== 'string') return false;
-  return jwt.split('.').length === 3;
-}

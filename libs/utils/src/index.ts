@@ -4,4 +4,3 @@ export * from './format.js';
 export * from './jwk.js';
 export * from './array.js';
 export * from './qsCustomDecoder.js';
-export * from './typia-generated/index.js';

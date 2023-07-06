@@ -2,4 +2,3 @@ dist
 node_modules
 coverage
 CHANGELOG.md
-src/typia-generated
