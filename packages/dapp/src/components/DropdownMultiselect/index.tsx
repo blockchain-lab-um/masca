@@ -30,7 +30,7 @@ const DropdownMultiselect = ({
         <div className="md:text-md overflow-hidden rounded-full text-left text-sm shadow-md">
           <Listbox.Button
             value={placeholder}
-            className="dark:bg-navy-blue-700 dark:text-navy-blue-100 flex w-full rounded-full bg-white border-pink-500 border-2 text-pink-500  p-2 px-1 text-sm leading-5 placeholder:text-gray-400"
+            className="dark:bg-navy-blue-700 dark:text-navy-blue-100 flex w-full rounded-full border-2 border-pink-500 bg-white p-2  px-1 text-sm leading-5 text-pink-500 placeholder:text-gray-400"
           >
             <div
               className={clsx(
