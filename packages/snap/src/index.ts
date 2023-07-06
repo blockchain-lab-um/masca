@@ -39,6 +39,8 @@ import {
   isValidSwitchMethodRequest,
   isValidVerifyDataRequest,
 } from './utils/params';
+import { handleAuthorizationRequest as handlePolygonAuthorizationRequest } from './utils/polygon-id/handleAuthorizationRequest';
+import { handleCredentialOffer as handlePolygonCredentialOffer } from './utils/polygon-id/handleCredentialOffer';
 import { getCurrentAccount } from './utils/snapUtils';
 import {
   getSnapStateUnchecked,
@@ -190,6 +192,40 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         return ResultObject.success(res);
       case 'validateStoredCeramicSession':
         await validateStoredCeramicSession(apiParams);
+        return ResultObject.success(true);
+      case 'handlePolygonCredentialOffer':
+        if (
+          !['did:polygon', 'did:iden3'].includes(
+            state.accountState[account].accountConfig.ssi.didMethod
+          )
+        ) {
+          throw new Error(
+            'Invalid DID method selected, please switch to Polygon or Iden3'
+          );
+        }
+        apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
+        await getDid(apiParams);
+        res = await handlePolygonCredentialOffer({
+          credentialOfferMessage: (request.params as any)
+            .credentialOfferMessage as string,
+        });
+        return ResultObject.success(res);
+      case 'handlePolygonAuthorizationRequest':
+        if (
+          !['did:polygon', 'did:iden3'].includes(
+            state.accountState[account].accountConfig.ssi.didMethod
+          )
+        ) {
+          throw new Error(
+            'Invalid DID method selected, please switch to Polygon or Iden3'
+          );
+        }
+        apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
+        await getDid(apiParams);
+        await handlePolygonAuthorizationRequest({
+          authorizationRequestMessage: (request.params as any)
+            .authorizationRequestMessage as string,
+        });
         return ResultObject.success(true);
       default:
         throw new Error('Method not found.');

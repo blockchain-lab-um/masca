@@ -1,9 +1,4 @@
-import {
-  Identity,
-  IdentityMerkleTreeMetaInformation,
-  Profile,
-  W3CCredential,
-} from '@0xpolygonid/js-sdk';
+import { IdentityMerkleTreeMetaInformation } from '@0xpolygonid/js-sdk';
 import { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
 import type { IIdentifier, W3CVerifiableCredential } from '@veramo/core';
 
@@ -61,9 +56,9 @@ export type MascaAccountState = {
 };
 
 export type PolygonBaseState = {
-  credentials: Record<string, W3CCredential>;
-  identities: Record<string, Identity>;
-  profiles: Record<string, Profile>;
+  credentials: Record<string, string>;
+  identities: Record<string, string>;
+  profiles: Record<string, string>;
   // TODO: Maybe we can replace array with Record here
   merkleTreeMeta: IdentityMerkleTreeMetaInformation[];
   merkleTree: Record<string, string>;

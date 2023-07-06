@@ -4,6 +4,8 @@ import type {
   DeleteVCsRequestParams,
   HandleOIDCAuthorizationRequestParams,
   HandleOIDCCredentialOfferRequestParams,
+  HandlePolygonAuthorizationRequestParams,
+  HandlePolygonCredentialOfferRequestParams,
   QueryVCsRequestParams,
   ResolveDIDRequestParams,
   SaveVCRequestParams,
@@ -113,4 +115,14 @@ export type SetCeramicSession = {
 
 export type ValidateStoredCeramicSession = {
   method: 'validateStoredCeramicSession';
+};
+
+export type HandlePolygonCredentialOffer = {
+  method: 'handlePolygonCredentialOffer';
+  params: HandlePolygonCredentialOfferRequestParams;
+};
+
+export type HandlePolygonAuthorizationRequest = {
+  method: 'handlePolygonAuthorizationRequest';
+  params: HandlePolygonAuthorizationRequestParams;
 };

@@ -3,8 +3,10 @@ import type {
   QueryVCsRequestResult,
 } from '@blockchain-lab-um/masca-types';
 import { divider, heading, panel, text } from '@metamask/snaps-ui';
+import { VerifiableCredential } from '@veramo/core';
 
 import type { ApiParams } from '../../interfaces';
+import { queryVerifiableCredentials as queryPolygon } from '../../utils/polygon-id/queryVerifiableCredentials';
 import { addFriendlyDapp, snapConfirm } from '../../utils/snapUtils';
 import { veramoQueryVCs } from '../../utils/veramoUtils';
 
@@ -23,6 +25,18 @@ export async function queryVCs(
     filter,
   });
 
+  const polygonCredentials: QueryVCsRequestResult[] = (
+    await queryPolygon({
+      account: state.currentAccount,
+    })
+  ).map((vc) => ({
+    data: vc as VerifiableCredential,
+    metadata: {
+      id: vc.id,
+      store: ['snap'],
+    },
+  }));
+
   const content = panel([
     heading('Share VCs'),
     text('Are you sure you want to share VCs with this dApp?'),
@@ -38,7 +52,7 @@ export async function queryVCs(
     (await snapConfirm(snap, content))
   ) {
     await addFriendlyDapp(snap, state, origin);
-    return vcs;
+    return [...vcs, ...polygonCredentials];
   }
 
   return [];

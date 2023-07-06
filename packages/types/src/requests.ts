@@ -11,6 +11,8 @@ import type {
   GetVCStore,
   HandleOIDCAuthorizationRequest,
   HandleOIDCCredentialOffer,
+  HandlePolygonAuthorizationRequest,
+  HandlePolygonCredentialOffer,
   QueryVCs,
   ResolveDID,
   SaveVC,
@@ -45,7 +47,9 @@ export type MascaRPCRequest =
   | HandleOIDCCredentialOffer
   | HandleOIDCAuthorizationRequest
   | SetCeramicSession
-  | ValidateStoredCeramicSession;
+  | ValidateStoredCeramicSession
+  | HandlePolygonCredentialOffer
+  | HandlePolygonAuthorizationRequest;
 
 export type Method = MascaRPCRequest['method'];
 

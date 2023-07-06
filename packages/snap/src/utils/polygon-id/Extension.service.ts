@@ -29,6 +29,7 @@ export class ExtensionService {
     proofService: ProofService;
     credWallet: CredentialWallet;
     wallet: IdentityWallet;
+    kms: KMS;
     dataStorage: {
       credential: CredentialStorage;
       identity: IdentityStorage;
@@ -75,18 +76,17 @@ export class ExtensionService {
 
     const authHandler = new AuthHandler(packageMgr, proofService, credWallet);
 
-    // TODO: Handle account switch
-    // if (!this.instance) {
+    // TODO: Can we improve this ?
     this.instance = {
       packageMgr,
       proofService,
       credWallet,
       wallet,
+      kms,
       dataStorage,
       authHandler,
       status: INIT,
     };
-    // }
 
     return this.instance;
   }

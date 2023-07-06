@@ -14,6 +14,8 @@ import type {
   DeleteVCsOptions,
   HandleOIDCAuthorizationRequestParams,
   HandleOIDCCredentialOfferRequestParams,
+  HandlePolygonAuthorizationRequestParams,
+  HandlePolygonCredentialOfferRequestParams,
   QueryVCsRequestParams,
   SaveVCOptions,
   SetCurrentAccountRequestParams,
@@ -65,4 +67,10 @@ export interface MascaApi {
   ): Promise<Result<VerifiableCredential[]>>;
   setCeramicSession(serializedSession: string): Promise<Result<boolean>>;
   validateStoredCeramicSession(): Promise<Result<boolean>>;
+  handlePolygonCredentialOffer(
+    params: HandlePolygonCredentialOfferRequestParams
+  ): Promise<Result<VerifiableCredential[]>>;
+  handlePolygonAuthorizationRequest(
+    params: HandlePolygonAuthorizationRequestParams
+  ): Promise<Result<boolean>>;
 }

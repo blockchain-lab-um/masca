@@ -6,6 +6,8 @@ import type {
   DeleteVCsOptions,
   HandleOIDCAuthorizationRequestParams,
   HandleOIDCCredentialOfferRequestParams,
+  HandlePolygonAuthorizationRequestParams,
+  HandlePolygonCredentialOfferRequestParams,
   MascaAccountConfig,
   MascaApi,
   MascaConfig,
@@ -402,6 +404,32 @@ export async function validateStoredCeramicSession(
   );
 }
 
+export async function handlePolygonCredentialOffer(
+  this: Masca,
+  params: HandlePolygonCredentialOfferRequestParams
+): Promise<Result<VerifiableCredential[]>> {
+  return sendSnapMethod(
+    {
+      method: 'handlePolygonCredentialOffer',
+      params,
+    },
+    this.snapId
+  );
+}
+
+export async function handlePolygonAuthorizationRequest(
+  this: Masca,
+  params: HandlePolygonAuthorizationRequestParams
+): Promise<Result<boolean>> {
+  return sendSnapMethod(
+    {
+      method: 'handlePolygonAuthorizationRequest',
+      params,
+    },
+    this.snapId
+  );
+}
+
 const wrapper =
   <T extends any[], R>(fn: (...args: T) => Promise<Result<R>>) =>
   async (...args: T): Promise<Result<R>> => {
@@ -451,6 +479,12 @@ export class Masca {
     setCeramicSession: wrapper(setCeramicSession.bind(this)),
     validateStoredCeramicSession: wrapper(
       validateStoredCeramicSession.bind(this)
+    ),
+    handlePolygonCredentialOffer: wrapper(
+      handlePolygonCredentialOffer.bind(this)
+    ),
+    handlePolygonAuthorizationRequest: wrapper(
+      handlePolygonAuthorizationRequest.bind(this)
     ),
   });
 }

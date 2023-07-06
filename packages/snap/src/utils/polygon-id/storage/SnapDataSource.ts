@@ -24,7 +24,9 @@ export class SnapDataSource<T> implements IDataSource<T> {
         this.blockchain
       ][this.networkId];
 
-    return Object.values(base[this.STORAGE_KEY]) as T[];
+    return Object.values(base[this.STORAGE_KEY]).map(
+      (val) => JSON.parse(val) as T
+    );
   }
 
   async save(key: string, value: T): Promise<void> {
@@ -33,7 +35,9 @@ export class SnapDataSource<T> implements IDataSource<T> {
       data.accountState[this.account].polygonState[this.method][
         this.blockchain
       ][this.networkId];
-    base[this.STORAGE_KEY][key] = value as any;
+
+    base[this.STORAGE_KEY][key] = JSON.stringify(value);
+
     await updateSnapState(snap, data);
   }
 
@@ -43,7 +47,9 @@ export class SnapDataSource<T> implements IDataSource<T> {
       data.accountState[this.account].polygonState[this.method][
         this.blockchain
       ][this.networkId];
-    return base[this.STORAGE_KEY][key] as T;
+    return base[this.STORAGE_KEY][key]
+      ? (JSON.parse(base[this.STORAGE_KEY][key]) as T)
+      : undefined;
   }
 
   async delete(key: string): Promise<void> {

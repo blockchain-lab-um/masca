@@ -145,3 +145,11 @@ export type HandleOIDCAuthorizationRequestParams = {
 export type SetCeramicSessionRequestParams = {
   serializedSession: string;
 };
+
+export type HandlePolygonCredentialOfferRequestParams = {
+  credentialOfferMessage: string;
+};
+
+export type HandlePolygonAuthorizationRequestParams = {
+  authorizationRequestMessage: string;
+};

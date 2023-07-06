@@ -1,4 +1,4 @@
-import { CredentialStatusType } from '@0xpolygonid/js-sdk';
+import { CredentialStatusType, KmsKeyType } from '@0xpolygonid/js-sdk';
 import type {
   AvailableMethods,
   AvailableVCStores,
@@ -107,7 +107,7 @@ export async function getCurrentDidIdentifier(params: {
           selectedNetworkId
         );
 
-        const { wallet, dataStorage } =
+        const { wallet, dataStorage, kms } =
           ExtensionService.getExtensionServiceInstance();
 
         let did: string | null = null;
@@ -115,6 +115,11 @@ export async function getCurrentDidIdentifier(params: {
         const identity = (await dataStorage.identity.getAllIdentities())[0];
 
         if (identity) {
+          // Import existing key
+          await kms.createKeyFromSeed(
+            KmsKeyType.BabyJubJub,
+            hexToBytes(entropy)
+          );
           did = identity.identifier;
         }
 
@@ -129,6 +134,9 @@ export async function getCurrentDidIdentifier(params: {
               type: CredentialStatusType.Iden3ReverseSparseMerkleTreeProof,
             },
           });
+
+          console.log('here', newIdentity.did);
+          console.log(newIdentity.did.string());
 
           did = newIdentity.did.string();
         }
