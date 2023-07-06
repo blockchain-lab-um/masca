@@ -29,15 +29,18 @@
     "build": "pnpm clean && pnpm compile",
     "clean": "rimraf dist",
     "compile": "tsup",
+    "postinstall": "pnpm typia:generate",
     "lint": "pnpm lint:eslint && pnpm lint:prettier",
     "lint:eslint": "eslint .",
     "lint:fix": "eslint . --fix && prettier . --write",
-    "lint:prettier": "prettier . --check"
+    "lint:prettier": "prettier . --check",
+    "typia:generate": "pnpm typia generate --input src/typia-templates --output src/typia-generated --project tsconfig.json"
   },
   "dependencies": {
     "@blockchain-lab-um/utils": "*",
     "@veramo/core": "5.2.0",
-    "@veramo/key-manager": "5.1.2"
+    "@veramo/key-manager": "5.1.2",
+    "typia": "^4.1.3"
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.0.1",
