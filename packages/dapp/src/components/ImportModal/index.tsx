@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { AvailableVCStores } from '@blockchain-lab-um/masca-types';
-import { isVerifiableCredential } from '@blockchain-lab-um/utils';
+import {
+  AvailableVCStores,
+  isVerifiableCredential,
+} from '@blockchain-lab-um/masca-types';
 import { Dialog } from '@headlessui/react';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';

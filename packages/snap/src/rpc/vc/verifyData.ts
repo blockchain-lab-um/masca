@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import type { VerifyDataRequestParams } from '@blockchain-lab-um/masca-types';
 import {
   isJWT,
   isW3CVerifiableCredential,
   isW3CVerifiablePresentation,
-} from '@blockchain-lab-um/utils';
+  type VerifyDataRequestParams,
+} from '@blockchain-lab-um/masca-types';
 import type { IVerifyResult } from '@veramo/core';
 
 import type { ApiParams } from '../../interfaces';

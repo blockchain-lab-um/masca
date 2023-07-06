@@ -1,3 +1,5 @@
+import { isValidCreateVCRequestParams } from '@blockchain-lab-um/masca-types';
+
 import {
   isValidCreateVCRequest,
   isValidCreateVPRequest,
@@ -434,7 +436,7 @@ describe('Utils [params]', () => {
       );
     });
   });
-  describe('isValidDeleteVCsRequest', () => {
+  describe('isValidDeleteVCRequest', () => {
     it('should fail for not enabled store', () => {
       const state = getDefaultSnapState(account);
       state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
@@ -528,19 +530,19 @@ describe('Utils [params]', () => {
       ).toThrow('ID is not a string or array of strings');
     });
   });
-  describe('isValidCreateVCsRequest', () => {
+  describe('isValidCreateVCRequest', () => {
     it('should pass with only unsignedVC', () => {
       const state = getDefaultSnapState(account);
       state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
-      expect(() =>
-        isValidCreateVCRequest(
+      expect(() => {
+        isValidCreateVCRequestParams(
           {
             minimalUnsignedCredential: exampleVCPayload,
           },
           account,
           state
-        )
-      ).not.toThrow();
+        );
+      }).not.toThrow();
     });
     it('should pass with unsignedVC & PF', () => {
       const state = getDefaultSnapState(account);

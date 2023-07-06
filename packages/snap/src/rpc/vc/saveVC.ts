@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import type {
-  SaveVCRequestParams,
-  SaveVCRequestResult,
+import {
+  isJWT,
+  isW3CVerifiableCredential,
+  type SaveVCRequestParams,
+  type SaveVCRequestResult,
 } from '@blockchain-lab-um/masca-types';
-import { isJWT, isW3CVerifiableCredential } from '@blockchain-lab-um/utils';
 import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
 
 import type { ApiParams } from '../../interfaces';

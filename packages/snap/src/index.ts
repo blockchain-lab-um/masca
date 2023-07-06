@@ -1,6 +1,7 @@
-import type {
-  HandleOIDCAuthorizationRequestParams,
-  HandleOIDCCredentialOfferRequestParams,
+import {
+  isValidCreateVCRequestParams,
+  type HandleOIDCAuthorizationRequestParams,
+  type HandleOIDCCredentialOfferRequestParams,
 } from '@blockchain-lab-um/masca-types';
 import { ResultObject, type Result } from '@blockchain-lab-um/utils';
 import { OnRpcRequestHandler } from '@metamask/snaps-types';
@@ -26,7 +27,7 @@ import { getAvailableVCStores } from './rpc/vcStore/getAvailableVCStores';
 import { setVCStore } from './rpc/vcStore/setVCStore';
 import { getAddressKeyDeriver } from './utils/keyPair';
 import {
-  isValidCreateVCRequest,
+  // isValidCreateVCRequest,
   isValidCreateVPRequest,
   isValidDeleteVCRequest,
   isValidQueryRequest,
@@ -97,7 +98,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         res = await saveVC(apiParams, request.params);
         return ResultObject.success(res);
       case 'createVC':
-        isValidCreateVCRequest(
+        isValidCreateVCRequestParams(
           request.params,
           apiParams.account,
           apiParams.state
