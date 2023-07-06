@@ -19,13 +19,13 @@ export async function verifyData(
   const verbose = args.verbose || false;
 
   if (!credential && !presentation) throw new Error('Missing VC or VP');
+  const checkValue = credential || presentation;
+  if (checkValue && typeof checkValue === 'string' && !isJWT(checkValue))
+    throw new Error('Invalid JWT string');
   if (credential && !isW3CVerifiableCredential(credential))
     throw new Error('Invalid VC');
   if (presentation && !isW3CVerifiablePresentation(presentation))
     throw new Error('Invalid VP');
-  const checkValue = credential || presentation;
-  if (checkValue && typeof checkValue === 'string' && !isJWT(checkValue))
-    throw new Error('Invalid JWT string');
 
   const res = await veramoVerifyData({
     snap,

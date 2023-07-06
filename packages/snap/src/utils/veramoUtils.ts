@@ -245,16 +245,14 @@ export async function veramoVerifyData(args: {
     const agent = await getAgent(snap, ethereum);
 
     if (credential) {
-      const vcResult = await agent.verifyCredential({
+      return await agent.verifyCredential({
         credential,
       });
-      return JSON.parse(JSON.stringify(vcResult)) as IVerifyResult;
     }
     if (presentation) {
-      const vpResult = await agent.verifyPresentation({
+      return await agent.verifyPresentation({
         presentation,
       });
-      return JSON.parse(JSON.stringify(vpResult)) as IVerifyResult;
     }
     return {
       verified: false,
