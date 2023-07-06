@@ -14,27 +14,50 @@ import {
   OnChainResolver,
   RHSResolver,
 } from '@0xpolygonid/js-sdk';
+import { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
 
 import { defaultEthConnectionConfig } from './constants';
 import { SnapDataSource, SnapMerkleTreeStorage } from './storage';
 
 export class WalletService {
-  static async createWallet(account: string) {
+  static async createWallet(
+    account: string,
+    method: DidMethod.Iden3 | DidMethod.PolygonId,
+    blockchain: Blockchain.Ethereum | Blockchain.Polygon,
+    networkId: NetworkId.Main | NetworkId.Goerli | NetworkId.Mumbai
+  ) {
     const memoryKeyStore = new InMemoryPrivateKeyStore();
-    // const snapKeyStore = new SnapStoragePrivateKeyStore(account);
     const bjjProvider = new BjjProvider(KmsKeyType.BabyJubJub, memoryKeyStore);
     const kms = new KMS();
     kms.registerKeyProvider(KmsKeyType.BabyJubJub, bjjProvider);
 
     const dataStorage = {
       credential: new CredentialStorage(
-        new SnapDataSource(account, CredentialStorage.storageKey)
+        new SnapDataSource(
+          account,
+          method,
+          blockchain,
+          networkId,
+          CredentialStorage.storageKey
+        )
       ),
       identity: new IdentityStorage(
-        new SnapDataSource(account, IdentityStorage.identitiesStorageKey),
-        new SnapDataSource(account, IdentityStorage.profilesStorageKey)
+        new SnapDataSource(
+          account,
+          method,
+          blockchain,
+          networkId,
+          IdentityStorage.identitiesStorageKey
+        ),
+        new SnapDataSource(
+          account,
+          method,
+          blockchain,
+          networkId,
+          IdentityStorage.profilesStorageKey
+        )
       ),
-      mt: new SnapMerkleTreeStorage(account, 40),
+      mt: new SnapMerkleTreeStorage(account, method, blockchain, networkId, 40),
       states: new EthStateStorage(defaultEthConnectionConfig),
     };
 

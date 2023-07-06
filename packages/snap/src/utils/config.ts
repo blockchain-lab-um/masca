@@ -3,18 +3,48 @@ import type {
   MascaAccountState,
   MascaConfig,
   MascaState,
+  PolygonBaseState,
+  PolygonState,
 } from '@blockchain-lab-um/masca-types';
 import cloneDeep from 'lodash.clonedeep';
 
-const emptyAccountState = {
-  polygonState: {
-    credentials: {},
-    identities: {},
-    profiles: {},
-    merkleTreeMeta: [],
-    merkleTree: {},
-    keystore: {},
+const emptyPolygonBaseState: PolygonBaseState = {
+  credentials: {},
+  identities: {},
+  profiles: {},
+  merkleTreeMeta: [],
+  merkleTree: {},
+};
+
+const emptyPolygonState: PolygonState = {
+  polygonid: {
+    eth: {
+      main: cloneDeep(emptyPolygonBaseState),
+      goerli: cloneDeep(emptyPolygonBaseState),
+      mumbai: cloneDeep(emptyPolygonBaseState), // To satisfy the type
+    },
+    polygon: {
+      main: cloneDeep(emptyPolygonBaseState),
+      mumbai: cloneDeep(emptyPolygonBaseState),
+      goerli: cloneDeep(emptyPolygonBaseState), // To satisfy the type
+    },
   },
+  iden3: {
+    eth: {
+      main: cloneDeep(emptyPolygonBaseState),
+      goerli: cloneDeep(emptyPolygonBaseState),
+      mumbai: cloneDeep(emptyPolygonBaseState), // To satisfy the type
+    },
+    polygon: {
+      main: cloneDeep(emptyPolygonBaseState),
+      mumbai: cloneDeep(emptyPolygonBaseState),
+      goerli: cloneDeep(emptyPolygonBaseState), // To satisfy the type
+    },
+  },
+};
+
+const emptyAccountState = {
+  polygonState: emptyPolygonState,
   vcs: {},
   identifiers: {},
   publicKey: '',

@@ -1,3 +1,4 @@
+import { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
 import {
   Bytes,
   bytes2Hex,
@@ -24,6 +25,12 @@ export class SnapTreeStorage implements ITreeStorage {
 
   constructor(
     private readonly account: string,
+    private readonly method: DidMethod.Iden3 | DidMethod.PolygonId,
+    private readonly blockchain: Blockchain.Ethereum | Blockchain.Polygon,
+    private readonly networkId:
+      | NetworkId.Main
+      | NetworkId.Goerli
+      | NetworkId.Mumbai,
     private readonly prefix: Bytes
   ) {
     this.currentRoot = ZERO_HASH;
@@ -35,11 +42,12 @@ export class SnapTreeStorage implements ITreeStorage {
     const key = bytes2Hex(keyBytes);
 
     const data = await getSnapState(snap);
+    const base =
+      data.accountState[this.account].polygonState[this.method][
+        this.blockchain
+      ][this.networkId];
 
-    const value =
-      data.accountState[this.account].polygonState[SnapTreeStorage.STORAGE_KEY][
-        key
-      ];
+    const value = base[SnapTreeStorage.STORAGE_KEY][key];
 
     if (!value) {
       return undefined;
@@ -56,7 +64,6 @@ export class SnapTreeStorage implements ITreeStorage {
 
         return new NodeMiddle(childL, childR);
       }
-
       case NODE_TYPE_LEAF: {
         const nodeKey = new Hash(Uint8Array.from(node.entry[0]));
         const nodeValue = new Hash(Uint8Array.from(node.entry[1]));
@@ -73,7 +80,6 @@ export class SnapTreeStorage implements ITreeStorage {
   async put(k: Uint8Array, node: Node): Promise<void> {
     const keyBytes = new Uint8Array([...this.prefix, ...k]);
     const key = bytes2Hex(keyBytes);
-
     const toSerialize: Record<string, unknown> = {
       type: node.type,
     };
@@ -89,11 +95,14 @@ export class SnapTreeStorage implements ITreeStorage {
     }
 
     const value = JSON.stringify(toSerialize);
-
     const data = await getSnapState(snap);
-    data.accountState[this.account].polygonState[SnapTreeStorage.STORAGE_KEY][
-      key
-    ] = value;
+    const base =
+      data.accountState[this.account].polygonState[this.method][
+        this.blockchain
+      ][this.networkId];
+
+    base[SnapTreeStorage.STORAGE_KEY][key] = value;
+
     await updateSnapState(snap, data);
   }
 
@@ -103,10 +112,11 @@ export class SnapTreeStorage implements ITreeStorage {
     }
 
     const data = await getSnapState(snap);
-    const rootStr =
-      data.accountState[this.account].polygonState[SnapTreeStorage.STORAGE_KEY][
-        this.prefixHash
-      ];
+    const base =
+      data.accountState[this.account].polygonState[this.method][
+        this.blockchain
+      ][this.networkId];
+    const rootStr = base[SnapTreeStorage.STORAGE_KEY][this.prefixHash];
 
     if (!rootStr) {
       this.currentRoot = ZERO_HASH;
@@ -120,10 +130,17 @@ export class SnapTreeStorage implements ITreeStorage {
 
   async setRoot(r: Hash): Promise<void> {
     this.currentRoot = r;
+
     const data = await getSnapState(snap);
-    data.accountState[this.account].polygonState[SnapTreeStorage.STORAGE_KEY][
-      bytes2Hex(this.prefix)
-    ] = JSON.stringify(Array.from(r.bytes));
+    const base =
+      data.accountState[this.account].polygonState[this.method][
+        this.blockchain
+      ][this.networkId];
+
+    base[SnapTreeStorage.STORAGE_KEY][bytes2Hex(this.prefix)] = JSON.stringify(
+      Array.from(r.bytes)
+    );
+
     await updateSnapState(snap, data);
   }
 }

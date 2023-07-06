@@ -1,26 +1,16 @@
-import { CredentialStatusType, MerkleTreeType } from '@0xpolygonid/js-sdk';
+import { CredentialStatusType } from '@0xpolygonid/js-sdk';
 import type {
   AvailableMethods,
   AvailableVCStores,
   MascaState,
 } from '@blockchain-lab-um/masca-types';
-import {
-  Blockchain,
-  buildDIDType,
-  DID,
-  DidMethod,
-  Id,
-  NetworkId,
-} from '@iden3/js-iden3-core';
-import { hashElems, ZERO_HASH } from '@iden3/js-merkletree';
+import { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import type { IIdentifier } from '@veramo/core';
 import { hexToBytes } from '@veramo/utils';
-import { sha256js } from 'cross-sha256';
 import type { DIDResolutionResult } from 'did-resolver';
-import * as uuid from 'uuid';
 
 import { getAgent } from '../veramo/setup';
 import { snapGetKeysFromAddress } from './keyPair';
@@ -105,48 +95,27 @@ export async function getCurrentDidIdentifier(params: {
           params: { version: 1, salt: account },
         });
 
-        const { wallet, dataStorage } =
-          ExtensionService.getExtensionServiceInstance();
         const selectedMethod =
           method === 'did:iden3' ? DidMethod.Iden3 : DidMethod.PolygonId;
         const selectedBlockchain = Blockchain.Polygon;
         const selectedNetworkId = NetworkId.Mumbai;
 
-        const treeId = uuid.v5(
-          // eslint-disable-next-line new-cap
-          new sha256js().update(hexToBytes(entropy)).digest('hex'),
-          uuid.NIL
+        await ExtensionService.init(
+          account,
+          selectedMethod,
+          selectedBlockchain,
+          selectedNetworkId
         );
-        const claimsTree = await dataStorage.mt.getMerkleTreeByTreeIdAndType(
-          `${treeId}+${MerkleTreeType.Claims}`,
-          MerkleTreeType.Claims
-        );
+
+        const { wallet, dataStorage } =
+          ExtensionService.getExtensionServiceInstance();
+
         let did: string | null = null;
 
-        if (claimsTree) {
-          const currentState = hashElems([
-            (await claimsTree.root()).bigInt(),
-            ZERO_HASH.bigInt(),
-            ZERO_HASH.bigInt(),
-          ]);
+        const identity = (await dataStorage.identity.getAllIdentities())[0];
 
-          const didType = buildDIDType(
-            selectedMethod,
-            selectedBlockchain,
-            selectedNetworkId
-          );
-          const genesisIdentifier = Id.idGenesisFromIdenState(
-            didType,
-            currentState.bigInt()
-          );
-          const identity = await dataStorage.identity.getIdentity(
-            DID.parseFromId(genesisIdentifier).string()
-          );
-
-          if (identity) {
-            // TODO: Import key to memorykeystore
-            did = identity.identifier;
-          }
+        if (identity) {
+          did = identity.identifier;
         }
 
         if (!did) {
@@ -161,7 +130,7 @@ export async function getCurrentDidIdentifier(params: {
             },
           });
 
-          did = newIdentity.did.id;
+          did = newIdentity.did.string();
         }
 
         const identifier: IIdentifier = {

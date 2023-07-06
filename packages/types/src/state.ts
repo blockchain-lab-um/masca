@@ -1,6 +1,12 @@
+import {
+  Identity,
+  IdentityMerkleTreeMetaInformation,
+  Profile,
+  W3CCredential,
+} from '@0xpolygonid/js-sdk';
+import { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
 import type { IIdentifier, W3CVerifiableCredential } from '@veramo/core';
 
-import { Identity, IdentityMerkleTreeMetaInformation, Profile, W3CCredential } from '@0xpolygonid/js-sdk';
 import type { AvailableMethods, AvailableVCStores } from './constants.js';
 
 export type MascaConfig = {
@@ -54,13 +60,22 @@ export type MascaAccountState = {
   ceramicSession?: string;
 };
 
-export type PolygonState = {
+export type PolygonBaseState = {
   credentials: Record<string, W3CCredential>;
   identities: Record<string, Identity>;
   profiles: Record<string, Profile>;
   // TODO: Maybe we can replace array with Record here
   merkleTreeMeta: IdentityMerkleTreeMetaInformation[];
   merkleTree: Record<string, string>;
-  keystore: Record<string, {alias: string,  value: string}>;
-} ;
+};
 
+export type PolygonState = Record<
+  DidMethod.Iden3 | DidMethod.PolygonId,
+  Record<
+    Blockchain.Ethereum | Blockchain.Polygon,
+    Record<
+      NetworkId.Main | NetworkId.Goerli | NetworkId.Mumbai,
+      PolygonBaseState
+    >
+  >
+>;

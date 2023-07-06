@@ -15,7 +15,7 @@ import {
   VerificationHandlerFunc,
   ZKPPacker,
 } from '@0xpolygonid/js-sdk';
-import { DID } from '@iden3/js-iden3-core';
+import { Blockchain, DID, DidMethod, NetworkId } from '@iden3/js-iden3-core';
 import { proving } from '@iden3/js-jwz';
 
 import { CircuitStorageInstance } from './CircuitStorage';
@@ -39,10 +39,21 @@ export class ExtensionService {
     status: string;
   };
 
-  static async init(account: string) {
+  static async init(
+    account: string,
+    method: DidMethod.Iden3 | DidMethod.PolygonId,
+    blockchain: Blockchain.Ethereum | Blockchain.Polygon,
+    networkId: NetworkId.Main | NetworkId.Goerli | NetworkId.Mumbai
+  ) {
     await CircuitStorageInstance.init();
 
-    const accountInfo = await WalletService.createWallet(account);
+    const accountInfo = await WalletService.createWallet(
+      account,
+      method,
+      blockchain,
+      networkId
+    );
+
     const { wallet, credWallet, dataStorage, kms } = accountInfo;
 
     const circuitStorage = CircuitStorageInstance.getCircuitStorageInstance();
@@ -76,6 +87,7 @@ export class ExtensionService {
       status: INIT,
     };
     // }
+
     return this.instance;
   }
 

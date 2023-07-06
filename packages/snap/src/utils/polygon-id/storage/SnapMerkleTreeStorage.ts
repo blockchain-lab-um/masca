@@ -3,6 +3,7 @@ import {
   IMerkleTreeStorage,
   MerkleTreeType,
 } from '@0xpolygonid/js-sdk';
+import { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
 import { Merkletree, str2Bytes } from '@iden3/js-merkletree';
 
 import { getSnapState, updateSnapState } from '../../stateUtils';
@@ -19,6 +20,12 @@ export class SnapMerkleTreeStorage implements IMerkleTreeStorage {
 
   constructor(
     private readonly account: string,
+    private readonly method: DidMethod.Iden3 | DidMethod.PolygonId,
+    private readonly blockchain: Blockchain.Ethereum | Blockchain.Polygon,
+    private readonly networkId:
+      | NetworkId.Main
+      | NetworkId.Goerli
+      | NetworkId.Mumbai,
     private readonly depth: number
   ) {}
 
@@ -38,10 +45,12 @@ export class SnapMerkleTreeStorage implements IMerkleTreeStorage {
       return treesMeta;
     };
 
-    const meta =
-      data.accountState[this.account].polygonState[
-        SnapMerkleTreeStorage.STORAGE_KEY
-      ];
+    const base =
+      data.accountState[this.account].polygonState[this.method][
+        this.blockchain
+      ][this.networkId];
+
+    const meta = base[SnapMerkleTreeStorage.STORAGE_KEY];
 
     const identityMetaInfo = meta.filter((m) => m.identifier === identifier);
 
@@ -51,24 +60,22 @@ export class SnapMerkleTreeStorage implements IMerkleTreeStorage {
 
     const treesMeta = createMetaInfo();
 
-    data.accountState[this.account].polygonState[
-      SnapMerkleTreeStorage.STORAGE_KEY
-    ] = [...meta, ...treesMeta];
+    base[SnapMerkleTreeStorage.STORAGE_KEY] = [...meta, ...treesMeta];
 
     await updateSnapState(snap, data);
-    return data.accountState[this.account].polygonState[
-      SnapMerkleTreeStorage.STORAGE_KEY
-    ];
+    return base[SnapMerkleTreeStorage.STORAGE_KEY];
   }
 
   async getIdentityMerkleTreesInfo(
     identifier: string
   ): Promise<IdentityMerkleTreeMetaInformation[]> {
     const data = await getSnapState(snap);
-    const meta =
-      data.accountState[this.account].polygonState[
-        SnapMerkleTreeStorage.STORAGE_KEY
-      ];
+    const base =
+      data.accountState[this.account].polygonState[this.method][
+        this.blockchain
+      ][this.networkId];
+
+    const meta = base[SnapMerkleTreeStorage.STORAGE_KEY];
 
     return meta.filter((m) => m.identifier === identifier);
   }
@@ -80,10 +87,12 @@ export class SnapMerkleTreeStorage implements IMerkleTreeStorage {
     hvalue: bigint
   ): Promise<void> {
     const data = await getSnapState(snap);
-    const meta =
-      data.accountState[this.account].polygonState[
-        SnapMerkleTreeStorage.STORAGE_KEY
-      ];
+    const base =
+      data.accountState[this.account].polygonState[this.method][
+        this.blockchain
+      ][this.networkId];
+
+    const meta = base[SnapMerkleTreeStorage.STORAGE_KEY];
 
     const resultMeta = meta.filter(
       (m) => m.identifier === identifier && m.type === mtType
@@ -96,12 +105,17 @@ export class SnapMerkleTreeStorage implements IMerkleTreeStorage {
     }
 
     const tree = new Merkletree(
-      new SnapTreeStorage(this.account, str2Bytes(resultMeta.treeId)),
+      new SnapTreeStorage(
+        this.account,
+        this.method,
+        this.blockchain,
+        this.networkId,
+        str2Bytes(resultMeta.treeId)
+      ),
       true,
       this.depth
     );
 
-    console.log('Adding to tree', hindex, hvalue);
     await tree.add(hindex, hvalue);
   }
 
@@ -110,11 +124,12 @@ export class SnapMerkleTreeStorage implements IMerkleTreeStorage {
     mtType: MerkleTreeType
   ): Promise<Merkletree> {
     const data = await getSnapState(snap);
-    const meta =
-      data.accountState[this.account].polygonState[
-        SnapMerkleTreeStorage.STORAGE_KEY
-      ];
-    console.log('getMerkleTreeByIdentifierAndType', identifier, mtType);
+    const base =
+      data.accountState[this.account].polygonState[this.method][
+        this.blockchain
+      ][this.networkId];
+
+    const meta = base[SnapMerkleTreeStorage.STORAGE_KEY];
     const resultMeta = meta.filter(
       (m) => m.identifier === identifier && m.type === mtType
     )[0];
@@ -126,7 +141,13 @@ export class SnapMerkleTreeStorage implements IMerkleTreeStorage {
     }
 
     return new Merkletree(
-      new SnapTreeStorage(this.account, str2Bytes(resultMeta.treeId)),
+      new SnapTreeStorage(
+        this.account,
+        this.method,
+        this.blockchain,
+        this.networkId,
+        str2Bytes(resultMeta.treeId)
+      ),
       true,
       this.depth
     );
@@ -137,10 +158,12 @@ export class SnapMerkleTreeStorage implements IMerkleTreeStorage {
     newIdentifier: string
   ): Promise<void> {
     const data = await getSnapState(snap);
-    const meta =
-      data.accountState[this.account].polygonState[
-        SnapMerkleTreeStorage.STORAGE_KEY
-      ];
+    const base =
+      data.accountState[this.account].polygonState[this.method][
+        this.blockchain
+      ][this.networkId];
+
+    const meta = base[SnapMerkleTreeStorage.STORAGE_KEY];
 
     const treesMeta = meta
       .filter((m) => m.identifier === oldIdentifier)
@@ -157,43 +180,8 @@ export class SnapMerkleTreeStorage implements IMerkleTreeStorage {
       ...treesMeta,
     ];
 
-    data.accountState[this.account].polygonState[
-      SnapMerkleTreeStorage.STORAGE_KEY
-    ] = newMetaInfo;
+    base[SnapMerkleTreeStorage.STORAGE_KEY] = newMetaInfo;
 
     await updateSnapState(snap, data);
-  }
-
-  async getMerkleTreeByTreeIdAndType(
-    treeId: string,
-    mtType: MerkleTreeType
-  ): Promise<Merkletree | null> {
-    const data = await getSnapState(snap);
-    const meta =
-      data.accountState[this.account].polygonState[
-        SnapMerkleTreeStorage.STORAGE_KEY
-      ];
-
-    console.log('getMerkleTreeByTreeIdAndType', treeId, mtType);
-
-    meta.forEach((m) =>
-      console.log('getMerkleTreeByTreeIdAndType', m.treeId, m.type)
-    );
-
-    const resultMeta = meta.filter(
-      (m) => m.treeId === treeId && m.type === mtType
-    )[0];
-
-    if (!resultMeta) {
-      return null;
-    }
-
-    console.log('getMerkleTreeByTreeIdAndType', resultMeta);
-
-    return new Merkletree(
-      new SnapTreeStorage(this.account, str2Bytes(resultMeta.treeId)),
-      true,
-      this.depth
-    );
   }
 }

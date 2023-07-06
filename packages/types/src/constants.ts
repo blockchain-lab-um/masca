@@ -14,7 +14,7 @@ export const internalSigMethods = [
   'did:key:jwk_jcs-pub',
   'did:jwk',
   'did:polygon',
-  'did:iden3'
+  'did:iden3',
   // 'did:ebsi',
 ] as const;
 export type InternalSigMethods = (typeof internalSigMethods)[number];
