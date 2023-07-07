@@ -1,9 +1,6 @@
 import typia from 'typia';
 
 import {
-  // isAvailableMethods,
-  isAvailableVCStores,
-  // isSupportedProofFormat,
   type AvailableVCStores,
   type CreateVCRequestParams,
   type CreateVPRequestParams,
@@ -24,20 +21,42 @@ const isEnabledVCStore = (
   store: AvailableVCStores
 ): boolean => state.accountState[account].accountConfig.ssi.vcStore[store];
 
+const checkVCStore = (param: any, account: string, state: MascaState): void => {
+  if (
+    param.options &&
+    'store' in param.options &&
+    param.options?.store !== null
+  ) {
+    if (typeof param.options?.store === 'string') {
+      if (!isEnabledVCStore(account, state, param.options?.store)) {
+        throw new Error(
+          `Store ${param.options?.store as string} is not enabled!`
+        );
+      }
+    } else if (
+      Array.isArray(param.options?.store) &&
+      param.options?.store.length > 0
+    ) {
+      (param.options?.store as [string]).forEach((store) => {
+        if (!isEnabledVCStore(account, state, store as AvailableVCStores))
+          throw new Error(`Store ${store} is not enabled!`);
+      });
+    }
+  }
+};
+
 const formatErrorMessages = (errors: typia.IValidation.IError[]): string => {
   let errorMessage = 'invalid_argument: ';
-
   for (let i = 0; i < errors.length; i += 1) {
     errorMessage += errors[i].path;
     if (i < errors.length - 1) {
       errorMessage += ', ';
     }
   }
-
   return errorMessage;
 };
 
-export const handleIValidation = (result: typia.IValidation<unknown>) => {
+const handleIValidation = (result: typia.IValidation<unknown>) => {
   if (result.success) {
     return undefined;
   }
@@ -64,49 +83,84 @@ const validateSwitchMethodRequest =
 const validateVerifyDataRequest =
   typia.createValidateEquals<VerifyDataRequestParams>();
 
-export const isValidCreateVCRequestParams = (
+export const isValidCreateVCRequest = (
   input: any,
   account: string,
   state: MascaState
 ): asserts input is CreateVCRequestParams => {
   const res = validateCreateVCRequest(input);
   if (!res.success) throw new Error(handleIValidation(res));
-  const value = input as CreateVCRequestParams;
-  if (typeof value.options?.store === 'string') {
-    if (!isAvailableVCStores(input.options?.store)) {
-      throw new Error(`Store ${value.options?.store} is not supported!`);
-    }
-    if (!isEnabledVCStore(account, state, input.options?.store)) {
-      throw new Error(`Store ${value.options?.store} is not enabled!`);
-    }
-  } else if (
-    value.options?.store &&
-    Array.isArray(value.options?.store) &&
-    value.options?.store.length > 0
-  ) {
-    (value.options?.store as [string]).forEach((store) => {
-      if (!isAvailableVCStores(store))
-        throw new Error(`Store ${store} is not supported!`);
-      if (!isEnabledVCStore(account, state, store as AvailableVCStores))
-        throw new Error(`Store ${store} is not enabled!`);
-    });
-  }
+  checkVCStore(input as CreateVCRequestParams, account, state);
 };
-// export const isValidCreateVPRequest = (input: any) =>
-//   handleIValidation(validateCreateVPRequest(input));
-// export const isValidDeleteVCsRequest = (input: any) =>
-//   handleIValidation(validateDeleteVCsRequest(input));
-// export const isValidQueryVCsRequest = (input: any) =>
-//   handleIValidation(validateQueryVCsRequest(input));
-// export const isValidResolveDIDRequest = (input: any) =>
-//   handleIValidation(validateResolveDIDRequest(input));
-// export const isValidSaveVCRequest = (input: any) =>
-//   handleIValidation(validateSaveVCRequest(input));
-// export const isValidSetCurrentAccountRequest = (input: any) =>
-//   handleIValidation(validateSetCurrentAccountRequest(input));
-// export const isValidSetVCStoreRequest = (input: any) =>
-//   handleIValidation(validateSetVCStoreRequest(input));
-// export const isValidSwitchMethodRequest = (input: any) =>
-//   handleIValidation(validateSwitchMethodRequest(input));
-// export const isValidVerifyDataRequest = (input: any) =>
-//   handleIValidation(validateVerifyDataRequest(input));
+
+export const isValidCreateVPRequest = (
+  input: any
+): asserts input is CreateVPRequestParams => {
+  const res = validateCreateVPRequest(input);
+  if (!res.success) throw new Error(handleIValidation(res));
+};
+
+export const isValidDeleteVCsRequest = (
+  input: any,
+  account: string,
+  state: MascaState
+): asserts input is DeleteVCsRequestParams => {
+  const res = validateDeleteVCsRequest(input);
+  if (!res.success) throw new Error(handleIValidation(res));
+  checkVCStore(input as DeleteVCsRequestParams, account, state);
+};
+
+export const isValidQueryVCsRequest = (
+  input: any,
+  account: string,
+  state: MascaState
+): asserts input is QueryVCsRequestParams => {
+  const res = validateQueryVCsRequest(input);
+  if (!res.success) throw new Error(handleIValidation(res));
+  checkVCStore(input as QueryVCsRequestParams, account, state);
+};
+
+export const isValidResolveDIDRequest = (
+  input: any
+): asserts input is ResolveDIDRequestParams => {
+  const res = validateResolveDIDRequest(input);
+  if (!res.success) throw new Error(handleIValidation(res));
+};
+
+export const isValidSaveVCRequest = (
+  input: any,
+  account: string,
+  state: MascaState
+): asserts input is SaveVCRequestParams => {
+  const res = validateSaveVCRequest(input);
+  if (!res.success) throw new Error(handleIValidation(res));
+  checkVCStore(input as SaveVCRequestParams, account, state);
+};
+
+export const isValidSetCurrentAccountRequest = (
+  input: any
+): asserts input is SetCurrentAccountRequestParams => {
+  const res = validateSetCurrentAccountRequest(input);
+  if (!res.success) throw new Error(handleIValidation(res));
+};
+
+export const isValidSetVCStoreRequest = (
+  input: any
+): asserts input is SetVCStoreRequestParams => {
+  const res = validateSetVCStoreRequest(input);
+  if (!res.success) throw new Error(handleIValidation(res));
+};
+
+export const isValidSwitchMethodRequest = (
+  input: any
+): asserts input is SwitchMethodRequestParams => {
+  const res = validateSwitchMethodRequest(input);
+  if (!res.success) throw new Error(handleIValidation(res));
+};
+
+export const isValidVerifyDataRequest = (
+  input: any
+): asserts input is VerifyDataRequestParams => {
+  const res = validateVerifyDataRequest(input);
+  if (!res.success) throw new Error(handleIValidation(res));
+};

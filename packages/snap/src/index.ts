@@ -1,5 +1,14 @@
 import {
-  isValidCreateVCRequestParams,
+  isValidCreateVCRequest,
+  isValidCreateVPRequest,
+  isValidDeleteVCsRequest,
+  isValidQueryVCsRequest,
+  isValidResolveDIDRequest,
+  isValidSaveVCRequest,
+  isValidSetCurrentAccountRequest,
+  isValidSetVCStoreRequest,
+  isValidSwitchMethodRequest,
+  isValidVerifyDataRequest,
   type HandleOIDCAuthorizationRequestParams,
   type HandleOIDCCredentialOfferRequestParams,
 } from '@blockchain-lab-um/masca-types';
@@ -26,18 +35,6 @@ import { verifyData } from './rpc/vc/verifyData';
 import { getAvailableVCStores } from './rpc/vcStore/getAvailableVCStores';
 import { setVCStore } from './rpc/vcStore/setVCStore';
 import { getAddressKeyDeriver } from './utils/keyPair';
-import {
-  // isValidCreateVCRequest,
-  isValidCreateVPRequest,
-  isValidDeleteVCRequest,
-  isValidQueryRequest,
-  isValidResolveDIDRequest,
-  isValidSaveVCRequest,
-  isValidSetCurrentAccountRequest,
-  isValidSetVCStoreRequest,
-  isValidSwitchMethodRequest,
-  isValidVerifyDataRequest,
-} from './utils/params';
 import { getCurrentAccount } from './utils/snapUtils';
 import {
   getSnapStateUnchecked,
@@ -86,7 +83,11 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     }
     switch (request.method) {
       case 'queryVCs':
-        isValidQueryRequest(request.params, apiParams.account, apiParams.state);
+        isValidQueryVCsRequest(
+          request.params,
+          apiParams.account,
+          apiParams.state
+        );
         res = await queryVCs(apiParams, request.params);
         return ResultObject.success(res);
       case 'saveVC':
@@ -98,7 +99,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         res = await saveVC(apiParams, request.params);
         return ResultObject.success(res);
       case 'createVC':
-        isValidCreateVCRequestParams(
+        isValidCreateVCRequest(
           request.params,
           apiParams.account,
           apiParams.state
@@ -107,11 +108,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         res = await createVerifiableCredential(apiParams, request.params);
         return ResultObject.success(res);
       case 'createVP':
-        isValidCreateVPRequest(
-          request.params,
-          apiParams.account,
-          apiParams.state
-        );
+        isValidCreateVPRequest(request.params);
         apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
         res = await createVerifiablePresentation(apiParams, request.params);
         return ResultObject.success(res);
@@ -150,7 +147,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         res = getAvailableVCStores();
         return ResultObject.success(res);
       case 'deleteVC':
-        isValidDeleteVCRequest(
+        isValidDeleteVCsRequest(
           request.params,
           apiParams.account,
           apiParams.state
