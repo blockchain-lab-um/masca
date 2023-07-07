@@ -62,6 +62,30 @@ const GetCredential = () => {
     }
   };
 
+  const handleTestCredentialOffer = async () => {
+    if (!api) return;
+
+    api
+      .handlePolygonCredentialOffer({
+        credentialOfferMessage: credentialOfferURI ?? '',
+      })
+      .catch((err: any) => {
+        console.error(err);
+      });
+  };
+
+  const handleTestAuthorizationRequest = async () => {
+    if (!api) return;
+
+    api
+      .handlePolygonAuthorizationRequest({
+        authorizationRequestMessage: credentialOfferURI ?? '',
+      })
+      .catch((err: any) => {
+        console.error(err);
+      });
+  };
+
   const getDemoCredentialOfferRequestURI = async () => {
     const query = {
       credentials: ['GmCredential'],
@@ -179,6 +203,12 @@ const GetCredential = () => {
           onClick={getDemoCredentialOfferRequestURI}
         >
           Get Demo Credential Offer
+        </Button>
+        <Button variant={'primary'} onClick={handleTestCredentialOffer}>
+          Polygon cred offer
+        </Button>
+        <Button variant={'primary'} onClick={handleTestAuthorizationRequest}>
+          Polygon auth request
         </Button>
         <Button
           variant={

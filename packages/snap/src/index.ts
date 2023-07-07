@@ -91,6 +91,8 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     switch (request.method) {
       case 'queryVCs':
         isValidQueryRequest(request.params, apiParams.account, apiParams.state);
+        apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
+        await getDid(apiParams);
         res = await queryVCs(apiParams, request.params);
         return ResultObject.success(res);
       case 'saveVC':

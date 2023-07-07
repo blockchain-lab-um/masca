@@ -69,11 +69,36 @@ const ScanConnectionCard = () => {
     if (!sessionId || !key || !exp) return;
     setIsQRCodeModalOpen(false);
 
+    let data: string | null = null;
+
     try {
+      // Chec if the QR code contains a OIDC Credential Offer or a OIDC Authorization Request
       if (
-        !decodedText.startsWith('openid-credential-offer://') &&
-        !decodedText.startsWith('openid://')
+        decodedText.startsWith('openid-credential-offer://') ||
+        decodedText.startsWith('openid://')
       ) {
+        data = decodedText;
+      } else {
+        // Check if the QR code contains a Polygon Credential Offer or a Polygon Authorization Request
+        const jsonDecodedData = JSON.parse(decodedText);
+
+        console.log(jsonDecodedData);
+        if (jsonDecodedData) {
+          if (
+            jsonDecodedData.type ===
+            'https://iden3-communication.io/authorization/1.0/request'
+          ) {
+            data = decodedText;
+          } else if (
+            jsonDecodedData.type ===
+            'https://iden3-communication.io/credentials/1.0/offer'
+          ) {
+            data = decodedText;
+          }
+        }
+      }
+
+      if (!data) {
         setTimeout(() => {
           useToastStore.setState({
             open: true,
@@ -82,7 +107,6 @@ const ScanConnectionCard = () => {
             loading: false,
           });
         }, 200);
-
         return;
       }
 

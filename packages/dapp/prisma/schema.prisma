@@ -10,6 +10,6 @@ datasource db {
 
 model sessions {
   id   String  @id @default(uuid())
-  data String? @db.VarChar(512)
+  data String? @db.VarChar(4096)
   iv   String? @db.VarChar(128)
 }
