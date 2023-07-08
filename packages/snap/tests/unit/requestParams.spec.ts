@@ -8,32 +8,27 @@ import {
   isValidSwitchMethodRequest,
 } from '@blockchain-lab-um/masca-types';
 
-// import {
-//   isValidCreateVCRequest,
-//   isValidCreateVPRequest,
-//   isValidDeleteVCsRequest,
-//   isValidQueryVCsRequest,
-//   isValidResolveDIDRequest,
-//   isValidSaveVCRequest,
-//   isValidSwitchMethodRequest,
-// } from '../../src/utils/params';
 import { account } from '../data/constants';
 import * as exampleVCPayload from '../data/credentials/examplePayload.json';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import * as exampleVC from '../data/verifiable-credentials/exampleJWT.json';
 
-describe('Utils [params]', () => {
+describe('Utils [requestParams]', () => {
   describe('isValidResolveDIDRequest', () => {
-    it('should not fail for proper request', () => {
-      expect(() =>
-        isValidResolveDIDRequest({ did: 'did:ethr:0x1234321' })
-      ).not.toThrow(Error);
+    describe('success', () => {
+      it('did string', () => {
+        expect(() =>
+          isValidResolveDIDRequest({ did: 'did:ethr:0x1234321' })
+        ).not.toThrow(Error);
+      });
     });
-    it('should fail for null', () => {
-      expect(() => isValidResolveDIDRequest(null)).toThrow(Error);
-    });
-    it('should fail for wrong type', () => {
-      expect(() => isValidResolveDIDRequest({ did: 123 })).toThrow(Error);
+    describe('failure', () => {
+      it('null', () => {
+        expect(() => isValidResolveDIDRequest(null)).toThrow(Error);
+      });
+      it('wrong type', () => {
+        expect(() => isValidResolveDIDRequest({ did: 123 })).toThrow(Error);
+      });
     });
   });
 
