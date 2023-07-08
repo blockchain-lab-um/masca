@@ -316,9 +316,7 @@ describe('saveVerifiableCredential', () => {
         id: 'test-id',
         jsonrpc: '2.0',
         method: 'queryVCs',
-        params: {
-          filter: {},
-        },
+        params: {},
       },
     })) as Result<unknown>;
 
