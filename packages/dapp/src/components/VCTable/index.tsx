@@ -43,6 +43,7 @@ import Tooltip from '@/components/Tooltip';
 import { stringifyCredentialSubject } from '@/utils/format';
 import { convertTypes } from '@/utils/string';
 import { useMascaStore, useTableStore, useToastStore } from '@/stores';
+import { encodeBase64url } from '@veramo/utils';
 import TablePagination from './TablePagination';
 import { includesDataStore, recursiveIncludes, selectRows } from './tableUtils';
 import VCCard from './VCCard';
@@ -465,7 +466,7 @@ const Table = () => {
                           cell.column.id !== 'actions'
                         ) {
                           router.push(
-                            `/app/verifiable-credential/${encodeURIComponent(
+                            `/app/verifiable-credential/${encodeBase64url(
                               row.original.metadata.id
                             )}`
                           );

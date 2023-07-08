@@ -4,6 +4,7 @@ import { ArrowsPointingOutIcon } from '@heroicons/react/24/outline';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 
 import Tooltip from '@/components/Tooltip';
+import { encodeBase64url } from '@veramo/utils';
 
 interface SelectedVCsTableRowProps {
   vc: QueryVCsRequestResult;
@@ -40,7 +41,7 @@ const SelectedVCsTableRow = ({
       <td className="py-4">
         <span className="flex items-center justify-center">
           <Link
-            href={`/app/verifiable-credential/${encodeURIComponent(
+            href={`/app/verifiable-credential/${encodeBase64url(
               vc.metadata.id
             )}`}
           >

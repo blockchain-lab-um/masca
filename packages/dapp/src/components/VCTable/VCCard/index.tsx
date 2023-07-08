@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-types';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { Row } from '@tanstack/react-table';
+import { encodeBase64url } from '@veramo/utils';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
@@ -84,7 +85,7 @@ const VCCard = ({ row }: VCCardProps) => {
               onClick={(e) => {
                 e.stopPropagation();
               }}
-              href={`/app/verifiable-credential/${encodeURIComponent(
+              href={`/app/verifiable-credential/${encodeBase64url(
                 row.original.metadata.id
               )}`}
             >

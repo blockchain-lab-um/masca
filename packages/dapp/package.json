@@ -32,6 +32,7 @@
     "@radix-ui/react-toast": "^1.1.4",
     "@tanstack/react-table": "^8.9.2",
     "@veramo/core": "5.2.0",
+    "@veramo/utils": "5.2.0",
     "@vercel/analytics": "^1.0.1",
     "@vercel/og": "^0.5.7",
     "clsx": "^1.2.1",
