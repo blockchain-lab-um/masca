@@ -13,7 +13,7 @@ For more details on Masca Connector, check [GitHub repo](https://github.com/bloc
 ### Install
 
 ```bash
-yarn add @blockchain-lab-um/masca-connector @blockchain-lab-um/utils
+pnpm add @blockchain-lab-um/masca-connector @blockchain-lab-um/utils
 ```
 
 Connector has exposed function for installing the Snap.

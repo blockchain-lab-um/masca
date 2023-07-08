@@ -17,7 +17,7 @@ Ceramic Network support is experimental and still under development!
 ### Using the Masca Connector
 
 ```bash
-yarn add @blockchain-lab-um/masca-connector @blockchain-lab-um/utils
+pnpm add @blockchain-lab-um/masca-connector @blockchain-lab-um/utils
 ```
 
 Connector has exposed function for installing Masca.

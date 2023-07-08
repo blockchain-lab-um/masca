@@ -39,7 +39,7 @@ dApp can access the functionalities of Masca using the RPC methods the same way 
 Installing Masca Connector to your project:
 
 ```shell
-yarn add @blockchain-lab-um/masca-connector @blockchain-lab-um/utils
+pnpm add @blockchain-lab-um/masca-connector @blockchain-lab-um/utils
 ```
 
 Masca is installed and initialized using the function `enableMasca`. After Masca is installed, this function returns `Masca` object that you can use to retrieve the API interface.
