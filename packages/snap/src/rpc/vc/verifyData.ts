@@ -1,21 +1,15 @@
 import type { VerifyDataRequestParams } from '@blockchain-lab-um/masca-types';
 import type { IVerifyResult } from '@veramo/core';
 
-import type { ApiParams } from '../../interfaces';
-import { veramoVerifyData } from '../../utils/veramoUtils';
+import VeramoService from '../../veramo/Veramo.service';
 
 export async function verifyData(
-  params: ApiParams,
   args: VerifyDataRequestParams
 ): Promise<boolean | IVerifyResult> {
-  const { snap, ethereum } = params;
   const verbose = args.verbose || false;
 
-  const res = await veramoVerifyData({
-    snap,
-    ethereum,
-    data: args,
-  });
+  const res = await VeramoService.verifyData(args);
+
   if (res.error) throw new Error(res.error.message);
   return verbose ? res : res.verified;
 }

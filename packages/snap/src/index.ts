@@ -43,6 +43,7 @@ import {
   initAccountState,
   initSnapState,
 } from './utils/stateUtils';
+import VeramoService from './veramo/Veramo.service';
 
 export const onRpcRequest: OnRpcRequestHandler = async ({
   request,
@@ -83,6 +84,9 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       await initAccountState(apiParams);
       apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
     }
+
+    await VeramoService.init();
+
     switch (request.method) {
       case 'queryVCs':
         isValidQueryRequest(request.params, apiParams.account, apiParams.state);
@@ -123,8 +127,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         res = await switchMethod(apiParams, request.params);
         return ResultObject.success(res);
       case 'getDID':
-        apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
-        res = await getDid(apiParams);
+        res = await getDid();
         return ResultObject.success(res);
       case 'getSelectedMethod':
         res = state.accountState[account].accountConfig.ssi.didMethod;
@@ -158,11 +161,11 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         return ResultObject.success(res);
       case 'resolveDID':
         isValidResolveDIDRequest(request.params);
-        res = await resolveDID(apiParams, request.params.did);
+        res = await resolveDID(request.params.did);
         return ResultObject.success(res);
       case 'verifyData':
         isValidVerifyDataRequest(request.params);
-        res = await verifyData(apiParams, request.params);
+        res = await verifyData(request.params);
         return ResultObject.success(res);
       case 'handleOIDCCredentialOffer':
         apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);

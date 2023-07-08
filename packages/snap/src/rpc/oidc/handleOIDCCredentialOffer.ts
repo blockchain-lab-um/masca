@@ -10,15 +10,13 @@ import type { VerifiableCredential } from '@veramo/core';
 import { decodeCredentialToObject } from '@veramo/utils';
 
 import type { ApiParams } from '../../interfaces';
-import { getCurrentDidIdentifier } from '../../utils/didUtils';
 import { snapGetKeysFromAddress } from '../../utils/keyPair';
 import {
   handleAuthorizationRequest,
   sendAuthorizationResponse,
 } from '../../utils/oidc';
 import { sign } from '../../utils/sign';
-import { veramoImportMetaMaskAccount } from '../../utils/veramoUtils';
-import { getAgent } from '../../veramo/setup';
+import VeramoService from '../../veramo/Veramo.service';
 
 export async function handleOIDCCredentialOffer(
   params: ApiParams,
@@ -30,19 +28,13 @@ export async function handleOIDCCredentialOffer(
     throw new Error('bip44CoinTypeNode is required');
   }
 
-  const identifier = await getCurrentDidIdentifier({
-    account,
-    ethereum,
-    snap,
-    state,
-    bip44CoinTypeNode,
-  });
+  const identifier = await VeramoService.getIdentifier();
   const { did } = identifier;
 
   if (did.startsWith('did:ethr') || did.startsWith('did:pkh'))
     throw new Error('did:ethr and did:pkh are not supported');
 
-  const agent = await getAgent(snap, ethereum);
+  const agent = VeramoService.getAgent();
 
   const credentialOfferResult = await agent.parseOIDCCredentialOfferURI({
     credentialOfferURI: handleOIDCCredentialOfferParams.credentialOfferURI,
@@ -62,15 +54,6 @@ export async function handleOIDCCredentialOffer(
   });
 
   if (res === null) throw new Error('Could not get keys from address');
-
-  await veramoImportMetaMaskAccount(
-    {
-      ...params,
-      did: identifier.did,
-      bip44CoinTypeNode,
-    },
-    agent
-  );
 
   // TODO: Is this fine or should we improve it ?
   const kid = `${identifier.did}#${identifier.did.split(':')[2]}`;
@@ -104,7 +87,6 @@ export async function handleOIDCCredentialOffer(
     console.log(`authorizationRequestURI: ${authorizationRequestURI}`);
 
     const handleAuthorizationRequestResult = await handleAuthorizationRequest({
-      agent,
       authorizationRequestURI,
       did,
       customSign,
@@ -120,7 +102,6 @@ export async function handleOIDCCredentialOffer(
       handleAuthorizationRequestResult;
 
     const sendAuthorizationResponseResult = await sendAuthorizationResponse({
-      agent,
       sendOIDCAuthorizationResponseArgs,
     });
 

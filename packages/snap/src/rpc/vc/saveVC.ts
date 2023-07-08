@@ -3,17 +3,17 @@ import type {
   SaveVCRequestResult,
 } from '@blockchain-lab-um/masca-types';
 import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
+import VeramoService from 'src/veramo/Veramo.service';
 
 import type { ApiParams } from '../../interfaces';
 import { snapConfirm } from '../../utils/snapUtils';
-import { veramoSaveVC } from '../../utils/veramoUtils';
 
 export async function saveVC(
   params: ApiParams,
   { verifiableCredential, options }: SaveVCRequestParams
 ): Promise<SaveVCRequestResult[]> {
   const { store = 'snap' } = options ?? {};
-  const { snap, ethereum } = params;
+  const { snap } = params;
 
   const content = panel([
     heading('Save VC'),
@@ -25,9 +25,7 @@ export async function saveVC(
   ]);
 
   if (await snapConfirm(snap, content)) {
-    const res = await veramoSaveVC({
-      snap,
-      ethereum,
+    const res = await VeramoService.saveCredential({
       verifiableCredential,
       store,
     });

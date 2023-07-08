@@ -1,8 +1,7 @@
-import type { ApiParams } from '../../interfaces';
-import { resolveDid } from '../../utils/didUtils';
+import VeramoService from '../../veramo/Veramo.service';
 
-export async function resolveDID(params: ApiParams, did: string) {
+export async function resolveDID(did: string) {
   if (did === '') return { message: 'DID is empty' };
-  const res = await resolveDid({ ...params, did });
+  const res = await VeramoService.resolveDID(did);
   return res;
 }

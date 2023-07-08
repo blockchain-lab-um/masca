@@ -3,40 +3,31 @@ import { SignArgs } from '@blockchain-lab-um/oidc-client-plugin';
 import type { VerifiableCredential } from '@veramo/core';
 
 import type { ApiParams } from '../../interfaces';
-import { getCurrentDidIdentifier } from '../../utils/didUtils';
 import { snapGetKeysFromAddress } from '../../utils/keyPair';
 import {
   handleAuthorizationRequest,
   sendAuthorizationResponse,
 } from '../../utils/oidc';
 import { sign } from '../../utils/sign';
-import { getAgent } from '../../veramo/setup';
+import VeramoService from '../../veramo/Veramo.service';
 
 export async function handleOIDCAuthorizationRequest(
   params: ApiParams,
   handleOIDCAuthorizationRequestParams: HandleOIDCAuthorizationRequestParams
 ): Promise<VerifiableCredential[]> {
-  const { account, ethereum, snap, state, bip44CoinTypeNode } = params;
+  const { account, snap, state, bip44CoinTypeNode } = params;
   const { authorizationRequestURI } = handleOIDCAuthorizationRequestParams;
 
   if (!bip44CoinTypeNode) {
     throw new Error('bip44CoinTypeNode is required');
   }
 
-  const identifier = await getCurrentDidIdentifier({
-    account,
-    ethereum,
-    snap,
-    state,
-    bip44CoinTypeNode,
-  });
+  const identifier = await VeramoService.getIdentifier();
 
   const { did } = identifier;
 
   if (did.startsWith('did:ethr') || did.startsWith('did:pkh'))
     throw new Error('did:ethr and did:pkh are not supported');
-
-  const agent = await getAgent(snap, ethereum);
 
   const res = await snapGetKeysFromAddress({
     snap,
@@ -64,7 +55,6 @@ export async function handleOIDCAuthorizationRequest(
     });
 
   const handleAuthorizationRequestResult = await handleAuthorizationRequest({
-    agent,
     authorizationRequestURI,
     customSign,
     did,
@@ -78,7 +68,6 @@ export async function handleOIDCAuthorizationRequest(
     handleAuthorizationRequestResult;
 
   const sendAuthorizationResponseResult = await sendAuthorizationResponse({
-    agent,
     sendOIDCAuthorizationResponseArgs,
   });
 

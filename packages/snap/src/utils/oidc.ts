@@ -9,11 +9,9 @@ import { UnsignedPresentation, W3CVerifiableCredential } from '@veramo/core';
 import { decodeCredentialToObject } from '@veramo/utils';
 import * as qs from 'qs';
 
-import { Agent } from '../veramo/setup';
-import { veramoQueryVCs } from './veramoUtils';
+import VeramoService from '../veramo/Veramo.service';
 
 type HandleAuthorizationRequestParams = {
-  agent: Agent;
   authorizationRequestURI: string;
   did: string;
   customSign: (args: SignArgs) => Promise<string>;
@@ -36,12 +34,12 @@ type HandleAuthorizationRequestResult = {
 
 // TODO: In case of vp_token user needs to select credentials
 export const handleAuthorizationRequest = async ({
-  agent,
   authorizationRequestURI,
   did,
   customSign,
   credentials,
 }: HandleAuthorizationRequestParams): Promise<HandleAuthorizationRequestResult> => {
+  const agent = VeramoService.getAgent();
   const authorizationRequestResult =
     await agent.parseOIDCAuthorizationRequestURI({
       authorizationRequestURI,
@@ -63,9 +61,7 @@ export const handleAuthorizationRequest = async ({
     // if(!credentials) {
     const store = ['snap'] as AvailableVCStores[];
 
-    const queryResults = await veramoQueryVCs({
-      snap,
-      ethereum,
+    const queryResults = await VeramoService.queryCredentials({
       options: { store, returnStore: false },
     });
 
@@ -171,7 +167,6 @@ export const handleAuthorizationRequest = async ({
 };
 
 type SendAuthorizationResponseParams = {
-  agent: Agent;
   sendOIDCAuthorizationResponseArgs: SendOIDCAuthorizationResponseArgs;
 };
 
@@ -181,9 +176,10 @@ type SendAuthorizationResponseResult = {
 };
 
 export const sendAuthorizationResponse = async ({
-  agent,
   sendOIDCAuthorizationResponseArgs,
 }: SendAuthorizationResponseParams): Promise<SendAuthorizationResponseResult> => {
+  const agent = VeramoService.getAgent();
+
   // POST /auth-mock/direct_post
   const authorizationResponseResult = await agent.sendOIDCAuthorizationResponse(
     sendOIDCAuthorizationResponseArgs

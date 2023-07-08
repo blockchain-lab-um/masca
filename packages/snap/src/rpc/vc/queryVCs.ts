@@ -6,7 +6,7 @@ import { divider, heading, panel, text } from '@metamask/snaps-ui';
 
 import type { ApiParams } from '../../interfaces';
 import { addFriendlyDapp, snapConfirm } from '../../utils/snapUtils';
-import { veramoQueryVCs } from '../../utils/veramoUtils';
+import VeramoService from '../../veramo/Veramo.service';
 
 export async function queryVCs(
   params: ApiParams,
@@ -14,11 +14,9 @@ export async function queryVCs(
 ): Promise<QueryVCsRequestResult[]> {
   const { filter, options } = args ?? {};
   const { store, returnStore = true } = options ?? {};
-  const { state, snap, ethereum, origin } = params;
+  const { state, snap, origin } = params;
 
-  const vcs = await veramoQueryVCs({
-    snap,
-    ethereum,
+  const vcs = await VeramoService.queryCredentials({
     options: { store, returnStore },
     filter,
   });

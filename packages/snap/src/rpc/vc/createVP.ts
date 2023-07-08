@@ -1,5 +1,4 @@
 import type { CreateVPRequestParams } from '@blockchain-lab-um/masca-types';
-import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import type {
   UnsignedPresentation,
   VerifiablePresentation,
@@ -7,8 +6,7 @@ import type {
 } from '@veramo/core';
 
 import type { ApiParams } from '../../interfaces';
-import { getCurrentDidIdentifier } from '../../utils/didUtils';
-import { veramoCreateVP } from '../../utils/veramoUtils';
+import VeramoService from '../../veramo/Veramo.service';
 
 async function createUnsignedVerifiablePresentation(params: {
   vcs: W3CVerifiableCredential[];
@@ -42,27 +40,28 @@ export async function createVerifiablePresentation(
   params: ApiParams,
   createVPParams: CreateVPRequestParams
 ): Promise<UnsignedPresentation | VerifiablePresentation> {
-  const { state, account, bip44CoinTypeNode } = params;
+  const { state, account } = params;
   const { vcs, proofFormat = 'jwt', proofOptions } = createVPParams;
   const method = state.accountState[account].accountConfig.ssi.didMethod;
+
   if (method === 'did:ethr' || method === 'did:pkh') {
     if (proofFormat !== 'EthereumEip712Signature2021') {
       throw new Error('proofFormat must be EthereumEip712Signature2021');
     }
-    const identifier = await getCurrentDidIdentifier({
-      ...params,
-      bip44CoinTypeNode: bip44CoinTypeNode as BIP44CoinTypeNode,
-    });
+    const identifier = await VeramoService.getIdentifier();
+
     const unsignedVp = await createUnsignedVerifiablePresentation({
       vcs: createVPParams.vcs,
       did: identifier.did,
     });
     return unsignedVp;
   }
-  const res = await veramoCreateVP(params, {
+
+  const res = await VeramoService.createPresentation({
     vcs,
     proofFormat,
     proofOptions,
   });
+
   return res;
 }

@@ -1,15 +1,6 @@
-import { BIP44CoinTypeNode } from '@metamask/key-tree';
+import VeramoService from 'src/veramo/Veramo.service';
 
-import type { ApiParams } from '../../interfaces';
-import { getCurrentDidIdentifier } from '../../utils/didUtils';
-
-export async function getDid(params: ApiParams): Promise<string> {
-  const identifier = await getCurrentDidIdentifier({
-    ethereum: params.ethereum,
-    snap: params.snap,
-    state: params.state,
-    account: params.account,
-    bip44CoinTypeNode: params.bip44CoinTypeNode as BIP44CoinTypeNode,
-  });
+export async function getDid(): Promise<string> {
+  const identifier = await VeramoService.getIdentifier();
   return identifier.did;
 }

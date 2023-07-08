@@ -3,7 +3,7 @@ import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import type { IDIDManagerCreateArgs } from '@veramo/core';
 import { keccak256 } from 'ethers';
 
-import { getAgent } from '../veramo/setup';
+import VeramoService from '../veramo/Veramo.service';
 import { getAddressKeyDeriver, snapGetKeysFromAddress } from './keyPair';
 
 export async function getDidEbsiIdentifier(params: {
@@ -18,7 +18,7 @@ export async function getDidEbsiIdentifier(params: {
     snap,
     account,
   });
-  const agent = await getAgent(snap, ethereum);
+  const agent = VeramoService.getAgent();
   const provider = state.accountState[account].accountConfig.ssi.didMethod;
 
   const res = await snapGetKeysFromAddress({

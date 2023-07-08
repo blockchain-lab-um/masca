@@ -1,21 +1,19 @@
 import type { DeleteVCsRequestParams } from '@blockchain-lab-um/masca-types';
 import { divider, heading, panel, text } from '@metamask/snaps-ui';
+import VeramoService from 'src/veramo/Veramo.service';
 
 import type { ApiParams } from '../../interfaces';
 import { snapConfirm } from '../../utils/snapUtils';
-import { veramoDeleteVC, veramoQueryVCs } from '../../utils/veramoUtils';
 
 export async function deleteVC(
   params: ApiParams,
   args: DeleteVCsRequestParams
 ): Promise<boolean[]> {
   const { id, options } = args ?? {};
-  const { snap, ethereum } = params;
+  const { snap } = params;
   const store = options?.store;
 
-  const vcs = await veramoQueryVCs({
-    snap,
-    ethereum,
+  const vcs = await VeramoService.queryCredentials({
     options: { store },
     filter: { type: 'id', filter: id },
   });
@@ -34,9 +32,7 @@ export async function deleteVC(
   ]);
 
   if (await snapConfirm(snap, content)) {
-    const res = await veramoDeleteVC({
-      snap,
-      ethereum,
+    const res = await VeramoService.deleteCredential({
       id,
       store,
     });

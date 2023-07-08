@@ -2,14 +2,13 @@ import type {
   CreateVCRequestParams,
   MinimalUnsignedCredential,
 } from '@blockchain-lab-um/masca-types';
-import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
 import type { UnsignedCredential, VerifiableCredential } from '@veramo/core';
 
 import type { ApiParams } from '../../interfaces';
-import { getCurrentDidIdentifier } from '../../utils/didUtils';
 import { snapConfirm } from '../../utils/snapUtils';
-import { veramoCreateVC, veramoSaveVC } from '../../utils/veramoUtils';
+import { veramoCreateVC } from '../../utils/veramoUtils';
+import VeramoService from '../../veramo/Veramo.service';
 
 async function createUnsignedVerifiableCredential(params: {
   vc: MinimalUnsignedCredential;
@@ -60,17 +59,14 @@ export async function createVerifiableCredential(
   params: ApiParams,
   createVCParams: CreateVCRequestParams
 ): Promise<UnsignedCredential | VerifiableCredential> {
-  const { state, bip44CoinTypeNode } = params;
+  const { state } = params;
   const { minimalUnsignedCredential, proofFormat, options } = createVCParams;
   const { store = 'snap' } = options ?? {};
   const { save } = options ?? {};
   const method = state.accountState[params.account].accountConfig.ssi.didMethod;
 
   if (method === 'did:ethr' || method === 'did:pkh') {
-    const identifier = await getCurrentDidIdentifier({
-      ...params,
-      bip44CoinTypeNode: bip44CoinTypeNode as BIP44CoinTypeNode,
-    });
+    const identifier = await VeramoService.getIdentifier();
     const unsignedVc = await createUnsignedVerifiableCredential({
       vc: minimalUnsignedCredential,
       did: identifier.did,
@@ -78,7 +74,7 @@ export async function createVerifiableCredential(
 
     return unsignedVc;
   }
-  const vc = await veramoCreateVC(params, {
+  const vc = await veramoCreateVC({
     minimalUnsignedCredential,
     proofFormat,
     options,
@@ -95,9 +91,7 @@ export async function createVerifiableCredential(
     ]);
 
     if (await snapConfirm(snap, content)) {
-      await veramoSaveVC({
-        snap: params.snap,
-        ethereum: params.ethereum,
+      await VeramoService.saveCredential({
         verifiableCredential: vc,
         store,
       });

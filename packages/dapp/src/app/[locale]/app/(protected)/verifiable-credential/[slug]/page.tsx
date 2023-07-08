@@ -14,7 +14,7 @@ export default function Page({
 }) {
   return (
     <div className="flex w-full flex-1 items-start justify-center">
-      <div className="flex-1 md:max-w-3xl">
+      <div className="max-w-full flex-1 md:max-w-3xl">
         <CredentialDisplay id={slug} />
       </div>
     </div>
