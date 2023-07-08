@@ -89,7 +89,6 @@ export class DataManager implements IAgentPlugin {
           const mappedResult = result.map((r) => {
             if (returnStore) {
               return {
-
                 data: r.data,
                 metadata: { id: r.metadata.id, store: storeName },
               };
