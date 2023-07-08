@@ -1,5 +1,5 @@
-export * from './isVC.js';
-export * from './isVP.js';
+export * from './isVerifiableCredential.js';
+export * from './isVerifiablePresentation.js';
 export * from './isParam.js';
 
 export const isJWT = (jwt: string): boolean => {

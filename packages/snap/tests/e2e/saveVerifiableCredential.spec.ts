@@ -377,8 +377,9 @@ describe('saveVerifiableCredential', () => {
 
     expect.assertions(1);
   });
+
   it('should throw error because request is not valid: store not supported in array', async () => {
-    let saveRes = (await onRpcRequest({
+    const saveRes = (await onRpcRequest({
       origin: 'localhost',
       request: {
         id: 'test-id',
@@ -399,25 +400,6 @@ describe('saveVerifiableCredential', () => {
       'Error: invalid_argument: $input.options.store[1]'
     );
 
-    saveRes = (await onRpcRequest({
-      origin: 'localhost',
-      request: {
-        id: 'test-id',
-        jsonrpc: '2.0',
-        method: 'saveVC',
-        params: {
-          verifiableCredential: generatedVC,
-          options: { store: [] },
-        },
-      },
-    })) as Result<IDataManagerSaveResult[]>;
-
-    if (isSuccess(saveRes)) {
-      throw new Error('Should return error');
-    }
-
-    expect(saveRes.error).toBe('Error: Store is invalid format');
-
-    expect.assertions(2);
+    expect.assertions(1);
   });
 });

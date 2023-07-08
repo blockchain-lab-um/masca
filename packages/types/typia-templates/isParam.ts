@@ -1,6 +1,7 @@
 import typia from 'typia';
 
 import {
+  availableVCStores,
   type AvailableVCStores,
   type CreateVCRequestParams,
   type CreateVPRequestParams,
@@ -13,7 +14,7 @@ import {
   type SetVCStoreRequestParams,
   type SwitchMethodRequestParams,
   type VerifyDataRequestParams,
-} from '../index.js';
+} from '../src/index.js';
 
 const isEnabledVCStore = (
   account: string,
@@ -22,25 +23,15 @@ const isEnabledVCStore = (
 ): boolean => state.accountState[account].accountConfig.ssi.vcStore[store];
 
 const checkVCStore = (param: any, account: string, state: MascaState): void => {
-  if (
-    param.options &&
-    'store' in param.options &&
-    param.options?.store !== null
-  ) {
-    if (typeof param.options?.store === 'string') {
-      if (!isEnabledVCStore(account, state, param.options?.store)) {
-        throw new Error(
-          `Store ${param.options?.store as string} is not enabled!`
-        );
-      }
-    } else if (
-      Array.isArray(param.options?.store) &&
-      param.options?.store.length > 0
-    ) {
-      (param.options?.store as [string]).forEach((store) => {
-        if (!isEnabledVCStore(account, state, store as AvailableVCStores))
-          throw new Error(`Store ${store} is not enabled!`);
-      });
+  let stores = (param.options || {}).store || [];
+
+  if (!Array.isArray(stores)) {
+    stores = [stores];
+  }
+
+  for (const store of stores as typeof availableVCStores) {
+    if (!isEnabledVCStore(account, state, store)) {
+      throw new Error(`Store ${store} is not enabled!`);
     }
   }
 };
@@ -118,8 +109,6 @@ export const isValidQueryVCsRequest = (
   state: MascaState
 ): asserts input is QueryVCsRequestParams => {
   if (!input) return;
-  if (input.filter && !input.filter.type && !input.filter.filter)
-    input.filter = undefined;
   const res = validateQueryVCsRequest(input);
   if (!res.success) throw new Error(handleIValidation(res));
   checkVCStore(input as QueryVCsRequestParams, account, state);
