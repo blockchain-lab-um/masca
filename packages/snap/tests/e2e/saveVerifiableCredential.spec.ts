@@ -283,7 +283,7 @@ describe('saveVerifiableCredential', () => {
       throw new Error('Should have failed');
     }
     expect(saveRes.error).toEqual(
-      'Error: Store non-existent-store is not supported!'
+      'Error: invalid_argument: $input.options.store'
     );
     expect.assertions(1);
   });
@@ -317,7 +317,7 @@ describe('saveVerifiableCredential', () => {
         jsonrpc: '2.0',
         method: 'queryVCs',
         params: {
-          query: {},
+          filter: {},
         },
       },
     })) as Result<unknown>;
@@ -348,7 +348,9 @@ describe('saveVerifiableCredential', () => {
       throw new Error('Should return error');
     }
 
-    expect(saveRes.error).toBe('Error: Invalid SaveVC request');
+    expect(saveRes.error).toBe(
+      'Error: invalid_argument: $input.verifiableCredential'
+    );
 
     expect.assertions(1);
   });
@@ -371,7 +373,7 @@ describe('saveVerifiableCredential', () => {
       throw new Error('Should return error');
     }
 
-    expect(saveRes.error).toBe('Error: Store is invalid format');
+    expect(saveRes.error).toBe('Error: invalid_argument: $input.options.store');
 
     expect.assertions(1);
   });
@@ -393,7 +395,9 @@ describe('saveVerifiableCredential', () => {
       throw new Error('Should return error');
     }
 
-    expect(saveRes.error).toBe('Error: Store snapp is not supported!');
+    expect(saveRes.error).toBe(
+      'Error: invalid_argument: $input.options.store[1]'
+    );
 
     saveRes = (await onRpcRequest({
       origin: 'localhost',

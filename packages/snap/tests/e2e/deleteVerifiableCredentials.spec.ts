@@ -138,7 +138,7 @@ describe('deleteVC', () => {
         jsonrpc: '2.0',
         method: 'queryVCs',
         params: {
-          query: {},
+          filter: {},
         },
       },
     })) as Result<unknown>;
@@ -203,7 +203,7 @@ describe('deleteVC', () => {
         jsonrpc: '2.0',
         method: 'queryVCs',
         params: {
-          query: {},
+          filter: {},
         },
       },
     })) as Result<unknown>;
@@ -267,7 +267,7 @@ describe('deleteVC', () => {
         jsonrpc: '2.0',
         method: 'queryVCs',
         params: {
-          query: {},
+          filter: {},
         },
       },
     })) as Result<unknown>;

@@ -22,6 +22,8 @@ export async function saveVC(
     throw new Error('Invalid VC');
   if (typeof verifiableCredential === 'string' && !isJWT(verifiableCredential))
     throw new Error('Invalid JWT string');
+  if (typeof store !== 'string' && (!Array.isArray(store) || !store.length))
+    throw new Error('Store is invalid format');
 
   const content = panel([
     heading('Save VC'),

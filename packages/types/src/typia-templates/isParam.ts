@@ -98,6 +98,8 @@ export const isValidCreateVPRequest = (
 ): asserts input is CreateVPRequestParams => {
   const res = validateCreateVPRequest(input);
   if (!res.success) throw new Error(handleIValidation(res));
+  if (!(input as CreateVPRequestParams).vcs.length)
+    throw new Error('invalid_argument: vcs');
 };
 
 export const isValidDeleteVCsRequest = (
@@ -115,6 +117,9 @@ export const isValidQueryVCsRequest = (
   account: string,
   state: MascaState
 ): asserts input is QueryVCsRequestParams => {
+  if (!input) return;
+  if (input.filter && !input.filter.type && !input.filter.filter)
+    input.filter = undefined;
   const res = validateQueryVCsRequest(input);
   if (!res.success) throw new Error(handleIValidation(res));
   checkVCStore(input as QueryVCsRequestParams, account, state);

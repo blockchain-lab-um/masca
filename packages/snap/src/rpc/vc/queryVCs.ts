@@ -20,7 +20,7 @@ export async function queryVCs(
     snap,
     ethereum,
     options: { store, returnStore },
-    filter,
+    filter: filter && filter.type && filter.filter ? filter : undefined,
   });
 
   const content = panel([

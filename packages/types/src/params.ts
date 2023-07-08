@@ -35,7 +35,7 @@ export type DeleteVCsOptions = {
 // TODO (martin): This type is also in datamanager
 export type Filter = {
   type: string;
-  filter: unknown;
+  filter: string;
 };
 
 /**

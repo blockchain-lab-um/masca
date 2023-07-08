@@ -193,7 +193,9 @@ describe('createVerifiableCredential', () => {
       if (!isError(vc)) {
         throw new Error('Should have failed');
       }
-      expect(vc.error).toBe('Error: invalid_argument: $input.minimalUnsignedCredential');
+      expect(vc.error).toBe(
+        'Error: invalid_argument: $input.minimalUnsignedCredential'
+      );
       expect.assertions(1);
     });
 
