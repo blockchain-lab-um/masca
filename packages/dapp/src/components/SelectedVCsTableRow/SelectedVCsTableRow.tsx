@@ -2,9 +2,9 @@ import Link from 'next/link';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-types';
 import { ArrowsPointingOutIcon } from '@heroicons/react/24/outline';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
+import { encodeBase64url } from '@veramo/utils';
 
 import Tooltip from '@/components/Tooltip';
-import { encodeBase64url } from '@veramo/utils';
 
 interface SelectedVCsTableRowProps {
   vc: QueryVCsRequestResult;
