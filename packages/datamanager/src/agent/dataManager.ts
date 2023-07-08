@@ -57,7 +57,7 @@ export class DataManager implements IAgentPlugin {
   public async query(
     args: IDataManagerQueryArgs
   ): Promise<Array<IDataManagerQueryResult>> {
-    const { filter = { type: 'none', filter: {} }, options } = args;
+    const { filter, options } = args;
     let store;
     let returnStore = true;
     if (options === undefined) {
@@ -89,6 +89,7 @@ export class DataManager implements IAgentPlugin {
           const mappedResult = result.map((r) => {
             if (returnStore) {
               return {
+
                 data: r.data,
                 metadata: { id: r.metadata.id, store: storeName },
               };
@@ -139,7 +140,7 @@ export class DataManager implements IAgentPlugin {
   }
 
   public async clear(args: IDataManagerClearArgs): Promise<Array<boolean>> {
-    const { filter = { type: 'none', filter: {} }, options } = args;
+    const { filter, options } = args;
     let store;
     if (options === undefined) {
       store = Object.keys(this.stores);
