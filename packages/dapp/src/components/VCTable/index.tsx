@@ -107,7 +107,13 @@ const Table = () => {
     }),
     columnHelper.accessor(
       (row) =>
-        row.data.credentialSubject.id ? row.data.credentialSubject.id : '',
+        row.data.type &&
+        Array.isArray(row.data.type) &&
+        row.data.type.includes('AuthBJJCredential')
+          ? (row.data.issuer as string)
+          : row.data.credentialSubject.id
+          ? row.data.credentialSubject.id
+          : '',
       {
         id: 'subject',
         cell: (info) => (
@@ -459,7 +465,9 @@ const Table = () => {
                           cell.column.id !== 'actions'
                         ) {
                           router.push(
-                            `/app/verifiable-credential/${row.original.metadata.id}`
+                            `/app/verifiable-credential/${encodeURIComponent(
+                              row.original.metadata.id
+                            )}`
                           );
                         }
                       }}

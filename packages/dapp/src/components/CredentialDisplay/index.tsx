@@ -37,6 +37,7 @@ const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [modifyDSModalOpen, setModifyDSModalOpen] = useState(false);
 
+  console.log(id);
   const vcWithFilterString = vcs.find((vcObj) => vcObj.metadata.id === id);
   const vc = vcWithFilterString
     ? removeCredentialSubjectFilterString(vcWithFilterString)
