@@ -7,11 +7,11 @@ const bundlePath = pathUtils.join('dist', 'snap.js');
 
 let bundleString = fs.readFileSync(bundlePath, 'utf8');
 
-// [Polygon ID] Fix Worker
-bundleString = 'var Worker = {};\n'.concat(bundleString);
-
 // Alias `window` as `self`
 bundleString = 'var self = window;\n'.concat(bundleString);
+
+// [Polygon ID] Fix Worker
+bundleString = 'var Worker = {};\n'.concat(bundleString);
 
 // [Polygon ID] Fix promise
 bundleString = bundleString.replaceAll(

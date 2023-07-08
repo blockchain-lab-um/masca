@@ -21,6 +21,7 @@ esbuild.build({
   format: 'cjs',
   target: 'es2020',
   treeShaking: true,
+  tsconfig: 'tsconfig.build.json',
   plugins: [plugin(stdLibBrowser)],
   define: {
     global: 'global',

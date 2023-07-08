@@ -176,7 +176,7 @@ function MenuPopover() {
             <ChevronDownIcon
               className={`animated-transition ml-1 h-5 w-5 ${
                 open
-                  ? 'dark:text-orange-accent-dark rotate-180 text-pink-300'
+                  ? 'dark:text-orange-accent-dark rotate-180 text-pink-300 group-hover:text-pink-500'
                   : 'dark:group-hover:text-orange-accent-dark text-gray-600 group-hover:text-pink-500 '
               }
                   `}
