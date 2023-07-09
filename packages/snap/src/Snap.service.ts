@@ -22,8 +22,6 @@ import { VerifiablePresentation } from 'did-jwt-vc';
 import GeneralService from './General.service';
 import { handleOIDCAuthorizationRequest } from './rpc/oidc/handleOIDCAuthorizationRequest';
 import { handleOIDCCredentialOffer } from './rpc/oidc/handleOIDCCredentialOffer';
-import { createUnsignedVerifiableCredential } from './rpc/vc/createVC';
-import { createUnsignedVerifiablePresentation } from './rpc/vc/createVP';
 import { snapConfirm } from './utils/snapUtils';
 import { getSnapState } from './utils/stateUtils';
 import { veramoCreateVC } from './utils/veramoUtils';
@@ -102,10 +100,8 @@ class SnapService {
       state.accountState[state.currentAccount].accountConfig.ssi.didMethod;
 
     if (method === 'did:ethr' || method === 'did:pkh') {
-      const identifier = await VeramoService.getIdentifier();
-      const unsignedVc = await createUnsignedVerifiableCredential({
-        vc: minimalUnsignedCredential,
-        did: identifier.did,
+      const unsignedVc = await VeramoService.createUnsignedCredential({
+        credential: minimalUnsignedCredential,
       });
 
       return unsignedVc;
@@ -188,11 +184,9 @@ class SnapService {
       if (proofFormat !== 'EthereumEip712Signature2021') {
         throw new Error('proofFormat must be EthereumEip712Signature2021');
       }
-      const identifier = await VeramoService.getIdentifier();
 
-      const unsignedVp = await createUnsignedVerifiablePresentation({
-        vcs: args.vcs,
-        did: identifier.did,
+      const unsignedVp = await VeramoService.createUnsignedPresentation({
+        credentials: args.vcs,
       });
 
       return unsignedVp;

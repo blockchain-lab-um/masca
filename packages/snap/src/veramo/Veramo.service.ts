@@ -6,6 +6,7 @@ import {
   AvailableVCStores,
   CreateVPRequestParams,
   Filter,
+  MinimalUnsignedCredential,
   QueryVCsOptions,
   QueryVCsRequestResult,
   SaveVCRequestResult,
@@ -34,6 +35,8 @@ import {
   IResolver,
   IVerifyResult,
   TAgent,
+  UnsignedCredential,
+  UnsignedPresentation,
   VerifiableCredential,
   VerifiablePresentation,
   W3CVerifiableCredential,
@@ -274,6 +277,65 @@ class VeramoService {
     return this.instance.resolveDid({ didUrl: did });
   }
 
+  static async createCredential(
+    args: ICreateVerifiableCredentialArgs
+  ): Promise<VerifiableCredential> {
+    return this.instance.createVerifiableCredential(args);
+  }
+
+  static async createUnsignedCredential(args: {
+    credential: MinimalUnsignedCredential;
+  }): Promise<UnsignedCredential> {
+    const { credential } = args;
+    const { did } = await this.getIdentifier();
+
+    if (!credential.credentialSubject) {
+      throw new Error('Verifiable credential must have a credentialSubject');
+    }
+    if (
+      credential.type &&
+      typeof credential.type === 'string' &&
+      credential.type !== 'VerifiableCredential'
+    ) {
+      throw new Error('Invalid type');
+    }
+
+    if (
+      (credential.issuer &&
+        typeof credential.issuer === 'string' &&
+        credential.issuer !== did) ||
+      (credential.issuer?.id &&
+        credential.issuer.id &&
+        credential.issuer.id !== did)
+    ) {
+      throw new Error('Invalid issuer');
+    }
+
+    if (
+      credential.type &&
+      Array.isArray(credential.type) &&
+      !credential.type.includes('VerifiableCredential')
+    ) {
+      credential.type.unshift('VerifiableCredential');
+    }
+
+    if (!credential.type) {
+      credential.type = ['VerifiableCredential'];
+    }
+
+    const unsignedCredential: UnsignedCredential = {
+      ...credential,
+      type: credential.type,
+      '@context': ['https://www.w3.org/2018/credentials/v1'],
+      issuer: credential.issuer ? credential.issuer : did,
+      issuanceDate: credential.issuanceDate
+        ? credential.issuanceDate
+        : new Date().toISOString(),
+    };
+
+    return unsignedCredential;
+  }
+
   static async saveCredential(args: {
     verifiableCredential: W3CVerifiableCredential;
     store: AvailableVCStores | AvailableVCStores[];
@@ -355,6 +417,20 @@ class VeramoService {
     return [...vcs.values()];
   }
 
+  static async clearCredentials(args: {
+    store?: AvailableVCStores | AvailableVCStores[];
+    filter?: Filter;
+  }): Promise<boolean[]> {
+    const { store, filter } = args;
+
+    const result = await this.instance.clear({
+      filter,
+      ...(store ? { options: { store } } : {}),
+    });
+
+    return result;
+  }
+
   static async createPresentation(
     args: CreateVPRequestParams
   ): Promise<VerifiablePresentation> {
@@ -375,18 +451,36 @@ class VeramoService {
     });
   }
 
-  static async clearCredentials(args: {
-    store?: AvailableVCStores | AvailableVCStores[];
-    filter?: Filter;
-  }): Promise<boolean[]> {
-    const { store, filter } = args;
+  static async createUnsignedPresentation(args: {
+    credentials: W3CVerifiableCredential[];
+  }): Promise<UnsignedPresentation> {
+    const { credentials } = args;
 
-    const result = await this.instance.clear({
-      filter,
-      ...(store ? { options: { store } } : {}),
+    const { did } = await this.getIdentifier();
+
+    // FIXME: there's an issue here
+    const canonicalizedVcs = credentials.map((credential) => {
+      // code from
+      // https://github.com/uport-project/veramo/blob/2ce705680173174e7399c4d0607b67b7303c6c97/packages/credential-eip712/src/agent/CredentialEIP712.ts#L215
+      if (typeof credential === 'string') {
+        return credential;
+      }
+      if (credential.proof.jwt) {
+        return credential.proof.jwt as string;
+      }
+
+      return JSON.stringify(credential);
     });
 
-    return result;
+    const unsignedVp: UnsignedPresentation = {
+      holder: did,
+      verifiableCredential: canonicalizedVcs,
+      type: ['VerifiablePresentation', 'Custom'],
+      '@context': ['https://www.w3.org/2018/credentials/v1'],
+      issuanceDate: new Date().toISOString(),
+    };
+
+    return unsignedVp;
   }
 
   static async verifyData(
@@ -414,12 +508,6 @@ class VeramoService {
     } catch (error: unknown) {
       return { verified: false, error: error as Error } as IVerifyResult;
     }
-  }
-
-  static async createCredential(
-    args: ICreateVerifiableCredentialArgs
-  ): Promise<VerifiableCredential> {
-    return this.instance.createVerifiableCredential(args);
   }
 
   static getAgent(): Agent {
