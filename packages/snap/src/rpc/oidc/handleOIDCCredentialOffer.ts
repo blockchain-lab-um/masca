@@ -8,7 +8,6 @@ import { isError, Result } from '@blockchain-lab-um/utils';
 import { heading, panel } from '@metamask/snaps-ui';
 import type { VerifiableCredential } from '@veramo/core';
 import { decodeCredentialToObject } from '@veramo/utils';
-import { getSnapState } from 'src/utils/stateUtils';
 
 import {
   getAddressKeyDeriver,
@@ -19,6 +18,7 @@ import {
   sendAuthorizationResponse,
 } from '../../utils/oidc';
 import { sign } from '../../utils/sign';
+import { getSnapState } from '../../utils/stateUtils';
 import VeramoService from '../../veramo/Veramo.service';
 
 export async function handleOIDCCredentialOffer(

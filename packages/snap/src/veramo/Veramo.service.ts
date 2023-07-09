@@ -65,7 +65,7 @@ import { KeyManagementSystem } from '@veramo/kms-local';
 import { DIDResolutionResult, Resolver } from 'did-resolver';
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver';
 
-import { getUniversalDidResolver as universalDidResolver } from '../did/universal/universalDidResolver';
+import UniversalResolverService from '../UniversalResolver.service';
 import { getAddressKeyDeriver, snapGetKeysFromAddress } from '../utils/keyPair';
 import {
   getCurrentAccount,
@@ -166,7 +166,7 @@ class VeramoService {
             ...keyDidResolver(),
             ...pkhDidResolver(),
             ...jwkDidResolver(),
-            ...universalDidResolver(),
+            ...UniversalResolverService.getResolver(),
           }),
         }),
         new DIDManager({

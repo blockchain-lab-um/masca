@@ -1,16 +1,15 @@
 import {
   DIDResolutionOptions,
   DIDResolutionResult,
-  DIDResolver,
   ParsedDID,
   Resolvable,
 } from 'did-resolver';
 
-export const resolveDid: DIDResolver = async (
+const resolveDid = async (
   did: string,
-  parsed: ParsedDID,
-  resolver: Resolvable,
-  options: DIDResolutionOptions
+  _parsed: ParsedDID,
+  _resolver: Resolvable,
+  _options: DIDResolutionOptions
 ): Promise<DIDResolutionResult> => {
   try {
     const response = await fetch(
@@ -29,13 +28,17 @@ export const resolveDid: DIDResolver = async (
   }
 };
 
-export function getUniversalDidResolver() {
-  return {
-    ens: resolveDid,
-    ion: resolveDid,
-    ebsi: resolveDid,
-    web: resolveDid,
-    github: resolveDid,
-    cheqd: resolveDid,
-  };
+class UniversalResolverService {
+  static getResolver() {
+    return {
+      ens: resolveDid,
+      ion: resolveDid,
+      ebsi: resolveDid,
+      web: resolveDid,
+      github: resolveDid,
+      cheqd: resolveDid,
+    };
+  }
 }
+
+export default UniversalResolverService;
