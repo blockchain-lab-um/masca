@@ -149,10 +149,12 @@ const DropDownItem = ({ SVGIcon, name, description }: DropDownItemProps) => (
       <SVGIcon aria-hidden="true" />
     </div>
     <div className="ml-4">
-      <p className="pb-0.5 text-sm font-semibold text-gray-900 dark:text-navy-blue-900">
+      <p className="dark:text-navy-blue-900 pb-0.5 text-sm font-semibold text-gray-900">
         {name}{' '}
       </p>
-      <p className="text-sm text-gray-500 dark:text-navy-blue-700">{description}</p>
+      <p className="dark:text-navy-blue-700 text-sm text-gray-500">
+        {description}
+      </p>
     </div>
   </>
 );
@@ -244,11 +246,11 @@ function MenuPopover() {
                     className="dark:hover:bg-navy-blue-700 flow-root rounded-md px-2 py-2 transition duration-150 ease-in-out hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50"
                   >
                     <span className="flex items-center">
-                      <span className="text-sm font-semibold text-gray-900 dark:text-navy-blue-100">
+                      <span className="dark:text-navy-blue-100 text-sm font-semibold text-gray-900">
                         {t('dropdown.documentation')}
                       </span>
                     </span>
-                    <span className="block text-sm text-gray-500 dark:text-navy-blue-300">
+                    <span className="dark:text-navy-blue-300 block text-sm text-gray-500">
                       {t('dropdown.description.documentation')}
                     </span>
                   </a>

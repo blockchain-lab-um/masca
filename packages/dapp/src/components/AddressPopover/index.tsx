@@ -22,9 +22,9 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
         <>
           <Popover.Button
             className={clsx(
-              'lg:text-h4 md:text-h5 animated-transition dark:bg-orange-accent-dark dark:text-navy-blue-900 font-ubuntu inline-flex w-full justify-center rounded-full border-none bg-pink-200 px-4 py-2.5 text-sm text-gray-700 hover:bg-pink-200/80 dark:hover:bg-orange-accent-dark/80 md:px-5 md:py-2.5 lg:px-7 lg:py-2.5',
+              'lg:text-h4 md:text-h5 animated-transition dark:bg-orange-accent-dark dark:text-navy-blue-900 font-ubuntu dark:hover:bg-orange-accent-dark/80 inline-flex w-full justify-center rounded-full border-none bg-pink-200 px-4 py-2.5 text-sm text-gray-700 hover:bg-pink-200/80 md:px-5 md:py-2.5 lg:px-7 lg:py-2.5',
               'outline-none focus-visible:outline-none',
-              open ? 'bg-pink-200/80 dark:bg-orange-accent-dark/80' : ''
+              open ? 'dark:bg-orange-accent-dark/80 bg-pink-200/80' : ''
             )}
           >
             <div className="flex">

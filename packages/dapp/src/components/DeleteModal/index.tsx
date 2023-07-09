@@ -109,7 +109,7 @@ function DeleteModal({ isOpen, setOpen, vc, store }: DeleteModalProps) {
         {t('title')}
       </Dialog.Title>
       <div className="mt-8">
-        <p className="text-md dark:text-navy-blue-200 text-gray-700 max-w-sm">
+        <p className="text-md dark:text-navy-blue-200 max-w-sm text-gray-700">
           {t('desc')}
         </p>
 
