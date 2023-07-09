@@ -149,10 +149,10 @@ const DropDownItem = ({ SVGIcon, name, description }: DropDownItemProps) => (
       <SVGIcon aria-hidden="true" />
     </div>
     <div className="ml-4">
-      <p className="pb-0.5 text-sm font-medium text-gray-900 dark:text-white">
+      <p className="pb-0.5 text-sm font-semibold text-gray-900 dark:text-navy-blue-900">
         {name}{' '}
       </p>
-      <p className="text-sm text-gray-500 dark:text-gray-300">{description}</p>
+      <p className="text-sm text-gray-500 dark:text-navy-blue-700">{description}</p>
     </div>
   </>
 );
@@ -199,7 +199,7 @@ function MenuPopover() {
                     <Link
                       key={link.name}
                       href={link.href}
-                      className="dark:hover:bg-navy-blue-500 -m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50"
+                      className="dark:hover:bg-navy-blue-500 -m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50"
                     >
                       <DropDownItem
                         SVGIcon={link.icon}
@@ -212,7 +212,7 @@ function MenuPopover() {
                     <Link
                       key={link.name}
                       href={link.href}
-                      className="dark:hover:bg-navy-blue-500 -m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50 xl:hidden"
+                      className="dark:hover:bg-navy-blue-500 -m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50 xl:hidden"
                     >
                       <DropDownItem
                         SVGIcon={link.icon}
@@ -226,7 +226,7 @@ function MenuPopover() {
                       key={link.name}
                       href={link.href}
                       target="_blank"
-                      className="dark:hover:bg-navy-blue-500 -m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50"
+                      className="dark:hover:bg-navy-blue-500 -m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50"
                     >
                       <DropDownItem
                         SVGIcon={link.icon}
@@ -236,19 +236,19 @@ function MenuPopover() {
                     </a>
                   ))}
                 </div>
-                <div className="dark:bg-navy-blue-500 bg-gray-50 p-4">
+                <div className="dark:bg-navy-blue-500 bg-gray-100 p-4">
                   <a
                     href="https://docs.masca.io/"
                     target="_blank"
                     rel="noreferrer"
-                    className="dark:hover:bg-navy-blue-700 flow-root rounded-md px-2 py-2 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50"
+                    className="dark:hover:bg-navy-blue-700 flow-root rounded-md px-2 py-2 transition duration-150 ease-in-out hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50"
                   >
                     <span className="flex items-center">
-                      <span className="text-sm font-medium text-gray-900 dark:text-white">
+                      <span className="text-sm font-semibold text-gray-900 dark:text-navy-blue-100">
                         {t('dropdown.documentation')}
                       </span>
                     </span>
-                    <span className="block text-sm text-gray-500 dark:text-gray-300">
+                    <span className="block text-sm text-gray-500 dark:text-navy-blue-300">
                       {t('dropdown.description.documentation')}
                     </span>
                   </a>
