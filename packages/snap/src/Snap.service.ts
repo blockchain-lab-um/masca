@@ -237,15 +237,6 @@ class SnapService {
     return handleOIDCAuthorizationRequest(args);
   }
 
-  // static async togglePopups(): {};
-  // static async switchMethod(): {};
-  // static async getSelectedMethod(): {};
-  // static async getAvailableMethods(): {};
-  // static async setCeramicSession(): {};
-  // static async validateStoredCeramicSession(): {};
-  // static async getAvailableVCStores(): {};
-  // static async setVCStore(): {};
-
   static async handleRpcRequest(
     method: string,
     params: any,
@@ -256,6 +247,13 @@ class SnapService {
     let res;
 
     switch (method) {
+      /**
+       * Snap.service
+       *
+       * All methods need to be supported in:
+       * - Veramo.service
+       * - Polygon.service
+       */
       case 'queryVCs':
         res = await this.queryCredentials(params);
         return ResultObject.success(res);
@@ -287,39 +285,43 @@ class SnapService {
         res = await this.handleAuthorizationRequest(params);
         return ResultObject.success(res);
 
-      // case 'togglePopups':
-      //   res = await togglePopups(apiParams);
-      //   return ResultObject.success(res);
-      // case 'switchDIDMethod':
-      //   res = await switchMethod(apiParams, params);
-      //   return ResultObject.success(res);
-      // case 'getSelectedMethod':
-      //   res = getAvailableMethods();
-      //   return ResultObject.success(res);
-      // case 'getVCStore':
-      //   return ResultObject.success(res);
-      // case 'setVCStore':
-      //   res = await setVCStore(apiParams, params);
-      //   return ResultObject.success(res);
-      // case 'getAccountSettings':
-      //   res = state.accountState[account].accountConfig;
-      //   return ResultObject.success(res);
-      // case 'getSnapSettings':
-      //   res = state.snapConfig;
-      //   return ResultObject.success(res);
-      // case 'getAvailableVCStores':
-      //   res = getAvailableVCStores();
-      //   return ResultObject.success(res);
-      // case 'setCeramicSession':
-      //   // TODO (andy) validate request params
-      //   res = await setCeramicSession(
-      //     apiParams,
-      //     params.serializedSession as string
-      //   );
-      //   return ResultObject.success(res);
-      // case 'validateStoredCeramicSession':
-      //   await validateStoredCeramicSession(apiParams);
-      //   return ResultObject.success(true);
+      /**
+       * General.service
+       */
+      case 'togglePopups':
+        await GeneralService.togglePopups();
+        return ResultObject.success(true);
+      case 'switchDIDMethod':
+        res = GeneralService.switchDIDMethod(params);
+        return ResultObject.success(res);
+      case 'getSelectedMethod':
+        res = GeneralService.getSelectedMethod();
+        return ResultObject.success(res);
+      case 'getVCStore':
+        res = await GeneralService.getVCStore();
+        return ResultObject.success(res);
+      case 'setVCStore':
+        res = GeneralService.setVCStore(params);
+        return ResultObject.success(res);
+      case 'getAvailableVCStores':
+        res = GeneralService.getAvailableVCStores();
+        return ResultObject.success(res);
+      case 'getAccountSettings':
+        res = GeneralService.getAccountSettings();
+        return ResultObject.success(res);
+      case 'getSnapSettings':
+        res = GeneralService.getSnapSettings();
+        return ResultObject.success(res);
+      case 'getAvailableMethods':
+        res = GeneralService.getAvailableMethods();
+        return ResultObject.success(res);
+      case 'setCeramicSession':
+        // TODO (andy) validate request params
+        res = await GeneralService.setCeramicSession(params);
+        return ResultObject.success(res);
+      case 'validateStoredCeramicSession':
+        await GeneralService.validateStoredCeramicSession();
+        return ResultObject.success(true);
       default:
         throw new Error('Method not found.');
     }

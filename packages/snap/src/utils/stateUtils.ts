@@ -1,9 +1,6 @@
 import type { MascaState } from '@blockchain-lab-um/masca-types';
 import type { Json } from '@metamask/snaps-types';
 
-import type { ApiParams } from '../interfaces';
-import { getEmptyAccountState, getInitialSnapState } from './config';
-
 /**
  * Helper function to update MascaState object in the Snaps global object
  *
@@ -53,30 +50,4 @@ export async function getSnapStateUnchecked(): Promise<MascaState | null> {
     params: { operation: 'get' },
   })) as MascaState | null;
   return state;
-}
-
-/**
- * Function that initializes the MascaState object in the Snaps global object.
- *
- * @param snap - Snaps global object
- *
- * @returns MascaState - the updated MascaState object
- */
-export async function initSnapState(): Promise<MascaState> {
-  const state = getInitialSnapState();
-  await updateSnapState(state);
-  return state;
-}
-
-/**
- * Function that creates an empty MascaAccountState object in the Masca state for the provided address.
- *
- * @param params - ApiParams object
- *
- * @returns void
- */
-export async function initAccountState(params: ApiParams): Promise<void> {
-  const { state, account } = params;
-  state.accountState[account] = getEmptyAccountState();
-  await updateSnapState(state);
 }

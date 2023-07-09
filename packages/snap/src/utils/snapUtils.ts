@@ -3,10 +3,7 @@ import type {
   MascaState,
 } from '@blockchain-lab-um/masca-types';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import type { Component } from '@metamask/snaps-ui';
-
-import { updateSnapState } from './stateUtils';
 
 /**
  * Function that returns address of the currently selected MetaMask account.
@@ -37,19 +34,6 @@ export async function getCurrentNetwork(
   })) as string;
 
   return network;
-}
-
-/**
- * Function that toggles the disablePopups flag.
- *
- * @param snap - snaps global object.
- * @param state - current state of the snap.
- *
- * @returns void
- */
-export async function togglePopups(snap: SnapsGlobalObject, state: MascaState) {
-  state.snapConfig.dApp.disablePopups = !state.snapConfig.dApp.disablePopups;
-  await updateSnapState(state);
 }
 
 /**
