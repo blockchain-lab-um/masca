@@ -25,7 +25,7 @@ module.exports = {
       'orange-400': '#FF8850',
       'orange-300': '#FFAF8A',
       'orange-200': '#FFCDB6',
-      'orange-100': '#FADECD',
+      'orange-100': '#FBDBC9',
       'orange-50': '#FAEEE7',
       'orange-tone': '#F07942',
       'orange-accent-dark': '#FFB28B',
@@ -43,8 +43,8 @@ module.exports = {
       black: '#121212',
       'gray-900': '#292826',
       'gray-800': '#3E3C39',
-      'gray-700': '#676460',
-      'gray-600': '#7C7773',
+      'gray-700': '#53504C',
+      'gray-600': '#7D796F',
       'gray-500': '#9B958F',
       'gray-400': '#C4BDB5',
       'gray-300': '#D5CFC9',
@@ -103,7 +103,7 @@ module.exports = {
       h4: ['20px', { lineHeight: '23px', letterSpacing: '-0.032em' }],
       h3: ['28px', { lineHeight: '32px', letterSpacing: '-0.032em' }],
       h2: ['32px', { lineHeight: '37px', letterSpacing: '-0.032em' }],
-      h1: ['40px', { lineHeight: '46px', letterSpacing: '-0.042em' }],
+      h1: ['48px', { lineHeight: '46px', letterSpacing: '-0.042em' }],
     },
     extend: {
       transitionProperty: {

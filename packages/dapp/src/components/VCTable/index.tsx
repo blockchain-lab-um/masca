@@ -386,11 +386,11 @@ const Table = () => {
       <>
         <div className="relative flex h-full min-h-[50vh] w-full flex-col">
           <div className="dark:border-navy-blue-600 flex items-center justify-between border-b border-gray-400 p-5">
-            <div className="text-h2 font-ubuntu dark:text-navy-blue-50 pl-4 font-medium text-gray-900">
+            <div className="text-h2 font-ubuntu dark:text-navy-blue-50 pl-4 font-medium text-gray-800">
               {t('table-header.credentials')}
             </div>
             <div className="text-right">
-              <div className="text-h4 dark:text-navy-blue-50 text-gray-900">
+              <div className="text-h4 dark:text-navy-blue-50 text-gray-800">
                 {vcs.length} {t('table-header.found')}
               </div>
               <div className="text-h5 dark:text-navy-blue-400 text-gray-600">
@@ -398,7 +398,7 @@ const Table = () => {
               </div>
             </div>
           </div>
-          <table className="dark:text-navy-blue-400 min-w-full text-center text-lg text-gray-600">
+          <table className="dark:text-navy-blue-400 min-w-full text-center text-lg text-gray-700">
             <thead className="">
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr key={headerGroup.id}>
@@ -526,11 +526,11 @@ const Table = () => {
   return (
     <div className="relative flex h-full min-h-[50vh] w-full flex-col">
       <div className="dark:border-navy-blue-600 flex items-center justify-between border-b border-gray-400 p-5">
-        <div className="text-h2 font-ubuntu dark:text-navy-blue-50 pl-4 font-medium text-gray-900">
+        <div className="text-h2 font-ubuntu dark:text-navy-blue-50 pl-4 font-medium text-gray-800">
           {t('table-header.credentials')}
         </div>
         <div className="text-right">
-          <div className="text-h4 dark:text-navy-blue-50 text-gray-900">
+          <div className="text-h4 dark:text-navy-blue-50 text-gray-800">
             {vcs.length} {t('table-header.found')}
           </div>
           <div className="text-h5 dark:text-navy-blue-400 text-gray-600">

@@ -64,16 +64,16 @@ const SettingsCard = () => {
   return (
     <div className="h-full p-6 text-lg">
       <div>
-        <div className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-900">
+        <div className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-800">
           {t('data-store')}
         </div>
         <div className="mt-5">
-          <p className="text-md dark:text-navy-blue-400 text-gray-600 ">
+          <p className="text-md dark:text-navy-blue-400 text-gray-700 ">
             {t('data-store-desc')}{' '}
           </p>
         </div>
 
-        <span className="dark:text-navy-blue-200 mt-10 flex justify-between text-gray-800 ">
+        <span className="dark:text-navy-blue-200 mt-10 flex justify-between text-gray-700 ">
           Ceramic{' '}
           <ToggleSwitch
             size="md"
@@ -85,7 +85,7 @@ const SettingsCard = () => {
       </div>
 
       <div className="mt-20">
-        <div className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6  text-gray-900">
+        <div className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6  text-gray-800">
           {t('advanced')}
         </div>
         <div className="mt-2 text-sm text-red-500">{t('not-implemented')}</div>

@@ -32,7 +32,7 @@ function ImportModal({ isOpen, setOpen, importVC }: ImportModalProps) {
     <Modal isOpen={isOpen} setOpen={setOpen}>
       <Dialog.Title
         as="h3"
-        className="text-h3 font-ubuntu dark:text-navy-blue-50 font-medium leading-6 text-gray-900"
+        className="text-h3 font-ubuntu dark:text-navy-blue-50 font-medium leading-6 text-gray-800"
       >
         {t('title')}
       </Dialog.Title>
@@ -53,11 +53,11 @@ function ImportModal({ isOpen, setOpen, importVC }: ImportModalProps) {
             onChange={(e) => setVC(e.target.value)}
           />
         </div>
-        <div className="text-h5 font-ubuntu dark:text-navy-blue-50 mt-8 font-medium text-gray-900">
+        <div className="text-h5 font-ubuntu dark:text-navy-blue-50 mt-8 font-medium text-gray-800">
           {t('settings')}
         </div>
         <div className="mt-2 flex items-center justify-between gap-x-8">
-          <span className="text-md dark:text-navy-blue-200 flex gap-x-1 text-gray-600">
+          <span className="text-md dark:text-navy-blue-200 flex gap-x-1 text-gray-700">
             {t('storage')} <InfoIcon>{t('storage-desc')}</InfoIcon>
           </span>
           <div className="flex flex-1">

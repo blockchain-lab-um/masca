@@ -31,14 +31,14 @@ const variants: Record<string, string> = {
     'border-[0.225rem] border-pink-500 text-pink-500 hover:bg-pink-500/5 dark:hover:bg-orange-accent-dark/5 dark:border-orange-accent-dark dark:text-orange-accent-dark animated-transition',
   'secondary-active':
     'text-navy-blue-500 border border border-navy-blue-500 hover:text-white hover:bg-navy-blue-500',
-  connect: 'bg-pink-100 hover:bg-pink-50 text-pink-600',
+  connect: 'bg-pink-200 hover:bg-pink-200/60 dark:hover:bg-pink-200/80 text-gray-700',
   gray: 'bg-gray-200 text-gray-800 hover:opacity-80 dark:bg-navy-blue-700 dark:text-white',
   'white-pink':
     'bg-white text-gray-800 hover:text-white hover:bg-pink-400 dark:bg-orange-accent-dark dark:text-gray-900 dark:hover:bg-orange-accent-dark/80',
   white: 'bg-white text-gray-800 hover:opacity-80',
   warning: 'bg-red-500 hover:bg-red-500/90 text-white justify-center',
   cancel:
-    'text-pink-500 dark:text-orange-accent-dark hover:opacity-80 underline underline-pink-500 dark:underline-orange-accent-dark underline-offset-4',
+    'text-gray-700 dark:text-navy-blue-100 hover:opacity-80 underline underline-pink-500 dark:underline-orange-accent-dark underline-offset-4',
   'cancel-red':
     'text-red-500 dark:text-red-500 hover:opacity-80 underline underline-red-500 underline-offset-4',
   done: 'text-gray-600 dark:text-navy-blue-200 underline underline-gray-600 dark:underline-navy-blue-200 underline-offset-4 hover:opacity-80',

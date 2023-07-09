@@ -22,9 +22,9 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
         <>
           <Popover.Button
             className={clsx(
-              'lg:text-h4 md:text-h5 animated-transition dark:bg-orange-accent-dark dark:text-navy-blue-900 font-ubuntu inline-flex w-full justify-center rounded-full border-none bg-pink-100 px-4 py-2.5 text-sm text-gray-800 hover:opacity-80 md:px-5 md:py-2.5 lg:px-7 lg:py-2.5',
+              'lg:text-h4 md:text-h5 animated-transition dark:bg-orange-accent-dark dark:text-navy-blue-900 font-ubuntu inline-flex w-full justify-center rounded-full border-none bg-pink-200 px-4 py-2.5 text-sm text-gray-700 hover:bg-pink-200/80 dark:hover:bg-orange-accent-dark/80 md:px-5 md:py-2.5 lg:px-7 lg:py-2.5',
               'outline-none focus-visible:outline-none',
-              open ? 'opacity-80' : ''
+              open ? 'bg-pink-200/80 dark:bg-orange-accent-dark/80' : ''
             )}
           >
             <div className="flex">
@@ -57,7 +57,7 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
                         href={`https://dev.uniresolver.io/#${did}`}
                         target="_blank"
                         rel="noreferrer"
-                        className="animated-transition cursor-pointer text-2xl text-gray-900 underline hover:text-gray-700 dark:text-white dark:hover:text-gray-100"
+                        className="animated-transition cursor-pointer text-2xl text-gray-800 underline hover:text-gray-700 dark:text-white dark:hover:text-gray-100"
                       >{`${did.substring(0, did.lastIndexOf(':'))}:${did
                         .split(':')
                         [did.split(':').length - 1].slice(0, 5)}...${did.slice(
@@ -68,7 +68,7 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
                           copyToClipboard(did);
                         }}
                       >
-                        <DocumentDuplicateIcon className="animated-transition dark:text-navy-blue-50 ml-1 h-5 w-5 text-gray-900 hover:text-gray-600" />
+                        <DocumentDuplicateIcon className="animated-transition dark:text-navy-blue-50 ml-1 h-5 w-5 text-gray-800 hover:text-gray-600" />
                       </button>
                     </div>
                   </div>
@@ -80,7 +80,7 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
                       <div className="mr-1 mt-0.5">
                         <div className="h-2.5 w-2.5 rounded-full bg-green-500"></div>
                       </div>
-                      <div className="text-lg text-gray-900 dark:text-white">{`${address.slice(
+                      <div className="text-lg text-gray-800 dark:text-white">{`${address.slice(
                         0,
                         5
                       )}...${address.slice(-4)}`}</div>
@@ -89,7 +89,7 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
                           copyToClipboard(address);
                         }}
                       >
-                        <DocumentDuplicateIcon className="animated-transition dark:text-navy-blue-50 ml-1 h-5 w-5 text-gray-900 hover:text-gray-600" />
+                        <DocumentDuplicateIcon className="animated-transition dark:text-navy-blue-50 ml-1 h-5 w-5 text-gray-800 hover:text-gray-600" />
                       </button>
                     </div>
                   </div>
