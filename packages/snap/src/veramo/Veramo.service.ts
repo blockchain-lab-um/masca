@@ -75,15 +75,15 @@ import { KeyManagementSystem } from '@veramo/kms-local';
 import { decodeCredentialToObject } from '@veramo/utils';
 import { DIDResolutionResult, Resolver } from 'did-resolver';
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver';
+import EthereumService from 'src/Ethereum.service';
 import {
   handleAuthorizationRequest,
   sendAuthorizationResponse,
 } from 'src/utils/oidc';
-import { sign } from 'src/utils/sign';
 
 import UniversalResolverService from '../UniversalResolver.service';
 import { getAddressKeyDeriver, snapGetKeysFromAddress } from '../utils/keyPair';
-import { getCurrentAccount, getCurrentNetwork } from '../utils/snapUtils';
+import { sign } from '../utils/sign';
 import { getSnapState } from '../utils/stateUtils';
 import { CeramicVCStore } from './plugins/ceramicDataStore/ceramicDataStore';
 import { SnapVCStore } from './plugins/snapDataStore/snapDataStore';
@@ -198,7 +198,7 @@ class VeramoService {
 
   private static async importIdentifier(): Promise<void> {
     const state = await getSnapState();
-    const account = getCurrentAccount(state);
+    const account = state.currentAccount;
     const method = state.accountState[account].accountConfig.ssi.didMethod;
     const bip44CoinTypeNode = await getAddressKeyDeriver({
       state,
@@ -245,13 +245,13 @@ class VeramoService {
 
   static async getIdentifier(): Promise<IIdentifier> {
     const state = await getSnapState();
-    const account = getCurrentAccount(state);
+    const account = state.currentAccount;
     const method = state.accountState[account].accountConfig.ssi.didMethod;
 
     switch (method) {
       case 'did:pkh':
       case 'did:ethr': {
-        const chainId = await getCurrentNetwork(ethereum);
+        const chainId = await EthereumService.getNetwork();
 
         if (method === 'did:pkh' && chainId !== '0x1' && chainId !== '0x89') {
           throw new Error(

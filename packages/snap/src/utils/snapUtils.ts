@@ -2,39 +2,7 @@ import type {
   AvailableVCStores,
   MascaState,
 } from '@blockchain-lab-um/masca-types';
-import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { Component } from '@metamask/snaps-ui';
-
-/**
- * Function that returns address of the currently selected MetaMask account.
- *
- * @param state - MascaState object.
- *
- * @returns string - address of the currently selected MetaMask account.
- * */
-export function getCurrentAccount(state: MascaState): string {
-  if (state.currentAccount === '') {
-    throw new Error('No account set. Use setCurrentAccount to set an account.');
-  }
-  return state.currentAccount;
-}
-
-/**
- * Function that returns the current network.
- *
- * @param ethereum - MetaMaskInpageProvider object.
- *
- * @returns string - current network.
- */
-export async function getCurrentNetwork(
-  ethereum: MetaMaskInpageProvider
-): Promise<string> {
-  const network = (await ethereum.request({
-    method: 'eth_chainId',
-  })) as string;
-
-  return network;
-}
 
 /**
  * Function that returns whether the user has confirmed the snap dialog.

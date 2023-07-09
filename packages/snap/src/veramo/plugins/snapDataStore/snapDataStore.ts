@@ -18,7 +18,6 @@ import { sha256 } from 'ethereum-cryptography/sha256';
 import jsonpath from 'jsonpath';
 
 import { decodeJWT } from '../../../utils/jwt';
-import { getCurrentAccount } from '../../../utils/snapUtils';
 import { getSnapState, updateSnapState } from '../../../utils/stateUtils';
 
 export type ImportablePrivateKey = RequireOnly<
@@ -55,8 +54,7 @@ export class SnapDIDStore extends AbstractDIDStore {
     provider: string;
   }): Promise<IIdentifier> {
     const state = await getSnapState();
-    const account = getCurrentAccount(state);
-    const { identifiers } = state.accountState[account];
+    const { identifiers } = state.accountState[state.currentAccount];
 
     if (did && !alias) {
       if (!identifiers[did])
@@ -82,27 +80,25 @@ export class SnapDIDStore extends AbstractDIDStore {
 
   async deleteDID({ did }: { did: string }) {
     const state = await getSnapState();
-    const account = getCurrentAccount(state);
 
-    if (!state.accountState[account].identifiers[did]) {
+    if (!state.accountState[state.currentAccount].identifiers[did]) {
       throw Error('Identifier not found');
     }
 
-    delete state.accountState[account].identifiers[did];
+    delete state.accountState[state.currentAccount].identifiers[did];
     await updateSnapState(state);
     return true;
   }
 
   async importDID(args: IIdentifier) {
     const state = await getSnapState();
-    const account = getCurrentAccount(state);
     const identifier = { ...args };
     for (const key of identifier.keys) {
       if ('privateKeyHex' in key) {
         delete key.privateKeyHex;
       }
     }
-    state.accountState[account].identifiers[args.did] = identifier;
+    state.accountState[state.currentAccount].identifiers[args.did] = identifier;
     await updateSnapState(state);
     return true;
   }
@@ -112,11 +108,12 @@ export class SnapDIDStore extends AbstractDIDStore {
     provider?: string;
   }): Promise<IIdentifier[]> {
     const state = await getSnapState();
-    const account = getCurrentAccount(state);
 
     let result: IIdentifier[] = [];
-    for (const key of Object.keys(state.accountState[account].identifiers)) {
-      result.push(state.accountState[account].identifiers[key]);
+    for (const key of Object.keys(
+      state.accountState[state.currentAccount].identifiers
+    )) {
+      result.push(state.accountState[state.currentAccount].identifiers[key]);
     }
 
     if (args.alias && !args.provider) {
@@ -153,12 +150,13 @@ export class SnapVCStore extends AbstractDataStore {
   async query(args: IFilterArgs): Promise<Array<IQueryResult>> {
     const { filter } = args;
     const state = await getSnapState();
-    const account = getCurrentAccount(state);
 
     if (filter && filter.type === 'id') {
       try {
-        if (state.accountState[account].vcs[filter.filter as string]) {
-          let vc = state.accountState[account].vcs[
+        if (
+          state.accountState[state.currentAccount].vcs[filter.filter as string]
+        ) {
+          let vc = state.accountState[state.currentAccount].vcs[
             filter.filter as string
           ] as unknown;
           if (typeof vc === 'string') {
@@ -178,20 +176,24 @@ export class SnapVCStore extends AbstractDataStore {
       }
     }
     if (filter === undefined || (filter && filter.type === 'none')) {
-      return Object.keys(state.accountState[account].vcs).map((k) => {
-        let vc = state.accountState[account].vcs[k] as unknown;
-        if (typeof vc === 'string') {
-          vc = decodeJWT(vc);
+      return Object.keys(state.accountState[state.currentAccount].vcs).map(
+        (k) => {
+          let vc = state.accountState[state.currentAccount].vcs[k] as unknown;
+          if (typeof vc === 'string') {
+            vc = decodeJWT(vc);
+          }
+          return {
+            metadata: { id: k },
+            data: vc,
+          };
         }
-        return {
-          metadata: { id: k },
-          data: vc,
-        };
-      });
+      );
     }
     if (filter && filter.type === 'JSONPath') {
-      const objects = Object.keys(state.accountState[account].vcs).map((k) => {
-        let vc = state.accountState[account].vcs[k] as unknown;
+      const objects = Object.keys(
+        state.accountState[state.currentAccount].vcs
+      ).map((k) => {
+        let vc = state.accountState[state.currentAccount].vcs[k] as unknown;
         if (typeof vc === 'string') {
           vc = decodeJWT(vc);
         }
@@ -208,11 +210,11 @@ export class SnapVCStore extends AbstractDataStore {
 
   async delete({ id }: { id: string }) {
     const state = await getSnapState();
-    const account = getCurrentAccount(state);
 
-    if (!state.accountState[account].vcs[id]) throw Error('ID not found');
+    if (!state.accountState[state.currentAccount].vcs[id])
+      throw Error('ID not found');
 
-    delete state.accountState[account].vcs[id];
+    delete state.accountState[state.currentAccount].vcs[id];
     await updateSnapState(state);
     return true;
   }
@@ -220,12 +222,11 @@ export class SnapVCStore extends AbstractDataStore {
   async save(args: { data: W3CVerifiableCredential }): Promise<string> {
     const vc = args.data;
     const state = await getSnapState();
-    const account = getCurrentAccount(state);
 
     const id = uint8ArrayToHex(sha256(Buffer.from(JSON.stringify(vc))));
 
-    if (!state.accountState[account].vcs[id]) {
-      state.accountState[account].vcs[id] = vc;
+    if (!state.accountState[state.currentAccount].vcs[id]) {
+      state.accountState[state.currentAccount].vcs[id] = vc;
       await updateSnapState(state);
     }
 
@@ -235,9 +236,8 @@ export class SnapVCStore extends AbstractDataStore {
   public async clear(_args: IFilterArgs): Promise<boolean> {
     // TODO implement filter (in ceramic aswell)
     const state = await getSnapState();
-    const account = getCurrentAccount(state);
 
-    state.accountState[account].vcs = {};
+    state.accountState[state.currentAccount].vcs = {};
     return true;
   }
 }

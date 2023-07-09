@@ -11,7 +11,7 @@ import {
 } from '@blockchain-lab-um/masca-types';
 import { divider, heading, panel, text } from '@metamask/snaps-ui';
 
-import { handleNetwork } from './rpc/did/switchMethod';
+import EthereumService from './Ethereum.service';
 import { validateSession } from './utils/ceramicUtils';
 import { getEmptyAccountState, getInitialSnapState } from './utils/config';
 import { snapConfirm } from './utils/snapUtils';
@@ -125,7 +125,9 @@ class GeneralService {
     const newMethod = args.didMethod;
 
     if (requiresNetwork(newMethod)) {
-      await handleNetwork({ didMethod: newMethod as MethodsRequiringNetwork });
+      await EthereumService.handleNetwork({
+        didMethod: newMethod as MethodsRequiringNetwork,
+      });
     }
 
     if (currentMethod !== newMethod) {
