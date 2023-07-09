@@ -28,11 +28,11 @@ import {
   IDataManager,
 } from '@blockchain-lab-um/veramo-datamanager';
 import { Web3Provider } from '@ethersproject/providers';
-import { heading, panel } from '@metamask/snaps-ui';
+import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
 import {
   createAgent,
+  CredentialPayload,
   CredentialStatus,
-  ICreateVerifiableCredentialArgs,
   ICredentialIssuer,
   ICredentialVerifier,
   IDataStore,
@@ -41,6 +41,7 @@ import {
   IKeyManager,
   IResolver,
   IVerifyResult,
+  ProofFormat,
   TAgent,
   UnsignedCredential,
   UnsignedPresentation,
@@ -80,6 +81,7 @@ import {
   handleAuthorizationRequest,
   sendAuthorizationResponse,
 } from 'src/utils/oidc';
+import { snapConfirm } from 'src/utils/snapUtils';
 
 import UniversalResolverService from '../UniversalResolver.service';
 import { getAddressKeyDeriver, snapGetKeysFromAddress } from '../utils/keyPair';
@@ -245,8 +247,8 @@ class VeramoService {
 
   static async getIdentifier(): Promise<IIdentifier> {
     const state = await getSnapState();
-    const account = state.currentAccount;
-    const method = state.accountState[account].accountConfig.ssi.didMethod;
+    const method =
+      state.accountState[state.currentAccount].accountConfig.ssi.didMethod;
 
     switch (method) {
       case 'did:pkh':
@@ -275,7 +277,7 @@ class VeramoService {
       case 'did:key':
       case 'did:jwk': {
         return this.instance.didManagerGetByAlias({
-          alias: `metamask-${method}-${account}`,
+          alias: `metamask-${method}-${state.currentAccount}`,
           provider: method === 'did:key:jwk_jcs-pub' ? 'did:key' : method,
         });
       }
@@ -288,10 +290,34 @@ class VeramoService {
     return this.instance.resolveDid({ didUrl: did });
   }
 
-  static async createCredential(
-    args: ICreateVerifiableCredentialArgs
-  ): Promise<VerifiableCredential> {
-    return this.instance.createVerifiableCredential(args);
+  static async createCredential(args: {
+    credential: MinimalUnsignedCredential;
+    proofFormat?: ProofFormat;
+  }): Promise<VerifiableCredential> {
+    const state = await getSnapState();
+    const { credential, proofFormat = 'jwt' } = args;
+    const identifier = await VeramoService.getIdentifier();
+
+    credential.issuer = identifier.did;
+
+    const content = panel([
+      heading('Create VC'),
+      text('Would you like to create a VC from the following data?'),
+      divider(),
+      text(`Data:`),
+      copyable(JSON.stringify(credential, null, 2)),
+    ]);
+
+    if (state.snapConfig.dApp.disablePopups || (await snapConfirm(content))) {
+      const vc = await this.instance.createVerifiableCredential({
+        credential: credential as CredentialPayload,
+        proofFormat,
+      });
+
+      return vc;
+    }
+
+    throw new Error('User rejected create VC request');
   }
 
   static async createUnsignedCredential(args: {

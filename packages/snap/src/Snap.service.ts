@@ -22,7 +22,6 @@ import { VerifiablePresentation } from 'did-jwt-vc';
 import GeneralService from './General.service';
 import { snapConfirm } from './utils/snapUtils';
 import { getSnapState } from './utils/stateUtils';
-import { veramoCreateVC } from './utils/veramoUtils';
 import VeramoService from './veramo/Veramo.service';
 
 class SnapService {
@@ -105,10 +104,9 @@ class SnapService {
       return unsignedVc;
     }
 
-    const vc = await veramoCreateVC({
-      minimalUnsignedCredential,
+    const vc = await VeramoService.createCredential({
+      credential: minimalUnsignedCredential,
       proofFormat,
-      options,
     });
 
     if (save === true) {
@@ -174,29 +172,44 @@ class SnapService {
   ): Promise<UnsignedPresentation | VerifiablePresentation> {
     const { vcs, proofFormat = 'jwt', proofOptions } = args;
     const state = await getSnapState();
-
     const method =
       state.accountState[state.currentAccount].accountConfig.ssi.didMethod;
 
-    if (method === 'did:ethr' || method === 'did:pkh') {
-      if (proofFormat !== 'EthereumEip712Signature2021') {
-        throw new Error('proofFormat must be EthereumEip712Signature2021');
-      }
-
-      const unsignedVp = await VeramoService.createUnsignedPresentation({
-        credentials: args.vcs,
-      });
-
-      return unsignedVp;
+    if (vcs.length === 0) {
+      throw new Error('No credentials provided');
     }
 
-    const res = await VeramoService.createPresentation({
-      vcs,
-      proofFormat,
-      proofOptions,
-    });
+    const content = panel([
+      heading('Create VP'),
+      text('Would you like to create a VP from the following VC(s)?'),
+      divider(),
+      text(`VC(s):`),
+      ...vcs.map((vc) => copyable(JSON.stringify(vc, null, 2))),
+    ]);
 
-    return res;
+    if (state.snapConfig.dApp.disablePopups || (await snapConfirm(content))) {
+      if (method === 'did:ethr' || method === 'did:pkh') {
+        if (proofFormat !== 'EthereumEip712Signature2021') {
+          throw new Error('proofFormat must be EthereumEip712Signature2021');
+        }
+
+        const unsignedVp = await VeramoService.createUnsignedPresentation({
+          credentials: args.vcs,
+        });
+
+        return unsignedVp;
+      }
+
+      const res = await VeramoService.createPresentation({
+        vcs,
+        proofFormat,
+        proofOptions,
+      });
+
+      return res;
+    }
+
+    throw new Error('User rejected create VP request');
   }
 
   static async verifyData(
