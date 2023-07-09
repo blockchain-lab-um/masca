@@ -55,31 +55,6 @@ export async function snapConfirm(content: Component): Promise<boolean> {
 }
 
 /**
- * Function that returns the available VC stores for the passed account.
- *
- * @param account - account to get the available stores for.
- * @param state - masca state object.
- * @param vcstores - optional list of vcstores to check if enabled.
- *
- * @returns - list of available vcstores.
- */
-export function getEnabledVCStores(
-  account: string,
-  state: MascaState,
-  vcstores?: AvailableVCStores[]
-): string[] {
-  const stores =
-    vcstores ??
-    (Object.keys(
-      state.accountState[account].accountConfig.ssi.vcStore
-    ) as AvailableVCStores[]);
-
-  return stores.filter(
-    (store) => state.accountState[account].accountConfig.ssi.vcStore[store]
-  );
-}
-
-/**
  * Checks if the passed VC store is enabled for the passed account.
  *
  * @param account - account to check.

@@ -20,8 +20,6 @@ import {
 import { VerifiablePresentation } from 'did-jwt-vc';
 
 import GeneralService from './General.service';
-import { handleOIDCAuthorizationRequest } from './rpc/oidc/handleOIDCAuthorizationRequest';
-import { handleOIDCCredentialOffer } from './rpc/oidc/handleOIDCCredentialOffer';
 import { snapConfirm } from './utils/snapUtils';
 import { getSnapState } from './utils/stateUtils';
 import { veramoCreateVC } from './utils/veramoUtils';
@@ -224,11 +222,11 @@ class SnapService {
   }
 
   static async handleCredentialOffer(args: any): Promise<any> {
-    return handleOIDCCredentialOffer(args);
+    return VeramoService.handleOIDCCredentialOffer(args);
   }
 
   static async handleAuthorizationRequest(args: any): Promise<any> {
-    return handleOIDCAuthorizationRequest(args);
+    return VeramoService.handleOIDCAuthorizationRequest(args);
   }
 
   static async handleRpcRequest(
@@ -286,28 +284,28 @@ class SnapService {
         await GeneralService.togglePopups();
         return ResultObject.success(true);
       case 'switchDIDMethod':
-        res = GeneralService.switchDIDMethod(params);
+        res = await GeneralService.switchDIDMethod(params);
         return ResultObject.success(res);
       case 'getSelectedMethod':
-        res = GeneralService.getSelectedMethod();
+        res = await GeneralService.getSelectedMethod();
         return ResultObject.success(res);
       case 'getVCStore':
         res = await GeneralService.getVCStore();
         return ResultObject.success(res);
       case 'setVCStore':
-        res = GeneralService.setVCStore(params);
+        res = await GeneralService.setVCStore(params);
         return ResultObject.success(res);
       case 'getAvailableVCStores':
-        res = GeneralService.getAvailableVCStores();
+        res = await GeneralService.getAvailableVCStores();
         return ResultObject.success(res);
       case 'getAccountSettings':
-        res = GeneralService.getAccountSettings();
+        res = await GeneralService.getAccountSettings();
         return ResultObject.success(res);
       case 'getSnapSettings':
-        res = GeneralService.getSnapSettings();
+        res = await GeneralService.getSnapSettings();
         return ResultObject.success(res);
       case 'getAvailableMethods':
-        res = GeneralService.getAvailableMethods();
+        res = await GeneralService.getAvailableMethods();
         return ResultObject.success(res);
       case 'setCeramicSession':
         // TODO (andy) validate request params

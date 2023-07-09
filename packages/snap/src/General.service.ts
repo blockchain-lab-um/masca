@@ -53,7 +53,7 @@ class GeneralService {
       );
     }
 
-    if (!state.accountState[state.currentAccount]) {
+    if (!(state.currentAccount in state.accountState)) {
       state.accountState[state.currentAccount] = getEmptyAccountState();
       await updateSnapState(state);
     }

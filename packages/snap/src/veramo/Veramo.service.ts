@@ -15,13 +15,20 @@ import {
 import {
   IOIDCClientPlugin,
   OIDCClientPlugin,
+  SignArgs,
 } from '@blockchain-lab-um/oidc-client-plugin';
+import {
+  CredentialRequest,
+  TokenResponse,
+} from '@blockchain-lab-um/oidc-types';
+import { isError, Result } from '@blockchain-lab-um/utils';
 import {
   AbstractDataStore,
   DataManager,
   IDataManager,
 } from '@blockchain-lab-um/veramo-datamanager';
 import { Web3Provider } from '@ethersproject/providers';
+import { heading, panel } from '@metamask/snaps-ui';
 import {
   createAgent,
   CredentialStatus,
@@ -65,16 +72,18 @@ import {
   MemoryPrivateKeyStore,
 } from '@veramo/key-manager';
 import { KeyManagementSystem } from '@veramo/kms-local';
+import { decodeCredentialToObject } from '@veramo/utils';
 import { DIDResolutionResult, Resolver } from 'did-resolver';
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver';
+import {
+  handleAuthorizationRequest,
+  sendAuthorizationResponse,
+} from 'src/utils/oidc';
+import { sign } from 'src/utils/sign';
 
 import UniversalResolverService from '../UniversalResolver.service';
 import { getAddressKeyDeriver, snapGetKeysFromAddress } from '../utils/keyPair';
-import {
-  getCurrentAccount,
-  getCurrentNetwork,
-  getEnabledVCStores,
-} from '../utils/snapUtils';
+import { getCurrentAccount, getCurrentNetwork } from '../utils/snapUtils';
 import { getSnapState } from '../utils/stateUtils';
 import { CeramicVCStore } from './plugins/ceramicDataStore/ceramicDataStore';
 import { SnapVCStore } from './plugins/snapDataStore/snapDataStore';
@@ -95,11 +104,13 @@ class VeramoService {
 
   static async init(): Promise<void> {
     const state = await getSnapState();
-    const account = getCurrentAccount(state);
-
     const didProviders: Record<string, AbstractIdentifierProvider> = {};
     const vcStorePlugins: Record<string, AbstractDataStore> = {};
-    const enabledVCStores = getEnabledVCStores(account, state);
+    const enabledVCStores = Object.entries(
+      state.accountState[state.currentAccount].accountConfig.ssi.vcStore
+    )
+      .filter(([, value]) => value)
+      .map(([key]) => key) as AvailableVCStores[];
 
     const networks = [
       {
@@ -508,6 +519,275 @@ class VeramoService {
     } catch (error: unknown) {
       return { verified: false, error: error as Error } as IVerifyResult;
     }
+  }
+
+  static async handleOIDCCredentialOffer(args: {
+    credentialOfferURI: string;
+  }): Promise<VerifiableCredential> {
+    const state = await getSnapState();
+    const bip44CoinTypeNode = await getAddressKeyDeriver({
+      state,
+      snap,
+      account: state.currentAccount,
+    });
+
+    if (!bip44CoinTypeNode) {
+      throw new Error('bip44CoinTypeNode is required');
+    }
+
+    const identifier = await VeramoService.getIdentifier();
+    const { did } = identifier;
+
+    if (did.startsWith('did:ethr') || did.startsWith('did:pkh')) {
+      throw new Error('did:ethr and did:pkh are not supported');
+    }
+
+    const agent = VeramoService.getAgent();
+
+    const credentialOfferResult = await agent.parseOIDCCredentialOfferURI({
+      credentialOfferURI: args.credentialOfferURI,
+    });
+
+    if (isError(credentialOfferResult)) {
+      throw new Error(credentialOfferResult.error);
+    }
+
+    const { credentials, grants } = credentialOfferResult.data;
+
+    const res = await snapGetKeysFromAddress({
+      snap,
+      bip44CoinTypeNode,
+      account: state.currentAccount,
+      state,
+    });
+
+    if (res === null) throw new Error('Could not get keys from address');
+
+    // TODO: Is this fine or should we improve it ?
+    const kid = `${identifier.did}#${identifier.did.split(':')[2]}`;
+
+    const isDidKeyEbsi =
+      state.accountState[state.currentAccount].accountConfig.ssi.didMethod ===
+      'did:key:jwk_jcs-pub';
+
+    const customSign = async (signArgs: SignArgs) =>
+      sign(signArgs, {
+        privateKey: res.privateKey,
+        curve: isDidKeyEbsi ? 'p256' : 'secp256k1',
+        did: identifier.did,
+        kid,
+      });
+
+    let tokenRequestResult: Result<TokenResponse>;
+
+    if (grants?.authorization_code) {
+      const authorizationRequestURIResult = await agent.getAuthorizationRequest(
+        {
+          clientId: identifier.did,
+        }
+      );
+
+      if (isError(authorizationRequestURIResult)) {
+        throw new Error(authorizationRequestURIResult.error);
+      }
+
+      const authorizationRequestURI = authorizationRequestURIResult.data;
+
+      console.log(`authorizationRequestURI: ${authorizationRequestURI}`);
+
+      const handleAuthorizationRequestResult = await handleAuthorizationRequest(
+        {
+          authorizationRequestURI,
+          did,
+          customSign,
+        }
+      );
+
+      if (handleAuthorizationRequestResult.isUserInteractionRequired) {
+        throw new Error(
+          'User interaction is required. This is not supported yet'
+        );
+      }
+
+      const { sendOIDCAuthorizationResponseArgs } =
+        handleAuthorizationRequestResult;
+
+      const sendAuthorizationResponseResult = await sendAuthorizationResponse({
+        sendOIDCAuthorizationResponseArgs,
+      });
+
+      const { code } = sendAuthorizationResponseResult;
+
+      tokenRequestResult = await agent.sendTokenRequest({
+        code,
+        clientId: did,
+      });
+    } else if (
+      grants?.['urn:ietf:params:oauth:grant-type:pre-authorized_code']
+    ) {
+      // Check if PIN is required
+      const isPinRequired =
+        grants['urn:ietf:params:oauth:grant-type:pre-authorized_code']
+          .user_pin_required ?? false;
+
+      let pin;
+
+      // Ask user for PIN
+      if (isPinRequired) {
+        pin = await snap.request({
+          method: 'snap_dialog',
+          params: {
+            type: 'prompt',
+            content: panel([
+              heading('Please enter the PIN you received from the issuer'),
+            ]),
+            placeholder: 'PIN...',
+          },
+        });
+
+        if (!pin || typeof pin !== 'string') {
+          throw new Error('PIN is required');
+        }
+      }
+      tokenRequestResult = await agent.sendTokenRequest(pin ? { pin } : {});
+    } else {
+      throw new Error('Unsupported grant type');
+    }
+
+    if (isError(tokenRequestResult)) {
+      throw new Error(tokenRequestResult.error);
+    }
+
+    console.log('here');
+
+    // TODO: Handle multiple credentials
+    let selectedCredential = credentials[0];
+
+    if (typeof selectedCredential === 'string') {
+      const getCredentialResult = await agent.getCredentialInfoById({
+        id: selectedCredential,
+      });
+
+      if (isError(getCredentialResult)) {
+        throw new Error(getCredentialResult.error);
+      }
+
+      selectedCredential = getCredentialResult.data;
+    }
+
+    const credentialRequest: CredentialRequest =
+      selectedCredential.format === 'mso_mdoc'
+        ? {
+            format: 'mso_mdoc',
+            doctype: selectedCredential.doctype,
+          }
+        : {
+            format: selectedCredential.format,
+            types: selectedCredential.types,
+          };
+
+    // Create proof of possession
+    const proofOfPossessionResult = await agent.proofOfPossession({
+      sign: customSign,
+    });
+
+    if (isError(proofOfPossessionResult)) {
+      throw new Error(proofOfPossessionResult.error);
+    }
+
+    credentialRequest.proof = proofOfPossessionResult.data;
+
+    const credentialRequestResult = await agent.sendCredentialRequest(
+      credentialRequest
+    );
+
+    if (isError(credentialRequestResult)) {
+      throw new Error(credentialRequestResult.error);
+    }
+
+    const credentialResponse = credentialRequestResult.data;
+
+    console.log(credentialResponse);
+
+    if (!credentialResponse.credential) {
+      throw new Error('An error occurred while requesting the credential');
+    }
+
+    const credential = decodeCredentialToObject(credentialResponse.credential);
+
+    return credential;
+  }
+
+  // TODO: We can probably have different return types
+  static async handleOIDCAuthorizationRequest(args: {
+    authorizationRequestURI: string;
+  }): Promise<VerifiableCredential[]> {
+    const { authorizationRequestURI } = args;
+
+    const state = await getSnapState();
+    const bip44CoinTypeNode = await getAddressKeyDeriver({
+      state,
+      snap,
+      account: state.currentAccount,
+    });
+
+    if (!bip44CoinTypeNode) {
+      throw new Error('bip44CoinTypeNode is required');
+    }
+
+    const identifier = await VeramoService.getIdentifier();
+
+    const { did } = identifier;
+
+    if (did.startsWith('did:ethr') || did.startsWith('did:pkh')) {
+      throw new Error('did:ethr and did:pkh are not supported');
+    }
+    const res = await snapGetKeysFromAddress({
+      snap,
+      bip44CoinTypeNode,
+      account: state.currentAccount,
+      state,
+    });
+
+    if (res === null) throw new Error('Could not get keys from address');
+
+    // TODO: Is this fine or should we improve it ?
+    const kid = `${did}#${did.split(':')[2]}`;
+
+    const isDidKeyEbsi =
+      state.accountState[state.currentAccount].accountConfig.ssi.didMethod ===
+      'did:key:jwk_jcs-pub';
+
+    const customSign = async (signArgs: SignArgs) =>
+      sign(signArgs, {
+        privateKey: res.privateKey,
+        curve: isDidKeyEbsi ? 'p256' : 'secp256k1',
+        did,
+        kid,
+      });
+
+    const handleAuthorizationRequestResult = await handleAuthorizationRequest({
+      authorizationRequestURI,
+      customSign,
+      did,
+    });
+
+    if (handleAuthorizationRequestResult.isUserInteractionRequired) {
+      throw new Error(
+        'User interaction is required. This is not supported yet'
+      );
+    }
+
+    const { sendOIDCAuthorizationResponseArgs } =
+      handleAuthorizationRequestResult;
+
+    const sendAuthorizationResponseResult = await sendAuthorizationResponse({
+      sendOIDCAuthorizationResponseArgs,
+    });
+
+    console.log(sendAuthorizationResponseResult);
+
+    throw new Error('Not implemented');
   }
 
   static getAgent(): Agent {
