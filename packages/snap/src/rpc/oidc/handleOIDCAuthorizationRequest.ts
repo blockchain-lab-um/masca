@@ -2,21 +2,29 @@ import type { HandleOIDCAuthorizationRequestParams } from '@blockchain-lab-um/ma
 import { SignArgs } from '@blockchain-lab-um/oidc-client-plugin';
 import type { VerifiableCredential } from '@veramo/core';
 
-import type { ApiParams } from '../../interfaces';
-import { snapGetKeysFromAddress } from '../../utils/keyPair';
+import {
+  getAddressKeyDeriver,
+  snapGetKeysFromAddress,
+} from '../../utils/keyPair';
 import {
   handleAuthorizationRequest,
   sendAuthorizationResponse,
 } from '../../utils/oidc';
 import { sign } from '../../utils/sign';
+import { getSnapState } from '../../utils/stateUtils';
 import VeramoService from '../../veramo/Veramo.service';
 
 export async function handleOIDCAuthorizationRequest(
-  params: ApiParams,
   handleOIDCAuthorizationRequestParams: HandleOIDCAuthorizationRequestParams
 ): Promise<VerifiableCredential[]> {
-  const { account, snap, state, bip44CoinTypeNode } = params;
   const { authorizationRequestURI } = handleOIDCAuthorizationRequestParams;
+
+  const state = await getSnapState();
+  const bip44CoinTypeNode = await getAddressKeyDeriver({
+    state,
+    snap,
+    account: state.currentAccount,
+  });
 
   if (!bip44CoinTypeNode) {
     throw new Error('bip44CoinTypeNode is required');
@@ -32,7 +40,7 @@ export async function handleOIDCAuthorizationRequest(
   const res = await snapGetKeysFromAddress({
     snap,
     bip44CoinTypeNode,
-    account,
+    account: state.currentAccount,
     state,
   });
 
@@ -42,7 +50,7 @@ export async function handleOIDCAuthorizationRequest(
   const kid = `${did}#${did.split(':')[2]}`;
 
   const isDidKeyEbsi =
-    state.accountState[account].accountConfig.ssi.didMethod ===
+    state.accountState[state.currentAccount].accountConfig.ssi.didMethod ===
     'did:key:jwk_jcs-pub';
 
   // TODO: Select curve based on the key in the identifier ?

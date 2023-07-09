@@ -15,7 +15,7 @@ export async function setVCStore(
       heading('Manage VCStore Plugin'),
       text(`Would you like to ${value ? 'enable' : 'disable'} ${store}?`),
     ]);
-    if (await snapConfirm(snap, content)) {
+    if (await snapConfirm(content)) {
       state.accountState[account].accountConfig.ssi.vcStore[store] = value;
       await updateSnapState(state);
       return true;

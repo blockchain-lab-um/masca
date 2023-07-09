@@ -8,9 +8,12 @@ import { isError, Result } from '@blockchain-lab-um/utils';
 import { heading, panel } from '@metamask/snaps-ui';
 import type { VerifiableCredential } from '@veramo/core';
 import { decodeCredentialToObject } from '@veramo/utils';
+import { getSnapState } from 'src/utils/stateUtils';
 
-import type { ApiParams } from '../../interfaces';
-import { snapGetKeysFromAddress } from '../../utils/keyPair';
+import {
+  getAddressKeyDeriver,
+  snapGetKeysFromAddress,
+} from '../../utils/keyPair';
 import {
   handleAuthorizationRequest,
   sendAuthorizationResponse,
@@ -19,10 +22,14 @@ import { sign } from '../../utils/sign';
 import VeramoService from '../../veramo/Veramo.service';
 
 export async function handleOIDCCredentialOffer(
-  params: ApiParams,
   handleOIDCCredentialOfferParams: HandleOIDCCredentialOfferRequestParams
 ): Promise<VerifiableCredential> {
-  const { account, ethereum, snap, state, bip44CoinTypeNode } = params;
+  const state = await getSnapState();
+  const bip44CoinTypeNode = await getAddressKeyDeriver({
+    state,
+    snap,
+    account: state.currentAccount,
+  });
 
   if (!bip44CoinTypeNode) {
     throw new Error('bip44CoinTypeNode is required');
@@ -49,7 +56,7 @@ export async function handleOIDCCredentialOffer(
   const res = await snapGetKeysFromAddress({
     snap,
     bip44CoinTypeNode,
-    account,
+    account: state.currentAccount,
     state,
   });
 
@@ -59,7 +66,7 @@ export async function handleOIDCCredentialOffer(
   const kid = `${identifier.did}#${identifier.did.split(':')[2]}`;
 
   const isDidKeyEbsi =
-    state.accountState[account].accountConfig.ssi.didMethod ===
+    state.accountState[state.currentAccount].accountConfig.ssi.didMethod ===
     'did:key:jwk_jcs-pub';
 
   // TODO: Select curve based on the key in the identifier ?

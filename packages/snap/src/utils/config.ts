@@ -1,7 +1,6 @@
 import type {
   MascaAccountConfig,
   MascaAccountState,
-  MascaConfig,
   MascaState,
 } from '@blockchain-lab-um/masca-types';
 import cloneDeep from 'lodash.clonedeep';
@@ -24,16 +23,6 @@ const emptyAccountState = {
 } as MascaAccountState;
 
 export const getEmptyAccountState = () => cloneDeep(emptyAccountState);
-
-export const defaultConfig = {
-  dApp: {
-    disablePopups: false,
-    friendlyDapps: [],
-  },
-  snap: {
-    acceptedTerms: true,
-  },
-} as MascaConfig;
 
 const initialSnapState: MascaState = {
   accountState: {},

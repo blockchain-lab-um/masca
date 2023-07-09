@@ -33,7 +33,7 @@ export async function veramoCreateVP(
     ...vcs.map((vc) => copyable(JSON.stringify(vc, null, 2))),
   ]);
 
-  if (config.dApp.disablePopups || (await snapConfirm(snap, content))) {
+  if (config.dApp.disablePopups || (await snapConfirm(content))) {
     const vp = await VeramoService.createPresentation({
       vcs,
       proofFormat,
@@ -72,7 +72,7 @@ export async function veramoCreateVC(
     copyable(JSON.stringify(createVCArgs.credential, null, 2)),
   ]);
 
-  if (config.dApp.disablePopups || (await snapConfirm(snap, content))) {
+  if (config.dApp.disablePopups || (await snapConfirm(content))) {
     const vc = await VeramoService.createCredential(createVCArgs);
     return vc;
   }

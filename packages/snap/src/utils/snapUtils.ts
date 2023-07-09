@@ -53,55 +53,13 @@ export async function togglePopups(snap: SnapsGlobalObject, state: MascaState) {
 }
 
 /**
- * Function that lets you add a friendly dApp
- *
- * @param snap - snaps global object.
- * @param state - current state of the snap.
- * @param dapp - dApp to add to the friendly dApps list.
- *
- * @returns void
- */
-export async function addFriendlyDapp(
-  snap: SnapsGlobalObject,
-  state: MascaState,
-  dapp: string
-) {
-  if (state.snapConfig.dApp.friendlyDapps.includes(dapp)) return;
-  state.snapConfig.dApp.friendlyDapps.push(dapp);
-  await updateSnapState(state);
-}
-
-/**
- * Function that lets you remove a friendly dApp
- *
- * @param snap - snaps global object.
- * @param state - current state of the snap.
- * @param dapp - dApp to remove from the friendly dApps list.
- *
- * @returns void
- */
-export async function removeFriendlyDapp(
-  snap: SnapsGlobalObject,
-  state: MascaState,
-  dapp: string
-) {
-  state.snapConfig.dApp.friendlyDapps =
-    state.snapConfig.dApp.friendlyDapps.filter((d) => d !== dapp);
-  await updateSnapState(state);
-}
-
-/**
  * Function that returns whether the user has confirmed the snap dialog.
  *
- * @param snap - snaps global object.
  * @param content - content to display in the snap dialog.
  *
  * @returns boolean - whether the user has confirmed the snap dialog.
  */
-export async function snapConfirm(
-  snap: SnapsGlobalObject,
-  content: Component
-): Promise<boolean> {
+export async function snapConfirm(content: Component): Promise<boolean> {
   const res = await snap.request({
     method: 'snap_dialog',
     params: {

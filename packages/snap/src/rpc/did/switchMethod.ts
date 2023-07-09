@@ -26,7 +26,7 @@ async function requestNetworkSwitch(params: {
       `Switching to: ${didMethod} on chainId: ${didMethodChainIdMapping[didMethod][0]}`
     ),
   ]);
-  if (!(await snapConfirm(snap, content))) {
+  if (!(await snapConfirm(content))) {
     throw new Error('User rejected network switch');
   }
   const chainId = didMethodChainIdMapping[didMethod][0];
@@ -79,7 +79,7 @@ export async function switchMethod(
       text(`Switching to: ${didMethod}`),
     ]);
 
-    if (await snapConfirm(snap, content)) {
+    if (await snapConfirm(content)) {
       const res = await changeCurrentMethod({
         snap,
         ethereum,

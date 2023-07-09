@@ -1,14 +1,9 @@
-import type { CreateVPRequestParams } from '@blockchain-lab-um/masca-types';
 import type {
   UnsignedPresentation,
-  VerifiablePresentation,
   W3CVerifiableCredential,
 } from '@veramo/core';
 
-import type { ApiParams } from '../../interfaces';
-import VeramoService from '../../veramo/Veramo.service';
-
-async function createUnsignedVerifiablePresentation(params: {
+export async function createUnsignedVerifiablePresentation(params: {
   vcs: W3CVerifiableCredential[];
   did: string;
 }): Promise<UnsignedPresentation> {
@@ -34,34 +29,4 @@ async function createUnsignedVerifiablePresentation(params: {
     issuanceDate: new Date().toISOString(),
   };
   return unsignedVp;
-}
-
-export async function createVerifiablePresentation(
-  params: ApiParams,
-  createVPParams: CreateVPRequestParams
-): Promise<UnsignedPresentation | VerifiablePresentation> {
-  const { state, account } = params;
-  const { vcs, proofFormat = 'jwt', proofOptions } = createVPParams;
-  const method = state.accountState[account].accountConfig.ssi.didMethod;
-
-  if (method === 'did:ethr' || method === 'did:pkh') {
-    if (proofFormat !== 'EthereumEip712Signature2021') {
-      throw new Error('proofFormat must be EthereumEip712Signature2021');
-    }
-    const identifier = await VeramoService.getIdentifier();
-
-    const unsignedVp = await createUnsignedVerifiablePresentation({
-      vcs: createVPParams.vcs,
-      did: identifier.did,
-    });
-    return unsignedVp;
-  }
-
-  const res = await VeramoService.createPresentation({
-    vcs,
-    proofFormat,
-    proofOptions,
-  });
-
-  return res;
 }
