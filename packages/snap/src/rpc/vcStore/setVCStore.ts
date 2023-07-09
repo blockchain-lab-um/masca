@@ -17,7 +17,7 @@ export async function setVCStore(
     ]);
     if (await snapConfirm(snap, content)) {
       state.accountState[account].accountConfig.ssi.vcStore[store] = value;
-      await updateSnapState(snap, state);
+      await updateSnapState(state);
       return true;
     }
     return false;

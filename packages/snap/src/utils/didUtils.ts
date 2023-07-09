@@ -17,9 +17,9 @@ export async function changeCurrentVCStore(params: {
   didStore: AvailableVCStores;
   value: boolean;
 }): Promise<void> {
-  const { snap, state, account, didStore, value } = params;
+  const { state, account, didStore, value } = params;
   state.accountState[account].accountConfig.ssi.vcStore[didStore] = value;
-  await updateSnapState(snap, state);
+  await updateSnapState(state);
 }
 
 export async function changeCurrentMethod(params: {
@@ -30,10 +30,9 @@ export async function changeCurrentMethod(params: {
   bip44CoinTypeNode: BIP44CoinTypeNode;
   didMethod: AvailableMethods;
 }): Promise<string> {
-  const { snap, ethereum, state, account, didMethod, bip44CoinTypeNode } =
-    params;
+  const { snap, state, account, didMethod } = params;
   state.accountState[account].accountConfig.ssi.didMethod = didMethod;
-  await updateSnapState(snap, state);
+  await updateSnapState(state);
   const identifier = await VeramoService.getIdentifier();
   return identifier.did;
 }

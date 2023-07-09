@@ -5,6 +5,7 @@ import type {
 import { ResultObject, type Result } from '@blockchain-lab-um/utils';
 import { OnRpcRequestHandler } from '@metamask/snaps-types';
 
+import GeneralService from './General.service';
 import { ApiParams } from './interfaces';
 import { getAvailableMethods } from './rpc/did/getAvailableMethods';
 import { getDid } from './rpc/did/getDID';
@@ -14,7 +15,6 @@ import { handleOIDCAuthorizationRequest } from './rpc/oidc/handleOIDCAuthorizati
 import { handleOIDCCredentialOffer } from './rpc/oidc/handleOIDCCredentialOffer';
 import { setCeramicSession } from './rpc/setCeramicSession';
 import { togglePopups } from './rpc/snap/configure';
-import { setCurrentAccount } from './rpc/snap/setCurrentAccount';
 import { validateStoredCeramicSession } from './rpc/validateStoredCeramicSession';
 import { createVerifiableCredential } from './rpc/vc/createVC';
 import { createVerifiablePresentation } from './rpc/vc/createVP';
@@ -50,24 +50,15 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,
 }): Promise<Result<unknown>> => {
   try {
-    let state = await getSnapStateUnchecked(snap);
-    if (state === null) state = await initSnapState(snap);
+    let state = await getSnapStateUnchecked();
+    if (state === null) state = await initSnapState();
 
     let res;
 
     if (request.method === 'setCurrentAccount') {
       isValidSetCurrentAccountRequest(request.params);
-      res = await setCurrentAccount(
-        {
-          state,
-          snap,
-          ethereum,
-          account: '',
-          origin,
-        },
-        request.params
-      );
-      return ResultObject.success(res);
+      await GeneralService.setCurrentAccount(request.params.currentAccount); // FIXME: Rename parameter to account
+      return ResultObject.success(true);
     }
 
     const account = getCurrentAccount(state);

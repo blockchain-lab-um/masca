@@ -7,6 +7,6 @@ export async function setCeramicSession(
 ): Promise<boolean> {
   const { state } = params;
   state.accountState[state.currentAccount].ceramicSession = serializedSession;
-  await updateSnapState(snap, state);
+  await updateSnapState(state);
   return true;
 }

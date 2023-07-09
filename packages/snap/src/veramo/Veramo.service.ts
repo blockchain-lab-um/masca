@@ -88,10 +88,10 @@ export type Agent = TAgent<
 >;
 
 class VeramoService {
-  static instance: Agent;
+  private static instance: Agent;
 
   static async init(): Promise<void> {
-    const state = await getSnapState(snap);
+    const state = await getSnapState();
     const account = getCurrentAccount(state);
 
     const didProviders: Record<string, AbstractIdentifierProvider> = {};
@@ -183,7 +183,7 @@ class VeramoService {
   }
 
   private static async importIdentifier(): Promise<void> {
-    const state = await getSnapState(snap);
+    const state = await getSnapState();
     const account = getCurrentAccount(state);
     const method = state.accountState[account].accountConfig.ssi.didMethod;
     const bip44CoinTypeNode = await getAddressKeyDeriver({
@@ -230,7 +230,7 @@ class VeramoService {
   }
 
   static async getIdentifier(): Promise<IIdentifier> {
-    const state = await getSnapState(snap);
+    const state = await getSnapState();
     const account = getCurrentAccount(state);
     const method = state.accountState[account].accountConfig.ssi.didMethod;
 

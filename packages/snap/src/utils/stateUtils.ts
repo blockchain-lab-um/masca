@@ -1,5 +1,5 @@
 import type { MascaState } from '@blockchain-lab-um/masca-types';
-import type { Json, SnapsGlobalObject } from '@metamask/snaps-types';
+import type { Json } from '@metamask/snaps-types';
 
 import type { ApiParams } from '../interfaces';
 import { getEmptyAccountState, getInitialSnapState } from './config';
@@ -12,10 +12,7 @@ import { getEmptyAccountState, getInitialSnapState } from './config';
  *
  * @returns void
  */
-export async function updateSnapState(
-  snap: SnapsGlobalObject,
-  snapState: MascaState
-) {
+export async function updateSnapState(snapState: MascaState) {
   await snap.request({
     method: 'snap_manageState',
     params: {
@@ -32,9 +29,7 @@ export async function updateSnapState(
  *
  * @returns MascaState - MascaState object
  */
-export async function getSnapState(
-  snap: SnapsGlobalObject
-): Promise<MascaState> {
+export async function getSnapState(): Promise<MascaState> {
   const state = (await snap.request({
     method: 'snap_manageState',
     params: { operation: 'get' },
@@ -52,9 +47,7 @@ export async function getSnapState(
  *
  * @returns MascaState | null - MascaState object or null
  */
-export async function getSnapStateUnchecked(
-  snap: SnapsGlobalObject
-): Promise<MascaState | null> {
+export async function getSnapStateUnchecked(): Promise<MascaState | null> {
   const state = (await snap.request({
     method: 'snap_manageState',
     params: { operation: 'get' },
@@ -69,11 +62,9 @@ export async function getSnapStateUnchecked(
  *
  * @returns MascaState - the updated MascaState object
  */
-export async function initSnapState(
-  snap: SnapsGlobalObject
-): Promise<MascaState> {
+export async function initSnapState(): Promise<MascaState> {
   const state = getInitialSnapState();
-  await updateSnapState(snap, state);
+  await updateSnapState(state);
   return state;
 }
 
@@ -85,7 +76,7 @@ export async function initSnapState(
  * @returns void
  */
 export async function initAccountState(params: ApiParams): Promise<void> {
-  const { state, snap, account } = params;
+  const { state, account } = params;
   state.accountState[account] = getEmptyAccountState();
-  await updateSnapState(snap, state);
+  await updateSnapState(state);
 }

@@ -4,5 +4,5 @@ import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import { initSnapState } from './stateUtils';
 
 export async function init(snap: SnapsGlobalObject): Promise<MascaState> {
-  return initSnapState(snap);
+  return initSnapState();
 }

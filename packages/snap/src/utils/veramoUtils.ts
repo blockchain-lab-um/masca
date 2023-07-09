@@ -17,7 +17,7 @@ import { getSnapState } from './stateUtils';
 export async function veramoCreateVP(
   createVPParams: CreateVPRequestParams
 ): Promise<VerifiablePresentation> {
-  const state = await getSnapState(snap);
+  const state = await getSnapState();
   const { vcs, proofFormat, proofOptions } = createVPParams;
 
   if (vcs.length === 0) {
@@ -49,7 +49,7 @@ export async function veramoCreateVP(
 export async function veramoCreateVC(
   createVCParams: CreateVCRequestParams
 ): Promise<VerifiableCredential> {
-  const state = await getSnapState(snap);
+  const state = await getSnapState();
   const { minimalUnsignedCredential, proofFormat = 'jwt' } = createVCParams;
   const credentialPayload = minimalUnsignedCredential;
   const identifier = await VeramoService.getIdentifier();

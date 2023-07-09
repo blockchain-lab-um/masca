@@ -49,7 +49,7 @@ export async function getCurrentNetwork(
  */
 export async function togglePopups(snap: SnapsGlobalObject, state: MascaState) {
   state.snapConfig.dApp.disablePopups = !state.snapConfig.dApp.disablePopups;
-  await updateSnapState(snap, state);
+  await updateSnapState(state);
 }
 
 /**
@@ -68,7 +68,7 @@ export async function addFriendlyDapp(
 ) {
   if (state.snapConfig.dApp.friendlyDapps.includes(dapp)) return;
   state.snapConfig.dApp.friendlyDapps.push(dapp);
-  await updateSnapState(snap, state);
+  await updateSnapState(state);
 }
 
 /**
@@ -87,7 +87,7 @@ export async function removeFriendlyDapp(
 ) {
   state.snapConfig.dApp.friendlyDapps =
     state.snapConfig.dApp.friendlyDapps.filter((d) => d !== dapp);
-  await updateSnapState(snap, state);
+  await updateSnapState(state);
 }
 
 /**
