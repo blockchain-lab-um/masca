@@ -17,7 +17,7 @@ module.exports = {
         '**/__tests__/**',
         '**/*.spec.ts',
       ],
-      plugins: ['jest'],
+      plugins: ['jest', 'jest-extended'],
       extends: ['plugin:jest/recommended', 'plugin:jest/style'],
       rules: {
         'jest/prefer-expect-assertions': 'off',
@@ -25,14 +25,32 @@ module.exports = {
       env: { jest: true },
     },
   ],
-  plugins: [
-    '@typescript-eslint/eslint-plugin',
-    'unused-imports',
-    'jest-extended',
-  ],
+  plugins: ['@typescript-eslint/eslint-plugin', 'unused-imports'],
   parser: '@typescript-eslint/parser',
   rules: {
     // other rules
+    '@typescript-eslint/naming-convention': [
+      'error',
+      {
+        selector: 'variable',
+        format: ['camelCase', 'UPPER_CASE'],
+        leadingUnderscore: 'allow',
+        trailingUnderscore: 'allow',
+      },
+
+      {
+        selector: 'typeLike',
+        format: ['PascalCase'],
+      },
+    ],
+    'no-unused-vars': [
+      'error',
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        destructuredArrayIgnorePattern: '^_',
+      },
+    ],
     'no-underscore-dangle': 'off',
     'no-restricted-syntax': [
       'error',
@@ -51,13 +69,6 @@ module.exports = {
     // for unused-imports library
     '@typescript-eslint/no-unused-vars': 'off',
     'unused-imports/no-unused-imports': 'error',
-    'unused-imports/no-unused-vars': [
-      'warn',
-      {
-        args: 'after-used',
-        argsIgnorePattern: '^_',
-      },
-    ],
     'import/prefer-default-export': 0,
     'class-methods-use-this': 'off',
     // for tests

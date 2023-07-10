@@ -10,7 +10,6 @@ const emptyAccountState = {
   snapPrivateKeyStore: {},
   vcs: {},
   identifiers: {},
-  publicKey: '',
   accountConfig: {
     ssi: {
       didMethod: 'did:ethr',

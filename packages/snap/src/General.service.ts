@@ -20,7 +20,6 @@ import {
   getSnapStateUnchecked,
   updateSnapState,
 } from './utils/stateUtils';
-import VeramoService from './veramo/Veramo.service';
 
 class GeneralService {
   /**
@@ -116,9 +115,7 @@ class GeneralService {
     await updateSnapState(state);
   }
 
-  static async switchDIDMethod(
-    args: SwitchMethodRequestParams
-  ): Promise<string> {
+  static async switchDIDMethod(args: SwitchMethodRequestParams): Promise<void> {
     const state = await getSnapState();
     const currentMethod =
       state.accountState[state.currentAccount].accountConfig.ssi.didMethod;
@@ -142,10 +139,7 @@ class GeneralService {
         state.accountState[state.currentAccount].accountConfig.ssi.didMethod =
           newMethod;
         await updateSnapState(state);
-
-        await VeramoService.init();
-        const identifier = await VeramoService.getIdentifier();
-        return identifier.did;
+        return;
       }
 
       throw new Error('User rejected method switch');
@@ -185,6 +179,16 @@ class GeneralService {
       return false;
     }
     return false;
+  }
+
+  static async getEnabledVCStores(): Promise<AvailableVCStores[]> {
+    const state = await getSnapState();
+
+    return Object.entries(
+      state.accountState[state.currentAccount].accountConfig.ssi.vcStore
+    )
+      .filter(([, value]) => value)
+      .map(([key]) => key) as AvailableVCStores[];
   }
 
   static async getAvailableVCStores(): Promise<string[]> {

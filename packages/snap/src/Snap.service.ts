@@ -283,7 +283,7 @@ class SnapService {
       case 'verifyData':
         res = await this.verifyData(params);
         return ResultObject.success(res);
-      case 'handleOIDCCredentialOffer':
+      case 'handleCredentialOffer':
         res = await this.handleCredentialOffer(params);
         return ResultObject.success(res);
       case 'handleOIDCAuthorizationRequest':
@@ -297,7 +297,9 @@ class SnapService {
         await GeneralService.togglePopups();
         return ResultObject.success(true);
       case 'switchDIDMethod':
-        res = await GeneralService.switchDIDMethod(params);
+        await GeneralService.switchDIDMethod(params);
+        await VeramoService.init();
+        res = await this.getDID();
         return ResultObject.success(res);
       case 'getSelectedMethod':
         res = await GeneralService.getSelectedMethod();

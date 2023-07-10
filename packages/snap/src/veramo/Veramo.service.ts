@@ -81,6 +81,7 @@ import { getResolver as ethrDidResolver } from 'ethr-did-resolver';
 import * as qs from 'qs';
 
 import EthereumService from '../Ethereum.service';
+import GeneralService from '../General.service';
 import UniversalResolverService from '../UniversalResolver.service';
 import { getAddressKeyDeriver, snapGetKeysFromAddress } from '../utils/keyPair';
 import { sign } from '../utils/sign';
@@ -188,10 +189,13 @@ class VeramoService {
       case 'did:key:jwk_jcs-pub':
       case 'did:key':
       case 'did:jwk': {
-        return this.instance.didManagerGetByAlias({
-          alias: `metamask-${method}-${state.currentAccount}`,
-          provider: method === 'did:key:jwk_jcs-pub' ? 'did:key' : method,
-        });
+        const { alias: _, ...identifier } =
+          await this.instance.didManagerGetByAlias({
+            alias: `metamask-${method}-${state.currentAccount}`,
+            provider: method === 'did:key:jwk_jcs-pub' ? 'did:key' : method,
+          });
+
+        return identifier;
       }
       default:
         throw new Error('Unsupported DID method');
@@ -748,7 +752,7 @@ class VeramoService {
         }
     )
   > {
-    const { authorizationRequestURI, did, customSign, credentials } = args;
+    const { authorizationRequestURI, did, customSign, credentials: _ } = args;
     const authorizationRequestResult =
       await this.instance.parseOIDCAuthorizationRequestURI({
         authorizationRequestURI,
@@ -908,14 +912,9 @@ class VeramoService {
   }
 
   static async createAgent(): Promise<Agent> {
-    const state = await getSnapState();
     const didProviders: Record<string, AbstractIdentifierProvider> = {};
     const vcStorePlugins: Record<string, AbstractDataStore> = {};
-    const enabledVCStores = Object.entries(
-      state.accountState[state.currentAccount].accountConfig.ssi.vcStore
-    )
-      .filter(([, value]) => value)
-      .map(([key]) => key) as AvailableVCStores[];
+    const enabledVCStores = await GeneralService.getEnabledVCStores();
 
     const networks = [
       {
@@ -966,7 +965,7 @@ class VeramoService {
         new CredentialPlugin(),
         new CredentialIssuerEIP712(),
         new CredentialStatusPlugin({
-          // TODO implement this
+          // TODO implement This
           StatusList2021Entry: (
             _credential: any,
             _didDoc: any

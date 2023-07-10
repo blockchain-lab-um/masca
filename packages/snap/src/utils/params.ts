@@ -76,9 +76,7 @@ export function isValidSaveVCRequest(
 }
 
 export function isValidCreateVPRequest(
-  params: unknown,
-  account: string,
-  state: MascaState
+  params: unknown
 ): asserts params is CreateVPRequestParams {
   const param = params as CreateVPRequestParams;
   if (
