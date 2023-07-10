@@ -1,9 +1,9 @@
+import { isValidSetCurrentAccountRequest } from '@blockchain-lab-um/masca-types';
 import { ResultObject, type Result } from '@blockchain-lab-um/utils';
 import { OnRpcRequestHandler } from '@metamask/snaps-types';
 
 import GeneralService from './General.service';
 import SnapService from './Snap.service';
-import { isValidSetCurrentAccountRequest } from './utils/params';
 import VeramoService from './veramo/Veramo.service';
 
 export const onRpcRequest: OnRpcRequestHandler = async ({

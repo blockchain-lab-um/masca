@@ -2,6 +2,15 @@ import {
   CreateVCRequestParams,
   CreateVPRequestParams,
   DeleteVCsRequestParams,
+  isValidCreateVCRequest,
+  isValidCreateVPRequest,
+  isValidDeleteVCsRequest,
+  isValidQueryVCsRequest,
+  isValidResolveDIDRequest,
+  isValidSaveVCRequest,
+  isValidSetVCStoreRequest,
+  isValidSwitchMethodRequest,
+  isValidVerifyDataRequest,
   QueryVCsRequestParams,
   QueryVCsRequestResult,
   SaveVCRequestParams,
@@ -251,6 +260,8 @@ class SnapService {
 
     let res;
 
+    const state = await getSnapState();
+
     switch (method) {
       /**
        * Snap.service
@@ -260,27 +271,34 @@ class SnapService {
        * - Polygon.service
        */
       case 'queryVCs':
+        isValidQueryVCsRequest(params, state.currentAccount, state);
         res = await this.queryCredentials(params);
         return ResultObject.success(res);
       case 'saveVC':
+        isValidSaveVCRequest(params, state.currentAccount, state);
         res = await this.saveCredential(params);
         return ResultObject.success(res);
       case 'createVC':
+        isValidCreateVCRequest(params, state.currentAccount, state);
         res = await this.createCredential(params);
         return ResultObject.success(res);
       case 'createVP':
+        isValidCreateVPRequest(params);
         res = await this.createPresentation(params);
         return ResultObject.success(res);
       case 'deleteVC':
+        isValidDeleteVCsRequest(params, state.currentAccount, state);
         res = await this.deleteCredential(params);
         return ResultObject.success(res);
       case 'getDID':
         res = await this.getDID();
         return ResultObject.success(res);
       case 'resolveDID':
+        isValidResolveDIDRequest(params);
         res = await this.resolveDID(params);
         return ResultObject.success(res);
       case 'verifyData':
+        isValidVerifyDataRequest(params);
         res = await this.verifyData(params);
         return ResultObject.success(res);
       case 'handleCredentialOffer':
@@ -297,6 +315,7 @@ class SnapService {
         await GeneralService.togglePopups();
         return ResultObject.success(true);
       case 'switchDIDMethod':
+        isValidSwitchMethodRequest(params);
         await GeneralService.switchDIDMethod(params);
         await VeramoService.init();
         res = await this.getDID();
@@ -308,6 +327,7 @@ class SnapService {
         res = await GeneralService.getVCStore();
         return ResultObject.success(res);
       case 'setVCStore':
+        isValidSetVCStoreRequest(params);
         res = await GeneralService.setVCStore(params);
         return ResultObject.success(res);
       case 'getAvailableVCStores':
@@ -323,7 +343,7 @@ class SnapService {
         res = await GeneralService.getAvailableMethods();
         return ResultObject.success(res);
       case 'setCeramicSession':
-        // TODO (andy) validate request params
+        // TODO (andy) validate request paramss
         await GeneralService.setCeramicSession(params);
         return ResultObject.success(true);
       case 'validateStoredCeramicSession':
