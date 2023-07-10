@@ -6,6 +6,7 @@ import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import { VerifiableCredential } from '@veramo/core';
 
 import { onRpcRequest } from '../../src';
+import GeneralService from '../../src/General.service';
 import { StoredCredentials } from '../../src/veramo/plugins/ceramicDataStore/ceramicDataStore';
 import VeramoService, { type Agent } from '../../src/veramo/Veramo.service';
 import { account, importablePrivateKey, jsonPath2 } from '../data/constants';
@@ -30,6 +31,7 @@ describe('queryVerifiableCredentials', () => {
     global.snap = snapMock;
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
 
+    await GeneralService.init();
     agent = await VeramoService.createAgent();
 
     // Create test identifier for issuing the VC

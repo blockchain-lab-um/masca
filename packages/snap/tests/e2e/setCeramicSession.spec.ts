@@ -42,7 +42,7 @@ describe('setCeramicSession', () => {
       throw new Error(res.error);
     }
 
-    expect(res.data).toEqual(true);
+    expect(res.data).toBe(true);
 
     expect.assertions(1);
   });

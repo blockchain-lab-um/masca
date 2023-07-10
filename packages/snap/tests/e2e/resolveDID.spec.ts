@@ -85,7 +85,7 @@ describe('resolveDID', () => {
 
     expect(res.data.didDocument).toBeNull();
     expect(res.data.didDocumentMetadata).toEqual({});
-    expect(res.data.didResolutionMetadata.error).toEqual('notFound');
+    expect(res.data.didResolutionMetadata.error).toBe('notFound');
     expect.assertions(3);
   });
 });

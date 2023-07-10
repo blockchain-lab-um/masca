@@ -1,7 +1,8 @@
-import { MascaState } from '@blockchain-lab-um/masca-types';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 
+import GeneralService from '../../src/General.service';
+import StorageService from '../../src/storage/Storage.service';
 import VeramoService from '../../src/veramo/Veramo.service';
 import {
   account,
@@ -34,6 +35,7 @@ describe('Utils [did]', () => {
     global.snap = snapMock;
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
 
+    await GeneralService.init();
     await VeramoService.init();
   });
 
@@ -54,13 +56,10 @@ describe('Utils [did]', () => {
     });
 
     it('should return did:key', async () => {
-      const mockState: MascaState = getDefaultSnapState(account);
-      mockState.accountState[account].accountConfig.ssi.didMethod = 'did:key';
-
-      snapMock.rpcMocks.snap_manageState({
-        operation: 'update',
-        newState: mockState,
-      });
+      const state = StorageService.get();
+      state.accountState[state.currentAccount].accountConfig.ssi.didMethod =
+        'did:key';
+      await StorageService.save();
 
       // Need to re-initialize VeramoService with new state
       await VeramoService.init();

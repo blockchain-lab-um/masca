@@ -1,5 +1,4 @@
-import type { IIdentifier, IKey, W3CVerifiableCredential } from '@veramo/core';
-import type { ManagedPrivateKey } from '@veramo/key-manager';
+import type { W3CVerifiableCredential } from '@veramo/core';
 
 import type { AvailableMethods, AvailableVCStores } from './constants.js';
 
@@ -38,26 +37,11 @@ export type MascaState = {
 /**
  * Masca State for a MetaMask address
  */
-export type MascaAccountState = {
-  /**
-   * Store for {@link SnapPrivateKeyStore}
-   */
-  snapPrivateKeyStore: Record<string, ManagedPrivateKey>;
-  /**
-   * Store for {@link SnapKeyStore}
-   */
-  snapKeyStore: Record<string, IKey>;
-  /**
-   * Store for {@link SnapDIDStore}
-   */
-  identifiers: Record<string, IIdentifier>;
+export type MascaAccountState = { // FIXME: Split into general, veramo, polygon
   /**
    * Store for {@link SnapVCStore}
    */
   vcs: Record<string, W3CVerifiableCredential>;
-
-  publicKey: string;
-  index?: number;
   accountConfig: MascaAccountConfig;
   ceramicSession?: string;
 };

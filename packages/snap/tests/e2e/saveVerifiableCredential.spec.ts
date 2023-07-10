@@ -10,6 +10,7 @@ import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import type { IIdentifier, VerifiableCredential } from '@veramo/core';
 
 import { onRpcRequest } from '../../src';
+import GeneralService from '../../src/General.service';
 import type { StoredCredentials } from '../../src/veramo/plugins/ceramicDataStore/ceramicDataStore';
 import VeramoService, { type Agent } from '../../src/veramo/Veramo.service';
 import { account, importablePrivateKey } from '../data/constants';
@@ -79,6 +80,8 @@ describe('saveVerifiableCredential', () => {
 
     global.snap = snapMock;
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
+
+    await GeneralService.init();
 
     agent = await VeramoService.createAgent();
     identifier = await agent.didManagerCreate({
@@ -284,9 +287,7 @@ describe('saveVerifiableCredential', () => {
     if (!isError(saveRes)) {
       throw new Error('Should have failed');
     }
-    expect(saveRes.error).toEqual(
-      'Error: invalid_argument: $input.options.store'
-    );
+    expect(saveRes.error).toBe('Error: invalid_argument: $input.options.store');
     expect.assertions(1);
   });
 

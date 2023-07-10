@@ -6,6 +6,7 @@ import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import type { VerifiableCredential } from '@veramo/core';
 
 import { onRpcRequest } from '../../src';
+import GeneralService from '../../src/General.service';
 import type { StoredCredentials } from '../../src/veramo/plugins/ceramicDataStore/ceramicDataStore';
 import VeramoService, { type Agent } from '../../src/veramo/Veramo.service';
 import { account, importablePrivateKey } from '../data/constants';
@@ -31,6 +32,7 @@ describe('deleteVC', () => {
     global.snap = snapMock;
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
 
+    await GeneralService.init();
     agent = await VeramoService.createAgent();
 
     // Create test identifier for issuing the VC
@@ -215,6 +217,7 @@ describe('deleteVC', () => {
 
     expect.assertions(3);
   });
+
   it('should fail deleting 1 VC with wrong id', async () => {
     const saveRes = (await onRpcRequest({
       origin: 'localhost',

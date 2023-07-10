@@ -82,11 +82,11 @@ import * as qs from 'qs';
 
 import EthereumService from '../Ethereum.service';
 import GeneralService from '../General.service';
+import StorageService from '../storage/Storage.service';
 import UniversalResolverService from '../UniversalResolver.service';
 import { getAddressKeyDeriver, snapGetKeysFromAddress } from '../utils/keyPair';
 import { sign } from '../utils/sign';
 import { snapConfirm } from '../utils/snapUtils';
-import { getSnapState } from '../utils/stateUtils';
 import { CeramicVCStore } from './plugins/ceramicDataStore/ceramicDataStore';
 import { SnapVCStore } from './plugins/snapDataStore/snapDataStore';
 
@@ -112,7 +112,7 @@ class VeramoService {
   }
 
   private static async importIdentifier(): Promise<void> {
-    const state = await getSnapState();
+    const state = StorageService.get();
     const account = state.currentAccount;
     const method = state.accountState[account].accountConfig.ssi.didMethod;
     const bip44CoinTypeNode = await getAddressKeyDeriver({
@@ -159,7 +159,7 @@ class VeramoService {
   }
 
   static async getIdentifier(): Promise<IIdentifier> {
-    const state = await getSnapState();
+    const state = StorageService.get();
     const method =
       state.accountState[state.currentAccount].accountConfig.ssi.didMethod;
 
@@ -210,7 +210,7 @@ class VeramoService {
     credential: MinimalUnsignedCredential;
     proofFormat?: ProofFormat;
   }): Promise<VerifiableCredential> {
-    const state = await getSnapState();
+    const state = StorageService.get();
     const { credential, proofFormat = 'jwt' } = args;
     const identifier = await VeramoService.getIdentifier();
 
@@ -466,7 +466,7 @@ class VeramoService {
   static async handleOIDCCredentialOffer(args: {
     credentialOfferURI: string;
   }): Promise<VerifiableCredential> {
-    const state = await getSnapState();
+    const state = StorageService.get();
     const bip44CoinTypeNode = await getAddressKeyDeriver({
       state,
       snap,
@@ -664,7 +664,7 @@ class VeramoService {
   }): Promise<VerifiableCredential[]> {
     const { authorizationRequestURI } = args;
 
-    const state = await getSnapState();
+    const state = StorageService.get();
     const bip44CoinTypeNode = await getAddressKeyDeriver({
       state,
       snap,
@@ -946,9 +946,9 @@ class VeramoService {
     didProviders['did:pkh'] = new PkhDIDProvider({ defaultKms: 'web3' });
     didProviders['did:jwk'] = new JwkDIDProvider({ defaultKms: 'web3' });
 
-    vcStorePlugins.snap = new SnapVCStore(snap, ethereum);
+    vcStorePlugins.snap = new SnapVCStore();
     if (enabledVCStores.includes('ceramic')) {
-      vcStorePlugins.ceramic = new CeramicVCStore(snap, ethereum);
+      vcStorePlugins.ceramic = new CeramicVCStore();
     }
 
     return createAgent<

@@ -3,6 +3,7 @@ import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import type { W3CVerifiableCredential } from '@veramo/core';
 
+import GeneralService from '../../src/General.service';
 import VeramoService from '../../src/veramo/Veramo.service';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
@@ -22,6 +23,7 @@ describe('Utils [ceramic]', () => {
     global.snap = snapMock;
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
 
+    await GeneralService.init();
     await VeramoService.init();
 
     await VeramoService.clearCredentials({

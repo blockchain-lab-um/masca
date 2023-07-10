@@ -5,6 +5,7 @@ import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import { VerifiablePresentation } from '@veramo/core';
 
 import { onRpcRequest } from '../../src';
+import GeneralService from '../../src/General.service';
 import VeramoService, { type Agent } from '../../src/veramo/Veramo.service';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
@@ -57,6 +58,7 @@ describe('createVerifiablePresentation', () => {
       global.snap = snapMock;
       global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
 
+      await GeneralService.init();
       await VeramoService.init();
       agent = VeramoService.getAgent();
 

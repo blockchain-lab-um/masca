@@ -29,8 +29,8 @@ import {
 import { VerifiablePresentation } from 'did-jwt-vc';
 
 import GeneralService from './General.service';
+import StorageService from './storage/Storage.service';
 import { snapConfirm } from './utils/snapUtils';
-import { getSnapState } from './utils/stateUtils';
 import VeramoService from './veramo/Veramo.service';
 
 class SnapService {
@@ -100,7 +100,7 @@ class SnapService {
     const { minimalUnsignedCredential, proofFormat, options } = args;
     const { store = 'snap' } = options ?? {};
     const { save } = options ?? {};
-    const state = await getSnapState();
+    const state = StorageService.get();
 
     const method =
       state.accountState[state.currentAccount].accountConfig.ssi.didMethod;
@@ -180,7 +180,7 @@ class SnapService {
     args: CreateVPRequestParams
   ): Promise<UnsignedPresentation | VerifiablePresentation> {
     const { vcs, proofFormat = 'jwt', proofOptions } = args;
-    const state = await getSnapState();
+    const state = StorageService.get();
     const method =
       state.accountState[state.currentAccount].accountConfig.ssi.didMethod;
 
@@ -260,7 +260,7 @@ class SnapService {
 
     let res;
 
-    const state = await getSnapState();
+    const state = StorageService.get();
 
     switch (method) {
       /**

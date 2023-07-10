@@ -6,10 +6,7 @@ import type {
 import cloneDeep from 'lodash.clonedeep';
 
 const emptyAccountState = {
-  snapKeyStore: {},
-  snapPrivateKeyStore: {},
   vcs: {},
-  identifiers: {},
   accountConfig: {
     ssi: {
       didMethod: 'did:ethr',

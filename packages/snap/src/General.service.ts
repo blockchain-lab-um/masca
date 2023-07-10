@@ -12,39 +12,18 @@ import {
 import { divider, heading, panel, text } from '@metamask/snaps-ui';
 
 import EthereumService from './Ethereum.service';
+import StorageService from './storage/Storage.service';
 import { validateSession } from './utils/ceramicUtils';
-import { getEmptyAccountState, getInitialSnapState } from './utils/config';
+import { getEmptyAccountState } from './utils/config';
 import { snapConfirm } from './utils/snapUtils';
-import {
-  getSnapState,
-  getSnapStateUnchecked,
-  updateSnapState,
-} from './utils/stateUtils';
 
 class GeneralService {
-  /**
-   * Function that creates an empty MascaState object
-   * if it is not already initialized.
-   *
-   * @returns void
-   */
-  static async initState(): Promise<void> {
-    let state = await getSnapStateUnchecked();
-
-    if (!state) {
-      state = getInitialSnapState();
-      await updateSnapState(state);
-    }
+  static async init(): Promise<void> {
+    await StorageService.init();
   }
 
-  /**
-   * Function that creates an empty MascaAccountState object for
-   * the currently selected account if it is not already initialized.
-   *
-   * @returns void
-   */
   static async initAccountState(): Promise<void> {
-    const state = await getSnapState();
+    const state = StorageService.get();
 
     if (!state.currentAccount) {
       throw Error(
@@ -54,14 +33,12 @@ class GeneralService {
 
     if (!(state.currentAccount in state.accountState)) {
       state.accountState[state.currentAccount] = getEmptyAccountState();
-      await updateSnapState(state);
     }
   }
 
   static async setCurrentAccount(account: string): Promise<void> {
-    const state = await getSnapState();
+    const state = StorageService.get();
     state.currentAccount = account;
-    await updateSnapState(state);
   }
 
   /**
@@ -72,10 +49,9 @@ class GeneralService {
    * @returns void
    */
   static async addFriendlyDapp(dapp: string): Promise<void> {
-    const state = await getSnapState();
+    const state = StorageService.get();
     if (state.snapConfig.dApp.friendlyDapps.includes(dapp)) return;
     state.snapConfig.dApp.friendlyDapps.push(dapp);
-    await updateSnapState(state);
   }
 
   /**
@@ -86,10 +62,9 @@ class GeneralService {
    * @returns void
    */
   static async removeFriendlyDapp(dapp: string): Promise<void> {
-    const state = await getSnapState();
+    const state = StorageService.get();
     state.snapConfig.dApp.friendlyDapps =
       state.snapConfig.dApp.friendlyDapps.filter((d) => d !== dapp);
-    await updateSnapState(state);
   }
 
   /**
@@ -100,7 +75,7 @@ class GeneralService {
    * @returns boolean - whether the dApp is friendly.
    */
   static async isFriendlyDapp(dapp: string): Promise<boolean> {
-    const state = await getSnapState();
+    const state = StorageService.get();
     return state.snapConfig.dApp.friendlyDapps.includes(dapp);
   }
 
@@ -110,13 +85,12 @@ class GeneralService {
    * @returns void
    */
   static async togglePopups(): Promise<void> {
-    const state = await getSnapState();
+    const state = StorageService.get();
     state.snapConfig.dApp.disablePopups = !state.snapConfig.dApp.disablePopups;
-    await updateSnapState(state);
   }
 
   static async switchDIDMethod(args: SwitchMethodRequestParams): Promise<void> {
-    const state = await getSnapState();
+    const state = StorageService.get();
     const currentMethod =
       state.accountState[state.currentAccount].accountConfig.ssi.didMethod;
     const newMethod = args.didMethod;
@@ -138,7 +112,6 @@ class GeneralService {
       if (await snapConfirm(content)) {
         state.accountState[state.currentAccount].accountConfig.ssi.didMethod =
           newMethod;
-        await updateSnapState(state);
         return;
       }
 
@@ -149,17 +122,17 @@ class GeneralService {
   }
 
   static async getSelectedMethod(): Promise<string> {
-    const state = await getSnapState();
+    const state = StorageService.get();
     return state.accountState[state.currentAccount].accountConfig.ssi.didMethod;
   }
 
   static async getVCStore(): Promise<Record<AvailableVCStores, boolean>> {
-    const state = await getSnapState();
+    const state = StorageService.get();
     return state.accountState[state.currentAccount].accountConfig.ssi.vcStore;
   }
 
   static async setVCStore(args: SetVCStoreRequestParams): Promise<boolean> {
-    const state = await getSnapState();
+    const state = StorageService.get();
     const { store, value } = args;
 
     if (store !== 'snap') {
@@ -173,7 +146,6 @@ class GeneralService {
           store
         ] = value;
 
-        await updateSnapState(state);
         return true;
       }
       return false;
@@ -182,7 +154,7 @@ class GeneralService {
   }
 
   static async getEnabledVCStores(): Promise<AvailableVCStores[]> {
-    const state = await getSnapState();
+    const state = StorageService.get();
 
     return Object.entries(
       state.accountState[state.currentAccount].accountConfig.ssi.vcStore
@@ -196,12 +168,12 @@ class GeneralService {
   }
 
   static async getAccountSettings(): Promise<MascaAccountConfig> {
-    const state = await getSnapState();
+    const state = StorageService.get();
     return state.accountState[state.currentAccount].accountConfig;
   }
 
   static async getSnapSettings(): Promise<MascaConfig> {
-    const state = await getSnapState();
+    const state = StorageService.get();
     return state.snapConfig;
   }
 
@@ -212,14 +184,13 @@ class GeneralService {
   static async setCeramicSession(args: {
     serializedSession: string;
   }): Promise<void> {
-    const state = await getSnapState();
+    const state = StorageService.get();
     state.accountState[state.currentAccount].ceramicSession =
       args.serializedSession;
-    await updateSnapState(state);
   }
 
   static async validateStoredCeramicSession(): Promise<string> {
-    const state = await getSnapState();
+    const state = StorageService.get();
 
     const serializedSession = await validateSession(
       state.accountState[state.currentAccount].ceramicSession

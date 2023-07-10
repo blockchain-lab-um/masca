@@ -21,7 +21,11 @@ module.exports = {
       extends: ['plugin:jest/recommended', 'plugin:jest/style'],
       rules: {
         'jest/prefer-expect-assertions': 'off',
+        'jest/no-conditional-expect': 'off',
+        '@typescript-eslint/no-unsafe-member-access': 'off',
+        '@typescript-eslint/no-unsafe-assignment': 'off',
       },
+
       env: { jest: true },
     },
   ],
@@ -90,21 +94,7 @@ module.exports = {
     ],
     'import/extensions': 'off',
   },
-  overrides: [
-    {
-      // Disable in test files
-      files: [
-        '**/*.spec.ts',
-        '**/*.e2e-spec.ts',
-        '**/test/**/*.ts',
-        '**/tests/**/*.ts',
-      ],
-      rules: {
-        '@typescript-eslint/no-unsafe-member-access': 'off',
-        '@typescript-eslint/no-unsafe-assignment': 'off',
-      },
-    },
-  ],
+
   ignorePatterns: [
     '**/node_modules/**',
     '**/dist/**',

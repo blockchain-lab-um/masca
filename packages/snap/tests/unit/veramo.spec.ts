@@ -32,6 +32,7 @@ describe('Utils [veramo]', () => {
     global.snap = snapMock;
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
 
+    await GeneralService.init();
     await VeramoService.init();
   });
 
@@ -166,10 +167,6 @@ describe('Utils [veramo]', () => {
       const expectedState = getDefaultSnapState(account);
       expectedState.accountState[account].vcs[res[0].id] = exampleVC;
       expect(res).toEqual(expectedResult);
-      expect(snapMock.rpcMocks.snap_manageState).toHaveBeenLastCalledWith({
-        operation: 'update',
-        newState: expectedState,
-      });
 
       await VeramoService.deleteCredential({
         id: expectedResult[0].id,
@@ -181,7 +178,7 @@ describe('Utils [veramo]', () => {
       });
 
       expect(vcs).toHaveLength(0);
-      expect.assertions(3);
+      expect.assertions(2);
     });
 
     it('should succeed deleting VCs in ceramic store', async () => {
@@ -276,11 +273,6 @@ describe('Utils [veramo]', () => {
       const expectedState = getDefaultSnapState(account);
       expectedState.accountState[account].vcs[res[0].id] = exampleVC;
 
-      expect(snapMock.rpcMocks.snap_manageState).toHaveBeenLastCalledWith({
-        operation: 'update',
-        newState: expectedState,
-      });
-
       await VeramoService.clearCredentials({
         store: ['snap'],
       });
@@ -290,7 +282,7 @@ describe('Utils [veramo]', () => {
       });
 
       expect(vcs).toHaveLength(0);
-      expect.assertions(2);
+      expect.assertions(1);
     });
 
     it('should succeed clearing VCs in all stores', async () => {
@@ -302,11 +294,6 @@ describe('Utils [veramo]', () => {
       const expectedState = getDefaultSnapState(account);
       expectedState.accountState[account].vcs[res[0].id] = exampleVC;
 
-      expect(snapMock.rpcMocks.snap_manageState).toHaveBeenLastCalledWith({
-        operation: 'update',
-        newState: expectedState,
-      });
-
       await VeramoService.clearCredentials({});
 
       const vcs = await VeramoService.queryCredentials({
@@ -314,7 +301,7 @@ describe('Utils [veramo]', () => {
       });
 
       expect(vcs).toHaveLength(0);
-      expect.assertions(2);
+      expect.assertions(1);
     });
   });
 
