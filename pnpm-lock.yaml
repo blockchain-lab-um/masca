@@ -1031,6 +1031,9 @@ importers:
 
   libs/utils:
     dependencies:
+      '@veramo/core':
+        specifier: 5.2.0
+        version: 5.2.0
       '@veramo/utils':
         specifier: 5.2.0
         version: 5.2.0
@@ -1243,9 +1246,6 @@ importers:
       tailwind-scrollbar:
         specifier: ^3.0.4
         version: 3.0.4(tailwindcss@3.3.2)
-      typia:
-        specifier: ^4.1.2
-        version: 4.1.2(typescript@5.1.3)(webpack@5.82.1)
       zustand:
         specifier: ^4.3.8
         version: 4.3.8(react@18.2.0)
@@ -1814,6 +1814,9 @@ importers:
       '@veramo/key-manager':
         specifier: 5.1.2
         version: 5.1.2
+      typia:
+        specifier: ^4.1.3
+        version: 4.1.3(typescript@5.1.3)(webpack@5.82.1)
     devDependencies:
       '@ianvs/prettier-plugin-sort-imports':
         specifier: ^4.0.1
@@ -21998,7 +22001,7 @@ packages:
     dependencies:
       loader-utils: 2.0.4
       schema-utils: 3.3.0
-      webpack: 5.82.1(@swc/core@1.3.52)(esbuild@0.18.11)
+      webpack: 5.82.1(esbuild@0.17.19)
     dev: false
 
   /rc@1.2.8:
@@ -24441,6 +24444,31 @@ packages:
       terser: 5.18.1
       webpack: 5.82.1(@swc/core@1.3.52)(esbuild@0.18.11)
 
+  /terser-webpack-plugin@5.3.9(esbuild@0.17.19)(webpack@5.82.1):
+    resolution: {integrity: sha512-ZuXsqE07EcggTWQjXUj+Aot/OMcD0bMKGgF63f7UxYcu5/AJF53aIpK1YoP5xR9l6s/Hy2b+t1AM0bLNPRuhwA==}
+    engines: {node: '>= 10.13.0'}
+    peerDependencies:
+      '@swc/core': '*'
+      esbuild: '*'
+      uglify-js: '*'
+      webpack: ^5.1.0
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      esbuild:
+        optional: true
+      uglify-js:
+        optional: true
+    dependencies:
+      '@jridgewell/trace-mapping': 0.3.18
+      esbuild: 0.17.19
+      jest-worker: 27.5.1
+      schema-utils: 3.3.0
+      serialize-javascript: 6.0.1
+      terser: 5.18.1
+      webpack: 5.82.1(esbuild@0.17.19)
+    dev: false
+
   /terser@5.18.1:
     resolution: {integrity: sha512-j1n0Ao919h/Ai5r43VAnfV/7azUYW43GPxK7qSATzrsERfW7+y2QW9Cp9ufnRF5CQUWbnLSo7UJokSWCqg4tsQ==}
     engines: {node: '>=10'}
@@ -25142,8 +25170,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  /typia@4.1.2(typescript@5.1.3)(webpack@5.82.1):
-    resolution: {integrity: sha512-9lw72fr2t278odL9S6RdNrOh0oSex33VW+xUubfrdmfPtbp83eivq/mdLNnf36m5NOn4oB0w4Gn/afPyUU1JSA==}
+  /typia@4.1.3(typescript@5.1.3)(webpack@5.82.1):
+    resolution: {integrity: sha512-4x9atecNJfPScW7XsVVrhNMi1MtBLcpqzIj/PVu24S6CXb3RSv8QGdpTNli24SlrqG4GPivJGS2a7zGl/48HIw==}
     hasBin: true
     peerDependencies:
       typescript: '>= 4.7.4'
@@ -25879,6 +25907,46 @@ packages:
       - '@swc/core'
       - esbuild
       - uglify-js
+
+  /webpack@5.82.1(esbuild@0.17.19):
+    resolution: {integrity: sha512-C6uiGQJ+Gt4RyHXXYt+v9f+SN1v83x68URwgxNQ98cvH8kxiuywWGP4XeNZ1paOzZ63aY3cTciCEQJNFUljlLw==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
+    peerDependencies:
+      webpack-cli: '*'
+    peerDependenciesMeta:
+      webpack-cli:
+        optional: true
+    dependencies:
+      '@types/eslint-scope': 3.7.4
+      '@types/estree': 1.0.1
+      '@webassemblyjs/ast': 1.11.6
+      '@webassemblyjs/wasm-edit': 1.11.6
+      '@webassemblyjs/wasm-parser': 1.11.6
+      acorn: 8.9.0
+      acorn-import-assertions: 1.9.0(acorn@8.9.0)
+      browserslist: 4.21.9
+      chrome-trace-event: 1.0.3
+      enhanced-resolve: 5.15.0
+      es-module-lexer: 1.3.0
+      eslint-scope: 5.1.1
+      events: 3.3.0
+      glob-to-regexp: 0.4.1
+      graceful-fs: 4.2.11
+      json-parse-even-better-errors: 2.3.1
+      loader-runner: 4.3.0
+      mime-types: 2.1.35
+      neo-async: 2.6.2
+      schema-utils: 3.3.0
+      tapable: 2.2.1
+      terser-webpack-plugin: 5.3.9(esbuild@0.17.19)(webpack@5.82.1)
+      watchpack: 2.4.0
+      webpack-sources: 3.2.3
+    transitivePeerDependencies:
+      - '@swc/core'
+      - esbuild
+      - uglify-js
+    dev: false
 
   /webpackbar@5.0.2(webpack@5.82.1):
     resolution: {integrity: sha512-BmFJo7veBDgQzfWXl/wwYXr/VFus0614qZ8i9znqcl9fnEdiVkdbi0TedLQ6xAK92HZHDJ0QmyQ0fmuZPAgCYQ==}

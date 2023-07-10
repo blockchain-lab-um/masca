@@ -1,6 +1,9 @@
-import type {
-  SaveVCRequestParams,
-  SaveVCRequestResult,
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+import {
+  isJWT,
+  isW3CVerifiableCredential,
+  type SaveVCRequestParams,
+  type SaveVCRequestResult,
 } from '@blockchain-lab-um/masca-types';
 import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
 
@@ -14,6 +17,11 @@ export async function saveVC(
 ): Promise<SaveVCRequestResult[]> {
   const { store = 'snap' } = options ?? {};
   const { snap, ethereum } = params;
+
+  if (!isW3CVerifiableCredential(verifiableCredential))
+    throw new Error('Invalid VC');
+  if (typeof verifiableCredential === 'string' && !isJWT(verifiableCredential))
+    throw new Error('Invalid JWT string');
 
   const content = panel([
     heading('Save VC'),

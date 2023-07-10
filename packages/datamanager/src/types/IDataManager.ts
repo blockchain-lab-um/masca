@@ -15,7 +15,7 @@ export interface IDataManager extends IPluginMethodMap {
  */
 export type Filter = {
   type: string;
-  filter: unknown;
+  filter: string;
 };
 
 type QueryOptions = {

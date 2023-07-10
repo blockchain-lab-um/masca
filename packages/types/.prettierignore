@@ -1,3 +1,4 @@
 node_modules
 CHANGELOG.md
 dist
+src/typia-generated

@@ -43,14 +43,14 @@ export class CeramicVCStore extends AbstractDataStore {
     if (storedCredentials && storedCredentials.vcs) {
       if (filter && filter.type === 'id') {
         try {
-          if (storedCredentials.vcs[filter.filter as string]) {
-            let vc = storedCredentials.vcs[filter.filter as string] as unknown;
+          if (storedCredentials.vcs[filter.filter]) {
+            let vc = storedCredentials.vcs[filter.filter] as unknown;
             if (typeof vc === 'string') {
               vc = decodeJWT(vc);
             }
             const obj = [
               {
-                metadata: { id: filter.filter as string },
+                metadata: { id: filter.filter },
                 data: vc,
               },
             ];
@@ -84,10 +84,7 @@ export class CeramicVCStore extends AbstractDataStore {
             data: vc,
           };
         });
-        const filteredObjects = jsonpath.query(
-          objects,
-          filter.filter as string
-        );
+        const filteredObjects = jsonpath.query(objects, filter.filter);
         return filteredObjects as Array<IQueryResult>;
       }
     }

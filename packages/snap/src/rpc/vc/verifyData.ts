@@ -1,4 +1,10 @@
-import type { VerifyDataRequestParams } from '@blockchain-lab-um/masca-types';
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+import {
+  isJWT,
+  isW3CVerifiableCredential,
+  isW3CVerifiablePresentation,
+  type VerifyDataRequestParams,
+} from '@blockchain-lab-um/masca-types';
 import type { IVerifyResult } from '@veramo/core';
 
 import type { ApiParams } from '../../interfaces';
@@ -9,7 +15,17 @@ export async function verifyData(
   args: VerifyDataRequestParams
 ): Promise<boolean | IVerifyResult> {
   const { snap, ethereum } = params;
+  const { credential, presentation } = args;
   const verbose = args.verbose || false;
+
+  if (!credential && !presentation) throw new Error('Missing VC or VP');
+  const checkValue = credential || presentation;
+  if (checkValue && typeof checkValue === 'string' && !isJWT(checkValue))
+    throw new Error('Invalid JWT string');
+  if (credential && !isW3CVerifiableCredential(credential))
+    throw new Error('Invalid VC');
+  if (presentation && !isW3CVerifiablePresentation(presentation))
+    throw new Error('Invalid VP');
 
   const res = await veramoVerifyData({
     snap,
