@@ -91,7 +91,7 @@ describe('setCurrentAccount', () => {
     }
 
     expect(res.error).toBe(
-      'Error: No account set. Use setCurrentAccount to set an account.'
+      'Error: No current account set. Please call the `setCurrentAccount` RPC method first.'
     );
     expect.assertions(1);
   });

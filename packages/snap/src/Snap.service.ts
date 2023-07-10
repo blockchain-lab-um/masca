@@ -322,8 +322,8 @@ class SnapService {
         return ResultObject.success(res);
       case 'setCeramicSession':
         // TODO (andy) validate request params
-        res = await GeneralService.setCeramicSession(params);
-        return ResultObject.success(res);
+        await GeneralService.setCeramicSession(params);
+        return ResultObject.success(true);
       case 'validateStoredCeramicSession':
         await GeneralService.validateStoredCeramicSession();
         return ResultObject.success(true);

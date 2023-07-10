@@ -4,7 +4,7 @@ import type {
   VerifiableCredential,
 } from '@veramo/core';
 
-import type { Agent } from '../../src/veramo/setup';
+import type { Agent } from '../../src/veramo/Veramo.service';
 
 /**
  * Test credentials

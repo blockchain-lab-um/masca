@@ -4,7 +4,7 @@ import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import { VerifiableCredential, VerifiablePresentation } from '@veramo/core';
 
 import { onRpcRequest } from '../../src';
-import { getAgent, type Agent } from '../../src/veramo/setup';
+import VeramoService, { type Agent } from '../../src/veramo/Veramo.service';
 import { account, importablePrivateKey } from '../data/constants';
 import examplePayload from '../data/credentials/examplePayload.json';
 import { getDefaultSnapState } from '../data/defaultSnapState';
@@ -23,10 +23,10 @@ describe('verifyData', () => {
       newState: getDefaultSnapState(account),
     });
     snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-    const ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
-    agent = await getAgent(snapMock, ethereumMock);
     global.snap = snapMock;
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
+
+    agent = await VeramoService.createAgent();
 
     // Create test identifier for issuing the VC
     const identifier = await agent.didManagerCreate({

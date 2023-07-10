@@ -15,10 +15,12 @@ import {
 import {
   IOIDCClientPlugin,
   OIDCClientPlugin,
+  SendOIDCAuthorizationResponseArgs,
   SignArgs,
 } from '@blockchain-lab-um/oidc-client-plugin';
 import {
   CredentialRequest,
+  PresentationDefinition,
   TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
 import { isError, Result } from '@blockchain-lab-um/utils';
@@ -76,16 +78,13 @@ import { KeyManagementSystem } from '@veramo/kms-local';
 import { decodeCredentialToObject } from '@veramo/utils';
 import { DIDResolutionResult, Resolver } from 'did-resolver';
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver';
-import EthereumService from 'src/Ethereum.service';
-import {
-  handleAuthorizationRequest,
-  sendAuthorizationResponse,
-} from 'src/utils/oidc';
-import { snapConfirm } from 'src/utils/snapUtils';
+import * as qs from 'qs';
 
+import EthereumService from '../Ethereum.service';
 import UniversalResolverService from '../UniversalResolver.service';
 import { getAddressKeyDeriver, snapGetKeysFromAddress } from '../utils/keyPair';
 import { sign } from '../utils/sign';
+import { snapConfirm } from '../utils/snapUtils';
 import { getSnapState } from '../utils/stateUtils';
 import { CeramicVCStore } from './plugins/ceramicDataStore/ceramicDataStore';
 import { SnapVCStore } from './plugins/snapDataStore/snapDataStore';
@@ -105,94 +104,7 @@ class VeramoService {
   private static instance: Agent;
 
   static async init(): Promise<void> {
-    const state = await getSnapState();
-    const didProviders: Record<string, AbstractIdentifierProvider> = {};
-    const vcStorePlugins: Record<string, AbstractDataStore> = {};
-    const enabledVCStores = Object.entries(
-      state.accountState[state.currentAccount].accountConfig.ssi.vcStore
-    )
-      .filter(([, value]) => value)
-      .map(([key]) => key) as AvailableVCStores[];
-
-    const networks = [
-      {
-        name: 'mainnet',
-        provider: new Web3Provider(ethereum as any),
-      },
-      {
-        name: '0x05',
-        provider: new Web3Provider(ethereum as any),
-      },
-      {
-        name: 'goerli',
-        provider: new Web3Provider(ethereum as any),
-        chainId: '0x5',
-      },
-      {
-        name: 'sepolia',
-        provider: new Web3Provider(ethereum as any),
-        chainId: '0xaa36a7',
-      },
-    ];
-
-    didProviders['did:ethr'] = new EthrDIDProvider({
-      defaultKms: 'web3',
-      networks,
-    });
-
-    didProviders['did:key'] = new KeyDIDProvider({ defaultKms: 'web3' });
-    didProviders['did:pkh'] = new PkhDIDProvider({ defaultKms: 'web3' });
-    didProviders['did:jwk'] = new JwkDIDProvider({ defaultKms: 'web3' });
-
-    vcStorePlugins.snap = new SnapVCStore(snap, ethereum);
-    if (enabledVCStores.includes('ceramic')) {
-      vcStorePlugins.ceramic = new CeramicVCStore(snap, ethereum);
-    }
-
-    this.instance = createAgent<
-      IDIDManager &
-        IKeyManager &
-        IDataStore &
-        IResolver &
-        IDataManager &
-        ICredentialIssuer &
-        ICredentialVerifier &
-        IOIDCClientPlugin
-    >({
-      plugins: [
-        new CredentialPlugin(),
-        new CredentialIssuerEIP712(),
-        new CredentialStatusPlugin({
-          // TODO implement this
-          StatusList2021Entry: (
-            _credential: any,
-            _didDoc: any
-          ): Promise<CredentialStatus> => Promise.resolve({ revoked: false }),
-        }),
-        new KeyManager({
-          store: new MemoryKeyStore(),
-          kms: {
-            snap: new KeyManagementSystem(new MemoryPrivateKeyStore()),
-          },
-        }),
-        new DataManager({ store: vcStorePlugins }),
-        new DIDResolverPlugin({
-          resolver: new Resolver({
-            ...ethrDidResolver({ networks }),
-            ...keyDidResolver(),
-            ...pkhDidResolver(),
-            ...jwkDidResolver(),
-            ...UniversalResolverService.getResolver(),
-          }),
-        }),
-        new DIDManager({
-          store: new MemoryDIDStore(),
-          defaultProvider: 'metamask',
-          providers: didProviders,
-        }),
-        new OIDCClientPlugin(),
-      ],
-    });
+    this.instance = await this.createAgent();
 
     // Import current account as did
     await this.importIdentifier();
@@ -621,13 +533,12 @@ class VeramoService {
 
       console.log(`authorizationRequestURI: ${authorizationRequestURI}`);
 
-      const handleAuthorizationRequestResult = await handleAuthorizationRequest(
-        {
+      const handleAuthorizationRequestResult =
+        await this.handleAuthorizationRequest({
           authorizationRequestURI,
           did,
           customSign,
-        }
-      );
+        });
 
       if (handleAuthorizationRequestResult.isUserInteractionRequired) {
         throw new Error(
@@ -638,9 +549,8 @@ class VeramoService {
       const { sendOIDCAuthorizationResponseArgs } =
         handleAuthorizationRequestResult;
 
-      const sendAuthorizationResponseResult = await sendAuthorizationResponse({
-        sendOIDCAuthorizationResponseArgs,
-      });
+      const sendAuthorizationResponseResult =
+        await this.sendAuthorizationResponse(sendOIDCAuthorizationResponseArgs);
 
       const { code } = sendAuthorizationResponseResult;
 
@@ -792,11 +702,12 @@ class VeramoService {
         kid,
       });
 
-    const handleAuthorizationRequestResult = await handleAuthorizationRequest({
-      authorizationRequestURI,
-      customSign,
-      did,
-    });
+    const handleAuthorizationRequestResult =
+      await this.handleAuthorizationRequest({
+        authorizationRequestURI,
+        customSign,
+        did,
+      });
 
     if (handleAuthorizationRequestResult.isUserInteractionRequired) {
       throw new Error(
@@ -807,13 +718,284 @@ class VeramoService {
     const { sendOIDCAuthorizationResponseArgs } =
       handleAuthorizationRequestResult;
 
-    const sendAuthorizationResponseResult = await sendAuthorizationResponse({
-      sendOIDCAuthorizationResponseArgs,
-    });
+    const sendAuthorizationResponseResult =
+      await this.sendAuthorizationResponse(sendOIDCAuthorizationResponseArgs);
 
     console.log(sendAuthorizationResponseResult);
 
     throw new Error('Not implemented');
+  }
+
+  // FIXME: This is a temporary solution (we need to refactor this)
+  // the `handleOIDCAuthorizationRequest` method should be used instead and simplified
+  static async handleAuthorizationRequest(args: {
+    authorizationRequestURI: string;
+    did: string;
+    customSign: (args: SignArgs) => Promise<string>;
+    credentials?: W3CVerifiableCredential[];
+  }): Promise<
+    {
+      isUserInteractionRequired: boolean;
+    } & (
+      | {
+          isUserInteractionRequired: true;
+          credentials: W3CVerifiableCredential[];
+          presentationDefinition: PresentationDefinition;
+        }
+      | {
+          isUserInteractionRequired: false;
+          sendOIDCAuthorizationResponseArgs: SendOIDCAuthorizationResponseArgs;
+        }
+    )
+  > {
+    const { authorizationRequestURI, did, customSign, credentials } = args;
+    const authorizationRequestResult =
+      await this.instance.parseOIDCAuthorizationRequestURI({
+        authorizationRequestURI,
+      });
+
+    if (isError(authorizationRequestResult)) {
+      throw new Error(authorizationRequestResult.error);
+    }
+
+    const authorizationRequest = authorizationRequestResult.data;
+    const sendOIDCAuthorizationResponseArgs: SendOIDCAuthorizationResponseArgs =
+      {};
+
+    if (authorizationRequest.response_type.includes('vp_token')) {
+      if (!authorizationRequest.presentation_definition) {
+        throw new Error('presentation_definition is required');
+      }
+
+      // if(!credentials) {
+      const store = ['snap'] as AvailableVCStores[];
+
+      const queryResults = await VeramoService.queryCredentials({
+        options: { store, returnStore: false },
+      });
+
+      const queriedCredentials: any = queryResults.map((result) => result.data);
+
+      console.log('queriedCredentials');
+      console.log(queriedCredentials);
+
+      const selectCredentialsResult = await this.instance.selectCredentials({
+        credentials: queriedCredentials,
+      });
+
+      console.log('selectCredentialsResult');
+      console.log(selectCredentialsResult);
+
+      if (isError(selectCredentialsResult)) {
+        throw new Error(selectCredentialsResult.error);
+      }
+
+      //   return {
+      //     isUserInteractionRequired: true,
+      //     credentials: selectCredentialsResult.data,
+      //     presentationDefinition: authorizationRequest.presentation_definition,
+      //   }
+      // }
+
+      // const selectCredentialsResult = await agent.selectCredentials({
+      //   credentials: credentials as any,
+      // });
+
+      // if (isError(selectCredentialsResult)) {
+      //   throw new Error(selectCredentialsResult.error);
+      // }
+
+      const createPresentationSubmissionResult =
+        await this.instance.createPresentationSubmission({
+          credentials: selectCredentialsResult.data,
+        });
+
+      if (isError(createPresentationSubmissionResult)) {
+        throw new Error(createPresentationSubmissionResult.error);
+      }
+
+      const presentationSubmission = createPresentationSubmissionResult.data;
+
+      const decodedCredentials = selectCredentialsResult.data.map(
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+        (credential) => decodeCredentialToObject(credential).proof.jwt
+      );
+
+      const veramoPresentation =
+        await this.instance.createVerifiablePresentation({
+          presentation: {
+            holder: did,
+            verifiableCredential: decodedCredentials,
+          },
+          proofFormat: 'jwt',
+        });
+
+      const { '@context': context, holder, type } = veramoPresentation;
+
+      const vp: UnsignedPresentation = {
+        '@context': context,
+        holder,
+        type,
+        verifiableCredential: decodedCredentials,
+      };
+
+      const createVpTokenResult = await this.instance.createVpToken({
+        sign: customSign,
+        vp,
+      });
+
+      if (isError(createVpTokenResult)) {
+        throw new Error(createVpTokenResult.error);
+      }
+
+      const vpToken = createVpTokenResult.data;
+
+      sendOIDCAuthorizationResponseArgs.presentationSubmission =
+        presentationSubmission;
+      sendOIDCAuthorizationResponseArgs.vpToken = vpToken;
+    }
+
+    if (authorizationRequest.response_type.includes('id_token')) {
+      // Create id token
+      const idTokenResult = await this.instance.createIdToken({
+        sign: customSign,
+      });
+
+      if (isError(idTokenResult)) {
+        throw new Error(idTokenResult.error);
+      }
+
+      const idToken = idTokenResult.data;
+
+      sendOIDCAuthorizationResponseArgs.idToken = idToken;
+    }
+
+    return {
+      isUserInteractionRequired: false,
+      sendOIDCAuthorizationResponseArgs,
+    };
+  }
+
+  static async sendAuthorizationResponse(
+    args: SendOIDCAuthorizationResponseArgs
+  ): Promise<{ code: string; state: string }> {
+    // POST /auth-mock/direct_post
+    const authorizationResponseResult =
+      await this.instance.sendOIDCAuthorizationResponse(args);
+
+    if (isError(authorizationResponseResult)) {
+      throw new Error(authorizationResponseResult.error);
+    }
+
+    const authorizationResponse = authorizationResponseResult.data;
+
+    const authorizationResponseData: any = qs.parse(
+      authorizationResponse.split('?')[1]
+    );
+
+    if (!authorizationResponseData.code) {
+      throw new Error('Authorization code is required');
+    }
+
+    if (!authorizationResponseData.state) {
+      throw new Error('State is required');
+    }
+
+    return {
+      code: authorizationResponseData.code as string,
+      state: authorizationResponseData.state as string,
+    };
+  }
+
+  static async createAgent(): Promise<Agent> {
+    const state = await getSnapState();
+    const didProviders: Record<string, AbstractIdentifierProvider> = {};
+    const vcStorePlugins: Record<string, AbstractDataStore> = {};
+    const enabledVCStores = Object.entries(
+      state.accountState[state.currentAccount].accountConfig.ssi.vcStore
+    )
+      .filter(([, value]) => value)
+      .map(([key]) => key) as AvailableVCStores[];
+
+    const networks = [
+      {
+        name: 'mainnet',
+        provider: new Web3Provider(ethereum as any),
+      },
+      {
+        name: '0x05',
+        provider: new Web3Provider(ethereum as any),
+      },
+      {
+        name: 'goerli',
+        provider: new Web3Provider(ethereum as any),
+        chainId: '0x5',
+      },
+      {
+        name: 'sepolia',
+        provider: new Web3Provider(ethereum as any),
+        chainId: '0xaa36a7',
+      },
+    ];
+
+    didProviders['did:ethr'] = new EthrDIDProvider({
+      defaultKms: 'web3',
+      networks,
+    });
+
+    didProviders['did:key'] = new KeyDIDProvider({ defaultKms: 'web3' });
+    didProviders['did:pkh'] = new PkhDIDProvider({ defaultKms: 'web3' });
+    didProviders['did:jwk'] = new JwkDIDProvider({ defaultKms: 'web3' });
+
+    vcStorePlugins.snap = new SnapVCStore(snap, ethereum);
+    if (enabledVCStores.includes('ceramic')) {
+      vcStorePlugins.ceramic = new CeramicVCStore(snap, ethereum);
+    }
+
+    return createAgent<
+      IDIDManager &
+        IKeyManager &
+        IDataStore &
+        IResolver &
+        IDataManager &
+        ICredentialIssuer &
+        ICredentialVerifier &
+        IOIDCClientPlugin
+    >({
+      plugins: [
+        new CredentialPlugin(),
+        new CredentialIssuerEIP712(),
+        new CredentialStatusPlugin({
+          // TODO implement this
+          StatusList2021Entry: (
+            _credential: any,
+            _didDoc: any
+          ): Promise<CredentialStatus> => Promise.resolve({ revoked: false }),
+        }),
+        new KeyManager({
+          store: new MemoryKeyStore(),
+          kms: {
+            snap: new KeyManagementSystem(new MemoryPrivateKeyStore()),
+          },
+        }),
+        new DataManager({ store: vcStorePlugins }),
+        new DIDResolverPlugin({
+          resolver: new Resolver({
+            ...ethrDidResolver({ networks }),
+            ...keyDidResolver(),
+            ...pkhDidResolver(),
+            ...jwkDidResolver(),
+            ...UniversalResolverService.getResolver(),
+          }),
+        }),
+        new DIDManager({
+          store: new MemoryDIDStore(),
+          defaultProvider: 'metamask',
+          providers: didProviders,
+        }),
+        new OIDCClientPlugin(),
+      ],
+    });
   }
 
   static getAgent(): Agent {

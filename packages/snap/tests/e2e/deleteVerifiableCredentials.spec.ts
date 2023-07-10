@@ -7,7 +7,7 @@ import type { VerifiableCredential } from '@veramo/core';
 
 import { onRpcRequest } from '../../src';
 import type { StoredCredentials } from '../../src/veramo/plugins/ceramicDataStore/ceramicDataStore';
-import { getAgent, type Agent } from '../../src/veramo/setup';
+import VeramoService, { type Agent } from '../../src/veramo/Veramo.service';
 import { account, importablePrivateKey } from '../data/constants';
 import examplePayload from '../data/credentials/examplePayload.json';
 import { getDefaultSnapState } from '../data/defaultSnapState';
@@ -27,8 +27,11 @@ describe('deleteVC', () => {
       newState: getDefaultSnapState(account),
     });
     snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-    const ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
-    agent = await getAgent(snapMock, ethereumMock);
+
+    global.snap = snapMock;
+    global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
+
+    agent = await VeramoService.createAgent();
 
     // Create test identifier for issuing the VC
     const identifier = await agent.didManagerCreate({
