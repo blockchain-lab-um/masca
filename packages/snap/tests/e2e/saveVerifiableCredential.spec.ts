@@ -59,11 +59,11 @@ describe('saveVerifiableCredential', () => {
   ];
 
   beforeEach(async () => {
-    snapMock = createMockSnap();
     snapMock.rpcMocks.snap_manageState({
       operation: 'update',
       newState: getDefaultSnapState(account),
     });
+    snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
     // Clear stores before each test
     await agent.clear({ options: { store: ['snap', 'ceramic'] } });
@@ -76,6 +76,7 @@ describe('saveVerifiableCredential', () => {
       newState: getDefaultSnapState(account),
     });
     snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
+
     global.snap = snapMock;
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
 
@@ -310,6 +311,8 @@ describe('saveVerifiableCredential', () => {
     }
 
     expect(res.error).toBe('Error: User rejected the request.');
+
+    snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
     res = (await onRpcRequest({
       origin: 'localhost',
