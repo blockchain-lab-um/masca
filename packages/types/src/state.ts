@@ -37,7 +37,8 @@ export type MascaState = {
 /**
  * Masca State for a MetaMask address
  */
-export type MascaAccountState = { // FIXME: Split into general, veramo, polygon
+export type MascaAccountState = {
+  // FIXME: Split into general, veramo, polygon
   /**
    * Store for {@link SnapVCStore}
    */

@@ -24,6 +24,7 @@ module.exports = {
         'jest/no-conditional-expect': 'off',
         '@typescript-eslint/no-unsafe-member-access': 'off',
         '@typescript-eslint/no-unsafe-assignment': 'off',
+        'jest/no-export': 'off',
       },
 
       env: { jest: true },
@@ -37,7 +38,7 @@ module.exports = {
       'error',
       {
         selector: 'variable',
-        format: ['camelCase', 'UPPER_CASE'],
+        format: ['camelCase', 'UPPER_CASE', 'PascalCase'],
         leadingUnderscore: 'allow',
         trailingUnderscore: 'allow',
       },
@@ -47,8 +48,9 @@ module.exports = {
         format: ['PascalCase'],
       },
     ],
+    // FIXME: Turn this on and fix in separate PR
     'no-unused-vars': [
-      'error',
+      'off',
       {
         argsIgnorePattern: '^_',
         varsIgnorePattern: '^_',
