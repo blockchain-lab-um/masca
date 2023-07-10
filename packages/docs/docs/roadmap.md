@@ -26,6 +26,7 @@ Verifiable Credentials (VCs):
 - [x] Retrieval from multiple storages
 - [x] Filtering based on query (e.g., JSONPath query)
 - [x] Create custom VC
+- [x] Validate an existing VC
 - [ ] Structure verification
 - [ ] Revocation
 - [ ] ...
@@ -34,6 +35,7 @@ Verifiable Presentations (VPs):
 
 - [x] Create with single VCs
 - [x] Create with multiple VCs
+- [x] Validate an existing VP
 - [ ] ...
 
 Storage options:
