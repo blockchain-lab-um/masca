@@ -2,7 +2,7 @@ import {
   AvailableVCStores,
   MascaApi,
   QueryVCsRequestResult,
-} from '@blockchain-lab-um/masca-types';
+} from '@blockchain-lab-um/masca-connector';
 import { create } from 'zustand';
 
 interface MascaStore {

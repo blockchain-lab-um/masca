@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { hexToUint8Array } from '@blockchain-lab-um/utils';
+import { hexToUint8Array } from '@blockchain-lab-um/masca-connector';
 import { VerifiableCredential } from '@veramo/core';
 import { useTranslations } from 'next-intl';
 import useSWR from 'swr';

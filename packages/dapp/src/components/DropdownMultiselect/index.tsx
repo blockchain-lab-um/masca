@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { AvailableVCStores } from '@blockchain-lab-um/masca-types';
+import { AvailableVCStores } from '@blockchain-lab-um/masca-connector';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
