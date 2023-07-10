@@ -56,7 +56,7 @@ const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
                 <div className="relative">
                   <div
                     className={clsx(
-                      'transition-width dark:bg-orange-accent-dark h-10 rounded-full bg-pink-100 ease-in-out',
+                      'transition-width dark:bg-orange-accent-dark h-10 rounded-full bg-pink-200 ease-in-out',
                       selected ? 'w-20 translate-x-0' : 'w-16 translate-x-20'
                     )}
                   ></div>
@@ -64,8 +64,8 @@ const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
                     className={clsx(
                       'animated-transition absolute left-0 top-2 z-20 ml-3.5 rounded-full',
                       selected
-                        ? 'dark:text-navy-blue-900 text-pink-600'
-                        : 'dark:text-navy-blue-300 dark:hover:text-navy-blue-200 text-gray-700 hover:text-gray-500'
+                        ? 'dark:text-navy-blue-900 text-gray-700'
+                        : 'dark:text-navy-blue-300 dark:hover:text-navy-blue-200 text-gray-600 hover:text-gray-500'
                     )}
                   >
                     Normal
@@ -78,7 +78,7 @@ const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
                 clsx(
                   'animated-transition z-20 mr-3 rounded-full outline-none focus-visible:outline-none',
                   selected
-                    ? 'dark:text-navy-blue-900 text-pink-600'
+                    ? 'dark:text-navy-blue-900 text-gray-800'
                     : 'dark:text-navy-blue-300 dark:hover:text-navy-blue-200 text-gray-700 hover:text-gray-500'
                 )
               }
@@ -117,11 +117,11 @@ const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
           <div className="mb-2 flex w-full items-center justify-between">
             <button
               onClick={() => router.back()}
-              className="animated-transition dark:text-navy-blue-50 dark:hover:bg-navy-blue-700 rounded-full p-1 text-gray-900 hover:bg-pink-100 hover:text-pink-700"
+              className="animated-transition dark:text-navy-blue-50 dark:hover:bg-navy-blue-700 rounded-full p-1 text-gray-800 hover:bg-pink-100 hover:text-pink-700"
             >
               <ArrowLeftIcon className="h-6 w-6" />
             </button>
-            <div className="text-h4 dark:text-navy-blue-50 font-semibold text-gray-900">
+            <div className="text-h4 dark:text-navy-blue-50 font-semibold text-gray-800">
               {t('title')}
             </div>
           </div>

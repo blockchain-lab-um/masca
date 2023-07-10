@@ -18,7 +18,7 @@ const DIDDisplay = ({ did }: { did: string }) => {
   const t = useTranslations('DIDDisplay');
   return (
     <div className="flex">
-      <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-900">
+      <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-800">
         DID:
       </h2>
       <div className="flex">
@@ -27,13 +27,13 @@ const DIDDisplay = ({ did }: { did: string }) => {
             href={`https://dev.uniresolver.io/#${did}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-md animated-transition dark:text-navy-blue-300 cursor-pointer font-normal text-gray-800 underline underline-offset-2"
+            className="text-md animated-transition dark:text-navy-blue-300 cursor-pointer font-normal text-gray-700 underline underline-offset-2"
           >
             {did.length > 20 ? `${did.slice(0, 16)}...${did.slice(-4)}` : did}
           </a>
         </Tooltip>
         <button className="pl-1" onClick={() => copyToClipboard(did)}>
-          <DocumentDuplicateIcon className="animated-transition dark:text-navy-blue-300 ml-1 h-5 w-5 text-gray-800 hover:text-gray-700" />
+          <DocumentDuplicateIcon className="animated-transition dark:text-navy-blue-300 ml-1 h-5 w-5 text-gray-700 hover:text-gray-700" />
         </button>
       </div>
     </div>
@@ -42,10 +42,10 @@ const DIDDisplay = ({ did }: { did: string }) => {
 
 const DisplayDate = ({ text, date }: { text: string; date: string }) => (
   <div className="flex items-center">
-    <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-900">
+    <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-800">
       {text}:
     </h2>
-    <h3 className="text-md dark:text-navy-blue-200 text-gray-800">
+    <h3 className="text-md dark:text-navy-blue-200 text-gray-700">
       {new Date(Date.parse(date)).toDateString()}
     </h3>
   </div>
@@ -91,10 +91,10 @@ const FormatedPanel = ({ credential }: FormatedPanelProps) => {
                   <DIDDisplay did={value} key={key} />
                 ) : (
                   <div key={key} className="flex w-full items-center">
-                    <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-900">
+                    <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-800">
                       {key.toUpperCase()}:
                     </h2>
-                    <p className="text-md dark:text-navy-blue-300 truncate font-normal text-gray-800">
+                    <p className="text-md dark:text-navy-blue-300 truncate font-normal text-gray-700">
                       {value}
                     </p>
                   </div>

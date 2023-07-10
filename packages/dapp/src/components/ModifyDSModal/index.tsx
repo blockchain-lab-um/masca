@@ -125,12 +125,12 @@ function ModifyDSModal({ isOpen, setOpen, vc }: ModifyDSModalProps) {
     <Modal isOpen={isOpen} setOpen={setOpen}>
       <Dialog.Title
         as="h3"
-        className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-900"
+        className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-800"
       >
         {t('title')}
       </Dialog.Title>
       <div className="mt-2">
-        <p className="text-md dark:text-navy-blue-200 text-gray-500">
+        <p className="text-md dark:text-navy-blue-200 text-gray-700">
           {t('desc')}
         </p>
       </div>

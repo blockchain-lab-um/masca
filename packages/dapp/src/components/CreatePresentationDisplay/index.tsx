@@ -105,11 +105,11 @@ const CreatePresentationDisplay = () => {
     <>
       <div className="mt-5 flex w-full justify-between px-6 pt-2">
         <Link href="/app">
-          <button className="animated-transition dark:text-navy-blue-50 dark:hover:bg-navy-blue-700 rounded-full text-gray-900 hover:bg-pink-100 hover:text-pink-700">
+          <button className="animated-transition dark:text-navy-blue-50 dark:hover:bg-navy-blue-700 rounded-full text-gray-800 hover:bg-pink-100 hover:text-pink-700">
             <ArrowLeftIcon className="h-6 w-6" />
           </button>
         </Link>
-        <div className="text-h3 dark:text-navy-blue-50 font-semibold text-gray-900">
+        <div className="text-h3 dark:text-navy-blue-50 font-semibold text-gray-800">
           {t('title')}
         </div>
       </div>
@@ -138,11 +138,11 @@ const CreatePresentationDisplay = () => {
           </tbody>
         </table>
         <div className="mt-8 px-4">
-          <div className="dark:text-navy-blue-100 text-h5 font-ubuntu mt-8 font-medium text-gray-900">
+          <div className="dark:text-navy-blue-100 text-h5 font-ubuntu mt-8 font-medium text-gray-800">
             {t('options.title')}
           </div>
           <div className="mt-2 flex items-center justify-between">
-            <div className="dark:text-navy-blue-300 text-gray-600 ">
+            <div className="dark:text-navy-blue-300 text-gray-700 ">
               {t('options.format')}
             </div>
             <DropdownMenu
@@ -158,7 +158,7 @@ const CreatePresentationDisplay = () => {
         </div>
         <div>
           <div className="mt-16 flex items-baseline justify-between border-b border-gray-300 px-4">
-            <div className="text-h5 dark:text-navy-blue-100 font-ubuntu mt-8 flex font-medium text-gray-900">
+            <div className="text-h5 dark:text-navy-blue-100 font-ubuntu mt-8 flex font-medium text-gray-800">
               {t('advanced.title')} <InfoIcon>{t('advanced.tooltip')}</InfoIcon>
             </div>
             <div className="">

@@ -104,12 +104,12 @@ function DeleteModal({ isOpen, setOpen, vc, store }: DeleteModalProps) {
     <Modal isOpen={isOpen} setOpen={setOpen}>
       <Dialog.Title
         as="h3"
-        className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-900 "
+        className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-800 "
       >
         {t('title')}
       </Dialog.Title>
-      <div className="mt-4">
-        <p className="text-md dark:text-navy-blue-200 text-gray-500 ">
+      <div className="mt-8">
+        <p className="text-md dark:text-navy-blue-200 max-w-sm text-gray-700">
           {t('desc')}
         </p>
 
@@ -124,7 +124,7 @@ function DeleteModal({ isOpen, setOpen, vc, store }: DeleteModalProps) {
       </div>
       <div className="flex items-center justify-end">
         <div className="mt-10">
-          <Button onClick={() => setOpen(false)} variant="cancel-red" size="xs">
+          <Button onClick={() => setOpen(false)} variant="cancel" size="xs">
             {t('cancel')}
           </Button>
         </div>

@@ -23,7 +23,7 @@ body {
 
 @layer components {
   .main-bg {
-    @apply dark:bg-navy-blue-900 dark:text-navy-blue-200 bg-orange-50 text-gray-700;
+    @apply dark:bg-navy-blue-900 dark:text-navy-blue-200 bg-orange-100 text-gray-700;
   }
 
   .animated-transition {
