@@ -239,7 +239,7 @@ const response = await ethereum.request({
     request: {
       method: 'createVP',
       params: {
-        vcs: [{ id: '123', metadata: { store: 'ceramic' } }, { id: '456' }],
+        vcs: [verifiableCredentialObject],
         proofFormat: 'jwt',
         options: {
           challenge: '123456789',
@@ -571,3 +571,75 @@ export type MascaConfig = {
   };
 };
 ```
+
+### setCurrentAccount
+
+#### Description
+
+Used to switch accounts in Masca. This is required for Masca to work properly. Without approprietly calling this method, switching Accounts in MetaMask will NOT result in switching accounts in Masca!
+
+```typescript
+const response = await ethereum.request({
+  method: 'wallet_invokeSnap',
+  params: {
+    snapId: snapId,
+    request: {
+      method: 'setCurrentAccount',
+      params: {
+        currentAccount: '0x123...321',
+      },
+    },
+  },
+});
+```
+
+#### Returns
+
+Boolean
+
+### setCeramicSession
+
+#### Description
+
+Used to set ceramic session. As an Ethereum Account is used to handle storing and retrieving items from Ceramic, generating a session has to be done manually, by a dApp. This is already handled in our Connector Library. You can follow our [implementation in Connector](https://github.com/blockchain-lab-um/masca/blob/744b2e651dda15e7b44af894294692925c9a4964/packages/connector/src/utils.ts#L14) to implement this yourself.
+
+```typescript
+const response = await ethereum.request({
+  method: 'wallet_invokeSnap',
+  params: {
+    snapId: snapId,
+    request: {
+      method: 'setCeramicSession',
+      params: {
+        serializedSession: '...',
+      },
+    },
+  },
+});
+```
+
+#### Returns
+
+Boolean
+
+### validateStoredCeramicSession
+
+#### Description
+
+Used to verify if there is an existing ceramic session set in Masca and if it's still valid. If this method returns `false`, session has to be set in order to use Ceramic!
+
+```typescript
+const response = await ethereum.request({
+  method: 'wallet_invokeSnap',
+  params: {
+    snapId: snapId,
+    request: {
+      method: 'validateStoredCeramicSession',
+    },
+  },
+});
+```
+
+#### Returns
+
+Boolean

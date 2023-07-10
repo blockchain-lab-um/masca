@@ -211,7 +211,7 @@ describe('createVerifiablePresentation', () => {
         throw new Error('Should have failed');
       }
 
-      expect(vp.error).toBe('Error: Invalid CreateVP request');
+      expect(vp.error).toBe('Error: invalid_argument: vcs');
       expect.assertions(1);
     });
 
@@ -233,7 +233,7 @@ describe('createVerifiablePresentation', () => {
       }
 
       expect(vp.error).toBe(
-        `TypeError: Cannot read properties of undefined (reading 'jwt')`
+        `Error: invalid_argument: $input.vcs[0].issuer, $input.vcs[0].credentialSubject, $input.vcs[0]["@context"], $input.vcs[0].issuanceDate, $input.vcs[0].proof`
       );
       expect.assertions(1);
     });

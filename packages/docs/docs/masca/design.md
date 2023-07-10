@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Design
 
-**Masca** is a MetaMask Snap that adds support for **SSI**: it can manage **DIDs**, store **VCs**, and create the **VPs**. It is designed to be blockchain-agnostic. Masca works on existing MetaMask accounts (which are already DIDs of some methods) and their private keys to create new DIDs, without the need to create new private keys and worry about their security!
+**Masca** is a MetaMask Snap that adds support for **SSI**: it can manage **DIDs**, store and create **VCs**, create **VPs** and other useful SSI features such as validating VCs and VPs and resolving DIDs. It is designed to be blockchain-agnostic. Masca works on existing MetaMask accounts (which are already DIDs of some methods) and their private keys to create new DIDs, without the need to create new private keys and worry about their security!
 
 ## DID Methods
 
@@ -16,18 +16,35 @@ did: ethr: 0x9907a0cf64ec9fbf6ed8fd4971090de88222a9ac;
 
 Ethereum accounts in MetaMask are already essentially DIDs. Only the needed functionality to use them and leverage their potential correctly was missing.
 
-Now you might ask yourselves why we have decided to build a proof of concept on Ethereum in the first place. There were a couple of reasons:
+#### But a single DID method cannot fit all the different use cases and projects. Thus we are developing Masca in a way to support multiple DID methods and Proof Formats to give **developers** and/or **users** freedom to use whatever their usecase requires!
 
-- Besides Bitcoin, it's the most decentralized blockchain.
-- It's the most popular and most commonly used blockchain for practical applications.
-- Huge developer community with many already established frameworks, including various SSI & DID frameworks and battle-tested `did:ethr` method.
-- DID Documents don't have to be changed often (or even never in some cases); hence gas fees do not present such a huge problem.
+Masca supports already supports some other popular methods and even more are planned to get support. Supported DID methods can be divided into two categories; ones that use MetaMask address as an identifier and ones that generate identifier that has nothing to do with existing MetaMask account. The former will simply use MetaMask account address in a DID (and use `sign_typedData` to create VCs and VPs), while the latter will generate a completely new Identifier from private keys (Private keys are derived from a different coin_type and are not the same as users Accounts private keys).
 
-But a single DID method cannot fit all the different use cases and projects. Thus we are developing Masca in a way that the user can change the DID method that she is currently using (similar to selecting a network in MetaMask), or dApp/app can enforce the usage of a specific DID method if its functionalities depend on it.
+Each DID method from the latter category uses a different index for deriving its private key. In other words, Every DID method uses a different private key, making them even more secure and isolated from each other.
+
+### Accounts
+
+You might be asking yourselves how exactly does this work with existing MetaMask accounts. The answer is simple, it works just like you'd expect it to. Every single account in MetaMasks also represents an account in Masca and you can generate as many new accounts as you wish.
+
+This essentialy means you can generate as many DIDs as you wish by creating new Accounts in MetaMask and switching to them. This in combination with each Account supporting multiple DID methods (previous section) gives users ultimate freedom with DIDs.
+
+To paint a better picture, a user can create as many Accounts as they need and each account can use many DID methods. They can create a primary account where they want to create VPs with their Ethereum address, using `did:ethr` method. They can also create a secondary Account they use for gaming where they can use `did:key` for platform A and `did:jwk` for platform B. Should they need to use `did:ethr` but does not want to use address where all of their assets are they can simply create a new Account in MetaMask and use it. Do they want to use newest account, but with a different method? They can!
+
+Every single DID from this example uses a different private key and in case one gets compromised, the rest stays safe!
+
+### Private Keys
+
+As previously mentioned, only some DIDs actually need to use private keys.
+
+Private keys are derived from a seed phrase in MetaMask (Imported accounts are not supported for the moment) using a custom [coin_type `1236`](https://github.com/satoshilabs/slips/blob/master/slip-0044.md#registered-coin-types). MetaMask Snaps do NOT have access to private keys derived from coin_type `60`, which means Masca or any other snap have NO access to Ethereums (or any other supported in MetaMask) private keys. This also means users do not need to backup their (DIDs) private keys, only their seed phrase.
+
+Methods that do not require private keys (did:ethr & did:pkh) use `sign_typedData` to create VCs and VPs. This however is not supported in Snaps, meaning this has to be done in a dApp. We support this in our Connector library, but in case a dApp does not want to use Connector library, they have to handle VC/VP creation themselves.
+
+More on how private keys are handled in Masca later.
 
 ### Switching between different DID methods
 
-In Masca, users can pick a different DID method for every MetaMask account. For example, if they want to use `did:ethr` on Account 1 and `did:key` on Account 2, they can!
+In Masca, users can pick a different DID method for every MetaMask account. For example, if they want to use `did:ethr` on Account 1 and `did:key` on Account 2, they can! This of course does not limit one account to one did method. Like mentioned previously each account can use every supported method and switch between them on the go!
 
 For the complete list of supported DID methods, check [this page](./supported).
 
@@ -41,29 +58,21 @@ Masca supports storing VCs in its local storage or on different supported networ
 
 For more information on the storage, check [this page](./storage).
 
+Masca also supports creating VCs that can be issued by any DID in the wallet! Aside from issuing and storing VCs Masca also allows user to verify validity of a VC.
+
 ### Verifiable Presentations (VPs)
 
 On the other hand, VPs are signed by holders using their wallets (which is Masca). Usually, they are signed on the go when requested by different applications. Masca supports creating VP from single or multiple VCs.
 
-### Signing Credentials
+Verifying validity of VPs is also supported
 
-[**JWT**](https://www.rfc-editor.org/rfc/rfc7519) is one of the most popular proof formats for VCs. To support this proof type, we changed how Masca retrieves private keys from MetaMask. From now on, we are using the Snap RPC method [`snap_getBip44Entropy`](https://docs.metamask.io/guide/snaps-rpc-api.html#restricted-methods), which is also the preferred way for all Snaps (see discussion: https://github.com/MetaMask/SIPs/discussions/64#discussioncomment-3963830).
+### Signing Credentials (Handling private keys)
 
-During the runtime of each RPC method, private keys are retrieved (and derived) from MetaMask using the Snap RPC method `snap_getBip44Entropy`. After the RPC method is finished, private keys are cleared from the memory and are never stored anywhere. For now, we are using only keys derived for the Ethereum network, but in the future, this same Snap method will help us with keys for other blockchain networks.
-
-Handling private keys in this way brings several other benefits:
-
-- Way fewer popups when performing different operations, which results in a much better UX,
-- No more red "danger" pop when singing VPs and using deprecated MetaMask signing RPC method,
-- Ability to create different proof formats - JWT, Linked Data Proofs, and EIP712,
-- Ability to implement more functionalities of DID methods on other blockchain networks (such as Cosmos), and
-- Derive private keys for other networks/coins by using different coin type values ([SLIP-0044](https://github.com/satoshilabs/slips/blob/master/slip-0044.md)).
-
-Our code is completely open-sourced and we encourage users to take a look at our code!
+During the runtime of each RPC method, private keys are retrieved (and derived) from MetaMask using the Snap RPC method `snap_getBip44Entropy`. After the RPC method is finished, private keys are cleared from the memory and are never stored anywhere.
 
 ## Cryptography
 
-Cryptography is what makes everything secure and possible. VCs and VPs are both digitally signed and verifiable by everyone that gets in contact with them. Because of developing on web3/Ethereum snap, we are reusing your existing cryptography keys, so the users do not have to worry about backing up the additional keys.
+Cryptography is what makes everything secure and possible. VCs and VPs are both digitally signed and verifiable by everyone that gets in contact with them.
 
 ### Cryptographic keys
 

@@ -88,7 +88,9 @@ export default function MethodDropdownMenu() {
                   : 'dark:hover:bg-navy-blue-800 hover:bg-orange-100/50'
               )}
             >
-              {currMethod}
+              {currMethod === 'did:key:jwk_jcs-pub'
+                ? 'did:key (EBSI)'
+                : currMethod}
               <ChevronDownIcon
                 className={clsx(
                   'dark:text-navy-blue-400 animated-transition -mr-1 ml-2 h-5 w-5 text-gray-600',

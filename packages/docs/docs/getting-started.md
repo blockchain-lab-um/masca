@@ -4,7 +4,11 @@ sidebar_position: 2
 
 # Getting Started
 
-Masca is a **MetaMask Snap** (extension) that adds support for **SSI**: it can manage **DIDs**, store **VCs**, and create the **VPs**. It is designed to be blockchain-agnostic.
+Masca is a **MetaMask Snap** (extension) that adds support for **Decentralized Identity**: it can manage **DIDs**, create and/or store **VCs**, and create the **VPs**. It can also be used to **validate** VCs and VPs and **resolve DIDs**. It is designed to be blockchain-agnostic.
+
+#### Being an extension of MetaMask, features of Masca can be easily implemented in any dApp that already supports MetaMask and does not require users to install or use any additional Software!
+
+If you're unsure what Self-Sovereign Identity is, you can find more information [here](category/self-sovereign-identity-ssi).
 
 ---
 
@@ -30,13 +34,15 @@ We also implemented a simple [course platform](https://blockchain-lab-um.github.
 
 ### Supporting Masca in your dApp
 
-dApp can access the functionalities of Masca using the RPC methods the same way as standard MetaMask/Ethereum ones. We also developed an easy-to-use library called **[Masca Connector](libraries/masca-connector)** to ease the integration process. Library provides all the functionalities to install Masca in the dApp and API calls for interacting with Snap.
+dApp can access the functionalities of Masca using the RPC methods the same way as standard MetaMask/Ethereum ones. We also developed an easy-to-use library called **[Masca Connector](libraries/masca-connector)** to ease the integration process. Library provides all the functionalities to install Masca in a dApp and API calls for interacting with it.
 
 Installing Masca Connector to your project:
 
-`yarn add @blockchain-lab-um/masca-connector`
+```shell
+pnpm add @blockchain-lab-um/masca-connector @blockchain-lab-um/utils
+```
 
-Masca is installed and enabled using the function `enableMasca`. After the Snap is installed, this function returns `Masca` object that you can use to retrieve the API interface.
+Masca is installed and initialized using the function `enableMasca`. After Masca is installed, this function returns `Masca` object that you can use to retrieve the API interface.
 
 A minimal example of initializing Masca and invoking one of the API methods:
 
@@ -46,9 +52,11 @@ import { isError } from '@blockchain-lab-um/utils';
 // install Masca and retrieve API interface
 
 //Connect wallet & get Address
-const address = ...
+const address = await window.ethereum.request({
+      method: 'eth_requestAccounts',
+});
 
-const masca = await enableMasca(address);
+const masca = await enableMasca(address[0]);
 
 if(isError(masca)){
     console.error(masca.error);
@@ -72,4 +80,4 @@ More detailed documentation of **Masca Connector** can be found **[here](librari
 
 ### Working with decentralized identity (DIDs, VCs, and VPs)
 
-**Masca** serves as a snap for a user in the SSI trust model. There are also issuers who issue VCs and verifiers who verify VPs. It is up to you as a dApp developer to define how/if you will issue VCs or how you will verify VPs and check their validity (scheme, subject, controller, content, etc.). We are developing issuer and verifier services that will be easy to spin up and usable out of the box. In the meantime, we recommend using **[Veramo Framework](https://veramo.io/)**. You can also look at our code for the **[issuer](https://github.com/blockchain-lab-um/course-backend)** of the Demo Platform.
+**Masca** serves as a snap for a user in the [SSI trust model](ssi/trust-model.md). There are also issuers who issue VCs and verifiers who verify VPs. It is up to you as a dApp developer to define how/if you will issue VCs or how you will verify VPs and check their validity (scheme, subject, controller, content, etc.). We are developing issuer and verifier services that will be easy to spin up and usable out of the box. In the meantime, we recommend using **[Veramo Framework](https://veramo.io/)**. You can also look at our code for the **[issuer](https://github.com/blockchain-lab-um/course-backend)** of the Demo Platform.

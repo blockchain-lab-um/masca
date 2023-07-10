@@ -10,7 +10,7 @@ export interface IDeleteArgs {
 export interface IFilterArgs {
   filter?: {
     type: string;
-    filter: unknown;
+    filter: string;
   };
 }
 

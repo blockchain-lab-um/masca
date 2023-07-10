@@ -38,7 +38,7 @@ describe('setVCStore', () => {
       throw new Error('Should return error');
     }
 
-    expect(res.error).toBe('Error: Store ceramicc is not supported!');
+    expect(res.error).toBe('Error: invalid_argument: $input.store');
 
     res = (await onRpcRequest({
       origin: 'localhost',
@@ -54,7 +54,7 @@ describe('setVCStore', () => {
       throw new Error('Should return error');
     }
 
-    expect(res.error).toBe('Error: Invalid setVCStore request.');
+    expect(res.error).toBe('Error: invalid_argument: $input.value');
 
     expect.assertions(2);
   });

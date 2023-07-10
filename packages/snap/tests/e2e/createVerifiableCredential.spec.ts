@@ -195,7 +195,9 @@ describe('createVerifiableCredential', () => {
       if (!isError(vc)) {
         throw new Error('Should have failed');
       }
-      expect(vc.error).toBe('Error: Invalid CreateVC request');
+      expect(vc.error).toBe(
+        'Error: invalid_argument: $input.minimalUnsignedCredential'
+      );
       expect.assertions(1);
     });
 
@@ -216,7 +218,7 @@ describe('createVerifiableCredential', () => {
         throw new Error('Should have failed');
       }
       expect(vc.error).toBe(
-        'TypeError: schema_error: credentialSubject must not be empty'
+        'Error: invalid_argument: $input.minimalUnsignedCredential.credentialSubject, $input.minimalUnsignedCredential["@context"]'
       );
       expect.assertions(1);
     });

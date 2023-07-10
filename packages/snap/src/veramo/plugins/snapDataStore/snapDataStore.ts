@@ -153,18 +153,16 @@ export class SnapVCStore extends AbstractDataStore {
 
     if (filter && filter.type === 'id') {
       try {
-        if (
-          state.accountState[state.currentAccount].vcs[filter.filter as string]
-        ) {
+        if (state.accountState[state.currentAccount].vcs[filter.filter]) {
           let vc = state.accountState[state.currentAccount].vcs[
-            filter.filter as string
+            filter.filter
           ] as unknown;
           if (typeof vc === 'string') {
             vc = decodeJWT(vc);
           }
           const obj = [
             {
-              metadata: { id: filter.filter as string },
+              metadata: { id: filter.filter },
               data: vc,
             },
           ];
@@ -202,7 +200,7 @@ export class SnapVCStore extends AbstractDataStore {
           data: vc,
         };
       });
-      const filteredObjects = jsonpath.query(objects, filter.filter as string);
+      const filteredObjects = jsonpath.query(objects, filter.filter);
       return filteredObjects as Array<IQueryResult>;
     }
     return [];

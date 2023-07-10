@@ -34,11 +34,11 @@ export class MemoryDataStore extends AbstractDataStore {
     const { filter } = args;
     if (filter && filter.type === 'id') {
       try {
-        if (this.data[filter.filter as string]) {
+        if (this.data[filter.filter]) {
           const obj = [
             {
-              metadata: { id: filter.filter as string },
-              data: this.data[filter.filter as string],
+              metadata: { id: filter.filter },
+              data: this.data[filter.filter],
             },
           ];
           return obj;
@@ -59,7 +59,7 @@ export class MemoryDataStore extends AbstractDataStore {
         metadata: { id: k },
         data: this.data[k],
       }));
-      const filteredObjects = jsonpath.query(objects, filter.filter as string);
+      const filteredObjects = jsonpath.query(objects, filter.filter);
       return filteredObjects as Array<IQueryResult>;
     }
     return [];

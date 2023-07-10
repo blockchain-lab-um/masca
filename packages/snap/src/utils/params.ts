@@ -25,9 +25,6 @@ function isStringArray(input: unknown): input is string[] {
     input.every((item) => typeof item === 'string')
   );
 }
-function isArray(input: unknown): input is unknown[] {
-  return Array.isArray(input);
-}
 
 export function isValidSaveVCRequest(
   params: unknown,
@@ -84,7 +81,7 @@ export function isValidCreateVPRequest(
     typeof param === 'object' &&
     'vcs' in param &&
     param.vcs !== null &&
-    isArray(param.vcs) &&
+    Array.isArray(param.vcs) &&
     param.vcs.length > 0
   ) {
     // Check if proofFormat is valid

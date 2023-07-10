@@ -9,15 +9,14 @@
     "build:docker": "pnpm build",
     "dev": "cross-env USE_LOCAL='true' next dev",
     "docker:build": "docker build . -t blockchain-lab-um/dapp:latest",
-    "postinstall": "pnpm prisma generate --schema=./prisma/schema.prisma && pnpm typia:generate",
+    "postinstall": "pnpm prisma generate --schema=./prisma/schema.prisma",
     "lint": "pnpm lint:next && pnpm lint:tsc && pnpm lint:prettier && pnpm lint:stylelint",
     "lint:fix": "next lint . --fix && prettier . --write",
     "lint:next": "next lint",
     "lint:prettier": "prettier . --check",
     "lint:stylelint": "stylelint \"src/**/*.{css,scss}\"",
     "lint:tsc": "tsc -p tsconfig.json --noEmit --incremental false",
-    "start": "next start",
-    "typia:generate": "pnpm typia generate --input src/utils/typia-templates --output src/utils/typia-generated --project tsconfig.json"
+    "start": "next start"
   },
   "dependencies": {
     "@blockchain-lab-um/masca-connector": "*",
@@ -51,7 +50,6 @@
     "react-dom": "18.2.0",
     "swr": "^2.2.0",
     "tailwind-scrollbar": "^3.0.4",
-    "typia": "^4.1.2",
     "zustand": "^4.3.8"
   },
   "devDependencies": {

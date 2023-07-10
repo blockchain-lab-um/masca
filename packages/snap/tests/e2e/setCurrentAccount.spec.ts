@@ -58,7 +58,7 @@ describe('setCurrentAccount', () => {
       throw new Error('Should return error');
     }
 
-    expect(res.error).toBe('Error: Invalid SetCurrentAccount request');
+    expect(res.error).toBe('Error: invalid_argument: $input.currentAccount');
     expect.assertions(1);
   });
 

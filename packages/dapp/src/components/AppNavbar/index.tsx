@@ -57,7 +57,7 @@ export default function AppNavbar() {
               className={clsx(
                 'nav-btn',
                 pathname === href
-                  ? 'dark:text-orange-accent-dark text-pink-300'
+                  ? 'dark:text-orange-accent-dark text-pink-500'
                   : 'dark:text-navy-blue-400 text-gray-600'
               )}
               key={name}
@@ -71,7 +71,7 @@ export default function AppNavbar() {
               className={clsx(
                 'nav-btn',
                 pathname === href
-                  ? 'dark:text-orange-accent-dark text-pink-300'
+                  ? 'dark:text-orange-accent-dark text-pink-500'
                   : 'dark:text-navy-blue-400 text-gray-600',
                 'hidden xl:block'
               )}

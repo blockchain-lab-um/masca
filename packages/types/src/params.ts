@@ -35,7 +35,7 @@ export type DeleteVCsOptions = {
 // TODO (martin): This type is also in datamanager
 export type Filter = {
   type: string;
-  filter: unknown;
+  filter: string;
 };
 
 /**
@@ -54,6 +54,9 @@ export type SetCurrentAccountRequestParams = {
 };
 
 export type CreateVPRequestParams = {
+  /*
+   * @minItems 1
+   */
   vcs: W3CVerifiableCredential[];
   proofFormat?: SupportedProofFormats;
   proofOptions?: ProofOptions;
