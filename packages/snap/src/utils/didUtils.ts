@@ -98,7 +98,7 @@ export async function getCurrentDidIdentifier(params: {
         const selectedMethod =
           method === 'did:iden3' ? DidMethod.Iden3 : DidMethod.PolygonId;
         const selectedBlockchain = Blockchain.Polygon;
-        const selectedNetworkId = NetworkId.Mumbai;
+        const selectedNetworkId = NetworkId.Main;
 
         await ExtensionService.init(
           account,
