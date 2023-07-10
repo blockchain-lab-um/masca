@@ -2,6 +2,8 @@ import {
   CreateVCRequestParams,
   CreateVPRequestParams,
   DeleteVCsRequestParams,
+  HandleAuthorizationRequestParams,
+  HandleCredentialOfferRequestParams,
   isValidCreateVCRequest,
   isValidCreateVPRequest,
   isValidDeleteVCsRequest,
@@ -243,12 +245,32 @@ class SnapService {
     return res;
   }
 
-  static async handleCredentialOffer(args: any): Promise<any> {
-    return VeramoService.handleOIDCCredentialOffer(args);
+  static async handleCredentialOffer(
+    args: HandleCredentialOfferRequestParams
+  ): Promise<any> {
+    const { credentialOffer } = args;
+
+    if (credentialOffer.startsWith('openid-credential-offer://')) {
+      return VeramoService.handleOIDCCredentialOffer({
+        credentialOfferURI: credentialOffer,
+      });
+    }
+
+    throw new Error('Unsupported credential offer');
   }
 
-  static async handleAuthorizationRequest(args: any): Promise<any> {
-    return VeramoService.handleOIDCAuthorizationRequest(args);
+  static async handleAuthorizationRequest(
+    args: HandleAuthorizationRequestParams
+  ): Promise<any> {
+    const { authorizationRequest } = args;
+
+    if (authorizationRequest.startsWith('openid://')) {
+      return VeramoService.handleOIDCAuthorizationRequest({
+        authorizationRequestURI: authorizationRequest,
+      });
+    }
+
+    throw new Error('Unsupported authorization request');
   }
 
   static async handleRpcRequest(
@@ -304,7 +326,7 @@ class SnapService {
       case 'handleCredentialOffer':
         res = await this.handleCredentialOffer(params);
         return ResultObject.success(res);
-      case 'handleOIDCAuthorizationRequest':
+      case 'handleAuthorizationRequest':
         res = await this.handleAuthorizationRequest(params);
         return ResultObject.success(res);
 

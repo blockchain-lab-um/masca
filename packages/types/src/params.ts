@@ -132,17 +132,17 @@ export type VerifyDataRequestParams =
     };
 
 /**
- * HandleOIDCCredentialOfferRequestParams
+ * HandleCredentialOfferRequestParams
  */
-export type HandleOIDCCredentialOfferRequestParams = {
-  credentialOfferURI: string;
+export type HandleCredentialOfferRequestParams = {
+  credentialOffer: string;
 };
 
 /**
- * HandleOIDCAuthorizationRequestParams
+ * HandleAuthorizationRequestParams
  */
-export type HandleOIDCAuthorizationRequestParams = {
-  authorizationRequestURI: string;
+export type HandleAuthorizationRequestParams = {
+  authorizationRequest: string;
 };
 
 export type SetCeramicSessionRequestParams = {

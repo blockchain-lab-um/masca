@@ -91,8 +91,8 @@ const AuthorizationRequestFlow = () => {
     }
 
     const handleAuthorizationRequestResponse =
-      await api.handleOIDCAuthorizationRequest({
-        authorizationRequestURI,
+      await api.handleAuthorizationRequest({
+        authorizationRequest: authorizationRequestURI,
       });
 
     if (isError(handleAuthorizationRequestResponse)) {

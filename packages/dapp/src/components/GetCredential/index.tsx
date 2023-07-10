@@ -105,8 +105,8 @@ const GetCredential = () => {
       });
     }, 200);
 
-    const handleCredentialOfferResponse = await api.handleOIDCCredentialOffer({
-      credentialOfferURI,
+    const handleCredentialOfferResponse = await api.handleCredentialOffer({
+      credentialOffer: credentialOfferURI,
     });
 
     useToastStore.setState({

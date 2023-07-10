@@ -12,8 +12,8 @@ import type {
   CreateVCRequestParams,
   CreateVPRequestParams,
   DeleteVCsOptions,
-  HandleOIDCAuthorizationRequestParams,
-  HandleOIDCCredentialOfferRequestParams,
+  HandleAuthorizationRequestParams,
+  HandleCredentialOfferRequestParams,
   QueryVCsRequestParams,
   SaveVCOptions,
   SetCurrentAccountRequestParams,
@@ -57,11 +57,11 @@ export interface MascaApi {
   setCurrentAccount(
     params: SetCurrentAccountRequestParams
   ): Promise<Result<boolean>>;
-  handleOIDCCredentialOffer(
-    params: HandleOIDCCredentialOfferRequestParams
+  handleCredentialOffer(
+    params: HandleCredentialOfferRequestParams
   ): Promise<Result<VerifiableCredential>>;
-  handleOIDCAuthorizationRequest(
-    params: HandleOIDCAuthorizationRequestParams
+  handleAuthorizationRequest(
+    params: HandleAuthorizationRequestParams
   ): Promise<Result<VerifiableCredential[]>>;
   setCeramicSession(serializedSession: string): Promise<Result<boolean>>;
   validateStoredCeramicSession(): Promise<Result<boolean>>;
