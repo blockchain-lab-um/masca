@@ -1,3 +1,5 @@
+import { IdentityMerkleTreeMetaInformation } from '@0xpolygonid/js-sdk';
+import { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
 import type { W3CVerifiableCredential } from '@veramo/core';
 
 import type { AvailableMethods, AvailableVCStores } from './constants.js';
@@ -39,10 +41,28 @@ export type MascaState = {
  */
 export type MascaAccountState = {
   // FIXME: Split into general, veramo, polygon
-  /**
-   * Store for {@link SnapVCStore}
-   */
+  polygonState: PolygonState;
   vcs: Record<string, W3CVerifiableCredential>;
   accountConfig: MascaAccountConfig;
   ceramicSession?: string;
 };
+
+export type PolygonBaseState = {
+  credentials: Record<string, string>;
+  identities: Record<string, string>;
+  profiles: Record<string, string>;
+  // TODO: Maybe we can replace array with Record here
+  merkleTreeMeta: IdentityMerkleTreeMetaInformation[];
+  merkleTree: Record<string, string>;
+};
+
+export type PolygonState = Record<
+  DidMethod.Iden3 | DidMethod.PolygonId,
+  Record<
+    Blockchain.Ethereum | Blockchain.Polygon,
+    Record<
+      NetworkId.Main | NetworkId.Goerli | NetworkId.Mumbai,
+      PolygonBaseState
+    >
+  >
+>;

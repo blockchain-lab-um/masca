@@ -1,7 +1,15 @@
 const esbuild = require('esbuild');
 const plugin = require('node-stdlib-browser/helpers/esbuild/plugin');
-const stdLibBrowser = require('node-stdlib-browser');
+let stdLibBrowser = require('node-stdlib-browser');
+const path = require('path');
 
+stdLibBrowser = {
+  ...stdLibBrowser,
+  '@0xpolygonid/js-sdk': path.join(
+    __dirname,
+    'node_modules/@0xpolygonid/js-sdk/dist/esm/index.js'
+  ),
+};
 console.log('Building snap with esbuild...');
 
 esbuild.build({

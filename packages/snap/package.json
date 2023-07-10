@@ -53,6 +53,7 @@
     "test:ci": "pnpm run test --silent --coverage"
   },
   "dependencies": {
+    "@0xpolygonid/js-sdk": "https://github.com/0xPolygonID/js-sdk#v2",
     "@babel/runtime": "7.22.3",
     "@blockchain-lab-um/did-provider-ebsi": "*",
     "@blockchain-lab-um/did-provider-key": "*",
@@ -62,6 +63,10 @@
     "@blockchain-lab-um/utils": "*",
     "@blockchain-lab-um/veramo-datamanager": "*",
     "@ceramicnetwork/http-client": "2.22.0",
+     "@iden3/js-iden3-core": "https://github.com/iden3/js-iden3-core#v2",
+    "@iden3/js-jsonld-merklization": "1.0.0-beta.15",
+    "@iden3/js-jwz": "^1.0.0-beta.2",
+    "@iden3/js-merkletree": "^1.0.0-beta.5",
     "@didtools/pkh-ethereum": "0.0.2",
     "@ethersproject/providers": "^5.7.2",
     "@glazed/did-datastore": "0.3.2",
