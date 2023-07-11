@@ -20,11 +20,12 @@ type ButtonProps = {
   children: React.ReactNode;
   disabled?: boolean;
   loading?: boolean;
+  showTextOnLoading?: boolean;
 };
 
 const variants: Record<string, string> = {
   primary:
-    'bg-pink-500 dark:bg-orange-accent-dark dark:text-navy-blue-900 hover:opacity-80 text-white',
+    'bg-pink-500 dark:bg-orange-accent-dark dark:text-navy-blue-900 hover:opacity-80 active:opacity-50 text-white',
   'primary-active':
     'text-orange-500 border border-orange-500 bg-white hover:text-white hover:bg-orange-500',
   secondary:
@@ -33,16 +34,16 @@ const variants: Record<string, string> = {
     'text-navy-blue-500 border border border-navy-blue-500 hover:text-white hover:bg-navy-blue-500',
   connect:
     'bg-pink-200 hover:bg-pink-200/60 dark:hover:bg-pink-200/80 text-gray-700',
-  gray: 'bg-gray-200 text-gray-800 hover:opacity-80 dark:bg-navy-blue-700 dark:text-white',
+  gray: 'bg-gray-200 text-gray-800 hover:opacity-80 active:opacity-50 dark:bg-navy-blue-700 dark:text-white',
   'white-pink':
     'bg-white text-gray-800 hover:text-white hover:bg-pink-400 dark:bg-orange-accent-dark dark:text-gray-900 dark:hover:bg-orange-accent-dark/80',
-  white: 'bg-white text-gray-800 hover:opacity-80',
+  white: 'bg-white text-gray-800 hover:opacity-80 active:opacity-50',
   warning: 'bg-red-500 hover:bg-red-500/90 text-white justify-center',
   cancel:
-    'text-gray-700 dark:text-navy-blue-100 hover:opacity-80 underline underline-pink-500 dark:underline-orange-accent-dark underline-offset-4',
+    'text-gray-700 dark:text-navy-blue-100 hover:opacity-80 active:opacity-50 underline underline-pink-500 dark:underline-orange-accent-dark underline-offset-4',
   'cancel-red':
-    'text-red-500 dark:text-red-500 hover:opacity-80 underline underline-red-500 underline-offset-4',
-  done: 'text-gray-600 dark:text-navy-blue-200 underline underline-gray-600 dark:underline-navy-blue-200 underline-offset-4 hover:opacity-80',
+    'text-red-500 dark:text-red-500 hover:opacity-80 active:opacity-50 underline underline-red-500 underline-offset-4',
+  done: 'text-gray-600 dark:text-navy-blue-200 underline underline-gray-600 dark:underline-navy-blue-200 underline-offset-4 hover:opacity-80 active:opacity-50',
 };
 
 const sizes: Record<string, string> = {
@@ -87,6 +88,7 @@ const Button = ({
   children,
   disabled = false,
   loading = false,
+  showTextOnLoading = true,
 }: ButtonProps) => (
   <div>
     <button
@@ -100,13 +102,14 @@ const Button = ({
       onClick={onClick}
       disabled={disabled}
     >
-      {children}
+      {loading && !showTextOnLoading ? '' : children}
       {loading && (
         <div className="flex">
           <div
             className={clsx(
               loaderSizes[size],
-              'ml-1 animate-spin rounded-full  border-solid',
+              showTextOnLoading ? 'mr-1' : '',
+              'animate-spin rounded-full border-solid',
               loaderColors[variant]
             )}
           ></div>
