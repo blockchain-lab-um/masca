@@ -26,9 +26,7 @@ class CircuitStorageService {
 
   static async init() {
     if (!this.instance) {
-      this.instance = new CircuitStorage(
-        new InMemoryDataSource<CircuitData>()
-      );
+      this.instance = new CircuitStorage(new InMemoryDataSource<CircuitData>());
     }
 
     try {

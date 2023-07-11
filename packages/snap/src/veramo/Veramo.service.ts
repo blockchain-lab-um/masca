@@ -661,7 +661,7 @@ class VeramoService {
   // TODO: We can probably have different return types
   static async handleOIDCAuthorizationRequest(args: {
     authorizationRequestURI: string;
-  }): Promise<VerifiableCredential[]> {
+  }): Promise<void> {
     const { authorizationRequestURI } = args;
 
     const state = StorageService.get();

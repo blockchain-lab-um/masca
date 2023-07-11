@@ -1,9 +1,11 @@
+import { W3CCredential } from '@0xpolygonid/js-sdk';
 import {
   CreateVCRequestParams,
   CreateVPRequestParams,
   DeleteVCsRequestParams,
   HandleAuthorizationRequestParams,
   HandleCredentialOfferRequestParams,
+  isPolygonSupportedMethods,
   isValidCreateVCRequest,
   isValidCreateVPRequest,
   isValidDeleteVCsRequest,
@@ -13,6 +15,8 @@ import {
   isValidSetVCStoreRequest,
   isValidSwitchMethodRequest,
   isValidVerifyDataRequest,
+  isVeramoSupportedMethods,
+  polygonSupportedMethods,
   QueryVCsRequestParams,
   QueryVCsRequestResult,
   SaveVCRequestParams,
@@ -27,10 +31,12 @@ import {
   UnsignedCredential,
   UnsignedPresentation,
   VerifiableCredential,
+  W3CVerifiableCredential,
 } from '@veramo/core';
 import { VerifiablePresentation } from 'did-jwt-vc';
 
 import GeneralService from './General.service';
+import PolygonService from './polygon-id/Polygon.service';
 import StorageService from './storage/Storage.service';
 import { snapConfirm } from './utils/snapUtils';
 import VeramoService from './veramo/Veramo.service';
@@ -44,10 +50,23 @@ class SnapService {
     const { filter, options } = args ?? {};
     const { store, returnStore = true } = options ?? {};
 
+    await PolygonService.init();
+
+    // FIXME: Maybe do this in parallel? Does it make sense?
     const vcs = await VeramoService.queryCredentials({
       options: { store, returnStore },
       filter,
     });
+
+    const polygonCredentials: QueryVCsRequestResult[] = (
+      await PolygonService.queryCredentials()
+    ).map((vc) => ({
+      data: vc as VerifiableCredential,
+      metadata: {
+        id: vc.id,
+        store: ['snap'],
+      },
+    }));
 
     const content = panel([
       heading('Share VCs'),
@@ -64,7 +83,7 @@ class SnapService {
       (await snapConfirm(content))
     ) {
       await GeneralService.addFriendlyDapp(this.origin);
-      return vcs;
+      return [...vcs, ...polygonCredentials];
     }
 
     throw new Error('User rejected the request.');
@@ -86,11 +105,33 @@ class SnapService {
     ]);
 
     if (await snapConfirm(content)) {
-      const res = await VeramoService.saveCredential({
-        verifiableCredential,
-        store,
-      });
-      return res;
+      // If it is a string handle with Veramo
+      if (typeof verifiableCredential === 'string') {
+        const res = await VeramoService.saveCredential({
+          verifiableCredential,
+          store,
+        });
+        return res;
+      }
+
+      const { id } = verifiableCredential.credentialSubject;
+
+      // Check if credential subject id is a string (did)
+      if (typeof id === 'string') {
+        if (polygonSupportedMethods.some((method) => id.startsWith(method))) {
+          await PolygonService.saveCredential(
+            verifiableCredential as W3CCredential
+          );
+          return [
+            {
+              id: (verifiableCredential as W3CCredential).id,
+              store: ['snap'],
+            },
+          ];
+        }
+      }
+
+      throw new Error('Unsupported Credential format');
     }
 
     throw new Error('User rejected the request.');
@@ -235,8 +276,20 @@ class SnapService {
   }
 
   static async getDID(): Promise<string> {
-    const identifier = await VeramoService.getIdentifier();
-    return identifier.did;
+    const state = StorageService.get();
+    const method =
+      state.accountState[state.currentAccount].accountConfig.ssi.didMethod;
+
+    if (isVeramoSupportedMethods(method)) {
+      const identifier = await VeramoService.getIdentifier();
+      return identifier.did;
+    }
+
+    if (isPolygonSupportedMethods(method)) {
+      return PolygonService.getIdentifier();
+    }
+
+    throw new Error('Unsupported DID method');
   }
 
   static async resolveDID(args: { did: string }): Promise<DIDResolutionResult> {
@@ -247,13 +300,34 @@ class SnapService {
 
   static async handleCredentialOffer(
     args: HandleCredentialOfferRequestParams
-  ): Promise<any> {
+  ): Promise<W3CVerifiableCredential[]> {
     const { credentialOffer } = args;
 
     if (credentialOffer.startsWith('openid-credential-offer://')) {
-      return VeramoService.handleOIDCCredentialOffer({
-        credentialOfferURI: credentialOffer,
-      });
+      return [
+        await VeramoService.handleOIDCCredentialOffer({
+          credentialOfferURI: credentialOffer,
+        }),
+      ];
+    }
+
+    let parsedOffer;
+
+    try {
+      parsedOffer = JSON.parse(credentialOffer);
+    } catch (e) {
+      throw new Error('Failed to parse credential offer');
+    }
+
+    if (
+      parsedOffer.type ===
+      'https://iden3-communication.io/credentials/1.0/offer'
+    ) {
+      await PolygonService.init();
+      await PolygonService.createOrImportIdentity();
+      return (await PolygonService.handleCredentialOffer({
+        credentialOffer,
+      })) as W3CVerifiableCredential[];
     }
 
     throw new Error('Unsupported credential offer');
@@ -261,12 +335,31 @@ class SnapService {
 
   static async handleAuthorizationRequest(
     args: HandleAuthorizationRequestParams
-  ): Promise<any> {
+  ): Promise<void> {
     const { authorizationRequest } = args;
 
     if (authorizationRequest.startsWith('openid://')) {
       return VeramoService.handleOIDCAuthorizationRequest({
         authorizationRequestURI: authorizationRequest,
+      });
+    }
+
+    let parsedOffer;
+
+    try {
+      parsedOffer = JSON.parse(authorizationRequest);
+    } catch (e) {
+      throw new Error('Failed to parse authorization request');
+    }
+
+    if (
+      parsedOffer.type ===
+      'https://iden3-communication.io/authorization/1.0/request'
+    ) {
+      await PolygonService.init();
+      await PolygonService.createOrImportIdentity();
+      return PolygonService.handleAuthorizationRequest({
+        authorizationRequest,
       });
     }
 

@@ -59,10 +59,10 @@ export interface MascaApi {
   ): Promise<Result<boolean>>;
   handleCredentialOffer(
     params: HandleCredentialOfferRequestParams
-  ): Promise<Result<VerifiableCredential>>;
+  ): Promise<Result<W3CVerifiableCredential[]>>;
   handleAuthorizationRequest(
     params: HandleAuthorizationRequestParams
-  ): Promise<Result<VerifiableCredential[]>>;
+  ): Promise<Result<void>>;
   setCeramicSession(serializedSession: string): Promise<Result<boolean>>;
   validateStoredCeramicSession(): Promise<Result<boolean>>;
 }

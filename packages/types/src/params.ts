@@ -1,3 +1,4 @@
+import { W3CCredential } from '@0xpolygonid/js-sdk';
 import type {
   UnsignedCredential,
   W3CVerifiableCredential,
@@ -87,7 +88,7 @@ export type QueryVCsRequestParams = {
 };
 
 export type SaveVCRequestParams = {
-  verifiableCredential: W3CVerifiableCredential;
+  verifiableCredential: W3CVerifiableCredential | W3CCredential;
   options?: SaveVCOptions;
 };
 

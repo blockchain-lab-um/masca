@@ -25,7 +25,7 @@ class StorageService {
     await SnapStorage.save(this.instance);
   }
 
-  static async getAccountState(): Promise<MascaAccountState> {
+  static getAccountState(): MascaAccountState {
     return this.instance.accountState[this.instance.currentAccount];
   }
 }
