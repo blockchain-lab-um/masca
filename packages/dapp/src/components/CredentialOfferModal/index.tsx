@@ -69,7 +69,10 @@ const CredentialOfferModal = ({
       });
     }, 200);
 
-    setRecievedCredential(handleCredentialOfferResponse.data);
+    console.log(handleCredentialOfferResponse.data);
+
+    // TODO: Handle multiple credentials
+    setRecievedCredential(handleCredentialOfferResponse.data[0]);
   };
 
   return (

@@ -13,8 +13,8 @@ import {
   NodeMiddle,
   ZERO_HASH,
 } from '@iden3/js-merkletree';
-import StorageService from '../../storage/Storage.service';
 
+import StorageService from '../../storage/Storage.service';
 
 export class SnapTreeStorage implements ITreeStorage {
   static readonly STORAGE_KEY = 'merkleTree';
@@ -102,7 +102,6 @@ export class SnapTreeStorage implements ITreeStorage {
       ][this.networkId];
 
     base[SnapTreeStorage.STORAGE_KEY][key] = value;
-
   }
 
   async getRoot(): Promise<Hash> {
@@ -139,6 +138,5 @@ export class SnapTreeStorage implements ITreeStorage {
     base[SnapTreeStorage.STORAGE_KEY][bytes2Hex(this.prefix)] = JSON.stringify(
       Array.from(r.bytes)
     );
-
   }
 }

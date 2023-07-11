@@ -6,8 +6,8 @@ import {
 import { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
 import { Merkletree, str2Bytes } from '@iden3/js-merkletree';
 
-import { SnapTreeStorage } from './SnapTreeStorage';
 import StorageService from '../../storage/Storage.service';
+import { SnapTreeStorage } from './SnapTreeStorage';
 
 const mtTypes = [
   MerkleTreeType.Claims,

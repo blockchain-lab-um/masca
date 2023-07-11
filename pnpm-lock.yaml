@@ -20,6 +20,9 @@ patchedDependencies:
   cross-fetch@3.1.6:
     hash: b7u473fsyomrwof2p2enxrunba
     path: patches/cross-fetch@3.1.6.patch
+  intl@1.2.5:
+    hash: 2i3sho75ida2jvn4xlmbxxe25i
+    path: patches/intl@1.2.5.patch
 
 importers:
 
@@ -548,7 +551,7 @@ importers:
         version: 6.3.3
       ts-jest:
         specifier: 29.1.0
-        version: 29.1.0(@babel/core@7.22.1)(esbuild@0.17.19)(jest@29.5.0)(typescript@5.1.3)
+        version: 29.1.0(@babel/core@7.22.1)(esbuild@0.18.11)(jest@29.5.0)(typescript@5.1.3)
       ts-loader:
         specifier: ^9.4.3
         version: 9.4.3(typescript@5.1.3)(webpack@5.82.1)
@@ -1684,6 +1687,9 @@ importers:
       ethr-did-resolver:
         specifier: 8.0.0
         version: 8.0.0
+      intl:
+        specifier: ^1.2.5
+        version: 1.2.5(patch_hash=2i3sho75ida2jvn4xlmbxxe25i)
       jose:
         specifier: ^4.14.4
         version: 4.14.4
@@ -13562,7 +13568,7 @@ packages:
     dependencies:
       '@types/node': 18.16.15
       cosmiconfig: 8.2.0
-      ts-node: 10.9.1(@swc/core@1.3.52)(@types/node@18.16.15)(typescript@5.1.3)
+      ts-node: 10.9.1(@swc/core@1.3.52)(@types/node@18.16.15)(typescript@4.9.5)
       typescript: 5.1.3
     dev: true
 
@@ -17822,6 +17828,11 @@ packages:
       tslib: 2.5.3
     dev: false
 
+  /intl@1.2.5(patch_hash=2i3sho75ida2jvn4xlmbxxe25i):
+    resolution: {integrity: sha512-rK0KcPHeBFBcqsErKSpvZnrOmWOj+EmDkyJ57e90YWaQNqbcivcqmKDlHEeNprDWOsKzPsh1BfSpPQdDvclHVw==}
+    dev: false
+    patched: true
+
   /invariant@2.2.4:
     resolution: {integrity: sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==}
     dependencies:
@@ -18647,7 +18658,7 @@ packages:
       pretty-format: 29.5.0
       slash: 3.0.0
       strip-json-comments: 3.1.1
-      ts-node: 10.9.1(@swc/core@1.3.52)(@types/node@18.16.15)(typescript@5.1.3)
+      ts-node: 10.9.1(@swc/core@1.3.52)(@types/node@18.16.15)(typescript@4.9.5)
     transitivePeerDependencies:
       - supports-color
 
@@ -25881,7 +25892,6 @@ packages:
       semver: 7.5.2
       typescript: 5.1.3
       yargs-parser: 21.1.1
-    dev: false
 
   /ts-json-schema-generator@1.2.0:
     resolution: {integrity: sha512-tUMeO3ZvA12d3HHh7T/AK8W5hmUhDRNtqWRHSMN3ZRbUFt+UmV0oX8k1RK4SA+a+BKNHpmW2v06MS49e8Fi3Yg==}

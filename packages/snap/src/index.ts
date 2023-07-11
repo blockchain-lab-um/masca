@@ -1,3 +1,5 @@
+import './polyfills/intl';
+
 import { isValidSetCurrentAccountRequest } from '@blockchain-lab-um/masca-types';
 import { ResultObject, type Result } from '@blockchain-lab-um/utils';
 import { OnRpcRequestHandler } from '@metamask/snaps-types';

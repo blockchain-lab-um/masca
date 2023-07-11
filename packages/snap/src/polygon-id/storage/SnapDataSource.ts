@@ -1,7 +1,7 @@
 import { IDataSource } from '@0xpolygonid/js-sdk';
 import { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
-import StorageService from '../../storage/Storage.service';
 
+import StorageService from '../../storage/Storage.service';
 
 type StorageKey = 'identities' | 'credentials' | 'profiles';
 
@@ -37,7 +37,6 @@ export class SnapDataSource<T> implements IDataSource<T> {
       ][this.networkId];
 
     base[this.STORAGE_KEY][key] = JSON.stringify(value);
-
   }
 
   async get(key: string): Promise<T | undefined> {

@@ -31,7 +31,6 @@ import {
   UnsignedCredential,
   UnsignedPresentation,
   VerifiableCredential,
-  W3CVerifiableCredential,
 } from '@veramo/core';
 import { VerifiablePresentation } from 'did-jwt-vc';
 
@@ -300,7 +299,7 @@ class SnapService {
 
   static async handleCredentialOffer(
     args: HandleCredentialOfferRequestParams
-  ): Promise<W3CVerifiableCredential[]> {
+  ): Promise<VerifiableCredential[]> {
     const { credentialOffer } = args;
 
     if (credentialOffer.startsWith('openid-credential-offer://')) {
@@ -327,7 +326,7 @@ class SnapService {
       await PolygonService.createOrImportIdentity();
       return (await PolygonService.handleCredentialOffer({
         credentialOffer,
-      })) as W3CVerifiableCredential[];
+      })) as VerifiableCredential[];
     }
 
     throw new Error('Unsupported credential offer');

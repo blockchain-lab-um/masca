@@ -59,7 +59,7 @@ export interface MascaApi {
   ): Promise<Result<boolean>>;
   handleCredentialOffer(
     params: HandleCredentialOfferRequestParams
-  ): Promise<Result<W3CVerifiableCredential[]>>;
+  ): Promise<Result<VerifiableCredential[]>>;
   handleAuthorizationRequest(
     params: HandleAuthorizationRequestParams
   ): Promise<Result<void>>;
