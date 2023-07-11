@@ -66,7 +66,13 @@ On the other hand, VPs are signed by holders using their wallets (which is Masca
 
 ### Signing Credentials (Handling private keys)
 
-During the runtime of each RPC method, private keys are retrieved (and derived) from MetaMask using the Snap RPC method `snap_getBip44Entropy` . After the RPC method is finished, private keys are cleared from the memory and are never stored anywhere.
+During the runtime of each RPC method, private keys are retrieved (and derived) from MetaMask using the Snap RPC method `snap_getBip44Entropy` .
+
+:::tip
+
+**After the RPC method finishes execution, private keys are cleared from the memory and are never stored anywhere.**
+
+:::
 
 ## Cryptography
 
@@ -74,24 +80,24 @@ Cryptography is what makes everything secure and possible. VCs and VPs are both 
 
 ### Cryptographic keys
 
-Ethereum relies on the elliptic curve `secp256k1` ; thus, this is the only key type available in the MetaMask. Using the derivation schemes presented in the different [BIP standards](https://github.com/bitcoin/bips), it is possible to generate multiple key pairs (and associated accounts) from a single seed phrase. Backing up the seed phrase automatically backup all keys since they can always be derived deterministically, which solves the problem of other SSI wallets that generate new keys each time from scratch and not in relation to the previous keys.
+Ethereum relies on the elliptic curve `secp256k1` ; thus, this is the only key type available in the MetaMask. Conforming to the derivation schemes presented in the different [BIP standards](https://github.com/bitcoin/bips), generating multiple key pairs (and associated accounts) from a single seed phrase is possible. Backing up the seed phrase consequently backs up all the keys used in Masca since they can always be derived deterministically.
 
-But because of the limitation of the specific key type, we currently can only support all DID methods that work on `secp256k1` keys. There is a way to create key pair of any type (e.g., Ed25519) in the Snap (since you can write any custom JavaScript), but storing and securely handling these keys gets complicated. But because the elliptic curve `secp256k1` is widely used, most DID methods support it.
+But because of the limitation of the specific key type, we currently support all DID methods that work with `secp256k1` keys. There is a way to create key pair of any type (e.g., `Ed25519` ) in the Snap (since you can write any custom JavaScript), but storing and securely handling these keys gets complicated. Fortunately, the elliptic curve `secp256k1` is widely used and popular with most DID methods.
 
-We are also looking into pairing-friendly elliptic curves, which enable advanced ways to perform selective disclosure and zero-knowledge proofs, e.g., `BLS12-381` , where it would make sense to implement custom and complex security storage for keys generated inside Snap.
+We are also looking into pairing-friendly elliptic curves, which enable advanced ways to perform selective disclosure and zero-knowledge proofs, e.g., `BLS12-381` and `BabyJubJub` , where it would make sense to implement custom and complex security storage for keys generated inside Snap.
 
 ### Proof formats
 
-There are different ways to digitally sign and represent digital signatures alongside the data or payload (VC or VP). In the SSI and web3 world, currently, three approaches are most adopted: **JWT**, **Linked Data Proofs**, and **EIP712**. Masca supports all three types.
+Different ways exist to digitally sign and represent digital signatures alongside the data or payload (VC or VP). In the SSI and web3 world, currently, three approaches are most adopted: **JWT**, **Linked Data Proofs**, and **EIP712**. Masca supports all three types.
 
-For the complete list of supported proof formats, check [this page](./supported).
+For the complete list of supported proof formats, check [What is Supported?](./supported).
 
 ## Data Storage
 
-As stated above, DIDs and VCs need to be stored somewhere. We plan to support many different data storage providers to fulfill all users' needs. While keeping data locally in the MetaMask state is the most private way to store the data (it is also encrypted), other solutions bring many benefits, such as the ability to sync between different devices and easier ways to make external backups.
+As stated above, DIDs and VCs need to be stored somewhere. We plan to support many data storage providers to fulfill all users' needs. While keeping data locally in the MetaMask state is the most private way to store the data (it is also encrypted), other solutions bring many benefits, such as the ability to sync between different devices and easier ways to make external backups.
 
 For the complete list of supported data storage providers, check [this page](./supported).
 
 ## Decentralized Identity Framework
 
-Using a framework is the best way to handle DIDs and VCs in the code. Masca uses **[Veramo](https://veramo.io/)** for that purpose. Veramo is a performant and modular API for Verifiable Data and Decentralized Identity/SSI. It's a library that allows the creation and management of DIDs, VCs, and VPs and makes developers' lives working with them much easier. We highly encourage you to check their website!
+A framework designed specifically for managing Decentralized Identities is best for handling DIDs and VCs when developing such software as Masca. That's why we take on the advantages of **[Veramo](https://veramo.io/)** for that purpose. Veramo is a performant and modular API for Verifiable Data and Decentralized Identity/SSI. It's a library that allows the creation and management of DIDs, VCs, and VPs and makes developers' lives working with them much ... simpler. We highly encourage you to check their website!
