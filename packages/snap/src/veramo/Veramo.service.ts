@@ -106,12 +106,9 @@ class VeramoService {
 
   static async init(): Promise<void> {
     this.instance = await this.createAgent();
-
-    // Import current account as did
-    await this.importIdentifier();
   }
 
-  private static async importIdentifier(): Promise<void> {
+  static async importIdentifier(): Promise<void> {
     const state = StorageService.get();
     const account = state.currentAccount;
     const method = state.accountState[account].accountConfig.ssi.didMethod;

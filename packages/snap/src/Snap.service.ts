@@ -11,7 +11,6 @@ import {
   isValidDeleteVCsRequest,
   isValidQueryVCsRequest,
   isValidResolveDIDRequest,
-  isValidSaveVCRequest,
   isValidSetVCStoreRequest,
   isValidSwitchMethodRequest,
   isValidVerifyDataRequest,
@@ -21,6 +20,7 @@ import {
   QueryVCsRequestResult,
   SaveVCRequestParams,
   SaveVCRequestResult,
+  veramoSupportedMethods,
   VerifyDataRequestParams,
 } from '@blockchain-lab-um/masca-types';
 import { Result, ResultObject } from '@blockchain-lab-um/utils';
@@ -31,6 +31,7 @@ import {
   UnsignedCredential,
   UnsignedPresentation,
   VerifiableCredential,
+  W3CVerifiableCredential,
 } from '@veramo/core';
 import { VerifiablePresentation } from 'did-jwt-vc';
 
@@ -127,6 +128,14 @@ class SnapService {
               store: ['snap'],
             },
           ];
+        }
+
+        if (veramoSupportedMethods.some((method) => id.startsWith(method))) {
+          return VeramoService.saveCredential({
+            verifiableCredential:
+              verifiableCredential as W3CVerifiableCredential,
+            store,
+          });
         }
       }
 
@@ -279,12 +288,16 @@ class SnapService {
     const method =
       state.accountState[state.currentAccount].accountConfig.ssi.didMethod;
 
+    console.log('method', method);
     if (isVeramoSupportedMethods(method)) {
+      await VeramoService.importIdentifier();
       const identifier = await VeramoService.getIdentifier();
       return identifier.did;
     }
 
     if (isPolygonSupportedMethods(method)) {
+      await PolygonService.init();
+      await PolygonService.createOrImportIdentity();
       return PolygonService.getIdentifier();
     }
 
@@ -303,6 +316,7 @@ class SnapService {
     const { credentialOffer } = args;
 
     if (credentialOffer.startsWith('openid-credential-offer://')) {
+      await VeramoService.importIdentifier();
       return [
         await VeramoService.handleOIDCCredentialOffer({
           credentialOfferURI: credentialOffer,
@@ -338,6 +352,7 @@ class SnapService {
     const { authorizationRequest } = args;
 
     if (authorizationRequest.startsWith('openid://')) {
+      await VeramoService.importIdentifier();
       return VeramoService.handleOIDCAuthorizationRequest({
         authorizationRequestURI: authorizationRequest,
       });
@@ -389,15 +404,17 @@ class SnapService {
         res = await this.queryCredentials(params);
         return ResultObject.success(res);
       case 'saveVC':
-        isValidSaveVCRequest(params, state.currentAccount, state);
+        // isValidSaveVCRequest(params, state.currentAccount, state);
         res = await this.saveCredential(params);
         return ResultObject.success(res);
       case 'createVC':
         isValidCreateVCRequest(params, state.currentAccount, state);
+        await VeramoService.importIdentifier();
         res = await this.createCredential(params);
         return ResultObject.success(res);
       case 'createVP':
         isValidCreateVPRequest(params);
+        await VeramoService.importIdentifier();
         res = await this.createPresentation(params);
         return ResultObject.success(res);
       case 'deleteVC':
@@ -431,7 +448,6 @@ class SnapService {
       case 'switchDIDMethod':
         isValidSwitchMethodRequest(params);
         await GeneralService.switchDIDMethod(params);
-        await VeramoService.init();
         res = await this.getDID();
         return ResultObject.success(res);
       case 'getSelectedMethod':

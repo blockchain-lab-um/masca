@@ -1195,6 +1195,9 @@ importers:
       '@veramo/core':
         specifier: 5.2.0
         version: 5.2.0
+      '@veramo/utils':
+        specifier: 5.2.0
+        version: 5.2.0
       '@vercel/analytics':
         specifier: ^1.0.1
         version: 1.0.1

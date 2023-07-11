@@ -44,6 +44,7 @@ const CredentialModal = ({
     });
 
     if (isError(saveCredentialResult)) {
+      console.log(saveCredentialResult.error);
       setTimeout(() => {
         useToastStore.setState({
           open: true,

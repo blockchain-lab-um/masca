@@ -37,10 +37,9 @@ import {
 import { Blockchain, DID, DidMethod, NetworkId } from '@iden3/js-iden3-core';
 import { proving } from '@iden3/js-jwz';
 import { ES256KSigner } from 'did-jwt';
-import { Wallet } from 'ethers';
-import StorageService from 'src/storage/Storage.service';
 
 import EthereumService from '../Ethereum.service';
+import StorageService from '../storage/Storage.service';
 import CircuitStorageService from './CircuitStorage.service';
 import { RHS_URL } from './constants';
 import { SnapDataSource, SnapMerkleTreeStorage } from './storage';
@@ -105,7 +104,32 @@ class PolygonService {
         PolygonServicBaseInstance
       >
     >
-  >;
+  > = {
+    polygonid: {
+      eth: {
+        main: {} as PolygonServicBaseInstance,
+        goerli: {} as PolygonServicBaseInstance,
+        mumbai: {} as PolygonServicBaseInstance,
+      },
+      polygon: {
+        main: {} as PolygonServicBaseInstance,
+        goerli: {} as PolygonServicBaseInstance,
+        mumbai: {} as PolygonServicBaseInstance,
+      },
+    },
+    iden3: {
+      eth: {
+        main: {} as PolygonServicBaseInstance,
+        goerli: {} as PolygonServicBaseInstance,
+        mumbai: {} as PolygonServicBaseInstance,
+      },
+      polygon: {
+        main: {} as PolygonServicBaseInstance,
+        goerli: {} as PolygonServicBaseInstance,
+        mumbai: {} as PolygonServicBaseInstance,
+      },
+    },
+  };
 
   static async init() {
     // Load Circuits to memory
@@ -323,8 +347,7 @@ class PolygonService {
       },
     });
 
-    const ethWallet = new Wallet(entropy);
-    const did = DID.parse(`did:pkh:poly:${ethWallet.address}`);
+    const did = DID.parse(await this.getIdentifier());
     const didStr = did.string();
 
     const jwsPackerOpts = {
@@ -368,10 +391,7 @@ class PolygonService {
       },
     });
 
-    const ethWallet = new Wallet(entropy);
-    // const network = await EthereumService.getNetwork();
-    // const did = DID.parse(`did:pkh:${network}:${ethWallet.address}`);
-    const did = DID.parse(`did:pkh:poly:${ethWallet.address}`);
+    const did = DID.parse(await this.getIdentifier());
     const didStr = did.string();
 
     const jwsPackerOpts = {
