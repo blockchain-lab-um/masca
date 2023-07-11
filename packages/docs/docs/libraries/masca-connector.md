@@ -6,7 +6,7 @@ sidebar_position: 1
 
 Masca connector is used to install Masca and expose API toward snap on dApps and other applications.
 
-For more details on Masca Connector, check [GitHub repo](https://github.com/blockchain-lab-um/ssi-snap/tree/master/packages/connector).
+For more details on Masca Connector, check out our [GitHub repo](https://github.com/blockchain-lab-um/ssi-snap/tree/master/packages/connector).
 
 ## Usage
 

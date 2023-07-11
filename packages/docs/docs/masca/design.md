@@ -68,7 +68,7 @@ On the other hand, VPs are signed by holders using their wallets (which is Masca
 
 During the runtime of each RPC method, private keys are retrieved (and derived) from MetaMask using the Snap RPC method `snap_getBip44Entropy` .
 
-:::tip
+:::tip Don't worry, your private keys are safe!
 
 **After the RPC method finishes execution, private keys are cleared from the memory and are never stored anywhere.**
 

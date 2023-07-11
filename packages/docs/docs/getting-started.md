@@ -40,7 +40,7 @@ Installing Masca Connector to your project:
 pnpm add @blockchain-lab-um/masca-connector @blockchain-lab-um/utils
 ```
 
-Masca installs and initializes using the function `enableMasca()`. After the installation, `enableMasca()` returns the `Masca` object used to retrieve the API.
+Masca installs and initializes using the function `enableMasca` . After the installation, `enableMasca` returns the `Masca` object used to retrieve the API.
 
 A minimal example of initializing Masca and invoking one of the API methods:
 

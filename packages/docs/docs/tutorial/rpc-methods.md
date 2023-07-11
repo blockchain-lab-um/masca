@@ -374,7 +374,7 @@ Change the selected VC Store plugin
 1. store - name of VC Store plugin ("snap" or "ceramic"). Must be one of methods returned by `getAvailableVCStores`.
 2. value - boolean. Enable/disable specific store plugin
 
-:::danger
+:::danger BE CAREFUL!
 
 Ceramic Network support is experimental and still under active development!
 

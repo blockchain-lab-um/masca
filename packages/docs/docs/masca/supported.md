@@ -15,7 +15,7 @@ Data Storage:
 - Local [MetaMask Snap](https://docs.metamask.io/guide/snaps.html) state (fully off-chain)
 - [Ceramic Network](https://ceramic.network/)
 
-:::danger
+:::danger BE CAREFUL!
 
 Ceramic Network support is experimental and still under active development!
 
