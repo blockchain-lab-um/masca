@@ -4,7 +4,7 @@ import type { IDIDManagerCreateArgs } from '@veramo/core';
 import { keccak256 } from 'ethers';
 
 import VeramoService from '../veramo/Veramo.service';
-import { getAddressKeyDeriver, snapGetKeysFromAddress } from './keyPair';
+import { snapGetPrivateKeys } from './keyPair';
 
 export async function getDidEbsiIdentifier(params: {
   state: MascaState;
@@ -13,17 +13,13 @@ export async function getDidEbsiIdentifier(params: {
   args: IDIDManagerCreateArgs;
 }): Promise<string> {
   const { state, snap, account, args } = params;
-  const bip44CoinTypeNode = await getAddressKeyDeriver({
-    state,
-    snap,
-    account,
-  });
+
   const agent = VeramoService.getAgent();
   const provider = state.accountState[account].accountConfig.ssi.didMethod;
 
-  const res = await snapGetKeysFromAddress({
+  const res = await snapGetPrivateKeys({
     snap,
-    bip44CoinTypeNode,
+    
     account,
     state,
   });

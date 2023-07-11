@@ -84,7 +84,7 @@ import EthereumService from '../Ethereum.service';
 import GeneralService from '../General.service';
 import StorageService from '../storage/Storage.service';
 import UniversalResolverService from '../UniversalResolver.service';
-import { getAddressKeyDeriver, snapGetKeysFromAddress } from '../utils/keyPair';
+import { snapGetPrivateKeys } from '../utils/keyPair';
 import { sign } from '../utils/sign';
 import { snapConfirm } from '../utils/snapUtils';
 import { CeramicVCStore } from './plugins/ceramicDataStore/ceramicDataStore';
@@ -115,11 +115,6 @@ class VeramoService {
     const state = StorageService.get();
     const account = state.currentAccount;
     const method = state.accountState[account].accountConfig.ssi.didMethod;
-    const bip44CoinTypeNode = await getAddressKeyDeriver({
-      state,
-      snap,
-      account,
-    });
 
     switch (method) {
       case 'did:pkh':
@@ -129,10 +124,12 @@ class VeramoService {
       case 'did:key:jwk_jcs-pub':
       case 'did:key':
       case 'did:jwk': {
-        const res = await snapGetKeysFromAddress({
-          bip44CoinTypeNode,
+
+        // Get Entropy from address
+
+        // Import into wallet
+        const res = await snapGetPrivateKeys({
           account,
-          snap,
           state,
         });
 
@@ -467,15 +464,6 @@ class VeramoService {
     credentialOfferURI: string;
   }): Promise<VerifiableCredential> {
     const state = StorageService.get();
-    const bip44CoinTypeNode = await getAddressKeyDeriver({
-      state,
-      snap,
-      account: state.currentAccount,
-    });
-
-    if (!bip44CoinTypeNode) {
-      throw new Error('bip44CoinTypeNode is required');
-    }
 
     const identifier = await VeramoService.getIdentifier();
     const { did } = identifier;
@@ -496,9 +484,7 @@ class VeramoService {
 
     const { credentials, grants } = credentialOfferResult.data;
 
-    const res = await snapGetKeysFromAddress({
-      snap,
-      bip44CoinTypeNode,
+    const res = await snapGetPrivateKeys({
       account: state.currentAccount,
       state,
     });
@@ -665,15 +651,6 @@ class VeramoService {
     const { authorizationRequestURI } = args;
 
     const state = StorageService.get();
-    const bip44CoinTypeNode = await getAddressKeyDeriver({
-      state,
-      snap,
-      account: state.currentAccount,
-    });
-
-    if (!bip44CoinTypeNode) {
-      throw new Error('bip44CoinTypeNode is required');
-    }
 
     const identifier = await VeramoService.getIdentifier();
 
@@ -682,9 +659,7 @@ class VeramoService {
     if (did.startsWith('did:ethr') || did.startsWith('did:pkh')) {
       throw new Error('did:ethr and did:pkh are not supported');
     }
-    const res = await snapGetKeysFromAddress({
-      snap,
-      bip44CoinTypeNode,
+    const res = await snapGetPrivateKeys({
       account: state.currentAccount,
       state,
     });
