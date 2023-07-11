@@ -22,33 +22,31 @@ Masca already supports some other popular methods, and we plan to add support fo
 
 Each DID method from the latter category uses a different index for deriving its private key. In other words, Every DID method uses a different private key, making them even more secure and isolated.
 
-// TODO: explain how we derive private keys from the seed phrase
-
 ### Accounts
 
-You might be asking yourselves how exactly does this work with existing MetaMask accounts. The answer is simple, it works just like you'd expect it to. Every single account in MetaMasks also represents an account in Masca and you can generate as many new accounts as you wish.
+You might be asking yourself how exactly this works with existing MetaMask accounts. Every single account in MetaMask also represents an account in Masca capable of handling multiple DIDs.
 
-This essentialy means you can generate as many DIDs as you wish by creating new Accounts in MetaMask and switching to them. This in combination with each Account supporting multiple DID methods (previous section) gives users ultimate freedom with DIDs.
+You can generate as many DIDs as you wish by creating new Accounts in MetaMask and switching to them. This, combined with each Account supporting multiple DID methods (previous section), gives users the ultimate freedom with DIDs.
 
-To paint a better picture, a user can create as many Accounts as they need and each account can use many DID methods. They can create a primary account where they want to create VPs with their Ethereum address, using `did:ethr` method. They can also create a secondary Account they use for gaming where they can use `did:key` for platform A and `did:jwk` for platform B. Should they need to use `did:ethr` but does not want to use address where all of their assets are they can simply create a new Account in MetaMask and use it. Do they want to use newest account, but with a different method? They can!
+To paint a better picture, a user can create as many Accounts as needed, and each account can use many DID methods. They can create a primary account where they want to create VPs with their Ethereum address using the `did:ethr` method. They can also create a secondary Account for gaming where they can use `did:key` for platform A and `did:jwk` for platform B. Should they need to use `did:ethr` but do not want to use the address where all of their assets are, they can simply create and use a new Account in MetaMask.
 
-Every single DID from this example uses a different private key and in case one gets compromised, the rest stays safe!
+Every Decentralized Identifier is associated with a unique private key. Consequently, only the compromised key is affected in a security breach while the others remain secure.
 
 ### Private Keys
 
-As previously mentioned, only some DIDs actually need to use private keys.
+As previously mentioned, only some DIDs need to use private keys.
 
-Private keys are derived from a seed phrase in MetaMask (Imported accounts are not supported for the moment) using a custom [coin_type `1236` ](https://github.com/satoshilabs/slips/blob/master/slip-0044.md#registered-coin-types). MetaMask Snaps do NOT have access to private keys derived from coin_type `60` , which means Masca or any other snap have NO access to Ethereums (or any other supported in MetaMask) private keys. This also means users do not need to backup their (DIDs) private keys, only their seed phrase.
+Private keys are derived from a seed phrase in MetaMask (Imported accounts are currently not supported) using a custom [ `coin_type` 1236](https://github.com/satoshilabs/slips/blob/master/slip-0044.md#registered-coin-types). MetaMask Snaps do NOT have access to private keys derived from `coin_type` 60, which means Masca or any other snap has NO access to Ethereum private keys (or any other MetaMask-supported keys). While giving the users peace of mind that their private keys are safe, this also means that they do not need to backup their private keys used for DIDs, only their seed phrase.
 
-Methods that do not require private keys (did:ethr & did:pkh) use `sign_typedData` to create VCs and VPs. This however is not supported in Snaps, meaning this has to be done in a dApp. We support this in our Connector library, but in case a dApp does not want to use Connector library, they have to handle VC/VP creation themselves.
+Methods that do not require private keys ( `did:ethr` & `did:pkh` ) use `sign_typedData` to create VCs and VPs. Snaps do not support this, meaning the signing for these methods must be done in a dApp. However, when using our [Masca Connector SDK](https://www.npmjs.com/package/@blockchain-lab-um/masca-connector), this is taken care of, and any RPC method requiring the signature is handled accordingly without needing external handling.
 
 More on how private keys are handled in Masca later.
 
 ### Switching between different DID methods
 
-In Masca, users can pick a different DID method for every MetaMask account. For example, if they want to use `did:ethr` on Account 1 and `did:key` on Account 2, they can! This of course does not limit one account to one did method. Like mentioned previously each account can use every supported method and switch between them on the go!
+In Masca, users can pick a different DID method for every MetaMask account. For example, if they want to use `did:ethr` on Account 1 and `did:key` on Account 2, they can! This does not limit one account to one DID method. As described previously, each account can use every supported DID method and switch between them on the fly!
 
-For the complete list of supported DID methods, check [this page](./supported).
+To find out which methods we currently support, jump to [What is Supported?](./supported).
 
 ## Verifiable Data
 
@@ -56,17 +54,15 @@ There are two types of Verifiable Data in the SSI trust model and lifecycle; **V
 
 ### Verifiable Credentials (VCs)
 
-Masca supports storing VCs in its local storage or on different supported networks. It also enables storing some data locally, such as personal passports and driving licenses, while other less critical data, like conference certificates or course applications, can be stored on public networks. Best of all, users can decide where their data should end up!
+Masca supports storing VCs in its local storage or on different supported networks. It also enables storing some data locally, such as personal passports and driving licenses. In contrast, other less critical data, like conference certificates or course applications, can be stored on public networks. Best of all, users can decide where their data should end up!
 
 For more information on the storage, check [this page](./storage).
 
-Masca also supports creating VCs that can be issued by any DID in the wallet! Aside from issuing and storing VCs Masca also allows user to verify validity of a VC.
+Masca also supports creating VCs that any DID can issue in the wallet! Aside from issuing and storing VCs, Masca also allows users to verify a VC's validity.
 
 ### Verifiable Presentations (VPs)
 
-On the other hand, VPs are signed by holders using their wallets (which is Masca). Usually, they are signed on the go when requested by different applications. Masca supports creating VP from single or multiple VCs.
-
-Verifying validity of VPs is also supported
+On the other hand, VPs are signed by holders using their wallets (which is Masca). Usually, they are signed on the go when requested by different applications. Masca supports creating VPs from single or multiple VCs. Validating VPs is also supported.
 
 ### Signing Credentials (Handling private keys)
 
