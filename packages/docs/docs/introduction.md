@@ -13,9 +13,9 @@ Why use Masca?
 - Give **easy** access to Decentralized Identity and SSI to millions of existing MetaMask and dApp users.
 - Let MetaMask handle the security of cryptographic keys. You can also easily back them up with a seed phrase.
 - Users can (and should) decide which DID method to use and where they want their VCs to be stored.
-- Each user can create as many DIDs as they want! It is as simple as creating new account in MetaMask.
+- Each user can create as many DIDs as they want! It is as simple as creating a new account in MetaMask.
 - You can easily integrate DIDs and VCs into your dApp using **[Masca Connector](./libraries/masca-connector)** library. No need to implement the logic for multiple DID methods and places to store VCs.
 - dApps can quickly request VC (or create VP) with a single RPC call — no need to develop extra logic and care about where the VC is stored.
-- Supports additional SSI related features such as creating VCs, validating exisintg VCs and VPs and resolving DIDs.
+- Supports additional Decentralized Identity-related features such as creating VCs, validating existing VCs and VPs, and resolving DIDs.
 
 Want to join the discussion, or are you interested in contributing? Check the footer to find the links to all social platforms!
