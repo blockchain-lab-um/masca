@@ -8,7 +8,7 @@ Masca is a **MetaMask Snap** (extension) that supports **Decentralized Identity*
 
 #### With Masca being a MetaMask extension, developers can effortlessly implement its features into any dApp that already supports MetaMask and does not require users to install or use any additional Software!
 
-You can find more information [here](category/self-sovereign-identity-ssi) if you're unsure what Decentralized or Self-Sovereign Identity is.
+You can find more information [here](category/decentralized-or-self-sovereign-identity-ssi) if you're unsure what Decentralized or Self-Sovereign Identity is.
 
 ---
 
