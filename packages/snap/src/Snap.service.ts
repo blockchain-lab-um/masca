@@ -20,7 +20,6 @@ import {
   QueryVCsRequestResult,
   SaveVCRequestParams,
   SaveVCRequestResult,
-  veramoSupportedMethods,
   VerifyDataRequestParams,
 } from '@blockchain-lab-um/masca-types';
 import { Result, ResultObject } from '@blockchain-lab-um/utils';
@@ -131,13 +130,13 @@ class SnapService {
           ];
         }
 
-        if (veramoSupportedMethods.some((method) => id.startsWith(method))) {
+
           return VeramoService.saveCredential({
             verifiableCredential:
               verifiableCredential as W3CVerifiableCredential,
             store,
           });
-        }
+        
       }
 
       throw new Error('Unsupported Credential format');

@@ -26,8 +26,6 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
 
     await GeneralService.initAccountState();
 
-    const accountState = StorageServcice.getAccountState();
-
     await WalletService.init();
 
     await VeramoService.init();

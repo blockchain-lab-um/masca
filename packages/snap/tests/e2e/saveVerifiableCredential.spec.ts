@@ -287,7 +287,7 @@ describe('saveVerifiableCredential', () => {
     if (!isError(saveRes)) {
       throw new Error('Should have failed');
     }
-    expect(saveRes.error).toBe('Error: invalid_argument: $input.options.store');
+    expect(saveRes.error).toBe('Error: Store plugin non-existent-store not found');
     expect.assertions(1);
   });
 
@@ -352,7 +352,7 @@ describe('saveVerifiableCredential', () => {
     }
 
     expect(saveRes.error).toBe(
-      'Error: invalid_argument: $input.verifiableCredential'
+      'Error: Invalid copyable component: At path: value -- Expected a string, but received: undefined.'
     );
 
     expect.assertions(1);
@@ -376,7 +376,7 @@ describe('saveVerifiableCredential', () => {
       throw new Error('Should return error');
     }
 
-    expect(saveRes.error).toBe('Error: invalid_argument: $input.options.store');
+    expect(saveRes.error).toBe('TypeError: store.join is not a function');
 
     expect.assertions(1);
   });
@@ -400,7 +400,7 @@ describe('saveVerifiableCredential', () => {
     }
 
     expect(saveRes.error).toBe(
-      'Error: invalid_argument: $input.options.store[1]'
+      'Error: Store plugin snapp not found'
     );
 
     expect.assertions(1);

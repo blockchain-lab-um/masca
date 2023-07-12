@@ -33,11 +33,11 @@ export const exampleDIDKeyDocument = {
 
 export const exampleDIDKeyImportedAccount = {
   controllerKeyId:
-    '04998c238b37415171005ff4965056819b7ee4218bfdb45b85ce33a7b12561b69b3b4176b0789ad027da6c726b874dcc680933b68f440a85d38e67a733e1f6becc',
-  did: 'did:key:zQ3shXkB5EzLZ9rPa4Pr6nf4zuUMcmN4KyHZg9EjaNnQzx3PG',
+    '0477d3b6b4d64b638521f78c3f862b4578c9601af4625df5771c6813edabeb876bfe372cb9aecf2f2a1d008e46d2b2fd38284051e38b85b68eaa38a1496fc537a3',
+  did: 'did:key:zQ3shnhrtE43gzU9bFdGFPnDrVSmGWUZmnKinSw8LBvrWmHop',
   keys: [
     {
-      kid: '04998c238b37415171005ff4965056819b7ee4218bfdb45b85ce33a7b12561b69b3b4176b0789ad027da6c726b874dcc680933b68f440a85d38e67a733e1f6becc',
+      kid: '0477d3b6b4d64b638521f78c3f862b4578c9601af4625df5771c6813edabeb876bfe372cb9aecf2f2a1d008e46d2b2fd38284051e38b85b68eaa38a1496fc537a3',
       kms: 'snap',
       meta: {
         algorithms: [
@@ -50,7 +50,7 @@ export const exampleDIDKeyImportedAccount = {
         ],
       },
       publicKeyHex:
-        '04998c238b37415171005ff4965056819b7ee4218bfdb45b85ce33a7b12561b69b3b4176b0789ad027da6c726b874dcc680933b68f440a85d38e67a733e1f6becc',
+        '0477d3b6b4d64b638521f78c3f862b4578c9601af4625df5771c6813edabeb876bfe372cb9aecf2f2a1d008e46d2b2fd38284051e38b85b68eaa38a1496fc537a3',
       type: 'Secp256k1',
     },
   ],

@@ -20,6 +20,7 @@ import {
   exampleDIDKeyImportedAccount,
 } from '../data/identifiers/didKey';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
+import WalletService from '../../src/Wallet.service';
 
 describe('Utils [did]', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
@@ -61,7 +62,9 @@ describe('Utils [did]', () => {
       await StorageService.save();
 
       // Need to re-initialize VeramoService with new state
+      await WalletService.init();
       await VeramoService.init();
+      await VeramoService.importIdentifier();
       await expect(VeramoService.getIdentifier()).resolves.toStrictEqual(
         exampleDIDKeyImportedAccount
       );
