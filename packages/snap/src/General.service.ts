@@ -18,10 +18,6 @@ import { getEmptyAccountState } from './utils/config';
 import { snapConfirm } from './utils/snapUtils';
 
 class GeneralService {
-  static async init(): Promise<void> {
-    await StorageService.init();
-  }
-
   static async initAccountState(): Promise<void> {
     const state = StorageService.get();
 

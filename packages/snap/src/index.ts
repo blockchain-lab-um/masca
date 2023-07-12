@@ -6,7 +6,7 @@ import { OnRpcRequestHandler } from '@metamask/snaps-types';
 
 import GeneralService from './General.service';
 import SnapService from './Snap.service';
-import StorageServcice from './storage/Storage.service';
+import StorageService from './storage/Storage.service';
 import VeramoService from './veramo/Veramo.service';
 
 export const onRpcRequest: OnRpcRequestHandler = async ({
@@ -14,12 +14,12 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,
 }): Promise<Result<unknown>> => {
   try {
-    await GeneralService.init();
+    await StorageService.init();
 
     if (request.method === 'setCurrentAccount') {
       isValidSetCurrentAccountRequest(request.params);
       await GeneralService.setCurrentAccount(request.params.currentAccount); // FIXME: Rename parameter to account
-      await StorageServcice.save();
+      await StorageService.save();
       return ResultObject.success(true);
     }
 
@@ -31,7 +31,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
 
     const response = await SnapService.handleRpcRequest(method, params, origin);
 
-    await StorageServcice.save();
+    await StorageService.save();
 
     return response;
   } catch (e) {

@@ -1,7 +1,6 @@
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 
-import GeneralService from '../../src/General.service';
 import StorageService from '../../src/storage/Storage.service';
 import VeramoService from '../../src/veramo/Veramo.service';
 import {
@@ -35,7 +34,7 @@ describe('Utils [did]', () => {
     global.snap = snapMock;
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
 
-    await GeneralService.init();
+    await StorageService.init();
     await VeramoService.init();
   });
 

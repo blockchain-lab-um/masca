@@ -5,6 +5,7 @@ import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import { IIdentifier } from '@veramo/core';
 
 import GeneralService from '../../src/General.service';
+import StorageService from '../../src/storage/Storage.service';
 import type { StoredCredentials } from '../../src/veramo/plugins/ceramicDataStore/ceramicDataStore';
 import VeramoService from '../../src/veramo/Veramo.service';
 import { account, jsonPath } from '../data/constants';
@@ -32,7 +33,7 @@ describe('Utils [veramo]', () => {
     global.snap = snapMock;
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
 
-    await GeneralService.init();
+    await StorageService.init();
     await VeramoService.init();
   });
 

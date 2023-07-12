@@ -436,8 +436,8 @@ class SnapService {
         res = await this.handleCredentialOffer(params);
         return ResultObject.success(res);
       case 'handleAuthorizationRequest':
-        res = await this.handleAuthorizationRequest(params);
-        return ResultObject.success(res);
+        await this.handleAuthorizationRequest(params);
+        return ResultObject.success(true);
 
       /**
        * General.service

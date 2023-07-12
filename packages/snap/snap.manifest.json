@@ -15,7 +15,7 @@
         "registry": "https://registry.npmjs.org"
       }
     },
-    "shasum": "V+WVNZ1F7P+8njqpo0x2hJCo/zCEY2t/tfGNzUx+xvI="
+    "shasum": "H3AmcKwR+ILYG1vW1mHpsR5vzQTzBId9TsEHrEhN0zU="
   },
   "initialPermissions": {
     "endowment:ethereum-provider": {},
@@ -31,7 +31,8 @@
       }
     ],
     "snap_getEntropy": {},
-    "snap_manageState": {}
+    "snap_manageState": {},
+    "endowment:webassembly": {}
   },
   "manifestVersion": "0.1"
 }
