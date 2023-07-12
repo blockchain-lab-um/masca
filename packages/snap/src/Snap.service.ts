@@ -50,10 +50,8 @@ class SnapService {
     const { filter, options } = args ?? {};
     const { store, returnStore = true } = options ?? {};
 
-    await PolygonService.init();
-
     // FIXME: Maybe do this in parallel? Does it make sense?
-    const vcs = await VeramoService.queryCredentials({
+    const veramoCredentials = await VeramoService.queryCredentials({
       options: { store, returnStore },
       filter,
     });
@@ -67,6 +65,8 @@ class SnapService {
         store: ['snap'],
       },
     }));
+
+    const vcs = [...veramoCredentials, ...polygonCredentials];
 
     const content = panel([
       heading('Share VCs'),
@@ -83,7 +83,7 @@ class SnapService {
       (await snapConfirm(content))
     ) {
       await GeneralService.addFriendlyDapp(this.origin);
-      return [...vcs, ...polygonCredentials];
+      return vcs;
     }
 
     throw new Error('User rejected the request.');
@@ -119,6 +119,7 @@ class SnapService {
       // Check if credential subject id is a string (did)
       if (typeof id === 'string') {
         if (polygonSupportedMethods.some((method) => id.startsWith(method))) {
+          await PolygonService.init();
           await PolygonService.saveCredential(
             verifiableCredential as W3CCredential
           );
@@ -195,10 +196,27 @@ class SnapService {
     const { id, options } = args ?? {};
     const store = options?.store;
 
-    const vcs = await VeramoService.queryCredentials({
+    const veramoCredentials = await VeramoService.queryCredentials({
       options: { store },
       filter: { type: 'id', filter: id },
     });
+
+    // FIXME: Implement filter
+    const polygonCredentials: QueryVCsRequestResult[] = (
+      await PolygonService.queryCredentials()
+    )
+      .map((vc) => ({
+        data: vc as VerifiableCredential,
+        metadata: {
+          id: vc.id,
+          store: ['snap'],
+        },
+      }))
+      .filter((vc) => vc.metadata.id === id);
+
+    const vcs = [...veramoCredentials, ...polygonCredentials];
+
+    if (vcs.length === 0) throw new Error('No VC found with the given id');
 
     let stores = 'All';
     if (store) {
@@ -214,11 +232,19 @@ class SnapService {
     ]);
 
     if (await snapConfirm(content)) {
-      const res = await VeramoService.deleteCredential({
-        id,
-        store,
-      });
-      return res;
+      if (polygonCredentials.length > 0) {
+        await PolygonService.deleteCredential(id);
+        return [true];
+      }
+
+      if (veramoCredentials.length > 0) {
+        const res = await VeramoService.deleteCredential({
+          id,
+          store,
+        });
+
+        return res;
+      }
     }
 
     throw new Error('User rejected the request.');
@@ -398,6 +424,7 @@ class SnapService {
        */
       case 'queryVCs':
         isValidQueryVCsRequest(params, state.currentAccount, state);
+        await PolygonService.init();
         res = await this.queryCredentials(params);
         return ResultObject.success(res);
       case 'saveVC':
@@ -416,6 +443,7 @@ class SnapService {
         return ResultObject.success(res);
       case 'deleteVC':
         isValidDeleteVCsRequest(params, state.currentAccount, state);
+        await PolygonService.init();
         res = await this.deleteCredential(params);
         return ResultObject.success(res);
       case 'getDID':

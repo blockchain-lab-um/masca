@@ -1,4 +1,4 @@
-import { isError, Result } from '@blockchain-lab-um/utils';
+import { isError, isSuccess, Result } from '@blockchain-lab-um/utils';
 import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-datamanager';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { MetaMaskInpageProvider } from '@metamask/providers';
@@ -256,11 +256,11 @@ describe('deleteVC', () => {
       },
     })) as Result<unknown>;
 
-    if (isError(res)) {
-      throw new Error(res.error);
+    if (isSuccess(res)) {
+      throw new Error('Should return error');
     }
 
-    expect(res.data).toHaveLength(0);
+    expect(res.error).toBe('Error: No VC found with the given id');
 
     const result = (await onRpcRequest({
       origin: 'localhost',

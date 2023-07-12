@@ -251,8 +251,7 @@ class PolygonService {
     const { id } = credential.credentialSubject;
 
     const identifier = await this.getIdentifier();
-    console.log('identifier', identifier);
-    console.log('id', id);
+
     if (id !== identifier) {
       throw new Error('The credential does not belong to the current identity');
     }
@@ -286,6 +285,30 @@ class PolygonService {
     }
 
     return credentials;
+  }
+
+  static async deleteCredential(id: string) {
+    // FIXME: Can we do this in parallel? Does it make sense?
+    // FIXME: Should we pass in credential so we know from which method, blockchain and network to delete?
+    for (const method of METHODS) {
+      for (const blockchain of BLOCKCHAINS) {
+        for (const networkId of NETWORKS) {
+          if (
+            !(
+              blockchain === Blockchain.Ethereum &&
+              networkId === NetworkId.Mumbai
+            ) &&
+            !(
+              blockchain === Blockchain.Polygon &&
+              networkId === NetworkId.Goerli
+            )
+          ) {
+            const { credWallet } = this.instance[method][blockchain][networkId];
+            await credWallet.remove(id);
+          }
+        }
+      }
+    }
   }
 
   static async getIdentifier(): Promise<string> {
