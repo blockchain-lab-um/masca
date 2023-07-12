@@ -2,7 +2,6 @@ import './polyfills/intl';
 
 import {
   isValidSetCurrentAccountRequest,
-  isVeramoSupportedMethods,
 } from '@blockchain-lab-um/masca-types';
 import { ResultObject, type Result } from '@blockchain-lab-um/utils';
 import { OnRpcRequestHandler } from '@metamask/snaps-types';
@@ -30,9 +29,8 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     await GeneralService.initAccountState();
 
     const accountState = StorageServcice.getAccountState();
-    if (isVeramoSupportedMethods(accountState.accountConfig.ssi.didMethod)) {
-      await WalletService.init();
-    }
+   
+    await WalletService.init();
 
     await VeramoService.init();
 
