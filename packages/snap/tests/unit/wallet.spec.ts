@@ -2,13 +2,29 @@ import { InternalSigMethods } from '@blockchain-lab-um/masca-types';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 
+import StorageService from '../../src/storage/Storage.service';
+import WalletService from '../../src/Wallet.service';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
-import StorageService from '../../src/storage/Storage.service';
-import WalletService from '../../src/Wallet.service';
 
-const methods = [{method: 'did:key', privateKey: '0xf27f0c9b939cebc92647ab62a6d979f4ec35c33fbf5f3c0840e76c528a05e15b'}, {method: 'did:jwk', privateKey: '0x433cb66517baaed8449556bda608bfb90f03b7d4204752e286fb410de9958472'}, {method: 'did:key:jwk_jcs-pub', privateKey: '0xf27f0c9b939cebc92647ab62a6d979f4ec35c33fbf5f3c0840e76c528a05e15b'}];
+const methods = [
+  {
+    method: 'did:key',
+    privateKey:
+      '0xf27f0c9b939cebc92647ab62a6d979f4ec35c33fbf5f3c0840e76c528a05e15b',
+  },
+  {
+    method: 'did:jwk',
+    privateKey:
+      '0x433cb66517baaed8449556bda608bfb90f03b7d4204752e286fb410de9958472',
+  },
+  {
+    method: 'did:key:jwk_jcs-pub',
+    privateKey:
+      '0xf27f0c9b939cebc92647ab62a6d979f4ec35c33fbf5f3c0840e76c528a05e15b',
+  },
+];
 
 describe('Wallet Service', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
@@ -40,15 +56,15 @@ describe('Wallet Service', () => {
       'should get correct privateKey for available methods $method',
       async (method) => {
         const state = StorageService.get();
-      state.accountState[state.currentAccount].accountConfig.ssi.didMethod =
-        method.method as InternalSigMethods;
-      await StorageService.save();
+        state.accountState[state.currentAccount].accountConfig.ssi.didMethod =
+          method.method as InternalSigMethods;
+        await StorageService.save();
 
-      // Need to re-initialize VeramoService with new state
-      await WalletService.init();
-    const node = WalletService.get();
-    expect(node.privateKey).toEqual(method.privateKey);
-    expect.assertions(1);
+        // Need to re-initialize VeramoService with new state
+        await WalletService.init();
+        const node = WalletService.get();
+        expect(node.privateKey).toEqual(method.privateKey);
+        expect.assertions(1);
       }
     );
   });

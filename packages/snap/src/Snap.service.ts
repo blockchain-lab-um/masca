@@ -130,13 +130,10 @@ class SnapService {
           ];
         }
 
-
-          return VeramoService.saveCredential({
-            verifiableCredential:
-              verifiableCredential as W3CVerifiableCredential,
-            store,
-          });
-        
+        return VeramoService.saveCredential({
+          verifiableCredential: verifiableCredential as W3CVerifiableCredential,
+          store,
+        });
       }
 
       throw new Error('Unsupported Credential format');

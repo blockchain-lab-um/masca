@@ -287,7 +287,9 @@ describe('saveVerifiableCredential', () => {
     if (!isError(saveRes)) {
       throw new Error('Should have failed');
     }
-    expect(saveRes.error).toBe('Error: Store plugin non-existent-store not found');
+    expect(saveRes.error).toBe(
+      'Error: Store plugin non-existent-store not found'
+    );
     expect.assertions(1);
   });
 
@@ -399,9 +401,7 @@ describe('saveVerifiableCredential', () => {
       throw new Error('Should return error');
     }
 
-    expect(saveRes.error).toBe(
-      'Error: Store plugin snapp not found'
-    );
+    expect(saveRes.error).toBe('Error: Store plugin snapp not found');
 
     expect.assertions(1);
   });

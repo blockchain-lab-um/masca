@@ -3,6 +3,7 @@ import type { SnapsGlobalObject } from '@metamask/snaps-types';
 
 import StorageService from '../../src/storage/Storage.service';
 import VeramoService from '../../src/veramo/Veramo.service';
+import WalletService from '../../src/Wallet.service';
 import {
   account,
   resolutionInvalidDID,
@@ -20,7 +21,6 @@ import {
   exampleDIDKeyImportedAccount,
 } from '../data/identifiers/didKey';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
-import WalletService from '../../src/Wallet.service';
 
 describe('Utils [did]', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
