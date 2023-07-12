@@ -2,7 +2,7 @@ import { useState } from 'react';
 import {
   AvailableVCStores,
   isVerifiableCredential,
-} from '@blockchain-lab-um/masca-types';
+} from '@blockchain-lab-um/masca-connector';
 import { Dialog } from '@headlessui/react';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';

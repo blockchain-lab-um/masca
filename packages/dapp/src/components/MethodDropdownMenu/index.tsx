@@ -1,8 +1,10 @@
 'use client';
 
 import { Fragment } from 'react';
-import type { AvailableMethods } from '@blockchain-lab-um/masca-types';
-import { isError } from '@blockchain-lab-um/utils';
+import {
+  isError,
+  type AvailableMethods,
+} from '@blockchain-lab-um/masca-connector';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';

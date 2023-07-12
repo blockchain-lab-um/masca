@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { isError } from '@blockchain-lab-um/masca-connector';
 import type { AuthorizationRequest } from '@blockchain-lab-um/oidc-types';
-import { isError } from '@blockchain-lab-um/utils';
 import { VerifiableCredential } from '@veramo/core';
 import qs from 'qs';
 

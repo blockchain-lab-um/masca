@@ -17,10 +17,10 @@ Ceramic Network support is experimental and still under development!
 ### Using the Masca Connector
 
 ```bash
-pnpm add @blockchain-lab-um/masca-connector @blockchain-lab-um/utils
+pnpm add @blockchain-lab-um/masca-connector
 ```
 
-Connector has exposed function for installing Masca.
+Connector has an exposed function for installing the Masca snap. For ease of use, the connector package also exposes all the functions and types from `@blockchain-lab-um/masca-types` and `@blockchain-lab-um/utils` NPM packages.
 
 After Masca installation, this function returns a `Masca` object that can be used to retrieve Masca API.
 An example of initializing Masca and invoking Masca's API is shown below.
@@ -28,8 +28,7 @@ An example of initializing Masca and invoking Masca's API is shown below.
 For Masca to work properly, it needs to know the address of the connected account. Initially this can be done by passing the address as a parameter to `enableMasca` function. Later, the address can be changed using the `setCurrentAccount` RPC method!
 
 ```typescript
-import { enableMasca } from '@blockchain-lab-um/masca-connector';
-import { isError } from '@blockchain-lab-um/utils';
+import { enableMasca, isError } from '@blockchain-lab-um/masca-connector';
 
 // Install snap and fetch the Masca API
 const masca = await enableMasca(address, {

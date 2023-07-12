@@ -1,4 +1,4 @@
-import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-types';
+import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { CredentialSubject } from '@veramo/core';
 
 export const stringifyCredentialSubject = (

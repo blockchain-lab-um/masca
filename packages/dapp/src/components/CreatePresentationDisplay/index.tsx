@@ -3,10 +3,10 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
+  isError,
   QueryVCsRequestResult,
   SupportedProofFormats,
-} from '@blockchain-lab-um/masca-types';
-import { isError } from '@blockchain-lab-um/utils';
+} from '@blockchain-lab-um/masca-connector';
 import { ArrowLeftIcon } from '@heroicons/react/20/solid';
 import {
   W3CVerifiableCredential,

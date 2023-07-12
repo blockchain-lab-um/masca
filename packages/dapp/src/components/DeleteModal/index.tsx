@@ -1,8 +1,8 @@
 import {
   AvailableVCStores,
+  isError,
   QueryVCsRequestResult,
-} from '@blockchain-lab-um/masca-types';
-import { isError } from '@blockchain-lab-um/utils';
+} from '@blockchain-lab-um/masca-connector';
 import { Dialog } from '@headlessui/react';
 import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';

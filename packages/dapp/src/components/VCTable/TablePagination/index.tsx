@@ -1,4 +1,4 @@
-import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-types';
+import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { Table } from '@tanstack/react-table';
 import { useTranslations } from 'next-intl';
 

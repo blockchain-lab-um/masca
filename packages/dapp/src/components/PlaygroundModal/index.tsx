@@ -1,5 +1,5 @@
 import { Fragment, useState } from 'react';
-import { isError } from '@blockchain-lab-um/utils';
+import { isError } from '@blockchain-lab-um/masca-connector';
 import { Dialog, Transition } from '@headlessui/react';
 import clsx from 'clsx';
 import shallow from 'zustand/shallow';

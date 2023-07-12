@@ -1,4 +1,4 @@
-import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-types';
+import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { ColumnFiltersState } from '@tanstack/react-table';
 import { create } from 'zustand';
 
