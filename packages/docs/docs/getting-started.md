@@ -37,7 +37,7 @@ dApps can access Masca functionalities using the RPC methods like standard MetaM
 Installing Masca Connector to your project:
 
 ```shell
-pnpm add @blockchain-lab-um/masca-connector @blockchain-lab-um/utils
+pnpm add @blockchain-lab-um/masca-connector
 ```
 
 Masca installs and initializes using the function `enableMasca` . After the installation, `enableMasca` returns the `Masca` object used to retrieve the API.
@@ -45,14 +45,15 @@ Masca installs and initializes using the function `enableMasca` . After the inst
 A minimal example of initializing Masca and invoking one of the API methods:
 
 ```typescript
-import { enableMasca } from '@blockchain-lab-um/masca-connector';
-import { isError } from '@blockchain-lab-um/utils';
+import { enableMasca, isError } from '@blockchain-lab-um/masca-connector';
 
-//Connect wallet & get Address
+
+// Connect wallet & get Address
 const address = await window.ethereum.request({
-      method: 'eth_requestAccounts',
+    method: 'eth_requestAccounts',
 });
 
+// Install Masca and retrieve the API interface
 const masca = await enableMasca(address[0]);
 
 if(isError(masca)){
@@ -62,7 +63,7 @@ if(isError(masca)){
 
 const api = masca.data.getMascaApi();
 
-// invoke API
+// Invoke the API
 const vcs = await api.queryVCs();
 
 if(isError(masca)){

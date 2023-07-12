@@ -1,6 +1,6 @@
 'use client';
 
-import { isError } from '@blockchain-lab-um/utils';
+import { isError } from '@blockchain-lab-um/masca-connector';
 import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 

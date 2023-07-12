@@ -1,6 +1,6 @@
 'use client';
 
-import { isError } from '@blockchain-lab-um/utils';
+import { isError } from '@blockchain-lab-um/masca-connector';
 import { Dialog } from '@headlessui/react';
 import { VerifiableCredential } from '@veramo/core';
 import { useTranslations } from 'next-intl';

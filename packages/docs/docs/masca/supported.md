@@ -9,6 +9,7 @@ DID methods:
 - [`did:ethr`](https://github.com/decentralized-identity/ethr-did-resolver/blob/master/doc/did-method-spec.md)
 - [`did:key`](https://w3c-ccg.github.io/did-method-key/) - including `did:key` method used for creation and management of [EBSI Natural Person identifiers](https://api-pilot.ebsi.eu/docs/specs/did-methods/did-method-for-natural-person)
 - [`did:pkh`](https://github.com/w3c-ccg/did-pkh/blob/main/did-pkh-method-draft.md)
+- [`did:jwk`](https://github.com/quartzjer/did-jwk/blob/main/spec.md)
 
 Data Storage:
 

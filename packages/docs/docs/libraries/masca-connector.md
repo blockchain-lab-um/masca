@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Masca Connector SDK
 
-Masca connector installs Masca and exposes API toward snap on dApps and other applications.
+Masca connector installs Masca and exposes the API toward snap on dApps and other applications.
 
 You can take a look at the [connector's codebase](https://github.com/blockchain-lab-um/ssi-snap/tree/master/packages/connector).
 
@@ -13,10 +13,10 @@ You can take a look at the [connector's codebase](https://github.com/blockchain-
 ### Install
 
 ```bash
-pnpm add @blockchain-lab-um/masca-connector @blockchain-lab-um/utils
+pnpm add @blockchain-lab-um/masca-connector
 ```
 
-Connector has an exposed method for installing Masca Snap.
+Connector has an exposed method for installing the Masca snap. For ease of use, the connector package also exposes all the functions and types from `@blockchain-lab-um/masca-types` and `@blockchain-lab-um/utils` NPM packages.
 
 ```typescript
 export async function enableMasca(
@@ -45,9 +45,9 @@ A more detailed description of methods & parameters is provided in the chapter [
 :::
 
 ```typescript
-import { enableMasca } from '@blockchain-lab-um/masca-connector';
-import { isError } from '@blockchain-lab-um/utils';
-// install Masca and retrieve API interface
+import { enableMasca, isError } from '@blockchain-lab-um/masca-connector';
+
+// Install Masca and retrieve the API interface
 const masca = await enableMasca(address);
 
 if(isError(masca)){
@@ -57,7 +57,7 @@ if(isError(masca)){
 
 const api = masca.data.getMascaApi();
 
-// invoke API
+// Invoke the API
 const vcs = await api.queryVCs();
 
 if(isError(masca)){

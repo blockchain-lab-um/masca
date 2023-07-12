@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { uint8ArrayToHex } from '@blockchain-lab-um/utils';
+import { uint8ArrayToHex } from '@blockchain-lab-um/masca-connector';
 import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 

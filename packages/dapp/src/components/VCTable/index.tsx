@@ -3,8 +3,10 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-types';
-import { isError } from '@blockchain-lab-um/utils';
+import {
+  isError,
+  QueryVCsRequestResult,
+} from '@blockchain-lab-um/masca-connector';
 import {
   CheckCircleIcon,
   ChevronDownIcon,
