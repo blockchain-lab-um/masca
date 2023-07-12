@@ -1,8 +1,6 @@
 import './polyfills/intl';
 
-import {
-  isValidSetCurrentAccountRequest,
-} from '@blockchain-lab-um/masca-types';
+import { isValidSetCurrentAccountRequest } from '@blockchain-lab-um/masca-types';
 import { ResultObject, type Result } from '@blockchain-lab-um/utils';
 import { OnRpcRequestHandler } from '@metamask/snaps-types';
 
@@ -29,7 +27,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     await GeneralService.initAccountState();
 
     const accountState = StorageServcice.getAccountState();
-   
+
     await WalletService.init();
 
     await VeramoService.init();

@@ -15,7 +15,7 @@ class WalletService {
     const method = state.accountState[state.currentAccount].accountConfig.ssi
       .didMethod as InternalSigMethods;
 
-    if(!['did:key', 'did:key:jwk_jcs-pub', 'did:jwk'].includes(method)) {
+    if (!['did:key', 'did:key:jwk_jcs-pub', 'did:jwk'].includes(method)) {
       return;
     }
 
