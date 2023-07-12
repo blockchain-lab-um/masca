@@ -355,7 +355,7 @@ export async function verifyData(
 export async function handleCredentialOffer(
   this: Masca,
   params: HandleCredentialOfferRequestParams
-): Promise<Result<VerifiableCredential>> {
+): Promise<Result<VerifiableCredential[]>> {
   return sendSnapMethod(
     {
       method: 'handleCredentialOffer',
@@ -368,7 +368,7 @@ export async function handleCredentialOffer(
 export async function handleAuthorizationRequest(
   this: Masca,
   params: HandleAuthorizationRequestParams
-): Promise<Result<VerifiableCredential[]>> {
+): Promise<Result<void>> {
   return sendSnapMethod(
     {
       method: 'handleAuthorizationRequest',

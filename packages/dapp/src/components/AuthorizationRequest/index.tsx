@@ -104,11 +104,7 @@ const AuthorizationRequestFlow = () => {
           loading: false,
         });
       }, 200);
-
-      return;
     }
-
-    setCredentials(handleAuthorizationRequestResponse.data);
   };
 
   const sendAuthorizationResponse = async () => {

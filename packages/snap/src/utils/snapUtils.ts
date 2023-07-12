@@ -38,7 +38,3 @@ export function isEnabledVCStore(
 ): boolean {
   return state.accountState[account].accountConfig.ssi.vcStore[store];
 }
-
-export function isVeramoSupportedMethod(method: string): boolean {
-  return method === 'did:key' || method === 'did:key:jwk_jcs-pub' || method === 'did:jwk';
-}

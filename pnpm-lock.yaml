@@ -20,6 +20,9 @@ patchedDependencies:
   cross-fetch@3.1.6:
     hash: b7u473fsyomrwof2p2enxrunba
     path: patches/cross-fetch@3.1.6.patch
+  intl@1.2.5:
+    hash: 2i3sho75ida2jvn4xlmbxxe25i
+    path: patches/intl@1.2.5.patch
 
 importers:
 
@@ -1192,6 +1195,9 @@ importers:
       '@veramo/core':
         specifier: 5.2.0
         version: 5.2.0
+      '@veramo/utils':
+        specifier: 5.2.0
+        version: 5.2.0
       '@vercel/analytics':
         specifier: ^1.0.1
         version: 1.0.1
@@ -1654,6 +1660,9 @@ importers:
       ceramic-cacao:
         specifier: ^1.4.0
         version: 1.4.0
+      did-jwt:
+        specifier: ^7.2.0
+        version: 7.2.0
       did-jwt-vc:
         specifier: 3.2.1
         version: 3.2.1
@@ -1681,6 +1690,9 @@ importers:
       ethr-did-resolver:
         specifier: 8.0.0
         version: 8.0.0
+      intl:
+        specifier: ^1.2.5
+        version: 1.2.5(patch_hash=2i3sho75ida2jvn4xlmbxxe25i)
       jose:
         specifier: ^4.14.4
         version: 4.14.4
@@ -12748,7 +12760,7 @@ packages:
     resolution: {integrity: sha512-rpwfAcS/CMqo0oCqDf3r9eeLgScRE3l/xHDCXhM3UyrfvIn7PrLq63uHh7yYbv8NzaZn5MVsVhIRpQ+5GZ5HyA==}
     engines: {node: '>=8'}
     dependencies:
-      '@noble/hashes': 1.1.5
+      '@noble/hashes': 1.3.1
       base-x: 4.0.0
     dev: false
 
@@ -17818,6 +17830,11 @@ packages:
       '@formatjs/icu-messageformat-parser': 2.1.0
       tslib: 2.5.3
     dev: false
+
+  /intl@1.2.5(patch_hash=2i3sho75ida2jvn4xlmbxxe25i):
+    resolution: {integrity: sha512-rK0KcPHeBFBcqsErKSpvZnrOmWOj+EmDkyJ57e90YWaQNqbcivcqmKDlHEeNprDWOsKzPsh1BfSpPQdDvclHVw==}
+    dev: false
+    patched: true
 
   /invariant@2.2.4:
     resolution: {integrity: sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==}

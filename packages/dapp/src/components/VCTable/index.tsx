@@ -30,6 +30,7 @@ import {
   SortingState,
   useReactTable,
 } from '@tanstack/react-table';
+import { encodeBase64url } from '@veramo/utils';
 import clsx from 'clsx';
 import { DateTime } from 'luxon';
 import { useTranslations } from 'next-intl';
@@ -298,6 +299,7 @@ const Table = () => {
     const loadedVCs = await api.queryVCs();
 
     if (isError(loadedVCs)) {
+      console.log(loadedVCs.error);
       setTimeout(() => {
         useToastStore.setState({
           open: true,
@@ -459,7 +461,9 @@ const Table = () => {
                           cell.column.id !== 'actions'
                         ) {
                           router.push(
-                            `/app/verifiable-credential/${row.original.metadata.id}`
+                            `/app/verifiable-credential/${encodeBase64url(
+                              row.original.metadata.id
+                            )}`
                           );
                         }
                       }}

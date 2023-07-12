@@ -137,9 +137,11 @@ const GetCredential = () => {
       });
     }, 200);
 
+    console.log(credential);
+
     // Save credential
-    // TODO: Convert credential to VC first
-    const saveCredentialResponse = await api.saveVC(credential, {
+    // TODO: Handle multiple credentials
+    const saveCredentialResponse = await api.saveVC(credential[0], {
       store: ['snap'],
     });
 

@@ -1,30 +1,85 @@
 import { isIn } from '@blockchain-lab-um/utils';
 
+/**
+ * @description
+ * Supported VC stores
+ */
 export const availableVCStores = ['snap', 'ceramic'] as const;
 export type AvailableVCStores = (typeof availableVCStores)[number];
-
 export const isAvailableVCStores = (x: string) =>
   isIn<AvailableVCStores>(availableVCStores, x);
 
+/**
+ * @description
+ *
+ * Did methods requiring external signature
+ * MetaMask personal_sign or eth_signTypedData_v4
+ *
+ * These methods use ethereum keys from MetaMask
+ */
 export const externalSigMethods = ['did:ethr', 'did:pkh'] as const;
 export type ExternalSigMethods = (typeof externalSigMethods)[number];
+export const isExternalSigMethods = (x: string) =>
+  isIn<ExternalSigMethods>(externalSigMethods, x);
 
-export const internalSigMethods = [
+/**
+ * @description
+ *
+ * Did methods supported by Veramo
+ */
+export const veramoSupportedMethods = [
+  'did:ethr',
+  'did:pkh',
   'did:key',
   'did:key:jwk_jcs-pub',
   'did:jwk',
   // 'did:ebsi',
 ] as const;
-export type InternalSigMethods = (typeof internalSigMethods)[number];
+export type VeramoSupportedMethods = (typeof veramoSupportedMethods)[number];
+export const isVeramoSupportedMethods = (x: string) =>
+  isIn<VeramoSupportedMethods>(veramoSupportedMethods, x);
 
+/**
+ * @description
+ *
+ * Did methods supported by Polygon
+ */
+export const polygonSupportedMethods = ['did:iden3', 'did:polygonid'] as const;
+export type PolygonSupportedMethods = (typeof polygonSupportedMethods)[number];
+export const isPolygonSupportedMethods = (x: string) =>
+  isIn<PolygonSupportedMethods>(polygonSupportedMethods, x);
+
+/**
+ * @description
+ *
+ * Did methods we can use to sign data internally
+ */
+export const internalSigMethods = [
+  'did:key',
+  'did:key:jwk_jcs-pub',
+  'did:jwk',
+  ...polygonSupportedMethods,
+] as const;
+export type InternalSigMethods = (typeof internalSigMethods)[number];
+export const isInternalSigMethods = (x: string) =>
+  isIn<InternalSigMethods>(internalSigMethods, x);
+
+/**
+ * @description
+ * All supported methods
+ */
 export const availableMethods = [
   ...externalSigMethods,
   ...internalSigMethods,
 ] as const;
-
 export type AvailableMethods = (typeof availableMethods)[number];
 export const isAvailableMethods = (x: string) =>
   isIn<AvailableMethods>(availableMethods, x);
+
+/**
+ * @description
+ * Methods requiring a specific network
+ */
 export type MethodsRequiringNetwork = (typeof externalSigMethods)[number];
 export const requiresNetwork = (x: string) =>
   isIn<MethodsRequiringNetwork>(externalSigMethods, x);
@@ -55,6 +110,8 @@ export const methodIndexMapping: Record<InternalSigMethods, number> = {
   'did:key': 0,
   'did:key:jwk_jcs-pub': 0,
   'did:jwk': 1,
+  'did:iden3': 2,
+  'did:polygonid': 3,
 } as const;
 
 export const supportedProofFormats = [

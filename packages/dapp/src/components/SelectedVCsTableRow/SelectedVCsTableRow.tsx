@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-types';
 import { ArrowsPointingOutIcon } from '@heroicons/react/24/outline';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
+import { encodeBase64url } from '@veramo/utils';
 
 import Tooltip from '@/components/Tooltip';
 
@@ -39,7 +40,11 @@ const SelectedVCsTableRow = ({
     <tr className="animated-transition dark:text-navy-blue-50 dark:border-navy-blue-tone/30 dark:hover:bg-navy-blue-700/30 border-b border-gray-100 duration-75 hover:bg-gray-50">
       <td className="py-4">
         <span className="flex items-center justify-center">
-          <Link href={`/app/verifiable-credential/${vc.metadata.id}`}>
+          <Link
+            href={`/app/verifiable-credential/${encodeBase64url(
+              vc.metadata.id
+            )}`}
+          >
             <button>
               <ArrowsPointingOutIcon className="h-5 w-5" />
             </button>

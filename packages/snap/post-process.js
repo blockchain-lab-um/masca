@@ -15,19 +15,18 @@ bundleString = bundleString.replace(
   ''
 );
 
-// // [Polygon ID] Fix Worker
-// bundleString = 'var Worker = {};\n'.concat(bundleString);
+// [Polygon ID] Fix Worker
+bundleString = 'var Worker = {};\n'.concat(bundleString);
 
-// // [Polygon ID] Fix promise
-// bundleString = bundleString.replaceAll(
-//   `new Function("return this;")().Promise`,
-//   'Promise'
-// );
+// [Polygon ID] Fix promise
+bundleString = bundleString.replaceAll(
+  `new Function("return this;")().Promise`,
+  'Promise'
+);
 
-// // [Polygon ID] Remove fs
-// bundleString = bundleString.replaceAll('fs2.readFileSync;', 'null;');
-// bundleString = bundleString.replaceAll('fs3.readFileSync;', 'null;');
-
+// [Polygon ID] Remove fs
+bundleString = bundleString.replaceAll('fs2.readFileSync;', 'null;');
+bundleString = bundleString.replaceAll('fs3.readFileSync;', 'null;');
 
 fs.writeFileSync(bundlePath, bundleString);
 

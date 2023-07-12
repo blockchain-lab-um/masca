@@ -86,9 +86,9 @@ import StorageService from '../storage/Storage.service';
 import UniversalResolverService from '../UniversalResolver.service';
 import { sign } from '../utils/sign';
 import { snapConfirm } from '../utils/snapUtils';
+import WalletService from '../Wallet.service';
 import { CeramicVCStore } from './plugins/ceramicDataStore/ceramicDataStore';
 import { SnapVCStore } from './plugins/snapDataStore/snapDataStore';
-import WalletService from '../Wallet.service';
 
 export type Agent = TAgent<
   IDIDManager &
@@ -106,12 +106,9 @@ class VeramoService {
 
   static async init(): Promise<void> {
     this.instance = await this.createAgent();
-
-    // Import current account as did
-    await this.importIdentifier();
   }
 
-  private static async importIdentifier(): Promise<void> {
+  static async importIdentifier(): Promise<void> {
     const state = StorageService.get();
     const account = state.currentAccount;
     const method = state.accountState[account].accountConfig.ssi.didMethod;
@@ -124,11 +121,10 @@ class VeramoService {
       case 'did:key:jwk_jcs-pub':
       case 'did:key':
       case 'did:jwk': {
-
         // Get Entropy from address
 
         // Import into wallet
-        const res = WalletService.get()
+        const res = WalletService.get();
 
         if (!res) throw new Error('Failed to get keys');
 
@@ -481,7 +477,7 @@ class VeramoService {
 
     const { credentials, grants } = credentialOfferResult.data;
 
-    const res = WalletService.get()
+    const res = WalletService.get();
 
     if (res === null) throw new Error('Could not get keys from address');
 
@@ -641,7 +637,7 @@ class VeramoService {
   // TODO: We can probably have different return types
   static async handleOIDCAuthorizationRequest(args: {
     authorizationRequestURI: string;
-  }): Promise<VerifiableCredential[]> {
+  }): Promise<void> {
     const { authorizationRequestURI } = args;
 
     const state = StorageService.get();
@@ -653,7 +649,7 @@ class VeramoService {
     if (did.startsWith('did:ethr') || did.startsWith('did:pkh')) {
       throw new Error('did:ethr and did:pkh are not supported');
     }
-    const res = WalletService.get()
+    const res = WalletService.get();
 
     if (res === null) throw new Error('Could not get keys from address');
 
