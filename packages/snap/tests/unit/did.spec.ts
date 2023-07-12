@@ -3,6 +3,7 @@ import type { SnapsGlobalObject } from '@metamask/snaps-types';
 
 import StorageService from '../../src/storage/Storage.service';
 import VeramoService from '../../src/veramo/Veramo.service';
+import WalletService from '../../src/Wallet.service';
 import {
   account,
   resolutionInvalidDID,
@@ -61,7 +62,9 @@ describe('Utils [did]', () => {
       await StorageService.save();
 
       // Need to re-initialize VeramoService with new state
+      await WalletService.init();
       await VeramoService.init();
+      await VeramoService.importIdentifier();
       await expect(VeramoService.getIdentifier()).resolves.toStrictEqual(
         exampleDIDKeyImportedAccount
       );

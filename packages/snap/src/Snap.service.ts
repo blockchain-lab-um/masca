@@ -20,7 +20,6 @@ import {
   QueryVCsRequestResult,
   SaveVCRequestParams,
   SaveVCRequestResult,
-  veramoSupportedMethods,
   VerifyDataRequestParams,
 } from '@blockchain-lab-um/masca-types';
 import { Result, ResultObject } from '@blockchain-lab-um/utils';
@@ -40,6 +39,7 @@ import PolygonService from './polygon-id/Polygon.service';
 import StorageService from './storage/Storage.service';
 import { snapConfirm } from './utils/snapUtils';
 import VeramoService from './veramo/Veramo.service';
+import WalletService from './Wallet.service';
 
 class SnapService {
   private static origin: string;
@@ -130,13 +130,10 @@ class SnapService {
           ];
         }
 
-        if (veramoSupportedMethods.some((method) => id.startsWith(method))) {
-          return VeramoService.saveCredential({
-            verifiableCredential:
-              verifiableCredential as W3CVerifiableCredential,
-            store,
-          });
-        }
+        return VeramoService.saveCredential({
+          verifiableCredential: verifiableCredential as W3CVerifiableCredential,
+          store,
+        });
       }
 
       throw new Error('Unsupported Credential format');
@@ -448,6 +445,7 @@ class SnapService {
       case 'switchDIDMethod':
         isValidSwitchMethodRequest(params);
         await GeneralService.switchDIDMethod(params);
+        await WalletService.init();
         res = await this.getDID();
         return ResultObject.success(res);
       case 'getSelectedMethod':

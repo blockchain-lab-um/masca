@@ -8,6 +8,7 @@ import GeneralService from './General.service';
 import SnapService from './Snap.service';
 import StorageService from './storage/Storage.service';
 import VeramoService from './veramo/Veramo.service';
+import WalletService from './Wallet.service';
 
 export const onRpcRequest: OnRpcRequestHandler = async ({
   request,
@@ -24,6 +25,8 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     }
 
     await GeneralService.initAccountState();
+
+    await WalletService.init();
 
     await VeramoService.init();
 
