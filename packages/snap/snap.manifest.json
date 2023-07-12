@@ -26,7 +26,8 @@
     },
     "snap_dialog": {},
     "snap_getEntropy": {},
-    "snap_manageState": {}
+    "snap_manageState": {},
+    "endowment:webassembly": {}
   },
   "manifestVersion": "0.1"
 }

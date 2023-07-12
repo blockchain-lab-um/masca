@@ -9,7 +9,6 @@ import {
   CredentialStorage,
   CredentialWallet,
   DataPrepareHandlerFunc,
-  defaultEthConnectionConfig,
   EthStateStorage,
   FetchHandler,
   hexToBytes,
@@ -36,42 +35,19 @@ import {
 } from '@blockchain-lab-um/masca-types';
 import { Blockchain, DID, DidMethod, NetworkId } from '@iden3/js-iden3-core';
 import { proving } from '@iden3/js-jwz';
-import { ES256KSigner } from 'did-jwt';
 
 import EthereumService from '../Ethereum.service';
 import StorageService from '../storage/Storage.service';
 import CircuitStorageService from './CircuitStorage.service';
-import { RHS_URL } from './constants';
+import {
+  BLOCKCHAINS,
+  CHAIN_ID_TO_BLOCKCHAIN_AND_NETWORK_ID,
+  getDefaultEthConnectionConfig,
+  METHODS,
+  NETWORKS,
+  RHS_URL,
+} from './constants';
 import { SnapDataSource, SnapMerkleTreeStorage } from './storage';
-
-const METHODS = [DidMethod.PolygonId, DidMethod.Iden3] as const;
-const BLOCKCHAINS = [Blockchain.Polygon, Blockchain.Ethereum] as const;
-const NETWORKS = [NetworkId.Mumbai, NetworkId.Main, NetworkId.Goerli] as const;
-
-const CHAIN_ID_TO_BLOCKCHAIN_AND_NETWORK_ID = {
-  '0x1': {
-    blockchain: Blockchain.Ethereum,
-    networkId: NetworkId.Main,
-  },
-  '0x5': {
-    blockchain: Blockchain.Ethereum,
-    networkId: NetworkId.Goerli,
-  },
-  '0x89': {
-    blockchain: Blockchain.Polygon,
-    networkId: NetworkId.Main,
-  },
-  '0x13881': {
-    blockchain: Blockchain.Polygon,
-    networkId: NetworkId.Mumbai,
-  },
-} as Record<
-  string,
-  {
-    blockchain: (typeof BLOCKCHAINS)[number];
-    networkId: (typeof NETWORKS)[number];
-  }
->;
 
 type PolygonServicBaseInstance = {
   packageMgr: PackageManager;
@@ -244,7 +220,7 @@ class PolygonService {
       wallet,
       credWallet,
       circuitStorage,
-      new EthStateStorage(defaultEthConnectionConfig),
+      new EthStateStorage(getDefaultEthConnectionConfig(blockchain, networkId)),
       { ipfsNodeURL: 'https://ipfs.io' }
     );
 
@@ -330,7 +306,6 @@ class PolygonService {
   static async handleCredentialOffer(
     args: HandleCredentialOfferRequestParams
   ): Promise<W3CCredential[]> {
-    const state = StorageService.get();
     const { credentialOffer } = args;
     const { method, blockchain, networkId } = this.metadata;
 
@@ -339,43 +314,30 @@ class PolygonService {
     const fetchHandler = new FetchHandler(packageMgr);
     const messageBytes = byteEncoder.encode(credentialOffer);
 
-    const entropy = await snap.request({
-      method: 'snap_getEntropy',
-      params: {
-        version: 1,
-        salt: state.currentAccount,
-      },
-    });
-
     const did = DID.parse(await this.getIdentifier());
-    const didStr = did.string();
 
-    const jwsPackerOpts = {
-      mediaType: PROTOCOL_CONSTANTS.MediaType.SignedMessage,
-      did: didStr,
-      alg: 'ES256K-R',
-      signer: (_: any, msg: any) => async () => {
-        const signature = (await ES256KSigner(
-          hexToBytes(entropy),
-          true
-        )(msg)) as string;
-        return signature;
-      },
-    };
+    try {
+      const credentials = await fetchHandler.handleCredentialOffer({
+        did,
+        offer: messageBytes,
+        packer: {
+          mediaType: PROTOCOL_CONSTANTS.MediaType.ZKPMessage,
+          profileNonce: 0,
+          provingMethodAlg:
+            proving.provingMethodGroth16AuthV2Instance.methodAlg.toString(),
+        },
+      });
 
-    const credentials = await fetchHandler.handleCredentialOffer({
-      did,
-      offer: messageBytes,
-      packer: jwsPackerOpts,
-    });
-
-    return credentials;
+      return credentials;
+    } catch (e) {
+      console.log('error', e);
+      throw new Error('Error handling credential offer');
+    }
   }
 
   static async handleAuthorizationRequest(
     args: HandleAuthorizationRequestParams
   ): Promise<void> {
-    const state = StorageService.get();
     const { authorizationRequest } = args;
     const { method, blockchain, networkId } = this.metadata;
 
@@ -383,48 +345,36 @@ class PolygonService {
 
     const messageBytes = byteEncoder.encode(authorizationRequest);
 
-    const entropy = await snap.request({
-      method: 'snap_getEntropy',
-      params: {
-        version: 1,
-        salt: state.currentAccount,
-      },
-    });
+    try {
+      const did = DID.parse(await this.getIdentifier());
 
-    const did = DID.parse(await this.getIdentifier());
-    const didStr = did.string();
+      const { token, authRequest } =
+        await authHandler.handleAuthorizationRequestForGenesisDID({
+          did,
+          request: messageBytes,
+          packer: {
+            mediaType: PROTOCOL_CONSTANTS.MediaType.ZKPMessage,
+            profileNonce: 0,
+            provingMethodAlg:
+              proving.provingMethodGroth16AuthV2Instance.methodAlg.toString(),
+          },
+        });
 
-    const jwsPackerOpts = {
-      mediaType: PROTOCOL_CONSTANTS.MediaType.SignedMessage,
-      did: didStr,
-      alg: 'ES256K-R',
-      signer: (_: any, msg: any) => async () => {
-        const signature = (await ES256KSigner(
-          hexToBytes(entropy),
-          true
-        )(msg)) as string;
-        return signature;
-      },
-    };
+      if (!authRequest.body?.callbackUrl) {
+        throw new Error('Callback url missing in authorization request');
+      }
 
-    const { token, authRequest } =
-      await authHandler.handleAuthorizationRequestForGenesisDID({
-        did,
-        request: messageBytes,
-        packer: jwsPackerOpts,
+      await fetch(`${authRequest.body.callbackUrl}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: token,
       });
-
-    if (!authRequest.body?.callbackUrl) {
-      throw new Error('Callback url missing in authorization request');
+    } catch (e) {
+      console.log(e);
+      throw new Error('Error sending authorization response');
     }
-
-    await fetch(`${authRequest.body.callbackUrl}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: token,
-    });
   }
 
   static async createWallet(args: {
@@ -467,7 +417,9 @@ class PolygonService {
         )
       ),
       mt: new SnapMerkleTreeStorage(account, method, blockchain, networkId, 40),
-      states: new EthStateStorage(defaultEthConnectionConfig),
+      states: new EthStateStorage(
+        getDefaultEthConnectionConfig(blockchain, networkId)
+      ),
     };
 
     const resolvers = new CredentialStatusResolverRegistry();
@@ -483,7 +435,9 @@ class PolygonService {
 
     resolvers.register(
       CredentialStatusType.Iden3OnchainSparseMerkleTreeProof2023,
-      new OnChainResolver([defaultEthConnectionConfig])
+      new OnChainResolver([
+        getDefaultEthConnectionConfig(blockchain, networkId),
+      ])
     );
 
     const credWallet = new CredentialWallet(dataStorage, resolvers);

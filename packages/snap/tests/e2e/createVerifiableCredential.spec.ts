@@ -9,7 +9,7 @@ import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import type { VerifiableCredential } from '@veramo/core';
 
 import { onRpcRequest } from '../../src';
-import GeneralService from '../../src/General.service';
+import StorageService from '../../src/storage/Storage.service';
 import VeramoService, { type Agent } from '../../src/veramo/Veramo.service';
 import { account } from '../data/constants';
 import examplePayload from '../data/credentials/examplePayload.json';
@@ -49,7 +49,7 @@ describe('createVerifiableCredential', () => {
       global.snap = snapMock;
       global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
 
-      await GeneralService.init();
+      await StorageService.init();
       await VeramoService.init();
       agent = VeramoService.getAgent();
 
