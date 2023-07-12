@@ -40,6 +40,7 @@ import PolygonService from './polygon-id/Polygon.service';
 import StorageService from './storage/Storage.service';
 import { snapConfirm } from './utils/snapUtils';
 import VeramoService from './veramo/Veramo.service';
+import WalletService from './Wallet.service';
 
 class SnapService {
   private static origin: string;
@@ -448,6 +449,7 @@ class SnapService {
       case 'switchDIDMethod':
         isValidSwitchMethodRequest(params);
         await GeneralService.switchDIDMethod(params);
+        await WalletService.init();
         res = await this.getDID();
         return ResultObject.success(res);
       case 'getSelectedMethod':
