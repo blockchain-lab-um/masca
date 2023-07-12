@@ -84,11 +84,11 @@ import EthereumService from '../Ethereum.service';
 import GeneralService from '../General.service';
 import StorageService from '../storage/Storage.service';
 import UniversalResolverService from '../UniversalResolver.service';
-import { snapGetPrivateKeys } from '../utils/keyPair';
 import { sign } from '../utils/sign';
 import { snapConfirm } from '../utils/snapUtils';
 import { CeramicVCStore } from './plugins/ceramicDataStore/ceramicDataStore';
 import { SnapVCStore } from './plugins/snapDataStore/snapDataStore';
+import WalletService from '../Wallet.service';
 
 export type Agent = TAgent<
   IDIDManager &
@@ -128,10 +128,7 @@ class VeramoService {
         // Get Entropy from address
 
         // Import into wallet
-        const res = await snapGetPrivateKeys({
-          account,
-          state,
-        });
+        const res = WalletService.get()
 
         if (!res) throw new Error('Failed to get keys');
 
@@ -484,10 +481,7 @@ class VeramoService {
 
     const { credentials, grants } = credentialOfferResult.data;
 
-    const res = await snapGetPrivateKeys({
-      account: state.currentAccount,
-      state,
-    });
+    const res = WalletService.get()
 
     if (res === null) throw new Error('Could not get keys from address');
 
@@ -659,10 +653,7 @@ class VeramoService {
     if (did.startsWith('did:ethr') || did.startsWith('did:pkh')) {
       throw new Error('did:ethr and did:pkh are not supported');
     }
-    const res = await snapGetPrivateKeys({
-      account: state.currentAccount,
-      state,
-    });
+    const res = WalletService.get()
 
     if (res === null) throw new Error('Could not get keys from address');
 

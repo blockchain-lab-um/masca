@@ -6,6 +6,8 @@ import GeneralService from './General.service';
 import SnapService from './Snap.service';
 import StorageServcice from './storage/Storage.service';
 import VeramoService from './veramo/Veramo.service';
+import WalletService from './Wallet.service';
+import { isVeramoSupportedMethod } from './utils/snapUtils';
 
 export const onRpcRequest: OnRpcRequestHandler = async ({
   request,
@@ -22,6 +24,11 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     }
 
     await GeneralService.initAccountState();
+
+    const accountState = await StorageServcice.getAccountState();
+    if(isVeramoSupportedMethod(accountState.accountConfig.ssi.didMethod)){
+      await WalletService.init();
+    }
 
     await VeramoService.init();
 
