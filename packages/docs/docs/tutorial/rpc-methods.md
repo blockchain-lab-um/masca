@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # JSON-RPC API
 
-All of the types mentioned below can be found in the library `@blockchain-lab-um/masca-types`.
+You can find all of the types mentioned below in the library `@blockchain-lab-um/masca-types` .
 
 ## VC Methods
 
@@ -12,13 +12,13 @@ All of the types mentioned below can be found in the library `@blockchain-lab-um
 
 #### Description
 
-Used to store a VC in Masca. VC can be saved in one or more supported stores.
+`saveVC` stores a VC in Masca. VC can be saved in one or more supported stores.
 
 #### Parameters
 
-1. verifiableCredential - VC, must be of type `W3CVerifiableCredential` from @veramo/core
-2. options? - `SaveVCRequestParams`
-   1. store? - string or array of strings. Defines where to store the VC
+1. `verifiableCredential` - type `W3CVerifiableCredential` from `@veramo/core`
+2. `options?` - `SaveVCRequestParams`.
+   1. `store?` - `string` or `string[]` . Defines where to store the VC.
 
 ```typescript
 const response = await ethereum.request({
@@ -37,48 +37,43 @@ const response = await ethereum.request({
 
 #### Returns
 
-Array of `SaveVCRequestResult` objects
+`SaveVCRequestResult[]`
 
 ### queryVCs
 
 #### Description
 
-`queryVCs` is used to get a list of VCs stored by the currently selected MetaMask account. Optional parameter `params` is an object with optional properties `filter` and `options`.
+`queryVCs` gets a list of VCs stored by the currently selected MetaMask account. Optional parameter `params` is an `object` with optional properties `filter` , and `options` .
 
-Filter defines what `queryVCs` returns and Options defines where to search for data and what format to return it in.
+`filter` defines what `queryVCs` returns, and `options` defines where to search for data and what format to return it in.
 
-QueryVCsRequestParams type:
+`QueryVCsRequestParams` :
 
-```typescript
-type QueryVCsRequestParams = {
-  filter?: {
-    type: string;
-    filter: unknown;
-  };
-  options?: {
-    store?: AvailableVCStores | AvailableVCStores[];
-    returnStore?: boolean;
-  };
-};
-```
+Currently, three different `filter` types are supported; `none` , `id` , and `JSONPath` . Type `none` will work as if no filter property was provided, `id` will search for matching ID of VC and `JSONPath` will use [ `jsonpath` ](https://www.npmjs.com/package/jsonpath) to find matching VCs.
 
-Currently, 3 different `filter` types are supported; `none`, `id`, and `JSONPath`. Type `none` will work as if no filter property was provided, `id` will search for matching ID of VC and `JSONPath` will use jsonpath lib to find matching VCs.
+In the case of `id` , `filter.filter` is an id `string` .
 
-In the case of `id`, filter.filter is a string of an id.
+In the case of `JSONPath` , `filter.filter` is a `string` containing JSONPath `string` .
 
-In the case of `JSONPath` , filter.filter is a string containing JSONPath string. Note: query needs to start with @.data while filterin VC alone. Example:
+:::info NOTE
+
+Query needs to start with `@.data` while filtering VC alone.
+
+:::
+
+Example:
 
 ```typescript
 const jsonPath =
   '$[?(@.data.credentialSubject.achievement == "Certified Solidity Developer 2")]';
 ```
 
-Options defines where to search for VCs. One or more supported stores can be provided. If `returnStore` is enabled, metadata of returned VCs will contain a string where they're stored
+`options` define where to search for VCs. One or more supported stores can be provided. If `returnStore` is enabled, metadata of returned VCs will contain a string where they're stored
 
 #### Parameters
 
-1. filter (optional) - `QueryVCsRequestParams` object
-2. options (optional) - `QueryVCsOptions` object
+1. `filter?` - `QueryVCsRequestParams` object.
+2. `options?` - `QueryVCsOptions` object.
 
 ```typescript
 const response = await ethereum.request({
@@ -104,18 +99,18 @@ const response = await ethereum.request({
 
 #### Returns
 
-Array of `QueryVCsRequestResult` objects.
+`QueryVCsRequestResult[]`
 
 ### deleteVC
 
 #### Description
 
-Used to delete a VC from one or more stores, based on an ID obtained with `queryVCs` method
+`deleteVC` deletes a VC from one or more stores, based on an ID obtained with `queryVCs` method.
 
 #### Parameters
 
-1. id - id of a VC
-2. options (optional) - `DeleteVCsOptions` object
+1. `id` - `id` of a VC.
+2. `options?` - `DeleteVCsOptions` object.
 
 ```typescript
 const response = await ethereum.request({
@@ -137,19 +132,19 @@ const response = await ethereum.request({
 
 #### Returns
 
-An array of boolean (true, if VC deleted from store X, false if there was an error, or VC was not found)
+`boolean[]` - `true` , if VC deleted from store X, `false` if there was an error, or a VC was not found.
 
 ### createVC
 
 #### Description
 
-Used to create a VC from payload. Proof format can be selected and the created VC can be optionally stored in snap.
+`createVC` creates a VC from the payload. `proofFormat` can be selected, and the created VC can be optionally stored in the snap.
 
 #### Parameters
 
-1. minimalUnsignedCredential - payload used to create VC. Needs to contain at least `type`, `credentialSubject`, `credentialSchema` and `@context`.
-2. proofFormat - Can be `jwt`, `json-ld` or `EthereumEIP712Signature`.
-3. options (optional) - `CreateVCOptions` object
+1. `minimalUnsignedCredential` - payload used to create a VC. Needs to contain at least `type`, `credentialSubject`, `credentialSchema` and `@context`.
+2. `proofFormat` - Can be `jwt`, `json-ld` or `EthereumEIP712Signature`.
+3. `options?` - `CreateVCOptions` object.
 
 ```typescript
 
@@ -190,13 +185,13 @@ const response = await ethereum.request({
 
 #### Returns
 
-Returns a VC.
+`VerifiableCredential`
 
 ### createVP
 
 #### Description
 
-`createVP` is used to get a VP for one or more specific VCs. Params object is of type:
+`createVP` gets a VP for one or more passed VCs. `params` object is of type:
 
 ```typescript
 export type CreateVPRequestParams = {
@@ -217,19 +212,19 @@ export type VCRequest = {
 };
 ```
 
-`vcs` is a list of VCs of type `W3CVerifiableCredential`.
+`vcs` is of type `W3CVerifiableCredential[]` .
 
-`proofFormat` can be jwt, jsonld or EthereumEip712Signature2021.
+`proofFormat` can be `jwt` , `jsonld` or `EthereumEip712Signature2021` .
 
-`options` is optional and is used to define `domain`, `type` and `challenge` if needed.
+`options?` defines `domain` , `type` , and `challenge` if needed.
 
-`holder` of the VP will be a DID generated based on currently selected MetaMask account AND currently selected DID Method.
+`holder` of the VP will be a DID generated based on the currently selected MetaMask account **AND** the currently set DID Method.
 
 #### Parameters
 
-1. vcs - an array of `VCRequest` objects.
-2. proofFormat (optional) - proofFormat string, jwt by default
-3. proofOptions (optional) - `ProofOptions` object
+1. `vcs` - `VCRequest[]`.
+2. `proofFormat?` - `string`, `jwt` by default
+3. `proofOptions?` - `ProofOptions` object
 
 ```typescript
 const response = await ethereum.request({
@@ -252,7 +247,7 @@ const response = await ethereum.request({
 
 #### Returns
 
-verifiable presentation
+`VerifiablePresentation`
 
 ## DID Methods
 
@@ -260,7 +255,7 @@ verifiable presentation
 
 #### Description
 
-Generates and returns a DID based on currently selected MetaMask Account and DID Method.
+`getDID` generates and returns a DID based on the currently set MetaMask Account **AND** DID method.
 
 ```typescript
 const response = await ethereum.request({
@@ -278,7 +273,7 @@ const response = await ethereum.request({
 
 #### Description
 
-Returns currently selected DID method
+`getDIDMethod` returns the currently selected DID method.
 
 ```typescript
 const response = await ethereum.request({
@@ -296,11 +291,11 @@ const response = await ethereum.request({
 
 #### Description
 
-Switch the DID method
+`switchDIDMethod` switches the DID method.
 
 #### Parameters
 
-1. didMethod - name of did method (`did:ethr`, `did:key`, or `did:pkh`). Must be one of methods returned by `getAvailableMethods`.
+1. `didMethod` - name of the did method to switch to (`did:ethr`, `did:key`, or `did:pkh` etc.). Must be one of the methods returned by `getAvailableMethods`.
 
 ```typescript
 const response = await ethereum.request({
@@ -319,13 +314,13 @@ const response = await ethereum.request({
 
 #### Returns
 
-New DID for current account
+`string` - DID for the newly selected method.
 
 ### getAvailableMethods
 
 #### Description
 
-Returns a list of supported DID methods
+`getAvailableMethods` returns a `string[]` list of supported DID methods.
 
 ```typescript
 const response = await ethereum.request({
@@ -345,7 +340,7 @@ const response = await ethereum.request({
 
 #### Description
 
-Get selected VC Store plugin
+`getVCStore` gets the selected VC Store plugin.
 
 ```typescript
 const response = await ethereum.request({
@@ -359,20 +354,20 @@ const response = await ethereum.request({
 });
 ```
 
-####
+#### Returns
 
-Returns an Record of VCStores and whether or not they're enabled. By default both snap & ceramic are enabled
+A `Record` of `VCStores[]` and whether or not they're enabled. By default both snap & ceramic are enabled.
 
 ### setVCStore
 
 #### Description
 
-Change the selected VC Store plugin
+`setVCStore` changes the selected VC Store plugin.
 
 #### Parameters
 
-1. store - name of VC Store plugin ("snap" or "ceramic"). Must be one of methods returned by `getAvailableVCStores`.
-2. value - boolean. Enable/disable specific store plugin
+1. `store` - name of the VC Store plugin (`"snap"` or `"ceramic"`). Must be one of methods returned by `getAvailableVCStores`.
+2. `value` - `boolean`. Enable/disable specific store plugins.
 
 :::danger BE CAREFUL!
 
@@ -398,13 +393,13 @@ const response = await ethereum.request({
 
 #### Returns
 
-boolean
+`boolean`
 
 ### getAvailableVCStores
 
 #### Description
 
-Get a list of supported VC Store plugins
+`getAvailableVCStores` gets a `string[]` list of supported VC Store plugins.
 
 ```typescript
 const response = await ethereum.request({
@@ -420,7 +415,7 @@ const response = await ethereum.request({
 
 #### Returns
 
-Array of strings of available VCStores
+`strings[]`
 
 ## Snap Methods
 
@@ -428,7 +423,7 @@ Array of strings of available VCStores
 
 #### Description
 
-Used to disable popups that show up whenever user tries to save a VC, generate a VP, etc.
+`togglePopups` toggles popups that show up whenever the user tries to save a VC, generate a VP, etc.
 
 ```typescript
 const response = await ethereum.request({
@@ -446,11 +441,11 @@ const response = await ethereum.request({
 
 #### Description
 
-Resolve a DID
+`resolveDID` resolves a DID.
 
 #### Parameters
 
-1. did - did string
+1. `did` - DID `string`.
 
 ```typescript
 const response = await ethereum.request({
@@ -469,20 +464,20 @@ const response = await ethereum.request({
 
 #### Returns
 
-`DIDResolutionResult` object, which contains DID Document if successful.
+`DIDResolutionResult` , containing DID Document if successful.
 
 ### verifyData
 
 #### Description
 
-Verify a VC or a VP validity.
+`verifyData` verify a VC or a VP validity.
 
 #### Parameters
 
-1. presentation - `W3CVerifiablePresentation` type object
+1. `presentation` - `W3CVerifiablePresentation` object
    OR
-1. credential - `W3CVerifiableCredential` type object
-1. verbose(optional) - boolean that changes the return value of this method
+2. `credential` - `W3CVerifiableCredential` object
+3. `verbose?` - `boolean` that changes the return value of this method
 
 ```typescript
 const response = await ethereum.request({
@@ -502,15 +497,15 @@ const response = await ethereum.request({
 
 #### Returns
 
-`boolean` if VC/VP is valid.
+`boolean` - `true` if VC/VP is valid, `false` otherwise.
 
-If `verbose` is set to true, it returns `IVerifyResult` instead, which also contains an Error message.
+If `verbose` is set to `true` , it returns `IVerifyResult` instead, which also contains an Error message.
 
 ### getAccountSettings
 
 #### Description
 
-Used to obtain settings of currently selected account
+`getAccountSettings` obtains the settings of the currently selected account.
 
 ```typescript
 const response = await ethereum.request({
@@ -526,7 +521,7 @@ const response = await ethereum.request({
 
 #### Returns
 
-Object with type
+`SSIAccountConfig`
 
 ```typescript
 export type SSIAccountConfig = {
@@ -541,7 +536,7 @@ export type SSIAccountConfig = {
 
 #### Description
 
-Used to obtain settings of the snap
+`getSnapSettings` obtains the settings of the snap.
 
 ```typescript
 const response = await ethereum.request({
@@ -557,7 +552,7 @@ const response = await ethereum.request({
 
 #### Returns
 
-Object with type
+`MascaConfig`
 
 ```typescript
 export type MascaConfig = {
@@ -576,7 +571,7 @@ export type MascaConfig = {
 
 #### Description
 
-Used to switch accounts in Masca. This is required for Masca to work properly. Without approprietly calling this method, switching Accounts in MetaMask will NOT result in switching accounts in Masca!
+`setCurrentAccount` sets the account in Masca. This is required for Masca to work properly. Without appropriately calling this method, switching accounts in MetaMask will **NOT** result in switching accounts in Masca!
 
 ```typescript
 const response = await ethereum.request({
@@ -593,15 +588,25 @@ const response = await ethereum.request({
 });
 ```
 
+#### Parameters
+
+1. `currentAccount` - `string` of address of the account to set as current.
+
 #### Returns
 
-Boolean
+`boolean`
+
+:::info NOTE
+
+We recommend calling this method in `window.ethereum.on('accountsChanged', handler: (accounts: Array<string>);` . See [Account Switching](./implementation.md#account-switching).
+
+:::
 
 ### setCeramicSession
 
 #### Description
 
-Used to set ceramic session. As an Ethereum Account is used to handle storing and retrieving items from Ceramic, generating a session has to be done manually, by a dApp. This is already handled in our Connector Library. You can follow our [implementation in Connector](https://github.com/blockchain-lab-um/masca/blob/744b2e651dda15e7b44af894294692925c9a4964/packages/connector/src/utils.ts#L14) to implement this yourself.
+`setCeramicSession` sets the Ceramic session. As an Ethereum account handles storing and retrieving items from Ceramic, generating a session has to be done manually by a dApp. This is already handled in our Masca Connector. You can follow our [implementation in the connector](https://github.com/blockchain-lab-um/masca/blob/744b2e651dda15e7b44af894294692925c9a4964/packages/connector/src/utils.ts#L14) to implement this yourself.
 
 ```typescript
 const response = await ethereum.request({
@@ -620,13 +625,13 @@ const response = await ethereum.request({
 
 #### Returns
 
-Boolean
+`boolean`
 
 ### validateStoredCeramicSession
 
 #### Description
 
-Used to verify if there is an existing ceramic session set in Masca and if it's still valid. If this method returns `false`, session has to be set in order to use Ceramic!
+`validateStoredCeramicSession` checks if there is an existing ceramic session set in Masca and if it's still valid. If this method returns `false` , the session must be set to use Ceramic!
 
 ```typescript
 const response = await ethereum.request({
@@ -642,4 +647,4 @@ const response = await ethereum.request({
 
 #### Returns
 
-Boolean
+`boolean`

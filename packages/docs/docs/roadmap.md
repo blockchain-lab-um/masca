@@ -22,9 +22,9 @@ DID methods:
 Verifiable Credentials (VCs):
 
 - [x] Store
-- [x] Retrieval from single storage
+- [x] Retrieval from a single storage
 - [x] Retrieval from multiple storages
-- [x] Filtering based on query (e.g., JSONPath query)
+- [x] Filtering based on a query (e.g., JSONPath query)
 - [x] Create custom VC
 - [x] Validate an existing VC
 - [ ] Structure verification
@@ -97,4 +97,4 @@ dApp integrations:
 
 This page is subject to change in the future.
 
-Want to see your project on the roadmap? Join our Discord (link in the footer) to join the discussion!
+Want to see your project on the roadmap? [Join our Discord](https://discord.com/invite/M5xgNz7TTF)!

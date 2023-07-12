@@ -6,7 +6,7 @@ sidebar_position: 2
 
 To showcase the workflow of Masca, we have developed a demo platform.
 
-In this demo, a user will install and approve Masca, get and store a VC after completing a straight forward course and display the VC on the profile page. Users can also enter a secret room by submitting their VP, but you'll have to find the room first. :)
+In this demo, a user will install and approve Masca, get and store a VC after completing a straightforward course and display the VC on the profile page. Users can also enter a secret room by submitting their VP, but you must find the room first. :)
 
 <center>
 
