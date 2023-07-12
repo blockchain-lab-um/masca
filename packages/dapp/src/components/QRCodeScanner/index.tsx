@@ -68,19 +68,19 @@ const QRCodeScanner = ({
         setTimeout(() => {
           useToastStore.setState({
             open: true,
-            title: t('start-error'),
+            title: t('starting-error'),
             type: 'error',
             loading: false,
           });
         }, 200);
-        setOpen(false);
       });
   }, [scanner]);
 
   const handleUpload = async (file: File) => {
     try {
       if (!scanner) throw new Error("Scanner isn't initialized");
-      await scanner.stop();
+      if (scanner.isScanning) await scanner.stop();
+
       const decodedText = await scanner.scanFile(file, false);
       onScanSuccess(decodedText, null);
     } catch (error) {
@@ -92,8 +92,9 @@ const QRCodeScanner = ({
           loading: false,
         });
       }, 200);
-      setOpen(false);
     }
+
+    setOpen(false);
   };
 
   return (

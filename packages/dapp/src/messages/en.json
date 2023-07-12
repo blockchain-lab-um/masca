@@ -237,6 +237,7 @@
     "scan-connection": "Scan Connection",
     "scan-connection-modal-title": "Scan Connection QR Code",
     "scan-qr-code": "Scan QR Code",
+    "upload-qr-code": "Upload QR Code",
     "scan-qr-code-modal-title": "Scan QR Code",
     "unexpected-error": "An unexpected error occured",
     "unsuported-qr-code": "Unsuported QR code"
