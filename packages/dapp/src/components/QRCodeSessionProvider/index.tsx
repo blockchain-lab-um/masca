@@ -10,6 +10,7 @@ import { shallow } from 'zustand/shallow';
 import CredentialModal from '@/components/CredentialModal';
 import CredentialOfferModal from '@/components/CredentialOfferModal';
 import { useGeneralStore, useSessionStore, useToastStore } from '@/stores';
+import { useQRCodeStore } from '@/stores/qrCodeStore';
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
@@ -31,6 +32,8 @@ const QRCodeSessionProvider = () => {
     }),
     shallow
   );
+
+  const requestData = useQRCodeStore((state) => state.requestData);
 
   const isConnected = useGeneralStore((state) => state.isConnected);
 
@@ -54,6 +57,26 @@ const QRCodeSessionProvider = () => {
       useSessionStore.setState({ sessionId: null, key: null, exp: null });
     }
   }, [exp]);
+
+  const handleNewRequest = async (_data: string) => {
+    if (!isConnected) return;
+    if (
+      !_data.startsWith('openid-credential-offer://') &&
+      !_data.startsWith('openid://')
+    ) {
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: t('unsuported'),
+          type: 'error',
+          loading: false,
+        });
+      }, 200);
+      return;
+    }
+
+    setDecryptedData(_data);
+  };
 
   // Decrypt received data
   useEffect(() => {
@@ -83,24 +106,7 @@ const QRCodeSessionProvider = () => {
     };
 
     decryptData()
-      .then((_data) => {
-        if (
-          !_data.startsWith('openid-credential-offer://') &&
-          !_data.startsWith('openid://')
-        ) {
-          setTimeout(() => {
-            useToastStore.setState({
-              open: true,
-              title: t('unsuported'),
-              type: 'error',
-              loading: false,
-            });
-          }, 200);
-          return;
-        }
-
-        setDecryptedData(_data);
-      })
+      .then((_data) => handleNewRequest(_data))
       .catch((e) => console.log(e));
   }, [data, key]);
 
@@ -120,6 +126,12 @@ const QRCodeSessionProvider = () => {
     if (!recievedCredential) return;
     setIsCredentialModalOpen(true);
   }, [recievedCredential]);
+
+  // New request recieved (QR Code upload)
+  useEffect(() => {
+    if (!requestData) return;
+    handleNewRequest(requestData).catch((e) => console.log(e));
+  }, [requestData]);
 
   return (
     <>

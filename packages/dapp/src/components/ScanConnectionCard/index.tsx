@@ -5,7 +5,8 @@ import { uint8ArrayToHex } from '@blockchain-lab-um/masca-connector';
 import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
-import { useSessionStore, useToastStore } from '@/stores';
+import { useGeneralStore, useSessionStore, useToastStore } from '@/stores';
+import { useQRCodeStore } from '@/stores/qrCodeStore';
 import Button from '../Button';
 import ScanQRCodeModal from './ScanQRCodeModal';
 
@@ -19,6 +20,9 @@ const ScanConnectionCard = () => {
     }),
     shallow
   );
+
+  const isConnected = useGeneralStore((state) => state.isConnected);
+  const changeRequestData = useQRCodeStore((state) => state.changeRequestData);
 
   const [isConnectionModalOpen, setIsConnectionModalOpen] = useState(false);
   const [isQRCodeModalOpen, setIsQRCodeModalOpen] = useState(false);
@@ -66,6 +70,13 @@ const ScanConnectionCard = () => {
   };
 
   const onScanSuccessQRCode = async (decodedText: string, _: any) => {
+    // Same device
+    if (isConnected) {
+      changeRequestData(decodedText);
+      return;
+    }
+
+    // Cross device (mobile <-> desktop)
     if (!sessionId || !key || !exp) return;
     setIsQRCodeModalOpen(false);
 
@@ -144,17 +155,18 @@ const ScanConnectionCard = () => {
         </div>
         <div className="flex justify-center space-x-4">
           <Button
-            variant="primary"
+            variant={isConnected ? 'gray' : 'primary'}
             onClick={() => setIsConnectionModalOpen(true)}
+            disabled={isConnected}
           >
             {t('scan-connection')}
           </Button>
           <Button
-            variant={sessionId ? 'primary' : 'gray'}
+            variant={sessionId || isConnected ? 'primary' : 'gray'}
             onClick={() => setIsQRCodeModalOpen(true)}
-            disabled={!sessionId}
+            disabled={!(sessionId || isConnected)}
           >
-            {t('scan-qr-code')}
+            {isConnected ? t('upload-qr-code') : t('scan-qr-code')}
           </Button>
         </div>
       </div>

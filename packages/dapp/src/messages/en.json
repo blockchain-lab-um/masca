@@ -3,7 +3,7 @@
     "authorization-request": "Authorization Request",
     "dashboard": "Dashboard",
     "get-credential": "Get Credential",
-    "qr-code-session": "QR Code Session",
+    "qr-code-session": "QR Scanner",
     "settings": "Settings"
   },
   "AppNavbar": {
@@ -28,18 +28,18 @@
       "discord": "Discord",
       "documentation": "Documentation",
       "ecosystem": "Ecosystem",
-      "get-credential": "Get Credential",
+      "get-credential": "Get Credentials",
       "github": "GitHub",
-      "qr-code-session": "QR Code Session",
+      "qr-code-session": "QR Scanner",
       "twitter": "Twitter"
     },
     "menu": {
       "authorization-request": "Authorization Request",
       "dashboard": "Dashboard",
-      "get-credential": "Get Credential",
+      "get-credential": "Get Credentials",
       "home": "Home",
       "other": "Other",
-      "qr-code-session": "QR Code Session",
+      "qr-code-session": "QR Scanner",
       "settings": "Settings"
     }
   },
@@ -223,19 +223,21 @@
   },
   "QRCodeScanner": {
     "initialize-error": "Failed to initialize QR code scanner",
-    "starting-error": "Failed to start QR code scanner"
+    "starting-error": "Failed to start QR code scanner",
+    "qr-invalid-error": "Invalid QR code"
   },
   "QRCodeSessionProvider": {
     "unsuported": "Unsuported QR code data received"
   },
   "ScanConnectionCard": {
-    "connection-created": "Connection created",
+    "connection-created": "Connection established",
     "desc": "Use this on your mobile device to first scan the connection QR code to astablish a connection with your browser. After that you can scan any other QR code that you want to pass to your browser to be handled by the Masca Dapp.",
     "invalid-qr-code": "Invalid QR code",
     "qr-data-sent": "QR data sent",
     "scan-connection": "Scan Connection",
     "scan-connection-modal-title": "Scan Connection QR Code",
     "scan-qr-code": "Scan QR Code",
+    "upload-qr-code": "Upload QR Code",
     "scan-qr-code-modal-title": "Scan QR Code",
     "unexpected-error": "An unexpected error occured",
     "unsuported-qr-code": "Unsuported QR code"
