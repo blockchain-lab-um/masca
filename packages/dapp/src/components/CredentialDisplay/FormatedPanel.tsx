@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { Fragment, useMemo } from 'react';
 import {
   CheckCircleIcon,
   ExclamationCircleIcon,
@@ -86,11 +86,11 @@ const FormatedPanel = ({ credential }: FormatedPanelProps) => {
           </h1>
           {Object.entries(credential.credentialSubject).map(
             ([key, value]: [string, string]) => (
-              <>
+              <Fragment key={key}>
                 {key === 'id' ? (
-                  <DIDDisplay did={value} key={key} />
+                  <DIDDisplay did={value} />
                 ) : (
-                  <div key={key} className="flex w-full items-center">
+                  <div className="flex w-full items-center">
                     <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-800">
                       {key.toUpperCase()}:
                     </h2>
@@ -99,7 +99,7 @@ const FormatedPanel = ({ credential }: FormatedPanelProps) => {
                     </p>
                   </div>
                 )}
-              </>
+              </Fragment>
             )
           )}
         </div>

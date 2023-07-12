@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import {
   AvailableVCStores,
+  isError,
   QueryVCsRequestResult,
-} from '@blockchain-lab-um/masca-types';
-import { isError } from '@blockchain-lab-um/utils';
+} from '@blockchain-lab-um/masca-connector';
 import { ArrowPathIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { W3CVerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';

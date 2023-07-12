@@ -1,4 +1,4 @@
-import { isError } from '@blockchain-lab-um/utils';
+import { isError } from '@blockchain-lab-um/masca-connector';
 import { Tab } from '@headlessui/react';
 import { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';

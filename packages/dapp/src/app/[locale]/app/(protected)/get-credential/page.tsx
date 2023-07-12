@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import GetCredential from '@/components/GetCredential';
 
 export const metadata: Metadata = {
-  title: 'Get Credential',
+  title: 'Get Credentials',
   description:
     'User interface to get a credential using OIDC Credential Offer URI.',
 };

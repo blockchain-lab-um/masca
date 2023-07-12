@@ -20,9 +20,7 @@
   },
   "dependencies": {
     "@blockchain-lab-um/masca-connector": "*",
-    "@blockchain-lab-um/masca-types": "*",
     "@blockchain-lab-um/oidc-types": "*",
-    "@blockchain-lab-um/utils": "*",
     "@headlessui/react": "^1.7.15",
     "@heroicons/react": "^2.0.18",
     "@metamask/detect-provider": "^2.0.0",

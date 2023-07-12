@@ -1162,15 +1162,9 @@ importers:
       '@blockchain-lab-um/masca-connector':
         specifier: '*'
         version: link:../connector
-      '@blockchain-lab-um/masca-types':
-        specifier: '*'
-        version: link:../types
       '@blockchain-lab-um/oidc-types':
         specifier: '*'
         version: link:../../libs/oidc/types
-      '@blockchain-lab-um/utils':
-        specifier: '*'
-        version: link:../../libs/utils
       '@headlessui/react':
         specifier: ^1.7.15
         version: 1.7.15(react-dom@18.2.0)(react@18.2.0)

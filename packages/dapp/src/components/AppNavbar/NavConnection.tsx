@@ -1,6 +1,6 @@
 'use client';
 
-import { chainIdNetworkParamsMapping } from '@blockchain-lab-um/masca-types';
+import { chainIdNetworkParamsMapping } from '@blockchain-lab-um/masca-connector';
 import { shallow } from 'zustand/shallow';
 
 import AddressPopover from '@/components//AddressPopover';

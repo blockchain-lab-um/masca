@@ -9,6 +9,7 @@ DID methods:
 - [`did:ethr`](https://github.com/decentralized-identity/ethr-did-resolver/blob/master/doc/did-method-spec.md)
 - [`did:key`](https://w3c-ccg.github.io/did-method-key/)
 - [`did:pkh`](https://github.com/w3c-ccg/did-pkh/blob/main/did-pkh-method-draft.md)
+- [`did:jwk`](https://github.com/quartzjer/did-jwk/blob/main/spec.md)
 
 Data Storage:
 

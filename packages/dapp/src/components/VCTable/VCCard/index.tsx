@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-types';
+import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { Row } from '@tanstack/react-table';
 import { encodeBase64url } from '@veramo/utils';
