@@ -11,6 +11,7 @@ import {
   isValidDeleteVCsRequest,
   isValidQueryVCsRequest,
   isValidResolveDIDRequest,
+  isValidSaveVCRequest,
   isValidSetVCStoreRequest,
   isValidSwitchMethodRequest,
   isValidVerifyDataRequest,
@@ -428,7 +429,7 @@ class SnapService {
         res = await this.queryCredentials(params);
         return ResultObject.success(res);
       case 'saveVC':
-        // isValidSaveVCRequest(params, state.currentAccount, state);
+        isValidSaveVCRequest(params, state.currentAccount, state);
         res = await this.saveCredential(params);
         return ResultObject.success(res);
       case 'createVC':
