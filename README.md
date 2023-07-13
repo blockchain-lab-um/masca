@@ -53,6 +53,8 @@ Every version of Masca does NOT work with every version of MetaMask Flask! Here 
 | Masca version | MetaMask Flask version |
 | ------------- | ---------------------- |
 | 0.1.0         | 10.29.0                |
+| 0.2.0         | 10.31.0                |
+| 0.3.0         | 10.32.0                |
 
 ### Prerequisites
 
