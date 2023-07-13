@@ -2,7 +2,7 @@ import {
   methodIndexMapping,
   type InternalSigMethods,
 } from '@blockchain-lab-um/masca-types';
-import { ethers, HDNodeWallet } from 'ethers';
+import { HDNodeWallet, Mnemonic } from 'ethers';
 
 import StorageService from './storage/Storage.service';
 
@@ -28,7 +28,7 @@ class WalletService {
     });
 
     const nodeWallet = HDNodeWallet.fromMnemonic(
-      ethers.Mnemonic.fromEntropy(entropy)
+      Mnemonic.fromEntropy(entropy)
     ).derivePath(`m/44/1236/${methodIndexMapping[method]}/0/0`);
 
     this.instance = nodeWallet;

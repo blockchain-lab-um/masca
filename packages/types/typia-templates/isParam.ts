@@ -133,8 +133,9 @@ export const isValidSaveVCRequest = (
       isW3CVerifiableCredential(input?.verifiableCredential) ||
       isW3CCredential(input?.verifiableCredential)
     )
-  )
+  ) {
     throw new Error('invalid_argument: input.verifiableCredential');
+  }
 };
 
 export const isValidSetCurrentAccountRequest = (
