@@ -13,6 +13,9 @@ export const ETH_MAINNET_RPC_URL = 'https://eth.llamarpc.com';
 export const CONTRACT_POLYGON_MAINNET =
   '0x624ce98D2d27b20b8f8d521723Df8fC4db71D79D';
 
+export const CONTRACT_POLYGON_MUMBAI =
+  '0x134B1BE34911E39A8397ec6289782989729807a4';
+
 export const getDefaultEthConnectionConfig = (
   blockchain: (typeof BLOCKCHAINS)[number],
   networkId: (typeof NETWORKS)[number]
@@ -26,7 +29,7 @@ export const getDefaultEthConnectionConfig = (
       contractAddress = CONTRACT_POLYGON_MAINNET;
     } else if (networkId === NetworkId.Mumbai) {
       url = POLYGON_MUMBAI_RPC_URL;
-      contractAddress = CONTRACT_POLYGON_MAINNET;
+      contractAddress = CONTRACT_POLYGON_MUMBAI;
     }
   } else if (blockchain === Blockchain.Ethereum) {
     if (networkId === NetworkId.Main) {
