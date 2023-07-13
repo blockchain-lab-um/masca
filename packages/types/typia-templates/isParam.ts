@@ -2,6 +2,8 @@ import typia from 'typia';
 
 import {
   availableVCStores,
+  isW3CCredential,
+  isW3CVerifiableCredential,
   type AvailableVCStores,
   type CreateVCRequestParams,
   type CreateVPRequestParams,
@@ -64,7 +66,6 @@ const validateQueryVCsRequest =
   typia.createValidateEquals<QueryVCsRequestParams>();
 const validateResolveDIDRequest =
   typia.createValidateEquals<ResolveDIDRequestParams>();
-const validateSaveVCRequest = typia.createValidateEquals<SaveVCRequestParams>();
 const validateSetCurrentAccountRequest =
   typia.createValidateEquals<SetCurrentAccountRequestParams>();
 const validateSetVCStoreRequest =
@@ -126,9 +127,14 @@ export const isValidSaveVCRequest = (
   account: string,
   state: MascaState
 ): asserts input is SaveVCRequestParams => {
-  const res = validateSaveVCRequest(input);
-  if (!res.success) throw new Error(handleIValidation(res));
   checkVCStore(input as SaveVCRequestParams, account, state);
+  if (
+    !(
+      isW3CVerifiableCredential(input?.verifiableCredential) ||
+      isW3CCredential(input?.verifiableCredential)
+    )
+  )
+    throw new Error('invalid_argument: input.verifiableCredential');
 };
 
 export const isValidSetCurrentAccountRequest = (

@@ -107,7 +107,7 @@ const ScanConnectionCard = () => {
         }
       }
 
-      if(!data) throw new Error("Unsupported QR code");
+      if (!data) throw new Error('Unsupported QR code');
 
       // Encrypt data
       const iv = crypto.getRandomValues(new Uint8Array(12));
