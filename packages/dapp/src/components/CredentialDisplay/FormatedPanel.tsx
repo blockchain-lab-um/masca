@@ -8,7 +8,11 @@ import { VerifiableCredential } from '@veramo/core';
 import { useTranslations } from 'next-intl';
 
 import Tooltip from '@/components/Tooltip';
-import { convertTypes, copyToClipboard, camelToTitleCase } from '@/utils/string';
+import {
+  camelToTitleCase,
+  convertTypes,
+  copyToClipboard,
+} from '@/utils/string';
 
 type FormatedPanelProps = {
   credential: VerifiableCredential;
