@@ -8,7 +8,11 @@ import { VerifiableCredential } from '@veramo/core';
 import { useTranslations } from 'next-intl';
 
 import Tooltip from '@/components/Tooltip';
-import { convertTypes, copyToClipboard } from '@/utils/string';
+import {
+  camelToTitleCase,
+  convertTypes,
+  copyToClipboard,
+} from '@/utils/string';
 
 type FormatedPanelProps = {
   credential: VerifiableCredential;
@@ -92,7 +96,7 @@ const FormatedPanel = ({ credential }: FormatedPanelProps) => {
                 ) : (
                   <div className="flex w-full items-center">
                     <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-800">
-                      {key.toUpperCase()}:
+                      {camelToTitleCase(key)}:
                     </h2>
                     <p className="text-md dark:text-navy-blue-300 truncate font-normal text-gray-700">
                       {value}
