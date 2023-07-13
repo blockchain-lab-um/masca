@@ -39,7 +39,7 @@ export const didMethodChainIdMapping: Record<
   readonly string[]
 > = {
   'did:ethr': ['*'],
-  'did:pkh': ['0x1', '0x89'],
+  'did:pkh': ['*'],
 } as const;
 
 /**

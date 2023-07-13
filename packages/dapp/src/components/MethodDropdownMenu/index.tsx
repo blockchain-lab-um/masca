@@ -49,10 +49,6 @@ export default function MethodDropdownMenu() {
       if (isError(res)) {
         console.log(res.error);
         setTimeout(() => {
-          let msg = 'Failed to change method';
-          if (res.error.includes('Unsupported network')) {
-            msg = 'Error: Unsupported network';
-          }
           useToastStore.setState({
             open: true,
             title: t('switching-error'),
