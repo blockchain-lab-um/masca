@@ -27,6 +27,7 @@ const CheckMetaMaskCompatibility = () => {
     address,
     isConnected,
     isConnecting,
+    chainId,
     changeAddress,
     changeIsConnected,
     changeIsConnecting,
@@ -38,6 +39,7 @@ const CheckMetaMaskCompatibility = () => {
       address: state.address,
       isConnected: state.isConnected,
       isConnecting: state.isConnecting,
+      chainId: state.chainId,
       changeAddress: state.changeAddress,
       changeIsConnected: state.changeIsConnected,
       changeIsConnecting: state.changeIsConnecting,
@@ -47,6 +49,7 @@ const CheckMetaMaskCompatibility = () => {
   );
 
   const {
+    api,
     changeMascaApi,
     changeDID,
     changeAvailableMethods,
@@ -54,6 +57,7 @@ const CheckMetaMaskCompatibility = () => {
     changeAvailableVCStores,
   } = useMascaStore(
     (state) => ({
+      api: state.mascaApi,
       changeMascaApi: state.changeMascaApi,
       changeDID: state.changeCurrDID,
       changeAvailableMethods: state.changeAvailableMethods,
@@ -118,12 +122,12 @@ const CheckMetaMaskCompatibility = () => {
       // FIXME: This error is shown as [Object object]
       throw new Error(enableResult.error);
     }
-    const api = enableResult.data.getMascaApi();
+    const mascaApi = enableResult.data.getMascaApi();
 
-    changeMascaApi(api);
+    changeMascaApi(mascaApi);
 
     // Set currently connected address
-    const setAccountRes = await api.setCurrentAccount({
+    const setAccountRes = await mascaApi.setCurrentAccount({
       currentAccount: address,
     });
 
@@ -132,25 +136,25 @@ const CheckMetaMaskCompatibility = () => {
       throw new Error(setAccountRes.error);
     }
 
-    const did = await api.getDID();
+    const did = await mascaApi.getDID();
     if (isError(did)) {
       console.log("Couldn't get DID");
       throw new Error(did.error);
     }
 
-    const availableMethods = await api.getAvailableMethods();
+    const availableMethods = await mascaApi.getAvailableMethods();
     if (isError(availableMethods)) {
       console.log("Couldn't get available methods");
       throw new Error(availableMethods.error);
     }
 
-    const method = await api.getSelectedMethod();
+    const method = await mascaApi.getSelectedMethod();
     if (isError(method)) {
       console.log("Couldn't get selected method");
       throw new Error(method.error);
     }
 
-    const accountSettings = await api.getAccountSettings();
+    const accountSettings = await mascaApi.getAccountSettings();
     if (isError(accountSettings)) {
       console.log("Couldn't get account settings");
       throw new Error(accountSettings.error);
@@ -197,6 +201,21 @@ const CheckMetaMaskCompatibility = () => {
       console.error(error);
     });
   }, []);
+
+  useEffect(() => {
+    if (!api) return;
+
+    api
+      .getDID()
+      .then((res) => {
+        if (isError(res)) {
+          throw new Error("Couldn't get DID");
+        }
+
+        changeDID(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, [chainId]);
 
   useEffect(() => {
     if (isConnected || !isConnecting) return;
