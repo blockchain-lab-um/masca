@@ -24,3 +24,8 @@ export const convertTypes = (types: string | string[] | undefined): string => {
 export const copyToClipboard = (text: string): void => {
   navigator.clipboard.writeText(text).catch(() => {});
 };
+
+export const camelToTitleCase = (key: string): string => {
+	const result = key.replace(/([a-z])([A-Z])/g, "$1 $2");
+  return result.charAt(0).toUpperCase() + result.slice(1);
+}
