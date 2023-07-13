@@ -7,7 +7,7 @@ export const NETWORKS: Record<string, string> = {
 
 export const NETWORKS_BY_DID: Record<string, string[]> = {
   'did:ethr': ['*'],
-  'did:pkh': ['*'],
+  'did:pkh': ['0x1', '0x89'],
 };
 
 export function getAvailableNetworksList(method: string): string[] {

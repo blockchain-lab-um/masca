@@ -40,6 +40,12 @@ export async function getCurrentDidIdentifier(params: {
     case 'did:pkh':
     case 'did:ethr': {
       const chainId = await getCurrentNetwork(ethereum);
+
+      if (method === 'did:pkh' && chainId !== '0x1' && chainId !== '0x89') {
+        throw new Error(
+          `Unsupported network with chainid ${chainId} for ${method}`
+        );
+      }
       const identifier: IIdentifier = {
         provider: method,
         did:
