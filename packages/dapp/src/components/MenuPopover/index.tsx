@@ -97,11 +97,11 @@ const INTERNAL_LINKS: LinkProps[] = [
 ];
 
 const INTERNAL_EXTRA_LINKS = [
-  {
-    name: 'get-credential',
-    href: '/app/get-credential',
-    icon: IconEcosystem,
-  },
+  // {
+  //   name: 'get-credential',
+  //   href: '/app/get-credential',
+  //   icon: IconEcosystem,
+  // },
   // {
   //   name: 'authorization-request',
   //   href: '/app/authorization-request',
