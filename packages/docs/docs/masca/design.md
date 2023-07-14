@@ -40,7 +40,51 @@ Private keys are derived from a seed phrase in MetaMask (Imported accounts are c
 
 Methods that do not require private keys ( `did:ethr` & `did:pkh` ) use `sign_typedData` to create VCs and VPs. Snaps do not support this, meaning the signing for these methods must be done in a dApp. However, when using our [Masca Connector SDK](https://www.npmjs.com/package/@blockchain-lab-um/masca-connector), this is taken care of, and any RPC method requiring the signature is handled accordingly without needing external handling.
 
-More on how private keys are handled in Masca later.
+### Handling and deriving private keys used in Masca
+
+Securely handling private keys in Masca is our topmost priority. Therefore, we never get/derive/use the user's Ethereum private keys. For methods requiring Ethereum keys, we use [ `eth_signTypedData_v4` ](https://docs.metamask.io/wallet/how-to/sign-data/#use-eth_signtypeddata_v4) for signatures, handled inside [Masca Connector](/libraries/masca-connector.md).
+
+For other methods, we derive private keys from a different `coint_type` 1236. How is this done in detail? The steps are as follows:
+
+1. Using the snap's [`snap_getEntropy` RPC method](https://docs.metamask.io/snaps/reference/rpc-api/#snap_getentropy) we deterministically get the unique and random entropy for the current account (passing the current account as a salt parameter - see `snap_getEntropy` reference).
+
+```typescript
+const entropy = await snap.request({
+  method: 'snap_getEntropy',
+  params: {
+    version: 1,
+    salt: state.currentAccount,
+  },
+});
+```
+
+2. We then use the received 256-bit (32 bytes) entropy to create a new wallet using [`ethers`](https://www.npmjs.com/package/ethers) library. See the `nodeWallet` variable below.
+
+```typescript
+const methodIndexMapping: Record<InternalSigMethods, number> = {
+  'did:key': 0,
+  'did:key:jwk_jcs-pub': 0,
+  'did:jwk': 1,
+  'did:iden3': 2,
+  'did:polygonid': 3,
+} as const;
+
+const nodeWallet = HDNodeWallet.fromMnemonic(
+  Mnemonic.fromEntropy(entropy)
+).derivePath(`m/44/1236/${methodIndexMapping[method]}/0/0`);
+```
+
+`Mnemonic.fromEntropy()` generates a seed phrase from the passed entropy, which we then use to create a new wallet.
+
+:::tip Method index mapping
+
+As you can see, we use different indices for different did methods. We then pass the index (see `methodIndexMapping[method]` ) into the derivation path as the `account'` part of the path. More on this can be found in [ `BIP-44` ](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki#path-levels).
+
+:::
+
+3. Using the created `nodeWallet`, the private keys are always derived deterministically, meaning the same seed phrase always produces the same keys, ensuring the same created identifiers always stay with you when importing a wallet from a seed phrase.
+
+4. The private keys are deleted from MetaMask's snap state whenever the RPC method finishes execution, and the snap's lifecycle ends. See [Snaps lifecycle](https://docs.metamask.io/snaps/concepts/lifecycle/) for more info.
 
 ### Switching between different DID methods
 
@@ -64,7 +108,7 @@ Masca also supports creating VCs that any DID can issue in the wallet! Aside fro
 
 On the other hand, VPs are signed by holders using their wallets (which is Masca). Usually, they are signed on the go when requested by different applications. Masca supports creating VPs from single or multiple VCs. Validating VPs is also supported.
 
-### Signing Credentials (Handling private keys)
+### Signing Credentials
 
 During the runtime of each RPC method, private keys are retrieved (and derived) from MetaMask using the Snap RPC method `snap_getBip44Entropy` .
 
