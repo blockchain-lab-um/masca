@@ -9,7 +9,7 @@ sidebar_position: 2
 VCs bring many benefits:
 
 - **Instantly verifiable** - They can be verified anywhere at any time
-- **Tamper-proof** - Cryptography assures their authenticity and enables users to store and share data securely
+- **Tamper-proof** - Cryptography assures their authenticity and enables users to securely store and share data
 - **Independent from the issuer** - Instant verifiability makes them independent from the issuer. They can get verified anywhere, without the need of the issuer (e.g. an university) to confirm the authenticity
 - **VC holders have full control and ownership of their data and privacy** - Users decide what gets shared and what doesn't
 - **Portable** - Users can store VCs in their digital snap (e.g. a mobile app) and use them anywhere
@@ -18,7 +18,7 @@ VCs bring many benefits:
 
 <img src="https://i.imgur.com/guqZBX9.png" />
 
-[Visual example](https://identity.foundation/wallet-rendering/#display-mapping-object) of a VC
+[Visual example](https://identity.foundation/wallet-rendering/#display-mapping-object) of a VC.
 
 </center>
 
@@ -34,9 +34,9 @@ VCs have many different use cases. The most notable ones are:
 - Licenses
 - And much, much more.
 
-All the previously mentioned benefits make VCs the perfect solution for many problems. For example IDs, Documents, Licenses, etc. can be forged and dfficult to authenticate. Process of authentication is usually slow and prone to errors. Another issue is lack of control over data and lack of privacy. Another problem or risk is reliance on the issuer. If entity that provides credentials might not always be reachable and available (e.g. server failures, electricity outages, etc.) to authenticate credentials. All of mentioned issues/risks can be solved with VCs. This would affect many fields, ranging from Healthcare to Finance.
+All the previously mentioned benefits make VCs the perfect solution for many problems. For example IDs, Documents, Licenses, etc. can be forged and dfficult to authenticate. Process of authentication is usually slow and prone to errors. Another issue is the lack of control over data and the lack of privacy. Another problem is the reliance on the issuer. The entity providing credentials might not always be reachable and available (e.g. server failures, electricity outages, etc.) to authenticate credentials. All of the above mentioned issues/risks can be solved with VCs. This could affect many fields, ranging from Healthcare to Finance.
 
-[Learn more...](https://www.w3.org/TR/vc-use-cases/)
+[See more use cases](https://www.w3.org/TR/vc-use-cases/)
 
 ## Structure of a VC
 
@@ -82,7 +82,7 @@ VC consists of multiple important parts:
 }
 ```
 
-Credential can have one or more types. Its types are defined in an array of strings. String `VerifiableCredential` is mandatory. Use case can be detirmined based on types of a VC. In this particular example, the string `UniversityDegree` tells us this VC serves as an Uni Degree and might be useful when applying for a job.
+Credentials can have one or more types. Its types are defined in an array of strings. String `VerifiableCredential` is mandatory. Use case can be determined based on types of a VC. In this particular example, the string `UniversityDegree` tells us this VC serves as an Uni Degree and might be useful when applying for a job.
 
 #### [Identifier](https://www.w3.org/TR/vc-data-model/#identifiers)
 
@@ -125,7 +125,7 @@ When expressing statements about a specific thing, such as a person, product, or
 }
 ```
 
-The entity (e.g. a person, object or company) the credential data is about. This object contains one or more properties that are related to the subject of VC. The subject identifier (`credentialSubject.id`) is usually a DID of the entity. In our example, `credentialSubject` contanis relevant data (type of degre, year of graduation, score, etc.) for the University Degree of `John Dough`.
+The entity (e.g. a person, object or company) the credential data is about. This object contains one or more properties that are related to the subject of VC. The subject identifier ( `credentialSubject.id` ) is usually a DID of the entity. In our example, `credentialSubject` contanis relevant data (type of degre, year of graduation, score, etc.) for the University Degree of `John Dough` .
 
 #### [Cryptographic Proofs](https://www.w3.org/TR/vc-data-model/#proofs-signatures)
 

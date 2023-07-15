@@ -20,7 +20,7 @@ export type Member = {
 const members: Member[] = [
   {
     name: 'doc. dr. Muhamed Turkanović',
-    title: 'Head of BlockchainLab:UM',
+    title: 'Head of Blockchain Lab:UM',
     description: '',
     linkedin: 'https://www.linkedin.com/in/muhamedturkanovic/',
     image: muhamed,

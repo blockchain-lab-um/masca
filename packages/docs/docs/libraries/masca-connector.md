@@ -2,11 +2,11 @@
 sidebar_position: 1
 ---
 
-# Masca Connector
+# Masca Connector SDK
 
-Masca connector is used to install Masca and expose an API toward snap on dApps and other applications.
+Masca connector installs Masca and exposes the API toward snap on dApps and other applications.
 
-For more details on Masca Connector, check [GitHub repo](https://github.com/blockchain-lab-um/ssi-snap/tree/master/packages/connector).
+You can take a look at the [connector's codebase](https://github.com/blockchain-lab-um/ssi-snap/tree/master/packages/connector).
 
 ## Usage
 
@@ -16,7 +16,7 @@ For more details on Masca Connector, check [GitHub repo](https://github.com/bloc
 pnpm add @blockchain-lab-um/masca-connector
 ```
 
-Connector has an exposed function for installing the Masca snap. For ease of use, the connector package also exposes all the functions and types from `@blockchain-lab-um/masca-types` and `@blockchain-lab-um/utils` NPM packages.
+Connector has an exposed method for installing the Masca snap. For ease of use, the connector package also exposes all the functions and types from `@blockchain-lab-um/masca-types` and `@blockchain-lab-um/utils` NPM packages.
 
 ```typescript
 export async function enableMasca(
@@ -29,18 +29,18 @@ export async function enableMasca(
 ): Promise<Result<Masca>>;
 ```
 
-When installing Masca it is possible to set a custom `snapId` if you do not want to instal it from the official repository.
+When installing Masca it is possible to set a custom `snapId` if you do not want to install it from the official repository.
 
-It is also possible to use custom version and set a list of supported methods. If connected Masca does not currently have one of the supported methods selected, `switchMethod` RPC method will be automatically called.
+Using a custom version and setting a list of supported methods is also possible. If the connected Masca does not currently have one of the supported methods selected, `switchMethod` RPC method will be automatically called.
 
-After snap installation, this function returns `Masca` object that can be used to retrieve snap API.
-An example of initializing Masca and invoking snap API is shown below.
+After snap installation, this function returns a `Masca` object that can be used to retrieve the API.
+An example of initializing Masca and invoking the API is shown below.
 
-For Masca to work properly, it needs to know the address of the connected account. Initially this can be done by passing the address as a parameter to `enableMasca` function. Later, the address can be changed using the `setCurrentAccount` RPC method!
+For Masca to work correctly, it needs to know the address of the connected account. Initially, this is done by passing the address as a parameter to `enableMasca` function. Later, the address can be changed using the `setCurrentAccount` RPC method!
 
 :::tip
 
-More detailed description of methods & parameters is provided in chapter [JSON-RPC API](../tutorial/rpc-methods.md)
+A more detailed description of methods & parameters is provided in the chapter [JSON-RPC API](../tutorial/rpc-methods.md)
 
 :::
 
@@ -70,4 +70,4 @@ console.log('list of VCs:', vcs.data);
 
 ## Connector methods
 
-**More detailed list of methods can be found [here](./../tutorial/implementation.md)!**
+**A more detailed list of methods can be found [here](./../tutorial/implementation.md)!**

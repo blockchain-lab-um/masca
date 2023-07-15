@@ -4,11 +4,11 @@ sidebar_position: 2
 
 # Getting Started
 
-Masca is a **MetaMask Snap** (extension) that adds support for **Decentralized Identity**: it can manage **DIDs**, create and/or store **VCs**, and create the **VPs**. It can also be used to **validate** VCs and VPs and **resolve DIDs**. It is designed to be blockchain-agnostic.
+Masca is a **MetaMask Snap** (extension) that supports **Decentralized Identity**, enabling the management of **DIDs**, creating and storing **VCs**, and creating **VPs**. It can also be used to **validate** VCs and VPs and **resolve DIDs**. It is designed to be blockchain-agnostic.
 
-#### Being an extension of MetaMask, features of Masca can be easily implemented in any dApp that already supports MetaMask and does not require users to install or use any additional Software!
+#### With Masca being a MetaMask extension, developers can effortlessly implement its features into any dApp that already supports MetaMask and does not require users to install or use any additional Software!
 
-If you're unsure what Self-Sovereign Identity is, you can find more information [here](category/self-sovereign-identity-ssi).
+You can find more information [here](category/decentralized-or-self-sovereign-identity-ssi) if you're unsure what Decentralized or Self-Sovereign Identity is.
 
 ---
 
@@ -16,17 +16,15 @@ If you're unsure what Self-Sovereign Identity is, you can find more information 
 
 ### How to start using Masca?
 
-Masca currently works only on **MetaMask Flask**. You can find it [here](https://metamask.io/flask/). Snaps are expected to come to the main MetaMask sometime in the second half of 2023.
-
-After that, connect to any dApp that uses Masca, and you are good to go!
+Masca currently works only on **MetaMask Flask**. You can find it [here](https://metamask.io/flask/). Snaps are expected to be supported in the production MetaMask sometime in the second half of 2023. With that said, users will be able to connect to any dApp using Masca without any additional steps or software.
 
 ### Configuration dApp
 
-We implemented an easy-to-use dApp to configure Masca according to your needs and display your data. You can find it [here](https://github.com/blockchain-lab-um/masca).
+We implemented an easy-to-use [dApp to configure Masca](https://masca.io) according to your needs and display your data. You can find the source code [here](https://github.com/blockchain-lab-um/masca).
 
 ### Demo Platform
 
-We also implemented a simple [course platform](https://blockchain-lab-um.github.io/course-dapp/) where you can receive your very first VC and start building your decentralized identity!
+We have also created a simple [Solidity Course demo dApp](https://blockchain-lab-um.github.io/course-dapp/) where you can receive your first VC and start building your decentralized identity!
 
 ---
 
@@ -34,7 +32,7 @@ We also implemented a simple [course platform](https://blockchain-lab-um.github.
 
 ### Supporting Masca in your dApp
 
-dApp can access the functionalities of Masca using the RPC methods the same way as standard MetaMask/Ethereum ones. We also developed an easy-to-use library called **[Masca Connector](libraries/masca-connector)** to ease the integration process. Library provides all the functionalities to install Masca in a dApp and API calls for interacting with it.
+dApps can access Masca functionalities using the RPC methods like standard MetaMask/Ethereum ones. We have also developed an easy-to-use SDK **[Masca Connector](libraries/masca-connector)** to ease integration. The SDK provides all the functionalities to install Masca in a dApp and exposes an API for interacting with it.
 
 Installing Masca Connector to your project:
 
@@ -42,7 +40,7 @@ Installing Masca Connector to your project:
 pnpm add @blockchain-lab-um/masca-connector
 ```
 
-Masca is installed and initialized using the function `enableMasca`. After Masca is installed, this function returns `Masca` object that you can use to retrieve the API interface.
+Masca installs and initializes using the function `enableMasca` . After the installation, `enableMasca` returns the `Masca` object used to retrieve the API.
 
 A minimal example of initializing Masca and invoking one of the API methods:
 
@@ -76,8 +74,10 @@ if(isError(masca)){
 console.log('list of VCs:', vcs.data);
 ```
 
-More detailed documentation of **Masca Connector** can be found **[here](libraries/masca-connector)**.
+Jump to [**Masca Connector**](libraries/masca-connector) for more detailed documentation.
 
 ### Working with decentralized identity (DIDs, VCs, and VPs)
 
-**Masca** serves as a snap for a user in the [SSI trust model](ssi/trust-model.md). There are also issuers who issue VCs and verifiers who verify VPs. It is up to you as a dApp developer to define how/if you will issue VCs or how you will verify VPs and check their validity (scheme, subject, controller, content, etc.). We are developing issuer and verifier services that will be easy to spin up and usable out of the box. In the meantime, we recommend using **[Veramo Framework](https://veramo.io/)**. You can also look at our code for the **[issuer](https://github.com/blockchain-lab-um/course-backend)** of the Demo Platform.
+**Masca** serves as a snap for a user in the [SSI trust model](ssi/trust-model.md). Components of the SSI trust model are also issuers issuing VCs and verifiers verifying VPs. It is up to you as a dApp developer to define how/if you will issue VCs or how you will verify VPs and check their validity (scheme, subject, controller, content, etc.). We are also actively developing Issuer as a Service (ISSaaS) and Verifier as a Service (VaaS) methodologies, which will ensure seamless integration and easy deployment of these services with minimal technical configuration requirements. We strive to provide a plug-and-play experience, enabling users to leverage these services with minimal effort.
+
+In the meantime, we recommend using **[Veramo Framework](https://veramo.io/)**. You can also examine our **[issuer's source code](https://github.com/blockchain-lab-um/course-backend)** used in our [Solidity Course demo dApp](https://blockchain-lab-um.github.io/course-dapp/).

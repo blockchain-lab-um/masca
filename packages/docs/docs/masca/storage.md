@@ -6,18 +6,18 @@ sidebar_position: 5
 
 Masca utilizes MetaMask's state to store data. Masca modifies the **`MascaState`** object.
 
-In the `MascaState` object, data for every MetaMask account is stored in property, named after the said MetaMask account. Inside this property DIDs, VCs, Snap & Account Configuration are stored.
+In the `MascaState` object, we store the data for every MetaMask account in a property named after the specific MetaMask account. Inside this property DIDs, VCs, Snap & Account Configuration are stored.
 
-There is also global configuration object in the MascaState object
+There is also a global configuration object in the MascaState object
 
 Data-store plugins, used by Veramo Client and Manager plugins, modify the state.
 
 - `DIDManager`
 - `DataManager`
 
-:::info Private Keys
+:::tip Private Keys
 
-It is important to note that MetaMask Account private keys are **NEVER** exported from MetaMask! They are only used during RPC calls and are deleted from memory after the RPC method finishes with the execution!
+It is important to note that we **NEVER** export MetaMask Account private keys! They are only used during RPC calls and are deleted from memory after the RPC method finishes with the execution!
 
 :::
 

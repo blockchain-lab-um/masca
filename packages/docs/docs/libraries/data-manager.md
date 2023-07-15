@@ -6,13 +6,13 @@ sidebar_position: 4
 
 ### Introduction
 
-Veramo does not provide similar support for managing VCs like it does for DIDs and KeyPairs. **Veramo Data Manager** is a custom plugin for managing arbitrary data with the Veramo client. It works very similarly to [DIDManager](https://github.com/uport-project/veramo/tree/next/packages/did-manager) and other Manager plugins built for Veramo. Data stored using this plugin is managed by sub-plugins.
+Veramo does not provide similar support for managing VCs as it does for DIDs and KeyPairs. **Veramo Data Manager** is a custom plugin for managing arbitrary data with the Veramo client. It works very similarly to [ `DIDManager` ](https://github.com/uport-project/veramo/tree/next/packages/did-manager) and other Manager plugins built for Veramo. The data stored using this plugin is managed by sub-plugins.
 
 ![VCManager design](https://user-images.githubusercontent.com/69682837/201887288-e666d565-fc2c-4160-ac85-a98e790eeced.png)
 
 Learn more about [DataManager](https://github.com/uport-project/veramo/issues/1058).
 
-DataManager comes with an `AbstractDataStore`, which is a template for plugins that actually manage the data! Bellow is the code of AbstractDataStore.
+DataManager has an `AbstractDataStore` , a template for plugins that manage the data! Below is the code of ` AbstractDataStore` .
 
 ```typescript
 export interface ISaveArgs {
@@ -46,7 +46,7 @@ export abstract class AbstractDataStore {
 }
 ```
 
-This abstract class enables the [`SnapVCStore`](../masca/architecture.md) plugin, which stores the array of VCs in MetaMask State and `CeramicVCStore` which stores VCs on Ceramic Network.
+This abstract class enables the [ `SnapVCStore` ](../masca/architecture.md) plugin, which stores the array of VCs in MetaMask State, and `CeramicVCStore` , which stores VCs on Ceramic Network.
 
 ### How to use
 
