@@ -44,7 +44,7 @@ Methods that do not require private keys ( `did:ethr` & `did:pkh` ) use `sign_ty
 
 Securely handling private keys in Masca is our topmost priority. Therefore, we never get/derive/use the user's Ethereum private keys. For methods requiring Ethereum keys, we use [ `eth_signTypedData_v4` ](https://docs.metamask.io/wallet/how-to/sign-data/#use-eth_signtypeddata_v4) for signatures, handled inside [Masca Connector](/libraries/masca-connector.md).
 
-For other methods, we derive private keys from a different `coint_type` 1236. How is this done in detail? The steps are as follows:
+For other methods, we derive private keys from a different `coin_type` 1236. How is this done in detail? The steps are as follows:
 
 1. Using the snap's [`snap_getEntropy` RPC method](https://docs.metamask.io/snaps/reference/rpc-api/#snap_getentropy) we deterministically get the unique and random entropy for the current account (passing the current account as a salt parameter - see `snap_getEntropy` reference).
 
