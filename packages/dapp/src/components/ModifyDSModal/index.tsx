@@ -10,6 +10,7 @@ import { shallow } from 'zustand/shallow';
 
 import Button from '@/components//Button';
 import ToggleSwitch from '@/components//Switch';
+import DeleteModal from '@/components/DeleteModal';
 import Modal from '@/components/Modal';
 import { stringifyCredentialSubject } from '@/utils/format';
 import { useMascaStore, useToastStore } from '@/stores';
@@ -122,45 +123,55 @@ function ModifyDSModal({ isOpen, setOpen, vc }: ModifyDSModalProps) {
   };
 
   return (
-    <Modal isOpen={isOpen} setOpen={setOpen}>
-      <Dialog.Title
-        as="h3"
-        className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-800"
-      >
-        {t('title')}
-      </Dialog.Title>
-      <div className="mt-2">
-        <p className="text-md dark:text-navy-blue-200 text-gray-700">
-          {t('desc')}
-        </p>
-      </div>
-      <div className="dark:text-navy-blue-100 mt-10 text-gray-700">
-        {Object.keys(vcStores).map((store, id) => (
-          <div key={id} className="mt-3 flex items-center justify-between">
-            <div>{store}</div>
-            <span className={`${!vcStores[store].enabled ? 'opacity-60' : ''}`}>
-              <ToggleSwitch
-                enabled={vcStores[store].saved}
-                disabled={!vcStores[store].enabled}
-                setEnabled={(e) => {
-                  handleDSChange(store as AvailableVCStores, e)
-                    .then(() => {})
-                    .catch(() => {});
-                }}
-                size="sm"
-              />
-            </span>
-          </div>
-        ))}
-      </div>
-      <div className="flex items-center justify-end">
-        <div className="-mr-2 mt-10">
-          <Button onClick={() => setOpen(false)} variant="done" size="xs">
-            {t('done')}
-          </Button>
+    <>
+      <Modal isOpen={isOpen} setOpen={setOpen}>
+        <Dialog.Title
+          as="h3"
+          className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-800"
+        >
+          {t('title')}
+        </Dialog.Title>
+        <div className="mt-2">
+          <p className="text-md dark:text-navy-blue-200 text-gray-700">
+            {t('desc')}
+          </p>
         </div>
-      </div>
-    </Modal>
+        <div className="dark:text-navy-blue-100 mt-10 text-gray-700">
+          {Object.keys(vcStores).map((store, id) => (
+            <div key={id} className="mt-3 flex items-center justify-between">
+              <div>{store}</div>
+              <span
+                className={`${!vcStores[store].enabled ? 'opacity-60' : ''}`}
+              >
+                <ToggleSwitch
+                  enabled={vcStores[store].saved}
+                  disabled={!vcStores[store].enabled}
+                  setEnabled={(e) => {
+                    handleDSChange(store as AvailableVCStores, e)
+                      .then(() => {})
+                      .catch(() => {});
+                  }}
+                  size="sm"
+                />
+              </span>
+            </div>
+          ))}
+        </div>
+        <div className="flex items-center justify-end">
+          <div className="-mr-2 mt-10">
+            <Button onClick={() => setOpen(false)} variant="done" size="xs">
+              {t('done')}
+            </Button>
+          </div>
+        </div>
+      </Modal>
+      <DeleteModal
+        isOpen={deleteModalOpen}
+        setOpen={setDeleteModalOpen}
+        vc={vc}
+        store={deleteModalStore}
+      />
+    </>
   );
 }
 
