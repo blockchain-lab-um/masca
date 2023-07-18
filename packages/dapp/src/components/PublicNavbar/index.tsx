@@ -71,7 +71,12 @@ const PublicNavbar = () => {
               </Link>
             ))}
             {EXTERNAL_LINKS.map(({ name, href }) => (
-              <a className={clsx('nav-btn')} key={name} href={href}>
+              <a
+                target="_blank"
+                className={clsx('nav-btn')}
+                key={name}
+                href={href}
+              >
                 {t(name)}
               </a>
             ))}
