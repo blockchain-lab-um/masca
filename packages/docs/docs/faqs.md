@@ -15,7 +15,7 @@ Decentralized Identity aims to give power back to the user:
 - users can use their digital identity across multiple platforms, services, or even countries, without the need for multiple accounts and passwords,
 - and much more.
 
-Learn more about the [Decentralized Identity](/docs/category/self-sovereign-identity-ssi).
+Learn more about [Decentralized Identity](/docs/category/decentralized-or-self-sovereign-identity-ssi).
 
 ### Why not use NFTs instead of Verifiable Credentials?
 
