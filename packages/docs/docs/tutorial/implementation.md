@@ -294,6 +294,40 @@ const res = await api.getAccountSettings();
 
 ```
 
+### Handle Credential Offer
+
+`handleCredentialOffer` is used to handle either Polygon ID or OIDC credentials offers
+
+Successful response includes `VerifiableCredential[]`
+
+```typescript
+const res = await api.handleCredentialOffer({
+  credentialOffer: data, // request in string format
+});
+
+if (isSuccess(res)) {
+  // Here you can loop through the received credentials and save them
+  const recievedCredentials = res.data;
+
+  // Loop credentials
+  for (const credential of recievedCredentials) {
+    const saveCredentialResult = await api.saveVC(credential, {
+      store: 'snap',
+    });
+  }
+}
+```
+
+### Handle Authorization Request
+
+`handleAuthorizationRequest` is used to handle either Polygon ID or OIDC authorization requests
+
+```typescript
+const res = await api.handleAuthorizationRequest({
+  authorizationRequest: data, // request in string format
+});
+```
+
 :::info NOTE
 
 Snap can also be installed using a 3rd party Platform such as our [Platform](https://blockchain-lab-um.github.io/course-dapp/) or [Snaplist](https://snaplist.org/).
