@@ -23,7 +23,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8.6.0
+          version: 8.6.10
       - uses: actions/setup-node@v3
         with:
           node-version: 18.16.0
@@ -58,7 +58,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8.6.0
+          version: 8.6.10
       - uses: actions/setup-node@v3
         with:
           node-version: 18.16.0
@@ -93,7 +93,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8.6.0
+          version: 8.6.10
       - uses: actions/setup-node@v3
         with:
           node-version: 18.16.0
@@ -128,7 +128,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8.6.0
+          version: 8.6.10
       - uses: actions/setup-node@v3
         with:
           node-version: 18.16.0
@@ -163,7 +163,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8.6.0
+          version: 8.6.10
       - uses: actions/setup-node@v3
         with:
           node-version: 18.16.0
@@ -252,7 +252,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8.6.0
+          version: 8.6.10
       - uses: actions/setup-node@v3
         with:
           node-version: 18.16.0
