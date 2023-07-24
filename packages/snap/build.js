@@ -15,7 +15,10 @@ esbuild.build({
   treeShaking: true,
   tsconfig: 'tsconfig.build.json',
   alias: {
-    "@0xpolygonid/js-sdk": path.join(__dirname, './node_modules/@0xpolygonid/js-sdk/dist/esm/index.js')
+    '@0xpolygonid/js-sdk': path.join(
+      __dirname,
+      './node_modules/@0xpolygonid/js-sdk/dist/esm/index.js'
+    ),
   },
   plugins: [plugin(stdLibBrowser)],
   define: {
