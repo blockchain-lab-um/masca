@@ -1,4 +1,4 @@
-const esModules = ['@veramo'].join('|');
+const esModules = ['@veramo', '@0xpolygonid/js-sdk'].join('|');
 
 export default {
   clearMocks: false,
