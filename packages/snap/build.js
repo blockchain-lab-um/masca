@@ -1,7 +1,10 @@
 const esbuild = require('esbuild');
 const plugin = require('node-stdlib-browser/helpers/esbuild/plugin');
-const stdLibBrowser = require('node-stdlib-browser');
-const path = require('path');
+let stdLibBrowser = require('node-stdlib-browser');
+
+stdLibBrowser = {
+  ...stdLibBrowser
+};
 
 console.log('Building snap with esbuild...');
 
@@ -15,15 +18,15 @@ esbuild.build({
   treeShaking: true,
   tsconfig: 'tsconfig.build.json',
   alias: {
-    '@0xpolygonid/js-sdk': '@0xpolygonid/js-sdk/dist/esm/index.js',
+    "@0xpolygonid/js-sdk":'../../node_modules/.pnpm/github.com+0xPolygonID+js-sdk@683a2086c2abbc0e0975f6407c4d94e59c32ac3b_zzns4emxmbmz5u5pmyjyhfgn4e/node_modules/@0xpolygonid/js-sdk/dist/esm/index.js'
   },
   plugins: [plugin(stdLibBrowser)],
+  inject: [require.resolve('node-stdlib-browser/helpers/esbuild/shim')],
   define: {
     global: 'global',
     process: 'process',
     Buffer: 'Buffer',
   },
-  inject: [require.resolve('node-stdlib-browser/helpers/esbuild/shim')],
 });
 
 console.log('Finished building snap...');
