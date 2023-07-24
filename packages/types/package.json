@@ -59,36 +59,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "nx": {
-    "namedInputs": {
-      "default": [
-        "{projectRoot}/**/*"
-      ],
-      "production": [
-        "default",
-        "!{projectRoot}/src/typia-generated/**/*.ts",
-        "!{projectRoot}/.eslintrc.cjs",
-        "!{projectRoot}/.lintstagedrc.cjs",
-        "!{projectRoot}/tsconfig.eslint.json",
-        "!{projectRoot}/CHANGELOG.md",
-        "!{projectRoot}/CHANGELOG.old.md",
-        "!{projectRoot}/.prettierignore"
-      ]
-    },
-    "targets": {
-      "build": {
-        "inputs": [
-          "production",
-          "^production"
-        ],
-        "dependsOn": [
-          "^build"
-        ],
-        "outputs": [
-          "{projectRoot}/dist"
-        ]
-      }
-    }
   }
 }

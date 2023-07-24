@@ -85,11 +85,17 @@
   },
   "nx": {
     "namedInputs": {
+      "default": [
+        "{projectRoot}/**/*"
+      ],
       "production": [
-        "{projectRoot}/src/**/*",
-        "{projectRoot}/tsconfig.json",
-        "{projectRoot}/next.config.js",
-        "{projectRoot}/tailwind.config.cjs"
+        "default",
+        "!{projectRoot}/sonar-project.properties",
+        "!{projectRoot}/.next/**/*",
+        "!{projectRoot}/.lintstagedrc.cjs",
+        "!{projectRoot}/Dockerfile",
+        "!{projectRoot}/.prettierignore",
+        "!{projectRoot}/.env.*"
       ]
     },
     "targets": {

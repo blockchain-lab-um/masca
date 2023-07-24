@@ -154,35 +154,5 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org"
-  },
-  "nx": {
-    "namedInputs": {
-      "production": [
-        "{projectRoot}/src/**/*",
-        "{projectRoot}/snap.config.js",
-        "{projectRoot}/snap.manifest.json",
-        "{projectRoot}/tsconfig.build.json",
-        "{projectRoot}/tsconfig.json",
-        "{projectRoot}/build.js",
-        "{projectRoot}/babel.config.ts",
-        "{projectRoot}/eslintrc.cjs",
-        "{projectRoot}/.prettierignore",
-        "{projectRoot}/images/**/*"
-      ]
-    },
-    "targets": {
-      "start": {
-        "inputs": [
-          "production",
-          "^production"
-        ],
-        "dependsOn": [
-          "^build"
-        ],
-        "outputs": [
-          "{projectRoot}/dist"
-        ]
-      }
-    }
   }
 }
