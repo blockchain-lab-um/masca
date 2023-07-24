@@ -36,6 +36,7 @@ import {
 import { Blockchain, DID, DidMethod, NetworkId } from '@iden3/js-iden3-core';
 import { proving } from '@iden3/js-jwz';
 
+import { DIDResolutionOptions, DIDResolutionResult } from 'did-resolver';
 import EthereumService from '../Ethereum.service';
 import StorageService from '../storage/Storage.service';
 import CircuitStorageService from './CircuitStorage.service';
@@ -221,7 +222,7 @@ class PolygonService {
       credWallet,
       circuitStorage,
       new EthStateStorage(getDefaultEthConnectionConfig(blockchain, networkId)),
-      { ipfsNodeURL: 'https://ipfs.io' }
+      { ipfsGatewayURL: 'https://ipfs.io' }
     );
 
     const packageMgr = await this.getPackageMgr({
@@ -230,7 +231,7 @@ class PolygonService {
       kms,
     });
 
-    const authHandler = new AuthHandler(packageMgr, proofService, credWallet);
+    const authHandler = new AuthHandler(packageMgr, proofService);
 
     return {
       packageMgr,
@@ -323,7 +324,7 @@ class PolygonService {
       throw new Error('Missing identity');
     }
 
-    return identity.identifier;
+    return identity.did;
   }
 
   static async handleCredentialOffer(
@@ -337,19 +338,13 @@ class PolygonService {
     const fetchHandler = new FetchHandler(packageMgr);
     const messageBytes = byteEncoder.encode(credentialOffer);
 
-    const did = DID.parse(await this.getIdentifier());
-
     try {
-      const credentials = await fetchHandler.handleCredentialOffer({
-        did,
-        offer: messageBytes,
-        packer: {
+      const credentials = await fetchHandler.handleCredentialOffer(
+        messageBytes,
+        {
           mediaType: PROTOCOL_CONSTANTS.MediaType.ZKPMessage,
-          profileNonce: 0,
-          provingMethodAlg:
-            proving.provingMethodGroth16AuthV2Instance.methodAlg.toString(),
-        },
-      });
+        }
+      );
 
       return credentials;
     } catch (e) {
@@ -372,16 +367,13 @@ class PolygonService {
       const did = DID.parse(await this.getIdentifier());
 
       const { token, authRequest } =
-        await authHandler.handleAuthorizationRequestForGenesisDID({
+        await authHandler.handleAuthorizationRequest(
           did,
-          request: messageBytes,
-          packer: {
+          messageBytes,
+          {
             mediaType: PROTOCOL_CONSTANTS.MediaType.ZKPMessage,
-            profileNonce: 0,
-            provingMethodAlg:
-              proving.provingMethodGroth16AuthV2Instance.methodAlg.toString(),
           },
-        });
+        );
 
       if (!authRequest.body?.callbackUrl) {
         throw new Error('Callback url missing in authorization request');
@@ -484,9 +476,8 @@ class PolygonService {
       (
         hash: Uint8Array,
         did: DID,
-        profileNonce: number,
         circuitId: CircuitId
-      ) => proofService.generateAuthV2Inputs(hash, did, profileNonce, circuitId)
+      ) => proofService.generateAuthV2Inputs(hash, did, circuitId)
     );
     const verificationFn = new VerificationHandlerFunc(
       (id: string, pubSignals: Array<string>) =>
@@ -514,7 +505,26 @@ class PolygonService {
     const mgr = new PackageManager();
     const packer = new ZKPPacker(provingParamMap, verificationParamMap);
     const plainPacker = new PlainPacker();
-    const jwsPacker = new JWSPacker(kms);
+
+
+    const resolveDIDDocument = async (
+      did: string,
+      _?: DIDResolutionOptions,
+    ): Promise<DIDResolutionResult> => {
+      try {
+        const response = await fetch(
+          `https://dev.uniresolver.io/1.0/identifiers/${did}`,
+        );
+        const data = await response.json();
+        return data as DIDResolutionResult;
+      } catch (error: unknown) {
+        throw new Error(
+          `Can't resolve did document: ${(error as Error).message}`,
+        );
+      }
+    };
+
+    const jwsPacker = new JWSPacker(kms, { resolve: resolveDIDDocument });
 
     mgr.registerPackers([packer, plainPacker, jwsPacker]);
 
