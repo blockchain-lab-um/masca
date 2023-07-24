@@ -39,7 +39,7 @@ export default {
     '@ipld/dag-cbor':
       '<rootDir>/../../node_modules/.pnpm/@didtools+cacao@2.1.0/node_modules/@ipld/dag-cbor/dist/index.min.js',
     // Same mapping as in build config
-    '@0xpolygonid/js-sdk': '@0xpolygonid/js-sdk/dist/esm/index.js'
+    '@0xpolygonid/js-sdk': '@0xpolygonid/js-sdk/dist/esm/index.js',
   },
   extensionsToTreatAsEsm: ['.ts'],
   transformIgnorePatterns: [`/node_modules/(?!${esModules})/`],
