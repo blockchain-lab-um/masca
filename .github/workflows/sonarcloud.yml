@@ -12,7 +12,7 @@ jobs:
   # Snap
   sonarcloud-snap:
     name: SonarCloud snap
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
         with:
@@ -47,7 +47,7 @@ jobs:
   # VC Manager
   sonarcloud-datamanager:
     name: SonarCloud Datamanager
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
         with:
@@ -82,7 +82,7 @@ jobs:
   # OIDC Issuer
   sonarcloud-OIDC-Issuer:
     name: SonarCloud OIDC Issuer
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
         with:
@@ -117,7 +117,7 @@ jobs:
   # OIDC Verifier
   sonarcloud-OIDC-Verifier:
     name: SonarCloud OIDC Verifier
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
         with:
@@ -152,7 +152,7 @@ jobs:
   # OIDC RP Plugin
   sonarcloud-OIDC-RP-Plugin:
     name: SonarCloud RP Plugin
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
         with:
@@ -187,7 +187,7 @@ jobs:
   # Connector
   sonarcloud-connector:
     name: SonarCloud connector
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
         with:
@@ -205,7 +205,7 @@ jobs:
   # Dapp
   sonarcloud-dapp:
     name: SonarCloud dapp
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
         with:
@@ -223,7 +223,7 @@ jobs:
   # Docs
   sonarcloud-docs:
     name: SonarCloud docs
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
         with:
@@ -241,7 +241,7 @@ jobs:
   # Did-provider-key
   sonarcloud-did-provider-key:
     name: SonarCloud did-provider-key
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
         with:

@@ -23,6 +23,7 @@ jobs:
       pnpm-version: 8.6.10
       node-version: 18.16.0
       number-of-agents: 4
+      runs-on: ubuntu-20.04
       main-branch-name: 'develop'
       init-commands: |
         pnpm exec nx-cloud start-ci-run --stop-agents-after="build" --agent-count=4
@@ -40,3 +41,4 @@ jobs:
       number-of-agents: 4
       pnpm-version: 8.6.10
       node-version: 18.16.0
+      runs-on: ubuntu-20.04

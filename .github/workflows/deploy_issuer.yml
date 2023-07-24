@@ -20,7 +20,7 @@ jobs:
   deploy:
     # Deploy when we PUSH to DEVELOP
     if: ${{ (github.ref == 'refs/heads/develop') && (github.event_name == 'push') }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
         with:
@@ -46,7 +46,7 @@ jobs:
   test-build:
     # Test build on every PR to DEVELOP
     if: ${{ github.event_name == 'pull_request' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
         with:
