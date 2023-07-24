@@ -9,11 +9,19 @@ import { useMascaStore, useToastStore } from '@/stores';
 
 const SettingsCard = () => {
   const t = useTranslations('SettingsCard');
-  const { api, availableVCStores, changeAvailableVCStores } = useMascaStore(
+  const {
+    api,
+    availableVCStores,
+    changeAvailableVCStores,
+    popups,
+    changePopups,
+  } = useMascaStore(
     (state) => ({
       api: state.mascaApi,
+      popups: state.popups,
       availableVCStores: state.availableVCStores,
       changeAvailableVCStores: state.changeAvailableVCStores,
+      changePopups: state.changePopups,
     }),
     shallow
   );
@@ -57,6 +65,15 @@ const SettingsCard = () => {
     }, 200);
   };
 
+  const snapTogglePopups = async (enabled: boolean) => {
+    if (!api) return;
+    const res = await api.togglePopups();
+    if (isError(res)) {
+      return;
+    }
+    changePopups(res.data);
+  };
+
   const handleCeramicToggle = async (enabled: boolean) => {
     await snapChangeAvailableVCStores('ceramic', enabled);
   };
@@ -79,6 +96,15 @@ const SettingsCard = () => {
             size="md"
             enabled={availableVCStores.ceramic}
             setEnabled={handleCeramicToggle}
+            shadow="md"
+          />
+        </span>
+        <span className="dark:text-navy-blue-200 mt-10 flex justify-between text-gray-700 ">
+          Disable Popups{' '}
+          <ToggleSwitch
+            size="md"
+            enabled={popups as boolean}
+            setEnabled={snapTogglePopups}
             shadow="md"
           />
         </span>

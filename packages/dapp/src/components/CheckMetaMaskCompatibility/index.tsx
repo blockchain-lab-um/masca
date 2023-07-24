@@ -55,6 +55,7 @@ const CheckMetaMaskCompatibility = () => {
     changeAvailableMethods,
     changeCurrMethod,
     changeAvailableVCStores,
+    changePopups,
   } = useMascaStore(
     (state) => ({
       api: state.mascaApi,
@@ -63,6 +64,7 @@ const CheckMetaMaskCompatibility = () => {
       changeAvailableMethods: state.changeAvailableMethods,
       changeCurrMethod: state.changeCurrDIDMethod,
       changeAvailableVCStores: state.changeAvailableVCStores,
+      changePopups: state.changePopups,
     }),
     shallow
   );
@@ -160,12 +162,19 @@ const CheckMetaMaskCompatibility = () => {
       throw new Error(accountSettings.error);
     }
 
+    const snapSettings = await mascaApi.getSnapSettings();
+    if (isError(snapSettings)) {
+      console.log("Couldn't get snap settings");
+      throw new Error(snapSettings.error);
+    }
+
     changeDID(did.data);
     changeAvailableMethods(availableMethods.data);
     changeCurrMethod(method.data);
     changeAvailableVCStores(accountSettings.data.ssi.vcStore);
     changeIsConnected(true);
     changeIsConnecting(false);
+    changePopups(snapSettings.data.dApp.disablePopups);
   };
 
   useEffect(() => {

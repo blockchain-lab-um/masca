@@ -38,7 +38,7 @@ import { VerifiablePresentation } from 'did-jwt-vc';
 import GeneralService from './General.service';
 import PolygonService from './polygon-id/Polygon.service';
 import StorageService from './storage/Storage.service';
-import { snapConfirm } from './utils/snapUtils';
+import UIService from './UI.service';
 import VeramoService from './veramo/Veramo.service';
 import WalletService from './Wallet.service';
 
@@ -81,9 +81,8 @@ class SnapService {
 
     if (
       (await GeneralService.isFriendlyDapp(this.origin)) ||
-      (await snapConfirm(content))
+      (await UIService.snapConfirm(content))
     ) {
-      await GeneralService.addFriendlyDapp(this.origin);
       return vcs;
     }
 
@@ -105,7 +104,7 @@ class SnapService {
       copyable(JSON.stringify(verifiableCredential, null, 2)),
     ]);
 
-    if (await snapConfirm(content)) {
+    if (await UIService.snapConfirm(content)) {
       // If it is a string handle with Veramo
       if (typeof verifiableCredential === 'string') {
         const res = await VeramoService.saveCredential({
@@ -163,32 +162,41 @@ class SnapService {
       return unsignedVc;
     }
 
+    let storeString = '';
+    if (save === true) {
+      storeString = `Store(s): ${
+        typeof store === 'string' ? store : store.join(', ')
+      }`;
+    }
+
+    const content = panel([
+      heading('Create Credential'),
+      text(
+        `Would you like to ${
+          save === true ? 'sign and save' : 'sign'
+        } the following Credential?`
+      ),
+      divider(),
+      text(storeString),
+      text(`VC:`),
+      copyable(JSON.stringify(minimalUnsignedCredential, null, 2)),
+    ]);
+
     const vc = await VeramoService.createCredential({
       credential: minimalUnsignedCredential,
       proofFormat,
     });
 
-    if (save === true) {
-      const content = panel([
-        heading('Save VC'),
-        text('Would you like to save the following VC?'),
-        divider(),
-        text(
-          `Store(s): ${typeof store === 'string' ? store : store.join(', ')}`
-        ),
-        text(`VC:`),
-        copyable(JSON.stringify(vc, null, 2)),
-      ]);
-
-      if (await snapConfirm(content)) {
+    if (await UIService.snapConfirm(content)) {
+      if (save === true) {
         await VeramoService.saveCredential({
           verifiableCredential: vc,
           store,
         });
       }
+      return vc;
     }
-
-    return vc;
+    throw new Error('User rejected create Credential request');
   }
 
   static async deleteCredential(
@@ -232,7 +240,7 @@ class SnapService {
       text(`VCs: ${JSON.stringify(vcs, null, 2)}`),
     ]);
 
-    if (await snapConfirm(content)) {
+    if (await UIService.snapConfirm(content)) {
       if (polygonCredentials.length > 0) {
         await PolygonService.deleteCredential(id);
         return [true];
@@ -271,19 +279,19 @@ class SnapService {
       ...vcs.map((vc) => copyable(JSON.stringify(vc, null, 2))),
     ]);
 
-    if (state.snapConfig.dApp.disablePopups || (await snapConfirm(content))) {
-      if (method === 'did:ethr' || method === 'did:pkh') {
-        if (proofFormat !== 'EthereumEip712Signature2021') {
-          throw new Error('proofFormat must be EthereumEip712Signature2021');
-        }
-
-        const unsignedVp = await VeramoService.createUnsignedPresentation({
-          credentials: args.vcs,
-        });
-
-        return unsignedVp;
+    if (method === 'did:ethr' || method === 'did:pkh') {
+      if (proofFormat !== 'EthereumEip712Signature2021') {
+        throw new Error('proofFormat must be EthereumEip712Signature2021');
       }
 
+      const unsignedVp = await VeramoService.createUnsignedPresentation({
+        credentials: args.vcs,
+      });
+
+      return unsignedVp;
+    }
+
+    if (await UIService.snapConfirm(content)) {
       const res = await VeramoService.createPresentation({
         vcs,
         proofFormat,
@@ -469,7 +477,13 @@ class SnapService {
        * General.service
        */
       case 'togglePopups':
-        await GeneralService.togglePopups();
+        res = await GeneralService.togglePopups();
+        return ResultObject.success(res);
+      case 'addFriendlyDapp':
+        await GeneralService.addFriendlyDapp(this.origin);
+        return ResultObject.success(true);
+      case 'removeFriendlyDapp':
+        await GeneralService.removeFriendlyDapp(params);
         return ResultObject.success(true);
       case 'switchDIDMethod':
         isValidSwitchMethodRequest(params);

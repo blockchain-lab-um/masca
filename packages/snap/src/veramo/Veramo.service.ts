@@ -83,9 +83,9 @@ import * as qs from 'qs';
 import EthereumService from '../Ethereum.service';
 import GeneralService from '../General.service';
 import StorageService from '../storage/Storage.service';
+import UIService from '../UI.service';
 import UniversalResolverService from '../UniversalResolver.service';
 import { sign } from '../utils/sign';
-import { snapConfirm } from '../utils/snapUtils';
 import WalletService from '../Wallet.service';
 import { CeramicVCStore } from './plugins/ceramicDataStore/ceramicDataStore';
 import { SnapVCStore } from './plugins/snapDataStore/snapDataStore';
@@ -214,7 +214,7 @@ class VeramoService {
       copyable(JSON.stringify(credential, null, 2)),
     ]);
 
-    if (state.snapConfig.dApp.disablePopups || (await snapConfirm(content))) {
+    if (await UIService.snapConfirm(content)) {
       const vc = await this.instance.createVerifiableCredential({
         credential: credential as CredentialPayload,
         proofFormat,

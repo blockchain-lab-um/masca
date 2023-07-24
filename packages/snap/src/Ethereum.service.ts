@@ -5,7 +5,7 @@ import {
 } from '@blockchain-lab-um/masca-types';
 import { divider, heading, panel, text } from '@metamask/snaps-ui';
 
-import { snapConfirm } from './utils/snapUtils';
+import UIService from './UI.service';
 
 class EthereumService {
   /**
@@ -35,7 +35,7 @@ class EthereumService {
         `Switching to: ${didMethod} on chainId: ${didMethodChainIdMapping[didMethod][0]}`
       ),
     ]);
-    if (!(await snapConfirm(content))) {
+    if (!(await UIService.snapConfirm(content))) {
       throw new Error('User rejected network switch');
     }
     const chainId = didMethodChainIdMapping[didMethod][0];

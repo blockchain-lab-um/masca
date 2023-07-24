@@ -13,9 +13,9 @@ import { divider, heading, panel, text } from '@metamask/snaps-ui';
 
 import EthereumService from './Ethereum.service';
 import StorageService from './storage/Storage.service';
+import UIService from './UI.service';
 import { validateSession } from './utils/ceramicUtils';
 import { getEmptyAccountState } from './utils/config';
-import { snapConfirm } from './utils/snapUtils';
 
 class GeneralService {
   static async initAccountState(): Promise<void> {
@@ -45,8 +45,18 @@ class GeneralService {
    * @returns void
    */
   static async addFriendlyDapp(dapp: string): Promise<void> {
+    const content = panel([
+      heading('Add Friendly dApp'),
+      text('Would you like to add this dApp to frinedly dApps?'),
+      divider(),
+      text(`Doing so will disable popups from appearing while using ${dapp}.`),
+    ]);
+
     const state = StorageService.get();
     if (state.snapConfig.dApp.friendlyDapps.includes(dapp)) return;
+    if (!(await UIService.snapConfirm(content))) {
+      throw new Error('User rejected friendly dApp addition');
+    }
     state.snapConfig.dApp.friendlyDapps.push(dapp);
   }
 
@@ -57,10 +67,21 @@ class GeneralService {
    *
    * @returns void
    */
-  static async removeFriendlyDapp(dapp: string): Promise<void> {
+  static async removeFriendlyDapp(args: { dApp: string }): Promise<void> {
+    const content = panel([
+      heading('Remove Friendly dApp'),
+      text('Would you like to remove this dApp from friendly dApps?'),
+      divider(),
+      text(`Doing so will enable popups to appear while using ${args.dApp}.`),
+    ]);
+
+    if (!(await UIService.snapConfirm(content))) {
+      throw new Error('User rejected friendly dApp removal');
+    }
+
     const state = StorageService.get();
     state.snapConfig.dApp.friendlyDapps =
-      state.snapConfig.dApp.friendlyDapps.filter((d) => d !== dapp);
+      state.snapConfig.dApp.friendlyDapps.filter((d) => d !== args.dApp);
   }
 
   /**
@@ -80,9 +101,28 @@ class GeneralService {
    *
    * @returns void
    */
-  static async togglePopups(): Promise<void> {
+  static async togglePopups(): Promise<boolean> {
     const state = StorageService.get();
-    state.snapConfig.dApp.disablePopups = !state.snapConfig.dApp.disablePopups;
+
+    const content = panel([
+      heading('Disable Popups'),
+      text('Would you like to disable popups?'),
+      divider(),
+      text(
+        `Disabling popups will prevent any popups from appearing on any dApp. You can always re-enable them in the settings.`
+      ),
+    ]);
+
+    if (!state.snapConfig.dApp.disablePopups) {
+      if (await UIService.snapConfirm(content)) {
+        state.snapConfig.dApp.disablePopups = true;
+        return state.snapConfig.dApp.disablePopups;
+      }
+      throw new Error('User rejected popup toggle');
+    } else {
+      state.snapConfig.dApp.disablePopups = false;
+      return state.snapConfig.dApp.disablePopups;
+    }
   }
 
   static async switchDIDMethod(args: SwitchMethodRequestParams): Promise<void> {
@@ -105,7 +145,7 @@ class GeneralService {
         text(`Switching to: ${newMethod}`),
       ]);
 
-      if (await snapConfirm(content)) {
+      if (await UIService.snapConfirm(content)) {
         state.accountState[state.currentAccount].accountConfig.ssi.didMethod =
           newMethod;
         return;
@@ -137,7 +177,7 @@ class GeneralService {
         text(`Would you like to ${value ? 'enable' : 'disable'} ${store}?`),
       ]);
 
-      if (await snapConfirm(content)) {
+      if (await UIService.snapConfirm(content)) {
         state.accountState[state.currentAccount].accountConfig.ssi.vcStore[
           store
         ] = value;

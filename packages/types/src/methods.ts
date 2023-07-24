@@ -5,6 +5,7 @@ import type {
   HandleAuthorizationRequestParams,
   HandleCredentialOfferRequestParams,
   QueryVCsRequestParams,
+  RemoveFriendlyDappParams,
   ResolveDIDRequestParams,
   SaveVCRequestParams,
   SetCeramicSessionRequestParams,
@@ -113,4 +114,13 @@ export type SetCeramicSession = {
 
 export type ValidateStoredCeramicSession = {
   method: 'validateStoredCeramicSession';
+};
+
+export type AddFriendlyDapp = {
+  method: 'addFriendlyDapp';
+};
+
+export type RemoveFriendlyDapp = {
+  method: 'removeFriendlyDapp';
+  params: RemoveFriendlyDappParams;
 };
