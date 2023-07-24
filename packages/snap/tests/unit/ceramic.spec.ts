@@ -3,12 +3,8 @@ import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import type { W3CVerifiableCredential } from '@veramo/core';
 
-import {
-  veramoClearVCs,
-  veramoDeleteVC,
-  veramoQueryVCs,
-  veramoSaveVC,
-} from '../../src/utils/veramoUtils';
+import StorageService from '../../src/storage/Storage.service';
+import VeramoService from '../../src/veramo/Veramo.service';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import exampleVC from '../data/verifiable-credentials/exampleJWT.json';
@@ -16,7 +12,6 @@ import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
 describe('Utils [ceramic]', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
-  let ethereumMock: MetaMaskInpageProvider;
 
   beforeAll(async () => {
     snapMock = createMockSnap();
@@ -24,11 +19,14 @@ describe('Utils [ceramic]', () => {
       operation: 'update',
       newState: getDefaultSnapState(account),
     });
-    ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
 
-    await veramoClearVCs({
-      snap: snapMock,
-      ethereum: ethereumMock,
+    global.snap = snapMock;
+    global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
+
+    await StorageService.init();
+    await VeramoService.init();
+
+    await VeramoService.clearCredentials({
       store: 'ceramic',
     });
   });
@@ -39,21 +37,15 @@ describe('Utils [ceramic]', () => {
       operation: 'update',
       newState: getDefaultSnapState(account),
     });
-    global.snap = snapMock;
-    global.ethereum = ethereumMock;
   });
 
   describe('ceramicVCStore', () => {
     it.skip('should clear all VCs stored on ceramic', async () => {
-      await veramoClearVCs({
-        snap: snapMock,
-        ethereum: ethereumMock,
+      await VeramoService.clearCredentials({
         store: ['ceramic'],
       });
 
-      const vcs = await veramoQueryVCs({
-        snap: snapMock,
-        ethereum: ethereumMock,
+      const vcs = await VeramoService.queryCredentials({
         options: { store: ['ceramic'], returnStore: true },
       });
       expect(vcs).toEqual([]);
@@ -65,9 +57,7 @@ describe('Utils [ceramic]', () => {
     it.skip('should succeed saving VC on ceramic network', async () => {
       const expectedVCObject = { id: 'test-id', store: 'ceramic' };
 
-      const ids = await veramoSaveVC({
-        snap: snapMock,
-        ethereum: ethereumMock,
+      const ids = await VeramoService.saveCredential({
         verifiableCredential: exampleVC,
         store: ['ceramic'],
       });
@@ -79,9 +69,7 @@ describe('Utils [ceramic]', () => {
 
     it('should fail saving wrong object on ceramic network', async () => {
       await expect(
-        veramoSaveVC({
-          snap: snapMock,
-          ethereum: ethereumMock,
+        VeramoService.saveCredential({
           verifiableCredential: 123 as unknown as W3CVerifiableCredential,
           store: ['ceramic'],
         })
@@ -94,9 +82,7 @@ describe('Utils [ceramic]', () => {
         data: exampleVC,
         metadata: { id: 'test-id', store: ['ceramic'] },
       };
-      const vcs = await veramoQueryVCs({
-        snap: snapMock,
-        ethereum: ethereumMock,
+      const vcs = await VeramoService.queryCredentials({
         options: { store: ['ceramic'], returnStore: true },
       });
       expect(vcs).toHaveLength(1);
@@ -108,33 +94,23 @@ describe('Utils [ceramic]', () => {
 
     // FIXME: this test is failing
     it.skip('should succeed deleting VC from ceramic network', async () => {
-      await veramoClearVCs({
-        snap: snapMock,
-        ethereum: ethereumMock,
+      await VeramoService.clearCredentials({
         store: ['ceramic'],
       });
 
-      const ids = await veramoSaveVC({
-        snap: snapMock,
-        ethereum: ethereumMock,
+      const ids = await VeramoService.saveCredential({
         verifiableCredential: exampleVC,
         store: ['ceramic'],
       });
-      const vcsPreDelete = await veramoQueryVCs({
-        snap: snapMock,
-        ethereum: ethereumMock,
+      const vcsPreDelete = await VeramoService.queryCredentials({
         options: { store: ['ceramic'], returnStore: true },
       });
       expect(vcsPreDelete).toHaveLength(1);
-      await veramoDeleteVC({
+      await VeramoService.deleteCredential({
         id: ids[0].id,
         store: ['ceramic'],
-        snap: snapMock,
-        ethereum: ethereumMock,
       });
-      const vcs = await veramoQueryVCs({
-        snap: snapMock,
-        ethereum: ethereumMock,
+      const vcs = await VeramoService.queryCredentials({
         options: { store: ['ceramic'], returnStore: true },
       });
       expect(vcs).toHaveLength(0);
@@ -144,22 +120,16 @@ describe('Utils [ceramic]', () => {
 
     // FIXME: this test is failing
     it.skip('should succeed storing and querying JWT from ceramic network', async () => {
-      await veramoClearVCs({
-        snap: snapMock,
-        ethereum: ethereumMock,
+      await VeramoService.clearCredentials({
         store: ['ceramic'],
       });
 
-      await veramoSaveVC({
-        snap: snapMock,
-        ethereum: ethereumMock,
+      await VeramoService.saveCredential({
         verifiableCredential: exampleVC.proof.jwt,
         store: ['ceramic'],
       });
 
-      const vcs = await veramoQueryVCs({
-        snap: snapMock,
-        ethereum: ethereumMock,
+      const vcs = await VeramoService.queryCredentials({
         options: { store: ['ceramic'], returnStore: true },
       });
       expect(vcs).toHaveLength(1);

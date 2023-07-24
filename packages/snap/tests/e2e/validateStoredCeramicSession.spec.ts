@@ -40,7 +40,7 @@ describe('validateStoredCeramicSession', () => {
       throw new Error(res.error);
     }
 
-    expect(res.data).toEqual(true);
+    expect(res.data).toBe(true);
 
     expect.assertions(1);
   });
@@ -66,7 +66,7 @@ describe('validateStoredCeramicSession', () => {
       throw new Error('Should return error');
     }
 
-    expect(res.error).toEqual('SyntaxError: Unexpected end of data');
+    expect(res.error).toBe('SyntaxError: Unexpected end of data');
 
     expect.assertions(1);
   });

@@ -1,4 +1,8 @@
-const esModules = ['@veramo'].join('|');
+const esModules = [
+  '@veramo',
+  '@0xpolygonid/js-sdk',
+  'github.com+0xPolygonID+js-sdk.*',
+].join('|');
 
 export default {
   clearMocks: false,
@@ -38,6 +42,8 @@ export default {
       '<rootDir>/../../node_modules/.pnpm/uint8arrays@4.0.3/node_modules/uint8arrays/src/index.ts',
     '@ipld/dag-cbor':
       '<rootDir>/../../node_modules/.pnpm/@didtools+cacao@2.1.0/node_modules/@ipld/dag-cbor/dist/index.min.js',
+    // Same mapping as in build config
+    '@0xpolygonid/js-sdk': '@0xpolygonid/js-sdk/dist/esm/index.js',
   },
   extensionsToTreatAsEsm: ['.ts'],
   transformIgnorePatterns: [`/node_modules/(?!${esModules})/`],

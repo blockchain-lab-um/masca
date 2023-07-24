@@ -15,6 +15,28 @@ bundleString = bundleString.replace(
   ''
 );
 
+// [Polygon ID] Fix Worker
+bundleString = 'var Worker = {};\n'.concat(bundleString);
+
+// [Polygon ID] Fix promise
+bundleString = bundleString.replaceAll(
+  `new Function("return this;")().Promise`,
+  'Promise'
+);
+
+// [Polygon ID] fix single thread
+bundleString = bundleString.replaceAll(`if (singleThread)`, `if (true)`);
+
+// [Polygon ID] fix single thread
+bundleString = bundleString.replaceAll(
+  `singleThread: singleThread ? true : false`,
+  `singleThread: true`
+);
+
+// [Polygon ID] Remove fs
+bundleString = bundleString.replaceAll('fs2.readFileSync;', 'null;');
+bundleString = bundleString.replaceAll('fs3.readFileSync;', 'null;');
+
 fs.writeFileSync(bundlePath, bundleString);
 
 console.log('Finished post-processing bundle');

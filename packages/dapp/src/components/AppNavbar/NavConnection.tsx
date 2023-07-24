@@ -83,7 +83,10 @@ export const NavConnection = () => {
   if (isConnected) {
     return (
       <div className="flex items-center justify-center">
-        {(currMethod === 'did:ethr' || currMethod === 'did:pkh') && (
+        {(currMethod === 'did:ethr' ||
+          currMethod === 'did:pkh' ||
+          currMethod === 'did:polygonid' ||
+          currMethod === 'did:iden3') && (
           <DropdownMenu
             size="method"
             rounded="full"

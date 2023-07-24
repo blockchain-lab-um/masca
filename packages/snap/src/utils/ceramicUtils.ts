@@ -1,7 +1,5 @@
 import type { MascaState } from '@blockchain-lab-um/masca-types';
 import { CeramicClient } from '@ceramicnetwork/http-client';
-import { MetaMaskInpageProvider } from '@metamask/providers';
-import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import { DIDSession } from 'did-session';
 
 export const aliases = {
@@ -45,11 +43,7 @@ async function authenticateWithSessionKey(state: MascaState) {
   return session.did;
 }
 
-export async function getCeramic(
-  ethereum: MetaMaskInpageProvider,
-  snap: SnapsGlobalObject,
-  state: MascaState
-): Promise<CeramicClient> {
+export async function getCeramic(state: MascaState): Promise<CeramicClient> {
   const ceramic = new CeramicClient('https://ceramic-clay.3boxlabs.com');
   const did = await authenticateWithSessionKey(state);
 

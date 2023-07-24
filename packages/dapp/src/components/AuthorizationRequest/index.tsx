@@ -91,8 +91,8 @@ const AuthorizationRequestFlow = () => {
     }
 
     const handleAuthorizationRequestResponse =
-      await api.handleOIDCAuthorizationRequest({
-        authorizationRequestURI,
+      await api.handleAuthorizationRequest({
+        authorizationRequest: authorizationRequestURI,
       });
 
     if (isError(handleAuthorizationRequestResponse)) {
@@ -104,11 +104,7 @@ const AuthorizationRequestFlow = () => {
           loading: false,
         });
       }, 200);
-
-      return;
     }
-
-    setCredentials(handleAuthorizationRequestResponse.data);
   };
 
   const sendAuthorizationResponse = async () => {

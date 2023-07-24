@@ -39,7 +39,7 @@ describe('setCurrentAccount', () => {
       throw new Error(res.error);
     }
 
-    expect(res.data).toEqual(true);
+    expect(res.data).toBe(true);
     expect.assertions(1);
   });
 
@@ -91,7 +91,7 @@ describe('setCurrentAccount', () => {
     }
 
     expect(res.error).toBe(
-      'Error: No account set. Use setCurrentAccount to set an account.'
+      'Error: No current account set. Please call the `setCurrentAccount` RPC method first.'
     );
     expect.assertions(1);
   });

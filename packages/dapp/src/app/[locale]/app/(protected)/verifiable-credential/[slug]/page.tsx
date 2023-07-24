@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { decodeBase64url } from '@veramo/utils';
 
 import CredentialDisplay from '@/components/CredentialDisplay';
 
@@ -14,8 +15,8 @@ export default function Page({
 }) {
   return (
     <div className="flex w-full flex-1 items-start justify-center">
-      <div className="flex-1 md:max-w-3xl">
-        <CredentialDisplay id={slug} />
+      <div className="max-w-full flex-1 md:max-w-3xl">
+        <CredentialDisplay id={decodeBase64url(slug)} />
       </div>
     </div>
   );

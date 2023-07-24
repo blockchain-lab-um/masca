@@ -1,4 +1,4 @@
-import { isError, Result } from '@blockchain-lab-um/utils';
+import { isError, isSuccess, Result } from '@blockchain-lab-um/utils';
 import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-datamanager';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { MetaMaskInpageProvider } from '@metamask/providers';
@@ -6,8 +6,9 @@ import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import type { VerifiableCredential } from '@veramo/core';
 
 import { onRpcRequest } from '../../src';
+import StorageService from '../../src/storage/Storage.service';
 import type { StoredCredentials } from '../../src/veramo/plugins/ceramicDataStore/ceramicDataStore';
-import { getAgent, type Agent } from '../../src/veramo/setup';
+import VeramoService, { type Agent } from '../../src/veramo/Veramo.service';
 import { account, importablePrivateKey } from '../data/constants';
 import examplePayload from '../data/credentials/examplePayload.json';
 import { getDefaultSnapState } from '../data/defaultSnapState';
@@ -27,8 +28,12 @@ describe('deleteVC', () => {
       newState: getDefaultSnapState(account),
     });
     snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-    const ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
-    agent = await getAgent(snapMock, ethereumMock);
+
+    global.snap = snapMock;
+    global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
+
+    await StorageService.init();
+    agent = await VeramoService.createAgent();
 
     // Create test identifier for issuing the VC
     const identifier = await agent.didManagerCreate({
@@ -212,6 +217,7 @@ describe('deleteVC', () => {
 
     expect.assertions(3);
   });
+
   it('should fail deleting 1 VC with wrong id', async () => {
     const saveRes = (await onRpcRequest({
       origin: 'localhost',
@@ -250,11 +256,11 @@ describe('deleteVC', () => {
       },
     })) as Result<unknown>;
 
-    if (isError(res)) {
-      throw new Error(res.error);
+    if (isSuccess(res)) {
+      throw new Error('Should return error');
     }
 
-    expect(res.data).toHaveLength(0);
+    expect(res.error).toBe('Error: No VC found with the given id');
 
     const result = (await onRpcRequest({
       origin: 'localhost',

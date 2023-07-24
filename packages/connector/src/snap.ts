@@ -4,8 +4,8 @@ import type {
   CreateVCRequestParams,
   CreateVPRequestParams,
   DeleteVCsOptions,
-  HandleOIDCAuthorizationRequestParams,
-  HandleOIDCCredentialOfferRequestParams,
+  HandleAuthorizationRequestParams,
+  HandleCredentialOfferRequestParams,
   MascaAccountConfig,
   MascaApi,
   MascaConfig,
@@ -352,26 +352,26 @@ export async function verifyData(
   );
 }
 
-export async function handleOIDCCredentialOffer(
+export async function handleCredentialOffer(
   this: Masca,
-  params: HandleOIDCCredentialOfferRequestParams
-): Promise<Result<VerifiableCredential>> {
+  params: HandleCredentialOfferRequestParams
+): Promise<Result<VerifiableCredential[]>> {
   return sendSnapMethod(
     {
-      method: 'handleOIDCCredentialOffer',
+      method: 'handleCredentialOffer',
       params,
     },
     this.snapId
   );
 }
 
-export async function handleOIDCAuthorizationRequest(
+export async function handleAuthorizationRequest(
   this: Masca,
-  params: HandleOIDCAuthorizationRequestParams
-): Promise<Result<VerifiableCredential[]>> {
+  params: HandleAuthorizationRequestParams
+): Promise<Result<void>> {
   return sendSnapMethod(
     {
-      method: 'handleOIDCAuthorizationRequest',
+      method: 'handleAuthorizationRequest',
       params,
     },
     this.snapId
@@ -444,10 +444,8 @@ export class Masca {
     createVC: wrapper(createVC.bind(this)),
     setCurrentAccount: wrapper(setCurrentAccount.bind(this)),
     verifyData: wrapper(verifyData.bind(this)),
-    handleOIDCCredentialOffer: wrapper(handleOIDCCredentialOffer.bind(this)),
-    handleOIDCAuthorizationRequest: wrapper(
-      handleOIDCAuthorizationRequest.bind(this)
-    ),
+    handleCredentialOffer: wrapper(handleCredentialOffer.bind(this)),
+    handleAuthorizationRequest: wrapper(handleAuthorizationRequest.bind(this)),
     setCeramicSession: wrapper(setCeramicSession.bind(this)),
     validateStoredCeramicSession: wrapper(
       validateStoredCeramicSession.bind(this)

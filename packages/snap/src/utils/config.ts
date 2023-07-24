@@ -1,17 +1,50 @@
 import type {
   MascaAccountConfig,
   MascaAccountState,
-  MascaConfig,
   MascaState,
+  PolygonBaseState,
+  PolygonState,
 } from '@blockchain-lab-um/masca-types';
 import cloneDeep from 'lodash.clonedeep';
 
+const emptyPolygonBaseState: PolygonBaseState = {
+  credentials: {},
+  identities: {},
+  profiles: {},
+  merkleTreeMeta: [],
+  merkleTree: {},
+};
+
+const emptyPolygonState: PolygonState = {
+  polygonid: {
+    eth: {
+      main: cloneDeep(emptyPolygonBaseState),
+      goerli: cloneDeep(emptyPolygonBaseState),
+      mumbai: cloneDeep(emptyPolygonBaseState), // To satisfy the type checker
+    },
+    polygon: {
+      main: cloneDeep(emptyPolygonBaseState),
+      mumbai: cloneDeep(emptyPolygonBaseState),
+      goerli: cloneDeep(emptyPolygonBaseState), // To satisfy the type checker
+    },
+  },
+  iden3: {
+    eth: {
+      main: cloneDeep(emptyPolygonBaseState),
+      goerli: cloneDeep(emptyPolygonBaseState),
+      mumbai: cloneDeep(emptyPolygonBaseState), // To satisfy the type checker
+    },
+    polygon: {
+      main: cloneDeep(emptyPolygonBaseState),
+      mumbai: cloneDeep(emptyPolygonBaseState),
+      goerli: cloneDeep(emptyPolygonBaseState), // To satisfy the type checker
+    },
+  },
+};
+
 const emptyAccountState = {
-  snapKeyStore: {},
-  snapPrivateKeyStore: {},
+  polygonState: emptyPolygonState,
   vcs: {},
-  identifiers: {},
-  publicKey: '',
   accountConfig: {
     ssi: {
       didMethod: 'did:ethr',
@@ -24,16 +57,6 @@ const emptyAccountState = {
 } as MascaAccountState;
 
 export const getEmptyAccountState = () => cloneDeep(emptyAccountState);
-
-export const defaultConfig = {
-  dApp: {
-    disablePopups: false,
-    friendlyDapps: [],
-  },
-  snap: {
-    acceptedTerms: true,
-  },
-} as MascaConfig;
 
 const initialSnapState: MascaState = {
   accountState: {},
