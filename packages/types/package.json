@@ -37,7 +37,7 @@
     "typia:generate": "pnpm typia generate --input typia-templates --output src/typia-generated --project tsconfig.json"
   },
   "dependencies": {
-    "@0xpolygonid/js-sdk": "https://github.com/0xPolygonID/js-sdk#b50447564b642c3835c811bd32e1350eb189578c",
+    "@0xpolygonid/js-sdk": "*",
     "@blockchain-lab-um/utils": "*",
     "@iden3/js-iden3-core": "1.0.0",
     "@veramo/core": "5.2.0",

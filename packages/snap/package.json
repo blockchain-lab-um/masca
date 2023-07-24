@@ -53,7 +53,7 @@
     "test:ci": "pnpm run test --silent --coverage"
   },
   "dependencies": {
-    "@0xpolygonid/js-sdk": "https://github.com/0xPolygonID/js-sdk#b50447564b642c3835c811bd32e1350eb189578c",
+    "@0xpolygonid/js-sdk": "*",
     "@babel/runtime": "7.22.3",
     "@blockchain-lab-um/did-provider-ebsi": "*",
     "@blockchain-lab-um/did-provider-key": "*",
