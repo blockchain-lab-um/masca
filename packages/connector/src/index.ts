@@ -1,7 +1,4 @@
-import {
-  isAvailableMethods,
-  type AvailableMethods,
-} from '@blockchain-lab-um/masca-types';
+import { type AvailableMethods } from '@blockchain-lab-um/masca-types';
 import { isError, ResultObject, type Result } from '@blockchain-lab-um/utils';
 import detectEthereumProvider from '@metamask/detect-provider';
 
@@ -35,7 +32,13 @@ export async function enableMasca(
   const {
     snapId = defaultSnapOrigin,
     version = '0.3.1',
-    supportedMethods = ['did:ethr'],
+    supportedMethods = [
+      'did:ethr',
+      'did:pkh',
+      'did:key',
+      'did:key:jwk_jcs-pub',
+      'did:jwk',
+    ],
   } = snapInstallationParams;
 
   // This resolves to the value of window.ethereum or null
@@ -82,9 +85,9 @@ export async function enableMasca(
       return ResultObject.error(selectedMethodsResult.error);
     }
 
-    const method = selectedMethodsResult.data;
+    const method = selectedMethodsResult.data as AvailableMethods;
 
-    if (!isAvailableMethods(method)) {
+    if (!supportedMethods.includes(method)) {
       const switchResult = await api.switchDIDMethod(snap.supportedMethods[0]);
 
       if (isError(switchResult)) {

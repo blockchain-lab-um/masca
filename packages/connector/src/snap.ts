@@ -194,10 +194,13 @@ export async function switchDIDMethod(
   this: Masca,
   method: AvailableMethods
 ): Promise<Result<AvailableMethods>> {
-  return sendSnapMethod(
-    { method: 'switchDIDMethod', params: { didMethod: method } },
-    this.snapId
-  );
+  if (this.supportedMethods.includes(method)) {
+    return sendSnapMethod(
+      { method: 'switchDIDMethod', params: { didMethod: method } },
+      this.snapId
+    );
+  }
+  return ResultObject.error(`Method ${method} is not supported on this dApp.`);
 }
 
 /**

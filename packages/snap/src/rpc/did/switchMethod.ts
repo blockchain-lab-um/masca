@@ -72,14 +72,15 @@ export async function switchMethod(
   }
 
   if (didMethod !== method) {
-    const content = panel([
-      heading('Switch Method'),
-      text('Would you like to switch DID method?'),
-      divider(),
-      text(`Switching to: ${didMethod}`),
-    ]);
+    //   const content = panel([
+    //     heading('Switch Method'),
+    //     text('Would you like to switch DID method?'),
+    //     divider(),
+    //     text(`Switching to: ${didMethod}`),
+    //   ]);
 
-    if (await snapConfirm(snap, content)) {
+    if (true) {
+      // await snapConfirm(snap, content)) {
       const res = await changeCurrentMethod({
         snap,
         ethereum,
