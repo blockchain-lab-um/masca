@@ -49,7 +49,7 @@
     "lint:prettier": "prettier . --check",
     "serve": "mm-snap serve",
     "start": "pnpm build && pnpm serve",
-    "test": "cross-env NODE_OPTIONS=--max-old-space-size=4096 node --experimental-json-modules node_modules/jest/bin/jest.js --max-workers=50%",
+    "test": "cross-env NODE_OPTIONS=--max-old-space-size=6144 node --experimental-json-modules node_modules/jest/bin/jest.js --max-workers=50%",
     "test:ci": "pnpm run test --silent --coverage"
   },
   "dependencies": {
