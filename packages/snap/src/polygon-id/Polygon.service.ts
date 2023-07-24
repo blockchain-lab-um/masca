@@ -35,8 +35,8 @@ import {
 } from '@blockchain-lab-um/masca-types';
 import { Blockchain, DID, DidMethod, NetworkId } from '@iden3/js-iden3-core';
 import { proving } from '@iden3/js-jwz';
-
 import { DIDResolutionOptions, DIDResolutionResult } from 'did-resolver';
+
 import EthereumService from '../Ethereum.service';
 import StorageService from '../storage/Storage.service';
 import CircuitStorageService from './CircuitStorage.service';
@@ -367,13 +367,9 @@ class PolygonService {
       const did = DID.parse(await this.getIdentifier());
 
       const { token, authRequest } =
-        await authHandler.handleAuthorizationRequest(
-          did,
-          messageBytes,
-          {
-            mediaType: PROTOCOL_CONSTANTS.MediaType.ZKPMessage,
-          },
-        );
+        await authHandler.handleAuthorizationRequest(did, messageBytes, {
+          mediaType: PROTOCOL_CONSTANTS.MediaType.ZKPMessage,
+        });
 
       if (!authRequest.body?.callbackUrl) {
         throw new Error('Callback url missing in authorization request');
@@ -473,11 +469,8 @@ class PolygonService {
   }) {
     const { circuitData, proofService, kms } = args;
     const authInputsHandler = new DataPrepareHandlerFunc(
-      (
-        hash: Uint8Array,
-        did: DID,
-        circuitId: CircuitId
-      ) => proofService.generateAuthV2Inputs(hash, did, circuitId)
+      (hash: Uint8Array, did: DID, circuitId: CircuitId) =>
+        proofService.generateAuthV2Inputs(hash, did, circuitId)
     );
     const verificationFn = new VerificationHandlerFunc(
       (id: string, pubSignals: Array<string>) =>
@@ -506,20 +499,19 @@ class PolygonService {
     const packer = new ZKPPacker(provingParamMap, verificationParamMap);
     const plainPacker = new PlainPacker();
 
-
     const resolveDIDDocument = async (
       did: string,
-      _?: DIDResolutionOptions,
+      _?: DIDResolutionOptions
     ): Promise<DIDResolutionResult> => {
       try {
         const response = await fetch(
-          `https://dev.uniresolver.io/1.0/identifiers/${did}`,
+          `https://dev.uniresolver.io/1.0/identifiers/${did}`
         );
         const data = await response.json();
         return data as DIDResolutionResult;
       } catch (error: unknown) {
         throw new Error(
-          `Can't resolve did document: ${(error as Error).message}`,
+          `Can't resolve did document: ${(error as Error).message}`
         );
       }
     };
