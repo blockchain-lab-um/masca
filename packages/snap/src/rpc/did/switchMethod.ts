@@ -72,27 +72,15 @@ export async function switchMethod(
   }
 
   if (didMethod !== method) {
-    //   const content = panel([
-    //     heading('Switch Method'),
-    //     text('Would you like to switch DID method?'),
-    //     divider(),
-    //     text(`Switching to: ${didMethod}`),
-    //   ]);
-
-    if (true) {
-      // await snapConfirm(snap, content)) {
-      const res = await changeCurrentMethod({
-        snap,
-        ethereum,
-        state,
-        account,
-        didMethod,
-        bip44CoinTypeNode: bip44CoinTypeNode as BIP44CoinTypeNode,
-      });
-      return res;
-    }
-
-    throw new Error('User rejected method switch');
+    const res = await changeCurrentMethod({
+      snap,
+      ethereum,
+      state,
+      account,
+      didMethod,
+      bip44CoinTypeNode: bip44CoinTypeNode as BIP44CoinTypeNode,
+    });
+    return res;
   }
 
   throw new Error('Method already set');
