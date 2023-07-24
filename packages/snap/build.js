@@ -3,7 +3,7 @@ const plugin = require('node-stdlib-browser/helpers/esbuild/plugin');
 let stdLibBrowser = require('node-stdlib-browser');
 
 stdLibBrowser = {
-  ...stdLibBrowser
+  ...stdLibBrowser,
 };
 
 console.log('Building snap with esbuild...');
