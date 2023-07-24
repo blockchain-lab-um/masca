@@ -101,9 +101,9 @@
       "@digitalbazaar/http-client@1.2.0": "patches/@digitalbazaar__http-client@1.2.0.patch",
       "@metamask/snaps-types@0.32.2": "patches/@metamask__snaps-types@0.32.2.patch",
       "cross-fetch@3.1.6": "patches/cross-fetch@3.1.6.patch",
-      "@ceramicnetwork/common@2.26.0": "patches/@ceramicnetwork__common@2.26.0.patch",
       "@veramo/credential-w3c@5.2.0": "patches/@veramo__credential-w3c@5.2.0.patch",
-      "intl@1.2.5": "patches/intl@1.2.5.patch"
+      "intl@1.2.5": "patches/intl@1.2.5.patch",
+      "@ceramicnetwork/common@2.29.0": "patches/@ceramicnetwork__common@2.29.0.patch"
     },
     "allowNonAppliedPatches": true
   }

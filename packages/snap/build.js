@@ -18,7 +18,7 @@ esbuild.build({
   treeShaking: true,
   tsconfig: 'tsconfig.build.json',
   alias: {
-    "@0xpolygonid/js-sdk":'../../node_modules/.pnpm/github.com+0xPolygonID+js-sdk@683a2086c2abbc0e0975f6407c4d94e59c32ac3b_zzns4emxmbmz5u5pmyjyhfgn4e/node_modules/@0xpolygonid/js-sdk/dist/esm/index.js'
+    "@0xpolygonid/js-sdk":'../../node_modules/.pnpm/github.com+0xPolygonID+js-sdk@b50447564b642c3835c811bd32e1350eb189578c_xr65kx4diede7av7icn3kqhvj4/node_modules/@0xpolygonid/js-sdk/dist/esm/index.js'
   },
   plugins: [plugin(stdLibBrowser)],
   inject: [require.resolve('node-stdlib-browser/helpers/esbuild/shim')],

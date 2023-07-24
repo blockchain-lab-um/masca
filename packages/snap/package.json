@@ -53,7 +53,7 @@
     "test:ci": "pnpm run test --silent --coverage"
   },
   "dependencies": {
-    "@0xpolygonid/js-sdk": "https://github.com/0xPolygonID/js-sdk#v2",
+    "@0xpolygonid/js-sdk": "https://github.com/0xPolygonID/js-sdk#b50447564b642c3835c811bd32e1350eb189578c",
     "@babel/runtime": "7.22.3",
     "@blockchain-lab-um/did-provider-ebsi": "*",
     "@blockchain-lab-um/did-provider-key": "*",
@@ -95,7 +95,7 @@
     "did-jwt-vc": "3.2.1",
     "did-resolver": "4.1.0",
     "did-session": "2.0.1",
-    "dids": "^4.0.1",
+    "dids": "4.0.1",
     "elliptic": "^6.5.4",
     "ethereum-cryptography": "^2.0.0",
     "ethers": "6.4.0",
@@ -116,7 +116,7 @@
     "@babel/core": "^7.22.1",
     "@babel/plugin-syntax-import-assertions": "^7.20.0",
     "@babel/preset-typescript": "^7.21.5",
-    "@ceramicnetwork/streamid": "2.14.0",
+    "@ceramicnetwork/streamid": "2.16.0",
     "@commitlint/cli": "^17.6.5",
     "@commitlint/config-conventional": "^17.6.5",
     "@ianvs/prettier-plugin-sort-imports": "^4.0.1",
