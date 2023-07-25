@@ -26,7 +26,7 @@ describe('getVCStore', () => {
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'getVCStore',
+        method: 'getCredentialStore',
         params: {},
       },
     })) as Result<unknown>;

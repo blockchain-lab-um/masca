@@ -346,7 +346,7 @@ describe('Utils [veramo]', () => {
 
       await VeramoService.init();
 
-      const resRet = await GeneralService.getEnabledVCStores();
+      const resRet = await GeneralService.getEnabledCredentialStores();
       expect(resRet).toEqual(['snap']);
 
       let queryRes = await VeramoService.queryCredentials({
@@ -374,7 +374,7 @@ describe('Utils [veramo]', () => {
 
       await VeramoService.init();
 
-      const resRet2 = await GeneralService.getEnabledVCStores();
+      const resRet2 = await GeneralService.getEnabledCredentialStores();
       expect(resRet2).toEqual(['snap', 'ceramic']);
 
       queryRes = await VeramoService.queryCredentials({

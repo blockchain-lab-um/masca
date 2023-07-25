@@ -75,7 +75,7 @@ describe('setCurrentAccount', () => {
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'createVC',
+        method: 'createCredential',
         params: {
           minimalUnsignedCredential: exampleTestVCPayload,
           proofFormat: 'jwt',

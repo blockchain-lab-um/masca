@@ -1,4 +1,4 @@
-import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-connector';
+import { QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { FilterFn, Table } from '@tanstack/react-table';
 
 export const includesDataStore: FilterFn<any> = (
@@ -46,8 +46,8 @@ export const recursiveIncludes: FilterFn<any> = (
 };
 
 export const selectRows = (
-  table: Table<QueryVCsRequestResult>,
-  selectedVCs: QueryVCsRequestResult[]
+  table: Table<QueryCredentialsRequestResult>,
+  selectedVCs: QueryCredentialsRequestResult[]
 ) => {
   table.getPrePaginationRowModel().rows.forEach((row) => {
     if (

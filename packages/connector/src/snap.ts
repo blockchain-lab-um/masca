@@ -1,19 +1,19 @@
 import type {
+  AvailableCredentialStores,
   AvailableMethods,
-  AvailableVCStores,
-  CreateVCRequestParams,
-  CreateVPRequestParams,
-  DeleteVCsOptions,
+  CreateCredentialRequestParams,
+  CreatePresentationRequestParams,
+  DeleteCredentialsOptions,
   HandleAuthorizationRequestParams,
   HandleCredentialOfferRequestParams,
   MascaAccountConfig,
   MascaApi,
   MascaConfig,
   MascaRPCRequest,
-  QueryVCsRequestParams,
-  QueryVCsRequestResult,
-  SaveVCOptions,
-  SaveVCRequestResult,
+  QueryCredentialsRequestParams,
+  QueryCredentialsRequestResult,
+  SaveCredentialOptions,
+  SaveCredentialRequestResult,
   SetCurrentAccountRequestParams,
   VerifyDataRequestParams,
 } from '@blockchain-lab-um/masca-types';
@@ -50,16 +50,16 @@ async function sendSnapMethod<T>(
  *
  * @param params - optional parameters for querying VCs
  *
- * @return Result<QueryVCsRequestResult[]> - list of VCs
+ * @return Result<QueryCredentialsRequestResult[]> - list of VCs
  */
-export async function queryVCs(
+export async function queryCredentials(
   this: Masca,
-  params?: QueryVCsRequestParams
-): Promise<Result<QueryVCsRequestResult[]>> {
+  params?: QueryCredentialsRequestParams
+): Promise<Result<QueryCredentialsRequestResult[]>> {
   await validateAndSetCeramicSession(this);
 
   return sendSnapMethod(
-    { method: 'queryVCs', params: params ?? {} },
+    { method: 'queryCredentials', params: params ?? {} },
     this.snapId
   );
 }
@@ -71,15 +71,15 @@ export async function queryVCs(
  *
  * @return Result<VerifiablePresentation> - VP
  */
-export async function createVP(
+export async function createPresentation(
   this: Masca,
-  params: CreateVPRequestParams
+  params: CreatePresentationRequestParams
 ): Promise<Result<VerifiablePresentation>> {
   await validateAndSetCeramicSession(this);
 
   const result = await sendSnapMethod<Result<VerifiablePresentation>>(
     {
-      method: 'createVP',
+      method: 'createPresentation',
       params,
     },
     this.snapId
@@ -106,18 +106,18 @@ export async function createVP(
  * @param vc - VC to be saved
  * @param options - optional parameters for saving a VC
  *
- * @return Result<SaveVCRequestResult[]> - list of saved VCs
+ * @return Result<SaveCredentialRequestResult[]> - list of saved VCs
  */
-export async function saveVC(
+export async function saveCredential(
   this: Masca,
   vc: W3CVerifiableCredential,
-  options?: SaveVCOptions
-): Promise<Result<SaveVCRequestResult[]>> {
+  options?: SaveCredentialOptions
+): Promise<Result<SaveCredentialRequestResult[]>> {
   await validateAndSetCeramicSession(this);
 
   return sendSnapMethod(
     {
-      method: 'saveVC',
+      method: 'saveCredential',
       params: {
         verifiableCredential: vc,
         options,
@@ -135,16 +135,16 @@ export async function saveVC(
  *
  * @return Result<boolean[]> - list of results for each VC
  */
-export async function deleteVC(
+export async function deleteCredential(
   this: Masca,
   id: string,
-  options?: DeleteVCsOptions
+  options?: DeleteCredentialsOptions
 ): Promise<Result<boolean[]>> {
   await validateAndSetCeramicSession(this);
 
   return sendSnapMethod(
     {
-      method: 'deleteVC',
+      method: 'deleteCredential',
       params: {
         id,
         options,
@@ -212,12 +212,12 @@ export async function togglePopups(this: Masca): Promise<Result<boolean>> {
 /**
  * Get the status of available VC stores (i.e. whether they are enabled or not)
  *
- * @return Result<Record<AvailableVCStores, boolean>> - status of available VC stores
+ * @return Result<Record<AvailableCredentialStores, boolean>> - status of available VC stores
  */
-export async function getVCStore(
+export async function getCredentialStore(
   this: Masca
-): Promise<Result<Record<AvailableVCStores, boolean>>> {
-  return sendSnapMethod({ method: 'getVCStore' }, this.snapId);
+): Promise<Result<Record<AvailableCredentialStores, boolean>>> {
+  return sendSnapMethod({ method: 'getCredentialStore' }, this.snapId);
 }
 
 /**
@@ -225,10 +225,13 @@ export async function getVCStore(
  *
  * @return Result<string[]> - list of available VC stores
  */
-export async function getAvailableVCStores(
+export async function getAvailableCredentialStores(
   this: Masca
 ): Promise<Result<string[]>> {
-  return sendSnapMethod({ method: 'getAvailableVCStores' }, this.snapId);
+  return sendSnapMethod(
+    { method: 'getAvailableCredentialStores' },
+    this.snapId
+  );
 }
 
 /**
@@ -239,13 +242,13 @@ export async function getAvailableVCStores(
  *
  * @return Result<boolean> - true if the switch was successful
  */
-export async function setVCStore(
+export async function setCredentialStore(
   this: Masca,
-  store: AvailableVCStores,
+  store: AvailableCredentialStores,
   value: boolean
 ): Promise<Result<boolean>> {
   return sendSnapMethod(
-    { method: 'setVCStore', params: { store, value } },
+    { method: 'setCredentialStore', params: { store, value } },
     this.snapId
   );
 }
@@ -289,15 +292,15 @@ export async function resolveDID(
 /**
  * Create a Verifiable Presentation
  */
-export async function createVC(
+export async function createCredential(
   this: Masca,
-  params: CreateVCRequestParams
+  params: CreateCredentialRequestParams
 ): Promise<Result<VerifiableCredential>> {
   await validateAndSetCeramicSession(this);
 
   const result = await sendSnapMethod(
     {
-      method: 'createVC',
+      method: 'createCredential',
       params,
     },
     this.snapId
@@ -426,22 +429,24 @@ export class Masca {
   }
 
   public getMascaApi = (): MascaApi => ({
-    saveVC: wrapper(saveVC.bind(this)),
-    queryVCs: wrapper(queryVCs.bind(this)),
-    createVP: wrapper(createVP.bind(this)),
+    saveCredential: wrapper(saveCredential.bind(this)),
+    queryCredentials: wrapper(queryCredentials.bind(this)),
+    createPresentation: wrapper(createPresentation.bind(this)),
     togglePopups: wrapper(togglePopups.bind(this)),
     getDID: wrapper(getDID.bind(this)),
     getSelectedMethod: wrapper(getSelectedMethod.bind(this)),
     getAvailableMethods: wrapper(getAvailableMethods.bind(this)),
     switchDIDMethod: wrapper(switchDIDMethod.bind(this)),
-    getVCStore: wrapper(getVCStore.bind(this)),
-    setVCStore: wrapper(setVCStore.bind(this)),
-    getAvailableVCStores: wrapper(getAvailableVCStores.bind(this)),
-    deleteVC: wrapper(deleteVC.bind(this)),
+    getCredentialStore: wrapper(getCredentialStore.bind(this)),
+    setCredentialStore: wrapper(setCredentialStore.bind(this)),
+    getAvailableCredentialStores: wrapper(
+      getAvailableCredentialStores.bind(this)
+    ),
+    deleteCredential: wrapper(deleteCredential.bind(this)),
     getSnapSettings: wrapper(getSnapSettings.bind(this)),
     getAccountSettings: wrapper(getAccountSettings.bind(this)),
     resolveDID: wrapper(resolveDID.bind(this)),
-    createVC: wrapper(createVC.bind(this)),
+    createCredential: wrapper(createCredential.bind(this)),
     setCurrentAccount: wrapper(setCurrentAccount.bind(this)),
     verifyData: wrapper(verifyData.bind(this)),
     handleCredentialOffer: wrapper(handleCredentialOffer.bind(this)),

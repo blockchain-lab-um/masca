@@ -64,7 +64,7 @@ if(isError(masca)){
 const api = masca.data.getMascaApi();
 
 // Invoke the API
-const vcs = await api.queryVCs();
+const vcs = await api.queryCredentials();
 
 if(isError(masca)){
     console.error(vcs.error);

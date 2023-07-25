@@ -100,7 +100,7 @@ describe('queryVerifiableCredentials', () => {
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'queryVCs',
+        method: 'queryCredentials',
         params: {},
       },
     })) as Result<unknown>;
@@ -120,7 +120,7 @@ describe('queryVerifiableCredentials', () => {
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'saveVC',
+        method: 'saveCredential',
         params: {
           verifiableCredential: generatedVC,
           options: { store: 'snap' },
@@ -147,7 +147,7 @@ describe('queryVerifiableCredentials', () => {
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'queryVCs',
+        method: 'queryCredentials',
         params: {
           filter: {
             type: 'id',
@@ -172,7 +172,7 @@ describe('queryVerifiableCredentials', () => {
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'saveVC',
+        method: 'saveCredential',
         params: {
           verifiableCredential: generatedVC,
           options: { store: 'snap' },
@@ -199,7 +199,7 @@ describe('queryVerifiableCredentials', () => {
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'queryVCs',
+        method: 'queryCredentials',
         params: {},
       },
     })) as Result<unknown>;
@@ -219,7 +219,7 @@ describe('queryVerifiableCredentials', () => {
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'saveVC',
+        method: 'saveCredential',
         params: {
           verifiableCredential: generatedVC,
           options: { store: 'snap' },
@@ -246,7 +246,7 @@ describe('queryVerifiableCredentials', () => {
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'queryVCs',
+        method: 'queryCredentials',
         params: {
           options: { store: 'snap' },
         },
@@ -268,7 +268,7 @@ describe('queryVerifiableCredentials', () => {
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'saveVC',
+        method: 'saveCredential',
         params: {
           verifiableCredential: generatedVC,
           options: { store: 'snap' },
@@ -294,7 +294,7 @@ describe('queryVerifiableCredentials', () => {
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'queryVCs',
+        method: 'queryCredentials',
         params: {
           options: { returnStore: false },
         },
@@ -316,7 +316,7 @@ describe('queryVerifiableCredentials', () => {
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'saveVC',
+        method: 'saveCredential',
         params: {
           verifiableCredential: generatedVC,
           options: { store: 'snap' },
@@ -343,7 +343,7 @@ describe('queryVerifiableCredentials', () => {
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'queryVCs',
+        method: 'queryCredentials',
         params: {
           options: { store: 'snap' },
           filter: {

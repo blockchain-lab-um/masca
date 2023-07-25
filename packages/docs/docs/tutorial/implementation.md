@@ -73,30 +73,30 @@ window.ethereum.on('accountsChanged', (...accounts) => {
 
 ### Save VC
 
-`saveVC` is used to save a VC under the currently selected MetaMask account. Parameter `vc` is a `W3CVerifiableCredential` VC. Invalid format might lead to failure when generating VPs. We recommend using Veramo to generate VCs with this [interface](https://veramo.io/docs/api/core.verifiablecredential). Optional parameter `options` defines where the VC will get saved. VC can be stored in one or more places at the same time.
+`saveCredential` is used to save a VC under the currently selected MetaMask account. Parameter `vc` is a `W3CVerifiableCredential` VC. Invalid format might lead to failure when generating VPs. We recommend using Veramo to generate VCs with this [interface](https://veramo.io/docs/api/core.verifiablecredential). Optional parameter `options` defines where the VC will get saved. VC can be stored in one or more places at the same time.
 
 ```typescript
-const res = await api.saveVC(verifiableCredential, {
+const res = await api.saveCredential(verifiableCredential, {
   store: ['ceramic', 'snap'],
 });
 ```
 
 ### Query VCs
 
-`queryVCs` is used to get a list of VCs stored by the currently selected MetaMask account. Optional parameter `params` is an object with optional properties `filter` and `options` .
+`queryCredentials` is used to get a list of VCs stored by the currently selected MetaMask account. Optional parameter `params` is an object with optional properties `filter` and `options` .
 
-Filter defines what `queryVCs` returns and Options defines where to search for data and what format to return it in.
+Filter defines what `queryCredentials` returns and Options defines where to search for data and what format to return it in.
 
-QueryVCsRequestParams type:
+QueryCredentialsRequestParams type:
 
 ```typescript
-type QueryVCsRequestParams = {
+type QueryCredentialsRequestParams = {
   filter?: {
     type: string;
     filter: unknown;
   };
   options?: {
-    store?: AvailableVCStores | AvailableVCStores[];
+    store?: AvailableCredentialStores | AvailableCredentialStores[];
     returnStore?: boolean;
   };
 };
@@ -125,7 +125,7 @@ Options defines where to search for VCs. One or more supported stores can be pro
 
 ```typescript
 // Get a single VC or a list of VCs you're looking for
-const vcs = await api.queryVCs({
+const vcs = await api.queryCredentials({
   filter: {
     type: id,
     filter: '123456',
@@ -138,15 +138,15 @@ const vcs = await api.queryVCs({
 console.log('VCs', vcs.data);
 
 // To return every VC
-const vcs = await api.queryVCs();
+const vcs = await api.queryCredentials();
 ```
 
 ### Create VP
 
-`createVP` is used to get a VP for one or more specific VCs. Params object is of type:
+`createPresentation` is used to get a VP for one or more specific VCs. Params object is of type:
 
 ```typescript
-export type CreateVPRequestParams = {
+export type CreatePresentationRequestParams = {
   vcs: W3CVerifiableCredential[];
   proofFormat?: 'jwt' | 'lds' | 'EthereumEip712Signature2021';
   proofOptions?: {
@@ -167,7 +167,7 @@ export type CreateVPRequestParams = {
 
 ```typescript
 // Get VP
-const vp = await api.createVP({
+const vp = await api.createPresentation({
   vcs: [verifiableCredentialObject],
   proofFormat: 'jwt',
   options: {
@@ -178,7 +178,7 @@ const vp = await api.createVP({
 
 ### Create VC
 
-`createVC` is used to return a VC created from the provided payload. This VC can be optionally stored in Masca.
+`createCredential` is used to return a VC created from the provided payload. This VC can be optionally stored in Masca.
 
 ```typescript
 const payload: MinimalUnsignedCredential = {
@@ -197,7 +197,7 @@ const payload: MinimalUnsignedCredential = {
   ],
 };
 
-const res = await api.createVC({
+const res = await api.createCredential({
   minimalUnsignedCredential: payload,
   proofFormat: 'jwt',
   options: {
@@ -213,14 +213,14 @@ const res = await api.createVC({
 
 ### Delete VC
 
-`deleteVC` is used to delete a VC from one or more stores
+`deleteCredential` is used to delete a VC from one or more stores
 
 `id` - id of VC
 
 `options` is optional and is used to select a store where to delete VC from.
 
 ```typescript
-const res = await api.deleteVC('123', { store: 'snap' });
+const res = await api.deleteCredential('123', { store: 'snap' });
 ```
 
 ### DIDs
@@ -235,12 +235,12 @@ const res = await api.getSelectedMethod();
 
 ### Supported DID Methods and VC Stores
 
-`getAvailableVCStores` and `getAvailableMethods` are used to get all supported methods and vcstores
+`getAvailableCredentialStores` and `getAvailableMethods` are used to get all supported methods and vcstores
 
 ```typescript
 const supportedMethods = await api.getAvailableMethods();
 
-const supportedStores = await api.getAvailableVCStores();
+const supportedStores = await api.getAvailableCredentialStores();
 ```
 
 ### Switch DID Method
@@ -253,10 +253,10 @@ await api.switchMethod('did:key');
 
 ### Configure VC Stores
 
-`setVCStore` is used to enable/disable a specific VC store. By default both snap & ceramic are enabled!
+`setCredentialStore` is used to enable/disable a specific VC store. By default both snap & ceramic are enabled!
 
 ```typescript
-const res = await api.setVCStore('ceramic', false);
+const res = await api.setCredentialStore('ceramic', false);
 ```
 
 ### Resolve DID
@@ -315,7 +315,7 @@ if (isSuccess(res)) {
 
   // Loop credentials
   for (const credential of recievedCredentials) {
-    const saveCredentialResult = await api.saveVC(credential, {
+    const saveCredentialResult = await api.saveCredential(credential, {
       store: 'snap',
     });
   }

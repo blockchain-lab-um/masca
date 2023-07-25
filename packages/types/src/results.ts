@@ -1,6 +1,6 @@
 import type { VerifiableCredential } from '@veramo/core';
 
-export interface QueryVCsRequestResult {
+export interface QueryCredentialsRequestResult {
   data: VerifiableCredential;
   metadata: {
     id: string;
@@ -8,7 +8,7 @@ export interface QueryVCsRequestResult {
   };
 }
 
-export interface SaveVCRequestResult {
+export interface SaveCredentialRequestResult {
   id: string;
   store: string[];
 }

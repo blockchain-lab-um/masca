@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import {
-  AvailableVCStores,
+  AvailableCredentialStores,
   isError,
-  QueryVCsRequestResult,
+  QueryCredentialsRequestResult,
 } from '@blockchain-lab-um/masca-connector';
 import { ArrowPathIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { W3CVerifiableCredential } from '@veramo/core';
@@ -60,7 +60,7 @@ const Controlbar = () => {
       });
     }, 200);
 
-    const res = await api.queryVCs();
+    const res = await api.queryCredentials();
     useToastStore.setState({
       open: false,
     });
@@ -93,7 +93,10 @@ const Controlbar = () => {
     setSpinner(false);
   };
 
-  const saveVC = async (vc: string, stores: AvailableVCStores[]) => {
+  const saveCredential = async (
+    vc: string,
+    stores: AvailableCredentialStores[]
+  ) => {
     if (!api) return false;
     let vcObj: W3CVerifiableCredential;
 
@@ -119,7 +122,7 @@ const Controlbar = () => {
       }
     }
 
-    const res = await api.saveVC(vcObj, {
+    const res = await api.saveCredential(vcObj, {
       store: stores,
     });
 
@@ -129,12 +132,12 @@ const Controlbar = () => {
     }
 
     if (res.data && res.data.length > 0) {
-      const newVcs: QueryVCsRequestResult[] = [];
+      const newVcs: QueryCredentialsRequestResult[] = [];
       res.data.forEach((metadata: any) => {
         const finalVC = {
           data: vcObj,
           metadata,
-        } as QueryVCsRequestResult;
+        } as QueryCredentialsRequestResult;
         newVcs.push(finalVC);
       });
       changeVcs(
@@ -143,7 +146,7 @@ const Controlbar = () => {
         )
       );
 
-      const queryResult = await api.queryVCs();
+      const queryResult = await api.queryCredentials();
       if (isError(queryResult)) {
         return false;
       }
@@ -225,7 +228,7 @@ const Controlbar = () => {
       <ImportModal
         isOpen={importModalOpen}
         setOpen={setImportModalOpen}
-        importVC={saveVC}
+        importVC={saveCredential}
       />
       {/* <PlaygroundModal
         open={playgroundModalOpen}

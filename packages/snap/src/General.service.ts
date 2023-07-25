@@ -1,12 +1,12 @@
 import {
+  availableCredentialStores,
+  AvailableCredentialStores,
   availableMethods,
-  availableVCStores,
-  AvailableVCStores,
   MascaAccountConfig,
   MascaConfig,
   MethodsRequiringNetwork,
   requiresNetwork,
-  SetVCStoreRequestParams,
+  SetCredentialStoreRequestParams,
   SwitchMethodRequestParams,
 } from '@blockchain-lab-um/masca-types';
 import { divider, heading, panel, text } from '@metamask/snaps-ui';
@@ -122,18 +122,22 @@ class GeneralService {
     return state.accountState[state.currentAccount].accountConfig.ssi.didMethod;
   }
 
-  static async getVCStore(): Promise<Record<AvailableVCStores, boolean>> {
+  static async getCredentialStore(): Promise<
+    Record<AvailableCredentialStores, boolean>
+  > {
     const state = StorageService.get();
     return state.accountState[state.currentAccount].accountConfig.ssi.vcStore;
   }
 
-  static async setVCStore(args: SetVCStoreRequestParams): Promise<boolean> {
+  static async setCredentialStore(
+    args: SetCredentialStoreRequestParams
+  ): Promise<boolean> {
     const state = StorageService.get();
     const { store, value } = args;
 
     if (store !== 'snap') {
       const content = panel([
-        heading('Manage VCStore Plugin'),
+        heading('Manage CredentialStore Plugin'),
         text(`Would you like to ${value ? 'enable' : 'disable'} ${store}?`),
       ]);
 
@@ -149,18 +153,20 @@ class GeneralService {
     return false;
   }
 
-  static async getEnabledVCStores(): Promise<AvailableVCStores[]> {
+  static async getEnabledCredentialStores(): Promise<
+    AvailableCredentialStores[]
+  > {
     const state = StorageService.get();
 
     return Object.entries(
       state.accountState[state.currentAccount].accountConfig.ssi.vcStore
     )
       .filter(([, value]) => value)
-      .map(([key]) => key) as AvailableVCStores[];
+      .map(([key]) => key) as AvailableCredentialStores[];
   }
 
-  static async getAvailableVCStores(): Promise<string[]> {
-    return availableVCStores.map((store) => store);
+  static async getAvailableCredentialStores(): Promise<string[]> {
+    return availableCredentialStores.map((store) => store);
   }
 
   static async getAccountSettings(): Promise<MascaAccountConfig> {

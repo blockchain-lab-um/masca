@@ -1,26 +1,26 @@
 import { W3CCredential } from '@0xpolygonid/js-sdk';
 import {
-  CreateVCRequestParams,
-  CreateVPRequestParams,
-  DeleteVCsRequestParams,
+  CreateCredentialRequestParams,
+  CreatePresentationRequestParams,
+  DeleteCredentialsRequestParams,
   HandleAuthorizationRequestParams,
   HandleCredentialOfferRequestParams,
   isPolygonSupportedMethods,
-  isValidCreateVCRequest,
-  isValidCreateVPRequest,
-  isValidDeleteVCsRequest,
-  isValidQueryVCsRequest,
+  isValidCreateCredentialRequest,
+  isValidCreatePresentationRequest,
+  isValidDeleteCredentialsRequest,
+  isValidQueryCredentialsRequest,
   isValidResolveDIDRequest,
-  isValidSaveVCRequest,
-  isValidSetVCStoreRequest,
+  isValidSaveCredentialRequest,
+  isValidSetCredentialStoreRequest,
   isValidSwitchMethodRequest,
   isValidVerifyDataRequest,
   isVeramoSupportedMethods,
   polygonSupportedMethods,
-  QueryVCsRequestParams,
-  QueryVCsRequestResult,
-  SaveVCRequestParams,
-  SaveVCRequestResult,
+  QueryCredentialsRequestParams,
+  QueryCredentialsRequestResult,
+  SaveCredentialRequestParams,
+  SaveCredentialRequestResult,
   VerifyDataRequestParams,
 } from '@blockchain-lab-um/masca-types';
 import { Result, ResultObject } from '@blockchain-lab-um/utils';
@@ -46,8 +46,8 @@ class SnapService {
   private static origin: string;
 
   static async queryCredentials(
-    args: QueryVCsRequestParams
-  ): Promise<QueryVCsRequestResult[]> {
+    args: QueryCredentialsRequestParams
+  ): Promise<QueryCredentialsRequestResult[]> {
     const { filter, options } = args ?? {};
     const { store, returnStore = true } = options ?? {};
 
@@ -57,7 +57,7 @@ class SnapService {
       filter,
     });
 
-    const polygonCredentials: QueryVCsRequestResult[] = (
+    const polygonCredentials: QueryCredentialsRequestResult[] = (
       await PolygonService.queryCredentials()
     ).map((vc) => ({
       data: vc as VerifiableCredential,
@@ -91,8 +91,8 @@ class SnapService {
   }
 
   static async saveCredential(
-    args: SaveVCRequestParams
-  ): Promise<SaveVCRequestResult[]> {
+    args: SaveCredentialRequestParams
+  ): Promise<SaveCredentialRequestResult[]> {
     const { verifiableCredential, options } = args;
     const { store = 'snap' } = options ?? {};
 
@@ -145,7 +145,7 @@ class SnapService {
   }
 
   static async createCredential(
-    args: CreateVCRequestParams
+    args: CreateCredentialRequestParams
   ): Promise<UnsignedCredential | VerifiableCredential> {
     const { minimalUnsignedCredential, proofFormat, options } = args;
     const { store = 'snap' } = options ?? {};
@@ -192,7 +192,7 @@ class SnapService {
   }
 
   static async deleteCredential(
-    args: DeleteVCsRequestParams
+    args: DeleteCredentialsRequestParams
   ): Promise<boolean[]> {
     const { id, options } = args ?? {};
     const store = options?.store;
@@ -203,7 +203,7 @@ class SnapService {
     });
 
     // FIXME: Implement filter
-    const polygonCredentials: QueryVCsRequestResult[] = (
+    const polygonCredentials: QueryCredentialsRequestResult[] = (
       await PolygonService.queryCredentials()
     )
       .map((vc) => ({
@@ -252,7 +252,7 @@ class SnapService {
   }
 
   static async createPresentation(
-    args: CreateVPRequestParams
+    args: CreatePresentationRequestParams
   ): Promise<UnsignedPresentation | VerifiablePresentation> {
     const { vcs, proofFormat = 'jwt', proofOptions } = args;
     const state = StorageService.get();
@@ -423,27 +423,27 @@ class SnapService {
        * - Veramo.service
        * - Polygon.service
        */
-      case 'queryVCs':
-        isValidQueryVCsRequest(params, state.currentAccount, state);
+      case 'queryCredentials':
+        isValidQueryCredentialsRequest(params, state.currentAccount, state);
         await PolygonService.init();
         res = await this.queryCredentials(params);
         return ResultObject.success(res);
-      case 'saveVC':
-        isValidSaveVCRequest(params, state.currentAccount, state);
+      case 'saveCredential':
+        isValidSaveCredentialRequest(params, state.currentAccount, state);
         res = await this.saveCredential(params);
         return ResultObject.success(res);
-      case 'createVC':
-        isValidCreateVCRequest(params, state.currentAccount, state);
+      case 'createCredential':
+        isValidCreateCredentialRequest(params, state.currentAccount, state);
         await VeramoService.importIdentifier();
         res = await this.createCredential(params);
         return ResultObject.success(res);
-      case 'createVP':
-        isValidCreateVPRequest(params);
+      case 'createPresentation':
+        isValidCreatePresentationRequest(params);
         await VeramoService.importIdentifier();
         res = await this.createPresentation(params);
         return ResultObject.success(res);
-      case 'deleteVC':
-        isValidDeleteVCsRequest(params, state.currentAccount, state);
+      case 'deleteCredential':
+        isValidDeleteCredentialsRequest(params, state.currentAccount, state);
         await PolygonService.init();
         res = await this.deleteCredential(params);
         return ResultObject.success(res);
@@ -480,15 +480,15 @@ class SnapService {
       case 'getSelectedMethod':
         res = await GeneralService.getSelectedMethod();
         return ResultObject.success(res);
-      case 'getVCStore':
-        res = await GeneralService.getVCStore();
+      case 'getCredentialStore':
+        res = await GeneralService.getCredentialStore();
         return ResultObject.success(res);
-      case 'setVCStore':
-        isValidSetVCStoreRequest(params);
-        res = await GeneralService.setVCStore(params);
+      case 'setCredentialStore':
+        isValidSetCredentialStoreRequest(params);
+        res = await GeneralService.setCredentialStore(params);
         return ResultObject.success(res);
-      case 'getAvailableVCStores':
-        res = await GeneralService.getAvailableVCStores();
+      case 'getAvailableCredentialStores':
+        res = await GeneralService.getAvailableCredentialStores();
         return ResultObject.success(res);
       case 'getAccountSettings':
         res = await GeneralService.getAccountSettings();

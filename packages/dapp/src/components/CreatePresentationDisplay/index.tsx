@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   isError,
-  QueryVCsRequestResult,
+  QueryCredentialsRequestResult,
   SupportedProofFormats,
 } from '@blockchain-lab-um/masca-connector';
 import { ArrowLeftIcon } from '@heroicons/react/20/solid';
@@ -73,11 +73,13 @@ const CreatePresentationDisplay = () => {
 
   const handleRemove = (id: string) => {
     setSelectedVCs(
-      selectedVCs?.filter((vc: QueryVCsRequestResult) => vc.metadata.id !== id)
+      selectedVCs?.filter(
+        (vc: QueryCredentialsRequestResult) => vc.metadata.id !== id
+      )
     );
   };
 
-  const handleCreateVP = async () => {
+  const handleCreatePresentation = async () => {
     if (!api) return;
     setLoading(true);
     const vcs: W3CVerifiableCredential[] = selectedVCs.map(
@@ -86,7 +88,7 @@ const CreatePresentationDisplay = () => {
 
     const proofOptions = { type: '', domain, challenge };
 
-    const res = await api.createVP({
+    const res = await api.createPresentation({
       vcs,
       proofFormat: proofFormats[format],
       proofOptions,
@@ -210,7 +212,7 @@ const CreatePresentationDisplay = () => {
           variant="primary"
           size="sm"
           shadow="sm"
-          onClick={handleCreateVP}
+          onClick={handleCreatePresentation}
           loading={loading}
         >
           {t('title')}

@@ -1,47 +1,47 @@
 import type {
-  CreateVCRequestParams,
-  CreateVPRequestParams,
-  DeleteVCsRequestParams,
+  CreateCredentialRequestParams,
+  CreatePresentationRequestParams,
+  DeleteCredentialsRequestParams,
   HandleAuthorizationRequestParams,
   HandleCredentialOfferRequestParams,
-  QueryVCsRequestParams,
+  QueryCredentialsRequestParams,
   ResolveDIDRequestParams,
-  SaveVCRequestParams,
+  SaveCredentialRequestParams,
   SetCeramicSessionRequestParams,
+  SetCredentialStoreRequestParams,
   SetCurrentAccountRequestParams,
-  SetVCStoreRequestParams,
   SwitchMethodRequestParams,
   VerifyDataRequestParams,
 } from './params.js';
 
-export type QueryVCs = {
-  method: 'queryVCs';
-  params: QueryVCsRequestParams;
+export type QueryCredentials = {
+  method: 'queryCredentials';
+  params: QueryCredentialsRequestParams;
 };
 
-export type CreateVC = {
-  method: 'createVC';
-  params: CreateVCRequestParams;
+export type CreateCredential = {
+  method: 'createCredential';
+  params: CreateCredentialRequestParams;
 };
 
-export type SaveVC = {
-  method: 'saveVC';
-  params: SaveVCRequestParams;
+export type SaveCredential = {
+  method: 'saveCredential';
+  params: SaveCredentialRequestParams;
 };
 
-export type DeleteVC = {
-  method: 'deleteVC';
-  params: DeleteVCsRequestParams;
+export type DeleteCredential = {
+  method: 'deleteCredential';
+  params: DeleteCredentialsRequestParams;
 };
 
-export type CreateVP = {
-  method: 'createVP';
-  params: CreateVPRequestParams;
+export type CreatePresentation = {
+  method: 'createPresentation';
+  params: CreatePresentationRequestParams;
 };
 
-export type SetVCStore = {
-  method: 'setVCStore';
-  params: SetVCStoreRequestParams;
+export type SetCredentialStore = {
+  method: 'setCredentialStore';
+  params: SetCredentialStoreRequestParams;
 };
 
 export type SwitchMethod = {
@@ -65,8 +65,8 @@ export type GetAvailableMethods = {
   method: 'getAvailableMethods';
 };
 
-export type GetVCStore = {
-  method: 'getVCStore';
+export type GetCredentialStore = {
+  method: 'getCredentialStore';
 };
 
 export type GetAccountSettings = {
@@ -77,8 +77,8 @@ export type GetSnapSettings = {
   method: 'getSnapSettings';
 };
 
-export type GetAvailableVCStores = {
-  method: 'getAvailableVCStores';
+export type GetAvailableCredentialStores = {
+  method: 'getAvailableCredentialStores';
 };
 
 export type ResolveDID = {

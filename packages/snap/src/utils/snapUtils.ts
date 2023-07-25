@@ -1,5 +1,5 @@
 import type {
-  AvailableVCStores,
+  AvailableCredentialStores,
   MascaState,
 } from '@blockchain-lab-um/masca-types';
 import type { Component } from '@metamask/snaps-ui';
@@ -31,10 +31,10 @@ export async function snapConfirm(content: Component): Promise<boolean> {
  *
  * @returns boolean - whether the vc store is enabled.
  */
-export function isEnabledVCStore(
+export function isEnabledCredentialStore(
   account: string,
   state: MascaState,
-  store: AvailableVCStores
+  store: AvailableCredentialStores
 ): boolean {
   return state.accountState[account].accountConfig.ssi.vcStore[store];
 }

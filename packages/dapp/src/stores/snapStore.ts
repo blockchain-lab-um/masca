@@ -1,7 +1,7 @@
 import {
-  AvailableVCStores,
+  AvailableCredentialStores,
   MascaApi,
-  QueryVCsRequestResult,
+  QueryCredentialsRequestResult,
 } from '@blockchain-lab-um/masca-connector';
 import { create } from 'zustand';
 
@@ -9,19 +9,23 @@ interface MascaStore {
   mascaApi: MascaApi | undefined;
   availableMethods: string[];
   currDIDMethod: string | undefined;
-  currVCStore: AvailableVCStores | undefined;
+  currCredentialStore: AvailableCredentialStores | undefined;
   currDID: string;
-  vcs: QueryVCsRequestResult[];
-  availableVCStores: Record<string, boolean>;
+  vcs: QueryCredentialsRequestResult[];
+  availableCredentialStores: Record<string, boolean>;
   lastFetch: number | undefined;
 
-  changeAvailableVCStores: (availableVCStores: Record<string, boolean>) => void;
+  changeAvailableCredentialStores: (
+    availableCredentialStores: Record<string, boolean>
+  ) => void;
   changeMascaApi: (mascaApi: MascaApi) => void;
   changeAvailableMethods: (availableMethods: string[]) => void;
   changeCurrDIDMethod: (currDIDMethod: string) => void;
-  changeCurrVCStore: (currVCStore: AvailableVCStores) => void;
+  changeCurrCredentialStore: (
+    currCredentialStore: AvailableCredentialStores
+  ) => void;
   changeCurrDID: (currDID: string) => void;
-  changeVcs: (vcs: QueryVCsRequestResult[]) => void;
+  changeVcs: (vcs: QueryCredentialsRequestResult[]) => void;
   changeLastFetch: (lastFetch: number) => void;
 }
 
@@ -29,24 +33,26 @@ export const mascaStoreInitialState = {
   mascaApi: undefined,
   availableMethods: [],
   currDIDMethod: undefined,
-  currVCStore: undefined,
+  currCredentialStore: undefined,
   currDID: '',
   vcs: [],
-  availableVCStores: { snap: true, ceramic: false },
+  availableCredentialStores: { snap: true, ceramic: false },
   lastFetch: undefined,
 };
 
 export const useMascaStore = create<MascaStore>()((set) => ({
   ...mascaStoreInitialState,
 
-  changeAvailableVCStores: (availableVCStores: Record<string, boolean>) =>
-    set({ availableVCStores }),
+  changeAvailableCredentialStores: (
+    availableCredentialStores: Record<string, boolean>
+  ) => set({ availableCredentialStores }),
   changeMascaApi: (mascaApi: MascaApi) => set({ mascaApi }),
   changeAvailableMethods: (availableMethods: string[]) =>
     set({ availableMethods }),
   changeCurrDIDMethod: (currDIDMethod: string) => set({ currDIDMethod }),
-  changeCurrVCStore: (currVCStore: AvailableVCStores) => set({ currVCStore }),
+  changeCurrCredentialStore: (currCredentialStore: AvailableCredentialStores) =>
+    set({ currCredentialStore }),
   changeCurrDID: (currDID: string) => set({ currDID }),
-  changeVcs: (vcs: QueryVCsRequestResult[]) => set({ vcs }),
+  changeVcs: (vcs: QueryCredentialsRequestResult[]) => set({ vcs }),
   changeLastFetch: (lastFetch: number) => set({ lastFetch }),
 }));

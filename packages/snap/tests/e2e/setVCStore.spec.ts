@@ -65,7 +65,7 @@ describe('setVCStore', () => {
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'setVCStore',
+        method: 'setCredentialStore',
         params: { store: 'ceramic', value: true },
       },
     })) as Result<unknown>;
@@ -81,7 +81,7 @@ describe('setVCStore', () => {
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'getVCStore',
+        method: 'getCredentialStore',
         params: {},
       },
     })) as Result<unknown>;

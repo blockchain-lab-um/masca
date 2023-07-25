@@ -54,7 +54,7 @@ const CheckMetaMaskCompatibility = () => {
     changeDID,
     changeAvailableMethods,
     changeCurrMethod,
-    changeAvailableVCStores,
+    changeAvailableCredentialStores,
   } = useMascaStore(
     (state) => ({
       api: state.mascaApi,
@@ -62,7 +62,7 @@ const CheckMetaMaskCompatibility = () => {
       changeDID: state.changeCurrDID,
       changeAvailableMethods: state.changeAvailableMethods,
       changeCurrMethod: state.changeCurrDIDMethod,
-      changeAvailableVCStores: state.changeAvailableVCStores,
+      changeAvailableCredentialStores: state.changeAvailableCredentialStores,
     }),
     shallow
   );
@@ -163,7 +163,7 @@ const CheckMetaMaskCompatibility = () => {
     changeDID(did.data);
     changeAvailableMethods(availableMethods.data);
     changeCurrMethod(method.data);
-    changeAvailableVCStores(accountSettings.data.ssi.vcStore);
+    changeAvailableCredentialStores(accountSettings.data.ssi.vcStore);
     changeIsConnected(true);
     changeIsConnecting(false);
   };
