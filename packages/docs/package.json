@@ -81,12 +81,18 @@
   },
   "nx": {
     "namedInputs": {
+      "default": [
+        "{projectRoot}/**/*"
+      ],
       "production": [
-        "{projectRoot}/**/*",
-        "!{projectRoot}/**/*.spec.ts",
-        "!{projectRoot}/tsconfig.eslint.ts",
-        "!{projectRoot}/.lintstagedrc.js",
-        "!{projectRoot}/README.md"
+        "default",
+        "!{projectRoot}/sonar-project.properties",
+        "!{projectRoot}/dist/**/*",
+        "!{projectRoot}/.docusaurus/**/*",
+        "!{projectRoot}/.lintstagedrc.cjs",
+        "!{projectRoot}/Dockerfile",
+        "!{projectRoot}/.prettierignore",
+        "!{projectRoot}/.env.*"
       ]
     },
     "targets": {

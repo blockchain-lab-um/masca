@@ -15,7 +15,7 @@
         "registry": "https://registry.npmjs.org"
       }
     },
-    "shasum": "B5GNP2kI2rNvF6H5Fv0Dg4D3foHDOvkKkNWLHutAoS4="
+    "shasum": "F51rMt4W6wioUovHRMMOspcyCESSc+OwCUR/Q7UAg5M="
   },
   "initialPermissions": {
     "endowment:ethereum-provider": {},
@@ -25,13 +25,9 @@
       "snaps": true
     },
     "snap_dialog": {},
-    "snap_getBip44Entropy": [
-      {
-        "coinType": 1236
-      }
-    ],
     "snap_getEntropy": {},
-    "snap_manageState": {}
+    "snap_manageState": {},
+    "endowment:webassembly": {}
   },
   "manifestVersion": "0.1"
 }

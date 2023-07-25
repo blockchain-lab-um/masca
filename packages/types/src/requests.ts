@@ -9,8 +9,8 @@ import type {
   GetMethod,
   GetSnapSettings,
   GetVCStore,
-  HandleOIDCAuthorizationRequest,
-  HandleOIDCCredentialOffer,
+  HandleAuthorization,
+  HandleCredentialOffer,
   QueryVCs,
   ResolveDID,
   SaveVC,
@@ -42,8 +42,8 @@ export type MascaRPCRequest =
   | CreateVC
   | SetCurrentAccount
   | VerifyData
-  | HandleOIDCCredentialOffer
-  | HandleOIDCAuthorizationRequest
+  | HandleCredentialOffer
+  | HandleAuthorization
   | SetCeramicSession
   | ValidateStoredCeramicSession;
 

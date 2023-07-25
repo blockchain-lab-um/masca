@@ -10,8 +10,9 @@ import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import type { IIdentifier, VerifiableCredential } from '@veramo/core';
 
 import { onRpcRequest } from '../../src';
+import StorageService from '../../src/storage/Storage.service';
 import type { StoredCredentials } from '../../src/veramo/plugins/ceramicDataStore/ceramicDataStore';
-import { getAgent, type Agent } from '../../src/veramo/setup';
+import VeramoService, { type Agent } from '../../src/veramo/Veramo.service';
 import { account, importablePrivateKey } from '../data/constants';
 import examplePayload from '../data/credentials/examplePayload.json';
 import { getDefaultSnapState } from '../data/defaultSnapState';
@@ -59,13 +60,11 @@ describe('saveVerifiableCredential', () => {
   ];
 
   beforeEach(async () => {
-    snapMock = createMockSnap();
     snapMock.rpcMocks.snap_manageState({
       operation: 'update',
       newState: getDefaultSnapState(account),
     });
-    global.snap = snapMock;
-    global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
+    snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
     // Clear stores before each test
     await agent.clear({ options: { store: ['snap', 'ceramic'] } });
@@ -78,12 +77,18 @@ describe('saveVerifiableCredential', () => {
       newState: getDefaultSnapState(account),
     });
     snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-    const ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
-    agent = await getAgent(snapMock, ethereumMock);
+
+    global.snap = snapMock;
+    global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
+
+    await StorageService.init();
+
+    agent = await VeramoService.createAgent();
     identifier = await agent.didManagerCreate({
       provider: 'did:ethr',
       kms: 'snap',
     });
+
     await agent.keyManagerImport(importablePrivateKey);
 
     // Create test VC
@@ -282,8 +287,8 @@ describe('saveVerifiableCredential', () => {
     if (!isError(saveRes)) {
       throw new Error('Should have failed');
     }
-    expect(saveRes.error).toEqual(
-      'Error: invalid_argument: $input.options.store'
+    expect(saveRes.error).toBe(
+      'Error: Store non-existent-store is not enabled!'
     );
     expect.assertions(1);
   });
@@ -309,6 +314,8 @@ describe('saveVerifiableCredential', () => {
     }
 
     expect(res.error).toBe('Error: User rejected the request.');
+
+    snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
     res = (await onRpcRequest({
       origin: 'localhost',
@@ -347,7 +354,7 @@ describe('saveVerifiableCredential', () => {
     }
 
     expect(saveRes.error).toBe(
-      'Error: invalid_argument: $input.verifiableCredential'
+      'Error: invalid_argument: input.verifiableCredential'
     );
 
     expect.assertions(1);
@@ -371,7 +378,7 @@ describe('saveVerifiableCredential', () => {
       throw new Error('Should return error');
     }
 
-    expect(saveRes.error).toBe('Error: invalid_argument: $input.options.store');
+    expect(saveRes.error).toBe('Error: Store 123 is not enabled!');
 
     expect.assertions(1);
   });
@@ -394,9 +401,7 @@ describe('saveVerifiableCredential', () => {
       throw new Error('Should return error');
     }
 
-    expect(saveRes.error).toBe(
-      'Error: invalid_argument: $input.options.store[1]'
-    );
+    expect(saveRes.error).toBe('Error: Store snapp is not enabled!');
 
     expect.assertions(1);
   });

@@ -1,0 +1,3 @@
+[submodule "external/js-sdk"]
+	path = external/js-sdk
+	url = git@github.com:martines3000/js-sdk.git

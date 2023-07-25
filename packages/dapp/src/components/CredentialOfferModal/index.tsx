@@ -39,8 +39,8 @@ const CredentialOfferModal = ({
       });
     }, 200);
 
-    const handleCredentialOfferResponse = await api.handleOIDCCredentialOffer({
-      credentialOfferURI: credentialOffer,
+    const handleCredentialOfferResponse = await api.handleCredentialOffer({
+      credentialOffer,
     });
 
     useToastStore.setState({
@@ -69,7 +69,8 @@ const CredentialOfferModal = ({
       });
     }, 200);
 
-    setRecievedCredential(handleCredentialOfferResponse.data);
+    // TODO: Handle multiple credentials
+    setRecievedCredential(handleCredentialOfferResponse.data[0]);
   };
 
   return (

@@ -4,7 +4,6 @@ import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { DIDResolutionResult } from 'did-resolver';
 
 import { onRpcRequest } from '../../src';
-import { Agent, getAgent } from '../../src/veramo/setup';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import cheqdResolution from '../data/documentResolution/cheqdResolution.json';
@@ -18,8 +17,6 @@ import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
 describe('resolveDID', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
-  let ethereumMock: MetaMaskInpageProvider;
-  let agent: Agent;
 
   const methods = [
     ebsiResolution,
@@ -33,14 +30,12 @@ describe('resolveDID', () => {
 
   beforeAll(async () => {
     snapMock = createMockSnap();
-    global.snap = snapMock;
     snapMock.rpcMocks.snap_manageState({
       operation: 'update',
       newState: getDefaultSnapState(account),
     });
-    ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
+    global.snap = snapMock;
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
-    agent = await getAgent(snapMock, ethereumMock);
   });
 
   it.each(methods)(
@@ -90,7 +85,7 @@ describe('resolveDID', () => {
 
     expect(res.data.didDocument).toBeNull();
     expect(res.data.didDocumentMetadata).toEqual({});
-    expect(res.data.didResolutionMetadata.error).toEqual('notFound');
+    expect(res.data.didResolutionMetadata.error).toBe('notFound');
     expect.assertions(3);
   });
 });

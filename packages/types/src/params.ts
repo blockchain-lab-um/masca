@@ -1,3 +1,4 @@
+import { W3CCredential } from '@0xpolygonid/js-sdk';
 import type {
   UnsignedCredential,
   W3CVerifiableCredential,
@@ -87,7 +88,7 @@ export type QueryVCsRequestParams = {
 };
 
 export type SaveVCRequestParams = {
-  verifiableCredential: W3CVerifiableCredential;
+  verifiableCredential: W3CVerifiableCredential | W3CCredential;
   options?: SaveVCOptions;
 };
 
@@ -132,17 +133,17 @@ export type VerifyDataRequestParams =
     };
 
 /**
- * HandleOIDCCredentialOfferRequestParams
+ * HandleCredentialOfferRequestParams
  */
-export type HandleOIDCCredentialOfferRequestParams = {
-  credentialOfferURI: string;
+export type HandleCredentialOfferRequestParams = {
+  credentialOffer: string;
 };
 
 /**
- * HandleOIDCAuthorizationRequestParams
+ * HandleAuthorizationRequestParams
  */
-export type HandleOIDCAuthorizationRequestParams = {
-  authorizationRequestURI: string;
+export type HandleAuthorizationRequestParams = {
+  authorizationRequest: string;
 };
 
 export type SetCeramicSessionRequestParams = {

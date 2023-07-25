@@ -5,7 +5,8 @@ import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import { VerifiablePresentation } from '@veramo/core';
 
 import { onRpcRequest } from '../../src';
-import { getAgent, type Agent } from '../../src/veramo/setup';
+import StorageService from '../../src/storage/Storage.service';
+import VeramoService, { type Agent } from '../../src/veramo/Veramo.service';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import exampleVCEIP712 from '../data/verifiable-credentials/exampleEIP712.json';
@@ -54,10 +55,13 @@ describe('createVerifiablePresentation', () => {
         newState: getDefaultSnapState(account),
       });
       snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-      const ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
-      agent = await getAgent(snapMock, ethereumMock);
       global.snap = snapMock;
       global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
+
+      await StorageService.init();
+
+      await VeramoService.init();
+      agent = VeramoService.getAgent();
 
       const switchMethod = (await onRpcRequest({
         origin: 'localhost',

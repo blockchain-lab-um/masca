@@ -5,7 +5,7 @@ FROM node:18.16.0-alpine3.16
 WORKDIR /app
 
 # Install pnpm
-RUN npm i -g pnpm@8.6.0
+RUN npm i -g pnpm@8.6.10
 
 # Copy patches
 COPY --from=builder /app/patches ./patches

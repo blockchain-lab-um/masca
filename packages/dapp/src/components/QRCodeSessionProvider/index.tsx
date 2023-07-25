@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { hexToUint8Array } from '@blockchain-lab-um/masca-connector';
+import { hexToUint8Array, isError } from '@blockchain-lab-um/masca-connector';
 import { VerifiableCredential } from '@veramo/core';
 import { useTranslations } from 'next-intl';
 import useSWR from 'swr';
@@ -9,7 +9,12 @@ import { shallow } from 'zustand/shallow';
 
 import CredentialModal from '@/components/CredentialModal';
 import CredentialOfferModal from '@/components/CredentialOfferModal';
-import { useGeneralStore, useSessionStore, useToastStore } from '@/stores';
+import {
+  useGeneralStore,
+  useMascaStore,
+  useSessionStore,
+  useToastStore,
+} from '@/stores';
 import { useQRCodeStore } from '@/stores/qrCodeStore';
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
@@ -36,6 +41,7 @@ const QRCodeSessionProvider = () => {
   const requestData = useQRCodeStore((state) => state.requestData);
 
   const isConnected = useGeneralStore((state) => state.isConnected);
+  const api = useMascaStore((state) => state.mascaApi);
 
   // Conditionally fetch session data
   const { data } = useSWR(
@@ -60,22 +66,111 @@ const QRCodeSessionProvider = () => {
 
   const handleNewRequest = async (_data: string) => {
     if (!isConnected) return;
-    if (
-      !_data.startsWith('openid-credential-offer://') &&
-      !_data.startsWith('openid://')
-    ) {
-      setTimeout(() => {
-        useToastStore.setState({
-          open: true,
-          title: t('unsuported'),
-          type: 'error',
-          loading: false,
-        });
-      }, 200);
+    if (!api) return;
+
+    // OIDC Credential Offer
+    if (_data.startsWith('openid-credential-offer://')) {
+      setDecryptedData(_data);
       return;
     }
 
-    setDecryptedData(_data);
+    // OIDC Authorization Request
+    if (_data.startsWith('openid://')) {
+      const result = await api.handleAuthorizationRequest({
+        authorizationRequest: _data,
+      });
+
+      if (isError(result)) {
+        setTimeout(() => {
+          useToastStore.setState({
+            open: true,
+            title: 'An error ocurred while processing the request',
+            type: 'error',
+            loading: false,
+          });
+        }, 200);
+        return;
+      }
+
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: 'Successfully processed the request',
+          type: 'success',
+          loading: false,
+        });
+      }, 200);
+
+      return;
+    }
+
+    let jsonDecodedData;
+    try {
+      jsonDecodedData = JSON.parse(_data);
+      if (!jsonDecodedData) throw new Error('Invalid JSON');
+
+      // Polygon Credential Offer
+      if (
+        jsonDecodedData.type ===
+        'https://iden3-communication.io/credentials/1.0/offer'
+      ) {
+        setDecryptedData(_data);
+        return;
+      }
+
+      // Polygon Authorization Request
+      if (
+        jsonDecodedData.type ===
+        'https://iden3-communication.io/authorization/1.0/request'
+      ) {
+        setTimeout(() => {
+          useToastStore.setState({
+            open: true,
+            title: 'Polygon Authorization Request received',
+            type: 'info',
+            loading: false,
+          });
+        }, 200);
+
+        const result = await api.handleAuthorizationRequest({
+          authorizationRequest: _data,
+        });
+
+        if (isError(result)) {
+          setTimeout(() => {
+            useToastStore.setState({
+              open: true,
+              title: 'An error ocurred while processing the request',
+              type: 'error',
+              loading: false,
+            });
+          }, 200);
+          return;
+        }
+
+        setTimeout(() => {
+          useToastStore.setState({
+            open: true,
+            title: 'Successfully processed the request',
+            type: 'success',
+            loading: false,
+          });
+        }, 200);
+
+        return;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+
+    setTimeout(() => {
+      useToastStore.setState({
+        open: true,
+        title: t('unsuported'),
+        type: 'error',
+        loading: false,
+      });
+    }, 200);
   };
 
   // Decrypt received data
@@ -106,7 +201,7 @@ const QRCodeSessionProvider = () => {
     };
 
     decryptData()
-      .then((_data) => handleNewRequest(_data))
+      .then(async (_data) => handleNewRequest(_data))
       .catch((e) => console.log(e));
   }, [data, key]);
 

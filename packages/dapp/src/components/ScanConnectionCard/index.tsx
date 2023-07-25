@@ -80,27 +80,39 @@ const ScanConnectionCard = () => {
     if (!sessionId || !key || !exp) return;
     setIsQRCodeModalOpen(false);
 
+    let data: string | null = null;
+
     try {
       if (
-        !decodedText.startsWith('openid-credential-offer://') &&
-        !decodedText.startsWith('openid://')
+        decodedText.startsWith('openid-credential-offer://') ||
+        decodedText.startsWith('openid://')
       ) {
-        setTimeout(() => {
-          useToastStore.setState({
-            open: true,
-            title: t('unsuported-qr-code'),
-            type: 'error',
-            loading: false,
-          });
-        }, 200);
+        data = decodedText;
+      } else {
+        // Check if the QR code contains a Polygon Credential Offer or a Polygon Authorization Request
+        const jsonDecodedData = JSON.parse(decodedText);
 
-        return;
+        if (jsonDecodedData) {
+          if (
+            jsonDecodedData.type ===
+            'https://iden3-communication.io/authorization/1.0/request'
+          ) {
+            data = decodedText;
+          } else if (
+            jsonDecodedData.type ===
+            'https://iden3-communication.io/credentials/1.0/offer'
+          ) {
+            data = decodedText;
+          }
+        }
       }
+
+      if (!data) throw new Error('Unsupported QR code');
 
       // Encrypt data
       const iv = crypto.getRandomValues(new Uint8Array(12));
 
-      const encodedText = new TextEncoder().encode(decodedText);
+      const encodedText = new TextEncoder().encode(data);
 
       const encryptedData = new Uint8Array(
         await crypto.subtle.encrypt(

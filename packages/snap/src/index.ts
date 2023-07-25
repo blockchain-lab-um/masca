@@ -1,194 +1,42 @@
-import {
-  isValidCreateVCRequest,
-  isValidCreateVPRequest,
-  isValidDeleteVCsRequest,
-  isValidQueryVCsRequest,
-  isValidResolveDIDRequest,
-  isValidSaveVCRequest,
-  isValidSetCurrentAccountRequest,
-  isValidSetVCStoreRequest,
-  isValidSwitchMethodRequest,
-  isValidVerifyDataRequest,
-  type HandleOIDCAuthorizationRequestParams,
-  type HandleOIDCCredentialOfferRequestParams,
-} from '@blockchain-lab-um/masca-types';
+import './polyfills/intl';
+
+import { isValidSetCurrentAccountRequest } from '@blockchain-lab-um/masca-types';
 import { ResultObject, type Result } from '@blockchain-lab-um/utils';
 import { OnRpcRequestHandler } from '@metamask/snaps-types';
 
-import { ApiParams } from './interfaces';
-import { getAvailableMethods } from './rpc/did/getAvailableMethods';
-import { getDid } from './rpc/did/getDID';
-import { resolveDID } from './rpc/did/resolveDID';
-import { switchMethod } from './rpc/did/switchMethod';
-import { handleOIDCAuthorizationRequest } from './rpc/oidc/handleOIDCAuthorizationRequest';
-import { handleOIDCCredentialOffer } from './rpc/oidc/handleOIDCCredentialOffer';
-import { setCeramicSession } from './rpc/setCeramicSession';
-import { togglePopups } from './rpc/snap/configure';
-import { setCurrentAccount } from './rpc/snap/setCurrentAccount';
-import { validateStoredCeramicSession } from './rpc/validateStoredCeramicSession';
-import { createVerifiableCredential } from './rpc/vc/createVC';
-import { createVerifiablePresentation } from './rpc/vc/createVP';
-import { deleteVC } from './rpc/vc/deleteVC';
-import { queryVCs } from './rpc/vc/queryVCs';
-import { saveVC } from './rpc/vc/saveVC';
-import { verifyData } from './rpc/vc/verifyData';
-import { getAvailableVCStores } from './rpc/vcStore/getAvailableVCStores';
-import { setVCStore } from './rpc/vcStore/setVCStore';
-import { getAddressKeyDeriver } from './utils/keyPair';
-import { getCurrentAccount } from './utils/snapUtils';
-import {
-  getSnapStateUnchecked,
-  initAccountState,
-  initSnapState,
-} from './utils/stateUtils';
+import GeneralService from './General.service';
+import SnapService from './Snap.service';
+import StorageService from './storage/Storage.service';
+import VeramoService from './veramo/Veramo.service';
+import WalletService from './Wallet.service';
 
 export const onRpcRequest: OnRpcRequestHandler = async ({
   request,
   origin,
 }): Promise<Result<unknown>> => {
   try {
-    let state = await getSnapStateUnchecked(snap);
-    if (state === null) state = await initSnapState(snap);
-
-    let res;
+    await StorageService.init();
 
     if (request.method === 'setCurrentAccount') {
       isValidSetCurrentAccountRequest(request.params);
-      res = await setCurrentAccount(
-        {
-          state,
-          snap,
-          ethereum,
-          account: '',
-          origin,
-        },
-        request.params
-      );
-      return ResultObject.success(res);
+      await GeneralService.setCurrentAccount(request.params.currentAccount); // FIXME: Rename parameter to account
+      await StorageService.save();
+      return ResultObject.success(true);
     }
 
-    const account = getCurrentAccount(state);
+    await GeneralService.initAccountState();
 
-    const apiParams: ApiParams = {
-      state,
-      snap,
-      ethereum,
-      account,
-      origin,
-    };
+    await WalletService.init();
 
-    if (!(account in state.accountState)) {
-      await initAccountState(apiParams);
-      apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
-    }
-    switch (request.method) {
-      case 'queryVCs':
-        isValidQueryVCsRequest(
-          request.params,
-          apiParams.account,
-          apiParams.state
-        );
-        res = await queryVCs(apiParams, request.params);
-        return ResultObject.success(res);
-      case 'saveVC':
-        isValidSaveVCRequest(
-          request.params,
-          apiParams.account,
-          apiParams.state
-        );
-        res = await saveVC(apiParams, request.params);
-        return ResultObject.success(res);
-      case 'createVC':
-        isValidCreateVCRequest(
-          request.params,
-          apiParams.account,
-          apiParams.state
-        );
-        apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
-        res = await createVerifiableCredential(apiParams, request.params);
-        return ResultObject.success(res);
-      case 'createVP':
-        isValidCreateVPRequest(request.params);
-        apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
-        res = await createVerifiablePresentation(apiParams, request.params);
-        return ResultObject.success(res);
-      case 'togglePopups':
-        res = await togglePopups(apiParams);
-        return ResultObject.success(res);
-      case 'switchDIDMethod':
-        isValidSwitchMethodRequest(request.params);
-        apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
-        res = await switchMethod(apiParams, request.params);
-        return ResultObject.success(res);
-      case 'getDID':
-        apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
-        res = await getDid(apiParams);
-        return ResultObject.success(res);
-      case 'getSelectedMethod':
-        res = state.accountState[account].accountConfig.ssi.didMethod;
-        return ResultObject.success(res);
-      case 'getAvailableMethods':
-        res = getAvailableMethods();
-        return ResultObject.success(res);
-      case 'getVCStore':
-        res = state.accountState[account].accountConfig.ssi.vcStore;
-        return ResultObject.success(res);
-      case 'setVCStore':
-        isValidSetVCStoreRequest(request.params);
-        res = await setVCStore(apiParams, request.params);
-        return ResultObject.success(res);
-      case 'getAccountSettings':
-        res = state.accountState[account].accountConfig;
-        return ResultObject.success(res);
-      case 'getSnapSettings':
-        res = state.snapConfig;
-        return ResultObject.success(res);
-      case 'getAvailableVCStores':
-        res = getAvailableVCStores();
-        return ResultObject.success(res);
-      case 'deleteVC':
-        isValidDeleteVCsRequest(
-          request.params,
-          apiParams.account,
-          apiParams.state
-        );
-        res = await deleteVC(apiParams, request.params);
-        return ResultObject.success(res);
-      case 'resolveDID':
-        isValidResolveDIDRequest(request.params);
-        res = await resolveDID(apiParams, request.params.did);
-        return ResultObject.success(res);
-      case 'verifyData':
-        isValidVerifyDataRequest(request.params);
-        res = await verifyData(apiParams, request.params);
-        return ResultObject.success(res);
-      case 'handleOIDCCredentialOffer':
-        apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
-        res = await handleOIDCCredentialOffer(
-          apiParams,
-          request.params as unknown as HandleOIDCCredentialOfferRequestParams
-        );
-        return ResultObject.success(res);
-      case 'handleOIDCAuthorizationRequest':
-        apiParams.bip44CoinTypeNode = await getAddressKeyDeriver(apiParams);
-        res = await handleOIDCAuthorizationRequest(
-          apiParams,
-          request.params as unknown as HandleOIDCAuthorizationRequestParams
-        );
-        return ResultObject.success(res);
-      case 'setCeramicSession':
-        // TODO (andy) validate request params
-        res = await setCeramicSession(
-          apiParams,
-          (request.params as any).serializedSession as string
-        );
-        return ResultObject.success(res);
-      case 'validateStoredCeramicSession':
-        await validateStoredCeramicSession(apiParams);
-        return ResultObject.success(true);
-      default:
-        throw new Error('Method not found.');
-    }
+    await VeramoService.init();
+
+    const { method, params } = request;
+
+    const response = await SnapService.handleRpcRequest(method, params, origin);
+
+    await StorageService.save();
+
+    return response;
   } catch (e) {
     // TODO (martin, urban): Check for any and unknown errors
     return ResultObject.error((e as Error).toString());

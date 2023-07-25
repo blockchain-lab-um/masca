@@ -105,8 +105,8 @@ const GetCredential = () => {
       });
     }, 200);
 
-    const handleCredentialOfferResponse = await api.handleOIDCCredentialOffer({
-      credentialOfferURI,
+    const handleCredentialOfferResponse = await api.handleCredentialOffer({
+      credentialOffer: credentialOfferURI,
     });
 
     useToastStore.setState({
@@ -137,9 +137,11 @@ const GetCredential = () => {
       });
     }, 200);
 
+    console.log(credential);
+
     // Save credential
-    // TODO: Convert credential to VC first
-    const saveCredentialResponse = await api.saveVC(credential, {
+    // TODO: Handle multiple credentials
+    const saveCredentialResponse = await api.saveVC(credential[0], {
       store: ['snap'],
     });
 

@@ -26,7 +26,7 @@
     "CHANGELOG.md"
   ],
   "scripts": {
-    "build": "pnpm clean && pnpm compile",
+    "build": "pnpm clean && pnpm typia:generate && pnpm compile",
     "clean": "rimraf dist",
     "compile": "tsup",
     "postinstall": "pnpm typia:generate",
@@ -37,7 +37,9 @@
     "typia:generate": "pnpm typia generate --input typia-templates --output src/typia-generated --project tsconfig.json"
   },
   "dependencies": {
+    "@0xpolygonid/js-sdk": "*",
     "@blockchain-lab-um/utils": "*",
+    "@iden3/js-iden3-core": "1.0.0",
     "@veramo/core": "5.2.0",
     "@veramo/key-manager": "5.1.2",
     "typia": "^4.1.3"

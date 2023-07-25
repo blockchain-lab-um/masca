@@ -17,22 +17,46 @@ module.exports = {
         '**/__tests__/**',
         '**/*.spec.ts',
       ],
-      plugins: ['jest'],
+      plugins: ['jest', 'jest-extended'],
       extends: ['plugin:jest/recommended', 'plugin:jest/style'],
       rules: {
         'jest/prefer-expect-assertions': 'off',
+        'jest/no-conditional-expect': 'off',
+        '@typescript-eslint/no-unsafe-member-access': 'off',
+        '@typescript-eslint/no-unsafe-assignment': 'off',
+        'jest/no-export': 'off',
       },
+
       env: { jest: true },
     },
   ],
-  plugins: [
-    '@typescript-eslint/eslint-plugin',
-    'unused-imports',
-    'jest-extended',
-  ],
+  plugins: ['@typescript-eslint/eslint-plugin', 'unused-imports'],
   parser: '@typescript-eslint/parser',
   rules: {
     // other rules
+    '@typescript-eslint/naming-convention': [
+      'error',
+      {
+        selector: 'variable',
+        format: ['camelCase', 'UPPER_CASE', 'PascalCase'],
+        leadingUnderscore: 'allow',
+        trailingUnderscore: 'allow',
+      },
+
+      {
+        selector: 'typeLike',
+        format: ['PascalCase'],
+      },
+    ],
+    // FIXME: Turn this on and fix in separate PR
+    'no-unused-vars': [
+      'off',
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        destructuredArrayIgnorePattern: '^_',
+      },
+    ],
     'no-underscore-dangle': 'off',
     'no-restricted-syntax': [
       'error',
@@ -51,13 +75,6 @@ module.exports = {
     // for unused-imports library
     '@typescript-eslint/no-unused-vars': 'off',
     'unused-imports/no-unused-imports': 'error',
-    'unused-imports/no-unused-vars': [
-      'warn',
-      {
-        args: 'after-used',
-        argsIgnorePattern: '^_',
-      },
-    ],
     'import/prefer-default-export': 0,
     'class-methods-use-this': 'off',
     // for tests
@@ -79,21 +96,7 @@ module.exports = {
     ],
     'import/extensions': 'off',
   },
-  overrides: [
-    {
-      // Disable in test files
-      files: [
-        '**/*.spec.ts',
-        '**/*.e2e-spec.ts',
-        '**/test/**/*.ts',
-        '**/tests/**/*.ts',
-      ],
-      rules: {
-        '@typescript-eslint/no-unsafe-member-access': 'off',
-        '@typescript-eslint/no-unsafe-assignment': 'off',
-      },
-    },
-  ],
+
   ignorePatterns: [
     '**/node_modules/**',
     '**/dist/**',
@@ -106,5 +109,6 @@ module.exports = {
     '**/.next',
     'tsup.config.ts',
     'templates',
+    'external',
   ],
 };

@@ -2,8 +2,8 @@ import type {
   CreateVCRequestParams,
   CreateVPRequestParams,
   DeleteVCsRequestParams,
-  HandleOIDCAuthorizationRequestParams,
-  HandleOIDCCredentialOfferRequestParams,
+  HandleAuthorizationRequestParams,
+  HandleCredentialOfferRequestParams,
   QueryVCsRequestParams,
   ResolveDIDRequestParams,
   SaveVCRequestParams,
@@ -96,14 +96,14 @@ export type SetCurrentAccount = {
   params: SetCurrentAccountRequestParams;
 };
 
-export type HandleOIDCCredentialOffer = {
-  method: 'handleOIDCCredentialOffer';
-  params: HandleOIDCCredentialOfferRequestParams;
+export type HandleCredentialOffer = {
+  method: 'handleCredentialOffer';
+  params: HandleCredentialOfferRequestParams;
 };
 
-export type HandleOIDCAuthorizationRequest = {
-  method: 'handleOIDCAuthorizationRequest';
-  params: HandleOIDCAuthorizationRequestParams;
+export type HandleAuthorization = {
+  method: 'handleAuthorizationRequest';
+  params: HandleAuthorizationRequestParams;
 };
 
 export type SetCeramicSession = {

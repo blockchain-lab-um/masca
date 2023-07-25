@@ -3,7 +3,6 @@ import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 
 import { onRpcRequest } from '../../src';
-import { getAgent, type Agent } from '../../src/veramo/setup';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
@@ -12,16 +11,16 @@ import { createMockSnap, SnapMock } from '../helpers/snapMock';
 const methods = [
   {
     method: 'did:key',
-    did: 'did:key:zQ3shXkB5EzLZ9rPa4Pr6nf4zuUMcmN4KyHZg9EjaNnQzx3PG',
+    did: 'did:key:zQ3shnhrtE43gzU9bFdGFPnDrVSmGWUZmnKinSw8LBvrWmHop',
   },
   {
     method: 'did:jwk',
-    did: 'did:jwk:eyJhbGciOiJFUzI1NksiLCJjcnYiOiJzZWNwMjU2azEiLCJrdHkiOiJFQyIsInVzZSI6InNpZyIsIngiOiJlU01sN3BRMWRfX0JzOEpYM1lKb1V3ZVpyTFZ2Zm1TSEUzdG9IenMwbnpjIiwieSI6IlNoajV1M0ZiQkNEZnpEX1lFSW5tVmRWUmdNVU9PdGV3X0lsZEpwT2duaWMifQ',
+    did: 'did:jwk:eyJhbGciOiJFUzI1NksiLCJjcnYiOiJzZWNwMjU2azEiLCJrdHkiOiJFQyIsInVzZSI6InNpZyIsIngiOiJ6SnF0WXBPQUYtMTJlQ0J3ZEh5cFJGeXJKX3J3SXUxMXNvOFluWWxuZktrIiwieSI6Inh1S1ZfcTA1alJ0MTN4TW03LWpfSDR6RjdtdWpPVW1yZHZGekpnNEN0RG8ifQ',
   },
   {
     method: 'did:key:jwk_jcs-pub',
     underlyingMethod: 'did:key',
-    did: 'did:key:z2dmzD81cgPx8Vki7JbuuMmFYrWPgYoytykUZ3eyqht1j9KbnA1s63s5ENMUxERdtWmShjBmsDon3RB8K2oziDHXQeagfUbskVFKbZbyuDt4uRD4BiykyXoHaKTAWVUeC5TkSTAb3GpWFNWRbqMuge6uvG17vV1MFzbfv3SWhNAm2SCQSp',
+    did: 'did:key:z2dmzD81cgPx8Vki7JbuuMmFYrWPgYoytykUZ3eyqht1j9KbpyYP9DZqXwj4ruiFfhsUonrVvKD9T86HCnNriWZbv6vxZvUy9eV6QvED6UsvXxT9cEjMSE9gaWyYGCvaMuSmjhXz4NTsY1pSSsd7fJuJq8gsaAyHEMvdCRCbTR45JD42TW',
   },
   {
     method: 'did:ethr',
@@ -35,7 +34,6 @@ const methods = [
 
 describe('getDID', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
-  let agent: Agent;
 
   beforeAll(async () => {
     snapMock = createMockSnap();
@@ -44,15 +42,9 @@ describe('getDID', () => {
       newState: getDefaultSnapState(account),
     });
     snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
-    const ethereumMock = snapMock as unknown as MetaMaskInpageProvider;
-    agent = await getAgent(snapMock, ethereumMock);
     global.snap = snapMock;
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
   });
-
-  it.todo('Should return correct did:ethr');
-
-  it.todo('Should return correct did:pkh');
 
   it.each(methods)(
     'should return correct identifier for $method',
