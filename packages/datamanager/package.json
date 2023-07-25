@@ -51,24 +51,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "nx": {
-    "namedInputs": {
-      "default": [
-        "{projectRoot}/src",
-        "{projectRoot}/static",
-        "{projectRoot}/docs"
-      ],
-      "production": [
-        "default",
-        "!{projectRoot}/index.html",
-        "!{projectRoot}/**/*.spec.ts",
-        "!{projectRoot}/**/*.md",
-        "!{projectRoot}/tsconfig.spec.json",
-        "!{projectRoot}/jest.config.ts",
-        "!{projectRoot}/.eslintrc.cjs",
-        "!{projectRoot}/tests/**/*.ts"
-      ]
-    }
   }
 }

@@ -13,19 +13,21 @@
     "defaultBase": "origin/develop"
   },
   "namedInputs": {
-    "default": ["{projectRoot}/**/*", "!{projectRoot}/coverage"],
+    "default": ["{projectRoot}/**/*"],
     "production": [
-      "{projectRoot}/src/**/*",
+      "default",
       "!{projectRoot}/**/*.spec.ts",
-      "{projectRoot}/tsconfig.json",
-      "{projectRoot}/tsconfig.build.json"
-    ],
-    "test": [
-      "{projectRoot}/src/**/*",
-      "{projectRoot}/tests/**/*",
-      "{projectRoot}/tsconfig.json",
-      "{projectRoot}/jest.config.js",
-      "{projectRoot}/.env*"
+      "!{projectRoot}/tests/**/*",
+      "!{projectRoot}/sonar-project.properties",
+      "!{projectRoot}/coverage/**/*",
+      "!{projectRoot}/dist/**/*",
+      "!{projectRoot}/.docusaurus/**/*",
+      "!{projectRoot}/.next/**/*",
+      "!{projectRoot}/jest.config.ts",
+      "!{projectRoot}/.lintstagedrc.cjs",
+      "!{projectRoot}/Dockerfile",
+      "!{projectRoot}/.prettierignore",
+      "!{projectRoot}/.env.*"
     ]
   },
   "targetDefaults": {
@@ -35,7 +37,7 @@
       "outputs": ["{projectRoot}/dist"]
     },
     "lint": {
-      "inputs": ["default", "^production", "!{projectRoot}/.env*"],
+      "inputs": ["default", "^production"],
       "dependsOn": ["^build"],
       "outputs": []
     },
@@ -43,14 +45,14 @@
       "dependsOn": ["^build"]
     },
     "test": {
-      "inputs": ["test", "^production"],
+      "inputs": ["default", "^production"],
       "dependsOn": ["^build"],
       "outputs": []
     },
     "test:ci": {
-      "inputs": ["test", "^production"],
+      "inputs": ["default", "^production"],
       "dependsOn": ["^build"],
-      "outputs": ["{projectRoot}/coverage/**"]
+      "outputs": ["{projectRoot}/coverage"]
     }
   },
   "defaultBase": "dev"

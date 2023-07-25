@@ -37,7 +37,7 @@
     "typia:generate": "pnpm typia generate --input typia-templates --output src/typia-generated --project tsconfig.json"
   },
   "dependencies": {
-    "@0xpolygonid/js-sdk": "https://github.com/0xPolygonID/js-sdk#b2eeac3475a3e203af83dbe4aa79c1c6a87ec1e8",
+    "@0xpolygonid/js-sdk": "*",
     "@blockchain-lab-um/utils": "*",
     "@iden3/js-iden3-core": "1.0.0",
     "@veramo/core": "5.2.0",
@@ -59,36 +59,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "nx": {
-    "namedInputs": {
-      "default": [
-        "{projectRoot}/**/*"
-      ],
-      "production": [
-        "default",
-        "!{projectRoot}/src/typia-generated/**/*.ts",
-        "!{projectRoot}/.eslintrc.cjs",
-        "!{projectRoot}/.lintstagedrc.cjs",
-        "!{projectRoot}/tsconfig.eslint.json",
-        "!{projectRoot}/CHANGELOG.md",
-        "!{projectRoot}/CHANGELOG.old.md",
-        "!{projectRoot}/.prettierignore"
-      ]
-    },
-    "targets": {
-      "build": {
-        "inputs": [
-          "production",
-          "^production"
-        ],
-        "dependsOn": [
-          "^build"
-        ],
-        "outputs": [
-          "{projectRoot}/dist"
-        ]
-      }
-    }
   }
 }
