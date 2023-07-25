@@ -45,6 +45,14 @@ import WalletService from './Wallet.service';
 class SnapService {
   private static origin: string;
 
+  /**
+   * Function that querries VCs from the selected VC stores.
+   * @param args.filter.type - Type of filter (eg. JSONPath).
+   * @param args.filter.filter - Filter to apply.
+   * @param args.options.store - VC store to query.
+   * @param args.options.returnStore - Whether to return the store name.
+   * @returns array - Array of VCs.
+   */
   static async queryCredentials(
     args: QueryVCsRequestParams
   ): Promise<QueryVCsRequestResult[]> {
@@ -90,6 +98,12 @@ class SnapService {
     throw new Error('User rejected the request.');
   }
 
+  /**
+   * Function that saves a VC to the selected VC stores.
+   * @param args.verifiableCredential - VC to save.
+   * @param args.options.store - VC store to save to.
+   * @returns array - Array of SaveVCRequestResult with id and the store the VC is saved in.
+   */
   static async saveCredential(
     args: SaveVCRequestParams
   ): Promise<SaveVCRequestResult[]> {
@@ -144,6 +158,14 @@ class SnapService {
     throw new Error('User rejected the request.');
   }
 
+  /**
+   * Function that creates a VC.
+   * @param args.minimalUnsignedCredential - Minimal unsigned VC.
+   * @param args.proofFormat - Proof format to use.
+   * @param args.options.save - Whether to save the VC.
+   * @param args.options.store - VC store to save to.
+   * @returns UnsignedCredential | VerifiableCredential - Created VC.
+   */
   static async createCredential(
     args: CreateVCRequestParams
   ): Promise<UnsignedCredential | VerifiableCredential> {
@@ -191,6 +213,12 @@ class SnapService {
     return vc;
   }
 
+  /**
+   * Function that deletes a VC from the selected VC stores.
+   * @param args.id - ID of the VC to delete.
+   * @param args.options.store - VC store to delete from.
+   * @returns array - Array of booleans indicating whether the VC was deleted.
+   */
   static async deleteCredential(
     args: DeleteVCsRequestParams
   ): Promise<boolean[]> {
@@ -251,6 +279,15 @@ class SnapService {
     throw new Error('User rejected the request.');
   }
 
+  /**
+   * Function that creates a VP.
+   * @param args.vcs - VCs to include in the VP.
+   * @param args.proofFormat - Proof format to use.
+   * @param args.proofOptions.type - Type of proof.
+   * @param args.proofOptions.domain - Proof domain.
+   * @param args.proofOptions.challenge - Proof challenge.
+   * @returns UnsignedPresentation | VerifiablePresentation - Created VP.
+   */
   static async createPresentation(
     args: CreateVPRequestParams
   ): Promise<UnsignedPresentation | VerifiablePresentation> {
@@ -296,6 +333,13 @@ class SnapService {
     throw new Error('User rejected create VP request');
   }
 
+  /**
+   * Function that verifies data.
+   * @param args.credential - VC to verify.
+   * @param args.presentation - VP to verify.
+   * @param args.verbose - Whether to return the full verification resul
+   * @returns boolean | IVerifyResult - Whether the data is verified.
+   */
   static async verifyData(
     args: VerifyDataRequestParams
   ): Promise<boolean | IVerifyResult> {
@@ -307,6 +351,10 @@ class SnapService {
     return verbose ? res : res.verified;
   }
 
+  /**
+   * Function that returns the current DID.
+   * @returns string - Current DID.
+   */
   static async getDID(): Promise<string> {
     const state = StorageService.get();
     const method =
@@ -328,12 +376,22 @@ class SnapService {
     throw new Error('Unsupported DID method');
   }
 
+  /**
+   * Function that resolves a DID.
+   * @param args.did - DID to resolve.
+   * @returns DIDResolutionResult - result.
+   */
   static async resolveDID(args: { did: string }): Promise<DIDResolutionResult> {
     if (args.did === '') throw new Error('DID cannot be empty');
     const res = await VeramoService.resolveDID(args.did);
     return res;
   }
 
+  /**
+   * Function that handles a credential offer.
+   * @param args.credentialOffer - Credential offer to handle.
+   * @returns VerifiableCredential[] - Array of VCs.
+   */
   static async handleCredentialOffer(
     args: HandleCredentialOfferRequestParams
   ): Promise<VerifiableCredential[]> {
@@ -370,6 +428,11 @@ class SnapService {
     throw new Error('Unsupported credential offer');
   }
 
+  /**
+   * Function that handles an authorization request.
+   * @param args.authorizationRequest - Authorization request to handle.
+   * @returns void
+   */
   static async handleAuthorizationRequest(
     args: HandleAuthorizationRequestParams
   ): Promise<void> {
@@ -404,6 +467,13 @@ class SnapService {
     throw new Error('Unsupported authorization request');
   }
 
+  /**
+   * Function that handles an RPC request.
+   * @param method - Function name to call.
+   * @param params - Params to handle.
+   * @param origin - Origin of the request.
+   * @returns Result<any> - Result of the request.
+   */
   static async handleRpcRequest(
     method: string,
     params: any,

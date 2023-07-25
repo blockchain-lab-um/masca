@@ -12,6 +12,12 @@ export type SignOptions = {
   kid: string;
 };
 
+/**
+ * Function that signs a JWT.
+ * @param signArgs - SignArgs object
+ * @param signOptions - SignOptions object
+ * @returns string - signed JWT
+ */
 export const sign = async (signArgs: SignArgs, signOptions: SignOptions) => {
   const { privateKey, did, kid, curve } = signOptions;
   const ctx = new EC(curve);
