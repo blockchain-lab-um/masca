@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.4.0](https://github.com/blockchain-lab-um/masca/compare/masca-connector-v0.3.1...masca-connector-v0.4.0) (2023-07-25)
+
+
+### :rocket: Features
+
+* modularize snap arhitecture ([#314](https://github.com/blockchain-lab-um/masca/issues/314)) ([a1450f3](https://github.com/blockchain-lab-um/masca/commit/a1450f3e701cf35c019e6f0b4276f72c46bb8253))
+* PolygonID support (query, save, delete, credential offer, authorization request) ([a1450f3](https://github.com/blockchain-lab-um/masca/commit/a1450f3e701cf35c019e6f0b4276f72c46bb8253))
+* support network switching on dapp ([a1450f3](https://github.com/blockchain-lab-um/masca/commit/a1450f3e701cf35c019e6f0b4276f72c46bb8253))
+* use Ethers HDNodeWallet + entropy for key generation ([a1450f3](https://github.com/blockchain-lab-um/masca/commit/a1450f3e701cf35c019e6f0b4276f72c46bb8253))
+
 ## [0.3.1](https://github.com/blockchain-lab-um/masca/compare/masca-connector-v0.3.0...masca-connector-v0.3.1) (2023-07-04)
 
 
