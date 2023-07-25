@@ -63,9 +63,28 @@
     "namedInputs": {
       "default": [
         "{projectRoot}/**/*"
+      ],
+      "production": [
+        "default",
+        "!{projectRoot}/dist/**/*",
+        "!{projectRoot}/.lintstagedrc.cjs",
+        "!{projectRoot}/.prettierignore"
       ]
     },
     "targets": {
+      "build": {
+        "inputs": [
+          "production",
+          "^production"
+        ],
+        "dependsOn": [
+          "^build"
+        ],
+        "outputs": [
+          "{projectRoot}/dist",
+          "{projectRoot}/src/typia-generated"
+        ]
+      },
       "lint": {
         "inputs": [
           "default",
