@@ -18,6 +18,10 @@ import { getEmptyAccountState } from './utils/config';
 import { snapConfirm } from './utils/snapUtils';
 
 class GeneralService {
+  /**
+   * Function that initializes an empty account state
+   * @returns void
+   */
   static async initAccountState(): Promise<void> {
     const state = StorageService.get();
 
@@ -32,6 +36,11 @@ class GeneralService {
     }
   }
 
+  /**
+   * Function that sets the current account
+   * @param account - hex account string
+   * @returns void
+   */
   static async setCurrentAccount(account: string): Promise<void> {
     const state = StorageService.get();
     state.currentAccount = account;
@@ -39,9 +48,7 @@ class GeneralService {
 
   /**
    * Function that lets you add a friendly dApp
-   *
    * @param dapp - dApp to add to the friendly dApps list.
-   *
    * @returns void
    */
   static async addFriendlyDapp(dapp: string): Promise<void> {
@@ -52,9 +59,7 @@ class GeneralService {
 
   /**
    * Function that lets you remove a friendly dApp
-   *
    * @param dapp - dApp to remove from the friendly dApps list.
-   *
    * @returns void
    */
   static async removeFriendlyDapp(dapp: string): Promise<void> {
@@ -65,9 +70,7 @@ class GeneralService {
 
   /**
    * Function that checks if a dApp is friendly
-   *
    * @param dapp - dApp to check.
-   *
    * @returns boolean - whether the dApp is friendly.
    */
   static async isFriendlyDapp(dapp: string): Promise<boolean> {
@@ -77,7 +80,6 @@ class GeneralService {
 
   /**
    * Function that toggles the disablePopups flag.
-   *
    * @returns void
    */
   static async togglePopups(): Promise<void> {
