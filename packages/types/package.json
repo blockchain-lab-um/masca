@@ -72,7 +72,6 @@
           "^production"
         ],
         "dependsOn": [
-          "^build",
           "build"
         ],
         "outputs": []
