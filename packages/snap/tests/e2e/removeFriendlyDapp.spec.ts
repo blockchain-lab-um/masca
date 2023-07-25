@@ -31,7 +31,7 @@ describe('removeFriendlyDapp', () => {
         id: 'test-id',
         jsonrpc: '2.0',
         method: 'removeFriendlyDapp',
-        params: { dApp: 'localhost2' },
+        params: { id: 'localhost2' },
       },
     })) as Result<unknown>;
 
