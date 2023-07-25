@@ -9,7 +9,7 @@ export interface IDeleteArgs {
 
 export interface IFilterArgs {
   filter?: {
-    type: "none" | "id" | "JSONPath";
+    type: 'none' | 'id' | 'JSONPath';
     filter: string;
   };
 }

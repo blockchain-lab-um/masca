@@ -35,7 +35,7 @@ export type DeleteVCsOptions = {
 
 // TODO (martin): This type is also in datamanager
 export type Filter = {
-  type: "none" | "id" | "JSONPath";
+  type: 'none' | 'id' | 'JSONPath';
   filter: string;
 };
 
