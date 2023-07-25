@@ -1,9 +1,9 @@
 {
-  "packages/snap": "0.3.1",
-  "packages/connector": "0.3.1",
-  "packages/types": "0.3.1",
-  "packages/datamanager": "0.3.1",
-  "libs/utils": "1.2.0",
+  "packages/snap": "0.4.0",
+  "packages/connector": "0.4.0",
+  "packages/types": "0.4.0",
+  "packages/datamanager": "0.4.0",
+  "libs/utils": "1.3.0",
   "libs/did-provider-ebsi": "1.0.0",
   "libs/did-provider-key": "1.0.1"
 }
