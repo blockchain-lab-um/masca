@@ -225,10 +225,10 @@ export async function addFriendlyDapp(this: Masca): Promise<Result<boolean>> {
  */
 export async function removeFriendlyDapp(
   this: Masca,
-  dApp: string
+  id: string
 ): Promise<Result<boolean>> {
   return sendSnapMethod(
-    { method: 'removeFriendlyDapp', params: { dApp } },
+    { method: 'removeFriendlyDapp', params: { id } },
     this.snapId
   );
 }

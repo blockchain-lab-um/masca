@@ -151,5 +151,5 @@ export type SetCeramicSessionRequestParams = {
 };
 
 export type RemoveFriendlyDappParams = {
-  dApp: string;
+  id: string;
 };

@@ -21,12 +21,6 @@ describe('togglePopups', () => {
   });
 
   it('should enable popups and then disable them', async () => {
-    const defaultState = getDefaultSnapState(account);
-    snapMock.rpcMocks.snap_manageState({
-      operation: 'update',
-      newState: defaultState,
-    });
-
     const res = (await onRpcRequest({
       origin: 'localhost',
       request: {

@@ -67,12 +67,12 @@ class GeneralService {
    *
    * @returns void
    */
-  static async removeFriendlyDapp(args: { dApp: string }): Promise<void> {
+  static async removeFriendlyDapp(args: { id: string }): Promise<void> {
     const content = panel([
       heading('Remove Friendly dApp'),
       text('Would you like to remove this dApp from friendly dApps?'),
       divider(),
-      text(`Doing so will enable popups to appear while using ${args.dApp}.`),
+      text(`Doing so will enable popups to appear while using ${args.id}.`),
     ]);
 
     if (!(await UIService.snapConfirm(content))) {
@@ -81,7 +81,7 @@ class GeneralService {
 
     const state = StorageService.get();
     state.snapConfig.dApp.friendlyDapps =
-      state.snapConfig.dApp.friendlyDapps.filter((d) => d !== args.dApp);
+      state.snapConfig.dApp.friendlyDapps.filter((d) => d !== args.id);
   }
 
   /**

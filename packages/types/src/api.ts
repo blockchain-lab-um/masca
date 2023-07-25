@@ -66,5 +66,5 @@ export interface MascaApi {
   setCeramicSession(serializedSession: string): Promise<Result<boolean>>;
   validateStoredCeramicSession(): Promise<Result<boolean>>;
   addFriendlyDapp(): Promise<Result<boolean>>;
-  removeFriendlyDapp(dApp: string): Promise<Result<boolean>>;
+  removeFriendlyDapp(id: string): Promise<Result<boolean>>;
 }
