@@ -10,12 +10,12 @@
     "location": {
       "npm": {
         "filePath": "dist/snap.js",
-        "iconPath": "images/icon.svg",
+        "iconPath": "images/masca_icon.svg",
         "packageName": "@blockchain-lab-um/masca",
         "registry": "https://registry.npmjs.org"
       }
     },
-    "shasum": "0wyv9ZUKGS9jmE2y39EKh/zwW245Rnv/YMwBdtwhiV0="
+    "shasum": "WCXkWI8jH4H/NrCYqUXQAlPNl++MgD0FO0rnBeg76HM="
   },
   "initialPermissions": {
     "endowment:ethereum-provider": {},
