@@ -1,5 +1,5 @@
 {
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Snap for managing VCs and VPs in MetaMask",
   "proposedName": "masca",
   "repository": {
@@ -15,7 +15,7 @@
         "registry": "https://registry.npmjs.org"
       }
     },
-    "shasum": "F51rMt4W6wioUovHRMMOspcyCESSc+OwCUR/Q7UAg5M="
+    "shasum": "0wyv9ZUKGS9jmE2y39EKh/zwW245Rnv/YMwBdtwhiV0="
   },
   "initialPermissions": {
     "endowment:ethereum-provider": {},
