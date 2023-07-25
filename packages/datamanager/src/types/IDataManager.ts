@@ -14,7 +14,7 @@ export interface IDataManager extends IPluginMethodMap {
  *  Types
  */
 export type Filter = {
-  type: string;
+  type: "none" | "id" | "JSONPath";
   filter: string;
 };
 
