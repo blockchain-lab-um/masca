@@ -1,5 +1,4 @@
 import {
-  availableMethods,
   type AvailableMethods,
 } from '@blockchain-lab-um/masca-types';
 import { isError, ResultObject, type Result } from '@blockchain-lab-um/utils';
@@ -34,8 +33,8 @@ export async function enableMasca(
 ): Promise<Result<Masca>> {
   const {
     snapId = defaultSnapOrigin,
-    version = '0.3.2',
-    supportedMethods = availableMethods as unknown as Array<AvailableMethods>,
+    version = '0.4.0',
+    supportedMethods = ['did:ethr'],
   } = snapInstallationParams;
 
   // This resolves to the value of window.ethereum or null
