@@ -1,3 +1,6 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+deleted file mode 100644
+index 68441b59a7e15e655df99c3160b8cd0e09d9d990..0000000000000000000000000000000000000000
 diff --git a/dist/browser-ponyfill.js b/dist/browser-ponyfill.js
 index f216aa35a9d32f86df5701c78cf7b039bc2cd47c..a5f764e94a12b2848dd1938b00117a8fe20614f8 100644
 --- a/dist/browser-ponyfill.js

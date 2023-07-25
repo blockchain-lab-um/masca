@@ -50,6 +50,8 @@ Every RPC call will return an object that can be Success or Error. More on error
 
 Masca Connector will take care of initializing Masca for other DID methods (needed to extract the public key) during the enableMasca function.
 
+#### Jump [here](../libraries/masca-connector) for a more detailed look at Masca Connector!
+
 ### Account Switching
 
 Account switching must be handled by the dApp! This is required for Masca to work properly. Without approprietly calling this method, switching Accounts in MetaMask will NOT result in switching accounts in Masca! We recommend using the `window.ethereum.on('accountsChanged', handler: (accounts: Array<string>);` . More on this can be found [here](https://docs.metamask.io/wallet/reference/provider-api/#accountschanged).
@@ -302,16 +304,44 @@ const res = await api.getAccountSettings();
 
 ```
 
-:::info NOTE
+### Handle Credential Offer
 
-Snap can also be installed using a 3rd party Platform such as our [Platform](https://blockchain-lab-um.github.io/course-dapp/) or [Snaplist](https://snaplist.org/).
+`handleCredentialOffer` is used to handle either Polygon ID or OIDC credentials offers
 
-:::
+Successful response includes `VerifiableCredential[]`
 
-#### Jump [here](../libraries/masca-connector) for a more detailed look at Masca Connector!
+**Important:** The credential offer must be handled by the user on the correct network and with the correct did method selected.
 
-If you need more help with implementation feel free to contact us in Discord, or check the [DEMO Platform repo](https://github.com/blockchain-lab-um/course-dapp)!
+```typescript
+const res = await api.handleCredentialOffer({
+  credentialOffer: data, // request in string format
+});
+
+if (isSuccess(res)) {
+  // Here you can loop through the received credentials and save them
+  const recievedCredentials = res.data;
+
+  // Loop credentials
+  for (const credential of recievedCredentials) {
+    const saveCredentialResult = await api.saveVC(credential, {
+      store: 'snap',
+    });
+  }
+}
+```
+
+### Handle Authorization Request
+
+`handleAuthorizationRequest` is used to handle either Polygon ID or OIDC authorization requests
+
+**Important:** The authorization request must be handled by the user on the correct network and with the correct did method selected.
+
+```typescript
+const res = await api.handleAuthorizationRequest({
+  authorizationRequest: data, // request in string format
+});
+```
 
 ### Working with VCs
 
-It is up to the dApp to issue VCs andor request VPs/VCs and verify their validity (scheme, subject, controller, content, etc.). We recommend using the [Veramo Framework](https://veramo.io/).
+It is up to the dApp to issue VCs and/or request VPs/VCs and verify their validity (scheme, subject, controller, content, etc.). We recommend using the [Veramo Framework](https://veramo.io/).
