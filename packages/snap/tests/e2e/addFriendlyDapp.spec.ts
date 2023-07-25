@@ -59,7 +59,7 @@ describe('addFriendlyDapp', () => {
       newState: defaultState,
     });
 
-    const res2 = (await onRpcRequest({
+    await onRpcRequest({
       origin: 'localhost2',
       request: {
         id: 'test-id',
@@ -67,7 +67,7 @@ describe('addFriendlyDapp', () => {
         method: 'queryVCs',
         params: {},
       },
-    })) as Result<unknown>;
+    });
 
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(spy).toHaveBeenCalledTimes(0);
