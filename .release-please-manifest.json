@@ -3,7 +3,7 @@
   "packages/connector": "0.4.0",
   "packages/types": "0.4.0",
   "packages/datamanager": "0.4.0",
-  "libs/utils": "1.2.0",
+  "libs/utils": "1.3.0",
   "libs/did-provider-ebsi": "1.0.0",
   "libs/did-provider-key": "1.0.1"
 }
