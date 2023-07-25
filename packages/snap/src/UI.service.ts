@@ -15,8 +15,7 @@ class UIService {
   ): Promise<boolean> {
     const state = StorageService.get();
 
-    const { disablePopups } = state.snapConfig.dApp;
-    const { friendlyDapps } = state.snapConfig.dApp;
+    const { disablePopups, friendlyDapps } = state.snapConfig.dApp;
 
     // Show popups if force is true or if popups are not disabled AND the dApp is not friendly
     if (force || !(disablePopups || friendlyDapps.includes(this.origin))) {

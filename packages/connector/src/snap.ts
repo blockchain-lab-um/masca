@@ -219,7 +219,7 @@ export async function addFriendlyDapp(this: Masca): Promise<Result<boolean>> {
 }
 
 /**
- * Removes origin of the current dApp from the list of friendly dApps. This will enable popups from appearing while using the dApp.
+ * Removes origin of the current dApp from the list of friendly dApps. This will enable popups while using the dApp.
  *
  * @return Result<boolean> - true if the removal was successful
  */
