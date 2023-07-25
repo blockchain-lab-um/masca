@@ -58,5 +58,25 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "nx": {
+    "namedInputs": {
+      "default": [
+        "{projectRoot}/**/*"
+      ]
+    },
+    "targets": {
+      "lint": {
+        "inputs": [
+          "default",
+          "^production"
+        ],
+        "dependsOn": [
+          "^build",
+          "build"
+        ],
+        "outputs": []
+      }
+    }
   }
 }
