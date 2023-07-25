@@ -350,7 +350,8 @@ export async function verifyData(
  * @param this - Masca instance
  * @param params.credentialOffer - Credential Offer string
  * @returns Result<VerifiableCredential[]> - list of VCs if successful
- */export async function handleCredentialOffer(
+ */
+export async function handleCredentialOffer(
   this: Masca,
   params: HandleCredentialOfferRequestParams
 ): Promise<Result<VerifiableCredential[]>> {
