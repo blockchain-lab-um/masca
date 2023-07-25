@@ -50,6 +50,8 @@ Every RPC call will return an object that can be Success or Error. More on error
 
 Masca Connector will take care of initializing Masca for other DID methods (needed to extract the public key) during the enableMasca function.
 
+#### Jump [here](../libraries/masca-connector) for a more detailed look at Masca Connector!
+
 ### Account Switching
 
 Account switching must be handled by the dApp! This is required for Masca to work properly. Without approprietly calling this method, switching Accounts in MetaMask will NOT result in switching accounts in Masca! We recommend using the `window.ethereum.on('accountsChanged', handler: (accounts: Array<string>);` . More on this can be found [here](https://docs.metamask.io/wallet/reference/provider-api/#accountschanged).
@@ -300,6 +302,8 @@ const res = await api.getAccountSettings();
 
 Successful response includes `VerifiableCredential[]`
 
+**Important:** The credential offer must be handled by the user on the correct network and with the correct did method selected.
+
 ```typescript
 const res = await api.handleCredentialOffer({
   credentialOffer: data, // request in string format
@@ -322,22 +326,14 @@ if (isSuccess(res)) {
 
 `handleAuthorizationRequest` is used to handle either Polygon ID or OIDC authorization requests
 
+**Important:** The authorization request must be handled by the user on the correct network and with the correct did method selected.
+
 ```typescript
 const res = await api.handleAuthorizationRequest({
   authorizationRequest: data, // request in string format
 });
 ```
 
-:::info NOTE
-
-Snap can also be installed using a 3rd party Platform such as our [Platform](https://blockchain-lab-um.github.io/course-dapp/) or [Snaplist](https://snaplist.org/).
-
-:::
-
-#### Jump [here](../libraries/masca-connector) for a more detailed look at Masca Connector!
-
-If you need more help with implementation feel free to contact us in Discord, or check the [DEMO Platform repo](https://github.com/blockchain-lab-um/course-dapp)!
-
 ### Working with VCs
 
-It is up to the dApp to issue VCs andor request VPs/VCs and verify their validity (scheme, subject, controller, content, etc.). We recommend using the [Veramo Framework](https://veramo.io/).
+It is up to the dApp to issue VCs and/or request VPs/VCs and verify their validity (scheme, subject, controller, content, etc.). We recommend using the [Veramo Framework](https://veramo.io/).
