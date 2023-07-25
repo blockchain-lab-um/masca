@@ -1,6 +1,4 @@
-import {
-  type AvailableMethods,
-} from '@blockchain-lab-um/masca-types';
+import { type AvailableMethods } from '@blockchain-lab-um/masca-types';
 import { isError, ResultObject, type Result } from '@blockchain-lab-um/utils';
 import detectEthereumProvider from '@metamask/detect-provider';
 

@@ -98,9 +98,9 @@ class GeneralService {
     }
 
     if (currentMethod !== newMethod) {
-        state.accountState[state.currentAccount].accountConfig.ssi.didMethod =
-          newMethod;
-        return;
+      state.accountState[state.currentAccount].accountConfig.ssi.didMethod =
+        newMethod;
+      return;
     }
     throw new Error('Method already set');
   }
