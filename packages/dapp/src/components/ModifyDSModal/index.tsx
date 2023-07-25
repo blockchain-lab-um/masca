@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import {
-  type AvailableCredentialStores,
   isError,
   QueryCredentialsRequestResult,
+  type AvailableCredentialStores,
 } from '@blockchain-lab-um/masca-connector';
 import { Dialog } from '@headlessui/react';
 import { useTranslations } from 'next-intl';
