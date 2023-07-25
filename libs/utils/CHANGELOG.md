@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/blockchain-lab-um/masca/compare/utils-v1.2.0...utils-v1.3.0) (2023-07-25)
+
+
+### :rocket: Features
+
+* add snap type guards ([#310](https://github.com/blockchain-lab-um/masca/issues/310)) ([a7d1472](https://github.com/blockchain-lab-um/masca/commit/a7d14724256f70db7b45a8f8e8035e06bfbbbb57))
+
 ## [1.2.0](https://github.com/blockchain-lab-um/masca/compare/utils-v1.1.0...utils-v1.2.0) (2023-06-19)
 
 
