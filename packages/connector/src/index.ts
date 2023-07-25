@@ -21,11 +21,9 @@ const defaultSnapOrigin = 'npm:@blockchain-lab-um/masca';
 
 /**
  * Install and enable Masca
- *
+ * 
  * Checks for existence of MetaMask Flask and installs Masca if not installed
- *
  * @param snapInstallationParams - set snapID, version and a list of supported methods
- *
  * @return Masca - adapter object that exposes snap API
  */
 export async function enableMasca(
