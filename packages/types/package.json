@@ -29,7 +29,6 @@
     "build": "pnpm clean && pnpm typia:generate && pnpm compile",
     "clean": "rimraf dist",
     "compile": "tsup",
-    "postinstall": "pnpm typia:generate",
     "lint": "pnpm lint:eslint && pnpm lint:prettier",
     "lint:eslint": "eslint .",
     "lint:fix": "eslint . --fix && prettier . --write",
@@ -59,5 +58,43 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "nx": {
+    "namedInputs": {
+      "default": [
+        "{projectRoot}/**/*"
+      ],
+      "production": [
+        "default",
+        "!{projectRoot}/dist/**/*",
+        "!{projectRoot}/.lintstagedrc.cjs",
+        "!{projectRoot}/.prettierignore"
+      ]
+    },
+    "targets": {
+      "build": {
+        "inputs": [
+          "production",
+          "^production"
+        ],
+        "dependsOn": [
+          "^build"
+        ],
+        "outputs": [
+          "{projectRoot}/dist",
+          "{projectRoot}/src/typia-generated"
+        ]
+      },
+      "lint": {
+        "inputs": [
+          "default",
+          "^production"
+        ],
+        "dependsOn": [
+          "build"
+        ],
+        "outputs": []
+      }
+    }
   }
 }
