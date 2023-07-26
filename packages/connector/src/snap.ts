@@ -70,7 +70,7 @@ export async function queryVCs(
 }
 
 /**
- * Create a VP from a list of VCs stored in Masca under the currently selected MetaMask account
+ * Create a VP from one or more VCs passed as parameters
  * @param params - parameters for creating a VP
  * @return Result<VerifiablePresentation> - VP
  */
@@ -240,7 +240,7 @@ export async function setVCStore(
 }
 
 /**
- * Get account settings (i.e. DID method, VC stores,...)
+ * Get account settings of currently selected account (i.e. DID method, VC stores,...)
  * @return Result<MascaAccountConfig> - account settings
  */
 export async function getAccountSettings(

@@ -46,7 +46,7 @@ class SnapService {
   private static origin: string;
 
   /**
-   * Function that querries VCs from the selected VC stores.
+   * Function that queries VCs from the selected VC stores.
    * @param args.filter.type - Type of filter (eg. JSONPath).
    * @param args.filter.filter - Filter to apply.
    * @param args.options.store - VC store to query.
@@ -360,7 +360,6 @@ class SnapService {
     const method =
       state.accountState[state.currentAccount].accountConfig.ssi.didMethod;
 
-    console.log('method', method);
     if (isVeramoSupportedMethods(method)) {
       await VeramoService.importIdentifier();
       const identifier = await VeramoService.getIdentifier();

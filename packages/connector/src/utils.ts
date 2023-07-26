@@ -65,7 +65,7 @@ export async function validateAndSetCeramicSession(
 }
 
 /**
- * Function to sign a Verifiable Presentation
+ * Function to sign a Verifiable Presentation with EIP712Signature proof format 
  * @param presentation - Unsigned Verifiable Presentation
  * @returns Signed Verifiable Presentation
  */
@@ -121,7 +121,7 @@ export async function signVerifiablePresentation(
 }
 
 /**
- * Function to sign a Verifiable Credential
+ * Function to sign a Verifiable Credential with EIP712Signature proof format
  * @param credential - Unsigned Verifiable Credential
  * @returns Signed Verifiable Credential
  */
