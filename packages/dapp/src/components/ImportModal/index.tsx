@@ -29,6 +29,7 @@ function ImportModal({ isOpen, setOpen, importVC }: ImportModalProps) {
   );
   const [selectedItems, setSelectedItems] = useState<AvailableVCStores[]>([
     availableStores[0] as AvailableVCStores,
+    availableStores[1] as AvailableVCStores,
   ]);
   return (
     <Modal isOpen={isOpen} setOpen={setOpen}>
