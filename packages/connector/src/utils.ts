@@ -65,7 +65,7 @@ export async function validateAndSetCeramicSession(
 }
 
 /**
- * Function to sign a Verifiable Presentation with EIP712Signature proof format 
+ * Function to sign a Verifiable Presentation with EIP712Signature proof format
  * @param presentation - Unsigned Verifiable Presentation
  * @returns Signed Verifiable Presentation
  */
