@@ -153,19 +153,11 @@ class GeneralService {
     const { store, value } = args;
 
     if (store !== 'snap') {
-      const content = panel([
-        heading('Manage VCStore Plugin'),
-        text(`Would you like to ${value ? 'enable' : 'disable'} ${store}?`),
-      ]);
+      state.accountState[state.currentAccount].accountConfig.ssi.vcStore[
+        store
+      ] = value;
 
-      if (await UIService.snapConfirm(content)) {
-        state.accountState[state.currentAccount].accountConfig.ssi.vcStore[
-          store
-        ] = value;
-
-        return true;
-      }
-      return false;
+      return true;
     }
     return false;
   }
