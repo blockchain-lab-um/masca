@@ -20,7 +20,6 @@ describe('stateBackup', () => {
   let identifier: IIdentifier;
   let agent: Agent;
   let generatedVC: VerifiableCredential;
-  let exportedState: string;
 
   beforeAll(async () => {
     snapMock = createMockSnap();
@@ -143,10 +142,10 @@ describe('stateBackup', () => {
             id: 'test-id',
             jsonrpc: '2.0',
             method: 'exportStateBackup',
-            params: {}
+            params: {},
           },
         })) as Result<unknown>;
-    
+
         if (isError(resExport)) {
           throw new Error(resExport.error);
         }
@@ -157,10 +156,10 @@ describe('stateBackup', () => {
             id: 'test-id',
             jsonrpc: '2.0',
             method: 'importStateBackup',
-            params: { serializedState: resExport.data as string }
+            params: { serializedState: resExport.data as string },
           },
         })) as Result<unknown>;
-    
+
         if (isError(resImport)) {
           throw new Error(resImport.error);
         }
@@ -198,10 +197,10 @@ describe('stateBackup', () => {
             id: 'test-id',
             jsonrpc: '2.0',
             method: 'exportStateBackup',
-            params: {}
+            params: {},
           },
         })) as Result<unknown>;
-    
+
         if (isError(resExport)) {
           throw new Error(resExport.error);
         }
@@ -212,10 +211,10 @@ describe('stateBackup', () => {
             id: 'test-id',
             jsonrpc: '2.0',
             method: 'importStateBackup',
-            params: { serializedState: resExport.data as string }
+            params: { serializedState: resExport.data as string },
           },
         })) as Result<unknown>;
-    
+
         if (isError(resImport)) {
           throw new Error(resImport.error);
         }
