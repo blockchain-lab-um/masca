@@ -1,4 +1,8 @@
-import { MascaAccountState, MascaState } from '@blockchain-lab-um/masca-types';
+import {
+  ImportStateBackupRequestParams,
+  MascaAccountState,
+  MascaState,
+} from '@blockchain-lab-um/masca-types';
 
 import { getInitialSnapState } from '../utils/config';
 import SnapStorage from './Snap.storage';
@@ -27,6 +31,14 @@ class StorageService {
 
   static getAccountState(): MascaAccountState {
     return this.instance.accountState[this.instance.currentAccount];
+  }
+
+  static exportBackup(): string {
+    return JSON.stringify(this.instance);
+  }
+
+  static importBackup(params: ImportStateBackupRequestParams): void {
+    this.instance = JSON.parse(params.serializedState) as MascaState;
   }
 }
 

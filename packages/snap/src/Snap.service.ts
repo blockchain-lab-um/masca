@@ -9,6 +9,7 @@ import {
   isValidCreateVCRequest,
   isValidCreateVPRequest,
   isValidDeleteVCsRequest,
+  isValidImportStateBackupRequest,
   isValidQueryVCsRequest,
   isValidResolveDIDRequest,
   isValidSaveVCRequest,
@@ -506,6 +507,13 @@ class SnapService {
       case 'validateStoredCeramicSession':
         await GeneralService.validateStoredCeramicSession();
         return ResultObject.success(true);
+      case 'exportStateBackup':
+        res = StorageService.exportBackup();
+        return ResultObject.success(res);
+      case 'importStateBackup':
+        isValidImportStateBackupRequest(params);
+        res = StorageService.importBackup(params);
+        return ResultObject.success(res);
       default:
         throw new Error('Method not found.');
     }
