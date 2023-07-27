@@ -13,7 +13,11 @@ import { divider, heading, panel, text } from '@metamask/snaps-ui';
 
 import EthereumService from './Ethereum.service';
 import StorageService from './storage/Storage.service';
-import UIService from './UI.service';
+import UIService, {
+  addFriendlyDappContent,
+  removeFriendlyDappContent,
+  togglePopupsContent,
+} from './UI.service';
 import { validateSession } from './utils/ceramicUtils';
 import { getEmptyAccountState } from './utils/config';
 
@@ -45,16 +49,9 @@ class GeneralService {
    * @returns void
    */
   static async addFriendlyDapp(dapp: string): Promise<void> {
-    const content = panel([
-      heading('Add Friendly dApp'),
-      text('Would you like to add this dApp to frinedly dApps?'),
-      divider(),
-      text(`Doing so will disable popups from appearing while using ${dapp}.`),
-    ]);
-
     const state = StorageService.get();
     if (state.snapConfig.dApp.friendlyDapps.includes(dapp)) return;
-    if (!(await UIService.snapConfirm(content))) {
+    if (!(await UIService.snapConfirm(addFriendlyDappContent(dapp)))) {
       throw new Error('User rejected friendly dApp addition');
     }
     state.snapConfig.dApp.friendlyDapps.push(dapp);
@@ -68,14 +65,7 @@ class GeneralService {
    * @returns void
    */
   static async removeFriendlyDapp(args: { id: string }): Promise<void> {
-    const content = panel([
-      heading('Remove Friendly dApp'),
-      text('Would you like to remove this dApp from friendly dApps?'),
-      divider(),
-      text(`Doing so will enable popups to appear while using ${args.id}.`),
-    ]);
-
-    if (!(await UIService.snapConfirm(content))) {
+    if (!(await UIService.snapConfirm(removeFriendlyDappContent(args.id)))) {
       throw new Error('User rejected friendly dApp removal');
     }
 
@@ -104,17 +94,8 @@ class GeneralService {
   static async togglePopups(): Promise<boolean> {
     const state = StorageService.get();
 
-    const content = panel([
-      heading('Disable Popups'),
-      text('Would you like to disable popups?'),
-      divider(),
-      text(
-        `Disabling popups will prevent any popups from appearing on any dApp. You can always re-enable them in the settings.`
-      ),
-    ]);
-
     if (!state.snapConfig.dApp.disablePopups) {
-      if (await UIService.snapConfirm(content)) {
+      if (await UIService.snapConfirm(togglePopupsContent())) {
         state.snapConfig.dApp.disablePopups = true;
         return state.snapConfig.dApp.disablePopups;
       }

@@ -41,6 +41,8 @@ import UIService, {
   createCredentialContent,
   createPresentationContent,
   deleteCredentialContent,
+  handleAuthorizationRequestContent,
+  handleCredentialOfferContent,
   queryAllContent,
   saveCredentialContent,
 } from './UI.service';
@@ -286,7 +288,6 @@ class SnapService {
     const method =
       state.accountState[state.currentAccount].accountConfig.ssi.didMethod;
 
-    console.log('method', method);
     if (isVeramoSupportedMethods(method)) {
       await VeramoService.importIdentifier();
       const identifier = await VeramoService.getIdentifier();
@@ -313,35 +314,38 @@ class SnapService {
   ): Promise<VerifiableCredential[]> {
     const { credentialOffer } = args;
 
-    if (credentialOffer.startsWith('openid-credential-offer://')) {
-      await VeramoService.importIdentifier();
-      return [
-        await VeramoService.handleOIDCCredentialOffer({
-          credentialOfferURI: credentialOffer,
-        }),
-      ];
+    if (await UIService.snapConfirm(handleCredentialOfferContent())) {
+      if (credentialOffer.startsWith('openid-credential-offer://')) {
+        await VeramoService.importIdentifier();
+        return [
+          await VeramoService.handleOIDCCredentialOffer({
+            credentialOfferURI: credentialOffer,
+          }),
+        ];
+      }
+
+      let parsedOffer;
+
+      try {
+        parsedOffer = JSON.parse(credentialOffer);
+      } catch (e) {
+        throw new Error('Failed to parse credential offer');
+      }
+
+      if (
+        parsedOffer.type ===
+        'https://iden3-communication.io/credentials/1.0/offer'
+      ) {
+        await PolygonService.init();
+        await PolygonService.createOrImportIdentity();
+        return (await PolygonService.handleCredentialOffer({
+          credentialOffer,
+        })) as VerifiableCredential[];
+      }
+
+      throw new Error('Unsupported credential offer');
     }
-
-    let parsedOffer;
-
-    try {
-      parsedOffer = JSON.parse(credentialOffer);
-    } catch (e) {
-      throw new Error('Failed to parse credential offer');
-    }
-
-    if (
-      parsedOffer.type ===
-      'https://iden3-communication.io/credentials/1.0/offer'
-    ) {
-      await PolygonService.init();
-      await PolygonService.createOrImportIdentity();
-      return (await PolygonService.handleCredentialOffer({
-        credentialOffer,
-      })) as VerifiableCredential[];
-    }
-
-    throw new Error('Unsupported credential offer');
+    throw new Error('User rejected handle credential offer request');
   }
 
   static async handleAuthorizationRequest(
@@ -349,33 +353,35 @@ class SnapService {
   ): Promise<void> {
     const { authorizationRequest } = args;
 
-    if (authorizationRequest.startsWith('openid://')) {
-      await VeramoService.importIdentifier();
-      return VeramoService.handleOIDCAuthorizationRequest({
-        authorizationRequestURI: authorizationRequest,
-      });
+    if (await UIService.snapConfirm(handleAuthorizationRequestContent())) {
+      if (authorizationRequest.startsWith('openid://')) {
+        await VeramoService.importIdentifier();
+        return VeramoService.handleOIDCAuthorizationRequest({
+          authorizationRequestURI: authorizationRequest,
+        });
+      }
+
+      let parsedOffer;
+
+      try {
+        parsedOffer = JSON.parse(authorizationRequest);
+      } catch (e) {
+        throw new Error('Failed to parse authorization request');
+      }
+
+      if (
+        parsedOffer.type ===
+        'https://iden3-communication.io/authorization/1.0/request'
+      ) {
+        await PolygonService.init();
+        await PolygonService.createOrImportIdentity();
+        return PolygonService.handleAuthorizationRequest({
+          authorizationRequest,
+        });
+      }
+      throw new Error('Unsupported authorization request');
     }
-
-    let parsedOffer;
-
-    try {
-      parsedOffer = JSON.parse(authorizationRequest);
-    } catch (e) {
-      throw new Error('Failed to parse authorization request');
-    }
-
-    if (
-      parsedOffer.type ===
-      'https://iden3-communication.io/authorization/1.0/request'
-    ) {
-      await PolygonService.init();
-      await PolygonService.createOrImportIdentity();
-      return PolygonService.handleAuthorizationRequest({
-        authorizationRequest,
-      });
-    }
-
-    throw new Error('Unsupported authorization request');
+    throw new Error('User rejected handle authorization request');
   }
 
   static async handleRpcRequest(

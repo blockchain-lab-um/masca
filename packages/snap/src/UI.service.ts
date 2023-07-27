@@ -87,9 +87,9 @@ export const saveCredentialContent = (
     text(`Credential:`),
     copyable(JSON.stringify(verifiableCredential, null, 2)),
     text(
-      `Credential will be saved in following store(s): ${
+      `Credential will be saved in following store(s): **${
         typeof store === 'string' ? store : store.join(', ')
-      }`
+      }**`
     ),
   ]);
 
@@ -130,6 +130,42 @@ export const createPresentationContent = (vcs: W3CVerifiableCredential[]) =>
     divider(),
     text(`VC(s):`),
     ...vcs.map((vc) => copyable(JSON.stringify(vc, null, 2))),
+  ]);
+
+export const handleCredentialOfferContent = () =>
+  panel([
+    heading('Credential Offer'),
+    text('Would you like to accept the following Credential Offer?'),
+  ]);
+
+export const handleAuthorizationRequestContent = () =>
+  panel([
+    heading('Authorization Request'),
+    text('Would you like to accept the following Authorization Request?'),
+  ]);
+
+export const togglePopupsContent = () =>
+  panel([
+    heading('Toggle Popups'),
+    text('Would you like to turn off popups?'),
+    divider(),
+    text(
+      'This can result in a better user experience, but you will not be able to see what the dApp is requesting.'
+    ),
+  ]);
+
+export const addFriendlyDappContent = (origin: string) =>
+  panel([
+    heading('Add Friendly DApp'),
+    text(`Would you like to add ${origin} as a friendly dApp?`),
+    divider(),
+    text('Popups do not appear on friendly dApps.'),
+  ]);
+
+export const removeFriendlyDappContent = (origin: string) =>
+  panel([
+    heading('Remove Friendly DApp'),
+    text(`Would you like to remove ${origin} from the list of friendly dApps?`),
   ]);
 
 export default UIService;
