@@ -2,6 +2,7 @@ import type {
   CreateVC,
   CreateVP,
   DeleteVC,
+  ExportStateBackup,
   GetAccountSettings,
   GetAvailableMethods,
   GetAvailableVCStores,
@@ -11,6 +12,7 @@ import type {
   GetVCStore,
   HandleAuthorization,
   HandleCredentialOffer,
+  ImportStateBackup,
   QueryVCs,
   ResolveDID,
   SaveVC,
@@ -45,7 +47,9 @@ export type MascaRPCRequest =
   | HandleCredentialOffer
   | HandleAuthorization
   | SetCeramicSession
-  | ValidateStoredCeramicSession;
+  | ValidateStoredCeramicSession
+  | ExportStateBackup
+  | ImportStateBackup;
 
 export type Method = MascaRPCRequest['method'];
 

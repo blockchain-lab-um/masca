@@ -8,6 +8,7 @@ import {
   type CreateVCRequestParams,
   type CreateVPRequestParams,
   type DeleteVCsRequestParams,
+  type ImportStateBackupRequestParams,
   type MascaState,
   type QueryVCsRequestParams,
   type ResolveDIDRequestParams,
@@ -164,4 +165,14 @@ export const isValidVerifyDataRequest = (
 ): asserts input is VerifyDataRequestParams => {
   const res = validateVerifyDataRequest(input);
   if (!res.success) throw new Error(handleIValidation(res));
+};
+
+export const isValidImportStateBackupRequest = (
+  input: any
+): asserts input is ImportStateBackupRequestParams => {
+  if (!input) return;
+  if (!input.serializedState)
+    throw new Error('invalid_argument: input.serializedState');
+  if (typeof input.serializedState !== 'string')
+    throw new Error('invalid_argument: input.serializedState');
 };

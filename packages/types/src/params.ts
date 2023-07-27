@@ -149,3 +149,7 @@ export type HandleAuthorizationRequestParams = {
 export type SetCeramicSessionRequestParams = {
   serializedSession: string;
 };
+
+export type ImportStateBackupRequestParams = {
+  serializedState: string;
+};

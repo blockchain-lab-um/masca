@@ -4,6 +4,7 @@ import type {
   DeleteVCsRequestParams,
   HandleAuthorizationRequestParams,
   HandleCredentialOfferRequestParams,
+  ImportStateBackupRequestParams,
   QueryVCsRequestParams,
   ResolveDIDRequestParams,
   SaveVCRequestParams,
@@ -113,4 +114,13 @@ export type SetCeramicSession = {
 
 export type ValidateStoredCeramicSession = {
   method: 'validateStoredCeramicSession';
+};
+
+export type ExportStateBackup = {
+  method: 'exportStateBackup';
+};
+
+export type ImportStateBackup = {
+  method: 'importStateBackup';
+  params: ImportStateBackupRequestParams;
 };
