@@ -1,5 +1,6 @@
 import {
   ImportStateBackupRequestParams,
+  isValidMascaState,
   MascaAccountState,
   MascaState,
 } from '@blockchain-lab-um/masca-types';
@@ -38,7 +39,13 @@ class StorageService {
   }
 
   static importBackup(params: ImportStateBackupRequestParams): void {
-    this.instance = JSON.parse(params.serializedState) as MascaState;
+    try {
+      const state = JSON.parse(params.serializedState);
+      isValidMascaState(state);
+      this.instance = state;
+    } catch (error) {
+      throw new Error('Invalid backup state.');
+    }
   }
 }
 
