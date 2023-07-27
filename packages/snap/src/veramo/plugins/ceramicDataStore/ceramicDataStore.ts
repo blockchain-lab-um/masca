@@ -136,7 +136,7 @@ export class CeramicVCStore extends AbstractDataStore {
     return false;
   }
 
-  public async exportStorage(): Promise<StoredCredentials> {
+  public async exportStore(): Promise<StoredCredentials> {
     try {
       const state = StorageService.get();
       const ceramic = await getCeramic(state);
@@ -150,7 +150,7 @@ export class CeramicVCStore extends AbstractDataStore {
     }
   }
 
-  public async importStorage(args: StoredCredentials): Promise<boolean> {
+  public async importStore(args: StoredCredentials): Promise<boolean> {
     try {
       const state = StorageService.get();
       const ceramic = await getCeramic(state);

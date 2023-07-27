@@ -111,13 +111,13 @@ export class SnapVCStore extends AbstractDataStore {
     return true;
   }
 
-  public async exportStorage(): Promise<Record<string, W3CVerifiableCredential>> {
+  public async exportStore(): Promise<Record<string, W3CVerifiableCredential>> {
     const state = StorageService.get();
 
     return state.accountState[state.currentAccount].vcs;
   }
 
-  public async importStorage(
+  public async importStore(
     data: Record<string, W3CVerifiableCredential>
   ): Promise<void> {
     const state = StorageService.get();
