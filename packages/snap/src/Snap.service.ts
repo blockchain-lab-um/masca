@@ -24,7 +24,6 @@ import {
   VerifyDataRequestParams,
 } from '@blockchain-lab-um/masca-types';
 import { Result, ResultObject } from '@blockchain-lab-um/utils';
-import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
 import {
   DIDResolutionResult,
   IVerifyResult,
@@ -38,7 +37,13 @@ import { VerifiablePresentation } from 'did-jwt-vc';
 import GeneralService from './General.service';
 import PolygonService from './polygon-id/Polygon.service';
 import StorageService from './storage/Storage.service';
-import UIService from './UI.service';
+import UIService, {
+  createCredentialContent,
+  createPresentationContent,
+  deleteCredentialContent,
+  queryAllContent,
+  saveCredentialContent,
+} from './UI.service';
 import VeramoService from './veramo/Veramo.service';
 import WalletService from './Wallet.service';
 
@@ -69,19 +74,9 @@ class SnapService {
 
     const vcs = [...veramoCredentials, ...polygonCredentials];
 
-    const content = panel([
-      heading('Share VCs'),
-      text('Are you sure you want to share VCs with this dApp?'),
-      divider(),
-      text(
-        `Some dApps are less secure than others and could save data from VCs against your will. Be careful where you send your VCs! Number of VCs submitted is ${vcs.length.toString()}`
-      ),
-      text('This popup will not appear again for this dApp.'),
-    ]);
-
     if (
       (await GeneralService.isFriendlyDapp(this.origin)) ||
-      (await UIService.snapConfirm(content))
+      (await UIService.snapConfirm(queryAllContent(vcs)))
     ) {
       return vcs;
     }
@@ -95,16 +90,11 @@ class SnapService {
     const { verifiableCredential, options } = args;
     const { store = 'snap' } = options ?? {};
 
-    const content = panel([
-      heading('Save VC'),
-      text('Would you like to save the following VC?'),
-      divider(),
-      text(`Store(s): ${typeof store === 'string' ? store : store.join(', ')}`),
-      text(`VC:`),
-      copyable(JSON.stringify(verifiableCredential, null, 2)),
-    ]);
-
-    if (await UIService.snapConfirm(content)) {
+    if (
+      await UIService.snapConfirm(
+        saveCredentialContent(store, verifiableCredential)
+      )
+    ) {
       // If it is a string handle with Veramo
       if (typeof verifiableCredential === 'string') {
         const res = await VeramoService.saveCredential({
@@ -169,25 +159,16 @@ class SnapService {
       }`;
     }
 
-    const content = panel([
-      heading('Create Credential'),
-      text(
-        `Would you like to ${
-          save === true ? 'sign and save' : 'sign'
-        } the following Credential?`
-      ),
-      divider(),
-      text(storeString),
-      text(`VC:`),
-      copyable(JSON.stringify(minimalUnsignedCredential, null, 2)),
-    ]);
-
     const vc = await VeramoService.createCredential({
       credential: minimalUnsignedCredential,
       proofFormat,
     });
 
-    if (await UIService.snapConfirm(content)) {
+    if (
+      await UIService.snapConfirm(
+        createCredentialContent(save, storeString, vc)
+      )
+    ) {
       if (save === true) {
         await VeramoService.saveCredential({
           verifiableCredential: vc,
@@ -232,15 +213,8 @@ class SnapService {
       if (typeof store === 'string') stores = store;
       else stores = store.join(', ');
     }
-    const content = panel([
-      heading('Delete VC'),
-      text('Are you sure you want to delete this VC?'),
-      divider(),
-      text(`Store: ${stores}`),
-      text(`VCs: ${JSON.stringify(vcs, null, 2)}`),
-    ]);
 
-    if (await UIService.snapConfirm(content)) {
+    if (await UIService.snapConfirm(deleteCredentialContent(stores, vcs))) {
       if (polygonCredentials.length > 0) {
         await PolygonService.deleteCredential(id);
         return [true];
@@ -271,14 +245,6 @@ class SnapService {
       throw new Error('No credentials provided');
     }
 
-    const content = panel([
-      heading('Create VP'),
-      text('Would you like to create a VP from the following VC(s)?'),
-      divider(),
-      text(`VC(s):`),
-      ...vcs.map((vc) => copyable(JSON.stringify(vc, null, 2))),
-    ]);
-
     if (method === 'did:ethr' || method === 'did:pkh') {
       if (proofFormat !== 'EthereumEip712Signature2021') {
         throw new Error('proofFormat must be EthereumEip712Signature2021');
@@ -291,7 +257,7 @@ class SnapService {
       return unsignedVp;
     }
 
-    if (await UIService.snapConfirm(content)) {
+    if (await UIService.snapConfirm(createPresentationContent(vcs))) {
       const res = await VeramoService.createPresentation({
         vcs,
         proofFormat,
