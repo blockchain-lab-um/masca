@@ -742,15 +742,9 @@ class VeramoService {
 
       const queriedCredentials: any = queryResults.map((result) => result.data);
 
-      console.log('queriedCredentials');
-      console.log(queriedCredentials);
-
       const selectCredentialsResult = await this.instance.selectCredentials({
         credentials: queriedCredentials,
       });
-
-      console.log('selectCredentialsResult');
-      console.log(selectCredentialsResult);
 
       if (isError(selectCredentialsResult)) {
         throw new Error(selectCredentialsResult.error);
