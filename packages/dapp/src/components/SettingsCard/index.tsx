@@ -6,6 +6,8 @@ import { shallow } from 'zustand/shallow';
 
 import ToggleSwitch from '@/components/Switch';
 import { useMascaStore, useToastStore } from '@/stores';
+import InfoIcon from '../InfoIcon';
+import { FriendlydAppTable } from './FriendlydAppTable';
 
 const SettingsCard = () => {
   const t = useTranslations('SettingsCard');
@@ -99,23 +101,31 @@ const SettingsCard = () => {
             shadow="md"
           />
         </span>
-        <span className="dark:text-navy-blue-200 mt-10 flex justify-between text-gray-700 ">
-          Disable Popups{' '}
-          <ToggleSwitch
-            size="md"
-            enabled={popups as boolean}
-            setEnabled={snapTogglePopups}
-            shadow="md"
-          />
-        </span>
       </div>
 
       <div className="mt-20">
         <div className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6  text-gray-800">
           {t('advanced')}
         </div>
-        <div className="mt-2 text-sm text-red-500">{t('not-implemented')}</div>
-        <div></div>
+        <div>
+          <FriendlydAppTable />
+
+          <span className="dark:text-navy-blue-200 mt-10 flex justify-between text-gray-700 ">
+            <div className="flex">
+              <span className="text-red-500">Disable Popups </span>
+              <InfoIcon>
+                Disabling popups is very dangerous. We recommend setting
+                friendly dApps instead!
+              </InfoIcon>
+            </div>
+            <ToggleSwitch
+              size="md"
+              enabled={popups as boolean}
+              setEnabled={snapTogglePopups}
+              shadow="md"
+            />
+          </span>
+        </div>
       </div>
     </div>
   );
