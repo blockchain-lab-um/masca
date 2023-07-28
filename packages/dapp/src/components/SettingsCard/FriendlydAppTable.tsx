@@ -126,7 +126,7 @@ export const FriendlydAppTable = () => {
                     removeFriendlydApp(app).catch((e) => console.log(e));
                   }}
                 >
-                  <TrashIcon className="h-6 w-6" />
+                  <TrashIcon className="h-4 w-4" />
                 </button>
               </td>
             </tr>

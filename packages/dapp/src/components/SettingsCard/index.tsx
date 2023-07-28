@@ -112,7 +112,7 @@ const SettingsCard = () => {
 
           <span className="dark:text-navy-blue-200 mt-10 flex justify-between text-gray-700 ">
             <div className="flex">
-              <span className="text-red-500">Disable Popups </span>
+              <span className="text-red-500 mr-1">Disable Popups </span>
               <InfoIcon>
                 Disabling popups is very dangerous. We recommend setting
                 friendly dApps instead!
