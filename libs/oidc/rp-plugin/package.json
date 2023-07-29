@@ -29,8 +29,8 @@
     "test:watch": "pnpm run test --watch --verbose"
   },
   "dependencies": {
-    "@blockchain-lab-um/oidc-types": "*",
-    "@blockchain-lab-um/utils": "*",
+    "@blockchain-lab-um/oidc-types": "0.0.1",
+    "@blockchain-lab-um/utils": "1.3.0",
     "@sphereon/pex": "^2.0.1",
     "@veramo/core": "5.2.0",
     "@veramo/credential-eip712": "5.2.0",
