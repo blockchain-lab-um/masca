@@ -1,0 +1,70 @@
+name: Version Stable
+on:
+  workflow_dispatch:
+    inputs:
+      selected-package:
+        description: 'Package to version and publish to npm.'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - 'all'
+          - '@blockchain-lab-um/masca-core'
+          - '@blockchain-lab-um/oidc'
+          - '@blockchain-lab-um/utils'
+          - '@blockchain-lab-um/did-provider-key'
+          - '@blockchain-lab-um/did-provider-ebsi'
+
+# Wait for the workflow to finish before starting a new one
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  release-stable:
+    # Only allow on master branch
+    if: ${{ github.ref == 'refs/heads/master' }}
+    runs-on: ubuntu-latest
+    # More info: https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/about-security-hardening-with-openid-connect#adding-permissions-settings
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: master
+          fetch-depth: 0
+          submodules: true
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.6.10
+
+      - name: Install node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.16.0
+          registry-url: https://registry.npmjs.org/
+          cache: 'pnpm'
+
+      - name: Set deployment token
+        run: npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Git config
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Version packages
+        run: bash scripts/version-stable.sh ${{ github.event.inputs.selected-package }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}

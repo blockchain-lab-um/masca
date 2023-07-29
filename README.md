@@ -69,16 +69,16 @@ Every version of Masca does NOT work with every version of MetaMask Flask! Here 
 
 ### Snap
 
-- To start the Snap run `pnpm start:snap`
+- To start the Snap run `pnpm nx start @blockchain-lab-um/masca`
 - Snap can be tested on `localhost:8081/` or on Masca website
 
 ### Website
 
-- To start the Website run `pnpm start:dapp`
+- To start the Website run `pnpm nx start @blockchain-lab-um/dapp`
 
 ### Docs
 
-- To start the Website run `pnpm start:docs`
+- To start the Website run `pnpm nx start @blockchain-lab-um/masca-docs`
 
 # Feature requests
 

@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "@blockchain-lab-um/oidc-types": "*",
-    "@blockchain-lab-um/utils": "^1.1.0",
+    "@blockchain-lab-um/utils": "*",
     "@sphereon/pex": "^2.0.1",
     "@veramo/core": "5.2.0",
     "@veramo/utils": "5.2.0",

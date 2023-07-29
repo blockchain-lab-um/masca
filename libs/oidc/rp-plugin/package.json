@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@blockchain-lab-um/oidc-types": "*",
+    "@blockchain-lab-um/utils": "*",
     "@sphereon/pex": "^2.0.1",
     "@veramo/core": "5.2.0",
     "@veramo/credential-eip712": "5.2.0",
@@ -48,7 +49,6 @@
     "qs": "^6.11.2"
   },
   "devDependencies": {
-    "@blockchain-lab-um/utils": "*",
     "@ianvs/prettier-plugin-sort-imports": "^4.0.1",
     "@sphereon/ssi-types": "^0.11.0",
     "@swc/core": "1.3.52",
