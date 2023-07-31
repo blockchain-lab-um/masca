@@ -19,7 +19,6 @@ export const aliases = {
  * @param serializedSession - serialized DID session string
  * @returns string - serialized DID session string
  */
-// Should return serialized session or throw an error
 export async function validateSession(
   serializedSession?: string
 ): Promise<string> {

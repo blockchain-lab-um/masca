@@ -22,8 +22,11 @@ const defaultSnapOrigin = 'npm:@blockchain-lab-um/masca';
 
 /**
  * Install and enable Masca
+ * This is the main entry point for Masca
  *
- * Checks for existence of MetaMask Flask and installs Masca if not installed
+ * Checks for existence of MetaMask Flask and installs Masca if not installed.
+ *
+ * Set the Masca version to be installed and select the supported DID methods, as these are the only methods that will be available on the API returned from this function.
  *
  * **_Note: Flask should be the only enabled MetaMask extention in the browser_**
  * @param snapInstallationParams - set snapID, version and a list of supported methods
