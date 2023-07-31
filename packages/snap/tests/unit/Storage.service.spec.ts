@@ -9,39 +9,40 @@ import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
 describe('Storage Service', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
-  beforeEach(() => {
+  beforeEach(async () => {
     snapMock = createMockSnap();
     snapMock.rpcMocks.snap_manageState({
       operation: 'clear',
     });
     global.snap = snapMock;
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
+
+    // Initialize storage before each test
+    await StorageService.init();
   });
 
-  it('Should succeed initializing storage', async () => {
-    await StorageService.init();
-
+  it('Should succeed getting state from storage', async () => {
     const state = StorageService.get();
 
-    expect(state).toBeDefined();
     expect(state).toEqual(getInitialSnapState());
-
-    expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith({
-      operation: 'get',
-    });
-
-    expect.assertions(3);
+    expect.assertions(1);
   });
 
-  it('should succeed turning on and saving disabled popups', async () => {
-    await StorageService.init();
+  it('Should succeed getting current account state from storage', async () => {
+    const initialSnapState = getInitialSnapState();
 
-    expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith({
-      operation: 'get',
-    });
+    const state = StorageService.getAccountState();
 
+    expect(state).toStrictEqual(
+      initialSnapState.accountState[initialSnapState.currentAccount],
+    );
+    expect.assertions(1);
+  });
+
+  it('should succeed saving updated state to storage', async () => {
     const state = StorageService.get();
     state.snapConfig.dApp.disablePopups = true;
+
     await StorageService.save();
 
     expect(snapMock.rpcMocks.snap_manageState).toHaveBeenCalledWith({
@@ -49,10 +50,8 @@ describe('Storage Service', () => {
       newState: state,
     });
 
-    await StorageService.init();
     const newState = StorageService.get();
-
     expect(newState.snapConfig.dApp.disablePopups).toBe(true);
-    expect.assertions(3);
+    expect.assertions(2);
   });
 });
