@@ -41,10 +41,12 @@ We are also using the `changesets-bot` to remind developers of missing changeset
 
 Located inside the `./scripts/changesets` directory.
 
-- publish-beta
-- publish-stable
-- version-beta
-- version-stable
+- publish-beta.sh
+- publish-stable.sh
+- version-beta.sh
+- version-stable.sh
+- update-snap-version.mjs
+- version-stable.mjs
 
 ## Beta releases
 
