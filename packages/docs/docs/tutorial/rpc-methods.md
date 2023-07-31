@@ -140,7 +140,7 @@ const response = await ethereum.request({
 
 `createCredential` creates a VC from the payload. `proofFormat` can be selected, and the created VC can be optionally stored in the snap.
 
-**Methods `did:pkh` and `did:ethr` will return unsigned credential!** They need to be signed manually on dApp, as making signatures with Ethereum addresses is not possible in Masca. Here is an [example](https://github.com/blockchain-lab-um/masca/blob/bf00dbf4a4deb8882f76a293ffc565501d5dc2f9/packages/connector/src/utils.ts#L113-L170) of how we handle this in Connector.
+**Methods `did:pkh` and `did:ethr` will return an unsigned credential!** that needs to be signed manually on the dApp, as making signatures with Ethereum addresses is not possible in Masca. Here is an [example](https://github.com/blockchain-lab-um/masca/blob/bf00dbf4a4deb8882f76a293ffc565501d5dc2f9/packages/connector/src/utils.ts#L113-L170) of how we handle this in Connector.
 
 #### Parameters
 
