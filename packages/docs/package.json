@@ -34,8 +34,6 @@
     ]
   },
   "dependencies": {
-    "@blockchain-lab-um/masca-connector": "*",
-    "@blockchain-lab-um/masca-types": "*",
     "@docusaurus/core": "2.4.1",
     "@docusaurus/preset-classic": "2.4.1",
     "@emotion/react": "^11.11.0",

@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/blockchain-lab-um/masca/compare/masca-v0.4.0...masca-v0.4.1) (2023-07-25)
+
+
+### chore
+
+* **masca:** Synchronize masca-core versions
+
 ## [0.4.0](https://github.com/blockchain-lab-um/masca/compare/masca-v0.3.1...masca-v0.4.0) (2023-07-25)
 
 
