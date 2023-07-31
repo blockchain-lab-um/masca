@@ -45,8 +45,8 @@ Located inside the `./scripts/changesets` directory.
 - publish-stable.sh
 - version-beta.sh
 - version-stable.sh
-- update-snap-version.mjs
-- version-stable.mjs
+- update-snap-version.mjs (syncs masca version across the repo)
+- version-stable.mjs (checks which packages need to be versioned)
 
 ## Beta releases
 
