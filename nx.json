@@ -55,5 +55,5 @@
       "outputs": ["{projectRoot}/coverage"]
     }
   },
-  "defaultBase": "dev"
+  "defaultBase": "develop"
 }
