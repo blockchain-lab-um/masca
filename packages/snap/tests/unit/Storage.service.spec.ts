@@ -34,7 +34,7 @@ describe('Storage Service', () => {
     const state = StorageService.getAccountState();
 
     expect(state).toStrictEqual(
-      initialSnapState.accountState[initialSnapState.currentAccount],
+      initialSnapState.accountState[initialSnapState.currentAccount]
     );
     expect.assertions(1);
   });
