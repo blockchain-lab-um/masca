@@ -2,6 +2,7 @@ import { availableMethods, type AvailableMethods } from '@blockchain-lab-um/masc
 import { isError, ResultObject, type Result } from '@blockchain-lab-um/utils';
 import detectEthereumProvider from '@metamask/detect-provider';
 
+import { mascaVersion } from './masca.json';
 import { Masca } from './snap.js';
 
 export { Masca } from './snap.js';
