@@ -63,7 +63,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Version packages
-        run: bash scripts/version-stable.sh ${{ github.event.inputs.selected-package }}
+        run: bash scripts/changesets/version-stable.sh ${{ github.event.inputs.selected-package }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
