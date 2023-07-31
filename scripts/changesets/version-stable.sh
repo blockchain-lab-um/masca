@@ -7,6 +7,7 @@ echo $1
 
 pnpm changeset pre exit && \
   node scripts/version-stable.mjs $1 && \
+  node scripts/changesets/update-snap-version.mjs && \
   pnpm install --lockfile-only && \
   pnpm build && \
   git add . && \

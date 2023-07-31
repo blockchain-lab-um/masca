@@ -3,6 +3,7 @@
 echo "Updating beta version..."
 
 pnpm changeset version && \
+  node scripts/changesets/update-snap-version.mjs && \
   pnpm install --lockfile-only && \
   pnpm build && \
   git add . && \
