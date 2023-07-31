@@ -55,8 +55,8 @@ jobs:
         with:
           version: bash scripts/changesets/version-beta.sh
           publish: bash scripts/changesets/publish-beta.sh
-          title: 'chore: version packages (beta)'
-          commit: 'chore: version packages (beta)'
+          title: 'chore: version packages'
+          commit: 'chore: version packages'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
