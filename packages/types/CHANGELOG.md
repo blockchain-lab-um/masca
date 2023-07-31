@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/blockchain-lab-um/masca/compare/masca-types-v0.4.0...masca-types-v0.4.1) (2023-07-25)
+
+
+### :bug: Bug Fixes
+
+* fixes postinstall bug ([#362](https://github.com/blockchain-lab-um/masca/issues/362)) ([bf00dbf](https://github.com/blockchain-lab-um/masca/commit/bf00dbf4a4deb8882f76a293ffc565501d5dc2f9))
+
 ## [0.4.0](https://github.com/blockchain-lab-um/masca/compare/masca-types-v0.3.1...masca-types-v0.4.0) (2023-07-25)
 
 
