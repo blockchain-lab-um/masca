@@ -78,7 +78,7 @@ import { decodeCredentialToObject } from '@veramo/utils';
 import { DIDResolutionResult, Resolver } from 'did-resolver';
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver';
 import * as qs from 'qs';
-import UIService from 'src/UI.service';
+import UIService from '../UI.service';
 
 import EthereumService from '../Ethereum.service';
 import GeneralService from '../General.service';

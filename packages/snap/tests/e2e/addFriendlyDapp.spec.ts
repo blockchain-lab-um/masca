@@ -50,7 +50,7 @@ describe('addFriendlyDapp', () => {
   });
 
   it('Should not show popup if the dapp is already in the list', async () => {
-    const spy = jest.spyOn(UIService, 'snapConfirm');
+    const spy = jest.spyOn(UIService, 'addFriendlyDappDialog');
 
     const defaultState = getDefaultSnapState(account);
     defaultState.snapConfig.dApp.friendlyDapps = ['localhost2'];

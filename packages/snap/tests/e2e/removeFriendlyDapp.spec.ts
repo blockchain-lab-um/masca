@@ -51,7 +51,7 @@ describe('removeFriendlyDapp', () => {
   });
 
   it('Should show popup if the dapp is not in the list', async () => {
-    const spy = jest.spyOn(UIService, 'snapConfirm');
+    const spy = jest.spyOn(UIService, 'queryAllDialog');
 
     const defaultState = getDefaultSnapState(account);
     await snapMock.rpcMocks.snap_manageState({
