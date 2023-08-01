@@ -78,11 +78,11 @@ import { decodeCredentialToObject } from '@veramo/utils';
 import { DIDResolutionResult, Resolver } from 'did-resolver';
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver';
 import * as qs from 'qs';
-import UIService from '../UI.service';
 
 import EthereumService from '../Ethereum.service';
 import GeneralService from '../General.service';
 import StorageService from '../storage/Storage.service';
+import UIService from '../UI.service';
 import UniversalResolverService from '../UniversalResolver.service';
 import { sign } from '../utils/sign';
 import WalletService from '../Wallet.service';
