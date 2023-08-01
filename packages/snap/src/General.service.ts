@@ -9,7 +9,7 @@ import {
   SetVCStoreRequestParams,
   SwitchMethodRequestParams,
 } from '@blockchain-lab-um/masca-types';
-import { divider, heading, panel, text } from '@metamask/snaps-ui';
+import { heading, panel, text } from '@metamask/snaps-ui';
 
 import EthereumService from './Ethereum.service';
 import StorageService from './storage/Storage.service';
@@ -115,22 +115,10 @@ class GeneralService {
     }
 
     if (currentMethod !== newMethod) {
-      const Dialog = panel([
-        heading('Switch Method'),
-        text('Would you like to switch DID method?'),
-        divider(),
-        text(`Switching to: ${newMethod}`),
-      ]);
-
-      if (await UIService.snapConfirm(Dialog)) {
-        state.accountState[state.currentAccount].accountConfig.ssi.didMethod =
-          newMethod;
-        return;
-      }
-
-      throw new Error('User rejected method switch');
+      state.accountState[state.currentAccount].accountConfig.ssi.didMethod =
+        newMethod;
+      return;
     }
-
     throw new Error('Method already set');
   }
 
