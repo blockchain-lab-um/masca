@@ -17,5 +17,8 @@
     "@blockchain-lab-um/masca": "0.4.1",
     "@blockchain-lab-um/masca-types": "0.4.1"
   },
-  "changesets": []
+  "changesets": [
+    "five-snakes-study",
+    "giant-cherries-tickle"
+  ]
 }
