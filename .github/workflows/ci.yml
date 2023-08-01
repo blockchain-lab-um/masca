@@ -9,10 +9,6 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
-  cancel-in-progress: true
-
 jobs:
   main:
     name: Nx Cloud - Main Job
@@ -26,7 +22,7 @@ jobs:
       submodules: true
       main-branch-name: 'develop'
       init-commands: |
-        pnpm exec nx-cloud start-ci-run --stop-agents-after="build" --agent-count=4
+        npx nx-cloud record -- pnpm exec prettier . --check
       parallel-commands-on-agents: |
         pnpm exec nx run-many --target=lint --parallel=4
         pnpm exec nx run-many --target=test:ci --parallel=4

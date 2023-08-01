@@ -14,7 +14,7 @@ This is done with:
 
 ```sh
 # 1. Run the changesets cli
-pnpm changesets add
+pnpm changeset add
 
 # 2. Select the changed packages
 # 3. Select the version bump you want to do
