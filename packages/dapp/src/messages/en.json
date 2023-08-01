@@ -254,6 +254,15 @@
     "ceramic-success": "Successfully toggled Ceramic",
     "data-store": "Data Stores",
     "data-store-desc": "Enable or disable data stores. Data stores are places where VCs are stored.",
-    "not-implemented": "Not implemented yet"
+    "not-implemented": "Not implemented yet",
+    "table": {
+      "adding": "Adding Friendly dApp",
+      "removing": "Removing Friendly dApp",
+      "added": "Friendly dApp Added",
+      "removed": "Friendly dApp Removed",
+      "remove-failed": "Failed to remove Friendly dApp",
+      "add-failed": "Failed to add Friendly dApp",
+      "add-masca": "Add Masca.io to friendly dApps"
+    }
   }
 }

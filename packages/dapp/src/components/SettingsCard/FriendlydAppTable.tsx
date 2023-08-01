@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { isError, MascaConfig } from '@blockchain-lab-um/masca-connector';
 import { TrashIcon } from '@heroicons/react/24/outline';
+import { useTranslations } from 'next-intl';
 import shallow from 'zustand/shallow';
 
 import { useMascaStore, useToastStore } from '@/stores';
 import AddFriendlydAppModal from './AddFriendlydAppModal';
 
 export const FriendlydAppTable = () => {
+  const t = useTranslations('SettingsCard');
   const [settings, setSettings] = useState<MascaConfig>();
   const [open, setOpen] = useState(false);
   const { api } = useMascaStore(
@@ -36,7 +38,7 @@ export const FriendlydAppTable = () => {
     setTimeout(() => {
       useToastStore.setState({
         open: true,
-        title: 'Adding Friendly dApp',
+        title: t('table.adding'),
         type: 'normal',
         loading: true,
       });
@@ -49,7 +51,7 @@ export const FriendlydAppTable = () => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Friendly dApp added',
+          title: t('table.added'),
           type: 'success',
           loading: false,
         });
@@ -59,7 +61,7 @@ export const FriendlydAppTable = () => {
     setTimeout(() => {
       useToastStore.setState({
         open: true,
-        title: 'Failed to add Friendly dApp',
+        title: t('table.add-failed'),
         type: 'error',
         loading: false,
       });
@@ -72,7 +74,7 @@ export const FriendlydAppTable = () => {
     setTimeout(() => {
       useToastStore.setState({
         open: true,
-        title: 'Removing Friendly dApp',
+        title: t('table.removing'),
         type: 'normal',
         loading: true,
       });
@@ -83,7 +85,7 @@ export const FriendlydAppTable = () => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Friendly dApp removed',
+          title: t('table.removed'),
           type: 'success',
           loading: false,
         });
@@ -93,7 +95,7 @@ export const FriendlydAppTable = () => {
     setTimeout(() => {
       useToastStore.setState({
         open: true,
-        title: 'Failed to remove Friendly dApp',
+        title: t('table.remove-failed'),
         type: 'error',
         loading: false,
       });
@@ -139,7 +141,7 @@ export const FriendlydAppTable = () => {
             addFriendlydApp('')
           }
         >
-          Add Masca.io to friendly dApps
+          {t('table.add-masca')}
         </button>
       </div>
       <AddFriendlydAppModal
