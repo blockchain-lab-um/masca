@@ -508,12 +508,12 @@ class SnapService {
         await GeneralService.validateStoredCeramicSession();
         return ResultObject.success(true);
       case 'exportStateBackup':
-        res = StorageService.exportBackup();
+        res = await StorageService.exportBackup();
         return ResultObject.success(res);
       case 'importStateBackup':
         isValidImportStateBackupRequest(params);
-        res = StorageService.importBackup(params);
-        return ResultObject.success(res);
+        await StorageService.importBackup(params);
+        return ResultObject.success(true);
       default:
         throw new Error('Method not found.');
     }
