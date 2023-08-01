@@ -5,3 +5,4 @@ packages
 pnpm-lock.yaml
 .vercel
 external
+.changeset
