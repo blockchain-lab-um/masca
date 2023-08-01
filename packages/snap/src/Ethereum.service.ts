@@ -21,6 +21,11 @@ class EthereumService {
     return network;
   }
 
+  /**
+   * Function that changes the current network if needed for the selected DID method.
+   * @param args.didMethod - DID method to check for.
+   * @returns void
+   */
   static async requestNetworkSwitch(args: {
     didMethod: MethodsRequiringNetwork;
   }): Promise<void> {
@@ -57,6 +62,11 @@ class EthereumService {
     }
   }
 
+  /**
+   * Function that checks if the current network is valid for the selected DID method.
+   * @param args.didMethod - DID method to check for.
+   * @returns void
+   */
   static async handleNetwork(args: {
     didMethod: MethodsRequiringNetwork;
   }): Promise<void> {

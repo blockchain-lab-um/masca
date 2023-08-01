@@ -1,5 +1,5 @@
 import {
-  isAvailableMethods,
+  availableMethods,
   type AvailableMethods,
 } from '@blockchain-lab-um/masca-types';
 import { isError, ResultObject, type Result } from '@blockchain-lab-um/utils';
@@ -22,11 +22,14 @@ const defaultSnapOrigin = 'npm:@blockchain-lab-um/masca';
 
 /**
  * Install and enable Masca
+ * This is the main entry point for Masca
  *
- * Checks for existence of MetaMask Flask and installs Masca if not installed
+ * Checks for existence of MetaMask Flask and installs Masca if not installed.
  *
+ * Set the Masca version to be installed and select the supported DID methods, as these are the only methods that will be available on the API returned from this function.
+ *
+ * **_Note: Flask should be the only enabled MetaMask extention in the browser_**
  * @param snapInstallationParams - set snapID, version and a list of supported methods
- *
  * @return Masca - adapter object that exposes snap API
  */
 export async function enableMasca(
@@ -36,7 +39,7 @@ export async function enableMasca(
   const {
     snapId = defaultSnapOrigin,
     version = mascaVersion,
-    supportedMethods = ['did:ethr'],
+    supportedMethods = availableMethods as unknown as Array<AvailableMethods>,
   } = snapInstallationParams;
 
   // This resolves to the value of window.ethereum or null
@@ -83,9 +86,9 @@ export async function enableMasca(
       return ResultObject.error(selectedMethodsResult.error);
     }
 
-    const method = selectedMethodsResult.data;
+    const method = selectedMethodsResult.data as AvailableMethods;
 
-    if (!isAvailableMethods(method)) {
+    if (!supportedMethods.includes(method)) {
       const switchResult = await api.switchDIDMethod(snap.supportedMethods[0]);
 
       if (isError(switchResult)) {

@@ -6,6 +6,14 @@ import WalletService from 'src/Wallet.service';
 
 import VeramoService from '../veramo/Veramo.service';
 
+/**
+ * Function that creates a new EBSI identifier.
+ * @param params.state - Masca state
+ * @param params.snap - Snaps global object
+ * @param params.account - Account to create the identifier for
+ * @param params.args - Optional arguments for the DID manager create method
+ * @returns string - DID
+ */
 export async function getDidEbsiIdentifier(params: {
   state: MascaState;
   snap: SnapsGlobalObject;

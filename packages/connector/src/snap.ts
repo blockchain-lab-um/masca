@@ -32,6 +32,13 @@ import {
   validateAndSetCeramicSession,
 } from './utils.js';
 
+/**
+ * Send a request to the Masca snap
+ * @param request - request to be sent
+ * @param snapId - snap ID
+ * @returns Result<T> - result of the request
+ * @throws Error - if the request fails
+ */
 async function sendSnapMethod<T>(
   request: MascaRPCRequest,
   snapId: string
@@ -47,9 +54,7 @@ async function sendSnapMethod<T>(
 
 /**
  * Get a list of VCs stored in Masca under the currently selected MetaMask account
- *
  * @param params - optional parameters for querying VCs
- *
  * @return Result<QueryVCsRequestResult[]> - list of VCs
  */
 export async function queryVCs(
@@ -65,10 +70,8 @@ export async function queryVCs(
 }
 
 /**
- * Create a VP from a list of VCs stored in Masca under the currently selected MetaMask account
- *
+ * Create a VP from one or more VCs passed as parameters
  * @param params - parameters for creating a VP
- *
  * @return Result<VerifiablePresentation> - VP
  */
 export async function createVP(
@@ -102,10 +105,8 @@ export async function createVP(
 
 /**
  * Save a VC in Masca under the currently selected MetaMask account
- *
  * @param vc - VC to be saved
  * @param options - optional parameters for saving a VC
- *
  * @return Result<SaveVCRequestResult[]> - list of saved VCs
  */
 export async function saveVC(
@@ -129,10 +130,8 @@ export async function saveVC(
 
 /**
  * Delete a VC from Masca under the currently selected MetaMask account
- *
  * @param id - ID of the VC to be deleted
  * @param options - optional parameters for deleting a VC
- *
  * @return Result<boolean[]> - list of results for each VC
  */
 export async function deleteVC(
@@ -156,7 +155,6 @@ export async function deleteVC(
 
 /**
  * Get the DID of the currently selected MetaMask account
- *
  * @return Result<string> - DID
  */
 export async function getDID(this: Masca): Promise<Result<string>> {
@@ -165,7 +163,6 @@ export async function getDID(this: Masca): Promise<Result<string>> {
 
 /**
  * Get the currently selected DID method
- *
  * @return Result<string> - DID method
  */
 export async function getSelectedMethod(this: Masca): Promise<Result<string>> {
@@ -174,7 +171,6 @@ export async function getSelectedMethod(this: Masca): Promise<Result<string>> {
 
 /**
  * Get a list of available DID methods
- *
  * @return Result<string[]> - list of available DID methods
  */
 export async function getAvailableMethods(
@@ -185,24 +181,24 @@ export async function getAvailableMethods(
 
 /**
  * Switch the currently selected DID method
- *
  * @param method - DID method to be switched to
- *
  * @return Result<boolean> - true if the switch was successful
  */
 export async function switchDIDMethod(
   this: Masca,
   method: AvailableMethods
 ): Promise<Result<AvailableMethods>> {
-  return sendSnapMethod(
-    { method: 'switchDIDMethod', params: { didMethod: method } },
-    this.snapId
-  );
+  if (this.supportedMethods.includes(method)) {
+    return sendSnapMethod(
+      { method: 'switchDIDMethod', params: { didMethod: method } },
+      this.snapId
+    );
+  }
+  return ResultObject.error(`Method ${method} is not supported on this dApp.`);
 }
 
 /**
  * Enables/disables confirmation popup windows when retrieving VCs, generating VPs,...
- *
  * @return Result<boolean> - true if the switch was successful
  */
 export async function togglePopups(this: Masca): Promise<Result<boolean>> {
@@ -211,7 +207,6 @@ export async function togglePopups(this: Masca): Promise<Result<boolean>> {
 
 /**
  * Get the status of available VC stores (i.e. whether they are enabled or not)
- *
  * @return Result<Record<AvailableVCStores, boolean>> - status of available VC stores
  */
 export async function getVCStore(
@@ -222,7 +217,6 @@ export async function getVCStore(
 
 /**
  * Get a list of available VC stores
- *
  * @return Result<string[]> - list of available VC stores
  */
 export async function getAvailableVCStores(
@@ -233,10 +227,8 @@ export async function getAvailableVCStores(
 
 /**
  * Enables/disables a VC store
- *
  * @param store - VC store to be enabled/disabled
  * @param value - true to enable, false to disable
- *
  * @return Result<boolean> - true if the switch was successful
  */
 export async function setVCStore(
@@ -251,8 +243,7 @@ export async function setVCStore(
 }
 
 /**
- * Get account settings (i.e. DID method, VC stores,...)
- *
+ * Get account settings of currently selected account (i.e. DID method, VC stores,...)
  * @return Result<MascaAccountConfig> - account settings
  */
 export async function getAccountSettings(
@@ -263,7 +254,6 @@ export async function getAccountSettings(
 
 /**
  * Get Masca settings
- *
  * @return Result<MascaConfig> - Masca settings
  */
 export async function getSnapSettings(
@@ -274,9 +264,7 @@ export async function getSnapSettings(
 
 /**
  * Resolve a DID
- *
  * @param did - DID to be resolved
- *
  * @return Result<DIDResolutionResult> - DID resolution result
  */
 export async function resolveDID(
@@ -287,7 +275,9 @@ export async function resolveDID(
 }
 
 /**
- * Create a Verifiable Presentation
+ * Create a Verifiable Credential
+ * @param this - Masca instance
+ * @param params - object with parameters for creating a Verifiable Credential
  */
 export async function createVC(
   this: Masca,
@@ -322,6 +312,9 @@ export async function createVC(
 
 /**
  * Set the currently selected MetaMask account
+ * @param this - Masca instance
+ * @param params.currentAccount - account address
+ * @returns Result<boolean> - true if successful
  */
 export async function setCurrentAccount(
   this: Masca,
@@ -337,7 +330,10 @@ export async function setCurrentAccount(
 }
 
 /**
- * Verify VC/VP
+ * Verify a Credential or a Presentation
+ * @param this - Masca instance
+ * @param params - a Credential or a Presentation with optional verbose flag
+ * @returns Result<boolean | IVerifyResult> - true if the Credential/Presentation is valid, false otherwise
  */
 export async function verifyData(
   this: Masca,
@@ -352,6 +348,12 @@ export async function verifyData(
   );
 }
 
+/**
+ * Handle a Credential Offer
+ * @param this - Masca instance
+ * @param params.credentialOffer - Credential Offer string
+ * @returns Result<VerifiableCredential[]> - list of VCs if successful
+ */
 export async function handleCredentialOffer(
   this: Masca,
   params: HandleCredentialOfferRequestParams
@@ -365,6 +367,12 @@ export async function handleCredentialOffer(
   );
 }
 
+/**
+ * Handle an Authorization Request
+ * @param this - Masca instance
+ * @param params.authorizationRequest - Authorization Request string
+ * @returns Result<void> - void if successful
+ */
 export async function handleAuthorizationRequest(
   this: Masca,
   params: HandleAuthorizationRequestParams
@@ -378,6 +386,12 @@ export async function handleAuthorizationRequest(
   );
 }
 
+/**
+ * Set the Ceramic session
+ * @param this - Masca instance
+ * @param serializedSession - serialized Ceramic session
+ * @returns Result<boolean> - true if successful
+ */
 export async function setCeramicSession(
   this: Masca,
   serializedSession: string
@@ -391,6 +405,12 @@ export async function setCeramicSession(
   );
 }
 
+/**
+ * Validate the stored Ceramic session
+ * @param this - Masca instance
+ * @returns Result<boolean> - true if successful
+ * @throws Error - if the stored Ceramic session is invalid
+ */
 export async function validateStoredCeramicSession(
   this: Masca
 ): Promise<Result<boolean>> {

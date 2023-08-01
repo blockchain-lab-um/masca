@@ -54,7 +54,7 @@ export class MemoryDataStore extends AbstractDataStore {
         data: this.data[k],
       }));
     }
-    if (filter && filter.type === 'jsonpath') {
+    if (filter && filter.type === 'JSONPath') {
       const objects = Object.keys(this.data).map((k) => ({
         metadata: { id: k },
         data: this.data[k],

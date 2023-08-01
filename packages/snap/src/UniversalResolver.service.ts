@@ -5,6 +5,10 @@ import {
   Resolvable,
 } from 'did-resolver';
 
+/**
+ * Function that resolves a DID string using the universal resolver
+ * @returns DIDResolutionResult
+ */
 const resolveDid = async (
   did: string,
   _parsed: ParsedDID,
