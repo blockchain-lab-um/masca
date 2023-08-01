@@ -2,6 +2,7 @@ import type {
   AvailableVCStores,
   MascaState,
 } from '@blockchain-lab-um/masca-types';
+
 /**
  * Checks if the passed VC store is enabled for the passed account.
  * @param account - account to check.
