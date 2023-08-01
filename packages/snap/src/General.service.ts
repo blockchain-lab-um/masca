@@ -9,7 +9,6 @@ import {
   SetVCStoreRequestParams,
   SwitchMethodRequestParams,
 } from '@blockchain-lab-um/masca-types';
-import { heading, panel, text } from '@metamask/snaps-ui';
 
 import EthereumService from './Ethereum.service';
 import StorageService from './storage/Storage.service';
