@@ -1,4 +1,5 @@
 import type {
+  AddFriendlyDapp,
   CreateVC,
   CreateVP,
   DeleteVC,
@@ -12,6 +13,7 @@ import type {
   HandleAuthorization,
   HandleCredentialOffer,
   QueryVCs,
+  RemoveFriendlyDapp,
   ResolveDID,
   SaveVC,
   SetCeramicSession,
@@ -29,6 +31,8 @@ export type MascaRPCRequest =
   | CreateVP
   | DeleteVC
   | TogglePopups
+  | AddFriendlyDapp
+  | RemoveFriendlyDapp
   | GetDID
   | GetMethod
   | GetAvailableMethods

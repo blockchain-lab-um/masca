@@ -932,8 +932,8 @@ importers:
         specifier: 5.2.0
         version: 5.2.0
       cross-fetch:
-        specifier: ^3.1.6
-        version: 3.1.6
+        specifier: ^3.1.8
+        version: 3.1.8(patch_hash=o7exbxzvysudd5km3yp6v3mgsi)
       ethereum-cryptography:
         specifier: ^2.0.0
         version: 2.0.0
@@ -1053,8 +1053,8 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1(ajv@8.12.0)
       cross-fetch:
-        specifier: ^3.1.6
-        version: 3.1.6
+        specifier: ^3.1.8
+        version: 3.1.8(patch_hash=o7exbxzvysudd5km3yp6v3mgsi)
       did-jwt-vc:
         specifier: ^3.1.0
         version: 3.2.1
@@ -12606,7 +12606,7 @@ packages:
       commander: 10.0.1
       console-table-printer: 2.11.2
       cors: 2.8.5
-      cross-fetch: 3.1.6
+      cross-fetch: 3.1.8(patch_hash=o7exbxzvysudd5km3yp6v3mgsi)
       date-fns: 2.30.0
       debug: 4.3.4(supports-color@8.1.1)
       did-resolver: 4.1.0
@@ -12833,7 +12833,7 @@ packages:
       '@veramo/core-types': 5.1.2
       '@veramo/message-handler': 5.1.2
       '@veramo/utils': 5.2.0
-      cross-fetch: 3.1.6
+      cross-fetch: 3.1.8(patch_hash=o7exbxzvysudd5km3yp6v3mgsi)
       debug: 4.3.4(supports-color@8.1.1)
       did-jwt: 6.11.6
       did-resolver: 4.1.0
@@ -13033,7 +13033,7 @@ packages:
     resolution: {integrity: sha512-+rjb9SDlLLo08oBYG4ovk4KbWXSNGBsKI/+SIqiqTf9/IGwsidsNxzQXtaSoIe1CVMIvlBGRUWJq6GxM13yAVw==}
     dependencies:
       '@veramo/core-types': 5.1.2
-      cross-fetch: 3.1.6
+      cross-fetch: 3.1.8(patch_hash=o7exbxzvysudd5km3yp6v3mgsi)
       debug: 4.3.4(supports-color@8.1.1)
       openapi-types: 12.1.0
     transitivePeerDependencies:
@@ -13079,7 +13079,7 @@ packages:
     dependencies:
       '@veramo/core-types': 5.1.2
       '@veramo/message-handler': 5.1.2
-      cross-fetch: 3.1.6
+      cross-fetch: 3.1.8(patch_hash=o7exbxzvysudd5km3yp6v3mgsi)
       debug: 4.3.4(supports-color@8.1.1)
       url-parse: 1.5.10
     transitivePeerDependencies:
@@ -15682,13 +15682,6 @@ packages:
     dependencies:
       cross-spawn: 7.0.3
     dev: true
-
-  /cross-fetch@3.1.6:
-    resolution: {integrity: sha512-riRvo06crlE8HiqOwIpQhxwdOk4fOeR7FVM/wXoxchFEqMNUjvbs3bfo4OTgMEMHzppd4DxFBDbyySj8Cv781g==}
-    dependencies:
-      node-fetch: 2.6.12
-    transitivePeerDependencies:
-      - encoding
 
   /cross-fetch@3.1.8(patch_hash=o7exbxzvysudd5km3yp6v3mgsi):
     resolution: {integrity: sha512-cvA+JwZoU0Xq+h6WkMvAUqPEYy92Obet6UdKLfW60qn99ftItKjB5T+BkyWOFWe2pUyfQ+IJHmpOTznqk1M6Kg==}

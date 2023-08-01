@@ -206,6 +206,30 @@ export async function togglePopups(this: Masca): Promise<Result<boolean>> {
 }
 
 /**
+ * Adds origin of the current dApp to the list of friendly dApps. This will disable popups from appearing while using the dApp.
+ *
+ * @return Result<boolean> - true if the addition was successful
+ */
+export async function addFriendlyDapp(this: Masca): Promise<Result<boolean>> {
+  return sendSnapMethod({ method: 'addFriendlyDapp' }, this.snapId);
+}
+
+/**
+ * Removes origin of the current dApp from the list of friendly dApps. This will enable popups while using the dApp.
+ *
+ * @return Result<boolean> - true if the removal was successful
+ */
+export async function removeFriendlyDapp(
+  this: Masca,
+  id: string
+): Promise<Result<boolean>> {
+  return sendSnapMethod(
+    { method: 'removeFriendlyDapp', params: { id } },
+    this.snapId
+  );
+}
+
+/**
  * Get the status of available VC stores (i.e. whether they are enabled or not)
  * @return Result<Record<AvailableVCStores, boolean>> - status of available VC stores
  */
@@ -450,6 +474,8 @@ export class Masca {
     queryVCs: wrapper(queryVCs.bind(this)),
     createVP: wrapper(createVP.bind(this)),
     togglePopups: wrapper(togglePopups.bind(this)),
+    addFriendlyDapp: wrapper(addFriendlyDapp.bind(this)),
+    removeFriendlyDapp: wrapper(removeFriendlyDapp.bind(this)),
     getDID: wrapper(getDID.bind(this)),
     getSelectedMethod: wrapper(getSelectedMethod.bind(this)),
     getAvailableMethods: wrapper(getAvailableMethods.bind(this)),

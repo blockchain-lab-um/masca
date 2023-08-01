@@ -37,7 +37,7 @@
     "lint:fix": "pnpm prettier && pnpm nx run-many --target=lint:fix",
     "prepare": "is-ci || husky install",
     "prettier": "prettier --write .",
-    "test": "pnpm nx run-many --target=test",
+    "test": "pnpm nx run-many --target=test --exclude=@0xpolygonid/js-sdk",
     "test:ci": "pnpm nx run-many --target=test:ci"
   },
   "dependencies": {

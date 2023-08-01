@@ -2,23 +2,6 @@ import type {
   AvailableVCStores,
   MascaState,
 } from '@blockchain-lab-um/masca-types';
-import type { Component } from '@metamask/snaps-ui';
-
-/**
- * Function that returns whether the user has confirmed the snap dialog.
- * @param content - content to display in the snap dialog.
- * @returns boolean - whether the user has confirmed the snap dialog.
- */
-export async function snapConfirm(content: Component): Promise<boolean> {
-  const res = await snap.request({
-    method: 'snap_dialog',
-    params: {
-      type: 'confirmation',
-      content,
-    },
-  });
-  return res as boolean;
-}
 
 /**
  * Checks if the passed VC store is enabled for the passed account.

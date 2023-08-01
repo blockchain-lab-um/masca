@@ -30,7 +30,6 @@ import {
   IDataManager,
 } from '@blockchain-lab-um/veramo-datamanager';
 import { Web3Provider } from '@ethersproject/providers';
-import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
 import {
   createAgent,
   CredentialPayload,
@@ -83,9 +82,9 @@ import * as qs from 'qs';
 import EthereumService from '../Ethereum.service';
 import GeneralService from '../General.service';
 import StorageService from '../storage/Storage.service';
+import UIService from '../UI.service';
 import UniversalResolverService from '../UniversalResolver.service';
 import { sign } from '../utils/sign';
-import { snapConfirm } from '../utils/snapUtils';
 import WalletService from '../Wallet.service';
 import { CeramicVCStore } from './plugins/ceramicDataStore/ceramicDataStore';
 import { SnapVCStore } from './plugins/snapDataStore/snapDataStore';
@@ -223,24 +222,12 @@ class VeramoService {
 
     credential.issuer = identifier.did;
 
-    const content = panel([
-      heading('Create VC'),
-      text('Would you like to create a VC from the following data?'),
-      divider(),
-      text(`Data:`),
-      copyable(JSON.stringify(credential, null, 2)),
-    ]);
+    const vc = await this.instance.createVerifiableCredential({
+      credential: credential as CredentialPayload,
+      proofFormat,
+    });
 
-    if (state.snapConfig.dApp.disablePopups || (await snapConfirm(content))) {
-      const vc = await this.instance.createVerifiableCredential({
-        credential: credential as CredentialPayload,
-        proofFormat,
-      });
-
-      return vc;
-    }
-
-    throw new Error('User rejected create VC request');
+    return vc;
   }
 
   /**
@@ -537,6 +524,10 @@ class VeramoService {
       credentialOfferURI: args.credentialOfferURI,
     });
 
+    if (!(await UIService.handleCredentialOfferDialog(credentialOfferResult))) {
+      throw new Error('User denied credential offer');
+    }
+
     if (isError(credentialOfferResult)) {
       throw new Error(credentialOfferResult.error);
     }
@@ -616,16 +607,7 @@ class VeramoService {
 
       // Ask user for PIN
       if (isPinRequired) {
-        pin = await snap.request({
-          method: 'snap_dialog',
-          params: {
-            type: 'prompt',
-            content: panel([
-              heading('Please enter the PIN you received from the issuer'),
-            ]),
-            placeholder: 'PIN...',
-          },
-        });
+        pin = await UIService.getPinDialog();
 
         if (!pin || typeof pin !== 'string') {
           throw new Error('PIN is required');
@@ -785,6 +767,14 @@ class VeramoService {
       await this.instance.parseOIDCAuthorizationRequestURI({
         authorizationRequestURI,
       });
+
+    if (
+      !(await UIService.handleAuthorizationRequestDialog(
+        authorizationRequestResult
+      ))
+    ) {
+      throw new Error('User denied authorization request');
+    }
 
     if (isError(authorizationRequestResult)) {
       throw new Error(authorizationRequestResult.error);

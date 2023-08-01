@@ -9,13 +9,12 @@ import {
   SetVCStoreRequestParams,
   SwitchMethodRequestParams,
 } from '@blockchain-lab-um/masca-types';
-import { heading, panel, text } from '@metamask/snaps-ui';
 
 import EthereumService from './Ethereum.service';
 import StorageService from './storage/Storage.service';
+import UIService from './UI.service';
 import { validateSession } from './utils/ceramicUtils';
 import { getEmptyAccountState } from './utils/config';
-import { snapConfirm } from './utils/snapUtils';
 
 class GeneralService {
   /**
@@ -54,6 +53,9 @@ class GeneralService {
   static async addFriendlyDapp(dapp: string): Promise<void> {
     const state = StorageService.get();
     if (state.snapConfig.dApp.friendlyDapps.includes(dapp)) return;
+    if (!(await UIService.addFriendlyDappDialog(dapp))) {
+      throw new Error('User rejected friendly dApp addition');
+    }
     state.snapConfig.dApp.friendlyDapps.push(dapp);
   }
 
@@ -62,10 +64,14 @@ class GeneralService {
    * @param dapp - dApp to remove from the friendly dApps list.
    * @returns void
    */
-  static async removeFriendlyDapp(dapp: string): Promise<void> {
+  static async removeFriendlyDapp(args: { id: string }): Promise<void> {
+    if (!(await UIService.removeFriendlyDappDialog(args.id))) {
+      throw new Error('User rejected friendly dApp removal');
+    }
+
     const state = StorageService.get();
     state.snapConfig.dApp.friendlyDapps =
-      state.snapConfig.dApp.friendlyDapps.filter((d) => d !== dapp);
+      state.snapConfig.dApp.friendlyDapps.filter((d) => d !== args.id);
   }
 
   /**
@@ -82,9 +88,19 @@ class GeneralService {
    * Function that toggles the disablePopups flag.
    * @returns void
    */
-  static async togglePopups(): Promise<void> {
+  static async togglePopups(): Promise<boolean> {
     const state = StorageService.get();
-    state.snapConfig.dApp.disablePopups = !state.snapConfig.dApp.disablePopups;
+
+    if (!state.snapConfig.dApp.disablePopups) {
+      if (await UIService.togglePopupsDialog()) {
+        state.snapConfig.dApp.disablePopups = true;
+        return state.snapConfig.dApp.disablePopups;
+      }
+      throw new Error('User rejected popup toggle');
+    } else {
+      state.snapConfig.dApp.disablePopups = false;
+      return state.snapConfig.dApp.disablePopups;
+    }
   }
 
   /**
@@ -141,19 +157,11 @@ class GeneralService {
     const { store, value } = args;
 
     if (store !== 'snap') {
-      const content = panel([
-        heading('Manage VCStore Plugin'),
-        text(`Would you like to ${value ? 'enable' : 'disable'} ${store}?`),
-      ]);
+      state.accountState[state.currentAccount].accountConfig.ssi.vcStore[
+        store
+      ] = value;
 
-      if (await snapConfirm(content)) {
-        state.accountState[state.currentAccount].accountConfig.ssi.vcStore[
-          store
-        ] = value;
-
-        return true;
-      }
-      return false;
+      return true;
     }
     return false;
   }
