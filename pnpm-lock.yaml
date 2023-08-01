@@ -17,9 +17,9 @@ patchedDependencies:
   '@veramo/credential-w3c@5.2.0':
     hash: eh2ypjs4hqd36f7gspeq5gcgbu
     path: patches/@veramo__credential-w3c@5.2.0.patch
-  cross-fetch@3.1.6:
+  cross-fetch@3.1.8:
     hash: o7exbxzvysudd5km3yp6v3mgsi
-    path: patches/cross-fetch@3.1.6.patch
+    path: patches/cross-fetch@3.1.8.patch
   intl@1.2.5:
     hash: 2i3sho75ida2jvn4xlmbxxe25i
     path: patches/intl@1.2.5.patch
@@ -932,8 +932,8 @@ importers:
         specifier: 5.2.0
         version: 5.2.0
       cross-fetch:
-        specifier: ^3.1.6
-        version: 3.1.6(patch_hash=o7exbxzvysudd5km3yp6v3mgsi)
+        specifier: ^3.1.8
+        version: 3.1.8(patch_hash=o7exbxzvysudd5km3yp6v3mgsi)
       ethereum-cryptography:
         specifier: ^2.0.0
         version: 2.0.0
@@ -1053,8 +1053,8 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1(ajv@8.12.0)
       cross-fetch:
-        specifier: ^3.1.6
-        version: 3.1.6(patch_hash=o7exbxzvysudd5km3yp6v3mgsi)
+        specifier: ^3.1.8
+        version: 3.1.8(patch_hash=o7exbxzvysudd5km3yp6v3mgsi)
       did-jwt-vc:
         specifier: ^3.1.0
         version: 3.2.1
@@ -4957,7 +4957,7 @@ packages:
       '@didtools/pkh-tezos': 0.2.2
       '@stablelib/random': 1.0.2
       caip: 1.1.0
-      cross-fetch: 3.1.8
+      cross-fetch: 3.1.8(patch_hash=o7exbxzvysudd5km3yp6v3mgsi)
       flat: 5.0.2
       it-first: 1.0.7
       jet-logger: 1.2.2
@@ -10649,7 +10649,7 @@ packages:
     engines: {node: '>=14'}
     dependencies:
       '@sphereon/ssi-types': 0.9.0
-      cross-fetch: 3.1.8
+      cross-fetch: 3.1.8(patch_hash=o7exbxzvysudd5km3yp6v3mgsi)
       debug: 4.3.4(supports-color@8.1.1)
       uint8arrays: 3.1.1
     transitivePeerDependencies:
@@ -10865,7 +10865,7 @@ packages:
     resolution: {integrity: sha512-lw7+g6UhOpvWasMeRYMb2OGRKm9ptYkGt27Usg3Eo0z/pu20jZxvHXLBMdDQqxNQOOmwiG4FadICnwTlmnHaqw==}
     dependencies:
       '@stacks/common': 6.5.5
-      cross-fetch: 3.1.8
+      cross-fetch: 3.1.8(patch_hash=o7exbxzvysudd5km3yp6v3mgsi)
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -12606,7 +12606,7 @@ packages:
       commander: 10.0.1
       console-table-printer: 2.11.2
       cors: 2.8.5
-      cross-fetch: 3.1.6(patch_hash=o7exbxzvysudd5km3yp6v3mgsi)
+      cross-fetch: 3.1.8(patch_hash=o7exbxzvysudd5km3yp6v3mgsi)
       date-fns: 2.30.0
       debug: 4.3.4(supports-color@8.1.1)
       did-resolver: 4.1.0
@@ -12709,7 +12709,7 @@ packages:
       '@veramo-community/lds-ecdsa-secp256k1-recovery2020': github.com/uport-project/EcdsaSecp256k1RecoverySignature2020/ab0db52de6f4e6663ef271a48009ba26e688ef9b(expo@49.0.4)(react-native@0.72.3)
       '@veramo/core-types': 5.1.2
       '@veramo/utils': 5.2.0
-      cross-fetch: 3.1.8
+      cross-fetch: 3.1.8(patch_hash=o7exbxzvysudd5km3yp6v3mgsi)
       debug: 4.3.4(supports-color@8.1.1)
       did-resolver: 4.1.0
       uint8arrays: 3.1.1
@@ -12833,7 +12833,7 @@ packages:
       '@veramo/core-types': 5.1.2
       '@veramo/message-handler': 5.1.2
       '@veramo/utils': 5.2.0
-      cross-fetch: 3.1.6(patch_hash=o7exbxzvysudd5km3yp6v3mgsi)
+      cross-fetch: 3.1.8(patch_hash=o7exbxzvysudd5km3yp6v3mgsi)
       debug: 4.3.4(supports-color@8.1.1)
       did-jwt: 6.11.6
       did-resolver: 4.1.0
@@ -12975,7 +12975,7 @@ packages:
     dependencies:
       '@veramo/core-types': 5.1.2
       '@veramo/utils': 5.2.0
-      cross-fetch: 3.1.8
+      cross-fetch: 3.1.8(patch_hash=o7exbxzvysudd5km3yp6v3mgsi)
       debug: 4.3.4(supports-color@8.1.1)
       did-resolver: 4.1.0
     transitivePeerDependencies:
@@ -13033,7 +13033,7 @@ packages:
     resolution: {integrity: sha512-+rjb9SDlLLo08oBYG4ovk4KbWXSNGBsKI/+SIqiqTf9/IGwsidsNxzQXtaSoIe1CVMIvlBGRUWJq6GxM13yAVw==}
     dependencies:
       '@veramo/core-types': 5.1.2
-      cross-fetch: 3.1.6(patch_hash=o7exbxzvysudd5km3yp6v3mgsi)
+      cross-fetch: 3.1.8(patch_hash=o7exbxzvysudd5km3yp6v3mgsi)
       debug: 4.3.4(supports-color@8.1.1)
       openapi-types: 12.1.0
     transitivePeerDependencies:
@@ -13079,7 +13079,7 @@ packages:
     dependencies:
       '@veramo/core-types': 5.1.2
       '@veramo/message-handler': 5.1.2
-      cross-fetch: 3.1.6(patch_hash=o7exbxzvysudd5km3yp6v3mgsi)
+      cross-fetch: 3.1.8(patch_hash=o7exbxzvysudd5km3yp6v3mgsi)
       debug: 4.3.4(supports-color@8.1.1)
       url-parse: 1.5.10
     transitivePeerDependencies:
@@ -13096,7 +13096,7 @@ packages:
       '@veramo/core-types': 5.1.2
       blakejs: 1.2.1
       credential-status: 2.0.5
-      cross-fetch: 3.1.8
+      cross-fetch: 3.1.8(patch_hash=o7exbxzvysudd5km3yp6v3mgsi)
       debug: 4.3.4(supports-color@8.1.1)
       did-jwt: 6.11.6
       did-jwt-vc: 3.2.4
@@ -15683,20 +15683,13 @@ packages:
       cross-spawn: 7.0.3
     dev: true
 
-  /cross-fetch@3.1.6(patch_hash=o7exbxzvysudd5km3yp6v3mgsi):
-    resolution: {integrity: sha512-riRvo06crlE8HiqOwIpQhxwdOk4fOeR7FVM/wXoxchFEqMNUjvbs3bfo4OTgMEMHzppd4DxFBDbyySj8Cv781g==}
-    dependencies:
-      node-fetch: 2.6.12
-    transitivePeerDependencies:
-      - encoding
-    patched: true
-
-  /cross-fetch@3.1.8:
+  /cross-fetch@3.1.8(patch_hash=o7exbxzvysudd5km3yp6v3mgsi):
     resolution: {integrity: sha512-cvA+JwZoU0Xq+h6WkMvAUqPEYy92Obet6UdKLfW60qn99ftItKjB5T+BkyWOFWe2pUyfQ+IJHmpOTznqk1M6Kg==}
     dependencies:
       node-fetch: 2.6.12
     transitivePeerDependencies:
       - encoding
+    patched: true
 
   /cross-fetch@4.0.0:
     resolution: {integrity: sha512-e4a5N8lVvuLgAWgnCrLr2PP0YyDOTHa9H/Rj54dirp61qXnNq46m82bRhNqIA5VccJtWBvPTFRV3TtvHUKPB1g==}
@@ -18605,7 +18598,7 @@ packages:
   /fbjs@3.0.5:
     resolution: {integrity: sha512-ztsSx77JBtkuMrEypfhgc3cI0+0h+svqeie7xHbh1k/IKdcydnvadp/mUaGgjAOXQmQSxsqgaRhS3q9fy+1kxg==}
     dependencies:
-      cross-fetch: 3.1.8
+      cross-fetch: 3.1.8(patch_hash=o7exbxzvysudd5km3yp6v3mgsi)
       fbjs-css-vars: 1.0.2
       loose-envify: 1.4.0
       object-assign: 4.1.1
