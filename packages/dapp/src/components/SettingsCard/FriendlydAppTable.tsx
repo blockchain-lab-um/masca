@@ -8,7 +8,7 @@ import { useMascaStore, useToastStore } from '@/stores';
 import AddFriendlydAppModal from './AddFriendlydAppModal';
 
 export const FriendlydAppTable = () => {
-  const t = useTranslations('SettingsCard');
+  const t = useTranslations('FriendlyDapps');
   const [settings, setSettings] = useState<MascaConfig>();
   const [open, setOpen] = useState(false);
   const { api } = useMascaStore(
@@ -38,7 +38,7 @@ export const FriendlydAppTable = () => {
     setTimeout(() => {
       useToastStore.setState({
         open: true,
-        title: t('table.adding'),
+        title: t('adding'),
         type: 'normal',
         loading: true,
       });
@@ -51,7 +51,7 @@ export const FriendlydAppTable = () => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: t('table.added'),
+          title: t('added'),
           type: 'success',
           loading: false,
         });
@@ -61,7 +61,7 @@ export const FriendlydAppTable = () => {
     setTimeout(() => {
       useToastStore.setState({
         open: true,
-        title: t('table.add-failed'),
+        title: t('add-failed'),
         type: 'error',
         loading: false,
       });
@@ -74,7 +74,7 @@ export const FriendlydAppTable = () => {
     setTimeout(() => {
       useToastStore.setState({
         open: true,
-        title: t('table.removing'),
+        title: t('removing'),
         type: 'normal',
         loading: true,
       });
@@ -85,7 +85,7 @@ export const FriendlydAppTable = () => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: t('table.removed'),
+          title: t('removed'),
           type: 'success',
           loading: false,
         });
@@ -95,7 +95,7 @@ export const FriendlydAppTable = () => {
     setTimeout(() => {
       useToastStore.setState({
         open: true,
-        title: t('table.remove-failed'),
+        title: t('remove-failed'),
         type: 'error',
         loading: false,
       });
@@ -141,7 +141,7 @@ export const FriendlydAppTable = () => {
             addFriendlydApp('')
           }
         >
-          {t('table.add-masca')}
+          {t('add-masca')}
         </button>
       </div>
       <AddFriendlydAppModal
