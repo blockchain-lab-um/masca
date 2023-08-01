@@ -169,7 +169,7 @@ describe('DataManager', () => {
       expect(allData[0].metadata.store).toBeUndefined();
       expect.assertions(5);
     });
-    it('should query object by jsonpath (id)', async () => {
+    it('should query object by JSONPath (id)', async () => {
       const data = { test: 'test' };
       const res = await dataManager.save({
         data,
@@ -178,7 +178,7 @@ describe('DataManager', () => {
 
       const allData = await dataManager.query({
         filter: {
-          type: 'jsonpath',
+          type: 'JSONPath',
           filter: `$[?(@.metadata.id == "${res[0].id}")]`,
         },
       });
@@ -189,7 +189,7 @@ describe('DataManager', () => {
       expect(allData[0].metadata.store).toBe('memory1');
       expect.assertions(5);
     });
-    it('should query object by jsonpath (data) from multiple stores', async () => {
+    it('should query object by JSONPath (data) from multiple stores', async () => {
       const data = { test: 'test' };
       const res = await dataManager.save({
         data,
@@ -198,7 +198,7 @@ describe('DataManager', () => {
 
       const allData = await dataManager.query({
         filter: {
-          type: 'jsonpath',
+          type: 'JSONPath',
           filter: `$[?(@.data.test == "test")]`,
         },
       });
@@ -213,7 +213,7 @@ describe('DataManager', () => {
       expect(allData[1].metadata.store).toBe('memory2');
       expect.assertions(9);
     });
-    it('should query object by jsonpath (multiple conditions)', async () => {
+    it('should query object by JSONPath (multiple conditions)', async () => {
       const data = { test: 'test' };
       const data2 = { test: 'test', test2: 'test2' };
       await dataManager.save({
@@ -227,7 +227,7 @@ describe('DataManager', () => {
 
       const allData = await dataManager.query({
         filter: {
-          type: 'jsonpath',
+          type: 'JSONPath',
           filter: `$[?(@.data.test == "test" && @.data.test2 == "test2")]`,
         },
       });

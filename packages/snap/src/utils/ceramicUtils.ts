@@ -14,7 +14,11 @@ export const aliases = {
   tiles: {},
 };
 
-// Should return serialized session or throw an error
+/**
+ * Function that validates a DID session.
+ * @param serializedSession - serialized DID session string
+ * @returns string - serialized DID session string
+ */
 export async function validateSession(
   serializedSession?: string
 ): Promise<string> {
@@ -35,6 +39,11 @@ export async function validateSession(
   return serializedSession;
 }
 
+/**
+ * Function that returns the DID from a Ceramic session.
+ * @param state - Masca state
+ * @returns DID - DIDSession DID object
+ */
 async function authenticateWithSessionKey(state: MascaState) {
   const serializedSession = await validateSession(
     state.accountState[state.currentAccount].ceramicSession
@@ -43,6 +52,11 @@ async function authenticateWithSessionKey(state: MascaState) {
   return session.did;
 }
 
+/**
+ * Function that creates a Ceramic client and authenticates it with a session key.
+ * @param state - Masca state
+ * @returns CeramicClient - Ceramic client
+ */
 export async function getCeramic(state: MascaState): Promise<CeramicClient> {
   const ceramic = new CeramicClient('https://ceramic-clay.3boxlabs.com');
   const did = await authenticateWithSessionKey(state);
