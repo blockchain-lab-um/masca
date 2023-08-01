@@ -13,11 +13,7 @@ import { divider, heading, panel, text } from '@metamask/snaps-ui';
 
 import EthereumService from './Ethereum.service';
 import StorageService from './storage/Storage.service';
-import UIService, {
-  addFriendlyDappContent,
-  removeFriendlyDappContent,
-  togglePopupsContent,
-} from './UI.service';
+import UIService from './UI.service';
 import { validateSession } from './utils/ceramicUtils';
 import { getEmptyAccountState } from './utils/config';
 
@@ -51,7 +47,7 @@ class GeneralService {
   static async addFriendlyDapp(dapp: string): Promise<void> {
     const state = StorageService.get();
     if (state.snapConfig.dApp.friendlyDapps.includes(dapp)) return;
-    if (!(await UIService.snapConfirm(addFriendlyDappContent(dapp)))) {
+    if (!(await UIService.addFriendlyDappDialog(dapp))) {
       throw new Error('User rejected friendly dApp addition');
     }
     state.snapConfig.dApp.friendlyDapps.push(dapp);
@@ -65,7 +61,7 @@ class GeneralService {
    * @returns void
    */
   static async removeFriendlyDapp(args: { id: string }): Promise<void> {
-    if (!(await UIService.snapConfirm(removeFriendlyDappContent(args.id)))) {
+    if (!(await UIService.removeFriendlyDappDialog(args.id))) {
       throw new Error('User rejected friendly dApp removal');
     }
 
@@ -95,7 +91,7 @@ class GeneralService {
     const state = StorageService.get();
 
     if (!state.snapConfig.dApp.disablePopups) {
-      if (await UIService.snapConfirm(togglePopupsContent())) {
+      if (await UIService.togglePopupsDialog()) {
         state.snapConfig.dApp.disablePopups = true;
         return state.snapConfig.dApp.disablePopups;
       }
@@ -119,14 +115,14 @@ class GeneralService {
     }
 
     if (currentMethod !== newMethod) {
-      const content = panel([
+      const Dialog = panel([
         heading('Switch Method'),
         text('Would you like to switch DID method?'),
         divider(),
         text(`Switching to: ${newMethod}`),
       ]);
 
-      if (await UIService.snapConfirm(content)) {
+      if (await UIService.snapConfirm(Dialog)) {
         state.accountState[state.currentAccount].accountConfig.ssi.didMethod =
           newMethod;
         return;
