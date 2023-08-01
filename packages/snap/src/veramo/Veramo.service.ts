@@ -107,6 +107,9 @@ class VeramoService {
     this.instance = await this.createAgent();
   }
 
+  /**
+   * Function that creates and imports an identifier for the current account based on the selected DID method
+   */
   static async importIdentifier(): Promise<void> {
     const state = StorageService.get();
     const account = state.currentAccount;
@@ -147,6 +150,9 @@ class VeramoService {
     }
   }
 
+  /**
+   * Function that gets the current identifier from the agent based on the selected DID method
+   */
   static async getIdentifier(): Promise<IIdentifier> {
     const state = StorageService.get();
     const method =
@@ -191,10 +197,21 @@ class VeramoService {
     }
   }
 
+  /**
+   * Function that resolves a DID
+   * @param did - DID to resolve
+   * @returns DID resolution result
+   */
   static async resolveDID(did: string): Promise<DIDResolutionResult> {
     return this.instance.resolveDid({ didUrl: did });
   }
 
+  /**
+   * Function that creates a Verifiable Credential
+   * @param args.credential - Minimal unsigned credential
+   * @param args.proofFormat - Proof format to use
+   * @returns VerifiableCredential
+   */
   static async createCredential(args: {
     credential: MinimalUnsignedCredential;
     proofFormat?: ProofFormat;
@@ -213,6 +230,11 @@ class VeramoService {
     return vc;
   }
 
+  /**
+   * Function that creates an unsigned Verifiable Credential
+   * @param args.credential - Minimal unsigned credential
+   * @returns Unsigned VerifiableCredential
+   */
   static async createUnsignedCredential(args: {
     credential: MinimalUnsignedCredential;
   }): Promise<UnsignedCredential> {
@@ -266,6 +288,12 @@ class VeramoService {
     return unsignedCredential;
   }
 
+  /**
+   * Function that saves a Verifiable Credential
+   * @param args.verifiableCredential - Verifiable Credential to save
+   * @param args.store - Store to save the Verifiable Credential in
+   * @returns SaveVCRequestResult
+   */
   static async saveCredential(args: {
     verifiableCredential: W3CVerifiableCredential;
     store: AvailableVCStores | AvailableVCStores[];
@@ -296,6 +324,13 @@ class VeramoService {
     return [...vcs.values()];
   }
 
+  /**
+   * Function that deletes a Verifiable Credential
+   * @param args.id - ID of the Verifiable Credential to delete
+   * @param args.store - Store to delete the Verifiable Credential from
+   * @returns Array of booleans indicating if the Verifiable Credential was deleted
+   * _**Note**: Currently only supports deleting 1 VC at a time_
+   */
   static async deleteCredential(args: {
     id: string;
     store?: AvailableVCStores | AvailableVCStores[];
@@ -310,6 +345,12 @@ class VeramoService {
     return result;
   }
 
+  /**
+   * Function that queries Verifiable Credentials
+   * @param args.options - Query options
+   * @param args.filter - Query filter
+   * @returns Array of Verifiable Credentials
+   */
   static async queryCredentials(args: {
     options: QueryVCsOptions;
     filter?: Filter;
@@ -347,6 +388,12 @@ class VeramoService {
     return [...vcs.values()];
   }
 
+  /**
+   * Function that clears Verifiable Credentials
+   * @param args.store - Store to clear Verifiable Credentials from
+   * @param args.filter - Query filter
+   * @returns Array of booleans indicating if the Verifiable Credential was deleted
+   */
   static async clearCredentials(args: {
     store?: AvailableVCStores | AvailableVCStores[];
     filter?: Filter;
@@ -361,6 +408,13 @@ class VeramoService {
     return result;
   }
 
+  /**
+   * Function that creates a Verifiable Presentation
+   * @param args.vcs - Array of Verifiable Credentials to include in the Verifiable Presentation
+   * @param args.proofFormat - Proof format to use
+   * @param args.proofOptions - Proof options
+   * @returns Verifiable Presentation
+   */
   static async createPresentation(
     args: CreateVPRequestParams
   ): Promise<VerifiablePresentation> {
@@ -381,6 +435,11 @@ class VeramoService {
     });
   }
 
+  /**
+   * Function that creates an unsigned Verifiable Presentation
+   * @param args.credentials - Array of Verifiable Credentials to include in the Verifiable Presentation
+   * @returns Unsigned Verifiable Presentation
+   */
   static async createUnsignedPresentation(args: {
     credentials: W3CVerifiableCredential[];
   }): Promise<UnsignedPresentation> {
@@ -413,6 +472,13 @@ class VeramoService {
     return unsignedVp;
   }
 
+  /**
+   * Function that verifies a Verifiable Credentaial or Verifiable Presentation
+   * @param args.credential - Verifiable Credential to verify
+   * @param args.presentation - Verifiable Presentation to verify
+   * @param args.verbose - Verbose mode
+   * @returns Verification result
+   */
   static async verifyData(
     args: VerifyDataRequestParams
   ): Promise<IVerifyResult> {
@@ -863,6 +929,10 @@ class VeramoService {
     };
   }
 
+  /**
+   * Function to create a new Veramo agent
+   * @returns Veramo agent
+   */
   static async createAgent(): Promise<Agent> {
     const didProviders: Record<string, AbstractIdentifierProvider> = {};
     const vcStorePlugins: Record<string, AbstractDataStore> = {};

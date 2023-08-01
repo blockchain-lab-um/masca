@@ -13,6 +13,12 @@ export enum IJWKSupportedKeyTypes {
 
 export type KeyUse = 'sig' | 'enc';
 
+/**
+ * Function evaluates the key use based on the key type and the passed key use.
+ * @param keyType - key type
+ * @param passedKeyUse - key use
+ * @returns valid KeyUse
+ */
 export function getKeyUse(
   keyType: keyof typeof IJWKSupportedKeyTypes,
   passedKeyUse?: KeyUse
@@ -45,6 +51,13 @@ export function getKeyUse(
   }
 }
 
+/**
+ * Function that creates a JWK from a public key.
+ * @param keyType - key type
+ * @param pubKey - public key
+ * @param passedKeyUse - key use
+ * @returns JWK
+ */
 export function createJWK(
   keyType: keyof typeof IJWKSupportedKeyTypes,
   pubKey: string | Uint8Array,

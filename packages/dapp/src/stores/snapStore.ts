@@ -34,7 +34,7 @@ export const mascaStoreInitialState = {
   currVCStore: undefined,
   currDID: '',
   vcs: [],
-  availableVCStores: { snap: true, ceramic: false },
+  availableVCStores: { snap: true, ceramic: true },
   lastFetch: undefined,
   popups: undefined,
 };

@@ -17,6 +17,10 @@ import { validateSession } from './utils/ceramicUtils';
 import { getEmptyAccountState } from './utils/config';
 
 class GeneralService {
+  /**
+   * Function that initializes an empty account state
+   * @returns void
+   */
   static async initAccountState(): Promise<void> {
     const state = StorageService.get();
 
@@ -31,6 +35,11 @@ class GeneralService {
     }
   }
 
+  /**
+   * Function that sets the current account
+   * @param account - hex account string
+   * @returns void
+   */
   static async setCurrentAccount(account: string): Promise<void> {
     const state = StorageService.get();
     state.currentAccount = account;
@@ -38,9 +47,7 @@ class GeneralService {
 
   /**
    * Function that lets you add a friendly dApp
-   *
    * @param dapp - dApp to add to the friendly dApps list.
-   *
    * @returns void
    */
   static async addFriendlyDapp(dapp: string): Promise<void> {
@@ -54,9 +61,7 @@ class GeneralService {
 
   /**
    * Function that lets you remove a friendly dApp
-   *
    * @param dapp - dApp to remove from the friendly dApps list.
-   *
    * @returns void
    */
   static async removeFriendlyDapp(args: { id: string }): Promise<void> {
@@ -71,9 +76,7 @@ class GeneralService {
 
   /**
    * Function that checks if a dApp is friendly
-   *
    * @param dapp - dApp to check.
-   *
    * @returns boolean - whether the dApp is friendly.
    */
   static async isFriendlyDapp(dapp: string): Promise<boolean> {
@@ -83,7 +86,6 @@ class GeneralService {
 
   /**
    * Function that toggles the disablePopups flag.
-   *
    * @returns void
    */
   static async togglePopups(): Promise<boolean> {
@@ -101,6 +103,11 @@ class GeneralService {
     }
   }
 
+  /**
+   * Function that changes the DID method
+   * @param args.didMethod - DID method to switch to.
+   * @returns void
+   */
   static async switchDIDMethod(args: SwitchMethodRequestParams): Promise<void> {
     const state = StorageService.get();
     const currentMethod =
@@ -121,16 +128,30 @@ class GeneralService {
     throw new Error('Method already set');
   }
 
+  /**
+   * Function that returns the current DID method
+   * @returns string - current DID method
+   */
   static async getSelectedMethod(): Promise<string> {
     const state = StorageService.get();
     return state.accountState[state.currentAccount].accountConfig.ssi.didMethod;
   }
 
+  /**
+   * Function that returns the current VCStore
+   * @returns string - current VCStore
+   */
   static async getVCStore(): Promise<Record<AvailableVCStores, boolean>> {
     const state = StorageService.get();
     return state.accountState[state.currentAccount].accountConfig.ssi.vcStore;
   }
 
+  /**
+   * Function that sets the current VCStore
+   * @param args.store - VCStore to set
+   * @param args.value - Value to enable/disable the VCStore if applicable
+   * @returns boolean - whether the VCStore was set
+   */
   static async setVCStore(args: SetVCStoreRequestParams): Promise<boolean> {
     const state = StorageService.get();
     const { store, value } = args;
@@ -145,6 +166,12 @@ class GeneralService {
     return false;
   }
 
+  /**
+   * Function that sets the current VCStore
+   * @param args.store - VCStore to set
+   * @param args.value - Value to enable/disable the VCStore if applicable
+   * @returns boolean - whether the VCStore was set
+   */
   static async getEnabledVCStores(): Promise<AvailableVCStores[]> {
     const state = StorageService.get();
 
@@ -155,24 +182,45 @@ class GeneralService {
       .map(([key]) => key) as AvailableVCStores[];
   }
 
+  /**
+   * Function that returns a list of enabled VCStores
+   * @returns array - list of enabled VCStores
+   */
   static async getAvailableVCStores(): Promise<string[]> {
     return availableVCStores.map((store) => store);
   }
 
+  /**
+   * Function that returns the current account settings
+   * @returns MascaAccountConfig - current account settings
+   */
   static async getAccountSettings(): Promise<MascaAccountConfig> {
     const state = StorageService.get();
     return state.accountState[state.currentAccount].accountConfig;
   }
 
+  /**
+   * Function that returns the current snap settings
+   * @returns MascaConfig - current snap settings
+   */
   static async getSnapSettings(): Promise<MascaConfig> {
     const state = StorageService.get();
     return state.snapConfig;
   }
 
+  /**
+   * Function that returns a list of available DID methods
+   * @returns array - list of available methods
+   */
   static async getAvailableMethods(): Promise<string[]> {
     return availableMethods.map((method: string) => method);
   }
 
+  /**
+   * Function that sets the Ceramic session token
+   * @param args.serializedSession - Ceramic session token
+   * @returns void
+   */
   static async setCeramicSession(args: {
     serializedSession: string;
   }): Promise<void> {
@@ -181,6 +229,10 @@ class GeneralService {
       args.serializedSession;
   }
 
+  /**
+   * Function that validates and returns the Ceramic session token
+   * @returns string - serializied Ceramic session token
+   */
   static async validateStoredCeramicSession(): Promise<string> {
     const state = StorageService.get();
 
