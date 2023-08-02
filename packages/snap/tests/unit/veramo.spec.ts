@@ -247,9 +247,6 @@ describe('Utils [veramo]', () => {
 
       const expectedState = getDefaultSnapState(account);
       expectedState.accountState[account].vcs[res[0].id] = exampleVC;
-      await VeramoService.deleteCredential({
-        id: expectedResult[0].id,
-      });
 
       await VeramoService.deleteCredential({
         id: expectedResult[0].id,
