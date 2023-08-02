@@ -1,4 +1,4 @@
-import { QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
+import { type QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { Table } from '@tanstack/react-table';
 import { useTranslations } from 'next-intl';
 

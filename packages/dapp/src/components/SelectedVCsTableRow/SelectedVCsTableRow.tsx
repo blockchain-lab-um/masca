@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
+import { type QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { ArrowsPointingOutIcon } from '@heroicons/react/24/outline';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { encodeBase64url } from '@veramo/utils';

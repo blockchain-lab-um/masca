@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import {
-  AvailableCredentialStores,
   isError,
-  QueryCredentialsRequestResult,
+  type AvailableCredentialStores,
+  type QueryCredentialsRequestResult,
 } from '@blockchain-lab-um/masca-connector';
 import { ArrowPathIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { W3CVerifiableCredential } from '@veramo/core';

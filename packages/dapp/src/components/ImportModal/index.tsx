@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {
-  AvailableCredentialStores,
   isVerifiableCredential,
+  type AvailableCredentialStores,
 } from '@blockchain-lab-um/masca-connector';
 import { Dialog } from '@headlessui/react';
 import clsx from 'clsx';
@@ -26,18 +26,16 @@ function ImportModal({ isOpen, setOpen, importVC }: ImportModalProps) {
   const t = useTranslations('ImportModal');
   const [loading, setLoading] = useState(false);
   const [vc, setVC] = useState('');
-  const CredentialStores = useMascaStore(
+  const credentialStores = useMascaStore(
     (state) => state.availableCredentialStores
   );
-  const availableStores = Object.keys(CredentialStores).filter(
-    (key) => CredentialStores[key] === true
-  );
+  const availableStores = Object.entries(credentialStores)
+    .filter(([, value]) => value)
+    .map(([key]) => key as AvailableCredentialStores);
+
   const [selectedItems, setSelectedItems] = useState<
     AvailableCredentialStores[]
-  >([
-    availableStores[0] as AvailableCredentialStores,
-    availableStores[1] as AvailableCredentialStores,
-  ]);
+  >([availableStores[0], availableStores[1]]);
   return (
     <Modal isOpen={isOpen} setOpen={setOpen}>
       <Dialog.Title

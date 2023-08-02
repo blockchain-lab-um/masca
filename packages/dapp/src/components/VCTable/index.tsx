@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
   isError,
-  QueryCredentialsRequestResult,
+  type QueryCredentialsRequestResult,
 } from '@blockchain-lab-um/masca-connector';
 import {
   CheckCircleIcon,

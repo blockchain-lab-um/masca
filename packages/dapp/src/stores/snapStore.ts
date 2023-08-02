@@ -1,7 +1,7 @@
 import {
-  AvailableCredentialStores,
-  MascaApi,
-  QueryCredentialsRequestResult,
+  type AvailableCredentialStores,
+  type MascaApi,
+  type QueryCredentialsRequestResult,
 } from '@blockchain-lab-um/masca-connector';
 import { create } from 'zustand';
 

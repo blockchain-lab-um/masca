@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   isError,
-  QueryCredentialsRequestResult,
-  SupportedProofFormats,
+  type QueryCredentialsRequestResult,
+  type SupportedProofFormats,
 } from '@blockchain-lab-um/masca-connector';
 import { ArrowLeftIcon } from '@heroicons/react/20/solid';
 import {
