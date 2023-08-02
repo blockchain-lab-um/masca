@@ -1,4 +1,4 @@
-import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-types';
+import { QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-types';
 import {
   Component,
   copyable,
@@ -61,7 +61,7 @@ class UIService {
   }
 
   static queryAllDialog = async (
-    vcs: QueryVCsRequestResult[]
+    vcs: QueryCredentialsRequestResult[]
   ): Promise<boolean> => {
     const uiPanel = panel([
       heading('Share Verifiable Credentials'),
@@ -127,7 +127,7 @@ class UIService {
 
   static deleteCredentialDialog = async (
     store: string | string[],
-    vcs: QueryVCsRequestResult[]
+    vcs: QueryCredentialsRequestResult[]
   ) => {
     const uiPanel = panel([
       heading('Delete VC'),

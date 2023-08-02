@@ -161,15 +161,9 @@ class GeneralService {
     const { store, value } = args;
 
     if (store !== 'snap') {
-      const content = panel([
-        heading('Manage CredentialStore Plugin'),
-        text(`Would you like to ${value ? 'enable' : 'disable'} ${store}?`),
-      ]);
-
-      if (await snapConfirm(content)) {
-        state.accountState[state.currentAccount].accountConfig.ssi.vcStore[
-          store
-        ] = value;
+      state.accountState[state.currentAccount].accountConfig.ssi.vcStore[
+        store
+      ] = value;
 
       return true;
     }
