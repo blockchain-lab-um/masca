@@ -123,8 +123,6 @@ class VeramoService {
       case 'did:key:jwk_jcs-pub':
       case 'did:key':
       case 'did:jwk': {
-        // Get Entropy from address
-
         // Import into wallet
         const res = WalletService.get();
 
