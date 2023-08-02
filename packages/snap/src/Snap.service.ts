@@ -24,7 +24,6 @@ import {
   VerifyDataRequestParams,
 } from '@blockchain-lab-um/masca-types';
 import { Result, ResultObject } from '@blockchain-lab-um/utils';
-import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
 import {
   DIDResolutionResult,
   IVerifyResult,
@@ -38,13 +37,21 @@ import { VerifiablePresentation } from 'did-jwt-vc';
 import GeneralService from './General.service';
 import PolygonService from './polygon-id/Polygon.service';
 import StorageService from './storage/Storage.service';
-import { snapConfirm } from './utils/snapUtils';
+import UIService from './UI.service';
 import VeramoService from './veramo/Veramo.service';
 import WalletService from './Wallet.service';
 
 class SnapService {
   private static origin: string;
 
+  /**
+   * Function that queries VCs from the selected VC stores.
+   * @param args.filter.type - Type of filter (eg. JSONPath).
+   * @param args.filter.filter - Filter to apply.
+   * @param args.options.store - VC store to query.
+   * @param args.options.returnStore - Whether to return the store name.
+   * @returns array - Array of VCs.
+   */
   static async queryCredentials(
     args: QueryCredentialsRequestParams
   ): Promise<QueryCredentialsRequestResult[]> {
@@ -69,43 +76,26 @@ class SnapService {
 
     const vcs = [...veramoCredentials, ...polygonCredentials];
 
-    const content = panel([
-      heading('Share VCs'),
-      text('Are you sure you want to share VCs with this dApp?'),
-      divider(),
-      text(
-        `Some dApps are less secure than others and could save data from VCs against your will. Be careful where you send your VCs! Number of VCs submitted is ${vcs.length.toString()}`
-      ),
-      text('This popup will not appear again for this dApp.'),
-    ]);
-
-    if (
-      (await GeneralService.isFriendlyDapp(this.origin)) ||
-      (await snapConfirm(content))
-    ) {
-      await GeneralService.addFriendlyDapp(this.origin);
+    if (await UIService.queryAllDialog(vcs)) {
       return vcs;
     }
 
     throw new Error('User rejected the request.');
   }
 
+  /**
+   * Function that saves a VC to the selected VC stores.
+   * @param args.verifiableCredential - VC to save.
+   * @param args.options.store - VC store to save to.
+   * @returns array - Array of SaveVCRequestResult with id and the store the VC is saved in.
+   */
   static async saveCredential(
     args: SaveCredentialRequestParams
   ): Promise<SaveCredentialRequestResult[]> {
     const { verifiableCredential, options } = args;
     const { store = 'snap' } = options ?? {};
 
-    const content = panel([
-      heading('Save VC'),
-      text('Would you like to save the following VC?'),
-      divider(),
-      text(`Store(s): ${typeof store === 'string' ? store : store.join(', ')}`),
-      text(`VC:`),
-      copyable(JSON.stringify(verifiableCredential, null, 2)),
-    ]);
-
-    if (await snapConfirm(content)) {
+    if (await UIService.saveCredentialDialog(store, verifiableCredential)) {
       // If it is a string handle with Veramo
       if (typeof verifiableCredential === 'string') {
         const res = await VeramoService.saveCredential({
@@ -144,6 +134,14 @@ class SnapService {
     throw new Error('User rejected the request.');
   }
 
+  /**
+   * Function that creates a VC.
+   * @param args.minimalUnsignedCredential - Minimal unsigned VC.
+   * @param args.proofFormat - Proof format to use.
+   * @param args.options.save - Whether to save the VC.
+   * @param args.options.store - VC store to save to.
+   * @returns UnsignedCredential | VerifiableCredential - Created VC.
+   */
   static async createCredential(
     args: CreateCredentialRequestParams
   ): Promise<UnsignedCredential | VerifiableCredential> {
@@ -163,34 +161,36 @@ class SnapService {
       return unsignedVc;
     }
 
+    let storeString = '';
+    if (save === true) {
+      storeString = `Store(s): ${
+        typeof store === 'string' ? store : store.join(', ')
+      }`;
+    }
+
     const vc = await VeramoService.createCredential({
       credential: minimalUnsignedCredential,
       proofFormat,
     });
 
-    if (save === true) {
-      const content = panel([
-        heading('Save VC'),
-        text('Would you like to save the following VC?'),
-        divider(),
-        text(
-          `Store(s): ${typeof store === 'string' ? store : store.join(', ')}`
-        ),
-        text(`VC:`),
-        copyable(JSON.stringify(vc, null, 2)),
-      ]);
-
-      if (await snapConfirm(content)) {
+    if (await UIService.createCredentialDialog(save, storeString, vc)) {
+      if (save === true) {
         await VeramoService.saveCredential({
           verifiableCredential: vc,
           store,
         });
       }
+      return vc;
     }
-
-    return vc;
+    throw new Error('User rejected create Credential request');
   }
 
+  /**
+   * Function that deletes a VC from the selected VC stores.
+   * @param args.id - ID of the VC to delete.
+   * @param args.options.store - VC store to delete from.
+   * @returns array - Array of booleans indicating whether the VC was deleted.
+   */
   static async deleteCredential(
     args: DeleteCredentialsRequestParams
   ): Promise<boolean[]> {
@@ -224,15 +224,8 @@ class SnapService {
       if (typeof store === 'string') stores = store;
       else stores = store.join(', ');
     }
-    const content = panel([
-      heading('Delete VC'),
-      text('Are you sure you want to delete this VC?'),
-      divider(),
-      text(`Store: ${stores}`),
-      text(`VCs: ${JSON.stringify(vcs, null, 2)}`),
-    ]);
 
-    if (await snapConfirm(content)) {
+    if (await UIService.deleteCredentialDialog(stores, vcs)) {
       if (polygonCredentials.length > 0) {
         await PolygonService.deleteCredential(id);
         return [true];
@@ -251,6 +244,15 @@ class SnapService {
     throw new Error('User rejected the request.');
   }
 
+  /**
+   * Function that creates a VP.
+   * @param args.vcs - VCs to include in the VP.
+   * @param args.proofFormat - Proof format to use.
+   * @param args.proofOptions.type - Type of proof.
+   * @param args.proofOptions.domain - Proof domain.
+   * @param args.proofOptions.challenge - Proof challenge.
+   * @returns UnsignedPresentation | VerifiablePresentation - Created VP.
+   */
   static async createPresentation(
     args: CreatePresentationRequestParams
   ): Promise<UnsignedPresentation | VerifiablePresentation> {
@@ -263,27 +265,19 @@ class SnapService {
       throw new Error('No credentials provided');
     }
 
-    const content = panel([
-      heading('Create VP'),
-      text('Would you like to create a VP from the following VC(s)?'),
-      divider(),
-      text(`VC(s):`),
-      ...vcs.map((vc) => copyable(JSON.stringify(vc, null, 2))),
-    ]);
-
-    if (state.snapConfig.dApp.disablePopups || (await snapConfirm(content))) {
-      if (method === 'did:ethr' || method === 'did:pkh') {
-        if (proofFormat !== 'EthereumEip712Signature2021') {
-          throw new Error('proofFormat must be EthereumEip712Signature2021');
-        }
-
-        const unsignedVp = await VeramoService.createUnsignedPresentation({
-          credentials: args.vcs,
-        });
-
-        return unsignedVp;
+    if (method === 'did:ethr' || method === 'did:pkh') {
+      if (proofFormat !== 'EthereumEip712Signature2021') {
+        throw new Error('proofFormat must be EthereumEip712Signature2021');
       }
 
+      const unsignedVp = await VeramoService.createUnsignedPresentation({
+        credentials: args.vcs,
+      });
+
+      return unsignedVp;
+    }
+
+    if (await UIService.createPresentationDialog(vcs)) {
       const res = await VeramoService.createPresentation({
         vcs,
         proofFormat,
@@ -296,6 +290,13 @@ class SnapService {
     throw new Error('User rejected create VP request');
   }
 
+  /**
+   * Function that verifies data.
+   * @param args.credential - VC to verify.
+   * @param args.presentation - VP to verify.
+   * @param args.verbose - Whether to return the full verification resul
+   * @returns boolean | IVerifyResult - Whether the data is verified.
+   */
   static async verifyData(
     args: VerifyDataRequestParams
   ): Promise<boolean | IVerifyResult> {
@@ -307,12 +308,15 @@ class SnapService {
     return verbose ? res : res.verified;
   }
 
+  /**
+   * Function that returns the current DID.
+   * @returns string - Current DID.
+   */
   static async getDID(): Promise<string> {
     const state = StorageService.get();
     const method =
       state.accountState[state.currentAccount].accountConfig.ssi.didMethod;
 
-    console.log('method', method);
     if (isVeramoSupportedMethods(method)) {
       await VeramoService.importIdentifier();
       const identifier = await VeramoService.getIdentifier();
@@ -328,12 +332,22 @@ class SnapService {
     throw new Error('Unsupported DID method');
   }
 
+  /**
+   * Function that resolves a DID.
+   * @param args.did - DID to resolve.
+   * @returns DIDResolutionResult - result.
+   */
   static async resolveDID(args: { did: string }): Promise<DIDResolutionResult> {
     if (args.did === '') throw new Error('DID cannot be empty');
     const res = await VeramoService.resolveDID(args.did);
     return res;
   }
 
+  /**
+   * Function that handles a credential offer.
+   * @param args.credentialOffer - Credential offer to handle.
+   * @returns VerifiableCredential[] - Array of VCs.
+   */
   static async handleCredentialOffer(
     args: HandleCredentialOfferRequestParams
   ): Promise<VerifiableCredential[]> {
@@ -360,6 +374,9 @@ class SnapService {
       parsedOffer.type ===
       'https://iden3-communication.io/credentials/1.0/offer'
     ) {
+      if (!(await UIService.handleCredentialOfferDialog(parsedOffer))) {
+        throw new Error('User denied credential offer');
+      }
       await PolygonService.init();
       await PolygonService.createOrImportIdentity();
       return (await PolygonService.handleCredentialOffer({
@@ -370,6 +387,11 @@ class SnapService {
     throw new Error('Unsupported credential offer');
   }
 
+  /**
+   * Function that handles an authorization request.
+   * @param args.authorizationRequest - Authorization request to handle.
+   * @returns void
+   */
   static async handleAuthorizationRequest(
     args: HandleAuthorizationRequestParams
   ): Promise<void> {
@@ -394,16 +416,26 @@ class SnapService {
       parsedOffer.type ===
       'https://iden3-communication.io/authorization/1.0/request'
     ) {
+      if (!(await UIService.handleAuthorizationRequestDialog(parsedOffer))) {
+        throw new Error('User denied authorization request');
+      }
+
       await PolygonService.init();
       await PolygonService.createOrImportIdentity();
       return PolygonService.handleAuthorizationRequest({
         authorizationRequest,
       });
     }
-
     throw new Error('Unsupported authorization request');
   }
 
+  /**
+   * Function that handles an RPC request.
+   * @param method - Function name to call.
+   * @param params - Params to handle.
+   * @param origin - Origin of the request.
+   * @returns Result<any> - Result of the request.
+   */
   static async handleRpcRequest(
     method: string,
     params: any,
@@ -469,7 +501,13 @@ class SnapService {
        * General.service
        */
       case 'togglePopups':
-        await GeneralService.togglePopups();
+        res = await GeneralService.togglePopups();
+        return ResultObject.success(res);
+      case 'addFriendlyDapp':
+        await GeneralService.addFriendlyDapp(this.origin);
+        return ResultObject.success(true);
+      case 'removeFriendlyDapp':
+        await GeneralService.removeFriendlyDapp(params);
         return ResultObject.success(true);
       case 'switchDIDMethod':
         isValidSwitchMethodRequest(params);

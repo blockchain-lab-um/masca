@@ -5,7 +5,7 @@ import {
 } from '@blockchain-lab-um/masca-types';
 import { divider, heading, panel, text } from '@metamask/snaps-ui';
 
-import { snapConfirm } from './utils/snapUtils';
+import UIService from './UI.service';
 
 class EthereumService {
   /**
@@ -21,6 +21,11 @@ class EthereumService {
     return network;
   }
 
+  /**
+   * Function that changes the current network if needed for the selected DID method.
+   * @param args.didMethod - DID method to check for.
+   * @returns void
+   */
   static async requestNetworkSwitch(args: {
     didMethod: MethodsRequiringNetwork;
   }): Promise<void> {
@@ -35,7 +40,7 @@ class EthereumService {
         `Switching to: ${didMethod} on chainId: ${didMethodChainIdMapping[didMethod][0]}`
       ),
     ]);
-    if (!(await snapConfirm(content))) {
+    if (!(await UIService.snapConfirm(content))) {
       throw new Error('User rejected network switch');
     }
     const chainId = didMethodChainIdMapping[didMethod][0];
@@ -57,6 +62,11 @@ class EthereumService {
     }
   }
 
+  /**
+   * Function that checks if the current network is valid for the selected DID method.
+   * @param args.didMethod - DID method to check for.
+   * @returns void
+   */
   static async handleNetwork(args: {
     didMethod: MethodsRequiringNetwork;
   }): Promise<void> {

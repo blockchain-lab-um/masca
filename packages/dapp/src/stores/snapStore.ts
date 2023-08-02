@@ -14,6 +14,7 @@ interface MascaStore {
   vcs: QueryCredentialsRequestResult[];
   availableCredentialStores: Record<string, boolean>;
   lastFetch: number | undefined;
+  popups: boolean | undefined;
 
   changeAvailableCredentialStores: (
     availableCredentialStores: Record<string, boolean>
@@ -27,6 +28,7 @@ interface MascaStore {
   changeCurrDID: (currDID: string) => void;
   changeVcs: (vcs: QueryCredentialsRequestResult[]) => void;
   changeLastFetch: (lastFetch: number) => void;
+  changePopups: (enabled: boolean) => void;
 }
 
 export const mascaStoreInitialState = {
@@ -36,8 +38,9 @@ export const mascaStoreInitialState = {
   currCredentialStore: undefined,
   currDID: '',
   vcs: [],
-  availableCredentialStores: { snap: true, ceramic: false },
+  availableCredentialStores: { snap: true, ceramic: true },
   lastFetch: undefined,
+  popups: undefined,
 };
 
 export const useMascaStore = create<MascaStore>()((set) => ({
@@ -55,4 +58,5 @@ export const useMascaStore = create<MascaStore>()((set) => ({
   changeCurrDID: (currDID: string) => set({ currDID }),
   changeVcs: (vcs: QueryCredentialsRequestResult[]) => set({ vcs }),
   changeLastFetch: (lastFetch: number) => set({ lastFetch }),
+  changePopups: (enabled: boolean) => set({ popups: enabled }),
 }));

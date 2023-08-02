@@ -9,6 +9,10 @@ import StorageService from './storage/Storage.service';
 class WalletService {
   static instance: HDNodeWallet;
 
+  /**
+   * Function that initializes the wallet service.
+   * @returns void
+   */
   static async init(): Promise<void> {
     const state = StorageService.get();
 

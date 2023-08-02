@@ -35,7 +35,7 @@ export type DeleteCredentialsOptions = {
 
 // TODO (martin): This type is also in datamanager
 export type Filter = {
-  type: string;
+  type: 'none' | 'id' | 'JSONPath';
   filter: string;
 };
 
@@ -148,4 +148,8 @@ export type HandleAuthorizationRequestParams = {
 
 export type SetCeramicSessionRequestParams = {
   serializedSession: string;
+};
+
+export type RemoveFriendlyDappParams = {
+  id: string;
 };

@@ -35,6 +35,10 @@ function ImportModal({ isOpen, setOpen, importVC }: ImportModalProps) {
   const [selectedItems, setSelectedItems] = useState<
     AvailableCredentialStores[]
   >([availableStores[0] as AvailableCredentialStores]);
+  const [selectedItems, setSelectedItems] = useState<AvailableCredentialStores[]>([
+    availableStores[0] as AvailableCredentialStores,
+    availableStores[1] as AvailableCredentialStores,
+  ]);
   return (
     <Modal isOpen={isOpen} setOpen={setOpen}>
       <Dialog.Title

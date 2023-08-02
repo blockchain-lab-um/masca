@@ -427,7 +427,7 @@ const response = await ethereum.request({
 
 #### Description
 
-`togglePopups` toggles popups that show up whenever the user tries to save a VC, generate a VP, etc.
+`togglePopups` toggles popups that show up whenever the user tries to save a VC, generate a VP, etc. Popups are enabled by default to keep user in total control of their actions. With popups disabled, a dApp can query user's credentials, etc. without them knowing. We recommend using `addFriendlyDapp` instead to only trust specific dApps.
 
 ```typescript
 const response = await ethereum.request({
@@ -436,6 +436,45 @@ const response = await ethereum.request({
     snapId: snapId,
     request: {
       method: 'togglePopups',
+    },
+  },
+});
+```
+
+### addFriendlyDapp
+
+#### Description
+
+`addFriendlyDapp` adds the current dApp (origin of the current dApp) to the list of friendly dApps. Friendly dApps do not show popups.
+
+```typescript
+const response = await ethereum.request({
+  method: 'wallet_invokeSnap',
+  params: {
+    snapId: snapId,
+    request: {
+      method: 'addFriendlyDapp',
+    },
+  },
+});
+```
+
+### togglePopups
+
+#### Description
+
+`removeFriendlyDapp` removes a dApp from friendly dApps.
+
+```typescript
+const response = await ethereum.request({
+  method: 'wallet_invokeSnap',
+  params: {
+    snapId: snapId,
+    request: {
+      method: 'removeFriendlyDapp',
+      params: {
+        dApp: 'https://www.masca.io',
+      },
     },
   },
 });

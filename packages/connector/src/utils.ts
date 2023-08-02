@@ -11,6 +11,11 @@ import { getEthTypesFromInputDoc } from 'eip-712-types-generation';
 
 import { Masca } from './snap.js';
 
+/**
+ * Function to check if there is a valid Ceramic session in Masca.
+ * If not, it will try to get a new session from the user.
+ * @param masca - Masca instance
+ */
 export async function validateAndSetCeramicSession(
   masca: Masca
 ): Promise<void> {
@@ -59,6 +64,11 @@ export async function validateAndSetCeramicSession(
   }
 }
 
+/**
+ * Function to sign a Verifiable Presentation with EIP712Signature proof format
+ * @param presentation - Unsigned Verifiable Presentation
+ * @returns Signed Verifiable Presentation
+ */
 export async function signVerifiablePresentation(
   presentation: UnsignedPresentation
 ): Promise<VerifiablePresentation> {
@@ -110,6 +120,11 @@ export async function signVerifiablePresentation(
   return presentation as VerifiablePresentation;
 }
 
+/**
+ * Function to sign a Verifiable Credential with EIP712Signature proof format
+ * @param credential - Unsigned Verifiable Credential
+ * @returns Signed Verifiable Credential
+ */
 export async function signVerifiableCredential(
   credential: UnsignedCredential
 ): Promise<VerifiableCredential> {

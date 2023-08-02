@@ -5,6 +5,7 @@ import { enableMasca, isError } from '@blockchain-lab-um/masca-connector';
 import detectEthereumProvider from '@metamask/detect-provider';
 import { shallow } from 'zustand/shallow';
 
+import { mascaVersion } from '@/utils/masca.json';
 import { useGeneralStore, useMascaStore } from '@/stores';
 
 const snapId =
@@ -55,6 +56,7 @@ const CheckMetaMaskCompatibility = () => {
     changeAvailableMethods,
     changeCurrMethod,
     changeAvailableCredentialStores,
+    changePopups,
   } = useMascaStore(
     (state) => ({
       api: state.mascaApi,
@@ -63,6 +65,7 @@ const CheckMetaMaskCompatibility = () => {
       changeAvailableMethods: state.changeAvailableMethods,
       changeCurrMethod: state.changeCurrDIDMethod,
       changeAvailableCredentialStores: state.changeAvailableCredentialStores,
+      changePopups: state.changePopups,
     }),
     shallow
   );
@@ -116,7 +119,7 @@ const CheckMetaMaskCompatibility = () => {
   const enableMascaHandler = async () => {
     const enableResult = await enableMasca(address, {
       snapId,
-      version: '0.4.0',
+      version: mascaVersion,
     });
     if (isError(enableResult)) {
       // FIXME: This error is shown as [Object object]
@@ -160,12 +163,19 @@ const CheckMetaMaskCompatibility = () => {
       throw new Error(accountSettings.error);
     }
 
+    const snapSettings = await mascaApi.getSnapSettings();
+    if (isError(snapSettings)) {
+      console.log("Couldn't get snap settings");
+      throw new Error(snapSettings.error);
+    }
+
     changeDID(did.data);
     changeAvailableMethods(availableMethods.data);
     changeCurrMethod(method.data);
     changeAvailableCredentialStores(accountSettings.data.ssi.vcStore);
     changeIsConnected(true);
     changeIsConnecting(false);
+    changePopups(snapSettings.data.dApp.disablePopups);
   };
 
   useEffect(() => {

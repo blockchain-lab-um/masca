@@ -6,15 +6,25 @@ import { shallow } from 'zustand/shallow';
 
 import ToggleSwitch from '@/components/Switch';
 import { useMascaStore, useToastStore } from '@/stores';
+import InfoIcon from '../InfoIcon';
+import { FriendlydAppTable } from './FriendlydAppTable';
 
 const SettingsCard = () => {
   const t = useTranslations('SettingsCard');
-  const { api, availableCredentialStores, changeAvailableCredentialStores } =
+  const {
+    api,
+    availableCredentialStores,
+    changeAvailableCredentialStores,
+    popups,
+    changePopups,
+  } =
     useMascaStore(
       (state) => ({
         api: state.mascaApi,
+      popups: state.popups,
         availableCredentialStores: state.availableCredentialStores,
         changeAvailableCredentialStores: state.changeAvailableCredentialStores,
+      changePopups: state.changePopups,
       }),
       shallow
     );
@@ -58,6 +68,15 @@ const SettingsCard = () => {
     }, 200);
   };
 
+  const snapTogglePopups = async (enabled: boolean) => {
+    if (!api) return;
+    const res = await api.togglePopups();
+    if (isError(res)) {
+      return;
+    }
+    changePopups(res.data);
+  };
+
   const handleCeramicToggle = async (enabled: boolean) => {
     await snapChangeAvailableCredentialStores('ceramic', enabled);
   };
@@ -89,8 +108,25 @@ const SettingsCard = () => {
         <div className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6  text-gray-800">
           {t('advanced')}
         </div>
-        <div className="mt-2 text-sm text-red-500">{t('not-implemented')}</div>
-        <div></div>
+        <div>
+          <FriendlydAppTable />
+
+          <span className="dark:text-navy-blue-200 mt-10 flex justify-between text-gray-700 ">
+            <div className="flex">
+              <span className="mr-1 text-red-500">Disable Popups </span>
+              <InfoIcon>
+                Disabling popups is very dangerous. We recommend setting
+                friendly dApps instead!
+              </InfoIcon>
+            </div>
+            <ToggleSwitch
+              size="md"
+              enabled={popups as boolean}
+              setEnabled={snapTogglePopups}
+              shadow="md"
+            />
+          </span>
+        </div>
       </div>
     </div>
   );

@@ -281,12 +281,20 @@ const vpRes = await api.verifyData({ presentation: VP, verbose: true });
 
 ### Snap Settings
 
-`togglePopups` is used to enable/disable the `"Are you sure?"` alerts.
+`togglePopups` is used to enable/disable the `"Are you sure?"` alerts on any dApp. Popups are enabled by default for user to approve every action.
+
+`addFriendlyDapp` is used to add a current dApp (origin of the dApp) to the list of friendly dApps. Popups do not appear on friendly dApps.
+
+`removeFriendlyDapp` is used to remove a dApp from the list of friendly dApps.
 
 `getSnapSettings` and `getAccountSettings` are used to retrieve global settings and settings for currently selected account.
 
 ```typescript
 const res = await api.togglePopups();
+
+const res = await api.addFriendlyDapp();
+
+const res = await api.removeFriendlyDapp("https://www.masca.io");
 ```
 
 ```typescript

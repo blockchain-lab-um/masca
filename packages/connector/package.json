@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/masca-connector",
-  "version": "0.4.0",
+  "version": "0.4.2-beta.0",
   "description": "Library for using Masca on the frontend",
   "keywords": [
     "MetaMask",
@@ -41,8 +41,8 @@
     "prepack": "pnpm build"
   },
   "dependencies": {
-    "@blockchain-lab-um/masca-types": "*",
-    "@blockchain-lab-um/utils": "*",
+    "@blockchain-lab-um/masca-types": "0.4.2-beta.0",
+    "@blockchain-lab-um/utils": "1.3.0",
     "@didtools/pkh-ethereum": "0.0.2",
     "@metamask/detect-provider": "^2.0.0",
     "@veramo/core": "5.2.0",

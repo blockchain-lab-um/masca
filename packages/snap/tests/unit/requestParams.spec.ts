@@ -139,7 +139,7 @@ describe('Utils [requestParams]', () => {
             account,
             getDefaultSnapState(account)
           )
-        ).toThrow('invalid_argument: $input.filter.filter');
+        ).toThrow('invalid_argument: $input.filter.type, $input.filter.filter');
       });
       it('filter without type', () => {
         expect(() =>

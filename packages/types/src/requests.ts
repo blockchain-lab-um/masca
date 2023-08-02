@@ -1,4 +1,5 @@
 import type {
+  AddFriendlyDapp,
   CreateCredential,
   CreatePresentation,
   DeleteCredential,
@@ -12,6 +13,7 @@ import type {
   HandleAuthorization,
   HandleCredentialOffer,
   QueryCredentials,
+  RemoveFriendlyDapp,
   ResolveDID,
   SaveCredential,
   SetCeramicSession,
@@ -29,6 +31,8 @@ export type MascaRPCRequest =
   | CreatePresentation
   | DeleteCredential
   | TogglePopups
+  | AddFriendlyDapp
+  | RemoveFriendlyDapp
   | GetDID
   | GetMethod
   | GetAvailableMethods

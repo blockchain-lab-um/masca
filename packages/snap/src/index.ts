@@ -7,6 +7,7 @@ import { OnRpcRequestHandler } from '@metamask/snaps-types';
 import GeneralService from './General.service';
 import SnapService from './Snap.service';
 import StorageService from './storage/Storage.service';
+import UIService from './UI.service';
 import VeramoService from './veramo/Veramo.service';
 import WalletService from './Wallet.service';
 
@@ -29,6 +30,8 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     await WalletService.init();
 
     await VeramoService.init();
+
+    await UIService.init(origin);
 
     const { method, params } = request;
 
