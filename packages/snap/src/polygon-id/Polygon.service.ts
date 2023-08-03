@@ -482,7 +482,7 @@ class PolygonService {
       [
         mapKey,
         {
-          key: circuitData.verificationKey,
+          key: circuitData.verificationKey as Uint8Array,
           verificationFn,
         },
       ],
