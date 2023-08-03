@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-connector';
+import { type QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { Row } from '@tanstack/react-table';
 import { encodeBase64url } from '@veramo/utils';
@@ -9,7 +9,7 @@ import { useTranslations } from 'next-intl';
 import Tooltip from '@/components/Tooltip';
 
 interface VCCardProps {
-  row: Row<QueryVCsRequestResult>;
+  row: Row<QueryCredentialsRequestResult>;
 }
 
 const VCCard = ({ row }: VCCardProps) => {

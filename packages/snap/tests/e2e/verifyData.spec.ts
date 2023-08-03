@@ -105,20 +105,20 @@ describe('verifyData', () => {
       throw new Error(switchMethodResult.error);
     }
 
-    const createVPResult = (await onRpcRequest({
+    const createPresentationResult = (await onRpcRequest({
       origin: 'localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'createVP',
+        method: 'createPresentation',
         params: {
           vcs: [generatedVC],
         },
       },
     })) as Result<VerifiablePresentation>;
 
-    if (isError(createVPResult)) {
-      throw new Error(createVPResult.error);
+    if (isError(createPresentationResult)) {
+      throw new Error(createPresentationResult.error);
     }
 
     const verified = (await onRpcRequest({
@@ -128,7 +128,7 @@ describe('verifyData', () => {
         jsonrpc: '2.0',
         method: 'verifyData',
         params: {
-          presentation: createVPResult.data,
+          presentation: createPresentationResult.data,
         },
       },
     })) as Result<boolean>;

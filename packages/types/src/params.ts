@@ -6,8 +6,8 @@ import type {
 } from '@veramo/core';
 
 import type {
+  AvailableCredentialStores,
   AvailableMethods,
-  AvailableVCStores,
   SupportedProofFormats,
 } from './constants.js';
 
@@ -20,17 +20,17 @@ export type ProofOptions = {
   challenge?: string;
 };
 
-export type QueryVCsOptions = {
-  store?: AvailableVCStores | AvailableVCStores[];
+export type QueryCredentialsOptions = {
+  store?: AvailableCredentialStores | AvailableCredentialStores[];
   returnStore?: boolean;
 };
 
-export type SaveVCOptions = {
-  store?: AvailableVCStores | AvailableVCStores[];
+export type SaveCredentialOptions = {
+  store?: AvailableCredentialStores | AvailableCredentialStores[];
 };
 
-export type DeleteVCsOptions = {
-  store?: AvailableVCStores | AvailableVCStores[];
+export type DeleteCredentialsOptions = {
+  store?: AvailableCredentialStores | AvailableCredentialStores[];
 };
 
 // TODO (martin): This type is also in datamanager
@@ -43,10 +43,10 @@ export type Filter = {
  * Types for method arguments
  */
 
-export type VCRequest = {
+export type CredentialRequest = {
   id: string;
   metadata?: {
-    store?: AvailableVCStores;
+    store?: AvailableCredentialStores;
   };
 };
 
@@ -54,7 +54,7 @@ export type SetCurrentAccountRequestParams = {
   currentAccount: string;
 };
 
-export type CreateVPRequestParams = {
+export type CreatePresentationRequestParams = {
   /*
    * @minItems 1
    */
@@ -73,28 +73,28 @@ export type MinimalUnsignedCredential = Pick<
   | 'id'
 > & { [x: string]: any };
 
-export type CreateVCRequestParams = {
+export type CreateCredentialRequestParams = {
   minimalUnsignedCredential: MinimalUnsignedCredential;
   proofFormat?: SupportedProofFormats;
   options?: {
     save?: boolean;
-    store?: AvailableVCStores | AvailableVCStores[];
+    store?: AvailableCredentialStores | AvailableCredentialStores[];
   };
 };
 
-export type QueryVCsRequestParams = {
+export type QueryCredentialsRequestParams = {
   filter?: Filter;
-  options?: QueryVCsOptions;
+  options?: QueryCredentialsOptions;
 };
 
-export type SaveVCRequestParams = {
+export type SaveCredentialRequestParams = {
   verifiableCredential: W3CVerifiableCredential | W3CCredential;
-  options?: SaveVCOptions;
+  options?: SaveCredentialOptions;
 };
 
-export type DeleteVCsRequestParams = {
+export type DeleteCredentialsRequestParams = {
   id: string;
-  options?: DeleteVCsOptions;
+  options?: DeleteCredentialsOptions;
 };
 
 export type ResolveDIDRequestParams = {
@@ -105,8 +105,8 @@ export type SwitchMethodRequestParams = {
   didMethod: AvailableMethods;
 };
 
-export type SetVCStoreRequestParams = {
-  store: AvailableVCStores;
+export type SetCredentialStoreRequestParams = {
+  store: AvailableCredentialStores;
   value: boolean;
 };
 

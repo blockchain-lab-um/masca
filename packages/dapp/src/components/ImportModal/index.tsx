@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {
-  AvailableVCStores,
   isVerifiableCredential,
+  type AvailableCredentialStores,
 } from '@blockchain-lab-um/masca-connector';
 import { Dialog } from '@headlessui/react';
 import clsx from 'clsx';
@@ -16,8 +16,10 @@ import { useMascaStore, useToastStore } from '@/stores';
 interface ImportModalProps {
   isOpen: boolean;
   setOpen: (open: boolean) => void;
-  importVC: (vc: string, stores: AvailableVCStores[]) => Promise<boolean>;
-  credential?: string;
+  importVC: (
+    vc: string,
+    stores: AvailableCredentialStores[]
+  ) => Promise<boolean>;
 }
 
 function ImportModal({
@@ -28,15 +30,17 @@ function ImportModal({
 }: ImportModalProps) {
   const t = useTranslations('ImportModal');
   const [loading, setLoading] = useState(false);
-  const [vc, setVC] = useState(credential);
-  const VCStores = useMascaStore((state) => state.availableVCStores);
-  const availableStores = Object.keys(VCStores).filter(
-    (key) => VCStores[key] === true
+  const [vc, setVC] = useState('');
+  const credentialStores = useMascaStore(
+    (state) => state.availableCredentialStores
   );
-  const [selectedItems, setSelectedItems] = useState<AvailableVCStores[]>([
-    availableStores[0] as AvailableVCStores,
-    availableStores[1] as AvailableVCStores,
-  ]);
+  const availableStores = Object.entries(credentialStores)
+    .filter(([, value]) => value)
+    .map(([key]) => key as AvailableCredentialStores);
+
+  const [selectedItems, setSelectedItems] = useState<
+    AvailableCredentialStores[]
+  >([availableStores[0], availableStores[1]]);
   return (
     <Modal isOpen={isOpen} setOpen={setOpen}>
       <Dialog.Title

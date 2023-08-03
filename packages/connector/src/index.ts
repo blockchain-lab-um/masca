@@ -5,7 +5,7 @@ import {
 import { isError, ResultObject, type Result } from '@blockchain-lab-um/utils';
 import detectEthereumProvider from '@metamask/detect-provider';
 
-import { mascaVersion } from './masca.json';
+import mascaVersionJson from './masca.json';
 import { Masca } from './snap.js';
 
 export { Masca } from './snap.js';
@@ -38,7 +38,7 @@ export async function enableMasca(
 ): Promise<Result<Masca>> {
   const {
     snapId = defaultSnapOrigin,
-    version = mascaVersion,
+    version = mascaVersionJson.mascaVersion,
     supportedMethods = availableMethods as unknown as Array<AvailableMethods>,
   } = snapInstallationParams;
 

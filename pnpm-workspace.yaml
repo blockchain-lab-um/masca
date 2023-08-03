@@ -2,4 +2,3 @@ packages:
   - 'packages/*'
   - 'libs/**'
   - 'apps/**'
-  - 'external/**'

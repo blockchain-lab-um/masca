@@ -1,13 +1,13 @@
-import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-connector';
+import { type QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { CredentialSubject } from '@veramo/core';
 
 export const stringifyCredentialSubject = (
-  queryVCsRequestResult: QueryVCsRequestResult
-): QueryVCsRequestResult => {
-  const verifiableCredential = queryVCsRequestResult.data;
+  queryCredentialsRequestResult: QueryCredentialsRequestResult
+): QueryCredentialsRequestResult => {
+  const verifiableCredential = queryCredentialsRequestResult.data;
   const { credentialSubject } = verifiableCredential;
-  const modifiedQueryVCsRequestResult = {
-    ...queryVCsRequestResult,
+  const modifiedQueryCredentialsRequestResult = {
+    ...queryCredentialsRequestResult,
     data: {
       ...verifiableCredential,
       credentialSubject: {
@@ -17,22 +17,22 @@ export const stringifyCredentialSubject = (
     },
   };
 
-  return modifiedQueryVCsRequestResult;
+  return modifiedQueryCredentialsRequestResult;
 };
 
 export const removeCredentialSubjectFilterString = (
-  queryVCsRequestResult: QueryVCsRequestResult
-): QueryVCsRequestResult => {
-  const verifiableCredential = queryVCsRequestResult.data;
+  queryCredentialsRequestResult: QueryCredentialsRequestResult
+): QueryCredentialsRequestResult => {
+  const verifiableCredential = queryCredentialsRequestResult.data;
   const { credentialSubject } = verifiableCredential;
   const { filterString, ...rest } = credentialSubject;
-  const modifiedQueryVCsRequestResult = {
-    ...queryVCsRequestResult,
+  const modifiedQueryCredentialsRequestResult = {
+    ...queryCredentialsRequestResult,
     data: {
       ...verifiableCredential,
       credentialSubject: rest as CredentialSubject,
     },
   };
 
-  return modifiedQueryVCsRequestResult;
+  return modifiedQueryCredentialsRequestResult;
 };

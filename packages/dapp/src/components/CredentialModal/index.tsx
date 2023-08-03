@@ -37,7 +37,7 @@ const CredentialModal = ({
       });
     }, 200);
 
-    const saveCredentialResult = await mascaApi.saveVC(credential);
+    const saveCredentialResult = await mascaApi.saveCredential(credential);
 
     useToastStore.setState({
       open: false,

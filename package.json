@@ -38,7 +38,7 @@
     "prepare": "is-ci || husky install",
     "prettier": "prettier --write .",
     "test": "pnpm nx run-many --target=test --exclude=@0xpolygonid/js-sdk",
-    "test:ci": "pnpm nx run-many --target=test:ci"
+    "test:ci": "pnpm nx run-many --target=test:ci --exclude=@0xpolygonid/js-sdk"
   },
   "dependencies": {
     "@changesets/cli": "^2.26.2"

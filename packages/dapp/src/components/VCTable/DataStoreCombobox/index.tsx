@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from 'react';
-import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-connector';
+import { type QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { Combobox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
@@ -8,7 +8,7 @@ import { useTableStore } from '@/stores';
 
 type DataStoreComboboxProps = {
   isConnected: boolean;
-  vcs: QueryVCsRequestResult[];
+  vcs: QueryCredentialsRequestResult[];
 };
 
 const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
