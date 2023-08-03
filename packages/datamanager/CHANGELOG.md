@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.2-beta.1
+
+### Patch Changes
+
+- Updated dependencies [[`527bd50`](https://github.com/blockchain-lab-um/masca/commit/527bd50b8d79a80f5637103975dbaebaf102a1e6), [`cf5b2a1`](https://github.com/blockchain-lab-um/masca/commit/cf5b2a13b997e819733e589c4f51be808d4d18b1)]:
+  - @blockchain-lab-um/masca-types@0.4.2-beta.1
+
 ## 0.4.2-beta.0
 
 ### Patch Changes
