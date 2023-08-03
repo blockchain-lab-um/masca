@@ -37,18 +37,6 @@ bundleString = bundleString.replaceAll(
 bundleString = bundleString.replaceAll('fs2.readFileSync;', 'null;');
 bundleString = bundleString.replaceAll('fs3.readFileSync;', 'null;');
 
-// [Polygon ID] Remove xhr with regex (multiline string)
-bundleString = bundleString.replace(
-  /function checkTypeSupport\(type2\)\s{(\n|.)*?var/,
-  'function checkTypeSupport(type2) { return false; }\nvar'
-);
-
-// [Polygon ID] Remove function dependent on xhr
-bundleString = bundleString.replace(
-  'isFunction22(xhr.overrideMimeType)',
-  'false'
-);
-
 fs.writeFileSync(bundlePath, bundleString);
 
 console.log('Finished post-processing bundle');

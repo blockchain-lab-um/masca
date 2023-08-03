@@ -362,7 +362,6 @@ class PolygonService {
     const { authHandler } = this.instance[method][blockchain][networkId];
 
     const messageBytes = byteEncoder.encode(authorizationRequest);
-
     try {
       const did = DID.parse(await this.getIdentifier());
 
