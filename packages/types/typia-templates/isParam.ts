@@ -1,38 +1,42 @@
 import typia from 'typia';
 
 import {
-  availableVCStores,
+  availableCredentialStores,
   isW3CCredential,
   isW3CVerifiableCredential,
-  type AvailableVCStores,
-  type CreateVCRequestParams,
-  type CreateVPRequestParams,
-  type DeleteVCsRequestParams,
+  type AvailableCredentialStores,
+  type CreateCredentialRequestParams,
+  type CreatePresentationRequestParams,
+  type DeleteCredentialsRequestParams,
   type MascaState,
-  type QueryVCsRequestParams,
+  type QueryCredentialsRequestParams,
   type ResolveDIDRequestParams,
-  type SaveVCRequestParams,
+  type SaveCredentialRequestParams,
+  type SetCredentialStoreRequestParams,
   type SetCurrentAccountRequestParams,
-  type SetVCStoreRequestParams,
   type SwitchMethodRequestParams,
   type VerifyDataRequestParams,
 } from '../src/index.js';
 
-const isEnabledVCStore = (
+const isEnabledCredentialStore = (
   account: string,
   state: MascaState,
-  store: AvailableVCStores
+  store: AvailableCredentialStores
 ): boolean => state.accountState[account].accountConfig.ssi.vcStore[store];
 
-const checkVCStore = (param: any, account: string, state: MascaState): void => {
+const checkCredentialStore = (
+  param: any,
+  account: string,
+  state: MascaState
+): void => {
   let stores = (param.options || {}).store || [];
 
   if (!Array.isArray(stores)) {
     stores = [stores];
   }
 
-  for (const store of stores as typeof availableVCStores) {
-    if (!isEnabledVCStore(account, state, store)) {
+  for (const store of stores as typeof availableCredentialStores) {
+    if (!isEnabledCredentialStore(account, state, store)) {
       throw new Error(`Store ${store} is not enabled!`);
     }
   }
@@ -56,63 +60,63 @@ const handleIValidation = (result: typia.IValidation<unknown>) => {
   return formatErrorMessages(result.errors);
 };
 
-const validateCreateVCRequest =
-  typia.createValidateEquals<CreateVCRequestParams>();
-const validateCreateVPRequest =
-  typia.createValidateEquals<CreateVPRequestParams>();
-const validateDeleteVCsRequest =
-  typia.createValidateEquals<DeleteVCsRequestParams>();
-const validateQueryVCsRequest =
-  typia.createValidateEquals<QueryVCsRequestParams>();
+const validateCreateCredentialRequest =
+  typia.createValidateEquals<CreateCredentialRequestParams>();
+const validateCreatePresentationRequest =
+  typia.createValidateEquals<CreatePresentationRequestParams>();
+const validateDeleteCredentialsRequest =
+  typia.createValidateEquals<DeleteCredentialsRequestParams>();
+const validateQueryCredentialsRequest =
+  typia.createValidateEquals<QueryCredentialsRequestParams>();
 const validateResolveDIDRequest =
   typia.createValidateEquals<ResolveDIDRequestParams>();
 const validateSetCurrentAccountRequest =
   typia.createValidateEquals<SetCurrentAccountRequestParams>();
-const validateSetVCStoreRequest =
-  typia.createValidateEquals<SetVCStoreRequestParams>();
+const validateSetCredentialStoreRequest =
+  typia.createValidateEquals<SetCredentialStoreRequestParams>();
 const validateSwitchMethodRequest =
   typia.createValidateEquals<SwitchMethodRequestParams>();
 const validateVerifyDataRequest =
   typia.createValidateEquals<VerifyDataRequestParams>();
 
-export const isValidCreateVCRequest = (
+export const isValidCreateCredentialRequest = (
   input: any,
   account: string,
   state: MascaState
-): asserts input is CreateVCRequestParams => {
-  const res = validateCreateVCRequest(input);
+): asserts input is CreateCredentialRequestParams => {
+  const res = validateCreateCredentialRequest(input);
   if (!res.success) throw new Error(handleIValidation(res));
-  checkVCStore(input as CreateVCRequestParams, account, state);
+  checkCredentialStore(input as CreateCredentialRequestParams, account, state);
 };
 
-export const isValidCreateVPRequest = (
+export const isValidCreatePresentationRequest = (
   input: any
-): asserts input is CreateVPRequestParams => {
-  const res = validateCreateVPRequest(input);
+): asserts input is CreatePresentationRequestParams => {
+  const res = validateCreatePresentationRequest(input);
   if (!res.success) throw new Error(handleIValidation(res));
-  if (!(input as CreateVPRequestParams).vcs.length)
+  if (!(input as CreatePresentationRequestParams).vcs.length)
     throw new Error('invalid_argument: vcs');
 };
 
-export const isValidDeleteVCsRequest = (
+export const isValidDeleteCredentialsRequest = (
   input: any,
   account: string,
   state: MascaState
-): asserts input is DeleteVCsRequestParams => {
-  const res = validateDeleteVCsRequest(input);
+): asserts input is DeleteCredentialsRequestParams => {
+  const res = validateDeleteCredentialsRequest(input);
   if (!res.success) throw new Error(handleIValidation(res));
-  checkVCStore(input as DeleteVCsRequestParams, account, state);
+  checkCredentialStore(input as DeleteCredentialsRequestParams, account, state);
 };
 
-export const isValidQueryVCsRequest = (
+export const isValidQueryCredentialsRequest = (
   input: any,
   account: string,
   state: MascaState
-): asserts input is QueryVCsRequestParams => {
+): asserts input is QueryCredentialsRequestParams => {
   if (!input) return;
-  const res = validateQueryVCsRequest(input);
+  const res = validateQueryCredentialsRequest(input);
   if (!res.success) throw new Error(handleIValidation(res));
-  checkVCStore(input as QueryVCsRequestParams, account, state);
+  checkCredentialStore(input as QueryCredentialsRequestParams, account, state);
 };
 
 export const isValidResolveDIDRequest = (
@@ -122,12 +126,12 @@ export const isValidResolveDIDRequest = (
   if (!res.success) throw new Error(handleIValidation(res));
 };
 
-export const isValidSaveVCRequest = (
+export const isValidSaveCredentialRequest = (
   input: any,
   account: string,
   state: MascaState
-): asserts input is SaveVCRequestParams => {
-  checkVCStore(input as SaveVCRequestParams, account, state);
+): asserts input is SaveCredentialRequestParams => {
+  checkCredentialStore(input as SaveCredentialRequestParams, account, state);
   if (
     !(
       isW3CVerifiableCredential(input?.verifiableCredential) ||
@@ -145,10 +149,10 @@ export const isValidSetCurrentAccountRequest = (
   if (!res.success) throw new Error(handleIValidation(res));
 };
 
-export const isValidSetVCStoreRequest = (
+export const isValidSetCredentialStoreRequest = (
   input: any
-): asserts input is SetVCStoreRequestParams => {
-  const res = validateSetVCStoreRequest(input);
+): asserts input is SetCredentialStoreRequestParams => {
+  const res = validateSetCredentialStoreRequest(input);
   if (!res.success) throw new Error(handleIValidation(res));
 };
 

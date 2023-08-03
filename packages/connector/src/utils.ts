@@ -22,13 +22,13 @@ export async function validateAndSetCeramicSession(
   // Check if there is valid session in Masca
   const api = masca.getMascaApi();
 
-  const enabledVCStoresResult = await api.getVCStore();
-  if (isError(enabledVCStoresResult)) {
+  const enabledCredentialStoresResult = await api.getCredentialStore();
+  if (isError(enabledCredentialStoresResult)) {
     throw new Error('Failed to get enabled VC stores.');
   }
 
   // Check if ceramic is enabled
-  if (enabledVCStoresResult.data.ceramic === false) {
+  if (enabledCredentialStoresResult.data.ceramic === false) {
     return;
   }
 

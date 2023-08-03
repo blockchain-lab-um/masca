@@ -3,13 +3,13 @@ import {
   getDidKeyResolver as keyDidResolver,
 } from '@blockchain-lab-um/did-provider-key';
 import {
-  AvailableVCStores,
-  CreateVPRequestParams,
+  AvailableCredentialStores,
+  CreatePresentationRequestParams,
   Filter,
   MinimalUnsignedCredential,
-  QueryVCsOptions,
-  QueryVCsRequestResult,
-  SaveVCRequestResult,
+  QueryCredentialsOptions,
+  QueryCredentialsRequestResult,
+  SaveCredentialRequestResult,
   VerifyDataRequestParams,
 } from '@blockchain-lab-um/masca-types';
 import {
@@ -86,8 +86,8 @@ import UIService from '../UI.service';
 import UniversalResolverService from '../UniversalResolver.service';
 import { sign } from '../utils/sign';
 import WalletService from '../Wallet.service';
-import { CeramicVCStore } from './plugins/ceramicDataStore/ceramicDataStore';
-import { SnapVCStore } from './plugins/snapDataStore/snapDataStore';
+import { CeramicCredentialStore } from './plugins/ceramicDataStore/ceramicDataStore';
+import { SnapCredentialStore } from './plugins/snapDataStore/snapDataStore';
 
 export type Agent = TAgent<
   IDIDManager &
@@ -123,8 +123,6 @@ class VeramoService {
       case 'did:key:jwk_jcs-pub':
       case 'did:key':
       case 'did:jwk': {
-        // Get Entropy from address
-
         // Import into wallet
         const res = WalletService.get();
 
@@ -296,15 +294,15 @@ class VeramoService {
    */
   static async saveCredential(args: {
     verifiableCredential: W3CVerifiableCredential;
-    store: AvailableVCStores | AvailableVCStores[];
-  }): Promise<SaveVCRequestResult[]> {
+    store: AvailableCredentialStores | AvailableCredentialStores[];
+  }): Promise<SaveCredentialRequestResult[]> {
     const { verifiableCredential, store } = args;
     const result = await this.instance.save({
       data: verifiableCredential,
       options: { store },
     });
 
-    const vcs = new Map<string, SaveVCRequestResult>();
+    const vcs = new Map<string, SaveCredentialRequestResult>();
 
     for (const vc of result) {
       if (!vc.store) {
@@ -333,7 +331,7 @@ class VeramoService {
    */
   static async deleteCredential(args: {
     id: string;
-    store?: AvailableVCStores | AvailableVCStores[];
+    store?: AvailableCredentialStores | AvailableCredentialStores[];
   }): Promise<boolean[]> {
     const { id, store } = args;
 
@@ -352,16 +350,16 @@ class VeramoService {
    * @returns Array of Verifiable Credentials
    */
   static async queryCredentials(args: {
-    options: QueryVCsOptions;
+    options: QueryCredentialsOptions;
     filter?: Filter;
-  }): Promise<QueryVCsRequestResult[]> {
+  }): Promise<QueryCredentialsRequestResult[]> {
     const { options, filter } = args;
     const result = await this.instance.query({
       filter,
       options,
     });
 
-    const vcs = new Map<string, QueryVCsRequestResult>();
+    const vcs = new Map<string, QueryCredentialsRequestResult>();
 
     for (const vc of result) {
       if (options.returnStore && !vc.metadata.store) {
@@ -395,7 +393,7 @@ class VeramoService {
    * @returns Array of booleans indicating if the Verifiable Credential was deleted
    */
   static async clearCredentials(args: {
-    store?: AvailableVCStores | AvailableVCStores[];
+    store?: AvailableCredentialStores | AvailableCredentialStores[];
     filter?: Filter;
   }): Promise<boolean[]> {
     const { store, filter } = args;
@@ -416,7 +414,7 @@ class VeramoService {
    * @returns Verifiable Presentation
    */
   static async createPresentation(
-    args: CreateVPRequestParams
+    args: CreatePresentationRequestParams
   ): Promise<VerifiablePresentation> {
     const { vcs, proofFormat = 'jwt', proofOptions } = args;
     const domain = proofOptions?.domain;
@@ -790,7 +788,7 @@ class VeramoService {
       }
 
       // if(!credentials) {
-      const store = ['snap'] as AvailableVCStores[];
+      const store = ['snap'] as AvailableCredentialStores[];
 
       const queryResults = await VeramoService.queryCredentials({
         options: { store, returnStore: false },
@@ -798,15 +796,9 @@ class VeramoService {
 
       const queriedCredentials: any = queryResults.map((result) => result.data);
 
-      console.log('queriedCredentials');
-      console.log(queriedCredentials);
-
       const selectCredentialsResult = await this.instance.selectCredentials({
         credentials: queriedCredentials,
       });
-
-      console.log('selectCredentialsResult');
-      console.log(selectCredentialsResult);
 
       if (isError(selectCredentialsResult)) {
         throw new Error(selectCredentialsResult.error);
@@ -936,7 +928,8 @@ class VeramoService {
   static async createAgent(): Promise<Agent> {
     const didProviders: Record<string, AbstractIdentifierProvider> = {};
     const vcStorePlugins: Record<string, AbstractDataStore> = {};
-    const enabledVCStores = await GeneralService.getEnabledVCStores();
+    const enabledCredentialStores =
+      await GeneralService.getEnabledCredentialStores();
 
     const networks = [
       {
@@ -968,9 +961,9 @@ class VeramoService {
     didProviders['did:pkh'] = new PkhDIDProvider({ defaultKms: 'web3' });
     didProviders['did:jwk'] = new JwkDIDProvider({ defaultKms: 'web3' });
 
-    vcStorePlugins.snap = new SnapVCStore();
-    if (enabledVCStores.includes('ceramic')) {
-      vcStorePlugins.ceramic = new CeramicVCStore();
+    vcStorePlugins.snap = new SnapCredentialStore();
+    if (enabledCredentialStores.includes('ceramic')) {
+      vcStorePlugins.ceramic = new CeramicCredentialStore();
     }
 
     return createAgent<

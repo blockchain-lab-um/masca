@@ -13,38 +13,38 @@ const SettingsCard = () => {
   const t = useTranslations('SettingsCard');
   const {
     api,
-    availableVCStores,
-    changeAvailableVCStores,
+    availableCredentialStores,
+    changeAvailableCredentialStores,
     popups,
     changePopups,
   } = useMascaStore(
     (state) => ({
       api: state.mascaApi,
       popups: state.popups,
-      availableVCStores: state.availableVCStores,
-      changeAvailableVCStores: state.changeAvailableVCStores,
+      availableCredentialStores: state.availableCredentialStores,
+      changeAvailableCredentialStores: state.changeAvailableCredentialStores,
       changePopups: state.changePopups,
     }),
     shallow
   );
 
-  const snapGetAvailableVCStores = async () => {
+  const snapGetAvailableCredentialStores = async () => {
     if (!api) return;
     const accountSettings = await api.getAccountSettings();
     if (isError(accountSettings)) {
       console.log('Error getting account settings', accountSettings);
       return;
     }
-    changeAvailableVCStores(accountSettings.data.ssi.vcStore);
+    changeAvailableCredentialStores(accountSettings.data.ssi.vcStore);
   };
 
-  const snapChangeAvailableVCStores = async (
+  const snapChangeAvailableCredentialStores = async (
     store: 'ceramic' | 'snap',
     value: boolean
   ) => {
     if (!api) return;
-    const res = await api.setVCStore(store, value);
-    await snapGetAvailableVCStores();
+    const res = await api.setCredentialStore(store, value);
+    await snapGetAvailableCredentialStores();
     if (isError(res)) {
       setTimeout(() => {
         useToastStore.setState({
@@ -77,7 +77,7 @@ const SettingsCard = () => {
   };
 
   const handleCeramicToggle = async (enabled: boolean) => {
-    await snapChangeAvailableVCStores('ceramic', enabled);
+    await snapChangeAvailableCredentialStores('ceramic', enabled);
   };
 
   return (
@@ -96,7 +96,7 @@ const SettingsCard = () => {
           Ceramic{' '}
           <ToggleSwitch
             size="md"
-            enabled={availableVCStores.ceramic}
+            enabled={availableCredentialStores.ceramic}
             setEnabled={handleCeramicToggle}
             shadow="md"
           />

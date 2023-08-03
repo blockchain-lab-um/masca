@@ -1,7 +1,7 @@
 import {
-  AvailableVCStores,
+  AvailableCredentialStores,
   isError,
-  QueryVCsRequestResult,
+  QueryCredentialsRequestResult,
 } from '@blockchain-lab-um/masca-connector';
 import { Dialog } from '@headlessui/react';
 import { useTranslations } from 'next-intl';
@@ -15,8 +15,8 @@ import { useMascaStore, useToastStore } from '@/stores';
 interface DeleteModalProps {
   isOpen: boolean;
   setOpen: (open: boolean) => void;
-  vc?: QueryVCsRequestResult;
-  store?: AvailableVCStores | undefined;
+  vc?: QueryCredentialsRequestResult;
+  store?: AvailableCredentialStores | undefined;
 }
 
 function DeleteModal({ isOpen, setOpen, vc, store }: DeleteModalProps) {
@@ -30,7 +30,7 @@ function DeleteModal({ isOpen, setOpen, vc, store }: DeleteModalProps) {
     shallow
   );
 
-  const deleteVC = async () => {
+  const deleteCredential = async () => {
     if (!api) return;
     setOpen(false);
     if (vc) {
@@ -48,14 +48,14 @@ function DeleteModal({ isOpen, setOpen, vc, store }: DeleteModalProps) {
       if (store) {
         deleteReqOptions = {
           store,
-        } as { store: AvailableVCStores };
+        } as { store: AvailableCredentialStores };
       } else if (vc.metadata.store) {
         deleteReqOptions = {
           store: vc.metadata.store,
-        } as { store: AvailableVCStores[] };
+        } as { store: AvailableCredentialStores[] };
       }
 
-      const res = await api.deleteVC(vc.metadata.id, deleteReqOptions);
+      const res = await api.deleteCredential(vc.metadata.id, deleteReqOptions);
 
       useToastStore.setState({
         open: false,
@@ -83,8 +83,8 @@ function DeleteModal({ isOpen, setOpen, vc, store }: DeleteModalProps) {
         });
       }, 200);
 
-      // TODO - Delete VC from local state instead of calling queryVCs.
-      const vcs = await api.queryVCs();
+      // TODO - Delete VC from local state instead of calling queryCredentials.
+      const vcs = await api.queryCredentials();
       if (isError(vcs)) {
         console.log(vcs.error);
         return;
@@ -129,7 +129,11 @@ function DeleteModal({ isOpen, setOpen, vc, store }: DeleteModalProps) {
           </Button>
         </div>
         <div className="ml-2 mt-10">
-          <Button onClick={() => deleteVC()} variant="warning" size="xs">
+          <Button
+            onClick={() => deleteCredential()}
+            variant="warning"
+            size="xs"
+          >
             {t('delete')}
           </Button>
         </div>

@@ -64,7 +64,7 @@ describe('removeFriendlyDapp', () => {
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'queryVCs',
+        method: 'queryCredentials',
         params: {},
       },
     })) as Result<unknown>;

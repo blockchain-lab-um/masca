@@ -1,12 +1,12 @@
 import {
+  availableCredentialStores,
+  AvailableCredentialStores,
   availableMethods,
-  availableVCStores,
-  AvailableVCStores,
   MascaAccountConfig,
   MascaConfig,
   MethodsRequiringNetwork,
   requiresNetwork,
-  SetVCStoreRequestParams,
+  SetCredentialStoreRequestParams,
   SwitchMethodRequestParams,
 } from '@blockchain-lab-um/masca-types';
 
@@ -141,7 +141,9 @@ class GeneralService {
    * Function that returns the current VCStore
    * @returns string - current VCStore
    */
-  static async getVCStore(): Promise<Record<AvailableVCStores, boolean>> {
+  static async getCredentialStore(): Promise<
+    Record<AvailableCredentialStores, boolean>
+  > {
     const state = StorageService.get();
     return state.accountState[state.currentAccount].accountConfig.ssi.vcStore;
   }
@@ -152,7 +154,9 @@ class GeneralService {
    * @param args.value - Value to enable/disable the VCStore if applicable
    * @returns boolean - whether the VCStore was set
    */
-  static async setVCStore(args: SetVCStoreRequestParams): Promise<boolean> {
+  static async setCredentialStore(
+    args: SetCredentialStoreRequestParams
+  ): Promise<boolean> {
     const state = StorageService.get();
     const { store, value } = args;
 
@@ -172,22 +176,24 @@ class GeneralService {
    * @param args.value - Value to enable/disable the VCStore if applicable
    * @returns boolean - whether the VCStore was set
    */
-  static async getEnabledVCStores(): Promise<AvailableVCStores[]> {
+  static async getEnabledCredentialStores(): Promise<
+    AvailableCredentialStores[]
+  > {
     const state = StorageService.get();
 
     return Object.entries(
       state.accountState[state.currentAccount].accountConfig.ssi.vcStore
     )
       .filter(([, value]) => value)
-      .map(([key]) => key) as AvailableVCStores[];
+      .map(([key]) => key) as AvailableCredentialStores[];
   }
 
   /**
    * Function that returns a list of enabled VCStores
    * @returns array - list of enabled VCStores
    */
-  static async getAvailableVCStores(): Promise<string[]> {
-    return availableVCStores.map((store) => store);
+  static async getAvailableCredentialStores(): Promise<string[]> {
+    return availableCredentialStores.map((store) => store);
   }
 
   /**

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import {
-  AvailableVCStores,
   isError,
-  QueryVCsRequestResult,
+  type AvailableCredentialStores,
+  type QueryCredentialsRequestResult,
 } from '@blockchain-lab-um/masca-connector';
 import { Dialog } from '@headlessui/react';
 import { useTranslations } from 'next-intl';
@@ -18,7 +18,7 @@ import { useMascaStore, useToastStore } from '@/stores';
 interface ModifyDSModalProps {
   isOpen: boolean;
   setOpen: (open: boolean) => void;
-  vc: QueryVCsRequestResult;
+  vc: QueryCredentialsRequestResult;
 }
 
 function ModifyDSModal({ isOpen, setOpen, vc }: ModifyDSModalProps) {
@@ -26,11 +26,11 @@ function ModifyDSModal({ isOpen, setOpen, vc }: ModifyDSModalProps) {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
   const [deleteModalStore, setDeleteModalStore] = useState<
-    AvailableVCStores | undefined
+    AvailableCredentialStores | undefined
   >(undefined);
   const { enabledStores, api, changeVcs, changeLastFetch } = useMascaStore(
     (state) => ({
-      enabledStores: state.availableVCStores,
+      enabledStores: state.availableCredentialStores,
       api: state.mascaApi,
       changeVcs: state.changeVcs,
       changeLastFetch: state.changeLastFetch,
@@ -66,7 +66,10 @@ function ModifyDSModal({ isOpen, setOpen, vc }: ModifyDSModalProps) {
     }
   });
 
-  const handleDSChange = async (store: AvailableVCStores, enabled: boolean) => {
+  const handleDSChange = async (
+    store: AvailableCredentialStores,
+    enabled: boolean
+  ) => {
     if (!api) return;
 
     if (!enabled) {
@@ -84,7 +87,7 @@ function ModifyDSModal({ isOpen, setOpen, vc }: ModifyDSModalProps) {
       });
     }, 200);
 
-    const res = await api.saveVC(vc.data, { store });
+    const res = await api.saveCredential(vc.data, { store });
 
     useToastStore.setState({
       open: false,
@@ -111,7 +114,7 @@ function ModifyDSModal({ isOpen, setOpen, vc }: ModifyDSModalProps) {
       });
     }, 200);
 
-    const vcs = await api.queryVCs();
+    const vcs = await api.queryCredentials();
 
     if (isError(vcs)) {
       console.log(vcs.error);
@@ -147,7 +150,7 @@ function ModifyDSModal({ isOpen, setOpen, vc }: ModifyDSModalProps) {
                   enabled={vcStores[store].saved}
                   disabled={!vcStores[store].enabled}
                   setEnabled={(e) => {
-                    handleDSChange(store as AvailableVCStores, e)
+                    handleDSChange(store as AvailableCredentialStores, e)
                       .then(() => {})
                       .catch(() => {});
                   }}

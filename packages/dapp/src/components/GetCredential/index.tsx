@@ -141,7 +141,7 @@ const GetCredential = () => {
 
     // Save credential
     // TODO: Handle multiple credentials
-    const saveCredentialResponse = await api.saveVC(credential[0], {
+    const saveCredentialResponse = await api.saveCredential(credential[0], {
       store: ['snap'],
     });
 

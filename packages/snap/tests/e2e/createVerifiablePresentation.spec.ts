@@ -95,7 +95,7 @@ describe('createVerifiablePresentation', () => {
                 request: {
                   id: 'test-id',
                   jsonrpc: '2.0',
-                  method: 'createVP',
+                  method: 'createPresentation',
                   params: {
                     vcs: vc.vcs,
                     proofFormat,
@@ -133,7 +133,7 @@ describe('createVerifiablePresentation', () => {
               request: {
                 id: 'test-id',
                 jsonrpc: '2.0',
-                method: 'createVP',
+                method: 'createPresentation',
                 params: {
                   vcs: vc.vcs,
                   proofFormat,
@@ -170,7 +170,7 @@ describe('createVerifiablePresentation', () => {
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
-          method: 'createVP',
+          method: 'createPresentation',
           params: {
             vcs: [exampleVC],
           },
@@ -203,7 +203,7 @@ describe('createVerifiablePresentation', () => {
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
-          method: 'createVP',
+          method: 'createPresentation',
           params: {
             vcs: [],
           },
@@ -224,7 +224,7 @@ describe('createVerifiablePresentation', () => {
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
-          method: 'createVP',
+          method: 'createPresentation',
           params: {
             vcs: [{ great: 'day' }],
           },
