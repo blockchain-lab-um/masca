@@ -35,7 +35,6 @@ jobs:
         with:
           ref: master
           fetch-depth: 0
-          submodules: true
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
