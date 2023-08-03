@@ -2,9 +2,9 @@
   "presets": [
     [
       "@babel/preset-env",
-      { "targets": { "esmodules": false, "node": "current" } }
+      { "targets": { "esmodules": false, "node": "current"} }
     ],
     "@babel/preset-typescript"
   ],
-  "plugins": ["@babel/plugin-syntax-import-assertions"]
+  "plugins": ["@babel/plugin-syntax-import-assertions", "@babel/transform-runtime"]
 }

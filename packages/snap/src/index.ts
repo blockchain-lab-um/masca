@@ -1,4 +1,5 @@
 import './polyfills/intl';
+import "regenerator-runtime/runtime.js";
 
 import { isValidSetCurrentAccountRequest } from '@blockchain-lab-um/masca-types';
 import { ResultObject, type Result } from '@blockchain-lab-um/utils';

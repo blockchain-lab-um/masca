@@ -77,6 +77,12 @@ import { KeyManagementSystem } from '@veramo/kms-local';
 import { decodeCredentialToObject } from '@veramo/utils';
 import { DIDResolutionResult, Resolver } from 'did-resolver';
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver';
+import {
+  CredentialIssuerLD,
+  // LdDefaultContexts,
+  // VeramoEcdsaSecp256k1RecoverySignature2020,
+  // VeramoEd25519Signature2018,
+} from "@veramo/credential-ld";
 import * as qs from 'qs';
 
 import EthereumService from '../Ethereum.service';
@@ -979,6 +985,15 @@ class VeramoService {
       plugins: [
         new CredentialPlugin(),
         new CredentialIssuerEIP712(),
+        new CredentialIssuerLD({
+          contextMaps: [
+            // LdDefaultContexts
+          ],
+          suites: [
+            // new VeramoEd25519Signature2018(),
+            // new VeramoEcdsaSecp256k1RecoverySignature2020(),
+          ],
+        }),
         new CredentialStatusPlugin({
           // TODO implement This
           StatusList2021Entry: (
