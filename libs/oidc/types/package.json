@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@blockchain-lab-um/utils": "1.3.1-beta.0",
-    "@veramo/core": "5.2.0"
+    "@veramo/core": "5.3.0"
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.0.1",
@@ -46,12 +46,12 @@
     "eslint-config-prettier": "^8.7.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-unused-imports": "^2.0.0",
-    "lint-staged": "^13.2.2",
+    "lint-staged": "^13.2.3",
     "prettier": "^2.8.0",
     "prettier-plugin-packagejson": "^2.4.3",
     "rimraf": "^5.0.1",
     "tsup": "^6.6.3",
-    "typescript": "5.1.3"
+    "typescript": "5.1.6"
   },
   "publishConfig": {
     "access": "public"
