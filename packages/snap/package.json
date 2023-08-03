@@ -53,7 +53,7 @@
     "test:ci": "pnpm run test --silent --coverage"
   },
   "dependencies": {
-    "@0xpolygonid/js-sdk": "2.0.0",
+    "@0xpolygonid/js-sdk": "1.0.1",
     "@babel/runtime": "7.22.3",
     "@blockchain-lab-um/did-provider-ebsi": "1.0.0",
     "@blockchain-lab-um/did-provider-key": "1.0.2-beta.0",

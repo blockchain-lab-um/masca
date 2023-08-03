@@ -12,14 +12,13 @@ on:
 jobs:
   main:
     name: Nx Cloud - Main Job
-    uses: blockchain-lab-um/ci/.github/workflows/nx-cloud-main.yml@v0.13.1
+    uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.13.0
     secrets:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     with:
       pnpm-version: 8.6.10
       node-version: 18.16.0
       number-of-agents: 4
-      submodules: true
       main-branch-name: 'develop'
       init-commands: |
         npx nx-cloud record -- pnpm exec prettier . --check
@@ -30,11 +29,10 @@ jobs:
 
   agents:
     name: Nx Cloud - Agents
-    uses: blockchain-lab-um/ci/.github/workflows/nx-cloud-agents.yml@v0.13.1
+    uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.13.0
     secrets:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     with:
       number-of-agents: 4
       pnpm-version: 8.6.10
       node-version: 18.16.0
-      submodules: true
