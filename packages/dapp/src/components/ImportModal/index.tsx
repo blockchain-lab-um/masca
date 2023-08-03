@@ -17,12 +17,18 @@ interface ImportModalProps {
   isOpen: boolean;
   setOpen: (open: boolean) => void;
   importVC: (vc: string, stores: AvailableVCStores[]) => Promise<boolean>;
+  credential?: string;
 }
 
-function ImportModal({ isOpen, setOpen, importVC }: ImportModalProps) {
+function ImportModal({
+  isOpen,
+  setOpen,
+  importVC,
+  credential = '',
+}: ImportModalProps) {
   const t = useTranslations('ImportModal');
   const [loading, setLoading] = useState(false);
-  const [vc, setVC] = useState('');
+  const [vc, setVC] = useState(credential);
   const VCStores = useMascaStore((state) => state.availableVCStores);
   const availableStores = Object.keys(VCStores).filter(
     (key) => VCStores[key] === true

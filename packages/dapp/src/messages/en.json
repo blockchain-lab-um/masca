@@ -23,7 +23,9 @@
         "get-credential": "Get your credential using the OpenID Connect protocol",
         "github": "View Masca code on GitHub",
         "qr-code-session": "Create session to scan QR codes using your mobile device",
-        "twitter": "Follow Masca on Twitter"
+        "twitter": "Follow Masca on Twitter",
+        "create-credential": "Create a Verifiable Credential",
+        "verify-data": "Verify Verifiable Credentials & Verifiable Presentations"
       },
       "discord": "Discord",
       "documentation": "Documentation",
@@ -31,7 +33,9 @@
       "get-credential": "Get Credentials",
       "github": "GitHub",
       "qr-code-session": "QR Scanner",
-      "twitter": "Twitter"
+      "twitter": "Twitter",
+      "create-credential": "Create Credential",
+      "verify-data": "Verify Data"
     },
     "menu": {
       "authorization-request": "Authorization Request",
@@ -81,6 +85,24 @@
       "type": "TYPE"
     },
     "title": "Create Presentation"
+  },
+  "CreateVerifiableCredential": {
+    "options": {
+      "format": "Format",
+      "title": "OPTIONS"
+    },
+    "title": "Create Credential",
+    "save": {
+      "title": "Save",
+      "description": "Would you like to save newly created Credential in Masca?",
+      "storage": "Storage",
+      "select-storage-placeholder": "Select storage"
+    },
+    "toast": {
+      "loading": "Creating Credential...",
+      "error-json": "Payload is not a valid JSON",
+      "error-vc": "Payload is not a valid!"
+    }
   },
   "CredentialDisplay": {
     "create-presentation": "Create Verifiable Presentation",

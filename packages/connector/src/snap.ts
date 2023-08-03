@@ -328,7 +328,7 @@ export async function createVC(
   }
 
   const signedResult = ResultObject.success(
-    await signVerifiableCredential(vcResult.data)
+    await signVerifiableCredential(vcResult.data, params, this)
   );
 
   return signedResult;

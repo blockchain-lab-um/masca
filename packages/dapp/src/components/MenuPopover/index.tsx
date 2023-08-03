@@ -89,14 +89,24 @@ type LinkProps = {
 };
 
 const INTERNAL_LINKS: LinkProps[] = [
+  // {
+  //   name: 'ecosystem',
+  //   href: '/ecosystem',
+  //   icon: IconEcosystem,
+  // },
   {
-    name: 'ecosystem',
-    href: '/ecosystem',
+    name: 'create-credential',
+    href: '/app/create-credential',
+    icon: IconEcosystem,
+  },
+  {
+    name: 'verify-data',
+    href: '/app/verify-data',
     icon: IconEcosystem,
   },
 ];
 
-const INTERNAL_EXTRA_LINKS = [
+const INTERNAL_EXTRA_LINKS: LinkProps[] = [
   // {
   //   name: 'get-credential',
   //   href: '/app/get-credential',
@@ -107,34 +117,34 @@ const INTERNAL_EXTRA_LINKS = [
   //   href: '/app/authorization-request',
   //   icon: IconEcosystem,
   // },
-  {
-    name: 'qr-code-session',
-    href: '/app/qr-code-session',
-    icon: IconEcosystem,
-  },
+  // {
+  //   name: 'qr-code-session',
+  //   href: '/app/qr-code-session',
+  //   icon: IconEcosystem,
+  // },
 ];
 
 const EXTERNAL_LINKS: LinkProps[] = [
-  {
-    name: 'blog',
-    href: 'https://medium.com/@blockchainlabum',
-    icon: IconMedium,
-  },
-  {
-    name: 'discord',
-    href: 'https://discord.com/invite/M5xgNz7TTF',
-    icon: IconDiscord,
-  },
-  {
-    name: 'twitter',
-    href: 'https://twitter.com/masca_io',
-    icon: IconTwitter,
-  },
-  {
-    name: 'github',
-    href: 'https://github.com/blockchain-lab-um/masca',
-    icon: IconGithub,
-  },
+  // {
+  //   name: 'blog',
+  //   href: 'https://medium.com/@blockchainlabum',
+  //   icon: IconMedium,
+  // },
+  // {
+  //   name: 'discord',
+  //   href: 'https://discord.com/invite/M5xgNz7TTF',
+  //   icon: IconDiscord,
+  // },
+  // {
+  //   name: 'twitter',
+  //   href: 'https://twitter.com/masca_io',
+  //   icon: IconTwitter,
+  // },
+  // {
+  //   name: 'github',
+  //   href: 'https://github.com/blockchain-lab-um/masca',
+  //   icon: IconGithub,
+  // },
 ];
 
 type DropDownItemProps = {
@@ -178,8 +188,8 @@ function MenuPopover() {
             <ChevronDownIcon
               className={`animated-transition ml-1 h-5 w-5 ${
                 open
-                  ? 'dark:text-orange-accent-dark rotate-180 text-pink-500 group-hover:text-pink-500'
-                  : 'dark:group-hover:text-orange-accent-dark text-gray-600 group-hover:text-pink-500 '
+                  ? 'dark:text-orange-accent-dark dark:group-hover:text-orange-accent-dark rotate-180 text-pink-500 group-hover:text-pink-500'
+                  : 'dark:group-hover:text-orange-accent-dark dark:text-navy-blue-400 text-gray-600 group-hover:text-pink-500 '
               }
                   `}
               aria-hidden="true"
