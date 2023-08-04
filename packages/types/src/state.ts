@@ -45,6 +45,7 @@ export type MascaAccountState = {
   vcs: Record<string, W3CVerifiableCredential>;
   accountConfig: MascaAccountConfig;
   ceramicSession?: string;
+  googleSession?: string;
 };
 
 export type PolygonBaseState = {
