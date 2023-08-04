@@ -2,6 +2,7 @@ import {
   availableMethods,
   availableVCStores,
   AvailableVCStores,
+  GOOGLE_DRIVE_BACKUP_FILE,
   MascaAccountConfig,
   MascaConfig,
   MethodsRequiringNetwork,
@@ -11,6 +12,7 @@ import {
 } from '@blockchain-lab-um/masca-types';
 
 import EthereumService from './Ethereum.service';
+import GoogleService from './storage/Google.service';
 import StorageService from './storage/Storage.service';
 import UIService from './UI.service';
 import { validateSession } from './utils/ceramicUtils';
@@ -241,6 +243,32 @@ class GeneralService {
     );
 
     return serializedSession;
+  }
+
+  /**
+   * Function that sets the google credential tokens
+   * @param args.accessToken - Google access token
+   * @returns boolean - whether the tokens were set
+   */
+  static async setGoogleToken(args: { accessToken?: string }) {
+    const state = StorageService.get();
+
+    state.accountState[state.currentAccount].googleSession = args.accessToken;
+
+    return true;
+  }
+
+  static async createGoogleBackup() {
+    let file = await GoogleService.findFile({
+      fileName: GOOGLE_DRIVE_BACKUP_FILE,
+    });
+    if (!file)
+      file = await GoogleService.createFile({
+        fileName: GOOGLE_DRIVE_BACKUP_FILE as string,
+        content: '',
+      });
+
+    return file;
   }
 }
 

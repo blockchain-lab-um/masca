@@ -544,6 +544,9 @@ class SnapService {
       case 'validateStoredCeramicSession':
         await GeneralService.validateStoredCeramicSession();
         return ResultObject.success(true);
+      case 'setGoogleToken':
+        res = await GeneralService.setGoogleToken(params);
+        return ResultObject.success(res);
       default:
         throw new Error('Method not found.');
     }
