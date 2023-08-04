@@ -13,7 +13,7 @@ import { onRpcRequest } from '../../src';
 import StorageService from '../../src/storage/Storage.service';
 import type { StoredCredentials } from '../../src/veramo/plugins/ceramicDataStore/ceramicDataStore';
 import VeramoService, { type Agent } from '../../src/veramo/Veramo.service';
-import { account, importablePrivateKey } from '../data/constants';
+import { account } from '../data/constants';
 import examplePayload from '../data/credentials/examplePayload.json';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createTestVCs } from '../helpers/generateTestVCs';
@@ -89,8 +89,6 @@ describe('saveVerifiableCredential', () => {
       kms: 'snap',
     });
 
-    await agent.keyManagerImport(importablePrivateKey);
-
     // Create test VC
     const res = await createTestVCs(
       {
@@ -100,9 +98,6 @@ describe('saveVerifiableCredential', () => {
           issuer: identifier.did,
           ...examplePayload,
         },
-      },
-      {
-        keyRef: 'importedTestKey',
       }
     );
     generatedVC = res.exampleVeramoVCJWT;

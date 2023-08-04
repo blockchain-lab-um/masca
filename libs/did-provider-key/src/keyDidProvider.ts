@@ -58,9 +58,7 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
       context
     );
 
-    console.log(key);
-
-    if (options?.type === 'ebsi') {
+  if (options?.type === 'ebsi') {
       const compressedKey =
         keyType === 'Secp256k1'
           ? getCompressedPublicKey(`0x${key.publicKeyHex}`)
