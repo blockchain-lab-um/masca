@@ -27,6 +27,7 @@
     "@metamask/providers": "^10.2.0",
     "@prisma/client": "^4.16.1",
     "@radix-ui/react-toast": "^1.1.4",
+    "@react-oauth/google": "^0.11.1",
     "@tanstack/react-table": "^8.9.2",
     "@veramo/core": "5.2.0",
     "@veramo/utils": "5.2.0",

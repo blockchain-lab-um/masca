@@ -13,6 +13,7 @@ const MascaLogo = () => (
       src={'/images/masca_white.png'}
       alt="Masca Logo"
       fill={true}
+      sizes="(max-width: 640px) 28px, (max-width: 768px) 36px, (max-width: 1024px) 46px, (max-width: 1280px) 48px, 54px"
     />
   </div>
 );
