@@ -199,7 +199,7 @@ const CheckMetaMaskCompatibility = () => {
 
   useEffect(() => {
     const lsIsConnected = localStorage.getItem('isConnected');
-    if(lsIsConnected !== 'true') return;
+    if (lsIsConnected !== 'true') return;
     if (!hasMM || !hasFlask) return;
     if (isConnected) return;
     if (isConnecting) return;
