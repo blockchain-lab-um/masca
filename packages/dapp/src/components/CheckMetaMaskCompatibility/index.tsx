@@ -197,6 +197,17 @@ const CheckMetaMaskCompatibility = () => {
   }, [hasMM, hasFlask]);
 
   useEffect(() => {
+    if (!hasMM || !hasFlask) return;
+    if (isConnected) return;
+    if (isConnecting) return;
+    changeIsConnecting(true);
+    connectHandler().catch((err) => {
+      console.error(err);
+      changeIsConnecting(false);
+    });
+  }, [hasMM, hasFlask]);
+
+  useEffect(() => {
     if (!hasMM || !hasFlask || !address) return;
     console.log('Address changed to', address);
     enableMascaHandler().catch((err) => {
