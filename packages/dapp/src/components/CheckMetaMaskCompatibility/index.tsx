@@ -85,6 +85,7 @@ const CheckMetaMaskCompatibility = () => {
 
       // Set the address
       changeAddress((result as string[])[0]);
+      localStorage.setItem('isConnected', 'true');
     }
   };
 
@@ -197,6 +198,8 @@ const CheckMetaMaskCompatibility = () => {
   }, [hasMM, hasFlask]);
 
   useEffect(() => {
+    const lsIsConnected = localStorage.getItem('isConnected');
+    if(lsIsConnected !== 'true') return;
     if (!hasMM || !hasFlask) return;
     if (isConnected) return;
     if (isConnecting) return;
