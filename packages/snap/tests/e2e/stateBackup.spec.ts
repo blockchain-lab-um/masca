@@ -94,7 +94,7 @@ describe('stateBackup', () => {
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
-            method: 'saveVC',
+            method: 'saveCredential',
             params: {
               verifiableCredential: generatedVC,
               options: { store: 'snap' },
@@ -170,7 +170,7 @@ describe('stateBackup', () => {
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
-            method: 'saveVC',
+            method: 'saveCredential',
             params: {
               verifiableCredential: generatedVC,
               options: { store: 'snap' },
