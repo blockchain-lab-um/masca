@@ -34,7 +34,7 @@
     "@sphereon/pex": "^2.0.1",
     "@veramo/core": "5.2.0",
     "@veramo/credential-eip712": "5.2.0",
-    "@veramo/credential-ld": "5.2.0",
+    "@veramo/credential-ld": "5.0.0",
     "@veramo/did-manager": "5.1.2",
     "@veramo/key-manager": "5.1.2",
     "@veramo/utils": "5.2.0",

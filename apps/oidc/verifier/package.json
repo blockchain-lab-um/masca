@@ -37,7 +37,7 @@
     "@types/uuid": "9.0.1",
     "@veramo/core": "5.2.0",
     "@veramo/credential-eip712": "5.2.0",
-    "@veramo/credential-ld": "5.2.0",
+    "@veramo/credential-ld": "5.0.0",
     "@veramo/credential-w3c": "5.2.0",
     "@veramo/data-store": "5.2.0",
     "@veramo/did-jwt": "5.2.0",

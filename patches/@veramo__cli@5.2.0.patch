@@ -1,0 +1,13 @@
+diff --git a/package.json b/package.json
+index e6c5ca3128d68c179d9fa4953a631cc3a9ea42e4..6e121a22b8556eacc5b4f360c95a0903020a8169 100644
+--- a/package.json
++++ b/package.json
+@@ -41,7 +41,7 @@
+     "@veramo/core": "^5.2.0",
+     "@veramo/core-types": "^5.1.2",
+     "@veramo/credential-eip712": "^5.2.0",
+-    "@veramo/credential-ld": "^5.2.0",
++    "@veramo/credential-ld": "5.0.0",
+     "@veramo/credential-w3c": "^5.2.0",
+     "@veramo/data-store": "^5.2.0",
+     "@veramo/did-comm": "^5.2.0",

@@ -79,7 +79,7 @@
     "@types/uuid": "^9.0.1",
     "@veramo/core": "5.3.0",
     "@veramo/credential-eip712": "5.3.0",
-    "@veramo/credential-ld": "5.3.0",
+    "@veramo/credential-ld": "5.0.0",
     "@veramo/credential-status": "5.3.0",
     "@veramo/credential-w3c": "5.3.0",
     "@veramo/did-manager": "5.3.0",

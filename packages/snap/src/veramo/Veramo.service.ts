@@ -79,9 +79,9 @@ import { DIDResolutionResult, Resolver } from 'did-resolver';
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver';
 import {
   CredentialIssuerLD,
-  // LdDefaultContexts,
-  // VeramoEcdsaSecp256k1RecoverySignature2020,
-  // VeramoEd25519Signature2018,
+   LdDefaultContexts,
+   VeramoEcdsaSecp256k1RecoverySignature2020,
+   VeramoEd25519Signature2018,
 } from "@veramo/credential-ld";
 import * as qs from 'qs';
 
@@ -987,11 +987,11 @@ class VeramoService {
         new CredentialIssuerEIP712(),
         new CredentialIssuerLD({
           contextMaps: [
-            // LdDefaultContexts
+            LdDefaultContexts
           ],
           suites: [
-            // new VeramoEd25519Signature2018(),
-            // new VeramoEcdsaSecp256k1RecoverySignature2020(),
+            new VeramoEd25519Signature2018(),
+            new VeramoEcdsaSecp256k1RecoverySignature2020(),
           ],
         }),
         new CredentialStatusPlugin({
