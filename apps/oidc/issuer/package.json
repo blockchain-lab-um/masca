@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/oidc-issuer",
-  "version": "0.0.1",
+  "version": "0.0.2-beta.0",
   "private": true,
   "description": "",
   "license": "MIT",
@@ -25,10 +25,10 @@
     "test:watch": "pnpm jest --watch"
   },
   "dependencies": {
-    "@blockchain-lab-um/did-provider-key": "1.0.1",
-    "@blockchain-lab-um/oidc-rp-plugin": "0.0.1",
-    "@blockchain-lab-um/oidc-types": "0.0.1",
-    "@blockchain-lab-um/utils": "1.3.0",
+    "@blockchain-lab-um/did-provider-key": "1.0.2-beta.0",
+    "@blockchain-lab-um/oidc-rp-plugin": "0.0.2-beta.0",
+    "@blockchain-lab-um/oidc-types": "0.0.2-beta.0",
+    "@blockchain-lab-um/utils": "1.3.1-beta.0",
     "@ethereumjs/util": "^8.0.6",
     "@fastify/formbody": "^7.4.0",
     "@nestjs/common": "^9.4.2",

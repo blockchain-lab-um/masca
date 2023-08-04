@@ -15,7 +15,7 @@ import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createTestVCs } from '../helpers/generateTestVCs';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
-describe('deleteVC', () => {
+describe('deleteCredential', () => {
   let ceramicData: StoredCredentials;
   let snapMock: SnapsGlobalObject & SnapMock;
   let agent: Agent;
@@ -100,7 +100,7 @@ describe('deleteVC', () => {
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'saveVC',
+        method: 'saveCredential',
         params: {
           verifiableCredential: generatedVC,
           options: { store: 'snap' },
@@ -124,7 +124,7 @@ describe('deleteVC', () => {
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'deleteVC',
+        method: 'deleteCredential',
         params: {
           id: saveRes.data[0].id,
         },
@@ -141,7 +141,7 @@ describe('deleteVC', () => {
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'queryVCs',
+        method: 'queryCredentials',
         params: {},
       },
     })) as Result<unknown>;
@@ -161,7 +161,7 @@ describe('deleteVC', () => {
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'saveVC',
+        method: 'saveCredential',
         params: {
           verifiableCredential: generatedVC,
           options: { store: 'snap' },
@@ -185,7 +185,7 @@ describe('deleteVC', () => {
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'deleteVC',
+        method: 'deleteCredential',
         params: {
           id: saveRes.data[0].id,
           options: { store: 'snap' },
@@ -204,7 +204,7 @@ describe('deleteVC', () => {
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'queryVCs',
+        method: 'queryCredentials',
         params: {},
       },
     })) as Result<unknown>;
@@ -224,7 +224,7 @@ describe('deleteVC', () => {
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'saveVC',
+        method: 'saveCredential',
         params: {
           verifiableCredential: generatedVC,
           options: { store: 'snap' },
@@ -248,7 +248,7 @@ describe('deleteVC', () => {
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'deleteVC',
+        method: 'deleteCredential',
         params: {
           id: 'wrong_id',
           options: { store: 'snap' },
@@ -267,7 +267,7 @@ describe('deleteVC', () => {
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'queryVCs',
+        method: 'queryCredentials',
         params: {},
       },
     })) as Result<unknown>;

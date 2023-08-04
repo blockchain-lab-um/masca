@@ -1,13 +1,13 @@
 import { Fragment } from 'react';
-import { AvailableVCStores } from '@blockchain-lab-um/masca-connector';
+import { AvailableCredentialStores } from '@blockchain-lab-um/masca-connector';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 
 interface DropdownMultiselectProps {
   items: string[];
-  selectedItems: AvailableVCStores[];
-  setSelectedItems: (items: AvailableVCStores[]) => void;
+  selectedItems: AvailableCredentialStores[];
+  setSelectedItems: (items: AvailableCredentialStores[]) => void;
   placeholder?: string;
   name?: string;
 }

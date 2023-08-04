@@ -1,4 +1,4 @@
-import { availableVCStores } from '@blockchain-lab-um/masca-types';
+import { availableCredentialStores } from '@blockchain-lab-um/masca-types';
 import { isError, Result } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
@@ -8,7 +8,7 @@ import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
-describe('getAvailableVCStores', () => {
+describe('getAvailableCredentialStores', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
 
   beforeAll(async () => {
@@ -27,7 +27,7 @@ describe('getAvailableVCStores', () => {
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'getAvailableVCStores',
+        method: 'getAvailableCredentialStores',
         params: {},
       },
     })) as Result<unknown>;
@@ -36,7 +36,7 @@ describe('getAvailableVCStores', () => {
       throw new Error(res.error);
     }
 
-    expect(res.data).toEqual(availableVCStores);
+    expect(res.data).toEqual(availableCredentialStores);
 
     expect.assertions(1);
   });

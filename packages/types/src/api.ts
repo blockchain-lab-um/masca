@@ -7,52 +7,63 @@ import type {
   W3CVerifiableCredential,
 } from '@veramo/core';
 
-import type { AvailableMethods, AvailableVCStores } from './constants.js';
 import type {
-  CreateVCRequestParams,
-  CreateVPRequestParams,
-  DeleteVCsOptions,
+  AvailableCredentialStores,
+  AvailableMethods,
+} from './constants.js';
+import type {
+  CreateCredentialRequestParams,
+  CreatePresentationRequestParams,
+  DeleteCredentialsOptions,
   HandleAuthorizationRequestParams,
   HandleCredentialOfferRequestParams,
-  QueryVCsRequestParams,
-  SaveVCOptions,
+  QueryCredentialsRequestParams,
+  SaveCredentialOptions,
   SetCurrentAccountRequestParams,
   VerifyDataRequestParams,
 } from './params.js';
-import type { QueryVCsRequestResult, SaveVCRequestResult } from './results.js';
+import type {
+  QueryCredentialsRequestResult,
+  SaveCredentialRequestResult,
+} from './results.js';
 import type { MascaAccountConfig, MascaConfig } from './state.js';
 
 export interface MascaApi {
-  queryVCs(
-    params?: QueryVCsRequestParams
-  ): Promise<Result<QueryVCsRequestResult[]>>;
-  saveVC(
+  queryCredentials(
+    params?: QueryCredentialsRequestParams
+  ): Promise<Result<QueryCredentialsRequestResult[]>>;
+  saveCredential(
     vc: W3CVerifiableCredential,
-    options?: SaveVCOptions
-  ): Promise<Result<SaveVCRequestResult[]>>;
-  createVP(
-    params: CreateVPRequestParams
+    options?: SaveCredentialOptions
+  ): Promise<Result<SaveCredentialRequestResult[]>>;
+  createPresentation(
+    params: CreatePresentationRequestParams
   ): Promise<Result<VerifiablePresentation>>;
   togglePopups(): Promise<Result<boolean>>;
   getDID(): Promise<Result<string>>;
   getSelectedMethod(): Promise<Result<string>>;
   getAvailableMethods(): Promise<Result<string[]>>;
   switchDIDMethod(method: AvailableMethods): Promise<Result<AvailableMethods>>;
-  getVCStore(): Promise<Result<Record<AvailableVCStores, boolean>>>;
-  setVCStore(
-    store: AvailableVCStores,
+  getCredentialStore(): Promise<
+    Result<Record<AvailableCredentialStores, boolean>>
+  >;
+  setCredentialStore(
+    store: AvailableCredentialStores,
     value: boolean
   ): Promise<Result<boolean>>;
-  getAvailableVCStores(): Promise<Result<string[]>>;
-  deleteVC(id: string, options?: DeleteVCsOptions): Promise<Result<boolean[]>>;
+  getAvailableCredentialStores(): Promise<Result<string[]>>;
+  deleteCredential(
+    id: string,
+    options?: DeleteCredentialsOptions
+  ): Promise<Result<boolean[]>>;
   getAccountSettings(): Promise<Result<MascaAccountConfig>>;
   getSnapSettings(): Promise<Result<MascaConfig>>;
   resolveDID(did: string): Promise<Result<DIDResolutionResult>>;
   verifyData(
     params: VerifyDataRequestParams
   ): Promise<Result<boolean | IVerifyResult>>;
-  createVC(
-    params: CreateVCRequestParams
+  createCredential(
+    params: CreateCredentialRequestParams
   ): Promise<Result<VerifiableCredential>>;
   setCurrentAccount(
     params: SetCurrentAccountRequestParams
@@ -65,4 +76,6 @@ export interface MascaApi {
   ): Promise<Result<void>>;
   setCeramicSession(serializedSession: string): Promise<Result<boolean>>;
   validateStoredCeramicSession(): Promise<Result<boolean>>;
+  addFriendlyDapp(): Promise<Result<boolean>>;
+  removeFriendlyDapp(id: string): Promise<Result<boolean>>;
 }

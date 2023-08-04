@@ -16,7 +16,7 @@ import { decodeJWT } from '../../../utils/jwt';
 export type StoredCredentials = {
   vcs: Record<string, W3CVerifiableCredential>;
 };
-export class CeramicVCStore extends AbstractDataStore {
+export class CeramicCredentialStore extends AbstractDataStore {
   async query(args: IFilterArgs): Promise<Array<IQueryResult>> {
     const { filter } = args;
     const state = StorageService.get();

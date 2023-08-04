@@ -362,7 +362,6 @@ class PolygonService {
     const { authHandler } = this.instance[method][blockchain][networkId];
 
     const messageBytes = byteEncoder.encode(authorizationRequest);
-
     try {
       const did = DID.parse(await this.getIdentifier());
 
@@ -482,7 +481,7 @@ class PolygonService {
       [
         mapKey,
         {
-          key: circuitData.verificationKey,
+          key: circuitData.verificationKey as Uint8Array,
           verificationFn,
         },
       ],

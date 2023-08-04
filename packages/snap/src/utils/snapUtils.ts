@@ -1,26 +1,9 @@
 import crypto from 'crypto';
 import type {
-  AvailableVCStores,
+  AvailableCredentialStores,
   MascaState,
 } from '@blockchain-lab-um/masca-types';
 import { hexToUint8Array, uint8ArrayToHex } from '@blockchain-lab-um/utils';
-import type { Component } from '@metamask/snaps-ui';
-
-/**
- * Function that returns whether the user has confirmed the snap dialog.
- * @param content - content to display in the snap dialog.
- * @returns boolean - whether the user has confirmed the snap dialog.
- */
-export async function snapConfirm(content: Component): Promise<boolean> {
-  const res = await snap.request({
-    method: 'snap_dialog',
-    params: {
-      type: 'confirmation',
-      content,
-    },
-  });
-  return res as boolean;
-}
 
 /**
  * Checks if the passed VC store is enabled for the passed account.
@@ -29,10 +12,10 @@ export async function snapConfirm(content: Component): Promise<boolean> {
  * @param store - vc store to check.
  * @returns boolean - whether the vc store is enabled.
  */
-export function isEnabledVCStore(
+export function isEnabledCredentialStore(
   account: string,
   state: MascaState,
-  store: AvailableVCStores
+  store: AvailableCredentialStores
 ): boolean {
   return state.accountState[account].accountConfig.ssi.vcStore[store];
 }

@@ -46,7 +46,7 @@ export abstract class AbstractDataStore {
 }
 ```
 
-This abstract class enables the [ `SnapVCStore` ](../masca/architecture.md) plugin, which stores the array of VCs in MetaMask State, and `CeramicVCStore` , which stores VCs on Ceramic Network.
+This abstract class enables the [ `SnapCredentialStore` ](../masca/architecture.md) plugin, which stores the array of VCs in MetaMask State, and `CeramicCredentialStore` , which stores VCs on Ceramic Network.
 
 ### How to use
 
@@ -55,9 +55,9 @@ This abstract class enables the [ `SnapVCStore` ](../masca/architecture.md) plug
 Add the plugin to the Veramo agent setup.
 
 ```typescript
-  const vcStorePlugins: Record<string, AbstractVCStore> = {};
-  vcStorePlugins['snap'] = new SnapVCStore();
-  vcStorePlugins['ceramic'] = new CeramicVCStore();
+  const vcStorePlugins: Record<string, AbstractCredentialStore> = {};
+  vcStorePlugins['snap'] = new SnapCredentialStore();
+  vcStorePlugins['ceramic'] = new CeramicCredentialStore();
   vcStorePlugins['memory'] = new MemoryDataStore();
   export const agent = createAgent<
       ...

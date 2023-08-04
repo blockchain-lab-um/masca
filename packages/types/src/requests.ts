@@ -1,24 +1,26 @@
 import type {
-  CreateVC,
-  CreateVP,
-  DeleteVC,
+  AddFriendlyDapp,
+  CreateCredential,
+  CreatePresentation,
+  DeleteCredential,
   ExportStateBackup,
   GetAccountSettings,
+  GetAvailableCredentialStores,
   GetAvailableMethods,
-  GetAvailableVCStores,
+  GetCredentialStore,
   GetDID,
   GetMethod,
   GetSnapSettings,
-  GetVCStore,
   HandleAuthorization,
   HandleCredentialOffer,
   ImportStateBackup,
-  QueryVCs,
+  QueryCredentials,
+  RemoveFriendlyDapp,
   ResolveDID,
-  SaveVC,
+  SaveCredential,
   SetCeramicSession,
+  SetCredentialStore,
   SetCurrentAccount,
-  SetVCStore,
   SwitchMethod,
   TogglePopups,
   ValidateStoredCeramicSession,
@@ -26,22 +28,24 @@ import type {
 } from './methods.js';
 
 export type MascaRPCRequest =
-  | QueryVCs
-  | SaveVC
-  | CreateVP
-  | DeleteVC
+  | QueryCredentials
+  | SaveCredential
+  | CreatePresentation
+  | DeleteCredential
   | TogglePopups
+  | AddFriendlyDapp
+  | RemoveFriendlyDapp
   | GetDID
   | GetMethod
   | GetAvailableMethods
   | SwitchMethod
-  | GetVCStore
-  | SetVCStore
-  | GetAvailableVCStores
+  | GetCredentialStore
+  | SetCredentialStore
+  | GetAvailableCredentialStores
   | GetAccountSettings
   | GetSnapSettings
   | ResolveDID
-  | CreateVC
+  | CreateCredential
   | SetCurrentAccount
   | VerifyData
   | HandleCredentialOffer

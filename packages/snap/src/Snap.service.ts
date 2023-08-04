@@ -1,31 +1,30 @@
 import { W3CCredential } from '@0xpolygonid/js-sdk';
 import {
-  CreateVCRequestParams,
-  CreateVPRequestParams,
-  DeleteVCsRequestParams,
+  CreateCredentialRequestParams,
+  CreatePresentationRequestParams,
+  DeleteCredentialsRequestParams,
   HandleAuthorizationRequestParams,
   HandleCredentialOfferRequestParams,
   isPolygonSupportedMethods,
-  isValidCreateVCRequest,
-  isValidCreateVPRequest,
-  isValidDeleteVCsRequest,
+  isValidCreateCredentialRequest,
+  isValidCreatePresentationRequest,
+  isValidDeleteCredentialsRequest,
   isValidImportStateBackupRequest,
-  isValidQueryVCsRequest,
+  isValidQueryCredentialsRequest,
   isValidResolveDIDRequest,
-  isValidSaveVCRequest,
-  isValidSetVCStoreRequest,
+  isValidSaveCredentialRequest,
+  isValidSetCredentialStoreRequest,
   isValidSwitchMethodRequest,
   isValidVerifyDataRequest,
   isVeramoSupportedMethods,
   polygonSupportedMethods,
-  QueryVCsRequestParams,
-  QueryVCsRequestResult,
-  SaveVCRequestParams,
-  SaveVCRequestResult,
+  QueryCredentialsRequestParams,
+  QueryCredentialsRequestResult,
+  SaveCredentialRequestParams,
+  SaveCredentialRequestResult,
   VerifyDataRequestParams,
 } from '@blockchain-lab-um/masca-types';
 import { Result, ResultObject } from '@blockchain-lab-um/utils';
-import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
 import {
   DIDResolutionResult,
   IVerifyResult,
@@ -39,7 +38,7 @@ import { VerifiablePresentation } from 'did-jwt-vc';
 import GeneralService from './General.service';
 import PolygonService from './polygon-id/Polygon.service';
 import StorageService from './storage/Storage.service';
-import { snapConfirm } from './utils/snapUtils';
+import UIService from './UI.service';
 import VeramoService from './veramo/Veramo.service';
 import WalletService from './Wallet.service';
 
@@ -55,8 +54,8 @@ class SnapService {
    * @returns array - Array of VCs.
    */
   static async queryCredentials(
-    args: QueryVCsRequestParams
-  ): Promise<QueryVCsRequestResult[]> {
+    args: QueryCredentialsRequestParams
+  ): Promise<QueryCredentialsRequestResult[]> {
     const { filter, options } = args ?? {};
     const { store, returnStore = true } = options ?? {};
 
@@ -66,7 +65,7 @@ class SnapService {
       filter,
     });
 
-    const polygonCredentials: QueryVCsRequestResult[] = (
+    const polygonCredentials: QueryCredentialsRequestResult[] = (
       await PolygonService.queryCredentials()
     ).map((vc) => ({
       data: vc as VerifiableCredential,
@@ -78,21 +77,7 @@ class SnapService {
 
     const vcs = [...veramoCredentials, ...polygonCredentials];
 
-    const content = panel([
-      heading('Share VCs'),
-      text('Are you sure you want to share VCs with this dApp?'),
-      divider(),
-      text(
-        `Some dApps are less secure than others and could save data from VCs against your will. Be careful where you send your VCs! Number of VCs submitted is ${vcs.length.toString()}`
-      ),
-      text('This popup will not appear again for this dApp.'),
-    ]);
-
-    if (
-      (await GeneralService.isFriendlyDapp(this.origin)) ||
-      (await snapConfirm(content))
-    ) {
-      await GeneralService.addFriendlyDapp(this.origin);
+    if (await UIService.queryAllDialog(vcs)) {
       return vcs;
     }
 
@@ -106,21 +91,12 @@ class SnapService {
    * @returns array - Array of SaveVCRequestResult with id and the store the VC is saved in.
    */
   static async saveCredential(
-    args: SaveVCRequestParams
-  ): Promise<SaveVCRequestResult[]> {
+    args: SaveCredentialRequestParams
+  ): Promise<SaveCredentialRequestResult[]> {
     const { verifiableCredential, options } = args;
     const { store = 'snap' } = options ?? {};
 
-    const content = panel([
-      heading('Save VC'),
-      text('Would you like to save the following VC?'),
-      divider(),
-      text(`Store(s): ${typeof store === 'string' ? store : store.join(', ')}`),
-      text(`VC:`),
-      copyable(JSON.stringify(verifiableCredential, null, 2)),
-    ]);
-
-    if (await snapConfirm(content)) {
+    if (await UIService.saveCredentialDialog(store, verifiableCredential)) {
       // If it is a string handle with Veramo
       if (typeof verifiableCredential === 'string') {
         const res = await VeramoService.saveCredential({
@@ -168,7 +144,7 @@ class SnapService {
    * @returns UnsignedCredential | VerifiableCredential - Created VC.
    */
   static async createCredential(
-    args: CreateVCRequestParams
+    args: CreateCredentialRequestParams
   ): Promise<UnsignedCredential | VerifiableCredential> {
     const { minimalUnsignedCredential, proofFormat, options } = args;
     const { store = 'snap' } = options ?? {};
@@ -186,32 +162,28 @@ class SnapService {
       return unsignedVc;
     }
 
+    let storeString = '';
+    if (save === true) {
+      storeString = `Store(s): ${
+        typeof store === 'string' ? store : store.join(', ')
+      }`;
+    }
+
     const vc = await VeramoService.createCredential({
       credential: minimalUnsignedCredential,
       proofFormat,
     });
 
-    if (save === true) {
-      const content = panel([
-        heading('Save VC'),
-        text('Would you like to save the following VC?'),
-        divider(),
-        text(
-          `Store(s): ${typeof store === 'string' ? store : store.join(', ')}`
-        ),
-        text(`VC:`),
-        copyable(JSON.stringify(vc, null, 2)),
-      ]);
-
-      if (await snapConfirm(content)) {
+    if (await UIService.createCredentialDialog(save, storeString, vc)) {
+      if (save === true) {
         await VeramoService.saveCredential({
           verifiableCredential: vc,
           store,
         });
       }
+      return vc;
     }
-
-    return vc;
+    throw new Error('User rejected create Credential request');
   }
 
   /**
@@ -221,7 +193,7 @@ class SnapService {
    * @returns array - Array of booleans indicating whether the VC was deleted.
    */
   static async deleteCredential(
-    args: DeleteVCsRequestParams
+    args: DeleteCredentialsRequestParams
   ): Promise<boolean[]> {
     const { id, options } = args ?? {};
     const store = options?.store;
@@ -232,7 +204,7 @@ class SnapService {
     });
 
     // FIXME: Implement filter
-    const polygonCredentials: QueryVCsRequestResult[] = (
+    const polygonCredentials: QueryCredentialsRequestResult[] = (
       await PolygonService.queryCredentials()
     )
       .map((vc) => ({
@@ -253,15 +225,8 @@ class SnapService {
       if (typeof store === 'string') stores = store;
       else stores = store.join(', ');
     }
-    const content = panel([
-      heading('Delete VC'),
-      text('Are you sure you want to delete this VC?'),
-      divider(),
-      text(`Store: ${stores}`),
-      text(`VCs: ${JSON.stringify(vcs, null, 2)}`),
-    ]);
 
-    if (await snapConfirm(content)) {
+    if (await UIService.deleteCredentialDialog(stores, vcs)) {
       if (polygonCredentials.length > 0) {
         await PolygonService.deleteCredential(id);
         return [true];
@@ -290,7 +255,7 @@ class SnapService {
    * @returns UnsignedPresentation | VerifiablePresentation - Created VP.
    */
   static async createPresentation(
-    args: CreateVPRequestParams
+    args: CreatePresentationRequestParams
   ): Promise<UnsignedPresentation | VerifiablePresentation> {
     const { vcs, proofFormat = 'jwt', proofOptions } = args;
     const state = StorageService.get();
@@ -301,27 +266,19 @@ class SnapService {
       throw new Error('No credentials provided');
     }
 
-    const content = panel([
-      heading('Create VP'),
-      text('Would you like to create a VP from the following VC(s)?'),
-      divider(),
-      text(`VC(s):`),
-      ...vcs.map((vc) => copyable(JSON.stringify(vc, null, 2))),
-    ]);
-
-    if (state.snapConfig.dApp.disablePopups || (await snapConfirm(content))) {
-      if (method === 'did:ethr' || method === 'did:pkh') {
-        if (proofFormat !== 'EthereumEip712Signature2021') {
-          throw new Error('proofFormat must be EthereumEip712Signature2021');
-        }
-
-        const unsignedVp = await VeramoService.createUnsignedPresentation({
-          credentials: args.vcs,
-        });
-
-        return unsignedVp;
+    if (method === 'did:ethr' || method === 'did:pkh') {
+      if (proofFormat !== 'EthereumEip712Signature2021') {
+        throw new Error('proofFormat must be EthereumEip712Signature2021');
       }
 
+      const unsignedVp = await VeramoService.createUnsignedPresentation({
+        credentials: args.vcs,
+      });
+
+      return unsignedVp;
+    }
+
+    if (await UIService.createPresentationDialog(vcs)) {
       const res = await VeramoService.createPresentation({
         vcs,
         proofFormat,
@@ -418,6 +375,9 @@ class SnapService {
       parsedOffer.type ===
       'https://iden3-communication.io/credentials/1.0/offer'
     ) {
+      if (!(await UIService.handleCredentialOfferDialog(parsedOffer))) {
+        throw new Error('User denied credential offer');
+      }
       await PolygonService.init();
       await PolygonService.createOrImportIdentity();
       return (await PolygonService.handleCredentialOffer({
@@ -457,13 +417,16 @@ class SnapService {
       parsedOffer.type ===
       'https://iden3-communication.io/authorization/1.0/request'
     ) {
+      if (!(await UIService.handleAuthorizationRequestDialog(parsedOffer))) {
+        throw new Error('User denied authorization request');
+      }
+
       await PolygonService.init();
       await PolygonService.createOrImportIdentity();
       return PolygonService.handleAuthorizationRequest({
         authorizationRequest,
       });
     }
-
     throw new Error('Unsupported authorization request');
   }
 
@@ -493,27 +456,27 @@ class SnapService {
        * - Veramo.service
        * - Polygon.service
        */
-      case 'queryVCs':
-        isValidQueryVCsRequest(params, state.currentAccount, state);
+      case 'queryCredentials':
+        isValidQueryCredentialsRequest(params, state.currentAccount, state);
         await PolygonService.init();
         res = await this.queryCredentials(params);
         return ResultObject.success(res);
-      case 'saveVC':
-        isValidSaveVCRequest(params, state.currentAccount, state);
+      case 'saveCredential':
+        isValidSaveCredentialRequest(params, state.currentAccount, state);
         res = await this.saveCredential(params);
         return ResultObject.success(res);
-      case 'createVC':
-        isValidCreateVCRequest(params, state.currentAccount, state);
+      case 'createCredential':
+        isValidCreateCredentialRequest(params, state.currentAccount, state);
         await VeramoService.importIdentifier();
         res = await this.createCredential(params);
         return ResultObject.success(res);
-      case 'createVP':
-        isValidCreateVPRequest(params);
+      case 'createPresentation':
+        isValidCreatePresentationRequest(params);
         await VeramoService.importIdentifier();
         res = await this.createPresentation(params);
         return ResultObject.success(res);
-      case 'deleteVC':
-        isValidDeleteVCsRequest(params, state.currentAccount, state);
+      case 'deleteCredential':
+        isValidDeleteCredentialsRequest(params, state.currentAccount, state);
         await PolygonService.init();
         res = await this.deleteCredential(params);
         return ResultObject.success(res);
@@ -539,7 +502,13 @@ class SnapService {
        * General.service
        */
       case 'togglePopups':
-        await GeneralService.togglePopups();
+        res = await GeneralService.togglePopups();
+        return ResultObject.success(res);
+      case 'addFriendlyDapp':
+        await GeneralService.addFriendlyDapp(this.origin);
+        return ResultObject.success(true);
+      case 'removeFriendlyDapp':
+        await GeneralService.removeFriendlyDapp(params);
         return ResultObject.success(true);
       case 'switchDIDMethod':
         isValidSwitchMethodRequest(params);
@@ -550,15 +519,15 @@ class SnapService {
       case 'getSelectedMethod':
         res = await GeneralService.getSelectedMethod();
         return ResultObject.success(res);
-      case 'getVCStore':
-        res = await GeneralService.getVCStore();
+      case 'getCredentialStore':
+        res = await GeneralService.getCredentialStore();
         return ResultObject.success(res);
-      case 'setVCStore':
-        isValidSetVCStoreRequest(params);
-        res = await GeneralService.setVCStore(params);
+      case 'setCredentialStore':
+        isValidSetCredentialStoreRequest(params);
+        res = await GeneralService.setCredentialStore(params);
         return ResultObject.success(res);
-      case 'getAvailableVCStores':
-        res = await GeneralService.getAvailableVCStores();
+      case 'getAvailableCredentialStores':
+        res = await GeneralService.getAvailableCredentialStores();
         return ResultObject.success(res);
       case 'getAccountSettings':
         res = await GeneralService.getAccountSettings();

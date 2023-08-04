@@ -24,10 +24,10 @@ function PlaygroundModal({ open, setOpen }: PlaygroundModalProps) {
     shallow
   );
 
-  const createVC = async () => {
+  const createCredential = async () => {
     if (!api) return;
     setLoading(true);
-    const res = await api.createVC({
+    const res = await api.createCredential({
       minimalUnsignedCredential: JSON.parse(vc),
       proofFormat: 'EthereumEip712Signature2021',
     });
@@ -139,7 +139,7 @@ function PlaygroundModal({ open, setOpen }: PlaygroundModalProps) {
                   <div className="ml-2 mt-4">
                     <Button
                       onClick={async () => {
-                        await createVC();
+                        await createCredential();
                       }}
                       variant="primary"
                       size="xs"

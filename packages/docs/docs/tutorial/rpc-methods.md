@@ -8,16 +8,16 @@ You can find all of the types mentioned below in the library `@blockchain-lab-um
 
 ## VC Methods
 
-### saveVC
+### saveCredential
 
 #### Description
 
-`saveVC` stores a VC in Masca. VC can be saved in one or more supported stores.
+`saveCredential` stores a VC in Masca. VC can be saved in one or more supported stores.
 
 #### Parameters
 
 1. `verifiableCredential` - type `W3CVerifiableCredential` from `@veramo/core`
-2. `options?` - `SaveVCRequestParams`.
+2. `options?` - `SaveCredentialRequestParams`.
    1. `store?` - `string` or `string[]` . Defines where to store the VC.
 
 ```typescript
@@ -26,7 +26,7 @@ const response = await ethereum.request({
   params: {
     snapId: snapId,
     request: {
-      method: 'saveVC',
+      method: 'saveCredential',
       params: {
         verifiableCredential: vc,
       },
@@ -37,17 +37,17 @@ const response = await ethereum.request({
 
 #### Returns
 
-`SaveVCRequestResult[]`
+`SaveCredentialRequestResult[]`
 
-### queryVCs
+### queryCredentials
 
 #### Description
 
-`queryVCs` gets a list of VCs stored by the currently selected MetaMask account. Optional parameter `params` is an `object` with optional properties `filter` , and `options` .
+`queryCredentials` gets a list of VCs stored by the currently selected MetaMask account. Optional parameter `params` is an `object` with optional properties `filter` , and `options` .
 
-`filter` defines what `queryVCs` returns, and `options` defines where to search for data and what format to return it in.
+`filter` defines what `queryCredentials` returns, and `options` defines where to search for data and what format to return it in.
 
-`QueryVCsRequestParams` :
+`QueryCredentialsRequestParams` :
 
 Currently, three different `filter` types are supported; `none` , `id` , and `JSONPath` . Type `none` will work as if no filter property was provided, `id` will search for matching ID of VC and `JSONPath` will use [ `jsonpath` ](https://www.npmjs.com/package/jsonpath) to find matching VCs.
 
@@ -72,8 +72,8 @@ const jsonPath =
 
 #### Parameters
 
-1. `filter?` - `QueryVCsRequestParams` object.
-2. `options?` - `QueryVCsOptions` object.
+1. `filter?` - `QueryCredentialsRequestParams` object.
+2. `options?` - `QueryCredentialsOptions` object.
 
 ```typescript
 const response = await ethereum.request({
@@ -81,7 +81,7 @@ const response = await ethereum.request({
   params: {
     snapId: snapId,
     request: {
-      method: 'queryVCs',
+      method: 'queryCredentials',
       params: {
         filter: {
           type: 'id',
@@ -99,18 +99,18 @@ const response = await ethereum.request({
 
 #### Returns
 
-`QueryVCsRequestResult[]`
+`QueryCredentialsRequestResult[]`
 
-### deleteVC
+### deleteCredential
 
 #### Description
 
-`deleteVC` deletes a VC from one or more stores, based on an ID obtained with `queryVCs` method.
+`deleteCredential` deletes a VC from one or more stores, based on an ID obtained with `queryCredentials` method.
 
 #### Parameters
 
 1. `id` - `id` of a VC.
-2. `options?` - `DeleteVCsOptions` object.
+2. `options?` - `DeleteCredentialsOptions` object.
 
 ```typescript
 const response = await ethereum.request({
@@ -118,7 +118,7 @@ const response = await ethereum.request({
   params: {
     snapId: snapId,
     request: {
-      method: 'deleteVC',
+      method: 'deleteCredential',
       params: {
         id: '123',
         options: {
@@ -134,17 +134,19 @@ const response = await ethereum.request({
 
 `boolean[]` - `true` , if VC deleted from store X, `false` if there was an error, or a VC was not found.
 
-### createVC
+### createCredential
 
 #### Description
 
-`createVC` creates a VC from the payload. `proofFormat` can be selected, and the created VC can be optionally stored in the snap.
+`createCredential` creates a VC from the payload. `proofFormat` can be selected, and the created VC can be optionally stored in the snap.
+
+**Methods `did:pkh` and `did:ethr` will return an unsigned credential!** that needs to be signed manually on the dApp, as making signatures with Ethereum addresses is not possible in Masca. Here is an [example](https://github.com/blockchain-lab-um/masca/blob/bf00dbf4a4deb8882f76a293ffc565501d5dc2f9/packages/connector/src/utils.ts#L113-L170) of how we handle this in Connector.
 
 #### Parameters
 
 1. `minimalUnsignedCredential` - payload used to create a VC. Needs to contain at least `type`, `credentialSubject`, `credentialSchema` and `@context`.
 2. `proofFormat` - Can be `jwt`, `json-ld` or `EthereumEIP712Signature`.
-3. `options?` - `CreateVCOptions` object.
+3. `options?` - `CreateCredentialOptions` object.
 
 ```typescript
 
@@ -169,7 +171,7 @@ const response = await ethereum.request({
   params: {
     snapId: snapId,
     request: {
-      method: 'createVC'
+      method: 'createCredential'
       params: {
         minimalUnsignedCredential: payload,
         proofFormat: 'jwt',
@@ -187,14 +189,14 @@ const response = await ethereum.request({
 
 `VerifiableCredential`
 
-### createVP
+### createPresentation
 
 #### Description
 
-`createVP` gets a VP for one or more passed VCs. `params` object is of type:
+`createPresentation` gets a VP for one or more passed VCs. `params` object is of type:
 
 ```typescript
-export type CreateVPRequestParams = {
+export type CreatePresentationRequestParams = {
   vcs: W3CVerifiableCredential[];
   proofFormat?: 'jwt' | 'lds' | 'EthereumEip712Signature2021';
   proofOptions?: {
@@ -207,7 +209,7 @@ export type CreateVPRequestParams = {
 export type VCRequest = {
   id: string;
   metadata?: {
-    store?: AvailableVCStores;
+    store?: AvailableCredentialStores;
   };
 };
 ```
@@ -219,6 +221,8 @@ export type VCRequest = {
 `options?` defines `domain` , `type` , and `challenge` if needed.
 
 `holder` of the VP will be a DID generated based on the currently selected MetaMask account **AND** the currently set DID Method.
+
+**Methods `did:pkh` and `did:ethr` will return an unsigned presentation!** that needs to be signed manually on the dApp, as making signatures with Ethereum addresses is not possible in Masca. Here is an [example](https://github.com/blockchain-lab-um/masca/blob/bf00dbf4a4deb8882f76a293ffc565501d5dc2f9/packages/connector/src/utils.ts#L62C1-L111) of how we handle this in Connector.
 
 #### Parameters
 
@@ -232,7 +236,7 @@ const response = await ethereum.request({
   params: {
     snapId: snapId,
     request: {
-      method: 'createVP',
+      method: 'createPresentation',
       params: {
         vcs: [verifiableCredentialObject],
         proofFormat: 'jwt',
@@ -336,11 +340,11 @@ const response = await ethereum.request({
 
 ## VC Store Methods
 
-### getVCStore
+### getCredentialStore
 
 #### Description
 
-`getVCStore` gets the selected VC Store plugin.
+`getCredentialStore` gets the selected VC Store plugin.
 
 ```typescript
 const response = await ethereum.request({
@@ -348,7 +352,7 @@ const response = await ethereum.request({
   params: {
     snapId: snapId,
     request: {
-      method: 'getVCStore',
+      method: 'getCredentialStore',
     },
   },
 });
@@ -356,17 +360,17 @@ const response = await ethereum.request({
 
 #### Returns
 
-A `Record` of `VCStores[]` and whether or not they're enabled. By default both snap & ceramic are enabled.
+A `Record` of `CredentialStores[]` and whether or not they're enabled. By default both snap & ceramic are enabled.
 
-### setVCStore
+### setCredentialStore
 
 #### Description
 
-`setVCStore` changes the selected VC Store plugin.
+`setCredentialStore` changes the selected VC Store plugin.
 
 #### Parameters
 
-1. `store` - name of the VC Store plugin (`"snap"` or `"ceramic"`). Must be one of methods returned by `getAvailableVCStores`.
+1. `store` - name of the VC Store plugin (`"snap"` or `"ceramic"`). Must be one of methods returned by `getAvailableCredentialStores`.
 2. `value` - `boolean`. Enable/disable specific store plugins.
 
 :::danger BE CAREFUL!
@@ -381,7 +385,7 @@ const response = await ethereum.request({
   params: {
     snapId: snapId,
     request: {
-      method: 'setVCStore',
+      method: 'setCredentialStore',
       params: {
         store: 'ceramic',
         value: false,
@@ -395,11 +399,11 @@ const response = await ethereum.request({
 
 `boolean`
 
-### getAvailableVCStores
+### getAvailableCredentialStores
 
 #### Description
 
-`getAvailableVCStores` gets a `string[]` list of supported VC Store plugins.
+`getAvailableCredentialStores` gets a `string[]` list of supported VC Store plugins.
 
 ```typescript
 const response = await ethereum.request({
@@ -407,7 +411,7 @@ const response = await ethereum.request({
   params: {
     snapId: snapId,
     request: {
-      method: 'getAvailableVCStores',
+      method: 'getAvailableCredentialStores',
     },
   },
 });
@@ -423,7 +427,7 @@ const response = await ethereum.request({
 
 #### Description
 
-`togglePopups` toggles popups that show up whenever the user tries to save a VC, generate a VP, etc.
+`togglePopups` toggles popups that show up whenever the user tries to save a VC, generate a VP, etc. Popups are enabled by default to keep user in total control of their actions. With popups disabled, a dApp can query user's credentials, etc. without them knowing. We recommend using `addFriendlyDapp` instead to only trust specific dApps.
 
 ```typescript
 const response = await ethereum.request({
@@ -432,6 +436,45 @@ const response = await ethereum.request({
     snapId: snapId,
     request: {
       method: 'togglePopups',
+    },
+  },
+});
+```
+
+### addFriendlyDapp
+
+#### Description
+
+`addFriendlyDapp` adds the current dApp (origin of the current dApp) to the list of friendly dApps. Friendly dApps do not show popups.
+
+```typescript
+const response = await ethereum.request({
+  method: 'wallet_invokeSnap',
+  params: {
+    snapId: snapId,
+    request: {
+      method: 'addFriendlyDapp',
+    },
+  },
+});
+```
+
+### togglePopups
+
+#### Description
+
+`removeFriendlyDapp` removes a dApp from friendly dApps.
+
+```typescript
+const response = await ethereum.request({
+  method: 'wallet_invokeSnap',
+  params: {
+    snapId: snapId,
+    request: {
+      method: 'removeFriendlyDapp',
+      params: {
+        dApp: 'https://www.masca.io',
+      },
     },
   },
 });
@@ -527,7 +570,7 @@ const response = await ethereum.request({
 export type SSIAccountConfig = {
   ssi: {
     didMethod: AvailableMethods;
-    vcStore: Record<AvailableVCStores, boolean>;
+    vcStore: Record<AvailableCredentialStores, boolean>;
   };
 };
 ```
