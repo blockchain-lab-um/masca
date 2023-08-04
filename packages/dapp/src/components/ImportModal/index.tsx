@@ -22,12 +22,7 @@ interface ImportModalProps {
   ) => Promise<boolean>;
 }
 
-function ImportModal({
-  isOpen,
-  setOpen,
-  importVC,
-  credential = '',
-}: ImportModalProps) {
+function ImportModal({ isOpen, setOpen, importVC }: ImportModalProps) {
   const t = useTranslations('ImportModal');
   const [loading, setLoading] = useState(false);
   const [vc, setVC] = useState('');
@@ -40,12 +35,12 @@ function ImportModal({
 
   const [selectedItems, setSelectedItems] = useState<
     AvailableCredentialStores[]
-  >([availableStores[0], availableStores[1]]);
+  >([availableStores[0]]);
   return (
     <Modal isOpen={isOpen} setOpen={setOpen}>
       <Dialog.Title
         as="h3"
-        className="text-h3 font-ubuntu dark:text-navy-blue-50 font-medium leading-6 text-gray-800"
+        className="text-h3 font-ubuntu dark:text-navy-blue-50 font-medium leading-6 text-gray-900"
       >
         {t('title')}
       </Dialog.Title>
@@ -55,10 +50,10 @@ function ImportModal({
         </p>
       </div>
       <div className="mt-5">
-        <div className="dark:bg-navy-blue-400 dark:border-navy-blue-400 group relative z-0 rounded-2xl border border-gray-200 bg-gray-100 pr-2 pt-1">
+        <div className="dark:bg-navy-blue-300 dark:border-navy-blue-400 group relative z-0 rounded-2xl border border-gray-200 bg-gray-100 pr-2 pt-1">
           <textarea
             className={clsx(
-              'group-hover:scrollbar-thumb-orange-300 dark:text-navy-blue-800 dark:bg-navy-blue-400',
+              'group-hover:scrollbar-thumb-orange-300 dark:text-navy-blue-800 dark:bg-navy-blue-300',
               'scrollbar-thin scrollbar-thumb-orange-300/0 scrollbar-thumb-rounded-full font-jetbrains-mono',
               'min-h-[60vh] w-full resize-none rounded-2xl bg-gray-100 p-2 text-gray-700 focus:outline-none'
             )}

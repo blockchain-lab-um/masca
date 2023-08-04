@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
-  AvailableVCStores,
+  AvailableCredentialStores,
   isError,
   SupportedProofFormats,
 } from '@blockchain-lab-um/masca-connector';
@@ -35,14 +35,13 @@ const CreateCredentialDisplay = () => {
   const [credentialPayload, setCredentialPayload] = useState(
     'Credential Payload...'
   );
-  const VCStores = useMascaStore((state) => state.availableVCStores);
+  const VCStores = useMascaStore((state) => state.availableCredentialStores);
   const availableStores = Object.keys(VCStores).filter(
     (key) => VCStores[key] === true
   );
-  const [selectedItems, setSelectedItems] = useState<AvailableVCStores[]>([
-    availableStores[0] as AvailableVCStores,
-    availableStores[1] as AvailableVCStores,
-  ]);
+  const [selectedItems, setSelectedItems] = useState<
+    AvailableCredentialStores[]
+  >([availableStores[0] as AvailableCredentialStores]);
   const { didMethod, api, did } = useMascaStore(
     (state) => ({
       didMethod: state.currDIDMethod,
@@ -119,7 +118,7 @@ const CreateCredentialDisplay = () => {
       });
     }, 200);
 
-    const res = await api.createVC({
+    const res = await api.createCredential({
       minimalUnsignedCredential: vcObj,
       proofFormat: proofFormats[format],
       options: {
@@ -161,10 +160,10 @@ const CreateCredentialDisplay = () => {
         </div>
       </div>
 
-      <div className="dark:bg-navy-blue-400 dark:border-navy-blue-400 group relative z-0 m-8 rounded-2xl border border-gray-200 bg-gray-100 pr-2 pt-1">
+      <div className="dark:bg-navy-blue-300 dark:border-navy-blue-400 group relative z-0 m-8 rounded-2xl border border-gray-200 bg-gray-100 pr-2 pt-1">
         <textarea
           className={clsx(
-            'group-hover:scrollbar-thumb-orange-300 dark:text-navy-blue-800 dark:bg-navy-blue-400',
+            'group-hover:scrollbar-thumb-orange-300 dark:text-navy-blue-800 dark:bg-navy-blue-300',
             'scrollbar-thin scrollbar-thumb-orange-300/0 scrollbar-thumb-rounded-full font-jetbrains-mono',
             'min-h-[60vh] w-full resize-none rounded-2xl bg-gray-100 p-2 text-gray-700 focus:outline-none'
           )}
@@ -192,7 +191,7 @@ const CreateCredentialDisplay = () => {
         </div>
       </div>
       <div>
-        <div className="mt-16 flex items-baseline justify-between px-4">
+        <div className="mt-4 flex items-baseline justify-between px-4">
           <div className="text-h5 dark:text-navy-blue-100 font-ubuntu mt-8 flex font-medium text-gray-800">
             {t('save.title')} <InfoIcon>{t('save.description')}</InfoIcon>
           </div>

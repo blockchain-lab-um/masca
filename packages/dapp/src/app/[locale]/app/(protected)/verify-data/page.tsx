@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import SettingsCard from '@/components/SettingsCard';
+import VerifyDataDisplay from '@/components/VerifyDataDisplay';
 
 export const metadata: Metadata = {
   title: 'Verify Data',
@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <div className="flex flex-1 items-center justify-center">
-      <div className="dark:bg-navy-blue-800 w-full max-w-sm flex-col justify-center rounded-3xl bg-white shadow-lg md:max-w-md lg:max-w-lg xl:max-w-[34rem]">
-        <SettingsCard />
+      <div className="dark:bg-navy-blue-800 w-full max-w-md flex-col justify-center rounded-3xl bg-white shadow-lg md:max-w-lg lg:max-w-xl xl:max-w-[46rem]">
+        <VerifyDataDisplay />
       </div>
     </div>
   );

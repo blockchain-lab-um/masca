@@ -1,4 +1,4 @@
-import { CreateVCRequestParams } from '@blockchain-lab-um/masca-types';
+import { CreateCredentialRequestParams } from '@blockchain-lab-um/masca-types';
 import { isError } from '@blockchain-lab-um/utils';
 import { EthereumWebAuth, getAccountId } from '@didtools/pkh-ethereum';
 import {
@@ -128,7 +128,7 @@ export async function signVerifiablePresentation(
  */
 export async function signVerifiableCredential(
   credential: UnsignedCredential,
-  params: CreateVCRequestParams,
+  params: CreateCredentialRequestParams,
   masca: Masca
 ): Promise<VerifiableCredential> {
   const addresses: string[] = await window.ethereum.request({
@@ -186,9 +186,12 @@ export async function signVerifiableCredential(
 
   if (params.options && params.options.save) {
     const api = masca.getMascaApi();
-    const result = await api.saveVC(credential as VerifiableCredential, {
-      store: params.options.store,
-    });
+    const result = await api.saveCredential(
+      credential as VerifiableCredential,
+      {
+        store: params.options.store,
+      }
+    );
     if (isError(result)) {
       throw new Error('Failed to save VC in Masca.');
     }

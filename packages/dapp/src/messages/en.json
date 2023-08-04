@@ -104,6 +104,16 @@
       "error-vc": "Payload is not a valid!"
     }
   },
+  "VerifyData": {
+    "title": "Verify Presentations & Credentials",
+    "verify": "Verify",
+    "toast": {
+      "loading": "Creating Credential...",
+      "error-json": "Data is not a valid JSON",
+      "error-type": "Data is not a valid VC/VP",
+      "error-verify": "Data is not valid!"
+    }
+  },
   "CredentialDisplay": {
     "create-presentation": "Create Verifiable Presentation",
     "datastores": "DATASTORES",
