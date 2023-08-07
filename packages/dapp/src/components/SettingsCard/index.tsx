@@ -120,7 +120,7 @@ const SettingsCard = () => {
             </div>
             <ToggleSwitch
               size="md"
-              enabled={popups as boolean}
+              enabled={popups!}
               setEnabled={snapTogglePopups}
               shadow="md"
             />

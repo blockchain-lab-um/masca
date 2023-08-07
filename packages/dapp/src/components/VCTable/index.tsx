@@ -157,7 +157,7 @@ const Table = () => {
         <span className="flex items-center justify-center">
           {info.getValue() === undefined
             ? '/'
-            : new Date(info.getValue() as string).toDateString()}
+            : new Date(info.getValue()!).toDateString()}
         </span>
       ),
       header: () => <span>{t('table.expiration-date')}</span>,

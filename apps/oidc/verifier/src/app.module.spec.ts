@@ -227,12 +227,12 @@ describe('Verifier controler', () => {
           'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
 
         const { verifiableCredential } = pex.selectFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           [jwtVc]
         );
 
         const presentationSubmission = pex.presentationSubmissionFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           verifiableCredential ?? []
         );
 
@@ -313,12 +313,12 @@ describe('Verifier controler', () => {
           'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
 
         const { verifiableCredential } = pex.selectFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           [jwtVc]
         );
 
         const presentationSubmission = pex.presentationSubmissionFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           verifiableCredential ?? []
         );
 
@@ -397,12 +397,12 @@ describe('Verifier controler', () => {
           'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
 
         const { verifiableCredential } = pex.selectFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           [jwtVc]
         );
 
         const presentationSubmission = pex.presentationSubmissionFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           verifiableCredential ?? []
         );
 
@@ -482,12 +482,12 @@ describe('Verifier controler', () => {
           'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
 
         const { verifiableCredential } = pex.selectFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           [jwtVc]
         );
 
         const presentationSubmission = pex.presentationSubmissionFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           verifiableCredential ?? []
         );
 
@@ -568,12 +568,12 @@ describe('Verifier controler', () => {
           'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
 
         const { verifiableCredential } = pex.selectFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           [jwtVc]
         );
 
         const presentationSubmission = pex.presentationSubmissionFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           verifiableCredential ?? []
         );
 
@@ -654,12 +654,12 @@ describe('Verifier controler', () => {
           'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
 
         const { verifiableCredential } = pex.selectFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           [jwtVc]
         );
 
         const presentationSubmission = pex.presentationSubmissionFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           verifiableCredential ?? []
         );
 
@@ -740,12 +740,12 @@ describe('Verifier controler', () => {
           'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
 
         const { verifiableCredential } = pex.selectFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           [jwtVc]
         );
 
         const presentationSubmission = pex.presentationSubmissionFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           verifiableCredential ?? []
         );
 
@@ -813,7 +813,7 @@ describe('Verifier controler', () => {
           'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
 
         const { verifiableCredential } = pex.selectFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           [jwtVc]
         );
 
@@ -900,12 +900,12 @@ describe('Verifier controler', () => {
           'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
 
         const { verifiableCredential } = pex.selectFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           [jwtVc]
         );
 
         const presentationSubmission = pex.presentationSubmissionFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           verifiableCredential ?? []
         );
 
@@ -988,12 +988,12 @@ describe('Verifier controler', () => {
           'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
 
         const { verifiableCredential } = pex.selectFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           [jwtVc]
         );
 
         const presentationSubmission = pex.presentationSubmissionFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           verifiableCredential ?? []
         );
 
@@ -1079,12 +1079,12 @@ describe('Verifier controler', () => {
           'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
 
         const { verifiableCredential } = pex.selectFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           [jwtVc]
         );
 
         const presentationSubmission = pex.presentationSubmissionFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           verifiableCredential ?? []
         );
 
@@ -1166,12 +1166,12 @@ describe('Verifier controler', () => {
           'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
 
         const { verifiableCredential } = pex.selectFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           [jwtVc]
         );
 
         const presentationSubmission = pex.presentationSubmissionFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           verifiableCredential ?? []
         );
 
@@ -1257,12 +1257,12 @@ describe('Verifier controler', () => {
           'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
 
         const { verifiableCredential } = pex.selectFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           [jwtVc]
         );
 
         const presentationSubmission = pex.presentationSubmissionFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           verifiableCredential ?? []
         );
 
@@ -1347,12 +1347,12 @@ describe('Verifier controler', () => {
           'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
 
         const { verifiableCredential } = pex.selectFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           [jwtVc]
         );
 
         const presentationSubmission = pex.presentationSubmissionFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           verifiableCredential ?? []
         );
 
@@ -1433,12 +1433,12 @@ describe('Verifier controler', () => {
           'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
 
         const { verifiableCredential } = pex.selectFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           [jwtVc]
         );
 
         const presentationSubmission = pex.presentationSubmissionFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           verifiableCredential ?? []
         );
 
@@ -1520,12 +1520,12 @@ describe('Verifier controler', () => {
           'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
 
         const { verifiableCredential } = pex.selectFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           [jwtVc]
         );
 
         const presentationSubmission = pex.presentationSubmissionFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           verifiableCredential ?? []
         );
 
@@ -1607,12 +1607,12 @@ describe('Verifier controler', () => {
           'eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiR21DcmVkZW50aWFsIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImlkIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQifSwiY3JlZGVudGlhbFNjaGVtYSI6eyJpZCI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9kaXNjb3h5ei9kaXNjby1zY2hlbWFzL21haW4vanNvbi9HTUNyZWRlbnRpYWwvMS0wLTAuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmV0aHI6MHgwM2ZkNGZhYzI1ZjQ3YmU1Y2ZmMDY2OTJmNDM2N2ZlZGRhZTk2MjY0N2NiZjkzNGE5MjNkMDUxNzNiZGRjNDJmNWQiLCJuYmYiOjE2ODM2MzU2MjcsImlzcyI6ImRpZDpldGhyOjB4MDI4MGE5Y2Q0OGZkNDM2ZjhjMWY4MWIxNTZlYjYxNTYxOGNkNTczYzNlYjFlNmQ5MzdhMTdiODIyMjAyN2NhZTg1In0.D3BzC5d-KqUqtbxHpob3RVom5AmPk34xXqFA2ZOV26VIbQu1vCdWfZfkMfnEpOaztk3lXoab3ImuLgFI4_Lttg';
 
         const { verifiableCredential } = pex.selectFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           [jwtVc]
         );
 
         const presentationSubmission = pex.presentationSubmissionFrom(
-          query.presentation_definition as PresentationDefinition,
+          query.presentation_definition as unknown as PresentationDefinition,
           verifiableCredential ?? []
         );
 

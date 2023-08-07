@@ -6,10 +6,10 @@ import clsx from 'clsx';
 
 import { useTableStore } from '@/stores';
 
-type DataStoreComboboxProps = {
+interface DataStoreComboboxProps {
   isConnected: boolean;
   vcs: QueryCredentialsRequestResult[];
-};
+}
 
 const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
   const [query, setQuery] = useState('');
@@ -25,11 +25,12 @@ const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
   const dataStores = [...new Set(dataStoresFull)];
 
   const selectedItems = useTableStore((state) => {
-    for (let i = 0; i < state.columnFilters.length; i += 1) {
-      if (state.columnFilters[i].id === 'data_store') {
-        return state.columnFilters[i].value;
+    for (const filter of state.columnFilters) {
+      if (filter.id === 'data_store') {
+        return filter.value;
       }
     }
+
     return [];
   }) as string[];
 

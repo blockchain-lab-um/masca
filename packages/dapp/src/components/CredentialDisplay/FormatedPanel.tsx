@@ -14,9 +14,9 @@ import {
   copyToClipboard,
 } from '@/utils/string';
 
-type FormatedPanelProps = {
+interface FormatedPanelProps {
   credential: VerifiableCredential;
-};
+}
 
 const DIDDisplay = ({ did }: { did: string }) => {
   const t = useTranslations('DIDDisplay');

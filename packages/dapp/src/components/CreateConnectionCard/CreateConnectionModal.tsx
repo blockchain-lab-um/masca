@@ -9,10 +9,10 @@ import { shallow } from 'zustand/shallow';
 import Modal from '@/components/Modal';
 import { useSessionStore } from '@/stores';
 
-type CreateConnectionModalProps = {
+interface CreateConnectionModalProps {
   isOpen: boolean;
   setOpen: (open: boolean) => void;
-};
+}
 
 const CreateConnectionModal = ({
   isOpen,

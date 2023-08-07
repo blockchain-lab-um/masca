@@ -1,7 +1,7 @@
-export type ErrorObject = {
+export interface ErrorObject {
   error: string;
   error_description: string;
-};
+}
 
 /**
  * Authorization Error Response

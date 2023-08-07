@@ -465,12 +465,9 @@ const wrapper =
 export class Masca {
   protected readonly snapId: string;
 
-  public readonly supportedMethods: Array<AvailableMethods>;
+  public readonly supportedMethods: AvailableMethods[];
 
-  public constructor(
-    snapId: string,
-    supportedMethods: Array<AvailableMethods>
-  ) {
+  public constructor(snapId: string, supportedMethods: AvailableMethods[]) {
     this.snapId = snapId;
     this.supportedMethods = supportedMethods;
   }

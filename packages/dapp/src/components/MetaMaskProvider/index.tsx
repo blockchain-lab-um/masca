@@ -7,9 +7,9 @@ import { shallow } from 'zustand/shallow';
 import Button from '@/components/Button';
 import { useGeneralStore } from '@/stores';
 
-type MetaMaskProviderProps = {
+interface MetaMaskProviderProps {
   children: React.ReactNode;
-};
+}
 
 const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
   const t = useTranslations('MetaMaskProvider');

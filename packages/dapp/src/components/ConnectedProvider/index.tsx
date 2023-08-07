@@ -5,9 +5,9 @@ import { useTranslations } from 'next-intl';
 
 import { useGeneralStore } from '@/stores';
 
-type ConnectedProviderProps = {
+interface ConnectedProviderProps {
   children: React.ReactNode;
-};
+}
 
 const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
   const t = useTranslations('ConnectedProvider');

@@ -1,8 +1,8 @@
 import Image from 'next/image';
 
-type StoreIconProps = {
+interface StoreIconProps {
   store: string;
-};
+}
 
 const logo: Record<string, string> = {
   snap: 'masca_black.png',

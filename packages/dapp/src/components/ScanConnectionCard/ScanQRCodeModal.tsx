@@ -7,12 +7,12 @@ import { Html5Qrcode } from 'html5-qrcode';
 import Modal from '@/components/Modal';
 import QRCodeScanner from '@/components/QRCodeScanner';
 
-type ScanQRCodeModalProps = {
+interface ScanQRCodeModalProps {
   title: string;
   isOpen: boolean;
   setOpen: (open: boolean) => void;
   onScanSuccess: (decodedText: string, _: any) => void;
-};
+}
 
 const ScanQRCodeModal = ({
   title,

@@ -82,11 +82,11 @@ const IconTwitter = () => (
   </div>
 );
 
-type LinkProps = {
+interface LinkProps {
   name: string;
   href: string;
   icon: () => JSX.Element;
-};
+}
 
 const INTERNAL_LINKS: LinkProps[] = [
   {
@@ -137,11 +137,11 @@ const EXTERNAL_LINKS: LinkProps[] = [
   },
 ];
 
-type DropDownItemProps = {
+interface DropDownItemProps {
   SVGIcon: () => JSX.Element;
   name: string;
   description: string;
-};
+}
 
 const DropDownItem = ({ SVGIcon, name, description }: DropDownItemProps) => (
   <>

@@ -26,11 +26,11 @@ describe('saveVerifiableCredential', () => {
   let agent: Agent;
   let generatedVC: VerifiableCredential;
 
-  type StoreTests = {
+  interface StoreTests {
     title: string;
     options?: SaveVCOptions;
     results: string[];
-  };
+  }
 
   const options: StoreTests[] = [
     { title: 'snap', options: { store: 'snap' }, results: ['snap'] },

@@ -161,7 +161,7 @@ async function exchangeVerifiableAuthorization(args: {
   });
 
   const body = {
-    id_token: response.idToken as string,
+    id_token: response.idToken!,
     vp_token: verifiablePresentation.jwtVp,
   };
   const sessionResponse = await fetch(

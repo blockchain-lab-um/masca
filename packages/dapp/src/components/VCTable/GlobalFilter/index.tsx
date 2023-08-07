@@ -5,10 +5,10 @@ import { shallow } from 'zustand/shallow';
 
 import { useTableStore } from '@/stores';
 
-type GlobalFilterProps = {
+interface GlobalFilterProps {
   isConnected: boolean;
   vcs: QueryCredentialsRequestResult[];
-};
+}
 
 const GlobalFilter = ({ isConnected, vcs }: GlobalFilterProps) => {
   const t = useTranslations('Dashboard');

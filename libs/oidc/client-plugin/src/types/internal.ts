@@ -6,60 +6,60 @@ import type {
 import type { OriginalVerifiableCredential } from '@sphereon/ssi-types';
 import type { UnsignedPresentation } from '@veramo/core';
 
-export type ParseOIDCCredentialOfferURIArgs = {
+export interface ParseOIDCCredentialOfferURIArgs {
   credentialOfferURI: string;
-};
+}
 
-export type SendTokenRequestArgs = {
+export interface SendTokenRequestArgs {
   pin?: string;
   code?: string;
   clientId?: string;
-};
+}
 
 export type SendCredentialRequestArgs = CredentialRequest;
 
-export type SignArgs = {
+export interface SignArgs {
   header?: Record<string, unknown>;
   payload?: Record<string, unknown>;
-};
+}
 
-export type ProofOfPossesionArgs = {
+export interface ProofOfPossesionArgs {
   sign: (args: SignArgs) => Promise<string>;
-};
+}
 
-export type GetCredentialInfoByIdArgs = {
+export interface GetCredentialInfoByIdArgs {
   id: string;
-};
+}
 
-export type ParseOIDCAuthorizationRequestURIArgs = {
+export interface ParseOIDCAuthorizationRequestURIArgs {
   authorizationRequestURI: string;
-};
+}
 
-export type SelectCredentialsArgs = {
+export interface SelectCredentialsArgs {
   credentials: OriginalVerifiableCredential[];
   presentationDefinition?: PresentationDefinition;
-};
+}
 
-export type CreatePresentationSubmissionArgs = {
+export interface CreatePresentationSubmissionArgs {
   credentials: OriginalVerifiableCredential[];
   presentationDefinition?: PresentationDefinition;
-};
+}
 
-export type CreateIdTokenArgs = {
+export interface CreateIdTokenArgs {
   sign: (args: SignArgs) => Promise<string>;
-};
+}
 
-export type CreateVpTokenArgs = {
+export interface CreateVpTokenArgs {
   sign: (args: SignArgs) => Promise<string>;
   vp: UnsignedPresentation;
-};
+}
 
-export type SendOIDCAuthorizationResponseArgs = {
+export interface SendOIDCAuthorizationResponseArgs {
   presentationSubmission?: PresentationSubmission;
   idToken?: string;
   vpToken?: string;
-};
+}
 
-export type GetAuthorizationRequestArgs = {
+export interface GetAuthorizationRequestArgs {
   clientId: string;
-};
+}

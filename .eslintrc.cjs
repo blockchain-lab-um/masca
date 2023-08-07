@@ -3,8 +3,8 @@ module.exports = {
   extends: [
     'airbnb-base',
     'airbnb-typescript/base',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:@typescript-eslint/recommended-requiring-type-checking',
+    'plugin:@typescript-eslint/recommended-type-checked',
+    'plugin:@typescript-eslint/stylistic-type-checked',
     'prettier',
   ],
   overrides: [
@@ -48,6 +48,7 @@ module.exports = {
         format: ['PascalCase'],
       },
     ],
+    '@typescript-eslint/prefer-nullish-coalescing': 'off',
     // FIXME: Turn this on and fix in separate PR
     'no-unused-vars': [
       'off',

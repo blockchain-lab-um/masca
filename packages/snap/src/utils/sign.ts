@@ -5,12 +5,12 @@ import { sha256 } from 'ethereum-cryptography/sha256';
 
 const { ec: EC } = elliptic;
 
-export type SignOptions = {
+export interface SignOptions {
   privateKey: string;
   curve: 'secp256k1' | 'p256';
   did: string;
   kid: string;
-};
+}
 
 /**
  * Function that signs a JWT.
