@@ -17,6 +17,9 @@ patchedDependencies:
   cross-fetch@3.1.8:
     hash: o7exbxzvysudd5km3yp6v3mgsi
     path: patches/cross-fetch@3.1.8.patch
+  cross-fetch@4.0.0:
+    hash: o37ixiuozlaw3unzpuuojolyvy
+    path: patches/cross-fetch@4.0.0.patch
   intl@1.2.5:
     hash: 2i3sho75ida2jvn4xlmbxxe25i
     path: patches/intl@1.2.5.patch
@@ -764,7 +767,7 @@ importers:
         version: 5.4.1
       cross-fetch:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.0(patch_hash=o37ixiuozlaw3unzpuuojolyvy)
       ethereum-cryptography:
         specifier: ^2.1.2
         version: 2.1.2
@@ -885,7 +888,7 @@ importers:
         version: 2.1.1(ajv@8.12.0)
       cross-fetch:
         specifier: ^4.0.0
-        version: 4.0.0
+        version: 4.0.0(patch_hash=o37ixiuozlaw3unzpuuojolyvy)
       did-jwt-vc:
         specifier: ^3.2.5
         version: 3.2.5
@@ -14859,12 +14862,13 @@ packages:
       - encoding
     patched: true
 
-  /cross-fetch@4.0.0:
+  /cross-fetch@4.0.0(patch_hash=o37ixiuozlaw3unzpuuojolyvy):
     resolution: {integrity: sha512-e4a5N8lVvuLgAWgnCrLr2PP0YyDOTHa9H/Rj54dirp61qXnNq46m82bRhNqIA5VccJtWBvPTFRV3TtvHUKPB1g==}
     dependencies:
       node-fetch: 2.6.12
     transitivePeerDependencies:
       - encoding
+    patched: true
 
   /cross-sha256@1.2.0:
     resolution: {integrity: sha512-KViLNMDZKV7jwFqjFx+rNhG26amnFYYQ0S+VaFlVvpk8tM+2XbFia/don/SjGHg9WQxnFVi6z64CGPuF3T+nNw==}
@@ -27452,7 +27456,7 @@ packages:
   /web-did-resolver@2.0.27:
     resolution: {integrity: sha512-YxQlNdeYBXLhVpMW62+TPlc6sSOiWyBYq7DNvY6FXmXOD9g0zLeShpq2uCKFFQV/WlSrBi/yebK/W5lMTDxMUQ==}
     dependencies:
-      cross-fetch: 4.0.0
+      cross-fetch: 4.0.0(patch_hash=o37ixiuozlaw3unzpuuojolyvy)
       did-resolver: 4.1.0
     transitivePeerDependencies:
       - encoding
