@@ -1,7 +1,6 @@
 'use client';
 
 import { Fragment } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
@@ -72,50 +71,6 @@ const IconVerifyData = () => (
   </svg>
 );
 
-const IconMedium = () => (
-  <div className="relative flex h-12 w-12 items-center justify-center">
-    <Image
-      src={`/images/medium.png`}
-      alt="medium logo"
-      width={36}
-      height={36}
-    />
-  </div>
-);
-
-const IconDiscord = () => (
-  <div className="relative flex h-12 w-12 items-center justify-center">
-    <Image
-      src={`/images/discord-mark-blue.png`}
-      alt="discord logo"
-      width={36}
-      height={36}
-    />
-  </div>
-);
-
-const IconGithub = () => (
-  <div className="relative flex h-12 w-12 items-center justify-center">
-    <Image
-      src={`/images/github-mark.png`}
-      alt="discord logo"
-      width={36}
-      height={36}
-    />
-  </div>
-);
-
-const IconTwitter = () => (
-  <div className="relative flex h-12 w-12 items-center justify-center">
-    <Image
-      src={`/images/twitter-logo-blue.png`}
-      alt="discord logo"
-      width={36}
-      height={36}
-    />
-  </div>
-);
-
 type LinkProps = {
   name: string;
   href: string;
@@ -123,11 +78,6 @@ type LinkProps = {
 };
 
 const INTERNAL_LINKS: LinkProps[] = [
-  // {
-  //   name: 'ecosystem',
-  //   href: '/ecosystem',
-  //   icon: IconEcosystem,
-  // },
   {
     name: 'create-credential',
     href: '/app/create-credential',
@@ -151,34 +101,11 @@ const INTERNAL_EXTRA_LINKS: LinkProps[] = [
   //   href: '/app/authorization-request',
   //   icon: IconEcosystem,
   // },
-  // {
-  //   name: 'qr-code-session',
-  //   href: '/app/qr-code-session',
-  //   icon: IconEcosystem,
-  // },
-];
-
-const EXTERNAL_LINKS: LinkProps[] = [
-  // {
-  //   name: 'blog',
-  //   href: 'https://medium.com/@blockchainlabum',
-  //   icon: IconMedium,
-  // },
-  // {
-  //   name: 'discord',
-  //   href: 'https://discord.com/invite/M5xgNz7TTF',
-  //   icon: IconDiscord,
-  // },
-  // {
-  //   name: 'twitter',
-  //   href: 'https://twitter.com/masca_io',
-  //   icon: IconTwitter,
-  // },
-  // {
-  //   name: 'github',
-  //   href: 'https://github.com/blockchain-lab-um/masca',
-  //   icon: IconGithub,
-  // },
+  {
+    name: 'qr-code-session',
+    href: '/app/qr-code-session',
+    icon: IconEcosystem,
+  },
 ];
 
 type DropDownItemProps = {
@@ -258,7 +185,7 @@ function MenuPopover() {
                     <Link
                       key={link.name}
                       href={link.href}
-                      className="dark:hover:bg-navy-blue-500 -m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50 xl:hidden"
+                      className="dark:hover:bg-navy-blue-500/40 -m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50 xl:hidden"
                     >
                       <DropDownItem
                         SVGIcon={link.icon}
@@ -266,20 +193,6 @@ function MenuPopover() {
                         description={t(`dropdown.description.${link.name}`)}
                       />
                     </Link>
-                  ))}
-                  {EXTERNAL_LINKS.map((link) => (
-                    <a
-                      key={link.name}
-                      href={link.href}
-                      target="_blank"
-                      className="dark:hover:bg-navy-blue-500 -m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50"
-                    >
-                      <DropDownItem
-                        SVGIcon={link.icon}
-                        name={t(`dropdown.${link.name}`)}
-                        description={t(`dropdown.description.${link.name}`)}
-                      />
-                    </a>
                   ))}
                 </div>
                 <div className="dark:bg-navy-blue-500 bg-gray-100 p-4">

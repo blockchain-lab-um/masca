@@ -6,19 +6,13 @@ import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { IVerifyResult } from '@veramo/core';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
-import { shallow } from 'zustand/shallow';
 
 import { useMascaStore, useToastStore } from '@/stores';
 import Button from '../Button';
 
 const VerifyDataDisplay = () => {
-  const t = useTranslations('VerifyData');
-  const { api } = useMascaStore(
-    (state) => ({
-      api: state.mascaApi,
-    }),
-    shallow
-  );
+  const t = useTranslations('VerifyDataDisplay');
+  const api = useMascaStore((state) => state.mascaApi);
 
   const [data, setData] = useState('');
   const [loading, setLoading] = useState(false);
@@ -62,6 +56,7 @@ const VerifyDataDisplay = () => {
       }, 200);
       return;
     }
+
     let result;
     if (
       dataObj.type === 'VerifiableCredential' ||
@@ -92,6 +87,10 @@ const VerifyDataDisplay = () => {
       }, 200);
       return;
     }
+
+    useToastStore.setState({
+      open: false,
+    });
 
     if (isError(result)) {
       setData(result.error);
@@ -126,7 +125,7 @@ const VerifyDataDisplay = () => {
             className={clsx(
               'group-hover:scrollbar-thumb-orange-300 dark:text-navy-blue-800 dark:bg-navy-blue-300',
               'scrollbar-thin scrollbar-thumb-orange-300/0 scrollbar-thumb-rounded-full font-jetbrains-mono',
-              ' dark:placeholder:text-navy-blue-700 placeholder:text-gray-700',
+              'dark:placeholder:text-navy-blue-700 placeholder:text-gray-700',
               'min-h-[60vh] w-full resize-none rounded-2xl bg-gray-100 p-2 text-gray-700 focus:outline-none'
             )}
             value={data}

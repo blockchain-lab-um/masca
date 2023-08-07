@@ -28,20 +28,20 @@ const proofFormats: Record<string, SupportedProofFormats> = {
 };
 
 const CreateCredentialDisplay = () => {
-  const t = useTranslations('CreateVerifiableCredential');
+  const t = useTranslations('CreateCredentialDisplay');
   const [loading, setLoading] = useState(false);
-  const [vpModalOpen, setVCModalOpen] = useState(false);
+  const [vcModalOpen, setVCModalOpen] = useState(false);
   const [vc, setVC] = useState<VerifiableCredential | null>(null);
-  const [credentialPayload, setCredentialPayload] = useState(
-    'Credential Payload...'
+  const [credentialPayload, setCredentialPayload] = useState('');
+  const credentialStores = useMascaStore(
+    (state) => state.availableCredentialStores
   );
-  const VCStores = useMascaStore((state) => state.availableCredentialStores);
-  const availableStores = Object.keys(VCStores).filter(
-    (key) => VCStores[key] === true
-  );
+  const availableStores = Object.entries(credentialStores)
+    .filter(([, value]) => value)
+    .map(([key]) => key as AvailableCredentialStores);
   const [selectedItems, setSelectedItems] = useState<
     AvailableCredentialStores[]
-  >([availableStores[0] as AvailableCredentialStores]);
+  >([availableStores[0], availableStores[1]]);
   const { didMethod, api, did } = useMascaStore(
     (state) => ({
       didMethod: state.currDIDMethod,
@@ -67,13 +67,15 @@ const CreateCredentialDisplay = () => {
       setAvailableProofFormats(['JWT', 'JSON-LD', 'EIP712Signature']);
       setFormat('JWT');
     }
+  }, [didMethod]);
 
+  useEffect(() => {
     const payload = JSON.stringify(
       {
         type: ['VerifiableCredential', 'Masca User Credential'],
         credentialSubject: {
-          type: 'Regular User',
           id: did,
+          type: 'Regular User',
         },
         credentialSchema: {
           id: 'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
@@ -88,7 +90,7 @@ const CreateCredentialDisplay = () => {
       2
     );
     setCredentialPayload(payload);
-  }, [didMethod]);
+  }, [did]);
 
   const handleCreateVC = async () => {
     if (!api) return;
@@ -126,9 +128,13 @@ const CreateCredentialDisplay = () => {
         store: selectedItems,
       },
     });
+
+    useToastStore.setState({
+      open: false,
+    });
+
     if (isError(res)) {
       console.error(res);
-      setLoading(false);
       setLoading(false);
       setTimeout(() => {
         useToastStore.setState({
@@ -140,6 +146,7 @@ const CreateCredentialDisplay = () => {
       }, 200);
       return;
     }
+
     setVC(res.data);
     useToastStore.setState({
       open: true,
@@ -167,6 +174,7 @@ const CreateCredentialDisplay = () => {
             'scrollbar-thin scrollbar-thumb-orange-300/0 scrollbar-thumb-rounded-full font-jetbrains-mono',
             'min-h-[60vh] w-full resize-none rounded-2xl bg-gray-100 p-2 text-gray-700 focus:outline-none'
           )}
+          placeholder='Credential Payload...'
           value={credentialPayload}
           onChange={(e) => setCredentialPayload(e.target.value)}
         />
@@ -234,7 +242,7 @@ const CreateCredentialDisplay = () => {
         </Button>
       </div>
       <VCModal
-        isOpen={vpModalOpen}
+        isOpen={vcModalOpen}
         setOpen={setVCModalOpen}
         vc={vc as unknown as VerifiableCredential}
       />

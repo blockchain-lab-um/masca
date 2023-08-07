@@ -68,7 +68,7 @@
   "CreateConnectionModal": {
     "title": "Connection QR Code"
   },
-  "CreateVerifiablePresentation": {
+  "CreatePresentationDisplay": {
     "advanced": {
       "title": "ADVANCED",
       "tooltip": "Only applicable to JWT proof format."
@@ -86,7 +86,7 @@
     },
     "title": "Create Presentation"
   },
-  "CreateVerifiableCredential": {
+  "CreateCredentialDisplay": {
     "options": {
       "format": "Format",
       "title": "OPTIONS"
@@ -104,7 +104,7 @@
       "error-vc": "Payload is not a valid!"
     }
   },
-  "VerifyData": {
+  "VerifyDataDisplay": {
     "title": "Verify Presentations & Credentials",
     "verify": "Verify",
     "toast": {
