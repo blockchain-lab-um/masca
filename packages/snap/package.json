@@ -70,7 +70,7 @@
     "@iden3/js-jsonld-merklization": "^1.0.1",
     "@iden3/js-jwz": "^1.0.0",
     "@iden3/js-merkletree": "^1.0.0",
-    "@metamask/key-tree": "^7.0.0",
+    "@metamask/key-tree": "^9.0.0",
     "@metamask/providers": "^10.2.0",
     "@metamask/snaps-types": "1.0.0-prerelease.1",
     "@metamask/snaps-ui": "1.0.0-prerelease.1",
