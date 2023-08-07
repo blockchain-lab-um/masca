@@ -35,10 +35,10 @@
     "lint:prettier": "prettier . --check"
   },
   "dependencies": {
-    "@cef-ebsi/ebsi-did-resolver": "^3.1.0",
+    "@cef-ebsi/ebsi-did-resolver": "^3.2.0",
     "@cef-ebsi/key-did-resolver": "^1.1.0",
-    "@cef-ebsi/siop-auth": "^3.1.0",
-    "@cef-ebsi/verifiable-presentation": "^5.2.0",
+    "@cef-ebsi/siop-auth": "^3.2.0",
+    "@cef-ebsi/verifiable-presentation": "^5.4.0",
     "@veramo/core": "5.4.1",
     "@veramo/did-manager": "5.4.1",
     "@veramo/utils": "5.4.1",
@@ -60,7 +60,7 @@
     "prettier": "^3.0.1",
     "prettier-plugin-packagejson": "^2.4.5",
     "rimraf": "^5.0.1",
-    "tsup": "^6.7.0",
+    "tsup": "^7.2.0",
     "typescript": "^5.1.6"
   },
   "publishConfig": {
