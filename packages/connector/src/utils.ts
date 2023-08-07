@@ -15,13 +15,13 @@ import { Masca } from './snap.js';
 /**
  * Function to check if there is a valid Ceramic session in Masca.
  * If not, it will try to get a new session from the user.
- * @param masca - Masca instance
+ * @param this - Masca instance
  */
 export async function validateAndSetCeramicSession(
-  masca: Masca
+  this: Masca
 ): Promise<void> {
   // Check if there is valid session in Masca
-  const api = masca.getMascaApi();
+  const api = this.getMascaApi();
 
   const enabledCredentialStoresResult = await api.getCredentialStore();
   if (isError(enabledCredentialStoresResult)) {
@@ -123,13 +123,15 @@ export async function signVerifiablePresentation(
 
 /**
  * Function to sign a Verifiable Credential with EIP712Signature proof format
+ * @param this - Masca instance
  * @param credential - Unsigned Verifiable Credential
+ * @param params - Request params
  * @returns Signed Verifiable Credential
  */
 export async function signVerifiableCredential(
+  this: Masca,
   credential: UnsignedCredential,
   params: CreateCredentialRequestParams,
-  masca: Masca
 ): Promise<VerifiableCredential> {
   const addresses: string[] = await window.ethereum.request({
     method: 'eth_requestAccounts',
@@ -185,7 +187,7 @@ export async function signVerifiableCredential(
   };
 
   if (params.options && params.options.save) {
-    const api = masca.getMascaApi();
+    const api = this.getMascaApi();
     const result = await api.saveCredential(
       credential as VerifiableCredential,
       {
