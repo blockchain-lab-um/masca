@@ -1,7 +1,6 @@
 'use client';
 
 import { chainIdNetworkParamsMapping } from '@blockchain-lab-um/masca-connector';
-import { shallow } from 'zustand/shallow';
 
 import AddressPopover from '@/components//AddressPopover';
 import ConnectButton from '@/components//ConnectButton';
@@ -16,8 +15,7 @@ export const NavConnection = () => {
       did: state.currDID,
       currMethod: state.currDIDMethod,
       changeVcs: state.changeVcs,
-    }),
-    shallow
+    })
   );
 
   const {
@@ -39,8 +37,7 @@ export const NavConnection = () => {
       changeIsConnected: state.changeIsConnected,
       changeAddres: state.changeAddress,
       changeDid: state.changeDid,
-    }),
-    shallow
+    })
   );
 
   const getNetwork = (): string => {

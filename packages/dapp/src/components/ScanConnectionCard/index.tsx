@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { uint8ArrayToHex } from '@blockchain-lab-um/masca-connector';
 import { useTranslations } from 'next-intl';
-import { shallow } from 'zustand/shallow';
 
 import { useGeneralStore, useSessionStore, useToastStore } from '@/stores';
 import { useQRCodeStore } from '@/stores/qrCodeStore';
@@ -18,7 +17,6 @@ const ScanConnectionCard = () => {
       key: state.key,
       exp: state.exp,
     }),
-    shallow
   );
 
   const isConnected = useGeneralStore((state) => state.isConnected);

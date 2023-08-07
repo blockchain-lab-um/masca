@@ -39,7 +39,7 @@
     "lint-staged": "^13.2.3",
     "luxon": "^3.3.0",
     "next": "13.4.13",
-    "next-intl": "2.15.0-beta.5",
+    "next-intl": "3.0.0-beta.9",
     "next-sitemap": "^4.1.8",
     "next-themes": "^0.2.1",
     "prop-types": "^15.8.1",

@@ -5,7 +5,6 @@ import { hexToUint8Array, isError } from '@blockchain-lab-um/masca-connector';
 import { VerifiableCredential } from '@veramo/core';
 import { useTranslations } from 'next-intl';
 import useSWR from 'swr';
-import { shallow } from 'zustand/shallow';
 
 import CredentialModal from '@/components/CredentialModal';
 import CredentialOfferModal from '@/components/CredentialOfferModal';
@@ -35,7 +34,6 @@ const QRCodeSessionProvider = () => {
       key: state.key,
       exp: state.exp,
     }),
-    shallow
   );
 
   const requestData = useQRCodeStore((state) => state.requestData);

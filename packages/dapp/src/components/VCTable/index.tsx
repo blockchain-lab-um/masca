@@ -36,7 +36,6 @@ import { encodeBase64url } from '@veramo/utils';
 import clsx from 'clsx';
 import { DateTime } from 'luxon';
 import { useTranslations } from 'next-intl';
-import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
 import DeleteModal from '@/components/DeleteModal';
@@ -66,7 +65,6 @@ const Table = () => {
       changeVcs: state.changeVcs,
       changeLastFetch: state.changeLastFetch,
     }),
-    shallow
   );
   const { columnFilters, globalFilter, selectedVCs, cardView, setSelectedVCs } =
     useTableStore(
@@ -77,7 +75,6 @@ const Table = () => {
         cardView: state.cardView,
         setSelectedVCs: state.setSelectedVCs,
       }),
-      shallow
     );
 
   const columnHelper = createColumnHelper<QueryCredentialsRequestResult>();

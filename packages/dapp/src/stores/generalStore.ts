@@ -1,4 +1,5 @@
-import { create } from 'zustand';
+import { shallow } from 'zustand/shallow';
+import { createWithEqualityFn } from 'zustand/traditional'
 
 interface GeneralStore {
   address: string;
@@ -31,7 +32,7 @@ export const generalStoreInitialState = {
   chainId: '',
 };
 
-export const useGeneralStore = create<GeneralStore>()((set) => ({
+export const useGeneralStore = createWithEqualityFn<GeneralStore>()((set) => ({
   ...generalStoreInitialState,
 
   changeAddress: (address: string) => set({ address }),
@@ -43,4 +44,4 @@ export const useGeneralStore = create<GeneralStore>()((set) => ({
   changeHasSnapInstalled: (hasSnapInstalled: boolean) =>
     set({ hasSnapInstalled }),
   changeChainId: (chainId: string) => set({ chainId }),
-}));
+}), shallow);

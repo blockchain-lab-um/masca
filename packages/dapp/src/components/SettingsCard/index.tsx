@@ -2,7 +2,6 @@
 
 import { isError } from '@blockchain-lab-um/masca-connector';
 import { useTranslations } from 'next-intl';
-import { shallow } from 'zustand/shallow';
 
 import ToggleSwitch from '@/components/Switch';
 import { useMascaStore, useToastStore } from '@/stores';
@@ -25,7 +24,6 @@ const SettingsCard = () => {
       changeAvailableCredentialStores: state.changeAvailableCredentialStores,
       changePopups: state.changePopups,
     }),
-    shallow
   );
 
   const snapGetAvailableCredentialStores = async () => {

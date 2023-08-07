@@ -3,7 +3,8 @@ import {
   type MascaApi,
   type QueryCredentialsRequestResult,
 } from '@blockchain-lab-um/masca-connector';
-import { create } from 'zustand';
+import { shallow } from 'zustand/shallow';
+import { createWithEqualityFn } from 'zustand/traditional'
 
 interface MascaStore {
   mascaApi: MascaApi | undefined;
@@ -43,7 +44,7 @@ export const mascaStoreInitialState = {
   popups: undefined,
 };
 
-export const useMascaStore = create<MascaStore>()((set) => ({
+export const useMascaStore = createWithEqualityFn<MascaStore>()((set) => ({
   ...mascaStoreInitialState,
 
   changeAvailableCredentialStores: (
@@ -59,4 +60,4 @@ export const useMascaStore = create<MascaStore>()((set) => ({
   changeVcs: (vcs: QueryCredentialsRequestResult[]) => set({ vcs }),
   changeLastFetch: (lastFetch: number) => set({ lastFetch }),
   changePopups: (enabled: boolean) => set({ popups: enabled }),
-}));
+}), shallow);

@@ -9,7 +9,6 @@ import {
 } from '@heroicons/react/24/solid';
 import * as Toast from '@radix-ui/react-toast';
 import clsx from 'clsx';
-import { shallow } from 'zustand/shallow';
 
 import { useToastStore } from '@/stores';
 
@@ -25,7 +24,6 @@ const ToastWrapper = () => {
       title: state.title,
       type: state.type,
     }),
-    shallow
   );
 
   const toastType: Record<string, string> = {

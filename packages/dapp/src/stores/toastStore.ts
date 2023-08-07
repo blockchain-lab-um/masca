@@ -1,4 +1,5 @@
-import { create } from 'zustand';
+import { shallow } from 'zustand/shallow';
+import { createWithEqualityFn } from 'zustand/traditional'
 
 type ToastType = 'info' | 'success' | 'error' | 'normal';
 
@@ -18,6 +19,6 @@ export const toastStoreInitialState = {
   type: 'info' as ToastType,
 };
 
-export const useToastStore = create<ToastStore>()(() => ({
+export const useToastStore = createWithEqualityFn<ToastStore>()(() => ({
   ...toastStoreInitialState,
-}));
+}), shallow);

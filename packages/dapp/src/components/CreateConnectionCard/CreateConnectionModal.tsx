@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { Dialog } from '@headlessui/react';
 import { useTranslations } from 'next-intl';
 import { QRCodeSVG } from 'qrcode.react';
-import { shallow } from 'zustand/shallow';
 
 import Modal from '@/components/Modal';
 import { useSessionStore } from '@/stores';
@@ -25,8 +24,7 @@ const CreateConnectionModal = ({
       changeSessionId: state.changeSessionId,
       changeKey: state.changeKey,
       changeExp: state.changeExp,
-    }),
-    shallow
+    })
   );
 
   const createSession = async (): Promise<string> => {

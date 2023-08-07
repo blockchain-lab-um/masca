@@ -5,7 +5,6 @@ import {
 } from '@blockchain-lab-um/masca-connector';
 import { Dialog } from '@headlessui/react';
 import { useTranslations } from 'next-intl';
-import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
 import Modal from '@/components/Modal';
@@ -26,8 +25,7 @@ function DeleteModal({ isOpen, setOpen, vc, store }: DeleteModalProps) {
       api: state.mascaApi,
       changeVcs: state.changeVcs,
       changeLastFetch: state.changeLastFetch,
-    }),
-    shallow
+    })
   );
 
   const deleteCredential = async () => {

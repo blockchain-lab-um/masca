@@ -3,7 +3,6 @@
 import { useEffect } from 'react';
 import { enableMasca, isError } from '@blockchain-lab-um/masca-connector';
 import detectEthereumProvider from '@metamask/detect-provider';
-import { shallow } from 'zustand/shallow';
 
 import mascaVersionJson from '@/utils/masca.json';
 import { useGeneralStore, useMascaStore } from '@/stores';
@@ -18,8 +17,7 @@ const CheckMetaMaskCompatibility = () => {
     (state) => ({
       changeHasMetaMask: state.changeHasMetaMask,
       changeIsFlask: state.changeIsFlask,
-    }),
-    shallow
+    })
   );
 
   const {
@@ -45,8 +43,7 @@ const CheckMetaMaskCompatibility = () => {
       changeIsConnected: state.changeIsConnected,
       changeIsConnecting: state.changeIsConnecting,
       changeChainId: state.changeChainId,
-    }),
-    shallow
+    })
   );
 
   const {
@@ -66,8 +63,7 @@ const CheckMetaMaskCompatibility = () => {
       changeCurrMethod: state.changeCurrDIDMethod,
       changeAvailableCredentialStores: state.changeAvailableCredentialStores,
       changePopups: state.changePopups,
-    }),
-    shallow
+    })
   );
 
   const connectHandler = async () => {

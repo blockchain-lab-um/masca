@@ -1,4 +1,5 @@
-import { create } from 'zustand';
+import { shallow } from 'zustand/shallow';
+import { createWithEqualityFn } from 'zustand/traditional'
 
 interface SessionStore {
   sessionId: string | null;
@@ -16,10 +17,10 @@ export const sessionStoreInitialState = {
   exp: null,
 };
 
-export const useSessionStore = create<SessionStore>()((set) => ({
+export const useSessionStore = createWithEqualityFn<SessionStore>()((set) => ({
   ...sessionStoreInitialState,
 
   changeSessionId: (sessionId: string) => set({ sessionId }),
   changeKey: (key: CryptoKey) => set({ key }),
   changeExp: (exp: number) => set({ exp }),
-}));
+}), shallow);

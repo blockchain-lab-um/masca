@@ -9,7 +9,6 @@ import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
-import { shallow } from 'zustand/shallow';
 
 import { useMascaStore, useToastStore } from '@/stores';
 import { DropdownButton } from './MethodDropdownButton';
@@ -25,7 +24,6 @@ export default function MethodDropdownMenu() {
         changeCurrDIDMethod: state.changeCurrDIDMethod,
         changeDID: state.changeCurrDID,
       }),
-      shallow
     );
 
   const handleMethodChange = async (method: string) => {

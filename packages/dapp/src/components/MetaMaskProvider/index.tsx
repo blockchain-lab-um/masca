@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
 import { useGeneralStore } from '@/stores';
@@ -19,7 +18,6 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
       hasMM: state.hasMetaMask,
       hasFlask: state.isFlask,
     }),
-    shallow
   );
 
   if (hasMM && hasFlask) {

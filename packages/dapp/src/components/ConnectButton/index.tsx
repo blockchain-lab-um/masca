@@ -1,5 +1,4 @@
 import { useTranslations } from 'next-intl';
-import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
 import { useGeneralStore } from '@/stores';
@@ -10,8 +9,7 @@ const ConnectButton = () => {
     (state) => ({
       isConnecting: state.isConnecting,
       changeIsConnecting: state.changeIsConnecting,
-    }),
-    shallow
+    })
   );
 
   return (

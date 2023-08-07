@@ -2,7 +2,6 @@
 
 import { Switch } from '@headlessui/react';
 import { Bars3Icon, Squares2X2Icon } from '@heroicons/react/20/solid';
-import { shallow } from 'zustand/shallow';
 
 import { useTableStore } from '@/stores';
 
@@ -12,7 +11,6 @@ const ViewTabs = () => {
       cardView: state.cardView,
       setCardView: state.setCardView,
     }),
-    shallow
   );
 
   return (

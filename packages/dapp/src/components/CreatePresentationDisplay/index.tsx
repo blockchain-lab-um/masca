@@ -13,7 +13,6 @@ import {
   W3CVerifiablePresentation,
 } from '@veramo/core';
 import { useTranslations } from 'next-intl';
-import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
 import DropdownMenu from '@/components/DropdownMenu';
@@ -40,15 +39,13 @@ const CreatePresentationDisplay = () => {
     (state) => ({
       selectedVCs: state.selectedVCs,
       setSelectedVCs: state.setSelectedVCs,
-    }),
-    shallow
+    })
   );
   const { didMethod, api } = useMascaStore(
     (state) => ({
       didMethod: state.currDIDMethod,
       api: state.mascaApi,
-    }),
-    shallow
+    })
   );
 
   const [format, setFormat] = useState('JWT');
