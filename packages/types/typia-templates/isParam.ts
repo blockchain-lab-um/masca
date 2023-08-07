@@ -8,6 +8,7 @@ import {
   type CreateCredentialRequestParams,
   type CreatePresentationRequestParams,
   type DeleteCredentialsRequestParams,
+  type ImportStateBackupRequestParams,
   type MascaState,
   type QueryCredentialsRequestParams,
   type ResolveDIDRequestParams,
@@ -78,6 +79,7 @@ const validateSwitchMethodRequest =
   typia.createValidateEquals<SwitchMethodRequestParams>();
 const validateVerifyDataRequest =
   typia.createValidateEquals<VerifyDataRequestParams>();
+const validateMascaState = typia.createValidateEquals<MascaState>();
 
 export const isValidCreateCredentialRequest = (
   input: any,
@@ -167,5 +169,18 @@ export const isValidVerifyDataRequest = (
   input: any
 ): asserts input is VerifyDataRequestParams => {
   const res = validateVerifyDataRequest(input);
+  if (!res.success) throw new Error(handleIValidation(res));
+};
+
+export const isValidImportStateBackupRequest = (
+  input: any
+): asserts input is ImportStateBackupRequestParams => {
+  if (!input) return;
+  if (!input.serializedState || typeof input.serializedState !== 'string')
+    throw new Error('invalid_argument: input.serializedState');
+};
+
+export const isValidMascaState = (input: any): asserts input is MascaState => {
+  const res = validateMascaState(input);
   if (!res.success) throw new Error(handleIValidation(res));
 };

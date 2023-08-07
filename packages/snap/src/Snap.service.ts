@@ -9,6 +9,7 @@ import {
   isValidCreateCredentialRequest,
   isValidCreatePresentationRequest,
   isValidDeleteCredentialsRequest,
+  isValidImportStateBackupRequest,
   isValidQueryCredentialsRequest,
   isValidResolveDIDRequest,
   isValidSaveCredentialRequest,
@@ -547,6 +548,13 @@ class SnapService {
       case 'setGoogleToken':
         res = await GeneralService.setGoogleToken(params);
         return ResultObject.success(res);
+      case 'exportStateBackup':
+        res = await StorageService.exportBackup();
+        return ResultObject.success(res);
+      case 'importStateBackup':
+        isValidImportStateBackupRequest(params);
+        await StorageService.importBackup(params);
+        return ResultObject.success(true);
       default:
         throw new Error('Method not found.');
     }

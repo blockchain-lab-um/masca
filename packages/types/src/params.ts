@@ -150,6 +150,10 @@ export type SetCeramicSessionRequestParams = {
   serializedSession: string;
 };
 
+export type ImportStateBackupRequestParams = {
+  serializedState: string;
+};
+
 export type RemoveFriendlyDappParams = {
   id: string;
 };

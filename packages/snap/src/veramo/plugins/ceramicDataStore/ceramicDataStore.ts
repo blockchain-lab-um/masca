@@ -135,4 +135,30 @@ export class CeramicCredentialStore extends AbstractDataStore {
     }
     return false;
   }
+
+  public async exportStore(): Promise<StoredCredentials> {
+    try {
+      const state = StorageService.get();
+      const ceramic = await getCeramic(state);
+      const datastore = new DIDDataStore({ ceramic, model: aliases });
+      const storedCredentials = (await datastore.get(
+        'StoredCredentials'
+      )) as StoredCredentials;
+      return storedCredentials;
+    } catch (error) {
+      throw new Error('Exporting Ceramic DataStore failed');
+    }
+  }
+
+  public async importStore(args: StoredCredentials): Promise<boolean> {
+    try {
+      const state = StorageService.get();
+      const ceramic = await getCeramic(state);
+      const datastore = new DIDDataStore({ ceramic, model: aliases });
+      await datastore.set('StoredCredentials', args);
+    } catch (error) {
+      throw new Error('Importing Ceramic DataStore failed');
+    }
+    return true;
+  }
 }

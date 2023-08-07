@@ -4,6 +4,7 @@ import type {
   DeleteCredentialsRequestParams,
   HandleAuthorizationRequestParams,
   HandleCredentialOfferRequestParams,
+  ImportStateBackupRequestParams,
   QueryCredentialsRequestParams,
   RemoveFriendlyDappParams,
   ResolveDIDRequestParams,
@@ -114,6 +115,15 @@ export type SetCeramicSession = {
 
 export type ValidateStoredCeramicSession = {
   method: 'validateStoredCeramicSession';
+};
+
+export type ExportStateBackup = {
+  method: 'exportStateBackup';
+};
+
+export type ImportStateBackup = {
+  method: 'importStateBackup';
+  params: ImportStateBackupRequestParams;
 };
 
 export type AddFriendlyDapp = {
