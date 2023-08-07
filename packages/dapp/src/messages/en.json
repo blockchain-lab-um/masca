@@ -73,6 +73,9 @@
       "title": "ADVANCED",
       "tooltip": "Only applicable to JWT proof format."
     },
+    "tooltip": {
+      "polygonid": "PolygonID VCs aren't supported yet. Please remove this credential to continue!"
+    },
     "options": {
       "format": "Format",
       "title": "OPTIONS"
@@ -84,7 +87,9 @@
       "title": "Selected Credentials",
       "type": "TYPE"
     },
-    "title": "Create Presentation"
+    "title": "Create Presentation",
+    "invalidMethod": "PolygonID & Iden3 methods are not yet supported. Switch to any other DID method to create a VC!",
+    "polygonvc": "PolygonID & Iden3 VCs are not yet supported. Remove invalid VCs to continue!"
   },
   "CreateCredentialDisplay": {
     "options": {
@@ -101,8 +106,10 @@
     "toast": {
       "loading": "Creating Credential...",
       "error-json": "Payload is not a valid JSON",
-      "error-vc": "Payload is not a valid!"
-    }
+      "error-vc": "Payload is not a valid!",
+      "success": "Credential successfully created!"
+    },
+    "invalidMethod": "PolygonID & Iden3 are not yet supported. Switch to any other DID method to create a VC!"
   },
   "VerifyDataDisplay": {
     "title": "Verify Presentations & Credentials",

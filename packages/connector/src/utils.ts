@@ -17,9 +17,7 @@ import { Masca } from './snap.js';
  * If not, it will try to get a new session from the user.
  * @param this - Masca instance
  */
-export async function validateAndSetCeramicSession(
-  this: Masca
-): Promise<void> {
+export async function validateAndSetCeramicSession(this: Masca): Promise<void> {
   // Check if there is valid session in Masca
   const api = this.getMascaApi();
 
@@ -131,7 +129,7 @@ export async function signVerifiablePresentation(
 export async function signVerifiableCredential(
   this: Masca,
   credential: UnsignedCredential,
-  params: CreateCredentialRequestParams,
+  params: CreateCredentialRequestParams
 ): Promise<VerifiableCredential> {
   const addresses: string[] = await window.ethereum.request({
     method: 'eth_requestAccounts',

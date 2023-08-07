@@ -5,7 +5,10 @@ import Link from 'next/link';
 import {
   AvailableCredentialStores,
   isError,
+  isSuccess,
+  QueryCredentialsRequestResult,
   SupportedProofFormats,
+  Result
 } from '@blockchain-lab-um/masca-connector';
 import { ArrowLeftIcon } from '@heroicons/react/20/solid';
 import { VerifiableCredential } from '@veramo/core';
@@ -32,6 +35,7 @@ const CreateCredentialDisplay = () => {
   const [loading, setLoading] = useState(false);
   const [vcModalOpen, setVCModalOpen] = useState(false);
   const [vc, setVC] = useState<VerifiableCredential | null>(null);
+  const [isInvalidMethod, setInvalidMethod] = useState(false);
   const [credentialPayload, setCredentialPayload] = useState('');
   const credentialStores = useMascaStore(
     (state) => state.availableCredentialStores
@@ -42,11 +46,12 @@ const CreateCredentialDisplay = () => {
   const [selectedItems, setSelectedItems] = useState<
     AvailableCredentialStores[]
   >([availableStores[0], availableStores[1]]);
-  const { didMethod, api, did } = useMascaStore(
+  const { didMethod, api, did, setVCs } = useMascaStore(
     (state) => ({
       didMethod: state.currDIDMethod,
       api: state.mascaApi,
       did: state.currDID,
+      setVCs: state.changeVcs,
     }),
     shallow
   );
@@ -60,6 +65,10 @@ const CreateCredentialDisplay = () => {
   ]);
 
   useEffect(() => {
+    setInvalidMethod(false);
+    if (didMethod === 'did:polygonid' || didMethod === 'did:iden3') {
+      setInvalidMethod(true);
+    }
     if (didMethod === 'did:ethr' || didMethod === 'did:pkh') {
       setAvailableProofFormats(['EIP712Signature']);
       setFormat('EIP712Signature');
@@ -129,6 +138,17 @@ const CreateCredentialDisplay = () => {
       },
     });
 
+    if (save) {
+      api
+        .queryCredentials()
+        .then((vcs: Result<QueryCredentialsRequestResult[]>) => {
+          if (isSuccess(vcs)) {
+            setVCs(vcs.data);
+          }
+        })
+        .catch((e: any) => console.error(e));
+    }
+
     useToastStore.setState({
       open: false,
     });
@@ -148,9 +168,14 @@ const CreateCredentialDisplay = () => {
     }
 
     setVC(res.data);
-    useToastStore.setState({
-      open: true,
-    });
+    setTimeout(() => {
+      useToastStore.setState({
+        open: true,
+        title: t('toast.success'),
+        type: 'success',
+        loading: false,
+      });
+    }, 200);
     setVCModalOpen(true);
     setLoading(false);
   };
@@ -174,73 +199,82 @@ const CreateCredentialDisplay = () => {
             'scrollbar-thin scrollbar-thumb-orange-300/0 scrollbar-thumb-rounded-full font-jetbrains-mono',
             'min-h-[60vh] w-full resize-none rounded-2xl bg-gray-100 p-2 text-gray-700 focus:outline-none'
           )}
-          placeholder='Credential Payload...'
+          placeholder="Credential Payload..."
           value={credentialPayload}
           onChange={(e) => setCredentialPayload(e.target.value)}
         />
       </div>
-      <div className="mt-8 px-4">
-        <div className="dark:text-navy-blue-100 text-h5 font-ubuntu mt-8 font-medium text-gray-800">
-          {t('options.title')}
-        </div>
-        <div className="mt-2 flex items-center justify-between">
-          <div className="dark:text-navy-blue-300 text-gray-700 ">
-            {t('options.format')}
-          </div>
-          <DropdownMenu
-            size="xs"
-            rounded="full"
-            shadow="sm"
-            variant="primary-active"
-            selected={format}
-            setSelected={setFormat}
-            items={availableProofFormats}
-          />
-        </div>
-      </div>
-      <div>
-        <div className="mt-4 flex items-baseline justify-between px-4">
-          <div className="text-h5 dark:text-navy-blue-100 font-ubuntu mt-8 flex font-medium text-gray-800">
-            {t('save.title')} <InfoIcon>{t('save.description')}</InfoIcon>
-          </div>
-          <div className="">
-            <ToggleSwitch
-              variant="gray"
-              size="sm"
-              shadow="lg"
-              enabled={save}
-              setEnabled={setSave}
-            />
-          </div>
-        </div>
-        {save && (
-          <div className="mx-4 mt-2 flex items-center justify-between gap-x-8">
-            <span className="text-md dark:text-navy-blue-200 flex gap-x-1 text-gray-700">
-              {t('save.storage')}
-            </span>
-            <div className="flex flex-1">
-              <DropdownMultiselect
-                items={availableStores}
-                selectedItems={selectedItems}
-                setSelectedItems={setSelectedItems}
-                placeholder={t('save.select-storage-placeholder')}
-                name="storage"
+      {!isInvalidMethod && (
+        <>
+          <div className="mt-8 px-4">
+            <div className="dark:text-navy-blue-100 text-h5 font-ubuntu mt-8 font-medium text-gray-800">
+              {t('options.title')}
+            </div>
+            <div className="mt-2 flex items-center justify-between">
+              <div className="dark:text-navy-blue-300 text-gray-700 ">
+                {t('options.format')}
+              </div>
+              <DropdownMenu
+                size="xs"
+                rounded="full"
+                shadow="sm"
+                variant="primary-active"
+                selected={format}
+                setSelected={setFormat}
+                items={availableProofFormats}
               />
             </div>
           </div>
-        )}
-      </div>
-      <div className="mt-8 flex justify-end p-3">
-        <Button
-          variant="primary"
-          size="sm"
-          shadow="sm"
-          onClick={handleCreateVC}
-          loading={loading}
-        >
-          {t('title')}
-        </Button>
-      </div>
+          <div>
+            <div className="mt-4 flex items-baseline justify-between px-4">
+              <div className="text-h5 dark:text-navy-blue-100 font-ubuntu mt-8 flex font-medium text-gray-800">
+                {t('save.title')} <InfoIcon>{t('save.description')}</InfoIcon>
+              </div>
+              <div className="">
+                <ToggleSwitch
+                  variant="gray"
+                  size="sm"
+                  shadow="lg"
+                  enabled={save}
+                  setEnabled={setSave}
+                />
+              </div>
+            </div>
+            {save && (
+              <div className="mx-4 mt-2 flex items-center justify-between gap-x-8">
+                <span className="text-md dark:text-navy-blue-200 flex gap-x-1 text-gray-700">
+                  {t('save.storage')}
+                </span>
+                <div className="flex flex-1">
+                  <DropdownMultiselect
+                    items={availableStores}
+                    selectedItems={selectedItems}
+                    setSelectedItems={setSelectedItems}
+                    placeholder={t('save.select-storage-placeholder')}
+                    name="storage"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+          <div className="mt-8 flex justify-end p-3">
+            <Button
+              variant="primary"
+              size="sm"
+              shadow="sm"
+              onClick={handleCreateVC}
+              loading={loading}
+            >
+              {t('title')}
+            </Button>
+          </div>
+        </>
+      )}
+      {isInvalidMethod && (
+        <div className="p-2 pb-8 text-center text-red-500">
+          {t('invalidMethod')}
+        </div>
+      )}
       <VCModal
         isOpen={vcModalOpen}
         setOpen={setVCModalOpen}
