@@ -1,5 +1,5 @@
 import type {
-  AvailableVCStores,
+  AvailableCredentialStores,
   MascaState,
 } from '@blockchain-lab-um/masca-types';
 
@@ -10,10 +10,10 @@ import type {
  * @param store - vc store to check.
  * @returns boolean - whether the vc store is enabled.
  */
-export function isEnabledVCStore(
+export function isEnabledCredentialStore(
   account: string,
   state: MascaState,
-  store: AvailableVCStores
+  store: AvailableCredentialStores
 ): boolean {
   return state.accountState[account].accountConfig.ssi.vcStore[store];
 }

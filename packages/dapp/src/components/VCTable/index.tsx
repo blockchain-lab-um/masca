@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
   isError,
-  QueryVCsRequestResult,
+  type QueryCredentialsRequestResult,
 } from '@blockchain-lab-um/masca-connector';
 import {
   CheckCircleIcon,
@@ -80,9 +80,9 @@ const Table = () => {
       shallow
     );
 
-  const columnHelper = createColumnHelper<QueryVCsRequestResult>();
+  const columnHelper = createColumnHelper<QueryCredentialsRequestResult>();
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [selectedVC, setSelectedVC] = useState<QueryVCsRequestResult>();
+  const [selectedVC, setSelectedVC] = useState<QueryCredentialsRequestResult>();
 
   const columns = [
     columnHelper.accessor(
@@ -298,7 +298,7 @@ const Table = () => {
 
   const loadVCs = async () => {
     if (!api) return;
-    const loadedVCs = await api.queryVCs();
+    const loadedVCs = await api.queryCredentials();
 
     if (isError(loadedVCs)) {
       console.log(loadedVCs.error);

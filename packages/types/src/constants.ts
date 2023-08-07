@@ -4,10 +4,11 @@ import { isIn } from '@blockchain-lab-um/utils';
  * @description
  * Supported VC stores
  */
-export const availableVCStores = ['snap', 'ceramic'] as const;
-export type AvailableVCStores = (typeof availableVCStores)[number];
-export const isAvailableVCStores = (x: string) =>
-  isIn<AvailableVCStores>(availableVCStores, x);
+export const availableCredentialStores = ['snap', 'ceramic'] as const;
+export type AvailableCredentialStores =
+  (typeof availableCredentialStores)[number];
+export const isavailableCredentialStores = (x: string) =>
+  isIn<AvailableCredentialStores>(availableCredentialStores, x);
 
 /**
  * @description

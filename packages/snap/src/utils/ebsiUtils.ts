@@ -1,5 +1,4 @@
 import type { MascaState } from '@blockchain-lab-um/masca-types';
-import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import type { IDIDManagerCreateArgs } from '@veramo/core';
 import { keccak256 } from 'ethers';
 import WalletService from 'src/Wallet.service';
@@ -16,11 +15,10 @@ import VeramoService from '../veramo/Veramo.service';
  */
 export async function getDidEbsiIdentifier(params: {
   state: MascaState;
-  snap: SnapsGlobalObject;
   account: string;
   args: IDIDManagerCreateArgs;
 }): Promise<string> {
-  const { state, snap, account, args } = params;
+  const { state, account, args } = params;
 
   const agent = VeramoService.getAgent();
   const provider = state.accountState[account].accountConfig.ssi.didMethod;

@@ -8,8 +8,24 @@ import GeneralService from '../../src/General.service';
 import StorageService from '../../src/storage/Storage.service';
 import type { StoredCredentials } from '../../src/veramo/plugins/ceramicDataStore/ceramicDataStore';
 import VeramoService from '../../src/veramo/Veramo.service';
-import { account, jsonPath } from '../data/constants';
+import WalletService from '../../src/Wallet.service';
+import {
+  account,
+  jsonPath,
+  resolutionInvalidDID,
+  resolutionMethodNotSupported,
+  resolutionNotFound,
+} from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
+import {
+  exampleDIDEthrMainnet,
+  exampleDIDEthrMainnetDocument,
+} from '../data/identifiers/didEthrMainnet';
+import {
+  exampleDIDKey,
+  exampleDIDKeyDocument,
+  exampleDIDKeyImportedAccount,
+} from '../data/identifiers/didKey';
 import exampleVCEIP712 from '../data/verifiable-credentials/exampleEIP712.json';
 import exampleVCJSONLD from '../data/verifiable-credentials/exampleJSONLD.json';
 import exampleVC_2 from '../data/verifiable-credentials/exampleJWT_2.json';
@@ -19,7 +35,7 @@ import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
 const credentials = [exampleVC, exampleVC_2, exampleVC_3, exampleVCEIP712];
 
-describe('Utils [veramo]', () => {
+describe('Veramo Service', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
   let ceramicData: StoredCredentials;
 
@@ -264,7 +280,7 @@ describe('Utils [veramo]', () => {
     });
   });
 
-  describe('veramoClearVC', () => {
+  describe('VeramoService.clearCredentials', () => {
     it('should succeed clearing VCs in snap store', async () => {
       const res = await VeramoService.saveCredential({
         verifiableCredential: exampleVC,
@@ -346,7 +362,7 @@ describe('Utils [veramo]', () => {
 
       await VeramoService.init();
 
-      const resRet = await GeneralService.getEnabledVCStores();
+      const resRet = await GeneralService.getEnabledCredentialStores();
       expect(resRet).toEqual(['snap']);
 
       let queryRes = await VeramoService.queryCredentials({
@@ -374,7 +390,7 @@ describe('Utils [veramo]', () => {
 
       await VeramoService.init();
 
-      const resRet2 = await GeneralService.getEnabledVCStores();
+      const resRet2 = await GeneralService.getEnabledCredentialStores();
       expect(resRet2).toEqual(['snap', 'ceramic']);
 
       queryRes = await VeramoService.queryCredentials({
@@ -679,6 +695,72 @@ describe('Utils [veramo]', () => {
       // verifying a VP with lds proof format fails
       // expect(verifyResult.verified).toBe(true);
       expect(verifyResult).not.toBeNull();
+      expect.assertions(1);
+    });
+  });
+
+  describe('VeramoService.getIdentifier', () => {
+    it('should return did:ethr', async () => {
+      const expectedDid = {
+        did: 'did:ethr:0x1:0xb6665128eE91D84590f70c3268765384A9CAfBCd',
+        keys: [],
+        provider: 'did:ethr',
+        services: [],
+      };
+
+      await expect(VeramoService.getIdentifier()).resolves.toStrictEqual(
+        expectedDid
+      );
+
+      expect.assertions(1);
+    });
+
+    it('should return did:key', async () => {
+      const state = StorageService.get();
+      state.accountState[state.currentAccount].accountConfig.ssi.didMethod =
+        'did:key';
+      await StorageService.save();
+
+      // Need to re-initialize VeramoService with new state
+      await WalletService.init();
+      await VeramoService.init();
+      await VeramoService.importIdentifier();
+      await expect(VeramoService.getIdentifier()).resolves.toStrictEqual(
+        exampleDIDKeyImportedAccount
+      );
+
+      expect.assertions(1);
+    });
+  });
+
+  describe('VeramoService.resolveDID', () => {
+    it('should succeed resolving did:ethr identifier', async () => {
+      const didDoc = await VeramoService.resolveDID(exampleDIDEthrMainnet);
+      expect(didDoc.didDocument).toEqual(exampleDIDEthrMainnetDocument);
+      expect.assertions(1);
+    });
+
+    it('should succeed resolving did:key identifier', async () => {
+      const didDoc = await VeramoService.resolveDID(exampleDIDKey);
+      expect(didDoc.didDocument).toEqual(exampleDIDKeyDocument);
+      expect.assertions(1);
+    });
+
+    it('should resolve invalid did', async () => {
+      const didDoc = await VeramoService.resolveDID('did:ethr:0x5:0x123');
+      expect(didDoc).toEqual(resolutionInvalidDID);
+      expect.assertions(1);
+    });
+
+    it('should resolve nonExisting did', async () => {
+      const didDoc = await VeramoService.resolveDID('did:key:zQ3shW537');
+      expect(didDoc).toEqual(resolutionNotFound);
+      expect.assertions(1);
+    });
+
+    it('should resolve methodNotSupported', async () => {
+      const didDoc = await VeramoService.resolveDID('did:keyclopse:zQ3shW537');
+      expect(didDoc).toEqual(resolutionMethodNotSupported);
       expect.assertions(1);
     });
   });

@@ -16,7 +16,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          submodules: true
           fetch-depth: 0
       - uses: nrwl/nx-set-shas@v3
         with:
@@ -52,7 +51,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          submodules: true
           fetch-depth: 0
       - uses: nrwl/nx-set-shas@v3
         with:
@@ -88,7 +86,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          submodules: true
           fetch-depth: 0
       - uses: nrwl/nx-set-shas@v3
         with:
@@ -124,7 +121,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          submodules: true
           fetch-depth: 0
       - uses: nrwl/nx-set-shas@v3
         with:
@@ -160,7 +156,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          submodules: true
           fetch-depth: 0
       - uses: nrwl/nx-set-shas@v3
         with:
@@ -196,7 +191,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          submodules: true
           fetch-depth: 0
       - name: Scan connector
         uses: SonarSource/sonarcloud-github-action@master
@@ -215,7 +209,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          submodules: true
           fetch-depth: 0
       - name: Scan dapp
         uses: SonarSource/sonarcloud-github-action@master
@@ -234,7 +227,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          submodules: true
           fetch-depth: 0
       - name: Scan docs
         uses: SonarSource/sonarcloud-github-action@master
@@ -253,7 +245,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          submodules: true
           fetch-depth: 0
       - uses: nrwl/nx-set-shas@v3
         with:

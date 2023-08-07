@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-connector';
+import { type QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { ArrowsPointingOutIcon } from '@heroicons/react/24/outline';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { encodeBase64url } from '@veramo/utils';
@@ -7,7 +7,7 @@ import { encodeBase64url } from '@veramo/utils';
 import Tooltip from '@/components/Tooltip';
 
 interface SelectedVCsTableRowProps {
-  vc: QueryVCsRequestResult;
+  vc: QueryCredentialsRequestResult;
   handleRemove: (id: string) => void;
 }
 

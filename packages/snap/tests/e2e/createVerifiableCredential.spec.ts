@@ -1,7 +1,7 @@
 import {
+  AvailableCredentialStores,
   AvailableMethods,
-  AvailableVCStores,
-  QueryVCsRequestResult,
+  QueryCredentialsRequestResult,
 } from '@blockchain-lab-um/masca-types';
 import { isError, Result } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
@@ -26,7 +26,7 @@ const proofTypes: Record<string, string> = {
 };
 
 // TODO: Enable ceramic
-const stores: AvailableVCStores[][] = [
+const stores: AvailableCredentialStores[][] = [
   ['snap'],
   // ['ceramic'],
   // ['snap', 'ceramic'],
@@ -81,7 +81,7 @@ describe('createVerifiableCredential', () => {
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
-            method: 'createVC',
+            method: 'createCredential',
             params: {
               minimalUnsignedCredential: examplePayload,
               proofFormat,
@@ -115,7 +115,7 @@ describe('createVerifiableCredential', () => {
             request: {
               id: 'test-id',
               jsonrpc: '2.0',
-              method: 'createVC',
+              method: 'createCredential',
               params: {
                 minimalUnsignedCredential: examplePayload,
                 proofFormat,
@@ -136,10 +136,10 @@ describe('createVerifiableCredential', () => {
             request: {
               id: 'test-id',
               jsonrpc: '2.0',
-              method: 'queryVCs',
+              method: 'queryCredentials',
               params: {},
             },
-          })) as Result<QueryVCsRequestResult[]>;
+          })) as Result<QueryCredentialsRequestResult[]>;
 
           if (isError(res)) {
             throw new Error(res.error);
@@ -161,7 +161,7 @@ describe('createVerifiableCredential', () => {
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
-          method: 'createVC',
+          method: 'createCredential',
           params: {
             minimalUnsignedCredential: examplePayload,
           },
@@ -189,7 +189,7 @@ describe('createVerifiableCredential', () => {
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
-          method: 'createVC',
+          method: 'createCredential',
           params: {},
         },
       })) as Result<VerifiableCredential>;
@@ -209,7 +209,7 @@ describe('createVerifiableCredential', () => {
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
-          method: 'createVC',
+          method: 'createCredential',
           params: {
             minimalUnsignedCredential: {},
           },

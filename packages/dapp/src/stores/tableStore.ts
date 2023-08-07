@@ -1,16 +1,16 @@
-import { QueryVCsRequestResult } from '@blockchain-lab-um/masca-connector';
+import { type QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { ColumnFiltersState } from '@tanstack/react-table';
 import { create } from 'zustand';
 
 interface TableStore {
   globalFilter: string;
   columnFilters: ColumnFiltersState;
-  selectedVCs: QueryVCsRequestResult[];
+  selectedVCs: QueryCredentialsRequestResult[];
   cardView: boolean;
 
   setGlobalFilter: (globalFilter: string) => void;
   setColumnFilters: (columnFilters: ColumnFiltersState) => void;
-  setSelectedVCs: (selectedVCs: QueryVCsRequestResult[]) => void;
+  setSelectedVCs: (selectedVCs: QueryCredentialsRequestResult[]) => void;
   setCardView: (view: boolean) => void;
 }
 
@@ -28,6 +28,6 @@ export const useTableStore = create<TableStore>()((set) => ({
   setColumnFilters: (columnFilters: ColumnFiltersState) =>
     set({ columnFilters }),
   setCardView: (cardView: boolean) => set({ cardView }),
-  setSelectedVCs: (selectedVCs: QueryVCsRequestResult[]) =>
+  setSelectedVCs: (selectedVCs: QueryCredentialsRequestResult[]) =>
     set({ selectedVCs }),
 }));

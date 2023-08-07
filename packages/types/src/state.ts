@@ -2,7 +2,10 @@ import { IdentityMerkleTreeMetaInformation } from '@0xpolygonid/js-sdk';
 import { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
 import type { W3CVerifiableCredential } from '@veramo/core';
 
-import type { AvailableMethods, AvailableVCStores } from './constants.js';
+import type {
+  AvailableCredentialStores,
+  AvailableMethods,
+} from './constants.js';
 
 export type MascaConfig = {
   snap: {
@@ -17,7 +20,7 @@ export type MascaConfig = {
 export type MascaAccountConfig = {
   ssi: {
     didMethod: AvailableMethods;
-    vcStore: Record<AvailableVCStores, boolean>;
+    vcStore: Record<AvailableCredentialStores, boolean>;
   };
 };
 
