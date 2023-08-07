@@ -14,9 +14,6 @@ patchedDependencies:
   '@metamask/snaps-types@0.32.2':
     hash: kxvx7oauvzzozwjf53rqnijmxy
     path: patches/@metamask__snaps-types@0.32.2.patch
-  '@veramo/credential-w3c@5.2.0':
-    hash: eh2ypjs4hqd36f7gspeq5gcgbu
-    path: patches/@veramo__credential-w3c@5.2.0.patch
   cross-fetch@3.1.8:
     hash: o7exbxzvysudd5km3yp6v3mgsi
     path: patches/cross-fetch@3.1.8.patch
@@ -13540,7 +13537,7 @@ packages:
       glob: 8.1.0
       pkg-up: 3.1.0
       reselect: 4.1.8
-      resolve: 1.22.2
+      resolve: 1.22.3
     optional: true
 
   /babel-plugin-polyfill-corejs2@0.4.5(@babel/core@7.22.1):
@@ -25319,7 +25316,6 @@ packages:
       is-core-module: 2.12.1
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
-    dev: true
 
   /resolve@1.7.1:
     resolution: {integrity: sha512-c7rwLofp8g1U+h1KNyHL/jicrKg1Ek4q+Lr33AL65uZTinUZHe30D5HlyN5V9NW0JX1D5dXQ4jqW5l7Sy/kGfw==}

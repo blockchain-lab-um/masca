@@ -1,13 +1,12 @@
 import { randomUUID } from 'crypto';
 import { PresentationDefinition } from '@blockchain-lab-um/oidc-types';
-import { HttpServer } from '@nestjs/common';
 import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { Test, TestingModule } from '@nestjs/testing';
 import { PEX } from '@sphereon/pex';
-import { FastifyInstance } from 'fastify';
+import { RawServerDefault } from 'fastify';
 import * as qs from 'qs';
 import request from 'supertest';
 
@@ -21,7 +20,7 @@ const pex: PEX = new PEX();
 
 describe('Verifier controler', () => {
   let app: NestFastifyApplication;
-  let server: HttpServer;
+  let server: RawServerDefault;
 
   beforeEach(async () => {
     const testingModule: TestingModule = await Test.createTestingModule({
@@ -46,8 +45,8 @@ describe('Verifier controler', () => {
 
     app.useGlobalFilters(new AllExceptionsFilter());
     await app.init();
-    await (app.getHttpAdapter().getInstance() as FastifyInstance).ready();
-    server = app.getHttpServer() as HttpServer;
+    await app.getHttpAdapter().getInstance().ready();
+    server = app.getHttpServer();
   });
 
   describe('[GET]: /authorization-request', () => {

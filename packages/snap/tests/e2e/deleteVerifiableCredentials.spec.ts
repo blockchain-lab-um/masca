@@ -42,16 +42,14 @@ describe('deleteCredential', () => {
     });
 
     // Create test VC
-    const res = await createTestVCs(
-      {
-        agent,
-        proofFormat: 'jwt',
-        payload: {
-          issuer: identifier.did,
-          ...examplePayload,
-        },
-      }
-    );
+    const res = await createTestVCs({
+      agent,
+      proofFormat: 'jwt',
+      payload: {
+        issuer: identifier.did,
+        ...examplePayload,
+      },
+    });
     generatedVC = res.exampleVeramoVCJWT;
 
     // Created VC should be valid
