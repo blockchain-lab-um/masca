@@ -39,7 +39,7 @@ export default {
     mapmoize:
       '<rootDir>/../../node_modules/.pnpm/mapmoize@1.2.1/node_modules/mapmoize/dist/index.js',
     uint8arrays:
-      '<rootDir>/../../node_modules/.pnpm/uint8arrays@4.0.3/node_modules/uint8arrays/src/index.ts',
+      '<rootDir>/../../node_modules/.pnpm/uint8arrays@4.0.6/node_modules/uint8arrays/src/index.ts',
     '@ipld/dag-cbor':
       '<rootDir>/../../node_modules/.pnpm/@didtools+cacao@2.1.0/node_modules/@ipld/dag-cbor/dist/index.min.js',
     // Same mapping as in build config

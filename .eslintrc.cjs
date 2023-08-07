@@ -30,7 +30,7 @@ module.exports = {
       env: { jest: true },
     },
   ],
-  plugins: ['@typescript-eslint/eslint-plugin', 'unused-imports'],
+  plugins: ['@typescript-eslint', 'unused-imports'],
   parser: '@typescript-eslint/parser',
   rules: {
     // other rules
@@ -97,7 +97,6 @@ module.exports = {
     ],
     'import/extensions': 'off',
   },
-
   ignorePatterns: [
     '**/node_modules/**',
     '**/dist/**',
