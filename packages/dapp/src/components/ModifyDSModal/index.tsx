@@ -33,7 +33,7 @@ function ModifyDSModal({ isOpen, setOpen, vc }: ModifyDSModalProps) {
       api: state.mascaApi,
       changeVcs: state.changeVcs,
       changeLastFetch: state.changeLastFetch,
-    }),
+    })
   );
   const keys = Object.keys(enabledStores);
   const availableStores = keys.filter((key) => enabledStores[key] === true);

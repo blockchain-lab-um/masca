@@ -35,18 +35,14 @@ const CreatePresentationDisplay = () => {
   const [loading, setLoading] = useState(false);
   const [vpModalOpen, setVpModalOpen] = useState(false);
   const [vp, setVp] = useState({});
-  const { selectedVCs, setSelectedVCs } = useTableStore(
-    (state) => ({
-      selectedVCs: state.selectedVCs,
-      setSelectedVCs: state.setSelectedVCs,
-    })
-  );
-  const { didMethod, api } = useMascaStore(
-    (state) => ({
-      didMethod: state.currDIDMethod,
-      api: state.mascaApi,
-    })
-  );
+  const { selectedVCs, setSelectedVCs } = useTableStore((state) => ({
+    selectedVCs: state.selectedVCs,
+    setSelectedVCs: state.setSelectedVCs,
+  }));
+  const { didMethod, api } = useMascaStore((state) => ({
+    didMethod: state.currDIDMethod,
+    api: state.mascaApi,
+  }));
 
   const [format, setFormat] = useState('JWT');
   const [advanced, setAdvanced] = useState(false);

@@ -6,12 +6,10 @@ import { Bars3Icon, Squares2X2Icon } from '@heroicons/react/20/solid';
 import { useTableStore } from '@/stores';
 
 const ViewTabs = () => {
-  const { cardView, setCardView } = useTableStore(
-    (state) => ({
-      cardView: state.cardView,
-      setCardView: state.setCardView,
-    }),
-  );
+  const { cardView, setCardView } = useTableStore((state) => ({
+    cardView: state.cardView,
+    setCardView: state.setCardView,
+  }));
 
   return (
     <Switch

@@ -16,15 +16,13 @@ import { DropdownButton } from './MethodDropdownButton';
 export default function MethodDropdownMenu() {
   const t = useTranslations('MethodDropdownMenu');
   const { api, currMethod, methods, changeCurrDIDMethod, changeDID } =
-    useMascaStore(
-      (state) => ({
-        api: state.mascaApi,
-        currMethod: state.currDIDMethod,
-        methods: state.availableMethods,
-        changeCurrDIDMethod: state.changeCurrDIDMethod,
-        changeDID: state.changeCurrDID,
-      }),
-    );
+    useMascaStore((state) => ({
+      api: state.mascaApi,
+      currMethod: state.currDIDMethod,
+      methods: state.availableMethods,
+      changeCurrDIDMethod: state.changeCurrDIDMethod,
+      changeDID: state.changeCurrDID,
+    }));
 
   const handleMethodChange = async (method: string) => {
     if (method !== currMethod) {

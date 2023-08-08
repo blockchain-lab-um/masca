@@ -58,24 +58,20 @@ const Table = () => {
     string | null
   >(null);
 
-  const { api, vcs, changeVcs, changeLastFetch } = useMascaStore(
-    (state) => ({
-      api: state.mascaApi,
-      vcs: state.vcs,
-      changeVcs: state.changeVcs,
-      changeLastFetch: state.changeLastFetch,
-    }),
-  );
+  const { api, vcs, changeVcs, changeLastFetch } = useMascaStore((state) => ({
+    api: state.mascaApi,
+    vcs: state.vcs,
+    changeVcs: state.changeVcs,
+    changeLastFetch: state.changeLastFetch,
+  }));
   const { columnFilters, globalFilter, selectedVCs, cardView, setSelectedVCs } =
-    useTableStore(
-      (state) => ({
-        columnFilters: state.columnFilters,
-        globalFilter: state.globalFilter,
-        selectedVCs: state.selectedVCs,
-        cardView: state.cardView,
-        setSelectedVCs: state.setSelectedVCs,
-      }),
-    );
+    useTableStore((state) => ({
+      columnFilters: state.columnFilters,
+      globalFilter: state.globalFilter,
+      selectedVCs: state.selectedVCs,
+      cardView: state.cardView,
+      setSelectedVCs: state.setSelectedVCs,
+    }));
 
   const columnHelper = createColumnHelper<QueryCredentialsRequestResult>();
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);

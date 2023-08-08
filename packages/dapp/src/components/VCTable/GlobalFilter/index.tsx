@@ -11,12 +11,10 @@ interface GlobalFilterProps {
 
 const GlobalFilter = ({ isConnected, vcs }: GlobalFilterProps) => {
   const t = useTranslations('Dashboard');
-  const { globalFilter, setGlobalFilter } = useTableStore(
-    (state) => ({
-      globalFilter: state.globalFilter,
-      setGlobalFilter: state.setGlobalFilter,
-    }),
-  );
+  const { globalFilter, setGlobalFilter } = useTableStore((state) => ({
+    globalFilter: state.globalFilter,
+    setGlobalFilter: state.setGlobalFilter,
+  }));
 
   return (
     <div

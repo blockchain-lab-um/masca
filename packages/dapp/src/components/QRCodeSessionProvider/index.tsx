@@ -28,13 +28,11 @@ const QRCodeSessionProvider = () => {
     useState(false);
   const [isCredentialModalOpen, setIsCredentialModalOpen] = useState(false);
 
-  const { sessionId, key, exp } = useSessionStore(
-    (state) => ({
-      sessionId: state.sessionId,
-      key: state.key,
-      exp: state.exp,
-    }),
-  );
+  const { sessionId, key, exp } = useSessionStore((state) => ({
+    sessionId: state.sessionId,
+    key: state.key,
+    exp: state.exp,
+  }));
 
   const requestData = useQRCodeStore((state) => state.requestData);
 

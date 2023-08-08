@@ -13,12 +13,10 @@ const snapId =
     : 'npm:@blockchain-lab-um/masca';
 
 const CheckMetaMaskCompatibility = () => {
-  const { changeHasMetaMask, changeIsFlask } = useGeneralStore(
-    (state) => ({
-      changeHasMetaMask: state.changeHasMetaMask,
-      changeIsFlask: state.changeIsFlask,
-    })
-  );
+  const { changeHasMetaMask, changeIsFlask } = useGeneralStore((state) => ({
+    changeHasMetaMask: state.changeHasMetaMask,
+    changeIsFlask: state.changeIsFlask,
+  }));
 
   const {
     hasMM,
@@ -31,20 +29,18 @@ const CheckMetaMaskCompatibility = () => {
     changeIsConnected,
     changeIsConnecting,
     changeChainId,
-  } = useGeneralStore(
-    (state) => ({
-      hasMM: state.hasMetaMask,
-      hasFlask: state.isFlask,
-      address: state.address,
-      isConnected: state.isConnected,
-      isConnecting: state.isConnecting,
-      chainId: state.chainId,
-      changeAddress: state.changeAddress,
-      changeIsConnected: state.changeIsConnected,
-      changeIsConnecting: state.changeIsConnecting,
-      changeChainId: state.changeChainId,
-    })
-  );
+  } = useGeneralStore((state) => ({
+    hasMM: state.hasMetaMask,
+    hasFlask: state.isFlask,
+    address: state.address,
+    isConnected: state.isConnected,
+    isConnecting: state.isConnecting,
+    chainId: state.chainId,
+    changeAddress: state.changeAddress,
+    changeIsConnected: state.changeIsConnected,
+    changeIsConnecting: state.changeIsConnecting,
+    changeChainId: state.changeChainId,
+  }));
 
   const {
     api,
@@ -54,17 +50,15 @@ const CheckMetaMaskCompatibility = () => {
     changeCurrMethod,
     changeAvailableCredentialStores,
     changePopups,
-  } = useMascaStore(
-    (state) => ({
-      api: state.mascaApi,
-      changeMascaApi: state.changeMascaApi,
-      changeDID: state.changeCurrDID,
-      changeAvailableMethods: state.changeAvailableMethods,
-      changeCurrMethod: state.changeCurrDIDMethod,
-      changeAvailableCredentialStores: state.changeAvailableCredentialStores,
-      changePopups: state.changePopups,
-    })
-  );
+  } = useMascaStore((state) => ({
+    api: state.mascaApi,
+    changeMascaApi: state.changeMascaApi,
+    changeDID: state.changeCurrDID,
+    changeAvailableMethods: state.changeAvailableMethods,
+    changeCurrMethod: state.changeCurrDIDMethod,
+    changeAvailableCredentialStores: state.changeAvailableCredentialStores,
+    changePopups: state.changePopups,
+  }));
 
   const connectHandler = async () => {
     if (window.ethereum) {

@@ -10,11 +10,9 @@ export const FriendlydAppTable = () => {
   const t = useTranslations('FriendlyDapps');
   const [settings, setSettings] = useState<MascaConfig>();
   const [open, setOpen] = useState(false);
-  const { api } = useMascaStore(
-    (state) => ({
-      api: state.mascaApi,
-    }),
-  );
+  const { api } = useMascaStore((state) => ({
+    api: state.mascaApi,
+  }));
 
   const snapGetSettings = async () => {
     if (!api) return;

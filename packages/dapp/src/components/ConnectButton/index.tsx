@@ -5,12 +5,10 @@ import { useGeneralStore } from '@/stores';
 
 const ConnectButton = () => {
   const t = useTranslations('ConnectButton');
-  const { isConnecting, changeIsConnecting } = useGeneralStore(
-    (state) => ({
-      isConnecting: state.isConnecting,
-      changeIsConnecting: state.changeIsConnecting,
-    })
-  );
+  const { isConnecting, changeIsConnecting } = useGeneralStore((state) => ({
+    isConnecting: state.isConnecting,
+    changeIsConnecting: state.changeIsConnecting,
+  }));
 
   return (
     <Button

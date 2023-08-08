@@ -15,12 +15,10 @@ function PlaygroundModal({ open, setOpen }: PlaygroundModalProps) {
   const [loading, setLoading] = useState(false);
   const [vc, setVC] = useState('');
 
-  const { api } = useMascaStore(
-    (state) => ({
-      api: state.mascaApi,
-      changeVcs: state.changeVcs,
-    }),
-  );
+  const { api } = useMascaStore((state) => ({
+    api: state.mascaApi,
+    changeVcs: state.changeVcs,
+  }));
 
   const createCredential = async () => {
     if (!api) return;

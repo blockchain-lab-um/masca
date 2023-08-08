@@ -30,19 +30,15 @@ const Controlbar = () => {
 
   // Stores
   const isConnected = useGeneralStore((state) => state.isConnected);
-  const { vcs, changeLastFetch } = useMascaStore(
-    (state) => ({
-      vcs: state.vcs,
-      changeLastFetch: state.changeLastFetch,
-    })
-  );
+  const { vcs, changeLastFetch } = useMascaStore((state) => ({
+    vcs: state.vcs,
+    changeLastFetch: state.changeLastFetch,
+  }));
 
-  const { api, changeVcs } = useMascaStore(
-    (state) => ({
-      api: state.mascaApi,
-      changeVcs: state.changeVcs,
-    })
-  );
+  const { api, changeVcs } = useMascaStore((state) => ({
+    api: state.mascaApi,
+    changeVcs: state.changeVcs,
+  }));
 
   const refreshVCs = async () => {
     if (!api) return;

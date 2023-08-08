@@ -16,15 +16,13 @@ const SettingsCard = () => {
     changeAvailableCredentialStores,
     popups,
     changePopups,
-  } = useMascaStore(
-    (state) => ({
-      api: state.mascaApi,
-      popups: state.popups,
-      availableCredentialStores: state.availableCredentialStores,
-      changeAvailableCredentialStores: state.changeAvailableCredentialStores,
-      changePopups: state.changePopups,
-    }),
-  );
+  } = useMascaStore((state) => ({
+    api: state.mascaApi,
+    popups: state.popups,
+    availableCredentialStores: state.availableCredentialStores,
+    changeAvailableCredentialStores: state.changeAvailableCredentialStores,
+    changePopups: state.changePopups,
+  }));
 
   const snapGetAvailableCredentialStores = async () => {
     if (!api) return;

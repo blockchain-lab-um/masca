@@ -11,13 +11,11 @@ import ScanQRCodeModal from './ScanQRCodeModal';
 
 const ScanConnectionCard = () => {
   const t = useTranslations('ScanConnectionCard');
-  const { sessionId, key, exp } = useSessionStore(
-    (state) => ({
-      sessionId: state.sessionId,
-      key: state.key,
-      exp: state.exp,
-    }),
-  );
+  const { sessionId, key, exp } = useSessionStore((state) => ({
+    sessionId: state.sessionId,
+    key: state.key,
+    exp: state.exp,
+  }));
 
   const isConnected = useGeneralStore((state) => state.isConnected);
   const changeRequestData = useQRCodeStore((state) => state.changeRequestData);

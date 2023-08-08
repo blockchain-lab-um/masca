@@ -1,5 +1,5 @@
 import { shallow } from 'zustand/shallow';
-import { createWithEqualityFn } from 'zustand/traditional'
+import { createWithEqualityFn } from 'zustand/traditional';
 
 interface GeneralStore {
   address: string;
@@ -32,16 +32,19 @@ export const generalStoreInitialState = {
   chainId: '',
 };
 
-export const useGeneralStore = createWithEqualityFn<GeneralStore>()((set) => ({
-  ...generalStoreInitialState,
+export const useGeneralStore = createWithEqualityFn<GeneralStore>()(
+  (set) => ({
+    ...generalStoreInitialState,
 
-  changeAddress: (address: string) => set({ address }),
-  changeIsConnected: (isConnected: boolean) => set({ isConnected }),
-  changeIsConnecting: (isConnecting: boolean) => set({ isConnecting }),
-  changeDid: (did: string) => set({ did }),
-  changeHasMetaMask: (hasMetaMask: boolean) => set({ hasMetaMask }),
-  changeIsFlask: (isFlask: boolean) => set({ isFlask }),
-  changeHasSnapInstalled: (hasSnapInstalled: boolean) =>
-    set({ hasSnapInstalled }),
-  changeChainId: (chainId: string) => set({ chainId }),
-}), shallow);
+    changeAddress: (address: string) => set({ address }),
+    changeIsConnected: (isConnected: boolean) => set({ isConnected }),
+    changeIsConnecting: (isConnecting: boolean) => set({ isConnecting }),
+    changeDid: (did: string) => set({ did }),
+    changeHasMetaMask: (hasMetaMask: boolean) => set({ hasMetaMask }),
+    changeIsFlask: (isFlask: boolean) => set({ isFlask }),
+    changeHasSnapInstalled: (hasSnapInstalled: boolean) =>
+      set({ hasSnapInstalled }),
+    changeChainId: (chainId: string) => set({ chainId }),
+  }),
+  shallow
+);
