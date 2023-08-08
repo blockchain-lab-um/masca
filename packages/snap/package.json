@@ -54,7 +54,7 @@
   },
   "dependencies": {
     "@0xpolygonid/js-sdk": "1.0.2",
-    "@babel/runtime": "7.22.6",
+    "@babel/runtime": "7.22.10",
     "@blockchain-lab-um/did-provider-ebsi": "1.0.0",
     "@blockchain-lab-um/did-provider-key": "1.0.2-beta.0",
     "@blockchain-lab-um/masca-types": "0.4.2-beta.1",
@@ -113,7 +113,7 @@
     "ts-jest": "^29.1.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.22.9",
+    "@babel/core": "^7.22.10",
     "@babel/plugin-syntax-import-assertions": "^7.22.5",
     "@babel/preset-typescript": "^7.22.5",
     "@ceramicnetwork/streamid": "2.17.0",
