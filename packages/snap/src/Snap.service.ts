@@ -555,6 +555,12 @@ class SnapService {
         isValidImportStateBackupRequest(params);
         await StorageService.importBackup(params);
         return ResultObject.success(true);
+      case 'createGoogleBackup':
+        res = await GeneralService.createGoogleBackup();
+        return ResultObject.success(true);
+      case 'importGoogleBackup':
+        await GeneralService.importGoogleBackup();
+        return ResultObject.success(true);
       default:
         throw new Error('Method not found.');
     }

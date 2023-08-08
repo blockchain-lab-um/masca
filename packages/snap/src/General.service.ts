@@ -268,13 +268,30 @@ class GeneralService {
     let file = await GoogleService.findFile({
       fileName: GOOGLE_DRIVE_BACKUP_FILE,
     });
-    if (!file)
-      file = await GoogleService.createFile({
+    const backup = await StorageService.exportBackup();
+    if (!file) {
+        file = await GoogleService.createFile({
         fileName: GOOGLE_DRIVE_BACKUP_FILE as string,
-        content: '',
+        content: backup,
       });
+    } else {
+      await GoogleService.updateFile({
+        id: file,
+        content: backup,
+      });
+    }
 
+    // Maybe worth saving the file id in the state
+    // as searching for the file is easier with the id
     return file;
+  }
+
+  static async importGoogleBackup() {
+    const backup = await GoogleService.getFileContent({
+      fileName: GOOGLE_DRIVE_BACKUP_FILE,
+    });
+    if (backup)
+      await StorageService.importBackup({serializedState: backup});
   }
 }
 
