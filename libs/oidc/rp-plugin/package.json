@@ -1,7 +1,7 @@
 {
   "name": "@blockchain-lab-um/oidc-rp-plugin",
   "version": "0.0.2-beta.0",
-  "license": "MIT",
+  "license": "(Apache-2.0 AND MIT)",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -10,8 +10,8 @@
   "files": [
     "dist/",
     "README.md",
-    "package.json",
-    "LICENSE"
+    "CHANGELOG.md",
+    "package.json"
   ],
   "scripts": {
     "build": "pnpm clean && pnpm compile",

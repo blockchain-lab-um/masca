@@ -1,6 +1,6 @@
 # Utils
 
-Library containing utility functions used throughout the monorepo.
+Library containing utility functions used throughout the Masca monorepo.
 
 ## License
 
