@@ -270,7 +270,7 @@ class GeneralService {
     });
     const backup = await StorageService.exportBackup();
     if (!file) {
-        file = await GoogleService.createFile({
+      file = await GoogleService.createFile({
         fileName: GOOGLE_DRIVE_BACKUP_FILE as string,
         content: backup,
       });
@@ -290,8 +290,7 @@ class GeneralService {
     const backup = await GoogleService.getFileContent({
       fileName: GOOGLE_DRIVE_BACKUP_FILE,
     });
-    if (backup)
-      await StorageService.importBackup({serializedState: backup});
+    if (backup) await StorageService.importBackup({ serializedState: backup });
   }
 }
 

@@ -12,9 +12,9 @@ import type {
   SetCeramicSessionRequestParams,
   SetCredentialStoreRequestParams,
   SetCurrentAccountRequestParams,
+  SetGoogleTokenRequestParams,
   SwitchMethodRequestParams,
   VerifyDataRequestParams,
-  SetGoogleTokenRequestParams,
 } from './params.js';
 
 export type QueryCredentials = {

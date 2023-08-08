@@ -1,6 +1,7 @@
 import type {
   AddFriendlyDapp,
   CreateCredential,
+  CreateGoogleBackup,
   CreatePresentation,
   DeleteCredential,
   ExportStateBackup,
@@ -13,6 +14,7 @@ import type {
   GetSnapSettings,
   HandleAuthorization,
   HandleCredentialOffer,
+  ImportGoogleBackup,
   ImportStateBackup,
   QueryCredentials,
   RemoveFriendlyDapp,
@@ -21,13 +23,11 @@ import type {
   SetCeramicSession,
   SetCredentialStore,
   SetCurrentAccount,
+  SetGoogleToken,
   SwitchMethod,
   TogglePopups,
   ValidateStoredCeramicSession,
   VerifyData,
-  SetGoogleToken,
-  CreateGoogleBackup,
-  ImportGoogleBackup,
 } from './methods.js';
 
 export type MascaRPCRequest =
