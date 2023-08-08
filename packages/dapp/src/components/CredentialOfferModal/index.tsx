@@ -9,12 +9,12 @@ import Button from '@/components/Button';
 import Modal from '@/components/Modal';
 import { useMascaStore, useToastStore } from '@/stores';
 
-type CredentialOfferModalProps = {
+interface CredentialOfferModalProps {
   isOpen: boolean;
   setOpen: (open: boolean) => void;
   credentialOffer: string;
   setRecievedCredential: (credential: VerifiableCredential) => void;
-};
+}
 
 const CredentialOfferModal = ({
   isOpen,

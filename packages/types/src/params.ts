@@ -14,54 +14,54 @@ import type {
 /**
  * Types
  */
-export type ProofOptions = {
+export interface ProofOptions {
   type?: string;
   domain?: string;
   challenge?: string;
-};
+}
 
-export type QueryCredentialsOptions = {
+export interface QueryCredentialsOptions {
   store?: AvailableCredentialStores | AvailableCredentialStores[];
   returnStore?: boolean;
-};
+}
 
-export type SaveCredentialOptions = {
+export interface SaveCredentialOptions {
   store?: AvailableCredentialStores | AvailableCredentialStores[];
-};
+}
 
-export type DeleteCredentialsOptions = {
+export interface DeleteCredentialsOptions {
   store?: AvailableCredentialStores | AvailableCredentialStores[];
-};
+}
 
 // TODO (martin): This type is also in datamanager
-export type Filter = {
+export interface Filter {
   type: 'none' | 'id' | 'JSONPath';
   filter: string;
-};
+}
 
 /**
  * Types for method arguments
  */
 
-export type CredentialRequest = {
+export interface CredentialRequest {
   id: string;
   metadata?: {
     store?: AvailableCredentialStores;
   };
-};
+}
 
-export type SetCurrentAccountRequestParams = {
+export interface SetCurrentAccountRequestParams {
   currentAccount: string;
-};
+}
 
-export type CreatePresentationRequestParams = {
+export interface CreatePresentationRequestParams {
   /*
    * @minItems 1
    */
   vcs: W3CVerifiableCredential[];
   proofFormat?: SupportedProofFormats;
   proofOptions?: ProofOptions;
-};
+}
 
 export type MinimalUnsignedCredential = Pick<
   UnsignedCredential,
@@ -71,44 +71,45 @@ export type MinimalUnsignedCredential = Pick<
   | 'expirationDate'
   | 'credentialStatus'
   | 'id'
-> & { [x: string]: any };
+> &
+  Record<string, any>;
 
-export type CreateCredentialRequestParams = {
+export interface CreateCredentialRequestParams {
   minimalUnsignedCredential: MinimalUnsignedCredential;
   proofFormat?: SupportedProofFormats;
   options?: {
     save?: boolean;
     store?: AvailableCredentialStores | AvailableCredentialStores[];
   };
-};
+}
 
-export type QueryCredentialsRequestParams = {
+export interface QueryCredentialsRequestParams {
   filter?: Filter;
   options?: QueryCredentialsOptions;
-};
+}
 
-export type SaveCredentialRequestParams = {
+export interface SaveCredentialRequestParams {
   verifiableCredential: W3CVerifiableCredential | W3CCredential;
   options?: SaveCredentialOptions;
-};
+}
 
-export type DeleteCredentialsRequestParams = {
+export interface DeleteCredentialsRequestParams {
   id: string;
   options?: DeleteCredentialsOptions;
-};
+}
 
-export type ResolveDIDRequestParams = {
+export interface ResolveDIDRequestParams {
   did: string;
-};
+}
 
-export type SwitchMethodRequestParams = {
+export interface SwitchMethodRequestParams {
   didMethod: AvailableMethods;
-};
+}
 
-export type SetCredentialStoreRequestParams = {
+export interface SetCredentialStoreRequestParams {
   store: AvailableCredentialStores;
   value: boolean;
-};
+}
 
 /**
  * VerifyDataRequestParams
@@ -135,21 +136,21 @@ export type VerifyDataRequestParams =
 /**
  * HandleCredentialOfferRequestParams
  */
-export type HandleCredentialOfferRequestParams = {
+export interface HandleCredentialOfferRequestParams {
   credentialOffer: string;
-};
+}
 
 /**
  * HandleAuthorizationRequestParams
  */
-export type HandleAuthorizationRequestParams = {
+export interface HandleAuthorizationRequestParams {
   authorizationRequest: string;
-};
+}
 
-export type SetCeramicSessionRequestParams = {
+export interface SetCeramicSessionRequestParams {
   serializedSession: string;
-};
+}
 
-export type RemoveFriendlyDappParams = {
+export interface RemoveFriendlyDappParams {
   id: string;
-};
+}

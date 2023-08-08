@@ -1,4 +1,4 @@
-export type NetworkParams = {
+export interface NetworkParams {
   chainId: string;
   rpcUrls: string[];
   chainName: string;
@@ -8,7 +8,7 @@ export type NetworkParams = {
     decimals: number;
   };
   blockExplorerUrls: string[];
-};
+}
 
 export const chainIdNetworkParamsMapping: Record<string, NetworkParams> = {
   '0x89': {

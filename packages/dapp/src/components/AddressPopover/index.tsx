@@ -8,11 +8,11 @@ import { useTranslations } from 'next-intl';
 
 import { copyToClipboard } from '@/utils/string';
 
-type AddressPopoverProps = {
+interface AddressPopoverProps {
   address: string;
   did: string;
   disconnect: () => void;
-};
+}
 
 const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
   const t = useTranslations('AppNavbar');

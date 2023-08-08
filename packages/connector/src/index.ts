@@ -12,11 +12,11 @@ export { Masca } from './snap.js';
 export * from '@blockchain-lab-um/masca-types';
 export * from '@blockchain-lab-um/utils';
 
-export type SnapInstallationParams = {
+export interface SnapInstallationParams {
   snapId?: string;
   version?: string;
-  supportedMethods?: Array<AvailableMethods>;
-};
+  supportedMethods?: AvailableMethods[];
+}
 
 const defaultSnapOrigin = 'npm:@blockchain-lab-um/masca';
 
@@ -39,7 +39,7 @@ export async function enableMasca(
   const {
     snapId = defaultSnapOrigin,
     version = mascaVersionJson.mascaVersion,
-    supportedMethods = availableMethods as unknown as Array<AvailableMethods>,
+    supportedMethods = availableMethods as unknown as AvailableMethods[],
   } = snapInstallationParams;
 
   // This resolves to the value of window.ethereum or null

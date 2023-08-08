@@ -1,4 +1,5 @@
-import { create } from 'zustand';
+import { shallow } from 'zustand/shallow';
+import { createWithEqualityFn } from 'zustand/traditional';
 
 interface QRCodeStore {
   requestData: string | null;
@@ -9,8 +10,11 @@ export const qrCodeStoreInitialState = {
   requestData: null,
 };
 
-export const useQRCodeStore = create<QRCodeStore>()((set) => ({
-  ...qrCodeStoreInitialState,
+export const useQRCodeStore = createWithEqualityFn<QRCodeStore>()(
+  (set) => ({
+    ...qrCodeStoreInitialState,
 
-  changeRequestData: (requestData: string) => set({ requestData }),
-}));
+    changeRequestData: (requestData: string) => set({ requestData }),
+  }),
+  shallow
+);

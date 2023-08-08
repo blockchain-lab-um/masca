@@ -21,7 +21,7 @@ export type ImportablePrivateKey = RequireOnly<
  * An implementation of {@link AbstractDataStore} that holds everything in snap state.
  */
 export class SnapCredentialStore extends AbstractDataStore {
-  async query(args: IFilterArgs): Promise<Array<IQueryResult>> {
+  async query(args: IFilterArgs): Promise<IQueryResult[]> {
     const { filter } = args;
     const state = StorageService.get();
 
@@ -75,7 +75,7 @@ export class SnapCredentialStore extends AbstractDataStore {
         };
       });
       const filteredObjects = jsonpath.query(objects, filter.filter);
-      return filteredObjects as Array<IQueryResult>;
+      return filteredObjects as IQueryResult[];
     }
     return [];
   }

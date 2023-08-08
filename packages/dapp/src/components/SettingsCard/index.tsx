@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { isError } from '@blockchain-lab-um/masca-connector';
 import { ArrowLeftIcon } from '@heroicons/react/20/solid';
 import { useTranslations } from 'next-intl';
-import { shallow } from 'zustand/shallow';
 
 import ToggleSwitch from '@/components/Switch';
 import { useMascaStore, useToastStore } from '@/stores';
@@ -19,16 +18,13 @@ const SettingsCard = () => {
     changeAvailableCredentialStores,
     popups,
     changePopups,
-  } = useMascaStore(
-    (state) => ({
-      api: state.mascaApi,
-      popups: state.popups,
-      availableCredentialStores: state.availableCredentialStores,
-      changeAvailableCredentialStores: state.changeAvailableCredentialStores,
-      changePopups: state.changePopups,
-    }),
-    shallow
-  );
+  } = useMascaStore((state) => ({
+    api: state.mascaApi,
+    popups: state.popups,
+    availableCredentialStores: state.availableCredentialStores,
+    changeAvailableCredentialStores: state.changeAvailableCredentialStores,
+    changePopups: state.changePopups,
+  }));
 
   const snapGetAvailableCredentialStores = async () => {
     if (!api) return;
@@ -132,7 +128,7 @@ const SettingsCard = () => {
             </div>
             <ToggleSwitch
               size="md"
-              enabled={popups as boolean}
+              enabled={popups!}
               setEnabled={snapTogglePopups}
               shadow="md"
             />

@@ -17,23 +17,23 @@ export interface IPluginConfig {
   supported_credentials?: SupportedCredential[];
 }
 
-export type CreateCredentialOfferRequestArgs = {
+export interface CreateCredentialOfferRequestArgs {
   credentials: Credentials;
   grants?: (
     | 'urn:ietf:params:oauth:grant-type:pre-authorized_code'
     | 'authorization_code'
   )[];
   userPinRequired?: boolean;
-};
+}
 
-export type CreateCredentialOfferRequestResposne = {
+export interface CreateCredentialOfferRequestResposne {
   credentialOfferRequest: string;
   credentials: Credentials;
   preAuthorizedCode?: string;
   userPin?: string;
-};
+}
 
-export type HandlePreAuthorizedCodeTokenRequestArgs = {
+export interface HandlePreAuthorizedCodeTokenRequestArgs {
   body: TokenRequest;
   preAuthorizedCode: string;
   userPin?: string;
@@ -43,11 +43,11 @@ export type HandlePreAuthorizedCodeTokenRequestArgs = {
     cNonce?: string;
     cNonceExpiresIn?: number;
   };
-};
+}
 
-export type IsValidTokenRequestArgs = {
+export interface IsValidTokenRequestArgs {
   body: TokenRequest;
-};
+}
 
 export type IsValidTokenRequestResponse = {
   grantType:
@@ -62,38 +62,38 @@ export type IsValidTokenRequestResponse = {
     }
 );
 
-export type HandleCredentialRequestArgs = {
+export interface HandleCredentialRequestArgs {
   body: CredentialRequest;
   issuerDid: string; // DID to use for signing the Credential
   subjectDid: string; // DID to which the Credential is issued
   credentialSubjectClaims: unknown; // Claims to use for the credentialSubject
-};
+}
 
-export type HandleAuthorizationResponseArgs = {
+export interface HandleAuthorizationResponseArgs {
   nonce?: string;
   nonceExpiresIn?: number;
   presentationDefinition: PresentationDefinition;
   body: AuthorizationResponse;
-};
+}
 
-export type CreateJWTProofParams = {
+export interface CreateJWTProofParams {
   privateKey: string;
   audience: string;
   data?: any;
   nonce?: string;
-};
+}
 
-export type ProofOfPossesionArgs = {
+export interface ProofOfPossesionArgs {
   proof?: Proof;
   cNonce?: string;
   cNonceExpiresIn?: number;
-};
+}
 
-export type ProofOfPossesionResponseArgs = {
+export interface ProofOfPossesionResponseArgs {
   did: string;
-};
+}
 
-export type CreateAuthorizationRequestArgs = {
+export interface CreateAuthorizationRequestArgs {
   clientId: string;
   redirectUri: string;
   presentationDefinition: PresentationDefinition;
@@ -102,10 +102,10 @@ export type CreateAuthorizationRequestArgs = {
     nonce?: string;
     nonceExpiresIn?: number;
   };
-};
+}
 
-export type CreateAuthorizationRequestResponse = {
+export interface CreateAuthorizationRequestResponse {
   authorizationRequest: string;
   nonce: string;
   nonceExpiresIn: number;
-};
+}

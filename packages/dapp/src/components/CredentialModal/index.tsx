@@ -10,11 +10,11 @@ import JsonPanel from '@/components/CredentialDisplay/JsonPanel';
 import Modal from '@/components/Modal';
 import { useMascaStore, useToastStore } from '@/stores';
 
-type CredentialModalProps = {
+interface CredentialModalProps {
   isOpen: boolean;
   setOpen: (open: boolean) => void;
   credential: VerifiableCredential;
-};
+}
 
 const CredentialModal = ({
   isOpen,

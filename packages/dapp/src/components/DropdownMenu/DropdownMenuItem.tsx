@@ -2,7 +2,7 @@ import { Menu } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/24/outline';
 import { clsx } from 'clsx';
 
-type DropdownMenuItemProps = {
+interface DropdownMenuItemProps {
   children: React.ReactNode;
   handleBtn: (text: string) => void;
   selected: boolean;
@@ -13,7 +13,7 @@ type DropdownMenuItemProps = {
     | 'secondary-active'
     | 'gray'
     | 'method';
-};
+}
 
 const variants: Record<string, string> = {
   primary:

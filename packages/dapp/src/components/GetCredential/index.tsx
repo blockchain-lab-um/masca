@@ -71,9 +71,10 @@ const GetCredential = () => {
 
     try {
       const credentialOfferRequestResponse = await fetch(
-        `${
-          process.env.NEXT_PUBLIC_DEMO_ISSUER as string
-        }/credential-offer?${qs.stringify(query, { encode: true })}`,
+        `${process.env
+          .NEXT_PUBLIC_DEMO_ISSUER!}/credential-offer?${qs.stringify(query, {
+          encode: true,
+        })}`,
         {
           method: 'GET',
         }

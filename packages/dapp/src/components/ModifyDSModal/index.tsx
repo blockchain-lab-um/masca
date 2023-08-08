@@ -6,7 +6,6 @@ import {
 } from '@blockchain-lab-um/masca-connector';
 import { Dialog } from '@headlessui/react';
 import { useTranslations } from 'next-intl';
-import { shallow } from 'zustand/shallow';
 
 import Button from '@/components//Button';
 import ToggleSwitch from '@/components//Switch';
@@ -35,8 +34,7 @@ function ModifyDSModal({ isOpen, setOpen, vc }: ModifyDSModalProps) {
       api: state.mascaApi,
       changeVcs: state.changeVcs,
       changeLastFetch: state.changeLastFetch,
-    }),
-    shallow
+    })
   );
   const keys = Object.keys(enabledStores);
   const availableStores = keys.filter((key) => enabledStores[key] === true);

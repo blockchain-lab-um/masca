@@ -13,7 +13,7 @@ import { onRpcRequest } from '../../src';
 import StorageService from '../../src/storage/Storage.service';
 import type { StoredCredentials } from '../../src/veramo/plugins/ceramicDataStore/ceramicDataStore';
 import VeramoService, { type Agent } from '../../src/veramo/Veramo.service';
-import { account, importablePrivateKey } from '../data/constants';
+import { account } from '../data/constants';
 import examplePayload from '../data/credentials/examplePayload.json';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createTestVCs } from '../helpers/generateTestVCs';
@@ -26,11 +26,11 @@ describe('saveVerifiableCredential', () => {
   let agent: Agent;
   let generatedVC: VerifiableCredential;
 
-  type StoreTests = {
+  interface StoreTests {
     title: string;
     options?: SaveVCOptions;
     results: string[];
-  };
+  }
 
   const options: StoreTests[] = [
     { title: 'snap', options: { store: 'snap' }, results: ['snap'] },
@@ -89,22 +89,15 @@ describe('saveVerifiableCredential', () => {
       kms: 'snap',
     });
 
-    await agent.keyManagerImport(importablePrivateKey);
-
     // Create test VC
-    const res = await createTestVCs(
-      {
-        agent,
-        proofFormat: 'jwt',
-        payload: {
-          issuer: identifier.did,
-          ...examplePayload,
-        },
+    const res = await createTestVCs({
+      agent,
+      proofFormat: 'jwt',
+      payload: {
+        issuer: identifier.did,
+        ...examplePayload,
       },
-      {
-        keyRef: 'importedTestKey',
-      }
-    );
+    });
     generatedVC = res.exampleVeramoVCJWT;
 
     // Created VC should be valid

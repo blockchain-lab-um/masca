@@ -84,27 +84,27 @@ type Format = Partial<
   | Record<FormatKeyLdp, { proof_type: LDPAlgorithm[] }>
 >;
 
-type Field = {
+interface Field {
   path: string[];
   id?: string;
   purpose?: string;
   name?: string;
   filter?: any;
-};
+}
 
 // One or both of these are required
-type Constraints = {
+interface Constraints {
   limit_disclosure?: 'required' | 'preferred';
   fields?: Field[];
-};
+}
 
-type InputDescriptor = {
+interface InputDescriptor {
   id: string;
   name?: string;
   purpose?: string;
   format?: Format;
   constraints: Constraints;
-};
+}
 
 /**
  * Presentation Definition
@@ -112,11 +112,11 @@ type InputDescriptor = {
  * SPECS:
  * - https://identity.foundation/presentation-exchange/#presentation-definition
  */
-export type PresentationDefinition = {
+export interface PresentationDefinition {
   id: string;
   format?: Format;
   input_descriptors: InputDescriptor[];
-};
+}
 
 /**
  * Presentation Submission
@@ -124,15 +124,15 @@ export type PresentationDefinition = {
  * SPECS:
  * - https://identity.foundation/presentation-exchange/#presentation-submission
  */
-export type PresentationSubmission = {
+export interface PresentationSubmission {
   id: string;
   definition_id: string;
   descriptor_map: DescriptorMap[];
-};
+}
 
-type DescriptorMap = {
+interface DescriptorMap {
   id: string;
   format: string;
   path: string;
   path_nested?: DescriptorMap;
-};
+}
