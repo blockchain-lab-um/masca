@@ -7,8 +7,8 @@ import {
   isError,
   isSuccess,
   QueryCredentialsRequestResult,
+  Result,
   SupportedProofFormats,
-  Result
 } from '@blockchain-lab-um/masca-connector';
 import { ArrowLeftIcon } from '@heroicons/react/20/solid';
 import { VerifiableCredential } from '@veramo/core';

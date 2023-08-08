@@ -106,11 +106,14 @@ class UIService {
   static createCredentialDialog = async (
     save: boolean | undefined,
     storeString: string,
-    minimalUnsignedCredential: any
+    minimalUnsignedCredential: any,
+    did: string
   ) => {
     const uiPanel = panel([
       heading('Create Credential'),
       ...this.originWrapper,
+      text(`DID: **${did}**`),
+      divider(),
       text(
         `Would you like to ${
           save === true ? 'Sign and Save' : 'Sign'
@@ -141,10 +144,15 @@ class UIService {
     return res;
   };
 
-  static createPresentationDialog = async (vcs: W3CVerifiableCredential[]) => {
+  static createPresentationDialog = async (
+    vcs: W3CVerifiableCredential[],
+    did: string
+  ) => {
     const uiPanel = panel([
       heading('Create VP'),
       ...this.originWrapper,
+      text(`DID: **${did}**`),
+      divider(),
       text('Would you like to create a VP from the following VC(s)?'),
       divider(),
       text(`VC(s):`),
