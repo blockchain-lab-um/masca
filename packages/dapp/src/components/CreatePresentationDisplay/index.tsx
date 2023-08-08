@@ -22,6 +22,7 @@ import InputField from '@/components/InputField';
 import SelectedVCsTableRow from '@/components/SelectedVCsTableRow/SelectedVCsTableRow';
 import ToggleSwitch from '@/components/Switch';
 import VPModal from '@/components/VPModal';
+import { isPolygonVC } from '@/utils/credential';
 import { removeCredentialSubjectFilterString } from '@/utils/format';
 import { useMascaStore, useTableStore } from '@/stores';
 
@@ -32,7 +33,7 @@ const proofFormats: Record<string, SupportedProofFormats> = {
 };
 
 const CreatePresentationDisplay = () => {
-  const t = useTranslations('CreateVerifiablePresentation');
+  const t = useTranslations('CreatePresentationDisplay');
   const [loading, setLoading] = useState(false);
   const [vpModalOpen, setVpModalOpen] = useState(false);
   const [vp, setVp] = useState({});
@@ -55,6 +56,8 @@ const CreatePresentationDisplay = () => {
   const [advanced, setAdvanced] = useState(false);
   const [challenge, setChallenge] = useState('');
   const [domain, setDomain] = useState('');
+  const [isInvalidMethod, setInvalidMethod] = useState(false);
+  const [includesPolygonVC, setIncludesPolygonVC] = useState(false);
   const [availableProofFormats, setAvailableProofFormats] = useState([
     'JWT',
     'JSON-LD',
@@ -62,6 +65,10 @@ const CreatePresentationDisplay = () => {
   ]);
 
   useEffect(() => {
+    setInvalidMethod(false);
+    if (didMethod === 'did:polygonid' || didMethod === 'did:iden3') {
+      setInvalidMethod(true);
+    }
     if (didMethod === 'did:ethr' || didMethod === 'did:pkh') {
       setAvailableProofFormats(['EIP712Signature']);
       setFormat('EIP712Signature');
@@ -70,6 +77,16 @@ const CreatePresentationDisplay = () => {
       setFormat('JWT');
     }
   }, [didMethod]);
+
+  useEffect(() => {
+    setIncludesPolygonVC(false);
+    selectedVCs?.forEach((vc) => {
+      if (isPolygonVC(vc)) {
+        console.log('true');
+        setIncludesPolygonVC(true);
+      }
+    });
+  }, [selectedVCs]);
 
   const handleRemove = (id: string) => {
     setSelectedVCs(
@@ -106,7 +123,7 @@ const CreatePresentationDisplay = () => {
   return (
     <>
       <div className="mt-5 flex w-full justify-between px-6 pt-2">
-        <Link href="/app">
+        <Link href="/app" className="flex items-center">
           <button className="animated-transition dark:text-navy-blue-50 dark:hover:bg-navy-blue-700 rounded-full text-gray-800 hover:bg-pink-100 hover:text-pink-700">
             <ArrowLeftIcon className="h-6 w-6" />
           </button>
@@ -139,85 +156,105 @@ const CreatePresentationDisplay = () => {
             ))}
           </tbody>
         </table>
-        <div className="mt-8 px-4">
-          <div className="dark:text-navy-blue-100 text-h5 font-ubuntu mt-8 font-medium text-gray-800">
-            {t('options.title')}
-          </div>
-          <div className="mt-2 flex items-center justify-between">
-            <div className="dark:text-navy-blue-300 text-gray-700 ">
-              {t('options.format')}
+      </div>
+      {!isInvalidMethod && !includesPolygonVC && (
+        <>
+          <div className="mt-8 px-4">
+            <div className="dark:text-navy-blue-100 text-h5 font-ubuntu mt-8 font-medium text-gray-800">
+              {t('options.title')}
             </div>
-            <DropdownMenu
-              size="xs"
-              rounded="full"
-              shadow="sm"
-              variant="primary-active"
-              selected={format}
-              setSelected={setFormat}
-              items={availableProofFormats}
-            />
-          </div>
-        </div>
-        <div>
-          <div className="mt-16 flex items-baseline justify-between border-b border-gray-300 px-4">
-            <div className="text-h5 dark:text-navy-blue-100 font-ubuntu mt-8 flex font-medium text-gray-800">
-              {t('advanced.title')} <InfoIcon>{t('advanced.tooltip')}</InfoIcon>
-            </div>
-            <div className="">
-              <ToggleSwitch
-                variant="gray"
-                size="sm"
-                shadow="lg"
-                enabled={advanced}
-                setEnabled={setAdvanced}
+            <div className="mt-2 flex items-center justify-between">
+              <div className="dark:text-navy-blue-300 text-gray-700 ">
+                {t('options.format')}
+              </div>
+              <DropdownMenu
+                size="xs"
+                rounded="full"
+                shadow="sm"
+                variant="primary-active"
+                selected={format}
+                setSelected={setFormat}
+                items={availableProofFormats}
               />
             </div>
           </div>
-          {advanced && (
-            <div className="mt-6 px-4">
-              <div className="dark:text-navy-blue-100 mt-2 text-sm font-medium text-gray-700">
-                Challenge
+          <div>
+            <div className="mt-16 flex items-baseline justify-between border-b border-gray-300 px-4">
+              <div className="text-h5 dark:text-navy-blue-100 font-ubuntu mt-8 flex font-medium text-gray-800">
+                {t('advanced.title')}{' '}
+                <InfoIcon>{t('advanced.tooltip')}</InfoIcon>
               </div>
-              <div className="mt-2 max-w-xs">
-                <InputField
-                  variant="primary"
-                  size="lg"
-                  placeholder="Nonce"
-                  rounded="lg"
-                  shadow="none"
-                  value={challenge}
-                  setValue={setChallenge}
-                />
-              </div>
-              <div className="dark:text-navy-blue-100 mt-6 text-sm font-medium text-gray-700">
-                Domain
-              </div>
-              <div className="mt-2 max-w-xs">
-                <InputField
-                  variant="primary"
-                  size="lg"
-                  placeholder="www.example.com"
-                  rounded="lg"
-                  shadow="none"
-                  value={domain}
-                  setValue={setDomain}
+              <div className="">
+                <ToggleSwitch
+                  variant="gray"
+                  size="sm"
+                  shadow="lg"
+                  enabled={advanced}
+                  setEnabled={setAdvanced}
                 />
               </div>
             </div>
+            {advanced && (
+              <div className="mt-6 px-4">
+                <div className="dark:text-navy-blue-100 mt-2 text-sm font-medium text-gray-700">
+                  Challenge
+                </div>
+                <div className="mt-2 max-w-xs">
+                  <InputField
+                    variant="primary"
+                    size="lg"
+                    placeholder="Nonce"
+                    rounded="lg"
+                    shadow="none"
+                    value={challenge}
+                    setValue={setChallenge}
+                  />
+                </div>
+                <div className="dark:text-navy-blue-100 mt-6 text-sm font-medium text-gray-700">
+                  Domain
+                </div>
+                <div className="mt-2 max-w-xs">
+                  <InputField
+                    variant="primary"
+                    size="lg"
+                    placeholder="www.example.com"
+                    rounded="lg"
+                    shadow="none"
+                    value={domain}
+                    setValue={setDomain}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+          <div className="mt-8 flex justify-end p-3">
+            <Button
+              variant="primary"
+              size="sm"
+              shadow="sm"
+              onClick={handleCreatePresentation}
+              loading={loading}
+            >
+              {t('title')}
+            </Button>
+          </div>
+        </>
+      )}
+      {(isInvalidMethod || includesPolygonVC) && (
+        <div className="mt-16 pb-8">
+          {isInvalidMethod && (
+            <div className="mt-2 p-2 text-center text-red-500">
+              {t('invalidMethod')}
+            </div>
+          )}
+
+          {includesPolygonVC && (
+            <div className="mt-2 p-2 text-center text-red-500">
+              {t('polygonvc')}
+            </div>
           )}
         </div>
-      </div>
-      <div className="mt-8 flex justify-end p-3">
-        <Button
-          variant="primary"
-          size="sm"
-          shadow="sm"
-          onClick={handleCreatePresentation}
-          loading={loading}
-        >
-          {t('title')}
-        </Button>
-      </div>
+      )}
       <VPModal
         isOpen={vpModalOpen}
         setOpen={setVpModalOpen}

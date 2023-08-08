@@ -85,6 +85,7 @@ const CheckMetaMaskCompatibility = () => {
 
       // Set the address
       changeAddress((result as string[])[0]);
+      localStorage.setItem('isConnected', 'true');
     }
   };
 
@@ -194,6 +195,19 @@ const CheckMetaMaskCompatibility = () => {
         window.ethereum.removeAllListeners('chainChanged');
       }
     };
+  }, [hasMM, hasFlask]);
+
+  useEffect(() => {
+    const lsIsConnected = localStorage.getItem('isConnected');
+    if (lsIsConnected !== 'true') return;
+    if (!hasMM || !hasFlask) return;
+    if (isConnected) return;
+    if (isConnecting) return;
+    changeIsConnecting(true);
+    connectHandler().catch((err) => {
+      console.error(err);
+      changeIsConnecting(false);
+    });
   }, [hasMM, hasFlask]);
 
   useEffect(() => {

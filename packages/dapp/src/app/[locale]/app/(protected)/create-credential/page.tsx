@@ -1,18 +1,17 @@
 import { Metadata } from 'next';
 
-import CreatePresentationDisplay from '@/components/CreatePresentationDisplay';
+import CreateCredentialDisplay from '@/components/CreateCredentialDisplay';
 
 export const metadata: Metadata = {
-  title: 'Create Verifiable Presentation',
-  description:
-    'Page to create a Verifiable Presentation from selected Verifiable Credentials.',
+  title: 'Create Credential',
+  description: 'Page for creating a credential.',
 };
 
 export default function Page() {
   return (
     <div className="flex flex-1 items-center justify-center">
       <div className="dark:bg-navy-blue-800 dark:text-navy-blue-400 w-full rounded-3xl bg-white shadow-lg md:max-w-md lg:max-w-xl xl:max-w-[40rem]">
-        <CreatePresentationDisplay />
+        <CreateCredentialDisplay />
       </div>
     </div>
   );
