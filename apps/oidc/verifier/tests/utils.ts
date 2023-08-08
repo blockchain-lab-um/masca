@@ -10,7 +10,7 @@ import { Agent } from './testAgent.js';
 
 const { ec: EC } = elliptic;
 
-type CreateJWTProofParams = {
+interface CreateJWTProofParams {
   privateKey: string;
   audience: string;
   data?: any;
@@ -19,7 +19,7 @@ type CreateJWTProofParams = {
     did?: string;
     kid?: string;
   };
-};
+}
 
 export const createJWTProof = async ({
   privateKey,
@@ -98,7 +98,7 @@ export const createJWTProof = async ({
   return signedJwt;
 };
 
-type ImportDidParams = {
+interface ImportDidParams {
   agent: Agent;
   privateKey: string;
   alias: string;
@@ -106,7 +106,7 @@ type ImportDidParams = {
     did: string;
     provider: string;
   };
-};
+}
 
 export const importDid = async ({
   agent,

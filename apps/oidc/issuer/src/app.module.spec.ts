@@ -8,13 +8,12 @@ import {
   type TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
 import { qsCustomDecoder } from '@blockchain-lab-um/utils';
-import { HttpServer } from '@nestjs/common';
 import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { Test, TestingModule } from '@nestjs/testing';
-import { FastifyInstance } from 'fastify';
+import { RawServerDefault } from 'fastify';
 import qs from 'qs';
 import request from 'supertest';
 
@@ -32,7 +31,7 @@ import { AgentService } from './modules/agent/agent.service.js';
 const compareTypes = (first: string[], second: string[]) =>
   first.length === second.length && first.every((ele, i) => ele === second[i]);
 
-const credOfferAndTokenRequest = async (server: HttpServer<any, any>) => {
+const credOfferAndTokenRequest = async (server: RawServerDefault) => {
   const credentialRequestData: CredentialOfferRequest = {
     credentials: ['GmCredential'],
     grants: ['urn:ietf:params:oauth:grant-type:pre-authorized_code'],
@@ -126,7 +125,7 @@ const credOfferAndTokenRequest = async (server: HttpServer<any, any>) => {
 
 describe('Issuer controller', () => {
   let app: NestFastifyApplication;
-  let server: HttpServer;
+  let server: RawServerDefault;
   // let configService: ConfigService<IConfig, true>;
 
   beforeEach(async () => {
@@ -161,13 +160,13 @@ describe('Issuer controller', () => {
     app.useGlobalFilters(new AllExceptionsFilter());
     await app.init();
 
-    await (app.getHttpAdapter().getInstance() as FastifyInstance).ready();
-    server = app.getHttpServer() as HttpServer;
+    await app.getHttpAdapter().getInstance().ready();
+    server = app.getHttpServer();
   });
 
   afterAll(async () => {
     app.enableShutdownHooks();
-    await server.close();
+    server.close();
 
     await app.close();
   });

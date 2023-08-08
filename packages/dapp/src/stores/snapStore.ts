@@ -3,7 +3,8 @@ import {
   type MascaApi,
   type QueryCredentialsRequestResult,
 } from '@blockchain-lab-um/masca-connector';
-import { create } from 'zustand';
+import { shallow } from 'zustand/shallow';
+import { createWithEqualityFn } from 'zustand/traditional';
 
 interface MascaStore {
   mascaApi: MascaApi | undefined;
@@ -43,20 +44,24 @@ export const mascaStoreInitialState = {
   popups: undefined,
 };
 
-export const useMascaStore = create<MascaStore>()((set) => ({
-  ...mascaStoreInitialState,
+export const useMascaStore = createWithEqualityFn<MascaStore>()(
+  (set) => ({
+    ...mascaStoreInitialState,
 
-  changeAvailableCredentialStores: (
-    availableCredentialStores: Record<string, boolean>
-  ) => set({ availableCredentialStores }),
-  changeMascaApi: (mascaApi: MascaApi) => set({ mascaApi }),
-  changeAvailableMethods: (availableMethods: string[]) =>
-    set({ availableMethods }),
-  changeCurrDIDMethod: (currDIDMethod: string) => set({ currDIDMethod }),
-  changeCurrCredentialStore: (currCredentialStore: AvailableCredentialStores) =>
-    set({ currCredentialStore }),
-  changeCurrDID: (currDID: string) => set({ currDID }),
-  changeVcs: (vcs: QueryCredentialsRequestResult[]) => set({ vcs }),
-  changeLastFetch: (lastFetch: number) => set({ lastFetch }),
-  changePopups: (enabled: boolean) => set({ popups: enabled }),
-}));
+    changeAvailableCredentialStores: (
+      availableCredentialStores: Record<string, boolean>
+    ) => set({ availableCredentialStores }),
+    changeMascaApi: (mascaApi: MascaApi) => set({ mascaApi }),
+    changeAvailableMethods: (availableMethods: string[]) =>
+      set({ availableMethods }),
+    changeCurrDIDMethod: (currDIDMethod: string) => set({ currDIDMethod }),
+    changeCurrCredentialStore: (
+      currCredentialStore: AvailableCredentialStores
+    ) => set({ currCredentialStore }),
+    changeCurrDID: (currDID: string) => set({ currDID }),
+    changeVcs: (vcs: QueryCredentialsRequestResult[]) => set({ vcs }),
+    changeLastFetch: (lastFetch: number) => set({ lastFetch }),
+    changePopups: (enabled: boolean) => set({ popups: enabled }),
+  }),
+  shallow
+);

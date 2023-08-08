@@ -1,44 +1,44 @@
 import type { IPluginMethodMap } from '@veramo/core';
 
 export interface IDataManager extends IPluginMethodMap {
-  query(args: IDataManagerQueryArgs): Promise<Array<IDataManagerQueryResult>>;
+  query(args: IDataManagerQueryArgs): Promise<IDataManagerQueryResult[]>;
 
-  save(args: IDataManagerSaveArgs): Promise<Array<IDataManagerSaveResult>>;
+  save(args: IDataManagerSaveArgs): Promise<IDataManagerSaveResult[]>;
 
-  delete(args: IDataManagerDeleteArgs): Promise<Array<boolean>>;
+  delete(args: IDataManagerDeleteArgs): Promise<boolean[]>;
 
-  clear(args: IDataManagerClearArgs): Promise<Array<boolean>>;
+  clear(args: IDataManagerClearArgs): Promise<boolean[]>;
 }
 
 /**
  *  Types
  */
-export type Filter = {
+export interface Filter {
   type: 'none' | 'id' | 'JSONPath';
   filter: string;
-};
+}
 
-type QueryOptions = {
+interface QueryOptions {
   store?: string | string[];
   returnStore?: boolean;
-};
+}
 
-type DeleteOptions = {
+interface DeleteOptions {
   store: string | string[];
-};
+}
 
-type SaveOptions = {
+interface SaveOptions {
   store: string | string[];
-};
+}
 
-type ClearOptions = {
+interface ClearOptions {
   store: string | string[];
-};
+}
 
-type QueryMetadata = {
+interface QueryMetadata {
   id: string;
   store?: string;
-};
+}
 
 /**
  *  Interfaces for DataManager method arguments

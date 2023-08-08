@@ -47,43 +47,42 @@ export interface VerifierServerMetadata extends OAuth2ClientMetadata {
  *
  * cryptographic_binding_methods_supported: ['cose_key', 'jwk', 'did', 'did:{method}']
  */
-export type SupportedCredential =
-  | {
-      id?: string;
-      cryptographic_binding_methods_supported?: string[];
-      cryptographic_suites_supported?: string[];
-      display?: CredentialDisplay[];
-      order?: string[];
-      credentialSchema: CredentialSchema; // Not in specs
-    } & (
-      | SupportedCredentialJwtVcJson
-      | SupportedCredentialJwtVcJsonLd
-      | SupportedCredentialMsoMdoc
-    );
+export type SupportedCredential = {
+  id?: string;
+  cryptographic_binding_methods_supported?: string[];
+  cryptographic_suites_supported?: string[];
+  display?: CredentialDisplay[];
+  order?: string[];
+  credentialSchema: CredentialSchema; // Not in specs
+} & (
+  | SupportedCredentialJwtVcJson
+  | SupportedCredentialJwtVcJsonLd
+  | SupportedCredentialMsoMdoc
+);
 
-export type SupportedCredentialJwtVcJson = {
+export interface SupportedCredentialJwtVcJson {
   format: 'jwt_vc_json';
   types: string[];
   credentialSubject?: any;
-};
+}
 
-export type SupportedCredentialJwtVcJsonLd = {
+export interface SupportedCredentialJwtVcJsonLd {
   format: 'jwt_vc_json-ld' | 'ldp_vc';
   types: string[];
   '@context': string[];
   credentialSubject?: any;
-};
+}
 
-export type SupportedCredentialMsoMdoc = {
+export interface SupportedCredentialMsoMdoc {
   format: 'mso_mdoc';
   doctype: string;
   claims?: any;
-};
+}
 
-export type CredentialSchema = {
+export interface CredentialSchema {
   id: string;
   type: string;
-};
+}
 
 /**
  * Credential Display

@@ -1,24 +1,20 @@
 import { QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import { useTranslations } from 'next-intl';
-import { shallow } from 'zustand/shallow';
 
 import { useTableStore } from '@/stores';
 
-type GlobalFilterProps = {
+interface GlobalFilterProps {
   isConnected: boolean;
   vcs: QueryCredentialsRequestResult[];
-};
+}
 
 const GlobalFilter = ({ isConnected, vcs }: GlobalFilterProps) => {
   const t = useTranslations('Dashboard');
-  const { globalFilter, setGlobalFilter } = useTableStore(
-    (state) => ({
-      globalFilter: state.globalFilter,
-      setGlobalFilter: state.setGlobalFilter,
-    }),
-    shallow
-  );
+  const { globalFilter, setGlobalFilter } = useTableStore((state) => ({
+    globalFilter: state.globalFilter,
+    setGlobalFilter: state.setGlobalFilter,
+  }));
 
   return (
     <div

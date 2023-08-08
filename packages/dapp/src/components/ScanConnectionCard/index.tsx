@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { uint8ArrayToHex } from '@blockchain-lab-um/masca-connector';
 import { useTranslations } from 'next-intl';
-import { shallow } from 'zustand/shallow';
 
 import { useGeneralStore, useSessionStore, useToastStore } from '@/stores';
 import { useQRCodeStore } from '@/stores/qrCodeStore';
@@ -12,14 +11,11 @@ import ScanQRCodeModal from './ScanQRCodeModal';
 
 const ScanConnectionCard = () => {
   const t = useTranslations('ScanConnectionCard');
-  const { sessionId, key, exp } = useSessionStore(
-    (state) => ({
-      sessionId: state.sessionId,
-      key: state.key,
-      exp: state.exp,
-    }),
-    shallow
-  );
+  const { sessionId, key, exp } = useSessionStore((state) => ({
+    sessionId: state.sessionId,
+    key: state.key,
+    exp: state.exp,
+  }));
 
   const isConnected = useGeneralStore((state) => state.isConnected);
   const changeRequestData = useQRCodeStore((state) => state.changeRequestData);

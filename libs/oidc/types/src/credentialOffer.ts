@@ -17,7 +17,7 @@ export type Credential = {
 
 export type Credentials = (string | Credential)[];
 
-export type Grants = {
+export interface Grants {
   authorization_code?: {
     issuer_state?: string;
   };
@@ -25,7 +25,7 @@ export type Grants = {
     'pre-authorized_code': string;
     user_pin_required?: boolean;
   };
-};
+}
 
 export interface CredentialOfferRequest {
   credentials: Credentials;

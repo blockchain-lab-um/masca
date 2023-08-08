@@ -11,7 +11,6 @@ import { W3CVerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 import { normalizeCredential } from 'did-jwt-vc';
 import { useTranslations } from 'next-intl';
-import { shallow } from 'zustand/shallow';
 
 import ImportModal from '@/components/ImportModal';
 import DataStoreCombobox from '@/components/VCTable/DataStoreCombobox';
@@ -31,21 +30,15 @@ const Controlbar = () => {
 
   // Stores
   const isConnected = useGeneralStore((state) => state.isConnected);
-  const { vcs, changeLastFetch } = useMascaStore(
-    (state) => ({
-      vcs: state.vcs,
-      changeLastFetch: state.changeLastFetch,
-    }),
-    shallow
-  );
+  const { vcs, changeLastFetch } = useMascaStore((state) => ({
+    vcs: state.vcs,
+    changeLastFetch: state.changeLastFetch,
+  }));
 
-  const { api, changeVcs } = useMascaStore(
-    (state) => ({
-      api: state.mascaApi,
-      changeVcs: state.changeVcs,
-    }),
-    shallow
-  );
+  const { api, changeVcs } = useMascaStore((state) => ({
+    api: state.mascaApi,
+    changeVcs: state.changeVcs,
+  }));
 
   const refreshVCs = async () => {
     if (!api) return;

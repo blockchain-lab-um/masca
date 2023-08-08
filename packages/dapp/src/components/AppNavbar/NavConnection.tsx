@@ -1,7 +1,6 @@
 'use client';
 
 import { chainIdNetworkParamsMapping } from '@blockchain-lab-um/masca-connector';
-import { shallow } from 'zustand/shallow';
 
 import AddressPopover from '@/components//AddressPopover';
 import ConnectButton from '@/components//ConnectButton';
@@ -11,14 +10,11 @@ import { getAvailableNetworksList, NETWORKS } from '@/utils/networks';
 import { useGeneralStore, useMascaStore } from '@/stores';
 
 export const NavConnection = () => {
-  const { did, currMethod, changeVcs } = useMascaStore(
-    (state) => ({
-      did: state.currDID,
-      currMethod: state.currDIDMethod,
-      changeVcs: state.changeVcs,
-    }),
-    shallow
-  );
+  const { did, currMethod, changeVcs } = useMascaStore((state) => ({
+    did: state.currDID,
+    currMethod: state.currDIDMethod,
+    changeVcs: state.changeVcs,
+  }));
 
   const {
     isConnected,
@@ -29,19 +25,16 @@ export const NavConnection = () => {
     changeIsConnected,
     changeAddres,
     changeDid,
-  } = useGeneralStore(
-    (state) => ({
-      isConnected: state.isConnected,
-      hasMM: state.hasMetaMask,
-      hasFlask: state.isFlask,
-      address: state.address,
-      chainId: state.chainId,
-      changeIsConnected: state.changeIsConnected,
-      changeAddres: state.changeAddress,
-      changeDid: state.changeDid,
-    }),
-    shallow
-  );
+  } = useGeneralStore((state) => ({
+    isConnected: state.isConnected,
+    hasMM: state.hasMetaMask,
+    hasFlask: state.isFlask,
+    address: state.address,
+    chainId: state.chainId,
+    changeIsConnected: state.changeIsConnected,
+    changeAddres: state.changeAddress,
+    changeDid: state.changeDid,
+  }));
 
   const getNetwork = (): string => {
     if (NETWORKS[chainId]) return NETWORKS[chainId];
@@ -76,6 +69,7 @@ export const NavConnection = () => {
     changeIsConnected(false);
     changeAddres('');
     changeDid('');
+    localStorage.setItem('isConnected', 'false');
   };
 
   if (!hasMM || !hasFlask) return null;

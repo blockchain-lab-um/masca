@@ -3,9 +3,9 @@ import React from 'react';
 import { Member } from '../../constants/Members';
 import styles from './styles.module.css';
 
-type TeamCardProps = {
+interface TeamCardProps {
   member: Member;
-};
+}
 
 export default function TeamCard({ member }: TeamCardProps) {
   return (

@@ -1,3 +1,4 @@
+import { CreateCredentialRequestParams } from '@blockchain-lab-um/masca-types';
 import { isError } from '@blockchain-lab-um/utils';
 import { EthereumWebAuth, getAccountId } from '@didtools/pkh-ethereum';
 import {
@@ -14,13 +15,11 @@ import { Masca } from './snap.js';
 /**
  * Function to check if there is a valid Ceramic session in Masca.
  * If not, it will try to get a new session from the user.
- * @param masca - Masca instance
+ * @param this - Masca instance
  */
-export async function validateAndSetCeramicSession(
-  masca: Masca
-): Promise<void> {
+export async function validateAndSetCeramicSession(this: Masca): Promise<void> {
   // Check if there is valid session in Masca
-  const api = masca.getMascaApi();
+  const api = this.getMascaApi();
 
   const enabledCredentialStoresResult = await api.getCredentialStore();
   if (isError(enabledCredentialStoresResult)) {
@@ -122,11 +121,15 @@ export async function signVerifiablePresentation(
 
 /**
  * Function to sign a Verifiable Credential with EIP712Signature proof format
+ * @param this - Masca instance
  * @param credential - Unsigned Verifiable Credential
+ * @param params - Request params
  * @returns Signed Verifiable Credential
  */
 export async function signVerifiableCredential(
-  credential: UnsignedCredential
+  this: Masca,
+  credential: UnsignedCredential,
+  params: CreateCredentialRequestParams
 ): Promise<VerifiableCredential> {
   const addresses: string[] = await window.ethereum.request({
     method: 'eth_requestAccounts',
@@ -180,6 +183,19 @@ export async function signVerifiableCredential(
     types: allTypes,
     primaryType,
   };
+
+  if (params.options && params.options.save) {
+    const api = this.getMascaApi();
+    const result = await api.saveCredential(
+      credential as VerifiableCredential,
+      {
+        store: params.options.store,
+      }
+    );
+    if (isError(result)) {
+      throw new Error('Failed to save VC in Masca.');
+    }
+  }
 
   return credential as VerifiableCredential;
 }

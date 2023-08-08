@@ -2,7 +2,6 @@ import { Fragment, useState } from 'react';
 import { isError } from '@blockchain-lab-um/masca-connector';
 import { Dialog, Transition } from '@headlessui/react';
 import clsx from 'clsx';
-import shallow from 'zustand/shallow';
 
 import Button from '@/components/Button';
 import { useMascaStore } from '@/stores';
@@ -16,13 +15,10 @@ function PlaygroundModal({ open, setOpen }: PlaygroundModalProps) {
   const [loading, setLoading] = useState(false);
   const [vc, setVC] = useState('');
 
-  const { api } = useMascaStore(
-    (state) => ({
-      api: state.mascaApi,
-      changeVcs: state.changeVcs,
-    }),
-    shallow
-  );
+  const { api } = useMascaStore((state) => ({
+    api: state.mascaApi,
+    changeVcs: state.changeVcs,
+  }));
 
   const createCredential = async () => {
     if (!api) return;

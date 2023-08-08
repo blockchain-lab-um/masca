@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { isError, MascaConfig } from '@blockchain-lab-um/masca-connector';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { useTranslations } from 'next-intl';
-import shallow from 'zustand/shallow';
 
 import { useMascaStore, useToastStore } from '@/stores';
 import AddFriendlydAppModal from './AddFriendlydAppModal';
@@ -11,12 +10,9 @@ export const FriendlydAppTable = () => {
   const t = useTranslations('FriendlyDapps');
   const [settings, setSettings] = useState<MascaConfig>();
   const [open, setOpen] = useState(false);
-  const { api } = useMascaStore(
-    (state) => ({
-      api: state.mascaApi,
-    }),
-    shallow
-  );
+  const { api } = useMascaStore((state) => ({
+    api: state.mascaApi,
+  }));
 
   const snapGetSettings = async () => {
     if (!api) return;

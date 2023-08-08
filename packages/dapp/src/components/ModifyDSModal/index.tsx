@@ -6,12 +6,12 @@ import {
 } from '@blockchain-lab-um/masca-connector';
 import { Dialog } from '@headlessui/react';
 import { useTranslations } from 'next-intl';
-import { shallow } from 'zustand/shallow';
 
 import Button from '@/components//Button';
 import ToggleSwitch from '@/components//Switch';
 import DeleteModal from '@/components/DeleteModal';
 import Modal from '@/components/Modal';
+import { isPolygonVC } from '@/utils/credential';
 import { stringifyCredentialSubject } from '@/utils/format';
 import { useMascaStore, useToastStore } from '@/stores';
 
@@ -34,8 +34,7 @@ function ModifyDSModal({ isOpen, setOpen, vc }: ModifyDSModalProps) {
       api: state.mascaApi,
       changeVcs: state.changeVcs,
       changeLastFetch: state.changeLastFetch,
-    }),
-    shallow
+    })
   );
   const keys = Object.keys(enabledStores);
   const availableStores = keys.filter((key) => enabledStores[key] === true);
@@ -65,6 +64,10 @@ function ModifyDSModal({ isOpen, setOpen, vc }: ModifyDSModalProps) {
       vcStores[store] = { enabled: true, saved: false };
     }
   });
+
+  if (isPolygonVC(vc) && vcStores.ceramic.enabled) {
+    vcStores.ceramic.enabled = false;
+  }
 
   const handleDSChange = async (
     store: AvailableCredentialStores,
@@ -144,7 +147,7 @@ function ModifyDSModal({ isOpen, setOpen, vc }: ModifyDSModalProps) {
             <div key={id} className="mt-3 flex items-center justify-between">
               <div>{store}</div>
               <span
-                className={`${!vcStores[store].enabled ? 'opacity-60' : ''}`}
+                className={`${!vcStores[store].enabled ? 'opacity-30' : ''}`}
               >
                 <ToggleSwitch
                   enabled={vcStores[store].saved}

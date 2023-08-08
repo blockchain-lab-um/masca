@@ -7,7 +7,7 @@ import type {
   AvailableMethods,
 } from './constants.js';
 
-export type MascaConfig = {
+export interface MascaConfig {
   snap: {
     acceptedTerms: boolean;
   };
@@ -15,16 +15,16 @@ export type MascaConfig = {
     disablePopups: boolean;
     friendlyDapps: string[];
   };
-};
+}
 
-export type MascaAccountConfig = {
+export interface MascaAccountConfig {
   ssi: {
     didMethod: AvailableMethods;
     vcStore: Record<AvailableCredentialStores, boolean>;
   };
-};
+}
 
-export type MascaState = {
+export interface MascaState {
   /**
    * Account specific storage
    */
@@ -37,28 +37,28 @@ export type MascaState = {
    * Configuration for Masca
    */
   snapConfig: MascaConfig;
-};
+}
 
 /**
  * Masca State for a MetaMask address
  */
-export type MascaAccountState = {
+export interface MascaAccountState {
   // FIXME: Split into general, veramo, polygon
   polygonState: PolygonState;
   vcs: Record<string, W3CVerifiableCredential>;
   accountConfig: MascaAccountConfig;
   ceramicSession?: string;
   googleSession?: string;
-};
+}
 
-export type PolygonBaseState = {
+export interface PolygonBaseState {
   credentials: Record<string, string>;
   identities: Record<string, string>;
   profiles: Record<string, string>;
   // TODO: Maybe we can replace array with Record here
   merkleTreeMeta: IdentityMerkleTreeMetaInformation[];
   merkleTree: Record<string, string>;
-};
+}
 
 export type PolygonState = Record<
   DidMethod.Iden3 | DidMethod.PolygonId,

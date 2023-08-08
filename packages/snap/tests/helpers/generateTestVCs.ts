@@ -10,9 +10,9 @@ import type { Agent } from '../../src/veramo/Veramo.service';
  * Test credentials
  * @param exampleVeramoVCJWT - Veramo VC JWT
  */
-type TestCredentials = {
+interface TestCredentials {
   exampleVeramoVCJWT: VerifiableCredential;
-};
+}
 
 /**
  * Parameters for createTestVCs
@@ -27,19 +27,19 @@ type TestCredentials = {
  * @param payload.credentialStatus - credential status of the VC
  * @param payload.id - id of the VC
  */
-type CreateTestVCsParams = {
+interface CreateTestVCsParams {
   agent: Agent;
   proofFormat: ProofFormat;
   payload: CredentialPayload;
-};
+}
 
 /**
  * Options for createTestVCs
  * @param keyRef - key reference to use for VC creation
  */
-type CreateTestVCsOptions = {
+interface CreateTestVCsOptions {
   keyRef?: string;
-};
+}
 
 /**
  * Creates a set of valid VCs for testing purposes

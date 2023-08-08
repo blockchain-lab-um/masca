@@ -57,23 +57,23 @@ export default (testContext: {
         options: {
           keyType: 'Ed25519',
           privateKeyHex:
-            '63ce0077f0d617dbf54d5f335de2983313c6356f25b45e0f68f85bee1490a6ae63ce0077f0d617dbf54d5f335de2983313c6356f25b45e0f68f85bee1490a6ae',
+            '63ce0077f0d617dbf54d5f335de2983313c6356f25b45e0f68f85bee1490a6ae',
         },
       });
 
       expect(identifier).toStrictEqual({
         controllerKeyId:
-          '63ce0077f0d617dbf54d5f335de2983313c6356f25b45e0f68f85bee1490a6ae',
-        did: 'did:key:z6MkmArbZHXCFE744TDd6qNCLiu8JUeELNH11MjtVyHwTaW9',
+          'ee3702c6af9f456fab737ec4c6708fbcaa6d3d9c1d1cc0f5b0f35b6678cff19c',
+        did: 'did:key:z6MkvV9jG1VyhUYjMuo67dKEmEevHqeL5F9m6FLtWvGU2QZh',
         keys: [
           {
-            kid: '63ce0077f0d617dbf54d5f335de2983313c6356f25b45e0f68f85bee1490a6ae',
+            kid: 'ee3702c6af9f456fab737ec4c6708fbcaa6d3d9c1d1cc0f5b0f35b6678cff19c',
             kms: 'local',
             meta: {
               algorithms: ['Ed25519', 'EdDSA'],
             },
             publicKeyHex:
-              '63ce0077f0d617dbf54d5f335de2983313c6356f25b45e0f68f85bee1490a6ae',
+              'ee3702c6af9f456fab737ec4c6708fbcaa6d3d9c1d1cc0f5b0f35b6678cff19c',
             type: 'Ed25519',
           },
         ],

@@ -1,10 +1,10 @@
 import Link from 'next/link';
 
-type NavBtnProps = {
+interface NavBtnProps {
   page: string;
   pathname: string;
   children: React.ReactNode;
-};
+}
 
 export const NavBtn = ({ page, pathname, children }: NavBtnProps) => (
   <Link href={page}>

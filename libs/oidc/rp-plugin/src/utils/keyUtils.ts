@@ -6,14 +6,14 @@ const { ec: EC } = elliptic;
 
 // TODO: Add keyType as an argument
 // TODO: Add checks for supported key types and did methods
-export type PrivateKeyToDidArgs = {
+export interface PrivateKeyToDidArgs {
   privateKey: string;
   didMethod: string;
-};
+}
 
-export type PrivateKeyToDidResponse = {
+export interface PrivateKeyToDidResponse {
   did: string;
-};
+}
 
 export const privateKeyToDid = async (
   args: PrivateKeyToDidArgs

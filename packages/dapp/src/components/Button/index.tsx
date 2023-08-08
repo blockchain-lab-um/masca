@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 
-type ButtonProps = {
+interface ButtonProps {
   variant:
     | 'primary'
     | 'primary-active'
@@ -21,7 +21,7 @@ type ButtonProps = {
   disabled?: boolean;
   loading?: boolean;
   showTextOnLoading?: boolean;
-};
+}
 
 const variants: Record<string, string> = {
   primary:

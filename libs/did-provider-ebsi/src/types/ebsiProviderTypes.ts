@@ -11,7 +11,7 @@ export type IContext = IAgentContext<
   IKeyManager & ICredentialIssuer & IResolver
 >;
 
-export type IRequestVerifiableAuthorizationArgs = {
+export interface IRequestVerifiableAuthorizationArgs {
   /**
    * JWT encoded id token
    */
@@ -20,16 +20,16 @@ export type IRequestVerifiableAuthorizationArgs = {
    * Bearer token needed for authorization
    */
   bearer: string;
-};
+}
 
-export type IVerifiableAuthorization = {
+export interface IVerifiableAuthorization {
   /**
    * JWT encoded Verifiable Authorization
    */
   verifiableCredential: string;
-};
+}
 
-export type IVerifiablePresentation = {
+export interface IVerifiablePresentation {
   /**
    * JWT encoded Verifiable Presentation
    */
@@ -38,9 +38,9 @@ export type IVerifiablePresentation = {
    * Payload of the Verifiable Presentation
    */
   payload: EbsiVerifiablePresentation;
-};
+}
 
-export type ISession = {
+export interface ISession {
   /**
    * Encrypted payload with user's public key
    */
@@ -57,9 +57,9 @@ export type ISession = {
    * API KID
    */
   kid: string;
-};
+}
 
-export type IKeyJwks = {
+export interface IKeyJwks {
   /**
    * Private key in JWK format
    */
@@ -68,9 +68,9 @@ export type IKeyJwks = {
    * Public key in JWK format
    */
   publicKeyJwk: JWK;
-};
+}
 
-export type ISIOPSessionPayload = {
+export interface ISIOPSessionPayload {
   /**
    * Issued at
    */
@@ -95,9 +95,9 @@ export type ISIOPSessionPayload = {
    * Issuer
    */
   iss: string;
-};
+}
 
-export type IRPCResult = {
+export interface IRPCResult {
   /**
    * Must be exactly "2.0"
    */
@@ -114,9 +114,9 @@ export type IRPCResult = {
    * Error of the call if raised
    */
   error?: string | object;
-};
+}
 
-export type IEbsiCreateIdentifierOptions = {
+export interface IEbsiCreateIdentifierOptions {
   /**
    * Bearer token needed for authorization
    */
@@ -139,13 +139,13 @@ export type IEbsiCreateIdentifierOptions = {
    * i.e. 27ca548e74bd14275251623cea1ff0c5 or Uint8Array([132, 156, 183, 245, 109, 91, 99, 250, 84, 198, 222, 61, 170, 87, 120, 151])
    */
   id?: Uint8Array | string;
-};
+}
 
 export type IEbsiDidSupportedKeyTypes = 'Secp256k1' | 'P-256';
 export type IEbsiDidSupportedHashTypes = 'sha256';
 export type IEbsiDidSupportedEcdsaAlgo = 'ES256' | 'ES256K';
 
-export type IImportedKey = {
+export interface IImportedKey {
   /**
    * JWK thumbprint
    */
@@ -166,9 +166,9 @@ export type IImportedKey = {
    * Generated subject identifier
    */
   subjectIdentifier: string;
-};
+}
 
-export type IUnsignedTransaction = {
+export interface IUnsignedTransaction {
   /**
    * Version of JSON-RPC protocol
    */
@@ -181,9 +181,9 @@ export type IUnsignedTransaction = {
    * Unsigned transaction
    */
   result: IUnsignedTransactionResult;
-};
+}
 
-export type IUnsignedTransactionResult = {
+export interface IUnsignedTransactionResult {
   /**
    * Address of the sender
    */
@@ -216,4 +216,4 @@ export type IUnsignedTransactionResult = {
    * Quantity of Ether to send
    */
   value: string;
-};
+}

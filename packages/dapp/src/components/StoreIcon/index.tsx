@@ -1,8 +1,8 @@
 import Image from 'next/image';
 
-type StoreIconProps = {
+interface StoreIconProps {
   store: string;
-};
+}
 
 const logo: Record<string, string> = {
   snap: 'masca_black.png',
@@ -10,7 +10,7 @@ const logo: Record<string, string> = {
 };
 
 const StoreIcon = ({ store }: StoreIconProps) => (
-  <div className="h-6 w-[26.5px]">
+  <div className="h-6 w-7">
     <Image fill={true} src={`/images/${logo[store]}`} alt={store} />
   </div>
 );

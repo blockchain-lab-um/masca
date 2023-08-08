@@ -50,7 +50,7 @@ import {
 } from './constants';
 import { SnapDataSource, SnapMerkleTreeStorage } from './storage';
 
-type PolygonServicBaseInstance = {
+interface PolygonServicBaseInstance {
   packageMgr: PackageManager;
   proofService: ProofService;
   credWallet: CredentialWallet;
@@ -63,7 +63,7 @@ type PolygonServicBaseInstance = {
     states: EthStateStorage;
   };
   authHandler: AuthHandler;
-};
+}
 
 class PolygonService {
   static metadata: {
@@ -472,7 +472,7 @@ class PolygonService {
         proofService.generateAuthV2Inputs(hash, did, circuitId)
     );
     const verificationFn = new VerificationHandlerFunc(
-      (id: string, pubSignals: Array<string>) =>
+      (id: string, pubSignals: string[]) =>
         proofService.verifyState(id, pubSignals)
     );
     const mapKey =
@@ -481,7 +481,7 @@ class PolygonService {
       [
         mapKey,
         {
-          key: circuitData.verificationKey as Uint8Array,
+          key: circuitData.verificationKey!,
           verificationFn,
         },
       ],

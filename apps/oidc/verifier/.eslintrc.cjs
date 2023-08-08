@@ -6,8 +6,4 @@ module.exports = {
     project: './tsconfig.eslint.json',
     sourceType: 'module',
   },
-  env: {
-    node: true,
-    jest: true,
-  },
 };

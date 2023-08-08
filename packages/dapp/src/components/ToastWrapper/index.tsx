@@ -9,7 +9,6 @@ import {
 } from '@heroicons/react/24/solid';
 import * as Toast from '@radix-ui/react-toast';
 import clsx from 'clsx';
-import { shallow } from 'zustand/shallow';
 
 import { useToastStore } from '@/stores';
 
@@ -18,15 +17,12 @@ const ToastWrapper = () => {
 
   useEffect(() => () => clearTimeout(timerRef.current), []);
 
-  const { open, loading, type, title } = useToastStore(
-    (state) => ({
-      open: state.open,
-      loading: state.loading,
-      title: state.title,
-      type: state.type,
-    }),
-    shallow
-  );
+  const { open, loading, type, title } = useToastStore((state) => ({
+    open: state.open,
+    loading: state.loading,
+    title: state.title,
+    type: state.type,
+  }));
 
   const toastType: Record<string, string> = {
     normal: 'bg-pink-500',
