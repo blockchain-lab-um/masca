@@ -14,6 +14,7 @@ import type {
   SetCurrentAccountRequestParams,
   SwitchMethodRequestParams,
   VerifyDataRequestParams,
+  SetGoogleTokenRequestParams,
 } from './params.js';
 
 export type QueryCredentials = {
@@ -133,4 +134,17 @@ export type AddFriendlyDapp = {
 export type RemoveFriendlyDapp = {
   method: 'removeFriendlyDapp';
   params: RemoveFriendlyDappParams;
+};
+
+export type SetGoogleToken = {
+  method: 'setGoogleToken';
+  params: SetGoogleTokenRequestParams;
+};
+
+export type CreateGoogleBackup = {
+  method: 'createGoogleBackup';
+};
+
+export type ImportGoogleBackup = {
+  method: 'importGoogleBackup';
 };

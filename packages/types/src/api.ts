@@ -78,4 +78,5 @@ export interface MascaApi {
   validateStoredCeramicSession(): Promise<Result<boolean>>;
   addFriendlyDapp(): Promise<Result<boolean>>;
   removeFriendlyDapp(id: string): Promise<Result<boolean>>;
+  setGoogleToken(accessToken: string): Promise<Result<boolean>>;
 }

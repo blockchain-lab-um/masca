@@ -157,3 +157,7 @@ export type ImportStateBackupRequestParams = {
 export type RemoveFriendlyDappParams = {
   id: string;
 };
+
+export type SetGoogleTokenRequestParams = {
+  accessToken: string;
+};

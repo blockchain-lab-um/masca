@@ -452,6 +452,19 @@ export async function validateStoredCeramicSession(
   );
 }
 
+export async function setGoogleToken(
+  this: Masca,
+  accessToken: string
+): Promise<Result<boolean>> {
+  return sendSnapMethod(
+    {
+      method: 'setGoogleToken',
+      params: { accessToken },
+    },
+    this.snapId
+  );
+}
+
 const wrapper =
   <T extends any[], R>(fn: (...args: T) => Promise<Result<R>>) =>
   async (...args: T): Promise<Result<R>> => {
@@ -504,5 +517,6 @@ export class Masca {
     validateStoredCeramicSession: wrapper(
       validateStoredCeramicSession.bind(this)
     ),
+    setGoogleToken: wrapper(setGoogleToken.bind(this)),
   });
 }

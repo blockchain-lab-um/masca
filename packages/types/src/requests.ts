@@ -25,6 +25,9 @@ import type {
   TogglePopups,
   ValidateStoredCeramicSession,
   VerifyData,
+  SetGoogleToken,
+  CreateGoogleBackup,
+  ImportGoogleBackup,
 } from './methods.js';
 
 export type MascaRPCRequest =
@@ -53,7 +56,10 @@ export type MascaRPCRequest =
   | SetCeramicSession
   | ValidateStoredCeramicSession
   | ExportStateBackup
-  | ImportStateBackup;
+  | ImportStateBackup
+  | SetGoogleToken
+  | CreateGoogleBackup
+  | ImportGoogleBackup;
 
 export type Method = MascaRPCRequest['method'];
 
