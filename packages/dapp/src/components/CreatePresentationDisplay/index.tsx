@@ -123,7 +123,7 @@ const CreatePresentationDisplay = () => {
   return (
     <>
       <div className="mt-5 flex w-full justify-between px-6 pt-2">
-        <Link href="/app">
+        <Link href="/app" className="flex items-center">
           <button className="animated-transition dark:text-navy-blue-50 dark:hover:bg-navy-blue-700 rounded-full text-gray-800 hover:bg-pink-100 hover:text-pink-700">
             <ArrowLeftIcon className="h-6 w-6" />
           </button>

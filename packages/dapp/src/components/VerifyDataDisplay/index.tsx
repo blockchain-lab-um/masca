@@ -1,7 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { isError } from '@blockchain-lab-um/masca-connector';
+import { ArrowLeftIcon } from '@heroicons/react/20/solid';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { IVerifyResult } from '@veramo/core';
 import clsx from 'clsx';
@@ -117,15 +119,23 @@ const VerifyDataDisplay = () => {
   };
 
   return (
-    <div className="h-full p-6 text-lg">
-      <div>
-        <div className="text-h3">{t('title')}</div>
-        <div className="dark:bg-navy-blue-300 dark:border-navy-blue-400 group relative z-0 mt-8 rounded-2xl border border-gray-200 bg-gray-100 pr-2 pt-1">
+    <div className="p-6">
+      <div className="flex w-full justify-between">
+        <Link href="/app" className="flex items-center">
+          <button className="animated-transition dark:text-navy-blue-50 dark:hover:bg-navy-blue-700 rounded-full text-gray-800 hover:bg-pink-100 hover:text-pink-700">
+            <ArrowLeftIcon className="h-6 w-6" />
+          </button>
+        </Link>
+        <div className="text-h3 dark:text-navy-blue-50 font-semibold text-gray-800">
+          {t('title')}
+        </div>
+      </div>
+      <div className="mt-5">
+        <div className="dark:bg-navy-blue-300 dark:border-navy-blue-400 group relative z-0 rounded-2xl border border-gray-200 bg-gray-100 pr-2 pt-1">
           <textarea
             className={clsx(
               'group-hover:scrollbar-thumb-orange-300 dark:text-navy-blue-800 dark:bg-navy-blue-300',
               'scrollbar-thin scrollbar-thumb-orange-300/0 scrollbar-thumb-rounded-full font-jetbrains-mono',
-              'dark:placeholder:text-navy-blue-700 placeholder:text-gray-700',
               'min-h-[60vh] w-full resize-none rounded-2xl bg-gray-100 p-2 text-gray-700 focus:outline-none'
             )}
             value={data}
@@ -136,22 +146,22 @@ const VerifyDataDisplay = () => {
             }}
           />
         </div>
-        <div className="mt-8 flex justify-end gap-2">
-          {valid.checked && valid.valid && (
-            <CheckCircleIcon className="h-[31px] w-[31px] text-green-500 md:h-[38px] md:w-[38px]" />
-          )}
-          {valid.checked && !valid.valid && (
-            <XCircleIcon className="h-[31px] w-[31px] text-red-500 md:h-[38px] md:w-[38px]" />
-          )}
-          <Button
-            variant="primary"
-            size="sm"
-            loading={loading}
-            onClick={() => verifyData()}
-          >
-            {t('verify')}
-          </Button>
-        </div>
+      </div>
+      <div className="mt-8 flex justify-end gap-2">
+        {valid.checked && valid.valid && (
+          <CheckCircleIcon className="h-[31px] w-[31px] text-green-500 md:h-[38px] md:w-[38px]" />
+        )}
+        {valid.checked && !valid.valid && (
+          <XCircleIcon className="h-[31px] w-[31px] text-red-500 md:h-[38px] md:w-[38px]" />
+        )}
+        <Button
+          variant="primary"
+          size="sm"
+          loading={loading}
+          onClick={() => verifyData()}
+        >
+          {t('verify')}
+        </Button>
       </div>
     </div>
   );

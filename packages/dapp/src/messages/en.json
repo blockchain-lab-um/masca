@@ -14,9 +14,11 @@
     "dropdown": {
       "authorization-request": "Authorization Request",
       "blog": "Blog",
+      "create-credential": "Create Credential",
       "description": {
         "authorization-request": "Create a verifiable presentation using the OpenID Connect protocol",
         "blog": "Read the Blockchain Lab:UM Medium Blog",
+        "create-credential": "Create a Verifiable Credential",
         "discord": "Join the Blockchain Lab:UM Discord Server",
         "documentation": "Read the Masca documentation",
         "ecosystem": "View the Masca Ecosystem",
@@ -24,7 +26,6 @@
         "github": "View Masca code on GitHub",
         "qr-code-session": "Create session to scan QR codes using your mobile device",
         "twitter": "Follow Masca on Twitter",
-        "create-credential": "Create a Verifiable Credential",
         "verify-data": "Verify Verifiable Credentials & Verifiable Presentations"
       },
       "discord": "Discord",
@@ -34,7 +35,6 @@
       "github": "GitHub",
       "qr-code-session": "QR Scanner",
       "twitter": "Twitter",
-      "create-credential": "Create Credential",
       "verify-data": "Verify Data"
     },
     "menu": {
@@ -68,18 +68,37 @@
   "CreateConnectionModal": {
     "title": "Connection QR Code"
   },
+  "CreateCredentialDisplay": {
+    "invalidMethod": "PolygonID & Iden3 are not yet supported. Switch to any other DID method to create a VC!",
+    "options": {
+      "format": "Format",
+      "title": "OPTIONS"
+    },
+    "save": {
+      "description": "Would you like to save newly created Credential in Masca?",
+      "select-storage-placeholder": "Select storage",
+      "storage": "Storage",
+      "title": "Save"
+    },
+    "title": "Create Credential",
+    "toast": {
+      "error-json": "Payload is not a valid JSON",
+      "error-vc": "Payload is not a valid!",
+      "loading": "Creating Credential...",
+      "success": "Credential successfully created!"
+    }
+  },
   "CreatePresentationDisplay": {
     "advanced": {
       "title": "ADVANCED",
       "tooltip": "Only applicable to JWT proof format."
     },
-    "tooltip": {
-      "polygonid": "PolygonID VCs aren't supported yet. Please remove this credential to continue!"
-    },
+    "invalidMethod": "PolygonID & Iden3 methods are not yet supported. Switch to any other DID method to create a VC!",
     "options": {
       "format": "Format",
       "title": "OPTIONS"
     },
+    "polygonvc": "PolygonID & Iden3 VCs are not yet supported. Remove invalid VCs to continue!",
     "table": {
       "issuer": "ISSUER",
       "remove": "REMOVE",
@@ -88,37 +107,8 @@
       "type": "TYPE"
     },
     "title": "Create Presentation",
-    "invalidMethod": "PolygonID & Iden3 methods are not yet supported. Switch to any other DID method to create a VC!",
-    "polygonvc": "PolygonID & Iden3 VCs are not yet supported. Remove invalid VCs to continue!"
-  },
-  "CreateCredentialDisplay": {
-    "options": {
-      "format": "Format",
-      "title": "OPTIONS"
-    },
-    "title": "Create Credential",
-    "save": {
-      "title": "Save",
-      "description": "Would you like to save newly created Credential in Masca?",
-      "storage": "Storage",
-      "select-storage-placeholder": "Select storage"
-    },
-    "toast": {
-      "loading": "Creating Credential...",
-      "error-json": "Payload is not a valid JSON",
-      "error-vc": "Payload is not a valid!",
-      "success": "Credential successfully created!"
-    },
-    "invalidMethod": "PolygonID & Iden3 are not yet supported. Switch to any other DID method to create a VC!"
-  },
-  "VerifyDataDisplay": {
-    "title": "Verify Presentations & Credentials",
-    "verify": "Verify",
-    "toast": {
-      "loading": "Creating Credential...",
-      "error-json": "Data is not a valid JSON",
-      "error-type": "Data is not a valid VC/VP",
-      "error-verify": "Data is not valid!"
+    "tooltip": {
+      "polygonid": "PolygonID VCs aren't supported yet. Please remove this credential to continue!"
     }
   },
   "CredentialDisplay": {
@@ -208,6 +198,15 @@
     "isuance-date": "Issuance Date",
     "subject": "SUBJECT"
   },
+  "FriendlyDapps": {
+    "add-failed": "Failed to add Friendly dApp",
+    "add-masca": "Add Masca.io to friendly dApps",
+    "added": "Friendly dApp Added",
+    "adding": "Adding Friendly dApp",
+    "remove-failed": "Failed to remove Friendly dApp",
+    "removed": "Friendly dApp Removed",
+    "removing": "Removing Friendly dApp"
+  },
   "GetCredential": {
     "handling": "Handling credential offer",
     "handling-error": "Failed to handle credential offer",
@@ -262,8 +261,8 @@
   },
   "QRCodeScanner": {
     "initialize-error": "Failed to initialize QR code scanner",
-    "starting-error": "Failed to start QR code scanner",
-    "qr-invalid-error": "Invalid QR code"
+    "qr-invalid-error": "Invalid QR code",
+    "starting-error": "Failed to start QR code scanner"
   },
   "QRCodeSessionProvider": {
     "unsuported": "Unsuported QR code data received"
@@ -276,10 +275,10 @@
     "scan-connection": "Scan Connection",
     "scan-connection-modal-title": "Scan Connection QR code",
     "scan-qr-code": "Scan QR code",
-    "upload-qr-code": "Upload QR code",
     "scan-qr-code-modal-title": "Scan QR code",
     "unexpected-error": "An unexpected error occured",
-    "unsuported-qr-code": "Unsuported QR code"
+    "unsuported-qr-code": "Unsuported QR code",
+    "upload-qr-code": "Upload QR code"
   },
   "SelectCredentialsModal": {
     "cancel": "Cancel",
@@ -293,15 +292,17 @@
     "ceramic-success": "Successfully toggled Ceramic",
     "data-store": "Data Stores",
     "data-store-desc": "Enable or disable data stores. Data stores are places where VCs are stored.",
-    "not-implemented": "Not implemented yet"
+    "not-implemented": "Not implemented yet",
+    "title": "Settings"
   },
-  "FriendlyDapps": {
-    "adding": "Adding Friendly dApp",
-    "removing": "Removing Friendly dApp",
-    "added": "Friendly dApp Added",
-    "removed": "Friendly dApp Removed",
-    "remove-failed": "Failed to remove Friendly dApp",
-    "add-failed": "Failed to add Friendly dApp",
-    "add-masca": "Add Masca.io to friendly dApps"
+  "VerifyDataDisplay": {
+    "title": "Verify Presentations & Credentials",
+    "toast": {
+      "error-json": "Data is not a valid JSON",
+      "error-type": "Data is not a valid VC/VP",
+      "error-verify": "Data is not valid!",
+      "loading": "Creating Credential..."
+    },
+    "verify": "Verify"
   }
 }

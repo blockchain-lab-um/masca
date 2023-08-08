@@ -180,9 +180,9 @@ const CreateCredentialDisplay = () => {
     setLoading(false);
   };
   return (
-    <>
-      <div className="mt-5 flex w-full justify-between px-6 pt-2">
-        <Link href="/app">
+    <div className="p-6">
+      <div className="flex w-full justify-between">
+        <Link href="/app" className="flex items-center">
           <button className="animated-transition dark:text-navy-blue-50 dark:hover:bg-navy-blue-700 rounded-full text-gray-800 hover:bg-pink-100 hover:text-pink-700">
             <ArrowLeftIcon className="h-6 w-6" />
           </button>
@@ -192,21 +192,23 @@ const CreateCredentialDisplay = () => {
         </div>
       </div>
 
-      <div className="dark:bg-navy-blue-300 dark:border-navy-blue-400 group relative z-0 m-8 rounded-2xl border border-gray-200 bg-gray-100 pr-2 pt-1">
-        <textarea
-          className={clsx(
-            'group-hover:scrollbar-thumb-orange-300 dark:text-navy-blue-800 dark:bg-navy-blue-300',
-            'scrollbar-thin scrollbar-thumb-orange-300/0 scrollbar-thumb-rounded-full font-jetbrains-mono',
-            'min-h-[60vh] w-full resize-none rounded-2xl bg-gray-100 p-2 text-gray-700 focus:outline-none'
-          )}
-          placeholder="Credential Payload..."
-          value={credentialPayload}
-          onChange={(e) => setCredentialPayload(e.target.value)}
-        />
+      <div className="mt-5">
+        <div className="dark:bg-navy-blue-300 dark:border-navy-blue-400 group relative z-0 rounded-2xl border border-gray-200 bg-gray-100 pr-2 pt-1">
+          <textarea
+            className={clsx(
+              'group-hover:scrollbar-thumb-orange-300 dark:text-navy-blue-800 dark:bg-navy-blue-300',
+              'scrollbar-thin scrollbar-thumb-orange-300/0 scrollbar-thumb-rounded-full font-jetbrains-mono',
+              'min-h-[60vh] w-full resize-none rounded-2xl bg-gray-100 p-2 text-gray-700 focus:outline-none'
+            )}
+            placeholder="Credential Payload..."
+            value={credentialPayload}
+            onChange={(e) => setCredentialPayload(e.target.value)}
+          />
+        </div>
       </div>
       {!isInvalidMethod && (
         <>
-          <div className="mt-8 px-4">
+          <div className="mt-5">
             <div className="dark:text-navy-blue-100 text-h5 font-ubuntu mt-8 font-medium text-gray-800">
               {t('options.title')}
             </div>
@@ -226,7 +228,7 @@ const CreateCredentialDisplay = () => {
             </div>
           </div>
           <div>
-            <div className="mt-4 flex items-baseline justify-between px-4">
+            <div className="mt-5 flex items-baseline justify-between">
               <div className="text-h5 dark:text-navy-blue-100 font-ubuntu mt-8 flex font-medium text-gray-800">
                 {t('save.title')} <InfoIcon>{t('save.description')}</InfoIcon>
               </div>
@@ -241,7 +243,7 @@ const CreateCredentialDisplay = () => {
               </div>
             </div>
             {save && (
-              <div className="mx-4 mt-2 flex items-center justify-between gap-x-8">
+              <div className="mt-2 flex items-center justify-between gap-x-8 pb-5">
                 <span className="text-md dark:text-navy-blue-200 flex gap-x-1 text-gray-700">
                   {t('save.storage')}
                 </span>
@@ -257,7 +259,7 @@ const CreateCredentialDisplay = () => {
               </div>
             )}
           </div>
-          <div className="mt-8 flex justify-end p-3">
+          <div className="mt-5 flex justify-end">
             <Button
               variant="primary"
               size="sm"
@@ -271,7 +273,7 @@ const CreateCredentialDisplay = () => {
         </>
       )}
       {isInvalidMethod && (
-        <div className="p-2 pb-8 text-center text-red-500">
+        <div className="mt-6 text-center text-red-500">
           {t('invalidMethod')}
         </div>
       )}
@@ -280,7 +282,7 @@ const CreateCredentialDisplay = () => {
         setOpen={setVCModalOpen}
         vc={vc as unknown as VerifiableCredential}
       />
-    </>
+    </div>
   );
 };
 
