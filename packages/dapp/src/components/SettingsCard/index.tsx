@@ -1,6 +1,8 @@
 'use client';
 
+import Link from 'next/link';
 import { isError } from '@blockchain-lab-um/masca-connector';
+import { ArrowLeftIcon } from '@heroicons/react/20/solid';
 import { useTranslations } from 'next-intl';
 
 import ToggleSwitch from '@/components/Switch';
@@ -77,8 +79,18 @@ const SettingsCard = () => {
   };
 
   return (
-    <div className="h-full p-6 text-lg">
-      <div>
+    <div className="p-6">
+      <div className="flex w-full justify-between">
+        <Link href="/app" className="flex items-center">
+          <button className="animated-transition dark:text-navy-blue-50 dark:hover:bg-navy-blue-700 rounded-full text-gray-800 hover:bg-pink-100 hover:text-pink-700">
+            <ArrowLeftIcon className="h-6 w-6" />
+          </button>
+        </Link>
+        <div className="text-h3 dark:text-navy-blue-50 font-semibold text-gray-800">
+          {t('title')}
+        </div>
+      </div>
+      <div className="mt-5">
         <div className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-800">
           {t('data-store')}
         </div>

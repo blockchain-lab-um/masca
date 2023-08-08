@@ -69,6 +69,7 @@ export const NavConnection = () => {
     changeIsConnected(false);
     changeAddres('');
     changeDid('');
+    localStorage.setItem('isConnected', 'false');
   };
 
   if (!hasMM || !hasFlask) return null;
