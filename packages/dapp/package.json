@@ -2,6 +2,7 @@
   "name": "@blockchain-lab-um/dapp",
   "version": "0.1.1-beta.1",
   "private": true,
+  "license": "(Apache-2.0 AND MIT)",
   "type": "commonjs",
   "scripts": {
     "build": "rimraf .next && next build",
