@@ -287,13 +287,23 @@
     "title": "Select Credentials"
   },
   "SettingsCard": {
-    "advanced": "Advanced",
+    "popups": "Popups",
+    "popups-desc": "Disabling popups is very dangerous. We recommend setting friendly dApps instead!",
     "ceramic-error": "Failed to toggle Ceramic",
     "ceramic-success": "Successfully toggled Ceramic",
     "data-store": "Data Stores",
     "data-store-desc": "Enable or disable data stores. Data stores are places where VCs are stored.",
     "not-implemented": "Not implemented yet",
-    "title": "Settings"
+    "title": "Settings",
+    "backup": "Backup",
+    "export": "Export",
+    "export-success": "Successfully exported backup",
+    "export-error": "Failed to export backup",
+    "import": "Import",
+    "import-success": "Successfully imported backup",
+    "import-error": "Failed to import backup",
+    "export-desc": "Export encrypted Masca backup to a file.",
+    "import-desc": "Import encrypted Masca backup from a file."
   },
   "VerifyDataDisplay": {
     "title": "Verify Presentations & Credentials",

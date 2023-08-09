@@ -553,10 +553,6 @@ class SnapService {
       case 'validateStoredCeramicSession':
         await GeneralService.validateStoredCeramicSession();
         return ResultObject.success(true);
-
-      /**
-       * Storage.service
-       */
       case 'exportStateBackup':
         res = await GeneralService.exportBackup();
         return ResultObject.success(res);

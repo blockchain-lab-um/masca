@@ -1,4 +1,3 @@
-import crypto from 'crypto';
 import { hexToUint8Array, uint8ArrayToHex } from '@blockchain-lab-um/utils';
 
 class EncryptionService {
@@ -18,14 +17,17 @@ class EncryptionService {
       },
     });
     const rawKey = Buffer.from(entropy.slice(2), 'hex');
-    const key = await crypto.subtle.importKey('raw', rawKey, 'AES-GCM', true, [
-      'encrypt',
-      'decrypt',
-    ]);
+    const key = await window.crypto.subtle.importKey(
+      'raw',
+      rawKey,
+      'AES-GCM',
+      true,
+      ['encrypt', 'decrypt']
+    );
 
     // 96 bits IV as recommended
-    const iv = crypto.getRandomValues(new Uint8Array(12));
-    const cipherText = await crypto.subtle.encrypt(
+    const iv = window.crypto.getRandomValues(new Uint8Array(12));
+    const cipherText = await window.crypto.subtle.encrypt(
       {
         name: 'AES-GCM',
         iv,
@@ -53,13 +55,16 @@ class EncryptionService {
     });
 
     const rawKey = Buffer.from(entropy.slice(2), 'hex');
-    const key = await crypto.subtle.importKey('raw', rawKey, 'AES-GCM', true, [
-      'encrypt',
-      'decrypt',
-    ]);
+    const key = await window.crypto.subtle.importKey(
+      'raw',
+      rawKey,
+      'AES-GCM',
+      true,
+      ['encrypt', 'decrypt']
+    );
 
     const [cipherText, iv] = data.split(':');
-    const decryptedData = await crypto.subtle.decrypt(
+    const decryptedData = await window.crypto.subtle.decrypt(
       {
         name: 'AES-GCM',
         iv: hexToUint8Array(iv),

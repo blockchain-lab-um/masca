@@ -4,12 +4,10 @@ import { TrashIcon } from '@heroicons/react/24/outline';
 import { useTranslations } from 'next-intl';
 
 import { useMascaStore, useToastStore } from '@/stores';
-import AddFriendlydAppModal from './AddFriendlydAppModal';
 
 export const FriendlydAppTable = () => {
   const t = useTranslations('FriendlyDapps');
   const [settings, setSettings] = useState<MascaConfig>();
-  const [open, setOpen] = useState(false);
   const { api } = useMascaStore((state) => ({
     api: state.mascaApi,
   }));
@@ -27,9 +25,8 @@ export const FriendlydAppTable = () => {
     snapGetSettings().catch((e) => console.log(e));
   }, []);
 
-  const addFriendlydApp = async (dapp: string) => {
+  const addFriendlydApp = async () => {
     if (!api) return;
-    setOpen(false);
 
     setTimeout(() => {
       useToastStore.setState({
@@ -99,12 +96,12 @@ export const FriendlydAppTable = () => {
   };
 
   return (
-    <div className="mt-5">
-      <p className="text-md dark:text-navy-blue-400 text-gray-700 ">
+    <>
+      <p className="text-md dark:text-navy-blue-400 text-gray-700">
         Friendly dApps are dApps where popups do not appear. Make sure to only
         add dApps you trust!
       </p>
-      <table className="dark:border-navy-blue-200 mt-4 w-full border-2 border-gray-300">
+      <table className="dark:border-navy-blue-200 my-5 w-full border-2 border-gray-300">
         <thead>
           <tr className="text-md">
             <th className="p-2 text-start">Application URL</th>
@@ -131,20 +128,9 @@ export const FriendlydAppTable = () => {
           ))}
         </tbody>
       </table>
-      <div className="text-md dark:text-orange-accent-dark mt-4 flex justify-end gap-x-2 text-pink-400">
-        <button
-          /* onClick={() => setOpen(true)} */ onClick={() =>
-            addFriendlydApp('')
-          }
-        >
-          {t('add-masca')}
-        </button>
+      <div className="text-md dark:text-orange-accent-dark flex justify-end gap-x-2 text-pink-400">
+        <button onClick={() => addFriendlydApp()}>{t('add-masca')}</button>
       </div>
-      <AddFriendlydAppModal
-        setOpen={setOpen}
-        isOpen={open}
-        addDapp={addFriendlydApp}
-      />
-    </div>
+    </>
   );
 };
