@@ -465,6 +465,28 @@ export async function setGoogleToken(
   );
 }
 
+export async function createGoogleBackup(
+  this: Masca
+): Promise<Result<string>> {
+  return sendSnapMethod(
+    {
+      method: 'createGoogleBackup',
+    },
+    this.snapId
+  );
+}
+
+export async function importGoogleBackup(
+  this: Masca,
+): Promise<Result<boolean>> {
+  return sendSnapMethod(
+    {
+      method: 'importGoogleBackup',
+    },
+    this.snapId
+  );
+}
+
 const wrapper =
   <T extends any[], R>(fn: (...args: T) => Promise<Result<R>>) =>
   async (...args: T): Promise<Result<R>> => {
@@ -515,5 +537,7 @@ export class Masca {
       validateStoredCeramicSession.bind(this)
     ),
     setGoogleToken: wrapper(setGoogleToken.bind(this)),
+    createGoogleBackup: wrapper(createGoogleBackup.bind(this)),
+    importGoogleBackup: wrapper(importGoogleBackup.bind(this)),
   });
 }

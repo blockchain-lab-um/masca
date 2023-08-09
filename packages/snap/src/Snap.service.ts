@@ -565,7 +565,7 @@ class SnapService {
         return ResultObject.success(true);
       case 'createGoogleBackup':
         res = await GeneralService.createGoogleBackup();
-        return ResultObject.success(true);
+        return ResultObject.success(res);
       case 'importGoogleBackup':
         await GeneralService.importGoogleBackup();
         return ResultObject.success(true);

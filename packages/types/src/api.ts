@@ -79,4 +79,6 @@ export interface MascaApi {
   addFriendlyDapp(): Promise<Result<boolean>>;
   removeFriendlyDapp(id: string): Promise<Result<boolean>>;
   setGoogleToken(accessToken: string): Promise<Result<boolean>>;
+  createGoogleBackup(): Promise<Result<string>>;
+  importGoogleBackup(): Promise<Result<boolean>>;
 }
