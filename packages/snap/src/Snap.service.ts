@@ -81,7 +81,7 @@ class SnapService {
       return vcs;
     }
 
-    throw new Error('User rejected the request.');
+    throw new Error('User rejected query credentials request.');
   }
 
   /**
@@ -132,7 +132,7 @@ class SnapService {
       throw new Error('Unsupported Credential format');
     }
 
-    throw new Error('User rejected the request.');
+    throw new Error('User rejected save credential request.');
   }
 
   /**
@@ -187,7 +187,7 @@ class SnapService {
       }
       return vc;
     }
-    throw new Error('User rejected create Credential request');
+    throw new Error('User rejected create credential request');
   }
 
   /**
@@ -246,7 +246,7 @@ class SnapService {
       }
     }
 
-    throw new Error('User rejected the request.');
+    throw new Error('User rejected delete credential request.');
   }
 
   /**
@@ -296,7 +296,7 @@ class SnapService {
       return res;
     }
 
-    throw new Error('User rejected create VP request');
+    throw new Error('User rejected create presentation request.');
   }
 
   /**
@@ -556,12 +556,16 @@ class SnapService {
       case 'setGoogleToken':
         res = await GeneralService.setGoogleToken(params);
         return ResultObject.success(res);
+
+      /**
+       * Storage.service
+       */
       case 'exportStateBackup':
-        res = await StorageService.exportBackup();
+        res = await GeneralService.exportBackup();
         return ResultObject.success(res);
       case 'importStateBackup':
         isValidImportStateBackupRequest(params);
-        await StorageService.importBackup(params);
+        await GeneralService.importBackup(params);
         return ResultObject.success(true);
       case 'createGoogleBackup':
         res = await GeneralService.createGoogleBackup();

@@ -146,9 +146,9 @@ export class CeramicCredentialStore extends AbstractDataStore {
       const ceramic = await getCeramic(state);
       const datastore = new DIDDataStore({ ceramic, model: aliases });
       await datastore.set('StoredCredentials', args);
+      return true;
     } catch (error) {
       throw new Error('Importing Ceramic DataStore failed');
     }
-    return true;
   }
 }

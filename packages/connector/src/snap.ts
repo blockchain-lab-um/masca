@@ -465,9 +465,7 @@ export async function setGoogleToken(
   );
 }
 
-export async function createGoogleBackup(
-  this: Masca
-): Promise<Result<string>> {
+export async function createGoogleBackup(this: Masca): Promise<Result<string>> {
   return sendSnapMethod(
     {
       method: 'createGoogleBackup',
@@ -477,7 +475,7 @@ export async function createGoogleBackup(
 }
 
 export async function importGoogleBackup(
-  this: Masca,
+  this: Masca
 ): Promise<Result<boolean>> {
   return sendSnapMethod(
     {

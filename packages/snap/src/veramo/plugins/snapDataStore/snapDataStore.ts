@@ -119,9 +119,11 @@ export class SnapCredentialStore extends AbstractDataStore {
 
   public async importStore(
     data: Record<string, W3CVerifiableCredential>
-  ): Promise<void> {
+  ): Promise<boolean> {
     const state = StorageService.get();
 
     state.accountState[state.currentAccount].vcs = data;
+
+    return true;
   }
 }
