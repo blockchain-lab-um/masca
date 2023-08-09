@@ -17,5 +17,5 @@ export function isEnabledCredentialStore(
   store: AvailableCredentialStores
 ): boolean {
   return state[CURRENT_STATE_VERSION].accountState[account].general.account.ssi
-    .vcStore[store];
+    .storesEnabled[store];
 }

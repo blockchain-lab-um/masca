@@ -361,7 +361,7 @@ describe('Veramo Service', () => {
 
       state[CURRENT_STATE_VERSION].accountState[
         account
-      ].general.account.ssi.vcStore = {
+      ].general.account.ssi.storesEnabled = {
         snap: true,
         ceramic: false,
       };
@@ -391,7 +391,7 @@ describe('Veramo Service', () => {
 
       state[CURRENT_STATE_VERSION].accountState[
         account
-      ].general.account.ssi.vcStore = {
+      ].general.account.ssi.storesEnabled = {
         snap: true,
         ceramic: true,
       };
@@ -732,7 +732,7 @@ describe('Veramo Service', () => {
       const state = StorageService.get();
       state[CURRENT_STATE_VERSION].accountState[
         state[CURRENT_STATE_VERSION].currentAccount
-      ].general.account.ssi.didMethod = 'did:key';
+      ].general.account.ssi.selectedMethod = 'did:key';
       await StorageService.save();
 
       // Need to re-initialize VeramoService with new state

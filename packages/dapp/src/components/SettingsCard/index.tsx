@@ -33,7 +33,7 @@ const SettingsCard = () => {
       console.log('Error getting account settings', accountSettings);
       return;
     }
-    changeAvailableCredentialStores(accountSettings.data.ssi.vcStore);
+    changeAvailableCredentialStores(accountSettings.data.ssi.storesEnabled);
   };
 
   const snapChangeAvailableCredentialStores = async (

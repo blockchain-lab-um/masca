@@ -146,17 +146,17 @@ class PolygonService {
 
   static async createOrImportIdentity() {
     const state = StorageService.get();
-    const { didMethod } =
+    const { selectedMethod } =
       state[CURRENT_STATE_VERSION].accountState[
         state[CURRENT_STATE_VERSION].currentAccount
       ].general.account.ssi;
 
-    if (didMethod !== 'did:iden3' && didMethod !== 'did:polygonid') {
+    if (selectedMethod !== 'did:iden3' && selectedMethod !== 'did:polygonid') {
       throw new Error('Unsupported did method');
     }
 
     const method =
-      didMethod === 'did:iden3' ? DidMethod.Iden3 : DidMethod.PolygonId;
+      selectedMethod === 'did:iden3' ? DidMethod.Iden3 : DidMethod.PolygonId;
     const network = await EthereumService.getNetwork();
     const mapping = CHAIN_ID_TO_BLOCKCHAIN_AND_NETWORK_ID[network];
 

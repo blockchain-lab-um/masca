@@ -52,8 +52,8 @@ const emptyAccountState = {
   general: {
     account: {
       ssi: {
-        didMethod: 'did:ethr',
-        vcStore: {
+        selectedMethod: 'did:ethr',
+        storesEnabled: {
           snap: true,
           ceramic: true,
         },

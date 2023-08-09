@@ -18,7 +18,7 @@ class WalletService {
     const state = StorageService.get();
 
     const method = state[CURRENT_STATE_VERSION].accountState[state[CURRENT_STATE_VERSION].currentAccount].general.account.ssi
-      .didMethod as InternalSigMethods;
+      .selectedMethod as InternalSigMethods;
 
     if (!['did:key', 'did:key:jwk_jcs-pub', 'did:jwk'].includes(method)) {
       return;

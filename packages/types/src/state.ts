@@ -19,8 +19,8 @@ export interface MascaConfig {
 
 export interface MascaAccountConfig {
   ssi: {
-    didMethod: AvailableMethods;
-    vcStore: Record<AvailableCredentialStores, boolean>;
+    selectedMethod: AvailableMethods;
+    storesEnabled: Record<AvailableCredentialStores, boolean>;
   };
 }
 

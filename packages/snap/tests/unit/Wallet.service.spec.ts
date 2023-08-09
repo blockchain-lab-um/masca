@@ -58,7 +58,7 @@ describe('Wallet Service', () => {
         const state = StorageService.get();
         state[CURRENT_STATE_VERSION].accountState[
           state[CURRENT_STATE_VERSION].currentAccount
-        ].general.account.ssi.didMethod = method.method as InternalSigMethods;
+        ].general.account.ssi.selectedMethod = method.method as InternalSigMethods;
         await StorageService.save();
 
         // Need to re-initialize VeramoService with new state

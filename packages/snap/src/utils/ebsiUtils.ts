@@ -26,7 +26,7 @@ export async function getDidEbsiIdentifier(params: {
   const agent = VeramoService.getAgent();
   const provider =
     state[CURRENT_STATE_VERSION].accountState[account].general.account.ssi
-      .didMethod;
+      .selectedMethod;
 
   const res = WalletService.get();
 

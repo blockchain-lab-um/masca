@@ -116,7 +116,7 @@ class VeramoService {
     const account = state[CURRENT_STATE_VERSION].currentAccount;
     const method =
       state[CURRENT_STATE_VERSION].accountState[account].general.account.ssi
-        .didMethod;
+        .selectedMethod;
 
     switch (method) {
       case 'did:pkh':
@@ -159,7 +159,7 @@ class VeramoService {
     const method =
       state[CURRENT_STATE_VERSION].accountState[
         state[CURRENT_STATE_VERSION].currentAccount
-      ].general.account.ssi.didMethod;
+      ].general.account.ssi.selectedMethod;
 
     switch (method) {
       case 'did:pkh':
@@ -547,7 +547,7 @@ class VeramoService {
     const isDidKeyEbsi =
       state[CURRENT_STATE_VERSION].accountState[
         state[CURRENT_STATE_VERSION].currentAccount
-      ].general.account.ssi.didMethod === 'did:key:jwk_jcs-pub';
+      ].general.account.ssi.selectedMethod === 'did:key:jwk_jcs-pub';
 
     const customSign = async (signArgs: SignArgs) =>
       sign(signArgs, {
@@ -711,7 +711,7 @@ class VeramoService {
     const isDidKeyEbsi =
       state[CURRENT_STATE_VERSION].accountState[
         state[CURRENT_STATE_VERSION].currentAccount
-      ].general.account.ssi.didMethod === 'did:key:jwk_jcs-pub';
+      ].general.account.ssi.selectedMethod === 'did:key:jwk_jcs-pub';
 
     const customSign = async (signArgs: SignArgs) =>
       sign(signArgs, {

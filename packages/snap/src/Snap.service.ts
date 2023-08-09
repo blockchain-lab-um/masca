@@ -154,7 +154,7 @@ class SnapService {
     const method =
       state[CURRENT_STATE_VERSION].accountState[
         state[CURRENT_STATE_VERSION].currentAccount
-      ].general.account.ssi.didMethod;
+      ].general.account.ssi.selectedMethod;
 
     if (method === 'did:ethr' || method === 'did:pkh') {
       const unsignedVc = await VeramoService.createUnsignedCredential({
@@ -268,7 +268,7 @@ class SnapService {
     const method =
       state[CURRENT_STATE_VERSION].accountState[
         state[CURRENT_STATE_VERSION].currentAccount
-      ].general.account.ssi.didMethod;
+      ].general.account.ssi.selectedMethod;
 
     if (vcs.length === 0) {
       throw new Error('No credentials provided');
@@ -330,7 +330,7 @@ class SnapService {
     const method =
       state[CURRENT_STATE_VERSION].accountState[
         state[CURRENT_STATE_VERSION].currentAccount
-      ].general.account.ssi.didMethod;
+      ].general.account.ssi.selectedMethod;
 
     if (isVeramoSupportedMethods(method)) {
       await VeramoService.importIdentifier();

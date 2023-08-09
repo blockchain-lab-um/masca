@@ -125,7 +125,7 @@ class GeneralService {
     const currentMethod =
       state[CURRENT_STATE_VERSION].accountState[
         state[CURRENT_STATE_VERSION].currentAccount
-      ].general.account.ssi.didMethod;
+      ].general.account.ssi.selectedMethod;
     const newMethod = args.didMethod;
 
     if (requiresNetwork(newMethod)) {
@@ -137,7 +137,7 @@ class GeneralService {
     if (currentMethod !== newMethod) {
       state[CURRENT_STATE_VERSION].accountState[
         state[CURRENT_STATE_VERSION].currentAccount
-      ].general.account.ssi.didMethod = newMethod;
+      ].general.account.ssi.selectedMethod = newMethod;
       return;
     }
     throw new Error('Method already set');
@@ -151,7 +151,7 @@ class GeneralService {
     const state = StorageService.get();
     return state[CURRENT_STATE_VERSION].accountState[
       state[CURRENT_STATE_VERSION].currentAccount
-    ].general.account.ssi.didMethod;
+    ].general.account.ssi.selectedMethod;
   }
 
   /**
@@ -164,7 +164,7 @@ class GeneralService {
     const state = StorageService.get();
     return state[CURRENT_STATE_VERSION].accountState[
       state[CURRENT_STATE_VERSION].currentAccount
-    ].general.account.ssi.vcStore;
+    ].general.account.ssi.storesEnabled;
   }
 
   /**
@@ -182,7 +182,7 @@ class GeneralService {
     if (store !== 'snap') {
       state[CURRENT_STATE_VERSION].accountState[
         state[CURRENT_STATE_VERSION].currentAccount
-      ].general.account.ssi.vcStore[store] = value;
+      ].general.account.ssi.storesEnabled[store] = value;
 
       return true;
     }
@@ -203,7 +203,7 @@ class GeneralService {
     return Object.entries(
       state[CURRENT_STATE_VERSION].accountState[
         state[CURRENT_STATE_VERSION].currentAccount
-      ].general.account.ssi.vcStore
+      ].general.account.ssi.storesEnabled
     )
       .filter(([, value]) => value)
       .map(([key]) => key) as AvailableCredentialStores[];
