@@ -5,7 +5,7 @@ import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import type { IIdentifier, VerifiableCredential } from '@veramo/core';
 
 import { onRpcRequest } from '../../src';
-import CryptoService from '../../src/Crypto.service';
+import EncryptionService from '../../src/Encryption.service';
 import StorageService from '../../src/storage/Storage.service';
 import VeramoService, { type Agent } from '../../src/veramo/Veramo.service';
 import { account } from '../data/constants';
@@ -73,7 +73,7 @@ describe('exportStateBackup', () => {
       throw new Error(res.error);
     }
 
-    const decryptedData = await CryptoService.decrypt(res.data as string);
+    const decryptedData = await EncryptionService.decrypt(res.data as string);
     expect(JSON.parse(decryptedData)).toEqual(StorageService.get());
     expect.assertions(1);
   });
@@ -117,7 +117,7 @@ describe('exportStateBackup', () => {
       throw new Error(res.error);
     }
 
-    const decryptedData = await CryptoService.decrypt(res.data as string);
+    const decryptedData = await EncryptionService.decrypt(res.data as string);
     expect(JSON.parse(decryptedData)).toEqual(StorageService.get());
     expect.assertions(2);
   });

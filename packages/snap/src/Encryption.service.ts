@@ -1,7 +1,7 @@
 import crypto from 'crypto';
 import { hexToUint8Array, uint8ArrayToHex } from '@blockchain-lab-um/utils';
 
-class CryptoService {
+class EncryptionService {
   /**
    * Function that encrypts the passed data using the entropy provided by the snap.
    * The algorithm used is AES-GCM.
@@ -72,4 +72,4 @@ class CryptoService {
   }
 }
 
-export default CryptoService;
+export default EncryptionService;

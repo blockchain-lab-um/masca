@@ -12,7 +12,7 @@ import {
   SwitchMethodRequestParams,
 } from '@blockchain-lab-um/masca-types';
 
-import CryptoService from './Crypto.service';
+import EncryptionService from './Encryption.service';
 import EthereumService from './Ethereum.service';
 import StorageService from './storage/Storage.service';
 import UIService from './UI.service';
@@ -263,7 +263,7 @@ class GeneralService {
     }
 
     const state = StorageService.get();
-    return CryptoService.encrypt(JSON.stringify(state));
+    return EncryptionService.encrypt(JSON.stringify(state));
   }
 
   /**
@@ -280,7 +280,7 @@ class GeneralService {
 
     try {
       const state = JSON.parse(
-        await CryptoService.decrypt(params.serializedState)
+        await EncryptionService.decrypt(params.serializedState)
       );
       isValidMascaState(state);
       StorageService.set(state);
