@@ -1,13 +1,13 @@
 import DetailedError from './detailedError.js';
 import { Result } from './result.js';
 
-export type IsValidAuthorizationHeaderArgs = {
+export interface IsValidAuthorizationHeaderArgs {
   authorizationHeader: string;
-};
+}
 
-export type IsValidAuthorizationHeaderResponse = {
+export interface IsValidAuthorizationHeaderResponse {
   accessToken: string;
-};
+}
 
 export const isValidAuthorizationHeader = (
   args: IsValidAuthorizationHeaderArgs

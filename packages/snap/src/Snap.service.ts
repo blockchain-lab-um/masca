@@ -174,7 +174,11 @@ class SnapService {
       proofFormat,
     });
 
-    if (await UIService.createCredentialDialog(save, storeString, vc)) {
+    const identifier = await VeramoService.getIdentifier();
+
+    const { did } = identifier;
+
+    if (await UIService.createCredentialDialog(save, storeString, vc, did)) {
       if (save === true) {
         await VeramoService.saveCredential({
           verifiableCredential: vc,
@@ -278,7 +282,11 @@ class SnapService {
       return unsignedVp;
     }
 
-    if (await UIService.createPresentationDialog(vcs)) {
+    const identifier = await VeramoService.getIdentifier();
+
+    const { did } = identifier;
+
+    if (await UIService.createPresentationDialog(vcs, did)) {
       const res = await VeramoService.createPresentation({
         vcs,
         proofFormat,

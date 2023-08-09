@@ -1,17 +1,17 @@
 import { CodecName, isIn } from '@blockchain-lab-um/utils';
 import { DIDDocument } from 'did-resolver';
 
-export type ICreateKeyDidOptions = {
+export interface ICreateKeyDidOptions {
   keyType?: KeyType;
   privateKeyHex?: string;
   type?: 'ebsi'; // Type whether to use classic did key or did key for EBSI NP
-};
+}
 
-export type IResolveDidParams = {
+export interface IResolveDidParams {
   didIdentifier: string;
   publicKey: { pubKeyBytes: Uint8Array; code: number };
   keyType: KeyType;
-};
+}
 
 export const KEY_TYPES = [
   'Ed25519',
@@ -39,12 +39,12 @@ export const KEY_TYPE_TO_MULTICODEC_NAME: Record<KeyType, CodecName> = {
   Secp256r1: 'p256-pub',
 };
 
-export type DidComponents = {
+export interface DidComponents {
   scheme: string;
   method: string;
   version: string;
   multibaseValue: string;
-};
+}
 
 export type CurveResolutionFunction = (
   params: IResolveDidParams

@@ -13,19 +13,17 @@ import StorageService from '../../../storage/Storage.service';
 import { aliases, getCeramic } from '../../../utils/ceramicUtils';
 import { decodeJWT } from '../../../utils/jwt';
 
-export type StoredCredentials = {
+export interface StoredCredentials {
   vcs: Record<string, W3CVerifiableCredential>;
-};
+}
 export class CeramicCredentialStore extends AbstractDataStore {
-  async query(args: IFilterArgs): Promise<Array<IQueryResult>> {
+  async query(args: IFilterArgs): Promise<IQueryResult[]> {
     const { filter } = args;
     const state = StorageService.get();
     const ceramic = await getCeramic(state);
     const datastore = new DIDDataStore({ ceramic, model: aliases });
-    const storedCredentials = (await datastore.get(
-      'StoredCredentials'
-    )) as StoredCredentials;
-    if (storedCredentials && storedCredentials.vcs) {
+    const storedCredentials = await datastore.get('StoredCredentials')!;
+    if (storedCredentials?.vcs) {
       if (filter && filter.type === 'id') {
         try {
           if (storedCredentials.vcs[filter.filter]) {
@@ -70,7 +68,7 @@ export class CeramicCredentialStore extends AbstractDataStore {
           };
         });
         const filteredObjects = jsonpath.query(objects, filter.filter);
-        return filteredObjects as Array<IQueryResult>;
+        return filteredObjects as IQueryResult[];
       }
     }
     return [];
@@ -80,10 +78,8 @@ export class CeramicCredentialStore extends AbstractDataStore {
     const state = StorageService.get();
     const ceramic = await getCeramic(state);
     const datastore = new DIDDataStore({ ceramic, model: aliases });
-    const storedCredentials = (await datastore.get(
-      'StoredCredentials'
-    )) as StoredCredentials;
-    if (storedCredentials && storedCredentials.vcs) {
+    const storedCredentials = await datastore.get('StoredCredentials')!;
+    if (storedCredentials?.vcs) {
       if (!storedCredentials.vcs[id]) throw Error('ID not found');
 
       delete storedCredentials.vcs[id];
@@ -100,10 +96,8 @@ export class CeramicCredentialStore extends AbstractDataStore {
     const state = StorageService.get();
     const ceramic = await getCeramic(state);
     const datastore = new DIDDataStore({ ceramic, model: aliases });
-    const storedCredentials = (await datastore.get(
-      'StoredCredentials'
-    )) as StoredCredentials;
-    if (storedCredentials && storedCredentials.vcs) {
+    const storedCredentials = await datastore.get('StoredCredentials')!;
+    if (storedCredentials?.vcs) {
       const id = uint8ArrayToHex(sha256(Buffer.from(JSON.stringify(vc))));
 
       if (storedCredentials.vcs[id]) {
@@ -125,10 +119,8 @@ export class CeramicCredentialStore extends AbstractDataStore {
     const state = StorageService.get();
     const ceramic = await getCeramic(state);
     const datastore = new DIDDataStore({ ceramic, model: aliases });
-    const storedCredentials = (await datastore.get(
-      'StoredCredentials'
-    )) as StoredCredentials;
-    if (storedCredentials && storedCredentials.vcs) {
+    const storedCredentials = await datastore.get('StoredCredentials')!;
+    if (storedCredentials?.vcs) {
       storedCredentials.vcs = {};
       await datastore.merge('StoredCredentials', storedCredentials);
       return true;
@@ -141,10 +133,8 @@ export class CeramicCredentialStore extends AbstractDataStore {
       const state = StorageService.get();
       const ceramic = await getCeramic(state);
       const datastore = new DIDDataStore({ ceramic, model: aliases });
-      const storedCredentials = (await datastore.get(
-        'StoredCredentials'
-      )) as StoredCredentials;
-      return storedCredentials;
+      const storedCredentials = await datastore.get('StoredCredentials')!;
+      return storedCredentials as StoredCredentials;
     } catch (error) {
       throw new Error('Exporting Ceramic DataStore failed');
     }

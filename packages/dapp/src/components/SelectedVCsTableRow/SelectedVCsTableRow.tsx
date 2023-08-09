@@ -1,16 +1,20 @@
 import Link from 'next/link';
 import { type QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { ArrowsPointingOutIcon } from '@heroicons/react/24/outline';
-import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
+import {
+  CheckCircleIcon,
+  ExclamationCircleIcon,
+  XCircleIcon,
+} from '@heroicons/react/24/solid';
 import { encodeBase64url } from '@veramo/utils';
 
 import Tooltip from '@/components/Tooltip';
+import { isPolygonVC } from '@/utils/credential';
 
 interface SelectedVCsTableRowProps {
   vc: QueryCredentialsRequestResult;
   handleRemove: (id: string) => void;
 }
-
 const SelectedVCsTableRow = ({
   vc,
   handleRemove,
@@ -69,23 +73,35 @@ const SelectedVCsTableRow = ({
         }
       </td>
       <td>
-        <span className="flex items-center justify-center">
-          <Tooltip
-            tooltip={`${
-              vc.data.expirationDate === undefined
-                ? 'Does not have expiration date'
-                : `${validity === true ? 'Expires' : 'Expired'} on ${new Date(
-                    vc.data.expirationDate
-                  ).toDateString()}`
-            }`}
-          >
-            {validity === true ? (
-              <CheckCircleIcon className="h-4 w-4 text-green-500" />
-            ) : (
-              <XCircleIcon className="h-4 w-4 text-red-500" />
-            )}
-          </Tooltip>
-        </span>
+        {!isPolygonVC(vc) ? (
+          <span className="flex items-center justify-center">
+            <Tooltip
+              tooltip={`${
+                vc.data.expirationDate === undefined
+                  ? 'Does not have expiration date'
+                  : `${validity === true ? 'Expires' : 'Expired'} on ${new Date(
+                      vc.data.expirationDate
+                    ).toDateString()}`
+              }`}
+            >
+              {validity === true ? (
+                <CheckCircleIcon className="h-4 w-4 text-green-500" />
+              ) : (
+                <XCircleIcon className="h-4 w-4 text-red-500" />
+              )}
+            </Tooltip>
+          </span>
+        ) : (
+          <span className="flex items-center justify-center">
+            <Tooltip
+              tooltip={
+                "PolygonID VCs aren't supported yet. Please remove this credential to continue!"
+              }
+            >
+              <ExclamationCircleIcon className="h-6 w-6 text-red-500" />
+            </Tooltip>
+          </span>
+        )}
       </td>
       <td>
         <span className="flex items-center justify-center">

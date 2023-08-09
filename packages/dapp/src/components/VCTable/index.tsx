@@ -36,7 +36,6 @@ import { encodeBase64url } from '@veramo/utils';
 import clsx from 'clsx';
 import { DateTime } from 'luxon';
 import { useTranslations } from 'next-intl';
-import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
 import DeleteModal from '@/components/DeleteModal';
@@ -59,26 +58,20 @@ const Table = () => {
     string | null
   >(null);
 
-  const { api, vcs, changeVcs, changeLastFetch } = useMascaStore(
-    (state) => ({
-      api: state.mascaApi,
-      vcs: state.vcs,
-      changeVcs: state.changeVcs,
-      changeLastFetch: state.changeLastFetch,
-    }),
-    shallow
-  );
+  const { api, vcs, changeVcs, changeLastFetch } = useMascaStore((state) => ({
+    api: state.mascaApi,
+    vcs: state.vcs,
+    changeVcs: state.changeVcs,
+    changeLastFetch: state.changeLastFetch,
+  }));
   const { columnFilters, globalFilter, selectedVCs, cardView, setSelectedVCs } =
-    useTableStore(
-      (state) => ({
-        columnFilters: state.columnFilters,
-        globalFilter: state.globalFilter,
-        selectedVCs: state.selectedVCs,
-        cardView: state.cardView,
-        setSelectedVCs: state.setSelectedVCs,
-      }),
-      shallow
-    );
+    useTableStore((state) => ({
+      columnFilters: state.columnFilters,
+      globalFilter: state.globalFilter,
+      selectedVCs: state.selectedVCs,
+      cardView: state.cardView,
+      setSelectedVCs: state.setSelectedVCs,
+    }));
 
   const columnHelper = createColumnHelper<QueryCredentialsRequestResult>();
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -157,7 +150,7 @@ const Table = () => {
         <span className="flex items-center justify-center">
           {info.getValue() === undefined
             ? '/'
-            : new Date(info.getValue() as string).toDateString()}
+            : new Date(info.getValue()!).toDateString()}
         </span>
       ),
       header: () => <span>{t('table.expiration-date')}</span>,

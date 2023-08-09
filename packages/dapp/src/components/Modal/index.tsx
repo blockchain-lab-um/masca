@@ -1,11 +1,11 @@
 import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 
-type ModalProps = {
+interface ModalProps {
   isOpen: boolean;
   setOpen: (open: boolean) => void;
   children: React.ReactNode;
-};
+}
 
 const Modal = ({ isOpen, setOpen, children }: ModalProps) => (
   <Transition appear show={isOpen} as={Fragment}>

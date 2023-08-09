@@ -36,8 +36,7 @@ export class SnapMerkleTreeStorage implements IMerkleTreeStorage {
 
     const createMetaInfo = () => {
       const treesMeta: IdentityMerkleTreeMetaInformation[] = [];
-      for (let index = 0; index < mtTypes.length; index += 1) {
-        const mType = mtTypes[index];
+      for (const mType of mtTypes) {
         const treeId = identifier.concat(`+${mType.toString()}`);
         const metaInfo = { treeId, identifier, type: mType };
         treesMeta.push(metaInfo);

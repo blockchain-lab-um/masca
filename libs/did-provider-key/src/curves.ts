@@ -7,12 +7,12 @@ import type {
   IResolveDidParams,
 } from './types/keyDidTypes.js';
 
-type BuildDidDocParams = {
+interface BuildDidDocParams {
   didIdentifier: string;
   context: string[];
   verificationMethod: VerificationMethod;
   keyAgreement?: VerificationMethod;
-};
+}
 
 export function buildDidDoc({
   didIdentifier,

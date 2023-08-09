@@ -3,9 +3,7 @@ export interface DataStoreObject<T> {
   created: number;
 }
 
-export interface DataStore<T> {
-  [id: string]: DataStoreObject<T>;
-}
+export type DataStore<T> = Record<string, DataStoreObject<T>>;
 
 export interface UserSession {
   credentialType: string;

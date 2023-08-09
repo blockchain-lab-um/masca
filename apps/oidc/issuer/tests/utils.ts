@@ -14,7 +14,7 @@ import { Agent } from './testAgent.js';
 
 const { ec: EC } = elliptic;
 
-type CreateJWTProofParams = {
+interface CreateJWTProofParams {
   privateKey: string;
   audience?: string;
   bindingType: 'kid' | 'jwk' | 'x5c';
@@ -23,7 +23,7 @@ type CreateJWTProofParams = {
   invalidHeader?: boolean;
   invalidFragment?: boolean;
   headerExtra?: any;
-};
+}
 
 export const createJWTProof = async ({
   privateKey,

@@ -8,8 +8,9 @@ declare global {
   /*
     Define MetaMask RPC result types
   */
-  interface WalletGetSnapsResult {
-    [snapId: string]: {
+  type WalletGetSnapsResult = Record<
+    string,
+    {
       /**
        * The ID of the Snap.
        */
@@ -30,16 +31,16 @@ declare global {
        * The version of the Snap.
        */
       version: string;
-    };
-  }
+    }
+  >;
 
-  interface WalletInstallSnapsResult {
-    [snapId: string]:
-      | WalletGetSnapsResult[string]
-      | {
-          error: Error;
-        };
-  }
+  type WalletInstallSnapsResult = Record<
+    string,
+    | WalletGetSnapsResult[string]
+    | {
+        error: Error;
+      }
+  >;
 
   interface WalletEnableResult {
     // The user's Ethereum accounts, if the eth_accounts permission has been

@@ -24,6 +24,6 @@ export interface IQueryResult {
 export abstract class AbstractDataStore {
   abstract save(args: ISaveArgs): Promise<string>;
   abstract delete(args: IDeleteArgs): Promise<boolean>;
-  abstract query(args: IFilterArgs): Promise<Array<IQueryResult>>;
+  abstract query(args: IFilterArgs): Promise<IQueryResult[]>;
   abstract clear(args: IFilterArgs): Promise<boolean>;
 }

@@ -30,7 +30,7 @@ export class MemoryDataStore extends AbstractDataStore {
     return false;
   }
 
-  public async query(args: IFilterArgs): Promise<Array<IQueryResult>> {
+  public async query(args: IFilterArgs): Promise<IQueryResult[]> {
     const { filter } = args;
     if (filter && filter.type === 'id') {
       try {
@@ -60,7 +60,7 @@ export class MemoryDataStore extends AbstractDataStore {
         data: this.data[k],
       }));
       const filteredObjects = jsonpath.query(objects, filter.filter);
-      return filteredObjects as Array<IQueryResult>;
+      return filteredObjects as IQueryResult[];
     }
     return [];
   }

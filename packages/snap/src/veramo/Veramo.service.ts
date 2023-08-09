@@ -369,7 +369,7 @@ class VeramoService {
       const existingVC = vcs.get(vc.metadata.id);
       if (existingVC) {
         if (options.returnStore) {
-          existingVC.metadata.store?.push(vc.metadata.store as string);
+          existingVC.metadata.store?.push(vc.metadata.store!);
         }
       } else {
         vcs.set(vc.metadata.id, {
@@ -377,7 +377,7 @@ class VeramoService {
           metadata: {
             id: vc.metadata.id,
             ...(options.returnStore && {
-              store: [vc.metadata.store as string],
+              store: [vc.metadata.store!],
             }),
           },
         });

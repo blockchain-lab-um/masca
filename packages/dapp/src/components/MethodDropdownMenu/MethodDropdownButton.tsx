@@ -2,11 +2,11 @@ import { Menu } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/24/solid';
 import { clsx } from 'clsx';
 
-type DropdownButtonProps = {
+interface DropdownButtonProps {
   children: React.ReactNode;
   handleBtn: (text: string) => Promise<void>;
   selected: boolean;
-};
+}
 
 export const DropdownButton = ({
   children,

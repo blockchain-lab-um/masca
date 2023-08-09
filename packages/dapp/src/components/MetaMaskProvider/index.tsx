@@ -2,25 +2,21 @@
 
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
 import { useGeneralStore } from '@/stores';
 
-type MetaMaskProviderProps = {
+interface MetaMaskProviderProps {
   children: React.ReactNode;
-};
+}
 
 const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
   const t = useTranslations('MetaMaskProvider');
 
-  const { hasMM, hasFlask } = useGeneralStore(
-    (state) => ({
-      hasMM: state.hasMetaMask,
-      hasFlask: state.isFlask,
-    }),
-    shallow
-  );
+  const { hasMM, hasFlask } = useGeneralStore((state) => ({
+    hasMM: state.hasMetaMask,
+    hasFlask: state.isFlask,
+  }));
 
   if (hasMM && hasFlask) {
     return <>{children}</>;

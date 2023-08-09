@@ -16,121 +16,121 @@ import type {
   VerifyDataRequestParams,
 } from './params.js';
 
-export type QueryCredentials = {
+export interface QueryCredentials {
   method: 'queryCredentials';
   params: QueryCredentialsRequestParams;
-};
+}
 
-export type CreateCredential = {
+export interface CreateCredential {
   method: 'createCredential';
   params: CreateCredentialRequestParams;
-};
+}
 
-export type SaveCredential = {
+export interface SaveCredential {
   method: 'saveCredential';
   params: SaveCredentialRequestParams;
-};
+}
 
-export type DeleteCredential = {
+export interface DeleteCredential {
   method: 'deleteCredential';
   params: DeleteCredentialsRequestParams;
-};
+}
 
-export type CreatePresentation = {
+export interface CreatePresentation {
   method: 'createPresentation';
   params: CreatePresentationRequestParams;
-};
+}
 
-export type SetCredentialStore = {
+export interface SetCredentialStore {
   method: 'setCredentialStore';
   params: SetCredentialStoreRequestParams;
-};
+}
 
-export type SwitchMethod = {
+export interface SwitchMethod {
   method: 'switchDIDMethod';
   params: SwitchMethodRequestParams;
-};
+}
 
-export type TogglePopups = {
+export interface TogglePopups {
   method: 'togglePopups';
-};
+}
 
-export type GetDID = {
+export interface GetDID {
   method: 'getDID';
-};
+}
 
-export type GetMethod = {
+export interface GetMethod {
   method: 'getSelectedMethod';
-};
+}
 
-export type GetAvailableMethods = {
+export interface GetAvailableMethods {
   method: 'getAvailableMethods';
-};
+}
 
-export type GetCredentialStore = {
+export interface GetCredentialStore {
   method: 'getCredentialStore';
-};
+}
 
-export type GetAccountSettings = {
+export interface GetAccountSettings {
   method: 'getAccountSettings';
-};
+}
 
-export type GetSnapSettings = {
+export interface GetSnapSettings {
   method: 'getSnapSettings';
-};
+}
 
-export type GetAvailableCredentialStores = {
+export interface GetAvailableCredentialStores {
   method: 'getAvailableCredentialStores';
-};
+}
 
-export type ResolveDID = {
+export interface ResolveDID {
   method: 'resolveDID';
   params: ResolveDIDRequestParams;
-};
+}
 
-export type VerifyData = {
+export interface VerifyData {
   method: 'verifyData';
   params: VerifyDataRequestParams;
-};
+}
 
-export type SetCurrentAccount = {
+export interface SetCurrentAccount {
   method: 'setCurrentAccount';
   params: SetCurrentAccountRequestParams;
-};
+}
 
-export type HandleCredentialOffer = {
+export interface HandleCredentialOffer {
   method: 'handleCredentialOffer';
   params: HandleCredentialOfferRequestParams;
-};
+}
 
-export type HandleAuthorization = {
+export interface HandleAuthorization {
   method: 'handleAuthorizationRequest';
   params: HandleAuthorizationRequestParams;
-};
+}
 
-export type SetCeramicSession = {
+export interface SetCeramicSession {
   method: 'setCeramicSession';
   params: SetCeramicSessionRequestParams;
-};
+}
 
-export type ValidateStoredCeramicSession = {
+export interface ValidateStoredCeramicSession {
   method: 'validateStoredCeramicSession';
-};
+}
 
-export type ExportStateBackup = {
+export interface ExportStateBackup {
   method: 'exportStateBackup';
-};
+}
 
-export type ImportStateBackup = {
+export interface ImportStateBackup {
   method: 'importStateBackup';
   params: ImportStateBackupRequestParams;
-};
+}
 
-export type AddFriendlyDapp = {
+export interface AddFriendlyDapp {
   method: 'addFriendlyDapp';
-};
+}
 
-export type RemoveFriendlyDapp = {
+export interface RemoveFriendlyDapp {
   method: 'removeFriendlyDapp';
   params: RemoveFriendlyDappParams;
-};
+}

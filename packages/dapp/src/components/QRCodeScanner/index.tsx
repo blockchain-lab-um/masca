@@ -7,12 +7,12 @@ import { useTranslations } from 'next-intl';
 import { useToastStore } from '@/stores';
 import UploadButton from '../UploadButton';
 
-type QRCodeScannerProps = {
+interface QRCodeScannerProps {
   onScanSuccess: (decodedText: string, _: any) => void;
   scanner: Html5Qrcode | null;
   setScanner: (scanner: Html5Qrcode | null) => void;
   setOpen: (open: boolean) => void;
-};
+}
 
 const QRCodeScanner = ({
   onScanSuccess,

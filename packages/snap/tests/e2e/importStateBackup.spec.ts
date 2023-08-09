@@ -9,7 +9,7 @@ import cloneDeep from 'lodash.clonedeep';
 import { onRpcRequest } from '../../src';
 import StorageService from '../../src/storage/Storage.service';
 import VeramoService, { type Agent } from '../../src/veramo/Veramo.service';
-import { account, importablePrivateKey } from '../data/constants';
+import { account } from '../data/constants';
 import examplePayload from '../data/credentials/examplePayload.json';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createTestVCs } from '../helpers/generateTestVCs';
@@ -38,8 +38,6 @@ describe('importStateBackup', () => {
       kms: 'snap',
     });
 
-    await agent.keyManagerImport(importablePrivateKey);
-
     // Create test VC
     const res = await createTestVCs(
       {
@@ -49,9 +47,6 @@ describe('importStateBackup', () => {
           issuer: identifier.did,
           ...examplePayload,
         },
-      },
-      {
-        keyRef: 'importedTestKey',
       }
     );
     generatedVC = res.exampleVeramoVCJWT;

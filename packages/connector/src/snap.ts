@@ -62,7 +62,7 @@ export async function queryCredentials(
   this: Masca,
   params?: QueryCredentialsRequestParams
 ): Promise<Result<QueryCredentialsRequestResult[]>> {
-  await validateAndSetCeramicSession(this);
+  await validateAndSetCeramicSession.bind(this)();
 
   return sendSnapMethod(
     { method: 'queryCredentials', params: params ?? {} },
@@ -79,7 +79,7 @@ export async function createPresentation(
   this: Masca,
   params: CreatePresentationRequestParams
 ): Promise<Result<VerifiablePresentation>> {
-  await validateAndSetCeramicSession(this);
+  await validateAndSetCeramicSession.bind(this)();
 
   const result = await sendSnapMethod<Result<VerifiablePresentation>>(
     {
@@ -116,7 +116,7 @@ export async function saveCredential(
   vc: W3CVerifiableCredential,
   options?: SaveCredentialOptions
 ): Promise<Result<SaveCredentialRequestResult[]>> {
-  await validateAndSetCeramicSession(this);
+  await validateAndSetCeramicSession.bind(this)();
 
   return sendSnapMethod(
     {
@@ -141,7 +141,7 @@ export async function deleteCredential(
   id: string,
   options?: DeleteCredentialsOptions
 ): Promise<Result<boolean[]>> {
-  await validateAndSetCeramicSession(this);
+  await validateAndSetCeramicSession.bind(this)();
 
   return sendSnapMethod(
     {
@@ -313,7 +313,7 @@ export async function createCredential(
   this: Masca,
   params: CreateCredentialRequestParams
 ): Promise<Result<VerifiableCredential>> {
-  await validateAndSetCeramicSession(this);
+  await validateAndSetCeramicSession.bind(this)();
 
   const result = await sendSnapMethod(
     {
@@ -334,7 +334,7 @@ export async function createCredential(
   }
 
   const signedResult = ResultObject.success(
-    await signVerifiableCredential(vcResult.data)
+    await signVerifiableCredential.bind(this)(vcResult.data, params)
   );
 
   return signedResult;
@@ -465,12 +465,9 @@ const wrapper =
 export class Masca {
   protected readonly snapId: string;
 
-  public readonly supportedMethods: Array<AvailableMethods>;
+  public readonly supportedMethods: AvailableMethods[];
 
-  public constructor(
-    snapId: string,
-    supportedMethods: Array<AvailableMethods>
-  ) {
+  public constructor(snapId: string, supportedMethods: AvailableMethods[]) {
     this.snapId = snapId;
     this.supportedMethods = supportedMethods;
   }

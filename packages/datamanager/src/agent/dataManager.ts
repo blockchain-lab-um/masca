@@ -27,7 +27,7 @@ export class DataManager implements IAgentPlugin {
 
   public async save(
     args: IDataManagerSaveArgs
-  ): Promise<Array<IDataManagerSaveResult>> {
+  ): Promise<IDataManagerSaveResult[]> {
     const { data } = args;
     const { options } = args;
     let { store } = args.options;
@@ -56,7 +56,7 @@ export class DataManager implements IAgentPlugin {
 
   public async query(
     args: IDataManagerQueryArgs
-  ): Promise<Array<IDataManagerQueryResult>> {
+  ): Promise<IDataManagerQueryResult[]> {
     const { filter, options } = args;
     let store;
     let returnStore = true;
@@ -105,7 +105,7 @@ export class DataManager implements IAgentPlugin {
     return res;
   }
 
-  public async delete(args: IDataManagerDeleteArgs): Promise<Array<boolean>> {
+  public async delete(args: IDataManagerDeleteArgs): Promise<boolean[]> {
     const { id, options } = args;
     let store;
     if (options === undefined) {
@@ -138,7 +138,7 @@ export class DataManager implements IAgentPlugin {
     return res;
   }
 
-  public async clear(args: IDataManagerClearArgs): Promise<Array<boolean>> {
+  public async clear(args: IDataManagerClearArgs): Promise<boolean[]> {
     const { filter, options } = args;
     let store;
     if (options === undefined) {

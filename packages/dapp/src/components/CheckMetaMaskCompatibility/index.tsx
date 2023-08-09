@@ -3,7 +3,6 @@
 import { useEffect } from 'react';
 import { enableMasca, isError } from '@blockchain-lab-um/masca-connector';
 import detectEthereumProvider from '@metamask/detect-provider';
-import { shallow } from 'zustand/shallow';
 
 import mascaVersionJson from '@/utils/masca.json';
 import { useGeneralStore, useMascaStore } from '@/stores';
@@ -14,13 +13,10 @@ const snapId =
     : 'npm:@blockchain-lab-um/masca';
 
 const CheckMetaMaskCompatibility = () => {
-  const { changeHasMetaMask, changeIsFlask } = useGeneralStore(
-    (state) => ({
-      changeHasMetaMask: state.changeHasMetaMask,
-      changeIsFlask: state.changeIsFlask,
-    }),
-    shallow
-  );
+  const { changeHasMetaMask, changeIsFlask } = useGeneralStore((state) => ({
+    changeHasMetaMask: state.changeHasMetaMask,
+    changeIsFlask: state.changeIsFlask,
+  }));
 
   const {
     hasMM,
@@ -33,21 +29,18 @@ const CheckMetaMaskCompatibility = () => {
     changeIsConnected,
     changeIsConnecting,
     changeChainId,
-  } = useGeneralStore(
-    (state) => ({
-      hasMM: state.hasMetaMask,
-      hasFlask: state.isFlask,
-      address: state.address,
-      isConnected: state.isConnected,
-      isConnecting: state.isConnecting,
-      chainId: state.chainId,
-      changeAddress: state.changeAddress,
-      changeIsConnected: state.changeIsConnected,
-      changeIsConnecting: state.changeIsConnecting,
-      changeChainId: state.changeChainId,
-    }),
-    shallow
-  );
+  } = useGeneralStore((state) => ({
+    hasMM: state.hasMetaMask,
+    hasFlask: state.isFlask,
+    address: state.address,
+    isConnected: state.isConnected,
+    isConnecting: state.isConnecting,
+    chainId: state.chainId,
+    changeAddress: state.changeAddress,
+    changeIsConnected: state.changeIsConnected,
+    changeIsConnecting: state.changeIsConnecting,
+    changeChainId: state.changeChainId,
+  }));
 
   const {
     api,
@@ -57,18 +50,15 @@ const CheckMetaMaskCompatibility = () => {
     changeCurrMethod,
     changeAvailableCredentialStores,
     changePopups,
-  } = useMascaStore(
-    (state) => ({
-      api: state.mascaApi,
-      changeMascaApi: state.changeMascaApi,
-      changeDID: state.changeCurrDID,
-      changeAvailableMethods: state.changeAvailableMethods,
-      changeCurrMethod: state.changeCurrDIDMethod,
-      changeAvailableCredentialStores: state.changeAvailableCredentialStores,
-      changePopups: state.changePopups,
-    }),
-    shallow
-  );
+  } = useMascaStore((state) => ({
+    api: state.mascaApi,
+    changeMascaApi: state.changeMascaApi,
+    changeDID: state.changeCurrDID,
+    changeAvailableMethods: state.changeAvailableMethods,
+    changeCurrMethod: state.changeCurrDIDMethod,
+    changeAvailableCredentialStores: state.changeAvailableCredentialStores,
+    changePopups: state.changePopups,
+  }));
 
   const connectHandler = async () => {
     if (window.ethereum) {
@@ -85,6 +75,7 @@ const CheckMetaMaskCompatibility = () => {
 
       // Set the address
       changeAddress((result as string[])[0]);
+      localStorage.setItem('isConnected', 'true');
     }
   };
 
@@ -194,6 +185,19 @@ const CheckMetaMaskCompatibility = () => {
         window.ethereum.removeAllListeners('chainChanged');
       }
     };
+  }, [hasMM, hasFlask]);
+
+  useEffect(() => {
+    const lsIsConnected = localStorage.getItem('isConnected');
+    if (lsIsConnected !== 'true') return;
+    if (!hasMM || !hasFlask) return;
+    if (isConnected) return;
+    if (isConnecting) return;
+    changeIsConnecting(true);
+    connectHandler().catch((err) => {
+      console.error(err);
+      changeIsConnecting(false);
+    });
   }, [hasMM, hasFlask]);
 
   useEffect(() => {

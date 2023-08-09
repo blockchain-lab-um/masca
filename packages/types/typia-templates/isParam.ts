@@ -30,7 +30,7 @@ const checkCredentialStore = (
   account: string,
   state: MascaState
 ): void => {
-  let stores = (param.options || {}).store || [];
+  let stores = param.options?.store || [];
 
   if (!Array.isArray(stores)) {
     stores = [stores];

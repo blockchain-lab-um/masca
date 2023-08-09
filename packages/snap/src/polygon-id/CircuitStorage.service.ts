@@ -17,9 +17,9 @@ import SIG_Z_KEY from './circuits/credentialAtomicQuerySigV2/circuit_final.zkey.
 import SIG_WASM from './circuits/credentialAtomicQuerySigV2/circuit.wasm.json';
 import SIG_VERIFICATION_KEY from './circuits/credentialAtomicQuerySigV2/verification_key.json';
 
-export type B64File = {
+export interface B64File {
   b64: string;
-};
+}
 
 class CircuitStorageService {
   static instance: CircuitStorage;

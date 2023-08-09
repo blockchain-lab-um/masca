@@ -1,0 +1,28 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+deleted file mode 100644
+index 2e432a6c92534194cf71c160aa8e5e4a4813d1cb..0000000000000000000000000000000000000000
+diff --git a/dist/browser-ponyfill.js b/dist/browser-ponyfill.js
+index 6ecf75a1c63854760fde81a1cc33a4d3258dfa0e..2f9ed62d3134050d6633c3b04a0d53e549d8e352 100644
+--- a/dist/browser-ponyfill.js
++++ b/dist/browser-ponyfill.js
+@@ -638,10 +638,14 @@ __globalThis__.fetch.ponyfill = true;
+ delete __globalThis__.fetch.polyfill;
+ // Choose between native implementation (__global__) or custom implementation (__globalThis__)
+ var ctx = __global__.fetch ? __global__ : __globalThis__;
+-exports = ctx.fetch // To enable: import fetch from 'cross-fetch'
+-exports.default = ctx.fetch // For TypeScript consumers without esModuleInterop.
+-exports.fetch = ctx.fetch // To enable: import {fetch} from 'cross-fetch'
+-exports.Headers = ctx.Headers
+-exports.Request = ctx.Request
+-exports.Response = ctx.Response
++exports = {
++  ...ctx.fetch,
++  default: ctx.fetch,
++  fetch: ctx.fetch,
++  Headers: ctx.Headers,
++  Request: ctx.Request,
++  Response: ctx.Response,
++};
++
+ module.exports = exports
++

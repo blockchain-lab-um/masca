@@ -3,9 +3,9 @@ import { VerifiableCredential } from '@veramo/core';
 
 import { copyToClipboard } from '@/utils/string';
 
-type JsonPanelProps = {
+interface JsonPanelProps {
   credential: VerifiableCredential;
-};
+}
 
 const JsonPanel = ({ credential }: JsonPanelProps) => (
   <div className="dark:bg-navy-blue-300 dark:border-navy-blue-400 group relative w-full overflow-hidden rounded-2xl border border-gray-300 bg-gray-200 p-2">

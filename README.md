@@ -39,7 +39,9 @@ Masca enables everyone to build their <b>decentralized and self-sovereign identi
 Masca is built agnostic, leaving the user to choose his preferred **blockchain, DID method, and data storage provider.** Everything is configurable, just like selecting the network in MetaMask. Currently supported technologies:
 
 - **Blockchains:** Any EVM-based blockchain that is supported by DID methods
-- **DID methods:** `did:ethr`, `did:key`, `did:pkh`, `did:jwk`
+- **DID methods:** `did:ethr`, `did:key`, `did:key (EBSI)` `did:pkh`, `did:jwk`, `did:polygonid`, `did:iden3`
+- **Protocols**: OpenID Connect, Polygon ID
+- **Credentials and Presentations:** Create & Verify Credentials/Presentations
 - **Data storage providers:** Local MetaMask Snap state, Ceramic Network
 
 Many new features are already in the works. For more information, please check the [roadmap](https://docs.masca.io/docs/roadmap) on the documentation.
@@ -55,6 +57,7 @@ Every version of Masca does NOT work with every version of MetaMask Flask! Here 
 | 0.1.0         | 10.29.0                |
 | 0.2.0         | 10.31.0                |
 | 0.3.0         | 10.32.0                |
+| 0.4.0         | 10.32.0                |
 
 ### Prerequisites
 
@@ -65,7 +68,7 @@ Every version of Masca does NOT work with every version of MetaMask Flask! Here 
 
 ## Running
 
-- Run `pnpm build:all`
+- Run `pnpm build`
 
 ### Snap
 

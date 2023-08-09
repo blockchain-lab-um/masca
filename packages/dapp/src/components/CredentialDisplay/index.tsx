@@ -24,9 +24,9 @@ import { useMascaStore, useTableStore } from '@/stores';
 import FormatedPanel from './FormatedPanel';
 import JsonPanel from './JsonPanel';
 
-type CredentialDisplayProps = {
+interface CredentialDisplayProps {
   id: string;
-};
+}
 
 const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
   const t = useTranslations('CredentialDisplay');

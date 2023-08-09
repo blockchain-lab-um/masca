@@ -8,9 +8,7 @@ interface W3CCredential {
   type: string[];
   expirationDate?: string;
   issuanceDate?: string;
-  credentialSubject: {
-    [key: string]: any;
-  };
+  credentialSubject: Record<string, any>;
   credentialStatus: CredentialStatus;
   issuer: string;
   credentialSchema: CredentialSchema;

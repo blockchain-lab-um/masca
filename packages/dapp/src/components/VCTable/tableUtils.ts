@@ -9,11 +9,14 @@ export const includesDataStore: FilterFn<any> = (
   const item = row.getValue('data_store');
   const itemArr = (item as string).split(',');
   let matching = false;
-  for (let i = 0; i < value.length; i += 1) {
-    if (itemArr.indexOf(value[i]) >= 0) {
+
+  for (const val of value) {
+    if (itemArr.indexOf(val) >= 0) {
       matching = true;
+      break;
     }
   }
+
   return matching;
 };
 

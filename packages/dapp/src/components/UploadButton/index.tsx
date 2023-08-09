@@ -3,10 +3,10 @@ import { ArrowUpTrayIcon } from '@heroicons/react/24/solid';
 
 import Button from '../Button';
 
-type UploadButtonProps = {
+interface UploadButtonProps {
   acceptedMedia?: 'image';
   handleUpload: (file: File) => Promise<void | null>;
-};
+}
 
 const UploadButton = ({
   handleUpload,
@@ -30,7 +30,12 @@ const UploadButton = ({
 
   const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
     window.removeEventListener('focus', handleFocusBack);
-    await handleUpload(e?.target?.files?.[0] as File);
+    if (!e?.target?.files?.[0]) {
+      setLoading(false);
+      return;
+    }
+
+    await handleUpload(e.target.files[0]);
     setLoading(false);
   };
 

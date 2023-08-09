@@ -28,11 +28,11 @@ const FeatureList = [
   },
 ];
 
-type FeatureProps = {
+interface FeatureProps {
   title: string;
   svg: JSX.Element;
   description: string;
-};
+}
 
 function Feature({ title, svg, description }: FeatureProps) {
   return (
