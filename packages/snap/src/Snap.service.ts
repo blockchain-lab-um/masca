@@ -151,7 +151,7 @@ class SnapService {
     const state = StorageService.get();
 
     const method =
-      state.accountState[state.currentAccount].accountConfig.ssi.didMethod;
+      state.accountState[state.currentAccount].general.account.ssi.didMethod;
 
     if (method === 'did:ethr' || method === 'did:pkh') {
       const unsignedVc = await VeramoService.createUnsignedCredential({
@@ -163,9 +163,8 @@ class SnapService {
 
     let storeString = '';
     if (save === true) {
-      storeString = `Store(s): ${
-        typeof store === 'string' ? store : store.join(', ')
-      }`;
+      storeString = `Store(s): ${typeof store === 'string' ? store : store.join(', ')
+        }`;
     }
 
     const vc = await VeramoService.createCredential({
@@ -263,7 +262,7 @@ class SnapService {
     const { vcs, proofFormat = 'jwt', proofOptions } = args;
     const state = StorageService.get();
     const method =
-      state.accountState[state.currentAccount].accountConfig.ssi.didMethod;
+      state.accountState[state.currentAccount].general.account.ssi.didMethod;
 
     if (vcs.length === 0) {
       throw new Error('No credentials provided');
@@ -323,7 +322,7 @@ class SnapService {
   static async getDID(): Promise<string> {
     const state = StorageService.get();
     const method =
-      state.accountState[state.currentAccount].accountConfig.ssi.didMethod;
+      state.accountState[state.currentAccount].general.account.ssi.didMethod;
 
     if (isVeramoSupportedMethods(method)) {
       await VeramoService.importIdentifier();

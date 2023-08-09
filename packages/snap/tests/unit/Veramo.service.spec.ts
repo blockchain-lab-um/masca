@@ -182,7 +182,7 @@ describe('Veramo Service', () => {
       ];
 
       const expectedState = getDefaultSnapState(account);
-      expectedState.accountState[account].vcs[res[0].id] = exampleVC;
+      expectedState.accountState[account].veramo.credentials[res[0].id] = exampleVC;
       expect(res).toEqual(expectedResult);
 
       await VeramoService.deleteCredential({
@@ -262,7 +262,7 @@ describe('Veramo Service', () => {
       expect(res).toIncludeSameMembers(expectedResult);
 
       const expectedState = getDefaultSnapState(account);
-      expectedState.accountState[account].vcs[res[0].id] = exampleVC;
+      expectedState.accountState[account].veramo.credentials[res[0].id] = exampleVC;
       await VeramoService.deleteCredential({
         id: expectedResult[0].id,
       });
@@ -288,7 +288,7 @@ describe('Veramo Service', () => {
       });
 
       const expectedState = getDefaultSnapState(account);
-      expectedState.accountState[account].vcs[res[0].id] = exampleVC;
+      expectedState.accountState[account].veramo.credentials[res[0].id] = exampleVC;
 
       await VeramoService.clearCredentials({
         store: ['snap'],
@@ -309,7 +309,7 @@ describe('Veramo Service', () => {
       });
 
       const expectedState = getDefaultSnapState(account);
-      expectedState.accountState[account].vcs[res[0].id] = exampleVC;
+      expectedState.accountState[account].veramo.credentials[res[0].id] = exampleVC;
 
       await VeramoService.clearCredentials({});
 
@@ -350,7 +350,7 @@ describe('Veramo Service', () => {
         operation: 'get',
       });
 
-      state.accountState[account].accountConfig.ssi.vcStore = {
+      state.accountState[account].general.account.ssi.vcStore = {
         snap: true,
         ceramic: false,
       };
@@ -378,7 +378,7 @@ describe('Veramo Service', () => {
         operation: 'get',
       });
 
-      state.accountState[account].accountConfig.ssi.vcStore = {
+      state.accountState[account].general.account.ssi.vcStore = {
         snap: true,
         ceramic: true,
       };
@@ -717,7 +717,7 @@ describe('Veramo Service', () => {
 
     it('should return did:key', async () => {
       const state = StorageService.get();
-      state.accountState[state.currentAccount].accountConfig.ssi.didMethod =
+      state.accountState[state.currentAccount].general.account.ssi.didMethod =
         'did:key';
       await StorageService.save();
 

@@ -146,7 +146,7 @@ class PolygonService {
   static async createOrImportIdentity() {
     const state = StorageService.get();
     const { didMethod } =
-      state.accountState[state.currentAccount].accountConfig.ssi;
+      state.accountState[state.currentAccount].general.account.ssi;
 
     if (didMethod !== 'did:iden3' && didMethod !== 'did:polygonid') {
       throw new Error('Unsupported did method');

@@ -43,7 +43,7 @@ export class SnapTreeStorage implements ITreeStorage {
 
     const data = StorageService.get();
     const base =
-      data.accountState[this.account].polygonState[this.method][
+      data.accountState[this.account].polygon.state[this.method][
         this.blockchain
       ][this.networkId];
 
@@ -97,7 +97,7 @@ export class SnapTreeStorage implements ITreeStorage {
     const value = JSON.stringify(toSerialize);
     const data = StorageService.get();
     const base =
-      data.accountState[this.account].polygonState[this.method][
+      data.accountState[this.account].polygon.state[this.method][
         this.blockchain
       ][this.networkId];
 
@@ -111,7 +111,7 @@ export class SnapTreeStorage implements ITreeStorage {
 
     const data = StorageService.get();
     const base =
-      data.accountState[this.account].polygonState[this.method][
+      data.accountState[this.account].polygon.state[this.method][
         this.blockchain
       ][this.networkId];
     const rootStr = base[SnapTreeStorage.STORAGE_KEY][this.prefixHash];
@@ -131,7 +131,7 @@ export class SnapTreeStorage implements ITreeStorage {
 
     const data = StorageService.get();
     const base =
-      data.accountState[this.account].polygonState[this.method][
+      data.accountState[this.account].polygon.state[this.method][
         this.blockchain
       ][this.networkId];
 

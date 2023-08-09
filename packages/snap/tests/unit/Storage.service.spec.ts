@@ -41,7 +41,7 @@ describe('Storage Service', () => {
 
   it('should succeed saving updated state to storage', async () => {
     const state = StorageService.get();
-    state.snapConfig.dApp.disablePopups = true;
+    state.config.dApp.disablePopups = true;
 
     await StorageService.save();
 
@@ -51,7 +51,7 @@ describe('Storage Service', () => {
     });
 
     const newState = StorageService.get();
-    expect(newState.snapConfig.dApp.disablePopups).toBe(true);
+    expect(newState.config.dApp.disablePopups).toBe(true);
     expect.assertions(2);
   });
 });

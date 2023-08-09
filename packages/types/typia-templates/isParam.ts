@@ -22,7 +22,7 @@ const isEnabledCredentialStore = (
   account: string,
   state: MascaState,
   store: AvailableCredentialStores
-): boolean => state.accountState[account].accountConfig.ssi.vcStore[store];
+): boolean => state.accountState[account].general.account.ssi.vcStore[store];
 
 const checkCredentialStore = (
   param: any,

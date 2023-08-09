@@ -52,11 +52,11 @@ class GeneralService {
    */
   static async addFriendlyDapp(dapp: string): Promise<void> {
     const state = StorageService.get();
-    if (state.snapConfig.dApp.friendlyDapps.includes(dapp)) return;
+    if (state.config.dApp.friendlyDapps.includes(dapp)) return;
     if (!(await UIService.addFriendlyDappDialog(dapp))) {
       throw new Error('User rejected friendly dApp addition');
     }
-    state.snapConfig.dApp.friendlyDapps.push(dapp);
+    state.config.dApp.friendlyDapps.push(dapp);
   }
 
   /**
@@ -70,8 +70,8 @@ class GeneralService {
     }
 
     const state = StorageService.get();
-    state.snapConfig.dApp.friendlyDapps =
-      state.snapConfig.dApp.friendlyDapps.filter((d) => d !== args.id);
+    state.config.dApp.friendlyDapps =
+      state.config.dApp.friendlyDapps.filter((d) => d !== args.id);
   }
 
   /**
@@ -81,7 +81,7 @@ class GeneralService {
    */
   static async isFriendlyDapp(dapp: string): Promise<boolean> {
     const state = StorageService.get();
-    return state.snapConfig.dApp.friendlyDapps.includes(dapp);
+    return state.config.dApp.friendlyDapps.includes(dapp);
   }
 
   /**
@@ -91,15 +91,15 @@ class GeneralService {
   static async togglePopups(): Promise<boolean> {
     const state = StorageService.get();
 
-    if (!state.snapConfig.dApp.disablePopups) {
+    if (!state.config.dApp.disablePopups) {
       if (await UIService.togglePopupsDialog()) {
-        state.snapConfig.dApp.disablePopups = true;
-        return state.snapConfig.dApp.disablePopups;
+        state.config.dApp.disablePopups = true;
+        return state.config.dApp.disablePopups;
       }
       throw new Error('User rejected popup toggle');
     } else {
-      state.snapConfig.dApp.disablePopups = false;
-      return state.snapConfig.dApp.disablePopups;
+      state.config.dApp.disablePopups = false;
+      return state.config.dApp.disablePopups;
     }
   }
 
@@ -111,7 +111,7 @@ class GeneralService {
   static async switchDIDMethod(args: SwitchMethodRequestParams): Promise<void> {
     const state = StorageService.get();
     const currentMethod =
-      state.accountState[state.currentAccount].accountConfig.ssi.didMethod;
+      state.accountState[state.currentAccount].general.account.ssi.didMethod;
     const newMethod = args.didMethod;
 
     if (requiresNetwork(newMethod)) {
@@ -121,7 +121,7 @@ class GeneralService {
     }
 
     if (currentMethod !== newMethod) {
-      state.accountState[state.currentAccount].accountConfig.ssi.didMethod =
+      state.accountState[state.currentAccount].general.account.ssi.didMethod =
         newMethod;
       return;
     }
@@ -134,7 +134,7 @@ class GeneralService {
    */
   static async getSelectedMethod(): Promise<string> {
     const state = StorageService.get();
-    return state.accountState[state.currentAccount].accountConfig.ssi.didMethod;
+    return state.accountState[state.currentAccount].general.account.ssi.didMethod;
   }
 
   /**
@@ -145,7 +145,7 @@ class GeneralService {
     Record<AvailableCredentialStores, boolean>
   > {
     const state = StorageService.get();
-    return state.accountState[state.currentAccount].accountConfig.ssi.vcStore;
+    return state.accountState[state.currentAccount].general.account.ssi.vcStore;
   }
 
   /**
@@ -161,7 +161,7 @@ class GeneralService {
     const { store, value } = args;
 
     if (store !== 'snap') {
-      state.accountState[state.currentAccount].accountConfig.ssi.vcStore[
+      state.accountState[state.currentAccount].general.account.ssi.vcStore[
         store
       ] = value;
 
@@ -182,7 +182,7 @@ class GeneralService {
     const state = StorageService.get();
 
     return Object.entries(
-      state.accountState[state.currentAccount].accountConfig.ssi.vcStore
+      state.accountState[state.currentAccount].general.account.ssi.vcStore
     )
       .filter(([, value]) => value)
       .map(([key]) => key) as AvailableCredentialStores[];
@@ -202,7 +202,7 @@ class GeneralService {
    */
   static async getAccountSettings(): Promise<MascaAccountConfig> {
     const state = StorageService.get();
-    return state.accountState[state.currentAccount].accountConfig;
+    return state.accountState[state.currentAccount].general.account;
   }
 
   /**
@@ -211,7 +211,7 @@ class GeneralService {
    */
   static async getSnapSettings(): Promise<MascaConfig> {
     const state = StorageService.get();
-    return state.snapConfig;
+    return state.config;
   }
 
   /**
@@ -231,7 +231,7 @@ class GeneralService {
     serializedSession: string;
   }): Promise<void> {
     const state = StorageService.get();
-    state.accountState[state.currentAccount].ceramicSession =
+    state.accountState[state.currentAccount].general.ceramicSession =
       args.serializedSession;
   }
 
@@ -243,7 +243,7 @@ class GeneralService {
     const state = StorageService.get();
 
     const serializedSession = await validateSession(
-      state.accountState[state.currentAccount].ceramicSession
+      state.accountState[state.currentAccount].general.ceramicSession
     );
 
     return serializedSession;

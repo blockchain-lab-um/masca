@@ -20,7 +20,7 @@ export class SnapDataSource<T> implements IDataSource<T> {
   async load(): Promise<T[]> {
     const data = StorageService.get();
     const base =
-      data.accountState[this.account].polygonState[this.method][
+      data.accountState[this.account].polygon.state[this.method][
         this.blockchain
       ][this.networkId];
 
@@ -32,7 +32,7 @@ export class SnapDataSource<T> implements IDataSource<T> {
   async save(key: string, value: T): Promise<void> {
     const data = StorageService.get();
     const base =
-      data.accountState[this.account].polygonState[this.method][
+      data.accountState[this.account].polygon.state[this.method][
         this.blockchain
       ][this.networkId];
 
@@ -42,7 +42,7 @@ export class SnapDataSource<T> implements IDataSource<T> {
   async get(key: string): Promise<T | undefined> {
     const data = StorageService.get();
     const base =
-      data.accountState[this.account].polygonState[this.method][
+      data.accountState[this.account].polygon.state[this.method][
         this.blockchain
       ][this.networkId];
     return base[this.STORAGE_KEY][key]
@@ -53,7 +53,7 @@ export class SnapDataSource<T> implements IDataSource<T> {
   async delete(key: string): Promise<void> {
     const data = StorageService.get();
     const base =
-      data.accountState[this.account].polygonState[this.method][
+      data.accountState[this.account].polygon.state[this.method][
         this.blockchain
       ][this.networkId];
     delete base[this.STORAGE_KEY][key];

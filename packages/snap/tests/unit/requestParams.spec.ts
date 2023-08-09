@@ -123,7 +123,7 @@ describe('Utils [requestParams]', () => {
     describe('failure', () => {
       it('store not enabled', () => {
         const state = getDefaultSnapState(account);
-        state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
+        state.accountState[account].general.account.ssi.vcStore.ceramic = false;
         expect(() =>
           isValidQueryCredentialsRequest(
             { options: { store: 'ceramic' } },
@@ -233,7 +233,7 @@ describe('Utils [requestParams]', () => {
       });
       it('store not enabled', () => {
         const state = getDefaultSnapState(account);
-        state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
+        state.accountState[account].general.account.ssi.vcStore.ceramic = false;
         expect(() =>
           isValidSaveCredentialRequest(
             { verifiableCredential: exampleVC, options: { store: 'ceramic' } },
@@ -461,7 +461,7 @@ describe('Utils [requestParams]', () => {
     describe('failure', () => {
       it('store not enabled', () => {
         const state = getDefaultSnapState(account);
-        state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
+        state.accountState[account].general.account.ssi.vcStore.ceramic = false;
         expect(() =>
           isValidDeleteCredentialsRequest(
             { id: '123', options: { store: 'ceramic' } },
@@ -516,7 +516,7 @@ describe('Utils [requestParams]', () => {
     describe('success', () => {
       it('only unsignedVC', () => {
         const state = getDefaultSnapState(account);
-        state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
+        state.accountState[account].general.account.ssi.vcStore.ceramic = false;
         expect(() => {
           isValidCreateCredentialRequest(
             {
@@ -529,7 +529,7 @@ describe('Utils [requestParams]', () => {
       });
       it('unsignedVC & PF', () => {
         const state = getDefaultSnapState(account);
-        state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
+        state.accountState[account].general.account.ssi.vcStore.ceramic = false;
         expect(() =>
           isValidCreateCredentialRequest(
             {
@@ -543,7 +543,7 @@ describe('Utils [requestParams]', () => {
       });
       it('empty options', () => {
         const state = getDefaultSnapState(account);
-        state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
+        state.accountState[account].general.account.ssi.vcStore.ceramic = false;
         expect(() =>
           isValidCreateCredentialRequest(
             {
@@ -558,7 +558,7 @@ describe('Utils [requestParams]', () => {
       });
       it('save option', () => {
         const state = getDefaultSnapState(account);
-        state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
+        state.accountState[account].general.account.ssi.vcStore.ceramic = false;
         expect(() =>
           isValidCreateCredentialRequest(
             {
@@ -573,7 +573,7 @@ describe('Utils [requestParams]', () => {
       });
       it('full options', () => {
         const state = getDefaultSnapState(account);
-        state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
+        state.accountState[account].general.account.ssi.vcStore.ceramic = false;
         expect(() =>
           isValidCreateCredentialRequest(
             {
@@ -590,7 +590,7 @@ describe('Utils [requestParams]', () => {
     describe('failure', () => {
       it('store not enabled', () => {
         const state = getDefaultSnapState(account);
-        state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
+        state.accountState[account].general.account.ssi.vcStore.ceramic = false;
         expect(() =>
           isValidCreateCredentialRequest(
             {
@@ -605,7 +605,7 @@ describe('Utils [requestParams]', () => {
       });
       it('invalid store', () => {
         const state = getDefaultSnapState(account);
-        state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
+        state.accountState[account].general.account.ssi.vcStore.ceramic = false;
         expect(() =>
           isValidCreateCredentialRequest(
             {
@@ -620,7 +620,7 @@ describe('Utils [requestParams]', () => {
       });
       it('invalid proofFormat', () => {
         const state = getDefaultSnapState(account);
-        state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
+        state.accountState[account].general.account.ssi.vcStore.ceramic = false;
         expect(() =>
           isValidCreateCredentialRequest(
             {

@@ -56,7 +56,7 @@ describe('Wallet Service', () => {
       'should get correct privateKey for available methods $method',
       async (method) => {
         const state = StorageService.get();
-        state.accountState[state.currentAccount].accountConfig.ssi.didMethod =
+        state.accountState[state.currentAccount].general.account.ssi.didMethod =
           method.method as InternalSigMethods;
         await StorageService.save();
 

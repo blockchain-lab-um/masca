@@ -37,7 +37,7 @@ describe('getSnapSettings', () => {
       throw new Error(res.error);
     }
 
-    expect(res.data).toEqual(state.snapConfig);
+    expect(res.data).toEqual(state.config);
 
     expect.assertions(1);
   });

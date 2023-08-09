@@ -47,7 +47,7 @@ describe('validateStoredCeramicSession', () => {
 
   it('should fail setting and invalid session string', async () => {
     const defaultState = getDefaultSnapState(account);
-    defaultState.accountState[account].ceramicSession = 'invalid-session';
+    defaultState.accountState[account].general.ceramicSession = 'invalid-session';
     snapMock.rpcMocks.snap_manageState({
       operation: 'update',
       newState: defaultState,

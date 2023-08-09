@@ -46,9 +46,10 @@ export async function validateSession(
  */
 async function authenticateWithSessionKey(state: MascaState) {
   const serializedSession = await validateSession(
-    state.accountState[state.currentAccount].ceramicSession
+    state.accountState[state.currentAccount].general.ceramicSession
   );
   const session = await DIDSession.fromSession(serializedSession);
+
   return session.did;
 }
 

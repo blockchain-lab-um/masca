@@ -2,6 +2,7 @@ import type {
   MascaAccountConfig,
   MascaAccountState,
   MascaState,
+  MascaStateWrapper,
   PolygonBaseState,
   PolygonState,
 } from '@blockchain-lab-um/masca-types';
@@ -43,33 +44,48 @@ const emptyPolygonState: PolygonState = {
 };
 
 const emptyAccountState = {
-  polygonState: emptyPolygonState,
-  vcs: {},
-  accountConfig: {
-    ssi: {
-      didMethod: 'did:ethr',
-      vcStore: {
-        snap: true,
-        ceramic: true,
+  polygon: {
+    state: emptyPolygonState
+  },
+  veramo: {
+    credentials: {}
+  },
+  general: {
+    account: {
+      ssi: {
+        didMethod: 'did:ethr',
+        vcStore: {
+          snap: true,
+          ceramic: true,
+        },
       },
-    },
-  } as MascaAccountConfig,
+    } as MascaAccountConfig,
+  }
 } as MascaAccountState;
 
 export const getEmptyAccountState = () => cloneDeep(emptyAccountState);
 
-const initialSnapState: MascaState = {
-  accountState: {},
-  currentAccount: '',
-  snapConfig: {
-    dApp: {
-      disablePopups: false,
-      friendlyDapps: [],
+const initialSnapState: MascaStateWrapper = {
+  v1: {
+    accountState: {},
+    currentAccount: '',
+    config: {
+      dApp: {
+        disablePopups: false,
+        friendlyDapps: [],
+      },
+      snap: {
+        acceptedTerms: true,
+      },
     },
-    snap: {
-      acceptedTerms: true,
-    },
-  },
+  }
 };
 
-export const getInitialSnapState = () => cloneDeep(initialSnapState);
+export const getInitialSnapState = (version: `v${number}` = "v1"): MascaState => {
+  switch (version) {
+    case "v1":
+      return cloneDeep(initialSnapState.v1);
+    default:
+      return cloneDeep(initialSnapState.v1)
+  }
+};

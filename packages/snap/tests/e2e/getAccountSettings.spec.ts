@@ -37,7 +37,7 @@ describe('getAccountSettings', () => {
       throw new Error(res.error);
     }
 
-    expect(res.data).toEqual(state.accountState[account].accountConfig);
+    expect(res.data).toEqual(state.accountState[account].general.account);
 
     expect.assertions(1);
   });

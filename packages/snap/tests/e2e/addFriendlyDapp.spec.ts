@@ -44,7 +44,7 @@ describe('addFriendlyDapp', () => {
       operation: 'get',
     });
 
-    expect(state.snapConfig.dApp.friendlyDapps).toStrictEqual(['localhost']);
+    expect(state.config.dApp.friendlyDapps).toStrictEqual(['localhost']);
 
     expect.assertions(2);
   });
@@ -53,7 +53,7 @@ describe('addFriendlyDapp', () => {
     const spy = jest.spyOn(UIService, 'addFriendlyDappDialog');
 
     const defaultState = getDefaultSnapState(account);
-    defaultState.snapConfig.dApp.friendlyDapps = ['localhost2'];
+    defaultState.config.dApp.friendlyDapps = ['localhost2'];
     await snapMock.rpcMocks.snap_manageState({
       operation: 'update',
       newState: defaultState,

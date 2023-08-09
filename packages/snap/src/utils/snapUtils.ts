@@ -15,5 +15,5 @@ export function isEnabledCredentialStore(
   state: MascaState,
   store: AvailableCredentialStores
 ): boolean {
-  return state.accountState[account].accountConfig.ssi.vcStore[store];
+  return state.accountState[account].general.account.ssi.vcStore[store];
 }

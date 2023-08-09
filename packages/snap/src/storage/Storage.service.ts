@@ -3,6 +3,7 @@ import { MascaAccountState, MascaState } from '@blockchain-lab-um/masca-types';
 import { getInitialSnapState } from '../utils/config';
 import SnapStorage from './Snap.storage';
 
+const STATE_VERSION = "v1";
 class StorageService {
   static instance: MascaState;
 
@@ -10,7 +11,7 @@ class StorageService {
     const state = await SnapStorage.load();
 
     if (!state) {
-      this.instance = getInitialSnapState();
+      this.instance = getInitialSnapState(STATE_VERSION);
       return;
     }
 

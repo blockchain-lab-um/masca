@@ -19,7 +19,7 @@ describe('removeFriendlyDapp', () => {
 
   it('should remove a friendlyDapp from the list', async () => {
     const defaultState = getDefaultSnapState(account);
-    defaultState.snapConfig.dApp.friendlyDapps = ['localhost2'];
+    defaultState.config.dApp.friendlyDapps = ['localhost2'];
     await snapMock.rpcMocks.snap_manageState({
       operation: 'update',
       newState: defaultState,
@@ -45,7 +45,7 @@ describe('removeFriendlyDapp', () => {
       operation: 'get',
     });
 
-    expect(state.snapConfig.dApp.friendlyDapps).toStrictEqual([]);
+    expect(state.config.dApp.friendlyDapps).toStrictEqual([]);
 
     expect.assertions(2);
   });

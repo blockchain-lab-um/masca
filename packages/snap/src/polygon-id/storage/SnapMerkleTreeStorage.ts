@@ -45,7 +45,7 @@ export class SnapMerkleTreeStorage implements IMerkleTreeStorage {
     };
 
     const base =
-      data.accountState[this.account].polygonState[this.method][
+      data.accountState[this.account].polygon.state[this.method][
         this.blockchain
       ][this.networkId];
 
@@ -69,7 +69,7 @@ export class SnapMerkleTreeStorage implements IMerkleTreeStorage {
   ): Promise<IdentityMerkleTreeMetaInformation[]> {
     const data = StorageService.get();
     const base =
-      data.accountState[this.account].polygonState[this.method][
+      data.accountState[this.account].polygon.state[this.method][
         this.blockchain
       ][this.networkId];
 
@@ -86,7 +86,7 @@ export class SnapMerkleTreeStorage implements IMerkleTreeStorage {
   ): Promise<void> {
     const data = StorageService.get();
     const base =
-      data.accountState[this.account].polygonState[this.method][
+      data.accountState[this.account].polygon.state[this.method][
         this.blockchain
       ][this.networkId];
 
@@ -123,7 +123,7 @@ export class SnapMerkleTreeStorage implements IMerkleTreeStorage {
   ): Promise<Merkletree> {
     const data = StorageService.get();
     const base =
-      data.accountState[this.account].polygonState[this.method][
+      data.accountState[this.account].polygon.state[this.method][
         this.blockchain
       ][this.networkId];
 
@@ -157,7 +157,7 @@ export class SnapMerkleTreeStorage implements IMerkleTreeStorage {
   ): Promise<void> {
     const data = StorageService.get();
     const base =
-      data.accountState[this.account].polygonState[this.method][
+      data.accountState[this.account].polygon.state[this.method][
         this.blockchain
       ][this.networkId];
 

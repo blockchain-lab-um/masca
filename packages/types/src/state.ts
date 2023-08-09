@@ -24,6 +24,7 @@ export interface MascaAccountConfig {
   };
 }
 
+export type MascaStateWrapper = Record<`v${number}`, MascaState>;
 export interface MascaState {
   /**
    * Account specific storage
@@ -36,7 +37,7 @@ export interface MascaState {
   /**
    * Configuration for Masca
    */
-  snapConfig: MascaConfig;
+  config: MascaConfig;
 }
 
 /**
@@ -44,10 +45,16 @@ export interface MascaState {
  */
 export interface MascaAccountState {
   // FIXME: Split into general, veramo, polygon
-  polygonState: PolygonState;
-  vcs: Record<string, W3CVerifiableCredential>;
-  accountConfig: MascaAccountConfig;
-  ceramicSession?: string;
+  polygon: {
+    state: PolygonState;
+  };
+  veramo: {
+    credentials: Record<string, W3CVerifiableCredential>;
+  };
+  general: {
+    account: MascaAccountConfig;
+    ceramicSession?: string;
+  };
 }
 
 export interface PolygonBaseState {

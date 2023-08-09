@@ -113,7 +113,7 @@ class VeramoService {
   static async importIdentifier(): Promise<void> {
     const state = StorageService.get();
     const account = state.currentAccount;
-    const method = state.accountState[account].accountConfig.ssi.didMethod;
+    const method = state.accountState[account].general.account.ssi.didMethod;
 
     switch (method) {
       case 'did:pkh':
@@ -154,7 +154,7 @@ class VeramoService {
   static async getIdentifier(): Promise<IIdentifier> {
     const state = StorageService.get();
     const method =
-      state.accountState[state.currentAccount].accountConfig.ssi.didMethod;
+      state.accountState[state.currentAccount].general.account.ssi.didMethod;
 
     switch (method) {
       case 'did:pkh':
@@ -540,7 +540,7 @@ class VeramoService {
     const kid = `${identifier.did}#${identifier.did.split(':')[2]}`;
 
     const isDidKeyEbsi =
-      state.accountState[state.currentAccount].accountConfig.ssi.didMethod ===
+      state.accountState[state.currentAccount].general.account.ssi.didMethod ===
       'did:key:jwk_jcs-pub';
 
     const customSign = async (signArgs: SignArgs) =>
@@ -703,7 +703,7 @@ class VeramoService {
     const kid = `${did}#${did.split(':')[2]}`;
 
     const isDidKeyEbsi =
-      state.accountState[state.currentAccount].accountConfig.ssi.didMethod ===
+      state.accountState[state.currentAccount].general.account.ssi.didMethod ===
       'did:key:jwk_jcs-pub';
 
     const customSign = async (signArgs: SignArgs) =>
