@@ -80,7 +80,7 @@ const nodeWallet = HDNodeWallet.fromMnemonic(
 
 :::tip Method index mapping
 
-As you can see, we use different indices for different did methods. We then pass the index (see `methodIndexMapping[method]` ) into the derivation path as the `account'` part of the path. More on this can be found in [ `BIP-44` ](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki#path-levels).
+As you can see, we use different indices for different did methods. We then pass the index (see `methodIndexMapping[method]` ) into the derivation path as the `account` part of the path. More on this can be found in [ `BIP-44` ](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki#path-levels).
 
 :::
 

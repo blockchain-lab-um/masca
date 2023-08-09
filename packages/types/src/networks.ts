@@ -22,4 +22,15 @@ export const chainIdNetworkParamsMapping: Record<string, NetworkParams> = {
     },
     blockExplorerUrls: ['https://polygonscan.com/'],
   },
+  '0x13881': {
+    chainId: '0x13881',
+    rpcUrls: ['https://polygon-mumbai.blockpi.network/v1/rpc/public'],
+    chainName: 'Polygon Mumbai',
+    nativeCurrency: {
+      name: 'Matic',
+      symbol: 'MATIC',
+      decimals: 18,
+    },
+    blockExplorerUrls: ['https://mumbai.polygonscan.com/'],
+  },
 };
