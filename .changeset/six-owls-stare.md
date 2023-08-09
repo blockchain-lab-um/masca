@@ -2,4 +2,4 @@
 '@blockchain-lab-um/masca': patch
 ---
 
-Fix SaveVC ID bug
+Fixes `saveCredential` RPC method bug connected to ID generation
