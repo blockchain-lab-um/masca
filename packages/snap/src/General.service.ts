@@ -2,6 +2,8 @@ import {
   availableCredentialStores,
   AvailableCredentialStores,
   availableMethods,
+  ImportStateBackupRequestParams,
+  isValidMascaState,
   MascaAccountConfig,
   MascaConfig,
   MethodsRequiringNetwork,
@@ -10,6 +12,7 @@ import {
   SwitchMethodRequestParams,
 } from '@blockchain-lab-um/masca-types';
 
+import CryptoService from './Crypto.service';
 import EthereumService from './Ethereum.service';
 import StorageService from './storage/Storage.service';
 import UIService from './UI.service';
@@ -54,7 +57,7 @@ class GeneralService {
     const state = StorageService.get();
     if (state.snapConfig.dApp.friendlyDapps.includes(dapp)) return;
     if (!(await UIService.addFriendlyDappDialog(dapp))) {
-      throw new Error('User rejected friendly dApp addition');
+      throw new Error('User rejected friendly dApp addition.');
     }
     state.snapConfig.dApp.friendlyDapps.push(dapp);
   }
@@ -66,7 +69,7 @@ class GeneralService {
    */
   static async removeFriendlyDapp(args: { id: string }): Promise<void> {
     if (!(await UIService.removeFriendlyDappDialog(args.id))) {
-      throw new Error('User rejected friendly dApp removal');
+      throw new Error('User rejected friendly dApp removal.');
     }
 
     const state = StorageService.get();
@@ -96,7 +99,7 @@ class GeneralService {
         state.snapConfig.dApp.disablePopups = true;
         return state.snapConfig.dApp.disablePopups;
       }
-      throw new Error('User rejected popup toggle');
+      throw new Error('User rejected popup toggle.');
     } else {
       state.snapConfig.dApp.disablePopups = false;
       return state.snapConfig.dApp.disablePopups;
@@ -247,6 +250,43 @@ class GeneralService {
     );
 
     return serializedSession;
+  }
+
+  /**
+   * Function that exports the current state of the snap.
+   * The state is encrypted using the entropy provided by the snap.
+   * @returns string - the encrypted backup state.
+   */
+  static async exportBackup(): Promise<string> {
+    if (!(await UIService.exportBackupDialog())) {
+      throw new Error('User rejected export backup.');
+    }
+
+    const state = StorageService.get();
+    return CryptoService.encrypt(JSON.stringify(state));
+  }
+
+  /**
+   * Function that imports the passed backup state.
+   * The state is decrypted using the entropy provided by the snap.
+   * @param params - the serialized state to import.
+   */
+  static async importBackup(
+    params: ImportStateBackupRequestParams
+  ): Promise<void> {
+    if (!(await UIService.importBackupDialog())) {
+      throw new Error('User rejected export backup.');
+    }
+
+    try {
+      const state = JSON.parse(
+        await CryptoService.decrypt(params.serializedState)
+      );
+      isValidMascaState(state);
+      StorageService.set(state);
+    } catch (error) {
+      throw new Error('Invalid backup state.');
+    }
   }
 }
 

@@ -236,6 +236,36 @@ class UIService {
     });
     return pin;
   };
+
+  static exportBackupDialog = async () => {
+    const uiPanel = panel([
+      heading('Export Backup'),
+      ...this.originWrapper,
+      text(
+        'This RPC method returns the encrypted backup of your Masca state. You can use this backup to restore your state on another device.'
+      ),
+    ]);
+
+    const res = await UIService.snapConfirm(uiPanel);
+    return res;
+  };
+
+  static importBackupDialog = async () => {
+    const uiPanel = panel([
+      heading('Import Backup'),
+      ...this.originWrapper,
+      text(
+        'This RPC method allows you to import an encrypted backup of your Masca state.'
+      ),
+      divider(),
+      text(
+        'Please note that this will **overwrite** your current Masca state.'
+      ),
+    ]);
+
+    const res = await UIService.snapConfirm(uiPanel);
+    return res;
+  };
 }
 
 export default UIService;

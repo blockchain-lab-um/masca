@@ -640,8 +640,6 @@ describe('Utils [requestParams]', () => {
   describe('isValidImportStateBackupRequest', () => {
     describe('success', () => {
       it('string', () => {
-        const state = getDefaultSnapState(account);
-        state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
         expect(() => {
           isValidImportStateBackupRequest({
             serializedState: 'test',
@@ -651,8 +649,6 @@ describe('Utils [requestParams]', () => {
     });
     describe('failure', () => {
       it('number', () => {
-        const state = getDefaultSnapState(account);
-        state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
         expect(() =>
           isValidImportStateBackupRequest({
             serializedState: 2,

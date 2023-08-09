@@ -313,7 +313,7 @@ describe('saveVerifiableCredential', () => {
       throw new Error('Should return error');
     }
 
-    expect(res.error).toBe('Error: User rejected the request.');
+    expect(res.error).toBe('Error: User rejected save credential request.');
 
     snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
