@@ -151,6 +151,10 @@ export interface SetCeramicSessionRequestParams {
   serializedSession: string;
 }
 
+export interface ImportStateBackupRequestParams {
+  serializedState: string;
+}
+
 export interface RemoveFriendlyDappParams {
   id: string;
 }

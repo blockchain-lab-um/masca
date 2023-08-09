@@ -41,7 +41,7 @@ class EthereumService {
       ),
     ]);
     if (!(await UIService.snapConfirm(content))) {
-      throw new Error('User rejected network switch');
+      throw new Error('User rejected network switch.');
     }
     const chainId = didMethodChainIdMapping[didMethod][0];
     try {

@@ -2,6 +2,8 @@ import {
   isValidCreateCredentialRequest,
   isValidCreatePresentationRequest,
   isValidDeleteCredentialsRequest,
+  isValidImportStateBackupRequest,
+  isValidMascaState,
   isValidQueryCredentialsRequest,
   isValidResolveDIDRequest,
   isValidSaveCredentialRequest,
@@ -632,6 +634,53 @@ describe('Utils [requestParams]', () => {
             state
           )
         ).toThrow('invalid_argument: $input.proofFormat');
+      });
+    });
+  });
+  describe('isValidImportStateBackupRequest', () => {
+    describe('success', () => {
+      it('string', () => {
+        expect(() => {
+          isValidImportStateBackupRequest({
+            serializedState: 'test',
+          });
+        }).not.toThrow();
+      });
+    });
+    describe('failure', () => {
+      it('number', () => {
+        expect(() =>
+          isValidImportStateBackupRequest({
+            serializedState: 2,
+          })
+        ).toThrow('invalid_argument: input.serializedState');
+      });
+    });
+  });
+  describe('isValidMascaState', () => {
+    describe('success', () => {
+      it('default snap state', () => {
+        const state = getDefaultSnapState(account);
+        expect(() => {
+          isValidMascaState(state);
+        }).not.toThrow();
+      });
+    });
+    describe('failure', () => {
+      it('empty object', () => {
+        expect(() => isValidMascaState({})).toThrow(
+          'invalid_argument: $input.accountState, $input.currentAccount, $input.snapConfig'
+        );
+      });
+      it('null', () => {
+        expect(() => isValidMascaState(null)).toThrow(
+          'invalid_argument: $input'
+        );
+      });
+      it('missing fields', () => {
+        expect(() => isValidMascaState({ accountState: {} })).toThrow(
+          'invalid_argument: $input.currentAccount, $input.snapConfig'
+        );
       });
     });
   });

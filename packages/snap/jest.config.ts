@@ -1,3 +1,5 @@
+import crypto from 'crypto';
+
 const esModules = [
   '@veramo',
   '@0xpolygonid/js-sdk',
@@ -14,7 +16,12 @@ export default {
   testEnvironment: 'node',
   testRegex: '.*\\.spec\\.ts$',
   setupFilesAfterEnv: ['jest-extended/all'],
-  globals: {},
+  globals: {
+    window: {
+      // eslint-disable-next-line global-require
+      crypto,
+    },
+  },
   transform: {
     '^.+\\.(t|j)sx?$': [
       '@swc/jest',
