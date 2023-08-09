@@ -298,9 +298,9 @@ class VeramoService {
     store: AvailableCredentialStores | AvailableCredentialStores[];
   }): Promise<SaveCredentialRequestResult[]> {
     const { verifiableCredential, store } = args;
-    
+
     const normalizedCredential = normalizeCredential(verifiableCredential);
-    
+
     const result = await this.instance.save({
       data: normalizedCredential,
       options: { store },
