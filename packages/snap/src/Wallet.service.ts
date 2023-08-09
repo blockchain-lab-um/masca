@@ -1,6 +1,7 @@
 import {
   methodIndexMapping,
   type InternalSigMethods,
+  CURRENT_STATE_VERSION,
 } from '@blockchain-lab-um/masca-types';
 import { HDNodeWallet, Mnemonic } from 'ethers';
 
@@ -16,7 +17,7 @@ class WalletService {
   static async init(): Promise<void> {
     const state = StorageService.get();
 
-    const method = state.accountState[state.currentAccount].general.account.ssi
+    const method = state[CURRENT_STATE_VERSION].accountState[state[CURRENT_STATE_VERSION].currentAccount].general.account.ssi
       .didMethod as InternalSigMethods;
 
     if (!['did:key', 'did:key:jwk_jcs-pub', 'did:jwk'].includes(method)) {
@@ -27,7 +28,7 @@ class WalletService {
       method: 'snap_getEntropy',
       params: {
         version: 1,
-        salt: state.currentAccount,
+        salt: state[CURRENT_STATE_VERSION].currentAccount,
       },
     });
 

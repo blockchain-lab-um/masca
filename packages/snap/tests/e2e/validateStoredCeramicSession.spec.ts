@@ -2,6 +2,7 @@ import { isError, Result } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 
+import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
 import { onRpcRequest } from '../../src';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
@@ -47,7 +48,7 @@ describe('validateStoredCeramicSession', () => {
 
   it('should fail setting and invalid session string', async () => {
     const defaultState = getDefaultSnapState(account);
-    defaultState.accountState[account].general.ceramicSession = 'invalid-session';
+    defaultState[CURRENT_STATE_VERSION].accountState[account].general.ceramicSession = 'invalid-session';
     snapMock.rpcMocks.snap_manageState({
       operation: 'update',
       newState: defaultState,

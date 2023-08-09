@@ -5,6 +5,7 @@ import {
 import {
   AvailableCredentialStores,
   CreatePresentationRequestParams,
+  CURRENT_STATE_VERSION,
   Filter,
   MinimalUnsignedCredential,
   QueryCredentialsOptions,
@@ -112,8 +113,10 @@ class VeramoService {
    */
   static async importIdentifier(): Promise<void> {
     const state = StorageService.get();
-    const account = state.currentAccount;
-    const method = state.accountState[account].general.account.ssi.didMethod;
+    const account = state[CURRENT_STATE_VERSION].currentAccount;
+    const method =
+      state[CURRENT_STATE_VERSION].accountState[account].general.account.ssi
+        .didMethod;
 
     switch (method) {
       case 'did:pkh':
@@ -154,7 +157,9 @@ class VeramoService {
   static async getIdentifier(): Promise<IIdentifier> {
     const state = StorageService.get();
     const method =
-      state.accountState[state.currentAccount].general.account.ssi.didMethod;
+      state[CURRENT_STATE_VERSION].accountState[
+        state[CURRENT_STATE_VERSION].currentAccount
+      ].general.account.ssi.didMethod;
 
     switch (method) {
       case 'did:pkh':
@@ -171,8 +176,8 @@ class VeramoService {
           provider: method,
           did:
             method === 'did:ethr'
-              ? `did:ethr:${chainId}:${state.currentAccount}`
-              : `did:pkh:eip155:${chainId}:${state.currentAccount}`,
+              ? `did:ethr:${chainId}:${state[CURRENT_STATE_VERSION].currentAccount}`
+              : `did:pkh:eip155:${chainId}:${state[CURRENT_STATE_VERSION].currentAccount}`,
           keys: [],
           services: [],
         };
@@ -184,7 +189,7 @@ class VeramoService {
       case 'did:jwk': {
         const { alias: _, ...identifier } =
           await this.instance.didManagerGetByAlias({
-            alias: `metamask-${method}-${state.currentAccount}`,
+            alias: `metamask-${method}-${state[CURRENT_STATE_VERSION].currentAccount}`,
             provider: method === 'did:key:jwk_jcs-pub' ? 'did:key' : method,
           });
 
@@ -540,8 +545,9 @@ class VeramoService {
     const kid = `${identifier.did}#${identifier.did.split(':')[2]}`;
 
     const isDidKeyEbsi =
-      state.accountState[state.currentAccount].general.account.ssi.didMethod ===
-      'did:key:jwk_jcs-pub';
+      state[CURRENT_STATE_VERSION].accountState[
+        state[CURRENT_STATE_VERSION].currentAccount
+      ].general.account.ssi.didMethod === 'did:key:jwk_jcs-pub';
 
     const customSign = async (signArgs: SignArgs) =>
       sign(signArgs, {
@@ -703,8 +709,9 @@ class VeramoService {
     const kid = `${did}#${did.split(':')[2]}`;
 
     const isDidKeyEbsi =
-      state.accountState[state.currentAccount].general.account.ssi.didMethod ===
-      'did:key:jwk_jcs-pub';
+      state[CURRENT_STATE_VERSION].accountState[
+        state[CURRENT_STATE_VERSION].currentAccount
+      ].general.account.ssi.didMethod === 'did:key:jwk_jcs-pub';
 
     const customSign = async (signArgs: SignArgs) =>
       sign(signArgs, {

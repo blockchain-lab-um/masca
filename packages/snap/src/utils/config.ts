@@ -2,7 +2,6 @@ import type {
   MascaAccountConfig,
   MascaAccountState,
   MascaState,
-  MascaStateWrapper,
   PolygonBaseState,
   PolygonState,
 } from '@blockchain-lab-um/masca-types';
@@ -45,10 +44,10 @@ const emptyPolygonState: PolygonState = {
 
 const emptyAccountState = {
   polygon: {
-    state: emptyPolygonState
+    state: emptyPolygonState,
   },
   veramo: {
-    credentials: {}
+    credentials: {},
   },
   general: {
     account: {
@@ -60,12 +59,12 @@ const emptyAccountState = {
         },
       },
     } as MascaAccountConfig,
-  }
+  },
 } as MascaAccountState;
 
 export const getEmptyAccountState = () => cloneDeep(emptyAccountState);
 
-const initialSnapState: MascaStateWrapper = {
+const initialSnapState: MascaState = {
   v1: {
     accountState: {},
     currentAccount: '',
@@ -78,14 +77,7 @@ const initialSnapState: MascaStateWrapper = {
         acceptedTerms: true,
       },
     },
-  }
+  },
 };
 
-export const getInitialSnapState = (version: `v${number}` = "v1"): MascaState => {
-  switch (version) {
-    case "v1":
-      return cloneDeep(initialSnapState.v1);
-    default:
-      return cloneDeep(initialSnapState.v1)
-  }
-};
+export const getInitialSnapState = () => cloneDeep(initialSnapState);

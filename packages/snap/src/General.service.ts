@@ -2,6 +2,7 @@ import {
   availableCredentialStores,
   AvailableCredentialStores,
   availableMethods,
+  CURRENT_STATE_VERSION,
   MascaAccountConfig,
   MascaConfig,
   MethodsRequiringNetwork,
@@ -24,14 +25,21 @@ class GeneralService {
   static async initAccountState(): Promise<void> {
     const state = StorageService.get();
 
-    if (!state.currentAccount) {
+    if (!state[CURRENT_STATE_VERSION].currentAccount) {
       throw Error(
         'No current account set. Please call the `setCurrentAccount` RPC method first.'
       );
     }
 
-    if (!(state.currentAccount in state.accountState)) {
-      state.accountState[state.currentAccount] = getEmptyAccountState();
+    if (
+      !(
+        state[CURRENT_STATE_VERSION].currentAccount in
+        state[CURRENT_STATE_VERSION].accountState
+      )
+    ) {
+      state[CURRENT_STATE_VERSION].accountState[
+        state[CURRENT_STATE_VERSION].currentAccount
+      ] = getEmptyAccountState();
     }
   }
 
@@ -42,7 +50,7 @@ class GeneralService {
    */
   static async setCurrentAccount(account: string): Promise<void> {
     const state = StorageService.get();
-    state.currentAccount = account;
+    state[CURRENT_STATE_VERSION].currentAccount = account;
   }
 
   /**
@@ -52,11 +60,12 @@ class GeneralService {
    */
   static async addFriendlyDapp(dapp: string): Promise<void> {
     const state = StorageService.get();
-    if (state.config.dApp.friendlyDapps.includes(dapp)) return;
+    if (state[CURRENT_STATE_VERSION].config.dApp.friendlyDapps.includes(dapp))
+      return;
     if (!(await UIService.addFriendlyDappDialog(dapp))) {
       throw new Error('User rejected friendly dApp addition');
     }
-    state.config.dApp.friendlyDapps.push(dapp);
+    state[CURRENT_STATE_VERSION].config.dApp.friendlyDapps.push(dapp);
   }
 
   /**
@@ -70,8 +79,9 @@ class GeneralService {
     }
 
     const state = StorageService.get();
-    state.config.dApp.friendlyDapps =
-      state.config.dApp.friendlyDapps.filter((d) => d !== args.id);
+    state[CURRENT_STATE_VERSION].config.dApp.friendlyDapps = state[
+      CURRENT_STATE_VERSION
+    ].config.dApp.friendlyDapps.filter((d) => d !== args.id);
   }
 
   /**
@@ -81,7 +91,9 @@ class GeneralService {
    */
   static async isFriendlyDapp(dapp: string): Promise<boolean> {
     const state = StorageService.get();
-    return state.config.dApp.friendlyDapps.includes(dapp);
+    return state[CURRENT_STATE_VERSION].config.dApp.friendlyDapps.includes(
+      dapp
+    );
   }
 
   /**
@@ -91,15 +103,15 @@ class GeneralService {
   static async togglePopups(): Promise<boolean> {
     const state = StorageService.get();
 
-    if (!state.config.dApp.disablePopups) {
+    if (!state[CURRENT_STATE_VERSION].config.dApp.disablePopups) {
       if (await UIService.togglePopupsDialog()) {
-        state.config.dApp.disablePopups = true;
-        return state.config.dApp.disablePopups;
+        state[CURRENT_STATE_VERSION].config.dApp.disablePopups = true;
+        return state[CURRENT_STATE_VERSION].config.dApp.disablePopups;
       }
       throw new Error('User rejected popup toggle');
     } else {
-      state.config.dApp.disablePopups = false;
-      return state.config.dApp.disablePopups;
+      state[CURRENT_STATE_VERSION].config.dApp.disablePopups = false;
+      return state[CURRENT_STATE_VERSION].config.dApp.disablePopups;
     }
   }
 
@@ -111,7 +123,9 @@ class GeneralService {
   static async switchDIDMethod(args: SwitchMethodRequestParams): Promise<void> {
     const state = StorageService.get();
     const currentMethod =
-      state.accountState[state.currentAccount].general.account.ssi.didMethod;
+      state[CURRENT_STATE_VERSION].accountState[
+        state[CURRENT_STATE_VERSION].currentAccount
+      ].general.account.ssi.didMethod;
     const newMethod = args.didMethod;
 
     if (requiresNetwork(newMethod)) {
@@ -121,8 +135,9 @@ class GeneralService {
     }
 
     if (currentMethod !== newMethod) {
-      state.accountState[state.currentAccount].general.account.ssi.didMethod =
-        newMethod;
+      state[CURRENT_STATE_VERSION].accountState[
+        state[CURRENT_STATE_VERSION].currentAccount
+      ].general.account.ssi.didMethod = newMethod;
       return;
     }
     throw new Error('Method already set');
@@ -134,7 +149,9 @@ class GeneralService {
    */
   static async getSelectedMethod(): Promise<string> {
     const state = StorageService.get();
-    return state.accountState[state.currentAccount].general.account.ssi.didMethod;
+    return state[CURRENT_STATE_VERSION].accountState[
+      state[CURRENT_STATE_VERSION].currentAccount
+    ].general.account.ssi.didMethod;
   }
 
   /**
@@ -145,7 +162,9 @@ class GeneralService {
     Record<AvailableCredentialStores, boolean>
   > {
     const state = StorageService.get();
-    return state.accountState[state.currentAccount].general.account.ssi.vcStore;
+    return state[CURRENT_STATE_VERSION].accountState[
+      state[CURRENT_STATE_VERSION].currentAccount
+    ].general.account.ssi.vcStore;
   }
 
   /**
@@ -161,9 +180,9 @@ class GeneralService {
     const { store, value } = args;
 
     if (store !== 'snap') {
-      state.accountState[state.currentAccount].general.account.ssi.vcStore[
-        store
-      ] = value;
+      state[CURRENT_STATE_VERSION].accountState[
+        state[CURRENT_STATE_VERSION].currentAccount
+      ].general.account.ssi.vcStore[store] = value;
 
       return true;
     }
@@ -182,7 +201,9 @@ class GeneralService {
     const state = StorageService.get();
 
     return Object.entries(
-      state.accountState[state.currentAccount].general.account.ssi.vcStore
+      state[CURRENT_STATE_VERSION].accountState[
+        state[CURRENT_STATE_VERSION].currentAccount
+      ].general.account.ssi.vcStore
     )
       .filter(([, value]) => value)
       .map(([key]) => key) as AvailableCredentialStores[];
@@ -202,7 +223,9 @@ class GeneralService {
    */
   static async getAccountSettings(): Promise<MascaAccountConfig> {
     const state = StorageService.get();
-    return state.accountState[state.currentAccount].general.account;
+    return state[CURRENT_STATE_VERSION].accountState[
+      state[CURRENT_STATE_VERSION].currentAccount
+    ].general.account;
   }
 
   /**
@@ -211,7 +234,7 @@ class GeneralService {
    */
   static async getSnapSettings(): Promise<MascaConfig> {
     const state = StorageService.get();
-    return state.config;
+    return state[CURRENT_STATE_VERSION].config;
   }
 
   /**
@@ -231,8 +254,9 @@ class GeneralService {
     serializedSession: string;
   }): Promise<void> {
     const state = StorageService.get();
-    state.accountState[state.currentAccount].general.ceramicSession =
-      args.serializedSession;
+    state[CURRENT_STATE_VERSION].accountState[
+      state[CURRENT_STATE_VERSION].currentAccount
+    ].general.ceramicSession = args.serializedSession;
   }
 
   /**
@@ -243,7 +267,9 @@ class GeneralService {
     const state = StorageService.get();
 
     const serializedSession = await validateSession(
-      state.accountState[state.currentAccount].general.ceramicSession
+      state[CURRENT_STATE_VERSION].accountState[
+        state[CURRENT_STATE_VERSION].currentAccount
+      ].general.ceramicSession
     );
 
     return serializedSession;

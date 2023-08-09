@@ -1,3 +1,4 @@
+import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
 import { isError, Result } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
@@ -19,7 +20,9 @@ describe('removeFriendlyDapp', () => {
 
   it('should remove a friendlyDapp from the list', async () => {
     const defaultState = getDefaultSnapState(account);
-    defaultState.config.dApp.friendlyDapps = ['localhost2'];
+    defaultState[CURRENT_STATE_VERSION].config.dApp.friendlyDapps = [
+      'localhost2',
+    ];
     await snapMock.rpcMocks.snap_manageState({
       operation: 'update',
       newState: defaultState,
@@ -45,7 +48,9 @@ describe('removeFriendlyDapp', () => {
       operation: 'get',
     });
 
-    expect(state.config.dApp.friendlyDapps).toStrictEqual([]);
+    expect(
+      state[CURRENT_STATE_VERSION].config.dApp.friendlyDapps
+    ).toStrictEqual([]);
 
     expect.assertions(2);
   });

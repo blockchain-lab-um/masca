@@ -2,6 +2,7 @@ import { isError, Result } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 
+import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
 import { onRpcRequest } from '../../src';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
@@ -37,7 +38,9 @@ describe('getAccountSettings', () => {
       throw new Error(res.error);
     }
 
-    expect(res.data).toEqual(state.accountState[account].general.account);
+    expect(res.data).toEqual(
+      state[CURRENT_STATE_VERSION].accountState[account].general.account
+    );
 
     expect.assertions(1);
   });

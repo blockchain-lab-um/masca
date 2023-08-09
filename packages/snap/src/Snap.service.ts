@@ -2,6 +2,7 @@ import { W3CCredential } from '@0xpolygonid/js-sdk';
 import {
   CreateCredentialRequestParams,
   CreatePresentationRequestParams,
+  CURRENT_STATE_VERSION,
   DeleteCredentialsRequestParams,
   HandleAuthorizationRequestParams,
   HandleCredentialOfferRequestParams,
@@ -151,7 +152,9 @@ class SnapService {
     const state = StorageService.get();
 
     const method =
-      state.accountState[state.currentAccount].general.account.ssi.didMethod;
+      state[CURRENT_STATE_VERSION].accountState[
+        state[CURRENT_STATE_VERSION].currentAccount
+      ].general.account.ssi.didMethod;
 
     if (method === 'did:ethr' || method === 'did:pkh') {
       const unsignedVc = await VeramoService.createUnsignedCredential({
@@ -163,8 +166,9 @@ class SnapService {
 
     let storeString = '';
     if (save === true) {
-      storeString = `Store(s): ${typeof store === 'string' ? store : store.join(', ')
-        }`;
+      storeString = `Store(s): ${
+        typeof store === 'string' ? store : store.join(', ')
+      }`;
     }
 
     const vc = await VeramoService.createCredential({
@@ -262,7 +266,9 @@ class SnapService {
     const { vcs, proofFormat = 'jwt', proofOptions } = args;
     const state = StorageService.get();
     const method =
-      state.accountState[state.currentAccount].general.account.ssi.didMethod;
+      state[CURRENT_STATE_VERSION].accountState[
+        state[CURRENT_STATE_VERSION].currentAccount
+      ].general.account.ssi.didMethod;
 
     if (vcs.length === 0) {
       throw new Error('No credentials provided');
@@ -322,7 +328,9 @@ class SnapService {
   static async getDID(): Promise<string> {
     const state = StorageService.get();
     const method =
-      state.accountState[state.currentAccount].general.account.ssi.didMethod;
+      state[CURRENT_STATE_VERSION].accountState[
+        state[CURRENT_STATE_VERSION].currentAccount
+      ].general.account.ssi.didMethod;
 
     if (isVeramoSupportedMethods(method)) {
       await VeramoService.importIdentifier();
@@ -463,16 +471,28 @@ class SnapService {
        * - Polygon.service
        */
       case 'queryCredentials':
-        isValidQueryCredentialsRequest(params, state.currentAccount, state);
+        isValidQueryCredentialsRequest(
+          params,
+          state[CURRENT_STATE_VERSION].currentAccount,
+          state
+        );
         await PolygonService.init();
         res = await this.queryCredentials(params);
         return ResultObject.success(res);
       case 'saveCredential':
-        isValidSaveCredentialRequest(params, state.currentAccount, state);
+        isValidSaveCredentialRequest(
+          params,
+          state[CURRENT_STATE_VERSION].currentAccount,
+          state
+        );
         res = await this.saveCredential(params);
         return ResultObject.success(res);
       case 'createCredential':
-        isValidCreateCredentialRequest(params, state.currentAccount, state);
+        isValidCreateCredentialRequest(
+          params,
+          state[CURRENT_STATE_VERSION].currentAccount,
+          state
+        );
         await VeramoService.importIdentifier();
         res = await this.createCredential(params);
         return ResultObject.success(res);
@@ -482,7 +502,11 @@ class SnapService {
         res = await this.createPresentation(params);
         return ResultObject.success(res);
       case 'deleteCredential':
-        isValidDeleteCredentialsRequest(params, state.currentAccount, state);
+        isValidDeleteCredentialsRequest(
+          params,
+          state[CURRENT_STATE_VERSION].currentAccount,
+          state
+        );
         await PolygonService.init();
         res = await this.deleteCredential(params);
         return ResultObject.success(res);

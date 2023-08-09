@@ -24,20 +24,24 @@ export interface MascaAccountConfig {
   };
 }
 
-export type MascaStateWrapper = Record<`v${number}`, MascaState>;
 export interface MascaState {
   /**
-   * Account specific storage
+   * Version 1 of Masca state
    */
-  accountState: Record<string, MascaAccountState>;
-  /**
-   * Current account
-   */
-  currentAccount: string;
-  /**
-   * Configuration for Masca
-   */
-  config: MascaConfig;
+  v1: {
+    /**
+     * Account specific storage
+     */
+    accountState: Record<string, MascaAccountState>;
+    /**
+     * Current account
+     */
+    currentAccount: string;
+    /**
+     * Configuration for Masca
+     */
+    config: MascaConfig;
+  }
 }
 
 /**

@@ -1,5 +1,6 @@
 // FIXME: Either update/rewrite this or
 
+import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
 
@@ -34,14 +35,16 @@ describe('Storage Service', () => {
     const state = StorageService.getAccountState();
 
     expect(state).toStrictEqual(
-      initialSnapState.accountState[initialSnapState.currentAccount]
+      initialSnapState[CURRENT_STATE_VERSION].accountState[
+        initialSnapState[CURRENT_STATE_VERSION].currentAccount
+      ]
     );
     expect.assertions(1);
   });
 
   it('should succeed saving updated state to storage', async () => {
     const state = StorageService.get();
-    state.config.dApp.disablePopups = true;
+    state[CURRENT_STATE_VERSION].config.dApp.disablePopups = true;
 
     await StorageService.save();
 
@@ -51,7 +54,9 @@ describe('Storage Service', () => {
     });
 
     const newState = StorageService.get();
-    expect(newState.config.dApp.disablePopups).toBe(true);
+    expect(newState[CURRENT_STATE_VERSION].config.dApp.disablePopups).toBe(
+      true
+    );
     expect.assertions(2);
   });
 });

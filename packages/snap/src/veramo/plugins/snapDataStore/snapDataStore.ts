@@ -9,6 +9,7 @@ import type { ManagedPrivateKey } from '@veramo/key-manager';
 import { sha256 } from 'ethereum-cryptography/sha256';
 import jsonpath from 'jsonpath';
 
+import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
 import StorageService from '../../../storage/Storage.service';
 import { decodeJWT } from '../../../utils/jwt';
 
@@ -27,10 +28,14 @@ export class SnapCredentialStore extends AbstractDataStore {
 
     if (filter && filter.type === 'id') {
       try {
-        if (state.accountState[state.currentAccount].veramo.credentials[filter.filter]) {
-          let vc = state.accountState[state.currentAccount].veramo.credentials[
-            filter.filter
-          ] as unknown;
+        if (
+          state[CURRENT_STATE_VERSION].accountState[
+            state[CURRENT_STATE_VERSION].currentAccount
+          ].veramo.credentials[filter.filter]
+        ) {
+          let vc = state[CURRENT_STATE_VERSION].accountState[
+            state[CURRENT_STATE_VERSION].currentAccount
+          ].veramo.credentials[filter.filter] as unknown;
           if (typeof vc === 'string') {
             vc = decodeJWT(vc);
           }
@@ -48,24 +53,32 @@ export class SnapCredentialStore extends AbstractDataStore {
       }
     }
     if (filter === undefined || (filter && filter.type === 'none')) {
-      return Object.keys(state.accountState[state.currentAccount].veramo.credentials).map(
-        (k) => {
-          let vc = state.accountState[state.currentAccount].veramo.credentials[k] as unknown;
-          if (typeof vc === 'string') {
-            vc = decodeJWT(vc);
-          }
-          return {
-            metadata: { id: k },
-            data: vc,
-          };
+      return Object.keys(
+        state[CURRENT_STATE_VERSION].accountState[
+          state[CURRENT_STATE_VERSION].currentAccount
+        ].veramo.credentials
+      ).map((k) => {
+        let vc = state[CURRENT_STATE_VERSION].accountState[
+          state[CURRENT_STATE_VERSION].currentAccount
+        ].veramo.credentials[k] as unknown;
+        if (typeof vc === 'string') {
+          vc = decodeJWT(vc);
         }
-      );
+        return {
+          metadata: { id: k },
+          data: vc,
+        };
+      });
     }
     if (filter && filter.type === 'JSONPath') {
       const objects = Object.keys(
-        state.accountState[state.currentAccount].veramo.credentials
+        state[CURRENT_STATE_VERSION].accountState[
+          state[CURRENT_STATE_VERSION].currentAccount
+        ].veramo.credentials
       ).map((k) => {
-        let vc = state.accountState[state.currentAccount].veramo.credentials[k] as unknown;
+        let vc = state[CURRENT_STATE_VERSION].accountState[
+          state[CURRENT_STATE_VERSION].currentAccount
+        ].veramo.credentials[k] as unknown;
         if (typeof vc === 'string') {
           vc = decodeJWT(vc);
         }
@@ -83,10 +96,16 @@ export class SnapCredentialStore extends AbstractDataStore {
   async delete({ id }: { id: string }) {
     const state = StorageService.get();
 
-    if (!state.accountState[state.currentAccount].veramo.credentials[id])
+    if (
+      !state[CURRENT_STATE_VERSION].accountState[
+        state[CURRENT_STATE_VERSION].currentAccount
+      ].veramo.credentials[id]
+    )
       throw Error('ID not found');
 
-    delete state.accountState[state.currentAccount].veramo.credentials[id];
+    delete state[CURRENT_STATE_VERSION].accountState[
+      state[CURRENT_STATE_VERSION].currentAccount
+    ].veramo.credentials[id];
     return true;
   }
 
@@ -96,8 +115,14 @@ export class SnapCredentialStore extends AbstractDataStore {
 
     const id = uint8ArrayToHex(sha256(Buffer.from(JSON.stringify(vc))));
 
-    if (!state.accountState[state.currentAccount].veramo.credentials[id]) {
-      state.accountState[state.currentAccount].veramo.credentials[id] = vc;
+    if (
+      !state[CURRENT_STATE_VERSION].accountState[
+        state[CURRENT_STATE_VERSION].currentAccount
+      ].veramo.credentials[id]
+    ) {
+      state[CURRENT_STATE_VERSION].accountState[
+        state[CURRENT_STATE_VERSION].currentAccount
+      ].veramo.credentials[id] = vc;
     }
 
     return id;
@@ -107,7 +132,9 @@ export class SnapCredentialStore extends AbstractDataStore {
     // TODO implement filter (in ceramic aswell)
     const state = StorageService.get();
 
-    state.accountState[state.currentAccount].veramo.credentials = {};
+    state[CURRENT_STATE_VERSION].accountState[
+      state[CURRENT_STATE_VERSION].currentAccount
+    ].veramo.credentials = {};
     return true;
   }
 }

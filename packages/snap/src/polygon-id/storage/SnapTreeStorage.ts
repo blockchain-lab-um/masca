@@ -14,6 +14,7 @@ import {
   ZERO_HASH,
 } from '@iden3/js-merkletree';
 
+import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
 import StorageService from '../../storage/Storage.service';
 
 export class SnapTreeStorage implements ITreeStorage {
@@ -43,8 +44,8 @@ export class SnapTreeStorage implements ITreeStorage {
 
     const data = StorageService.get();
     const base =
-      data.accountState[this.account].polygon.state[this.method][
-        this.blockchain
+      data[CURRENT_STATE_VERSION].accountState[this.account].polygon.state[this.method][
+      this.blockchain
       ][this.networkId];
 
     const value = base[SnapTreeStorage.STORAGE_KEY][key];
@@ -97,8 +98,8 @@ export class SnapTreeStorage implements ITreeStorage {
     const value = JSON.stringify(toSerialize);
     const data = StorageService.get();
     const base =
-      data.accountState[this.account].polygon.state[this.method][
-        this.blockchain
+      data[CURRENT_STATE_VERSION].accountState[this.account].polygon.state[this.method][
+      this.blockchain
       ][this.networkId];
 
     base[SnapTreeStorage.STORAGE_KEY][key] = value;
@@ -111,8 +112,8 @@ export class SnapTreeStorage implements ITreeStorage {
 
     const data = StorageService.get();
     const base =
-      data.accountState[this.account].polygon.state[this.method][
-        this.blockchain
+      data[CURRENT_STATE_VERSION].accountState[this.account].polygon.state[this.method][
+      this.blockchain
       ][this.networkId];
     const rootStr = base[SnapTreeStorage.STORAGE_KEY][this.prefixHash];
 
@@ -131,8 +132,8 @@ export class SnapTreeStorage implements ITreeStorage {
 
     const data = StorageService.get();
     const base =
-      data.accountState[this.account].polygon.state[this.method][
-        this.blockchain
+      data[CURRENT_STATE_VERSION].accountState[this.account].polygon.state[this.method][
+      this.blockchain
       ][this.networkId];
 
     base[SnapTreeStorage.STORAGE_KEY][bytes2Hex(this.prefix)] = JSON.stringify(

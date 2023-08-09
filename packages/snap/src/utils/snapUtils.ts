@@ -1,6 +1,7 @@
-import type {
-  AvailableCredentialStores,
-  MascaState,
+import {
+  CURRENT_STATE_VERSION,
+  type AvailableCredentialStores,
+  type MascaState,
 } from '@blockchain-lab-um/masca-types';
 
 /**
@@ -15,5 +16,6 @@ export function isEnabledCredentialStore(
   state: MascaState,
   store: AvailableCredentialStores
 ): boolean {
-  return state.accountState[account].general.account.ssi.vcStore[store];
+  return state[CURRENT_STATE_VERSION].accountState[account].general.account.ssi
+    .vcStore[store];
 }

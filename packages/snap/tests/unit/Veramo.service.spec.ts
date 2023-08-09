@@ -1,3 +1,4 @@
+import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
 import { StreamID } from '@ceramicnetwork/streamid';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { MetaMaskInpageProvider } from '@metamask/providers';
@@ -182,7 +183,9 @@ describe('Veramo Service', () => {
       ];
 
       const expectedState = getDefaultSnapState(account);
-      expectedState.accountState[account].veramo.credentials[res[0].id] = exampleVC;
+      expectedState[CURRENT_STATE_VERSION].accountState[
+        account
+      ].veramo.credentials[res[0].id] = exampleVC;
       expect(res).toEqual(expectedResult);
 
       await VeramoService.deleteCredential({
@@ -262,7 +265,9 @@ describe('Veramo Service', () => {
       expect(res).toIncludeSameMembers(expectedResult);
 
       const expectedState = getDefaultSnapState(account);
-      expectedState.accountState[account].veramo.credentials[res[0].id] = exampleVC;
+      expectedState[CURRENT_STATE_VERSION].accountState[
+        account
+      ].veramo.credentials[res[0].id] = exampleVC;
       await VeramoService.deleteCredential({
         id: expectedResult[0].id,
       });
@@ -288,7 +293,9 @@ describe('Veramo Service', () => {
       });
 
       const expectedState = getDefaultSnapState(account);
-      expectedState.accountState[account].veramo.credentials[res[0].id] = exampleVC;
+      expectedState[CURRENT_STATE_VERSION].accountState[
+        account
+      ].veramo.credentials[res[0].id] = exampleVC;
 
       await VeramoService.clearCredentials({
         store: ['snap'],
@@ -309,7 +316,9 @@ describe('Veramo Service', () => {
       });
 
       const expectedState = getDefaultSnapState(account);
-      expectedState.accountState[account].veramo.credentials[res[0].id] = exampleVC;
+      expectedState[CURRENT_STATE_VERSION].accountState[
+        account
+      ].veramo.credentials[res[0].id] = exampleVC;
 
       await VeramoService.clearCredentials({});
 
@@ -350,7 +359,9 @@ describe('Veramo Service', () => {
         operation: 'get',
       });
 
-      state.accountState[account].general.account.ssi.vcStore = {
+      state[CURRENT_STATE_VERSION].accountState[
+        account
+      ].general.account.ssi.vcStore = {
         snap: true,
         ceramic: false,
       };
@@ -378,7 +389,9 @@ describe('Veramo Service', () => {
         operation: 'get',
       });
 
-      state.accountState[account].general.account.ssi.vcStore = {
+      state[CURRENT_STATE_VERSION].accountState[
+        account
+      ].general.account.ssi.vcStore = {
         snap: true,
         ceramic: true,
       };
@@ -717,8 +730,9 @@ describe('Veramo Service', () => {
 
     it('should return did:key', async () => {
       const state = StorageService.get();
-      state.accountState[state.currentAccount].general.account.ssi.didMethod =
-        'did:key';
+      state[CURRENT_STATE_VERSION].accountState[
+        state[CURRENT_STATE_VERSION].currentAccount
+      ].general.account.ssi.didMethod = 'did:key';
       await StorageService.save();
 
       // Need to re-initialize VeramoService with new state

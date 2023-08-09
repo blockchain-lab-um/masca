@@ -1,4 +1,7 @@
-import type { MascaState } from '@blockchain-lab-um/masca-types';
+import {
+  CURRENT_STATE_VERSION,
+  type MascaState,
+} from '@blockchain-lab-um/masca-types';
 import type { IDIDManagerCreateArgs } from '@veramo/core';
 import { keccak256 } from 'ethers';
 import WalletService from 'src/Wallet.service';
@@ -21,7 +24,9 @@ export async function getDidEbsiIdentifier(params: {
   const { state, account, args } = params;
 
   const agent = VeramoService.getAgent();
-  const provider = state.accountState[account].general.account.ssi.didMethod;
+  const provider =
+    state[CURRENT_STATE_VERSION].accountState[account].general.account.ssi
+      .didMethod;
 
   const res = WalletService.get();
 
