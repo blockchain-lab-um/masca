@@ -227,7 +227,7 @@ const SettingsCard = () => {
           <FriendlydAppTable />
           <span className="dark:text-navy-blue-200 mt-10 flex justify-between text-gray-700">
             <div className="flex">
-              <span className="mr-1 text-red-500">Disable Popups</span>
+              <span className="mr-1 text-red-500">{t('disable-popups')}</span>
               <InfoIcon>{t('popups-desc')}</InfoIcon>
             </div>
             <ToggleSwitch

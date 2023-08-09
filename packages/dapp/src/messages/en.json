@@ -198,14 +198,16 @@
     "isuance-date": "Issuance Date",
     "subject": "SUBJECT"
   },
-  "FriendlyDapps": {
+  "FriendlydAppTable": {
     "add-failed": "Failed to add Friendly dApp",
     "add-masca": "Add Masca.io to friendly dApps",
     "added": "Friendly dApp Added",
     "adding": "Adding Friendly dApp",
     "remove-failed": "Failed to remove Friendly dApp",
     "removed": "Friendly dApp Removed",
-    "removing": "Removing Friendly dApp"
+    "removing": "Removing Friendly dApp",
+    "app-url": "Application URL",
+    "popups-desc": "Disabling popups is very dangerous. We recommend setting friendly dApps instead!"
   },
   "GetCredential": {
     "handling": "Handling credential offer",
@@ -292,6 +294,7 @@
     "ceramic-error": "Failed to toggle Ceramic",
     "ceramic-success": "Successfully toggled Ceramic",
     "data-store": "Data Stores",
+    "disable-popups": "Disable Popups",
     "data-store-desc": "Enable or disable data stores. Data stores are places where VCs are stored.",
     "not-implemented": "Not implemented yet",
     "title": "Settings",

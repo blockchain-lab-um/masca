@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import { useMascaStore, useToastStore } from '@/stores';
 
 export const FriendlydAppTable = () => {
-  const t = useTranslations('FriendlyDapps');
+  const t = useTranslations('FriendlydAppTable');
   const [settings, setSettings] = useState<MascaConfig>();
   const { api } = useMascaStore((state) => ({
     api: state.mascaApi,
@@ -98,13 +98,12 @@ export const FriendlydAppTable = () => {
   return (
     <>
       <p className="text-md dark:text-navy-blue-400 text-gray-700">
-        Friendly dApps are dApps where popups do not appear. Make sure to only
-        add dApps you trust!
+        {t('popups-desc')}
       </p>
       <table className="dark:border-navy-blue-200 my-5 w-full border-2 border-gray-300">
         <thead>
           <tr className="text-md">
-            <th className="p-2 text-start">Application URL</th>
+            <th className="p-2 text-start">{t('app-url')}</th>
             <th></th>
           </tr>
         </thead>
