@@ -337,6 +337,13 @@ class GeneralService {
    * @returns string - the file id of the backup
    */
   static async createGoogleBackup() {
+    if (!(await UIService.exportBackupDialog(true))) {
+      throw new Error('User rejected export backup.');
+    }
+    if (!(await GoogleService.validateStoredGoogleSession())) {
+      throw new Error('Stored Google session is invalid.');
+    }
+
     let file = await GoogleService.findFile({
       fileName: GOOGLE_DRIVE_BACKUP_FILE,
     });
@@ -364,6 +371,13 @@ class GeneralService {
    * *_Note:_ This will overwrite the current Masca state*
    */
   static async importGoogleBackup() {
+    if (!(await UIService.importBackupDialog(true))) {
+      throw new Error('User rejected export backup.');
+    }
+    if (!(await GoogleService.validateStoredGoogleSession())) {
+      throw new Error('Stored Google session is invalid.');
+    }
+
     const backup = await GoogleService.getFileContent({
       fileName: GOOGLE_DRIVE_BACKUP_FILE,
     });

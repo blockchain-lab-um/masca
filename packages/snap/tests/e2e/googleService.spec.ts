@@ -44,10 +44,6 @@ describe('GoogleService', () => {
         throw new Error(res.error);
       }
 
-      console.log(
-        '🚀 ~ file: setGoogleToken.spec.ts:46 ~ it ~ res.data:',
-        res.data
-      );
       expect(res.data).toBe(true);
     });
   });

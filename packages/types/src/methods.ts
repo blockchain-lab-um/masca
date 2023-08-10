@@ -141,6 +141,10 @@ export interface SetGoogleToken {
   params: SetGoogleTokenRequestParams;
 }
 
+export interface ValidateStoredGoogleSession {
+  method: 'validateStoredGoogleSession';
+}
+
 export interface CreateGoogleBackup {
   method: 'createGoogleBackup';
 }

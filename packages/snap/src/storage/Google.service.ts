@@ -16,6 +16,7 @@ class GoogleService {
   /**
    * Function that returns the google access token
    * @returns string
+   * @throws Error - If token is not found
    */
   static getGoogleSession(): string {
     const state = StorageService.get();
@@ -25,6 +26,28 @@ class GoogleService {
       ].general.googleSession;
     if (!session) throw new Error('Google session not found');
     return session;
+  }
+
+  /**
+   * Function that validates the Google access token stored in the state
+   * @returns boolean - If token is valid or not
+   */
+  static async validateStoredGoogleSession(): Promise<boolean> {
+    const token = this.getGoogleSession();
+    try {
+      const res = await fetch(
+        `https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=${token}`,
+        {
+          method: 'GET',
+        }
+      );
+      const data = await res.json();
+      if (data.error_description) throw new Error(data.error_description);
+
+      return true;
+    } catch (error) {
+      throw new Error(`Failed validating token: ${(error as Error).message}`);
+    }
   }
 
   /**
@@ -89,7 +112,7 @@ ${content}
       if (res.id) return res.id as string;
       throw new Error(res.error.message);
     } catch (error) {
-      throw new Error(`Failed to create file: ${(error as Error).message}`);
+      throw new Error(`Failed creating a file: ${(error as Error).message}`);
     }
   }
 
@@ -134,7 +157,7 @@ ${content}
       }
       return '';
     } catch (e) {
-      throw new Error(`Failed to search file: ${(e as Error).message}`);
+      throw new Error(`Failed searching for file: ${(e as Error).message}`);
     }
   }
 
@@ -152,25 +175,30 @@ ${content}
     fileName?: string;
     content: string;
   }): Promise<any> {
-    const { id, fileName, content } = args;
-    if (!id && !fileName) throw new Error('Missing id or fileName parameter.');
-    const file = await this.findFile({
-      id,
-      fileName,
-    });
-    const res = await fetch(
-      `https://www.googleapis.com/upload/drive/v3/files/${file}?uploadType=media&fields=id`,
-      {
-        method: 'PATCH',
-        headers: new Headers({
-          Authorization: `Bearer ${this.getGoogleSession()}`,
-          'Content-Type': 'text/plain',
-          'Content-Length': `${content.length}`,
-        }),
-        body: content,
-      }
-    ).then((response) => response.json());
-    if (res.error) throw new Error(res.error.message);
+    try {
+      const { id, fileName, content } = args;
+      if (!id && !fileName)
+        throw new Error('Missing id or fileName parameter.');
+      const file = await this.findFile({
+        id,
+        fileName,
+      });
+      const res = await fetch(
+        `https://www.googleapis.com/upload/drive/v3/files/${file}?uploadType=media&fields=id`,
+        {
+          method: 'PATCH',
+          headers: new Headers({
+            Authorization: `Bearer ${this.getGoogleSession()}`,
+            'Content-Type': 'text/plain',
+            'Content-Length': `${content.length}`,
+          }),
+          body: content,
+        }
+      ).then((response) => response.json());
+      if (res.error) throw new Error(res.error.message);
+    } catch (error) {
+      throw new Error(`Failed updating a file: ${(error as Error).message}`);
+    }
   }
 
   /**
@@ -207,7 +235,7 @@ ${content}
       }
       throw new Error('Missing id or fileName parameter.');
     } catch (e) {
-      throw new Error(`Failed to search file: ${(e as Error).message}`);
+      throw new Error(`Failed getting file content: ${(e as Error).message}`);
     }
   }
 
@@ -217,21 +245,25 @@ ${content}
    * @returns boolean - true if the file was deleted
    */
   static async deleteFile(args: { id: string }): Promise<boolean> {
-    const { id } = args;
-    if (!id) throw new Error('Missing id parameter.');
-    const requestParams = {
-      method: 'DELETE',
-      headers: new Headers({
-        Authorization: `Bearer ${this.getGoogleSession()}`,
-      }),
-    };
-    const res = await fetch(
-      `https://www.googleapis.com/drive/v3/files/${id}`,
-      requestParams
-    );
-    if (!res.body) return true;
-    const data = await res.json();
-    throw new Error(data.error.message);
+    try {
+      const { id } = args;
+      if (!id) throw new Error('Missing id parameter.');
+      const requestParams = {
+        method: 'DELETE',
+        headers: new Headers({
+          Authorization: `Bearer ${this.getGoogleSession()}`,
+        }),
+      };
+      const res = await fetch(
+        `https://www.googleapis.com/drive/v3/files/${id}`,
+        requestParams
+      );
+      if (!res.body) return true;
+      const data = await res.json();
+      throw new Error(data.error.message);
+    } catch (error) {
+      throw new Error(`Failed deleting file: ${(error as Error).message}`);
+    }
   }
 }
 

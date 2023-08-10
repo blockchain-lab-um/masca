@@ -38,6 +38,7 @@ import { VerifiablePresentation } from 'did-jwt-vc';
 
 import GeneralService from './General.service';
 import PolygonService from './polygon-id/Polygon.service';
+import GoogleService from './storage/Google.service';
 import StorageService from './storage/Storage.service';
 import UIService from './UI.service';
 import VeramoService from './veramo/Veramo.service';
@@ -578,6 +579,9 @@ class SnapService {
         return ResultObject.success(true);
       case 'setGoogleToken':
         res = await GeneralService.setGoogleToken(params);
+        return ResultObject.success(res);
+      case 'validateStoredGoogleSession':
+        res = await GoogleService.validateStoredGoogleSession();
         return ResultObject.success(res);
 
       /**
