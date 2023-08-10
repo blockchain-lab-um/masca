@@ -1,5 +1,32 @@
 # Changelog
 
+## 0.4.2-beta.2
+
+### Patch Changes
+
+- [#375](https://github.com/blockchain-lab-um/masca/pull/375) [`fa6b4cc`](https://github.com/blockchain-lab-um/masca/commit/fa6b4cccd4dce8c63f70e86ef18dd421571161c9) Thanks [@tadejpodrekar](https://github.com/tadejpodrekar)! - Add RPC method for encrypted backup (export/import) of Masca state
+
+- [#380](https://github.com/blockchain-lab-um/masca/pull/380) [`f73f0fe`](https://github.com/blockchain-lab-um/masca/commit/f73f0feccdec5ef62b9dec62abb1adaeb63b6be7) Thanks [@martines3000](https://github.com/martines3000)! - Update dependencies to latest
+
+- [#382](https://github.com/blockchain-lab-um/masca/pull/382) [`f123bff`](https://github.com/blockchain-lab-um/masca/commit/f123bff9829ea08dae81a57c98cb6c34612b7fc3) Thanks [@andyv09](https://github.com/andyv09)! - Improve README.md files and set correct licenses
+
+- [#386](https://github.com/blockchain-lab-um/masca/pull/386) [`d3e7217`](https://github.com/blockchain-lab-um/masca/commit/d3e7217652cbd392e4b1178b81c830624d83452a) Thanks [@andyv09](https://github.com/andyv09)! - Fixes `saveCredential` RPC method bug connected to ID generation
+
+- [#381](https://github.com/blockchain-lab-um/masca/pull/381) [`c97c316`](https://github.com/blockchain-lab-um/masca/commit/c97c316bf4ae82d048aaaca36a59cf8a1f64f0b9) Thanks [@andyv09](https://github.com/andyv09)! - Improve styling of modal like components
+
+- [#388](https://github.com/blockchain-lab-um/masca/pull/388) [`a920603`](https://github.com/blockchain-lab-um/masca/commit/a9206035e339d2ace45660e92a5fe248f152bbbb) Thanks [@pseudobun](https://github.com/pseudobun)! - Update masca state structure
+
+- [#378](https://github.com/blockchain-lab-um/masca/pull/378) [`c8bc0d2`](https://github.com/blockchain-lab-um/masca/commit/c8bc0d2aecf602efe33eff3f7a60023953314043) Thanks [@martines3000](https://github.com/martines3000)! - Replaces @0xpolygonid/js-sdk with stable version and removes the corresponding submodule
+
+- Updated dependencies [[`fa6b4cc`](https://github.com/blockchain-lab-um/masca/commit/fa6b4cccd4dce8c63f70e86ef18dd421571161c9), [`f73f0fe`](https://github.com/blockchain-lab-um/masca/commit/f73f0feccdec5ef62b9dec62abb1adaeb63b6be7), [`f123bff`](https://github.com/blockchain-lab-um/masca/commit/f123bff9829ea08dae81a57c98cb6c34612b7fc3), [`a920603`](https://github.com/blockchain-lab-um/masca/commit/a9206035e339d2ace45660e92a5fe248f152bbbb), [`c8bc0d2`](https://github.com/blockchain-lab-um/masca/commit/c8bc0d2aecf602efe33eff3f7a60023953314043)]:
+  - @blockchain-lab-um/masca-types@0.4.2-beta.2
+  - @blockchain-lab-um/oidc-client-plugin@0.0.2-beta.1
+  - @blockchain-lab-um/did-provider-ebsi@1.0.1-beta.0
+  - @blockchain-lab-um/did-provider-key@1.0.2-beta.1
+  - @blockchain-lab-um/veramo-datamanager@0.4.2-beta.2
+  - @blockchain-lab-um/oidc-types@0.0.2-beta.1
+  - @blockchain-lab-um/utils@1.3.1-beta.1
+
 ## 0.4.2-beta.1
 
 ### Patch Changes

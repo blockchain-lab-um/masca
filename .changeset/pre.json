@@ -18,11 +18,22 @@
     "@blockchain-lab-um/masca-types": "0.4.1"
   },
   "changesets": [
+    "afraid-beers-shave",
+    "dry-ways-allow",
     "five-snakes-study",
     "giant-cherries-tickle",
     "lucky-trees-play",
+    "mighty-lizards-leave",
+    "nervous-turkeys-sneeze",
+    "quick-garlics-chew",
     "seven-elephants-occur",
+    "six-owls-stare",
+    "six-timers-lie",
+    "spicy-hounds-smoke",
+    "tame-oranges-argue",
     "ten-rings-repeat",
-    "tiny-pillows-exercise"
+    "tidy-pianos-wonder",
+    "tiny-pillows-exercise",
+    "witty-swans-live"
   ]
 }
