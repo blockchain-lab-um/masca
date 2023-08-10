@@ -49,7 +49,7 @@ jobs:
       # Makes a pr to publish the changesets (when merged will publish to npm)
       # see https://github.com/changesets/action
       - name: Publish To NPM or Create Release Pull Request
-        uses: changesets/action@v1
+        uses: martines3000/changeset-action@v1.5.0
         id: changesets
         with:
           version: bash scripts/changesets/version-beta.sh

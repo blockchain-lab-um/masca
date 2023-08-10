@@ -55,17 +55,20 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Git config
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Version packages
-        run: bash scripts/changesets/version-stable.sh ${{ github.event.inputs.selected-package }}
+      # Makes a pr to publish the changesets (when merged will publish to npm)
+      # see https://github.com/changesets/action
+      - name: Publish To NPM or Create Release Pull Request
+        uses: martines3000/changeset-action@v1.5.0
+        id: changesets
+        with:
+          version: bash scripts/changesets/version-stable.sh ${{ github.event.inputs.selected-package }}
+          publish: false
+          title: 'chore: version packages'
+          commit: 'chore: version packages'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}

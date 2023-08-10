@@ -48,8 +48,18 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Publish To NPM
-        run: bash scripts/changesets/publish-stable.sh
+      # Makes a pr to publish the changesets (when merged will publish to npm)
+      # see https://github.com/changesets/action
+      - name: Publish To NPM or Create Release Pull Request
+        uses: martines3000/changeset-action@v1.5.0
+        id: changesets
+        with:
+          version: false
+          publish: bash scripts/changesets/publish-stable.sh
+          title: 'chore: version packages'
+          commit: 'chore: version packages'
+          forcePublish: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
