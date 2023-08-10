@@ -37,8 +37,15 @@ jobs:
 
       - name: Git config
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "bclabum"
+          git config user.email "blockchain-lab@um.si"
+
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v5
+        with:
+          gpg_private_key: ${{ secrets.BCLABUM_PGP }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
 
       - name: Set deployment token
         run: npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
@@ -58,6 +65,8 @@ jobs:
           title: 'chore: version packages'
           commit: 'chore: version packages'
           forcePublish: true
+          setupGitUser: false
+
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
