@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Checkout or create a new branch
-git checkout changeset-release/master 2>/dev/null || git checkout -b changeset-release/master
 
 echo "Updating beta version..."
 
@@ -15,7 +14,6 @@ pnpm changeset pre exit && \
   pnpm build && \
   git add --all && \
   git commit -m "chore: update versions" && \
-  git push --force --set-upstream origin changeset-release/master && \
   echo "Successfully updated stable version!" || \
   echo "Failed to update stable version!"
 
