@@ -9,7 +9,10 @@ on:
         type: choice
         options:
           - 'all'
-          - '@blockchain-lab-um/masca-core'
+          - '@blockchain-lab-um/masca'
+          - '@blockchain-lab-um/masca-types'
+          - '@blockchain-lab-um/masca-connector'
+          - '@blockchain-lab-um/veramo-datamanager'
           - '@blockchain-lab-um/oidc'
           - '@blockchain-lab-um/utils'
           - '@blockchain-lab-um/did-provider-key'
