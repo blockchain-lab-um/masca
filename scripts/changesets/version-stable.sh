@@ -15,7 +15,7 @@ pnpm changeset pre exit && \
   pnpm build && \
   git add --all && \
   git commit -m "chore: update versions" && \
-  git push --force && \
+  git push --force --set-upstream origin changeset-release/master && \
   echo "Successfully updated stable version!" || \
   echo "Failed to update stable version!"
 
