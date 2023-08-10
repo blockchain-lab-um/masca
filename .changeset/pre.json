@@ -18,6 +18,7 @@
     "@blockchain-lab-um/masca-types": "0.4.3"
   },
   "changesets": [
-    "nice-apricots-scream"
+    "nice-apricots-scream",
+    "tall-seahorses-camp"
   ]
 }

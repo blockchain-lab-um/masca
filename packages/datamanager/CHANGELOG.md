@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.4-beta.1
+
+### Patch Changes
+
+- [`e26e48f`](https://github.com/blockchain-lab-um/masca/commit/e26e48f43265ad880da109bda468c92cdd036f85) Thanks [@martines3000](https://github.com/martines3000)! - Bump patch version of all packages
+
+- Updated dependencies [[`e26e48f`](https://github.com/blockchain-lab-um/masca/commit/e26e48f43265ad880da109bda468c92cdd036f85)]:
+  - @blockchain-lab-um/masca-types@0.4.4-beta.1
+
 ## 0.4.4-beta.0
 
 ### Patch Changes
