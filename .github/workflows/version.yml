@@ -58,6 +58,8 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Exit pre-release mode
+        run: pnpm changeset pre exit
 
       # Makes a pr to publish the changesets (when merged will publish to npm)
       # see https://github.com/changesets/action
