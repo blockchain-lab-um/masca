@@ -41,14 +41,13 @@ export interface MascaState {
      * Configuration for Masca
      */
     config: MascaConfig;
-  }
+  };
 }
 
 /**
  * Masca State for a MetaMask address
  */
 export interface MascaAccountState {
-  // FIXME: Split into general, veramo, polygon
   polygon: {
     state: PolygonState;
   };
@@ -65,7 +64,6 @@ export interface PolygonBaseState {
   credentials: Record<string, string>;
   identities: Record<string, string>;
   profiles: Record<string, string>;
-  // TODO: Maybe we can replace array with Record here
   merkleTreeMeta: IdentityMerkleTreeMetaInformation[];
   merkleTree: Record<string, string>;
 }

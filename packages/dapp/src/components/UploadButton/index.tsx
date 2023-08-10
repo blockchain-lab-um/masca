@@ -4,7 +4,7 @@ import { ArrowUpTrayIcon } from '@heroicons/react/24/solid';
 import Button from '../Button';
 
 interface UploadButtonProps {
-  acceptedMedia?: 'image';
+  acceptedMedia?: string;
   handleUpload: (file: File) => Promise<void | null>;
 }
 
@@ -45,10 +45,10 @@ const UploadButton = ({
         variant="primary"
         loading={loading}
         showTextOnLoading={false}
-        size="icon"
+        size="xs"
         onClick={handleClick}
       >
-        <ArrowUpTrayIcon className="h-3 w-3 md:h-4 md:w-4" />
+        <ArrowUpTrayIcon className="h-4 w-4" />
       </Button>
       <input
         type="file"

@@ -1,21 +1,22 @@
-import type {
-  AvailableCredentialStores,
-  AvailableMethods,
-  CreateCredentialRequestParams,
-  CreatePresentationRequestParams,
-  DeleteCredentialsOptions,
-  HandleAuthorizationRequestParams,
-  HandleCredentialOfferRequestParams,
-  MascaAccountConfig,
-  MascaApi,
-  MascaConfig,
-  MascaRPCRequest,
-  QueryCredentialsRequestParams,
-  QueryCredentialsRequestResult,
-  SaveCredentialOptions,
-  SaveCredentialRequestResult,
-  SetCurrentAccountRequestParams,
-  VerifyDataRequestParams,
+import {
+  ImportStateBackupRequestParams,
+  type AvailableCredentialStores,
+  type AvailableMethods,
+  type CreateCredentialRequestParams,
+  type CreatePresentationRequestParams,
+  type DeleteCredentialsOptions,
+  type HandleAuthorizationRequestParams,
+  type HandleCredentialOfferRequestParams,
+  type MascaAccountConfig,
+  type MascaApi,
+  type MascaConfig,
+  type MascaRPCRequest,
+  type QueryCredentialsRequestParams,
+  type QueryCredentialsRequestResult,
+  type SaveCredentialOptions,
+  type SaveCredentialRequestResult,
+  type SetCurrentAccountRequestParams,
+  type VerifyDataRequestParams,
 } from '@blockchain-lab-um/masca-types';
 import { isError, ResultObject, type Result } from '@blockchain-lab-um/utils';
 import type {
@@ -452,6 +453,39 @@ export async function validateStoredCeramicSession(
   );
 }
 
+/**
+ * Import encrypted Masca state
+ * @param this - Masca instance
+ * @param params - Encrypted Masca state
+ * @returns Result<boolean> - true if successful
+ */
+export async function importStateBackup(
+  this: Masca,
+  params: ImportStateBackupRequestParams
+): Promise<Result<boolean>> {
+  return sendSnapMethod(
+    {
+      method: 'importStateBackup',
+      params,
+    },
+    this.snapId
+  );
+}
+
+/**
+ * Export Masca state
+ * @param this - Masca instance
+ * @returns Result<string> - Encrypted Masca state
+ */
+export async function exportStateBackup(this: Masca): Promise<Result<string>> {
+  return sendSnapMethod(
+    {
+      method: 'exportStateBackup',
+    },
+    this.snapId
+  );
+}
+
 const wrapper =
   <T extends any[], R>(fn: (...args: T) => Promise<Result<R>>) =>
   async (...args: T): Promise<Result<R>> => {
@@ -501,5 +535,7 @@ export class Masca {
     validateStoredCeramicSession: wrapper(
       validateStoredCeramicSession.bind(this)
     ),
+    importStateBackup: wrapper(importStateBackup.bind(this)),
+    exportStateBackup: wrapper(exportStateBackup.bind(this)),
   });
 }

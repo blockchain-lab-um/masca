@@ -3,6 +3,7 @@ import type {
   CreateCredential,
   CreatePresentation,
   DeleteCredential,
+  ExportStateBackup,
   GetAccountSettings,
   GetAvailableCredentialStores,
   GetAvailableMethods,
@@ -12,6 +13,7 @@ import type {
   GetSnapSettings,
   HandleAuthorization,
   HandleCredentialOffer,
+  ImportStateBackup,
   QueryCredentials,
   RemoveFriendlyDapp,
   ResolveDID,
@@ -49,7 +51,9 @@ export type MascaRPCRequest =
   | HandleCredentialOffer
   | HandleAuthorization
   | SetCeramicSession
-  | ValidateStoredCeramicSession;
+  | ValidateStoredCeramicSession
+  | ExportStateBackup
+  | ImportStateBackup;
 
 export type Method = MascaRPCRequest['method'];
 

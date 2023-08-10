@@ -26,6 +26,10 @@ class StorageService {
     return this.instance;
   }
 
+  static set(state: MascaState): void {
+    this.instance = state;
+  }
+
   static async save(): Promise<void> {
     await SnapStorage.save(this.instance);
   }

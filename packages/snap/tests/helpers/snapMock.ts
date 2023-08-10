@@ -36,6 +36,9 @@ export class SnapMock implements ISnapMock {
   }
 
   private snapGetEntropy(params: { version: string; salt: string }): string {
+    if (params.salt === undefined)
+      return '0x7213a0a3e566ad34b2a282d97046978e3250b79deeed1a728ef3f0a14da9ab68';
+
     switch (params.salt.toLowerCase()) {
       case '0xb6665128ee91d84590f70c3268765384a9cafbcd':
         return '0x77160f04a3daf2ba6b21991da8c82a075ebbb677863e6e21bc1b2c96848c9649';

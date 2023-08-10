@@ -1,3 +1,4 @@
+import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
 import { uint8ArrayToHex } from '@blockchain-lab-um/utils';
 import {
   AbstractDataStore,
@@ -9,7 +10,6 @@ import type { ManagedPrivateKey } from '@veramo/key-manager';
 import { sha256 } from 'ethereum-cryptography/sha256';
 import jsonpath from 'jsonpath';
 
-import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
 import StorageService from '../../../storage/Storage.service';
 import { decodeJWT } from '../../../utils/jwt';
 
@@ -135,6 +135,26 @@ export class SnapCredentialStore extends AbstractDataStore {
     state[CURRENT_STATE_VERSION].accountState[
       state[CURRENT_STATE_VERSION].currentAccount
     ].veramo.credentials = {};
+    return true;
+  }
+
+  public async exportStore(): Promise<Record<string, W3CVerifiableCredential>> {
+    const state = StorageService.get();
+
+    return state[CURRENT_STATE_VERSION].accountState[
+      state[CURRENT_STATE_VERSION].currentAccount
+    ].veramo.credentials;
+  }
+
+  public async importStore(
+    data: Record<string, W3CVerifiableCredential>
+  ): Promise<boolean> {
+    const state = StorageService.get();
+
+    state[CURRENT_STATE_VERSION].accountState[
+      state[CURRENT_STATE_VERSION].currentAccount
+    ].veramo.credentials = data;
+
     return true;
   }
 }

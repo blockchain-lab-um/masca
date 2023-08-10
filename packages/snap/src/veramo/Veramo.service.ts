@@ -85,6 +85,7 @@ import GeneralService from '../General.service';
 import StorageService from '../storage/Storage.service';
 import UIService from '../UI.service';
 import UniversalResolverService from '../UniversalResolver.service';
+import { normalizeCredential } from '../utils/credential';
 import { sign } from '../utils/sign';
 import WalletService from '../Wallet.service';
 import { CeramicCredentialStore } from './plugins/ceramicDataStore/ceramicDataStore';
@@ -302,8 +303,11 @@ class VeramoService {
     store: AvailableCredentialStores | AvailableCredentialStores[];
   }): Promise<SaveCredentialRequestResult[]> {
     const { verifiableCredential, store } = args;
+
+    const normalizedCredential = normalizeCredential(verifiableCredential);
+
     const result = await this.instance.save({
-      data: verifiableCredential,
+      data: normalizedCredential,
       options: { store },
     });
 
