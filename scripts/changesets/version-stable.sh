@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Checkout or create a new branch
+git checkout changeset-release/master 2>/dev/null || git checkout -b changeset-release/master
+
 echo "Updating beta version..."
 
 # First we exit rc mode and then we version the packages
@@ -10,8 +13,8 @@ pnpm changeset pre exit && \
   node scripts/changesets/update-snap-version.mjs && \
   pnpm install --lockfile-only && \
   pnpm build && \
-  git add . && \
-  git commit -m \"chore: update versions\" && \
+  git add --all && \
+  git commit -m "chore: update versions" && \
   git push --force && \
   echo "Successfully updated stable version!" || \
   echo "Failed to update stable version!"
