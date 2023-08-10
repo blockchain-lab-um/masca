@@ -74,7 +74,6 @@ jobs:
             pnpm build
             git add --all
             git commit -m "chore: update versions"
-          publish: ''
           title: 'chore: version packages'
           commit: 'chore: version packages'
         env:
