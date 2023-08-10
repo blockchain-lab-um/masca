@@ -54,7 +54,7 @@ jobs:
         uses: martines3000/changeset-action@v1.5.0
         id: changesets
         with:
-          version: false
+          version: ''
           publish: bash scripts/changesets/publish-stable.sh
           title: 'chore: version packages'
           commit: 'chore: version packages'

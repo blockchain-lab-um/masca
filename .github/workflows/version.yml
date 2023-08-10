@@ -65,7 +65,7 @@ jobs:
         id: changesets
         with:
           version: bash scripts/changesets/version-stable.sh ${{ github.event.inputs.selected-package }}
-          publish: false
+          publish: ''
           title: 'chore: version packages'
           commit: 'chore: version packages'
         env:
