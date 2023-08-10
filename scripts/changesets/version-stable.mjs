@@ -91,16 +91,18 @@ const main = async () => {
 
   if (args.length < 3) {
     console.error('No package was selected');
-    process.exit(1);
+    return;
   }
 
   // Should we version all packages?
   if (args[2] === 'all') {
+    console.log('Versioning all packages');
     await execa('pnpm changeset version', {
       shell: true,
+      stdout: 'inherit',
     });
 
-    process.exit(0);
+    return;
   }
 
   const allDependencies = new Set();
@@ -115,11 +117,13 @@ const main = async () => {
     .filter(([key]) => key !== args[2] && !allDependencies.has(key))
     .flatMap(([, value]) => value);
 
+  console.log(`Ignoring packages: ${packagesToIgnore.join(', ')}`);
+
   await execa(
     `pnpm changeset version ${packagesToIgnore
       .map((pkg) => `--ignore ${pkg}`)
       .join(' ')}`,
-    { shell: true }
+    { shell: true, stdio: 'inherit' }
   );
 };
 
