@@ -91,18 +91,19 @@ const main = async () => {
 
   if (args.length < 3) {
     console.error('No package was selected');
-    return;
+    process.exit(0);
   }
 
   // Should we version all packages?
   if (args[2] === 'all') {
     console.log('Versioning all packages');
-    await execa('pnpm changeset version', {
+    const { stdout } = await execa('pnpm changeset version', {
       shell: true,
-      stdout: 'inherit',
     });
 
-    return;
+    console.log(stdout);
+
+    process.exit(0);
   }
 
   const allDependencies = new Set();
