@@ -1,7 +1,7 @@
 import {
+  CURRENT_STATE_VERSION,
   methodIndexMapping,
   type InternalSigMethods,
-  CURRENT_STATE_VERSION,
 } from '@blockchain-lab-um/masca-types';
 import { HDNodeWallet, Mnemonic } from 'ethers';
 
@@ -17,8 +17,9 @@ class WalletService {
   static async init(): Promise<void> {
     const state = StorageService.get();
 
-    const method = state[CURRENT_STATE_VERSION].accountState[state[CURRENT_STATE_VERSION].currentAccount].general.account.ssi
-      .selectedMethod as InternalSigMethods;
+    const method = state[CURRENT_STATE_VERSION].accountState[
+      state[CURRENT_STATE_VERSION].currentAccount
+    ].general.account.ssi.selectedMethod as InternalSigMethods;
 
     if (!['did:key', 'did:key:jwk_jcs-pub', 'did:jwk'].includes(method)) {
       return;

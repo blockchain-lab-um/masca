@@ -1,4 +1,7 @@
-import { CURRENT_STATE_VERSION, type MascaState } from '@blockchain-lab-um/masca-types';
+import {
+  CURRENT_STATE_VERSION,
+  type MascaState,
+} from '@blockchain-lab-um/masca-types';
 import { CeramicClient } from '@ceramicnetwork/http-client';
 import { DIDSession } from 'did-session';
 

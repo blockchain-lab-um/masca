@@ -83,31 +83,31 @@ class PolygonService {
       >
     >
   > = {
-      polygonid: {
-        eth: {
-          main: {} as PolygonServicBaseInstance,
-          goerli: {} as PolygonServicBaseInstance,
-          mumbai: {} as PolygonServicBaseInstance,
-        },
-        polygon: {
-          main: {} as PolygonServicBaseInstance,
-          goerli: {} as PolygonServicBaseInstance,
-          mumbai: {} as PolygonServicBaseInstance,
-        },
+    polygonid: {
+      eth: {
+        main: {} as PolygonServicBaseInstance,
+        goerli: {} as PolygonServicBaseInstance,
+        mumbai: {} as PolygonServicBaseInstance,
       },
-      iden3: {
-        eth: {
-          main: {} as PolygonServicBaseInstance,
-          goerli: {} as PolygonServicBaseInstance,
-          mumbai: {} as PolygonServicBaseInstance,
-        },
-        polygon: {
-          main: {} as PolygonServicBaseInstance,
-          goerli: {} as PolygonServicBaseInstance,
-          mumbai: {} as PolygonServicBaseInstance,
-        },
+      polygon: {
+        main: {} as PolygonServicBaseInstance,
+        goerli: {} as PolygonServicBaseInstance,
+        mumbai: {} as PolygonServicBaseInstance,
       },
-    };
+    },
+    iden3: {
+      eth: {
+        main: {} as PolygonServicBaseInstance,
+        goerli: {} as PolygonServicBaseInstance,
+        mumbai: {} as PolygonServicBaseInstance,
+      },
+      polygon: {
+        main: {} as PolygonServicBaseInstance,
+        goerli: {} as PolygonServicBaseInstance,
+        mumbai: {} as PolygonServicBaseInstance,
+      },
+    },
+  };
 
   static async init() {
     // Load Circuits to memory

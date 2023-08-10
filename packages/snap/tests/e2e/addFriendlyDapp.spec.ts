@@ -45,7 +45,9 @@ describe('addFriendlyDapp', () => {
       operation: 'get',
     });
 
-    expect(state[CURRENT_STATE_VERSION].config.dApp.friendlyDapps).toStrictEqual(['localhost']);
+    expect(
+      state[CURRENT_STATE_VERSION].config.dApp.friendlyDapps
+    ).toStrictEqual(['localhost']);
 
     expect.assertions(2);
   });

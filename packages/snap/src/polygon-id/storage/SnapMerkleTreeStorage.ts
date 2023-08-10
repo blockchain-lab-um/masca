@@ -3,10 +3,10 @@ import {
   IMerkleTreeStorage,
   MerkleTreeType,
 } from '@0xpolygonid/js-sdk';
+import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
 import { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
 import { Merkletree, str2Bytes } from '@iden3/js-merkletree';
 
-import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
 import StorageService from '../../storage/Storage.service';
 import { SnapTreeStorage } from './SnapTreeStorage';
 

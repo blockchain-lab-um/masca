@@ -1,4 +1,7 @@
-import { CURRENT_STATE_VERSION, InternalSigMethods } from '@blockchain-lab-um/masca-types';
+import {
+  CURRENT_STATE_VERSION,
+  InternalSigMethods,
+} from '@blockchain-lab-um/masca-types';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 
@@ -58,7 +61,8 @@ describe('Wallet Service', () => {
         const state = StorageService.get();
         state[CURRENT_STATE_VERSION].accountState[
           state[CURRENT_STATE_VERSION].currentAccount
-        ].general.account.ssi.selectedMethod = method.method as InternalSigMethods;
+        ].general.account.ssi.selectedMethod =
+          method.method as InternalSigMethods;
         await StorageService.save();
 
         // Need to re-initialize VeramoService with new state
