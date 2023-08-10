@@ -2,6 +2,7 @@ import typia from 'typia';
 
 import {
   availableCredentialStores,
+  CURRENT_STATE_VERSION,
   isW3CCredential,
   isW3CVerifiableCredential,
   type AvailableCredentialStores,
@@ -23,7 +24,9 @@ const isEnabledCredentialStore = (
   account: string,
   state: MascaState,
   store: AvailableCredentialStores
-): boolean => state.accountState[account].accountConfig.ssi.vcStore[store];
+): boolean =>
+  state[CURRENT_STATE_VERSION].accountState[account].general.account.ssi
+    .storesEnabled[store];
 
 const checkCredentialStore = (
   param: any,

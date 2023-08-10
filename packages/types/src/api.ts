@@ -17,6 +17,7 @@ import type {
   DeleteCredentialsOptions,
   HandleAuthorizationRequestParams,
   HandleCredentialOfferRequestParams,
+  ImportStateBackupRequestParams,
   QueryCredentialsRequestParams,
   SaveCredentialOptions,
   SetCurrentAccountRequestParams,
@@ -78,6 +79,10 @@ export interface MascaApi {
   validateStoredCeramicSession(): Promise<Result<boolean>>;
   addFriendlyDapp(): Promise<Result<boolean>>;
   removeFriendlyDapp(id: string): Promise<Result<boolean>>;
+  importStateBackup(
+    params: ImportStateBackupRequestParams
+  ): Promise<Result<boolean>>;
+  exportStateBackup(): Promise<Result<string>>;
   setGoogleToken(accessToken: string): Promise<Result<boolean>>;
   createGoogleBackup(): Promise<Result<string>>;
   importGoogleBackup(): Promise<Result<boolean>>;

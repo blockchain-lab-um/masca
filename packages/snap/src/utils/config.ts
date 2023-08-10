@@ -43,31 +43,39 @@ const emptyPolygonState: PolygonState = {
 };
 
 const emptyAccountState = {
-  polygonState: emptyPolygonState,
-  vcs: {},
-  accountConfig: {
-    ssi: {
-      didMethod: 'did:ethr',
-      vcStore: {
-        snap: true,
-        ceramic: true,
+  polygon: {
+    state: emptyPolygonState,
+  },
+  veramo: {
+    credentials: {},
+  },
+  general: {
+    account: {
+      ssi: {
+        selectedMethod: 'did:ethr',
+        storesEnabled: {
+          snap: true,
+          ceramic: true,
+        },
       },
-    },
-  } as MascaAccountConfig,
+    } as MascaAccountConfig,
+  },
 } as MascaAccountState;
 
 export const getEmptyAccountState = () => cloneDeep(emptyAccountState);
 
 const initialSnapState: MascaState = {
-  accountState: {},
-  currentAccount: '',
-  snapConfig: {
-    dApp: {
-      disablePopups: false,
-      friendlyDapps: [],
-    },
-    snap: {
-      acceptedTerms: true,
+  v1: {
+    accountState: {},
+    currentAccount: '',
+    config: {
+      dApp: {
+        disablePopups: false,
+        friendlyDapps: [],
+      },
+      snap: {
+        acceptedTerms: true,
+      },
     },
   },
 };

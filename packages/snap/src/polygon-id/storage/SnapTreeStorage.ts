@@ -1,3 +1,4 @@
+import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
 import { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
 import {
   Bytes,
@@ -43,9 +44,9 @@ export class SnapTreeStorage implements ITreeStorage {
 
     const data = StorageService.get();
     const base =
-      data.accountState[this.account].polygonState[this.method][
-        this.blockchain
-      ][this.networkId];
+      data[CURRENT_STATE_VERSION].accountState[this.account].polygon.state[
+        this.method
+      ][this.blockchain][this.networkId];
 
     const value = base[SnapTreeStorage.STORAGE_KEY][key];
 
@@ -97,9 +98,9 @@ export class SnapTreeStorage implements ITreeStorage {
     const value = JSON.stringify(toSerialize);
     const data = StorageService.get();
     const base =
-      data.accountState[this.account].polygonState[this.method][
-        this.blockchain
-      ][this.networkId];
+      data[CURRENT_STATE_VERSION].accountState[this.account].polygon.state[
+        this.method
+      ][this.blockchain][this.networkId];
 
     base[SnapTreeStorage.STORAGE_KEY][key] = value;
   }
@@ -111,9 +112,9 @@ export class SnapTreeStorage implements ITreeStorage {
 
     const data = StorageService.get();
     const base =
-      data.accountState[this.account].polygonState[this.method][
-        this.blockchain
-      ][this.networkId];
+      data[CURRENT_STATE_VERSION].accountState[this.account].polygon.state[
+        this.method
+      ][this.blockchain][this.networkId];
     const rootStr = base[SnapTreeStorage.STORAGE_KEY][this.prefixHash];
 
     if (!rootStr) {
@@ -131,9 +132,9 @@ export class SnapTreeStorage implements ITreeStorage {
 
     const data = StorageService.get();
     const base =
-      data.accountState[this.account].polygonState[this.method][
-        this.blockchain
-      ][this.networkId];
+      data[CURRENT_STATE_VERSION].accountState[this.account].polygon.state[
+        this.method
+      ][this.blockchain][this.networkId];
 
     base[SnapTreeStorage.STORAGE_KEY][bytes2Hex(this.prefix)] = JSON.stringify(
       Array.from(r.bytes)

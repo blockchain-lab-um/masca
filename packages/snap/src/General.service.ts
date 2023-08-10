@@ -2,6 +2,7 @@ import {
   availableCredentialStores,
   AvailableCredentialStores,
   availableMethods,
+  CURRENT_STATE_VERSION,
   GOOGLE_DRIVE_BACKUP_FILE,
   ImportStateBackupRequestParams,
   isValidMascaState,
@@ -29,14 +30,21 @@ class GeneralService {
   static async initAccountState(): Promise<void> {
     const state = StorageService.get();
 
-    if (!state.currentAccount) {
+    if (!state[CURRENT_STATE_VERSION].currentAccount) {
       throw Error(
         'No current account set. Please call the `setCurrentAccount` RPC method first.'
       );
     }
 
-    if (!(state.currentAccount in state.accountState)) {
-      state.accountState[state.currentAccount] = getEmptyAccountState();
+    if (
+      !(
+        state[CURRENT_STATE_VERSION].currentAccount in
+        state[CURRENT_STATE_VERSION].accountState
+      )
+    ) {
+      state[CURRENT_STATE_VERSION].accountState[
+        state[CURRENT_STATE_VERSION].currentAccount
+      ] = getEmptyAccountState();
     }
   }
 
@@ -47,7 +55,7 @@ class GeneralService {
    */
   static async setCurrentAccount(account: string): Promise<void> {
     const state = StorageService.get();
-    state.currentAccount = account;
+    state[CURRENT_STATE_VERSION].currentAccount = account;
   }
 
   /**
@@ -57,11 +65,12 @@ class GeneralService {
    */
   static async addFriendlyDapp(dapp: string): Promise<void> {
     const state = StorageService.get();
-    if (state.snapConfig.dApp.friendlyDapps.includes(dapp)) return;
+    if (state[CURRENT_STATE_VERSION].config.dApp.friendlyDapps.includes(dapp))
+      return;
     if (!(await UIService.addFriendlyDappDialog(dapp))) {
       throw new Error('User rejected friendly dApp addition.');
     }
-    state.snapConfig.dApp.friendlyDapps.push(dapp);
+    state[CURRENT_STATE_VERSION].config.dApp.friendlyDapps.push(dapp);
   }
 
   /**
@@ -75,8 +84,9 @@ class GeneralService {
     }
 
     const state = StorageService.get();
-    state.snapConfig.dApp.friendlyDapps =
-      state.snapConfig.dApp.friendlyDapps.filter((d) => d !== args.id);
+    state[CURRENT_STATE_VERSION].config.dApp.friendlyDapps = state[
+      CURRENT_STATE_VERSION
+    ].config.dApp.friendlyDapps.filter((d) => d !== args.id);
   }
 
   /**
@@ -86,7 +96,9 @@ class GeneralService {
    */
   static async isFriendlyDapp(dapp: string): Promise<boolean> {
     const state = StorageService.get();
-    return state.snapConfig.dApp.friendlyDapps.includes(dapp);
+    return state[CURRENT_STATE_VERSION].config.dApp.friendlyDapps.includes(
+      dapp
+    );
   }
 
   /**
@@ -96,15 +108,15 @@ class GeneralService {
   static async togglePopups(): Promise<boolean> {
     const state = StorageService.get();
 
-    if (!state.snapConfig.dApp.disablePopups) {
+    if (!state[CURRENT_STATE_VERSION].config.dApp.disablePopups) {
       if (await UIService.togglePopupsDialog()) {
-        state.snapConfig.dApp.disablePopups = true;
-        return state.snapConfig.dApp.disablePopups;
+        state[CURRENT_STATE_VERSION].config.dApp.disablePopups = true;
+        return state[CURRENT_STATE_VERSION].config.dApp.disablePopups;
       }
       throw new Error('User rejected popup toggle.');
     } else {
-      state.snapConfig.dApp.disablePopups = false;
-      return state.snapConfig.dApp.disablePopups;
+      state[CURRENT_STATE_VERSION].config.dApp.disablePopups = false;
+      return state[CURRENT_STATE_VERSION].config.dApp.disablePopups;
     }
   }
 
@@ -116,7 +128,9 @@ class GeneralService {
   static async switchDIDMethod(args: SwitchMethodRequestParams): Promise<void> {
     const state = StorageService.get();
     const currentMethod =
-      state.accountState[state.currentAccount].accountConfig.ssi.didMethod;
+      state[CURRENT_STATE_VERSION].accountState[
+        state[CURRENT_STATE_VERSION].currentAccount
+      ].general.account.ssi.selectedMethod;
     const newMethod = args.didMethod;
 
     if (requiresNetwork(newMethod)) {
@@ -126,8 +140,9 @@ class GeneralService {
     }
 
     if (currentMethod !== newMethod) {
-      state.accountState[state.currentAccount].accountConfig.ssi.didMethod =
-        newMethod;
+      state[CURRENT_STATE_VERSION].accountState[
+        state[CURRENT_STATE_VERSION].currentAccount
+      ].general.account.ssi.selectedMethod = newMethod;
       return;
     }
     throw new Error('Method already set');
@@ -139,7 +154,9 @@ class GeneralService {
    */
   static async getSelectedMethod(): Promise<string> {
     const state = StorageService.get();
-    return state.accountState[state.currentAccount].accountConfig.ssi.didMethod;
+    return state[CURRENT_STATE_VERSION].accountState[
+      state[CURRENT_STATE_VERSION].currentAccount
+    ].general.account.ssi.selectedMethod;
   }
 
   /**
@@ -150,7 +167,9 @@ class GeneralService {
     Record<AvailableCredentialStores, boolean>
   > {
     const state = StorageService.get();
-    return state.accountState[state.currentAccount].accountConfig.ssi.vcStore;
+    return state[CURRENT_STATE_VERSION].accountState[
+      state[CURRENT_STATE_VERSION].currentAccount
+    ].general.account.ssi.storesEnabled;
   }
 
   /**
@@ -166,9 +185,9 @@ class GeneralService {
     const { store, value } = args;
 
     if (store !== 'snap') {
-      state.accountState[state.currentAccount].accountConfig.ssi.vcStore[
-        store
-      ] = value;
+      state[CURRENT_STATE_VERSION].accountState[
+        state[CURRENT_STATE_VERSION].currentAccount
+      ].general.account.ssi.storesEnabled[store] = value;
 
       return true;
     }
@@ -187,7 +206,9 @@ class GeneralService {
     const state = StorageService.get();
 
     return Object.entries(
-      state.accountState[state.currentAccount].accountConfig.ssi.vcStore
+      state[CURRENT_STATE_VERSION].accountState[
+        state[CURRENT_STATE_VERSION].currentAccount
+      ].general.account.ssi.storesEnabled
     )
       .filter(([, value]) => value)
       .map(([key]) => key) as AvailableCredentialStores[];
@@ -207,7 +228,9 @@ class GeneralService {
    */
   static async getAccountSettings(): Promise<MascaAccountConfig> {
     const state = StorageService.get();
-    return state.accountState[state.currentAccount].accountConfig;
+    return state[CURRENT_STATE_VERSION].accountState[
+      state[CURRENT_STATE_VERSION].currentAccount
+    ].general.account;
   }
 
   /**
@@ -216,7 +239,7 @@ class GeneralService {
    */
   static async getSnapSettings(): Promise<MascaConfig> {
     const state = StorageService.get();
-    return state.snapConfig;
+    return state[CURRENT_STATE_VERSION].config;
   }
 
   /**
@@ -236,8 +259,9 @@ class GeneralService {
     serializedSession: string;
   }): Promise<void> {
     const state = StorageService.get();
-    state.accountState[state.currentAccount].ceramicSession =
-      args.serializedSession;
+    state[CURRENT_STATE_VERSION].accountState[
+      state[CURRENT_STATE_VERSION].currentAccount
+    ].general.ceramicSession = args.serializedSession;
   }
 
   /**
@@ -248,23 +272,12 @@ class GeneralService {
     const state = StorageService.get();
 
     const serializedSession = await validateSession(
-      state.accountState[state.currentAccount].ceramicSession
+      state[CURRENT_STATE_VERSION].accountState[
+        state[CURRENT_STATE_VERSION].currentAccount
+      ].general.ceramicSession
     );
 
     return serializedSession;
-  }
-
-  /**
-   * Function that sets the google credential tokens
-   * @param args.accessToken - Google access token
-   * @returns boolean - whether the tokens were set
-   */
-  static async setGoogleToken(args: { accessToken?: string }) {
-    const state = StorageService.get();
-
-    state.accountState[state.currentAccount].googleSession = args.accessToken;
-
-    return true;
   }
 
   /**
@@ -304,6 +317,23 @@ class GeneralService {
     }
   }
 
+  /**
+   * Function that sets the google credential tokens
+   * @param args.accessToken - Google access token
+   * @returns boolean - whether the tokens were set
+   */
+  static async setGoogleToken(args: { accessToken?: string }) {
+    const state = StorageService.get();
+
+    state[CURRENT_STATE_VERSION].accountState[state[CURRENT_STATE_VERSION].currentAccount].general.googleSession = args.accessToken;
+
+    return true;
+  }
+
+  /**
+   * Function that creates a state backup in Google Drive
+   * @returns string - the file id of the backup
+   */
   static async createGoogleBackup() {
     let file = await GoogleService.findFile({
       fileName: GOOGLE_DRIVE_BACKUP_FILE,
@@ -326,6 +356,11 @@ class GeneralService {
     return file;
   }
 
+  /**
+   * Function that imports a backup from Google Drive
+   *
+   * *_Note:_ This will overwrite the current Masca state*
+   */
   static async importGoogleBackup() {
     const backup = await GoogleService.getFileContent({
       fileName: GOOGLE_DRIVE_BACKUP_FILE,

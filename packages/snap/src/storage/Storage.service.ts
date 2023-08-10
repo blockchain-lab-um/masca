@@ -1,8 +1,13 @@
-import { MascaAccountState, MascaState } from '@blockchain-lab-um/masca-types';
+import {
+  CURRENT_STATE_VERSION,
+  MascaAccountState,
+  MascaState,
+} from '@blockchain-lab-um/masca-types';
 
 import { getInitialSnapState } from '../utils/config';
 import SnapStorage from './Snap.storage';
 
+const STATE_VERSION = 'v1';
 class StorageService {
   static instance: MascaState;
 
@@ -30,7 +35,9 @@ class StorageService {
   }
 
   static getAccountState(): MascaAccountState {
-    return this.instance.accountState[this.instance.currentAccount];
+    return this.instance[CURRENT_STATE_VERSION].accountState[
+      this.instance[CURRENT_STATE_VERSION].currentAccount
+    ];
   }
 }
 

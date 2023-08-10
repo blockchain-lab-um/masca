@@ -3,11 +3,14 @@
 import Link from 'next/link';
 import { isError } from '@blockchain-lab-um/masca-connector';
 import { ArrowLeftIcon } from '@heroicons/react/20/solid';
+import { saveAs } from 'file-saver';
 import { useTranslations } from 'next-intl';
 
 import ToggleSwitch from '@/components/Switch';
 import { useMascaStore, useToastStore } from '@/stores';
+import Button from '../Button';
 import InfoIcon from '../InfoIcon';
+import UploadButton from '../UploadButton';
 import { FriendlydAppTable } from './FriendlydAppTable';
 
 const SettingsCard = () => {
@@ -15,14 +18,20 @@ const SettingsCard = () => {
   const {
     api,
     availableCredentialStores,
-    changeAvailableCredentialStores,
     popups,
+    changeAvailableCredentialStores,
+    changeAvailableMethods,
+    changeCurrMethod,
+    changeDID,
     changePopups,
   } = useMascaStore((state) => ({
     api: state.mascaApi,
-    popups: state.popups,
     availableCredentialStores: state.availableCredentialStores,
+    popups: state.popups,
     changeAvailableCredentialStores: state.changeAvailableCredentialStores,
+    changeAvailableMethods: state.changeAvailableMethods,
+    changeCurrMethod: state.changeCurrDIDMethod,
+    changeDID: state.changeCurrDID,
     changePopups: state.changePopups,
   }));
 
@@ -33,7 +42,7 @@ const SettingsCard = () => {
       console.log('Error getting account settings', accountSettings);
       return;
     }
-    changeAvailableCredentialStores(accountSettings.data.ssi.vcStore);
+    changeAvailableCredentialStores(accountSettings.data.ssi.storesEnabled);
   };
 
   const snapChangeAvailableCredentialStores = async (
@@ -78,6 +87,104 @@ const SettingsCard = () => {
     await snapChangeAvailableCredentialStores('ceramic', enabled);
   };
 
+  const handleExport = async () => {
+    if (!api) return;
+    const exportResult = await api.exportStateBackup();
+
+    if (isError(exportResult)) {
+      console.log(exportResult);
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: t('export-error'),
+          type: 'error',
+          loading: false,
+        });
+      }, 200);
+      return;
+    }
+
+    // Create text blob
+    const blob = new Blob([exportResult.data], {
+      type: 'text/plain;charset=utf-8',
+    });
+
+    // Save with file-saver
+    saveAs(blob, 'masca-backup.txt');
+  };
+
+  const handleImport = async (file: File) => {
+    // Read file
+    const reader = new FileReader();
+    reader.readAsText(file, 'UTF-8');
+
+    // On load
+    reader.onload = async (event) => {
+      if (!api) return;
+      if (!event.target) return;
+      const importResult = await api.importStateBackup({
+        serializedState: event.target.result as string,
+      });
+
+      if (isError(importResult)) {
+        setTimeout(() => {
+          useToastStore.setState({
+            open: true,
+            title: t('import-error'),
+            type: 'error',
+            loading: false,
+          });
+        }, 200);
+        return;
+      }
+
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: t('import-success'),
+          type: 'success',
+          loading: false,
+        });
+      }, 200);
+
+      const did = await api.getDID();
+      if (isError(did)) {
+        console.log("Couldn't get DID");
+        throw new Error(did.error);
+      }
+
+      const availableMethods = await api.getAvailableMethods();
+      if (isError(availableMethods)) {
+        console.log("Couldn't get available methods");
+        throw new Error(availableMethods.error);
+      }
+
+      const method = await api.getSelectedMethod();
+      if (isError(method)) {
+        console.log("Couldn't get selected method");
+        throw new Error(method.error);
+      }
+
+      const accountSettings = await api.getAccountSettings();
+      if (isError(accountSettings)) {
+        console.log("Couldn't get account settings");
+        throw new Error(accountSettings.error);
+      }
+
+      const snapSettings = await api.getSnapSettings();
+      if (isError(snapSettings)) {
+        console.log("Couldn't get snap settings");
+        throw new Error(snapSettings.error);
+      }
+
+      changeDID(did.data);
+      changeAvailableMethods(availableMethods.data);
+      changeCurrMethod(method.data);
+      changeAvailableCredentialStores(accountSettings.data.ssi.storesEnabled);
+      changePopups(snapSettings.data.dApp.disablePopups);
+    };
+  };
+
   return (
     <div className="p-6">
       <div className="flex w-full justify-between">
@@ -90,17 +197,18 @@ const SettingsCard = () => {
           {t('title')}
         </div>
       </div>
+
       <div className="mt-5">
         <div className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-800">
           {t('data-store')}
         </div>
-        <div className="mt-5">
-          <p className="text-md dark:text-navy-blue-400 text-gray-700 ">
+        <div className="mt-2">
+          <p className="text-md dark:text-navy-blue-400 text-gray-700">
             {t('data-store-desc')}{' '}
           </p>
         </div>
 
-        <span className="dark:text-navy-blue-200 mt-10 flex justify-between text-gray-700 ">
+        <span className="dark:text-navy-blue-200 mt-5 flex justify-between text-gray-700">
           Ceramic{' '}
           <ToggleSwitch
             size="md"
@@ -111,20 +219,16 @@ const SettingsCard = () => {
         </span>
       </div>
 
-      <div className="mt-20">
-        <div className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6  text-gray-800">
-          {t('advanced')}
+      <div className="mt-5">
+        <div className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-800">
+          {t('popups')}
         </div>
-        <div>
+        <div className="mt-2">
           <FriendlydAppTable />
-
-          <span className="dark:text-navy-blue-200 mt-10 flex justify-between text-gray-700 ">
+          <span className="dark:text-navy-blue-200 mt-10 flex justify-between text-gray-700">
             <div className="flex">
-              <span className="mr-1 text-red-500">Disable Popups </span>
-              <InfoIcon>
-                Disabling popups is very dangerous. We recommend setting
-                friendly dApps instead!
-              </InfoIcon>
+              <span className="mr-1 text-red-500">{t('disable-popups')}</span>
+              <InfoIcon>{t('popups-desc')}</InfoIcon>
             </div>
             <ToggleSwitch
               size="md"
@@ -133,6 +237,18 @@ const SettingsCard = () => {
               shadow="md"
             />
           </span>
+        </div>
+      </div>
+
+      <div className="mt-5">
+        <div className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-800">
+          {t('backup')}
+        </div>
+        <div className="mt-5 flex space-x-2">
+          <Button onClick={handleExport} variant="primary" size="xs">
+            {t('export')}
+          </Button>
+          <UploadButton handleUpload={handleImport} acceptedMedia=".txt" />
         </div>
       </div>
     </div>

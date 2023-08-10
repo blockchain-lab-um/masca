@@ -1,4 +1,5 @@
 import {
+  CURRENT_STATE_VERSION,
   isValidCreateCredentialRequest,
   isValidCreatePresentationRequest,
   isValidDeleteCredentialsRequest,
@@ -125,7 +126,9 @@ describe('Utils [requestParams]', () => {
     describe('failure', () => {
       it('store not enabled', () => {
         const state = getDefaultSnapState(account);
-        state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
+        state[CURRENT_STATE_VERSION].accountState[
+          account
+        ].general.account.ssi.storesEnabled.ceramic = false;
         expect(() =>
           isValidQueryCredentialsRequest(
             { options: { store: 'ceramic' } },
@@ -235,7 +238,9 @@ describe('Utils [requestParams]', () => {
       });
       it('store not enabled', () => {
         const state = getDefaultSnapState(account);
-        state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
+        state[CURRENT_STATE_VERSION].accountState[
+          account
+        ].general.account.ssi.storesEnabled.ceramic = false;
         expect(() =>
           isValidSaveCredentialRequest(
             { verifiableCredential: exampleVC, options: { store: 'ceramic' } },
@@ -463,7 +468,9 @@ describe('Utils [requestParams]', () => {
     describe('failure', () => {
       it('store not enabled', () => {
         const state = getDefaultSnapState(account);
-        state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
+        state[CURRENT_STATE_VERSION].accountState[
+          account
+        ].general.account.ssi.storesEnabled.ceramic = false;
         expect(() =>
           isValidDeleteCredentialsRequest(
             { id: '123', options: { store: 'ceramic' } },
@@ -518,7 +525,9 @@ describe('Utils [requestParams]', () => {
     describe('success', () => {
       it('only unsignedVC', () => {
         const state = getDefaultSnapState(account);
-        state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
+        state[CURRENT_STATE_VERSION].accountState[
+          account
+        ].general.account.ssi.storesEnabled.ceramic = false;
         expect(() => {
           isValidCreateCredentialRequest(
             {
@@ -531,7 +540,9 @@ describe('Utils [requestParams]', () => {
       });
       it('unsignedVC & PF', () => {
         const state = getDefaultSnapState(account);
-        state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
+        state[CURRENT_STATE_VERSION].accountState[
+          account
+        ].general.account.ssi.storesEnabled.ceramic = false;
         expect(() =>
           isValidCreateCredentialRequest(
             {
@@ -545,7 +556,9 @@ describe('Utils [requestParams]', () => {
       });
       it('empty options', () => {
         const state = getDefaultSnapState(account);
-        state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
+        state[CURRENT_STATE_VERSION].accountState[
+          account
+        ].general.account.ssi.storesEnabled.ceramic = false;
         expect(() =>
           isValidCreateCredentialRequest(
             {
@@ -560,7 +573,9 @@ describe('Utils [requestParams]', () => {
       });
       it('save option', () => {
         const state = getDefaultSnapState(account);
-        state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
+        state[CURRENT_STATE_VERSION].accountState[
+          account
+        ].general.account.ssi.storesEnabled.ceramic = false;
         expect(() =>
           isValidCreateCredentialRequest(
             {
@@ -575,7 +590,9 @@ describe('Utils [requestParams]', () => {
       });
       it('full options', () => {
         const state = getDefaultSnapState(account);
-        state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
+        state[CURRENT_STATE_VERSION].accountState[
+          account
+        ].general.account.ssi.storesEnabled.ceramic = false;
         expect(() =>
           isValidCreateCredentialRequest(
             {
@@ -592,7 +609,9 @@ describe('Utils [requestParams]', () => {
     describe('failure', () => {
       it('store not enabled', () => {
         const state = getDefaultSnapState(account);
-        state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
+        state[CURRENT_STATE_VERSION].accountState[
+          account
+        ].general.account.ssi.storesEnabled.ceramic = false;
         expect(() =>
           isValidCreateCredentialRequest(
             {
@@ -607,7 +626,9 @@ describe('Utils [requestParams]', () => {
       });
       it('invalid store', () => {
         const state = getDefaultSnapState(account);
-        state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
+        state[CURRENT_STATE_VERSION].accountState[
+          account
+        ].general.account.ssi.storesEnabled.ceramic = false;
         expect(() =>
           isValidCreateCredentialRequest(
             {
@@ -622,7 +643,9 @@ describe('Utils [requestParams]', () => {
       });
       it('invalid proofFormat', () => {
         const state = getDefaultSnapState(account);
-        state.accountState[account].accountConfig.ssi.vcStore.ceramic = false;
+        state[CURRENT_STATE_VERSION].accountState[
+          account
+        ].general.account.ssi.storesEnabled.ceramic = false;
         expect(() =>
           isValidCreateCredentialRequest(
             {
@@ -669,7 +692,12 @@ describe('Utils [requestParams]', () => {
     describe('failure', () => {
       it('empty object', () => {
         expect(() => isValidMascaState({})).toThrow(
-          'invalid_argument: $input.accountState, $input.currentAccount, $input.snapConfig'
+          'invalid_argument: $input.v1'
+        );
+      });
+      it('empty state with version', () => {
+        expect(() => isValidMascaState({ v1: {} })).toThrow(
+          'invalid_argument: $input.v1.accountState, $input.v1.currentAccount, $input.v1.config'
         );
       });
       it('null', () => {
@@ -678,8 +706,8 @@ describe('Utils [requestParams]', () => {
         );
       });
       it('missing fields', () => {
-        expect(() => isValidMascaState({ accountState: {} })).toThrow(
-          'invalid_argument: $input.currentAccount, $input.snapConfig'
+        expect(() => isValidMascaState({ v1: { accountState: {} } })).toThrow(
+          'invalid_argument: $input.v1.currentAccount, $input.v1.config'
         );
       });
     });

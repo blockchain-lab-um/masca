@@ -1220,6 +1220,9 @@ importers:
       ethers:
         specifier: ^6.7.0
         version: 6.7.0
+      file-saver:
+        specifier: ^2.0.5
+        version: 2.0.5
       html5-qrcode:
         specifier: ^2.3.8
         version: 2.3.8
@@ -1275,6 +1278,9 @@ importers:
       '@types/eslint':
         specifier: ^8.44.2
         version: 8.44.2
+      '@types/file-saver':
+        specifier: ^2.0.5
+        version: 2.0.5
       '@types/luxon':
         specifier: ^3.3.1
         version: 3.3.1
@@ -11495,6 +11501,10 @@ packages:
       '@types/qs': 6.9.7
       '@types/serve-static': 1.15.2
 
+  /@types/file-saver@2.0.5:
+    resolution: {integrity: sha512-zv9kNf3keYegP5oThGLaPk8E081DFDuwfqjtiTzm6PoxChdJ1raSuADf2YGCVIyrSynLrgc8JWv296s7Q7pQSQ==}
+    dev: true
+
   /@types/filesystem@0.0.32:
     resolution: {integrity: sha512-Yuf4jR5YYMR2DVgwuCiP11s0xuVRyPKmz8vo6HBY3CGdeMj8af93CFZX+T82+VD1+UqHOxTq31lO7MI7lepBtQ==}
     dependencies:
@@ -17500,6 +17510,10 @@ packages:
       loader-utils: 2.0.4
       schema-utils: 3.3.0
       webpack: 5.88.2
+
+  /file-saver@2.0.5:
+    resolution: {integrity: sha512-P9bmyZ3h/PRG+Nzga+rbdI4OEpNDzAVyy74uVO9ATgzLK6VtAsYybF/+TOCvrc0MO793d6+42lLyZTw7/ArVzA==}
+    dev: false
 
   /file-uri-to-path@1.0.0:
     resolution: {integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==}

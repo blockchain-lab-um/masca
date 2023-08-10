@@ -30,6 +30,7 @@ import {
   ZKPPacker,
 } from '@0xpolygonid/js-sdk';
 import {
+  CURRENT_STATE_VERSION,
   HandleAuthorizationRequestParams,
   HandleCredentialOfferRequestParams,
 } from '@blockchain-lab-um/masca-types';
@@ -145,15 +146,17 @@ class PolygonService {
 
   static async createOrImportIdentity() {
     const state = StorageService.get();
-    const { didMethod } =
-      state.accountState[state.currentAccount].accountConfig.ssi;
+    const { selectedMethod } =
+      state[CURRENT_STATE_VERSION].accountState[
+        state[CURRENT_STATE_VERSION].currentAccount
+      ].general.account.ssi;
 
-    if (didMethod !== 'did:iden3' && didMethod !== 'did:polygonid') {
+    if (selectedMethod !== 'did:iden3' && selectedMethod !== 'did:polygonid') {
       throw new Error('Unsupported did method');
     }
 
     const method =
-      didMethod === 'did:iden3' ? DidMethod.Iden3 : DidMethod.PolygonId;
+      selectedMethod === 'did:iden3' ? DidMethod.Iden3 : DidMethod.PolygonId;
     const network = await EthereumService.getNetwork();
     const mapping = CHAIN_ID_TO_BLOCKCHAIN_AND_NETWORK_ID[network];
 
@@ -177,7 +180,7 @@ class PolygonService {
 
     const entropy = await snap.request({
       method: 'snap_getEntropy',
-      params: { version: 1, salt: state.currentAccount },
+      params: { version: 1, salt: state[CURRENT_STATE_VERSION].currentAccount },
     });
 
     // If identity exists, import keys
@@ -394,7 +397,7 @@ class PolygonService {
   }) {
     const { method, blockchain, networkId } = args;
     const state = StorageService.get();
-    const account = state.currentAccount;
+    const account = state[CURRENT_STATE_VERSION].currentAccount;
     const memoryKeyStore = new InMemoryPrivateKeyStore();
     const bjjProvider = new BjjProvider(KmsKeyType.BabyJubJub, memoryKeyStore);
     const kms = new KMS();

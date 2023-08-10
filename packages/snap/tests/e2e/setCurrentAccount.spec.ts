@@ -1,3 +1,4 @@
+import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
 import { isError, isSuccess, Result } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
@@ -64,7 +65,7 @@ describe('setCurrentAccount', () => {
 
   it('should fail onRpcRequest - current account not set', async () => {
     const defaultState = getDefaultSnapState(account);
-    defaultState.currentAccount = '';
+    defaultState[CURRENT_STATE_VERSION].currentAccount = '';
     snapMock.rpcMocks.snap_manageState({
       operation: 'update',
       newState: defaultState,

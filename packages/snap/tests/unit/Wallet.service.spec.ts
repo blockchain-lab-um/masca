@@ -1,4 +1,7 @@
-import { InternalSigMethods } from '@blockchain-lab-um/masca-types';
+import {
+  CURRENT_STATE_VERSION,
+  InternalSigMethods,
+} from '@blockchain-lab-um/masca-types';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 
@@ -56,7 +59,9 @@ describe('Wallet Service', () => {
       'should get correct privateKey for available methods $method',
       async (method) => {
         const state = StorageService.get();
-        state.accountState[state.currentAccount].accountConfig.ssi.didMethod =
+        state[CURRENT_STATE_VERSION].accountState[
+          state[CURRENT_STATE_VERSION].currentAccount
+        ].general.account.ssi.selectedMethod =
           method.method as InternalSigMethods;
         await StorageService.save();
 

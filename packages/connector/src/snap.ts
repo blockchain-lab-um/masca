@@ -1,21 +1,22 @@
-import type {
-  AvailableCredentialStores,
-  AvailableMethods,
-  CreateCredentialRequestParams,
-  CreatePresentationRequestParams,
-  DeleteCredentialsOptions,
-  HandleAuthorizationRequestParams,
-  HandleCredentialOfferRequestParams,
-  MascaAccountConfig,
-  MascaApi,
-  MascaConfig,
-  MascaRPCRequest,
-  QueryCredentialsRequestParams,
-  QueryCredentialsRequestResult,
-  SaveCredentialOptions,
-  SaveCredentialRequestResult,
-  SetCurrentAccountRequestParams,
-  VerifyDataRequestParams,
+import {
+  ImportStateBackupRequestParams,
+  type AvailableCredentialStores,
+  type AvailableMethods,
+  type CreateCredentialRequestParams,
+  type CreatePresentationRequestParams,
+  type DeleteCredentialsOptions,
+  type HandleAuthorizationRequestParams,
+  type HandleCredentialOfferRequestParams,
+  type MascaAccountConfig,
+  type MascaApi,
+  type MascaConfig,
+  type MascaRPCRequest,
+  type QueryCredentialsRequestParams,
+  type QueryCredentialsRequestResult,
+  type SaveCredentialOptions,
+  type SaveCredentialRequestResult,
+  type SetCurrentAccountRequestParams,
+  type VerifyDataRequestParams,
 } from '@blockchain-lab-um/masca-types';
 import { isError, ResultObject, type Result } from '@blockchain-lab-um/utils';
 import type {
@@ -452,6 +453,45 @@ export async function validateStoredCeramicSession(
   );
 }
 
+/**
+ * Export Masca state
+ * @param this - Masca instance
+ * @returns Result<string> - Encrypted Masca state
+ */
+export async function exportStateBackup(this: Masca): Promise<Result<string>> {
+  return sendSnapMethod(
+    {
+      method: 'exportStateBackup',
+    },
+    this.snapId
+  );
+}
+
+/**
+ * Import encrypted Masca state
+ * @param this - Masca instance
+ * @param params - Encrypted Masca state
+ * @returns Result<boolean> - true if successful
+ */
+export async function importStateBackup(
+  this: Masca,
+  params: ImportStateBackupRequestParams
+): Promise<Result<boolean>> {
+  return sendSnapMethod(
+    {
+      method: 'importStateBackup',
+      params,
+    },
+    this.snapId
+  );
+}
+
+/**
+ * Set the Google access token
+ * @param this - Masca instance
+ * @param accessToken - Google access token
+ * @returns Result<boolean> - true if successful
+ */
 export async function setGoogleToken(
   this: Masca,
   accessToken: string
@@ -465,6 +505,11 @@ export async function setGoogleToken(
   );
 }
 
+/**
+ * Create a backup in Google Drive
+ * @param this - Masca instance
+ * @returns Result<string> - Google Drive file ID
+ */
 export async function createGoogleBackup(this: Masca): Promise<Result<string>> {
   return sendSnapMethod(
     {
@@ -474,6 +519,13 @@ export async function createGoogleBackup(this: Masca): Promise<Result<string>> {
   );
 }
 
+/**
+ * Import a backup from Google Drive
+ *
+ * *_Note_: this method will overwrite the current Masca state*
+ * @param this - Masca instance
+ * @returns Result<boolean> - true if successful
+ */
 export async function importGoogleBackup(
   this: Masca
 ): Promise<Result<boolean>> {
@@ -537,5 +589,7 @@ export class Masca {
     setGoogleToken: wrapper(setGoogleToken.bind(this)),
     createGoogleBackup: wrapper(createGoogleBackup.bind(this)),
     importGoogleBackup: wrapper(importGoogleBackup.bind(this)),
+    importStateBackup: wrapper(importStateBackup.bind(this)),
+    exportStateBackup: wrapper(exportStateBackup.bind(this)),
   });
 }
