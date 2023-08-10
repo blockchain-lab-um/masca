@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.5-beta.1
+
+### Patch Changes
+
+- [`433f16b`](https://github.com/blockchain-lab-um/masca/commit/433f16b09f4100fd374f98a3451759caf3168bd5) Thanks [@martines3000](https://github.com/martines3000)! - Path bump
+
+- Updated dependencies [[`433f16b`](https://github.com/blockchain-lab-um/masca/commit/433f16b09f4100fd374f98a3451759caf3168bd5)]:
+  - @blockchain-lab-um/utils@1.3.3-beta.1
+
 ## 0.4.5-beta.0
 
 ### Patch Changes
