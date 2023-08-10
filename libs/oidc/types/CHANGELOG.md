@@ -1,5 +1,12 @@
 # @blockchain-lab-um/oidc-types
 
+## 0.0.4-beta.0
+
+### Patch Changes
+
+- Updated dependencies [[`a14552c`](https://github.com/blockchain-lab-um/masca/commit/a14552c1c2ac7782218cbf912ff0af31201f9d16)]:
+  - @blockchain-lab-um/utils@1.3.2-beta.0
+
 ## 0.0.3
 
 ### Patch Changes
