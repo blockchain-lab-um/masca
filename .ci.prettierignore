@@ -1,0 +1,7 @@
+# Ignore this becuase we want to format only the files in the root directory
+apps
+libs
+packages
+pnpm-lock.yaml
+.vercel
+.changeset
