@@ -1,5 +1,11 @@
 # @blockchain-lab-um/masca-docs
 
+## 0.0.3-beta.0
+
+### Patch Changes
+
+- [`5deff0e`](https://github.com/blockchain-lab-um/masca/commit/5deff0e6b2371f944a103ee8ee5edd4b36f02ad9) Thanks [@martines3000](https://github.com/martines3000)! - Patch bump
+
 ## 0.0.2
 
 ### Patch Changes
