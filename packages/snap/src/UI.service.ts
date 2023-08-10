@@ -1,4 +1,7 @@
-import { QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-types';
+import {
+  CURRENT_STATE_VERSION,
+  QueryCredentialsRequestResult,
+} from '@blockchain-lab-um/masca-types';
 import {
   Component,
   copyable,
@@ -27,7 +30,8 @@ class UIService {
   ): Promise<boolean> {
     const state = StorageService.get();
 
-    const { disablePopups, friendlyDapps } = state.snapConfig.dApp;
+    const { disablePopups, friendlyDapps } =
+      state[CURRENT_STATE_VERSION].config.dApp;
 
     // Show popups if force is true or if popups are not disabled AND the dApp is not friendly
     if (force || !(disablePopups || friendlyDapps.includes(this.origin))) {
@@ -46,7 +50,8 @@ class UIService {
   static async snapAlert(content: Component, force?: boolean): Promise<void> {
     const state = StorageService.get();
 
-    const { disablePopups, friendlyDapps } = state.snapConfig.dApp;
+    const { disablePopups, friendlyDapps } =
+      state[CURRENT_STATE_VERSION].config.dApp;
 
     // Show popups if force is true or if popups are not disabled AND the dApp is not friendly
     if (force || !(disablePopups || friendlyDapps.includes(this.origin))) {

@@ -10,6 +10,8 @@ export type AvailableCredentialStores =
 export const isavailableCredentialStores = (x: string) =>
   isIn<AvailableCredentialStores>(availableCredentialStores, x);
 
+export const CURRENT_STATE_VERSION = 'v1';
+
 /**
  * @description
  *

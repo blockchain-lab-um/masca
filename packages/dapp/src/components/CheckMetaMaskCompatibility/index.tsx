@@ -163,7 +163,7 @@ const CheckMetaMaskCompatibility = () => {
     changeDID(did.data);
     changeAvailableMethods(availableMethods.data);
     changeCurrMethod(method.data);
-    changeAvailableCredentialStores(accountSettings.data.ssi.vcStore);
+    changeAvailableCredentialStores(accountSettings.data.ssi.storesEnabled);
     changeIsConnected(true);
     changeIsConnecting(false);
     changePopups(snapSettings.data.dApp.disablePopups);

@@ -1,3 +1,4 @@
+import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
 import { isError, Result } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
@@ -37,7 +38,7 @@ describe('getSnapSettings', () => {
       throw new Error(res.error);
     }
 
-    expect(res.data).toEqual(state.snapConfig);
+    expect(res.data).toEqual(state[CURRENT_STATE_VERSION].config);
 
     expect.assertions(1);
   });

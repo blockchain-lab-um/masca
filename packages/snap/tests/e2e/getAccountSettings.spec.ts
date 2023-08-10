@@ -1,3 +1,4 @@
+import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
 import { isError, Result } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
@@ -37,7 +38,9 @@ describe('getAccountSettings', () => {
       throw new Error(res.error);
     }
 
-    expect(res.data).toEqual(state.accountState[account].accountConfig);
+    expect(res.data).toEqual(
+      state[CURRENT_STATE_VERSION].accountState[account].general.account
+    );
 
     expect.assertions(1);
   });

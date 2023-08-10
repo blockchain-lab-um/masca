@@ -1,4 +1,7 @@
-import type { MascaState } from '@blockchain-lab-um/masca-types';
+import {
+  CURRENT_STATE_VERSION,
+  type MascaState,
+} from '@blockchain-lab-um/masca-types';
 import { CeramicClient } from '@ceramicnetwork/http-client';
 import { DIDSession } from 'did-session';
 
@@ -46,9 +49,12 @@ export async function validateSession(
  */
 async function authenticateWithSessionKey(state: MascaState) {
   const serializedSession = await validateSession(
-    state.accountState[state.currentAccount].ceramicSession
+    state[CURRENT_STATE_VERSION].accountState[
+      state[CURRENT_STATE_VERSION].currentAccount
+    ].general.ceramicSession
   );
   const session = await DIDSession.fromSession(serializedSession);
+
   return session.did;
 }
 

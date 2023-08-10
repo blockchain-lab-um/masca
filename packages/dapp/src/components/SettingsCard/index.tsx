@@ -42,7 +42,7 @@ const SettingsCard = () => {
       console.log('Error getting account settings', accountSettings);
       return;
     }
-    changeAvailableCredentialStores(accountSettings.data.ssi.vcStore);
+    changeAvailableCredentialStores(accountSettings.data.ssi.storesEnabled);
   };
 
   const snapChangeAvailableCredentialStores = async (
@@ -180,7 +180,7 @@ const SettingsCard = () => {
       changeDID(did.data);
       changeAvailableMethods(availableMethods.data);
       changeCurrMethod(method.data);
-      changeAvailableCredentialStores(accountSettings.data.ssi.vcStore);
+      changeAvailableCredentialStores(accountSettings.data.ssi.storesEnabled);
       changePopups(snapSettings.data.dApp.disablePopups);
     };
   };

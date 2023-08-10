@@ -19,42 +19,51 @@ export interface MascaConfig {
 
 export interface MascaAccountConfig {
   ssi: {
-    didMethod: AvailableMethods;
-    vcStore: Record<AvailableCredentialStores, boolean>;
+    selectedMethod: AvailableMethods;
+    storesEnabled: Record<AvailableCredentialStores, boolean>;
   };
 }
 
 export interface MascaState {
   /**
-   * Account specific storage
+   * Version 1 of Masca state
    */
-  accountState: Record<string, MascaAccountState>;
-  /**
-   * Current account
-   */
-  currentAccount: string;
-  /**
-   * Configuration for Masca
-   */
-  snapConfig: MascaConfig;
+  v1: {
+    /**
+     * Account specific storage
+     */
+    accountState: Record<string, MascaAccountState>;
+    /**
+     * Current account
+     */
+    currentAccount: string;
+    /**
+     * Configuration for Masca
+     */
+    config: MascaConfig;
+  };
 }
 
 /**
  * Masca State for a MetaMask address
  */
 export interface MascaAccountState {
-  // FIXME: Split into general, veramo, polygon
-  polygonState: PolygonState;
-  vcs: Record<string, W3CVerifiableCredential>;
-  accountConfig: MascaAccountConfig;
-  ceramicSession?: string;
+  polygon: {
+    state: PolygonState;
+  };
+  veramo: {
+    credentials: Record<string, W3CVerifiableCredential>;
+  };
+  general: {
+    account: MascaAccountConfig;
+    ceramicSession?: string;
+  };
 }
 
 export interface PolygonBaseState {
   credentials: Record<string, string>;
   identities: Record<string, string>;
   profiles: Record<string, string>;
-  // TODO: Maybe we can replace array with Record here
   merkleTreeMeta: IdentityMerkleTreeMetaInformation[];
   merkleTree: Record<string, string>;
 }
