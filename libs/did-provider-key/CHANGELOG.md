@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.3
+
+### Patch Changes
+
+- [#397](https://github.com/blockchain-lab-um/masca/pull/397) [`e26e48f`](https://github.com/blockchain-lab-um/masca/commit/e26e48f43265ad880da109bda468c92cdd036f85) Thanks [@martines3000](https://github.com/martines3000)! - Bump patch version of all packages
+
+- Updated dependencies [[`a14552c`](https://github.com/blockchain-lab-um/masca/commit/a14552c1c2ac7782218cbf912ff0af31201f9d16), [`e26e48f`](https://github.com/blockchain-lab-um/masca/commit/e26e48f43265ad880da109bda468c92cdd036f85)]:
+  - @blockchain-lab-um/utils@1.3.2
+
 ## 1.0.3-beta.1
 
 ### Patch Changes
