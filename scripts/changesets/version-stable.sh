@@ -1,8 +1,6 @@
 #!/bin/bash
 
-# Checkout or create a new branch
-
-echo "Updating beta version..."
+echo "Updating stable version..."
 
 # First we exit rc mode and then we version the packages
 echo $1
