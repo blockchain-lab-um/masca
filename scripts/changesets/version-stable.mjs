@@ -91,7 +91,7 @@ const main = async () => {
 
   if (args.length < 3) {
     console.error('No package was selected');
-    process.exit(0);
+    return;
   }
 
   // Should we version all packages?
@@ -103,7 +103,7 @@ const main = async () => {
 
     console.log(stdout);
 
-    process.exit(0);
+    return;
   }
 
   const allDependencies = new Set();

@@ -10,4 +10,3 @@ pnpm changeset version && \
   git commit -m "chore: update versions" && \
   echo "Successfully updated beta version!" || \
   echo "Failed to update beta version!"
-
