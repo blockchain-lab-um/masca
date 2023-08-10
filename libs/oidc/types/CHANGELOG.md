@@ -1,5 +1,11 @@
 # @blockchain-lab-um/oidc-types
 
+## 0.0.3
+
+### Patch Changes
+
+- [`2f6cb26`](https://github.com/blockchain-lab-um/masca/commit/2f6cb26eb02cd330b604acd2c1d1431b0c0edd8b) Thanks [@martines3000](https://github.com/martines3000)! - Bump versions to test new workflows
+
 ## 0.0.2
 
 ### Patch Changes

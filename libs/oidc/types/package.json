@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/oidc-types",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Types for OIDC.",
   "keywords": [
     "ssi",

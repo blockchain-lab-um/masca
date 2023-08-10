@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/oidc-client-plugin",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "(Apache-2.0 AND MIT)",
   "type": "module",
   "main": "./dist/index.js",
@@ -29,7 +29,7 @@
     "test:watch": "pnpm run test --watch --verbose"
   },
   "dependencies": {
-    "@blockchain-lab-um/oidc-types": "0.0.2",
+    "@blockchain-lab-um/oidc-types": "0.0.3",
     "@blockchain-lab-um/utils": "1.3.1",
     "@sphereon/pex": "^2.0.1",
     "@veramo/core": "5.4.1",
