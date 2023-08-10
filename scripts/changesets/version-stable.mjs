@@ -2,10 +2,10 @@ import { execa } from 'execa';
 
 const ALL_PACKAGES = {
   // Core
-  '@blockchain-lab-um/masca-core': [
-    '@blockchain-lab-um/masca-connector',
-    '@blockchain-lab-um/masca',
-    '@blockchain-lab-um/masca-types',
+  '@blockchain-lab-um/masca-connector': ['@blockchain-lab-um/masca-connector'],
+  '@blockchain-lab-um/masca': ['@blockchain-lab-um/masca'],
+  '@blockchain-lab-um/masca-types': ['@blockchain-lab-um/masca-types'],
+  '@blockchain-lab-um/veramo-datamanager': [
     '@blockchain-lab-um/veramo-datamanager',
   ],
   // OIDC
@@ -26,22 +26,26 @@ const ALL_PACKAGES = {
 
 const DEPENDENCIES = {
   // Core
+  '@blockchain-lab-um/masca-connector': [
+    '@blockchain-lab-um/utils',
+    '@blockchain-lab-um/masca-types',
+  ],
   '@blockchain-lab-um/masca': [
-    '@blockchain-lab-um/veramo-datamanager',
-    '@blockchain-lab-um/did-provider-key',
     '@blockchain-lab-um/did-provider-ebsi',
+    '@blockchain-lab-um/did-provider-key',
     '@blockchain-lab-um/masca-types',
     '@blockchain-lab-um/oidc-client-plugin',
     '@blockchain-lab-um/oidc-types',
     '@blockchain-lab-um/utils',
+    '@blockchain-lab-um/veramo-datamanager',
   ],
   '@blockchain-lab-um/masca-types': ['@blockchain-lab-um/utils'],
-  '@blockchain-lab-um/masca-connector': ['@blockchain-lab-um/masca-types'],
   '@blockchain-lab-um/veramo-datamanager': ['@blockchain-lab-um/masca-types'],
   // OIDC
   '@blockchain-lab-um/oidc-rp-plugin': ['@blockchain-lab-um/oidc-types'],
   '@blockchain-lab-um/oidc-client-plugin': ['@blockchain-lab-um/oidc-types'],
   // Other
+  '@blockchain-lab-um/utils': [],
   '@blockchain-lab-um/did-provider-key': [
     '@blockchain-lab-um/utils',
     '@blockchain-lab-um/masca-types',
