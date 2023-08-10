@@ -2,12 +2,19 @@
 
 import { useGoogleLogin } from '@react-oauth/google';
 
+import { useMascaStore } from '@/stores';
 import Button from '../Button';
 
 const GoogleButton = () => {
+  const api = useMascaStore((state) => state.mascaApi);
   const login = useGoogleLogin({
-    onSuccess: (codeResponse) => {
-      console.log(codeResponse);
+    onSuccess: async (codeResponse) => {
+      console.log(
+        '🚀 ~ file: index.tsx:10 ~ GoogleButton ~ codeResponse:',
+        codeResponse
+      );
+      if (!api) return;
+      await api.setGoogleToken(codeResponse.access_token);
     },
     onError: (error) => console.log(error),
     scope:
