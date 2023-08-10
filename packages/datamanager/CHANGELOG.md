@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.5
+
+### Patch Changes
+
+- [#401](https://github.com/blockchain-lab-um/masca/pull/401) [`5deff0e`](https://github.com/blockchain-lab-um/masca/commit/5deff0e6b2371f944a103ee8ee5edd4b36f02ad9) Thanks [@martines3000](https://github.com/martines3000)! - Patch bump
+
+- Updated dependencies [[`5deff0e`](https://github.com/blockchain-lab-um/masca/commit/5deff0e6b2371f944a103ee8ee5edd4b36f02ad9)]:
+  - @blockchain-lab-um/masca-types@0.4.5
+
 ## 0.4.5-beta.0
 
 ### Patch Changes
