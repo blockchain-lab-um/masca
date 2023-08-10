@@ -325,7 +325,9 @@ class GeneralService {
   static async setGoogleToken(args: { accessToken?: string }) {
     const state = StorageService.get();
 
-    state[CURRENT_STATE_VERSION].accountState[state[CURRENT_STATE_VERSION].currentAccount].general.googleSession = args.accessToken;
+    state[CURRENT_STATE_VERSION].accountState[
+      state[CURRENT_STATE_VERSION].currentAccount
+    ].general.googleSession = args.accessToken;
 
     return true;
   }

@@ -1,4 +1,7 @@
-import { MULTIPART_BOUNDARY, CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
+import {
+  CURRENT_STATE_VERSION,
+  MULTIPART_BOUNDARY,
+} from '@blockchain-lab-um/masca-types';
 
 import StorageService from './Storage.service';
 
@@ -16,7 +19,10 @@ class GoogleService {
    */
   static getGoogleSession(): string {
     const state = StorageService.get();
-    const session = state[CURRENT_STATE_VERSION].accountState[state[CURRENT_STATE_VERSION].currentAccount].general.googleSession;
+    const session =
+      state[CURRENT_STATE_VERSION].accountState[
+        state[CURRENT_STATE_VERSION].currentAccount
+      ].general.googleSession;
     if (!session) throw new Error('Google session not found');
     return session;
   }
