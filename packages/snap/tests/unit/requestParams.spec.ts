@@ -692,7 +692,12 @@ describe('Utils [requestParams]', () => {
     describe('failure', () => {
       it('empty object', () => {
         expect(() => isValidMascaState({})).toThrow(
-          'invalid_argument: $input.accountState, $input.currentAccount, $input.snapConfig'
+          'invalid_argument: $input.v1'
+        );
+      });
+      it('empty state with version', () => {
+        expect(() => isValidMascaState({ v1: {} })).toThrow(
+          'invalid_argument: $input.v1.accountState, $input.v1.currentAccount, $input.v1.config'
         );
       });
       it('null', () => {
@@ -701,8 +706,8 @@ describe('Utils [requestParams]', () => {
         );
       });
       it('missing fields', () => {
-        expect(() => isValidMascaState({ accountState: {} })).toThrow(
-          'invalid_argument: $input.currentAccount, $input.snapConfig'
+        expect(() => isValidMascaState({ v1: { accountState: {} } })).toThrow(
+          'invalid_argument: $input.v1.currentAccount, $input.v1.config'
         );
       });
     });
