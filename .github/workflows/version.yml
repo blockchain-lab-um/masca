@@ -67,13 +67,8 @@ jobs:
         uses: martines3000/changeset-action@v1.5.0
         id: changesets
         with:
-          version: |
-            node scripts/changesets/version-stable.mjs ${{ github.event.inputs.selected-package }}
-            node scripts/changesets/update-snap-version.mjs
-            pnpm install --lockfile-only
-            pnpm build
-            git add --all
-            git commit -m "chore: update versions"
+          version: bash scripts/changesets/version-stable.sh ${{ github.event.inputs.selected-package }}
+          publish: ''
           title: 'chore: version packages'
           commit: 'chore: version packages'
         env:
