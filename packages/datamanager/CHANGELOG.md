@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.4.2
+
+### Patch Changes
+
+- [#380](https://github.com/blockchain-lab-um/masca/pull/380) [`f73f0fe`](https://github.com/blockchain-lab-um/masca/commit/f73f0feccdec5ef62b9dec62abb1adaeb63b6be7) Thanks [@martines3000](https://github.com/martines3000)! - Update dependencies to latest
+
+- [#382](https://github.com/blockchain-lab-um/masca/pull/382) [`f123bff`](https://github.com/blockchain-lab-um/masca/commit/f123bff9829ea08dae81a57c98cb6c34612b7fc3) Thanks [@andyv09](https://github.com/andyv09)! - Improve README.md files and set correct licenses
+
+- Updated dependencies [[`fa6b4cc`](https://github.com/blockchain-lab-um/masca/commit/fa6b4cccd4dce8c63f70e86ef18dd421571161c9), [`f73f0fe`](https://github.com/blockchain-lab-um/masca/commit/f73f0feccdec5ef62b9dec62abb1adaeb63b6be7), [`f123bff`](https://github.com/blockchain-lab-um/masca/commit/f123bff9829ea08dae81a57c98cb6c34612b7fc3), [`527bd50`](https://github.com/blockchain-lab-um/masca/commit/527bd50b8d79a80f5637103975dbaebaf102a1e6), [`cf5b2a1`](https://github.com/blockchain-lab-um/masca/commit/cf5b2a13b997e819733e589c4f51be808d4d18b1), [`a920603`](https://github.com/blockchain-lab-um/masca/commit/a9206035e339d2ace45660e92a5fe248f152bbbb), [`c8bc0d2`](https://github.com/blockchain-lab-um/masca/commit/c8bc0d2aecf602efe33eff3f7a60023953314043)]:
+  - @blockchain-lab-um/masca-types@0.4.2
+
 ## 0.4.2-beta.2
 
 ### Patch Changes
