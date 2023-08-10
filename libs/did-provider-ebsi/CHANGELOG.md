@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.2-beta.0
+
+### Patch Changes
+
+- [`e26e48f`](https://github.com/blockchain-lab-um/masca/commit/e26e48f43265ad880da109bda468c92cdd036f85) Thanks [@martines3000](https://github.com/martines3000)! - Bump patch version of all packages
+
 ## 1.0.1
 
 ### Patch Changes
