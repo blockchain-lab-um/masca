@@ -17,5 +17,7 @@
     "@blockchain-lab-um/masca": "0.4.3",
     "@blockchain-lab-um/masca-types": "0.4.3"
   },
-  "changesets": []
+  "changesets": [
+    "nice-apricots-scream"
+  ]
 }

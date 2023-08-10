@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.2-beta.0
+
+### Patch Changes
+
+- [#394](https://github.com/blockchain-lab-um/masca/pull/394) [`a14552c`](https://github.com/blockchain-lab-um/masca/commit/a14552c1c2ac7782218cbf912ff0af31201f9d16) Thanks [@martines3000](https://github.com/martines3000)! - Bump version to test stable release
+
 ## 1.3.1
 
 ### Patch Changes
