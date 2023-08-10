@@ -1,5 +1,11 @@
 # @blockchain-lab-um/masca-docs
 
+## 0.0.1-beta.1
+
+### Patch Changes
+
+- [#380](https://github.com/blockchain-lab-um/masca/pull/380) [`f73f0fe`](https://github.com/blockchain-lab-um/masca/commit/f73f0feccdec5ef62b9dec62abb1adaeb63b6be7) Thanks [@martines3000](https://github.com/martines3000)! - Update dependencies to latest
+
 ## 0.0.1-beta.0
 
 ### Patch Changes
