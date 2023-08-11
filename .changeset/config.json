@@ -5,14 +5,7 @@
     { "repo": "blockchain-lab-um/masca" }
   ],
   "commit": false,
-  "fixed": [
-    [
-      "@blockchain-lab-um/masca-connector",
-      "@blockchain-lab-um/masca",
-      "@blockchain-lab-um/masca-types",
-      "@blockchain-lab-um/veramo-datamanager"
-    ]
-  ],
+  "fixed": [],
   "linked": [],
   "access": "public",
   "baseBranch": "develop",

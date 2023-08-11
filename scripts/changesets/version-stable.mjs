@@ -22,6 +22,10 @@ const ALL_PACKAGES = {
   '@blockchain-lab-um/did-provider-ebsi': [
     '@blockchain-lab-um/did-provider-ebsi',
   ],
+  // Private (not published)
+  '@blockchain-lab-um/oidc-verifier': ['@blockchain-lab-um/oidc-verifier'],
+  '@blockchain-lab-um/oidc-issuer': ['@blockchain-lab-um/oidc-issuer'],
+  '@blockchain-lab-um/dapp': ['@blockchain-lab-um/dapp'],
 };
 
 const DEPENDENCIES = {
@@ -51,6 +55,21 @@ const DEPENDENCIES = {
     '@blockchain-lab-um/masca-types',
   ],
   '@blockchain-lab-um/did-provider-ebsi': [],
+  // Private (not published)
+  '@blockchain-lab-um/oidc-verifier': [
+    '@blockchain-lab-um/oidc-types',
+    '@blockchain-lab-um/oidc-rp-plugin',
+  ],
+  '@blockchain-lab-um/oidc-issuer': [
+    '@blockchain-lab-um/oidc-types',
+    '@blockchain-lab-um/oidc-rp-plugin',
+    '@blockchain-lab-um/did-provider-key',
+    '@blockchain-lab-um/utils',
+  ],
+  '@blockchain-lab-um/dapp': [
+    '@blockchain-lab-um/masca-connector',
+    '@blockchain-lab-um/oidc-types',
+  ],
 };
 
 // Function to find all dependencies of the selected package
@@ -72,16 +91,19 @@ const main = async () => {
 
   if (args.length < 3) {
     console.error('No package was selected');
-    process.exit(1);
+    return;
   }
 
   // Should we version all packages?
   if (args[2] === 'all') {
-    await execa('pnpm changeset version', {
+    console.log('Versioning all packages');
+    const { stdout } = await execa('pnpm changeset version', {
       shell: true,
     });
 
-    process.exit(0);
+    console.log(stdout);
+
+    return;
   }
 
   const allDependencies = new Set();
@@ -96,11 +118,13 @@ const main = async () => {
     .filter(([key]) => key !== args[2] && !allDependencies.has(key))
     .flatMap(([, value]) => value);
 
+  console.log(`Ignoring packages: ${packagesToIgnore.join(', ')}`);
+
   await execa(
     `pnpm changeset version ${packagesToIgnore
       .map((pkg) => `--ignore ${pkg}`)
       .join(' ')}`,
-    { shell: true }
+    { shell: true, stdio: 'inherit' }
   );
 };
 
