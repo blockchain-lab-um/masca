@@ -12,6 +12,7 @@ import Button from '../Button';
 import InfoIcon from '../InfoIcon';
 import UploadButton from '../UploadButton';
 import { FriendlydAppTable } from './FriendlydAppTable';
+import { GoogleBackupForm } from './GoogleBackupForm';
 
 const SettingsCard = () => {
   const t = useTranslations('SettingsCard');
@@ -24,6 +25,8 @@ const SettingsCard = () => {
     changeCurrMethod,
     changeDID,
     changePopups,
+    isSignedInGoogle,
+    changeIsSignedInGooge,
   } = useMascaStore((state) => ({
     api: state.mascaApi,
     availableCredentialStores: state.availableCredentialStores,
@@ -33,6 +36,8 @@ const SettingsCard = () => {
     changeCurrMethod: state.changeCurrDIDMethod,
     changeDID: state.changeCurrDID,
     changePopups: state.changePopups,
+    isSignedInGoogle: state.isSignedInGoogle,
+    changeIsSignedInGooge: state.changeIsSignedInGoogle,
   }));
 
   const snapGetAvailableCredentialStores = async () => {
@@ -244,7 +249,20 @@ const SettingsCard = () => {
         <div className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-800">
           {t('backup')}
         </div>
-        <div className="mt-5 flex space-x-2">
+        <div className="mt-2">
+          <p className="text-md dark:text-navy-blue-400 text-gray-700">
+            {t('backup-google-desc')}{' '}
+          </p>
+          <div className="mt-4">
+            <GoogleBackupForm />
+          </div>
+        </div>
+        <div className="mt-8">
+          <p className="text-md dark:text-navy-blue-400 text-gray-700">
+            {t('backup-manual-desc')}{' '}
+          </p>
+        </div>
+        <div className="mt-4 flex space-x-2">
           <Button onClick={handleExport} variant="primary" size="xs">
             {t('export')}
           </Button>

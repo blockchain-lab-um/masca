@@ -1,5 +1,6 @@
 'use client';
 
+import { isError } from '@blockchain-lab-um/masca-connector';
 import { useGoogleLogin } from '@react-oauth/google';
 
 import { useMascaStore } from '@/stores';
@@ -7,6 +8,9 @@ import Button from '../Button';
 
 const GoogleButton = () => {
   const api = useMascaStore((state) => state.mascaApi);
+  const changeIsSignedInGoogle = useMascaStore(
+    (state) => state.changeIsSignedInGoogle
+  );
   const login = useGoogleLogin({
     onSuccess: async (codeResponse) => {
       console.log(
@@ -14,7 +18,12 @@ const GoogleButton = () => {
         codeResponse
       );
       if (!api) return;
-      await api.setGoogleToken(codeResponse.access_token);
+      const res = await api.setGoogleToken(codeResponse.access_token);
+
+      if (isError(res)) {
+        return;
+      }
+      changeIsSignedInGoogle(res.data);
     },
     onError: (error) => console.log(error),
     scope:
@@ -22,7 +31,7 @@ const GoogleButton = () => {
   });
   return (
     <div>
-      <Button variant="primary" onClick={login}>
+      <Button variant="primary" size="sm" onClick={login}>
         Sign in with Google
       </Button>
     </div>

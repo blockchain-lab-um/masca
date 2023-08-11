@@ -324,6 +324,7 @@ class GeneralService {
    */
   static async setGoogleToken(args: { accessToken?: string }) {
     const state = StorageService.get();
+    console.log('setGoogleToken', args.accessToken);
 
     state[CURRENT_STATE_VERSION].accountState[
       state[CURRENT_STATE_VERSION].currentAccount
@@ -343,11 +344,13 @@ class GeneralService {
     if (!(await GoogleService.validateStoredGoogleSession())) {
       throw new Error('Stored Google session is invalid.');
     }
-
+    console.log('ffing file');
     let file = await GoogleService.findFile({
       fileName: GOOGLE_DRIVE_BACKUP_FILE,
     });
+    console.log('exporting bkup');
     const backup = await this.exportBackup();
+
     if (!file) {
       file = await GoogleService.createFile({
         fileName: GOOGLE_DRIVE_BACKUP_FILE as string,

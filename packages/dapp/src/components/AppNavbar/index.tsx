@@ -2,11 +2,9 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { GoogleOAuthProvider } from '@react-oauth/google';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
-import GoogleLogin from '@/components/GoogleLogin';
 import MascaLogo from '@/components/MascaLogo';
 import MenuPopover from '@/components/MenuPopover';
 import ToggleTheme from '@/components/ToggleTheme';
@@ -87,9 +85,6 @@ export default function AppNavbar() {
         </div>
         <div className="flex-1 md:flex-none">
           <div className="flex items-center justify-end">
-            <GoogleOAuthProvider clientId="674920268962-kdvft0dm2i9tq1nd7aeipkkea2ue4575.apps.googleusercontent.com">
-              <GoogleLogin />
-            </GoogleOAuthProvider>
             <NavConnection />
             <ToggleTheme />
           </div>

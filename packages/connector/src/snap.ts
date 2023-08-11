@@ -537,6 +537,17 @@ export async function importGoogleBackup(
   );
 }
 
+export async function validateStoredGoogleSession(
+  this: Masca
+): Promise<Result<boolean>> {
+  return sendSnapMethod(
+    {
+      method: 'validateStoredGoogleSession',
+    },
+    this.snapId
+  );
+}
+
 const wrapper =
   <T extends any[], R>(fn: (...args: T) => Promise<Result<R>>) =>
   async (...args: T): Promise<Result<R>> => {
@@ -591,5 +602,6 @@ export class Masca {
     importGoogleBackup: wrapper(importGoogleBackup.bind(this)),
     importStateBackup: wrapper(importStateBackup.bind(this)),
     exportStateBackup: wrapper(exportStateBackup.bind(this)),
+    validateStoredGoogleSession: wrapper(validateStoredGoogleSession.bind(this))
   });
 }
