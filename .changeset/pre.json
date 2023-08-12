@@ -17,5 +17,7 @@
     "@blockchain-lab-um/masca": "0.4.6",
     "@blockchain-lab-um/masca-types": "0.4.6"
   },
-  "changesets": []
+  "changesets": [
+    "few-parrots-destroy"
+  ]
 }
