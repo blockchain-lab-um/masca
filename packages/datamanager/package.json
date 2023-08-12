@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/veramo-datamanager",
-  "version": "0.4.6-beta.0",
+  "version": "0.4.6",
   "license": "(Apache-2.0 AND MIT)",
   "type": "module",
   "main": "./dist/index.js",
@@ -26,7 +26,7 @@
     "test:ci": "pnpm run test --silent --coverage"
   },
   "dependencies": {
-    "@blockchain-lab-um/masca-types": "0.4.6-beta.0",
+    "@blockchain-lab-um/masca-types": "0.4.6",
     "@types/jsonpath": "^0.2.0",
     "@veramo/core": "5.4.1",
     "jsonpath": "^1.1.1",
