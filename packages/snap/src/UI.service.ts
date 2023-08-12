@@ -72,13 +72,13 @@ class UIService {
       heading('Share Verifiable Credentials'),
       ...this.originWrapper,
       text(
-        'Would you like to share some/all Verifiable Credentials with this dApp?'
+        'Would you like to share Verifiable Credentials with this dApp?'
       ),
       divider(),
       text(`**Total number of VCs is ${vcs.length.toString()}**`),
       divider(),
       text(
-        `You can disable this popup from appearing again in Masca Settings on Masca.io.`
+        `You can disable this pop-up from appearing again in Settings on Masca.io.`
       ),
     ]);
 
@@ -197,9 +197,9 @@ class UIService {
 
   static togglePopupsDialog = async () => {
     const uiPanel = panel([
-      heading('Toggle Popups'),
+      heading('Toggle Pop-ups'),
       ...this.originWrapper,
-      text('Would you like to turn off popups?'),
+      text('Would you like to turn off pop-ups?'),
       divider(),
       text(
         'This can result in a better user experience, but you will not be able to see what the dApp is requesting.'
@@ -215,7 +215,7 @@ class UIService {
       ...this.originWrapper,
       text(`Would you like to add ${origin} as a friendly dApp?`),
       divider(),
-      text('Popups do not appear on friendly dApps.'),
+      text('Pop-ups do not appear on friendly dApps.'),
     ]);
 
     const res = await UIService.snapConfirm(uiPanel);

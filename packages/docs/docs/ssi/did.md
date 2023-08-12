@@ -22,7 +22,7 @@ A DID consists of a cryptographic key pair (a public and a private key), allowin
 
 ### Structure of a DID
 
-DID is just a simple string consisting of three parts:
+DID is just a simple string made up of three parts:
 
 - `did` URI scheme identifier,
 - the identifier for the DID Method, and

@@ -26,7 +26,7 @@ function VPModal({ isOpen, setOpen, vp }: VPModalProps) {
       <div className="w-[48rem] max-w-full">
         <div className="mt-5">
           <p className="text-md dark:text-navy-blue-200 text-gray-600">
-            Here is a presentation consisting of selected credentials.
+            Here is a presentation created from selected credentials.
           </p>
         </div>
         <div className="mt-5">
