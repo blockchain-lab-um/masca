@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.5
+
+### Patch Changes
+
+- [#403](https://github.com/blockchain-lab-um/masca/pull/403) [`a68a9bc`](https://github.com/blockchain-lab-um/masca/commit/a68a9bc4eedf65b62403ded901e68e425589cc9a) Thanks [@martines3000](https://github.com/martines3000)! - Patch bump to test bclabum-automation-bot permissions
+
+- Updated dependencies [[`a68a9bc`](https://github.com/blockchain-lab-um/masca/commit/a68a9bc4eedf65b62403ded901e68e425589cc9a)]:
+  - @blockchain-lab-um/utils@1.3.4
+
 ## 1.0.5-beta.0
 
 ### Patch Changes
