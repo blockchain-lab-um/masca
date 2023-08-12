@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.4.7
+
+### Patch Changes
+
+- [`6d85e0a`](https://github.com/blockchain-lab-um/masca/commit/6d85e0a338afc8838d219542a079587b9d13e053) Thanks [@martines3000](https://github.com/martines3000)! - Update publish stable workflow
+
+- [`bc00f40`](https://github.com/blockchain-lab-um/masca/commit/bc00f40f616692bf267564479bd02c499c31f1a2) Thanks [@martines3000](https://github.com/martines3000)! - Resolve github bot permissions
+
+- Updated dependencies [[`6d85e0a`](https://github.com/blockchain-lab-um/masca/commit/6d85e0a338afc8838d219542a079587b9d13e053), [`bc00f40`](https://github.com/blockchain-lab-um/masca/commit/bc00f40f616692bf267564479bd02c499c31f1a2)]:
+  - @blockchain-lab-um/utils@1.3.5
+
 ## 0.4.7-beta.1
 
 ### Patch Changes
