@@ -1,5 +1,15 @@
 # @blockchain-lab-um/dapp
 
+## 0.1.6-beta.0
+
+### Patch Changes
+
+- [`6d85e0a`](https://github.com/blockchain-lab-um/masca/commit/6d85e0a338afc8838d219542a079587b9d13e053) Thanks [@martines3000](https://github.com/martines3000)! - Update publish stable workflow
+
+- Updated dependencies [[`6d85e0a`](https://github.com/blockchain-lab-um/masca/commit/6d85e0a338afc8838d219542a079587b9d13e053)]:
+  - @blockchain-lab-um/oidc-types@0.0.7-beta.0
+  - @blockchain-lab-um/masca-connector@0.4.7-beta.0
+
 ## 0.1.5
 
 ### Patch Changes
