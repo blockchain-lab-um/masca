@@ -22,6 +22,7 @@ jobs:
         with:
           ref: master
           fetch-depth: 0
+          token: ${{ secrets.BCLABUM_GITHUB_TOKEN }}
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
@@ -61,17 +62,7 @@ jobs:
         uses: martines3000/changeset-action@v1.5.0
         id: changesets
         with:
-          publish: |
-            pnpm install --frozen-lockfile
-            pnpm build
-            pnpm changeset publish
-            pnpm changeset pre enter beta
-            git add --all
-            git commit -m "chore: release stable and enter beta mode"
-            git push --follow-tags
-            git checkout develop
-            git rebase master
-            git push
+          publish: bash scripts/changesets/publish-stable.sh
           title: 'chore: version packages'
           commit: 'chore: version packages'
           forcePublish: true
