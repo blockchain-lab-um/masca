@@ -1,5 +1,14 @@
 # @blockchain-lab-um/oidc-types
 
+## 0.0.7-beta.1
+
+### Patch Changes
+
+- [`bc00f40`](https://github.com/blockchain-lab-um/masca/commit/bc00f40f616692bf267564479bd02c499c31f1a2) Thanks [@martines3000](https://github.com/martines3000)! - Resolve github bot permissions
+
+- Updated dependencies [[`bc00f40`](https://github.com/blockchain-lab-um/masca/commit/bc00f40f616692bf267564479bd02c499c31f1a2)]:
+  - @blockchain-lab-um/utils@1.3.5-beta.1
+
 ## 0.0.7-beta.0
 
 ### Patch Changes

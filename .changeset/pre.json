@@ -18,6 +18,7 @@
     "@blockchain-lab-um/masca-types": "0.4.6"
   },
   "changesets": [
-    "few-parrots-destroy"
+    "few-parrots-destroy",
+    "tiny-lobsters-confess"
   ]
 }
