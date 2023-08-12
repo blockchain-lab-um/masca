@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/did-provider-key",
-  "version": "1.0.6-beta.1",
+  "version": "1.0.6",
   "private": false,
   "description": "Veramo plugin for the key did method (with added support for EBSI)",
   "keywords": [],
@@ -37,7 +37,7 @@
     "test:ci": "pnpm run test --silent --coverage"
   },
   "dependencies": {
-    "@blockchain-lab-um/utils": "1.3.5-beta.1",
+    "@blockchain-lab-um/utils": "1.3.5",
     "@cef-ebsi/key-did-resolver": "^1.1.0",
     "@stablelib/ed25519": "^1.0.3",
     "@veramo/core": "5.4.1",
