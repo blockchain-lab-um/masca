@@ -1,5 +1,15 @@
 # @blockchain-lab-um/dapp
 
+## 0.1.5-beta.0
+
+### Patch Changes
+
+- [`a68a9bc`](https://github.com/blockchain-lab-um/masca/commit/a68a9bc4eedf65b62403ded901e68e425589cc9a) Thanks [@martines3000](https://github.com/martines3000)! - Patch bump to test bclabum-automation-bot permissions
+
+- Updated dependencies [[`a68a9bc`](https://github.com/blockchain-lab-um/masca/commit/a68a9bc4eedf65b62403ded901e68e425589cc9a)]:
+  - @blockchain-lab-um/oidc-types@0.0.6-beta.0
+  - @blockchain-lab-um/masca-connector@0.4.6-beta.0
+
 ## 0.1.4
 
 ### Patch Changes

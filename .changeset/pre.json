@@ -17,5 +17,7 @@
     "@blockchain-lab-um/masca": "0.4.5",
     "@blockchain-lab-um/masca-types": "0.4.5"
   },
-  "changesets": []
+  "changesets": [
+    "famous-seas-kneel"
+  ]
 }
