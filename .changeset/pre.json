@@ -17,5 +17,9 @@
     "@blockchain-lab-um/masca": "0.4.7",
     "@blockchain-lab-um/masca-types": "0.4.7"
   },
-  "changesets": []
+  "changesets": [
+    "eleven-games-sparkle",
+    "perfect-lemons-dream",
+    "yellow-games-attack"
+  ]
 }
