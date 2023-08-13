@@ -281,9 +281,9 @@ const vpRes = await api.verifyData({ presentation: VP, verbose: true });
 
 ### Snap Settings
 
-`togglePopups` is used to enable/disable the `"Are you sure?"` alerts on any dApp. Popups are enabled by default for user to approve every action.
+`togglePopups` is used to enable/disable the `"Are you sure?"` alerts on any dApp. Pop-ups are enabled by default for user to approve every action.
 
-`addFriendlyDapp` is used to add a current dApp (origin of the dApp) to the list of friendly dApps. Popups do not appear on friendly dApps.
+`addFriendlyDapp` is used to add a current dApp (origin of the dApp) to the list of friendly dApps. Pop-ups do not appear on friendly dApps.
 
 `removeFriendlyDapp` is used to remove a dApp from the list of friendly dApps.
 

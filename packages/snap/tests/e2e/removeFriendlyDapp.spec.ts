@@ -55,7 +55,7 @@ describe('removeFriendlyDapp', () => {
     expect.assertions(2);
   });
 
-  it('Should show popup if the dapp is not in the list', async () => {
+  it('Should show pop-up if the dapp is not in the list', async () => {
     const spy = jest.spyOn(UIService, 'queryAllDialog');
 
     const defaultState = getDefaultSnapState(account);
