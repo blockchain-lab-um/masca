@@ -427,7 +427,7 @@ const response = await ethereum.request({
 
 #### Description
 
-`togglePopups` toggles popups that show up whenever the user tries to save a VC, generate a VP, etc. Popups are enabled by default to keep user in total control of their actions. With popups disabled, a dApp can query user's credentials, etc. without them knowing. We recommend using `addFriendlyDapp` instead to only trust specific dApps.
+`togglePopups` toggles pop-ups that show up whenever the user tries to save a VC, generate a VP, etc. Pop-ups are enabled by default to keep user in total control of their actions. With pop-ups disabled, a dApp can query user's credentials, etc. without them knowing. We recommend using `addFriendlyDapp` instead to only trust specific dApps.
 
 ```typescript
 const response = await ethereum.request({
@@ -445,7 +445,7 @@ const response = await ethereum.request({
 
 #### Description
 
-`addFriendlyDapp` adds the current dApp (origin of the current dApp) to the list of friendly dApps. Friendly dApps do not show popups.
+`addFriendlyDapp` adds the current dApp (origin of the current dApp) to the list of friendly dApps. Friendly dApps do not show pop-ups.
 
 ```typescript
 const response = await ethereum.request({
