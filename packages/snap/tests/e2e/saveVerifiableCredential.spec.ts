@@ -1,6 +1,6 @@
 import {
-  AvailableVCStores,
-  SaveVCOptions,
+  AvailableCredentialStores,
+  SaveCredentialOptions,
 } from '@blockchain-lab-um/masca-types';
 import { isError, isSuccess, Result } from '@blockchain-lab-um/utils';
 import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-datamanager';
@@ -28,7 +28,7 @@ describe('saveVerifiableCredential', () => {
 
   interface StoreTests {
     title: string;
-    options?: SaveVCOptions;
+    options?: SaveCredentialOptions;
     results: string[];
   }
 
@@ -53,7 +53,7 @@ describe('saveVerifiableCredential', () => {
       results: ['snap'],
     },
   ];
-  const stores: AvailableVCStores[][] = [
+  const stores: AvailableCredentialStores[][] = [
     ['snap'],
     ['ceramic'],
     ['snap', 'ceramic'],
@@ -134,7 +134,7 @@ describe('saveVerifiableCredential', () => {
           method: 'saveCredential',
           params: {
             verifiableCredential: generatedVC,
-            options: store.options as SaveVCOptions,
+            options: store.options! as any,
           },
         },
       })) as Result<IDataManagerSaveResult[]>;
@@ -164,7 +164,7 @@ describe('saveVerifiableCredential', () => {
           method: 'saveCredential',
           params: {
             verifiableCredential: generatedVC,
-            options: store.options as SaveVCOptions,
+            options: store.options! as any,
           },
         },
       })) as Result<IDataManagerSaveResult[]>;

@@ -78,11 +78,13 @@ class SnapService {
 
     const vcs = [...veramoCredentials, ...polygonCredentials];
 
-    if (await UIService.queryAllDialog(vcs)) {
-      return vcs;
+    if (vcs.length > 0) {
+      if (await UIService.queryAllDialog(vcs)) {
+        return vcs;
+      }
+      throw new Error('User rejected query credentials request.');
     }
-
-    throw new Error('User rejected query credentials request.');
+    return [];
   }
 
   /**
@@ -167,9 +169,9 @@ class SnapService {
 
     let storeString = '';
     if (save === true) {
-      storeString = `Store(s): ${
+      storeString = `Store(s): **${
         typeof store === 'string' ? store : store.join(', ')
-      }`;
+      }**`;
     }
 
     const vc = await VeramoService.createCredential({

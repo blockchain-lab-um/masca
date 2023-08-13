@@ -21,7 +21,7 @@ class UIService {
 
   static async init(origin: string) {
     this.origin = origin;
-    this.originWrapper = [text(`Origin: ${origin}`), divider()];
+    this.originWrapper = [text(`Origin: **${origin}**`), divider()];
   }
 
   static async snapConfirm(
@@ -123,7 +123,7 @@ class UIService {
         } the following Credential?`
       ),
       divider(),
-      text(storeString),
+      text(`${storeString}`),
       text(`VC:`),
       copyable(JSON.stringify(minimalUnsignedCredential, null, 2)),
     ]);
