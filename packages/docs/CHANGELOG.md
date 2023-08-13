@@ -1,5 +1,11 @@
 # @blockchain-lab-um/masca-docs
 
+## 1.0.0-beta.0
+
+### Major Changes
+
+- [`205136a`](https://github.com/blockchain-lab-um/masca/commit/205136a5e7ceaa39d7dbcbf9c5ef41c255639262) Thanks [@martines3000](https://github.com/martines3000)! - Release first major version of Masca packages.
+
 ## 0.0.5
 
 ### Patch Changes

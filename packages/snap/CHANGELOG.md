@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.0.0-beta.0
+
+### Major Changes
+
+- [`205136a`](https://github.com/blockchain-lab-um/masca/commit/205136a5e7ceaa39d7dbcbf9c5ef41c255639262) Thanks [@martines3000](https://github.com/martines3000)! - Release first major version of Masca packages.
+
+### Patch Changes
+
+- [#411](https://github.com/blockchain-lab-um/masca/pull/411) [`f8e82cb`](https://github.com/blockchain-lab-um/masca/commit/f8e82cbca3bd7848c27cfa2058572161dcd46c04) Thanks [@andyv09](https://github.com/andyv09)! - fix text in popups
+
+- [#409](https://github.com/blockchain-lab-um/masca/pull/409) [`8ba3e07`](https://github.com/blockchain-lab-um/masca/commit/8ba3e071b86fc8d516e759ea518bd612612dadd8) Thanks [@andyv09](https://github.com/andyv09)! - Migrate to Ceramic mainnet
+
+- Updated dependencies [[`205136a`](https://github.com/blockchain-lab-um/masca/commit/205136a5e7ceaa39d7dbcbf9c5ef41c255639262)]:
+  - @blockchain-lab-um/veramo-datamanager@1.0.0-beta.0
+  - @blockchain-lab-um/masca-types@1.0.0-beta.0
+
 ## 0.4.7
 
 ### Patch Changes
