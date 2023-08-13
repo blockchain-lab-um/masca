@@ -71,9 +71,7 @@ class UIService {
     const uiPanel = panel([
       heading('Share Verifiable Credentials'),
       ...this.originWrapper,
-      text(
-        'Would you like to share Verifiable Credentials with this dApp?'
-      ),
+      text('Would you like to share Verifiable Credentials with this dApp?'),
       divider(),
       text(`**Total number of VCs is ${vcs.length.toString()}**`),
       divider(),
