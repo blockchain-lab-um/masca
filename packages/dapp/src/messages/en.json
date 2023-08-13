@@ -69,14 +69,14 @@
     "title": "Connection QR Code"
   },
   "CreateCredentialDisplay": {
-    "invalidMethod": "PolygonID & Iden3 are not yet supported. Switch to any other DID method to create a VC!",
+    "invalidMethod": "Polygon ID & Iden3 are not yet supported. Switch to any other DID method to create a VC!",
     "options": {
       "format": "Format",
       "title": "OPTIONS"
     },
     "save": {
       "description": "Would you like to save newly created Credential in Masca?",
-      "select-storage-placeholder": "Select storage",
+      "select-storage-placeholder": "Select data storage",
       "storage": "Storage",
       "title": "Save"
     },
@@ -93,12 +93,12 @@
       "title": "ADVANCED",
       "tooltip": "Only applicable to JWT proof format."
     },
-    "invalidMethod": "PolygonID & Iden3 methods are not yet supported. Switch to any other DID method to create a VC!",
+    "invalidMethod": "Polygon ID & Iden3 methods are not yet supported. Switch to any other DID method to create a VC!",
     "options": {
       "format": "Format",
       "title": "OPTIONS"
     },
-    "polygonvc": "PolygonID & Iden3 VCs are not yet supported. Remove invalid VCs to continue!",
+    "polygonvc": "Polygon ID & Iden3 VCs are not yet supported. Remove invalid VCs to continue!",
     "table": {
       "issuer": "ISSUER",
       "remove": "REMOVE",
@@ -108,12 +108,12 @@
     },
     "title": "Create Presentation",
     "tooltip": {
-      "polygonid": "PolygonID VCs aren't supported yet. Please remove this credential to continue!"
+      "polygonid": "Polygon ID VCs aren't supported yet. Please remove this credential to continue!"
     }
   },
   "CredentialDisplay": {
     "create-presentation": "Create Verifiable Presentation",
-    "datastores": "DATASTORES",
+    "datastores": "DATA STORES",
     "title": "Verifiable Credential"
   },
   "CredentialModal": {
@@ -200,14 +200,14 @@
   },
   "FriendlydAppTable": {
     "add-failed": "Failed to add Friendly dApp",
-    "add-masca": "Add Masca.io to friendly dApps",
-    "added": "Friendly dApp Added",
+    "add-masca": "Add Masca.io to Friendly dApps",
+    "added": "Friendly dApp added",
     "adding": "Adding Friendly dApp",
     "remove-failed": "Failed to remove Friendly dApp",
-    "removed": "Friendly dApp Removed",
+    "removed": "Friendly dApp removed",
     "removing": "Removing Friendly dApp",
     "app-url": "Application URL",
-    "popups-desc": "Disabling popups is very dangerous. We recommend setting friendly dApps instead!"
+    "popups-desc": "Disabling pop-ups is very dangerous. We recommend setting friendly dApps instead!"
   },
   "GetCredential": {
     "handling": "Handling credential offer",
@@ -289,16 +289,16 @@
     "title": "Select Credentials"
   },
   "SettingsCard": {
-    "popups": "Popups",
-    "popups-desc": "Disabling popups is very dangerous. We recommend setting friendly dApps instead!",
+    "popups": "Pop-ups",
+    "popups-desc": "Disabling pop-ups is very dangerous. We recommend setting friendly dApps instead!",
     "ceramic-error": "Failed to toggle Ceramic",
     "ceramic-success": "Successfully toggled Ceramic",
     "data-store": "Data Stores",
-    "disable-popups": "Disable Popups",
+    "disable-popups": "Disable Pop-ups",
     "data-store-desc": "Enable or disable data stores. Data stores are places where VCs are stored.",
     "not-implemented": "Not implemented yet",
     "title": "Settings",
-    "backup": "Backup",
+    "backup": "Backup State",
     "export": "Export",
     "export-success": "Successfully exported backup",
     "export-error": "Failed to export backup",
@@ -309,7 +309,7 @@
     "import-desc": "Import encrypted Masca backup from a file."
   },
   "VerifyDataDisplay": {
-    "title": "Verify Presentations & Credentials",
+    "title": "Verify Credentials & Presentations",
     "toast": {
       "error-json": "Data is not a valid JSON",
       "error-type": "Data is not a valid VC/VP",
