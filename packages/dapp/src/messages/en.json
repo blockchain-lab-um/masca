@@ -234,7 +234,8 @@
     "settings": "SETTINGS",
     "storage": "Storage",
     "storage-desc": "Select one ore more data stores where the credential will be stored.",
-    "title": "Import Credential"
+    "title": "Import Credential",
+    "save-error": "Provided data is not a valid credential"
   },
   "MetaMaskProvider": {
     "flask": "Install MetaMask Flask to use the dApp!"

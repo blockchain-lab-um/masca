@@ -87,35 +87,12 @@ const Controlbar = () => {
   };
 
   const saveCredential = async (
-    vc: string,
+    vc: W3CVerifiableCredential,
     stores: AvailableCredentialStores[]
   ) => {
     if (!api) return false;
-    let vcObj: W3CVerifiableCredential;
 
-    try {
-      vcObj = JSON.parse(vc) as W3CVerifiableCredential;
-    } catch (err) {
-      try {
-        vcObj = normalizeCredential(vc) as W3CVerifiableCredential;
-      } catch (normalizationError) {
-        console.log(normalizationError);
-
-        setSpinner(false);
-        setTimeout(() => {
-          useToastStore.setState({
-            open: true,
-            title: t('save-error'),
-            type: 'error',
-            loading: false,
-          });
-        }, 200);
-
-        return false;
-      }
-    }
-
-    const res = await api.saveCredential(vcObj, {
+    const res = await api.saveCredential(vc, {
       store: stores,
     });
 
@@ -128,7 +105,7 @@ const Controlbar = () => {
       const newVcs: QueryCredentialsRequestResult[] = [];
       res.data.forEach((metadata: any) => {
         const finalVC = {
-          data: vcObj,
+          data: vc,
           metadata,
         } as QueryCredentialsRequestResult;
         newVcs.push(finalVC);

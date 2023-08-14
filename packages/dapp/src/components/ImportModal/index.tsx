@@ -4,7 +4,9 @@ import {
   type AvailableCredentialStores,
 } from '@blockchain-lab-um/masca-connector';
 import { Dialog } from '@headlessui/react';
+import { W3CVerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
+import { normalizeCredential } from 'did-jwt-vc';
 import { useTranslations } from 'next-intl';
 
 import Button from '@/components/Button';
@@ -36,6 +38,51 @@ function ImportModal({ isOpen, setOpen, importVC }: ImportModalProps) {
   const [selectedItems, setSelectedItems] = useState<
     AvailableCredentialStores[]
   >([availableStores[0]]);
+
+  const validateVC = async () => {
+    setLoading(true);
+
+    let vcObj: W3CVerifiableCredential;
+    try {
+      vcObj = JSON.parse(vc) as W3CVerifiableCredential;
+    } catch (err) {
+      try {
+        vcObj = normalizeCredential(vc) as W3CVerifiableCredential;
+      } catch (normalizationError) {
+        setLoading(false);
+        setTimeout(() => {
+          useToastStore.setState({
+            open: true,
+            title: t('save-error'),
+            type: 'error',
+            loading: false,
+          });
+        }, 200);
+
+        return false;
+      }
+    }
+
+    if (!isVerifiableCredential(vcObj)) {
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: t('save-error'),
+          type: 'error',
+          loading: false,
+        });
+      }, 200);
+      setLoading(false);
+      return false;
+    }
+    const res = await importVC(vc, selectedItems);
+    if (res) {
+      setOpen(false);
+    }
+    setLoading(false);
+    return true;
+  };
+
   return (
     <Modal isOpen={isOpen} setOpen={setOpen}>
       <Dialog.Title
@@ -94,24 +141,7 @@ function ImportModal({ isOpen, setOpen, importVC }: ImportModalProps) {
         <div className="ml-2 mt-4">
           <Button
             onClick={async () => {
-              setLoading(true);
-              if (!isVerifiableCredential(JSON.parse(vc))) {
-                setTimeout(() => {
-                  useToastStore.setState({
-                    open: true,
-                    title: 'Invalid verifiable credential type',
-                    type: 'error',
-                    loading: false,
-                  });
-                }, 200);
-                setLoading(false);
-                return;
-              }
-              const res = await importVC(vc, selectedItems);
-              if (res) {
-                setOpen(false);
-              }
-              setLoading(false);
+              await validateVC();
             }}
             variant="primary"
             size="sm"

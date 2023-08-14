@@ -367,10 +367,7 @@ const Table = () => {
         <span className="py-4 text-lg font-semibold">
           {t('no-credentials.or')}
         </span>
-        <Link
-          href="https://blockchain-lab-um.github.io/course-dapp"
-          target="_blank"
-        >
+        <Link href="/app/create-credential">
           <Button variant="secondary" size="sm" onClick={() => {}}>
             {t('no-credentials.get')}
           </Button>
