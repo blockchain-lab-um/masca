@@ -7,36 +7,6 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
-const IconEcosystem = () => (
-  <svg
-    width="48"
-    height="48"
-    viewBox="0 0 48 48"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M24 11L35.2583 17.5V30.5L24 37L12.7417 30.5V17.5L24 11Z"
-      stroke="#FE3D67"
-      strokeWidth="2"
-    />
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M16.7417 19.8094V28.1906L24 32.3812L31.2584 28.1906V19.8094L24 15.6188L16.7417 19.8094Z"
-      stroke="#FF8BA7"
-      strokeWidth="2"
-    />
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M20.7417 22.1196V25.882L24 27.7632L27.2584 25.882V22.1196L24 20.2384L20.7417 22.1196Z"
-      stroke="#FF8BA7"
-      strokeWidth="2"
-    />
-  </svg>
-);
-
 const IconCreateCredential = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -90,24 +60,6 @@ const INTERNAL_LINKS: LinkProps[] = [
   },
 ];
 
-const INTERNAL_EXTRA_LINKS: LinkProps[] = [
-  // {
-  //   name: 'get-credential',
-  //   href: '/app/get-credential',
-  //   icon: IconEcosystem,
-  // },
-  // {
-  //   name: 'authorization-request',
-  //   href: '/app/authorization-request',
-  //   icon: IconEcosystem,
-  // },
-  {
-    name: 'qr-code-session',
-    href: '/app/qr-code-session',
-    icon: IconEcosystem,
-  },
-];
-
 interface DropDownItemProps {
   SVGIcon: () => JSX.Element;
   name: string;
@@ -135,7 +87,7 @@ function MenuPopover() {
 
   return (
     <Popover className="group relative">
-      {({ open }) => (
+      {({ open, close }) => (
         <>
           <Popover.Button
             className={clsx(
@@ -172,20 +124,10 @@ function MenuPopover() {
                     <Link
                       key={link.name}
                       href={link.href}
+                      onClick={() => {
+                        close();
+                      }}
                       className="dark:hover:bg-navy-blue-500/40 -m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50"
-                    >
-                      <DropDownItem
-                        SVGIcon={link.icon}
-                        name={t(`dropdown.${link.name}`)}
-                        description={t(`dropdown.description.${link.name}`)}
-                      />
-                    </Link>
-                  ))}
-                  {INTERNAL_EXTRA_LINKS.map((link) => (
-                    <Link
-                      key={link.name}
-                      href={link.href}
-                      className="dark:hover:bg-navy-blue-500/40 -m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50 xl:hidden"
                     >
                       <DropDownItem
                         SVGIcon={link.icon}
@@ -200,6 +142,9 @@ function MenuPopover() {
                     href="https://docs.masca.io/"
                     target="_blank"
                     rel="noreferrer"
+                    onClick={() => {
+                      close();
+                    }}
                     className="dark:hover:bg-navy-blue-700 flow-root rounded-md px-2 py-2 transition duration-150 ease-in-out hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50"
                   >
                     <span className="flex items-center">

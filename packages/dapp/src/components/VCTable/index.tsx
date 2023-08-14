@@ -106,18 +106,21 @@ const Table = () => {
         row.data.credentialSubject.id ? row.data.credentialSubject.id : '',
       {
         id: 'subject',
-        cell: (info) => (
-          <Tooltip tooltip={t('tooltip.open-did')}>
-            <a
-              href={`https://dev.uniresolver.io/#${info.getValue()}`}
-              target="_blank"
-              rel="noreferrer"
-              className="dark:text-orange-accent-dark dark:hover:text-orange-accent-dark/80 flex items-center justify-center text-pink-400 underline hover:text-pink-500"
-            >{`${info.getValue().slice(0, 8)}....${info
-              .getValue()
-              .slice(-4)}`}</a>
-          </Tooltip>
-        ),
+        cell: (info) => {
+          if (!info.getValue()) return '/';
+          return (
+            <Tooltip tooltip={t('tooltip.open-did')}>
+              <a
+                href={`https://dev.uniresolver.io/#${info.getValue()}`}
+                target="_blank"
+                rel="noreferrer"
+                className="dark:text-orange-accent-dark dark:hover:text-orange-accent-dark/80 flex items-center justify-center text-pink-400 underline hover:text-pink-500"
+              >{`${info.getValue().slice(0, 8)}....${info
+                .getValue()
+                .slice(-4)}`}</a>
+            </Tooltip>
+          );
+        },
         header: () => <span>{t('table.subject')}</span>,
       }
     ),

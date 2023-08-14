@@ -58,7 +58,9 @@ export default function MethodDropdownMenu() {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: `${t('switching-success')} ${method}`,
+          title: `${t('switching-success')} ${
+            method === 'did:key:jwk_jcs-pub' ? 'did:key (EBSI)' : method
+          }`,
           type: 'success',
           loading: false,
         });

@@ -1,5 +1,4 @@
 import { ChangeEvent, useRef, useState } from 'react';
-import { ArrowUpTrayIcon } from '@heroicons/react/24/solid';
 
 import Button from '../Button';
 
@@ -48,7 +47,7 @@ const UploadButton = ({
         size="xs"
         onClick={handleClick}
       >
-        <ArrowUpTrayIcon className="h-4 w-4" />
+        Import
       </Button>
       <input
         type="file"
