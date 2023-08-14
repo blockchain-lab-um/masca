@@ -15,6 +15,7 @@ const CreateConnectionCard = () => {
   return (
     <>
       <div className="flex flex-1 flex-col space-y-4 p-4">
+        <div className="text-h3 font-ubuntu font-semibold">Browser</div>
         <div className="flex-1 space-y-2">
           <p>{t('desc-1')}</p>
           <p>{t('desc-2')}</p>

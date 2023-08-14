@@ -7,6 +7,7 @@ import { useTranslations } from 'next-intl';
 import { useGeneralStore, useSessionStore, useToastStore } from '@/stores';
 import { useQRCodeStore } from '@/stores/qrCodeStore';
 import Button from '../Button';
+import CreateConnectionModal from '../CreateConnectionCard/CreateConnectionModal';
 import ScanQRCodeModal from './ScanQRCodeModal';
 
 const ScanConnectionCard = () => {
@@ -22,6 +23,7 @@ const ScanConnectionCard = () => {
 
   const [isConnectionModalOpen, setIsConnectionModalOpen] = useState(false);
   const [isQRCodeModalOpen, setIsQRCodeModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onScanSuccessConnectionQRCode = async (decodedText: string, _: any) => {
     setIsConnectionModalOpen(false);
@@ -157,24 +159,51 @@ const ScanConnectionCard = () => {
 
   return (
     <>
-      <div className="flex flex-1 flex-col space-y-4 p-4">
-        <div className="flex-1 space-y-2">
-          <p>{t('desc')}</p>
+      <div className="flex flex-col justify-between p-4">
+        <div>
+          <div className="text-h3 font-ubuntu font-semibold">QR Scanner</div>
+
+          <div className="mt-8">
+            <p>
+              1. If your device has a camera you can scan a QR code to start an
+              OIDC session. You can also upload a screenshot of a QR code from
+              your computer.
+            </p>
+            <div className="mt-4 flex">
+              <p>
+                {`2. If your device does not have a camera, you can create
+                connection to a mobile device by generating a QR code and
+                scanning it on the mobile device. You can start that process by
+                clicking on the "Create Connection" button.`}
+              </p>
+              <div className="min-w-max items-center justify-center px-4">
+                <Button
+                  variant="secondary"
+                  size="xs"
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  Create Connection
+                </Button>
+              </div>
+            </div>
+            <div className="mt-4 flex">
+              <p>
+                3. Once connection is created, you can scan a QR code to start.
+              </p>
+            </div>
+          </div>
         </div>
-        <div className="flex justify-center space-x-4">
-          <Button
-            variant={isConnected ? 'gray' : 'primary'}
-            onClick={() => setIsConnectionModalOpen(true)}
-            disabled={isConnected}
-          >
-            {t('scan-connection')}
-          </Button>
-          <Button
-            variant={sessionId || isConnected ? 'primary' : 'gray'}
-            onClick={() => setIsQRCodeModalOpen(true)}
-            disabled={!(sessionId || isConnected)}
-          >
-            {isConnected ? t('upload-qr-code') : t('scan-qr-code')}
+        <div className="mt-8 flex justify-center space-x-8">
+          {!isConnected && (
+            <Button
+              variant="primary"
+              onClick={() => setIsConnectionModalOpen(true)}
+            >
+              {t('scan-connection')}
+            </Button>
+          )}
+          <Button variant="primary" onClick={() => setIsQRCodeModalOpen(true)}>
+            {t('scan-qr-code')}
           </Button>
         </div>
       </div>
@@ -190,6 +219,7 @@ const ScanConnectionCard = () => {
         isOpen={isQRCodeModalOpen}
         setOpen={setIsQRCodeModalOpen}
       />
+      <CreateConnectionModal isOpen={isModalOpen} setOpen={setIsModalOpen} />
     </>
   );
 };

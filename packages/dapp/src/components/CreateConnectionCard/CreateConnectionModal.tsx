@@ -75,6 +75,9 @@ const CreateConnectionModal = ({
       >
         {t('title')}
       </Dialog.Title>
+      <p>
+        Scan this with your mobile device to create a connection to this page.
+      </p>
       <div className="flex w-full justify-center p-4 pt-8">
         <div className="dark:border-orange-accent-dark rounded-xl border-2 border-pink-500 bg-white p-4">
           {connectionData && (
