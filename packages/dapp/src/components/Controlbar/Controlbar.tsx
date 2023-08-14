@@ -9,7 +9,6 @@ import {
 import { ArrowPathIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { W3CVerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
-import { normalizeCredential } from 'did-jwt-vc';
 import { useTranslations } from 'next-intl';
 
 import ImportModal from '@/components/ImportModal';
