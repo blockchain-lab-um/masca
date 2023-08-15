@@ -10,7 +10,7 @@ import Button from '../Button';
 import CreateConnectionModal from '../CreateConnectionCard/CreateConnectionModal';
 import ScanQRCodeModal from './ScanQRCodeModal';
 
-const ScanConnectionCard = () => {
+const QRCodeScannerCard = () => {
   const t = useTranslations('ScanConnectionCard');
   const { sessionId, key, exp } = useSessionStore((state) => ({
     sessionId: state.sessionId,
@@ -21,51 +21,8 @@ const ScanConnectionCard = () => {
   const isConnected = useGeneralStore((state) => state.isConnected);
   const changeRequestData = useQRCodeStore((state) => state.changeRequestData);
 
-  const [isConnectionModalOpen, setIsConnectionModalOpen] = useState(false);
   const [isQRCodeModalOpen, setIsQRCodeModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const onScanSuccessConnectionQRCode = async (decodedText: string, _: any) => {
-    setIsConnectionModalOpen(false);
-
-    try {
-      const data = JSON.parse(decodedText);
-
-      if (!data.sessionId || !data.keyData || !data.exp) throw new Error();
-
-      const decryptionKey = await crypto.subtle.importKey(
-        'jwk',
-        data.keyData,
-        { name: 'AES-GCM', length: 256 },
-        true,
-        ['encrypt', 'decrypt']
-      );
-
-      useSessionStore.setState({
-        sessionId: data.sessionId,
-        key: decryptionKey,
-        exp: data.exp,
-      });
-
-      setTimeout(() => {
-        useToastStore.setState({
-          open: true,
-          title: t('connection-created'),
-          type: 'success',
-          loading: false,
-        });
-      }, 200);
-    } catch (e) {
-      setTimeout(() => {
-        useToastStore.setState({
-          open: true,
-          title: t('invalid-qr-code'),
-          type: 'error',
-          loading: false,
-        });
-      }, 200);
-    }
-  };
 
   const onScanSuccessQRCode = async (decodedText: string, _: any) => {
     // Same device
@@ -159,24 +116,24 @@ const ScanConnectionCard = () => {
 
   return (
     <>
-      <div className="flex flex-col justify-between p-4">
+      <div className="p-4 pb-8">
         <div>
           <div className="text-h3 font-ubuntu font-semibold">QR Scanner</div>
 
           <div className="mt-8">
             <p>
               1. If your device has a camera you can scan a QR code to start an
-              OIDC session. You can also upload a screenshot of a QR code from
-              your computer.
+              OIDC or Polygon ID session. You can also upload a screenshot of a
+              QR code from your computer.
             </p>
-            <div className="mt-4 flex">
+            <div className="mt-4 flex flex-col items-center sm:flex-row">
               <p>
                 {`2. If your device does not have a camera, you can create
                 connection to a mobile device by generating a QR code and
                 scanning it on the mobile device. You can start that process by
                 clicking on the "Create Connection" button.`}
               </p>
-              <div className="min-w-max items-center justify-center px-4">
+              <div className="mt-4 min-w-max items-center justify-center px-4 sm:mt-0">
                 <Button
                   variant="secondary"
                   size="xs"
@@ -193,26 +150,12 @@ const ScanConnectionCard = () => {
             </div>
           </div>
         </div>
-        <div className="mt-8 flex justify-center space-x-8">
-          {!isConnected && (
-            <Button
-              variant="primary"
-              onClick={() => setIsConnectionModalOpen(true)}
-            >
-              {t('scan-connection')}
-            </Button>
-          )}
+        <div className="mt-16 flex justify-center">
           <Button variant="primary" onClick={() => setIsQRCodeModalOpen(true)}>
             {t('scan-qr-code')}
           </Button>
         </div>
       </div>
-      <ScanQRCodeModal
-        onScanSuccess={onScanSuccessConnectionQRCode}
-        title={t('scan-connection-modal-title')}
-        isOpen={isConnectionModalOpen}
-        setOpen={setIsConnectionModalOpen}
-      />
       <ScanQRCodeModal
         onScanSuccess={onScanSuccessQRCode}
         title={t('scan-qr-code-modal-title')}
@@ -224,4 +167,4 @@ const ScanConnectionCard = () => {
   );
 };
 
-export default ScanConnectionCard;
+export default QRCodeScannerCard;
