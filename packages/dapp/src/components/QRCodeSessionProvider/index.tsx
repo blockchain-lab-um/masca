@@ -56,11 +56,23 @@ const QRCodeSessionProvider = () => {
     if (!exp) return;
 
     if (exp && exp < Date.now()) {
-      useSessionStore.setState({ sessionId: null, key: null, exp: null });
+      useSessionStore.setState({
+        sessionId: null,
+        key: null,
+        exp: null,
+        connected: false,
+      });
     }
   }, [exp]);
 
   const handleNewRequest = async (_data: string) => {
+    if (_data === 'Created Connection') {
+      console.log("Got 'Created Connection' message");
+      useSessionStore.setState({
+        connected: true,
+      });
+      return;
+    }
     if (!isConnected) return;
     if (!api) return;
 

@@ -19,13 +19,13 @@ const CreateConnectionModal = ({
 }: CreateConnectionModalProps) => {
   const t = useTranslations('CreateConnectionModal');
   const [connectionData, setConnectionData] = useState<string | null>(null);
-  const { changeSessionId, changeKey, changeExp } = useSessionStore(
-    (state) => ({
+  const { changeSessionId, changeKey, changeExp, changeConnected } =
+    useSessionStore((state) => ({
       changeSessionId: state.changeSessionId,
       changeKey: state.changeKey,
       changeExp: state.changeExp,
-    })
-  );
+      changeConnected: state.changeConnected,
+    }));
 
   const createSession = async (): Promise<string> => {
     // Create session ID
@@ -50,6 +50,7 @@ const CreateConnectionModal = ({
     changeSessionId(sessionId);
     changeKey(key);
     changeExp(exp);
+    changeConnected(false);
 
     // Create session
     return JSON.stringify({

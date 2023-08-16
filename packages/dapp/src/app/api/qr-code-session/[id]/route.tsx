@@ -12,7 +12,7 @@ export async function GET(
       { status: 400 }
     );
   }
-
+  console.log('Get request');
   // Get session from database
   const session = await prisma.sessions.findUnique({
     where: {
@@ -44,11 +44,11 @@ export async function POST(
   request: Request,
   { params: { id } }: { params: { id: string } }
 ) {
+  console.log('Post request');
   try {
     const jsonData = await request.json();
 
     const { data, iv } = jsonData;
-
     if (!id) {
       return NextResponse.json(
         { error_description: 'Missing sessionId' },
