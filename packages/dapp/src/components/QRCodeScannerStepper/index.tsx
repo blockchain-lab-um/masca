@@ -1,11 +1,14 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { CheckIcon } from '@heroicons/react/24/solid';
+import { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 import { useStepper } from 'headless-stepper';
 
 import { useGeneralStore, useSessionStore } from '@/stores';
+import Button from '../Button';
 import { ChooseDeviceView } from './ChooseDeviceView';
 import { ConnectDeviceView } from './ConnectDeviceView';
+import { CredentialView } from './CredentialView';
 import { ScanQRCodeView } from './ScanQRCodeView';
 import { StartFlowView } from './StartFlowView';
 
@@ -17,71 +20,63 @@ export const QRCodeScannerStepper = () => {
         description: 'Choose Device Type',
         step: 0,
       },
-      { label: 'Second Step', description: 'Connect Device', step: 1 },
-      { label: 'Third Step', description: 'Scan QR Code', step: 2 },
+      {
+        label: 'Second Step',
+        description: 'Connect Device',
+        step: 1,
+        hasPreviousStep: true,
+      },
+      {
+        label: 'Third Step',
+        description: 'Scan QR Code',
+        step: 2,
+        hasPreviousStep: true,
+      },
       { label: 'Fourth Step', description: 'Start Flow', step: 3 },
       { label: 'Fifth Step', description: 'Flow Complete', step: 4 },
     ],
     []
   );
 
+  const [credential, setCredential] = useState<VerifiableCredential>();
+
   const stepperInstance = useStepper({ steps });
   const isConnected = useGeneralStore((state) => state.isConnected);
-  const [deviceType, setDeviceType] = useState<string | undefined>(undefined);
 
-  const {
-    authData,
-    decryptedData,
-    recievedCredential,
-    recievedCredentialOffer,
-    polygonAuthRequest,
-    oidcAuthRequest,
-    secondaryDeviceConnected,
-  } = useSessionStore((state) => ({
-    authData: state.authData,
-    decryptedData: state.decryptedData,
-    secondaryDeviceConnected: state.connected,
-    recievedCredential: state.recievedCredential,
-    recievedCredentialOffer: state.recievedCredentialOffer,
-    polygonAuthRequest: state.polygonAuthRequest,
-    oidcAuthRequest: state.oidcAuthRequest,
-  }));
+  const { request, session, changeRequest, changeSession } = useSessionStore(
+    (state) => ({
+      request: state.request,
+      session: state.session,
+      changeRequest: state.changeRequest,
+      changeSession: state.changeSession,
+    })
+  );
 
   useEffect(() => {
-    if (secondaryDeviceConnected && stepperInstance.state.currentStep === 1) {
-      stepperInstance.nextStep();
+    if (session.connected && stepperInstance.state.currentStep === 1) {
+      console.log('Session connected');
+      stepperInstance.setStep(2);
     }
-  }, [secondaryDeviceConnected]);
+  }, [session.connected]);
 
   useEffect(() => {
-    console.log("I'm here");
-    console.log(recievedCredential, recievedCredentialOffer);
-    console.log(polygonAuthRequest, oidcAuthRequest);
     if (
       isConnected &&
       stepperInstance.state.currentStep === 2 &&
-      (recievedCredential ||
-        recievedCredentialOffer ||
-        polygonAuthRequest ||
-        oidcAuthRequest)
+      (request.type === 'polygonAuth' ||
+        request.type === 'credentialOffer' ||
+        request.type === 'polygonCredentialOffer' ||
+        request.type === 'oidcAuth')
     ) {
       stepperInstance.nextStep();
     }
-  }, [
-    recievedCredential,
-    recievedCredentialOffer,
-    polygonAuthRequest,
-    oidcAuthRequest,
-  ]);
+  }, [request]);
 
-  const onConnectDevice = () => {
-    stepperInstance.nextStep();
-  };
-
-  const onSetDeviceType = (type: string) => {
-    setDeviceType(type);
-    stepperInstance.nextStep();
-  };
+  useEffect(() => {
+    if (session.deviceType === null) {
+      stepperInstance.setStep(0);
+    }
+  }, []);
 
   const onQRCodeScanned = () => {
     console.log('QR Code scanned');
@@ -89,7 +84,42 @@ export const QRCodeScannerStepper = () => {
   };
 
   const scanNewCode = () => {
-    stepperInstance.prevStep();
+    stepperInstance.setStep(2);
+  };
+
+  const onDeviceTypeSelected = (
+    deviceType: 'primary' | 'secondary',
+    hasCamera: boolean
+  ) => {
+    if (deviceType === 'primary' && hasCamera) {
+      changeSession({
+        connected: true,
+        sessionId: null,
+        key: null,
+        exp: null,
+        deviceType,
+        hasCamera,
+      });
+
+      stepperInstance.setStep(2);
+    } else {
+      changeSession({
+        connected: false,
+        sessionId: null,
+        key: null,
+        exp: null,
+        deviceType,
+        hasCamera,
+      });
+
+      stepperInstance.nextStep();
+    }
+  };
+
+  const onCredentialReceived = (recievedCredential: VerifiableCredential) => {
+    console.log('Credential recieved', credential);
+    setCredential(recievedCredential);
+    stepperInstance.setStep(4);
   };
 
   return (
@@ -105,7 +135,7 @@ export const QRCodeScannerStepper = () => {
                 <ol
                   key={index}
                   className={`${
-                    index + 1 < stepperInstance.state.totalSteps && 'grow'
+                    index + 2 < stepperInstance.state.totalSteps && 'grow'
                   }`}
                 >
                   <div className="flex items-center justify-start">
@@ -140,7 +170,7 @@ export const QRCodeScannerStepper = () => {
                         {steps[index].description}
                       </div>
                     </div>
-                    {stepperInstance.state.totalSteps > index + 1 && (
+                    {stepperInstance.state.totalSteps > index + 2 && (
                       <div className="grow">
                         <hr
                           className={clsx(
@@ -168,43 +198,67 @@ export const QRCodeScannerStepper = () => {
           ))}
         </nav>
       </div>
-      <div className="p-4">
+      <div className="mb-16 mt-16 p-4">
         {stepperInstance.state.currentStep === 0 && (
-          <ChooseDeviceView setDeviceType={onSetDeviceType} />
+          <ChooseDeviceView onDeviceTypeSelected={onDeviceTypeSelected} />
         )}
-        {stepperInstance.state.currentStep === 1 && (
-          <ConnectDeviceView deviceType={deviceType!} />
-        )}
+        {stepperInstance.state.currentStep === 1 && <ConnectDeviceView />}
         {stepperInstance.state.currentStep === 2 && (
-          <ScanQRCodeView
-            deviceType={deviceType!}
-            onQRCodeScanned={onQRCodeScanned}
-          />
+          <ScanQRCodeView onQRCodeScanned={onQRCodeScanned} />
         )}
         {stepperInstance.state.currentStep === 3 && (
-          <StartFlowView scanNewCode={scanNewCode} deviceType={deviceType!} />
+          <StartFlowView
+            scanNewCode={scanNewCode}
+            onCredentialRecieved={onCredentialReceived}
+          />
+        )}
+        {stepperInstance.state.currentStep === 4 && (
+          <CredentialView credential={credential!} scanNewCode={scanNewCode} />
         )}
       </div>
-      <p>Current step: {stepperInstance.state.currentStep}</p>
-      <button
-        onClick={stepperInstance.prevStep}
-        disabled={!stepperInstance.state.hasPreviousStep}
-      >
-        Prev
-      </button>
-      <button onClick={stepperInstance.nextStep}>Next</button>
-      <div {...stepperInstance.progressProps} />
+      {steps[stepperInstance.state.currentStep].hasPreviousStep && (
+        <div className="flex justify-end p-4">
+          <Button
+            variant="secondary"
+            size="xs"
+            onClick={stepperInstance.prevStep}
+          >
+            Back
+          </Button>
+        </div>
+      )}
+
+      {stepperInstance.state.currentStep === 3 && (
+        <div className="flex justify-end p-4">
+          <Button
+            variant="secondary"
+            size="xs"
+            onClick={() => {
+              changeRequest({
+                active: false,
+                data: null,
+                type: null,
+                finished: false,
+              });
+              scanNewCode();
+            }}
+          >
+            Back
+          </Button>
+        </div>
+      )}
+      {/* Debug tools
+       <div {...stepperInstance.progressProps} />
       <div>
-        <div>Rec Cred: {recievedCredential.toString()}</div>
-        <div>Rec CredOff: {recievedCredentialOffer.toString()}</div>
-        <div>PolygonAuth {polygonAuthRequest.toString()}</div>
-        <div>OIDCAuth: {oidcAuthRequest.toString()}</div>
-        <div>AuthData: {authData?.length.toString()}</div>
-        <div>DecryptedData: {decryptedData?.length.toString()}</div>
-      </div>
+        <div>Type: {request.type}</div>
+        <div>Active: {request.active.toString()}</div>
+        <div>Finished: {request.finished.toString()}</div>
+        <div>DecryptedData: {request.data?.length}</div>
+        <div>Session ID: {session.sessionId}</div>
+        <div>Device Type: {session.deviceType}</div>
+        <div>Has Camera: {session.hasCamera.toString()}</div>
+        <div>Connected: {session.connected.toString()}</div>
+      </div> */}
     </div>
   );
 };
-function useSnapStore(arg0: (state: any) => any) {
-  throw new Error('Function not implemented.');
-}

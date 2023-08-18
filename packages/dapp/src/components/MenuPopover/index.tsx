@@ -58,6 +58,11 @@ const INTERNAL_LINKS: LinkProps[] = [
     href: '/app/verify-data',
     icon: IconVerifyData,
   },
+  {
+    name: 'qr-scanner',
+    href: '/app/qr-code-session',
+    icon: IconVerifyData,
+  },
 ];
 
 interface DropDownItemProps {

@@ -4,38 +4,33 @@ import { uint8ArrayToHex } from '@blockchain-lab-um/masca-connector';
 import { useGeneralStore, useSessionStore, useToastStore } from '@/stores';
 import Button from '../Button';
 import CreateConnectionModal from '../CreateConnectionCard/CreateConnectionModal';
-import ScanQRCodeModal from '../QRCodeScannerCard/ScanQRCodeModal';
+import ScanQRCodeModal from '../ScanQRCodeModal/ScanQRCodeModal';
 
-interface ConnectDeviceViewProps {
-  deviceType: string;
-}
-
-export const ConnectDeviceView = ({ deviceType }: ConnectDeviceViewProps) => {
+export const ConnectDeviceView = () => {
   const isConnected = useGeneralStore((state) => state.isConnected);
-  const secondaryDeviceConnected = useSessionStore((state) => state.connected);
+  const { session, changeSession } = useSessionStore((state) => ({
+    session: state.session,
+    changeSession: state.changeSession,
+  }));
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isConnectionModalOpen, setIsConnectionModalOpen] = useState(false);
 
   useEffect(() => {
     // Close connect QR modal if connection is established
-    if (secondaryDeviceConnected && isModalOpen) {
+    if (session.connected && isModalOpen) {
       console.log('Closing modal');
       setIsModalOpen(false);
     }
-  }, [secondaryDeviceConnected]);
+  }, [session.connected]);
 
   const onScanSuccessConnectionQRCode = async (decodedText: string, _: any) => {
-    console.log(
-      'Calling this....',
-      secondaryDeviceConnected,
-      isConnectionModalOpen
-    );
+    console.log('Calling this....', session.connected, isConnectionModalOpen);
     if (isConnectionModalOpen) {
       console.log('Closing QR Connection modal...');
       setIsConnectionModalOpen(false);
     }
     // Close if already connected
-    if (secondaryDeviceConnected) return;
+    if (session.connected) return;
 
     try {
       const data = JSON.parse(decodedText);
@@ -50,7 +45,8 @@ export const ConnectDeviceView = ({ deviceType }: ConnectDeviceViewProps) => {
         ['encrypt', 'decrypt']
       );
 
-      useSessionStore.setState({
+      changeSession({
+        ...session,
         sessionId: data.sessionId,
         key: decryptionKey,
         exp: data.exp,
@@ -107,51 +103,51 @@ export const ConnectDeviceView = ({ deviceType }: ConnectDeviceViewProps) => {
   };
 
   return (
-    <>
-      {deviceType === 'no-camera' && (
+    <div className="">
+      {session.deviceType === 'primary' && !session.hasCamera && (
         <>
           {isConnected && (
             <>
-              <div>
-                1. To connect to a secondary mobile device, open this page on
-                said device and click on ‘This device is capable of scanning QR
-                codes’ button.
-                <br />
-                2. Scan the QR code below to create a connection
+              <div className="dark:bg-navy-blue-700 rounded-xl bg-gray-100 p-4">
+                <div>
+                  To Start Scanning QR codes, first connect your secondary
+                  device
+                </div>
+                <div className="mt-2">
+                  {`Press the 'Create Connection' button below and Scan the QR
+                  code on your secondary device`}
+                </div>
               </div>
-              <Button
-                variant="primary"
-                size="xs"
-                onClick={() => setIsModalOpen(true)}
-              >
-                Create Connection
-              </Button>
+              <div className="mt-8 flex justify-center">
+                <Button variant="primary" onClick={() => setIsModalOpen(true)}>
+                  Create Connection
+                </Button>
+              </div>
             </>
           )}
           {!isConnected && <div>Connect Wallet to proceed</div>}
         </>
       )}
-      {deviceType === 'camera' && (
+      {session.hasCamera && (
         <>
-          {isConnected && <div>Primary device scan skip this step</div>}
-          {!isConnected && (
+          {session.deviceType === 'secondary' && (
             <>
-              <div>
-                This page should only be open on a secondary device that
-                supports scanning QR codes.
-                <br />
-                If your primary device where you want to scan/upload QR code,
-                please connect your wallet!
+              <div className="dark:bg-navy-blue-700 rounded-xl bg-gray-100 p-4">
+                <div>
+                  Scan the Connection QR code to connect to your primary device
+                </div>
               </div>
-              <Button
-                variant="primary"
-                onClick={() => {
-                  console.log('Opening connection modal');
-                  setIsConnectionModalOpen(true);
-                }}
-              >
-                Scan Connection
-              </Button>
+              <div className="mt-8 flex justify-center">
+                <Button
+                  variant="primary"
+                  onClick={() => {
+                    console.log('Opening connection modal');
+                    setIsConnectionModalOpen(true);
+                  }}
+                >
+                  Scan Connection
+                </Button>
+              </div>
             </>
           )}
         </>
@@ -163,6 +159,6 @@ export const ConnectDeviceView = ({ deviceType }: ConnectDeviceViewProps) => {
         isOpen={isConnectionModalOpen}
         setOpen={setIsConnectionModalOpen}
       />
-    </>
+    </div>
   );
 };

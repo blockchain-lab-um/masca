@@ -22,14 +22,14 @@ const MAIN_LINKS = [
 ];
 
 const EXTRA_LINKS = [
-  // {
-  //   name: 'get-credential',
-  //   href: '/app/get-credential',
-  // },
-  // {
-  //   name: 'authorization-request',
-  //   href: '/app/authorization-request',
-  // },
+  {
+    name: 'get-credential',
+    href: '/app/get-credential',
+  },
+  {
+    name: 'authorization-request',
+    href: '/app/authorization-request',
+  },
   {
     name: 'qr-code-session',
     href: '/app/qr-code-session',

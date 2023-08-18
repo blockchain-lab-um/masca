@@ -15,6 +15,7 @@
       "authorization-request": "Authorization Request",
       "blog": "Blog",
       "create-credential": "Create Credential",
+      "qr-scanner": "QR Code Scanner",
       "description": {
         "authorization-request": "Create a verifiable presentation using the OpenID Connect protocol",
         "blog": "Read the Blockchain Lab:UM Medium Blog",
@@ -26,7 +27,8 @@
         "github": "View Masca code on GitHub",
         "qr-code-session": "Create session to scan QR codes using your mobile device",
         "twitter": "Follow Masca on Twitter",
-        "verify-data": "Verify Verifiable Credentials & Verifiable Presentations"
+        "verify-data": "Verify Verifiable Credentials & Verifiable Presentations",
+        "qr-scanner": "Start various Authorization and CredentialOffer Flows"
       },
       "discord": "Discord",
       "documentation": "Documentation",

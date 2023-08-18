@@ -4,38 +4,36 @@ import { uint8ArrayToHex } from '@blockchain-lab-um/masca-connector';
 import { useGeneralStore, useSessionStore, useToastStore } from '@/stores';
 import { useQRCodeStore } from '@/stores/qrCodeStore';
 import Button from '../Button';
-import ScanQRCodeModal from '../QRCodeScannerCard/ScanQRCodeModal';
+import ScanQRCodeModal from '../ScanQRCodeModal/ScanQRCodeModal';
 
 interface ScanQRCodeViewProps {
-  deviceType: string;
   onQRCodeScanned: () => void;
 }
 
-export const ScanQRCodeView = ({
-  deviceType,
-  onQRCodeScanned,
-}: ScanQRCodeViewProps) => {
+export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
   const isConnected = useGeneralStore((state) => state.isConnected);
   const [isQRCodeModalOpen, setIsQRCodeModalOpen] = useState(false);
-  const { sessionId, key, exp, secondaryDeviceConnected } = useSessionStore(
+
+  const { request, session, changeRequest, changeSession } = useSessionStore(
     (state) => ({
-      sessionId: state.sessionId,
-      key: state.key,
-      exp: state.exp,
-      secondaryDeviceConnected: state.connected,
+      request: state.request,
+      session: state.session,
+      changeRequest: state.changeRequest,
+      changeSession: state.changeSession,
     })
   );
+
   const changeRequestData = useQRCodeStore((state) => state.changeRequestData);
 
   const onScanSuccessQRCode = async (decodedText: string, _: any) => {
     // Same device
-    if (isConnected) {
+    if (isConnected && session.deviceType === 'primary') {
       changeRequestData(decodedText);
       return;
     }
 
     // Cross device (mobile <-> desktop)
-    if (!sessionId || !key || !exp) return;
+    if (!session.sessionId || !session.key || !session.exp) return;
     if (isQRCodeModalOpen) {
       console.log('Closing QR Scan modal...');
       setIsQRCodeModalOpen(false);
@@ -80,22 +78,25 @@ export const ScanQRCodeView = ({
             name: 'AES-GCM',
             iv,
           },
-          key,
+          session.key,
           encodedText
         )
       );
 
       // Send data
-      const response = await fetch(`/api/qr-code-session/${sessionId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          data: uint8ArrayToHex(encryptedData),
-          iv: uint8ArrayToHex(iv),
-        }),
-      });
+      const response = await fetch(
+        `/api/qr-code-session/${session.sessionId}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            data: uint8ArrayToHex(encryptedData),
+            iv: uint8ArrayToHex(iv),
+          }),
+        }
+      );
 
       if (!response.ok) throw new Error();
 
@@ -122,47 +123,62 @@ export const ScanQRCodeView = ({
   };
 
   return (
-    <>
-      {deviceType === 'camera' && (
+    <div className="">
+      {session.connected && (
         <>
-          {isConnected && (
+          {session.deviceType === 'primary' && session.hasCamera && (
             <div>
-              <div>Scan or Upload a QR code to continue!</div>
-              <Button
-                variant="primary"
-                onClick={() => setIsQRCodeModalOpen(true)}
-              >
-                Scan QR Code
-              </Button>
+              <div className="dark:bg-navy-blue-700 rounded-xl bg-gray-100 p-4">
+                Scan or Upload a QR code to continue!
+              </div>
+              <div className="mt-8 flex justify-center">
+                <Button
+                  variant="primary"
+                  onClick={() => setIsQRCodeModalOpen(true)}
+                >
+                  Scan QR Code
+                </Button>
+              </div>
             </div>
           )}
-          {secondaryDeviceConnected && (
+          {session.deviceType === 'secondary' && session.hasCamera && (
             <div>
-              <div>
-                Successfully connected to primary device! <br /> Scan or Upload
-                a QR code to continue!
+              <div className="dark:bg-navy-blue-700 rounded-xl bg-gray-100 p-4">
+                <div>
+                  Successfully{' '}
+                  <span className="text-green-500">connected </span>
+                  to primary device!
+                </div>
+                <div className="mt-2">Scan a QR code to continue!</div>
               </div>
-              <Button
-                variant="primary"
-                onClick={() => setIsQRCodeModalOpen(true)}
-              >
-                Scan QR Code
-              </Button>
+              <div className="mt-8 flex justify-center">
+                <Button
+                  variant="primary"
+                  onClick={() => setIsQRCodeModalOpen(true)}
+                >
+                  Scan QR Code
+                </Button>
+              </div>
             </div>
           )}
         </>
       )}
-      {deviceType === 'no-camera' && (
+      {session.connected && !session.hasCamera && (
         <>
-          {secondaryDeviceConnected && (
-            <div>
+          <div>
+            <div className="dark:bg-navy-blue-700 rounded-xl bg-gray-100 p-4">
               <div>
-                Secondary device Successfully connected! Scan a QR code to
-                continue...
+                Successfully <span className="text-green-500">connected </span>
+                to secondary device!
               </div>
-              <div>Spinner..</div>
+              <div className="mt-2">
+                Scan a QR code on your secondary device to continue!
+              </div>
             </div>
-          )}
+            <div className="mt-8 flex items-center justify-center">
+              <div className="dark:border-orange-accent-dark h-8 w-8 animate-spin rounded-full border-4 border-solid border-pink-500 border-t-pink-500/0 dark:border-t-pink-500/0"></div>
+            </div>
+          </div>
         </>
       )}
       <ScanQRCodeModal
@@ -171,6 +187,6 @@ export const ScanQRCodeView = ({
         isOpen={isQRCodeModalOpen}
         setOpen={setIsQRCodeModalOpen}
       />
-    </>
+    </div>
   );
 };

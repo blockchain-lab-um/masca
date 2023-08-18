@@ -81,15 +81,17 @@ export const NavConnection = () => {
           currMethod === 'did:pkh' ||
           currMethod === 'did:polygonid' ||
           currMethod === 'did:iden3') && (
-          <DropdownMenu
-            size="method"
-            rounded="full"
-            shadow="none"
-            variant="method"
-            items={getAvailableNetworksList(currMethod)}
-            selected={getNetwork()}
-            setSelected={setNetwork}
-          />
+          <div className="hidden md:block">
+            <DropdownMenu
+              size="method"
+              rounded="full"
+              shadow="none"
+              variant="method"
+              items={getAvailableNetworksList(currMethod)}
+              selected={getNetwork()}
+              setSelected={setNetwork}
+            />
+          </div>
         )}
         <MethodDropdownMenu />
         <AddressPopover address={address} did={did} disconnect={disconnect} />

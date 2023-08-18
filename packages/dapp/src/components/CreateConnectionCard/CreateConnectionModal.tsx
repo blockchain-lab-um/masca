@@ -19,13 +19,14 @@ const CreateConnectionModal = ({
 }: CreateConnectionModalProps) => {
   const t = useTranslations('CreateConnectionModal');
   const [connectionData, setConnectionData] = useState<string | null>(null);
-  const { changeSessionId, changeKey, changeExp, changeConnected } =
-    useSessionStore((state) => ({
-      changeSessionId: state.changeSessionId,
-      changeKey: state.changeKey,
-      changeExp: state.changeExp,
-      changeConnected: state.changeConnected,
-    }));
+  const { request, session, changeRequest, changeSession } = useSessionStore(
+    (state) => ({
+      request: state.request,
+      session: state.session,
+      changeRequest: state.changeRequest,
+      changeSession: state.changeSession,
+    })
+  );
 
   const createSession = async (): Promise<string> => {
     // Create session ID
@@ -47,10 +48,14 @@ const CreateConnectionModal = ({
     const exp = Date.now() + 1000 * 60 * 60;
 
     // Set global session data
-    changeSessionId(sessionId);
-    changeKey(key);
-    changeExp(exp);
-    changeConnected(false);
+    changeSession({
+      sessionId,
+      key,
+      exp,
+      connected: false,
+      hasCamera: false,
+      deviceType: 'primary',
+    });
 
     // Create session
     return JSON.stringify({
