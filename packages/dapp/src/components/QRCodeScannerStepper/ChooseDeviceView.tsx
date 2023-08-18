@@ -48,7 +48,7 @@ export const ChooseDeviceView = ({
         <div className="flex flex-col items-center">
           <button
             onClick={() => onDeviceTypeSelected('secondary', true)}
-            className="animated-transition dark:border-navy-blue-400 dark:hover:bg-navy-blue-700 flex h-[10rem] w-2/3 flex-col items-center justify-center gap-y-4 rounded-xl border-4 border-gray-500 p-4 hover:bg-gray-100 md:w-1/3"
+            className="animated-transition dark:border-navy-blue-400 dark:hover:bg-navy-blue-700 flex h-[10rem] w-2/3 flex-col items-center justify-center gap-y-4 rounded-xl border-4 border-gray-500 p-4 hover:bg-gray-100"
           >
             <span className="dark:text-orange-accent-dark text-center font-bold text-pink-500">
               Secondary Device
