@@ -23,11 +23,17 @@ const ScanQRCodeModal = ({
   const [scanner, setScanner] = useState<Html5Qrcode | null>(null);
 
   useEffect(() => {
+    console.log('Stopping scanner...');
+    console.log(isOpen, scanner?.isScanning);
+    console.log(scanner);
+    console.log('-----------------');
     if (!isOpen && scanner && scanner.isScanning) {
+      console.log('SCANNER STOP');
       scanner.stop().catch((error) => console.error(error));
     }
 
     if (isOpen && scanner) {
+      console.log('SCANNER SET NULL');
       setScanner(null);
     }
   }, [isOpen]);

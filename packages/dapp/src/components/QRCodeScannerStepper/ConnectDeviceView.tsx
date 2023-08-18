@@ -17,11 +17,24 @@ export const ConnectDeviceView = ({ deviceType }: ConnectDeviceViewProps) => {
   const [isConnectionModalOpen, setIsConnectionModalOpen] = useState(false);
 
   useEffect(() => {
-    if (secondaryDeviceConnected) setIsModalOpen(false);
+    // Close connect QR modal if connection is established
+    if (secondaryDeviceConnected && isModalOpen) {
+      console.log('Closing modal');
+      setIsModalOpen(false);
+    }
   }, [secondaryDeviceConnected]);
 
   const onScanSuccessConnectionQRCode = async (decodedText: string, _: any) => {
-    setIsConnectionModalOpen(false);
+    console.log(
+      'Calling this....',
+      secondaryDeviceConnected,
+      isConnectionModalOpen
+    );
+    if (isConnectionModalOpen) {
+      console.log('Closing QR Connection modal...');
+      setIsConnectionModalOpen(false);
+    }
+    // Close if already connected
     if (secondaryDeviceConnected) return;
 
     try {
@@ -132,7 +145,10 @@ export const ConnectDeviceView = ({ deviceType }: ConnectDeviceViewProps) => {
               </div>
               <Button
                 variant="primary"
-                onClick={() => setIsConnectionModalOpen(true)}
+                onClick={() => {
+                  console.log('Opening connection modal');
+                  setIsConnectionModalOpen(true);
+                }}
               >
                 Scan Connection
               </Button>

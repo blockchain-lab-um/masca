@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { hexToUint8Array, isError } from '@blockchain-lab-um/masca-connector';
+import { hexToUint8Array } from '@blockchain-lab-um/masca-connector';
 import { VerifiableCredential } from '@veramo/core';
 import { useTranslations } from 'next-intl';
 import useSWR from 'swr';
@@ -20,18 +20,39 @@ const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
 const QRCodeSessionProvider = () => {
   const t = useTranslations('QRCodeSessionProvider');
-  const [decryptedData, setDecryptedData] = useState<string | null>(null);
-  const [recievedCredential, setRecievedCredential] =
-    useState<VerifiableCredential | null>(null);
 
   const [isCredentialOfferModalOpen, setIsCredentialOfferModalOpen] =
     useState(false);
   const [isCredentialModalOpen, setIsCredentialModalOpen] = useState(false);
 
-  const { sessionId, key, exp } = useSessionStore((state) => ({
+  const {
+    sessionId,
+    key,
+    exp,
+    decryptedData,
+    credential,
+    authData,
+    changeRecievedCredential,
+    changeRecievedCredentialOffer,
+    changePolygonAuthRequest,
+    changeOidcAuthRequest,
+    changeDecryptedData,
+    changeCredential,
+    changeAuthData,
+  } = useSessionStore((state) => ({
     sessionId: state.sessionId,
     key: state.key,
     exp: state.exp,
+    decryptedData: state.decryptedData,
+    credential: state.credential,
+    authData: state.authData,
+    changeRecievedCredential: state.changeRecievedCredential,
+    changeRecievedCredentialOffer: state.changeRecievedCredentialOffer,
+    changePolygonAuthRequest: state.changePolygonAuthRequest,
+    changeOidcAuthRequest: state.changeOidcAuthRequest,
+    changeDecryptedData: state.changeDecryptedData,
+    changeCredential: state.changeCredential,
+    changeAuthData: state.changeAuthData,
   }));
 
   const requestData = useQRCodeStore((state) => state.requestData);
@@ -78,36 +99,38 @@ const QRCodeSessionProvider = () => {
 
     // OIDC Credential Offer
     if (_data.startsWith('openid-credential-offer://')) {
-      setDecryptedData(_data);
+      changeDecryptedData(_data);
       return;
     }
 
     // OIDC Authorization Request
     if (_data.startsWith('openid://')) {
-      const result = await api.handleAuthorizationRequest({
-        authorizationRequest: _data,
-      });
+      // const result = await api.handleAuthorizationRequest({
+      //   authorizationRequest: _data,
+      // });
+      changeOidcAuthRequest(true);
+      changeAuthData(_data);
 
-      if (isError(result)) {
-        setTimeout(() => {
-          useToastStore.setState({
-            open: true,
-            title: 'An error ocurred while processing the request',
-            type: 'error',
-            loading: false,
-          });
-        }, 200);
-        return;
-      }
+      // if (isError(result)) {
+      //   setTimeout(() => {
+      //     useToastStore.setState({
+      //       open: true,
+      //       title: 'An error ocurred while processing the request',
+      //       type: 'error',
+      //       loading: false,
+      //     });
+      //   }, 200);
+      //   return;
+      // }
 
-      setTimeout(() => {
-        useToastStore.setState({
-          open: true,
-          title: 'Successfully processed the request',
-          type: 'success',
-          loading: false,
-        });
-      }, 200);
+      // setTimeout(() => {
+      //   useToastStore.setState({
+      //     open: true,
+      //     title: 'Successfully processed the request',
+      //     type: 'success',
+      //     loading: false,
+      //   });
+      // }, 200);
 
       return;
     }
@@ -122,7 +145,7 @@ const QRCodeSessionProvider = () => {
         jsonDecodedData.type ===
         'https://iden3-communication.io/credentials/1.0/offer'
       ) {
-        setDecryptedData(_data);
+        changeDecryptedData(_data);
         return;
       }
 
@@ -140,30 +163,33 @@ const QRCodeSessionProvider = () => {
           });
         }, 200);
 
-        const result = await api.handleAuthorizationRequest({
-          authorizationRequest: _data,
-        });
+        // const result = await api.handleAuthorizationRequest({
+        //   authorizationRequest: _data,
+        // });
 
-        if (isError(result)) {
-          setTimeout(() => {
-            useToastStore.setState({
-              open: true,
-              title: 'An error ocurred while processing the request',
-              type: 'error',
-              loading: false,
-            });
-          }, 200);
-          return;
-        }
+        changePolygonAuthRequest(true);
+        changeAuthData(_data);
 
-        setTimeout(() => {
-          useToastStore.setState({
-            open: true,
-            title: 'Successfully processed the request',
-            type: 'success',
-            loading: false,
-          });
-        }, 200);
+        // if (isError(result)) {
+        //   setTimeout(() => {
+        //     useToastStore.setState({
+        //       open: true,
+        //       title: 'An error ocurred while processing the request',
+        //       type: 'error',
+        //       loading: false,
+        //     });
+        //   }, 200);
+        //   return;
+        // }
+
+        // setTimeout(() => {
+        //   useToastStore.setState({
+        //     open: true,
+        //     title: 'Successfully processed the request',
+        //     type: 'success',
+        //     loading: false,
+        //   });
+        // }, 200);
 
         return;
       }
@@ -216,19 +242,21 @@ const QRCodeSessionProvider = () => {
   // Open modal when decrypted data is available
   useEffect(() => {
     if (!decryptedData) return;
-    setIsCredentialOfferModalOpen(true);
+    // setIsCredentialOfferModalOpen(true);
+    changeRecievedCredentialOffer(true);
   }, [decryptedData]);
 
   // Reset decrypted data when modal is closed
   useEffect(() => {
-    if (!isCredentialOfferModalOpen) setDecryptedData(null);
+    if (!isCredentialOfferModalOpen) changeDecryptedData(null);
   }, [isCredentialOfferModalOpen]);
 
   // Open credential modal when credential is received
   useEffect(() => {
-    if (!recievedCredential) return;
-    setIsCredentialModalOpen(true);
-  }, [recievedCredential]);
+    if (!credential) return;
+    changeRecievedCredential(true);
+    // setIsCredentialModalOpen(true);
+  }, [credential]);
 
   // New request recieved (QR Code upload)
   useEffect(() => {
@@ -237,23 +265,24 @@ const QRCodeSessionProvider = () => {
   }, [requestData]);
 
   return (
-    <>
-      {recievedCredential && (
-        <CredentialModal
-          isOpen={isCredentialModalOpen}
-          setOpen={setIsCredentialModalOpen}
-          credential={recievedCredential}
-        />
-      )}
-      {decryptedData && (
-        <CredentialOfferModal
-          credentialOffer={decryptedData}
-          isOpen={isCredentialOfferModalOpen}
-          setOpen={setIsCredentialOfferModalOpen}
-          setRecievedCredential={setRecievedCredential}
-        />
-      )}
-    </>
+    // <>
+    //   {recievedCredential && (
+    //     <CredentialModal
+    //       isOpen={isCredentialModalOpen}
+    //       setOpen={setIsCredentialModalOpen}
+    //       credential={recievedCredential}
+    //     />
+    //   )}
+    //   {decryptedData && (
+    //     <CredentialOfferModal
+    //       credentialOffer={decryptedData}
+    //       isOpen={isCredentialOfferModalOpen}
+    //       setOpen={setIsCredentialOfferModalOpen}
+    //       setRecievedCredential={setRecievedCredential}
+    //     />
+    //   )}
+    // </>
+    <></>
   );
 };
 

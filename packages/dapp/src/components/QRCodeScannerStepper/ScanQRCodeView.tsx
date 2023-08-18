@@ -8,9 +8,13 @@ import ScanQRCodeModal from '../QRCodeScannerCard/ScanQRCodeModal';
 
 interface ScanQRCodeViewProps {
   deviceType: string;
+  onQRCodeScanned: () => void;
 }
 
-export const ScanQRCodeView = ({ deviceType }: ScanQRCodeViewProps) => {
+export const ScanQRCodeView = ({
+  deviceType,
+  onQRCodeScanned,
+}: ScanQRCodeViewProps) => {
   const isConnected = useGeneralStore((state) => state.isConnected);
   const [isQRCodeModalOpen, setIsQRCodeModalOpen] = useState(false);
   const { sessionId, key, exp, secondaryDeviceConnected } = useSessionStore(
@@ -32,8 +36,10 @@ export const ScanQRCodeView = ({ deviceType }: ScanQRCodeViewProps) => {
 
     // Cross device (mobile <-> desktop)
     if (!sessionId || !key || !exp) return;
-    setIsQRCodeModalOpen(false);
-
+    if (isQRCodeModalOpen) {
+      console.log('Closing QR Scan modal...');
+      setIsQRCodeModalOpen(false);
+    }
     let data: string | null = null;
 
     try {
@@ -101,7 +107,9 @@ export const ScanQRCodeView = ({ deviceType }: ScanQRCodeViewProps) => {
           loading: false,
         });
       }, 200);
+      onQRCodeScanned();
     } catch (e) {
+      console.log('error', e);
       setTimeout(() => {
         useToastStore.setState({
           open: true,

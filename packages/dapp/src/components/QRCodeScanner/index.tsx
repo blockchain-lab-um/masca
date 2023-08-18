@@ -24,6 +24,7 @@ const QRCodeScanner = ({
   const onScanFailure = (_: any) => {};
 
   useEffect(() => {
+    console.log('setting scanner..');
     try {
       setScanner(
         new Html5Qrcode('reader', {
@@ -39,41 +40,62 @@ const QRCodeScanner = ({
           loading: false,
         });
       }, 200);
+      console.log('error', error);
+      console.log("closing modal because scanner couldn't be initialized");
       setOpen(false);
     }
 
     return () => {
+      console.log('closing scanner useEffect closure!');
       if (scanner && scanner.isScanning) {
-        scanner.stop().catch(() => {});
+        console.log('SCANNER STOP 2');
+        scanner.stop().catch((e) => {
+          console.log(e);
+        });
+        console.log(scanner);
       }
     };
   }, []);
 
   useEffect(() => {
-    if (!scanner) return;
+    console.log('scanner changed use effect');
+    if (scanner) {
+      console.log('setting scanner here');
+      const config: Html5QrcodeCameraScanConfig = {
+        fps: 30,
+        qrbox: { width: 200, height: 200 },
+      };
 
-    const config: Html5QrcodeCameraScanConfig = {
-      fps: 30,
-      qrbox: { width: 200, height: 200 },
+      console.log('starting scanner inside useEffect');
+      scanner
+        .start(
+          { facingMode: 'environment' },
+          config,
+          onScanSuccess,
+          onScanFailure
+        )
+        .catch((e) => {
+          console.log('Error starting scanner or sth', e);
+          setTimeout(() => {
+            useToastStore.setState({
+              open: true,
+              title: t('starting-error'),
+              type: 'error',
+              loading: false,
+            });
+          }, 200);
+        });
+    }
+    return () => {
+      console.log('closing scanner useEffect closure 2222!');
+      if (scanner && scanner.isScanning) {
+        console.log('SCANNER STOP 2');
+        scanner.stop().catch((e) => {
+          console.log(e);
+        });
+        console.log(scanner);
+      }
     };
-
-    scanner
-      .start(
-        { facingMode: 'environment' },
-        config,
-        onScanSuccess,
-        onScanFailure
-      )
-      .catch(() => {
-        setTimeout(() => {
-          useToastStore.setState({
-            open: true,
-            title: t('starting-error'),
-            type: 'error',
-            loading: false,
-          });
-        }, 200);
-      });
   }, [scanner]);
 
   const handleUpload = async (file: File) => {
@@ -94,6 +116,7 @@ const QRCodeScanner = ({
       }, 200);
     }
 
+    console.log('closing modal');
     setOpen(false);
   };
 
