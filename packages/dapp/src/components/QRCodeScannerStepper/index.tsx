@@ -12,7 +12,7 @@ import { CredentialView } from './CredentialView';
 import { ScanQRCodeView } from './ScanQRCodeView';
 import { StartFlowView } from './StartFlowView';
 
-export const QRCodeScannerStepper = () => {
+const QRCodeScannerStepper = () => {
   const steps = useMemo(
     () => [
       {
@@ -129,32 +129,26 @@ export const QRCodeScannerStepper = () => {
           className="flex justify-between gap-x-2"
           {...stepperInstance.stepperProps}
         >
-          {stepperInstance.stepsProps?.map((step, index) => (
+          {stepperInstance.stepsProps?.map((_, index) => (
             <>
               {index < 4 && (
                 <ol
                   key={index}
-                  className={`${
+                  className={clsx(
                     index + 2 < stepperInstance.state.totalSteps && 'grow'
-                  }`}
+                  )}
                 >
                   <div className="flex items-center justify-start">
                     <div>
                       <div
                         className={clsx(
-                          `dark:border-orange-accent-dark  flex h-8 w-8 items-center justify-center rounded-full border-2 border-pink-500 text-xl font-bold text-pink-500 md:h-10 md:w-10`,
-                          `${
-                            index > stepperInstance.state.currentStep &&
-                            'dark:text-orange-accent-dark'
-                          }`,
-                          `${
-                            index < stepperInstance.state.currentStep &&
-                            'dark:bg-orange-accent-dark dark:text-navy-blue-800 bg-pink-500 text-white'
-                          }`,
-                          `${
-                            index === stepperInstance.state.currentStep &&
+                          'dark:border-orange-accent-dark flex h-8 w-8 items-center justify-center rounded-full border-2 border-pink-500 text-xl font-bold text-pink-500 md:h-10 md:w-10',
+                          index > stepperInstance.state.currentStep &&
+                            'dark:text-orange-accent-dark',
+                          index < stepperInstance.state.currentStep &&
+                            'dark:bg-orange-accent-dark dark:text-navy-blue-800 bg-pink-500 text-white',
+                          index === stepperInstance.state.currentStep &&
                             'dark:text-orange-accent-dark dark:bg-orange-accent-dark/20 bg-pink-50'
-                          }`
                         )}
                       >
                         {index < stepperInstance.state.currentStep ? (
@@ -166,7 +160,7 @@ export const QRCodeScannerStepper = () => {
                     </div>
                     <div className="md:text-md ml-2 hidden text-sm sm:block">
                       <div className="font-semibold">{steps[index].label}</div>
-                      <div className=" dark:text-navy-blue-400 text-xs font-thin text-gray-400 md:text-sm">
+                      <div className="dark:text-navy-blue-400 text-xs font-thin text-gray-400 md:text-sm">
                         {steps[index].description}
                       </div>
                     </div>
@@ -174,19 +168,13 @@ export const QRCodeScannerStepper = () => {
                       <div className="grow">
                         <hr
                           className={clsx(
-                            ' ml-2 rounded-full border-2',
-                            `${
-                              stepperInstance.state.currentStep === index + 1 &&
-                              'dark:text-orange-accent-dark/40 text-pink-200'
-                            }`,
-                            `${
-                              stepperInstance.state.currentStep > index &&
-                              'dark:text-orange-accent-dark text-pink-500'
-                            }`,
-                            `${
-                              stepperInstance.state.currentStep < index + 1 &&
+                            'ml-2 rounded-full border-2',
+                            stepperInstance.state.currentStep === index + 1 &&
+                              'dark:text-orange-accent-dark/40 text-pink-200',
+                            stepperInstance.state.currentStep > index &&
+                              'dark:text-orange-accent-dark text-pink-500',
+                            stepperInstance.state.currentStep < index + 1 &&
                               'dark:text-navy-blue-600 text-gray-200'
-                            }`
                           )}
                         />
                       </div>
@@ -227,7 +215,6 @@ export const QRCodeScannerStepper = () => {
           </Button>
         </div>
       )}
-
       {stepperInstance.state.currentStep === 3 && (
         <div className="flex justify-end p-4">
           <Button
@@ -247,18 +234,8 @@ export const QRCodeScannerStepper = () => {
           </Button>
         </div>
       )}
-      {/* Debug tools
-       <div {...stepperInstance.progressProps} />
-      <div>
-        <div>Type: {request.type}</div>
-        <div>Active: {request.active.toString()}</div>
-        <div>Finished: {request.finished.toString()}</div>
-        <div>DecryptedData: {request.data?.length}</div>
-        <div>Session ID: {session.sessionId}</div>
-        <div>Device Type: {session.deviceType}</div>
-        <div>Has Camera: {session.hasCamera.toString()}</div>
-        <div>Connected: {session.connected.toString()}</div>
-      </div> */}
     </div>
   );
 };
+
+export default QRCodeScannerStepper;

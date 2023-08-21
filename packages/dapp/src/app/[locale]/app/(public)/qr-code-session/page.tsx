@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import { QRCodeScannerDisplay } from '@/components/QRScannerDisplay';
+import QRCodeScannerDisplay from '@/components/QRScannerDisplay';
 
 export const metadata: Metadata = {
   title: 'Dashboard',
