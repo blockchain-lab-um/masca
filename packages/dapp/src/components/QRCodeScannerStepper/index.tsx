@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { requestToBodyStream } from 'next/dist/server/body-streams';
 import { CheckIcon } from '@heroicons/react/24/solid';
 import { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
@@ -75,6 +76,15 @@ const QRCodeScannerStepper = () => {
   useEffect(() => {
     if (session.deviceType === null) {
       stepperInstance.setStep(0);
+      if (session.connected && session.exp && session.exp > Date.now()) {
+        stepperInstance.setStep(2);
+        if (request.active) {
+          stepperInstance.setStep(3);
+          if (request.finished) {
+            stepperInstance.setStep(4);
+          }
+        }
+      }
     }
   }, []);
 
@@ -206,11 +216,21 @@ const QRCodeScannerStepper = () => {
       </div>
       {steps[stepperInstance.state.currentStep].hasPreviousStep && (
         <div className="flex justify-end p-4">
-          <Button
-            variant="secondary"
-            size="xs"
-            onClick={stepperInstance.prevStep}
-          >
+          {stepperInstance.state.currentStep === 1 &&
+            session.connected &&
+            session.exp &&
+            session.exp > Date.now() && (
+              <div className="mr-2">
+                <Button
+                  variant="done"
+                  size="xs"
+                  onClick={stepperInstance.nextStep}
+                >
+                  Use existing session
+                </Button>
+              </div>
+            )}
+          <Button variant="done" size="xs" onClick={stepperInstance.prevStep}>
             Back
           </Button>
         </div>
@@ -218,7 +238,7 @@ const QRCodeScannerStepper = () => {
       {stepperInstance.state.currentStep === 3 && (
         <div className="flex justify-end p-4">
           <Button
-            variant="secondary"
+            variant="done"
             size="xs"
             onClick={() => {
               changeRequest({

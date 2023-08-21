@@ -190,11 +190,11 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
                 to secondary device!
               </div>
               <div className="mt-2">
-                Scan a QR code on your secondary device to continue!
+                Scan a QR code on your secondary device to continue...
               </div>
             </div>
-            <div className="mt-8 flex items-center justify-center">
-              <div className="dark:border-orange-accent-dark h-8 w-8 animate-spin rounded-full border-4 border-solid border-pink-500 border-t-pink-500/0 dark:border-t-pink-500/0"></div>
+            <div className="text-h3 mt-16 flex items-center justify-center">
+              Waiting for QR code...
             </div>
           </div>
         </>
