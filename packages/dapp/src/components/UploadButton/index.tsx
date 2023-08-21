@@ -44,7 +44,6 @@ const UploadButton = ({
         variant="primary"
         loading={loading}
         showTextOnLoading={false}
-        size="xs"
         onClick={handleClick}
       >
         Import

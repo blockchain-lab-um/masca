@@ -39,7 +39,7 @@ function ImportModal({ isOpen, setOpen, importVC }: ImportModalProps) {
     AvailableCredentialStores[]
   >([availableStores[0]]);
 
-  const validateVC = async () => {
+  const validateAndImportCredential = async (): Promise<void> => {
     setLoading(true);
 
     let vcObj: W3CVerifiableCredential;
@@ -59,7 +59,7 @@ function ImportModal({ isOpen, setOpen, importVC }: ImportModalProps) {
           });
         }, 200);
 
-        return false;
+        return;
       }
     }
 
@@ -73,14 +73,13 @@ function ImportModal({ isOpen, setOpen, importVC }: ImportModalProps) {
         });
       }, 200);
       setLoading(false);
-      return false;
+      return;
     }
     const res = await importVC(vc, selectedItems);
     if (res) {
       setOpen(false);
     }
     setLoading(false);
-    return true;
   };
 
   return (
@@ -140,9 +139,7 @@ function ImportModal({ isOpen, setOpen, importVC }: ImportModalProps) {
 
         <div className="ml-2 mt-4">
           <Button
-            onClick={async () => {
-              await validateVC();
-            }}
+            onClick={validateAndImportCredential}
             variant="primary"
             size="sm"
             shadow="md"

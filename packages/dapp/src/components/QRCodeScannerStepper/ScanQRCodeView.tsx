@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { uint8ArrayToHex } from '@blockchain-lab-um/masca-connector';
+import { Html5Qrcode } from 'html5-qrcode';
 
 import { useGeneralStore, useSessionStore, useToastStore } from '@/stores';
 import { useQRCodeStore } from '@/stores/qrCodeStore';
 import Button from '../Button';
 import ScanQRCodeModal from '../ScanQRCodeModal/ScanQRCodeModal';
+import UploadButton from '../UploadButton';
 
 interface ScanQRCodeViewProps {
   onQRCodeScanned: () => void;
@@ -14,14 +16,7 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
   const isConnected = useGeneralStore((state) => state.isConnected);
   const [isQRCodeModalOpen, setIsQRCodeModalOpen] = useState(false);
 
-  const { request, session, changeRequest, changeSession } = useSessionStore(
-    (state) => ({
-      request: state.request,
-      session: state.session,
-      changeRequest: state.changeRequest,
-      changeSession: state.changeSession,
-    })
-  );
+  const session = useSessionStore((state) => state.session);
 
   const changeRequestData = useQRCodeStore((state) => state.changeRequestData);
 
@@ -122,8 +117,30 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
     }
   };
 
+  const handleUpload = async (file: File) => {
+    try {
+      const scanner = new Html5Qrcode('reader', {
+        verbose: false,
+      });
+
+      if (!scanner) throw new Error("Scanner isn't initialized");
+
+      const decodedText = await scanner.scanFile(file, false);
+      await onScanSuccessQRCode(decodedText, null);
+    } catch (error) {
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: 'Invalid QR code',
+          type: 'error',
+          loading: false,
+        });
+      }, 200);
+    }
+  };
+
   return (
-    <div className="">
+    <div>
       {session.connected && (
         <>
           {session.deviceType === 'primary' && session.hasCamera && (
@@ -131,13 +148,14 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
               <div className="dark:bg-navy-blue-700 rounded-xl bg-gray-100 p-4">
                 Scan or Upload a QR code to continue!
               </div>
-              <div className="mt-8 flex justify-center">
+              <div className="mt-8 flex justify-center space-x-4">
                 <Button
                   variant="primary"
                   onClick={() => setIsQRCodeModalOpen(true)}
                 >
                   Scan QR Code
                 </Button>
+                <UploadButton handleUpload={handleUpload} />
               </div>
             </div>
           )}
