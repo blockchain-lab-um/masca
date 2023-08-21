@@ -23,19 +23,15 @@ export const StartFlowView = ({
     finished: false,
     type: null,
   });
-  const { request, session, changeRequest, changeSession } = useSessionStore(
-    (state) => ({
-      request: state.request,
-      session: state.session,
-      changeRequest: state.changeRequest,
-      changeSession: state.changeSession,
-    })
-  );
+  const { request, session } = useSessionStore((state) => ({
+    request: state.request,
+    session: state.session,
+  }));
 
   const isConnected = useGeneralStore((state) => state.isConnected);
 
   return (
-    <div className="">
+    <div>
       {isConnected && session.deviceType === 'primary' && (
         <>
           {request.type === 'polygonAuth' && (

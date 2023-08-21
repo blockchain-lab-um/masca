@@ -18,14 +18,7 @@ export const CredentialView = ({
   credential,
   scanNewCode,
 }: CredentialViewProps) => {
-  const { request, session, changeRequest, changeSession } = useSessionStore(
-    (state) => ({
-      request: state.request,
-      session: state.session,
-      changeRequest: state.changeRequest,
-      changeSession: state.changeSession,
-    })
-  );
+  const changeRequest = useSessionStore((state) => state.changeRequest);
 
   const mascaApi = useMascaStore((state) => state.mascaApi);
 
@@ -123,7 +116,7 @@ export const CredentialView = ({
             </Tab>
           </div>
         </Tab.List>
-        <Tab.Panels className="">
+        <Tab.Panels>
           <Tab.Panel>
             <FormatedPanel credential={credential} />
           </Tab.Panel>

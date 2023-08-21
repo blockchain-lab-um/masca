@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { isError } from '@blockchain-lab-um/masca-connector';
 import { VerifiableCredential } from '@veramo/core';
 
@@ -17,27 +17,20 @@ interface CredentialOfferViewProps {
 export const CredentialOfferView = ({
   onCredentialRecieved,
 }: CredentialOfferViewProps) => {
-  const { request, session, changeRequest, changeSession } = useSessionStore(
-    (state) => ({
-      request: state.request,
-      session: state.session,
-      changeRequest: state.changeRequest,
-      changeSession: state.changeSession,
-    })
-  );
+  const { request, changeRequest } = useSessionStore((state) => ({
+    request: state.request,
+    changeRequest: state.changeRequest,
+  }));
 
   const api = useMascaStore((state) => state.mascaApi);
   const currDidMethod = useMascaStore((state) => state.currDIDMethod);
   const isConnected = useGeneralStore((state) => state.isConnected);
-
-  const [progress, setProgress] = useState(false);
 
   const handleCredentialOffer = async () => {
     if (!api) return;
     if (!isConnected) return;
 
     if (request.data) {
-      setProgress(true);
       setTimeout(() => {
         useToastStore.setState({
           open: true,
@@ -65,7 +58,6 @@ export const CredentialOfferView = ({
           });
         }, 200);
         console.log(handleCredentialOfferResponse.error);
-        setProgress(false);
         return;
       }
 
@@ -84,7 +76,6 @@ export const CredentialOfferView = ({
         ...request,
         finished: true,
       });
-      setProgress(false);
     }
   };
 

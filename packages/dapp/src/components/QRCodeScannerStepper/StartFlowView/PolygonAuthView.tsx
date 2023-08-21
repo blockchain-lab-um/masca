@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { isError } from '@blockchain-lab-um/masca-connector';
 
 import Button from '@/components/Button';
@@ -14,20 +14,16 @@ interface StartFlowViewProps {
 }
 
 export const PolygonAuthView = ({ scanNewCode }: StartFlowViewProps) => {
-  const { request, session, changeRequest, changeSession } = useSessionStore(
-    (state) => ({
-      request: state.request,
-      session: state.session,
-      changeRequest: state.changeRequest,
-      changeSession: state.changeSession,
-    })
-  );
+  const { request, changeRequest } = useSessionStore((state) => ({
+    request: state.request,
+    session: state.session,
+    changeRequest: state.changeRequest,
+    changeSession: state.changeSession,
+  }));
 
   const api = useMascaStore((state) => state.mascaApi);
   const currDidMethod = useMascaStore((state) => state.currDIDMethod);
   const isConnected = useGeneralStore((state) => state.isConnected);
-
-  const [progress, setProgress] = useState(false);
 
   const handlePolygonAuthRequest = async () => {
     console.log('polygon auth request started', currDidMethod);
@@ -37,7 +33,6 @@ export const PolygonAuthView = ({ scanNewCode }: StartFlowViewProps) => {
       request.data &&
       currDidMethod === 'did:polygonid'
     ) {
-      setProgress(true);
       const result = await api.handleAuthorizationRequest({
         authorizationRequest: request.data,
       });
@@ -51,7 +46,6 @@ export const PolygonAuthView = ({ scanNewCode }: StartFlowViewProps) => {
           });
           console.log('error', result.error);
         }, 200);
-        setProgress(false);
         return;
       }
 
@@ -68,7 +62,6 @@ export const PolygonAuthView = ({ scanNewCode }: StartFlowViewProps) => {
       ...request,
       finished: true,
     });
-    setProgress(false);
   };
 
   const isRightMethod = () => currDidMethod === 'did:polygonid';
@@ -82,12 +75,6 @@ export const PolygonAuthView = ({ scanNewCode }: StartFlowViewProps) => {
     });
     scanNewCode();
   };
-
-  //   useEffect(() => {
-  //     handlePolygonAuthRequest().catch((e) => {
-  //       console.log(e);
-  //     });
-  //   }, []);
 
   return (
     <>
