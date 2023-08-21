@@ -15,11 +15,9 @@ export const FriendlydAppTable = () => {
   const isMascaFriendlyDapp = (
     friendlyDapps: string[] | undefined
   ): boolean => {
-    if (!friendlyDapps) return false;
-    if (friendlyDapps.length === 0) return false;
-    if (friendlyDapps.includes('https://masca.io')) {
-      return true;
-    }
+    if (friendlyDapps && friendlyDapps.includes('https://masca.io')) { 
+      return true 
+    };
     return false;
   };
 
