@@ -1,5 +1,6 @@
 import React from 'react';
 import { isError } from '@blockchain-lab-um/masca-connector';
+import { useTranslations } from 'next-intl';
 
 import Button from '@/components/Button';
 import {
@@ -14,6 +15,7 @@ interface OIDCAuthViewProps {
 }
 
 export const OIDCAuthView = ({ scanNewCode }: OIDCAuthViewProps) => {
+  const t = useTranslations('OIDCAuthView');
   const { request, changeRequest } = useSessionStore((state) => ({
     request: state.request,
     changeRequest: state.changeRequest,
@@ -24,12 +26,13 @@ export const OIDCAuthView = ({ scanNewCode }: OIDCAuthViewProps) => {
   const isConnected = useGeneralStore((state) => state.isConnected);
 
   const handleOIDCAuthRequest = async () => {
-    console.log('polygon auth request started', currDidMethod);
     if (
       api &&
       isConnected &&
       request.data &&
-      currDidMethod === 'did:polygonid'
+      (currDidMethod === 'did:key:jwk_jcs-pub' ||
+        currDidMethod === 'did:key' ||
+        currDidMethod === 'did:jwk')
     ) {
       const result = await api.handleAuthorizationRequest({
         authorizationRequest: request.data,
@@ -38,7 +41,7 @@ export const OIDCAuthView = ({ scanNewCode }: OIDCAuthViewProps) => {
         setTimeout(() => {
           useToastStore.setState({
             open: true,
-            title: 'An error ocurred while processing the request',
+            title: t('error'),
             type: 'error',
             loading: false,
           });
@@ -50,7 +53,7 @@ export const OIDCAuthView = ({ scanNewCode }: OIDCAuthViewProps) => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Successfully processed the request',
+          title: t('success'),
           type: 'success',
           loading: false,
         });
@@ -62,7 +65,10 @@ export const OIDCAuthView = ({ scanNewCode }: OIDCAuthViewProps) => {
     });
   };
 
-  const isRightMethod = () => currDidMethod === 'did:key:jwk_jcs-pub';
+  const isRightMethod = () =>
+    currDidMethod === 'did:key:jwk_jcs-pub' ||
+    currDidMethod === 'did:key' ||
+    currDidMethod === 'did:jwk';
 
   const onScanNewCode = () => {
     changeRequest({
@@ -76,35 +82,31 @@ export const OIDCAuthView = ({ scanNewCode }: OIDCAuthViewProps) => {
 
   return (
     <>
+      <div className="text-h4 pb-8 font-medium">{t('title')}</div>
       {isRightMethod() ? (
         <div>
           {request.finished ? (
             <div>
               <div className="dark:bg-navy-blue-700 rounded-xl bg-gray-100 p-4">
-                Authorization Request completed!
+                {t('finished')}
               </div>
               <div className="mt-8 flex justify-center">
                 <Button variant="primary" onClick={onScanNewCode}>
-                  Scan another QR code
+                  {t('new-scan')}
                 </Button>
               </div>
             </div>
           ) : (
-            <div>
-              <div className="dark:bg-navy-blue-700 rounded-xl bg-gray-100 p-4">
-                Recieved an OIDC Authorization Request!
-              </div>
-              <div className="mt-8 flex justify-center">
-                <Button variant="primary" onClick={handleOIDCAuthRequest}>
-                  Start flow
-                </Button>
-              </div>
+            <div className="mt-8 flex justify-center">
+              <Button variant="primary" onClick={handleOIDCAuthRequest}>
+                {t('start')}
+              </Button>
             </div>
           )}
         </div>
       ) : (
         <div className="dark:bg-navy-blue-700 rounded-xl bg-gray-100 p-4">
-          Switch to did:key (EBSI) to continue!
+          {t('switch-to')}
         </div>
       )}
     </>

@@ -42,6 +42,7 @@ const UploadButton = ({
     <>
       <Button
         variant="primary"
+        size="xs"
         loading={loading}
         showTextOnLoading={false}
         onClick={handleClick}

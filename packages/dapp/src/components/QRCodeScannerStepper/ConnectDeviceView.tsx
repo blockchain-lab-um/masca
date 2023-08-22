@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { uint8ArrayToHex } from '@blockchain-lab-um/masca-connector';
+import { useTranslations } from 'next-intl';
 
 import { useGeneralStore, useSessionStore, useToastStore } from '@/stores';
 import Button from '../Button';
-import CreateConnectionModal from '../CreateConnectionCard/CreateConnectionModal';
+import CreateConnectionModal from '../ConnectionModal/CreateConnectionModal';
 import ScanQRCodeModal from '../ScanQRCodeModal/ScanQRCodeModal';
 
 export const ConnectDeviceView = () => {
+  const t = useTranslations('ConnectDeviceView');
   const isConnected = useGeneralStore((state) => state.isConnected);
   const { session, changeSession } = useSessionStore((state) => ({
     session: state.session,
@@ -18,15 +20,12 @@ export const ConnectDeviceView = () => {
   useEffect(() => {
     // Close connect QR modal if connection is established
     if (session.connected && isModalOpen) {
-      console.log('Closing modal');
       setIsModalOpen(false);
     }
   }, [session.connected]);
 
   const onScanSuccessConnectionQRCode = async (decodedText: string, _: any) => {
-    console.log('Calling this....', session.connected, isConnectionModalOpen);
     if (isConnectionModalOpen) {
-      console.log('Closing QR Connection modal...');
       setIsConnectionModalOpen(false);
     }
     // Close if already connected
@@ -68,7 +67,6 @@ export const ConnectDeviceView = () => {
           encodedText
         )
       );
-      console.log('Sending session confirmation');
       const response = await fetch(`/api/qr-code-session/${data.sessionId}`, {
         method: 'POST',
         headers: {
@@ -85,7 +83,7 @@ export const ConnectDeviceView = () => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Connection established',
+          title: t('success'),
           type: 'success',
           loading: false,
         });
@@ -94,7 +92,7 @@ export const ConnectDeviceView = () => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Invalid QR code',
+          title: t('invalid'),
           type: 'error',
           loading: false,
         });
@@ -109,10 +107,7 @@ export const ConnectDeviceView = () => {
           {isConnected && (
             <>
               <div className="dark:bg-navy-blue-700 rounded-xl bg-gray-100 p-4">
-                <div>
-                  To Start Scanning QR codes, first connect your secondary
-                  device
-                </div>
+                <div>{t('start-primary')}</div>
                 <div className="mt-2">
                   {`Press the 'Create Connection' button below and Scan the QR
                   code on your secondary device`}
@@ -120,12 +115,12 @@ export const ConnectDeviceView = () => {
               </div>
               <div className="mt-8 flex justify-center">
                 <Button variant="primary" onClick={() => setIsModalOpen(true)}>
-                  Create Connection
+                  {t('create')}
                 </Button>
               </div>
             </>
           )}
-          {!isConnected && <div>Connect Wallet to proceed</div>}
+          {!isConnected && <div>{t('connect')}</div>}
         </>
       )}
       {session.hasCamera && (
@@ -133,19 +128,16 @@ export const ConnectDeviceView = () => {
           {session.deviceType === 'secondary' && (
             <>
               <div className="dark:bg-navy-blue-700 rounded-xl bg-gray-100 p-4">
-                <div>
-                  Scan the Connection QR code to connect to your primary device
-                </div>
+                <div>{t('start-secondary')}</div>
               </div>
               <div className="mt-8 flex justify-center">
                 <Button
                   variant="primary"
                   onClick={() => {
-                    console.log('Opening connection modal');
                     setIsConnectionModalOpen(true);
                   }}
                 >
-                  Scan Connection
+                  {t('scan')}
                 </Button>
               </div>
             </>

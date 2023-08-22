@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { uint8ArrayToHex } from '@blockchain-lab-um/masca-connector';
 import { Html5Qrcode } from 'html5-qrcode';
+import { useTranslations } from 'next-intl';
 
 import { useGeneralStore, useSessionStore, useToastStore } from '@/stores';
 import { useQRCodeStore } from '@/stores/qrCodeStore';
@@ -13,6 +14,7 @@ interface ScanQRCodeViewProps {
 }
 
 export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
+  const t = useTranslations('ScanQRCodeView');
   const isConnected = useGeneralStore((state) => state.isConnected);
   const [isQRCodeModalOpen, setIsQRCodeModalOpen] = useState(false);
 
@@ -98,7 +100,7 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Success',
+          title: t('succeess'),
           type: 'success',
           loading: false,
         });
@@ -109,7 +111,7 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Error',
+          title: t('error'),
           type: 'error',
           loading: false,
         });
@@ -131,7 +133,7 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Invalid QR code',
+          title: t('invalid'),
           type: 'error',
           loading: false,
         });
@@ -146,14 +148,14 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
           {session.deviceType === 'primary' && session.hasCamera && (
             <div>
               <div className="dark:bg-navy-blue-700 rounded-xl bg-gray-100 p-4">
-                Scan or Upload a QR code to continue!
+                {t('scan-upload')}
               </div>
               <div className="mt-8 flex justify-center space-x-4">
                 <Button
                   variant="primary"
                   onClick={() => setIsQRCodeModalOpen(true)}
                 >
-                  Scan QR Code
+                  {t('scan')}
                 </Button>
                 <UploadButton handleUpload={handleUpload} />
               </div>
@@ -163,18 +165,18 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
             <div>
               <div className="dark:bg-navy-blue-700 rounded-xl bg-gray-100 p-4">
                 <div>
-                  Successfully{' '}
-                  <span className="text-green-500">connected </span>
-                  to primary device!
+                  {t('successfully')}
+                  <span className="text-green-500">{t('connected')}</span>
+                  {t('to-primary')}
                 </div>
-                <div className="mt-2">Scan a QR code to continue!</div>
+                <div className="mt-2">{t('scan-to-continue')}</div>
               </div>
               <div className="mt-8 flex justify-center">
                 <Button
                   variant="primary"
                   onClick={() => setIsQRCodeModalOpen(true)}
                 >
-                  Scan QR Code
+                  {t('scan')}
                 </Button>
               </div>
             </div>
@@ -186,15 +188,14 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
           <div>
             <div className="dark:bg-navy-blue-700 rounded-xl bg-gray-100 p-4">
               <div>
-                Successfully <span className="text-green-500">connected </span>
-                to secondary device!
+                {t('successfully')}{' '}
+                <span className="text-green-500">{t('connected')} </span>
+                {t('to-secondary')}
               </div>
-              <div className="mt-2">
-                Scan a QR code on your secondary device to continue...
-              </div>
+              <div className="mt-2">{t('scan-to-continue-secondary')}</div>
             </div>
             <div className="text-h3 mt-16 flex items-center justify-center">
-              Waiting for QR code...
+              {t('waiting')}
             </div>
           </div>
         </>

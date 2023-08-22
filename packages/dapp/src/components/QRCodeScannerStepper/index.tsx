@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { requestToBodyStream } from 'next/dist/server/body-streams';
 import { CheckIcon } from '@heroicons/react/24/solid';
 import { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 import { useStepper } from 'headless-stepper';
+import { useTranslations } from 'next-intl';
 
 import { useGeneralStore, useSessionStore } from '@/stores';
 import Button from '../Button';
@@ -14,27 +14,28 @@ import { ScanQRCodeView } from './ScanQRCodeView';
 import { StartFlowView } from './StartFlowView';
 
 const QRCodeScannerStepper = () => {
+  const t = useTranslations('QRCodeScannerStepper');
   const steps = useMemo(
     () => [
       {
-        label: 'First Step',
-        description: 'Choose Device Type',
+        label: t('first'),
+        description: t('first-desc'),
         step: 0,
       },
       {
-        label: 'Second Step',
-        description: 'Connect Device',
+        label: t('second'),
+        description: t('second-desc'),
         step: 1,
         hasPreviousStep: true,
       },
       {
-        label: 'Third Step',
-        description: 'Scan QR Code',
+        label: t('third'),
+        description: t('third-desc'),
         step: 2,
         hasPreviousStep: true,
       },
-      { label: 'Fourth Step', description: 'Start Flow', step: 3 },
-      { label: 'Fifth Step', description: 'Flow Complete', step: 4 },
+      { label: t('fourth'), description: t('fourth-desc'), step: 3 },
+      { label: t('fifth'), description: t('fifth-desc'), step: 4 },
     ],
     []
   );
@@ -55,7 +56,6 @@ const QRCodeScannerStepper = () => {
 
   useEffect(() => {
     if (session.connected && stepperInstance.state.currentStep === 1) {
-      console.log('Session connected');
       stepperInstance.setStep(2);
     }
   }, [session.connected]);
@@ -76,20 +76,20 @@ const QRCodeScannerStepper = () => {
   useEffect(() => {
     if (session.deviceType === null) {
       stepperInstance.setStep(0);
-      if (session.connected && session.exp && session.exp > Date.now()) {
-        stepperInstance.setStep(2);
-        if (request.active) {
-          stepperInstance.setStep(3);
-          if (request.finished) {
-            stepperInstance.setStep(4);
-          }
+      return;
+    }
+    if (session.connected && session.exp && session.exp > Date.now()) {
+      stepperInstance.setStep(2);
+      if (request.active) {
+        stepperInstance.setStep(3);
+        if (request.finished && request.type === 'credentialOffer') {
+          stepperInstance.setStep(4);
         }
       }
     }
   }, []);
 
   const onQRCodeScanned = () => {
-    console.log('QR Code scanned');
     stepperInstance.nextStep();
   };
 
@@ -114,10 +114,7 @@ const QRCodeScannerStepper = () => {
       stepperInstance.setStep(2);
     } else {
       changeSession({
-        connected: false,
-        sessionId: null,
-        key: null,
-        exp: null,
+        ...session,
         deviceType,
         hasCamera,
       });
@@ -127,7 +124,6 @@ const QRCodeScannerStepper = () => {
   };
 
   const onCredentialReceived = (recievedCredential: VerifiableCredential) => {
-    console.log('Credential recieved', credential);
     setCredential(recievedCredential);
     stepperInstance.setStep(4);
   };
@@ -226,12 +222,12 @@ const QRCodeScannerStepper = () => {
                   size="xs"
                   onClick={stepperInstance.nextStep}
                 >
-                  Use existing session
+                  {t('use-existing')}
                 </Button>
               </div>
             )}
           <Button variant="done" size="xs" onClick={stepperInstance.prevStep}>
-            Back
+            {t('back')}
           </Button>
         </div>
       )}
@@ -250,7 +246,7 @@ const QRCodeScannerStepper = () => {
               scanNewCode();
             }}
           >
-            Back
+            {t('back')}
           </Button>
         </div>
       )}

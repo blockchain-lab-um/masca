@@ -1,5 +1,6 @@
 import React from 'react';
 import { isError } from '@blockchain-lab-um/masca-connector';
+import { useTranslations } from 'next-intl';
 
 import Button from '@/components/Button';
 import {
@@ -14,6 +15,7 @@ interface StartFlowViewProps {
 }
 
 export const PolygonAuthView = ({ scanNewCode }: StartFlowViewProps) => {
+  const t = useTranslations('PolygonAuthView');
   const { request, changeRequest } = useSessionStore((state) => ({
     request: state.request,
     session: state.session,
@@ -26,12 +28,11 @@ export const PolygonAuthView = ({ scanNewCode }: StartFlowViewProps) => {
   const isConnected = useGeneralStore((state) => state.isConnected);
 
   const handlePolygonAuthRequest = async () => {
-    console.log('polygon auth request started', currDidMethod);
     if (
       api &&
       isConnected &&
       request.data &&
-      currDidMethod === 'did:polygonid'
+      (currDidMethod === 'did:polygonid' || currDidMethod === 'did:iden3')
     ) {
       const result = await api.handleAuthorizationRequest({
         authorizationRequest: request.data,
@@ -40,7 +41,7 @@ export const PolygonAuthView = ({ scanNewCode }: StartFlowViewProps) => {
         setTimeout(() => {
           useToastStore.setState({
             open: true,
-            title: 'An error ocurred while processing the request',
+            title: t('error'),
             type: 'error',
             loading: false,
           });
@@ -52,7 +53,7 @@ export const PolygonAuthView = ({ scanNewCode }: StartFlowViewProps) => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Successfully processed the request',
+          title: t('success'),
           type: 'success',
           loading: false,
         });
@@ -64,7 +65,8 @@ export const PolygonAuthView = ({ scanNewCode }: StartFlowViewProps) => {
     });
   };
 
-  const isRightMethod = () => currDidMethod === 'did:polygonid';
+  const isRightMethod = () =>
+    currDidMethod === 'did:polygonid' || currDidMethod === 'did:iden3';
 
   const onScanNewCode = () => {
     changeRequest({
@@ -78,35 +80,31 @@ export const PolygonAuthView = ({ scanNewCode }: StartFlowViewProps) => {
 
   return (
     <>
+      <div className="text-h4 pb-8 font-medium">{t('title')}</div>
       {isRightMethod() ? (
         <div>
           {request.finished ? (
             <div>
               <div className="dark:bg-navy-blue-700 rounded-xl bg-gray-100 p-4">
-                Authorization Request completed!
+                {t('finished')}
               </div>
               <div className="mt-8 flex justify-center">
                 <Button variant="primary" onClick={onScanNewCode}>
-                  Scan another QR code
+                  {t('new-scan')}
                 </Button>
               </div>
             </div>
           ) : (
-            <div>
-              <div className="dark:bg-navy-blue-700 rounded-xl bg-gray-100 p-4">
-                Recieved a PolygonID Authorization Request!
-              </div>
-              <div className="mt-8 flex justify-center">
-                <Button variant="primary" onClick={handlePolygonAuthRequest}>
-                  Start flow
-                </Button>
-              </div>
+            <div className="mt-8 flex justify-center">
+              <Button variant="primary" onClick={handlePolygonAuthRequest}>
+                {t('start')}
+              </Button>
             </div>
           )}
         </div>
       ) : (
         <div className="dark:bg-navy-blue-700 rounded-xl bg-gray-100 p-4">
-          Switch to did:polygonid to continue!
+          {t('switch-to')}
         </div>
       )}
     </>

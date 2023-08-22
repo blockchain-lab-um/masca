@@ -64,7 +64,6 @@ const QRCodeSessionProvider = () => {
 
   const handleNewRequest = async (_data: string) => {
     if (_data === 'Created Connection') {
-      console.log("Got 'Created Connection' message");
       useSessionStore.setState({
         session: { ...session, connected: true },
       });
@@ -127,6 +126,7 @@ const QRCodeSessionProvider = () => {
             title: 'Polygon Authorization Request received',
             type: 'info',
             loading: false,
+            link: `/app/qr-code-session`,
           });
         }, 200);
 

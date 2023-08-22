@@ -15,9 +15,9 @@ export const FriendlydAppTable = () => {
   const isMascaFriendlyDapp = (
     friendlyDapps: string[] | undefined
   ): boolean => {
-    if (friendlyDapps && friendlyDapps.includes('https://masca.io')) { 
-      return true 
-    };
+    if (friendlyDapps && friendlyDapps.includes('https://masca.io')) {
+      return true;
+    }
     return false;
   };
 
@@ -137,7 +137,7 @@ export const FriendlydAppTable = () => {
         </tbody>
       </table>
       {!isMascaFriendlyDapp(settings?.dApp.friendlyDapps) && (
-        <div className="text-md dark:text-orange-accent-dark flex justify-end gap-x-2 text-pink-400">
+        <div className="dark:text-orange-accent-dark -mt-4 flex justify-end gap-x-2 text-sm text-pink-400">
           <button onClick={() => addFriendlydApp()}>{t('add-masca')}</button>
         </div>
       )}
