@@ -1,4 +1,5 @@
 import { ChangeEvent, useRef, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 import Button from '../Button';
 
@@ -11,6 +12,7 @@ const UploadButton = ({
   handleUpload,
   acceptedMedia = 'image',
 }: UploadButtonProps) => {
+  const t = useTranslations('UploadButton');
   const [loading, setLoading] = useState<boolean>(false);
   const hiddenFileInput = useRef<HTMLInputElement>(null);
 
@@ -47,7 +49,7 @@ const UploadButton = ({
         showTextOnLoading={false}
         onClick={handleClick}
       >
-        Import
+        {t('import')}
       </Button>
       <input
         type="file"

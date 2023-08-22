@@ -62,7 +62,8 @@
     "save-error": "Failed to save credential. VC was invalid"
   },
   "CreateConnectionModal": {
-    "title": "Connection QR Code"
+    "title": "Connection QR Code",
+    "desc": " Scan this with your mobile device to create a connection to this page."
   },
   "CreateCredentialDisplay": {
     "invalidMethod": "Polygon ID & Iden3 are not yet supported. Switch to any other DID method to create a VC!",
@@ -392,5 +393,8 @@
     "finished": "Authorization Request finished",
     "switch-to": "Switch to did:polygonid or did:iden3 to continue!",
     "new-scan": "Scan New Code"
+  },
+  "UploadButton": {
+    "import": "Import"
   }
 }

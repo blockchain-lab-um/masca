@@ -4,10 +4,10 @@ import { Tab } from '@headlessui/react';
 import { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 
+import Button from '@/components/Button';
+import FormatedPanel from '@/components/CredentialDisplay/FormatedPanel';
+import JsonPanel from '@/components/CredentialDisplay/JsonPanel';
 import { useMascaStore, useSessionStore, useToastStore } from '@/stores';
-import Button from '../Button';
-import FormatedPanel from '../CredentialDisplay/FormatedPanel';
-import JsonPanel from '../CredentialDisplay/JsonPanel';
 
 interface CredentialViewProps {
   credential: VerifiableCredential;

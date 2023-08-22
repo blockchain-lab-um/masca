@@ -5,8 +5,8 @@ import clsx from 'clsx';
 import { useStepper } from 'headless-stepper';
 import { useTranslations } from 'next-intl';
 
+import Button from '@/components/Button';
 import { useGeneralStore, useSessionStore } from '@/stores';
-import Button from '../Button';
 import { ChooseDeviceView } from './ChooseDeviceView';
 import { ConnectDeviceView } from './ConnectDeviceView';
 import { CredentialView } from './CredentialView';

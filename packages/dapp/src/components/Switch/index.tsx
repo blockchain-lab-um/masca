@@ -21,21 +21,21 @@ const variantToggle = {
 
 const sizes = {
   xs: 'h-4 w-8',
-  sm: 'h-[22px] w-[44px]',
+  sm: 'h-[22px] w-11',
   md: 'h-[26px] w-[50px]',
   lg: 'h-7 w-14',
 };
 
 const sizesToggle = {
   xs: 'h-3 w-3',
-  sm: 'h-[16px] w-[16px]',
+  sm: 'h-4 w-4',
   md: 'h-[19px] w-[19px]',
   lg: 'h-6 w-6',
 };
 
 const translateEnabled = {
   xs: 'translate-x-4',
-  sm: 'translate-x-[24px]',
+  sm: 'translate-x-6',
   md: 'translate-x-[27px]',
   lg: 'translate-x-7',
 };
@@ -69,7 +69,7 @@ export default function ToggleSwitch({
         sizes[size],
         `shadow-${shadow}`,
         `rounded-${rounded}`,
-        `relative inline-flex items-center`
+        `w- relative inline-flex items-center`
       )}
     >
       <span className="sr-only">Enable notifications</span>

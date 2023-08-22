@@ -1,12 +1,12 @@
 import { Metadata } from 'next';
 
-import QRCodeScannerDisplay from '@/components/QRScannerDisplay';
+import QRCodeSessionDisplay from '@/components/QRSessionDisplay';
 
 export const metadata: Metadata = {
-  title: 'QR Code Scanner',
-  description: 'QR Code Scanner for Masca.',
+  title: 'QR Code Session',
+  description: 'QR Code Session for Masca.',
 };
 
 export default function Page() {
-  return <QRCodeScannerDisplay />;
+  return <QRCodeSessionDisplay />;
 }

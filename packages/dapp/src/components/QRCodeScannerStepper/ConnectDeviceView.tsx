@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { uint8ArrayToHex } from '@blockchain-lab-um/masca-connector';
 import { useTranslations } from 'next-intl';
 
+import Button from '@/components/Button';
+import CreateConnectionModal from '@/components/ConnectionModal/CreateConnectionModal';
+import ScanQRCodeModal from '@/components/ScanQRCodeModal/ScanQRCodeModal';
 import { useGeneralStore, useSessionStore, useToastStore } from '@/stores';
-import Button from '../Button';
-import CreateConnectionModal from '../ConnectionModal/CreateConnectionModal';
-import ScanQRCodeModal from '../ScanQRCodeModal/ScanQRCodeModal';
 
 export const ConnectDeviceView = () => {
   const t = useTranslations('ConnectDeviceView');
