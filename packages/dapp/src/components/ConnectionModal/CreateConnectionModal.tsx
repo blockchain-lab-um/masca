@@ -19,11 +19,12 @@ const CreateConnectionModal = ({
 }: CreateConnectionModalProps) => {
   const t = useTranslations('CreateConnectionModal');
   const [connectionData, setConnectionData] = useState<string | null>(null);
-  const { changeSessionId, changeKey, changeExp } = useSessionStore(
+  const { request, session, changeRequest, changeSession } = useSessionStore(
     (state) => ({
-      changeSessionId: state.changeSessionId,
-      changeKey: state.changeKey,
-      changeExp: state.changeExp,
+      request: state.request,
+      session: state.session,
+      changeRequest: state.changeRequest,
+      changeSession: state.changeSession,
     })
   );
 
@@ -47,9 +48,14 @@ const CreateConnectionModal = ({
     const exp = Date.now() + 1000 * 60 * 60;
 
     // Set global session data
-    changeSessionId(sessionId);
-    changeKey(key);
-    changeExp(exp);
+    changeSession({
+      sessionId,
+      key,
+      exp,
+      connected: false,
+      hasCamera: false,
+      deviceType: 'primary',
+    });
 
     // Create session
     return JSON.stringify({
@@ -75,6 +81,7 @@ const CreateConnectionModal = ({
       >
         {t('title')}
       </Dialog.Title>
+      <p>{t('desc')}</p>
       <div className="flex w-full justify-center p-4 pt-8">
         <div className="dark:border-orange-accent-dark rounded-xl border-2 border-pink-500 bg-white p-4">
           {connectionData && (

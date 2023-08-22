@@ -1,37 +1,44 @@
+import React from 'react';
 import { isError } from '@blockchain-lab-um/masca-connector';
 import { Tab } from '@headlessui/react';
 import { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
-import { useTranslations } from 'next-intl';
 
 import Button from '@/components/Button';
 import FormatedPanel from '@/components/CredentialDisplay/FormatedPanel';
 import JsonPanel from '@/components/CredentialDisplay/JsonPanel';
-import Modal from '@/components/Modal';
-import { useMascaStore, useToastStore } from '@/stores';
+import { useMascaStore, useSessionStore, useToastStore } from '@/stores';
 
-interface CredentialModalProps {
-  isOpen: boolean;
-  setOpen: (open: boolean) => void;
+interface CredentialViewProps {
   credential: VerifiableCredential;
+  scanNewCode: () => void;
 }
 
-const CredentialModal = ({
-  isOpen,
-  setOpen,
+export const CredentialView = ({
   credential,
-}: CredentialModalProps) => {
-  const t = useTranslations('CredentialModal');
+  scanNewCode,
+}: CredentialViewProps) => {
+  const changeRequest = useSessionStore((state) => state.changeRequest);
+
   const mascaApi = useMascaStore((state) => state.mascaApi);
+
+  const onScanNewCode = () => {
+    changeRequest({
+      active: false,
+      data: null,
+      type: null,
+      finished: false,
+    });
+    scanNewCode();
+  };
 
   const handleSaveCredential = async () => {
     if (!mascaApi) return;
-    setOpen(false);
 
     setTimeout(() => {
       useToastStore.setState({
         open: true,
-        text: t('saving'),
+        text: 'Saving',
         type: 'normal',
         loading: true,
       });
@@ -48,7 +55,7 @@ const CredentialModal = ({
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          text: t('saving-error'),
+          text: 'Error while saving',
           type: 'error',
           loading: false,
         });
@@ -59,15 +66,17 @@ const CredentialModal = ({
     setTimeout(() => {
       useToastStore.setState({
         open: true,
-        text: t('saving-success'),
+        text: 'Successfully saved',
         type: 'success',
         loading: false,
       });
     }, 200);
+
+    onScanNewCode();
   };
 
   return (
-    <Modal isOpen={isOpen} setOpen={setOpen}>
+    <div>
       <Tab.Group>
         <Tab.List>
           <div className="dark:bg-navy-blue-700 relative mb-4 flex w-36 shrink-0 justify-between rounded-full bg-white">
@@ -107,7 +116,7 @@ const CredentialModal = ({
             </Tab>
           </div>
         </Tab.List>
-        <Tab.Panels className="w-[48rem] max-w-full">
+        <Tab.Panels>
           <Tab.Panel>
             <FormatedPanel credential={credential} />
           </Tab.Panel>
@@ -116,15 +125,14 @@ const CredentialModal = ({
           </Tab.Panel>
         </Tab.Panels>
         <div className="mt-8 flex justify-end">
-          <Button variant="cancel" onClick={() => setOpen(false)}>
-            {t('cancel')}
+          <Button variant="cancel" onClick={() => onScanNewCode()}>
+            {'Cancel'}
           </Button>
           <Button variant="primary" onClick={() => handleSaveCredential()}>
-            {t('save')}
+            {'Save'}
           </Button>
         </div>
       </Tab.Group>
-    </Modal>
+    </div>
   );
 };
-export default CredentialModal;
