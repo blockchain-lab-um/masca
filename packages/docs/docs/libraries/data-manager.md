@@ -165,5 +165,5 @@ export interface IDataManagerSaveResult {
 }
 ```
 
-**[GitHub](https://github.com/blockchain-lab-um/ssi-snap/tree/master/packages/vcmanager) |
-[npm](https://www.npmjs.com/package/@blockchain-lab-um/veramo-vc-manager)**
+**[GitHub](https://github.com/blockchain-lab-um/masca/tree/master/packages/datamanager) |
+[npm](https://www.npmjs.com/package/@blockchain-lab-um/veramo-datamanager)**
