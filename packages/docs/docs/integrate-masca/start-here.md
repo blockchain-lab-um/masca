@@ -6,7 +6,7 @@ sidebar_position: 1
 
 ## Supporting Masca in your dApp
 
-dApps can access Masca functionalities using RPC methods like standard MetaMask/Ethereum ones. We have also developed an easy-to-use SDK **[Masca Connector](libraries/masca-connector)** to ease integration. The SDK provides all the functionalities to install Masca in a dApp and exposes an API for interacting with it.
+dApps can access Masca functionalities using RPC methods like standard MetaMask/Ethereum ones. We have also developed an easy-to-use SDK **[Masca Connector](/docs/libraries/masca-connector)** to ease integration. The SDK provides all the functionalities to install Masca in a dApp and exposes an API for interacting with it.
 
 Installing Masca Connector to your project:
 

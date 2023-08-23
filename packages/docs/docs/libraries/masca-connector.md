@@ -40,7 +40,7 @@ For Masca to work correctly, it needs to know the address of the connected accou
 
 :::tip
 
-A more detailed description of methods & parameters is provided in the chapter [JSON-RPC API](../tutorial/rpc-methods.md)
+A more detailed description of methods & parameters is provided in the chapter [Using the JSON-RPC API](/docs/integrate-masca/rpc-methods.md)
 
 :::
 
