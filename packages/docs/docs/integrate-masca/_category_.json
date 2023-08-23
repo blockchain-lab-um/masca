@@ -1,6 +1,6 @@
 {
   "label": "Integrate Masca",
-  "position": 5,
+  "position": 3,
   "link": {
     "type": "generated-index",
     "description": "Learn how to integrate Masca into your application."

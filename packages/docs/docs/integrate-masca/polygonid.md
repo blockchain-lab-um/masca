@@ -12,33 +12,6 @@ Masca supports both did:polygonid and did:iden3. Both methods rely on the select
 
 For successfull management of requests involving receiving credentials and generating zkProofs, users must ensure they are operating on the same network as the issuer or verifier node from which they received the request.
 
-### General steps
-
-The following are general steps that need to be carried out before continuing.
-
-```typescript
-import { enableMasca, isError } from '@blockchain-lab-um/masca-connector';
-
-// Connect the user and get the address of his current account
-const accounts = await window.ethereum.request({
-  method: 'eth_requestAccounts',
-});
-const address = accounts[0];
-
-// Enable Masca
-const enableResult = await enableMasca(address, {
-  snapId: 'npm:@blockchain-lab-um/masca',
-  version: '1.0.0',
-  supportedMethods: ['did:polygonid'],
-});
-
-// Check if there was an error and handle it accordingly
-if (isError(enableResult)) {...}
-
-// Now get the Masca API object
-const api = await enableResult.data.getMascaApi();
-```
-
 ### Handling of credential offers
 
 This part handles credential offers, which are recieved from Polygon ID issuers.

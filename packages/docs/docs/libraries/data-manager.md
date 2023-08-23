@@ -12,7 +12,7 @@ Veramo does not provide similar support for managing VCs as it does for DIDs and
 
 Learn more about [DataManager](https://github.com/uport-project/veramo/issues/1058).
 
-DataManager has an `AbstractDataStore` , a template for plugins that manage the data! Below is the code of ` AbstractDataStore` .
+DataManager has an `AbstractDataStore`, a template for plugins that manage the data! Below is the code of ` AbstractDataStore`.
 
 ```typescript
 export interface ISaveArgs {
@@ -46,7 +46,7 @@ export abstract class AbstractDataStore {
 }
 ```
 
-This abstract class enables the [ `SnapCredentialStore` ](../masca/architecture.md) plugin, which stores the array of VCs in MetaMask State, and `CeramicCredentialStore` , which stores VCs on Ceramic Network.
+This abstract class enables the [ `SnapCredentialStore` ](../masca/architecture.md) plugin, which stores the array of VCs in MetaMask State, and `CeramicCredentialStore`, which stores VCs on Ceramic Network.
 
 ### How to use
 

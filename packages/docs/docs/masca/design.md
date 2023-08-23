@@ -112,7 +112,7 @@ On the other hand, VPs are signed by holders using their wallets (which is Masca
 
 ### Signing Credentials
 
-During the runtime of each RPC method, private keys are retrieved (and derived) from MetaMask using the Snap RPC method `snap_getBip44Entropy` .
+During the runtime of each RPC method, private keys are retrieved (and derived) from MetaMask using the Snap RPC method `snap_getBip44Entropy`.
 
 :::tip Don't worry, your private keys are safe!
 
@@ -130,7 +130,7 @@ Ethereum relies on the elliptic curve `secp256k1` ; thus, this is the only key t
 
 But because of the limitation of the specific key type, we currently support all DID methods that work with `secp256k1` keys. There is a way to create key pair of any type (e.g., `Ed25519` ) in the Snap (since you can write any custom JavaScript), but storing and securely handling these keys gets complicated. Fortunately, the elliptic curve `secp256k1` is widely used and popular with most DID methods.
 
-We are also looking into pairing-friendly elliptic curves, which enable advanced ways to perform selective disclosure and zero-knowledge proofs, e.g., `BLS12-381` and `BabyJubJub` , where it would make sense to implement custom and complex security storage for keys generated inside Snap.
+We are also looking into pairing-friendly elliptic curves, which enable advanced ways to perform selective disclosure and zero-knowledge proofs, e.g., `BLS12-381` and `BabyJubJub`, where it would make sense to implement custom and complex security storage for keys generated inside Snap.
 
 ### Proof formats
 

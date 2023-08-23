@@ -1,60 +1,12 @@
 ---
-sidebar_position: 1
+sidebar_position: 4
 ---
 
-# How To Implement It?
+# General methods
 
-**Masca** is a MetaMask Snap, that can handle **DIDs**, securely store **VCs**, create **VPs** and is designed to be blockchain-agnostic.
+## Account Switching
 
-:::danger BE CAREFUL!
-
-Ceramic Network support is experimental and still under development!
-
-:::
-
-## Integrating Masca into a dApp
-
-### Using the Masca Connector
-
-```bash
-pnpm add @blockchain-lab-um/masca-connector
-```
-
-Connector has an exposed function for installing the Masca snap. For ease of use, the connector package also exposes all the functions and types from `@blockchain-lab-um/masca-types` and `@blockchain-lab-um/utils` NPM packages.
-
-After Masca installation, this function returns a `Masca` object that can be used to retrieve Masca API.
-An example of initializing Masca and invoking Masca's API is shown below.
-
-For Masca to work properly, it needs to know the address of the connected account. Initially this can be done by passing the address as a parameter to `enableMasca` function. Later, the address can be changed using the `setCurrentAccount` RPC method!
-
-```typescript
-import { enableMasca, isError } from '@blockchain-lab-um/masca-connector';
-
-// Install snap and fetch the Masca API
-const masca = await enableMasca(address, {
-  snapId: snapId,
-  version: 'latest',
-  supportedMethods: ['did:ethr', 'did:key'],
-});
-
-// Check if the RPC method failed
-if(isError(masca)) {
-  console.error(setAccountRes.error);
-  return;
-}
-
-const api = await masca.data.getMascaApi();
-```
-
-Every RPC call will return an object that can be Success or Error. More on error handling can be found [here](./../masca/architecture).
-
-Masca Connector will take care of initializing Masca for other DID methods (needed to extract the public key) during the enableMasca function.
-
-#### Jump [here](../libraries/masca-connector) for a more detailed look at Masca Connector!
-
-### Account Switching
-
-Account switching must be handled by the dApp! This is required for Masca to work properly. Without approprietly calling this method, switching Accounts in MetaMask will NOT result in switching accounts in Masca! We recommend using the `window.ethereum.on('accountsChanged', handler: (accounts: Array<string>);` . More on this can be found [here](https://docs.metamask.io/wallet/reference/provider-api/#accountschanged).
+Account switching must be handled by the dApp! This is required for Masca to work properly. Without approprietly calling this method, switching Accounts in MetaMask will NOT result in switching accounts in Masca! We recommend using the `window.ethereum.on('accountsChanged', handler: (accounts: Array<string>);`. More on this can be found [here](https://docs.metamask.io/wallet/reference/provider-api/#accountschanged).
 
 ```typescript
 // When account changes in dApp
@@ -71,7 +23,7 @@ window.ethereum.on('accountsChanged', (...accounts) => {
 
 ```
 
-### Save VC
+## Save VC
 
 `saveCredential` is used to save a VC under the currently selected MetaMask account. Parameter `vc` is a `W3CVerifiableCredential` VC. Invalid format might lead to failure when generating VPs. We recommend using Veramo to generate VCs with this [interface](https://veramo.io/docs/api/core.verifiablecredential). Optional parameter `options` defines where the VC will get saved. VC can be stored in one or more places at the same time.
 
@@ -81,9 +33,9 @@ const res = await api.saveCredential(verifiableCredential, {
 });
 ```
 
-### Query VCs
+## Query VCs
 
-`queryCredentials` is used to get a list of VCs stored by the currently selected MetaMask account. Optional parameter `params` is an object with optional properties `filter` and `options` .
+`queryCredentials` is used to get a list of VCs stored by the currently selected MetaMask account. Optional parameter `params` is an object with optional properties `filter` and `options`.
 
 Filter defines what `queryCredentials` returns and Options defines where to search for data and what format to return it in.
 
@@ -102,11 +54,11 @@ type QueryCredentialsRequestParams = {
 };
 ```
 
-Currently, 3 different `filter` types are supported; `none` , `id` , and `JSONPath` . Type `none` will work as if no filter property was provided, `id` will search for matching ID of VC and `JSONPath` will use [ `jsonpath` ](https://www.npmjs.com/package/jsonpath) lib to find matching VCs.
+Currently, 3 different `filter` types are supported; `none`, `id`, and `JSONPath`. Type `none` will work as if no filter property was provided, `id` will search for matching ID of VC and `JSONPath` will use [ `jsonpath` ](https://www.npmjs.com/package/jsonpath) lib to find matching VCs.
 
-In the case of `id` , `filter.filter` is a string of an id.
+In the case of `id`, `filter.filter` is a string of an id.
 
-In the case of `JSONPath` , `filter.filter` is a string containing JSONPath string.
+In the case of `JSONPath`, `filter.filter` is a string containing JSONPath string.
 
 :::info Note
 
@@ -141,7 +93,7 @@ console.log('VCs', vcs.data);
 const vcs = await api.queryCredentials();
 ```
 
-### Create VP
+## Create VP
 
 `createPresentation` is used to get a VP for one or more specific VCs. Params object is of type:
 
@@ -157,11 +109,11 @@ export type CreatePresentationRequestParams = {
 };
 ```
 
-`vcs` is a list of VCs of type `W3CVerifiableCredential` .
+`vcs` is a list of VCs of type `W3CVerifiableCredential`.
 
-`proofFormat` can be `jwt` , `jsonld` or `EthereumEip712Signature2021` .
+`proofFormat` can be `jwt`, `jsonld` or `EthereumEip712Signature2021`.
 
-`options` is optional and is used to define `domain` , `type` and `challenge` if needed.
+`options` is optional and is used to define `domain`, `type` and `challenge` if needed.
 
 `holder` of the VP will be a DID generated based on currently selected MetaMask account **AND** currently selected DID Method.
 
@@ -176,7 +128,7 @@ const vp = await api.createPresentation({
 });
 ```
 
-### Create VC
+## Create VC
 
 `createCredential` is used to return a VC created from the provided payload. This VC can be optionally stored in Masca.
 
@@ -207,11 +159,11 @@ const res = await api.createCredential({
 });
 ```
 
-`minimalUnsignedCredential` is a minimal object which is used to create a VC. It needs to contain at least `credentialSubject` , `type` & `@context` .
+`minimalUnsignedCredential` is a minimal object which is used to create a VC. It needs to contain at least `credentialSubject`, `type` & `@context`.
 
 `proofFormat` is used to specify which proof format is used to sign the VC. `options` allow dApps to specify whether they want and where they want to store the VC.
 
-### Delete VC
+## Delete VC
 
 `deleteCredential` is used to delete a VC from one or more stores
 
@@ -223,7 +175,7 @@ const res = await api.createCredential({
 const res = await api.deleteCredential('123', { store: 'snap' });
 ```
 
-### DIDs
+## DIDs
 
 `getDID` and `getSelectedMethod` are used to get current did and currently selected did method.
 
@@ -233,7 +185,7 @@ const res = await api.getDID();
 const res = await api.getSelectedMethod();
 ```
 
-### Supported DID Methods and VC Stores
+## Supported DID Methods and VC Stores
 
 `getAvailableCredentialStores` and `getAvailableMethods` are used to get all supported methods and vcstores
 
@@ -243,7 +195,7 @@ const supportedMethods = await api.getAvailableMethods();
 const supportedStores = await api.getAvailableCredentialStores();
 ```
 
-### Switch DID Method
+## Switch DID Method
 
 `switchMethod` is used to switch the currently selected DID method.
 
@@ -251,7 +203,7 @@ const supportedStores = await api.getAvailableCredentialStores();
 await api.switchMethod('did:key');
 ```
 
-### Configure VC Stores
+## Configure VC Stores
 
 `setCredentialStore` is used to enable/disable a specific VC store. By default both snap & ceramic are enabled!
 
@@ -259,7 +211,7 @@ await api.switchMethod('did:key');
 const res = await api.setCredentialStore('ceramic', false);
 ```
 
-### Resolve DID
+## Resolve DID
 
 `resolveDID` is used to resolve a specified DID and returns `DIDResolutionResult` which contains DID Document, if the resolution is successful.
 
@@ -267,7 +219,7 @@ const res = await api.setCredentialStore('ceramic', false);
 const didRes = await api.resolveDID('did:ethr:0x01:0x123...4567');
 ```
 
-### Verify Data
+## Verify Data
 
 `verifyData` is used to verify a VC or a VP in Masca.
 
@@ -279,7 +231,7 @@ const vcRes = await api.verifyData({ credential: VC, verbose: true });
 const vpRes = await api.verifyData({ presentation: VP, verbose: true });
 ```
 
-### Snap Settings
+## Snap Settings
 
 `togglePopups` is used to enable/disable the `"Are you sure?"` alerts on any dApp. Pop-ups are enabled by default for user to approve every action.
 
@@ -304,7 +256,7 @@ const res = await api.getAccountSettings();
 
 ```
 
-### Handle Credential Offer
+## Handle Credential Offer
 
 `handleCredentialOffer` is used to handle either Polygon ID or OIDC credentials offers
 
@@ -330,7 +282,7 @@ if (isSuccess(res)) {
 }
 ```
 
-### Handle Authorization Request
+## Handle Authorization Request
 
 `handleAuthorizationRequest` is used to handle either Polygon ID or OIDC authorization requests
 
@@ -342,6 +294,6 @@ const res = await api.handleAuthorizationRequest({
 });
 ```
 
-### Working with VCs
+## Working with VCs
 
 It is up to the dApp to issue VCs and/or request VPs/VCs and verify their validity (scheme, subject, controller, content, etc.). We recommend using the [Veramo Framework](https://veramo.io/).
