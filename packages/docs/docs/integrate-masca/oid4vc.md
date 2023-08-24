@@ -30,7 +30,7 @@ const handleCredentialOfferResponse = api.handleCredentialOffer({
 // Check if there was an error and handle it accordingly
 if (isError(handleCredentialOfferResponse)) {...}
 
-// received credentials
+// Received credentials
 const recievedCredentials: VerifiableCredential[] = handleCredentialOfferResponse.data;
 
 // Loop credentials and save them in Masca storage
