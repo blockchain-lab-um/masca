@@ -14,10 +14,10 @@ Additionally, it's important to note that the OID4VC specifications heavily rely
 
 ### Handling of credential offers
 
-This part handles credential offers, which are recieved from issuers.
+This part handles credential offers, which are received from issuers.
 
 ```typescript
-// The credential offer recieved from an issuer
+// The credential offer received from an issuer
 // The credential offer is a URI string
 // Here is an example credential offer from the EBSI conformance testing service
 const credentialOffer: string =
@@ -30,7 +30,7 @@ const handleCredentialOfferResponse = api.handleCredentialOffer({
 // Check if there was an error and handle it accordingly
 if (isError(handleCredentialOfferResponse)) {...}
 
-// Recieved credentials
+// received credentials
 const recievedCredentials: VerifiableCredential[] = handleCredentialOfferResponse.data;
 
 // Loop credentials and save them in Masca storage
@@ -43,10 +43,10 @@ for (const credential of recievedCredentials) {
 
 ### Handling of authorization requests
 
-This part handles authorization requests, which are recieved from Polygon ID verifiers.
+This part handles authorization requests, which are received from Polygon ID verifiers.
 
 ```typescript
-// The authorization request recieved from a verifier
+// The authorization request received from a verifier
 // The authorization request is a URI string
 const authorizationRequest: string =
   'openid://?state=b17f79e3-8192-4fc5-a0a8-5e4c00adbab2&client_id=https%3A%2F%2Fapi-conformance.ebsi.eu%2Fconformance%2Fv3%2Fauth-mock&redirect_uri=https%3A%2F%2Fapi-conformance.ebsi.eu%2Fconformance%2Fv3%2Fauth-mock%2Fdirect_post&response_type=vp_token&response_mode=direct_post&scope=openid&nonce=24138beb-28e2-4096-b51c-bd2eaf27b034&presentation_definition=...';
