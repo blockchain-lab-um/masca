@@ -513,7 +513,7 @@ const response = await ethereum.request({
 
 :::info NOTE
 
-We recommend calling this method in `window.ethereum.on('accountsChanged', handler: (accounts: Array<string>);`. See [Account Switching](/docs/integrate-masca/general-methods.md#account-switching).
+We recommend calling this method in `window.ethereum.on('accountsChanged', handler: (accounts: Array<string>);`. See [Account Switching](/docs/integrate-masca/masca-connector.md#account-switching).
 
 :::
 

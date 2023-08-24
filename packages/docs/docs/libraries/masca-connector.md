@@ -69,4 +69,4 @@ const api = await enableResult.data.getMascaApi();
 
 ## Connector methods
 
-**A more detailed list of methods can be found [here](/docs/integrate-masca/general-methods.md)!**
+**A more detailed list of methods can be found [here](/docs/integrate-masca/masca-connector.md)!**
