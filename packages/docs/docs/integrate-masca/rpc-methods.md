@@ -1,10 +1,11 @@
 ---
-sidebar_position: 2
+sidebar_position: 5
 ---
 
-# JSON-RPC API
+# Using the JSON-RPC API
 
-You can find all of the types mentioned below in the library `@blockchain-lab-um/masca-types` .
+This section describes how to call Masca RPC methods, without the usage of the [Masca Connector SDK](/docs/libraries/masca-connector.md).
+You can find all of the types mentioned below in the `@blockchain-lab-um/masca-types` library.
 
 ## VC Methods
 
@@ -12,13 +13,13 @@ You can find all of the types mentioned below in the library `@blockchain-lab-um
 
 #### Description
 
-`saveCredential` stores a VC in Masca. VC can be saved in one or more supported stores.
+`saveCredential` stores a VC in Masca. The VC can be saved in one or more supported stores.
 
 #### Parameters
 
 1. `verifiableCredential` - type `W3CVerifiableCredential` from `@veramo/core`
 2. `options?` - `SaveCredentialRequestParams`.
-   1. `store?` - `string` or `string[]` . Defines where to store the VC.
+   1. `store?` - `string` or `string[]`. Defines where to store the VC.
 
 ```typescript
 const response = await ethereum.request({
@@ -28,7 +29,7 @@ const response = await ethereum.request({
     request: {
       method: 'saveCredential',
       params: {
-        verifiableCredential: vc,
+        verifiableCredential,
       },
     },
   },
@@ -43,17 +44,17 @@ const response = await ethereum.request({
 
 #### Description
 
-`queryCredentials` gets a list of VCs stored by the currently selected MetaMask account. Optional parameter `params` is an `object` with optional properties `filter` , and `options` .
+`queryCredentials` gets a list of VCs stored by the currently selected MetaMask account. Optional parameter `params` is an `object` with optional properties `filter`, and `options`.
 
 `filter` defines what `queryCredentials` returns, and `options` defines where to search for data and what format to return it in.
 
 `QueryCredentialsRequestParams` :
 
-Currently, three different `filter` types are supported; `none` , `id` , and `JSONPath` . Type `none` will work as if no filter property was provided, `id` will search for matching ID of VC and `JSONPath` will use [ `jsonpath` ](https://www.npmjs.com/package/jsonpath) to find matching VCs.
+Currently, three different `filter` types are supported; `none`, `id`, and `JSONPath`. Type `none` will work as if no filter property was provided, `id` will search for matching ID of VC and `JSONPath` will use [ `jsonpath` ](https://www.npmjs.com/package/jsonpath) to find matching VCs.
 
-In the case of `id` , `filter.filter` is an id `string` .
+In the case of `id`, `filter.filter` is an id `string`.
 
-In the case of `JSONPath` , `filter.filter` is a `string` containing JSONPath `string` .
+In the case of `JSONPath`, `filter.filter` is a `string` containing JSONPath `string`.
 
 :::info NOTE
 
@@ -132,7 +133,7 @@ const response = await ethereum.request({
 
 #### Returns
 
-`boolean[]` - `true` , if VC deleted from store X, `false` if there was an error, or a VC was not found.
+`boolean[]` - `true`, if VC deleted from store X, `false` if there was an error, or a VC was not found.
 
 ### createCredential
 
@@ -151,7 +152,7 @@ const response = await ethereum.request({
 ```typescript
 
 const payload: MinimalUnsignedCredential = {
-  type: ['VerifiableCredential', 'Test Certificate'],
+  type: ['VerifiableCredential', 'TestCertificate'],
   credentialSubject: {
     accomplishmentType: 'Test Certificate',
     id: 'did:ethr:goerli:0x123...321',
@@ -214,11 +215,11 @@ export type VCRequest = {
 };
 ```
 
-`vcs` is of type `W3CVerifiableCredential[]` .
+`vcs` is of type `W3CVerifiableCredential[]`.
 
-`proofFormat` can be `jwt` , `jsonld` or `EthereumEip712Signature2021` .
+`proofFormat` can be `jwt`, `jsonld` or `EthereumEip712Signature2021`.
 
-`options?` defines `domain` , `type` , and `challenge` if needed.
+`options?` defines `domain`, `type`, and `challenge` if needed.
 
 `holder` of the VP will be a DID generated based on the currently selected MetaMask account **AND** the currently set DID Method.
 
@@ -252,6 +253,41 @@ const response = await ethereum.request({
 #### Returns
 
 `VerifiablePresentation`
+
+### verifyData
+
+#### Description
+
+`verifyData` verify a VC or a VP validity.
+
+#### Parameters
+
+1. `presentation` - `W3CVerifiablePresentation` object
+   OR
+2. `credential` - `W3CVerifiableCredential` object
+3. `verbose?` - `boolean` that changes the return value of this method
+
+```typescript
+const response = await ethereum.request({
+  method: 'wallet_invokeSnap',
+  params: {
+    snapId: snapId,
+    request: {
+      method: 'verifyData',
+      params: {
+        credential: VC,
+        verbose: true,
+      },
+    },
+  },
+});
+```
+
+#### Returns
+
+`boolean` - `true` if VC/VP is valid, `false` otherwise.
+
+If `verbose` is set to `true`, it returns `IVerifyResult` instead, which also contains an Error message.
 
 ## DID Methods
 
@@ -338,6 +374,35 @@ const response = await ethereum.request({
 });
 ```
 
+### resolveDID
+
+#### Description
+
+`resolveDID` resolves a DID.
+
+#### Parameters
+
+1. `did` - DID `string`.
+
+```typescript
+const response = await ethereum.request({
+  method: 'wallet_invokeSnap',
+  params: {
+    snapId: snapId,
+    request: {
+      method: 'resolveDID',
+      params: {
+        did: 'did:ethr:0x01:0x123...321',
+      },
+    },
+  },
+});
+```
+
+#### Returns
+
+`DIDResolutionResult`, containing DID Document if successful.
+
 ## VC Store Methods
 
 ### getCredentialStore
@@ -372,12 +437,6 @@ A `Record` of `CredentialStores[]` and whether or not they're enabled. By defaul
 
 1. `store` - name of the VC Store plugin (`"snap"` or `"ceramic"`). Must be one of methods returned by `getAvailableCredentialStores`.
 2. `value` - `boolean`. Enable/disable specific store plugins.
-
-:::danger BE CAREFUL!
-
-Ceramic Network support is experimental and still under active development!
-
-:::
 
 ```typescript
 const response = await ethereum.request({
@@ -423,6 +482,41 @@ const response = await ethereum.request({
 
 ## Snap Methods
 
+### setCurrentAccount
+
+#### Description
+
+`setCurrentAccount` sets the account in Masca. This is required for Masca to work properly. Without appropriately calling this method, switching accounts in MetaMask will **NOT** result in switching accounts in Masca!
+
+```typescript
+const response = await ethereum.request({
+  method: 'wallet_invokeSnap',
+  params: {
+    snapId: snapId,
+    request: {
+      method: 'setCurrentAccount',
+      params: {
+        currentAccount: '0x123...321',
+      },
+    },
+  },
+});
+```
+
+#### Parameters
+
+1. `currentAccount` - `string` of address of the account to set as current.
+
+#### Returns
+
+`boolean`
+
+:::info NOTE
+
+We recommend calling this method in `window.ethereum.on('accountsChanged', handler: (accounts: Array<string>);`. See [Account Switching](/docs/integrate-masca/masca-connector.md#account-switching).
+
+:::
+
 ### togglePopups
 
 #### Description
@@ -459,7 +553,7 @@ const response = await ethereum.request({
 });
 ```
 
-### togglePopups
+### removeFriendlyDapp
 
 #### Description
 
@@ -479,70 +573,6 @@ const response = await ethereum.request({
   },
 });
 ```
-
-### resolveDID
-
-#### Description
-
-`resolveDID` resolves a DID.
-
-#### Parameters
-
-1. `did` - DID `string`.
-
-```typescript
-const response = await ethereum.request({
-  method: 'wallet_invokeSnap',
-  params: {
-    snapId: snapId,
-    request: {
-      method: 'resolveDID',
-      params: {
-        did: 'did:ethr:0x01:0x123...321',
-      },
-    },
-  },
-});
-```
-
-#### Returns
-
-`DIDResolutionResult` , containing DID Document if successful.
-
-### verifyData
-
-#### Description
-
-`verifyData` verify a VC or a VP validity.
-
-#### Parameters
-
-1. `presentation` - `W3CVerifiablePresentation` object
-   OR
-2. `credential` - `W3CVerifiableCredential` object
-3. `verbose?` - `boolean` that changes the return value of this method
-
-```typescript
-const response = await ethereum.request({
-  method: 'wallet_invokeSnap',
-  params: {
-    snapId: snapId,
-    request: {
-      method: 'verifyData',
-      params: {
-        credential: VC,
-        verbose: true,
-      },
-    },
-  },
-});
-```
-
-#### Returns
-
-`boolean` - `true` if VC/VP is valid, `false` otherwise.
-
-If `verbose` is set to `true` , it returns `IVerifyResult` instead, which also contains an Error message.
 
 ### getAccountSettings
 
@@ -610,41 +640,6 @@ export type MascaConfig = {
 };
 ```
 
-### setCurrentAccount
-
-#### Description
-
-`setCurrentAccount` sets the account in Masca. This is required for Masca to work properly. Without appropriately calling this method, switching accounts in MetaMask will **NOT** result in switching accounts in Masca!
-
-```typescript
-const response = await ethereum.request({
-  method: 'wallet_invokeSnap',
-  params: {
-    snapId: snapId,
-    request: {
-      method: 'setCurrentAccount',
-      params: {
-        currentAccount: '0x123...321',
-      },
-    },
-  },
-});
-```
-
-#### Parameters
-
-1. `currentAccount` - `string` of address of the account to set as current.
-
-#### Returns
-
-`boolean`
-
-:::info NOTE
-
-We recommend calling this method in `window.ethereum.on('accountsChanged', handler: (accounts: Array<string>);` . See [Account Switching](./implementation.md#account-switching).
-
-:::
-
 ### setCeramicSession
 
 #### Description
@@ -674,7 +669,7 @@ const response = await ethereum.request({
 
 #### Description
 
-`validateStoredCeramicSession` checks if there is an existing ceramic session set in Masca and if it's still valid. If this method returns `false` , the session must be set to use Ceramic!
+`validateStoredCeramicSession` checks if there is an existing ceramic session set in Masca and if it's still valid. If this method returns `false`, the session must be set to use Ceramic!
 
 ```typescript
 const response = await ethereum.request({
@@ -691,3 +686,57 @@ const response = await ethereum.request({
 #### Returns
 
 `boolean`
+
+### handleCredentialOffer
+
+#### Description
+
+`handleCredentialOffer` handles credential offers recieved from Polygon ID or OIDC issuers.
+
+#### Parameters
+
+1. `credentialOffer` - `string` (JSON string recieved from the issuer)
+
+```typescript
+const response = await ethereum.request({
+  method: 'wallet_invokeSnap',
+  params: {
+    snapId: snapId,
+    request: {
+      method: 'handleCredentialOffer',
+      params: {
+        credentialOffer: '...',
+      },
+    },
+  },
+});
+```
+
+#### Returns
+
+`VerifiableCredential[]>`
+
+### handleAuthorizationRequest
+
+#### Description
+
+`handleAuthorizationRequest` handles authorization requests recieved from Polygon ID or OIDC verifiers.
+
+#### Parameters
+
+1. `authorizationRequest` - `string` (JSON string recieved from the verifier)
+
+```typescript
+const response = await ethereum.request({
+  method: 'wallet_invokeSnap',
+  params: {
+    snapId: snapId,
+    request: {
+      method: 'handleAuthorizationRequest',
+      params: {
+        authorizationRequest: '...',
+      },
+    },
+  },
+});
+```

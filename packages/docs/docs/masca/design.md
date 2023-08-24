@@ -44,7 +44,7 @@ Methods that do not require private keys ( `did:ethr` & `did:pkh` ) use `sign_ty
 
 ### Handling and deriving private keys used in Masca
 
-Securely handling private keys in Masca is our topmost priority. Therefore, we never get/derive/use the user's Ethereum private keys. For methods requiring Ethereum keys, we use [ `eth_signTypedData_v4` ](https://docs.metamask.io/wallet/how-to/sign-data/#use-eth_signtypeddata_v4) for signatures, handled inside [Masca Connector](/libraries/masca-connector.md).
+Securely handling private keys in Masca is our topmost priority. Therefore, we never get/derive/use the user's Ethereum private keys. For methods requiring Ethereum keys, we use [ `eth_signTypedData_v4` ](https://docs.metamask.io/wallet/how-to/sign-data/#use-eth_signtypeddata_v4) for signatures, handled inside [Masca Connector](/docs/libraries/masca-connector.md).
 
 For other methods, we derive private keys from a different `coin_type` 1236. How is this done in detail? The steps are as follows:
 
@@ -112,7 +112,7 @@ On the other hand, VPs are signed by holders using their wallets (which is Masca
 
 ### Signing Credentials
 
-During the runtime of each RPC method, private keys are retrieved (and derived) from MetaMask using the Snap RPC method `snap_getBip44Entropy` .
+During the runtime of each RPC method, private keys are retrieved (and derived) from MetaMask using the Snap RPC method `snap_getBip44Entropy`.
 
 :::tip Don't worry, your private keys are safe!
 
@@ -130,19 +130,19 @@ Ethereum relies on the elliptic curve `secp256k1` ; thus, this is the only key t
 
 But because of the limitation of the specific key type, we currently support all DID methods that work with `secp256k1` keys. There is a way to create key pair of any type (e.g., `Ed25519` ) in the Snap (since you can write any custom JavaScript), but storing and securely handling these keys gets complicated. Fortunately, the elliptic curve `secp256k1` is widely used and popular with most DID methods.
 
-We are also looking into pairing-friendly elliptic curves, which enable advanced ways to perform selective disclosure and zero-knowledge proofs, e.g., `BLS12-381` and `BabyJubJub` , where it would make sense to implement custom and complex security storage for keys generated inside Snap.
+We are also looking into pairing-friendly elliptic curves, which enable advanced ways to perform selective disclosure and zero-knowledge proofs, e.g., `BLS12-381` and `BabyJubJub`, where it would make sense to implement custom and complex security storage for keys generated inside Snap.
 
 ### Proof formats
 
 Different ways exist to digitally sign and represent digital signatures alongside the data or payload (VC or VP). In the SSI and web3 world, currently, three approaches are most adopted: **JWT**, **Linked Data Proofs**, and **EIP712**. Masca supports all three types.
 
-For the complete list of supported proof formats, check [What is Supported?](./supported).
+For the complete list of supported proof formats, check [What is Supported?](/docs/masca/supported.md).
 
 ## Data Storage
 
 As stated above, DIDs and VCs need to be stored somewhere. We plan to support many data storage providers to fulfill all users' needs. While keeping data locally in the MetaMask state is the most private way to store the data (it is also encrypted), other solutions bring many benefits, such as the ability to sync between different devices and easier ways to make external backups.
 
-For the complete list of supported data storage providers, check [this page](./supported).
+For the complete list of supported data storage providers, check [this page](/docs/masca/supported.md).
 
 ## Decentralized Identity Framework
 

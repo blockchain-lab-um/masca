@@ -125,7 +125,7 @@ When expressing statements about a specific thing, such as a person, product, or
 }
 ```
 
-The entity (e.g. a person, object or company) the credential data is about. This object contains one or more properties that are related to the subject of VC. The subject identifier ( `credentialSubject.id` ) is usually a DID of the entity. In our example, `credentialSubject` contanis relevant data (type of degre, year of graduation, score, etc.) for the University Degree of `John Dough` .
+The entity (e.g. a person, object or company) the credential data is about. This object contains one or more properties that are related to the subject of VC. The subject identifier ( `credentialSubject.id` ) is usually a DID of the entity. In our example, `credentialSubject` contanis relevant data (type of degre, year of graduation, score, etc.) for the University Degree of `John Dough`.
 
 #### [Cryptographic Proofs](https://www.w3.org/TR/vc-data-model/#proofs-signatures)
 

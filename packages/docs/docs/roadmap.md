@@ -16,7 +16,8 @@ DID methods:
 - [ ] `did:cheqd`
 - [ ] `did:ebsi`
 - [ ] `did:ens`
-- [ ] `did:polygon`
+- [x] `did:polygonid`
+- [x] `did:iden3`
 - [ ] ...
 
 Verifiable Credentials (VCs):
@@ -51,7 +52,7 @@ Cryptography:
 - [x] Signing with MetaMask keys
 - [ ] Selective Disclosure - SD-JWT
 - [ ] Selective Disclosure - BBS+
-- [ ] Zero-Knowledge Proofs (ZKPs)
+- [x] Zero-Knowledge Proofs (ZKPs)
 - [ ] ...
 
 Proof formats:
@@ -64,8 +65,8 @@ Proof formats:
 
 Digital identity standards:
 
-- [ ] PEX (Presentation Exchange)
-- [ ] OpenID Connect (SIOP, OIDC4VC, and OIDC4VP)
+- [x] PEX (Presentation Exchange)
+- [x] OpenID Connect (SIOP, OIDC4VC, and OIDC4VP)
 - [ ] Credential Manifest
 - [ ] CHAPI
 - [ ] DIDComm
@@ -80,6 +81,7 @@ Masca dApp:
 - [x] Move VC to another storage
 - [x] Import VCs
 - [ ] Export VCs
+- [x] Export state (encrypted)
 - [ ] Public profiles
 - [ ] ...
 
