@@ -6,7 +6,7 @@ sidebar_position: 4
 
 ## Account Switching
 
-Account switching must be handled by the dApp! This is required for Masca to work properly. Without approprietly calling this method, switching Accounts in MetaMask will NOT result in switching accounts in Masca! We recommend using the `window.ethereum.on('accountsChanged', handler: (accounts: Array<string>);`. More on this can be found [here](https://docs.metamask.io/wallet/reference/provider-api/#accountschanged).
+Account switching must be handled by the dApp! This is required for Masca to work properly. Without appropriately calling this method, switching Accounts in MetaMask will NOT result in switching accounts in Masca! We recommend using the `window.ethereum.on('accountsChanged', handler: (accounts: Array<string>);`. More on this can be found [here](https://docs.metamask.io/wallet/reference/provider-api/#accountschanged).
 
 ```typescript
 // When account changes in dApp
