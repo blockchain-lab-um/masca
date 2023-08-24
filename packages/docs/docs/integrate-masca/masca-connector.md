@@ -20,7 +20,6 @@ window.ethereum.on('accountsChanged', (...accounts) => {
     return;
   }
 });
-
 ```
 
 ## Save VC
@@ -89,7 +88,7 @@ const vcs = await api.queryCredentials({
 
 console.log('VCs', vcs.data);
 
-// To return every VC
+// To get all VCs
 const vcs = await api.queryCredentials();
 ```
 
@@ -253,45 +252,6 @@ const res = await api.removeFriendlyDapp("https://www.masca.io");
 const res = await api.getSnapSettings();
 
 const res = await api.getAccountSettings();
-
-```
-
-## Handle Credential Offer
-
-`handleCredentialOffer` is used to handle either Polygon ID or OIDC credentials offers
-
-Successful response includes `VerifiableCredential[]`
-
-**Important:** The credential offer must be handled by the user on the correct network and with the correct did method selected.
-
-```typescript
-const res = await api.handleCredentialOffer({
-  credentialOffer: data, // request in string format
-});
-
-if (isSuccess(res)) {
-  // Here you can loop through the received credentials and save them
-  const recievedCredentials = res.data;
-
-  // Loop credentials
-  for (const credential of recievedCredentials) {
-    const saveCredentialResult = await api.saveCredential(credential, {
-      store: 'snap',
-    });
-  }
-}
-```
-
-## Handle Authorization Request
-
-`handleAuthorizationRequest` is used to handle either Polygon ID or OIDC authorization requests
-
-**Important:** The authorization request must be handled by the user on the correct network and with the correct did method selected.
-
-```typescript
-const res = await api.handleAuthorizationRequest({
-  authorizationRequest: data, // request in string format
-});
 ```
 
 ## Working with VCs

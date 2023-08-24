@@ -686,3 +686,57 @@ const response = await ethereum.request({
 #### Returns
 
 `boolean`
+
+### handleCredentialOffer
+
+#### Description
+
+`handleCredentialOffer` handles credential offers recieved from Polygon ID or OIDC issuers.
+
+#### Parameters
+
+1. `credentialOffer` - `string` (JSON string recieved from the issuer)
+
+```typescript
+const response = await ethereum.request({
+  method: 'wallet_invokeSnap',
+  params: {
+    snapId: snapId,
+    request: {
+      method: 'handleCredentialOffer',
+      params: {
+        credentialOffer: '...',
+      },
+    },
+  },
+});
+```
+
+#### Returns
+
+`VerifiableCredential[]>`
+
+### handleAuthorizationRequest
+
+#### Description
+
+`handleAuthorizationRequest` handles authorization requests recieved from Polygon ID or OIDC verifiers.
+
+#### Parameters
+
+1. `authorizationRequest` - `string` (JSON string recieved from the verifier)
+
+```typescript
+const response = await ethereum.request({
+  method: 'wallet_invokeSnap',
+  params: {
+    snapId: snapId,
+    request: {
+      method: 'handleAuthorizationRequest',
+      params: {
+        authorizationRequest: '...',
+      },
+    },
+  },
+});
+```
