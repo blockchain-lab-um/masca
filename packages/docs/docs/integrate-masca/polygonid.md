@@ -6,7 +6,7 @@ sidebar_position: 2
 
 ## Introduction
 
-Masca supports both did:polygonid and did:iden3. Both methods rely on the selected network, and for each network, a separate identity is created. When using did:polygonid with the Polygon mainnet, the DID of the identity will appear as follows: `did:polygonid:polygon:main:2q6KWUhghmPGRuh8GFMzDX3EYp1WVspWN9ZdQEk4D2`. Similarly, when using the Mumbai testnet, it will look like this: `did:polygonid:polygon:mumbai:2qHwZfDodaCtudtJuKTcswBbUw7DihT7Xi9vSCyC1r`. This means that each identity stores its credentials separately in Masca's storage. Understanding this concept is important before proceeding with other supported operations, such as receiving credentials from Polygon ID issuer nodes (_credential offer_) and authenticating at Polygon ID verifier nodes (_authorization request_).
+Masca supports Polygon ID protocol - receiving Verifiable Credentials from issuer nodes and presenting proofs to verifiers.
 
 ## Integration
 

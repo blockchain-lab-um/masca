@@ -2,7 +2,7 @@
 sidebar_position: 4
 ---
 
-# General methods
+# Using Masca connector SDK
 
 ## Account Switching
 

@@ -54,8 +54,14 @@ if (isError(enableResult)) {...}
 
 Jump to [**Masca Connector**](/docs/libraries/masca-connector) for more detailed documentation.
 
+## Polygon ID
+
+Learn more on this [page](/docs/integrate-masca/polygonid.md).
+
+## OpenID for Verifiable Credentials (OID4VC)
+
+Learn more on this [page](/docs/integrate-masca/oid4vc.md).
+
 ## Working with decentralized identity (DIDs, VCs, and VPs)
 
 **Masca** serves as a snap for a user in the [SSI trust model](ssi/trust-model.md). Components of the SSI trust model are also issuers issuing VCs and verifiers verifying VPs. It is up to you as a dApp developer to define how/if you will issue VCs or how you will verify VPs and check their validity (scheme, subject, controller, content, etc.). We are also actively developing Issuer as a Service (ISSaaS) and Verifier as a Service (VaaS) methodologies, which will ensure seamless integration and easy deployment of these services with minimal technical configuration requirements. We strive to provide a plug-and-play experience, enabling users to leverage these services with minimal effort.
-
-In the meantime, we recommend using **[Veramo Framework](https://veramo.io/)**. You can also examine our **[issuer's source code](https://github.com/blockchain-lab-um/course-backend)** used in our [Solidity Course demo dApp](https://blockchain-lab-um.github.io/course-dapp/).

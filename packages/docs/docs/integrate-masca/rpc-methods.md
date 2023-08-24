@@ -438,12 +438,6 @@ A `Record` of `CredentialStores[]` and whether or not they're enabled. By defaul
 1. `store` - name of the VC Store plugin (`"snap"` or `"ceramic"`). Must be one of methods returned by `getAvailableCredentialStores`.
 2. `value` - `boolean`. Enable/disable specific store plugins.
 
-:::danger BE CAREFUL!
-
-Ceramic Network support is experimental and still under active development!
-
-:::
-
 ```typescript
 const response = await ethereum.request({
   method: 'wallet_invokeSnap',

@@ -136,13 +136,13 @@ We are also looking into pairing-friendly elliptic curves, which enable advanced
 
 Different ways exist to digitally sign and represent digital signatures alongside the data or payload (VC or VP). In the SSI and web3 world, currently, three approaches are most adopted: **JWT**, **Linked Data Proofs**, and **EIP712**. Masca supports all three types.
 
-For the complete list of supported proof formats, check [What is Supported?](./supported).
+For the complete list of supported proof formats, check [What is Supported?](/docs/masca/supported.md).
 
 ## Data Storage
 
 As stated above, DIDs and VCs need to be stored somewhere. We plan to support many data storage providers to fulfill all users' needs. While keeping data locally in the MetaMask state is the most private way to store the data (it is also encrypted), other solutions bring many benefits, such as the ability to sync between different devices and easier ways to make external backups.
 
-For the complete list of supported data storage providers, check [this page](./supported).
+For the complete list of supported data storage providers, check [this page](/docs/masca/supported.md).
 
 ## Decentralized Identity Framework
 

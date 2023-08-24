@@ -18,15 +18,9 @@ Data Storage:
 - Local [MetaMask Snap](https://docs.metamask.io/guide/snaps.html) state (fully off-chain)
 - [Ceramic Network](https://ceramic.network/)
 
-:::danger BE CAREFUL!
-
-Ceramic Network support is experimental and still under active development!
-
-:::
-
 Proof Formats:
 
 - [JWT](https://www.rfc-editor.org/rfc/rfc7519)
 - [EIP712](https://w3c-ccg.github.io/ethereum-eip712-signature-2021-spec/)
-- [JSON-LD (Currently buggy)](https://w3c.github.io/vc-data-integrity/#proofs)
+- [JSON-LD (some edge cases may not work properly)](https://w3c.github.io/vc-data-integrity/#proofs)
 - [zkProofs (Polygon ID)](https://0xpolygonid.github.io/tutorials/)
