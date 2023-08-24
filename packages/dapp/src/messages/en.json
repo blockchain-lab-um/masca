@@ -15,6 +15,7 @@
       "authorization-request": "Authorization Request",
       "blog": "Blog",
       "create-credential": "Create Credential",
+      "qr-scanner": "QR Code Scanner",
       "description": {
         "authorization-request": "Create a verifiable presentation using the OpenID Connect protocol",
         "blog": "Read the Blockchain Lab:UM Medium Blog",
@@ -26,7 +27,8 @@
         "github": "View Masca code on GitHub",
         "qr-code-session": "Create session to scan QR codes using your mobile device",
         "twitter": "Follow Masca on Twitter",
-        "verify-data": "Verify Verifiable Credentials & Verifiable Presentations"
+        "verify-data": "Verify Verifiable Credentials & Verifiable Presentations",
+        "qr-scanner": "Start various Authorization and CredentialOffer Flows"
       },
       "discord": "Discord",
       "documentation": "Documentation",
@@ -59,14 +61,9 @@
     "query-success": "Successfully queried credentials",
     "save-error": "Failed to save credential. VC was invalid"
   },
-  "CreateConnectionCard": {
-    "create-connection": "Create Connection",
-    "desc-1": "You can use this page to create a connection with your mobile device and use it as a QR code scanner.",
-    "desc-2": "The Create Connection button will show a QR code that contains your session ID and a secret encryption key. This allows for end to end encryption of your data between your mobile device and your browser.",
-    "desc-3": "To create a connection on your browser you need to be connected to MetaMask and Masca, but your mobile device does not need to be."
-  },
   "CreateConnectionModal": {
-    "title": "Connection QR Code"
+    "title": "Connection QR Code",
+    "desc": " Scan this with your mobile device to create a connection to this page."
   },
   "CreateCredentialDisplay": {
     "invalidMethod": "Polygon ID & Iden3 are not yet supported. Switch to any other DID method to create a VC!",
@@ -234,7 +231,8 @@
     "settings": "SETTINGS",
     "storage": "Storage",
     "storage-desc": "Select one ore more data stores where the credential will be stored.",
-    "title": "Import Credential"
+    "title": "Import Credential",
+    "save-error": "Provided data is not a valid credential"
   },
   "MetaMaskProvider": {
     "flask": "Install MetaMask Flask to use the dApp!"
@@ -317,5 +315,86 @@
       "loading": "Creating Credential..."
     },
     "verify": "Verify"
+  },
+  "QRCodeScannerStepper": {
+    "back": "Back",
+    "use-existing": "Use existing session",
+    "first": "First Step",
+    "second": "Second Step",
+    "third": "Third Step",
+    "fourth": "Fourth Step",
+    "fifth": "Fifth Step",
+    "first-desc": "Choose Device Type",
+    "second-desc": "Create Connection",
+    "third-desc": "Scan QR Code",
+    "fourth-desc": "Start Flow",
+    "fifth-desc": "Finish Flow"
+  },
+  "ScanQRCodeView": {
+    "success": "Successfully scanned QR code",
+    "error": "Failed to scan QR code",
+    "invalid": "Invalid QR code",
+    "scan": "Scan QR code",
+    "successfully": "Successfully ",
+    "connceted": "connected ",
+    "to-primary": "to primary device",
+    "to-secondary": "to secondary device",
+    "scan-to-continue": "Scan a QR code to continue!",
+    "scan-to-continue-secondary": "Scan a QR code on your secondary device to continue...",
+    "waiting": "Waiting for QR code...",
+    "scan-upload": "Scan or Upload a QR code to continue!"
+  },
+  "ConnectDeviceView": {
+    "success": "Connection established!",
+    "invalid": "Invalid QR code",
+    "start-primary": "To Start Scanning QR codes, first connect your secondary device",
+    "start-secondary": "Scan the Connection QR code to connect to your primary device",
+    "create": "Create Connection",
+    "scan": "Scan Connection",
+    "connect": "Connect Wallet to proceed!"
+  },
+  "ChooseDeviceView": {
+    "primary-has-camera": "This Device can scan/upload QR codes",
+    "primary-has-camera-desc": "I will use THIS device to Scan/Upload QR codes",
+    "primary-no-camera": "This Device can't scan/upload QR codes",
+    "primary-no-camera-desc": "I will use ANOTHER device to Scan/Upload QR codes",
+    "primary-no-camera-desc-2": "(Requires a secondary device to work)",
+    "secondary": "Secondary Device",
+    "secondary-desc": "I will use THIS device to Scan/Upload QR codes",
+    "secondary-desc-2": "(Requires a primary device to work)",
+    "connect": "Connect Wallet to see more options..."
+  },
+  "StartFlowView": {
+    "new-scan": "Scan New Code",
+    "scanned": "Code Scanned! Proceed on your primary device",
+    "scanned-desc": "You can Scan/Upload a new QR code once the primary device indicates so"
+  },
+  "CredentialOfferView": {
+    "handling": "Handling credential offer...",
+    "success": "Succesfully finished CredentialOffer Flow!",
+    "error": "Failed to finish CredentialOffer Flow!",
+    "finished": "Request finished",
+    "start": "Start Flow",
+    "switch-to": "Switch to ",
+    "to-continue": "to continue"
+  },
+  "OIDCAuthView": {
+    "title": "OIDC Authorization Request",
+    "success": "Succesfully finished OIDC Authorization Request!",
+    "error": "Failed to finish OIDC Authorization Request!",
+    "finished": "Authorization Request finished",
+    "switch-to": "Switch to did:key, did:jwk or did:key (EBSI) to continue!",
+    "new-scan": "Scan New Code"
+  },
+  "PolygonAuthView": {
+    "title": "Polygon Authorization Request",
+    "success": "Succesfully finished Polygon Authorization Request!",
+    "error": "Failed to finish Polygon Authorization Request!",
+    "finished": "Authorization Request finished",
+    "switch-to": "Switch to did:polygonid or did:iden3 to continue!",
+    "new-scan": "Scan New Code"
+  },
+  "UploadButton": {
+    "import": "Import"
   }
 }

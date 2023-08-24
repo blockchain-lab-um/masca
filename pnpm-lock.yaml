@@ -1220,6 +1220,9 @@ importers:
       file-saver:
         specifier: ^2.0.5
         version: 2.0.5
+      headless-stepper:
+        specifier: ^1.8.3
+        version: 1.8.3(react@18.2.0)
       html5-qrcode:
         specifier: ^2.3.8
         version: 2.3.8
@@ -18427,6 +18430,14 @@ packages:
   /he@1.2.0:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
+
+  /headless-stepper@1.8.3(react@18.2.0):
+    resolution: {integrity: sha512-nEPOn0ezTyUnNPWdxHxukH7lB7y1W30Z88ntpkK58t7qIzntLDH2wXlyMWeN5DQhbo3yopc3Lil4IOSBGs8Xtw==}
+    peerDependencies:
+      react: '>=16.8.0 || >=17.0.0 || >= 18.0.0'
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /hermes-estree@0.12.0:
     resolution: {integrity: sha512-+e8xR6SCen0wyAKrMT3UD0ZCCLymKhRgjEB5sS28rKiFir/fXgLoeRilRUssFCILmGHb+OvHDUlhxs0+IEyvQw==}

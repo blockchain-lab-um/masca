@@ -7,36 +7,6 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
-const IconEcosystem = () => (
-  <svg
-    width="48"
-    height="48"
-    viewBox="0 0 48 48"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M24 11L35.2583 17.5V30.5L24 37L12.7417 30.5V17.5L24 11Z"
-      stroke="#FE3D67"
-      strokeWidth="2"
-    />
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M16.7417 19.8094V28.1906L24 32.3812L31.2584 28.1906V19.8094L24 15.6188L16.7417 19.8094Z"
-      stroke="#FF8BA7"
-      strokeWidth="2"
-    />
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M20.7417 22.1196V25.882L24 27.7632L27.2584 25.882V22.1196L24 20.2384L20.7417 22.1196Z"
-      stroke="#FF8BA7"
-      strokeWidth="2"
-    />
-  </svg>
-);
-
 const IconCreateCredential = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -71,6 +41,28 @@ const IconVerifyData = () => (
   </svg>
 );
 
+const IconCamera = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke-width="1.5"
+    stroke="currentColor"
+    className="dark:text-navy-blue-900 h-6 w-6 text-pink-500"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"
+    />
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z"
+    />
+  </svg>
+);
+
 interface LinkProps {
   name: string;
   href: string;
@@ -88,23 +80,10 @@ const INTERNAL_LINKS: LinkProps[] = [
     href: '/app/verify-data',
     icon: IconVerifyData,
   },
-];
-
-const INTERNAL_EXTRA_LINKS: LinkProps[] = [
-  // {
-  //   name: 'get-credential',
-  //   href: '/app/get-credential',
-  //   icon: IconEcosystem,
-  // },
-  // {
-  //   name: 'authorization-request',
-  //   href: '/app/authorization-request',
-  //   icon: IconEcosystem,
-  // },
   {
-    name: 'qr-code-session',
+    name: 'qr-scanner',
     href: '/app/qr-code-session',
-    icon: IconEcosystem,
+    icon: IconCamera,
   },
 ];
 
@@ -135,7 +114,7 @@ function MenuPopover() {
 
   return (
     <Popover className="group relative">
-      {({ open }) => (
+      {({ open, close }) => (
         <>
           <Popover.Button
             className={clsx(
@@ -172,20 +151,10 @@ function MenuPopover() {
                     <Link
                       key={link.name}
                       href={link.href}
+                      onClick={() => {
+                        close();
+                      }}
                       className="dark:hover:bg-navy-blue-500/40 -m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50"
-                    >
-                      <DropDownItem
-                        SVGIcon={link.icon}
-                        name={t(`dropdown.${link.name}`)}
-                        description={t(`dropdown.description.${link.name}`)}
-                      />
-                    </Link>
-                  ))}
-                  {INTERNAL_EXTRA_LINKS.map((link) => (
-                    <Link
-                      key={link.name}
-                      href={link.href}
-                      className="dark:hover:bg-navy-blue-500/40 -m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50 xl:hidden"
                     >
                       <DropDownItem
                         SVGIcon={link.icon}
@@ -200,6 +169,9 @@ function MenuPopover() {
                     href="https://docs.masca.io/"
                     target="_blank"
                     rel="noreferrer"
+                    onClick={() => {
+                      close();
+                    }}
                     className="dark:hover:bg-navy-blue-700 flow-root rounded-md px-2 py-2 transition duration-150 ease-in-out hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50"
                   >
                     <span className="flex items-center">

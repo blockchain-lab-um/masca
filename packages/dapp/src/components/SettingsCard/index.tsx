@@ -198,20 +198,20 @@ const SettingsCard = () => {
         </div>
       </div>
 
-      <div className="mt-5">
+      <div className="mt-8">
         <div className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-800">
           {t('data-store')}
         </div>
-        <div className="mt-2">
+        <div className="mt-4">
           <p className="text-md dark:text-navy-blue-400 text-gray-700">
             {t('data-store-desc')}{' '}
           </p>
         </div>
 
-        <span className="dark:text-navy-blue-200 mt-5 flex justify-between text-gray-700">
+        <span className="dark:text-navy-blue-200 mt-8 flex justify-between text-gray-700">
           Ceramic{' '}
           <ToggleSwitch
-            size="md"
+            size="sm"
             enabled={availableCredentialStores.ceramic}
             setEnabled={handleCeramicToggle}
             shadow="md"
@@ -219,19 +219,19 @@ const SettingsCard = () => {
         </span>
       </div>
 
-      <div className="mt-5">
+      <div className="mt-12">
         <div className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-800">
           {t('popups')}
         </div>
-        <div className="mt-2">
+        <div className="mt-4">
           <FriendlydAppTable />
-          <span className="dark:text-navy-blue-200 mt-10 flex justify-between text-gray-700">
+          <span className="dark:text-navy-blue-200 mt-12 flex justify-between text-gray-700">
             <div className="flex">
               <span className="mr-1 text-red-500">{t('disable-popups')}</span>
               <InfoIcon>{t('popups-desc')}</InfoIcon>
             </div>
             <ToggleSwitch
-              size="md"
+              size="sm"
               enabled={popups!}
               setEnabled={snapTogglePopups}
               shadow="md"
@@ -240,11 +240,11 @@ const SettingsCard = () => {
         </div>
       </div>
 
-      <div className="mt-5">
+      <div className="mt-12">
         <div className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-800">
           {t('backup')}
         </div>
-        <div className="mt-5 flex space-x-2">
+        <div className="mt-4 flex space-x-2">
           <Button onClick={handleExport} variant="primary" size="xs">
             {t('export')}
           </Button>

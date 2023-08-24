@@ -64,11 +64,11 @@ const FormatedPanel = ({ credential }: FormatedPanelProps) => {
   }, [credential]);
 
   return (
-    <div className="flex w-full flex-col space-y-8">
-      <div className="dark:from-navy-blue-700 dark:to-navy-blue-700 flex items-center rounded-2xl bg-gradient-to-b from-orange-100 to-pink-100 px-4 py-6 shadow-md">
+    <div className="flex flex-col space-y-8">
+      <div className="dark:from-navy-blue-700 dark:to-navy-blue-700 flex max-w-full items-center rounded-2xl bg-gradient-to-b from-orange-100 to-pink-100 px-4 py-6 shadow-md">
         <div className="w-11/12">
           <Tooltip tooltip={types}>
-            <h1 className="font-ubuntu dark:text-orange-accent-dark truncate text-left text-2xl font-medium text-pink-500">
+            <h1 className="font-ubuntu dark:text-orange-accent-dark text-left text-lg font-medium text-pink-500 sm:text-xl md:text-2xl lg:truncate">
               {types}
             </h1>
           </Tooltip>

@@ -81,7 +81,7 @@ const CreateCredentialDisplay = () => {
   useEffect(() => {
     const payload = JSON.stringify(
       {
-        type: ['VerifiableCredential', 'Masca User Credential'],
+        type: ['VerifiableCredential', 'MascaUserCredential'],
         credentialSubject: {
           id: did,
           type: 'Regular User',
