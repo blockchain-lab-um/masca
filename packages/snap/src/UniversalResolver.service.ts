@@ -5,6 +5,8 @@ import {
   Resolvable,
 } from 'did-resolver';
 
+import { UNIRESOLVER_PROXY_URL } from './utils/config';
+
 /**
  * Function that resolves a DID string using the universal resolver
  * @returns DIDResolutionResult
@@ -16,9 +18,7 @@ const resolveDid = async (
   _options: DIDResolutionOptions
 ): Promise<DIDResolutionResult> => {
   try {
-    const response = await fetch(
-      `https://dev.uniresolver.io/1.0/identifiers/${did}`
-    );
+    const response = await fetch(`${UNIRESOLVER_PROXY_URL}/${did}`);
     const data = (await response.json()) as DIDResolutionResult;
     return data;
   } catch (e) {
