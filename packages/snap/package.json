@@ -110,6 +110,7 @@
     "multiformats": "^11.0.2",
     "node-stdlib-browser": "^1.2.0",
     "qs": "^6.11.2",
+    "regenerator-runtime": "^0.14.0",
     "ts-jest": "^29.1.1"
   },
   "devDependencies": {

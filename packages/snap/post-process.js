@@ -37,6 +37,12 @@ bundleString = bundleString.replaceAll(
 bundleString = bundleString.replaceAll('fs2.readFileSync;', 'null;');
 bundleString = bundleString.replaceAll('fs3.readFileSync;', 'null;');
 
+// [JSON-LD] Remove Gp[iteratorSymbol]
+bundleString = bundleString.replaceAll(
+  `Gp[iteratorSymbol]`,
+  `Gp.iteratorSymbol`
+);
+
 fs.writeFileSync(bundlePath, bundleString);
 
 console.log('Finished post-processing bundle');

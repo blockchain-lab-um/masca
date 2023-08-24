@@ -52,6 +52,12 @@ import {
   W3CVerifiableCredential,
 } from '@veramo/core';
 import { CredentialIssuerEIP712 } from '@veramo/credential-eip712';
+import {
+  CredentialIssuerLD,
+  LdDefaultContexts,
+  VeramoEcdsaSecp256k1RecoverySignature2020,
+  VeramoEd25519Signature2020,
+} from '@veramo/credential-ld';
 import { CredentialStatusPlugin } from '@veramo/credential-status';
 import { CredentialPlugin } from '@veramo/credential-w3c';
 import {
@@ -990,6 +996,13 @@ class VeramoService {
       plugins: [
         new CredentialPlugin(),
         new CredentialIssuerEIP712(),
+        new CredentialIssuerLD({
+          contextMaps: [LdDefaultContexts],
+          suites: [
+            new VeramoEd25519Signature2020(),
+            new VeramoEcdsaSecp256k1RecoverySignature2020(),
+          ],
+        }),
         new CredentialStatusPlugin({
           // TODO implement This
           StatusList2021Entry: (
