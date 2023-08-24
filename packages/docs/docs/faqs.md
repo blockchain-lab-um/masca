@@ -6,7 +6,7 @@ sidebar_position: 11
 
 ### What is Decentralized Identity and why should I care?
 
-Decentralized Identity (often reffered to as "Self-Sovereign Identity") is a digital identity that is controlled by the individual (or organization) to which it refers, rather than a centralized authority such as a governmant or tech company. Decentralized Identity uses blockchain technology and cryptographic methods to secure personal data.
+Decentralized Identity (often referred to as "Self-Sovereign Identity") is a digital identity that is controlled by the individual (or organization) to which it refers, rather than a centralized authority such as a government or tech company. Decentralized Identity uses blockchain technology and cryptographic methods to secure personal data.
 
 Decentralized Identity aims to give power back to the user:
 
@@ -21,9 +21,9 @@ Learn more about [Decentralized Identity](/docs/category/decentralized-or-self-s
 
 NFTs and Verifiable Credentials share some similarities, like that they are both ways of digitally proving ownership that can be cryptographically verified, however they differ in their functionality.
 
-NFTs are primarly used to establish ownership and uniqueness of digital assets. They are associated with public wallet addresses. Everybody is able to see every NFT a has owned or owns. This is beneficial in some cases (e.g. collections), but has obvious downsides for privacy. NFTs could theoretically be used in an identity context, but their lack of privacy makes them far from an ideal solution.
+NFTs are primarily used to establish ownership and uniqueness of digital assets. They are associated with public wallet addresses. Everybody is able to see every NFT a has owned or owns. This is beneficial in some cases (e.g. collections), but has obvious downsides for privacy. NFTs could theoretically be used in an identity context, but their lack of privacy makes them far from an ideal solution.
 
-Verifiable Credentials (VCs) are primarily used to enable individuals and organizations to prove claims about themselves or their activites in a way that is secure, privacy-preserving and easily verifiable. They are associated with Decentralized Identifiers (DIDs). VCs are not public and are instead selectively shared with verifying parties as needed. VCs can also support selective disclosure, allowing users to reveal only certain parts of a credentail rather than disclosing it entirely. This is important for privacy and is a feature not supported by NFTs.
+Verifiable Credentials (VCs) are primarily used to enable individuals and organizations to prove claims about themselves or their activities in a way that is secure, privacy-preserving and easily verifiable. They are associated with Decentralized Identifiers (DIDs). VCs are not public and are instead selectively shared with verifying parties as needed. VCs can also support selective disclosure, allowing users to reveal only certain parts of a credential rather than disclosing it entirely. This is important for privacy and is a feature not supported by NFTs.
 
 ### Why do I need to use Masca for Decentralized Identity?
 
@@ -65,6 +65,6 @@ Yes. Masca does not have access to users private keys! [Learn](./masca/design.md
 
 ### Are my Credentials private?
 
-Yes and No. Credentials can be stored directly in Masca or on Ceramic Network. Credentials stored in Masca are completely private and only available for user to see. Credentials stored on Ceramic Network are public for anybody to see (though accessing them is not as straight forward as searching address in a block explorer). We recommend users to save all Credentials that contain sensitive information in Masca.
+Yes and No. Credentials can be stored directly in Masca or on Ceramic Network. Credentials stored in Masca are completely private and only available for user to see. Credentials stored on Ceramic Network are public for anybody to see (though accessing them is not as straightforward as searching address in a block explorer). We recommend users to save all Credentials that contain sensitive information in Masca.
 
-Depending on the usecase, dApps are likely to request Masca to share credentials with them. Always double check who you're sharing Credentials with as hostile dApps could potentially save your credentials.
+Depending on the use case, dApps are likely to request Masca to share credentials with them. Always double check who you're sharing Credentials with as hostile dApps could potentially save your credentials.
