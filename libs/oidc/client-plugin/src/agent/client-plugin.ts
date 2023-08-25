@@ -82,7 +82,7 @@ export class OIDCClientPlugin implements IAgentPlugin {
   };
 
   // FIXME: Set proxy to masca.io
-  public proxyUrl = 'http://localhost:3000/api/proxy';
+  public proxyUrl = 'https://www.masca.io/api/proxy/oidc';
 
   readonly methods: IOIDCClientPlugin = {
     // For issuance handling
