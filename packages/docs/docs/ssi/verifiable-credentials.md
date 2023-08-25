@@ -34,7 +34,7 @@ VCs have many different use cases. The most notable ones are:
 - Licenses
 - And much, much more.
 
-All the previously mentioned benefits make VCs the perfect solution for many problems. For example IDs, Documents, Licenses, etc. can be forged and dfficult to authenticate. Process of authentication is usually slow and prone to errors. Another issue is the lack of control over data and the lack of privacy. Another problem is the reliance on the issuer. The entity providing credentials might not always be reachable and available (e.g. server failures, electricity outages, etc.) to authenticate credentials. All of the above mentioned issues/risks can be solved with VCs. This could affect many fields, ranging from Healthcare to Finance.
+All the previously mentioned benefits make VCs the perfect solution for many problems. For example IDs, Documents, Licenses, etc. can be forged and difficult to authenticate. Process of authentication is usually slow and prone to errors. Another issue is the lack of control over data and the lack of privacy. Another problem is the reliance on the issuer. The entity providing credentials might not always be reachable and available (e.g. server failures, electricity outages, etc.) to authenticate credentials. All of the above mentioned issues/risks can be solved with VCs. This could affect many fields, ranging from Healthcare to Finance.
 
 [See more use cases](https://www.w3.org/TR/vc-use-cases/)
 
@@ -125,7 +125,7 @@ When expressing statements about a specific thing, such as a person, product, or
 }
 ```
 
-The entity (e.g. a person, object or company) the credential data is about. This object contains one or more properties that are related to the subject of VC. The subject identifier ( `credentialSubject.id` ) is usually a DID of the entity. In our example, `credentialSubject` contanis relevant data (type of degre, year of graduation, score, etc.) for the University Degree of `John Dough`.
+The entity (e.g. a person, object or company) the credential data is about. This object contains one or more properties that are related to the subject of VC. The subject identifier ( `credentialSubject.id` ) is usually a DID of the entity. In our example, `credentialSubject` contains relevant data (type of degree, year of graduation, score, etc.) for the University Degree of `John Dough`.
 
 #### [Cryptographic Proofs](https://www.w3.org/TR/vc-data-model/#proofs-signatures)
 
