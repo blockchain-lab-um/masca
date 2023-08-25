@@ -48,16 +48,16 @@ class SnapService {
 
   /**
    * Function that queries VCs from the selected VC stores.
-   * @param args.filter.type - Type of filter (eg. JSONPath).
-   * @param args.filter.filter - Filter to apply.
-   * @param args.options.store - VC store to query.
-   * @param args.options.returnStore - Whether to return the store name.
+   * @param params.filter.type - Type of filter (eg. JSONPath).
+   * @param params.filter.filter - Filter to apply.
+   * @param params.options.store - VC store to query.
+   * @param params.options.returnStore - Whether to return the store name.
    * @returns array - Array of VCs.
    */
   static async queryCredentials(
-    args: QueryCredentialsRequestParams
+    params: QueryCredentialsRequestParams
   ): Promise<QueryCredentialsRequestResult[]> {
-    const { filter, options } = args ?? {};
+    const { filter, options } = params ?? {};
     const { store, returnStore = true } = options ?? {};
 
     // FIXME: Maybe do this in parallel? Does it make sense?
@@ -89,14 +89,14 @@ class SnapService {
 
   /**
    * Function that saves a VC to the selected VC stores.
-   * @param args.verifiableCredential - VC to save.
-   * @param args.options.store - VC store to save to.
+   * @param params.verifiableCredential - VC to save.
+   * @param params.options.store - VC store to save to.
    * @returns array - Array of SaveVCRequestResult with id and the store the VC is saved in.
    */
   static async saveCredential(
-    args: SaveCredentialRequestParams
+    params: SaveCredentialRequestParams
   ): Promise<SaveCredentialRequestResult[]> {
-    const { verifiableCredential, options } = args;
+    const { verifiableCredential, options } = params;
     const { store = 'snap' } = options ?? {};
 
     if (await UIService.saveCredentialDialog(store, verifiableCredential)) {
@@ -140,16 +140,16 @@ class SnapService {
 
   /**
    * Function that creates a VC.
-   * @param args.minimalUnsignedCredential - Minimal unsigned VC.
-   * @param args.proofFormat - Proof format to use.
-   * @param args.options.save - Whether to save the VC.
-   * @param args.options.store - VC store to save to.
+   * @param params.minimalUnsignedCredential - Minimal unsigned VC.
+   * @param params.proofFormat - Proof format to use.
+   * @param params.options.save - Whether to save the VC.
+   * @param params.options.store - VC store to save to.
    * @returns UnsignedCredential | VerifiableCredential - Created VC.
    */
   static async createCredential(
-    args: CreateCredentialRequestParams
+    params: CreateCredentialRequestParams
   ): Promise<UnsignedCredential | VerifiableCredential> {
-    const { minimalUnsignedCredential, proofFormat, options } = args;
+    const { minimalUnsignedCredential, proofFormat, options } = params;
     const { store = 'snap' } = options ?? {};
     const { save } = options ?? {};
     const state = StorageService.get();
@@ -197,14 +197,14 @@ class SnapService {
 
   /**
    * Function that deletes a VC from the selected VC stores.
-   * @param args.id - ID of the VC to delete.
-   * @param args.options.store - VC store to delete from.
+   * @param params.id - ID of the VC to delete.
+   * @param params.options.store - VC store to delete from.
    * @returns array - Array of booleans indicating whether the VC was deleted.
    */
   static async deleteCredential(
-    args: DeleteCredentialsRequestParams
+    params: DeleteCredentialsRequestParams
   ): Promise<boolean[]> {
-    const { id, options } = args ?? {};
+    const { id, options } = params ?? {};
     const store = options?.store;
 
     const veramoCredentials = await VeramoService.queryCredentials({
@@ -256,17 +256,17 @@ class SnapService {
 
   /**
    * Function that creates a VP.
-   * @param args.vcs - VCs to include in the VP.
-   * @param args.proofFormat - Proof format to use.
-   * @param args.proofOptions.type - Type of proof.
-   * @param args.proofOptions.domain - Proof domain.
-   * @param args.proofOptions.challenge - Proof challenge.
+   * @param params.vcs - VCs to include in the VP.
+   * @param params.proofFormat - Proof format to use.
+   * @param params.proofOptions.type - Type of proof.
+   * @param params.proofOptions.domain - Proof domain.
+   * @param params.proofOptions.challenge - Proof challenge.
    * @returns UnsignedPresentation | VerifiablePresentation - Created VP.
    */
   static async createPresentation(
-    args: CreatePresentationRequestParams
+    params: CreatePresentationRequestParams
   ): Promise<UnsignedPresentation | VerifiablePresentation> {
-    const { vcs, proofFormat = 'jwt', proofOptions } = args;
+    const { vcs, proofFormat = 'jwt', proofOptions } = params;
     const state = StorageService.get();
     const method =
       state[CURRENT_STATE_VERSION].accountState[
@@ -283,7 +283,7 @@ class SnapService {
       }
 
       const unsignedVp = await VeramoService.createUnsignedPresentation({
-        credentials: args.vcs,
+        credentials: vcs,
       });
 
       return unsignedVp;
@@ -308,17 +308,17 @@ class SnapService {
 
   /**
    * Function that verifies data.
-   * @param args.credential - VC to verify.
-   * @param args.presentation - VP to verify.
-   * @param args.verbose - Whether to return the full verification resul
+   * @param params.credential - VC to verify.
+   * @param params.presentation - VP to verify.
+   * @param params.verbose - Whether to return the full verification resul
    * @returns boolean | IVerifyResult - Whether the data is verified.
    */
   static async verifyData(
-    args: VerifyDataRequestParams
+    params: VerifyDataRequestParams
   ): Promise<boolean | IVerifyResult> {
-    const verbose = args.verbose || false;
+    const verbose = params.verbose || false;
 
-    const res = await VeramoService.verifyData(args);
+    const res = await VeramoService.verifyData(params);
 
     if (res.error) throw new Error(res.error.message);
     return verbose ? res : res.verified;
@@ -352,24 +352,27 @@ class SnapService {
 
   /**
    * Function that resolves a DID.
-   * @param args.did - DID to resolve.
+   * @param params.did - DID to resolve.
    * @returns DIDResolutionResult - result.
    */
-  static async resolveDID(args: { did: string }): Promise<DIDResolutionResult> {
-    if (args.did === '') throw new Error('DID cannot be empty');
-    const res = await VeramoService.resolveDID(args.did);
+  static async resolveDID(params: {
+    did: string;
+  }): Promise<DIDResolutionResult> {
+    const { did } = params;
+    if (did === '') throw new Error('DID cannot be empty');
+    const res = await VeramoService.resolveDID(did);
     return res;
   }
 
   /**
    * Function that handles a credential offer.
-   * @param args.credentialOffer - Credential offer to handle.
+   * @param params.credentialOffer - Credential offer to handle.
    * @returns VerifiableCredential[] - Array of VCs.
    */
   static async handleCredentialOffer(
-    args: HandleCredentialOfferRequestParams
+    params: HandleCredentialOfferRequestParams
   ): Promise<VerifiableCredential[]> {
-    const { credentialOffer } = args;
+    const { credentialOffer } = params;
 
     if (credentialOffer.startsWith('openid-credential-offer://')) {
       await VeramoService.importIdentifier();
@@ -407,13 +410,13 @@ class SnapService {
 
   /**
    * Function that handles an authorization request.
-   * @param args.authorizationRequest - Authorization request to handle.
+   * @param params.authorizationRequest - Authorization request to handle.
    * @returns void
    */
   static async handleAuthorizationRequest(
-    args: HandleAuthorizationRequestParams
+    params: HandleAuthorizationRequestParams
   ): Promise<void> {
-    const { authorizationRequest } = args;
+    const { authorizationRequest } = params;
 
     if (authorizationRequest.startsWith('openid://')) {
       await VeramoService.importIdentifier();
@@ -538,7 +541,7 @@ class SnapService {
         res = await GeneralService.togglePopups();
         return ResultObject.success(res);
       case 'addFriendlyDapp':
-        await GeneralService.addFriendlyDapp(this.origin);
+        await GeneralService.addFriendlyDapp({ id: this.origin });
         return ResultObject.success(true);
       case 'removeFriendlyDapp':
         await GeneralService.removeFriendlyDapp(params);
