@@ -40,34 +40,33 @@ For Masca to work correctly, it needs to know the address of the connected accou
 
 :::tip
 
-A more detailed description of methods & parameters is provided in the chapter [JSON-RPC API](../tutorial/rpc-methods.md)
+A more detailed description of methods & parameters is provided in the chapter [Using the JSON-RPC API](/docs/integrate-masca/rpc-methods.md)
 
 :::
 
 ```typescript
 import { enableMasca, isError } from '@blockchain-lab-um/masca-connector';
 
-// Install Masca and retrieve the API interface
-const masca = await enableMasca(address);
+// Connect the user and get the address of his current account
+const accounts = await window.ethereum.request({
+  method: 'eth_requestAccounts',
+});
+const address = accounts[0];
 
-if(isError(masca)){
-    console.error(enableResult.error);
-    return;
+// Enable Masca
+const enableResult = await enableMasca(address);
+
+// Check if there was an error and handle it accordingly
+if (isError(enableResult)) {
+  // Error message is available under error
+  console.error(eneableResult.error)
+  ...
 }
 
-const api = masca.data.getMascaApi();
-
-// Invoke the API
-const vcs = await api.queryCredentials();
-
-if(isError(masca)){
-    console.error(vcs.error);
-    return;
-}
-
-console.log('list of VCs:', vcs.data);
+// Now get the Masca API object
+const api = await enableResult.data.getMascaApi();
 ```
 
 ## Connector methods
 
-**A more detailed list of methods can be found [here](./../tutorial/implementation.md)!**
+**A more detailed list of methods can be found [here](/docs/integrate-masca/masca-connector.md)!**

@@ -1,18 +1,29 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 import { prisma } from '@/utils/prisma';
 
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+};
+
 export async function GET(
-  _: Request,
+  _: NextRequest,
   { params: { id } }: { params: { id: string } }
 ) {
   if (!id) {
     return NextResponse.json(
       { error_description: 'Missing sessionId parameter' },
-      { status: 400 }
+      {
+        status: 400,
+        headers: {
+          ...CORS_HEADERS,
+        },
+      }
     );
   }
-  console.log('Get request');
+
   // Get session from database
   const session = await prisma.sessions.findUnique({
     where: {
@@ -23,7 +34,12 @@ export async function GET(
   if (!session) {
     return NextResponse.json(
       { error_description: 'Session not found' },
-      { status: 404 }
+      {
+        status: 404,
+        headers: {
+          ...CORS_HEADERS,
+        },
+      }
     );
   }
 
@@ -36,15 +52,19 @@ export async function GET(
   // Get session data
   return NextResponse.json(
     { data: session.data, iv: session.iv },
-    { status: 200 }
+    {
+      status: 200,
+      headers: {
+        ...CORS_HEADERS,
+      },
+    }
   );
 }
 
 export async function POST(
-  request: Request,
+  request: NextRequest,
   { params: { id } }: { params: { id: string } }
 ) {
-  console.log('Post request');
   try {
     const jsonData = await request.json();
 
@@ -54,6 +74,9 @@ export async function POST(
         { error_description: 'Missing sessionId' },
         {
           status: 400,
+          headers: {
+            ...CORS_HEADERS,
+          },
         }
       );
     }
@@ -63,6 +86,9 @@ export async function POST(
         { error_description: "Missing 'data' parameter" },
         {
           status: 400,
+          headers: {
+            ...CORS_HEADERS,
+          },
         }
       );
     }
@@ -72,6 +98,9 @@ export async function POST(
         { error_description: "Missing 'iv' parameter" },
         {
           status: 400,
+          headers: {
+            ...CORS_HEADERS,
+          },
         }
       );
     }
@@ -94,6 +123,9 @@ export async function POST(
 
     return new NextResponse(null, {
       status: 200,
+      headers: {
+        ...CORS_HEADERS,
+      },
     });
   } catch (e) {
     console.log(e);
@@ -101,18 +133,19 @@ export async function POST(
       { error_description: 'Bad request' },
       {
         status: 400,
+        headers: {
+          ...CORS_HEADERS,
+        },
       }
     );
   }
 }
 
-export async function OPTIONS(_: Request) {
+export async function OPTIONS() {
   return new NextResponse(null, {
     status: 200,
     headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
+      ...CORS_HEADERS,
     },
   });
 }
