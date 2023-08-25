@@ -15,6 +15,7 @@
       "authorization-request": "Authorization Request",
       "blog": "Blog",
       "create-credential": "Create Credential",
+      "qr-scanner": "QR Code Scanner",
       "description": {
         "authorization-request": "Create a verifiable presentation using the OpenID Connect protocol",
         "blog": "Read the Blockchain Lab:UM Medium Blog",
@@ -26,7 +27,8 @@
         "github": "View Masca code on GitHub",
         "qr-code-session": "Create session to scan QR codes using your mobile device",
         "twitter": "Follow Masca on Twitter",
-        "verify-data": "Verify Verifiable Credentials & Verifiable Presentations"
+        "verify-data": "Verify Verifiable Credentials & Verifiable Presentations",
+        "qr-scanner": "Start various Authorization and CredentialOffer Flows"
       },
       "discord": "Discord",
       "documentation": "Documentation",
@@ -59,24 +61,19 @@
     "query-success": "Successfully queried credentials",
     "save-error": "Failed to save credential. VC was invalid"
   },
-  "CreateConnectionCard": {
-    "create-connection": "Create Connection",
-    "desc-1": "You can use this page to create a connection with your mobile device and use it as a QR code scanner.",
-    "desc-2": "The Create Connection button will show a QR code that contains your session ID and a secret encryption key. This allows for end to end encryption of your data between your mobile device and your browser.",
-    "desc-3": "To create a connection on your browser you need to be connected to MetaMask and Masca, but your mobile device does not need to be."
-  },
   "CreateConnectionModal": {
-    "title": "Connection QR Code"
+    "title": "Connection QR Code",
+    "desc": " Scan this with your mobile device to create a connection to this page."
   },
   "CreateCredentialDisplay": {
-    "invalidMethod": "PolygonID & Iden3 are not yet supported. Switch to any other DID method to create a VC!",
+    "invalidMethod": "Polygon ID & Iden3 are not yet supported. Switch to any other DID method to create a VC!",
     "options": {
       "format": "Format",
       "title": "OPTIONS"
     },
     "save": {
       "description": "Would you like to save newly created Credential in Masca?",
-      "select-storage-placeholder": "Select storage",
+      "select-storage-placeholder": "Select data storage",
       "storage": "Storage",
       "title": "Save"
     },
@@ -93,12 +90,12 @@
       "title": "ADVANCED",
       "tooltip": "Only applicable to JWT proof format."
     },
-    "invalidMethod": "PolygonID & Iden3 methods are not yet supported. Switch to any other DID method to create a VC!",
+    "invalidMethod": "Polygon ID & Iden3 methods are not yet supported. Switch to any other DID method to create a VC!",
     "options": {
       "format": "Format",
       "title": "OPTIONS"
     },
-    "polygonvc": "PolygonID & Iden3 VCs are not yet supported. Remove invalid VCs to continue!",
+    "polygonvc": "Polygon ID & Iden3 VCs are not yet supported. Remove invalid VCs to continue!",
     "table": {
       "issuer": "ISSUER",
       "remove": "REMOVE",
@@ -108,12 +105,12 @@
     },
     "title": "Create Presentation",
     "tooltip": {
-      "polygonid": "PolygonID VCs aren't supported yet. Please remove this credential to continue!"
+      "polygonid": "Polygon ID VCs aren't supported yet. Please remove this credential to continue!"
     }
   },
   "CredentialDisplay": {
     "create-presentation": "Create Verifiable Presentation",
-    "datastores": "DATASTORES",
+    "datastores": "DATA STORES",
     "title": "Verifiable Credential"
   },
   "CredentialModal": {
@@ -200,14 +197,14 @@
   },
   "FriendlydAppTable": {
     "add-failed": "Failed to add Friendly dApp",
-    "add-masca": "Add Masca.io to friendly dApps",
-    "added": "Friendly dApp Added",
+    "add-masca": "Add Masca.io to Friendly dApps",
+    "added": "Friendly dApp added",
     "adding": "Adding Friendly dApp",
     "remove-failed": "Failed to remove Friendly dApp",
-    "removed": "Friendly dApp Removed",
+    "removed": "Friendly dApp removed",
     "removing": "Removing Friendly dApp",
     "app-url": "Application URL",
-    "popups-desc": "Disabling popups is very dangerous. We recommend setting friendly dApps instead!"
+    "popups-desc": "Disabling pop-ups is very dangerous. We recommend setting friendly dApps instead!"
   },
   "GetCredential": {
     "handling": "Handling credential offer",
@@ -234,7 +231,8 @@
     "settings": "SETTINGS",
     "storage": "Storage",
     "storage-desc": "Select one ore more data stores where the credential will be stored.",
-    "title": "Import Credential"
+    "title": "Import Credential",
+    "save-error": "Provided data is not a valid credential"
   },
   "MetaMaskProvider": {
     "flask": "Install MetaMask Flask to use the dApp!"
@@ -289,16 +287,16 @@
     "title": "Select Credentials"
   },
   "SettingsCard": {
-    "popups": "Popups",
-    "popups-desc": "Disabling popups is very dangerous. We recommend setting friendly dApps instead!",
+    "popups": "Pop-ups",
+    "popups-desc": "Disabling pop-ups is very dangerous. We recommend setting friendly dApps instead!",
     "ceramic-error": "Failed to toggle Ceramic",
     "ceramic-success": "Successfully toggled Ceramic",
     "data-store": "Data Stores",
-    "disable-popups": "Disable Popups",
+    "disable-popups": "Disable Pop-ups",
     "data-store-desc": "Enable or disable data stores. Data stores are places where VCs are stored.",
     "not-implemented": "Not implemented yet",
     "title": "Settings",
-    "backup": "Backup",
+    "backup": "Backup State",
     "export": "Export",
     "export-success": "Successfully exported backup",
     "export-error": "Failed to export backup",
@@ -311,7 +309,7 @@
     "backup-manual-desc": "Backup your Masca data to a file. All Settings and VCs stored in Masca will be saved. All data is encrypted!"
   },
   "VerifyDataDisplay": {
-    "title": "Verify Presentations & Credentials",
+    "title": "Verify Credentials & Presentations",
     "toast": {
       "error-json": "Data is not a valid JSON",
       "error-type": "Data is not a valid VC/VP",
@@ -319,5 +317,86 @@
       "loading": "Creating Credential..."
     },
     "verify": "Verify"
+  },
+  "QRCodeScannerStepper": {
+    "back": "Back",
+    "use-existing": "Use existing session",
+    "first": "First Step",
+    "second": "Second Step",
+    "third": "Third Step",
+    "fourth": "Fourth Step",
+    "fifth": "Fifth Step",
+    "first-desc": "Choose Device Type",
+    "second-desc": "Create Connection",
+    "third-desc": "Scan QR Code",
+    "fourth-desc": "Start Flow",
+    "fifth-desc": "Finish Flow"
+  },
+  "ScanQRCodeView": {
+    "success": "Successfully scanned QR code",
+    "error": "Failed to scan QR code",
+    "invalid": "Invalid QR code",
+    "scan": "Scan QR code",
+    "successfully": "Successfully ",
+    "connceted": "connected ",
+    "to-primary": "to primary device",
+    "to-secondary": "to secondary device",
+    "scan-to-continue": "Scan a QR code to continue!",
+    "scan-to-continue-secondary": "Scan a QR code on your secondary device to continue...",
+    "waiting": "Waiting for QR code...",
+    "scan-upload": "Scan or Upload a QR code to continue!"
+  },
+  "ConnectDeviceView": {
+    "success": "Connection established!",
+    "invalid": "Invalid QR code",
+    "start-primary": "To Start Scanning QR codes, first connect your secondary device",
+    "start-secondary": "Scan the Connection QR code to connect to your primary device",
+    "create": "Create Connection",
+    "scan": "Scan Connection",
+    "connect": "Connect Wallet to proceed!"
+  },
+  "ChooseDeviceView": {
+    "primary-has-camera": "This Device can scan/upload QR codes",
+    "primary-has-camera-desc": "I will use THIS device to Scan/Upload QR codes",
+    "primary-no-camera": "This Device can't scan/upload QR codes",
+    "primary-no-camera-desc": "I will use ANOTHER device to Scan/Upload QR codes",
+    "primary-no-camera-desc-2": "(Requires a secondary device to work)",
+    "secondary": "Secondary Device",
+    "secondary-desc": "I will use THIS device to Scan/Upload QR codes",
+    "secondary-desc-2": "(Requires a primary device to work)",
+    "connect": "Connect Wallet to see more options..."
+  },
+  "StartFlowView": {
+    "new-scan": "Scan New Code",
+    "scanned": "Code Scanned! Proceed on your primary device",
+    "scanned-desc": "You can Scan/Upload a new QR code once the primary device indicates so"
+  },
+  "CredentialOfferView": {
+    "handling": "Handling credential offer...",
+    "success": "Succesfully finished CredentialOffer Flow!",
+    "error": "Failed to finish CredentialOffer Flow!",
+    "finished": "Request finished",
+    "start": "Start Flow",
+    "switch-to": "Switch to ",
+    "to-continue": "to continue"
+  },
+  "OIDCAuthView": {
+    "title": "OIDC Authorization Request",
+    "success": "Succesfully finished OIDC Authorization Request!",
+    "error": "Failed to finish OIDC Authorization Request!",
+    "finished": "Authorization Request finished",
+    "switch-to": "Switch to did:key, did:jwk or did:key (EBSI) to continue!",
+    "new-scan": "Scan New Code"
+  },
+  "PolygonAuthView": {
+    "title": "Polygon Authorization Request",
+    "success": "Succesfully finished Polygon Authorization Request!",
+    "error": "Failed to finish Polygon Authorization Request!",
+    "finished": "Authorization Request finished",
+    "switch-to": "Switch to did:polygonid or did:iden3 to continue!",
+    "new-scan": "Scan New Code"
+  },
+  "UploadButton": {
+    "import": "Import"
   }
 }

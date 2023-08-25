@@ -221,15 +221,17 @@ const CreatePresentationDisplay = () => {
             )}
           </div>
           <div className="mt-8 flex justify-end p-3">
-            <Button
-              variant="primary"
-              size="sm"
-              shadow="sm"
-              onClick={handleCreatePresentation}
-              loading={loading}
-            >
-              {t('title')}
-            </Button>
+            {selectedVCs.length > 0 && (
+              <Button
+                variant="primary"
+                size="sm"
+                shadow="sm"
+                onClick={handleCreatePresentation}
+                loading={loading}
+              >
+                {t('title')}
+              </Button>
+            )}
           </div>
         </>
       )}

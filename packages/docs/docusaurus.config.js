@@ -65,7 +65,7 @@ const config = {
       },
       items: [
         { to: '/docs/introduction', label: 'Docs', position: 'left' },
-        { to: '/docs/getting-started', label: 'Quickstart', position: 'left' },
+        { to: '/docs/using-masca', label: 'Quickstart', position: 'left' },
         {
           href: 'https://masca.io',
           label: 'App',

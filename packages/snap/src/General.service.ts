@@ -113,7 +113,7 @@ class GeneralService {
         state[CURRENT_STATE_VERSION].config.dApp.disablePopups = true;
         return state[CURRENT_STATE_VERSION].config.dApp.disablePopups;
       }
-      throw new Error('User rejected popup toggle.');
+      throw new Error('User rejected pop-up toggle.');
     } else {
       state[CURRENT_STATE_VERSION].config.dApp.disablePopups = false;
       return state[CURRENT_STATE_VERSION].config.dApp.disablePopups;

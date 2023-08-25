@@ -1,5 +1,5 @@
 import { ChangeEvent, useRef, useState } from 'react';
-import { ArrowUpTrayIcon } from '@heroicons/react/24/solid';
+import { useTranslations } from 'next-intl';
 
 import Button from '../Button';
 
@@ -12,6 +12,7 @@ const UploadButton = ({
   handleUpload,
   acceptedMedia = 'image',
 }: UploadButtonProps) => {
+  const t = useTranslations('UploadButton');
   const [loading, setLoading] = useState<boolean>(false);
   const hiddenFileInput = useRef<HTMLInputElement>(null);
 
@@ -43,12 +44,12 @@ const UploadButton = ({
     <>
       <Button
         variant="primary"
+        size="xs"
         loading={loading}
         showTextOnLoading={false}
-        size="xs"
         onClick={handleClick}
       >
-        <ArrowUpTrayIcon className="h-4 w-4" />
+        {t('import')}
       </Button>
       <input
         type="file"

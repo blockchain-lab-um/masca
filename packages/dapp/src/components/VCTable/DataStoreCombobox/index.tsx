@@ -35,21 +35,14 @@ const DataStoreCombobox = ({ vcs, isConnected }: DataStoreComboboxProps) => {
   }) as string[];
 
   useEffect(() => {
-    // If there is only ceramic, select it (snap is selected by default)
-    if (
-      dataStores.length === 1 &&
-      dataStores.includes('ceramic') &&
-      !selectedItems.includes('ceramic')
-    ) {
-      setColumnFilters([{ id: 'data_store', value: ['ceramic'] }]);
-      selectedItems.push('ceramic');
-    }
+    const allDataStores = vcs
+      .filter((vc) => vc.metadata.store !== undefined)
+      .map((vc) => vc.metadata.store)
+      .flat() as string[];
 
-    // inner join selectedItems and dataStores
-    const filteredDataStores = dataStores.filter((ds) =>
-      selectedItems.includes(ds)
-    );
-    setColumnFilters([{ id: 'data_store', value: filteredDataStores }]);
+    setColumnFilters([
+      { id: 'data_store', value: [...new Set(allDataStores)] },
+    ]);
   }, [vcs]);
 
   // Search filter

@@ -1,5 +1,43 @@
 # @blockchain-lab-um/masca-docs
 
+## 1.0.0-beta.0
+
+### Major Changes
+
+- [`205136a`](https://github.com/blockchain-lab-um/masca/commit/205136a5e7ceaa39d7dbcbf9c5ef41c255639262) Thanks [@martines3000](https://github.com/martines3000)! - Release first major version of Masca packages.
+
+## 0.0.5
+
+### Patch Changes
+
+- [`6d85e0a`](https://github.com/blockchain-lab-um/masca/commit/6d85e0a338afc8838d219542a079587b9d13e053) Thanks [@martines3000](https://github.com/martines3000)! - Update publish stable workflow
+
+- [`bc00f40`](https://github.com/blockchain-lab-um/masca/commit/bc00f40f616692bf267564479bd02c499c31f1a2) Thanks [@martines3000](https://github.com/martines3000)! - Resolve github bot permissions
+
+## 0.0.5-beta.1
+
+### Patch Changes
+
+- [`bc00f40`](https://github.com/blockchain-lab-um/masca/commit/bc00f40f616692bf267564479bd02c499c31f1a2) Thanks [@martines3000](https://github.com/martines3000)! - Resolve github bot permissions
+
+## 0.0.5-beta.0
+
+### Patch Changes
+
+- [`6d85e0a`](https://github.com/blockchain-lab-um/masca/commit/6d85e0a338afc8838d219542a079587b9d13e053) Thanks [@martines3000](https://github.com/martines3000)! - Update publish stable workflow
+
+## 0.0.4
+
+### Patch Changes
+
+- [#403](https://github.com/blockchain-lab-um/masca/pull/403) [`a68a9bc`](https://github.com/blockchain-lab-um/masca/commit/a68a9bc4eedf65b62403ded901e68e425589cc9a) Thanks [@martines3000](https://github.com/martines3000)! - Patch bump to test bclabum-automation-bot permissions
+
+## 0.0.4-beta.0
+
+### Patch Changes
+
+- [`a68a9bc`](https://github.com/blockchain-lab-um/masca/commit/a68a9bc4eedf65b62403ded901e68e425589cc9a) Thanks [@martines3000](https://github.com/martines3000)! - Patch bump to test bclabum-automation-bot permissions
+
 ## 0.0.3
 
 ### Patch Changes

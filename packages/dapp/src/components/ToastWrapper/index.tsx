@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { XCircleIcon } from '@heroicons/react/24/outline';
 import {
   CheckCircleIcon,
@@ -17,11 +18,12 @@ const ToastWrapper = () => {
 
   useEffect(() => () => clearTimeout(timerRef.current), []);
 
-  const { open, loading, type, title } = useToastStore((state) => ({
+  const { open, loading, type, title, link } = useToastStore((state) => ({
     open: state.open,
     loading: state.loading,
     title: state.title,
     type: state.type,
+    link: state.link,
   }));
 
   const toastType: Record<string, string> = {
@@ -74,9 +76,18 @@ const ToastWrapper = () => {
             </Toast.Title>
           </div>
           <Toast.Action className="[grid-area:_action]" asChild altText="Done">
-            <button>
-              <XCircleIcon className="h-6 w-6" />
-            </button>
+            <div className="flex items-center">
+              {link && (
+                <Link href={link}>
+                  <button className="border-1 rounded-full border px-4 py-1.5 text-sm">
+                    Show
+                  </button>
+                </Link>
+              )}
+              <button className="dark:border-navy-blue-700 ml-2 h-[36px] border-l-[1px] border-l-gray-300 pl-2">
+                <XCircleIcon className="h-6 w-6" />
+              </button>
+            </div>
           </Toast.Action>
         </div>
       </Toast.Root>
