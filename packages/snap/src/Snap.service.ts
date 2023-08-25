@@ -79,7 +79,7 @@ class SnapService {
     const vcs = [...veramoCredentials, ...polygonCredentials];
 
     if (vcs.length > 0) {
-      if (await UIService.queryAllDialog(vcs)) {
+      if (await UIService.queryAllDialog({ vcs })) {
         return vcs;
       }
       throw new Error('User rejected query credentials request.');
@@ -99,7 +99,7 @@ class SnapService {
     const { verifiableCredential, options } = params;
     const { store = 'snap' } = options ?? {};
 
-    if (await UIService.saveCredentialDialog(store, verifiableCredential)) {
+    if (await UIService.saveCredentialDialog({ store, verifiableCredential })) {
       // If it is a string handle with Veramo
       if (typeof verifiableCredential === 'string') {
         const res = await VeramoService.saveCredential({
@@ -183,7 +183,14 @@ class SnapService {
 
     const { did } = identifier;
 
-    if (await UIService.createCredentialDialog(save, storeString, vc, did)) {
+    if (
+      await UIService.createCredentialDialog({
+        save,
+        storeString,
+        minimalUnsignedCredential: vc,
+        did,
+      })
+    ) {
       if (save === true) {
         await VeramoService.saveCredential({
           verifiableCredential: vc,
@@ -235,7 +242,7 @@ class SnapService {
       else stores = store.join(', ');
     }
 
-    if (await UIService.deleteCredentialDialog(stores, vcs)) {
+    if (await UIService.deleteCredentialDialog({ store: stores, vcs })) {
       if (polygonCredentials.length > 0) {
         await PolygonService.deleteCredential(id);
         return [true];
@@ -293,7 +300,7 @@ class SnapService {
 
     const { did } = identifier;
 
-    if (await UIService.createPresentationDialog(vcs, did)) {
+    if (await UIService.createPresentationDialog({ vcs, did })) {
       const res = await VeramoService.createPresentation({
         vcs,
         proofFormat,
