@@ -576,8 +576,6 @@ class VeramoService {
 
       const authorizationRequestURI = authorizationRequestURIResult.data;
 
-      console.log(`authorizationRequestURI: ${authorizationRequestURI}`);
-
       const handleAuthorizationRequestResult =
         await this.handleAuthorizationRequest({
           authorizationRequestURI,
@@ -630,8 +628,6 @@ class VeramoService {
       throw new Error(tokenRequestResult.error);
     }
 
-    console.log('here');
-
     // TODO: Handle multiple credentials
     let selectedCredential = credentials[0];
 
@@ -678,8 +674,6 @@ class VeramoService {
     }
 
     const credentialResponse = credentialRequestResult.data;
-
-    console.log(credentialResponse);
 
     if (!credentialResponse.credential) {
       throw new Error('An error occurred while requesting the credential');
@@ -743,8 +737,6 @@ class VeramoService {
 
     const sendAuthorizationResponseResult =
       await this.sendAuthorizationResponse(sendOIDCAuthorizationResponseArgs);
-
-    console.log(sendAuthorizationResponseResult);
 
     throw new Error('Not implemented');
   }
