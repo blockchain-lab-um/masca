@@ -39,6 +39,7 @@ export const CredentialOfferView = ({
           title: t('handling'),
           type: 'normal',
           loading: true,
+          link: '',
         });
       }, 200);
 
@@ -57,6 +58,7 @@ export const CredentialOfferView = ({
             title: t('error'),
             type: 'error',
             loading: false,
+            link: '',
           });
         }, 200);
         console.log(handleCredentialOfferResponse.error);
@@ -69,6 +71,7 @@ export const CredentialOfferView = ({
           title: t('success'),
           type: 'success',
           loading: false,
+          link: '',
         });
       }, 200);
 

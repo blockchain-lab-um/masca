@@ -41,6 +41,7 @@ export const CredentialView = ({
         text: 'Saving',
         type: 'normal',
         loading: true,
+        link: '',
       });
     }, 200);
 
@@ -58,6 +59,7 @@ export const CredentialView = ({
           text: 'Error while saving',
           type: 'error',
           loading: false,
+          link: '',
         });
       }, 200);
       return;
@@ -69,6 +71,7 @@ export const CredentialView = ({
         text: 'Successfully saved',
         type: 'success',
         loading: false,
+        link: '',
       });
     }, 200);
 

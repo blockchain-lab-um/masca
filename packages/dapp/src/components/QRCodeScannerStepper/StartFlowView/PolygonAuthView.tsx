@@ -44,6 +44,7 @@ export const PolygonAuthView = ({ scanNewCode }: StartFlowViewProps) => {
             title: t('error'),
             type: 'error',
             loading: false,
+            link: '',
           });
           console.log('error', result.error);
         }, 200);
@@ -56,6 +57,7 @@ export const PolygonAuthView = ({ scanNewCode }: StartFlowViewProps) => {
           title: t('success'),
           type: 'success',
           loading: false,
+          link: '',
         });
       }, 200);
     }

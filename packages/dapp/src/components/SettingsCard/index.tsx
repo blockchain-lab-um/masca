@@ -59,6 +59,7 @@ const SettingsCard = () => {
           title: t('ceramic-error'),
           type: 'error',
           loading: false,
+          link: '',
         });
       }, 200);
       return;
@@ -70,6 +71,7 @@ const SettingsCard = () => {
         title: t('ceramic-success'),
         type: 'success',
         loading: false,
+        link: '',
       });
     }, 200);
   };
@@ -99,6 +101,7 @@ const SettingsCard = () => {
           title: t('export-error'),
           type: 'error',
           loading: false,
+          link: '',
         });
       }, 200);
       return;
@@ -133,6 +136,7 @@ const SettingsCard = () => {
             title: t('import-error'),
             type: 'error',
             loading: false,
+            link: '',
           });
         }, 200);
         return;
@@ -144,6 +148,7 @@ const SettingsCard = () => {
           title: t('import-success'),
           type: 'success',
           loading: false,
+          link: '',
         });
       }, 200);
 

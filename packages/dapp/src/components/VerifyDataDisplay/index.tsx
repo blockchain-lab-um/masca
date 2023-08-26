@@ -37,6 +37,7 @@ const VerifyDataDisplay = () => {
           title: t('toast.error-json'),
           type: 'error',
           loading: false,
+          link: '',
         });
       }, 200);
       return;
@@ -54,6 +55,7 @@ const VerifyDataDisplay = () => {
           title: t('toast.error-type'),
           type: 'error',
           loading: false,
+          link: '',
         });
       }, 200);
       return;
@@ -85,6 +87,7 @@ const VerifyDataDisplay = () => {
           title: t('toast.error-type'),
           type: 'error',
           loading: false,
+          link: '',
         });
       }, 200);
       return;
@@ -105,6 +108,7 @@ const VerifyDataDisplay = () => {
           title: t('toast.error-verify'),
           type: 'error',
           loading: false,
+          link: '',
         });
       }, 200);
       return;

@@ -36,6 +36,7 @@ function DeleteModal({ isOpen, setOpen, vc, store }: DeleteModalProps) {
           title: t('deleting'),
           type: 'normal',
           loading: true,
+          link: '',
         });
       }, 200);
 
@@ -64,6 +65,7 @@ function DeleteModal({ isOpen, setOpen, vc, store }: DeleteModalProps) {
             title: t('deleting-error'),
             type: 'error',
             loading: false,
+            link: '',
           });
         }, 200);
         console.log(res.error);
@@ -76,6 +78,7 @@ function DeleteModal({ isOpen, setOpen, vc, store }: DeleteModalProps) {
           title: t('deleting-success'),
           type: 'success',
           loading: false,
+          link: '',
         });
       }, 200);
 
