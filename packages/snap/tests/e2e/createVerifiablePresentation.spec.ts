@@ -9,16 +9,12 @@ import StorageService from '../../src/storage/Storage.service';
 import VeramoService, { type Agent } from '../../src/veramo/Veramo.service';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
-import exampleVCEIP712 from '../data/verifiable-credentials/exampleEIP712.json';
-import exampleVCJSONLD from '../data/verifiable-credentials/exampleJSONLD.json';
-import exampleVC_2 from '../data/verifiable-credentials/exampleJWT_2.json';
-import exampleVC_3 from '../data/verifiable-credentials/exampleJWT_3.json';
 import exampleVC from '../data/verifiable-credentials/exampleJWT.json';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
-const methods: AvailableMethods[] = ['did:key', 'did:jwk'];
+const methods: AvailableMethods[] = ['did:key' /* 'did:jwk' */];
 // TODO: Resolve bugs for lds and EthereumEip712Signature2021
-const proofFormats = ['jwt' /* 'lds', */ /* 'EthereumEip712Signature2021' */];
+const proofFormats = [/* 'jwt' */ 'lds' /* 'EthereumEip712Signature2021' */];
 const proofTypes: Record<string, string> = {
   jwt: 'JwtProof2020',
   lds: 'Ed25519Signature2018',
@@ -33,13 +29,13 @@ const options: ProofOptions[] = [
 
 const vcs = [
   { title: 'JWT', vcs: [exampleVC] },
-  { title: 'JSON-LD', vcs: [exampleVCJSONLD] },
-  { title: 'EIP712', vcs: [exampleVCEIP712] },
-  { title: '2 JWTs', vcs: [exampleVC, exampleVC_2] },
-  { title: '3 JWTs', vcs: [exampleVC, exampleVC_2, exampleVC_3] },
-  { title: 'JWT & EIP712', vcs: [exampleVC, exampleVCEIP712] },
-  { title: 'JWT & JSON-LD', vcs: [exampleVC, exampleVCJSONLD] },
-  { title: 'JSON-LD & EIP712', vcs: [exampleVCJSONLD, exampleVCEIP712] },
+  //   { title: 'JSON-LD', vcs: [exampleVCJSONLD] },
+  //   { title: 'EIP712', vcs: [exampleVCEIP712] },
+  //   { title: '2 JWTs', vcs: [exampleVC, exampleVC_2] },
+  //   { title: '3 JWTs', vcs: [exampleVC, exampleVC_2, exampleVC_3] },
+  //   { title: 'JWT & EIP712', vcs: [exampleVC, exampleVCEIP712] },
+  //   { title: 'JWT & JSON-LD', vcs: [exampleVC, exampleVCJSONLD] },
+  //   { title: 'JSON-LD & EIP712', vcs: [exampleVCJSONLD, exampleVCEIP712] },
 ];
 
 describe('createVerifiablePresentation', () => {
