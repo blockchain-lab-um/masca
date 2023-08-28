@@ -21,7 +21,7 @@ class EncryptionService {
       'raw',
       rawKey,
       'AES-GCM',
-      true,
+      false,
       ['encrypt', 'decrypt']
     );
 
@@ -59,7 +59,7 @@ class EncryptionService {
       'raw',
       rawKey,
       'AES-GCM',
-      true,
+      false,
       ['encrypt', 'decrypt']
     );
 
