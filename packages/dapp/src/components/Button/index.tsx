@@ -58,14 +58,14 @@ const sizes: Record<string, string> = {
 };
 
 const loaderSizes: Record<string, string> = {
-  popup: 'md:w-4 md:h-4 h-3 w-3 border-2',
-  xs: 'md:w-4 md:h-4 h-3 w-3 border-2',
-  sm: 'lg:w-4 lg:h-4 border-2 w-3 h-3',
-  md: 'md:w-4 md:h-4 w-3 h-3 border-2',
-  lg: 'lg:w-6 lg:h-6 border-2 md:w-4 md:h-4 w-4 h-4',
-  xl: 'lg:w-8 lg:h-6 border-2 md:w-6 md:h-6 w-4 h-4',
-  wd: 'lg:w-8 lg:h-8 border-2 md:w-8 md:h-6 w-6 h-6 ',
-  icon: 'md:w-4 md:h-4 h-3 w-3 border-2',
+  popup: 'md:w-4 md:h-4 h-3 w-3',
+  xs: 'md:w-4 md:h-4 h-3 w-3',
+  sm: 'lg:w-4 lg:h-4 w-3 h-3',
+  md: 'md:w-4 md:h-4 w-3 h-3',
+  lg: 'lg:w-6 lg:h-6 md:w-4 md:h-4 w-4 h-4',
+  xl: 'lg:w-8 lg:h-6 md:w-6 md:h-6 w-4 h-4',
+  wd: 'lg:w-8 lg:h-8 md:w-6 md:h-6 w-6 h-6 ',
+  icon: 'md:w-4 md:h-4 h-3 w-3',
 };
 
 const loaderColors: Record<string, string> = {
@@ -90,33 +90,29 @@ const Button = ({
   loading = false,
   showTextOnLoading = true,
 }: ButtonProps) => (
-  <div>
-    <button
-      className={clsx(
-        variants[variant],
-        sizes[size],
-        `shadow-${shadow}`,
-        'animated-transition font-ubuntu flex max-w-xs items-center gap-x-2 rounded-full font-medium',
-        'outline-none focus:outline-none'
-      )}
-      onClick={onClick}
-      disabled={disabled}
-    >
-      {loading && !showTextOnLoading ? '' : children}
-      {loading && (
-        <div className="flex">
-          <div
-            className={clsx(
-              loaderSizes[size],
-              showTextOnLoading ? 'mr-1' : '',
-              'animate-spin rounded-full border-solid',
-              loaderColors[variant]
-            )}
-          ></div>
-        </div>
-      )}
-    </button>
-  </div>
+  <button
+    className={clsx(
+      variants[variant],
+      sizes[size],
+      `shadow-${shadow}`,
+      'animated-transition font-ubuntu flex max-w-xs items-center gap-x-2 rounded-full font-medium',
+      'outline-none focus:outline-none'
+    )}
+    onClick={onClick}
+    disabled={disabled}
+  >
+    {loading && !showTextOnLoading ? '' : children}
+    {loading && (
+      <div
+        className={clsx(
+          loaderSizes[size],
+          showTextOnLoading ? 'mr-1' : '',
+          'animate-spin rounded-full border-2 border-solid',
+          loaderColors[variant]
+        )}
+      ></div>
+    )}
+  </button>
 );
 
 export default Button;

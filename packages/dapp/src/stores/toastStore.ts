@@ -9,7 +9,7 @@ interface ToastStore {
   text: string;
   title: string;
   type: ToastType;
-  link?: string;
+  link: string | null;
 }
 
 export const toastStoreInitialState = {
@@ -18,7 +18,7 @@ export const toastStoreInitialState = {
   text: '',
   title: '',
   type: 'info' as ToastType,
-  link: '',
+  link: null,
 };
 
 export const useToastStore = createWithEqualityFn<ToastStore>()(

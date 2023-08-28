@@ -17,12 +17,12 @@ export const ChooseDeviceView = ({
   const isConnected = useGeneralStore((state) => state.isConnected);
 
   return (
-    <div className="flex w-full items-center justify-center gap-x-4">
+    <div>
       {isConnected ? (
-        <>
+        <div className="flex w-full flex-col gap-y-4 sm:flex-row sm:gap-x-4">
           <button
             onClick={() => onDeviceTypeSelected('primary', true)}
-            className="animated-transition dark:border-navy-blue-400 dark:hover:bg-navy-blue-700 flex h-[20rem] w-1/2 flex-col items-center justify-center gap-y-4  rounded-xl border-4 border-gray-500 p-4 hover:bg-gray-100 sm:h-[10rem] md:w-1/3"
+            className="animated-transition dark:border-navy-blue-400 dark:hover:bg-navy-blue-700 flex w-full flex-col items-center justify-center gap-y-4 rounded-xl border-4 border-gray-500 p-4 hover:bg-gray-100"
           >
             <span className="dark:text-orange-accent-dark text-center font-bold text-pink-500">
               {t('primary-has-camera')}
@@ -31,7 +31,7 @@ export const ChooseDeviceView = ({
           </button>
           <button
             onClick={() => onDeviceTypeSelected('primary', false)}
-            className="animated-transition dark:border-navy-blue-400 dark:hover:bg-navy-blue-700 flex h-[20rem] w-1/2 flex-col items-center justify-center  gap-y-4 rounded-xl border-4 border-gray-500 p-4 hover:bg-gray-100 md:h-[10rem]"
+            className="animated-transition dark:border-navy-blue-400 dark:hover:bg-navy-blue-700 flex w-full flex-col items-center justify-center gap-y-4 rounded-xl border-4 border-gray-500 p-4 hover:bg-gray-100"
           >
             <span className="dark:text-orange-accent-dark text-center font-bold text-pink-500">
               {t('primary-no-camera')}
@@ -41,12 +41,12 @@ export const ChooseDeviceView = ({
               {t('primary-no-camera-desc-2')}
             </div>
           </button>
-        </>
+        </div>
       ) : (
         <div className="flex flex-col items-center">
           <button
             onClick={() => onDeviceTypeSelected('secondary', true)}
-            className="animated-transition dark:border-navy-blue-400 dark:hover:bg-navy-blue-700 flex h-[10rem] w-2/3 flex-col items-center justify-center gap-y-4 rounded-xl border-4 border-gray-500 p-4 hover:bg-gray-100"
+            className="animated-transition dark:border-navy-blue-400 dark:hover:bg-navy-blue-700 flex w-full flex-col items-center justify-center gap-y-4 rounded-xl border-4 border-gray-500 p-4 hover:bg-gray-100"
           >
             <span className="dark:text-orange-accent-dark text-center font-bold text-pink-500">
               {t('secondary')}

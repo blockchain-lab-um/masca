@@ -19,7 +19,7 @@ esbuild.build({
   tsconfig: 'tsconfig.build.json',
   alias: {
     '@0xpolygonid/js-sdk':
-      '../../node_modules/.pnpm/@0xpolygonid+js-sdk@1.0.2/node_modules/@0xpolygonid/js-sdk/dist/esm/index.js',
+      '../../node_modules/.pnpm/@0xpolygonid+js-sdk@1.0.3/node_modules/@0xpolygonid/js-sdk/dist/esm/index.js',
   },
   plugins: [plugin(stdLibBrowser)],
   inject: [require.resolve('node-stdlib-browser/helpers/esbuild/shim')],
