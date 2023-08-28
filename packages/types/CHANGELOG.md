@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.0-beta.1
+
+### Patch Changes
+
+- [#434](https://github.com/blockchain-lab-um/masca/pull/434) [`f2e3ad6`](https://github.com/blockchain-lab-um/masca/commit/f2e3ad69f7fe012b8e748d1f7b7c1c96f7f36e3e) Thanks [@pseudobun](https://github.com/pseudobun)! - Normalize the address passed as a param when setting the currently selected account by setting it to lower case. Rename param currentAccount to account.
+
+- [#428](https://github.com/blockchain-lab-um/masca/pull/428) [`5bbabf5`](https://github.com/blockchain-lab-um/masca/commit/5bbabf5ef2b00541739bbe5e5c7e8e73c11e64d5) Thanks [@martines3000](https://github.com/martines3000)! - Update polygonid dependencies
+
 ## 1.0.0-beta.0
 
 ### Major Changes
