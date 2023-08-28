@@ -53,7 +53,7 @@
     "test:ci": "pnpm run test --silent --coverage"
   },
   "dependencies": {
-    "@0xpolygonid/js-sdk": "1.0.2",
+    "@0xpolygonid/js-sdk": "1.0.3",
     "@babel/runtime": "7.22.10",
     "@blockchain-lab-um/did-provider-ebsi": "1.0.5",
     "@blockchain-lab-um/did-provider-key": "1.0.6",
@@ -66,9 +66,9 @@
     "@didtools/pkh-ethereum": "0.4.0",
     "@ethersproject/providers": "^5.7.2",
     "@glazed/did-datastore": "0.3.2",
-    "@iden3/js-iden3-core": "^1.0.0",
+    "@iden3/js-iden3-core": "^1.0.1",
     "@iden3/js-jsonld-merklization": "^1.0.1",
-    "@iden3/js-jwz": "^1.0.0",
+    "@iden3/js-jwz": "^1.0.1",
     "@iden3/js-merkletree": "^1.0.0",
     "@metamask/key-tree": "^9.0.0",
     "@metamask/providers": "^10.2.0",
