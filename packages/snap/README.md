@@ -8,8 +8,6 @@
 <h6 align="center">
   <a href="https://masca.io">Website</a>
   ·
-  <a href="https://blockchain-lab-um.github.io/course-dapp/">Get your first VC</a>
-  ·
   <a href="https://docs.masca.io/">Docs</a>
   ·
   <a href="https://medium.com/@blockchainlabum/open-sourcing-ssi-snap-for-metamask-aaa176775be2">Blog</a>
