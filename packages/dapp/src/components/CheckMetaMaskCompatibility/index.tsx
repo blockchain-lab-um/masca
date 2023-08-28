@@ -122,7 +122,7 @@ const CheckMetaMaskCompatibility = () => {
 
     // Set currently connected address
     const setAccountRes = await mascaApi.setCurrentAccount({
-      currentAccount: address,
+      account: address,
     });
 
     if (isError(setAccountRes)) {

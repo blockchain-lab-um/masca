@@ -20,7 +20,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
 
     if (request.method === 'setCurrentAccount') {
       isValidSetCurrentAccountRequest(request.params);
-      await GeneralService.setCurrentAccount(request.params.currentAccount); // FIXME: Rename parameter to account
+      await GeneralService.setCurrentAccount(request.params.account);
       await StorageService.save();
       return ResultObject.success(true);
     }
