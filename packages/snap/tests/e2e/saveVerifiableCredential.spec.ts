@@ -247,7 +247,7 @@ describe('saveVerifiableCredential', () => {
       if (isError(res)) {
         throw new Error(res.error);
       }
-      // console.log("String JWT", res.data[0].data)
+
       const expectedResult = [
         {
           data: generatedVC,

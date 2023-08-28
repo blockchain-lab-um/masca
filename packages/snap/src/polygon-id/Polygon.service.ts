@@ -351,7 +351,6 @@ class PolygonService {
 
       return credentials;
     } catch (e) {
-      console.log('error', e);
       throw new Error('Error handling credential offer');
     }
   }
@@ -385,7 +384,6 @@ class PolygonService {
         body: token,
       });
     } catch (e) {
-      console.log(e);
       throw new Error('Error sending authorization response');
     }
   }
