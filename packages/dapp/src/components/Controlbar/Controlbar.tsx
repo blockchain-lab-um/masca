@@ -49,6 +49,7 @@ const Controlbar = () => {
         title: t('query'),
         type: 'normal',
         loading: true,
+        link: null,
       });
     }, 200);
 
@@ -66,6 +67,7 @@ const Controlbar = () => {
           title: t('query-error'),
           type: 'error',
           loading: false,
+          link: null,
         });
       }, 200);
       return;
@@ -77,6 +79,7 @@ const Controlbar = () => {
         title: t('query-success'),
         type: 'success',
         loading: false,
+        link: null,
       });
     }, 200);
 
