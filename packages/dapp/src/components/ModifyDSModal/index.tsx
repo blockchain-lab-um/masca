@@ -87,7 +87,7 @@ function ModifyDSModal({ isOpen, setOpen, vc }: ModifyDSModalProps) {
         title: t('saving'),
         type: 'normal',
         loading: true,
-        link: '',
+        link: null,
       });
     }, 200);
 
@@ -104,7 +104,7 @@ function ModifyDSModal({ isOpen, setOpen, vc }: ModifyDSModalProps) {
           title: t('saving-error'),
           type: 'error',
           loading: false,
-          link: '',
+          link: null,
         });
       }, 200);
       return;
@@ -116,7 +116,7 @@ function ModifyDSModal({ isOpen, setOpen, vc }: ModifyDSModalProps) {
         title: t('saving-success'),
         type: 'success',
         loading: false,
-        link: '',
+        link: null,
       });
     }, 200);
 

@@ -116,7 +116,7 @@ const CreateCredentialDisplay = () => {
           title: t('toast.error-json'),
           type: 'error',
           loading: false,
-          link: '',
+          link: null,
         });
       }, 200);
       return;
@@ -127,7 +127,7 @@ const CreateCredentialDisplay = () => {
         title: t('toast.loading'),
         type: 'normal',
         loading: true,
-        link: '',
+        link: null,
       });
     }, 200);
 
@@ -164,7 +164,7 @@ const CreateCredentialDisplay = () => {
           title: t('toast.error-vc'),
           type: 'error',
           loading: false,
-          link: '',
+          link: null,
         });
       }, 200);
       return;
@@ -177,7 +177,7 @@ const CreateCredentialDisplay = () => {
         title: t('toast.success'),
         type: 'success',
         loading: false,
-        link: '',
+        link: null,
       });
     }, 200);
     setVCModalOpen(true);

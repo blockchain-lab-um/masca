@@ -149,7 +149,7 @@ const QRCodeSessionProvider = () => {
         title: t('unsuported'),
         type: 'error',
         loading: false,
-        link: '',
+        link: null,
       });
     }, 200);
   };

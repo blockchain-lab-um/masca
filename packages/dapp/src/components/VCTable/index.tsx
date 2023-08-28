@@ -304,7 +304,7 @@ const Table = () => {
           title: t('query-error'),
           type: 'error',
           loading: false,
-          link: '',
+          link: null,
         });
       }, 200);
       return;
@@ -321,7 +321,7 @@ const Table = () => {
             title: t('query-no-credentials'),
             type: 'info',
             loading: false,
-            link: '',
+            link: null,
           });
         }, 200);
         return;
@@ -333,7 +333,7 @@ const Table = () => {
           title: t('query-success'),
           type: 'success',
           loading: false,
-          link: '',
+          link: null,
         });
       }, 200);
     }

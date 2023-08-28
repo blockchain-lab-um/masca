@@ -36,7 +36,7 @@ const QRCodeScanner = ({
           title: t('initialize-error'),
           type: 'error',
           loading: false,
-          link: '',
+          link: null,
         });
       }, 200);
       setOpen(false);
@@ -70,7 +70,7 @@ const QRCodeScanner = ({
               title: t('starting-error'),
               type: 'error',
               loading: false,
-              link: '',
+              link: null,
             });
           }, 200);
         });

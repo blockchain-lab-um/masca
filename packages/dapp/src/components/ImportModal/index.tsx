@@ -56,7 +56,7 @@ function ImportModal({ isOpen, setOpen, importVC }: ImportModalProps) {
             title: t('save-error'),
             type: 'error',
             loading: false,
-            link: '',
+            link: null,
           });
         }, 200);
 
@@ -71,7 +71,7 @@ function ImportModal({ isOpen, setOpen, importVC }: ImportModalProps) {
           title: t('save-error'),
           type: 'error',
           loading: false,
-          link: '',
+          link: null,
         });
       }, 200);
       setLoading(false);

@@ -103,7 +103,7 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
           title: t('succeess'),
           type: 'success',
           loading: false,
-          link: '',
+          link: null,
         });
       }, 200);
       onQRCodeScanned();
@@ -115,7 +115,7 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
           title: t('error'),
           type: 'error',
           loading: false,
-          link: '',
+          link: null,
         });
       }, 200);
     }
@@ -138,7 +138,7 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
           title: t('invalid'),
           type: 'error',
           loading: false,
-          link: '',
+          link: null,
         });
       }, 200);
     }

@@ -44,7 +44,7 @@ export const OIDCAuthView = ({ scanNewCode }: OIDCAuthViewProps) => {
             title: t('error'),
             type: 'error',
             loading: false,
-            link: '',
+            link: null,
           });
           console.log('error', result.error);
         }, 200);
@@ -57,7 +57,7 @@ export const OIDCAuthView = ({ scanNewCode }: OIDCAuthViewProps) => {
           title: t('success'),
           type: 'success',
           loading: false,
-          link: '',
+          link: null,
         });
       }, 200);
     }

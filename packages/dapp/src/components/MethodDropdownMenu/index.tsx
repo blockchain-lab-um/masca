@@ -34,7 +34,7 @@ export default function MethodDropdownMenu() {
           title: t('switching'),
           type: 'normal',
           loading: true,
-          link: '',
+          link: null,
         });
       }, 200);
 
@@ -51,7 +51,7 @@ export default function MethodDropdownMenu() {
             title: t('switching-error'),
             type: 'error',
             loading: false,
-            link: '',
+            link: null,
           });
         }, 200);
         return;
@@ -65,7 +65,7 @@ export default function MethodDropdownMenu() {
           }`,
           type: 'success',
           loading: false,
-          link: '',
+          link: null,
         });
       }, 200);
 
