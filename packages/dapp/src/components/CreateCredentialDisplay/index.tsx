@@ -116,6 +116,7 @@ const CreateCredentialDisplay = () => {
           title: t('toast.error-json'),
           type: 'error',
           loading: false,
+          link: null,
         });
       }, 200);
       return;
@@ -126,6 +127,7 @@ const CreateCredentialDisplay = () => {
         title: t('toast.loading'),
         type: 'normal',
         loading: true,
+        link: null,
       });
     }, 200);
 
@@ -162,6 +164,7 @@ const CreateCredentialDisplay = () => {
           title: t('toast.error-vc'),
           type: 'error',
           loading: false,
+          link: null,
         });
       }, 200);
       return;
@@ -174,6 +177,7 @@ const CreateCredentialDisplay = () => {
         title: t('toast.success'),
         type: 'success',
         loading: false,
+        link: null,
       });
     }, 200);
     setVCModalOpen(true);
@@ -243,7 +247,7 @@ const CreateCredentialDisplay = () => {
               </div>
             </div>
             {save && (
-              <div className="mt-2 flex items-center justify-between gap-x-8 pb-5">
+              <div className="mt-8 flex items-center justify-between gap-x-8 pb-5">
                 <span className="text-md dark:text-navy-blue-200 flex gap-x-1 text-gray-700">
                   {t('save.storage')}
                 </span>
