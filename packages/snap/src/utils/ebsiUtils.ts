@@ -4,9 +4,9 @@ import {
 } from '@blockchain-lab-um/masca-types';
 import type { IDIDManagerCreateArgs } from '@veramo/core';
 import { keccak256 } from 'ethers';
-import WalletService from 'src/Wallet.service';
 
 import VeramoService from '../veramo/Veramo.service';
+import WalletService from '../Wallet.service';
 
 /**
  * Function that creates a new EBSI identifier.
