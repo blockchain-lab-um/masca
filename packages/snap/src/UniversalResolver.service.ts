@@ -26,7 +26,7 @@ const resolveDid = async (
       didDocument: null,
       didDocumentMetadata: {},
       didResolutionMetadata: {
-        error: 'couldnt resolve did',
+        error: (e as Error).message,
       },
     };
   }
