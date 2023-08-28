@@ -203,7 +203,7 @@ class UIService {
         'This can result in a better user experience, but you will not be able to see what the dApp is requesting.'
       ),
     ]);
-    const res = await UIService.snapConfirm(uiPanel);
+    const res = await UIService.snapConfirm(uiPanel, true);
     return res;
   };
 
@@ -216,7 +216,7 @@ class UIService {
       text('Pop-ups do not appear on friendly dApps.'),
     ]);
 
-    const res = await UIService.snapConfirm(uiPanel);
+    const res = await UIService.snapConfirm(uiPanel, true);
     return res;
   };
 
@@ -257,7 +257,7 @@ class UIService {
       ),
     ]);
 
-    const res = await UIService.snapConfirm(uiPanel);
+    const res = await UIService.snapConfirm(uiPanel, true);
     return res;
   };
 
@@ -274,7 +274,7 @@ class UIService {
       ),
     ]);
 
-    const res = await UIService.snapConfirm(uiPanel);
+    const res = await UIService.snapConfirm(uiPanel, true);
     return res;
   };
 }
