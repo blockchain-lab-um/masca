@@ -68,8 +68,8 @@
     "create": "Create Connection",
     "invalid": "Invalid QR code",
     "scan": "Scan Connection",
-    "start-primary": "To Start Scanning QR codes, first connect your secondary device",
-    "start-secondary": "Scan the Connection QR code to connect to your primary device",
+    "start-primary": "To start scanning QR codes, visit https://masca.io on your secondary device and go to the tab QR Scanner.",
+    "start-secondary": "Scan the connection QR code to connect to your primary device",
     "success": "Connection established!"
   },
   "ConnectedProvider": {
@@ -82,7 +82,7 @@
     "save-error": "Failed to save credential. VC was invalid"
   },
   "CreateConnectionModal": {
-    "desc": " Scan this with your mobile device to create a connection to this page.",
+    "desc": " Scan this QR code with your mobile device to create a connection to this page.",
     "title": "Connection QR Code"
   },
   "CreateCredentialDisplay": {
@@ -288,6 +288,7 @@
     "title": "OIDC Authorization Request"
   },
   "PolygonAuthView": {
+    "start": "Start Flow",
     "error": "Failed to finish Polygon Authorization Request!",
     "finished": "Authorization Request finished",
     "new-scan": "Scan New Code",
