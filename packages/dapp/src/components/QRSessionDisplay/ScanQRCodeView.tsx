@@ -156,6 +156,7 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
               <div className="mt-8 flex justify-center space-x-4">
                 <Button
                   variant="primary"
+                  size="sm"
                   onClick={() => setIsQRCodeModalOpen(true)}
                 >
                   {t('scan')}
@@ -177,6 +178,7 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
               <div className="mt-8 flex justify-center">
                 <Button
                   variant="primary"
+                  size="sm"
                   onClick={() => setIsQRCodeModalOpen(true)}
                 >
                   {t('scan')}

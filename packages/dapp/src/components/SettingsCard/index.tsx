@@ -250,7 +250,7 @@ const SettingsCard = () => {
           {t('backup')}
         </div>
         <div className="mt-4 flex space-x-2">
-          <Button onClick={handleExport} variant="primary" size="xs">
+          <Button onClick={handleExport} variant="primary" size="sm">
             {t('export')}
           </Button>
           <UploadButton handleUpload={handleImport} acceptedMedia=".txt" />
