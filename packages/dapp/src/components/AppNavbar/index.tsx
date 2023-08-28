@@ -21,21 +21,6 @@ const MAIN_LINKS = [
   },
 ];
 
-const EXTRA_LINKS = [
-  // {
-  //   name: 'get-credential',
-  //   href: '/app/get-credential',
-  // },
-  // {
-  //   name: 'authorization-request',
-  //   href: '/app/authorization-request',
-  // },
-  {
-    name: 'qr-code-session',
-    href: '/app/qr-code-session',
-  },
-];
-
 export default function AppNavbar() {
   const t = useTranslations('AppNavbar');
   const pathname = usePathname() ?? '/';
@@ -59,21 +44,6 @@ export default function AppNavbar() {
                 pathname === href
                   ? 'dark:text-orange-accent-dark text-pink-500'
                   : 'dark:text-navy-blue-400 text-gray-600'
-              )}
-              key={name}
-              href={href}
-            >
-              {t(`menu.${name}`)}
-            </Link>
-          ))}
-          {EXTRA_LINKS.map(({ name, href }) => (
-            <Link
-              className={clsx(
-                'nav-btn',
-                pathname === href
-                  ? 'dark:text-orange-accent-dark text-pink-500'
-                  : 'dark:text-navy-blue-400 text-gray-600',
-                'hidden xl:block'
               )}
               key={name}
               href={href}
