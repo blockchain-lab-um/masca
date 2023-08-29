@@ -1,5 +1,24 @@
 # @blockchain-lab-um/dapp
 
+## 1.0.0-beta.1
+
+### Patch Changes
+
+- [#435](https://github.com/blockchain-lab-um/masca/pull/435) [`f69bf97`](https://github.com/blockchain-lab-um/masca/commit/f69bf9702b8c9917f28177238d94d7385701699f) Thanks [@pseudobun](https://github.com/pseudobun)! - Fixes some UI typos and bugs.
+
+- [#426](https://github.com/blockchain-lab-um/masca/pull/426) [`1f2f2d3`](https://github.com/blockchain-lab-um/masca/commit/1f2f2d36695eac8d49ea5ea4d3f1548543153cf7) Thanks [@andyv09](https://github.com/andyv09)! - fix minor visual bugs on dApp
+
+- [#415](https://github.com/blockchain-lab-um/masca/pull/415) [`6fc209b`](https://github.com/blockchain-lab-um/masca/commit/6fc209b155852065d4f1352eb374ded0846faf7a) Thanks [@andyv09](https://github.com/andyv09)! - Fix some minor dApp problems & improve QR Scanner
+
+- [#425](https://github.com/blockchain-lab-um/masca/pull/425) [`b6cf709`](https://github.com/blockchain-lab-um/masca/commit/b6cf709962ba70ede76968027e8500bb34da460e) Thanks [@martines3000](https://github.com/martines3000)! - Style improvements
+
+- [#419](https://github.com/blockchain-lab-um/masca/pull/419) [`5436fc3`](https://github.com/blockchain-lab-um/masca/commit/5436fc3ebd8613e8ab198cd891e396270a08f734) Thanks [@martines3000](https://github.com/martines3000)! - Add proxy for uniresolver
+
+- [#419](https://github.com/blockchain-lab-um/masca/pull/419) [`5436fc3`](https://github.com/blockchain-lab-um/masca/commit/5436fc3ebd8613e8ab198cd891e396270a08f734) Thanks [@martines3000](https://github.com/martines3000)! - Update API routes CORS headers
+
+- Updated dependencies []:
+  - @blockchain-lab-um/masca-connector@1.0.0-beta.1
+
 ## 1.0.0-beta.0
 
 ### Major Changes

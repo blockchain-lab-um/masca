@@ -64,6 +64,7 @@ const SettingsCard = () => {
           title: t('ceramic-error'),
           type: 'error',
           loading: false,
+          link: null,
         });
       }, 200);
       return;
@@ -75,6 +76,7 @@ const SettingsCard = () => {
         title: t('ceramic-success'),
         type: 'success',
         loading: false,
+        link: null,
       });
     }, 200);
   };
@@ -97,13 +99,13 @@ const SettingsCard = () => {
     const exportResult = await api.exportStateBackup();
 
     if (isError(exportResult)) {
-      console.log(exportResult);
       setTimeout(() => {
         useToastStore.setState({
           open: true,
           title: t('export-error'),
           type: 'error',
           loading: false,
+          link: null,
         });
       }, 200);
       return;
@@ -138,6 +140,7 @@ const SettingsCard = () => {
             title: t('import-error'),
             type: 'error',
             loading: false,
+            link: null,
           });
         }, 200);
         return;
@@ -149,6 +152,7 @@ const SettingsCard = () => {
           title: t('import-success'),
           type: 'success',
           loading: false,
+          link: null,
         });
       }, 200);
 
@@ -263,7 +267,7 @@ const SettingsCard = () => {
           </p>
         </div>
         <div className="mt-4 flex space-x-2">
-          <Button onClick={handleExport} variant="primary" size="xs">
+          <Button onClick={handleExport} variant="primary" size="sm">
             {t('export')}
           </Button>
           <UploadButton handleUpload={handleImport} acceptedMedia=".txt" />

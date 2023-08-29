@@ -51,7 +51,8 @@ class GeneralService {
    * @param account - hex account string
    * @returns void
    */
-  static async setCurrentAccount(account: string): Promise<void> {
+  static async setCurrentAccount(params: { account: string }): Promise<void> {
+    const { account } = params;
     const state = StorageService.get();
     state[CURRENT_STATE_VERSION].currentAccount = account;
   }
@@ -61,14 +62,16 @@ class GeneralService {
    * @param dapp - dApp to add to the friendly dApps list.
    * @returns void
    */
-  static async addFriendlyDapp(dapp: string): Promise<void> {
+  static async addFriendlyDapp(params: { id: string }): Promise<void> {
     const state = StorageService.get();
-    if (state[CURRENT_STATE_VERSION].config.dApp.friendlyDapps.includes(dapp))
+    if (
+      state[CURRENT_STATE_VERSION].config.dApp.friendlyDapps.includes(params.id)
+    )
       return;
-    if (!(await UIService.addFriendlyDappDialog(dapp))) {
+    if (!(await UIService.addFriendlyDappDialog(params.id))) {
       throw new Error('User rejected friendly dApp addition.');
     }
-    state[CURRENT_STATE_VERSION].config.dApp.friendlyDapps.push(dapp);
+    state[CURRENT_STATE_VERSION].config.dApp.friendlyDapps.push(params.id);
   }
 
   /**
@@ -76,27 +79,26 @@ class GeneralService {
    * @param dapp - dApp to remove from the friendly dApps list.
    * @returns void
    */
-  static async removeFriendlyDapp(args: { id: string }): Promise<void> {
-    if (!(await UIService.removeFriendlyDappDialog(args.id))) {
+  static async removeFriendlyDapp(params: { id: string }): Promise<void> {
+    if (!(await UIService.removeFriendlyDappDialog(params.id))) {
       throw new Error('User rejected friendly dApp removal.');
     }
 
     const state = StorageService.get();
     state[CURRENT_STATE_VERSION].config.dApp.friendlyDapps = state[
       CURRENT_STATE_VERSION
-    ].config.dApp.friendlyDapps.filter((d) => d !== args.id);
+    ].config.dApp.friendlyDapps.filter((d) => d !== params.id);
   }
 
   /**
    * Function that checks if a dApp is friendly
-   * @param dapp - dApp to check.
+   * @param params.id - dApp to check.
    * @returns boolean - whether the dApp is friendly.
    */
-  static async isFriendlyDapp(dapp: string): Promise<boolean> {
+  static async isFriendlyDapp(params: { id: string }): Promise<boolean> {
+    const { id } = params;
     const state = StorageService.get();
-    return state[CURRENT_STATE_VERSION].config.dApp.friendlyDapps.includes(
-      dapp
-    );
+    return state[CURRENT_STATE_VERSION].config.dApp.friendlyDapps.includes(id);
   }
 
   /**
@@ -120,16 +122,18 @@ class GeneralService {
 
   /**
    * Function that changes the DID method
-   * @param args.didMethod - DID method to switch to.
+   * @param params.didMethod - DID method to switch to.
    * @returns void
    */
-  static async switchDIDMethod(args: SwitchMethodRequestParams): Promise<void> {
+  static async switchDIDMethod(
+    params: SwitchMethodRequestParams
+  ): Promise<void> {
     const state = StorageService.get();
     const currentMethod =
       state[CURRENT_STATE_VERSION].accountState[
         state[CURRENT_STATE_VERSION].currentAccount
       ].general.account.ssi.selectedMethod;
-    const newMethod = args.didMethod;
+    const newMethod = params.didMethod;
 
     if (requiresNetwork(newMethod)) {
       await EthereumService.handleNetwork({
@@ -172,15 +176,15 @@ class GeneralService {
 
   /**
    * Function that sets the current VCStore
-   * @param args.store - VCStore to set
-   * @param args.value - Value to enable/disable the VCStore if applicable
+   * @param params.store - VCStore to set
+   * @param params.value - Value to enable/disable the VCStore if applicable
    * @returns boolean - whether the VCStore was set
    */
   static async setCredentialStore(
-    args: SetCredentialStoreRequestParams
+    params: SetCredentialStoreRequestParams
   ): Promise<boolean> {
     const state = StorageService.get();
-    const { store, value } = args;
+    const { store, value } = params;
 
     if (store !== 'snap') {
       state[CURRENT_STATE_VERSION].accountState[
@@ -193,10 +197,8 @@ class GeneralService {
   }
 
   /**
-   * Function that sets the current VCStore
-   * @param args.store - VCStore to set
-   * @param args.value - Value to enable/disable the VCStore if applicable
-   * @returns boolean - whether the VCStore was set
+   * Function that returns a list of enabled Credential Stores
+   * @returns array - list of enabled Credential Stores
    */
   static async getEnabledCredentialStores(): Promise<
     AvailableCredentialStores[]
@@ -250,16 +252,16 @@ class GeneralService {
 
   /**
    * Function that sets the Ceramic session token
-   * @param args.serializedSession - Ceramic session token
+   * @param params.serializedSession - Ceramic session token
    * @returns void
    */
-  static async setCeramicSession(args: {
+  static async setCeramicSession(params: {
     serializedSession: string;
   }): Promise<void> {
     const state = StorageService.get();
     state[CURRENT_STATE_VERSION].accountState[
       state[CURRENT_STATE_VERSION].currentAccount
-    ].general.ceramicSession = args.serializedSession;
+    ].general.ceramicSession = params.serializedSession;
   }
 
   /**
