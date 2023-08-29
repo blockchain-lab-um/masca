@@ -486,68 +486,6 @@ export async function importStateBackup(
   );
 }
 
-/**
- * Set the Google access token
- * @param this - Masca instance
- * @param accessToken - Google access token
- * @returns Result<boolean> - true if successful
- */
-export async function setGoogleToken(
-  this: Masca,
-  accessToken: string
-): Promise<Result<boolean>> {
-  return sendSnapMethod(
-    {
-      method: 'setGoogleToken',
-      params: { accessToken },
-    },
-    this.snapId
-  );
-}
-
-/**
- * Create a backup in Google Drive
- * @param this - Masca instance
- * @returns Result<string> - Google Drive file ID
- */
-export async function createGoogleBackup(this: Masca): Promise<Result<string>> {
-  return sendSnapMethod(
-    {
-      method: 'createGoogleBackup',
-    },
-    this.snapId
-  );
-}
-
-/**
- * Import a backup from Google Drive
- *
- * *_Note_: this method will overwrite the current Masca state*
- * @param this - Masca instance
- * @returns Result<boolean> - true if successful
- */
-export async function importGoogleBackup(
-  this: Masca
-): Promise<Result<boolean>> {
-  return sendSnapMethod(
-    {
-      method: 'importGoogleBackup',
-    },
-    this.snapId
-  );
-}
-
-export async function validateStoredGoogleSession(
-  this: Masca
-): Promise<Result<boolean>> {
-  return sendSnapMethod(
-    {
-      method: 'validateStoredGoogleSession',
-    },
-    this.snapId
-  );
-}
-
 const wrapper =
   <T extends any[], R>(fn: (...args: T) => Promise<Result<R>>) =>
   async (...args: T): Promise<Result<R>> => {
@@ -597,13 +535,7 @@ export class Masca {
     validateStoredCeramicSession: wrapper(
       validateStoredCeramicSession.bind(this)
     ),
-    setGoogleToken: wrapper(setGoogleToken.bind(this)),
-    createGoogleBackup: wrapper(createGoogleBackup.bind(this)),
-    importGoogleBackup: wrapper(importGoogleBackup.bind(this)),
     importStateBackup: wrapper(importStateBackup.bind(this)),
     exportStateBackup: wrapper(exportStateBackup.bind(this)),
-    validateStoredGoogleSession: wrapper(
-      validateStoredGoogleSession.bind(this)
-    ),
   });
 }

@@ -57,7 +57,6 @@ export interface MascaAccountState {
   general: {
     account: MascaAccountConfig;
     ceramicSession?: string;
-    googleSession?: string;
   };
 }
 

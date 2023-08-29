@@ -83,8 +83,4 @@ export interface MascaApi {
     params: ImportStateBackupRequestParams
   ): Promise<Result<boolean>>;
   exportStateBackup(): Promise<Result<string>>;
-  setGoogleToken(accessToken: string): Promise<Result<boolean>>;
-  createGoogleBackup(): Promise<Result<string>>;
-  importGoogleBackup(): Promise<Result<boolean>>;
-  validateStoredGoogleSession(): Promise<Result<boolean>>;
 }

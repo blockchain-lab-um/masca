@@ -12,7 +12,6 @@ import type {
   SetCeramicSessionRequestParams,
   SetCredentialStoreRequestParams,
   SetCurrentAccountRequestParams,
-  SetGoogleTokenRequestParams,
   SwitchMethodRequestParams,
   VerifyDataRequestParams,
 } from './params.js';
@@ -134,21 +133,4 @@ export interface AddFriendlyDapp {
 export interface RemoveFriendlyDapp {
   method: 'removeFriendlyDapp';
   params: RemoveFriendlyDappParams;
-}
-
-export interface SetGoogleToken {
-  method: 'setGoogleToken';
-  params: SetGoogleTokenRequestParams;
-}
-
-export interface ValidateStoredGoogleSession {
-  method: 'validateStoredGoogleSession';
-}
-
-export interface CreateGoogleBackup {
-  method: 'createGoogleBackup';
-}
-
-export interface ImportGoogleBackup {
-  method: 'importGoogleBackup';
 }

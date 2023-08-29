@@ -71,15 +71,12 @@ async function getBackupFileContent(drive: drive_v3.Drive) {
   return res.data as string;
 }
 
-async function updateDriveFile(
-  drive: drive_v3.Drive,
-  content: string
-) {
+async function updateDriveFile(drive: drive_v3.Drive, content: string) {
   const fileId = await getBackupFileId(drive);
   if (!fileId) {
     const res = createDriveFile(drive, content);
     return res;
-  };
+  }
   const media = {
     mimeType: 'text/plain',
     body: content,

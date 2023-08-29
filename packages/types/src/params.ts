@@ -158,7 +158,3 @@ export interface ImportStateBackupRequestParams {
 export interface RemoveFriendlyDappParams {
   id: string;
 }
-
-export interface SetGoogleTokenRequestParams {
-  accessToken: string;
-}

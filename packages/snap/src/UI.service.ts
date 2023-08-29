@@ -248,28 +248,26 @@ class UIService {
     return pin;
   };
 
-  static exportBackupDialog = async (google = false) => {
-    const methodDescription = google
-      ? 'This RPC method saves the encrypted backup of your Masca state to Google drive. You can use this backup to restore your state on another device.'
-      : 'This RPC method returns the encrypted backup of your Masca state. You can use this backup to restore your state on another device.';
+  static async exportBackupDialog() {
     const uiPanel = panel([
       heading('Export Backup'),
       ...this.originWrapper,
-      text(methodDescription),
+      text(
+        'This RPC method returns the encrypted backup of your Masca state. You can use this backup to restore your state on another device.'
+      ),
     ]);
 
     const res = await UIService.snapConfirm(uiPanel);
     return res;
-  };
+  }
 
-  static importBackupDialog = async (google = false) => {
-    const methodDescription = google
-      ? 'This RPC method allows you to import an encrypted backup of your Masca state from Google drive if one exists.'
-      : 'This RPC method allows you to import an encrypted backup of your Masca state.';
+  static async importBackupDialog() {
     const uiPanel = panel([
       heading('Import Backup'),
       ...this.originWrapper,
-      text(methodDescription),
+      text(
+        'This RPC method allows you to import an encrypted backup of your Masca state.'
+      ),
       divider(),
       text(
         'Please note that this will **overwrite** your current Masca state.'
@@ -278,7 +276,7 @@ class UIService {
 
     const res = await UIService.snapConfirm(uiPanel);
     return res;
-  };
+  }
 }
 
 export default UIService;

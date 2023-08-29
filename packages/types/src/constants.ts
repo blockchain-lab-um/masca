@@ -127,6 +127,3 @@ export type SupportedProofFormats = (typeof supportedProofFormats)[number];
 
 export const isSupportedProofFormat = (x: string) =>
   isIn<SupportedProofFormats>(supportedProofFormats, x);
-
-export const GOOGLE_DRIVE_BACKUP_FILE = 'masca_backup.txt';
-export const MULTIPART_BOUNDARY = 'bWFzY2E=';

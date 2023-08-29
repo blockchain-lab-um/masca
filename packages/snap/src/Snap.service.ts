@@ -38,7 +38,6 @@ import { VerifiablePresentation } from 'did-jwt-vc';
 
 import GeneralService from './General.service';
 import PolygonService from './polygon-id/Polygon.service';
-import GoogleService from './storage/Google.service';
 import StorageService from './storage/Storage.service';
 import UIService from './UI.service';
 import VeramoService from './veramo/Veramo.service';
@@ -579,12 +578,6 @@ class SnapService {
       case 'validateStoredCeramicSession':
         await GeneralService.validateStoredCeramicSession();
         return ResultObject.success(true);
-      case 'setGoogleToken':
-        res = await GeneralService.setGoogleToken(params);
-        return ResultObject.success(res);
-      case 'validateStoredGoogleSession':
-        res = await GoogleService.validateStoredGoogleSession();
-        return ResultObject.success(res);
 
       /**
        * Storage.service
@@ -595,12 +588,6 @@ class SnapService {
       case 'importStateBackup':
         isValidImportStateBackupRequest(params);
         await GeneralService.importBackup(params);
-        return ResultObject.success(true);
-      case 'createGoogleBackup':
-        res = await GeneralService.createGoogleBackup();
-        return ResultObject.success(res);
-      case 'importGoogleBackup':
-        await GeneralService.importGoogleBackup();
         return ResultObject.success(true);
       default:
         throw new Error('Method not found.');

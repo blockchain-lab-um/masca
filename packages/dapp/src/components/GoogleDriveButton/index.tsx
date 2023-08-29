@@ -1,10 +1,10 @@
 'use client';
 
+import { useState } from 'react';
+import { isError } from '@blockchain-lab-um/masca-connector';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useTranslations } from 'next-intl';
 
-import { isError } from '@blockchain-lab-um/masca-connector';
-import { useState } from 'react';
 import { useMascaStore, useToastStore } from '@/stores';
 import Button from '../Button';
 
@@ -36,7 +36,7 @@ const GoogleDriveButton = ({ buttonText, action }: GoogleDriveButtonProps) => {
     if (!api) return;
     setLoading(true);
     const exportResult = await api.exportStateBackup();
-    
+
     if (isError(exportResult)) {
       console.log(exportResult);
       setTimeout(() => {
@@ -84,7 +84,7 @@ const GoogleDriveButton = ({ buttonText, action }: GoogleDriveButtonProps) => {
     });
 
     const state = await response.text();
-    
+
     if (!api) return;
     if (!state) return;
     const importResult = await api.importStateBackup({
@@ -157,13 +157,14 @@ const GoogleDriveButton = ({ buttonText, action }: GoogleDriveButtonProps) => {
         await handleExport(tokenResponse.access_token);
       }
 
-      if(action === 'import') {
+      if (action === 'import') {
         await handleImport(tokenResponse.access_token);
       }
     },
     onError: (error) => console.log(error),
     scope:
-      process.env.NEXT_PUBLIC_GOOGLE_SCOPES ?? 'https://www.googleapis.com/auth/drive.file',
+      process.env.NEXT_PUBLIC_GOOGLE_SCOPES ??
+      'https://www.googleapis.com/auth/drive.file',
   });
   return (
     <div>
