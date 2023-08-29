@@ -212,16 +212,16 @@ class VeramoService {
 
   /**
    * Function that creates a Verifiable Credential
-   * @param args.credential - Minimal unsigned credential
-   * @param args.proofFormat - Proof format to use
+   * @param params.credential - Minimal unsigned credential
+   * @param params.proofFormat - Proof format to use
    * @returns VerifiableCredential
    */
-  static async createCredential(args: {
+  static async createCredential(params: {
     credential: MinimalUnsignedCredential;
     proofFormat?: ProofFormat;
   }): Promise<VerifiableCredential> {
     const state = StorageService.get();
-    const { credential, proofFormat = 'jwt' } = args;
+    const { credential, proofFormat = 'jwt' } = params;
     const identifier = await VeramoService.getIdentifier();
 
     credential.issuer = identifier.did;
@@ -236,13 +236,13 @@ class VeramoService {
 
   /**
    * Function that creates an unsigned Verifiable Credential
-   * @param args.credential - Minimal unsigned credential
+   * @param params.credential - Minimal unsigned credential
    * @returns Unsigned VerifiableCredential
    */
-  static async createUnsignedCredential(args: {
+  static async createUnsignedCredential(params: {
     credential: MinimalUnsignedCredential;
   }): Promise<UnsignedCredential> {
-    const { credential } = args;
+    const { credential } = params;
     const { did } = await this.getIdentifier();
 
     if (!credential.credentialSubject) {
@@ -294,15 +294,15 @@ class VeramoService {
 
   /**
    * Function that saves a Verifiable Credential
-   * @param args.verifiableCredential - Verifiable Credential to save
-   * @param args.store - Store to save the Verifiable Credential in
+   * @param params.verifiableCredential - Verifiable Credential to save
+   * @param params.store - Store to save the Verifiable Credential in
    * @returns SaveVCRequestResult
    */
-  static async saveCredential(args: {
+  static async saveCredential(params: {
     verifiableCredential: W3CVerifiableCredential;
     store: AvailableCredentialStores | AvailableCredentialStores[];
   }): Promise<SaveCredentialRequestResult[]> {
-    const { verifiableCredential, store } = args;
+    const { verifiableCredential, store } = params;
 
     const normalizedCredential = normalizeCredential(verifiableCredential);
 
@@ -333,16 +333,16 @@ class VeramoService {
 
   /**
    * Function that deletes a Verifiable Credential
-   * @param args.id - ID of the Verifiable Credential to delete
-   * @param args.store - Store to delete the Verifiable Credential from
+   * @param params.id - ID of the Verifiable Credential to delete
+   * @param params.store - Store to delete the Verifiable Credential from
    * @returns Array of booleans indicating if the Verifiable Credential was deleted
    * _**Note**: Currently only supports deleting 1 VC at a time_
    */
-  static async deleteCredential(args: {
+  static async deleteCredential(params: {
     id: string;
     store?: AvailableCredentialStores | AvailableCredentialStores[];
   }): Promise<boolean[]> {
-    const { id, store } = args;
+    const { id, store } = params;
 
     const result = await this.instance.delete({
       id,
@@ -354,15 +354,15 @@ class VeramoService {
 
   /**
    * Function that queries Verifiable Credentials
-   * @param args.options - Query options
-   * @param args.filter - Query filter
+   * @param params.options - Query options
+   * @param params.filter - Query filter
    * @returns Array of Verifiable Credentials
    */
-  static async queryCredentials(args: {
+  static async queryCredentials(params: {
     options: QueryCredentialsOptions;
     filter?: Filter;
   }): Promise<QueryCredentialsRequestResult[]> {
-    const { options, filter } = args;
+    const { options, filter } = params;
     const result = await this.instance.query({
       filter,
       options,
@@ -397,15 +397,15 @@ class VeramoService {
 
   /**
    * Function that clears Verifiable Credentials
-   * @param args.store - Store to clear Verifiable Credentials from
-   * @param args.filter - Query filter
+   * @param params.store - Store to clear Verifiable Credentials from
+   * @param params.filter - Query filter
    * @returns Array of booleans indicating if the Verifiable Credential was deleted
    */
-  static async clearCredentials(args: {
+  static async clearCredentials(params: {
     store?: AvailableCredentialStores | AvailableCredentialStores[];
     filter?: Filter;
   }): Promise<boolean[]> {
-    const { store, filter } = args;
+    const { store, filter } = params;
 
     const result = await this.instance.clear({
       filter,
@@ -417,15 +417,15 @@ class VeramoService {
 
   /**
    * Function that creates a Verifiable Presentation
-   * @param args.vcs - Array of Verifiable Credentials to include in the Verifiable Presentation
-   * @param args.proofFormat - Proof format to use
-   * @param args.proofOptions - Proof options
+   * @param params.vcs - Array of Verifiable Credentials to include in the Verifiable Presentation
+   * @param params.proofFormat - Proof format to use
+   * @param params.proofOptions - Proof options
    * @returns Verifiable Presentation
    */
   static async createPresentation(
-    args: CreatePresentationRequestParams
+    params: CreatePresentationRequestParams
   ): Promise<VerifiablePresentation> {
-    const { vcs, proofFormat = 'jwt', proofOptions } = args;
+    const { vcs, proofFormat = 'jwt', proofOptions } = params;
     const domain = proofOptions?.domain;
     const challenge = proofOptions?.challenge;
     const identifier = await this.getIdentifier();
@@ -444,13 +444,13 @@ class VeramoService {
 
   /**
    * Function that creates an unsigned Verifiable Presentation
-   * @param args.credentials - Array of Verifiable Credentials to include in the Verifiable Presentation
+   * @param params.credentials - Array of Verifiable Credentials to include in the Verifiable Presentation
    * @returns Unsigned Verifiable Presentation
    */
-  static async createUnsignedPresentation(args: {
+  static async createUnsignedPresentation(params: {
     credentials: W3CVerifiableCredential[];
   }): Promise<UnsignedPresentation> {
-    const { credentials } = args;
+    const { credentials } = params;
 
     const { did } = await this.getIdentifier();
 
@@ -481,16 +481,16 @@ class VeramoService {
 
   /**
    * Function that verifies a Verifiable Credentaial or Verifiable Presentation
-   * @param args.credential - Verifiable Credential to verify
-   * @param args.presentation - Verifiable Presentation to verify
-   * @param args.verbose - Verbose mode
+   * @param params.credential - Verifiable Credential to verify
+   * @param params.presentation - Verifiable Presentation to verify
+   * @param params.verbose - Verbose mode
    * @returns Verification result
    */
   static async verifyData(
-    args: VerifyDataRequestParams
+    params: VerifyDataRequestParams
   ): Promise<IVerifyResult> {
     try {
-      const { credential, presentation } = args;
+      const { credential, presentation } = params;
 
       if (credential) {
         const vcResult = await this.instance.verifyCredential({
@@ -513,7 +513,7 @@ class VeramoService {
     }
   }
 
-  static async handleOIDCCredentialOffer(args: {
+  static async handleOIDCCredentialOffer(params: {
     credentialOfferURI: string;
   }): Promise<VerifiableCredential> {
     const state = StorageService.get();
@@ -528,7 +528,7 @@ class VeramoService {
     const agent = VeramoService.getAgent();
 
     const credentialOfferResult = await agent.parseOIDCCredentialOfferURI({
-      credentialOfferURI: args.credentialOfferURI,
+      credentialOfferURI: params.credentialOfferURI,
     });
 
     if (!(await UIService.handleCredentialOfferDialog(credentialOfferResult))) {
@@ -575,8 +575,6 @@ class VeramoService {
       }
 
       const authorizationRequestURI = authorizationRequestURIResult.data;
-
-      console.log(`authorizationRequestURI: ${authorizationRequestURI}`);
 
       const handleAuthorizationRequestResult =
         await this.handleAuthorizationRequest({
@@ -630,8 +628,6 @@ class VeramoService {
       throw new Error(tokenRequestResult.error);
     }
 
-    console.log('here');
-
     // TODO: Handle multiple credentials
     let selectedCredential = credentials[0];
 
@@ -679,8 +675,6 @@ class VeramoService {
 
     const credentialResponse = credentialRequestResult.data;
 
-    console.log(credentialResponse);
-
     if (!credentialResponse.credential) {
       throw new Error('An error occurred while requesting the credential');
     }
@@ -691,10 +685,10 @@ class VeramoService {
   }
 
   // TODO: We can probably have different return types
-  static async handleOIDCAuthorizationRequest(args: {
+  static async handleOIDCAuthorizationRequest(params: {
     authorizationRequestURI: string;
   }): Promise<void> {
-    const { authorizationRequestURI } = args;
+    const { authorizationRequestURI } = params;
 
     const state = StorageService.get();
 
@@ -744,14 +738,12 @@ class VeramoService {
     const sendAuthorizationResponseResult =
       await this.sendAuthorizationResponse(sendOIDCAuthorizationResponseArgs);
 
-    console.log(sendAuthorizationResponseResult);
-
     throw new Error('Not implemented');
   }
 
   // FIXME: This is a temporary solution (we need to refactor this)
   // the `handleOIDCAuthorizationRequest` method should be used instead and simplified
-  static async handleAuthorizationRequest(args: {
+  static async handleAuthorizationRequest(params: {
     authorizationRequestURI: string;
     did: string;
     customSign: (args: SignArgs) => Promise<string>;
@@ -771,7 +763,7 @@ class VeramoService {
         }
     )
   > {
-    const { authorizationRequestURI, did, customSign, credentials: _ } = args;
+    const { authorizationRequestURI, did, customSign, credentials: _ } = params;
     const authorizationRequestResult =
       await this.instance.parseOIDCAuthorizationRequestURI({
         authorizationRequestURI,
@@ -902,11 +894,11 @@ class VeramoService {
   }
 
   static async sendAuthorizationResponse(
-    args: SendOIDCAuthorizationResponseArgs
+    params: SendOIDCAuthorizationResponseArgs
   ): Promise<{ code: string; state: string }> {
     // POST /auth-mock/direct_post
     const authorizationResponseResult =
-      await this.instance.sendOIDCAuthorizationResponse(args);
+      await this.instance.sendOIDCAuthorizationResponse(params);
 
     if (isError(authorizationResponseResult)) {
       throw new Error(authorizationResponseResult.error);

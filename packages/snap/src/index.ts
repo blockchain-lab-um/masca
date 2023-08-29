@@ -20,9 +20,9 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
 
     if (request.method === 'setCurrentAccount') {
       isValidSetCurrentAccountRequest(request.params);
-      await GeneralService.setCurrentAccount(
-        request.params.account.toLowerCase()
-      );
+      await GeneralService.setCurrentAccount({
+        account: request.params.account.toLowerCase(),
+      });
       await StorageService.save();
       return ResultObject.success(true);
     }

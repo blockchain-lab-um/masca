@@ -23,13 +23,13 @@ class EthereumService {
 
   /**
    * Function that changes the current network if needed for the selected DID method.
-   * @param args.didMethod - DID method to check for.
+   * @param params.didMethod - DID method to check for.
    * @returns void
    */
-  static async requestNetworkSwitch(args: {
+  static async requestNetworkSwitch(params: {
     didMethod: MethodsRequiringNetwork;
   }): Promise<void> {
-    const { didMethod } = args;
+    const { didMethod } = params;
     const content = panel([
       heading('Switch Network'),
       text(
@@ -40,7 +40,7 @@ class EthereumService {
         `Switching to: ${didMethod} on chainId: ${didMethodChainIdMapping[didMethod][0]}`
       ),
     ]);
-    if (!(await UIService.snapConfirm(content))) {
+    if (!(await UIService.snapConfirm({ content }))) {
       throw new Error('User rejected network switch.');
     }
     const chainId = didMethodChainIdMapping[didMethod][0];
@@ -64,13 +64,13 @@ class EthereumService {
 
   /**
    * Function that checks if the current network is valid for the selected DID method.
-   * @param args.didMethod - DID method to check for.
+   * @param params.didMethod - DID method to check for.
    * @returns void
    */
-  static async handleNetwork(args: {
+  static async handleNetwork(params: {
     didMethod: MethodsRequiringNetwork;
   }): Promise<void> {
-    const { didMethod } = args;
+    const { didMethod } = params;
     const chainId = await this.getNetwork();
 
     if (
