@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.0-beta.2
+
+### Patch Changes
+
+- [#436](https://github.com/blockchain-lab-um/masca/pull/436) [`c6e214d`](https://github.com/blockchain-lab-um/masca/commit/c6e214dea05d289dc63719af127b6a8fad02e6da) Thanks [@martines3000](https://github.com/martines3000)! - Set extractable to `false` for encryption key
+
 ## 1.0.0-beta.1
 
 ### Patch Changes
