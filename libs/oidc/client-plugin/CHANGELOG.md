@@ -1,5 +1,11 @@
 # @blockchain-lab-um/oidc-client-plugin
 
+## 0.1.0-beta.0
+
+### Minor Changes
+
+- [#418](https://github.com/blockchain-lab-um/masca/pull/418) [`861b65e`](https://github.com/blockchain-lab-um/masca/commit/861b65e966d2bfcb183180c593b3c40e01570293) Thanks [@martines3000](https://github.com/martines3000)! - Updated proxy URL to masca.io/api/proxy
+
 ## 0.0.7
 
 ### Patch Changes

@@ -21,7 +21,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     if (request.method === 'setCurrentAccount') {
       isValidSetCurrentAccountRequest(request.params);
       await GeneralService.setCurrentAccount({
-        account: request.params.currentAccount,
+        account: request.params.account.toLowerCase(),
       });
       await StorageService.save();
       return ResultObject.success(true);
