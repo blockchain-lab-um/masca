@@ -152,4 +152,3 @@ export interface CreateGoogleBackup {
 export interface ImportGoogleBackup {
   method: 'importGoogleBackup';
 }
-

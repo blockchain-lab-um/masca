@@ -602,6 +602,8 @@ export class Masca {
     importGoogleBackup: wrapper(importGoogleBackup.bind(this)),
     importStateBackup: wrapper(importStateBackup.bind(this)),
     exportStateBackup: wrapper(exportStateBackup.bind(this)),
-    validateStoredGoogleSession: wrapper(validateStoredGoogleSession.bind(this))
+    validateStoredGoogleSession: wrapper(
+      validateStoredGoogleSession.bind(this)
+    ),
   });
 }
