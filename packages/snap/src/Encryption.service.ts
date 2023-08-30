@@ -24,7 +24,7 @@ class EncryptionService {
       false,
       ['encrypt', 'decrypt']
     );
-    rawKey.fill(0)
+    rawKey.fill(0);
 
     // 96 bits IV as recommended
     const iv = window.crypto.getRandomValues(new Uint8Array(12));
@@ -63,7 +63,7 @@ class EncryptionService {
       false,
       ['encrypt', 'decrypt']
     );
-    rawKey.fill(0)
+    rawKey.fill(0);
 
     const [cipherText, iv] = data.split(':');
     const decryptedData = await window.crypto.subtle.decrypt(
