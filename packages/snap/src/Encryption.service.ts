@@ -7,7 +7,7 @@ class EncryptionService {
    * The key is derived from the entropy using the WebCrypto API.
    *
    * @param data - Data to encrypt
-   * @returns string - Encrypted data in the format: `cipherText:iv`
+   * @returns string - Encrypted data in the format: `cipherText:salt:iv`
    */
   static async encrypt(data: string): Promise<string> {
     const entropy = await snap.request({
@@ -16,12 +16,28 @@ class EncryptionService {
         version: 1,
       },
     });
-    const rawKey = Buffer.from(entropy.slice(2), 'hex');
-    const key = await window.crypto.subtle.importKey(
+
+    const importedKey = await window.crypto.subtle.importKey(
       'raw',
-      rawKey,
-      'AES-GCM',
+      Buffer.from(entropy.slice(2), 'hex'),
+      'PBKDF2',
       false,
+      ['deriveBits', 'deriveKey']
+    );
+
+    // 256 bit salt
+    const salt = window.crypto.getRandomValues(new Uint8Array(32));
+
+    const derivedKey = await window.crypto.subtle.deriveKey(
+      {
+        name: 'PBKDF2',
+        salt,
+        iterations: 100000,
+        hash: 'SHA-256',
+      },
+      importedKey,
+      { name: 'AES-GCM', length: 256 },
+      true,
       ['encrypt', 'decrypt']
     );
 
@@ -32,18 +48,20 @@ class EncryptionService {
         name: 'AES-GCM',
         iv,
       },
-      key,
+      derivedKey,
       new TextEncoder().encode(data)
     );
 
-    return `${Buffer.from(cipherText).toString('hex')}:${uint8ArrayToHex(iv)}`;
+    return `${Buffer.from(cipherText).toString('hex')}:${uint8ArrayToHex(
+      salt
+    )}:${uint8ArrayToHex(iv)}`;
   }
 
   /**
    * Function that decrypts the passed data using the entropy provided by the snap.
    * The algorithm used is AES-GCM.
    *
-   * @param data - Data to decrypt in the format: `cipherText:iv`
+   * @param data - Data to decrypt in the format: `cipherText:salt:iv`
    * @returns string - Decrypted data
    */
   static async decrypt(data: string): Promise<string> {
@@ -54,22 +72,35 @@ class EncryptionService {
       },
     });
 
-    const rawKey = Buffer.from(entropy.slice(2), 'hex');
-    const key = await window.crypto.subtle.importKey(
+    const [cipherText, salt, iv] = data.split(':');
+
+    const importedKey = await window.crypto.subtle.importKey(
       'raw',
-      rawKey,
-      'AES-GCM',
+      Buffer.from(entropy.slice(2), 'hex'),
+      'PBKDF2',
       false,
+      ['deriveBits', 'deriveKey']
+    );
+
+    const derivedKey = await window.crypto.subtle.deriveKey(
+      {
+        name: 'PBKDF2',
+        salt: hexToUint8Array(salt),
+        iterations: 100000,
+        hash: 'SHA-256',
+      },
+      importedKey,
+      { name: 'AES-GCM', length: 256 },
+      true,
       ['encrypt', 'decrypt']
     );
 
-    const [cipherText, iv] = data.split(':');
     const decryptedData = await window.crypto.subtle.decrypt(
       {
         name: 'AES-GCM',
         iv: hexToUint8Array(iv),
       },
-      key,
+      derivedKey,
       hexToUint8Array(cipherText)
     );
 
