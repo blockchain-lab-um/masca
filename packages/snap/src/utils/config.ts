@@ -7,6 +7,8 @@ import type {
 } from '@blockchain-lab-um/masca-types';
 import cloneDeep from 'lodash.clonedeep';
 
+export const UNIRESOLVER_PROXY_URL = 'https://masca.io/api/proxy/uniresolver';
+
 const emptyPolygonBaseState: PolygonBaseState = {
   credentials: {},
   identities: {},
