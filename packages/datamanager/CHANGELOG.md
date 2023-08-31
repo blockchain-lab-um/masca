@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.0-beta.2
+
+### Patch Changes
+
+- [#432](https://github.com/blockchain-lab-um/masca/pull/432) [`61b2e2b`](https://github.com/blockchain-lab-um/masca/commit/61b2e2bc4be171bf827dc9412951579de75fa5bc) Thanks [@martines3000](https://github.com/martines3000)! - Remove unused dependencies and devDependencies.
+
 ## 1.0.0-beta.1
 
 ### Patch Changes
