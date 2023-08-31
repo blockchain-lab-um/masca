@@ -15,7 +15,7 @@
         "registry": "https://registry.npmjs.org"
       }
     },
-    "shasum": "ctYwri5bRRpuJ89CeP/WLcnwyVxhzM2wCsDV7ejOGWQ="
+    "shasum": "qP2QebZdEeiodJeFfV26LW000hxvcHjWXbX9+zwiv2g="
   },
   "initialPermissions": {
     "endowment:ethereum-provider": {},
