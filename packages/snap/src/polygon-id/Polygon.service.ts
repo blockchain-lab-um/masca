@@ -25,6 +25,7 @@ import {
   ProofService,
   PROTOCOL_CONSTANTS,
   RHSResolver,
+  VerifiableConstants,
   VerificationHandlerFunc,
   W3CCredential,
   ZKPPacker,
@@ -282,7 +283,15 @@ class PolygonService {
             )
           ) {
             const { credWallet } = this.instance[method][blockchain][networkId];
-            credentials.push(...(await credWallet.list()));
+            const creds = await credWallet.list();
+            credentials.push(
+              ...creds.filter(
+                (cred) =>
+                  !cred.type.includes(
+                    VerifiableConstants.AUTH.AUTH_BJJ_CREDENTIAL_TYPE
+                  )
+              )
+            );
           }
         }
       }
