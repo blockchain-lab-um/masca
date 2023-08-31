@@ -392,6 +392,7 @@ class PolygonService {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: token,
+        signal: AbortSignal.timeout(15000),
       });
     } catch (e) {
       throw new Error('Error sending authorization response');
