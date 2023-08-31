@@ -1,5 +1,43 @@
 # Changelog
 
+## 1.0.0-beta.3
+
+### Patch Changes
+
+- [#446](https://github.com/blockchain-lab-um/masca/pull/446) [`fdada1e`](https://github.com/blockchain-lab-um/masca/commit/fdada1ed6a4420c9236c68af2a0a525a0da7fa10) Thanks [@pseudobun](https://github.com/pseudobun)! - Transition to our dedicated Ceramic mainnet node endpoint.
+
+- [#449](https://github.com/blockchain-lab-um/masca/pull/449) [`15e00b3`](https://github.com/blockchain-lab-um/masca/commit/15e00b3a7c6ca23236d8c427cbb2d2fbf29cfc10) Thanks [@martines3000](https://github.com/martines3000)! - Remove AuthBjj credentials from query.
+
+- [#450](https://github.com/blockchain-lab-um/masca/pull/450) [`81ec87b`](https://github.com/blockchain-lab-um/masca/commit/81ec87b088b38ddcef6b4368c3a8383def4270da) Thanks [@martines3000](https://github.com/martines3000)! - Use derived keys (crypto subtle) instead of using secrets directly for encryption.
+
+- [#430](https://github.com/blockchain-lab-um/masca/pull/430) [`0b814a4`](https://github.com/blockchain-lab-um/masca/commit/0b814a4517d3abf8479a043bd847df50b7c6c722) Thanks [@andyv09](https://github.com/andyv09)! - fix: improve universal resolver service
+
+- [#432](https://github.com/blockchain-lab-um/masca/pull/432) [`61b2e2b`](https://github.com/blockchain-lab-um/masca/commit/61b2e2bc4be171bf827dc9412951579de75fa5bc) Thanks [@martines3000](https://github.com/martines3000)! - Remove unused dependencies and devDependencies.
+
+- [#427](https://github.com/blockchain-lab-um/masca/pull/427) [`1df1a22`](https://github.com/blockchain-lab-um/masca/commit/1df1a220ba1f3331910392dabfe95cfe13b1cccc) Thanks [@tadejpodrekar](https://github.com/tadejpodrekar)! - Renamed args to params and added params objects where needed.
+
+- [#432](https://github.com/blockchain-lab-um/masca/pull/432) [`61b2e2b`](https://github.com/blockchain-lab-um/masca/commit/61b2e2bc4be171bf827dc9412951579de75fa5bc) Thanks [@martines3000](https://github.com/martines3000)! - Update snaps dependencies to 1.0.2
+
+- [#437](https://github.com/blockchain-lab-um/masca/pull/437) [`f4f1eb4`](https://github.com/blockchain-lab-um/masca/commit/f4f1eb438ceb46a7d8b4cde587801b59921f9563) Thanks [@tadejpodrekar](https://github.com/tadejpodrekar)! - Always show important popups (force)
+
+- [#427](https://github.com/blockchain-lab-um/masca/pull/427) [`1df1a22`](https://github.com/blockchain-lab-um/masca/commit/1df1a220ba1f3331910392dabfe95cfe13b1cccc) Thanks [@tadejpodrekar](https://github.com/tadejpodrekar)! - Refactored UI Service class to use methods.
+
+- [#421](https://github.com/blockchain-lab-um/masca/pull/421) [`637ce36`](https://github.com/blockchain-lab-um/masca/commit/637ce361f1de2fc21e35e752ea0b5e3f6d929560) Thanks [@martines3000](https://github.com/martines3000)! - Use proxy for uniresolver service
+
+- [#443](https://github.com/blockchain-lab-um/masca/pull/443) [`a2ce3aa`](https://github.com/blockchain-lab-um/masca/commit/a2ce3aaec04c730f2cf85a4a97298f7f444b5c18) Thanks [@pseudobun](https://github.com/pseudobun)! - Zero-fill buffers when we no longer need them when handling sensitive data.
+
+- [#429](https://github.com/blockchain-lab-um/masca/pull/429) [`253890c`](https://github.com/blockchain-lab-um/masca/commit/253890c526dee17a89cb66bba52ebbef83f558cb) Thanks [@andyv09](https://github.com/andyv09)! - fix: remove demo from README
+
+- [#437](https://github.com/blockchain-lab-um/masca/pull/437) [`f4f1eb4`](https://github.com/blockchain-lab-um/masca/commit/f4f1eb438ceb46a7d8b4cde587801b59921f9563) Thanks [@tadejpodrekar](https://github.com/tadejpodrekar)! - Remove unnecessary `console.log`
+
+- Updated dependencies [[`61b2e2b`](https://github.com/blockchain-lab-um/masca/commit/61b2e2bc4be171bf827dc9412951579de75fa5bc), [`61b2e2b`](https://github.com/blockchain-lab-um/masca/commit/61b2e2bc4be171bf827dc9412951579de75fa5bc), [`61b2e2b`](https://github.com/blockchain-lab-um/masca/commit/61b2e2bc4be171bf827dc9412951579de75fa5bc), [`61b2e2b`](https://github.com/blockchain-lab-um/masca/commit/61b2e2bc4be171bf827dc9412951579de75fa5bc), [`61b2e2b`](https://github.com/blockchain-lab-um/masca/commit/61b2e2bc4be171bf827dc9412951579de75fa5bc), [`61b2e2b`](https://github.com/blockchain-lab-um/masca/commit/61b2e2bc4be171bf827dc9412951579de75fa5bc)]:
+  - @blockchain-lab-um/masca-types@1.0.0-beta.2
+  - @blockchain-lab-um/utils@1.3.6-beta.0
+  - @blockchain-lab-um/oidc-types@0.0.8-beta.0
+  - @blockchain-lab-um/oidc-client-plugin@0.1.0-beta.1
+  - @blockchain-lab-um/veramo-datamanager@1.0.0-beta.2
+  - @blockchain-lab-um/did-provider-key@1.0.7-beta.0
+
 ## 1.0.0-beta.2
 
 ### Patch Changes
