@@ -37,8 +37,8 @@
     "lint:fix": "pnpm prettier --ignore-path .ci.prettierignore && pnpm nx run-many --target=lint:fix",
     "prepare": "is-ci || husky install",
     "prettier": "prettier --write .",
-    "test": "pnpm nx run-many --target=test",
-    "test:ci": "pnpm nx run-many --target=test:ci"
+    "test": "cross-env IS_TESTING=true pnpm nx run-many --target=test",
+    "test:ci": "cross-env IS_TESTING=true pnpm nx run-many --target=test:ci"
   },
   "dependencies": {
     "@changesets/cli": "^2.26.2"
