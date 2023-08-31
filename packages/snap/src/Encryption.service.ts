@@ -17,13 +17,17 @@ class EncryptionService {
       },
     });
 
+    const entropyBuffer = Buffer.from(entropy.slice(2), 'hex');
+
     const importedKey = await window.crypto.subtle.importKey(
       'raw',
-      Buffer.from(entropy.slice(2), 'hex'),
+      entropyBuffer,
       'PBKDF2',
       false,
       ['deriveBits', 'deriveKey']
     );
+
+    entropyBuffer.fill(0);
 
     // 256 bit salt
     const salt = window.crypto.getRandomValues(new Uint8Array(32));
@@ -37,7 +41,7 @@ class EncryptionService {
       },
       importedKey,
       { name: 'AES-GCM', length: 256 },
-      true,
+      false,
       ['encrypt', 'decrypt']
     );
 
@@ -72,15 +76,19 @@ class EncryptionService {
       },
     });
 
+    const entropyBuffer = Buffer.from(entropy.slice(2), 'hex');
+
     const [cipherText, salt, iv] = data.split(':');
 
     const importedKey = await window.crypto.subtle.importKey(
       'raw',
-      Buffer.from(entropy.slice(2), 'hex'),
+      entropyBuffer,
       'PBKDF2',
       false,
       ['deriveBits', 'deriveKey']
     );
+
+    entropyBuffer.fill(0);
 
     const derivedKey = await window.crypto.subtle.deriveKey(
       {
