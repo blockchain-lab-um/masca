@@ -1,26 +1,24 @@
 {
+  "type": ["VerifiableCredential", "MascaUserCredential"],
+  "credentialSubject": {
+    "id": "did:key:zQ3shkeMeUZHhpzqiv5KDgq8kNy3oG2DibGDnTTB6skhJQi3A",
+    "type": "Regular User"
+  },
+  "credentialSchema": {
+    "id": "https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json",
+    "type": "JsonSchemaValidator2018"
+  },
   "@context": [
     "https://www.w3.org/2018/credentials/v1",
-    "https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/ld-context.json"
+    "https://w3id.org/security/suites/secp256k1recovery-2020/v2"
   ],
-  "type": ["VerifiableCredential", "CourseCredential"],
-  "issuer": {
-    "id": "did:key:z6MkndAHigYrXNpape7jgaC7jHiWwxzB3chuKUGXJg2b5RSj",
-    "name": "tenant"
-  },
-  "issuanceDate": "2021-07-26T01:05:05.152Z",
-  "credentialSubject": {
-    "accomplishmentType": "Developer Certificate",
-    "learnerName": "Bob",
-    "achievement": "Certified Solidity Developer 2",
-    "courseProvider": "https://blockchain-lab.um.si/",
-    "id": "did:ethr:goerli:0xb6665128ee91d84590f70c3268765384a9cafbcd"
-  },
+  "issuer": "did:key:zQ3shkeMeUZHhpzqiv5KDgq8kNy3oG2DibGDnTTB6skhJQi3A",
+  "issuanceDate": "2023-08-29T20:11:38.763Z",
   "proof": {
-    "type": "Ed25519Signature2018",
-    "created": "2021-07-26T01:05:06Z",
-    "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..o6hnrrWpArG8LQz2Ex_u66_BtuPdp3Hkz18nhNdNhJ7J1k_2lmCCwsNdmo-kNFirZdSIMzqO-V3wEjMDphVEAA",
+    "type": "EcdsaSecp256k1RecoverySignature2020",
+    "created": "2023-08-29T20:11:38Z",
+    "verificationMethod": "did:key:zQ3shkeMeUZHhpzqiv5KDgq8kNy3oG2DibGDnTTB6skhJQi3A#zQ3shkeMeUZHhpzqiv5KDgq8kNy3oG2DibGDnTTB6skhJQi3A",
     "proofPurpose": "assertionMethod",
-    "verificationMethod": "did:key:z6MkndAHigYrXNpape7jgaC7jHiWwxzB3chuKUGXJg2b5RSj#z6MkndAHigYrXNpape7jgaC7jHiWwxzB3chuKUGXJg2b5RSj"
+    "jws": "eyJhbGciOiJFUzI1NkstUiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..m8RlFUz6X16-M73cY-QcFgqg6Od5760FHZMxP4kdnoUQxRO4ioP3AyZaVfRfvdhGthtIfalBIasU2Xz60mJk_AA"
   }
 }

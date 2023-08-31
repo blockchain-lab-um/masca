@@ -9,7 +9,9 @@ import StorageService from '../../src/storage/Storage.service';
 import VeramoService, { type Agent } from '../../src/veramo/Veramo.service';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
-import exampleVC from '../data/verifiable-credentials/exampleJWT.json';
+import exampleVCEIP712 from '../data/verifiable-credentials/exampleEIP712.json';
+import exampleVCJSONLD from '../data/verifiable-credentials/exampleJSONLD.json';
+import exampleVC from '../data/verifiable-credentials/exampleJWT_3.json';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
 const methods: AvailableMethods[] = ['did:key' /* 'did:jwk' */];
@@ -29,8 +31,8 @@ const options: ProofOptions[] = [
 
 const vcs = [
   { title: 'JWT', vcs: [exampleVC] },
-  //   { title: 'JSON-LD', vcs: [exampleVCJSONLD] },
-  //   { title: 'EIP712', vcs: [exampleVCEIP712] },
+  //{ title: 'JSON-LD', vcs: [exampleVCJSONLD] },
+  // { title: 'EIP712', vcs: [exampleVCEIP712] },
   //   { title: '2 JWTs', vcs: [exampleVC, exampleVC_2] },
   //   { title: '3 JWTs', vcs: [exampleVC, exampleVC_2, exampleVC_3] },
   //   { title: 'JWT & EIP712', vcs: [exampleVC, exampleVCEIP712] },
@@ -145,10 +147,15 @@ describe('createVerifiablePresentation', () => {
 
             expect(createdVP).not.toBeNull();
 
+            console.log('VP');
+            console.log(createdVP);
+
             const validity = await agent.verifyPresentation({
               presentation: createdVP,
             });
 
+            console.log('Valid');
+            console.log(validity);
             expect(validity.verified).toBe(true);
             expect(createdVP).not.toBeNull();
 
