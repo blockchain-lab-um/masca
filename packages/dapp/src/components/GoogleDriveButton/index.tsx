@@ -164,7 +164,7 @@ const GoogleDriveButton = ({ buttonText, action }: GoogleDriveButtonProps) => {
     onError: (error) => console.log(error),
     scope:
       process.env.NEXT_PUBLIC_GOOGLE_SCOPES ??
-      'https://www.googleapis.com/auth/drive.file',
+      'https://www.googleapis.com/auth/drive.appdata',
   });
   return (
     <div>
