@@ -11,6 +11,7 @@ export default {
   moduleFileExtensions: ['js', 'json', 'ts', 'mjs', 'cjs'],
   testEnvironment: 'node',
   testRegex: '.*\\.spec\\.ts$',
+  setupFilesAfterEnv: ['jest-extended/all'],
   globals: {
     window: {
       crypto,
