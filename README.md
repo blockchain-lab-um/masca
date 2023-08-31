@@ -29,7 +29,7 @@
 <p align="center">· &nbsp&nbsp&nbsp· &nbsp&nbsp&nbsp·</p>
 
 <p align="center">
-Masca enables everyone to build their <b>decentralized and self-sovereign identity by enhancing MetaMask with functionalities to manage DIDs, VCs, and VPs.</b> Any dApp can connect to it to access identity data, and dApp developers can already start with the integration!
+Masca enables everyone to build their <b>decentralized and self-sovereign identity by enhancing MetaMask with functionalities to manage DIDs, VCs, and VPs.</b> Any website can connect to it to access identity data, and dapp developers can already start with the integration!
 </p>
 
 <p align="center">· &nbsp&nbsp&nbsp· &nbsp&nbsp&nbsp·</p>

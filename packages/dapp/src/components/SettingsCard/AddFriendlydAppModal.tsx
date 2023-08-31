@@ -24,11 +24,11 @@ function AddFriendlydAppModal({
           as="h3"
           className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-800"
         >
-          Add Friendly dApp
+          Add Friendly dapp
         </Dialog.Title>
         <div className="mt-4">
           <p className="text-md dark:text-navy-blue-200 mb-2 text-gray-700">
-            Input the URL of the dApp you want to add.
+            Input the URL of the dapp you want to add.
           </p>
         </div>
         <InputField

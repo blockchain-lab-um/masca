@@ -2,9 +2,9 @@
 sidebar_position: 1
 ---
 
-# Masca dApp
+# Masca dapp
 
-**[Masca dApp](https://masca.io)** is the official dApp for interacting with Masca and configuring it.
+**[Masca dapp](https://masca.io)** is the official dapp for interacting with Masca and configuring it.
 
 Users can use the official app to:
 
@@ -15,4 +15,4 @@ Users can use the official app to:
 - configure Masca,
 - and many other things that will come...
 
-Masca dApp is undoubtedly not the only way of interacting with Masca. Any dApp can connect to Masca similarly to the MetaMask!
+Masca dapp is undoubtedly not the only way of interacting with Masca. Any dapp can connect to Masca similarly to the MetaMask!

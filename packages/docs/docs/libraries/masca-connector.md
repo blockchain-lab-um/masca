@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Masca Connector SDK
 
-Masca connector installs Masca and exposes the API toward snap on dApps and other applications.
+Masca connector installs Masca and exposes the API toward snap on dapps and other applications.
 
 You can take a look at the [connector's codebase](https://github.com/blockchain-lab-um/ssi-snap/tree/master/packages/connector).
 

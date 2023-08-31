@@ -6,10 +6,10 @@ sidebar_position: 4
 
 ## Account Switching
 
-Account switching must be handled by the dApp! This is required for Masca to work properly. Without appropriately calling this method, switching Accounts in MetaMask will NOT result in switching accounts in Masca! We recommend using the `window.ethereum.on('accountsChanged', handler: (accounts: Array<string>);`. More on this can be found [here](https://docs.metamask.io/wallet/reference/provider-api/#accountschanged).
+Account switching must be handled by the dapp! This is required for Masca to work properly. Without appropriately calling this method, switching Accounts in MetaMask will NOT result in switching accounts in Masca! We recommend using the `window.ethereum.on('accountsChanged', handler: (accounts: Array<string>);`. More on this can be found [here](https://docs.metamask.io/wallet/reference/provider-api/#accountschanged).
 
 ```typescript
-// When account changes in dApp
+// When account changes in dapp
 window.ethereum.on('accountsChanged', (...accounts) => {
   const setAccountRes = await api.setCurrentAccount({
     currentAccount: (accounts[0] as string[])[0],
@@ -160,7 +160,7 @@ const res = await api.createCredential({
 
 `minimalUnsignedCredential` is a minimal object which is used to create a VC. It needs to contain at least `credentialSubject`, `type` & `@context`.
 
-`proofFormat` is used to specify which proof format is used to sign the VC. `options` allow dApps to specify whether they want and where they want to store the VC.
+`proofFormat` is used to specify which proof format is used to sign the VC. `options` allow dapps to specify whether they want and where they want to store the VC.
 
 ## Delete VC
 
@@ -232,11 +232,11 @@ const vpRes = await api.verifyData({ presentation: VP, verbose: true });
 
 ## Snap Settings
 
-`togglePopups` is used to enable/disable the `"Are you sure?"` alerts on any dApp. Pop-ups are enabled by default for user to approve every action.
+`togglePopups` is used to enable/disable the `"Are you sure?"` alerts on any dapp. Pop-ups are enabled by default for user to approve every action.
 
-`addFriendlyDapp` is used to add a current dApp (origin of the dApp) to the list of friendly dApps. Pop-ups do not appear on friendly dApps.
+`addFriendlyDapp` is used to add a current dapp (origin of the dapp) to the list of friendly dapps. Pop-ups do not appear on friendly dapps.
 
-`removeFriendlyDapp` is used to remove a dApp from the list of friendly dApps.
+`removeFriendlyDapp` is used to remove a dapp from the list of friendly dapps.
 
 `getSnapSettings` and `getAccountSettings` are used to retrieve global settings and settings for currently selected account.
 
@@ -256,4 +256,4 @@ const res = await api.getAccountSettings();
 
 ## Working with VCs
 
-It is up to the dApp to issue VCs and/or request VPs/VCs and verify their validity (scheme, subject, controller, content, etc.). We recommend using the [Veramo Framework](https://veramo.io/).
+It is up to the dapp to issue VCs and/or request VPs/VCs and verify their validity (scheme, subject, controller, content, etc.). We recommend using the [Veramo Framework](https://veramo.io/).

@@ -197,7 +197,7 @@ export async function switchDIDMethod(
       this.snapId
     );
   }
-  return ResultObject.error(`Method ${method} is not supported on this dApp.`);
+  return ResultObject.error(`Method ${method} is not supported on this dapp.`);
 }
 
 /**
@@ -209,7 +209,7 @@ export async function togglePopups(this: Masca): Promise<Result<boolean>> {
 }
 
 /**
- * Adds origin of the current dApp to the list of friendly dApps. This will disable popups from appearing while using the dApp.
+ * Adds origin of the current dapp to the list of friendly dapps. This will disable popups from appearing while using the dapp.
  *
  * @return Result<boolean> - true if the addition was successful
  */
@@ -218,7 +218,7 @@ export async function addFriendlyDapp(this: Masca): Promise<Result<boolean>> {
 }
 
 /**
- * Removes origin of the current dApp from the list of friendly dApps. This will enable popups while using the dApp.
+ * Removes origin of the current dapp from the list of friendly dapps. This will enable popups while using the dapp.
  *
  * @return Result<boolean> - true if the removal was successful
  */
