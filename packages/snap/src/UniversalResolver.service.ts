@@ -17,16 +17,24 @@ const resolveDid = async (
 ): Promise<DIDResolutionResult> => {
   try {
     const response = await fetch(
-      `https://dev.uniresolver.io/1.0/identifiers/${did}`
+      `https://dev.uniresolver.io/1.0/identifiers/${did}`,
+      { signal: AbortSignal.timeout(15000) }
     );
     const data = (await response.json()) as DIDResolutionResult;
     return data;
   } catch (e) {
+    let errorMsg = 'Failed to resolve DID Document';
+    if (typeof e === 'string') {
+      errorMsg = e;
+    }
+    if ((e as Error).message && typeof (e as Error).message === 'string') {
+      errorMsg = (e as Error).message;
+    }
     return {
       didDocument: null,
       didDocumentMetadata: {},
       didResolutionMetadata: {
-        error: 'couldnt resolve did',
+        error: errorMsg,
       },
     };
   }

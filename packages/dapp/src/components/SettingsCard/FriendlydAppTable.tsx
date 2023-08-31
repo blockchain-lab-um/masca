@@ -43,6 +43,7 @@ export const FriendlydAppTable = () => {
         title: t('adding'),
         type: 'normal',
         loading: true,
+        link: null,
       });
     }, 200);
 
@@ -56,6 +57,7 @@ export const FriendlydAppTable = () => {
           title: t('added'),
           type: 'success',
           loading: false,
+          link: null,
         });
       }, 200);
       return;
@@ -66,6 +68,7 @@ export const FriendlydAppTable = () => {
         title: t('add-failed'),
         type: 'error',
         loading: false,
+        link: null,
       });
     }, 200);
   };
@@ -79,6 +82,7 @@ export const FriendlydAppTable = () => {
         title: t('removing'),
         type: 'normal',
         loading: true,
+        link: null,
       });
     }, 200);
     const res = await api.removeFriendlyDapp(dapp);
@@ -90,6 +94,7 @@ export const FriendlydAppTable = () => {
           title: t('removed'),
           type: 'success',
           loading: false,
+          link: null,
         });
       }, 200);
       return;
@@ -100,6 +105,7 @@ export const FriendlydAppTable = () => {
         title: t('remove-failed'),
         type: 'error',
         loading: false,
+        link: null,
       });
     }, 200);
   };

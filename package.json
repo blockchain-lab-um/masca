@@ -95,7 +95,7 @@
       "cross-fetch@3.1.8": "patches/cross-fetch@3.1.8.patch",
       "cross-fetch@4.0.0": "patches/cross-fetch@4.0.0.patch",
       "@ceramicnetwork/common@2.30.0": "patches/@ceramicnetwork__common@2.30.0.patch",
-      "@metamask/snaps-types@1.0.0-prerelease.1": "patches/@metamask__snaps-types@1.0.0-prerelease.1.patch"
+      "@metamask/snaps-types@1.0.1": "patches/@metamask__snaps-types@1.0.1.patch"
     },
     "allowNonAppliedPatches": true
   }

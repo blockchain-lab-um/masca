@@ -50,6 +50,7 @@ const AuthorizationRequestFlow = () => {
           title: 'Error while parsing authorization request',
           type: 'error',
           loading: false,
+          link: null,
         });
       }, 200);
     }
@@ -80,6 +81,7 @@ const AuthorizationRequestFlow = () => {
           title: 'Error while getting DEMO authorization request',
           type: 'error',
           loading: false,
+          link: null,
         });
       }, 200);
 
@@ -104,6 +106,7 @@ const AuthorizationRequestFlow = () => {
           title: 'Error while handling authorization request',
           type: 'error',
           loading: false,
+          link: null,
         });
       }, 200);
     }

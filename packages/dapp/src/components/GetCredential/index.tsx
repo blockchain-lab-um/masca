@@ -57,6 +57,7 @@ const GetCredential = () => {
           title: t('parsing-error'),
           type: 'error',
           loading: false,
+          link: null,
         });
       }, 200);
     }
@@ -88,6 +89,7 @@ const GetCredential = () => {
           title: 'Failed to get DEMO credential offer URI',
           type: 'error',
           loading: false,
+          link: null,
         });
       }, 200);
       console.log(e);
@@ -103,6 +105,7 @@ const GetCredential = () => {
         title: t('handling'),
         type: 'normal',
         loading: true,
+        link: null,
       });
     }, 200);
 
@@ -121,6 +124,7 @@ const GetCredential = () => {
           title: t('handling-error'),
           type: 'error',
           loading: false,
+          link: null,
         });
       }, 200);
       console.log(handleCredentialOfferResponse.error);
@@ -135,6 +139,7 @@ const GetCredential = () => {
         title: t('saving'),
         type: 'normal',
         loading: true,
+        link: null,
       });
     }, 200);
 
@@ -157,6 +162,7 @@ const GetCredential = () => {
           title: t('saving-error'),
           type: 'error',
           loading: false,
+          link: null,
         });
       }, 200);
 
@@ -170,6 +176,7 @@ const GetCredential = () => {
         title: t('saving-success'),
         type: 'success',
         loading: false,
+        link: null,
       });
     }, 200);
   };

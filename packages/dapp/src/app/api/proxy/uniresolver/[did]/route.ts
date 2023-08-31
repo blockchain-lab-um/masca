@@ -33,6 +33,8 @@ export async function GET(
     status: 200,
     headers: {
       ...CORS_HEADERS,
+      // Add a cache header to avoid hitting the uniresolver too often
+      'Cache-Control': 's-maxage=43200',
     },
   });
 }
