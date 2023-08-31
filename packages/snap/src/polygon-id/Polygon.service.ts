@@ -41,6 +41,7 @@ import { DIDResolutionOptions, DIDResolutionResult } from 'did-resolver';
 
 import EthereumService from '../Ethereum.service';
 import StorageService from '../storage/Storage.service';
+import { UNIRESOLVER_PROXY_URL } from '../utils/config';
 import CircuitStorageService from './CircuitStorage.service';
 import {
   BLOCKCHAINS,
@@ -360,7 +361,6 @@ class PolygonService {
 
       return credentials;
     } catch (e) {
-      console.log('error', e);
       throw new Error('Error handling credential offer');
     }
   }
@@ -394,7 +394,6 @@ class PolygonService {
         body: token,
       });
     } catch (e) {
-      console.log(e);
       throw new Error('Error sending authorization response');
     }
   }
@@ -515,9 +514,7 @@ class PolygonService {
       _?: DIDResolutionOptions
     ): Promise<DIDResolutionResult> => {
       try {
-        const response = await fetch(
-          `https://dev.uniresolver.io/1.0/identifiers/${did}`
-        );
+        const response = await fetch(`${UNIRESOLVER_PROXY_URL}/${did}`);
         const data = await response.json();
         return data as DIDResolutionResult;
       } catch (error: unknown) {
