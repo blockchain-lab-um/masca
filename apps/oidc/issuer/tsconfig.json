@@ -2,8 +2,6 @@
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
     "target": "ES2022",
-    "module": "ESNext",
-    "moduleResolution": "nodenext",
     "declaration": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,

@@ -6,8 +6,8 @@
       for all imports. Implies 'allowSyntheticDefaultImports'.
     */
     "target": "ES2020",
-    "module": "CommonJS",
-    "moduleResolution": "node",
+    "module": "ES2022",
+    "moduleResolution": "Bundler",
 
     "strict": true,
     "allowJs": true,
