@@ -31,15 +31,17 @@ export async function getDidEbsiIdentifier(params: {
   const res = WalletService.get();
 
   try {
+    const idBuffer = Buffer.from(res?.privateKey);
     const identifier = await agent.didManagerCreate({
       provider,
       kms: 'web3',
       options: {
         ...args.options,
         privateKey: res?.privateKey,
-        id: keccak256(Buffer.from(res?.privateKey)).slice(2, 18), // usually random 16 bytes, in our case first 16 bytes of keccak hashed priv key
+        id: keccak256(idBuffer).slice(2, 18), // usually random 16 bytes, in our case first 16 bytes of keccak hashed priv key
       },
     });
+    idBuffer.fill(0);
     return identifier.did;
   } catch (e) {
     throw new Error(
