@@ -103,6 +103,7 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
           title: t('succeess'),
           type: 'success',
           loading: false,
+          link: null,
         });
       }, 200);
       onQRCodeScanned();
@@ -114,6 +115,7 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
           title: t('error'),
           type: 'error',
           loading: false,
+          link: null,
         });
       }, 200);
     }
@@ -136,6 +138,7 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
           title: t('invalid'),
           type: 'error',
           loading: false,
+          link: null,
         });
       }, 200);
     }
@@ -153,6 +156,7 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
               <div className="mt-8 flex justify-center space-x-4">
                 <Button
                   variant="primary"
+                  size="sm"
                   onClick={() => setIsQRCodeModalOpen(true)}
                 >
                   {t('scan')}
@@ -174,6 +178,7 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
               <div className="mt-8 flex justify-center">
                 <Button
                   variant="primary"
+                  size="sm"
                   onClick={() => setIsQRCodeModalOpen(true)}
                 >
                   {t('scan')}

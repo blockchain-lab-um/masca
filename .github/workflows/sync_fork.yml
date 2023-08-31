@@ -5,12 +5,13 @@ on:
   workflow_run:
     workflows: [Sync beta branch]
     types: [completed]
-  pull_request:
-    branches: [develop]
-    types: [opened, synchronize, reopened]
   push:
     branches:
-      - '**'
+      - master
+      - beta
+      - develop
+      - 'dapp/**'
+      - 'docs/**'
 
 jobs:
   sync:

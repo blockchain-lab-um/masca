@@ -43,15 +43,15 @@ interface CreateTestVCsOptions {
 
 /**
  * Creates a set of valid VCs for testing purposes
- * @param {CreateTestVCsParams} args
+ * @param {CreateTestVCsParams} params
  * @param {CreateTestVCsOptions} options
  * @returns TestCredentials object
  */
 export async function createTestVCs(
-  args: CreateTestVCsParams,
+  params: CreateTestVCsParams,
   options?: CreateTestVCsOptions
 ): Promise<TestCredentials> {
-  const { agent, proofFormat, payload } = args;
+  const { agent, proofFormat, payload } = params;
 
   const exampleVeramoVCJWT: VerifiableCredential =
     await agent.createVerifiableCredential({

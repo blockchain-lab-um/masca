@@ -65,7 +65,7 @@ function ModifyDSModal({ isOpen, setOpen, vc }: ModifyDSModalProps) {
     }
   });
 
-  if (isPolygonVC(vc) && vcStores.ceramic.enabled) {
+  if (isPolygonVC(vc) && vcStores.ceramic && vcStores.ceramic.enabled) {
     vcStores.ceramic.enabled = false;
   }
 
@@ -87,6 +87,7 @@ function ModifyDSModal({ isOpen, setOpen, vc }: ModifyDSModalProps) {
         title: t('saving'),
         type: 'normal',
         loading: true,
+        link: null,
       });
     }, 200);
 
@@ -103,6 +104,7 @@ function ModifyDSModal({ isOpen, setOpen, vc }: ModifyDSModalProps) {
           title: t('saving-error'),
           type: 'error',
           loading: false,
+          link: null,
         });
       }, 200);
       return;
@@ -114,6 +116,7 @@ function ModifyDSModal({ isOpen, setOpen, vc }: ModifyDSModalProps) {
         title: t('saving-success'),
         type: 'success',
         loading: false,
+        link: null,
       });
     }, 200);
 

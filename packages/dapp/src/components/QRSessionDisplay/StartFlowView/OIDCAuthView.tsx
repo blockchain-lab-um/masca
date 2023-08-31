@@ -10,29 +10,29 @@ import {
   useToastStore,
 } from '@/stores';
 
-interface StartFlowViewProps {
+interface OIDCAuthViewProps {
   scanNewCode: () => void;
 }
 
-export const PolygonAuthView = ({ scanNewCode }: StartFlowViewProps) => {
-  const t = useTranslations('PolygonAuthView');
+export const OIDCAuthView = ({ scanNewCode }: OIDCAuthViewProps) => {
+  const t = useTranslations('OIDCAuthView');
   const { request, changeRequest } = useSessionStore((state) => ({
     request: state.request,
-    session: state.session,
     changeRequest: state.changeRequest,
-    changeSession: state.changeSession,
   }));
 
   const api = useMascaStore((state) => state.mascaApi);
   const currDidMethod = useMascaStore((state) => state.currDIDMethod);
   const isConnected = useGeneralStore((state) => state.isConnected);
 
-  const handlePolygonAuthRequest = async () => {
+  const handleOIDCAuthRequest = async () => {
     if (
       api &&
       isConnected &&
       request.data &&
-      (currDidMethod === 'did:polygonid' || currDidMethod === 'did:iden3')
+      (currDidMethod === 'did:key:jwk_jcs-pub' ||
+        currDidMethod === 'did:key' ||
+        currDidMethod === 'did:jwk')
     ) {
       const result = await api.handleAuthorizationRequest({
         authorizationRequest: request.data,
@@ -44,6 +44,7 @@ export const PolygonAuthView = ({ scanNewCode }: StartFlowViewProps) => {
             title: t('error'),
             type: 'error',
             loading: false,
+            link: null,
           });
           console.log('error', result.error);
         }, 200);
@@ -56,6 +57,7 @@ export const PolygonAuthView = ({ scanNewCode }: StartFlowViewProps) => {
           title: t('success'),
           type: 'success',
           loading: false,
+          link: null,
         });
       }, 200);
     }
@@ -66,7 +68,9 @@ export const PolygonAuthView = ({ scanNewCode }: StartFlowViewProps) => {
   };
 
   const isRightMethod = () =>
-    currDidMethod === 'did:polygonid' || currDidMethod === 'did:iden3';
+    currDidMethod === 'did:key:jwk_jcs-pub' ||
+    currDidMethod === 'did:key' ||
+    currDidMethod === 'did:jwk';
 
   const onScanNewCode = () => {
     changeRequest({
@@ -96,7 +100,7 @@ export const PolygonAuthView = ({ scanNewCode }: StartFlowViewProps) => {
             </div>
           ) : (
             <div className="mt-8 flex justify-center">
-              <Button variant="primary" onClick={handlePolygonAuthRequest}>
+              <Button variant="primary" onClick={handleOIDCAuthRequest}>
                 {t('start')}
               </Button>
             </div>

@@ -567,7 +567,7 @@ const response = await ethereum.request({
     request: {
       method: 'removeFriendlyDapp',
       params: {
-        dApp: 'https://www.masca.io',
+        id: 'https://www.masca.io',
       },
     },
   },

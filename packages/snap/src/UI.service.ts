@@ -24,10 +24,11 @@ class UIService {
     this.originWrapper = [text(`Origin: **${origin}**`), divider()];
   }
 
-  static async snapConfirm(
-    content: Component,
-    force?: boolean
-  ): Promise<boolean> {
+  static async snapConfirm(params: {
+    content: Component;
+    force?: boolean;
+  }): Promise<boolean> {
+    const { content, force = false } = params;
     const state = StorageService.get();
 
     const { disablePopups, friendlyDapps } =
@@ -47,7 +48,11 @@ class UIService {
     return true;
   }
 
-  static async snapAlert(content: Component, force?: boolean): Promise<void> {
+  static async snapAlert(params: {
+    content: Component;
+    force?: boolean;
+  }): Promise<void> {
+    const { content, force = false } = params;
     const state = StorageService.get();
 
     const { disablePopups, friendlyDapps } =
@@ -65,9 +70,10 @@ class UIService {
     }
   }
 
-  static queryAllDialog = async (
-    vcs: QueryCredentialsRequestResult[]
-  ): Promise<boolean> => {
+  static async queryAllDialog(params: {
+    vcs: QueryCredentialsRequestResult[];
+  }): Promise<boolean> {
+    const { vcs } = params;
     const uiPanel = panel([
       heading('Share Verifiable Credentials'),
       ...this.originWrapper,
@@ -80,14 +86,15 @@ class UIService {
       ),
     ]);
 
-    const res = await UIService.snapConfirm(uiPanel);
+    const res = await UIService.snapConfirm({ content: uiPanel });
     return res;
-  };
+  }
 
-  static saveCredentialDialog = async (
-    store: string | string[],
-    verifiableCredential: any
-  ) => {
+  static async saveCredentialDialog(params: {
+    store: string | string[];
+    verifiableCredential: any;
+  }) {
+    const { store, verifiableCredential } = params;
     const uiPanel = panel([
       heading('Save Verifiable Credential'),
       ...this.originWrapper,
@@ -102,16 +109,17 @@ class UIService {
       text(`Credential:`),
       copyable(JSON.stringify(verifiableCredential, null, 2)),
     ]);
-    const res = await UIService.snapConfirm(uiPanel);
+    const res = await UIService.snapConfirm({ content: uiPanel });
     return res;
-  };
+  }
 
-  static createCredentialDialog = async (
-    save: boolean | undefined,
-    storeString: string,
-    minimalUnsignedCredential: any,
-    did: string
-  ) => {
+  static async createCredentialDialog(params: {
+    save: boolean | undefined;
+    storeString: string;
+    minimalUnsignedCredential: any;
+    did: string;
+  }) {
+    const { save, storeString, minimalUnsignedCredential, did } = params;
     const uiPanel = panel([
       heading('Create Credential'),
       ...this.originWrapper,
@@ -127,14 +135,15 @@ class UIService {
       text(`VC:`),
       copyable(JSON.stringify(minimalUnsignedCredential, null, 2)),
     ]);
-    const res = await UIService.snapConfirm(uiPanel);
+    const res = await UIService.snapConfirm({ content: uiPanel });
     return res;
-  };
+  }
 
-  static deleteCredentialDialog = async (
-    store: string | string[],
-    vcs: QueryCredentialsRequestResult[]
-  ) => {
+  static async deleteCredentialDialog(params: {
+    store: string | string[];
+    vcs: QueryCredentialsRequestResult[];
+  }) {
+    const { store, vcs } = params;
     const uiPanel = panel([
       heading('Delete VC'),
       ...this.originWrapper,
@@ -143,14 +152,15 @@ class UIService {
       text(`Store: ${typeof store === 'string' ? store : store.join(', ')}`),
       text(`VCs: ${JSON.stringify(vcs, null, 2)}`),
     ]);
-    const res = await UIService.snapConfirm(uiPanel);
+    const res = await UIService.snapConfirm({ content: uiPanel });
     return res;
-  };
+  }
 
-  static createPresentationDialog = async (
-    vcs: W3CVerifiableCredential[],
-    did: string
-  ) => {
+  static async createPresentationDialog(params: {
+    vcs: W3CVerifiableCredential[];
+    did: string;
+  }) {
+    const { vcs, did } = params;
     const uiPanel = panel([
       heading('Create VP'),
       ...this.originWrapper,
@@ -161,11 +171,11 @@ class UIService {
       text(`VC(s):`),
       ...vcs.map((vc) => copyable(JSON.stringify(vc, null, 2))),
     ]);
-    const res = await UIService.snapConfirm(uiPanel);
+    const res = await UIService.snapConfirm({ content: uiPanel });
     return res;
-  };
+  }
 
-  static handleCredentialOfferDialog = async (data: any) => {
+  static async handleCredentialOfferDialog(data: any) {
     const uiPanel = panel([
       heading('Credential Offer'),
       ...this.originWrapper,
@@ -175,11 +185,11 @@ class UIService {
       text(JSON.stringify(data, null, 2)),
     ]);
 
-    const res = await UIService.snapConfirm(uiPanel);
+    const res = await UIService.snapConfirm({ content: uiPanel });
     return res;
-  };
+  }
 
-  static handleAuthorizationRequestDialog = async (data: any) => {
+  static async handleAuthorizationRequestDialog(data: any) {
     const uiPanel = panel([
       heading('Authorization Request'),
       ...this.originWrapper,
@@ -189,11 +199,11 @@ class UIService {
       text(JSON.stringify(data, null, 2)),
     ]);
 
-    const res = await UIService.snapConfirm(uiPanel);
+    const res = await UIService.snapConfirm({ content: uiPanel });
     return res;
-  };
+  }
 
-  static togglePopupsDialog = async () => {
+  static async togglePopupsDialog() {
     const uiPanel = panel([
       heading('Toggle Pop-ups'),
       ...this.originWrapper,
@@ -203,11 +213,11 @@ class UIService {
         'This can result in a better user experience, but you will not be able to see what the dApp is requesting.'
       ),
     ]);
-    const res = await UIService.snapConfirm(uiPanel);
+    const res = await UIService.snapConfirm({ content: uiPanel });
     return res;
-  };
+  }
 
-  static addFriendlyDappDialog = async (origin: string) => {
+  static async addFriendlyDappDialog(origin: string) {
     const uiPanel = panel([
       heading('Add Friendly DApp'),
       ...this.originWrapper,
@@ -216,11 +226,11 @@ class UIService {
       text('Pop-ups do not appear on friendly dApps.'),
     ]);
 
-    const res = await UIService.snapConfirm(uiPanel);
+    const res = await UIService.snapConfirm({ content: uiPanel });
     return res;
-  };
+  }
 
-  static removeFriendlyDappDialog = async (origin: string) => {
+  static async removeFriendlyDappDialog(origin: string) {
     const uiPanel = panel([
       heading('Remove Friendly DApp'),
       ...this.originWrapper,
@@ -229,11 +239,11 @@ class UIService {
       ),
     ]);
 
-    const res = await UIService.snapConfirm(uiPanel);
+    const res = await UIService.snapConfirm({ content: uiPanel });
     return res;
-  };
+  }
 
-  static getPinDialog = async () => {
+  static async getPinDialog() {
     const pin = await snap.request({
       method: 'snap_dialog',
       params: {
@@ -246,9 +256,9 @@ class UIService {
       },
     });
     return pin;
-  };
+  }
 
-  static exportBackupDialog = async () => {
+  static async exportBackupDialog() {
     const uiPanel = panel([
       heading('Export Backup'),
       ...this.originWrapper,
@@ -257,11 +267,11 @@ class UIService {
       ),
     ]);
 
-    const res = await UIService.snapConfirm(uiPanel);
+    const res = await UIService.snapConfirm({ content: uiPanel });
     return res;
-  };
+  }
 
-  static importBackupDialog = async () => {
+  static async importBackupDialog() {
     const uiPanel = panel([
       heading('Import Backup'),
       ...this.originWrapper,
@@ -274,9 +284,9 @@ class UIService {
       ),
     ]);
 
-    const res = await UIService.snapConfirm(uiPanel);
+    const res = await UIService.snapConfirm({ content: uiPanel });
     return res;
-  };
+  }
 }
 
 export default UIService;
