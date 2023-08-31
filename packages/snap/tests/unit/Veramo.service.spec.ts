@@ -268,9 +268,6 @@ describe('Veramo Service', () => {
       expectedState[CURRENT_STATE_VERSION].accountState[
         account
       ].veramo.credentials[res[0].id] = exampleVC;
-      await VeramoService.deleteCredential({
-        id: expectedResult[0].id,
-      });
 
       await VeramoService.deleteCredential({
         id: expectedResult[0].id,

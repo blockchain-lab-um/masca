@@ -42,7 +42,7 @@ for (const credential of recievedCredentials) {
 
 ### Handling of authorization requests
 
-This part handles authorization requests, which are received from Polygon ID verifiers.
+This part handles authorization requests, which are received from Polygon ID verifiers or issuers.
 
 ```typescript
 // The authorization request received from a Polygon ID verifier

@@ -7,7 +7,10 @@ import detectEthereumProvider from '@metamask/detect-provider';
 import mascaVersionJson from '@/utils/masca.json';
 import { useGeneralStore, useMascaStore } from '@/stores';
 
-const snapId = 'npm:@blockchain-lab-um/masca';
+const snapId =
+  process.env.USE_LOCAL === 'true'
+    ? 'local:http://localhost:8081'
+    : 'npm:@blockchain-lab-um/masca';
 
 const CheckMetaMaskCompatibility = () => {
   const { changeHasMetaMask, changeIsFlask } = useGeneralStore((state) => ({
@@ -119,7 +122,7 @@ const CheckMetaMaskCompatibility = () => {
 
     // Set currently connected address
     const setAccountRes = await mascaApi.setCurrentAccount({
-      currentAccount: address,
+      account: address,
     });
 
     if (isError(setAccountRes)) {

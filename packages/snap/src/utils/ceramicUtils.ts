@@ -7,12 +7,14 @@ import { DIDSession } from 'did-session';
 
 export const aliases = {
   definitions: {
-    StoredCredentials:
-      'kjzl6cwe1jw147v1tf19hxyi1q5ix5s948cfm35xp55a2cngoux776kg3ypzj3p',
+    StoredCredentials: process.env.IS_TESTING
+      ? 'kjzl6cwe1jw14a05nhefxjqb74krvxgyzdaje4jnrcaie48vw31pwxxoa7qw5z9'
+      : 'kjzl6cwe1jw147v1tf19hxyi1q5ix5s948cfm35xp55a2cngoux776kg3ypzj3p',
   },
   schemas: {
-    StoredCredentials:
-      'ceramic://k3y52l7qbv1fryl3piyoqwt5lplg02kvza59o347nfmm1ubpuywghfhg3odiqbwu8',
+    StoredCredentials: process.env.IS_TESTING
+      ? 'ceramic://k3y52l7qbv1frxl7mazhftozd9tpwugrwafoqiyuuludx7s42u7crnzc4jh9ddrls'
+      : 'ceramic://k3y52l7qbv1fryl3piyoqwt5lplg02kvza59o347nfmm1ubpuywghfhg3odiqbwu8',
   },
   tiles: {},
 };
@@ -64,7 +66,10 @@ async function authenticateWithSessionKey(state: MascaState) {
  * @returns CeramicClient - Ceramic client
  */
 export async function getCeramic(state: MascaState): Promise<CeramicClient> {
-  const ceramic = new CeramicClient('https://node2.orbis.club/');
+  const ceramicEndpoint = process.env.IS_TESTING
+    ? 'https://ceramic-clay.3boxlabs.com'
+    : 'https://ceramic.masca.io';
+  const ceramic = new CeramicClient(ceramicEndpoint);
   const did = await authenticateWithSessionKey(state);
 
   await ceramic.setDID(did);

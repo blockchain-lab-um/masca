@@ -1,5 +1,24 @@
 # Changelog
 
+## 1.0.0-beta.2
+
+### Patch Changes
+
+- [#436](https://github.com/blockchain-lab-um/masca/pull/436) [`c6e214d`](https://github.com/blockchain-lab-um/masca/commit/c6e214dea05d289dc63719af127b6a8fad02e6da) Thanks [@martines3000](https://github.com/martines3000)! - Set extractable to `false` for encryption key
+
+## 1.0.0-beta.1
+
+### Patch Changes
+
+- [#434](https://github.com/blockchain-lab-um/masca/pull/434) [`f2e3ad6`](https://github.com/blockchain-lab-um/masca/commit/f2e3ad69f7fe012b8e748d1f7b7c1c96f7f36e3e) Thanks [@pseudobun](https://github.com/pseudobun)! - Normalize the address passed as a param when setting the currently selected account by setting it to lower case. Rename param currentAccount to account.
+
+- [#428](https://github.com/blockchain-lab-um/masca/pull/428) [`5bbabf5`](https://github.com/blockchain-lab-um/masca/commit/5bbabf5ef2b00541739bbe5e5c7e8e73c11e64d5) Thanks [@martines3000](https://github.com/martines3000)! - Update snaps and polygonid dependencies
+
+- Updated dependencies [[`f2e3ad6`](https://github.com/blockchain-lab-um/masca/commit/f2e3ad69f7fe012b8e748d1f7b7c1c96f7f36e3e), [`5bbabf5`](https://github.com/blockchain-lab-um/masca/commit/5bbabf5ef2b00541739bbe5e5c7e8e73c11e64d5), [`861b65e`](https://github.com/blockchain-lab-um/masca/commit/861b65e966d2bfcb183180c593b3c40e01570293)]:
+  - @blockchain-lab-um/masca-types@1.0.0-beta.1
+  - @blockchain-lab-um/oidc-client-plugin@0.1.0-beta.0
+  - @blockchain-lab-um/veramo-datamanager@1.0.0-beta.1
+
 ## 1.0.0-beta.0
 
 ### Major Changes

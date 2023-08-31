@@ -6,7 +6,7 @@ echo "Updating stable version..."
 pnpm changeset pre exit && \
   node scripts/changesets/version-stable.mjs $1 && \
   node scripts/changesets/update-snap-version.mjs && \
-  pnpm install --lockfile-only && \
+  pnpm install && \
   pnpm build && \
   git add --all && \
   git commit -m "chore: update versions" && \

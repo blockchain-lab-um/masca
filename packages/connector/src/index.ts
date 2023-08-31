@@ -73,7 +73,7 @@ export async function enableMasca(
     const api = snap.getMascaApi();
 
     const setAccountRes = await api.setCurrentAccount({
-      currentAccount: address,
+      account: address,
     });
 
     if (isError(setAccountRes)) {

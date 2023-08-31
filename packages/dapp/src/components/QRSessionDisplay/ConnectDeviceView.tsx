@@ -86,6 +86,7 @@ export const ConnectDeviceView = () => {
           title: t('success'),
           type: 'success',
           loading: false,
+          link: null,
         });
       }, 200);
     } catch (e) {
@@ -95,6 +96,7 @@ export const ConnectDeviceView = () => {
           title: t('invalid'),
           type: 'error',
           loading: false,
+          link: null,
         });
       }, 200);
     }

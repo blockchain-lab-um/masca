@@ -1,10 +1,6 @@
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 
-const esModules = [
-  '@veramo',
-  '@0xpolygonid/js-sdk',
-  'github.com+0xPolygonID+js-sdk.*',
-].join('|');
+const esModules = ['@veramo', '@0xpolygonid/js-sdk'].join('|');
 
 export default {
   clearMocks: false,
@@ -18,7 +14,6 @@ export default {
   setupFilesAfterEnv: ['jest-extended/all'],
   globals: {
     window: {
-      // eslint-disable-next-line global-require
       crypto,
     },
   },

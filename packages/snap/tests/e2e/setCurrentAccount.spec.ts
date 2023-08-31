@@ -31,7 +31,7 @@ describe('setCurrentAccount', () => {
         jsonrpc: '2.0',
         method: 'setCurrentAccount',
         params: {
-          currentAccount: '0x41B821bB31902f05eD241b40A8fa3fE56aA76e68',
+          account: '0x41B821bB31902f05eD241b40A8fa3fE56aA76e68',
         },
       },
     })) as Result<void>;
@@ -59,7 +59,7 @@ describe('setCurrentAccount', () => {
       throw new Error('Should return error');
     }
 
-    expect(res.error).toBe('Error: invalid_argument: $input.currentAccount');
+    expect(res.error).toBe('Error: invalid_argument: $input.account');
     expect.assertions(1);
   });
 
