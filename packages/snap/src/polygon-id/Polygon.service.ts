@@ -40,6 +40,7 @@ import { DIDResolutionOptions, DIDResolutionResult } from 'did-resolver';
 
 import EthereumService from '../Ethereum.service';
 import StorageService from '../storage/Storage.service';
+import { UNIRESOLVER_PROXY_URL } from '../utils/config';
 import CircuitStorageService from './CircuitStorage.service';
 import {
   BLOCKCHAINS,
@@ -202,13 +203,13 @@ class PolygonService {
     });
   }
 
-  static async createBaseInstance(args: {
+  static async createBaseInstance(params: {
     method: DidMethod.Iden3 | DidMethod.PolygonId;
     blockchain: Blockchain.Ethereum | Blockchain.Polygon;
     networkId: NetworkId.Main | NetworkId.Goerli | NetworkId.Mumbai;
     circuitData: CircuitData;
   }) {
-    const { method, blockchain, networkId, circuitData } = args;
+    const { method, blockchain, networkId, circuitData } = params;
 
     const circuitStorage = CircuitStorageService.get();
 
@@ -331,9 +332,9 @@ class PolygonService {
   }
 
   static async handleCredentialOffer(
-    args: HandleCredentialOfferRequestParams
+    params: HandleCredentialOfferRequestParams
   ): Promise<W3CCredential[]> {
-    const { credentialOffer } = args;
+    const { credentialOffer } = params;
     const { method, blockchain, networkId } = this.metadata;
 
     const { packageMgr } = this.instance[method][blockchain][networkId];
@@ -356,9 +357,9 @@ class PolygonService {
   }
 
   static async handleAuthorizationRequest(
-    args: HandleAuthorizationRequestParams
+    params: HandleAuthorizationRequestParams
   ): Promise<void> {
-    const { authorizationRequest } = args;
+    const { authorizationRequest } = params;
     const { method, blockchain, networkId } = this.metadata;
 
     const { authHandler } = this.instance[method][blockchain][networkId];
@@ -388,12 +389,12 @@ class PolygonService {
     }
   }
 
-  static async createWallet(args: {
+  static async createWallet(params: {
     method: DidMethod.Iden3 | DidMethod.PolygonId;
     blockchain: Blockchain.Ethereum | Blockchain.Polygon;
     networkId: NetworkId.Main | NetworkId.Goerli | NetworkId.Mumbai;
   }) {
-    const { method, blockchain, networkId } = args;
+    const { method, blockchain, networkId } = params;
     const state = StorageService.get();
     const account = state[CURRENT_STATE_VERSION].currentAccount;
     const memoryKeyStore = new InMemoryPrivateKeyStore();
@@ -462,12 +463,12 @@ class PolygonService {
     };
   }
 
-  private static async getPackageMgr(args: {
+  private static async getPackageMgr(params: {
     circuitData: CircuitData;
     proofService: ProofService;
     kms: KMS;
   }) {
-    const { circuitData, proofService, kms } = args;
+    const { circuitData, proofService, kms } = params;
     const authInputsHandler = new DataPrepareHandlerFunc(
       (hash: Uint8Array, did: DID, circuitId: CircuitId) =>
         proofService.generateAuthV2Inputs(hash, did, circuitId)
@@ -504,9 +505,7 @@ class PolygonService {
       _?: DIDResolutionOptions
     ): Promise<DIDResolutionResult> => {
       try {
-        const response = await fetch(
-          `https://dev.uniresolver.io/1.0/identifiers/${did}`
-        );
+        const response = await fetch(`${UNIRESOLVER_PROXY_URL}/${did}`);
         const data = await response.json();
         return data as DIDResolutionResult;
       } catch (error: unknown) {

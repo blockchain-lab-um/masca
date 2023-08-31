@@ -94,7 +94,6 @@ const SettingsCard = () => {
     const exportResult = await api.exportStateBackup();
 
     if (isError(exportResult)) {
-      console.log(exportResult);
       setTimeout(() => {
         useToastStore.setState({
           open: true,
