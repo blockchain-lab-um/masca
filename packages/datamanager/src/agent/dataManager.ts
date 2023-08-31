@@ -46,7 +46,7 @@ export class DataManager implements IAgentPlugin {
           const result = await storePlugin.save({ data, options });
           res.push({ id: result, store: storeName });
         } catch (e) {
-          console.log(e);
+          throw e as Error;
         }
       })
     );
@@ -97,7 +97,7 @@ export class DataManager implements IAgentPlugin {
           });
           res = [...res, ...mappedResult];
         } catch (e) {
-          console.log(e);
+          throw e as Error;
         }
       })
     );
@@ -130,7 +130,7 @@ export class DataManager implements IAgentPlugin {
           const deleteResult = await storePlugin.delete({ id });
           res.push(deleteResult);
         } catch (e) {
-          console.log(e);
+          throw e as Error;
         }
       })
     );
@@ -162,7 +162,7 @@ export class DataManager implements IAgentPlugin {
           const deleteResult = await storePlugin.clear({ filter });
           res.push(deleteResult);
         } catch (e) {
-          console.log(e);
+          throw e as Error;
         }
       })
     );
