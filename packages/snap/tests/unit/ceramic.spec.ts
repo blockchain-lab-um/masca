@@ -73,7 +73,9 @@ describe('Utils [ceramic]', () => {
           verifiableCredential: 123 as unknown as W3CVerifiableCredential,
           store: ['ceramic'],
         })
-      ).resolves.toEqual([]);
+      ).rejects.toThrow(
+        'HTTP request to \'https://ceramic.masca.io/api/v0/commits\' failed with status \'Internal Server Error\': {"error":"Validation Error: data/vcs/a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3 must be object, data/vcs/a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3 must be string, data/vcs/a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3 must match a schema in anyOf"}'
+      );
     });
 
     // FIXME: this test is failing
