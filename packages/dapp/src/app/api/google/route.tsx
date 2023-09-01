@@ -170,7 +170,7 @@ export async function POST(request: NextRequest) {
       });
     }
   } catch (e) {
-    console.log(e);
+    console.error(e);
     return new NextResponse((e as Error).message, {
       status: 400,
       headers: { ...CORS_HEADERS },
