@@ -6,7 +6,7 @@ const CORS_HEADERS = {
   'Access-Control-Allow-Headers': 'Content-Type',
 };
 
-const UNIRESOLVER_URL = 'https://uniresolver.io/1.0/identifiers';
+const UNIRESOLVER_URL = 'https://resolver.masca.io/1.0/identifiers';
 
 export async function GET(
   _: NextRequest,
