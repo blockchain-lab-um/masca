@@ -139,38 +139,38 @@ export async function POST(request: NextRequest) {
         headers: { ...CORS_HEADERS },
       });
     }
-
-    // Find file and return content
-    if (action === 'import') {
-      const fileContent = await getBackupFileContent(drive);
-      return new NextResponse(fileContent, {
-        headers: { ...CORS_HEADERS },
-      });
-    }
-
-    // Find file and update content or create new file if one not found
-    if (action === 'backup') {
-      if (!content) {
-        return new NextResponse('Missing content parameter', {
-          status: 400,
+    switch (action) {
+      case 'import': {
+        const fileContent = await getBackupFileContent(drive);
+        return new NextResponse(fileContent, {
           headers: { ...CORS_HEADERS },
         });
       }
-      const file = await updateDriveFile(drive, content);
-      return new NextResponse(JSON.stringify(file), {
-        headers: { ...CORS_HEADERS },
-      });
-    }
-
-    // Find file and delete
-    if (action === 'delete') {
-      const file = await deleteDriveFile(drive);
-      return new NextResponse(JSON.stringify(file), {
-        headers: { ...CORS_HEADERS },
-      });
+      case 'backup': {
+        if (!content) {
+          return new NextResponse('Missing content parameter', {
+            status: 400,
+            headers: { ...CORS_HEADERS },
+          });
+        }
+        const file = await updateDriveFile(drive, content);
+        return new NextResponse(JSON.stringify(file), {
+          headers: { ...CORS_HEADERS },
+        });
+      }
+      case 'delete': {
+        const file = await deleteDriveFile(drive);
+        return new NextResponse(JSON.stringify(file), {
+          headers: { ...CORS_HEADERS },
+        });
+      }
+      default:
+        return new NextResponse('Invalid action', {
+          status: 400,
+          headers: { ...CORS_HEADERS },
+        });
     }
   } catch (e) {
-    console.error(e);
     return new NextResponse((e as Error).message, {
       status: 400,
       headers: { ...CORS_HEADERS },
