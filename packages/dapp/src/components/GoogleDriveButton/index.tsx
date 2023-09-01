@@ -14,7 +14,11 @@ interface GoogleDriveButtonProps {
   variant?: 'primary' | 'cancel-red';
 }
 
-const GoogleDriveButton = ({ buttonText, action, variant='primary' }: GoogleDriveButtonProps) => {
+const GoogleDriveButton = ({
+  buttonText,
+  action,
+  variant = 'primary',
+}: GoogleDriveButtonProps) => {
   const t = useTranslations('SettingsCard');
   const {
     api,
@@ -209,8 +213,7 @@ const GoogleDriveButton = ({ buttonText, action, variant='primary' }: GoogleDriv
           type: 'error',
           loading: false,
         });
-      }
-      , 200);
+      }, 200);
       setLoading(false);
     }
 

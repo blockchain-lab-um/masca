@@ -70,7 +70,8 @@ async function getBackupFileContent(drive: drive_v3.Drive) {
     alt: 'media',
   });
 
-  if (!res.data || res.status !== 200) throw new Error('Error getting file content');
+  if (!res.data || res.status !== 200)
+    throw new Error('Error getting file content');
   return res.data as string;
 }
 
