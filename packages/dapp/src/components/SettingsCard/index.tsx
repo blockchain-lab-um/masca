@@ -257,7 +257,7 @@ const SettingsCard = () => {
           <p className="text-md dark:text-navy-blue-400 text-gray-700">
             {t('backup-google-desc')}{' '}
           </p>
-          <div className="mt-4">
+          <div>
             <GoogleBackupForm />
           </div>
         </div>

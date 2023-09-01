@@ -4,7 +4,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import GoogleDriveButton from '@/components/GoogleDriveButton';
 
 export const GoogleBackupForm = () => (
-  <div>
+  <div className="mt-4 flex space-x-2">
     <GoogleOAuthProvider
       clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? ''}
     >
