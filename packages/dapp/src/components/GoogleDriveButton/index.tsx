@@ -63,7 +63,17 @@ const GoogleDriveButton = ({ buttonText, action }: GoogleDriveButtonProps) => {
         },
       }),
     });
+    
     const res = await response.json();
+
+    setTimeout(() => {
+      useToastStore.setState({
+        open: true,
+        title: t('export-success'),
+        type: 'success',
+        loading: false,
+      });
+    }, 200);
 
     setLoading(false);
   };
