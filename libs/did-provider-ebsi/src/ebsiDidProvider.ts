@@ -7,7 +7,7 @@ import {
 } from '@veramo/core';
 import { AbstractIdentifierProvider } from '@veramo/did-manager';
 import { bytesToBase64url, hexToBytes } from '@veramo/utils';
-import { ec as EC } from 'elliptic';
+import elliptic from 'elliptic';
 import * as jose from 'jose';
 
 import { onboard } from './ebsiDidOnboarding.js';
@@ -25,6 +25,8 @@ import {
   IEbsiDidSupportedKeyTypes,
   IImportedKey,
 } from './types/ebsiProviderTypes.js';
+
+const { ec: EC } = elliptic;
 
 /**
  * {@link @veramo/did-manager#DIDManager} identifier provider for `did:ebsi` identifiers
@@ -166,7 +168,7 @@ export class EbsiDIDProvider extends AbstractIdentifierProvider {
         `Unsupported key type, currently only supported Secp256k1 and P-256`
       );
     }
-    let curve: EC;
+    let curve: elliptic.ec;
     switch (keyType) {
       case 'Secp256k1':
         curve = new EC('secp256k1');
