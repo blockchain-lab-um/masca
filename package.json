@@ -37,8 +37,8 @@
     "lint:fix": "pnpm prettier --ignore-path .ci.prettierignore && pnpm nx run-many --target=lint:fix",
     "prepare": "is-ci || husky install",
     "prettier": "prettier --write .",
-    "test": "cross-env IS_TESTING=true pnpm nx run-many --target=test --exclude=@0xpolygonid/js-sdk",
-    "test:ci": "cross-env IS_TESTING=true pnpm nx run-many --target=test:ci --exclude=@0xpolygonid/js-sdk"
+    "test": "pnpm nx run-many --target=test",
+    "test:ci": "pnpm nx run-many --target=test:ci"
   },
   "dependencies": {
     "@changesets/cli": "^2.26.2"
@@ -52,10 +52,11 @@
     "@nx/jest": "16.6.0",
     "@types/eslint": "^8.44.2",
     "@types/jest": "^29.5.3",
-    "@types/node": "^18.16.15",
+    "@types/node": "^20.5.7",
     "@typescript-eslint/eslint-plugin": "^6.3.0",
     "@typescript-eslint/parser": "^6.3.0",
-    "audit-ci": "^6.6.1",
+    "concurrently": "^8.2.0",
+    "cross-env": "^7.0.3",
     "eslint": "^8.46.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "17.1.0",
@@ -75,6 +76,7 @@
     "prettier": "^3.0.1",
     "prettier-plugin-packagejson": "^2.4.5",
     "prettier-plugin-tailwindcss": "^0.4.1",
+    "rimraf": "^5.0.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
   },

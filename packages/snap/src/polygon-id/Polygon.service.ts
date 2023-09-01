@@ -25,6 +25,7 @@ import {
   ProofService,
   PROTOCOL_CONSTANTS,
   RHSResolver,
+  VerifiableConstants,
   VerificationHandlerFunc,
   W3CCredential,
   ZKPPacker,
@@ -283,7 +284,15 @@ class PolygonService {
             )
           ) {
             const { credWallet } = this.instance[method][blockchain][networkId];
-            credentials.push(...(await credWallet.list()));
+            const creds = await credWallet.list();
+            credentials.push(
+              ...creds.filter(
+                (cred) =>
+                  !cred.type.includes(
+                    VerifiableConstants.AUTH.AUTH_BJJ_CREDENTIAL_TYPE
+                  )
+              )
+            );
           }
         }
       }
@@ -352,7 +361,6 @@ class PolygonService {
 
       return credentials;
     } catch (e) {
-      console.log('error', e);
       throw new Error('Error handling credential offer');
     }
   }
@@ -384,9 +392,9 @@ class PolygonService {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: token,
+        signal: AbortSignal.timeout(15000),
       });
     } catch (e) {
-      console.log(e);
       throw new Error('Error sending authorization response');
     }
   }

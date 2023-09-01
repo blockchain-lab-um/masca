@@ -34,7 +34,7 @@ class UIService {
     const { disablePopups, friendlyDapps } =
       state[CURRENT_STATE_VERSION].config.dApp;
 
-    // Show popups if force is true or if popups are not disabled AND the dApp is not friendly
+    // Show popups if force is true or if popups are not disabled AND the dapp is not friendly
     if (force || !(disablePopups || friendlyDapps.includes(this.origin))) {
       const res = await snap.request({
         method: 'snap_dialog',
@@ -58,7 +58,7 @@ class UIService {
     const { disablePopups, friendlyDapps } =
       state[CURRENT_STATE_VERSION].config.dApp;
 
-    // Show popups if force is true or if popups are not disabled AND the dApp is not friendly
+    // Show popups if force is true or if popups are not disabled AND the dapp is not friendly
     if (force || !(disablePopups || friendlyDapps.includes(this.origin))) {
       await snap.request({
         method: 'snap_dialog',
@@ -77,7 +77,7 @@ class UIService {
     const uiPanel = panel([
       heading('Share Verifiable Credentials'),
       ...this.originWrapper,
-      text('Would you like to share Verifiable Credentials with this dApp?'),
+      text('Would you like to share Verifiable Credentials with this dapp?'),
       divider(),
       text(`**Total number of VCs is ${vcs.length.toString()}**`),
       divider(),
@@ -210,10 +210,10 @@ class UIService {
       text('Would you like to turn off pop-ups?'),
       divider(),
       text(
-        'This can result in a better user experience, but you will not be able to see what the dApp is requesting.'
+        'This can result in a better user experience, but you will not be able to see what the dapp is requesting.'
       ),
     ]);
-    const res = await UIService.snapConfirm({ content: uiPanel });
+    const res = await UIService.snapConfirm({ content: uiPanel, force: true });
     return res;
   }
 
@@ -221,12 +221,12 @@ class UIService {
     const uiPanel = panel([
       heading('Add Friendly DApp'),
       ...this.originWrapper,
-      text(`Would you like to add ${origin} as a friendly dApp?`),
+      text(`Would you like to add ${origin} as a friendly dapp?`),
       divider(),
-      text('Pop-ups do not appear on friendly dApps.'),
+      text('Pop-ups do not appear on friendly dapps.'),
     ]);
 
-    const res = await UIService.snapConfirm({ content: uiPanel });
+    const res = await UIService.snapConfirm({ content: uiPanel, force: true });
     return res;
   }
 
@@ -235,7 +235,7 @@ class UIService {
       heading('Remove Friendly DApp'),
       ...this.originWrapper,
       text(
-        `Would you like to remove ${origin} from the list of friendly dApps?`
+        `Would you like to remove ${origin} from the list of friendly dapps?`
       ),
     ]);
 
@@ -267,7 +267,7 @@ class UIService {
       ),
     ]);
 
-    const res = await UIService.snapConfirm({ content: uiPanel });
+    const res = await UIService.snapConfirm({ content: uiPanel, force: true });
     return res;
   }
 
@@ -284,7 +284,7 @@ class UIService {
       ),
     ]);
 
-    const res = await UIService.snapConfirm({ content: uiPanel });
+    const res = await UIService.snapConfirm({ content: uiPanel, force: true });
     return res;
   }
 }

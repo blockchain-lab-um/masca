@@ -72,7 +72,7 @@ Digital identity standards:
 - [ ] DIDComm
 - [ ] ...
 
-Masca dApp:
+Masca dapp:
 
 - [x] DID method selection
 - [x] Import, list, and delete VCs
@@ -92,7 +92,7 @@ Snaps-related functionality:
 - [ ] Featured on Snaps registry
 - [ ] ...
 
-dApp integrations:
+dapp integrations:
 
 - [x] Snapshot
 - [ ] ...

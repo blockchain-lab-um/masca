@@ -34,8 +34,8 @@ Masca also allows you to store Credentials in MetaMask (or any other supported s
 ### How to install Masca?
 
 1. First you need to install [MetaMask Flask](https://metamask.io/flask/) and then install [Masca](https://www.npmjs.com/package/@blockchain-lab-um/masca) from the npm registry. We recommend that you use the latest version of Masca.
-2. Connect to a dApp that supports Masca and accept the connection & installation prompts.
-3. Check out our [dApp](https://masca.io) to start using Masca.
+2. Connect to a dapp that supports Masca and accept the connection & installation prompts.
+3. Check out our [dapp](https://masca.io) to start using Masca.
 
 ### Why do I have to use MetaMask Flask?
 
@@ -45,9 +45,9 @@ Snaps are only available on the developer preview version of MetaMask, called Me
 
 Snaps are only available on the developer preview version of MetaMask, called MetaMask Flask. Snaps will be released in MetaMask later this year.
 
-### Can I use Masca without a dApp?
+### Can I use Masca without a dapp?
 
-No. For the moment, the only way to interact with Masca is through a dApp. We have built a [dedicated dApp](https://masca.io) that allows you to view and manage your DIDs and Credentials.
+No. For the moment, the only way to interact with Masca is through a dapp. We have built a [dedicated dapp](https://masca.io) that allows you to view and manage your DIDs and Credentials.
 
 MetaMask plans to add support for Snaps UI in MetaMask, which will allow us to implement custom UI to interact with Masca directly in MetaMask extension.
 
@@ -67,4 +67,4 @@ Yes. Masca does not have access to users private keys! [Learn](./masca/design.md
 
 Yes and No. Credentials can be stored directly in Masca or on Ceramic Network. Credentials stored in Masca are completely private and only available for user to see. Credentials stored on Ceramic Network are public for anybody to see (though accessing them is not as straightforward as searching address in a block explorer). We recommend users to save all Credentials that contain sensitive information in Masca.
 
-Depending on the use case, dApps are likely to request Masca to share credentials with them. Always double check who you're sharing Credentials with as hostile dApps could potentially save your credentials.
+Depending on the use case, dapps are likely to request Masca to share credentials with them. Always double check who you're sharing Credentials with as hostile dapps could potentially save your credentials.

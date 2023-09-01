@@ -1,5 +1,17 @@
 # @blockchain-lab-um/dapp
 
+## 1.0.0-beta.2
+
+### Patch Changes
+
+- [#432](https://github.com/blockchain-lab-um/masca/pull/432) [`61b2e2b`](https://github.com/blockchain-lab-um/masca/commit/61b2e2bc4be171bf827dc9412951579de75fa5bc) Thanks [@martines3000](https://github.com/martines3000)! - Remove unused dependencies and devDependencies.
+
+- [#439](https://github.com/blockchain-lab-um/masca/pull/439) [`9d987f2`](https://github.com/blockchain-lab-um/masca/commit/9d987f2c0c68c1d39e146315ff2f37a70aa40e2d) Thanks [@martines3000](https://github.com/martines3000)! - Cache uniresolver response
+
+- Updated dependencies [[`61b2e2b`](https://github.com/blockchain-lab-um/masca/commit/61b2e2bc4be171bf827dc9412951579de75fa5bc), [`61b2e2b`](https://github.com/blockchain-lab-um/masca/commit/61b2e2bc4be171bf827dc9412951579de75fa5bc)]:
+  - @blockchain-lab-um/masca-connector@1.0.0-beta.2
+  - @blockchain-lab-um/oidc-types@0.0.8-beta.0
+
 ## 1.0.0-beta.1
 
 ### Patch Changes

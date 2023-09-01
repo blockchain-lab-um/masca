@@ -100,8 +100,9 @@ export class SnapCredentialStore extends AbstractDataStore {
       !state[CURRENT_STATE_VERSION].accountState[
         state[CURRENT_STATE_VERSION].currentAccount
       ].veramo.credentials[id]
-    )
+    ) {
       throw Error('ID not found');
+    }
 
     delete state[CURRENT_STATE_VERSION].accountState[
       state[CURRENT_STATE_VERSION].currentAccount

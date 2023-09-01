@@ -2,9 +2,6 @@
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
     "target": "ES2022",
-    "module": "ESNext",
-    "moduleResolution": "nodenext",
-
     "declaration": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -14,7 +11,10 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "resolveJsonModule": true,
-    "types": ["node", "jest"]
+    "types": [
+      "../../../node_modules/@types/node",
+      "../../../node_modules/@types/jest"
+    ]
   },
   "include": ["src/**/*", "tests/**/*", "config.ts"]
 }

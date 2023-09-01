@@ -40,7 +40,7 @@ Masca needs a seed phrase to derive every private key needed for it to work. Mas
 
 To generate private keys from the seed phrase, Masca uses [ `coin_type` 1236](https://github.com/satoshilabs/slips/blob/master/slip-0044.md#registered-coin-types).
 
-For certain DID methods ( `did:ethr` & `did:pkh` ) we are generating DID identifiers from Ethereum private keys, which we can't access in Masca. Thus `sign_typedData` is used to create VCs and VPs. Snaps do not support this, meaning the signing for these methods must be done in a dApp. However, when using our [Masca Connector SDK](https://www.npmjs.com/package/@blockchain-lab-um/masca-connector), this is taken care of, and any RPC method requiring the signature is handled accordingly without needing external handling.
+For certain DID methods ( `did:ethr` & `did:pkh` ) we are generating DID identifiers from Ethereum private keys, which we can't access in Masca. Thus `sign_typedData` is used to create VCs and VPs. Snaps do not support this, meaning the signing for these methods must be done in a dapp. However, when using our [Masca Connector SDK](https://www.npmjs.com/package/@blockchain-lab-um/masca-connector), this is taken care of, and any RPC method requiring the signature is handled accordingly without needing external handling.
 
 ### Handling and deriving private keys used in Masca
 
