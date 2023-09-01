@@ -42,11 +42,13 @@ async function createDriveFile(drive: drive_v3.Drive, content: string) {
     requestBody: fileMetadata,
     media,
   });
+
+  if (!res.data || res.status !== 200) throw new Error('Error creating file');
   return res.data;
 }
 
 async function getBackupFileId(drive: drive_v3.Drive) {
-  let id = '';
+  let id;
   const list = await drive.files.list({
     q: `name='${process.env.GOOGLE_DRIVE_FILE_NAME}'`,
     spaces: 'appDataFolder',
@@ -55,19 +57,20 @@ async function getBackupFileId(drive: drive_v3.Drive) {
   if (list.data.files?.length) {
     id = list.data.files[0].id!;
   }
-  return id || false;
+
+  return id;
 }
 
 async function getBackupFileContent(drive: drive_v3.Drive) {
   const id = await getBackupFileId(drive);
-  if (!id) throw new Error('File not found');
+  if (!id) throw new Error('Backup file not found');
 
   const res = await drive.files.get({
-    fileId: id,
+    fileId: `${id}`,
     alt: 'media',
   });
 
-  if (!res.data || res.status !== 200) throw new Error('Error getting file');
+  if (!res.data || res.status !== 200) throw new Error('Error getting file content');
   return res.data as string;
 }
 
@@ -78,23 +81,26 @@ async function updateDriveFile(drive: drive_v3.Drive, content: string) {
     return res;
   }
   const media = {
-    mimeType: 'text/plain',
+    mimeType: 'text/plains',
     body: content,
   };
   const res = await drive.files.update({
     fileId,
     media,
   });
+
+  if (!res.data || res.status !== 200) throw new Error('Error updating file');
   return res.data;
 }
 
 async function deleteDriveFile(drive: drive_v3.Drive) {
   const fileId = await getBackupFileId(drive);
-  if (!fileId) throw new Error('File not found');
+  if (!fileId) throw new Error('Backup file not found');
 
   const res = await drive.files.delete({
     fileId,
   });
+
   return res.data;
 }
 
@@ -103,18 +109,26 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
 
     if (!body.data) {
-      return new NextResponse('Missing data parameter', {
-        status: 400,
-        headers: { ...CORS_HEADERS },
-      });
+      return NextResponse.json(
+        { success: false, error: 'Missing data parameter' },
+        { status: 400, headers: { ...CORS_HEADERS } }
+      );
     }
 
     const { accessToken, action, content } = body.data;
+
     if (!actions.includes(action)) {
-      return new NextResponse('Invalid action', {
-        status: 400,
-        headers: { ...CORS_HEADERS },
-      });
+      return NextResponse.json(
+        { success: false, error: 'Invalid action' },
+        { status: 400, headers: { ...CORS_HEADERS } }
+      );
+    }
+
+    if (action === 'backup' && !content) {
+      return NextResponse.json(
+        { success: false, error: 'Missing content parameter' },
+        { status: 400, headers: { ...CORS_HEADERS } }
+      );
     }
 
     // Verify access token
@@ -125,55 +139,52 @@ export async function POST(request: NextRequest) {
       !tokenInfo.scopes ||
       !scopes?.every((scope) => tokenInfo.scopes.includes(scope))
     ) {
-      return new NextResponse('Invalid access token', {
-        status: 400,
-        headers: { ...CORS_HEADERS },
-      });
+      return NextResponse.json(
+        { success: false, error: 'Invalid access token' },
+        { status: 400, headers: { ...CORS_HEADERS } }
+      );
     }
 
     const drive = await createDriveInstance(accessToken);
 
     if (!drive) {
-      return new NextResponse('Error creating drive instance', {
-        status: 400,
-        headers: { ...CORS_HEADERS },
-      });
+      return NextResponse.json(
+        { success: false, error: 'Error creating drive instance' },
+        { status: 500, headers: { ...CORS_HEADERS } }
+      );
     }
     switch (action) {
       case 'import': {
         const fileContent = await getBackupFileContent(drive);
-        return new NextResponse(fileContent, {
-          headers: { ...CORS_HEADERS },
-        });
+        return NextResponse.json(
+          { success: true, data: fileContent },
+          { status: 200, headers: { ...CORS_HEADERS } }
+        );
       }
       case 'backup': {
-        if (!content) {
-          return new NextResponse('Missing content parameter', {
-            status: 400,
-            headers: { ...CORS_HEADERS },
-          });
-        }
-        const file = await updateDriveFile(drive, content);
-        return new NextResponse(JSON.stringify(file), {
-          headers: { ...CORS_HEADERS },
-        });
+        await updateDriveFile(drive, content);
+        return NextResponse.json(
+          { success: true },
+          { status: 200, headers: { ...CORS_HEADERS } }
+        );
       }
       case 'delete': {
-        const file = await deleteDriveFile(drive);
-        return new NextResponse(JSON.stringify(file), {
-          headers: { ...CORS_HEADERS },
-        });
+        await deleteDriveFile(drive);
+        return NextResponse.json(
+          { success: true },
+          { status: 200, headers: { ...CORS_HEADERS } }
+        );
       }
       default:
-        return new NextResponse('Invalid action', {
-          status: 400,
-          headers: { ...CORS_HEADERS },
-        });
+        return NextResponse.json(
+          { success: false, error: 'Invalid action' },
+          { status: 400, headers: { ...CORS_HEADERS } }
+        );
     }
   } catch (e) {
-    return new NextResponse((e as Error).message, {
-      status: 400,
-      headers: { ...CORS_HEADERS },
-    });
+    return NextResponse.json(
+      { success: false, error: (e as Error).message },
+      { status: 500, headers: { ...CORS_HEADERS } }
+    );
   }
 }

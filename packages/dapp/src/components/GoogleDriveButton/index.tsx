@@ -65,6 +65,18 @@ const GoogleDriveButton = ({ buttonText, action }: GoogleDriveButtonProps) => {
     });
 
     const res = await response.json();
+    if (res.error) {
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: res.error,
+          type: 'error',
+          loading: false,
+        });
+      }, 200);
+      setLoading(false);
+      return;
+    }
 
     setTimeout(() => {
       useToastStore.setState({
@@ -93,12 +105,23 @@ const GoogleDriveButton = ({ buttonText, action }: GoogleDriveButtonProps) => {
       }),
     });
 
-    const state = await response.text();
+    const res = await response.json();
+    if (res.error) {
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: res.error,
+          type: 'error',
+          loading: false,
+        });
+      }, 200);
+      setLoading(false);
+      return;
+    }
 
     if (!api) return;
-    if (!state) return;
     const importResult = await api.importStateBackup({
-      serializedState: state,
+      serializedState: res.data,
     });
 
     if (isError(importResult)) {
@@ -110,6 +133,7 @@ const GoogleDriveButton = ({ buttonText, action }: GoogleDriveButtonProps) => {
           loading: false,
         });
       }, 200);
+      setLoading(false);
       return;
     }
 
@@ -160,18 +184,84 @@ const GoogleDriveButton = ({ buttonText, action }: GoogleDriveButtonProps) => {
     setLoading(false);
   };
 
+  const handleDelete = async (accessToken: string) => {
+    setLoading(true);
+    const response = await fetch(`/api/google`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        data: {
+          accessToken,
+          action: 'delete',
+        },
+      }),
+    });
+
+    const res = await response.json();
+    console.log('🚀 ~ file: index.tsx:179 ~ handleDelete ~ res:', res);
+
+    setTimeout(() => {
+      useToastStore.setState({
+        open: true,
+        title: t('delete-success'),
+        type: 'success',
+        loading: false,
+      });
+    }, 200);
+
+    setLoading(false);
+  };
+
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       if (!api) return;
-      if (action === 'backup') {
-        await handleExport(tokenResponse.access_token);
-      }
-
-      if (action === 'import') {
-        await handleImport(tokenResponse.access_token);
+      switch (action) {
+        case 'backup':
+          await handleExport(tokenResponse.access_token);
+          break;
+        case 'import':
+          await handleImport(tokenResponse.access_token);
+          break;
+        case 'delete':
+          await handleDelete(tokenResponse.access_token);
+          break;
+        default:
+          break;
       }
     },
-    onError: (error) => console.log(error),
+    onError: (error) => {
+      console.log(error);
+      let errorMessage = error.error?.replace(/_/g, ' ');
+      if (!errorMessage) errorMessage = 'Unknown error';
+      errorMessage =
+        errorMessage.charAt(0).toUpperCase() + errorMessage.slice(1);
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: errorMessage,
+          type: 'error',
+          loading: false,
+        });
+      }, 200);
+      setLoading(false);
+    },
+    onNonOAuthError: (error) => {
+      console.log(error);
+      let errorMessage = error.type.replace(/_/g, ' ');
+      errorMessage =
+        errorMessage.charAt(0).toUpperCase() + errorMessage.slice(1);
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: errorMessage,
+          type: 'error',
+          loading: false,
+        });
+      }, 200);
+      setLoading(false);
+    },
     scope:
       process.env.NEXT_PUBLIC_GOOGLE_SCOPES ??
       'https://www.googleapis.com/auth/drive.appdata',

@@ -13,6 +13,7 @@ const GoogleBackupForm = () => {
       >
         <GoogleDriveButton buttonText={t('export-google')} action="backup" />
         <GoogleDriveButton buttonText={t('import-google')} action="import" />
+        <GoogleDriveButton buttonText="Delete backup file" action="delete" />
       </GoogleOAuthProvider>
     </div>
   );
