@@ -141,7 +141,7 @@ const response = await ethereum.request({
 
 `createCredential` creates a VC from the payload. `proofFormat` can be selected, and the created VC can be optionally stored in the snap.
 
-**Methods `did:pkh` and `did:ethr` will return an unsigned credential!** that needs to be signed manually on the dApp, as making signatures with Ethereum addresses is not possible in Masca. Here is an [example](https://github.com/blockchain-lab-um/masca/blob/bf00dbf4a4deb8882f76a293ffc565501d5dc2f9/packages/connector/src/utils.ts#L113-L170) of how we handle this in Connector.
+**Methods `did:pkh` and `did:ethr` will return an unsigned credential!** that needs to be signed manually on the dapp, as making signatures with Ethereum addresses is not possible in Masca. Here is an [example](https://github.com/blockchain-lab-um/masca/blob/bf00dbf4a4deb8882f76a293ffc565501d5dc2f9/packages/connector/src/utils.ts#L113-L170) of how we handle this in Connector.
 
 #### Parameters
 
@@ -223,7 +223,7 @@ export type VCRequest = {
 
 `holder` of the VP will be a DID generated based on the currently selected MetaMask account **AND** the currently set DID Method.
 
-**Methods `did:pkh` and `did:ethr` will return an unsigned presentation!** that needs to be signed manually on the dApp, as making signatures with Ethereum addresses is not possible in Masca. Here is an [example](https://github.com/blockchain-lab-um/masca/blob/bf00dbf4a4deb8882f76a293ffc565501d5dc2f9/packages/connector/src/utils.ts#L62C1-L111) of how we handle this in Connector.
+**Methods `did:pkh` and `did:ethr` will return an unsigned presentation!** that needs to be signed manually on the dapp, as making signatures with Ethereum addresses is not possible in Masca. Here is an [example](https://github.com/blockchain-lab-um/masca/blob/bf00dbf4a4deb8882f76a293ffc565501d5dc2f9/packages/connector/src/utils.ts#L62C1-L111) of how we handle this in Connector.
 
 #### Parameters
 
@@ -521,7 +521,7 @@ We recommend calling this method in `window.ethereum.on('accountsChanged', handl
 
 #### Description
 
-`togglePopups` toggles pop-ups that show up whenever the user tries to save a VC, generate a VP, etc. Pop-ups are enabled by default to keep user in total control of their actions. With pop-ups disabled, a dApp can query user's credentials, etc. without them knowing. We recommend using `addFriendlyDapp` instead to only trust specific dApps.
+`togglePopups` toggles pop-ups that show up whenever the user tries to save a VC, generate a VP, etc. Pop-ups are enabled by default to keep user in total control of their actions. With pop-ups disabled, a dapp can query user's credentials, etc. without them knowing. We recommend using `addFriendlyDapp` instead to only trust specific dapps.
 
 ```typescript
 const response = await ethereum.request({
@@ -539,7 +539,7 @@ const response = await ethereum.request({
 
 #### Description
 
-`addFriendlyDapp` adds the current dApp (origin of the current dApp) to the list of friendly dApps. Friendly dApps do not show pop-ups.
+`addFriendlyDapp` adds the current dapp (origin of the current dapp) to the list of friendly dapps. Friendly dapps do not show pop-ups.
 
 ```typescript
 const response = await ethereum.request({
@@ -557,7 +557,7 @@ const response = await ethereum.request({
 
 #### Description
 
-`removeFriendlyDapp` removes a dApp from friendly dApps.
+`removeFriendlyDapp` removes a dapp from friendly dapps.
 
 ```typescript
 const response = await ethereum.request({
@@ -644,7 +644,7 @@ export type MascaConfig = {
 
 #### Description
 
-`setCeramicSession` sets the Ceramic session. As an Ethereum account handles storing and retrieving items from Ceramic, generating a session has to be done manually by a dApp. This is already handled in our Masca Connector. You can follow our [implementation in the connector](https://github.com/blockchain-lab-um/masca/blob/744b2e651dda15e7b44af894294692925c9a4964/packages/connector/src/utils.ts#L14) to implement this yourself.
+`setCeramicSession` sets the Ceramic session. As an Ethereum account handles storing and retrieving items from Ceramic, generating a session has to be done manually by a dapp. This is already handled in our Masca Connector. You can follow our [implementation in the connector](https://github.com/blockchain-lab-um/masca/blob/744b2e651dda15e7b44af894294692925c9a4964/packages/connector/src/utils.ts#L14) to implement this yourself.
 
 ```typescript
 const response = await ethereum.request({

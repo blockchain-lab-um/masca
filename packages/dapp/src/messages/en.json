@@ -73,7 +73,7 @@
     "success": "Connection established!"
   },
   "ConnectedProvider": {
-    "connect": "Connect MetaMask to use the dApp"
+    "connect": "Connect MetaMask to use the dapp"
   },
   "Controlbar": {
     "query": "Querying credentials",
@@ -225,15 +225,15 @@
     "subject": "SUBJECT"
   },
   "FriendlydAppTable": {
-    "add-failed": "Failed to add Friendly dApp",
-    "add-masca": "Add Masca.io to Friendly dApps",
-    "added": "Friendly dApp added",
-    "adding": "Adding Friendly dApp",
+    "add-failed": "Failed to add Friendly dapp",
+    "add-masca": "Add Masca.io to Friendly dapps",
+    "added": "Friendly dapp added",
+    "adding": "Adding Friendly dapp",
     "app-url": "Application URL",
-    "popups-desc": "Disabling pop-ups is very dangerous. We recommend setting friendly dApps instead!",
-    "remove-failed": "Failed to remove Friendly dApp",
-    "removed": "Friendly dApp removed",
-    "removing": "Removing Friendly dApp"
+    "popups-desc": "Disabling pop-ups is very dangerous. We recommend setting friendly dapps instead!",
+    "remove-failed": "Failed to remove Friendly dapp",
+    "removed": "Friendly dapp removed",
+    "removing": "Removing Friendly dapp"
   },
   "GetCredential": {
     "handling": "Handling credential offer",
@@ -264,7 +264,7 @@
     "title": "Import Credential"
   },
   "MetaMaskProvider": {
-    "flask": "Install MetaMask Flask to use the dApp!"
+    "flask": "Install MetaMask Flask to use the dapp!"
   },
   "MethodDropdownMenu": {
     "switching": "Switching DID method",
@@ -329,7 +329,7 @@
   },
   "ScanConnectionCard": {
     "connection-created": "Connection established",
-    "desc": "Use this on your mobile device to first scan the connection QR code to establish a connection with your browser. After that you can scan any other QR code that you want to pass to your browser to be handled by the Masca dApp.",
+    "desc": "Use this on your mobile device to first scan the connection QR code to establish a connection with your browser. After that you can scan any other QR code that you want to pass to your browser to be handled by the Masca dapp.",
     "invalid-qr-code": "Invalid QR code",
     "qr-data-sent": "QR code data sent",
     "scan-connection": "Scan Connection",
@@ -377,7 +377,7 @@
     "import-success": "Successfully imported backup",
     "not-implemented": "Not implemented yet",
     "popups": "Pop-ups",
-    "popups-desc": "Disabling pop-ups is very dangerous. We recommend setting friendly dApps instead!",
+    "popups-desc": "Disabling pop-ups is very dangerous. We recommend setting friendly dapps instead!",
     "title": "Settings"
   },
   "StartFlowView": {

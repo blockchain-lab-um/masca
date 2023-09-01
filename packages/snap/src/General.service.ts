@@ -58,8 +58,8 @@ class GeneralService {
   }
 
   /**
-   * Function that lets you add a friendly dApp
-   * @param dapp - dApp to add to the friendly dApps list.
+   * Function that lets you add a friendly dapp
+   * @param dapp - dapp to add to the friendly dapps list.
    * @returns void
    */
   static async addFriendlyDapp(params: { id: string }): Promise<void> {
@@ -69,19 +69,19 @@ class GeneralService {
     )
       return;
     if (!(await UIService.addFriendlyDappDialog(params.id))) {
-      throw new Error('User rejected friendly dApp addition.');
+      throw new Error('User rejected friendly dapp addition.');
     }
     state[CURRENT_STATE_VERSION].config.dApp.friendlyDapps.push(params.id);
   }
 
   /**
-   * Function that lets you remove a friendly dApp
-   * @param dapp - dApp to remove from the friendly dApps list.
+   * Function that lets you remove a friendly dapp
+   * @param dapp - dapp to remove from the friendly dapps list.
    * @returns void
    */
   static async removeFriendlyDapp(params: { id: string }): Promise<void> {
     if (!(await UIService.removeFriendlyDappDialog(params.id))) {
-      throw new Error('User rejected friendly dApp removal.');
+      throw new Error('User rejected friendly dapp removal.');
     }
 
     const state = StorageService.get();
@@ -93,7 +93,7 @@ class GeneralService {
   /**
    * Function that checks if a dApp is friendly
    * @param params.id - dApp to check.
-   * @returns boolean - whether the dApp is friendly.
+   * @returns boolean - whether the dapp is friendly.
    */
   static async isFriendlyDapp(params: { id: string }): Promise<boolean> {
     const { id } = params;
