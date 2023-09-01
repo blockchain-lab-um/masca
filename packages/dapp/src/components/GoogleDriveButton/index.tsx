@@ -11,9 +11,10 @@ import Button from '../Button';
 interface GoogleDriveButtonProps {
   buttonText: string;
   action: 'import' | 'backup' | 'delete';
+  variant?: 'primary' | 'cancel-red';
 }
 
-const GoogleDriveButton = ({ buttonText, action }: GoogleDriveButtonProps) => {
+const GoogleDriveButton = ({ buttonText, action, variant='primary' }: GoogleDriveButtonProps) => {
   const t = useTranslations('SettingsCard');
   const {
     api,
@@ -200,7 +201,18 @@ const GoogleDriveButton = ({ buttonText, action }: GoogleDriveButtonProps) => {
     });
 
     const res = await response.json();
-    console.log('🚀 ~ file: index.tsx:179 ~ handleDelete ~ res:', res);
+    if (res.error) {
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: res.error,
+          type: 'error',
+          loading: false,
+        });
+      }
+      , 200);
+      setLoading(false);
+    }
 
     setTimeout(() => {
       useToastStore.setState({
@@ -268,7 +280,7 @@ const GoogleDriveButton = ({ buttonText, action }: GoogleDriveButtonProps) => {
   });
   return (
     <div>
-      <Button variant="primary" size="sm" onClick={login} loading={loading}>
+      <Button variant={variant} size="sm" onClick={login} loading={loading}>
         {buttonText}
       </Button>
     </div>

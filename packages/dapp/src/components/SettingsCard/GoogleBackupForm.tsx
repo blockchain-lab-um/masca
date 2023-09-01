@@ -7,13 +7,21 @@ import GoogleDriveButton from '@/components/GoogleDriveButton';
 const GoogleBackupForm = () => {
   const t = useTranslations('SettingsCard');
   return (
-    <div className="mt-4 flex space-x-2">
+    <div className="mt-4 flex justify-between">
       <GoogleOAuthProvider
         clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? ''}
       >
-        <GoogleDriveButton buttonText={t('export-google')} action="backup" />
-        <GoogleDriveButton buttonText={t('import-google')} action="import" />
-        <GoogleDriveButton buttonText="Delete backup file" action="delete" />
+        <div className="mt-4 flex space-x-2">
+          <GoogleDriveButton buttonText={t('export-google')} action="backup" />
+          <GoogleDriveButton buttonText={t('import-google')} action="import" />
+        </div>
+        <div className="mt-4">
+          <GoogleDriveButton
+            buttonText={t('delete-google')}
+            action="delete"
+            variant="cancel-red"
+          />
+        </div>
       </GoogleOAuthProvider>
     </div>
   );
