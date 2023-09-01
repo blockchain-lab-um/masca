@@ -141,16 +141,16 @@ importers:
   apps/oidc/issuer:
     dependencies:
       '@blockchain-lab-um/did-provider-key':
-        specifier: 1.0.6
+        specifier: 1.0.7-beta.0
         version: link:../../../libs/did-provider-key
       '@blockchain-lab-um/oidc-rp-plugin':
-        specifier: 0.0.7
+        specifier: 0.0.8-beta.0
         version: link:../../../libs/oidc/rp-plugin
       '@blockchain-lab-um/oidc-types':
-        specifier: 0.0.7
+        specifier: 0.0.8-beta.0
         version: link:../../../libs/oidc/types
       '@blockchain-lab-um/utils':
-        specifier: 1.3.5
+        specifier: 1.3.6-beta.0
         version: link:../../../libs/utils
       '@fastify/formbody':
         specifier: ^7.4.0
@@ -301,10 +301,10 @@ importers:
   apps/oidc/verifier:
     dependencies:
       '@blockchain-lab-um/oidc-rp-plugin':
-        specifier: 0.0.7
+        specifier: 0.0.8-beta.0
         version: link:../../../libs/oidc/rp-plugin
       '@blockchain-lab-um/oidc-types':
-        specifier: 0.0.7
+        specifier: 0.0.8-beta.0
         version: link:../../../libs/oidc/types
       '@fastify/formbody':
         specifier: ^7.4.0
@@ -501,7 +501,7 @@ importers:
   libs/did-provider-key:
     dependencies:
       '@blockchain-lab-um/utils':
-        specifier: 1.3.5
+        specifier: 1.3.6-beta.0
         version: link:../utils
       '@cef-ebsi/key-did-resolver':
         specifier: ^1.1.0
@@ -559,10 +559,10 @@ importers:
   libs/oidc/client-plugin:
     dependencies:
       '@blockchain-lab-um/oidc-types':
-        specifier: 0.0.7
+        specifier: 0.0.8-beta.0
         version: link:../types
       '@blockchain-lab-um/utils':
-        specifier: 1.3.5
+        specifier: 1.3.6-beta.0
         version: link:../../utils
       '@sphereon/pex':
         specifier: ^2.0.1
@@ -605,7 +605,7 @@ importers:
   libs/oidc/rp-plugin:
     dependencies:
       '@blockchain-lab-um/oidc-types':
-        specifier: 0.0.7
+        specifier: 0.0.8-beta.0
         version: link:../types
       '@sphereon/pex':
         specifier: ^2.0.1
@@ -704,10 +704,10 @@ importers:
   packages/connector:
     dependencies:
       '@blockchain-lab-um/masca-types':
-        specifier: 1.0.0-beta.1
+        specifier: 1.0.0-beta.2
         version: link:../types
       '@blockchain-lab-um/utils':
-        specifier: 1.3.5
+        specifier: 1.3.6-beta.0
         version: link:../../libs/utils
       '@didtools/pkh-ethereum':
         specifier: 0.4.0
@@ -732,10 +732,10 @@ importers:
   packages/dapp:
     dependencies:
       '@blockchain-lab-um/masca-connector':
-        specifier: 1.0.0-beta.1
+        specifier: 1.0.0-beta.2
         version: link:../connector
       '@blockchain-lab-um/oidc-types':
-        specifier: 0.0.7
+        specifier: 0.0.8-beta.0
         version: link:../../libs/oidc/types
       '@headlessui/react':
         specifier: ^1.7.16
@@ -969,22 +969,22 @@ importers:
         specifier: 1.0.3
         version: 1.0.3
       '@blockchain-lab-um/did-provider-key':
-        specifier: 1.0.6
+        specifier: 1.0.7-beta.0
         version: link:../../libs/did-provider-key
       '@blockchain-lab-um/masca-types':
-        specifier: 1.0.0-beta.1
+        specifier: 1.0.0-beta.2
         version: link:../types
       '@blockchain-lab-um/oidc-client-plugin':
-        specifier: 0.1.0-beta.0
+        specifier: 0.1.0-beta.1
         version: link:../../libs/oidc/client-plugin
       '@blockchain-lab-um/oidc-types':
-        specifier: 0.0.7
+        specifier: 0.0.8-beta.0
         version: link:../../libs/oidc/types
       '@blockchain-lab-um/utils':
-        specifier: 1.3.5
+        specifier: 1.3.6-beta.0
         version: link:../../libs/utils
       '@blockchain-lab-um/veramo-datamanager':
-        specifier: 1.0.0-beta.1
+        specifier: 1.0.0-beta.2
         version: link:../datamanager
       '@ceramicnetwork/http-client':
         specifier: 2.27.0
@@ -1129,7 +1129,7 @@ importers:
         specifier: 1.0.3
         version: 1.0.3
       '@blockchain-lab-um/utils':
-        specifier: 1.3.5
+        specifier: 1.3.6-beta.0
         version: link:../../libs/utils
       '@iden3/js-iden3-core':
         specifier: 1.0.1
@@ -6792,7 +6792,7 @@ packages:
     engines: {node: '>=16.14'}
     dependencies:
       fs-extra: 10.1.0
-      tslib: 2.6.1
+      tslib: 2.6.2
     dev: false
 
   /@docusaurus/types@2.4.1(react-dom@18.2.0)(react@18.2.0):
@@ -7981,7 +7981,7 @@ packages:
     resolution: {integrity: sha512-6ueQTeJZtwKjmh23bdkq/DMqH4l4bmfvtQH98blOSbiXv/OUiyijSW6jU22IT8BNM1ujCaEvJfTtyCYVH38EMQ==}
     dependencies:
       '@formatjs/intl-localematcher': 0.4.0
-      tslib: 2.6.1
+      tslib: 2.6.2
     dev: false
 
   /@formatjs/fast-memoize@1.2.1:
@@ -8575,7 +8575,7 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       jsbi: 4.3.0
-      tslib: 2.6.1
+      tslib: 2.6.2
     dev: false
 
   /@leichtgewicht/ip-codec@2.0.4:
@@ -9718,7 +9718,7 @@ packages:
       is-glob: 4.0.3
       open: 9.1.0
       picocolors: 1.0.0
-      tslib: 2.6.1
+      tslib: 2.6.2
     dev: true
 
   /@polka/url@1.0.0-next.21:
@@ -19005,7 +19005,7 @@ packages:
       '@formatjs/ecma402-abstract': 1.11.4
       '@formatjs/fast-memoize': 1.2.1
       '@formatjs/icu-messageformat-parser': 2.1.0
-      tslib: 2.6.1
+      tslib: 2.6.2
     dev: false
 
   /intl@1.2.5(patch_hash=2i3sho75ida2jvn4xlmbxxe25i):

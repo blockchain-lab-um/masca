@@ -1,5 +1,15 @@
 # @blockchain-lab-um/oidc-verifier
 
+## 0.0.8-beta.0
+
+### Patch Changes
+
+- [#432](https://github.com/blockchain-lab-um/masca/pull/432) [`61b2e2b`](https://github.com/blockchain-lab-um/masca/commit/61b2e2bc4be171bf827dc9412951579de75fa5bc) Thanks [@martines3000](https://github.com/martines3000)! - Remove unused dependencies and devDependencies.
+
+- Updated dependencies [[`61b2e2b`](https://github.com/blockchain-lab-um/masca/commit/61b2e2bc4be171bf827dc9412951579de75fa5bc), [`61b2e2b`](https://github.com/blockchain-lab-um/masca/commit/61b2e2bc4be171bf827dc9412951579de75fa5bc)]:
+  - @blockchain-lab-um/oidc-rp-plugin@0.0.8-beta.0
+  - @blockchain-lab-um/oidc-types@0.0.8-beta.0
+
 ## 0.0.7
 
 ### Patch Changes

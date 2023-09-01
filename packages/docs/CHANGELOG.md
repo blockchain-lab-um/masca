@@ -1,5 +1,15 @@
 # @blockchain-lab-um/masca-docs
 
+## 1.0.0-beta.2
+
+### Patch Changes
+
+- [#429](https://github.com/blockchain-lab-um/masca/pull/429) [`253890c`](https://github.com/blockchain-lab-um/masca/commit/253890c526dee17a89cb66bba52ebbef83f558cb) Thanks [@andyv09](https://github.com/andyv09)! - fix: docs sections order
+
+- [#432](https://github.com/blockchain-lab-um/masca/pull/432) [`61b2e2b`](https://github.com/blockchain-lab-um/masca/commit/61b2e2bc4be171bf827dc9412951579de75fa5bc) Thanks [@martines3000](https://github.com/martines3000)! - Remove unused dependencies and devDependencies.
+
+- [#442](https://github.com/blockchain-lab-um/masca/pull/442) [`d2be3ec`](https://github.com/blockchain-lab-um/masca/commit/d2be3ec9e334309b487ae61ae509b814fafdce23) Thanks [@martines3000](https://github.com/martines3000)! - Improves polygonid authorization request section
+
 ## 1.0.0-beta.1
 
 ### Patch Changes
