@@ -102,7 +102,7 @@ export default async function LocaleLayout({
   }
 
   return (
-    <html lang={params.locale}>
+    <html suppressHydrationWarning lang={params.locale}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>

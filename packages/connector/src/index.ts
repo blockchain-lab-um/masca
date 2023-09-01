@@ -102,6 +102,6 @@ export async function enableMasca(
 
     return ResultObject.success(snap);
   } catch (err: unknown) {
-    return ResultObject.error((err as Error).toString());
+    return ResultObject.error((err as Error).message);
   }
 }

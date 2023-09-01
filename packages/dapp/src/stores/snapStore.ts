@@ -16,6 +16,7 @@ interface MascaStore {
   availableCredentialStores: Record<string, boolean>;
   lastFetch: number | undefined;
   popups: boolean | undefined;
+  isSignedInGoogle: boolean;
 
   changeAvailableCredentialStores: (
     availableCredentialStores: Record<string, boolean>
@@ -30,6 +31,7 @@ interface MascaStore {
   changeVcs: (vcs: QueryCredentialsRequestResult[]) => void;
   changeLastFetch: (lastFetch: number) => void;
   changePopups: (enabled: boolean) => void;
+  changeIsSignedInGoogle: (isSignedInGoogle: boolean) => void;
 }
 
 export const mascaStoreInitialState = {
@@ -42,6 +44,7 @@ export const mascaStoreInitialState = {
   availableCredentialStores: { snap: true, ceramic: true },
   lastFetch: undefined,
   popups: undefined,
+  isSignedInGoogle: false,
 };
 
 export const useMascaStore = createWithEqualityFn<MascaStore>()(
@@ -62,6 +65,8 @@ export const useMascaStore = createWithEqualityFn<MascaStore>()(
     changeVcs: (vcs: QueryCredentialsRequestResult[]) => set({ vcs }),
     changeLastFetch: (lastFetch: number) => set({ lastFetch }),
     changePopups: (enabled: boolean) => set({ popups: enabled }),
+    changeIsSignedInGoogle: (isSignedInGoogle: boolean) =>
+      set({ isSignedInGoogle }),
   }),
   shallow
 );

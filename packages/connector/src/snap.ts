@@ -454,6 +454,20 @@ export async function validateStoredCeramicSession(
 }
 
 /**
+ * Export Masca state
+ * @param this - Masca instance
+ * @returns Result<string> - Encrypted Masca state
+ */
+export async function exportStateBackup(this: Masca): Promise<Result<string>> {
+  return sendSnapMethod(
+    {
+      method: 'exportStateBackup',
+    },
+    this.snapId
+  );
+}
+
+/**
  * Import encrypted Masca state
  * @param this - Masca instance
  * @param params - Encrypted Masca state
@@ -467,20 +481,6 @@ export async function importStateBackup(
     {
       method: 'importStateBackup',
       params,
-    },
-    this.snapId
-  );
-}
-
-/**
- * Export Masca state
- * @param this - Masca instance
- * @returns Result<string> - Encrypted Masca state
- */
-export async function exportStateBackup(this: Masca): Promise<Result<string>> {
-  return sendSnapMethod(
-    {
-      method: 'exportStateBackup',
     },
     this.snapId
   );

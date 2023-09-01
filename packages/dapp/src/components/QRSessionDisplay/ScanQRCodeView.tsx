@@ -100,7 +100,7 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: t('succeess'),
+          title: t('success'),
           type: 'success',
           loading: false,
           link: null,
