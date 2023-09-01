@@ -12,7 +12,7 @@ import Button from '../Button';
 import InfoIcon from '../InfoIcon';
 import UploadButton from '../UploadButton';
 import { FriendlydAppTable } from './FriendlydAppTable';
-import { GoogleBackupForm } from './GoogleBackupForm';
+import GoogleBackupForm from './GoogleBackupForm';
 
 const SettingsCard = () => {
   const t = useTranslations('SettingsCard');

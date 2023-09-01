@@ -370,6 +370,8 @@
     "export": "Export",
     "export-desc": "Export encrypted Masca backup to a file.",
     "import-desc": "Import encrypted Masca backup from a file.",
+    "export-google": "Export to Google Drive",
+    "import-google": "Import from Google Drive",
     "backup-google-desc": "Backup your Masca data to Google Drive. All Settings and VCs stored in Masca will be saved. All data is encrypted!",
     "backup-manual-desc": "Backup your Masca data to a file. All Settings and VCs stored in Masca will be saved. All data is encrypted!",
     "export-error": "Failed to export backup",
