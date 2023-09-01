@@ -63,7 +63,7 @@ const GoogleDriveButton = ({ buttonText, action }: GoogleDriveButtonProps) => {
         },
       }),
     });
-    
+
     const res = await response.json();
 
     setTimeout(() => {
