@@ -1,5 +1,11 @@
 # @blockchain-lab-um/dapp
 
+## 1.0.0-beta.3
+
+### Patch Changes
+
+- [#387](https://github.com/blockchain-lab-um/masca/pull/387) [`f18ef41`](https://github.com/blockchain-lab-um/masca/commit/f18ef4178062a38295854acdd410cc53ddc58219) Thanks [@tadejpodrekar](https://github.com/tadejpodrekar)! - Adds support for backing up data to Google Drive.
+
 ## 1.0.0-beta.2
 
 ### Patch Changes

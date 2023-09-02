@@ -1,5 +1,11 @@
 # @blockchain-lab-um/oidc-client-plugin
 
+## 0.1.0-beta.2
+
+### Patch Changes
+
+- [#456](https://github.com/blockchain-lab-um/masca/pull/456) [`2101501`](https://github.com/blockchain-lab-um/masca/commit/2101501e674956ec7f325b87543f9481e3665716) Thanks [@martines3000](https://github.com/martines3000)! - Remove `www` from oidc proxy url
+
 ## 0.1.0-beta.1
 
 ### Patch Changes
