@@ -5,7 +5,7 @@ const path = require('path');
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
 const contentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-inline' cdn.vercel-insights.com vercel.live;
+  script-src 'self' 'unsafe-inline' cdn.vercel-insights.com vercel.live accounts.google.com/gsi/client;
   child-src 'none';
   img-src 'self' assets.vercel.com data:;
   style-src 'self' 'unsafe-inline';
@@ -81,6 +81,10 @@ const nextConfig = {
               {
                 key: 'Content-Security-Policy',
                 value: contentSecurityPolicy.replace(/\n/g, ''),
+              },
+              {
+                key: 'Cross-Origin-Opener-Policy',
+                value: 'same-origin-allow-popups',
               },
             ],
           },
