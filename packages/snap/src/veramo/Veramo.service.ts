@@ -531,12 +531,14 @@ class VeramoService {
       credentialOfferURI: params.credentialOfferURI,
     });
 
-    if (!(await UIService.handleCredentialOfferDialog(credentialOfferResult))) {
-      throw new Error('User denied credential offer');
-    }
-
     if (isError(credentialOfferResult)) {
       throw new Error(credentialOfferResult.error);
+    }
+
+    if (
+      !(await UIService.handleCredentialOfferDialog(credentialOfferResult.data))
+    ) {
+      throw new Error('User denied credential offer');
     }
 
     const { credentials, grants } = credentialOfferResult.data;
@@ -769,16 +771,16 @@ class VeramoService {
         authorizationRequestURI,
       });
 
+    if (isError(authorizationRequestResult)) {
+      throw new Error(authorizationRequestResult.error);
+    }
+
     if (
       !(await UIService.handleAuthorizationRequestDialog(
-        authorizationRequestResult
+        authorizationRequestResult.data
       ))
     ) {
       throw new Error('User denied authorization request');
-    }
-
-    if (isError(authorizationRequestResult)) {
-      throw new Error(authorizationRequestResult.error);
     }
 
     const authorizationRequest = authorizationRequestResult.data;
