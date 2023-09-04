@@ -36,7 +36,7 @@ class EncryptionService {
       {
         name: 'PBKDF2',
         salt,
-        iterations: 100000,
+        iterations: 600000,
         hash: 'SHA-256',
       },
       importedKey,
@@ -94,12 +94,12 @@ class EncryptionService {
       {
         name: 'PBKDF2',
         salt: hexToUint8Array(salt),
-        iterations: 100000,
+        iterations: 600000,
         hash: 'SHA-256',
       },
       importedKey,
       { name: 'AES-GCM', length: 256 },
-      true,
+      false,
       ['encrypt', 'decrypt']
     );
 
