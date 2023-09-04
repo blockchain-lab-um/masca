@@ -39,48 +39,42 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
               </div>
             </div>
           </div>
-          <hr className="mt-3" />
+          <hr className="mt-4" />
           <ul>
-            <li className="mt-6">
+            <li className="mt-12">
               <div className=" flex items-center gap-x-6">
                 <PlusCircleIcon className="h-6 w-6" />
                 <div className="dark:text-navy-blue-100 text-2xl font-medium text-gray-900 ">
-                  Feature A
+                  Manage you Decentralized Identifiers
                 </div>
               </div>
               <div className="dark:text-navy-blue-200 mt-4 max-w-md text-gray-800">
-                Use conversational language when explaining the snap. If you
-                need to use a technical term, briefly define it so everyone can
-                understand. Avoid jargon whenever possible, and keep your words
-                short and simple.
+                Create and manage your decentralized identifiers. Masca supports
+                multiple popular DID methods.
               </div>
             </li>
             <li className="mt-8">
               <div className=" flex items-center gap-x-6">
                 <PlusCircleIcon className="h-6 w-6" />
                 <div className="dark:text-navy-blue-100 text-2xl font-medium text-gray-900 ">
-                  Feature A
+                  Manage your Credentials
                 </div>
               </div>
               <div className="dark:text-navy-blue-200 mt-4 max-w-md text-gray-800">
-                Use conversational language when explaining the snap. If you
-                need to use a technical term, briefly define it so everyone can
-                understand. Avoid jargon whenever possible, and keep your words
-                short and simple.
+                Store Verifiable Credentials in Masca or Onchain & use them to
+                create Verifiable Presentation.
               </div>
             </li>
             <li className="mt-8">
               <div className=" flex items-center gap-x-6">
                 <PlusCircleIcon className="h-6 w-6" />
                 <div className="dark:text-navy-blue-100 text-2xl font-medium text-gray-900 ">
-                  Feature A
+                  Receive and share Credentials
                 </div>
               </div>
               <div className="dark:text-navy-blue-200 mt-4 max-w-md text-gray-800">
-                Use conversational language when explaining the snap. If you
-                need to use a technical term, briefly define it so everyone can
-                understand. Avoid jargon whenever possible, and keep your words
-                short and simple.
+                Masca supports Polygon ID & OID4VC flows to enable secure data
+                sharing between entities.
               </div>
             </li>
           </ul>
