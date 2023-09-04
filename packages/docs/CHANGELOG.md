@@ -1,5 +1,25 @@
 # @blockchain-lab-um/masca-docs
 
+## 1.0.0
+
+### Major Changes
+
+- [`205136a`](https://github.com/blockchain-lab-um/masca/commit/205136a5e7ceaa39d7dbcbf9c5ef41c255639262) Thanks [@martines3000](https://github.com/martines3000)! - Release first major version of Masca packages.
+
+### Patch Changes
+
+- [#417](https://github.com/blockchain-lab-um/masca/pull/417) [`94b56e9`](https://github.com/blockchain-lab-um/masca/commit/94b56e9c813bfc9d19f995fe0d6a11f9ce52c5ba) Thanks [@martines3000](https://github.com/martines3000)! - Reorder and improves some integration sections.
+
+- [#429](https://github.com/blockchain-lab-um/masca/pull/429) [`253890c`](https://github.com/blockchain-lab-um/masca/commit/253890c526dee17a89cb66bba52ebbef83f558cb) Thanks [@andyv09](https://github.com/andyv09)! - fix: docs sections order
+
+- [#432](https://github.com/blockchain-lab-um/masca/pull/432) [`61b2e2b`](https://github.com/blockchain-lab-um/masca/commit/61b2e2bc4be171bf827dc9412951579de75fa5bc) Thanks [@martines3000](https://github.com/martines3000)! - Remove unused dependencies and devDependencies.
+
+- [#417](https://github.com/blockchain-lab-um/masca/pull/417) [`94b56e9`](https://github.com/blockchain-lab-um/masca/commit/94b56e9c813bfc9d19f995fe0d6a11f9ce52c5ba) Thanks [@martines3000](https://github.com/martines3000)! - Add separate Polygon ID and OID4VC sections.
+
+- [#442](https://github.com/blockchain-lab-um/masca/pull/442) [`d2be3ec`](https://github.com/blockchain-lab-um/masca/commit/d2be3ec9e334309b487ae61ae509b814fafdce23) Thanks [@martines3000](https://github.com/martines3000)! - Improves polygonid authorization request section
+
+- [#423](https://github.com/blockchain-lab-um/masca/pull/423) [`c6c2703`](https://github.com/blockchain-lab-um/masca/commit/c6c270377a65387f928ea4b1089fc25b1699e85d) Thanks [@omahs](https://github.com/omahs)! - Fixed a few typos in the documentation.
+
 ## 1.0.0-beta.2
 
 ### Patch Changes
