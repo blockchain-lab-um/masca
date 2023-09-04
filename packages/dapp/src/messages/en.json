@@ -61,7 +61,7 @@
     "secondary-desc-2": "(Requires a primary device to work)"
   },
   "ConnectButton": {
-    "connect": "Connect Wallet"
+    "connect": "Connect & Install Masca"
   },
   "ConnectDeviceView": {
     "connect": "Connect Wallet to proceed!",

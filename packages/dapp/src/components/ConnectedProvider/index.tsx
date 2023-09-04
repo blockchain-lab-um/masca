@@ -5,6 +5,7 @@ import { PlusCircleIcon } from '@heroicons/react/24/solid';
 import { useTranslations } from 'next-intl';
 
 import { useGeneralStore } from '@/stores';
+import MascaLogo from '../MascaLogo';
 
 interface ConnectedProviderProps {
   children: React.ReactNode;
@@ -24,20 +25,26 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
         <div className="text-h3 dark:text-navy-blue-50 text-gray-900">
           Connect Wallet & Install Masca
         </div>
-        <div className="dark:border-navy-blue-500 mt-6 rounded-3xl border border-gray-500 px-6 py-4">
-          <div className="">
-            <div className="text-h3 dark:text-navy-blue-50 text-gray-900">
-              Masca
+        <div className="dark:border-navy-blue-500 mt-8 rounded-3xl border border-gray-500 px-6 py-4">
+          <div className="flex items-center gap-x-6">
+            <div className="hidden sm:block">
+              <MascaLogo />
             </div>
-            <div className="text-h4 dark:text-navy-blue-300 mt-2 text-gray-600">
-              Manage Decentralized Identity in MetaMask
+            <div>
+              <div className="text-h3 dark:text-navy-blue-50 text-gray-900">
+                Masca
+              </div>
+              <div className="text-h4 dark:text-navy-blue-300 mt-2 text-gray-600">
+                Manage Decentralized Identity in MetaMask
+              </div>
             </div>
           </div>
+          <hr className="mt-3" />
           <ul>
-            <li className="mt-4">
+            <li className="mt-6">
               <div className=" flex items-center gap-x-6">
                 <PlusCircleIcon className="h-6 w-6" />
-                <div className="text-h3 dark:text-navy-blue-100 font-medium text-gray-900 ">
+                <div className="dark:text-navy-blue-100 text-2xl font-medium text-gray-900 ">
                   Feature A
                 </div>
               </div>
@@ -45,37 +52,35 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
                 Use conversational language when explaining the snap. If you
                 need to use a technical term, briefly define it so everyone can
                 understand. Avoid jargon whenever possible, and keep your words
-                short and simple. Introduce your snap in the context of your
-                application to make it clear what the user gets if they install
-                it.
+                short and simple.
               </div>
             </li>
-            <li>
-              <div className="flex items-center gap-x-6">
+            <li className="mt-8">
+              <div className=" flex items-center gap-x-6">
                 <PlusCircleIcon className="h-6 w-6" />
-                <div className="text-h3">Feature A</div>
+                <div className="dark:text-navy-blue-100 text-2xl font-medium text-gray-900 ">
+                  Feature A
+                </div>
               </div>
-              <div className="max-w-md">
+              <div className="dark:text-navy-blue-200 mt-4 max-w-md text-gray-800">
                 Use conversational language when explaining the snap. If you
                 need to use a technical term, briefly define it so everyone can
                 understand. Avoid jargon whenever possible, and keep your words
-                short and simple. Introduce your snap in the context of your
-                application to make it clear what the user gets if they install
-                it.
+                short and simple.
               </div>
             </li>
-            <li>
-              <div className="flex items-center gap-x-6">
+            <li className="mt-8">
+              <div className=" flex items-center gap-x-6">
                 <PlusCircleIcon className="h-6 w-6" />
-                <div className="text-h3">Feature A</div>
+                <div className="dark:text-navy-blue-100 text-2xl font-medium text-gray-900 ">
+                  Feature A
+                </div>
               </div>
-              <div className="max-w-md">
+              <div className="dark:text-navy-blue-200 mt-4 max-w-md text-gray-800">
                 Use conversational language when explaining the snap. If you
                 need to use a technical term, briefly define it so everyone can
                 understand. Avoid jargon whenever possible, and keep your words
-                short and simple. Introduce your snap in the context of your
-                application to make it clear what the user gets if they install
-                it.
+                short and simple.
               </div>
             </li>
           </ul>
