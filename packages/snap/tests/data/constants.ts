@@ -53,7 +53,7 @@ export const importablePrivateKey: MinimalImportableKey = {
 
 // For exampleJWT.json
 export const jsonPath =
-  '$[?(@.data.credentialSubject.placeOfBirth == "Asgard")]';
+  '$[?(@.data.credentialSubject.achievement == "Certified Solidity Developer 2")]';
 
 // For exampleJWT_2.json & VCs returned by createTestVCs()
 export const jsonPath2 =

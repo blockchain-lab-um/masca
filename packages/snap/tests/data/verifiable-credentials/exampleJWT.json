@@ -1,30 +1,26 @@
 {
   "credentialSubject": {
-    "currentAddress": "2570 24th Street",
-    "dateOfBirth": "1985-05-25",
-    "familyName": "Doe",
-    "gender": "F",
-    "givenName": "Susan",
-    "issued": "2020-08-01",
-    "personalIdentifier": "I1234561",
-    "placeOfBirth": "Asgard",
-    "userId": "auth0|6371065f0d58f1830efa260d",
-    "id": "did:ethr:0x02e85a63c1efa1ce3a4d0c0ad2b784f19f1595008fd50d5d9f61134c372fab68a9"
+    "accomplishmentType": "Developer Certificate",
+    "learnerName": "John Doe",
+    "achievement": "Certified Solidity Developer 2",
+    "courseProvider": "https://blockchain-lab.um.si/",
+    "id": "did:web:example.johndoe.com"
   },
-  "issuer": { "id": "did:web:asgard-state.auth0lab.com" },
-  "id": "574a0a69-eef6-4da7-846b-19cf77f25558",
-  "type": ["VerifiableCredential", "IDCard"],
-  "credentialStatus": {
-    "id": "https://asgard-state.auth0lab.com/vcs/credential/status/3#105",
-    "type": "StatusList2021Entry",
-    "statusPurpose": "revocation",
-    "statusListIndex": 105,
-    "statusListCredential": "https://asgard-state.auth0lab.com/vcs/credential/status/3"
+  "issuer": {
+    "id": "did:jwk:eyJhbGciOiJFUzI1NksiLCJjcnYiOiJzZWNwMjU2azEiLCJrdHkiOiJFQyIsInVzZSI6InNpZyIsIngiOiJlU01sN3BRMWRfX0JzOEpYM1lKb1V3ZVpyTFZ2Zm1TSEUzdG9IenMwbnpjIiwieSI6IlNoajV1M0ZiQkNEZnpEX1lFSW5tVmRWUmdNVU9PdGV3X0lsZEpwT2duaWMifQ"
   },
-  "@context": ["https://www.w3.org/2018/credentials/v1"],
-  "issuanceDate": "2022-11-13T14:59:54.000Z",
+  "type": ["VerifiableCredential", "ProgramCompletionCertificate"],
+  "credentialSchema": {
+    "id": "https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json",
+    "type": "JsonSchemaValidator2018"
+  },
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1",
+    "https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/ld-context.json"
+  ],
+  "issuanceDate": "2023-06-26T07:05:39.000Z",
   "proof": {
     "type": "JwtProof2020",
-    "jwt": "eyJraWQiOiJkaWQ6d2ViOmFzZ2FyZC1zdGF0ZS5hdXRoMGxhYi5jb20jMDRiYTAxMmNhMzhhYTZjYTgyMjAyMzVhYTNkYTdkODVmNzg2ODg0ZTUwMjFmNzM3ODg2MDZhODYyYmMwMTNhNTAyODYyY2U5NmM5Y2U3ZWQ4OTJmZmY2ZDBmZjliZDg5MTg5OWE0MzI3Y2Q0ZDQ0NDY3MTdkMjg5NzhhMDYwYjU1NCIsImFsZyI6IkVTMjU2SyIsInR5cCI6IkpXVCJ9.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSJdLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiSURDYXJkIl0sImNyZWRlbnRpYWxTdWJqZWN0Ijp7ImN1cnJlbnRBZGRyZXNzIjoiMjU3MCAyNHRoIFN0cmVldCIsImRhdGVPZkJpcnRoIjoiMTk4NS0wNS0yNSIsImZhbWlseU5hbWUiOiJEb2UiLCJnZW5kZXIiOiJGIiwiZ2l2ZW5OYW1lIjoiU3VzYW4iLCJpc3N1ZWQiOiIyMDIwLTA4LTAxIiwicGVyc29uYWxJZGVudGlmaWVyIjoiSTEyMzQ1NjEiLCJwbGFjZU9mQmlydGgiOiJBc2dhcmQiLCJ1c2VySWQiOiJhdXRoMHw2MzcxMDY1ZjBkNThmMTgzMGVmYTI2MGQifSwiY3JlZGVudGlhbFN0YXR1cyI6eyJpZCI6Imh0dHBzOi8vYXNnYXJkLXN0YXRlLmF1dGgwbGFiLmNvbS92Y3MvY3JlZGVudGlhbC9zdGF0dXMvMyMxMDUiLCJ0eXBlIjoiU3RhdHVzTGlzdDIwMjFFbnRyeSIsInN0YXR1c1B1cnBvc2UiOiJyZXZvY2F0aW9uIiwic3RhdHVzTGlzdEluZGV4IjoxMDUsInN0YXR1c0xpc3RDcmVkZW50aWFsIjoiaHR0cHM6Ly9hc2dhcmQtc3RhdGUuYXV0aDBsYWIuY29tL3Zjcy9jcmVkZW50aWFsL3N0YXR1cy8zIn19LCJzdWIiOiJkaWQ6ZXRocjoweDAyZTg1YTYzYzFlZmExY2UzYTRkMGMwYWQyYjc4NGYxOWYxNTk1MDA4ZmQ1MGQ1ZDlmNjExMzRjMzcyZmFiNjhhOSIsImp0aSI6IjU3NGEwYTY5LWVlZjYtNGRhNy04NDZiLTE5Y2Y3N2YyNTU1OCIsIm5iZiI6MTY2ODM1MTU5NCwiaXNzIjoiZGlkOndlYjphc2dhcmQtc3RhdGUuYXV0aDBsYWIuY29tIn0.dQB8vT_aNtUJfjtjMECNSSSUvEDKOXXueV9mNNdu3gzeTFgsLCsxjkTx2qTGOr-9AC3PZq1aczc9vXRnZ7zKaw"
+    "jwt": "eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSIsImh0dHBzOi8vYmV0YS5hcGkuc2NoZW1hcy5zZXJ0by5pZC92MS9wdWJsaWMvcHJvZ3JhbS1jb21wbGV0aW9uLWNlcnRpZmljYXRlLzEuMC9sZC1jb250ZXh0Lmpzb24iXSwidHlwZSI6WyJWZXJpZmlhYmxlQ3JlZGVudGlhbCIsIlByb2dyYW1Db21wbGV0aW9uQ2VydGlmaWNhdGUiXSwiY3JlZGVudGlhbFN1YmplY3QiOnsiYWNjb21wbGlzaG1lbnRUeXBlIjoiRGV2ZWxvcGVyIENlcnRpZmljYXRlIiwibGVhcm5lck5hbWUiOiJKb2huIERvZSIsImFjaGlldmVtZW50IjoiQ2VydGlmaWVkIFNvbGlkaXR5IERldmVsb3BlciAyIiwiY291cnNlUHJvdmlkZXIiOiJodHRwczovL2Jsb2NrY2hhaW4tbGFiLnVtLnNpLyJ9LCJjcmVkZW50aWFsU2NoZW1hIjp7ImlkIjoiaHR0cHM6Ly9iZXRhLmFwaS5zY2hlbWFzLnNlcnRvLmlkL3YxL3B1YmxpYy9wcm9ncmFtLWNvbXBsZXRpb24tY2VydGlmaWNhdGUvMS4wL2pzb24tc2NoZW1hLmpzb24iLCJ0eXBlIjoiSnNvblNjaGVtYVZhbGlkYXRvcjIwMTgifX0sInN1YiI6ImRpZDp3ZWI6ZXhhbXBsZS5qb2huZG9lLmNvbSIsIm5iZiI6MTY4Nzc2MzEzOSwiaXNzIjoiZGlkOmp3azpleUpoYkdjaU9pSkZVekkxTmtzaUxDSmpjbllpT2lKelpXTndNalUyYXpFaUxDSnJkSGtpT2lKRlF5SXNJblZ6WlNJNkluTnBaeUlzSW5naU9pSmxVMDFzTjNCUk1XUmZYMEp6T0VwWU0xbEtiMVYzWlZweVRGWjJabTFUU0VVemRHOUllbk13Ym5waklpd2llU0k2SWxOb2FqVjFNMFppUWtORVpucEVYMWxGU1c1dFZtUldVbWROVlU5UGRHVjNYMGxzWkVwd1QyZHVhV01pZlEifQ.E-bso-dJCdyQA_-f94E1ZtUA_iyyLt2t27jz_jN53qU9rvhr0q0YBJFXlNIotvkSqUqG1RuVTgxMZaUcG6iYmw"
   }
 }
