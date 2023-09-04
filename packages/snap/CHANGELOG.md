@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.0-beta.5
+
+### Patch Changes
+
+- [#459](https://github.com/blockchain-lab-um/masca/pull/459) [`acd6608`](https://github.com/blockchain-lab-um/masca/commit/acd6608d4343fc003131122e7e181987d757104d) Thanks [@martines3000](https://github.com/martines3000)! - Increase number of iterations for PBKDF2 to 600k.
+
 ## 1.0.0-beta.4
 
 ### Patch Changes
