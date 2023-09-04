@@ -8,8 +8,6 @@
 <h6 align="center">
   <a href="https://masca.io">Website</a>
   ·
-  <a href="https://blockchain-lab-um.github.io/course-dapp/">Get your first VC</a>
-  ·
   <a href="https://docs.masca.io/">Docs</a>
   ·
   <a href="https://medium.com/@blockchainlabum/open-sourcing-ssi-snap-for-metamask-aaa176775be2">Blog</a>
@@ -47,17 +45,6 @@ Masca is built agnostic, leaving the user to choose his preferred **blockchain, 
 Many new features are already in the works. For more information, please check the [roadmap](https://docs.masca.io/docs/roadmap) on the documentation.
 
 # Development
-
-### Versions
-
-Every version of Masca does NOT work with every version of MetaMask Flask! Here is a table of compatible versions:
-
-| Masca version | MetaMask Flask version |
-| ------------- | ---------------------- |
-| 0.1.0         | 10.29.0                |
-| 0.2.0         | 10.31.0                |
-| 0.3.0         | 10.32.0                |
-| 0.4.0         | 10.32.0                |
 
 ### Prerequisites
 
