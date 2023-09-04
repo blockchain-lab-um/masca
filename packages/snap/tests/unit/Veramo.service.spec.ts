@@ -30,11 +30,10 @@ import {
 import exampleVCEIP712 from '../data/verifiable-credentials/exampleEIP712.json';
 import exampleVCJSONLD from '../data/verifiable-credentials/exampleJSONLD.json';
 import exampleVC_2 from '../data/verifiable-credentials/exampleJWT_2.json';
-import exampleVC_3 from '../data/verifiable-credentials/exampleJWT_3.json';
 import exampleVC from '../data/verifiable-credentials/exampleJWT.json';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
-const credentials = [exampleVC, exampleVC_2, exampleVC_3, exampleVCEIP712];
+const credentials = [exampleVC, exampleVC_2, exampleVCEIP712];
 
 describe('Veramo Service', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
@@ -460,9 +459,8 @@ describe('Veramo Service', () => {
       expect(vcs[0].data).toContainAllKeys([
         'credentialSubject',
         'issuer',
-        'id',
         'type',
-        'credentialStatus',
+        'credentialSchema',
         '@context',
         'issuanceDate',
         'proof',

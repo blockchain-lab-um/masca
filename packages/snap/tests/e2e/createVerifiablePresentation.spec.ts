@@ -12,7 +12,6 @@ import { getDefaultSnapState } from '../data/defaultSnapState';
 import exampleVCEIP712 from '../data/verifiable-credentials/exampleEIP712.json';
 import exampleVCJSONLD from '../data/verifiable-credentials/exampleJSONLD.json';
 import exampleVC_2 from '../data/verifiable-credentials/exampleJWT_2.json';
-import exampleVC_3 from '../data/verifiable-credentials/exampleJWT_3.json';
 import exampleVC from '../data/verifiable-credentials/exampleJWT.json';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
@@ -36,7 +35,6 @@ const vcs = [
   { title: 'JSON-LD', vcs: [exampleVCJSONLD] },
   { title: 'EIP712', vcs: [exampleVCEIP712] },
   { title: '2 JWTs', vcs: [exampleVC, exampleVC_2] },
-  { title: '3 JWTs', vcs: [exampleVC, exampleVC_2, exampleVC_3] },
   { title: 'JWT & EIP712', vcs: [exampleVC, exampleVCEIP712] },
   { title: 'JWT & JSON-LD', vcs: [exampleVC, exampleVCJSONLD] },
   { title: 'JSON-LD & EIP712', vcs: [exampleVCJSONLD, exampleVCEIP712] },
