@@ -54,7 +54,10 @@ export const decodePublicKey = (publicKey: string) => {
  * @returns hex string
  */
 export function uint8ArrayToHex(arr: Uint8Array) {
-  return Buffer.from(arr).toString('hex');
+  const buffer = Buffer.from(arr)
+  const hex = buffer.toString('hex');
+  buffer.fill(0);
+  return hex;
 }
 
 /**
@@ -63,7 +66,10 @@ export function uint8ArrayToHex(arr: Uint8Array) {
  * @returns Uint8Array
  */
 export function hexToUint8Array(str: string): Uint8Array {
-  return new Uint8Array(Buffer.from(str, 'hex'));
+  const buffer = Buffer.from(str, 'hex');
+  const uint8Array = new Uint8Array(buffer);
+  buffer.fill(0);
+  return uint8Array;
 }
 
 /**
