@@ -28,7 +28,7 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
     <div className="dark:bg-navy-blue-800 dark:text-navy-blue-400 flex-1 rounded-3xl bg-white shadow-lg">
       <div className="flex flex-col items-center p-12">
         <div className="text-h3 dark:text-navy-blue-50 text-gray-900">
-          Connect Wallet & Install Masca
+          Connect Wallet & Install Masca to continue
         </div>
         <div className="dark:border-navy-blue-500 mt-8 rounded-3xl border border-gray-500 px-12 py-8 md:min-w-[40em]">
           <div className="flex items-center gap-x-6">
@@ -51,7 +51,7 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
                 <div className=" flex items-center gap-x-4">
                   <LockClosedIcon className="dark:text-orange-accent-dark h-8 w-8 text-pink-500" />
                   <div className="dark:text-navy-blue-50 font-ubuntu text-2xl font-medium text-gray-900 ">
-                    Own your identity
+                    Own your Identity
                   </div>
                 </div>
                 <div className="dark:text-navy-blue-200 mt-4 max-w-md text-gray-700">
@@ -62,22 +62,22 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
                   as a passport in the digital world. With just a few clicks,
                   transform your existing account into a{' '}
                   <span className="dark:text-navy-blue-100 font-bold text-gray-800">
-                    universal digital identity
+                    universal digital Identity
                   </span>
-                  , trusted everywhere.
+                  .
                 </div>
               </li>
               <li className="mt-12">
                 <div className=" flex items-center gap-x-4">
                   <CreditCardIcon className="dark:text-orange-accent-dark h-8 w-8 text-pink-500" />
                   <div className="dark:text-navy-blue-50 font-ubuntu text-2xl font-medium text-gray-900 ">
-                    Manage & share Credentials securely
+                    Manage Credentials securely
                   </div>
                 </div>
                 <div className="dark:text-navy-blue-200 mt-4 max-w-md text-gray-700">
-                  Store everything from your driving license to your job
-                  credentials safely and securely in one place. Choose to save
-                  them on{' '}
+                  Store everything from your Web3 community participation
+                  certificate to your real world work credentials safely and
+                  securely in one place. Choose to save them on{' '}
                   <span className="dark:text-navy-blue-100 font-bold text-gray-800">
                     Ceramic Network
                   </span>{' '}
@@ -86,8 +86,7 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
                     {' '}
                     MetaMask wallet
                   </span>
-                  . These credentials can be shared with anyone, and they can be
-                  verified using blockchain technology.
+                  .
                 </div>
               </li>
               <li className="mt-12">
@@ -99,8 +98,7 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
                 </div>
                 <div className="dark:text-navy-blue-200 mt-4 max-w-md text-gray-700">
                   Easily use your digital identity across different platforms
-                  and services with no extra setup. Masca supports popular
-                  identity systems like{' '}
+                  and services. Masca supports popular identity systems like{' '}
                   <span className="dark:text-navy-blue-100 font-bold text-gray-800">
                     Polygon ID
                   </span>{' '}
