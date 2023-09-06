@@ -54,7 +54,7 @@ export const decodePublicKey = (publicKey: string) => {
  * @returns hex string
  */
 export function uint8ArrayToHex(arr: Uint8Array) {
-  const buffer = Buffer.from(arr)
+  const buffer = Buffer.from(arr);
   const hex = buffer.toString('hex');
   buffer.fill(0);
   return hex;
