@@ -33,10 +33,6 @@ async function createDriveFile(
   wallet: string,
   content: string
 ) {
-  console.log(
-    'Creating file ',
-    `${process.env.GOOGLE_DRIVE_FILE_NAME}${wallet}`
-  );
   const mimeType = 'text/plain';
   const fileMetadata = {
     parents: ['appDataFolder'],
@@ -130,7 +126,6 @@ export async function POST(request: NextRequest) {
     }
 
     const { accessToken, action, wallet, content } = body.data;
-    console.log('🚀 ~ file: route.tsx:130 ~ POST ~ wallet:', wallet);
 
     if (!accessToken || !wallet) {
       return NextResponse.json(
