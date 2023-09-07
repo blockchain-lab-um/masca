@@ -43,6 +43,23 @@ class WalletService {
   static get(): HDNodeWallet {
     return this.instance;
   }
+
+  /**
+   * Function that creates a wallet from MM entropy and returns a wallet id for current metamask.
+   * @returns string - Wallet id
+   */
+  static async getWalletId(): Promise<string> {
+    const entropy = await snap.request({
+      method: 'snap_getEntropy',
+      params: {
+        version: 1,
+      },
+    });
+
+    const nodeWallet = HDNodeWallet.fromMnemonic(Mnemonic.fromEntropy(entropy));
+
+    return nodeWallet.address;
+  }
 }
 
 export default WalletService;
