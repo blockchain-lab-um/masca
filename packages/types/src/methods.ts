@@ -134,3 +134,7 @@ export interface RemoveFriendlyDapp {
   method: 'removeFriendlyDapp';
   params: RemoveFriendlyDappParams;
 }
+
+export interface GetWalletId {
+  method: 'getWalletId';
+}
