@@ -177,6 +177,7 @@ function MenuPopover() {
                         </Link>
                       );
                     }
+                    return <div className="hidden" key={link.name}></div>;
                   })}
                 </div>
                 <div className="dark:bg-navy-blue-500 bg-gray-100 p-4">

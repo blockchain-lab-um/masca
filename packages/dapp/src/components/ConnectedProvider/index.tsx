@@ -5,7 +5,6 @@ import {
   CreditCardIcon,
   GlobeAltIcon,
   LockClosedIcon,
-  PlusCircleIcon,
 } from '@heroicons/react/24/solid';
 import { useTranslations } from 'next-intl';
 
@@ -28,7 +27,7 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
     <div className="dark:bg-navy-blue-800 dark:text-navy-blue-400 flex-1 rounded-3xl bg-white shadow-lg">
       <div className="flex flex-col items-center p-12">
         <div className="text-h3 dark:text-navy-blue-50 text-gray-900">
-          Connect Wallet & Install Masca to continue
+          {t('connect')}
         </div>
         <div className="dark:border-navy-blue-500 mt-8 rounded-3xl border border-gray-500 px-12 py-8 md:min-w-[40em]">
           <div className="flex items-center gap-x-6">
@@ -37,10 +36,10 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
             </div>
             <div>
               <div className="text-h3 dark:text-navy-blue-50 font-ubuntu text-gray-900">
-                Masca
+                {t('masca')}
               </div>
               <div className="text-h4 dark:text-navy-blue-300 font-ubuntu mt-2 text-gray-600">
-                Manage Decentralized Identity in MetaMask
+                {t('masca-desc')}
               </div>
             </div>
           </div>
@@ -51,18 +50,17 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
                 <div className=" flex items-center gap-x-4">
                   <LockClosedIcon className="dark:text-orange-accent-dark h-8 w-8 text-pink-500" />
                   <div className="dark:text-navy-blue-50 font-ubuntu text-2xl font-medium text-gray-900 ">
-                    Own your Identity
+                    {t('features.feat-1')}
                   </div>
                 </div>
                 <div className="dark:text-navy-blue-200 mt-4 max-w-md text-gray-700">
-                  Imagine your{' '}
+                  {t('features.desc-1-1')}
                   <span className="dark:text-navy-blue-100 font-bold text-gray-800">
-                    Ethereum account{' '}
+                    {t('features.desc-1-2')}
                   </span>
-                  as a passport in the digital world. With just a few clicks,
-                  transform your existing account into a{' '}
+                  {t('features.desc-1-3')}
                   <span className="dark:text-navy-blue-100 font-bold text-gray-800">
-                    universal digital Identity
+                    {t('features.desc-1-4')}
                   </span>
                   .
                 </div>
@@ -71,20 +69,17 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
                 <div className=" flex items-center gap-x-4">
                   <CreditCardIcon className="dark:text-orange-accent-dark h-8 w-8 text-pink-500" />
                   <div className="dark:text-navy-blue-50 font-ubuntu text-2xl font-medium text-gray-900 ">
-                    Manage Credentials securely
+                    {t('features.feat-2')}
                   </div>
                 </div>
                 <div className="dark:text-navy-blue-200 mt-4 max-w-md text-gray-700">
-                  Store everything from your Web3 community participation
-                  certificate to your real world work credentials safely and
-                  securely in one place. Choose to save them on{' '}
+                  {t('features.desc-2-1')}
                   <span className="dark:text-navy-blue-100 font-bold text-gray-800">
-                    Ceramic Network
-                  </span>{' '}
-                  or keep them privately in your
+                    {t('features.desc-2-2')}
+                  </span>
+                  {t('features.desc-2-3')}
                   <span className="dark:text-navy-blue-100 font-bold text-gray-800">
-                    {' '}
-                    MetaMask wallet
+                    {t('features.desc-2-4')}
                   </span>
                   .
                 </div>
@@ -93,20 +88,19 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
                 <div className=" flex items-center gap-x-4">
                   <GlobeAltIcon className="dark:text-orange-accent-dark h-8 w-8 text-pink-500" />
                   <div className="dark:text-navy-blue-50 font-ubuntu max-w-[15em] text-start text-2xl font-medium text-gray-900 ">
-                    Universal Compatibility with Identity Flows
+                    {t('features.feat-3')}
                   </div>
                 </div>
                 <div className="dark:text-navy-blue-200 mt-4 max-w-md text-gray-700">
-                  Easily use your digital identity across different platforms
-                  and services. Masca supports popular identity systems like{' '}
+                  {t('features.desc-3-1')}
                   <span className="dark:text-navy-blue-100 font-bold text-gray-800">
-                    Polygon ID
-                  </span>{' '}
-                  and{' '}
-                  <span className="dark:text-navy-blue-100 font-bold text-gray-800">
-                    OID4VC
+                    {t('features.desc-3-2')}
                   </span>
-                  , making your life easier and more secure.
+                  {t('features.desc-3-3')}
+                  <span className="dark:text-navy-blue-100 font-bold text-gray-800">
+                    {t('features.desc-3-4')}
+                  </span>
+                  {t('features.desc-3-5')}
                 </div>
               </li>
             </ul>
