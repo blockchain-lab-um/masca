@@ -24,11 +24,10 @@ const defaultSnapOrigin = 'npm:@blockchain-lab-um/masca';
  * Install and enable Masca
  * This is the main entry point for Masca
  *
- * Checks for existence of MetaMask Flask and installs Masca if not installed.
+ * Checks for existence of MetaMask and installs Masca if not installed.
  *
  * Set the Masca version to be installed and select the supported DID methods, as these are the only methods that will be available on the API returned from this function.
  *
- * **_Note: Flask should be the only enabled MetaMask extention in the browser_**
  * @param snapInstallationParams - set snapID, version and a list of supported methods
  * @return Masca - adapter object that exposes snap API
  */
@@ -47,17 +46,6 @@ export async function enableMasca(
 
   if (!provider) {
     return ResultObject.error('No provider found');
-  }
-
-  // web3_clientVersion returns the installed MetaMask version as a string
-  const mmVersion: string = await window.ethereum.request({
-    method: 'web3_clientVersion',
-  });
-
-  if (!mmVersion.includes('flask')) {
-    return ResultObject.error(
-      'MetaMask is not supported. Please install MetaMask Flask.'
-    );
   }
 
   try {
