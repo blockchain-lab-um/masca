@@ -136,6 +136,14 @@ export const ConnectDeviceView = () => {
                 <Button
                   variant="primary"
                   onClick={() => {
+                    // Reset session if already set
+                    changeSession({
+                      ...session,
+                      sessionId: null,
+                      key: null,
+                      exp: null,
+                      connected: false,
+                    });
                     setIsConnectionModalOpen(true);
                   }}
                 >
