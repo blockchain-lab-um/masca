@@ -25,31 +25,31 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
 
   return (
     <div className="dark:bg-navy-blue-800 dark:text-navy-blue-400 flex-1 rounded-3xl bg-white shadow-lg">
-      <div className="flex flex-col items-center p-12">
-        <div className="text-h3 dark:text-navy-blue-50 text-gray-900">
+      <div className="flex flex-col items-center justify-center px-6 py-12 sm:px-12">
+        <div className="text-h4 sm:text-h3 dark:text-navy-blue-50 text-center text-gray-900">
           {t('connect')}
         </div>
-        <div className="dark:border-navy-blue-500 mt-8 rounded-3xl border border-gray-500 px-12 py-8 md:min-w-[40em]">
+        <div className="dark:border-navy-blue-500 mt-8 rounded-3xl border border-gray-500 px-6 py-8 sm:px-12 md:min-w-[40em]">
           <div className="flex items-center gap-x-6">
             <div className="hidden sm:block">
               <MascaLogo />
             </div>
             <div>
-              <div className="text-h3 dark:text-navy-blue-50 font-ubuntu text-gray-900">
+              <div className="text-h4 sm:text-h3 dark:text-navy-blue-50 font-ubuntu text-gray-900">
                 {t('masca')}
               </div>
-              <div className="text-h4 dark:text-navy-blue-300 font-ubuntu mt-2 text-gray-600">
+              <div className="text-h5 sm:text-h4 dark:text-navy-blue-300 font-ubuntu mt-2 text-gray-600">
                 {t('masca-desc')}
               </div>
             </div>
           </div>
           <hr className="mt-4" />
           <div className="flex justify-center">
-            <ul className="flex flex-col items-start text-justify text-xl tracking-normal">
+            <ul className="text-md flex flex-col items-start text-justify tracking-normal sm:text-xl">
               <li className="mt-12">
-                <div className=" flex items-center gap-x-4">
-                  <LockClosedIcon className="dark:text-orange-accent-dark h-8 w-8 text-pink-500" />
-                  <div className="dark:text-navy-blue-50 font-ubuntu text-2xl font-medium text-gray-900 ">
+                <div className=" just flex items-center gap-x-4">
+                  <LockClosedIcon className="dark:text-orange-accent-dark h-6 w-6 text-pink-500 sm:h-8 sm:w-8" />
+                  <div className="dark:text-navy-blue-50 font-ubuntu text-md text-start font-medium text-gray-900 sm:text-2xl ">
                     {t('features.feat-1')}
                   </div>
                 </div>
@@ -67,8 +67,8 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
               </li>
               <li className="mt-12">
                 <div className=" flex items-center gap-x-4">
-                  <CreditCardIcon className="dark:text-orange-accent-dark h-8 w-8 text-pink-500" />
-                  <div className="dark:text-navy-blue-50 font-ubuntu text-2xl font-medium text-gray-900 ">
+                  <CreditCardIcon className="dark:text-orange-accent-dark h-6 w-6 text-pink-500 sm:h-8 sm:w-8" />
+                  <div className="dark:text-navy-blue-50 font-ubuntu text-md text-start font-medium text-gray-900 sm:text-2xl ">
                     {t('features.feat-2')}
                   </div>
                 </div>
@@ -86,8 +86,8 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
               </li>
               <li className="mt-12">
                 <div className=" flex items-center gap-x-4">
-                  <GlobeAltIcon className="dark:text-orange-accent-dark h-8 w-8 text-pink-500" />
-                  <div className="dark:text-navy-blue-50 font-ubuntu max-w-[15em] text-start text-2xl font-medium text-gray-900 ">
+                  <GlobeAltIcon className="dark:text-orange-accent-dark h-8 w-8 text-pink-500 sm:h-8 sm:w-8" />
+                  <div className="dark:text-navy-blue-50 font-ubuntu text-md max-w-[15em] text-start font-medium text-gray-900 sm:text-2xl ">
                     {t('features.feat-3')}
                   </div>
                 </div>

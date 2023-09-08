@@ -1,9 +1,9 @@
 {
   "AppBottomBar": {
-    "authorization-request": "Authorization Request",
     "dashboard": "Dashboard",
-    "get-credential": "Get Credential",
-    "qr-code-session": "QR Scanner",
+    "get-credential": "Get Credentials",
+    "qr-scanner": "QR Code Scanner",
+    "verify-data": "Verify Data",
     "settings": "Settings"
   },
   "AppNavbar": {
