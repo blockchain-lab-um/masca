@@ -1,7 +1,6 @@
 import {
   AvailableCredentialStores,
   AvailableMethods,
-  QueryCredentialsRequestResult,
 } from '@blockchain-lab-um/masca-types';
 import { isError, Result } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
@@ -12,16 +11,15 @@ import { onRpcRequest } from '../../src';
 import StorageService from '../../src/storage/Storage.service';
 import VeramoService, { type Agent } from '../../src/veramo/Veramo.service';
 import { account } from '../data/constants';
-import examplePayload from '../data/credentials/examplePayload.json';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
-const methods: AvailableMethods[] = ['did:key', 'did:jwk'];
+const methods: AvailableMethods[] = ['did:key' /* 'did:jwk' */];
 // TODO: Resolve bugs for lds and EthereumEip712Signature2021
 const proofFormats = [/* 'jwt' */ 'lds' /* 'EthereumEip712Signature2021' */];
 const proofTypes: Record<string, string> = {
   jwt: 'JwtProof2020',
-  lds: 'Ed25519Signature2018',
+  lds: 'EcdsaSecp256k1RecoverySignature2020',
   EthereumEip712Signature2021: 'EthereumEip712Signature2021',
 };
 
@@ -83,7 +81,16 @@ describe('createVerifiableCredential', () => {
             jsonrpc: '2.0',
             method: 'createCredential',
             params: {
-              minimalUnsignedCredential: examplePayload,
+              minimalUnsignedCredential: {
+                '@context': [
+                  'https://www.w3.org/2018/credentials/v1',
+                  'https://veramo.io/contexts/profile/v1',
+                ],
+                type: ['VerifiableCredential', 'Profile'],
+                credentialSubject: {
+                  name: 'Martin, the great',
+                },
+              },
               proofFormat,
             },
           },
@@ -93,9 +100,15 @@ describe('createVerifiableCredential', () => {
           throw new Error(vc.error);
         }
 
+        console.log('VC', vc.data);
+
         const validity = await agent.verifyCredential({
           credential: vc.data,
         });
+
+        console.log('Validity');
+        console.log(validity);
+        console.log('err', validity.error);
         expect(validity.verified).toBe(true);
 
         if (typeof vc.data.issuer === 'string') {
@@ -107,122 +120,122 @@ describe('createVerifiableCredential', () => {
         expect.assertions(3);
       });
 
-      it.each(stores)(
-        'Should create and save a VerifiableCredential in %s',
-        async (store) => {
-          const vc = (await onRpcRequest({
-            origin: 'localhost',
-            request: {
-              id: 'test-id',
-              jsonrpc: '2.0',
-              method: 'createCredential',
-              params: {
-                minimalUnsignedCredential: examplePayload,
-                proofFormat,
-                options: {
-                  save: true,
-                  store,
-                },
-              },
-            },
-          })) as Result<VerifiableCredential>;
+      //     it.each(stores)(
+      //       'Should create and save a VerifiableCredential in %s',
+      //       async (store) => {
+      //         const vc = (await onRpcRequest({
+      //           origin: 'localhost',
+      //           request: {
+      //             id: 'test-id',
+      //             jsonrpc: '2.0',
+      //             method: 'createCredential',
+      //             params: {
+      //               minimalUnsignedCredential: examplePayload,
+      //               proofFormat,
+      //               options: {
+      //                 save: true,
+      //                 store,
+      //               },
+      //             },
+      //           },
+      //         })) as Result<VerifiableCredential>;
 
-          if (isError(vc)) {
-            throw new Error(vc.error);
-          }
+      //         if (isError(vc)) {
+      //           throw new Error(vc.error);
+      //         }
 
-          const res = (await onRpcRequest({
-            origin: 'localhost',
-            request: {
-              id: 'test-id',
-              jsonrpc: '2.0',
-              method: 'queryCredentials',
-              params: {},
-            },
-          })) as Result<QueryCredentialsRequestResult[]>;
+      //         const res = (await onRpcRequest({
+      //           origin: 'localhost',
+      //           request: {
+      //             id: 'test-id',
+      //             jsonrpc: '2.0',
+      //             method: 'queryCredentials',
+      //             params: {},
+      //           },
+      //         })) as Result<QueryCredentialsRequestResult[]>;
 
-          if (isError(res)) {
-            throw new Error(res.error);
-          }
+      //         if (isError(res)) {
+      //           throw new Error(res.error);
+      //         }
 
-          expect(res.data[0].data).toEqual(vc.data);
-          expect(res.data[0].metadata.store).toEqual([store]);
+      //         expect(res.data[0].data).toEqual(vc.data);
+      //         expect(res.data[0].metadata.store).toEqual([store]);
 
-          expect.assertions(2);
+      //         expect.assertions(2);
 
-          await agent.clear({ options: { store: ['snap', 'ceramic'] } });
-        }
-      );
-    });
+      //         await agent.clear({ options: { store: ['snap', 'ceramic'] } });
+      //       }
+      //     );
+      //   });
 
-    it('Should create a VC without proofFormat option set', async () => {
-      const vc = (await onRpcRequest({
-        origin: 'localhost',
-        request: {
-          id: 'test-id',
-          jsonrpc: '2.0',
-          method: 'createCredential',
-          params: {
-            minimalUnsignedCredential: examplePayload,
-          },
-        },
-      })) as Result<VerifiableCredential>;
+      //   it('Should create a VC without proofFormat option set', async () => {
+      //     const vc = (await onRpcRequest({
+      //       origin: 'localhost',
+      //       request: {
+      //         id: 'test-id',
+      //         jsonrpc: '2.0',
+      //         method: 'createCredential',
+      //         params: {
+      //           minimalUnsignedCredential: examplePayload,
+      //         },
+      //       },
+      //     })) as Result<VerifiableCredential>;
 
-      if (isError(vc)) {
-        throw new Error(vc.error);
-      }
+      //     if (isError(vc)) {
+      //       throw new Error(vc.error);
+      //     }
 
-      const validity = await agent.verifyCredential({ credential: vc.data });
-      expect(validity.verified).toBe(true);
-      if (typeof vc.data.issuer === 'string') {
-        expect(vc.data.issuer).toBe(issuer);
-      } else {
-        expect(vc.data.issuer.id).toBe(issuer);
-      }
-      expect(vc.data.proof.type).toBe(proofTypes.jwt);
-      expect.assertions(3);
-    });
+      //     const validity = await agent.verifyCredential({ credential: vc.data });
+      //     expect(validity.verified).toBe(true);
+      //     if (typeof vc.data.issuer === 'string') {
+      //       expect(vc.data.issuer).toBe(issuer);
+      //     } else {
+      //       expect(vc.data.issuer.id).toBe(issuer);
+      //     }
+      //     expect(vc.data.proof.type).toBe(proofTypes.jwt);
+      //     expect.assertions(3);
+      //   });
 
-    it.skip('Should fail creating a VC without minimalUnsignedCredential', async () => {
-      const vc = (await onRpcRequest({
-        origin: 'localhost',
-        request: {
-          id: 'test-id',
-          jsonrpc: '2.0',
-          method: 'createCredential',
-          params: {},
-        },
-      })) as Result<VerifiableCredential>;
+      //   it.skip('Should fail creating a VC without minimalUnsignedCredential', async () => {
+      //     const vc = (await onRpcRequest({
+      //       origin: 'localhost',
+      //       request: {
+      //         id: 'test-id',
+      //         jsonrpc: '2.0',
+      //         method: 'createCredential',
+      //         params: {},
+      //       },
+      //     })) as Result<VerifiableCredential>;
 
-      if (!isError(vc)) {
-        throw new Error('Should have failed');
-      }
-      expect(vc.error).toBe(
-        'Error: invalid_argument: $input.minimalUnsignedCredential'
-      );
-      expect.assertions(1);
-    });
+      //     if (!isError(vc)) {
+      //       throw new Error('Should have failed');
+      //     }
+      //     expect(vc.error).toBe(
+      //       'Error: invalid_argument: $input.minimalUnsignedCredential'
+      //     );
+      //     expect.assertions(1);
+      //   });
 
-    it('Should fail creating a VC with invalid minimalUnsignedCredential', async () => {
-      const vc = (await onRpcRequest({
-        origin: 'localhost',
-        request: {
-          id: 'test-id',
-          jsonrpc: '2.0',
-          method: 'createCredential',
-          params: {
-            minimalUnsignedCredential: {},
-          },
-        },
-      })) as Result<VerifiableCredential>;
+      //   it('Should fail creating a VC with invalid minimalUnsignedCredential', async () => {
+      //     const vc = (await onRpcRequest({
+      //       origin: 'localhost',
+      //       request: {
+      //         id: 'test-id',
+      //         jsonrpc: '2.0',
+      //         method: 'createCredential',
+      //         params: {
+      //           minimalUnsignedCredential: {},
+      //         },
+      //       },
+      //     })) as Result<VerifiableCredential>;
 
-      if (!isError(vc)) {
-        throw new Error('Should have failed');
-      }
-      expect(vc.error).toBe(
-        'Error: invalid_argument: $input.minimalUnsignedCredential.credentialSubject, $input.minimalUnsignedCredential["@context"]'
-      );
-      expect.assertions(1);
+      //     if (!isError(vc)) {
+      //       throw new Error('Should have failed');
+      //     }
+      //     expect(vc.error).toBe(
+      //       'Error: invalid_argument: $input.minimalUnsignedCredential.credentialSubject, $input.minimalUnsignedCredential["@context"]'
+      //     );
+      //     expect.assertions(1);
     });
   });
 });

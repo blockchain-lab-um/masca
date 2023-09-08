@@ -1,24 +1,18 @@
 {
-  "type": ["VerifiableCredential", "MascaUserCredential"],
-  "credentialSubject": {
-    "id": "did:key:zQ3shkeMeUZHhpzqiv5KDgq8kNy3oG2DibGDnTTB6skhJQi3A",
-    "type": "Regular User"
-  },
-  "credentialSchema": {
-    "id": "https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json",
-    "type": "JsonSchemaValidator2018"
-  },
   "@context": [
     "https://www.w3.org/2018/credentials/v1",
+    "https://veramo.io/contexts/profile/v1",
     "https://w3id.org/security/suites/secp256k1recovery-2020/v2"
   ],
-  "issuer": "did:key:zQ3shkeMeUZHhpzqiv5KDgq8kNy3oG2DibGDnTTB6skhJQi3A",
-  "issuanceDate": "2023-08-29T20:11:38.763Z",
+  "type": ["VerifiableCredential", "Profile"],
+  "credentialSubject": { "name": "Martin, the great" },
+  "issuer": "did:key:zQ3shnhrtE43gzU9bFdGFPnDrVSmGWUZmnKinSw8LBvrWmHop",
+  "issuanceDate": "2023-08-31T16:34:29.447Z",
   "proof": {
     "type": "EcdsaSecp256k1RecoverySignature2020",
-    "created": "2023-08-29T20:11:38Z",
-    "verificationMethod": "did:key:zQ3shkeMeUZHhpzqiv5KDgq8kNy3oG2DibGDnTTB6skhJQi3A#zQ3shkeMeUZHhpzqiv5KDgq8kNy3oG2DibGDnTTB6skhJQi3A",
+    "created": "2023-08-31T16:34:29Z",
+    "verificationMethod": "did:key:zQ3shnhrtE43gzU9bFdGFPnDrVSmGWUZmnKinSw8LBvrWmHop#zQ3shnhrtE43gzU9bFdGFPnDrVSmGWUZmnKinSw8LBvrWmHop",
     "proofPurpose": "assertionMethod",
-    "jws": "eyJhbGciOiJFUzI1NkstUiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..m8RlFUz6X16-M73cY-QcFgqg6Od5760FHZMxP4kdnoUQxRO4ioP3AyZaVfRfvdhGthtIfalBIasU2Xz60mJk_AA"
+    "jws": "eyJhbGciOiJFUzI1NkstUiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..qlSqjVbuYL19cAxoxgNgFDGVtROldJJgl1K-VKWoVXl0j1zCkk2dZyI_OQJ4OAhwHrAR_tbo9pXr60hRrtsjGQA"
   }
 }

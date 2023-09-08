@@ -18,7 +18,7 @@ patchedDependencies:
     hash: 5dm2i3ky7xzrp4occugucgxtti
     path: patches/@metamask__snaps-types@1.0.0-prerelease.1.patch
   '@veramo/credential-ld@5.4.1':
-    hash: 2fts6hwbdeuhx7ug67zrpb4iam
+    hash: 7lnxw6b77joxg23dpazpso6kdq
     path: patches/@veramo__credential-ld@5.4.1.patch
   cross-fetch@3.1.8:
     hash: o7exbxzvysudd5km3yp6v3mgsi
@@ -184,7 +184,7 @@ importers:
         version: 5.4.1
       '@veramo/credential-ld':
         specifier: 5.4.1
-        version: 5.4.1(patch_hash=2fts6hwbdeuhx7ug67zrpb4iam)(expo@49.0.6)(react-native@0.72.3)
+        version: 5.4.1(patch_hash=7lnxw6b77joxg23dpazpso6kdq)(expo@49.0.6)(react-native@0.72.3)
       '@veramo/credential-w3c':
         specifier: 5.4.1
         version: 5.4.1(expo@49.0.6)(react-native@0.72.3)
@@ -401,7 +401,7 @@ importers:
         version: 5.4.1
       '@veramo/credential-ld':
         specifier: 5.4.1
-        version: 5.4.1(patch_hash=2fts6hwbdeuhx7ug67zrpb4iam)(expo@49.0.6)(react-native@0.72.3)
+        version: 5.4.1(patch_hash=7lnxw6b77joxg23dpazpso6kdq)(expo@49.0.6)(react-native@0.72.3)
       '@veramo/credential-w3c':
         specifier: 5.4.1
         version: 5.4.1(expo@49.0.6)(react-native@0.72.3)
@@ -882,7 +882,7 @@ importers:
         version: 5.4.1
       '@veramo/credential-ld':
         specifier: 5.4.1
-        version: 5.4.1(patch_hash=2fts6hwbdeuhx7ug67zrpb4iam)(expo@49.0.6)(react-native@0.72.3)
+        version: 5.4.1(patch_hash=7lnxw6b77joxg23dpazpso6kdq)(expo@49.0.6)(react-native@0.72.3)
       '@veramo/did-manager':
         specifier: 5.4.1
         version: 5.4.1
@@ -1645,7 +1645,7 @@ importers:
         version: 5.4.1
       '@veramo/credential-ld':
         specifier: 5.4.1
-        version: 5.4.1(patch_hash=2fts6hwbdeuhx7ug67zrpb4iam)(expo@49.0.6)(react-native@0.72.3)
+        version: 5.4.1(patch_hash=7lnxw6b77joxg23dpazpso6kdq)(expo@49.0.6)(react-native@0.72.3)
       '@veramo/credential-status':
         specifier: 5.4.1
         version: 5.4.1
@@ -12045,7 +12045,7 @@ packages:
       '@veramo/core': 5.4.1
       '@veramo/core-types': 5.4.1
       '@veramo/credential-eip712': 5.4.1
-      '@veramo/credential-ld': 5.4.1(patch_hash=2fts6hwbdeuhx7ug67zrpb4iam)(expo@49.0.6)(react-native@0.72.3)
+      '@veramo/credential-ld': 5.4.1(patch_hash=7lnxw6b77joxg23dpazpso6kdq)(expo@49.0.6)(react-native@0.72.3)
       '@veramo/credential-w3c': 5.4.1(expo@49.0.6)(react-native@0.72.3)
       '@veramo/data-store': 5.4.1(pg@8.11.2)(sqlite3@5.1.6)(ts-node@10.9.1)
       '@veramo/did-comm': 5.4.1(expo@49.0.6)(react-native@0.72.3)
@@ -12159,7 +12159,7 @@ packages:
       - encoding
       - supports-color
 
-  /@veramo/credential-ld@5.4.1(patch_hash=2fts6hwbdeuhx7ug67zrpb4iam)(expo@49.0.6)(react-native@0.72.3):
+  /@veramo/credential-ld@5.4.1(patch_hash=7lnxw6b77joxg23dpazpso6kdq)(expo@49.0.6)(react-native@0.72.3):
     resolution: {integrity: sha512-TyLh1yebZU6Fml+EUAPW5ZT2ktC9p69nnoKPMepmE/6egWKynZnxpLTS6LUuGfXcBO3pamPgc/LQuu55WXsWTw==}
     dependencies:
       '@digitalcredentials/ed25519-signature-2020': 3.0.2(expo@49.0.6)(react-native@0.72.3)
@@ -12211,7 +12211,7 @@ packages:
       did-resolver: 4.1.0
       uuid: 9.0.0
     optionalDependencies:
-      '@veramo/credential-ld': 5.4.1(patch_hash=2fts6hwbdeuhx7ug67zrpb4iam)(expo@49.0.6)(react-native@0.72.3)
+      '@veramo/credential-ld': 5.4.1(patch_hash=7lnxw6b77joxg23dpazpso6kdq)(expo@49.0.6)(react-native@0.72.3)
     transitivePeerDependencies:
       - domexception
       - encoding

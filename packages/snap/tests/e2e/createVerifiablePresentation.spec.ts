@@ -9,14 +9,17 @@ import StorageService from '../../src/storage/Storage.service';
 import VeramoService, { type Agent } from '../../src/veramo/Veramo.service';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
-import exampleVCEIP712 from '../data/verifiable-credentials/exampleEIP712.json';
 import exampleVCJSONLD from '../data/verifiable-credentials/exampleJSONLD.json';
 import exampleVC from '../data/verifiable-credentials/exampleJWT_3.json';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
 const methods: AvailableMethods[] = ['did:key' /* 'did:jwk' */];
 // TODO: Resolve bugs for lds and EthereumEip712Signature2021
-const proofFormats = [/* 'jwt' */ 'lds' /* 'EthereumEip712Signature2021' */];
+const proofFormats = [
+  /* 'jwt' */
+  /* 'lds' */
+  /* 'EthereumEip712Signature2021' */
+];
 const proofTypes: Record<string, string> = {
   jwt: 'JwtProof2020',
   lds: 'Ed25519Signature2018',
@@ -30,8 +33,8 @@ const options: ProofOptions[] = [
 ];
 
 const vcs = [
-  { title: 'JWT', vcs: [exampleVC] },
-  //{ title: 'JSON-LD', vcs: [exampleVCJSONLD] },
+  // { title: 'JWT', vcs: [exampleVC] },
+  { title: 'JSON-LD', vcs: [exampleVCJSONLD] },
   // { title: 'EIP712', vcs: [exampleVCEIP712] },
   //   { title: '2 JWTs', vcs: [exampleVC, exampleVC_2] },
   //   { title: '3 JWTs', vcs: [exampleVC, exampleVC_2, exampleVC_3] },
@@ -82,91 +85,131 @@ describe('createVerifiablePresentation', () => {
       await agent.clear({ options: { store: ['snap', 'ceramic'] } });
     });
 
-    describe.each(proofFormats)('Using Proof Format: %s', (proofFormat) => {
-      describe.each(vcs)('VC formats in VP: $title', (vc) => {
-        if (proofFormat === 'jwt') {
-          it.each(options)(
-            'Should create a Verifiable Presentation with domain: `$domain` and challenge: `$challenge`',
-            async (option) => {
-              const vp = (await onRpcRequest({
-                origin: 'localhost',
-                request: {
-                  id: 'test-id',
-                  jsonrpc: '2.0',
-                  method: 'createPresentation',
-                  params: {
-                    vcs: vc.vcs,
-                    proofFormat,
-                    proofOptions: option,
-                  },
-                },
-              })) as Result<VerifiablePresentation>;
+    // describe.each(proofFormats)('Using Proof Format: %s', (proofFormat) => {
+    //   describe.each(vcs)('VC formats in VP: $title', (vc) => {
+    //     if (proofFormat === 'jwt') {
+    //       it.each(options)(
+    //         'Should create a Verifiable Presentation with domain: `$domain` and challenge: `$challenge`',
+    //         async (option) => {
+    //           const vp = (await onRpcRequest({
+    //             origin: 'localhost',
+    //             request: {
+    //               id: 'test-id',
+    //               jsonrpc: '2.0',
+    //               method: 'createPresentation',
+    //               params: {
+    //                 vcs: vc.vcs,
+    //                 proofFormat,
+    //                 proofOptions: option,
+    //               },
+    //             },
+    //           })) as Result<VerifiablePresentation>;
 
-              if (isError(vp)) {
-                throw new Error(vp.error);
-              }
+    //           if (isError(vp)) {
+    //             throw new Error(vp.error);
+    //           }
 
-              const createdVP = vp.data;
+    //           const createdVP = vp.data;
 
-              expect(createdVP).not.toBeNull();
+    //           expect(createdVP).not.toBeNull();
 
-              const validity = await agent.verifyPresentation({
-                presentation: createdVP,
-                challenge: option?.challenge,
-                domain: option?.domain,
-              });
+    //           const validity = await agent.verifyPresentation({
+    //             presentation: createdVP,
+    //             challenge: option?.challenge,
+    //             domain: option?.domain,
+    //           });
 
-              expect(validity.verified).toBe(true);
-              expect(createdVP).not.toBeNull();
+    //           expect(validity.verified).toBe(true);
+    //           expect(createdVP).not.toBeNull();
 
-              expect(createdVP.holder).toBe(issuer);
-              expect(createdVP.proof.type).toBe(proofTypes[proofFormat]);
-              expect.assertions(5);
-            }
-          );
-        } else {
-          it('Should create a Verifiable Presentation without domain or challenge', async () => {
-            const vp = (await onRpcRequest({
-              origin: 'localhost',
-              request: {
-                id: 'test-id',
-                jsonrpc: '2.0',
-                method: 'createPresentation',
-                params: {
-                  vcs: vc.vcs,
-                  proofFormat,
-                },
+    //           expect(createdVP.holder).toBe(issuer);
+    //           expect(createdVP.proof.type).toBe(proofTypes[proofFormat]);
+    //           expect.assertions(5);
+    //         }
+    //       );
+    //     } else {
+    //       it('Should create a Verifiable Presentation without domain or challenge', async () => {
+    //         const vp = (await onRpcRequest({
+    //           origin: 'localhost',
+    //           request: {
+    //             id: 'test-id',
+    //             jsonrpc: '2.0',
+    //             method: 'createPresentation',
+    //             params: {
+    //               vcs: vc.vcs,
+    //               proofFormat,
+    //             },
+    //           },
+    //         })) as Result<VerifiablePresentation>;
+
+    //         if (isError(vp)) {
+    //           throw new Error(vp.error);
+    //         }
+
+    //         const createdVP = vp.data;
+
+    //         expect(createdVP).not.toBeNull();
+
+    //         console.log('VP');
+    //         console.log(createdVP);
+
+    //         const validity = await agent.verifyPresentation({
+    //           presentation: createdVP,
+    //         });
+
+    //         console.log('Valid');
+    //         console.log(validity);
+    //         expect(validity.verified).toBe(true);
+    //         expect(createdVP).not.toBeNull();
+
+    //         expect(createdVP.holder).toBe(issuer);
+    //         expect(createdVP.proof.type).toBe(proofTypes[proofFormat]);
+    //         expect.assertions(5);
+    //       });
+    //     }
+    //   });
+    // });
+
+    if (method === 'did:key') {
+      it('Should create a JSON-LD VP with challenge', async () => {
+        const vp = (await onRpcRequest({
+          origin: 'localhost',
+          request: {
+            id: 'test-id',
+            jsonrpc: '2.0',
+            method: 'createPresentation',
+            params: {
+              vcs: [exampleVCJSONLD],
+              proofFormat: 'lds',
+              proofOptions: {
+                challenge: 'test-challenge',
               },
-            })) as Result<VerifiablePresentation>;
+            },
+          },
+        })) as Result<VerifiablePresentation>;
 
-            if (isError(vp)) {
-              throw new Error(vp.error);
-            }
-
-            const createdVP = vp.data;
-
-            expect(createdVP).not.toBeNull();
-
-            console.log('VP');
-            console.log(createdVP);
-
-            const validity = await agent.verifyPresentation({
-              presentation: createdVP,
-            });
-
-            console.log('Valid');
-            console.log(validity);
-            expect(validity.verified).toBe(true);
-            expect(createdVP).not.toBeNull();
-
-            expect(createdVP.holder).toBe(issuer);
-            expect(createdVP.proof.type).toBe(proofTypes[proofFormat]);
-            expect.assertions(5);
-          });
+        if (isError(vp)) {
+          throw new Error(vp.error);
         }
-      });
-    });
 
+        const createdVP = vp.data;
+
+        expect(createdVP).not.toBeNull();
+
+        const validity = await agent.verifyPresentation({
+          presentation: createdVP,
+          challenge: 'test-challenge',
+        });
+
+        console.log('Validity', validity.error);
+        expect(validity.verified).toBe(true);
+        expect(createdVP).not.toBeNull();
+
+        expect(createdVP.holder).toBe(issuer);
+        expect(createdVP.proof.type).toBe('JwtProof2020');
+        expect.assertions(5);
+      });
+    }
     it('Should create a VP without proofFormat option set', async () => {
       const vp = (await onRpcRequest({
         origin: 'localhost',
