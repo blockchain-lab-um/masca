@@ -33,17 +33,9 @@ Masca also allows you to store Credentials in MetaMask (or any other supported s
 
 ### How to install Masca?
 
-1. First you need to install [MetaMask Flask](https://metamask.io/flask/) and then install [Masca](https://www.npmjs.com/package/@blockchain-lab-um/masca) from the npm registry. We recommend that you use the latest version of Masca.
+1. First you need to install [MetaMask](https://metamask.io/download/) and then install [Masca](https://www.npmjs.com/package/@blockchain-lab-um/masca) from the npm registry. We recommend that you use the latest version of Masca.
 2. Connect to a dapp that supports Masca and accept the connection & installation prompts.
 3. Check out our [dapp](https://masca.io) to start using Masca.
-
-### Why do I have to use MetaMask Flask?
-
-Snaps are only available on the developer preview version of MetaMask, called MetaMask Flask. Snaps will be released in MetaMask later this year.
-
-### Why can't I install Masca in MetaMask?
-
-Snaps are only available on the developer preview version of MetaMask, called MetaMask Flask. Snaps will be released in MetaMask later this year.
 
 ### Can I use Masca without a dapp?
 
@@ -51,9 +43,13 @@ No. For the moment, the only way to interact with Masca is through a dapp. We ha
 
 MetaMask plans to add support for Snaps UI in MetaMask, which will allow us to implement custom UI to interact with Masca directly in MetaMask extension.
 
+### I have MetaMask installed, but it is not installing the snap.
+
+Please check that the version of MetaMask you have installed supports Snaps.
+
 ### Is Masca available on the Mobile MetaMask app?
 
-Snaps are only available in browser-based extension MetaMask Flask, however there are plans to add support for snaps in the Mobile extension.
+Currently, not all snaps are fully supported on mobile. Mobile support is still in development for now.
 
 ### What happens if I delete Masca in MetaMask?
 
@@ -65,6 +61,6 @@ Yes. Masca does not have access to users private keys! [Learn](./masca/design.md
 
 ### Are my Credentials private?
 
-Yes and No. Credentials can be stored directly in Masca or on Ceramic Network. Credentials stored in Masca are completely private and only available for user to see. Credentials stored on Ceramic Network are public for anybody to see (though accessing them is not as straightforward as searching address in a block explorer). We recommend users to save all Credentials that contain sensitive information in Masca.
+Yes and No. Credentials can be stored directly in Masca or on Ceramic Network. Credentials stored in Masca are completely private and only available for the user to see. Credentials stored on Ceramic Network are public for anybody to see (though accessing them is not as straightforward as searching an address in a block explorer). We recommend users to save all Credentials that contain sensitive information in Masca.
 
-Depending on the use case, dapps are likely to request Masca to share credentials with them. Always double check who you're sharing Credentials with as hostile dapps could potentially save your credentials.
+Depending on the use case, dapps are likely to request Masca to share credentials with them. Always double check who you're sharing Credentials with, as hostile dapps could potentially save your credentials.

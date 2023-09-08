@@ -16,4 +16,4 @@ In this demo, a user will install and approve Masca, get and store a VC after co
 
 </center>
 
-You can try the demo **[here](https://blockchain-lab-um.github.io/course-dapp/)**. You'll need to use **[MetaMask Flask](https://metamask.io/flask/)** (version >10.23.0).
+You can try the demo **[here](https://blockchain-lab-um.github.io/course-dapp/)**. You just need a MetaMask version that supports Snaps installed.
