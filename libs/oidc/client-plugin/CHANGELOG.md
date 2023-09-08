@@ -1,5 +1,21 @@
 # @blockchain-lab-um/oidc-client-plugin
 
+## 0.1.0
+
+### Minor Changes
+
+- [#418](https://github.com/blockchain-lab-um/masca/pull/418) [`861b65e`](https://github.com/blockchain-lab-um/masca/commit/861b65e966d2bfcb183180c593b3c40e01570293) Thanks [@martines3000](https://github.com/martines3000)! - Updated proxy URL to masca.io/api/proxy
+
+### Patch Changes
+
+- [#456](https://github.com/blockchain-lab-um/masca/pull/456) [`2101501`](https://github.com/blockchain-lab-um/masca/commit/2101501e674956ec7f325b87543f9481e3665716) Thanks [@martines3000](https://github.com/martines3000)! - Remove `www` from oidc proxy url
+
+- [#432](https://github.com/blockchain-lab-um/masca/pull/432) [`61b2e2b`](https://github.com/blockchain-lab-um/masca/commit/61b2e2bc4be171bf827dc9412951579de75fa5bc) Thanks [@martines3000](https://github.com/martines3000)! - Remove unused dependencies and devDependencies.
+
+- Updated dependencies [[`61b2e2b`](https://github.com/blockchain-lab-um/masca/commit/61b2e2bc4be171bf827dc9412951579de75fa5bc), [`61b2e2b`](https://github.com/blockchain-lab-um/masca/commit/61b2e2bc4be171bf827dc9412951579de75fa5bc)]:
+  - @blockchain-lab-um/utils@1.3.6
+  - @blockchain-lab-um/oidc-types@0.0.8
+
 ## 0.1.0-beta.2
 
 ### Patch Changes

@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.0.0
+
+### Major Changes
+
+- [`205136a`](https://github.com/blockchain-lab-um/masca/commit/205136a5e7ceaa39d7dbcbf9c5ef41c255639262) Thanks [@martines3000](https://github.com/martines3000)! - Release first major version of Masca packages.
+
+### Patch Changes
+
+- [#434](https://github.com/blockchain-lab-um/masca/pull/434) [`f2e3ad6`](https://github.com/blockchain-lab-um/masca/commit/f2e3ad69f7fe012b8e748d1f7b7c1c96f7f36e3e) Thanks [@pseudobun](https://github.com/pseudobun)! - Normalize the address passed as a param when setting the currently selected account by setting it to lower case. Rename param currentAccount to account.
+
+- [#432](https://github.com/blockchain-lab-um/masca/pull/432) [`61b2e2b`](https://github.com/blockchain-lab-um/masca/commit/61b2e2bc4be171bf827dc9412951579de75fa5bc) Thanks [@martines3000](https://github.com/martines3000)! - Remove unused dependencies and devDependencies.
+
+- [#428](https://github.com/blockchain-lab-um/masca/pull/428) [`5bbabf5`](https://github.com/blockchain-lab-um/masca/commit/5bbabf5ef2b00541739bbe5e5c7e8e73c11e64d5) Thanks [@martines3000](https://github.com/martines3000)! - Update polygonid dependencies
+
+- Updated dependencies [[`61b2e2b`](https://github.com/blockchain-lab-um/masca/commit/61b2e2bc4be171bf827dc9412951579de75fa5bc)]:
+  - @blockchain-lab-um/utils@1.3.6
+
 ## 1.0.0-beta.2
 
 ### Patch Changes

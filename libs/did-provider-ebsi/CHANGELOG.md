@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.1.0
+
+### Minor Changes
+
+- [#454](https://github.com/blockchain-lab-um/masca/pull/454) [`5ff63e5`](https://github.com/blockchain-lab-um/masca/commit/5ff63e540e55d52963019ac1cdda9bea056d6a3a) Thanks [@martines3000](https://github.com/martines3000)! - Fixes import elliptic bug.
+
+### Patch Changes
+
+- [#432](https://github.com/blockchain-lab-um/masca/pull/432) [`61b2e2b`](https://github.com/blockchain-lab-um/masca/commit/61b2e2bc4be171bf827dc9412951579de75fa5bc) Thanks [@martines3000](https://github.com/martines3000)! - Remove unused dependencies and devDependencies.
+
 ## 1.1.0-beta.0
 
 ### Minor Changes
