@@ -83,4 +83,5 @@ export interface MascaApi {
     params: ImportStateBackupRequestParams
   ): Promise<Result<boolean>>;
   exportStateBackup(): Promise<Result<string>>;
+  getWalletId(): Promise<Result<string>>;
 }

@@ -486,6 +486,22 @@ export async function importStateBackup(
   );
 }
 
+/**
+ * Get wallet ID
+ * @param this - Masca instance
+ * @returns Result<string> - true if successful
+ * @throws Error - if id creation failed
+ */
+export async function getWalletId(this: Masca): Promise<Result<string>> {
+  console.log('getWalletId connector');
+  return sendSnapMethod(
+    {
+      method: 'getWalletId',
+    },
+    this.snapId
+  );
+}
+
 const wrapper =
   <T extends any[], R>(fn: (...args: T) => Promise<Result<R>>) =>
   async (...args: T): Promise<Result<R>> => {
@@ -537,5 +553,6 @@ export class Masca {
     ),
     importStateBackup: wrapper(importStateBackup.bind(this)),
     exportStateBackup: wrapper(exportStateBackup.bind(this)),
+    getWalletId: wrapper(getWalletId.bind(this)),
   });
 }
