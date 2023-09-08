@@ -19,7 +19,6 @@ export const NavConnection = () => {
   const {
     isConnected,
     hasMM,
-    hasFlask,
     address,
     chainId,
     changeIsConnected,
@@ -28,7 +27,6 @@ export const NavConnection = () => {
   } = useGeneralStore((state) => ({
     isConnected: state.isConnected,
     hasMM: state.hasMetaMask,
-    hasFlask: state.isFlask,
     address: state.address,
     chainId: state.chainId,
     changeIsConnected: state.changeIsConnected,
@@ -72,7 +70,7 @@ export const NavConnection = () => {
     localStorage.setItem('isConnected', 'false');
   };
 
-  if (!hasMM || !hasFlask) return null;
+  if (!hasMM) return null;
 
   if (isConnected) {
     return (

@@ -264,7 +264,7 @@
     "title": "Import Credential"
   },
   "MetaMaskProvider": {
-    "flask": "Install MetaMask Flask to use the dapp!"
+    "metamask": "Install MetaMask to use the dapp!"
   },
   "MethodDropdownMenu": {
     "switching": "Switching DID method",

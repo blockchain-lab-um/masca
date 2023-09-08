@@ -7,7 +7,6 @@ interface GeneralStore {
   isConnecting: boolean;
   did: string;
   hasMetaMask: boolean;
-  isFlask: boolean;
   hasSnapInstalled: boolean;
   chainId: string;
 
@@ -16,7 +15,6 @@ interface GeneralStore {
   changeIsConnecting: (isConnecting: boolean) => void;
   changeDid: (did: string) => void;
   changeHasMetaMask: (hasMetaMask: boolean) => void;
-  changeIsFlask: (isFlask: boolean) => void;
   changeHasSnapInstalled: (hasSnapInstalled: boolean) => void;
   changeChainId: (chainId: string) => void;
 }
@@ -27,7 +25,6 @@ export const generalStoreInitialState = {
   isConnecting: false,
   did: '',
   hasMetaMask: false,
-  isFlask: false,
   hasSnapInstalled: false,
   chainId: '',
 };
@@ -41,7 +38,6 @@ export const useGeneralStore = createWithEqualityFn<GeneralStore>()(
     changeIsConnecting: (isConnecting: boolean) => set({ isConnecting }),
     changeDid: (did: string) => set({ did }),
     changeHasMetaMask: (hasMetaMask: boolean) => set({ hasMetaMask }),
-    changeIsFlask: (isFlask: boolean) => set({ isFlask }),
     changeHasSnapInstalled: (hasSnapInstalled: boolean) =>
       set({ hasSnapInstalled }),
     changeChainId: (chainId: string) => set({ chainId }),

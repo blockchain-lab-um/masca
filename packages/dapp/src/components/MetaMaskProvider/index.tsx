@@ -13,12 +13,11 @@ interface MetaMaskProviderProps {
 const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
   const t = useTranslations('MetaMaskProvider');
 
-  const { hasMM, hasFlask } = useGeneralStore((state) => ({
+  const { hasMM } = useGeneralStore((state) => ({
     hasMM: state.hasMetaMask,
-    hasFlask: state.isFlask,
   }));
 
-  if (hasMM && hasFlask) {
+  if (hasMM) {
     return <>{children}</>;
   }
 
@@ -27,16 +26,16 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
       <div className="flex h-full items-center justify-center">
         <div>
           <h3 className="text-h4 md:text-h3 dark:text-navy-blue-50 text-gray-800">
-            {t('flask')}
+            {t('metamask')}
           </h3>
           <div className="mt-16 flex items-center justify-center">
             <Button
               variant="gray"
               onClick={() => {
-                window.open('https://metamask.io/flask/');
+                window.open('https://metamask.io/download/');
               }}
             >
-              MetaMask Flask
+              MetaMask
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

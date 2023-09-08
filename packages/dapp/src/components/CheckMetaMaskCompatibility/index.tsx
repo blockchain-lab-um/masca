@@ -13,14 +13,12 @@ const snapId =
     : 'npm:@blockchain-lab-um/masca';
 
 const CheckMetaMaskCompatibility = () => {
-  const { changeHasMetaMask, changeIsFlask } = useGeneralStore((state) => ({
+  const { changeHasMetaMask } = useGeneralStore((state) => ({
     changeHasMetaMask: state.changeHasMetaMask,
-    changeIsFlask: state.changeIsFlask,
   }));
 
   const {
     hasMM,
-    hasFlask,
     address,
     isConnected,
     isConnecting,
@@ -31,7 +29,6 @@ const CheckMetaMaskCompatibility = () => {
     changeChainId,
   } = useGeneralStore((state) => ({
     hasMM: state.hasMetaMask,
-    hasFlask: state.isFlask,
     address: state.address,
     isConnected: state.isConnected,
     isConnecting: state.isConnecting,
@@ -83,28 +80,15 @@ const CheckMetaMaskCompatibility = () => {
     try {
       const provider = await detectEthereumProvider({ mustBeMetaMask: true });
 
-      if (!provider) {
+      if (!provider || (provider as any)?.isBraveWallet) {
         changeHasMetaMask(false);
-        changeIsFlask(false);
         return;
       }
     } catch (error) {
       changeHasMetaMask(false);
-      changeIsFlask(false);
     }
 
     changeHasMetaMask(true);
-
-    const mmVersion = (await window.ethereum.request({
-      method: 'web3_clientVersion',
-    })) as string;
-
-    if (!mmVersion.includes('flask')) {
-      changeIsFlask(false);
-      return;
-    }
-
-    changeIsFlask(true);
   };
 
   const enableMascaHandler = async () => {
@@ -170,7 +154,7 @@ const CheckMetaMaskCompatibility = () => {
   };
 
   useEffect(() => {
-    if (hasMM && hasFlask && window.ethereum) {
+    if (hasMM && window.ethereum) {
       window.ethereum.on('accountsChanged', (...accounts) => {
         changeAddress((accounts[0] as string[])[0]);
       });
@@ -185,12 +169,12 @@ const CheckMetaMaskCompatibility = () => {
         window.ethereum.removeAllListeners('chainChanged');
       }
     };
-  }, [hasMM, hasFlask]);
+  }, [hasMM]);
 
   useEffect(() => {
     const lsIsConnected = localStorage.getItem('isConnected');
     if (lsIsConnected !== 'true') return;
-    if (!hasMM || !hasFlask) return;
+    if (!hasMM) return;
     if (isConnected) return;
     if (isConnecting) return;
     changeIsConnecting(true);
@@ -198,17 +182,17 @@ const CheckMetaMaskCompatibility = () => {
       console.error(err);
       changeIsConnecting(false);
     });
-  }, [hasMM, hasFlask]);
+  }, [hasMM]);
 
   useEffect(() => {
-    if (!hasMM || !hasFlask || !address) return;
+    if (!hasMM || !address) return;
     console.log('Address changed to', address);
     enableMascaHandler().catch((err) => {
       console.error(err);
       changeIsConnecting(false);
       changeAddress('');
     });
-  }, [hasMM, hasFlask, address]);
+  }, [hasMM, address]);
 
   useEffect(() => {
     checkMetaMaskCompatibility().catch((error) => {
