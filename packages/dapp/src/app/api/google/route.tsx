@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { ResultObject } from '@blockchain-lab-um/masca-connector';
 import { drive_v3, google } from 'googleapis';
 
 const CORS_HEADERS = {
@@ -119,31 +118,37 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
 
     if (!body.data) {
-      return NextResponse.json(ResultObject.error('Missing data parameter'), {
-        status: 400,
-        headers: { ...CORS_HEADERS },
-      });
+      return NextResponse.json(
+        { error_description: 'Missing data parameter' },
+        {
+          status: 400,
+          headers: { ...CORS_HEADERS },
+        }
+      );
     }
 
     const { accessToken, action, wallet, content } = body.data;
 
     if (!accessToken || !wallet) {
       return NextResponse.json(
-        ResultObject.error('Missing accessToken or wallet parameter'),
+        { error_description: 'Missing accessToken or wallet parameter' },
         { status: 400, headers: { ...CORS_HEADERS } }
       );
     }
 
     if (!actions.includes(action)) {
-      return NextResponse.json(ResultObject.error('Invalid action'), {
-        status: 400,
-        headers: { ...CORS_HEADERS },
-      });
+      return NextResponse.json(
+        { error_description: 'Invalid action' },
+        {
+          status: 400,
+          headers: { ...CORS_HEADERS },
+        }
+      );
     }
 
     if (action === 'backup' && !content) {
       return NextResponse.json(
-        ResultObject.error('Missing content parameter'),
+        { error_description: 'Missing content parameter' },
         { status: 400, headers: { ...CORS_HEADERS } }
       );
     }
@@ -156,52 +161,64 @@ export async function POST(request: NextRequest) {
       !tokenInfo.scopes ||
       !scopes?.every((scope) => tokenInfo.scopes.includes(scope))
     ) {
-      return NextResponse.json(ResultObject.error('Invalid access token'), {
-        status: 400,
-        headers: { ...CORS_HEADERS },
-      });
+      return NextResponse.json(
+        { error_description: 'Invalid access token' },
+        {
+          status: 400,
+          headers: { ...CORS_HEADERS },
+        }
+      );
     }
 
     const drive = await createDriveInstance(accessToken);
 
     if (!drive) {
       return NextResponse.json(
-        ResultObject.error('Error creating drive instance'),
+        { error_description: 'Error creating drive instance' },
         { status: 500, headers: { ...CORS_HEADERS } }
       );
     }
     switch (action) {
       case 'import': {
         const fileContent = await getBackupFileContent(drive, wallet);
-        return NextResponse.json(ResultObject.success(fileContent), {
-          status: 200,
-          headers: { ...CORS_HEADERS },
-        });
+        return NextResponse.json(
+          { content: fileContent },
+          {
+            status: 200,
+            headers: { ...CORS_HEADERS },
+          }
+        );
       }
       case 'backup': {
         await updateDriveFile(drive, wallet, content);
-        return NextResponse.json(ResultObject.success(true), {
+        return new NextResponse(null, {
           status: 200,
           headers: { ...CORS_HEADERS },
         });
       }
       case 'delete': {
         await deleteDriveFile(drive, wallet);
-        return NextResponse.json(ResultObject.success(true), {
+        return new NextResponse(null, {
           status: 200,
           headers: { ...CORS_HEADERS },
         });
       }
       default:
-        return NextResponse.json(ResultObject.error('Invalid action'), {
-          status: 400,
-          headers: { ...CORS_HEADERS },
-        });
+        return NextResponse.json(
+          { error_description: 'Invalid action' },
+          {
+            status: 400,
+            headers: { ...CORS_HEADERS },
+          }
+        );
     }
   } catch (e) {
-    return NextResponse.json(ResultObject.error((e as Error).message), {
-      status: 500,
-      headers: { ...CORS_HEADERS },
-    });
+    return NextResponse.json(
+      { error_description: (e as Error).message },
+      {
+        status: 500,
+        headers: { ...CORS_HEADERS },
+      }
+    );
   }
 }
