@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { isError, Result } from '@blockchain-lab-um/masca-connector';
+import { isError } from '@blockchain-lab-um/masca-connector';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useTranslations } from 'next-intl';
 
@@ -86,12 +86,12 @@ const GoogleDriveButton = ({
         }),
       });
 
-      const res = (await response.json()) as Result<boolean>;
-      if (isError(res)) {
+      if (response.status !== 200) {
+        const res = await response.json();
         setTimeout(() => {
           useToastStore.setState({
             open: true,
-            title: res.error,
+            title: res.error_description,
             type: 'error',
             loading: false,
           });
@@ -158,13 +158,12 @@ const GoogleDriveButton = ({
         }),
       });
 
-      const res = (await response.json()) as Result<string>;
-      if (isError(res)) {
-        console.error(res);
+      const res = await response.json();
+      if (res.error_description) {
         setTimeout(() => {
           useToastStore.setState({
             open: true,
-            title: res.error,
+            title: res.error_description,
             type: 'error',
             loading: false,
           });
@@ -174,7 +173,7 @@ const GoogleDriveButton = ({
       }
 
       const importResult = await api.importStateBackup({
-        serializedState: res.data,
+        serializedState: res.content,
       });
 
       if (isError(importResult)) {
@@ -282,13 +281,12 @@ const GoogleDriveButton = ({
         }),
       });
 
-      const res = (await response.json()) as Result<boolean>;
-      if (isError(res)) {
-        console.error(res);
+      if (response.status !== 200) {
+        const res = await response.json();
         setTimeout(() => {
           useToastStore.setState({
             open: true,
-            title: res.error,
+            title: res.error_description,
             type: 'error',
             loading: false,
           });
