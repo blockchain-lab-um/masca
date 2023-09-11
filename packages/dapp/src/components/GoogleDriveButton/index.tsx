@@ -276,7 +276,7 @@ const GoogleDriveButton = ({
           data: {
             accessToken,
             action: 'delete',
-            wallet: walletId,
+            wallet: walletId.data,
           },
         }),
       });
