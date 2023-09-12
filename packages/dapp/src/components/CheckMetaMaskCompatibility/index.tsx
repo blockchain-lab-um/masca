@@ -8,7 +8,6 @@ import {
 } from '@blockchain-lab-um/masca-connector';
 import detectEthereumProvider from '@metamask/detect-provider';
 
-import mascaVersionJson from '@/utils/masca.json';
 import { useGeneralStore, useMascaStore } from '@/stores';
 
 const snapId =
@@ -97,7 +96,7 @@ const CheckMetaMaskCompatibility = () => {
   const enableMascaHandler = async () => {
     const enableResult = await enableMasca(address, {
       snapId,
-      version: mascaVersionJson.mascaVersion,
+      version: process.env.NEXT_PUBLIC_MASCA_VERSION,
     });
     if (isError(enableResult)) {
       // FIXME: This error is shown as [Object object]
