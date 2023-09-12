@@ -1,9 +1,9 @@
 {
   "AppBottomBar": {
-    "authorization-request": "Authorization Request",
     "dashboard": "Dashboard",
-    "get-credential": "Get Credential",
-    "qr-code-session": "QR Scanner",
+    "create-credential": "Create Credential",
+    "qr-scanner": "QR Code Scanner",
+    "verify-data": "Verify Data",
     "settings": "Settings"
   },
   "AppNavbar": {
@@ -16,9 +16,9 @@
       "blog": "Blog",
       "create-credential": "Create Credential",
       "description": {
-        "authorization-request": "Create a verifiable presentation using the OpenID Connect protocol",
+        "authorization-request": "Create a presentation using the OpenID Connect protocol",
         "blog": "Read the Blockchain Lab:UM Medium Blog",
-        "create-credential": "Create a Verifiable Credential",
+        "create-credential": "Create a custom credential",
         "discord": "Join the Blockchain Lab:UM Discord Server",
         "documentation": "Read the Masca documentation",
         "ecosystem": "View the Masca Ecosystem",
@@ -27,7 +27,7 @@
         "qr-code-session": "Create session to scan QR codes using your mobile device",
         "qr-scanner": "Start various Authorization and CredentialOffer Flows",
         "twitter": "Follow Masca on Twitter",
-        "verify-data": "Verify Verifiable Credentials & Verifiable Presentations"
+        "verify-data": "Verify credentials & presentations"
       },
       "discord": "Discord",
       "documentation": "Documentation",
@@ -61,7 +61,7 @@
     "secondary-desc-2": "(Requires a primary device to work)"
   },
   "ConnectButton": {
-    "connect": "Connect Wallet"
+    "connect": "Connect & Install Masca"
   },
   "ConnectDeviceView": {
     "connect": "Connect Wallet to proceed!",
@@ -73,8 +73,27 @@
     "success": "Connection established!"
   },
   "ConnectedProvider": {
-    "connect": "Connect MetaMask to use the dapp",
-    "version": "Please install the latest version of MetaMask!"
+    "connect": "Connect Wallet & Install Masca to continue",
+    "masca": "Masca",
+    "masca-desc": "Manage Decentralized Identity in MetaMask",
+    "features": {
+      "feat-1": "Own your Identity",
+      "feat-2": "Manage Credentials securely",
+      "feat-3": "Universal Compatibility with Identity Flows",
+      "desc-1-1": "Imagine your ",
+      "desc-1-2": "Ethereum account ",
+      "desc-1-3": "as a passport in the digital world. With just a few clicks, transform your existing account into a ",
+      "desc-1-4": "universal digital Identity",
+      "desc-2-1": "Store everything from your Web3 community participation certificate to your real world work credentials safely and securely in one place. Choose to save them on ",
+      "desc-2-2": "Ceramic Network ",
+      "desc-2-3": "or keep them privately in your ",
+      "desc-2-4": "MetaMask wallet",
+      "desc-3-1": "Easily use your digital identity across different platforms and services. Masca supports popular identity systems like ",
+      "desc-3-2": "Polygon ID ",
+      "desc-3-3": "and ",
+      "desc-3-4": "OID4VC, ",
+      "desc-3-5": "making your life easier and more secure."
+    }
   },
   "Controlbar": {
     "query": "Querying credentials",
@@ -93,7 +112,7 @@
       "title": "OPTIONS"
     },
     "save": {
-      "description": "Would you like to save newly created Credential in Masca?",
+      "description": "Would you like to save newly created credential in Masca?",
       "select-storage-placeholder": "Select data storage",
       "storage": "Storage",
       "title": "Save"
@@ -102,7 +121,7 @@
     "toast": {
       "error-json": "Payload is not a valid JSON",
       "error-vc": "Payload is not a valid!",
-      "loading": "Creating Credential...",
+      "loading": "Creating credential...",
       "success": "Credential successfully created!"
     }
   },
@@ -121,7 +140,7 @@
       "issuer": "ISSUER",
       "remove": "REMOVE",
       "status": "STATUS",
-      "title": "Selected Credentials",
+      "title": "Selected credentials",
       "type": "TYPE"
     },
     "title": "Create Presentation",
@@ -130,9 +149,9 @@
     }
   },
   "CredentialDisplay": {
-    "create-presentation": "Create Verifiable Presentation",
+    "create-presentation": "Create Presentation",
     "datastores": "DATA STORES",
-    "title": "Verifiable Credential"
+    "title": "Credential"
   },
   "CredentialModal": {
     "cancel": "Cancel",
@@ -151,16 +170,16 @@
     "title": "New credential offer received"
   },
   "CredentialOfferView": {
-    "error": "Failed to finish CredentialOffer Flow!",
+    "error": "Failed to finish CredentialOffer flow!",
     "finished": "Request finished",
     "handling": "Handling credential offer...",
-    "start": "Start Flow",
-    "success": "Succesfully finished CredentialOffer Flow!",
+    "start": "Start flow",
+    "success": "Succesfully finished CredentialOffer flow!",
     "switch-to": "Switch to ",
     "to-continue": "to continue"
   },
   "DIDDisplay": {
-    "tooltip": "Open DID in Universal resolver"
+    "tooltip": "Open DID in Universal Resolver"
   },
   "Dashboard": {
     "card": {
@@ -174,8 +193,8 @@
     },
     "create-verifiable-presentation": "Create Presentation",
     "no-credentials": {
-      "get": "Get your first VC",
-      "load": "Load VCs",
+      "get": "Get your first credential",
+      "load": "Load Credentials",
       "or": "or"
     },
     "pagination": {
@@ -200,7 +219,7 @@
     "table-header": {
       "credentials": "My Credentials",
       "fetched": "Fetched",
-      "found": "Credential(s) found"
+      "found": "credential(s) found"
     },
     "tooltip": {
       "no-exp-date": "Does not have an expiration date",
@@ -405,7 +424,7 @@
       "error-json": "Data is not a valid JSON",
       "error-type": "Data is not a valid VC/VP",
       "error-verify": "Data is not valid!",
-      "loading": "Creating Credential..."
+      "loading": "Creating credential..."
     },
     "verify": "Verify"
   }
