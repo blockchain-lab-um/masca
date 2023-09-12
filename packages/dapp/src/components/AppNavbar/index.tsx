@@ -8,22 +8,26 @@ import { useTranslations } from 'next-intl';
 import MascaLogo from '@/components/MascaLogo';
 import MenuPopover from '@/components/MenuPopover';
 import ToggleTheme from '@/components/ToggleTheme';
+import { useGeneralStore } from '@/stores';
 import { NavConnection } from './NavConnection';
 
 const MAIN_LINKS = [
   {
     name: 'dashboard',
     href: '/app',
+    requiresConnection: false,
   },
   {
     name: 'settings',
     href: '/app/settings',
+    requiresConnection: true,
   },
 ];
 
 export default function AppNavbar() {
   const t = useTranslations('AppNavbar');
   const pathname = usePathname() ?? '/';
+  const isConnected = useGeneralStore((state) => state.isConnected);
 
   return (
     <div className="main-bg fixed left-0 right-0 top-0 z-50 m-0 flex h-24 w-screen items-center">
@@ -37,20 +41,25 @@ export default function AppNavbar() {
           </div>
         </Link>
         <div className="mx-2 hidden flex-1 items-center justify-center md:flex">
-          {MAIN_LINKS.map(({ name, href }) => (
-            <Link
-              className={clsx(
-                'nav-btn',
-                pathname === href
-                  ? 'dark:text-orange-accent-dark text-pink-500'
-                  : 'dark:text-navy-blue-400 text-gray-600'
-              )}
-              key={name}
-              href={href}
-            >
-              {t(`menu.${name}`)}
-            </Link>
-          ))}
+          {MAIN_LINKS.map(({ name, href, requiresConnection }) => {
+            if ((requiresConnection && isConnected) || !requiresConnection) {
+              return (
+                <Link
+                  className={clsx(
+                    'nav-btn',
+                    pathname === href
+                      ? 'dark:text-orange-accent-dark text-pink-500'
+                      : 'dark:text-navy-blue-400 text-gray-600'
+                  )}
+                  key={name}
+                  href={href}
+                >
+                  {t(`menu.${name}`)}
+                </Link>
+              );
+            }
+            return <div className="hidden" key={href}></div>;
+          })}
           <MenuPopover />
         </div>
         <div className="flex-1 md:flex-none">

@@ -8,11 +8,11 @@ The most popular web3 crypto wallet, **[MetaMask](https://metamask.io/)**, intro
 
 Technically speaking, MetaMask Snaps is a system that allows anyone to expand the capabilities of MetaMask safely. A Snap - a JavaScript program - runs in an isolated, sandboxed environment inside the MetaMask. In addition to the existing MetaMask RPC methods, Snaps can create new RPC methods for websites to call. Currently, this is the only way to interact with the Snaps, but it will be possible to enhance the MetaMask's UI in the future with modified components.
 
-Snaps are currently only supported in the [MetaMask Flask](https://metamask.io/flask/), a separate desktop browser extension for developers. The MetaMask team is expected to integrate the Snaps system into the main MetaMask sometime in 2023. For more information about Snaps, check their [documentation](https://docs.metamask.io/guide/snaps.html).
+For more information about Snaps, check their [documentation](https://docs.metamask.io/guide/snaps.html).
 
 <center>
-<img src="https://metamask.zendesk.com/hc/article_attachments/6974707389467/mceclip1.png" alt="VC" width="250" /><br />
+<img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="VC" width="250" /><br />
 
-MetaMask Flask logo (<a href="https://metamask.zendesk.com/hc/article_attachments/6974707389467/mceclip1.png">image source</a>).
+MetaMask logo (<a href="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg">image source</a>).
 
 </center>

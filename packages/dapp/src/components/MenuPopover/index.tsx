@@ -7,6 +7,8 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
+import { useGeneralStore } from '@/stores';
+
 const IconCreateCredential = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -67,6 +69,7 @@ interface LinkProps {
   name: string;
   href: string;
   icon: () => JSX.Element;
+  requiresConnection: boolean;
 }
 
 const INTERNAL_LINKS: LinkProps[] = [
@@ -74,16 +77,19 @@ const INTERNAL_LINKS: LinkProps[] = [
     name: 'create-credential',
     href: '/app/create-credential',
     icon: IconCreateCredential,
+    requiresConnection: true,
   },
   {
     name: 'verify-data',
     href: '/app/verify-data',
     icon: IconVerifyData,
+    requiresConnection: true,
   },
   {
     name: 'qr-scanner',
     href: '/app/qr-code-session',
     icon: IconCamera,
+    requiresConnection: false,
   },
 ];
 
@@ -111,6 +117,8 @@ const DropDownItem = ({ SVGIcon, name, description }: DropDownItemProps) => (
 
 function MenuPopover() {
   const t = useTranslations('AppNavbar');
+
+  const isConnected = useGeneralStore((state) => state.isConnected);
 
   return (
     <Popover className="group relative">
@@ -147,22 +155,30 @@ function MenuPopover() {
             <Popover.Panel className="absolute right-0 z-50 mt-3 w-screen max-w-xs">
               <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black/5">
                 <div className="dark:bg-navy-blue-400 relative grid gap-8 bg-white p-7 lg:grid-cols-1">
-                  {INTERNAL_LINKS.map((link) => (
-                    <Link
-                      key={link.name}
-                      href={link.href}
-                      onClick={() => {
-                        close();
-                      }}
-                      className="dark:hover:bg-navy-blue-500/40 -m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50"
-                    >
-                      <DropDownItem
-                        SVGIcon={link.icon}
-                        name={t(`dropdown.${link.name}`)}
-                        description={t(`dropdown.description.${link.name}`)}
-                      />
-                    </Link>
-                  ))}
+                  {INTERNAL_LINKS.map((link) => {
+                    if (
+                      (link.requiresConnection && isConnected) ||
+                      !link.requiresConnection
+                    ) {
+                      return (
+                        <Link
+                          key={link.name}
+                          href={link.href}
+                          onClick={() => {
+                            close();
+                          }}
+                          className="dark:hover:bg-navy-blue-500/40 -m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50"
+                        >
+                          <DropDownItem
+                            SVGIcon={link.icon}
+                            name={t(`dropdown.${link.name}`)}
+                            description={t(`dropdown.description.${link.name}`)}
+                          />
+                        </Link>
+                      );
+                    }
+                    return <div className="hidden" key={link.name}></div>;
+                  })}
                 </div>
                 <div className="dark:bg-navy-blue-500 bg-gray-100 p-4">
                   <a
