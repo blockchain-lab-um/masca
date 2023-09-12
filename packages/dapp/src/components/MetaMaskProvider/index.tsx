@@ -27,10 +27,10 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
       <div className="flex h-full items-center justify-center">
         <div>
           <div className="flex flex-col items-center justify-center">
-            <h3 className="text-h4 md:text-h3 dark:text-navy-blue-50 text-gray-800">
+            <h3 className="text-h4 md:text-h3 dark:text-navy-blue-50  text-gray-800">
               {t('metamask')}
             </h3>
-            <h4 className="text-h4 md:text-h5 dark:text-navy-blue-50/50 mt-3 text-gray-800/50">
+            <h4 className="text-h4 md:text-h5 dark:text-navy-blue-50/50 mt-3 text-center text-gray-800/50">
               {t('version')}
             </h4>
           </div>

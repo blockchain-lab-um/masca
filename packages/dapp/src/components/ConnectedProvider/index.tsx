@@ -30,7 +30,7 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
           <h3 className="text-h4 sm:text-h3 dark:text-navy-blue-50 text-center text-gray-900">
             {t('connect')}
           </h3>
-          <h4 className="text-h4 md:text-h5 dark:text-navy-blue-50/50 mt-3 text-gray-900/50">
+          <h4 className="text-h4 sm:text-h5 dark:text-navy-blue-50/50 mt-3 text-center text-gray-900/50">
             {t('version')}
           </h4>
         </div>
