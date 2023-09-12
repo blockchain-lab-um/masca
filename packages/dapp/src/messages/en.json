@@ -74,6 +74,7 @@
   },
   "ConnectedProvider": {
     "connect": "Connect Wallet & Install Masca to continue",
+    "version": "Please install the latest version of MetaMask!",
     "masca": "Masca",
     "masca-desc": "Manage Decentralized Identity in MetaMask",
     "features": {
@@ -284,7 +285,8 @@
     "title": "Import Credential"
   },
   "MetaMaskProvider": {
-    "flask": "Install MetaMask Flask to use the dapp!"
+    "metamask": "Install MetaMask to use the dapp!",
+    "version": "Please install the latest version of MetaMask!"
   },
   "MethodDropdownMenu": {
     "switching": "Switching DID method",

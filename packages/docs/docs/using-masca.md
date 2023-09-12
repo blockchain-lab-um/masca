@@ -6,7 +6,7 @@ sidebar_position: 2
 
 ## How to start using Masca?
 
-Masca currently works only on **MetaMask Flask**. You can find it [here](https://metamask.io/flask/). Snaps are expected to be supported in the production MetaMask sometime in the second half of 2023. With that said, users will be able to connect to any dapp using Masca without any additional steps or software.
+Masca is a MetaMask Snap. To install Masca into your MetaMask wallet, you simply need to visit a dapp that implements it.
 
 ## Masca dapp
 

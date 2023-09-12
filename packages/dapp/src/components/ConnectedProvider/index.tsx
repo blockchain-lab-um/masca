@@ -26,8 +26,13 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
   return (
     <div className="dark:bg-navy-blue-800 dark:text-navy-blue-400 flex-1 rounded-3xl bg-white shadow-lg">
       <div className="flex flex-col items-center justify-center px-6 py-12 sm:px-12">
-        <div className="text-h4 sm:text-h3 dark:text-navy-blue-50 text-center text-gray-900">
-          {t('connect')}
+        <div className="flex h-full flex-col items-center justify-center">
+          <h3 className="text-h4 sm:text-h3 dark:text-navy-blue-50 text-center text-gray-900">
+            {t('connect')}
+          </h3>
+          <h4 className="text-h4 md:text-h5 dark:text-navy-blue-50/50 mt-3 text-gray-900/50">
+            {t('version')}
+          </h4>
         </div>
         <div className="dark:border-navy-blue-500 mt-8 rounded-3xl border border-gray-500 px-6 py-8 sm:px-12 md:min-w-[40em]">
           <div className="flex items-center gap-x-6">

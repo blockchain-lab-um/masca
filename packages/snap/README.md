@@ -48,8 +48,8 @@ Many new features are already in the works. For more information, please check t
 
 ### Prerequisites
 
-- [MetaMask Flask](https://metamask.io/flask/)
-  - ⚠️ You cannot have other versions of MetaMask installed
+- [MetaMask](https://metamask.io/download/)
+  - ⚠️ You need a version of MetaMask that supports Snaps
 - Node.js `18`. We **strongly** recommend you install via [NVM](https://github.com/creationix/nvm) to avoid incompatibility issues between different node projects.
   - Once installed, you should also install [pnpm](https://pnpm.io/) with `npm i -g pnpm` to make working with this repository easiest.
 

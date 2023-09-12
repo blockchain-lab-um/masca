@@ -1,7 +1,11 @@
 'use client';
 
 import { useEffect } from 'react';
-import { enableMasca, isError } from '@blockchain-lab-um/masca-connector';
+import {
+  enableMasca,
+  isError,
+  isMetamaskSnapsSupported,
+} from '@blockchain-lab-um/masca-connector';
 import detectEthereumProvider from '@metamask/detect-provider';
 
 import mascaVersionJson from '@/utils/masca.json';
@@ -13,14 +17,14 @@ const snapId =
     : 'npm:@blockchain-lab-um/masca';
 
 const CheckMetaMaskCompatibility = () => {
-  const { changeHasMetaMask, changeIsFlask } = useGeneralStore((state) => ({
+  const { changeHasMetaMask, changeHasSnaps } = useGeneralStore((state) => ({
     changeHasMetaMask: state.changeHasMetaMask,
-    changeIsFlask: state.changeIsFlask,
+    changeHasSnaps: state.changeSupportsSnaps,
   }));
 
   const {
     hasMM,
-    hasFlask,
+    hasSnaps,
     address,
     isConnected,
     isConnecting,
@@ -31,7 +35,7 @@ const CheckMetaMaskCompatibility = () => {
     changeChainId,
   } = useGeneralStore((state) => ({
     hasMM: state.hasMetaMask,
-    hasFlask: state.isFlask,
+    hasSnaps: state.supportsSnaps,
     address: state.address,
     isConnected: state.isConnected,
     isConnecting: state.isConnecting,
@@ -80,31 +84,14 @@ const CheckMetaMaskCompatibility = () => {
   };
 
   const checkMetaMaskCompatibility = async () => {
-    try {
-      const provider = await detectEthereumProvider({ mustBeMetaMask: true });
+    const provider = await detectEthereumProvider({ mustBeMetaMask: true });
 
-      if (!provider) {
-        changeHasMetaMask(false);
-        changeIsFlask(false);
-        return;
-      }
-    } catch (error) {
-      changeHasMetaMask(false);
-      changeIsFlask(false);
-    }
+    if (!provider || (provider as any)?.isBraveWallet) return;
 
     changeHasMetaMask(true);
 
-    const mmVersion = (await window.ethereum.request({
-      method: 'web3_clientVersion',
-    })) as string;
-
-    if (!mmVersion.includes('flask')) {
-      changeIsFlask(false);
-      return;
-    }
-
-    changeIsFlask(true);
+    const snaps = await isMetamaskSnapsSupported();
+    if (snaps) changeHasSnaps(true);
   };
 
   const enableMascaHandler = async () => {
@@ -170,7 +157,7 @@ const CheckMetaMaskCompatibility = () => {
   };
 
   useEffect(() => {
-    if (hasMM && hasFlask && window.ethereum) {
+    if (hasMM && hasSnaps && window.ethereum) {
       window.ethereum.on('accountsChanged', (...accounts) => {
         changeAddress((accounts[0] as string[])[0]);
       });
@@ -185,12 +172,12 @@ const CheckMetaMaskCompatibility = () => {
         window.ethereum.removeAllListeners('chainChanged');
       }
     };
-  }, [hasMM, hasFlask]);
+  }, [hasMM, hasSnaps]);
 
   useEffect(() => {
     const lsIsConnected = localStorage.getItem('isConnected');
     if (lsIsConnected !== 'true') return;
-    if (!hasMM || !hasFlask) return;
+    if (!hasMM || !hasSnaps) return;
     if (isConnected) return;
     if (isConnecting) return;
     changeIsConnecting(true);
@@ -198,17 +185,17 @@ const CheckMetaMaskCompatibility = () => {
       console.error(err);
       changeIsConnecting(false);
     });
-  }, [hasMM, hasFlask]);
+  }, [hasMM, hasSnaps]);
 
   useEffect(() => {
-    if (!hasMM || !hasFlask || !address) return;
+    if (!hasMM || !hasSnaps || !address) return;
     console.log('Address changed to', address);
     enableMascaHandler().catch((err) => {
       console.error(err);
       changeIsConnecting(false);
       changeAddress('');
     });
-  }, [hasMM, hasFlask, address]);
+  }, [hasMM, hasSnaps, address]);
 
   useEffect(() => {
     checkMetaMaskCompatibility().catch((error) => {
