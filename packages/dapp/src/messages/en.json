@@ -403,10 +403,12 @@
     "import-success": "Successfully imported backup",
     "delete-error": "Failed to delete backup",
     "delete-success": "Successfully deleted backup",
+    "unknown-error": "Unknown error",
     "not-implemented": "Not implemented yet",
     "popups": "Pop-ups",
     "popups-desc": "Disabling pop-ups is very dangerous. We recommend setting friendly dapps instead!",
-    "title": "Settings"
+    "title": "Settings",
+    "wallet-error": "Failed to get wallet ID"
   },
   "StartFlowView": {
     "new-scan": "Scan New Code",

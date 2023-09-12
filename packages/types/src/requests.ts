@@ -11,6 +11,7 @@ import type {
   GetDID,
   GetMethod,
   GetSnapSettings,
+  GetWalletId,
   HandleAuthorization,
   HandleCredentialOffer,
   ImportStateBackup,
@@ -44,6 +45,7 @@ export type MascaRPCRequest =
   | GetAvailableCredentialStores
   | GetAccountSettings
   | GetSnapSettings
+  | GetWalletId
   | ResolveDID
   | CreateCredential
   | SetCurrentAccount

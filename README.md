@@ -1,7 +1,7 @@
 <div align="center" id="logo">
   
-  ![Masca logo](assets/masca_logo_dark.svg#gh-dark-mode-only)
-  ![Masca logo](assets/masca_logo_light.svg#gh-light-mode-only)
+  ![Masca logo](assets/svg/logo_text_white_shadow.svg#gh-dark-mode-only)
+  ![Masca logo](assets/svg/logo_text_black_shadow.svg#gh-light-mode-only)
   
 </div>
 
