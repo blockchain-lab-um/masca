@@ -9,6 +9,7 @@ interface GeneralStore {
   hasMetaMask: boolean;
   hasSnapInstalled: boolean;
   chainId: string;
+  supportsSnaps: boolean;
 
   changeAddress: (address: string) => void;
   changeIsConnected: (isConnected: boolean) => void;
@@ -17,6 +18,7 @@ interface GeneralStore {
   changeHasMetaMask: (hasMetaMask: boolean) => void;
   changeHasSnapInstalled: (hasSnapInstalled: boolean) => void;
   changeChainId: (chainId: string) => void;
+  changeSupportsSnaps: (supportsSnaps: boolean) => void;
 }
 
 export const generalStoreInitialState = {
@@ -27,6 +29,7 @@ export const generalStoreInitialState = {
   hasMetaMask: false,
   hasSnapInstalled: false,
   chainId: '',
+  supportsSnaps: false,
 };
 
 export const useGeneralStore = createWithEqualityFn<GeneralStore>()(
@@ -41,6 +44,7 @@ export const useGeneralStore = createWithEqualityFn<GeneralStore>()(
     changeHasSnapInstalled: (hasSnapInstalled: boolean) =>
       set({ hasSnapInstalled }),
     changeChainId: (chainId: string) => set({ chainId }),
+    changeSupportsSnaps: (supportsSnaps: boolean) => set({ supportsSnaps }),
   }),
   shallow
 );

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { enableMasca, isError } from '@blockchain-lab-um/masca-connector';
+import { enableMasca, isMetamaskSnapsSupported, isError } from '@blockchain-lab-um/masca-connector';
 import detectEthereumProvider from '@metamask/detect-provider';
 
 import mascaVersionJson from '@/utils/masca.json';
@@ -13,12 +13,14 @@ const snapId =
     : 'npm:@blockchain-lab-um/masca';
 
 const CheckMetaMaskCompatibility = () => {
-  const { changeHasMetaMask } = useGeneralStore((state) => ({
+  const { changeHasMetaMask, changeHasSnaps } = useGeneralStore((state) => ({
     changeHasMetaMask: state.changeHasMetaMask,
+    changeHasSnaps: state.changeSupportsSnaps,
   }));
 
   const {
     hasMM,
+    hasSnaps,
     address,
     isConnected,
     isConnecting,
@@ -29,6 +31,7 @@ const CheckMetaMaskCompatibility = () => {
     changeChainId,
   } = useGeneralStore((state) => ({
     hasMM: state.hasMetaMask,
+    hasSnaps: state.supportsSnaps,
     address: state.address,
     isConnected: state.isConnected,
     isConnecting: state.isConnecting,
@@ -82,6 +85,9 @@ const CheckMetaMaskCompatibility = () => {
     if (!provider || (provider as any)?.isBraveWallet) return;
 
     changeHasMetaMask(true);
+
+    const snaps = await isMetamaskSnapsSupported();
+    if (snaps) changeHasSnaps(true);
   };
 
   const enableMascaHandler = async () => {
@@ -147,7 +153,7 @@ const CheckMetaMaskCompatibility = () => {
   };
 
   useEffect(() => {
-    if (hasMM && window.ethereum) {
+    if (hasMM && hasSnaps && window.ethereum) {
       window.ethereum.on('accountsChanged', (...accounts) => {
         changeAddress((accounts[0] as string[])[0]);
       });
@@ -162,12 +168,12 @@ const CheckMetaMaskCompatibility = () => {
         window.ethereum.removeAllListeners('chainChanged');
       }
     };
-  }, [hasMM]);
+  }, [hasMM, hasSnaps]);
 
   useEffect(() => {
     const lsIsConnected = localStorage.getItem('isConnected');
     if (lsIsConnected !== 'true') return;
-    if (!hasMM) return;
+    if (!hasMM || !hasSnaps) return;
     if (isConnected) return;
     if (isConnecting) return;
     changeIsConnecting(true);
@@ -175,17 +181,17 @@ const CheckMetaMaskCompatibility = () => {
       console.error(err);
       changeIsConnecting(false);
     });
-  }, [hasMM]);
+  }, [hasMM, hasSnaps]);
 
   useEffect(() => {
-    if (!(hasMM && address)) return;
+    if (!hasMM || !hasSnaps || !address) return;
     console.log('Address changed to', address);
     enableMascaHandler().catch((err) => {
       console.error(err);
       changeIsConnecting(false);
       changeAddress('');
     });
-  }, [hasMM, address]);
+  }, [hasMM, hasSnaps, address]);
 
   useEffect(() => {
     checkMetaMaskCompatibility().catch((error) => {
