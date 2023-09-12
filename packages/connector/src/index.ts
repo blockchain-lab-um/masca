@@ -53,7 +53,9 @@ export async function enableMasca(
       method: 'wallet_getSnaps',
     });
   } catch (error) {
-    return ResultObject.error("Currently installed MetaMask version doesn't support snaps.");
+    return ResultObject.error(
+      "Currently installed MetaMask version doesn't support snaps."
+    );
   }
 
   try {
