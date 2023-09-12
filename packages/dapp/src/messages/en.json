@@ -285,7 +285,7 @@
     "title": "Import Credential"
   },
   "MetaMaskProvider": {
-    "metamask": "Install MetaMask to use the dapp!",
+    "metamask": "You need MetaMask to use the dapp!",
     "version": "Please install the latest version of MetaMask!"
   },
   "MethodDropdownMenu": {
