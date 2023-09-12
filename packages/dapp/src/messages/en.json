@@ -1,11 +1,10 @@
 {
   "AppBottomBar": {
     "dashboard": "Dashboard",
-    "get-credential": "Get Credentials",
+    "create-credential": "Create Credentials",
     "qr-scanner": "QR Code Scanner",
     "verify-data": "Verify Data",
-    "settings": "Settings",
-    "create-credential": "Create Credential"
+    "settings": "Settings"
   },
   "AppNavbar": {
     "address": {
