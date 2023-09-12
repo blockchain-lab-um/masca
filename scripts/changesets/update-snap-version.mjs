@@ -20,20 +20,6 @@ fs.writeFileSync(
   JSON.stringify(snapManifestJson, null, 2)
 );
 
-// Update packages/dapp/utils/masca.json
-const dappMascaJson = JSON.parse(
-  fs.readFileSync('packages/dapp/src/utils/masca.json', {
-    encoding: 'utf-8',
-  })
-);
-
-dappMascaJson.mascaVersion = snapVersion;
-
-fs.writeFileSync(
-  'packages/dapp/src/utils/masca.json',
-  JSON.stringify(dappMascaJson, null, 2)
-);
-
 // Update packages/connector/src/masca.json
 const connectorMascaJson = JSON.parse(
   fs.readFileSync('packages/connector/src/masca.json', {
