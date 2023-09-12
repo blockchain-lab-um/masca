@@ -13,7 +13,6 @@ interface GoogleDriveButtonProps {
   action: 'import' | 'backup' | 'delete';
   variant?: 'primary' | 'cancel-red';
 }
-
 const GoogleDriveButton = ({
   buttonText,
   action,
@@ -38,195 +37,286 @@ const GoogleDriveButton = ({
   const [loading, setLoading] = useState(false);
 
   const handleExport = async (accessToken: string) => {
-    if (!api) return;
-    setLoading(true);
-    const exportResult = await api.exportStateBackup();
+    try {
+      if (!api) return;
+      setLoading(true);
+      const exportResult = await api.exportStateBackup();
 
-    if (isError(exportResult)) {
-      console.log(exportResult);
+      if (isError(exportResult)) {
+        console.error(exportResult);
+        setTimeout(() => {
+          useToastStore.setState({
+            open: true,
+            title: t('export-error'),
+            type: 'error',
+            loading: false,
+          });
+        }, 200);
+        setLoading(false);
+        return;
+      }
+
+      const walletId = await api.getWalletId();
+      if (isError(walletId)) {
+        console.error(walletId);
+        setTimeout(() => {
+          useToastStore.setState({
+            open: true,
+            title: t('wallet-error'),
+            type: 'error',
+            loading: false,
+          });
+        }, 200);
+        setLoading(false);
+        return;
+      }
+
+      const response = await fetch(`/api/google`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          data: {
+            accessToken,
+            action: 'backup',
+            content: exportResult.data,
+            wallet: walletId.data,
+          },
+        }),
+      });
+
+      if (response.status !== 200) {
+        const res = await response.json();
+        setTimeout(() => {
+          useToastStore.setState({
+            open: true,
+            title: res.error_description,
+            type: 'error',
+            loading: false,
+          });
+        }, 200);
+        setLoading(false);
+        return;
+      }
+
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: t('export-error'),
-          type: 'error',
+          title: t('export-success'),
+          type: 'success',
           loading: false,
         });
       }, 200);
-      return;
-    }
 
-    const response = await fetch(`/api/google`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        data: {
-          accessToken,
-          action: 'backup',
-          content: exportResult.data,
-        },
-      }),
-    });
-
-    const res = await response.json();
-    if (res.error) {
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: res.error,
+          title: (error as Error).message ?? t('unknown-error'),
           type: 'error',
           loading: false,
         });
       }, 200);
       setLoading(false);
-      return;
     }
-
-    setTimeout(() => {
-      useToastStore.setState({
-        open: true,
-        title: t('export-success'),
-        type: 'success',
-        loading: false,
-      });
-    }, 200);
-
-    setLoading(false);
   };
 
   const handleImport = async (accessToken: string) => {
-    setLoading(true);
-    const response = await fetch(`/api/google`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        data: {
-          accessToken,
-          action: 'import',
+    try {
+      if (!api) return;
+      setLoading(true);
+
+      const walletId = await api.getWalletId();
+      if (isError(walletId)) {
+        console.error(walletId);
+        setTimeout(() => {
+          useToastStore.setState({
+            open: true,
+            title: t('wallet-error'),
+            type: 'error',
+            loading: false,
+          });
+        }, 200);
+        setLoading(false);
+        return;
+      }
+
+      const response = await fetch(`/api/google`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      }),
-    });
-
-    const res = await response.json();
-    if (res.error) {
-      setTimeout(() => {
-        useToastStore.setState({
-          open: true,
-          title: res.error,
-          type: 'error',
-          loading: false,
-        });
-      }, 200);
-      setLoading(false);
-      return;
-    }
-
-    if (!api) return;
-    const importResult = await api.importStateBackup({
-      serializedState: res.data,
-    });
-
-    if (isError(importResult)) {
-      setTimeout(() => {
-        useToastStore.setState({
-          open: true,
-          title: t('import-error'),
-          type: 'error',
-          loading: false,
-        });
-      }, 200);
-      setLoading(false);
-      return;
-    }
-
-    setTimeout(() => {
-      useToastStore.setState({
-        open: true,
-        title: t('import-success'),
-        type: 'success',
-        loading: false,
+        body: JSON.stringify({
+          data: {
+            accessToken,
+            action: 'import',
+            wallet: walletId.data,
+          },
+        }),
       });
-    }, 200);
 
-    const did = await api.getDID();
-    if (isError(did)) {
-      console.log("Couldn't get DID");
-      throw new Error(did.error);
+      const res = await response.json();
+      if (res.error_description) {
+        setTimeout(() => {
+          useToastStore.setState({
+            open: true,
+            title: res.error_description,
+            type: 'error',
+            loading: false,
+          });
+        }, 200);
+        setLoading(false);
+        return;
+      }
+
+      const importResult = await api.importStateBackup({
+        serializedState: res.content,
+      });
+
+      if (isError(importResult)) {
+        setTimeout(() => {
+          useToastStore.setState({
+            open: true,
+            title: t('import-error'),
+            type: 'error',
+            loading: false,
+          });
+        }, 200);
+        setLoading(false);
+        return;
+      }
+
+      const did = await api.getDID();
+      if (isError(did)) {
+        console.log("Couldn't get DID");
+        throw new Error(did.error);
+      }
+
+      const availableMethods = await api.getAvailableMethods();
+      if (isError(availableMethods)) {
+        console.log("Couldn't get available methods");
+        throw new Error(availableMethods.error);
+      }
+
+      const method = await api.getSelectedMethod();
+      if (isError(method)) {
+        console.log("Couldn't get selected method");
+        throw new Error(method.error);
+      }
+
+      const accountSettings = await api.getAccountSettings();
+      if (isError(accountSettings)) {
+        console.log("Couldn't get account settings");
+        throw new Error(accountSettings.error);
+      }
+
+      const snapSettings = await api.getSnapSettings();
+      if (isError(snapSettings)) {
+        console.log("Couldn't get snap settings");
+        throw new Error(snapSettings.error);
+      }
+
+      changeDID(did.data);
+      changeAvailableMethods(availableMethods.data);
+      changeCurrMethod(method.data);
+      changeAvailableCredentialStores(accountSettings.data.ssi.storesEnabled);
+      changePopups(snapSettings.data.dApp.disablePopups);
+      setLoading(false);
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: t('import-success'),
+          type: 'success',
+          loading: false,
+        });
+      }, 200);
+    } catch (error) {
+      console.error(error);
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: (error as Error).message ?? t('unknown-error'),
+          type: 'error',
+          loading: false,
+        });
+      }, 200);
+      setLoading(false);
     }
-
-    const availableMethods = await api.getAvailableMethods();
-    if (isError(availableMethods)) {
-      console.log("Couldn't get available methods");
-      throw new Error(availableMethods.error);
-    }
-
-    const method = await api.getSelectedMethod();
-    if (isError(method)) {
-      console.log("Couldn't get selected method");
-      throw new Error(method.error);
-    }
-
-    const accountSettings = await api.getAccountSettings();
-    if (isError(accountSettings)) {
-      console.log("Couldn't get account settings");
-      throw new Error(accountSettings.error);
-    }
-
-    const snapSettings = await api.getSnapSettings();
-    if (isError(snapSettings)) {
-      console.log("Couldn't get snap settings");
-      throw new Error(snapSettings.error);
-    }
-
-    changeDID(did.data);
-    changeAvailableMethods(availableMethods.data);
-    changeCurrMethod(method.data);
-    changeAvailableCredentialStores(accountSettings.data.ssi.storesEnabled);
-    changePopups(snapSettings.data.dApp.disablePopups);
-    setLoading(false);
   };
 
   const handleDelete = async (accessToken: string) => {
-    setLoading(true);
-    const response = await fetch(`/api/google`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        data: {
-          accessToken,
-          action: 'delete',
-        },
-      }),
-    });
+    try {
+      if (!api) return;
+      setLoading(true);
 
-    const res = await response.json();
-    if (res.error) {
+      const walletId = await api.getWalletId();
+      if (isError(walletId)) {
+        console.error(walletId);
+        setTimeout(() => {
+          useToastStore.setState({
+            open: true,
+            title: t('wallet-error'),
+            type: 'error',
+            loading: false,
+          });
+        }, 200);
+        setLoading(false);
+        return;
+      }
+
+      const response = await fetch(`/api/google`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          data: {
+            accessToken,
+            action: 'delete',
+            wallet: walletId.data,
+          },
+        }),
+      });
+
+      if (response.status !== 200) {
+        const res = await response.json();
+        setTimeout(() => {
+          useToastStore.setState({
+            open: true,
+            title: res.error_description,
+            type: 'error',
+            loading: false,
+          });
+        }, 200);
+        setLoading(false);
+        return;
+      }
+
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: res.error,
+          title: t('delete-success'),
+          type: 'success',
+          loading: false,
+        });
+      }, 200);
+
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: (error as Error).message ?? t('unknown-error'),
           type: 'error',
           loading: false,
         });
       }, 200);
       setLoading(false);
     }
-
-    setTimeout(() => {
-      useToastStore.setState({
-        open: true,
-        title: t('delete-success'),
-        type: 'success',
-        loading: false,
-      });
-    }, 200);
-
-    setLoading(false);
   };
 
   const login = useGoogleLogin({
@@ -247,7 +337,7 @@ const GoogleDriveButton = ({
       }
     },
     onError: (error) => {
-      console.log(error);
+      console.error(error);
       let errorMessage = error.error?.replace(/_/g, ' ');
       if (!errorMessage) errorMessage = 'Unknown error';
       errorMessage =
@@ -263,7 +353,7 @@ const GoogleDriveButton = ({
       setLoading(false);
     },
     onNonOAuthError: (error) => {
-      console.log(error);
+      console.error(error);
       let errorMessage = error.type.replace(/_/g, ' ');
       errorMessage =
         errorMessage.charAt(0).toUpperCase() + errorMessage.slice(1);

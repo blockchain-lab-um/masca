@@ -78,13 +78,11 @@ class SnapService {
 
     const vcs = [...veramoCredentials, ...polygonCredentials];
 
-    if (vcs.length > 0) {
-      if (await UIService.queryAllDialog({ vcs })) {
-        return vcs;
-      }
-      throw new Error('User rejected query credentials request.');
+    if (!vcs.length) return [];
+    if (await UIService.queryAllDialog({ vcs })) {
+      return vcs;
     }
-    return [];
+    throw new Error('User rejected query credentials request.');
   }
 
   /**
@@ -234,7 +232,7 @@ class SnapService {
 
     const vcs = [...veramoCredentials, ...polygonCredentials];
 
-    if (vcs.length === 0) throw new Error('No VC found with the given id');
+    if (!vcs.length) throw new Error('No VC found with the given id');
 
     let stores = 'All';
     if (store) {
@@ -243,12 +241,12 @@ class SnapService {
     }
 
     if (await UIService.deleteCredentialDialog({ store: stores, vcs })) {
-      if (polygonCredentials.length > 0) {
+      if (polygonCredentials.length) {
         await PolygonService.deleteCredential(id);
         return [true];
       }
 
-      if (veramoCredentials.length > 0) {
+      if (veramoCredentials.length) {
         const res = await VeramoService.deleteCredential({
           id,
           store,
@@ -280,9 +278,7 @@ class SnapService {
         state[CURRENT_STATE_VERSION].currentAccount
       ].general.account.ssi.selectedMethod;
 
-    if (vcs.length === 0) {
-      throw new Error('No credentials provided');
-    }
+    if (!vcs.length) throw new Error('No credentials provided');
 
     if (method === 'did:ethr' || method === 'did:pkh') {
       if (proofFormat !== 'EthereumEip712Signature2021') {
@@ -588,6 +584,9 @@ class SnapService {
       case 'validateStoredCeramicSession':
         await GeneralService.validateStoredCeramicSession();
         return ResultObject.success(true);
+      case 'getWalletId':
+        res = await WalletService.getWalletId();
+        return ResultObject.success(res);
 
       /**
        * Storage.service

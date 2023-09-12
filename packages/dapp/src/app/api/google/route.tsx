@@ -27,11 +27,15 @@ async function verifyAccessToken(accessToken: string) {
   return tokenInfo;
 }
 
-async function createDriveFile(drive: drive_v3.Drive, content: string) {
+async function createDriveFile(
+  drive: drive_v3.Drive,
+  wallet: string,
+  content: string
+) {
   const mimeType = 'text/plain';
   const fileMetadata = {
     parents: ['appDataFolder'],
-    name: process.env.GOOGLE_DRIVE_FILE_NAME,
+    name: `${process.env.GOOGLE_DRIVE_FILE_NAME}${wallet}`,
     mimeType,
   };
   const media = {
@@ -47,10 +51,10 @@ async function createDriveFile(drive: drive_v3.Drive, content: string) {
   return res.data;
 }
 
-async function getBackupFileId(drive: drive_v3.Drive) {
+async function getBackupFileId(drive: drive_v3.Drive, wallet: string) {
   let id;
   const list = await drive.files.list({
-    q: `name='${process.env.GOOGLE_DRIVE_FILE_NAME}'`,
+    q: `name='${process.env.GOOGLE_DRIVE_FILE_NAME}${wallet}'`,
     spaces: 'appDataFolder',
   });
 
@@ -61,8 +65,8 @@ async function getBackupFileId(drive: drive_v3.Drive) {
   return id;
 }
 
-async function getBackupFileContent(drive: drive_v3.Drive) {
-  const id = await getBackupFileId(drive);
+async function getBackupFileContent(drive: drive_v3.Drive, wallet: string) {
+  const id = await getBackupFileId(drive, wallet);
   if (!id) throw new Error('Backup file not found');
 
   const res = await drive.files.get({
@@ -75,10 +79,14 @@ async function getBackupFileContent(drive: drive_v3.Drive) {
   return res.data as string;
 }
 
-async function updateDriveFile(drive: drive_v3.Drive, content: string) {
-  const fileId = await getBackupFileId(drive);
+async function updateDriveFile(
+  drive: drive_v3.Drive,
+  wallet: string,
+  content: string
+) {
+  const fileId = await getBackupFileId(drive, wallet);
   if (!fileId) {
-    const res = createDriveFile(drive, content);
+    const res = createDriveFile(drive, wallet, content);
     return res;
   }
   const media = {
@@ -94,8 +102,8 @@ async function updateDriveFile(drive: drive_v3.Drive, content: string) {
   return res.data;
 }
 
-async function deleteDriveFile(drive: drive_v3.Drive) {
-  const fileId = await getBackupFileId(drive);
+async function deleteDriveFile(drive: drive_v3.Drive, wallet: string) {
+  const fileId = await getBackupFileId(drive, wallet);
   if (!fileId) throw new Error('Backup file not found');
 
   const res = await drive.files.delete({
@@ -111,23 +119,36 @@ export async function POST(request: NextRequest) {
 
     if (!body.data) {
       return NextResponse.json(
-        { success: false, error: 'Missing data parameter' },
+        { error_description: 'Missing data parameter' },
+        {
+          status: 400,
+          headers: { ...CORS_HEADERS },
+        }
+      );
+    }
+
+    const { accessToken, action, wallet, content } = body.data;
+
+    if (!accessToken || !wallet) {
+      return NextResponse.json(
+        { error_description: 'Missing accessToken or wallet parameter' },
         { status: 400, headers: { ...CORS_HEADERS } }
       );
     }
 
-    const { accessToken, action, content } = body.data;
-
     if (!actions.includes(action)) {
       return NextResponse.json(
-        { success: false, error: 'Invalid action' },
-        { status: 400, headers: { ...CORS_HEADERS } }
+        { error_description: 'Invalid action' },
+        {
+          status: 400,
+          headers: { ...CORS_HEADERS },
+        }
       );
     }
 
     if (action === 'backup' && !content) {
       return NextResponse.json(
-        { success: false, error: 'Missing content parameter' },
+        { error_description: 'Missing content parameter' },
         { status: 400, headers: { ...CORS_HEADERS } }
       );
     }
@@ -141,8 +162,11 @@ export async function POST(request: NextRequest) {
       !scopes?.every((scope) => tokenInfo.scopes.includes(scope))
     ) {
       return NextResponse.json(
-        { success: false, error: 'Invalid access token' },
-        { status: 400, headers: { ...CORS_HEADERS } }
+        { error_description: 'Invalid access token' },
+        {
+          status: 400,
+          headers: { ...CORS_HEADERS },
+        }
       );
     }
 
@@ -150,42 +174,51 @@ export async function POST(request: NextRequest) {
 
     if (!drive) {
       return NextResponse.json(
-        { success: false, error: 'Error creating drive instance' },
+        { error_description: 'Error creating drive instance' },
         { status: 500, headers: { ...CORS_HEADERS } }
       );
     }
     switch (action) {
       case 'import': {
-        const fileContent = await getBackupFileContent(drive);
+        const fileContent = await getBackupFileContent(drive, wallet);
         return NextResponse.json(
-          { success: true, data: fileContent },
-          { status: 200, headers: { ...CORS_HEADERS } }
+          { content: fileContent },
+          {
+            status: 200,
+            headers: { ...CORS_HEADERS },
+          }
         );
       }
       case 'backup': {
-        await updateDriveFile(drive, content);
-        return NextResponse.json(
-          { success: true },
-          { status: 200, headers: { ...CORS_HEADERS } }
-        );
+        await updateDriveFile(drive, wallet, content);
+        return new NextResponse(null, {
+          status: 200,
+          headers: { ...CORS_HEADERS },
+        });
       }
       case 'delete': {
-        await deleteDriveFile(drive);
-        return NextResponse.json(
-          { success: true },
-          { status: 200, headers: { ...CORS_HEADERS } }
-        );
+        await deleteDriveFile(drive, wallet);
+        return new NextResponse(null, {
+          status: 200,
+          headers: { ...CORS_HEADERS },
+        });
       }
       default:
         return NextResponse.json(
-          { success: false, error: 'Invalid action' },
-          { status: 400, headers: { ...CORS_HEADERS } }
+          { error_description: 'Invalid action' },
+          {
+            status: 400,
+            headers: { ...CORS_HEADERS },
+          }
         );
     }
   } catch (e) {
     return NextResponse.json(
-      { success: false, error: (e as Error).message },
-      { status: 500, headers: { ...CORS_HEADERS } }
+      { error_description: (e as Error).message },
+      {
+        status: 500,
+        headers: { ...CORS_HEADERS },
+      }
     );
   }
 }

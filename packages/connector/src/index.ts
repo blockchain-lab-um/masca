@@ -22,9 +22,9 @@ const defaultSnapOrigin = 'npm:@blockchain-lab-um/masca';
 
 export async function isMetamaskSnapsSupported(): Promise<boolean> {
   try {
-     await window.ethereum.request({
-        method: 'wallet_getSnaps'
-     });
+    await window.ethereum.request({
+      method: 'wallet_getSnaps',
+    });
     return true;
   } catch (e) {
     return false;
@@ -59,7 +59,7 @@ export async function enableMasca(
     return ResultObject.error('No provider found');
   }
 
-  if (!await isMetamaskSnapsSupported()) {
+  if (!(await isMetamaskSnapsSupported())) {
     return ResultObject.error(
       "Currently installed MetaMask version doesn't support snaps."
     );
