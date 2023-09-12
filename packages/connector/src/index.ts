@@ -49,6 +49,14 @@ export async function enableMasca(
   }
 
   try {
+    const snaps = await window.ethereum.request({
+      method: 'wallet_getSnaps',
+    });
+  } catch (error) {
+    return ResultObject.error("Currently installed MetaMask version doesn't support snaps.");
+  }
+
+  try {
     await window.ethereum.request({
       method: 'wallet_requestSnaps',
       params: {
