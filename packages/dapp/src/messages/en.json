@@ -73,7 +73,8 @@
     "success": "Connection established!"
   },
   "ConnectedProvider": {
-    "connect": "Connect MetaMask to use the dapp"
+    "connect": "Connect MetaMask to use the dapp",
+    "version": "Please install the latest version of MetaMask!"
   },
   "Controlbar": {
     "query": "Querying credentials",
@@ -264,7 +265,8 @@
     "title": "Import Credential"
   },
   "MetaMaskProvider": {
-    "metamask": "Install MetaMask to use the dapp!"
+    "metamask": "Install MetaMask to use the dapp!",
+    "version": "Please install the latest version of MetaMask!"
   },
   "MethodDropdownMenu": {
     "switching": "Switching DID method",

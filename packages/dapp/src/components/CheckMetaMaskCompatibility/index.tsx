@@ -77,16 +77,9 @@ const CheckMetaMaskCompatibility = () => {
   };
 
   const checkMetaMaskCompatibility = async () => {
-    try {
-      const provider = await detectEthereumProvider({ mustBeMetaMask: true });
+    const provider = await detectEthereumProvider({ mustBeMetaMask: true });
 
-      if (!provider || (provider as any)?.isBraveWallet) {
-        changeHasMetaMask(false);
-        return;
-      }
-    } catch (error) {
-      changeHasMetaMask(false);
-    }
+    if (!provider || (provider as any)?.isBraveWallet) return;
 
     changeHasMetaMask(true);
   };
@@ -185,7 +178,7 @@ const CheckMetaMaskCompatibility = () => {
   }, [hasMM]);
 
   useEffect(() => {
-    if (!hasMM || !address) return;
+    if (!(hasMM && address)) return;
     console.log('Address changed to', address);
     enableMascaHandler().catch((err) => {
       console.error(err);
