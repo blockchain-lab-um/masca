@@ -4,7 +4,8 @@
     "get-credential": "Get Credentials",
     "qr-scanner": "QR Code Scanner",
     "verify-data": "Verify Data",
-    "settings": "Settings"
+    "settings": "Settings",
+    "create-credential": "Create Credential"
   },
   "AppNavbar": {
     "address": {
