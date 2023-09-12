@@ -74,6 +74,7 @@
   },
   "ConnectedProvider": {
     "connect": "Connect Wallet & Install Masca to continue",
+    "version": "Please install the latest version of MetaMask!",
     "masca": "Masca",
     "masca-desc": "Manage Decentralized Identity in MetaMask",
     "features": {

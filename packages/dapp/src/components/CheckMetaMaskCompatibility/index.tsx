@@ -1,7 +1,11 @@
 'use client';
 
 import { useEffect } from 'react';
-import { enableMasca, isMetamaskSnapsSupported, isError } from '@blockchain-lab-um/masca-connector';
+import {
+  enableMasca,
+  isError,
+  isMetamaskSnapsSupported,
+} from '@blockchain-lab-um/masca-connector';
 import detectEthereumProvider from '@metamask/detect-provider';
 
 import mascaVersionJson from '@/utils/masca.json';
