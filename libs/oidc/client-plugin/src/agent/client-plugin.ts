@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { randomBytes } from 'crypto';
 import {
   type AuthorizationRequest,
   type CredentialOffer,
@@ -966,7 +965,9 @@ export class OIDCClientPlugin implements IAgentPlugin {
     const { clientId } = args;
 
     // Create code verifier and challenge for PKCE
-    const codeVerifier = bytesToBase64url(new Uint8Array(randomBytes(50)));
+    const randomBytes = new Uint8Array(50);
+    window.crypto.getRandomValues(randomBytes);
+    const codeVerifier = bytesToBase64url(randomBytes);
     const codeChallenge = bytesToBase64url(sha256(Buffer.from(codeVerifier)));
 
     // Save code verifier for token request
