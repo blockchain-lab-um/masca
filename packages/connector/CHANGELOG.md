@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.1.0
+
+### Minor Changes
+
+- [#469](https://github.com/blockchain-lab-um/masca/pull/469) [`a756e7d`](https://github.com/blockchain-lab-um/masca/commit/a756e7d9a1df075172cc4965855d156377e6deed) Thanks [@tadejpodrekar](https://github.com/tadejpodrekar)! - Added method to check if installed MetaMask supports snaps.
+
+- [#467](https://github.com/blockchain-lab-um/masca/pull/467) [`56b5732`](https://github.com/blockchain-lab-um/masca/commit/56b5732e6bbfec6bfd6c131805342b3b50123ded) Thanks [@tadejpodrekar](https://github.com/tadejpodrekar)! - Added function to generate an ID for the wallet
+
+### Patch Changes
+
+- Updated dependencies [[`56b5732`](https://github.com/blockchain-lab-um/masca/commit/56b5732e6bbfec6bfd6c131805342b3b50123ded), [`16f202e`](https://github.com/blockchain-lab-um/masca/commit/16f202ed6f6d9d8f2ba55336d6ce7fbce0cba2c3)]:
+  - @blockchain-lab-um/masca-types@1.1.0
+  - @blockchain-lab-um/utils@1.3.7
+
 ## 1.1.0-beta.0
 
 ### Minor Changes
