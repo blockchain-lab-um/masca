@@ -31,7 +31,6 @@ const nextConfig = {
   },
   optimizeFonts: true,
   experimental: {
-    appDir: true,
     outputFileTracingRoot: path.join(__dirname, '../../'),
     outputFileTracingExcludes: {
       '*': [
