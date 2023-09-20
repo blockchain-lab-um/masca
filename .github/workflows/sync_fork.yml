@@ -10,8 +10,6 @@ on:
       - master
       - beta
       - develop
-      - 'dapp/**'
-      - 'docs/**'
 
 jobs:
   sync:
