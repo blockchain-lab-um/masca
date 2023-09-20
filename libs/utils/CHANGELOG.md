@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.7-beta.0
+
+### Patch Changes
+
+- [#464](https://github.com/blockchain-lab-um/masca/pull/464) [`16f202e`](https://github.com/blockchain-lab-um/masca/commit/16f202ed6f6d9d8f2ba55336d6ce7fbce0cba2c3) Thanks [@tadejpodrekar](https://github.com/tadejpodrekar)! - Zero fill Buffers used in utility functions
+
 ## 1.3.6
 
 ### Patch Changes

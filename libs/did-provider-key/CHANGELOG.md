@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.8-beta.0
+
+### Patch Changes
+
+- Updated dependencies [[`16f202e`](https://github.com/blockchain-lab-um/masca/commit/16f202ed6f6d9d8f2ba55336d6ce7fbce0cba2c3)]:
+  - @blockchain-lab-um/utils@1.3.7-beta.0
+
 ## 1.0.7
 
 ### Patch Changes

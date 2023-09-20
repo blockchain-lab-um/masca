@@ -1,5 +1,11 @@
 # @blockchain-lab-um/masca-docs
 
+## 1.0.1-beta.0
+
+### Patch Changes
+
+- [#469](https://github.com/blockchain-lab-um/masca/pull/469) [`a756e7d`](https://github.com/blockchain-lab-um/masca/commit/a756e7d9a1df075172cc4965855d156377e6deed) Thanks [@tadejpodrekar](https://github.com/tadejpodrekar)! - Removed mentions of MetaMask Flask.
+
 ## 1.0.0
 
 ### Major Changes
