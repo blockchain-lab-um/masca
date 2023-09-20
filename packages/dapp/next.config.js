@@ -44,6 +44,14 @@ const nextConfig = {
   env: {
     USE_LOCAL: process.env.USE_LOCAL || 'false',
   },
+  typescript: {
+    // We can ignore build errors because we are using tsc to type check
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    // We can ignore linting errors because we are using eslint to lint
+    ignoreDuringBuilds: true,
+  },
 
   // Security headers and CSP
   // https://nextjs.org/docs/advanced-features/security-headers
