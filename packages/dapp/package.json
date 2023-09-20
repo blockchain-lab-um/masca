@@ -20,7 +20,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@blockchain-lab-um/masca-connector": "1.1.0-beta.0",
+    "@blockchain-lab-um/masca-connector": "1.1.0",
     "@blockchain-lab-um/oidc-types": "0.0.8",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
