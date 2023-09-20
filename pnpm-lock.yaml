@@ -141,7 +141,7 @@ importers:
   apps/oidc/issuer:
     dependencies:
       '@blockchain-lab-um/did-provider-key':
-        specifier: 1.0.7
+        specifier: 1.0.8-beta.0
         version: link:../../../libs/did-provider-key
       '@blockchain-lab-um/oidc-rp-plugin':
         specifier: 0.0.8
@@ -150,7 +150,7 @@ importers:
         specifier: 0.0.8
         version: link:../../../libs/oidc/types
       '@blockchain-lab-um/utils':
-        specifier: 1.3.6
+        specifier: 1.3.7-beta.0
         version: link:../../../libs/utils
       '@fastify/formbody':
         specifier: ^7.4.0
@@ -501,7 +501,7 @@ importers:
   libs/did-provider-key:
     dependencies:
       '@blockchain-lab-um/utils':
-        specifier: 1.3.6
+        specifier: 1.3.7-beta.0
         version: link:../utils
       '@cef-ebsi/key-did-resolver':
         specifier: ^1.1.0
@@ -562,7 +562,7 @@ importers:
         specifier: 0.0.8
         version: link:../types
       '@blockchain-lab-um/utils':
-        specifier: 1.3.6
+        specifier: 1.3.7-beta.0
         version: link:../../utils
       '@sphereon/pex':
         specifier: ^2.0.1
@@ -704,10 +704,10 @@ importers:
   packages/connector:
     dependencies:
       '@blockchain-lab-um/masca-types':
-        specifier: 1.0.0
+        specifier: 1.1.0-beta.0
         version: link:../types
       '@blockchain-lab-um/utils':
-        specifier: 1.3.6
+        specifier: 1.3.7-beta.0
         version: link:../../libs/utils
       '@didtools/pkh-ethereum':
         specifier: 0.4.0
@@ -732,7 +732,7 @@ importers:
   packages/dapp:
     dependencies:
       '@blockchain-lab-um/masca-connector':
-        specifier: 1.0.0
+        specifier: 1.1.0-beta.0
         version: link:../connector
       '@blockchain-lab-um/oidc-types':
         specifier: 0.0.8
@@ -975,19 +975,19 @@ importers:
         specifier: 1.0.3
         version: 1.0.3
       '@blockchain-lab-um/did-provider-key':
-        specifier: 1.0.7
+        specifier: 1.0.8-beta.0
         version: link:../../libs/did-provider-key
       '@blockchain-lab-um/masca-types':
-        specifier: 1.0.0
+        specifier: 1.1.0-beta.0
         version: link:../types
       '@blockchain-lab-um/oidc-client-plugin':
-        specifier: 0.1.0
+        specifier: 0.2.0-beta.0
         version: link:../../libs/oidc/client-plugin
       '@blockchain-lab-um/oidc-types':
         specifier: 0.0.8
         version: link:../../libs/oidc/types
       '@blockchain-lab-um/utils':
-        specifier: 1.3.6
+        specifier: 1.3.7-beta.0
         version: link:../../libs/utils
       '@blockchain-lab-um/veramo-datamanager':
         specifier: 1.0.0
@@ -1135,7 +1135,7 @@ importers:
         specifier: 1.0.3
         version: 1.0.3
       '@blockchain-lab-um/utils':
-        specifier: 1.3.6
+        specifier: 1.3.7-beta.0
         version: link:../../libs/utils
       '@iden3/js-iden3-core':
         specifier: 1.0.1
@@ -1637,23 +1637,6 @@ packages:
       semver: 6.3.1
     dev: true
 
-  /@babel/helper-create-class-features-plugin@7.22.9(@babel/core@7.22.9):
-    resolution: {integrity: sha512-Pwyi89uO4YrGKxL/eNJ8lfEH55DnRloGPOseaA8NFNL6jAUnn+KccaISiFazCj5IolPPDjGSdzQzXVzODVRqUQ==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0
-    dependencies:
-      '@babel/core': 7.22.9
-      '@babel/helper-annotate-as-pure': 7.22.5
-      '@babel/helper-environment-visitor': 7.22.5
-      '@babel/helper-function-name': 7.22.5
-      '@babel/helper-member-expression-to-functions': 7.22.5
-      '@babel/helper-optimise-call-expression': 7.22.5
-      '@babel/helper-replace-supers': 7.22.9(@babel/core@7.22.9)
-      '@babel/helper-skip-transparent-expression-wrappers': 7.22.5
-      '@babel/helper-split-export-declaration': 7.22.6
-      semver: 6.3.1
-
   /@babel/helper-create-regexp-features-plugin@7.22.9(@babel/core@7.22.11):
     resolution: {integrity: sha512-+svjVa/tFwsNSG4NEy1h85+HQ5imbT92Q5/bgtS7P0GTQlP8WuFdqsiABmQouhiFGyV66oGxZFpeYHza1rNsKw==}
     engines: {node: '>=6.9.0'}
@@ -1987,7 +1970,7 @@ packages:
       '@babel/core': 7.22.9
       '@babel/helper-plugin-utils': 7.22.5
       '@babel/helper-skip-transparent-expression-wrappers': 7.22.5
-      '@babel/plugin-transform-optional-chaining': 7.22.6(@babel/core@7.22.9)
+      '@babel/plugin-transform-optional-chaining': 7.22.12(@babel/core@7.22.9)
 
   /@babel/plugin-proposal-async-generator-functions@7.20.7(@babel/core@7.22.11):
     resolution: {integrity: sha512-xMbiLsn/8RK7Wq7VeVytytS2L6qE69bXPB10YCmMdDZbKF4okCqY74pI/jJQ/8U0b/F6NrT2+14b8/P9/3AMGA==}
@@ -2676,7 +2659,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.22.9
-      '@babel/helper-create-class-features-plugin': 7.22.9(@babel/core@7.22.9)
+      '@babel/helper-create-class-features-plugin': 7.22.11(@babel/core@7.22.9)
       '@babel/helper-plugin-utils': 7.22.5
 
   /@babel/plugin-transform-class-static-block@7.22.11(@babel/core@7.22.11):
@@ -3241,17 +3224,6 @@ packages:
 
   /@babel/plugin-transform-optional-chaining@7.22.12(@babel/core@7.22.9):
     resolution: {integrity: sha512-7XXCVqZtyFWqjDsYDY4T45w4mlx1rf7aOgkc/Ww76xkgBiOlmjPkx36PBLHa1k1rwWvVgYMPsbuVnIamx2ZQJw==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.22.9
-      '@babel/helper-plugin-utils': 7.22.5
-      '@babel/helper-skip-transparent-expression-wrappers': 7.22.5
-      '@babel/plugin-syntax-optional-chaining': 7.8.3(@babel/core@7.22.9)
-
-  /@babel/plugin-transform-optional-chaining@7.22.6(@babel/core@7.22.9):
-    resolution: {integrity: sha512-Vd5HiWml0mDVtcLHIoEU5sw6HOUW/Zk0acLs/SAeuLzkGNOPc9DB4nkUajemhCmTIz3eiaKREZn2hQQqF79YTg==}
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
@@ -17022,7 +16994,7 @@ packages:
       extend: 3.0.2
       https-proxy-agent: 7.0.1
       is-stream: 2.0.1
-      node-fetch: 2.6.12
+      node-fetch: 2.7.0
     transitivePeerDependencies:
       - encoding
       - supports-color

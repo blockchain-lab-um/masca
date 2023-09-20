@@ -17,5 +17,20 @@
     "@blockchain-lab-um/masca": "1.0.0",
     "@blockchain-lab-um/masca-types": "1.0.0"
   },
-  "changesets": []
+  "changesets": [
+    "chilly-boxes-sit",
+    "gold-forks-exercise",
+    "great-radios-love",
+    "heavy-hotels-build",
+    "heavy-timers-laugh",
+    "large-knives-rush",
+    "long-ligers-brush",
+    "moody-cheetahs-perform",
+    "nine-ducks-explain",
+    "plenty-balloons-talk",
+    "purple-jokes-hunt",
+    "rich-rings-impress",
+    "weak-frogs-occur",
+    "wicked-falcons-occur"
+  ]
 }

@@ -1,5 +1,13 @@
 # @blockchain-lab-um/oidc-issuer
 
+## 0.0.9-beta.0
+
+### Patch Changes
+
+- Updated dependencies [[`16f202e`](https://github.com/blockchain-lab-um/masca/commit/16f202ed6f6d9d8f2ba55336d6ce7fbce0cba2c3)]:
+  - @blockchain-lab-um/utils@1.3.7-beta.0
+  - @blockchain-lab-um/did-provider-key@1.0.8-beta.0
+
 ## 0.0.8
 
 ### Patch Changes

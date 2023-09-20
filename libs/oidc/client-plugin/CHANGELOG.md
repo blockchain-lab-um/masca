@@ -1,5 +1,16 @@
 # @blockchain-lab-um/oidc-client-plugin
 
+## 0.2.0-beta.0
+
+### Minor Changes
+
+- [#476](https://github.com/blockchain-lab-um/masca/pull/476) [`242fe6d`](https://github.com/blockchain-lab-um/masca/commit/242fe6d2425fd2e9c092c95fa24d79b8dc5b4c15) Thanks [@martines3000](https://github.com/martines3000)! - Replace usage of `randomBytes` with `window.crypto.getRandomValues`
+
+### Patch Changes
+
+- Updated dependencies [[`16f202e`](https://github.com/blockchain-lab-um/masca/commit/16f202ed6f6d9d8f2ba55336d6ce7fbce0cba2c3)]:
+  - @blockchain-lab-um/utils@1.3.7-beta.0
+
 ## 0.1.0
 
 ### Minor Changes
