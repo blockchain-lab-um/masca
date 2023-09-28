@@ -38,6 +38,7 @@ import { VerifiablePresentation } from 'did-jwt-vc';
 
 import GeneralService from './General.service';
 import PolygonService from './polygon-id/Polygon.service';
+import SignerService from './Signer.service';
 import StorageService from './storage/Storage.service';
 import UIService from './UI.service';
 import VeramoService from './veramo/Veramo.service';
@@ -587,6 +588,26 @@ class SnapService {
       case 'getWalletId':
         res = await WalletService.getWalletId();
         return ResultObject.success(res);
+
+      /**
+       * Signer.service
+       */
+      case 'signData': {
+        const didMethod =
+          state[CURRENT_STATE_VERSION].accountState[
+            state[CURRENT_STATE_VERSION].currentAccount
+          ].general.account.ssi.selectedMethod;
+
+        if (didMethod === 'did:polygonid' || didMethod === 'did:iden3') {
+          await PolygonService.init();
+        } else {
+          await VeramoService.importIdentifier();
+        }
+        // TODO: Validate request params
+        const signedData = await SignerService.signData(params);
+
+        return ResultObject.success(signedData);
+      }
 
       /**
        * Storage.service

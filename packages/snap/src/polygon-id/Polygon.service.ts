@@ -111,6 +111,11 @@ class PolygonService {
     },
   };
 
+  static get() {
+    const { method, blockchain, networkId } = this.metadata;
+    return this.instance[method][blockchain][networkId];
+  }
+
   static async init() {
     // Load Circuits to memory
     await CircuitStorageService.init();
