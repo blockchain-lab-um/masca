@@ -6,7 +6,7 @@ import type {
   HandleCredentialOfferRequestParams,
   ImportStateBackupRequestParams,
   QueryCredentialsRequestParams,
-  RemoveFriendlyDappParams,
+  RemoveFriendlyDappRequestParams,
   ResolveDIDRequestParams,
   SaveCredentialRequestParams,
   SetCeramicSessionRequestParams,
@@ -132,7 +132,7 @@ export interface AddFriendlyDapp {
 
 export interface RemoveFriendlyDapp {
   method: 'removeFriendlyDapp';
-  params: RemoveFriendlyDappParams;
+  params: RemoveFriendlyDappRequestParams;
 }
 
 export interface GetWalletId {

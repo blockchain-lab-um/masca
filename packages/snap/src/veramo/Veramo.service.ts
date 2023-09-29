@@ -202,6 +202,15 @@ class VeramoService {
   }
 
   /**
+   * Function that returns the kid of a specific DID
+   */
+  static getKid(did: string): string {
+    const method = did.split(':')[1];
+    const kid = method === 'key' ? `${did}#${did.split(':')[2]}` : `${did}#0`;
+    return kid;
+  }
+
+  /**
    * Function that resolves a DID
    * @param did - DID to resolve
    * @returns DID resolution result
@@ -247,13 +256,6 @@ class VeramoService {
 
     if (!credential.credentialSubject) {
       throw new Error('Verifiable credential must have a credentialSubject');
-    }
-    if (
-      credential.type &&
-      typeof credential.type === 'string' &&
-      credential.type !== 'VerifiableCredential'
-    ) {
-      throw new Error('Invalid type');
     }
 
     if (

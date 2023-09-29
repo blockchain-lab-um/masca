@@ -11,9 +11,9 @@ patchedDependencies:
   '@digitalbazaar/http-client@1.2.0':
     hash: yl3b524jp4dtc7mdahww7krgi4
     path: patches/@digitalbazaar__http-client@1.2.0.patch
-  '@metamask/snaps-types@1.0.1':
-    hash: 7kojwowz6nmvtiejmvjwbpk5c4
-    path: patches/@metamask__snaps-types@1.0.1.patch
+  '@metamask/snaps-types@1.0.2':
+    hash: w6x2mwgwzxmaauezxzlljd42qy
+    path: patches/@metamask__snaps-types@1.0.2.patch
   cross-fetch@3.1.8:
     hash: o7exbxzvysudd5km3yp6v3mgsi
     path: patches/cross-fetch@3.1.8.patch
@@ -1018,7 +1018,7 @@ importers:
         version: 10.2.0
       '@metamask/snaps-types':
         specifier: 1.0.2
-        version: 1.0.2(@metamask/approval-controller@3.5.1)
+        version: 1.0.2(patch_hash=w6x2mwgwzxmaauezxzlljd42qy)(@metamask/approval-controller@3.5.1)
       '@metamask/snaps-ui':
         specifier: 1.0.2
         version: 1.0.2
@@ -1144,8 +1144,8 @@ importers:
         specifier: 5.4.1
         version: 5.4.1
       typia:
-        specifier: ^4.2.1
-        version: 4.2.1(typescript@5.2.2)
+        specifier: 5.1.4
+        version: 5.1.4(typescript@5.2.2)
     devDependencies:
       tsup:
         specifier: ^7.2.0
@@ -7880,7 +7880,7 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /@metamask/snaps-types@1.0.2(@metamask/approval-controller@3.5.1):
+  /@metamask/snaps-types@1.0.2(patch_hash=w6x2mwgwzxmaauezxzlljd42qy)(@metamask/approval-controller@3.5.1):
     resolution: {integrity: sha512-mnvdjMWFsZXWMEx8Dt+mYwtDsPdswookPIArH1PVKHdLUBi94tT1BsR/nwUpLYh3mPY6fO6/m1PEkOXuDbS7Fg==}
     engines: {node: '>=16.0.0'}
     dependencies:
@@ -7892,6 +7892,7 @@ packages:
       - '@metamask/approval-controller'
       - supports-color
     dev: false
+    patched: true
 
   /@metamask/snaps-ui@1.0.2:
     resolution: {integrity: sha512-YIY3dxepYeAWNZlPcT46Hr8OLY3bmI9AWoFDuyIqbh9YmMDdjbDAy3plzebaLyeKoH4/m5vd/9eFrMXSoLW7OA==}
@@ -26560,11 +26561,11 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  /typia@4.2.1(typescript@5.2.2):
-    resolution: {integrity: sha512-X2cp2w+t59wcIO7n5qQRGb0T6N0rsCxF4Dgfy7hy2IqgKL2+GrVUWHG+KvCf5CgcKmDyql+A9CgVwoxJeiZkpg==}
+  /typia@5.1.4(typescript@5.2.2):
+    resolution: {integrity: sha512-k7Ytp1z3olIYhn3nFs00oQ+/i6gQQc+1JH7JHfNvfmnw/zRUiAooys3Q8myUokdgSgC8+ai3ynSSOH/NFcUhYA==}
     hasBin: true
     peerDependencies:
-      typescript: '>= 4.7.4'
+      typescript: '>= 4.8.0'
     dependencies:
       commander: 10.0.1
       comment-json: 4.2.3

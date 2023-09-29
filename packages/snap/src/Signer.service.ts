@@ -1,62 +1,30 @@
-import { byteDecoder, byteEncoder } from '@0xpolygonid/js-sdk';
-import { MediaType } from '@0xpolygonid/js-sdk/dist/types/iden3comm/constants';
-import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
+import { byteDecoder, byteEncoder, PROTOCOL_CONSTANTS  } from '@0xpolygonid/js-sdk';
+import {
+  CURRENT_STATE_VERSION,
+  SignJWTParams,
+  SignJWZParams,
+} from '@blockchain-lab-um/masca-types';
 import { proving } from '@iden3/js-jwz';
 import { bytesToBase64url, encodeBase64url } from '@veramo/utils';
 import elliptic from 'elliptic';
 import { keccak256 } from 'ethereum-cryptography/keccak';
 import { sha256 } from 'ethereum-cryptography/sha256';
 
+import { DID } from '@iden3/js-iden3-core';
 import PolygonService from './polygon-id/Polygon.service';
 import StorageService from './storage/Storage.service';
 import WalletService from './Wallet.service';
 
 const { ec: EC } = elliptic;
 
-interface JWTHeader {
-  typ: 'JWT';
-  alg?: string;
-
-  [x: string]: any;
-}
-
-interface JWTPayload {
-  iss?: string;
-  sub?: string;
-  aud?: string | string[];
-  iat?: number;
-  nbf?: number;
-  exp?: number;
-  rexp?: number;
-
-  [x: string]: any;
-}
-
-interface JWTData {
-  header: JWTHeader;
-  payload: JWTPayload;
-}
-
-interface JWTOptions {
-  hash: 'sha256' | 'keccak';
-}
-
-interface SignJWTParams {
-  type: 'JWT';
+type SignJWTParamsExtended = SignJWTParams & {
   did: string;
   kid: string;
-  data: JWTData;
-  options: JWTOptions;
-}
-
-interface SignJWZParams {
-  type: 'JWZ';
-  data: string;
-}
+};
 
 type SignDataParams = {
   type: 'JWT' | 'JWZ';
-} & (SignJWTParams | SignJWZParams);
+} & (SignJWTParamsExtended | SignJWZParams);
 
 class SignerService {
   static async signData(signDataParams: SignDataParams): Promise<string> {
@@ -71,7 +39,9 @@ class SignerService {
     }
   }
 
-  private static async signJWT(signJWTParams: SignJWTParams): Promise<string> {
+  private static async signJWT(
+    signJWTParams: SignJWTParamsExtended
+  ): Promise<string> {
     const state = StorageService.get();
     const method =
       state[CURRENT_STATE_VERSION].accountState[
@@ -156,13 +126,12 @@ class SignerService {
         const { packageMgr } = PolygonService.get();
 
         const jwz = await packageMgr.pack(
-          MediaType.ZKPMessage,
+          PROTOCOL_CONSTANTS.MediaType.ZKPMessage,
           byteEncoder.encode(signJWZParams.data),
           {
-            senderDID: did,
-            profileNonce: 0,
+            senderDID: DID.parse(did),
             provingMethodAlg:
-              proving.provingMethodGroth16AuthV2Instance.methodAlg.toString(),
+              proving.provingMethodGroth16AuthV2Instance.methodAlg,
           }
         );
 

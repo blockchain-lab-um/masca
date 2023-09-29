@@ -24,6 +24,7 @@ import {
   SaveCredentialRequestParams,
   SaveCredentialRequestResult,
   VerifyDataRequestParams,
+  isValidSignDataRequest,
 } from '@blockchain-lab-um/masca-types';
 import { Result, ResultObject } from '@blockchain-lab-um/utils';
 import {
@@ -593,6 +594,8 @@ class SnapService {
        * Signer.service
        */
       case 'signData': {
+        isValidSignDataRequest(params);
+
         const didMethod =
           state[CURRENT_STATE_VERSION].accountState[
             state[CURRENT_STATE_VERSION].currentAccount
@@ -600,11 +603,25 @@ class SnapService {
 
         if (didMethod === 'did:polygonid' || didMethod === 'did:iden3') {
           await PolygonService.init();
+          await PolygonService.createOrImportIdentity();
         } else {
           await VeramoService.importIdentifier();
         }
-        // TODO: Validate request params
-        const signedData = await SignerService.signData(params);
+
+        let signedData;
+
+        if (params.type === 'JWZ') {
+          signedData = await SignerService.signData(params);
+        } else {
+          const { did } = await VeramoService.getIdentifier();
+          const kid = VeramoService.getKid(did);
+
+          signedData = await SignerService.signData({
+            ...params,
+            did,
+            kid,
+          });
+        }
 
         return ResultObject.success(signedData);
       }
