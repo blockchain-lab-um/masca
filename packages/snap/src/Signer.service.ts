@@ -1,16 +1,19 @@
-import { byteDecoder, byteEncoder, PROTOCOL_CONSTANTS  } from '@0xpolygonid/js-sdk';
+import {
+  byteDecoder,
+  byteEncoder,
+  PROTOCOL_CONSTANTS,
+} from '@0xpolygonid/js-sdk';
 import {
   CURRENT_STATE_VERSION,
   SignJWTParams,
   SignJWZParams,
 } from '@blockchain-lab-um/masca-types';
+import { DID } from '@iden3/js-iden3-core';
 import { proving } from '@iden3/js-jwz';
 import { bytesToBase64url, encodeBase64url } from '@veramo/utils';
 import elliptic from 'elliptic';
-import { keccak256 } from 'ethereum-cryptography/keccak';
 import { sha256 } from 'ethereum-cryptography/sha256';
 
-import { DID } from '@iden3/js-iden3-core';
 import PolygonService from './polygon-id/Polygon.service';
 import StorageService from './storage/Storage.service';
 import WalletService from './Wallet.service';
@@ -52,7 +55,6 @@ class SignerService {
       did,
       kid,
       data: { payload, header },
-      options,
     } = signJWTParams;
 
     switch (method) {
@@ -66,9 +68,11 @@ class SignerService {
         const ctx = new EC(curve);
         const ecPrivateKey = ctx.keyFromPrivate(wallet.privateKey.slice(2));
 
+        const alg = curve === 'secp256k1' ? `ES256K` : `ES256`;
+
         const jwtHeader = {
           ...header,
-          alg: curve === 'secp256k1' ? 'ES256K' : 'ES256',
+          alg,
           kid,
         };
 
@@ -85,13 +89,7 @@ class SignerService {
           encodeBase64url(JSON.stringify(jwtPayload)),
         ].join('.');
 
-        let hash: Uint8Array;
-
-        if (options.hash === 'sha256') {
-          hash = sha256(Buffer.from(signingInput));
-        } else {
-          hash = keccak256(Buffer.from(signingInput));
-        }
+        const hash = sha256(Buffer.from(signingInput));
 
         const signature = ecPrivateKey.sign(hash);
 
@@ -122,18 +120,21 @@ class SignerService {
       case 'did:polygonid':
       case 'did:iden3': {
         const did = await PolygonService.getIdentifier();
-
         const { packageMgr } = PolygonService.get();
 
         const jwz = await packageMgr.pack(
           PROTOCOL_CONSTANTS.MediaType.ZKPMessage,
-          byteEncoder.encode(signJWZParams.data),
+          byteEncoder.encode(
+            JSON.stringify({ ...signJWZParams.data, from: did })
+          ),
           {
             senderDID: DID.parse(did),
             provingMethodAlg:
               proving.provingMethodGroth16AuthV2Instance.methodAlg,
           }
         );
+
+        await packageMgr.unpack(jwz);
 
         return byteDecoder.decode(jwz);
       }
