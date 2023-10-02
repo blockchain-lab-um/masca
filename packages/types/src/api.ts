@@ -84,4 +84,5 @@ export interface MascaApi {
   ): Promise<Result<boolean>>;
   exportStateBackup(): Promise<Result<string>>;
   getWalletId(): Promise<Result<string>>;
+  signData(): Promise<Result<string>>;
 }

@@ -138,3 +138,7 @@ export interface RemoveFriendlyDapp {
 export interface GetWalletId {
   method: 'getWalletId';
 }
+
+export interface SignData {
+  method: 'signData';
+}

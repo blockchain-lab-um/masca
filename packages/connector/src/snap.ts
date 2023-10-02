@@ -436,7 +436,6 @@ async function setCeramicSession(
  * Validate the stored Ceramic session
  * @param this - Masca instance
  * @returns Result<boolean> - true if successful
- * @throws Error - if the stored Ceramic session is invalid
  */
 async function validateStoredCeramicSession(
   this: Masca
@@ -485,13 +484,26 @@ async function importStateBackup(
 /**
  * Get wallet ID
  * @param this - Masca instance
- * @returns Result<string> - true if successful
- * @throws Error - if id creation failed
+ * @returns Result<string> - walletId string if successful
  */
 async function getWalletId(this: Masca): Promise<Result<string>> {
   return sendSnapMethod(
     {
       method: 'getWalletId',
+    },
+    this.snapId
+  );
+}
+
+/**
+ * Sign data (JWT or JWZ)
+ * @param this - Masca instance
+ * @returns Result<string> - signed data string (JWT or JWZ) if successful
+ */
+async function signData(this: Masca): Promise<Result<string>> {
+  return sendSnapMethod(
+    {
+      method: 'signData',
     },
     this.snapId
   );
@@ -549,5 +561,6 @@ export class Masca {
     importStateBackup: wrapper(importStateBackup.bind(this)),
     exportStateBackup: wrapper(exportStateBackup.bind(this)),
     getWalletId: wrapper(getWalletId.bind(this)),
+    signData: wrapper(signData.bind(this)),
   });
 }

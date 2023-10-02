@@ -22,6 +22,7 @@ import type {
   SetCeramicSession,
   SetCredentialStore,
   SetCurrentAccount,
+  SignData,
   SwitchMethod,
   TogglePopups,
   ValidateStoredCeramicSession,
@@ -55,7 +56,8 @@ export type MascaRPCRequest =
   | SetCeramicSession
   | ValidateStoredCeramicSession
   | ExportStateBackup
-  | ImportStateBackup;
+  | ImportStateBackup
+  | SignData;
 
 export type Method = MascaRPCRequest['method'];
 
