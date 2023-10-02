@@ -1,9 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
+import { NextRequest } from 'next/server';
 import { ImageResponse } from '@vercel/og';
 
 export const runtime = 'edge';
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   const interRegular = fetch(
     new URL('../../../../public/fonts/Inter-Regular.ttf', import.meta.url)
   ).then((res) => res.arrayBuffer());
