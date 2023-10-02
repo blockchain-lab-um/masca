@@ -59,7 +59,7 @@ async function sendSnapMethod<T>(
  *
  * @return Result<QueryCredentialsRequestResult[]> - list of VCs
  */
-export async function queryCredentials(
+async function queryCredentials(
   this: Masca,
   params?: QueryCredentialsRequestParams
 ): Promise<Result<QueryCredentialsRequestResult[]>> {
@@ -76,7 +76,7 @@ export async function queryCredentials(
  * @param params - parameters for creating a VP
  * @return Result<VerifiablePresentation> - VP
  */
-export async function createPresentation(
+async function createPresentation(
   this: Masca,
   params: CreatePresentationRequestParams
 ): Promise<Result<VerifiablePresentation>> {
@@ -112,7 +112,7 @@ export async function createPresentation(
  *
  * @return Result<SaveCredentialRequestResult[]> - list of saved VCs
  */
-export async function saveCredential(
+async function saveCredential(
   this: Masca,
   vc: W3CVerifiableCredential,
   options?: SaveCredentialOptions
@@ -137,7 +137,7 @@ export async function saveCredential(
  * @param options - optional parameters for deleting a VC
  * @return Result<boolean[]> - list of results for each VC
  */
-export async function deleteCredential(
+async function deleteCredential(
   this: Masca,
   id: string,
   options?: DeleteCredentialsOptions
@@ -160,7 +160,7 @@ export async function deleteCredential(
  * Get the DID of the currently selected MetaMask account
  * @return Result<string> - DID
  */
-export async function getDID(this: Masca): Promise<Result<string>> {
+async function getDID(this: Masca): Promise<Result<string>> {
   return sendSnapMethod({ method: 'getDID' }, this.snapId);
 }
 
@@ -168,7 +168,7 @@ export async function getDID(this: Masca): Promise<Result<string>> {
  * Get the currently selected DID method
  * @return Result<string> - DID method
  */
-export async function getSelectedMethod(this: Masca): Promise<Result<string>> {
+async function getSelectedMethod(this: Masca): Promise<Result<string>> {
   return sendSnapMethod({ method: 'getSelectedMethod' }, this.snapId);
 }
 
@@ -176,9 +176,7 @@ export async function getSelectedMethod(this: Masca): Promise<Result<string>> {
  * Get a list of available DID methods
  * @return Result<string[]> - list of available DID methods
  */
-export async function getAvailableMethods(
-  this: Masca
-): Promise<Result<string[]>> {
+async function getAvailableMethods(this: Masca): Promise<Result<string[]>> {
   return sendSnapMethod({ method: 'getAvailableMethods' }, this.snapId);
 }
 
@@ -187,7 +185,7 @@ export async function getAvailableMethods(
  * @param method - DID method to be switched to
  * @return Result<boolean> - true if the switch was successful
  */
-export async function switchDIDMethod(
+async function switchDIDMethod(
   this: Masca,
   method: AvailableMethods
 ): Promise<Result<AvailableMethods>> {
@@ -204,7 +202,7 @@ export async function switchDIDMethod(
  * Enables/disables confirmation popup windows when retrieving VCs, generating VPs,...
  * @return Result<boolean> - true if the switch was successful
  */
-export async function togglePopups(this: Masca): Promise<Result<boolean>> {
+async function togglePopups(this: Masca): Promise<Result<boolean>> {
   return sendSnapMethod({ method: 'togglePopups' }, this.snapId);
 }
 
@@ -213,7 +211,7 @@ export async function togglePopups(this: Masca): Promise<Result<boolean>> {
  *
  * @return Result<boolean> - true if the addition was successful
  */
-export async function addFriendlyDapp(this: Masca): Promise<Result<boolean>> {
+async function addFriendlyDapp(this: Masca): Promise<Result<boolean>> {
   return sendSnapMethod({ method: 'addFriendlyDapp' }, this.snapId);
 }
 
@@ -222,7 +220,7 @@ export async function addFriendlyDapp(this: Masca): Promise<Result<boolean>> {
  *
  * @return Result<boolean> - true if the removal was successful
  */
-export async function removeFriendlyDapp(
+async function removeFriendlyDapp(
   this: Masca,
   id: string
 ): Promise<Result<boolean>> {
@@ -237,7 +235,7 @@ export async function removeFriendlyDapp(
  *
  * @return Result<Record<AvailableCredentialStores, boolean>> - status of available VC stores
  */
-export async function getCredentialStore(
+async function getCredentialStore(
   this: Masca
 ): Promise<Result<Record<AvailableCredentialStores, boolean>>> {
   return sendSnapMethod({ method: 'getCredentialStore' }, this.snapId);
@@ -247,7 +245,7 @@ export async function getCredentialStore(
  * Get a list of available VC stores
  * @return Result<string[]> - list of available VC stores
  */
-export async function getAvailableCredentialStores(
+async function getAvailableCredentialStores(
   this: Masca
 ): Promise<Result<string[]>> {
   return sendSnapMethod(
@@ -262,7 +260,7 @@ export async function getAvailableCredentialStores(
  * @param value - true to enable, false to disable
  * @return Result<boolean> - true if the switch was successful
  */
-export async function setCredentialStore(
+async function setCredentialStore(
   this: Masca,
   store: AvailableCredentialStores,
   value: boolean
@@ -277,7 +275,7 @@ export async function setCredentialStore(
  * Get account settings of currently selected account (i.e. DID method, VC stores,...)
  * @return Result<MascaAccountConfig> - account settings
  */
-export async function getAccountSettings(
+async function getAccountSettings(
   this: Masca
 ): Promise<Result<MascaAccountConfig>> {
   return sendSnapMethod({ method: 'getAccountSettings' }, this.snapId);
@@ -287,9 +285,7 @@ export async function getAccountSettings(
  * Get Masca settings
  * @return Result<MascaConfig> - Masca settings
  */
-export async function getSnapSettings(
-  this: Masca
-): Promise<Result<MascaConfig>> {
+async function getSnapSettings(this: Masca): Promise<Result<MascaConfig>> {
   return sendSnapMethod({ method: 'getSnapSettings' }, this.snapId);
 }
 
@@ -298,7 +294,7 @@ export async function getSnapSettings(
  * @param did - DID to be resolved
  * @return Result<DIDResolutionResult> - DID resolution result
  */
-export async function resolveDID(
+async function resolveDID(
   this: Masca,
   did: string
 ): Promise<Result<DIDResolutionResult>> {
@@ -310,7 +306,7 @@ export async function resolveDID(
  * @param this - Masca instance
  * @param params - object with parameters for creating a Verifiable Credential
  */
-export async function createCredential(
+async function createCredential(
   this: Masca,
   params: CreateCredentialRequestParams
 ): Promise<Result<VerifiableCredential>> {
@@ -347,7 +343,7 @@ export async function createCredential(
  * @param params.currentAccount - account address
  * @returns Result<boolean> - true if successful
  */
-export async function setCurrentAccount(
+async function setCurrentAccount(
   this: Masca,
   params: SetCurrentAccountRequestParams
 ): Promise<Result<boolean>> {
@@ -366,7 +362,7 @@ export async function setCurrentAccount(
  * @param params - a Credential or a Presentation with optional verbose flag
  * @returns Result<boolean | IVerifyResult> - true if the Credential/Presentation is valid, false otherwise
  */
-export async function verifyData(
+async function verifyData(
   this: Masca,
   params: VerifyDataRequestParams
 ): Promise<Result<boolean | IVerifyResult>> {
@@ -385,7 +381,7 @@ export async function verifyData(
  * @param params.credentialOffer - Credential Offer string
  * @returns Result<VerifiableCredential[]> - list of VCs if successful
  */
-export async function handleCredentialOffer(
+async function handleCredentialOffer(
   this: Masca,
   params: HandleCredentialOfferRequestParams
 ): Promise<Result<VerifiableCredential[]>> {
@@ -404,7 +400,7 @@ export async function handleCredentialOffer(
  * @param params.authorizationRequest - Authorization Request string
  * @returns Result<void> - void if successful
  */
-export async function handleAuthorizationRequest(
+async function handleAuthorizationRequest(
   this: Masca,
   params: HandleAuthorizationRequestParams
 ): Promise<Result<void>> {
@@ -423,7 +419,7 @@ export async function handleAuthorizationRequest(
  * @param serializedSession - serialized Ceramic session
  * @returns Result<boolean> - true if successful
  */
-export async function setCeramicSession(
+async function setCeramicSession(
   this: Masca,
   serializedSession: string
 ): Promise<Result<boolean>> {
@@ -442,7 +438,7 @@ export async function setCeramicSession(
  * @returns Result<boolean> - true if successful
  * @throws Error - if the stored Ceramic session is invalid
  */
-export async function validateStoredCeramicSession(
+async function validateStoredCeramicSession(
   this: Masca
 ): Promise<Result<boolean>> {
   return sendSnapMethod(
@@ -458,7 +454,7 @@ export async function validateStoredCeramicSession(
  * @param this - Masca instance
  * @returns Result<string> - Encrypted Masca state
  */
-export async function exportStateBackup(this: Masca): Promise<Result<string>> {
+async function exportStateBackup(this: Masca): Promise<Result<string>> {
   return sendSnapMethod(
     {
       method: 'exportStateBackup',
@@ -473,7 +469,7 @@ export async function exportStateBackup(this: Masca): Promise<Result<string>> {
  * @param params - Encrypted Masca state
  * @returns Result<boolean> - true if successful
  */
-export async function importStateBackup(
+async function importStateBackup(
   this: Masca,
   params: ImportStateBackupRequestParams
 ): Promise<Result<boolean>> {
@@ -492,8 +488,7 @@ export async function importStateBackup(
  * @returns Result<string> - true if successful
  * @throws Error - if id creation failed
  */
-export async function getWalletId(this: Masca): Promise<Result<string>> {
-  console.log('getWalletId connector');
+async function getWalletId(this: Masca): Promise<Result<string>> {
   return sendSnapMethod(
     {
       method: 'getWalletId',
