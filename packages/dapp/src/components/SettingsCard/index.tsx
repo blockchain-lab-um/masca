@@ -25,8 +25,6 @@ const SettingsCard = () => {
     changeCurrMethod,
     changeDID,
     changePopups,
-    isSignedInGoogle,
-    changeIsSignedInGooge,
   } = useMascaStore((state) => ({
     api: state.mascaApi,
     availableCredentialStores: state.availableCredentialStores,
@@ -36,8 +34,6 @@ const SettingsCard = () => {
     changeCurrMethod: state.changeCurrDIDMethod,
     changeDID: state.changeCurrDID,
     changePopups: state.changePopups,
-    isSignedInGoogle: state.isSignedInGoogle,
-    changeIsSignedInGooge: state.changeIsSignedInGoogle,
   }));
 
   const snapGetAvailableCredentialStores = async () => {
