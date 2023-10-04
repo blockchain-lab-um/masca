@@ -740,3 +740,30 @@ const response = await ethereum.request({
   },
 });
 ```
+
+### signData
+
+#### Description
+
+`signData` is used to sign JWTs and JWZs
+
+#### Parameters
+
+1. `type` - JWT | JWZ
+2. `data` - JSON object based on selected type
+
+```typescript
+const response = await ethereum.request({
+  method: 'wallet_invokeSnap',
+  params: {
+    snapId: snapId,
+    request: {
+      method: 'handleAuthorizationRequest',
+      params: {
+        type: 'JWT',
+        data: {...}
+      },
+    },
+  },
+});
+```

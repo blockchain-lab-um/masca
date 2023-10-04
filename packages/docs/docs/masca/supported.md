@@ -24,3 +24,8 @@ Proof Formats:
 - [EIP712](https://w3c-ccg.github.io/ethereum-eip712-signature-2021-spec/)
 - [JSON-LD (some edge cases may not work properly)](https://w3c.github.io/vc-data-integrity/#proofs)
 - [zkProofs (Polygon ID)](https://0xpolygonid.github.io/tutorials/)
+
+Signing of data:
+
+- `JWTs` - signed using keys from `did:key` and `did:jwk` did methods
+- `JWZs` - signing (proving) messages with `did:polygon` and `did:iden3` did methods
