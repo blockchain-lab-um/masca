@@ -16,6 +16,7 @@ import { sha256 } from 'ethereum-cryptography/sha256';
 
 import PolygonService from './polygon-id/Polygon.service';
 import StorageService from './storage/Storage.service';
+import UIService from './UI.service';
 import WalletService from './Wallet.service';
 
 const { ec: EC } = elliptic;
@@ -51,11 +52,10 @@ class SignerService {
         state[CURRENT_STATE_VERSION].currentAccount
       ].general.account.ssi.selectedMethod;
 
-    const {
-      did,
-      kid,
-      data: { payload, header },
-    } = signJWTParams;
+    const { did, kid } = signJWTParams;
+    const data = signJWTParams.data || { header: {}, payload: {} };
+    const header = data.header || {};
+    const payload = data.payload || {};
 
     switch (method) {
       case 'did:key:jwk_jcs-pub':
@@ -72,6 +72,7 @@ class SignerService {
 
         const jwtHeader = {
           ...header,
+          typ: header.typ ?? 'JWT',
           alg,
           kid,
         };
@@ -83,6 +84,15 @@ class SignerService {
           nbf: payload.nbf ?? Math.floor(Date.now() / 1000),
           iss: did,
         };
+
+        if (
+          !(await UIService.signDataJWTDialog({
+            header: jwtHeader,
+            payload: jwtPayload,
+          }))
+        ) {
+          throw new Error('User rejected JWT signing');
+        }
 
         const signingInput = [
           encodeBase64url(JSON.stringify(jwtHeader)),
@@ -122,19 +132,25 @@ class SignerService {
         const did = await PolygonService.getIdentifier();
         const { packageMgr } = PolygonService.get();
 
+        const data = { ...signJWZParams.data, from: did };
+
+        if (
+          !(await UIService.signDataJWZDialog({
+            data,
+          }))
+        ) {
+          throw new Error('User rejected JWZ signing');
+        }
+
         const jwz = await packageMgr.pack(
           PROTOCOL_CONSTANTS.MediaType.ZKPMessage,
-          byteEncoder.encode(
-            JSON.stringify({ ...signJWZParams.data, from: did })
-          ),
+          byteEncoder.encode(JSON.stringify(data)),
           {
             senderDID: DID.parse(did),
             provingMethodAlg:
               proving.provingMethodGroth16AuthV2Instance.methodAlg,
           }
         );
-
-        await packageMgr.unpack(jwz);
 
         return byteDecoder.decode(jwz);
       }

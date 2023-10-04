@@ -1,7 +1,7 @@
 import { JSONObject } from '@0xpolygonid/js-sdk';
 
 export interface JWTHeader {
-  typ: 'JWT';
+  typ?: string;
   alg?: string;
 
   [x: string]: any;
@@ -20,13 +20,13 @@ export interface JWTPayload {
 }
 
 export interface JWTData {
-  header: JWTHeader;
-  payload: JWTPayload;
+  header?: JWTHeader;
+  payload?: JWTPayload;
 }
 
 export interface SignJWTParams {
   type: 'JWT';
-  data: JWTData;
+  data?: JWTData;
 }
 
 export interface SignJWZParams {

@@ -1,5 +1,6 @@
 import {
   ImportStateBackupRequestParams,
+  SignDataRequestParams,
   type AvailableCredentialStores,
   type AvailableMethods,
   type CreateCredentialRequestParams,
@@ -500,10 +501,14 @@ async function getWalletId(this: Masca): Promise<Result<string>> {
  * @param this - Masca instance
  * @returns Result<string> - signed data string (JWT or JWZ) if successful
  */
-async function signData(this: Masca): Promise<Result<string>> {
+async function signData(
+  this: Masca,
+  params: SignDataRequestParams
+): Promise<Result<string>> {
   return sendSnapMethod(
     {
       method: 'signData',
+      params,
     },
     this.snapId
   );

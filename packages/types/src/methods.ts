@@ -12,6 +12,7 @@ import type {
   SetCeramicSessionRequestParams,
   SetCredentialStoreRequestParams,
   SetCurrentAccountRequestParams,
+  SignDataRequestParams,
   SwitchMethodRequestParams,
   VerifyDataRequestParams,
 } from './params.js';
@@ -141,4 +142,5 @@ export interface GetWalletId {
 
 export interface SignData {
   method: 'signData';
+  params: SignDataRequestParams;
 }

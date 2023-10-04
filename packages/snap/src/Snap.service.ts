@@ -15,6 +15,7 @@ import {
   isValidResolveDIDRequest,
   isValidSaveCredentialRequest,
   isValidSetCredentialStoreRequest,
+  isValidSignDataRequest,
   isValidSwitchMethodRequest,
   isValidVerifyDataRequest,
   isVeramoSupportedMethods,
@@ -24,7 +25,6 @@ import {
   SaveCredentialRequestParams,
   SaveCredentialRequestResult,
   VerifyDataRequestParams,
-  isValidSignDataRequest,
 } from '@blockchain-lab-um/masca-types';
 import { Result, ResultObject } from '@blockchain-lab-um/utils';
 import {

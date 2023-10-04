@@ -3,7 +3,7 @@ import {
   SignJWTParams,
   SignJWZParams,
 } from '@blockchain-lab-um/masca-types';
-import { isError, Result } from '@blockchain-lab-um/utils';
+import { isError, isSuccess, Result } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import { bytesToBase64url } from '@veramo/utils';
@@ -24,7 +24,6 @@ const EXAMPLE_JWT_HEADER_AND_PAYLOAD = {
     aud: 'test-audience',
   },
   header: {
-    typ: 'JWT',
     testKey: 'testValue',
   },
 };
@@ -47,7 +46,7 @@ const JWT_TEST_CASES = [
     } as SignJWTParams,
     size: 0,
   },
-  // Test if exp, nbf and iat are correctly set
+  // Test if exp, nbf, iat and typ are correctly set
   {
     method: 'did:key',
     input: {
@@ -60,7 +59,7 @@ const JWT_TEST_CASES = [
           iat: 123456789,
         },
         header: {
-          typ: 'JWT',
+          typ: 'openid4vci-proof+jwt',
           testKey: 'testValue',
         },
       },
@@ -302,18 +301,20 @@ describe('signData', () => {
         publicKey
       );
 
-      if (testCase.input.data.payload.exp) {
+      if (testCase.input.data?.payload?.exp) {
         expect(payload.exp).toBe(testCase.input.data.payload.exp);
         expect(payload.nbf).toBe(testCase.input.data.payload.nbf);
         expect(payload.iat).toBe(testCase.input.data.payload.iat);
       }
 
-      if (testCase.input.data.payload.customData) {
+      if (testCase.input.data?.payload?.customData) {
         expect(payload.customData).toBe(testCase.input.data.payload.customData);
       }
 
-      expect(protectedHeader.typ).toBe('JWT');
-      expect(payload.aud).toBe(testCase.input.data.payload.aud);
+      expect(protectedHeader.typ).toBe(
+        testCase.input.data?.header?.typ ?? 'JWT'
+      );
+      expect(payload.aud).toBe(testCase.input.data?.payload?.aud);
     }
   );
 
@@ -367,4 +368,72 @@ describe('signData', () => {
       expect(signedData.data).toBeDefined();
     }
   );
+
+  /**
+   * Unsupported DID method
+   */
+  it('should return an error if the DID method is not supported', async () => {
+    const switchMethod = (await onRpcRequest({
+      origin: 'localhost',
+      request: {
+        id: 'test-id',
+        jsonrpc: '2.0',
+        method: 'switchDIDMethod',
+        params: {
+          didMethod: 'did:ethr',
+        },
+      },
+    })) as Result<string>;
+
+    if (isError(switchMethod)) {
+      throw new Error(switchMethod.error);
+    }
+
+    let signedData = (await onRpcRequest({
+      origin: 'localhost',
+      request: {
+        id: 'test-id',
+        jsonrpc: '2.0',
+        method: 'signData',
+        params: {
+          type: 'JWT',
+          data: {
+            payload: {
+              aud: 'test-audience',
+            },
+            header: {
+              testKey: 'testValue',
+            },
+          },
+        },
+      },
+    })) as Result<string>;
+
+    if (isSuccess(signedData)) {
+      throw new Error('Should return an error');
+    }
+
+    expect(signedData.error).toBe('Error: Unsupported DID method');
+
+    signedData = (await onRpcRequest({
+      origin: 'localhost',
+      request: {
+        id: 'test-id',
+        jsonrpc: '2.0',
+        method: 'signData',
+        params: {
+          type: 'JWZ',
+          data: {
+            data: 'TestData123',
+          },
+        },
+      },
+    })) as Result<string>;
+
+    if (isSuccess(signedData)) {
+      throw new Error('Should return an error');
+    }
+
+    expect(signedData.error).toBe('Error: Unsupported DID method');
+  });
 });
