@@ -16,9 +16,9 @@ import {
   type SaveCredentialRequestParams,
   type SetCredentialStoreRequestParams,
   type SetCurrentAccountRequestParams,
+  type SignDataRequestParams,
   type SwitchMethodRequestParams,
   type VerifyDataRequestParams,
-  SignDataRequestParams,
 } from '../src/index.js';
 
 const isEnabledCredentialStore = (
@@ -84,7 +84,8 @@ const validateSwitchMethodRequest =
 const validateVerifyDataRequest =
   typia.createValidateEquals<VerifyDataRequestParams>();
 const validateMascaState = typia.createValidateEquals<MascaState>();
-const validateSignDataRequest = typia.createValidateEquals<SignDataRequestParams>();
+const validateSignDataRequest =
+  typia.createValidateEquals<SignDataRequestParams>();
 
 export const isValidCreateCredentialRequest = (
   input: any,
