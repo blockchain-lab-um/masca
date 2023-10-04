@@ -476,8 +476,8 @@ importers:
         specifier: ^6.5.4
         version: 6.5.4
       ethers:
-        specifier: 6.7.0
-        version: 6.7.0
+        specifier: ^5.7.0
+        version: 5.7.2
       jose:
         specifier: ^4.14.4
         version: 4.14.4
@@ -11188,7 +11188,7 @@ packages:
       '@veramo/key-manager': 5.4.1
       '@veramo/utils': 5.4.1
       debug: 4.3.4
-      did-jwt-vc: 3.2.8
+      did-jwt-vc: 3.2.5
       typeorm: 0.3.17(pg@8.11.2)(sqlite3@5.1.6)(ts-node@10.9.1)
       uuid: 9.0.0
     transitivePeerDependencies:
