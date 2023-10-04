@@ -2,6 +2,7 @@ import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
 import { isError, Result } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
+import { beforeAll, describe, expect, it, vi } from 'vitest';
 
 import { onRpcRequest } from '../../src';
 import UIService from '../../src/UI.service';
@@ -53,7 +54,7 @@ describe('addFriendlyDapp', () => {
   });
 
   it('Should not show pop-up if the dapp is already in the list', async () => {
-    const spy = jest.spyOn(UIService, 'addFriendlyDappDialog');
+    const spy = vi.spyOn(UIService, 'addFriendlyDappDialog');
 
     const defaultState = getDefaultSnapState(account);
     defaultState[CURRENT_STATE_VERSION].config.dApp.friendlyDapps = [
@@ -74,7 +75,6 @@ describe('addFriendlyDapp', () => {
       },
     });
 
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(spy).toHaveBeenCalledTimes(0);
     expect.assertions(1);
   });

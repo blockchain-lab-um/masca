@@ -3,6 +3,7 @@ import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-datamanager';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import type { IIdentifier, VerifiableCredential } from '@veramo/core';
+import { beforeAll, describe, expect, it } from 'vitest';
 
 import { onRpcRequest } from '../../src';
 import EncryptionService from '../../src/Encryption.service';

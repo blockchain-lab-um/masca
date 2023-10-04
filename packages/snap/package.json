@@ -49,8 +49,8 @@
     "lint:prettier": "prettier . --check",
     "serve": "mm-snap serve",
     "start": "pnpm build && pnpm serve",
-    "test": "cross-env IS_TESTING=true vitest --coverage",
-    "test:ci": "pnpm run test --silent --coverage"
+    "test": "cross-env IS_TESTING=true vitest tests/e2e/ tests/unit/",
+    "test:ci": "pnpm run test --coverage"
   },
   "dependencies": {
     "@0xpolygonid/js-sdk": "1.0.3",
@@ -111,6 +111,8 @@
     "jest-extended": "^4.0.1",
     "jsdom": "^22.1.0",
     "unplugin-swc": "^1.4.2",
+    "vite": "^4.4.10",
+    "vite-tsconfig-paths": "^4.2.1",
     "vitest": "1.0.0-beta.1"
   },
   "publishConfig": {
