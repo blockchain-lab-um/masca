@@ -31,6 +31,12 @@ type SignDataParams = {
 } & (SignJWTParamsExtended | SignJWZParams);
 
 class SignerService {
+  /**
+   * Sign data
+   * @param signDataParams - Sign data params
+   * @returns Promise<string> - Signed data string
+   * @throws Error - Unsupported sign data type
+   */
   static async signData(signDataParams: SignDataParams): Promise<string> {
     switch (signDataParams.type) {
       case 'JWT':
@@ -43,6 +49,12 @@ class SignerService {
     }
   }
 
+  /**
+   * Sign JWT
+   * @param signJWTParams - Sign JWT params
+   * @returns Promise<string> - Signed JWT string
+   * @throws Error - Unsupported DID method or user rejected JWT signing
+   */
   private static async signJWT(
     signJWTParams: SignJWTParamsExtended
   ): Promise<string> {
@@ -119,6 +131,12 @@ class SignerService {
     }
   }
 
+  /**
+   * Sign JWZ
+   * @param signJWZParams - Sign JWZ params
+   * @returns Promise<string> - Signed JWZ string
+   * @throws Error - Unsupported DID method or user rejected JWZ signing
+   */
   private static async signJWZ(signJWZParams: SignJWZParams): Promise<string> {
     const state = StorageService.get();
     const method =
