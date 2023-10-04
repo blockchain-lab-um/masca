@@ -2,6 +2,7 @@
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import type { W3CVerifiableCredential } from '@veramo/core';
+import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import StorageService from '../../src/storage/Storage.service';
 import VeramoService from '../../src/veramo/Veramo.service';

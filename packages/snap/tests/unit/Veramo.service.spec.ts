@@ -4,6 +4,7 @@ import { DIDDataStore } from '@glazed/did-datastore';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import { IIdentifier } from '@veramo/core';
+import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import GeneralService from '../../src/General.service';
 import StorageService from '../../src/storage/Storage.service';
@@ -55,11 +56,11 @@ describe('Veramo Service', () => {
 
   beforeAll(() => {
     // Ceramic mock
-    DIDDataStore.prototype.get = jest
+    DIDDataStore.prototype.get = vi
       .fn()
       .mockImplementation(async (_key, _did) => ceramicData);
 
-    DIDDataStore.prototype.merge = jest
+    DIDDataStore.prototype.merge = vi
       .fn()
       .mockImplementation(async (_key, content, _options?) => {
         ceramicData = content as StoredCredentials;

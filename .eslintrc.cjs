@@ -17,8 +17,6 @@ module.exports = {
         '**/__tests__/**',
         '**/*.spec.ts',
       ],
-      plugins: [],
-      extends: [],
       rules: {
         'jest/prefer-expect-assertions': 'off',
         'jest/no-conditional-expect': 'off',

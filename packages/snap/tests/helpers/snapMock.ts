@@ -4,6 +4,7 @@ import type { RequestArguments } from '@metamask/providers/dist/BaseProvider';
 import type { Maybe } from '@metamask/providers/dist/utils';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import { AlchemyProvider, type Filter, type TransactionRequest } from 'ethers';
+import { vi } from 'vitest';
 
 import { account, mnemonic } from '../data/constants';
 
@@ -65,11 +66,11 @@ export class SnapMock implements ISnapMock {
   }
 
   readonly rpcMocks = {
-    snap_dialog: jest.fn().mockReturnValue(true),
-    eth_requestAccounts: jest.fn().mockResolvedValue([account]),
-    eth_chainId: jest.fn().mockResolvedValue('0x1'),
-    net_version: jest.fn().mockResolvedValue('5'),
-    snap_getBip44Entropy: jest
+    snap_dialog: vi.fn().mockReturnValue(true),
+    eth_requestAccounts: vi.fn().mockResolvedValue([account]),
+    eth_chainId: vi.fn().mockResolvedValue('0x1'),
+    net_version: vi.fn().mockResolvedValue('5'),
+    snap_getBip44Entropy: vi
       .fn()
       .mockImplementation(async (params: { coinType: number }) => {
         const node = await BIP44CoinTypeNode.fromDerivationPath([
@@ -80,22 +81,22 @@ export class SnapMock implements ISnapMock {
 
         return node.toJSON();
       }),
-    snap_getEntropy: jest
+    snap_getEntropy: vi
       .fn()
       .mockImplementation((params: { version: string; salt: string }) =>
         this.snapGetEntropy(params)
       ),
-    snap_manageState: jest
+    snap_manageState: vi
       .fn()
       .mockImplementation((params: unknown) =>
         this.snapManageState(params as SnapManageState)
       ),
-    eth_call: jest
+    eth_call: vi
       .fn()
       .mockImplementation(async (data: unknown) =>
         this.snapEthCall(data as any[])
       ),
-    eth_getLogs: jest
+    eth_getLogs: vi
       .fn()
       .mockImplementation(async (data: unknown) =>
         this.snapEthLogs(data as any[])
