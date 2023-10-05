@@ -16,7 +16,7 @@ const EXAMPLE_VC_LDS = readJSON(
 ) as VerifiableCredential;
 const EXAMPLE_VC_EIP712 = readJSON(
   import.meta.url,
-  'exampleJSONLD.json'
+  'exampleEIP712.json'
 ) as VerifiableCredential;
 
 export { EXAMPLE_VC, EXAMPLE_VC2, EXAMPLE_VC_LDS, EXAMPLE_VC_EIP712 };
