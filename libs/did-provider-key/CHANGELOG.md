@@ -1,5 +1,7 @@
 # Changelog
 
+## 1.0.8
+
 ## 1.0.8-beta.0
 
 ### Patch Changes

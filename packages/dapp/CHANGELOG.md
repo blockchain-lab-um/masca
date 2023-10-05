@@ -1,5 +1,25 @@
 # @blockchain-lab-um/dapp
 
+## 1.1.0
+
+### Minor Changes
+
+- [#465](https://github.com/blockchain-lab-um/masca/pull/465) [`b4714f6`](https://github.com/blockchain-lab-um/masca/commit/b4714f626b7322917f57a8b87250184df6b79b7a) Thanks [@andyv09](https://github.com/andyv09)! - Added Masca description to `Connect Page˙.
+
+### Patch Changes
+
+- [#469](https://github.com/blockchain-lab-um/masca/pull/469) [`a756e7d`](https://github.com/blockchain-lab-um/masca/commit/a756e7d9a1df075172cc4965855d156377e6deed) Thanks [@tadejpodrekar](https://github.com/tadejpodrekar)! - Removed MetaMask Flask requirements.
+
+- [#477](https://github.com/blockchain-lab-um/masca/pull/477) [`c4a346a`](https://github.com/blockchain-lab-um/masca/commit/c4a346aada1b2810304f400c9a8934a623021e1a) Thanks [@martines3000](https://github.com/martines3000)! - Removed linting and typechecking from production builds
+
+- [#465](https://github.com/blockchain-lab-um/masca/pull/465) [`b4714f6`](https://github.com/blockchain-lab-um/masca/commit/b4714f626b7322917f57a8b87250184df6b79b7a) Thanks [@andyv09](https://github.com/andyv09)! - Add missing links in navbar and footer
+
+- [#457](https://github.com/blockchain-lab-um/masca/pull/457) [`27e4233`](https://github.com/blockchain-lab-um/masca/commit/27e4233ceddbae96bd2057780f932c23e052f28f) Thanks [@andyv09](https://github.com/andyv09)! - Reset QR Code session on mobile when trying to scan a new session.
+
+- [#467](https://github.com/blockchain-lab-um/masca/pull/467) [`56b5732`](https://github.com/blockchain-lab-um/masca/commit/56b5732e6bbfec6bfd6c131805342b3b50123ded) Thanks [@tadejpodrekar](https://github.com/tadejpodrekar)! - Google drive backup saves to unique file for each wallet.
+
+- [#477](https://github.com/blockchain-lab-um/masca/pull/477) [`c4a346a`](https://github.com/blockchain-lab-um/masca/commit/c4a346aada1b2810304f400c9a8934a623021e1a) Thanks [@martines3000](https://github.com/martines3000)! - Updated dependencies, nextjs 13.5.1
+
 ## 1.1.0-beta.0
 
 ### Minor Changes
