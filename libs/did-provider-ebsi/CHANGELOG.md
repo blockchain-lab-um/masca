@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.0-beta.0
+
+### Minor Changes
+
+- [#483](https://github.com/blockchain-lab-um/masca/pull/483) [`60eb0c0`](https://github.com/blockchain-lab-um/masca/commit/60eb0c066fb712a694518e01c7c7124e56938c72) Thanks [@Vid201](https://github.com/Vid201)! - Revert to ethers v5
+
 ## 1.1.0
 
 ### Minor Changes
