@@ -13,7 +13,7 @@ import { onRpcRequest } from '../../src';
 import StorageService from '../../src/storage/Storage.service';
 import VeramoService, { type Agent } from '../../src/veramo/Veramo.service';
 import { account } from '../data/constants';
-import examplePayload from '../data/credentials/examplePayload.json';
+import { EXAMPLE_VC_PAYLOAD } from '../data/credentials';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
@@ -84,7 +84,7 @@ describe('createVerifiableCredential', () => {
             jsonrpc: '2.0',
             method: 'createCredential',
             params: {
-              minimalUnsignedCredential: examplePayload,
+              minimalUnsignedCredential: EXAMPLE_VC_PAYLOAD,
               proofFormat,
             },
           },
@@ -118,7 +118,7 @@ describe('createVerifiableCredential', () => {
               jsonrpc: '2.0',
               method: 'createCredential',
               params: {
-                minimalUnsignedCredential: examplePayload,
+                minimalUnsignedCredential: EXAMPLE_VC_PAYLOAD,
                 proofFormat,
                 options: {
                   save: true,
@@ -164,7 +164,7 @@ describe('createVerifiableCredential', () => {
           jsonrpc: '2.0',
           method: 'createCredential',
           params: {
-            minimalUnsignedCredential: examplePayload,
+            minimalUnsignedCredential: EXAMPLE_VC_PAYLOAD,
           },
         },
       })) as Result<VerifiableCredential>;

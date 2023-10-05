@@ -3,6 +3,7 @@ import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import type { RequestArguments } from '@metamask/providers/dist/BaseProvider';
 import type { Maybe } from '@metamask/providers/dist/utils';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
+import { AlchemyProvider, Filter, TransactionRequest } from 'ethers';
 import { vi } from 'vitest';
 
 import { account, mnemonic } from '../data/constants';
@@ -48,26 +49,19 @@ export class SnapMock implements ISnapMock {
     }
   }
 
-  /*
-   * 60Mb memory in tests
-   */
   private async snapEthCall(data: any[]): Promise<string> {
-    console.log('snapEthCall');
-    // const apiKey = 'NRFBwig_CLVL0WnQLY3dUo8YkPmW-7iN';
-    // const provider = new AlchemyProvider('goerli', apiKey);
-    // return provider.call({
-    //   ...data[0],
-    //   blockTag: data[1],
-    // } as TransactionRequest);
-    return '';
+    const apiKey = 'NRFBwig_CLVL0WnQLY3dUo8YkPmW-7iN';
+    const provider = new AlchemyProvider('goerli', apiKey);
+    return provider.call({
+      ...data[0],
+      blockTag: data[1],
+    } as TransactionRequest);
   }
 
   private async snapEthLogs(data: any[]): Promise<unknown> {
-    console.log('snapEthLogs');
-    // const apiKey = 'NRFBwig_CLVL0WnQLY3dUo8YkPmW-7iN';
-    // const provider = new AlchemyProvider('goerli', apiKey);
-    // return provider.getLogs(data[0] as Filter);
-    return '';
+    const apiKey = 'NRFBwig_CLVL0WnQLY3dUo8YkPmW-7iN';
+    const provider = new AlchemyProvider('goerli', apiKey);
+    return provider.getLogs(data[0] as Filter);
   }
 
   readonly rpcMocks = {

@@ -6,7 +6,6 @@ export default defineConfig({
   plugins: [tsconfigPaths()],
   test: {
     silent: true,
-    cache: false,
     environment: 'node', // or 'happy-dom', 'jsdom'
     server: {
       deps: {
@@ -16,12 +15,6 @@ export default defineConfig({
     },
     setupFiles: ['./tests/globalSetup.ts'],
     testTimeout: 15000,
-    poolOptions: {
-      threads: {
-        minThreads: 1,
-        maxThreads: 2,
-      },
-    },
     logHeapUsage: true,
   },
 });

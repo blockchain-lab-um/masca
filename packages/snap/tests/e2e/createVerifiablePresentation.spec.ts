@@ -1,7 +1,7 @@
 import { AvailableMethods, ProofOptions } from '@blockchain-lab-um/masca-types';
 import { isError, Result } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import type { SnapsGlobalObject } from '@metamask/snaps-types';
+import type { Json, SnapsGlobalObject } from '@metamask/snaps-types';
 import { VerifiablePresentation } from '@veramo/core';
 import { beforeAll, describe, expect, it } from 'vitest';
 
@@ -10,10 +10,12 @@ import StorageService from '../../src/storage/Storage.service';
 import VeramoService, { type Agent } from '../../src/veramo/Veramo.service';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
-import exampleVCEIP712 from '../data/verifiable-credentials/exampleEIP712.json';
-import exampleVCJSONLD from '../data/verifiable-credentials/exampleJSONLD.json';
-import exampleVC_2 from '../data/verifiable-credentials/exampleJWT_2.json';
-import exampleVC from '../data/verifiable-credentials/exampleJWT.json';
+import {
+  EXAMPLE_VC,
+  EXAMPLE_VC_EIP712,
+  EXAMPLE_VC_LDS,
+  EXAMPLE_VC2,
+} from '../data/verifiable-credentials';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
 const methods: AvailableMethods[] = ['did:key', 'did:jwk'];
@@ -32,13 +34,13 @@ const options: ProofOptions[] = [
 ];
 
 const vcs = [
-  { title: 'JWT', vcs: [exampleVC] },
-  { title: 'JSON-LD', vcs: [exampleVCJSONLD] },
-  { title: 'EIP712', vcs: [exampleVCEIP712] },
-  { title: '2 JWTs', vcs: [exampleVC, exampleVC_2] },
-  { title: 'JWT & EIP712', vcs: [exampleVC, exampleVCEIP712] },
-  { title: 'JWT & JSON-LD', vcs: [exampleVC, exampleVCJSONLD] },
-  { title: 'JSON-LD & EIP712', vcs: [exampleVCJSONLD, exampleVCEIP712] },
+  { title: 'JWT', vcs: [EXAMPLE_VC] },
+  { title: 'JSON-LD', vcs: [EXAMPLE_VC_LDS] },
+  { title: 'EIP712', vcs: [EXAMPLE_VC_EIP712] },
+  { title: '2 JWTs', vcs: [EXAMPLE_VC, EXAMPLE_VC2] },
+  { title: 'JWT & EIP712', vcs: [EXAMPLE_VC, EXAMPLE_VC_EIP712] },
+  { title: 'JWT & JSON-LD', vcs: [EXAMPLE_VC, EXAMPLE_VC_LDS] },
+  { title: 'JSON-LD & EIP712', vcs: [EXAMPLE_VC_LDS, EXAMPLE_VC_EIP712] },
 ];
 
 describe('createVerifiablePresentation', () => {
@@ -98,7 +100,7 @@ describe('createVerifiablePresentation', () => {
                   params: {
                     vcs: vc.vcs,
                     proofFormat,
-                    proofOptions: option,
+                    proofOptions: option as Json,
                   },
                 },
               })) as Result<VerifiablePresentation>;
@@ -171,7 +173,7 @@ describe('createVerifiablePresentation', () => {
           jsonrpc: '2.0',
           method: 'createPresentation',
           params: {
-            vcs: [exampleVC],
+            vcs: [EXAMPLE_VC],
           },
         },
       })) as Result<VerifiablePresentation>;

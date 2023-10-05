@@ -7,27 +7,21 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import { onRpcRequest } from '../../src';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
-import cheqdResolution from '../data/documentResolution/cheqdResolution.json';
-import ebsiResolution from '../data/documentResolution/ebsiResolution.json';
-import ensResolution from '../data/documentResolution/ensResolution.json';
-import ethrResolution from '../data/documentResolution/ethrResolution.json';
-import ionResolution from '../data/documentResolution/ionResolution.json';
-import keyResolution from '../data/documentResolution/keyResolution.json';
-import webResolution from '../data/documentResolution/webResolution.json';
+import {
+  CHEQD,
+  EBSI,
+  ENS,
+  ETHR,
+  ION,
+  KEY,
+  WEB,
+} from '../data/documentResolution';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
 describe('resolveDID', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
 
-  const methods = [
-    ebsiResolution,
-    ensResolution,
-    ionResolution,
-    cheqdResolution,
-    webResolution,
-    ethrResolution,
-    keyResolution,
-  ];
+  const methods = [EBSI, ENS, ION, CHEQD, WEB, ETHR, KEY] as const;
 
   beforeAll(async () => {
     snapMock = createMockSnap();

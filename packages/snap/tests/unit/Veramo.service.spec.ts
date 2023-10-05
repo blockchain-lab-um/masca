@@ -1,4 +1,4 @@
-import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
+import { CURRENT_STATE_VERSION, Filter } from '@blockchain-lab-um/masca-types';
 import { StreamID } from '@ceramicnetwork/streamid';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { MetaMaskInpageProvider } from '@metamask/providers';
@@ -28,13 +28,15 @@ import {
   exampleDIDKeyDocument,
   exampleDIDKeyImportedAccount,
 } from '../data/identifiers/didKey';
-import exampleVCEIP712 from '../data/verifiable-credentials/exampleEIP712.json';
-import exampleVCJSONLD from '../data/verifiable-credentials/exampleJSONLD.json';
-import exampleVC_2 from '../data/verifiable-credentials/exampleJWT_2.json';
-import exampleVC from '../data/verifiable-credentials/exampleJWT.json';
+import {
+  EXAMPLE_VC,
+  EXAMPLE_VC_EIP712,
+  EXAMPLE_VC_LDS,
+  EXAMPLE_VC2,
+} from '../data/verifiable-credentials';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
-const credentials = [exampleVC, exampleVC_2, exampleVCEIP712];
+const credentials = [EXAMPLE_VC, EXAMPLE_VC2, EXAMPLE_VC_EIP712];
 
 describe('Veramo Service', () => {
   let snapMock: SnapsGlobalObject & SnapMock;
@@ -71,7 +73,7 @@ describe('Veramo Service', () => {
   describe('VeramoService.saveCredential', () => {
     it('should succeed saving VC in snap store', async () => {
       const res = await VeramoService.saveCredential({
-        verifiableCredential: exampleVC,
+        verifiableCredential: EXAMPLE_VC,
         store: ['snap'],
       });
 
@@ -88,7 +90,7 @@ describe('Veramo Service', () => {
 
     it('should succeed saving JSON-LD VC in snap store', async () => {
       const res = await VeramoService.saveCredential({
-        verifiableCredential: exampleVCJSONLD,
+        verifiableCredential: EXAMPLE_VC_LDS,
         store: ['snap'],
       });
 
@@ -104,13 +106,13 @@ describe('Veramo Service', () => {
       const query = await VeramoService.queryCredentials({
         options: {},
       });
-      expect(query[0].data).toEqual(exampleVCJSONLD);
+      expect(query[0].data).toEqual(EXAMPLE_VC_LDS);
       expect.assertions(2);
     });
 
     it('should succeed saving EIP712 VC in snap store', async () => {
       const res = await VeramoService.saveCredential({
-        verifiableCredential: exampleVCEIP712,
+        verifiableCredential: EXAMPLE_VC_EIP712,
         store: ['snap'],
       });
 
@@ -125,7 +127,7 @@ describe('Veramo Service', () => {
       const query = await VeramoService.queryCredentials({
         options: {},
       });
-      expect(query[0].data).toEqual(exampleVCEIP712);
+      expect(query[0].data).toEqual(EXAMPLE_VC_EIP712);
       expect.assertions(2);
     });
 
@@ -135,7 +137,7 @@ describe('Veramo Service', () => {
       });
 
       const res = await VeramoService.saveCredential({
-        verifiableCredential: exampleVC,
+        verifiableCredential: EXAMPLE_VC,
         store: ['snap', 'ceramic'],
       });
 
@@ -153,7 +155,7 @@ describe('Veramo Service', () => {
 
     it('should succeed saving a JWT string in snap store', async () => {
       const res = await VeramoService.saveCredential({
-        verifiableCredential: exampleVC.proof.jwt,
+        verifiableCredential: EXAMPLE_VC.proof.jwt,
         store: ['snap'],
       });
       const expectedResult = [
@@ -172,7 +174,7 @@ describe('Veramo Service', () => {
   describe('VeramoService.deleteCredential', () => {
     it('should succeed deleting VCs in snap store', async () => {
       const res = await VeramoService.saveCredential({
-        verifiableCredential: exampleVC,
+        verifiableCredential: EXAMPLE_VC,
         store: ['snap'],
       });
       const expectedResult = [
@@ -185,7 +187,7 @@ describe('Veramo Service', () => {
       const expectedState = getDefaultSnapState(account);
       expectedState[CURRENT_STATE_VERSION].accountState[
         account
-      ].veramo.credentials[res[0].id] = exampleVC;
+      ].veramo.credentials[res[0].id] = EXAMPLE_VC;
       expect(res).toEqual(expectedResult);
 
       await VeramoService.deleteCredential({
@@ -203,7 +205,7 @@ describe('Veramo Service', () => {
 
     it('should succeed deleting VCs in ceramic store', async () => {
       const res = await VeramoService.saveCredential({
-        verifiableCredential: exampleVC,
+        verifiableCredential: EXAMPLE_VC,
         store: ['snap', 'ceramic'],
       });
       const expectedResult = [
@@ -252,7 +254,7 @@ describe('Veramo Service', () => {
       });
 
       const res = await VeramoService.saveCredential({
-        verifiableCredential: exampleVC,
+        verifiableCredential: EXAMPLE_VC,
         store: ['snap', 'ceramic'],
       });
       const expectedResult = [
@@ -267,7 +269,7 @@ describe('Veramo Service', () => {
       const expectedState = getDefaultSnapState(account);
       expectedState[CURRENT_STATE_VERSION].accountState[
         account
-      ].veramo.credentials[res[0].id] = exampleVC;
+      ].veramo.credentials[res[0].id] = EXAMPLE_VC;
 
       await VeramoService.deleteCredential({
         id: expectedResult[0].id,
@@ -285,14 +287,14 @@ describe('Veramo Service', () => {
   describe('VeramoService.clearCredentials', () => {
     it('should succeed clearing VCs in snap store', async () => {
       const res = await VeramoService.saveCredential({
-        verifiableCredential: exampleVC,
+        verifiableCredential: EXAMPLE_VC,
         store: ['snap'],
       });
 
       const expectedState = getDefaultSnapState(account);
       expectedState[CURRENT_STATE_VERSION].accountState[
         account
-      ].veramo.credentials[res[0].id] = exampleVC;
+      ].veramo.credentials[res[0].id] = EXAMPLE_VC;
 
       await VeramoService.clearCredentials({
         store: ['snap'],
@@ -308,14 +310,14 @@ describe('Veramo Service', () => {
 
     it('should succeed clearing VCs in all stores', async () => {
       const res = await VeramoService.saveCredential({
-        verifiableCredential: exampleVC,
+        verifiableCredential: EXAMPLE_VC,
         store: ['snap'],
       });
 
       const expectedState = getDefaultSnapState(account);
       expectedState[CURRENT_STATE_VERSION].accountState[
         account
-      ].veramo.credentials[res[0].id] = exampleVC;
+      ].veramo.credentials[res[0].id] = EXAMPLE_VC;
 
       await VeramoService.clearCredentials({});
 
@@ -343,7 +345,7 @@ describe('Veramo Service', () => {
       let state = getDefaultSnapState(account);
 
       await VeramoService.saveCredential({
-        verifiableCredential: exampleVC,
+        verifiableCredential: EXAMPLE_VC,
         store: ['snap', 'ceramic'],
       });
 
@@ -420,12 +422,12 @@ describe('Veramo Service', () => {
 
     it('should succeed listing all VCs from snap store', async () => {
       const res = await VeramoService.saveCredential({
-        verifiableCredential: exampleVC,
+        verifiableCredential: EXAMPLE_VC,
         store: ['snap'],
       });
 
       const expectedVCObject = {
-        data: exampleVC,
+        data: EXAMPLE_VC,
         metadata: { id: res[0].id, store: ['snap'] },
       };
       await expect(
@@ -439,7 +441,7 @@ describe('Veramo Service', () => {
 
     it('should succeed listing JWT VC from snap store', async () => {
       const res = await VeramoService.saveCredential({
-        verifiableCredential: exampleVC.proof.jwt,
+        verifiableCredential: EXAMPLE_VC.proof.jwt,
         store: ['snap'],
       });
 
@@ -471,12 +473,12 @@ describe('Veramo Service', () => {
 
     it('should succeed listing all VCs from snap store - without returnStore', async () => {
       const res = await VeramoService.saveCredential({
-        verifiableCredential: exampleVC,
+        verifiableCredential: EXAMPLE_VC,
         store: ['snap'],
       });
 
       const expectedVCObject = {
-        data: exampleVC,
+        data: EXAMPLE_VC,
         metadata: { id: res[0].id },
       };
 
@@ -491,12 +493,12 @@ describe('Veramo Service', () => {
 
     it('should succeed querying all VCs from snap store that match JSONPath', async () => {
       const res = await VeramoService.saveCredential({
-        verifiableCredential: exampleVC,
+        verifiableCredential: EXAMPLE_VC,
         store: ['snap'],
       });
 
       const expectedVCObject = {
-        data: exampleVC,
+        data: EXAMPLE_VC,
         metadata: { id: res[0].id, store: ['snap'] },
       };
       await expect(
@@ -514,19 +516,20 @@ describe('Veramo Service', () => {
 
     it('should succeed querying all VCs from all stores that match JSONPath', async () => {
       const res = await VeramoService.saveCredential({
-        verifiableCredential: exampleVC,
+        verifiableCredential: EXAMPLE_VC,
         store: ['snap'],
       });
 
       const expectedVCObject = {
-        data: exampleVC,
+        data: EXAMPLE_VC,
         metadata: { id: res[0].id, store: ['snap'] },
       };
 
       const filter = {
         type: 'JSONPath',
         filter: jsonPath,
-      };
+      } as Filter;
+
       await expect(
         VeramoService.queryCredentials({
           filter,
@@ -539,18 +542,18 @@ describe('Veramo Service', () => {
 
     it('should succeed listing all VCs from snap store matching query - empty query', async () => {
       const res = await VeramoService.saveCredential({
-        verifiableCredential: exampleVC,
+        verifiableCredential: EXAMPLE_VC,
         store: ['snap'],
       });
 
       const expectedVCObject = {
-        data: exampleVC,
+        data: EXAMPLE_VC,
         metadata: { id: res[0].id, store: ['snap'] },
       };
       await expect(
         VeramoService.queryCredentials({
           options: { store: ['snap'], returnStore: true },
-          filter: { type: 'none', filter: {} },
+          filter: { type: 'none', filter: '' },
         })
       ).resolves.toEqual([expectedVCObject]);
 
@@ -559,12 +562,12 @@ describe('Veramo Service', () => {
 
     it('should succeed listing all VCs from snap store matching query', async () => {
       const res = await VeramoService.saveCredential({
-        verifiableCredential: exampleVC,
+        verifiableCredential: EXAMPLE_VC,
         store: ['snap'],
       });
 
       const expectedVCObject = {
-        data: exampleVC,
+        data: EXAMPLE_VC,
         metadata: { id: res[0].id, store: ['snap'] },
       };
 
@@ -580,7 +583,7 @@ describe('Veramo Service', () => {
 
     it('should succeed listing all VCs from snap store matching query - empty result', async () => {
       await VeramoService.saveCredential({
-        verifiableCredential: exampleVC,
+        verifiableCredential: EXAMPLE_VC,
         store: ['snap'],
       });
 

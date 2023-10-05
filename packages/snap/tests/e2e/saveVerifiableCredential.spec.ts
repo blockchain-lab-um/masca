@@ -15,7 +15,7 @@ import StorageService from '../../src/storage/Storage.service';
 import type { StoredCredentials } from '../../src/veramo/plugins/ceramicDataStore/ceramicDataStore';
 import VeramoService, { type Agent } from '../../src/veramo/Veramo.service';
 import { account } from '../data/constants';
-import examplePayload from '../data/credentials/examplePayload.json';
+import { EXAMPLE_VC_PAYLOAD } from '../data/credentials';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createTestVCs } from '../helpers/generateTestVCs';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
@@ -96,7 +96,7 @@ describe('saveVerifiableCredential', () => {
       proofFormat: 'jwt',
       payload: {
         issuer: identifier.did,
-        ...examplePayload,
+        ...EXAMPLE_VC_PAYLOAD,
       },
     });
     generatedVC = res.exampleVeramoVCJWT;
