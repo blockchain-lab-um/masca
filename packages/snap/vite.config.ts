@@ -23,7 +23,7 @@ export default defineConfig({
         maxThreads: 4,
       },
     },
-    logHeapUsage: true,
+    logHeapUsage: false,
     coverage: {
       enabled: true,
       provider: 'v8',
