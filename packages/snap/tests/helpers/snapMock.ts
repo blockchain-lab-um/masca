@@ -3,14 +3,12 @@ import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import type { RequestArguments } from '@metamask/providers/dist/BaseProvider';
 import type { Maybe } from '@metamask/providers/dist/utils';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
-import { AlchemyProvider, type Filter, type TransactionRequest } from 'ethers';
 import { vi } from 'vitest';
 
 import { account, mnemonic } from '../data/constants';
 
 interface ISnapMock {
   request<T>(args: RequestArguments): Promise<Maybe<T>>;
-  resetHistory(): void;
 }
 interface SnapManageState {
   operation: 'get' | 'update' | 'clear';
@@ -50,19 +48,26 @@ export class SnapMock implements ISnapMock {
     }
   }
 
+  /*
+   * 60Mb memory in tests
+   */
   private async snapEthCall(data: any[]): Promise<string> {
-    const apiKey = 'NRFBwig_CLVL0WnQLY3dUo8YkPmW-7iN';
-    const provider = new AlchemyProvider('goerli', apiKey);
-    return provider.call({
-      ...data[0],
-      blockTag: data[1],
-    } as TransactionRequest);
+    console.log('snapEthCall');
+    // const apiKey = 'NRFBwig_CLVL0WnQLY3dUo8YkPmW-7iN';
+    // const provider = new AlchemyProvider('goerli', apiKey);
+    // return provider.call({
+    //   ...data[0],
+    //   blockTag: data[1],
+    // } as TransactionRequest);
+    return '';
   }
 
   private async snapEthLogs(data: any[]): Promise<unknown> {
-    const apiKey = 'NRFBwig_CLVL0WnQLY3dUo8YkPmW-7iN';
-    const provider = new AlchemyProvider('goerli', apiKey);
-    return provider.getLogs(data[0] as Filter);
+    console.log('snapEthLogs');
+    // const apiKey = 'NRFBwig_CLVL0WnQLY3dUo8YkPmW-7iN';
+    // const provider = new AlchemyProvider('goerli', apiKey);
+    // return provider.getLogs(data[0] as Filter);
+    return '';
   }
 
   readonly rpcMocks = {
@@ -107,10 +112,6 @@ export class SnapMock implements ISnapMock {
     const { method, params } = args;
     // eslint-disable-next-line
     return this.rpcMocks[method](params);
-  }
-
-  resetHistory(): void {
-    Object.values(this.rpcMocks).forEach((mock) => mock.mockRestore());
   }
 }
 

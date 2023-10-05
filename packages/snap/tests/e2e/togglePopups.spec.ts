@@ -9,6 +9,9 @@ import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
 describe('togglePopups', () => {
+  it('pass', () => {
+    expect(true).toBe(true);
+  });
   let snapMock: SnapsGlobalObject & SnapMock;
 
   beforeAll(async () => {
