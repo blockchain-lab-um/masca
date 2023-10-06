@@ -1,0 +1,31 @@
+diff --git a/src/index.ts b/src/index.ts
+index c2808fcd430346759975a40e951d49142f4896b9..17398ae30bf292791d2aa9f36b2efce545a58b1a 100644
+--- a/src/index.ts
++++ b/src/index.ts
+@@ -215,14 +215,18 @@ function assembleReleasePlan(
+       // Detailed explanation at https://github.com/changesets/changesets/pull/382#discussion_r434434182
+       if (preInfo.preVersions.get(pkg.packageJson.name) !== 0) {
+         const existingRelease = releases.get(pkg.packageJson.name);
+-        if (!existingRelease) {
+-          releases.set(pkg.packageJson.name, {
+-            name: pkg.packageJson.name,
+-            type: "patch",
+-            oldVersion: pkg.packageJson.version,
+-            changesets: [],
+-          });
+-        } else if (
++        // [martines3000]:We don't want this behaviour in our workflows
++        // https://github.com/martines3000/changesets
++        // if (!existingRelease) {
++        //   releases.set(pkg.packageJson.name, {
++        //     name: pkg.packageJson.name,
++        //     type: "patch",
++        //     oldVersion: pkg.packageJson.version,
++        //     changesets: [],
++        //   });
++        // }
++        if (
++          existingRelease &&
+           existingRelease.type === "none" &&
+           !refinedConfig.ignore.includes(pkg.packageJson.name)
+         ) {
