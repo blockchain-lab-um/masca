@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/did-provider-key",
-  "version": "1.0.8-beta.0",
+  "version": "1.0.8",
   "private": false,
   "description": "Veramo plugin for the key did method (with added support for EBSI)",
   "keywords": [],

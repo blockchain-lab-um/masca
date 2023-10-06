@@ -1,5 +1,12 @@
 # @blockchain-lab-um/oidc-issuer
 
+## 0.0.9
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @blockchain-lab-um/did-provider-key@1.0.8
+
 ## 0.0.9-beta.0
 
 ### Patch Changes

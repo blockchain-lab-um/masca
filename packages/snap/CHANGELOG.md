@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.1.0
+
+### Minor Changes
+
+- [#467](https://github.com/blockchain-lab-um/masca/pull/467) [`56b5732`](https://github.com/blockchain-lab-um/masca/commit/56b5732e6bbfec6bfd6c131805342b3b50123ded) Thanks [@tadejpodrekar](https://github.com/tadejpodrekar)! - Added getWalletId RPC method.
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @blockchain-lab-um/did-provider-key@1.0.8
+  - @blockchain-lab-um/oidc-client-plugin@0.2.0
+
 ## 1.1.0-beta.0
 
 ### Minor Changes
