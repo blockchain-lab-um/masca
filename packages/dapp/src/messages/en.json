@@ -72,6 +72,9 @@
     "start-secondary": "Scan the connection QR code to connect to your primary device",
     "success": "Connection established!"
   },
+  "JsonModal": {
+    "back": "Back"
+  },
   "ConnectedProvider": {
     "connect": "Connect Wallet & Install Masca to continue",
     "version": "Please install the latest version of MetaMask!",
@@ -243,7 +246,8 @@
     "expiration-date": "Expiration Date",
     "issuer": "ISSUER",
     "isuance-date": "Issuance Date",
-    "subject": "SUBJECT"
+    "subject": "SUBJECT",
+    "view-json": "View JSON"
   },
   "FriendlydAppTable": {
     "add-failed": "Failed to add Friendly dapp",
@@ -264,6 +268,9 @@
     "saving": "Saving credential",
     "saving-error": "Failed to save credential",
     "saving-success": "Successfully saved credential"
+  },
+  "AddressDisplay": {
+    "tooltip": "Open Address in Etherscan"
   },
   "Home": {
     "SSI": "Decentralized Identity",
