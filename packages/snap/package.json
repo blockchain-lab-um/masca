@@ -49,9 +49,9 @@
     "lint:prettier": "prettier . --check",
     "serve": "mm-snap serve",
     "start": "pnpm build && pnpm serve",
-    "test": "cross-env IS_TESTING=true vitest",
+    "test": "cross-env IS_TESTING=true cross-env NODE_NO_WARNINGS=1 vitest",
     "test:ci": "pnpm run test",
-    "test:debug": "cross-env IS_TESTING=true vitest --inspect-brk --pool threads --poolOptions.threads.singleThread --poolOptions.threads.isolate false"
+    "test:debug": "cross-env IS_TESTING=true cross-env NODE_NO_WARNINGS=1 vitest --inspect-brk --pool threads --poolOptions.threads.singleThread --poolOptions.threads.isolate false"
   },
   "dependencies": {
     "@0xpolygonid/js-sdk": "1.0.3",
