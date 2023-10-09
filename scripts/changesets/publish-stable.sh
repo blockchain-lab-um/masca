@@ -6,6 +6,7 @@ pnpm install --frozen-lockfile && \
   pnpm build && \
   pnpm changeset publish && \
   pnpm changeset pre enter beta && \
+  node scripts/changesets/fix-after-stable-release.mjs && \
   git add . && \
   git commit -m "chore: release stable and enter beta mode" && \
   git push --follow-tags && \
