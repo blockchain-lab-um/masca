@@ -1,8 +1,7 @@
-// FIXME: Either update/rewrite this or
-
 import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import StorageService from '../../src/storage/Storage.service';
 import { getInitialSnapState } from '../../src/utils/config';

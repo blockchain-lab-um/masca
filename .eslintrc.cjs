@@ -17,8 +17,6 @@ module.exports = {
         '**/__tests__/**',
         '**/*.spec.ts',
       ],
-      plugins: ['jest', 'jest-extended'],
-      extends: ['plugin:jest/recommended', 'plugin:jest/style'],
       rules: {
         'jest/prefer-expect-assertions': 'off',
         'jest/no-conditional-expect': 'off',
@@ -26,8 +24,6 @@ module.exports = {
         '@typescript-eslint/no-unsafe-assignment': 'off',
         'jest/no-export': 'off',
       },
-
-      env: { jest: true },
     },
   ],
   plugins: ['@typescript-eslint', 'unused-imports'],
@@ -92,6 +88,7 @@ module.exports = {
           '**/jest.d.ts',
           '**/test/**',
           '**/tests/**',
+          '**/vite.config.ts',
         ],
       },
     ],

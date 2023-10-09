@@ -8,13 +8,14 @@ import { DIDDataStore } from '@glazed/did-datastore';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import type { IIdentifier, VerifiableCredential } from '@veramo/core';
+import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { onRpcRequest } from '../../src';
 import StorageService from '../../src/storage/Storage.service';
 import type { StoredCredentials } from '../../src/veramo/plugins/ceramicDataStore/ceramicDataStore';
 import VeramoService, { type Agent } from '../../src/veramo/Veramo.service';
 import { account } from '../data/constants';
-import examplePayload from '../data/credentials/examplePayload.json';
+import { EXAMPLE_VC_PAYLOAD } from '../data/credentials';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createTestVCs } from '../helpers/generateTestVCs';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
@@ -95,7 +96,7 @@ describe('saveVerifiableCredential', () => {
       proofFormat: 'jwt',
       payload: {
         issuer: identifier.did,
-        ...examplePayload,
+        ...EXAMPLE_VC_PAYLOAD,
       },
     });
     generatedVC = res.exampleVeramoVCJWT;
@@ -110,11 +111,11 @@ describe('saveVerifiableCredential', () => {
     }
 
     // Ceramic mock
-    DIDDataStore.prototype.get = jest
+    DIDDataStore.prototype.get = vi
       .fn()
       .mockImplementation(async (_key, _did) => Promise.resolve(ceramicData));
 
-    DIDDataStore.prototype.merge = jest.fn().mockImplementation(
+    DIDDataStore.prototype.merge = vi.fn().mockImplementation(
       async (_key, content, _options?) =>
         new Promise((resolve) => {
           ceramicData = content as StoredCredentials;
