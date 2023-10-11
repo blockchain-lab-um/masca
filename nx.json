@@ -3,7 +3,7 @@
     "default": {
       "runner": "nx-cloud",
       "options": {
-        "cacheableOperations": ["build", "test", "lint", "test:ci"]
+        "cacheableOperations": ["build", "test", "lint", "test:ci", "test:cron"]
       }
     }
   },
@@ -50,6 +50,11 @@
       "outputs": []
     },
     "test:ci": {
+      "inputs": ["default", "^production"],
+      "dependsOn": ["^build"],
+      "outputs": ["{projectRoot}/coverage"]
+    },
+    "test:cron": {
       "inputs": ["default", "^production"],
       "dependsOn": ["^build"],
       "outputs": ["{projectRoot}/coverage"]
