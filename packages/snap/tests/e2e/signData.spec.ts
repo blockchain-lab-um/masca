@@ -11,6 +11,7 @@ import elliptic from 'elliptic';
 import { HDNodeWallet, Mnemonic } from 'ethers';
 import { importJWK, JWK, jwtVerify } from 'jose';
 import cloneDeep from 'lodash.clonedeep';
+import { beforeAll, describe, expect, it } from 'vitest';
 
 import { onRpcRequest } from '../../src';
 import { account } from '../data/constants';
