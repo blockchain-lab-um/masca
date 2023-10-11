@@ -4,6 +4,7 @@ import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { Row } from '@tanstack/react-table';
 import { encodeBase64url } from '@veramo/utils';
 import clsx from 'clsx';
+import { DateTime } from 'luxon';
 import { useTranslations } from 'next-intl';
 
 import Tooltip from '@/components/Tooltip';
@@ -15,10 +16,14 @@ interface VCCardProps {
 const VCCard = ({ row }: VCCardProps) => {
   const t = useTranslations('Dashboard');
   const types = row.getValue('type');
-  const date = new Date(row.getValue('date')).toDateString();
+  const date = DateTime.fromISO(
+    new Date(row.getValue('date')).toISOString()
+  ).toFormat('dd LLL yyyy');
   const expDate =
     new Date(row.getValue('exp_date')).toDateString() !== 'Invalid Date'
-      ? new Date(row.getValue('exp_date')).toDateString()
+      ? DateTime.fromISO(
+          new Date(row.getValue('exp_date')).toISOString()
+        ).toFormat('dd LLL yyyy')
       : t('card.no-exp-date');
   const issuer: string = row.getValue('issuer');
   const validity = row.getValue('status');
