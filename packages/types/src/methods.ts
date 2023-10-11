@@ -6,12 +6,13 @@ import type {
   HandleCredentialOfferRequestParams,
   ImportStateBackupRequestParams,
   QueryCredentialsRequestParams,
-  RemoveFriendlyDappParams,
+  RemoveFriendlyDappRequestParams,
   ResolveDIDRequestParams,
   SaveCredentialRequestParams,
   SetCeramicSessionRequestParams,
   SetCredentialStoreRequestParams,
   SetCurrentAccountRequestParams,
+  SignDataRequestParams,
   SwitchMethodRequestParams,
   VerifyDataRequestParams,
 } from './params.js';
@@ -132,9 +133,14 @@ export interface AddFriendlyDapp {
 
 export interface RemoveFriendlyDapp {
   method: 'removeFriendlyDapp';
-  params: RemoveFriendlyDappParams;
+  params: RemoveFriendlyDappRequestParams;
 }
 
 export interface GetWalletId {
   method: 'getWalletId';
+}
+
+export interface SignData {
+  method: 'signData';
+  params: SignDataRequestParams;
 }

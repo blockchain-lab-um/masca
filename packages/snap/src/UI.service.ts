@@ -1,5 +1,8 @@
+import { JSONObject } from '@0xpolygonid/js-sdk';
 import {
   CURRENT_STATE_VERSION,
+  JWTHeader,
+  JWTPayload,
   QueryCredentialsRequestResult,
 } from '@blockchain-lab-um/masca-types';
 import {
@@ -285,6 +288,40 @@ class UIService {
     ]);
 
     const res = await UIService.snapConfirm({ content: uiPanel, force: true });
+    return res;
+  }
+
+  static async signDataJWTDialog(params: {
+    header: JWTHeader;
+    payload: JWTPayload;
+  }) {
+    const uiPanel = panel([
+      heading('Sign Data'),
+      ...this.originWrapper,
+      text('Would you like to sign the following JWT ?'),
+      divider(),
+      text(`Header:`),
+      copyable(JSON.stringify(params.header, null, 2)),
+      divider(),
+      text(`Payload:`),
+      copyable(JSON.stringify(params.payload, null, 2)),
+    ]);
+
+    const res = await UIService.snapConfirm({ content: uiPanel });
+
+    return res;
+  }
+
+  static async signDataJWZDialog(params: { data: JSONObject }) {
+    const uiPanel = panel([
+      heading('Sign Data'),
+      ...this.originWrapper,
+      text('Would you like to sign the following data ?'),
+      copyable(JSON.stringify(params.data, null, 2)),
+    ]);
+
+    const res = await UIService.snapConfirm({ content: uiPanel });
+
     return res;
   }
 }

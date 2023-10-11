@@ -111,6 +111,11 @@ class PolygonService {
     },
   };
 
+  static get() {
+    const { method, blockchain, networkId } = this.metadata;
+    return this.instance[method][blockchain][networkId];
+  }
+
   static async init() {
     // Load Circuits to memory
     await CircuitStorageService.init();
@@ -179,7 +184,6 @@ class PolygonService {
       this.instance[method][blockchain][networkId];
 
     const identity = (await dataStorage.identity.getAllIdentities())[0];
-
     const entropy = await snap.request({
       method: 'snap_getEntropy',
       params: { version: 1, salt: state[CURRENT_STATE_VERSION].currentAccount },
@@ -489,6 +493,7 @@ class PolygonService {
     );
     const mapKey =
       proving.provingMethodGroth16AuthV2Instance.methodAlg.toString();
+
     const verificationParamMap = new Map([
       [
         mapKey,

@@ -21,6 +21,7 @@ import type {
   QueryCredentialsRequestParams,
   SaveCredentialOptions,
   SetCurrentAccountRequestParams,
+  SignDataRequestParams,
   VerifyDataRequestParams,
 } from './params.js';
 import type {
@@ -84,4 +85,5 @@ export interface MascaApi {
   ): Promise<Result<boolean>>;
   exportStateBackup(): Promise<Result<string>>;
   getWalletId(): Promise<Result<string>>;
+  signData(params: SignDataRequestParams): Promise<Result<string>>;
 }

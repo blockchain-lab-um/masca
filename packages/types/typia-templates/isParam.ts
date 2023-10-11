@@ -16,6 +16,7 @@ import {
   type SaveCredentialRequestParams,
   type SetCredentialStoreRequestParams,
   type SetCurrentAccountRequestParams,
+  type SignDataRequestParams,
   type SwitchMethodRequestParams,
   type VerifyDataRequestParams,
 } from '../src/index.js';
@@ -83,6 +84,8 @@ const validateSwitchMethodRequest =
 const validateVerifyDataRequest =
   typia.createValidateEquals<VerifyDataRequestParams>();
 const validateMascaState = typia.createValidateEquals<MascaState>();
+const validateSignDataRequest =
+  typia.createValidateEquals<SignDataRequestParams>();
 
 export const isValidCreateCredentialRequest = (
   input: any,
@@ -185,5 +188,12 @@ export const isValidImportStateBackupRequest = (
 
 export const isValidMascaState = (input: any): asserts input is MascaState => {
   const res = validateMascaState(input);
+  if (!res.success) throw new Error(handleIValidation(res));
+};
+
+export const isValidSignDataRequest = (
+  input: any
+): asserts input is SignDataRequestParams => {
+  const res = validateSignDataRequest(input);
   if (!res.success) throw new Error(handleIValidation(res));
 };

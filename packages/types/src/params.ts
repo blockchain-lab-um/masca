@@ -10,6 +10,7 @@ import type {
   AvailableMethods,
   SupportedProofFormats,
 } from './constants.js';
+import { SignJWTParams, SignJWZParams } from './signData.js';
 
 /**
  * Types
@@ -155,6 +156,10 @@ export interface ImportStateBackupRequestParams {
   serializedState: string;
 }
 
-export interface RemoveFriendlyDappParams {
+export interface RemoveFriendlyDappRequestParams {
   id: string;
 }
+
+export type SignDataRequestParams = {
+  type: 'JWT' | 'JWZ';
+} & (SignJWTParams | SignJWZParams);

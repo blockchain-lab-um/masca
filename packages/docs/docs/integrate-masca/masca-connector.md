@@ -254,6 +254,27 @@ const res = await api.getSnapSettings();
 const res = await api.getAccountSettings();
 ```
 
+## Sign data
+
+`signData` is used to sign JWTs and JWZs
+
+```typescript
+// JWT
+const res = await api.signData({
+  type: 'JWT',
+  data: {
+    header: {...}
+    payload: {...}
+  }
+});
+
+// JWZ
+const res = await api.signData({
+  type: 'JWZ',
+  data: {...} // Valid JSONObject
+});
+```
+
 ## Working with VCs
 
 It is up to the dapp to issue VCs and/or request VPs/VCs and verify their validity (scheme, subject, controller, content, etc.). We recommend using the [Veramo Framework](https://veramo.io/).

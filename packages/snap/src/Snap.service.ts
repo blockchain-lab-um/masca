@@ -15,6 +15,7 @@ import {
   isValidResolveDIDRequest,
   isValidSaveCredentialRequest,
   isValidSetCredentialStoreRequest,
+  isValidSignDataRequest,
   isValidSwitchMethodRequest,
   isValidVerifyDataRequest,
   isVeramoSupportedMethods,
@@ -38,6 +39,7 @@ import { VerifiablePresentation } from 'did-jwt-vc';
 
 import GeneralService from './General.service';
 import PolygonService from './polygon-id/Polygon.service';
+import SignerService from './Signer.service';
 import StorageService from './storage/Storage.service';
 import UIService from './UI.service';
 import VeramoService from './veramo/Veramo.service';
@@ -587,6 +589,42 @@ class SnapService {
       case 'getWalletId':
         res = await WalletService.getWalletId();
         return ResultObject.success(res);
+
+      /**
+       * Signer.service
+       */
+      case 'signData': {
+        isValidSignDataRequest(params);
+
+        const didMethod =
+          state[CURRENT_STATE_VERSION].accountState[
+            state[CURRENT_STATE_VERSION].currentAccount
+          ].general.account.ssi.selectedMethod;
+
+        if (didMethod === 'did:polygonid' || didMethod === 'did:iden3') {
+          await PolygonService.init();
+          await PolygonService.createOrImportIdentity();
+        } else {
+          await VeramoService.importIdentifier();
+        }
+
+        let signedData;
+
+        if (params.type === 'JWZ') {
+          signedData = await SignerService.signData(params);
+        } else {
+          const { did } = await VeramoService.getIdentifier();
+          const kid = VeramoService.getKid(did);
+
+          signedData = await SignerService.signData({
+            ...params,
+            did,
+            kid,
+          });
+        }
+
+        return ResultObject.success(signedData);
+      }
 
       /**
        * Storage.service
