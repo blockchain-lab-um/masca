@@ -3,7 +3,7 @@ name: CRON
 on:
   workflow_dispatch:
   schedule:
-    - cron: '25 12 * * *'
+    - cron: '0 0 * * 0'
 
 jobs:
   main:
@@ -17,9 +17,7 @@ jobs:
       number-of-agents: 2
       main-branch-name: 'develop'
       parallel-commands-on-agents: |
-        pnpm exec nx run-many --target=lint --parallel=2
         pnpm exec nx run-many --target=test:cron --parallel=2
-        pnpm exec nx run-many --target=build --parallel=2
 
   agents:
     name: Nx Cloud - Agents
