@@ -38,7 +38,8 @@
     "prepare": "is-ci || husky install",
     "prettier": "prettier --write .",
     "test": "pnpm nx run-many --target=test",
-    "test:ci": "pnpm nx run-many --target=test:ci"
+    "test:ci": "pnpm nx run-many --target=test:ci",
+    "test:cron": "cross-env CRON=true pnpm nx run-many --target=test:cron"
   },
   "dependencies": {
     "@changesets/cli": "2.26.2"
