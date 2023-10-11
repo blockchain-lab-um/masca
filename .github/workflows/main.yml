@@ -12,7 +12,7 @@ jobs:
       pnpm-version: 8.6.10
       node-version: 18.16.0
       number-of-agents: 2
-      main-branch-name: 'tests/polygon-flow-tests'
+      main-branch-name: 'develop'
       parallel-commands-on-agents: |
         pnpm exec nx run-many --target=lint --parallel=2
         pnpm exec nx run-many --target=test:cron --parallel=2
