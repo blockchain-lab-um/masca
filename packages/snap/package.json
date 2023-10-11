@@ -51,7 +51,7 @@
     "start": "pnpm build && pnpm serve",
     "test": "cross-env IS_TESTING=true cross-env NODE_NO_WARNINGS=1 vitest",
     "test:ci": "pnpm run test",
-    "test:cron": "cross-env IS_TESTING=true cross-env NODE_NO_WARNINGS=1 vitest",
+    "test:cron": "cross-env IS_TESTING=true cross-env CRON=true cross-env NODE_NO_WARNINGS=1 vitest",
     "test:debug": "cross-env IS_TESTING=true cross-env NODE_NO_WARNINGS=1 vitest --inspect-brk --pool threads --poolOptions.threads.singleThread --poolOptions.threads.isolate false"
   },
   "dependencies": {
