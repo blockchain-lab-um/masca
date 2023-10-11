@@ -2,12 +2,13 @@
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import type { W3CVerifiableCredential } from '@veramo/core';
+import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import StorageService from '../../src/storage/Storage.service';
 import VeramoService from '../../src/veramo/Veramo.service';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
-import exampleVC from '../data/verifiable-credentials/exampleJWT.json';
+import { EXAMPLE_VC } from '../data/verifiable-credentials';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
 describe('Utils [ceramic]', () => {
@@ -58,7 +59,7 @@ describe('Utils [ceramic]', () => {
       const expectedVCObject = { id: 'test-id', store: 'ceramic' };
 
       const ids = await VeramoService.saveCredential({
-        verifiableCredential: exampleVC,
+        verifiableCredential: EXAMPLE_VC,
         store: ['ceramic'],
       });
       expectedVCObject.id = ids[0].id;
@@ -81,7 +82,7 @@ describe('Utils [ceramic]', () => {
     // FIXME: this test is failing
     it.skip('should succeed retrieving VC from ceramic network', async () => {
       const expectedVCObject = {
-        data: exampleVC,
+        data: EXAMPLE_VC,
         metadata: { id: 'test-id', store: ['ceramic'] },
       };
       const vcs = await VeramoService.queryCredentials({
@@ -101,7 +102,7 @@ describe('Utils [ceramic]', () => {
       });
 
       const ids = await VeramoService.saveCredential({
-        verifiableCredential: exampleVC,
+        verifiableCredential: EXAMPLE_VC,
         store: ['ceramic'],
       });
       const vcsPreDelete = await VeramoService.queryCredentials({
@@ -127,7 +128,7 @@ describe('Utils [ceramic]', () => {
       });
 
       await VeramoService.saveCredential({
-        verifiableCredential: exampleVC.proof.jwt,
+        verifiableCredential: EXAMPLE_VC.proof.jwt,
         store: ['ceramic'],
       });
 
@@ -135,7 +136,7 @@ describe('Utils [ceramic]', () => {
         options: { store: ['ceramic'], returnStore: true },
       });
       expect(vcs).toHaveLength(1);
-      expect(vcs[0].data).toStrictEqual(exampleVC);
+      expect(vcs[0].data).toStrictEqual(EXAMPLE_VC);
 
       expect.assertions(2);
     });

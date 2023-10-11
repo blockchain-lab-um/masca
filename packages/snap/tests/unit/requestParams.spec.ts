@@ -10,13 +10,16 @@ import {
   isValidSaveCredentialRequest,
   isValidSwitchMethodRequest,
 } from '@blockchain-lab-um/masca-types';
+import { describe, expect, it } from 'vitest';
 
 import { account } from '../data/constants';
-import * as exampleVCPayload from '../data/credentials/examplePayload.json';
+import { EXAMPLE_VC_PAYLOAD } from '../data/credentials';
 import { getDefaultSnapState } from '../data/defaultSnapState';
-import * as exampleVCLds from '../data/verifiable-credentials/exampleJSONLD.json';
-import * as exampleVC2 from '../data/verifiable-credentials/exampleJWT_2.json';
-import * as exampleVC from '../data/verifiable-credentials/exampleJWT.json';
+import {
+  EXAMPLE_VC,
+  EXAMPLE_VC_LDS,
+  EXAMPLE_VC2,
+} from '../data/verifiable-credentials';
 
 describe('Utils [requestParams]', () => {
   describe('isValidResolveDIDRequest', () => {
@@ -24,15 +27,15 @@ describe('Utils [requestParams]', () => {
       it('did string', () => {
         expect(() =>
           isValidResolveDIDRequest({ did: 'did:ethr:0x1234321' })
-        ).not.toThrow(Error);
+        ).not.toThrowError();
       });
     });
     describe('failure', () => {
       it('null', () => {
-        expect(() => isValidResolveDIDRequest(null)).toThrow(Error);
+        expect(() => isValidResolveDIDRequest(null)).toThrowError();
       });
       it('wrong type', () => {
-        expect(() => isValidResolveDIDRequest({ did: 123 })).toThrow(Error);
+        expect(() => isValidResolveDIDRequest({ did: 123 })).toThrowError();
       });
     });
   });
@@ -46,7 +49,7 @@ describe('Utils [requestParams]', () => {
             account,
             getDefaultSnapState(account)
           )
-        ).not.toThrow(Error);
+        ).not.toThrowError();
       });
       it('undefined', () => {
         expect(() =>
@@ -55,7 +58,7 @@ describe('Utils [requestParams]', () => {
             account,
             getDefaultSnapState(account)
           )
-        ).not.toThrow(Error);
+        ).not.toThrowError();
       });
       it('empty object', () => {
         expect(() =>
@@ -64,7 +67,7 @@ describe('Utils [requestParams]', () => {
             account,
             getDefaultSnapState(account)
           )
-        ).not.toThrow(Error);
+        ).not.toThrowError();
       });
       it('empty options object', () => {
         expect(() =>
@@ -73,7 +76,7 @@ describe('Utils [requestParams]', () => {
             account,
             getDefaultSnapState(account)
           )
-        ).not.toThrow('Filter type is missing or not a string!');
+        ).not.toThrowError('Filter type is missing or not a string!');
       });
       it('options object with one store', () => {
         expect(() =>
@@ -82,7 +85,7 @@ describe('Utils [requestParams]', () => {
             account,
             getDefaultSnapState(account)
           )
-        ).not.toThrow('Filter type is missing or not a string!');
+        ).not.toThrowError('Filter type is missing or not a string!');
       });
       it('options object with multiple stores', () => {
         expect(() =>
@@ -91,7 +94,7 @@ describe('Utils [requestParams]', () => {
             account,
             getDefaultSnapState(account)
           )
-        ).not.toThrow('Filter type is missing or not a string!');
+        ).not.toThrowError('Filter type is missing or not a string!');
       });
       it('options object with wrong store', () => {
         expect(() =>
@@ -100,7 +103,7 @@ describe('Utils [requestParams]', () => {
             account,
             getDefaultSnapState(account)
           )
-        ).toThrow('invalid_argument: $input.options.store[0]');
+        ).toThrowError('invalid_argument: $input.options.store[0]');
       });
       it('options object with wrong type store', () => {
         expect(() =>
@@ -109,7 +112,7 @@ describe('Utils [requestParams]', () => {
             account,
             getDefaultSnapState(account)
           )
-        ).toThrow('invalid_argument: $input.options.store');
+        ).toThrowError('invalid_argument: $input.options.store');
       });
       it('options object with multiple stores and returnStore', () => {
         expect(() =>
@@ -120,7 +123,7 @@ describe('Utils [requestParams]', () => {
             account,
             getDefaultSnapState(account)
           )
-        ).not.toThrow('Filter type is missing or not a string!');
+        ).not.toThrowError('Filter type is missing or not a string!');
       });
     });
     describe('failure', () => {
@@ -135,7 +138,7 @@ describe('Utils [requestParams]', () => {
             account,
             state
           )
-        ).toThrow('Store ceramic is not enabled!');
+        ).toThrowError('Store ceramic is not enabled!');
       });
       it('object with empty filter object', () => {
         expect(() =>
@@ -144,7 +147,9 @@ describe('Utils [requestParams]', () => {
             account,
             getDefaultSnapState(account)
           )
-        ).toThrow('invalid_argument: $input.filter.type, $input.filter.filter');
+        ).toThrowError(
+          'invalid_argument: $input.filter.type, $input.filter.filter'
+        );
       });
       it('filter without type', () => {
         expect(() =>
@@ -153,7 +158,9 @@ describe('Utils [requestParams]', () => {
             account,
             getDefaultSnapState(account)
           )
-        ).toThrow('invalid_argument: $input.filter.type, $input.filter.filter');
+        ).toThrowError(
+          'invalid_argument: $input.filter.type, $input.filter.filter'
+        );
       });
       it('filter with wrong type type', () => {
         expect(() =>
@@ -162,7 +169,9 @@ describe('Utils [requestParams]', () => {
             account,
             getDefaultSnapState(account)
           )
-        ).toThrow('invalid_argument: $input.filter.type, $input.filter.filter');
+        ).toThrowError(
+          'invalid_argument: $input.filter.type, $input.filter.filter'
+        );
       });
       it('options object with multiple stores and wrong type returnStore', () => {
         expect(() =>
@@ -173,7 +182,7 @@ describe('Utils [requestParams]', () => {
             account,
             getDefaultSnapState(account)
           )
-        ).toThrow('invalid_argument: $input.options.returnStore');
+        ).toThrowError('invalid_argument: $input.options.returnStore');
       });
     });
   });
@@ -183,20 +192,20 @@ describe('Utils [requestParams]', () => {
       it('valid vc with no options', () => {
         expect(() =>
           isValidSaveCredentialRequest(
-            { verifiableCredential: exampleVC },
+            { verifiableCredential: EXAMPLE_VC },
             account,
             getDefaultSnapState(account)
           )
-        ).not.toThrow(Error);
+        ).not.toThrowError();
       });
       it('valid vc with valid store', () => {
         expect(() =>
           isValidSaveCredentialRequest(
-            { verifiableCredential: exampleVC, options: { store: 'snap' } },
+            { verifiableCredential: EXAMPLE_VC, options: { store: 'snap' } },
             account,
             getDefaultSnapState(account)
           )
-        ).not.toThrow(Error);
+        ).not.toThrowError();
       });
     });
     describe('failure', () => {
@@ -207,7 +216,7 @@ describe('Utils [requestParams]', () => {
             account,
             getDefaultSnapState(account)
           )
-        ).toThrow(Error);
+        ).toThrowError();
       });
       it('empty object', () => {
         expect(() =>
@@ -216,7 +225,7 @@ describe('Utils [requestParams]', () => {
             account,
             getDefaultSnapState(account)
           )
-        ).toThrow(Error);
+        ).toThrowError();
       });
       it('string', () => {
         expect(() =>
@@ -225,7 +234,7 @@ describe('Utils [requestParams]', () => {
             account,
             getDefaultSnapState(account)
           )
-        ).toThrow(Error);
+        ).toThrowError();
       });
       it('number', () => {
         expect(() =>
@@ -234,7 +243,7 @@ describe('Utils [requestParams]', () => {
             account,
             getDefaultSnapState(account)
           )
-        ).toThrow(Error);
+        ).toThrowError();
       });
       it('store not enabled', () => {
         const state = getDefaultSnapState(account);
@@ -243,11 +252,11 @@ describe('Utils [requestParams]', () => {
         ].general.account.ssi.storesEnabled.ceramic = false;
         expect(() =>
           isValidSaveCredentialRequest(
-            { verifiableCredential: exampleVC, options: { store: 'ceramic' } },
+            { verifiableCredential: EXAMPLE_VC, options: { store: 'ceramic' } },
             account,
             state
           )
-        ).toThrow('Store ceramic is not enabled!');
+        ).toThrowError('Store ceramic is not enabled!');
       });
     });
   });
@@ -257,9 +266,9 @@ describe('Utils [requestParams]', () => {
       it('2 vcs in array', () => {
         expect(() =>
           isValidCreatePresentationRequest({
-            vcs: [exampleVC, exampleVC2],
+            vcs: [EXAMPLE_VC, EXAMPLE_VC2],
           })
-        ).not.toThrow();
+        ).not.toThrowError();
       });
       // TODO fix, cannot create VP with only string vcId
       it.skip('all params are strings', () => {
@@ -267,108 +276,108 @@ describe('Utils [requestParams]', () => {
           isValidCreatePresentationRequest({
             vcs: [{ id: 'test-id' }, { id: 'test-id-2' }],
           })
-        ).not.toThrow();
+        ).not.toThrowError();
       });
       it('request with proofFormat', () => {
         expect(() =>
           isValidCreatePresentationRequest({
-            vcs: [exampleVC],
+            vcs: [EXAMPLE_VC],
             proofFormat: 'jwt',
           })
-        ).not.toThrow();
+        ).not.toThrowError();
       });
       it('request with proofFormat and empty proofOptions', () => {
         expect(() =>
           isValidCreatePresentationRequest({
-            vcs: [exampleVC],
+            vcs: [EXAMPLE_VC2],
             proofFormat: 'jwt',
             proofOptions: {},
           })
-        ).not.toThrow();
+        ).not.toThrowError();
       });
       it('request with proofFormat and proofOptions with domain and challenge', () => {
         expect(() =>
           isValidCreatePresentationRequest({
-            vcs: [exampleVC],
+            vcs: [EXAMPLE_VC],
             proofFormat: 'jwt',
             proofOptions: { domain: 'test', challenge: 'test' },
           })
-        ).not.toThrow();
+        ).not.toThrowError();
       });
       // TODO fix test using ids for vcs
       it('complete request', () => {
         expect(() =>
           isValidCreatePresentationRequest({
-            vcs: [exampleVCLds],
+            vcs: [EXAMPLE_VC_LDS],
             proofFormat: 'lds',
             proofOptions: { type: 'Eth', domain: 'test', challenge: 'test' },
           })
-        ).not.toThrow();
+        ).not.toThrowError();
       });
     });
     describe('failure', () => {
       it('null', () => {
-        expect(() => isValidCreatePresentationRequest(null)).toThrow(Error);
+        expect(() => isValidCreatePresentationRequest(null)).toThrowError();
       });
       it('empty object', () => {
-        expect(() => isValidCreatePresentationRequest({})).toThrow(Error);
+        expect(() => isValidCreatePresentationRequest({})).toThrowError();
       });
       it('string', () => {
-        expect(() => isValidCreatePresentationRequest('infuraToken')).toThrow(
-          Error
-        );
+        expect(() =>
+          isValidCreatePresentationRequest('infuraToken')
+        ).toThrowError(Error);
       });
       it('number', () => {
-        expect(() => isValidCreatePresentationRequest(42)).toThrow(Error);
+        expect(() => isValidCreatePresentationRequest(42)).toThrowError();
       });
       it('vcs array is empty', () => {
         expect(() =>
           isValidCreatePresentationRequest({
             vcs: [],
           })
-        ).toThrow(Error);
+        ).toThrowError();
       });
       it('vcs is null', () => {
         expect(() =>
           isValidCreatePresentationRequest({
             vcs: null,
           })
-        ).toThrow('invalid_argument: $input.vcs');
+        ).toThrowError('invalid_argument: $input.vcs');
       });
       it('proofFormat is wrong', () => {
         expect(() =>
           isValidCreatePresentationRequest({
-            vcs: [exampleVC],
+            vcs: [EXAMPLE_VC],
             proofFormat: 'wrong',
           })
-        ).toThrow('invalid_argument: $input.proofFormat');
+        ).toThrowError('invalid_argument: $input.proofFormat');
       });
       it('domain is not a string', () => {
         expect(() =>
           isValidCreatePresentationRequest({
-            vcs: [exampleVC],
+            vcs: [EXAMPLE_VC],
             proofFormat: 'jwt',
             proofOptions: { domain: 123, challenge: 'test' },
           })
-        ).toThrow('invalid_argument: $input.proofOptions.domain');
+        ).toThrowError('invalid_argument: $input.proofOptions.domain');
       });
       it('challenge is not a string', () => {
         expect(() =>
           isValidCreatePresentationRequest({
-            vcs: [exampleVC],
+            vcs: [EXAMPLE_VC],
             proofFormat: 'jwt',
             proofOptions: { challenge: 123, domain: 'test' },
           })
-        ).toThrow('invalid_argument: $input.proofOptions.challenge');
+        ).toThrowError('invalid_argument: $input.proofOptions.challenge');
       });
       it('type is not a string', () => {
         expect(() =>
           isValidCreatePresentationRequest({
-            vcs: [exampleVC],
+            vcs: [EXAMPLE_VC],
             proofFormat: 'jwt',
             proofOptions: { type: 123, challenge: 'test', domain: 'test' },
           })
-        ).toThrow('invalid_argument: $input.proofOptions.type');
+        ).toThrowError('invalid_argument: $input.proofOptions.type');
       });
     });
   });
@@ -378,41 +387,41 @@ describe('Utils [requestParams]', () => {
       it('didMethod is a valid string', () => {
         expect(() =>
           isValidSwitchMethodRequest({ didMethod: 'did:ethr' })
-        ).not.toThrow();
+        ).not.toThrowError();
       });
     });
     describe('failure', () => {
       it('null', () => {
-        expect(() => isValidSwitchMethodRequest(null)).toThrow(Error);
+        expect(() => isValidSwitchMethodRequest(null)).toThrowError();
       });
 
       it('wrong string', () => {
         expect(() =>
           isValidSwitchMethodRequest({ didMethod: 'did:ethrr' })
-        ).toThrow(Error);
+        ).toThrowError();
       });
       it('empty object', () => {
-        expect(() => isValidSwitchMethodRequest({})).toThrow(Error);
+        expect(() => isValidSwitchMethodRequest({})).toThrowError();
       });
 
       it('string', () => {
-        expect(() => isValidSwitchMethodRequest('infuraToken')).toThrow(Error);
+        expect(() => isValidSwitchMethodRequest('infuraToken')).toThrowError();
       });
 
       it('number', () => {
-        expect(() => isValidSwitchMethodRequest(42)).toThrow(Error);
+        expect(() => isValidSwitchMethodRequest(42)).toThrowError();
       });
 
       it('didMethod is null', () => {
-        expect(() => isValidSwitchMethodRequest({ didMethod: null })).toThrow(
-          Error
-        );
+        expect(() =>
+          isValidSwitchMethodRequest({ didMethod: null })
+        ).toThrowError(Error);
       });
 
       it('didMethod is a number', () => {
-        expect(() => isValidSwitchMethodRequest({ didMethod: 42 })).toThrow(
-          Error
-        );
+        expect(() =>
+          isValidSwitchMethodRequest({ didMethod: 42 })
+        ).toThrowError(Error);
       });
     });
   });
@@ -426,7 +435,7 @@ describe('Utils [requestParams]', () => {
             account,
             getDefaultSnapState(account)
           )
-        ).not.toThrow(Error);
+        ).not.toThrowError();
       });
       // TODO skip until batch delete is implemented
       it.skip('list of string ids', () => {
@@ -436,7 +445,7 @@ describe('Utils [requestParams]', () => {
             account,
             getDefaultSnapState(account)
           )
-        ).not.toThrow(Error);
+        ).not.toThrowError();
       });
       // TODO skip until batch delete is implemented
       it.skip('list of string ids and store', () => {
@@ -449,7 +458,7 @@ describe('Utils [requestParams]', () => {
             account,
             getDefaultSnapState(account)
           )
-        ).not.toThrow(Error);
+        ).not.toThrowError();
       });
       // TODO skip until batch delete is implemented
       it.skip('list of string ids and list of stores', () => {
@@ -462,7 +471,7 @@ describe('Utils [requestParams]', () => {
             account,
             getDefaultSnapState(account)
           )
-        ).not.toThrow(Error);
+        ).not.toThrowError();
       });
     });
     describe('failure', () => {
@@ -477,7 +486,7 @@ describe('Utils [requestParams]', () => {
             account,
             state
           )
-        ).toThrow('Store ceramic is not enabled!');
+        ).toThrowError('Store ceramic is not enabled!');
       });
       it('didMethod is a number', () => {
         expect(() =>
@@ -486,7 +495,7 @@ describe('Utils [requestParams]', () => {
             account,
             getDefaultSnapState(account)
           )
-        ).toThrow(Error);
+        ).toThrowError();
       });
       it('list of string ids and wrong store', () => {
         expect(() =>
@@ -498,7 +507,7 @@ describe('Utils [requestParams]', () => {
             account,
             getDefaultSnapState(account)
           )
-        ).toThrow('invalid_argument: $input.id, $input.options.store');
+        ).toThrowError('invalid_argument: $input.id, $input.options.store');
       });
       it('list of not string ids', () => {
         expect(() =>
@@ -507,7 +516,7 @@ describe('Utils [requestParams]', () => {
             account,
             getDefaultSnapState(account)
           )
-        ).toThrow('invalid_argument: $input.id');
+        ).toThrowError('invalid_argument: $input.id');
       });
       it('empty list of ids', () => {
         expect(() =>
@@ -516,7 +525,7 @@ describe('Utils [requestParams]', () => {
             account,
             getDefaultSnapState(account)
           )
-        ).toThrow('invalid_argument: $input.id');
+        ).toThrowError('invalid_argument: $input.id');
       });
     });
   });
@@ -531,12 +540,12 @@ describe('Utils [requestParams]', () => {
         expect(() => {
           isValidCreateCredentialRequest(
             {
-              minimalUnsignedCredential: exampleVCPayload,
+              minimalUnsignedCredential: EXAMPLE_VC_PAYLOAD,
             },
             account,
             state
           );
-        }).not.toThrow();
+        }).not.toThrowError();
       });
       it('unsignedVC & PF', () => {
         const state = getDefaultSnapState(account);
@@ -546,13 +555,13 @@ describe('Utils [requestParams]', () => {
         expect(() =>
           isValidCreateCredentialRequest(
             {
-              minimalUnsignedCredential: exampleVCPayload,
+              minimalUnsignedCredential: EXAMPLE_VC_PAYLOAD,
               proofFormat: 'jwt',
             },
             account,
             state
           )
-        ).not.toThrow();
+        ).not.toThrowError();
       });
       it('empty options', () => {
         const state = getDefaultSnapState(account);
@@ -562,14 +571,14 @@ describe('Utils [requestParams]', () => {
         expect(() =>
           isValidCreateCredentialRequest(
             {
-              minimalUnsignedCredential: exampleVCPayload,
+              minimalUnsignedCredential: EXAMPLE_VC_PAYLOAD,
               proofFormat: 'jwt',
               options: {},
             },
             account,
             state
           )
-        ).not.toThrow();
+        ).not.toThrowError();
       });
       it('save option', () => {
         const state = getDefaultSnapState(account);
@@ -579,14 +588,14 @@ describe('Utils [requestParams]', () => {
         expect(() =>
           isValidCreateCredentialRequest(
             {
-              minimalUnsignedCredential: exampleVCPayload,
+              minimalUnsignedCredential: EXAMPLE_VC_PAYLOAD,
               proofFormat: 'jwt',
               options: { save: true },
             },
             account,
             state
           )
-        ).not.toThrow();
+        ).not.toThrowError();
       });
       it('full options', () => {
         const state = getDefaultSnapState(account);
@@ -596,14 +605,14 @@ describe('Utils [requestParams]', () => {
         expect(() =>
           isValidCreateCredentialRequest(
             {
-              minimalUnsignedCredential: exampleVCPayload,
+              minimalUnsignedCredential: EXAMPLE_VC_PAYLOAD,
               proofFormat: 'jwt',
               options: { save: true, store: ['snap'] },
             },
             account,
             state
           )
-        ).not.toThrow();
+        ).not.toThrowError();
       });
     });
     describe('failure', () => {
@@ -615,14 +624,14 @@ describe('Utils [requestParams]', () => {
         expect(() =>
           isValidCreateCredentialRequest(
             {
-              minimalUnsignedCredential: exampleVCPayload,
+              minimalUnsignedCredential: EXAMPLE_VC_PAYLOAD,
               proofFormat: 'jwt',
               options: { save: true, store: 'ceramic' },
             },
             account,
             state
           )
-        ).toThrow('Store ceramic is not enabled!');
+        ).toThrowError('Store ceramic is not enabled!');
       });
       it('invalid store', () => {
         const state = getDefaultSnapState(account);
@@ -632,14 +641,14 @@ describe('Utils [requestParams]', () => {
         expect(() =>
           isValidCreateCredentialRequest(
             {
-              minimalUnsignedCredential: exampleVCPayload,
+              minimalUnsignedCredential: EXAMPLE_VC_PAYLOAD,
               proofFormat: 'jwt',
               options: { save: true, store: 'ceramicc' },
             },
             account,
             state
           )
-        ).toThrow('invalid_argument: $input.options.store');
+        ).toThrowError('invalid_argument: $input.options.store');
       });
       it('invalid proofFormat', () => {
         const state = getDefaultSnapState(account);
@@ -649,14 +658,14 @@ describe('Utils [requestParams]', () => {
         expect(() =>
           isValidCreateCredentialRequest(
             {
-              minimalUnsignedCredential: exampleVCPayload,
+              minimalUnsignedCredential: EXAMPLE_VC_PAYLOAD,
               proofFormat: 'jws',
               options: { save: true, store: 'snap' },
             },
             account,
             state
           )
-        ).toThrow('invalid_argument: $input.proofFormat');
+        ).toThrowError('invalid_argument: $input.proofFormat');
       });
     });
   });
@@ -667,7 +676,7 @@ describe('Utils [requestParams]', () => {
           isValidImportStateBackupRequest({
             serializedState: 'test',
           });
-        }).not.toThrow();
+        }).not.toThrowError();
       });
     });
     describe('failure', () => {
@@ -676,7 +685,7 @@ describe('Utils [requestParams]', () => {
           isValidImportStateBackupRequest({
             serializedState: 2,
           })
-        ).toThrow('invalid_argument: input.serializedState');
+        ).toThrowError('invalid_argument: input.serializedState');
       });
     });
   });
@@ -686,27 +695,29 @@ describe('Utils [requestParams]', () => {
         const state = getDefaultSnapState(account);
         expect(() => {
           isValidMascaState(state);
-        }).not.toThrow();
+        }).not.toThrowError();
       });
     });
     describe('failure', () => {
       it('empty object', () => {
-        expect(() => isValidMascaState({})).toThrow(
+        expect(() => isValidMascaState({})).toThrowError(
           'invalid_argument: $input.v1'
         );
       });
       it('empty state with version', () => {
-        expect(() => isValidMascaState({ v1: {} })).toThrow(
+        expect(() => isValidMascaState({ v1: {} })).toThrowError(
           'invalid_argument: $input.v1.accountState, $input.v1.currentAccount, $input.v1.config'
         );
       });
       it('null', () => {
-        expect(() => isValidMascaState(null)).toThrow(
+        expect(() => isValidMascaState(null)).toThrowError(
           'invalid_argument: $input'
         );
       });
       it('missing fields', () => {
-        expect(() => isValidMascaState({ v1: { accountState: {} } })).toThrow(
+        expect(() =>
+          isValidMascaState({ v1: { accountState: {} } })
+        ).toThrowError(
           'invalid_argument: $input.v1.currentAccount, $input.v1.config'
         );
       });

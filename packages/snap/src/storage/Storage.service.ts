@@ -7,7 +7,6 @@ import {
 import { getInitialSnapState } from '../utils/config';
 import SnapStorage from './Snap.storage';
 
-const STATE_VERSION = 'v1';
 class StorageService {
   static instance: MascaState;
 

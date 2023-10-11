@@ -38,13 +38,14 @@
     "prepare": "is-ci || husky install",
     "prettier": "prettier --write .",
     "test": "pnpm nx run-many --target=test",
-    "test:ci": "pnpm nx run-many --target=test:ci"
+    "test:ci": "pnpm nx run-many --target=test:ci",
+    "test:cron": "cross-env CRON=true pnpm nx run-many --target=test:cron"
   },
   "dependencies": {
-    "@changesets/cli": "^2.26.2"
+    "@changesets/cli": "2.26.2"
   },
   "devDependencies": {
-    "@changesets/changelog-github": "^0.4.8",
+    "@changesets/changelog-github": "0.4.8",
     "@commitlint/cli": "^17.6.7",
     "@commitlint/config-conventional": "^17.6.7",
     "@ianvs/prettier-plugin-sort-imports": "^4.1.0",
@@ -95,7 +96,8 @@
       "cross-fetch@3.1.8": "patches/cross-fetch@3.1.8.patch",
       "cross-fetch@4.0.0": "patches/cross-fetch@4.0.0.patch",
       "@ceramicnetwork/common@2.30.0": "patches/@ceramicnetwork__common@2.30.0.patch",
-      "@metamask/snaps-types@1.0.2": "patches/@metamask__snaps-types@1.0.2.patch"
+      "@metamask/snaps-types@1.0.2": "patches/@metamask__snaps-types@1.0.2.patch",
+      "@changesets/assemble-release-plan@5.2.4": "patches/@changesets__assemble-release-plan@5.2.4.patch"
     },
     "allowNonAppliedPatches": true
   }

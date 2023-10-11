@@ -4,13 +4,14 @@ import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-datamanager';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import { VerifiableCredential } from '@veramo/core';
+import { beforeAll, describe, expect, it, vi } from 'vitest';
 
 import { onRpcRequest } from '../../src';
 import StorageService from '../../src/storage/Storage.service';
 import UIService from '../../src/UI.service';
 import VeramoService from '../../src/veramo/Veramo.service';
 import { account } from '../data/constants';
-import examplePayload from '../data/credentials/examplePayload.json';
+import { EXAMPLE_VC_PAYLOAD } from '../data/credentials';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createTestVCs } from '../helpers/generateTestVCs';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
@@ -43,7 +44,7 @@ describe('removeFriendlyDapp', () => {
       proofFormat: 'jwt',
       payload: {
         issuer: identifier.did,
-        ...examplePayload,
+        ...EXAMPLE_VC_PAYLOAD,
       },
     });
 
@@ -104,7 +105,7 @@ describe('removeFriendlyDapp', () => {
   });
 
   it('Should show pop-up if the dapp is not in the list', async () => {
-    const spy = jest.spyOn(UIService, 'queryAllDialog');
+    const spy = vi.spyOn(UIService, 'queryAllDialog');
 
     const defaultState = getDefaultSnapState(account);
 

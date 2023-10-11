@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'node:fs';
 import { execa } from 'execa';
 
 // Read packages/snap/package.json
@@ -20,19 +20,21 @@ fs.writeFileSync(
   JSON.stringify(snapManifestJson, null, 2)
 );
 
-// Update packages/connector/src/masca.json
-const connectorMascaJson = JSON.parse(
-  fs.readFileSync('packages/connector/src/masca.json', {
-    encoding: 'utf-8',
-  })
-);
+if (!snapVersion.includes('beta')) {
+  // Update packages/connector/src/masca.json
+  const connectorMascaJson = JSON.parse(
+    fs.readFileSync('packages/connector/src/masca.json', {
+      encoding: 'utf-8',
+    })
+  );
 
-connectorMascaJson.mascaVersion = snapVersion;
+  connectorMascaJson.mascaVersion = snapVersion;
 
-fs.writeFileSync(
-  'packages/connector/src/masca.json',
-  JSON.stringify(connectorMascaJson, null, 2)
-);
+  fs.writeFileSync(
+    'packages/connector/src/masca.json',
+    JSON.stringify(connectorMascaJson, null, 2)
+  );
+}
 
 const { stdout } = await execa(
   'pnpm nx run-many --target lint:fix -p @blockchain-lab-um/masca @blockchain-lab-um/masca-connector @blockchain-lab-um/dapp',

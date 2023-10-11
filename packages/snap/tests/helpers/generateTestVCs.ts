@@ -1,3 +1,4 @@
+import { MinimalUnsignedCredential } from '@blockchain-lab-um/masca-types';
 import type {
   CredentialPayload,
   ProofFormat,
@@ -30,7 +31,7 @@ interface TestCredentials {
 interface CreateTestVCsParams {
   agent: Agent;
   proofFormat: ProofFormat;
-  payload: CredentialPayload;
+  payload: CredentialPayload | MinimalUnsignedCredential;
 }
 
 /**
@@ -57,7 +58,7 @@ export async function createTestVCs(
     await agent.createVerifiableCredential({
       ...(options?.keyRef && { keyRef: options.keyRef }),
       proofFormat,
-      credential: payload,
+      credential: payload as any,
     });
 
   return { exampleVeramoVCJWT };

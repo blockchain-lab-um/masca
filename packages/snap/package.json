@@ -49,8 +49,10 @@
     "lint:prettier": "prettier . --check",
     "serve": "mm-snap serve",
     "start": "pnpm build && pnpm serve",
-    "test": "cross-env IS_TESTING=true cross-env NODE_OPTIONS=--max-old-space-size=6144 node --expose-gc --experimental-json-modules ../../node_modules/jest/bin/jest.js --runInBand --logHeapUsage",
-    "test:ci": "pnpm run test --silent --coverage"
+    "test": "cross-env IS_TESTING=true cross-env NODE_NO_WARNINGS=1 vitest",
+    "test:ci": "pnpm run test",
+    "test:cron": "cross-env IS_TESTING=true cross-env CRON=true cross-env NODE_NO_WARNINGS=1 vitest",
+    "test:debug": "cross-env IS_TESTING=true cross-env NODE_NO_WARNINGS=1 vitest --inspect-brk --pool threads --poolOptions.threads.singleThread --poolOptions.threads.isolate false"
   },
   "dependencies": {
     "@0xpolygonid/js-sdk": "1.0.3",
@@ -101,13 +103,16 @@
   "devDependencies": {
     "@ceramicnetwork/streamid": "2.17.0",
     "@metamask/snaps-cli": "1.0.2",
-    "@swc/core": "1.3.52",
-    "@swc/jest": "0.2.26",
     "@types/elliptic": "^6.4.14",
     "@types/jsonpath": "^0.2.0",
     "@types/qs": "^6.9.7",
+    "@vitest/coverage-v8": "1.0.0-beta.1",
+    "desm": "^1.3.0",
     "esbuild": "0.18.20",
-    "jose": "^4.14.6"
+    "jest-extended": "^4.0.1",
+    "vite": "^4.4.10",
+    "vite-tsconfig-paths": "^4.2.1",
+    "vitest": "1.0.0-beta.1"
   },
   "publishConfig": {
     "access": "public",

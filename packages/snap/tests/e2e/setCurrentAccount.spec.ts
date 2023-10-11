@@ -3,10 +3,11 @@ import { isError, isSuccess, Result } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import { VerifiableCredential } from '@veramo/core';
+import { beforeAll, describe, expect, it } from 'vitest';
 
 import { onRpcRequest } from '../../src';
 import { account } from '../data/constants';
-import exampleTestVCPayload from '../data/credentials/examplePayload.json';
+import { EXAMPLE_VC_PAYLOAD } from '../data/credentials';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
@@ -78,7 +79,7 @@ describe('setCurrentAccount', () => {
         jsonrpc: '2.0',
         method: 'createCredential',
         params: {
-          minimalUnsignedCredential: exampleTestVCPayload,
+          minimalUnsignedCredential: EXAMPLE_VC_PAYLOAD,
           proofFormat: 'jwt',
           options: {
             save: true,

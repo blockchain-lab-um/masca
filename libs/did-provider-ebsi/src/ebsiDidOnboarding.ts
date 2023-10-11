@@ -6,7 +6,7 @@ import {
   EbsiVerifiablePresentation,
 } from '@cef-ebsi/verifiable-presentation';
 import { IIdentifier } from '@veramo/core';
-import { sha256, Transaction, Wallet, type TransactionRequest } from 'ethers';
+import { ethers, Wallet } from 'ethers';
 import * as jose from 'jose';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -225,7 +225,7 @@ async function insertDidDocument(args: {
   const bufferDidDocument = Buffer.from(JSON.stringify(didDocument));
   const bufferTimestamp = Buffer.from(JSON.stringify(timestamp));
   const bufferMetadata = Buffer.from(JSON.stringify(metadata));
-  const hashValue = sha256(bufferDidDocument);
+  const hashValue = ethers.utils.sha256(bufferDidDocument);
 
   const unsignedTxResponse = await fetch(
     `${EbsiConfig.BASE_URL}${EbsiEndpoints.DID_REGISTRY_RPC}`,
@@ -260,20 +260,12 @@ async function insertDidDocument(args: {
   }
   const unsignedTx = (await unsignedTxResponse.json()) as IUnsignedTransaction;
   const tmpChainId = unsignedTx.result.chainId;
-  const chainId = Number(unsignedTx.result.chainId);
-  unsignedTx.result.chainId = chainId.toString();
-
+  unsignedTx.result.chainId = Number(unsignedTx.result.chainId);
   const signedRawTransaction = await wallet.signTransaction(
-    unsignedTx.result as unknown as TransactionRequest
+    unsignedTx.result as ethers.providers.TransactionRequest
   );
 
-  const transaction = Transaction.from(signedRawTransaction);
-
-  if (!transaction.signature) {
-    throw new Error('There has been an error while signing the transaction');
-  }
-
-  const { r, s, v } = transaction.signature;
+  const { r, s, v } = ethers.utils.parseTransaction(signedRawTransaction);
   unsignedTx.result.chainId = tmpChainId;
   const signedTx = {
     protocol: 'eth',

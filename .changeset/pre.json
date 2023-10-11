@@ -4,7 +4,7 @@
   "initialVersions": {
     "@blockchain-lab-um/oidc-issuer": "0.0.9-beta.0",
     "@blockchain-lab-um/oidc-verifier": "0.0.8",
-    "@blockchain-lab-um/did-provider-ebsi": "1.1.0",
+    "@blockchain-lab-um/did-provider-ebsi": "1.2.0",
     "@blockchain-lab-um/did-provider-key": "1.0.8-beta.0",
     "@blockchain-lab-um/oidc-client-plugin": "0.2.0-beta.0",
     "@blockchain-lab-um/oidc-rp-plugin": "0.0.8",
@@ -17,5 +17,15 @@
     "@blockchain-lab-um/masca": "1.1.0-beta.0",
     "@blockchain-lab-um/masca-types": "1.1.0"
   },
-  "changesets": []
+  "changesets": [
+    "chilly-boxes-sit",
+    "great-radios-love",
+    "heavy-hotels-build",
+    "heavy-timers-laugh",
+    "long-ligers-brush",
+    "moody-cheetahs-perform",
+    "nine-ducks-explain",
+    "purple-jokes-hunt",
+    "weak-frogs-occur"
+  ]
 }
