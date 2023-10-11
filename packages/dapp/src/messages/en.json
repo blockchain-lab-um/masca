@@ -247,7 +247,7 @@
     "issuer": "ISSUER",
     "isuance-date": "Issuance Date",
     "subject": "SUBJECT",
-    "view-json": "View JSON"
+    "view-json": "View"
   },
   "FriendlydAppTable": {
     "add-failed": "Failed to add Friendly dapp",

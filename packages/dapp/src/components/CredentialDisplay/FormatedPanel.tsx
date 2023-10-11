@@ -169,7 +169,7 @@ const FormatedPanel = ({ credential }: FormatedPanelProps) => {
           </div>
         </div>
         <div className="flex flex-col space-y-8 px-6 md:flex-row md:space-x-16 md:space-y-0">
-          <div className="flex w-full max-w-[50%] flex-col items-start space-y-2">
+          <div className="flex w-full flex-col items-start space-y-2 md:max-w-[50%]">
             <h1 className="text-md dark:text-orange-accent-dark font-medium text-pink-500">
               {t('subject')}
             </h1>
