@@ -8,7 +8,9 @@ export default defineConfig({
   test: {
     watch: false,
     pool: 'forks',
-    include: ['tests/e2e/**/*.spec.ts', 'tests/unit/**/*.spec.ts'],
+    include: process.env.CRON
+      ? ['tests/cron/**/*.spec.ts']
+      : ['tests/e2e/**/*.spec.ts', 'tests/unit/**/*.spec.ts'],
     silent: true,
     cache: false,
     environment: 'node', // or 'happy-dom', 'jsdom'
