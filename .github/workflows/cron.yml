@@ -1,6 +1,9 @@
+name: CRON
+
 on:
+  workflow_dispatch:
   schedule:
-    - cron: '20 12 * * *'
+    - cron: '25 12 * * *'
 
 jobs:
   main:
