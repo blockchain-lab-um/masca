@@ -1,5 +1,14 @@
 # @blockchain-lab-um/dapp
 
+## 1.1.0-beta.1
+
+### Patch Changes
+
+- [#495](https://github.com/blockchain-lab-um/masca/pull/495) [`da2d90c`](https://github.com/blockchain-lab-um/masca/commit/da2d90cf030cd057761df274c6435cd3ff39cbe7) Thanks [@martines3000](https://github.com/martines3000)! - Fixes dapp crashing, updated formatted panel view
+
+- Updated dependencies [[`a07fdcc`](https://github.com/blockchain-lab-um/masca/commit/a07fdcc07e90ba949def10bbcac6b12fbe42e4c0)]:
+  - @blockchain-lab-um/masca-connector@1.2.0-beta.0
+
 ## 1.1.0-beta.0
 
 ### Minor Changes
