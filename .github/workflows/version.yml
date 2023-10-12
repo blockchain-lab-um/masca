@@ -17,6 +17,7 @@ on:
           - '@blockchain-lab-um/utils'
           - '@blockchain-lab-um/did-provider-key'
           - '@blockchain-lab-um/did-provider-ebsi'
+          - '@blockchain-lab-um/dapp'
 
 # Wait for the workflow to finish before starting a new one
 concurrency: ${{ github.workflow }}-${{ github.ref }}
