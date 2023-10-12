@@ -37,7 +37,7 @@ if (!snapVersion.includes('beta')) {
 }
 
 const { stdout } = await execa(
-  'pnpm nx run-many --target lint:fix -p @blockchain-lab-um/masca @blockchain-lab-um/masca-connector @blockchain-lab-um/dapp',
+  'pnpm nx run-many --target lint:fix -p @blockchain-lab-um/masca @blockchain-lab-um/masca-connector',
   {
     shell: true,
   }
