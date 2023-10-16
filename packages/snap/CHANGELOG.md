@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.1.0-beta.1
+
+### Minor Changes
+
+- [#484](https://github.com/blockchain-lab-um/masca/pull/484) [`a07fdcc`](https://github.com/blockchain-lab-um/masca/commit/a07fdcc07e90ba949def10bbcac6b12fbe42e4c0) Thanks [@martines3000](https://github.com/martines3000)! - Added `signData` RPC method (JWT and JWZ support)
+
+### Patch Changes
+
+- [#497](https://github.com/blockchain-lab-um/masca/pull/497) [`c1ec1ea`](https://github.com/blockchain-lab-um/masca/commit/c1ec1ea4caba3c56c1c98b6d0764433e3c6fd2f9) Thanks [@pseudobun](https://github.com/pseudobun)! - Adds e2e tests for PolygonID authorization and credential offer flow.
+
+- Updated dependencies [[`a07fdcc`](https://github.com/blockchain-lab-um/masca/commit/a07fdcc07e90ba949def10bbcac6b12fbe42e4c0)]:
+  - @blockchain-lab-um/masca-types@1.2.0-beta.0
+
 ## 1.1.0-beta.0
 
 ### Minor Changes
