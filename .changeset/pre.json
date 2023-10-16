@@ -1,5 +1,5 @@
 {
-  "mode": "pre",
+  "mode": "exit",
   "tag": "beta",
   "initialVersions": {
     "@blockchain-lab-um/oidc-issuer": "0.0.9-beta.0",
