@@ -32,6 +32,7 @@
   ],
   "scripts": {
     "build": "pnpm clean && pnpm compile",
+    "bundle": "webpack",
     "clean": "rimraf dist",
     "compile": "tsup",
     "lint": "pnpm lint:eslint && pnpm lint:prettier",
@@ -50,7 +51,8 @@
     "eip-712-types-generation": "^0.1.6"
   },
   "devDependencies": {
-    "tsup": "^7.2.0"
+    "esbuild-loader": "^4.0.2",
+    "webpack-cli": "^5.1.4"
   },
   "publishConfig": {
     "access": "public"
