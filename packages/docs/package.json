@@ -40,18 +40,18 @@
     "@emotion/styled": "^11.11.0",
     "@mdx-js/react": "1.6.22",
     "clsx": "^2.0.0",
-    "prism-react-renderer": "^2.0.6",
+    "prism-react-renderer": "^2.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "^2.4.1",
-    "@docusaurus/plugin-content-docs": "^2.4.1",
-    "@docusaurus/types": "^2.4.1",
+    "@docusaurus/module-type-aliases": "^2.4.3",
+    "@docusaurus/plugin-content-docs": "^2.4.3",
+    "@docusaurus/types": "^2.4.3",
     "@tsconfig/docusaurus": "^1.0.7",
     "@types/react": "18.2.19",
     "precompress": "^11.2.2",
-    "stylelint": "^15.10.2",
+    "stylelint": "^15.11.0",
     "stylelint-config-css-modules": "^4.3.0",
     "stylelint-config-prettier": "^9.0.5",
     "stylelint-config-standard": "^34.0.0"
