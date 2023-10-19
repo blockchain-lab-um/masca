@@ -202,6 +202,7 @@ export class EbsiDIDProvider extends AbstractIdentifierProvider {
         y,
       };
       privateKeyJwk = { ...publicKeyJwk, d };
+      privateKeyHex = args.privateKeyHex;
 
       jwkThumbprint = await jose.calculateJwkThumbprint(
         privateKeyJwk,
