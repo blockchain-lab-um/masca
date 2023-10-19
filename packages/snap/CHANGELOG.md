@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.0-beta.2
+
+### Patch Changes
+
+- [#509](https://github.com/blockchain-lab-um/masca/pull/509) [`0caf964`](https://github.com/blockchain-lab-um/masca/commit/0caf96495c05236aaf0aabc2b8abe19b09ad1607) Thanks [@pseudobun](https://github.com/pseudobun)! - Updates snap shasum.
+
 ## 1.1.0-beta.1
 
 ### Minor Changes
