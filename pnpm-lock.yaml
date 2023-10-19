@@ -741,7 +741,7 @@ importers:
   packages/dapp:
     dependencies:
       '@blockchain-lab-um/masca-connector':
-        specifier: 1.2.0
+        specifier: 1.2.1-beta.0
         version: link:../connector
       '@blockchain-lab-um/oidc-types':
         specifier: 0.0.8
@@ -4930,7 +4930,7 @@ packages:
       cssnano-preset-advanced: 5.3.10(postcss@8.4.31)
       postcss: 8.4.31
       postcss-sort-media-queries: 4.4.1(postcss@8.4.31)
-      tslib: 2.6.1
+      tslib: 2.6.2
     dev: true
 
   /@docusaurus/logger@2.4.1:
@@ -4938,7 +4938,7 @@ packages:
     engines: {node: '>=16.14'}
     dependencies:
       chalk: 4.1.2
-      tslib: 2.6.1
+      tslib: 2.6.2
     dev: false
 
   /@docusaurus/logger@2.4.3:
@@ -4970,7 +4970,7 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
       remark-emoji: 2.2.0
       stringify-object: 3.3.0
-      tslib: 2.6.1
+      tslib: 2.6.2
       unified: 9.2.2
       unist-util-visit: 2.0.3
       url-loader: 4.1.1(file-loader@6.2.0)(webpack@5.88.2)
@@ -5005,7 +5005,7 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
       remark-emoji: 2.2.0
       stringify-object: 3.3.0
-      tslib: 2.6.1
+      tslib: 2.6.2
       unified: 9.2.2
       unist-util-visit: 2.0.3
       url-loader: 4.1.1(file-loader@6.2.0)(webpack@5.88.2)
@@ -5063,7 +5063,7 @@ packages:
       '@docusaurus/react-loadable': 5.5.2(react@18.2.0)
       '@docusaurus/types': 2.4.1(react-dom@18.2.0)(react@18.2.0)
       '@types/history': 4.7.11
-      '@types/react': 18.2.19
+      '@types/react': 18.2.22
       '@types/react-router-config': 5.0.7
       '@types/react-router-dom': 5.3.3
       react: 18.2.0
@@ -5713,7 +5713,7 @@ packages:
         optional: true
     dependencies:
       '@docusaurus/types': 2.4.3(react-dom@18.2.0)(react@18.2.0)
-      tslib: 2.6.1
+      tslib: 2.6.2
     dev: true
 
   /@docusaurus/utils-validation@2.4.1(@docusaurus/types@2.4.1):
@@ -5724,7 +5724,7 @@ packages:
       '@docusaurus/utils': 2.4.1(@docusaurus/types@2.4.1)
       joi: 17.9.2
       js-yaml: 4.1.0
-      tslib: 2.6.1
+      tslib: 2.6.2
     transitivePeerDependencies:
       - '@docusaurus/types'
       - '@swc/core'
@@ -5742,7 +5742,7 @@ packages:
       '@docusaurus/utils': 2.4.1(@docusaurus/types@2.4.3)
       joi: 17.9.2
       js-yaml: 4.1.0
-      tslib: 2.6.1
+      tslib: 2.6.2
     transitivePeerDependencies:
       - '@docusaurus/types'
       - '@swc/core'
@@ -5793,7 +5793,7 @@ packages:
       micromatch: 4.0.5
       resolve-pathname: 3.0.0
       shelljs: 0.8.5
-      tslib: 2.6.1
+      tslib: 2.6.2
       url-loader: 4.1.1(file-loader@6.2.0)(webpack@5.88.2)
       webpack: 5.88.2
     transitivePeerDependencies:
@@ -5827,7 +5827,7 @@ packages:
       micromatch: 4.0.5
       resolve-pathname: 3.0.0
       shelljs: 0.8.5
-      tslib: 2.6.1
+      tslib: 2.6.2
       url-loader: 4.1.1(file-loader@6.2.0)(webpack@5.88.2)
       webpack: 5.88.2
     transitivePeerDependencies:

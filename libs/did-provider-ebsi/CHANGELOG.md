@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.1-beta.0
+
+### Patch Changes
+
+- [#508](https://github.com/blockchain-lab-um/masca/pull/508) [`60c0e6e`](https://github.com/blockchain-lab-um/masca/commit/60c0e6eac0e09c199c9471de292cfb1426650ed7) Thanks [@pseudobun](https://github.com/pseudobun)! - Correctly sets the privateKeyHex.
+
 ## 1.2.0
 
 ### Minor Changes

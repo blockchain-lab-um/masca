@@ -1,5 +1,12 @@
 # @blockchain-lab-um/dapp
 
+## 1.1.1-beta.0
+
+### Patch Changes
+
+- Updated dependencies [[`54efbd0`](https://github.com/blockchain-lab-um/masca/commit/54efbd0f7777a172e879228a6da134c6cc0b3b33)]:
+  - @blockchain-lab-um/masca-connector@1.2.1-beta.0
+
 ## 1.1.0
 
 ### Minor Changes
