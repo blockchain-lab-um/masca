@@ -1,5 +1,14 @@
 # @blockchain-lab-um/dapp
 
+## 1.1.1
+
+### Patch Changes
+
+- [#507](https://github.com/blockchain-lab-um/masca/pull/507) [`0f322c5`](https://github.com/blockchain-lab-um/masca/commit/0f322c5b4eb3884cf7ea2363860db053332b4649) Thanks [@martines3000](https://github.com/martines3000)! - Fixes issue with importing Polygon ID credentials.
+
+- Updated dependencies [[`54efbd0`](https://github.com/blockchain-lab-um/masca/commit/54efbd0f7777a172e879228a6da134c6cc0b3b33)]:
+  - @blockchain-lab-um/masca-connector@1.2.1
+
 ## 1.1.1-beta.1
 
 ### Patch Changes

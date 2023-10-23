@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.1.0
+
+### Minor Changes
+
+- [#484](https://github.com/blockchain-lab-um/masca/pull/484) [`a07fdcc`](https://github.com/blockchain-lab-um/masca/commit/a07fdcc07e90ba949def10bbcac6b12fbe42e4c0) Thanks [@martines3000](https://github.com/martines3000)! - Added `signData` RPC method (JWT and JWZ support)
+
+- [#467](https://github.com/blockchain-lab-um/masca/pull/467) [`56b5732`](https://github.com/blockchain-lab-um/masca/commit/56b5732e6bbfec6bfd6c131805342b3b50123ded) Thanks [@tadejpodrekar](https://github.com/tadejpodrekar)! - Added getWalletId RPC method.
+
+### Patch Changes
+
+- [#497](https://github.com/blockchain-lab-um/masca/pull/497) [`c1ec1ea`](https://github.com/blockchain-lab-um/masca/commit/c1ec1ea4caba3c56c1c98b6d0764433e3c6fd2f9) Thanks [@pseudobun](https://github.com/pseudobun)! - Adds e2e tests for PolygonID authorization and credential offer flow.
+
+- [#509](https://github.com/blockchain-lab-um/masca/pull/509) [`0caf964`](https://github.com/blockchain-lab-um/masca/commit/0caf96495c05236aaf0aabc2b8abe19b09ad1607) Thanks [@pseudobun](https://github.com/pseudobun)! - Updates snap shasum.
+
+- Updated dependencies [[`242fe6d`](https://github.com/blockchain-lab-um/masca/commit/242fe6d2425fd2e9c092c95fa24d79b8dc5b4c15)]:
+  - @blockchain-lab-um/oidc-client-plugin@0.2.0
+
 ## 1.1.0-beta.2
 
 ### Patch Changes
