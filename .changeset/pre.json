@@ -1,0 +1,21 @@
+{
+  "mode": "pre",
+  "tag": "beta",
+  "initialVersions": {
+    "@blockchain-lab-um/oidc-issuer": "0.0.9-beta.0",
+    "@blockchain-lab-um/oidc-verifier": "0.0.8",
+    "@blockchain-lab-um/did-provider-ebsi": "1.2.1",
+    "@blockchain-lab-um/did-provider-key": "1.0.8-beta.0",
+    "@blockchain-lab-um/oidc-client-plugin": "0.2.0",
+    "@blockchain-lab-um/oidc-rp-plugin": "0.0.8",
+    "@blockchain-lab-um/oidc-types": "0.0.8",
+    "@blockchain-lab-um/utils": "1.3.7",
+    "@blockchain-lab-um/masca-connector": "1.2.1",
+    "@blockchain-lab-um/dapp": "1.1.1",
+    "@blockchain-lab-um/veramo-datamanager": "1.0.0",
+    "@blockchain-lab-um/masca-docs": "1.1.0",
+    "@blockchain-lab-um/masca": "1.1.0",
+    "@blockchain-lab-um/masca-types": "1.2.0"
+  },
+  "changesets": []
+}
