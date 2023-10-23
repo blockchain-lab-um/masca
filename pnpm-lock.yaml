@@ -741,7 +741,7 @@ importers:
   packages/dapp:
     dependencies:
       '@blockchain-lab-um/masca-connector':
-        specifier: 1.2.1-beta.0
+        specifier: 1.2.1
         version: link:../connector
       '@blockchain-lab-um/oidc-types':
         specifier: 0.0.8
@@ -990,7 +990,7 @@ importers:
         specifier: 1.2.0
         version: link:../types
       '@blockchain-lab-um/oidc-client-plugin':
-        specifier: 0.2.0-beta.0
+        specifier: 0.2.0
         version: link:../../libs/oidc/client-plugin
       '@blockchain-lab-um/oidc-types':
         specifier: 0.0.8

@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/masca-connector",
-  "version": "1.2.1-beta.0",
+  "version": "1.2.1",
   "description": "Library for using Masca on the frontend",
   "keywords": [
     "MetaMask",
