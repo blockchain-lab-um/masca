@@ -18,6 +18,7 @@
     "@blockchain-lab-um/masca-types": "1.2.0"
   },
   "changesets": [
+    "hungry-crabs-end",
     "late-geckos-retire",
     "modern-grapes-buy",
     "purple-jokes-hunt",
