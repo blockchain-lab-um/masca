@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import {
-  isVerifiableCredential,
+  isW3CCredential,
+  isW3CVerifiableCredential,
   type AvailableCredentialStores,
 } from '@blockchain-lab-um/masca-connector';
 import { Dialog } from '@headlessui/react';
@@ -41,10 +42,9 @@ function ImportModal({ isOpen, setOpen, importVC }: ImportModalProps) {
 
   const validateAndImportCredential = async (): Promise<void> => {
     setLoading(true);
-
-    let vcObj: W3CVerifiableCredential;
+    let vcObj: any;
     try {
-      vcObj = JSON.parse(vc) as W3CVerifiableCredential;
+      vcObj = JSON.parse(vc);
     } catch (err) {
       try {
         vcObj = normalizeCredential(vc) as W3CVerifiableCredential;
@@ -64,7 +64,7 @@ function ImportModal({ isOpen, setOpen, importVC }: ImportModalProps) {
       }
     }
 
-    if (!isVerifiableCredential(vcObj)) {
+    if (!isW3CVerifiableCredential(vcObj) && !isW3CCredential(vcObj)) {
       setTimeout(() => {
         useToastStore.setState({
           open: true,

@@ -99,7 +99,15 @@ const Controlbar = () => {
     });
 
     if (isError(res)) {
-      console.log('error', res);
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: res.error,
+          type: 'error',
+          loading: false,
+          link: null,
+        });
+      }, 200);
       return false;
     }
 
@@ -112,14 +120,27 @@ const Controlbar = () => {
         } as QueryCredentialsRequestResult;
         newVcs.push(finalVC);
       });
-      changeVcs(
-        [...vcs, ...newVcs].map((modifyVC) =>
-          stringifyCredentialSubject(modifyVC)
-        )
-      );
 
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: t('save-success'),
+          type: 'success',
+          loading: false,
+          link: null,
+        });
+      }, 200);
       const queryResult = await api.queryCredentials();
       if (isError(queryResult)) {
+        setTimeout(() => {
+          useToastStore.setState({
+            open: true,
+            title: t('query-error'),
+            type: 'error',
+            loading: false,
+            link: null,
+          });
+        }, 200);
         return false;
       }
 

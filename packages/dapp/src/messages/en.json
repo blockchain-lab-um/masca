@@ -103,7 +103,9 @@
     "query": "Querying credentials",
     "query-error": "Failed to query credentials",
     "query-success": "Successfully queried credentials",
-    "save-error": "Failed to save credential. VC was invalid"
+    "save-error": "Failed to save credential. VC was invalid",
+    "save-error-title": "Failed to save credential",
+    "save-success": "Successfully saved credential"
   },
   "CreateConnectionModal": {
     "desc": " Scan this QR code with your mobile device to create a connection to this page.",
