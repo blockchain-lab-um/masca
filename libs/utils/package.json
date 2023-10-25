@@ -42,7 +42,7 @@
     "secp256k1": "5.0.0"
   },
   "devDependencies": {
-    "@types/elliptic": "^6.4.14",
+    "@types/elliptic": "^6.4.16",
     "@types/secp256k1": "^4.0.5",
     "tsup": "^7.2.0"
   },

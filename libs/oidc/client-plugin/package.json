@@ -43,7 +43,7 @@
     "@sphereon/ssi-types": "^0.11.0",
     "@swc/core": "1.3.52",
     "@swc/jest": "0.2.26",
-    "@types/qs": "^6.9.7",
+    "@types/qs": "^6.9.9",
     "tsup": "^7.2.0"
   },
   "veramo": {

@@ -47,11 +47,11 @@
     "ethers": "^5.7.0",
     "jose": "^4.14.4",
     "multiformats": "^11.0.2",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@types/elliptic": "^6.4.14",
-    "@types/uuid": "^9.0.2",
+    "@types/elliptic": "^6.4.16",
+    "@types/uuid": "^9.0.6",
     "tsup": "^7.2.0"
   },
   "publishConfig": {
