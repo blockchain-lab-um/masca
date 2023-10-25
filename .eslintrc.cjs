@@ -104,5 +104,6 @@ module.exports = {
     'tsup.config.ts',
     'templates',
     'external',
+    '.nx',
   ],
 };
