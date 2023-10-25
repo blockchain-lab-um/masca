@@ -79,41 +79,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
 
-  # OIDC RP Plugin
-  sonarcloud-OIDC-RP-Plugin:
-    name: SonarCloud RP Plugin
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - uses: nrwl/nx-set-shas@v3
-        with:
-          main-branch-name: 'develop'
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8.6.10
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18.16.0
-          cache: pnpm
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-      - name: Test OIDC RP Plugin
-        run: pnpm nx test:ci @blockchain-lab-um/oidc-rp-plugin
-        env:
-          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-      - name: Scan OIDC RP Plugin
-        uses: SonarSource/sonarcloud-github-action@master
-        with:
-          projectBaseDir: libs/oidc/rp-plugin
-          args: >
-            -Dsonar.organization=blockchain-lab-um
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
-
   # Connector
   sonarcloud-connector:
     name: SonarCloud connector
