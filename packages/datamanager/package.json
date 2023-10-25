@@ -26,12 +26,12 @@
     "test:ci": "pnpm run test --silent --coverage"
   },
   "dependencies": {
-    "@types/jsonpath": "^0.2.0",
     "@veramo/core": "5.4.1",
     "jsonpath": "^1.1.1",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@types/jsonpath": "^0.2.2",
     "@types/uuid": "^9.0.2",
     "@vitest/coverage-v8": "1.0.0-beta.2",
     "jest-extended": "^4.0.2",
