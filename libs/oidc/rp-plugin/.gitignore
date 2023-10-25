@@ -1,8 +1,0 @@
-build
-node_modules
-tmp
-database.sqlite
-tsconfig.tsbuildinfo
-.idea/
-tsconfig.build.tsbuildinfo
-dist

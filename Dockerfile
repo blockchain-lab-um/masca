@@ -23,15 +23,8 @@ COPY ./packages/dapp/package.json ./packages/dapp/
 #  LIBS  #
 ##########
 COPY ./libs/utils/package.json ./libs/utils/
-COPY ./libs/oidc/rp-plugin/package.json ./libs/oidc/rp-plugin/
 COPY ./libs/oidc/types/package.json ./libs/oidc/types/
 COPY ./libs/did-provider-key/package.json ./libs/did-provider-key/
-
-##########
-#  APPS  #
-##########
-COPY ./apps/oidc/issuer/package.json ./apps/oidc/issuer/
-COPY ./apps/oidc/verifier/package.json ./apps/oidc/verifier/
 
 # Remove prepare script
 RUN npm pkg delete scripts.prepare
