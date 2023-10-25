@@ -111,7 +111,7 @@
     "esbuild": "0.18.20",
     "jest-extended": "^4.0.2",
     "jose": "^4.15.3",
-    "vite": "^4.4.10",
+    "vite": "^4.5.0",
     "vite-tsconfig-paths": "^4.2.1",
     "vitest": "1.0.0-beta.2"
   },
