@@ -33,11 +33,11 @@
   },
   "devDependencies": {
     "@types/uuid": "^9.0.2",
-    "@vitest/coverage-v8": "1.0.0-beta.1",
+    "@vitest/coverage-v8": "1.0.0-beta.2",
     "jest-extended": "^4.0.2",
     "vite": "^4.4.10",
     "vite-tsconfig-paths": "^4.2.1",
-    "vitest": "1.0.0-beta.1"
+    "vitest": "1.0.0-beta.2"
   },
   "publishConfig": {
     "access": "public"
