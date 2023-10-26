@@ -1,9 +1,9 @@
 // import fs from 'fs';
 
 // Shared tests
-import myPluginLogic, { ConfiguredAgent } from './shared/integration.js';
+import { describe } from 'vitest';
 
-jest.setTimeout(30000);
+import myPluginLogic, { ConfiguredAgent } from './shared/integration.js';
 
 // let dbConnection: any;
 let agent: ConfiguredAgent;

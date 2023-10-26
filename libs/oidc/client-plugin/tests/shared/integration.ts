@@ -1,4 +1,5 @@
 import { TAgent } from '@veramo/core';
+import { afterAll, beforeAll, describe, it } from 'vitest';
 
 import { IOIDCClientPlugin } from '../../src/types/IOIDCClientPlugin.js';
 
@@ -20,6 +21,8 @@ export default (testContext: {
 
     it.todo('Tests');
 
-    afterAll(testContext.tearDown);
+    afterAll(async () => {
+      await testContext.tearDown();
+    });
   });
 };
