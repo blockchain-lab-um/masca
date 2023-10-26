@@ -23,7 +23,7 @@
     "lint:prettier": "prettier . --check",
     "prepack": "pnpm build",
     "test": "pnpm cross-env NODE_NO_WARNINGS=1 vitest",
-    "test:ci": "pnpm run test --silent --coverage"
+    "test:ci": "pnpm run test"
   },
   "dependencies": {
     "@veramo/core": "5.4.1",
