@@ -96,7 +96,8 @@
       "cross-fetch@3.1.8": "patches/cross-fetch@3.1.8.patch",
       "cross-fetch@4.0.0": "patches/cross-fetch@4.0.0.patch",
       "@ceramicnetwork/common@2.30.0": "patches/@ceramicnetwork__common@2.30.0.patch",
-      "@changesets/assemble-release-plan@5.2.4": "patches/@changesets__assemble-release-plan@5.2.4.patch"
+      "@changesets/assemble-release-plan@5.2.4": "patches/@changesets__assemble-release-plan@5.2.4.patch",
+      "@metamask/snaps-utils@3.1.0": "patches/@metamask__snaps-utils@3.1.0.patch"
     },
     "allowNonAppliedPatches": true
   }
