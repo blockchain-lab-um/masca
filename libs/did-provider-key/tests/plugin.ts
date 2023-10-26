@@ -73,7 +73,7 @@ export default (testContext: {
             kid: 'ee3702c6af9f456fab737ec4c6708fbcaa6d3d9c1d1cc0f5b0f35b6678cff19c',
             kms: 'local',
             meta: {
-              algorithms: ['Ed25519', 'EdDSA'],
+              algorithms: ['EdDSA', 'Ed25519'],
             },
             publicKeyHex:
               'ee3702c6af9f456fab737ec4c6708fbcaa6d3d9c1d1cc0f5b0f35b6678cff19c',
