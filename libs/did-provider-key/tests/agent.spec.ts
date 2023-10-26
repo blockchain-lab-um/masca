@@ -24,11 +24,10 @@ import { KeyManager } from '@veramo/key-manager';
 import { KeyManagementSystem, SecretBox } from '@veramo/kms-local';
 import { Resolver } from 'did-resolver';
 import { DataSource, type DataSourceOptions } from 'typeorm';
+import { describe } from 'vitest';
 
 import { getDidKeyResolver, KeyDIDProvider } from '../src/index.js';
 import plugin from './plugin';
-
-jest.setTimeout(60000);
 
 const KMS_SECRET_KEY =
   '29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c';

@@ -1,4 +1,5 @@
 import type { IDIDManager, IKeyManager, TAgent } from '@veramo/core-types';
+import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 type ConfiguredAgent = TAgent<IDIDManager & IKeyManager>;
 
@@ -16,7 +17,9 @@ export default (testContext: {
       agent = testContext.getAgent();
     });
 
-    afterAll(testContext.tearDown);
+    afterAll(async () => {
+      await testContext.tearDown();
+    });
 
     it.each(keytypes)(
       'should create did:key identifier with key type %s, without private key import',
