@@ -35,7 +35,6 @@ const DEPENDENCIES = {
   '@blockchain-lab-um/masca-types': ['@blockchain-lab-um/utils'],
   '@blockchain-lab-um/veramo-datamanager': ['@blockchain-lab-um/masca-types'],
   // OIDC
-  '@blockchain-lab-um/oidc-rp-plugin': ['@blockchain-lab-um/oidc-types'],
   '@blockchain-lab-um/oidc-client-plugin': ['@blockchain-lab-um/oidc-types'],
   '@blockchain-lab-um/oidc-types': [],
   // Other
