@@ -1,11 +1,23 @@
 const fs = require('fs');
 const pathUtils = require('path');
 
+const { postProcessBundle } = require('@metamask/snaps-utils');
+
 console.log('Post-processing bundle');
 
 const bundlePath = pathUtils.join('dist', 'snap.js');
 
 let bundleString = fs.readFileSync(bundlePath, 'utf8');
+
+console.log('[Start]: MetaMask Snaps transform');
+
+bundleString = postProcessBundle(bundleString, {
+  stripComments: true,
+}).code;
+
+console.log('[End]: MetaMask Snaps transform');
+
+console.log('[Start]: Custom transform');
 
 // Alias `window` as `self`
 bundleString = 'var self = window;\n'.concat(bundleString);
@@ -36,6 +48,8 @@ bundleString = bundleString.replaceAll(
 // [Polygon ID] Remove fs
 bundleString = bundleString.replaceAll('fs2.readFileSync;', 'null;');
 bundleString = bundleString.replaceAll('fs3.readFileSync;', 'null;');
+
+console.log('[End]: Custom transform');
 
 fs.writeFileSync(bundlePath, bundleString);
 

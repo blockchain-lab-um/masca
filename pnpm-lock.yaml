@@ -1008,13 +1008,13 @@ importers:
         specifier: 0.3.2
         version: 0.3.2
       '@iden3/js-iden3-core':
-        specifier: ^1.0.1
+        specifier: 1.0.1
         version: 1.0.1
       '@iden3/js-jwz':
-        specifier: ^1.0.1
+        specifier: 1.0.1
         version: 1.0.1
       '@iden3/js-merkletree':
-        specifier: ^1.0.0
+        specifier: 1.0.0
         version: 1.0.0
       '@metamask/key-tree':
         specifier: ^9.0.0
@@ -1028,6 +1028,9 @@ importers:
       '@metamask/snaps-ui':
         specifier: 3.0.1
         version: 3.0.1
+      '@metamask/snaps-utils':
+        specifier: ^3.1.0
+        version: 3.1.0(@metamask/approval-controller@4.0.1)
       '@metamask/utils':
         specifier: ^8.2.0
         version: 8.2.0
@@ -2697,7 +2700,7 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
-      '@babel/compat-data': 7.22.20
+      '@babel/compat-data': 7.23.2
       '@babel/core': 7.23.2
       '@babel/helper-compilation-targets': 7.22.15
       '@babel/helper-plugin-utils': 7.22.5
@@ -12855,7 +12858,7 @@ packages:
     peerDependencies:
       '@babel/core': ^7.4.0 || ^8.0.0-0 <8.0.0
     dependencies:
-      '@babel/compat-data': 7.22.20
+      '@babel/compat-data': 7.23.2
       '@babel/core': 7.23.2
       '@babel/helper-define-polyfill-provider': 0.4.2(@babel/core@7.23.2)
       semver: 6.3.1
@@ -13740,7 +13743,7 @@ packages:
     resolution: {integrity: sha512-bsTwuIg/BZZK/vreVTYYbSWoe2F+71P7K5QGEX+pT250DZbfU1MQ5prOKpPR+LL6uWKK3KMwMCAS74QB3Um1uw==}
     dependencies:
       browserslist: 4.22.1
-      caniuse-lite: 1.0.30001538
+      caniuse-lite: 1.0.30001550
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
 
