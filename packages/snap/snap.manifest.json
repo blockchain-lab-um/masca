@@ -15,7 +15,18 @@
         "registry": "https://registry.npmjs.org"
       }
     },
-    "shasum": "fCbUOKryvHIR3nncgtBZXua6hmuBZV4pldMzYqGhEz0="
+    "files": [
+      "./files/circuits/authV2/circuit.wasm",
+      "./files/circuits/authV2/circuit_final.zkey",
+      "./files/circuits/authV2/verification_key.json",
+      "./files/circuits/credentialAtomicQueryMTPV2/circuit.wasm",
+      "./files/circuits/credentialAtomicQueryMTPV2/circuit_final.zkey",
+      "./files/circuits/credentialAtomicQueryMTPV2/verification_key.json",
+      "./files/circuits/credentialAtomicQuerySigV2/circuit.wasm",
+      "./files/circuits/credentialAtomicQuerySigV2/circuit_final.zkey",
+      "./files/circuits/credentialAtomicQuerySigV2/verification_key.json"
+    ],
+    "shasum": "WrcOIqhs7v+MHWYLLMFdfP++hgpi1zqv53PlmH5mL8U="
   },
   "initialPermissions": {
     "endowment:ethereum-provider": {},

@@ -1,0 +1,17 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+deleted file mode 100644
+index 245389ef8b6e6415b3709b7bbd1e72c382e9f696..0000000000000000000000000000000000000000
+diff --git a/package.json b/package.json
+index f88ffbc8fe81579b9f109c58dbc76b5c30f13d59..ed53a4257a9ec5c4440e12cbc0399d4a7f942b3b 100644
+--- a/package.json
++++ b/package.json
+@@ -13,7 +13,8 @@
+         "require": "./dist/cjs/index.browser.js"
+       },
+       "import": "./dist/esm/index.js",
+-      "require": "./dist/cjs/index.js"
++      "require": "./dist/cjs/index.js",
++      "types": "./dist/types/index.d.ts"
+     },
+     "./test-utils": {
+       "import": "./dist/esm/test-utils/index.js",
