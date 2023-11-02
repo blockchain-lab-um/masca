@@ -1,3 +1,4 @@
+import { readFile } from 'fs/promises';
 import type { MascaState } from '@blockchain-lab-um/masca-types';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import type { RequestArguments } from '@metamask/providers/dist/BaseProvider';
@@ -99,6 +100,26 @@ export class SnapMock implements ISnapMock {
       .fn()
       .mockImplementation(async (data: unknown) =>
         this.snapEthLogs(data as any[])
+      ),
+    snap_getFile: vi
+      .fn()
+      .mockImplementation(
+        async (params: {
+          path: string;
+          encoding?: 'base64' | 'utf8' | 'hex';
+        }) => {
+          // Use root of the project as base path
+          const projectRoot = import.meta.url.split('/').slice(2, -3).join('/');
+          const filePath = `${projectRoot}/${params.path.slice(2)}`;
+
+          const value = await readFile(filePath);
+
+          if (params.encoding === 'hex') {
+            return value.toString('hex');
+          }
+
+          return value.toString('utf8');
+        }
       ),
   };
 
