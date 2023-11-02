@@ -34,7 +34,7 @@ export default defineConfig({
       enabled: true,
       provider: 'v8',
       clean: true,
-      reporter: ['clover'],
+      reporter: ['lcov'],
       include: ['src/**/*.ts'],
     },
   },
