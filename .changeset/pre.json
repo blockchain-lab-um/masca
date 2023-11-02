@@ -14,5 +14,7 @@
     "@blockchain-lab-um/masca": "1.1.0",
     "@blockchain-lab-um/masca-types": "1.2.0"
   },
-  "changesets": []
+  "changesets": [
+    "thin-donkeys-grin"
+  ]
 }
