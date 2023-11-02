@@ -2,7 +2,7 @@
 
 Masca Connector is used to install Masca and expose API toward snap on dapps and other applications.
 
-For more details on Masca itself see [Masca repo](https://github.com/blockchain-lab-um/masca) or read [Masca documentation](https://www.docs.masca.io/getting-started).
+For more details on Masca itself see [Masca repo](https://github.com/blockchain-lab-um/masca) or read [Masca documentation](https://docs.masca.io/getting-started).
 
 ## License
 
