@@ -23,10 +23,10 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8.6.10
+          version: 8.9.2
       - uses: actions/setup-node@v3
         with:
-          node-version: 18.16.0
+          node-version: 18.18.2
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -58,10 +58,10 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8.6.10
+          version: 8.9.2
       - uses: actions/setup-node@v3
         with:
-          node-version: 18.16.0
+          node-version: 18.18.2
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -147,10 +147,10 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8.6.10
+          version: 8.9.2
       - uses: actions/setup-node@v3
         with:
-          node-version: 18.16.0
+          node-version: 18.18.2
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile

@@ -33,30 +33,33 @@
     "lint:eslint": "eslint .",
     "lint:fix": "eslint . --fix && prettier . --write",
     "lint:prettier": "prettier . --check",
-    "test": "pnpm jest tests/agent.spec.ts",
-    "test:ci": "pnpm run test --silent --coverage"
+    "test": "pnpm cross-env NODE_NO_WARNINGS=1 vitest",
+    "test:ci": "pnpm run test"
   },
   "dependencies": {
     "@blockchain-lab-um/utils": "1.3.7",
     "@cef-ebsi/key-did-resolver": "^1.1.0",
     "@stablelib/ed25519": "^1.0.3",
-    "@veramo/core": "5.4.1",
-    "@veramo/did-manager": "5.4.1",
+    "@veramo/core": "5.5.3",
+    "@veramo/did-manager": "5.5.3",
     "did-resolver": "4.1.0"
   },
   "devDependencies": {
-    "@swc/core": "1.3.52",
-    "@swc/jest": "0.2.26",
-    "@veramo/core-types": "5.4.1",
-    "@veramo/credential-w3c": "5.4.1",
-    "@veramo/data-store": "5.4.1",
-    "@veramo/did-resolver": "5.4.1",
-    "@veramo/key-manager": "5.4.1",
-    "@veramo/kms-local": "5.4.1",
-    "better-sqlite3": "^8.5.0",
-    "multiformats": "^11.0.2",
+    "@veramo/core-types": "5.5.3",
+    "@veramo/credential-w3c": "5.5.3",
+    "@veramo/data-store": "5.5.3",
+    "@veramo/did-resolver": "5.5.3",
+    "@veramo/key-manager": "5.5.3",
+    "@veramo/kms-local": "5.5.3",
+    "@vitest/coverage-v8": "1.0.0-beta.2",
+    "better-sqlite3": "^9.0.0",
+    "jest-extended": "4.0.2",
+    "multiformats": "^12.1.3",
     "tsup": "^7.2.0",
-    "typeorm": "^0.3.17"
+    "typeorm": "^0.3.17",
+    "vite": "^4.5.0",
+    "vite-tsconfig-paths": "^4.2.1",
+    "vitest": "1.0.0-beta.2"
   },
   "publishConfig": {
     "access": "public"

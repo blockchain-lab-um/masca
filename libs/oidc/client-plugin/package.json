@@ -24,27 +24,29 @@
     "lint:prettier": "prettier . --write",
     "lint:tsc": "tsc --noEmit",
     "start": "veramo server",
-    "test": "jest",
-    "test:ci": "jest --coverage --silent",
-    "test:watch": "pnpm run test --watch --verbose"
+    "test": "pnpm cross-env NODE_NO_WARNINGS=1 vitest",
+    "test:ci": "pnpm run test"
   },
   "dependencies": {
     "@blockchain-lab-um/oidc-types": "0.0.8",
     "@blockchain-lab-um/utils": "1.3.7",
     "@sphereon/pex": "^2.0.1",
-    "@veramo/core": "5.4.1",
-    "@veramo/utils": "5.4.1",
+    "@veramo/core": "5.5.3",
+    "@veramo/utils": "5.5.3",
     "cross-fetch": "^4.0.0",
     "ethereum-cryptography": "^2.1.2",
-    "jose": "^4.14.4",
+    "jose": "^4.15.4",
     "qs": "^6.11.2"
   },
   "devDependencies": {
     "@sphereon/ssi-types": "^0.11.0",
-    "@swc/core": "1.3.52",
-    "@swc/jest": "0.2.26",
-    "@types/qs": "^6.9.7",
-    "tsup": "^7.2.0"
+    "@types/qs": "^6.9.9",
+    "@vitest/coverage-v8": "1.0.0-beta.2",
+    "jest-extended": "4.0.2",
+    "tsup": "^7.2.0",
+    "vite": "^4.5.0",
+    "vite-tsconfig-paths": "^4.2.1",
+    "vitest": "1.0.0-beta.2"
   },
   "veramo": {
     "pluginInterfaces": {

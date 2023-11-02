@@ -12,8 +12,8 @@ jobs:
     secrets:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     with:
-      pnpm-version: 8.6.10
-      node-version: 18.16.0
+      pnpm-version: 8.9.2
+      node-version: 18.18.2
       number-of-agents: 2
       main-branch-name: 'develop'
       parallel-commands-on-agents: |
@@ -26,5 +26,5 @@ jobs:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     with:
       number-of-agents: 2
-      pnpm-version: 8.6.10
-      node-version: 18.16.0
+      pnpm-version: 8.9.2
+      node-version: 18.18.2
