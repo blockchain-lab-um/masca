@@ -759,8 +759,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
       '@metamask/providers':
-        specifier: ^10.2.0
-        version: 10.2.0
+        specifier: 13.1.0
+        version: 13.1.0
       '@prisma/client':
         specifier: ^5.3.1
         version: 5.3.1(prisma@5.3.1)
@@ -7924,15 +7924,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /@metamask/object-multiplex@1.2.0:
-    resolution: {integrity: sha512-hksV602d3NWE2Q30Mf2Np1WfVKaGqfJRy9vpHAmelbaD0OkDt06/0KQkRR6UVYdMbTbkuEu8xN5JDUU80inGwQ==}
-    engines: {node: '>=12.0.0'}
-    dependencies:
-      end-of-stream: 1.4.4
-      once: 1.4.0
-      readable-stream: 2.3.8
-    dev: false
-
   /@metamask/object-multiplex@1.3.0:
     resolution: {integrity: sha512-czcQeVYdSNtabd+NcYQnrM69MciiJyd1qvKH8WM2Id3C0ZiUUX5Xa/MK+/VUk633DBhVOwdNzAKIQ33lGyA+eQ==}
     engines: {node: '>=12.0.0'}
@@ -7960,24 +7951,6 @@ packages:
       nanoid: 3.3.6
     transitivePeerDependencies:
       - supports-color
-
-  /@metamask/providers@10.2.0:
-    resolution: {integrity: sha512-qO3cOZZr/YJ8LLOqhR+51GGBiRknalfV/na7hwXyqZ1R/uxeLeNdqCyg+g8l3Z8JcLoEiaKGNJOEV3FFyLw8mQ==}
-    engines: {node: '>=14.0.0'}
-    dependencies:
-      '@metamask/object-multiplex': 1.2.0
-      '@metamask/safe-event-emitter': 2.0.0
-      '@types/chrome': 0.0.136
-      detect-browser: 5.3.0
-      eth-rpc-errors: 4.0.3
-      extension-port-stream: 2.1.1
-      fast-deep-equal: 2.0.1
-      is-stream: 2.0.1
-      json-rpc-engine: 6.1.0
-      json-rpc-middleware-stream: 4.2.2
-      pump: 3.0.0
-      webextension-polyfill-ts: 0.25.0
-    dev: false
 
   /@metamask/providers@13.1.0:
     resolution: {integrity: sha512-/2Ti81CwZ/9LLpAm9Law+7z1PYbR3EiNXNKCbkppOfxxR1MbC2ps8/GFTjk7UHEMhAVG4k9ziGW8mMsutNVxmA==}
@@ -10675,13 +10648,6 @@ packages:
     dependencies:
       '@types/node': 20.8.2
 
-  /@types/chrome@0.0.136:
-    resolution: {integrity: sha512-XDEiRhLkMd+SB7Iw3ZUIj/fov3wLd4HyTdLltVszkgl1dBfc3Rb7oPMVZ2Mz2TLqnF7Ow+StbR8E7r9lqpb4DA==}
-    dependencies:
-      '@types/filesystem': 0.0.32
-      '@types/har-format': 1.2.11
-    dev: false
-
   /@types/connect-history-api-fallback@1.5.0:
     resolution: {integrity: sha512-4x5FkPpLipqwthjPsF7ZRbOv3uoLUFkTA9G9v583qi4pACvq0uTELrB8OLUzPWUI4IJIyvM85vzkV1nyiI2Lig==}
     dependencies:
@@ -10772,25 +10738,11 @@ packages:
     resolution: {integrity: sha512-zv9kNf3keYegP5oThGLaPk8E081DFDuwfqjtiTzm6PoxChdJ1raSuADf2YGCVIyrSynLrgc8JWv296s7Q7pQSQ==}
     dev: true
 
-  /@types/filesystem@0.0.32:
-    resolution: {integrity: sha512-Yuf4jR5YYMR2DVgwuCiP11s0xuVRyPKmz8vo6HBY3CGdeMj8af93CFZX+T82+VD1+UqHOxTq31lO7MI7lepBtQ==}
-    dependencies:
-      '@types/filewriter': 0.0.29
-    dev: false
-
-  /@types/filewriter@0.0.29:
-    resolution: {integrity: sha512-BsPXH/irW0ht0Ji6iw/jJaK8Lj3FJemon2gvEqHKpCdDCeemHa+rI3WBGq5z7cDMZgoLjY40oninGxqk+8NzNQ==}
-    dev: false
-
   /@types/graceful-fs@4.1.6:
     resolution: {integrity: sha512-Sig0SNORX9fdW+bQuTEovKj3uHcUL6LQKbCrrqb1X7J6/ReAbhCXRAhc+SMejhLELFj2QcyuxmUooZ4bt5ReSw==}
     dependencies:
       '@types/node': 20.8.2
     dev: true
-
-  /@types/har-format@1.2.11:
-    resolution: {integrity: sha512-T232/TneofqK30AD1LRrrf8KnjLvzrjWDp7eWST5KoiSzrBfRsLrWDPk4STQPW4NZG6v2MltnduBVmakbZOBIQ==}
-    dev: false
 
   /@types/hast@2.3.5:
     resolution: {integrity: sha512-SvQi0L/lNpThgPoleH53cdjB3y9zpLlVjRbqB3rH8hx1jiRSBGAhyjV3H+URFjNVRqt2EdYNrbZE5IsGlNfpRg==}
@@ -17097,10 +17049,6 @@ packages:
     resolution: {integrity: sha512-WKgKWg5eUxvRZGwW8FvfbaH7AXSh2cL+3j5fMGzUMCxWBJ3dV3a7Wz8y2f/uQ0e3B6WmodD3oS54jTQ9HVTIIg==}
     dev: false
 
-  /fast-deep-equal@2.0.1:
-    resolution: {integrity: sha512-bCK/2Z4zLidyB4ReuIsvALH6w31YfAQDmXMqMx6FyfHqvBxtjC0eRumeSu4Bs3XtXwpyIywtSTrVT99BxY1f9w==}
-    dev: false
-
   /fast-deep-equal@3.1.3:
     resolution: {integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==}
 
@@ -20310,14 +20258,6 @@ packages:
     dependencies:
       '@metamask/safe-event-emitter': 2.0.0
       eth-rpc-errors: 4.0.3
-    dev: false
-
-  /json-rpc-middleware-stream@4.2.2:
-    resolution: {integrity: sha512-tmTQCI/R8wKMTWB50xlzkyh90JR5VuKiDVlWlmG7DjeKfdDtbLL/4vYCRlG5HnSSKkhrkVPI0TrHQz1Dethl7A==}
-    engines: {node: '>=14.0.0'}
-    dependencies:
-      '@metamask/safe-event-emitter': 3.0.0
-      readable-stream: 2.3.8
     dev: false
 
   /json-rpc-middleware-stream@4.2.3:
@@ -28648,19 +28588,8 @@ packages:
   /webcrypto-shim@0.1.7:
     resolution: {integrity: sha512-JAvAQR5mRNRxZW2jKigWMjCMkjSdmP5cColRP1U/pTg69VgHXEi1orv5vVpJ55Zc5MIaPc1aaurzd9pjv2bveg==}
 
-  /webextension-polyfill-ts@0.25.0:
-    resolution: {integrity: sha512-ikQhwwHYkpBu00pFaUzIKY26I6L87DeRI+Q6jBT1daZUNuu8dSrg5U9l/ZbqdaQ1M/TTSPKeAa3kolP5liuedw==}
-    deprecated: This project has moved to @types/webextension-polyfill
-    dependencies:
-      webextension-polyfill: 0.7.0
-    dev: false
-
   /webextension-polyfill@0.10.0:
     resolution: {integrity: sha512-c5s35LgVa5tFaHhrZDnr3FpQpjj1BB+RXhLTYUxGqBVN460HkbM8TBtEqdXWbpTKfzwCcjAZVF7zXCYSKtcp9g==}
-    dev: false
-
-  /webextension-polyfill@0.7.0:
-    resolution: {integrity: sha512-su48BkMLxqzTTvPSE1eWxKToPS2Tv5DLGxKexLEVpwFd6Po6N8hhSLIvG6acPAg7qERoEaDL+Y5HQJeJeml5Aw==}
     dev: false
 
   /webidl-conversions@3.0.1:
