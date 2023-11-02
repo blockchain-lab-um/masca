@@ -7,10 +7,6 @@ import {
   InMemoryDataSource,
 } from '@0xpolygonid/js-sdk';
 
-import AUTH_VERIFICATION_KEY from './circuits/authV2/verification_key.json';
-import MTP_VERIFICATION_KEY from './circuits/credentialAtomicQueryMTPV2/verification_key.json';
-import SIG_VERIFICATION_KEY from './circuits/credentialAtomicQuerySigV2/verification_key.json';
-
 export interface B64File {
   b64: string;
 }
@@ -29,42 +25,66 @@ class CircuitStorageService {
       const sigWasm = await snap.request({
         method: 'snap_getFile',
         params: {
-          path: './src/polygon-id/circuits/credentialAtomicQuerySigV2/circuit.wasm',
+          path: './files/circuits/credentialAtomicQuerySigV2/circuit.wasm',
         },
       });
 
       const sigZKey = await snap.request({
         method: 'snap_getFile',
         params: {
-          path: './src/polygon-id/circuits/credentialAtomicQuerySigV2/circuit_final.zkey',
+          path: './files/circuits/credentialAtomicQuerySigV2/circuit_final.zkey',
+        },
+      });
+
+      const sigVerificationKey = await snap.request({
+        method: 'snap_getFile',
+        params: {
+          path: './files/circuits/credentialAtomicQuerySigV2/verification_key.json',
+          encoding: 'utf8',
         },
       });
 
       const authWasm = await snap.request({
         method: 'snap_getFile',
         params: {
-          path: './src/polygon-id/circuits/authV2/circuit.wasm',
+          path: './files/circuits/authV2/circuit.wasm',
         },
       });
 
       const authZKey = await snap.request({
         method: 'snap_getFile',
         params: {
-          path: './src/polygon-id/circuits/authV2/circuit_final.zkey',
+          path: './files/circuits/authV2/circuit_final.zkey',
+        },
+      });
+
+      const authVerificationKey = await snap.request({
+        method: 'snap_getFile',
+        params: {
+          path: './files/circuits/authV2/verification_key.json',
+          encoding: 'utf8',
         },
       });
 
       const mtpWasm = await snap.request({
         method: 'snap_getFile',
         params: {
-          path: './src/polygon-id/circuits/credentialAtomicQueryMTPV2/circuit.wasm',
+          path: './files/circuits/credentialAtomicQueryMTPV2/circuit.wasm',
         },
       });
 
       const mtpZKey = await snap.request({
         method: 'snap_getFile',
         params: {
-          path: './src/polygon-id/circuits/credentialAtomicQueryMTPV2/circuit_final.zkey',
+          path: './files/circuits/credentialAtomicQueryMTPV2/circuit_final.zkey',
+        },
+      });
+
+      const mtpVerificationKey = await snap.request({
+        method: 'snap_getFile',
+        params: {
+          path: './files/circuits/credentialAtomicQueryMTPV2/verification_key.json',
+          encoding: 'utf8',
         },
       });
 
@@ -72,9 +92,7 @@ class CircuitStorageService {
         circuitId: 'credentialAtomicQuerySigV2',
         wasm: base64ToBytes(sigWasm),
         provingKey: base64ToBytes(sigZKey),
-        verificationKey: byteEncoder.encode(
-          JSON.stringify(SIG_VERIFICATION_KEY)
-        ),
+        verificationKey: byteEncoder.encode(sigVerificationKey),
       });
 
       await this.instance.saveCircuitData(CircuitId.AuthV2, {
@@ -82,7 +100,7 @@ class CircuitStorageService {
         wasm: base64ToBytes(authWasm),
         provingKey: base64ToBytes(authZKey),
         verificationKey: byteEncoder.encode(
-          JSON.stringify(AUTH_VERIFICATION_KEY)
+          JSON.stringify(authVerificationKey)
         ),
       });
 
@@ -90,9 +108,7 @@ class CircuitStorageService {
         circuitId: 'credentialAtomicQueryMTPV2',
         wasm: base64ToBytes(mtpWasm),
         provingKey: base64ToBytes(mtpZKey),
-        verificationKey: byteEncoder.encode(
-          JSON.stringify(MTP_VERIFICATION_KEY)
-        ),
+        verificationKey: byteEncoder.encode(JSON.stringify(mtpVerificationKey)),
       });
     }
   }

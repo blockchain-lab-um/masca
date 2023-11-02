@@ -43,6 +43,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
 
     return response;
   } catch (e) {
+    console.error(e);
     // TODO (martin, urban): Check for any and unknown errors
     return ResultObject.error((e as Error).toString());
   }
