@@ -35,15 +35,15 @@
     "lint:prettier": "prettier . --check"
   },
   "dependencies": {
-    "@veramo/utils": "5.4.1",
+    "@veramo/utils": "5.5.3",
     "did-resolver": "4.1.0",
     "elliptic": "^6.5.4",
-    "multiformats": "11.0.2",
+    "multiformats": "12.1.3",
     "secp256k1": "5.0.0"
   },
   "devDependencies": {
-    "@types/elliptic": "^6.4.14",
-    "@types/secp256k1": "^4.0.3",
+    "@types/elliptic": "^6.4.16",
+    "@types/secp256k1": "^4.0.5",
     "tsup": "^7.2.0"
   },
   "publishConfig": {

@@ -669,9 +669,8 @@ class VeramoService {
 
     credentialRequest.proof = proofOfPossessionResult.data;
 
-    const credentialRequestResult = await agent.sendCredentialRequest(
-      credentialRequest
-    );
+    const credentialRequestResult =
+      await agent.sendCredentialRequest(credentialRequest);
 
     if (isError(credentialRequestResult)) {
       throw new Error(credentialRequestResult.error);

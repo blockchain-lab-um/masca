@@ -7,7 +7,6 @@ const ALL_PACKAGES = [
   '@blockchain-lab-um/masca-types',
   '@blockchain-lab-um/veramo-datamanager',
   // OIDC
-  '@blockchain-lab-um/oidc-rp-plugin',
   '@blockchain-lab-um/oidc-client-plugin',
   '@blockchain-lab-um/oidc-types',
   // Other
@@ -15,8 +14,6 @@ const ALL_PACKAGES = [
   '@blockchain-lab-um/did-provider-key',
   '@blockchain-lab-um/did-provider-ebsi',
   // Private (not published)
-  '@blockchain-lab-um/oidc-verifier',
-  '@blockchain-lab-um/oidc-issuer',
   '@blockchain-lab-um/dapp',
 ];
 
@@ -38,7 +35,6 @@ const DEPENDENCIES = {
   '@blockchain-lab-um/masca-types': ['@blockchain-lab-um/utils'],
   '@blockchain-lab-um/veramo-datamanager': ['@blockchain-lab-um/masca-types'],
   // OIDC
-  '@blockchain-lab-um/oidc-rp-plugin': ['@blockchain-lab-um/oidc-types'],
   '@blockchain-lab-um/oidc-client-plugin': ['@blockchain-lab-um/oidc-types'],
   '@blockchain-lab-um/oidc-types': [],
   // Other
@@ -49,16 +45,6 @@ const DEPENDENCIES = {
   ],
   '@blockchain-lab-um/did-provider-ebsi': [],
   // Private (not published)
-  '@blockchain-lab-um/oidc-verifier': [
-    '@blockchain-lab-um/oidc-types',
-    '@blockchain-lab-um/oidc-rp-plugin',
-  ],
-  '@blockchain-lab-um/oidc-issuer': [
-    '@blockchain-lab-um/oidc-types',
-    '@blockchain-lab-um/oidc-rp-plugin',
-    '@blockchain-lab-um/did-provider-key',
-    '@blockchain-lab-um/utils',
-  ],
   '@blockchain-lab-um/dapp': [
     '@blockchain-lab-um/masca-connector',
     '@blockchain-lab-um/oidc-types',

@@ -1,5 +1,0 @@
-{
-  "compilerOptions": { "incremental": false },
-  "extends": "./tsconfig.json",
-  "exclude": ["tests/**/*"]
-}

@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.1
+
+### Patch Changes
+
+- [#504](https://github.com/blockchain-lab-um/masca/pull/504) [`54efbd0`](https://github.com/blockchain-lab-um/masca/commit/54efbd0f7777a172e879228a6da134c6cc0b3b33) Thanks [@pseudobun](https://github.com/pseudobun)! - Adds build for UMD.
+
 ## 1.2.1-beta.0
 
 ### Patch Changes

@@ -1,9 +1,9 @@
-FROM node:18.16.0-alpine3.16
+FROM node:18.18.2-alpine3.16
 
 WORKDIR /app
 
 # Install pnpm
-RUN npm i -g pnpm@8.6.10
+RUN npm i -g pnpm@8.9.2
 
 # Copy patches
 COPY ./patches ./patches
@@ -23,15 +23,8 @@ COPY ./packages/dapp/package.json ./packages/dapp/
 #  LIBS  #
 ##########
 COPY ./libs/utils/package.json ./libs/utils/
-COPY ./libs/oidc/rp-plugin/package.json ./libs/oidc/rp-plugin/
 COPY ./libs/oidc/types/package.json ./libs/oidc/types/
 COPY ./libs/did-provider-key/package.json ./libs/did-provider-key/
-
-##########
-#  APPS  #
-##########
-COPY ./apps/oidc/issuer/package.json ./apps/oidc/issuer/
-COPY ./apps/oidc/verifier/package.json ./apps/oidc/verifier/
 
 # Remove prepare script
 RUN npm pkg delete scripts.prepare

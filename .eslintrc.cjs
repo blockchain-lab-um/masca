@@ -18,11 +18,8 @@ module.exports = {
         '**/*.spec.ts',
       ],
       rules: {
-        'jest/prefer-expect-assertions': 'off',
-        'jest/no-conditional-expect': 'off',
         '@typescript-eslint/no-unsafe-member-access': 'off',
         '@typescript-eslint/no-unsafe-assignment': 'off',
-        'jest/no-export': 'off',
       },
     },
   ],
@@ -107,5 +104,6 @@ module.exports = {
     'tsup.config.ts',
     'templates',
     'external',
+    '.nx',
   ],
 };
