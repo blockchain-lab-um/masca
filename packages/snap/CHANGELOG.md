@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.0-beta.0
+
+### Minor Changes
+
+- [#516](https://github.com/blockchain-lab-um/masca/pull/516) [`8b03b51`](https://github.com/blockchain-lab-um/masca/commit/8b03b510715b9d0e8203583444b458e61e2f19bf) Thanks [@martines3000](https://github.com/martines3000)! - Use new `snap_getFile` API for loading circuits
+
 ## 1.1.0
 
 ### Minor Changes
