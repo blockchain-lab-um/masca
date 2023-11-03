@@ -1,7 +1,7 @@
 {
+  "nxCloudAccessToken": "YTE2NjY0MjMtODNhNS00ZmYyLWJmNTktYTc0Y2NlODBmMjQxfHJlYWQ=",
   "tasksRunnerOptions": {
     "default": {
-      "runner": "nx-cloud",
       "options": {
         "cacheableOperations": ["build", "test", "lint", "test:ci", "test:cron"]
       }
