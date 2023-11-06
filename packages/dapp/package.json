@@ -8,7 +8,7 @@
     "build": "rimraf .next && next build",
     "postbuild": "next-sitemap --config=next-sitemap.config.js",
     "build:docker": "pnpm build",
-    "dev": "cross-env USE_LOCAL='true' next dev",
+    "dev": "cross-env USE_LOCAL='false' next dev",
     "docker:build": "docker build . -t blockchain-lab-um/dapp:latest",
     "postinstall": "pnpm prisma generate --schema=./prisma/schema.prisma",
     "lint": "pnpm lint:next && pnpm lint:tsc && pnpm lint:prettier && pnpm lint:stylelint",
