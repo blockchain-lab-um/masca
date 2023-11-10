@@ -20,6 +20,27 @@ export const includesDataStore: FilterFn<any> = (
   return matching;
 };
 
+export const includesType: FilterFn<any> = (
+  row,
+  _: string,
+  value: string[]
+) => {
+  const item = row.original.data.type;
+  let matching = false;
+
+  for (const val of value) {
+    if (typeof item === 'string' && item === val) {
+      matching = true;
+      break;
+    } else if (Array.isArray(item) && item.indexOf(val) >= 0) {
+      matching = true;
+      break;
+    }
+  }
+
+  return matching;
+};
+
 const extractValues = (obj: any): string[] => {
   if (typeof obj === 'string') return [obj.toLowerCase()];
   if (typeof obj === 'number') return [obj.toString()];
@@ -39,6 +60,7 @@ export const recursiveIncludes: FilterFn<any> = (
   columnId: string,
   value: string
 ) => {
+  console.log('here...');
   if (!value) return false;
   const item =
     columnId === 'credential_subject'
