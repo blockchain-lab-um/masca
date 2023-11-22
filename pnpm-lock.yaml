@@ -373,9 +373,6 @@ importers:
       did-session:
         specifier: 2.0.1
         version: 2.0.1
-      eip-712-types-generation:
-        specifier: ^0.1.6
-        version: 0.1.6
     devDependencies:
       esbuild-loader:
         specifier: ^4.0.2
@@ -746,6 +743,9 @@ importers:
       did-session:
         specifier: 2.0.1
         version: 2.0.1
+      eip-712-types-generation:
+        specifier: ^0.1.6
+        version: 0.1.6
       elliptic:
         specifier: ^6.5.4
         version: 6.5.4

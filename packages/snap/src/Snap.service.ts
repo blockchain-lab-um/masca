@@ -30,12 +30,11 @@ import { Result, ResultObject } from '@blockchain-lab-um/utils';
 import {
   DIDResolutionResult,
   IVerifyResult,
-  UnsignedCredential,
-  UnsignedPresentation,
   VerifiableCredential,
+  VerifiablePresentation,
   W3CVerifiableCredential,
 } from '@veramo/core';
-import { VerifiablePresentation } from 'did-jwt-vc';
+import { getEthTypesFromInputDoc } from 'eip-712-types-generation';
 
 import GeneralService from './General.service';
 import PolygonService from './polygon-id/Polygon.service';
@@ -144,11 +143,11 @@ class SnapService {
    * @param params.proofFormat - Proof format to use.
    * @param params.options.save - Whether to save the VC.
    * @param params.options.store - VC store to save to.
-   * @returns UnsignedCredential | VerifiableCredential - Created VC.
+   * @returns  VerifiableCredential - Created VC.
    */
   static async createCredential(
     params: CreateCredentialRequestParams
-  ): Promise<UnsignedCredential | VerifiableCredential> {
+  ): Promise<VerifiableCredential> {
     const { minimalUnsignedCredential, proofFormat, options } = params;
     const { store = 'snap' } = options ?? {};
     const { save } = options ?? {};
@@ -159,13 +158,7 @@ class SnapService {
         state[CURRENT_STATE_VERSION].currentAccount
       ].general.account.ssi.selectedMethod;
 
-    if (method === 'did:ethr' || method === 'did:pkh') {
-      const unsignedVc = await VeramoService.createUnsignedCredential({
-        credential: minimalUnsignedCredential,
-      });
-
-      return unsignedVc;
-    }
+    let credential;
 
     let storeString = '';
     if (save === true) {
@@ -173,11 +166,6 @@ class SnapService {
         typeof store === 'string' ? store : store.join(', ')
       }**`;
     }
-
-    const vc = await VeramoService.createCredential({
-      credential: minimalUnsignedCredential,
-      proofFormat,
-    });
 
     const identifier = await VeramoService.getIdentifier();
 
@@ -187,17 +175,93 @@ class SnapService {
       await UIService.createCredentialDialog({
         save,
         storeString,
-        minimalUnsignedCredential: vc,
+        minimalUnsignedCredential,
         did,
       })
     ) {
+      if (method === 'did:ethr' || method === 'did:pkh') {
+        const unsignedCredential = await VeramoService.createUnsignedCredential(
+          {
+            credential: minimalUnsignedCredential,
+          }
+        );
+
+        const addresses = (await window.ethereum.request({
+          method: 'eth_requestAccounts',
+        })) as string[];
+
+        let issuer = '';
+        if (typeof unsignedCredential.issuer === 'string') {
+          issuer = unsignedCredential.issuer;
+        } else {
+          issuer = unsignedCredential.issuer.id;
+        }
+
+        if (!issuer.includes(addresses[0])) {
+          throw new Error('Invalid Issuer');
+        }
+
+        const chainId = parseInt(
+          (await window.ethereum.request({ method: 'eth_chainId' })) as string,
+          16
+        );
+
+        // Add proof info to unsigned credential
+        unsignedCredential.proof = {
+          verificationMethod: `${issuer}#controller`,
+          created: unsignedCredential.issuanceDate,
+          proofPurpose: 'assertionMethod',
+          type: 'EthereumEip712Signature2021',
+        };
+
+        const message = unsignedCredential;
+
+        const domain = {
+          chainId,
+          name: 'VerifiableCredential',
+          version: '1',
+        };
+
+        const primaryType = 'VerifiableCredential';
+        const allTypes = getEthTypesFromInputDoc(
+          unsignedCredential,
+          primaryType
+        );
+        const types = { ...allTypes };
+
+        const data = JSON.stringify({ domain, types, message, primaryType });
+
+        // Sign typed data
+        const signature = await window.ethereum.request({
+          method: 'eth_signTypedData_v4',
+          params: [addresses[0], data],
+        });
+
+        // Add signature to unsigned credential
+        unsignedCredential.proof.proofValue = signature;
+
+        // Add eip712 data to unsigned credential
+        unsignedCredential.proof.eip712 = {
+          domain,
+          types: allTypes,
+          primaryType,
+        };
+
+        credential = unsignedCredential as VerifiableCredential;
+      } else {
+        credential = await VeramoService.createCredential({
+          credential: minimalUnsignedCredential,
+          proofFormat,
+        });
+      }
+
       if (save === true) {
         await VeramoService.saveCredential({
-          verifiableCredential: vc,
+          verifiableCredential: credential,
           store,
         });
       }
-      return vc;
+      return credential;
     }
     throw new Error('User rejected create credential request');
   }
@@ -268,11 +332,11 @@ class SnapService {
    * @param params.proofOptions.type - Type of proof.
    * @param params.proofOptions.domain - Proof domain.
    * @param params.proofOptions.challenge - Proof challenge.
-   * @returns UnsignedPresentation | VerifiablePresentation - Created VP.
+   * @returns  VerifiablePresentation - Created VP.
    */
   static async createPresentation(
     params: CreatePresentationRequestParams
-  ): Promise<UnsignedPresentation | VerifiablePresentation> {
+  ): Promise<VerifiablePresentation> {
     const { vcs, proofFormat = 'jwt', proofOptions } = params;
     const state = StorageService.get();
     const method =
@@ -282,30 +346,84 @@ class SnapService {
 
     if (!vcs.length) throw new Error('No credentials provided');
 
-    if (method === 'did:ethr' || method === 'did:pkh') {
-      if (proofFormat !== 'EthereumEip712Signature2021') {
-        throw new Error('proofFormat must be EthereumEip712Signature2021');
-      }
-
-      const unsignedVp = await VeramoService.createUnsignedPresentation({
-        credentials: vcs,
-      });
-
-      return unsignedVp;
-    }
-
     const identifier = await VeramoService.getIdentifier();
 
     const { did } = identifier;
 
-    if (await UIService.createPresentationDialog({ vcs, did })) {
-      const res = await VeramoService.createPresentation({
-        vcs,
-        proofFormat,
-        proofOptions,
-      });
+    let presentation;
 
-      return res;
+    if (await UIService.createPresentationDialog({ vcs, did })) {
+      if (method === 'did:ethr' || method === 'did:pkh') {
+        if (proofFormat !== 'EthereumEip712Signature2021') {
+          throw new Error('proofFormat must be EthereumEip712Signature2021');
+        }
+
+        const unsignedPresentation =
+          await VeramoService.createUnsignedPresentation({
+            credentials: vcs,
+          });
+
+        const addresses = (await ethereum.request({
+          method: 'eth_requestAccounts',
+        })) as string[];
+
+        if (!unsignedPresentation.holder.includes(addresses[0])) {
+          throw new Error('Wrong holder');
+        }
+
+        const chainId = parseInt(
+          (await ethereum.request({ method: 'eth_chainId' })) as string,
+          16
+        );
+
+        unsignedPresentation.proof = {
+          verificationMethod: `${unsignedPresentation.holder}#controller`,
+          created: unsignedPresentation.issuanceDate,
+          proofPurpose: 'assertionMethod',
+          type: 'EthereumEip712Signature2021',
+        };
+
+        const message = unsignedPresentation;
+
+        const domain = {
+          chainId,
+          name: 'VerifiablePresentation',
+          version: '1',
+        };
+
+        const primaryType = 'VerifiablePresentation';
+        const types = getEthTypesFromInputDoc(
+          unsignedPresentation,
+          primaryType
+        );
+
+        const data = JSON.stringify({ domain, types, message, primaryType });
+
+        const signature = await window.ethereum.request({
+          method: 'eth_signTypedData_v4',
+          params: [addresses[0], data],
+        });
+
+        // Add signature to unsigned presentation
+        unsignedPresentation.proof.proofValue = signature;
+
+        // Add eip712 data to unsigned presentation
+        unsignedPresentation.proof.eip712 = {
+          domain,
+          types,
+          primaryType,
+        };
+
+        presentation = unsignedPresentation as VerifiablePresentation;
+      } else {
+        presentation = await VeramoService.createPresentation({
+          vcs,
+          proofFormat,
+          proofOptions,
+        });
+      }
+
+      return presentation;
     }
 
     throw new Error('User rejected create presentation request.');

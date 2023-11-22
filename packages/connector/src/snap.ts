@@ -28,11 +28,7 @@ import type {
   W3CVerifiableCredential,
 } from '@veramo/core';
 
-import {
-  signVerifiableCredential,
-  signVerifiablePresentation,
-  validateAndSetCeramicSession,
-} from './utils.js';
+import { validateAndSetCeramicSession } from './utils.js';
 
 /**
  * Send a request to the Masca snap
@@ -95,15 +91,7 @@ async function createPresentation(
     return result;
   }
 
-  if (result.data.proof) {
-    return result;
-  }
-
-  const signedResult = ResultObject.success(
-    await signVerifiablePresentation(result.data)
-  );
-
-  return signedResult;
+  return result;
 }
 
 /**
@@ -313,7 +301,7 @@ async function createCredential(
 ): Promise<Result<VerifiableCredential>> {
   await validateAndSetCeramicSession.bind(this)();
 
-  const result = await sendSnapMethod(
+  const result = await sendSnapMethod<Result<VerifiableCredential>>(
     {
       method: 'createCredential',
       params,
@@ -321,21 +309,11 @@ async function createCredential(
     this.snapId
   );
 
-  const vcResult = result as Result<VerifiableCredential>;
-
-  if (isError(vcResult)) {
-    return vcResult;
+  if (isError(result)) {
+    return result;
   }
 
-  if (vcResult.data.proof) {
-    return vcResult;
-  }
-
-  const signedResult = ResultObject.success(
-    await signVerifiableCredential.bind(this)(vcResult.data, params)
-  );
-
-  return signedResult;
+  return result;
 }
 
 /**
