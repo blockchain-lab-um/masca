@@ -10,7 +10,7 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
-import { useGeneralStore, useTableStore } from '@/stores';
+import { useTableStore } from '@/stores';
 import { CredentialTypes } from './CredentialTypes';
 import { DataStores } from './DataStores';
 import { Ecosystems } from './Ecosystems';
@@ -43,8 +43,6 @@ function FilterPopover({ vcs }: FilterPopoverProps) {
     setColumnFilters: state.setColumnFilters,
   }));
 
-  const isConnected = useGeneralStore((state) => state.isConnected);
-
   const updateColumnFiltersDataStore = () => {
     const dsFilter = {
       id: 'data_store',
@@ -58,7 +56,6 @@ function FilterPopover({ vcs }: FilterPopoverProps) {
       (cf) => cf.id !== 'data_store'
     );
     newColumnFilters.push(dsFilter);
-    console.log('newColumnFilters', newColumnFilters);
     setColumnFilters(newColumnFilters);
   };
 
@@ -73,7 +70,6 @@ function FilterPopover({ vcs }: FilterPopoverProps) {
 
     const newColumnFilters = columnFilters.filter((cf) => cf.id !== 'type');
     newColumnFilters.push(typeFilter);
-    console.log('newColumnFilters', newColumnFilters);
     setColumnFilters(newColumnFilters);
   };
 
@@ -111,7 +107,6 @@ function FilterPopover({ vcs }: FilterPopoverProps) {
 
     const newColumnFilters = columnFilters.filter((cf) => cf.id !== 'issuer');
     newColumnFilters.push(esFilter);
-    console.log('newColumnFilters ECOSYSTEM', newColumnFilters);
     setColumnFilters(newColumnFilters);
   };
 
@@ -132,28 +127,23 @@ function FilterPopover({ vcs }: FilterPopoverProps) {
   }, [credentialTypes]);
 
   return (
-    <Popover className="group relative">
+    <Popover className="relative">
       {({ open, close }) => (
         <>
-          <Popover.Button
-            className={clsx(
-              'nav-btn flex items-end',
-              open
-                ? 'dark:text-orange-accent-dark text-pink-500'
-                : 'dark:text-navy-blue-400 text-gray-600'
-            )}
-          >
-            <span>Filters</span>
-            <ChevronDownIcon
-              className={`animated-transition ml-1 h-5 w-5 ${
-                open
-                  ? 'dark:text-orange-accent-dark dark:group-hover:text-orange-accent-dark rotate-180 text-pink-500 group-hover:text-pink-500'
-                  : 'dark:group-hover:text-orange-accent-dark dark:text-navy-blue-400 text-gray-600 group-hover:text-pink-500 '
-              }
-                  `}
-              aria-hidden="true"
-            />
-          </Popover.Button>
+          <div className="dark:bg-navy-blue-700 flex h-full items-center rounded-full bg-white shadow-md">
+            <Popover.Button
+              className={clsx(' flex items-center px-4 text-xl ')}
+            >
+              <span>Filters</span>
+              <ChevronDownIcon
+                className={`animated-transition ml-1 h-5 w-5 ${
+                  open ? ' rotate-180 ' : ' '
+                }
+              `}
+                aria-hidden="true"
+              />
+            </Popover.Button>
+          </div>
           <Transition
             as={Fragment}
             enter="transition ease-out duration-200"
