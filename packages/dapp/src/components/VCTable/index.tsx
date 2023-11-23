@@ -48,6 +48,7 @@ import { useMascaStore, useTableStore, useToastStore } from '@/stores';
 import TablePagination from './TablePagination';
 import {
   includesDataStore,
+  includesEcosystem,
   includesType,
   recursiveIncludes,
   selectRows,
@@ -151,6 +152,7 @@ const Table = () => {
           </Tooltip>
         ),
         header: () => <span>{t('table.issuer')}</span>,
+        filterFn: includesEcosystem,
       }
     ),
     columnHelper.accessor((row) => row.data.expirationDate, {
@@ -278,7 +280,12 @@ const Table = () => {
   const table = useReactTable({
     data: vcs,
     columns,
-    filterFns: { includesDataStore, recursiveIncludes, includesType },
+    filterFns: {
+      includesDataStore,
+      recursiveIncludes,
+      includesType,
+      includesEcosystem,
+    },
     globalFilterFn: recursiveIncludes,
     state: {
       sorting,

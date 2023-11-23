@@ -13,6 +13,7 @@ import { useTranslations } from 'next-intl';
 import { useGeneralStore, useTableStore } from '@/stores';
 import { CredentialTypes } from './CredentialTypes';
 import { DataStores } from './DataStores';
+import { Ecosystems } from './Ecosystems';
 
 interface FilterPopoverProps {
   vcs: QueryCredentialsRequestResult[];
@@ -24,24 +25,20 @@ function FilterPopover({ vcs }: FilterPopoverProps) {
 
   const {
     dataStores,
-    availableEcosystems,
-    selectedEcosystems,
+    ecosystems,
+    setEcosystems,
     credentialTypes,
     columnFilters,
     setColumnFilters,
     setDataStores,
-    setAvailableEcosystems,
-    setSelectedEcosystems,
     setCredentialTypes,
   } = useTableStore((state) => ({
     dataStores: state.dataStores,
-    availableEcosystems: state.availableEcosystems,
-    selectedEcosystems: state.selectedEcosystems,
     credentialTypes: state.credentialTypes,
     columnFilters: state.columnFilters,
     setDataStores: state.setDataStores,
-    setAvailableEcosystems: state.setAvailableEcosystems,
-    setSelectedEcosystems: state.setSelectedEcosystems,
+    ecosystems: state.ecosystems,
+    setEcosystems: state.setEcosystems,
     setCredentialTypes: state.setCredentialTypes,
     setColumnFilters: state.setColumnFilters,
   }));
@@ -103,6 +100,21 @@ function FilterPopover({ vcs }: FilterPopoverProps) {
     );
   };
 
+  const updateColumnFiltersEcosystems = () => {
+    const esFilter = {
+      id: 'issuer',
+      value: [] as string[],
+    };
+    esFilter.value = ecosystems
+      .filter((es) => es.selected)
+      .map((es) => es.ecosystem);
+
+    const newColumnFilters = columnFilters.filter((cf) => cf.id !== 'issuer');
+    newColumnFilters.push(esFilter);
+    console.log('newColumnFilters ECOSYSTEM', newColumnFilters);
+    setColumnFilters(newColumnFilters);
+  };
+
   useEffect(() => {
     updateColumnFiltersDataStore();
   }, [dataStores]);
@@ -110,6 +122,10 @@ function FilterPopover({ vcs }: FilterPopoverProps) {
   useEffect(() => {
     getAvailableCredentialTypes();
   }, [vcs]);
+
+  useEffect(() => {
+    updateColumnFiltersEcosystems();
+  }, [ecosystems]);
 
   useEffect(() => {
     updateColumnFiltersCredentialTypes();
@@ -148,15 +164,16 @@ function FilterPopover({ vcs }: FilterPopoverProps) {
             leaveTo="opacity-0 translate-y-1"
           >
             <Popover.Panel className="absolute left-0 z-50 mt-3 w-screen max-w-[15rem]">
-              <div className="rounded-xl bg-white py-2 shadow-md">
+              <div className="dark:bg-navy-blue-600 rounded-xl bg-white py-2 shadow-md">
                 <div className="flex items-center justify-between px-4 py-2">
-                  <div className="font-ubuntu text-lg font-semibold text-gray-700">
+                  <div className="font-ubuntu dark:text-navy-blue-50 text-lg font-semibold text-gray-800">
                     Filters
                   </div>
-                  <button className="text-red-500">clear</button>
+                  <button className="hidden text-red-500">clear</button>
                 </div>
                 <DataStores />
                 <CredentialTypes />
+                <Ecosystems />
               </div>
             </Popover.Panel>
           </Transition>

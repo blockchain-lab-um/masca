@@ -5,16 +5,17 @@ import clsx from 'clsx';
 import { useTableStore } from '@/stores';
 import { CheckBox } from './CheckBox';
 
-const DSNames = {
-  snap: 'Snap',
-  ceramic: 'Ceramic',
+const ESNames = {
+  ebsi: 'EBSI',
+  polygonid: 'Polygon',
+  other: 'Other',
 };
 
-export const DataStores = () => {
+export const Ecosystems = () => {
   const [open, setOpen] = useState(false);
-  const { dataStores, setDataStores } = useTableStore((state) => ({
-    dataStores: state.dataStores,
-    setDataStores: state.setDataStores,
+  const { ecosystems, setEcosystems } = useTableStore((state) => ({
+    ecosystems: state.ecosystems,
+    setEcosystems: state.setEcosystems,
   }));
 
   return (
@@ -24,36 +25,36 @@ export const DataStores = () => {
           setOpen(!open);
         }}
       >
-        <div className="dark:text-navy-blue-100 my-1 ml-2 mt-4 flex items-center gap-x-2 text-gray-700">
+        <div className="dark:text-navy-blue-100 my-1 ml-2 flex items-center gap-x-2 text-gray-700">
           <ChevronRightIcon
             className={clsx(
               'animated-transition h-5 w-5',
               `${open ? 'rotate-90' : ''}`
             )}
           />
-          Stores
+          Ecosystems
         </div>
       </button>
       {open && (
         <div className="dark:bg-navy-blue-500/40 bg-[#FFF8F9] p-2">
-          {dataStores.map((dataStore) => (
+          {ecosystems.map((ecosystem) => (
             <CheckBox
-              key={dataStore.dataStore}
-              selected={dataStore.selected}
+              key={ecosystem.ecosystem}
+              selected={ecosystem.selected}
               setSelected={(selected) => {
-                const newDataStores = dataStores.map((ds) => {
-                  if (ds.dataStore === dataStore.dataStore) {
+                const newDataStores = ecosystems.map((ds) => {
+                  if (ds.ecosystem === ecosystem.ecosystem) {
                     return {
-                      ...dataStore,
+                      ...ecosystem,
                       selected,
                     };
                   }
                   return ds;
                 });
-                setDataStores(newDataStores);
+                setEcosystems(newDataStores);
               }}
             >
-              {DSNames[dataStore.dataStore]}
+              {ESNames[ecosystem.ecosystem]}
             </CheckBox>
           ))}
         </div>

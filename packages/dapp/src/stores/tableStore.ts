@@ -16,15 +16,19 @@ interface CredentialType {
   selected: boolean;
 }
 
+interface Ecosystem {
+  ecosystem: 'ebsi' | 'polygonid' | 'other';
+  selected: boolean;
+}
+
 interface TableStore {
   globalFilter: string;
   columnFilters: ColumnFiltersState;
   selectedVCs: QueryCredentialsRequestResult[];
   cardView: boolean;
   dataStores: DataStore[];
+  ecosystems: Ecosystem[];
   credentialTypes: CredentialType[];
-  availableEcosystems: string[];
-  selectedEcosystems: string[];
 
   setGlobalFilter: (globalFilter: string) => void;
   setColumnFilters: (columnFilters: ColumnFiltersState) => void;
@@ -32,8 +36,7 @@ interface TableStore {
   setCardView: (view: boolean) => void;
   setDataStores: (dataStores: DataStore[]) => void;
   setCredentialTypes: (credentialTypes: CredentialType[]) => void;
-  setAvailableEcosystems: (availableEcosystems: string[]) => void;
-  setSelectedEcosystems: (selectedEcosystems: string[]) => void;
+  setEcosystems: (ecosystems: Ecosystem[]) => void;
 }
 
 export const tableStoreInitialState = {
@@ -48,9 +51,12 @@ export const tableStoreInitialState = {
     { dataStore: 'snap', selected: true } as DataStore,
     { dataStore: 'ceramic', selected: true } as DataStore,
   ],
+  ecosystems: [
+    { ecosystem: 'ebsi', selected: true } as Ecosystem,
+    { ecosystem: 'polygonid', selected: true } as Ecosystem,
+    { ecosystem: 'other', selected: true } as Ecosystem,
+  ],
   credentialTypes: [],
-  availableEcosystems: ['ebsi', 'polygonid', 'other'],
-  selectedEcosystems: [],
 };
 
 export const useTableStore = createWithEqualityFn<TableStore>()(
@@ -66,10 +72,8 @@ export const useTableStore = createWithEqualityFn<TableStore>()(
     setDataStores: (dataStores: DataStore[]) => set({ dataStores }),
     setCredentialTypes: (credentialTypes: CredentialType[]) =>
       set({ credentialTypes }),
-    setAvailableEcosystems: (availableEcosystems: string[]) =>
-      set({ availableEcosystems }),
-    setSelectedEcosystems: (selectedEcosystems: string[]) =>
-      set({ selectedEcosystems }),
+
+    setEcosystems: (ecosystems: Ecosystem[]) => set({ ecosystems }),
   }),
   shallow
 );

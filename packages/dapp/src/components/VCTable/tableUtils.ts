@@ -41,6 +41,37 @@ export const includesType: FilterFn<any> = (
   return matching;
 };
 
+export const includesEcosystem: FilterFn<any> = (
+  row,
+  _: string,
+  value: string[]
+) => {
+  let item = row.original.data.issuer;
+  if (!item) return false;
+  if (typeof item !== 'string') {
+    item = item.id;
+  }
+  let matching = false;
+
+  for (const val of value) {
+    if (typeof item !== 'string') break;
+    if (
+      val === 'other' &&
+      item.split(':')[1] !== 'ebsi' &&
+      item.split(':')[1] !== 'polygonid'
+    ) {
+      matching = true;
+      break;
+    }
+    if (item.split(':')[1] === val) {
+      matching = true;
+      break;
+    }
+  }
+
+  return matching;
+};
+
 const extractValues = (obj: any): string[] => {
   if (typeof obj === 'string') return [obj.toLowerCase()];
   if (typeof obj === 'number') return [obj.toString()];
