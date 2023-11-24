@@ -11,7 +11,6 @@ export const CheckBox = ({
   setSelected,
   children,
 }: CheckBoxProps) => (
-  // Create checkbox
   <div className="dark:text-navy-blue-200 flex items-center font-medium text-gray-700">
     <input
       className="dark:accent-orange-accent-dark h-4 w-4 accent-pink-500"
