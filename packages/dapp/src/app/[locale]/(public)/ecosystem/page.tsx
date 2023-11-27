@@ -12,11 +12,49 @@ export const metadata: Metadata = {
 
 const partners: ProjectIconProps[] = [
   {
+    icon: '/images/MetaMask_Logo.svg',
+    href: 'https://metamask.io',
+    alt: 'MetaMask',
+    width: 192,
+    height: 96,
+  },
+  {
+    icon: '/images/Polygon_ID_logo_dark.svg',
+    href: 'https://polygon.technology/polygon-id',
+    alt: 'PolygonID',
+    width: 192,
+    height: 96,
+  },
+  {
+    icon: '/images/ceramic_text.png',
+    href: 'https://ceramic.network/',
+    alt: 'Ceramic',
+    width: 192,
+    height: 96,
+  },
+  {
+    icon: '/images/veramo.png',
+    href: 'https://veramo.io/',
+    alt: 'Veramo',
+    width: 96,
+    height: 96,
+  },
+  {
     icon: '/images/monokee_logo.png',
     href: 'https://monokee.com/en/homepage/',
     alt: 'monokee',
     width: 192,
     height: 96,
+  },
+];
+const projects: ProjectIconProps[] = [
+  {
+    icon: '/images/reputex_logo.png',
+    href: 'https://reputex.io/',
+    alt: 'MetaMask',
+    width: 96,
+    height: 96,
+    rounded: true,
   },
 ];
 
@@ -39,6 +77,14 @@ export default function Page() {
         </h1>
         <div className="flex flex-wrap justify-center gap-x-12">
           {partners.map((partner) => (
+            <ProjectIcon key={partner.href} {...partner} />
+          ))}
+        </div>
+        <h1 className="font-ubuntu dark:text-navy-blue-50 mb-4 text-center text-2xl mt-12 font-medium text-gray-900">
+          Projects
+        </h1>
+        <div className="flex flex-wrap justify-center gap-x-12">
+          {projects.map((partner) => (
             <ProjectIcon key={partner.href} {...partner} />
           ))}
         </div>
