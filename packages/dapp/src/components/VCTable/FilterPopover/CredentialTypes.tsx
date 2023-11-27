@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { ChevronRightIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 
 import { useTableStore } from '@/stores';
 import { CheckBox } from './CheckBox';
 
 export const CredentialTypes = () => {
+  const t = useTranslations('FilterPopover');
+
   const [open, setOpen] = useState(false);
   const { credentialTypes, setCredentialTypes } = useTableStore((state) => ({
     credentialTypes: state.credentialTypes,
@@ -28,7 +31,7 @@ export const CredentialTypes = () => {
                 `${open ? 'rotate-90' : ''}`
               )}
             />
-            Types
+            {t('type')}
           </div>
         </button>
         {open &&

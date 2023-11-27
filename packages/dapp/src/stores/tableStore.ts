@@ -41,10 +41,7 @@ interface TableStore {
 
 export const tableStoreInitialState = {
   globalFilter: '',
-  columnFilters: [
-    { id: 'data_store', value: ['snap'] },
-    // { id: 'type', value: [] },
-  ],
+  columnFilters: [{ id: 'data_store', value: ['snap'] }],
   selectedVCs: [],
   cardView: true,
   dataStores: [

@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import { ChevronRightIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 
 import { useTableStore } from '@/stores';
 import { CheckBox } from './CheckBox';
 
-const ESNames = {
+const EcosystemSNames = {
   ebsi: 'EBSI',
   polygonid: 'Polygon',
   other: 'Other',
 };
 
 export const Ecosystems = () => {
+  const t = useTranslations('FilterPopover');
   const [open, setOpen] = useState(false);
   const { ecosystems, setEcosystems } = useTableStore((state) => ({
     ecosystems: state.ecosystems,
@@ -32,7 +34,7 @@ export const Ecosystems = () => {
               `${open ? 'rotate-90' : ''}`
             )}
           />
-          Ecosystems
+          {t('ecosystem')}
         </div>
       </button>
       {open && (
@@ -54,7 +56,7 @@ export const Ecosystems = () => {
                 setEcosystems(newDataStores);
               }}
             >
-              {ESNames[ecosystem.ecosystem]}
+              {EcosystemSNames[ecosystem.ecosystem]}
             </CheckBox>
           ))}
         </div>

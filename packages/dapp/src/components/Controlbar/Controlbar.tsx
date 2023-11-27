@@ -12,7 +12,6 @@ import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
 import ImportModal from '@/components/ImportModal';
-// import DataStoreCombobox from '@/components/VCTable/DataStoreCombobox';
 import GlobalFilter from '@/components/VCTable/GlobalFilter';
 import ViewTabs from '@/components/VCTable/ViewTabs';
 import { stringifyCredentialSubject } from '@/utils/format';
@@ -163,7 +162,6 @@ const Controlbar = () => {
       <div className="mb-4 grid grid-cols-11 grid-rows-2 gap-y-4 md:grid-rows-1">
         {vcs.length > 0 && (
           <div className="col-span-11 col-start-1 row-start-2 flex gap-x-2 md:col-span-5 md:row-start-1">
-            {/* <DataStoreCombobox isConnected={isConnected} vcs={vcs} /> */}
             <FilterPopover vcs={vcs} />
             <GlobalFilter isConnected={isConnected} vcs={vcs} />
           </div>

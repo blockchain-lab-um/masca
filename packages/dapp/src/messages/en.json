@@ -251,6 +251,14 @@
     "subject": "SUBJECT",
     "view-json": "View"
   },
+  "FilterPopover": {
+    "clear": "clear",
+    "filter": "Filter",
+    "title": "Filter Credentials",
+    "ecosystem": "Ecosystem",
+    "datastore": "Data Store",
+    "type": "Type"
+  },
   "FriendlydAppTable": {
     "add-failed": "Failed to add Friendly dapp",
     "add-masca": "Add Masca.io to Friendly dapps",

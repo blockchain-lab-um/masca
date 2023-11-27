@@ -29,10 +29,10 @@ export const includesType: FilterFn<any> = (
   let matching = false;
 
   for (const val of value) {
-    if (typeof item === 'string' && item === val) {
-      matching = true;
-      break;
-    } else if (Array.isArray(item) && item.indexOf(val) >= 0) {
+    if (
+      (typeof item === 'string' && item === val) ||
+      (Array.isArray(item) && item.indexOf(val) >= 0)
+    ) {
       matching = true;
       break;
     }
@@ -56,14 +56,11 @@ export const includesEcosystem: FilterFn<any> = (
   for (const val of value) {
     if (typeof item !== 'string') break;
     if (
-      val === 'other' &&
-      item.split(':')[1] !== 'ebsi' &&
-      item.split(':')[1] !== 'polygonid'
+      (val === 'other' &&
+        item.split(':')[1] !== 'ebsi' &&
+        item.split(':')[1] !== 'polygonid') ||
+      item.split(':')[1] === val
     ) {
-      matching = true;
-      break;
-    }
-    if (item.split(':')[1] === val) {
       matching = true;
       break;
     }
@@ -91,7 +88,6 @@ export const recursiveIncludes: FilterFn<any> = (
   columnId: string,
   value: string
 ) => {
-  console.log('here...');
   if (!value) return false;
   const item =
     columnId === 'credential_subject'

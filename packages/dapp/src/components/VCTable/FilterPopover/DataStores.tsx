@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { ChevronRightIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 
 import { useTableStore } from '@/stores';
 import { CheckBox } from './CheckBox';
 
-const DSNames = {
+const DataStoreNames = {
   snap: 'Snap',
   ceramic: 'Ceramic',
 };
 
 export const DataStores = () => {
+  const t = useTranslations('FilterPopover');
   const [open, setOpen] = useState(false);
   const { dataStores, setDataStores } = useTableStore((state) => ({
     dataStores: state.dataStores,
@@ -31,7 +33,7 @@ export const DataStores = () => {
               `${open ? 'rotate-90' : ''}`
             )}
           />
-          Stores
+          {t('datastore')}
         </div>
       </button>
       {open && (
@@ -53,7 +55,7 @@ export const DataStores = () => {
                 setDataStores(newDataStores);
               }}
             >
-              {DSNames[dataStore.dataStore]}
+              {DataStoreNames[dataStore.dataStore]}
             </CheckBox>
           ))}
         </div>

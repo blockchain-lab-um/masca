@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect } from 'react';
 import {
   AvailableCredentialStores,
   QueryCredentialsRequestResult,
@@ -20,17 +20,14 @@ interface FilterPopoverProps {
 }
 
 function FilterPopover({ vcs }: FilterPopoverProps) {
-  const t = useTranslations('AppNavbar');
-  const [storesOpen, setStoresOpen] = useState(false);
+  const t = useTranslations('FilterPopover');
 
   const {
     dataStores,
     ecosystems,
-    setEcosystems,
     credentialTypes,
     columnFilters,
     setColumnFilters,
-    setDataStores,
     setCredentialTypes,
   } = useTableStore((state) => ({
     dataStores: state.dataStores,
@@ -76,15 +73,14 @@ function FilterPopover({ vcs }: FilterPopoverProps) {
   const getAvailableCredentialTypes = () => {
     const allCredentialTypes: string[] = [];
     vcs.forEach((vc) => {
-      if (vc.data.type) {
-        if (typeof vc.data.type === 'string') {
-          allCredentialTypes.push(vc.data.type);
-          return;
-        }
-        vc.data.type.forEach((type: string) => {
-          if (type !== 'VerifiableCredential') allCredentialTypes.push(type);
-        });
+      if (!vc.data.type) return;
+      if (typeof vc.data.type === 'string') {
+        allCredentialTypes.push(vc.data.type);
+        return;
       }
+      vc.data.type.forEach((type: string) => {
+        if (type !== 'VerifiableCredential') allCredentialTypes.push(type);
+      });
     });
     const availableCredentialTypes = [...new Set(allCredentialTypes)];
 
@@ -157,9 +153,9 @@ function FilterPopover({ vcs }: FilterPopoverProps) {
               <div className="dark:bg-navy-blue-600 rounded-xl bg-white py-2 shadow-md">
                 <div className="flex items-center justify-between px-4 py-2">
                   <div className="font-ubuntu dark:text-navy-blue-50 text-lg font-semibold text-gray-800">
-                    Filters
+                    {t('filter')}
                   </div>
-                  <button className="hidden text-red-500">clear</button>
+                  <button className="hidden text-red-500">{t('clear')}</button>
                 </div>
                 <DataStores />
                 <CredentialTypes />
