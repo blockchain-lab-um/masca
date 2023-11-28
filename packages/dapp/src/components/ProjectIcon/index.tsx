@@ -1,6 +1,6 @@
-import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
+import clsx from 'clsx';
 
 export interface ProjectIconProps {
   icon: string;
@@ -11,10 +11,23 @@ export interface ProjectIconProps {
   rounded?: boolean;
 }
 
-const ProjectIcon = ({ icon, href, alt, width, height, rounded }: ProjectIconProps) => (
+const ProjectIcon = ({
+  icon,
+  href,
+  alt,
+  width,
+  height,
+  rounded,
+}: ProjectIconProps) => (
   <div className="flex items-center justify-center">
     <Link href={href}>
-      <Image src={icon} alt={alt} width={width} height={height} className={clsx(rounded ? ' rounded-full': '')} />
+      <Image
+        src={icon}
+        alt={alt}
+        width={width}
+        height={height}
+        className={clsx(rounded ? ' rounded-full' : '')}
+      />
     </Link>
   </div>
 );

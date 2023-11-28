@@ -73,14 +73,14 @@ export default function Page() {
       </div> */}
       <div>
         <h1 className="font-ubuntu dark:text-navy-blue-50 mb-4 text-center text-2xl font-medium text-gray-900">
-        Applications
+          Applications
         </h1>
         <div className="flex flex-wrap justify-center gap-x-12">
           {projects.map((partner) => (
             <ProjectIcon key={partner.href} {...partner} />
           ))}
         </div>
-        <h1 className="font-ubuntu dark:text-navy-blue-50 mb-4 text-center text-2xl mt-12 font-medium text-gray-900">
+        <h1 className="font-ubuntu dark:text-navy-blue-50 mb-4 mt-12 text-center text-2xl font-medium text-gray-900">
           Partners
         </h1>
         <div className="flex flex-wrap justify-center gap-x-12">
