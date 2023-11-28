@@ -3,7 +3,7 @@ import {
   didMethodChainIdMapping,
   MethodsRequiringNetwork,
 } from '@blockchain-lab-um/masca-types';
-import { divider, heading, panel, text } from '@metamask/snaps-ui';
+import { divider, heading, panel, text } from '@metamask/snaps-sdk';
 
 import UIService from './UI.service';
 

@@ -12,7 +12,7 @@ import {
   heading,
   panel,
   text,
-} from '@metamask/snaps-ui';
+} from '@metamask/snaps-sdk';
 import { W3CVerifiableCredential } from '@veramo/core';
 
 import StorageService from './storage/Storage.service';
