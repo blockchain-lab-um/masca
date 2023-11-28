@@ -33,10 +33,10 @@ const partners: ProjectIconProps[] = [
     height: 96,
   },
   {
-    icon: '/images/veramo.png',
+    icon: '/images/veramo2.png',
     href: 'https://veramo.io/',
     alt: 'Veramo',
-    width: 96,
+    width: 192,
     height: 96,
   },
   {
@@ -49,10 +49,10 @@ const partners: ProjectIconProps[] = [
 ];
 const projects: ProjectIconProps[] = [
   {
-    icon: '/images/reputex_logo.png',
+    icon: '/images/reputex.png',
     href: 'https://reputex.io/',
     alt: 'MetaMask',
-    width: 96,
+    width: 192,
     height: 96,
     rounded: true,
   },
@@ -73,18 +73,18 @@ export default function Page() {
       </div> */}
       <div>
         <h1 className="font-ubuntu dark:text-navy-blue-50 mb-4 text-center text-2xl font-medium text-gray-900">
-          Partners
+        Applications
         </h1>
         <div className="flex flex-wrap justify-center gap-x-12">
-          {partners.map((partner) => (
+          {projects.map((partner) => (
             <ProjectIcon key={partner.href} {...partner} />
           ))}
         </div>
         <h1 className="font-ubuntu dark:text-navy-blue-50 mb-4 text-center text-2xl mt-12 font-medium text-gray-900">
-          Projects
+          Partners
         </h1>
         <div className="flex flex-wrap justify-center gap-x-12">
-          {projects.map((partner) => (
+          {partners.map((partner) => (
             <ProjectIcon key={partner.href} {...partner} />
           ))}
         </div>
