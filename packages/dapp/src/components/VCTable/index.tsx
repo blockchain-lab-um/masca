@@ -46,7 +46,13 @@ import { stringifyCredentialSubject } from '@/utils/format';
 import { convertTypes } from '@/utils/string';
 import { useMascaStore, useTableStore, useToastStore } from '@/stores';
 import TablePagination from './TablePagination';
-import { includesDataStore, recursiveIncludes, selectRows } from './tableUtils';
+import {
+  includesDataStore,
+  includesEcosystem,
+  includesType,
+  recursiveIncludes,
+  selectRows,
+} from './tableUtils';
 import VCCard from './VCCard';
 
 const Table = () => {
@@ -89,6 +95,7 @@ const Table = () => {
           <span className="font-bold">{info.getValue().toString()}</span>
         ),
         header: () => <span className="">{t('table.type')}</span>,
+        filterFn: includesType,
       }
     ),
     columnHelper.accessor((row) => Date.parse(row.data.issuanceDate), {
@@ -145,6 +152,7 @@ const Table = () => {
           </Tooltip>
         ),
         header: () => <span>{t('table.issuer')}</span>,
+        filterFn: includesEcosystem,
       }
     ),
     columnHelper.accessor((row) => row.data.expirationDate, {
@@ -272,7 +280,12 @@ const Table = () => {
   const table = useReactTable({
     data: vcs,
     columns,
-    filterFns: { includesDataStore, recursiveIncludes },
+    filterFns: {
+      includesDataStore,
+      recursiveIncludes,
+      includesType,
+      includesEcosystem,
+    },
     globalFilterFn: recursiveIncludes,
     state: {
       sorting,
