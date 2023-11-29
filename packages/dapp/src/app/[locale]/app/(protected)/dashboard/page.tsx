@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 
 import { SupabaseProvider } from '@/components/SupabaseProvider';
 import { Identities } from './identities';
+import { SharedPresentations } from './shared-presentations';
 
 export const metadata: Metadata = {
   title: 'Dashboard',
@@ -14,6 +15,7 @@ export default async function Page() {
       <div className="dark:bg-navy-blue-800 dark:text-navy-blue-400 w-full rounded-3xl bg-white shadow-lg md:max-w-4xl">
         <SupabaseProvider>
           {/* TODO: Shared Credential Management */}
+          <SharedPresentations />
           <Identities />
         </SupabaseProvider>
       </div>

@@ -10,12 +10,13 @@ export const SupabaseProvider = ({
 }) => {
   const isSignedIn = useAuthStore((state) => state.isSignedIn);
 
-  if (!isSignedIn)
+  if (!isSignedIn) {
     return (
-      <div className="flex justify-center py-12">
+      <div className="flex min-h-[50vh] items-center justify-center">
         <SignInWithEthereum />
       </div>
     );
+  }
 
   return children;
 };
