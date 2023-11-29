@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { createClient } from '@supabase/supabase-js';
 import jwt from 'jsonwebtoken';
 
+import { Database } from '@/utils/supabase/database.types';
 import { getAgent } from '../../veramoSetup';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET POST OPTIONS',
+  'Access-Control-Allow-Methods': 'POST OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type',
 };
 
@@ -48,17 +50,54 @@ export async function POST(request: NextRequest) {
       presentation,
     });
 
-    console.log('verified', verified);
+    if (!verified) {
+      return new NextResponse('Presentation not valid', {
+        status: 400,
+        headers: {
+          ...CORS_HEADERS,
+        },
+      });
+    }
 
-    return new NextResponse(null, {
-      status: 204,
-      headers: {
-        ...CORS_HEADERS,
+    const supabase = createClient<Database>(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SECRET_KEY!
+    );
+
+    const { data, error } = await supabase
+      .from('presentations')
+      .insert({
+        user_id: user.sub,
+        presentation,
+        created_at: new Date().toISOString(),
+      })
+      .select()
+      .limit(1)
+      .single();
+
+    if (error || !data) {
+      return new NextResponse('Internal Server Error', {
+        status: 500,
+        headers: {
+          ...CORS_HEADERS,
+        },
+      });
+    }
+
+    return NextResponse.json(
+      {
+        presentationId: data.id,
       },
-    });
+      {
+        status: 201,
+        headers: {
+          ...CORS_HEADERS,
+        },
+      }
+    );
   } catch (error) {
-    return new NextResponse('Unauthorized', {
-      status: 401,
+    return new NextResponse('Internal Server Error', {
+      status: 500,
       headers: {
         ...CORS_HEADERS,
       },

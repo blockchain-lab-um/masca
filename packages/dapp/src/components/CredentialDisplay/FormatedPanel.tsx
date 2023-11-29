@@ -1,3 +1,5 @@
+'use client';
+
 import { Fragment, useMemo, useState } from 'react';
 import {
   CheckCircleIcon,
@@ -8,39 +10,14 @@ import { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
+import { DIDDisplay } from '@/components/DIDDisplay';
+import JsonModal from '@/components/JsonModal';
 import Tooltip from '@/components/Tooltip';
 import { convertTypes, copyToClipboard } from '@/utils/string';
-import JsonModal from '../JsonMdoal';
 
 interface FormatedPanelProps {
   credential: VerifiableCredential;
 }
-
-const DIDDisplay = ({ did }: { did: string }) => {
-  const t = useTranslations('DIDDisplay');
-  return (
-    <div className="flex flex-col space-y-0.5">
-      <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-800">
-        DID:
-      </h2>
-      <div className="flex">
-        <Tooltip tooltip={t('tooltip')}>
-          <a
-            href={`https://dev.uniresolver.io/#${did}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-md animated-transition dark:text-navy-blue-300 cursor-pointer font-normal text-gray-700 underline underline-offset-2"
-          >
-            {did.length > 20 ? `${did.slice(0, 16)}...${did.slice(-4)}` : did}
-          </a>
-        </Tooltip>
-        <button className="pl-1" onClick={() => copyToClipboard(did)}>
-          <DocumentDuplicateIcon className="animated-transition dark:text-navy-blue-300 ml-1 h-5 w-5 text-gray-700 hover:text-gray-700" />
-        </button>
-      </div>
-    </div>
-  );
-};
 
 const AddressDisplay = ({ address }: { address: string }) => {
   const t = useTranslations('AddressDisplay');
@@ -92,7 +69,21 @@ const CredentialSubject = ({
     {Object.entries(data).map(([key, value]: [string, any]) => (
       <Fragment key={key}>
         {(() => {
-          if (key === 'id') return <DIDDisplay did={value} />;
+          if (key === 'id') {
+            return (
+              <>
+                <div className="flex flex-col space-y-0.5">
+                  <h2 className="dark:text-navy-blue-200 font-b old pr-2 text-gray-800">
+                    DID:
+                  </h2>
+                  <div className="flex">
+                    <DIDDisplay did={value} />
+                  </div>
+                </div>
+              </>
+            );
+          }
+
           if (key === 'address') return <AddressDisplay address={value} />;
 
           const isObject = !(
@@ -185,13 +176,20 @@ const FormatedPanel = ({ credential }: FormatedPanelProps) => {
                 <h1 className="text-md dark:text-orange-accent-dark font-medium text-pink-500">
                   {t('issuer')}
                 </h1>
-                <DIDDisplay
-                  did={
-                    typeof credential.issuer === 'string'
-                      ? credential.issuer
-                      : credential.issuer.id
-                  }
-                />
+                <div className="flex flex-col space-y-0.5">
+                  <h2 className="dark:text-navy-blue-200 font-b old pr-2 text-gray-800">
+                    DID:
+                  </h2>
+                  <div className="flex">
+                    <DIDDisplay
+                      did={
+                        typeof credential.issuer === 'string'
+                          ? credential.issuer
+                          : credential.issuer.id
+                      }
+                    />
+                  </div>
+                </div>
               </div>
               <div className="flex flex-col items-start space-y-2">
                 <h1 className="text-md dark:text-orange-accent-dark font-medium text-pink-500">

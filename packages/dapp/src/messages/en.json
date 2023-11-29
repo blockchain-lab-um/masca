@@ -46,7 +46,9 @@
       "home": "Home",
       "other": "Other",
       "qr-code-session": "QR Scanner",
-      "settings": "Settings"
+      "settings": "Settings",
+      "sp": "sp",
+      "test": "test"
     }
   },
   "ChooseDeviceView": {

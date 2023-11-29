@@ -1,7 +1,12 @@
+import { nextui } from '@nextui-org/react';
+
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+const config = {
   darkMode: 'class',
-  content: ['./src/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    './src/**/*.{js,ts,jsx,tsx}',
+    '../../node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
+  ],
   theme: {
     colors: {
       white: '#fffffe',
@@ -153,5 +158,7 @@ module.exports = {
       },
     },
   },
-  plugins: [require('tailwind-scrollbar')],
+  plugins: [require('tailwind-scrollbar'), nextui()],
 };
+
+export default config;

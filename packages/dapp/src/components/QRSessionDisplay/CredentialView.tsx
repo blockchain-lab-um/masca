@@ -124,7 +124,7 @@ export const CredentialView = ({
             <FormatedPanel credential={credential} />
           </Tab.Panel>
           <Tab.Panel>
-            <JsonPanel credential={credential} />
+            <JsonPanel data={credential} />
           </Tab.Panel>
         </Tab.Panels>
         <div className="mt-8 flex justify-end">

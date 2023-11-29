@@ -159,7 +159,7 @@ const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
                 </div>
               </Tab.Panel>
               <Tab.Panel className="w-full">
-                <JsonPanel credential={vc.data} />
+                <JsonPanel data={vc.data} />
                 <div className="mt-8 flex flex-col md:flex-row">
                   <div className="flex-1" />
                   <div className="flex flex-1 justify-end">

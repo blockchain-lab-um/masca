@@ -22,6 +22,16 @@ const MAIN_LINKS = [
     href: '/app/settings',
     requiresConnection: true,
   },
+  {
+    name: 'test',
+    href: '/app/dashboard',
+    requiresConnection: true,
+  },
+  {
+    name: 'sp',
+    href: '/app/share-presentation/87043304-8cd5-4fad-9072-527f459656f6',
+    requiresConnection: false,
+  },
 ];
 
 export default function AppNavbar() {
