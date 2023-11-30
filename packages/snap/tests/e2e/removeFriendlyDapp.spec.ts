@@ -2,7 +2,6 @@ import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
 import { isError, Result } from '@blockchain-lab-um/utils';
 import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-datamanager';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import { VerifiableCredential } from '@veramo/core';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
 
@@ -17,7 +16,7 @@ import { createTestVCs } from '../helpers/generateTestVCs';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
 describe('removeFriendlyDapp', () => {
-  let snapMock: SnapsGlobalObject & SnapMock;
+  let snapMock: SnapMock;
   let generatedVC: VerifiableCredential;
 
   beforeAll(async () => {

@@ -1,6 +1,5 @@
 import { isError, Result } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
 import { DIDResolutionResult } from 'did-resolver';
 import { beforeAll, describe, expect, it } from 'vitest';
 
@@ -19,7 +18,7 @@ import {
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
 describe('resolveDID', () => {
-  let snapMock: SnapsGlobalObject & SnapMock;
+  let snapMock: SnapMock;
 
   const methods = [EBSI, ENS, ION, CHEQD, WEB, ETHR, KEY] as const;
 

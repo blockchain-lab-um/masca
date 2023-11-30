@@ -1,6 +1,5 @@
 import { isError, Result } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import { beforeAll, describe, expect, it } from 'vitest';
 
 import { onRpcRequest } from '../../src';
@@ -12,7 +11,7 @@ describe('togglePopups', () => {
   it('pass', () => {
     expect(true).toBe(true);
   });
-  let snapMock: SnapsGlobalObject & SnapMock;
+  let snapMock: SnapMock;
 
   beforeAll(async () => {
     snapMock = createMockSnap();

@@ -3,7 +3,6 @@ import {
   InternalSigMethods,
 } from '@blockchain-lab-um/masca-types';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import type { SnapsGlobalObject } from '@metamask/snaps-types';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import StorageService from '../../src/storage/Storage.service';
@@ -31,7 +30,7 @@ const methods = [
 ];
 
 describe('Wallet Service', () => {
-  let snapMock: SnapsGlobalObject & SnapMock;
+  let snapMock: SnapMock;
   let ethereumMock: MetaMaskInpageProvider;
 
   beforeAll(async () => {
