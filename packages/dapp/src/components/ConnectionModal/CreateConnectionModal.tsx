@@ -1,11 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Dialog } from '@headlessui/react';
+import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
 import { useTranslations } from 'next-intl';
 import { QRCodeSVG } from 'qrcode.react';
 
-import Modal from '@/components/Modal';
 import { useSessionStore } from '@/stores';
 
 interface CreateConnectionModalProps {
@@ -68,27 +67,51 @@ const CreateConnectionModal = ({
   useEffect(() => {
     if (isOpen) {
       createSession()
-        .then((data) => setConnectionData(data))
+        .then((data) => {
+          console.log(data);
+          setConnectionData(data);
+        })
         .catch(console.error);
     }
   }, [isOpen]);
 
   return (
-    <Modal isOpen={isOpen} setOpen={setOpen}>
-      <Dialog.Title
-        as="h3"
-        className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-900 "
-      >
-        {t('title')}
-      </Dialog.Title>
-      <p>{t('desc')}</p>
-      <div className="flex w-full justify-center p-4 pt-8">
-        <div className="dark:border-orange-accent-dark rounded-xl border-2 border-pink-500 bg-white p-4">
-          {connectionData && (
-            <QRCodeSVG value={connectionData} height={300} width={300} />
-          )}
-        </div>
-      </div>
+    <Modal
+      backdrop="blur"
+      size="xl"
+      isOpen={isOpen}
+      onClose={() => setOpen(false)}
+      hideCloseButton={true}
+      placement="center"
+      className="main-bg mx-4 py-2"
+    >
+      <ModalContent>
+        {() => (
+          <>
+            <ModalHeader>
+              <div className="text-h3 font-ubuntu dark:text-navy-blue-50 w-full text-center font-medium leading-6 text-gray-900">
+                {t('title')}
+              </div>
+            </ModalHeader>
+            <ModalBody>
+              <p className="text-md dark:text-navy-blue-200 text-center text-gray-600">
+                {t('desc')}
+              </p>
+              <div className="flex w-full justify-center p-4 pt-8">
+                <div className="dark:border-orange-accent-dark rounded-xl border-2 border-pink-500 bg-white p-4">
+                  {connectionData && (
+                    <QRCodeSVG
+                      value={connectionData}
+                      height={300}
+                      width={300}
+                    />
+                  )}
+                </div>
+              </div>
+            </ModalBody>
+          </>
+        )}
+      </ModalContent>
     </Modal>
   );
 };

@@ -234,7 +234,7 @@ const CreateCredentialDisplay = () => {
           <div>
             <div className="mt-5 flex items-baseline justify-between">
               <div className="text-h5 dark:text-navy-blue-100 font-ubuntu mt-8 flex font-medium text-gray-800">
-                {t('save.title')} <InfoIcon>{t('save.description')}</InfoIcon>
+                {t('save.title')} <InfoIcon content={t('save.description')} />
               </div>
               <div className="">
                 <ToggleSwitch

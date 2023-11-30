@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Tab, Tabs } from '@nextui-org/react';
 
@@ -17,28 +18,41 @@ export const TabWrapper = ({
   const router = useRouter();
   const pathname = usePathname();
 
+  const [selectedTab, setSelectedTab] = useState<'Normal' | 'Json'>('Normal');
+
   return (
-    <Tabs
-      defaultSelectedKey={view}
-      onSelectionChange={(key) => {
-        const params = new URLSearchParams(window.location.search);
+    <>
+      <Tabs
+        onSelectionChange={(key) => {
+          const params = new URLSearchParams(window.location.search);
 
-        params.set('view', key.toString());
-        if (key === 'json') {
-          params.delete('page');
-        } else {
-          params.set('page', '1');
-        }
+          params.set('view', key.toString());
+          if (key === 'json') {
+            params.delete('page');
+          } else {
+            params.set('page', '1');
+          }
 
-        router.replace(`${pathname}?${params.toString()}`);
-      }}
-    >
-      <Tab key="normal" title="Normal">
-        {FormatedView}
-      </Tab>
-      <Tab key="json" title="Json">
-        {JsonView}
-      </Tab>
-    </Tabs>
+          router.replace(`${pathname}?${params.toString()}`);
+          setSelectedTab(key as 'Normal' | 'Json');
+        }}
+        radius="lg"
+        size="lg"
+        className="mb-4"
+        classNames={{
+          cursor: 'dark:bg-orange-accent-dark bg-pink-200',
+          tabList: 'bg-white dark:bg-navy-blue-800',
+          tabContent:
+            'dark:text-navy-blue-300 dark:hover:text-navy-blue-200 text-gray-700 hover:text-gray-500 dark:group-data-[selected=true]:text-navy-blue-900 group-data-[selected=true]:text-gray-800',
+        }}
+      >
+        <Tab key="Normal" title="Normal" />
+        <Tab key="Json" title="Json" />
+      </Tabs>
+      <>
+        {selectedTab === 'Normal' && FormatedView}
+        {selectedTab === 'Json' && JsonView}
+      </>
+    </>
   );
 };

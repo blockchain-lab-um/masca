@@ -233,7 +233,7 @@ const SettingsCard = () => {
           <span className="dark:text-navy-blue-200 mt-12 flex justify-between text-gray-700">
             <div className="flex">
               <span className="mr-1 text-red-500">{t('disable-popups')}</span>
-              <InfoIcon>{t('popups-desc')}</InfoIcon>
+              <InfoIcon content={t('popups-desc')} />
             </div>
             <ToggleSwitch
               size="sm"

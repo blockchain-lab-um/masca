@@ -175,7 +175,7 @@ const CreatePresentationDisplay = () => {
             <div className="mt-16 flex items-baseline justify-between border-b border-gray-300 px-4">
               <div className="text-h5 dark:text-navy-blue-100 font-ubuntu mt-8 flex font-medium text-gray-800">
                 {t('advanced.title')}{' '}
-                <InfoIcon>{t('advanced.tooltip')}</InfoIcon>
+                <InfoIcon content={t('advanced.tooltip')} />
               </div>
               <div className="">
                 <ToggleSwitch

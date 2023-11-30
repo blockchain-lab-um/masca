@@ -4,13 +4,12 @@ import {
   type AvailableCredentialStores,
   type QueryCredentialsRequestResult,
 } from '@blockchain-lab-um/masca-connector';
-import { Dialog } from '@headlessui/react';
+import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
 import { useTranslations } from 'next-intl';
 
 import Button from '@/components//Button';
 import ToggleSwitch from '@/components//Switch';
 import DeleteModal from '@/components/DeleteModal';
-import Modal from '@/components/Modal';
 import { isPolygonVC } from '@/utils/credential';
 import { stringifyCredentialSubject } from '@/utils/format';
 import { useMascaStore, useToastStore } from '@/stores';
@@ -133,46 +132,73 @@ function ModifyDSModal({ isOpen, setOpen, vc }: ModifyDSModalProps) {
 
   return (
     <>
-      <Modal isOpen={isOpen} setOpen={setOpen}>
-        <Dialog.Title
-          as="h3"
-          className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-800"
-        >
-          {t('title')}
-        </Dialog.Title>
-        <div className="mt-2">
-          <p className="text-md dark:text-navy-blue-200 text-gray-700">
-            {t('desc')}
-          </p>
-        </div>
-        <div className="dark:text-navy-blue-100 mt-10 text-gray-700">
-          {Object.keys(vcStores).map((store, id) => (
-            <div key={id} className="mt-3 flex items-center justify-between">
-              <div>{store}</div>
-              <span
-                className={`${!vcStores[store].enabled ? 'opacity-30' : ''}`}
-              >
-                <ToggleSwitch
-                  enabled={vcStores[store].saved}
-                  disabled={!vcStores[store].enabled}
-                  setEnabled={(e) => {
-                    handleDSChange(store as AvailableCredentialStores, e)
-                      .then(() => {})
-                      .catch(() => {});
-                  }}
-                  size="sm"
-                />
-              </span>
-            </div>
-          ))}
-        </div>
-        <div className="flex items-center justify-end">
-          <div className="-mr-2 mt-10">
-            <Button onClick={() => setOpen(false)} variant="done" size="xs">
-              {t('done')}
-            </Button>
-          </div>
-        </div>
+      <Modal
+        backdrop="blur"
+        isOpen={isOpen}
+        size="md"
+        onClose={() => setOpen(false)}
+        hideCloseButton={true}
+        placement="center"
+        className="main-bg mx-4 py-2"
+      >
+        <ModalContent>
+          {() => (
+            <>
+              <ModalHeader>
+                <div className="text-h3 font-ubuntu dark:text-navy-blue-50 w-full text-center font-medium leading-6 text-gray-900">
+                  {t('title')}
+                </div>
+              </ModalHeader>
+              <ModalBody>
+                <div className="mt-2">
+                  <p className="text-md dark:text-navy-blue-200 text-center text-gray-700">
+                    {t('desc')}
+                  </p>
+                </div>
+                <div className="dark:text-navy-blue-100 mt-10 text-gray-700">
+                  {Object.keys(vcStores).map((store, id) => (
+                    <div
+                      key={id}
+                      className="mt-3 flex items-center justify-between"
+                    >
+                      <div>{store}</div>
+                      <span
+                        className={`${
+                          !vcStores[store].enabled ? 'opacity-30' : ''
+                        }`}
+                      >
+                        <ToggleSwitch
+                          enabled={vcStores[store].saved}
+                          disabled={!vcStores[store].enabled}
+                          setEnabled={(e) => {
+                            handleDSChange(
+                              store as AvailableCredentialStores,
+                              e
+                            )
+                              .then(() => {})
+                              .catch(() => {});
+                          }}
+                          size="sm"
+                        />
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex items-center justify-end">
+                  <div className="-mr-2 mt-10">
+                    <Button
+                      onClick={() => setOpen(false)}
+                      variant="done"
+                      size="xs"
+                    >
+                      {t('done')}
+                    </Button>
+                  </div>
+                </div>
+              </ModalBody>
+            </>
+          )}
+        </ModalContent>
       </Modal>
       <DeleteModal
         isOpen={deleteModalOpen}

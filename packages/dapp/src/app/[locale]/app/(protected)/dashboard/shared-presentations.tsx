@@ -94,7 +94,6 @@ export const SharedPresentations = () => {
 
   useEffect(() => {
     if (!token) return;
-    console.log('Fetching presentations');
     queryPresentations(token)
       .then((data) => setPresentations(data))
       .catch((error) => {

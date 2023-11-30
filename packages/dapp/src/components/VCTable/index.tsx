@@ -190,7 +190,7 @@ const Table = () => {
         ),
         header: () => (
           <span className="flex gap-x-1">
-            {t('table.status')} <InfoIcon>{t('tooltip.status')}</InfoIcon>
+            {t('table.status')} <InfoIcon content={t('tooltip.status')} />
           </span>
         ),
       }
@@ -215,7 +215,7 @@ const Table = () => {
         ),
         header: () => (
           <span className="flex gap-x-1">
-            {t('table.store')} <InfoIcon>{t('tooltip.store')}</InfoIcon>
+            {t('table.store')} <InfoIcon content={t('tooltip.store')} />
           </span>
         ),
         enableGlobalFilter: false,

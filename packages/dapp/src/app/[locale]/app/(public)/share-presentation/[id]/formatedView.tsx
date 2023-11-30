@@ -37,6 +37,12 @@ export const FormatedView = ({
             params.set('view', 'normal');
             router.replace(`${pathname}?${params.toString()}`);
           }}
+          classNames={{
+            cursor: 'dark:bg-orange-accent-dark bg-pink-200',
+            item: 'bg-white dark:bg-navy-blue-800 [&[data-hover=true]:not([data-active=true])]:bg-pink-50 dark:[&[data-hover=true]:not([data-active=true])]:bg-navy-blue-700',
+            prev: 'bg-white dark:bg-navy-blue-800 [&[data-hover=true]:not([data-active=true])]:bg-pink-50 dark:[&[data-hover=true]:not([data-active=true])]:bg-navy-blue-700',
+            next: 'bg-white dark:bg-navy-blue-800 [&[data-hover=true]:not([data-active=true])]:bg-pink-50 dark:[&[data-hover=true]:not([data-active=true])]:bg-navy-blue-700',
+          }}
         />
       </div>
       <div className="dark:bg-navy-blue-800 mt-4 h-full w-full rounded-3xl bg-white p-6 shadow-lg">
