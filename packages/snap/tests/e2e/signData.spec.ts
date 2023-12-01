@@ -5,7 +5,7 @@ import {
 } from '@blockchain-lab-um/masca-types';
 import { isError, isSuccess, Result } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import type { SnapsGlobalObject } from '@metamask/snaps-types';
+import { SnapsProvider } from '@metamask/snaps-sdk';
 import { bytesToBase64url } from '@veramo/utils';
 import elliptic from 'elliptic';
 import { HDNodeWallet, Mnemonic } from 'ethers';
@@ -209,7 +209,7 @@ const JWZ_TEST_CASES = [
 ];
 
 describe('signData', () => {
-  let snapMock: SnapsGlobalObject & SnapMock;
+  let snapMock: SnapsProvider & SnapMock;
   let currentMethod: string;
 
   beforeAll(async () => {
