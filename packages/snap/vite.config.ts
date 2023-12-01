@@ -10,8 +10,12 @@ export default defineConfig({
     pool: 'forks',
     include: process.env.CRON
       ? ['tests/cron/**/*.spec.ts']
-      : ['tests/e2e/**/*.spec.ts', 'tests/unit/**/*.spec.ts'],
-    silent: true,
+      : [
+          'tests/e2e/**/*.spec.ts',
+          'tests/unit/**/*.spec.ts',
+          'tests/other/**/*.spec.ts',
+        ],
+    silent: false,
     cache: false,
     environment: 'node', // or 'happy-dom', 'jsdom'
     server: {
