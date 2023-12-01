@@ -1,6 +1,7 @@
 import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
 import { isError, isSuccess, Result } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
+import { SnapsProvider } from '@metamask/snaps-sdk';
 import { VerifiableCredential } from '@veramo/core';
 import { beforeAll, describe, expect, it } from 'vitest';
 
@@ -11,7 +12,7 @@ import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
 describe('setCurrentAccount', () => {
-  let snapMock: SnapMock;
+  let snapMock: SnapsProvider & SnapMock;
 
   beforeAll(async () => {
     snapMock = createMockSnap();

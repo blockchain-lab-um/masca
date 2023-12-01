@@ -5,6 +5,7 @@ import {
 } from '@blockchain-lab-um/masca-types';
 import { isError, Result } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
+import { SnapsProvider } from '@metamask/snaps-sdk';
 import type { VerifiableCredential } from '@veramo/core';
 import { beforeAll, describe, expect, it } from 'vitest';
 
@@ -34,7 +35,7 @@ const stores: AvailableCredentialStores[][] = [
 
 describe('createVerifiableCredential', () => {
   describe.each(methods)('Using method %s', (method) => {
-    let snapMock: SnapMock;
+    let snapMock: SnapsProvider & SnapMock;
     let issuer: string;
     let agent: Agent;
 

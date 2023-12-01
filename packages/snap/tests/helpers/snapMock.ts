@@ -3,6 +3,7 @@ import type { MascaState } from '@blockchain-lab-um/masca-types';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import type { RequestArguments } from '@metamask/providers/dist/BaseProvider';
 import type { Maybe } from '@metamask/providers/dist/utils';
+import { SnapsProvider } from '@metamask/snaps-sdk';
 import { AlchemyProvider, Filter, TransactionRequest } from 'ethers';
 import { vi } from 'vitest';
 
@@ -129,6 +130,6 @@ export class SnapMock implements ISnapMock {
   }
 }
 
-export function createMockSnap(): SnapMock {
-  return new SnapMock();
+export function createMockSnap(): SnapsProvider & SnapMock {
+  return new SnapMock() as SnapsProvider & SnapMock;
 }

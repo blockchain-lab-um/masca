@@ -2,6 +2,7 @@ import { isError, isSuccess, Result } from '@blockchain-lab-um/utils';
 import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-datamanager';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { MetaMaskInpageProvider } from '@metamask/providers';
+import { SnapsProvider } from '@metamask/snaps-sdk';
 import type { VerifiableCredential } from '@veramo/core';
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -17,7 +18,7 @@ import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
 describe('deleteCredential', () => {
   let ceramicData: StoredCredentials;
-  let snapMock: SnapMock;
+  let snapMock: SnapsProvider & SnapMock;
   let agent: Agent;
   let generatedVC: VerifiableCredential;
 

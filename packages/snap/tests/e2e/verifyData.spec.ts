@@ -1,5 +1,6 @@
 import { isError, Result } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
+import { SnapsProvider } from '@metamask/snaps-sdk';
 import { VerifiableCredential, VerifiablePresentation } from '@veramo/core';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
@@ -13,7 +14,7 @@ import { createTestVCs } from '../helpers/generateTestVCs';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
 describe('verifyData', () => {
-  let snapMock: SnapMock;
+  let snapMock: SnapsProvider & SnapMock;
   let agent: Agent;
   let generatedVC: VerifiableCredential;
 

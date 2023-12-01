@@ -1,5 +1,6 @@
 // TODO Revisit after composeDB is implemented
 import { MetaMaskInpageProvider } from '@metamask/providers';
+import { SnapsProvider } from '@metamask/snaps-sdk';
 import type { W3CVerifiableCredential } from '@veramo/core';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
@@ -11,7 +12,7 @@ import { EXAMPLE_VC } from '../data/verifiable-credentials';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
 describe('Utils [ceramic]', () => {
-  let snapMock: SnapMock;
+  let snapMock: SnapsProvider & SnapMock;
 
   beforeAll(async () => {
     snapMock = createMockSnap();

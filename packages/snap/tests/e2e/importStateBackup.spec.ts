@@ -2,6 +2,7 @@ import { type MascaState } from '@blockchain-lab-um/masca-types';
 import { isError, Result } from '@blockchain-lab-um/utils';
 import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-datamanager';
 import { MetaMaskInpageProvider } from '@metamask/providers';
+import { SnapsProvider } from '@metamask/snaps-sdk';
 import type { IIdentifier, VerifiableCredential } from '@veramo/core';
 import cloneDeep from 'lodash.clonedeep';
 import { beforeAll, describe, expect, it } from 'vitest';
@@ -16,7 +17,7 @@ import { createTestVCs } from '../helpers/generateTestVCs';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
 describe('importStateBackup', () => {
-  let snapMock: SnapMock;
+  let snapMock: SnapsProvider & SnapMock;
   let identifier: IIdentifier;
   let agent: Agent;
   let generatedVC: VerifiableCredential;

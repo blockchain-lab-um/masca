@@ -14,6 +14,9 @@ patchedDependencies:
   '@digitalbazaar/http-client@1.2.0':
     hash: yl3b524jp4dtc7mdahww7krgi4
     path: patches/@digitalbazaar__http-client@1.2.0.patch
+  '@metamask/snaps-sdk@1.2.0':
+    hash: opksiuvz2n6at3zcjhfdijadqq
+    path: patches/@metamask__snaps-sdk@1.2.0.patch
   cross-fetch@3.1.8:
     hash: o7exbxzvysudd5km3yp6v3mgsi
     path: patches/cross-fetch@3.1.8.patch
@@ -682,7 +685,7 @@ importers:
         version: 14.0.2
       '@metamask/snaps-sdk':
         specifier: 1.2.0
-        version: 1.2.0
+        version: 1.2.0(patch_hash=opksiuvz2n6at3zcjhfdijadqq)
       '@metamask/utils':
         specifier: ^8.2.1
         version: 8.2.1
@@ -6699,7 +6702,7 @@ packages:
       '@babel/plugin-transform-runtime': 7.23.2(@babel/core@7.23.2)
       '@babel/preset-env': 7.23.2(@babel/core@7.23.2)
       '@babel/preset-typescript': 7.23.2(@babel/core@7.23.2)
-      '@metamask/snaps-sdk': 1.2.0
+      '@metamask/snaps-sdk': 1.2.0(patch_hash=opksiuvz2n6at3zcjhfdijadqq)
       '@metamask/snaps-utils': 5.0.0(@metamask/approval-controller@4.1.0)
       '@metamask/snaps-webpack-plugin': 3.1.1(@metamask/approval-controller@4.1.0)
       '@metamask/utils': 8.2.1
@@ -6760,7 +6763,7 @@ packages:
       - supports-color
     dev: true
 
-  /@metamask/snaps-sdk@1.2.0:
+  /@metamask/snaps-sdk@1.2.0(patch_hash=opksiuvz2n6at3zcjhfdijadqq):
     resolution: {integrity: sha512-fAN/t2X9ernX7zA6QPMgsZhDbNitSVThU5jkmZz8hbLdqrix6vzFS2UybynXTiZlUteXGdpVykZpw5w9YnfYUg==}
     engines: {node: ^18.16 || >=20}
     dependencies:
@@ -6772,6 +6775,7 @@ packages:
       superstruct: 1.0.3
     transitivePeerDependencies:
       - supports-color
+    patched: true
 
   /@metamask/snaps-utils@5.0.0(@metamask/approval-controller@4.1.0):
     resolution: {integrity: sha512-29sErNno5CzTrmgsG9SnHxFHbGPhyt2jh5wW6rIfLe4QVJfY/MhL1kR0hVqCIDHluCSl37PDGW1b8qfznRbOfA==}
@@ -6784,7 +6788,7 @@ packages:
       '@metamask/permission-controller': 5.0.1(@metamask/approval-controller@4.1.0)
       '@metamask/rpc-errors': 6.1.0
       '@metamask/snaps-registry': 2.1.0
-      '@metamask/snaps-sdk': 1.2.0
+      '@metamask/snaps-sdk': 1.2.0(patch_hash=opksiuvz2n6at3zcjhfdijadqq)
       '@metamask/utils': 8.2.1
       '@noble/hashes': 1.3.2
       '@scure/base': 1.1.3
@@ -6807,7 +6811,7 @@ packages:
     resolution: {integrity: sha512-nCRjZ+ZkrsgoYh5+rqZJ81Gw9aunrzGy9shFTDcZAeRT2K6slCSV1L5J0/qwVOJnpN5th0JjTwMFN0T0TH6wrQ==}
     engines: {node: ^18.16 || >=20}
     dependencies:
-      '@metamask/snaps-sdk': 1.2.0
+      '@metamask/snaps-sdk': 1.2.0(patch_hash=opksiuvz2n6at3zcjhfdijadqq)
       '@metamask/snaps-utils': 5.0.0(@metamask/approval-controller@4.1.0)
       '@metamask/utils': 8.2.1
       webpack-sources: 3.2.3

@@ -1,5 +1,6 @@
 import { isError, Result } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
+import { SnapsProvider } from '@metamask/snaps-sdk';
 import { beforeAll, describe, expect, it } from 'vitest';
 
 import { onRpcRequest } from '../../src';
@@ -33,7 +34,7 @@ const methods = [
 ];
 
 describe('switchDIDMethod', () => {
-  let snapMock: SnapMock;
+  let snapMock: SnapsProvider & SnapMock;
 
   beforeAll(async () => {
     snapMock = createMockSnap();
