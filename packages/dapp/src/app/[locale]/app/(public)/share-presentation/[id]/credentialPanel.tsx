@@ -6,13 +6,13 @@ import {
   DocumentDuplicateIcon,
   ExclamationCircleIcon,
 } from '@heroicons/react/24/outline';
-import { Tooltip } from '@nextui-org/react';
 import { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
 import { DIDDisplay } from '@/components/DIDDisplay';
 import JsonModal from '@/components/JsonModal';
+import Tooltip from '@/components/Tooltip';
 import { convertTypes, copyToClipboard } from '@/utils/string';
 
 interface FormatedPanelProps {
@@ -27,7 +27,7 @@ const AddressDisplay = ({ address }: { address: string }) => {
         Address:
       </h2>
       <div className="flex">
-        <Tooltip content={t('tooltip')}>
+        <Tooltip tooltip={t('tooltip')}>
           <a
             href={`https://etherscan.io/address/${address}`}
             target="_blank"
@@ -121,8 +121,8 @@ const CredentialSubject = ({
   </>
 );
 
-const FormatedPanel = ({ credential }: FormatedPanelProps) => {
-  const t = useTranslations('FormatedPanel');
+const CredentialPanel = ({ credential }: FormatedPanelProps) => {
+  const t = useTranslations('CredentialPanel');
   const types = useMemo(() => convertTypes(credential.type), [credential.type]);
 
   const [jsonModalOpen, setJsonModalOpen] = useState(false);
@@ -141,24 +141,36 @@ const FormatedPanel = ({ credential }: FormatedPanelProps) => {
   return (
     <>
       <div className="flex flex-col space-y-8">
-        <div className="dark:from-navy-blue-700 dark:to-navy-blue-700 flex max-w-full items-center rounded-2xl bg-gradient-to-b from-orange-100 to-pink-100 px-4 py-6 shadow-md">
+        <div className="items-cetner flex flex-row px-6 pt-6">
           <div className="w-11/12">
-            <Tooltip content={types}>
+            <h2 className="dark:text-navy-blue-200 font-bold text-gray-800">
+              Credential
+            </h2>
+            <Tooltip tooltip={types}>
               <h1 className="font-ubuntu dark:text-orange-accent-dark text-left text-lg font-medium text-pink-500 sm:text-xl md:text-2xl lg:truncate">
                 {types}
               </h1>
             </Tooltip>
           </div>
-          <div className="flex flex-1 justify-end">
-            <Tooltip content="Credential is valid.">
+          <div className="flex flex-1 justify-end space-x-1">
+            <Tooltip tooltip="Credential is valid.">
               {isValid ? (
-                <CheckCircleIcon className="dark:text-orange-accent-dark h-10 w-10 text-pink-500" />
+                <CheckCircleIcon className="dark:text-orange-accent-dark h-12 w-12 text-pink-500" />
               ) : (
-                <ExclamationCircleIcon className="dark:text-orange-accent-dark h-10 w-10 text-pink-500" />
+                <ExclamationCircleIcon className="dark:text-orange-accent-dark h-12 w-12 text-pink-500" />
               )}
             </Tooltip>
+            <div className="flex flex-col items-end">
+              <h1 className="font-ubuntu dark:text-orange-accent-dark text-left text-lg font-medium text-pink-500 sm:text-xl md:text-2xl lg:truncate">
+                Status
+              </h1>
+              <h2 className="dark:text-navy-blue-200 font-bold text-gray-800">
+                {isValid ? 'Valid' : 'Invalid'}
+              </h2>
+            </div>
           </div>
         </div>
+
         <div className="flex flex-col space-y-8 px-6 md:flex-row md:space-x-16 md:space-y-0">
           <div className="flex w-full flex-col items-start space-y-2 md:max-w-[50%]">
             <h1 className="text-md dark:text-orange-accent-dark font-medium text-pink-500">
@@ -219,4 +231,4 @@ const FormatedPanel = ({ credential }: FormatedPanelProps) => {
   );
 };
 
-export default FormatedPanel;
+export default CredentialPanel;

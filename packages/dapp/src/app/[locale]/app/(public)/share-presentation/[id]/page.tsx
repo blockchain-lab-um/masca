@@ -44,7 +44,7 @@ export default async function Page({
 }: {
   params: { id: string };
   searchParams: {
-    view: 'normal' | 'json';
+    view: 'Normal' | 'Json';
     page: string | undefined;
   };
 }) {
@@ -53,16 +53,17 @@ export default async function Page({
     ? presentation.verifiableCredential.map(decodeCredentialToObject)
     : [];
   const page = searchParams.page ?? '1';
-  const view = searchParams.view ?? 'normal';
+  const view = searchParams.view ?? 'Normal';
   return (
     <div className="flex w-full flex-1 items-start justify-center">
       <div className="max-w-full flex-1 md:max-w-3xl">
         <TabWrapper
-          view={view}
+          view={'Normal'}
           FormatedView={
             <FormatedView
               credential={credentials[parseInt(page, 10) - 1]}
               holder={presentation.holder}
+              expirationDate={presentation.expirationDate}
               issuanceDate={presentation.issuanceDate}
               page={page}
               total={credentials.length ?? 1}

@@ -2,10 +2,9 @@
 
 import { useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { Tab, Tabs } from '@nextui-org/react';
 
 interface TabWrapperProps {
-  view: 'normal' | 'json';
+  view: 'Normal' | 'Json';
   FormatedView: React.ReactNode;
   JsonView: React.ReactNode;
 }
@@ -22,7 +21,7 @@ export const TabWrapper = ({
 
   return (
     <>
-      <Tabs
+      {/* <Tabs
         onSelectionChange={(key) => {
           const params = new URLSearchParams(window.location.search);
 
@@ -48,10 +47,10 @@ export const TabWrapper = ({
       >
         <Tab key="Normal" title="Normal" />
         <Tab key="Json" title="Json" />
-      </Tabs>
+      </Tabs> */}
       <>
-        {selectedTab === 'Normal' && FormatedView}
-        {selectedTab === 'Json' && JsonView}
+        {view === 'Normal' && FormatedView}
+        {view === 'Json' && JsonView}
       </>
     </>
   );
