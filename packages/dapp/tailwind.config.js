@@ -158,7 +158,7 @@ const config = {
       },
     },
   },
-  plugins: [require('tailwind-scrollbar'), nextui()],
+  plugins: [nextui(), require('tailwind-scrollbar')({ nocompatible: true })],
 };
 
 export default config;

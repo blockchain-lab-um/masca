@@ -80,13 +80,13 @@
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   },
-  "packageManager": "pnpm@8.9.2",
+  "packageManager": "pnpm@8.11.0",
   "engines": {
-    "node": ">=18.18.2"
+    "node": ">=20.10.0"
   },
   "volta": {
-    "node": "18.18.2",
-    "pnpm": "8.9.2"
+    "node": "20.10.0",
+    "pnpm": "8.11.0"
   },
   "pnpm": {
     "patchedDependencies": {
@@ -96,8 +96,7 @@
       "cross-fetch@4.0.0": "patches/cross-fetch@4.0.0.patch",
       "@ceramicnetwork/common@2.30.0": "patches/@ceramicnetwork__common@2.30.0.patch",
       "@changesets/assemble-release-plan@5.2.4": "patches/@changesets__assemble-release-plan@5.2.4.patch",
-      "@metamask/snaps-types@3.0.1": "patches/@metamask__snaps-types@3.0.1.patch",
-      "@metamask/snaps-utils@3.2.0": "patches/@metamask__snaps-utils@3.2.0.patch"
+      "@metamask/snaps-sdk@1.2.0": "patches/@metamask__snaps-sdk@1.2.0.patch"
     },
     "allowNonAppliedPatches": true
   }

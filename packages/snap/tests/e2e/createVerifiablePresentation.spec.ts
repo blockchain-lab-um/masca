@@ -1,7 +1,7 @@
 import { AvailableMethods, ProofOptions } from '@blockchain-lab-um/masca-types';
 import { isError, Result } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import type { Json, SnapsGlobalObject } from '@metamask/snaps-types';
+import { SnapsProvider, type Json } from '@metamask/snaps-sdk';
 import { VerifiablePresentation } from '@veramo/core';
 import { beforeAll, describe, expect, it } from 'vitest';
 
@@ -45,7 +45,7 @@ const vcs = [
 
 describe('createVerifiablePresentation', () => {
   describe.each(methods)('Using method %s', (method) => {
-    let snapMock: SnapsGlobalObject & SnapMock;
+    let snapMock: SnapsProvider & SnapMock;
     let issuer: string;
     let agent: Agent;
 

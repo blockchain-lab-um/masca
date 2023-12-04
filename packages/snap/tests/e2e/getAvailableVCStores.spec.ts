@@ -1,7 +1,7 @@
 import { availableCredentialStores } from '@blockchain-lab-um/masca-types';
 import { isError, Result } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import type { SnapsGlobalObject } from '@metamask/snaps-types';
+import { SnapsProvider } from '@metamask/snaps-sdk';
 import { beforeAll, describe, expect, it } from 'vitest';
 
 import { onRpcRequest } from '../../src';
@@ -10,7 +10,7 @@ import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
 describe('getAvailableCredentialStores', () => {
-  let snapMock: SnapsGlobalObject & SnapMock;
+  let snapMock: SnapsProvider & SnapMock;
 
   beforeAll(async () => {
     snapMock = createMockSnap();

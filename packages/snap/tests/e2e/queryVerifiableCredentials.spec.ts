@@ -2,7 +2,7 @@ import { isError, Result } from '@blockchain-lab-um/utils';
 import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-datamanager';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import type { SnapsGlobalObject } from '@metamask/snaps-types';
+import { SnapsProvider } from '@metamask/snaps-sdk';
 import { VerifiableCredential } from '@veramo/core';
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -18,7 +18,7 @@ import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
 describe('queryVerifiableCredentials', () => {
   let ceramicData: StoredCredentials;
-  let snapMock: SnapsGlobalObject & SnapMock;
+  let snapMock: SnapsProvider & SnapMock;
   let agent: Agent;
   let generatedVC: VerifiableCredential;
 
