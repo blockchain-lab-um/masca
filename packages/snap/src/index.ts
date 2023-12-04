@@ -2,7 +2,7 @@ import './polyfills/intl';
 
 import { isValidSetCurrentAccountRequest } from '@blockchain-lab-um/masca-types';
 import { ResultObject, type Result } from '@blockchain-lab-um/utils';
-import type { OnRpcRequestHandler } from '@metamask/snaps-types';
+import type { OnRpcRequestHandler } from '@metamask/snaps-sdk';
 
 import GeneralService from './General.service';
 import SnapService from './Snap.service';
@@ -14,7 +14,7 @@ import WalletService from './Wallet.service';
 export const onRpcRequest: OnRpcRequestHandler = async ({
   request,
   origin,
-}): Promise<Result<unknown>> => {
+}): Promise<Result<any>> => {
   try {
     await StorageService.init();
 

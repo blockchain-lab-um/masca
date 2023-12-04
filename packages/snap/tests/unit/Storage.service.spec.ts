@@ -1,6 +1,6 @@
 import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsGlobalObject } from '@metamask/snaps-types';
+import { SnapsProvider } from '@metamask/snaps-sdk';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import StorageService from '../../src/storage/Storage.service';
@@ -8,7 +8,7 @@ import { getInitialSnapState } from '../../src/utils/config';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
 describe('Storage Service', () => {
-  let snapMock: SnapsGlobalObject & SnapMock;
+  let snapMock: SnapsProvider & SnapMock;
   beforeEach(async () => {
     snapMock = createMockSnap();
     snapMock.rpcMocks.snap_manageState({

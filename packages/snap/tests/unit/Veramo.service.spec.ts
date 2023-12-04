@@ -2,7 +2,7 @@ import { CURRENT_STATE_VERSION, Filter } from '@blockchain-lab-um/masca-types';
 import { StreamID } from '@ceramicnetwork/streamid';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import type { SnapsGlobalObject } from '@metamask/snaps-types';
+import { SnapsProvider } from '@metamask/snaps-sdk';
 import { IIdentifier } from '@veramo/core';
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -39,7 +39,7 @@ import { createMockSnap, SnapMock } from '../helpers/snapMock';
 const credentials = [EXAMPLE_VC, EXAMPLE_VC2, EXAMPLE_VC_EIP712];
 
 describe('Veramo Service', () => {
-  let snapMock: SnapsGlobalObject & SnapMock;
+  let snapMock: SnapsProvider & SnapMock;
   let ceramicData: StoredCredentials;
 
   beforeEach(async () => {

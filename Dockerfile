@@ -1,9 +1,9 @@
-FROM node:18.18.2-alpine3.16
+FROM node:20.10.0-alpine3.18
 
 WORKDIR /app
 
 # Install pnpm
-RUN npm i -g pnpm@8.9.2
+RUN npm i -g pnpm@8.11.0
 
 # Copy patches
 COPY ./patches ./patches
@@ -37,8 +37,6 @@ COPY . .
 # that depend on some of the files copied above
 RUN pnpm install --frozen-lockfile
 
-# Copy nx-cloud.env
-COPY ./nx-cloud.env ./
 ENV NODE_ENV=production
 
 # For Dapp to build as Standalone
