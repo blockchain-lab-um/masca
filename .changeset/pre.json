@@ -15,6 +15,9 @@
     "@blockchain-lab-um/masca-types": "1.2.0"
   },
   "changesets": [
+    "chatty-plants-notice",
+    "chilled-bugs-remember",
+    "small-apples-invent",
     "thin-donkeys-grin"
   ]
 }

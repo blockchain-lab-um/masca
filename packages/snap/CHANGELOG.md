@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.2.0-beta.1
+
+### Patch Changes
+
+- [#526](https://github.com/blockchain-lab-um/masca/pull/526) [`9504781`](https://github.com/blockchain-lab-um/masca/commit/9504781766a5cf3e4a03b3bb5d137c40f728958c) Thanks [@andyv09](https://github.com/andyv09)! - Replaced @metamask/snaps-types, snaps-utils and snaps-ui with @metamask/snaps-sdk
+
+- Updated dependencies [[`27940d9`](https://github.com/blockchain-lab-um/masca/commit/27940d9b52ac06716aa25a04715e4e5706f95a86)]:
+  - @blockchain-lab-um/oidc-client-plugin@0.3.0-beta.0
+
 ## 1.2.0-beta.0
 
 ### Minor Changes
