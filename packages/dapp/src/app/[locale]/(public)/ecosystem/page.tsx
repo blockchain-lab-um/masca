@@ -10,7 +10,55 @@ export const metadata: Metadata = {
 
 // const integrations: ProjectIconProps[] = [];
 
-const partners: ProjectIconProps[] = [
+const partnersLight: ProjectIconProps[] = [
+  {
+    icon: '/images/MetaMask_Logo_White.svg',
+    href: 'https://metamask.io',
+    alt: 'MetaMask',
+    width: 192,
+    height: 96,
+  },
+  {
+    icon: '/images/Polygon_ID_logo_light.svg',
+    href: 'https://polygon.technology/polygon-id',
+    alt: 'PolygonID',
+    width: 192,
+    height: 96,
+  },
+  {
+    icon: '/images/ceramic_text_light.svg',
+    href: 'https://ceramic.network/',
+    alt: 'Ceramic',
+    width: 192,
+    height: 96,
+  },
+  {
+    icon: '/images/veramo_light.svg',
+    href: 'https://veramo.io/',
+    alt: 'Veramo',
+    width: 192,
+    height: 96,
+  },
+  {
+    icon: '/images/monokee_logo.png',
+    href: 'https://monokee.com/en/homepage/',
+    alt: 'monokee',
+    width: 192,
+    height: 96,
+  },
+];
+const projectsLight: ProjectIconProps[] = [
+  {
+    icon: '/images/reputex_light.svg',
+    href: 'https://reputex.io/',
+    alt: 'MetaMask',
+    width: 156,
+    height: 96,
+    rounded: true,
+  },
+];
+
+const partnersDark: ProjectIconProps[] = [
   {
     icon: '/images/MetaMask_Logo.svg',
     href: 'https://metamask.io',
@@ -47,7 +95,7 @@ const partners: ProjectIconProps[] = [
     height: 96,
   },
 ];
-const projects: ProjectIconProps[] = [
+const projectsDark: ProjectIconProps[] = [
   {
     icon: '/images/reputex.png',
     href: 'https://reputex.io/',
@@ -75,16 +123,26 @@ export default function Page() {
         <h1 className="font-ubuntu dark:text-navy-blue-50 mb-4 text-center text-2xl font-medium text-gray-900">
           Applications
         </h1>
-        <div className="flex flex-wrap justify-center gap-x-12">
-          {projects.map((partner) => (
+        <div className="flex flex-wrap justify-center gap-x-12 dark:hidden">
+          {projectsDark.map((partner) => (
+            <ProjectIcon key={partner.href} {...partner} />
+          ))}
+        </div>
+        <div className="hidden flex-wrap justify-center gap-x-12 dark:flex">
+          {projectsLight.map((partner) => (
             <ProjectIcon key={partner.href} {...partner} />
           ))}
         </div>
         <h1 className="font-ubuntu dark:text-navy-blue-50 mb-4 mt-12 text-center text-2xl font-medium text-gray-900">
           Partners
         </h1>
-        <div className="flex flex-wrap justify-center gap-x-12">
-          {partners.map((partner) => (
+        <div className="flex flex-wrap justify-center gap-x-12 dark:hidden">
+          {partnersDark.map((partner) => (
+            <ProjectIcon key={partner.href} {...partner} />
+          ))}
+        </div>
+        <div className="hidden flex-wrap justify-center gap-x-12 dark:flex">
+          {partnersLight.map((partner) => (
             <ProjectIcon key={partner.href} {...partner} />
           ))}
         </div>
