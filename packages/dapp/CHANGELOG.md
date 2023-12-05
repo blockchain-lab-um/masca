@@ -1,5 +1,11 @@
 # @blockchain-lab-um/dapp
 
+## 1.2.0-beta.0
+
+### Minor Changes
+
+- [#521](https://github.com/blockchain-lab-um/masca/pull/521) [`3952981`](https://github.com/blockchain-lab-um/masca/commit/3952981e3d1404eee62a54a64358417c10482204) Thanks [@andyv09](https://github.com/andyv09)! - Add better popover for filtering VCs on dashboard
+
 ## 1.1.1
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @blockchain-lab-um/oidc-client-plugin
 
+## 0.3.0-beta.0
+
+### Minor Changes
+
+- [#529](https://github.com/blockchain-lab-um/masca/pull/529) [`27940d9`](https://github.com/blockchain-lab-um/masca/commit/27940d9b52ac06716aa25a04715e4e5706f95a86) Thanks [@martines3000](https://github.com/martines3000)! - Resolve issue where presentation_definiton was not set when using presentation_definition_uri
+
 ## 0.2.0
 
 ### Minor Changes
