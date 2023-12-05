@@ -36,6 +36,7 @@
     "@vercel/og": "^0.5.20",
     "clsx": "^2.0.0",
     "did-jwt-vc": "^3.2.13",
+    "ethers": "^6.9.0",
     "file-saver": "^2.0.5",
     "googleapis": "^128.0.0",
     "headless-stepper": "^1.9.1",

@@ -6,6 +6,7 @@ import {
 import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 import { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
+import { isAddress } from 'ethers/address';
 import { useTranslations } from 'next-intl';
 
 import Tooltip from '@/components/Tooltip';
@@ -93,7 +94,9 @@ const CredentialSubject = ({
       <Fragment key={key}>
         {(() => {
           if (key === 'id') return <DIDDisplay did={value} />;
-          if (key === 'address') return <AddressDisplay address={value} />;
+          if (key === 'address' && isAddress(value)) {
+            return <AddressDisplay address={value} />;
+          }
 
           const isObject = !(
             typeof value === 'string' || typeof value === 'number'
