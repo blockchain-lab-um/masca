@@ -47,7 +47,7 @@
       "other": "Other",
       "qr-code-session": "QR Scanner",
       "settings": "Settings",
-      "test": "test"
+      "premium": "Premium"
     }
   },
   "ChooseDeviceView": {
@@ -100,13 +100,18 @@
       "desc-3-5": "making your life easier and more secure."
     }
   },
+  "LastFetched": {
+    "label": "Last Fetched"
+  },
   "Controlbar": {
     "query": "Querying credentials",
     "query-error": "Failed to query credentials",
     "query-success": "Successfully queried credentials",
     "save-error": "Failed to save credential. VC was invalid",
     "save-error-title": "Failed to save credential",
-    "save-success": "Successfully saved credential"
+    "save-success": "Successfully saved credential",
+    "refresh": "Refresh credentials",
+    "import": "Import credential"
   },
   "CreateConnectionModal": {
     "desc": " Scan this QR code with your mobile device to create a connection to this page.",
@@ -243,6 +248,14 @@
     "deleting-success": "Successfully deleted credential from store",
     "desc": "Approving this action will remove the credential from your wallet. This action cannot be undone.",
     "title": "Delete Credential"
+  },
+  "CredentialPanel": {
+    "dates": "DATES",
+    "expiration-date": "Expiration Date",
+    "issuer": "ISSUER",
+    "isuance-date": "Issuance Date",
+    "subject": "SUBJECT",
+    "view-json": "View"
   },
   "FormatedPanel": {
     "dates": "DATES",
