@@ -471,6 +471,8 @@ class SnapService {
 
     let res;
 
+    let trustedOrigin = origin;
+
     const state = StorageService.get();
 
     switch (method) {
@@ -545,11 +547,15 @@ class SnapService {
       case 'togglePopups':
         res = await GeneralService.togglePopups();
         return ResultObject.success(res);
-      case 'addFriendlyDapp':
-        await GeneralService.addFriendlyDapp({ id: this.origin });
+      case 'addTrustedDapp':
+        if (origin === 'https://masca.io') trustedOrigin = params.origin;
+        console.log('trustedOrigin', trustedOrigin);
+        await GeneralService.addTrustedDapp({ origin: trustedOrigin });
         return ResultObject.success(true);
-      case 'removeFriendlyDapp':
-        await GeneralService.removeFriendlyDapp(params);
+      case 'removeTrustedDapp':
+        if (origin !== 'https://masca.io' && origin !== params.origin)
+          throw new Error('Unauthorized to remove other dApps');
+        await GeneralService.removeTrustedDapp({ origin: trustedOrigin });
         return ResultObject.success(true);
       case 'switchDIDMethod':
         isValidSwitchMethodRequest(params);

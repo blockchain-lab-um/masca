@@ -4,22 +4,16 @@ import { TrashIcon } from '@heroicons/react/24/outline';
 import { useTranslations } from 'next-intl';
 
 import { useMascaStore, useToastStore } from '@/stores';
+import Button from '../Button';
+import InputField from '../InputField';
 
-export const FriendlydAppTable = () => {
-  const t = useTranslations('FriendlydAppTable');
+export const TrustedDappTable = () => {
+  const t = useTranslations('TrustedDappTable');
   const [settings, setSettings] = useState<MascaConfig>();
+  const [origin, setOrigin] = useState<string>('https://masca.io');
   const { api } = useMascaStore((state) => ({
     api: state.mascaApi,
   }));
-
-  const isMascaFriendlyDapp = (
-    friendlyDapps: string[] | undefined
-  ): boolean => {
-    if (friendlyDapps && friendlyDapps.includes('https://masca.io')) {
-      return true;
-    }
-    return false;
-  };
 
   const snapGetSettings = async () => {
     if (!api) return;
@@ -34,8 +28,8 @@ export const FriendlydAppTable = () => {
     snapGetSettings().catch((e) => console.log(e));
   }, []);
 
-  const addFriendlydApp = async () => {
-    if (!api) return;
+  const addTrustedDapp = async () => {
+    if (!api || !origin) return;
 
     setTimeout(() => {
       useToastStore.setState({
@@ -47,7 +41,8 @@ export const FriendlydAppTable = () => {
       });
     }, 200);
 
-    const res = await api.addFriendlyDapp();
+    console.log(origin);
+    const res = await api.addTrustedDapp(origin);
 
     if (res) {
       await snapGetSettings();
@@ -73,7 +68,7 @@ export const FriendlydAppTable = () => {
     }, 200);
   };
 
-  const removeFriendlydApp = async (dapp: string) => {
+  const removeTrusteddApp = async (dapp: string) => {
     if (!api) return;
 
     setTimeout(() => {
@@ -85,7 +80,7 @@ export const FriendlydAppTable = () => {
         link: null,
       });
     }, 200);
-    const res = await api.removeFriendlyDapp(dapp);
+    const res = await api.removeTrustedDapp(dapp);
     if (res) {
       await snapGetSettings();
       setTimeout(() => {
@@ -115,6 +110,13 @@ export const FriendlydAppTable = () => {
       <p className="text-md dark:text-navy-blue-400 text-gray-700">
         {t('popups-desc')}
       </p>
+      <div className="mt-4 flex w-1/2 gap-x-4">
+        <InputField value={origin} setValue={setOrigin} />
+        <Button variant="primary" size="xs" onClick={() => addTrustedDapp()}>
+          {t('add')}
+        </Button>
+      </div>
+
       <table className="dark:border-navy-blue-200 my-5 w-full border-2 border-gray-300">
         <thead>
           <tr className="text-md">
@@ -123,7 +125,7 @@ export const FriendlydAppTable = () => {
           </tr>
         </thead>
         <tbody>
-          {settings?.dApp.friendlyDapps.map((app, i) => (
+          {settings?.dApp.trustedDapps.map((app, i) => (
             <tr
               className="dark:border-navy-blue-500 border-t-2 border-gray-200 text-sm"
               key={i}
@@ -132,7 +134,7 @@ export const FriendlydAppTable = () => {
               <td className="p-2 text-end">
                 <button
                   onClick={() => {
-                    removeFriendlydApp(app).catch((e) => console.log(e));
+                    removeTrusteddApp(app).catch((e) => console.log(e));
                   }}
                 >
                   <TrashIcon className="h-4 w-4" />
@@ -142,11 +144,6 @@ export const FriendlydAppTable = () => {
           ))}
         </tbody>
       </table>
-      {!isMascaFriendlyDapp(settings?.dApp.friendlyDapps) && (
-        <div className="dark:text-orange-accent-dark -mt-4 flex justify-end gap-x-2 text-sm text-pink-400">
-          <button onClick={() => addFriendlydApp()}>{t('add-masca')}</button>
-        </div>
-      )}
     </>
   );
 };

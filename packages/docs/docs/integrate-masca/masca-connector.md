@@ -234,18 +234,18 @@ const vpRes = await api.verifyData({ presentation: VP, verbose: true });
 
 `togglePopups` is used to enable/disable the `"Are you sure?"` alerts on any dapp. Pop-ups are enabled by default for user to approve every action.
 
-`addFriendlyDapp` is used to add a current dapp (origin of the dapp) to the list of friendly dapps. Pop-ups do not appear on friendly dapps.
+`addTrustedDapp` is used to add a dapp to the list of trusted dapps. Pop-ups do not appear on trusted dapps. This method can be called to add ANY dapp ONLY ON `https://masca.io`. On any other dapp origin is set automatically (You can only add dapp X on dapp X).
 
-`removeFriendlyDapp` is used to remove a dapp from the list of friendly dapps.
+`removeTrustedDapp` is used to remove a dapp from the list of trusted dapps. This method can only remove dapps with the same origin (dApp X can only remove dapp X).
 
 `getSnapSettings` and `getAccountSettings` are used to retrieve global settings and settings for currently selected account.
 
 ```typescript
 const res = await api.togglePopups();
 
-const res = await api.addFriendlyDapp();
+const res = await api.addTrustedDapp('https://masca.io');
 
-const res = await api.removeFriendlyDapp("https://www.masca.io");
+const res = await api.removeTrustedDapp("https://www.masca.io");
 ```
 
 ```typescript

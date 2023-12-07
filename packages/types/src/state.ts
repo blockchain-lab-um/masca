@@ -13,7 +13,7 @@ export interface MascaConfig {
   };
   dApp: {
     disablePopups: boolean;
-    friendlyDapps: string[];
+    trustedDapps: string[];
   };
 }
 

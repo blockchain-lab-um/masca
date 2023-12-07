@@ -259,16 +259,17 @@
     "datastore": "Data Store",
     "type": "Type"
   },
-  "FriendlydAppTable": {
-    "add-failed": "Failed to add Friendly dapp",
-    "add-masca": "Add Masca.io to Friendly dapps",
-    "added": "Friendly dapp added",
-    "adding": "Adding Friendly dapp",
+  "TrustedDappTable": {
+    "add-failed": "Failed to add Trusted dapp",
+    "add-masca": "Add Masca.io to Trusted dapps",
+    "added": "Trusted dapp added",
+    "adding": "Adding Trusted dapp",
     "app-url": "Application URL",
-    "popups-desc": "Disabling pop-ups is very dangerous. We recommend setting friendly dapps instead!",
-    "remove-failed": "Failed to remove Friendly dapp",
-    "removed": "Friendly dapp removed",
-    "removing": "Removing Friendly dapp"
+    "popups-desc": "Disabling pop-ups is very dangerous. We recommend setting trusted dapps instead!",
+    "remove-failed": "Failed to remove Trusted dapp",
+    "removed": "Trusted dapp removed",
+    "removing": "Removing Trusted dapp",
+    "add": "Add"
   },
   "GetCredential": {
     "handling": "Handling credential offer",
@@ -424,7 +425,7 @@
     "unknown-error": "Unknown error",
     "not-implemented": "Not implemented yet",
     "popups": "Pop-ups",
-    "popups-desc": "Disabling pop-ups is very dangerous. We recommend setting friendly dapps instead!",
+    "popups-desc": "Disabling pop-ups is very dangerous. We recommend setting trusted dapps instead!",
     "title": "Settings",
     "wallet-error": "Failed to get wallet ID"
   },

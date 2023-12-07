@@ -34,11 +34,11 @@ class UIService {
     const { content, force = false } = params;
     const state = StorageService.get();
 
-    const { disablePopups, friendlyDapps } =
+    const { disablePopups, trustedDapps } =
       state[CURRENT_STATE_VERSION].config.dApp;
 
-    // Show popups if force is true or if popups are not disabled AND the dapp is not friendly
-    if (force || !(disablePopups || friendlyDapps.includes(this.origin))) {
+    // Show popups if force is true or if popups are not disabled AND the dapp is not trusted
+    if (force || !(disablePopups || trustedDapps.includes(this.origin))) {
       const res = await snap.request({
         method: 'snap_dialog',
         params: {
@@ -58,11 +58,11 @@ class UIService {
     const { content, force = false } = params;
     const state = StorageService.get();
 
-    const { disablePopups, friendlyDapps } =
+    const { disablePopups, trustedDapps } =
       state[CURRENT_STATE_VERSION].config.dApp;
 
-    // Show popups if force is true or if popups are not disabled AND the dapp is not friendly
-    if (force || !(disablePopups || friendlyDapps.includes(this.origin))) {
+    // Show popups if force is true or if popups are not disabled AND the dapp is not trusted
+    if (force || !(disablePopups || trustedDapps.includes(this.origin))) {
       await snap.request({
         method: 'snap_dialog',
         params: {
@@ -220,25 +220,25 @@ class UIService {
     return res;
   }
 
-  static async addFriendlyDappDialog(origin: string) {
+  static async addTrustedDappDialog(origin: string) {
     const uiPanel = panel([
-      heading('Add Friendly DApp'),
+      heading('Add Trusted DApp'),
       ...this.originWrapper,
-      text(`Would you like to add ${origin} as a friendly dapp?`),
+      text(`Would you like to add ${origin} as a trusted dapp?`),
       divider(),
-      text('Pop-ups do not appear on friendly dapps.'),
+      text('Pop-ups do not appear on trusted dapps.'),
     ]);
 
     const res = await UIService.snapConfirm({ content: uiPanel, force: true });
     return res;
   }
 
-  static async removeFriendlyDappDialog(origin: string) {
+  static async removeTrustedDappDialog(origin: string) {
     const uiPanel = panel([
-      heading('Remove Friendly DApp'),
+      heading('Remove Trusted DApp'),
       ...this.originWrapper,
       text(
-        `Would you like to remove ${origin} from the list of friendly dapps?`
+        `Would you like to remove ${origin} from the list of trusted dapps?`
       ),
     ]);
 

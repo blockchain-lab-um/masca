@@ -48,7 +48,6 @@ function FilterPopover({ vcs }: FilterPopoverProps) {
     dsFilter.value = dataStores
       .filter((ds) => ds.selected)
       .map((ds) => ds.dataStore);
-
     const newColumnFilters = columnFilters.filter(
       (cf) => cf.id !== 'data_store'
     );

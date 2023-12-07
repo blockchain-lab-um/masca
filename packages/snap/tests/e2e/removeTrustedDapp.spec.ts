@@ -16,7 +16,7 @@ import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createTestVCs } from '../helpers/generateTestVCs';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
 
-describe('removeFriendlyDapp', () => {
+describe('removeTrustedDapp', () => {
   let snapMock: SnapsProvider & SnapMock;
   let generatedVC: VerifiableCredential;
 
@@ -60,14 +60,52 @@ describe('removeFriendlyDapp', () => {
     }
   });
 
-  it('should remove a friendlyDapp from the list', async () => {
+  it('should fail removing another friendlyDapp from the list', async () => {
     const resultAdd = (await onRpcRequest({
       origin: 'localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'addFriendlyDapp',
-        params: {},
+        method: 'addTrustedDapp',
+        params: { origin: 'localhost' },
+      },
+    })) as Result<boolean>;
+
+    if (isError(resultAdd)) {
+      throw new Error(resultAdd.error);
+    }
+
+    expect(resultAdd.data).toBe(true);
+
+    const resultRemove = (await onRpcRequest({
+      origin: 'localhost2',
+      request: {
+        id: 'test-id',
+        jsonrpc: '2.0',
+        method: 'removeTrustedDapp',
+        params: { origin: 'localhost' },
+      },
+    })) as Result<unknown>;
+
+    if (!isError(resultRemove)) {
+      throw new Error("Should've thrown an error");
+    }
+
+    expect(resultRemove.error).toBe(
+      'Error: Unauthorized to remove other dApps'
+    );
+
+    expect.assertions(2);
+  });
+
+  it('should remove a friendlyDapp from the list', async () => {
+    const resultAdd = (await onRpcRequest({
+      origin: 'https://masca.io',
+      request: {
+        id: 'test-id',
+        jsonrpc: '2.0',
+        method: 'addTrustedDapp',
+        params: { origin: 'localhost' },
       },
     })) as Result<boolean>;
 
@@ -82,8 +120,8 @@ describe('removeFriendlyDapp', () => {
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'removeFriendlyDapp',
-        params: { id: 'localhost' },
+        method: 'removeTrustedDapp',
+        params: { origin: 'localhost' },
       },
     })) as Result<unknown>;
 
@@ -97,9 +135,9 @@ describe('removeFriendlyDapp', () => {
       operation: 'get',
     });
 
-    expect(
-      state[CURRENT_STATE_VERSION].config.dApp.friendlyDapps
-    ).toStrictEqual([]);
+    expect(state[CURRENT_STATE_VERSION].config.dApp.trustedDapps).toStrictEqual(
+      []
+    );
 
     expect.assertions(3);
   });

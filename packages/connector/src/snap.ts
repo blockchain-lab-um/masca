@@ -212,8 +212,14 @@ async function togglePopups(this: Masca): Promise<Result<boolean>> {
  *
  * @return Result<boolean> - true if the addition was successful
  */
-async function addFriendlyDapp(this: Masca): Promise<Result<boolean>> {
-  return sendSnapMethod({ method: 'addFriendlyDapp' }, this.snapId);
+async function addTrustedDapp(
+  this: Masca,
+  origin: string
+): Promise<Result<boolean>> {
+  return sendSnapMethod(
+    { method: 'addTrustedDapp', params: { origin } },
+    this.snapId
+  );
 }
 
 /**
@@ -221,12 +227,12 @@ async function addFriendlyDapp(this: Masca): Promise<Result<boolean>> {
  *
  * @return Result<boolean> - true if the removal was successful
  */
-async function removeFriendlyDapp(
+async function removeTrustedDapp(
   this: Masca,
-  id: string
+  origin: string
 ): Promise<Result<boolean>> {
   return sendSnapMethod(
-    { method: 'removeFriendlyDapp', params: { id } },
+    { method: 'removeTrustedDapp', params: { origin } },
     this.snapId
   );
 }
@@ -539,8 +545,8 @@ export class Masca {
     queryCredentials: wrapper(queryCredentials.bind(this)),
     createPresentation: wrapper(createPresentation.bind(this)),
     togglePopups: wrapper(togglePopups.bind(this)),
-    addFriendlyDapp: wrapper(addFriendlyDapp.bind(this)),
-    removeFriendlyDapp: wrapper(removeFriendlyDapp.bind(this)),
+    addTrustedDapp: wrapper(addTrustedDapp.bind(this)),
+    removeTrustedDapp: wrapper(removeTrustedDapp.bind(this)),
     getDID: wrapper(getDID.bind(this)),
     getSelectedMethod: wrapper(getSelectedMethod.bind(this)),
     getAvailableMethods: wrapper(getAvailableMethods.bind(this)),

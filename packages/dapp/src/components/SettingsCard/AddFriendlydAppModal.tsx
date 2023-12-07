@@ -5,17 +5,17 @@ import Button from '@/components//Button';
 import Modal from '@/components/Modal';
 import InputField from '../InputField';
 
-interface AddFriendlydAppModalProps {
+interface AddTrusteddAppModalProps {
   isOpen: boolean;
   setOpen: (open: boolean) => void;
   addDapp: (dapp: string) => void;
 }
 
-function AddFriendlydAppModal({
+function AddTrusteddAppModal({
   isOpen,
   setOpen,
   addDapp,
-}: AddFriendlydAppModalProps) {
+}: AddTrusteddAppModalProps) {
   const [dapp, setDapp] = useState('');
   return (
     <>
@@ -24,7 +24,7 @@ function AddFriendlydAppModal({
           as="h3"
           className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-800"
         >
-          Add Friendly dapp
+          Add Trusted dapp
         </Dialog.Title>
         <div className="mt-4">
           <p className="text-md dark:text-navy-blue-200 mb-2 text-gray-700">
@@ -60,4 +60,4 @@ function AddFriendlydAppModal({
   );
 }
 
-export default AddFriendlydAppModal;
+export default AddTrusteddAppModal;
