@@ -143,14 +143,20 @@ const FormatedPanel = ({ credential }: FormatedPanelProps) => {
       <div className="flex flex-col space-y-8">
         <div className="dark:from-navy-blue-700 dark:to-navy-blue-700 flex max-w-full items-center rounded-2xl bg-gradient-to-b from-orange-100 to-pink-100 px-4 py-6 shadow-md">
           <div className="w-11/12">
-            <Tooltip content={types}>
+            <Tooltip
+              content={types}
+              className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
+            >
               <h1 className="font-ubuntu dark:text-orange-accent-dark text-left text-lg font-medium text-pink-500 sm:text-xl md:text-2xl lg:truncate">
                 {types}
               </h1>
             </Tooltip>
           </div>
           <div className="flex flex-1 justify-end">
-            <Tooltip content="Credential is valid.">
+            <Tooltip
+              content="Credential is valid."
+              className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
+            >
               {isValid ? (
                 <CheckCircleIcon className="dark:text-orange-accent-dark h-10 w-10 text-pink-500" />
               ) : (

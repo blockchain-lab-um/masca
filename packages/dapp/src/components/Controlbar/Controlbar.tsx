@@ -7,6 +7,7 @@ import {
   type QueryCredentialsRequestResult,
 } from '@blockchain-lab-um/masca-connector';
 import { ArrowPathIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { Tooltip } from '@nextui-org/react';
 import { W3CVerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
@@ -190,31 +191,44 @@ const Controlbar = () => {
               >
                 <PlusIcon className={`group-hover:animate-pingOnce h-6 w-6`} />
               </button> */}
+              <Tooltip
+                content={t('import')}
+                className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
+              >
+                <button
+                  className={clsx(
+                    'dark:bg-navy-blue-700 dark:text-navy-blue-50 group flex h-[37px] w-[37px] md:h-[43px] md:w-[43px]',
+                    'items-center justify-center rounded-full bg-white text-gray-700 shadow-md outline-none focus:outline-none'
+                  )}
+                  onClick={() => setImportModalOpen(true)}
+                >
+                  <PlusIcon
+                    className={`group-hover:animate-pingOnce h-6 w-6`}
+                  />
+                </button>
+              </Tooltip>
+            </>
+          )}
+          {vcs.length > 0 && (
+            <Tooltip
+              content={t('refresh')}
+              className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
+            >
               <button
                 className={clsx(
                   'dark:bg-navy-blue-700 dark:text-navy-blue-50 group flex h-[37px] w-[37px] md:h-[43px] md:w-[43px]',
                   'items-center justify-center rounded-full bg-white text-gray-700 shadow-md outline-none focus:outline-none'
                 )}
-                onClick={() => setImportModalOpen(true)}
+                onClick={() => refreshVCs()}
               >
-                <PlusIcon className={`group-hover:animate-pingOnce h-6 w-6`} />
+                <ArrowPathIcon
+                  className={clsx(
+                    'group-hover:animate-spinOnce h-6 w-6 duration-75',
+                    spinner ? 'animate-spinRefresh duration-75' : null
+                  )}
+                />
               </button>
-            </>
-          )}
-          {vcs.length > 0 && (
-            <button
-              className={clsx(
-                'dark:bg-navy-blue-700 dark:text-navy-blue-50 group flex h-[37px] w-[37px] md:h-[43px] md:w-[43px]',
-                'items-center justify-center rounded-full bg-white text-gray-700 shadow-md outline-none focus:outline-none'
-              )}
-              onClick={() => refreshVCs()}
-            >
-              <ArrowPathIcon
-                className={`group-hover:animate-spinOnce h-6 w-6 duration-75 ${
-                  spinner ? 'animate-spinRefresh duration-75' : ''
-                }`}
-              />
-            </button>
+            </Tooltip>
           )}
         </div>
       </div>

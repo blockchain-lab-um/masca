@@ -118,7 +118,7 @@
     "title": "Connection QR Code"
   },
   "CreateCredentialDisplay": {
-    "invalidMethod": "Polygon ID & Iden3 are not yet supported. Switch to any other DID method to create a VC!",
+    "invalidMethod": "Polygon ID & Iden3 are not yet supported. Switch to any other DID method to create a presentation!",
     "options": {
       "format": "Format",
       "title": "OPTIONS"
@@ -142,7 +142,7 @@
       "title": "ADVANCED",
       "tooltip": "Only applicable to JWT proof format."
     },
-    "invalidMethod": "Polygon ID & Iden3 methods are not yet supported. Switch to any other DID method to create a VC!",
+    "invalidMethod": "Polygon ID & Iden3 methods are not yet supported. Switch to any other DID method to create a Presentation!",
     "options": {
       "format": "Format",
       "title": "OPTIONS"
@@ -193,6 +193,28 @@
   "DIDDisplay": {
     "tooltip": "Open DID in Universal Resolver"
   },
+  "DeleteSharedPresentationModal": {
+    "title": "Delete Shared Presentation",
+    "description": "Are you sure you want to delete this shared presentation?",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "delete-success": "Successfully deleted presentation",
+    "delete-error": "Failed to delete presentation"
+  },
+  "ShareCredentialModal": {
+    "title": "Publicaly Share Credentials",
+    "description": "By sharing credentials, you generate a presentation that includes the selected credentials. Anyone with the link can view the presentation and verify the validity of the proofs.",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "selected": "Selected Credentials",
+    "create-presentation-error": "Failed to create presentation",
+    "please-sign-in": "Please sign in to share your credentials",
+    "share-presentation-error": "Failed to share presentation",
+    "close": "Close",
+    "share-presentation-success": "Successfully shared presentation",
+    "label": "Title",
+    "placeholder": "Enter a title for the presentation"
+  },
   "Dashboard": {
     "card": {
       "expires": "EXPIRES ON",
@@ -237,7 +259,10 @@
       "no-exp-date": "Does not have an expiration date",
       "open-did": "Open DID in Universal resolver",
       "status": "Validity of the VC",
-      "store": "Where the VC is stored"
+      "store": "Where the VC is stored",
+      "share": "Share the verifiable credential",
+      "sign-in-to-share": "Sign in to share the credential",
+      "delete": "Delete the credential"
     }
   },
   "DeleteCredentialModal": {

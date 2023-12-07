@@ -97,7 +97,7 @@ export async function POST(request: NextRequest) {
     const { data: userQueryData, error: userQueryError } = await supabase
       .from('users')
       .select()
-      .eq('address', address)
+      .eq('address', address.toLowerCase())
       .limit(1);
 
     if (userQueryError) {
@@ -114,7 +114,7 @@ export async function POST(request: NextRequest) {
       const { data: userCreateData, error: userCreateError } = await supabase
         .from('users')
         .insert({
-          address,
+          address: address.toLowerCase(),
         })
         .select()
         .limit(1)

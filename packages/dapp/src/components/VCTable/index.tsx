@@ -19,6 +19,7 @@ import {
   ShareIcon,
   TrashIcon,
 } from '@heroicons/react/24/outline';
+import { Tooltip } from '@nextui-org/react';
 import {
   createColumnHelper,
   flexRender,
@@ -32,6 +33,7 @@ import {
   SortingState,
   useReactTable,
 } from '@tanstack/react-table';
+import { VerifiableCredential } from '@veramo/core';
 import { encodeBase64url } from '@veramo/utils';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
@@ -39,11 +41,15 @@ import { useTranslations } from 'next-intl';
 import Button from '@/components/Button';
 import DeleteModal from '@/components/DeleteModal';
 import InfoIcon from '@/components/InfoIcon';
-import StoreIcon from '@/components/StoreIcon';
-import Tooltip from '@/components/Tooltip';
-import { stringifyCredentialSubject } from '@/utils/format';
+import {
+  removeCredentialSubjectFilterString,
+  stringifyCredentialSubject,
+} from '@/utils/format';
 import { convertTypes } from '@/utils/string';
 import { useMascaStore, useTableStore, useToastStore } from '@/stores';
+import { useAuthStore } from '@/stores/authStore';
+import { ShareCredentialModal } from '../ShareCredentialModal';
+import StoreIcon from '../StoreIcon';
 import { LastFetched } from './LastFetched';
 import TablePagination from './TablePagination';
 import {
@@ -58,8 +64,18 @@ import VCCard from './VCCard';
 const Table = () => {
   const t = useTranslations('Dashboard');
   const router = useRouter();
+
+  // Local state
   const [loading, setLoading] = useState(false);
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [selectedVC, setSelectedVC] = useState<QueryCredentialsRequestResult>();
+  const [shareCredential, setShareCredential] =
+    useState<VerifiableCredential>();
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [shareModalOpen, setShareModalOpen] = useState(false);
+
+  // Global state
+  const isSignedIn = useAuthStore((state) => state.isSignedIn);
 
   const { api, vcs, changeVcs, changeLastFetch } = useMascaStore((state) => ({
     api: state.mascaApi,
@@ -67,6 +83,7 @@ const Table = () => {
     changeVcs: state.changeVcs,
     changeLastFetch: state.changeLastFetch,
   }));
+
   const { columnFilters, globalFilter, selectedVCs, cardView, setSelectedVCs } =
     useTableStore((state) => ({
       columnFilters: state.columnFilters,
@@ -77,8 +94,6 @@ const Table = () => {
     }));
 
   const columnHelper = createColumnHelper<QueryCredentialsRequestResult>();
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [selectedVC, setSelectedVC] = useState<QueryCredentialsRequestResult>();
 
   const columns = [
     columnHelper.accessor(
@@ -113,7 +128,10 @@ const Table = () => {
         cell: (info) => {
           if (!info.getValue()) return '/';
           return (
-            <Tooltip tooltip={t('tooltip.open-did')}>
+            <Tooltip
+              content={t('tooltip.open-did')}
+              className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
+            >
               <a
                 href={`https://dev.uniresolver.io/#${info.getValue()}`}
                 target="_blank"
@@ -137,7 +155,10 @@ const Table = () => {
       {
         id: 'issuer',
         cell: (info) => (
-          <Tooltip tooltip={t('tooltip.open-did')}>
+          <Tooltip
+            content={t('tooltip.open-did')}
+            className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
+          >
             <a
               href={`https://dev.uniresolver.io/#${info.getValue()}`}
               target="_blank"
@@ -175,7 +196,8 @@ const Table = () => {
         cell: (info) => (
           <span className="flex items-center justify-center">
             <Tooltip
-              tooltip={`${
+              className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
+              content={`${
                 info.cell.row.original.data.expirationDate === undefined
                   ? t('tooltip.no-exp-date')
                   : `${
@@ -210,8 +232,12 @@ const Table = () => {
               .getValue()
               .split(',')
               .map((store, id) => (
-                <Tooltip tooltip={store} key={id}>
-                  <div className="mt-1">
+                <Tooltip
+                  className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
+                  content={store}
+                  key={id}
+                >
+                  <div className="relative mt-1">
                     <StoreIcon store={store} key={id} />
                   </div>
                 </Tooltip>
@@ -255,18 +281,39 @@ const Table = () => {
     columnHelper.display({
       id: 'actions',
       cell: ({ row }) => (
-        <div className="flex items-center justify-center gap-1">
-          <button className="dark:text-navy-blue-500 cursor-default text-gray-500">
-            <ShareIcon className="h-6 w-6" />
-          </button>
-          <button
-            onClick={() => {
-              setDeleteModalOpen(true);
-              setSelectedVC(row.original);
-            }}
+        <div className="flex items-center justify-center space-x-2">
+          <Tooltip
+            className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
+            content={
+              isSignedIn ? t('tooltip.share') : t('tooltip.sign-in-to-share')
+            }
           >
-            <TrashIcon className="h-6 w-6" />
-          </button>
+            <button
+              disabled={!isSignedIn}
+              className="disabled:opacity-50"
+              onClick={() => {
+                setShareCredential(
+                  removeCredentialSubjectFilterString(row.original).data
+                );
+                setShareModalOpen(true);
+              }}
+            >
+              <ShareIcon className="h-6 w-6" />
+            </button>
+          </Tooltip>
+          <Tooltip
+            className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
+            content={t('tooltip.delete')}
+          >
+            <button
+              onClick={() => {
+                setDeleteModalOpen(true);
+                setSelectedVC(row.original);
+              }}
+            >
+              <TrashIcon className="h-6 w-6" />
+            </button>
+          </Tooltip>
         </div>
       ),
       header: () => <span>{t('table.actions')}</span>,
@@ -302,6 +349,7 @@ const Table = () => {
     getFacetedMinMaxValues: getFacetedMinMaxValues(),
   });
 
+  // Functions
   const loadVCs = async () => {
     if (!api) return;
     const loadedVCs = await api.queryCredentials();
@@ -355,6 +403,7 @@ const Table = () => {
     setLoading(false);
   };
 
+  // Use effects
   useEffect(() => {
     selectRows(table, selectedVCs);
   }, []);
@@ -518,6 +567,11 @@ const Table = () => {
           isOpen={deleteModalOpen}
           setOpen={setDeleteModalOpen}
           vc={selectedVC}
+        />
+        <ShareCredentialModal
+          isOpen={shareModalOpen}
+          setOpen={setShareModalOpen}
+          credentials={shareCredential ? [shareCredential] : []}
         />
       </>
     );

@@ -6,13 +6,13 @@ import {
   DocumentDuplicateIcon,
   ExclamationCircleIcon,
 } from '@heroicons/react/24/outline';
+import { Tooltip } from '@nextui-org/react';
 import { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
 import { DIDDisplay } from '@/components/DIDDisplay';
 import JsonModal from '@/components/JsonModal';
-import Tooltip from '@/components/Tooltip';
 import { convertTypes, copyToClipboard } from '@/utils/string';
 
 interface FormatedPanelProps {
@@ -27,7 +27,10 @@ const AddressDisplay = ({ address }: { address: string }) => {
         Address:
       </h2>
       <div className="flex">
-        <Tooltip tooltip={t('tooltip')}>
+        <Tooltip
+          className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
+          content={t('tooltip')}
+        >
           <a
             href={`https://etherscan.io/address/${address}`}
             target="_blank"
@@ -141,19 +144,25 @@ const CredentialPanel = ({ credential }: FormatedPanelProps) => {
   return (
     <>
       <div className="flex flex-col space-y-8">
-        <div className="items-cetner flex flex-row px-6 pt-6">
-          <div className="w-11/12">
+        <div className="items-cetner flex flex-col-reverse px-6 pt-6 sm:flex-row">
+          <div className="w-full sm:w-11/12">
             <h2 className="dark:text-navy-blue-200 font-bold text-gray-800">
               Credential
             </h2>
-            <Tooltip tooltip={types}>
+            <Tooltip
+              content={types}
+              className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
+            >
               <h1 className="font-ubuntu dark:text-orange-accent-dark text-left text-lg font-medium text-pink-500 sm:text-xl md:text-2xl lg:truncate">
                 {types}
               </h1>
             </Tooltip>
           </div>
-          <div className="flex flex-1 justify-end space-x-1">
-            <Tooltip tooltip="Credential is valid.">
+          <div className="flex w-full flex-1 justify-end space-x-1">
+            <Tooltip
+              className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
+              content="Credential is valid."
+            >
               {isValid ? (
                 <CheckCircleIcon className="dark:text-orange-accent-dark h-12 w-12 text-pink-500" />
               ) : (
@@ -170,7 +179,6 @@ const CredentialPanel = ({ credential }: FormatedPanelProps) => {
             </div>
           </div>
         </div>
-
         <div className="flex flex-col space-y-8 px-6 md:flex-row md:space-x-16 md:space-y-0">
           <div className="flex w-full flex-col items-start space-y-2 md:max-w-[50%]">
             <h1 className="text-md dark:text-orange-accent-dark font-medium text-pink-500">

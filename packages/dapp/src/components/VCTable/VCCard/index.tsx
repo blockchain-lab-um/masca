@@ -1,13 +1,12 @@
 import Link from 'next/link';
 import { type QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
+import { Tooltip } from '@nextui-org/react';
 import { Row } from '@tanstack/react-table';
 import { encodeBase64url } from '@veramo/utils';
 import clsx from 'clsx';
 import { DateTime } from 'luxon';
 import { useTranslations } from 'next-intl';
-
-import Tooltip from '@/components/Tooltip';
 
 interface VCCardProps {
   row: Row<QueryCredentialsRequestResult>;
@@ -28,7 +27,10 @@ const VCCard = ({ row }: VCCardProps) => {
   const issuer: string = row.getValue('issuer');
   const validity = row.getValue('status');
   const issuerLink = (
-    <Tooltip tooltip={t('tooltip.open-did')}>
+    <Tooltip
+      content={t('tooltip.open-did')}
+      className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
+    >
       <a
         href={`https://dev.uniresolver.io/#${issuer}`}
         target="_blank"
@@ -74,11 +76,17 @@ const VCCard = ({ row }: VCCardProps) => {
           <div className="col-span-2 flex flex-col items-end justify-between">
             <div>
               {validity === 'true' ? (
-                <Tooltip tooltip="Credential is valid">
+                <Tooltip
+                  content="Credential is valid"
+                  className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
+                >
                   <CheckCircleIcon className="h-8 w-8 text-orange-100" />
                 </Tooltip>
               ) : (
-                <Tooltip tooltip="Credential is invalid">
+                <Tooltip
+                  content="Credential is invalid"
+                  className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
+                >
                   <XCircleIcon className="h-8 w-8 text-red-700 dark:text-red-900" />
                 </Tooltip>
               )}

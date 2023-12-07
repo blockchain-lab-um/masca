@@ -136,7 +136,7 @@ const CreateCredentialDisplay = () => {
       proofFormat: proofFormats[format],
       options: {
         save,
-        store: selectedItems,
+        store: selectedItems, // TODO: fix this doesn't create new credential
       },
     });
 

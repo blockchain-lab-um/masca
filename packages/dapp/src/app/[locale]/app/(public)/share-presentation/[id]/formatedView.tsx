@@ -37,8 +37,8 @@ export const FormatedView = ({
   return (
     <>
       <div className="dark:bg-navy-blue-800 h-full w-full rounded-3xl bg-white shadow-lg">
-        <div className="dark:from-navy-blue-700 dark:to-navy-blue-700 flex max-w-full items-center space-x-4 rounded-t-2xl bg-gradient-to-br from-pink-100 to-orange-100 px-10 pt-6">
-          <div className="flex">
+        <div className="dark:from-navy-blue-700 dark:to-navy-blue-700 flex max-w-full flex-col-reverse items-center space-x-4 rounded-t-2xl bg-gradient-to-br from-pink-100 to-orange-100 px-10 pt-6 sm:flex-row">
+          <div className="flex w-full">
             <div className="flex flex-col space-y-4">
               <div className="flex flex-col">
                 <h2 className="dark:text-navy-blue-200 font-bold text-gray-800">
@@ -64,7 +64,7 @@ export const FormatedView = ({
               </div>
             </div>
           </div>
-          <div className="flex flex-1 justify-end space-x-1">
+          <div className="flex w-full flex-1 justify-end space-x-1">
             <Tooltip
               content={
                 isValid ? 'Presentation is valid.' : 'Presentation is invalid.'

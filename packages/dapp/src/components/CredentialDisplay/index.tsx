@@ -10,7 +10,7 @@ import {
   ShareIcon,
   TrashIcon,
 } from '@heroicons/react/20/solid';
-import { Tab, Tabs } from '@nextui-org/react';
+import { Tab, Tabs, Tooltip } from '@nextui-org/react';
 import { useTranslations } from 'next-intl';
 
 import { removeCredentialSubjectFilterString } from '@/utils/format';
@@ -19,7 +19,6 @@ import Button from '../Button';
 import DeleteModal from '../DeleteModal';
 import ModifyDSModal from '../ModifyDSModal';
 import StoreIcon from '../StoreIcon';
-import Tooltip from '../Tooltip';
 import FormatedPanel from './FormatedPanel';
 import JsonPanel from './JsonPanel';
 
@@ -113,8 +112,14 @@ const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
               {vc.metadata.store && (
                 <div className="flex gap-x-1">
                   {vc.metadata.store.map((store) => (
-                    <Tooltip tooltip={store} key={store}>
-                      <StoreIcon store={store} />
+                    <Tooltip
+                      content={store}
+                      key={store}
+                      className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
+                    >
+                      <div className="relative">
+                        <StoreIcon store={store} />
+                      </div>
                     </Tooltip>
                   ))}
                 </div>

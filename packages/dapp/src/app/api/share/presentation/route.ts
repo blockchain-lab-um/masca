@@ -70,6 +70,7 @@ export async function POST(request: NextRequest) {
         user_id: user.sub,
         presentation,
         created_at: new Date().toISOString(),
+        title: 'Untitled',
       })
       .select()
       .limit(1)

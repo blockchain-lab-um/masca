@@ -1,7 +1,7 @@
 'use client';
 
+import { SignInWithEthereum } from '@/components/SignInWithEthereum';
 import { useAuthStore } from '@/stores/authStore';
-import { SignInWithEthereum } from '../SignInWithEthereum';
 
 export const SupabaseProvider = ({
   children,

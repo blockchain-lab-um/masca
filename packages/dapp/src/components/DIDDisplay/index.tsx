@@ -1,7 +1,7 @@
 import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
+import { Tooltip } from '@nextui-org/react';
 import { useTranslations } from 'next-intl';
 
-import Tooltip from '@/components/Tooltip';
 import { copyToClipboard } from '@/utils/string';
 
 export const DIDDisplay = ({ did }: { did: string }) => {
@@ -9,7 +9,10 @@ export const DIDDisplay = ({ did }: { did: string }) => {
 
   return (
     <>
-      <Tooltip tooltip={t('tooltip')}>
+      <Tooltip
+        content={t('tooltip')}
+        className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
+      >
         <a
           href={`https://dev.uniresolver.io/#${did}`}
           target="_blank"

@@ -23,8 +23,8 @@ const MAIN_LINKS = [
     requiresConnection: true,
   },
   {
-    name: 'test',
-    href: '/app/dashboard',
+    name: 'premium',
+    href: '/app/premium-dashboard',
     requiresConnection: true,
   },
 ];
