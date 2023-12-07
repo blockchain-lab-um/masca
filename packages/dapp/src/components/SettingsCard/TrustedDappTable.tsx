@@ -68,7 +68,7 @@ export const TrustedDappTable = () => {
     }, 200);
   };
 
-  const removeTrusteddApp = async (dapp: string) => {
+  const removeTrustedDapp = async (dapp: string) => {
     if (!api) return;
 
     setTimeout(() => {
@@ -134,7 +134,7 @@ export const TrustedDappTable = () => {
               <td className="p-2 text-end">
                 <button
                   onClick={() => {
-                    removeTrusteddApp(app).catch((e) => console.log(e));
+                    removeTrustedDapp(app).catch((e) => console.log(e));
                   }}
                 >
                   <TrashIcon className="h-4 w-4" />

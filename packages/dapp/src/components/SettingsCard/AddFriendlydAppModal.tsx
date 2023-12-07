@@ -5,17 +5,17 @@ import Button from '@/components//Button';
 import Modal from '@/components/Modal';
 import InputField from '../InputField';
 
-interface AddTrusteddAppModalProps {
+interface AddTrustedDappModalProps {
   isOpen: boolean;
   setOpen: (open: boolean) => void;
   addDapp: (dapp: string) => void;
 }
 
-function AddTrusteddAppModal({
+function AddTrustedDappModal({
   isOpen,
   setOpen,
   addDapp,
-}: AddTrusteddAppModalProps) {
+}: AddTrustedDappModalProps) {
   const [dapp, setDapp] = useState('');
   return (
     <>
@@ -60,4 +60,4 @@ function AddTrusteddAppModal({
   );
 }
 
-export default AddTrusteddAppModal;
+export default AddTrustedDappModal;
