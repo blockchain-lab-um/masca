@@ -56,7 +56,7 @@
     "test:debug": "cross-env IS_TESTING=true cross-env NODE_NO_WARNINGS=1 vitest --inspect-brk --pool threads --poolOptions.threads.singleThread --poolOptions.threads.isolate false"
   },
   "dependencies": {
-    "@0xpolygonid/js-sdk": "1.0.3",
+    "@0xpolygonid/js-sdk": "1.4.2",
     "@blockchain-lab-um/did-provider-key": "1.0.8-beta.0",
     "@blockchain-lab-um/masca-types": "1.2.0",
     "@blockchain-lab-um/oidc-client-plugin": "0.3.0-beta.0",

@@ -96,7 +96,8 @@
       "cross-fetch@4.0.0": "patches/cross-fetch@4.0.0.patch",
       "@ceramicnetwork/common@2.30.0": "patches/@ceramicnetwork__common@2.30.0.patch",
       "@changesets/assemble-release-plan@5.2.4": "patches/@changesets__assemble-release-plan@5.2.4.patch",
-      "@metamask/snaps-sdk@1.2.0": "patches/@metamask__snaps-sdk@1.2.0.patch"
+      "@metamask/snaps-sdk@1.2.0": "patches/@metamask__snaps-sdk@1.2.0.patch",
+      "@0xpolygonid/js-sdk@1.4.2": "patches/@0xpolygonid__js-sdk@1.4.2.patch"
     },
     "allowNonAppliedPatches": true
   }
