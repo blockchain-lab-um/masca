@@ -85,31 +85,31 @@ class PolygonService {
       >
     >
   > = {
-    polygonid: {
-      eth: {
-        main: {} as PolygonServicBaseInstance,
-        goerli: {} as PolygonServicBaseInstance,
-        mumbai: {} as PolygonServicBaseInstance,
+      polygonid: {
+        eth: {
+          main: {} as PolygonServicBaseInstance,
+          goerli: {} as PolygonServicBaseInstance,
+          mumbai: {} as PolygonServicBaseInstance,
+        },
+        polygon: {
+          main: {} as PolygonServicBaseInstance,
+          goerli: {} as PolygonServicBaseInstance,
+          mumbai: {} as PolygonServicBaseInstance,
+        },
       },
-      polygon: {
-        main: {} as PolygonServicBaseInstance,
-        goerli: {} as PolygonServicBaseInstance,
-        mumbai: {} as PolygonServicBaseInstance,
+      iden3: {
+        eth: {
+          main: {} as PolygonServicBaseInstance,
+          goerli: {} as PolygonServicBaseInstance,
+          mumbai: {} as PolygonServicBaseInstance,
+        },
+        polygon: {
+          main: {} as PolygonServicBaseInstance,
+          goerli: {} as PolygonServicBaseInstance,
+          mumbai: {} as PolygonServicBaseInstance,
+        },
       },
-    },
-    iden3: {
-      eth: {
-        main: {} as PolygonServicBaseInstance,
-        goerli: {} as PolygonServicBaseInstance,
-        mumbai: {} as PolygonServicBaseInstance,
-      },
-      polygon: {
-        main: {} as PolygonServicBaseInstance,
-        goerli: {} as PolygonServicBaseInstance,
-        mumbai: {} as PolygonServicBaseInstance,
-      },
-    },
-  };
+    };
 
   static get() {
     const { method, blockchain, networkId } = this.metadata;
@@ -159,7 +159,7 @@ class PolygonService {
       ].general.account.ssi;
 
     if (selectedMethod !== 'did:iden3' && selectedMethod !== 'did:polygonid') {
-      throw new Error('Unsupported did method');
+      throw new Error(`Unsupported did method ${selectedMethod}`);
     }
 
     const method =
@@ -535,6 +535,17 @@ class PolygonService {
     mgr.registerPackers([packer, plainPacker, jwsPacker]);
 
     return mgr;
+  }
+
+  static async getRevocationStatus(credential: W3CCredential) {
+    const { method, blockchain, networkId } = this.metadata;
+    const { credWallet } = this.instance[method][blockchain][networkId];
+
+    const status = await credWallet.getRevocationStatus(credential.credentialStatus, {
+      issuerDID: credential.issuer as any,
+    });
+    console.log(`🚀 ~ file: Polygon.service.ts:554 ~ PolygonService ~ getRevocationStatus ~ status:`, status);
+    return status;
   }
 }
 
