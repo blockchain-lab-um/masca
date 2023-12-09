@@ -2,28 +2,32 @@ import {
   AvailableCredentialStores,
   type QueryCredentialsRequestResult,
 } from '@blockchain-lab-um/masca-connector';
-import { ColumnFiltersState } from '@tanstack/react-table';
 import { shallow } from 'zustand/shallow';
 import { createWithEqualityFn } from 'zustand/traditional';
 
-interface DataStore {
+export interface DataStore {
   dataStore: AvailableCredentialStores;
   selected: boolean;
 }
 
-interface CredentialType {
+export interface CredentialType {
   type: string;
   selected: boolean;
 }
 
-interface Ecosystem {
+export interface Ecosystem {
   ecosystem: 'ebsi' | 'polygonid' | 'other';
   selected: boolean;
 }
 
+export interface ColumnFilter {
+  id: 'data_store' | 'issuer' | 'type';
+  value: string[];
+}
+
 interface TableStore {
   globalFilter: string;
-  columnFilters: ColumnFiltersState;
+  columnFilters: ColumnFilter[];
   selectedVCs: QueryCredentialsRequestResult[];
   cardView: boolean;
   dataStores: DataStore[];
@@ -31,7 +35,7 @@ interface TableStore {
   credentialTypes: CredentialType[];
 
   setGlobalFilter: (globalFilter: string) => void;
-  setColumnFilters: (columnFilters: ColumnFiltersState) => void;
+  setColumnFilters: (columnFilters: ColumnFilter[]) => void;
   setSelectedVCs: (selectedVCs: QueryCredentialsRequestResult[]) => void;
   setCardView: (view: boolean) => void;
   setDataStores: (dataStores: DataStore[]) => void;
@@ -41,7 +45,11 @@ interface TableStore {
 
 export const tableStoreInitialState = {
   globalFilter: '',
-  columnFilters: [{ id: 'data_store', value: ['snap'] }],
+  columnFilters: [
+    { id: 'data_store', value: ['snap', 'ceramic'] },
+    { id: 'issuer', value: ['ebsi', 'polygonid', 'other'] },
+    { id: 'type', value: [] },
+  ] as ColumnFilter[],
   selectedVCs: [],
   cardView: true,
   dataStores: [
@@ -61,8 +69,7 @@ export const useTableStore = createWithEqualityFn<TableStore>()(
     ...tableStoreInitialState,
 
     setGlobalFilter: (globalFilter: string) => set({ globalFilter }),
-    setColumnFilters: (columnFilters: ColumnFiltersState) =>
-      set({ columnFilters }),
+    setColumnFilters: (columnFilters: ColumnFilter[]) => set({ columnFilters }),
     setCardView: (cardView: boolean) => set({ cardView }),
     setSelectedVCs: (selectedVCs: QueryCredentialsRequestResult[]) =>
       set({ selectedVCs }),

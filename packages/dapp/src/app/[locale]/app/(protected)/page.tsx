@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 
 import Controlbar from '@/components/Controlbar/Controlbar';
+import DasboardDisplay from '@/components/DashboardDisplay';
 import Table from '@/components/VCTable';
 
 export const metadata: Metadata = {
@@ -13,7 +14,7 @@ export default function Page() {
     <div className="flex flex-1 flex-col">
       <Controlbar />
       <div className="dark:bg-navy-blue-800 flex flex-1 items-center justify-center rounded-3xl bg-white shadow-lg">
-        <Table />
+        <DasboardDisplay />
       </div>
     </div>
   );
