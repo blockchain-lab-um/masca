@@ -2,7 +2,7 @@ import { QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connecto
 import { SortDescriptor } from '@nextui-org/react';
 
 import { convertTypes } from '@/utils/string';
-import { ColumnFilter, CredentialType, DataStore, Ecosystem } from '@/stores';
+import { CredentialType, DataStore, Ecosystem } from '@/stores';
 
 const compareFunction = (
   column: string,
@@ -110,7 +110,7 @@ export const filterColumnsDataStore = (
     .filter((ds) => ds.selected)
     .map((ds) => ds.dataStore);
   const filteredList = credentialList.filter((credential) => {
-    const dataStore = credential.metadata.store;
+    const dataStore = credential.metadata.store as ('snap' | 'ceramic')[];
     if (!dataStore) return false;
 
     for (const val of dataStore) {
@@ -144,13 +144,52 @@ export const filterColumnsType = (
     return false;
   });
   return filteredList;
-  return credentialList;
 };
 
 export const filterColumnsEcosystem = (
   credentialList: QueryCredentialsRequestResult[],
-  types: Ecosystem[]
+  ecosystems: Ecosystem[]
 ) => {
   console.log('filtering Columns ECO...');
-  return credentialList;
+  const availableEcosystems = ecosystems
+    .filter((type) => type.selected)
+    .map((type) => type.ecosystem);
+  const filteredList = credentialList.filter((credential) => {
+    let issuer;
+    if (!credential.data.issuer) return false;
+    if (typeof credential.data.issuer === 'string')
+      issuer = credential.data.issuer;
+    if (typeof credential.data.issuer === 'object')
+      issuer = credential.data.issuer.id ? credential.data.issuer.id : '';
+    if (!issuer || issuer === '') return false;
+
+    for (const val of availableEcosystems) {
+      if (typeof issuer !== 'string') return false;
+      if (
+        (val === 'other' &&
+          issuer.split(':')[1] !== 'ebsi' &&
+          issuer.split(':')[1] !== 'polygonid') ||
+        issuer.split(':')[1] === val
+      ) {
+        return true;
+      }
+    }
+    return false;
+  });
+  return filteredList;
+};
+
+export const globalFilterFn = (
+  credentialList: QueryCredentialsRequestResult[],
+  filterValue: string
+) => {
+  console.log('filtering global...');
+
+  const filteredList = credentialList.filter((credential) => {
+    const vcJSON = JSON.stringify(credential.data);
+    const filterValueLower = filterValue.toLowerCase();
+    if (vcJSON.toLowerCase().includes(filterValueLower)) return true;
+    return false;
+  });
+  return filteredList;
 };

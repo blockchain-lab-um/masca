@@ -1,10 +1,7 @@
 'use client';
 
 import { Fragment, useEffect } from 'react';
-import {
-  AvailableCredentialStores,
-  QueryCredentialsRequestResult,
-} from '@blockchain-lab-um/masca-connector';
+import { QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
@@ -22,53 +19,15 @@ interface FilterPopoverProps {
 function FilterPopover({ vcs }: FilterPopoverProps) {
   const t = useTranslations('FilterPopover');
 
-  const {
-    dataStores,
-    ecosystems,
-    credentialTypes,
-    columnFilters,
-    setColumnFilters,
-    setCredentialTypes,
-  } = useTableStore((state) => ({
-    dataStores: state.dataStores,
-    credentialTypes: state.credentialTypes,
-    columnFilters: state.columnFilters,
-    setDataStores: state.setDataStores,
-    ecosystems: state.ecosystems,
-    setEcosystems: state.setEcosystems,
-    setCredentialTypes: state.setCredentialTypes,
-    setColumnFilters: state.setColumnFilters,
-  }));
-
-  const updateColumnFiltersDataStore = () => {
-    const dsFilter = {
-      id: 'data_store',
-      value: [] as AvailableCredentialStores[],
-    };
-    dsFilter.value = dataStores
-      .filter((ds) => ds.selected)
-      .map((ds) => ds.dataStore);
-
-    const newColumnFilters = columnFilters.filter(
-      (cf) => cf.id !== 'data_store'
-    );
-    newColumnFilters.push(dsFilter);
-    setColumnFilters(newColumnFilters);
-  };
-
-  const updateColumnFiltersCredentialTypes = () => {
-    const typeFilter = {
-      id: 'type',
-      value: [] as string[],
-    };
-    typeFilter.value = credentialTypes
-      .filter((type) => type.selected)
-      .map((type) => type.type);
-
-    const newColumnFilters = columnFilters.filter((cf) => cf.id !== 'type');
-    newColumnFilters.push(typeFilter);
-    setColumnFilters(newColumnFilters);
-  };
+  const { dataStores, ecosystems, credentialTypes, setCredentialTypes } =
+    useTableStore((state) => ({
+      dataStores: state.dataStores,
+      credentialTypes: state.credentialTypes,
+      setDataStores: state.setDataStores,
+      ecosystems: state.ecosystems,
+      setEcosystems: state.setEcosystems,
+      setCredentialTypes: state.setCredentialTypes,
+    }));
 
   const getAvailableCredentialTypes = () => {
     const allCredentialTypes: string[] = [];
@@ -92,35 +51,9 @@ function FilterPopover({ vcs }: FilterPopoverProps) {
     );
   };
 
-  const updateColumnFiltersEcosystems = () => {
-    const esFilter = {
-      id: 'issuer',
-      value: [] as string[],
-    };
-    esFilter.value = ecosystems
-      .filter((es) => es.selected)
-      .map((es) => es.ecosystem);
-
-    const newColumnFilters = columnFilters.filter((cf) => cf.id !== 'issuer');
-    newColumnFilters.push(esFilter);
-    setColumnFilters(newColumnFilters);
-  };
-
-  useEffect(() => {
-    updateColumnFiltersDataStore();
-  }, [dataStores]);
-
   useEffect(() => {
     getAvailableCredentialTypes();
   }, [vcs]);
-
-  useEffect(() => {
-    updateColumnFiltersEcosystems();
-  }, [ecosystems]);
-
-  useEffect(() => {
-    updateColumnFiltersCredentialTypes();
-  }, [credentialTypes]);
 
   return (
     <Popover className="relative">

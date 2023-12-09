@@ -12,12 +12,12 @@ import { W3CVerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
+import GlobalFilter from '@/components/Controlbar/GlobalFilter';
+import ViewTabs from '@/components/Controlbar/ViewTabs';
 import ImportModal from '@/components/ImportModal';
-import GlobalFilter from '@/components/VCTable/GlobalFilter';
-import ViewTabs from '@/components/VCTable/ViewTabs';
 import { stringifyCredentialSubject } from '@/utils/format';
 import { useGeneralStore, useMascaStore, useToastStore } from '@/stores';
-import FilterPopover from '../VCTable/FilterPopover';
+import FilterPopover from './FilterPopover';
 
 // import PlaygroundModal from '../PlaygroundModal';
 

@@ -6,7 +6,7 @@ import { isError } from '@blockchain-lab-um/masca-connector';
 import { useTranslations } from 'next-intl';
 
 import { stringifyCredentialSubject } from '@/utils/format';
-import { useMascaStore, useToastStore } from '@/stores';
+import { useMascaStore, useTableStore, useToastStore } from '@/stores';
 import Button from '../Button';
 import CredentialTable from './CredentialTable';
 
@@ -18,6 +18,10 @@ const DashboardDisplay = () => {
     vcs: state.vcs,
     changeVcs: state.changeVcs,
     changeLastFetch: state.changeLastFetch,
+  }));
+
+  const { cardView } = useTableStore((state) => ({
+    cardView: state.cardView,
   }));
 
   // Functions
