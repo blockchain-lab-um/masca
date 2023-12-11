@@ -96,7 +96,7 @@ const compareFunction = (
 export const sortCredentialList = (
   sortDesc: SortDescriptor,
   credentialList: QueryCredentialsRequestResult[]
-) => {
+): QueryCredentialsRequestResult[] => {
   const { column, direction } = sortDesc;
   return credentialList.sort(compareFunction(column as string, direction!));
 };
@@ -182,7 +182,7 @@ export const filterColumnsEcosystem = (
 export const globalFilterFn = (
   credentialList: QueryCredentialsRequestResult[],
   filterValue: string
-) => {
+): QueryCredentialsRequestResult[] => {
   console.log('filtering global...');
 
   const filteredList = credentialList.filter((credential) => {

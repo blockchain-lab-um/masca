@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
   isError,
   type QueryCredentialsRequestResult,
@@ -32,6 +33,7 @@ const proofFormats: Record<string, SupportedProofFormats> = {
 };
 
 const CreatePresentationDisplay = () => {
+  const router = useRouter();
   const t = useTranslations('CreatePresentationDisplay');
   const [loading, setLoading] = useState(false);
   const [vpModalOpen, setVpModalOpen] = useState(false);
@@ -116,11 +118,14 @@ const CreatePresentationDisplay = () => {
   return (
     <>
       <div className="mt-5 flex w-full justify-between px-6 pt-2">
-        <Link href="/app" className="flex items-center">
-          <button className="animated-transition dark:text-navy-blue-50 dark:hover:bg-navy-blue-700 rounded-full text-gray-800 hover:bg-pink-100 hover:text-pink-700">
-            <ArrowLeftIcon className="h-6 w-6" />
-          </button>
-        </Link>
+        <button
+          onClick={() => {
+            router.back();
+          }}
+          className="animated-transition dark:text-navy-blue-50 dark:hover:bg-navy-blue-700 rounded-full text-gray-800 hover:bg-pink-100 hover:text-pink-700"
+        >
+          <ArrowLeftIcon className="h-6 w-6" />
+        </button>
         <div className="text-h3 dark:text-navy-blue-50 font-semibold text-gray-800">
           {t('title')}
         </div>

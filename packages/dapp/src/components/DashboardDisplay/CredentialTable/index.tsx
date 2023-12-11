@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import { EllipsisVerticalIcon } from '@heroicons/react/24/solid';
@@ -8,6 +9,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  Pagination,
   Selection,
   SortDescriptor,
   Table,
@@ -19,21 +21,21 @@ import {
   Tooltip,
 } from '@nextui-org/react';
 import { VerifiableCredential } from '@veramo/core';
+import { encodeBase64url } from '@veramo/utils';
 import { useTranslations } from 'next-intl';
 
+import DeleteModal from '@/components/DeleteModal';
+import { ShareCredentialModal } from '@/components/ShareCredentialModal';
 import StoreIcon from '@/components/StoreIcon';
 import { convertTypes } from '@/utils/string';
-import { useMascaStore, useTableStore } from '@/stores';
-import {
-  filterColumnsDataStore,
-  filterColumnsEcosystem,
-  filterColumnsType,
-  globalFilterFn,
-  sortCredentialList,
-} from './utils';
+import { useTableStore } from '@/stores';
+import { LastFetched } from '../LastFetched';
+import { sortCredentialList } from '../utils';
 
 type Key = string | number;
 type SelectedKeys = 'all' | Iterable<Key> | undefined;
+
+const ROWS_PER_PAGE = 3;
 
 const columns = [
   {
@@ -75,28 +77,26 @@ const columns = [
   },
 ];
 
-const CredentialTable = () => {
+interface CredentialTableProps {
+  vcs: QueryCredentialsRequestResult[];
+}
+
+const CredentialTable = ({ vcs }: CredentialTableProps) => {
   const t = useTranslations('Dashboard');
   const [selectedKeys, setSelectedKeys] = useState<SelectedKeys>(new Set([]));
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>();
-  const { vcs, changeLastFetch } = useMascaStore((state) => ({
-    api: state.mascaApi,
-    vcs: state.vcs,
-    changeVcs: state.changeVcs,
-    changeLastFetch: state.changeLastFetch,
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [selectedVC, setSelectedVC] = useState<QueryCredentialsRequestResult>();
+  const [shareCredential, setShareCredential] =
+    useState<VerifiableCredential>();
+  const [page, setPage] = useState(1);
+
+  const router = useRouter();
+
+  const { setSelectedVCs } = useTableStore((state) => ({
+    setSelectedVCs: state.setSelectedVCs,
   }));
-
-  const { globalFilter, cardView, dataStores, ecosystems, credentialTypes } =
-    useTableStore((state) => ({
-      globalFilter: state.globalFilter,
-      cardView: state.cardView,
-      dataStores: state.dataStores,
-      ecosystems: state.ecosystems,
-      credentialTypes: state.credentialTypes,
-    }));
-
-  // Load VCs
-  const credentialList = useMemo(() => vcs, [vcs]);
 
   const renderCell = React.useCallback(
     (vc: QueryCredentialsRequestResult, columnKey: React.Key) => {
@@ -192,7 +192,7 @@ const CredentialTable = () => {
             : '';
           return (
             <div className="flex items-center justify-center gap-x-1">
-              {dataStore.split(',').map((store, id) => (
+              {dataStore.split(',').map((store: string, id: string) => (
                 <Tooltip
                   className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
                   content={store}
@@ -215,9 +215,28 @@ const CredentialTable = () => {
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu>
-                  <DropdownItem aria-label="View Button">View</DropdownItem>
+                  <DropdownItem
+                    aria-label="View Button"
+                    onClick={() => {
+                      router.push(
+                        `/app/verifiable-credential/${encodeBase64url(
+                          vc.metadata.id
+                        )}`
+                      );
+                    }}
+                  >
+                    View
+                  </DropdownItem>
                   <DropdownItem aria-label="Share Button">Share</DropdownItem>
-                  <DropdownItem aria-label="Delete Button">Delete</DropdownItem>
+                  <DropdownItem
+                    aria-label="Delete Button"
+                    onClick={() => {
+                      setDeleteModalOpen(true);
+                      setSelectedVC(vc);
+                    }}
+                  >
+                    Delete
+                  </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
             </div>
@@ -227,30 +246,6 @@ const CredentialTable = () => {
       }
     },
     []
-  );
-
-  // DS filter
-  const dsFilteredCredentialList = useMemo(
-    () => filterColumnsDataStore(credentialList, dataStores),
-    [dataStores, credentialList]
-  );
-
-  // Type filter
-  const typeFilteredCredentialList = useMemo(
-    () => filterColumnsType(dsFilteredCredentialList, credentialTypes),
-    [credentialTypes, dsFilteredCredentialList]
-  );
-
-  // Ecosystem filter
-  const ecosystemFilteredCredentialList = useMemo(
-    () => filterColumnsEcosystem(typeFilteredCredentialList, ecosystems),
-    [ecosystems, typeFilteredCredentialList]
-  );
-
-  // Global filter
-  const filteredCredentialList = useMemo(
-    () => globalFilterFn(ecosystemFilteredCredentialList, globalFilter),
-    [globalFilter, ecosystemFilteredCredentialList]
   );
 
   // Set selected keys
@@ -267,14 +262,15 @@ const CredentialTable = () => {
     }
     return vcs
       .filter((vc) => (keys as Set<Key>).has(vc.metadata.id))
-      .map((vc) => vc.data);
+      .map((vc) => vc);
   };
 
   // get selected VCs from selected keys on change
-  const selectedVCs = useMemo(
-    () => getSelectedVCs(selectedKeys),
-    [selectedKeys]
-  );
+  const selectedVCs = useMemo(() => {
+    const selVcs = getSelectedVCs(selectedKeys);
+    setSelectedVCs(selVcs);
+    return selVcs;
+  }, [selectedKeys]);
 
   // Set sorting descriptor
   const handleSorting = (sortDesc: SortDescriptor) => {
@@ -282,14 +278,22 @@ const CredentialTable = () => {
   };
 
   // Run sort if sorting descriptor has changed
-  const sortedCredentialList = useMemo(() => {
-    if (!sortDescriptor) return filteredCredentialList;
-    return sortCredentialList(sortDescriptor, filteredCredentialList);
-  }, [sortDescriptor, filteredCredentialList]);
+  const sortedCredentialList: QueryCredentialsRequestResult[] = useMemo(() => {
+    if (!sortDescriptor) return vcs;
+    return sortCredentialList(sortDescriptor, vcs);
+  }, [sortDescriptor, vcs]);
+
+  const pages = Math.ceil(sortedCredentialList.length / ROWS_PER_PAGE);
+
+  const items: QueryCredentialsRequestResult[] = React.useMemo(() => {
+    const start = (page - 1) * ROWS_PER_PAGE;
+    const end = start + ROWS_PER_PAGE;
+
+    return sortedCredentialList.slice(start, end);
+  }, [page, sortedCredentialList]);
 
   return (
-    <div>
-      <div>{selectedVCs.length}</div>
+    <div className="h-full w-full">
       <Table
         aria-label="Credential Table"
         color="primary"
@@ -298,6 +302,49 @@ const CredentialTable = () => {
         onSelectionChange={handleSelect}
         onSortChange={handleSorting}
         sortDescriptor={sortDescriptor}
+        topContent={
+          <div className="dark:border-navy-blue-600 flex items-center justify-between p-5">
+            <div className="text-h2 font-ubuntu dark:text-navy-blue-50 pl-4 font-medium text-gray-800">
+              {t('table-header.credentials')}
+            </div>
+            <div className="text-right">
+              <div className="text-h4 dark:text-navy-blue-50 text-gray-800">
+                {vcs.length} {t('table-header.found')}
+              </div>
+              <LastFetched />
+            </div>
+          </div>
+        }
+        bottomContent={
+          <div>
+            <div className="flex w-full justify-center">
+              <Pagination
+                isCompact
+                showControls
+                showShadow
+                color="primary"
+                variant="light"
+                page={page}
+                total={pages}
+                onChange={(newPage) => setPage(newPage)}
+              />
+            </div>
+            {selectedVCs.length > 0 && (
+              <div>
+                <Button
+                  color="primary"
+                  size="lg"
+                  className="rounded-full"
+                  onClick={() => {
+                    router.push('/app/create-verifiable-presentation');
+                  }}
+                >
+                  Create Presentation ({selectedVCs.length})
+                </Button>
+              </div>
+            )}
+          </div>
+        }
       >
         <TableHeader columns={columns}>
           {(column) => (
@@ -306,7 +353,7 @@ const CredentialTable = () => {
             </TableColumn>
           )}
         </TableHeader>
-        <TableBody items={sortedCredentialList}>
+        <TableBody items={items}>
           {(item) => (
             <TableRow key={item.metadata.id}>
               {(columnKey) => (
@@ -316,6 +363,16 @@ const CredentialTable = () => {
           )}
         </TableBody>
       </Table>
+      <DeleteModal
+        isOpen={deleteModalOpen}
+        setOpen={setDeleteModalOpen}
+        vc={selectedVC}
+      />
+      <ShareCredentialModal
+        isOpen={shareModalOpen}
+        setOpen={setShareModalOpen}
+        credentials={shareCredential ? [shareCredential] : []}
+      />
     </div>
   );
 };

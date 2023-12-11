@@ -8,7 +8,7 @@ import { CheckBox } from './CheckBox';
 
 const EcosystemSNames = {
   ebsi: 'EBSI',
-  polygonid: 'Polygon',
+  polygonid: 'PolygonID',
   other: 'Other',
 };
 

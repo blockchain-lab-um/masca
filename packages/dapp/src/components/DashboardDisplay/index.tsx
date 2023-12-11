@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { isError } from '@blockchain-lab-um/masca-connector';
 import { useTranslations } from 'next-intl';
@@ -8,7 +8,14 @@ import { useTranslations } from 'next-intl';
 import { stringifyCredentialSubject } from '@/utils/format';
 import { useMascaStore, useTableStore, useToastStore } from '@/stores';
 import Button from '../Button';
+import { CredentialCards } from './CredentialCards';
 import CredentialTable from './CredentialTable';
+import {
+  filterColumnsDataStore,
+  filterColumnsEcosystem,
+  filterColumnsType,
+  globalFilterFn,
+} from './utils';
 
 const DashboardDisplay = () => {
   const t = useTranslations('Dashboard');
@@ -20,9 +27,14 @@ const DashboardDisplay = () => {
     changeLastFetch: state.changeLastFetch,
   }));
 
-  const { cardView } = useTableStore((state) => ({
-    cardView: state.cardView,
-  }));
+  const { globalFilter, cardView, dataStores, ecosystems, credentialTypes } =
+    useTableStore((state) => ({
+      globalFilter: state.globalFilter,
+      cardView: state.cardView,
+      dataStores: state.dataStores,
+      ecosystems: state.ecosystems,
+      credentialTypes: state.credentialTypes,
+    }));
 
   // Functions
   const loadVCs = async () => {
@@ -78,6 +90,33 @@ const DashboardDisplay = () => {
     setLoading(false);
   };
 
+  // Load VCs
+  const credentialList = useMemo(() => vcs, [vcs]);
+
+  // DS filter
+  const dsFilteredCredentialList = useMemo(
+    () => filterColumnsDataStore(credentialList, dataStores),
+    [dataStores, credentialList]
+  );
+
+  // Type filter
+  const typeFilteredCredentialList = useMemo(
+    () => filterColumnsType(dsFilteredCredentialList, credentialTypes),
+    [credentialTypes, dsFilteredCredentialList]
+  );
+
+  // Ecosystem filter
+  const ecosystemFilteredCredentialList = useMemo(
+    () => filterColumnsEcosystem(typeFilteredCredentialList, ecosystems),
+    [ecosystems, typeFilteredCredentialList]
+  );
+
+  // Global filter
+  const filteredCredentialList = useMemo(
+    () => globalFilterFn(ecosystemFilteredCredentialList, globalFilter),
+    [globalFilter, ecosystemFilteredCredentialList]
+  );
+
   if (vcs.length === 0)
     return (
       <div className="flex min-h-[50vh] flex-col items-center justify-center">
@@ -100,7 +139,15 @@ const DashboardDisplay = () => {
       </div>
     );
 
-  return <CredentialTable />;
+  return (
+    <div className="h-full w-full">
+      {cardView ? (
+        <CredentialCards vcs={filteredCredentialList} />
+      ) : (
+        <CredentialTable vcs={filteredCredentialList} />
+      )}
+    </div>
+  );
 };
 
 export default DashboardDisplay;
