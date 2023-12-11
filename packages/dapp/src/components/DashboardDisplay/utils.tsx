@@ -80,6 +80,8 @@ const compareFunction = (
         const dateA = a.data.expirationDate;
         const dateB = b.data.expirationDate;
 
+        if (!dateA || !dateB) return 1;
+
         if (direction === 'descending') {
           return dateB > dateA ? 1 : -1;
         }
@@ -105,7 +107,6 @@ export const filterColumnsDataStore = (
   credentialList: QueryCredentialsRequestResult[],
   dataStores: DataStore[]
 ) => {
-  console.log('filtering Columns DS...');
   const availableDataStores = dataStores
     .filter((ds) => ds.selected)
     .map((ds) => ds.dataStore);
@@ -125,7 +126,6 @@ export const filterColumnsType = (
   credentialList: QueryCredentialsRequestResult[],
   types: CredentialType[]
 ) => {
-  console.log('filtering Columns Type...');
   const availableTypes = types
     .filter((type) => type.selected)
     .map((type) => type.type);
@@ -150,7 +150,6 @@ export const filterColumnsEcosystem = (
   credentialList: QueryCredentialsRequestResult[],
   ecosystems: Ecosystem[]
 ) => {
-  console.log('filtering Columns ECO...');
   const availableEcosystems = ecosystems
     .filter((type) => type.selected)
     .map((type) => type.ecosystem);
@@ -183,8 +182,6 @@ export const globalFilterFn = (
   credentialList: QueryCredentialsRequestResult[],
   filterValue: string
 ): QueryCredentialsRequestResult[] => {
-  console.log('filtering global...');
-
   const filteredList = credentialList.filter((credential) => {
     const vcJSON = JSON.stringify(credential.data);
     const filterValueLower = filterValue.toLowerCase();

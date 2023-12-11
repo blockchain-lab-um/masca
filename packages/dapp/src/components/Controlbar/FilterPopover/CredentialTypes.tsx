@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { ChevronRightIcon } from '@heroicons/react/24/solid';
+import { Checkbox } from '@nextui-org/react';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
 import { useTableStore } from '@/stores';
-import { CheckBox } from './CheckBox';
 
 export const CredentialTypes = () => {
   const t = useTranslations('FilterPopover');
@@ -83,9 +83,9 @@ export const CredentialTypes = () => {
 
               return (
                 <div key={type.type} className="my-2">
-                  <CheckBox
-                    selected={type.selected}
-                    setSelected={(selected) => {
+                  <Checkbox
+                    isSelected={type.selected}
+                    onValueChange={(selected) => {
                       const newCredentialTypes = credentialTypes.map((tp) => {
                         if (tp.type === type.type) {
                           return {
@@ -99,7 +99,7 @@ export const CredentialTypes = () => {
                     }}
                   >
                     {type.type}
-                  </CheckBox>
+                  </Checkbox>
                 </div>
               );
             })}

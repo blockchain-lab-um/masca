@@ -35,7 +35,7 @@ import { sortCredentialList } from '../utils';
 type Key = string | number;
 type SelectedKeys = 'all' | Iterable<Key> | undefined;
 
-const ROWS_PER_PAGE = 3;
+const ROWS_PER_PAGE = 8;
 
 const columns = [
   {
@@ -192,7 +192,7 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
             : '';
           return (
             <div className="flex items-center justify-center gap-x-1">
-              {dataStore.split(',').map((store: string, id: string) => (
+              {dataStore.split(',').map((store: string, id: number) => (
                 <Tooltip
                   className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
                   content={store}
@@ -209,14 +209,20 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
           return (
             <div className="relative flex items-center justify-end gap-2">
               <Dropdown aria-label="Dropdown Menu in Table">
-                <DropdownTrigger>
-                  <Button isIconOnly size="sm" variant="light">
+                <DropdownTrigger aria-label="dropdown trigger">
+                  <Button
+                    isIconOnly
+                    size="sm"
+                    variant="light"
+                    aria-label="dropdown button"
+                  >
                     <EllipsisVerticalIcon className="text-gray-600" />
                   </Button>
                 </DropdownTrigger>
-                <DropdownMenu>
+                <DropdownMenu aria-label="Static VC Actions">
                   <DropdownItem
-                    aria-label="View Button"
+                    key="view"
+                    aria-label="View"
                     onClick={() => {
                       router.push(
                         `/app/verifiable-credential/${encodeBase64url(
@@ -225,24 +231,27 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
                       );
                     }}
                   >
-                    View
+                    {t('menu.view')}
                   </DropdownItem>
-                  <DropdownItem aria-label="Share Button">Share</DropdownItem>
+                  <DropdownItem key="share" aria-label="Share">
+                    {t('menu.share')}
+                  </DropdownItem>
                   <DropdownItem
-                    aria-label="Delete Button"
+                    aria-label="Delete"
+                    key="delete"
                     onClick={() => {
                       setDeleteModalOpen(true);
                       setSelectedVC(vc);
                     }}
                   >
-                    Delete
+                    {t('menu.delete')}
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
             </div>
           );
         default:
-          return 'test';
+          return '';
       }
     },
     []
@@ -255,7 +264,7 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
 
   const getSelectedVCs = (keys: SelectedKeys) => {
     if (keys === 'all') {
-      return vcs.map((vc) => vc.data);
+      return vcs.map((vc) => vc);
     }
     if (keys === undefined) {
       return [];
@@ -285,16 +294,21 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
 
   const pages = Math.ceil(sortedCredentialList.length / ROWS_PER_PAGE);
 
-  const items: QueryCredentialsRequestResult[] = React.useMemo(() => {
+  // Get items for current page when page or sortDescriptor changes
+  const items: QueryCredentialsRequestResult[] = useMemo(() => {
     const start = (page - 1) * ROWS_PER_PAGE;
     const end = start + ROWS_PER_PAGE;
 
-    return sortedCredentialList.slice(start, end);
-  }, [page, sortedCredentialList]);
+    const newItems = sortedCredentialList.slice(start, end);
+
+    return newItems;
+  }, [sortDescriptor, page, vcs]);
 
   return (
-    <div className="h-full w-full">
+    <div className="flex h-full w-full flex-col justify-between ">
       <Table
+        border={0}
+        shadow={'none'}
         aria-label="Credential Table"
         color="primary"
         selectionMode="multiple"
@@ -315,36 +329,6 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
             </div>
           </div>
         }
-        bottomContent={
-          <div>
-            <div className="flex w-full justify-center">
-              <Pagination
-                isCompact
-                showControls
-                showShadow
-                color="primary"
-                variant="light"
-                page={page}
-                total={pages}
-                onChange={(newPage) => setPage(newPage)}
-              />
-            </div>
-            {selectedVCs.length > 0 && (
-              <div>
-                <Button
-                  color="primary"
-                  size="lg"
-                  className="rounded-full"
-                  onClick={() => {
-                    router.push('/app/create-verifiable-presentation');
-                  }}
-                >
-                  Create Presentation ({selectedVCs.length})
-                </Button>
-              </div>
-            )}
-          </div>
-        }
       >
         <TableHeader columns={columns}>
           {(column) => (
@@ -363,6 +347,37 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
           )}
         </TableBody>
       </Table>
+
+      <div className="flex w-full items-center justify-between px-9 pb-8">
+        <div className="w-1/3 "></div>
+        <div className="flex h-[40px] w-1/3 items-center justify-center">
+          <Pagination
+            isCompact
+            showControls
+            showShadow
+            color="primary"
+            variant="light"
+            page={page}
+            total={pages}
+            onChange={(newPage) => setPage(newPage)}
+          />
+        </div>
+        <div className="flex w-1/3 items-center justify-end">
+          {selectedVCs.length > 0 && (
+            <Button
+              color="primary"
+              size="md"
+              className="rounded-full"
+              onClick={() => {
+                router.push('/app/create-verifiable-presentation');
+              }}
+            >
+              {t('create-verifiable-presentation')} ({selectedVCs.length})
+            </Button>
+          )}
+        </div>
+      </div>
+
       <DeleteModal
         isOpen={deleteModalOpen}
         setOpen={setDeleteModalOpen}

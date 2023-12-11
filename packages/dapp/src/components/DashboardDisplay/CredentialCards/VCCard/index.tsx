@@ -11,15 +11,21 @@ import { convertTypes } from '@/utils/string';
 
 interface VCCardProps {
   vc: QueryCredentialsRequestResult;
+  selected: boolean;
 }
 
-const VCCard = ({ vc }: VCCardProps) => {
-  const t = useTranslations('Dashboard');
+const VCCard = ({ vc, selected }: VCCardProps) => {
+  const t = useTranslations('VCCard');
   const types = convertTypes(vc.data.type).split(',')[0];
   const date = DateTime.fromISO(
     new Date(Date.parse(vc.data.issuanceDate)).toISOString()
   ).toFormat('dd LLL yyyy');
-  const expDate = new Date(vc.data.expirationDate).toDateString();
+
+  const vcExpDate = vc.data.expirationDate;
+  let expDate = t('no-exp-date');
+  if (vcExpDate) {
+    expDate = new Date(Date.parse(vcExpDate)).toDateString();
+  }
   let issuer;
   if (!vc.data.issuer) issuer = '';
   else if (typeof vc.data.issuer === 'string') issuer = vc.data.issuer;
@@ -42,12 +48,9 @@ const VCCard = ({ vc }: VCCardProps) => {
   );
   return (
     <div
-      onClick={() => {
-        console.log('toggled');
-      }}
       className={clsx(
         'animated-transition mx-4 mt-8 h-52 w-80 shrink-0 grow-0 cursor-pointer rounded-xl bg-gradient-to-b from-orange-500 to-pink-500 px-4 py-4 shadow-md shadow-black/50 duration-75 dark:from-orange-600 dark:to-pink-600 sm:w-96 sm:hover:scale-105',
-        false ? 'outline outline-[0.35rem] outline-blue-500' : ''
+        selected ? 'outline outline-[0.35rem] outline-blue-500' : ''
       )}
     >
       <div className="h-full">
@@ -56,19 +59,19 @@ const VCCard = ({ vc }: VCCardProps) => {
             <div className="col-span-1 flex h-full flex-col justify-center text-white">
               <div>
                 <span className="text-2xs text-orange-100 dark:text-pink-100">
-                  {t('card.issued')}
+                  {t('issued')}
                 </span>
                 <div className="">{issuerLink}</div>
               </div>
               <div className="mt-1">
                 <span className="text-2xs text-orange-100 dark:text-pink-100">
-                  {t('card.issued-date')}
+                  {t('issued-date')}
                 </span>
                 <div>{date}</div>
               </div>
               <div className="mt-1">
                 <span className="text-2xs text-orange-100 dark:text-pink-100">
-                  {t('card.expires')}
+                  {t('expires')}
                 </span>
                 <div>{expDate}</div>
               </div>
@@ -104,7 +107,7 @@ const VCCard = ({ vc }: VCCardProps) => {
               )}`}
             >
               <button className="font-ubuntu animated-transition mt-4 text-right text-sm font-medium text-pink-50/80 underline-offset-4 hover:text-pink-700">
-                {t('card.more')}
+                {t('more')}
               </button>
             </Link>
           </div>

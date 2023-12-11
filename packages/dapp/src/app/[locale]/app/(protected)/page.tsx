@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 
 import Controlbar from '@/components/Controlbar/Controlbar';
 import DasboardDisplay from '@/components/DashboardDisplay';
-import Table from '@/components/VCTable';
 
 export const metadata: Metadata = {
   title: 'Dashboard',

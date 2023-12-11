@@ -215,16 +215,26 @@
     "label": "Title",
     "placeholder": "Enter a title for the presentation"
   },
+  "VCCard": {
+    "expires": "EXPIRES ON",
+    "issued": "ISSUED BY",
+    "issued-date": "ISSUED ON",
+    "more": "MORE >",
+    "no-exp-date": "No Expiration",
+    "select": "SELECT",
+    "selected": "DESELECT",
+    "create-verifiable-presentation": "Create Presentation",
+    "tooltip": {
+      "no-exp-date": "Does not have an expiration date",
+      "open-did": "Open DID in Universal resolver",
+      "status": "Validity of the VC",
+      "store": "Where the VC is stored",
+      "share": "Share the verifiable credential",
+      "sign-in-to-share": "Sign in to share the credential",
+      "delete": "Delete the credential"
+    }
+  },
   "Dashboard": {
-    "card": {
-      "expires": "EXPIRES ON",
-      "issued": "ISSUED BY",
-      "issued-date": "ISSUED ON",
-      "more": "MORE >",
-      "no-exp-date": "No Expiration",
-      "select": "SELECT",
-      "selected": "DESELECT"
-    },
     "create-verifiable-presentation": "Create Presentation",
     "no-credentials": {
       "get": "Get your first credential",
@@ -234,6 +244,11 @@
     "pagination": {
       "of": "of",
       "page": "Page"
+    },
+    "menu": {
+      "view": "View",
+      "share": "Share",
+      "delete": "Delete"
     },
     "query-error": "Failed to query credentials",
     "query-no-credentials": "No credentials found",
