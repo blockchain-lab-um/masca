@@ -192,7 +192,7 @@ const QRCodeSessionProvider = () => {
     handleNewRequest(requestData).catch((e) => console.log(e));
   }, [requestData]);
 
-  return <></>;
+  return null;
 };
 
 export default QRCodeSessionProvider;

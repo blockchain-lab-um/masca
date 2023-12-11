@@ -56,6 +56,34 @@ export const ShareCredentialModal = ({
     [credentials]
   );
 
+  const supportedDidMethod = useMemo(
+    () => !['did:polygonid', 'did:iden3', undefined].includes(didMethod),
+    [didMethod]
+  );
+
+  const supportedCredentials = useMemo(() => {
+    for (const credential of credentials) {
+      if (
+        typeof credential.issuer === 'string' &&
+        (credential.issuer.includes('polygon') ||
+          credential.issuer.includes('iden3'))
+      ) {
+        return false;
+      }
+
+      if (
+        typeof credential.credentialSubject === 'object' &&
+        credential.credentialSubject.id &&
+        (credential.credentialSubject.id.includes('polygon') ||
+          credential.credentialSubject.id.includes('iden3'))
+      ) {
+        return false;
+      }
+    }
+
+    return true;
+  }, [credentials]);
+
   const stringifiedTypes = useMemo(() => JSON.stringify(types), [types]);
 
   // Functions
@@ -111,6 +139,7 @@ export const ShareCredentialModal = ({
       },
       body: JSON.stringify({
         presentation,
+        title,
       }),
     });
 
@@ -162,91 +191,108 @@ export const ShareCredentialModal = ({
               <p className="text-md dark:text-navy-blue-200 text-center text-gray-600">
                 {t('description')}
               </p>
-              <div className="mt-6">
-                {!shareLink && (
-                  <div>
+              {supportedDidMethod && supportedCredentials && (
+                <div className="mt-6">
+                  {!shareLink && (
                     <div>
-                      <div className="justify-center">
-                        <Input
-                          variant="bordered"
-                          labelPlacement="outside"
-                          maxLength={16}
-                          value={title}
-                          onChange={(e) => setTitle(e.target.value)}
-                          classNames={{
-                            inputWrapper: clsx(
-                              'shadow-none outline-none',
-                              'bg-unset',
-                              'group-data-[focus=true]:border-pink-500 dark:group-data-[focus=true]:border-orange-accent-dark'
-                            ),
-                            label:
-                              'text-xl group-data-[filled-within=true]:text-pink-500 dark:group-data-[filled-within=true]:text-orange-accent-dark',
-                            input: 'dark:bg-navy-blue-900 bg-white',
-                          }}
-                          label={t('label')}
-                          placeholder={t('placeholder')}
-                        />
-                      </div>
-                      <div className="mt-6 flex flex-col space-y-2">
-                        <h3 className="dark:text-orange-accent-dark text-xl text-pink-500">
-                          {t('selected')}
-                        </h3>
-                        <div className="flex flex-col space-y-2">
-                          {types.map(({ key, value }) => (
-                            <div key={key}>{value}</div>
-                          ))}
+                      <div>
+                        <div className="justify-center">
+                          <Input
+                            variant="bordered"
+                            labelPlacement="outside"
+                            maxLength={16}
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            classNames={{
+                              inputWrapper: clsx(
+                                'shadow-none outline-none',
+                                'bg-unset',
+                                'group-data-[focus=true]:border-pink-500 dark:group-data-[focus=true]:border-orange-accent-dark'
+                              ),
+                              label:
+                                'text-xl group-data-[filled-within=true]:text-pink-500 dark:group-data-[filled-within=true]:text-orange-accent-dark',
+                              input: 'dark:bg-navy-blue-900 bg-white',
+                            }}
+                            label={t('label')}
+                            placeholder={t('placeholder')}
+                          />
+                        </div>
+                        <div className="mt-6 flex flex-col space-y-2">
+                          <h3 className="dark:text-orange-accent-dark text-xl text-pink-500">
+                            {t('selected')}
+                          </h3>
+                          <div className="flex flex-col space-y-2">
+                            {types.map(({ key, value }) => (
+                              <div key={key}>{value}</div>
+                            ))}
+                          </div>
                         </div>
                       </div>
                     </div>
-                    <div className="mt-10 flex w-full justify-end">
-                      <Button
-                        variant="cancel"
-                        size="xs"
-                        onClick={() => setOpen(false)}
-                      >
-                        {t('cancel')}
-                      </Button>
-                      <Button
-                        disabled={isLoading}
-                        loading={isLoading}
-                        variant="warning"
-                        size="xs"
-                        onClick={() =>
-                          handleShareCredential().finally(() =>
-                            setIsLoading(false)
-                          )
-                        }
-                      >
-                        {t('confirm')}
-                      </Button>
-                    </div>
-                  </div>
-                )}
-                {shareLink && (
-                  <div className="flex flex-col">
-                    <Snippet
-                      hideSymbol
-                      classNames={{
-                        base: 'bg-gray-100 dark:bg-navy-blue-800',
-                        symbol: 'bg-gray-100 dark:bg-navy-blue-800',
-                        copyButton:
-                          'text-pink-500 dark:text-orange-accent-dark',
+                  )}
+                  {shareLink && (
+                    <div className="flex flex-col">
+                      <Snippet
+                        hideSymbol
+                        classNames={{
+                          base: 'bg-gray-100 dark:bg-navy-blue-800',
+                          symbol: 'bg-gray-100 dark:bg-navy-blue-800',
+                          copyButton:
+                            'text-pink-500 dark:text-orange-accent-dark',
 
-                        pre: 'truncate',
-                      }}
-                    >
-                      {shareLink}
-                    </Snippet>
-                    <div className="mt-10 flex w-full justify-end">
-                      <Button
-                        variant="cancel"
-                        size="xs"
-                        onClick={() => setOpen(false)}
+                          pre: 'truncate',
+                        }}
                       >
-                        {t('close')}
-                      </Button>
+                        {shareLink}
+                      </Snippet>
+                    </div>
+                  )}
+                </div>
+              )}
+              {!supportedDidMethod && (
+                <div className="mt-6">
+                  <div className="flex flex-col space-y-2">
+                    <h3 className="dark:text-orange-accent-dark text-xl text-pink-500">
+                      {t('unsupported-method-title')}
+                    </h3>
+                    <div className="flex flex-col space-y-2">
+                      {t('unsupported-method-description')}
                     </div>
                   </div>
+                </div>
+              )}
+              {!supportedCredentials && (
+                <div className="mt-6">
+                  <div className="flex flex-col space-y-2">
+                    <h3 className="dark:text-orange-accent-dark text-xl text-pink-500">
+                      {t('unsupported-credentials-title')}
+                    </h3>
+                    <div className="flex flex-col space-y-2">
+                      {t('unsupported-credentials-description')}
+                    </div>
+                  </div>
+                </div>
+              )}
+              <div className="mt-10 flex w-full justify-end">
+                <Button
+                  variant="cancel"
+                  size="xs"
+                  onClick={() => setOpen(false)}
+                >
+                  {t('cancel')}
+                </Button>
+                {!shareLink && supportedDidMethod && supportedCredentials && (
+                  <Button
+                    disabled={isLoading}
+                    loading={isLoading}
+                    variant="warning"
+                    size="xs"
+                    onClick={() =>
+                      handleShareCredential().finally(() => setIsLoading(false))
+                    }
+                  >
+                    {t('confirm')}
+                  </Button>
                 )}
               </div>
             </ModalBody>

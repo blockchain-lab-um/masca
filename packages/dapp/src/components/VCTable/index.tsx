@@ -75,7 +75,10 @@ const Table = () => {
   const [shareModalOpen, setShareModalOpen] = useState(false);
 
   // Global state
-  const isSignedIn = useAuthStore((state) => state.isSignedIn);
+  const { isSignedIn, changeIsSignInModalOpen } = useAuthStore((state) => ({
+    isSignedIn: state.isSignedIn,
+    changeIsSignInModalOpen: state.changeIsSignInModalOpen,
+  }));
 
   const { api, vcs, changeVcs, changeLastFetch } = useMascaStore((state) => ({
     api: state.mascaApi,
@@ -289,9 +292,14 @@ const Table = () => {
             }
           >
             <button
-              disabled={!isSignedIn}
               className="disabled:opacity-50"
               onClick={() => {
+                // If not signed in, open sign in modal
+                if (!isSignedIn) {
+                  changeIsSignInModalOpen(true);
+                  return;
+                }
+
                 setShareCredential(
                   removeCredentialSubjectFilterString(row.original).data
                 );

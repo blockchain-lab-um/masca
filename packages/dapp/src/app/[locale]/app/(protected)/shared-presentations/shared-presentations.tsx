@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { EyeIcon, TrashIcon } from '@heroicons/react/24/solid';
 import {
@@ -14,6 +14,7 @@ import {
   Tooltip,
 } from '@nextui-org/react';
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 
 import { DeleteSharedPresentationModal } from '@/components/DeleteSharedPresentationModal';
 import { createClient } from '@/utils/supabase/client';
@@ -30,18 +31,13 @@ const queryPresentations = async (token: string) => {
 };
 
 const keys = ['title', 'created_at', 'expires_at', 'actions', 'views'] as const;
-const columns = [
-  { key: 'title', label: 'Title' },
-  { key: 'created_at', label: 'Created At' },
-  { key: 'expires_at', label: 'Expires At' },
-  { key: 'views', label: 'Views' },
-  { key: 'actions', label: 'Actions' },
-];
 
 export const SharedPresentations = () => {
-  const router = useRouter();
-  const token = useAuthStore((state) => state.token);
+  const t = useTranslations('SharedPresentations');
 
+  const router = useRouter();
+
+  // Local state
   const [presentations, setPresentations] = useState<Tables<'presentations'>[]>(
     []
   );
@@ -51,19 +47,10 @@ export const SharedPresentations = () => {
     string | null
   >(null);
 
-  useEffect(() => {
-    if (!token) return;
-    setLoading(true);
-    queryPresentations(token)
-      .then((data) => setPresentations(data))
-      .catch((error) => {
-        console.error(error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [token]);
+  // Global state
+  const token = useAuthStore((state) => state.token);
 
+  // Functions
   const renderCell = useCallback(
     (presentation: Tables<'presentations'>, columnKey: React.Key) => {
       const key = columnKey as (typeof keys)[number];
@@ -108,6 +95,28 @@ export const SharedPresentations = () => {
     []
   );
 
+  const columns = useMemo(
+    () =>
+      keys.map((key) => ({
+        key,
+        label: t(`table-headers.${key}`),
+      })),
+    [t]
+  );
+
+  useEffect(() => {
+    if (!token) return;
+    setLoading(true);
+    queryPresentations(token)
+      .then((data) => setPresentations(data))
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [token]);
+
   if (!token) return null;
 
   return (
@@ -115,14 +124,14 @@ export const SharedPresentations = () => {
       <div className="h-[50vh] min-h-[50vh]">
         <div className="flex w-full flex-col items-start justify-between space-y-2 px-4 sm:flex-row sm:items-end">
           <h1 className="font-ubuntu dark:text-orange-accent-dark text-left text-lg font-medium text-pink-500 sm:text-xl md:text-2xl">
-            Shared Presentations
+            {t('title')}
           </h1>
           <div className="flex items-center space-x-1">
             <h3 className="dark:text-navy-blue-50 text-sm font-normal text-gray-800">
-              Total shared presentations:
+              {t('total')}
             </h3>
             <h3 className="font-ubuntu dark:text-orange-accent-dark sm:text-md text-md text-left text-pink-500 md:text-lg">
-              6
+              {presentations.length}
             </h3>
           </div>
         </div>

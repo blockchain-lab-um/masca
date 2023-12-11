@@ -14,12 +14,15 @@ export const metadata: Metadata = {
   description: '',
 };
 
+export const revalidate = 0;
+
 const getPresentation = async (id: string): Promise<VerifiablePresentation> => {
   const supabase = createClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SECRET_KEY!
   );
 
+  // Query the presentation
   const { data, error } = await supabase
     .from('presentations')
     .select()
@@ -33,6 +36,12 @@ const getPresentation = async (id: string): Promise<VerifiablePresentation> => {
   if (!data || data.length === 0) {
     return notFound();
   }
+
+  // Update views
+  await supabase
+    .from('presentations')
+    .update({ views: data[0].views + 1 })
+    .eq('id', id);
 
   const presentation = data[0].presentation as VerifiablePresentation;
   return presentation;

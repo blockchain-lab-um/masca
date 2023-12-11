@@ -4,8 +4,8 @@ import { SupabaseProvider } from '@/components/SupabaseProvider';
 import { SharedPresentations } from './shared-presentations';
 
 export const metadata: Metadata = {
-  title: 'Dashboard',
-  description: 'Dashboard page for extra features.',
+  title: 'Shared Presentations',
+  description: 'Dashboard for managing shared presentations',
 };
 
 export default async function Page() {

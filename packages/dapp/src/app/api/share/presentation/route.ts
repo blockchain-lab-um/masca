@@ -33,10 +33,19 @@ export async function POST(request: NextRequest) {
       exp: number;
     };
 
-    const { presentation } = await request.json();
+    const { presentation, title } = await request.json();
 
     if (!presentation) {
       return new NextResponse('Missing presentation', {
+        status: 400,
+        headers: {
+          ...CORS_HEADERS,
+        },
+      });
+    }
+
+    if (!title) {
+      return new NextResponse('Missing title', {
         status: 400,
         headers: {
           ...CORS_HEADERS,
@@ -70,7 +79,7 @@ export async function POST(request: NextRequest) {
         user_id: user.sub,
         presentation,
         created_at: new Date().toISOString(),
-        title: 'Untitled',
+        title,
       })
       .select()
       .limit(1)
