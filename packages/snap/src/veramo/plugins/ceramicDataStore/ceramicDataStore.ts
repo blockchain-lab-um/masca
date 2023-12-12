@@ -83,7 +83,11 @@ export class CeramicCredentialStore extends AbstractDataStore {
       if (!storedCredentials.vcs[id]) throw Error('ID not found');
 
       delete storedCredentials.vcs[id];
-      await datastore.merge('StoredCredentials', storedCredentials);
+      await datastore.merge('StoredCredentials', storedCredentials, {
+        pin: true,
+      });
+      const pins = await ceramic.pin.ls();
+      console.log(pins);
       return true;
     }
     return false;
@@ -91,7 +95,6 @@ export class CeramicCredentialStore extends AbstractDataStore {
 
   async save(args: { data: W3CVerifiableCredential }): Promise<string> {
     // TODO check if VC is correct type
-
     const vc = args.data;
     const state = StorageService.get();
     const ceramic = await getCeramic(state);
@@ -105,13 +108,17 @@ export class CeramicCredentialStore extends AbstractDataStore {
       }
 
       storedCredentials.vcs[id] = vc;
-      await datastore.merge('StoredCredentials', storedCredentials);
+      await datastore.merge('StoredCredentials', storedCredentials, {
+        pin: true,
+      });
       return id;
     }
     const id = uint8ArrayToHex(sha256(Buffer.from(JSON.stringify(vc))));
     const storedCredentialsNew: StoredCredentials = { vcs: {} };
     storedCredentialsNew.vcs[id] = vc;
-    await datastore.merge('StoredCredentials', storedCredentialsNew);
+    await datastore.merge('StoredCredentials', storedCredentialsNew, {
+      pin: true,
+    });
     return id;
   }
 
@@ -122,7 +129,9 @@ export class CeramicCredentialStore extends AbstractDataStore {
     const storedCredentials = await datastore.get('StoredCredentials')!;
     if (storedCredentials?.vcs) {
       storedCredentials.vcs = {};
-      await datastore.merge('StoredCredentials', storedCredentials);
+      await datastore.merge('StoredCredentials', storedCredentials, {
+        pin: true,
+      });
       return true;
     }
     return false;
