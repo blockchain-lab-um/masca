@@ -86,8 +86,6 @@ export class CeramicCredentialStore extends AbstractDataStore {
       await datastore.merge('StoredCredentials', storedCredentials, {
         pin: true,
       });
-      const pins = await ceramic.pin.ls();
-      console.log(pins);
       return true;
     }
     return false;
