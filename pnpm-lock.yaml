@@ -17,6 +17,9 @@ patchedDependencies:
   '@digitalbazaar/http-client@1.2.0':
     hash: yl3b524jp4dtc7mdahww7krgi4
     path: patches/@digitalbazaar__http-client@1.2.0.patch
+  '@iden3/js-jsonld-merklization@1.1.2':
+    hash: drk5jy2pc7w6vpi57fdz3c6f6e
+    path: patches/@iden3__js-jsonld-merklization@1.1.2.patch
   '@metamask/snaps-sdk@1.2.0':
     hash: opksiuvz2n6at3zcjhfdijadqq
     path: patches/@metamask__snaps-sdk@1.2.0.patch
@@ -26,6 +29,9 @@ patchedDependencies:
   cross-fetch@4.0.0:
     hash: o37ixiuozlaw3unzpuuojolyvy
     path: patches/cross-fetch@4.0.0.patch
+  ejs@3.1.9:
+    hash: x7s24i7mnfg3tcfl2fux37h5wa
+    path: patches/ejs@3.1.9.patch
   intl@1.2.5:
     hash: 2i3sho75ida2jvn4xlmbxxe25i
     path: patches/intl@1.2.5.patch
@@ -859,7 +865,7 @@ packages:
     dependencies:
       '@iden3/js-crypto': 1.0.3
       '@iden3/js-iden3-core': 1.0.1
-      '@iden3/js-jsonld-merklization': 1.1.2(@iden3/js-crypto@1.0.3)(@iden3/js-merkletree@1.0.0)
+      '@iden3/js-jsonld-merklization': 1.1.2(patch_hash=drk5jy2pc7w6vpi57fdz3c6f6e)(@iden3/js-crypto@1.0.3)(@iden3/js-merkletree@1.0.0)
       '@iden3/js-jwz': 1.0.1
       '@iden3/js-merkletree': 1.0.0
       ajv: 8.12.0
@@ -897,7 +903,7 @@ packages:
     dependencies:
       '@iden3/js-crypto': 1.0.3
       '@iden3/js-iden3-core': 1.0.1
-      '@iden3/js-jsonld-merklization': 1.1.2(@iden3/js-crypto@1.0.3)(@iden3/js-merkletree@1.1.2)
+      '@iden3/js-jsonld-merklization': 1.1.2(patch_hash=drk5jy2pc7w6vpi57fdz3c6f6e)(@iden3/js-crypto@1.0.3)(@iden3/js-merkletree@1.1.2)
       '@iden3/js-jwz': 1.1.2(@iden3/js-crypto@1.0.3)(@iden3/js-iden3-core@1.0.1)(@iden3/js-merkletree@1.1.2)(ffjavascript@0.2.62)(rfc4648@1.5.3)(snarkjs@0.7.2)
       '@iden3/js-merkletree': 1.1.2(@iden3/js-crypto@1.0.3)(idb-keyval@6.2.1)
       ajv: 8.12.0
@@ -6155,7 +6161,7 @@ packages:
       cross-sha256: 1.2.0
     dev: false
 
-  /@iden3/js-jsonld-merklization@1.1.2(@iden3/js-crypto@1.0.3)(@iden3/js-merkletree@1.0.0):
+  /@iden3/js-jsonld-merklization@1.1.2(patch_hash=drk5jy2pc7w6vpi57fdz3c6f6e)(@iden3/js-crypto@1.0.3)(@iden3/js-merkletree@1.0.0):
     resolution: {integrity: sha512-R8p8EW35YCZQIAfb1GKUEpSdBayACvKFfwQBShGygTmCvA6TzixFc7POu3jmgGcjyRArZjUV6l17YJ33Pu++QQ==}
     peerDependencies:
       '@iden3/js-crypto': 1.0.3
@@ -6169,8 +6175,9 @@ packages:
     transitivePeerDependencies:
       - web-streams-polyfill
     dev: false
+    patched: true
 
-  /@iden3/js-jsonld-merklization@1.1.2(@iden3/js-crypto@1.0.3)(@iden3/js-merkletree@1.1.2):
+  /@iden3/js-jsonld-merklization@1.1.2(patch_hash=drk5jy2pc7w6vpi57fdz3c6f6e)(@iden3/js-crypto@1.0.3)(@iden3/js-merkletree@1.1.2):
     resolution: {integrity: sha512-R8p8EW35YCZQIAfb1GKUEpSdBayACvKFfwQBShGygTmCvA6TzixFc7POu3jmgGcjyRArZjUV6l17YJ33Pu++QQ==}
     peerDependencies:
       '@iden3/js-crypto': 1.0.3
@@ -6184,6 +6191,7 @@ packages:
     transitivePeerDependencies:
       - web-streams-polyfill
     dev: false
+    patched: true
 
   /@iden3/js-jwz@1.0.1:
     resolution: {integrity: sha512-jVZMJKiYWRs5q0J0bQag4Jj+P3+QmtfIPGy2zLsqh9W54nkvBoMCJqzetBUfCtTzMuvsFuE7mGlKtNM6SEjmrg==}
@@ -7229,7 +7237,7 @@ packages:
       nx: '>= 16 <= 18'
     dependencies:
       '@nrwl/devkit': 17.0.2(nx@17.0.2)
-      ejs: 3.1.9
+      ejs: 3.1.9(patch_hash=x7s24i7mnfg3tcfl2fux37h5wa)
       enquirer: 2.3.6
       ignore: 5.2.4
       nx: 17.0.2
@@ -13492,12 +13500,13 @@ packages:
       json-canonicalize: 1.0.6
     dev: false
 
-  /ejs@3.1.9:
+  /ejs@3.1.9(patch_hash=x7s24i7mnfg3tcfl2fux37h5wa):
     resolution: {integrity: sha512-rC+QVNMJWv+MtPgkt0y+0rVEIdbtxVADApW9JXrUVlzHetgcyczP/E7DJmWJ4fJCZF2cPcBk0laWO9ZHMG3DmQ==}
     engines: {node: '>=0.10.0'}
     hasBin: true
     dependencies:
       jake: 10.8.7
+    patched: true
 
   /electron-to-chromium@1.4.540:
     resolution: {integrity: sha512-aoCqgU6r9+o9/S7wkcSbmPRFi7OWZWiXS9rtjEd+Ouyu/Xyw5RSq2XN8s5Qp8IaFOLiRrhQCphCIjAxgG3eCAg==}
@@ -22448,7 +22457,7 @@ packages:
       bfj: 7.0.2
       blake2b-wasm: 2.4.0
       circom_runtime: 0.1.21
-      ejs: 3.1.9
+      ejs: 3.1.9(patch_hash=x7s24i7mnfg3tcfl2fux37h5wa)
       fastfile: 0.0.20
       ffjavascript: 0.2.56
       js-sha3: 0.8.0
@@ -22464,7 +22473,7 @@ packages:
       bfj: 7.0.2
       blake2b-wasm: 2.4.0
       circom_runtime: 0.1.24
-      ejs: 3.1.9
+      ejs: 3.1.9(patch_hash=x7s24i7mnfg3tcfl2fux37h5wa)
       fastfile: 0.0.20
       ffjavascript: 0.2.62
       js-sha3: 0.8.0

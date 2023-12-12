@@ -1,0 +1,13 @@
+diff --git a/lib/ejs.js b/lib/ejs.js
+index 65590eaed0d7fdf600b08fdc51e90083f5960595..5bd203ec2dd6e72959a92fc3292813e607ae33dc 100755
+--- a/lib/ejs.js
++++ b/lib/ejs.js
+@@ -84,7 +84,7 @@ exports.cache = utils.cache;
+  * @type {fileLoader}
+  */
+ 
+-exports.fileLoader = fs.readFileSync;
++// exports.fileLoader = fs.readFileSync;
+ 
+ /**
+  * Name of the object containing the locals.
