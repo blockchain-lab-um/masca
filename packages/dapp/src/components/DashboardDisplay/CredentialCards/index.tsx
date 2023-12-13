@@ -44,38 +44,40 @@ export const CredentialCards = ({ vcs }: CredentialCardsProps) => {
   }, [selectedCards]);
 
   return (
-    <div className="h-full w-full pb-4">
-      <div className="dark:border-navy-blue-600 flex items-center justify-between p-9">
-        <div className="text-h2 font-ubuntu dark:text-navy-blue-50 pl-4 font-medium text-gray-800">
-          {t('credentials')}
-        </div>
-        <div className="text-right">
-          <div className="text-h4 dark:text-navy-blue-50 text-gray-800">
-            {vcs.length} {t('found')}
+    <div className="flex h-full w-full flex-col justify-between pb-4">
+      <div>
+        <div className="dark:border-navy-blue-600 flex items-center justify-between p-9">
+          <div className="text-h2 font-ubuntu dark:text-navy-blue-50 pl-4 font-medium text-gray-800">
+            {t('credentials')}
           </div>
-          <LastFetched />
+          <div className="text-right">
+            <div className="text-h4 dark:text-navy-blue-50 text-gray-800">
+              {vcs.length} {t('found')}
+            </div>
+            <LastFetched />
+          </div>
         </div>
-      </div>
-      <div className="flex flex-wrap justify-center">
-        {items.map((vc, key) => (
-          <div
-            key={key}
-            onClick={() => {
-              // Add VC to selectedCards if not already in, else remove it
-              if (!selectedCards.includes(vc)) {
-                setSelectedCards([...selectedCards, vc]);
-              } else {
-                setSelectedCards(selectedCards.filter((item) => item !== vc));
-              }
-            }}
-          >
-            <CredentialCard
+        <div className="flex flex-wrap justify-center">
+          {items.map((vc, key) => (
+            <div
               key={key}
-              vc={vc}
-              selected={selectedCards.includes(vc)}
-            />
-          </div>
-        ))}
+              onClick={() => {
+                // Add VC to selectedCards if not already in, else remove it
+                if (!selectedCards.includes(vc)) {
+                  setSelectedCards([...selectedCards, vc]);
+                } else {
+                  setSelectedCards(selectedCards.filter((item) => item !== vc));
+                }
+              }}
+            >
+              <CredentialCard
+                key={key}
+                vc={vc}
+                selected={selectedCards.includes(vc)}
+              />
+            </div>
+          ))}
+        </div>
       </div>
       <div className="mt-8 flex w-full items-center justify-between px-9">
         <div className="w-1/3"></div>

@@ -37,46 +37,6 @@ type SelectedKeys = 'all' | Iterable<Key> | undefined;
 
 const ROWS_PER_PAGE = 8;
 
-const columns = [
-  {
-    key: 'type',
-    label: 'TYPE',
-    allowSorting: true,
-  },
-  {
-    key: 'date',
-    label: 'DATE',
-    allowSorting: true,
-  },
-  {
-    key: 'subject',
-    label: 'SUBJECT',
-    allowSorting: true,
-  },
-  {
-    key: 'issuer',
-    label: 'ISSUER',
-    allowSorting: true,
-  },
-  {
-    key: 'exp_date',
-    label: 'EXPIRATION DATE',
-    allowSorting: true,
-  },
-  {
-    key: 'status',
-    label: 'STATUS',
-  },
-  {
-    key: 'data_store',
-    label: 'DATA STORE',
-  },
-  {
-    key: 'actions',
-    label: 'ACTIONS',
-  },
-];
-
 interface CredentialTableProps {
   vcs: QueryCredentialsRequestResult[];
 }
@@ -118,6 +78,46 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
   const { setSelectedVCs } = useTableStore((state) => ({
     setSelectedVCs: state.setSelectedVCs,
   }));
+
+  const columns = [
+    {
+      key: 'type',
+      label: t('table-header.type'),
+      allowSorting: true,
+    },
+    {
+      key: 'date',
+      label: t('table-header.date'),
+      allowSorting: true,
+    },
+    {
+      key: 'subject',
+      label: t('table-header.subject'),
+      allowSorting: true,
+    },
+    {
+      key: 'issuer',
+      label: t('table-header.issuer'),
+      allowSorting: true,
+    },
+    {
+      key: 'exp_date',
+      label: t('table-header.exp_date'),
+      allowSorting: true,
+    },
+    {
+      key: 'status',
+      label: t('table-header.status'),
+    },
+    {
+      key: 'data_store',
+      label: t('table-header.data_store'),
+    },
+    {
+      key: 'actions',
+      label: t('table-header.actions'),
+    },
+  ];
 
   const renderCell = React.useCallback(
     (vc: QueryCredentialsRequestResult, columnKey: React.Key) => {

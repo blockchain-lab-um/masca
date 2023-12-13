@@ -258,7 +258,15 @@
     "table-header": {
       "credentials": "My Credentials",
       "fetched": "Fetched",
-      "found": "credential(s) found"
+      "found": "credential(s) found",
+      "type": "TYPE",
+      "date": "DATE",
+      "issuer": "ISSUER",
+      "subject": "SUBJECT",
+      "exp_date": "EXPIRATION DATE",
+      "status": "STATUS",
+      "data_store": "DATA STORE",
+      "actions": "ACTIONS"
     },
     "create-verifiable-presentation": "Create Presentation"
   },
