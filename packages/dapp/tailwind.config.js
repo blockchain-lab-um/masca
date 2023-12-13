@@ -171,8 +171,16 @@ const config = {
         },
         dark: {
           colors: {
+            background: '#36304F',
+            foreground: '#292826',
+            content1: '#36304F',
             primary: {
+              foreground: '#36304F',
               DEFAULT: '#FFB28B',
+            },
+            default: {
+              DEFAULT: '#B3ADC4',
+              100: '#4D4663',
             },
           },
         },

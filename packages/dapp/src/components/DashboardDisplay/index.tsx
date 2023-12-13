@@ -18,7 +18,7 @@ import {
 } from './utils';
 
 const DashboardDisplay = () => {
-  const t = useTranslations('Dashboard');
+  const t = useTranslations('DashboardDisplay');
   const [loading, setLoading] = useState(false);
   const { api, vcs, changeVcs, changeLastFetch } = useMascaStore((state) => ({
     api: state.mascaApi,
@@ -94,15 +94,15 @@ const DashboardDisplay = () => {
   const credentialList = useMemo(() => vcs, [vcs]);
 
   // DS filter
-  const dsFilteredCredentialList = useMemo(
+  const dataStoreFilteredCredentialList = useMemo(
     () => filterColumnsDataStore(credentialList, dataStores),
     [dataStores, credentialList]
   );
 
   // Type filter
   const typeFilteredCredentialList = useMemo(
-    () => filterColumnsType(dsFilteredCredentialList, credentialTypes),
-    [credentialTypes, dsFilteredCredentialList]
+    () => filterColumnsType(dataStoreFilteredCredentialList, credentialTypes),
+    [credentialTypes, dataStoreFilteredCredentialList]
   );
 
   // Ecosystem filter

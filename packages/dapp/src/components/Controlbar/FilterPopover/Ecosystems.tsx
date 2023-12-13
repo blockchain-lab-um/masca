@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 
 import { useTableStore } from '@/stores';
 
-const EcosystemSNames = {
+const EcosystemNames = {
   ebsi: 'EBSI',
   polygonid: 'PolygonID',
   other: 'Other',
@@ -59,7 +59,9 @@ export const Ecosystems = () => {
                   setEcosystems(newDataStores);
                 }}
               >
-                {EcosystemSNames[ecosystem.ecosystem]}
+                <div className="dark:text-navy-blue-200">
+                  {EcosystemNames[ecosystem.ecosystem]}
+                </div>
               </Checkbox>
             </div>
           ))}

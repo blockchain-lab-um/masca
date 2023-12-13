@@ -9,13 +9,13 @@ import { useTranslations } from 'next-intl';
 
 import { convertTypes } from '@/utils/string';
 
-interface VCCardProps {
+interface CredentialCardProps {
   vc: QueryCredentialsRequestResult;
   selected: boolean;
 }
 
-const VCCard = ({ vc, selected }: VCCardProps) => {
-  const t = useTranslations('VCCard');
+const CredentialCard = ({ vc, selected }: CredentialCardProps) => {
+  const t = useTranslations('CredentialCard');
   const types = convertTypes(vc.data.type).split(',')[0];
   const date = DateTime.fromISO(
     new Date(Date.parse(vc.data.issuanceDate)).toISOString()
@@ -117,4 +117,4 @@ const VCCard = ({ vc, selected }: VCCardProps) => {
   );
 };
 
-export default VCCard;
+export default CredentialCard;

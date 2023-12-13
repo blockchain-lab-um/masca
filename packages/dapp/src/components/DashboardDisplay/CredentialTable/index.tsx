@@ -81,8 +81,29 @@ interface CredentialTableProps {
   vcs: QueryCredentialsRequestResult[];
 }
 
+const IssuerCell = ({ vc }: { vc: QueryCredentialsRequestResult }) => {
+  const t = useTranslations('CredentialTable');
+  let issuer;
+  if (!vc.data.issuer) issuer = '';
+  else if (typeof vc.data.issuer === 'string') issuer = vc.data.issuer;
+  else issuer = vc.data.issuer.id ? vc.data.issuer.id : '';
+  return (
+    <Tooltip
+      content={t('tooltip.open-did')}
+      className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
+    >
+      <a
+        href={`https://dev.uniresolver.io/#${issuer}`}
+        target="_blank"
+        rel="noreferrer"
+        className="dark:text-orange-accent-dark dark:hover:text-orange-accent-dark/80 flex items-center justify-center text-pink-400 underline hover:text-pink-500"
+      >{`${issuer.slice(0, 8)}....${issuer.slice(-4)}`}</a>
+    </Tooltip>
+  );
+};
+
 const CredentialTable = ({ vcs }: CredentialTableProps) => {
-  const t = useTranslations('Dashboard');
+  const t = useTranslations('CredentialTable');
   const [selectedKeys, setSelectedKeys] = useState<SelectedKeys>(new Set([]));
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>();
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -102,9 +123,11 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
     (vc: QueryCredentialsRequestResult, columnKey: React.Key) => {
       switch (columnKey) {
         case 'type':
-          // eslint-disable-next-line no-case-declarations
-          const types = convertTypes(vc.data.type);
-          return <span className="font-bold">{types.split(',')[0]}</span>;
+          return (
+            <span className="font-bold">
+              {convertTypes(vc.data.type).split(',')[0]}
+            </span>
+          );
         case 'date':
           // eslint-disable-next-line no-case-declarations
           const date = Date.parse(vc.data.issuanceDate);
@@ -132,24 +155,7 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
             </Tooltip>
           );
         case 'issuer':
-          // eslint-disable-next-line no-case-declarations
-          let issuer;
-          if (!vc.data.issuer) issuer = '';
-          else if (typeof vc.data.issuer === 'string') issuer = vc.data.issuer;
-          else issuer = vc.data.issuer.id ? vc.data.issuer.id : '';
-          return (
-            <Tooltip
-              content={t('tooltip.open-did')}
-              className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
-            >
-              <a
-                href={`https://dev.uniresolver.io/#${issuer}`}
-                target="_blank"
-                rel="noreferrer"
-                className="dark:text-orange-accent-dark dark:hover:text-orange-accent-dark/80 flex items-center justify-center text-pink-400 underline hover:text-pink-500"
-              >{`${issuer.slice(0, 8)}....${issuer.slice(-4)}`}</a>
-            </Tooltip>
-          );
+          return <IssuerCell vc={vc} />;
         case 'exp_date':
           return (
             <span className="flex items-center justify-center">
@@ -208,21 +214,16 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
         case 'actions':
           return (
             <div className="relative flex items-center justify-end gap-2">
-              <Dropdown aria-label="Dropdown Menu in Table">
-                <DropdownTrigger aria-label="dropdown trigger">
-                  <Button
-                    isIconOnly
-                    size="sm"
-                    variant="light"
-                    aria-label="dropdown button"
-                  >
-                    <EllipsisVerticalIcon className="text-gray-600" />
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button isIconOnly size="sm" variant="light">
+                    <EllipsisVerticalIcon className="dark:text-navy-blue-300 text-gray-600" />
                   </Button>
                 </DropdownTrigger>
-                <DropdownMenu aria-label="Static VC Actions">
+                <DropdownMenu aria-label={t('menu.menu')}>
                   <DropdownItem
-                    key="view"
-                    aria-label="View"
+                    key={t('menu.view')}
+                    aria-label={t('menu.view')}
                     onClick={() => {
                       router.push(
                         `/app/verifiable-credential/${encodeBase64url(
@@ -233,12 +234,15 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
                   >
                     {t('menu.view')}
                   </DropdownItem>
-                  <DropdownItem key="share" aria-label="Share">
+                  <DropdownItem
+                    key={t('menu.share')}
+                    aria-label={t('menu.share')}
+                  >
                     {t('menu.share')}
                   </DropdownItem>
                   <DropdownItem
-                    aria-label="Delete"
-                    key="delete"
+                    aria-label={t('menu.delete')}
+                    key={t('menu.delete')}
                     onClick={() => {
                       setDeleteModalOpen(true);
                       setSelectedVC(vc);
@@ -264,14 +268,12 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
 
   const getSelectedVCs = (keys: SelectedKeys) => {
     if (keys === 'all') {
-      return vcs.map((vc) => vc);
+      return vcs;
     }
     if (keys === undefined) {
       return [];
     }
-    return vcs
-      .filter((vc) => (keys as Set<Key>).has(vc.metadata.id))
-      .map((vc) => vc);
+    return vcs.filter((vc) => (keys as Set<Key>).has(vc.metadata.id));
   };
 
   // get selected VCs from selected keys on change
@@ -332,7 +334,11 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
       >
         <TableHeader columns={columns}>
           {(column) => (
-            <TableColumn allowsSorting={column.allowSorting} key={column.key}>
+            <TableColumn
+              className="dark:text-navy-blue-100"
+              allowsSorting={column.allowSorting}
+              key={column.key}
+            >
               {column.label}
             </TableColumn>
           )}

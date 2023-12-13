@@ -68,7 +68,7 @@ export const CredentialTypes = () => {
       {open && (
         <div className="dark:bg-navy-blue-500/40  bg-[#FFF8F9] p-2">
           <input
-            className="dark:bg-navy-blue-700 dark:text-navy-blue-50 dark:border-navy-blue-400 w-full rounded-md border border-gray-300 bg-white px-2 py-1 focus:outline-none"
+            className="dark:bg-navy-blue-600 dark:text-navy-blue-50 dark:placeholder:text-navy-blue-200 dark:border-navy-blue-300 w-full rounded-md border border-gray-300 bg-white px-2 py-1 focus:outline-none"
             placeholder="Search Types..."
             onChange={(e) => {
               setFilter(e.target.value);
@@ -98,7 +98,7 @@ export const CredentialTypes = () => {
                       setCredentialTypes(newCredentialTypes);
                     }}
                   >
-                    {type.type}
+                    <div className="dark:text-navy-blue-200">{type.type}</div>
                   </Checkbox>
                 </div>
               );

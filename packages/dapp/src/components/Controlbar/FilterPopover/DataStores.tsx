@@ -57,7 +57,9 @@ export const DataStores = () => {
                   setDataStores(newDataStores);
                 }}
               >
-                {DataStoreNames[dataStore.dataStore]}
+                <div className="dark:text-navy-blue-200">
+                  {DataStoreNames[dataStore.dataStore]}
+                </div>
               </Checkbox>
             </div>
           ))}

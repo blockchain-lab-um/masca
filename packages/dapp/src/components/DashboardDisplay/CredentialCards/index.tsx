@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 
 import { useTableStore } from '@/stores';
 import { LastFetched } from '../LastFetched';
-import VCCard from './VCCard';
+import CredentialCard from './CredentialCard';
 
 const CARDS_PER_PAGE = 6;
 
@@ -15,7 +15,7 @@ interface CredentialCardsProps {
 }
 
 export const CredentialCards = ({ vcs }: CredentialCardsProps) => {
-  const t = useTranslations('Dashboard');
+  const t = useTranslations('CredentialCards');
   const [page, setPage] = useState(1);
   const router = useRouter();
   const [selectedCards, setSelectedCards] = useState<
@@ -47,11 +47,11 @@ export const CredentialCards = ({ vcs }: CredentialCardsProps) => {
     <div className="h-full w-full pb-4">
       <div className="dark:border-navy-blue-600 flex items-center justify-between p-9">
         <div className="text-h2 font-ubuntu dark:text-navy-blue-50 pl-4 font-medium text-gray-800">
-          {t('table-header.credentials')}
+          {t('credentials')}
         </div>
         <div className="text-right">
           <div className="text-h4 dark:text-navy-blue-50 text-gray-800">
-            {vcs.length} {t('table-header.found')}
+            {vcs.length} {t('found')}
           </div>
           <LastFetched />
         </div>
@@ -69,7 +69,11 @@ export const CredentialCards = ({ vcs }: CredentialCardsProps) => {
               }
             }}
           >
-            <VCCard key={key} vc={vc} selected={selectedCards.includes(vc)} />
+            <CredentialCard
+              key={key}
+              vc={vc}
+              selected={selectedCards.includes(vc)}
+            />
           </div>
         ))}
       </div>
