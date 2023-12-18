@@ -4,6 +4,7 @@ import { Fragment } from 'react';
 import Link from 'next/link';
 import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
+import { ShareIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
@@ -90,6 +91,14 @@ const INTERNAL_LINKS: LinkProps[] = [
     href: '/app/qr-code-session',
     icon: IconCamera,
     requiresConnection: false,
+  },
+  {
+    name: 'shared-presentations',
+    href: '/app/shared-presentations',
+    icon: () => (
+      <ShareIcon className="dark:text-navy-blue-900 h-6 w-6 text-pink-500" />
+    ),
+    requiresConnection: true,
   },
 ];
 

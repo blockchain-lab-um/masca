@@ -22,11 +22,6 @@ const MAIN_LINKS = [
     href: '/app/settings',
     requiresConnection: true,
   },
-  {
-    name: 'premium',
-    href: '/app/premium-dashboard',
-    requiresConnection: true,
-  },
 ];
 
 export default function AppNavbar() {

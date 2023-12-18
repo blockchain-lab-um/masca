@@ -79,7 +79,7 @@ const ToastWrapper = () => {
             <div className="flex items-center">
               {link && (
                 <Link href={link}>
-                  <button className="border-1 rounded-full border px-4 py-1.5 text-sm">
+                  <button className="border-1 rounded-full px-4 py-1.5 text-sm">
                     Show
                   </button>
                 </Link>

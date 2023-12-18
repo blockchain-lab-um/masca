@@ -1,7 +1,9 @@
 import AppBottomBar from '@/components/AppBottomBar';
 import AppNavbar from '@/components/AppNavbar';
 import CheckMetaMaskCompatibility from '@/components/CheckMetaMaskCompatibility';
+import { CookiesProvider } from '@/components/CookiesProvider';
 import QRCodeSessionProvider from '@/components/QRCodeSessionProvider';
+import { SignInModal } from '@/components/SignInModal';
 import ToastWrapper from '@/components/ToastWrapper';
 
 export default async function AppLayout({
@@ -21,6 +23,8 @@ export default async function AppLayout({
       <AppBottomBar />
       <ToastWrapper />
       <QRCodeSessionProvider />
+      <SignInModal />
+      <CookiesProvider />
     </div>
   );
 }
