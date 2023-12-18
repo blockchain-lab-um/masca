@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 
 // TODO: Add design for this
+// Probably should be moved to the root error boundary
 export default function Error({
   error,
   reset,

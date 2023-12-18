@@ -97,7 +97,7 @@ export const FormatedView = ({
               onChange={(val) => {
                 const params = new URLSearchParams(window.location.search);
                 params.set('page', val.toString());
-                params.set('view', 'normal');
+                params.set('view', 'Normal');
                 router.replace(`${pathname}?${params.toString()}`);
               }}
               classNames={{

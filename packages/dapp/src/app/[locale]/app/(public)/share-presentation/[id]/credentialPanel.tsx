@@ -1,6 +1,7 @@
 'use client';
 
 import { Fragment, useMemo, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   CheckCircleIcon,
   DocumentDuplicateIcon,
@@ -126,20 +127,24 @@ const CredentialSubject = ({
 
 const CredentialPanel = ({ credential }: FormatedPanelProps) => {
   const t = useTranslations('CredentialPanel');
-  const types = useMemo(() => convertTypes(credential.type), [credential.type]);
 
+  const pathname = usePathname();
+  const router = useRouter();
+
+  // Local state
+  const types = useMemo(() => convertTypes(credential.type), [credential.type]);
   const [jsonModalOpen, setJsonModalOpen] = useState(false);
   const [selectedJsonData, setSelectedJsonData] = useState({});
-
-  const selectJsonData = (data: any) => {
-    setSelectedJsonData(data);
-    setJsonModalOpen(true);
-  };
 
   const isValid = useMemo(() => {
     if (!credential.expirationDate) return true;
     return Date.parse(credential.expirationDate) > Date.now();
   }, [credential]);
+
+  const selectJsonData = (data: any) => {
+    setSelectedJsonData(data);
+    setJsonModalOpen(true);
+  };
 
   return (
     <>
@@ -228,6 +233,16 @@ const CredentialPanel = ({ credential }: FormatedPanelProps) => {
               </div>
             </div>
           </div>
+        </div>
+        <div
+          className="text-md dark:text-navy-blue-200 cursor-pointer px-6 font-medium text-gray-700"
+          onClick={() => {
+            const params = new URLSearchParams(window.location.search);
+            params.set('view', 'Json');
+            router.replace(`${pathname}?${params.toString()}`);
+          }}
+        >
+          View JSON
         </div>
       </div>
       <JsonModal

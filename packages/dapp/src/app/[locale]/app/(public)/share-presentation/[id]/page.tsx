@@ -7,11 +7,10 @@ import { decodeCredentialToObject } from '@veramo/utils';
 import JsonPanel from '@/components/CredentialDisplay/JsonPanel';
 import { Database } from '@/utils/supabase/database.types';
 import { FormatedView } from './formatedView';
-import { TabWrapper } from './tabsWrapper';
 
 export const metadata: Metadata = {
   title: 'Share presentation',
-  description: '',
+  description: 'Page for displaying shared presentations',
 };
 
 export const revalidate = 0;
@@ -66,24 +65,21 @@ export default async function Page({
   return (
     <div className="flex w-full flex-1 items-start justify-center">
       <div className="max-w-full flex-1 md:max-w-3xl">
-        <TabWrapper
-          view={'Normal'}
-          FormatedView={
-            <FormatedView
-              credential={credentials[parseInt(page, 10) - 1]}
-              holder={presentation.holder}
-              expirationDate={presentation.expirationDate}
-              issuanceDate={presentation.issuanceDate}
-              page={page}
-              total={credentials.length ?? 1}
-            />
-          }
-          JsonView={
-            <div className="dark:bg-navy-blue-800 h-full w-full rounded-3xl bg-white p-6 shadow-lg">
-              <JsonPanel data={presentation} />
-            </div>
-          }
-        />
+        {view === 'Normal' && (
+          <FormatedView
+            credential={credentials[parseInt(page, 10) - 1]}
+            holder={presentation.holder}
+            expirationDate={presentation.expirationDate}
+            issuanceDate={presentation.issuanceDate}
+            page={page}
+            total={credentials.length ?? 1}
+          />
+        )}
+        {view === 'Json' && (
+          <div className="dark:bg-navy-blue-800 h-full w-full rounded-3xl bg-white p-6 shadow-lg">
+            <JsonPanel data={presentation} />
+          </div>
+        )}
       </div>
     </div>
   );
