@@ -10,12 +10,12 @@ import detectEthereumProvider from '@metamask/detect-provider';
 
 import { useGeneralStore, useMascaStore } from '@/stores';
 
-// const snapId =
-//   process.env.USE_LOCAL === 'true'
-//     ? 'local:http://localhost:8081'
-//     : 'npm:@blockchain-lab-um/masca';
+const snapId =
+  process.env.USE_LOCAL === 'true'
+    ? 'local:http://localhost:8081'
+    : 'npm:@blockchain-lab-um/masca';
 
-const snapId = 'npm:@blockchain-lab-um/masca';
+// const snapId = 'npm:@blockchain-lab-um/masca';
 
 const CheckMetaMaskCompatibility = () => {
   const { changeHasMetaMask, changeHasSnaps } = useGeneralStore((state) => ({

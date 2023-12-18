@@ -159,7 +159,35 @@ const config = {
       },
     },
   },
-  plugins: [nextui(), require('tailwind-scrollbar')({ nocompatible: true })],
+  plugins: [
+    nextui({
+      themes: {
+        light: {
+          colors: {
+            primary: {
+              DEFAULT: '#FF4D4F',
+            },
+          },
+        },
+        dark: {
+          colors: {
+            background: '#36304F',
+            foreground: '#292826',
+            content1: '#36304F',
+            primary: {
+              foreground: '#36304F',
+              DEFAULT: '#FFB28B',
+            },
+            default: {
+              DEFAULT: '#B3ADC4',
+              100: '#4D4663',
+            },
+          },
+        },
+      },
+    }),
+    require('tailwind-scrollbar')({ nocompatible: true }),
+  ],
 };
 
 export default config;

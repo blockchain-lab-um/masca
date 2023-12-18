@@ -35,7 +35,7 @@ async function createDriveFile(
   const mimeType = 'text/plain';
   const fileMetadata = {
     parents: ['appDataFolder'],
-    name: `${process.env.GOOGLE_DRIVE_FILE_NAME}${wallet}`,
+    name: `${process.env.GOOGLE_DRIVE_FILE_NAME}-${wallet}.txt`,
     mimeType,
   };
   const media = {
@@ -54,7 +54,7 @@ async function createDriveFile(
 async function getBackupFileId(drive: drive_v3.Drive, wallet: string) {
   let id;
   const list = await drive.files.list({
-    q: `name='${process.env.GOOGLE_DRIVE_FILE_NAME}${wallet}'`,
+    q: `name='${process.env.GOOGLE_DRIVE_FILE_NAME}-${wallet}.txt'`,
     spaces: 'appDataFolder',
   });
 
@@ -90,7 +90,7 @@ async function updateDriveFile(
     return res;
   }
   const media = {
-    mimeType: 'text/plains',
+    mimeType: 'text/plain',
     body: content,
   };
   const res = await drive.files.update({

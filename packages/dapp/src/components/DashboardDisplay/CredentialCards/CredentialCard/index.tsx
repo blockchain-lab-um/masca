@@ -2,30 +2,41 @@ import Link from 'next/link';
 import { type QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { Tooltip } from '@nextui-org/react';
-import { Row } from '@tanstack/react-table';
 import { encodeBase64url } from '@veramo/utils';
 import clsx from 'clsx';
 import { DateTime } from 'luxon';
 import { useTranslations } from 'next-intl';
 
-interface VCCardProps {
-  row: Row<QueryCredentialsRequestResult>;
+import { convertTypes } from '@/utils/string';
+
+interface CredentialCardProps {
+  vc: QueryCredentialsRequestResult;
+  selected: boolean;
 }
 
-const VCCard = ({ row }: VCCardProps) => {
-  const t = useTranslations('Dashboard');
-  const types = row.getValue('type');
+const CredentialCard = ({ vc, selected }: CredentialCardProps) => {
+  const t = useTranslations('CredentialCard');
+  const types = convertTypes(vc.data.type).split(',')[0];
   const date = DateTime.fromISO(
-    new Date(row.getValue('date')).toISOString()
+    new Date(Date.parse(vc.data.issuanceDate)).toISOString()
   ).toFormat('dd LLL yyyy');
-  const expDate =
-    new Date(row.getValue('exp_date')).toDateString() !== 'Invalid Date'
-      ? DateTime.fromISO(
-          new Date(row.getValue('exp_date')).toISOString()
-        ).toFormat('dd LLL yyyy')
-      : t('card.no-exp-date');
-  const issuer: string = row.getValue('issuer');
-  const validity = row.getValue('status');
+
+  const vcExpDate = vc.data.expirationDate;
+  let expDate = t('no-exp-date');
+  if (vcExpDate) {
+    expDate = new Date(Date.parse(vcExpDate)).toDateString();
+  }
+
+  let issuer;
+  if (!vc.data.issuer) issuer = '';
+  else if (typeof vc.data.issuer === 'string') issuer = vc.data.issuer;
+  else issuer = vc.data.issuer.id ? vc.data.issuer.id : '';
+
+  let validity = true;
+  if (vc.data.expirationDate) {
+    validity = Date.now() < Date.parse(vc.data.expirationDate);
+  }
+
   const issuerLink = (
     <Tooltip
       content={t('tooltip.open-did')}
@@ -39,14 +50,12 @@ const VCCard = ({ row }: VCCardProps) => {
       >{`${issuer.slice(0, 8)}....${issuer.slice(-4)}`}</a>
     </Tooltip>
   );
+
   return (
     <div
-      onClick={() => {
-        row.toggleSelected();
-      }}
       className={clsx(
         'animated-transition mx-4 mt-8 h-52 w-80 shrink-0 grow-0 cursor-pointer rounded-xl bg-gradient-to-b from-orange-500 to-pink-500 px-4 py-4 shadow-md shadow-black/50 duration-75 dark:from-orange-600 dark:to-pink-600 sm:w-96 sm:hover:scale-105',
-        row.getIsSelected() ? 'outline outline-[0.35rem] outline-blue-500' : ''
+        selected ? 'outline outline-[0.35rem] outline-blue-500' : ''
       )}
     >
       <div className="h-full">
@@ -55,19 +64,19 @@ const VCCard = ({ row }: VCCardProps) => {
             <div className="col-span-1 flex h-full flex-col justify-center text-white">
               <div>
                 <span className="text-2xs text-orange-100 dark:text-pink-100">
-                  {t('card.issued')}
+                  {t('issued')}
                 </span>
                 <div className="">{issuerLink}</div>
               </div>
               <div className="mt-1">
                 <span className="text-2xs text-orange-100 dark:text-pink-100">
-                  {t('card.issued-date')}
+                  {t('issued-date')}
                 </span>
                 <div>{date}</div>
               </div>
               <div className="mt-1">
                 <span className="text-2xs text-orange-100 dark:text-pink-100">
-                  {t('card.expires')}
+                  {t('expires')}
                 </span>
                 <div>{expDate}</div>
               </div>
@@ -75,7 +84,7 @@ const VCCard = ({ row }: VCCardProps) => {
           </div>
           <div className="col-span-2 flex flex-col items-end justify-between">
             <div>
-              {validity === 'true' ? (
+              {validity ? (
                 <Tooltip
                   content="Credential is valid"
                   className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
@@ -92,18 +101,18 @@ const VCCard = ({ row }: VCCardProps) => {
               )}
             </div>
             <div className="font-cabin text-right text-[1.3rem] text-orange-100">
-              {types as string}
+              {types}
             </div>
             <Link
               onClick={(e) => {
                 e.stopPropagation();
               }}
               href={`/app/verifiable-credential/${encodeBase64url(
-                row.original.metadata.id
+                vc.metadata.id
               )}`}
             >
               <button className="font-ubuntu animated-transition mt-4 text-right text-sm font-medium text-pink-50/80 underline-offset-4 hover:text-pink-700">
-                {t('card.more')}
+                {t('more')}
               </button>
             </Link>
           </div>
@@ -113,4 +122,4 @@ const VCCard = ({ row }: VCCardProps) => {
   );
 };
 
-export default VCCard;
+export default CredentialCard;

@@ -568,6 +568,7 @@ export class OIDCClientPlugin implements IAgentPlugin {
           }
 
           authorizationRequest.presentation_definition = presentationDefinition;
+          this.current.presentationDefinition = presentationDefinition;
         } else {
           this.current.presentationDefinition = JSON.parse(
             authorizationRequest.presentation_definition as unknown as string

@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { ChevronRightIcon } from '@heroicons/react/24/solid';
+import { Checkbox } from '@nextui-org/react';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
 import { useTableStore } from '@/stores';
-import { CheckBox } from './CheckBox';
 
-const EcosystemSNames = {
+const EcosystemNames = {
   ebsi: 'EBSI',
-  polygonid: 'Polygon',
+  polygonid: 'PolygonID',
   other: 'Other',
 };
 
@@ -40,24 +40,30 @@ export const Ecosystems = () => {
       {open && (
         <div className="dark:bg-navy-blue-500/40 bg-[#FFF8F9] p-2">
           {ecosystems.map((ecosystem) => (
-            <CheckBox
-              key={ecosystem.ecosystem}
-              selected={ecosystem.selected}
-              setSelected={(selected) => {
-                const newDataStores = ecosystems.map((ds) => {
-                  if (ds.ecosystem === ecosystem.ecosystem) {
-                    return {
-                      ...ecosystem,
-                      selected,
-                    };
-                  }
-                  return ds;
-                });
-                setEcosystems(newDataStores);
-              }}
-            >
-              {EcosystemSNames[ecosystem.ecosystem]}
-            </CheckBox>
+            <div key={ecosystem.ecosystem}>
+              <Checkbox
+                size="md"
+                radius="sm"
+                key={ecosystem.ecosystem}
+                isSelected={ecosystem.selected}
+                onValueChange={(selected) => {
+                  const newDataStores = ecosystems.map((ds) => {
+                    if (ds.ecosystem === ecosystem.ecosystem) {
+                      return {
+                        ...ecosystem,
+                        selected,
+                      };
+                    }
+                    return ds;
+                  });
+                  setEcosystems(newDataStores);
+                }}
+              >
+                <div className="dark:text-navy-blue-200">
+                  {EcosystemNames[ecosystem.ecosystem]}
+                </div>
+              </Checkbox>
+            </div>
           ))}
         </div>
       )}

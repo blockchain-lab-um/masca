@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { ChevronRightIcon } from '@heroicons/react/24/solid';
+import { Checkbox } from '@nextui-org/react';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
 import { useTableStore } from '@/stores';
-import { CheckBox } from './CheckBox';
 
 const DataStoreNames = {
   snap: 'Snap',
@@ -39,24 +39,29 @@ export const DataStores = () => {
       {open && (
         <div className="dark:bg-navy-blue-500/40 bg-[#FFF8F9] p-2">
           {dataStores.map((dataStore) => (
-            <CheckBox
-              key={dataStore.dataStore}
-              selected={dataStore.selected}
-              setSelected={(selected) => {
-                const newDataStores = dataStores.map((ds) => {
-                  if (ds.dataStore === dataStore.dataStore) {
-                    return {
-                      ...dataStore,
-                      selected,
-                    };
-                  }
-                  return ds;
-                });
-                setDataStores(newDataStores);
-              }}
-            >
-              {DataStoreNames[dataStore.dataStore]}
-            </CheckBox>
+            <div key={dataStore.dataStore}>
+              <Checkbox
+                size="md"
+                radius="sm"
+                isSelected={dataStore.selected}
+                onValueChange={(selected) => {
+                  const newDataStores = dataStores.map((ds) => {
+                    if (ds.dataStore === dataStore.dataStore) {
+                      return {
+                        ...dataStore,
+                        selected,
+                      };
+                    }
+                    return ds;
+                  });
+                  setDataStores(newDataStores);
+                }}
+              >
+                <div className="dark:text-navy-blue-200">
+                  {DataStoreNames[dataStore.dataStore]}
+                </div>
+              </Checkbox>
+            </div>
           ))}
         </div>
       )}

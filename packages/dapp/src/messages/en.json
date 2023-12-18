@@ -239,17 +239,65 @@
     "unsupported-method-description": "Polygon ID & Iden3 methods do not support sharing of credentials yet, please switch to any other DID method to continue!",
     "unsupported-method-title": "Unsupported DID Method"
   },
-  "Dashboard": {
-    "card": {
-      "expires": "EXPIRES ON",
-      "issued": "ISSUED BY",
-      "issued-date": "ISSUED ON",
-      "more": "MORE >",
-      "no-exp-date": "No Expiration",
-      "select": "SELECT",
-      "selected": "DESELECT"
-    },
+  "CredentialCard": {
+    "expires": "EXPIRES ON",
+    "issued": "ISSUED BY",
+    "issued-date": "ISSUED ON",
+    "more": "MORE >",
+    "no-exp-date": "No Expiration",
+    "select": "SELECT",
+    "selected": "DESELECT",
     "create-verifiable-presentation": "Create Presentation",
+    "tooltip": {
+      "no-exp-date": "Does not have an expiration date",
+      "open-did": "Open DID in Universal resolver",
+      "status": "Validity of the VC",
+      "store": "Where the VC is stored",
+      "share": "Share the verifiable credential",
+      "sign-in-to-share": "Sign in to share the credential",
+      "delete": "Delete the credential"
+    }
+  },
+  "CredentialCards": {
+    "create-verifiable-presentation": "Create Presentation",
+    "credentials": "My Credentials",
+    "found": "credential(s) found"
+  },
+  "CredentialTable": {
+    "tooltip": {
+      "no-exp-date": "Does not have an expiration date",
+      "open-did": "Open DID in Universal resolver",
+      "status": "Validity of the VC",
+      "store": "Where the VC is stored",
+      "share": "Share the verifiable credential",
+      "sign-in-to-share": "Sign in to share the credential",
+      "delete": "Delete the credential"
+    },
+    "menu": {
+      "view": "View",
+      "share": "Share",
+      "delete": "Delete",
+      "menu": "Static VC Actions"
+    },
+    "table-header": {
+      "credentials": "My Credentials",
+      "fetched": "Fetched",
+      "found": "credential(s) found",
+      "type": "TYPE",
+      "date": "DATE",
+      "issuer": "ISSUER",
+      "subject": "SUBJECT",
+      "exp_date": "EXPIRATION DATE",
+      "status": "STATUS",
+      "data_store": "DATA STORE",
+      "actions": "ACTIONS"
+    },
+    "create-verifiable-presentation": "Create Presentation"
+  },
+  "GlobalFilter": {
+    "search": "Search"
+  },
+  "DashboardDisplay": {
     "no-credentials": {
       "get": "Get your first credential",
       "load": "Load Credentials",
@@ -261,33 +309,7 @@
     },
     "query-error": "Failed to query credentials",
     "query-no-credentials": "No credentials found",
-    "query-success": "Successfully queried credentials",
-    "search": "Search all columns...",
-    "table": {
-      "actions": "ACTIONS",
-      "expiration-date": "EXPIRATION DATE",
-      "issuance-date": "ISSUANCE DATE",
-      "issuer": "ISSUER",
-      "select": "SELECT",
-      "status": "STATUS",
-      "store": "STORE",
-      "subject": "SUBJECT",
-      "type": "TYPE"
-    },
-    "table-header": {
-      "credentials": "My Credentials",
-      "fetched": "Fetched",
-      "found": "credential(s) found"
-    },
-    "tooltip": {
-      "no-exp-date": "Does not have an expiration date",
-      "open-did": "Open DID in Universal resolver",
-      "status": "Validity of the VC",
-      "store": "Where the VC is stored",
-      "share": "Share the verifiable credential",
-      "sign-in-to-share": "Sign in to share the credential",
-      "delete": "Delete the credential"
-    }
+    "query-success": "Successfully queried credentials"
   },
   "DeleteCredentialModal": {
     "cancel": "Cancel",
