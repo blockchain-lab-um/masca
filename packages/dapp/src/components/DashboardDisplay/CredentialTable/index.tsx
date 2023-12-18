@@ -360,9 +360,9 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
           <Pagination
             isCompact
             showControls
-            showShadow
+            showShadow={false}
             color="primary"
-            variant="light"
+            variant="flat"
             page={page}
             total={pages}
             onChange={(newPage) => setPage(newPage)}

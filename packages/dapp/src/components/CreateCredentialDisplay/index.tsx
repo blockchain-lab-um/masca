@@ -43,9 +43,8 @@ const CreateCredentialDisplay = () => {
   const availableStores = Object.entries(credentialStores)
     .filter(([, value]) => value)
     .map(([key]) => key as AvailableCredentialStores);
-  const [selectedItems, setSelectedItems] = useState<
-    AvailableCredentialStores[]
-  >([availableStores[0], availableStores[1]]);
+  const [selectedItems, setSelectedItems] =
+    useState<AvailableCredentialStores[]>(availableStores);
   const { didMethod, api, did, setVCs } = useMascaStore(
     (state) => ({
       didMethod: state.currDIDMethod,
