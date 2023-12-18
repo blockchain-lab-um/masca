@@ -9,6 +9,7 @@ import {
 import { Tooltip } from '@nextui-org/react';
 import { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
+import { isAddress } from 'ethers/address';
 import { useTranslations } from 'next-intl';
 
 import { DIDDisplay } from '@/components/DIDDisplay';
@@ -69,22 +70,10 @@ const CredentialSubject = ({
     {Object.entries(data).map(([key, value]: [string, any]) => (
       <Fragment key={key}>
         {(() => {
-          if (key === 'id') {
-            return (
-              <>
-                <div className="flex flex-col space-y-0.5">
-                  <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-800">
-                    DID:
-                  </h2>
-                  <div className="flex">
-                    <DIDDisplay did={value} />
-                  </div>
-                </div>
-              </>
-            );
+          if (key === 'id') return <DIDDisplay did={value} />;
+          if (key === 'address' && isAddress(value)) {
+            return <AddressDisplay address={value} />;
           }
-
-          if (key === 'address') return <AddressDisplay address={value} />;
 
           const isObject = !(
             typeof value === 'string' || typeof value === 'number'
