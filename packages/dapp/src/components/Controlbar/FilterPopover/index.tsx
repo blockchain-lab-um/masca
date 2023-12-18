@@ -19,15 +19,7 @@ interface FilterPopoverProps {
 function FilterPopover({ vcs }: FilterPopoverProps) {
   const t = useTranslations('FilterPopover');
 
-  const { dataStores, ecosystems, credentialTypes, setCredentialTypes } =
-    useTableStore((state) => ({
-      dataStores: state.dataStores,
-      credentialTypes: state.credentialTypes,
-      setDataStores: state.setDataStores,
-      ecosystems: state.ecosystems,
-      setEcosystems: state.setEcosystems,
-      setCredentialTypes: state.setCredentialTypes,
-    }));
+  const setCredentialTypes = useTableStore((state) => state.setCredentialTypes);
 
   const getAvailableCredentialTypes = () => {
     const allCredentialTypes: string[] = [];

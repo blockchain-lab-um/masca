@@ -26,13 +26,17 @@ const CredentialCard = ({ vc, selected }: CredentialCardProps) => {
   if (vcExpDate) {
     expDate = new Date(Date.parse(vcExpDate)).toDateString();
   }
+
   let issuer;
   if (!vc.data.issuer) issuer = '';
   else if (typeof vc.data.issuer === 'string') issuer = vc.data.issuer;
   else issuer = vc.data.issuer.id ? vc.data.issuer.id : '';
-  let validity = 'true';
-  if (vc.data.expirationDate)
-    validity = (Date.now() < Date.parse(vc.data.expirationDate)).toString();
+
+  let validity = true;
+  if (vc.data.expirationDate) {
+    validity = Date.now() < Date.parse(vc.data.expirationDate);
+  }
+
   const issuerLink = (
     <Tooltip
       content={t('tooltip.open-did')}
@@ -46,6 +50,7 @@ const CredentialCard = ({ vc, selected }: CredentialCardProps) => {
       >{`${issuer.slice(0, 8)}....${issuer.slice(-4)}`}</a>
     </Tooltip>
   );
+
   return (
     <div
       className={clsx(
@@ -79,7 +84,7 @@ const CredentialCard = ({ vc, selected }: CredentialCardProps) => {
           </div>
           <div className="col-span-2 flex flex-col items-end justify-between">
             <div>
-              {validity === 'true' ? (
+              {validity ? (
                 <Tooltip
                   content="Credential is valid"
                   className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
