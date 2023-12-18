@@ -8,6 +8,7 @@ import { useTranslations } from 'next-intl';
 import { stringifyCredentialSubject } from '@/utils/format';
 import { useMascaStore, useTableStore, useToastStore } from '@/stores';
 import Button from '../Button';
+import { ShareCredentialModal } from '../ShareCredentialModal';
 import { CredentialCards } from './CredentialCards';
 import CredentialTable from './CredentialTable';
 import {
@@ -146,6 +147,7 @@ const DashboardDisplay = () => {
       ) : (
         <CredentialTable vcs={filteredCredentialList} />
       )}
+      <ShareCredentialModal />
     </div>
   );
 };

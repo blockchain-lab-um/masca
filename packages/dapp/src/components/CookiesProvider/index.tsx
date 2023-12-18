@@ -14,15 +14,35 @@ export const CookiesProvider = () => {
     })
   );
 
+  const verifyToken = async (token: string) => {
+    const response = await fetch('/api/supabase/verify', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.status !== 204) {
+      Cookies.remove('token');
+      changeToken('');
+      changeIsSignedIn(false);
+    }
+
+    changeToken(token);
+    changeIsSignedIn(true);
+  };
+
   useEffect(() => {
     if (isSignedIn) return;
 
     const token = Cookies.get('token');
     if (!token) return;
 
-    // TODO: Verify if token is valid
-    changeToken(token);
-    changeIsSignedIn(true);
+    verifyToken(token).catch((error) => {
+      Cookies.remove('token');
+      console.error(error);
+    });
   }, []);
 
   return null;

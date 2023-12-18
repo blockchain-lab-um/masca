@@ -27,14 +27,16 @@ export interface ColumnFilter {
 
 interface TableStore {
   globalFilter: string;
-  selectedVCs: QueryCredentialsRequestResult[];
+  selectedCredentials: QueryCredentialsRequestResult[];
   cardView: boolean;
   dataStores: DataStore[];
   ecosystems: Ecosystem[];
   credentialTypes: CredentialType[];
 
   setGlobalFilter: (globalFilter: string) => void;
-  setSelectedVCs: (selectedVCs: QueryCredentialsRequestResult[]) => void;
+  setSelectedCredentials: (
+    selectedCredentials: QueryCredentialsRequestResult[]
+  ) => void;
   setCardView: (view: boolean) => void;
   setDataStores: (dataStores: DataStore[]) => void;
   setCredentialTypes: (credentialTypes: CredentialType[]) => void;
@@ -43,7 +45,7 @@ interface TableStore {
 
 export const tableStoreInitialState = {
   globalFilter: '',
-  selectedVCs: [],
+  selectedCredentials: [],
   cardView: true,
   dataStores: [
     { dataStore: 'snap', selected: true } as DataStore,
@@ -63,8 +65,9 @@ export const useTableStore = createWithEqualityFn<TableStore>()(
 
     setGlobalFilter: (globalFilter: string) => set({ globalFilter }),
     setCardView: (cardView: boolean) => set({ cardView }),
-    setSelectedVCs: (selectedVCs: QueryCredentialsRequestResult[]) =>
-      set({ selectedVCs }),
+    setSelectedCredentials: (
+      selectedCredentials: QueryCredentialsRequestResult[]
+    ) => set({ selectedCredentials }),
     setDataStores: (dataStores: DataStore[]) => set({ dataStores }),
     setCredentialTypes: (credentialTypes: CredentialType[]) =>
       set({ credentialTypes }),

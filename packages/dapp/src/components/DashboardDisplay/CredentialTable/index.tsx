@@ -20,15 +20,16 @@ import {
   TableRow,
   Tooltip,
 } from '@nextui-org/react';
-import { VerifiableCredential } from '@veramo/core';
 import { encodeBase64url } from '@veramo/utils';
 import { useTranslations } from 'next-intl';
 
 import DeleteModal from '@/components/DeleteModal';
-import { ShareCredentialModal } from '@/components/ShareCredentialModal';
 import StoreIcon from '@/components/StoreIcon';
+import { removeCredentialSubjectFilterString } from '@/utils/format';
 import { convertTypes } from '@/utils/string';
 import { useTableStore } from '@/stores';
+import { useAuthStore } from '@/stores/authStore';
+import { useShareModalStore } from '@/stores/shareModalStore';
 import { LastFetched } from '../LastFetched';
 import { sortCredentialList } from '../utils';
 
@@ -64,20 +65,33 @@ const IssuerCell = ({ vc }: { vc: QueryCredentialsRequestResult }) => {
 
 const CredentialTable = ({ vcs }: CredentialTableProps) => {
   const t = useTranslations('CredentialTable');
-  const [selectedKeys, setSelectedKeys] = useState<SelectedKeys>(new Set([]));
-  const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>();
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [shareModalOpen, setShareModalOpen] = useState(false);
-  const [selectedVC, setSelectedVC] = useState<QueryCredentialsRequestResult>();
-  const [shareCredential, setShareCredential] =
-    useState<VerifiableCredential>();
-  const [page, setPage] = useState(1);
 
   const router = useRouter();
 
-  const { setSelectedVCs } = useTableStore((state) => ({
-    setSelectedVCs: state.setSelectedVCs,
+  // Local state
+  const [selectedKeys, setSelectedKeys] = useState<SelectedKeys>(new Set([]));
+  const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>();
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  const [selectedDeleteCredential, setSelectedDeleteCredential] =
+    useState<QueryCredentialsRequestResult>();
+
+  // Global state
+  const setSelectedCredentials = useTableStore(
+    (state) => state.setSelectedCredentials
+  );
+
+  const { isSignedIn, changeIsSignInModalOpen } = useAuthStore((state) => ({
+    isSignedIn: state.isSignedIn,
+    changeIsSignInModalOpen: state.changeIsSignInModalOpen,
   }));
+
+  const { setShareModalMode, setIsShareModalOpen, setShareCredentials } =
+    useShareModalStore((state) => ({
+      setShareModalMode: state.setMode,
+      setIsShareModalOpen: state.setIsOpen,
+      setShareCredentials: state.setCredentials,
+    }));
 
   const columns = [
     {
@@ -121,6 +135,8 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
 
   const renderCell = React.useCallback(
     (vc: QueryCredentialsRequestResult, columnKey: React.Key) => {
+      let status = true;
+
       switch (columnKey) {
         case 'type':
           return (
@@ -165,12 +181,8 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
             </span>
           );
         case 'status':
-          // eslint-disable-next-line no-case-declarations
-          let status = 'true';
           if (vc.data.expirationDate)
-            status = (
-              Date.now() < Date.parse(vc.data.expirationDate)
-            ).toString();
+            status = Date.now() < Date.parse(vc.data.expirationDate);
           return (
             <span className="flex items-center justify-center">
               <Tooltip
@@ -178,12 +190,12 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
                 content={`${
                   vc.data.expirationDate === undefined
                     ? t('tooltip.no-exp-date')
-                    : `${
-                        status === 'true' ? 'Expires' : 'Expired'
-                      } on ${new Date(vc.data.expirationDate).toDateString()}`
+                    : `${status ? 'Expires' : 'Expired'} on ${new Date(
+                        vc.data.expirationDate
+                      ).toDateString()}`
                 }`}
               >
-                {status === 'true' ? (
+                {status ? (
                   <CheckCircleIcon className="h-6 w-6 text-green-500" />
                 ) : (
                   <XCircleIcon className="h-6 w-6 text-red-500" />
@@ -214,7 +226,7 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
         case 'actions':
           return (
             <div className="relative flex items-center justify-end gap-2">
-              <Dropdown>
+              <Dropdown isDismissable>
                 <DropdownTrigger>
                   <Button isIconOnly size="sm" variant="light">
                     <EllipsisVerticalIcon className="dark:text-navy-blue-300 text-gray-600" />
@@ -237,6 +249,17 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
                   <DropdownItem
                     key={t('menu.share')}
                     aria-label={t('menu.share')}
+                    onClick={() => {
+                      if (!isSignedIn) {
+                        changeIsSignInModalOpen(true);
+                        return;
+                      }
+                      setShareCredentials([
+                        removeCredentialSubjectFilterString(vc).data,
+                      ]);
+                      setShareModalMode('single');
+                      setIsShareModalOpen(true);
+                    }}
                   >
                     {t('menu.share')}
                   </DropdownItem>
@@ -245,7 +268,7 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
                     key={t('menu.delete')}
                     onClick={() => {
                       setDeleteModalOpen(true);
-                      setSelectedVC(vc);
+                      setSelectedDeleteCredential(vc);
                     }}
                   >
                     {t('menu.delete')}
@@ -279,7 +302,7 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
   // get selected VCs from selected keys on change
   const selectedVCs = useMemo(() => {
     const selVcs = getSelectedVCs(selectedKeys);
-    setSelectedVCs(selVcs);
+    setSelectedCredentials(selVcs);
     return selVcs;
   }, [selectedKeys]);
 
@@ -307,7 +330,7 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
   }, [sortDescriptor, page, vcs]);
 
   return (
-    <div className="flex h-full w-full flex-col justify-between ">
+    <div className="flex h-full w-full flex-col justify-between">
       <Table
         border={0}
         shadow={'none'}
@@ -320,7 +343,7 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
         sortDescriptor={sortDescriptor}
         topContent={
           <div className="dark:border-navy-blue-600 flex items-center justify-between p-5">
-            <div className="text-h2 font-ubuntu dark:text-navy-blue-50 pl-4 font-medium text-gray-800">
+            <div className="text-h2 font-ubuntu dark:text-navy-blue-50 font-medium text-gray-800">
               {t('table-header.credentials')}
             </div>
             <div className="text-right">
@@ -383,16 +406,10 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
           )}
         </div>
       </div>
-
       <DeleteModal
         isOpen={deleteModalOpen}
         setOpen={setDeleteModalOpen}
-        vc={selectedVC}
-      />
-      <ShareCredentialModal
-        isOpen={shareModalOpen}
-        setOpen={setShareModalOpen}
-        credentials={shareCredential ? [shareCredential] : []}
+        vc={selectedDeleteCredential}
       />
     </div>
   );

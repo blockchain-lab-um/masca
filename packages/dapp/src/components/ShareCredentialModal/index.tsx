@@ -12,7 +12,7 @@ import {
   ModalHeader,
   Snippet,
 } from '@nextui-org/react';
-import { VerifiableCredential, VerifiablePresentation } from '@veramo/core';
+import { VerifiablePresentation } from '@veramo/core';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
@@ -20,22 +20,19 @@ import { selectProofFormat } from '@/utils/selectProofFormat';
 import { convertTypes } from '@/utils/string';
 import { useMascaStore, useToastStore } from '@/stores';
 import { useAuthStore } from '@/stores/authStore';
+import { useShareModalStore } from '@/stores/shareModalStore';
 import Button from '../Button';
 
-interface ShareCredentialModalProps {
-  isOpen: boolean;
-  credentials: VerifiableCredential[];
-  setOpen: (isOpen: boolean) => void;
-}
-
-export const ShareCredentialModal = ({
-  isOpen,
-  credentials,
-  setOpen,
-}: ShareCredentialModalProps) => {
+export const ShareCredentialModal = () => {
   const t = useTranslations('ShareCredentialModal');
 
   // Global state
+  const { isOpen, setIsOpen, credentials } = useShareModalStore((state) => ({
+    isOpen: state.isOpen,
+    setIsOpen: state.setIsOpen,
+    credentials: state.credentials,
+  }));
+
   const { api, didMethod } = useMascaStore((state) => ({
     api: state.mascaApi,
     didMethod: state.currDIDMethod,
@@ -174,7 +171,7 @@ export const ShareCredentialModal = ({
       backdrop="blur"
       size="4xl"
       isOpen={isOpen}
-      onClose={() => setOpen(false)}
+      onClose={() => setIsOpen(false)}
       hideCloseButton={true}
       placement="center"
       className="main-bg mx-4 py-2"
@@ -277,7 +274,7 @@ export const ShareCredentialModal = ({
                 <Button
                   variant="cancel"
                   size="xs"
-                  onClick={() => setOpen(false)}
+                  onClick={() => setIsOpen(false)}
                 >
                   {t('cancel')}
                 </Button>

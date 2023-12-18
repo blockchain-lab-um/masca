@@ -32,20 +32,14 @@ const proofFormats: Record<string, SupportedProofFormats> = {
 };
 
 const CreatePresentationDisplay = () => {
-  const router = useRouter();
   const t = useTranslations('CreatePresentationDisplay');
+
+  const router = useRouter();
+
+  // Local state
   const [loading, setLoading] = useState(false);
   const [vpModalOpen, setVpModalOpen] = useState(false);
   const [vp, setVp] = useState({});
-  const { selectedVCs, setSelectedVCs } = useTableStore((state) => ({
-    selectedVCs: state.selectedVCs,
-    setSelectedVCs: state.setSelectedVCs,
-  }));
-  const { didMethod, api } = useMascaStore((state) => ({
-    didMethod: state.currDIDMethod,
-    api: state.mascaApi,
-  }));
-
   const [format, setFormat] = useState('JWT');
   const [advanced, setAdvanced] = useState(false);
   const [challenge, setChallenge] = useState('');
@@ -57,6 +51,18 @@ const CreatePresentationDisplay = () => {
     'JSON-LD',
     'EIP712Signature',
   ]);
+
+  // Global state
+  const { selectedCredentials, setSelectedCredentials } = useTableStore(
+    (state) => ({
+      selectedCredentials: state.selectedCredentials,
+      setSelectedCredentials: state.setSelectedCredentials,
+    })
+  );
+  const { didMethod, api } = useMascaStore((state) => ({
+    didMethod: state.currDIDMethod,
+    api: state.mascaApi,
+  }));
 
   useEffect(() => {
     setInvalidMethod(false);
@@ -74,17 +80,17 @@ const CreatePresentationDisplay = () => {
 
   useEffect(() => {
     setIncludesPolygonVC(false);
-    selectedVCs?.forEach((vc) => {
+    selectedCredentials?.forEach((vc) => {
       if (isPolygonVC(vc)) {
         console.log('true');
         setIncludesPolygonVC(true);
       }
     });
-  }, [selectedVCs]);
+  }, [selectedCredentials]);
 
   const handleRemove = (id: string) => {
-    setSelectedVCs(
-      selectedVCs?.filter(
+    setSelectedCredentials(
+      selectedCredentials?.filter(
         (vc: QueryCredentialsRequestResult) => vc.metadata.id !== id
       )
     );
@@ -93,7 +99,7 @@ const CreatePresentationDisplay = () => {
   const handleCreatePresentation = async () => {
     if (!api) return;
     setLoading(true);
-    const vcs: W3CVerifiableCredential[] = selectedVCs.map(
+    const vcs: W3CVerifiableCredential[] = selectedCredentials.map(
       (vc) => removeCredentialSubjectFilterString(vc).data
     );
 
@@ -144,7 +150,7 @@ const CreatePresentationDisplay = () => {
             </tr>
           </thead>
           <tbody className="text-md break-all text-gray-800">
-            {selectedVCs.map((vc) => (
+            {selectedCredentials.map((vc) => (
               <SelectedVCsTableRow
                 handleRemove={handleRemove}
                 key={vc.metadata.id}
@@ -225,7 +231,7 @@ const CreatePresentationDisplay = () => {
             )}
           </div>
           <div className="mt-8 flex justify-end p-3">
-            {selectedVCs.length > 0 && (
+            {selectedCredentials.length > 0 && (
               <Button
                 variant="primary"
                 size="sm"

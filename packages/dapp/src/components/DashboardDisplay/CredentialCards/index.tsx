@@ -22,8 +22,8 @@ export const CredentialCards = ({ vcs }: CredentialCardsProps) => {
     QueryCredentialsRequestResult[]
   >([]);
 
-  const { setSelectedVCs } = useTableStore((state) => ({
-    setSelectedVCs: state.setSelectedVCs,
+  const { setSelectedCredentials } = useTableStore((state) => ({
+    setSelectedCredentials: state.setSelectedCredentials,
   }));
 
   const pages = Math.ceil(vcs.length / CARDS_PER_PAGE);
@@ -39,7 +39,7 @@ export const CredentialCards = ({ vcs }: CredentialCardsProps) => {
   }, [page, vcs]);
 
   const selectedVCs = useMemo(() => {
-    setSelectedVCs(selectedCards);
+    setSelectedCredentials(selectedCards);
     return selectedCards;
   }, [selectedCards]);
 
@@ -47,7 +47,7 @@ export const CredentialCards = ({ vcs }: CredentialCardsProps) => {
     <div className="flex h-full w-full flex-col justify-between pb-4">
       <div>
         <div className="dark:border-navy-blue-600 flex items-center justify-between p-9">
-          <div className="text-h2 font-ubuntu dark:text-navy-blue-50 pl-4 font-medium text-gray-800">
+          <div className="text-h2 font-ubuntu dark:text-navy-blue-50 font-medium text-gray-800">
             {t('credentials')}
           </div>
           <div className="text-right">

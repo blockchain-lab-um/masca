@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default async function Page() {
   return (
     <div className="flex flex-1 items-center justify-center">
-      <div className="w-full md:max-w-4xl">
+      <div className="dark:bg-navy-blue-800 h-[65vh] min-h-[65vh] w-full rounded-xl bg-white shadow-lg md:max-w-4xl">
         <SupabaseProvider>
           <SharedPresentations />
         </SupabaseProvider>

@@ -30,7 +30,9 @@ const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
   const t = useTranslations('CredentialDisplay');
   const router = useRouter();
   const vcs = useMascaStore((state) => state.vcs);
-  const setSelectedVCs = useTableStore((state) => state.setSelectedVCs);
+  const setSelectedCredentials = useTableStore(
+    (state) => state.setSelectedCredentials
+  );
 
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [modifyDSModalOpen, setModifyDSModalOpen] = useState(false);
@@ -131,7 +133,7 @@ const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
                 <Link href="/app/create-verifiable-presentation">
                   <Button
                     variant="primary"
-                    onClick={() => setSelectedVCs([vc])}
+                    onClick={() => setSelectedCredentials([vc])}
                     size="sm"
                   >
                     {t('create-presentation')}
@@ -150,7 +152,7 @@ const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
                 <Link href="/app/create-verifiable-presentation">
                   <Button
                     variant="primary"
-                    onClick={() => setSelectedVCs([vc])}
+                    onClick={() => setSelectedCredentials([vc])}
                     size="sm"
                   >
                     {t('create-presentation')}

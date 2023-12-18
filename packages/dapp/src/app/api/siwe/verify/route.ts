@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import { parse } from 'date-fns';
 import jwt from 'jsonwebtoken';
 import { SiweMessage } from 'siwe';
 
@@ -48,17 +47,6 @@ export async function POST(request: NextRequest) {
 
     const [authorizationData] = authorizationQueryData;
 
-    console.log(authorizationData);
-
-    console.log(
-      parse(
-        authorizationData.expires_at,
-        "yyyy-MM-dd'T'HH:mm:ss.SSSxxx",
-        new Date()
-      )
-    );
-    console.log(new Date());
-
     // Check if expired
     if (new Date(authorizationData.expires_at) < new Date()) {
       return new NextResponse('Unauthorized', {
@@ -70,8 +58,6 @@ export async function POST(request: NextRequest) {
     }
 
     const { message, signature } = await request.json();
-
-    console.log(message, signature);
 
     if (!message || !signature) {
       return new NextResponse('Unauthorized', {
@@ -145,7 +131,7 @@ export async function POST(request: NextRequest) {
       },
       process.env.SUPABASE_JWT_SECRET!,
       {
-        expiresIn: '1h',
+        expiresIn: '12h',
       }
     );
 
