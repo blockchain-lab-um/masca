@@ -50,7 +50,7 @@ export async function validateAndSetCeramicSession(this: Masca): Promise<void> {
   let newSession;
   try {
     newSession = await DIDSession.authorize(authMethod, {
-      expiresInSecs: 60 * 60 * 24,
+      expiresInSecs: 60 * 60 * 24 * 7,
       resources: [`ceramic://*`],
     });
   } catch (e) {
