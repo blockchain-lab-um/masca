@@ -62,12 +62,12 @@ describe('removeTrustedDapp', () => {
 
   it('should fail removing another friendlyDapp from the list', async () => {
     const resultAdd = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost:8081',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
         method: 'addTrustedDapp',
-        params: { origin: 'localhost' },
+        params: { origin: 'http://localhost:8081' },
       },
     })) as Result<boolean>;
 
@@ -78,12 +78,12 @@ describe('removeTrustedDapp', () => {
     expect(resultAdd.data).toBe(true);
 
     const resultRemove = (await onRpcRequest({
-      origin: 'localhost2',
+      origin: 'http://localhost2:8081',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
         method: 'removeTrustedDapp',
-        params: { origin: 'localhost' },
+        params: { origin: 'http://localhost:8081' },
       },
     })) as Result<unknown>;
 
@@ -105,7 +105,7 @@ describe('removeTrustedDapp', () => {
         id: 'test-id',
         jsonrpc: '2.0',
         method: 'addTrustedDapp',
-        params: { origin: 'localhost' },
+        params: { origin: 'http://localhost:8081' },
       },
     })) as Result<boolean>;
 
@@ -116,12 +116,12 @@ describe('removeTrustedDapp', () => {
     expect(resultAdd.data).toBe(true);
 
     const resultRemove = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost:8081',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
         method: 'removeTrustedDapp',
-        params: { origin: 'localhost' },
+        params: { origin: 'http://localhost:8081' },
       },
     })) as Result<unknown>;
 
@@ -153,7 +153,7 @@ describe('removeTrustedDapp', () => {
     });
 
     const saveRes = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost:8081',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -170,7 +170,7 @@ describe('removeTrustedDapp', () => {
     }
 
     (await onRpcRequest({
-      origin: 'localhost2',
+      origin: 'http://localhost2:8081',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',

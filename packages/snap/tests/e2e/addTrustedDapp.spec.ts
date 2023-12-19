@@ -32,7 +32,7 @@ describe('addTrustedDapp', () => {
         id: 'test-id',
         jsonrpc: '2.0',
         method: 'addTrustedDapp',
-        params: { origin: 'localhost' },
+        params: { origin: 'http://localhost:8081' },
       },
     })) as Result<unknown>;
 
@@ -61,12 +61,12 @@ describe('addTrustedDapp', () => {
     });
 
     const res = (await onRpcRequest({
-      origin: 'random',
+      origin: 'http://random-different.com',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
         method: 'addTrustedDapp',
-        params: { origin: 'random-different' },
+        params: { origin: 'http://random.com' },
       },
     })) as Result<unknown>;
 
@@ -81,7 +81,7 @@ describe('addTrustedDapp', () => {
     });
 
     expect(state[CURRENT_STATE_VERSION].config.dApp.trustedDapps).toStrictEqual(
-      ['random']
+      ['random-different.com']
     );
 
     expect.assertions(2);
@@ -98,7 +98,7 @@ describe('addTrustedDapp', () => {
     });
 
     const res = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost:8081',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -137,7 +137,7 @@ describe('addTrustedDapp', () => {
     });
 
     await onRpcRequest({
-      origin: 'localhost2',
+      origin: 'http://localhost2:8081',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',

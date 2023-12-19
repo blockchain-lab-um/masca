@@ -548,12 +548,12 @@ class SnapService {
         res = await GeneralService.togglePopups();
         return ResultObject.success(res);
       case 'addTrustedDapp':
-        if (origin === 'https://masca.io') trustedOrigin = params.origin;
-        console.log('trustedOrigin', trustedOrigin);
+        if (origin === 'masca.io')
+          trustedOrigin = new URL(params.origin).hostname;
         await GeneralService.addTrustedDapp({ origin: trustedOrigin });
         return ResultObject.success(true);
       case 'removeTrustedDapp':
-        if (origin !== 'https://masca.io' && origin !== params.origin)
+        if (origin !== 'masca.io' && origin !== new URL(params.origin).hostname)
           throw new Error('Unauthorized to remove other dApps');
         await GeneralService.removeTrustedDapp({ origin: trustedOrigin });
         return ResultObject.success(true);
