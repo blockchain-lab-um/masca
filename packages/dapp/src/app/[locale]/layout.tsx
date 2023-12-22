@@ -2,9 +2,8 @@ import '@/styles/globals.css';
 
 import { Metadata } from 'next';
 import { Cabin, JetBrains_Mono, Ubuntu } from 'next/font/google';
-import { notFound } from 'next/navigation';
 import clsx from 'clsx';
-import { NextIntlClientProvider } from 'next-intl';
+import { NextIntlClientProvider, useMessages } from 'next-intl';
 
 import AnalyticsWrapper from '@/components/AnalyticsWrapper';
 import ThemeProvider from '@/components/ThemeProvider';
@@ -82,24 +81,14 @@ export const metadata: Metadata = {
   manifest: null,
 };
 
-export function generateStaticParams() {
-  return [{ locale: 'en' }];
-}
-
-export default async function LocaleLayout({
+export default function LocaleLayout({
   children,
   params,
 }: {
   children: React.ReactNode;
   params: { locale: string };
 }) {
-  let messages;
-
-  try {
-    messages = (await import(`../../messages/${params.locale}.json`)).default;
-  } catch (error) {
-    notFound();
-  }
+  const messages = useMessages();
 
   return (
     <html suppressHydrationWarning lang={params.locale}>
@@ -109,7 +98,7 @@ export default async function LocaleLayout({
       <body
         className={clsx(
           `${cabin.variable} ${ubuntu.variable} ${jetBrainsMono.variable} font-cabin`,
-          'h-screen min-h-screen w-screen overflow-visible',
+          'h-screen min-h-screen w-screen overflow-x-hidden overflow-y-visible',
           'main-bg'
         )}
       >

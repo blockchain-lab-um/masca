@@ -57,8 +57,6 @@ const totalPresentations = async (token: string) => {
   return count;
 };
 
-const keys = ['title', 'created_at', 'expires_at', 'views', 'actions'] as const;
-
 export const SharedPresentations = () => {
   const t = useTranslations('SharedPresentations');
 
@@ -84,12 +82,33 @@ export const SharedPresentations = () => {
   // Global state
   const token = useAuthStore((state) => state.token);
 
+  const columns = [
+    {
+      key: 'title',
+      label: t('table-header.title'),
+    },
+    {
+      key: 'created_at',
+      label: t('table-header.created_at'),
+    },
+    {
+      key: 'expires_at',
+      label: t('table-header.expires_at'),
+    },
+    {
+      key: 'views',
+      label: t('table-header.views'),
+    },
+    {
+      key: 'actions',
+      label: t('table-header.actions'),
+    },
+  ];
+
   // Functions
   const renderCell = useCallback(
     (presentation: Tables<'presentations'>, columnKey: React.Key) => {
-      const key = columnKey as (typeof keys)[number];
-
-      switch (key) {
+      switch (columnKey) {
         case 'expires_at':
           return presentation.expires_at
             ? new Date(presentation.expires_at).toLocaleDateString()
@@ -122,20 +141,14 @@ export const SharedPresentations = () => {
               </Tooltip>
             </div>
           );
+
         default:
-          return presentation[key];
+          return presentation[
+            columnKey as keyof Omit<Tables<'presentations'>, 'presentation'>
+          ];
       }
     },
     []
-  );
-
-  const columns = useMemo(
-    () =>
-      keys.map((key) => ({
-        key,
-        label: t(`table-headers.${key}`),
-      })),
-    [t]
   );
 
   useEffect(() => {

@@ -143,7 +143,9 @@ const FormatedPanel = ({ credential }: FormatedPanelProps) => {
           </div>
           <div className="flex flex-1 justify-end">
             <Tooltip
-              content="Credential is valid."
+              content={
+                isValid ? t('credential-valid') : t('credential-invalid')
+              }
               className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
             >
               {isValid ? (

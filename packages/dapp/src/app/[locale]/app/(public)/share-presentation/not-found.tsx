@@ -1,5 +1,8 @@
+import { useTranslations } from 'next-intl';
+
 import BasicNotFound from '@/components/BasicNotFound';
 
 export default function NotFound() {
-  return <BasicNotFound text="Presentation could not be found!" />;
+  const t = useTranslations('NotFoundPresentation');
+  return <BasicNotFound text={t('title')} />;
 }

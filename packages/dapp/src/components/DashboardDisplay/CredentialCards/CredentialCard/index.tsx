@@ -86,14 +86,14 @@ const CredentialCard = ({ vc, selected }: CredentialCardProps) => {
             <div>
               {validity ? (
                 <Tooltip
-                  content="Credential is valid"
+                  content={t('credential-valid')}
                   className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
                 >
                   <CheckCircleIcon className="h-8 w-8 text-orange-100" />
                 </Tooltip>
               ) : (
                 <Tooltip
-                  content="Credential is invalid"
+                  content={t('credential-invalid')}
                   className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
                 >
                   <XCircleIcon className="h-8 w-8 text-red-700 dark:text-red-900" />

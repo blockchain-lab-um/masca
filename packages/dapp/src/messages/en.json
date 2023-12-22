@@ -109,6 +109,9 @@
     "share": "Share selected credentials",
     "sign-in-to-share": "Sign in to share credentials"
   },
+  "NotFoundPresentation": {
+    "title": "Presentation could not be found!"
+  },
   "CreateConnectionModal": {
     "desc": " Scan this QR code with your mobile device to create a connection to this page.",
     "title": "Connection QR Code"
@@ -165,6 +168,8 @@
     "no-exp-date": "No Expiration",
     "select": "SELECT",
     "selected": "DESELECT",
+    "credential-valid": "Credential is valid",
+    "credential-invalid": "Credential is invalid",
     "tooltip": {
       "delete": "Delete the credential",
       "no-exp-date": "Does not have an expiration date",
@@ -210,10 +215,25 @@
     "switch-to": "Switch to ",
     "to-continue": "to continue"
   },
+  "CredentialView": {
+    "saving": "Saving credential",
+    "saving-error": "Failed to save credential",
+    "saving-success": "Successfully saved credential",
+    "cancel": "Cancel",
+    "save": "Save"
+  },
   "FormatedView": {
     "holder": "Holder",
     "presented": "Presented",
-    "credentials": "Credentials"
+    "credentials": "Credentials",
+    "credential-status": "Status",
+    "credential-valid": "Credential is valid",
+    "credential-invalid": "Credential is invalid",
+    "valid": "Valid",
+    "invalid": "Invalid",
+    "presentation-status": "Status",
+    "presentation-valid": "Presentation is valid",
+    "presentation-invalid": "Presentation is invalid"
   },
   "CredentialPanel": {
     "title": "Credential",
@@ -223,7 +243,9 @@
     "issuer": "ISSUER",
     "isuance-date": "Issuance Date",
     "subject": "SUBJECT",
-    "view-json": "View JSON"
+    "view-json": "View JSON",
+    "credential-valid": "Credential is valid",
+    "credential-invalid": "Credential is invalid"
   },
   "Error": {
     "title": "Something went wrong",
@@ -308,7 +330,16 @@
     "issuer": "ISSUER",
     "isuance-date": "Issuance Date",
     "subject": "SUBJECT",
-    "view-json": "View"
+    "view-json": "View",
+    "credential-valid": "Credential is valid",
+    "credential-invalid": "Credential is invalid"
+  },
+  "SelectedVCsTableRow": {
+    "open-did": "Open DID in Universal resolver",
+    "no-expiration-date": "No Expiration Date",
+    "expires-on": "Expires on",
+    "expired-on": "Expired on",
+    "polygon-unsupported": "PolygonID VCs aren't supported yet. Please remove this credential to continue!"
   },
   "FriendlydAppTable": {
     "add-failed": "Failed to add Friendly dapp",
@@ -504,7 +535,7 @@
     "unsupported-method-title": "Unsupported DID Method"
   },
   "SharedPresentations": {
-    "table-headers": {
+    "table-header": {
       "actions": "Actions",
       "created_at": "Created At",
       "expires_at": "Expires At",

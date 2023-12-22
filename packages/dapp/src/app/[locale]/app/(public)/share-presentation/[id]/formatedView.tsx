@@ -70,7 +70,7 @@ export const FormatedView = ({
           <div className="flex w-full flex-1 justify-end space-x-1">
             <Tooltip
               content={
-                isValid ? 'Presentation is valid.' : 'Presentation is invalid.'
+                isValid ? t('presentation-valid') : t('presentation-invalid')
               }
               className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
             >
@@ -82,10 +82,10 @@ export const FormatedView = ({
             </Tooltip>
             <div className="flex flex-col items-end">
               <h1 className="font-ubuntu dark:text-orange-accent-dark text-left text-lg font-medium text-pink-500 sm:text-xl md:text-2xl lg:truncate">
-                Status
+                {t('credential-status')}
               </h1>
               <h2 className="dark:text-navy-blue-200 font-bold text-gray-800">
-                {isValid ? 'Valid' : 'Invalid'}
+                {isValid ? t('valid') : t('invalid')}
               </h2>
             </div>
           </div>

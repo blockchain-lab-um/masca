@@ -22,7 +22,7 @@ export default async function AppLayout({
           'main-bg'
         )}
       >
-        <div className="flex h-full flex-1 flex-col px-2 pb-20 pt-12 sm:px-6 md:px-12">
+        <div className="flex h-full w-full flex-1 flex-col px-2 pb-20 pt-12 sm:px-6 md:px-12">
           <CheckMetaMaskCompatibility />
           {children}
         </div>

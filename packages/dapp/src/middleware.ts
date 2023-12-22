@@ -8,6 +8,7 @@ export async function middleware(request: NextRequest) {
 
     // If this locale is matched, pathnames work without a prefix (e.g. `/about`)
     defaultLocale: 'en',
+    localePrefix: 'as-needed',
   });
 
   const response = handleI18nRouting(request);

@@ -504,8 +504,8 @@ importers:
         specifier: 13.5.6
         version: 13.5.6(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.5)
       next-intl:
-        specifier: 3.0.0-beta.9
-        version: 3.0.0-beta.9(next@13.5.6)(react@18.2.0)
+        specifier: 3.4.0
+        version: 3.4.0(next@13.5.6)(react@18.2.0)
       next-sitemap:
         specifier: ^4.2.3
         version: 4.2.3(next@13.5.6)
@@ -6049,13 +6049,6 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@formatjs/ecma402-abstract@1.17.0:
-    resolution: {integrity: sha512-6ueQTeJZtwKjmh23bdkq/DMqH4l4bmfvtQH98blOSbiXv/OUiyijSW6jU22IT8BNM1ujCaEvJfTtyCYVH38EMQ==}
-    dependencies:
-      '@formatjs/intl-localematcher': 0.4.0
-      tslib: 2.6.2
-    dev: false
-
   /@formatjs/ecma402-abstract@1.18.0:
     resolution: {integrity: sha512-PEVLoa3zBevWSCZzPIM/lvPCi8P5l4G+NXQMc/CjEiaCWgyHieUoo0nM7Bs0n/NbuQ6JpXEolivQ9pKSBHaDlA==}
     dependencies:
@@ -6113,12 +6106,6 @@ packages:
 
   /@formatjs/intl-localematcher@0.2.32:
     resolution: {integrity: sha512-k/MEBstff4sttohyEpXxCmC3MqbUn9VvHGlZ8fauLzkbwXmVrEeyzS+4uhrvAk9DWU9/7otYWxyDox4nT/KVLQ==}
-    dependencies:
-      tslib: 2.6.2
-    dev: false
-
-  /@formatjs/intl-localematcher@0.4.0:
-    resolution: {integrity: sha512-bRTd+rKomvfdS4QDlVJ6TA/Jx1F2h/TBVO5LjvhQ7QPPHp19oPNMIum7W2CMEReq/zPxpmCeB31F9+5gl/qtvw==}
     dependencies:
       tslib: 2.6.2
     dev: false
@@ -21936,19 +21923,17 @@ packages:
     resolution: {integrity: sha512-SrQrok4CATudVzBS7coSz26QRSmlK9TzzoFbeKfcPBUFPjcQM9Rqvr/DlJkOrwI/0KcgvMub1n1g5Jt9EgRn4A==}
     optional: true
 
-  /next-intl@3.0.0-beta.9(next@13.5.6)(react@18.2.0):
-    resolution: {integrity: sha512-pLDcRFWNCGSlYE9Mbm8fD19EtAgRoe5Fg579kr9NYiVZK8FfpObhrDMQzz9gVnqOOOoFUIgVqyQRFtXxmuU2IQ==}
-    engines: {node: '>=10'}
+  /next-intl@3.4.0(next@13.5.6)(react@18.2.0):
+    resolution: {integrity: sha512-pccnuQq6N6iyPi0Foiajp9JgZp99w7gRxHhBxmtBdjsCmrsik7QflKWq2a/US2kFP734JSsSoY98xK+acjozeQ==}
     peerDependencies:
-      next: ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0
+      next: ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0 || ^14.0.0
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
       '@formatjs/intl-localematcher': 0.2.32
       negotiator: 0.6.3
       next: 13.5.6(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)(sass@1.69.5)
       react: 18.2.0
-      server-only: 0.0.1
-      use-intl: 2.19.1(react@18.2.0)
+      use-intl: 3.4.0(react@18.2.0)
     dev: false
 
   /next-sitemap@4.2.3(next@13.5.6):
@@ -27424,13 +27409,12 @@ packages:
       react: 18.2.0
     dev: false
 
-  /use-intl@2.19.1(react@18.2.0):
-    resolution: {integrity: sha512-nPsXwwJeH+RuKe2ucN+xmRI7DdfjA7WezXYTJD0JZSPvyIyaledIBlVBbnkxanr+3fpIec3cVG6wvouGp9/lJQ==}
-    engines: {node: '>=10'}
+  /use-intl@3.4.0(react@18.2.0):
+    resolution: {integrity: sha512-vFwyAm9RDXjQN83wle9LjmE5PB/k0vOU0FetHffjr7/wLW8xlX2tAABxIyG1gy9eS5IYixAezvJXYr8g6fRIXA==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      '@formatjs/ecma402-abstract': 1.17.0
+      '@formatjs/ecma402-abstract': 1.18.0
       intl-messageformat: 9.13.0
       react: 18.2.0
     dev: false
