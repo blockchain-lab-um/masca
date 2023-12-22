@@ -1,3 +1,5 @@
+import clsx from 'clsx';
+
 import AppBottomBar from '@/components/AppBottomBar';
 import AppNavbar from '@/components/AppNavbar';
 import CheckMetaMaskCompatibility from '@/components/CheckMetaMaskCompatibility';
@@ -12,10 +14,15 @@ export default async function AppLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex h-full w-full flex-col px-4 sm:px-12">
+    <>
       <AppNavbar />
-      <div className="flex w-full flex-1 pb-14 pt-24 md:pb-0">
-        <div className="flex h-full w-full flex-1 pb-4 pt-4 sm:pb-10 sm:pt-10 md:pb-16 md:pt-16 lg:pb-20 lg:pt-20">
+      <div
+        className={clsx(
+          'flex min-h-screen flex-col justify-center pt-24',
+          'main-bg'
+        )}
+      >
+        <div className="flex h-full flex-1 flex-col px-2 pb-20 pt-12 sm:px-6 md:px-12">
           <CheckMetaMaskCompatibility />
           {children}
         </div>
@@ -25,6 +32,6 @@ export default async function AppLayout({
       <QRCodeSessionProvider />
       <SignInModal />
       <CookiesProvider />
-    </div>
+    </>
   );
 }

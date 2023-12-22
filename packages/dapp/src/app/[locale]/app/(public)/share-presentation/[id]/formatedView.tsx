@@ -8,6 +8,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { Pagination, Tooltip } from '@nextui-org/react';
 import { VerifiableCredential } from '@veramo/core';
+import { useTranslations } from 'next-intl';
 
 import CredentialPanel from './credentialPanel';
 
@@ -26,6 +27,8 @@ export const FormatedView = ({
   page: string;
   total: number;
 }) => {
+  const t = useTranslations('FormatedView');
+
   const router = useRouter();
   const pathname = usePathname();
 
@@ -42,7 +45,7 @@ export const FormatedView = ({
             <div className="flex flex-col space-y-4">
               <div className="flex flex-col">
                 <h2 className="dark:text-navy-blue-200 font-bold text-gray-800">
-                  Holder
+                  {t('holder')}
                 </h2>
                 <h1 className="font-ubuntu dark:text-orange-accent-dark text-left text-lg font-medium text-pink-500 sm:text-xl md:text-2xl lg:truncate">
                   {holder.substring(0, 20)}...
@@ -52,14 +55,14 @@ export const FormatedView = ({
               {issuanceDate && (
                 <div className="flex flex-col">
                   <h2 className="dark:text-navy-blue-200 font-bold text-gray-800">
-                    Presented
+                    {t('presented')}
                   </h2>
                   {new Date(Date.parse(issuanceDate)).toDateString()}
                 </div>
               )}
               <div className="flex flex-col">
                 <h2 className="dark:text-navy-blue-200 font-bold text-gray-800">
-                  Credentials
+                  {t('credentials')}
                 </h2>
               </div>
             </div>

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { EyeIcon, TrashIcon } from '@heroicons/react/24/solid';
 import {
+  Pagination,
   Spinner,
   Table,
   TableBody,
@@ -21,13 +22,39 @@ import { createClient } from '@/utils/supabase/client';
 import { Tables } from '@/utils/supabase/helper.types';
 import { useAuthStore } from '@/stores/authStore';
 
-const queryPresentations = async (token: string) => {
+const ITEMS_PER_PAGE = 10;
+
+const getFromAndTo = (page: number) => {
+  const from = page === 0 ? 0 : (page - 1) * ITEMS_PER_PAGE;
+  const to = from + ITEMS_PER_PAGE - 1;
+
+  return { from, to };
+};
+
+const queryPresentations = async (token: string, page: number) => {
   const supabase = createClient(token);
-  const { data, error } = await supabase.from('presentations').select('*');
+  const { from, to } = getFromAndTo(page);
+
+  const { data, error } = await supabase
+    .from('presentations')
+    .select('*')
+    .range(from, to);
 
   if (error) throw new Error('Failed to fetch presentations');
 
   return data;
+};
+
+const totalPresentations = async (token: string) => {
+  const supabase = createClient(token);
+
+  const { count, error } = await supabase.from('presentations').select('id', {
+    count: 'exact',
+  });
+
+  if (error) throw new Error('Failed to fetch presentations');
+
+  return count;
 };
 
 const keys = ['title', 'created_at', 'expires_at', 'views', 'actions'] as const;
@@ -41,11 +68,18 @@ export const SharedPresentations = () => {
   const [presentations, setPresentations] = useState<Tables<'presentations'>[]>(
     []
   );
+  const [total, setTotal] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedPresentationId, setSelectedPresentationId] = useState<
     string | null
   >(null);
+  const [page, setPage] = useState(1);
+
+  const pages = useMemo(() => {
+    if (!total) return 1;
+    return Math.ceil(total / ITEMS_PER_PAGE);
+  }, [total]);
 
   // Global state
   const token = useAuthStore((state) => state.token);
@@ -106,22 +140,33 @@ export const SharedPresentations = () => {
 
   useEffect(() => {
     if (!token) return;
-    setLoading(true);
-    queryPresentations(token)
-      .then((data) => setPresentations(data))
+    totalPresentations(token)
+      .then((data) => setTotal(data))
       .catch((error) => {
         console.error(error);
-      })
-      .finally(() => {
-        setLoading(false);
       });
   }, [token]);
+
+  useEffect(() => {
+    if (!token) return;
+
+    setLoading(true);
+    queryPresentations(token, page)
+      .then((data) => {
+        setPresentations(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        setLoading(false);
+      });
+  }, [token, page]);
 
   if (!token) return null;
 
   return (
     <>
-      <div className="flex h-full flex-col p-4">
+      <div className="flex h-full flex-col overflow-hidden p-4">
         <div className="flex w-full flex-col items-start justify-between p-5 sm:flex-row sm:items-end">
           <h1 className="text-h2 font-ubuntu dark:text-navy-blue-50 font-medium text-gray-800">
             {t('title')}
@@ -129,12 +174,12 @@ export const SharedPresentations = () => {
           <div className="flex items-center space-x-1">
             <h3>{t('total')}</h3>
             <h3 className="font-ubuntu dark:text-orange-accent-dark text-h4 text-left text-pink-500">
-              {presentations.length}
+              {total}
             </h3>
           </div>
         </div>
         <Table
-          className="h-full"
+          className="h-full overflow-auto"
           aria-label="Example table with dynamic content"
           isStriped
           classNames={{
@@ -182,7 +227,20 @@ export const SharedPresentations = () => {
             )}
           </TableBody>
         </Table>
-        <div className="text-center">PAGINATION</div>
+        <div className="flex w-full justify-center">
+          {pages > 1 && (
+            <Pagination
+              isCompact
+              showControls
+              showShadow={false}
+              color="primary"
+              variant="flat"
+              total={pages}
+              page={page}
+              onChange={(newPage) => setPage(newPage)}
+            />
+          )}
+        </div>
       </div>
       <DeleteSharedPresentationModal
         isModalOpen={isDeleteModalOpen}

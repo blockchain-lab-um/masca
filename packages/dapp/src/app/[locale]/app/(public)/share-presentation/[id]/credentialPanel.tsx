@@ -25,7 +25,7 @@ const AddressDisplay = ({ address }: { address: string }) => {
   return (
     <div className="flex flex-col space-y-0.5">
       <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-800">
-        Address:
+        {t('title')}:
       </h2>
       <div className="flex">
         <Tooltip
@@ -106,7 +106,6 @@ const CredentialSubject = ({
               </h2>
               <div className="text-md dark:text-navy-blue-300 w-full truncate font-normal text-gray-700">
                 {isObject ? (
-                  // Small button, with outline, that opens a modal with the JSON data.
                   <button
                     className="dark:border-navy-blue-300 dark:hover:border-navy-blue-400 dark:focus:ring-navy-blue-500 rounded-md border border-gray-300 px-2 py-0.5 text-sm hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
                     onClick={() => selectJsonData(value)}
@@ -152,7 +151,7 @@ const CredentialPanel = ({ credential }: FormatedPanelProps) => {
         <div className="items-cetner flex flex-col-reverse px-6 pt-6 sm:flex-row">
           <div className="w-full sm:w-11/12">
             <h2 className="dark:text-navy-blue-200 font-bold text-gray-800">
-              Credential
+              {t('title')}
             </h2>
             <Tooltip
               content={types}
@@ -176,7 +175,7 @@ const CredentialPanel = ({ credential }: FormatedPanelProps) => {
             </Tooltip>
             <div className="flex flex-col items-end">
               <h1 className="font-ubuntu dark:text-orange-accent-dark text-left text-lg font-medium text-pink-500 sm:text-xl md:text-2xl lg:truncate">
-                Status
+                {t('status')}
               </h1>
               <h2 className="dark:text-navy-blue-200 font-bold text-gray-800">
                 {isValid ? 'Valid' : 'Invalid'}
@@ -242,7 +241,7 @@ const CredentialPanel = ({ credential }: FormatedPanelProps) => {
             router.replace(`${pathname}?${params.toString()}`);
           }}
         >
-          View JSON
+          {t('view-json')}
         </div>
       </div>
       <JsonModal

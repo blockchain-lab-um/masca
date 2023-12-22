@@ -109,7 +109,7 @@ export default async function LocaleLayout({
       <body
         className={clsx(
           `${cabin.variable} ${ubuntu.variable} ${jetBrainsMono.variable} font-cabin`,
-          'h-screen min-h-screen w-screen overflow-x-hidden',
+          'h-screen min-h-screen w-screen overflow-visible',
           'main-bg'
         )}
       >

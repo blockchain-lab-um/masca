@@ -62,6 +62,7 @@ export default async function Page({
     : [];
   const page = searchParams.page ?? '1';
   const view = searchParams.view ?? 'Normal';
+
   return (
     <div className="flex w-full flex-1 items-start justify-center">
       <div className="max-w-full flex-1 md:max-w-3xl">

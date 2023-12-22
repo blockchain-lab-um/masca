@@ -1,5 +1,6 @@
 {
   "AddressDisplay": {
+    "title": "Address",
     "tooltip": "Open Address in Etherscan"
   },
   "AppBottomBar": {
@@ -209,13 +210,24 @@
     "switch-to": "Switch to ",
     "to-continue": "to continue"
   },
+  "FormatedView": {
+    "holder": "Holder",
+    "presented": "Presented",
+    "credentials": "Credentials"
+  },
   "CredentialPanel": {
+    "title": "Credential",
+    "status": "Status",
     "dates": "DATES",
     "expiration-date": "Expiration Date",
     "issuer": "ISSUER",
     "isuance-date": "Issuance Date",
     "subject": "SUBJECT",
-    "view-json": "View"
+    "view-json": "View JSON"
+  },
+  "Error": {
+    "title": "Something went wrong",
+    "try-again": "Try again"
   },
   "CredentialTable": {
     "create-verifiable-presentation": "Create Presentation",
