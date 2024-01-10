@@ -6,9 +6,10 @@ import {
   ExclamationCircleIcon,
   XCircleIcon,
 } from '@heroicons/react/24/solid';
+import { Tooltip } from '@nextui-org/react';
 import { encodeBase64url } from '@veramo/utils';
+import { useTranslations } from 'next-intl';
 
-import Tooltip from '@/components/Tooltip';
 import { isPolygonVC } from '@/utils/credential';
 
 interface SelectedVCsTableRowProps {
@@ -19,6 +20,8 @@ const SelectedVCsTableRow = ({
   vc,
   handleRemove,
 }: SelectedVCsTableRowProps) => {
+  const t = useTranslations('SelectedVCsTableRow');
+
   let issuer = '';
   if (typeof vc.data.issuer === 'string') {
     issuer = vc.data.issuer;
@@ -58,7 +61,10 @@ const SelectedVCsTableRow = ({
       <td>{type}</td>
       <td>
         {
-          <Tooltip tooltip="Open in Universal Resolver">
+          <Tooltip
+            content={t('open-did')}
+            className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
+          >
             <a
               href={`https://dev.uniresolver.io/#${issuer}`}
               target="_blank"
@@ -76,12 +82,13 @@ const SelectedVCsTableRow = ({
         {!isPolygonVC(vc) ? (
           <span className="flex items-center justify-center">
             <Tooltip
-              tooltip={`${
+              className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
+              content={`${
                 vc.data.expirationDate === undefined
-                  ? 'Does not have expiration date'
-                  : `${validity === true ? 'Expires' : 'Expired'} on ${new Date(
-                      vc.data.expirationDate
-                    ).toDateString()}`
+                  ? t('no-expiration-date')
+                  : `${
+                      validity === true ? t('expires-on') : t('expired-on')
+                    } ${new Date(vc.data.expirationDate).toDateString()}`
               }`}
             >
               {validity === true ? (
@@ -94,9 +101,8 @@ const SelectedVCsTableRow = ({
         ) : (
           <span className="flex items-center justify-center">
             <Tooltip
-              tooltip={
-                "PolygonID VCs aren't supported yet. Please remove this credential to continue!"
-              }
+              className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
+              content={t('polygon-unsupported')}
             >
               <ExclamationCircleIcon className="h-6 w-6 text-red-500" />
             </Tooltip>

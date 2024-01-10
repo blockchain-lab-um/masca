@@ -3,6 +3,7 @@ import { isError } from '@blockchain-lab-um/masca-connector';
 import { Tab } from '@headlessui/react';
 import { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 
 import Button from '@/components/Button';
 import FormatedPanel from '@/components/CredentialDisplay/FormatedPanel';
@@ -18,6 +19,7 @@ export const CredentialView = ({
   credential,
   scanNewCode,
 }: CredentialViewProps) => {
+  const t = useTranslations('CredentialView');
   const changeRequest = useSessionStore((state) => state.changeRequest);
 
   const mascaApi = useMascaStore((state) => state.mascaApi);
@@ -38,7 +40,7 @@ export const CredentialView = ({
     setTimeout(() => {
       useToastStore.setState({
         open: true,
-        text: 'Saving',
+        text: t('saving'),
         type: 'normal',
         loading: true,
         link: null,
@@ -56,7 +58,7 @@ export const CredentialView = ({
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          text: 'Error while saving',
+          text: t('saving-error'),
           type: 'error',
           loading: false,
           link: null,
@@ -68,7 +70,7 @@ export const CredentialView = ({
     setTimeout(() => {
       useToastStore.setState({
         open: true,
-        text: 'Successfully saved',
+        text: t('saving-success'),
         type: 'success',
         loading: false,
         link: null,
@@ -124,15 +126,15 @@ export const CredentialView = ({
             <FormatedPanel credential={credential} />
           </Tab.Panel>
           <Tab.Panel>
-            <JsonPanel credential={credential} />
+            <JsonPanel data={credential} />
           </Tab.Panel>
         </Tab.Panels>
         <div className="mt-8 flex justify-end">
           <Button variant="cancel" onClick={() => onScanNewCode()}>
-            {'Cancel'}
+            {t('cancel')}
           </Button>
           <Button variant="primary" onClick={() => handleSaveCredential()}>
-            {'Save'}
+            {t('save')}
           </Button>
         </div>
       </Tab.Group>

@@ -1,5 +1,6 @@
 const StylelintPlugin = require('stylelint-webpack-plugin');
 const path = require('path');
+const withNextIntl = require('next-intl/plugin')();
 
 // Content-Security-Policy
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
@@ -109,4 +110,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+module.exports = withNextIntl(nextConfig);

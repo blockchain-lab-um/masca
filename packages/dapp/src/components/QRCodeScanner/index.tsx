@@ -43,14 +43,12 @@ const QRCodeScanner = ({
     }
 
     return () => {
-      if (scanner && scanner.isScanning) {
-        scanner.stop().catch((e) => {});
-      }
+      setScanner(null);
     };
   }, []);
 
   useEffect(() => {
-    if (scanner) {
+    if (scanner && !scanner.isScanning) {
       const config: Html5QrcodeCameraScanConfig = {
         fps: 60,
         qrbox: { width: 200, height: 200 },
@@ -60,7 +58,12 @@ const QRCodeScanner = ({
         .start(
           { facingMode: 'environment' },
           config,
-          onScanSuccess,
+          (decodedText, _) => {
+            onScanSuccess(decodedText, _);
+            if (scanner && scanner.isScanning) {
+              scanner.stop().catch((error) => console.error(error));
+            }
+          },
           onScanFailure
         )
         .catch((e) => {
@@ -73,11 +76,12 @@ const QRCodeScanner = ({
               link: null,
             });
           }, 200);
+          setOpen(false);
         });
     }
     return () => {
       if (scanner && scanner.isScanning) {
-        scanner.stop().catch((e) => {});
+        setScanner(null);
       }
     };
   }, [scanner]);

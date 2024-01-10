@@ -1,10 +1,14 @@
 {
+  "AddressDisplay": {
+    "title": "Address",
+    "tooltip": "Open Address in Etherscan"
+  },
   "AppBottomBar": {
-    "dashboard": "Dashboard",
     "create-credential": "Create Credential",
+    "dashboard": "Dashboard",
     "qr-scanner": "QR Code Scanner",
-    "verify-data": "Verify Data",
-    "settings": "Settings"
+    "settings": "Settings",
+    "verify-data": "Verify Data"
   },
   "AppNavbar": {
     "address": {
@@ -17,16 +21,12 @@
       "create-credential": "Create Credential",
       "description": {
         "authorization-request": "Create a presentation using the OpenID Connect protocol",
-        "blog": "Read the Blockchain Lab:UM Medium Blog",
         "create-credential": "Create a custom credential",
-        "discord": "Join the Blockchain Lab:UM Discord Server",
         "documentation": "Read the Masca documentation",
-        "ecosystem": "View the Masca Ecosystem",
         "get-credential": "Get your credential using the OpenID Connect protocol",
-        "github": "View Masca code on GitHub",
         "qr-code-session": "Create session to scan QR codes using your mobile device",
         "qr-scanner": "Start various Authorization and CredentialOffer Flows",
-        "twitter": "Follow Masca on Twitter",
+        "shared-presentations": "Dashboard for management of Shared Presentations",
         "verify-data": "Verify credentials & presentations"
       },
       "discord": "Discord",
@@ -36,6 +36,7 @@
       "github": "GitHub",
       "qr-code-session": "QR Scanner",
       "qr-scanner": "QR Code Scanner",
+      "shared-presentations": "Shared Presentations",
       "twitter": "Twitter",
       "verify-data": "Verify Data"
     },
@@ -72,18 +73,9 @@
     "start-secondary": "Scan the connection QR code to connect to your primary device",
     "success": "Connection established!"
   },
-  "JsonModal": {
-    "back": "Back"
-  },
   "ConnectedProvider": {
     "connect": "Connect Wallet & Install Masca to continue",
-    "version": "Please install the latest version of MetaMask!",
-    "masca": "Masca",
-    "masca-desc": "Manage Decentralized Identity in MetaMask",
     "features": {
-      "feat-1": "Own your Identity",
-      "feat-2": "Manage Credentials securely",
-      "feat-3": "Universal Compatibility with Identity Flows",
       "desc-1-1": "Imagine your ",
       "desc-1-2": "Ethereum account ",
       "desc-1-3": "as a passport in the digital world. With just a few clicks, transform your existing account into a ",
@@ -96,23 +88,36 @@
       "desc-3-2": "Polygon ID ",
       "desc-3-3": "and ",
       "desc-3-4": "OID4VC, ",
-      "desc-3-5": "making your life easier and more secure."
-    }
+      "desc-3-5": "making your life easier and more secure.",
+      "feat-1": "Own your Identity",
+      "feat-2": "Manage Credentials securely",
+      "feat-3": "Universal Compatibility with Identity Flows"
+    },
+    "masca": "Masca",
+    "masca-desc": "Manage Decentralized Identity in MetaMask",
+    "version": "Please install the latest version of MetaMask!"
   },
   "Controlbar": {
+    "import": "Import credential",
     "query": "Querying credentials",
     "query-error": "Failed to query credentials",
     "query-success": "Successfully queried credentials",
+    "refresh": "Refresh credentials",
     "save-error": "Failed to save credential. VC was invalid",
     "save-error-title": "Failed to save credential",
-    "save-success": "Successfully saved credential"
+    "save-success": "Successfully saved credential",
+    "share": "Share selected credentials",
+    "sign-in-to-share": "Sign in to share credentials"
+  },
+  "NotFoundPresentation": {
+    "title": "Presentation could not be found!"
   },
   "CreateConnectionModal": {
     "desc": " Scan this QR code with your mobile device to create a connection to this page.",
     "title": "Connection QR Code"
   },
   "CreateCredentialDisplay": {
-    "invalidMethod": "Polygon ID & Iden3 are not yet supported. Switch to any other DID method to create a VC!",
+    "invalidMethod": "Polygon ID & Iden3 are not yet supported. Switch to any other DID method to create a presentation!",
     "options": {
       "format": "Format",
       "title": "OPTIONS"
@@ -136,7 +141,7 @@
       "title": "ADVANCED",
       "tooltip": "Only applicable to JWT proof format."
     },
-    "invalidMethod": "Polygon ID & Iden3 methods are not yet supported. Switch to any other DID method to create a VC!",
+    "invalidMethod": "Polygon ID & Iden3 methods are not yet supported. Switch to any other DID method to create a Presentation!",
     "options": {
       "format": "Format",
       "title": "OPTIONS"
@@ -153,6 +158,32 @@
     "tooltip": {
       "polygonid": "Polygon ID VCs aren't supported yet. Please remove this credential to continue!"
     }
+  },
+  "CredentialCard": {
+    "create-verifiable-presentation": "Create Presentation",
+    "expires": "EXPIRES ON",
+    "issued": "ISSUED BY",
+    "issued-date": "ISSUED ON",
+    "more": "MORE >",
+    "no-exp-date": "No Expiration",
+    "select": "SELECT",
+    "selected": "DESELECT",
+    "credential-valid": "Credential is valid",
+    "credential-invalid": "Credential is invalid",
+    "tooltip": {
+      "delete": "Delete the credential",
+      "no-exp-date": "Does not have an expiration date",
+      "open-did": "Open DID in Universal resolver",
+      "share": "Share the verifiable credential",
+      "sign-in-to-share": "Sign in to share the credential",
+      "status": "Validity of the VC",
+      "store": "Where the VC is stored"
+    }
+  },
+  "CredentialCards": {
+    "create-verifiable-presentation": "Create Presentation",
+    "credentials": "My Credentials",
+    "found": "credential(s) found"
   },
   "CredentialDisplay": {
     "create-presentation": "Create Presentation",
@@ -184,20 +215,77 @@
     "switch-to": "Switch to ",
     "to-continue": "to continue"
   },
+  "CredentialView": {
+    "saving": "Saving credential",
+    "saving-error": "Failed to save credential",
+    "saving-success": "Successfully saved credential",
+    "cancel": "Cancel",
+    "save": "Save"
+  },
+  "FormatedView": {
+    "holder": "Holder",
+    "presented": "Presented",
+    "credentials": "Credentials",
+    "credential-status": "Status",
+    "credential-valid": "Credential is valid",
+    "credential-invalid": "Credential is invalid",
+    "valid": "Valid",
+    "invalid": "Invalid",
+    "presentation-status": "Status",
+    "presentation-valid": "Presentation is valid",
+    "presentation-invalid": "Presentation is invalid"
+  },
+  "CredentialPanel": {
+    "title": "Credential",
+    "status": "Status",
+    "dates": "DATES",
+    "expiration-date": "Expiration Date",
+    "issuer": "ISSUER",
+    "isuance-date": "Issuance Date",
+    "subject": "SUBJECT",
+    "view-json": "View JSON",
+    "credential-valid": "Credential is valid",
+    "credential-invalid": "Credential is invalid"
+  },
+  "Error": {
+    "title": "Something went wrong",
+    "try-again": "Try again"
+  },
+  "CredentialTable": {
+    "create-verifiable-presentation": "Create Presentation",
+    "menu": {
+      "delete": "Delete",
+      "menu": "Static VC Actions",
+      "share": "Share",
+      "view": "View"
+    },
+    "table-header": {
+      "actions": "ACTIONS",
+      "credentials": "My Credentials",
+      "data_store": "DATA STORE",
+      "date": "DATE",
+      "exp_date": "EXPIRATION DATE",
+      "fetched": "Fetched",
+      "found": "credential(s) found",
+      "issuer": "ISSUER",
+      "status": "STATUS",
+      "subject": "SUBJECT",
+      "type": "TYPE"
+    },
+    "tooltip": {
+      "delete": "Delete the credential",
+      "no-exp-date": "Does not have an expiration date",
+      "open-did": "Open DID in Universal resolver",
+      "share": "Share the verifiable credential",
+      "sign-in-to-share": "Sign in to share the credential",
+      "status": "Validity of the VC",
+      "store": "Where the VC is stored"
+    }
+  },
   "DIDDisplay": {
     "tooltip": "Open DID in Universal Resolver"
   },
-  "Dashboard": {
-    "card": {
-      "expires": "EXPIRES ON",
-      "issued": "ISSUED BY",
-      "issued-date": "ISSUED ON",
-      "more": "MORE >",
-      "no-exp-date": "No Expiration",
-      "select": "SELECT",
-      "selected": "DESELECT"
-    },
-    "create-verifiable-presentation": "Create Presentation",
+  "DashboardDisplay": {
     "no-credentials": {
       "get": "Get your first credential",
       "load": "Load Credentials",
@@ -209,30 +297,7 @@
     },
     "query-error": "Failed to query credentials",
     "query-no-credentials": "No credentials found",
-    "query-success": "Successfully queried credentials",
-    "search": "Search all columns...",
-    "table": {
-      "actions": "ACTIONS",
-      "expiration-date": "EXPIRATION DATE",
-      "issuance-date": "ISSUANCE DATE",
-      "issuer": "ISSUER",
-      "select": "SELECT",
-      "status": "STATUS",
-      "store": "STORE",
-      "subject": "SUBJECT",
-      "type": "TYPE"
-    },
-    "table-header": {
-      "credentials": "My Credentials",
-      "fetched": "Fetched",
-      "found": "credential(s) found"
-    },
-    "tooltip": {
-      "no-exp-date": "Does not have an expiration date",
-      "open-did": "Open DID in Universal resolver",
-      "status": "Validity of the VC",
-      "store": "Where the VC is stored"
-    }
+    "query-success": "Successfully queried credentials"
   },
   "DeleteCredentialModal": {
     "cancel": "Cancel",
@@ -243,21 +308,38 @@
     "desc": "Approving this action will remove the credential from your wallet. This action cannot be undone.",
     "title": "Delete Credential"
   },
+  "DeleteSharedPresentationModal": {
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "delete-error": "Failed to delete presentation",
+    "delete-success": "Successfully deleted presentation",
+    "description": "Are you sure you want to delete this shared presentation?",
+    "title": "Delete Shared Presentation"
+  },
+  "FilterPopover": {
+    "clear": "clear",
+    "datastore": "Data Store",
+    "ecosystem": "Ecosystem",
+    "filter": "Filter",
+    "title": "Filter Credentials",
+    "type": "Type"
+  },
   "FormatedPanel": {
     "dates": "DATES",
     "expiration-date": "Expiration Date",
     "issuer": "ISSUER",
     "isuance-date": "Issuance Date",
     "subject": "SUBJECT",
-    "view-json": "View"
+    "view-json": "View",
+    "credential-valid": "Credential is valid",
+    "credential-invalid": "Credential is invalid"
   },
-  "FilterPopover": {
-    "clear": "clear",
-    "filter": "Filter",
-    "title": "Filter Credentials",
-    "ecosystem": "Ecosystem",
-    "datastore": "Data Store",
-    "type": "Type"
+  "SelectedVCsTableRow": {
+    "open-did": "Open DID in Universal resolver",
+    "no-expiration-date": "No Expiration Date",
+    "expires-on": "Expires on",
+    "expired-on": "Expired on",
+    "polygon-unsupported": "PolygonID VCs aren't supported yet. Please remove this credential to continue!"
   },
   "FriendlydAppTable": {
     "add-failed": "Failed to add Friendly dapp",
@@ -279,8 +361,8 @@
     "saving-error": "Failed to save credential",
     "saving-success": "Successfully saved credential"
   },
-  "AddressDisplay": {
-    "tooltip": "Open Address in Etherscan"
+  "GlobalFilter": {
+    "search": "Search"
   },
   "Home": {
     "SSI": "Decentralized Identity",
@@ -300,6 +382,12 @@
     "storage": "Storage",
     "storage-desc": "Select one ore more data stores where the credential will be stored.",
     "title": "Import Credential"
+  },
+  "JsonModal": {
+    "back": "Back"
+  },
+  "LastFetched": {
+    "label": "Last Fetched"
   },
   "MetaMaskProvider": {
     "metamask": "You need MetaMask to use the dapp!",
@@ -327,10 +415,10 @@
     "title": "OIDC Authorization Request"
   },
   "PolygonAuthView": {
-    "start": "Start Flow",
     "error": "Failed to finish Polygon Authorization Request!",
     "finished": "Authorization Request finished",
     "new-scan": "Scan New Code",
+    "start": "Start Flow",
     "success": "Succesfully finished Polygon Authorization Request!",
     "switch-to": "Switch to did:polygonid or did:iden3 to continue!",
     "title": "Polygon Authorization Request"
@@ -401,37 +489,79 @@
   },
   "SettingsCard": {
     "backup": "Backup State",
+    "backup-google-desc": "Backup your Masca data to Google Drive. All Settings and VCs stored in Masca will be saved. All data is encrypted!",
+    "backup-manual-desc": "Backup your Masca data to a file. All Settings and VCs stored in Masca will be saved. All data is encrypted!",
     "ceramic-error": "Failed to toggle Ceramic",
     "ceramic-success": "Successfully toggled Ceramic",
     "data-store": "Data Stores",
     "data-store-desc": "Enable or disable data stores. Data stores are places where VCs are stored.",
-    "disable-popups": "Disable Pop-ups",
-    "export-desc": "Export encrypted Masca backup to a file.",
-    "import-desc": "Import encrypted Masca backup from a file.",
-    "export-google": "Export to Google Drive",
-    "import-google": "Import from Google Drive",
-    "delete-google": "Delete from Google Drive",
-    "backup-google-desc": "Backup your Masca data to Google Drive. All Settings and VCs stored in Masca will be saved. All data is encrypted!",
-    "backup-manual-desc": "Backup your Masca data to a file. All Settings and VCs stored in Masca will be saved. All data is encrypted!",
-    "export": "Export",
-    "import": "Import",
-    "export-error": "Failed to export backup",
-    "export-success": "Successfully exported backup",
-    "import-error": "Failed to import backup",
-    "import-success": "Successfully imported backup",
     "delete-error": "Failed to delete backup",
+    "delete-google": "Delete from Google Drive",
     "delete-success": "Successfully deleted backup",
-    "unknown-error": "Unknown error",
+    "disable-popups": "Disable Pop-ups",
+    "export": "Export",
+    "export-desc": "Export encrypted Masca backup to a file.",
+    "export-error": "Failed to export backup",
+    "export-google": "Export to Google Drive",
+    "export-success": "Successfully exported backup",
+    "import": "Import",
+    "import-desc": "Import encrypted Masca backup from a file.",
+    "import-error": "Failed to import backup",
+    "import-google": "Import from Google Drive",
+    "import-success": "Successfully imported backup",
     "not-implemented": "Not implemented yet",
     "popups": "Pop-ups",
     "popups-desc": "Disabling pop-ups is very dangerous. We recommend setting friendly dapps instead!",
     "title": "Settings",
+    "unknown-error": "Unknown error",
     "wallet-error": "Failed to get wallet ID"
+  },
+  "ShareCredentialModal": {
+    "cancel": "Cancel",
+    "close": "Close",
+    "confirm": "Confirm",
+    "create-presentation-error": "Failed to create presentation",
+    "description": "By sharing credentials, you generate a presentation that includes the selected credentials. Anyone with the link can view the presentation and verify the proofs.",
+    "label": "Title",
+    "placeholder": "Enter a title for the presentation. This can't be changed later.",
+    "please-sign-in": "Please sign in to share your credentials",
+    "selected": "Selected Credentials",
+    "share-presentation-error": "Failed to share presentation",
+    "share-presentation-success": "Successfully shared presentation",
+    "title": "Publicly Share Credentials",
+    "unsupported-credentials-description": "Sharing of Polygon ID & Iden3 credentials is not yet supported. Unselect them to continue!",
+    "unsupported-credentials-title": "Unsupported Credentials Selected",
+    "unsupported-method-description": "Polygon ID & Iden3 methods do not support credential sharing yet, please switch to any other DID method to continue!",
+    "unsupported-method-title": "Unsupported DID Method"
+  },
+  "SharedPresentations": {
+    "table-header": {
+      "actions": "Actions",
+      "created_at": "Created At",
+      "expires_at": "Expires At",
+      "title": "Title",
+      "views": "Views"
+    },
+    "title": "Shared Presentations",
+    "total": "Total Shared Presentations:"
+  },
+  "SignInModal": {
+    "cancel": "Cancel",
+    "description": "To use some of the advanced features of Masca Dapp, you need to sign in.",
+    "sign-in-error": "Failed to sign in",
+    "sign-in-success": "Successfully signed in",
+    "sign-in-with-ethereum": "Sign in with Ethereum",
+    "title": "Sign in"
   },
   "StartFlowView": {
     "new-scan": "Scan New Code",
     "scanned": "Code Scanned! Proceed on your primary device",
     "scanned-desc": "You can Scan/Upload a new QR code once the primary device indicates so"
+  },
+  "SupabaseProvider": {
+    "description": "To use some of the advanced features of Masca Dapp, you need to sign in.",
+    "sign-in": "Sign in",
+    "sign-in-to-continue": "Please sign in to continue"
   },
   "UploadButton": {
     "import": "Import"

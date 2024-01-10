@@ -8,17 +8,15 @@
   margin: 0;
 }
 
-html {
-  overflow: hidden;
-  position: fixed;
-  height: 100%;
-  width: 100%;
-}
-
 html,
 body {
+  min-height: 100%;
   max-width: 100vw;
   overflow-x: hidden;
+}
+
+body {
+  overflow: visible;
 }
 
 @layer components {

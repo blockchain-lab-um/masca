@@ -105,5 +105,6 @@ module.exports = {
     'templates',
     'external',
     '.nx',
+    '**/database.types.ts',
   ],
 };

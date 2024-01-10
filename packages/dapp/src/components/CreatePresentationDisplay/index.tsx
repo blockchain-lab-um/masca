@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
   isError,
   type QueryCredentialsRequestResult,
@@ -33,18 +33,13 @@ const proofFormats: Record<string, SupportedProofFormats> = {
 
 const CreatePresentationDisplay = () => {
   const t = useTranslations('CreatePresentationDisplay');
+
+  const router = useRouter();
+
+  // Local state
   const [loading, setLoading] = useState(false);
   const [vpModalOpen, setVpModalOpen] = useState(false);
   const [vp, setVp] = useState({});
-  const { selectedVCs, setSelectedVCs } = useTableStore((state) => ({
-    selectedVCs: state.selectedVCs,
-    setSelectedVCs: state.setSelectedVCs,
-  }));
-  const { didMethod, api } = useMascaStore((state) => ({
-    didMethod: state.currDIDMethod,
-    api: state.mascaApi,
-  }));
-
   const [format, setFormat] = useState('JWT');
   const [advanced, setAdvanced] = useState(false);
   const [challenge, setChallenge] = useState('');
@@ -56,6 +51,18 @@ const CreatePresentationDisplay = () => {
     'JSON-LD',
     'EIP712Signature',
   ]);
+
+  // Global state
+  const { selectedCredentials, setSelectedCredentials } = useTableStore(
+    (state) => ({
+      selectedCredentials: state.selectedCredentials,
+      setSelectedCredentials: state.setSelectedCredentials,
+    })
+  );
+  const { didMethod, api } = useMascaStore((state) => ({
+    didMethod: state.currDIDMethod,
+    api: state.mascaApi,
+  }));
 
   useEffect(() => {
     setInvalidMethod(false);
@@ -73,17 +80,16 @@ const CreatePresentationDisplay = () => {
 
   useEffect(() => {
     setIncludesPolygonVC(false);
-    selectedVCs?.forEach((vc) => {
+    selectedCredentials?.forEach((vc) => {
       if (isPolygonVC(vc)) {
-        console.log('true');
         setIncludesPolygonVC(true);
       }
     });
-  }, [selectedVCs]);
+  }, [selectedCredentials]);
 
   const handleRemove = (id: string) => {
-    setSelectedVCs(
-      selectedVCs?.filter(
+    setSelectedCredentials(
+      selectedCredentials?.filter(
         (vc: QueryCredentialsRequestResult) => vc.metadata.id !== id
       )
     );
@@ -92,7 +98,7 @@ const CreatePresentationDisplay = () => {
   const handleCreatePresentation = async () => {
     if (!api) return;
     setLoading(true);
-    const vcs: W3CVerifiableCredential[] = selectedVCs.map(
+    const vcs: W3CVerifiableCredential[] = selectedCredentials.map(
       (vc) => removeCredentialSubjectFilterString(vc).data
     );
 
@@ -116,11 +122,14 @@ const CreatePresentationDisplay = () => {
   return (
     <>
       <div className="mt-5 flex w-full justify-between px-6 pt-2">
-        <Link href="/app" className="flex items-center">
-          <button className="animated-transition dark:text-navy-blue-50 dark:hover:bg-navy-blue-700 rounded-full text-gray-800 hover:bg-pink-100 hover:text-pink-700">
-            <ArrowLeftIcon className="h-6 w-6" />
-          </button>
-        </Link>
+        <button
+          onClick={() => {
+            router.back();
+          }}
+          className="animated-transition dark:text-navy-blue-50 dark:hover:bg-navy-blue-700 rounded-full text-gray-800 hover:bg-pink-100 hover:text-pink-700"
+        >
+          <ArrowLeftIcon className="h-6 w-6" />
+        </button>
         <div className="text-h3 dark:text-navy-blue-50 font-semibold text-gray-800">
           {t('title')}
         </div>
@@ -140,7 +149,7 @@ const CreatePresentationDisplay = () => {
             </tr>
           </thead>
           <tbody className="text-md break-all text-gray-800">
-            {selectedVCs.map((vc) => (
+            {selectedCredentials.map((vc) => (
               <SelectedVCsTableRow
                 handleRemove={handleRemove}
                 key={vc.metadata.id}
@@ -175,7 +184,7 @@ const CreatePresentationDisplay = () => {
             <div className="mt-16 flex items-baseline justify-between border-b border-gray-300 px-4">
               <div className="text-h5 dark:text-navy-blue-100 font-ubuntu mt-8 flex font-medium text-gray-800">
                 {t('advanced.title')}{' '}
-                <InfoIcon>{t('advanced.tooltip')}</InfoIcon>
+                <InfoIcon content={t('advanced.tooltip')} />
               </div>
               <div className="">
                 <ToggleSwitch
@@ -221,7 +230,7 @@ const CreatePresentationDisplay = () => {
             )}
           </div>
           <div className="mt-8 flex justify-end p-3">
-            {selectedVCs.length > 0 && (
+            {selectedCredentials.length > 0 && (
               <Button
                 variant="primary"
                 size="sm"

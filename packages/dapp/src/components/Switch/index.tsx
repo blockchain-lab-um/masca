@@ -69,7 +69,7 @@ export default function ToggleSwitch({
         sizes[size],
         `shadow-${shadow}`,
         `rounded-${rounded}`,
-        `w- relative inline-flex items-center`
+        `relative inline-flex items-center`
       )}
     >
       <span className="sr-only">Enable notifications</span>
