@@ -11,12 +11,10 @@ import detectEthereumProvider from '@metamask/detect-provider';
 import { useGeneralStore, useMascaStore } from '@/stores';
 import { useAuthStore } from '@/stores/authStore';
 
-// const snapId =
-//   process.env.USE_LOCAL === 'true'
-//     ? 'local:http://localhost:8081'
-//     : 'npm:@blockchain-lab-um/masca';
-
-const snapId = 'npm:@blockchain-lab-um/masca';
+const snapId =
+  process.env.USE_LOCAL === 'true'
+    ? 'local:http://localhost:8081'
+    : 'npm:@blockchain-lab-um/masca';
 
 const CheckMetaMaskCompatibility = () => {
   const { changeHasMetaMask, changeHasSnaps } = useGeneralStore((state) => ({
@@ -102,6 +100,11 @@ const CheckMetaMaskCompatibility = () => {
   };
 
   const enableMascaHandler = async () => {
+    console.log(
+      '🚀 ~ enableMascaHandler ~ process.env.NEXT_PUBLIC_MASCA_VERSION: ',
+      process.env.NEXT_PUBLIC_MASCA_VERSION
+    );
+    console.log('🚀 ~ enableMascaHandler ~ snapId: ', snapId);
     const enableResult = await enableMasca(address, {
       snapId,
       version: process.env.NEXT_PUBLIC_MASCA_VERSION,
