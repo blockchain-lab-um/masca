@@ -10,7 +10,7 @@ import InputField from '../InputField';
 export const TrustedDappTable = () => {
   const t = useTranslations('TrustedDappTable');
   const [settings, setSettings] = useState<MascaConfig>();
-  const [origin, setOrigin] = useState<string>('https://masca.io');
+  const [origin, setOrigin] = useState<string>(window.location.origin);
   const { api } = useMascaStore((state) => ({
     api: state.mascaApi,
   }));
@@ -40,8 +40,6 @@ export const TrustedDappTable = () => {
         link: null,
       });
     }, 200);
-
-    console.log(origin);
     const res = await api.addTrustedDapp(origin);
 
     if (res) {
