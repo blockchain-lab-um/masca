@@ -82,7 +82,6 @@ const CreatePresentationDisplay = () => {
     setIncludesPolygonVC(false);
     selectedCredentials?.forEach((vc) => {
       if (isPolygonVC(vc)) {
-        console.log('true');
         setIncludesPolygonVC(true);
       }
     });
