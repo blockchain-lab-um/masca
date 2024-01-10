@@ -100,11 +100,6 @@ const CheckMetaMaskCompatibility = () => {
   };
 
   const enableMascaHandler = async () => {
-    console.log(
-      '🚀 ~ enableMascaHandler ~ process.env.NEXT_PUBLIC_MASCA_VERSION: ',
-      process.env.NEXT_PUBLIC_MASCA_VERSION
-    );
-    console.log('🚀 ~ enableMascaHandler ~ snapId: ', snapId);
     const enableResult = await enableMasca(address, {
       snapId,
       version: process.env.NEXT_PUBLIC_MASCA_VERSION,
@@ -165,6 +160,10 @@ const CheckMetaMaskCompatibility = () => {
     changeIsConnecting(false);
     changePopups(snapSettings.data.dApp.disablePopups);
   };
+  console.log(
+    '🚀 ~ enableMascaHandler ~ enableMascaHandler: ',
+    enableMascaHandler
+  );
 
   useEffect(() => {
     if (hasMM && hasSnaps && window.ethereum) {
