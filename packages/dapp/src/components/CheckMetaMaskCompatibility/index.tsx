@@ -160,10 +160,6 @@ const CheckMetaMaskCompatibility = () => {
     changeIsConnecting(false);
     changePopups(snapSettings.data.dApp.disablePopups);
   };
-  console.log(
-    '🚀 ~ enableMascaHandler ~ enableMascaHandler: ',
-    enableMascaHandler
-  );
 
   useEffect(() => {
     if (hasMM && hasSnaps && window.ethereum) {
