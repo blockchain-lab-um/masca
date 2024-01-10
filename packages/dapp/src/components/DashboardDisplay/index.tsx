@@ -141,7 +141,7 @@ const DashboardDisplay = () => {
     );
 
   return (
-    <div className="h-full w-full">
+    <div className="w-full">
       {cardView ? (
         <CredentialCards vcs={filteredCredentialList} />
       ) : (
