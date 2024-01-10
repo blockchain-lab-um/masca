@@ -271,6 +271,12 @@
     "removing": "Removing trusted dapp",
     "add": "Add"
   },
+  "AddTrustedDappModal": {
+    "add-title": "Add trusted dapp",
+    "input-url": "Input the URL of the dapp you want to add.",
+    "cancel": "Cancel",
+    "add": "Add"
+  },
   "GetCredential": {
     "handling": "Handling credential offer",
     "handling-error": "Failed to handle credential offer",
