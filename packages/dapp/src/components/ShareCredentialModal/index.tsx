@@ -282,7 +282,7 @@ export const ShareCredentialModal = () => {
                   <Button
                     disabled={isLoading}
                     loading={isLoading}
-                    variant="warning"
+                    variant="primary"
                     size="xs"
                     onClick={() =>
                       handleShareCredential().finally(() => setIsLoading(false))
