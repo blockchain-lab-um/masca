@@ -15,6 +15,11 @@ const snapId =
     ? 'local:http://localhost:8081'
     : 'npm:@blockchain-lab-um/masca';
 
+const version =
+  process.env.USE_LOCAL === 'true'
+    ? '1.2.0-beta.1'
+    : process.env.NEXT_PUBLIC_MASCA_VERSION;
+
 const CheckMetaMaskCompatibility = () => {
   const { changeHasMetaMask, changeHasSnaps } = useGeneralStore((state) => ({
     changeHasMetaMask: state.changeHasMetaMask,
@@ -96,7 +101,7 @@ const CheckMetaMaskCompatibility = () => {
   const enableMascaHandler = async () => {
     const enableResult = await enableMasca(address, {
       snapId,
-      version: process.env.NEXT_PUBLIC_MASCA_VERSION,
+      version,
     });
     if (isError(enableResult)) {
       // FIXME: This error is shown as [Object object]
