@@ -62,7 +62,7 @@ const SelectedVCsTableRow = ({
       <td>
         {
           <Tooltip
-            content={t('tooltip.open-did')}
+            content={t('open-did')}
             className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
           >
             <a

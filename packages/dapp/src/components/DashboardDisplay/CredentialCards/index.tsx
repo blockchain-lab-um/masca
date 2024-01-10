@@ -18,13 +18,13 @@ export const CredentialCards = ({ vcs }: CredentialCardsProps) => {
   const t = useTranslations('CredentialCards');
   const [page, setPage] = useState(1);
   const router = useRouter();
-  const [selectedCards, setSelectedCards] = useState<
-    QueryCredentialsRequestResult[]
-  >([]);
 
-  const { setSelectedCredentials } = useTableStore((state) => ({
-    setSelectedCredentials: state.setSelectedCredentials,
-  }));
+  const { selectedCredentials, setSelectedCredentials } = useTableStore(
+    (state) => ({
+      selectedCredentials: state.selectedCredentials,
+      setSelectedCredentials: state.setSelectedCredentials,
+    })
+  );
 
   const pages = Math.ceil(vcs.length / CARDS_PER_PAGE);
 
@@ -37,11 +37,6 @@ export const CredentialCards = ({ vcs }: CredentialCardsProps) => {
 
     return newItems;
   }, [page, vcs]);
-
-  const selectedVCs = useMemo(() => {
-    setSelectedCredentials(selectedCards);
-    return selectedCards;
-  }, [selectedCards]);
 
   return (
     <div className="flex h-full w-full flex-col justify-between pb-4">
@@ -63,17 +58,19 @@ export const CredentialCards = ({ vcs }: CredentialCardsProps) => {
               key={key}
               onClick={() => {
                 // Add VC to selectedCards if not already in, else remove it
-                if (!selectedCards.includes(vc)) {
-                  setSelectedCards([...selectedCards, vc]);
+                if (!selectedCredentials.includes(vc)) {
+                  setSelectedCredentials([...selectedCredentials, vc]);
                 } else {
-                  setSelectedCards(selectedCards.filter((item) => item !== vc));
+                  setSelectedCredentials(
+                    selectedCredentials.filter((item) => item !== vc)
+                  );
                 }
               }}
             >
               <CredentialCard
                 key={key}
                 vc={vc}
-                selected={selectedCards.includes(vc)}
+                selected={selectedCredentials.includes(vc)}
               />
             </div>
           ))}
@@ -94,7 +91,7 @@ export const CredentialCards = ({ vcs }: CredentialCardsProps) => {
           />
         </div>
         <div className="flex w-1/3 items-center justify-end">
-          {selectedVCs.length > 0 && (
+          {selectedCredentials.length > 0 && (
             <Button
               color="primary"
               size="md"
@@ -103,7 +100,8 @@ export const CredentialCards = ({ vcs }: CredentialCardsProps) => {
                 router.push('/app/create-verifiable-presentation');
               }}
             >
-              {t('create-verifiable-presentation')} ({selectedVCs.length})
+              {t('create-verifiable-presentation')} (
+              {selectedCredentials.length})
             </Button>
           )}
         </div>

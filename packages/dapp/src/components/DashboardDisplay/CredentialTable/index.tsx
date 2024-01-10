@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
@@ -302,7 +302,6 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
   // get selected VCs from selected keys on change
   const selectedVCs = useMemo(() => {
     const selVcs = getSelectedVCs(selectedKeys);
-    setSelectedCredentials(selVcs);
     return selVcs;
   }, [selectedKeys]);
 
@@ -328,6 +327,10 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
 
     return newItems;
   }, [sortDescriptor, page, vcs]);
+
+  useEffect(() => {
+    setSelectedCredentials(selectedVCs);
+  }, [selectedVCs]);
 
   return (
     <div className="flex h-full w-full flex-col justify-between">

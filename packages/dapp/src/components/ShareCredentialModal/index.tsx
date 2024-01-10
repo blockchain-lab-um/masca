@@ -219,8 +219,8 @@ export const ShareCredentialModal = () => {
                             {t('selected')}
                           </h3>
                           <div className="flex flex-col space-y-2">
-                            {types.map(({ key, value }) => (
-                              <div key={key}>{value}</div>
+                            {types.map(({ key, value }, i) => (
+                              <div key={i}>{value}</div>
                             ))}
                           </div>
                         </div>
