@@ -55,7 +55,7 @@ describe('createVerifiableCredential', () => {
       agent = VeramoService.getAgent();
 
       const switchMethod = (await onRpcRequest({
-        origin: 'localhost',
+        origin: 'http://localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
@@ -78,7 +78,7 @@ describe('createVerifiableCredential', () => {
     describe.each(proofFormats)('Using Proof Format: %s', (proofFormat) => {
       it('Should create a VerifiableCredential', async () => {
         const vc = (await onRpcRequest({
-          origin: 'localhost',
+          origin: 'http://localhost',
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
@@ -112,7 +112,7 @@ describe('createVerifiableCredential', () => {
         'Should create and save a VerifiableCredential in %s',
         async (store) => {
           const vc = (await onRpcRequest({
-            origin: 'localhost',
+            origin: 'http://localhost',
             request: {
               id: 'test-id',
               jsonrpc: '2.0',
@@ -133,7 +133,7 @@ describe('createVerifiableCredential', () => {
           }
 
           const res = (await onRpcRequest({
-            origin: 'localhost',
+            origin: 'http://localhost',
             request: {
               id: 'test-id',
               jsonrpc: '2.0',
@@ -158,7 +158,7 @@ describe('createVerifiableCredential', () => {
 
     it('Should create a VC without proofFormat option set', async () => {
       const vc = (await onRpcRequest({
-        origin: 'localhost',
+        origin: 'http://localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
@@ -186,7 +186,7 @@ describe('createVerifiableCredential', () => {
 
     it.skip('Should fail creating a VC without minimalUnsignedCredential', async () => {
       const vc = (await onRpcRequest({
-        origin: 'localhost',
+        origin: 'http://localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
@@ -206,7 +206,7 @@ describe('createVerifiableCredential', () => {
 
     it('Should fail creating a VC with invalid minimalUnsignedCredential', async () => {
       const vc = (await onRpcRequest({
-        origin: 'localhost',
+        origin: 'http://localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',

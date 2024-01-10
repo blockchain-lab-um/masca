@@ -64,7 +64,7 @@ describe('verifyData', () => {
 
   it('should succeed verifiying a VC', async () => {
     const verifyDataResult = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -85,7 +85,7 @@ describe('verifyData', () => {
 
   it('should succeed verifying a VP', async () => {
     const switchMethodResult = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -101,7 +101,7 @@ describe('verifyData', () => {
     }
 
     const createPresentationResult = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -117,7 +117,7 @@ describe('verifyData', () => {
     }
 
     const verified = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',

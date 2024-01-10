@@ -91,7 +91,7 @@ describe('queryVerifiableCredentials', () => {
 
   it('should succeed with empty array', async () => {
     const res = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -111,7 +111,7 @@ describe('queryVerifiableCredentials', () => {
 
   it('should succeed with 1 VC matching query - filter by ID', async () => {
     const saveRes = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -138,7 +138,7 @@ describe('queryVerifiableCredentials', () => {
     ];
 
     const res = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -163,7 +163,7 @@ describe('queryVerifiableCredentials', () => {
 
   it('should succeed with 1 VC matching query - no filter or store', async () => {
     const saveRes = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -190,7 +190,7 @@ describe('queryVerifiableCredentials', () => {
     ];
 
     const res = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -210,7 +210,7 @@ describe('queryVerifiableCredentials', () => {
 
   it('should succeed with 1 VC matching query - store defined', async () => {
     const saveRes = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -237,7 +237,7 @@ describe('queryVerifiableCredentials', () => {
     ];
 
     const res = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -259,7 +259,7 @@ describe('queryVerifiableCredentials', () => {
 
   it('should succeed with 1 VC matching query - without store', async () => {
     const saveRes = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -285,7 +285,7 @@ describe('queryVerifiableCredentials', () => {
     ];
 
     const res = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -307,7 +307,7 @@ describe('queryVerifiableCredentials', () => {
 
   it('should succeed with 1 VC matching query - filter by JSONPath', async () => {
     const saveRes = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -334,7 +334,7 @@ describe('queryVerifiableCredentials', () => {
     ];
 
     const res = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',

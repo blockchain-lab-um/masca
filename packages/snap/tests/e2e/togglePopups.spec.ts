@@ -26,7 +26,7 @@ describe('togglePopups', () => {
 
   it('should enable pop-ups and then disable them', async () => {
     const res = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -42,7 +42,7 @@ describe('togglePopups', () => {
     expect(res.data).toBe(true);
 
     const res2 = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
