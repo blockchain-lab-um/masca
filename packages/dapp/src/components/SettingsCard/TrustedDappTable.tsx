@@ -125,7 +125,7 @@ export const TrustedDappTable = () => {
           </tr>
         </thead>
         <tbody>
-          {settings?.dApp.trustedDapps.map((app, i) => (
+          {settings?.dApp.trustedDapps?.map((app, i) => (
             <tr
               className="dark:border-navy-blue-500 border-t-2 border-gray-200 text-sm"
               key={i}
