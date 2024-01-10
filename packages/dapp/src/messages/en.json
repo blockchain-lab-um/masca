@@ -260,15 +260,15 @@
     "type": "Type"
   },
   "TrustedDappTable": {
-    "add-failed": "Failed to add Trusted dapp",
-    "add-masca": "Add Masca.io to Trusted dapps",
+    "add-failed": "Failed to add trusted dapp",
+    "add-masca": "Add masca.io to trusted dapps",
     "added": "Trusted dapp added",
-    "adding": "Adding Trusted dapp",
+    "adding": "Adding trusted dapp",
     "app-url": "Application URL",
     "popups-desc": "Disabling pop-ups is very dangerous. We recommend setting trusted dapps instead!",
-    "remove-failed": "Failed to remove Trusted dapp",
+    "remove-failed": "Failed to remove trusted dapp",
     "removed": "Trusted dapp removed",
-    "removing": "Removing Trusted dapp",
+    "removing": "Removing trusted dapp",
     "add": "Add"
   },
   "GetCredential": {
