@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 import { SupabaseProvider } from '@/components/SupabaseProvider';
-import { SharedPresentations } from './shared-presentations';
+import { SharedPresentations } from './sharedPresentations';
 
 export const metadata: Metadata = {
   title: 'Shared Presentations',
