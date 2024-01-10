@@ -43,7 +43,6 @@ const DashboardDisplay = () => {
     const loadedVCs = await api.queryCredentials();
 
     if (isError(loadedVCs)) {
-      console.log(loadedVCs.error);
       setTimeout(() => {
         useToastStore.setState({
           open: true,
