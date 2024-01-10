@@ -1,10 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Dialog } from '@headlessui/react';
+import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
 import { Html5Qrcode } from 'html5-qrcode';
 
-import Modal from '@/components/Modal';
 import QRCodeScanner from '@/components/QRCodeScanner';
 
 interface ScanQRCodeModalProps {
@@ -33,21 +32,35 @@ const ScanQRCodeModal = ({
   }, [isOpen]);
 
   return (
-    <Modal isOpen={isOpen} setOpen={setOpen}>
-      <Dialog.Title
-        as="h3"
-        className="font-ubuntu dark:text-navy-blue-50 text-xl font-medium leading-6 text-gray-900 "
-      >
-        {title}
-      </Dialog.Title>
-      <div className="w-[48rem] max-w-full">
-        <QRCodeScanner
-          onScanSuccess={onScanSuccess}
-          scanner={scanner}
-          setScanner={setScanner}
-          setOpen={setOpen}
-        />
-      </div>
+    <Modal
+      backdrop="blur"
+      isOpen={isOpen}
+      size="2xl"
+      hideCloseButton={true}
+      placement="center"
+      className="main-bg py-2"
+    >
+      <ModalContent>
+        {() => (
+          <>
+            <ModalHeader>
+              <div className="text-h3 font-ubuntu dark:text-navy-blue-50 w-full text-center font-medium leading-6 text-gray-900">
+                {title}
+              </div>
+            </ModalHeader>
+            <ModalBody>
+              <div className="w-[48rem] max-w-full">
+                <QRCodeScanner
+                  onScanSuccess={onScanSuccess}
+                  scanner={scanner}
+                  setScanner={setScanner}
+                  setOpen={setOpen}
+                />
+              </div>
+            </ModalBody>
+          </>
+        )}
+      </ModalContent>
     </Modal>
   );
 };

@@ -9,6 +9,7 @@ import {
 import detectEthereumProvider from '@metamask/detect-provider';
 
 import { useGeneralStore, useMascaStore } from '@/stores';
+import { useAuthStore } from '@/stores/authStore';
 
 const snapId =
   process.env.USE_LOCAL === 'true'
@@ -66,6 +67,11 @@ const CheckMetaMaskCompatibility = () => {
     changeCurrMethod: state.changeCurrDIDMethod,
     changeAvailableCredentialStores: state.changeAvailableCredentialStores,
     changePopups: state.changePopups,
+  }));
+
+  const { isSignedIn, changeIsSignInModalOpen } = useAuthStore((state) => ({
+    isSignedIn: state.isSignedIn,
+    changeIsSignInModalOpen: state.changeIsSignInModalOpen,
   }));
 
   const connectHandler = async () => {
@@ -230,6 +236,13 @@ const CheckMetaMaskCompatibility = () => {
       changeIsConnecting(false);
     });
   }, [isConnected, isConnecting]);
+
+  useEffect(() => {
+    if (isSignedIn) return;
+    if (!isConnected) return;
+
+    changeIsSignInModalOpen(true);
+  }, [isSignedIn, isConnected]);
 
   return null;
 };

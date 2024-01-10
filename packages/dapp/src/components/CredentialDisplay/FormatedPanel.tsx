@@ -1,47 +1,24 @@
+'use client';
+
 import { Fragment, useMemo, useState } from 'react';
 import {
   CheckCircleIcon,
+  DocumentDuplicateIcon,
   ExclamationCircleIcon,
-} from '@heroicons/react/20/solid';
-import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
+} from '@heroicons/react/24/outline';
+import { Tooltip } from '@nextui-org/react';
 import { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 import { isAddress } from 'ethers/address';
 import { useTranslations } from 'next-intl';
 
-import Tooltip from '@/components/Tooltip';
+import { DIDDisplay } from '@/components/DIDDisplay';
+import JsonModal from '@/components/JsonModal';
 import { convertTypes, copyToClipboard } from '@/utils/string';
-import JsonModal from '../JsonMdoal';
 
 interface FormatedPanelProps {
   credential: VerifiableCredential;
 }
-
-const DIDDisplay = ({ did }: { did: string }) => {
-  const t = useTranslations('DIDDisplay');
-  return (
-    <div className="flex flex-col space-y-0.5">
-      <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-800">
-        DID:
-      </h2>
-      <div className="flex">
-        <Tooltip tooltip={t('tooltip')}>
-          <a
-            href={`https://dev.uniresolver.io/#${did}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-md animated-transition dark:text-navy-blue-300 cursor-pointer font-normal text-gray-700 underline underline-offset-2"
-          >
-            {did.length > 20 ? `${did.slice(0, 16)}...${did.slice(-4)}` : did}
-          </a>
-        </Tooltip>
-        <button className="pl-1" onClick={() => copyToClipboard(did)}>
-          <DocumentDuplicateIcon className="animated-transition dark:text-navy-blue-300 ml-1 h-5 w-5 text-gray-700 hover:text-gray-700" />
-        </button>
-      </div>
-    </div>
-  );
-};
 
 const AddressDisplay = ({ address }: { address: string }) => {
   const t = useTranslations('AddressDisplay');
@@ -51,7 +28,7 @@ const AddressDisplay = ({ address }: { address: string }) => {
         Address:
       </h2>
       <div className="flex">
-        <Tooltip tooltip={t('tooltip')}>
+        <Tooltip content={t('tooltip')}>
           <a
             href={`https://etherscan.io/address/${address}`}
             target="_blank"
@@ -155,14 +132,22 @@ const FormatedPanel = ({ credential }: FormatedPanelProps) => {
       <div className="flex flex-col space-y-8">
         <div className="dark:from-navy-blue-700 dark:to-navy-blue-700 flex max-w-full items-center rounded-2xl bg-gradient-to-b from-orange-100 to-pink-100 px-4 py-6 shadow-md">
           <div className="w-11/12">
-            <Tooltip tooltip={types}>
+            <Tooltip
+              content={types}
+              className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
+            >
               <h1 className="font-ubuntu dark:text-orange-accent-dark text-left text-lg font-medium text-pink-500 sm:text-xl md:text-2xl lg:truncate">
                 {types}
               </h1>
             </Tooltip>
           </div>
           <div className="flex flex-1 justify-end">
-            <Tooltip tooltip="Credential is valid.">
+            <Tooltip
+              content={
+                isValid ? t('credential-valid') : t('credential-invalid')
+              }
+              className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
+            >
               {isValid ? (
                 <CheckCircleIcon className="dark:text-orange-accent-dark h-10 w-10 text-pink-500" />
               ) : (
@@ -188,13 +173,20 @@ const FormatedPanel = ({ credential }: FormatedPanelProps) => {
                 <h1 className="text-md dark:text-orange-accent-dark font-medium text-pink-500">
                   {t('issuer')}
                 </h1>
-                <DIDDisplay
-                  did={
-                    typeof credential.issuer === 'string'
-                      ? credential.issuer
-                      : credential.issuer.id
-                  }
-                />
+                <div className="flex flex-col space-y-0.5">
+                  <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-800">
+                    DID:
+                  </h2>
+                  <div className="flex">
+                    <DIDDisplay
+                      did={
+                        typeof credential.issuer === 'string'
+                          ? credential.issuer
+                          : credential.issuer.id
+                      }
+                    />
+                  </div>
+                </div>
               </div>
               <div className="flex flex-col items-start space-y-2">
                 <h1 className="text-md dark:text-orange-accent-dark font-medium text-pink-500">
