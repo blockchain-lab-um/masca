@@ -14,15 +14,21 @@ Installing Masca Connector to your project:
 pnpm add @blockchain-lab-um/masca-connector
 ```
 
-Masca installs and initializes using the function `enableMasca`. After the successful installation, `enableMasca` returns the `Masca` object used to retrieve the API.
+Masca installs and initializes using the function `enableMasca` . After successful installation, `enableMasca` returns the `Masca` object used to retrieve the API.
 
 The following is a minimal example of initializing Masca and invoking one of the API methods.
+
+:::tip [EIP-6963](https://eips.ethereum.org/EIPS/eip-6963)
+
+We moved the whole logic of handling wallet providers in EIP-6963 way into Masca Connector SDK. The connector will use the MetaMask provider at all times if available. If not available, the connector will throw error. You can still handle providers in your own way on dapp, since some methods such as `eth_requestAccounts` as seen in example below need to also use MetaMask provider in order to work with our Masca Connector SDK. A great example of how to do this can be found [here](https://github.com/Montoya/snap-connect-example#readme).
+
+:::
 
 ```typescript
 import { enableMasca, isError } from '@blockchain-lab-um/masca-connector';
 
 // Connect the user and get the address of his current account
-const accounts = await window.ethereum.request({
+const accounts = await provider.request({ // provider here is received in an EIP-6963 compliant way, see the tip above
   method: 'eth_requestAccounts',
 });
 const address = accounts[0];

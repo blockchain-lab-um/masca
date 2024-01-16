@@ -25,6 +25,7 @@ export async function enableMasca(
     snapId?: string;
     version?: string;
     supportedMethods?: Array<typeof availableMethods[number]>;
+    provider?: MetaMaskInpageProvider;
   }
 ): Promise<Result<Masca>>;
 ```
