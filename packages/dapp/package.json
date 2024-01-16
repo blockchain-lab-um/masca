@@ -27,7 +27,6 @@
     "@ethersproject/providers": "^5.7.2",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
-    "@metamask/detect-provider": "^2.0.0",
     "@metamask/providers": "13.1.0",
     "@nextui-org/react": "^2.2.9",
     "@prisma/client": "^5.7.0",

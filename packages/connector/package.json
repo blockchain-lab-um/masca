@@ -48,7 +48,8 @@
     "@metamask/detect-provider": "^2.0.0",
     "@veramo/core": "5.5.3",
     "did-session": "2.0.1",
-    "eip-712-types-generation": "^0.1.6"
+    "eip-712-types-generation": "^0.1.6",
+    "mipd": "^0.0.5"
   },
   "devDependencies": {
     "esbuild-loader": "^4.0.2",
