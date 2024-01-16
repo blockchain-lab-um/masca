@@ -20,7 +20,7 @@ The following is a minimal example of initializing Masca and invoking one of the
 
 :::tip [EIP-6963](https://eips.ethereum.org/EIPS/eip-6963)
 
-We moved the whole logic of handling wallet providers in EIP-6963 way into Masca Connector SDK. The connector will use the MetaMask provider at all times if available. If not available, the connector will throw error. You can still handle providers in your own way on dapp, since some methods such as `eth_requestAccounts` as seen in example below need to also use MetaMask provider in order to work with our Masca Connector SDK. A great example of how to do this can be found [here](https://github.com/Montoya/snap-connect-example#readme).
+We moved the whole logic of handling wallet providers in EIP-6963 way into Masca Connector SDK. The connector will use the MetaMask provider at all times if available. If not available, the connector will throw error. You still can and should handle providers in your own way on dapp, since some methods such as `eth_requestAccounts` and SIWE features need to use MetaMask provider in order to work with our Masca Connector SDK. A great example of how to do this can be found [here](https://github.com/Montoya/snap-connect-example#readme).
 
 :::
 
