@@ -19,21 +19,22 @@ export const NavConnection = () => {
   const {
     isConnected,
     hasMM,
-    hasSnaps,
     address,
     chainId,
     changeIsConnected,
     changeAddres,
     changeDid,
+    provider,
   } = useGeneralStore((state) => ({
     isConnected: state.isConnected,
     hasMM: state.hasMetaMask,
-    hasSnaps: state.supportsSnaps,
     address: state.address,
     chainId: state.chainId,
+    provider: state.provider,
     changeIsConnected: state.changeIsConnected,
     changeAddres: state.changeAddress,
     changeDid: state.changeDid,
+    changeProvider: state.changeProvider,
   }));
 
   const getNetwork = (): string => {
@@ -43,9 +44,9 @@ export const NavConnection = () => {
 
   const setNetwork = async (network: string) => {
     const key = Object.keys(NETWORKS).find((val) => NETWORKS[val] === network);
-    if (window.ethereum && key) {
+    if (provider && key) {
       try {
-        await window.ethereum.request({
+        await provider.request({
           method: 'wallet_switchEthereumChain',
           params: [{ chainId: key }],
         });
@@ -54,7 +55,7 @@ export const NavConnection = () => {
           (switchError as { code?: number; message: string; stack: string })
             .code === 4902
         ) {
-          await window.ethereum.request({
+          await provider.request({
             method: 'wallet_addEthereumChain',
             params: [chainIdNetworkParamsMapping[key]],
           });
@@ -72,7 +73,7 @@ export const NavConnection = () => {
     localStorage.setItem('isConnected', 'false');
   };
 
-  if (!hasMM || !hasSnaps) return null;
+  if (!hasMM) return null;
 
   if (isConnected) {
     return (

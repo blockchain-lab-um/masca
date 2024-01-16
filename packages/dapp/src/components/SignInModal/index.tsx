@@ -2,12 +2,12 @@
 
 import { useState } from 'react';
 import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
-import { BrowserProvider } from 'ethers';
+import { BrowserProvider, Eip1193Provider } from 'ethers';
 import Cookies from 'js-cookie';
 import { useTranslations } from 'next-intl';
 import { SiweMessage } from 'siwe';
 
-import { useToastStore } from '@/stores';
+import { useGeneralStore, useToastStore } from '@/stores';
 import { useAuthStore } from '@/stores/authStore';
 import Button from '../Button';
 
@@ -29,6 +29,10 @@ export const SignInModal = () => {
     changeToken: state.changeToken,
     changeIsSignedIn: state.changeIsSignedIn,
     changeIsSignInModalOpen: state.changeIsSignInModalOpen,
+  }));
+
+  const { provider } = useGeneralStore((state) => ({
+    provider: state.provider,
   }));
 
   // Functions
@@ -70,9 +74,9 @@ export const SignInModal = () => {
   const handleSignInWithEthereum = async () => {
     setLoading(true);
     try {
-      const provider = new BrowserProvider(window.ethereum);
+      const browserProvider = new BrowserProvider(provider as Eip1193Provider);
 
-      const signer = await provider.getSigner();
+      const signer = await browserProvider.getSigner();
 
       const message = await createSiweMessage(await signer.getAddress());
 

@@ -1,12 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import {
-  enableMasca,
-  isError,
-  isMetamaskSnapsSupported,
-} from '@blockchain-lab-um/masca-connector';
-import detectEthereumProvider from '@metamask/detect-provider';
+import { enableMasca, isError } from '@blockchain-lab-um/masca-connector';
 
 import { useGeneralStore, useMascaStore } from '@/stores';
 import { useAuthStore } from '@/stores/authStore';
@@ -17,33 +12,34 @@ const snapId =
     : 'npm:@blockchain-lab-um/masca';
 
 const CheckMetaMaskCompatibility = () => {
-  const { changeHasMetaMask, changeHasSnaps } = useGeneralStore((state) => ({
+  const { changeHasMetaMask } = useGeneralStore((state) => ({
     changeHasMetaMask: state.changeHasMetaMask,
-    changeHasSnaps: state.changeSupportsSnaps,
   }));
 
   const {
     hasMM,
-    hasSnaps,
     address,
     isConnected,
     isConnecting,
     chainId,
+    provider,
     changeAddress,
     changeIsConnected,
     changeIsConnecting,
     changeChainId,
+    changeProvider,
   } = useGeneralStore((state) => ({
     hasMM: state.hasMetaMask,
-    hasSnaps: state.supportsSnaps,
     address: state.address,
     isConnected: state.isConnected,
     isConnecting: state.isConnecting,
     chainId: state.chainId,
+    provider: state.provider,
     changeAddress: state.changeAddress,
     changeIsConnected: state.changeIsConnected,
     changeIsConnecting: state.changeIsConnecting,
     changeChainId: state.changeChainId,
+    changeProvider: state.changeProvider,
   }));
 
   const {
@@ -70,36 +66,45 @@ const CheckMetaMaskCompatibility = () => {
   }));
 
   const connectHandler = async () => {
-    if (window.ethereum) {
-      const result: unknown = await window.ethereum.request({
+    if (provider) {
+      const result: unknown = await provider.request({
         method: 'eth_requestAccounts',
       });
 
-      const chain = (await window.ethereum.request({
+      const chain = (await provider.request({
         method: 'eth_chainId',
       })) as string;
-
-      // Set the chainId
       changeChainId(chain);
-
-      // Set the address
       changeAddress((result as string[])[0]);
       localStorage.setItem('isConnected', 'true');
     }
   };
 
-  const checkMetaMaskCompatibility = async () => {
-    const provider = await detectEthereumProvider({ mustBeMetaMask: true });
+  // EIP-6963 multi wallet provider announcement handler implemented in enableMasca
+  // more advanced logic is automatically handled in enableMasca
+  // this method is basically only used for UI updates whether or not MetaMask is installed
+  const handleProviderAnnouncement = async () => {
+    window.addEventListener('eip6963:announceProvider', async (event) => {
+      const providerDetail = (event as CustomEvent).detail;
+      // FIXME: Christian's example on how to handle EIP-6963 with snaps, revisit when the MetaMask SDK supports snaps
+      // https://github.com/Montoya/snap-connect-example#readme
+      switch (providerDetail.info.rdns) {
+        case 'io.metamask':
+        case 'io.metamask.flask':
+        case 'io.metamask.mmi': // MetaMask Institutional
+          break;
+        default:
+          changeHasMetaMask(true);
+          changeProvider(providerDetail.provider);
+          break;
+      }
+    });
 
-    if (!provider || (provider as any)?.isBraveWallet) return;
-
-    changeHasMetaMask(true);
-
-    const snaps = await isMetamaskSnapsSupported();
-    if (snaps) changeHasSnaps(true);
+    window.dispatchEvent(new Event('eip6963:requestProvider'));
   };
 
   const enableMascaHandler = async () => {
+    if (!provider) return;
     const enableResult = await enableMasca(address, {
       snapId,
       version: process.env.NEXT_PUBLIC_MASCA_VERSION,
@@ -162,27 +167,27 @@ const CheckMetaMaskCompatibility = () => {
   };
 
   useEffect(() => {
-    if (hasMM && hasSnaps && window.ethereum) {
-      window.ethereum.on('accountsChanged', (...accounts) => {
+    if (hasMM && provider) {
+      provider.on('accountsChanged', (...accounts) => {
         changeAddress((accounts[0] as string[])[0]);
       });
-      window.ethereum.on('chainChanged', (...chain) => {
+      provider.on('chainChanged', (...chain) => {
         changeChainId(chain[0] as string);
       });
     }
 
     return () => {
-      if (window.ethereum) {
-        window.ethereum.removeAllListeners('accountsChanged');
-        window.ethereum.removeAllListeners('chainChanged');
+      if (provider) {
+        provider.removeAllListeners('accountsChanged');
+        provider.removeAllListeners('chainChanged');
       }
     };
-  }, [hasMM, hasSnaps]);
+  }, [hasMM]);
 
   useEffect(() => {
     const lsIsConnected = localStorage.getItem('isConnected');
     if (lsIsConnected !== 'true') return;
-    if (!hasMM || !hasSnaps) return;
+    if (!hasMM) return;
     if (isConnected) return;
     if (isConnecting) return;
     changeIsConnecting(true);
@@ -190,21 +195,21 @@ const CheckMetaMaskCompatibility = () => {
       console.error(err);
       changeIsConnecting(false);
     });
-  }, [hasMM, hasSnaps]);
+  }, [hasMM]);
 
   useEffect(() => {
-    if (!hasMM || !hasSnaps || !address) return;
+    if (!hasMM || !address) return;
     console.log('Address changed to', address);
     enableMascaHandler().catch((err) => {
       console.error(err);
       changeIsConnecting(false);
       changeAddress('');
     });
-  }, [hasMM, hasSnaps, address]);
+  }, [hasMM, address]);
 
   useEffect(() => {
-    checkMetaMaskCompatibility().catch((error) => {
-      console.error(error);
+    handleProviderAnnouncement().catch((err) => {
+      console.error(err);
     });
   }, []);
 
@@ -225,7 +230,6 @@ const CheckMetaMaskCompatibility = () => {
 
   useEffect(() => {
     if (isConnected || !isConnecting) return;
-    console.log('Connecting to MetaMask...');
     connectHandler().catch((err) => {
       console.error(err);
       changeIsConnecting(false);

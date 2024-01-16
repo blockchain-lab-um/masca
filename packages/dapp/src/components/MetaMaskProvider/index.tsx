@@ -13,12 +13,11 @@ interface MetaMaskProviderProps {
 const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
   const t = useTranslations('MetaMaskProvider');
 
-  const { hasMM, hasSnaps } = useGeneralStore((state) => ({
+  const { hasMM } = useGeneralStore((state) => ({
     hasMM: state.hasMetaMask,
-    hasSnaps: state.supportsSnaps,
   }));
 
-  if (hasMM && hasSnaps) {
+  if (hasMM) {
     return <>{children}</>;
   }
 

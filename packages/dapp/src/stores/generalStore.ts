@@ -1,3 +1,4 @@
+import { MetaMaskInpageProvider } from '@metamask/providers';
 import { shallow } from 'zustand/shallow';
 import { createWithEqualityFn } from 'zustand/traditional';
 
@@ -7,18 +8,18 @@ interface GeneralStore {
   isConnecting: boolean;
   did: string;
   hasMetaMask: boolean;
-  hasSnapInstalled: boolean;
   chainId: string;
   supportsSnaps: boolean;
+  provider: MetaMaskInpageProvider | null;
 
   changeAddress: (address: string) => void;
   changeIsConnected: (isConnected: boolean) => void;
   changeIsConnecting: (isConnecting: boolean) => void;
   changeDid: (did: string) => void;
   changeHasMetaMask: (hasMetaMask: boolean) => void;
-  changeHasSnapInstalled: (hasSnapInstalled: boolean) => void;
   changeChainId: (chainId: string) => void;
   changeSupportsSnaps: (supportsSnaps: boolean) => void;
+  changeProvider: (provider: MetaMaskInpageProvider) => void;
 }
 
 export const generalStoreInitialState = {
@@ -27,9 +28,9 @@ export const generalStoreInitialState = {
   isConnecting: false,
   did: '',
   hasMetaMask: false,
-  hasSnapInstalled: false,
   chainId: '',
   supportsSnaps: false,
+  provider: null,
 };
 
 export const useGeneralStore = createWithEqualityFn<GeneralStore>()(
@@ -41,10 +42,9 @@ export const useGeneralStore = createWithEqualityFn<GeneralStore>()(
     changeIsConnecting: (isConnecting: boolean) => set({ isConnecting }),
     changeDid: (did: string) => set({ did }),
     changeHasMetaMask: (hasMetaMask: boolean) => set({ hasMetaMask }),
-    changeHasSnapInstalled: (hasSnapInstalled: boolean) =>
-      set({ hasSnapInstalled }),
     changeChainId: (chainId: string) => set({ chainId }),
     changeSupportsSnaps: (supportsSnaps: boolean) => set({ supportsSnaps }),
+    changeProvider: (provider: MetaMaskInpageProvider) => set({ provider }),
   }),
   shallow
 );
