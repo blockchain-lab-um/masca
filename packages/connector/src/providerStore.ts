@@ -9,22 +9,14 @@ export class ProviderStore {
     this.store = createStore();
     // FIXME: this should have a better way to find the provider
     // see: https://github.com/wevm/mipd/issues/12
+    const providers = this.store.getProviders();
     this.currentProvider =
-      this.store.findProvider({
-        rdns: 'io.metamask',
-      }) || null;
-    if (!this.currentProvider) {
-      this.currentProvider =
-        this.store.findProvider({
-          rdns: 'io.metamask.mmi',
-        }) || null;
-    }
-    if (!this.currentProvider) {
-      this.currentProvider =
-        this.store.findProvider({
-          rdns: 'io.metamask.flask',
-        }) || null;
-    }
+      providers.find(
+        (provider) =>
+          provider.info.rdns === 'io.metamask' ||
+          'io.metamask.mmi' ||
+          'io.metamask.flask'
+      ) || null;
 
     this.store.subscribe((providerDetails: any) => {
       switch (providerDetails.info.rdns) {
