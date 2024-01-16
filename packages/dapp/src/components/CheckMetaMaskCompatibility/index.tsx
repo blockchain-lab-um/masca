@@ -92,10 +92,10 @@ const CheckMetaMaskCompatibility = () => {
         case 'io.metamask':
         case 'io.metamask.flask':
         case 'io.metamask.mmi': // MetaMask Institutional
-          break;
-        default:
           changeHasMetaMask(true);
           changeProvider(providerDetail.provider);
+          break;
+        default:
           break;
       }
     });
