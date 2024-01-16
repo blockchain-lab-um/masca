@@ -36,16 +36,18 @@ export async function validateAndSetCeramicSession(this: Masca): Promise<void> {
     return;
   }
 
-  const addresses: string[] = await window.ethereum.request({
+  const provider = this.providerStore.getCurrentProvider()?.provider;
+  if (!provider) {
+    throw new Error('No provider found');
+  }
+
+  const addresses: string[] = await provider.request({
     method: 'eth_requestAccounts',
   });
 
-  const accountId = await getAccountId(window.ethereum, addresses[0]);
+  const accountId = await getAccountId(provider, addresses[0]);
 
-  const authMethod = await EthereumWebAuth.getAuthMethod(
-    window.ethereum,
-    accountId
-  );
+  const authMethod = await EthereumWebAuth.getAuthMethod(provider, accountId);
 
   let newSession;
   try {
@@ -69,18 +71,20 @@ export async function validateAndSetCeramicSession(this: Masca): Promise<void> {
  * @returns Signed Verifiable Presentation
  */
 export async function signVerifiablePresentation(
+  this: Masca,
   presentation: UnsignedPresentation
 ): Promise<VerifiablePresentation> {
-  const addresses: string[] = await window.ethereum.request({
+  const provider = this.providerStore.getCurrentProvider()?.provider;
+  if (!provider) throw new Error('No provider found');
+  const addresses: string[] = await provider.request({
     method: 'eth_requestAccounts',
   });
 
   if (!presentation.holder.includes(addresses[0])) {
     throw new Error('Wrong holder');
   }
-
   const chainId = parseInt(
-    await window.ethereum.request({ method: 'eth_chainId' }),
+    await provider.request({ method: 'eth_chainId' }),
     16
   );
   presentation.proof = {
@@ -103,9 +107,9 @@ export async function signVerifiablePresentation(
 
   const data = JSON.stringify({ domain, types, message, primaryType });
 
-  const signature = await window.ethereum.request({
+  const signature = await provider.request({
     method: 'eth_signTypedData_v4',
-    params: [addresses[0], data],
+    params: [addresses[0] as any as `0x${string}`, data],
   });
 
   presentation.proof.proofValue = signature;
@@ -131,7 +135,9 @@ export async function signVerifiableCredential(
   credential: UnsignedCredential,
   params: CreateCredentialRequestParams
 ): Promise<VerifiableCredential> {
-  const addresses: string[] = await window.ethereum.request({
+  const provider = this.providerStore.getCurrentProvider()?.provider;
+  if (!provider) throw new Error('No provider found');
+  const addresses: string[] = await provider.request({
     method: 'eth_requestAccounts',
   });
 
@@ -147,7 +153,7 @@ export async function signVerifiableCredential(
   }
 
   const chainId = parseInt(
-    await window.ethereum.request({ method: 'eth_chainId' }),
+    await provider.request({ method: 'eth_chainId' }),
     16
   );
   credential.proof = {
@@ -171,9 +177,9 @@ export async function signVerifiableCredential(
 
   const data = JSON.stringify({ domain, types, message, primaryType });
 
-  const signature = await window.ethereum.request({
+  const signature = await provider.request({
     method: 'eth_signTypedData_v4',
-    params: [addresses[0], data],
+    params: [addresses[0] as any as `0x${string}`, data],
   });
 
   credential.proof.proofValue = signature;

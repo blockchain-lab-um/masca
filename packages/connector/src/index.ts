@@ -3,7 +3,6 @@ import {
   type AvailableMethods,
 } from '@blockchain-lab-um/masca-types';
 import { isError, ResultObject, type Result } from '@blockchain-lab-um/utils';
-import detectEthereumProvider from '@metamask/detect-provider';
 
 import mascaVersionJson from './masca.json';
 import { Masca } from './snap.js';
@@ -19,17 +18,6 @@ export interface SnapInstallationParams {
 }
 
 const defaultSnapOrigin = 'npm:@blockchain-lab-um/masca';
-
-export async function isMetamaskSnapsSupported(): Promise<boolean> {
-  try {
-    await window.ethereum.request({
-      method: 'wallet_getSnaps',
-    });
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
 
 /**
  * Install and enable Masca
@@ -51,29 +39,21 @@ export async function enableMasca(
     version = mascaVersionJson.mascaVersion,
     supportedMethods = availableMethods as unknown as AvailableMethods[],
   } = snapInstallationParams;
-
-  // This resolves to the value of window.ethereum or null
-  const provider = await detectEthereumProvider({ mustBeMetaMask: true });
+  const snap = new Masca(snapId, supportedMethods);
+  const provider = snap.providerStore.getCurrentProvider()?.provider;
 
   if (!provider) {
     return ResultObject.error('No provider found');
   }
-
-  if (!(await isMetamaskSnapsSupported())) {
-    return ResultObject.error(
-      "Currently installed MetaMask version doesn't support snaps."
-    );
-  }
-
   try {
-    await window.ethereum.request({
+    // FIXME: currently the wallet_requestSnaps is not in type of EIP-1193 provider since its not standard
+    // therefore "as unknown as any" is used to bypass the type check
+    await provider.request({
       method: 'wallet_requestSnaps',
       params: {
         [snapId]: { version },
       },
-    });
-
-    const snap = new Masca(snapId, supportedMethods);
+    } as unknown as any);
 
     const api = snap.getMascaApi();
 
