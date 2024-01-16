@@ -30,7 +30,6 @@ import {
   DataManager,
   IDataManager,
 } from '@blockchain-lab-um/veramo-datamanager';
-import { Web3Provider } from '@ethersproject/providers';
 import {
   createAgent,
   CredentialPayload,
@@ -77,7 +76,9 @@ import {
 import { KeyManagementSystem } from '@veramo/kms-local';
 import { decodeCredentialToObject } from '@veramo/utils';
 import { DIDResolutionResult, Resolver } from 'did-resolver';
+import { BrowserProvider } from 'ethers';
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver';
+import { EthrNetworkConfiguration } from 'node_modules/@veramo/did-provider-ethr/build/ethr-did-provider';
 import * as qs from 'qs';
 
 import EthereumService from '../Ethereum.service';
@@ -937,24 +938,21 @@ class VeramoService {
     const enabledCredentialStores =
       await GeneralService.getEnabledCredentialStores();
 
-    const networks = [
+    const networks: EthrNetworkConfiguration[] = [
       {
         name: 'mainnet',
-        provider: new Web3Provider(ethereum as any),
-      },
-      {
-        name: '0x05',
-        provider: new Web3Provider(ethereum as any),
+        chainId: 1,
+        provider: new BrowserProvider(ethereum as any),
       },
       {
         name: 'goerli',
-        provider: new Web3Provider(ethereum as any),
-        chainId: '0x5',
+        chainId: 5,
+        provider: new BrowserProvider(ethereum as any),
       },
       {
         name: 'sepolia',
-        provider: new Web3Provider(ethereum as any),
-        chainId: '0xaa36a7',
+        chainId: 11155111,
+        provider: new BrowserProvider(ethereum as any),
       },
     ];
 

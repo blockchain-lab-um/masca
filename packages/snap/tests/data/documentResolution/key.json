@@ -1,6 +1,13 @@
 {
   "didDocumentMetadata": {},
-  "didResolutionMetadata": {},
+  "didResolutionMetadata": {
+    "contentType": "application/did+ld+json",
+    "did": {
+      "didString": "did:key:zQ3shXkB5EzLZ9rPa4Pr6nf4zuUMcmN4KyHZg9EjaNnQzx3PG",
+      "methodSpecificId": "zQ3shXkB5EzLZ9rPa4Pr6nf4zuUMcmN4KyHZg9EjaNnQzx3PG",
+      "method": "key"
+    }
+  },
   "didDocument": {
     "id": "did:key:zQ3shXkB5EzLZ9rPa4Pr6nf4zuUMcmN4KyHZg9EjaNnQzx3PG",
     "@context": [
