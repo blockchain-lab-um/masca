@@ -1,21 +1,28 @@
 'use client';
 
+import Image from 'next/image';
 import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
+import { normalize } from 'viem/ens';
+import { useAccount, useEnsAvatar, useEnsName } from 'wagmi';
 
 import { copyToClipboard } from '@/utils/string';
 
 interface AddressPopoverProps {
-  address: string;
   did: string;
   disconnect: () => void;
 }
 
-const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
+const AddressPopover = ({ did, disconnect }: AddressPopoverProps) => {
   const t = useTranslations('AppNavbar');
+  const { address } = useAccount();
+  const { data, error, status } = useEnsName({ address });
+  const { data: avatar, status: avatarStatus } = useEnsAvatar({
+    name: normalize(data!) || undefined,
+  });
   return (
     <Popover className="relative z-50">
       {({ open }) => (
@@ -27,8 +34,17 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
               open ? 'dark:bg-orange-accent-dark/80 bg-pink-200/80' : ''
             )}
           >
-            <div className="flex">
-              {`${address.slice(0, 5)}...${address.slice(-4)}`}
+            <div className="flex items-center justify-center">
+              {avatar && (
+                <Image
+                  src={avatar}
+                  width={24}
+                  height={24}
+                  alt="User's ENS pfp"
+                  className="mr-2 inline-block rounded-full"
+                />
+              )}
+              {data ?? `${address?.slice(0, 5)}...${address?.slice(-4)}`}
 
               <ChevronDownIcon
                 className={`animated-transition -mr-1 ml-2 h-3 w-3 md:h-4 md:w-4 lg:h-5 lg:w-5 ${
@@ -80,13 +96,13 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
                       <div className="mr-1 mt-0.5">
                         <div className="h-2.5 w-2.5 rounded-full bg-green-500"></div>
                       </div>
-                      <div className="text-lg text-gray-800 dark:text-white">{`${address.slice(
+                      <div className="text-lg text-gray-800 dark:text-white">{`${address?.slice(
                         0,
                         5
-                      )}...${address.slice(-4)}`}</div>
+                      )}...${address?.slice(-4)}`}</div>
                       <button
                         onClick={() => {
-                          copyToClipboard(address);
+                          copyToClipboard(address as string);
                         }}
                       >
                         <DocumentDuplicateIcon className="animated-transition dark:text-navy-blue-50 ml-1 h-5 w-5 text-gray-800 hover:text-gray-600" />
