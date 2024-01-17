@@ -941,18 +941,16 @@ class VeramoService {
     const networks: EthrNetworkConfiguration[] = [
       {
         name: 'mainnet',
-        chainId: 1,
         provider: new BrowserProvider(ethereum as any),
       },
       {
         name: 'goerli',
-        chainId: 5,
         provider: new BrowserProvider(ethereum as any),
       },
       {
         name: 'sepolia',
-        chainId: 11155111,
         provider: new BrowserProvider(ethereum as any),
+        registry: '0x03d5003bf0e79c5f5223588f347eba39afbc3818',
       },
     ];
 
