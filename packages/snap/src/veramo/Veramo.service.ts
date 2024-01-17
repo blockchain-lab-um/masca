@@ -955,6 +955,7 @@ class VeramoService {
         name: 'sepolia',
         provider: new Web3Provider(ethereum as any),
         chainId: '0xaa36a7',
+        registry: '0x03d5003bf0e79c5f5223588f347eba39afbc3818',
       },
     ];
 
