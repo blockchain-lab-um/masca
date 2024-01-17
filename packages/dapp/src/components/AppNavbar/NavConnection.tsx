@@ -19,20 +19,16 @@ export const NavConnection = () => {
   const {
     isConnected,
     hasMM,
-    address,
     chainId,
     changeIsConnected,
-    changeAddres,
     changeDid,
     provider,
   } = useGeneralStore((state) => ({
     isConnected: state.isConnected,
     hasMM: state.hasMetaMask,
-    address: state.address,
     chainId: state.chainId,
     provider: state.provider,
     changeIsConnected: state.changeIsConnected,
-    changeAddres: state.changeAddress,
     changeDid: state.changeDid,
     changeProvider: state.changeProvider,
   }));
@@ -68,7 +64,6 @@ export const NavConnection = () => {
   const disconnect = () => {
     changeVcs([]);
     changeIsConnected(false);
-    changeAddres('');
     changeDid('');
     localStorage.setItem('isConnected', 'false');
   };
@@ -95,7 +90,7 @@ export const NavConnection = () => {
           </div>
         )}
         <MethodDropdownMenu />
-        <AddressPopover address={address} did={did} disconnect={disconnect} />
+        <AddressPopover did={did} disconnect={disconnect} />
       </div>
     );
   }

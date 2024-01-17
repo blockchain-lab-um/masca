@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { enableMasca, isError } from '@blockchain-lab-um/masca-connector';
+import { useAccount } from 'wagmi';
 
 import { useGeneralStore, useMascaStore } from '@/stores';
 import { useAuthStore } from '@/stores/authStore';
@@ -11,31 +12,29 @@ const snapId =
     ? 'local:http://localhost:8081'
     : 'npm:@blockchain-lab-um/masca';
 
-const CheckMetaMaskCompatibility = () => {
+const MascaProvider = () => {
   const { changeHasMetaMask } = useGeneralStore((state) => ({
     changeHasMetaMask: state.changeHasMetaMask,
   }));
 
+  const { address } = useAccount();
+
   const {
     hasMM,
-    address,
     isConnected,
     isConnecting,
     chainId,
     provider,
-    changeAddress,
     changeIsConnected,
     changeIsConnecting,
     changeChainId,
     changeProvider,
   } = useGeneralStore((state) => ({
     hasMM: state.hasMetaMask,
-    address: state.address,
     isConnected: state.isConnected,
     isConnecting: state.isConnecting,
     chainId: state.chainId,
     provider: state.provider,
-    changeAddress: state.changeAddress,
     changeIsConnected: state.changeIsConnected,
     changeIsConnecting: state.changeIsConnecting,
     changeChainId: state.changeChainId,
@@ -75,7 +74,6 @@ const CheckMetaMaskCompatibility = () => {
         method: 'eth_chainId',
       })) as string;
       changeChainId(chain);
-      changeAddress((result as string[])[0]);
       localStorage.setItem('isConnected', 'true');
     }
   };
@@ -104,11 +102,12 @@ const CheckMetaMaskCompatibility = () => {
   };
 
   const enableMascaHandler = async () => {
-    if (!provider) return;
+    if (!provider || !address) return;
     const enableResult = await enableMasca(address, {
       snapId,
       version: process.env.NEXT_PUBLIC_MASCA_VERSION,
     });
+
     if (isError(enableResult)) {
       // FIXME: This error is shown as [Object object]
       throw new Error(enableResult.error);
@@ -168,9 +167,6 @@ const CheckMetaMaskCompatibility = () => {
 
   useEffect(() => {
     if (hasMM && provider) {
-      provider.on('accountsChanged', (...accounts) => {
-        changeAddress((accounts[0] as string[])[0]);
-      });
       provider.on('chainChanged', (...chain) => {
         changeChainId(chain[0] as string);
       });
@@ -199,11 +195,9 @@ const CheckMetaMaskCompatibility = () => {
 
   useEffect(() => {
     if (!hasMM || !address) return;
-    console.log('Address changed to', address);
     enableMascaHandler().catch((err) => {
       console.error(err);
       changeIsConnecting(false);
-      changeAddress('');
     });
   }, [hasMM, address]);
 
@@ -246,4 +240,4 @@ const CheckMetaMaskCompatibility = () => {
   return null;
 };
 
-export default CheckMetaMaskCompatibility;
+export default MascaProvider;

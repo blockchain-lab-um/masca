@@ -3,7 +3,6 @@ import { shallow } from 'zustand/shallow';
 import { createWithEqualityFn } from 'zustand/traditional';
 
 interface GeneralStore {
-  address: string;
   isConnected: boolean;
   isConnecting: boolean;
   did: string;
@@ -12,7 +11,6 @@ interface GeneralStore {
   supportsSnaps: boolean;
   provider: MetaMaskInpageProvider | null;
 
-  changeAddress: (address: string) => void;
   changeIsConnected: (isConnected: boolean) => void;
   changeIsConnecting: (isConnecting: boolean) => void;
   changeDid: (did: string) => void;
@@ -23,7 +21,6 @@ interface GeneralStore {
 }
 
 export const generalStoreInitialState = {
-  address: '',
   isConnected: false,
   isConnecting: false,
   did: '',
@@ -37,7 +34,6 @@ export const useGeneralStore = createWithEqualityFn<GeneralStore>()(
   (set) => ({
     ...generalStoreInitialState,
 
-    changeAddress: (address: string) => set({ address }),
     changeIsConnected: (isConnected: boolean) => set({ isConnected }),
     changeIsConnecting: (isConnecting: boolean) => set({ isConnecting }),
     changeDid: (did: string) => set({ did }),
