@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/dapp",
-  "version": "1.2.0-beta.0",
+  "version": "1.2.0-beta.1",
   "private": true,
   "license": "(Apache-2.0 AND MIT)",
   "type": "commonjs",
@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@blockchain-lab-um/did-provider-key": "1.0.7",
-    "@blockchain-lab-um/masca-connector": "1.2.1",
+    "@blockchain-lab-um/masca-connector": "1.2.2-beta.0",
     "@blockchain-lab-um/oidc-types": "0.0.8",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
