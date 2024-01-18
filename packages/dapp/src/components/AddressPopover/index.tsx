@@ -20,8 +20,11 @@ const AddressPopover = ({ did, disconnect }: AddressPopoverProps) => {
   const t = useTranslations('AppNavbar');
   const { address } = useAccount();
   const { data, error, status } = useEnsName({ address });
-  const { data: avatar, status: avatarStatus } = useEnsAvatar({
+  const { data: avatar } = useEnsAvatar({
     name: normalize(data!) || undefined,
+    gatewayUrls: {
+      ipfs: process.env.NEXT_PUBLIC_IPFS_GATEWAY || 'https://ipfs.io/',
+    },
   });
   return (
     <Popover className="relative z-50">

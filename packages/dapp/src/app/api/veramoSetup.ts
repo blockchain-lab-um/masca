@@ -26,13 +26,13 @@ const networks = [
   {
     name: 'mainnet',
     provider: new JsonRpcProvider(
-      'https://mainnet.infura.io/v3/bf246ad3028f42318f2e996a7aa85bfc'
+      process.env.NEXT_PUBLIC_MAINNET_RPC_URL || 'https://mainnet.infura.io/v3/'
     ),
   },
   {
     name: 'sepolia',
     provider: new JsonRpcProvider(
-      'https://sepolia.infura.io/v3/bf246ad3028f42318f2e996a7aa85bfc'
+      process.env.NEXT_PUBLIC_SEPOLIA_RPC_URL || 'https://sepolia.infura.io/v3/'
     ),
     chainId: '0xaa36a7',
   },

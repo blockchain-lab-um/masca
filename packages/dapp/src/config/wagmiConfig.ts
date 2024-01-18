@@ -7,7 +7,7 @@ export const config = createConfig({
   connectors: [injected({ target: 'metaMask' })],
   transports: {
     [mainnet.id]: http(
-      'https://mainnet.infura.io/v3/bfadcab88c9e4eeb94fcf9e91f1fb8f3'
+      process.env.NEXT_PUBLIC_MAINNET_RPC_URL || 'https://mainnet.infura.io/v3/'
     ),
   },
 });
