@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/veramo-datamanager",
-  "version": "1.0.0",
+  "version": "1.0.1-beta.0",
   "license": "(Apache-2.0 AND MIT)",
   "type": "module",
   "main": "./dist/index.js",

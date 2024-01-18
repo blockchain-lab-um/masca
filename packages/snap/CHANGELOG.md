@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.2.0-beta.2
+
+### Patch Changes
+
+- [#546](https://github.com/blockchain-lab-um/masca/pull/546) [`7731329`](https://github.com/blockchain-lab-um/masca/commit/773132905231dbbe7b745dba5177fa6914364d96) Thanks [@martines3000](https://github.com/martines3000)! - Update Veramo packages and ethers.
+
+- Updated dependencies [[`7731329`](https://github.com/blockchain-lab-um/masca/commit/773132905231dbbe7b745dba5177fa6914364d96)]:
+  - @blockchain-lab-um/veramo-datamanager@1.0.1-beta.0
+  - @blockchain-lab-um/masca-types@1.2.1-beta.0
+
 ## 1.2.0-beta.1
 
 ### Patch Changes
