@@ -80,12 +80,12 @@ class UIService {
     const uiPanel = panel([
       heading('Share Verifiable Credentials'),
       ...this.originWrapper,
-      text('Would you like to share Verifiable Credentials with this dapp?'),
+      text('Would you like to share your credentials with this dapp?'),
       divider(),
-      text(`**Total number of VCs is ${vcs.length.toString()}**`),
+      text(`**Number of VCs: ${vcs.length.toString()}**`),
       divider(),
       text(
-        `You can disable this pop-up from appearing again in Settings on Masca.io.`
+        `Pop-ups can be disabled in settings on masca.io.`
       ),
     ]);
 
@@ -101,10 +101,10 @@ class UIService {
     const uiPanel = panel([
       heading('Save Verifiable Credential'),
       ...this.originWrapper,
-      text('Would you like to save the following Verifiable Credential?'),
+      text('Would you like to save the credential below?'),
       divider(),
       text(
-        `Credential will be saved in following store(s): **${
+        `Credential will be saved in the following data store(s): **${
           typeof store === 'string' ? store : store.join(', ')
         }**`
       ),
@@ -124,18 +124,18 @@ class UIService {
   }) {
     const { save, storeString, minimalUnsignedCredential, did } = params;
     const uiPanel = panel([
-      heading('Create Credential'),
+      heading('Create and Save Verifiable Credential'),
       ...this.originWrapper,
       text(`DID: **${did}**`),
       divider(),
       text(
         `Would you like to ${
-          save === true ? 'Sign and Save' : 'Sign'
-        } the following Credential?`
+          save === true ? 'sign and save' : 'sign'
+        } the credential below?`
       ),
       divider(),
       text(`${storeString}`),
-      text(`VC:`),
+      text(`Credential:`),
       copyable(JSON.stringify(minimalUnsignedCredential, null, 2)),
     ]);
     const res = await UIService.snapConfirm({ content: uiPanel });
@@ -148,12 +148,17 @@ class UIService {
   }) {
     const { store, vcs } = params;
     const uiPanel = panel([
-      heading('Delete VC'),
+      heading('Delete Verifiable Credential'),
       ...this.originWrapper,
-      text('Are you sure you want to delete this VC?'),
+      text('Are you sure you want to delete this credential?'),
       divider(),
-      text(`Store: ${typeof store === 'string' ? store : store.join(', ')}`),
-      text(`VCs: ${JSON.stringify(vcs, null, 2)}`),
+      text(
+        `Credential will be deleted from the following data store(s): **${
+          typeof store === 'string' ? store : store.join(', ')
+        }**`
+      ),
+      divider(),
+      text(`Credential: ${JSON.stringify(vcs, null, 2)}`),
     ]);
     const res = await UIService.snapConfirm({ content: uiPanel });
     return res;
@@ -165,13 +170,13 @@ class UIService {
   }) {
     const { vcs, did } = params;
     const uiPanel = panel([
-      heading('Create VP'),
+      heading('Create Verifiable Presentation'),
       ...this.originWrapper,
       text(`DID: **${did}**`),
       divider(),
-      text('Would you like to create a VP from the following VC(s)?'),
+      text('Would you like to create a presentation from the credentials below?'),
       divider(),
-      text(`VC(s):`),
+      text(`Credentials:`),
       ...vcs.map((vc) => copyable(JSON.stringify(vc, null, 2))),
     ]);
     const res = await UIService.snapConfirm({ content: uiPanel });
@@ -182,7 +187,7 @@ class UIService {
     const uiPanel = panel([
       heading('Credential Offer'),
       ...this.originWrapper,
-      text('Would you like to accept the following Credential Offer?'),
+      text('Would you like to accept the Credential Offer?'),
       divider(),
       text(`Data:`),
       text(JSON.stringify(data, null, 2)),
@@ -196,7 +201,7 @@ class UIService {
     const uiPanel = panel([
       heading('Authorization Request'),
       ...this.originWrapper,
-      text('Would you like to accept the following Authorization Request?'),
+      text('Would you like to accept the Authorization Request?'),
       divider(),
       text(`Data:`),
       text(JSON.stringify(data, null, 2)),
@@ -252,7 +257,7 @@ class UIService {
       params: {
         type: 'prompt',
         content: panel([
-          heading('Please enter the PIN you received from the issuer'),
+          heading('Enter the PIN you received from the issuer'),
           ...this.originWrapper,
         ]),
         placeholder: 'PIN...',
@@ -266,7 +271,7 @@ class UIService {
       heading('Export Backup'),
       ...this.originWrapper,
       text(
-        'This RPC method returns the encrypted backup of your Masca state. You can use this backup to restore your state on another device.'
+        'This method returns the encrypted backup of your Masca state. You can use this backup to restore your state on different device.'
       ),
     ]);
 
@@ -279,7 +284,7 @@ class UIService {
       heading('Import Backup'),
       ...this.originWrapper,
       text(
-        'This RPC method allows you to import an encrypted backup of your Masca state.'
+        'This method allows you to import an encrypted backup of your Masca state.'
       ),
       divider(),
       text(
@@ -298,7 +303,7 @@ class UIService {
     const uiPanel = panel([
       heading('Sign Data'),
       ...this.originWrapper,
-      text('Would you like to sign the following JWT ?'),
+      text('Would you like to sign the following JWT?'),
       divider(),
       text(`Header:`),
       copyable(JSON.stringify(params.header, null, 2)),
@@ -316,7 +321,7 @@ class UIService {
     const uiPanel = panel([
       heading('Sign Data'),
       ...this.originWrapper,
-      text('Would you like to sign the following data ?'),
+      text('Would you like to sign the following data?'),
       copyable(JSON.stringify(params.data, null, 2)),
     ]);
 
