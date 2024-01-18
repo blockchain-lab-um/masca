@@ -1,6 +1,6 @@
 'use client';
 
-import { chainIdNetworkParamsMapping } from '@blockchain-lab-um/masca-connector';
+import { useAccount, useChainId, useDisconnect, useSwitchChain } from 'wagmi';
 
 import AddressPopover from '@/components//AddressPopover';
 import ConnectButton from '@/components//ConnectButton';
@@ -10,65 +10,57 @@ import { getAvailableNetworksList, NETWORKS } from '@/utils/networks';
 import { useGeneralStore, useMascaStore } from '@/stores';
 
 export const NavConnection = () => {
+  const { switchChain } = useSwitchChain();
+  const chainId = useChainId();
+  const { disconnect } = useDisconnect();
+  const { isConnected } = useAccount();
   const { did, currMethod, changeVcs } = useMascaStore((state) => ({
     did: state.currDID,
     currMethod: state.currDIDMethod,
     changeVcs: state.changeVcs,
   }));
 
-  const {
-    isConnected,
-    hasMM,
-    chainId,
-    changeIsConnected,
-    changeDid,
-    provider,
-  } = useGeneralStore((state) => ({
-    isConnected: state.isConnected,
-    hasMM: state.hasMetaMask,
-    chainId: state.chainId,
+  const { changeDid, provider } = useGeneralStore((state) => ({
     provider: state.provider,
-    changeIsConnected: state.changeIsConnected,
     changeDid: state.changeDid,
     changeProvider: state.changeProvider,
   }));
 
   const getNetwork = (): string => {
-    if (NETWORKS[chainId]) return NETWORKS[chainId];
+    if (NETWORKS[`0x${chainId.toString(16)}`]) return NETWORKS[chainId];
     return 'Switch chain';
   };
 
   const setNetwork = async (network: string) => {
     const key = Object.keys(NETWORKS).find((val) => NETWORKS[val] === network);
-    if (provider && key) {
-      try {
-        await provider.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: key }],
-        });
-      } catch (switchError) {
-        if (
-          (switchError as { code?: number; message: string; stack: string })
-            .code === 4902
-        ) {
-          await provider.request({
-            method: 'wallet_addEthereumChain',
-            params: [chainIdNetworkParamsMapping[key]],
-          });
-        }
-        console.error(switchError);
-      }
+    if (key) {
+      console.log('setting net');
+      // try {
+      //   await provider.request({
+      //     method: 'wallet_switchEthereumChain',
+      //     params: [{ chainId: key }],
+      //   });
+      // } catch (switchError) {
+      //   if (
+      //     (switchError as { code?: number; message: string; stack: string })
+      //       .code === 4902
+      //   ) {
+      //     await provider.request({
+      //       method: 'wallet_addEthereumChain',
+      //       params: [chainIdNetworkParamsMapping[key]],
+      //     });
+      //   }
+      //   console.error(switchError);
+      // }
+      switchChain({ chainId: Number(key) });
     }
   };
 
-  const disconnect = () => {
+  const disconnectHandler = () => {
     changeVcs([]);
-    changeIsConnected(false);
+    disconnect();
     changeDid('');
-    localStorage.setItem('isConnected', 'false');
   };
-
-  if (!hasMM) return null;
 
   if (isConnected) {
     return (
@@ -90,7 +82,7 @@ export const NavConnection = () => {
           </div>
         )}
         <MethodDropdownMenu />
-        <AddressPopover did={did} disconnect={disconnect} />
+        <AddressPopover did={did} disconnect={disconnectHandler} />
       </div>
     );
   }

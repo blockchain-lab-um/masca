@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { enableMasca, isError } from '@blockchain-lab-um/masca-connector';
-import { useAccount } from 'wagmi';
+import { useAccount, useChainId } from 'wagmi';
 
 import { useGeneralStore, useMascaStore } from '@/stores';
 import { useAuthStore } from '@/stores/authStore';
@@ -13,33 +13,17 @@ const snapId =
     : 'npm:@blockchain-lab-um/masca';
 
 const MascaProvider = () => {
-  const { changeHasMetaMask } = useGeneralStore((state) => ({
-    changeHasMetaMask: state.changeHasMetaMask,
-  }));
+  const { address, isConnected } = useAccount();
+  const chainId = useChainId();
+  // const {} = useConnect();
 
-  const { address } = useAccount();
-
-  const {
-    hasMM,
-    isConnected,
-    isConnecting,
-    chainId,
-    provider,
-    changeIsConnected,
-    changeIsConnecting,
-    changeChainId,
-    changeProvider,
-  } = useGeneralStore((state) => ({
-    hasMM: state.hasMetaMask,
-    isConnected: state.isConnected,
-    isConnecting: state.isConnecting,
-    chainId: state.chainId,
-    provider: state.provider,
-    changeIsConnected: state.changeIsConnected,
-    changeIsConnecting: state.changeIsConnecting,
-    changeChainId: state.changeChainId,
-    changeProvider: state.changeProvider,
-  }));
+  const { provider, changeChainId, changeProvider } = useGeneralStore(
+    (state) => ({
+      provider: state.provider,
+      changeChainId: state.changeChainId,
+      changeProvider: state.changeProvider,
+    })
+  );
 
   const {
     api,
@@ -64,45 +48,12 @@ const MascaProvider = () => {
     changeIsSignInModalOpen: state.changeIsSignInModalOpen,
   }));
 
-  const connectHandler = async () => {
-    if (provider) {
-      const result: unknown = await provider.request({
-        method: 'eth_requestAccounts',
-      });
-
-      const chain = (await provider.request({
-        method: 'eth_chainId',
-      })) as string;
-      changeChainId(chain);
-      localStorage.setItem('isConnected', 'true');
-    }
-  };
-
-  // EIP-6963 multi wallet provider announcement handler implemented in enableMasca
-  // more advanced logic is automatically handled in enableMasca
-  // this method is basically only used for UI updates whether or not MetaMask is installed
-  const handleProviderAnnouncement = async () => {
-    window.addEventListener('eip6963:announceProvider', async (event) => {
-      const providerDetail = (event as CustomEvent).detail;
-      // FIXME: Christian's example on how to handle EIP-6963 with snaps, revisit when the MetaMask SDK supports snaps
-      // https://github.com/Montoya/snap-connect-example#readme
-      switch (providerDetail.info.rdns) {
-        case 'io.metamask':
-        case 'io.metamask.flask':
-        case 'io.metamask.mmi': // MetaMask Institutional
-          changeHasMetaMask(true);
-          changeProvider(providerDetail.provider);
-          break;
-        default:
-          break;
-      }
-    });
-
-    window.dispatchEvent(new Event('eip6963:requestProvider'));
-  };
+  useEffect(() => {
+    changeChainId(`0x${chainId.toString(16)}`);
+  }, [chainId]);
 
   const enableMascaHandler = async () => {
-    if (!provider || !address) return;
+    if (!address) return;
     const enableResult = await enableMasca(address, {
       snapId,
       version: process.env.NEXT_PUBLIC_MASCA_VERSION,
@@ -160,52 +111,49 @@ const MascaProvider = () => {
     changeAvailableMethods(availableMethods.data);
     changeCurrMethod(method.data);
     changeAvailableCredentialStores(accountSettings.data.ssi.storesEnabled);
-    changeIsConnected(true);
-    changeIsConnecting(false);
     changePopups(snapSettings.data.dApp.disablePopups);
   };
 
-  useEffect(() => {
-    if (hasMM && provider) {
-      provider.on('chainChanged', (...chain) => {
-        changeChainId(chain[0] as string);
-      });
-    }
+  // useEffect(() => {
+  //   if (provider) {
+  //     provider.on('chainChanged', (...chain) => {
+  //       changeChainId(chain[0] as string);
+  //     });
+  //   }
 
-    return () => {
-      if (provider) {
-        provider.removeAllListeners('accountsChanged');
-        provider.removeAllListeners('chainChanged');
-      }
-    };
-  }, [hasMM]);
+  //   return () => {
+  //     if (provider) {
+  //       provider.removeAllListeners('accountsChanged');
+  //       provider.removeAllListeners('chainChanged');
+  //     }
+  //   };
+  // }, [hasMM]);
+
+  // useEffect(() => {
+  //   // const lsIsConnected = localStorage.getItem('isConnected');
+  //   // if (isConnected !== true) return;
+  //   // if (!hasMM) return;
+  //   // if (isConnected) return;
+  //   // if (isConnecting) return;
+  //   // changeIsConnecting(true);
+  //   // connectHandler().catch((err) => {
+  //   //   console.error(err);
+  //   //   changeIsConnecting(false);
+  //   // });
+  // }, [hasMM]);
 
   useEffect(() => {
-    const lsIsConnected = localStorage.getItem('isConnected');
-    if (lsIsConnected !== 'true') return;
-    if (!hasMM) return;
-    if (isConnected) return;
-    if (isConnecting) return;
-    changeIsConnecting(true);
-    connectHandler().catch((err) => {
-      console.error(err);
-      changeIsConnecting(false);
-    });
-  }, [hasMM]);
-
-  useEffect(() => {
-    if (!hasMM || !address) return;
+    if (!address) return;
     enableMascaHandler().catch((err) => {
       console.error(err);
-      changeIsConnecting(false);
     });
-  }, [hasMM, address]);
+  }, [isConnected, address]);
 
-  useEffect(() => {
-    handleProviderAnnouncement().catch((err) => {
-      console.error(err);
-    });
-  }, []);
+  // useEffect(() => {
+  //   handleProviderAnnouncement().catch((err) => {
+  //     console.error(err);
+  //   });
+  // }, []);
 
   useEffect(() => {
     if (!api) return;
@@ -222,20 +170,19 @@ const MascaProvider = () => {
       .catch((err) => console.log(err));
   }, [chainId]);
 
-  useEffect(() => {
-    if (isConnected || !isConnecting) return;
-    connectHandler().catch((err) => {
-      console.error(err);
-      changeIsConnecting(false);
-    });
-  }, [isConnected, isConnecting]);
+  // useEffect(() => {
+  //   if (isConnected || !isConnecting) return;
+  //   // connectHandler().catch((err) => {
+  //   //   console.error(err);
+  //   //   changeIsConnecting(false);
+  //   // });
+  // }, [isConnected, isConnecting]);
 
   useEffect(() => {
     if (isSignedIn) return;
-    if (!isConnected) return;
-
+    return;
     changeIsSignInModalOpen(true);
-  }, [isSignedIn, isConnected]);
+  }, [isSignedIn]);
 
   return null;
 };

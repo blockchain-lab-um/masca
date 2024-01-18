@@ -1,7 +1,6 @@
 import React from 'react';
 import { useTranslations } from 'next-intl';
-
-import { useGeneralStore } from '@/stores';
+import { useAccount } from 'wagmi';
 
 interface ChooseDeviceViewProps {
   onDeviceTypeSelected: (
@@ -14,7 +13,7 @@ export const ChooseDeviceView = ({
   onDeviceTypeSelected,
 }: ChooseDeviceViewProps) => {
   const t = useTranslations('ChooseDeviceView');
-  const isConnected = useGeneralStore((state) => state.isConnected);
+  const { isConnected } = useAccount();
 
   return (
     <div>

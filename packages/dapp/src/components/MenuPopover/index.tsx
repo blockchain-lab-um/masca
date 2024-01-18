@@ -7,8 +7,7 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { ShareIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
-
-import { useGeneralStore } from '@/stores';
+import { useAccount } from 'wagmi';
 
 const IconCreateCredential = () => (
   <svg
@@ -126,8 +125,7 @@ const DropDownItem = ({ SVGIcon, name, description }: DropDownItemProps) => (
 
 function MenuPopover() {
   const t = useTranslations('AppNavbar');
-
-  const isConnected = useGeneralStore((state) => state.isConnected);
+  const { isConnected } = useAccount();
 
   return (
     <Popover className="group relative">

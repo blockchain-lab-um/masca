@@ -29,11 +29,11 @@ export default async function AppLayout({
             {children}
           </div>
         </div>
+        <AppBottomBar />
+        <QRCodeSessionProvider />
+        <SignInModal />
       </WagmiProviderWrapper>
-      <AppBottomBar />
       <ToastWrapper />
-      <QRCodeSessionProvider />
-      <SignInModal />
       <CookiesProvider />
     </>
   );

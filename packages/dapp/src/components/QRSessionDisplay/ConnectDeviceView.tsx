@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { uint8ArrayToHex } from '@blockchain-lab-um/masca-connector';
 import { useTranslations } from 'next-intl';
+import { useAccount } from 'wagmi';
 
 import Button from '@/components/Button';
 import CreateConnectionModal from '@/components/ConnectionModal/CreateConnectionModal';
 import ScanQRCodeModal from '@/components/ScanQRCodeModal/ScanQRCodeModal';
-import { useGeneralStore, useSessionStore, useToastStore } from '@/stores';
+import { useSessionStore, useToastStore } from '@/stores';
 
 export const ConnectDeviceView = () => {
   const t = useTranslations('ConnectDeviceView');
-  const isConnected = useGeneralStore((state) => state.isConnected);
+  const { isConnected } = useAccount();
   const { session, changeSession } = useSessionStore((state) => ({
     session: state.session,
     changeSession: state.changeSession,

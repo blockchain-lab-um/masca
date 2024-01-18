@@ -12,6 +12,7 @@ import { Tooltip } from '@nextui-org/react';
 import { W3CVerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
+import { useAccount } from 'wagmi';
 
 import GlobalFilter from '@/components/Controlbar/GlobalFilter';
 import ViewTabs from '@/components/Controlbar/ViewTabs';
@@ -20,12 +21,7 @@ import {
   removeCredentialSubjectFilterString,
   stringifyCredentialSubject,
 } from '@/utils/format';
-import {
-  useGeneralStore,
-  useMascaStore,
-  useTableStore,
-  useToastStore,
-} from '@/stores';
+import { useMascaStore, useTableStore, useToastStore } from '@/stores';
 import { useAuthStore } from '@/stores/authStore';
 import { useShareModalStore } from '@/stores/shareModalStore';
 import FilterPopover from './FilterPopover';
@@ -44,7 +40,7 @@ const Controlbar = () => {
     isSignedIn: state.isSignedIn,
     changeIsSignInModalOpen: state.changeIsSignInModalOpen,
   }));
-  const isConnected = useGeneralStore((state) => state.isConnected);
+  const { isConnected } = useAccount();
   const { api, vcs, changeLastFetch, changeVcs } = useMascaStore((state) => ({
     api: state.mascaApi,
 

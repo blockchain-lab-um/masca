@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { uint8ArrayToHex } from '@blockchain-lab-um/masca-connector';
 import { Html5Qrcode } from 'html5-qrcode';
 import { useTranslations } from 'next-intl';
+import { useAccount } from 'wagmi';
 
 import Button from '@/components/Button';
 import ScanQRCodeModal from '@/components/ScanQRCodeModal/ScanQRCodeModal';
 import UploadButton from '@/components/UploadButton';
-import { useGeneralStore, useSessionStore, useToastStore } from '@/stores';
+import { useSessionStore, useToastStore } from '@/stores';
 import { useQRCodeStore } from '@/stores/qrCodeStore';
 
 interface ScanQRCodeViewProps {
@@ -15,7 +16,7 @@ interface ScanQRCodeViewProps {
 
 export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
   const t = useTranslations('ScanQRCodeView');
-  const isConnected = useGeneralStore((state) => state.isConnected);
+  const { isConnected } = useAccount();
   const [isQRCodeModalOpen, setIsQRCodeModalOpen] = useState(false);
 
   const session = useSessionStore((state) => state.session);
