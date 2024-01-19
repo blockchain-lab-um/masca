@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { enableMasca, isError } from '@blockchain-lab-um/masca-connector';
 import { useAccount, useChainId } from 'wagmi';
 
-import { useGeneralStore, useMascaStore } from '@/stores';
+import { useMascaStore } from '@/stores';
 import { useAuthStore } from '@/stores/authStore';
 
 const snapId =
@@ -15,15 +15,6 @@ const snapId =
 const MascaProvider = () => {
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
-  // const {} = useConnect();
-
-  const { provider, changeChainId, changeProvider } = useGeneralStore(
-    (state) => ({
-      provider: state.provider,
-      changeChainId: state.changeChainId,
-      changeProvider: state.changeProvider,
-    })
-  );
 
   const {
     api,
@@ -47,10 +38,6 @@ const MascaProvider = () => {
     isSignedIn: state.isSignedIn,
     changeIsSignInModalOpen: state.changeIsSignInModalOpen,
   }));
-
-  useEffect(() => {
-    changeChainId(`0x${chainId.toString(16)}`);
-  }, [chainId]);
 
   const enableMascaHandler = async () => {
     if (!address) return;
@@ -114,34 +101,6 @@ const MascaProvider = () => {
     changePopups(snapSettings.data.dApp.disablePopups);
   };
 
-  // useEffect(() => {
-  //   if (provider) {
-  //     provider.on('chainChanged', (...chain) => {
-  //       changeChainId(chain[0] as string);
-  //     });
-  //   }
-
-  //   return () => {
-  //     if (provider) {
-  //       provider.removeAllListeners('accountsChanged');
-  //       provider.removeAllListeners('chainChanged');
-  //     }
-  //   };
-  // }, [hasMM]);
-
-  // useEffect(() => {
-  //   // const lsIsConnected = localStorage.getItem('isConnected');
-  //   // if (isConnected !== true) return;
-  //   // if (!hasMM) return;
-  //   // if (isConnected) return;
-  //   // if (isConnecting) return;
-  //   // changeIsConnecting(true);
-  //   // connectHandler().catch((err) => {
-  //   //   console.error(err);
-  //   //   changeIsConnecting(false);
-  //   // });
-  // }, [hasMM]);
-
   useEffect(() => {
     if (!address) return;
     enableMascaHandler().catch((err) => {
@@ -149,40 +108,24 @@ const MascaProvider = () => {
     });
   }, [isConnected, address]);
 
-  // useEffect(() => {
-  //   handleProviderAnnouncement().catch((err) => {
-  //     console.error(err);
-  //   });
-  // }, []);
-
   useEffect(() => {
     if (!api) return;
-
     api
       .getDID()
       .then((res) => {
         if (isError(res)) {
           throw new Error("Couldn't get DID");
         }
-
         changeDID(res.data);
       })
       .catch((err) => console.log(err));
   }, [chainId]);
 
-  // useEffect(() => {
-  //   if (isConnected || !isConnecting) return;
-  //   // connectHandler().catch((err) => {
-  //   //   console.error(err);
-  //   //   changeIsConnecting(false);
-  //   // });
-  // }, [isConnected, isConnecting]);
-
   useEffect(() => {
-    if (isSignedIn) return;
-    return;
-    changeIsSignInModalOpen(true);
-  }, [isSignedIn]);
+    if (!isSignedIn && isConnected) {
+      changeIsSignInModalOpen(true);
+    }
+  }, [isSignedIn, isConnected]);
 
   return null;
 };

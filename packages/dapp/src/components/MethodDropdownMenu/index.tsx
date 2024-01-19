@@ -9,12 +9,16 @@ import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
+import { useChainId, useSwitchChain } from 'wagmi';
 
+import { NETWORKS_BY_DID } from '@/utils/networks';
 import { useMascaStore, useToastStore } from '@/stores';
 import { DropdownButton } from './MethodDropdownButton';
 
 export default function MethodDropdownMenu() {
   const t = useTranslations('MethodDropdownMenu');
+  const chainId = useChainId();
+  const { switchChain } = useSwitchChain();
   const { api, currMethod, methods, changeCurrDIDMethod, changeDID } =
     useMascaStore((state) => ({
       api: state.mascaApi,
@@ -37,6 +41,17 @@ export default function MethodDropdownMenu() {
           link: null,
         });
       }, 200);
+      // const availableNetworks = NETWORKS_BY_DID[method];
+      // console.log(
+      //   '🚀 ~ handleMethodChange ~ availableNetworks: ',
+      //   availableNetworks
+      // );
+      // if (!availableNetworks.includes(`0x${chainId.toString(16)}`)) {
+      //   switchChain(
+      //     { chainId: Number(availableNetworks[0]) },
+      //     { onError: (err) => console.log(err) }
+      //   );
+      // }
 
       const res = await api.switchDIDMethod(method as AvailableMethods);
       useToastStore.setState({

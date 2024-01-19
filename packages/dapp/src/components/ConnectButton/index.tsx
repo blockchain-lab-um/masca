@@ -21,11 +21,7 @@ const ConnectButton = () => {
     );
   }, [connectors]);
 
-  useEffect(() => {
-    console.log('🚀 ~ useEffect ~ isConnected: ', isConnected);
-    console.log('🚀 ~ useEffect ~ isConnecting: ', isConnecting);
-    console.log('🚀 ~ useEffect ~ status: ', status);
-  }, [isConnected, isConnecting, status]);
+  useEffect(() => {}, [isConnected, isConnecting, status]);
 
   return (
     !isConnected &&
@@ -35,14 +31,7 @@ const ConnectButton = () => {
         variant="connect"
         size="md"
         onClick={() => {
-          connect(
-            { connector: metamaskConnector },
-            {
-              onSuccess: () => {
-                console.log('success');
-              },
-            }
-          );
+          connect({ connector: metamaskConnector });
         }}
         loading={isConnecting}
       >

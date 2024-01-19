@@ -1,16 +1,22 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { useAccount, useChainId, useDisconnect, useSwitchChain } from 'wagmi';
 
 import AddressPopover from '@/components//AddressPopover';
 import ConnectButton from '@/components//ConnectButton';
 import DropdownMenu from '@/components//DropdownMenu';
 import MethodDropdownMenu from '@/components/MethodDropdownMenu';
-import { getAvailableNetworksList, NETWORKS } from '@/utils/networks';
+import {
+  getAvailableNetworksList,
+  NETWORKS,
+  NETWORKS_BY_DID,
+} from '@/utils/networks';
 import { useGeneralStore, useMascaStore } from '@/stores';
 
 export const NavConnection = () => {
   const { switchChain } = useSwitchChain();
+  const t = useTranslations('NavConnection');
   const chainId = useChainId();
   const { disconnect } = useDisconnect();
   const { isConnected } = useAccount();
@@ -20,39 +26,31 @@ export const NavConnection = () => {
     changeVcs: state.changeVcs,
   }));
 
-  const { changeDid, provider } = useGeneralStore((state) => ({
-    provider: state.provider,
+  const { changeDid } = useGeneralStore((state) => ({
     changeDid: state.changeDid,
-    changeProvider: state.changeProvider,
   }));
 
   const getNetwork = (): string => {
-    if (NETWORKS[`0x${chainId.toString(16)}`]) return NETWORKS[chainId];
-    return 'Switch chain';
+    const stringified = `0x${chainId.toString(16)}`;
+    const selectedNetwork = NETWORKS[stringified];
+    if (!currMethod) return t('select-method');
+    if (
+      selectedNetwork &&
+      (NETWORKS_BY_DID[currMethod].includes(stringified) ||
+        NETWORKS_BY_DID[currMethod].includes('*'))
+    ) {
+      return selectedNetwork;
+    }
+    return t('unsupported-network');
   };
 
   const setNetwork = async (network: string) => {
     const key = Object.keys(NETWORKS).find((val) => NETWORKS[val] === network);
     if (key) {
-      console.log('setting net');
-      // try {
-      //   await provider.request({
-      //     method: 'wallet_switchEthereumChain',
-      //     params: [{ chainId: key }],
-      //   });
-      // } catch (switchError) {
-      //   if (
-      //     (switchError as { code?: number; message: string; stack: string })
-      //       .code === 4902
-      //   ) {
-      //     await provider.request({
-      //       method: 'wallet_addEthereumChain',
-      //       params: [chainIdNetworkParamsMapping[key]],
-      //     });
-      //   }
-      //   console.error(switchError);
-      // }
-      switchChain({ chainId: Number(key) });
+      switchChain(
+        { chainId: Number(key) },
+        { onError: (err) => console.log(err) }
+      );
     }
   };
 
@@ -62,30 +60,28 @@ export const NavConnection = () => {
     changeDid('');
   };
 
-  if (isConnected) {
-    return (
-      <div className="flex items-center justify-center">
-        {(currMethod === 'did:ethr' ||
-          currMethod === 'did:pkh' ||
-          currMethod === 'did:polygonid' ||
-          currMethod === 'did:iden3') && (
-          <div className="hidden md:block">
-            <DropdownMenu
-              size="method"
-              rounded="full"
-              shadow="none"
-              variant="method"
-              items={getAvailableNetworksList(currMethod)}
-              selected={getNetwork()}
-              setSelected={setNetwork}
-            />
-          </div>
-        )}
-        <MethodDropdownMenu />
-        <AddressPopover did={did} disconnect={disconnectHandler} />
-      </div>
-    );
-  }
-
-  return <ConnectButton />;
+  return isConnected ? (
+    <div className="flex items-center justify-center">
+      {(currMethod === 'did:ethr' ||
+        currMethod === 'did:pkh' ||
+        currMethod === 'did:polygonid' ||
+        currMethod === 'did:iden3') && (
+        <div className="hidden md:block">
+          <DropdownMenu
+            size="method"
+            rounded="full"
+            shadow="none"
+            variant="method"
+            items={getAvailableNetworksList(currMethod)}
+            selected={getNetwork()}
+            setSelected={setNetwork}
+          />
+        </div>
+      )}
+      <MethodDropdownMenu />
+      <AddressPopover did={did} disconnect={disconnectHandler} />
+    </div>
+  ) : (
+    <ConnectButton />
+  );
 };
