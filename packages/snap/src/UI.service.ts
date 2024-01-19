@@ -84,9 +84,7 @@ class UIService {
       divider(),
       text(`**Number of VCs: ${vcs.length.toString()}**`),
       divider(),
-      text(
-        `Pop-ups can be disabled in settings on masca.io.`
-      ),
+      text(`Pop-ups can be disabled in settings on masca.io.`),
     ]);
 
     const res = await UIService.snapConfirm({ content: uiPanel });
@@ -174,7 +172,9 @@ class UIService {
       ...this.originWrapper,
       text(`DID: **${did}**`),
       divider(),
-      text('Would you like to create a presentation from the credentials below?'),
+      text(
+        'Would you like to create a presentation from the credentials below?'
+      ),
       divider(),
       text(`Credentials:`),
       ...vcs.map((vc) => copyable(JSON.stringify(vc, null, 2))),
