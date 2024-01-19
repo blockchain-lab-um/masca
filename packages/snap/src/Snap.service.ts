@@ -169,7 +169,7 @@ class SnapService {
 
     let storeString = '';
     if (save === true) {
-      storeString = `Store(s): **${
+      storeString = `Data store(s): **${
         typeof store === 'string' ? store : store.join(', ')
       }**`;
     }

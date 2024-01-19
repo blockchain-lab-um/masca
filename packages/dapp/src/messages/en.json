@@ -25,8 +25,8 @@
         "documentation": "Read the Masca documentation",
         "get-credential": "Get your credential using the OpenID Connect protocol",
         "qr-code-session": "Create session to scan QR codes using your mobile device",
-        "qr-scanner": "Start various Authorization and CredentialOffer Flows",
-        "shared-presentations": "Dashboard for management of Shared Presentations",
+        "qr-scanner": "Receive credentials and share presentations by scanning QR codes",
+        "shared-presentations": "Check your shared presentations",
         "verify-data": "Verify credentials & presentations"
       },
       "discord": "Discord",
@@ -100,8 +100,8 @@
   "Controlbar": {
     "import": "Import credential",
     "query": "Querying credentials",
-    "query-error": "Failed to query credentials",
-    "query-success": "Successfully queried credentials",
+    "query-error": "Failed to load credentials",
+    "query-success": "Credentials successfully loaded",
     "refresh": "Refresh credentials",
     "save-error": "Failed to save credential. VC was invalid",
     "save-error-title": "Failed to save credential",
@@ -110,30 +110,30 @@
     "sign-in-to-share": "Sign in to share credentials"
   },
   "NotFoundPresentation": {
-    "title": "Presentation could not be found!"
+    "title": "Presentation couldn't be found!"
   },
   "CreateConnectionModal": {
     "desc": " Scan this QR code with your mobile device to create a connection to this page.",
     "title": "Connection QR Code"
   },
   "CreateCredentialDisplay": {
-    "invalidMethod": "Polygon ID & Iden3 are not yet supported. Switch to any other DID method to create a presentation!",
+    "invalidMethod": "Polygon ID & Iden3 are not yet supported. Switch to any other DID method to create a credential!",
     "options": {
       "format": "Format",
       "title": "OPTIONS"
     },
     "save": {
-      "description": "Would you like to save newly created credential in Masca?",
-      "select-storage-placeholder": "Select data storage",
-      "storage": "Storage",
+      "description": "Would you like to save the newly created credential in Masca?",
+      "select-storage-placeholder": "Select data store",
+      "storage": "Data store",
       "title": "Save"
     },
     "title": "Create Credential",
     "toast": {
-      "error-json": "Payload is not a valid JSON",
-      "error-vc": "Payload is not a valid!",
+      "error-json": "Provided data is not a valid JSON",
+      "error-vc": "Payload is not valid!",
       "loading": "Creating credential...",
-      "success": "Credential successfully created!"
+      "success": "Credential successfully created"
     }
   },
   "CreatePresentationDisplay": {
@@ -141,7 +141,7 @@
       "title": "ADVANCED",
       "tooltip": "Only applicable to JWT proof format."
     },
-    "invalidMethod": "Polygon ID & Iden3 methods are not yet supported. Switch to any other DID method to create a Presentation!",
+    "invalidMethod": "Polygon ID & Iden3 methods are not yet supported. Switch to any other DID method to create a presentation!",
     "options": {
       "format": "Format",
       "title": "OPTIONS"
@@ -151,7 +151,7 @@
       "issuer": "ISSUER",
       "remove": "REMOVE",
       "status": "STATUS",
-      "title": "Selected credentials",
+      "title": "Selected Credentials",
       "type": "TYPE"
     },
     "title": "Create Presentation",
@@ -297,22 +297,22 @@
     },
     "query-error": "Failed to query credentials",
     "query-no-credentials": "No credentials found",
-    "query-success": "Successfully queried credentials"
+    "query-success": "Credentials successfully loaded"
   },
   "DeleteCredentialModal": {
     "cancel": "Cancel",
-    "delete": "Delete VC",
-    "deleting": "Deleting credential from store",
-    "deleting-error": "Failed to delete credential from store",
-    "deleting-success": "Successfully deleted credential from store",
-    "desc": "Approving this action will remove the credential from your wallet. This action cannot be undone.",
+    "delete": "Delete",
+    "deleting": "Deleting credential...",
+    "deleting-error": "Failed to delete credential",
+    "deleting-success": "Credential successfully deleted",
+    "desc": "Approving this action will remove the credential from your wallet. This action cannot be undone!",
     "title": "Delete Credential"
   },
   "DeleteSharedPresentationModal": {
     "cancel": "Cancel",
     "delete": "Delete",
     "delete-error": "Failed to delete presentation",
-    "delete-success": "Successfully deleted presentation",
+    "delete-success": "Presentation successfully deleted",
     "description": "Are you sure you want to delete this shared presentation?",
     "title": "Delete Shared Presentation"
   },
@@ -339,7 +339,7 @@
     "no-expiration-date": "No Expiration Date",
     "expires-on": "Expires on",
     "expired-on": "Expired on",
-    "polygon-unsupported": "PolygonID VCs aren't supported yet. Please remove this credential to continue!"
+    "polygon-unsupported": "Polygon ID VCs aren't supported yet. Please remove this credential to continue!"
   },
   "FriendlydAppTable": {
     "add-failed": "Failed to add Friendly dapp",
@@ -374,36 +374,36 @@
   },
   "ImportModal": {
     "cancel": "Cancel",
-    "desc": "Add a custom credential to your wallet. Paste JSON of the credential in the textarea bellow.",
+    "desc": "Add any credential to your wallet. Paste JSON of the credential in the text area bellow.",
     "import": "Import",
-    "save-error": "Provided data is not a valid credential",
-    "select-storage-placeholder": "Select Storage...",
+    "save-error": "Provided credential is not valid",
+    "select-storage-placeholder": "Select data store...",
     "settings": "SETTINGS",
-    "storage": "Storage",
-    "storage-desc": "Select one ore more data stores where the credential will be stored.",
+    "storage": "Data Store",
+    "storage-desc": "Select one or more data stores where the credential will be stored.",
     "title": "Import Credential"
   },
   "JsonModal": {
     "back": "Back"
   },
   "LastFetched": {
-    "label": "Last Fetched"
+    "label": "Last fetched"
   },
   "MetaMaskProvider": {
     "metamask": "You need MetaMask to use the dapp!",
     "version": "Please install the latest version of MetaMask!"
   },
   "MethodDropdownMenu": {
-    "switching": "Switching DID method",
+    "switching": "Switching DID method...",
     "switching-error": "Failed to switch DID method",
-    "switching-success": "Successfully switched DID method to"
+    "switching-success": "DID method switched to"
   },
   "ModifyDataStoreModal": {
-    "desc": "Here you can define where the credential will be stored.",
+    "desc": "Select the data stores where you want this credential to be stored.",
     "done": "Done",
     "saving": "Saving credential",
     "saving-error": "Failed to save credential",
-    "saving-success": "Successfully saved credential",
+    "saving-success": "Credential successfully saved",
     "title": "Modify Credential"
   },
   "OIDCAuthView": {
@@ -475,7 +475,7 @@
     "scan-to-continue": "Scan a QR code to continue!",
     "scan-to-continue-secondary": "Scan a QR code on your secondary device to continue...",
     "scan-upload": "Scan or Upload a QR code to continue!",
-    "success": "Successfully scanned QR code",
+    "success": "QR code successfully scanned",
     "successfully": "Successfully ",
     "to-primary": "to primary device",
     "to-secondary": "to secondary device",
@@ -489,8 +489,8 @@
   },
   "SettingsCard": {
     "backup": "Backup State",
-    "backup-google-desc": "Backup your Masca data to Google Drive. All Settings and VCs stored in Masca will be saved. All data is encrypted!",
-    "backup-manual-desc": "Backup your Masca data to a file. All Settings and VCs stored in Masca will be saved. All data is encrypted!",
+    "backup-google-desc": "Backup your Masca data to Google Drive. All settings and VCs stored in Masca will be saved. All data is encrypted!",
+    "backup-manual-desc": "Backup your Masca data to a file. All settings and VCs stored in Masca will be saved. All data is encrypted!",
     "ceramic-error": "Failed to toggle Ceramic",
     "ceramic-success": "Successfully toggled Ceramic",
     "data-store": "Data Stores",
@@ -537,29 +537,29 @@
   "SharedPresentations": {
     "table-header": {
       "actions": "Actions",
-      "created_at": "Created At",
-      "expires_at": "Expires At",
+      "created_at": "Created at",
+      "expires_at": "Expires at",
       "title": "Title",
       "views": "Views"
     },
     "title": "Shared Presentations",
-    "total": "Total Shared Presentations:"
+    "total": "Number of shared presentations:"
   },
   "SignInModal": {
     "cancel": "Cancel",
-    "description": "To use some of the advanced features of Masca Dapp, you need to sign in.",
+    "description": "If you want to use some of the advanced features of Masca dapp, you need to sign in.",
     "sign-in-error": "Failed to sign in",
     "sign-in-success": "Successfully signed in",
-    "sign-in-with-ethereum": "Sign in with Ethereum",
+    "sign-in-with-ethereum": "Sign-In with Ethereum",
     "title": "Sign in"
   },
   "StartFlowView": {
     "new-scan": "Scan New Code",
     "scanned": "Code Scanned! Proceed on your primary device",
-    "scanned-desc": "You can Scan/Upload a new QR code once the primary device indicates so"
+    "scanned-desc": "You can scan/upload a new QR code once the primary device indicates so"
   },
   "SupabaseProvider": {
-    "description": "To use some of the advanced features of Masca Dapp, you need to sign in.",
+    "description": "If you want to use some of the advanced features of Masca dapp, you need to sign in.",
     "sign-in": "Sign in",
     "sign-in-to-continue": "Please sign in to continue"
   },
