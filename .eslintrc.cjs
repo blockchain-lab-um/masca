@@ -90,6 +90,7 @@ module.exports = {
       },
     ],
     'import/extensions': 'off',
+    '@typescript-eslint/no-redundant-type-constituents': 'off',
   },
   ignorePatterns: [
     '**/node_modules/**',
@@ -105,6 +106,5 @@ module.exports = {
     'templates',
     'external',
     '.nx',
-    '**/database.types.ts',
   ],
 };

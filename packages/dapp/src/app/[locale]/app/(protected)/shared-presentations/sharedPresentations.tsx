@@ -208,8 +208,8 @@ export const SharedPresentations = () => {
                   column.key === 'actions'
                     ? 'text-end'
                     : column.key === 'title'
-                      ? 'text-start'
-                      : 'text-center'
+                    ? 'text-start'
+                    : 'text-center'
                 )}
               >
                 {column.label}
@@ -229,8 +229,8 @@ export const SharedPresentations = () => {
                       columnKey === 'actions'
                         ? 'text-end'
                         : columnKey === 'title'
-                          ? 'text-start'
-                          : 'text-center'
+                        ? 'text-start'
+                        : 'text-center'
                     )}
                   >
                     {renderCell(item, columnKey)}
