@@ -19,9 +19,9 @@ interface AddressPopoverProps {
 const AddressPopover = ({ did, disconnect }: AddressPopoverProps) => {
   const t = useTranslations('AppNavbar');
   const { address } = useAccount();
-  const { data, error, status } = useEnsName({ address });
+  const { data: ensName } = useEnsName({ address });
   const { data: avatar } = useEnsAvatar({
-    name: normalize(data!) || undefined,
+    name: normalize(ensName!) || undefined,
     gatewayUrls: {
       ipfs: process.env.NEXT_PUBLIC_IPFS_GATEWAY || 'https://ipfs.io/',
     },
@@ -47,7 +47,7 @@ const AddressPopover = ({ did, disconnect }: AddressPopoverProps) => {
                   className="mr-2 inline-block rounded-full"
                 />
               )}
-              {data ?? `${address?.slice(0, 5)}...${address?.slice(-4)}`}
+              {ensName ?? `${address?.slice(0, 5)}...${address?.slice(-4)}`}
 
               <ChevronDownIcon
                 className={`animated-transition -mr-1 ml-2 h-3 w-3 md:h-4 md:w-4 lg:h-5 lg:w-5 ${
