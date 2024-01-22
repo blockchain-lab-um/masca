@@ -29,6 +29,7 @@ class EthereumService {
   static async requestNetworkSwitch(params: {
     didMethod: MethodsRequiringNetwork;
   }): Promise<void> {
+    // FIXME: this method should be revisited, wallet_switchEthereumChain does not exist in ethereum object?
     const { didMethod } = params;
     const content = panel([
       heading('Switch Network'),
@@ -44,7 +45,6 @@ class EthereumService {
       throw new Error('User rejected network switch.');
     }
     const chainId = didMethodChainIdMapping[didMethod][0];
-    // FIXME: method below fails. "it doesnt exist..."
     try {
       await ethereum.request({
         method: 'wallet_switchEthereumChain',
@@ -78,6 +78,8 @@ class EthereumService {
       !didMethodChainIdMapping[didMethod].includes(chainId) &&
       !didMethodChainIdMapping[didMethod].includes('*')
     ) {
+      // FIXME: examine the method below
+      throw new Error('Unsupported network.');
       await this.requestNetworkSwitch({ didMethod });
     }
   }
