@@ -122,10 +122,10 @@ const MascaProvider = () => {
   }, [chainId]);
 
   useEffect(() => {
-    if (!isSignedIn && isConnected) {
+    if (!isSignedIn && isConnected && api) {
       changeIsSignInModalOpen(true);
     }
-  }, [isSignedIn, isConnected]);
+  }, [isSignedIn, isConnected, api]);
 
   return null;
 };

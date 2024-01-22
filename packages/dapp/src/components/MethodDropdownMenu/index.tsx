@@ -3,6 +3,7 @@
 import { Fragment } from 'react';
 import {
   isError,
+  requiresNetwork,
   type AvailableMethods,
 } from '@blockchain-lab-um/masca-connector';
 import { Menu, Transition } from '@headlessui/react';
@@ -18,7 +19,7 @@ import { DropdownButton } from './MethodDropdownButton';
 export default function MethodDropdownMenu() {
   const t = useTranslations('MethodDropdownMenu');
   const chainId = useChainId();
-  const { switchChain } = useSwitchChain();
+  const { switchChainAsync } = useSwitchChain();
   const { api, currMethod, methods, changeCurrDIDMethod, changeDID } =
     useMascaStore((state) => ({
       api: state.mascaApi,
@@ -28,7 +29,7 @@ export default function MethodDropdownMenu() {
       changeDID: state.changeCurrDID,
     }));
 
-  const handleMethodChange = async (method: string) => {
+  const handleMethodChangeRequest = async (method: string) => {
     if (method !== currMethod) {
       if (!api) return;
 
@@ -41,17 +42,21 @@ export default function MethodDropdownMenu() {
           link: null,
         });
       }, 200);
-      // const availableNetworks = NETWORKS_BY_DID[method];
-      // console.log(
-      //   '🚀 ~ handleMethodChange ~ availableNetworks: ',
-      //   availableNetworks
-      // );
-      // if (!availableNetworks.includes(`0x${chainId.toString(16)}`)) {
-      //   switchChain(
-      //     { chainId: Number(availableNetworks[0]) },
-      //     { onError: (err) => console.log(err) }
-      //   );
-      // }
+      if (requiresNetwork(method)) {
+        const availableNetworks = NETWORKS_BY_DID[method];
+        const hasCorrectNetwork =
+          availableNetworks.includes(`0x${chainId.toString(16)}`) ||
+          availableNetworks.includes('*');
+        let netToChange = availableNetworks[0];
+        if (netToChange === '*') {
+          netToChange = '0x1';
+        }
+        if (!hasCorrectNetwork) {
+          const { id } = await switchChainAsync({
+            chainId: Number(netToChange),
+          });
+        }
+      }
 
       const res = await api.switchDIDMethod(method as AvailableMethods);
       useToastStore.setState({
@@ -129,7 +134,7 @@ export default function MethodDropdownMenu() {
                   <DropdownButton
                     key={id}
                     selected={method === currMethod}
-                    handleBtn={handleMethodChange}
+                    handleBtn={handleMethodChangeRequest}
                   >
                     {method}
                   </DropdownButton>

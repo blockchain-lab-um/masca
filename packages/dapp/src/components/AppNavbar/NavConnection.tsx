@@ -1,11 +1,13 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+import { requiresNetwork } from '@blockchain-lab-um/masca-connector';
 import { useTranslations } from 'next-intl';
 import { useAccount, useChainId, useDisconnect, useSwitchChain } from 'wagmi';
 
-import AddressPopover from '@/components//AddressPopover';
-import ConnectButton from '@/components//ConnectButton';
-import DropdownMenu from '@/components//DropdownMenu';
+import AddressPopover from '@/components/AddressPopover';
+import ConnectButton from '@/components/ConnectButton';
+import DropdownMenu from '@/components/DropdownMenu';
 import MethodDropdownMenu from '@/components/MethodDropdownMenu';
 import {
   getAvailableNetworksList,
@@ -18,6 +20,7 @@ export const NavConnection = () => {
   const { switchChain } = useSwitchChain();
   const t = useTranslations('NavConnection');
   const chainId = useChainId();
+  const [selectedNetwork, changeSelectedNetwork] = useState<string>('Ethereum');
   const { disconnect } = useDisconnect();
   const { isConnected } = useAccount();
   const { did, currMethod, changeVcs } = useMascaStore((state) => ({
@@ -31,18 +34,30 @@ export const NavConnection = () => {
   }));
 
   const getNetwork = (): string => {
-    const stringified = `0x${chainId.toString(16)}`;
-    const selectedNetwork = NETWORKS[stringified];
     if (!currMethod) return t('select-method');
+    const stringified = `0x${chainId.toString(16)}`;
+    const network = NETWORKS[stringified];
     if (
-      selectedNetwork &&
+      network &&
       (NETWORKS_BY_DID[currMethod].includes(stringified) ||
         NETWORKS_BY_DID[currMethod].includes('*'))
     ) {
-      return selectedNetwork;
+      return network;
     }
     return t('unsupported-network');
   };
+
+  useEffect(() => {
+    if (!currMethod) return;
+    if (
+      currMethod !== 'did:polygonid' &&
+      currMethod !== 'did:iden3' &&
+      !requiresNetwork(currMethod)
+    )
+      return;
+    const network = getNetwork();
+    changeSelectedNetwork(network);
+  }, [chainId, currMethod]);
 
   const setNetwork = async (network: string) => {
     const key = Object.keys(NETWORKS).find((val) => NETWORKS[val] === network);
@@ -73,7 +88,7 @@ export const NavConnection = () => {
             shadow="none"
             variant="method"
             items={getAvailableNetworksList(currMethod)}
-            selected={getNetwork()}
+            selected={selectedNetwork}
             setSelected={setNetwork}
           />
         </div>
