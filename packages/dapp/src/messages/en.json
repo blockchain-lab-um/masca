@@ -135,7 +135,7 @@
     "title": "Create Credential",
     "toast": {
       "error-json": "Payload is not a valid JSON",
-      "error-vc": "Payload is not a valid!",
+      "error-vc": "Payload is not valid!",
       "loading": "Creating credential...",
       "success": "Credential successfully created!"
     }

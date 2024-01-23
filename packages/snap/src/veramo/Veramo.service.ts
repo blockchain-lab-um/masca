@@ -77,6 +77,7 @@ import {
 import { KeyManagementSystem } from '@veramo/kms-local';
 import { decodeCredentialToObject } from '@veramo/utils';
 import { DIDResolutionResult, Resolver } from 'did-resolver';
+import { getResolver } from 'ens-did-resolver';
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver';
 import * as qs from 'qs';
 
@@ -121,7 +122,8 @@ class VeramoService {
 
     switch (method) {
       case 'did:pkh':
-      case 'did:ethr': {
+      case 'did:ethr':
+      case 'did:ens': {
         return;
       }
       case 'did:key:jwk_jcs-pub':
@@ -179,6 +181,25 @@ class VeramoService {
             method === 'did:ethr'
               ? `did:ethr:${chainId}:${state[CURRENT_STATE_VERSION].currentAccount}`
               : `did:pkh:eip155:${chainId}:${state[CURRENT_STATE_VERSION].currentAccount}`,
+          keys: [],
+          services: [],
+        };
+
+        return identifier;
+      }
+      case 'did:ens': {
+        const chainId = await EthereumService.getNetwork();
+        if (chainId !== '0x1') {
+          throw new Error(
+            `Unsupported network with chainid ${chainId} for ${method}`
+          );
+        }
+        const address = state[CURRENT_STATE_VERSION]
+          .currentAccount as `0x${string}`;
+        const ensName = await EthereumService.getEnsName({ address });
+        const identifier: IIdentifier = {
+          provider: method,
+          did: `did:ens:${ensName}`,
           keys: [],
           services: [],
         };
@@ -1005,6 +1026,7 @@ class VeramoService {
             ...keyDidResolver(),
             ...pkhDidResolver(),
             ...jwkDidResolver(),
+            ...getResolver({ networks }),
             ...UniversalResolverService.getResolver(),
           }),
         }),

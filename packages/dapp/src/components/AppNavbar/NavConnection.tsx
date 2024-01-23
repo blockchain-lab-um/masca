@@ -80,6 +80,7 @@ export const NavConnection = () => {
       {(currMethod === 'did:ethr' ||
         currMethod === 'did:pkh' ||
         currMethod === 'did:polygonid' ||
+        currMethod === 'did:ens' ||
         currMethod === 'did:iden3') && (
         <div className="hidden md:block">
           <DropdownMenu

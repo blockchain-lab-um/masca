@@ -68,7 +68,11 @@ const CreateCredentialDisplay = () => {
     if (didMethod === 'did:polygonid' || didMethod === 'did:iden3') {
       setInvalidMethod(true);
     }
-    if (didMethod === 'did:ethr' || didMethod === 'did:pkh') {
+    if (
+      didMethod === 'did:ethr' ||
+      didMethod === 'did:pkh' ||
+      didMethod === 'did:ens'
+    ) {
       setAvailableProofFormats(['EIP712Signature']);
       setFormat('EIP712Signature');
     } else {

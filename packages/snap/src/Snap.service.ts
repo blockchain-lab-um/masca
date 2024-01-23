@@ -159,7 +159,7 @@ class SnapService {
         state[CURRENT_STATE_VERSION].currentAccount
       ].general.account.ssi.selectedMethod;
 
-    if (method === 'did:ethr' || method === 'did:pkh') {
+    if (method === 'did:ethr' || method === 'did:pkh' || method === 'did:ens') {
       const unsignedVc = await VeramoService.createUnsignedCredential({
         credential: minimalUnsignedCredential,
       });
@@ -282,7 +282,7 @@ class SnapService {
 
     if (!vcs.length) throw new Error('No credentials provided');
 
-    if (method === 'did:ethr' || method === 'did:pkh') {
+    if (method === 'did:ethr' || method === 'did:pkh' || method === 'did:ens') {
       if (proofFormat !== 'EthereumEip712Signature2021') {
         throw new Error('proofFormat must be EthereumEip712Signature2021');
       }

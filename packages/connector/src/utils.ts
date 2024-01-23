@@ -80,7 +80,12 @@ export async function signVerifiablePresentation(
     method: 'eth_requestAccounts',
   });
 
-  if (!presentation.holder.includes(addresses[0])) {
+  if (
+    !presentation.holder.includes(addresses[0]) &&
+    !presentation.holder.includes(
+      await this.viemClient.getEns({ address: addresses[0] as `0x${string}` })
+    )
+  ) {
     throw new Error('Wrong holder');
   }
   const chainId = parseInt(
@@ -148,7 +153,12 @@ export async function signVerifiableCredential(
     issuer = credential.issuer.id;
   }
 
-  if (!issuer.includes(addresses[0])) {
+  if (
+    !issuer.includes(addresses[0]) &&
+    !issuer.includes(
+      await this.viemClient.getEns({ address: addresses[0] as `0x${string}` })
+    )
+  ) {
     throw new Error('Invalid Issuer');
   }
 

@@ -4,10 +4,18 @@ import {
   MethodsRequiringNetwork,
 } from '@blockchain-lab-um/masca-types';
 import { divider, heading, panel, text } from '@metamask/snaps-sdk';
+import { createPublicClient, custom, PublicClient } from 'viem';
+import { mainnet } from 'viem/chains';
 
 import UIService from './UI.service';
 
 class EthereumService {
+  private static instance: PublicClient;
+
+  static async init(): Promise<void> {
+    this.instance = await this.createClient();
+  }
+
   /**
    * Function that returns the current network.
    *
@@ -19,6 +27,23 @@ class EthereumService {
     })) as string;
 
     return network;
+  }
+
+  /**
+   * Function that returns the ENS of the passed account, if found.
+   * @param params.address - Address to check for.
+   * @returns string - ENS name.
+   */
+  static async getEnsName(params: { address: `0x${string}` }): Promise<string> {
+    const { address } = params;
+    if (!this.instance) {
+      throw new Error('Viem client not instanciated.');
+    }
+    const ensName = await this.instance.getEnsName({
+      address,
+    });
+    if (!ensName) throw new Error('ENS name not found.');
+    return ensName;
   }
 
   /**
@@ -82,6 +107,17 @@ class EthereumService {
       throw new Error('Unsupported network.');
       await this.requestNetworkSwitch({ didMethod });
     }
+  }
+
+  /**
+   * Function to create a new viem client
+   * @returns PublicClient - viem client.
+   */
+  static async createClient(): Promise<PublicClient> {
+    return createPublicClient({
+      chain: mainnet,
+      transport: custom(ethereum),
+    });
   }
 }
 

@@ -28,12 +28,13 @@ import type {
   W3CVerifiableCredential,
 } from '@veramo/core';
 
-import { ProviderStore } from './providerStore.js';
+import { ProviderStore } from './ProviderStore.js';
 import {
   signVerifiableCredential,
   signVerifiablePresentation,
   validateAndSetCeramicSession,
 } from './utils.js';
+import { ViemClient } from './ViemClient.js';
 
 /**
  * Send a request to the Masca snap
@@ -560,10 +561,15 @@ export class Masca {
 
   public providerStore: ProviderStore;
 
+  public viemClient: ViemClient;
+
   public constructor(snapId: string, supportedMethods: AvailableMethods[]) {
     this.snapId = snapId;
     this.supportedMethods = supportedMethods;
     this.providerStore = new ProviderStore();
+    this.viemClient = new ViemClient({
+      provider: this.providerStore.getCurrentProvider()?.provider,
+    });
   }
 
   public getMascaApi = (): MascaApi => ({
