@@ -125,6 +125,7 @@ const DashboardDisplay = () => {
           size="lg"
           onClick={handleLoadVcs}
           loading={loading}
+          disabled={api === null}
         >
           {t('no-credentials.load')}
         </Button>

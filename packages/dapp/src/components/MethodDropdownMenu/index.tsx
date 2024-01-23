@@ -14,6 +14,7 @@ import { useChainId, useSwitchChain } from 'wagmi';
 
 import { NETWORKS_BY_DID } from '@/utils/networks';
 import { useMascaStore, useToastStore } from '@/stores';
+import { TextSkeleton } from '../Skeletons/TextSkeleton';
 import { DropdownButton } from './MethodDropdownButton';
 
 export default function MethodDropdownMenu() {
@@ -106,16 +107,25 @@ export default function MethodDropdownMenu() {
                   ? 'dark:bg-navy-blue-800 bg-orange-100/50'
                   : 'dark:hover:bg-navy-blue-800 hover:bg-orange-100/50'
               )}
+              disabled={currMethod === null}
             >
-              {currMethod === 'did:key:jwk_jcs-pub'
-                ? 'did:key (EBSI)'
-                : currMethod}
-              <ChevronDownIcon
-                className={clsx(
-                  'dark:text-navy-blue-400 animated-transition -mr-1 ml-2 h-5 w-5 text-gray-600',
-                  open ? 'rotate-180' : ''
-                )}
-              />
+              {currMethod ? (
+                currMethod === 'did:key:jwk_jcs-pub' ? (
+                  'did:key (EBSI)'
+                ) : (
+                  currMethod
+                )
+              ) : (
+                <TextSkeleton className="h-4 w-16" />
+              )}
+              {currMethod && (
+                <ChevronDownIcon
+                  className={clsx(
+                    'dark:text-navy-blue-400 animated-transition -mr-1 ml-2 h-5 w-5 text-gray-600',
+                    open ? 'rotate-180' : ''
+                  )}
+                />
+              )}
             </Menu.Button>
           </div>
 
@@ -128,19 +138,21 @@ export default function MethodDropdownMenu() {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <Menu.Items className="dark:bg-navy-blue-600 absolute right-0 z-50 mt-1 w-48 rounded-3xl bg-white shadow-lg">
-              <div className="p-1 text-center ">
-                {methods.map((method, id) => (
-                  <DropdownButton
-                    key={id}
-                    selected={method === currMethod}
-                    handleBtn={handleMethodChangeRequest}
-                  >
-                    {method}
-                  </DropdownButton>
-                ))}
-              </div>
-            </Menu.Items>
+            {currMethod && (
+              <Menu.Items className="dark:bg-navy-blue-600 absolute right-0 z-50 mt-1 w-48 rounded-3xl bg-white shadow-lg">
+                <div className="p-1 text-center ">
+                  {methods.map((method, id) => (
+                    <DropdownButton
+                      key={id}
+                      selected={method === currMethod}
+                      handleBtn={handleMethodChangeRequest}
+                    >
+                      {method}
+                    </DropdownButton>
+                  ))}
+                </div>
+              </Menu.Items>
+            )}
           </Transition>
         </Fragment>
       )}

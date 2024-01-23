@@ -11,6 +11,7 @@ import { normalize } from 'viem/ens';
 import { useAccount, useEnsAvatar, useEnsName } from 'wagmi';
 
 import { copyToClipboard } from '@/utils/string';
+import { TextSkeleton } from '../Skeletons/TextSkeleton';
 
 interface AddressPopoverProps {
   did: string;
@@ -75,20 +76,25 @@ const AddressPopover = ({ did, disconnect }: AddressPopoverProps) => {
                     <div className="dark:text-navy-blue-100 text-sm text-gray-700">
                       DID
                     </div>
-                    <div className="mt-2 flex items-center">
-                      <a
-                        href={`https://dev.uniresolver.io/#${did}`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="animated-transition cursor-pointer text-2xl text-gray-800 underline hover:text-gray-700 dark:text-white dark:hover:text-gray-100"
-                      >{`${did.substring(0, did.lastIndexOf(':'))}:${did
-                        .split(':')
-                        [did.split(':').length - 1].slice(0, 5)}...${did.slice(
-                        -4
-                      )}`}</a>
+                    <div className="mt-2 flex items-center justify-center">
+                      {did ? (
+                        <a
+                          href={`https://dev.uniresolver.io/#${did}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="animated-transition cursor-pointer text-2xl text-gray-800 underline hover:text-gray-700 dark:text-white dark:hover:text-gray-100"
+                        >{`${did.substring(0, did.lastIndexOf(':'))}:${did
+                          .split(':')
+                          [did.split(':').length - 1].slice(
+                            0,
+                            5
+                          )}...${did.slice(-4)}`}</a>
+                      ) : (
+                        <TextSkeleton className="h-6 w-52" />
+                      )}
                       <button
                         onClick={() => {
-                          copyToClipboard(did);
+                          if (did) copyToClipboard(did);
                         }}
                       >
                         <DocumentDuplicateIcon className="animated-transition dark:text-navy-blue-50 ml-1 h-5 w-5 text-gray-800 hover:text-gray-600" />
