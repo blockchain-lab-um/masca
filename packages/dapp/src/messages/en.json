@@ -528,6 +528,7 @@
     "selected": "Selected Credentials",
     "share-presentation-error": "Failed to share presentation",
     "share-presentation-success": "Successfully shared presentation",
+    "share-link-description": "Share your credential on social media:",
     "title": "Publicly Share Credentials",
     "unsupported-credentials-description": "Sharing of Polygon ID & Iden3 credentials is not yet supported. Unselect them to continue!",
     "unsupported-credentials-title": "Unsupported Credentials Selected",

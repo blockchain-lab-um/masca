@@ -15,6 +15,12 @@ import {
 import { VerifiablePresentation } from '@veramo/core';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
+import {
+  LinkedinIcon,
+  LinkedinShareButton,
+  TwitterIcon,
+  TwitterShareButton,
+} from 'react-share';
 
 import { selectProofFormat } from '@/utils/selectProofFormat';
 import { convertTypes } from '@/utils/string';
@@ -174,18 +180,18 @@ export const ShareCredentialModal = () => {
       onClose={() => setIsOpen(false)}
       hideCloseButton={true}
       placement="center"
-      className="main-bg mx-4 py-2"
+      className="py-2 mx-4 main-bg"
     >
       <ModalContent>
         {() => (
           <>
             <ModalHeader>
-              <div className="text-h3 font-ubuntu dark:text-navy-blue-50 w-full text-center font-medium leading-6 text-gray-900">
+              <div className="w-full font-medium leading-6 text-center text-gray-900 text-h3 font-ubuntu dark:text-navy-blue-50">
                 {t('title')}
               </div>
             </ModalHeader>
             <ModalBody>
-              <p className="text-md dark:text-navy-blue-200 text-center text-gray-600">
+              <p className="text-center text-gray-600 text-md dark:text-navy-blue-200">
                 {t('description')}
               </p>
               {supportedDidMethod && supportedCredentials && (
@@ -214,8 +220,8 @@ export const ShareCredentialModal = () => {
                             placeholder={t('placeholder')}
                           />
                         </div>
-                        <div className="mt-6 flex flex-col space-y-2">
-                          <h3 className="dark:text-orange-accent-dark text-xl text-pink-500">
+                        <div className="flex flex-col mt-6 space-y-2">
+                          <h3 className="text-xl text-pink-500 dark:text-orange-accent-dark">
                             {t('selected')}
                           </h3>
                           <div className="flex flex-col space-y-2">
@@ -249,7 +255,7 @@ export const ShareCredentialModal = () => {
               {!supportedDidMethod && (
                 <div className="mt-6">
                   <div className="flex flex-col space-y-2">
-                    <h3 className="dark:text-orange-accent-dark text-xl text-pink-500">
+                    <h3 className="text-xl text-pink-500 dark:text-orange-accent-dark">
                       {t('unsupported-method-title')}
                     </h3>
                     <div className="flex flex-col space-y-2">
@@ -261,7 +267,7 @@ export const ShareCredentialModal = () => {
               {!supportedCredentials && (
                 <div className="mt-6">
                   <div className="flex flex-col space-y-2">
-                    <h3 className="dark:text-orange-accent-dark text-xl text-pink-500">
+                    <h3 className="text-xl text-pink-500 dark:text-orange-accent-dark">
                       {t('unsupported-credentials-title')}
                     </h3>
                     <div className="flex flex-col space-y-2">
@@ -270,7 +276,32 @@ export const ShareCredentialModal = () => {
                   </div>
                 </div>
               )}
-              <div className="mt-10 flex w-full justify-end">
+
+              {shareLink && (
+                <div className="mt-4 text-gray-800 dark:text-navy-blue-100">
+                  {t('share-link-description')}
+                  <div className="flex mt-2 gap-x-2">
+                    <LinkedinShareButton
+                      url={shareLink}
+                      title="Check out my credential"
+                      summary="This is a credential I hold in my Masca wallet!"
+                      className="flex items-center justify-center gap-x-2"
+                    >
+                      <LinkedinIcon size={32} round />
+                    </LinkedinShareButton>
+                    <TwitterShareButton
+                      url={shareLink}
+                      title="Check out my credential on @masca_io"
+                      hashtags={['masca', 'identity', 'credential']}
+                      className="flex items-center justify-center gap-x-2"
+                    >
+                      <TwitterIcon size={32} round />
+                    </TwitterShareButton>
+                  </div>
+                </div>
+              )}
+
+              <div className="flex items-center justify-end w-full mt-10">
                 <Button
                   variant="cancel"
                   size="xs"
