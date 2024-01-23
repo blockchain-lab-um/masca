@@ -6,6 +6,7 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
+import { mainnet } from 'viem/chains';
 import { normalize } from 'viem/ens';
 import { useAccount, useEnsAvatar, useEnsName } from 'wagmi';
 
@@ -19,9 +20,13 @@ interface AddressPopoverProps {
 const AddressPopover = ({ did, disconnect }: AddressPopoverProps) => {
   const t = useTranslations('AppNavbar');
   const { address } = useAccount();
-  const { data: ensName } = useEnsName({ address });
+  const { data: ensName } = useEnsName({
+    address,
+    chainId: mainnet.id,
+  });
   const { data: avatar } = useEnsAvatar({
     name: normalize(ensName!) || undefined,
+    chainId: mainnet.id,
     gatewayUrls: {
       ipfs: process.env.NEXT_PUBLIC_IPFS_GATEWAY || 'https://ipfs.io/',
     },
@@ -48,7 +53,6 @@ const AddressPopover = ({ did, disconnect }: AddressPopoverProps) => {
                 />
               )}
               {ensName ?? `${address?.slice(0, 5)}...${address?.slice(-4)}`}
-
               <ChevronDownIcon
                 className={`animated-transition -mr-1 ml-2 h-3 w-3 md:h-4 md:w-4 lg:h-5 lg:w-5 ${
                   open ? 'rotate-180' : ''
