@@ -14,18 +14,6 @@ export class ProviderStore {
           provider.info.rdns
         )
       ) || null;
-
-    this.store.subscribe((providerDetails: any) => {
-      switch (providerDetails.info.rdns) {
-        case 'io.metamask':
-        case 'io.metamask.flask':
-        case 'io.metamask.mmi':
-          this.currentProvider = providerDetails.provider;
-          break;
-        default:
-          break;
-      }
-    });
   }
 
   getCurrentProvider(): EIP6963ProviderDetail | null {

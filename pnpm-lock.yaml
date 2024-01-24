@@ -473,6 +473,9 @@ importers:
       encoding:
         specifier: ^0.1.13
         version: 0.1.13
+      ens-did-resolver:
+        specifier: ^1.0.4
+        version: 1.0.4
       ethers:
         specifier: ^6.9.0
         version: 6.9.0
@@ -10063,6 +10066,7 @@ packages:
       - encoding
       - supports-color
       - utf-8-validate
+    optional: true
 
   /@react-native-community/cli-plugin-metro@11.3.7(@babel/core@7.23.2)(encoding@0.1.13):
     resolution: {integrity: sha512-0WhgoBVGF1f9jXcuagQmtxpwpfP+2LbLZH4qMyo6OtYLWLG13n2uRep+8tdGzfNzl1bIuUTeE9yZSAdnf9LfYQ==}
@@ -10084,7 +10088,6 @@ packages:
       - encoding
       - supports-color
       - utf-8-validate
-    dev: false
 
   /@react-native-community/cli-server-api@11.3.7(encoding@0.1.13):
     resolution: {integrity: sha512-yoFyGdvR3HxCnU6i9vFqKmmSqFzCbnFSnJ29a+5dppgPRetN+d//O8ard/YHqHzToFnXutAFf2neONn23qcJAg==}
@@ -10152,6 +10155,7 @@ packages:
       - encoding
       - supports-color
       - utf-8-validate
+    optional: true
 
   /@react-native-community/cli@11.3.7(@babel/core@7.23.2)(encoding@0.1.13):
     resolution: {integrity: sha512-Ou8eDlF+yh2rzXeCTpMPYJ2fuqsusNOhmpYPYNQJQ2h6PvaF30kPomflgRILems+EBBuggRtcT+I+1YH4o/q6w==}
@@ -10181,7 +10185,6 @@ packages:
       - encoding
       - supports-color
       - utf-8-validate
-    dev: false
 
   /@react-native/assets-registry@0.72.0:
     resolution: {integrity: sha512-Im93xRJuHHxb1wniGhBMsxLwcfzdYreSZVQGDoMJgkd6+Iky61LInGEHnQCTN0fKNYF1Dvcofb4uMmE1RQHXHQ==}
@@ -10219,7 +10222,7 @@ packages:
     dependencies:
       invariant: 2.2.4
       nullthrows: 1.1.1
-      react-native: 0.72.6(@babel/core@7.23.2)(@babel/preset-env@7.23.2)(react@18.2.0)
+      react-native: 0.72.6(@babel/core@7.23.2)(@babel/preset-env@7.23.2)(encoding@0.1.13)(react@18.2.0)
 
   /@react-oauth/google@0.11.1(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-tywZisXbsdaRBVbEu0VX6dRbOSL2I6DgY97woq5NMOOOz+xtDsm418vqq+Vx10KMtra3kdHMRMf0hXLWrk2RMg==}
@@ -22691,6 +22694,7 @@ packages:
       - encoding
       - supports-color
       - utf-8-validate
+    optional: true
 
   /metro-config@0.76.8(encoding@0.1.13):
     resolution: {integrity: sha512-SL1lfKB0qGHALcAk2zBqVgQZpazDYvYFGwCK1ikz0S6Y/CM2i2/HwuZN31kpX6z3mqjv/6KvlzaKoTb1otuSAA==}
@@ -22708,7 +22712,6 @@ packages:
       - encoding
       - supports-color
       - utf-8-validate
-    dev: false
 
   /metro-core@0.76.8:
     resolution: {integrity: sha512-sl2QLFI3d1b1XUUGxwzw/KbaXXU/bvFYrSKz6Sg19AdYGWFyzsgZ1VISRIDf+HWm4R/TJXluhWMEkEtZuqi3qA==}
@@ -22901,6 +22904,7 @@ packages:
       - encoding
       - supports-color
       - utf-8-validate
+    optional: true
 
   /metro-transform-worker@0.76.8(encoding@0.1.13):
     resolution: {integrity: sha512-mE1fxVAnJKmwwJyDtThildxxos9+DGs9+vTrx2ktSFMEVTtXS/bIv2W6hux1pqivqAfyJpTeACXHk5u2DgGvIQ==}
@@ -22923,7 +22927,6 @@ packages:
       - encoding
       - supports-color
       - utf-8-validate
-    dev: false
 
   /metro@0.76.8:
     resolution: {integrity: sha512-oQA3gLzrrYv3qKtuWArMgHPbHu8odZOD9AoavrqSFllkPgOtmkBvNNDLCELqv5SjBfqjISNffypg+5UGG3y0pg==}
@@ -22983,6 +22986,7 @@ packages:
       - encoding
       - supports-color
       - utf-8-validate
+    optional: true
 
   /metro@0.76.8(encoding@0.1.13):
     resolution: {integrity: sha512-oQA3gLzrrYv3qKtuWArMgHPbHu8odZOD9AoavrqSFllkPgOtmkBvNNDLCELqv5SjBfqjISNffypg+5UGG3y0pg==}
@@ -23042,7 +23046,6 @@ packages:
       - encoding
       - supports-color
       - utf-8-validate
-    dev: false
 
   /micro-ftch@0.3.1:
     resolution: {integrity: sha512-/0LLxhzP0tfiR5hcQebtudP56gUurs2CLkGarnCiB/OqEyUFQ6U3paQi/tgLv0hBJYt2rnr9MNpxz4fiiugstg==}
@@ -25762,7 +25765,6 @@ packages:
       - encoding
       - supports-color
       - utf-8-validate
-    dev: false
 
   /react-native@0.72.6(@babel/core@7.23.2)(@babel/preset-env@7.23.2)(react@18.2.0):
     resolution: {integrity: sha512-RafPY2gM7mcrFySS8TL8x+TIO3q7oAlHpzEmC7Im6pmXni6n1AuufGaVh0Narbr1daxstw7yW7T9BKW5dpVc2A==}
@@ -25815,6 +25817,7 @@ packages:
       - encoding
       - supports-color
       - utf-8-validate
+    optional: true
 
   /react-refresh@0.4.3:
     resolution: {integrity: sha512-Hwln1VNuGl/6bVwnd0Xdn1e84gT/8T9aYNL+HAKDArLCS7LWjwr7StE30IEYbIkx0Vi3vs+coQxe+SQDbGbbpA==}

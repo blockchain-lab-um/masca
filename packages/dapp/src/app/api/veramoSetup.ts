@@ -15,6 +15,7 @@ import {
 import { getDidPkhResolver as didPkhResolver } from '@veramo/did-provider-pkh';
 import { DIDResolverPlugin } from '@veramo/did-resolver';
 import { Resolver } from 'did-resolver';
+import { getResolver as didEnsResolver } from 'ens-did-resolver';
 import { JsonRpcProvider } from 'ethers';
 import { getResolver as didEthrResolver } from 'ethr-did-resolver';
 
@@ -55,6 +56,9 @@ export const getAgent = async (): Promise<Agent> => {
           ...didEthrResolver({ networks }),
           ...didPkhResolver(),
           ...didKeyResolver(),
+          ...didEnsResolver({
+            rpcUrl: process.env.MAINNET_RPC_URL,
+          }),
         }),
       }),
     ],

@@ -48,8 +48,14 @@ export const FormatedView = ({
                   {t('holder')}
                 </h2>
                 <h1 className="font-ubuntu dark:text-orange-accent-dark text-left text-lg font-medium text-pink-500 sm:text-xl md:text-2xl lg:truncate">
-                  {holder.substring(0, 20)}...
-                  {holder.substring(holder.length, holder.length - 10)}
+                  {holder.length <= 32 ? (
+                    holder
+                  ) : (
+                    <>
+                      {holder.substring(0, 20)}...
+                      {holder.substring(holder.length - 10)}
+                    </>
+                  )}
                 </h1>
               </div>
               {issuanceDate && (

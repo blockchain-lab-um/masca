@@ -19,7 +19,7 @@ export const DIDDisplay = ({ did }: { did: string }) => {
           rel="noopener noreferrer"
           className="text-md animated-transition dark:text-navy-blue-300 cursor-pointer font-normal text-gray-700 underline underline-offset-2"
         >
-          {did.length > 20 ? `${did.slice(0, 16)}...${did.slice(-4)}` : did}
+          {did.length <= 32 ? did : `${did.slice(0, 16)}...${did.slice(-4)}`}
         </a>
       </Tooltip>
       <button className="pl-1" onClick={() => copyToClipboard(did)}>

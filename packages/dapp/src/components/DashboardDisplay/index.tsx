@@ -133,7 +133,12 @@ const DashboardDisplay = () => {
           {t('no-credentials.or')}
         </span>
         <Link href="/app/create-credential">
-          <Button variant="secondary" size="sm" onClick={() => {}}>
+          <Button
+            variant="secondary"
+            size="sm"
+            disabled={api === null}
+            onClick={() => {}}
+          >
             {t('no-credentials.get')}
           </Button>
         </Link>

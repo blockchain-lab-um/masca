@@ -54,7 +54,6 @@ export async function POST(request: NextRequest) {
     }
 
     const agent = await getAgent();
-
     const { verified } = await agent.verifyPresentation({
       presentation,
     });
