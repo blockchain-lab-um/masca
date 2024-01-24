@@ -7,8 +7,6 @@ export class ProviderStore {
 
   constructor() {
     this.store = createStore();
-    // FIXME: this should have a better way to find the provider
-    // see: https://github.com/wevm/mipd/issues/12
     const providers = this.store.getProviders();
     this.currentProvider =
       providers.find((provider) =>
