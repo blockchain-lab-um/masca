@@ -30,7 +30,6 @@ import {
   DataManager,
   IDataManager,
 } from '@blockchain-lab-um/veramo-datamanager';
-import { Web3Provider } from '@ethersproject/providers';
 import {
   createAgent,
   CredentialPayload,
@@ -77,9 +76,14 @@ import {
 import { KeyManagementSystem } from '@veramo/kms-local';
 import { decodeCredentialToObject } from '@veramo/utils';
 import { DIDResolutionResult, Resolver } from 'did-resolver';
-import { getResolver } from 'ens-did-resolver';
+import {
+  getResolver as ensDidResolver,
+  ProviderConfiguration,
+} from 'ens-did-resolver';
+import { BrowserProvider } from 'ethers';
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver';
-import * as qs from 'qs';
+import { EthrNetworkConfiguration } from 'node_modules/@veramo/did-provider-ethr/build/ethr-did-provider';
+import qs from 'qs';
 
 import EthereumService from '../Ethereum.service';
 import GeneralService from '../General.service';
@@ -958,24 +962,19 @@ class VeramoService {
     const enabledCredentialStores =
       await GeneralService.getEnabledCredentialStores();
 
-    const networks = [
+    const networks: EthrNetworkConfiguration[] = [
       {
         name: 'mainnet',
-        provider: new Web3Provider(ethereum as any),
-      },
-      {
-        name: '0x05',
-        provider: new Web3Provider(ethereum as any),
+        provider: new BrowserProvider(ethereum as any),
       },
       {
         name: 'goerli',
-        provider: new Web3Provider(ethereum as any),
-        chainId: '0x5',
+        provider: new BrowserProvider(ethereum as any),
       },
       {
         name: 'sepolia',
-        provider: new Web3Provider(ethereum as any),
-        chainId: '0xaa36a7',
+        provider: new BrowserProvider(ethereum as any),
+        registry: '0x03d5003bf0e79c5f5223588f347eba39afbc3818',
       },
     ];
 
@@ -1026,7 +1025,9 @@ class VeramoService {
             ...keyDidResolver(),
             ...pkhDidResolver(),
             ...jwkDidResolver(),
-            ...getResolver({ networks }),
+            ...ensDidResolver({
+              networks: networks as ProviderConfiguration[],
+            }),
             ...UniversalResolverService.getResolver(),
           }),
         }),

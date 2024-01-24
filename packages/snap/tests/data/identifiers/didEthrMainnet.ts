@@ -4,6 +4,7 @@ export const exampleDIDEthrMainnetDocument = {
   '@context': [
     'https://www.w3.org/ns/did/v1',
     'https://w3id.org/security/suites/secp256k1recovery-2020/v2',
+    'https://w3id.org/security/v3-unstable',
   ],
   id: 'did:ethr:0x1:0x0280a9cd48fd436f8c1f81b156eb615618cd573c3eb1e6d937a17b8222027cae85',
   verificationMethod: [

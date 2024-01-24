@@ -28,9 +28,7 @@ const AddressPopover = ({ did, disconnect }: AddressPopoverProps) => {
   const { data: avatar } = useEnsAvatar({
     name: normalize(ensName!) || undefined,
     chainId: mainnet.id,
-    gatewayUrls: {
-      ipfs: process.env.NEXT_PUBLIC_IPFS_GATEWAY || 'https://ipfs.io/',
-    },
+    gatewayUrls: [process.env.NEXT_PUBLIC_IPFS_GATEWAY || 'https://ipfs.io/'],
   });
   return (
     <Popover className="relative z-50">

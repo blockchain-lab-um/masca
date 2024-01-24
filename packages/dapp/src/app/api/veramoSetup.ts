@@ -1,5 +1,4 @@
 import { getDidKeyResolver as didKeyResolver } from '@blockchain-lab-um/did-provider-key';
-import { JsonRpcProvider } from '@ethersproject/providers';
 import {
   createAgent,
   type ICredentialVerifier,
@@ -16,6 +15,7 @@ import {
 import { getDidPkhResolver as didPkhResolver } from '@veramo/did-provider-pkh';
 import { DIDResolverPlugin } from '@veramo/did-resolver';
 import { Resolver } from 'did-resolver';
+import { JsonRpcProvider } from 'ethers';
 import { getResolver as didEthrResolver } from 'ethr-did-resolver';
 
 export type Agent = TAgent<

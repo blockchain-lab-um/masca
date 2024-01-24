@@ -36,7 +36,7 @@ function VCModal({ isOpen, setOpen, vc }: VCModalProps) {
               <div className="w-[48rem] max-w-full">
                 <div className="mt-5">
                   <p className="text-md dark:text-navy-blue-200 text-center text-gray-600">
-                    Here is a credential generated from the payload.
+                    Here is the credential you just created!
                   </p>
                 </div>
                 <div className="mt-5">

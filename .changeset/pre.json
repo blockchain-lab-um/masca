@@ -15,9 +15,16 @@
     "@blockchain-lab-um/masca-types": "1.2.0"
   },
   "changesets": [
+    "brave-suits-know",
+    "breezy-wombats-sin",
     "chatty-plants-notice",
     "chilled-bugs-remember",
+    "eight-masks-mix",
+    "gorgeous-taxis-own",
+    "neat-swans-occur",
+    "plenty-stingrays-give",
     "small-apples-invent",
-    "thin-donkeys-grin"
+    "thin-donkeys-grin",
+    "young-camels-give"
   ]
 }

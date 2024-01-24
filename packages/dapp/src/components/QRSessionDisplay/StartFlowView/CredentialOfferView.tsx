@@ -96,7 +96,7 @@ export const CredentialOfferView = ({
         <>
           <div className="text-h4 pb-8 font-medium">
             {request.type === 'polygonCredentialOffer'
-              ? 'PolygonID Credential Offer'
+              ? 'Polygon ID Credential Offer'
               : 'OIDC Credential Offer'}{' '}
           </div>
           {request.finished ? (

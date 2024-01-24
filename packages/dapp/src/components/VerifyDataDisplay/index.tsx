@@ -143,7 +143,7 @@ const VerifyDataDisplay = () => {
               'min-h-[60vh] w-full resize-none rounded-2xl bg-gray-100 p-2 text-gray-700 focus:outline-none'
             )}
             value={data}
-            placeholder="Paste your Verifiable Credential or Verifiable Presentation here!"
+            placeholder="Paste your credential (VC) or presentation (VP) here!"
             onChange={(e) => {
               setData(e.target.value);
               setValid({ checked: false, valid: false });
