@@ -15,6 +15,7 @@ import {
 import { getDidPkhResolver as didPkhResolver } from '@veramo/did-provider-pkh';
 import { DIDResolverPlugin } from '@veramo/did-resolver';
 import { Resolver } from 'did-resolver';
+import { getResolver as didEnsResolver } from 'ens-did-resolver';
 import { JsonRpcProvider } from 'ethers';
 import { getResolver as didEthrResolver } from 'ethr-did-resolver';
 
@@ -26,13 +27,13 @@ const networks = [
   {
     name: 'mainnet',
     provider: new JsonRpcProvider(
-      'https://mainnet.infura.io/v3/bf246ad3028f42318f2e996a7aa85bfc'
+      process.env.MAINNET_RPC_URL || 'https://mainnet.infura.io/v3/'
     ),
   },
   {
     name: 'sepolia',
     provider: new JsonRpcProvider(
-      'https://sepolia.infura.io/v3/bf246ad3028f42318f2e996a7aa85bfc'
+      process.env.SEPOLIA_RPC_URL || 'https://sepolia.infura.io/v3/'
     ),
     chainId: '0xaa36a7',
   },
@@ -55,6 +56,9 @@ export const getAgent = async (): Promise<Agent> => {
           ...didEthrResolver({ networks }),
           ...didPkhResolver(),
           ...didKeyResolver(),
+          ...didEnsResolver({
+            rpcUrl: process.env.MAINNET_RPC_URL,
+          }),
         }),
       }),
     ],

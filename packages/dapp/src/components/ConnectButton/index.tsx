@@ -1,24 +1,41 @@
+import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { Connector, useAccount, useConnect } from 'wagmi';
 
 import Button from '@/components/Button';
-import { useGeneralStore } from '@/stores';
 
 const ConnectButton = () => {
+  const { connectors, connect, status, isPending: isConnecting } = useConnect();
+  const { isConnected } = useAccount();
+  const [metamaskConnector, setMetamaskConnector] = useState<Connector | null>(
+    null
+  );
   const t = useTranslations('ConnectButton');
-  const { isConnecting, changeIsConnecting } = useGeneralStore((state) => ({
-    isConnecting: state.isConnecting,
-    changeIsConnecting: state.changeIsConnecting,
-  }));
+
+  useEffect(() => {
+    setMetamaskConnector(
+      connectors.find(
+        (connector) =>
+          connector.id === 'io.metamask' || connector.id === 'io.metamask.flask'
+      ) || null
+    );
+  }, [connectors]);
 
   return (
-    <Button
-      variant="connect"
-      size="md"
-      onClick={() => changeIsConnecting(true)}
-      loading={isConnecting}
-    >
-      {t('connect')}
-    </Button>
+    !isConnected &&
+    metamaskConnector && (
+      <Button
+        key={metamaskConnector.uid}
+        variant="connect"
+        size="md"
+        onClick={() => {
+          connect({ connector: metamaskConnector });
+        }}
+        loading={isConnecting}
+      >
+        {t('connect')}
+      </Button>
+    )
   );
 };
 

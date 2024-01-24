@@ -7,7 +7,7 @@ import { shallow } from 'zustand/shallow';
 import { createWithEqualityFn } from 'zustand/traditional';
 
 interface MascaStore {
-  mascaApi: MascaApi | undefined;
+  mascaApi: MascaApi | null;
   availableMethods: string[];
   currDIDMethod: string | undefined;
   currCredentialStore: AvailableCredentialStores | undefined;
@@ -33,7 +33,7 @@ interface MascaStore {
 }
 
 export const mascaStoreInitialState = {
-  mascaApi: undefined,
+  mascaApi: null,
   availableMethods: [],
   currDIDMethod: undefined,
   currCredentialStore: undefined,

@@ -50,6 +50,10 @@
       "settings": "Settings"
     }
   },
+  "NavConnection": {
+    "select-method": "Select a method",
+    "unsupported-network": "Unsupported network"
+  },
   "ChooseDeviceView": {
     "connect": "Connect Wallet to see more options...",
     "primary-has-camera": "This Device can scan/upload QR codes",

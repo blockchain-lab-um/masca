@@ -7,8 +7,8 @@ import {
   LockClosedIcon,
 } from '@heroicons/react/24/solid';
 import { useTranslations } from 'next-intl';
+import { useAccount } from 'wagmi';
 
-import { useGeneralStore } from '@/stores';
 import MascaLogo from '../MascaLogo';
 
 interface ConnectedProviderProps {
@@ -17,13 +17,11 @@ interface ConnectedProviderProps {
 
 const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
   const t = useTranslations('ConnectedProvider');
-  const isConnected = useGeneralStore((state) => state.isConnected);
+  const { isConnected } = useAccount();
 
-  if (isConnected) {
-    return <>{children}</>;
-  }
-
-  return (
+  return isConnected ? (
+    <>{children}</>
+  ) : (
     <div className="dark:bg-navy-blue-800 dark:text-navy-blue-400 flex-1 rounded-3xl bg-white shadow-lg">
       <div className="flex flex-col items-center justify-center px-6 py-12 sm:px-12">
         <div className="flex h-full flex-col items-center justify-center">

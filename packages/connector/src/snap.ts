@@ -28,11 +28,13 @@ import type {
   W3CVerifiableCredential,
 } from '@veramo/core';
 
+import { ProviderStore } from './ProviderStore.js';
 import {
   signVerifiableCredential,
   signVerifiablePresentation,
   validateAndSetCeramicSession,
 } from './utils.js';
+import { ViemClient } from './ViemClient.js';
 
 /**
  * Send a request to the Masca snap
@@ -42,16 +44,21 @@ import {
  * @throws Error - if the request fails
  */
 async function sendSnapMethod<T>(
+  context: Masca,
   request: MascaRPCRequest,
   snapId: string
 ): Promise<T> {
-  return window.ethereum.request({
+  const provider = context.providerStore.getCurrentProvider()?.provider;
+  if (!provider) throw new Error('No provider found');
+  // FIXME: currently the wallet_requestSnaps is not in type of EIP-1193 provider since its not standard
+  // therefore "as unknown as any" is used to bypass the type check
+  return provider.request({
     method: 'wallet_invokeSnap',
     params: {
       snapId,
       request,
     },
-  });
+  } as unknown as any);
 }
 
 /**
@@ -67,6 +74,7 @@ async function queryCredentials(
   await validateAndSetCeramicSession.bind(this)();
 
   return sendSnapMethod(
+    this,
     { method: 'queryCredentials', params: params ?? {} },
     this.snapId
   );
@@ -84,6 +92,7 @@ async function createPresentation(
   await validateAndSetCeramicSession.bind(this)();
 
   const result = await sendSnapMethod<Result<VerifiablePresentation>>(
+    this,
     {
       method: 'createPresentation',
       params,
@@ -100,7 +109,7 @@ async function createPresentation(
   }
 
   const signedResult = ResultObject.success(
-    await signVerifiablePresentation(result.data)
+    await signVerifiablePresentation.bind(this)(result.data)
   );
 
   return signedResult;
@@ -121,6 +130,7 @@ async function saveCredential(
   await validateAndSetCeramicSession.bind(this)();
 
   return sendSnapMethod(
+    this,
     {
       method: 'saveCredential',
       params: {
@@ -146,6 +156,7 @@ async function deleteCredential(
   await validateAndSetCeramicSession.bind(this)();
 
   return sendSnapMethod(
+    this,
     {
       method: 'deleteCredential',
       params: {
@@ -162,7 +173,7 @@ async function deleteCredential(
  * @return Result<string> - DID
  */
 async function getDID(this: Masca): Promise<Result<string>> {
-  return sendSnapMethod({ method: 'getDID' }, this.snapId);
+  return sendSnapMethod(this, { method: 'getDID' }, this.snapId);
 }
 
 /**
@@ -170,7 +181,7 @@ async function getDID(this: Masca): Promise<Result<string>> {
  * @return Result<string> - DID method
  */
 async function getSelectedMethod(this: Masca): Promise<Result<string>> {
-  return sendSnapMethod({ method: 'getSelectedMethod' }, this.snapId);
+  return sendSnapMethod(this, { method: 'getSelectedMethod' }, this.snapId);
 }
 
 /**
@@ -178,7 +189,7 @@ async function getSelectedMethod(this: Masca): Promise<Result<string>> {
  * @return Result<string[]> - list of available DID methods
  */
 async function getAvailableMethods(this: Masca): Promise<Result<string[]>> {
-  return sendSnapMethod({ method: 'getAvailableMethods' }, this.snapId);
+  return sendSnapMethod(this, { method: 'getAvailableMethods' }, this.snapId);
 }
 
 /**
@@ -192,6 +203,7 @@ async function switchDIDMethod(
 ): Promise<Result<AvailableMethods>> {
   if (this.supportedMethods.includes(method)) {
     return sendSnapMethod(
+      this,
       { method: 'switchDIDMethod', params: { didMethod: method } },
       this.snapId
     );
@@ -204,7 +216,7 @@ async function switchDIDMethod(
  * @return Result<boolean> - true if the switch was successful
  */
 async function togglePopups(this: Masca): Promise<Result<boolean>> {
-  return sendSnapMethod({ method: 'togglePopups' }, this.snapId);
+  return sendSnapMethod(this, { method: 'togglePopups' }, this.snapId);
 }
 
 /**
@@ -213,7 +225,7 @@ async function togglePopups(this: Masca): Promise<Result<boolean>> {
  * @return Result<boolean> - true if the addition was successful
  */
 async function addFriendlyDapp(this: Masca): Promise<Result<boolean>> {
-  return sendSnapMethod({ method: 'addFriendlyDapp' }, this.snapId);
+  return sendSnapMethod(this, { method: 'addFriendlyDapp' }, this.snapId);
 }
 
 /**
@@ -226,6 +238,7 @@ async function removeFriendlyDapp(
   id: string
 ): Promise<Result<boolean>> {
   return sendSnapMethod(
+    this,
     { method: 'removeFriendlyDapp', params: { id } },
     this.snapId
   );
@@ -239,7 +252,7 @@ async function removeFriendlyDapp(
 async function getCredentialStore(
   this: Masca
 ): Promise<Result<Record<AvailableCredentialStores, boolean>>> {
-  return sendSnapMethod({ method: 'getCredentialStore' }, this.snapId);
+  return sendSnapMethod(this, { method: 'getCredentialStore' }, this.snapId);
 }
 
 /**
@@ -250,6 +263,7 @@ async function getAvailableCredentialStores(
   this: Masca
 ): Promise<Result<string[]>> {
   return sendSnapMethod(
+    this,
     { method: 'getAvailableCredentialStores' },
     this.snapId
   );
@@ -267,6 +281,7 @@ async function setCredentialStore(
   value: boolean
 ): Promise<Result<boolean>> {
   return sendSnapMethod(
+    this,
     { method: 'setCredentialStore', params: { store, value } },
     this.snapId
   );
@@ -279,7 +294,7 @@ async function setCredentialStore(
 async function getAccountSettings(
   this: Masca
 ): Promise<Result<MascaAccountConfig>> {
-  return sendSnapMethod({ method: 'getAccountSettings' }, this.snapId);
+  return sendSnapMethod(this, { method: 'getAccountSettings' }, this.snapId);
 }
 
 /**
@@ -287,7 +302,7 @@ async function getAccountSettings(
  * @return Result<MascaConfig> - Masca settings
  */
 async function getSnapSettings(this: Masca): Promise<Result<MascaConfig>> {
-  return sendSnapMethod({ method: 'getSnapSettings' }, this.snapId);
+  return sendSnapMethod(this, { method: 'getSnapSettings' }, this.snapId);
 }
 
 /**
@@ -299,7 +314,11 @@ async function resolveDID(
   this: Masca,
   did: string
 ): Promise<Result<DIDResolutionResult>> {
-  return sendSnapMethod({ method: 'resolveDID', params: { did } }, this.snapId);
+  return sendSnapMethod(
+    this,
+    { method: 'resolveDID', params: { did } },
+    this.snapId
+  );
 }
 
 /**
@@ -314,6 +333,7 @@ async function createCredential(
   await validateAndSetCeramicSession.bind(this)();
 
   const result = await sendSnapMethod(
+    this,
     {
       method: 'createCredential',
       params,
@@ -349,6 +369,7 @@ async function setCurrentAccount(
   params: SetCurrentAccountRequestParams
 ): Promise<Result<boolean>> {
   return sendSnapMethod(
+    this,
     {
       method: 'setCurrentAccount',
       params,
@@ -368,6 +389,7 @@ async function verifyData(
   params: VerifyDataRequestParams
 ): Promise<Result<boolean | IVerifyResult>> {
   return sendSnapMethod(
+    this,
     {
       method: 'verifyData',
       params,
@@ -387,6 +409,7 @@ async function handleCredentialOffer(
   params: HandleCredentialOfferRequestParams
 ): Promise<Result<VerifiableCredential[]>> {
   return sendSnapMethod(
+    this,
     {
       method: 'handleCredentialOffer',
       params,
@@ -406,6 +429,7 @@ async function handleAuthorizationRequest(
   params: HandleAuthorizationRequestParams
 ): Promise<Result<void>> {
   return sendSnapMethod(
+    this,
     {
       method: 'handleAuthorizationRequest',
       params,
@@ -425,6 +449,7 @@ async function setCeramicSession(
   serializedSession: string
 ): Promise<Result<boolean>> {
   return sendSnapMethod(
+    this,
     {
       method: 'setCeramicSession',
       params: { serializedSession },
@@ -442,6 +467,7 @@ async function validateStoredCeramicSession(
   this: Masca
 ): Promise<Result<boolean>> {
   return sendSnapMethod(
+    this,
     {
       method: 'validateStoredCeramicSession',
     },
@@ -456,6 +482,7 @@ async function validateStoredCeramicSession(
  */
 async function exportStateBackup(this: Masca): Promise<Result<string>> {
   return sendSnapMethod(
+    this,
     {
       method: 'exportStateBackup',
     },
@@ -474,6 +501,7 @@ async function importStateBackup(
   params: ImportStateBackupRequestParams
 ): Promise<Result<boolean>> {
   return sendSnapMethod(
+    this,
     {
       method: 'importStateBackup',
       params,
@@ -489,6 +517,7 @@ async function importStateBackup(
  */
 async function getWalletId(this: Masca): Promise<Result<string>> {
   return sendSnapMethod(
+    this,
     {
       method: 'getWalletId',
     },
@@ -506,6 +535,7 @@ async function signData(
   params: SignDataRequestParams
 ): Promise<Result<string>> {
   return sendSnapMethod(
+    this,
     {
       method: 'signData',
       params,
@@ -529,9 +559,17 @@ export class Masca {
 
   public readonly supportedMethods: AvailableMethods[];
 
+  public providerStore: ProviderStore;
+
+  public viemClient: ViemClient;
+
   public constructor(snapId: string, supportedMethods: AvailableMethods[]) {
     this.snapId = snapId;
     this.supportedMethods = supportedMethods;
+    this.providerStore = new ProviderStore();
+    this.viemClient = new ViemClient({
+      provider: this.providerStore.getCurrentProvider()?.provider,
+    });
   }
 
   public getMascaApi = (): MascaApi => ({

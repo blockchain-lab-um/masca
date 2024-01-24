@@ -3,18 +3,24 @@
 import { Fragment } from 'react';
 import {
   isError,
+  requiresNetwork,
   type AvailableMethods,
 } from '@blockchain-lab-um/masca-connector';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
+import { useChainId, useSwitchChain } from 'wagmi';
 
+import { NETWORKS_BY_DID } from '@/utils/networks';
 import { useMascaStore, useToastStore } from '@/stores';
+import { TextSkeleton } from '../Skeletons/TextSkeleton';
 import { DropdownButton } from './MethodDropdownButton';
 
 export default function MethodDropdownMenu() {
   const t = useTranslations('MethodDropdownMenu');
+  const chainId = useChainId();
+  const { switchChainAsync } = useSwitchChain();
   const { api, currMethod, methods, changeCurrDIDMethod, changeDID } =
     useMascaStore((state) => ({
       api: state.mascaApi,
@@ -24,7 +30,7 @@ export default function MethodDropdownMenu() {
       changeDID: state.changeCurrDID,
     }));
 
-  const handleMethodChange = async (method: string) => {
+  const handleMethodChangeRequest = async (method: string) => {
     if (method !== currMethod) {
       if (!api) return;
 
@@ -37,6 +43,21 @@ export default function MethodDropdownMenu() {
           link: null,
         });
       }, 200);
+      if (requiresNetwork(method)) {
+        const availableNetworks = NETWORKS_BY_DID[method];
+        const hasCorrectNetwork =
+          availableNetworks.includes(`0x${chainId.toString(16)}`) ||
+          availableNetworks.includes('*');
+        let netToChange = availableNetworks[0];
+        if (netToChange === '*') {
+          netToChange = '0x1';
+        }
+        if (!hasCorrectNetwork) {
+          const { id } = await switchChainAsync({
+            chainId: Number(netToChange),
+          });
+        }
+      }
 
       const res = await api.switchDIDMethod(method as AvailableMethods);
       useToastStore.setState({
@@ -86,16 +107,25 @@ export default function MethodDropdownMenu() {
                   ? 'dark:bg-navy-blue-800 bg-orange-100/50'
                   : 'dark:hover:bg-navy-blue-800 hover:bg-orange-100/50'
               )}
+              disabled={currMethod === null}
             >
-              {currMethod === 'did:key:jwk_jcs-pub'
-                ? 'did:key (EBSI)'
-                : currMethod}
-              <ChevronDownIcon
-                className={clsx(
-                  'dark:text-navy-blue-400 animated-transition -mr-1 ml-2 h-5 w-5 text-gray-600',
-                  open ? 'rotate-180' : ''
-                )}
-              />
+              {currMethod ? (
+                currMethod === 'did:key:jwk_jcs-pub' ? (
+                  'did:key (EBSI)'
+                ) : (
+                  currMethod
+                )
+              ) : (
+                <TextSkeleton className="h-4 w-16" />
+              )}
+              {currMethod && (
+                <ChevronDownIcon
+                  className={clsx(
+                    'dark:text-navy-blue-400 animated-transition -mr-1 ml-2 h-5 w-5 text-gray-600',
+                    open ? 'rotate-180' : ''
+                  )}
+                />
+              )}
             </Menu.Button>
           </div>
 
@@ -108,19 +138,21 @@ export default function MethodDropdownMenu() {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <Menu.Items className="dark:bg-navy-blue-600 absolute right-0 z-50 mt-1 w-48 rounded-3xl bg-white shadow-lg">
-              <div className="p-1 text-center ">
-                {methods.map((method, id) => (
-                  <DropdownButton
-                    key={id}
-                    selected={method === currMethod}
-                    handleBtn={handleMethodChange}
-                  >
-                    {method}
-                  </DropdownButton>
-                ))}
-              </div>
-            </Menu.Items>
+            {currMethod && (
+              <Menu.Items className="dark:bg-navy-blue-600 absolute right-0 z-50 mt-1 w-48 rounded-3xl bg-white shadow-lg">
+                <div className="p-1 text-center ">
+                  {methods.map((method, id) => (
+                    <DropdownButton
+                      key={id}
+                      selected={method === currMethod}
+                      handleBtn={handleMethodChangeRequest}
+                    >
+                      {method}
+                    </DropdownButton>
+                  ))}
+                </div>
+              </Menu.Items>
+            )}
           </Transition>
         </Fragment>
       )}

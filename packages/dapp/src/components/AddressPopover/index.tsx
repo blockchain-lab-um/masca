@@ -1,21 +1,35 @@
 'use client';
 
+import Image from 'next/image';
 import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
+import { mainnet } from 'viem/chains';
+import { normalize } from 'viem/ens';
+import { useAccount, useEnsAvatar, useEnsName } from 'wagmi';
 
 import { copyToClipboard } from '@/utils/string';
+import { TextSkeleton } from '../Skeletons/TextSkeleton';
 
 interface AddressPopoverProps {
-  address: string;
   did: string;
   disconnect: () => void;
 }
 
-const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
+const AddressPopover = ({ did, disconnect }: AddressPopoverProps) => {
   const t = useTranslations('AppNavbar');
+  const { address } = useAccount();
+  const { data: ensName } = useEnsName({
+    address,
+    chainId: mainnet.id,
+  });
+  const { data: avatar } = useEnsAvatar({
+    name: normalize(ensName!) || undefined,
+    chainId: mainnet.id,
+    gatewayUrls: [process.env.NEXT_PUBLIC_IPFS_GATEWAY || 'https://ipfs.io/'],
+  });
   return (
     <Popover className="relative z-50">
       {({ open }) => (
@@ -27,9 +41,17 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
               open ? 'dark:bg-orange-accent-dark/80 bg-pink-200/80' : ''
             )}
           >
-            <div className="flex">
-              {`${address.slice(0, 5)}...${address.slice(-4)}`}
-
+            <div className="flex items-center justify-center">
+              {avatar && (
+                <Image
+                  src={avatar}
+                  width={24}
+                  height={24}
+                  alt="User's ENS pfp"
+                  className="mr-2 inline-block rounded-full"
+                />
+              )}
+              {ensName ?? `${address?.slice(0, 5)}...${address?.slice(-4)}`}
               <ChevronDownIcon
                 className={`animated-transition -mr-1 ml-2 h-3 w-3 md:h-4 md:w-4 lg:h-5 lg:w-5 ${
                   open ? 'rotate-180' : ''
@@ -52,20 +74,25 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
                     <div className="dark:text-navy-blue-100 text-sm text-gray-700">
                       DID
                     </div>
-                    <div className="mt-2 flex items-center">
-                      <a
-                        href={`https://dev.uniresolver.io/#${did}`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="animated-transition cursor-pointer text-2xl text-gray-800 underline hover:text-gray-700 dark:text-white dark:hover:text-gray-100"
-                      >{`${did.substring(0, did.lastIndexOf(':'))}:${did
-                        .split(':')
-                        [did.split(':').length - 1].slice(0, 5)}...${did.slice(
-                        -4
-                      )}`}</a>
+                    <div className="mt-2 flex items-center justify-center">
+                      {did ? (
+                        <a
+                          href={`https://dev.uniresolver.io/#${did}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="animated-transition cursor-pointer text-2xl text-gray-800 underline hover:text-gray-700 dark:text-white dark:hover:text-gray-100"
+                        >{`${did.substring(0, did.lastIndexOf(':'))}:${did
+                          .split(':')
+                          [did.split(':').length - 1].slice(
+                            0,
+                            5
+                          )}...${did.slice(-4)}`}</a>
+                      ) : (
+                        <TextSkeleton className="h-6 w-52" />
+                      )}
                       <button
                         onClick={() => {
-                          copyToClipboard(did);
+                          if (did) copyToClipboard(did);
                         }}
                       >
                         <DocumentDuplicateIcon className="animated-transition dark:text-navy-blue-50 ml-1 h-5 w-5 text-gray-800 hover:text-gray-600" />
@@ -80,13 +107,13 @@ const AddressPopover = ({ address, did, disconnect }: AddressPopoverProps) => {
                       <div className="mr-1 mt-0.5">
                         <div className="h-2.5 w-2.5 rounded-full bg-green-500"></div>
                       </div>
-                      <div className="text-lg text-gray-800 dark:text-white">{`${address.slice(
+                      <div className="text-lg text-gray-800 dark:text-white">{`${address?.slice(
                         0,
                         5
-                      )}...${address.slice(-4)}`}</div>
+                      )}...${address?.slice(-4)}`}</div>
                       <button
                         onClick={() => {
-                          copyToClipboard(address);
+                          copyToClipboard(address as string);
                         }}
                       >
                         <DocumentDuplicateIcon className="animated-transition dark:text-navy-blue-50 ml-1 h-5 w-5 text-gray-800 hover:text-gray-600" />

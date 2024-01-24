@@ -4,11 +4,11 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
+import { useAccount } from 'wagmi';
 
 import MascaLogo from '@/components/MascaLogo';
 import MenuPopover from '@/components/MenuPopover';
 import ToggleTheme from '@/components/ToggleTheme';
-import { useGeneralStore } from '@/stores';
 import { NavConnection } from './NavConnection';
 
 const MAIN_LINKS = [
@@ -27,7 +27,7 @@ const MAIN_LINKS = [
 export default function AppNavbar() {
   const t = useTranslations('AppNavbar');
   const pathname = usePathname() ?? '/';
-  const isConnected = useGeneralStore((state) => state.isConnected);
+  const { isConnected, isConnecting } = useAccount();
 
   return (
     <div className="main-bg fixed top-0 z-50 m-0 flex h-24 w-screen items-center">
