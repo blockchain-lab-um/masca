@@ -73,8 +73,8 @@
     "siwe": "^2.1.4",
     "swr": "^2.2.4",
     "tailwind-scrollbar": "^3.0.5",
-    "viem": "^2.1.1",
-    "wagmi": "^2.2.1",
+    "viem": "^2.5.0",
+    "wagmi": "^2.5.1",
     "zustand": "^4.4.4"
   },
   "devDependencies": {
