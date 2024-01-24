@@ -21,8 +21,6 @@ const ConnectButton = () => {
     );
   }, [connectors]);
 
-  useEffect(() => {}, [isConnected, isConnecting, status]);
-
   return (
     !isConnected &&
     metamaskConnector && (

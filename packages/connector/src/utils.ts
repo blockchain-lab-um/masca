@@ -76,14 +76,14 @@ export async function signVerifiablePresentation(
 ): Promise<VerifiablePresentation> {
   const provider = this.providerStore.getCurrentProvider()?.provider;
   if (!provider) throw new Error('No provider found');
-  const addresses: string[] = await provider.request({
+  const addresses: `0x${string}`[] = await provider.request({
     method: 'eth_requestAccounts',
   });
 
   if (
     !presentation.holder.includes(addresses[0]) &&
     !presentation.holder.includes(
-      await this.viemClient.getEns({ address: addresses[0] as `0x${string}` })
+      await this.viemClient.getEns({ address: addresses[0] })
     )
   ) {
     throw new Error('Wrong holder');

@@ -361,9 +361,6 @@ importers:
       '@didtools/pkh-ethereum':
         specifier: 0.4.0
         version: 0.4.0
-      '@metamask/detect-provider':
-        specifier: ^2.0.0
-        version: 2.0.0
       '@veramo/core':
         specifier: 5.6.0
         version: 5.6.0
@@ -377,7 +374,7 @@ importers:
         specifier: ^0.0.5
         version: 0.0.5(typescript@5.2.2)
       viem:
-        specifier: ^2.1.1
+        specifier: ^2.5.0
         version: 2.5.0(typescript@5.2.2)
     devDependencies:
       esbuild-loader:
@@ -846,7 +843,7 @@ importers:
         specifier: ^6.11.2
         version: 6.11.2
       viem:
-        specifier: ^2.1.1
+        specifier: ^2.5.0
         version: 2.5.0(typescript@5.2.2)
     devDependencies:
       '@ceramicnetwork/streamid':
@@ -6750,11 +6747,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
-
-  /@metamask/detect-provider@2.0.0:
-    resolution: {integrity: sha512-sFpN+TX13E9fdBDh9lvQeZdJn4qYoRb/6QF2oZZK/Pn559IhCFacPMU1rMuqyXoFQF3JSJfii2l98B87QDPeCQ==}
-    engines: {node: '>=14.0.0'}
-    dev: false
 
   /@metamask/eth-json-rpc-provider@1.0.1:
     resolution: {integrity: sha512-whiUMPlAOrVGmX8aKYVPvlKyG4CpQXiNNyt74vE1xb5sPvmx5oA7B/kOi/JdBvhGQq97U1/AVdXEdk2zkP8qyA==}
