@@ -11,11 +11,10 @@ export class ProviderStore {
     // see: https://github.com/wevm/mipd/issues/12
     const providers = this.store.getProviders();
     this.currentProvider =
-      providers.find(
-        (provider) =>
-          provider.info.rdns === 'io.metamask' ||
-          'io.metamask.mmi' ||
-          'io.metamask.flask'
+      providers.find((provider) =>
+        ['io.metamask', 'io.metamask.mmi', 'io.metamask.flask'].includes(
+          provider.info.rdns
+        )
       ) || null;
 
     this.store.subscribe((providerDetails: any) => {
