@@ -24,7 +24,6 @@
     "@blockchain-lab-um/did-provider-key": "1.0.7",
     "@blockchain-lab-um/masca-connector": "1.2.2-beta.0",
     "@blockchain-lab-um/oidc-types": "0.0.8",
-    "@ethersproject/providers": "^5.7.2",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
     "@nextui-org/react": "^2.2.9",
