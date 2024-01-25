@@ -15,7 +15,10 @@ import {
 } from '@veramo/credential-w3c';
 import { AbstractDIDStore, DIDManager } from '@veramo/did-manager';
 import { EthrDIDProvider } from '@veramo/did-provider-ethr';
-import { getDidPkhResolver as didPkhResolver } from '@veramo/did-provider-pkh';
+import {
+  getDidPkhResolver as didPkhResolver,
+  PkhDIDProvider,
+} from '@veramo/did-provider-pkh';
 import { DIDResolverPlugin } from '@veramo/did-resolver';
 import {
   KeyManager,
@@ -71,6 +74,9 @@ export const getAgent = async (): Promise<Agent> => {
           'did:ethr': new EthrDIDProvider({
             defaultKms: 'local',
             networks,
+          }),
+          'did:pkh': new PkhDIDProvider({
+            defaultKms: 'local',
           }),
         },
       }),

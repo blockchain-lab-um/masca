@@ -11,7 +11,7 @@ export async function POST(request: Request) {
   const { did } = await request.json();
   const agent = await getAgent();
   const controllerKeyId = 'key-1';
-  const method = 'did:ethr';
+  const method = 'did:pkh';
   const issuerDid = await agent.didManagerImport({
     did: ISSUER,
     provider: method,
@@ -25,7 +25,6 @@ export async function POST(request: Request) {
       } as MinimalImportableKey,
     ],
   });
-  console.log(did);
   const vc = await agent.createVerifiableCredential({
     credential: {
       id: randomUUID(),
