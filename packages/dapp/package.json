@@ -21,7 +21,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@blockchain-lab-um/did-provider-key": "1.0.7",
+    "@blockchain-lab-um/did-provider-key": "1.0.8-beta.0",
     "@blockchain-lab-um/masca-connector": "1.2.2-beta.0",
     "@blockchain-lab-um/oidc-types": "0.0.8",
     "@headlessui/react": "^1.7.17",

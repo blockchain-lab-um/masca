@@ -390,8 +390,8 @@ importers:
   packages/dapp:
     dependencies:
       '@blockchain-lab-um/did-provider-key':
-        specifier: 1.0.7
-        version: 1.0.7(encoding@0.1.13)
+        specifier: 1.0.8-beta.0
+        version: link:../../libs/did-provider-key
       '@blockchain-lab-um/masca-connector':
         specifier: 1.2.2-beta.0
         version: link:../connector
@@ -3006,33 +3006,6 @@ packages:
   /@bitauth/libauth@1.19.1:
     resolution: {integrity: sha512-R524tD5VwOt3QRHr7N518nqTVR/HKgfWL4LypekcGuNQN8R4PWScvuRcRzrY39A28kLztMv+TJdiKuMNbkU1ug==}
     engines: {node: '>=8.9'}
-
-  /@blockchain-lab-um/did-provider-key@1.0.7(encoding@0.1.13):
-    resolution: {integrity: sha512-pkWO0llegx4mPzeiEG6ZJZekuJ/+mriGQ1MNK6Pgc4mnzxuvCBjyG+8eZpcpR98gInENfSz4bDb0lqHQ93xkHQ==}
-    dependencies:
-      '@blockchain-lab-um/utils': 1.3.6(encoding@0.1.13)
-      '@cef-ebsi/key-did-resolver': 1.1.0
-      '@stablelib/ed25519': 1.0.3
-      '@veramo/core': 5.4.1
-      '@veramo/did-manager': 5.4.1
-      did-resolver: 4.1.0
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
-    dev: false
-
-  /@blockchain-lab-um/utils@1.3.6(encoding@0.1.13):
-    resolution: {integrity: sha512-pQLflCwhzuV8tYtJW2DNdx0WqjrsKiH6QUGdWMTRPBIIxDKqOvHNLfxw29SG2FXX2JcfrTqNG80aX+qCdAdlfg==}
-    dependencies:
-      '@veramo/utils': 5.4.1(encoding@0.1.13)
-      did-resolver: 4.1.0
-      elliptic: 6.5.4
-      multiformats: 11.0.2
-      secp256k1: 5.0.0
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
-    dev: false
 
   /@cef-ebsi/ebsi-did-resolver@3.2.0:
     resolution: {integrity: sha512-4wM5TK5l6xRBSkOCEZRP64Xqsd0BqmvjfSpREn8fXbrpMZqOafku77YQSMzqFmOIQ62HSEi5Vf4CSzDHAmalig==}
@@ -12519,17 +12492,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /@veramo/core@5.4.1:
-    resolution: {integrity: sha512-qmd/0lYKuxZyT3N85VrRe6XwJDRqs+NRHFbWnO9T+/G2LGu1P/VBKeHNdPaLHTK4jTyfkyXTwHc2513T1Tvfjg==}
-    dependencies:
-      '@veramo/core-types': 5.5.3
-      debug: 4.3.4
-      events: 3.3.0
-      z-schema: 6.0.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /@veramo/core@5.5.3:
     resolution: {integrity: sha512-Z74AaGJB6syijEr+GgdlIf+4pXB46BDHKWEnL3ca1HOLmfCiZgpO94dl27+x+tMWBKQAGs0fEJj2yQQengre1g==}
     dependencies:
@@ -12706,15 +12668,6 @@ packages:
     dependencies:
       '@veramo/core-types': 5.6.0
       debug: 4.3.4
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /@veramo/did-manager@5.4.1:
-    resolution: {integrity: sha512-6Tz5elqYt/k7POT7rB6qZ/wsf6/uu5P1bRHk55eti+5u67PQF8/4/EqoLf4vxXCNk8fC+vttASpGQrCj74cnog==}
-    dependencies:
-      '@veramo/core-types': 5.5.3
-      '@veramo/did-discovery': 5.5.3
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -12902,27 +12855,6 @@ packages:
       '@veramo/core-types': 5.6.0
       debug: 4.3.4
     transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /@veramo/utils@5.4.1(encoding@0.1.13):
-    resolution: {integrity: sha512-9TcONSD1PKxrlU3frE/Vp33wTauTsoTSLK0ubWEkzxeH9XYVgXhhe4jRBVfYS2aRz4nCNYesfWNgiX2QYSV+IQ==}
-    dependencies:
-      '@ethersproject/signing-key': 5.7.0
-      '@ethersproject/transactions': 5.7.0
-      '@noble/curves': 1.2.0
-      '@noble/hashes': 1.3.2
-      '@veramo/core-types': 5.5.3
-      credential-status: 2.0.6
-      cross-fetch: 3.1.8(patch_hash=o7exbxzvysudd5km3yp6v3mgsi)(encoding@0.1.13)
-      debug: 4.3.4
-      did-jwt: 7.4.4
-      did-jwt-vc: 3.2.13
-      did-resolver: 4.1.0
-      multiformats: 12.1.3
-      uint8arrays: 4.0.6
-    transitivePeerDependencies:
-      - encoding
       - supports-color
     dev: false
 
