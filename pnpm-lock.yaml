@@ -440,6 +440,9 @@ importers:
       '@veramo/credential-w3c':
         specifier: 5.6.0
         version: 5.6.0(encoding@0.1.13)(expo@49.0.16)(react-native@0.72.6)
+      '@veramo/did-manager':
+        specifier: ^5.6.0
+        version: 5.6.0
       '@veramo/did-provider-ethr':
         specifier: 5.6.0
         version: 5.6.0
@@ -448,6 +451,12 @@ importers:
         version: 5.6.0
       '@veramo/did-resolver':
         specifier: 5.6.0
+        version: 5.6.0(encoding@0.1.13)
+      '@veramo/key-manager':
+        specifier: ^5.6.0
+        version: 5.6.0(encoding@0.1.13)
+      '@veramo/kms-local':
+        specifier: ^5.6.0
         version: 5.6.0(encoding@0.1.13)
       '@veramo/utils':
         specifier: 5.6.0
@@ -799,10 +808,10 @@ importers:
         version: 5.6.0(encoding@0.1.13)
       '@veramo/key-manager':
         specifier: 5.6.0
-        version: 5.6.0
+        version: 5.6.0(encoding@0.1.13)
       '@veramo/kms-local':
         specifier: 5.6.0
-        version: 5.6.0
+        version: 5.6.0(encoding@0.1.13)
       '@veramo/utils':
         specifier: 5.6.0
         version: 5.6.0(encoding@0.1.13)
@@ -12670,8 +12679,8 @@ packages:
     dependencies:
       '@veramo/core-types': 5.5.3
       '@veramo/did-discovery': 5.5.3
-      '@veramo/did-manager': 5.5.3
-      '@veramo/key-manager': 5.5.3
+      '@veramo/did-manager': 5.6.0
+      '@veramo/key-manager': 5.6.0(encoding@0.1.13)
       '@veramo/utils': 5.5.3
       debug: 4.3.4
       did-jwt-vc: 3.2.13
@@ -12681,6 +12690,7 @@ packages:
       - '@google-cloud/spanner'
       - '@sap/hana-client'
       - better-sqlite3
+      - bufferutil
       - encoding
       - hdb-pool
       - ioredis
@@ -12697,6 +12707,7 @@ packages:
       - supports-color
       - ts-node
       - typeorm-aurora-data-api-driver
+      - utf-8-validate
     dev: true
 
   /@veramo/did-discovery@5.5.3:
@@ -12714,7 +12725,6 @@ packages:
       debug: 4.3.4
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   /@veramo/did-manager@5.4.1:
     resolution: {integrity: sha512-6Tz5elqYt/k7POT7rB6qZ/wsf6/uu5P1bRHk55eti+5u67PQF8/4/EqoLf4vxXCNk8fC+vttASpGQrCj74cnog==}
@@ -12732,6 +12742,7 @@ packages:
       '@veramo/did-discovery': 5.5.3
     transitivePeerDependencies:
       - supports-color
+    dev: false
 
   /@veramo/did-manager@5.6.0:
     resolution: {integrity: sha512-CUbUeQgAeiXdm6YBdOJuBt6CDvS8A78Y+z9llaL0vdhnqB+Hme9173kSk6EuBEsQfuyt6mByYQEz9oplydpg3A==}
@@ -12740,7 +12751,6 @@ packages:
       '@veramo/did-discovery': 5.6.0
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   /@veramo/did-provider-ethr@5.6.0:
     resolution: {integrity: sha512-2X62Q0wOu4oK4NApzn6++OMSh+R/XkcCVsPkQCTamNc8XlurOiDlY3rnaqGNF+r7Y3HjQFwNOKR/FhyqTYo7Vw==}
@@ -12833,7 +12843,7 @@ packages:
       - supports-color
     dev: true
 
-  /@veramo/key-manager@5.6.0:
+  /@veramo/key-manager@5.6.0(encoding@0.1.13):
     resolution: {integrity: sha512-RLl3X8I7ZQ0MftSbh5TntNji1TIHjH7bYAhjtBvruiWVCjwR5wNri0Y6RhZrd2k8YKk2UGB0OkscxNdF/k+98g==}
     dependencies:
       '@noble/curves': 1.2.0
@@ -12849,7 +12859,6 @@ packages:
       - encoding
       - supports-color
       - utf-8-validate
-    dev: false
 
   /@veramo/kms-local@5.5.3:
     resolution: {integrity: sha512-vNac47wp+BJcde74hHL5WKTQ5+jC0Zrn1ntoDQGrXR6l59s7jzNcWmqn//f/mGH1YjQwdtIrBM+ESguF9LXNtg==}
@@ -12865,23 +12874,25 @@ packages:
       '@stablelib/nacl': 1.0.4
       '@stablelib/random': 1.0.2
       '@veramo/core-types': 5.5.3
-      '@veramo/key-manager': 5.5.3
+      '@veramo/key-manager': 5.6.0(encoding@0.1.13)
       '@veramo/utils': 5.5.3
       debug: 4.3.4
       did-jwt: 7.4.4
     transitivePeerDependencies:
+      - bufferutil
       - encoding
       - supports-color
+      - utf-8-validate
     dev: true
 
-  /@veramo/kms-local@5.6.0:
+  /@veramo/kms-local@5.6.0(encoding@0.1.13):
     resolution: {integrity: sha512-mNSVazE3Vb3VVhnX8G6qZIDsz3290aOj0o7soQrcAoQjt8hKIIyL0yL81nuz3s8bBEFmEpH1vixbJeuQSwrbNg==}
     dependencies:
       '@noble/curves': 1.2.0
       '@stablelib/nacl': 1.0.4
       '@stablelib/random': 1.0.2
       '@veramo/core-types': 5.6.0
-      '@veramo/key-manager': 5.6.0
+      '@veramo/key-manager': 5.6.0(encoding@0.1.13)
       '@veramo/utils': 5.6.0(encoding@0.1.13)
       debug: 4.3.4
       did-jwt: 7.4.4
