@@ -24,7 +24,111 @@ export async function GET(req: NextRequest) {
     const {
       title = 'Masca',
       description = 'A MetaMask Snap (plugin/wallet) for decentralized identity - Decentralized identifiers (DIDs) and Verifiable Credentials (VCs).',
+      type,
+      holder,
+      numberOfCredentials,
+      method,
     } = values;
+
+    if (type && type === 'share-presentation') {
+      return new ImageResponse(
+        (
+          <div
+            style={{
+              height: '100%',
+              width: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background:
+                'linear-gradient(0deg, rgba(255,175,138,1) 0%, rgba(255,171,185,1) 100%)',
+            }}
+          >
+            <div tw="flex">
+              <div tw="flex w-full flex-col p-12 md:flex-row md:items-center">
+                <div
+                  tw="flex flex-3 flex-col p-4 rounded-3xl shadow-md shadow-black/50"
+                  style={{
+                    background: 'linear-gradient(#E5591A, #F21D4B)',
+                  }}
+                >
+                  <h2
+                    tw="text-6xl text-white"
+                    style={{
+                      fontFamily: 'Cal Sans SemiBold',
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    Shared Credentials
+                  </h2>
+                  <div tw="text-md text-orange-100 mt-4">HELD BY</div>
+                  <div
+                    tw="tracking-tight flex text-3xl text-white"
+                    style={{
+                      fontFamily: 'Inter',
+                      fontWeight: 'normal',
+                    }}
+                  >
+                    {holder.substring(0, 20)}...
+                    {holder.substring(holder.length, holder.length - 10)}
+                    di
+                  </div>
+                  <div tw="text-md text-orange-100 mt-4">
+                    NUMBER OF CREDENTIALS
+                  </div>
+                  <div
+                    tw="tracking-tight flex text-3xl text-white"
+                    style={{
+                      fontFamily: 'Inter',
+                      fontWeight: 'normal',
+                    }}
+                  >
+                    {numberOfCredentials}
+                  </div>
+
+                  <div tw="text-md text-orange-100 mt-4">FORMAT</div>
+                  <div
+                    tw="tracking-tight flex text-3xl text-white"
+                    style={{
+                      fontFamily: 'Inter',
+                      fontWeight: 'normal',
+                    }}
+                  >
+                    {method}
+                  </div>
+                </div>
+                <div tw="flex flex-2 flex-col items-center justify-center">
+                  <img
+                    alt="Masca logo"
+                    width={256}
+                    src="https://masca.io/images/masca_black.svg"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        ),
+        {
+          width: 1200,
+          height: 630,
+          fonts: [
+            {
+              name: 'Inter',
+              data: fontRegular,
+              weight: 400,
+              style: 'normal',
+            },
+            {
+              name: 'Cal Sans SemiBold',
+              data: fontBold,
+              weight: 700,
+              style: 'normal',
+            },
+          ],
+        }
+      );
+    }
 
     return new ImageResponse(
       (

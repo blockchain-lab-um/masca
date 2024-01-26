@@ -283,8 +283,6 @@ export const ShareCredentialModal = () => {
                   <div className="flex mt-2 gap-x-2">
                     <LinkedinShareButton
                       url={shareLink}
-                      title="Check out my credential"
-                      summary="This is a credential I hold in my Masca wallet!"
                       className="flex items-center justify-center gap-x-2"
                     >
                       <LinkedinIcon size={32} round />

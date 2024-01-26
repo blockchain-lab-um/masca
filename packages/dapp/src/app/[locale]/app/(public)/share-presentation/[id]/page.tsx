@@ -1,4 +1,3 @@
-import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { createClient } from '@supabase/supabase-js';
 import { VerifiablePresentation } from '@veramo/core';
@@ -7,11 +6,6 @@ import { decodeCredentialToObject } from '@veramo/utils';
 import JsonPanel from '@/components/CredentialDisplay/JsonPanel';
 import { Database } from '@/utils/supabase/database.types';
 import { FormatedView } from './formatedView';
-
-export const metadata: Metadata = {
-  title: 'Share presentation',
-  description: 'Page for displaying shared presentations',
-};
 
 export const revalidate = 0;
 
@@ -64,8 +58,8 @@ export default async function Page({
   const view = searchParams.view ?? 'Normal';
 
   return (
-    <div className="flex w-full flex-1 items-start justify-center">
-      <div className="max-w-full flex-1 md:max-w-3xl">
+    <div className="flex items-start justify-center flex-1 w-full">
+      <div className="flex-1 max-w-full md:max-w-3xl">
         {view === 'Normal' && (
           <FormatedView
             credential={credentials[parseInt(page, 10) - 1]}
@@ -77,11 +71,62 @@ export default async function Page({
           />
         )}
         {view === 'Json' && (
-          <div className="dark:bg-navy-blue-800 h-full w-full rounded-3xl bg-white p-6 shadow-lg">
+          <div className="w-full h-full p-6 bg-white shadow-lg dark:bg-navy-blue-800 rounded-3xl">
             <JsonPanel data={presentation} />
           </div>
         )}
       </div>
     </div>
   );
+}
+
+export async function generateMetadata({
+  params: { id },
+  searchParams,
+}: {
+  params: { id: string };
+  searchParams: {
+    view: 'Normal' | 'Json';
+    page: string | undefined;
+  };
+}) {
+  const presentation = await getPresentation(id);
+
+  if (!presentation) return {};
+
+  // const url = process.env.NEXT_PUBLIC_APP_URL ?? 'https://masca.io';
+  const url = 'http://localhost:3000';
+
+  const ogUrl = new URL(`${url}/api/og`);
+  ogUrl.searchParams.set('type', 'share-presentation');
+  ogUrl.searchParams.set('holder', presentation.holder);
+  ogUrl.searchParams.set(
+    'numberOfCredentials',
+    (presentation.verifiableCredential?.length ?? 0).toString()
+  );
+  ogUrl.searchParams.set('method', presentation.proof.type ?? 'unknown');
+
+  console.log(ogUrl.toString());
+
+  return {
+    title: 'Share presentation',
+    description: 'Page for displaying shared presentations',
+    openGraph: {
+      type: 'article',
+      images: [
+        {
+          url: ogUrl.toString(),
+          width: 1200,
+          height: 630,
+          alt: 'Presentation Image',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'Share Presentation',
+      description: 'Page for displaying shared presentations',
+      images: [ogUrl.toString()],
+    },
+  };
 }

@@ -4,12 +4,14 @@ import { useMemo } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import {
   CheckCircleIcon,
+  DocumentDuplicateIcon,
   ExclamationCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Pagination, Tooltip } from '@nextui-org/react';
 import { VerifiableCredential } from '@veramo/core';
 import { useTranslations } from 'next-intl';
 
+import { copyToClipboard } from '@/utils/string';
 import CredentialPanel from './credentialPanel';
 
 export const FormatedView = ({
@@ -39,35 +41,63 @@ export const FormatedView = ({
 
   return (
     <>
-      <div className="dark:bg-navy-blue-800 h-full w-full rounded-3xl bg-white shadow-lg">
-        <div className="dark:from-navy-blue-700 dark:to-navy-blue-700 flex max-w-full flex-col-reverse items-center space-x-4 rounded-t-2xl bg-gradient-to-br from-pink-100 to-orange-100 px-10 pt-6 sm:flex-row">
+      <div className="w-full h-full bg-white shadow-lg dark:bg-navy-blue-800 rounded-3xl">
+        <div className="flex flex-col-reverse items-center max-w-full px-10 pt-6 pb-2 space-x-4 dark:from-navy-blue-700 dark:to-navy-blue-700 rounded-t-2xl bg-gradient-to-br from-pink-100 to-orange-100 sm:flex-row">
           <div className="flex w-full">
             <div className="flex flex-col space-y-4">
               <div className="flex flex-col">
-                <h2 className="dark:text-navy-blue-200 font-bold text-gray-800">
+                <h2 className="font-bold text-gray-800 dark:text-navy-blue-200">
                   {t('holder')}
                 </h2>
-                <h1 className="font-ubuntu dark:text-orange-accent-dark text-left text-lg font-medium text-pink-500 sm:text-xl md:text-2xl lg:truncate">
-                  {holder.substring(0, 20)}...
-                  {holder.substring(holder.length, holder.length - 10)}
+                <h1 className="text-lg font-medium text-left text-pink-500 font-ubuntu dark:text-orange-accent-dark sm:text-xl md:text-2xl lg:truncate">
+                  {/* {holder.substring(0, 20)}...
+                  {holder.substring(holder.length, holder.length - 10)} */}
+                  <div className="flex items-center mt-2">
+                    <Tooltip
+                      content={holder}
+                      className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
+                    >
+                      <a
+                        href={`https://dev.uniresolver.io/#${holder}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-lg font-medium text-left text-pink-500 underline font-ubuntu dark:text-orange-accent-dark sm:text-xl md:text-2xl lg:truncate"
+                      >{`${holder.substring(
+                        0,
+                        holder.lastIndexOf(':')
+                      )}:${holder
+                        .split(':')
+                        [holder.split(':').length - 1].slice(
+                          0,
+                          10
+                        )}...${holder.slice(-10)}`}</a>
+                    </Tooltip>
+                    <button
+                      onClick={() => {
+                        copyToClipboard(holder);
+                      }}
+                    >
+                      <DocumentDuplicateIcon className="w-5 h-5 ml-1 text-pink-500 animated-transition dark:text-orange-accent-dark hover:opacity-80" />
+                    </button>
+                  </div>
                 </h1>
               </div>
               {issuanceDate && (
                 <div className="flex flex-col">
-                  <h2 className="dark:text-navy-blue-200 font-bold text-gray-800">
+                  <h2 className="font-bold text-gray-800 dark:text-navy-blue-200">
                     {t('presented')}
                   </h2>
                   {new Date(Date.parse(issuanceDate)).toDateString()}
                 </div>
               )}
               <div className="flex flex-col">
-                <h2 className="dark:text-navy-blue-200 font-bold text-gray-800">
+                <h2 className="font-bold text-gray-800 dark:text-navy-blue-200">
                   {t('credentials')}
                 </h2>
               </div>
             </div>
           </div>
-          <div className="flex w-full flex-1 justify-end space-x-1">
+          <div className="flex justify-end flex-1 w-full space-x-1">
             <Tooltip
               content={
                 isValid ? t('presentation-valid') : t('presentation-invalid')
@@ -75,23 +105,23 @@ export const FormatedView = ({
               className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
             >
               {isValid ? (
-                <CheckCircleIcon className="dark:text-orange-accent-dark h-12 w-12 text-pink-500" />
+                <CheckCircleIcon className="w-12 h-12 text-pink-500 dark:text-orange-accent-dark" />
               ) : (
-                <ExclamationCircleIcon className="dark:text-orange-accent-dark h-12 w-12 text-pink-500" />
+                <ExclamationCircleIcon className="w-12 h-12 text-pink-500 dark:text-orange-accent-dark" />
               )}
             </Tooltip>
             <div className="flex flex-col items-end">
-              <h1 className="font-ubuntu dark:text-orange-accent-dark text-left text-lg font-medium text-pink-500 sm:text-xl md:text-2xl lg:truncate">
+              <h1 className="text-lg font-medium text-left text-pink-500 font-ubuntu dark:text-orange-accent-dark sm:text-xl md:text-2xl lg:truncate">
                 {t('credential-status')}
               </h1>
-              <h2 className="dark:text-navy-blue-200 font-bold text-gray-800">
+              <h2 className="font-bold text-gray-800 dark:text-navy-blue-200">
                 {isValid ? t('valid') : t('invalid')}
               </h2>
             </div>
           </div>
         </div>
         <div className="px-4 pb-6">
-          <div className="flex justify-start px-2">
+          <div className="ml-[14px] flex justify-start px-2">
             <Pagination
               loop
               color="success"
