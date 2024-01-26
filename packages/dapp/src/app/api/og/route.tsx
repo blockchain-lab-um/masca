@@ -27,7 +27,6 @@ export async function GET(req: NextRequest) {
       type,
       holder,
       numberOfCredentials,
-      method,
     } = values;
 
     if (type && type === 'share-presentation') {
@@ -85,17 +84,6 @@ export async function GET(req: NextRequest) {
                     }}
                   >
                     {numberOfCredentials}
-                  </div>
-
-                  <div tw="text-md text-orange-100 mt-4">FORMAT</div>
-                  <div
-                    tw="tracking-tight flex text-3xl text-white"
-                    style={{
-                      fontFamily: 'Inter',
-                      fontWeight: 'normal',
-                    }}
-                  >
-                    {method}
                   </div>
                 </div>
                 <div tw="flex flex-2 flex-col items-center justify-center">

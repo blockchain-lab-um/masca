@@ -104,7 +104,6 @@ export async function generateMetadata({
     'numberOfCredentials',
     (presentation.verifiableCredential?.length ?? 0).toString()
   );
-  ogUrl.searchParams.set('method', presentation.proof.type ?? 'unknown');
 
   return {
     title: 'Share presentation',
