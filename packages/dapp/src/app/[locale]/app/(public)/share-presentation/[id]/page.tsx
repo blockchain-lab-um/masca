@@ -106,8 +106,6 @@ export async function generateMetadata({
   );
   ogUrl.searchParams.set('method', presentation.proof.type ?? 'unknown');
 
-  console.log(ogUrl.toString());
-
   return {
     title: 'Share presentation',
     description: 'Page for displaying shared presentations',
