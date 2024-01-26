@@ -968,10 +968,6 @@ class VeramoService {
         provider: new BrowserProvider(ethereum as any),
       },
       {
-        name: 'goerli',
-        provider: new BrowserProvider(ethereum as any),
-      },
-      {
         name: 'sepolia',
         provider: new BrowserProvider(ethereum as any),
         registry: '0x03d5003bf0e79c5f5223588f347eba39afbc3818',

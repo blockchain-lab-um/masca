@@ -89,7 +89,11 @@ export const NavConnection = () => {
             shadow="none"
             variant="method"
             items={getAvailableNetworksList(currMethod)}
-            selected={selectedNetwork}
+            selected={
+              selectedNetwork === 'Goerli'
+                ? t('unsupported-method')
+                : selectedNetwork
+            }
             setSelected={setNetwork}
           />
         </div>
