@@ -4,6 +4,7 @@ import { isValidSetCurrentAccountRequest } from '@blockchain-lab-um/masca-types'
 import { ResultObject, type Result } from '@blockchain-lab-um/utils';
 import type { OnRpcRequestHandler } from '@metamask/snaps-sdk';
 
+import EthereumService from './Ethereum.service';
 import GeneralService from './General.service';
 import SnapService from './Snap.service';
 import StorageService from './storage/Storage.service';
@@ -32,6 +33,8 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     await WalletService.init();
 
     await VeramoService.init();
+
+    await EthereumService.init();
 
     await UIService.init(origin);
 

@@ -1,10 +1,10 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { useAccount, useConnect } from 'wagmi';
 
 import Button from '@/components/Button';
-import { useGeneralStore } from '@/stores';
 
 interface MetaMaskProviderProps {
   children: React.ReactNode;
@@ -12,17 +12,22 @@ interface MetaMaskProviderProps {
 
 const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
   const t = useTranslations('MetaMaskProvider');
+  const { connectors } = useConnect();
+  const { isConnected } = useAccount();
+  const [hasMetamask, setHasMetamask] = useState(false);
 
-  const { hasMM, hasSnaps } = useGeneralStore((state) => ({
-    hasMM: state.hasMetaMask,
-    hasSnaps: state.supportsSnaps,
-  }));
+  useEffect(() => {
+    const provider =
+      connectors.find(
+        (connector) =>
+          connector.id === 'io.metamask' || connector.id === 'io.metamask.flask'
+      ) || null;
+    if (provider) {
+      setHasMetamask(true);
+    }
+  }, [connectors]);
 
-  if (hasMM && hasSnaps) {
-    return <>{children}</>;
-  }
-
-  return (
+  return !hasMetamask && !isConnected ? (
     <div className="dark:bg-navy-blue-800 dark:text-navy-blue-400 flex flex-1 items-center justify-center rounded-3xl bg-white shadow-lg">
       <div>
         <div className="flex flex-col items-center justify-center">
@@ -59,6 +64,8 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
         </div>
       </div>
     </div>
+  ) : (
+    <>{children}</>
   );
 };
 

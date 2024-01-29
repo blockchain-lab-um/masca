@@ -96,7 +96,8 @@ const Button = ({
       sizes[size],
       `shadow-${shadow}`,
       'animated-transition font-ubuntu flex max-w-xs items-center gap-x-2 rounded-full font-medium',
-      'outline-none focus:outline-none'
+      'outline-none focus:outline-none',
+      disabled ? 'cursor-not-allowed opacity-50' : ''
     )}
     onClick={onClick}
     disabled={disabled}

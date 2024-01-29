@@ -4,10 +4,18 @@ import {
   MethodsRequiringNetwork,
 } from '@blockchain-lab-um/masca-types';
 import { divider, heading, panel, text } from '@metamask/snaps-sdk';
+import { createPublicClient, custom, PublicClient } from 'viem';
+import { mainnet } from 'viem/chains';
 
 import UIService from './UI.service';
 
 class EthereumService {
+  private static instance: PublicClient;
+
+  static async init(): Promise<void> {
+    this.instance = await this.createClient();
+  }
+
   /**
    * Function that returns the current network.
    *
@@ -22,6 +30,23 @@ class EthereumService {
   }
 
   /**
+   * Function that returns the ENS of the passed account, if found.
+   * @param params.address - Address to check for.
+   * @returns string - ENS name.
+   */
+  static async getEnsName(params: { address: `0x${string}` }): Promise<string> {
+    const { address } = params;
+    if (!this.instance) {
+      throw new Error('Viem client not instanciated.');
+    }
+    const ensName = await this.instance.getEnsName({
+      address,
+    });
+    if (!ensName) throw new Error('ENS name not found.');
+    return ensName;
+  }
+
+  /**
    * Function that changes the current network if needed for the selected DID method.
    * @param params.didMethod - DID method to check for.
    * @returns void
@@ -29,6 +54,7 @@ class EthereumService {
   static async requestNetworkSwitch(params: {
     didMethod: MethodsRequiringNetwork;
   }): Promise<void> {
+    // FIXME: this method should be revisited, wallet_switchEthereumChain does not exist in ethereum object?
     const { didMethod } = params;
     const content = panel([
       heading('Switch Network'),
@@ -77,8 +103,21 @@ class EthereumService {
       !didMethodChainIdMapping[didMethod].includes(chainId) &&
       !didMethodChainIdMapping[didMethod].includes('*')
     ) {
+      // FIXME: examine the method below
+      throw new Error('Unsupported network.');
       await this.requestNetworkSwitch({ didMethod });
     }
+  }
+
+  /**
+   * Function to create a new viem client
+   * @returns PublicClient - viem client.
+   */
+  static async createClient(): Promise<PublicClient> {
+    return createPublicClient({
+      chain: mainnet,
+      transport: custom(ethereum),
+    });
   }
 }
 

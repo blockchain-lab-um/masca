@@ -90,6 +90,7 @@
     "did-resolver": "4.1.0",
     "did-session": "2.0.1",
     "elliptic": "^6.5.4",
+    "ens-did-resolver": "^1.0.4",
     "ethereum-cryptography": "^2.1.2",
     "ethers": "^6.9.0",
     "ethr-did-resolver": "10.1.3",
@@ -97,7 +98,8 @@
     "jsonpath": "^1.1.1",
     "lodash.clonedeep": "^4.5.0",
     "multiformats": "^12.1.3",
-    "qs": "^6.11.2"
+    "qs": "^6.11.2",
+    "viem": "^2.5.0"
   },
   "devDependencies": {
     "@ceramicnetwork/streamid": "2.17.0",

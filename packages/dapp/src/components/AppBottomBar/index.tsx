@@ -5,8 +5,7 @@ import Link from 'next/link';
 import { EllipsisHorizontalIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
-
-import { useGeneralStore } from '@/stores/generalStore';
+import { useAccount } from 'wagmi';
 
 const MAIN_LINKS = [
   {
@@ -42,7 +41,7 @@ const OTHER_LINKS = [
 const AppBottomBar = () => {
   const t = useTranslations('AppBottomBar');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const isConnected = useGeneralStore((state) => state.isConnected);
+  const { isConnected } = useAccount();
 
   const toggleMenu = () => {
     setIsMenuOpen((currVal) => !currVal);

@@ -79,33 +79,26 @@ class PolygonService {
     DidMethod.Iden3 | DidMethod.PolygonId,
     Record<
       Blockchain.Ethereum | Blockchain.Polygon,
-      Record<
-        NetworkId.Main | NetworkId.Goerli | NetworkId.Mumbai,
-        PolygonServicBaseInstance
-      >
+      Record<NetworkId.Main | NetworkId.Mumbai, PolygonServicBaseInstance>
     >
   > = {
     polygonid: {
       eth: {
         main: {} as PolygonServicBaseInstance,
-        goerli: {} as PolygonServicBaseInstance,
         mumbai: {} as PolygonServicBaseInstance,
       },
       polygon: {
         main: {} as PolygonServicBaseInstance,
-        goerli: {} as PolygonServicBaseInstance,
         mumbai: {} as PolygonServicBaseInstance,
       },
     },
     iden3: {
       eth: {
         main: {} as PolygonServicBaseInstance,
-        goerli: {} as PolygonServicBaseInstance,
         mumbai: {} as PolygonServicBaseInstance,
       },
       polygon: {
         main: {} as PolygonServicBaseInstance,
-        goerli: {} as PolygonServicBaseInstance,
         mumbai: {} as PolygonServicBaseInstance,
       },
     },
@@ -132,10 +125,6 @@ class PolygonService {
             !(
               blockchain === Blockchain.Ethereum &&
               networkId === NetworkId.Mumbai
-            ) &&
-            !(
-              blockchain === Blockchain.Polygon &&
-              networkId === NetworkId.Goerli
             )
           ) {
             this.instance[method][blockchain][networkId] =
@@ -211,7 +200,7 @@ class PolygonService {
   static async createBaseInstance(params: {
     method: DidMethod.Iden3 | DidMethod.PolygonId;
     blockchain: Blockchain.Ethereum | Blockchain.Polygon;
-    networkId: NetworkId.Main | NetworkId.Goerli | NetworkId.Mumbai;
+    networkId: NetworkId.Main | NetworkId.Mumbai;
     circuitData: CircuitData;
   }) {
     const { method, blockchain, networkId, circuitData } = params;
@@ -281,10 +270,6 @@ class PolygonService {
             !(
               blockchain === Blockchain.Ethereum &&
               networkId === NetworkId.Mumbai
-            ) &&
-            !(
-              blockchain === Blockchain.Polygon &&
-              networkId === NetworkId.Goerli
             )
           ) {
             const { credWallet } = this.instance[method][blockchain][networkId];
@@ -315,10 +300,6 @@ class PolygonService {
             !(
               blockchain === Blockchain.Ethereum &&
               networkId === NetworkId.Mumbai
-            ) &&
-            !(
-              blockchain === Blockchain.Polygon &&
-              networkId === NetworkId.Goerli
             )
           ) {
             const { credWallet } = this.instance[method][blockchain][networkId];
@@ -406,7 +387,7 @@ class PolygonService {
   static async createWallet(params: {
     method: DidMethod.Iden3 | DidMethod.PolygonId;
     blockchain: Blockchain.Ethereum | Blockchain.Polygon;
-    networkId: NetworkId.Main | NetworkId.Goerli | NetworkId.Mumbai;
+    networkId: NetworkId.Main | NetworkId.Mumbai;
   }) {
     const { method, blockchain, networkId } = params;
     const state = StorageService.get();

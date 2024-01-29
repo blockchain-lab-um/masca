@@ -155,7 +155,7 @@ const payload: MinimalUnsignedCredential = {
   type: ['VerifiableCredential', 'TestCertificate'],
   credentialSubject: {
     accomplishmentType: 'Test Certificate',
-    id: 'did:ethr:goerli:0x123...321',
+    id: 'did:ethr:sepolia:0x123...321',
   },
   credentialSchema: {
     id: 'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',

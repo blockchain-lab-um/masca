@@ -51,8 +51,8 @@ export class SnapMock implements ISnapMock {
   }
 
   private async snapEthCall(data: any[]): Promise<string> {
-    const apiKey = 'NRFBwig_CLVL0WnQLY3dUo8YkPmW-7iN';
-    const provider = new AlchemyProvider('goerli', apiKey);
+    const apiKey = 'onEdpQuHfIjaPMc0c5G0Nf8V_ajHh0We';
+    const provider = new AlchemyProvider('mainnet', apiKey);
     return provider.call({
       ...data[0],
       blockTag: data[1],
@@ -60,8 +60,8 @@ export class SnapMock implements ISnapMock {
   }
 
   private async snapEthLogs(data: any[]): Promise<unknown> {
-    const apiKey = 'NRFBwig_CLVL0WnQLY3dUo8YkPmW-7iN';
-    const provider = new AlchemyProvider('goerli', apiKey);
+    const apiKey = 'onEdpQuHfIjaPMc0c5G0Nf8V_ajHh0We';
+    const provider = new AlchemyProvider('mainnet', apiKey);
     return provider.getLogs(data[0] as Filter);
   }
 
@@ -69,7 +69,7 @@ export class SnapMock implements ISnapMock {
     snap_dialog: vi.fn().mockReturnValue(true),
     eth_requestAccounts: vi.fn().mockResolvedValue([account]),
     eth_chainId: vi.fn().mockResolvedValue('0x1'),
-    net_version: vi.fn().mockResolvedValue('5'),
+    net_version: vi.fn().mockResolvedValue('1'),
     snap_getBip44Entropy: vi
       .fn()
       .mockImplementation(async (params: { coinType: number }) => {

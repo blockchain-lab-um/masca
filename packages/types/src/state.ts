@@ -72,9 +72,6 @@ export type PolygonState = Record<
   DidMethod.Iden3 | DidMethod.PolygonId,
   Record<
     Blockchain.Ethereum | Blockchain.Polygon,
-    Record<
-      NetworkId.Main | NetworkId.Goerli | NetworkId.Mumbai,
-      PolygonBaseState
-    >
+    Record<NetworkId.Main | NetworkId.Mumbai, PolygonBaseState>
   >
 >;

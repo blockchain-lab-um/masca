@@ -20,7 +20,7 @@ export const CURRENT_STATE_VERSION = 'v1';
  *
  * These methods use ethereum keys from MetaMask
  */
-export const externalSigMethods = ['did:ethr', 'did:pkh'] as const;
+export const externalSigMethods = ['did:ethr', 'did:pkh', 'did:ens'] as const;
 export type ExternalSigMethods = (typeof externalSigMethods)[number];
 export const isExternalSigMethods = (x: string) =>
   isIn<ExternalSigMethods>(externalSigMethods, x);
@@ -33,6 +33,7 @@ export const isExternalSigMethods = (x: string) =>
 export const veramoSupportedMethods = [
   'did:ethr',
   'did:pkh',
+  'did:ens',
   'did:key',
   'did:key:jwk_jcs-pub',
   'did:jwk',
@@ -98,6 +99,7 @@ export const didMethodChainIdMapping: Record<
 > = {
   'did:ethr': ['*'],
   'did:pkh': ['0x1', '0x89'],
+  'did:ens': ['0x1'],
 } as const;
 
 /**

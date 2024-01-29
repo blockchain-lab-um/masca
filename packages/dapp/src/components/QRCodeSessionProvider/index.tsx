@@ -4,13 +4,9 @@ import { useEffect } from 'react';
 import { hexToUint8Array } from '@blockchain-lab-um/masca-connector';
 import { useTranslations } from 'next-intl';
 import useSWR from 'swr';
+import { useAccount } from 'wagmi';
 
-import {
-  useGeneralStore,
-  useMascaStore,
-  useSessionStore,
-  useToastStore,
-} from '@/stores';
+import { useMascaStore, useSessionStore, useToastStore } from '@/stores';
 import { useQRCodeStore } from '@/stores/qrCodeStore';
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
@@ -26,8 +22,7 @@ const QRCodeSessionProvider = () => {
   }));
 
   const requestData = useQRCodeStore((state) => state.requestData);
-
-  const isConnected = useGeneralStore((state) => state.isConnected);
+  const { isConnected } = useAccount();
   const api = useMascaStore((state) => state.mascaApi);
 
   // Conditionally fetch session data
