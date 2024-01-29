@@ -30,6 +30,9 @@ export async function GET(req: NextRequest) {
     } = values;
 
     if (type && type === 'share-presentation') {
+      // If 1 VC show VC
+
+      // If more...
       return new ImageResponse(
         (
           <div
@@ -44,8 +47,8 @@ export async function GET(req: NextRequest) {
                 'linear-gradient(0deg, rgba(255,175,138,1) 0%, rgba(255,171,185,1) 100%)',
             }}
           >
-            <div tw="flex">
-              <div tw="flex w-full flex-col p-12 md:flex-row md:items-center">
+            <div tw="flex justify-center">
+              <div tw="flex ml-16 w-full flex-col p-12 md:flex-row md:items-center justify-center">
                 <div
                   tw="flex flex-3 flex-col p-4 rounded-3xl shadow-md shadow-black/50"
                   style={{
@@ -132,9 +135,9 @@ export async function GET(req: NextRequest) {
               'linear-gradient(0deg, rgba(255,175,138,1) 0%, rgba(255,171,185,1) 100%)',
           }}
         >
-          <div tw="flex">
-            <div tw="flex w-full flex-col p-12 md:flex-row md:items-center">
-              <div tw="flex flex-3 flex-col">
+          <div tw="flex justify-center">
+            <div tw="flex justify-center w-full flex-col p-12 md:flex-row md:items-center">
+              <div tw="pl-8 flex flex-3 flex-col">
                 <h2
                   tw="text-6xl"
                   style={{
@@ -154,7 +157,7 @@ export async function GET(req: NextRequest) {
                   {description}
                 </div>
               </div>
-              <div tw="h-[128px] w-[2px] bg-gray-600 mx-8" />
+              <div tw="h-[256px] w-[2px] bg-gray-600 mx-8" />
               <div tw="flex flex-2 flex-col items-center justify-center">
                 <img
                   alt="Masca logo"

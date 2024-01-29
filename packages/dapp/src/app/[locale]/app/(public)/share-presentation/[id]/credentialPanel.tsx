@@ -24,7 +24,7 @@ const AddressDisplay = ({ address }: { address: string }) => {
   const t = useTranslations('AddressDisplay');
   return (
     <div className="flex flex-col space-y-0.5">
-      <h2 className="pr-2 font-bold text-gray-800 dark:text-navy-blue-200">
+      <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-800">
         {t('title')}:
       </h2>
       <div className="flex">
@@ -36,13 +36,13 @@ const AddressDisplay = ({ address }: { address: string }) => {
             href={`https://etherscan.io/address/${address}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-normal text-gray-700 underline cursor-pointer text-md animated-transition dark:text-navy-blue-300 underline-offset-2"
+            className="text-md animated-transition dark:text-navy-blue-300 cursor-pointer font-normal text-gray-700 underline underline-offset-2"
           >
             {`${address.slice(0, 8)}...${address.slice(-8)}`}
           </a>
         </Tooltip>
         <button className="pl-1" onClick={() => copyToClipboard(address)}>
-          <DocumentDuplicateIcon className="w-5 h-5 ml-1 text-gray-700 animated-transition dark:text-navy-blue-300 hover:text-gray-700" />
+          <DocumentDuplicateIcon className="animated-transition dark:text-navy-blue-300 ml-1 h-5 w-5 text-gray-700 hover:text-gray-700" />
         </button>
       </div>
     </div>
@@ -51,10 +51,10 @@ const AddressDisplay = ({ address }: { address: string }) => {
 
 const DisplayDate = ({ text, date }: { text: string; date: string }) => (
   <div className="flex flex-col items-start space-y-0.5">
-    <h2 className="pr-2 font-bold text-gray-800 dark:text-navy-blue-200">
+    <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-800">
       {text}:
     </h2>
-    <h3 className="text-gray-700 text-md dark:text-navy-blue-200">
+    <h3 className="text-md dark:text-navy-blue-200 text-gray-700">
       {new Date(Date.parse(date)).toDateString()}
     </h3>
   </div>
@@ -77,7 +77,7 @@ const CredentialSubject = ({
             return (
               <>
                 <div className="flex flex-col space-y-0.5">
-                  <h2 className="pr-2 font-bold text-gray-800 dark:text-navy-blue-200">
+                  <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-800">
                     DID:
                   </h2>
                   <div className="flex">
@@ -101,10 +101,10 @@ const CredentialSubject = ({
                 isObject ? 'items-center' : 'flex-col items-start space-y-0.5'
               )}
             >
-              <h2 className="pr-2 font-bold text-gray-800 capitalize dark:text-navy-blue-200">
+              <h2 className="dark:text-navy-blue-200 pr-2 font-bold capitalize text-gray-800">
                 {key}:
               </h2>
-              <div className="w-full font-normal text-gray-700 truncate text-md dark:text-navy-blue-300">
+              <div className="text-md dark:text-navy-blue-300 w-full truncate font-normal text-gray-700">
                 {isObject ? (
                   <button
                     className="dark:border-navy-blue-300 dark:hover:border-navy-blue-400 dark:focus:ring-navy-blue-500 rounded-md border border-gray-300 px-2 py-0.5 text-sm hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
@@ -148,21 +148,21 @@ const CredentialPanel = ({ credential }: FormatedPanelProps) => {
   return (
     <>
       <div className="flex flex-col space-y-8">
-        <div className="flex flex-col-reverse px-6 pt-6 items-cetner sm:flex-row">
+        <div className="items-cetner flex flex-col-reverse px-6 pt-6 sm:flex-row">
           <div className="w-full sm:w-11/12">
-            <h2 className="font-bold text-gray-800 dark:text-navy-blue-200">
+            <h2 className="dark:text-navy-blue-200 font-bold text-gray-800">
               {t('title')}
             </h2>
             <Tooltip
               content={types}
               className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
             >
-              <h1 className="text-lg font-medium text-left text-pink-500 font-ubuntu dark:text-orange-accent-dark sm:text-xl md:text-2xl lg:truncate">
+              <h1 className="font-ubuntu dark:text-orange-accent-dark text-left text-lg font-medium text-pink-500 sm:text-xl md:text-2xl lg:truncate">
                 {types}
               </h1>
             </Tooltip>
           </div>
-          <div className="flex justify-end flex-1 w-full space-x-1">
+          <div className="flex w-full flex-1 justify-end space-x-1">
             <Tooltip
               className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
               content={
@@ -170,24 +170,24 @@ const CredentialPanel = ({ credential }: FormatedPanelProps) => {
               }
             >
               {isValid ? (
-                <CheckCircleIcon className="w-12 h-12 text-pink-500 dark:text-orange-accent-dark" />
+                <CheckCircleIcon className="dark:text-orange-accent-dark h-12 w-12 text-pink-500" />
               ) : (
-                <ExclamationCircleIcon className="w-12 h-12 text-pink-500 dark:text-orange-accent-dark" />
+                <ExclamationCircleIcon className="dark:text-orange-accent-dark h-12 w-12 text-pink-500" />
               )}
             </Tooltip>
             <div className="flex flex-col items-end">
-              <h1 className="text-lg font-medium text-left text-pink-500 font-ubuntu dark:text-orange-accent-dark sm:text-xl md:text-2xl lg:truncate">
+              <h1 className="font-ubuntu dark:text-orange-accent-dark text-left text-lg font-medium text-pink-500 sm:text-xl md:text-2xl lg:truncate">
                 {t('status')}
               </h1>
-              <h2 className="font-bold text-gray-800 dark:text-navy-blue-200">
+              <h2 className="dark:text-navy-blue-200 font-bold text-gray-800">
                 {isValid ? 'Valid' : 'Invalid'}
               </h2>
             </div>
           </div>
         </div>
-        <div className="flex flex-col px-6 space-y-8 md:flex-row md:space-x-16 md:space-y-0">
+        <div className="flex flex-col space-y-8 px-6 md:flex-row md:space-x-16 md:space-y-0">
           <div className="flex w-full flex-col items-start space-y-2 md:max-w-[50%]">
-            <h1 className="font-medium text-pink-500 text-md dark:text-orange-accent-dark">
+            <h1 className="text-md dark:text-orange-accent-dark font-medium text-pink-500">
               {t('subject')}
             </h1>
             <CredentialSubject
@@ -199,11 +199,11 @@ const CredentialPanel = ({ credential }: FormatedPanelProps) => {
           <div className="flex flex-1">
             <div className="flex flex-col space-y-8">
               <div className="flex flex-col items-start justify-center space-y-2 ">
-                <h1 className="font-medium text-pink-500 text-md dark:text-orange-accent-dark">
+                <h1 className="text-md dark:text-orange-accent-dark font-medium text-pink-500">
                   {t('issuer')}
                 </h1>
                 <div className="flex flex-col space-y-0.5">
-                  <h2 className="pr-2 font-bold text-gray-800 dark:text-navy-blue-200">
+                  <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-800">
                     DID:
                   </h2>
                   <div className="flex">
@@ -218,7 +218,7 @@ const CredentialPanel = ({ credential }: FormatedPanelProps) => {
                 </div>
               </div>
               <div className="flex flex-col items-start space-y-2">
-                <h1 className="font-medium text-pink-500 text-md dark:text-orange-accent-dark">
+                <h1 className="text-md dark:text-orange-accent-dark font-medium text-pink-500">
                   {t('dates')}
                 </h1>
                 <DisplayDate
@@ -236,7 +236,7 @@ const CredentialPanel = ({ credential }: FormatedPanelProps) => {
           </div>
         </div>
         <div
-          className="px-6 font-medium text-gray-700 cursor-pointer text-md dark:text-navy-blue-200"
+          className="text-md dark:text-navy-blue-200 cursor-pointer px-6 font-medium text-gray-700"
           onClick={() => {
             const params = new URLSearchParams(window.location.search);
             params.set('view', 'Json');

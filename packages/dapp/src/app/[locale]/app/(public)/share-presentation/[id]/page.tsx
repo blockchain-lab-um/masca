@@ -58,8 +58,8 @@ export default async function Page({
   const view = searchParams.view ?? 'Normal';
 
   return (
-    <div className="flex items-start justify-center flex-1 w-full">
-      <div className="flex-1 max-w-full md:max-w-3xl">
+    <div className="flex w-full flex-1 items-start justify-center">
+      <div className="max-w-full flex-1 md:max-w-3xl">
         {view === 'Normal' && (
           <FormatedView
             credential={credentials[parseInt(page, 10) - 1]}
@@ -71,7 +71,7 @@ export default async function Page({
           />
         )}
         {view === 'Json' && (
-          <div className="w-full h-full p-6 bg-white shadow-lg dark:bg-navy-blue-800 rounded-3xl">
+          <div className="dark:bg-navy-blue-800 h-full w-full rounded-3xl bg-white p-6 shadow-lg">
             <JsonPanel data={presentation} />
           </div>
         )}
