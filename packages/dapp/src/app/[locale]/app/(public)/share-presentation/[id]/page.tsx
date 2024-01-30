@@ -4,12 +4,18 @@ import { VerifiablePresentation } from '@veramo/core';
 import { decodeCredentialToObject } from '@veramo/utils';
 
 import JsonPanel from '@/components/CredentialDisplay/JsonPanel';
+import { convertTypes } from '@/utils/string';
 import { Database } from '@/utils/supabase/database.types';
 import { FormatedView } from './formatedView';
 
 export const revalidate = 0;
 
-const getPresentation = async (id: string): Promise<VerifiablePresentation> => {
+interface ReturnPresentation {
+  presentation: VerifiablePresentation;
+  title: string;
+}
+
+const getPresentation = async (id: string): Promise<ReturnPresentation> => {
   const supabase = createClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SECRET_KEY!
@@ -37,7 +43,8 @@ const getPresentation = async (id: string): Promise<VerifiablePresentation> => {
     .eq('id', id);
 
   const presentation = data[0].presentation as VerifiablePresentation;
-  return presentation;
+  const { title } = data[0];
+  return { presentation, title };
 };
 
 export default async function Page({
@@ -50,7 +57,7 @@ export default async function Page({
     page: string | undefined;
   };
 }) {
-  const presentation = await getPresentation(id);
+  const { presentation } = await getPresentation(id);
   const credentials = presentation.verifiableCredential
     ? presentation.verifiableCredential.map(decodeCredentialToObject)
     : [];
@@ -58,8 +65,8 @@ export default async function Page({
   const view = searchParams.view ?? 'Normal';
 
   return (
-    <div className="flex w-full flex-1 items-start justify-center">
-      <div className="max-w-full flex-1 md:max-w-3xl">
+    <div className="flex items-start justify-center flex-1 w-full">
+      <div className="flex-1 max-w-full md:max-w-3xl">
         {view === 'Normal' && (
           <FormatedView
             credential={credentials[parseInt(page, 10) - 1]}
@@ -71,7 +78,7 @@ export default async function Page({
           />
         )}
         {view === 'Json' && (
-          <div className="dark:bg-navy-blue-800 h-full w-full rounded-3xl bg-white p-6 shadow-lg">
+          <div className="w-full h-full p-6 bg-white shadow-lg dark:bg-navy-blue-800 rounded-3xl">
             <JsonPanel data={presentation} />
           </div>
         )}
@@ -90,7 +97,7 @@ export async function generateMetadata({
     page: string | undefined;
   };
 }) {
-  const presentation = await getPresentation(id);
+  const { presentation, title } = await getPresentation(id);
 
   if (!presentation) return {};
 
@@ -104,6 +111,29 @@ export async function generateMetadata({
     'numberOfCredentials',
     (presentation.verifiableCredential?.length ?? 0).toString()
   );
+  ogUrl.searchParams.set('title', title);
+
+  if (presentation.verifiableCredential?.length === 1) {
+    const credential = presentation.verifiableCredential[0];
+
+    const types = convertTypes((credential as any).type);
+
+    if (typeof (credential as any).issuer === 'string') {
+      ogUrl.searchParams.set('credentialIssuer', (credential as any).issuer);
+    } else {
+      ogUrl.searchParams.set('credentialIssuer', (credential as any).issuer.id);
+    }
+
+    ogUrl.searchParams.set('credentialType', types);
+    ogUrl.searchParams.set(
+      'credentialSubject',
+      (credential as any).credentialSubject.id
+    );
+    ogUrl.searchParams.set(
+      'credentialIssuanceDate',
+      (credential as any).issuanceDate
+    );
+  }
 
   return {
     title: 'Share presentation',
