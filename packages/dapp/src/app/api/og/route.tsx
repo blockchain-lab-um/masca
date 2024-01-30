@@ -53,7 +53,7 @@ export async function GET(req: NextRequest) {
               }}
             >
               <div
-                tw="flex p-4 items-center justify-between rounded-3xl shadow-md shadow-black/50 w-[800px]"
+                tw="flex p-8 items-center justify-between rounded-3xl shadow-md shadow-black/50 w-[800px]"
                 style={{
                   background: 'linear-gradient(#E5591A, #F21D4B)',
                 }}
@@ -113,7 +113,12 @@ export async function GET(req: NextRequest) {
                     ).toDateString()}
                   </div>
                 </div>
-                <div tw="text-4xl font-bold flex w-full text-orange-100 justify-end">
+                <div
+                  tw="text-4xl flex w-full text-orange-100 justify-end"
+                  style={{
+                    fontFamily: 'Inter Medium',
+                  }}
+                >
                   {credentialType.split(',')[0]}
                 </div>
               </div>
@@ -127,6 +132,12 @@ export async function GET(req: NextRequest) {
                 name: 'Inter',
                 data: fontRegular,
                 weight: 400,
+                style: 'normal',
+              },
+              {
+                name: 'Inter Medium',
+                data: fontRegular,
+                weight: 600,
                 style: 'normal',
               },
               {
