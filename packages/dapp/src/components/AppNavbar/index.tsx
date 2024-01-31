@@ -18,6 +18,11 @@ const MAIN_LINKS = [
     requiresConnection: false,
   },
   {
+    name: 'campaigns',
+    href: '/app/campaigns',
+    requiresConnection: false,
+  },
+  {
     name: 'settings',
     href: '/app/settings',
     requiresConnection: true,
@@ -30,17 +35,17 @@ export default function AppNavbar() {
   const { isConnected, isConnecting } = useAccount();
 
   return (
-    <div className="main-bg fixed top-0 z-50 m-0 flex h-24 w-screen items-center">
-      <div className="flex flex-1 items-center px-4 sm:px-12">
+    <div className="fixed top-0 z-50 flex items-center w-screen h-24 m-0 main-bg">
+      <div className="flex items-center flex-1 px-4 sm:px-12">
         <Link href="/" className="focus-visible:outline-none">
           <div className="flex">
             <MascaLogo />
-            <h1 className="font-ubuntu text-h4 sm:text-h2 lg:text-h1 animated-transition dark:text-navy-blue-300 ml-4 hidden text-gray-900 hover:text-pink-400 dark:hover:text-orange-200 xl:block">
+            <h1 className="hidden ml-4 text-gray-900 font-ubuntu text-h4 sm:text-h2 lg:text-h1 animated-transition dark:text-navy-blue-300 hover:text-pink-400 dark:hover:text-orange-200 xl:block">
               Masca
             </h1>
           </div>
         </Link>
-        <div className="mx-2 hidden flex-1 items-center justify-center md:flex">
+        <div className="items-center justify-center flex-1 hidden mx-2 md:flex">
           {MAIN_LINKS.map(({ name, href, requiresConnection }) => {
             if ((requiresConnection && isConnected) || !requiresConnection) {
               return (
