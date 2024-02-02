@@ -1,5 +1,10 @@
 import React from 'react';
-import { Button } from '@nextui-org/react';
+import {
+  ArrowTopRightOnSquareIcon,
+  CheckIcon,
+} from '@heroicons/react/24/solid';
+
+import Button from '../Button';
 
 interface RequirementProps {
   id: number;
@@ -8,19 +13,35 @@ interface RequirementProps {
   completed: boolean;
   issuer: string;
   types: string[];
-  verify: () => Promise<boolean>;
+  verify: () => Promise<void>;
 }
 
 export const Requirement = (props: RequirementProps) => {
   const { title, action, completed, issuer, types, verify } = props;
 
   return (
-    <div className="flex justify-between w-full">
-      {title}:
+    <div className="flex justify-between w-full mt-8">
+      <h2 className="flex items-center text-lg font-medium leading-6 text-gray-800 font-ubuntu dark:text-navy-blue-50 gap-x-2">
+        <div
+          className={`flex h-6 w-6 items-center justify-center rounded-full ${
+            completed ? 'bg-green-500' : 'dark:bg-navy-blue-600 bg-gray-300'
+          }`}
+        >
+          {completed && <CheckIcon className="w-5 h-5 text-gray-800" />}
+        </div>
+        {title}
+        <a href={action} target="_blank">
+          <ArrowTopRightOnSquareIcon className="w-4 h-4" />
+        </a>
+      </h2>
       {completed ? (
-        <span>Completed</span>
+        <></>
       ) : (
-        <Button onClick={verify}>Verify</Button>
+        <div className="flex items-center">
+          <Button variant="secondary" size="2xs" onClick={verify}>
+            Verify
+          </Button>
+        </div>
       )}
     </div>
   );

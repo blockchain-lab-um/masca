@@ -8,7 +8,6 @@ import {
 } from '@tanstack/react-query';
 
 import { Campaign } from './Campaign';
-import { Requirement } from './Requirement';
 
 const CAMPAIGN = [
   {
@@ -60,6 +59,16 @@ interface VERIFYProps {
   issuer: string;
 }
 
+interface RequirementProps {
+  id: number;
+  title: string;
+  action: string;
+  completed: boolean;
+  issuer: string;
+  types: string[];
+  verify: () => Promise<void>;
+}
+
 const VERIFY = async (props: VERIFYProps) => {
   console.log('verify');
   console.log(props);
@@ -70,15 +79,9 @@ export const CampaignsDisplay = () => {
   const queryClient = useQueryClient();
   // Get campaigns from the backend
 
-  // Maybe move campaignsQuery to the last place (after requirementsQuery and completedQuery)
-  const campaignsQuery = useQuery({
-    queryKey: ['campaigns'],
-    queryFn: () => CAMPAIGN,
-  });
   const requirementsQuery = useQuery({
     queryKey: ['requirements'],
     queryFn: () => REQUIREMENTS,
-    enabled: campaignsQuery.status === 'success',
   });
   const completedQuery = useQuery({
     queryKey: ['completed', address],
@@ -86,6 +89,11 @@ export const CampaignsDisplay = () => {
       console.log(queryKey[1]);
       return COMPLETED;
     },
+    enabled: requirementsQuery.status === 'success',
+  });
+  const campaignsQuery = useQuery({
+    queryKey: ['campaigns'],
+    queryFn: () => CAMPAIGN,
     enabled: requirementsQuery.status === 'success',
   });
 
@@ -98,30 +106,28 @@ export const CampaignsDisplay = () => {
   });
 
   // Prepare requirements array
-  const requirements: Record<string, ReactNode> = {};
+  const requirements: Record<string, RequirementProps> = {};
   if (
     requirementsQuery.status === 'success' &&
     completedQuery.status === 'success'
   ) {
     requirementsQuery.data?.forEach((requirement) => {
-      requirements[requirement.id] = (
-        <Requirement
-          key={requirement.id}
-          id={requirement.id}
-          title={requirement.name}
-          action={requirement.action_link}
-          issuer={requirement.issuer}
-          types={requirement.types}
-          verify={() =>
-            mutation.mutateAsync({
-              id: requirement.id,
-              types: requirement.types,
-              issuer: requirement.issuer,
-            })
-          }
-          completed={completedQuery.data?.includes(requirement.id) ?? false}
-        />
-      );
+      requirements[requirement.id] = {
+        id: requirement.id,
+        title: requirement.name,
+        action: requirement.action_link,
+        issuer: requirement.issuer,
+        types: requirement.types,
+        verify: async () => {
+          await mutation.mutateAsync({
+            id: requirement.id,
+            types: requirement.types,
+            issuer: requirement.issuer,
+          });
+          return Promise.resolve();
+        },
+        completed: completedQuery.data?.includes(requirement.id) ?? false,
+      };
     });
   }
 
@@ -130,7 +136,7 @@ export const CampaignsDisplay = () => {
     return <div>{campaignsQuery.error.message}</div>;
 
   return (
-    <div>
+    <div className="flex flex-col w-3/4 gap-y-4">
       {campaignsQuery.data?.map((campaign, id) => (
         <Campaign
           key={campaign.id}
