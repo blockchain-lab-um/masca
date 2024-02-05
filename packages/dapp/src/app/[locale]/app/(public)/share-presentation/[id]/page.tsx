@@ -1,3 +1,5 @@
+import { ResolvingMetadata } from 'next';
+import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { createClient } from '@supabase/supabase-js';
 import { VerifiablePresentation } from '@veramo/core';
@@ -98,13 +100,18 @@ export async function generateMetadata({
   };
 }) {
   const { presentation, title } = await getPresentation(id);
-
+  const headersList = headers();
+  const referrer = headersList.get('referer');
+  let url = null;
   if (!presentation) return {};
+  if (referrer) {
+    const parsedUrl = new URL(referrer);
+    url = `${parsedUrl.protocol}//${parsedUrl.host}`;
+  }
+  const finallyUrl =
+    process.env.NEXT_PUBLIC_APP_URL || url || 'https://masca.io';
 
-  // const url = process.env.NEXT_PUBLIC_APP_URL ?? 'https://masca.io';
-  const url = 'http://localhost:3000';
-
-  const ogUrl = new URL(`${url}/api/og`);
+  const ogUrl = new URL(`${finallyUrl}/api/og`);
   ogUrl.searchParams.set('type', 'share-presentation');
   ogUrl.searchParams.set('holder', presentation.holder);
   ogUrl.searchParams.set(
