@@ -114,7 +114,10 @@ export async function generateMetadata({
   ogUrl.searchParams.set('title', title);
 
   if (presentation.verifiableCredential?.length === 1) {
-    const credential = presentation.verifiableCredential[0];
+    let credential = presentation.verifiableCredential[0];
+    if (typeof presentation.verifiableCredential[0] === 'string') {
+      credential = JSON.parse(presentation.verifiableCredential[0]);
+    }
 
     const types = convertTypes((credential as any).type);
 
