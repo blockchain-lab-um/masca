@@ -10,6 +10,19 @@
     "settings": "Settings",
     "verify-data": "Verify Data"
   },
+  "VerificationInfoModal": {
+    "title": "Verification Information",
+    "subtitle": "Following information is being verified:",
+    "close": "Close",
+    "list": {
+      "presentation-signature": "Presentation signature",
+      "credential-signature": "Credential signature",
+      "credential-schema": "Credential schema",
+      "expiration-date": "Expiration date",
+      "valid-from-date": "Valid from date",
+      "credential-status": "Credential status"
+    }
+  },
   "AppNavbar": {
     "address": {
       "connected": "CONNECTED WITH METAMASK",
