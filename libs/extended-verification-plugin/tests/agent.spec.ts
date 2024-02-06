@@ -10,23 +10,10 @@ import {
   type IResolver,
   type TAgent,
 } from '@veramo/core';
-import { CredentialPlugin } from '@veramo/credential-w3c';
-import {
-  DIDStore,
-  Entities,
-  KeyStore,
-  migrations,
-  PrivateKeyStore,
-} from '@veramo/data-store';
-import { DIDManager } from '@veramo/did-manager';
-import { DIDResolverPlugin } from '@veramo/did-resolver';
-import { KeyManager } from '@veramo/key-manager';
-import { KeyManagementSystem, SecretBox } from '@veramo/kms-local';
-import { Resolver } from 'did-resolver';
+import { Entities, migrations } from '@veramo/data-store';
 import { DataSource, type DataSourceOptions } from 'typeorm';
 import { describe } from 'vitest';
 
-import { getDidKeyResolver, KeyDIDProvider } from '../src/index.js';
 import plugin from './plugin';
 
 const KMS_SECRET_KEY =
@@ -65,31 +52,7 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
       IResolver &
       ICredentialPlugin
   >({
-    plugins: [
-      new KeyManager({
-        store: new KeyStore(dbConnection),
-        kms: {
-          local: new KeyManagementSystem(
-            new PrivateKeyStore(dbConnection, new SecretBox(KMS_SECRET_KEY))
-          ),
-        },
-      }),
-      new DIDManager({
-        store: new DIDStore(dbConnection),
-        defaultProvider: 'did:key',
-        providers: {
-          'did:key': new KeyDIDProvider({
-            defaultKms: 'local',
-          }),
-        },
-      }),
-      new DIDResolverPlugin({
-        resolver: new Resolver({
-          ...getDidKeyResolver(),
-        }),
-      }),
-      new CredentialPlugin(),
-    ],
+    plugins: [],
   });
   return true;
 };
@@ -113,6 +76,6 @@ const getAgent = () => agent;
 
 const testContext = { getAgent, setup, tearDown };
 
-describe('masca/libs: Veramo Agent Tests', () => {
+describe('Extendted verification plugin tests', () => {
   plugin(testContext);
 });
