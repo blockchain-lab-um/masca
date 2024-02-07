@@ -257,54 +257,18 @@ importers:
         specifier: 1.0.0-beta.3
         version: 1.0.0-beta.3(@types/node@18.18.6)
 
-  libs/extended-verification-plugin:
+  libs/extended-verification:
     dependencies:
-      '@blockchain-lab-um/utils':
-        specifier: 1.3.7
-        version: link:../utils
       '@veramo/core':
         specifier: 5.6.0
         version: 5.6.0
-      '@veramo/credential-w3c':
-        specifier: 5.6.0
-        version: 5.6.0(encoding@0.1.13)(expo@49.0.16)(react-native@0.72.6)
-      '@veramo/did-manager':
-        specifier: 5.6.0
-        version: 5.6.0
-      '@veramo/utils':
-        specifier: 5.6.0
-        version: 5.6.0(encoding@0.1.13)
     devDependencies:
-      '@types/elliptic':
-        specifier: ^6.4.16
-        version: 6.4.16
-      '@types/uuid':
-        specifier: ^9.0.6
-        version: 9.0.6
-      '@veramo/core-types':
-        specifier: 5.6.0
-        version: 5.6.0
-      '@veramo/data-store':
-        specifier: 5.6.0
-        version: 5.6.0(better-sqlite3@9.0.0)(ts-node@10.9.1)
-      '@veramo/key-manager':
-        specifier: 5.6.0
-        version: 5.6.0
-      '@veramo/kms-local':
-        specifier: 5.6.0
-        version: 5.6.0
       '@vitest/coverage-v8':
         specifier: 1.0.0-beta.3
         version: 1.0.0-beta.3(vitest@1.0.0-beta.3)
-      jest-extended:
-        specifier: 4.0.2
-        version: 4.0.2
       tsup:
         specifier: ^7.2.0
         version: 7.2.0(ts-node@10.9.1)(typescript@5.2.2)
-      typeorm:
-        specifier: ^0.3.17
-        version: 0.3.17(better-sqlite3@9.0.0)(ts-node@10.9.1)
       vite:
         specifier: ^4.5.0
         version: 4.5.0(@types/node@18.18.6)
@@ -24533,7 +24497,24 @@ packages:
       lilconfig: 2.1.0
       postcss: 8.4.31
       ts-node: 10.9.1(@types/node@18.18.6)(typescript@5.2.2)
+      yaml: 2.3.3
+
+  /postcss-load-config@4.0.1(ts-node@10.9.1):
+    resolution: {integrity: sha512-vEJIc8RdiBRu3oRAI0ymerOn+7rPuMvRXslTvZUKZonDHFIczxztIyJ1urxM1x9JXEikvpWWTUUqal5j/8QgvA==}
+    engines: {node: '>= 14'}
+    peerDependencies:
+      postcss: '>=8.0.9'
+      ts-node: '>=9.0.0'
+    peerDependenciesMeta:
+      postcss:
+        optional: true
+      ts-node:
+        optional: true
+    dependencies:
+      lilconfig: 2.1.0
+      ts-node: 10.9.1(@types/node@18.18.6)(typescript@5.2.2)
       yaml: 2.3.2
+    dev: true
 
   /postcss-loader@7.3.3(postcss@8.4.31)(typescript@5.3.3)(webpack@5.89.0):
     resolution: {integrity: sha512-YgO/yhtevGO/vJePCQmTxiaEwER94LABZN0ZMT4A0vsak9TpO+RvKRs7EmJ8peIlB9xfXCsS7M8LjqncsUZ5HA==}
@@ -27485,7 +27466,7 @@ packages:
   /strip-literal@1.3.0:
     resolution: {integrity: sha512-PugKzOsyXpArk0yWmUwqOZecSO0GH0bPoctLcqNDH9J04pVW3lflYE0ujElBGTloevcxF5MofAOZ7C5l2b+wLg==}
     dependencies:
-      acorn: 8.10.0
+      acorn: 8.11.2
     dev: true
 
   /strnum@1.0.5:
@@ -28481,7 +28462,7 @@ packages:
       execa: 5.1.1
       globby: 11.1.0
       joycon: 3.1.1
-      postcss-load-config: 4.0.1(postcss@8.4.31)(ts-node@10.9.1)
+      postcss-load-config: 4.0.1(ts-node@10.9.1)
       resolve-from: 5.0.0
       rollup: 3.27.2
       source-map: 0.8.0-beta.0
@@ -30501,6 +30482,7 @@ packages:
   /yaml@2.3.2:
     resolution: {integrity: sha512-N/lyzTPaJasoDmfV7YTrYCI0G/3ivm/9wdG0aHuheKowWQwGTsK0Eoiw6utmzAnI6pkJa0DUVygvp3spqqEKXg==}
     engines: {node: '>= 14'}
+    dev: true
 
   /yaml@2.3.3:
     resolution: {integrity: sha512-zw0VAJxgeZ6+++/su5AFoqBbZbrEakwu+X0M5HmcwUiBL7AzcuPKjj5we4xfQLp78LkEMpD0cOnUhmgOVy3KdQ==}
