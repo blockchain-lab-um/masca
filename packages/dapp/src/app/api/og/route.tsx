@@ -35,8 +35,6 @@ export async function GET(req: NextRequest) {
     } = values;
 
     if (type && type === 'share-presentation') {
-      // If 1 VC show VC
-
       if (numberOfCredentials === '1') {
         if (credentialType.split(',')[0] === 'Education Credential') {
           return new ImageResponse(
@@ -259,7 +257,6 @@ export async function GET(req: NextRequest) {
         );
       }
 
-      // If more...
       return new ImageResponse(
         (
           <div

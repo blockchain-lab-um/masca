@@ -8,7 +8,7 @@ export interface ProjectIconProps {
 }
 
 const ProjectIcon = ({ icon, href, alt }: ProjectIconProps) => (
-  <div className="relative w-full h-24 sm:w-36">
+  <div className="relative h-24 w-full sm:w-36">
     <Link href={href} target="_blank">
       <Image src={icon} alt={alt} fill objectFit="contain" />
     </Link>
