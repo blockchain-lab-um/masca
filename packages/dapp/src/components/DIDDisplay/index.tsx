@@ -8,7 +8,7 @@ export const DIDDisplay = ({ did }: { did: string }) => {
   const t = useTranslations('DIDDisplay');
 
   return (
-    <>
+    <div className="flex flex-row">
       <Tooltip
         content={t('tooltip')}
         className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
@@ -25,6 +25,6 @@ export const DIDDisplay = ({ did }: { did: string }) => {
       <button className="pl-1" onClick={() => copyToClipboard(did)}>
         <DocumentDuplicateIcon className="animated-transition dark:text-navy-blue-300 ml-1 h-5 w-5 text-gray-700 hover:text-gray-700" />
       </button>
-    </>
+    </div>
   );
 };
