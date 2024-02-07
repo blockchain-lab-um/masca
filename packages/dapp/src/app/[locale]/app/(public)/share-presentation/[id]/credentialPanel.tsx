@@ -14,6 +14,7 @@ import { useTranslations } from 'next-intl';
 
 import { DIDDisplay } from '@/components/DIDDisplay';
 import JsonModal from '@/components/JsonModal';
+import { getFirstWord } from '@/utils/format';
 import { convertTypes, copyToClipboard } from '@/utils/string';
 
 interface FormatedPanelProps {
@@ -158,7 +159,7 @@ const CredentialPanel = ({ credential }: FormatedPanelProps) => {
               className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
             >
               <h1 className="font-ubuntu dark:text-orange-accent-dark text-left text-lg font-medium text-pink-500 sm:text-xl md:text-2xl lg:truncate">
-                {types}
+                {getFirstWord(types)}
               </h1>
             </Tooltip>
           </div>
