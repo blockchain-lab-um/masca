@@ -1,4 +1,3 @@
-import { ResolvingMetadata } from 'next';
 import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { createClient } from '@supabase/supabase-js';
@@ -129,9 +128,28 @@ export async function generateMetadata({
     const types = convertTypes((credential as any).type);
 
     if (typeof (credential as any).issuer === 'string') {
-      ogUrl.searchParams.set('credentialIssuer', (credential as any).issuer);
+      ogUrl.searchParams.set(
+        'credentialIssuer',
+        (credential as any).issuer ?? 'Unknown'
+      );
     } else {
-      ogUrl.searchParams.set('credentialIssuer', (credential as any).issuer.id);
+      ogUrl.searchParams.set(
+        'credentialIssuer',
+        (credential as any).issuer.id ?? 'Unknown'
+      );
+    }
+
+    if (types.split(', ')[0] === 'Education Credential') {
+      ogUrl.searchParams.set(
+        'credentialIssuer',
+        (credential as any).credentialSubject.achieved.wasAwardedBy
+          .awardingBody ?? 'Unknown'
+      );
+
+      ogUrl.searchParams.set(
+        'credentialTitle',
+        (credential as any).credentialSubject.achieved.title ?? 'missing'
+      );
     }
 
     ogUrl.searchParams.set('credentialType', types);

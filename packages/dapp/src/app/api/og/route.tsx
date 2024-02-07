@@ -31,12 +31,120 @@ export async function GET(req: NextRequest) {
       credentialType = 'unknown',
       credentialSubject = 'unknown',
       credentialIssuanceDate = 'unknown',
+      credentialTitle = 'unknown',
     } = values;
 
     if (type && type === 'share-presentation') {
       // If 1 VC show VC
 
       if (numberOfCredentials === '1') {
+        if (credentialType.split(',')[0] === 'Education Credential') {
+          return new ImageResponse(
+            (
+              <div
+                tw="flex justify-center items-center"
+                style={{
+                  height: '100%',
+                  width: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background:
+                    'linear-gradient(0deg, rgba(255,175,138,1) 0%, rgba(255,171,185,1) 100%)',
+                }}
+              >
+                <div
+                  tw="flex p-8 items-center justify-between rounded-3xl shadow-md shadow-black/50 w-[800px]"
+                  style={{
+                    background: 'linear-gradient(#E5591A, #F21D4B)',
+                  }}
+                >
+                  <div
+                    tw="flex-col"
+                    style={{
+                      display: 'flex',
+                    }}
+                  >
+                    <div
+                      tw="flex text-4xl text-white"
+                      style={{
+                        fontFamily: 'Cal Sans semibold',
+                      }}
+                    >
+                      {title}
+                    </div>
+                    <div tw="text-md text-orange-100 mt-12">ISSUED BY</div>
+                    <div
+                      tw="tracking-tight flex text-xl text-white"
+                      style={{
+                        fontFamily: 'Inter',
+                        fontWeight: 'normal',
+                      }}
+                    >
+                      {credentialIssuer}
+                    </div>
+                    <div tw="text-md text-orange-100 mt-4">ISSUED</div>
+                    <div
+                      tw="tracking-tight flex text-xl text-white"
+                      style={{
+                        fontFamily: 'Inter',
+                        fontWeight: 'normal',
+                      }}
+                    >
+                      {credentialTitle}
+                    </div>
+                    <div tw="text-md text-orange-100 mt-4">ISSUED ON</div>
+                    <div
+                      tw="tracking-tight flex text-xl text-white"
+                      style={{
+                        fontFamily: 'Inter',
+                        fontWeight: 'normal',
+                      }}
+                    >
+                      {new Date(
+                        Date.parse(credentialIssuanceDate)
+                      ).toDateString()}
+                    </div>
+                  </div>
+                  <div
+                    tw="text-4xl flex w-full text-orange-100 justify-end"
+                    style={{
+                      fontFamily: 'Inter Medium',
+                    }}
+                  >
+                    {credentialType.split(',')[0]}
+                  </div>
+                </div>
+              </div>
+            ),
+            {
+              width: 1200,
+              height: 630,
+              fonts: [
+                {
+                  name: 'Inter',
+                  data: fontRegular,
+                  weight: 400,
+                  style: 'normal',
+                },
+                {
+                  name: 'Inter Medium',
+                  data: fontRegular,
+                  weight: 600,
+                  style: 'normal',
+                },
+                {
+                  name: 'Cal Sans SemiBold',
+                  data: fontBold,
+                  weight: 700,
+                  style: 'normal',
+                },
+              ],
+            }
+          );
+        }
+
         return new ImageResponse(
           (
             <div

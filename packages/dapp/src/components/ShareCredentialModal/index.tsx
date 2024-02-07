@@ -62,11 +62,14 @@ export const ShareCredentialModal = () => {
   const t = useTranslations('ShareCredentialModal');
 
   // Global state
-  const { isOpen, setIsOpen, credentials } = useShareModalStore((state) => ({
-    isOpen: state.isOpen,
-    setIsOpen: state.setIsOpen,
-    credentials: state.credentials,
-  }));
+  const { isOpen, setIsOpen, credentials, shareLink, setShareLink } =
+    useShareModalStore((state) => ({
+      isOpen: state.isOpen,
+      setIsOpen: state.setIsOpen,
+      credentials: state.credentials,
+      shareLink: state.shareLink,
+      setShareLink: state.setShareLink,
+    }));
 
   const { api, didMethod } = useMascaStore((state) => ({
     api: state.mascaApi,
@@ -76,7 +79,6 @@ export const ShareCredentialModal = () => {
 
   // Local state
   const [isLoading, setIsLoading] = useState(false);
-  const [shareLink, setShareLink] = useState<string | null>(null);
   const [title, setTitle] = useState<string>('');
 
   const types = useMemo(
@@ -209,18 +211,18 @@ export const ShareCredentialModal = () => {
       onClose={() => setIsOpen(false)}
       hideCloseButton={true}
       placement="center"
-      className="py-2 mx-4 main-bg"
+      className="main-bg mx-4 py-2"
     >
       <ModalContent>
         {() => (
           <>
             <ModalHeader>
-              <div className="w-full font-medium leading-6 text-center text-gray-900 text-h3 font-ubuntu dark:text-navy-blue-50">
+              <div className="text-h3 font-ubuntu dark:text-navy-blue-50 w-full text-center font-medium leading-6 text-gray-900">
                 {t('title')}
               </div>
             </ModalHeader>
             <ModalBody>
-              <p className="text-center text-gray-600 text-md dark:text-navy-blue-200">
+              <p className="text-md dark:text-navy-blue-200 text-center text-gray-600">
                 {t('description')}
               </p>
               {supportedDidMethod && supportedCredentials && (
@@ -249,8 +251,8 @@ export const ShareCredentialModal = () => {
                             placeholder={t('placeholder')}
                           />
                         </div>
-                        <div className="flex flex-col mt-6 space-y-2">
-                          <h3 className="text-xl text-pink-500 dark:text-orange-accent-dark">
+                        <div className="mt-6 flex flex-col space-y-2">
+                          <h3 className="dark:text-orange-accent-dark text-xl text-pink-500">
                             {t('selected')}
                           </h3>
                           <div className="flex flex-col space-y-2">
@@ -284,7 +286,7 @@ export const ShareCredentialModal = () => {
               {!supportedDidMethod && (
                 <div className="mt-6">
                   <div className="flex flex-col space-y-2">
-                    <h3 className="text-xl text-pink-500 dark:text-orange-accent-dark">
+                    <h3 className="dark:text-orange-accent-dark text-xl text-pink-500">
                       {t('unsupported-method-title')}
                     </h3>
                     <div className="flex flex-col space-y-2">
@@ -296,7 +298,7 @@ export const ShareCredentialModal = () => {
               {!supportedCredentials && (
                 <div className="mt-6">
                   <div className="flex flex-col space-y-2">
-                    <h3 className="text-xl text-pink-500 dark:text-orange-accent-dark">
+                    <h3 className="dark:text-orange-accent-dark text-xl text-pink-500">
                       {t('unsupported-credentials-title')}
                     </h3>
                     <div className="flex flex-col space-y-2">
@@ -307,9 +309,9 @@ export const ShareCredentialModal = () => {
               )}
 
               {shareLink && (
-                <div className="mt-4 text-gray-800 dark:text-navy-blue-100">
+                <div className="dark:text-navy-blue-100 mt-4 text-gray-800">
                   {t('share-link-description')}
-                  <div className="flex mt-2 gap-x-2">
+                  <div className="mt-2 flex gap-x-2">
                     <LinkedinShareButton
                       url={shareLink}
                       className="flex items-center justify-center gap-x-2"
@@ -358,7 +360,7 @@ export const ShareCredentialModal = () => {
                 </div>
               )}
 
-              <div className="flex items-center justify-end w-full mt-10">
+              <div className="mt-10 flex w-full items-center justify-end">
                 <Button
                   variant="cancel"
                   size="xs"
