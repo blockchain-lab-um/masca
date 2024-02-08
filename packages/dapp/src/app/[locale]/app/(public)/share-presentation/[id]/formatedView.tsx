@@ -68,7 +68,7 @@ export const FormatedView = ({
                           .split(':')
                           [holder.split(':').length - 1].slice(
                             0,
-                            10
+                            6
                           )}...${holder.slice(-4)}`}
                       </a>
                     </Tooltip>
