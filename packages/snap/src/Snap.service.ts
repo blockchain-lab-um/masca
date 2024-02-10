@@ -48,20 +48,11 @@ import WalletService from './Wallet.service';
 class SnapService {
   private static origin: string;
 
-  /**
-   * Function that queries VCs from the selected VC stores.
-   * @param params.filter.type - Type of filter (eg. JSONPath).
-   * @param params.filter.filter - Filter to apply.
-   * @param params.options.store - VC store to query.
-   * @param params.options.returnStore - Whether to return the store name.
-   * @returns array - Array of VCs.
-   */
-  static async queryCredentials(
+  static async queryCredentialsInner(
     params: QueryCredentialsRequestParams
   ): Promise<QueryCredentialsRequestResult[]> {
     const { filter, options } = params ?? {};
     const { store, returnStore = true } = options ?? {};
-
     // FIXME: Maybe do this in parallel? Does it make sense?
     const veramoCredentials = await VeramoService.queryCredentials({
       options: { store, returnStore },
@@ -81,6 +72,22 @@ class SnapService {
     const vcs = [...veramoCredentials, ...polygonCredentials];
 
     if (!vcs.length) return [];
+    return vcs;
+  }
+
+  /**
+   * Function that queries VCs from the selected VC stores.
+   * @param params.filter.type - Type of filter (eg. JSONPath).
+   * @param params.filter.filter - Filter to apply.
+   * @param params.options.store - VC store to query.
+   * @param params.options.returnStore - Whether to return the store name.
+   * @returns array - Array of VCs.
+   */
+  static async queryCredentials(
+    params: QueryCredentialsRequestParams
+  ): Promise<QueryCredentialsRequestResult[]> {
+    const vcs = await this.queryCredentialsInner(params);
+    if (vcs.length === 0) return [];
     if (await UIService.queryAllDialog({ vcs })) {
       return vcs;
     }
