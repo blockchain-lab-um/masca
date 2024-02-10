@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { createClient } from '@supabase/supabase-js';
 import { VerifiablePresentation } from '@veramo/core';
 import { decodeCredentialToObject } from '@veramo/utils';
+import { normalizeCredential } from 'did-jwt-vc';
 
 import JsonPanel from '@/components/CredentialDisplay/JsonPanel';
 import { convertTypes } from '@/utils/string';
@@ -122,7 +123,17 @@ export async function generateMetadata({
   if (presentation.verifiableCredential?.length === 1) {
     let credential = presentation.verifiableCredential[0];
     if (typeof presentation.verifiableCredential[0] === 'string') {
-      credential = JSON.parse(presentation.verifiableCredential[0]);
+      try {
+        credential = JSON.parse(presentation.verifiableCredential[0]);
+      } catch (e) {
+        try {
+          credential = normalizeCredential(
+            presentation.verifiableCredential[0]
+          );
+        } catch (ex) {
+          console.error(ex);
+        }
+      }
     }
 
     const types = convertTypes((credential as any).type);
