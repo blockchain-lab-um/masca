@@ -51,12 +51,17 @@ const Controlbar = () => {
   const selectedCredentials = useTableStore(
     (state) => state.selectedCredentials
   );
-  const { setShareCredentials, setShareModalMode, setIsShareModalOpen } =
-    useShareModalStore((state) => ({
-      setShareCredentials: state.setCredentials,
-      setShareModalMode: state.setMode,
-      setIsShareModalOpen: state.setIsOpen,
-    }));
+  const {
+    setShareCredentials,
+    setShareModalMode,
+    setIsShareModalOpen,
+    setShareLink,
+  } = useShareModalStore((state) => ({
+    setShareCredentials: state.setCredentials,
+    setShareModalMode: state.setMode,
+    setIsShareModalOpen: state.setIsOpen,
+    setShareLink: state.setShareLink,
+  }));
 
   const refreshVCs = async () => {
     if (!api) return;
@@ -225,6 +230,7 @@ const Controlbar = () => {
                         return;
                       }
                       setShareModalMode('multiple');
+                      setShareLink(null);
                       setShareCredentials(
                         selectedCredentials.map(
                           (vc) => removeCredentialSubjectFilterString(vc).data
