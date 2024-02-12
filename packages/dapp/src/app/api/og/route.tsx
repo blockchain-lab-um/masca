@@ -45,6 +45,7 @@ export async function GET(req: NextRequest) {
                   height: '100%',
                   width: '100%',
                   display: 'flex',
+                  position: 'relative',
                   flexDirection: 'column',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -52,6 +53,23 @@ export async function GET(req: NextRequest) {
                     'linear-gradient(0deg, rgba(255,175,138,1) 0%, rgba(255,171,185,1) 100%)',
                 }}
               >
+                <div
+                  style={{
+                    display: 'flex',
+                    position: 'absolute',
+                    alignItems: 'center',
+                    right: '32',
+                    bottom: '32',
+                    gap: '8px',
+                  }}
+                >
+                  <p style={{ fontWeight: 'bold' }}>Powered by</p>
+                  <img
+                    src="https://masca.io/images/masca_black.png"
+                    alt="Masca logo"
+                    width={48}
+                  />
+                </div>
                 <div
                   tw="flex p-8 items-center justify-between rounded-3xl shadow-md shadow-black/50 w-[800px]"
                   style={{
@@ -151,6 +169,7 @@ export async function GET(req: NextRequest) {
                 height: '100%',
                 width: '100%',
                 display: 'flex',
+                position: 'relative',
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -158,6 +177,23 @@ export async function GET(req: NextRequest) {
                   'linear-gradient(0deg, rgba(255,175,138,1) 0%, rgba(255,171,185,1) 100%)',
               }}
             >
+              <div
+                style={{
+                  display: 'flex',
+                  position: 'absolute',
+                  alignItems: 'center',
+                  right: '32',
+                  bottom: '32',
+                  gap: '8px',
+                }}
+              >
+                <p style={{ fontWeight: 'bold' }}>Powered by</p>
+                <img
+                  src="https://masca.io/images/masca_black.png"
+                  alt="Masca logo"
+                  width={48}
+                />
+              </div>
               <div
                 tw="flex p-8 items-center justify-between rounded-3xl shadow-md shadow-black/50 w-[800px]"
                 style={{
@@ -298,7 +334,6 @@ export async function GET(req: NextRequest) {
                   >
                     {holder.substring(0, 20)}...
                     {holder.substring(holder.length, holder.length - 10)}
-                    di
                   </div>
                   <div tw="text-md text-orange-100 mt-4">
                     NUMBER OF CREDENTIALS

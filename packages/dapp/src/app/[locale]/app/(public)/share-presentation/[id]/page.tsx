@@ -100,18 +100,9 @@ export async function generateMetadata({
   };
 }) {
   const { presentation, title } = await getPresentation(id);
-  const headersList = headers();
-  const referrer = headersList.get('referer');
-  let url = null;
   if (!presentation) return {};
-  if (referrer) {
-    const parsedUrl = new URL(referrer);
-    url = `${parsedUrl.protocol}//${parsedUrl.host}`;
-  }
-  const finallyUrl =
-    process.env.NEXT_PUBLIC_APP_URL || url || 'https://masca.io';
-
-  const ogUrl = new URL(`${finallyUrl}/api/og`);
+  const url = process.env.NEXT_PUBLIC_APP_URL || 'https://masca.io';
+  const ogUrl = new URL(`${url}/api/og`);
   ogUrl.searchParams.set('type', 'share-presentation');
   ogUrl.searchParams.set('holder', presentation.holder);
   ogUrl.searchParams.set(
@@ -162,7 +153,6 @@ export async function generateMetadata({
         (credential as any).credentialSubject.achieved.title ?? 'missing'
       );
     }
-
     ogUrl.searchParams.set('credentialType', types);
     ogUrl.searchParams.set(
       'credentialSubject',
@@ -173,9 +163,8 @@ export async function generateMetadata({
       (credential as any).issuanceDate
     );
   }
-
   return {
-    title: 'Share presentation',
+    title: 'Check out my shared credentials',
     description: 'Page for displaying shared presentations',
     openGraph: {
       type: 'article',
@@ -190,7 +179,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'Share Presentation',
+      title: 'Check out my shared credentials',
       description: 'Page for displaying shared presentations',
       images: [ogUrl.toString()],
     },
