@@ -48,8 +48,18 @@ import WalletService from './Wallet.service';
 class SnapService {
   private static origin: string;
 
-  static async queryCredentialsInner(
-    params: QueryCredentialsRequestParams
+  /**
+   * Function that queries VCs from the selected VC stores.
+   * @param params.filter.type - Type of filter (eg. JSONPath).
+   * @param params.filter.filter - Filter to apply.
+   * @param params.options.store - VC store to query.
+   * @param params.options.returnStore - Whether to return the store name.
+   * @param isHomePage - Whether the request is from the home page.
+   * @returns array - Array of VCs.
+   */
+  static async queryCredentials(
+    params: QueryCredentialsRequestParams,
+    isHomePage = false
   ): Promise<QueryCredentialsRequestResult[]> {
     const { filter, options } = params ?? {};
     const { store, returnStore = true } = options ?? {};
@@ -70,24 +80,8 @@ class SnapService {
     }));
 
     const vcs = [...veramoCredentials, ...polygonCredentials];
-
-    if (!vcs.length) return [];
-    return vcs;
-  }
-
-  /**
-   * Function that queries VCs from the selected VC stores.
-   * @param params.filter.type - Type of filter (eg. JSONPath).
-   * @param params.filter.filter - Filter to apply.
-   * @param params.options.store - VC store to query.
-   * @param params.options.returnStore - Whether to return the store name.
-   * @returns array - Array of VCs.
-   */
-  static async queryCredentials(
-    params: QueryCredentialsRequestParams
-  ): Promise<QueryCredentialsRequestResult[]> {
-    const vcs = await this.queryCredentialsInner(params);
     if (vcs.length === 0) return [];
+    if (isHomePage) return vcs;
     if (await UIService.queryAllDialog({ vcs })) {
       return vcs;
     }

@@ -88,7 +88,7 @@ export const onHomePage: OnHomePageHandler = async () => {
       } as QueryCredentialsOptions;
     }
 
-    vcs = await SnapService.queryCredentialsInner(queryParams);
+    vcs = await SnapService.queryCredentials(queryParams, true);
   } catch (e) {
     console.error(e);
   }
