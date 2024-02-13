@@ -54,14 +54,15 @@ class SnapService {
    * @param params.filter.filter - Filter to apply.
    * @param params.options.store - VC store to query.
    * @param params.options.returnStore - Whether to return the store name.
+   * @param isHomePage - Whether the request is from the home page.
    * @returns array - Array of VCs.
    */
   static async queryCredentials(
-    params: QueryCredentialsRequestParams
+    params: QueryCredentialsRequestParams,
+    isHomePage = false
   ): Promise<QueryCredentialsRequestResult[]> {
     const { filter, options } = params ?? {};
     const { store, returnStore = true } = options ?? {};
-
     // FIXME: Maybe do this in parallel? Does it make sense?
     const veramoCredentials = await VeramoService.queryCredentials({
       options: { store, returnStore },
@@ -79,8 +80,8 @@ class SnapService {
     }));
 
     const vcs = [...veramoCredentials, ...polygonCredentials];
-
-    if (!vcs.length) return [];
+    if (vcs.length === 0) return [];
+    if (isHomePage) return vcs;
     if (await UIService.queryAllDialog({ vcs })) {
       return vcs;
     }

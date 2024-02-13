@@ -26,11 +26,12 @@
       "./files/circuits/credentialAtomicQuerySigV2/circuit_final.zkey",
       "./files/circuits/credentialAtomicQuerySigV2/verification_key.json"
     ],
-    "shasum": "WcGYh+wxUGmNhtRywe2CtCMeSCk2kSi4GMm+tLoE4No="
+    "shasum": "MhBfgnW6fXbMbk3uGOsSTkONFX79i7DJVnKeh+0s5D4="
   },
   "initialPermissions": {
     "endowment:ethereum-provider": {},
     "endowment:network-access": {},
+    "endowment:lifecycle-hooks": {},
     "endowment:rpc": {
       "dapps": true,
       "snaps": true
@@ -38,7 +39,8 @@
     "snap_dialog": {},
     "snap_getEntropy": {},
     "snap_manageState": {},
-    "endowment:webassembly": {}
+    "endowment:webassembly": {},
+    "endowment:page-home": {}
   },
   "manifestVersion": "0.1"
 }

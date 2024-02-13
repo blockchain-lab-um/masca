@@ -1,8 +1,18 @@
 import './polyfills/intl';
 
-import { isValidSetCurrentAccountRequest } from '@blockchain-lab-um/masca-types';
+import {
+  CURRENT_STATE_VERSION,
+  isValidSetCurrentAccountRequest,
+  QueryCredentialsOptions,
+  QueryCredentialsRequestParams,
+} from '@blockchain-lab-um/masca-types';
 import { ResultObject, type Result } from '@blockchain-lab-um/utils';
-import type { OnRpcRequestHandler } from '@metamask/snaps-sdk';
+import type {
+  OnHomePageHandler,
+  OnInstallHandler,
+  OnRpcRequestHandler,
+  OnUpdateHandler,
+} from '@metamask/snaps-sdk';
 
 import EthereumService from './Ethereum.service';
 import GeneralService from './General.service';
@@ -50,4 +60,48 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     // TODO (martin, urban): Check for any and unknown errors
     return ResultObject.error((e as Error).toString());
   }
+};
+
+export const onHomePage: OnHomePageHandler = async () => {
+  await StorageService.init();
+  await GeneralService.initAccountState();
+  await WalletService.init();
+  await VeramoService.init();
+  await EthereumService.init();
+
+  const did = await SnapService.getDID();
+
+  let vcs = [];
+
+  try {
+    const state = StorageService.get();
+    const session =
+      state[CURRENT_STATE_VERSION].accountState[
+        state[CURRENT_STATE_VERSION].currentAccount
+      ].general.ceramicSession;
+
+    const queryParams = {} as QueryCredentialsRequestParams;
+
+    if (!session) {
+      queryParams.options = {
+        store: ['snap'],
+      } as QueryCredentialsOptions;
+    }
+
+    vcs = await SnapService.queryCredentials(queryParams, true);
+  } catch (e) {
+    console.error(e);
+  }
+  await UIService.init('');
+  return UIService.homePage(did, vcs.length);
+};
+
+export const onInstall: OnInstallHandler = async () => {
+  await UIService.init('');
+  await UIService.install();
+};
+
+export const onUpdate: OnUpdateHandler = async () => {
+  await UIService.init('');
+  await UIService.update();
 };

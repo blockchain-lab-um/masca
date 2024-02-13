@@ -1,4 +1,3 @@
-import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { createClient } from '@supabase/supabase-js';
 import { VerifiablePresentation } from '@veramo/core';
