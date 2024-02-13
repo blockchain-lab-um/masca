@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
-import { BrowserProvider } from 'ethers';
 import Cookies from 'js-cookie';
 import { useTranslations } from 'next-intl';
 import { SiweMessage } from 'siwe';
+import { useAccount, useSignMessage } from 'wagmi';
 
 import { useToastStore } from '@/stores';
 import { useAuthStore } from '@/stores/authStore';
@@ -13,6 +13,8 @@ import Button from '../Button';
 
 export const SignInModal = () => {
   const t = useTranslations('SignInModal');
+  const { signMessage } = useSignMessage();
+  const { address } = useAccount();
 
   // Local state
   const [loading, setLoading] = useState(false);
@@ -51,7 +53,7 @@ export const SignInModal = () => {
     };
   };
 
-  const createSiweMessage = async (address: string) => {
+  const createSiweMessage = async () => {
     const { nonce } = await getNonce();
 
     const message = new SiweMessage({
@@ -69,57 +71,55 @@ export const SignInModal = () => {
 
   const handleSignInWithEthereum = async () => {
     setLoading(true);
-    try {
-      const provider = new BrowserProvider(window.ethereum);
+    const message = await createSiweMessage();
+    signMessage(
+      { message },
+      {
+        onSuccess: async (signature) => {
+          const response = await fetch('/api/siwe/verify', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message, signature }),
+            credentials: 'include',
+          });
+          if (!response.ok) throw new Error('Failed to sign in.');
 
-      const signer = await provider.getSigner();
+          const data = await response.json();
 
-      const message = await createSiweMessage(await signer.getAddress());
+          if (!data.jwt) throw new Error('Failed to sign in.');
 
-      const signature = await signer.signMessage(message);
+          // Set data
+          changeToken(data.jwt);
+          changeIsSignedIn(true);
+          Cookies.set('token', data.jwt);
 
-      const response = await fetch('/api/siwe/verify', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+          // Close modal and show toast
+          changeIsSignInModalOpen(false);
+          setTimeout(() => {
+            useToastStore.setState({
+              open: true,
+              title: t('sign-in-success'),
+              type: 'success',
+              loading: false,
+              link: null,
+            });
+          }, 200);
         },
-        body: JSON.stringify({ message, signature }),
-        credentials: 'include',
-      });
-
-      if (!response.ok) throw new Error('Failed to sign in.');
-
-      const data = await response.json();
-
-      if (!data.jwt) throw new Error('Failed to sign in.');
-
-      // Set data
-      changeToken(data.jwt);
-      changeIsSignedIn(true);
-      Cookies.set('token', data.jwt);
-
-      // Close modal and show toast
-      changeIsSignInModalOpen(false);
-      setTimeout(() => {
-        useToastStore.setState({
-          open: true,
-          title: t('sign-in-success'),
-          type: 'success',
-          loading: false,
-          link: null,
-        });
-      }, 200);
-    } catch (error) {
-      setTimeout(() => {
-        useToastStore.setState({
-          open: true,
-          title: t('sign-in-error'),
-          type: 'error',
-          loading: false,
-          link: null,
-        });
-      }, 200);
-    }
+        onError: (error) => {
+          setTimeout(() => {
+            useToastStore.setState({
+              open: true,
+              title: t('sign-in-error'),
+              type: 'error',
+              loading: false,
+              link: null,
+            });
+          }, 200);
+        },
+      }
+    );
   };
 
   return (

@@ -63,7 +63,7 @@ const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
           }}
         >
           <Tab key="Normal" title="Normal" />
-          <Tab key="Json" title="Json" />
+          <Tab key="Json" title="JSON" />
         </Tabs>
         <div className="flex gap-1.5">
           <button

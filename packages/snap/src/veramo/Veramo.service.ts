@@ -30,7 +30,6 @@ import {
   DataManager,
   IDataManager,
 } from '@blockchain-lab-um/veramo-datamanager';
-import { Web3Provider } from '@ethersproject/providers';
 import {
   createAgent,
   CredentialPayload,
@@ -77,8 +76,14 @@ import {
 import { KeyManagementSystem } from '@veramo/kms-local';
 import { decodeCredentialToObject } from '@veramo/utils';
 import { DIDResolutionResult, Resolver } from 'did-resolver';
+import {
+  getResolver as ensDidResolver,
+  ProviderConfiguration,
+} from 'ens-did-resolver';
+import { BrowserProvider } from 'ethers';
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver';
-import * as qs from 'qs';
+import { EthrNetworkConfiguration } from 'node_modules/@veramo/did-provider-ethr/build/ethr-did-provider';
+import qs from 'qs';
 
 import EthereumService from '../Ethereum.service';
 import GeneralService from '../General.service';
@@ -121,7 +126,8 @@ class VeramoService {
 
     switch (method) {
       case 'did:pkh':
-      case 'did:ethr': {
+      case 'did:ethr':
+      case 'did:ens': {
         return;
       }
       case 'did:key:jwk_jcs-pub':
@@ -179,6 +185,25 @@ class VeramoService {
             method === 'did:ethr'
               ? `did:ethr:${chainId}:${state[CURRENT_STATE_VERSION].currentAccount}`
               : `did:pkh:eip155:${chainId}:${state[CURRENT_STATE_VERSION].currentAccount}`,
+          keys: [],
+          services: [],
+        };
+
+        return identifier;
+      }
+      case 'did:ens': {
+        const chainId = await EthereumService.getNetwork();
+        if (chainId !== '0x1') {
+          throw new Error(
+            `Unsupported network with chainid ${chainId} for ${method}`
+          );
+        }
+        const address = state[CURRENT_STATE_VERSION]
+          .currentAccount as `0x${string}`;
+        const ensName = await EthereumService.getEnsName({ address });
+        const identifier: IIdentifier = {
+          provider: method,
+          did: `did:ens:${ensName}`,
           keys: [],
           services: [],
         };
@@ -937,24 +962,15 @@ class VeramoService {
     const enabledCredentialStores =
       await GeneralService.getEnabledCredentialStores();
 
-    const networks = [
+    const networks: EthrNetworkConfiguration[] = [
       {
         name: 'mainnet',
-        provider: new Web3Provider(ethereum as any),
-      },
-      {
-        name: '0x05',
-        provider: new Web3Provider(ethereum as any),
-      },
-      {
-        name: 'goerli',
-        provider: new Web3Provider(ethereum as any),
-        chainId: '0x5',
+        provider: new BrowserProvider(ethereum as any),
       },
       {
         name: 'sepolia',
-        provider: new Web3Provider(ethereum as any),
-        chainId: '0xaa36a7',
+        provider: new BrowserProvider(ethereum as any),
+        registry: '0x03d5003bf0e79c5f5223588f347eba39afbc3818',
       },
     ];
 
@@ -1005,6 +1021,9 @@ class VeramoService {
             ...keyDidResolver(),
             ...pkhDidResolver(),
             ...jwkDidResolver(),
+            ...ensDidResolver({
+              networks: networks as ProviderConfiguration[],
+            }),
             ...UniversalResolverService.getResolver(),
           }),
         }),

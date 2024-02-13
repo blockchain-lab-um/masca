@@ -2,14 +2,10 @@ import React from 'react';
 import { isError } from '@blockchain-lab-um/masca-connector';
 import { VerifiableCredential } from '@veramo/core';
 import { useTranslations } from 'next-intl';
+import { useAccount } from 'wagmi';
 
 import Button from '@/components/Button';
-import {
-  useGeneralStore,
-  useMascaStore,
-  useSessionStore,
-  useToastStore,
-} from '@/stores';
+import { useMascaStore, useSessionStore, useToastStore } from '@/stores';
 
 interface CredentialOfferViewProps {
   onCredentialRecieved: (recievedCredential: VerifiableCredential) => void;
@@ -26,7 +22,7 @@ export const CredentialOfferView = ({
 
   const api = useMascaStore((state) => state.mascaApi);
   const currDidMethod = useMascaStore((state) => state.currDIDMethod);
-  const isConnected = useGeneralStore((state) => state.isConnected);
+  const { isConnected } = useAccount();
 
   const handleCredentialOffer = async () => {
     if (!api) return;
@@ -100,7 +96,7 @@ export const CredentialOfferView = ({
         <>
           <div className="text-h4 pb-8 font-medium">
             {request.type === 'polygonCredentialOffer'
-              ? 'PolygonID Credential Offer'
+              ? 'Polygon ID Credential Offer'
               : 'OIDC Credential Offer'}{' '}
           </div>
           {request.finished ? (

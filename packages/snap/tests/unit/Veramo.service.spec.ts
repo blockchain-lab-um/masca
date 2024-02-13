@@ -760,7 +760,7 @@ describe('Veramo Service', () => {
     });
 
     it('should resolve invalid did', async () => {
-      const didDoc = await VeramoService.resolveDID('did:ethr:0x5:0x123');
+      const didDoc = await VeramoService.resolveDID('did:ethr:0x1:0x123');
       expect(didDoc).toEqual(resolutionInvalidDID);
       expect.assertions(1);
     });

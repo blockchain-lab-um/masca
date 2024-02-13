@@ -1,21 +1,23 @@
-import { Metadata } from 'next';
+import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { createClient } from '@supabase/supabase-js';
 import { VerifiablePresentation } from '@veramo/core';
 import { decodeCredentialToObject } from '@veramo/utils';
+import { normalizeCredential } from 'did-jwt-vc';
 
 import JsonPanel from '@/components/CredentialDisplay/JsonPanel';
+import { convertTypes } from '@/utils/string';
 import { Database } from '@/utils/supabase/database.types';
 import { FormatedView } from './formatedView';
 
-export const metadata: Metadata = {
-  title: 'Share presentation',
-  description: 'Page for displaying shared presentations',
-};
-
 export const revalidate = 0;
 
-const getPresentation = async (id: string): Promise<VerifiablePresentation> => {
+interface ReturnPresentation {
+  presentation: VerifiablePresentation;
+  title: string;
+}
+
+const getPresentation = async (id: string): Promise<ReturnPresentation> => {
   const supabase = createClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SECRET_KEY!
@@ -43,7 +45,8 @@ const getPresentation = async (id: string): Promise<VerifiablePresentation> => {
     .eq('id', id);
 
   const presentation = data[0].presentation as VerifiablePresentation;
-  return presentation;
+  const { title } = data[0];
+  return { presentation, title };
 };
 
 export default async function Page({
@@ -56,7 +59,7 @@ export default async function Page({
     page: string | undefined;
   };
 }) {
-  const presentation = await getPresentation(id);
+  const { presentation } = await getPresentation(id);
   const credentials = presentation.verifiableCredential
     ? presentation.verifiableCredential.map(decodeCredentialToObject)
     : [];
@@ -84,4 +87,101 @@ export default async function Page({
       </div>
     </div>
   );
+}
+
+export async function generateMetadata({
+  params: { id },
+  searchParams,
+}: {
+  params: { id: string };
+  searchParams: {
+    view: 'Normal' | 'Json';
+    page: string | undefined;
+  };
+}) {
+  const { presentation, title } = await getPresentation(id);
+  if (!presentation) return {};
+  const url = process.env.NEXT_PUBLIC_APP_URL || 'https://masca.io';
+  const ogUrl = new URL(`${url}/api/og`);
+  ogUrl.searchParams.set('type', 'share-presentation');
+  ogUrl.searchParams.set('holder', presentation.holder);
+  ogUrl.searchParams.set(
+    'numberOfCredentials',
+    (presentation.verifiableCredential?.length ?? 0).toString()
+  );
+  ogUrl.searchParams.set('title', title);
+
+  if (presentation.verifiableCredential?.length === 1) {
+    let credential = presentation.verifiableCredential[0];
+    if (typeof presentation.verifiableCredential[0] === 'string') {
+      try {
+        credential = JSON.parse(presentation.verifiableCredential[0]);
+      } catch (e) {
+        try {
+          credential = normalizeCredential(
+            presentation.verifiableCredential[0]
+          );
+        } catch (ex) {
+          console.error(ex);
+        }
+      }
+    }
+
+    const types = convertTypes((credential as any).type);
+
+    if (typeof (credential as any).issuer === 'string') {
+      ogUrl.searchParams.set(
+        'credentialIssuer',
+        (credential as any).issuer ?? 'Unknown'
+      );
+    } else {
+      ogUrl.searchParams.set(
+        'credentialIssuer',
+        (credential as any).issuer.id ?? 'Unknown'
+      );
+    }
+
+    if (types.split(', ')[0] === 'Education Credential') {
+      ogUrl.searchParams.set(
+        'credentialIssuer',
+        (credential as any).credentialSubject.achieved.wasAwardedBy
+          .awardingBody ?? 'Unknown'
+      );
+
+      ogUrl.searchParams.set(
+        'credentialTitle',
+        (credential as any).credentialSubject.achieved.title ?? 'missing'
+      );
+    }
+    ogUrl.searchParams.set('credentialType', types);
+    ogUrl.searchParams.set(
+      'credentialSubject',
+      (credential as any).credentialSubject.id
+    );
+    ogUrl.searchParams.set(
+      'credentialIssuanceDate',
+      (credential as any).issuanceDate
+    );
+  }
+  return {
+    title: 'Check out my shared credentials',
+    description: 'Page for displaying shared presentations',
+    openGraph: {
+      type: 'article',
+      images: [
+        {
+          url: ogUrl.toString(),
+          width: 1200,
+          height: 630,
+          alt: 'Presentation Image',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'Check out my shared credentials',
+      description: 'Page for displaying shared presentations',
+      images: [ogUrl.toString()],
+    },
+  };
 }

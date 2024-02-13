@@ -1,9 +1,10 @@
 import React from 'react';
 import { VerifiableCredential } from '@veramo/core';
 import { useTranslations } from 'next-intl';
+import { useAccount } from 'wagmi';
 
 import Button from '@/components/Button';
-import { useGeneralStore, useSessionStore } from '@/stores';
+import { useSessionStore } from '@/stores';
 import { CredentialOfferView } from './CredentialOfferView';
 import { OIDCAuthView } from './OIDCAuthView';
 import { PolygonAuthView } from './PolygonAuthView';
@@ -23,7 +24,7 @@ export const StartFlowView = ({
     session: state.session,
   }));
 
-  const isConnected = useGeneralStore((state) => state.isConnected);
+  const { isConnected } = useAccount();
 
   return (
     <div>

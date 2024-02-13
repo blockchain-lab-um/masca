@@ -6,9 +6,10 @@ import { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 import { useStepper } from 'headless-stepper';
 import { useTranslations } from 'next-intl';
+import { useAccount } from 'wagmi';
 
 import Button from '@/components/Button';
-import { useGeneralStore, useSessionStore } from '@/stores';
+import { useSessionStore } from '@/stores';
 import { ChooseDeviceView } from './ChooseDeviceView';
 import { ConnectDeviceView } from './ConnectDeviceView';
 import { CredentialView } from './CredentialView';
@@ -45,7 +46,7 @@ const QRSessionDisplay = () => {
   const [credential, setCredential] = useState<VerifiableCredential>();
 
   const stepperInstance = useStepper({ steps });
-  const isConnected = useGeneralStore((state) => state.isConnected);
+  const { isConnected } = useAccount();
 
   const { request, session, changeRequest, changeSession } = useSessionStore(
     (state) => ({

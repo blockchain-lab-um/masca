@@ -5,6 +5,7 @@ import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 
+import { TextSkeleton } from '../Skeletons/TextSkeleton';
 import { DropdownMenuItem } from './DropdownMenuItem';
 
 interface DropdownMenuProps {
@@ -80,14 +81,15 @@ export default function DropdownMenu({
                 open ? variantsHover[variant] : ''
               )}
             >
-              {selected}
-
-              <ChevronDownIcon
-                className={`animated-transition -mr-1 ml-2 h-5 w-5 ${
-                  open ? 'rotate-180 ' : ''
-                }`}
-                aria-hidden="true"
-              />
+              {selected || <TextSkeleton className="h-4 w-16" />}
+              {selected && (
+                <ChevronDownIcon
+                  className={`animated-transition -mr-1 ml-2 h-5 w-5 ${
+                    open ? 'rotate-180 ' : ''
+                  }`}
+                  aria-hidden="true"
+                />
+              )}
             </Menu.Button>
           </div>
 

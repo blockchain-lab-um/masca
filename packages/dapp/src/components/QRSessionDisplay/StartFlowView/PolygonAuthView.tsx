@@ -1,14 +1,10 @@
 import React from 'react';
 import { isError } from '@blockchain-lab-um/masca-connector';
 import { useTranslations } from 'next-intl';
+import { useAccount } from 'wagmi';
 
 import Button from '@/components/Button';
-import {
-  useGeneralStore,
-  useMascaStore,
-  useSessionStore,
-  useToastStore,
-} from '@/stores';
+import { useMascaStore, useSessionStore, useToastStore } from '@/stores';
 
 interface StartFlowViewProps {
   scanNewCode: () => void;
@@ -25,7 +21,7 @@ export const PolygonAuthView = ({ scanNewCode }: StartFlowViewProps) => {
 
   const api = useMascaStore((state) => state.mascaApi);
   const currDidMethod = useMascaStore((state) => state.currDIDMethod);
-  const isConnected = useGeneralStore((state) => state.isConnected);
+  const { isConnected } = useAccount();
 
   const handlePolygonAuthRequest = async () => {
     if (

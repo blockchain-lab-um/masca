@@ -1,5 +1,26 @@
 # @blockchain-lab-um/dapp
 
+## 1.2.0-beta.1
+
+### Minor Changes
+
+- [#522](https://github.com/blockchain-lab-um/masca/pull/522) [`309758c`](https://github.com/blockchain-lab-um/masca/commit/309758c4ff7f8d7d3602e37431ffa2ae2aac4c7c) Thanks [@andyv09](https://github.com/andyv09)! - Update list of partners and projects
+
+- [#524](https://github.com/blockchain-lab-um/masca/pull/524) [`e9c7a08`](https://github.com/blockchain-lab-um/masca/commit/e9c7a08b99112b22eceb4010e7389c7103102677) Thanks [@martines3000](https://github.com/martines3000)! - Add support for credential sharing.
+
+### Patch Changes
+
+- [#546](https://github.com/blockchain-lab-um/masca/pull/546) [`7731329`](https://github.com/blockchain-lab-um/masca/commit/773132905231dbbe7b745dba5177fa6914364d96) Thanks [@martines3000](https://github.com/martines3000)! - Update Veramo packages and ethers.
+
+- [#524](https://github.com/blockchain-lab-um/masca/pull/524) [`e9c7a08`](https://github.com/blockchain-lab-um/masca/commit/e9c7a08b99112b22eceb4010e7389c7103102677) Thanks [@martines3000](https://github.com/martines3000)! - Updated the table using NextUI, drastically improved filtering & fixed some bugs
+
+- [#528](https://github.com/blockchain-lab-um/masca/pull/528) [`5d6ae05`](https://github.com/blockchain-lab-um/masca/commit/5d6ae0557a08f0bad94f238a2ce20a15fd9dd4ba) Thanks [@martines3000](https://github.com/martines3000)! - Fixes crash when address is not a string.
+
+- [#531](https://github.com/blockchain-lab-um/masca/pull/531) [`8f44f29`](https://github.com/blockchain-lab-um/masca/commit/8f44f2925f333d9920407992a1efd20b7ec24f57) Thanks [@andyv09](https://github.com/andyv09)! - Fixed the bug where only credentials stored in Masca show at first
+
+- Updated dependencies [[`7731329`](https://github.com/blockchain-lab-um/masca/commit/773132905231dbbe7b745dba5177fa6914364d96), [`9b3c3e0`](https://github.com/blockchain-lab-um/masca/commit/9b3c3e07013330a254398e3a577b1b3e9c9ee491)]:
+  - @blockchain-lab-um/masca-connector@1.2.2-beta.0
+
 ## 1.2.0-beta.0
 
 ### Minor Changes

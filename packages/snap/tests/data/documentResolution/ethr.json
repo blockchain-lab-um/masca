@@ -1,10 +1,18 @@
 {
   "didDocumentMetadata": {},
-  "didResolutionMetadata": { "contentType": "application/did+ld+json" },
+  "didResolutionMetadata": {
+    "contentType": "application/did+ld+json",
+    "did": {
+      "didString": "did:ethr:0x1:0xb6665128eE91D84590f70c3268765384A9CAfBCd",
+      "methodSpecificId": "0x1:0xb6665128eE91D84590f70c3268765384A9CAfBCd",
+      "method": "ethr"
+    }
+  },
   "didDocument": {
     "@context": [
       "https://www.w3.org/ns/did/v1",
-      "https://w3id.org/security/suites/secp256k1recovery-2020/v2"
+      "https://w3id.org/security/suites/secp256k1recovery-2020/v2",
+      "https://w3id.org/security/v3-unstable"
     ],
     "id": "did:ethr:0x1:0xb6665128eE91D84590f70c3268765384A9CAfBCd",
     "verificationMethod": [
