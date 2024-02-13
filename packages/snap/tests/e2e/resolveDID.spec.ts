@@ -37,7 +37,7 @@ describe('resolveDID', () => {
     'should resolve a $didResolutionMetadata.did.method method',
     async (method) => {
       const res = (await onRpcRequest({
-        origin: 'localhost',
+        origin: 'http://localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
@@ -68,7 +68,7 @@ describe('resolveDID', () => {
 
   it('should return an error if the did is not found', async () => {
     const res = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',

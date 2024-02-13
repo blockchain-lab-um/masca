@@ -58,47 +58,51 @@ class GeneralService {
   }
 
   /**
-   * Function that lets you add a friendly dapp
-   * @param dapp - dapp to add to the friendly dapps list.
+   * Function that lets you add a trusted dapp
+   * @param dapp - dapp to add to the trusted dapps list.
    * @returns void
    */
-  static async addFriendlyDapp(params: { id: string }): Promise<void> {
+  static async addTrustedDapp(params: { origin: string }): Promise<void> {
     const state = StorageService.get();
+    if (params.origin === '' || !params.origin)
+      throw new Error('No origin provided.');
     if (
-      state[CURRENT_STATE_VERSION].config.dApp.friendlyDapps.includes(params.id)
+      state[CURRENT_STATE_VERSION].config.dApp.trustedDapps.includes(
+        params.origin
+      )
     )
       return;
-    if (!(await UIService.addFriendlyDappDialog(params.id))) {
-      throw new Error('User rejected friendly dapp addition.');
+    if (!(await UIService.addTrustedDappDialog(params.origin))) {
+      throw new Error('User rejected trusted dapp addition.');
     }
-    state[CURRENT_STATE_VERSION].config.dApp.friendlyDapps.push(params.id);
+    state[CURRENT_STATE_VERSION].config.dApp.trustedDapps.push(params.origin);
   }
 
   /**
-   * Function that lets you remove a friendly dapp
-   * @param dapp - dapp to remove from the friendly dapps list.
+   * Function that lets you remove a trusted dapp
+   * @param dapp - dapp to remove from the trusted dapps list.
    * @returns void
    */
-  static async removeFriendlyDapp(params: { id: string }): Promise<void> {
-    if (!(await UIService.removeFriendlyDappDialog(params.id))) {
-      throw new Error('User rejected friendly dapp removal.');
+  static async removeTrustedDapp(params: { origin: string }): Promise<void> {
+    if (!(await UIService.removeTrustedDappDialog(params.origin))) {
+      throw new Error('User rejected trusted dapp removal.');
     }
 
     const state = StorageService.get();
-    state[CURRENT_STATE_VERSION].config.dApp.friendlyDapps = state[
+    state[CURRENT_STATE_VERSION].config.dApp.trustedDapps = state[
       CURRENT_STATE_VERSION
-    ].config.dApp.friendlyDapps.filter((d) => d !== params.id);
+    ].config.dApp.trustedDapps.filter((d) => d !== params.origin);
   }
 
   /**
-   * Function that checks if a dApp is friendly
+   * Function that checks if a dApp is trusted
    * @param params.id - dApp to check.
-   * @returns boolean - whether the dapp is friendly.
+   * @returns boolean - whether the dapp is trusted.
    */
-  static async isFriendlyDapp(params: { id: string }): Promise<boolean> {
+  static async isTrustedDapp(params: { id: string }): Promise<boolean> {
     const { id } = params;
     const state = StorageService.get();
-    return state[CURRENT_STATE_VERSION].config.dApp.friendlyDapps.includes(id);
+    return state[CURRENT_STATE_VERSION].config.dApp.trustedDapps.includes(id);
   }
 
   /**

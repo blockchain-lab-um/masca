@@ -233,7 +233,7 @@ describe('signData', () => {
         currentMethod = testCase.method;
 
         const switchMethod = (await onRpcRequest({
-          origin: 'localhost',
+          origin: 'http://localhost',
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
@@ -250,7 +250,7 @@ describe('signData', () => {
       }
 
       const signedData = (await onRpcRequest({
-        origin: 'localhost',
+        origin: 'http://localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
@@ -335,7 +335,7 @@ describe('signData', () => {
       currentMethod = testCase.method;
 
       const switchMethod = (await onRpcRequest({
-        origin: 'localhost',
+        origin: 'http://localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
@@ -351,7 +351,7 @@ describe('signData', () => {
       }
 
       const signedData = (await onRpcRequest({
-        origin: 'localhost',
+        origin: 'http://localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
@@ -375,7 +375,7 @@ describe('signData', () => {
    */
   it('should return an error if the DID method is not supported', async () => {
     const switchMethod = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -391,7 +391,7 @@ describe('signData', () => {
     }
 
     let signedData = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -417,7 +417,7 @@ describe('signData', () => {
     expect(signedData.error).toBe('Error: Unsupported DID method');
 
     signedData = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',

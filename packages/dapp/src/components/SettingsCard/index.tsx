@@ -11,8 +11,8 @@ import { useMascaStore, useToastStore } from '@/stores';
 import Button from '../Button';
 import InfoIcon from '../InfoIcon';
 import UploadButton from '../UploadButton';
-import { FriendlydAppTable } from './FriendlydAppTable';
 import GoogleBackupForm from './GoogleBackupForm';
+import { TrustedDappTable } from './TrustedDappTable';
 
 const SettingsCard = () => {
   const t = useTranslations('SettingsCard');
@@ -229,7 +229,7 @@ const SettingsCard = () => {
           {t('popups')}
         </div>
         <div className="mt-4">
-          <FriendlydAppTable />
+          <TrustedDappTable />
           <span className="dark:text-navy-blue-200 mt-12 flex justify-between text-gray-700">
             <div className="flex">
               <span className="mr-1 text-red-500">{t('disable-popups')}</span>

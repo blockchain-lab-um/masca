@@ -16,6 +16,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   request,
   origin,
 }): Promise<Result<any>> => {
+  const referrer = new URL(origin);
   try {
     await StorageService.init();
 
@@ -40,7 +41,11 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
 
     const { method, params } = request;
 
-    const response = await SnapService.handleRpcRequest(method, params, origin);
+    const response = await SnapService.handleRpcRequest(
+      method,
+      params,
+      referrer.hostname
+    );
 
     await StorageService.save();
 
