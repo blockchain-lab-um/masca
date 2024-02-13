@@ -16,6 +16,7 @@ import {
 import { W3CVerifiableCredential } from '@veramo/core';
 
 import StorageService from './storage/Storage.service';
+import { isTrustedDapp } from './utils/permissions';
 
 class UIService {
   static origin: string;
@@ -38,7 +39,7 @@ class UIService {
       state[CURRENT_STATE_VERSION].config.dApp;
 
     // Show popups if force is true or if popups are not disabled AND the dapp is not trusted
-    if (force || !(disablePopups || trustedDapps.includes(this.origin))) {
+    if (force || !(disablePopups || isTrustedDapp(this.origin, trustedDapps))) {
       const res = await snap.request({
         method: 'snap_dialog',
         params: {
