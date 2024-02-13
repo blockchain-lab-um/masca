@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { EyeIcon, TrashIcon } from '@heroicons/react/24/solid';
+import { EyeIcon, ShareIcon, TrashIcon } from '@heroicons/react/24/solid';
 import {
   Pagination,
   Spinner,
@@ -18,9 +18,11 @@ import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 
 import { DeleteSharedPresentationModal } from '@/components/DeleteSharedPresentationModal';
+import { ShareCredentialModal } from '@/components/ShareCredentialModal';
 import { createClient } from '@/utils/supabase/client';
 import { Tables } from '@/utils/supabase/helper.types';
 import { useAuthStore } from '@/stores/authStore';
+import { useShareModalStore } from '@/stores/shareModalStore';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -62,6 +64,22 @@ export const SharedPresentations = () => {
 
   const router = useRouter();
 
+  // Global state
+  const { isSignedIn, token, changeIsSignInModalOpen } = useAuthStore(
+    (state) => ({
+      isSignedIn: state.isSignedIn,
+      changeIsSignInModalOpen: state.changeIsSignInModalOpen,
+      token: state.token,
+    })
+  );
+
+  const { setShareLink, setShareModalMode, setIsShareModalOpen } =
+    useShareModalStore((state) => ({
+      setShareLink: state.setShareLink,
+      setShareModalMode: state.setMode,
+      setIsShareModalOpen: state.setIsOpen,
+    }));
+
   // Local state
   const [presentations, setPresentations] = useState<Tables<'presentations'>[]>(
     []
@@ -78,9 +96,6 @@ export const SharedPresentations = () => {
     if (!total) return 1;
     return Math.ceil(total / ITEMS_PER_PAGE);
   }, [total]);
-
-  // Global state
-  const token = useAuthStore((state) => state.token);
 
   const columns = [
     {
@@ -118,6 +133,27 @@ export const SharedPresentations = () => {
         case 'actions':
           return (
             <div className="flex w-full items-center justify-end space-x-4">
+              <Tooltip content="Share">
+                <button
+                  className={clsx(
+                    ' dark:text-navy-blue-50 group flex',
+                    'items-center justify-center rounded-full text-gray-700 outline-none focus:outline-none'
+                  )}
+                  onClick={() => {
+                    if (!isSignedIn) {
+                      changeIsSignInModalOpen(true);
+                      return;
+                    }
+                    setShareModalMode('multiple');
+                    setShareLink(
+                      `${window.location.origin}/app/share-presentation/${presentation.id}`
+                    );
+                    setIsShareModalOpen(true);
+                  }}
+                >
+                  <ShareIcon className="h-4 w-4" />
+                </button>
+              </Tooltip>
               <Tooltip content="View">
                 <div
                   className="text-md dark:text-navy-blue-50 cursor-pointer text-gray-600"
@@ -261,6 +297,7 @@ export const SharedPresentations = () => {
         setModalOpen={setDeleteModalOpen}
         setPresentations={setPresentations}
       />
+      <ShareCredentialModal />
     </>
   );
 };
