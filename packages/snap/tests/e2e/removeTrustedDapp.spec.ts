@@ -60,7 +60,7 @@ describe('removeTrustedDapp', () => {
     }
   });
 
-  it('should fail removing another friendlyDapp from the list', async () => {
+  it('should fail removing another trustedDapp from the list', async () => {
     const resultAdd = (await onRpcRequest({
       origin: 'http://localhost:8081',
       request: {
@@ -98,7 +98,7 @@ describe('removeTrustedDapp', () => {
     expect.assertions(2);
   });
 
-  it('should remove a friendlyDapp from the list', async () => {
+  it('should remove a trustedDapp from the list', async () => {
     const resultAdd = (await onRpcRequest({
       origin: 'https://masca.io',
       request: {
