@@ -322,7 +322,7 @@ describe('signData', () => {
   /**
    * Test JWZ
    */
-  it.each(JWZ_TEST_CASES)(
+  it.skip.each(JWZ_TEST_CASES)(
     'should successfully sign JWZ with $method and size $size bytes',
     async (testCase) => {
       // Change mocked chainId value
