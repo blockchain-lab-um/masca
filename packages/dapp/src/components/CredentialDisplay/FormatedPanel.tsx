@@ -15,7 +15,11 @@ import { useTranslations } from 'next-intl';
 import { DIDDisplay } from '@/components/DIDDisplay';
 import JsonModal from '@/components/JsonModal';
 import { getFirstWord } from '@/utils/format';
-import { convertTypes, copyToClipboard } from '@/utils/string';
+import {
+  camelToTitleCase,
+  convertTypes,
+  copyToClipboard,
+} from '@/utils/string';
 
 interface FormatedPanelProps {
   credential: VerifiableCredential;
@@ -88,7 +92,7 @@ const CredentialSubject = ({
               )}
             >
               <h2 className="dark:text-navy-blue-200 pr-2 font-bold capitalize text-gray-800">
-                {key}:
+                {camelToTitleCase(key)}:
               </h2>
               <div className="text-md dark:text-navy-blue-300 w-full truncate font-normal text-gray-700">
                 {isObject ? (
