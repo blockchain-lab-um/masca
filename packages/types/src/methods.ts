@@ -1,5 +1,6 @@
 import type {
   AddTrustedDappRequestParams,
+  ChangePermissionsRequestParams,
   CreateCredentialRequestParams,
   CreatePresentationRequestParams,
   DeleteCredentialsRequestParams,
@@ -136,6 +137,11 @@ export interface AddTrustedDapp {
 export interface RemoveTrustedDapp {
   method: 'removeTrustedDapp';
   params: RemoveTrustedDappRequestParams;
+}
+
+export interface ChangePermission {
+  method: 'changePermission';
+  params: ChangePermissionsRequestParams;
 }
 
 export interface GetWalletId {

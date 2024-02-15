@@ -62,6 +62,10 @@ class SnapService {
     const { filter, options } = params ?? {};
     const { store, returnStore = true } = options ?? {};
 
+    if (!(await UIService.queryAllDialog())) {
+      throw new Error('User rejected query credentials request');
+    }
+
     // FIXME: Maybe do this in parallel? Does it make sense?
     const veramoCredentials = await VeramoService.queryCredentials({
       options: { store, returnStore },
@@ -81,10 +85,7 @@ class SnapService {
     const vcs = [...veramoCredentials, ...polygonCredentials];
 
     if (!vcs.length) return [];
-    if (await UIService.queryAllDialog({ vcs })) {
-      return vcs;
-    }
-    throw new Error('User rejected query credentials request.');
+    return vcs;
   }
 
   /**
@@ -467,7 +468,7 @@ class SnapService {
     params: any,
     origin: string
   ): Promise<Result<any>> {
-    this.origin = origin;
+    this.origin = origin; // hostname
 
     let res;
 
@@ -548,14 +549,24 @@ class SnapService {
         res = await GeneralService.togglePopups();
         return ResultObject.success(res);
       case 'addTrustedDapp':
-        if (origin === 'masca.io')
-          trustedOrigin = new URL(params.origin).hostname;
-        await GeneralService.addTrustedDapp({ origin: trustedOrigin });
+        // If the origin is masca.io, any HOSTNAME can be added. Expect parameter to be a hostname!
+        if (origin === 'masca.io') trustedOrigin = params.origin;
+        await GeneralService.addTrustedDapp({ originHostname: trustedOrigin });
         return ResultObject.success(true);
       case 'removeTrustedDapp':
-        if (origin !== 'masca.io' && origin !== new URL(params.origin).hostname)
+        if (origin !== 'masca.io' && origin !== params.origin)
           throw new Error('Unauthorized to remove other dApps');
-        await GeneralService.removeTrustedDapp({ origin: trustedOrigin });
+        await GeneralService.removeTrustedDapp({
+          originHostname: trustedOrigin,
+        });
+        return ResultObject.success(true);
+      case 'changePermission':
+        if (origin !== 'masca.io')
+          throw new Error('Can be only called from https://masca.io/');
+
+        // Validate isValidChangePermissionRequest(params);
+
+        await GeneralService.changePermission(params);
         return ResultObject.success(true);
       case 'switchDIDMethod':
         isValidSwitchMethodRequest(params);
@@ -643,7 +654,7 @@ class SnapService {
         await GeneralService.importBackup(params);
         return ResultObject.success(true);
       default:
-        throw new Error('Method not found.');
+        throw new Error(`Method ${method} not found.`);
     }
   }
 }

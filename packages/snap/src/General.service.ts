@@ -18,7 +18,8 @@ import EthereumService from './Ethereum.service';
 import StorageService from './storage/Storage.service';
 import UIService from './UI.service';
 import { validateSession } from './utils/ceramicUtils';
-import { getEmptyAccountState } from './utils/config';
+import { getEmptyAccountState, getInitialPermissions } from './utils/config';
+import { isTrustedDapp, permissionExists } from './utils/permissions';
 
 class GeneralService {
   /**
@@ -62,20 +63,34 @@ class GeneralService {
    * @param dapp - dapp to add to the trusted dapps list.
    * @returns void
    */
-  static async addTrustedDapp(params: { origin: string }): Promise<void> {
+  static async addTrustedDapp(params: {
+    originHostname: string;
+  }): Promise<void> {
     const state = StorageService.get();
-    if (params.origin === '' || !params.origin)
+    if (params.originHostname === '' || !params.originHostname)
       throw new Error('No origin provided.');
     if (
-      state[CURRENT_STATE_VERSION].config.dApp.trustedDapps.includes(
-        params.origin
-      )
+      permissionExists(params.originHostname, state) &&
+      isTrustedDapp(params.originHostname, state)
     )
       return;
-    if (!(await UIService.addTrustedDappDialog(params.origin))) {
+    if (!(await UIService.addTrustedDappDialog(params.originHostname))) {
       throw new Error('User rejected trusted dapp addition.');
     }
-    state[CURRENT_STATE_VERSION].config.dApp.trustedDapps.push(params.origin);
+
+    if (permissionExists(params.originHostname, state)) {
+      state[CURRENT_STATE_VERSION].config.dApp.permissions[
+        params.originHostname
+      ].trustedDapp = true;
+      return;
+    }
+
+    state[CURRENT_STATE_VERSION].config.dApp.permissions[
+      params.originHostname
+    ] = {
+      ...getInitialPermissions(),
+      trustedDapp: true,
+    };
   }
 
   /**
@@ -83,15 +98,36 @@ class GeneralService {
    * @param dapp - dapp to remove from the trusted dapps list.
    * @returns void
    */
-  static async removeTrustedDapp(params: { origin: string }): Promise<void> {
-    if (!(await UIService.removeTrustedDappDialog(params.origin))) {
+  static async removeTrustedDapp(params: {
+    originHostname: string;
+  }): Promise<void> {
+    if (!(await UIService.removeTrustedDappDialog(params.originHostname))) {
       throw new Error('User rejected trusted dapp removal.');
     }
 
     const state = StorageService.get();
-    state[CURRENT_STATE_VERSION].config.dApp.trustedDapps = state[
-      CURRENT_STATE_VERSION
-    ].config.dApp.trustedDapps.filter((d) => d !== params.origin);
+    if (
+      permissionExists(params.originHostname, state) &&
+      isTrustedDapp(params.originHostname, state)
+    ) {
+      state[CURRENT_STATE_VERSION].config.dApp.permissions[
+        params.originHostname
+      ].trustedDapp = false;
+    }
+  }
+
+  static async changePermission(params: {
+    originHostname: string;
+    method: string;
+    value: boolean;
+  }): Promise<void> {
+    const state = StorageService.get();
+    // Do a popper upper
+    if (permissionExists(params.originHostname, state)) {
+      state[CURRENT_STATE_VERSION].config.dApp.permissions[
+        params.originHostname
+      ][params.method] = params.value;
+    }
   }
 
   /**
@@ -102,7 +138,7 @@ class GeneralService {
   static async isTrustedDapp(params: { id: string }): Promise<boolean> {
     const { id } = params;
     const state = StorageService.get();
-    return state[CURRENT_STATE_VERSION].config.dApp.trustedDapps.includes(id);
+    return isTrustedDapp(id, state);
   }
 
   /**

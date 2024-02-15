@@ -9,6 +9,7 @@ import { beforeAll, describe, expect, it, vi } from 'vitest';
 import { onRpcRequest } from '../../src';
 import StorageService from '../../src/storage/Storage.service';
 import UIService from '../../src/UI.service';
+import { getInitialPermissions } from '../../src/utils/config';
 import VeramoService from '../../src/veramo/Veramo.service';
 import { account } from '../data/constants';
 import { EXAMPLE_VC_PAYLOAD } from '../data/credentials';
@@ -67,7 +68,7 @@ describe('removeTrustedDapp', () => {
         id: 'test-id',
         jsonrpc: '2.0',
         method: 'addTrustedDapp',
-        params: { origin: 'http://localhost:8081' },
+        params: { origin: 'localhost' },
       },
     })) as Result<boolean>;
 
@@ -83,7 +84,7 @@ describe('removeTrustedDapp', () => {
         id: 'test-id',
         jsonrpc: '2.0',
         method: 'removeTrustedDapp',
-        params: { origin: 'http://localhost:8081' },
+        params: { origin: 'localhost' },
       },
     })) as Result<unknown>;
 
@@ -105,7 +106,7 @@ describe('removeTrustedDapp', () => {
         id: 'test-id',
         jsonrpc: '2.0',
         method: 'addTrustedDapp',
-        params: { origin: 'http://localhost:8081' },
+        params: { origin: 'localhost' },
       },
     })) as Result<boolean>;
 
@@ -121,7 +122,7 @@ describe('removeTrustedDapp', () => {
         id: 'test-id',
         jsonrpc: '2.0',
         method: 'removeTrustedDapp',
-        params: { origin: 'http://localhost:8081' },
+        params: { origin: 'localhost' },
       },
     })) as Result<unknown>;
 
@@ -135,9 +136,9 @@ describe('removeTrustedDapp', () => {
       operation: 'get',
     });
 
-    expect(state[CURRENT_STATE_VERSION].config.dApp.trustedDapps).toStrictEqual(
-      []
-    );
+    expect(
+      state[CURRENT_STATE_VERSION].config.dApp.permissions.localhost
+    ).toStrictEqual(getInitialPermissions());
 
     expect.assertions(3);
   });

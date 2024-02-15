@@ -1,4 +1,5 @@
 import type {
+  DappPermissions,
   MascaAccountConfig,
   MascaAccountState,
   MascaState,
@@ -62,6 +63,41 @@ const emptyAccountState = {
 
 export const getEmptyAccountState = () => cloneDeep(emptyAccountState);
 
+const initialPermissions: DappPermissions = {
+  trustedDapp: false,
+  queryCredentials: false,
+  saveCredential: false,
+  createPresentation: false,
+  deleteCredential: false,
+  togglePopups: false,
+  addTrustedDapp: false,
+  removeTrustedDapp: false,
+  getDID: false,
+  getSelectedMethod: false,
+  getAvailableMethods: false,
+  switchDIDMethod: false,
+  getCredentialStore: false,
+  setCredentialStore: false,
+  getAvailableCredentialStores: false,
+  getAccountSettings: false,
+  getSnapSettings: false,
+  getWalletId: false,
+  resolveDID: false,
+  createCredential: false,
+  setCurrentAccount: false,
+  verifyData: false,
+  handleCredentialOffer: false,
+  handleAuthorizationRequest: false,
+  setCeramicSession: false,
+  validateStoredCeramicSession: false,
+  exportStateBackup: false,
+  importStateBackup: false,
+  signData: false,
+  changePermission: false,
+};
+
+export const getInitialPermissions = () => cloneDeep(initialPermissions);
+
 const initialSnapState: MascaState = {
   v1: {
     accountState: {},
@@ -69,7 +105,9 @@ const initialSnapState: MascaState = {
     config: {
       dApp: {
         disablePopups: false,
-        trustedDapps: [],
+        permissions: {
+          'masca.io': getInitialPermissions(),
+        },
       },
       snap: {
         acceptedTerms: true,

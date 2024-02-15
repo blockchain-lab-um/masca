@@ -252,6 +252,24 @@ async function removeTrustedDapp(
 }
 
 /**
+ * Removes queryCredentials permissions for the selected dApp. Popups will appear when the dApp tries to query VCs.
+ *
+ * @return Result<boolean> - true if the removal was successful
+ */
+async function changePermission(
+  this: Masca,
+  origin: string,
+  method: 'queryCredentials',
+  value: boolean
+): Promise<Result<boolean>> {
+  return sendSnapMethod(
+    this,
+    { method: 'changePermission', params: { origin, method, value } },
+    this.snapId
+  );
+}
+
+/**
  * Get the status of available VC stores (i.e. whether they are enabled or not)
  *
  * @return Result<Record<AvailableCredentialStores, boolean>> - status of available VC stores
@@ -612,5 +630,6 @@ export class Masca {
     exportStateBackup: wrapper(exportStateBackup.bind(this)),
     getWalletId: wrapper(getWalletId.bind(this)),
     signData: wrapper(signData.bind(this)),
+    changePermission: wrapper(changePermission.bind(this)),
   });
 }
