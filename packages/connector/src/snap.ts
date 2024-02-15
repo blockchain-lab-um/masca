@@ -220,26 +220,33 @@ async function togglePopups(this: Masca): Promise<Result<boolean>> {
 }
 
 /**
- * Adds origin of the current dapp to the list of friendly dapps. This will disable popups from appearing while using the dapp.
+ * Adds origin of the current dapp to the list of trusted dapps. This will disable popups from appearing while using the dapp.
  *
  * @return Result<boolean> - true if the addition was successful
  */
-async function addFriendlyDapp(this: Masca): Promise<Result<boolean>> {
-  return sendSnapMethod(this, { method: 'addFriendlyDapp' }, this.snapId);
-}
-
-/**
- * Removes origin of the current dapp from the list of friendly dapps. This will enable popups while using the dapp.
- *
- * @return Result<boolean> - true if the removal was successful
- */
-async function removeFriendlyDapp(
+async function addTrustedDapp(
   this: Masca,
-  id: string
+  origin: string
 ): Promise<Result<boolean>> {
   return sendSnapMethod(
     this,
-    { method: 'removeFriendlyDapp', params: { id } },
+    { method: 'addTrustedDapp', params: { origin } },
+    this.snapId
+  );
+}
+
+/**
+ * Removes origin of the current dapp from the list of trusted dapps. This will enable popups while using the dapp.
+ *
+ * @return Result<boolean> - true if the removal was successful
+ */
+async function removeTrustedDapp(
+  this: Masca,
+  origin: string
+): Promise<Result<boolean>> {
+  return sendSnapMethod(
+    this,
+    { method: 'removeTrustedDapp', params: { origin } },
     this.snapId
   );
 }
@@ -577,8 +584,8 @@ export class Masca {
     queryCredentials: wrapper(queryCredentials.bind(this)),
     createPresentation: wrapper(createPresentation.bind(this)),
     togglePopups: wrapper(togglePopups.bind(this)),
-    addFriendlyDapp: wrapper(addFriendlyDapp.bind(this)),
-    removeFriendlyDapp: wrapper(removeFriendlyDapp.bind(this)),
+    addTrustedDapp: wrapper(addTrustedDapp.bind(this)),
+    removeTrustedDapp: wrapper(removeTrustedDapp.bind(this)),
     getDID: wrapper(getDID.bind(this)),
     getSelectedMethod: wrapper(getSelectedMethod.bind(this)),
     getAvailableMethods: wrapper(getAvailableMethods.bind(this)),

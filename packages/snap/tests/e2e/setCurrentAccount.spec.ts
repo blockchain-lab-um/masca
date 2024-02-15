@@ -26,7 +26,7 @@ describe('setCurrentAccount', () => {
 
   it('should succeed setting the current account', async () => {
     const res = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -47,7 +47,7 @@ describe('setCurrentAccount', () => {
 
   it('should fail setting the current account - missing current account parameter', async () => {
     const res = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -73,7 +73,7 @@ describe('setCurrentAccount', () => {
     });
 
     const res = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',

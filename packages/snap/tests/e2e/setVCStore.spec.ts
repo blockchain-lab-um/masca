@@ -26,7 +26,7 @@ describe('setVCStore', () => {
   // FIXME: Enable after we put back params checks
   it.skip('should throw and error when using wrong vcStore', async () => {
     let res = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -42,7 +42,7 @@ describe('setVCStore', () => {
     expect(res.error).toBe('Error: invalid_argument: $input.store');
 
     res = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -62,7 +62,7 @@ describe('setVCStore', () => {
 
   it('should succeed toggling ceramic store to true', async () => {
     let res = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -78,7 +78,7 @@ describe('setVCStore', () => {
     expect(res.data).toBe(true);
 
     res = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',

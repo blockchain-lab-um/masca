@@ -63,7 +63,7 @@ describe('importStateBackup', () => {
   it('Should suceed with default empty state', async () => {
     const startState: MascaState = cloneDeep(StorageService.get());
     const resExport = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -77,7 +77,7 @@ describe('importStateBackup', () => {
     }
 
     const resImport = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -96,7 +96,7 @@ describe('importStateBackup', () => {
 
   it('Should suceed with non-empty state (1 credential)', async () => {
     const saveRes = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -121,7 +121,7 @@ describe('importStateBackup', () => {
 
     const startState: MascaState = cloneDeep(StorageService.get());
     const resExport = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -135,7 +135,7 @@ describe('importStateBackup', () => {
     }
 
     const resImport = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
