@@ -32,9 +32,9 @@ export default async function AppLayout({
         <AppBottomBar />
         <QRCodeSessionProvider />
         <SignInModal />
+        <CookiesProvider />
       </WagmiProviderWrapper>
       <ToastWrapper />
-      <CookiesProvider />
     </>
   );
 }

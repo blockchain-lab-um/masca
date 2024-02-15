@@ -1,12 +1,10 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import Cookies from 'js-cookie';
 import { useTranslations } from 'next-intl';
 import { useAccount, useConnect } from 'wagmi';
 
 import Button from '@/components/Button';
-import { useAuthStore } from '@/stores/authStore';
 
 interface MetaMaskProviderProps {
   children: React.ReactNode;
@@ -20,11 +18,7 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
 
   // Global state
   const { connectors } = useConnect();
-  const { isConnected, address } = useAccount();
-  const { changeToken, changeIsSignedIn } = useAuthStore((state) => ({
-    changeToken: state.changeToken,
-    changeIsSignedIn: state.changeIsSignedIn,
-  }));
+  const { isConnected } = useAccount();
 
   useEffect(() => {
     const provider =
@@ -36,18 +30,6 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
       setHasMetamask(true);
     }
   }, [connectors]);
-
-  useEffect(() => {
-    if (address) {
-      const previousAddress = Cookies.get('address');
-      if (previousAddress !== address) {
-        Cookies.set('address', address);
-        Cookies.remove('token');
-        changeIsSignedIn(false);
-        changeToken('');
-      }
-    }
-  }, [address]);
 
   return !hasMetamask && !isConnected ? (
     <div className="dark:bg-navy-blue-800 dark:text-navy-blue-400 flex flex-1 items-center justify-center rounded-3xl bg-white shadow-lg">
