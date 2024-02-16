@@ -2,6 +2,7 @@ import typia from 'typia';
 
 import {
   availableCredentialStores,
+  ChangePermissionsRequestParams,
   CURRENT_STATE_VERSION,
   isW3CCredential,
   isW3CVerifiableCredential,
@@ -86,6 +87,8 @@ const validateVerifyDataRequest =
 const validateMascaState = typia.createValidateEquals<MascaState>();
 const validateSignDataRequest =
   typia.createValidateEquals<SignDataRequestParams>();
+const validateChangePermissionRequest =
+  typia.createValidateEquals<ChangePermissionsRequestParams>();
 
 export const isValidCreateCredentialRequest = (
   input: any,
@@ -195,5 +198,12 @@ export const isValidSignDataRequest = (
   input: any
 ): asserts input is SignDataRequestParams => {
   const res = validateSignDataRequest(input);
+  if (!res.success) throw new Error(handleIValidation(res));
+};
+
+export const isValidChangePermissionRequest = (
+  input: any
+): asserts input is ChangePermissionsRequestParams => {
+  const res = validateChangePermissionRequest(input);
   if (!res.success) throw new Error(handleIValidation(res));
 };

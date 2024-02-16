@@ -20,6 +20,15 @@ import StorageService from './storage/Storage.service';
 import { getInitialPermissions } from './utils/config';
 import { isPermitted, isTrustedDapp } from './utils/permissions';
 
+const permissionActions: Record<string, string> = {
+  queryCredentials: 'Querying Credentials',
+};
+
+const permissionExtraText: Record<string, string> = {
+  queryCredentials:
+    'You will no longer see a popup on this dApp when credentials are requested!',
+};
+
 class UIService {
   static originHostname: string;
 
@@ -394,6 +403,32 @@ class UIService {
       ...this.originWrapper,
       text('Would you like to sign the following data?'),
       copyable(JSON.stringify(params.data, null, 2)),
+    ]);
+
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      method: 'signData',
+    });
+
+    return res;
+  }
+
+  static async changePermissionDialog(params: {
+    permission: string;
+    value: boolean;
+  }) {
+    const uiPanel = panel([
+      heading('Change Permission'),
+      ...this.originWrapper,
+      text('Would you to change the following permissions?'),
+      divider(),
+      text(
+        `**${params.value ? 'Enable' : 'Disable'}** popups for **${
+          permissionActions[params.permission]
+        }** on _**${this.originHostname}**_.`
+      ),
+      divider(),
+      text(`${permissionExtraText[params.permission]}`),
     ]);
 
     const res = await UIService.snapConfirm({

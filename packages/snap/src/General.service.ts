@@ -7,6 +7,7 @@ import {
   isValidMascaState,
   MascaAccountConfig,
   MascaConfig,
+  MascaRPCRequest,
   MethodsRequiringNetwork,
   requiresNetwork,
   SetCredentialStoreRequestParams,
@@ -117,17 +118,38 @@ class GeneralService {
   }
 
   static async changePermission(params: {
-    originHostname: string;
+    originHostname: string; // hostname
     method: string;
     value: boolean;
-  }): Promise<void> {
+  }): Promise<boolean> {
     const state = StorageService.get();
     // Do a popper upper
+
+    // If the user rejects the pop-up, throw an error
+    if (
+      !(await UIService.changePermissionDialog({
+        permission: params.method,
+        value: params.value,
+      }))
+    ) {
+      throw new Error('User rejected permission change.');
+    }
+
+    // If the user accepts the pop-up, change the permission
+
     if (permissionExists(params.originHostname, state)) {
       state[CURRENT_STATE_VERSION].config.dApp.permissions[
         params.originHostname
-      ][params.method] = params.value;
+      ][params.method as MascaRPCRequest['method']] = params.value;
+    } else {
+      state[CURRENT_STATE_VERSION].config.dApp.permissions[
+        params.originHostname
+      ] = {
+        ...getInitialPermissions(),
+        [params.method]: params.value,
+      };
     }
+    return params.value;
   }
 
   /**

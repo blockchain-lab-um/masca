@@ -7,6 +7,7 @@ import {
   HandleAuthorizationRequestParams,
   HandleCredentialOfferRequestParams,
   isPolygonSupportedMethods,
+  isValidChangePermissionRequest,
   isValidCreateCredentialRequest,
   isValidCreatePresentationRequest,
   isValidDeleteCredentialsRequest,
@@ -559,15 +560,20 @@ class SnapService {
         await GeneralService.removeTrustedDapp({
           originHostname: trustedOrigin,
         });
-        return ResultObject.success(true);
+        return ResultObject.success(false);
       case 'changePermission':
-        if (origin !== 'masca.io')
-          throw new Error('Can be only called from https://masca.io/');
+        // if (origin !== 'masca.io')
+        //   throw new Error('Can be only called from https://masca.io/');
+        isValidChangePermissionRequest(params);
 
-        // Validate isValidChangePermissionRequest(params);
+        if (origin === 'masca.io') trustedOrigin = params.origin;
 
-        await GeneralService.changePermission(params);
-        return ResultObject.success(true);
+        res = await GeneralService.changePermission({
+          originHostname: trustedOrigin,
+          method: params.method,
+          value: params.value,
+        });
+        return ResultObject.success(res);
       case 'switchDIDMethod':
         isValidSwitchMethodRequest(params);
         await GeneralService.switchDIDMethod(params);
