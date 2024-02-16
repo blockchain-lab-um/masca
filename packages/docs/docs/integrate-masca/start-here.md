@@ -43,7 +43,7 @@ const enableResult = await enableMasca(address, {
 // Check if there was an error and handle it accordingly
 if (isError(enableResult)) {
   // Error message is available under error
-  console.error(eneableResult.error)
+  console.error(enableResult.error)
   ...
 }
 
