@@ -28,7 +28,7 @@ export class SnapMerkleTreeStorage implements IMerkleTreeStorage {
       | NetworkId.Goerli
       | NetworkId.Mumbai,
     private readonly depth: number
-  ) {}
+  ) { }
 
   async createIdentityMerkleTrees(
     identifier: string
@@ -47,7 +47,7 @@ export class SnapMerkleTreeStorage implements IMerkleTreeStorage {
 
     const base =
       data[CURRENT_STATE_VERSION].accountState[this.account].polygon.state[
-        this.method
+      this.method
       ][this.blockchain][this.networkId];
 
     const meta = base[SnapMerkleTreeStorage.STORAGE_KEY];
@@ -71,7 +71,7 @@ export class SnapMerkleTreeStorage implements IMerkleTreeStorage {
     const data = StorageService.get();
     const base =
       data[CURRENT_STATE_VERSION].accountState[this.account].polygon.state[
-        this.method
+      this.method
       ][this.blockchain][this.networkId];
 
     const meta = base[SnapMerkleTreeStorage.STORAGE_KEY];
@@ -88,7 +88,7 @@ export class SnapMerkleTreeStorage implements IMerkleTreeStorage {
     const data = StorageService.get();
     const base =
       data[CURRENT_STATE_VERSION].accountState[this.account].polygon.state[
-        this.method
+      this.method
       ][this.blockchain][this.networkId];
 
     const meta = base[SnapMerkleTreeStorage.STORAGE_KEY];
@@ -125,7 +125,7 @@ export class SnapMerkleTreeStorage implements IMerkleTreeStorage {
     const data = StorageService.get();
     const base =
       data[CURRENT_STATE_VERSION].accountState[this.account].polygon.state[
-        this.method
+      this.method
       ][this.blockchain][this.networkId];
 
     const meta = base[SnapMerkleTreeStorage.STORAGE_KEY];
@@ -159,7 +159,7 @@ export class SnapMerkleTreeStorage implements IMerkleTreeStorage {
     const data = StorageService.get();
     const base =
       data[CURRENT_STATE_VERSION].accountState[this.account].polygon.state[
-        this.method
+      this.method
       ][this.blockchain][this.networkId];
 
     const meta = base[SnapMerkleTreeStorage.STORAGE_KEY];

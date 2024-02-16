@@ -5,9 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 patchedDependencies:
-  '@0xpolygonid/js-sdk@1.4.2':
-    hash: q3t5qbsqq66dvh5somyug4wcoa
-    path: patches/@0xpolygonid__js-sdk@1.4.2.patch
+  '@0xpolygonid/js-sdk@1.7.5':
+    hash: uavclzybnhxuf7tfmy5fgbfawq
+    path: patches/@0xpolygonid__js-sdk@1.7.5.patch
   '@ceramicnetwork/common@2.30.0':
     hash: uqwtqun5atcy5jjekxssfbohei
     path: patches/@ceramicnetwork__common@2.30.0.patch
@@ -17,9 +17,18 @@ patchedDependencies:
   '@digitalbazaar/http-client@1.2.0':
     hash: yl3b524jp4dtc7mdahww7krgi4
     path: patches/@digitalbazaar__http-client@1.2.0.patch
+  '@iden3/js-iden3-core@1.2.1':
+    hash: fusakdwofwpqoufshrm4nafv24
+    path: patches/@iden3__js-iden3-core@1.2.1.patch
   '@iden3/js-jsonld-merklization@1.1.2':
     hash: drk5jy2pc7w6vpi57fdz3c6f6e
     path: patches/@iden3__js-jsonld-merklization@1.1.2.patch
+  '@iden3/js-jwz@1.2.1':
+    hash: q4yk4abbkxmwyr67epoc5l33wy
+    path: patches/@iden3__js-jwz@1.2.1.patch
+  '@iden3/js-merkletree@1.1.2':
+    hash: 6njvqd2m65kwqtl7cxmndizb7a
+    path: patches/@iden3__js-merkletree@1.1.2.patch
   '@metamask/snaps-sdk@1.2.0':
     hash: opksiuvz2n6at3zcjhfdijadqq
     path: patches/@metamask__snaps-sdk@1.2.0.patch
@@ -651,8 +660,8 @@ importers:
   packages/snap:
     dependencies:
       '@0xpolygonid/js-sdk':
-        specifier: 1.4.2
-        version: 1.4.2(patch_hash=q3t5qbsqq66dvh5somyug4wcoa)(@iden3/js-crypto@1.0.3)(@iden3/js-iden3-core@1.0.1)(@iden3/js-jsonld-merklization@1.1.2)(@iden3/js-jwz@1.0.1)(@iden3/js-merkletree@1.0.0)(ffjavascript@0.2.62)(rfc4648@1.5.3)(snarkjs@0.7.2)
+        specifier: 1.7.5
+        version: 1.7.5(patch_hash=uavclzybnhxuf7tfmy5fgbfawq)(@iden3/js-crypto@1.0.3)(@iden3/js-iden3-core@1.2.1)(@iden3/js-jsonld-merklization@1.1.2)(@iden3/js-jwz@1.2.1)(@iden3/js-merkletree@1.1.2)(ffjavascript@0.2.62)(rfc4648@1.5.3)(snarkjs@0.7.2)
       '@blockchain-lab-um/did-provider-key':
         specifier: 1.0.8-beta.0
         version: link:../../libs/did-provider-key
@@ -681,14 +690,14 @@ importers:
         specifier: 0.3.2
         version: 0.3.2
       '@iden3/js-iden3-core':
-        specifier: 1.0.1
-        version: 1.0.1
+        specifier: 1.2.1
+        version: 1.2.1(patch_hash=fusakdwofwpqoufshrm4nafv24)(@iden3/js-crypto@1.0.3)
       '@iden3/js-jwz':
-        specifier: 1.0.1
-        version: 1.0.1
+        specifier: 1.2.1
+        version: 1.2.1(patch_hash=q4yk4abbkxmwyr67epoc5l33wy)(@iden3/js-crypto@1.0.3)(@iden3/js-iden3-core@1.2.1)(@iden3/js-merkletree@1.1.2)(ffjavascript@0.2.62)(rfc4648@1.5.3)(snarkjs@0.7.2)
       '@iden3/js-merkletree':
-        specifier: 1.0.0
-        version: 1.0.0
+        specifier: 1.1.2
+        version: 1.1.2(patch_hash=6njvqd2m65kwqtl7cxmndizb7a)(@iden3/js-crypto@1.0.3)(idb-keyval@6.2.1)
       '@metamask/key-tree':
         specifier: ^9.0.0
         version: 9.0.0
@@ -829,14 +838,14 @@ importers:
   packages/types:
     dependencies:
       '@0xpolygonid/js-sdk':
-        specifier: 1.4.2
-        version: 1.4.2(patch_hash=q3t5qbsqq66dvh5somyug4wcoa)(@iden3/js-crypto@1.0.3)(@iden3/js-iden3-core@1.0.1)(@iden3/js-jsonld-merklization@1.1.2)(@iden3/js-jwz@1.1.2)(@iden3/js-merkletree@1.1.2)(ffjavascript@0.2.62)(rfc4648@1.5.3)(snarkjs@0.7.2)
+        specifier: 1.7.5
+        version: 1.7.5(patch_hash=uavclzybnhxuf7tfmy5fgbfawq)(@iden3/js-crypto@1.0.3)(@iden3/js-iden3-core@1.2.1)(@iden3/js-jsonld-merklization@1.1.2)(@iden3/js-jwz@1.2.1)(@iden3/js-merkletree@1.1.2)(ffjavascript@0.2.62)(rfc4648@1.5.3)(snarkjs@0.7.2)
       '@blockchain-lab-um/utils':
         specifier: 1.3.7
         version: link:../../libs/utils
       '@iden3/js-iden3-core':
-        specifier: 1.0.1
-        version: 1.0.1
+        specifier: 1.2.1
+        version: 1.2.1(patch_hash=fusakdwofwpqoufshrm4nafv24)(@iden3/js-crypto@1.0.3)
       '@veramo/core':
         specifier: 5.5.3
         version: 5.5.3
@@ -850,62 +859,24 @@ importers:
 
 packages:
 
-  /@0xpolygonid/js-sdk@1.4.2(patch_hash=q3t5qbsqq66dvh5somyug4wcoa)(@iden3/js-crypto@1.0.3)(@iden3/js-iden3-core@1.0.1)(@iden3/js-jsonld-merklization@1.1.2)(@iden3/js-jwz@1.0.1)(@iden3/js-merkletree@1.0.0)(ffjavascript@0.2.62)(rfc4648@1.5.3)(snarkjs@0.7.2):
-    resolution: {integrity: sha512-hQHEgSaQe98UcbWV8WHLyP9Xz6xfYAK2SAGH4R09CvtLma6Ox8TilkE44mlQhEcr6LXxdWLKuvK/y0DUIWI3jg==}
+  /@0xpolygonid/js-sdk@1.7.5(patch_hash=uavclzybnhxuf7tfmy5fgbfawq)(@iden3/js-crypto@1.0.3)(@iden3/js-iden3-core@1.2.1)(@iden3/js-jsonld-merklization@1.1.2)(@iden3/js-jwz@1.2.1)(@iden3/js-merkletree@1.1.2)(ffjavascript@0.2.62)(rfc4648@1.5.3)(snarkjs@0.7.2):
+    resolution: {integrity: sha512-igEv1C/wYoU1BFNFGhaPDOaWk+vUCGUJNmmTk8rgo63vqa9faEfK3uzTs8TJ/qb317VB5njom3qaAxOKNwgJLQ==}
     engines: {node: '>=18.16.0'}
     peerDependencies:
       '@iden3/js-crypto': 1.0.3
-      '@iden3/js-iden3-core': 1.1.0
+      '@iden3/js-iden3-core': 1.2.1
       '@iden3/js-jsonld-merklization': 1.1.2
-      '@iden3/js-jwz': 1.1.2
+      '@iden3/js-jwz': 1.2.1
       '@iden3/js-merkletree': 1.1.2
       ffjavascript: 0.2.62
       rfc4648: 1.5.3
       snarkjs: 0.7.2
     dependencies:
       '@iden3/js-crypto': 1.0.3
-      '@iden3/js-iden3-core': 1.0.1
-      '@iden3/js-jsonld-merklization': 1.1.2(patch_hash=drk5jy2pc7w6vpi57fdz3c6f6e)(@iden3/js-crypto@1.0.3)(@iden3/js-merkletree@1.0.0)
-      '@iden3/js-jwz': 1.0.1
-      '@iden3/js-merkletree': 1.0.0
-      ajv: 8.12.0
-      ajv-formats: 2.1.1(ajv@8.12.0)
-      did-jwt: 6.11.6
-      did-resolver: 4.1.0
-      elliptic: 6.5.4
-      ethers: 6.8.0
-      ffjavascript: 0.2.62
-      idb-keyval: 6.2.0
-      js-sha3: 0.9.2
-      jsonld: 8.3.1
-      rfc4648: 1.5.3
-      snarkjs: 0.7.2
-      uuid: 9.0.1
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-      - web-streams-polyfill
-    dev: false
-    patched: true
-
-  /@0xpolygonid/js-sdk@1.4.2(patch_hash=q3t5qbsqq66dvh5somyug4wcoa)(@iden3/js-crypto@1.0.3)(@iden3/js-iden3-core@1.0.1)(@iden3/js-jsonld-merklization@1.1.2)(@iden3/js-jwz@1.1.2)(@iden3/js-merkletree@1.1.2)(ffjavascript@0.2.62)(rfc4648@1.5.3)(snarkjs@0.7.2):
-    resolution: {integrity: sha512-hQHEgSaQe98UcbWV8WHLyP9Xz6xfYAK2SAGH4R09CvtLma6Ox8TilkE44mlQhEcr6LXxdWLKuvK/y0DUIWI3jg==}
-    engines: {node: '>=18.16.0'}
-    peerDependencies:
-      '@iden3/js-crypto': 1.0.3
-      '@iden3/js-iden3-core': 1.1.0
-      '@iden3/js-jsonld-merklization': 1.1.2
-      '@iden3/js-jwz': 1.1.2
-      '@iden3/js-merkletree': 1.1.2
-      ffjavascript: 0.2.62
-      rfc4648: 1.5.3
-      snarkjs: 0.7.2
-    dependencies:
-      '@iden3/js-crypto': 1.0.3
-      '@iden3/js-iden3-core': 1.0.1
+      '@iden3/js-iden3-core': 1.2.1(patch_hash=fusakdwofwpqoufshrm4nafv24)(@iden3/js-crypto@1.0.3)
       '@iden3/js-jsonld-merklization': 1.1.2(patch_hash=drk5jy2pc7w6vpi57fdz3c6f6e)(@iden3/js-crypto@1.0.3)(@iden3/js-merkletree@1.1.2)
-      '@iden3/js-jwz': 1.1.2(@iden3/js-crypto@1.0.3)(@iden3/js-iden3-core@1.0.1)(@iden3/js-merkletree@1.1.2)(ffjavascript@0.2.62)(rfc4648@1.5.3)(snarkjs@0.7.2)
-      '@iden3/js-merkletree': 1.1.2(@iden3/js-crypto@1.0.3)(idb-keyval@6.2.1)
+      '@iden3/js-jwz': 1.2.1(patch_hash=q4yk4abbkxmwyr67epoc5l33wy)(@iden3/js-crypto@1.0.3)(@iden3/js-iden3-core@1.2.1)(@iden3/js-merkletree@1.1.2)(ffjavascript@0.2.62)(rfc4648@1.5.3)(snarkjs@0.7.2)
+      '@iden3/js-merkletree': 1.1.2(patch_hash=6njvqd2m65kwqtl7cxmndizb7a)(@iden3/js-crypto@1.0.3)(idb-keyval@6.2.1)
       ajv: 8.12.0
       ajv-formats: 2.1.1(ajv@8.12.0)
       did-jwt: 6.11.6
@@ -6139,41 +6110,19 @@ packages:
     resolution: {integrity: sha512-LylnJoZ0CTdgErnKY8OxohvW4K+p6UHD3sxt+3P9AmMyBQjYR4IpoqoYZZ+9aMj89cmCQ21UvdhndAx04er3NA==}
     dependencies:
       fastfile: 0.0.20
-      ffjavascript: 0.2.60
-    dev: false
-
-  /@iden3/js-crypto@1.0.0:
-    resolution: {integrity: sha512-eufV37C1BdUGLvZB90ncD/9uRRm1swo6xkvd2QZwpYmjGj1nQ7pZGahcRbMD5MhebM6WK8QDJLTSlhgOl0Yj6g==}
-    dependencies:
-      blake-hash: 2.0.0
-      ffjavascript: 0.2.60
+      ffjavascript: 0.2.62
     dev: false
 
   /@iden3/js-crypto@1.0.3:
     resolution: {integrity: sha512-IFBLIN1O26mM5MVWO8dlABDC6HKLuhYs+30BT+p6dGWsNXB4Rr5JWuhKBUbKlkW78ly3j3+YSoY+J63q7vPs5Q==}
     dev: false
 
-  /@iden3/js-iden3-core@1.0.1:
-    resolution: {integrity: sha512-zNHkIGauxL8EGIykJySPnSgADZfvvjMIlPu0+t+slucZbeFXfxyc5HIo7UMKWB/X/KftJARggnhgsXF6EpMP6w==}
-    dependencies:
-      '@iden3/js-crypto': 1.0.0
-      base58-js: 1.0.5
-      cross-sha256: 1.2.0
-    dev: false
-
-  /@iden3/js-jsonld-merklization@1.1.2(patch_hash=drk5jy2pc7w6vpi57fdz3c6f6e)(@iden3/js-crypto@1.0.3)(@iden3/js-merkletree@1.0.0):
-    resolution: {integrity: sha512-R8p8EW35YCZQIAfb1GKUEpSdBayACvKFfwQBShGygTmCvA6TzixFc7POu3jmgGcjyRArZjUV6l17YJ33Pu++QQ==}
+  /@iden3/js-iden3-core@1.2.1(patch_hash=fusakdwofwpqoufshrm4nafv24)(@iden3/js-crypto@1.0.3):
+    resolution: {integrity: sha512-XvRYQY1LfAn3sO2xoZfr3aAotr3snLKVlQ9ipfkfKwBpBbDGIMswljANcjWa2HxHwjKK4XLyPHArNORjw/yXMQ==}
     peerDependencies:
       '@iden3/js-crypto': 1.0.3
-      '@iden3/js-merkletree': 1.1.2
     dependencies:
       '@iden3/js-crypto': 1.0.3
-      '@iden3/js-merkletree': 1.0.0
-      '@js-temporal/polyfill': 0.4.4
-      jsonld: 8.3.1
-      n3: 1.17.1
-    transitivePeerDependencies:
-      - web-streams-polyfill
     dev: false
     patched: true
 
@@ -6184,7 +6133,7 @@ packages:
       '@iden3/js-merkletree': 1.1.2
     dependencies:
       '@iden3/js-crypto': 1.0.3
-      '@iden3/js-merkletree': 1.1.2(@iden3/js-crypto@1.0.3)(idb-keyval@6.2.1)
+      '@iden3/js-merkletree': 1.1.2(patch_hash=6njvqd2m65kwqtl7cxmndizb7a)(@iden3/js-crypto@1.0.3)(idb-keyval@6.2.1)
       '@js-temporal/polyfill': 0.4.4
       jsonld: 8.3.1
       n3: 1.17.1
@@ -6193,45 +6142,26 @@ packages:
     dev: false
     patched: true
 
-  /@iden3/js-jwz@1.0.1:
-    resolution: {integrity: sha512-jVZMJKiYWRs5q0J0bQag4Jj+P3+QmtfIPGy2zLsqh9W54nkvBoMCJqzetBUfCtTzMuvsFuE7mGlKtNM6SEjmrg==}
-    dependencies:
-      '@iden3/js-crypto': 1.0.0
-      '@iden3/js-iden3-core': 1.0.1
-      '@iden3/js-merkletree': 1.0.0
-      base58-js: 1.0.5
-      cross-sha256: 1.2.0
-      ffjavascript: 0.2.60
-      rfc4648: 1.5.2
-      snarkjs: 0.5.0
-    dev: false
-
-  /@iden3/js-jwz@1.1.2(@iden3/js-crypto@1.0.3)(@iden3/js-iden3-core@1.0.1)(@iden3/js-merkletree@1.1.2)(ffjavascript@0.2.62)(rfc4648@1.5.3)(snarkjs@0.7.2):
-    resolution: {integrity: sha512-XbdLh1rdLWhHSJFuLple/0K07UKHPNuvDiq5wx5pZBn1a6i5kx2+e/pLG+0ZxVIFadYEpphMnxGmhP+pkYvf0g==}
+  /@iden3/js-jwz@1.2.1(patch_hash=q4yk4abbkxmwyr67epoc5l33wy)(@iden3/js-crypto@1.0.3)(@iden3/js-iden3-core@1.2.1)(@iden3/js-merkletree@1.1.2)(ffjavascript@0.2.62)(rfc4648@1.5.3)(snarkjs@0.7.2):
+    resolution: {integrity: sha512-LzXa81cuH7FkjLbQP5cKdk1XmHGnJDe139aj4ydbtTXEFokaORmMxurMT9WQQBWQlSMsCSfplCpCVz1grd0bFg==}
     peerDependencies:
       '@iden3/js-crypto': 1.0.3
-      '@iden3/js-iden3-core': 1.1.0
+      '@iden3/js-iden3-core': 1.2.1
       '@iden3/js-merkletree': 1.1.2
       ffjavascript: 0.2.62
       rfc4648: 1.5.3
       snarkjs: 0.7.2
     dependencies:
       '@iden3/js-crypto': 1.0.3
-      '@iden3/js-iden3-core': 1.0.1
-      '@iden3/js-merkletree': 1.1.2(@iden3/js-crypto@1.0.3)(idb-keyval@6.2.1)
+      '@iden3/js-iden3-core': 1.2.1(patch_hash=fusakdwofwpqoufshrm4nafv24)(@iden3/js-crypto@1.0.3)
+      '@iden3/js-merkletree': 1.1.2(patch_hash=6njvqd2m65kwqtl7cxmndizb7a)(@iden3/js-crypto@1.0.3)(idb-keyval@6.2.1)
       ffjavascript: 0.2.62
       rfc4648: 1.5.3
       snarkjs: 0.7.2
     dev: false
+    patched: true
 
-  /@iden3/js-merkletree@1.0.0:
-    resolution: {integrity: sha512-D7Uzq4UwpioLkS8N1jl505Eg/qYANporileiHjapzqoQdepsU62aQta3w5n0xEqsp3+MzWqeeNb5hu/vYVjIEA==}
-    dependencies:
-      '@iden3/js-crypto': 1.0.0
-      idb-keyval: 6.2.1
-    dev: false
-
-  /@iden3/js-merkletree@1.1.2(@iden3/js-crypto@1.0.3)(idb-keyval@6.2.1):
+  /@iden3/js-merkletree@1.1.2(patch_hash=6njvqd2m65kwqtl7cxmndizb7a)(@iden3/js-crypto@1.0.3)(idb-keyval@6.2.1):
     resolution: {integrity: sha512-NT0L+Nk6barcEnSV5q2M6LkZuR889E856e+awnok6iDlmzYMt2l3gulo//zMqGsO6wQvzVECaSn0LJQ7uM5c1A==}
     peerDependencies:
       '@iden3/js-crypto': 1.0.3
@@ -6240,6 +6170,7 @@ packages:
       '@iden3/js-crypto': 1.0.3
       idb-keyval: 6.2.1
     dev: false
+    patched: true
 
   /@ipld/dag-cbor@7.0.3:
     resolution: {integrity: sha512-1VVh2huHsuohdXC1bGJNE8WR72slZ9XE2T3wbBBq31dm7ZBatmKLLxrB+XAqafxfRFjv08RZmj/W/ZqaM13AuA==}
@@ -6308,7 +6239,7 @@ packages:
     dependencies:
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 18.18.7
+      '@types/node': 20.8.9
       jest-mock: 29.7.0
 
   /@jest/expect-utils@29.7.0:
@@ -6334,7 +6265,7 @@ packages:
     dependencies:
       '@jest/types': 29.6.3
       '@sinonjs/fake-timers': 10.3.0
-      '@types/node': 18.18.7
+      '@types/node': 20.8.9
       jest-message-util: 29.7.0
       jest-mock: 29.7.0
       jest-util: 29.7.0
@@ -6475,7 +6406,7 @@ packages:
       '@jest/schemas': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.5
       '@types/istanbul-reports': 3.0.3
-      '@types/node': 18.18.7
+      '@types/node': 20.8.9
       '@types/yargs': 17.0.29
       chalk: 4.1.2
 
@@ -11047,11 +10978,6 @@ packages:
     resolution: {integrity: sha512-pNdYkNPiJUnEhnfXV56+sQy8+AaPcG3POZAUnwr4EeqCUZFz4u2PePbo3e5Gj4ziYPCWGUZT9RHisvJKnwFuBQ==}
     dev: false
 
-  /base58-js@1.0.5:
-    resolution: {integrity: sha512-LkkAPP8Zu+c0SVNRTRVDyMfKVORThX+rCViget00xdgLRrKkClCTz1T7cIrpr69ShwV5XJuuoZvMvJ43yURwkA==}
-    engines: {node: '>= 8'}
-    dev: false
-
   /base64-js@0.0.8:
     resolution: {integrity: sha512-3XSA2cR/h/73EzlXXdU6YNycmYI7+kicTxks4eJg2g39biHR84slg2+des+p7iHYhbRg/udIS4TD53WabcOUkw==}
     engines: {node: '>= 0.4'}
@@ -11158,16 +11084,6 @@ packages:
       buffer: 5.7.1
       inherits: 2.0.4
       readable-stream: 3.6.2
-
-  /blake-hash@2.0.0:
-    resolution: {integrity: sha512-Igj8YowDu1PRkRsxZA7NVkdFNxH5rKv5cpLxQ0CVXSIA77pVYwCPRQJ2sMew/oneUpfuYRyjG6r8SmmmnbZb1w==}
-    engines: {node: '>= 10'}
-    requiresBuild: true
-    dependencies:
-      node-addon-api: 3.2.1
-      node-gyp-build: 4.6.1
-      readable-stream: 3.6.2
-    dev: false
 
   /blake2b-wasm@2.4.0:
     resolution: {integrity: sha512-S1kwmW2ZhZFFFOghcx73+ZajEfKBqhP82JMssxtLVMxlaPea1p9uoLiUZ5WYyHn0KddwbLc+0vh4wR0KBNoT5w==}
@@ -11870,13 +11786,6 @@ packages:
       inherits: 2.0.4
       safe-buffer: 5.2.1
 
-  /circom_runtime@0.1.21:
-    resolution: {integrity: sha512-qTkud630B/GK8y76hnOaaS1aNuF6prfV0dTrkeRsiJKnlP1ryQbP2FWLgDOPqn6aKyaPlam+Z+DTbBhkEzh8dA==}
-    hasBin: true
-    dependencies:
-      ffjavascript: 0.2.56
-    dev: false
-
   /circom_runtime@0.1.24:
     resolution: {integrity: sha512-H7/7I2J/cBmRnZm9docOCGhfxzS61BEm4TMCWcrZGsWNBQhePNfQq88Oj2XpUfzmBTCd8pRvRb3Mvazt3TMrJw==}
     hasBin: true
@@ -12539,12 +12448,6 @@ packages:
     transitivePeerDependencies:
       - encoding
     patched: true
-
-  /cross-sha256@1.2.0:
-    resolution: {integrity: sha512-KViLNMDZKV7jwFqjFx+rNhG26amnFYYQ0S+VaFlVvpk8tM+2XbFia/don/SjGHg9WQxnFVi6z64CGPuF3T+nNw==}
-    dependencies:
-      buffer: 5.7.1
-    dev: false
 
   /cross-spawn@5.1.0:
     resolution: {integrity: sha512-pTgQJ5KC0d2hcY8eyL1IzlBPYjTkyH72XRZPnLyKus2mBfNjQs3klqbJU2VILqZryAZUt9JOb3h/mWMy23/f5A==}
@@ -14915,14 +14818,6 @@ packages:
     resolution: {integrity: sha512-e6eB7zN6UBSwGVwrbWVH+gdLnkW9WwHhmq2YDK1Sh30pzx1onRVGBvogTlUeWxwTa+L86NYdo4hFkh7O8ZjSnA==}
     optional: true
 
-  /ffjavascript@0.2.56:
-    resolution: {integrity: sha512-em6G5Lrj7ucIqj4TYEgyoHs/j99Urwwqa4+YxEVY2hggnpRimVj+noX5pZQTxI1pvtiekZI4rG65JBf0xraXrg==}
-    dependencies:
-      wasmbuilder: 0.0.16
-      wasmcurves: 0.2.0
-      web-worker: 1.2.0
-    dev: false
-
   /ffjavascript@0.2.60:
     resolution: {integrity: sha512-T/9bnEL5xAZRDbQoEMf+pM9nrhK+C3JyZNmqiWub26EQorW7Jt+jR54gpqDhceA4Nj0YctPQwYnl8xa52/A26A==}
     dependencies:
@@ -15315,7 +15210,7 @@ packages:
     resolution: {integrity: sha512-V/JgOLFCS+R6Vcq0slCuaeWEdNC3ouDlJMNIsacH2VtALiu9mV4LPrHc5cDl8k5aw6J8jwgWWpiTo5RYhmIzvg==}
     engines: {node: '>= 8'}
     dependencies:
-      minipass: 3.1.6
+      minipass: 3.3.6
 
   /fs-monkey@1.0.5:
     resolution: {integrity: sha512-8uMbBjrhzW76TYgEV27Y5E//W2f/lTFmx78P2w19FZSxarhI/798APGQyuGCwmkNxgwGRhrLfvWyLBvNtuOmew==}
@@ -17079,7 +16974,7 @@ packages:
       '@jest/environment': 29.7.0
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 18.18.7
+      '@types/node': 20.8.9
       jest-mock: 29.7.0
       jest-util: 29.7.0
 
@@ -17156,7 +17051,7 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 18.18.7
+      '@types/node': 20.8.9
       jest-util: 29.7.0
 
   /jest-pnp-resolver@1.2.3(jest-resolve@29.7.0):
@@ -17312,7 +17207,7 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 18.18.7
+      '@types/node': 20.8.9
       chalk: 4.1.2
       ci-info: 3.9.0
       graceful-fs: 4.2.11
@@ -18944,6 +18839,7 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       yallist: 4.0.0
+    optional: true
 
   /minipass@3.3.6:
     resolution: {integrity: sha512-DxiNidxSEK+tHG6zOIklvNOwm3hvCrbUrdtzY74U6HKTJxvIDfOUL5W5P2Ghd3DTkhhKPYGqeNUIh5qcM4YBfw==}
@@ -18965,7 +18861,7 @@ packages:
     resolution: {integrity: sha512-bAxsR8BVfj60DWXHE3u30oHzfl4G7khkSuPW+qvpd7jFRHm7dLxOjUk1EHACJ/hxLY8phGJ0YhYHZo7jil7Qdg==}
     engines: {node: '>= 8'}
     dependencies:
-      minipass: 3.1.6
+      minipass: 3.3.6
       yallist: 4.0.0
 
   /mixme@0.5.9:
@@ -19244,10 +19140,6 @@ packages:
   /node-addon-api@2.0.2:
     resolution: {integrity: sha512-Ntyt4AIXyaLIuMHF6IOoTakB3K+RWxwtsHNRxllEoA6vPwP9o4866g6YWDLUdnucilZhmkxiHwHr11gAENw+QA==}
 
-  /node-addon-api@3.2.1:
-    resolution: {integrity: sha512-mmcei9JghVNDYydghQmeDX8KoAm0FAiYyIcUt/N4nhyAipB17pllZQDOJD2fotxABnt4Mdz+dKTO7eftLg4d0A==}
-    dev: false
-
   /node-addon-api@5.1.0:
     resolution: {integrity: sha512-eh0GgfEkpnoWDq+VY8OyvYhFEzBk6jIYbRKdIlyTiAXIVJ8PyBaKb0rp7oDtoddbdoHWhq8wwr+XZ81F1rpNdA==}
     dev: false
@@ -19307,11 +19199,6 @@ packages:
   /node-gyp-build@4.6.0:
     resolution: {integrity: sha512-NTZVKn9IylLwUzaKjkas1e4u2DLNcV4rdYagA4PWdPwW87Bi7z+BznyKSRwS/761tV/lzCGXplWsiaMjLqP2zQ==}
     hasBin: true
-
-  /node-gyp-build@4.6.1:
-    resolution: {integrity: sha512-24vnklJmyRS8ViBNI8KbtK/r/DmXQMRiOMXTNz2nrTnAYUwjmEEbnnpB/+kt+yWRv73bPsSPRFddrcIbAxSiMQ==}
-    hasBin: true
-    dev: false
 
   /node-int64@0.4.0:
     resolution: {integrity: sha512-O5lz91xSOeoXP6DulyHfllpq+Eg00MWitZIbtPfoSEvqIHdl5gfcY6hYzDWnj0qD5tz52PI08u9qUvSVeUBeHw==}
@@ -20980,6 +20867,7 @@ packages:
 
   /queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
+    requiresBuild: true
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
@@ -20998,15 +20886,6 @@ packages:
     resolution: {integrity: sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==}
     engines: {node: '>=10'}
     dev: true
-
-  /r1csfile@0.0.41:
-    resolution: {integrity: sha512-Q1WDF3u1vYeAwjHo4YuddkA8Aq0TulbKjmGm99+Atn13Lf5fTsMZBnBV9T741w8iSyPFG6Uh6sapQby77sREqA==}
-    dependencies:
-      '@iden3/bigarray': 0.0.2
-      '@iden3/binfileutils': 0.0.11
-      fastfile: 0.0.20
-      ffjavascript: 0.2.56
-    dev: false
 
   /r1csfile@0.0.47:
     resolution: {integrity: sha512-oI4mAwuh1WwuFg95eJDNDDL8hCaZkwnPuNZrQdLBWvDoRU7EG+L/MOHL7SwPW2Y+ZuYcTLpj3rBkgllBQZN/JA==}
@@ -21790,10 +21669,6 @@ packages:
     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
     requiresBuild: true
 
-  /rfc4648@1.5.2:
-    resolution: {integrity: sha512-tLOizhR6YGovrEBLatX1sdcuhoSCXddw3mqNVAcKxGJ+J0hFeJ+SjeWCv5UPA/WU3YzWPPuCVYgXBKZUPGpKtg==}
-    dev: false
-
   /rfc4648@1.5.3:
     resolution: {integrity: sha512-MjOWxM065+WswwnmNONOT+bD1nXzY9Km6u3kzvnx8F8/HXGZdz3T6e6vZJ8Q/RIMUSp/nxqjH3GwvJDy8ijeQQ==}
     dev: false
@@ -22448,22 +22323,6 @@ packages:
       dot-case: 3.0.4
       tslib: 2.6.2
     dev: true
-
-  /snarkjs@0.5.0:
-    resolution: {integrity: sha512-KWz8mZ2Y+6wvn6GGkQo6/ZlKwETdAGohd40Lzpwp5TUZCn6N6O4Az1SuX1rw/qREGL6Im+ycb19suCFE8/xaKA==}
-    hasBin: true
-    dependencies:
-      '@iden3/binfileutils': 0.0.11
-      bfj: 7.0.2
-      blake2b-wasm: 2.4.0
-      circom_runtime: 0.1.21
-      ejs: 3.1.9(patch_hash=x7s24i7mnfg3tcfl2fux37h5wa)
-      fastfile: 0.0.20
-      ffjavascript: 0.2.56
-      js-sha3: 0.8.0
-      logplease: 1.2.15
-      r1csfile: 0.0.41
-    dev: false
 
   /snarkjs@0.7.2:
     resolution: {integrity: sha512-A8yPFm9pRnZ7XYXfPSjSFnugEV1rsHGjb8W7c0Qk7nzXl5h3WANTkpVC5FYxakmw/GKWekz7wjjHaOFtPp823Q==}
@@ -24802,12 +24661,6 @@ packages:
 
   /wasmbuilder@0.0.16:
     resolution: {integrity: sha512-Qx3lEFqaVvp1cEYW7Bfi+ebRJrOiwz2Ieu7ZG2l7YyeSJIok/reEQCQCuicj/Y32ITIJuGIM9xZQppGx5LrQdA==}
-    dev: false
-
-  /wasmcurves@0.2.0:
-    resolution: {integrity: sha512-3e2rbxdujOwaod657gxgmdhZNn+i1qKdHO3Y/bK+8E7bV8ttV/fu5FO4/WLBACF375cK0QDLOP+65Na63qYuWA==}
-    dependencies:
-      wasmbuilder: 0.0.16
     dev: false
 
   /wasmcurves@0.2.2:

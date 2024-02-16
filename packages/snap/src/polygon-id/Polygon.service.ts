@@ -53,7 +53,7 @@ import {
 } from './constants';
 import { SnapDataSource, SnapMerkleTreeStorage } from './storage';
 
-interface PolygonServicBaseInstance {
+interface PolygonServiceBaseInstance {
   packageMgr: PackageManager;
   proofService: ProofService;
   credWallet: CredentialWallet;
@@ -81,32 +81,32 @@ class PolygonService {
       Blockchain.Ethereum | Blockchain.Polygon,
       Record<
         NetworkId.Main | NetworkId.Goerli | NetworkId.Mumbai,
-        PolygonServicBaseInstance
+        PolygonServiceBaseInstance
       >
     >
   > = {
       polygonid: {
         eth: {
-          main: {} as PolygonServicBaseInstance,
-          goerli: {} as PolygonServicBaseInstance,
-          mumbai: {} as PolygonServicBaseInstance,
+          main: {} as PolygonServiceBaseInstance,
+          goerli: {} as PolygonServiceBaseInstance,
+          mumbai: {} as PolygonServiceBaseInstance,
         },
         polygon: {
-          main: {} as PolygonServicBaseInstance,
-          goerli: {} as PolygonServicBaseInstance,
-          mumbai: {} as PolygonServicBaseInstance,
+          main: {} as PolygonServiceBaseInstance,
+          goerli: {} as PolygonServiceBaseInstance,
+          mumbai: {} as PolygonServiceBaseInstance,
         },
       },
       iden3: {
         eth: {
-          main: {} as PolygonServicBaseInstance,
-          goerli: {} as PolygonServicBaseInstance,
-          mumbai: {} as PolygonServicBaseInstance,
+          main: {} as PolygonServiceBaseInstance,
+          goerli: {} as PolygonServiceBaseInstance,
+          mumbai: {} as PolygonServiceBaseInstance,
         },
         polygon: {
-          main: {} as PolygonServicBaseInstance,
-          goerli: {} as PolygonServicBaseInstance,
-          mumbai: {} as PolygonServicBaseInstance,
+          main: {} as PolygonServiceBaseInstance,
+          goerli: {} as PolygonServiceBaseInstance,
+          mumbai: {} as PolygonServiceBaseInstance,
         },
       },
     };

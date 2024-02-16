@@ -97,9 +97,12 @@
       "@ceramicnetwork/common@2.30.0": "patches/@ceramicnetwork__common@2.30.0.patch",
       "@changesets/assemble-release-plan@5.2.4": "patches/@changesets__assemble-release-plan@5.2.4.patch",
       "@metamask/snaps-sdk@1.2.0": "patches/@metamask__snaps-sdk@1.2.0.patch",
-      "@0xpolygonid/js-sdk@1.4.2": "patches/@0xpolygonid__js-sdk@1.4.2.patch",
       "@iden3/js-jsonld-merklization@1.1.2": "patches/@iden3__js-jsonld-merklization@1.1.2.patch",
-      "ejs@3.1.9": "patches/ejs@3.1.9.patch"
+      "ejs@3.1.9": "patches/ejs@3.1.9.patch",
+      "@0xpolygonid/js-sdk@1.7.5": "patches/@0xpolygonid__js-sdk@1.7.5.patch",
+      "@iden3/js-iden3-core@1.2.1": "patches/@iden3__js-iden3-core@1.2.1.patch",
+      "@iden3/js-jwz@1.2.1": "patches/@iden3__js-jwz@1.2.1.patch",
+      "@iden3/js-merkletree@1.1.2": "patches/@iden3__js-merkletree@1.1.2.patch"
     },
     "allowNonAppliedPatches": true
   }
