@@ -78,9 +78,6 @@ const CredentialSubject = ({
             return (
               <>
                 <div className="flex flex-col space-y-0.5">
-                  <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-800">
-                    DID:
-                  </h2>
                   <div className="flex">
                     <DIDDisplay did={value} />
                   </div>
@@ -204,9 +201,6 @@ const CredentialPanel = ({ credential }: FormatedPanelProps) => {
                   {t('issuer')}
                 </h1>
                 <div className="flex flex-col space-y-0.5">
-                  <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-800">
-                    DID:
-                  </h2>
                   <div className="flex">
                     <DIDDisplay
                       did={
