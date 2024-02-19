@@ -1,5 +1,4 @@
 import { EthConnectionConfig } from '@0xpolygonid/js-sdk';
-// import { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
 import {
   Blockchain,
   DidMethod,

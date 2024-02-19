@@ -67,17 +67,6 @@ export interface PolygonBaseState {
   merkleTree: Record<string, string>;
 }
 
-// export type PolygonState = Record<
-//   DidMethod.Iden3 | DidMethod.PolygonId,
-//   Record<
-//     Blockchain.Ethereum | Blockchain.Polygon,
-//     Record<
-//       NetworkId.Main | NetworkId.Goerli | NetworkId.Mumbai,
-//       PolygonBaseState
-//     >
-//   >
-// >;
-
 export const DidMethod = {
   Iden3: 'iden3',
   PolygonId: 'polygonid',
