@@ -15,9 +15,12 @@ import { useTranslations } from 'next-intl';
 
 import { removeCredentialSubjectFilterString } from '@/utils/format';
 import { useMascaStore, useTableStore } from '@/stores';
+import { useAuthStore } from '@/stores/authStore';
+import { useShareModalStore } from '@/stores/shareModalStore';
 import Button from '../Button';
 import DeleteModal from '../DeleteModal';
 import ModifyDSModal from '../ModifyDSModal';
+import { ShareCredentialModal } from '../ShareCredentialModal';
 import StoreIcon from '../StoreIcon';
 import FormatedPanel from './FormatedPanel';
 import JsonPanel from './JsonPanel';
@@ -28,7 +31,22 @@ interface CredentialDisplayProps {
 
 const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
   const t = useTranslations('CredentialDisplay');
+  const { isSignedIn, changeIsSignInModalOpen } = useAuthStore((state) => ({
+    isSignedIn: state.isSignedIn,
+    changeIsSignInModalOpen: state.changeIsSignInModalOpen,
+  }));
   const router = useRouter();
+  const {
+    setShareCredentials,
+    setShareModalMode,
+    setIsShareModalOpen,
+    setShareLink,
+  } = useShareModalStore((state) => ({
+    setShareCredentials: state.setCredentials,
+    setShareModalMode: state.setMode,
+    setIsShareModalOpen: state.setIsOpen,
+    setShareLink: state.setShareLink,
+  }));
   const vcs = useMascaStore((state) => state.vcs);
   const setSelectedCredentials = useTableStore(
     (state) => state.setSelectedCredentials
@@ -79,8 +97,19 @@ const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
             <ArrowDownTrayIcon className="h-6 w-6" />
           </button>
           <button
-            className="dark:bg-navy-blue-800 dark:text-navy-blue-500 flex h-11 w-11 cursor-default items-center justify-center rounded-full bg-gray-100 text-gray-500 shadow-md"
-            onClick={() => console.log('not implemented yet')}
+            className="dark:bg-navy-blue-700 dark:text-navy-blue-50 flex h-11 w-11 items-center justify-center rounded-full bg-white text-gray-700 shadow-md"
+            onClick={() => {
+              if (!isSignedIn) {
+                changeIsSignInModalOpen(true);
+                return;
+              }
+              setShareModalMode('multiple');
+              setShareLink(null);
+              setShareCredentials([
+                removeCredentialSubjectFilterString(vc).data,
+              ]);
+              setIsShareModalOpen(true);
+            }}
           >
             <ShareIcon className="h-6 w-6 " />
           </button>
@@ -173,6 +202,7 @@ const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
         setOpen={setModifyDSModalOpen}
         vc={vc}
       />
+      <ShareCredentialModal />
     </>
   );
 };

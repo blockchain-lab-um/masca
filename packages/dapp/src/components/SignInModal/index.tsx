@@ -93,7 +93,7 @@ export const SignInModal = () => {
           // Set data
           changeToken(data.jwt);
           changeIsSignedIn(true);
-          Cookies.set('token', data.jwt);
+          Cookies.set(`token-${address}`, data.jwt);
 
           // Close modal and show toast
           changeIsSignInModalOpen(false);

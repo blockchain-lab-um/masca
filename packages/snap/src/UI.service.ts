@@ -294,6 +294,7 @@ class UIService {
       text(`Would you like to add _**${origin}**_ as a trusted dapp?`),
       divider(),
       text('Pop-ups do not appear on trusted dapps.'),
+      text('Pop-ups do not appear on trusted dapps.'),
     ]);
 
     const res = await UIService.snapConfirm({

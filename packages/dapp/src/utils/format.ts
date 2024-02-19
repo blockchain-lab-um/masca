@@ -1,6 +1,16 @@
 import { type QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { CredentialSubject } from '@veramo/core';
 
+export const getLastWord = (str: string) => {
+  const parts = str.trim().split(',');
+  return parts[parts.length - 1];
+};
+
+export const getFirstWord = (str: string) => {
+  const parts = str.trim().split(',');
+  return parts[0];
+};
+
 export const stringifyCredentialSubject = (
   queryCredentialsRequestResult: QueryCredentialsRequestResult
 ): QueryCredentialsRequestResult => {

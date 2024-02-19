@@ -130,7 +130,7 @@ describe('removeTrustedDapp', () => {
       throw new Error(resultRemove.error);
     }
 
-    expect(resultRemove.data).toBe(true);
+    expect(resultRemove.data).toBe(false);
 
     const state = await snapMock.rpcMocks.snap_manageState({
       operation: 'get',

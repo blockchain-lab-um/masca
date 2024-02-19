@@ -62,6 +62,8 @@ class GeneralService {
   /**
    * Function that lets you add a trusted dapp
    * @param dapp - dapp to add to the trusted dapps list.
+   * Function that lets you add a trusted dapp
+   * @param dapp - dapp to add to the trusted dapps list.
    * @returns void
    */
   static async addTrustedDapp(params: {
@@ -95,6 +97,8 @@ class GeneralService {
   }
 
   /**
+   * Function that lets you remove a trusted dapp
+   * @param dapp - dapp to remove from the trusted dapps list.
    * Function that lets you remove a trusted dapp
    * @param dapp - dapp to remove from the trusted dapps list.
    * @returns void

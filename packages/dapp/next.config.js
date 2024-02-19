@@ -27,7 +27,13 @@ const nextConfig = {
   output: process.env.DOCKER_BUILD === 'true' ? 'standalone' : undefined,
   // https://nextjs.org/docs/messages/next-image-unconfigured-host
   images: {
-    domains: ['localhost', 'ipfs.io'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
+    domains: ['localhost'],
     loader: 'default',
   },
   optimizeFonts: true,
