@@ -9,5 +9,5 @@
     "incremental": false,
     "removeComments": true
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts", "tests/**/*.ts"]
 }

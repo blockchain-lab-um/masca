@@ -9,7 +9,7 @@ export default defineConfig({
     watch: false,
     pool: 'forks',
     include: ['tests/**/*.spec.ts'],
-    silent: true,
+    silent: false,
     cache: false,
     environment: 'node', // or 'happy-dom', 'jsdom'
     setupFiles: [],

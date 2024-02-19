@@ -259,13 +259,58 @@ importers:
 
   libs/extended-verification:
     dependencies:
+      '@blockchain-lab-um/did-provider-key':
+        specifier: 1.0.8-beta.0
+        version: link:../did-provider-key
+      '@blockchain-lab-um/masca-types':
+        specifier: 1.2.0
+        version: 1.2.0(typescript@5.2.2)
+      '@blockchain-lab-um/utils':
+        specifier: 1.3.7
+        version: link:../utils
       '@veramo/core':
         specifier: 5.6.0
         version: 5.6.0
+      '@veramo/credential-eip712':
+        specifier: 5.6.0
+        version: 5.6.0(encoding@0.1.13)
+      '@veramo/credential-status':
+        specifier: 5.4.1
+        version: 5.4.1
+      '@veramo/credential-w3c':
+        specifier: 5.6.0
+        version: 5.6.0(encoding@0.1.13)(expo@49.0.16)(react-native@0.72.6)
+      '@veramo/did-provider-jwk':
+        specifier: 5.6.0
+        version: 5.6.0
+      '@veramo/did-provider-pkh':
+        specifier: 5.6.0
+        version: 5.6.0
+      '@veramo/did-resolver':
+        specifier: 5.6.0
+        version: 5.6.0(encoding@0.1.13)
+      '@veramo/utils':
+        specifier: 5.6.0
+        version: 5.6.0(encoding@0.1.13)
+      did-resolver:
+        specifier: 4.1.0
+        version: 4.1.0
+      ens-did-resolver:
+        specifier: ^1.0.4
+        version: 1.0.4
+      ethers:
+        specifier: ^6.11.1
+        version: 6.11.1
+      ethr-did-resolver:
+        specifier: 10.1.3
+        version: 10.1.3
     devDependencies:
       '@vitest/coverage-v8':
         specifier: 1.0.0-beta.3
         version: 1.0.0-beta.3(vitest@1.0.0-beta.3)
+      desm:
+        specifier: ^1.3.0
+        version: 1.3.0
       tsup:
         specifier: ^7.2.0
         version: 7.2.0(ts-node@10.9.1)(typescript@5.2.2)
@@ -974,6 +1019,9 @@ packages:
 
   /@adraffy/ens-normalize@1.10.0:
     resolution: {integrity: sha512-nA9XHtlAkYfJxY7bce8DcN7eKxWWCWkU+1GR9d+U6MbNpfwQp8TI7vqOsBsMcHoT4mBu2kypKoSKnghEzOOq5Q==}
+
+  /@adraffy/ens-normalize@1.10.1:
+    resolution: {integrity: sha512-96Z2IP3mYmF1Xg2cDm8f1gWGf/HUVedQ3FMifV4kG/PQ4yEP51xDtRAEfhVNt5f/uzpNkZHwWQuUcu6D6K+Ekw==}
 
   /@algolia/autocomplete-core@1.9.3(@algolia/client-search@4.20.0)(algoliasearch@4.19.1)(search-insights@2.9.0):
     resolution: {integrity: sha512-009HdfugtGCdC4JdXUbVJClA0q0zh24yyePn+KUGk3rP7j8FEe/m5Yo/z65gn6nP/cM39PxpzqKrL7A6fP6PPw==}
@@ -3028,6 +3076,36 @@ packages:
   /@bitauth/libauth@1.19.1:
     resolution: {integrity: sha512-R524tD5VwOt3QRHr7N518nqTVR/HKgfWL4LypekcGuNQN8R4PWScvuRcRzrY39A28kLztMv+TJdiKuMNbkU1ug==}
     engines: {node: '>=8.9'}
+
+  /@blockchain-lab-um/masca-types@1.2.0(typescript@5.2.2):
+    resolution: {integrity: sha512-572ErwQbc5Di0wB8fDs/y80t2lij3ihPdvisVGUHQbQYfKxG+lzROWO0dPClGj0NwF5kG1D5nC822tJsiJEv5Q==}
+    dependencies:
+      '@0xpolygonid/js-sdk': 1.0.3
+      '@blockchain-lab-um/utils': 1.3.7
+      '@iden3/js-iden3-core': 1.0.1
+      '@veramo/core': 5.4.1
+      typia: 5.2.4(typescript@5.2.2)
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - supports-color
+      - typescript
+      - utf-8-validate
+      - web-streams-polyfill
+    dev: false
+
+  /@blockchain-lab-um/utils@1.3.7:
+    resolution: {integrity: sha512-0SY3/wd5qT+kS8dcYZCY4QJgciIwoqYbvHpeQ9FfiDMNkoh4bdHFDbJ+z3cd9OGwUzcp+FAruzEA8yHopz99Qw==}
+    dependencies:
+      '@veramo/utils': 5.4.1
+      did-resolver: 4.1.0
+      elliptic: 6.5.4
+      multiformats: 11.0.2
+      secp256k1: 5.0.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
 
   /@cef-ebsi/ebsi-did-resolver@3.2.0:
     resolution: {integrity: sha512-4wM5TK5l6xRBSkOCEZRP64Xqsd0BqmvjfSpREn8fXbrpMZqOafku77YQSMzqFmOIQ62HSEi5Vf4CSzDHAmalig==}
@@ -12059,11 +12137,6 @@ packages:
     dependencies:
       undici-types: 5.26.5
 
-  /@types/node@20.10.4:
-    resolution: {integrity: sha512-D08YG6rr8X90YB56tSIuBaddy/UXAA9RKJoFvrsnogAum/0pmjkgi4+2nx96A330FmioegBWmEYQ+syqCFaveg==}
-    dependencies:
-      undici-types: 5.26.5
-
   /@types/node@20.8.9:
     resolution: {integrity: sha512-UzykFsT3FhHb1h7yD4CA4YhBHq545JC0YnEz41xkipN88eKQtL6rSgocL5tbAP6Ola9Izm/Aw4Ora8He4x0BHg==}
     dependencies:
@@ -12519,6 +12592,17 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
+  /@veramo/core@5.4.1:
+    resolution: {integrity: sha512-qmd/0lYKuxZyT3N85VrRe6XwJDRqs+NRHFbWnO9T+/G2LGu1P/VBKeHNdPaLHTK4jTyfkyXTwHc2513T1Tvfjg==}
+    dependencies:
+      '@veramo/core-types': 5.6.0
+      debug: 4.3.4
+      events: 3.3.0
+      z-schema: 6.0.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@veramo/core@5.6.0:
     resolution: {integrity: sha512-H30Oi4Z3RnEUJ36a1KdD2Xht+932rfxYs2xVtvx4u1j1VcewWBttDa6XLWkVLqLMqZWZucpS8y3IJ5uFk8DEgQ==}
     dependencies:
@@ -12577,8 +12661,8 @@ packages:
     dependencies:
       '@veramo/core-types': 5.6.0
       '@veramo/utils': 5.6.0(encoding@0.1.13)
-      credential-status: 2.0.5
-      did-jwt: 7.2.5
+      credential-status: 2.0.6
+      did-jwt: 7.4.4
       did-resolver: 4.1.0
     transitivePeerDependencies:
       - bufferutil
@@ -12669,7 +12753,7 @@ packages:
       '@veramo/core-types': 5.6.0
       '@veramo/did-manager': 5.6.0
       debug: 4.3.4
-      ethers: 6.9.0
+      ethers: 6.11.1
       ethr-did: 3.0.12
     transitivePeerDependencies:
       - bufferutil
@@ -12701,7 +12785,7 @@ packages:
       caip: 1.1.0
       debug: 4.3.4
       did-resolver: 4.1.0
-      ethers: 6.9.0
+      ethers: 6.11.1
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -12765,6 +12849,27 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
+  /@veramo/utils@5.4.1:
+    resolution: {integrity: sha512-9TcONSD1PKxrlU3frE/Vp33wTauTsoTSLK0ubWEkzxeH9XYVgXhhe4jRBVfYS2aRz4nCNYesfWNgiX2QYSV+IQ==}
+    dependencies:
+      '@ethersproject/signing-key': 5.7.0
+      '@ethersproject/transactions': 5.7.0
+      '@noble/curves': 1.2.0
+      '@noble/hashes': 1.3.2
+      '@veramo/core-types': 5.6.0
+      credential-status: 2.0.6
+      cross-fetch: 3.1.8(patch_hash=o7exbxzvysudd5km3yp6v3mgsi)(encoding@0.1.13)
+      debug: 4.3.4
+      did-jwt: 7.4.4
+      did-jwt-vc: 3.2.13
+      did-resolver: 4.1.0
+      multiformats: 12.1.3
+      uint8arrays: 4.0.6
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
   /@veramo/utils@5.6.0(encoding@0.1.13):
     resolution: {integrity: sha512-Yxp686LgEPtDWUiOiv/rHHwBSi4we6VpKLL5/o9ElM6FL9z6HtE9zipU6eKRvi0J0GD78FTIxIcDKBWu+OjM1g==}
     dependencies:
@@ -12777,7 +12882,7 @@ packages:
       did-jwt: 7.4.4
       did-jwt-vc: 3.2.13
       did-resolver: 4.1.0
-      ethers: 6.9.0
+      ethers: 6.11.1
       ipfs-unixfs: 11.1.2
       multiformats: 12.1.3
       uint8arrays: 4.0.6
@@ -15949,13 +16054,6 @@ packages:
   /create-require@1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
 
-  /credential-status@2.0.5:
-    resolution: {integrity: sha512-hh0pOcRidROn4MC1wF3vNURhPEMSzm3RcpFIl5PFVj5HWgCaZy16nXmrOl5cmr50Jhp2WV48cWbNMxh4OFWU+w==}
-    dependencies:
-      did-jwt: 6.11.6
-      did-resolver: 4.1.0
-    dev: false
-
   /credential-status@2.0.6:
     resolution: {integrity: sha512-l5ZwSbX/UXFJ3DQ3dFt4rc2BtfUu/rhlkefR7BL9EZsKPyCe21okJA9mDy4h/nXvMEwpYjSQEa5vzR7KZqhI9g==}
     dependencies:
@@ -18102,6 +18200,21 @@ packages:
       - utf-8-validate
     dev: false
 
+  /ethers@6.11.1:
+    resolution: {integrity: sha512-mxTAE6wqJQAbp5QAe/+o+rXOID7Nw91OZXvgpjDa1r4fAbq2Nu314oEZSbjoRLacuCzs7kUC3clEvkCQowffGg==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@adraffy/ens-normalize': 1.10.1
+      '@noble/curves': 1.2.0
+      '@noble/hashes': 1.3.2
+      '@types/node': 18.15.13
+      aes-js: 4.0.0-beta.5
+      tslib: 2.4.0
+      ws: 8.5.0
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+
   /ethers@6.9.0:
     resolution: {integrity: sha512-pmfNyQzc2mseLe91FnT2vmNaTt8dDzhxZ/xItAV7uGsF4dI4ek2ufMu3rAkgQETL/TIs0GS5A+U05g9QyWnv3Q==}
     engines: {node: '>=14.0.0'}
@@ -18140,7 +18253,7 @@ packages:
     dependencies:
       did-jwt: 7.4.4
       did-resolver: 4.1.0
-      ethers: 6.9.0
+      ethers: 6.11.1
       ethr-did-resolver: 10.1.3
     transitivePeerDependencies:
       - bufferutil
@@ -21202,7 +21315,7 @@ packages:
     resolution: {integrity: sha512-7vuh85V5cdDofPyxn58nrPjBktZo0u9x1g8WtjQol+jZDaE+fhN+cIvTj11GndBnMnyfrUOG1sZQxCdjKh+DKg==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 20.10.4
+      '@types/node': 18.18.7
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
@@ -24497,24 +24610,7 @@ packages:
       lilconfig: 2.1.0
       postcss: 8.4.31
       ts-node: 10.9.1(@types/node@18.18.6)(typescript@5.2.2)
-      yaml: 2.3.3
-
-  /postcss-load-config@4.0.1(ts-node@10.9.1):
-    resolution: {integrity: sha512-vEJIc8RdiBRu3oRAI0ymerOn+7rPuMvRXslTvZUKZonDHFIczxztIyJ1urxM1x9JXEikvpWWTUUqal5j/8QgvA==}
-    engines: {node: '>= 14'}
-    peerDependencies:
-      postcss: '>=8.0.9'
-      ts-node: '>=9.0.0'
-    peerDependenciesMeta:
-      postcss:
-        optional: true
-      ts-node:
-        optional: true
-    dependencies:
-      lilconfig: 2.1.0
-      ts-node: 10.9.1(@types/node@18.18.6)(typescript@5.2.2)
       yaml: 2.3.2
-    dev: true
 
   /postcss-loader@7.3.3(postcss@8.4.31)(typescript@5.3.3)(webpack@5.89.0):
     resolution: {integrity: sha512-YgO/yhtevGO/vJePCQmTxiaEwER94LABZN0ZMT4A0vsak9TpO+RvKRs7EmJ8peIlB9xfXCsS7M8LjqncsUZ5HA==}
@@ -28462,7 +28558,7 @@ packages:
       execa: 5.1.1
       globby: 11.1.0
       joycon: 3.1.1
-      postcss-load-config: 4.0.1(ts-node@10.9.1)
+      postcss-load-config: 4.0.1(postcss@8.4.31)(ts-node@10.9.1)
       resolve-from: 5.0.0
       rollup: 3.27.2
       source-map: 0.8.0-beta.0
@@ -30482,7 +30578,6 @@ packages:
   /yaml@2.3.2:
     resolution: {integrity: sha512-N/lyzTPaJasoDmfV7YTrYCI0G/3ivm/9wdG0aHuheKowWQwGTsK0Eoiw6utmzAnI6pkJa0DUVygvp3spqqEKXg==}
     engines: {node: '>= 14'}
-    dev: true
 
   /yaml@2.3.3:
     resolution: {integrity: sha512-zw0VAJxgeZ6+++/su5AFoqBbZbrEakwu+X0M5HmcwUiBL7AzcuPKjj5we4xfQLp78LkEMpD0cOnUhmgOVy3KdQ==}
