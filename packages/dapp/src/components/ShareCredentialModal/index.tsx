@@ -234,7 +234,7 @@ export const ShareCredentialModal = () => {
                           <Input
                             variant="bordered"
                             labelPlacement="outside"
-                            maxLength={16}
+                            maxLength={32}
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             classNames={{
