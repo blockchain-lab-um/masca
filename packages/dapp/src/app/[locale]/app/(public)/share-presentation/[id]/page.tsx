@@ -163,7 +163,7 @@ export async function generateMetadata({
     );
   }
   return {
-    title: 'Check out my shared credentials',
+    title: 'Shared Credentials',
     description: 'Page for displaying shared presentations',
     openGraph: {
       type: 'article',
