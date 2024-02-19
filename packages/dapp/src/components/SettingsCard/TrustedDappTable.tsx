@@ -257,10 +257,10 @@ export const TrustedDappTable = () => {
 
       return (
         <tr
-          className="text-sm border-t-2 border-gray-200 dark:border-navy-blue-500"
+          className="dark:border-navy-blue-500 border-t-2 border-gray-200 text-sm"
           key={i}
         >
-          <td className="p-2 text-xl font-medium dark:text-navy-blue-200 text-start">
+          <td className="dark:text-navy-blue-200 p-2 text-start text-xl font-medium">
             {app}
           </td>
           <td className="flex justify-end p-2 text-end">
@@ -288,10 +288,10 @@ export const TrustedDappTable = () => {
 
   return (
     <>
-      <p className="text-gray-700 text-md dark:text-navy-blue-400">
+      <p className="text-md dark:text-navy-blue-400 text-gray-700">
         {t('popups-desc')}
       </p>
-      <div className="flex w-1/2 mt-4 gap-x-4">
+      <div className="mt-4 flex w-1/2 gap-x-4">
         <InputField value={origin} setValue={setOrigin} />
         <Button
           variant="primary"
@@ -304,10 +304,10 @@ export const TrustedDappTable = () => {
         </Button>
       </div>
 
-      <table className="w-full my-5 border-2 border-gray-300 dark:border-navy-blue-200">
+      <table className="dark:border-navy-blue-200 my-5 w-full border-2 border-gray-300">
         <thead>
           <tr className="text-md">
-            <th className="p-2 dark:text-navy-blue-300 text-start">
+            <th className="dark:text-navy-blue-300 p-2 text-start">
               {t('app-url')}
             </th>
             <th></th>
@@ -328,7 +328,7 @@ export const TrustedDappTable = () => {
                 </div>
               </ModalHeader>
               <ModalBody>
-                <div className="flex flex-col mb-4 gap-y-4">
+                <div className="mb-4 flex flex-col gap-y-4">
                   <Checkbox
                     onValueChange={(e) => {
                       manageTrustedDapp(e, currentDapp.title)
@@ -345,7 +345,7 @@ export const TrustedDappTable = () => {
                     }}
                     isSelected={currentDapp.permissions.trustedDapp}
                   >
-                    <div className="flex text-navy-blue-50">
+                    <div className="text-navy-blue-50 flex">
                       {t('disable-popups')}
                       <InfoIcon content={t('disable-popups-desc')} />
                     </div>
@@ -366,7 +366,7 @@ export const TrustedDappTable = () => {
                     }}
                     isSelected={currentDapp.permissions.queryCredentials}
                   >
-                    <div className="flex text-navy-blue-50">
+                    <div className="text-navy-blue-50 flex">
                       {t('query')}
                       <InfoIcon content={t('query-desc')} />
                     </div>
