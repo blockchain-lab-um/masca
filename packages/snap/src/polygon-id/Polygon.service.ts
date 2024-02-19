@@ -31,11 +31,14 @@ import {
   ZKPPacker,
 } from '@0xpolygonid/js-sdk';
 import {
+  Blockchain,
   CURRENT_STATE_VERSION,
+  DidMethod,
   HandleAuthorizationRequestParams,
   HandleCredentialOfferRequestParams,
+  NetworkId,
 } from '@blockchain-lab-um/masca-types';
-import { Blockchain, DID, DidMethod, NetworkId } from '@iden3/js-iden3-core';
+import { DID } from '@iden3/js-iden3-core';
 import { proving } from '@iden3/js-jwz';
 import { DIDResolutionOptions, DIDResolutionResult } from 'did-resolver';
 
@@ -76,15 +79,28 @@ class PolygonService {
   };
 
   static instance: Record<
-    DidMethod.Iden3 | DidMethod.PolygonId,
+    typeof DidMethod.Iden3 | typeof DidMethod.PolygonId,
     Record<
-      Blockchain.Ethereum | Blockchain.Polygon,
+      typeof Blockchain.Ethereum | typeof Blockchain.Polygon,
       Record<
-        NetworkId.Main | NetworkId.Goerli | NetworkId.Mumbai,
+        | typeof NetworkId.Main
+        | typeof NetworkId.Goerli
+        | typeof NetworkId.Mumbai,
         PolygonServiceBaseInstance
       >
     >
-  > = {
+  > =
+    // Record<
+    //   'iden3' | 'polygonid',
+    //   Record<
+    //     'eth' | 'polygon',
+    //     Record<
+    //       'main' | 'goerli' | 'mumbai',
+    //       PolygonServiceBaseInstance
+    //     >
+    //   >
+    // >
+    {
       polygonid: {
         eth: {
           main: {} as PolygonServiceBaseInstance,
@@ -209,9 +225,12 @@ class PolygonService {
   }
 
   static async createBaseInstance(params: {
-    method: DidMethod.Iden3 | DidMethod.PolygonId;
-    blockchain: Blockchain.Ethereum | Blockchain.Polygon;
-    networkId: NetworkId.Main | NetworkId.Goerli | NetworkId.Mumbai;
+    method: typeof DidMethod.Iden3 | typeof DidMethod.PolygonId;
+    blockchain: typeof Blockchain.Ethereum | typeof Blockchain.Polygon;
+    networkId:
+      | typeof NetworkId.Main
+      | typeof NetworkId.Goerli
+      | typeof NetworkId.Mumbai;
     circuitData: CircuitData;
   }) {
     const { method, blockchain, networkId, circuitData } = params;
@@ -404,9 +423,12 @@ class PolygonService {
   }
 
   static async createWallet(params: {
-    method: DidMethod.Iden3 | DidMethod.PolygonId;
-    blockchain: Blockchain.Ethereum | Blockchain.Polygon;
-    networkId: NetworkId.Main | NetworkId.Goerli | NetworkId.Mumbai;
+    method: typeof DidMethod.Iden3 | typeof DidMethod.PolygonId;
+    blockchain: typeof Blockchain.Ethereum | typeof Blockchain.Polygon;
+    networkId:
+      | typeof NetworkId.Main
+      | typeof NetworkId.Goerli
+      | typeof NetworkId.Mumbai;
   }) {
     const { method, blockchain, networkId } = params;
     const state = StorageService.get();
@@ -541,10 +563,16 @@ class PolygonService {
     const { method, blockchain, networkId } = this.metadata;
     const { credWallet } = this.instance[method][blockchain][networkId];
 
-    const status = await credWallet.getRevocationStatus(credential.credentialStatus, {
-      issuerDID: credential.issuer as any,
-    });
-    console.log(`🚀 ~ file: Polygon.service.ts:554 ~ PolygonService ~ getRevocationStatus ~ status:`, status);
+    const status = await credWallet.getRevocationStatus(
+      credential.credentialStatus,
+      {
+        issuerDID: credential.issuer as any,
+      }
+    );
+    console.log(
+      `🚀 ~ file: Polygon.service.ts:554 ~ PolygonService ~ getRevocationStatus ~ status:`,
+      status
+    );
     return status;
   }
 }

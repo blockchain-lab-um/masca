@@ -3,8 +3,13 @@ import {
   IMerkleTreeStorage,
   MerkleTreeType,
 } from '@0xpolygonid/js-sdk';
-import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
-import { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
+import {
+  Blockchain,
+  CURRENT_STATE_VERSION,
+  DidMethod,
+  NetworkId,
+} from '@blockchain-lab-um/masca-types';
+// import { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
 import { Merkletree, str2Bytes } from '@iden3/js-merkletree';
 
 import StorageService from '../../storage/Storage.service';
@@ -21,14 +26,18 @@ export class SnapMerkleTreeStorage implements IMerkleTreeStorage {
 
   constructor(
     private readonly account: string,
-    private readonly method: DidMethod.Iden3 | DidMethod.PolygonId,
-    private readonly blockchain: Blockchain.Ethereum | Blockchain.Polygon,
+    private readonly method:
+      | typeof DidMethod.Iden3
+      | typeof DidMethod.PolygonId,
+    private readonly blockchain:
+      | typeof Blockchain.Ethereum
+      | typeof Blockchain.Polygon,
     private readonly networkId:
-      | NetworkId.Main
-      | NetworkId.Goerli
-      | NetworkId.Mumbai,
+      | typeof NetworkId.Main
+      | typeof NetworkId.Goerli
+      | typeof NetworkId.Mumbai,
     private readonly depth: number
-  ) { }
+  ) {}
 
   async createIdentityMerkleTrees(
     identifier: string
@@ -47,7 +56,7 @@ export class SnapMerkleTreeStorage implements IMerkleTreeStorage {
 
     const base =
       data[CURRENT_STATE_VERSION].accountState[this.account].polygon.state[
-      this.method
+        this.method
       ][this.blockchain][this.networkId];
 
     const meta = base[SnapMerkleTreeStorage.STORAGE_KEY];
@@ -71,7 +80,7 @@ export class SnapMerkleTreeStorage implements IMerkleTreeStorage {
     const data = StorageService.get();
     const base =
       data[CURRENT_STATE_VERSION].accountState[this.account].polygon.state[
-      this.method
+        this.method
       ][this.blockchain][this.networkId];
 
     const meta = base[SnapMerkleTreeStorage.STORAGE_KEY];
@@ -88,7 +97,7 @@ export class SnapMerkleTreeStorage implements IMerkleTreeStorage {
     const data = StorageService.get();
     const base =
       data[CURRENT_STATE_VERSION].accountState[this.account].polygon.state[
-      this.method
+        this.method
       ][this.blockchain][this.networkId];
 
     const meta = base[SnapMerkleTreeStorage.STORAGE_KEY];
@@ -125,7 +134,7 @@ export class SnapMerkleTreeStorage implements IMerkleTreeStorage {
     const data = StorageService.get();
     const base =
       data[CURRENT_STATE_VERSION].accountState[this.account].polygon.state[
-      this.method
+        this.method
       ][this.blockchain][this.networkId];
 
     const meta = base[SnapMerkleTreeStorage.STORAGE_KEY];
@@ -159,7 +168,7 @@ export class SnapMerkleTreeStorage implements IMerkleTreeStorage {
     const data = StorageService.get();
     const base =
       data[CURRENT_STATE_VERSION].accountState[this.account].polygon.state[
-      this.method
+        this.method
       ][this.blockchain][this.networkId];
 
     const meta = base[SnapMerkleTreeStorage.STORAGE_KEY];

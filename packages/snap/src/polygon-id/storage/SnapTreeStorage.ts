@@ -1,5 +1,9 @@
-import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
-import { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
+import {
+  Blockchain,
+  CURRENT_STATE_VERSION,
+  DidMethod,
+  NetworkId,
+} from '@blockchain-lab-um/masca-types';
 import {
   Bytes,
   bytes2Hex,
@@ -26,12 +30,16 @@ export class SnapTreeStorage implements ITreeStorage {
 
   constructor(
     private readonly account: string,
-    private readonly method: DidMethod.Iden3 | DidMethod.PolygonId,
-    private readonly blockchain: Blockchain.Ethereum | Blockchain.Polygon,
+    private readonly method:
+      | typeof DidMethod.Iden3
+      | typeof DidMethod.PolygonId,
+    private readonly blockchain:
+      | typeof Blockchain.Ethereum
+      | typeof Blockchain.Polygon,
     private readonly networkId:
-      | NetworkId.Main
-      | NetworkId.Goerli
-      | NetworkId.Mumbai,
+      | typeof NetworkId.Main
+      | typeof NetworkId.Goerli
+      | typeof NetworkId.Mumbai,
     private readonly prefix: Bytes
   ) {
     this.currentRoot = ZERO_HASH;
