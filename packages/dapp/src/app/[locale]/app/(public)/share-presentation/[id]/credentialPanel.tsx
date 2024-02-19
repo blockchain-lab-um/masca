@@ -71,54 +71,59 @@ const CredentialSubject = ({
   selectJsonData: React.Dispatch<React.SetStateAction<any>>;
 }) => (
   <>
-    {Object.entries(data).map(([key, value]: [string, any]) => (
-      <Fragment key={key}>
-        {(() => {
-          if (key === 'id') {
-            return (
-              <>
-                <div className="flex flex-col space-y-0.5">
-                  <div className="flex">
-                    <DIDDisplay did={value} />
+    {Object.entries(data).map(([key, value]: [string, any]) => {
+      if (value === null || value === '') return null;
+      return (
+        <Fragment key={key}>
+          {(() => {
+            if (key === 'id') {
+              return (
+                <>
+                  <div className="flex flex-col space-y-0.5">
+                    <div className="flex">
+                      <DIDDisplay did={value} />
+                    </div>
                   </div>
-                </div>
-              </>
+                </>
+              );
+            }
+
+            if (key === 'address') return <AddressDisplay address={value} />;
+
+            const isObject = !(
+              typeof value === 'string' || typeof value === 'number'
             );
-          }
-
-          if (key === 'address') return <AddressDisplay address={value} />;
-
-          const isObject = !(
-            typeof value === 'string' || typeof value === 'number'
-          );
-
-          return (
-            <div
-              className={clsx(
-                'flex w-full overflow-clip',
-                isObject ? 'items-center' : 'flex-col items-start space-y-0.5'
-              )}
-            >
-              <h2 className="dark:text-navy-blue-200 pr-2 font-bold capitalize text-gray-800">
-                {key}:
-              </h2>
-              <div className="text-md dark:text-navy-blue-300 w-full truncate font-normal text-gray-700">
-                {isObject ? (
-                  <button
-                    className="dark:border-navy-blue-300 dark:hover:border-navy-blue-400 dark:focus:ring-navy-blue-500 rounded-md border border-gray-300 px-2 py-0.5 text-sm hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
-                    onClick={() => selectJsonData(value)}
-                  >
-                    {viewJsonText}
-                  </button>
-                ) : (
-                  value
+            // key is a string camel case, seperate it with spaces, e.g. CamelCase should be Camel Case
+            // eslint-disable-next-line no-param-reassign
+            key = key.replace(/([A-Z])/g, ' $1').trim();
+            return (
+              <div
+                className={clsx(
+                  'flex w-full overflow-clip',
+                  isObject ? 'items-center' : 'flex-col items-start space-y-0.5'
                 )}
+              >
+                <h2 className="dark:text-navy-blue-200 pr-2 font-bold capitalize text-gray-800">
+                  {key}:
+                </h2>
+                <div className="text-md dark:text-navy-blue-300 w-full truncate font-normal text-gray-700">
+                  {isObject ? (
+                    <button
+                      className="dark:border-navy-blue-300 dark:hover:border-navy-blue-400 dark:focus:ring-navy-blue-500 rounded-md border border-gray-300 px-2 py-0.5 text-sm hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                      onClick={() => selectJsonData(value)}
+                    >
+                      {viewJsonText}
+                    </button>
+                  ) : (
+                    value
+                  )}
+                </div>
               </div>
-            </div>
-          );
-        })()}
-      </Fragment>
-    ))}
+            );
+          })()}
+        </Fragment>
+      );
+    })}
   </>
 );
 
