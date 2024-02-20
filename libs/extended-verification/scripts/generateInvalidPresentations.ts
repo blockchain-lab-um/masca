@@ -11,7 +11,8 @@ export const generateInvalidPresentations = async (
   validCredentialJWT: VerifiableCredential,
   validCredentialEIP712: VerifiableCredential,
   invalidCredentialJWT: VerifiableCredential,
-  expiredCredentialJWT: VerifiableCredential
+  expiredCredentialJWT: VerifiableCredential,
+  files: string[]
 ) => {
   // Create invalid presentation with JWT proof and invalid signature (credential with JWT proof)
   let presentation = await agent.createVerifiablePresentation({
@@ -29,6 +30,7 @@ export const generateInvalidPresentations = async (
     'tests/data/presentation_invalid_jwt_signature.json',
     JSON.stringify(presentation)
   );
+  files.push('presentation_invalid_jwt_signature');
 
   // Create invalid presentation with EIP712 proof and invalid signature (credential with EIP712 proof)
   presentation = await agent.createVerifiablePresentation({
@@ -46,6 +48,7 @@ export const generateInvalidPresentations = async (
     'tests/data/presentation_invalid_eip712_signature.json',
     JSON.stringify(presentation)
   );
+  files.push('presentation_invalid_eip712_signature');
 
   // Create invalid presentation with JWT proof (credential with JWT proof and invalid signature)ž
   presentation = await agent.createVerifiablePresentation({
@@ -60,6 +63,7 @@ export const generateInvalidPresentations = async (
     'tests/data/presentation_invalid_jwt_credential_jwt_signature.json',
     JSON.stringify(presentation)
   );
+  files.push('presentation_invalid_jwt_credential_jwt_signature');
 
   // Create invalid presentation with JWT proof not yet valid (credential with JWT proof)ž
   presentation = await createJWTPresentation(
@@ -75,6 +79,7 @@ export const generateInvalidPresentations = async (
     'tests/data/presentation_invalid_jwt_nbf.json',
     JSON.stringify(presentation)
   );
+  files.push('presentation_invalid_jwt_nbf');
 
   // Create invalid presentation with JWT proof expired (credential with JWT proof)ž
   presentation = await createJWTPresentation(
@@ -90,6 +95,7 @@ export const generateInvalidPresentations = async (
     'tests/data/presentation_invalid_jwt_exp.json',
     JSON.stringify(presentation)
   );
+  files.push('presentation_invalid_jwt_exp');
 
   // Create invalid presentation with JWT proof (credential with JWT proof and expired)
   presentation = await agent.createVerifiablePresentation({
@@ -104,4 +110,5 @@ export const generateInvalidPresentations = async (
     'tests/data/presentation_invalid_jwt_credential_expired.json',
     JSON.stringify(presentation)
   );
+  files.push('presentation_invalid_jwt_credential_expired');
 };

@@ -6,7 +6,8 @@ import { Agent, createJWTCredential, CREDENTIAL_DATA } from './utils';
 export const generateInvalidCredentials = async (
   agent: Agent,
   didKeyIdentifier: IIdentifier,
-  didEthrIdentifier: IIdentifier
+  didEthrIdentifier: IIdentifier,
+  files: string[]
 ) => {
   // Create expired credential with JWT proof
   let credential: any = await createJWTCredential(agent, didKeyIdentifier, {
@@ -17,6 +18,7 @@ export const generateInvalidCredentials = async (
     'tests/data/credential_invalid_jwt_exp.json',
     JSON.stringify(credential)
   );
+  files.push('credential_invalid_jwt_exp');
 
   // Create not yet valid credential with JWT proof
   credential = await createJWTCredential(agent, didKeyIdentifier, {
@@ -27,6 +29,7 @@ export const generateInvalidCredentials = async (
     'tests/data/credential_invalid_jwt_nbf.json',
     JSON.stringify(credential)
   );
+  files.push('credential_invalid_jwt_nbf');
 
   // Create invalid credential with JWT proof (invalid signature)
   credential = await createJWTCredential(agent, didKeyIdentifier);
@@ -36,6 +39,7 @@ export const generateInvalidCredentials = async (
     'tests/data/credential_invalid_jwt_signature.json',
     JSON.stringify(credential)
   );
+  files.push('credential_invalid_jwt_signature');
 
   // TODO: Create invalid credential with JWT proof (invalid schema)
   credential = await agent.createVerifiableCredential({
@@ -54,6 +58,7 @@ export const generateInvalidCredentials = async (
     'tests/data/credential_invalid_jwt_schema.json',
     JSON.stringify(credential)
   );
+  files.push('credential_invalid_jwt_schema');
 
   // Create invalid credential with EIP712 proof (invalid signature)
   credential = await agent.createVerifiableCredential({
@@ -67,4 +72,5 @@ export const generateInvalidCredentials = async (
     'tests/data/credential_invalid_eip712_signature.json',
     JSON.stringify(credential)
   );
+  files.push('credential_invalid_eip712_signature');
 };

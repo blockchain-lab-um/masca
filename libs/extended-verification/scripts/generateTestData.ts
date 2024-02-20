@@ -7,6 +7,7 @@ import {
   createVeramoAgent,
   CREDENTIAL_DATA,
 } from './utils';
+import { createEntrypoint } from './utils/createEntrypoint';
 
 // TODO:
 // Credentials:
@@ -58,14 +59,28 @@ const main = async () => {
     }
   );
 
-  await generateValidCredentials(agent, didKeyIdentifier, didEthrIdentifier);
-  await generateInvalidCredentials(agent, didKeyIdentifier, didEthrIdentifier);
+  // Array of names of generated files
+  const files: string[] = [];
+
+  await generateValidCredentials(
+    agent,
+    didKeyIdentifier,
+    didEthrIdentifier,
+    files
+  );
+  await generateInvalidCredentials(
+    agent,
+    didKeyIdentifier,
+    didEthrIdentifier,
+    files
+  );
   await generateValidPresentations(
     agent,
     didKeyIdentifier,
     didEthrIdentifier,
     validCredentialJWT,
-    validCredentialEIP712
+    validCredentialEIP712,
+    files
   );
   await generateInvalidPresentations(
     agent,
@@ -74,8 +89,11 @@ const main = async () => {
     validCredentialJWT,
     validCredentialEIP712,
     expiredCredentialJWT,
-    invalidCredentialJWT
+    invalidCredentialJWT,
+    files
   );
+
+  await createEntrypoint(files);
 };
 
 main().catch(console.error);
