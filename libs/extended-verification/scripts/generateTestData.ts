@@ -1,30 +1,80 @@
-const generateValidCredentials = () => {
-  // TODO:
-  // - Create a valid credential with a valid schema
-  // - EIP712, JWT
-  // - EBSI Trusted Issuer in registry
-};
+import { generateInvalidCredentials } from './generateInvalidCredentials';
+import { generateInvalidPresentations } from './generateInvalidPresentations';
+import { generateValidCredentials } from './generateValidCredentials';
+import { generateValidPresentations } from './generateValidPresentations';
+import {
+  createJWTCredential,
+  createVeramoAgent,
+  CREDENTIAL_DATA,
+} from './utils';
 
-const generateInvalidCredentials = () => {
-  // TODO:
-  // - Create an invalid credential with an invalid schema
-  // - JWT: invalid signature, expired, not yet valid
-  // - EIP712: invalid signature, expired, not yet valid ?
-  // - Revoked
-  // - EBSI Trusted Issuer not in registry
-};
-
-const generateValidPresentations = () => {};
-
-const generateInvalidPresentations = () => {};
-
+// TODO:
+// Credentials:
+// - Revoked credential
+// - Credential with invalid schema
+// - Credential with issuer not in EBIS Trusted Issuer registry
+// Presentations:
+// - Presentation with revoked credential
+// - Presentation with invalid credential schema
+// - Presentation with issuer not in EBIS Trusted Issuer registry
 const main = async () => {
-  // const agent = await createVeramoAgent();
+  // Create Veramo agent
+  const agent = await createVeramoAgent();
 
-  const validCredentials = generateValidCredentials();
-  const invalidCredentials = generateInvalidCredentials();
-  const validPresentations = generateValidPresentations();
-  const invalidPresentations = generateInvalidPresentations();
+  // Create DIDs (Key and Ethr)
+  const didKeyIdentifier = await agent.didManagerCreate({
+    provider: 'did:key',
+  });
+  const didEthrIdentifier = await agent.didManagerCreate({
+    provider: 'did:ethr',
+  });
+
+  // Create valid credentials for creating valid presentations
+  const validCredentialJWT = await agent.createVerifiableCredential({
+    credential: { ...CREDENTIAL_DATA, issuer: didKeyIdentifier.did },
+    proofFormat: 'jwt',
+  });
+
+  const validCredentialEIP712 = await agent.createVerifiableCredential({
+    credential: { ...CREDENTIAL_DATA, issuer: didEthrIdentifier.did },
+    proofFormat: 'EthereumEip712Signature2021',
+  });
+
+  // Create invalid credentials for creating invalid presentations
+  // Signature is invalid
+  const invalidCredentialJWT = await agent.createVerifiableCredential({
+    credential: { ...CREDENTIAL_DATA, issuer: didKeyIdentifier.did },
+    proofFormat: 'jwt',
+  });
+  invalidCredentialJWT.credentialSubject.username = 'bob';
+
+  // Expired
+  const expiredCredentialJWT = await createJWTCredential(
+    agent,
+    didKeyIdentifier,
+    {
+      exp: Math.floor(Date.now() / 1000) - 60 * 60 * 24 * 365, // 1 year in the past
+    }
+  );
+
+  await generateValidCredentials(agent, didKeyIdentifier, didEthrIdentifier);
+  await generateInvalidCredentials(agent, didKeyIdentifier, didEthrIdentifier);
+  await generateValidPresentations(
+    agent,
+    didKeyIdentifier,
+    didEthrIdentifier,
+    validCredentialJWT,
+    validCredentialEIP712
+  );
+  await generateInvalidPresentations(
+    agent,
+    didKeyIdentifier,
+    didEthrIdentifier,
+    validCredentialJWT,
+    validCredentialEIP712,
+    expiredCredentialJWT,
+    invalidCredentialJWT
+  );
 };
 
-const createVeramoAgent = async () => {};
+main().catch(console.error);

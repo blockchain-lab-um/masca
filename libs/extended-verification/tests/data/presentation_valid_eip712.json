@@ -1,0 +1,45 @@
+{
+  "verifiableCredential": [
+    "{\"@context\":[\"https://www.w3.org/2018/credentials/v1\"],\"credentialSchema\":{\"id\":\"https://example.org/examples/degree.json\",\"type\":\"JsonSchemaValidator2018\"},\"type\":[\"VerifiableCredential\",\"TestCredential\"],\"credentialSubject\":{\"id\":\"did:key:zQ3shnhrtE43gzU9bFdGFPnDrVSmGWUZmnKinSw8LBvrWmHop\",\"username\":\"bob\"},\"issuer\":\"did:ethr:0x03ddfaa4079ac41c688a039c09ce7930b6a6618482c664e7ee71605178b3504aa5\",\"issuanceDate\":\"2024-02-20T10:18:57.973Z\",\"proof\":{\"verificationMethod\":\"did:ethr:0x03ddfaa4079ac41c688a039c09ce7930b6a6618482c664e7ee71605178b3504aa5#controller\",\"created\":\"2024-02-20T10:18:57.973Z\",\"proofPurpose\":\"assertionMethod\",\"type\":\"EthereumEip712Signature2021\",\"proofValue\":\"0xaf727cd7cf1e417615be5d5d72a5e3092e4fdff7a377ed44324ed1e2394cf16b7a822635abab51be8f638cf4928a09bf6881651ded6e90c95215b5617be1d3a91b\",\"eip712\":{\"domain\":{\"chainId\":1,\"name\":\"VerifiableCredential\",\"version\":\"1\"},\"types\":{\"EIP712Domain\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"version\",\"type\":\"string\"},{\"name\":\"chainId\",\"type\":\"uint256\"}],\"CredentialSchema\":[{\"name\":\"id\",\"type\":\"string\"},{\"name\":\"type\",\"type\":\"string\"}],\"CredentialSubject\":[{\"name\":\"id\",\"type\":\"string\"},{\"name\":\"username\",\"type\":\"string\"}],\"Proof\":[{\"name\":\"created\",\"type\":\"string\"},{\"name\":\"proofPurpose\",\"type\":\"string\"},{\"name\":\"type\",\"type\":\"string\"},{\"name\":\"verificationMethod\",\"type\":\"string\"}],\"VerifiableCredential\":[{\"name\":\"@context\",\"type\":\"string[]\"},{\"name\":\"credentialSchema\",\"type\":\"CredentialSchema\"},{\"name\":\"credentialSubject\",\"type\":\"CredentialSubject\"},{\"name\":\"issuanceDate\",\"type\":\"string\"},{\"name\":\"issuer\",\"type\":\"string\"},{\"name\":\"proof\",\"type\":\"Proof\"},{\"name\":\"type\",\"type\":\"string[]\"}]},\"primaryType\":\"VerifiableCredential\"}}}"
+  ],
+  "holder": "did:ethr:0x03ddfaa4079ac41c688a039c09ce7930b6a6618482c664e7ee71605178b3504aa5",
+  "@context": ["https://www.w3.org/2018/credentials/v1"],
+  "type": ["VerifiablePresentation"],
+  "issuanceDate": "2024-02-20T10:18:58.705Z",
+  "proof": {
+    "verificationMethod": "did:ethr:0x03ddfaa4079ac41c688a039c09ce7930b6a6618482c664e7ee71605178b3504aa5#controller",
+    "created": "2024-02-20T10:18:58.705Z",
+    "proofPurpose": "assertionMethod",
+    "type": "EthereumEip712Signature2021",
+    "proofValue": "0x1b30eab549cd699e1cd77be908d7b0e7c7f3e8152191073cd2ff45b7c4f7f28f42b0a664d2b677bf58778ee8b429edf55ed84bdc27e9cc81c4917b39d918912a1c",
+    "eip712": {
+      "domain": {
+        "chainId": 1,
+        "name": "VerifiablePresentation",
+        "version": "1"
+      },
+      "types": {
+        "EIP712Domain": [
+          { "name": "name", "type": "string" },
+          { "name": "version", "type": "string" },
+          { "name": "chainId", "type": "uint256" }
+        ],
+        "Proof": [
+          { "name": "created", "type": "string" },
+          { "name": "proofPurpose", "type": "string" },
+          { "name": "type", "type": "string" },
+          { "name": "verificationMethod", "type": "string" }
+        ],
+        "VerifiablePresentation": [
+          { "name": "@context", "type": "string[]" },
+          { "name": "holder", "type": "string" },
+          { "name": "issuanceDate", "type": "string" },
+          { "name": "proof", "type": "Proof" },
+          { "name": "type", "type": "string[]" },
+          { "name": "verifiableCredential", "type": "string[]" }
+        ]
+      },
+      "primaryType": "VerifiablePresentation"
+    }
+  }
+}

@@ -961,7 +961,7 @@ class VeramoService {
     const enabledCredentialStores =
       await GeneralService.getEnabledCredentialStores();
 
-    const networks = [
+    const networks: any = [
       {
         name: 'mainnet',
         provider: new BrowserProvider(ethereum as any),

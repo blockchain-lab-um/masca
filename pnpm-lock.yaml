@@ -305,12 +305,30 @@ importers:
         specifier: 10.1.3
         version: 10.1.3
     devDependencies:
+      '@veramo/did-manager':
+        specifier: 5.6.0
+        version: 5.6.0
+      '@veramo/did-provider-ethr':
+        specifier: 5.6.0
+        version: 5.6.0
+      '@veramo/key-manager':
+        specifier: 5.6.0
+        version: 5.6.0
+      '@veramo/kms-local':
+        specifier: 5.6.0
+        version: 5.6.0
       '@vitest/coverage-v8':
         specifier: 1.0.0-beta.3
         version: 1.0.0-beta.3(vitest@1.0.0-beta.3)
       desm:
         specifier: ^1.3.0
         version: 1.3.0
+      did-jwt:
+        specifier: ^8.0.0
+        version: 8.0.0
+      did-jwt-vc:
+        specifier: ^4.0.0
+        version: 4.0.0
       tsup:
         specifier: ^7.2.0
         version: 7.2.0(ts-node@10.9.1)(typescript@5.2.2)
@@ -7324,6 +7342,10 @@ packages:
       tslib: 2.6.2
     dev: false
 
+  /@multiformats/base-x@4.0.1:
+    resolution: {integrity: sha512-eMk0b9ReBbV23xXU693TAIrLyeO5iTgBZGSJfpqriG8UkYvr/hC9u9pyMlAakDNHWmbhMZCDs6KQO0jzKD8OTw==}
+    dev: true
+
   /@next/env@13.4.13:
     resolution: {integrity: sha512-fwz2QgVg08v7ZL7KmbQBLF2PubR/6zQdKBgmHEl3BCyWTEDsAQEijjw2gbFhI1tcKfLdOOJUXntz5vZ4S0Polg==}
     dev: false
@@ -12759,7 +12781,6 @@ packages:
       - bufferutil
       - supports-color
       - utf-8-validate
-    dev: false
 
   /@veramo/did-provider-jwk@5.6.0:
     resolution: {integrity: sha512-pdc0Hfx9x3GTOr/4lGc64KhtTmYPaewitkCIr2Hp+iwogJyY5Yiw3MuR0IAH6R54MO9Do2YsUG6eCN3HRdcVCw==}
@@ -12814,7 +12835,7 @@ packages:
       '@veramo/utils': 5.6.0(encoding@0.1.13)
       debug: 4.3.4
       did-jwt: 7.4.4
-      ethers: 6.9.0
+      ethers: 6.11.1
       uint8arrays: 4.0.6
       uuid: 9.0.1
     transitivePeerDependencies:
@@ -12834,7 +12855,7 @@ packages:
       '@veramo/utils': 5.6.0(encoding@0.1.13)
       debug: 4.3.4
       did-jwt: 7.4.4
-      ethers: 6.9.0
+      ethers: 6.11.1
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -16793,6 +16814,14 @@ packages:
       did-jwt: 7.4.4
       did-resolver: 4.1.0
 
+  /did-jwt-vc@4.0.0:
+    resolution: {integrity: sha512-lplB8Ksehx1gn/FQZQ8hW+9KziTqOHsNKqIFBIw26n2mCi+mbDJUyAmJ/rqQoN4OOUm97bdI39HS/b8KDE4drg==}
+    engines: {node: '>=18'}
+    dependencies:
+      did-jwt: 8.0.0
+      did-resolver: 4.1.0
+    dev: true
+
   /did-jwt@6.11.6:
     resolution: {integrity: sha512-OfbWknRxJuUqH6Lk0x+H1FsuelGugLbBDEwsoJnicFOntIG/A4y19fn0a8RLxaQbWQ5gXg0yDq5E2huSBiiXzw==}
     dependencies:
@@ -16809,19 +16838,6 @@ packages:
       multiformats: 9.9.0
       uint8arrays: 3.1.1
 
-  /did-jwt@7.2.5:
-    resolution: {integrity: sha512-bbkRurNmIOvr9F8cmgOg1oaXEoGUCmi4UttADCFG//JRdN4EhPnvGVfpp3HGnvhw1vIAvhm0rCLPG9HBgQIM4Q==}
-    dependencies:
-      '@noble/curves': 1.2.0
-      '@noble/hashes': 1.3.2
-      '@stablelib/xchacha20poly1305': 1.0.1
-      bech32: 2.0.0
-      canonicalize: 2.0.0
-      did-resolver: 4.1.0
-      multiformats: 12.1.3
-      uint8arrays: 4.0.6
-    dev: false
-
   /did-jwt@7.4.4:
     resolution: {integrity: sha512-OW9CwDvHx0E2qjrRfy8wm5sJekXxJqGrAZXgdfhYpHEHX31Kn7Cz9gShrpGlIqYFsEsEAsA5xhFIidKAawyNCg==}
     dependencies:
@@ -16833,6 +16849,20 @@ packages:
       did-resolver: 4.1.0
       multiformats: 12.1.3
       uint8arrays: 4.0.6
+
+  /did-jwt@8.0.0:
+    resolution: {integrity: sha512-lJSVC9Ckxl+U+jDPbdATDtXV7CwE0XGT0Js6KNfjRlaj0LTXvDF90IAyayFwLUzO6punA/q3ZHVfTZaYDhHrLw==}
+    dependencies:
+      '@noble/ciphers': 0.4.0
+      '@noble/curves': 1.2.0
+      '@noble/hashes': 1.3.2
+      '@scure/base': 1.1.3
+      canonicalize: 2.0.0
+      did-resolver: 4.1.0
+      multibase: 4.0.6
+      multiformats: 9.9.0
+      uint8arrays: 3.1.1
+    dev: true
 
   /did-resolver@4.1.0:
     resolution: {integrity: sha512-S6fWHvCXkZg2IhS4RcVHxwuyVejPR7c+a4Go0xbQ9ps5kILa8viiYQgrM4gfTyeTjJ0ekgJH9gk/BawTpmkbZA==}
@@ -16859,7 +16889,7 @@ packages:
       '@didtools/pkh-ethereum': 0.3.0
       '@stablelib/random': 1.0.2
       dag-jose-utils: 3.0.0
-      did-jwt: 7.2.5
+      did-jwt: 7.4.4
       did-resolver: 4.1.0
       multiformats: 11.0.2
       rpc-utils: 0.6.2
@@ -18246,7 +18276,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
-    dev: false
 
   /ethr-did@3.0.12:
     resolution: {integrity: sha512-g+h1Y6GtYrXGrE3R9qlLdeP3N8BLHmPxXy2adysRjl2seluGne+C42yL1p+m3zdCiuznu8UvtkzZXcIVzBGhSw==}
@@ -18258,7 +18287,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
-    dev: false
 
   /eval@0.1.8:
     resolution: {integrity: sha512-EzV94NYKoO09GLXGjXj9JIlXijVck4ONSr5wiCWDvhsvj5jxSrzTmRU/9C1DyB6uToszLs8aifA6NQ7lEQdvFw==}
@@ -21720,7 +21748,7 @@ packages:
     engines: {node: '>=14.14'}
     dependencies:
       '@stablelib/ed25519': 1.0.3
-      did-jwt: 7.2.5
+      did-jwt: 7.4.4
       dids: 4.0.1
       fast-json-stable-stringify: 2.1.0
       rpc-utils: 0.6.2
@@ -23276,6 +23304,14 @@ packages:
 
   /msrcrypto@1.5.8:
     resolution: {integrity: sha512-ujZ0TRuozHKKm6eGbKHfXef7f+esIhEckmThVnz7RNyiOJd7a6MXj2JGBoL9cnPDW+JMG16MoTUh5X+XXjI66Q==}
+
+  /multibase@4.0.6:
+    resolution: {integrity: sha512-x23pDe5+svdLz/k5JPGCVdfn7Q5mZVMBETiC+ORfO+sor9Sgs0smJzAjfTbM5tckeCqnaUuMYoz+k3RXMmJClQ==}
+    engines: {node: '>=12.0.0', npm: '>=6.0.0'}
+    deprecated: This module has been superseded by the multiformats module
+    dependencies:
+      '@multiformats/base-x': 4.0.1
+    dev: true
 
   /multicast-dns@7.2.5:
     resolution: {integrity: sha512-2eznPJP8z2BFLX50tf0LuODrpINqP1RVIm/CObbTcBRITQgmC/TjcREF1NeTBzIcR5XO/ukWo+YHOjBbFwIupg==}
