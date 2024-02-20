@@ -22,7 +22,7 @@ export const generateValidCredentials = async (
   // Create valid credential with EIP712 proof
   credential = await agent.createVerifiableCredential({
     credential: { ...CREDENTIAL_DATA, issuer: didEthrIdentifier.did },
-    proofFormat: 'jwt',
+    proofFormat: 'EthereumEip712Signature2021',
   });
 
   await writeFile(

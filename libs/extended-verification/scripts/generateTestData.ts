@@ -24,6 +24,7 @@ const main = async () => {
   // Create DIDs (Key and Ethr)
   const didKeyIdentifier = await agent.didManagerCreate({
     provider: 'did:key',
+    options: { keyType: 'Secp256k1' },
   });
   const didEthrIdentifier = await agent.didManagerCreate({
     provider: 'did:ethr',
