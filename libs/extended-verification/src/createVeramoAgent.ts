@@ -28,14 +28,13 @@ export const createVeramoAgent = async (props?: CreateVeramoAgentProps) => {
     {
       name: 'mainnet',
       provider:
-        providers?.mainnet ??
-        new JsonRpcProvider('https://mainnet.infura.io/v3/'),
+        providers?.mainnet ?? new JsonRpcProvider('https://eth.llamarpc.com'),
     },
     {
       name: 'sepolia',
       provider:
         providers?.sepolia ??
-        new JsonRpcProvider('https://sepolia.infura.io/v3/'),
+        new JsonRpcProvider('https://sepolia.gateway.tenderly.co'),
       registry: '0x03d5003bf0e79c5f5223588f347eba39afbc3818',
     },
   ];

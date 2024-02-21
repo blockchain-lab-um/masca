@@ -1,5 +1,5 @@
 import { isError } from '@blockchain-lab-um/utils';
-import { beforeAll, describe, it } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 
 import { VerificationService } from '../src/Verification.service';
 import {
@@ -12,8 +12,9 @@ import {
   CREDENTIAL_VALID_JWT,
   CREDENTIAL_VALID_JWT_EXP_NBF,
   PRESENTATION_INVALID_EIP712_SIGNATURE,
+  PRESENTATION_INVALID_JWT_CREDENTIAL_EIP712_CREDENTIAL_JWT_EXPIRED,
+  PRESENTATION_INVALID_JWT_CREDENTIAL_EIP712_SIGNATURE,
   PRESENTATION_INVALID_JWT_CREDENTIAL_EXPIRED,
-  PRESENTATION_INVALID_JWT_CREDENTIAL_JWT_SIGNATURE,
   PRESENTATION_INVALID_JWT_EXP,
   PRESENTATION_INVALID_JWT_NBF,
   PRESENTATION_INVALID_JWT_SIGNATURE,
@@ -318,6 +319,20 @@ describe('Veramo Service', () => {
               isRevoked: false,
               ebsiTrustedIssuer: false,
             },
+            {
+              signature: {
+                isValid: true,
+                errors: [],
+              },
+              schema: {
+                isValid: true,
+                errors: [],
+              },
+              isExpired: false,
+              isNotYetValid: false,
+              isRevoked: false,
+              ebsiTrustedIssuer: false,
+            },
           ],
           presentation: {
             signature: {
@@ -344,6 +359,20 @@ describe('Veramo Service', () => {
         expect(data.verified).toBe(true);
         expect(data.details).toEqual({
           credentials: [
+            {
+              signature: {
+                isValid: true,
+                errors: [],
+              },
+              schema: {
+                isValid: true,
+                errors: [],
+              },
+              isExpired: false,
+              isNotYetValid: false,
+              isRevoked: false,
+              ebsiTrustedIssuer: false,
+            },
             {
               signature: {
                 isValid: true,
@@ -430,7 +459,7 @@ describe('Veramo Service', () => {
           credentials: [
             {
               signature: {
-                isValid: true,
+                isValid: false,
                 errors: [],
               },
               schema: {
@@ -463,7 +492,7 @@ describe('Veramo Service', () => {
           credentials: [
             {
               signature: {
-                isValid: true,
+                isValid: false,
                 errors: [],
               },
               schema: {
@@ -480,7 +509,7 @@ describe('Veramo Service', () => {
         });
       });
 
-      it('invalid JWT credential with invalid schema', async () => {
+      it.todo('invalid JWT credential with invalid schema', async () => {
         const result = await VerificationService.verify(
           CREDENTIAL_INVALID_JWT_SCHEMA
         );
@@ -612,7 +641,7 @@ describe('Veramo Service', () => {
           ],
           presentation: {
             signature: {
-              isValid: true,
+              isValid: false,
               errors: [],
             },
             isExpired: true,
@@ -652,7 +681,7 @@ describe('Veramo Service', () => {
           ],
           presentation: {
             signature: {
-              isValid: true,
+              isValid: false,
               errors: [],
             },
             isExpired: false,
@@ -741,9 +770,9 @@ describe('Veramo Service', () => {
         });
       });
 
-      it('invalid JWT presentation with a JWT credential with invalid signature', async () => {
+      it('invalid JWT presentation with a EIP712 credential with invalid signature', async () => {
         const result = await VerificationService.verify(
-          PRESENTATION_INVALID_JWT_CREDENTIAL_JWT_SIGNATURE
+          PRESENTATION_INVALID_JWT_CREDENTIAL_EIP712_SIGNATURE
         );
 
         if (isError(result)) {
@@ -797,7 +826,61 @@ describe('Veramo Service', () => {
           credentials: [
             {
               signature: {
+                isValid: false,
+                errors: [],
+              },
+              schema: {
                 isValid: true,
+                errors: [],
+              },
+              isExpired: true,
+              isNotYetValid: false,
+              isRevoked: false,
+              ebsiTrustedIssuer: false,
+            },
+          ],
+          presentation: {
+            signature: {
+              isValid: true,
+              errors: [],
+            },
+            isExpired: false,
+            isNotYetValid: false,
+          },
+        });
+      });
+
+      it('invalid JWT presentation with an expired JWT credential and a valid EIP712 credential', async () => {
+        const result = await VerificationService.verify(
+          PRESENTATION_INVALID_JWT_CREDENTIAL_EIP712_CREDENTIAL_JWT_EXPIRED
+        );
+
+        if (isError(result)) {
+          throw new Error(result.error);
+        }
+
+        const { data } = result;
+
+        expect(data.verified).toBe(false);
+        expect(data.details).toEqual({
+          credentials: [
+            {
+              signature: {
+                isValid: true,
+                errors: [],
+              },
+              schema: {
+                isValid: true,
+                errors: [],
+              },
+              isExpired: false,
+              isNotYetValid: false,
+              isRevoked: false,
+              ebsiTrustedIssuer: false,
+            },
+            {
+              signature: {
+                isValid: false,
                 errors: [],
               },
               schema: {

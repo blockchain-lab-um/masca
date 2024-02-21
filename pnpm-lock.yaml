@@ -292,6 +292,9 @@ importers:
       '@veramo/utils':
         specifier: 5.6.0
         version: 5.6.0(encoding@0.1.13)
+      did-jwt-vc:
+        specifier: ^4.0.0
+        version: 4.0.0
       did-resolver:
         specifier: 4.1.0
         version: 4.1.0
@@ -326,9 +329,6 @@ importers:
       did-jwt:
         specifier: ^8.0.0
         version: 8.0.0
-      did-jwt-vc:
-        specifier: ^4.0.0
-        version: 4.0.0
       tsup:
         specifier: ^7.2.0
         version: 7.2.0(ts-node@10.9.1)(typescript@5.2.2)
@@ -7344,7 +7344,6 @@ packages:
 
   /@multiformats/base-x@4.0.1:
     resolution: {integrity: sha512-eMk0b9ReBbV23xXU693TAIrLyeO5iTgBZGSJfpqriG8UkYvr/hC9u9pyMlAakDNHWmbhMZCDs6KQO0jzKD8OTw==}
-    dev: true
 
   /@next/env@13.4.13:
     resolution: {integrity: sha512-fwz2QgVg08v7ZL7KmbQBLF2PubR/6zQdKBgmHEl3BCyWTEDsAQEijjw2gbFhI1tcKfLdOOJUXntz5vZ4S0Polg==}
@@ -16820,7 +16819,7 @@ packages:
     dependencies:
       did-jwt: 8.0.0
       did-resolver: 4.1.0
-    dev: true
+    dev: false
 
   /did-jwt@6.11.6:
     resolution: {integrity: sha512-OfbWknRxJuUqH6Lk0x+H1FsuelGugLbBDEwsoJnicFOntIG/A4y19fn0a8RLxaQbWQ5gXg0yDq5E2huSBiiXzw==}
@@ -16862,7 +16861,6 @@ packages:
       multibase: 4.0.6
       multiformats: 9.9.0
       uint8arrays: 3.1.1
-    dev: true
 
   /did-resolver@4.1.0:
     resolution: {integrity: sha512-S6fWHvCXkZg2IhS4RcVHxwuyVejPR7c+a4Go0xbQ9ps5kILa8viiYQgrM4gfTyeTjJ0ekgJH9gk/BawTpmkbZA==}
@@ -23311,7 +23309,6 @@ packages:
     deprecated: This module has been superseded by the multiformats module
     dependencies:
       '@multiformats/base-x': 4.0.1
-    dev: true
 
   /multicast-dns@7.2.5:
     resolution: {integrity: sha512-2eznPJP8z2BFLX50tf0LuODrpINqP1RVIm/CObbTcBRITQgmC/TjcREF1NeTBzIcR5XO/ukWo+YHOjBbFwIupg==}

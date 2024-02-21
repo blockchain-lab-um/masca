@@ -4,16 +4,25 @@ import { IIdentifier, VerifiableCredential } from '@veramo/core';
 import { Agent } from './utils';
 import { createJWTPresentation } from './utils/createJWTPresentation';
 
-export const generateInvalidPresentations = async (
-  agent: Agent,
-  didKeyIdentifier: IIdentifier,
-  didEthrIdentifier: IIdentifier,
-  validCredentialJWT: VerifiableCredential,
-  validCredentialEIP712: VerifiableCredential,
-  invalidCredentialJWT: VerifiableCredential,
-  expiredCredentialJWT: VerifiableCredential,
-  files: string[]
-) => {
+interface GenerateInvalidPresentationsOptions {
+  agent: Agent;
+  didKeyIdentifier: IIdentifier;
+  didEthrIdentifier: IIdentifier;
+  validCredentialJWT: VerifiableCredential;
+  validCredentialEIP712: VerifiableCredential;
+  expiredCredentialJWT: VerifiableCredential;
+  files: string[];
+}
+
+export const generateInvalidPresentations = async ({
+  agent,
+  didKeyIdentifier,
+  didEthrIdentifier,
+  validCredentialJWT,
+  validCredentialEIP712,
+  expiredCredentialJWT,
+  files,
+}: GenerateInvalidPresentationsOptions) => {
   // Create invalid presentation with JWT proof and invalid signature (credential with JWT proof)
   let presentation = await agent.createVerifiablePresentation({
     presentation: {
@@ -23,8 +32,23 @@ export const generateInvalidPresentations = async (
     proofFormat: 'jwt',
   });
 
-  presentation.holder =
-    'did:key:z6MkrxhJ9rwaheU8gHA5BspFeqemxz4HJAX7oPjKahh7oVEP';
+  const presentationJWT = presentation.proof.jwt as string;
+
+  const wrontPresentationJWT = (
+    await agent.createVerifiablePresentation({
+      presentation: {
+        verifiableCredential: [validCredentialEIP712],
+        holder: didKeyIdentifier.did,
+      },
+      proofFormat: 'jwt',
+    })
+  ).proof.jwt as string;
+
+  const wrongJWTData = wrontPresentationJWT.split('.')[1];
+
+  presentation.proof.jwt = `${presentationJWT.split('.')[0]}.${wrongJWTData}.${
+    presentationJWT.split('.')[2]
+  }`;
 
   await writeFile(
     'tests/data/presentation_invalid_jwt_signature.json',
@@ -50,22 +74,21 @@ export const generateInvalidPresentations = async (
   );
   files.push('presentation_invalid_eip712_signature');
 
-  // Create invalid presentation with JWT proof (credential with JWT proof and invalid signature)ž
-  presentation = await agent.createVerifiablePresentation({
-    presentation: {
-      verifiableCredential: [invalidCredentialJWT],
-      holder: didKeyIdentifier.did,
-    },
-    proofFormat: 'jwt',
-  });
+  const invalidCredentialEIP712 = structuredClone(validCredentialEIP712);
+  invalidCredentialEIP712.credentialSubject.username = 'bob';
+
+  // Create invalid presentation with JWT proof (credential with EIP712 proof and invalid signature)
+  presentation = await createJWTPresentation(agent, didKeyIdentifier, [
+    invalidCredentialEIP712,
+  ]);
 
   await writeFile(
-    'tests/data/presentation_invalid_jwt_credential_jwt_signature.json',
+    'tests/data/presentation_invalid_jwt_credential_eip712_signature.json',
     JSON.stringify(presentation)
   );
-  files.push('presentation_invalid_jwt_credential_jwt_signature');
+  files.push('presentation_invalid_jwt_credential_eip712_signature');
 
-  // Create invalid presentation with JWT proof not yet valid (credential with JWT proof)ž
+  // Create invalid presentation with JWT proof not yet valid (credential with JWT proof)
   presentation = await createJWTPresentation(
     agent,
     didKeyIdentifier,
@@ -81,7 +104,7 @@ export const generateInvalidPresentations = async (
   );
   files.push('presentation_invalid_jwt_nbf');
 
-  // Create invalid presentation with JWT proof expired (credential with JWT proof)ž
+  // Create invalid presentation with JWT proof expired (credential with JWT proof)
   presentation = await createJWTPresentation(
     agent,
     didKeyIdentifier,
@@ -111,4 +134,22 @@ export const generateInvalidPresentations = async (
     JSON.stringify(presentation)
   );
   files.push('presentation_invalid_jwt_credential_expired');
+
+  // Create invalid presentation with JWT proof (expired JWT credential and valid EIP712 credential)
+  presentation = await agent.createVerifiablePresentation({
+    presentation: {
+      verifiableCredential: [validCredentialEIP712, expiredCredentialJWT],
+      holder: didKeyIdentifier.did,
+    },
+    proofFormat: 'jwt',
+  });
+
+  await writeFile(
+    'tests/data/presentation_invalid_jwt_credential_eip712_credential_jwt_expired.json',
+    JSON.stringify(presentation)
+  );
+
+  files.push(
+    'presentation_invalid_jwt_credential_eip712_credential_jwt_expired'
+  );
 };

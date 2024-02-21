@@ -5,10 +5,8 @@ import {
   W3CVerifiableCredential,
   W3CVerifiablePresentation,
 } from '@veramo/core';
-import {
-  decodeCredentialToObject,
-  decodePresentationToObject,
-} from '@veramo/utils';
+import { decodeCredentialToObject } from '@veramo/utils';
+import { normalizePresentation } from 'did-jwt-vc';
 import { Provider } from 'ethers';
 
 import { createVeramoAgent, type Agent } from './createVeramoAgent';
@@ -63,7 +61,7 @@ export class VerificationService {
     const { ebsiChecks } = options || { ebsiChecks: false };
 
     const verificationResult: VerificationResult = {
-      verified: false,
+      verified: true,
       details: {
         credentials: [],
         presentation: null,
@@ -72,19 +70,24 @@ export class VerificationService {
 
     let presentation: VerifiablePresentation | null = null;
     const credentialsToVerify: VerifiableCredential[] = [];
-
     try {
       // Try to decode data as Veramo supported presentation format
       try {
-        presentation = decodePresentationToObject(
-          data as W3CVerifiablePresentation
-        );
+        if (typeof data === 'string') {
+          presentation = normalizePresentation(data);
+        } else {
+          presentation = data as VerifiablePresentation;
+        }
       } catch (error) {
         // We ignore this error as we now know its not a Veramo supported presentation format
       }
 
       // If data is a presentation we verify it
-      if (presentation) {
+      if (
+        presentation &&
+        presentation.type &&
+        presentation.type.includes('VerifiablePresentation')
+      ) {
         // Presentation must contain at least one credential
         if (!presentation.verifiableCredential) {
           return ResultObject.error(
@@ -97,14 +100,22 @@ export class VerificationService {
           presentation,
         });
 
+        const errorMessage = result.error?.message || '';
+
+        if (!result.verified) {
+          verificationResult.verified = false;
+        }
+
         // TODO: Check dates
         verificationResult.details.presentation = {
           signature: {
             isValid: result.verified,
-            errors: [],
+            errors: [
+              // errorMessage,
+            ],
           },
-          isExpired: false,
-          isNotYetValid: false,
+          isExpired: errorMessage.includes('expired'),
+          isNotYetValid: errorMessage.includes('nbf'),
         };
 
         // Extract credentials from the presentation
@@ -116,9 +127,13 @@ export class VerificationService {
       // If there are no credentials in the presentation, we try to decode the data as a Veramo supported credential format
       if (credentialsToVerify.length === 0) {
         try {
-          credentialsToVerify.push(
-            decodeCredentialToObject(data as W3CVerifiableCredential)
-          );
+          if (typeof data === 'string') {
+            credentialsToVerify.push(
+              decodeCredentialToObject(data as W3CVerifiableCredential)
+            );
+          } else {
+            credentialsToVerify.push(data as VerifiableCredential);
+          }
         } catch (error) {
           // We ignore this error as we now know its not a Veramo supported credential format
         }
@@ -129,6 +144,11 @@ export class VerificationService {
           const result = await this.veramoAgent.verifyCredential({
             credential,
           });
+          const errorMessage = result.error?.message || '';
+
+          if (!result.verified) {
+            verificationResult.verified = false;
+          }
 
           const issuer =
             typeof credential.issuer === 'string'
@@ -140,30 +160,32 @@ export class VerificationService {
           }
 
           // TODO: Verify schema
-          // TODO: Check dates
           verificationResult.details.credentials.push({
             signature: {
               isValid: result.verified,
+              // errors: [errorMessage],
               errors: [],
             },
             schema: {
               isValid: true,
               errors: [],
             },
-            isExpired: false,
-            isNotYetValid: false,
+            isExpired: errorMessage.includes('expired'),
+            isNotYetValid: errorMessage.includes('nbf'),
             isRevoked: false,
             ebsiTrustedIssuer: false,
           });
         }
 
         // TODO: Set verification to false if any of the credentials are not valid
+
         return ResultObject.success(verificationResult);
       }
 
       // TODO: Test if it is JWZ format}
       throw new Error('JWZ Support not implemented yet');
     } catch (error) {
+      console.log('error');
       console.error(error);
       return ResultObject.error('Verification failed');
     }

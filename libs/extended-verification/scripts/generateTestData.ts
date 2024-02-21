@@ -33,23 +33,22 @@ const main = async () => {
 
   // Create valid credentials for creating valid presentations
   const validCredentialJWT = await agent.createVerifiableCredential({
-    credential: { ...CREDENTIAL_DATA, issuer: didKeyIdentifier.did },
+    credential: {
+      ...structuredClone(CREDENTIAL_DATA),
+      issuer: didKeyIdentifier.did,
+    },
     proofFormat: 'jwt',
   });
 
   const validCredentialEIP712 = await agent.createVerifiableCredential({
-    credential: { ...CREDENTIAL_DATA, issuer: didEthrIdentifier.did },
+    credential: {
+      ...structuredClone(CREDENTIAL_DATA),
+      issuer: didEthrIdentifier.did,
+    },
     proofFormat: 'EthereumEip712Signature2021',
   });
 
   // Create invalid credentials for creating invalid presentations
-  // Signature is invalid
-  const invalidCredentialJWT = await agent.createVerifiableCredential({
-    credential: { ...CREDENTIAL_DATA, issuer: didKeyIdentifier.did },
-    proofFormat: 'jwt',
-  });
-  invalidCredentialJWT.credentialSubject.username = 'bob';
-
   // Expired
   const expiredCredentialJWT = await createJWTCredential(
     agent,
@@ -82,16 +81,15 @@ const main = async () => {
     validCredentialEIP712,
     files
   );
-  await generateInvalidPresentations(
+  await generateInvalidPresentations({
     agent,
     didKeyIdentifier,
     didEthrIdentifier,
     validCredentialJWT,
     validCredentialEIP712,
     expiredCredentialJWT,
-    invalidCredentialJWT,
-    files
-  );
+    files,
+  });
 
   await createEntrypoint(files);
 };
