@@ -65,7 +65,7 @@ describe('createVerifiablePresentation', () => {
       agent = VeramoService.getAgent();
 
       const switchMethod = (await onRpcRequest({
-        origin: 'localhost',
+        origin: 'http://localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
@@ -92,7 +92,7 @@ describe('createVerifiablePresentation', () => {
             'Should create a Verifiable Presentation with domain: `$domain` and challenge: `$challenge`',
             async (option) => {
               const vp = (await onRpcRequest({
-                origin: 'localhost',
+                origin: 'http://localhost',
                 request: {
                   id: 'test-id',
                   jsonrpc: '2.0',
@@ -130,7 +130,7 @@ describe('createVerifiablePresentation', () => {
         } else {
           it('Should create a Verifiable Presentation without domain or challenge', async () => {
             const vp = (await onRpcRequest({
-              origin: 'localhost',
+              origin: 'http://localhost',
               request: {
                 id: 'test-id',
                 jsonrpc: '2.0',
@@ -167,7 +167,7 @@ describe('createVerifiablePresentation', () => {
 
     it('Should create a VP without proofFormat option set', async () => {
       const vp = (await onRpcRequest({
-        origin: 'localhost',
+        origin: 'http://localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
@@ -200,7 +200,7 @@ describe('createVerifiablePresentation', () => {
 
     it('Should fail creating a VP without any VC', async () => {
       const vp = (await onRpcRequest({
-        origin: 'localhost',
+        origin: 'http://localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
@@ -221,7 +221,7 @@ describe('createVerifiablePresentation', () => {
 
     it('Should fail creating a VP with invalid VC', async () => {
       const vp = (await onRpcRequest({
-        origin: 'localhost',
+        origin: 'http://localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',

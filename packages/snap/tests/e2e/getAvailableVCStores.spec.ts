@@ -24,7 +24,7 @@ describe('getAvailableCredentialStores', () => {
 
   it('should succeed and return available VC stores', async () => {
     const res = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',

@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import {
   CheckCircleIcon,
+  DocumentDuplicateIcon,
   ExclamationCircleIcon,
   InformationCircleIcon,
 } from '@heroicons/react/24/outline';
@@ -12,6 +13,7 @@ import { IVerifyResult, VerifiableCredential } from '@veramo/core';
 import { useTranslations } from 'next-intl';
 
 import { VerificationInfoModal } from '@/components/VerificationInfoModal';
+import { copyToClipboard } from '@/utils/string';
 import CredentialPanel from './credentialPanel';
 
 export const FormatedView = ({
@@ -59,14 +61,36 @@ export const FormatedView = ({
                   {t('holder')}
                 </h2>
                 <h1 className="font-ubuntu dark:text-orange-accent-dark text-left text-lg font-medium text-pink-500 sm:text-xl md:text-2xl lg:truncate">
-                  {holder.length <= 32 ? (
-                    holder
-                  ) : (
-                    <>
-                      {holder.substring(0, 20)}...
-                      {holder.substring(holder.length - 10)}
-                    </>
-                  )}
+                  <div className="mt-2 flex items-center">
+                    <Tooltip
+                      content={holder}
+                      className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
+                    >
+                      <a
+                        href={`https://dev.uniresolver.io/#${holder}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="font-ubuntu dark:text-orange-accent-dark text-left text-lg font-medium text-pink-500 underline sm:text-xl md:text-2xl lg:truncate"
+                      >
+                        {`${holder.substring(
+                          0,
+                          holder.lastIndexOf(':')
+                        )}:${holder
+                          .split(':')
+                          [holder.split(':').length - 1].slice(
+                            0,
+                            6
+                          )}...${holder.slice(-4)}`}
+                      </a>
+                    </Tooltip>
+                    <button
+                      onClick={() => {
+                        copyToClipboard(holder);
+                      }}
+                    >
+                      <DocumentDuplicateIcon className="animated-transition dark:text-orange-accent-dark ml-1 h-5 w-5 text-pink-500 hover:opacity-80" />
+                    </button>
+                  </div>
                 </h1>
               </div>
               {issuanceDate && (
@@ -108,7 +132,7 @@ export const FormatedView = ({
           </div>
         </div>
         <div className="px-4 pb-6">
-          <div className="flex justify-start px-2">
+          <div className="ml-[14px] flex justify-start px-2">
             <Pagination
               loop
               color="success"

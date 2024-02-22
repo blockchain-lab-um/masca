@@ -51,7 +51,7 @@ describe('getDID', () => {
     'should return correct identifier for $method',
     async (methodObj) => {
       const switchMethod = (await onRpcRequest({
-        origin: 'localhost',
+        origin: 'http://localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
@@ -77,7 +77,7 @@ describe('getDID', () => {
       }
 
       const did = (await onRpcRequest({
-        origin: 'localhost',
+        origin: 'http://localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',

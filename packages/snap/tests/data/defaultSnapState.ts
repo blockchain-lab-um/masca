@@ -17,7 +17,7 @@ const defaultSnapState = (address: string): MascaState => {
       config: {
         dApp: {
           disablePopups: false,
-          friendlyDapps: [],
+          trustedDapps: [],
         },
         snap: {
           acceptedTerms: true,

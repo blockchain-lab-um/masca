@@ -14,7 +14,12 @@ import { useTranslations } from 'next-intl';
 
 import { DIDDisplay } from '@/components/DIDDisplay';
 import JsonModal from '@/components/JsonModal';
-import { convertTypes, copyToClipboard } from '@/utils/string';
+import { getFirstWord } from '@/utils/format';
+import {
+  camelToTitleCase,
+  convertTypes,
+  copyToClipboard,
+} from '@/utils/string';
 
 interface FormatedPanelProps {
   credential: VerifiableCredential;
@@ -87,7 +92,7 @@ const CredentialSubject = ({
               )}
             >
               <h2 className="dark:text-navy-blue-200 pr-2 font-bold capitalize text-gray-800">
-                {key}:
+                {camelToTitleCase(key)}:
               </h2>
               <div className="text-md dark:text-navy-blue-300 w-full truncate font-normal text-gray-700">
                 {isObject ? (
@@ -137,7 +142,7 @@ const FormatedPanel = ({ credential }: FormatedPanelProps) => {
               className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
             >
               <h1 className="font-ubuntu dark:text-orange-accent-dark text-left text-lg font-medium text-pink-500 sm:text-xl md:text-2xl lg:truncate">
-                {types}
+                {getFirstWord(types)}
               </h1>
             </Tooltip>
           </div>
@@ -174,9 +179,6 @@ const FormatedPanel = ({ credential }: FormatedPanelProps) => {
                   {t('issuer')}
                 </h1>
                 <div className="flex flex-col space-y-0.5">
-                  <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-800">
-                    DID:
-                  </h2>
                   <div className="flex">
                     <DIDDisplay
                       did={

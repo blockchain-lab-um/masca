@@ -363,16 +363,17 @@
     "expired-on": "Expired on",
     "polygon-unsupported": "Polygon ID VCs aren't supported yet. Please remove this credential to continue!"
   },
-  "FriendlydAppTable": {
-    "add-failed": "Failed to add Friendly dapp",
-    "add-masca": "Add Masca.io to Friendly dapps",
-    "added": "Friendly dapp added",
-    "adding": "Adding Friendly dapp",
+  "TrustedDappTable": {
+    "add-failed": "Failed to add trusted dapp",
+    "add-masca": "Add masca.io to trusted dapps",
+    "added": "Trusted dapp added",
+    "adding": "Adding trusted dapp",
     "app-url": "Application URL",
-    "popups-desc": "Disabling pop-ups is very dangerous. We recommend setting friendly dapps instead!",
-    "remove-failed": "Failed to remove Friendly dapp",
-    "removed": "Friendly dapp removed",
-    "removing": "Removing Friendly dapp"
+    "popups-desc": "Disabling pop-ups is very dangerous. We recommend setting trusted dapps instead!",
+    "remove-failed": "Failed to remove trusted dapp",
+    "removed": "Trusted dapp removed",
+    "removing": "Removing trusted dapp",
+    "add": "Add"
   },
   "GetCredential": {
     "handling": "Handling credential offer",
@@ -533,7 +534,7 @@
     "import-success": "Successfully imported backup",
     "not-implemented": "Not implemented yet",
     "popups": "Pop-ups",
-    "popups-desc": "Disabling pop-ups is very dangerous. We recommend setting friendly dapps instead!",
+    "popups-desc": "Disabling pop-ups is very dangerous. We recommend setting trusted dapps instead!",
     "title": "Settings",
     "unknown-error": "Unknown error",
     "wallet-error": "Failed to get wallet ID"
@@ -550,6 +551,7 @@
     "selected": "Selected Credentials",
     "share-presentation-error": "Failed to share presentation",
     "share-presentation-success": "Successfully shared presentation",
+    "share-link-description": "Share your credential:",
     "title": "Publicly Share Credentials",
     "unsupported-credentials-description": "Sharing of Polygon ID & Iden3 credentials is not yet supported. Unselect them to continue!",
     "unsupported-credentials-title": "Unsupported Credentials Selected",

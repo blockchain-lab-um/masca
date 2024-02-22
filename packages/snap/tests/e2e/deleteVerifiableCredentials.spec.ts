@@ -91,7 +91,7 @@ describe('deleteCredential', () => {
 
   it('should succeed saving and deleting 1 VC', async () => {
     const saveRes = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -115,7 +115,7 @@ describe('deleteCredential', () => {
     ]);
 
     const res = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -132,7 +132,7 @@ describe('deleteCredential', () => {
 
     expect(res.data).toEqual([true, false]);
     const result = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -152,7 +152,7 @@ describe('deleteCredential', () => {
 
   it('should succeed saving and deleting 1 VC with store', async () => {
     const saveRes = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -176,7 +176,7 @@ describe('deleteCredential', () => {
     ]);
 
     const res = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -195,7 +195,7 @@ describe('deleteCredential', () => {
     expect(res.data).toEqual([true]);
 
     const result = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -215,7 +215,7 @@ describe('deleteCredential', () => {
 
   it('should fail deleting 1 VC with wrong id', async () => {
     const saveRes = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -239,7 +239,7 @@ describe('deleteCredential', () => {
     ]);
 
     const res = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -258,7 +258,7 @@ describe('deleteCredential', () => {
     expect(res.error).toBe('Error: No VC found with the given id');
 
     const result = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',

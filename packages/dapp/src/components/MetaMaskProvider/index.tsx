@@ -12,9 +12,13 @@ interface MetaMaskProviderProps {
 
 const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
   const t = useTranslations('MetaMaskProvider');
+
+  // Local state
+  const [hasMetamask, setHasMetamask] = useState(false);
+
+  // Global state
   const { connectors } = useConnect();
   const { isConnected } = useAccount();
-  const [hasMetamask, setHasMetamask] = useState(false);
 
   useEffect(() => {
     const provider =
