@@ -292,12 +292,13 @@ class UIService {
 
   static async addTrustedDappDialog(origin: string) {
     const uiPanel = panel([
-      heading('Add Trusted DApp'),
+      heading('Disable Popups'),
       ...this.originWrapper,
-      text(`Would you like to add _**${origin}**_ as a trusted dapp?`),
+      text(`Would you like to disable popups on _**${origin}**_?`),
       divider(),
-      text('Pop-ups do not appear on trusted dapps.'),
-      text('Pop-ups do not appear on trusted dapps.'),
+      text(
+        'This will disable all non-crucial popups on this dApp. This can be changed on [Masca dApp](https://masca.io).'
+      ),
     ]);
 
     const res = await UIService.snapConfirm({
@@ -310,11 +311,9 @@ class UIService {
 
   static async removeTrustedDappDialog(origin: string) {
     const uiPanel = panel([
-      heading('Remove Trusted DApp'),
+      heading('Enable Popups'),
       ...this.originWrapper,
-      text(
-        `Would you like to remove _**${origin}**_ from the list of trusted dapps?`
-      ),
+      text(`Would you like to re-enable popups on _**${origin}**_?`),
     ]);
 
     const res = await UIService.snapConfirm({
@@ -427,7 +426,7 @@ class UIService {
       text('Would you to change the following permissions?'),
       divider(),
       text(
-        `**${params.value ? 'Enable' : 'Disable'}** popups for **${
+        `**${params.value ? 'Disable' : 'Enable'}** popups for **${
           permissionActions[params.permission]
         }** on _**${this.originHostname}**_.`
       ),

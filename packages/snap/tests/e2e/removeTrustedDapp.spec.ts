@@ -61,7 +61,7 @@ describe('removeTrustedDapp', () => {
     }
   });
 
-  it('should fail removing another trustedDapp from the list', async () => {
+  it('should fail removing a different trustedDapp from the list (origin !== params.origin)', async () => {
     const resultAdd = (await onRpcRequest({
       origin: 'http://localhost:8081',
       request: {

@@ -20,7 +20,7 @@ describe('addTrustedDapp', () => {
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
   });
 
-  it('should add any trustedDapp to the list', async () => {
+  it('should make localhost trusted', async () => {
     const defaultState = getDefaultSnapState(account);
     await snapMock.rpcMocks.snap_manageState({
       operation: 'update',
@@ -54,7 +54,7 @@ describe('addTrustedDapp', () => {
     expect.assertions(2);
   });
 
-  it('should add origin trustedDapp to the list on a random dApp', async () => {
+  it('should make random-different a trusted dapp, because origin and params.origin are different', async () => {
     const defaultState = getDefaultSnapState(account);
     await snapMock.rpcMocks.snap_manageState({
       operation: 'update',
@@ -90,7 +90,7 @@ describe('addTrustedDapp', () => {
     expect.assertions(2);
   });
 
-  it('should not add empty trustedDapp to the list', async () => {
+  it('should fail because params are empty', async () => {
     const defaultState = getDefaultSnapState(account);
     defaultState[CURRENT_STATE_VERSION].config.dApp.permissions.localhost = {
       ...getInitialPermissions(),
