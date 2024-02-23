@@ -204,7 +204,7 @@ export const TrustedDappTable = () => {
       });
     }, 200);
     const res = await api.removeTrustedDapp(dapp);
-    if (isSuccess(res) && res.data) {
+    if (isSuccess(res)) {
       await snapGetSettings();
       setTimeout(() => {
         useToastStore.setState({
@@ -247,7 +247,7 @@ export const TrustedDappTable = () => {
     }, 200);
     const res = await api.changePermission(dapp, 'queryCredentials', value);
 
-    if (isSuccess(res) && res.data) {
+    if (isSuccess(res)) {
       await snapGetSettings();
       setTimeout(() => {
         useToastStore.setState({
@@ -260,6 +260,7 @@ export const TrustedDappTable = () => {
       }, 200);
       return res.data;
     }
+
     setTimeout(() => {
       useToastStore.setState({
         open: true,
@@ -395,7 +396,10 @@ export const TrustedDappTable = () => {
                         ...currentDapp,
                         permissions: {
                           ...currentDapp.permissions,
-                          queryCredentials: res,
+                          methods: {
+                            ...currentDapp.permissions.methods,
+                            queryCredentials: res,
+                          },
                         },
                       });
                     })
