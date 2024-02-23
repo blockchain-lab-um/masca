@@ -5,7 +5,7 @@ import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
 import { useTranslations } from 'next-intl';
 import { QRCodeSVG } from 'qrcode.react';
 
-import { useSessionStore } from '@/stores';
+import { useEncryptedSessionStore } from '@/stores';
 
 interface CreateConnectionModalProps {
   isOpen: boolean;
@@ -18,18 +18,29 @@ const CreateConnectionModal = ({
 }: CreateConnectionModalProps) => {
   const t = useTranslations('CreateConnectionModal');
   const [connectionData, setConnectionData] = useState<string | null>(null);
-  const { request, session, changeRequest, changeSession } = useSessionStore(
-    (state) => ({
-      request: state.request,
-      session: state.session,
-      changeRequest: state.changeRequest,
-      changeSession: state.changeSession,
-    })
-  );
+  const {
+    request,
+    session,
+    changeRequest,
+    changeSession,
+    changeChannelId,
+    changeConnected,
+    changeHasCamera,
+    changeDeviceType,
+  } = useEncryptedSessionStore((state) => ({
+    request: state.request,
+    session: state.session,
+    changeRequest: state.changeRequest,
+    changeSession: state.changeSession,
+    changeChannelId: state.changeChannelId,
+    changeConnected: state.changeConnected,
+    changeHasCamera: state.changeHasCamera,
+    changeDeviceType: state.changeDeviceType,
+  }));
 
   const createSession = async (): Promise<string> => {
     // Create session ID
-    const sessionId = crypto.randomUUID();
+    const channelId = crypto.randomUUID();
 
     const key = await crypto.subtle.generateKey(
       {
@@ -48,17 +59,17 @@ const CreateConnectionModal = ({
 
     // Set global session data
     changeSession({
-      sessionId,
       key,
       exp,
-      connected: false,
-      hasCamera: false,
-      deviceType: 'primary',
     });
+    changeConnected(false);
+    changeHasCamera(false);
+    changeDeviceType('primary');
+    changeChannelId(channelId);
 
     // Create session
     return JSON.stringify({
-      sessionId,
+      channelId,
       keyData,
       exp,
     });
@@ -67,10 +78,7 @@ const CreateConnectionModal = ({
   useEffect(() => {
     if (isOpen) {
       createSession()
-        .then((data) => {
-          console.log(data);
-          setConnectionData(data);
-        })
+        .then((data) => setConnectionData(data))
         .catch(console.error);
     }
   }, [isOpen]);

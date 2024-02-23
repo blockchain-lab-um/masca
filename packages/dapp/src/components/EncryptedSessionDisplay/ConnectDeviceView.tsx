@@ -1,36 +1,48 @@
 import React, { useEffect, useState } from 'react';
-import { uint8ArrayToHex } from '@blockchain-lab-um/masca-connector';
 import { useTranslations } from 'next-intl';
 import { useAccount } from 'wagmi';
 
 import Button from '@/components/Button';
 import CreateConnectionModal from '@/components/ConnectionModal/CreateConnectionModal';
 import ScanQRCodeModal from '@/components/ScanQRCodeModal/ScanQRCodeModal';
-import { useSessionStore, useToastStore } from '@/stores';
+import { useEncryptedSessionStore, useToastStore } from '@/stores';
 
 export const ConnectDeviceView = () => {
   const t = useTranslations('ConnectDeviceView');
   const { isConnected } = useAccount();
-  const { session, changeSession } = useSessionStore((state) => ({
+  const {
+    session,
+    connected,
+    deviceType,
+    hasCamera,
+    changeSession,
+    changeConnected,
+    changeChannelId,
+  } = useEncryptedSessionStore((state) => ({
     session: state.session,
+    connected: state.connected,
+    deviceType: state.deviceType,
+    hasCamera: state.hasCamera,
     changeSession: state.changeSession,
+    changeConnected: state.changeConnected,
+    changeChannelId: state.changeChannelId,
   }));
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isConnectionModalOpen, setIsConnectionModalOpen] = useState(false);
 
   useEffect(() => {
     // Close connect QR modal if connection is established
-    if (session.connected && isModalOpen) {
+    if (connected && isModalOpen) {
       setIsModalOpen(false);
     }
-  }, [session.connected]);
+  }, [connected]);
 
   const onScanSuccessConnectionQRCode = async (decodedText: string, _: any) => {
     if (isConnectionModalOpen) {
       setIsConnectionModalOpen(false);
     }
     // Close if already connected
-    if (session.connected) return;
+    if (connected) return;
 
     try {
       const data = JSON.parse(decodedText);
@@ -46,40 +58,24 @@ export const ConnectDeviceView = () => {
       );
 
       changeSession({
-        ...session,
-        sessionId: data.sessionId,
         key: decryptionKey,
         exp: data.exp,
-        connected: true,
       });
+      changeConnected(true);
+      changeChannelId(data.channelId);
 
-      // Encrypt data
-      const iv = crypto.getRandomValues(new Uint8Array(12));
+      // const response = await fetch(`/api/qr-code-session/${data.sessionId}`, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({
+      //     data: uint8ArrayToHex(encryptedData),
+      //     iv: uint8ArrayToHex(iv),
+      //   }),
+      // });
 
-      const encodedText = new TextEncoder().encode('Created Connection');
-
-      const encryptedData = new Uint8Array(
-        await crypto.subtle.encrypt(
-          {
-            name: 'AES-GCM',
-            iv,
-          },
-          decryptionKey,
-          encodedText
-        )
-      );
-      const response = await fetch(`/api/qr-code-session/${data.sessionId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          data: uint8ArrayToHex(encryptedData),
-          iv: uint8ArrayToHex(iv),
-        }),
-      });
-
-      if (!response.ok) throw new Error();
+      // if (!response.ok) throw new Error();
 
       setTimeout(() => {
         useToastStore.setState({
@@ -105,7 +101,7 @@ export const ConnectDeviceView = () => {
 
   return (
     <div className="">
-      {session.deviceType === 'primary' && !session.hasCamera && (
+      {deviceType === 'primary' && !hasCamera && (
         <>
           {isConnected && (
             <>
@@ -126,9 +122,9 @@ export const ConnectDeviceView = () => {
           {!isConnected && <div>{t('connect')}</div>}
         </>
       )}
-      {session.hasCamera && (
+      {hasCamera && (
         <>
-          {session.deviceType === 'secondary' && (
+          {deviceType === 'secondary' && (
             <>
               <div className="dark:bg-navy-blue-700 rounded-xl bg-gray-100 p-4">
                 <div>{t('start-secondary')}</div>
@@ -138,13 +134,12 @@ export const ConnectDeviceView = () => {
                   variant="primary"
                   onClick={() => {
                     // Reset session if already set
+                    changeChannelId(null);
                     changeSession({
-                      ...session,
-                      sessionId: null,
                       key: null,
                       exp: null,
-                      connected: false,
                     });
+                    changeConnected(false);
                     setIsConnectionModalOpen(true);
                   }}
                 >

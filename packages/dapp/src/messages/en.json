@@ -447,10 +447,10 @@
     "qr-invalid-error": "Invalid QR code",
     "starting-error": "Failed to start QR code scanner"
   },
-  "QRCodeSessionProvider": {
+  "EncryptedSessionProvider": {
     "unsuported": "Unsuported QR code data received"
   },
-  "QRSessionDisplay": {
+  "EncryptedSessionDisplay": {
     "back": "Back",
     "fifth": "Fifth Step",
     "fifth-desc": "Finish Flow",
