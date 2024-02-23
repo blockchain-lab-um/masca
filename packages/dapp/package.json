@@ -18,7 +18,8 @@
     "lint:prettier": "prettier . --check",
     "lint:stylelint": "stylelint \"src/**/*.{css,scss}\"",
     "lint:tsc": "tsc -p tsconfig.json --noEmit --incremental false",
-    "start": "next start"
+    "start": "next start",
+    "supabase:generate": "supabase gen types typescript --project-id vfxyvzkprpeegheyapzg --schema public > src/utils/supabase/database.types.ts"
   },
   "dependencies": {
     "@blockchain-lab-um/did-provider-key": "1.0.8-beta.0",

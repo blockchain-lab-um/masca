@@ -4,7 +4,7 @@ import Controlbar from '@/components/Controlbar/Controlbar';
 import DashboardDisplay from '@/components/DashboardDisplay';
 
 export const metadata: Metadata = {
-  title: 'Dashboard',
+  title: 'Credentials',
   description: 'Dashboard for Masca Dapp.',
 };
 
