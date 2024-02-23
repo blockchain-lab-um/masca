@@ -29,7 +29,7 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
       isSessionConnect: state.connected,
     }));
 
-  const changeRequestData = useQRCodeStore((state) => state.changeRequestData);
+  const changeRequestData = useQRCodeStore((state) => state.changeRequestData); // TODO: Where was this used
 
   const onScanSuccessQRCode = async (decodedText: string, _: any) => {
     // Same device

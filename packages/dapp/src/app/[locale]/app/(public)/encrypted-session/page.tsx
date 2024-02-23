@@ -3,8 +3,8 @@ import { Metadata } from 'next';
 import EncryptedSessionDisplay from '@/components/EncryptedSessionDisplay';
 
 export const metadata: Metadata = {
-  title: 'QR Code Session',
-  description: 'QR Code Session for Masca.',
+  title: 'Encrypted Session',
+  description: 'Encrypted Session for Masca.',
 };
 
 export default function Page() {

@@ -24,7 +24,7 @@
         "create-credential": "Create a custom credential",
         "documentation": "Read the Masca documentation",
         "get-credential": "Get your credential using the OpenID Connect protocol",
-        "qr-code-session": "Create session to scan QR codes using your mobile device",
+        "qr-code-session": "Create an encrypted session to scan QR codes using your mobile device",
         "qr-scanner": "Receive credentials and share presentations by scanning QR codes",
         "shared-presentations": "Check your shared presentations",
         "verify-data": "Verify credentials & presentations"

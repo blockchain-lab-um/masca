@@ -119,7 +119,7 @@ export const EncryptedSessionProvider = () => {
             title: 'Polygon Authorization Request received',
             type: 'info',
             loading: false,
-            link: `/app/qr-code-session`,
+            link: `/app/encrypted-session`,
           });
         }, 200);
 
