@@ -13,7 +13,7 @@ import { NavConnection } from './NavConnection';
 
 const MAIN_LINKS = [
   {
-    name: 'dashboard',
+    name: 'credentials',
     href: '/app',
     requiresConnection: false,
   },
