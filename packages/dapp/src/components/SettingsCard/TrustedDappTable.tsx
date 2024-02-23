@@ -27,7 +27,42 @@ export const TrustedDappTable = () => {
   const [permissions, setPermissions] = useState<
     Record<string, DappPermissions>
   >({});
-  const [currentDapp, setCurrentDapp] = useState<any>({});
+  const [currentDapp, setCurrentDapp] = useState<any>({
+    permissions: {
+      trusted: false,
+      methods: {
+        queryCredentials: false,
+        saveCredential: false,
+        createPresentation: false,
+        deleteCredential: false,
+        togglePopups: false,
+        addTrustedDapp: false,
+        removeTrustedDapp: false,
+        getDID: false,
+        getSelectedMethod: false,
+        getAvailableMethods: false,
+        switchDIDMethod: false,
+        getCredentialStore: false,
+        setCredentialStore: false,
+        getAvailableCredentialStores: false,
+        getAccountSettings: false,
+        getSnapSettings: false,
+        getWalletId: false,
+        resolveDID: false,
+        createCredential: false,
+        setCurrentAccount: false,
+        verifyData: false,
+        handleCredentialOffer: false,
+        handleAuthorizationRequest: false,
+        setCeramicSession: false,
+        validateStoredCeramicSession: false,
+        exportStateBackup: false,
+        importStateBackup: false,
+        signData: false,
+        changePermission: false,
+      },
+    },
+  });
   const [origin, setOrigin] = useState<string>(window.location.origin);
   const { api } = useMascaStore((state) => ({
     api: state.mascaApi,
@@ -98,7 +133,12 @@ export const TrustedDappTable = () => {
     if (!url) return;
 
     try {
-      let { hostname } = new URL(url);
+      let newUrl = url;
+      if (!url.startsWith('http') || !url.startsWith('https')) {
+        newUrl = `https://${url}`;
+      }
+
+      let { hostname } = new URL(newUrl);
 
       if (!permissions) return;
 
@@ -334,13 +374,13 @@ export const TrustedDappTable = () => {
                         ...currentDapp,
                         permissions: {
                           ...currentDapp.permissions,
-                          trustedDapp: res,
+                          trusted: res,
                         },
                       });
                     })
                     .catch((err) => {});
                 }}
-                isSelected={currentDapp.permissions.trustedDapp}
+                isSelected={currentDapp.permissions.trusted}
               >
                 <div className="text-navy-blue-50 flex">
                   {t('disable-popups')}
@@ -361,7 +401,7 @@ export const TrustedDappTable = () => {
                     })
                     .catch((err) => {});
                 }}
-                isSelected={currentDapp.permissions.queryCredentials}
+                isSelected={currentDapp.permissions.methods.queryCredentials}
               >
                 <div className="text-navy-blue-50 flex">
                   {t('query')}
