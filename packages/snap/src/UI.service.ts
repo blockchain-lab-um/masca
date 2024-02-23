@@ -123,9 +123,12 @@ class UIService {
     );
 
     if (res && !permission) {
+      const initialPermissions = getInitialPermissions();
+      initialPermissions.methods.queryCredentials = true;
+
       state[CURRENT_STATE_VERSION].config.dApp.permissions[
         this.originHostname
-      ] = { ...getInitialPermissions(), queryCredentials: true };
+      ] = initialPermissions;
     }
 
     return res;

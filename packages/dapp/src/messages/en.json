@@ -352,6 +352,7 @@
   },
   "TrustedDappTable": {
     "add-failed": "Failed to add trusted dapp",
+    "get-failed": "Failed to get Masca settings",
     "change-failed": "Failed to change permissions",
     "add-masca": "Add masca.io to trusted dapps",
     "added": "Trusted dapp added",

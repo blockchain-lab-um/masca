@@ -94,8 +94,8 @@ const initialPermissions: DappPermissions = {
     exportStateBackup: false,
     importStateBackup: false,
     signData: false,
-    changePermission: false
-  }
+    changePermission: false,
+  },
 };
 
 export const getInitialPermissions = () => cloneDeep(initialPermissions);

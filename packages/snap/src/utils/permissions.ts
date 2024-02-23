@@ -36,7 +36,7 @@ export function isTrustedDapp(
   state: MascaState
 ): boolean {
   const permissions = getDappPermissions(originHostname, state);
-  return permissions.trustedDapp as boolean;
+  return permissions.trusted as boolean;
 }
 
 export function isPermitted(
@@ -44,9 +44,9 @@ export function isPermitted(
   state: MascaState,
   method: MascaRPCRequest['method'] | 'other'
 ) {
-  if (originHostname === 'other') {
+  if (method === 'other') {
     return true;
   }
   const permissions = getDappPermissions(originHostname, state);
-  return permissions[method as MascaRPCRequest['method']] as boolean;
+  return permissions.methods[method as MascaRPCRequest['method']] as boolean;
 }

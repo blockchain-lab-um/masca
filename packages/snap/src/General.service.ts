@@ -84,7 +84,7 @@ class GeneralService {
     if (permissionExists(params.originHostname, state)) {
       state[CURRENT_STATE_VERSION].config.dApp.permissions[
         params.originHostname
-      ].trustedDapp = true;
+      ].trusted = true;
       return;
     }
 
@@ -92,7 +92,7 @@ class GeneralService {
       params.originHostname
     ] = {
       ...getInitialPermissions(),
-      trustedDapp: true,
+      trusted: true,
     };
   }
 
@@ -117,7 +117,7 @@ class GeneralService {
     ) {
       state[CURRENT_STATE_VERSION].config.dApp.permissions[
         params.originHostname
-      ].trustedDapp = false;
+      ].trusted = false;
     }
   }
 
@@ -142,16 +142,19 @@ class GeneralService {
     // If the user accepts the pop-up, change the permission
 
     if (permissionExists(params.originHostname, state)) {
+      console.log('here', params.method, params.value, params.originHostname);
       state[CURRENT_STATE_VERSION].config.dApp.permissions[
         params.originHostname
-      ][params.method as MascaRPCRequest['method']] = params.value;
+      ].methods[params.method as MascaRPCRequest['method']] = params.value;
     } else {
+      console.log('here2');
+      const initialPermissions = getInitialPermissions();
+      initialPermissions.methods[params.method as MascaRPCRequest['method']] =
+        params.value;
+
       state[CURRENT_STATE_VERSION].config.dApp.permissions[
         params.originHostname
-      ] = {
-        ...getInitialPermissions(),
-        [params.method]: params.value,
-      };
+      ] = initialPermissions;
     }
     return params.value;
   }

@@ -8,11 +8,14 @@ import type {
 } from './constants.js';
 import { MascaRPCRequest } from './requests.js';
 
-export type DappPermissions = {
+export type MethodPermissions = {
   [key in MascaRPCRequest['method']]: boolean;
-} & {
-  trustedDapp: boolean;
 };
+
+export interface DappPermissions {
+  methods: MethodPermissions;
+  trusted: boolean;
+}
 
 export interface MascaConfig {
   snap: {

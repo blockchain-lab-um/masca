@@ -49,7 +49,7 @@ describe('addTrustedDapp', () => {
 
     expect(
       state[CURRENT_STATE_VERSION].config.dApp.permissions.localhost
-    ).toStrictEqual({ ...getInitialPermissions(), trustedDapp: true });
+    ).toStrictEqual({ ...getInitialPermissions(), trusted: true });
 
     expect.assertions(2);
   });
@@ -85,7 +85,7 @@ describe('addTrustedDapp', () => {
       state[CURRENT_STATE_VERSION].config.dApp.permissions[
         'random-different.com'
       ]
-    ).toStrictEqual({ ...getInitialPermissions(), trustedDapp: true });
+    ).toStrictEqual({ ...getInitialPermissions(), trusted: true });
 
     expect.assertions(2);
   });
@@ -94,7 +94,7 @@ describe('addTrustedDapp', () => {
     const defaultState = getDefaultSnapState(account);
     defaultState[CURRENT_STATE_VERSION].config.dApp.permissions.localhost = {
       ...getInitialPermissions(),
-      trustedDapp: true,
+      trusted: true,
     };
     await snapMock.rpcMocks.snap_manageState({
       operation: 'update',
@@ -123,7 +123,7 @@ describe('addTrustedDapp', () => {
 
     expect(
       state[CURRENT_STATE_VERSION].config.dApp.permissions.localhost
-    ).toStrictEqual({ ...getInitialPermissions(), trustedDapp: true });
+    ).toStrictEqual({ ...getInitialPermissions(), trusted: true });
 
     expect.assertions(2);
   });
@@ -134,7 +134,7 @@ describe('addTrustedDapp', () => {
     const defaultState = getDefaultSnapState(account);
     defaultState[CURRENT_STATE_VERSION].config.dApp.permissions.localhost2 = {
       ...getInitialPermissions(),
-      trustedDapp: true,
+      trusted: true,
     };
     await snapMock.rpcMocks.snap_manageState({
       operation: 'update',
