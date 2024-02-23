@@ -11,7 +11,7 @@ export default defineConfig({
     include: process.env.CRON
       ? ['tests/cron/**/*.spec.ts']
       : ['tests/e2e/**/*.spec.ts', 'tests/unit/**/*.spec.ts'],
-    silent: false,
+    silent: true,
     cache: false,
     environment: 'node', // or 'happy-dom', 'jsdom'
     server: {
