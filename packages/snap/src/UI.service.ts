@@ -18,7 +18,12 @@ import { W3CVerifiableCredential } from '@veramo/core';
 
 import StorageService from './storage/Storage.service';
 import { getInitialPermissions } from './utils/config';
-import { isPermitted, isTrustedDapp } from './utils/permissions';
+import {
+  getPermissions,
+  isPermitted,
+  isTrustedDapp,
+  permissionExists,
+} from './utils/permissions';
 
 const permissionActions: Record<string, string> = {
   queryCredentials: 'Querying Credentials',
@@ -122,13 +127,21 @@ class UIService {
       'queryCredentials'
     );
 
+    const isTrusted = isTrustedDapp(this.originHostname, state);
+
+    if (res && isTrusted) return res;
+
     if (res && !permission) {
-      const initialPermissions = getInitialPermissions();
-      initialPermissions.methods.queryCredentials = true;
+      let newPermissions = getInitialPermissions();
+
+      if (permissionExists(this.originHostname, state)) {
+        newPermissions = getPermissions(state)[this.originHostname];
+      }
+      newPermissions.methods.queryCredentials = true;
 
       state[CURRENT_STATE_VERSION].config.dApp.permissions[
         this.originHostname
-      ] = initialPermissions;
+      ] = newPermissions;
     }
 
     return res;

@@ -551,11 +551,15 @@ class SnapService {
         return ResultObject.success(res);
       case 'addTrustedDapp':
         // If the origin is masca.io, any HOSTNAME can be added. Expect parameter to be a hostname!
-        if (origin === 'masca.io') trustedOrigin = params.origin;
+        if (origin === 'masca.io' || origin === 'beta.masca.io')
+          trustedOrigin = params.origin;
         await GeneralService.addTrustedDapp({ originHostname: trustedOrigin });
         return ResultObject.success(true);
       case 'removeTrustedDapp':
-        if (origin !== 'masca.io' && origin !== params.origin)
+        if (
+          !(origin === 'masca.io' || origin === 'beta.masca.io') &&
+          origin !== params.origin
+        )
           throw new Error('Unauthorized to remove other dApps');
         await GeneralService.removeTrustedDapp({
           originHostname: trustedOrigin,
@@ -566,7 +570,8 @@ class SnapService {
         //   throw new Error('Can be only called from https://masca.io/');
         isValidChangePermissionRequest(params);
 
-        if (origin === 'masca.io') trustedOrigin = params.origin;
+        if (origin === 'masca.io' || origin === 'beta.masca.io')
+          trustedOrigin = params.origin;
 
         res = await GeneralService.changePermission({
           originHostname: trustedOrigin,
@@ -574,6 +579,32 @@ class SnapService {
           value: params.value,
         });
         return ResultObject.success(res);
+      case 'addDappSettings':
+        if (
+          origin === 'masca.io' ||
+          origin === 'beta.masca.io' ||
+          origin === 'localhost'
+        ) {
+          if (!params?.origin) throw new Error('Origin is required');
+          if (!(typeof params.origin === 'string'))
+            throw new Error('Origin must be a string');
+          res = await GeneralService.addDappSettings(params.origin);
+          return ResultObject.success(res);
+        }
+        return ResultObject.error('Unauthorized to change settings.');
+      case 'removeDappSettings':
+        if (
+          origin === 'masca.io' ||
+          origin === 'beta.masca.io' ||
+          origin === 'localhost'
+        ) {
+          if (!params?.origin) throw new Error('Origin is required');
+          if (!(typeof params.origin === 'string'))
+            throw new Error('Origin must be a string');
+          res = await GeneralService.removeDappSettings(params.origin);
+          return ResultObject.success(res);
+        }
+        return ResultObject.error('Unauthorized to change settings.');
       case 'switchDIDMethod':
         isValidSwitchMethodRequest(params);
         await GeneralService.switchDIDMethod(params);

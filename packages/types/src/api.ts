@@ -91,4 +91,6 @@ export interface MascaApi {
     method: 'queryCredentials',
     value: boolean
   ): Promise<Result<boolean>>;
+  addDappSettings(origin: string): Promise<Result<boolean>>;
+  removeDappSettings(origin: string): Promise<Result<boolean>>;
 }

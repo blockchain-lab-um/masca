@@ -95,6 +95,8 @@ const initialPermissions: DappPermissions = {
     importStateBackup: false,
     signData: false,
     changePermission: false,
+    addDappSettings: false,
+    removeDappSettings: false,
   },
 };
 

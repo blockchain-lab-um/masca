@@ -129,6 +129,7 @@ class GeneralService {
     const state = StorageService.get();
     // Do a popper upper
 
+    console.log('here CP');
     // If the user rejects the pop-up, throw an error
     if (
       !(await UIService.changePermissionDialog({
@@ -157,6 +158,36 @@ class GeneralService {
       ] = initialPermissions;
     }
     return params.value;
+  }
+
+  /**
+   * Function that adds dapp settings
+   * @param originHostname - hostname of the dapp
+   * @returns boolean - whether the dapp settings were added
+   */
+  static async addDappSettings(originHostname: string): Promise<boolean> {
+    const state = StorageService.get();
+
+    if (!permissionExists(originHostname, state)) {
+      state[CURRENT_STATE_VERSION].config.dApp.permissions[originHostname] =
+        getInitialPermissions();
+
+      return true;
+    }
+    return false;
+  }
+
+  static async removeDappSettings(originHostname: string): Promise<boolean> {
+    const state = StorageService.get();
+
+    if (permissionExists(originHostname, state)) {
+      delete state[CURRENT_STATE_VERSION].config.dApp.permissions[
+        originHostname
+      ];
+
+      return true;
+    }
+    return false;
   }
 
   /**

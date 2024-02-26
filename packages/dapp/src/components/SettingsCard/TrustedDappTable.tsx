@@ -1,29 +1,30 @@
-import React, { SetStateAction, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   DappPermissions,
   isError,
   isSuccess,
   MascaConfig,
 } from '@blockchain-lab-um/masca-connector';
+import { Cog6ToothIcon, TrashIcon } from '@heroicons/react/24/solid';
 import {
-  Checkbox,
   Modal,
   ModalBody,
   ModalContent,
   ModalHeader,
+  Switch,
   useDisclosure,
 } from '@nextui-org/react';
 import { useTranslations } from 'next-intl';
 
 import { useMascaStore, useToastStore } from '@/stores';
 import Button from '../Button';
-import InfoIcon from '../InfoIcon';
 import InputField from '../InputField';
 
 export const TrustedDappTable = () => {
   const t = useTranslations('TrustedDappTable');
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [settings, setSettings] = useState<MascaConfig>();
+  const [loading, setLoading] = useState<boolean>(false);
   const [permissions, setPermissions] = useState<
     Record<string, DappPermissions>
   >({});
@@ -60,6 +61,8 @@ export const TrustedDappTable = () => {
         importStateBackup: false,
         signData: false,
         changePermission: false,
+        addDappSettings: false,
+        removeDappSettings: false,
       },
     },
   });
@@ -130,64 +133,54 @@ export const TrustedDappTable = () => {
   };
 
   const addDappToList = async (url: string) => {
-    if (!url) return;
+    if (!url || !api) return;
 
     try {
       let newUrl = url;
-      if (!url.startsWith('http') || !url.startsWith('https')) {
+      if (!url.startsWith('http') && !url.startsWith('https')) {
         newUrl = `https://${url}`;
       }
 
       let { hostname } = new URL(newUrl);
 
-      if (!permissions) return;
-
       // remove www. from hostname
       if (hostname.startsWith('www.')) {
         hostname = hostname.slice(4);
       }
-
-      const newDappPermission = {
-        trusted: false,
-        methods: {
-          queryCredentials: false,
-          saveCredential: false,
-          createPresentation: false,
-          deleteCredential: false,
-          togglePopups: false,
-          addTrustedDapp: false,
-          removeTrustedDapp: false,
-          getDID: false,
-          getSelectedMethod: false,
-          getAvailableMethods: false,
-          switchDIDMethod: false,
-          getCredentialStore: false,
-          setCredentialStore: false,
-          getAvailableCredentialStores: false,
-          getAccountSettings: false,
-          getSnapSettings: false,
-          getWalletId: false,
-          resolveDID: false,
-          createCredential: false,
-          setCurrentAccount: false,
-          verifyData: false,
-          handleCredentialOffer: false,
-          handleAuthorizationRequest: false,
-          setCeramicSession: false,
-          validateStoredCeramicSession: false,
-          exportStateBackup: false,
-          importStateBackup: false,
-          signData: false,
-          changePermission: false,
-        },
-      };
-
-      setPermissions({
-        ...permissions,
-        [hostname]: newDappPermission,
-      } as SetStateAction<Record<string, DappPermissions>>);
+      const res = await api.addDappSettings(hostname);
+      await snapGetSettings();
+      if (isError(res)) {
+        setTimeout(() => {
+          useToastStore.setState({
+            open: true,
+            title: t('add-dapp-failed'),
+            type: 'error',
+            loading: false,
+            link: null,
+          });
+        }, 200);
+      }
     } catch (e) {
       console.log(e);
+    }
+  };
+
+  const removeDappFromList = async (originHostname: string) => {
+    if (!originHostname || !api) return;
+
+    const res = await api.removeDappSettings(originHostname);
+    await snapGetSettings();
+
+    if (isError(res)) {
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: t('remove-dapp-failed'),
+          type: 'error',
+          loading: false,
+          link: null,
+        });
+      }, 200);
     }
   };
 
@@ -305,22 +298,31 @@ export const TrustedDappTable = () => {
 
         return (
           <tr
-            className="dark:border-navy-blue-500 border-t-2 border-gray-200 text-sm"
+            className="text-sm border-t-2 border-gray-200 dark:border-navy-blue-500"
             key={i}
           >
-            <td className="dark:text-navy-blue-200 p-2 text-start text-xl font-medium">
+            <td className="p-2 text-xl font-medium dark:text-navy-blue-200 text-start">
               {app}
             </td>
-            <td className="flex justify-end p-2 text-end">
-              <Button
+            <td className="flex items-center justify-end p-2 gap-x-2 text-end">
+              <button
                 onClick={() => {
                   openModal({ title: app, permissions: dappPermissions });
                 }}
-                variant={'primary'}
-                size="icon"
               >
-                {t('manage')}
-              </Button>
+                <Cog6ToothIcon className="w-6 h-6 text-gray-700 animated-transition dark:text-navy-blue-300 hover:opacity-80" />
+              </button>
+              <button
+                onClick={() => {
+                  removeDappFromList(app)
+                    .then((res) => {})
+                    .catch((err) => {
+                      console.log(err);
+                    });
+                }}
+              >
+                <TrashIcon className="w-6 h-6 text-red-500 animated-transition hover:opacity-80" />
+              </button>
             </td>
           </tr>
         );
@@ -330,10 +332,10 @@ export const TrustedDappTable = () => {
 
   return (
     <>
-      <p className="text-md dark:text-navy-blue-400 text-gray-700">
+      <p className="text-gray-700 text-md dark:text-navy-blue-400">
         {t('popups-desc')}
       </p>
-      <div className="mt-4 flex w-1/2 gap-x-4">
+      <div className="flex w-1/2 mt-4 gap-x-4">
         <InputField value={origin} setValue={setOrigin} />
         <Button
           variant="primary"
@@ -346,10 +348,10 @@ export const TrustedDappTable = () => {
         </Button>
       </div>
 
-      <table className="dark:border-navy-blue-200 my-5 w-full border-2 border-gray-300">
+      <table className="w-full my-5 border-2 border-gray-300 dark:border-navy-blue-200">
         <thead>
           <tr className="text-md">
-            <th className="dark:text-navy-blue-300 p-2 text-start">
+            <th className="p-2 dark:text-navy-blue-300 text-start">
               {t('app-url')}
             </th>
             <th></th>
@@ -366,52 +368,65 @@ export const TrustedDappTable = () => {
             </div>
           </ModalHeader>
           <ModalBody>
-            <div className="mb-4 flex flex-col gap-y-4">
-              <Checkbox
-                onValueChange={(e) => {
-                  manageTrustedDapp(e, currentDapp.title)
-                    .then((res) => {
-                      setCurrentDapp({
-                        ...currentDapp,
-                        permissions: {
-                          ...currentDapp.permissions,
-                          trusted: res,
-                        },
-                      });
-                    })
-                    .catch((err) => {});
-                }}
-                isSelected={currentDapp.permissions.trusted}
-              >
-                <div className="text-navy-blue-50 flex">
-                  {t('disable-popups')}
-                  <InfoIcon content={t('disable-popups-desc')} />
+            <div className="flex flex-col mb-4 gap-y-4">
+              <div className="flex justify-between">
+                <div className="flex flex-col gap-1">
+                  <p className="text-medium">{t('disable-popups')}</p>
+                  <p className="text-gray-500 text-tiny dark:text-navy-blue-400">
+                    {t('disable-popups-desc')}
+                  </p>
                 </div>
-              </Checkbox>
-              <Checkbox
-                onValueChange={(e) => {
-                  managePermissions(e, currentDapp.title)
-                    .then((res) => {
-                      setCurrentDapp({
-                        ...currentDapp,
-                        permissions: {
-                          ...currentDapp.permissions,
-                          methods: {
-                            ...currentDapp.permissions.methods,
-                            queryCredentials: res,
+                <Switch
+                  isSelected={currentDapp.permissions.trusted}
+                  onValueChange={(e) => {
+                    manageTrustedDapp(e, currentDapp.title)
+                      .then((res) => {
+                        setCurrentDapp({
+                          ...currentDapp,
+                          permissions: {
+                            ...currentDapp.permissions,
+                            trusted: res,
                           },
-                        },
-                      });
-                    })
-                    .catch((err) => {});
-                }}
-                isSelected={currentDapp.permissions.methods.queryCredentials}
-              >
-                <div className="text-navy-blue-50 flex">
-                  {t('query')}
-                  <InfoIcon content={t('query-desc')} />
+                        });
+                      })
+                      .catch((err) => {});
+                  }}
+                  classNames={{
+                    wrapper: 'bg-gray-300 dark:bg-navy-blue-500',
+                  }}
+                />
+              </div>
+
+              <div className="flex justify-between">
+                <div className="flex flex-col gap-1">
+                  <p className="text-medium">{t('query')}</p>
+                  <p className="text-gray-500 text-tiny dark:text-navy-blue-400">
+                    {t('query-desc')}
+                  </p>
                 </div>
-              </Checkbox>
+                <Switch
+                  isSelected={currentDapp.permissions.methods.queryCredentials}
+                  onValueChange={(e) => {
+                    managePermissions(e, currentDapp.title)
+                      .then((res) => {
+                        setCurrentDapp({
+                          ...currentDapp,
+                          permissions: {
+                            ...currentDapp.permissions,
+                            methods: {
+                              ...currentDapp.permissions.methods,
+                              queryCredentials: res,
+                            },
+                          },
+                        });
+                      })
+                      .catch((err) => {});
+                  }}
+                  classNames={{
+                    wrapper: 'bg-gray-300 dark:bg-navy-blue-500',
+                  }}
+                />
+              </div>
             </div>
           </ModalBody>
         </ModalContent>

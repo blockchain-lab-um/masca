@@ -252,6 +252,38 @@ async function removeTrustedDapp(
 }
 
 /**
+ * Adds a dapp to the settings list.
+ *
+ * @return Result<boolean> - true if the addition was successful
+ */
+async function addDappSettings(
+  this: Masca,
+  origin: string
+): Promise<Result<boolean>> {
+  return sendSnapMethod(
+    this,
+    { method: 'addDappSettings', params: { origin } },
+    this.snapId
+  );
+}
+
+/**
+ * Removes a dapp from the settings list.
+ *
+ * @return Result<boolean> - true if the addition was successful
+ */
+async function removeDappSettings(
+  this: Masca,
+  origin: string
+): Promise<Result<boolean>> {
+  return sendSnapMethod(
+    this,
+    { method: 'removeDappSettings', params: { origin } },
+    this.snapId
+  );
+}
+
+/**
  * Removes queryCredentials permissions for the selected dApp. Popups will appear when the dApp tries to query VCs.
  *
  * @return Result<boolean> - true if the removal was successful
@@ -631,5 +663,7 @@ export class Masca {
     getWalletId: wrapper(getWalletId.bind(this)),
     signData: wrapper(signData.bind(this)),
     changePermission: wrapper(changePermission.bind(this)),
+    addDappSettings: wrapper(addDappSettings.bind(this)),
+    removeDappSettings: wrapper(removeDappSettings.bind(this)),
   });
 }
