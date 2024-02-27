@@ -9,7 +9,7 @@ import { useAccount } from 'wagmi';
 
 const MAIN_LINKS = [
   {
-    name: 'dashboard',
+    name: 'credentials',
     href: '/app',
     requiresConnection: false,
   },
