@@ -129,7 +129,6 @@ class GeneralService {
     const state = StorageService.get();
     // Do a popper upper
 
-    console.log('here CP');
     // If the user rejects the pop-up, throw an error
     if (
       !(await UIService.changePermissionDialog({
@@ -143,12 +142,10 @@ class GeneralService {
     // If the user accepts the pop-up, change the permission
 
     if (permissionExists(params.originHostname, state)) {
-      console.log('here', params.method, params.value, params.originHostname);
       state[CURRENT_STATE_VERSION].config.dApp.permissions[
         params.originHostname
       ].methods[params.method as MascaRPCRequest['method']] = params.value;
     } else {
-      console.log('here2');
       const initialPermissions = getInitialPermissions();
       initialPermissions.methods[params.method as MascaRPCRequest['method']] =
         params.value;
