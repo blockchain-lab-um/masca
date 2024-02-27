@@ -448,7 +448,8 @@
     "starting-error": "Failed to start QR code scanner"
   },
   "EncryptedSessionProvider": {
-    "unsuported": "Unsuported QR code data received"
+    "unsuported": "Unsuported QR code data received",
+    "fetch-failed": "Failed to fetch session. Please try again."
   },
   "EncryptedSessionDisplay": {
     "back": "Back",

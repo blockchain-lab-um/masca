@@ -111,16 +111,6 @@ export const EncryptedSessionProvider = () => {
         jsonDecodedData.type ===
         'https://iden3-communication.io/authorization/1.0/request'
       ) {
-        setTimeout(() => {
-          useToastStore.setState({
-            open: true,
-            title: 'Polygon Authorization Request received',
-            type: 'info',
-            loading: false,
-            link: `/app/encrypted-session`,
-          });
-        }, 200);
-
         changeRequest({
           active: true,
           data,
@@ -162,7 +152,7 @@ export const EncryptedSessionProvider = () => {
             if (error || !data) {
               useToastStore.setState({
                 open: true,
-                title: 'Failed to fetch session. Please try again.',
+                title: t('fetch-failed'),
                 type: 'error',
                 loading: false,
                 link: null,
