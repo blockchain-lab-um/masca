@@ -298,19 +298,19 @@ export const TrustedDappTable = () => {
 
         return (
           <tr
-            className="text-sm border-t-2 border-gray-200 dark:border-navy-blue-500"
+            className="dark:border-navy-blue-500 border-t-2 border-gray-200 text-sm"
             key={i}
           >
-            <td className="p-2 text-xl font-medium dark:text-navy-blue-200 text-start">
+            <td className="dark:text-navy-blue-200 p-2 text-start text-xl font-medium">
               {app}
             </td>
-            <td className="flex items-center justify-end p-2 gap-x-2 text-end">
+            <td className="flex items-center justify-end gap-x-2 p-2 text-end">
               <button
                 onClick={() => {
                   openModal({ title: app, permissions: dappPermissions });
                 }}
               >
-                <Cog6ToothIcon className="w-6 h-6 text-gray-700 animated-transition dark:text-navy-blue-300 hover:opacity-80" />
+                <Cog6ToothIcon className="animated-transition dark:text-navy-blue-300 h-6 w-6 text-gray-700 hover:opacity-80" />
               </button>
               <button
                 onClick={() => {
@@ -321,7 +321,7 @@ export const TrustedDappTable = () => {
                     });
                 }}
               >
-                <TrashIcon className="w-6 h-6 text-red-500 animated-transition hover:opacity-80" />
+                <TrashIcon className="animated-transition h-6 w-6 text-red-500 hover:opacity-80" />
               </button>
             </td>
           </tr>
@@ -332,10 +332,10 @@ export const TrustedDappTable = () => {
 
   return (
     <>
-      <p className="text-gray-700 text-md dark:text-navy-blue-400">
+      <p className="text-md dark:text-navy-blue-400 text-gray-700">
         {t('popups-desc')}
       </p>
-      <div className="flex w-1/2 mt-4 gap-x-4">
+      <div className="mt-4 flex w-1/2 gap-x-4">
         <InputField value={origin} setValue={setOrigin} />
         <Button
           variant="primary"
@@ -348,10 +348,10 @@ export const TrustedDappTable = () => {
         </Button>
       </div>
 
-      <table className="w-full my-5 border-2 border-gray-300 dark:border-navy-blue-200">
+      <table className="dark:border-navy-blue-200 my-5 w-full border-2 border-gray-300">
         <thead>
           <tr className="text-md">
-            <th className="p-2 dark:text-navy-blue-300 text-start">
+            <th className="dark:text-navy-blue-300 p-2 text-start">
               {t('app-url')}
             </th>
             <th></th>
@@ -368,11 +368,11 @@ export const TrustedDappTable = () => {
             </div>
           </ModalHeader>
           <ModalBody>
-            <div className="flex flex-col mb-4 gap-y-4">
+            <div className="mb-4 flex flex-col gap-y-4">
               <div className="flex justify-between">
                 <div className="flex flex-col gap-1">
                   <p className="text-medium">{t('disable-popups')}</p>
-                  <p className="text-gray-500 text-tiny dark:text-navy-blue-400">
+                  <p className="text-tiny dark:text-navy-blue-400 text-gray-500">
                     {t('disable-popups-desc')}
                   </p>
                 </div>
@@ -400,7 +400,7 @@ export const TrustedDappTable = () => {
               <div className="flex justify-between">
                 <div className="flex flex-col gap-1">
                   <p className="text-medium">{t('query')}</p>
-                  <p className="text-gray-500 text-tiny dark:text-navy-blue-400">
+                  <p className="text-tiny dark:text-navy-blue-400 text-gray-500">
                     {t('query-desc')}
                   </p>
                 </div>
