@@ -5,7 +5,7 @@
   },
   "AppBottomBar": {
     "create-credential": "Create Credential",
-    "dashboard": "Credentials",
+    "credentials": "Credentials",
     "qr-scanner": "QR Code Scanner",
     "settings": "Settings",
     "verify-data": "Verify Data"
@@ -42,7 +42,7 @@
     },
     "menu": {
       "authorization-request": "Authorization Request",
-      "dashboard": "Credentials",
+      "credentials": "Credentials",
       "get-credential": "Get Credentials",
       "home": "Home",
       "other": "Other",
