@@ -8,6 +8,7 @@ import { useAccount } from 'wagmi';
 import Button from '@/components/Button';
 import ScanQRCodeModal from '@/components/ScanQRCodeModal/ScanQRCodeModal';
 import UploadButton from '@/components/UploadButton';
+import { Database } from '@/utils/supabase/database.types';
 import { useToastStore } from '@/stores';
 import { useEncryptedSessionStore } from '@/stores/encryptedSessionStore';
 import { useQRCodeStore } from '@/stores/qrCodeStore';
@@ -20,9 +21,9 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
   const t = useTranslations('ScanQRCodeView');
   const { isConnected } = useAccount();
   const [isQRCodeModalOpen, setIsQRCodeModalOpen] = useState(false);
-  const { channelId, session, deviceType, hasCamera, isSessionConnect } =
+  const { sessionId, session, deviceType, hasCamera, isSessionConnect } =
     useEncryptedSessionStore((state) => ({
-      channelId: state.channelId,
+      sessionId: state.sessionId,
       session: state.session,
       deviceType: state.deviceType,
       hasCamera: state.hasCamera,
@@ -39,9 +40,8 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
     }
 
     // Cross device (mobile <-> desktop)
-    if (!channelId || !session.key || !session.exp) return;
+    if (!sessionId || !session.key || !session.exp) return;
     if (isQRCodeModalOpen) {
-      console.log('Closing QR Scan modal...');
       setIsQRCodeModalOpen(false);
     }
     let data: string | null = null;
@@ -90,35 +90,21 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
       );
 
       // Send data
-      const client = createSupbaseClient(
+      const client = createSupbaseClient<Database>(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.SUPABASE_SECRET_KEY!
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
       );
 
-      client
-        .channel(channelId)
-        .send({
-          type: 'broadcast',
-          event: 'scan-data',
-          payload: {
-            data: uint8ArrayToHex(encryptedData),
-            iv: uint8ArrayToHex(iv),
-          },
+      const { error } = await client
+        .from('encrypted_sessions')
+        .update({
+          data: uint8ArrayToHex(encryptedData),
+          iv: uint8ArrayToHex(iv),
         })
-        .catch((e) => console.error(e));
+        .eq('id', sessionId);
 
-      setTimeout(() => {
-        useToastStore.setState({
-          open: true,
-          title: t('success'),
-          type: 'success',
-          loading: false,
-          link: null,
-        });
-      }, 200);
-      onQRCodeScanned();
+      if (error) throw new Error('Failed to send data');
     } catch (e) {
-      console.log('error', e);
       setTimeout(() => {
         useToastStore.setState({
           open: true,

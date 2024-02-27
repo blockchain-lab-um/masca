@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
     );
 
     const { data: selectData, error: selectError } = await supabase
-      .from('encrypted_realtime_sessions')
+      .from('encrypted_sessions')
       .select('id')
       .eq('user_id', user.sub);
 
@@ -51,18 +51,14 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    // If no session is found, create a new one
-    if (selectData.length === 0) {
-      const { data: insertData, error: insertError } = await supabase
-        .from('encrypted_realtime_sessions')
-        .insert({
-          user_id: user.sub,
-        })
-        .select()
-        .limit(1)
-        .single();
+    // If session is found delete it
+    if (selectData.length !== 0) {
+      const { error: deleteError } = await supabase
+        .from('encrypted_sessions')
+        .delete()
+        .eq('user_id', user.sub);
 
-      if (insertError || !insertData) {
+      if (deleteError) {
         return new NextResponse('Internal Server Error', {
           status: 500,
           headers: {
@@ -70,23 +66,30 @@ export async function GET(request: NextRequest) {
           },
         });
       }
+    }
 
-      return NextResponse.json(
-        {
-          sessionId: insertData.id,
+    // Create a new session
+    const { data: insertData, error: insertError } = await supabase
+      .from('encrypted_sessions')
+      .insert({
+        user_id: user.sub,
+      })
+      .select()
+      .limit(1)
+      .single();
+
+    if (insertError || !insertData) {
+      return new NextResponse('Internal Server Error', {
+        status: 500,
+        headers: {
+          ...CORS_HEADERS,
         },
-        {
-          status: 201,
-          headers: {
-            ...CORS_HEADERS,
-          },
-        }
-      );
+      });
     }
 
     return NextResponse.json(
       {
-        sessionId: selectData[0].id,
+        sessionId: insertData.id,
       },
       {
         status: 201,

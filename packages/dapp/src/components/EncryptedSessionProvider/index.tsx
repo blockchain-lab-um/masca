@@ -2,18 +2,22 @@
 
 import { useEffect, useMemo } from 'react';
 import { hexToUint8Array } from '@blockchain-lab-um/masca-connector';
-import { createClient as createSupbaseClient } from '@supabase/supabase-js';
 import { useTranslations } from 'next-intl';
+import { useAccount } from 'wagmi';
 
-import { Database } from '@/utils/supabase/database.types';
+import { createClient } from '@/utils/supabase/client';
 import { useMascaStore, useToastStore } from '@/stores';
+import { useAuthStore } from '@/stores/authStore';
 import { useEncryptedSessionStore } from '@/stores/encryptedSessionStore';
 
 export const EncryptedSessionProvider = () => {
   const t = useTranslations('EncryptedSessionProvider');
+  const token = useAuthStore((state) => state.token);
+
+  const { address } = useAccount();
 
   const {
-    channelId,
+    sessionId,
     session,
     request,
     deviceType,
@@ -21,7 +25,7 @@ export const EncryptedSessionProvider = () => {
     changeRequest,
     changeSession,
   } = useEncryptedSessionStore((state) => ({
-    channelId: state.channelId,
+    sessionId: state.sessionId,
     session: state.session,
     request: state.request,
     deviceType: state.deviceType,
@@ -29,16 +33,10 @@ export const EncryptedSessionProvider = () => {
     changeRequest: state.changeRequest,
     changeSession: state.changeSession,
   }));
+
   const api = useMascaStore((state) => state.mascaApi);
 
-  const client = useMemo(
-    () =>
-      createSupbaseClient<Database>(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-      ),
-    []
-  );
+  const client = useMemo(() => createClient(token ?? ''), [token]);
 
   // Decrypt data
   const decryptData = async ({
@@ -148,32 +146,48 @@ export const EncryptedSessionProvider = () => {
   };
 
   useEffect(() => {
-    if (channelId && deviceType === 'primary') {
+    if (sessionId && deviceType === 'primary') {
       client
-        .channel(channelId)
-        .on('broadcast', { event: 'data-scan' }, (message) => {
-          console.log(message);
+        .channel('realtime encrypted_sessions')
+        .on(
+          'postgres_changes',
+          { event: 'UPDATE', schema: 'public', table: 'encrypted_sessions' },
+          async () => {
+            const { data, error } = await client
+              .from('encrypted_sessions')
+              .select()
+              .eq('id', sessionId)
+              .single();
 
-          // Data to uint8array
-          // const iv = hexToUint8Array(encodedIV);
-          // const { data: encryptedData, iv: encodedIV } = message.;
+            if (error || !data) {
+              useToastStore.setState({
+                open: true,
+                title: 'Failed to fetch session. Please try again.',
+                type: 'error',
+                loading: false,
+                link: null,
+              });
 
-          // handleRequest(message.event).catch((e) => console.log(e));
-        })
-        .on('presence', { event: 'join' }, () => changeConnected(true))
-        .on('presence', { event: 'leave' }, () => changeConnected(false))
+              return;
+            }
+
+            if (data.connected) {
+              changeConnected(true);
+            }
+
+            if (!data.data || !data.iv) return;
+
+            const decryptedData = await decryptData({
+              iv: hexToUint8Array(data.iv),
+              encryptedData: data.data,
+            });
+
+            await handleRequest(decryptedData);
+          }
+        )
         .subscribe();
     }
-
-    return () => {
-      if (channelId) {
-        client
-          .channel(channelId)
-          .unsubscribe()
-          .catch((e) => console.log(e));
-      }
-    };
-  }, [channelId]);
+  }, [sessionId]);
 
   useEffect(() => {
     if (!session.exp) return;
@@ -185,6 +199,14 @@ export const EncryptedSessionProvider = () => {
       });
     }
   }, [session.exp]);
+
+  useEffect(() => {
+    changeConnected(false);
+    changeSession({
+      exp: null,
+      key: null,
+    });
+  }, [address]);
 
   return null;
 };

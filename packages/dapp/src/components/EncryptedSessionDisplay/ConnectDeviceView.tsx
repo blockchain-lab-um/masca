@@ -1,23 +1,36 @@
 import React, { useEffect, useState } from 'react';
+import { createClient as createSupbaseClient } from '@supabase/supabase-js';
 import { useTranslations } from 'next-intl';
 import { useAccount } from 'wagmi';
 
 import Button from '@/components/Button';
 import CreateConnectionModal from '@/components/ConnectionModal/CreateConnectionModal';
 import ScanQRCodeModal from '@/components/ScanQRCodeModal/ScanQRCodeModal';
+import { Database } from '@/utils/supabase/database.types';
 import { useEncryptedSessionStore, useToastStore } from '@/stores';
+import { useAuthStore } from '@/stores/authStore';
 
 export const ConnectDeviceView = () => {
   const t = useTranslations('ConnectDeviceView');
+
+  // Local state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isConnectionModalOpen, setIsConnectionModalOpen] = useState(false);
+
+  // Global state
+  const { isSignedIn, changeIsSignInModalOpen } = useAuthStore((state) => ({
+    isSignedIn: state.isSignedIn,
+    changeIsSignInModalOpen: state.changeIsSignInModalOpen,
+  }));
+
   const { isConnected } = useAccount();
   const {
-    session,
     connected,
     deviceType,
     hasCamera,
     changeSession,
     changeConnected,
-    changeChannelId,
+    changeSessionId,
   } = useEncryptedSessionStore((state) => ({
     session: state.session,
     connected: state.connected,
@@ -25,10 +38,8 @@ export const ConnectDeviceView = () => {
     hasCamera: state.hasCamera,
     changeSession: state.changeSession,
     changeConnected: state.changeConnected,
-    changeChannelId: state.changeChannelId,
+    changeSessionId: state.changeSessionId,
   }));
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isConnectionModalOpen, setIsConnectionModalOpen] = useState(false);
 
   useEffect(() => {
     // Close connect QR modal if connection is established
@@ -57,25 +68,27 @@ export const ConnectDeviceView = () => {
         ['encrypt', 'decrypt']
       );
 
+      // Send data
+      const client = createSupbaseClient<Database>(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+      );
+
+      const { error } = await client
+        .from('encrypted_sessions')
+        .update({
+          connected: true,
+        })
+        .eq('id', data.sessionId);
+
+      if (error) throw new Error('Failed to send data');
+
       changeSession({
         key: decryptionKey,
         exp: data.exp,
       });
       changeConnected(true);
-      changeChannelId(data.channelId);
-
-      // const response = await fetch(`/api/qr-code-session/${data.sessionId}`, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({
-      //     data: uint8ArrayToHex(encryptedData),
-      //     iv: uint8ArrayToHex(iv),
-      //   }),
-      // });
-
-      // if (!response.ok) throw new Error();
+      changeSessionId(data.sessionId);
 
       setTimeout(() => {
         useToastStore.setState({
@@ -87,6 +100,7 @@ export const ConnectDeviceView = () => {
         });
       }, 200);
     } catch (e) {
+      console.log(e);
       setTimeout(() => {
         useToastStore.setState({
           open: true,
@@ -113,7 +127,16 @@ export const ConnectDeviceView = () => {
                 </div>
               </div>
               <div className="mt-8 flex justify-center">
-                <Button variant="primary" onClick={() => setIsModalOpen(true)}>
+                <Button
+                  variant="primary"
+                  onClick={() => {
+                    if (!isSignedIn) {
+                      changeIsSignInModalOpen(true);
+                      return;
+                    }
+                    setIsModalOpen(true);
+                  }}
+                >
                   {t('create')}
                 </Button>
               </div>
@@ -134,7 +157,7 @@ export const ConnectDeviceView = () => {
                   variant="primary"
                   onClick={() => {
                     // Reset session if already set
-                    changeChannelId(null);
+                    changeSessionId(null);
                     changeSession({
                       key: null,
                       exp: null,

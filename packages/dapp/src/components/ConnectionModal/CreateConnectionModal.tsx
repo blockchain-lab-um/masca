@@ -1,11 +1,18 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
+import {
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  Spinner,
+} from '@nextui-org/react';
 import { useTranslations } from 'next-intl';
 import { QRCodeSVG } from 'qrcode.react';
 
-import { useEncryptedSessionStore } from '@/stores';
+import { useEncryptedSessionStore, useToastStore } from '@/stores';
+import { useAuthStore } from '@/stores/authStore';
 
 interface CreateConnectionModalProps {
   isOpen: boolean;
@@ -17,30 +24,58 @@ const CreateConnectionModal = ({
   setOpen,
 }: CreateConnectionModalProps) => {
   const t = useTranslations('CreateConnectionModal');
+
+  // Local state
   const [connectionData, setConnectionData] = useState<string | null>(null);
+
+  // Global state
+  const { token, isSignedIn } = useAuthStore((state) => ({
+    token: state.token,
+    isSignedIn: state.isSignedIn,
+  }));
+
   const {
-    request,
-    session,
-    changeRequest,
     changeSession,
-    changeChannelId,
+    changeSessionId,
     changeConnected,
     changeHasCamera,
     changeDeviceType,
   } = useEncryptedSessionStore((state) => ({
-    request: state.request,
-    session: state.session,
-    changeRequest: state.changeRequest,
     changeSession: state.changeSession,
-    changeChannelId: state.changeChannelId,
+    changeSessionId: state.changeSessionId,
     changeConnected: state.changeConnected,
     changeHasCamera: state.changeHasCamera,
     changeDeviceType: state.changeDeviceType,
   }));
 
-  const createSession = async (): Promise<string> => {
+  const createSession = async (): Promise<string | null> => {
+    if (!token || !isSignedIn) {
+      return null;
+    }
+
     // Create session ID
-    const channelId = crypto.randomUUID();
+    const createSessionResult = await fetch('/api/encrypted-session', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!createSessionResult.ok) {
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: 'Failsed to create session. Please try again.',
+          type: 'normal',
+          loading: true,
+          link: null,
+        });
+      }, 200);
+      return null;
+    }
+
+    const { sessionId } = await createSessionResult.json();
 
     const key = await crypto.subtle.generateKey(
       {
@@ -65,11 +100,11 @@ const CreateConnectionModal = ({
     changeConnected(false);
     changeHasCamera(false);
     changeDeviceType('primary');
-    changeChannelId(channelId);
+    changeSessionId(sessionId);
 
     // Create session
     return JSON.stringify({
-      channelId,
+      sessionId,
       keyData,
       exp,
     });
@@ -81,6 +116,10 @@ const CreateConnectionModal = ({
         .then((data) => setConnectionData(data))
         .catch(console.error);
     }
+
+    return () => {
+      setConnectionData(null);
+    };
   }, [isOpen]);
 
   return (
@@ -113,6 +152,9 @@ const CreateConnectionModal = ({
                       height={300}
                       width={300}
                     />
+                  )}
+                  {!connectionData && (
+                    <Spinner className="h-[300px] w-[300px]" />
                   )}
                 </div>
               </div>

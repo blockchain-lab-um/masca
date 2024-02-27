@@ -173,6 +173,38 @@ export type Database = {
         }
         Relationships: []
       }
+      encrypted_sessions: {
+        Row: {
+          connected: boolean
+          data: string | null
+          id: string
+          iv: string | null
+          user_id: string
+        }
+        Insert: {
+          connected?: boolean
+          data?: string | null
+          id?: string
+          iv?: string | null
+          user_id: string
+        }
+        Update: {
+          connected?: boolean
+          data?: string | null
+          id?: string
+          iv?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_encrypted-sessions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       presentations: {
         Row: {
           created_at: string

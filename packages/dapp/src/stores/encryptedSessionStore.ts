@@ -19,14 +19,14 @@ interface Session {
 }
 
 interface EncryptedSessionStore {
-  channelId: string | null;
+  sessionId: string | null;
   request: EncryptedRequest;
   session: Session;
   connected: boolean;
   deviceType: 'primary' | 'secondary' | null;
   hasCamera: boolean;
 
-  changeChannelId: (channelId: string | null) => void;
+  changeSessionId: (sessionId: string | null) => void;
   changeRequest: (request: EncryptedRequest) => void;
   changeSession: (session: Session) => void;
   changeConnected: (connected: boolean) => void;
@@ -35,7 +35,7 @@ interface EncryptedSessionStore {
 }
 
 export const encryptedSessionInitialState = {
-  channelId: null,
+  sessionId: null,
   request: {
     type: null,
     data: null,
@@ -55,7 +55,7 @@ export const useEncryptedSessionStore =
   createWithEqualityFn<EncryptedSessionStore>()(
     (set) => ({
       ...encryptedSessionInitialState,
-      changeChannelId: (channelId: string | null) => set({ channelId }),
+      changeSessionId: (sessionId: string | null) => set({ sessionId }),
       changeRequest: (request: EncryptedRequest) => set({ request }),
       changeSession: (session: Session) => set({ session }),
       changeConnected: (connected: boolean) => set({ connected }),
