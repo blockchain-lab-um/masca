@@ -50,3 +50,7 @@ export function isPermitted(
   const permissions = getDappPermissions(originHostname, state);
   return permissions.methods[method as MascaRPCRequest['method']] as boolean;
 }
+
+export function isTrustedDomain(originHostname: string) {
+  return ['masca.io', 'beta.masca.io'].includes(originHostname);
+}

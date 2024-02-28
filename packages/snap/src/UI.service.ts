@@ -87,10 +87,7 @@ class UIService {
     // Show popups if force is true or if popups are not disabled AND the dapp is not trusted
     if (
       force ||
-      !(
-        disablePopups ||
-        isTrustedDapp(new URL(this.originHostname).hostname, state)
-      )
+      !(disablePopups || isTrustedDapp(this.originHostname, state))
     ) {
       await snap.request({
         method: 'snap_dialog',
@@ -449,7 +446,7 @@ class UIService {
 
     const res = await UIService.snapConfirm({
       content: uiPanel,
-      method: 'signData',
+      method: 'changePermission',
     });
 
     return res;

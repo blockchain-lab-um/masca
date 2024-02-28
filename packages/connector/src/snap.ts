@@ -284,7 +284,11 @@ async function removeDappSettings(
 }
 
 /**
- * Removes queryCredentials permissions for the selected dApp. Popups will appear when the dApp tries to query VCs.
+ * Modify permissions for a specific RPC method on a specific dApp. This will disable/enable popups for said method.
+ *
+ * Currently changing permissions is only supported for the queryCredentials method.
+ *
+ * This method is only available on https://masca.io & https://beta.masca.io
  *
  * @return Result<boolean> - true if the removal was successful
  */

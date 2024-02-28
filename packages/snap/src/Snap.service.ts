@@ -7,12 +7,14 @@ import {
   HandleAuthorizationRequestParams,
   HandleCredentialOfferRequestParams,
   isPolygonSupportedMethods,
+  isValidAddDappSettingsRequest,
   isValidChangePermissionRequest,
   isValidCreateCredentialRequest,
   isValidCreatePresentationRequest,
   isValidDeleteCredentialsRequest,
   isValidImportStateBackupRequest,
   isValidQueryCredentialsRequest,
+  isValidRemoveDappSettingsRequest,
   isValidResolveDIDRequest,
   isValidSaveCredentialRequest,
   isValidSetCredentialStoreRequest,
@@ -43,6 +45,7 @@ import PolygonService from './polygon-id/Polygon.service';
 import SignerService from './Signer.service';
 import StorageService from './storage/Storage.service';
 import UIService from './UI.service';
+import { isTrustedDomain } from './utils/permissions';
 import VeramoService from './veramo/Veramo.service';
 import WalletService from './Wallet.service';
 
@@ -551,27 +554,20 @@ class SnapService {
         return ResultObject.success(res);
       case 'addTrustedDapp':
         // If the origin is masca.io, any HOSTNAME can be added. Expect parameter to be a hostname!
-        if (origin === 'masca.io' || origin === 'beta.masca.io')
-          trustedOrigin = params.origin;
+        if (isTrustedDomain(origin)) trustedOrigin = params.origin;
         await GeneralService.addTrustedDapp({ originHostname: trustedOrigin });
         return ResultObject.success(true);
       case 'removeTrustedDapp':
-        if (
-          !(origin === 'masca.io' || origin === 'beta.masca.io') &&
-          origin !== params.origin
-        )
+        if (!isTrustedDomain(origin) && origin !== params.origin)
           throw new Error('Unauthorized to remove other dApps');
         await GeneralService.removeTrustedDapp({
           originHostname: trustedOrigin,
         });
         return ResultObject.success(false);
       case 'changePermission':
-        // if (origin !== 'masca.io')
-        //   throw new Error('Can be only called from https://masca.io/');
         isValidChangePermissionRequest(params);
 
-        if (origin === 'masca.io' || origin === 'beta.masca.io')
-          trustedOrigin = params.origin;
+        if (isTrustedDomain(origin)) trustedOrigin = params.origin;
 
         res = await GeneralService.changePermission({
           originHostname: trustedOrigin,
@@ -580,29 +576,17 @@ class SnapService {
         });
         return ResultObject.success(res);
       case 'addDappSettings':
-        if (
-          origin === 'masca.io' ||
-          origin === 'beta.masca.io' ||
-          origin === 'localhost'
-        ) {
-          if (!params?.origin) throw new Error('Origin is required');
-          if (!(typeof params.origin === 'string'))
-            throw new Error('Origin must be a string');
+        if (isTrustedDomain(origin)) {
+          isValidAddDappSettingsRequest(params);
           res = await GeneralService.addDappSettings(params.origin);
-          return ResultObject.success(res);
+          return ResultObject.success(true);
         }
         return ResultObject.error('Unauthorized to change settings.');
       case 'removeDappSettings':
-        if (
-          origin === 'masca.io' ||
-          origin === 'beta.masca.io' ||
-          origin === 'localhost'
-        ) {
-          if (!params?.origin) throw new Error('Origin is required');
-          if (!(typeof params.origin === 'string'))
-            throw new Error('Origin must be a string');
+        if (isTrustedDomain(origin)) {
+          isValidRemoveDappSettingsRequest(params);
           res = await GeneralService.removeDappSettings(params.origin);
-          return ResultObject.success(res);
+          return ResultObject.success(true);
         }
         return ResultObject.error('Unauthorized to change settings.');
       case 'switchDIDMethod':

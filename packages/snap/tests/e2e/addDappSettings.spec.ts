@@ -82,7 +82,7 @@ describe('addDappSettings', () => {
       throw new Error('Should be an error');
     }
 
-    expect(res.error).toBe('Error: Origin must be a string');
+    expect(res.error).toBe('Error: invalid_argument: $input.origin');
 
     const state = await snapMock.rpcMocks.snap_manageState({
       operation: 'get',
@@ -115,7 +115,7 @@ describe('addDappSettings', () => {
       throw new Error('Should be an error');
     }
 
-    expect(res.error).toBe('Error: Origin is required');
+    expect(res.error).toBe('Error: invalid_argument: $input');
 
     const state = await snapMock.rpcMocks.snap_manageState({
       operation: 'get',

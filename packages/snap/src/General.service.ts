@@ -62,8 +62,6 @@ class GeneralService {
   /**
    * Function that lets you add a trusted dapp
    * @param dapp - dapp to add to the trusted dapps list.
-   * Function that lets you add a trusted dapp
-   * @param dapp - dapp to add to the trusted dapps list.
    * @returns void
    */
   static async addTrustedDapp(params: {
@@ -99,8 +97,6 @@ class GeneralService {
   /**
    * Function that lets you remove a trusted dapp
    * @param dapp - dapp to remove from the trusted dapps list.
-   * Function that lets you remove a trusted dapp
-   * @param dapp - dapp to remove from the trusted dapps list.
    * @returns void
    */
   static async removeTrustedDapp(params: {
@@ -127,7 +123,6 @@ class GeneralService {
     value: boolean;
   }): Promise<boolean> {
     const state = StorageService.get();
-    // Do a popper upper
 
     // If the user rejects the pop-up, throw an error
     if (
@@ -162,29 +157,19 @@ class GeneralService {
    * @param originHostname - hostname of the dapp
    * @returns boolean - whether the dapp settings were added
    */
-  static async addDappSettings(originHostname: string): Promise<boolean> {
+  static async addDappSettings(originHostname: string): Promise<void> {
     const state = StorageService.get();
+    if (permissionExists(originHostname, state)) return;
 
-    if (!permissionExists(originHostname, state)) {
-      state[CURRENT_STATE_VERSION].config.dApp.permissions[originHostname] =
-        getInitialPermissions();
-
-      return true;
-    }
-    return false;
+    state[CURRENT_STATE_VERSION].config.dApp.permissions[originHostname] =
+      getInitialPermissions();
   }
 
-  static async removeDappSettings(originHostname: string): Promise<boolean> {
+  static async removeDappSettings(originHostname: string): Promise<void> {
     const state = StorageService.get();
+    if (!permissionExists(originHostname, state)) return;
 
-    if (permissionExists(originHostname, state)) {
-      delete state[CURRENT_STATE_VERSION].config.dApp.permissions[
-        originHostname
-      ];
-
-      return true;
-    }
-    return false;
+    delete state[CURRENT_STATE_VERSION].config.dApp.permissions[originHostname];
   }
 
   /**

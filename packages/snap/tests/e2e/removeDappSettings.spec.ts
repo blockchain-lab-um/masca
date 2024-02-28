@@ -90,7 +90,7 @@ describe('removeDappSettings', () => {
       throw new Error('Should be an error');
     }
 
-    expect(res.error).toBe('Error: Origin must be a string');
+    expect(res.error).toBe('Error: invalid_argument: $input.origin');
 
     expect.assertions(1);
   });
@@ -117,7 +117,7 @@ describe('removeDappSettings', () => {
       throw new Error('Should be an error');
     }
 
-    expect(res.error).toBe('Error: Origin is required');
+    expect(res.error).toBe('Error: invalid_argument: $input');
 
     expect.assertions(1);
   });
@@ -150,7 +150,7 @@ describe('removeDappSettings', () => {
     expect.assertions(1);
   });
 
-  it('should not do anything if dapp settings already exist', async () => {
+  it('should not do anything if dapp settings do not exist', async () => {
     const defaultState = getDefaultSnapState(account);
     defaultState[CURRENT_STATE_VERSION].config.dApp.permissions.localhost =
       getInitialPermissions();
