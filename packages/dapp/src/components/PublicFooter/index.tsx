@@ -1,14 +1,35 @@
+'use client';
+
+import { Dispatch, SetStateAction } from 'react';
 import Link from 'next/link';
 
-export default function PublicFooter() {
+interface PublicFooterProps {
+  setIsMenuOpen: Dispatch<SetStateAction<boolean>> | null | undefined;
+}
+
+export default function PublicFooter({ setIsMenuOpen }: PublicFooterProps) {
   return (
-    <footer className="flex w-full flex-1 items-center justify-between p-4 md:p-12 text-xs sm:text-xs">
+    <footer className="flex h-full w-full flex-1 items-end justify-between text-xs md:text-sm">
       <p>&copy; 2024 Lutra Labs</p>
-      <div className="flex">
-        <Link href="/privacy" className="ml-4">
+      <div className="flex space-x-6 max-sm:flex-col max-sm:space-x-0 max-sm:text-right">
+        <Link
+          href="/privacy"
+          onClick={() => {
+            if (setIsMenuOpen) {
+              setIsMenuOpen(false);
+            }
+          }}
+        >
           Privacy Policy
         </Link>
-        <Link href="/tos" className="ml-4">
+        <Link
+          href="/tos"
+          onClick={() => {
+            if (setIsMenuOpen) {
+              setIsMenuOpen(false);
+            }
+          }}
+        >
           Terms of Service
         </Link>
       </div>
