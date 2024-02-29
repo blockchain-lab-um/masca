@@ -608,7 +608,6 @@ class SnapService {
       case 'setCredentialStore':
         isValidSetCredentialStoreRequest(params);
         if (isTrustedDomain(origin)) {
-          isValidRemoveDappSettingsRequest(params);
           res = await GeneralService.setCredentialStore(params);
           return ResultObject.success(res);
         }

@@ -275,7 +275,7 @@ describe('changePermission', () => {
     expect.assertions(8);
   });
 
-  it('should fail changing queryPermission for another dApp', async () => {
+  it('should fail changing queryPermission on another dApp', async () => {
     const defaultState = getDefaultSnapState(account);
 
     await snapMock.rpcMocks.snap_manageState({
@@ -297,7 +297,7 @@ describe('changePermission', () => {
       },
     })) as Result<unknown>;
 
-    expect(isSuccess(res)).toBe(true);
+    expect(isSuccess(res)).toBe(false);
     const state = await snapMock.rpcMocks.snap_manageState({
       operation: 'get',
     });

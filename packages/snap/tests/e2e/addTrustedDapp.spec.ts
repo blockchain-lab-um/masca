@@ -1,5 +1,5 @@
 import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
-import { isError, Result } from '@blockchain-lab-um/utils';
+import { isError, isSuccess, Result } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsProvider } from '@metamask/snaps-sdk';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
@@ -111,21 +111,13 @@ describe('addTrustedDapp', () => {
       },
     })) as Result<unknown>;
 
-    if (isError(res)) {
-      throw new Error(res.error);
+    if (isSuccess(res)) {
+      throw new Error('Should fail');
     }
 
-    expect(res.data).toBe(true);
+    expect(res.error).toBe('Error: No origin provided.');
 
-    const state = await snapMock.rpcMocks.snap_manageState({
-      operation: 'get',
-    });
-
-    expect(
-      state[CURRENT_STATE_VERSION].config.dApp.permissions.localhost
-    ).toStrictEqual({ ...getInitialPermissions(), trusted: true });
-
-    expect.assertions(2);
+    expect.assertions(1);
   });
 
   it('Should not show pop-up if the dapp is already in the list', async () => {
