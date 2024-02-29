@@ -5,7 +5,11 @@ import {
   isSuccess,
   MascaConfig,
 } from '@blockchain-lab-um/masca-connector';
-import { Cog6ToothIcon, TrashIcon } from '@heroicons/react/24/solid';
+import {
+  ArrowTopRightOnSquareIcon,
+  Cog6ToothIcon,
+  TrashIcon,
+} from '@heroicons/react/24/solid';
 import {
   Modal,
   ModalBody,
@@ -301,8 +305,15 @@ export const TrustedDappTable = () => {
             className="dark:border-navy-blue-500 border-t-2 border-gray-200 text-sm"
             key={i}
           >
-            <td className="dark:text-navy-blue-200 p-2 text-start text-xl font-medium">
-              {app}
+            <td className="dark:text-navy-blue-200 p-2 text-start text-lg font-medium">
+              <a
+                className="dark:text-orange-accent-dark animated-transition flex items-center gap-x-1 text-pink-500 underline hover:opacity-80"
+                href={`https://${app}`}
+                target="_blank"
+              >
+                {app}
+                <ArrowTopRightOnSquareIcon className="dark:text-orange-accent-dark h-4 w-4 text-pink-500" />
+              </a>
             </td>
             <td className="flex items-center justify-end gap-x-2 p-2 text-end">
               <button
@@ -348,7 +359,7 @@ export const TrustedDappTable = () => {
         </Button>
       </div>
 
-      <table className="dark:border-navy-blue-200 my-5 w-full border-2 border-gray-300">
+      <table className="dark:border-navy-blue-200 my-5 w-full rounded-full border-2 border-gray-300">
         <thead>
           <tr className="text-md">
             <th className="dark:text-navy-blue-300 p-2 text-start">
@@ -362,13 +373,22 @@ export const TrustedDappTable = () => {
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           <ModalHeader className="flex flex-col gap-1">
-            <div className="text-xl font-medium">
+            <div className="font-ubuntu dark:text-navy-blue-50 flex text-2xl font-medium leading-6 text-gray-800 ">
               {t('modal-title')}
-              <span className="text-2xl font-bold">{currentDapp.title}</span>
+              <span className="ml-1 font-medium">
+                <a
+                  className="dark:text-orange-accent-dark animated-transition flex items-center gap-x-1 text-pink-500 underline hover:opacity-80"
+                  href={`https://${currentDapp.title}`}
+                  target="_blank"
+                >
+                  {currentDapp.title}
+                  <ArrowTopRightOnSquareIcon className="dark:text-orange-accent-dark h-4 w-4 text-pink-500" />
+                </a>
+              </span>
             </div>
           </ModalHeader>
           <ModalBody>
-            <div className="mb-4 flex flex-col gap-y-4">
+            <div className="mb-4 mt-2 flex flex-col gap-y-4">
               <div className="flex justify-between">
                 <div className="flex flex-col gap-1">
                   <p className="text-medium">{t('disable-popups')}</p>
@@ -377,6 +397,7 @@ export const TrustedDappTable = () => {
                   </p>
                 </div>
                 <Switch
+                  size="sm"
                   isSelected={currentDapp.permissions.trusted}
                   onValueChange={(e) => {
                     manageTrustedDapp(e, currentDapp.title)
@@ -397,14 +418,16 @@ export const TrustedDappTable = () => {
                 />
               </div>
 
+              <hr />
               <div className="flex justify-between">
                 <div className="flex flex-col gap-1">
                   <p className="text-medium">{t('query')}</p>
-                  <p className="text-tiny dark:text-navy-blue-400 text-gray-500">
+                  <p className="text-tiny dark:text-navy-blue-400 max-w-[250px] text-gray-500">
                     {t('query-desc')}
                   </p>
                 </div>
                 <Switch
+                  size="sm"
                   isSelected={currentDapp.permissions.methods.queryCredentials}
                   onValueChange={(e) => {
                     managePermissions(e, currentDapp.title)

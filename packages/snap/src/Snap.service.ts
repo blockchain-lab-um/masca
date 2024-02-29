@@ -550,8 +550,11 @@ class SnapService {
        * General.service
        */
       case 'togglePopups':
-        res = await GeneralService.togglePopups();
-        return ResultObject.success(res);
+        if (isTrustedDomain(origin)) {
+          res = await GeneralService.togglePopups();
+          return ResultObject.success(res);
+        }
+        return ResultObject.error('Unauthorized to toggle popups.');
       case 'addTrustedDapp':
         // If the origin is masca.io, any HOSTNAME can be added. Expect parameter to be a hostname!
         if (isTrustedDomain(origin)) trustedOrigin = params.origin;
@@ -567,14 +570,15 @@ class SnapService {
       case 'changePermission':
         isValidChangePermissionRequest(params);
 
-        if (isTrustedDomain(origin)) trustedOrigin = params.origin;
-
-        res = await GeneralService.changePermission({
-          originHostname: trustedOrigin,
-          method: params.method,
-          value: params.value,
-        });
-        return ResultObject.success(res);
+        if (isTrustedDomain(origin)) {
+          res = await GeneralService.changePermission({
+            originHostname: params.origin,
+            method: params.method,
+            value: params.value,
+          });
+          return ResultObject.success(res);
+        }
+        return ResultObject.error('Unauthorized to change settings.');
       case 'addDappSettings':
         if (isTrustedDomain(origin)) {
           isValidAddDappSettingsRequest(params);
@@ -603,17 +607,27 @@ class SnapService {
         return ResultObject.success(res);
       case 'setCredentialStore':
         isValidSetCredentialStoreRequest(params);
-        res = await GeneralService.setCredentialStore(params);
-        return ResultObject.success(res);
+        if (isTrustedDomain(origin)) {
+          isValidRemoveDappSettingsRequest(params);
+          res = await GeneralService.setCredentialStore(params);
+          return ResultObject.success(res);
+        }
+        return ResultObject.error('Unauthorized to change credential store.');
       case 'getAvailableCredentialStores':
         res = await GeneralService.getAvailableCredentialStores();
         return ResultObject.success(res);
       case 'getAccountSettings':
-        res = await GeneralService.getAccountSettings();
-        return ResultObject.success(res);
+        if (isTrustedDomain(origin)) {
+          res = await GeneralService.getAccountSettings();
+          return ResultObject.success(res);
+        }
+        return ResultObject.error('Unauthorized to get account settings.');
       case 'getSnapSettings':
-        res = await GeneralService.getSnapSettings();
-        return ResultObject.success(res);
+        if (isTrustedDomain(origin)) {
+          res = await GeneralService.getSnapSettings();
+          return ResultObject.success(res);
+        }
+        return ResultObject.error('Unauthorized to get snap settings.');
       case 'getAvailableMethods':
         res = await GeneralService.getAvailableMethods();
         return ResultObject.success(res);
@@ -625,8 +639,11 @@ class SnapService {
         await GeneralService.validateStoredCeramicSession();
         return ResultObject.success(true);
       case 'getWalletId':
-        res = await WalletService.getWalletId();
-        return ResultObject.success(res);
+        if (isTrustedDomain(origin)) {
+          res = await WalletService.getWalletId();
+          return ResultObject.success(res);
+        }
+        return ResultObject.error('Unauthorized to get wallet id.');
 
       /**
        * Signer.service

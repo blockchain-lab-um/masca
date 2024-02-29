@@ -195,6 +195,7 @@ class UIService {
     const res = await UIService.snapConfirm({
       content: uiPanel,
       method: 'createCredential',
+      force: true,
     });
     return res;
   }
@@ -261,6 +262,7 @@ class UIService {
     const res = await UIService.snapConfirm({
       content: uiPanel,
       method: 'handleCredentialOffer',
+      force: true,
     });
     return res;
   }
@@ -278,6 +280,7 @@ class UIService {
     const res = await UIService.snapConfirm({
       content: uiPanel,
       method: 'handleAuthorizationRequest',
+      force: true,
     });
     return res;
   }
@@ -405,6 +408,7 @@ class UIService {
     const res = await UIService.snapConfirm({
       content: uiPanel,
       method: 'signData',
+      force: true,
     });
 
     return res;
@@ -421,6 +425,7 @@ class UIService {
     const res = await UIService.snapConfirm({
       content: uiPanel,
       method: 'signData',
+      force: true,
     });
 
     return res;
