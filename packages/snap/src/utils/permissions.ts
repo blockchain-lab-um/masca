@@ -52,5 +52,7 @@ export function isPermitted(
 }
 
 export function isTrustedDomain(originHostname: string) {
-  return ['masca.io', 'beta.masca.io'].includes(originHostname);
+  return ['masca.io', 'beta.masca.io', 'localhost', 'dev.masca.io'].includes(
+    originHostname
+  );
 }

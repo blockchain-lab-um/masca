@@ -63,6 +63,7 @@ const emptyAccountState = {
 
 export const getEmptyAccountState = () => cloneDeep(emptyAccountState);
 
+// order/priority: forced, global, trusted dapp, specific rpc method
 const initialPermissions: DappPermissions = {
   trusted: false,
   methods: {
