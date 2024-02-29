@@ -5,7 +5,7 @@
   },
   "AppBottomBar": {
     "create-credential": "Create Credential",
-    "dashboard": "Credentials",
+    "credentials": "Credentials",
     "qr-scanner": "QR Code Scanner",
     "settings": "Settings",
     "verify-data": "Verify Data"
@@ -42,7 +42,7 @@
     },
     "menu": {
       "authorization-request": "Authorization Request",
-      "dashboard": "Credentials",
+      "credentials": "Credentials",
       "get-credential": "Get Credentials",
       "home": "Home",
       "other": "Other",
@@ -367,10 +367,10 @@
     "removed": "Popups Re-Enabled",
     "removing": "Re-Enabling popups",
     "add": "Add",
-    "query": "Query Permissions",
-    "query-desc": "Allow dapp to query and see your credentials",
-    "disable-popups": "Disable Popups",
-    "disable-popups-desc": "Popups will not appear when using this dapp!",
+    "query": "Access Credentials",
+    "query-desc": "This dapp can always query your credentials without asking for permission",
+    "disable-popups": "Trusted dapp",
+    "disable-popups-desc": "I trust this dapp and want to disable popups",
     "modal-title": "Permissions for ",
     "manage": "Manage"
   },
