@@ -66,7 +66,7 @@ const CreateConnectionModal = ({
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Failsed to create session. Please try again.',
+          title: t('session-create-failed'),
           type: 'normal',
           loading: true,
           link: null,

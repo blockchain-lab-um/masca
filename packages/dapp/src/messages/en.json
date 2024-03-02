@@ -123,7 +123,8 @@
   },
   "CreateConnectionModal": {
     "desc": " Scan this QR code with your mobile device to create a connection to this page.",
-    "title": "Connection QR Code"
+    "title": "Connection QR Code",
+    "session-create-failed": "Failed to create session. Please try again."
   },
   "CreateCredentialDisplay": {
     "invalidMethod": "Polygon ID & Iden3 are not yet supported. Switch to any other DID method to create a credential!",
