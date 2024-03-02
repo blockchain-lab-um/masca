@@ -1,36 +1,59 @@
 import React, { useEffect, useState } from 'react';
-import { uint8ArrayToHex } from '@blockchain-lab-um/masca-connector';
+import { createClient as createSupbaseClient } from '@supabase/supabase-js';
 import { useTranslations } from 'next-intl';
 import { useAccount } from 'wagmi';
 
 import Button from '@/components/Button';
 import CreateConnectionModal from '@/components/ConnectionModal/CreateConnectionModal';
 import ScanQRCodeModal from '@/components/ScanQRCodeModal/ScanQRCodeModal';
-import { useSessionStore, useToastStore } from '@/stores';
+import { Database } from '@/utils/supabase/database.types';
+import { useEncryptedSessionStore, useToastStore } from '@/stores';
+import { useAuthStore } from '@/stores/authStore';
 
 export const ConnectDeviceView = () => {
   const t = useTranslations('ConnectDeviceView');
-  const { isConnected } = useAccount();
-  const { session, changeSession } = useSessionStore((state) => ({
-    session: state.session,
-    changeSession: state.changeSession,
-  }));
+
+  // Local state
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isConnectionModalOpen, setIsConnectionModalOpen] = useState(false);
 
+  // Global state
+  const { isSignedIn, changeIsSignInModalOpen } = useAuthStore((state) => ({
+    isSignedIn: state.isSignedIn,
+    changeIsSignInModalOpen: state.changeIsSignInModalOpen,
+  }));
+
+  const { isConnected } = useAccount();
+  const {
+    connected,
+    deviceType,
+    hasCamera,
+    changeSession,
+    changeConnected,
+    changeSessionId,
+  } = useEncryptedSessionStore((state) => ({
+    session: state.session,
+    connected: state.connected,
+    deviceType: state.deviceType,
+    hasCamera: state.hasCamera,
+    changeSession: state.changeSession,
+    changeConnected: state.changeConnected,
+    changeSessionId: state.changeSessionId,
+  }));
+
   useEffect(() => {
     // Close connect QR modal if connection is established
-    if (session.connected && isModalOpen) {
+    if (connected && isModalOpen) {
       setIsModalOpen(false);
     }
-  }, [session.connected]);
+  }, [connected]);
 
   const onScanSuccessConnectionQRCode = async (decodedText: string, _: any) => {
     if (isConnectionModalOpen) {
       setIsConnectionModalOpen(false);
     }
     // Close if already connected
-    if (session.connected) return;
+    if (connected) return;
 
     try {
       const data = JSON.parse(decodedText);
@@ -45,41 +68,27 @@ export const ConnectDeviceView = () => {
         ['encrypt', 'decrypt']
       );
 
+      // Send data
+      const client = createSupbaseClient<Database>(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+      );
+
+      const { error } = await client
+        .from('encrypted_sessions')
+        .update({
+          connected: true,
+        })
+        .eq('id', data.sessionId);
+
+      if (error) throw new Error('Failed to send data');
+
       changeSession({
-        ...session,
-        sessionId: data.sessionId,
         key: decryptionKey,
         exp: data.exp,
-        connected: true,
       });
-
-      // Encrypt data
-      const iv = crypto.getRandomValues(new Uint8Array(12));
-
-      const encodedText = new TextEncoder().encode('Created Connection');
-
-      const encryptedData = new Uint8Array(
-        await crypto.subtle.encrypt(
-          {
-            name: 'AES-GCM',
-            iv,
-          },
-          decryptionKey,
-          encodedText
-        )
-      );
-      const response = await fetch(`/api/qr-code-session/${data.sessionId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          data: uint8ArrayToHex(encryptedData),
-          iv: uint8ArrayToHex(iv),
-        }),
-      });
-
-      if (!response.ok) throw new Error();
+      changeConnected(true);
+      changeSessionId(data.sessionId);
 
       setTimeout(() => {
         useToastStore.setState({
@@ -91,6 +100,7 @@ export const ConnectDeviceView = () => {
         });
       }, 200);
     } catch (e) {
+      console.log(e);
       setTimeout(() => {
         useToastStore.setState({
           open: true,
@@ -105,7 +115,7 @@ export const ConnectDeviceView = () => {
 
   return (
     <div className="">
-      {session.deviceType === 'primary' && !session.hasCamera && (
+      {deviceType === 'primary' && !hasCamera && (
         <>
           {isConnected && (
             <>
@@ -117,7 +127,16 @@ export const ConnectDeviceView = () => {
                 </div>
               </div>
               <div className="mt-8 flex justify-center">
-                <Button variant="primary" onClick={() => setIsModalOpen(true)}>
+                <Button
+                  variant="primary"
+                  onClick={() => {
+                    if (!isSignedIn) {
+                      changeIsSignInModalOpen(true);
+                      return;
+                    }
+                    setIsModalOpen(true);
+                  }}
+                >
                   {t('create')}
                 </Button>
               </div>
@@ -126,9 +145,9 @@ export const ConnectDeviceView = () => {
           {!isConnected && <div>{t('connect')}</div>}
         </>
       )}
-      {session.hasCamera && (
+      {hasCamera && (
         <>
-          {session.deviceType === 'secondary' && (
+          {deviceType === 'secondary' && (
             <>
               <div className="dark:bg-navy-blue-700 rounded-xl bg-gray-100 p-4">
                 <div>{t('start-secondary')}</div>
@@ -138,13 +157,12 @@ export const ConnectDeviceView = () => {
                   variant="primary"
                   onClick={() => {
                     // Reset session if already set
+                    changeSessionId(null);
                     changeSession({
-                      ...session,
-                      sessionId: null,
                       key: null,
                       exp: null,
-                      connected: false,
                     });
+                    changeConnected(false);
                     setIsConnectionModalOpen(true);
                   }}
                 >

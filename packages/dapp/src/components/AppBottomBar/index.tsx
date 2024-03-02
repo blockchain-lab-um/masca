@@ -33,7 +33,7 @@ const OTHER_LINKS = [
   },
   {
     name: 'qr-scanner',
-    href: '/app/qr-code-session',
+    href: '/app/encrypted-session',
     requiresConnection: false,
   },
 ];
