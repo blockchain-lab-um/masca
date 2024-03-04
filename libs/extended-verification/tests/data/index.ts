@@ -86,7 +86,8 @@ export const PRESENTATION_INVALID_JWT_CREDENTIAL_EXPIRED = readJSON(
   import.meta.url,
   'presentation_invalid_jwt_credential_expired.json'
 ) as VerifiablePresentation;
-export const PRESENTATION_INVALID_JWT_CREDENTIAL_EIP712_CREDENTIAL_JWT_EXPIRED = readJSON(
-  import.meta.url,
-  'presentation_invalid_jwt_credential_eip712_credential_jwt_expired.json'
-) as VerifiablePresentation;
+export const PRESENTATION_INVALID_JWT_CREDENTIAL_EIP712_CREDENTIAL_JWT_EXPIRED =
+  readJSON(
+    import.meta.url,
+    'presentation_invalid_jwt_credential_eip712_credential_jwt_expired.json'
+  ) as VerifiablePresentation;
