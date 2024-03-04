@@ -46,7 +46,7 @@ jobs:
 
   # VC Manager
   sonarcloud-datamanager:
-    name: SonarCloud Datamanager
+    name: SonarCloud datamanager
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
