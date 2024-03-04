@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { useAccount } from 'wagmi';
 
 import Button from '@/components/Button';
-import { useSessionStore } from '@/stores';
+import { useEncryptedSessionStore } from '@/stores';
 import { CredentialOfferView } from './CredentialOfferView';
 import { OIDCAuthView } from './OIDCAuthView';
 import { PolygonAuthView } from './PolygonAuthView';
@@ -19,16 +19,16 @@ export const StartFlowView = ({
   onCredentialRecieved,
 }: StartFlowViewProps) => {
   const t = useTranslations('StartFlowView');
-  const { request, session } = useSessionStore((state) => ({
+  const { request, deviceType } = useEncryptedSessionStore((state) => ({
     request: state.request,
-    session: state.session,
+    deviceType: state.deviceType,
   }));
 
   const { isConnected } = useAccount();
 
   return (
     <div>
-      {isConnected && session.deviceType === 'primary' && (
+      {isConnected && deviceType === 'primary' && (
         <>
           {request.type === 'polygonAuth' && (
             <PolygonAuthView scanNewCode={scanNewCode} />
@@ -42,7 +42,7 @@ export const StartFlowView = ({
           )}
         </>
       )}
-      {session.deviceType === 'secondary' && (
+      {deviceType === 'secondary' && (
         <>
           <div className="dark:bg-navy-blue-700 rounded-xl bg-gray-100 p-4">
             {t('scanned')}

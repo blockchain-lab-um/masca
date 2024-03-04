@@ -5,7 +5,11 @@ import { useTranslations } from 'next-intl';
 import { useAccount } from 'wagmi';
 
 import Button from '@/components/Button';
-import { useMascaStore, useSessionStore, useToastStore } from '@/stores';
+import {
+  useEncryptedSessionStore,
+  useMascaStore,
+  useToastStore,
+} from '@/stores';
 
 interface CredentialOfferViewProps {
   onCredentialRecieved: (recievedCredential: VerifiableCredential) => void;
@@ -15,7 +19,7 @@ export const CredentialOfferView = ({
   onCredentialRecieved,
 }: CredentialOfferViewProps) => {
   const t = useTranslations('CredentialOfferView');
-  const { request, changeRequest } = useSessionStore((state) => ({
+  const { request, changeRequest } = useEncryptedSessionStore((state) => ({
     request: state.request,
     changeRequest: state.changeRequest,
   }));

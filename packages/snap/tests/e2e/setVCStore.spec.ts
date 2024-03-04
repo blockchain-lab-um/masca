@@ -62,7 +62,7 @@ describe('setVCStore', () => {
 
   it('should succeed toggling ceramic store to true', async () => {
     let res = (await onRpcRequest({
-      origin: 'http://localhost',
+      origin: 'https://masca.io',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',

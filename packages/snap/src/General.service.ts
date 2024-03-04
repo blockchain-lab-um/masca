@@ -7,6 +7,7 @@ import {
   isValidMascaState,
   MascaAccountConfig,
   MascaConfig,
+  MascaRPCRequest,
   MethodsRequiringNetwork,
   requiresNetwork,
   SetCredentialStoreRequestParams,
@@ -18,7 +19,8 @@ import EthereumService from './Ethereum.service';
 import StorageService from './storage/Storage.service';
 import UIService from './UI.service';
 import { validateSession } from './utils/ceramicUtils';
-import { getEmptyAccountState } from './utils/config';
+import { getEmptyAccountState, getInitialPermissions } from './utils/config';
+import { isTrustedDapp, permissionExists } from './utils/permissions';
 
 class GeneralService {
   /**
@@ -62,20 +64,34 @@ class GeneralService {
    * @param dapp - dapp to add to the trusted dapps list.
    * @returns void
    */
-  static async addTrustedDapp(params: { origin: string }): Promise<void> {
+  static async addTrustedDapp(params: {
+    originHostname: string;
+  }): Promise<void> {
     const state = StorageService.get();
-    if (params.origin === '' || !params.origin)
+    if (params.originHostname === '' || !params.originHostname)
       throw new Error('No origin provided.');
     if (
-      state[CURRENT_STATE_VERSION].config.dApp.trustedDapps.includes(
-        params.origin
-      )
+      permissionExists(params.originHostname, state) &&
+      isTrustedDapp(params.originHostname, state)
     )
       return;
-    if (!(await UIService.addTrustedDappDialog(params.origin))) {
+    if (!(await UIService.addTrustedDappDialog(params.originHostname))) {
       throw new Error('User rejected trusted dapp addition.');
     }
-    state[CURRENT_STATE_VERSION].config.dApp.trustedDapps.push(params.origin);
+
+    if (permissionExists(params.originHostname, state)) {
+      state[CURRENT_STATE_VERSION].config.dApp.permissions[
+        params.originHostname
+      ].trusted = true;
+      return;
+    }
+
+    state[CURRENT_STATE_VERSION].config.dApp.permissions[
+      params.originHostname
+    ] = {
+      ...getInitialPermissions(),
+      trusted: true,
+    };
   }
 
   /**
@@ -83,15 +99,77 @@ class GeneralService {
    * @param dapp - dapp to remove from the trusted dapps list.
    * @returns void
    */
-  static async removeTrustedDapp(params: { origin: string }): Promise<void> {
-    if (!(await UIService.removeTrustedDappDialog(params.origin))) {
+  static async removeTrustedDapp(params: {
+    originHostname: string;
+  }): Promise<void> {
+    if (!(await UIService.removeTrustedDappDialog(params.originHostname))) {
       throw new Error('User rejected trusted dapp removal.');
     }
 
     const state = StorageService.get();
-    state[CURRENT_STATE_VERSION].config.dApp.trustedDapps = state[
-      CURRENT_STATE_VERSION
-    ].config.dApp.trustedDapps.filter((d) => d !== params.origin);
+    if (
+      permissionExists(params.originHostname, state) &&
+      isTrustedDapp(params.originHostname, state)
+    ) {
+      state[CURRENT_STATE_VERSION].config.dApp.permissions[
+        params.originHostname
+      ].trusted = false;
+    }
+  }
+
+  static async changePermission(params: {
+    originHostname: string; // hostname
+    method: string;
+    value: boolean;
+  }): Promise<boolean> {
+    const state = StorageService.get();
+
+    // If the user rejects the pop-up, throw an error
+    if (
+      !(await UIService.changePermissionDialog({
+        permission: params.method,
+        value: params.value,
+      }))
+    ) {
+      throw new Error('User rejected permission change.');
+    }
+
+    // If the user accepts the pop-up, change the permission
+
+    if (permissionExists(params.originHostname, state)) {
+      state[CURRENT_STATE_VERSION].config.dApp.permissions[
+        params.originHostname
+      ].methods[params.method as MascaRPCRequest['method']] = params.value;
+    } else {
+      const initialPermissions = getInitialPermissions();
+      initialPermissions.methods[params.method as MascaRPCRequest['method']] =
+        params.value;
+
+      state[CURRENT_STATE_VERSION].config.dApp.permissions[
+        params.originHostname
+      ] = initialPermissions;
+    }
+    return params.value;
+  }
+
+  /**
+   * Function that adds dapp settings
+   * @param originHostname - hostname of the dapp
+   * @returns boolean - whether the dapp settings were added
+   */
+  static async addDappSettings(originHostname: string): Promise<void> {
+    const state = StorageService.get();
+    if (permissionExists(originHostname, state)) return;
+
+    state[CURRENT_STATE_VERSION].config.dApp.permissions[originHostname] =
+      getInitialPermissions();
+  }
+
+  static async removeDappSettings(originHostname: string): Promise<void> {
+    const state = StorageService.get();
+    if (!permissionExists(originHostname, state)) return;
+
+    delete state[CURRENT_STATE_VERSION].config.dApp.permissions[originHostname];
   }
 
   /**
@@ -102,7 +180,7 @@ class GeneralService {
   static async isTrustedDapp(params: { id: string }): Promise<boolean> {
     const { id } = params;
     const state = StorageService.get();
-    return state[CURRENT_STATE_VERSION].config.dApp.trustedDapps.includes(id);
+    return isTrustedDapp(id, state);
   }
 
   /**

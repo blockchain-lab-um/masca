@@ -4,7 +4,11 @@ import { useTranslations } from 'next-intl';
 import { useAccount } from 'wagmi';
 
 import Button from '@/components/Button';
-import { useMascaStore, useSessionStore, useToastStore } from '@/stores';
+import {
+  useEncryptedSessionStore,
+  useMascaStore,
+  useToastStore,
+} from '@/stores';
 
 interface OIDCAuthViewProps {
   scanNewCode: () => void;
@@ -12,7 +16,7 @@ interface OIDCAuthViewProps {
 
 export const OIDCAuthView = ({ scanNewCode }: OIDCAuthViewProps) => {
   const t = useTranslations('OIDCAuthView');
-  const { request, changeRequest } = useSessionStore((state) => ({
+  const { request, changeRequest } = useEncryptedSessionStore((state) => ({
     request: state.request,
     changeRequest: state.changeRequest,
   }));

@@ -87,7 +87,7 @@ const INTERNAL_LINKS: LinkProps[] = [
   },
   {
     name: 'qr-scanner',
-    href: '/app/qr-code-session',
+    href: '/app/encrypted-session',
     icon: IconCamera,
     requiresConnection: false,
   },

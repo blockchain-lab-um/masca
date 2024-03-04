@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { uint8ArrayToHex } from '@blockchain-lab-um/masca-connector';
+import { createClient as createSupbaseClient } from '@supabase/supabase-js';
 import { Html5Qrcode } from 'html5-qrcode';
 import { useTranslations } from 'next-intl';
 import { useAccount } from 'wagmi';
@@ -7,7 +8,9 @@ import { useAccount } from 'wagmi';
 import Button from '@/components/Button';
 import ScanQRCodeModal from '@/components/ScanQRCodeModal/ScanQRCodeModal';
 import UploadButton from '@/components/UploadButton';
-import { useSessionStore, useToastStore } from '@/stores';
+import { Database } from '@/utils/supabase/database.types';
+import { useToastStore } from '@/stores';
+import { useEncryptedSessionStore } from '@/stores/encryptedSessionStore';
 import { useQRCodeStore } from '@/stores/qrCodeStore';
 
 interface ScanQRCodeViewProps {
@@ -18,22 +21,27 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
   const t = useTranslations('ScanQRCodeView');
   const { isConnected } = useAccount();
   const [isQRCodeModalOpen, setIsQRCodeModalOpen] = useState(false);
+  const { sessionId, session, deviceType, hasCamera, isSessionConnect } =
+    useEncryptedSessionStore((state) => ({
+      sessionId: state.sessionId,
+      session: state.session,
+      deviceType: state.deviceType,
+      hasCamera: state.hasCamera,
+      isSessionConnect: state.connected,
+    }));
 
-  const session = useSessionStore((state) => state.session);
-
-  const changeRequestData = useQRCodeStore((state) => state.changeRequestData);
+  const changeRequestData = useQRCodeStore((state) => state.changeRequestData); // TODO: Where was this used
 
   const onScanSuccessQRCode = async (decodedText: string, _: any) => {
     // Same device
-    if (isConnected && session.deviceType === 'primary') {
+    if (isConnected && deviceType === 'primary') {
       changeRequestData(decodedText);
       return;
     }
 
     // Cross device (mobile <-> desktop)
-    if (!session.sessionId || !session.key || !session.exp) return;
+    if (!sessionId || !session.key || !session.exp) return;
     if (isQRCodeModalOpen) {
-      console.log('Closing QR Scan modal...');
       setIsQRCodeModalOpen(false);
     }
     let data: string | null = null;
@@ -82,34 +90,21 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
       );
 
       // Send data
-      const response = await fetch(
-        `/api/qr-code-session/${session.sessionId}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            data: uint8ArrayToHex(encryptedData),
-            iv: uint8ArrayToHex(iv),
-          }),
-        }
+      const client = createSupbaseClient<Database>(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
       );
 
-      if (!response.ok) throw new Error();
+      const { error } = await client
+        .from('encrypted_sessions')
+        .update({
+          data: uint8ArrayToHex(encryptedData),
+          iv: uint8ArrayToHex(iv),
+        })
+        .eq('id', sessionId);
 
-      setTimeout(() => {
-        useToastStore.setState({
-          open: true,
-          title: t('success'),
-          type: 'success',
-          loading: false,
-          link: null,
-        });
-      }, 200);
-      onQRCodeScanned();
+      if (error) throw new Error('Failed to send data');
     } catch (e) {
-      console.log('error', e);
       setTimeout(() => {
         useToastStore.setState({
           open: true,
@@ -147,9 +142,9 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
 
   return (
     <div>
-      {session.connected && (
+      {isSessionConnect && (
         <>
-          {session.deviceType === 'primary' && session.hasCamera && (
+          {deviceType === 'primary' && hasCamera && (
             <div>
               <div className="dark:bg-navy-blue-700 rounded-xl bg-gray-100 p-4">
                 {t('scan-upload')}
@@ -166,7 +161,7 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
               </div>
             </div>
           )}
-          {session.deviceType === 'secondary' && session.hasCamera && (
+          {deviceType === 'secondary' && hasCamera && (
             <div>
               <div className="dark:bg-navy-blue-700 rounded-xl bg-gray-100 p-4">
                 <div>
@@ -189,7 +184,7 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
           )}
         </>
       )}
-      {session.connected && !session.hasCamera && (
+      {isSessionConnect && !hasCamera && (
         <>
           <div>
             <div className="dark:bg-navy-blue-700 rounded-xl bg-gray-100 p-4">

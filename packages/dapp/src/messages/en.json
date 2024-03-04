@@ -5,7 +5,7 @@
   },
   "AppBottomBar": {
     "create-credential": "Create Credential",
-    "dashboard": "Dashboard",
+    "credentials": "Credentials",
     "qr-scanner": "QR Code Scanner",
     "settings": "Settings",
     "verify-data": "Verify Data"
@@ -37,7 +37,7 @@
         "create-credential": "Create a custom credential",
         "documentation": "Read the Masca documentation",
         "get-credential": "Get your credential using the OpenID Connect protocol",
-        "qr-code-session": "Create session to scan QR codes using your mobile device",
+        "qr-code-session": "Create an encrypted session to scan QR codes using your mobile device",
         "qr-scanner": "Receive credentials and share presentations by scanning QR codes",
         "shared-presentations": "Check your shared presentations",
         "verify-data": "Verify credentials & presentations"
@@ -55,7 +55,7 @@
     },
     "menu": {
       "authorization-request": "Authorization Request",
-      "dashboard": "Dashboard",
+      "credentials": "Credentials",
       "get-credential": "Get Credentials",
       "home": "Home",
       "other": "Other",
@@ -136,7 +136,8 @@
   },
   "CreateConnectionModal": {
     "desc": " Scan this QR code with your mobile device to create a connection to this page.",
-    "title": "Connection QR Code"
+    "title": "Connection QR Code",
+    "session-create-failed": "Failed to create session. Please try again."
   },
   "CreateCredentialDisplay": {
     "invalidMethod": "Polygon ID & Iden3 are not yet supported. Switch to any other DID method to create a credential!",
@@ -364,16 +365,28 @@
     "polygon-unsupported": "Polygon ID VCs aren't supported yet. Please remove this credential to continue!"
   },
   "TrustedDappTable": {
-    "add-failed": "Failed to add trusted dapp",
+    "add-failed": "Failed to disable popups",
+    "get-failed": "Failed to get Masca settings",
+    "change-failed": "Failed to change permissions",
     "add-masca": "Add masca.io to trusted dapps",
-    "added": "Trusted dapp added",
-    "adding": "Adding trusted dapp",
-    "app-url": "Application URL",
-    "popups-desc": "Disabling pop-ups is very dangerous. We recommend setting trusted dapps instead!",
-    "remove-failed": "Failed to remove trusted dapp",
-    "removed": "Trusted dapp removed",
-    "removing": "Removing trusted dapp",
-    "add": "Add"
+    "added": "Popups Disabled",
+    "adding": "Disabling popups",
+    "changedPermission": "Permissions changed",
+    "changingPermission": "Changing permissions",
+    "app-url": "Application Hostname",
+    "popups-desc": "Manage permissions for the dapps you use. Start by adding a dapp to the list and then manage its permissions.",
+    "remove-failed": "Failed to re-Enable popups",
+    "remove-dapp-failed": "Failed to remove dapp",
+    "add-dapp-failed": "Failed to add dapp",
+    "removed": "Popups Re-Enabled",
+    "removing": "Re-Enabling popups",
+    "add": "Add",
+    "query": "Access Credentials",
+    "query-desc": "This dapp can always query your credentials without asking for permission",
+    "disable-popups": "Trusted dapp",
+    "disable-popups-desc": "I trust this dapp and want to disable popups",
+    "modal-title": "Permissions for ",
+    "manage": "Manage"
   },
   "GetCredential": {
     "handling": "Handling credential offer",
@@ -460,10 +473,11 @@
     "qr-invalid-error": "Invalid QR code",
     "starting-error": "Failed to start QR code scanner"
   },
-  "QRCodeSessionProvider": {
-    "unsuported": "Unsuported QR code data received"
+  "EncryptedSessionProvider": {
+    "unsuported": "Unsuported QR code data received",
+    "fetch-failed": "Failed to fetch session. Please try again."
   },
-  "QRSessionDisplay": {
+  "EncryptedSessionDisplay": {
     "back": "Back",
     "fifth": "Fifth Step",
     "fifth-desc": "Finish Flow",
@@ -533,7 +547,7 @@
     "import-google": "Import from Google Drive",
     "import-success": "Successfully imported backup",
     "not-implemented": "Not implemented yet",
-    "popups": "Pop-ups",
+    "popups": "Permissions",
     "popups-desc": "Disabling pop-ups is very dangerous. We recommend setting trusted dapps instead!",
     "title": "Settings",
     "unknown-error": "Unknown error",
