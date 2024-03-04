@@ -8,7 +8,11 @@ import { useTranslations } from 'next-intl';
 import Button from '@/components/Button';
 import FormatedPanel from '@/components/CredentialDisplay/FormatedPanel';
 import JsonPanel from '@/components/CredentialDisplay/JsonPanel';
-import { useMascaStore, useSessionStore, useToastStore } from '@/stores';
+import {
+  useEncryptedSessionStore,
+  useMascaStore,
+  useToastStore,
+} from '@/stores';
 
 interface CredentialViewProps {
   credential: VerifiableCredential;
@@ -20,7 +24,9 @@ export const CredentialView = ({
   scanNewCode,
 }: CredentialViewProps) => {
   const t = useTranslations('CredentialView');
-  const changeRequest = useSessionStore((state) => state.changeRequest);
+  const changeRequest = useEncryptedSessionStore(
+    (state) => state.changeRequest
+  );
 
   const mascaApi = useMascaStore((state) => state.mascaApi);
 

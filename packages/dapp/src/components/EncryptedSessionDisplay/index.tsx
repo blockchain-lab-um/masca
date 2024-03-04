@@ -9,15 +9,15 @@ import { useTranslations } from 'next-intl';
 import { useAccount } from 'wagmi';
 
 import Button from '@/components/Button';
-import { useSessionStore } from '@/stores';
+import { useEncryptedSessionStore } from '@/stores/encryptedSessionStore';
 import { ChooseDeviceView } from './ChooseDeviceView';
 import { ConnectDeviceView } from './ConnectDeviceView';
 import { CredentialView } from './CredentialView';
 import { ScanQRCodeView } from './ScanQRCodeView';
 import { StartFlowView } from './StartFlowView';
 
-const QRSessionDisplay = () => {
-  const t = useTranslations('QRSessionDisplay');
+const EncryptedSessionDisplay = () => {
+  const t = useTranslations('EncryptedSessionDisplay');
   const steps = useMemo(
     () => [
       {
@@ -48,20 +48,36 @@ const QRSessionDisplay = () => {
   const stepperInstance = useStepper({ steps });
   const { isConnected } = useAccount();
 
-  const { request, session, changeRequest, changeSession } = useSessionStore(
-    (state) => ({
-      request: state.request,
-      session: state.session,
-      changeRequest: state.changeRequest,
-      changeSession: state.changeSession,
-    })
-  );
+  const {
+    request,
+    session,
+
+    deviceType,
+    hasCamera,
+    connected,
+    changeRequest,
+    changeSession,
+    changeConnected,
+    changeDeviceType,
+    changeHasCamera,
+  } = useEncryptedSessionStore((state) => ({
+    request: state.request,
+    session: state.session,
+    deviceType: state.deviceType,
+    hasCamera: state.hasCamera,
+    connected: state.connected,
+    changeRequest: state.changeRequest,
+    changeSession: state.changeSession,
+    changeConnected: state.changeConnected,
+    changeDeviceType: state.changeDeviceType,
+    changeHasCamera: state.changeHasCamera,
+  }));
 
   useEffect(() => {
-    if (session.connected && stepperInstance.state.currentStep === 1) {
+    if (connected && stepperInstance.state.currentStep === 1) {
       stepperInstance.setStep(2);
     }
-  }, [session.connected]);
+  }, [connected]);
 
   useEffect(() => {
     if (
@@ -77,11 +93,11 @@ const QRSessionDisplay = () => {
   }, [request]);
 
   useEffect(() => {
-    if (session.deviceType === null) {
+    if (deviceType === null) {
       stepperInstance.setStep(0);
       return;
     }
-    if (session.connected && session.exp && session.exp > Date.now()) {
+    if (connected && session.exp && session.exp > Date.now()) {
       stepperInstance.setStep(2);
       if (request.active) {
         stepperInstance.setStep(3);
@@ -101,27 +117,21 @@ const QRSessionDisplay = () => {
   };
 
   const onDeviceTypeSelected = (
-    deviceType: 'primary' | 'secondary',
-    hasCamera: boolean
+    _deviceType: 'primary' | 'secondary',
+    _hasCamera: boolean
   ) => {
-    if (deviceType === 'primary' && hasCamera) {
+    if (_deviceType === 'primary' && _hasCamera) {
       changeSession({
-        connected: true,
-        sessionId: null,
         key: null,
         exp: null,
-        deviceType,
-        hasCamera,
       });
-
+      changeConnected(true);
+      changeDeviceType(_deviceType);
+      changeHasCamera(_hasCamera);
       stepperInstance.setStep(2);
     } else {
-      changeSession({
-        ...session,
-        deviceType,
-        hasCamera,
-      });
-
+      changeDeviceType(_deviceType);
+      changeHasCamera(_hasCamera);
       stepperInstance.nextStep();
     }
   };
@@ -216,7 +226,7 @@ const QRSessionDisplay = () => {
       {steps[stepperInstance.state.currentStep].hasPreviousStep && (
         <div className="mt-4 flex justify-end">
           {stepperInstance.state.currentStep === 1 &&
-            session.connected &&
+            connected &&
             session.exp &&
             session.exp > Date.now() && (
               <div className="mr-2">
@@ -257,4 +267,4 @@ const QRSessionDisplay = () => {
   );
 };
 
-export default QRSessionDisplay;
+export default EncryptedSessionDisplay;

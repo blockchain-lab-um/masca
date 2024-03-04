@@ -24,7 +24,7 @@
         "create-credential": "Create a custom credential",
         "documentation": "Read the Masca documentation",
         "get-credential": "Get your credential using the OpenID Connect protocol",
-        "qr-code-session": "Create session to scan QR codes using your mobile device",
+        "qr-code-session": "Create an encrypted session to scan QR codes using your mobile device",
         "qr-scanner": "Receive credentials and share presentations by scanning QR codes",
         "shared-presentations": "Check your shared presentations",
         "verify-data": "Verify credentials & presentations"
@@ -123,7 +123,8 @@
   },
   "CreateConnectionModal": {
     "desc": " Scan this QR code with your mobile device to create a connection to this page.",
-    "title": "Connection QR Code"
+    "title": "Connection QR Code",
+    "session-create-failed": "Failed to create session. Please try again."
   },
   "CreateCredentialDisplay": {
     "invalidMethod": "Polygon ID & Iden3 are not yet supported. Switch to any other DID method to create a credential!",
@@ -459,10 +460,11 @@
     "qr-invalid-error": "Invalid QR code",
     "starting-error": "Failed to start QR code scanner"
   },
-  "QRCodeSessionProvider": {
-    "unsuported": "Unsuported QR code data received"
+  "EncryptedSessionProvider": {
+    "unsuported": "Unsuported QR code data received",
+    "fetch-failed": "Failed to fetch session. Please try again."
   },
-  "QRSessionDisplay": {
+  "EncryptedSessionDisplay": {
     "back": "Back",
     "fifth": "Fifth Step",
     "fifth-desc": "Finish Flow",
