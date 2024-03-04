@@ -1,5 +1,24 @@
 # Changelog
 
+## 1.2.0-beta.3
+
+### Minor Changes
+
+- [#544](https://github.com/blockchain-lab-um/masca/pull/544) [`b688093`](https://github.com/blockchain-lab-um/masca/commit/b688093520e727815250d4015bb9c6adc406894d) Thanks [@pseudobun](https://github.com/pseudobun)! - Adds ENS, `did:ens` support, viem client, Ethereum service instance.
+
+### Patch Changes
+
+- [#549](https://github.com/blockchain-lab-um/masca/pull/549) [`0fc5970`](https://github.com/blockchain-lab-um/masca/commit/0fc5970bfcb48db249663aec7d227498e2f5971c) Thanks [@Vid201](https://github.com/Vid201)! - Update text
+
+- [#533](https://github.com/blockchain-lab-um/masca/pull/533) [`e8d8e5b`](https://github.com/blockchain-lab-um/masca/commit/e8d8e5ba52bf40f8984434e39c20e79e2c1e781c) Thanks [@andyv09](https://github.com/andyv09)! - Changed and updated trusted dapps
+
+- [#554](https://github.com/blockchain-lab-um/masca/pull/554) [`af204fc`](https://github.com/blockchain-lab-um/masca/commit/af204fc2f3e5365c6780ef37cd58f3350d62bd1a) Thanks [@martines3000](https://github.com/martines3000)! - Remove support for Goerli.
+
+- [#567](https://github.com/blockchain-lab-um/masca/pull/567) [`fc4e573`](https://github.com/blockchain-lab-um/masca/commit/fc4e5732d2204d61a78c84d2844b67b49d8c020d) Thanks [@andyv09](https://github.com/andyv09)! - Implement new permission system in snap, update connector & types and permissions table on dApp
+
+- Updated dependencies [[`e8d8e5b`](https://github.com/blockchain-lab-um/masca/commit/e8d8e5ba52bf40f8984434e39c20e79e2c1e781c), [`b688093`](https://github.com/blockchain-lab-um/masca/commit/b688093520e727815250d4015bb9c6adc406894d), [`af204fc`](https://github.com/blockchain-lab-um/masca/commit/af204fc2f3e5365c6780ef37cd58f3350d62bd1a), [`fc4e573`](https://github.com/blockchain-lab-um/masca/commit/fc4e5732d2204d61a78c84d2844b67b49d8c020d)]:
+  - @blockchain-lab-um/masca-types@1.3.0-beta.1
+
 ## 1.2.0-beta.2
 
 ### Patch Changes
