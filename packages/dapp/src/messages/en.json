@@ -8,6 +8,7 @@
     "dashboard": "Dashboard",
     "qr-scanner": "QR Code Scanner",
     "settings": "Settings",
+    "campaigns": "Campaigns",
     "verify-data": "Verify Data"
   },
   "AppNavbar": {
@@ -47,7 +48,8 @@
       "home": "Home",
       "other": "Other",
       "qr-code-session": "QR Scanner",
-      "settings": "Settings"
+      "settings": "Settings",
+      "campaigns": "Campaigns"
     }
   },
   "NavConnection": {

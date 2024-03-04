@@ -29,6 +29,9 @@ const nextConfig = {
   images: {
     domains: ['localhost', 'ipfs.io'],
     loader: 'default',
+    remotePatterns: [
+      { protocol: 'https', hostname: '**.imgur.com', port: '', pathname: '**' },
+    ],
   },
   optimizeFonts: true,
   experimental: {

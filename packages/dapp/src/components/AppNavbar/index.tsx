@@ -18,6 +18,11 @@ const MAIN_LINKS = [
     requiresConnection: false,
   },
   {
+    name: 'campaigns',
+    href: '/app/campaigns',
+    requiresConnection: false,
+  },
+  {
     name: 'settings',
     href: '/app/settings',
     requiresConnection: true,

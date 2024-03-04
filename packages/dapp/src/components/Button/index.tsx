@@ -14,7 +14,7 @@ interface ButtonProps {
     | 'white'
     | 'white-pink'
     | 'done';
-  size?: 'popup' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'wd' | 'icon';
+  size?: 'popup' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'wd' | 'icon' | '2xs';
   shadow?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'none' | 'inner' | '';
   onClick?: () => Promise<void> | void;
   children: React.ReactNode;
@@ -25,29 +25,30 @@ interface ButtonProps {
 
 const variants: Record<string, string> = {
   primary:
-    'bg-pink-500 dark:bg-orange-accent-dark dark:text-navy-blue-900 hover:opacity-80 active:opacity-50 text-white',
+    'bg-pink-500 dark:bg-orange-accent-dark dark:text-navy-blue-900 enabled:hover:opacity-80 active:opacity-50 text-white',
   'primary-active':
-    'text-orange-500 border border-orange-500 bg-white hover:text-white hover:bg-orange-500',
+    'text-orange-500 border border-orange-500 bg-white enabled:hover:text-white enabled:hover:bg-orange-500',
   secondary:
-    'border-[0.225rem] border-pink-500 text-pink-500 hover:bg-pink-500/5 dark:hover:bg-orange-accent-dark/5 dark:border-orange-accent-dark dark:text-orange-accent-dark animated-transition',
+    'border-[0.225rem] border-pink-500 text-pink-500 enabled:hover:bg-pink-500/5 dark:enabled:hover:bg-orange-accent-dark/5 dark:border-orange-accent-dark dark:text-orange-accent-dark animated-transition',
   'secondary-active':
-    'text-navy-blue-500 border border border-navy-blue-500 hover:text-white hover:bg-navy-blue-500',
+    'text-navy-blue-500 border border border-navy-blue-500 enabled:hover:text-white enabled:hover:bg-navy-blue-500',
   connect:
-    'bg-pink-200 hover:bg-pink-200/60 dark:hover:bg-pink-200/80 text-gray-700',
-  gray: 'bg-gray-200 text-gray-800 hover:opacity-80 active:opacity-50 dark:bg-navy-blue-700 dark:text-white',
+    'bg-pink-200 enabled:hover:bg-pink-200/60 dark:enabled:hover:bg-pink-200/80 text-gray-700',
+  gray: 'bg-gray-200 text-gray-800 enabled:hover:opacity-80 active:opacity-50 dark:bg-navy-blue-700 dark:text-white',
   'white-pink':
-    'bg-white text-gray-800 hover:text-white hover:bg-pink-400 dark:bg-orange-accent-dark dark:text-gray-900 dark:hover:bg-orange-accent-dark/80',
-  white: 'bg-white text-gray-800 hover:opacity-80 active:opacity-50',
-  warning: 'bg-red-500 hover:bg-red-500/90 text-white justify-center',
+    'bg-white text-gray-800 enabled:hover:text-white enabled:hover:bg-pink-400 dark:bg-orange-accent-dark dark:text-gray-900 dark:enabled:hover:bg-orange-accent-dark/80',
+  white: 'bg-white text-gray-800 enabled:hover:opacity-80 active:opacity-50',
+  warning: 'bg-red-500 enabled:hover:bg-red-500/90 text-white justify-center',
   cancel:
-    'text-gray-700 dark:text-navy-blue-100 hover:opacity-80 active:opacity-50 underline underline-pink-500 dark:underline-orange-accent-dark underline-offset-4',
+    'text-gray-700 dark:text-navy-blue-100 enabled:hover:opacity-80 active:opacity-50 underline underline-pink-500 dark:underline-orange-accent-dark underline-offset-4',
   'cancel-red':
-    'text-red-500 dark:text-red-500 hover:opacity-80 active:opacity-50 underline underline-red-500 underline-offset-4',
-  done: 'text-gray-600 dark:text-navy-blue-200 underline underline-gray-600 dark:underline-navy-blue-200 underline-offset-4 hover:opacity-80 active:opacity-50',
+    'text-red-500 dark:text-red-500 enabled:hover:opacity-80 active:opacity-50 underline underline-red-500 underline-offset-4',
+  done: 'text-gray-600 dark:text-navy-blue-200 underline underline-gray-600 dark:underline-navy-blue-200 underline-offset-4 enabled:hover:opacity-80 active:opacity-50',
 };
 
 const sizes: Record<string, string> = {
   popup: 'md:text-sm py-2 px-3.5 text-xs',
+  '2xs': 'lg:text-xs lg:py-1.5 lg:px-2 text-xs py-1 px-2 border-[0.125rem]',
   xs: 'lg:text-sm lg:py-2.5 lg:px-4 text-xs py-1.5 px-3',
   sm: 'lg:text-h5 lg:py-2.5 lg:px-5 md:text-h5 md:py-2.5 md:px-4 text-sm py-2 px-3.5',
   md: 'lg:text-h4 lg:py-2.5 lg:px-7 md:text-h5 md:py-2.5 md:px-5 text-sm py-2.5 px-4',
