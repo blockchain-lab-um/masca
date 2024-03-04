@@ -195,7 +195,7 @@ jobs:
       - name: Scan snap
         uses: SonarSource/sonarcloud-github-action@master
         with:
-          projectBaseDir: libsextended-verification
+          projectBaseDir: libs/extended-verification
           args: >
             -Dsonar.organization=blockchain-lab-um
         env:
