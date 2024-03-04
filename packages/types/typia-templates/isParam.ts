@@ -5,13 +5,16 @@ import {
   CURRENT_STATE_VERSION,
   isW3CCredential,
   isW3CVerifiableCredential,
+  type AddDappSettingsRequestParams,
   type AvailableCredentialStores,
+  type ChangePermissionsRequestParams,
   type CreateCredentialRequestParams,
   type CreatePresentationRequestParams,
   type DeleteCredentialsRequestParams,
   type ImportStateBackupRequestParams,
   type MascaState,
   type QueryCredentialsRequestParams,
+  type RemoveDappSettingsRequestParams,
   type ResolveDIDRequestParams,
   type SaveCredentialRequestParams,
   type SetCredentialStoreRequestParams,
@@ -86,6 +89,12 @@ const validateVerifyDataRequest =
 const validateMascaState = typia.createValidateEquals<MascaState>();
 const validateSignDataRequest =
   typia.createValidateEquals<SignDataRequestParams>();
+const validateChangePermissionRequest =
+  typia.createValidateEquals<ChangePermissionsRequestParams>();
+const validateAddDappSettingsRequest =
+  typia.createValidateEquals<AddDappSettingsRequestParams>();
+const validateRemoveDappSettingsRequest =
+  typia.createValidateEquals<AddDappSettingsRequestParams>();
 
 export const isValidCreateCredentialRequest = (
   input: any,
@@ -195,5 +204,26 @@ export const isValidSignDataRequest = (
   input: any
 ): asserts input is SignDataRequestParams => {
   const res = validateSignDataRequest(input);
+  if (!res.success) throw new Error(handleIValidation(res));
+};
+
+export const isValidChangePermissionRequest = (
+  input: any
+): asserts input is ChangePermissionsRequestParams => {
+  const res = validateChangePermissionRequest(input);
+  if (!res.success) throw new Error(handleIValidation(res));
+};
+
+export const isValidAddDappSettingsRequest = (
+  input: any
+): asserts input is AddDappSettingsRequestParams => {
+  const res = validateAddDappSettingsRequest(input);
+  if (!res.success) throw new Error(handleIValidation(res));
+};
+
+export const isValidRemoveDappSettingsRequest = (
+  input: any
+): asserts input is RemoveDappSettingsRequestParams => {
+  const res = validateRemoveDappSettingsRequest(input);
   if (!res.success) throw new Error(handleIValidation(res));
 };

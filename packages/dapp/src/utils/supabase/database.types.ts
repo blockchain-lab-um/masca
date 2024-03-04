@@ -65,19 +65,22 @@ export type Database = {
       campaign_claims: {
         Row: {
           campaign_id: string
-          claimed_at: string
+          can_claim: boolean
+          claimed_at: string | null
           id: number
           user_id: string
         }
         Insert: {
           campaign_id: string
-          claimed_at?: string
+          can_claim?: boolean
+          claimed_at?: string | null
           id?: number
           user_id: string
         }
         Update: {
           campaign_id?: string
-          claimed_at?: string
+          can_claim?: boolean
+          claimed_at?: string | null
           id?: number
           user_id?: string
         }

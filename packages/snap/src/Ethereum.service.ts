@@ -66,7 +66,7 @@ class EthereumService {
         `Switching to: ${didMethod} on chainId: ${didMethodChainIdMapping[didMethod][0]}`
       ),
     ]);
-    if (!(await UIService.snapConfirm({ content }))) {
+    if (!(await UIService.snapConfirm({ content, method: 'other' }))) {
       throw new Error('User rejected network switch.');
     }
     const chainId = didMethodChainIdMapping[didMethod][0];

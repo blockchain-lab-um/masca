@@ -7,11 +7,14 @@ import {
   HandleAuthorizationRequestParams,
   HandleCredentialOfferRequestParams,
   isPolygonSupportedMethods,
+  isValidAddDappSettingsRequest,
+  isValidChangePermissionRequest,
   isValidCreateCredentialRequest,
   isValidCreatePresentationRequest,
   isValidDeleteCredentialsRequest,
   isValidImportStateBackupRequest,
   isValidQueryCredentialsRequest,
+  isValidRemoveDappSettingsRequest,
   isValidResolveDIDRequest,
   isValidSaveCredentialRequest,
   isValidSetCredentialStoreRequest,
@@ -42,6 +45,7 @@ import PolygonService from './polygon-id/Polygon.service';
 import SignerService from './Signer.service';
 import StorageService from './storage/Storage.service';
 import UIService from './UI.service';
+import { isTrustedDomain } from './utils/permissions';
 import VeramoService from './veramo/Veramo.service';
 import WalletService from './Wallet.service';
 
@@ -62,6 +66,10 @@ class SnapService {
     const { filter, options } = params ?? {};
     const { store, returnStore = true } = options ?? {};
 
+    if (!(await UIService.queryAllDialog())) {
+      throw new Error('User rejected query credentials request');
+    }
+
     // FIXME: Maybe do this in parallel? Does it make sense?
     const veramoCredentials = await VeramoService.queryCredentials({
       options: { store, returnStore },
@@ -81,10 +89,7 @@ class SnapService {
     const vcs = [...veramoCredentials, ...polygonCredentials];
 
     if (!vcs.length) return [];
-    if (await UIService.queryAllDialog({ vcs })) {
-      return vcs;
-    }
-    throw new Error('User rejected query credentials request.');
+    return vcs;
   }
 
   /**
@@ -467,7 +472,7 @@ class SnapService {
     params: any,
     origin: string
   ): Promise<Result<any>> {
-    this.origin = origin;
+    this.origin = origin; // hostname
 
     let res;
 
@@ -545,18 +550,49 @@ class SnapService {
        * General.service
        */
       case 'togglePopups':
-        res = await GeneralService.togglePopups();
-        return ResultObject.success(res);
+        if (isTrustedDomain(origin)) {
+          res = await GeneralService.togglePopups();
+          return ResultObject.success(res);
+        }
+        return ResultObject.error('Unauthorized to toggle popups.');
       case 'addTrustedDapp':
-        if (origin === 'masca.io')
-          trustedOrigin = new URL(params.origin).hostname;
-        await GeneralService.addTrustedDapp({ origin: trustedOrigin });
+        // If the origin is masca.io, any HOSTNAME can be added. Expect parameter to be a hostname!
+        if (isTrustedDomain(origin)) trustedOrigin = params.origin;
+        await GeneralService.addTrustedDapp({ originHostname: trustedOrigin });
         return ResultObject.success(true);
       case 'removeTrustedDapp':
-        if (origin !== 'masca.io' && origin !== new URL(params.origin).hostname)
+        if (!isTrustedDomain(origin) && origin !== params.origin)
           throw new Error('Unauthorized to remove other dApps');
-        await GeneralService.removeTrustedDapp({ origin: trustedOrigin });
-        return ResultObject.success(true);
+        await GeneralService.removeTrustedDapp({
+          originHostname: trustedOrigin,
+        });
+        return ResultObject.success(false);
+      case 'changePermission':
+        isValidChangePermissionRequest(params);
+
+        if (isTrustedDomain(origin)) {
+          res = await GeneralService.changePermission({
+            originHostname: params.origin,
+            method: params.method,
+            value: params.value,
+          });
+          return ResultObject.success(res);
+        }
+        return ResultObject.error('Unauthorized to change settings.');
+      case 'addDappSettings':
+        if (isTrustedDomain(origin)) {
+          isValidAddDappSettingsRequest(params);
+          res = await GeneralService.addDappSettings(params.origin);
+          return ResultObject.success(true);
+        }
+        return ResultObject.error('Unauthorized to change settings.');
+      case 'removeDappSettings':
+        if (isTrustedDomain(origin)) {
+          isValidRemoveDappSettingsRequest(params);
+          res = await GeneralService.removeDappSettings(params.origin);
+          return ResultObject.success(true);
+        }
+        return ResultObject.error('Unauthorized to change settings.');
       case 'switchDIDMethod':
         isValidSwitchMethodRequest(params);
         await GeneralService.switchDIDMethod(params);
@@ -571,17 +607,26 @@ class SnapService {
         return ResultObject.success(res);
       case 'setCredentialStore':
         isValidSetCredentialStoreRequest(params);
-        res = await GeneralService.setCredentialStore(params);
-        return ResultObject.success(res);
+        if (isTrustedDomain(origin)) {
+          res = await GeneralService.setCredentialStore(params);
+          return ResultObject.success(res);
+        }
+        return ResultObject.error('Unauthorized to change credential store.');
       case 'getAvailableCredentialStores':
         res = await GeneralService.getAvailableCredentialStores();
         return ResultObject.success(res);
       case 'getAccountSettings':
-        res = await GeneralService.getAccountSettings();
-        return ResultObject.success(res);
+        if (isTrustedDomain(origin)) {
+          res = await GeneralService.getAccountSettings();
+          return ResultObject.success(res);
+        }
+        return ResultObject.error('Unauthorized to get account settings.');
       case 'getSnapSettings':
-        res = await GeneralService.getSnapSettings();
-        return ResultObject.success(res);
+        if (isTrustedDomain(origin)) {
+          res = await GeneralService.getSnapSettings();
+          return ResultObject.success(res);
+        }
+        return ResultObject.error('Unauthorized to get snap settings.');
       case 'getAvailableMethods':
         res = await GeneralService.getAvailableMethods();
         return ResultObject.success(res);
@@ -593,8 +638,11 @@ class SnapService {
         await GeneralService.validateStoredCeramicSession();
         return ResultObject.success(true);
       case 'getWalletId':
-        res = await WalletService.getWalletId();
-        return ResultObject.success(res);
+        if (isTrustedDomain(origin)) {
+          res = await WalletService.getWalletId();
+          return ResultObject.success(res);
+        }
+        return ResultObject.error('Unauthorized to get wallet id.');
 
       /**
        * Signer.service
@@ -643,7 +691,7 @@ class SnapService {
         await GeneralService.importBackup(params);
         return ResultObject.success(true);
       default:
-        throw new Error('Method not found.');
+        throw new Error(`Method ${method} not found.`);
     }
   }
 }

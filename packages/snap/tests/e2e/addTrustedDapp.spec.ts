@@ -1,11 +1,12 @@
 import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
-import { isError, Result } from '@blockchain-lab-um/utils';
+import { isError, isSuccess, Result } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsProvider } from '@metamask/snaps-sdk';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
 
 import { onRpcRequest } from '../../src';
 import UIService from '../../src/UI.service';
+import { getInitialPermissions } from '../../src/utils/config';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createMockSnap, SnapMock } from '../helpers/snapMock';
@@ -19,7 +20,7 @@ describe('addTrustedDapp', () => {
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
   });
 
-  it('should add any trustedDapp to the list', async () => {
+  it('should make localhost trusted', async () => {
     const defaultState = getDefaultSnapState(account);
     await snapMock.rpcMocks.snap_manageState({
       operation: 'update',
@@ -32,7 +33,7 @@ describe('addTrustedDapp', () => {
         id: 'test-id',
         jsonrpc: '2.0',
         method: 'addTrustedDapp',
-        params: { origin: 'http://localhost:8081' },
+        params: { origin: 'localhost' },
       },
     })) as Result<unknown>;
 
@@ -46,14 +47,14 @@ describe('addTrustedDapp', () => {
       operation: 'get',
     });
 
-    expect(state[CURRENT_STATE_VERSION].config.dApp.trustedDapps).toStrictEqual(
-      ['localhost']
-    );
+    expect(
+      state[CURRENT_STATE_VERSION].config.dApp.permissions.localhost
+    ).toStrictEqual({ ...getInitialPermissions(), trusted: true });
 
     expect.assertions(2);
   });
 
-  it('should add origin trustedDapp to the list on a random dApp', async () => {
+  it('should make random-different a trusted dapp, because origin and params.origin are different', async () => {
     const defaultState = getDefaultSnapState(account);
     await snapMock.rpcMocks.snap_manageState({
       operation: 'update',
@@ -66,7 +67,7 @@ describe('addTrustedDapp', () => {
         id: 'test-id',
         jsonrpc: '2.0',
         method: 'addTrustedDapp',
-        params: { origin: 'http://random.com' },
+        params: { origin: 'random.com' },
       },
     })) as Result<unknown>;
 
@@ -80,18 +81,21 @@ describe('addTrustedDapp', () => {
       operation: 'get',
     });
 
-    expect(state[CURRENT_STATE_VERSION].config.dApp.trustedDapps).toStrictEqual(
-      ['random-different.com']
-    );
+    expect(
+      state[CURRENT_STATE_VERSION].config.dApp.permissions[
+        'random-different.com'
+      ]
+    ).toStrictEqual({ ...getInitialPermissions(), trusted: true });
 
     expect.assertions(2);
   });
 
-  it('should not add empty trustedDapp to the list', async () => {
+  it('should fail because params are empty', async () => {
     const defaultState = getDefaultSnapState(account);
-    defaultState[CURRENT_STATE_VERSION].config.dApp.trustedDapps = [
-      'localhost',
-    ];
+    defaultState[CURRENT_STATE_VERSION].config.dApp.permissions.localhost = {
+      ...getInitialPermissions(),
+      trusted: true,
+    };
     await snapMock.rpcMocks.snap_manageState({
       operation: 'update',
       newState: defaultState,
@@ -107,30 +111,23 @@ describe('addTrustedDapp', () => {
       },
     })) as Result<unknown>;
 
-    if (isError(res)) {
-      throw new Error(res.error);
+    if (isSuccess(res)) {
+      throw new Error('Should fail');
     }
 
-    expect(res.data).toBe(true);
+    expect(res.error).toBe('Error: No origin provided.');
 
-    const state = await snapMock.rpcMocks.snap_manageState({
-      operation: 'get',
-    });
-
-    expect(state[CURRENT_STATE_VERSION].config.dApp.trustedDapps).toStrictEqual(
-      ['localhost']
-    );
-
-    expect.assertions(2);
+    expect.assertions(1);
   });
 
   it('Should not show pop-up if the dapp is already in the list', async () => {
     const spy = vi.spyOn(UIService, 'addTrustedDappDialog');
 
     const defaultState = getDefaultSnapState(account);
-    defaultState[CURRENT_STATE_VERSION].config.dApp.trustedDapps = [
-      'localhost2',
-    ];
+    defaultState[CURRENT_STATE_VERSION].config.dApp.permissions.localhost2 = {
+      ...getInitialPermissions(),
+      trusted: true,
+    };
     await snapMock.rpcMocks.snap_manageState({
       operation: 'update',
       newState: defaultState,
@@ -141,7 +138,7 @@ describe('addTrustedDapp', () => {
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
-        method: 'queryVCs',
+        method: 'queryCredentials',
         params: {},
       },
     });

@@ -6,6 +6,16 @@ import type {
   AvailableCredentialStores,
   AvailableMethods,
 } from './constants.js';
+import { MascaRPCRequest } from './requests.js';
+
+export type MethodPermissions = {
+  [key in MascaRPCRequest['method']]: boolean;
+};
+
+export interface DappPermissions {
+  methods: MethodPermissions;
+  trusted: boolean;
+}
 
 export interface MascaConfig {
   snap: {
@@ -13,7 +23,7 @@ export interface MascaConfig {
   };
   dApp: {
     disablePopups: boolean;
-    trustedDapps: string[];
+    permissions: Record<string, DappPermissions>;
   };
 }
 

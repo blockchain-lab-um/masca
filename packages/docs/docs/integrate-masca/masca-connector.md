@@ -234,18 +234,24 @@ const vpRes = await api.verifyData({ presentation: VP, verbose: true });
 
 `togglePopups` is used to enable/disable the `"Are you sure?"` alerts on any dapp. Pop-ups are enabled by default for user to approve every action.
 
-`addTrustedDapp` is used to add a dapp to the list of trusted dapps. Pop-ups do not appear on trusted dapps. This method can be called to add ANY dapp ONLY ON `https://masca.io`. On any other dapp origin is set automatically (You can only add dapp X on dapp X).
+`addTrustedDapp` is used to add a dapp to the list of trusted dapps. Pop-ups do not appear on trusted dapps. This method can be called to add ANY dapp ONLY ON `masca.io`. On any other dapp origin is set automatically (You can only add dapp X on dapp X). Input is a hostname of a dapp
 
-`removeTrustedDapp` is used to remove a dapp from the list of trusted dapps. This method can only remove dapps with the same origin (dApp X can only remove dapp X).
+`removeTrustedDapp` is used to remove a dapp from the list of trusted dapps. This method can only remove dapps with the same origin (dApp X can only remove dapp X). Input is a hostname of a dapp
 
-`getSnapSettings` and `getAccountSettings` are used to retrieve global settings and settings for currently selected account.
+`changePermission` is used to change permissions for a specific RPC method on a specific dapp. This will enable/disable popups for said method on said dapp.
+
+`getSnapSettings` and `getAccountSettings` are used to retrieve global settings and settings for currently selected account. Inputs are hostname of a dapp, RPC method and boolean value to disable (`true`)/enable (`false`) popups.
+
+Note that above methods require hostname (`masca.io`) and not full URL (`https://masca.io`) to work. Using full URL will result in error.
 
 ```typescript
 const res = await api.togglePopups();
 
-const res = await api.addTrustedDapp('https://masca.io');
+const res = await api.addTrustedDapp('masca.io');
 
-const res = await api.removeTrustedDapp("https://www.masca.io");
+const res = await api.removeTrustedDapp("masca.io");
+
+const res = await api.changePermission("masca.io", 'queryCredentials', true) // This will disable popups for queryCredentials on masca.io
 ```
 
 ```typescript
@@ -273,6 +279,31 @@ const res = await api.signData({
   type: 'JWZ',
   data: {...} // Valid JSONObject
 });
+```
+
+## Credential Exchange
+
+`handleAuthorizationRequest` is
+
+`handleCredentialOffer` is
+
+```typescript
+
+const res = await api.handleAuthorizationRequest({credentialOffer: '...'})
+
+const res = await api.handleCredentialOffer({authorizationRequest: '...'})
+```
+
+## State Backup
+
+State can be exported and imported using methods `exportStateBackup` and `importStateBackup`
+
+```typescript
+
+const res = await api.exportStateBackup()
+
+const res = await api.importStateBackup({serializedState: '...'})
+
 ```
 
 ## Working with VCs

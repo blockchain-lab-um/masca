@@ -1,5 +1,7 @@
 import type {
+  AddDappSettings,
   AddTrustedDapp,
+  ChangePermission,
   CreateCredential,
   CreatePresentation,
   DeleteCredential,
@@ -16,6 +18,7 @@ import type {
   HandleCredentialOffer,
   ImportStateBackup,
   QueryCredentials,
+  RemoveDappSettings,
   RemoveTrustedDapp,
   ResolveDID,
   SaveCredential,
@@ -57,7 +60,10 @@ export type MascaRPCRequest =
   | ValidateStoredCeramicSession
   | ExportStateBackup
   | ImportStateBackup
-  | SignData;
+  | SignData
+  | ChangePermission
+  | AddDappSettings
+  | RemoveDappSettings;
 
 export type Method = MascaRPCRequest['method'];
 

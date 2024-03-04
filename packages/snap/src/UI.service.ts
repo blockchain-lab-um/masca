@@ -3,6 +3,7 @@ import {
   CURRENT_STATE_VERSION,
   JWTHeader,
   JWTPayload,
+  MascaRPCRequest,
   QueryCredentialsRequestResult,
 } from '@blockchain-lab-um/masca-types';
 import {
@@ -16,30 +17,52 @@ import {
 import { W3CVerifiableCredential } from '@veramo/core';
 
 import StorageService from './storage/Storage.service';
-import { isTrustedDapp } from './utils/permissions';
+import { getInitialPermissions } from './utils/config';
+import {
+  getPermissions,
+  isPermitted,
+  isTrustedDapp,
+  permissionExists,
+} from './utils/permissions';
+
+const permissionActions: Record<string, string> = {
+  queryCredentials: 'Querying Credentials',
+};
+
+const permissionExtraText: Record<string, string> = {
+  queryCredentials:
+    'You will no longer see a popup on this dApp when credentials are requested!',
+};
 
 class UIService {
-  static origin: string;
+  static originHostname: string;
 
   static originWrapper: Component[];
 
   static async init(origin: string) {
-    this.origin = origin;
+    this.originHostname = new URL(origin).hostname; // hostname
     this.originWrapper = [text(`Origin: **${origin}**`), divider()];
   }
 
   static async snapConfirm(params: {
+    method: MascaRPCRequest['method'] | 'other';
     content: Component;
     force?: boolean;
   }): Promise<boolean> {
     const { content, force = false } = params;
     const state = StorageService.get();
 
-    const { disablePopups, trustedDapps } =
-      state[CURRENT_STATE_VERSION].config.dApp;
+    const { disablePopups } = state[CURRENT_STATE_VERSION].config.dApp;
 
     // Show popups if force is true or if popups are not disabled AND the dapp is not trusted
-    if (force || !(disablePopups || isTrustedDapp(this.origin, trustedDapps))) {
+    if (
+      force ||
+      !(
+        disablePopups ||
+        isTrustedDapp(this.originHostname, state) ||
+        isPermitted(this.originHostname, state, params.method)
+      )
+    ) {
       const res = await snap.request({
         method: 'snap_dialog',
         params: {
@@ -59,11 +82,13 @@ class UIService {
     const { content, force = false } = params;
     const state = StorageService.get();
 
-    const { disablePopups, trustedDapps } =
-      state[CURRENT_STATE_VERSION].config.dApp;
+    const { disablePopups } = state[CURRENT_STATE_VERSION].config.dApp;
 
     // Show popups if force is true or if popups are not disabled AND the dapp is not trusted
-    if (force || !(disablePopups || trustedDapps.includes(this.origin))) {
+    if (
+      force ||
+      !(disablePopups || isTrustedDapp(this.originHostname, state))
+    ) {
       await snap.request({
         method: 'snap_dialog',
         params: {
@@ -74,21 +99,48 @@ class UIService {
     }
   }
 
-  static async queryAllDialog(params: {
-    vcs: QueryCredentialsRequestResult[];
-  }): Promise<boolean> {
-    const { vcs } = params;
+  static async queryAllDialog(): Promise<boolean> {
     const uiPanel = panel([
       heading('Share Verifiable Credentials'),
       ...this.originWrapper,
-      text('Would you like to share your credentials with this dapp?'),
+      text(
+        `Would you like give _**${this.originHostname}**_ permission to access your credentials?`
+      ),
       divider(),
-      text(`**Number of VCs: ${vcs.length.toString()}**`),
-      divider(),
-      text(`Pop-ups can be disabled in settings on masca.io.`),
+      text('This permission can be revoked at [Masca dApp](https://masca.io).'),
     ]);
 
-    const res = await UIService.snapConfirm({ content: uiPanel });
+    const state = StorageService.get();
+
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      method: 'queryCredentials',
+    });
+
+    // If accepted and query permission doesnt exist, add it
+    const permission = isPermitted(
+      this.originHostname,
+      state,
+      'queryCredentials'
+    );
+
+    const isTrusted = isTrustedDapp(this.originHostname, state);
+
+    if (res && isTrusted) return res;
+
+    if (res && !permission) {
+      let newPermissions = getInitialPermissions();
+
+      if (permissionExists(this.originHostname, state)) {
+        newPermissions = getPermissions(state)[this.originHostname];
+      }
+      newPermissions.methods.queryCredentials = true;
+
+      state[CURRENT_STATE_VERSION].config.dApp.permissions[
+        this.originHostname
+      ] = newPermissions;
+    }
+
     return res;
   }
 
@@ -111,7 +163,10 @@ class UIService {
       text(`Credential:`),
       copyable(JSON.stringify(verifiableCredential, null, 2)),
     ]);
-    const res = await UIService.snapConfirm({ content: uiPanel });
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      method: 'saveCredential',
+    });
     return res;
   }
 
@@ -137,7 +192,11 @@ class UIService {
       text(`Credential:`),
       copyable(JSON.stringify(minimalUnsignedCredential, null, 2)),
     ]);
-    const res = await UIService.snapConfirm({ content: uiPanel });
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      method: 'createCredential',
+      force: true,
+    });
     return res;
   }
 
@@ -159,7 +218,10 @@ class UIService {
       divider(),
       text(`Credential: ${JSON.stringify(vcs, null, 2)}`),
     ]);
-    const res = await UIService.snapConfirm({ content: uiPanel });
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      method: 'deleteCredential',
+    });
     return res;
   }
 
@@ -180,7 +242,10 @@ class UIService {
       text(`Credentials:`),
       ...vcs.map((vc) => copyable(JSON.stringify(vc, null, 2))),
     ]);
-    const res = await UIService.snapConfirm({ content: uiPanel });
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      method: 'createPresentation',
+    });
     return res;
   }
 
@@ -194,7 +259,11 @@ class UIService {
       text(JSON.stringify(data, null, 2)),
     ]);
 
-    const res = await UIService.snapConfirm({ content: uiPanel });
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      method: 'handleCredentialOffer',
+      force: true,
+    });
     return res;
   }
 
@@ -208,7 +277,11 @@ class UIService {
       text(JSON.stringify(data, null, 2)),
     ]);
 
-    const res = await UIService.snapConfirm({ content: uiPanel });
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      method: 'handleAuthorizationRequest',
+      force: true,
+    });
     return res;
   }
 
@@ -222,33 +295,44 @@ class UIService {
         'This can result in a better user experience, but you will not be able to see what the dapp is requesting.'
       ),
     ]);
-    const res = await UIService.snapConfirm({ content: uiPanel, force: true });
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      force: true,
+      method: 'togglePopups',
+    });
     return res;
   }
 
   static async addTrustedDappDialog(origin: string) {
     const uiPanel = panel([
-      heading('Add Trusted DApp'),
+      heading('Disable Popups'),
       ...this.originWrapper,
-      text(`Would you like to add ${origin} as a trusted dapp?`),
+      text(`Would you like to disable popups on _**${origin}**_?`),
       divider(),
-      text('Pop-ups do not appear on trusted dapps.'),
+      text(
+        'This will disable all non-crucial popups on this dApp. This can be changed on [Masca dApp](https://masca.io).'
+      ),
     ]);
 
-    const res = await UIService.snapConfirm({ content: uiPanel, force: true });
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      force: true,
+      method: 'addTrustedDapp',
+    });
     return res;
   }
 
   static async removeTrustedDappDialog(origin: string) {
     const uiPanel = panel([
-      heading('Remove Trusted DApp'),
+      heading('Enable Popups'),
       ...this.originWrapper,
-      text(
-        `Would you like to remove ${origin} from the list of trusted dapps?`
-      ),
+      text(`Would you like to re-enable popups on _**${origin}**_?`),
     ]);
 
-    const res = await UIService.snapConfirm({ content: uiPanel });
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      method: 'removeTrustedDapp',
+    });
     return res;
   }
 
@@ -276,7 +360,11 @@ class UIService {
       ),
     ]);
 
-    const res = await UIService.snapConfirm({ content: uiPanel, force: true });
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      force: true,
+      method: 'exportStateBackup',
+    });
     return res;
   }
 
@@ -293,7 +381,11 @@ class UIService {
       ),
     ]);
 
-    const res = await UIService.snapConfirm({ content: uiPanel, force: true });
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      force: true,
+      method: 'importStateBackup',
+    });
     return res;
   }
 
@@ -313,7 +405,11 @@ class UIService {
       copyable(JSON.stringify(params.payload, null, 2)),
     ]);
 
-    const res = await UIService.snapConfirm({ content: uiPanel });
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      method: 'signData',
+      force: true,
+    });
 
     return res;
   }
@@ -326,7 +422,37 @@ class UIService {
       copyable(JSON.stringify(params.data, null, 2)),
     ]);
 
-    const res = await UIService.snapConfirm({ content: uiPanel });
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      method: 'signData',
+      force: true,
+    });
+
+    return res;
+  }
+
+  static async changePermissionDialog(params: {
+    permission: string;
+    value: boolean;
+  }) {
+    const uiPanel = panel([
+      heading('Change Permission'),
+      ...this.originWrapper,
+      text('Would you to change the following permissions?'),
+      divider(),
+      text(
+        `**${params.value ? 'Disable' : 'Enable'}** popups for **${
+          permissionActions[params.permission]
+        }** on _**${this.originHostname}**_.`
+      ),
+      divider(),
+      text(`${permissionExtraText[params.permission]}`),
+    ]);
+
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      method: 'changePermission',
+    });
 
     return res;
   }

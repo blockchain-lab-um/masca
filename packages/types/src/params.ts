@@ -164,6 +164,20 @@ export interface RemoveTrustedDappRequestParams {
   origin: string;
 }
 
+export interface AddDappSettingsRequestParams {
+  origin: string;
+}
+
+export interface RemoveDappSettingsRequestParams {
+  origin: string;
+}
+
+export interface ChangePermissionsRequestParams {
+  origin: string;
+  method: 'queryCredentials';
+  value: boolean;
+}
+
 export type SignDataRequestParams = {
   type: 'JWT' | 'JWZ';
 } & (SignJWTParams | SignJWZParams);

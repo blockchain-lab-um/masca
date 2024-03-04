@@ -535,11 +535,34 @@ const response = await ethereum.request({
 });
 ```
 
+### changePermission
+
+#### Description
+
+`changePermission` is used to change enable/disable popups for a specific RPC method (only `queryCredentials` is supported for now). Dapps (other than `masca.io`) can only change permissions for themselves. Note that `origin` needs to be a hostname (`masca.io`) and not a full URL (`https://masca.io`)
+
+```typescript
+const response = await ethereum.request({
+  method: 'wallet_invokeSnap',
+  params: {
+    snapId: snapId,
+    request: {
+      method: 'changePermission',
+      params: {
+        origin: 'masca.io',
+        method: 'queryCredentials',
+        value: true, // This disables popups
+      },
+    },
+  },
+});
+```
+
 ### addTrustedDapp
 
 #### Description
 
-`addTrustedDapp` adds a dapp to the list of trusted dapps. Trusted dapps do not show pop-ups. Dapps (other than `masca.io`) can only add themselves to the list of trusted dapps.
+`addTrustedDapp` adds a dapp to the list of trusted dapps. Trusted dapps do not show pop-ups. Dapps (other than `masca.io`) can only add themselves to the list of trusted dapps. Note that `origin` needs to be a hostname (`masca.io`) and not a full URL (`https://masca.io`)
 
 ```typescript
 const response = await ethereum.request({
@@ -549,7 +572,7 @@ const response = await ethereum.request({
     request: {
       method: 'addTrustedDapp',
       params: {
-        origin: 'https://www.masca.io',
+        origin: 'masca.io',
       },
     },
   },
@@ -560,7 +583,7 @@ const response = await ethereum.request({
 
 #### Description
 
-`removeTrustedDapp` removes a dapp from trusted dapps. Dapps (other than `masca.io`) can only remove themselves from the list of trusted dapps.
+`removeTrustedDapp` removes a dapp from trusted dapps. Dapps (other than `masca.io`) can only remove themselves from the list of trusted dapps. Note that `origin` needs to be a hostname (`masca.io`) and not a full URL (`https://masca.io`)
 
 ```typescript
 const response = await ethereum.request({
@@ -570,7 +593,7 @@ const response = await ethereum.request({
     request: {
       method: 'removeTrustedDapp',
       params: {
-        origin: 'https://www.masca.io',
+        origin: 'masca.io',
       },
     },
   },
