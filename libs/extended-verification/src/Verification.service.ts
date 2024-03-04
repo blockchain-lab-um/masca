@@ -185,7 +185,6 @@ export class VerificationService {
       // TODO: Test if it is JWZ format}
       throw new Error('JWZ Support not implemented yet');
     } catch (error) {
-      console.log('error');
       console.error(error);
       return ResultObject.error('Verification failed');
     }
