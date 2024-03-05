@@ -737,9 +737,6 @@ importers:
       '@metamask/utils':
         specifier: ^8.2.1
         version: 8.2.1
-      '@types/lodash.clonedeep':
-        specifier: ^4.5.7
-        version: 4.5.8
       '@veramo/core':
         specifier: 5.6.0
         version: 5.6.0
@@ -834,6 +831,9 @@ importers:
       '@types/jsonpath':
         specifier: ^0.2.2
         version: 0.2.2
+      '@types/lodash.clonedeep':
+        specifier: ^4.5.8
+        version: 4.5.8
       '@types/qs':
         specifier: ^6.9.12
         version: 6.9.12
@@ -855,9 +855,6 @@ importers:
       node-stdlib-browser:
         specifier: ^1.2.0
         version: 1.2.0
-      shx:
-        specifier: ^0.3.4
-        version: 0.3.4
       vite:
         specifier: ^5.1.5
         version: 5.1.5(@types/node@20.11.24)
@@ -13323,11 +13320,11 @@ packages:
     resolution: {integrity: sha512-I5toZLLfTvhnuAnejjVgSpBSLSC316bVURbI0sCYI0dKY3jaJgOg2arfPC6miTNnHRi/Tk/J6BB+kzT3iB5mcw==}
     dependencies:
       '@types/lodash': 4.14.200
-    dev: false
+    dev: true
 
   /@types/lodash@4.14.200:
     resolution: {integrity: sha512-YI/M/4HRImtNf3pJgbF+W6FrXovqj+T+/HpENLTooK9PnkacBsDpeP3IpHab40CClUfhNmdM2WTNP2sa2dni5Q==}
-    dev: false
+    dev: true
 
   /@types/luxon@3.4.2:
     resolution: {integrity: sha512-TifLZlFudklWlMBfhubvgqTXRzLDI5pCbGa4P8a3wPyUQSW+1xQ5eDsreP9DWHX3tjq1ke96uYG/nwundroWcA==}
@@ -28445,15 +28442,6 @@ packages:
       glob: 7.2.3
       interpret: 1.4.0
       rechoir: 0.6.2
-
-  /shx@0.3.4:
-    resolution: {integrity: sha512-N6A9MLVqjxZYcVn8hLmtneQWIJtp8IKzMP4eMnx+nqkvXoqinUPCbUFLp2UcWTEIUONhlk0ewxr/jaVGlc+J+g==}
-    engines: {node: '>=6'}
-    hasBin: true
-    dependencies:
-      minimist: 1.2.8
-      shelljs: 0.8.5
-    dev: true
 
   /side-channel@1.0.4:
     resolution: {integrity: sha512-q5XPytqFEIKHkGdiMIrY10mvLRvnQh42/+GoBlFW3b2LXLE2xxJpZFdm94we0BaoV3RwJyGqg5wS7epxTv0Zvw==}
