@@ -521,7 +521,7 @@ We recommend calling this method in `window.ethereum.on('accountsChanged', handl
 
 #### Description
 
-`togglePopups` toggles pop-ups that show up whenever the user tries to save a VC, generate a VP, etc. Pop-ups are enabled by default to keep user in total control of their actions. With pop-ups disabled, a dapp can query user's credentials, etc. without them knowing. We recommend using `addTrustedDapp` instead to only trust specific dapps.
+`togglePopups` toggles popups that show up whenever the user tries to save a VC, generate a VP, etc. Popups are enabled by default to keep user in total control of their actions. With popups disabled, a dapp can query user's credentials, etc. without them knowing. We recommend using `addTrustedDapp` instead to only trust specific dapps.
 
 ```typescript
 const response = await ethereum.request({
@@ -562,7 +562,7 @@ const response = await ethereum.request({
 
 #### Description
 
-`addTrustedDapp` adds a dapp to the list of trusted dapps. Trusted dapps do not show pop-ups. Dapps (other than `masca.io`) can only add themselves to the list of trusted dapps. Note that `origin` needs to be a hostname (`masca.io`) and not a full URL (`https://masca.io`)
+`addTrustedDapp` adds a dapp to the list of trusted dapps. Trusted dapps do not show popups. Dapps (other than `masca.io`) can only add themselves to the list of trusted dapps. Note that `origin` needs to be a hostname (`masca.io`) and not a full URL (`https://masca.io`)
 
 ```typescript
 const response = await ethereum.request({
