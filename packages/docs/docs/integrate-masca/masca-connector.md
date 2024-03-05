@@ -232,9 +232,9 @@ const vpRes = await api.verifyData({ presentation: VP, verbose: true });
 
 ## Snap Settings
 
-`togglePopups` is used to enable/disable the `"Are you sure?"` alerts on any dapp. Pop-ups are enabled by default for user to approve every action.
+`togglePopups` is used to enable/disable the `"Are you sure?"` alerts on any dapp. Popups are enabled by default for user to approve every action.
 
-`addTrustedDapp` is used to add a dapp to the list of trusted dapps. Pop-ups do not appear on trusted dapps. This method can be called to add ANY dapp ONLY ON `masca.io`. On any other dapp origin is set automatically (You can only add dapp X on dapp X). Input is a hostname of a dapp
+`addTrustedDapp` is used to add a dapp to the list of trusted dapps. Popups do not appear on trusted dapps. This method can be called to add ANY dapp ONLY ON `masca.io`. On any other dapp origin is set automatically (You can only add dapp X on dapp X). Input is a hostname of a dapp
 
 `removeTrustedDapp` is used to remove a dapp from the list of trusted dapps. This method can only remove dapps with the same origin (dApp X can only remove dapp X). Input is a hostname of a dapp
 

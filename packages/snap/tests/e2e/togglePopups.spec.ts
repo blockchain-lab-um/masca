@@ -24,7 +24,7 @@ describe('togglePopups', () => {
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
   });
 
-  it('should enable pop-ups and then disable them', async () => {
+  it('should enable popups and then disable them', async () => {
     const res = (await onRpcRequest({
       origin: 'http://localhost',
       request: {

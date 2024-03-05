@@ -287,9 +287,9 @@ class UIService {
 
   static async togglePopupsDialog() {
     const uiPanel = panel([
-      heading('Toggle Pop-ups'),
+      heading('Toggle Popups'),
       ...this.originWrapper,
-      text('Would you like to turn off pop-ups?'),
+      text('Would you like to turn off popups?'),
       divider(),
       text(
         'This can result in a better user experience, but you will not be able to see what the dapp is requesting.'
@@ -342,7 +342,7 @@ class UIService {
       params: {
         type: 'prompt',
         content: panel([
-          heading('Enter the PIN you received from the issuer'),
+          heading('Enter the PIN you received from the issuer.'),
           ...this.originWrapper,
         ]),
         placeholder: 'PIN...',
@@ -438,7 +438,7 @@ class UIService {
     const uiPanel = panel([
       heading('Change Permission'),
       ...this.originWrapper,
-      text('Would you to change the following permissions?'),
+      text('Would you to change the following permission?'),
       divider(),
       text(
         `**${params.value ? 'Disable' : 'Enable'}** popups for **${

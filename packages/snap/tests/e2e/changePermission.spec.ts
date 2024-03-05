@@ -62,7 +62,7 @@ describe('changePermission', () => {
     expect.assertions(3);
   });
 
-  it('should not show pop-up if the dapp is already in the list', async () => {
+  it('should not show popup if the dapp is already in the list', async () => {
     const spyQuery = vi.spyOn(snapMock.rpcMocks, 'snap_dialog');
 
     const defaultState = getDefaultSnapState(account);
