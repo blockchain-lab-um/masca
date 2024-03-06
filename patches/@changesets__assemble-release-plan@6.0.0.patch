@@ -1,0 +1,60 @@
+diff --git a/dist/changesets-assemble-release-plan.cjs.js b/dist/changesets-assemble-release-plan.cjs.js
+index ee5c0f67fabadeb112e9f238d8b144a4d125830f..abebefae212d5c6ad40b7cdc506a50a8a3c89a04 100644
+--- a/dist/changesets-assemble-release-plan.cjs.js
++++ b/dist/changesets-assemble-release-plan.cjs.js
+@@ -510,15 +510,17 @@ snapshot) {
+       // Detailed explanation at https://github.com/changesets/changesets/pull/382#discussion_r434434182
+       if (preInfo.preVersions.get(pkg.packageJson.name) !== 0) {
+         const existingRelease = releases.get(pkg.packageJson.name);
+-
+-        if (!existingRelease) {
+-          releases.set(pkg.packageJson.name, {
+-            name: pkg.packageJson.name,
+-            type: "patch",
+-            oldVersion: pkg.packageJson.version,
+-            changesets: []
+-          });
+-        } else if (existingRelease.type === "none" && !refinedConfig.ignore.includes(pkg.packageJson.name)) {
++        
++        // [Martin]: We don't want this behavior.
++        // if (!existingRelease) {
++        //   releases.set(pkg.packageJson.name, {
++        //     name: pkg.packageJson.name,
++        //     type: "patch",
++        //     oldVersion: pkg.packageJson.version,
++        //     changesets: []
++        //   });
++        // }
++        if (existingRelease && existingRelease.type === "none" && !refinedConfig.ignore.includes(pkg.packageJson.name)) {
+           existingRelease.type = "patch";
+         }
+       }
+diff --git a/dist/changesets-assemble-release-plan.esm.js b/dist/changesets-assemble-release-plan.esm.js
+index bf5202626a164a7780650d333983c3479b078689..2c6ab2951cb20a881de7e01685490284cc5e19a1 100644
+--- a/dist/changesets-assemble-release-plan.esm.js
++++ b/dist/changesets-assemble-release-plan.esm.js
+@@ -500,14 +500,16 @@ snapshot) {
+       if (preInfo.preVersions.get(pkg.packageJson.name) !== 0) {
+         const existingRelease = releases.get(pkg.packageJson.name);
+ 
+-        if (!existingRelease) {
+-          releases.set(pkg.packageJson.name, {
+-            name: pkg.packageJson.name,
+-            type: "patch",
+-            oldVersion: pkg.packageJson.version,
+-            changesets: []
+-          });
+-        } else if (existingRelease.type === "none" && !refinedConfig.ignore.includes(pkg.packageJson.name)) {
++        // [Martin]: We don't want this behavior.
++        // if (!existingRelease) {
++        //   releases.set(pkg.packageJson.name, {
++        //     name: pkg.packageJson.name,
++        //     type: "patch",
++        //     oldVersion: pkg.packageJson.version,
++        //     changesets: []
++        //   });
++        // }
++        if (existingRelease && existingRelease.type === "none" && !refinedConfig.ignore.includes(pkg.packageJson.name)) {
+           existingRelease.type = "patch";
+         }
+       }
