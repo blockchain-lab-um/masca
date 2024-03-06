@@ -83,10 +83,9 @@ const AddressPopover = ({ did, disconnect }: AddressPopoverProps) => {
                           className="animated-transition cursor-pointer text-2xl text-gray-800 underline hover:text-gray-700 dark:text-white dark:hover:text-gray-100"
                         >{`${did.substring(0, did.lastIndexOf(':'))}:${did
                           .split(':')
-                          [did.split(':').length - 1].slice(
-                            0,
-                            5
-                          )}...${did.slice(-4)}`}</a>
+                          [
+                            did.split(':').length - 1
+                          ].slice(0, 5)}...${did.slice(-4)}`}</a>
                       ) : (
                         <TextSkeleton className="h-6 w-52" />
                       )}
