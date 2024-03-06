@@ -5,8 +5,7 @@ import {
   W3CVerifiableCredential,
   W3CVerifiablePresentation,
 } from '@veramo/core';
-import { decodeCredentialToObject } from '@veramo/utils';
-import { normalizePresentation } from 'did-jwt-vc';
+import { normalizeCredential, normalizePresentation } from 'did-jwt-vc';
 import { Provider } from 'ethers';
 
 import { createVeramoAgent, type Agent } from './createVeramoAgent';
@@ -120,7 +119,11 @@ export class VerificationService {
 
         // Extract credentials from the presentation
         for (const credential of presentation.verifiableCredential) {
-          credentialsToVerify.push(decodeCredentialToObject(credential));
+          credentialsToVerify.push(
+            typeof credential === 'string'
+              ? normalizeCredential(credential)
+              : credential
+          );
         }
       }
 
@@ -129,7 +132,7 @@ export class VerificationService {
         try {
           if (typeof data === 'string') {
             credentialsToVerify.push(
-              decodeCredentialToObject(data as W3CVerifiableCredential)
+              normalizeCredential(data as W3CVerifiableCredential)
             );
           } else {
             credentialsToVerify.push(data as VerifiableCredential);
@@ -155,15 +158,15 @@ export class VerificationService {
               ? credential.issuer
               : credential.issuer.id;
 
-          if (issuer.startsWith('did:ebsi:')) {
-            // TODO: Check if issuer is in EBSI trusted registry
-          }
+          // TODO: Check if issuer is in EBSI trusted registry
+          // if (issuer.startsWith('did:ebsi:')) {
+          //
+          // }
 
           // TODO: Verify schema
           verificationResult.details.credentials.push({
             signature: {
               isValid: result.verified,
-              // errors: [errorMessage],
               errors: [],
             },
             schema: {
@@ -182,7 +185,7 @@ export class VerificationService {
         return ResultObject.success(verificationResult);
       }
 
-      // TODO: Test if it is JWZ format}
+      // TODO: Test if it is JWZ format
       throw new Error('JWZ Support not implemented yet');
     } catch (error) {
       console.error(error);
