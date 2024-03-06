@@ -82,7 +82,6 @@ import {
 } from 'ens-did-resolver';
 import { BrowserProvider } from 'ethers';
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver';
-import { EthrNetworkConfiguration } from 'node_modules/@veramo/did-provider-ethr/build/ethr-did-provider';
 import qs from 'qs';
 
 import EthereumService from '../Ethereum.service';
@@ -962,7 +961,7 @@ class VeramoService {
     const enabledCredentialStores =
       await GeneralService.getEnabledCredentialStores();
 
-    const networks: EthrNetworkConfiguration[] = [
+    const networks: any = [
       {
         name: 'mainnet',
         provider: new BrowserProvider(ethereum as any),
@@ -1022,7 +1021,7 @@ class VeramoService {
             ...pkhDidResolver(),
             ...jwkDidResolver(),
             ...ensDidResolver({
-              networks: networks as ProviderConfiguration[],
+              networks: networks as unknown as ProviderConfiguration[],
             }),
             ...UniversalResolverService.getResolver(),
           }),

@@ -40,12 +40,12 @@ let agent: TAgent<
     IResolver &
     ICredentialPlugin
 >;
-let dbConnection: Promise<DataSource>;
+let dbConnection: DataSource;
 let databaseFile: string;
 
 const setup = async (options?: IAgentOptions): Promise<boolean> => {
   databaseFile = options?.context?.databaseFile || ':memory:';
-  dbConnection = new DataSource({
+  dbConnection = await new DataSource({
     name: options?.context?.dbName || 'test',
     type: 'better-sqlite3',
     database: databaseFile,
@@ -96,8 +96,8 @@ const setup = async (options?: IAgentOptions): Promise<boolean> => {
 
 const tearDown = async (): Promise<boolean> => {
   try {
-    await (await dbConnection).dropDatabase();
-    await (await dbConnection).destroy();
+    await dbConnection.dropDatabase();
+    await dbConnection.destroy();
   } catch (e) {
     // nop
   }
@@ -114,6 +114,5 @@ const getAgent = () => agent;
 const testContext = { getAgent, setup, tearDown };
 
 describe('masca/libs: Veramo Agent Tests', () => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   plugin(testContext);
 });

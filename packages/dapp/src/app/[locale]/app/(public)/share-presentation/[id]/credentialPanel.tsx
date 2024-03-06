@@ -17,7 +17,7 @@ import JsonModal from '@/components/JsonModal';
 import { getFirstWord } from '@/utils/format';
 import { convertTypes, copyToClipboard } from '@/utils/string';
 
-interface FormatedPanelProps {
+interface FormattedPanelProps {
   credential: VerifiableCredential;
 }
 
@@ -127,7 +127,7 @@ const CredentialSubject = ({
   </>
 );
 
-const CredentialPanel = ({ credential }: FormatedPanelProps) => {
+const CredentialPanel = ({ credential }: FormattedPanelProps) => {
   const t = useTranslations('CredentialPanel');
 
   const pathname = usePathname();
