@@ -36,15 +36,15 @@
     "test:ci": "pnpm run test --silent --coverage"
   },
   "dependencies": {
-    "@veramo/core": "5.2.0",
-    "@veramo/core-types": "5.1.2",
-    "@veramo/credential-w3c": "5.2.0",
-    "@veramo/data-store": "5.2.0",
-    "@veramo/did-manager": "5.1.2",
-    "@veramo/did-resolver": "5.2.0",
-    "@veramo/key-manager": "5.1.2",
-    "@veramo/kms-local": "5.1.2",
-    "@veramo/utils": "5.2.0",
+    "@veramo/core": "5.6.1-next.57",
+    "@veramo/core-types": "5.6.1-next.57",
+    "@veramo/credential-w3c": "5.6.1-next.57",
+    "@veramo/data-store": "5.6.1-next.57",
+    "@veramo/did-manager": "5.6.1-next.57",
+    "@veramo/did-resolver": "5.6.1-next.57",
+    "@veramo/key-manager": "5.6.1-next.57",
+    "@veramo/kms-local": "5.6.1-next.57",
+    "@veramo/utils": "5.6.1-next.57",
     "did-resolver": "4.0.1"
   },
   "devDependencies": {
