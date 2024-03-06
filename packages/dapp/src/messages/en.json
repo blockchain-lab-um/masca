@@ -245,7 +245,7 @@
     "cancel": "Cancel",
     "save": "Save"
   },
-  "FormatedView": {
+  "FormattedView": {
     "holder": "Holder",
     "presented": "Presented",
     "credentials": "Credentials",
@@ -347,7 +347,7 @@
     "title": "Filter Credentials",
     "type": "Type"
   },
-  "FormatedPanel": {
+  "FormattedPanel": {
     "dates": "DATES",
     "expiration-date": "Expiration Date",
     "issuer": "ISSUER",

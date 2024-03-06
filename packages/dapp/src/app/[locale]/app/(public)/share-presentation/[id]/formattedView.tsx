@@ -16,7 +16,7 @@ import { VerificationInfoModal } from '@/components/VerificationInfoModal';
 import { copyToClipboard } from '@/utils/string';
 import CredentialPanel from './credentialPanel';
 
-export const FormatedView = ({
+export const FormattedView = ({
   credential,
   holder,
   expirationDate,
@@ -33,7 +33,7 @@ export const FormatedView = ({
   total: number;
   verificationResult: IVerifyResult;
 }) => {
-  const t = useTranslations('FormatedView');
+  const t = useTranslations('FormattedView');
 
   const [verificationInfoModalOpen, setVerificationInfoModalOpen] =
     useState(false);

@@ -8,7 +8,7 @@ import JsonPanel from '@/components/CredentialDisplay/JsonPanel';
 import { convertTypes } from '@/utils/string';
 import { Database } from '@/utils/supabase/database.types';
 import { getAgent } from '@/app/api/veramoSetup';
-import { FormatedView } from './formatedView';
+import { FormattedView } from './formattedView';
 
 export const revalidate = 0;
 
@@ -82,7 +82,7 @@ export default async function Page({
     <div className="flex w-full flex-1 items-start justify-center">
       <div className="max-w-full flex-1 md:max-w-3xl">
         {view === 'Normal' && (
-          <FormatedView
+          <FormattedView
             credential={credentials[parseInt(page, 10) - 1]}
             holder={presentation.holder}
             expirationDate={presentation.expirationDate}

@@ -22,7 +22,7 @@ import DeleteModal from '../DeleteModal';
 import ModifyDSModal from '../ModifyDSModal';
 import { ShareCredentialModal } from '../ShareCredentialModal';
 import StoreIcon from '../StoreIcon';
-import FormatedPanel from './FormatedPanel';
+import FormattedPanel from './FormattedPanel';
 import JsonPanel from './JsonPanel';
 
 interface CredentialDisplayProps {
@@ -135,7 +135,7 @@ const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
         </div>
         {selectedTab === 'Normal' && (
           <>
-            <FormatedPanel credential={vc.data} />
+            <FormattedPanel credential={vc.data} />
             <div className="mt-8 flex flex-col space-y-2 px-6">
               <h1 className="text-md dark:text-orange-accent-dark font-medium text-pink-500">
                 {t('datastores')}
