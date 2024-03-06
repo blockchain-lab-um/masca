@@ -19,6 +19,7 @@ on:
           - '@blockchain-lab-um/oidc-types'
           - '@blockchain-lab-um/oidc-client-plugin'
           - '@blockchain-lab-um/dapp'
+          - '@blockchain-lab-um/extended-verification'
 
 # Wait for the workflow to finish before starting a new one
 concurrency: ${{ github.workflow }}-${{ github.ref }}
