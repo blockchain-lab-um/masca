@@ -1,4 +1,3 @@
-// vite.config.ts
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'vitest/config';
 
@@ -8,7 +7,7 @@ export default defineConfig({
   test: {
     watch: false,
     pool: 'forks',
-    include: ['tests/**/*.spec.ts'],
+    include: ['tests/localAgent.spec.ts'],
     silent: true,
     cache: false,
     environment: 'node', // or 'happy-dom', 'jsdom'

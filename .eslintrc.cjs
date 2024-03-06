@@ -85,7 +85,7 @@ module.exports = {
           '**/jest.d.ts',
           '**/test/**',
           '**/tests/**',
-          '**/vite.config.ts',
+          '**/vite.config.mts',
         ],
       },
     ],

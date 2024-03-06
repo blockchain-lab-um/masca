@@ -272,7 +272,7 @@ describe('signData', () => {
 
       const nodeWallet = HDNodeWallet.fromMnemonic(
         Mnemonic.fromEntropy(entropy)
-      ).derivePath(`m/44/1236/${methodIndexMapping[testCase.method]}/0/0`);
+      ).derivePath(`44/1236/${methodIndexMapping[testCase.method]}/0/0`);
 
       const curveName =
         testCase.method === 'did:key:jwk_jcs-pub' ? 'p256' : 'secp256k1';
