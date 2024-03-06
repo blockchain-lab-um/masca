@@ -12,7 +12,8 @@
     "@blockchain-lab-um/veramo-datamanager": "1.0.0",
     "@blockchain-lab-um/masca-docs": "1.1.0",
     "@blockchain-lab-um/masca": "1.1.0",
-    "@blockchain-lab-um/masca-types": "1.2.0"
+    "@blockchain-lab-um/masca-types": "1.2.0",
+    "@blockchain-lab-um/extended-verification": "0.0.1"
   },
   "changesets": [
     "beige-clocks-love",
@@ -33,6 +34,7 @@
     "neat-swans-occur",
     "olive-bugs-flow",
     "plenty-stingrays-give",
+    "poor-chefs-attack",
     "quick-chicken-enjoy",
     "sixty-ties-relate",
     "small-apples-invent",
