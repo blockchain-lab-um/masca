@@ -32,7 +32,6 @@ const nextConfig = {
         hostname: '**',
       },
     ],
-    domains: ['localhost'],
     loader: 'default',
   },
   optimizeFonts: true,
