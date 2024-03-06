@@ -1,26 +1,29 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import {
   CheckCircleIcon,
   DocumentDuplicateIcon,
   ExclamationCircleIcon,
+  InformationCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Pagination, Tooltip } from '@nextui-org/react';
-import { VerifiableCredential } from '@veramo/core';
+import { IVerifyResult, VerifiableCredential } from '@veramo/core';
 import { useTranslations } from 'next-intl';
 
+import { VerificationInfoModal } from '@/components/VerificationInfoModal';
 import { copyToClipboard } from '@/utils/string';
 import CredentialPanel from './credentialPanel';
 
-export const FormatedView = ({
+export const FormattedView = ({
   credential,
   holder,
   expirationDate,
   issuanceDate,
   page,
   total,
+  verificationResult,
 }: {
   credential: VerifiableCredential;
   holder: string;
@@ -28,8 +31,12 @@ export const FormatedView = ({
   issuanceDate: string | undefined;
   page: string;
   total: number;
+  verificationResult: IVerifyResult;
 }) => {
-  const t = useTranslations('FormatedView');
+  const t = useTranslations('FormattedView');
+
+  const [verificationInfoModalOpen, setVerificationInfoModalOpen] =
+    useState(false);
 
   const router = useRouter();
   const pathname = usePathname();
@@ -41,8 +48,12 @@ export const FormatedView = ({
 
   return (
     <>
-      <div className="dark:bg-navy-blue-800 h-full w-full rounded-3xl bg-white shadow-lg">
-        <div className="dark:from-navy-blue-700 dark:to-navy-blue-700 flex max-w-full flex-col-reverse items-center space-x-4 rounded-t-2xl bg-gradient-to-br from-pink-100 to-orange-100 px-10 pb-2 pt-6 sm:flex-row">
+      <div className="dark:bg-navy-blue-800 relative h-full w-full rounded-3xl bg-white shadow-lg">
+        <InformationCircleIcon
+          onClick={() => setVerificationInfoModalOpen(true)}
+          className="absolute right-3 top-3 h-6 w-6 cursor-pointer"
+        />
+        <div className="dark:from-navy-blue-700 dark:to-navy-blue-700 flex max-w-full flex-col-reverse items-center space-x-4 rounded-t-2xl bg-gradient-to-br from-pink-100 to-orange-100 px-10 pt-6 sm:flex-row">
           <div className="flex w-full">
             <div className="flex flex-col space-y-4">
               <div className="flex flex-col">
@@ -144,6 +155,10 @@ export const FormatedView = ({
           <CredentialPanel credential={credential} />
         </div>
       </div>
+      <VerificationInfoModal
+        isOpen={verificationInfoModalOpen}
+        setOpen={setVerificationInfoModalOpen}
+      />
     </>
   );
 };

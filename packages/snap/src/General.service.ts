@@ -124,7 +124,7 @@ class GeneralService {
   }): Promise<boolean> {
     const state = StorageService.get();
 
-    // If the user rejects the pop-up, throw an error
+    // If the user rejects the popup, throw an error
     if (
       !(await UIService.changePermissionDialog({
         permission: params.method,
@@ -134,7 +134,7 @@ class GeneralService {
       throw new Error('User rejected permission change.');
     }
 
-    // If the user accepts the pop-up, change the permission
+    // If the user accepts the popup, change the permission
 
     if (permissionExists(params.originHostname, state)) {
       state[CURRENT_STATE_VERSION].config.dApp.permissions[
@@ -195,7 +195,7 @@ class GeneralService {
         state[CURRENT_STATE_VERSION].config.dApp.disablePopups = true;
         return state[CURRENT_STATE_VERSION].config.dApp.disablePopups;
       }
-      throw new Error('User rejected pop-up toggle.');
+      throw new Error('User rejected popup toggle.');
     } else {
       state[CURRENT_STATE_VERSION].config.dApp.disablePopups = false;
       return state[CURRENT_STATE_VERSION].config.dApp.disablePopups;

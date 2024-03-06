@@ -120,7 +120,7 @@ describe('addTrustedDapp', () => {
     expect.assertions(1);
   });
 
-  it('Should not show pop-up if the dapp is already in the list', async () => {
+  it('Should not show popup if the dapp is already in the list', async () => {
     const spy = vi.spyOn(UIService, 'addTrustedDappDialog');
 
     const defaultState = getDefaultSnapState(account);

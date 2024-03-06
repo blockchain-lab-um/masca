@@ -143,7 +143,7 @@ describe('removeTrustedDapp', () => {
     expect.assertions(3);
   });
 
-  it('Should show pop-up if the dapp is not in the list', async () => {
+  it('Should show popup if the dapp is not in the list', async () => {
     const spy = vi.spyOn(UIService, 'queryAllDialog');
 
     const defaultState = getDefaultSnapState(account);

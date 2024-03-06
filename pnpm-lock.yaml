@@ -257,6 +257,91 @@ importers:
         specifier: 1.3.1
         version: 1.3.1(@types/node@20.11.24)
 
+  libs/extended-verification:
+    dependencies:
+      '@blockchain-lab-um/did-provider-key':
+        specifier: 1.0.8-beta.0
+        version: link:../did-provider-key
+      '@blockchain-lab-um/masca-types':
+        specifier: 1.2.1-beta.0
+        version: 1.2.1-beta.0(typescript@5.2.2)
+      '@blockchain-lab-um/utils':
+        specifier: 1.3.7
+        version: link:../utils
+      '@veramo/core':
+        specifier: 5.6.0
+        version: 5.6.0
+      '@veramo/credential-eip712':
+        specifier: 5.6.0
+        version: 5.6.0(encoding@0.1.13)
+      '@veramo/credential-status':
+        specifier: 5.4.1
+        version: 5.4.1
+      '@veramo/credential-w3c':
+        specifier: 5.6.0
+        version: 5.6.0(encoding@0.1.13)(expo@49.0.16)(react-native@0.72.6)
+      '@veramo/did-provider-jwk':
+        specifier: 5.6.0
+        version: 5.6.0
+      '@veramo/did-provider-pkh':
+        specifier: 5.6.0
+        version: 5.6.0
+      '@veramo/did-resolver':
+        specifier: 5.6.0
+        version: 5.6.0(encoding@0.1.13)
+      '@veramo/utils':
+        specifier: 5.6.0
+        version: 5.6.0(encoding@0.1.13)
+      did-jwt-vc:
+        specifier: ^4.0.0
+        version: 4.0.0
+      did-resolver:
+        specifier: 4.1.0
+        version: 4.1.0
+      ens-did-resolver:
+        specifier: ^1.0.4
+        version: 1.0.4
+      ethers:
+        specifier: ^6.11.1
+        version: 6.11.1
+      ethr-did-resolver:
+        specifier: 10.1.3
+        version: 10.1.3
+    devDependencies:
+      '@veramo/did-manager':
+        specifier: 5.6.0
+        version: 5.6.0
+      '@veramo/did-provider-ethr':
+        specifier: 5.6.0
+        version: 5.6.0
+      '@veramo/key-manager':
+        specifier: 5.6.0
+        version: 5.6.0
+      '@veramo/kms-local':
+        specifier: 5.6.0
+        version: 5.6.0
+      '@vitest/coverage-v8':
+        specifier: 1.0.0-beta.3
+        version: 1.0.0-beta.3(vitest@1.0.0-beta.3)
+      desm:
+        specifier: ^1.3.0
+        version: 1.3.0
+      did-jwt:
+        specifier: ^8.0.0
+        version: 8.0.0
+      tsup:
+        specifier: ^7.2.0
+        version: 7.2.0(ts-node@10.9.1)(typescript@5.2.2)
+      vite:
+        specifier: ^4.5.0
+        version: 4.5.0(@types/node@18.18.6)
+      vite-tsconfig-paths:
+        specifier: ^4.2.1
+        version: 4.2.1(typescript@5.2.2)(vite@4.5.0)
+      vitest:
+        specifier: 1.0.0-beta.3
+        version: 1.0.0-beta.3(@types/node@18.18.6)
+
   libs/oidc/client-plugin:
     dependencies:
       '@blockchain-lab-um/oidc-types':
@@ -4066,6 +4151,36 @@ packages:
   /@bitauth/libauth@1.19.1:
     resolution: {integrity: sha512-R524tD5VwOt3QRHr7N518nqTVR/HKgfWL4LypekcGuNQN8R4PWScvuRcRzrY39A28kLztMv+TJdiKuMNbkU1ug==}
     engines: {node: '>=8.9'}
+
+  /@blockchain-lab-um/masca-types@1.2.1-beta.0(typescript@5.2.2):
+    resolution: {integrity: sha512-aBlgzQW/wCSQKOW1xxt60IhVQOV5VHutVt0FVCNvHkwKHJzOGgJzxsvMlXV30H9U+lN7c7bnCqsxLyO1qnxUeg==}
+    dependencies:
+      '@0xpolygonid/js-sdk': 1.0.3
+      '@blockchain-lab-um/utils': 1.3.7
+      '@iden3/js-iden3-core': 1.0.1
+      '@veramo/core': 5.5.4-next.32
+      typia: 5.2.4(typescript@5.2.2)
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - supports-color
+      - typescript
+      - utf-8-validate
+      - web-streams-polyfill
+    dev: false
+
+  /@blockchain-lab-um/utils@1.3.7:
+    resolution: {integrity: sha512-0SY3/wd5qT+kS8dcYZCY4QJgciIwoqYbvHpeQ9FfiDMNkoh4bdHFDbJ+z3cd9OGwUzcp+FAruzEA8yHopz99Qw==}
+    dependencies:
+      '@veramo/utils': 5.4.1
+      did-resolver: 4.1.0
+      elliptic: 6.5.4
+      multiformats: 11.0.2
+      secp256k1: 5.0.0
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
 
   /@cef-ebsi/ebsi-did-resolver@3.2.0:
     resolution: {integrity: sha512-4wM5TK5l6xRBSkOCEZRP64Xqsd0BqmvjfSpREn8fXbrpMZqOafku77YQSMzqFmOIQ62HSEi5Vf4CSzDHAmalig==}
@@ -14395,7 +14510,6 @@ packages:
       - bufferutil
       - supports-color
       - utf-8-validate
-    dev: false
 
   /@veramo/did-provider-jwk@5.6.1-next.57:
     resolution: {integrity: sha512-joEqoUouCHJxGsNjoX2wU1bOpE86CPWQRXdmij+mFjVEk4ByKhtUmQyjSCSXCBOnKKoUiNE/Bx3/UO+LYprlHQ==}
@@ -18510,6 +18624,14 @@ packages:
       did-jwt: 8.0.1
       did-resolver: 4.1.0
 
+  /did-jwt-vc@4.0.0:
+    resolution: {integrity: sha512-lplB8Ksehx1gn/FQZQ8hW+9KziTqOHsNKqIFBIw26n2mCi+mbDJUyAmJ/rqQoN4OOUm97bdI39HS/b8KDE4drg==}
+    engines: {node: '>=18'}
+    dependencies:
+      did-jwt: 8.0.0
+      did-resolver: 4.1.0
+    dev: false
+
   /did-jwt@6.11.6:
     resolution: {integrity: sha512-OfbWknRxJuUqH6Lk0x+H1FsuelGugLbBDEwsoJnicFOntIG/A4y19fn0a8RLxaQbWQ5gXg0yDq5E2huSBiiXzw==}
     dependencies:
@@ -18565,6 +18687,19 @@ packages:
       multiformats: 9.9.0
       uint8arrays: 3.1.1
 
+  /did-jwt@8.0.0:
+    resolution: {integrity: sha512-lJSVC9Ckxl+U+jDPbdATDtXV7CwE0XGT0Js6KNfjRlaj0LTXvDF90IAyayFwLUzO6punA/q3ZHVfTZaYDhHrLw==}
+    dependencies:
+      '@noble/ciphers': 0.4.0
+      '@noble/curves': 1.2.0
+      '@noble/hashes': 1.3.2
+      '@scure/base': 1.1.3
+      canonicalize: 2.0.0
+      did-resolver: 4.1.0
+      multibase: 4.0.6
+      multiformats: 9.9.0
+      uint8arrays: 3.1.1
+
   /did-resolver@4.1.0:
     resolution: {integrity: sha512-S6fWHvCXkZg2IhS4RcVHxwuyVejPR7c+a4Go0xbQ9ps5kILa8viiYQgrM4gfTyeTjJ0ekgJH9gk/BawTpmkbZA==}
 
@@ -18590,7 +18725,7 @@ packages:
       '@didtools/pkh-ethereum': 0.3.0
       '@stablelib/random': 1.0.2
       dag-jose-utils: 3.0.0
-      did-jwt: 7.2.5
+      did-jwt: 7.4.4
       did-resolver: 4.1.0
       multiformats: 11.0.2
       rpc-utils: 0.6.2
@@ -20000,7 +20135,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
-    dev: false
 
   /ethr-did@3.0.12:
     resolution: {integrity: sha512-g+h1Y6GtYrXGrE3R9qlLdeP3N8BLHmPxXy2adysRjl2seluGne+C42yL1p+m3zdCiuznu8UvtkzZXcIVzBGhSw==}
@@ -20012,7 +20146,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
-    dev: false
 
   /eval@0.1.8:
     resolution: {integrity: sha512-EzV94NYKoO09GLXGjXj9JIlXijVck4ONSr5wiCWDvhsvj5jxSrzTmRU/9C1DyB6uToszLs8aifA6NQ7lEQdvFw==}
@@ -23553,7 +23686,7 @@ packages:
     engines: {node: '>=14.14'}
     dependencies:
       '@stablelib/ed25519': 1.0.3
-      did-jwt: 7.2.5
+      did-jwt: 7.4.4
       dids: 4.0.1
       fast-json-stable-stringify: 2.1.0
       rpc-utils: 0.6.2
@@ -25387,7 +25520,7 @@ packages:
   /mlly@1.4.2:
     resolution: {integrity: sha512-i/Ykufi2t1EZ6NaPLdfnZk2AX8cs0d+mTzVKuPfqPKPatxLApaBoxJQ9x1/uckXtrS/U5oisPMDkNs0yQTaBRg==}
     dependencies:
-      acorn: 8.10.0
+      acorn: 8.11.2
       pathe: 1.1.1
       pkg-types: 1.0.3
       ufo: 1.3.1

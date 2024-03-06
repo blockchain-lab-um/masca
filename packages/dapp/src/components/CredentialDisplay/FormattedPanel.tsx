@@ -21,7 +21,7 @@ import {
   copyToClipboard,
 } from '@/utils/string';
 
-interface FormatedPanelProps {
+interface FormattedPanelProps {
   credential: VerifiableCredential;
 }
 
@@ -115,8 +115,8 @@ const CredentialSubject = ({
   </>
 );
 
-const FormatedPanel = ({ credential }: FormatedPanelProps) => {
-  const t = useTranslations('FormatedPanel');
+const FormattedPanel = ({ credential }: FormattedPanelProps) => {
+  const t = useTranslations('FormattedPanel');
   const types = useMemo(() => convertTypes(credential.type), [credential.type]);
 
   const [jsonModalOpen, setJsonModalOpen] = useState(false);
@@ -218,4 +218,4 @@ const FormatedPanel = ({ credential }: FormatedPanelProps) => {
   );
 };
 
-export default FormatedPanel;
+export default FormattedPanel;

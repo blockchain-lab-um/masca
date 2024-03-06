@@ -10,6 +10,19 @@
     "settings": "Settings",
     "verify-data": "Verify Data"
   },
+  "VerificationInfoModal": {
+    "title": "Verification Information",
+    "subtitle": "Following information is being verified:",
+    "close": "Close",
+    "list": {
+      "presentation-signature": "Presentation signature",
+      "credential-signature": "Credential signature",
+      "credential-schema": "Credential schema",
+      "expiration-date": "Expiration date",
+      "valid-from-date": "Valid from date",
+      "credential-status": "Credential status"
+    }
+  },
   "AppNavbar": {
     "address": {
       "connected": "CONNECTED WITH METAMASK",
@@ -232,7 +245,7 @@
     "cancel": "Cancel",
     "save": "Save"
   },
-  "FormatedView": {
+  "FormattedView": {
     "holder": "Holder",
     "presented": "Presented",
     "credentials": "Credentials",
@@ -334,7 +347,7 @@
     "title": "Filter Credentials",
     "type": "Type"
   },
-  "FormatedPanel": {
+  "FormattedPanel": {
     "dates": "DATES",
     "expiration-date": "Expiration Date",
     "issuer": "ISSUER",
@@ -522,7 +535,7 @@
     "delete-error": "Failed to delete backup",
     "delete-google": "Delete from Google Drive",
     "delete-success": "Successfully deleted backup",
-    "disable-popups": "Disable Pop-ups",
+    "disable-popups": "Disable Popups",
     "export": "Export",
     "export-desc": "Export encrypted Masca backup to a file.",
     "export-error": "Failed to export backup",
@@ -535,7 +548,7 @@
     "import-success": "Successfully imported backup",
     "not-implemented": "Not implemented yet",
     "popups": "Permissions",
-    "popups-desc": "Disabling pop-ups is very dangerous. We recommend setting trusted dapps instead!",
+    "popups-desc": "Disabling popups is very dangerous. We recommend setting trusted dapps instead!",
     "title": "Settings",
     "unknown-error": "Unknown error",
     "wallet-error": "Failed to get wallet ID"
