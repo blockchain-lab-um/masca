@@ -36,6 +36,7 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
     // Same device
     if (isConnected && deviceType === 'primary') {
       changeRequestData(decodedText);
+      onQRCodeScanned();
       return;
     }
 
@@ -104,6 +105,8 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
         .eq('id', sessionId);
 
       if (error) throw new Error('Failed to send data');
+
+      onQRCodeScanned();
     } catch (e) {
       setTimeout(() => {
         useToastStore.setState({

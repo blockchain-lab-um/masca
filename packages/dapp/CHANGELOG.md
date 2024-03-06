@@ -1,5 +1,42 @@
 # @blockchain-lab-um/dapp
 
+## 1.2.0-beta.2
+
+### Minor Changes
+
+- [#544](https://github.com/blockchain-lab-um/masca/pull/544) [`b688093`](https://github.com/blockchain-lab-um/masca/commit/b688093520e727815250d4015bb9c6adc406894d) Thanks [@pseudobun](https://github.com/pseudobun)! - Adds ENS, `did:ens` support, transitions to wagmi.
+
+- [#572](https://github.com/blockchain-lab-um/masca/pull/572) [`d1fb6d3`](https://github.com/blockchain-lab-um/masca/commit/d1fb6d355e975c1d1d63085d30600af6e8fbf671) Thanks [@martines3000](https://github.com/martines3000)! - Migrate Planetscale to Supabase
+
+### Patch Changes
+
+- [#549](https://github.com/blockchain-lab-um/masca/pull/549) [`0fc5970`](https://github.com/blockchain-lab-um/masca/commit/0fc5970bfcb48db249663aec7d227498e2f5971c) Thanks [@Vid201](https://github.com/Vid201)! - Update text
+
+- [#533](https://github.com/blockchain-lab-um/masca/pull/533) [`e8d8e5b`](https://github.com/blockchain-lab-um/masca/commit/e8d8e5ba52bf40f8984434e39c20e79e2c1e781c) Thanks [@andyv09](https://github.com/andyv09)! - Changed and updated trusted dapps
+
+- [#568](https://github.com/blockchain-lab-um/masca/pull/568) [`cf0e0c8`](https://github.com/blockchain-lab-um/masca/commit/cf0e0c8aac3294581c59709db9936a20e157417a) Thanks [@pseudobun](https://github.com/pseudobun)! - Adds allowed image sources/origins/domains on dapp.
+
+- [#554](https://github.com/blockchain-lab-um/masca/pull/554) [`af204fc`](https://github.com/blockchain-lab-um/masca/commit/af204fc2f3e5365c6780ef37cd58f3350d62bd1a) Thanks [@martines3000](https://github.com/martines3000)! - Remove support for Goerli.
+
+- [#565](https://github.com/blockchain-lab-um/masca/pull/565) [`24f8dd4`](https://github.com/blockchain-lab-um/masca/commit/24f8dd4f68c8cf7eba9d63ab45f2786cbb6d1dea) Thanks [@martines3000](https://github.com/martines3000)! - Improves SIWE session handling.
+
+- [#569](https://github.com/blockchain-lab-um/masca/pull/569) [`65f4946`](https://github.com/blockchain-lab-um/masca/commit/65f494675e9a9b3b741eb6b389cd68342b7cb4ef) Thanks [@pseudobun](https://github.com/pseudobun)! - Some minor visual fixes.
+
+- [#570](https://github.com/blockchain-lab-um/masca/pull/570) [`8967e61`](https://github.com/blockchain-lab-um/masca/commit/8967e6154dddb1680760b03c9fcac7a179c6d48d) Thanks [@pseudobun](https://github.com/pseudobun)! - Renames Dashboard to Credentials.
+
+- [#565](https://github.com/blockchain-lab-um/masca/pull/565) [`24f8dd4`](https://github.com/blockchain-lab-um/masca/commit/24f8dd4f68c8cf7eba9d63ab45f2786cbb6d1dea) Thanks [@martines3000](https://github.com/martines3000)! - Add loading skeleton on shared presentations page.
+
+- [#567](https://github.com/blockchain-lab-um/masca/pull/567) [`fc4e573`](https://github.com/blockchain-lab-um/masca/commit/fc4e5732d2204d61a78c84d2844b67b49d8c020d) Thanks [@andyv09](https://github.com/andyv09)! - Implement new permission system in snap, update connector & types and permissions table on dApp
+
+- [#557](https://github.com/blockchain-lab-um/masca/pull/557) [`ad80cd1`](https://github.com/blockchain-lab-um/masca/commit/ad80cd14ac116d1e1db17abf811926a8f0a1027d) Thanks [@andyv09](https://github.com/andyv09)! - Add Social Media Sharing & update OG
+
+- [#573](https://github.com/blockchain-lab-um/masca/pull/573) [`12dc00a`](https://github.com/blockchain-lab-um/masca/commit/12dc00a86cfb6580d9b3e707f97034f7519e21d2) Thanks [@pseudobun](https://github.com/pseudobun)! - Adds terms of service and privacy policy pages.
+
+- [#562](https://github.com/blockchain-lab-um/masca/pull/562) [`f834489`](https://github.com/blockchain-lab-um/masca/commit/f83448962bc8cbf0d3b797d283275740c7813032) Thanks [@tadejpodrekar](https://github.com/tadejpodrekar)! - Fixed minor visual bugs
+
+- Updated dependencies [[`e8d8e5b`](https://github.com/blockchain-lab-um/masca/commit/e8d8e5ba52bf40f8984434e39c20e79e2c1e781c), [`b688093`](https://github.com/blockchain-lab-um/masca/commit/b688093520e727815250d4015bb9c6adc406894d), [`fc4e573`](https://github.com/blockchain-lab-um/masca/commit/fc4e5732d2204d61a78c84d2844b67b49d8c020d)]:
+  - @blockchain-lab-um/masca-connector@1.3.0-beta.1
+
 ## 1.2.0-beta.1
 
 ### Minor Changes

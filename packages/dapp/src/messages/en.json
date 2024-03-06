@@ -535,7 +535,7 @@
     "delete-error": "Failed to delete backup",
     "delete-google": "Delete from Google Drive",
     "delete-success": "Successfully deleted backup",
-    "disable-popups": "Disable Pop-ups",
+    "disable-popups": "Disable Popups",
     "export": "Export",
     "export-desc": "Export encrypted Masca backup to a file.",
     "export-error": "Failed to export backup",
@@ -548,7 +548,7 @@
     "import-success": "Successfully imported backup",
     "not-implemented": "Not implemented yet",
     "popups": "Permissions",
-    "popups-desc": "Disabling pop-ups is very dangerous. We recommend setting trusted dapps instead!",
+    "popups-desc": "Disabling popups is very dangerous. We recommend setting trusted dapps instead!",
     "title": "Settings",
     "unknown-error": "Unknown error",
     "wallet-error": "Failed to get wallet ID"
