@@ -880,8 +880,8 @@ importers:
         specifier: 5.6.1-next.57
         version: 5.6.1-next.57
       typia:
-        specifier: ^5.4.14
-        version: 5.4.14(typescript@5.3.3)
+        specifier: ^5.5.0
+        version: 5.5.0(typescript@5.3.3)
     devDependencies:
       tsup:
         specifier: ^8.0.2
@@ -30491,8 +30491,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  /typia@5.4.14(typescript@5.3.3):
-    resolution: {integrity: sha512-J7Klsryy4oMfIPU+ack6cXfBoh2ifUy0ZKWFeW4Zzxm6J7XGQsbbI4siKyC0E5is7egUmwJ6FkuWgu+1dw1Blw==}
+  /typia@5.5.0(typescript@5.3.3):
+    resolution: {integrity: sha512-nr6MfHRjfY67IcNbTu4pG/BqfRDezaCQrDF1eoHYQXlr2qTo9clBVOvjIkABZMXjsvb5ZR8sIwC44O7TO/eZsQ==}
     hasBin: true
     peerDependencies:
       typescript: '>=4.8.0 <5.5.0'
