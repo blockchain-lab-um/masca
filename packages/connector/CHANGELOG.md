@@ -1,5 +1,24 @@
 # Changelog
 
+## 1.3.0
+
+### Minor Changes
+
+- [#544](https://github.com/blockchain-lab-um/masca/pull/544) [`b688093`](https://github.com/blockchain-lab-um/masca/commit/b688093520e727815250d4015bb9c6adc406894d) Thanks [@pseudobun](https://github.com/pseudobun)! - Adds EIP-6963 support, adds viem client.
+
+### Patch Changes
+
+- [#546](https://github.com/blockchain-lab-um/masca/pull/546) [`7731329`](https://github.com/blockchain-lab-um/masca/commit/773132905231dbbe7b745dba5177fa6914364d96) Thanks [@martines3000](https://github.com/martines3000)! - Update Veramo packages and ethers.
+
+- [#533](https://github.com/blockchain-lab-um/masca/pull/533) [`e8d8e5b`](https://github.com/blockchain-lab-um/masca/commit/e8d8e5ba52bf40f8984434e39c20e79e2c1e781c) Thanks [@andyv09](https://github.com/andyv09)! - Changed and updated trusted dapps
+
+- [#540](https://github.com/blockchain-lab-um/masca/pull/540) [`9b3c3e0`](https://github.com/blockchain-lab-um/masca/commit/9b3c3e07013330a254398e3a577b1b3e9c9ee491) Thanks [@andyv09](https://github.com/andyv09)! - Extend ceramic session to 7 days
+
+- [#567](https://github.com/blockchain-lab-um/masca/pull/567) [`fc4e573`](https://github.com/blockchain-lab-um/masca/commit/fc4e5732d2204d61a78c84d2844b67b49d8c020d) Thanks [@andyv09](https://github.com/andyv09)! - Implement new permission system in snap, update connector & types and permissions table on dApp
+
+- Updated dependencies [[`7731329`](https://github.com/blockchain-lab-um/masca/commit/773132905231dbbe7b745dba5177fa6914364d96), [`e8d8e5b`](https://github.com/blockchain-lab-um/masca/commit/e8d8e5ba52bf40f8984434e39c20e79e2c1e781c), [`b688093`](https://github.com/blockchain-lab-um/masca/commit/b688093520e727815250d4015bb9c6adc406894d), [`af204fc`](https://github.com/blockchain-lab-um/masca/commit/af204fc2f3e5365c6780ef37cd58f3350d62bd1a), [`fc4e573`](https://github.com/blockchain-lab-um/masca/commit/fc4e5732d2204d61a78c84d2844b67b49d8c020d)]:
+  - @blockchain-lab-um/masca-types@1.3.0
+
 ## 1.3.0-beta.1
 
 ### Minor Changes
