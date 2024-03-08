@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import React from 'react';
 
 import Button from '@/components/Button';
-import FormatedPanel from '@/components/CredentialDisplay/FormatedPanel';
+import FormattedPanel from '@/components/CredentialDisplay/FormattedPanel';
 import JsonPanel from '@/components/CredentialDisplay/JsonPanel';
 import {
   useEncryptedSessionStore,
@@ -129,7 +129,7 @@ export const CredentialView = ({
         </Tab.List>
         <Tab.Panels>
           <Tab.Panel>
-            <FormatedPanel credential={credential} />
+            <FormattedPanel credential={credential} />
           </Tab.Panel>
           <Tab.Panel>
             <JsonPanel data={credential} />

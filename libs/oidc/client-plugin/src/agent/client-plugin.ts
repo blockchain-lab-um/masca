@@ -43,10 +43,6 @@ import type {
 
 const pex: PEX = new PEX();
 
-/**
- * {@inheritDoc IMyAgentPlugin}
- * @beta
- */
 export class OIDCClientPlugin implements IAgentPlugin {
   public current: {
     issuerServerMetadata: IssuerServerMetadata | null;

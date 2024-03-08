@@ -1,5 +1,5 @@
+import * as fs from 'fs';
 import {
-  createAgent,
   type IAgentOptions,
   type ICredentialPlugin,
   type IDIDManager,
@@ -8,6 +8,7 @@ import {
   type IKeyManager,
   type IResolver,
   type TAgent,
+  createAgent,
 } from '@veramo/core';
 import { CredentialPlugin } from '@veramo/credential-w3c';
 import {
@@ -22,7 +23,6 @@ import { DIDResolverPlugin } from '@veramo/did-resolver';
 import { KeyManager } from '@veramo/key-manager';
 import { KeyManagementSystem, SecretBox } from '@veramo/kms-local';
 import { Resolver } from 'did-resolver';
-import * as fs from 'fs';
 import { DataSource, type DataSourceOptions } from 'typeorm';
 
 import {
