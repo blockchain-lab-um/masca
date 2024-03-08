@@ -1,9 +1,9 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useAccount } from 'wagmi';
 
 import MascaLogo from '@/components/MascaLogo';
@@ -58,7 +58,7 @@ export default function AppNavbar() {
                 </Link>
               );
             }
-            return <div className="hidden" key={href}></div>;
+            return <div className="hidden" key={href} />;
           })}
           <MenuPopover />
         </div>

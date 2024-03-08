@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import jwt from 'jsonwebtoken';
+import { NextRequest, NextResponse } from 'next/server';
 import { SiweMessage } from 'siwe';
 
 import { Database } from '@/utils/supabase/database.types';

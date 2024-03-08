@@ -1,5 +1,5 @@
 import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
-import { isError, Result } from '@blockchain-lab-um/utils';
+import { Result, isError } from '@blockchain-lab-um/utils';
 import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-datamanager';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsProvider } from '@metamask/snaps-sdk';
@@ -7,15 +7,15 @@ import { VerifiableCredential } from '@veramo/core';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
 
 import { onRpcRequest } from '../../src';
-import StorageService from '../../src/storage/Storage.service';
 import UIService from '../../src/UI.service';
+import StorageService from '../../src/storage/Storage.service';
 import { getInitialPermissions } from '../../src/utils/config';
 import VeramoService from '../../src/veramo/Veramo.service';
 import { account } from '../data/constants';
 import { EXAMPLE_VC_PAYLOAD } from '../data/credentials';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createTestVCs } from '../helpers/generateTestVCs';
-import { createMockSnap, SnapMock } from '../helpers/snapMock';
+import { SnapMock, createMockSnap } from '../helpers/snapMock';
 
 describe('removeTrustedDapp', () => {
   let snapMock: SnapsProvider & SnapMock;
@@ -180,7 +180,6 @@ describe('removeTrustedDapp', () => {
       },
     })) as Result<unknown>;
 
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(spy).toHaveBeenCalledTimes(1);
     expect.assertions(1);
   });

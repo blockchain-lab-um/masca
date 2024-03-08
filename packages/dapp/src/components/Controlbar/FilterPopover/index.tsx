@@ -1,11 +1,11 @@
 'use client';
 
-import { Fragment, useEffect } from 'react';
 import { QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
+import { Fragment, useEffect } from 'react';
 
 import { useTableStore } from '@/stores';
 import { CredentialTypes } from './CredentialTypes';
@@ -80,7 +80,9 @@ function FilterPopover({ vcs }: FilterPopoverProps) {
                   <div className="font-ubuntu dark:text-navy-blue-50 text-lg font-semibold text-gray-800">
                     {t('filter')}
                   </div>
-                  <button className="hidden text-red-500">{t('clear')}</button>
+                  <button type="button" className="hidden text-red-500">
+                    {t('clear')}
+                  </button>
                 </div>
                 <DataStores />
                 <CredentialTypes />

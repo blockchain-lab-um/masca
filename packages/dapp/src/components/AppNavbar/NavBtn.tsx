@@ -9,6 +9,7 @@ interface NavBtnProps {
 export const NavBtn = ({ page, pathname, children }: NavBtnProps) => (
   <Link href={page}>
     <button
+      type="button"
       className={`nav-btn ${
         pathname === page
           ? 'dark:text-orange-accent-dark text-pink-300'

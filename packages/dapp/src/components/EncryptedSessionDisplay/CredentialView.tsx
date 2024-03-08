@@ -1,9 +1,9 @@
-import React from 'react';
 import { isError } from '@blockchain-lab-um/masca-connector';
 import { Tab } from '@headlessui/react';
 import { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
+import React from 'react';
 
 import Button from '@/components/Button';
 import FormatedPanel from '@/components/CredentialDisplay/FormatedPanel';
@@ -99,7 +99,7 @@ export const CredentialView = ({
                       'transition-width dark:bg-orange-accent-dark h-10 rounded-full bg-pink-100 ease-in-out',
                       selected ? 'w-20 translate-x-0' : 'w-16 translate-x-20'
                     )}
-                  ></div>
+                  />
                   <span
                     className={clsx(
                       'animated-transition absolute left-0 top-2 z-20 ml-3.5 rounded-full',

@@ -13,6 +13,8 @@
       "**/*.html"
     ],
     "ignore": [
+      "**/packages/**",
+      "**/libs/**",
       "**/node_modules/**",
       "**/dist/**",
       "**/build/**",

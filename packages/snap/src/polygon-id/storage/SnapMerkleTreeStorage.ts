@@ -1,6 +1,6 @@
 import {
-  IdentityMerkleTreeMetaInformation,
   IMerkleTreeStorage,
+  IdentityMerkleTreeMetaInformation,
   MerkleTreeType,
 } from '@0xpolygonid/js-sdk';
 import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';

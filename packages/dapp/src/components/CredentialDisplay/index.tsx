@@ -1,8 +1,5 @@
 'use client';
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { notFound, useRouter } from 'next/navigation';
 import {
   ArrowDownTrayIcon,
   ArrowLeftIcon,
@@ -12,11 +9,14 @@ import {
 } from '@heroicons/react/20/solid';
 import { Tab, Tabs, Tooltip } from '@nextui-org/react';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
+import { notFound, useRouter } from 'next/navigation';
+import { useState } from 'react';
 
-import { removeCredentialSubjectFilterString } from '@/utils/format';
 import { useMascaStore, useTableStore } from '@/stores';
 import { useAuthStore } from '@/stores/authStore';
 import { useShareModalStore } from '@/stores/shareModalStore';
+import { removeCredentialSubjectFilterString } from '@/utils/format';
 import Button from '../Button';
 import DeleteModal from '../DeleteModal';
 import ModifyDSModal from '../ModifyDSModal';
@@ -85,18 +85,21 @@ const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
         </Tabs>
         <div className="flex gap-1.5">
           <button
+            type="button"
             className="dark:bg-navy-blue-700 dark:text-navy-blue-50 flex h-11 w-11 items-center justify-center rounded-full bg-white text-gray-700 shadow-md"
             onClick={() => setModifyDSModalOpen(true)}
           >
             <Cog6ToothIcon className="h-6 w-6" />
           </button>
           <button
+            type="button"
             className="dark:bg-navy-blue-800 dark:text-navy-blue-500 flex h-11 w-11 cursor-default items-center justify-center rounded-full bg-gray-100 text-gray-500 shadow-md"
             onClick={() => console.log('not implemented yet')}
           >
             <ArrowDownTrayIcon className="h-6 w-6" />
           </button>
           <button
+            type="button"
             className="dark:bg-navy-blue-700 dark:text-navy-blue-50 flex h-11 w-11 items-center justify-center rounded-full bg-white text-gray-700 shadow-md"
             onClick={() => {
               if (!isSignedIn) {
@@ -114,6 +117,7 @@ const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
             <ShareIcon className="h-6 w-6 " />
           </button>
           <button
+            type="button"
             className="dark:bg-navy-blue-700 dark:text-navy-blue-50 flex h-11 w-11 items-center justify-center rounded-full bg-white text-gray-700 shadow-md"
             onClick={() => setDeleteModalOpen(true)}
           >
@@ -124,6 +128,7 @@ const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
       <div className="dark:bg-navy-blue-800 mt-4 h-full w-full rounded-3xl bg-white p-6 shadow-lg">
         <div className="mb-2 flex w-full items-center justify-between">
           <button
+            type="button"
             onClick={() => router.back()}
             className="animated-transition dark:text-navy-blue-50 dark:hover:bg-navy-blue-700 rounded-full p-1 text-gray-800 hover:bg-pink-100 hover:text-pink-700"
           >

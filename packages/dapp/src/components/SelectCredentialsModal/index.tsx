@@ -1,7 +1,7 @@
-import { useState } from 'react';
 import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
 import type { VerifiableCredential } from '@veramo/core';
 import { useTranslations } from 'next-intl';
+import { useState } from 'react';
 
 import Button from '@/components/Button';
 
@@ -67,7 +67,8 @@ function SelectCredentialsModal({
                 </p>
                 {credentials.map((credential, index) => (
                   <div
-                    key={index}
+                    // key={index} // TODO: Is this ok
+                    key={JSON.stringify(credential)}
                     className="mt-4 flex items-center justify-between"
                   >
                     <div className="flex items-center">

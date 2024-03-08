@@ -1,7 +1,5 @@
 'use client';
 
-import { useMemo } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
 import {
   CheckCircleIcon,
   DocumentDuplicateIcon,
@@ -10,6 +8,8 @@ import {
 import { Pagination, Tooltip } from '@nextui-org/react';
 import { VerifiableCredential } from '@veramo/core';
 import { useTranslations } from 'next-intl';
+import { usePathname, useRouter } from 'next/navigation';
+import { useMemo } from 'react';
 
 import { copyToClipboard } from '@/utils/string';
 import CredentialPanel from './credentialPanel';
@@ -66,12 +66,14 @@ export const FormatedView = ({
                           holder.lastIndexOf(':')
                         )}:${holder
                           .split(':')
-                          [
-                            holder.split(':').length - 1
-                          ].slice(0, 6)}...${holder.slice(-4)}`}
+                          [holder.split(':').length - 1].slice(
+                            0,
+                            6
+                          )}...${holder.slice(-4)}`}
                       </a>
                     </Tooltip>
                     <button
+                      type="button"
                       onClick={() => {
                         copyToClipboard(holder);
                       }}

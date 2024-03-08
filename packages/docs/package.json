@@ -10,11 +10,8 @@
     "compress": "precompress build --types gz --include **.html,**.css,**.js,**.map",
     "docker:build": "docker build . -t blockchain-lab-um/masca-docs",
     "docusaurus": "docusaurus",
-    "lint": "pnpm lint:eslint && pnpm lint:prettier",
-    "lint:eslint": "eslint .",
-    "lint:fix": "eslint . --fix && prettier . --write",
-    "lint:prettier": "prettier . --check",
-    "prettier": "prettier --write .",
+    "lint": "biome check .",
+    "lint:fix": "biome check --apply .",
     "serve": "docusaurus serve",
     "start": "docusaurus start",
     "swizzle": "docusaurus swizzle",
@@ -22,11 +19,7 @@
     "write-translations": "docusaurus write-translations"
   },
   "browserslist": {
-    "production": [
-      ">0.5%",
-      "not dead",
-      "not op_mini all"
-    ],
+    "production": [">0.5%", "not dead", "not op_mini all"],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
@@ -54,9 +47,7 @@
   },
   "nx": {
     "namedInputs": {
-      "default": [
-        "{projectRoot}/**/*"
-      ],
+      "default": ["{projectRoot}/**/*"],
       "production": [
         "default",
         "!{projectRoot}/sonar-project.properties",
@@ -64,49 +55,24 @@
         "!{projectRoot}/.docusaurus/**/*",
         "!{projectRoot}/.lintstagedrc.cjs",
         "!{projectRoot}/Dockerfile",
-        "!{projectRoot}/.prettierignore",
         "!{projectRoot}/.env.*"
       ]
     },
     "targets": {
       "build": {
-        "inputs": [
-          "production",
-          "^production"
-        ],
-        "dependsOn": [
-          "^build"
-        ],
-        "outputs": [
-          "{projectRoot}/build",
-          "{projectRoot}/.docusaurus"
-        ]
+        "inputs": ["production", "^production"],
+        "dependsOn": ["^build"],
+        "outputs": ["{projectRoot}/build", "{projectRoot}/.docusaurus"]
       },
       "deploy": {
-        "inputs": [
-          "production",
-          "^production"
-        ],
-        "dependsOn": [
-          "^build"
-        ],
-        "outputs": [
-          "{projectRoot}/build",
-          "{projectRoot}/.docusaurus"
-        ]
+        "inputs": ["production", "^production"],
+        "dependsOn": ["^build"],
+        "outputs": ["{projectRoot}/build", "{projectRoot}/.docusaurus"]
       },
       "start": {
-        "inputs": [
-          "production",
-          "^production"
-        ],
-        "dependsOn": [
-          "^build"
-        ],
-        "outputs": [
-          "{projectRoot}/build",
-          "{projectRoot}/.docusaurus"
-        ]
+        "inputs": ["production", "^production"],
+        "dependsOn": ["^build"],
+        "outputs": ["{projectRoot}/build", "{projectRoot}/.docusaurus"]
       }
     }
   }

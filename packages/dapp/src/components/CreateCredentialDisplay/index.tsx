@@ -1,19 +1,19 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import {
   AvailableCredentialStores,
-  isError,
-  isSuccess,
   QueryCredentialsRequestResult,
   Result,
   SupportedProofFormats,
+  isError,
+  isSuccess,
 } from '@blockchain-lab-um/masca-connector';
 import { ArrowLeftIcon } from '@heroicons/react/20/solid';
 import { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { shallow } from 'zustand/shallow';
 
 import Button from '@/components/Button';
@@ -190,7 +190,10 @@ const CreateCredentialDisplay = () => {
     <div className="flex h-full flex-col p-6">
       <div className="flex w-full justify-between">
         <Link href="/app" className="flex items-center">
-          <button className="animated-transition dark:text-navy-blue-50 dark:hover:bg-navy-blue-700 rounded-full text-gray-800 hover:bg-pink-100 hover:text-pink-700">
+          <button
+            type="button"
+            className="animated-transition dark:text-navy-blue-50 dark:hover:bg-navy-blue-700 rounded-full text-gray-800 hover:bg-pink-100 hover:text-pink-700"
+          >
             <ArrowLeftIcon className="h-6 w-6" />
           </button>
         </Link>

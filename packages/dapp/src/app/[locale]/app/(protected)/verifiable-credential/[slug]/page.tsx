@@ -1,5 +1,5 @@
-import { Metadata } from 'next';
 import { decodeBase64url } from '@veramo/utils';
+import { Metadata } from 'next';
 
 import CredentialDisplay from '@/components/CredentialDisplay';
 

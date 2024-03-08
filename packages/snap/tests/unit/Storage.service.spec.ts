@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 
 import StorageService from '../../src/storage/Storage.service';
 import { getInitialSnapState } from '../../src/utils/config';
-import { createMockSnap, SnapMock } from '../helpers/snapMock';
+import { SnapMock, createMockSnap } from '../helpers/snapMock';
 
 describe('Storage Service', () => {
   let snapMock: SnapsProvider & SnapMock;

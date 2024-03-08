@@ -1,13 +1,13 @@
 'use client';
 
-import { useState } from 'react';
-import Link from 'next/link';
 import { isError } from '@blockchain-lab-um/masca-connector';
 import { ArrowLeftIcon } from '@heroicons/react/20/solid';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { IVerifyResult } from '@veramo/core';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
+import { useState } from 'react';
 
 import { useMascaStore, useToastStore } from '@/stores';
 import Button from '../Button';
@@ -126,7 +126,10 @@ const VerifyDataDisplay = () => {
     <div className="p-6">
       <div className="flex w-full justify-between">
         <Link href="/app" className="flex items-center">
-          <button className="animated-transition dark:text-navy-blue-50 dark:hover:bg-navy-blue-700 rounded-full text-gray-800 hover:bg-pink-100 hover:text-pink-700">
+          <button
+            type="button"
+            className="animated-transition dark:text-navy-blue-50 dark:hover:bg-navy-blue-700 rounded-full text-gray-800 hover:bg-pink-100 hover:text-pink-700"
+          >
             <ArrowLeftIcon className="h-6 w-6" />
           </button>
         </Link>

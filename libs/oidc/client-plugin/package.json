@@ -7,22 +7,14 @@
   "module": "./dist/index.js",
   "source": "./src/index.ts",
   "types": "./dist/index.d.ts",
-  "files": [
-    "dist/",
-    "README.md",
-    "CHANGELOG.md",
-    "package.json"
-  ],
+  "files": ["dist/", "README.md", "CHANGELOG.md", "package.json"],
   "scripts": {
     "build": "pnpm clean && pnpm compile",
     "clean": "rimraf dist",
     "compile": "tsup",
     "generate-plugin-schema": "pnpm veramo dev generate-plugin-schema",
-    "lint": "pnpm lint:eslint && pnpm lint:tsc && pnpm lint:prettier",
-    "lint:eslint": "eslint . --ext .js,.ts --fix",
-    "lint:fix": "eslint . --fix && prettier . --write",
-    "lint:prettier": "prettier . --write",
-    "lint:tsc": "tsc --noEmit",
+    "lint": "biome check .",
+    "lint:fix": "biome check --apply .",
     "start": "veramo server",
     "test": "pnpm cross-env NODE_NO_WARNINGS=1 vitest",
     "test:ci": "pnpm run test"

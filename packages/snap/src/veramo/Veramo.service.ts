@@ -4,8 +4,8 @@ import {
 } from '@blockchain-lab-um/did-provider-key';
 import {
   AvailableCredentialStores,
-  CreatePresentationRequestParams,
   CURRENT_STATE_VERSION,
+  CreatePresentationRequestParams,
   Filter,
   MinimalUnsignedCredential,
   QueryCredentialsOptions,
@@ -24,20 +24,19 @@ import {
   PresentationDefinition,
   TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
-import { isError, Result } from '@blockchain-lab-um/utils';
+import { Result, isError } from '@blockchain-lab-um/utils';
 import {
   AbstractDataStore,
   DataManager,
   IDataManager,
 } from '@blockchain-lab-um/veramo-datamanager';
 import {
-  createAgent,
   CredentialPayload,
   CredentialStatus,
   ICredentialIssuer,
   ICredentialVerifier,
-  IDataStore,
   IDIDManager,
+  IDataStore,
   IIdentifier,
   IKeyManager,
   IResolver,
@@ -49,6 +48,7 @@ import {
   VerifiableCredential,
   VerifiablePresentation,
   W3CVerifiableCredential,
+  createAgent,
 } from '@veramo/core';
 import { CredentialIssuerEIP712 } from '@veramo/credential-eip712';
 import { CredentialStatusPlugin } from '@veramo/credential-status';
@@ -77,8 +77,8 @@ import { KeyManagementSystem } from '@veramo/kms-local';
 import { decodeCredentialToObject } from '@veramo/utils';
 import { DIDResolutionResult, Resolver } from 'did-resolver';
 import {
-  getResolver as ensDidResolver,
   ProviderConfiguration,
+  getResolver as ensDidResolver,
 } from 'ens-did-resolver';
 import { BrowserProvider } from 'ethers';
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver';
@@ -87,12 +87,12 @@ import qs from 'qs';
 
 import EthereumService from '../Ethereum.service';
 import GeneralService from '../General.service';
-import StorageService from '../storage/Storage.service';
 import UIService from '../UI.service';
 import UniversalResolverService from '../UniversalResolver.service';
+import WalletService from '../Wallet.service';
+import StorageService from '../storage/Storage.service';
 import { normalizeCredential } from '../utils/credential';
 import { sign } from '../utils/sign';
-import WalletService from '../Wallet.service';
 import { CeramicCredentialStore } from './plugins/ceramicDataStore/ceramicDataStore';
 import { SnapCredentialStore } from './plugins/snapDataStore/snapDataStore';
 
@@ -111,7 +111,7 @@ class VeramoService {
   private static instance: Agent;
 
   static async init(): Promise<void> {
-    this.instance = await this.createAgent();
+    VeramoService.instance = await VeramoService.createAgent();
   }
 
   /**
@@ -138,17 +138,18 @@ class VeramoService {
 
         if (!res) throw new Error('Failed to get keys');
 
-        const identifier: IIdentifier = await this.instance.didManagerCreate({
-          alias: `metamask-${method}-${account}`,
-          provider: method === 'did:key:jwk_jcs-pub' ? 'did:key' : method,
-          kms: 'snap',
-          options: {
-            privateKeyHex: res.privateKey.slice(2),
-            keyType:
-              method === 'did:key:jwk_jcs-pub' ? 'Secp256r1' : 'Secp256k1',
-            ...(method === 'did:key:jwk_jcs-pub' && { type: 'ebsi' }),
-          },
-        });
+        const identifier: IIdentifier =
+          await VeramoService.instance.didManagerCreate({
+            alias: `metamask-${method}-${account}`,
+            provider: method === 'did:key:jwk_jcs-pub' ? 'did:key' : method,
+            kms: 'snap',
+            options: {
+              privateKeyHex: res.privateKey.slice(2),
+              keyType:
+                method === 'did:key:jwk_jcs-pub' ? 'Secp256r1' : 'Secp256k1',
+              ...(method === 'did:key:jwk_jcs-pub' && { type: 'ebsi' }),
+            },
+          });
 
         if (!identifier?.did) throw new Error('Failed to create identifier');
         return;
@@ -214,7 +215,7 @@ class VeramoService {
       case 'did:key':
       case 'did:jwk': {
         const { alias: _, ...identifier } =
-          await this.instance.didManagerGetByAlias({
+          await VeramoService.instance.didManagerGetByAlias({
             alias: `metamask-${method}-${state[CURRENT_STATE_VERSION].currentAccount}`,
             provider: method === 'did:key:jwk_jcs-pub' ? 'did:key' : method,
           });
@@ -241,7 +242,7 @@ class VeramoService {
    * @returns DID resolution result
    */
   static async resolveDID(did: string): Promise<DIDResolutionResult> {
-    return this.instance.resolveDid({ didUrl: did });
+    return VeramoService.instance.resolveDid({ didUrl: did });
   }
 
   /**
@@ -260,7 +261,7 @@ class VeramoService {
 
     credential.issuer = identifier.did;
 
-    const vc = await this.instance.createVerifiableCredential({
+    const vc = await VeramoService.instance.createVerifiableCredential({
       credential: credential as CredentialPayload,
       proofFormat,
     });
@@ -277,7 +278,7 @@ class VeramoService {
     credential: MinimalUnsignedCredential;
   }): Promise<UnsignedCredential> {
     const { credential } = params;
-    const { did } = await this.getIdentifier();
+    const { did } = await VeramoService.getIdentifier();
 
     if (!credential.credentialSubject) {
       throw new Error('Verifiable credential must have a credentialSubject');
@@ -333,7 +334,7 @@ class VeramoService {
 
     const normalizedCredential = normalizeCredential(verifiableCredential);
 
-    const result = await this.instance.save({
+    const result = await VeramoService.instance.save({
       data: normalizedCredential,
       options: { store },
     });
@@ -371,7 +372,7 @@ class VeramoService {
   }): Promise<boolean[]> {
     const { id, store } = params;
 
-    const result = await this.instance.delete({
+    const result = await VeramoService.instance.delete({
       id,
       ...(store ? { options: { store } } : {}),
     });
@@ -390,7 +391,7 @@ class VeramoService {
     filter?: Filter;
   }): Promise<QueryCredentialsRequestResult[]> {
     const { options, filter } = params;
-    const result = await this.instance.query({
+    const result = await VeramoService.instance.query({
       filter,
       options,
     });
@@ -434,7 +435,7 @@ class VeramoService {
   }): Promise<boolean[]> {
     const { store, filter } = params;
 
-    const result = await this.instance.clear({
+    const result = await VeramoService.instance.clear({
       filter,
       ...(store ? { options: { store } } : {}),
     });
@@ -455,9 +456,9 @@ class VeramoService {
     const { vcs, proofFormat = 'jwt', proofOptions } = params;
     const domain = proofOptions?.domain;
     const challenge = proofOptions?.challenge;
-    const identifier = await this.getIdentifier();
+    const identifier = await VeramoService.getIdentifier();
 
-    return this.instance.createVerifiablePresentation({
+    return VeramoService.instance.createVerifiablePresentation({
       presentation: {
         holder: identifier.did,
         type: ['VerifiablePresentation', 'Custom'],
@@ -479,7 +480,7 @@ class VeramoService {
   }): Promise<UnsignedPresentation> {
     const { credentials } = params;
 
-    const { did } = await this.getIdentifier();
+    const { did } = await VeramoService.getIdentifier();
 
     // FIXME: there's an issue here
     const canonicalizedVcs = credentials.map((credential) => {
@@ -520,13 +521,13 @@ class VeramoService {
       const { credential, presentation } = params;
 
       if (credential) {
-        const vcResult = await this.instance.verifyCredential({
+        const vcResult = await VeramoService.instance.verifyCredential({
           credential,
         });
         return JSON.parse(JSON.stringify(vcResult)) as IVerifyResult;
       }
       if (presentation) {
-        const vpResult = await this.instance.verifyPresentation({
+        const vpResult = await VeramoService.instance.verifyPresentation({
           presentation,
         });
         return JSON.parse(JSON.stringify(vpResult)) as IVerifyResult;
@@ -606,7 +607,7 @@ class VeramoService {
       const authorizationRequestURI = authorizationRequestURIResult.data;
 
       const handleAuthorizationRequestResult =
-        await this.handleAuthorizationRequest({
+        await VeramoService.handleAuthorizationRequest({
           authorizationRequestURI,
           did,
           customSign,
@@ -622,7 +623,9 @@ class VeramoService {
         handleAuthorizationRequestResult;
 
       const sendAuthorizationResponseResult =
-        await this.sendAuthorizationResponse(sendOIDCAuthorizationResponseArgs);
+        await VeramoService.sendAuthorizationResponse(
+          sendOIDCAuthorizationResponseArgs
+        );
 
       const { code } = sendAuthorizationResponseResult;
 
@@ -748,7 +751,7 @@ class VeramoService {
       });
 
     const handleAuthorizationRequestResult =
-      await this.handleAuthorizationRequest({
+      await VeramoService.handleAuthorizationRequest({
         authorizationRequestURI,
         customSign,
         did,
@@ -764,7 +767,9 @@ class VeramoService {
       handleAuthorizationRequestResult;
 
     const sendAuthorizationResponseResult =
-      await this.sendAuthorizationResponse(sendOIDCAuthorizationResponseArgs);
+      await VeramoService.sendAuthorizationResponse(
+        sendOIDCAuthorizationResponseArgs
+      );
 
     throw new Error('Not implemented');
   }
@@ -793,7 +798,7 @@ class VeramoService {
   > {
     const { authorizationRequestURI, did, customSign, credentials: _ } = params;
     const authorizationRequestResult =
-      await this.instance.parseOIDCAuthorizationRequestURI({
+      await VeramoService.instance.parseOIDCAuthorizationRequestURI({
         authorizationRequestURI,
       });
 
@@ -827,9 +832,10 @@ class VeramoService {
 
       const queriedCredentials: any = queryResults.map((result) => result.data);
 
-      const selectCredentialsResult = await this.instance.selectCredentials({
-        credentials: queriedCredentials,
-      });
+      const selectCredentialsResult =
+        await VeramoService.instance.selectCredentials({
+          credentials: queriedCredentials,
+        });
 
       if (isError(selectCredentialsResult)) {
         throw new Error(selectCredentialsResult.error);
@@ -851,7 +857,7 @@ class VeramoService {
       // }
 
       const createPresentationSubmissionResult =
-        await this.instance.createPresentationSubmission({
+        await VeramoService.instance.createPresentationSubmission({
           credentials: selectCredentialsResult.data,
         });
 
@@ -862,12 +868,11 @@ class VeramoService {
       const presentationSubmission = createPresentationSubmissionResult.data;
 
       const decodedCredentials = selectCredentialsResult.data.map(
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         (credential) => decodeCredentialToObject(credential).proof.jwt
       );
 
       const veramoPresentation =
-        await this.instance.createVerifiablePresentation({
+        await VeramoService.instance.createVerifiablePresentation({
           presentation: {
             holder: did,
             verifiableCredential: decodedCredentials,
@@ -884,7 +889,7 @@ class VeramoService {
         verifiableCredential: decodedCredentials,
       };
 
-      const createVpTokenResult = await this.instance.createVpToken({
+      const createVpTokenResult = await VeramoService.instance.createVpToken({
         sign: customSign,
         vp,
       });
@@ -902,7 +907,7 @@ class VeramoService {
 
     if (authorizationRequest.response_type.includes('id_token')) {
       // Create id token
-      const idTokenResult = await this.instance.createIdToken({
+      const idTokenResult = await VeramoService.instance.createIdToken({
         sign: customSign,
       });
 
@@ -926,7 +931,7 @@ class VeramoService {
   ): Promise<{ code: string; state: string }> {
     // POST /auth-mock/direct_post
     const authorizationResponseResult =
-      await this.instance.sendOIDCAuthorizationResponse(params);
+      await VeramoService.instance.sendOIDCAuthorizationResponse(params);
 
     if (isError(authorizationResponseResult)) {
       throw new Error(authorizationResponseResult.error);
@@ -1038,7 +1043,7 @@ class VeramoService {
   }
 
   static getAgent(): Agent {
-    return this.instance;
+    return VeramoService.instance;
   }
 }
 

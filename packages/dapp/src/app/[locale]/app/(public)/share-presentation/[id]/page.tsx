@@ -1,8 +1,8 @@
-import { notFound } from 'next/navigation';
 import { createClient } from '@supabase/supabase-js';
 import { VerifiablePresentation } from '@veramo/core';
 import { decodeCredentialToObject } from '@veramo/utils';
 import { normalizeCredential } from 'did-jwt-vc';
+import { notFound } from 'next/navigation';
 
 import JsonPanel from '@/components/CredentialDisplay/JsonPanel';
 import { convertTypes } from '@/utils/string';

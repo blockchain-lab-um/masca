@@ -1,12 +1,9 @@
 import typia from 'typia';
 
 import {
-  availableCredentialStores,
-  CURRENT_STATE_VERSION,
-  isW3CCredential,
-  isW3CVerifiableCredential,
   type AddDappSettingsRequestParams,
   type AvailableCredentialStores,
+  CURRENT_STATE_VERSION,
   type ChangePermissionsRequestParams,
   type CreateCredentialRequestParams,
   type CreatePresentationRequestParams,
@@ -22,6 +19,9 @@ import {
   type SignDataRequestParams,
   type SwitchMethodRequestParams,
   type VerifyDataRequestParams,
+  availableCredentialStores,
+  isW3CCredential,
+  isW3CVerifiableCredential,
 } from '../src/index.js';
 
 const isEnabledCredentialStore = (

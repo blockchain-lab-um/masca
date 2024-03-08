@@ -2,12 +2,7 @@
   "name": "@blockchain-lab-um/masca-types",
   "version": "1.3.0-beta.1",
   "description": "Types for Masca",
-  "keywords": [
-    "ssi",
-    "metamask",
-    "snap",
-    "dapp"
-  ],
+  "keywords": ["ssi", "metamask", "snap", "dapp"],
   "license": "(Apache-2.0 AND MIT)",
   "author": {
     "name": "Blockchain Lab:UM",
@@ -19,20 +14,13 @@
   "module": "./dist/index.js",
   "source": "./src/index.ts",
   "types": "./dist/index.d.ts",
-  "files": [
-    "dist/**",
-    "README.md",
-    "package.json",
-    "CHANGELOG.md"
-  ],
+  "files": ["dist/**", "README.md", "package.json", "CHANGELOG.md"],
   "scripts": {
     "build": "pnpm clean && pnpm typia:generate && pnpm compile",
     "clean": "rimraf dist",
     "compile": "tsup",
-    "lint": "pnpm lint:eslint && pnpm lint:prettier",
-    "lint:eslint": "eslint .",
-    "lint:fix": "eslint . --fix && prettier . --write",
-    "lint:prettier": "prettier . --check",
+    "lint": "biome check .",
+    "lint:fix": "biome check --apply .",
     "typia:generate": "pnpm typia generate --input typia-templates --output src/typia-generated --project tsconfig.json"
   },
   "dependencies": {
@@ -50,38 +38,22 @@
   },
   "nx": {
     "namedInputs": {
-      "default": [
-        "{projectRoot}/**/*"
-      ],
+      "default": ["{projectRoot}/**/*"],
       "production": [
         "default",
         "!{projectRoot}/dist/**/*",
-        "!{projectRoot}/.lintstagedrc.cjs",
-        "!{projectRoot}/.prettierignore"
+        "!{projectRoot}/.lintstagedrc.cjs"
       ]
     },
     "targets": {
       "build": {
-        "inputs": [
-          "production",
-          "^production"
-        ],
-        "dependsOn": [
-          "^build"
-        ],
-        "outputs": [
-          "{projectRoot}/dist",
-          "{projectRoot}/src/typia-generated"
-        ]
+        "inputs": ["production", "^production"],
+        "dependsOn": ["^build"],
+        "outputs": ["{projectRoot}/dist", "{projectRoot}/src/typia-generated"]
       },
       "lint": {
-        "inputs": [
-          "default",
-          "^production"
-        ],
-        "dependsOn": [
-          "build"
-        ],
+        "inputs": ["default", "^production"],
+        "dependsOn": ["build"],
         "outputs": []
       }
     }

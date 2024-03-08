@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
 import { CheckIcon } from '@heroicons/react/24/solid';
 import { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 import { useStepper } from 'headless-stepper';
 import { useTranslations } from 'next-intl';
+import { useEffect, useMemo, useState } from 'react';
 import { useAccount } from 'wagmi';
 
 import Button from '@/components/Button';
@@ -152,6 +152,7 @@ const EncryptedSessionDisplay = () => {
             <>
               {index < 4 && (
                 <ol
+                  // biome-ignore lint/suspicious/noArrayIndexKey:
                   key={index}
                   className={clsx(
                     index + 2 < stepperInstance.state.totalSteps && 'grow'

@@ -1,14 +1,14 @@
 import {
   AvailableCredentialStores,
-  isError,
   QueryCredentialsRequestResult,
+  isError,
 } from '@blockchain-lab-um/masca-connector';
 import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
 import { useTranslations } from 'next-intl';
 
 import Button from '@/components/Button';
-import { stringifyCredentialSubject } from '@/utils/format';
 import { useMascaStore, useToastStore } from '@/stores';
+import { stringifyCredentialSubject } from '@/utils/format';
 
 interface DeleteModalProps {
   isOpen: boolean;

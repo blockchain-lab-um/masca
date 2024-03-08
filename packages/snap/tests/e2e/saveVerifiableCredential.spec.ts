@@ -2,7 +2,7 @@ import {
   AvailableCredentialStores,
   SaveCredentialOptions,
 } from '@blockchain-lab-um/masca-types';
-import { isError, isSuccess, Result } from '@blockchain-lab-um/utils';
+import { Result, isError, isSuccess } from '@blockchain-lab-um/utils';
 import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-datamanager';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { MetaMaskInpageProvider } from '@metamask/providers';
@@ -12,13 +12,13 @@ import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { onRpcRequest } from '../../src';
 import StorageService from '../../src/storage/Storage.service';
-import type { StoredCredentials } from '../../src/veramo/plugins/ceramicDataStore/ceramicDataStore';
 import VeramoService, { type Agent } from '../../src/veramo/Veramo.service';
+import type { StoredCredentials } from '../../src/veramo/plugins/ceramicDataStore/ceramicDataStore';
 import { account } from '../data/constants';
 import { EXAMPLE_VC_PAYLOAD } from '../data/credentials';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createTestVCs } from '../helpers/generateTestVCs';
-import { createMockSnap, SnapMock } from '../helpers/snapMock';
+import { SnapMock, createMockSnap } from '../helpers/snapMock';
 
 describe('saveVerifiableCredential', () => {
   let ceramicData: StoredCredentials;

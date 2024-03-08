@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import {
   Modal,
   ModalBody,
@@ -10,6 +9,7 @@ import {
 } from '@nextui-org/react';
 import { useTranslations } from 'next-intl';
 import { QRCodeSVG } from 'qrcode.react';
+import { useEffect, useState } from 'react';
 
 import { useEncryptedSessionStore, useToastStore } from '@/stores';
 import { useAuthStore } from '@/stores/authStore';

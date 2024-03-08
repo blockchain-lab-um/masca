@@ -1,12 +1,12 @@
 'use client';
 
-import React from 'react';
 import {
   CreditCardIcon,
   GlobeAltIcon,
   LockClosedIcon,
 } from '@heroicons/react/24/solid';
 import { useTranslations } from 'next-intl';
+import React from 'react';
 import { useAccount } from 'wagmi';
 
 import MascaLogo from '../MascaLogo';

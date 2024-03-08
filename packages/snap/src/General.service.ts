@@ -1,23 +1,23 @@
 import {
-  availableCredentialStores,
   AvailableCredentialStores,
-  availableMethods,
   CURRENT_STATE_VERSION,
   ImportStateBackupRequestParams,
-  isValidMascaState,
   MascaAccountConfig,
   MascaConfig,
   MascaRPCRequest,
   MethodsRequiringNetwork,
-  requiresNetwork,
   SetCredentialStoreRequestParams,
   SwitchMethodRequestParams,
+  availableCredentialStores,
+  availableMethods,
+  isValidMascaState,
+  requiresNetwork,
 } from '@blockchain-lab-um/masca-types';
 
 import EncryptionService from './Encryption.service';
 import EthereumService from './Ethereum.service';
-import StorageService from './storage/Storage.service';
 import UIService from './UI.service';
+import StorageService from './storage/Storage.service';
 import { validateSession } from './utils/ceramicUtils';
 import { getEmptyAccountState, getInitialPermissions } from './utils/config';
 import { isTrustedDapp, permissionExists } from './utils/permissions';
@@ -196,10 +196,9 @@ class GeneralService {
         return state[CURRENT_STATE_VERSION].config.dApp.disablePopups;
       }
       throw new Error('User rejected popup toggle.');
-    } else {
-      state[CURRENT_STATE_VERSION].config.dApp.disablePopups = false;
-      return state[CURRENT_STATE_VERSION].config.dApp.disablePopups;
     }
+    state[CURRENT_STATE_VERSION].config.dApp.disablePopups = false;
+    return state[CURRENT_STATE_VERSION].config.dApp.disablePopups;
   }
 
   /**

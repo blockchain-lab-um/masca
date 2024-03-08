@@ -17,6 +17,7 @@ const JsonPanel = ({ data }: JsonPanelProps) => (
         value={JSON.stringify(data, null, 4)}
       />
       <button
+        type="button"
         onClick={() => {
           copyToClipboard(JSON.stringify(data, null, 4));
         }}

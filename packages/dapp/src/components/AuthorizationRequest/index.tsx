@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { isError } from '@blockchain-lab-um/masca-connector';
 import type { AuthorizationRequest } from '@blockchain-lab-um/oidc-types';
 import { VerifiableCredential } from '@veramo/core';
 import qs from 'qs';
+import { useEffect, useState } from 'react';
 
 import Button from '@/components/Button';
 import InputField from '@/components/InputField';

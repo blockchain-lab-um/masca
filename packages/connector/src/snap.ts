@@ -1,6 +1,4 @@
 import {
-  ImportStateBackupRequestParams,
-  SignDataRequestParams,
   type AvailableCredentialStores,
   type AvailableMethods,
   type CreateCredentialRequestParams,
@@ -8,6 +6,7 @@ import {
   type DeleteCredentialsOptions,
   type HandleAuthorizationRequestParams,
   type HandleCredentialOfferRequestParams,
+  ImportStateBackupRequestParams,
   type MascaAccountConfig,
   type MascaApi,
   type MascaConfig,
@@ -17,9 +16,10 @@ import {
   type SaveCredentialOptions,
   type SaveCredentialRequestResult,
   type SetCurrentAccountRequestParams,
+  SignDataRequestParams,
   type VerifyDataRequestParams,
 } from '@blockchain-lab-um/masca-types';
-import { isError, ResultObject, type Result } from '@blockchain-lab-um/utils';
+import { type Result, ResultObject, isError } from '@blockchain-lab-um/utils';
 import type {
   DIDResolutionResult,
   IVerifyResult,
@@ -29,12 +29,12 @@ import type {
 } from '@veramo/core';
 
 import { ProviderStore } from './ProviderStore.js';
+import { ViemClient } from './ViemClient.js';
 import {
   signVerifiableCredential,
   signVerifiablePresentation,
   validateAndSetCeramicSession,
 } from './utils.js';
-import { ViemClient } from './ViemClient.js';
 
 /**
  * Send a request to the Masca snap

@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect } from 'react';
 import { Html5Qrcode, Html5QrcodeCameraScanConfig } from 'html5-qrcode';
 import { useTranslations } from 'next-intl';
+import { useEffect } from 'react';
 
 import { useToastStore } from '@/stores';
 
@@ -60,7 +60,7 @@ const QRCodeScanner = ({
           config,
           (decodedText, _) => {
             onScanSuccess(decodedText, _);
-            if (scanner && scanner.isScanning) {
+            if (scanner?.isScanning) {
               scanner.stop().catch((error) => console.error(error));
             }
           },
@@ -80,7 +80,7 @@ const QRCodeScanner = ({
         });
     }
     return () => {
-      if (scanner && scanner.isScanning) {
+      if (scanner?.isScanning) {
         setScanner(null);
       }
     };

@@ -17,35 +17,35 @@ interface DropdownMenuItemProps {
 
 const variants: Record<string, string> = {
   primary:
-    'dark:bg-navy-blue-500 dark:text-orange-accent-dark/95 animated-transition cursor-pointer bg-pink-50 text-pink-600  ',
+    'dark:bg-navy-blue-500 dark:text-orange-accent-dark/95 animated-transition cursor-pointer bg-pink-50 text-pink-600',
   secondary: 'bg-navy-blue-100 text-navy-blue-600 ',
   'primary-active':
-    'dark:bg-navy-blue-500 dark:text-orange-accent-dark/95 animated-transition cursor-pointer bg-pink-50 text-pink-600  ',
-  'secondary-active': 'bg-navy-blue-100 text-navy-blue-600 ',
+    'dark:bg-navy-blue-500 dark:text-orange-accent-dark/95 animated-transition cursor-pointer bg-pink-50 text-pink-600',
+  'secondary-active': 'bg-navy-blue-100 text-navy-blue-600',
   gray: 'bg-gray-100 text-gray-800 ',
   method:
-    'dark:bg-navy-blue-500 dark:text-orange-accent-dark animated-transition cursor-pointer bg-pink-50 text-pink-600  ',
+    'dark:bg-navy-blue-500 dark:text-orange-accent-dark animated-transition cursor-pointer bg-pink-50 text-pink-600',
 };
 
 const variantsSelected: Record<string, string> = {
   primary:
-    'dark:text-orange-accent-dark dark:bg-navy-blue-600 bg-white text-pink-700 ',
-  secondary: 'bg-navy-blue-100 text-navy-blue-600 font-semibold ',
+    'dark:text-orange-accent-dark dark:bg-navy-blue-600 bg-white text-pink-700',
+  secondary: 'bg-navy-blue-100 text-navy-blue-600 font-semibold',
   'primary-active':
-    'dark:text-orange-accent-dark dark:bg-navy-blue-600 bg-white text-pink-700 ',
-  'secondary-active': 'bg-navy-blue-100 text-navy-blue-600 font-semibold ',
-  gray: 'bg-gray-100 font-semibold text-gray-900 ',
+    'dark:text-orange-accent-dark dark:bg-navy-blue-600 bg-white text-pink-700',
+  'secondary-active': 'bg-navy-blue-100 text-navy-blue-600 font-semibold',
+  gray: 'bg-gray-100 font-semibold text-gray-900',
   method:
-    'dark:text-orange-accent-dark dark:bg-navy-blue-600 bg-white text-pink-700 ',
+    'dark:text-orange-accent-dark dark:bg-navy-blue-600 bg-white text-pink-700',
 };
 
 const variantsSelectedElse: Record<string, string> = {
-  primary: 'dark:text-navy-blue-100 text-gray-600 ',
-  secondary: 'bg-navy-blue-100 text-navy-blue-600 font-semibold ',
+  primary: 'dark:text-navy-blue-100 text-gray-600',
+  secondary: 'bg-navy-blue-100 text-navy-blue-600 font-semibold',
   'primary-active': 'dark:text-navy-blue-100 text-gray-600 ',
-  'secondary-active': 'bg-navy-blue-100 text-navy-blue-600 font-semibold ',
-  gray: 'bg-gray-100 font-semibold text-gray-900 ',
-  method: ' ',
+  'secondary-active': 'bg-navy-blue-100 text-navy-blue-600 font-semibold',
+  gray: 'bg-gray-100 font-semibold text-gray-900',
+  method: '',
 };
 
 export const DropdownMenuItem = ({
@@ -56,7 +56,8 @@ export const DropdownMenuItem = ({
 }: DropdownMenuItemProps) => (
   <Menu.Item>
     {({ active }) => (
-      <a
+      <button
+        type="button"
         onClick={() => {
           handleBtn(children as string);
         }}
@@ -76,7 +77,7 @@ export const DropdownMenuItem = ({
           </span>
           <span className="col-span-4 col-start-2 text-center">{children}</span>
         </div>
-      </a>
+      </button>
     )}
   </Menu.Item>
 );

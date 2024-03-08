@@ -1,5 +1,5 @@
 import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
-import { isError, isSuccess, Result } from '@blockchain-lab-um/utils';
+import { Result, isError, isSuccess } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsProvider } from '@metamask/snaps-sdk';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
@@ -9,7 +9,7 @@ import UIService from '../../src/UI.service';
 import { getInitialPermissions } from '../../src/utils/config';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
-import { createMockSnap, SnapMock } from '../helpers/snapMock';
+import { SnapMock, createMockSnap } from '../helpers/snapMock';
 
 describe('addTrustedDapp', () => {
   let snapMock: SnapsProvider & SnapMock;

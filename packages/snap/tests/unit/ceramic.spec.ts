@@ -9,7 +9,7 @@ import VeramoService from '../../src/veramo/Veramo.service';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { EXAMPLE_VC } from '../data/verifiable-credentials';
-import { createMockSnap, SnapMock } from '../helpers/snapMock';
+import { SnapMock, createMockSnap } from '../helpers/snapMock';
 
 describe('Utils [ceramic]', () => {
   let snapMock: SnapsProvider & SnapMock;

@@ -17,8 +17,8 @@ import { EXAMPLE_VC_PAYLOAD } from '../data/credentials';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import {
   EXAMPLE_VC,
-  EXAMPLE_VC_LDS,
   EXAMPLE_VC2,
+  EXAMPLE_VC_LDS,
 } from '../data/verifiable-credentials';
 
 describe('Utils [requestParams]', () => {

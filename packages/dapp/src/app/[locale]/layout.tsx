@@ -1,9 +1,9 @@
 import '@/styles/globals.css';
 
-import { Metadata } from 'next';
-import { Cabin, JetBrains_Mono, Ubuntu } from 'next/font/google';
 import clsx from 'clsx';
+import { Metadata } from 'next';
 import { NextIntlClientProvider, useMessages } from 'next-intl';
+import { Cabin, JetBrains_Mono, Ubuntu } from 'next/font/google';
 
 import AnalyticsWrapper from '@/components/AnalyticsWrapper';
 import ThemeProvider from '@/components/ThemeProvider';

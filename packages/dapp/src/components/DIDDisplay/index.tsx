@@ -26,7 +26,11 @@ export const DIDDisplay = ({ did }: { did: string }) => {
             {did.length <= 32 ? did : `${did.slice(0, 16)}...${did.slice(-4)}`}
           </a>
         </Tooltip>
-        <button className="pl-1" onClick={() => copyToClipboard(did)}>
+        <button
+          type="button"
+          className="pl-1"
+          onClick={() => copyToClipboard(did)}
+        >
           <DocumentDuplicateIcon className="animated-transition dark:text-navy-blue-300 ml-1 h-5 w-5 text-gray-700 hover:text-gray-700" />
         </button>
       </div>
