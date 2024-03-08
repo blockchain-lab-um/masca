@@ -1,5 +1,15 @@
 # @blockchain-lab-um/masca-docs
 
+## 1.1.1
+
+### Patch Changes
+
+- [#533](https://github.com/blockchain-lab-um/masca/pull/533) [`e8d8e5b`](https://github.com/blockchain-lab-um/masca/commit/e8d8e5ba52bf40f8984434e39c20e79e2c1e781c) Thanks [@andyv09](https://github.com/andyv09)! - Changed and updated trusted dapps
+
+- [#567](https://github.com/blockchain-lab-um/masca/pull/567) [`fc4e573`](https://github.com/blockchain-lab-um/masca/commit/fc4e5732d2204d61a78c84d2844b67b49d8c020d) Thanks [@andyv09](https://github.com/andyv09)! - Implement new permission system in snap, update connector & types and permissions table on dApp
+
+- [#544](https://github.com/blockchain-lab-um/masca/pull/544) [`b688093`](https://github.com/blockchain-lab-um/masca/commit/b688093520e727815250d4015bb9c6adc406894d) Thanks [@pseudobun](https://github.com/pseudobun)! - Document EIP-6963 support.
+
 ## 1.1.1-beta.0
 
 ### Patch Changes
