@@ -73,7 +73,7 @@ const methodIndexMapping: Record<InternalSigMethods, number> = {
 
 const nodeWallet = HDNodeWallet.fromMnemonic(
   Mnemonic.fromEntropy(entropy)
-).derivePath(`m/44/1236/${methodIndexMapping[method]}/0/0`);
+).derivePath(`44/1236/${methodIndexMapping[method]}/0/0`);
 ```
 
 `Mnemonic.fromEntropy()` generates a seed phrase from the passed entropy, which we then use to create a new wallet.

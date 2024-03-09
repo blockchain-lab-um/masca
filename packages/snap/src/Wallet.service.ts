@@ -35,7 +35,7 @@ class WalletService {
 
     const nodeWallet = HDNodeWallet.fromMnemonic(
       Mnemonic.fromEntropy(entropy)
-    ).derivePath(`m/44/1236/${methodIndexMapping[method]}/0/0`);
+    ).derivePath(`44/1236/${methodIndexMapping[method]}/0/0`);
 
     this.instance = nodeWallet;
   }
