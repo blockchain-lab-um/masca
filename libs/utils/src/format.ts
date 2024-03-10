@@ -2,7 +2,7 @@ import { varint } from 'multiformats';
 import { base58btc } from 'multiformats/bases/base58';
 import secp256k1 from 'secp256k1';
 
-import { MULTICODEC_NAME_TO_CODE, type CodecName } from './multicodecs.js';
+import { type CodecName, MULTICODEC_NAME_TO_CODE } from './multicodecs.js';
 
 const { publicKeyConvert } = secp256k1;
 

@@ -6,11 +6,11 @@ import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsProvider } from '@metamask/snaps-sdk';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
-import StorageService from '../../src/storage/Storage.service';
 import WalletService from '../../src/Wallet.service';
+import StorageService from '../../src/storage/Storage.service';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
-import { createMockSnap, SnapMock } from '../helpers/snapMock';
+import { SnapMock, createMockSnap } from '../helpers/snapMock';
 
 const methods = [
   {

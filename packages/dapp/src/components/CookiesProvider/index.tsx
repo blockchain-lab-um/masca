@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect } from 'react';
 import Cookies from 'js-cookie';
+import { useEffect } from 'react';
 import { useAccount } from 'wagmi';
 
-import { verifyToken } from '@/utils/verifyToken';
 import { useAuthStore } from '@/stores/authStore';
+import { verifyToken } from '@/utils/verifyToken';
 
 export const CookiesProvider = () => {
   const { changeToken, changeIsSignedIn } = useAuthStore((state) => ({

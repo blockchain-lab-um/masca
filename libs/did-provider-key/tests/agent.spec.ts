@@ -1,22 +1,22 @@
 import * as fs from 'fs';
 import {
-  createAgent,
   type IAgentOptions,
   type ICredentialPlugin,
+  type IDIDManager,
   type IDataStore,
   type IDataStoreORM,
-  type IDIDManager,
   type IKeyManager,
   type IResolver,
   type TAgent,
+  createAgent,
 } from '@veramo/core';
 import { CredentialPlugin } from '@veramo/credential-w3c';
 import {
   DIDStore,
   Entities,
   KeyStore,
-  migrations,
   PrivateKeyStore,
+  migrations,
 } from '@veramo/data-store';
 import { DIDManager } from '@veramo/did-manager';
 import { DIDResolverPlugin } from '@veramo/did-resolver';
@@ -26,7 +26,7 @@ import { Resolver } from 'did-resolver';
 import { DataSource, type DataSourceOptions } from 'typeorm';
 import { describe } from 'vitest';
 
-import { getDidKeyResolver, KeyDIDProvider } from '../src/index.js';
+import { KeyDIDProvider, getDidKeyResolver } from '../src/index.js';
 import plugin from './plugin';
 
 const KMS_SECRET_KEY =

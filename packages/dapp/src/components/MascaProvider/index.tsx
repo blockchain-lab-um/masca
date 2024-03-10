@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect } from 'react';
 import { enableMasca, isError } from '@blockchain-lab-um/masca-connector';
 import { useTranslations } from 'next-intl';
+import { useEffect } from 'react';
 import { useAccount, useChainId, useSwitchChain } from 'wagmi';
 
 import { useMascaStore, useToastStore } from '@/stores';
@@ -108,7 +108,7 @@ const MascaProvider = () => {
     if (!address) return;
     enableMascaHandler().catch(async (err) => {
       // FIXME: this is only a temporary solution
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
       if (err.message.toLowerCase().includes('unsupported network')) {
         useToastStore.setState({
           open: true,

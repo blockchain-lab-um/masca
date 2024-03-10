@@ -12,7 +12,6 @@ export function decodeJWT(jwt: string): VerifiableCredential {
 
     return normalizedVC;
   } catch (e: any) {
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     throw new Error(`Invalid JWT: ${e.message}`);
   }
 }

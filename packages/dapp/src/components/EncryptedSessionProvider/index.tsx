@@ -1,14 +1,14 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
 import { hexToUint8Array } from '@blockchain-lab-um/masca-connector';
 import { useTranslations } from 'next-intl';
+import { useEffect, useMemo } from 'react';
 import { useAccount } from 'wagmi';
 
-import { createClient } from '@/utils/supabase/client';
 import { useMascaStore, useToastStore } from '@/stores';
 import { useAuthStore } from '@/stores/authStore';
 import { useEncryptedSessionStore } from '@/stores/encryptedSessionStore';
+import { createClient } from '@/utils/supabase/client';
 
 export const EncryptedSessionProvider = () => {
   const t = useTranslations('EncryptedSessionProvider');

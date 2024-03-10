@@ -1,9 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react';
 import {
   DappPermissions,
+  MascaConfig,
   isError,
   isSuccess,
-  MascaConfig,
 } from '@blockchain-lab-um/masca-connector';
 import {
   ArrowTopRightOnSquareIcon,
@@ -19,6 +18,7 @@ import {
   useDisclosure,
 } from '@nextui-org/react';
 import { useTranslations } from 'next-intl';
+import { useEffect, useMemo, useState } from 'react';
 
 import { useMascaStore, useToastStore } from '@/stores';
 import Button from '../Button';
@@ -297,19 +297,20 @@ export const TrustedDappTable = () => {
 
   const tableRows = useMemo(
     () =>
-      Object.keys(permissions).map((app, i) => {
+      Object.keys(permissions).map((app) => {
         const dappPermissions = permissions[app];
 
         return (
           <tr
             className="dark:border-navy-blue-500 border-t-2 border-gray-200 text-sm"
-            key={i}
+            key={app}
           >
             <td className="dark:text-navy-blue-200 p-2 text-start text-lg font-medium">
               <a
                 className="dark:text-orange-accent-dark animated-transition flex items-center gap-x-1 text-pink-500 underline hover:opacity-80"
                 href={`https://${app}`}
                 target="_blank"
+                rel="noreferrer"
               >
                 {app}
                 <ArrowTopRightOnSquareIcon className="dark:text-orange-accent-dark h-4 w-4 text-pink-500" />
@@ -317,6 +318,7 @@ export const TrustedDappTable = () => {
             </td>
             <td className="flex items-center justify-end gap-x-2 p-2 text-end">
               <button
+                type="button"
                 onClick={() => {
                   openModal({ title: app, permissions: dappPermissions });
                 }}
@@ -324,6 +326,7 @@ export const TrustedDappTable = () => {
                 <Cog6ToothIcon className="animated-transition dark:text-navy-blue-300 h-6 w-6 text-gray-700 hover:opacity-80" />
               </button>
               <button
+                type="button"
                 onClick={() => {
                   removeDappFromList(app)
                     .then((res) => {})
@@ -365,7 +368,7 @@ export const TrustedDappTable = () => {
             <th className="dark:text-navy-blue-300 p-2 text-start">
               {t('app-url')}
             </th>
-            <th></th>
+            <th />
           </tr>
         </thead>
         <tbody>{tableRows}</tbody>
@@ -380,6 +383,7 @@ export const TrustedDappTable = () => {
                   className="dark:text-orange-accent-dark animated-transition flex items-center gap-x-1 text-pink-500 underline hover:opacity-80"
                   href={`https://${currentDapp.title}`}
                   target="_blank"
+                  rel="noreferrer"
                 >
                   {currentDapp.title}
                   <ArrowTopRightOnSquareIcon className="dark:text-orange-accent-dark h-4 w-4 text-pink-500" />

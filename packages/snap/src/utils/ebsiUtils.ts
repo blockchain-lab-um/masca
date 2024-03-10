@@ -5,8 +5,8 @@ import {
 import type { IDIDManagerCreateArgs } from '@veramo/core';
 import { keccak256 } from 'ethers';
 
-import VeramoService from '../veramo/Veramo.service';
 import WalletService from '../Wallet.service';
+import VeramoService from '../veramo/Veramo.service';
 
 /**
  * Function that creates a new EBSI identifier.

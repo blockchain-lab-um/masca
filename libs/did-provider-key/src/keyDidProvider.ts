@@ -16,9 +16,9 @@ import type {
 import { AbstractIdentifierProvider } from '@veramo/did-manager';
 
 import {
-  isSupportedKeyType,
-  KEY_TYPE_TO_MULTICODEC_NAME,
   type ICreateKeyDidOptions,
+  KEY_TYPE_TO_MULTICODEC_NAME,
+  isSupportedKeyType,
 } from './types/keyDidTypes.js';
 
 type IContext = IAgentContext<IKeyManager>;
@@ -114,7 +114,6 @@ export class KeyDIDProvider extends AbstractIdentifierProvider {
     context: IContext
   ): Promise<boolean> {
     for (const { kid } of identifier.keys) {
-      // eslint-disable-next-line no-await-in-loop
       await context.agent.keyManagerDelete({ kid });
     }
     return true;

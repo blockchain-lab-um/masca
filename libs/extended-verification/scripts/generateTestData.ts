@@ -3,9 +3,9 @@ import { generateInvalidPresentations } from './generateInvalidPresentations';
 import { generateValidCredentials } from './generateValidCredentials';
 import { generateValidPresentations } from './generateValidPresentations';
 import {
+  CREDENTIAL_DATA,
   createJWTCredential,
   createVeramoAgent,
-  CREDENTIAL_DATA,
 } from './utils';
 import { createEntrypoint } from './utils/createEntrypoint';
 

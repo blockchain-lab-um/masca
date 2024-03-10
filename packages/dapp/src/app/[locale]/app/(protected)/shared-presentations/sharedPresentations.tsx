@@ -1,7 +1,5 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { EyeIcon, ShareIcon, TrashIcon } from '@heroicons/react/24/solid';
 import {
   Pagination,
@@ -16,13 +14,15 @@ import {
 } from '@nextui-org/react';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { DeleteSharedPresentationModal } from '@/components/DeleteSharedPresentationModal';
 import { ShareCredentialModal } from '@/components/ShareCredentialModal';
-import { createClient } from '@/utils/supabase/client';
-import { Tables } from '@/utils/supabase/helper.types';
 import { useAuthStore } from '@/stores/authStore';
 import { useShareModalStore } from '@/stores/shareModalStore';
+import { createClient } from '@/utils/supabase/client';
+import { Tables } from '@/utils/supabase/helper.types';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -135,6 +135,7 @@ export const SharedPresentations = () => {
             <div className="flex w-full items-center justify-end space-x-4">
               <Tooltip content="Share">
                 <button
+                  type="button"
                   className={clsx(
                     ' dark:text-navy-blue-50 group flex',
                     'items-center justify-center rounded-full text-gray-700 outline-none focus:outline-none'

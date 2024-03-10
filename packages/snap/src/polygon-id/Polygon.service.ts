@@ -1,7 +1,6 @@
 import {
   AuthHandler,
   BjjProvider,
-  byteEncoder,
   CircuitData,
   CircuitId,
   CredentialStatusResolverRegistry,
@@ -11,7 +10,6 @@ import {
   DataPrepareHandlerFunc,
   EthStateStorage,
   FetchHandler,
-  hexToBytes,
   IdentityStorage,
   IdentityWallet,
   InMemoryPrivateKeyStore,
@@ -20,15 +18,17 @@ import {
   KMS,
   KmsKeyType,
   OnChainResolver,
+  PROTOCOL_CONSTANTS,
   PackageManager,
   PlainPacker,
   ProofService,
-  PROTOCOL_CONSTANTS,
   RHSResolver,
   VerifiableConstants,
   VerificationHandlerFunc,
   W3CCredential,
   ZKPPacker,
+  byteEncoder,
+  hexToBytes,
 } from '@0xpolygonid/js-sdk';
 import {
   CURRENT_STATE_VERSION,
@@ -46,10 +46,10 @@ import CircuitStorageService from './CircuitStorage.service';
 import {
   BLOCKCHAINS,
   CHAIN_ID_TO_BLOCKCHAIN_AND_NETWORK_ID,
-  getDefaultEthConnectionConfig,
   METHODS,
   NETWORKS,
   RHS_URL,
+  getDefaultEthConnectionConfig,
 } from './constants';
 import { SnapDataSource, SnapMerkleTreeStorage } from './storage';
 
@@ -105,8 +105,8 @@ class PolygonService {
   };
 
   static get() {
-    const { method, blockchain, networkId } = this.metadata;
-    return this.instance[method][blockchain][networkId];
+    const { method, blockchain, networkId } = PolygonService.metadata;
+    return PolygonService.instance[method][blockchain][networkId];
   }
 
   static async init() {
@@ -127,8 +127,8 @@ class PolygonService {
               networkId === NetworkId.Mumbai
             )
           ) {
-            this.instance[method][blockchain][networkId] =
-              await this.createBaseInstance({
+            PolygonService.instance[method][blockchain][networkId] =
+              await PolygonService.createBaseInstance({
                 method,
                 blockchain,
                 networkId,
@@ -163,14 +163,14 @@ class PolygonService {
     const { blockchain, networkId } = mapping;
 
     // Set metadata so we can reuse it later
-    this.metadata = {
+    PolygonService.metadata = {
       method,
       blockchain,
       networkId,
     };
 
     const { dataStorage, wallet, kms } =
-      this.instance[method][blockchain][networkId];
+      PolygonService.instance[method][blockchain][networkId];
 
     const identity = (await dataStorage.identity.getAllIdentities())[0];
     const entropy = await snap.request({
@@ -223,7 +223,7 @@ class PolygonService {
       { ipfsGatewayURL: 'https://ipfs.io' }
     );
 
-    const packageMgr = await this.getPackageMgr({
+    const packageMgr = await PolygonService.getPackageMgr({
       circuitData,
       proofService,
       kms,
@@ -243,13 +243,14 @@ class PolygonService {
   }
 
   static async saveCredential(credential: W3CCredential) {
-    const { method, blockchain, networkId } = this.metadata;
-    const { credWallet } = this.instance[method][blockchain][networkId];
+    const { method, blockchain, networkId } = PolygonService.metadata;
+    const { credWallet } =
+      PolygonService.instance[method][blockchain][networkId];
 
     // Check if credential subject is correct
     const { id } = credential.credentialSubject;
 
-    const identifier = await this.getIdentifier();
+    const identifier = await PolygonService.getIdentifier();
 
     if (id !== identifier) {
       throw new Error('The credential does not belong to the current identity');
@@ -272,7 +273,8 @@ class PolygonService {
               networkId === NetworkId.Mumbai
             )
           ) {
-            const { credWallet } = this.instance[method][blockchain][networkId];
+            const { credWallet } =
+              PolygonService.instance[method][blockchain][networkId];
             const creds = await credWallet.list();
             credentials.push(
               ...creds.filter(
@@ -302,7 +304,8 @@ class PolygonService {
               networkId === NetworkId.Mumbai
             )
           ) {
-            const { credWallet } = this.instance[method][blockchain][networkId];
+            const { credWallet } =
+              PolygonService.instance[method][blockchain][networkId];
             await credWallet.remove(id);
           }
         }
@@ -311,9 +314,9 @@ class PolygonService {
   }
 
   static async getIdentifier(): Promise<string> {
-    const { method, blockchain, networkId } = this.metadata;
+    const { method, blockchain, networkId } = PolygonService.metadata;
     const identity = (
-      await this.instance[method][blockchain][
+      await PolygonService.instance[method][blockchain][
         networkId
       ].dataStorage.identity.getAllIdentities()
     )[0];
@@ -329,9 +332,10 @@ class PolygonService {
     params: HandleCredentialOfferRequestParams
   ): Promise<W3CCredential[]> {
     const { credentialOffer } = params;
-    const { method, blockchain, networkId } = this.metadata;
+    const { method, blockchain, networkId } = PolygonService.metadata;
 
-    const { packageMgr } = this.instance[method][blockchain][networkId];
+    const { packageMgr } =
+      PolygonService.instance[method][blockchain][networkId];
 
     const fetchHandler = new FetchHandler(packageMgr);
     const messageBytes = byteEncoder.encode(credentialOffer);
@@ -354,13 +358,14 @@ class PolygonService {
     params: HandleAuthorizationRequestParams
   ): Promise<void> {
     const { authorizationRequest } = params;
-    const { method, blockchain, networkId } = this.metadata;
+    const { method, blockchain, networkId } = PolygonService.metadata;
 
-    const { authHandler } = this.instance[method][blockchain][networkId];
+    const { authHandler } =
+      PolygonService.instance[method][blockchain][networkId];
 
     const messageBytes = byteEncoder.encode(authorizationRequest);
     try {
-      const did = DID.parse(await this.getIdentifier());
+      const did = DID.parse(await PolygonService.getIdentifier());
 
       const { token, authRequest } =
         await authHandler.handleAuthorizationRequest(did, messageBytes, {

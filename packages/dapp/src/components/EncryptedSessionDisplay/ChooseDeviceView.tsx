@@ -1,4 +1,3 @@
-import React from 'react';
 import { useTranslations } from 'next-intl';
 import { useAccount } from 'wagmi';
 
@@ -20,6 +19,7 @@ export const ChooseDeviceView = ({
       {isConnected ? (
         <div className="flex w-full flex-col gap-y-4 sm:flex-row sm:gap-x-4">
           <button
+            type="button"
             onClick={() => onDeviceTypeSelected('primary', true)}
             className="animated-transition dark:border-navy-blue-400 dark:hover:bg-navy-blue-700 flex w-full flex-col items-center justify-center gap-y-4 rounded-xl border-4 border-gray-500 p-4 hover:bg-gray-100"
           >
@@ -29,6 +29,7 @@ export const ChooseDeviceView = ({
             <span className="text-sm">{t('primary-has-camera-desc')}</span>
           </button>
           <button
+            type="button"
             onClick={() => onDeviceTypeSelected('primary', false)}
             className="animated-transition dark:border-navy-blue-400 dark:hover:bg-navy-blue-700 flex w-full flex-col items-center justify-center gap-y-4 rounded-xl border-4 border-gray-500 p-4 hover:bg-gray-100"
           >
@@ -44,6 +45,7 @@ export const ChooseDeviceView = ({
       ) : (
         <div className="flex flex-col items-center">
           <button
+            type="button"
             onClick={() => onDeviceTypeSelected('secondary', true)}
             className="animated-transition dark:border-navy-blue-400 dark:hover:bg-navy-blue-700 flex w-full flex-col items-center justify-center gap-y-4 rounded-xl border-4 border-gray-500 p-4 hover:bg-gray-100"
           >

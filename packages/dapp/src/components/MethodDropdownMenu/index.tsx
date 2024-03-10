@@ -1,19 +1,19 @@
 'use client';
 
-import { Fragment } from 'react';
 import {
+  type AvailableMethods,
   isError,
   requiresNetwork,
-  type AvailableMethods,
 } from '@blockchain-lab-um/masca-connector';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
+import { Fragment } from 'react';
 import { useChainId, useSwitchChain } from 'wagmi';
 
-import { NETWORKS_BY_DID } from '@/utils/networks';
 import { useMascaStore, useToastStore } from '@/stores';
+import { NETWORKS_BY_DID } from '@/utils/networks';
 import { TextSkeleton } from '../Skeletons/TextSkeleton';
 import { DropdownButton } from './MethodDropdownButton';
 
@@ -53,7 +53,7 @@ export default function MethodDropdownMenu() {
           netToChange = '0x1';
         }
         if (!hasCorrectNetwork) {
-          const { id } = await switchChainAsync({
+          await switchChainAsync({
             chainId: Number(netToChange),
           });
         }
@@ -141,9 +141,9 @@ export default function MethodDropdownMenu() {
             {currMethod && (
               <Menu.Items className="dark:bg-navy-blue-600 absolute right-0 z-50 mt-1 w-48 rounded-3xl bg-white shadow-lg">
                 <div className="p-1 text-center ">
-                  {methods.map((method, id) => (
+                  {methods.map((method) => (
                     <DropdownButton
-                      key={id}
+                      key={method}
                       selected={method === currMethod}
                       handleBtn={handleMethodChangeRequest}
                     >

@@ -1,4 +1,4 @@
-import { isError, Result } from '@blockchain-lab-um/utils';
+import { Result, isError } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsProvider } from '@metamask/snaps-sdk';
 import { DIDResolutionResult } from 'did-resolver';
@@ -8,7 +8,7 @@ import { onRpcRequest } from '../../src';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { CHEQD, EBSI, ENS, ETHR, KEY, WEB } from '../data/documentResolution';
-import { createMockSnap, SnapMock } from '../helpers/snapMock';
+import { SnapMock, createMockSnap } from '../helpers/snapMock';
 
 describe('resolveDID', () => {
   let snapMock: SnapsProvider & SnapMock;

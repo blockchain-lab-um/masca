@@ -1,4 +1,4 @@
-import { createConfig, http } from 'wagmi';
+import { http, createConfig } from 'wagmi';
 import { mainnet, polygon, polygonMumbai, sepolia } from 'wagmi/chains';
 import { injected } from 'wagmi/connectors';
 

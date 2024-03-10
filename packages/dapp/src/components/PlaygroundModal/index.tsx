@@ -1,7 +1,7 @@
-import { Fragment, useState } from 'react';
 import { isError } from '@blockchain-lab-um/masca-connector';
 import { Dialog, Transition } from '@headlessui/react';
 import clsx from 'clsx';
+import { Fragment, useState } from 'react';
 
 import Button from '@/components/Button';
 import { useMascaStore } from '@/stores';

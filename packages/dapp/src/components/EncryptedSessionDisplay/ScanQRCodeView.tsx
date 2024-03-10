@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
 import { uint8ArrayToHex } from '@blockchain-lab-um/masca-connector';
 import { createClient as createSupbaseClient } from '@supabase/supabase-js';
 import { Html5Qrcode } from 'html5-qrcode';
 import { useTranslations } from 'next-intl';
+import React, { useState } from 'react';
 import { useAccount } from 'wagmi';
 
 import Button from '@/components/Button';
 import ScanQRCodeModal from '@/components/ScanQRCodeModal/ScanQRCodeModal';
 import UploadButton from '@/components/UploadButton';
-import { Database } from '@/utils/supabase/database.types';
 import { useToastStore } from '@/stores';
 import { useEncryptedSessionStore } from '@/stores/encryptedSessionStore';
 import { useQRCodeStore } from '@/stores/qrCodeStore';
+import { Database } from '@/utils/supabase/database.types';
 
 interface ScanQRCodeViewProps {
   onQRCodeScanned: () => void;

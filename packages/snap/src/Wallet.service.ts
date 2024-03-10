@@ -1,7 +1,7 @@
 import {
   CURRENT_STATE_VERSION,
-  methodIndexMapping,
   type InternalSigMethods,
+  methodIndexMapping,
 } from '@blockchain-lab-um/masca-types';
 import { HDNodeWallet, Mnemonic } from 'ethers';
 
@@ -37,11 +37,11 @@ class WalletService {
       Mnemonic.fromEntropy(entropy)
     ).derivePath(`44/1236/${methodIndexMapping[method]}/0/0`);
 
-    this.instance = nodeWallet;
+    WalletService.instance = nodeWallet;
   }
 
   static get(): HDNodeWallet {
-    return this.instance;
+    return WalletService.instance;
   }
 
   /**

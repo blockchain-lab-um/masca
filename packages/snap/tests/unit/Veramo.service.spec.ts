@@ -7,10 +7,10 @@ import { IIdentifier } from '@veramo/core';
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import GeneralService from '../../src/General.service';
-import StorageService from '../../src/storage/Storage.service';
-import type { StoredCredentials } from '../../src/veramo/plugins/ceramicDataStore/ceramicDataStore';
-import VeramoService from '../../src/veramo/Veramo.service';
 import WalletService from '../../src/Wallet.service';
+import StorageService from '../../src/storage/Storage.service';
+import VeramoService from '../../src/veramo/Veramo.service';
+import type { StoredCredentials } from '../../src/veramo/plugins/ceramicDataStore/ceramicDataStore';
 import {
   account,
   jsonPath,
@@ -30,11 +30,11 @@ import {
 } from '../data/identifiers/didKey';
 import {
   EXAMPLE_VC,
+  EXAMPLE_VC2,
   EXAMPLE_VC_EIP712,
   EXAMPLE_VC_LDS,
-  EXAMPLE_VC2,
 } from '../data/verifiable-credentials';
-import { createMockSnap, SnapMock } from '../helpers/snapMock';
+import { SnapMock, createMockSnap } from '../helpers/snapMock';
 
 const credentials = [EXAMPLE_VC, EXAMPLE_VC2, EXAMPLE_VC_EIP712];
 

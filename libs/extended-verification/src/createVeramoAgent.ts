@@ -1,9 +1,9 @@
 import { getDidKeyResolver as keyDidResolver } from '@blockchain-lab-um/did-provider-key';
 import {
-  createAgent,
   ICredentialVerifier,
   IResolver,
   TAgent,
+  createAgent,
 } from '@veramo/core';
 import { CredentialIssuerEIP712 } from '@veramo/credential-eip712';
 import { CredentialPlugin } from '@veramo/credential-w3c';

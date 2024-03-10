@@ -1,10 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
 import {
-  isError,
   Result,
   ResultObject,
+  isError,
 } from '@blockchain-lab-um/masca-connector';
 import {
   Input,
@@ -17,6 +14,9 @@ import {
 import { VerifiablePresentation } from '@veramo/core';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect, useMemo, useState } from 'react';
 import {
   LinkedinIcon,
   LinkedinShareButton,
@@ -24,11 +24,11 @@ import {
   TwitterShareButton,
 } from 'react-share';
 
-import { selectProofFormat } from '@/utils/selectProofFormat';
-import { convertTypes } from '@/utils/string';
 import { useMascaStore, useToastStore } from '@/stores';
 import { useAuthStore } from '@/stores/authStore';
 import { useShareModalStore } from '@/stores/shareModalStore';
+import { selectProofFormat } from '@/utils/selectProofFormat';
+import { convertTypes } from '@/utils/string';
 import Button from '../Button';
 
 export const ShareCredentialModal = () => {
@@ -228,8 +228,8 @@ export const ShareCredentialModal = () => {
                             {t('selected')}
                           </h3>
                           <div className="flex flex-col space-y-2">
-                            {types.map(({ key, value }, i) => (
-                              <div key={i}>{value}</div>
+                            {types.map((type) => (
+                              <div key={type.value}>{type.value}</div>
                             ))}
                           </div>
                         </div>

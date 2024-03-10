@@ -40,8 +40,8 @@ class UIService {
   static originWrapper: Component[];
 
   static async init(origin: string) {
-    this.originHostname = new URL(origin).hostname; // hostname
-    this.originWrapper = [text(`Origin: **${origin}**`), divider()];
+    UIService.originHostname = new URL(origin).hostname; // hostname
+    UIService.originWrapper = [text(`Origin: **${origin}**`), divider()];
   }
 
   static async snapConfirm(params: {
@@ -59,8 +59,8 @@ class UIService {
       force ||
       !(
         disablePopups ||
-        isTrustedDapp(this.originHostname, state) ||
-        isPermitted(this.originHostname, state, params.method)
+        isTrustedDapp(UIService.originHostname, state) ||
+        isPermitted(UIService.originHostname, state, params.method)
       )
     ) {
       const res = await snap.request({
@@ -87,7 +87,7 @@ class UIService {
     // Show popups if force is true or if popups are not disabled AND the dapp is not trusted
     if (
       force ||
-      !(disablePopups || isTrustedDapp(this.originHostname, state))
+      !(disablePopups || isTrustedDapp(UIService.originHostname, state))
     ) {
       await snap.request({
         method: 'snap_dialog',
@@ -102,9 +102,9 @@ class UIService {
   static async queryAllDialog(): Promise<boolean> {
     const uiPanel = panel([
       heading('Share Verifiable Credentials'),
-      ...this.originWrapper,
+      ...UIService.originWrapper,
       text(
-        `Would you like give _**${this.originHostname}**_ permission to access your credentials?`
+        `Would you like give _**${UIService.originHostname}**_ permission to access your credentials?`
       ),
       divider(),
       text('This permission can be revoked at [Masca dApp](https://masca.io).'),
@@ -119,25 +119,25 @@ class UIService {
 
     // If accepted and query permission doesnt exist, add it
     const permission = isPermitted(
-      this.originHostname,
+      UIService.originHostname,
       state,
       'queryCredentials'
     );
 
-    const isTrusted = isTrustedDapp(this.originHostname, state);
+    const isTrusted = isTrustedDapp(UIService.originHostname, state);
 
     if (res && isTrusted) return res;
 
     if (res && !permission) {
       let newPermissions = getInitialPermissions();
 
-      if (permissionExists(this.originHostname, state)) {
-        newPermissions = getPermissions(state)[this.originHostname];
+      if (permissionExists(UIService.originHostname, state)) {
+        newPermissions = getPermissions(state)[UIService.originHostname];
       }
       newPermissions.methods.queryCredentials = true;
 
       state[CURRENT_STATE_VERSION].config.dApp.permissions[
-        this.originHostname
+        UIService.originHostname
       ] = newPermissions;
     }
 
@@ -151,7 +151,7 @@ class UIService {
     const { store, verifiableCredential } = params;
     const uiPanel = panel([
       heading('Save Verifiable Credential'),
-      ...this.originWrapper,
+      ...UIService.originWrapper,
       text('Would you like to save the credential below?'),
       divider(),
       text(
@@ -160,7 +160,7 @@ class UIService {
         }**`
       ),
       divider(),
-      text(`Credential:`),
+      text('Credential:'),
       copyable(JSON.stringify(verifiableCredential, null, 2)),
     ]);
     const res = await UIService.snapConfirm({
@@ -179,7 +179,7 @@ class UIService {
     const { save, storeString, minimalUnsignedCredential, did } = params;
     const uiPanel = panel([
       heading('Create and Save Verifiable Credential'),
-      ...this.originWrapper,
+      ...UIService.originWrapper,
       text(`DID: **${did}**`),
       divider(),
       text(
@@ -189,7 +189,7 @@ class UIService {
       ),
       divider(),
       text(`${storeString}`),
-      text(`Credential:`),
+      text('Credential:'),
       copyable(JSON.stringify(minimalUnsignedCredential, null, 2)),
     ]);
     const res = await UIService.snapConfirm({
@@ -207,7 +207,7 @@ class UIService {
     const { store, vcs } = params;
     const uiPanel = panel([
       heading('Delete Verifiable Credential'),
-      ...this.originWrapper,
+      ...UIService.originWrapper,
       text('Are you sure you want to delete this credential?'),
       divider(),
       text(
@@ -232,14 +232,14 @@ class UIService {
     const { vcs, did } = params;
     const uiPanel = panel([
       heading('Create Verifiable Presentation'),
-      ...this.originWrapper,
+      ...UIService.originWrapper,
       text(`DID: **${did}**`),
       divider(),
       text(
         'Would you like to create a presentation from the credentials below?'
       ),
       divider(),
-      text(`Credentials:`),
+      text('Credentials:'),
       ...vcs.map((vc) => copyable(JSON.stringify(vc, null, 2))),
     ]);
     const res = await UIService.snapConfirm({
@@ -252,10 +252,10 @@ class UIService {
   static async handleCredentialOfferDialog(data: any) {
     const uiPanel = panel([
       heading('Credential Offer'),
-      ...this.originWrapper,
+      ...UIService.originWrapper,
       text('Would you like to accept the Credential Offer?'),
       divider(),
-      text(`Data:`),
+      text('Data:'),
       text(JSON.stringify(data, null, 2)),
     ]);
 
@@ -270,10 +270,10 @@ class UIService {
   static async handleAuthorizationRequestDialog(data: any) {
     const uiPanel = panel([
       heading('Authorization Request'),
-      ...this.originWrapper,
+      ...UIService.originWrapper,
       text('Would you like to accept the Authorization Request?'),
       divider(),
-      text(`Data:`),
+      text('Data:'),
       text(JSON.stringify(data, null, 2)),
     ]);
 
@@ -288,7 +288,7 @@ class UIService {
   static async togglePopupsDialog() {
     const uiPanel = panel([
       heading('Toggle Popups'),
-      ...this.originWrapper,
+      ...UIService.originWrapper,
       text('Would you like to turn off popups?'),
       divider(),
       text(
@@ -306,7 +306,7 @@ class UIService {
   static async addTrustedDappDialog(origin: string) {
     const uiPanel = panel([
       heading('Disable Popups'),
-      ...this.originWrapper,
+      ...UIService.originWrapper,
       text(`Would you like to disable popups on _**${origin}**_?`),
       divider(),
       text(
@@ -325,7 +325,7 @@ class UIService {
   static async removeTrustedDappDialog(origin: string) {
     const uiPanel = panel([
       heading('Enable Popups'),
-      ...this.originWrapper,
+      ...UIService.originWrapper,
       text(`Would you like to re-enable popups on _**${origin}**_?`),
     ]);
 
@@ -343,7 +343,7 @@ class UIService {
         type: 'prompt',
         content: panel([
           heading('Enter the PIN you received from the issuer.'),
-          ...this.originWrapper,
+          ...UIService.originWrapper,
         ]),
         placeholder: 'PIN...',
       },
@@ -354,7 +354,7 @@ class UIService {
   static async exportBackupDialog() {
     const uiPanel = panel([
       heading('Export Backup'),
-      ...this.originWrapper,
+      ...UIService.originWrapper,
       text(
         'This method returns the encrypted backup of your Masca state. You can use this backup to restore your state on different device.'
       ),
@@ -371,7 +371,7 @@ class UIService {
   static async importBackupDialog() {
     const uiPanel = panel([
       heading('Import Backup'),
-      ...this.originWrapper,
+      ...UIService.originWrapper,
       text(
         'This method allows you to import an encrypted backup of your Masca state.'
       ),
@@ -395,13 +395,13 @@ class UIService {
   }) {
     const uiPanel = panel([
       heading('Sign Data'),
-      ...this.originWrapper,
+      ...UIService.originWrapper,
       text('Would you like to sign the following JWT?'),
       divider(),
-      text(`Header:`),
+      text('Header:'),
       copyable(JSON.stringify(params.header, null, 2)),
       divider(),
-      text(`Payload:`),
+      text('Payload:'),
       copyable(JSON.stringify(params.payload, null, 2)),
     ]);
 
@@ -417,7 +417,7 @@ class UIService {
   static async signDataJWZDialog(params: { data: JSONObject }) {
     const uiPanel = panel([
       heading('Sign Data'),
-      ...this.originWrapper,
+      ...UIService.originWrapper,
       text('Would you like to sign the following data?'),
       copyable(JSON.stringify(params.data, null, 2)),
     ]);
@@ -437,13 +437,13 @@ class UIService {
   }) {
     const uiPanel = panel([
       heading('Change Permission'),
-      ...this.originWrapper,
+      ...UIService.originWrapper,
       text('Would you to change the following permission?'),
       divider(),
       text(
         `**${params.value ? 'Disable' : 'Enable'}** popups for **${
           permissionActions[params.permission]
-        }** on _**${this.originHostname}**_.`
+        }** on _**${UIService.originHostname}**_.`
       ),
       divider(),
       text(`${permissionExtraText[params.permission]}`),

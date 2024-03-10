@@ -1,7 +1,7 @@
 'use client';
 
-import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
 
 import Button from '@/components/Button';
 

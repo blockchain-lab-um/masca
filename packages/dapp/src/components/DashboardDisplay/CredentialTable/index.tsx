@@ -1,5 +1,3 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import { EllipsisVerticalIcon } from '@heroicons/react/24/solid';
@@ -22,14 +20,16 @@ import {
 } from '@nextui-org/react';
 import { encodeBase64url } from '@veramo/utils';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import DeleteModal from '@/components/DeleteModal';
 import StoreIcon from '@/components/StoreIcon';
-import { removeCredentialSubjectFilterString } from '@/utils/format';
-import { convertTypes } from '@/utils/string';
 import { useTableStore } from '@/stores';
 import { useAuthStore } from '@/stores/authStore';
 import { useShareModalStore } from '@/stores/shareModalStore';
+import { removeCredentialSubjectFilterString } from '@/utils/format';
+import { convertTypes } from '@/utils/string';
 import { LastFetched } from '../LastFetched';
 import { sortCredentialList } from '../utils';
 
@@ -144,16 +144,15 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
               {convertTypes(vc.data.type).split(',')[0]}
             </span>
           );
-        case 'date':
-          // eslint-disable-next-line no-case-declarations
+        case 'date': {
           const date = Date.parse(vc.data.issuanceDate);
           return (
             <span className="flex items-center justify-center">
               {new Date(date).toDateString()}
             </span>
           );
-        case 'subject':
-          // eslint-disable-next-line no-case-declarations
+        }
+        case 'subject': {
           const subject = vc.data.credentialSubject.id
             ? vc.data.credentialSubject.id
             : '';
@@ -170,6 +169,7 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
               >{`${subject.slice(0, 8)}....${subject.slice(-4)}`}</a>
             </Tooltip>
           );
+        }
         case 'issuer':
           return <IssuerCell vc={vc} />;
         case 'exp_date':
@@ -203,26 +203,26 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
               </Tooltip>
             </span>
           );
-        case 'data_store':
-          // eslint-disable-next-line no-case-declarations
+        case 'data_store': {
           const dataStore = vc.metadata.store
             ? vc.metadata.store.toString()
             : '';
           return (
             <div className="flex items-center justify-center gap-x-1">
-              {dataStore.split(',').map((store: string, id: number) => (
+              {dataStore.split(',').map((store: string) => (
                 <Tooltip
                   className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
                   content={store}
-                  key={id}
+                  key={store}
                 >
                   <div className="relative mt-1">
-                    <StoreIcon store={store} key={id} />
+                    <StoreIcon store={store} />
                   </div>
                 </Tooltip>
               ))}
             </div>
           );
+        }
         case 'actions':
           return (
             <div className="relative flex items-center justify-end gap-2">
@@ -381,7 +381,7 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
       </Table>
 
       <div className="flex w-full items-center justify-between px-9 pb-8">
-        <div className="w-1/3 "></div>
+        <div className="w-1/3 " />
         <div className="flex h-[40px] w-1/3 items-center justify-center">
           <Pagination
             isCompact

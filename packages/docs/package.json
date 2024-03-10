@@ -10,11 +10,8 @@
     "compress": "precompress build --types gz --include **.html,**.css,**.js,**.map",
     "docker:build": "docker build . -t blockchain-lab-um/masca-docs",
     "docusaurus": "docusaurus",
-    "lint": "pnpm lint:eslint && pnpm lint:prettier",
-    "lint:eslint": "eslint .",
-    "lint:fix": "eslint . --fix && prettier . --write",
-    "lint:prettier": "prettier . --check",
-    "prettier": "prettier --write .",
+    "lint": "biome check .",
+    "lint:fix": "biome check --apply .",
     "serve": "docusaurus serve",
     "start": "docusaurus start",
     "swizzle": "docusaurus swizzle",
@@ -49,7 +46,7 @@
     "@docusaurus/plugin-content-docs": "^3.1.1",
     "@docusaurus/types": "^3.1.1",
     "@tsconfig/docusaurus": "^2.0.2",
-    "@types/react": "18.2.63",
+    "@types/react": "18.2.64",
     "precompress": "^12.0.2"
   },
   "nx": {
@@ -64,7 +61,6 @@
         "!{projectRoot}/.docusaurus/**/*",
         "!{projectRoot}/.lintstagedrc.cjs",
         "!{projectRoot}/Dockerfile",
-        "!{projectRoot}/.prettierignore",
         "!{projectRoot}/.env.*"
       ]
     },

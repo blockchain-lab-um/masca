@@ -14,28 +14,28 @@ class StorageService {
     const state = await SnapStorage.load();
 
     if (!state) {
-      this.instance = getInitialSnapState();
+      StorageService.instance = getInitialSnapState();
       return;
     }
 
-    this.instance = state as MascaState;
+    StorageService.instance = state as MascaState;
   }
 
   static get(): MascaState {
-    return this.instance;
+    return StorageService.instance;
   }
 
   static set(state: MascaState): void {
-    this.instance = state;
+    StorageService.instance = state;
   }
 
   static async save(): Promise<void> {
-    await SnapStorage.save(this.instance);
+    await SnapStorage.save(StorageService.instance);
   }
 
   static getAccountState(): MascaAccountState {
-    return this.instance[CURRENT_STATE_VERSION].accountState[
-      this.instance[CURRENT_STATE_VERSION].currentAccount
+    return StorageService.instance[CURRENT_STATE_VERSION].accountState[
+      StorageService.instance[CURRENT_STATE_VERSION].currentAccount
     ];
   }
 }

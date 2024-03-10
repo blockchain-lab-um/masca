@@ -8,7 +8,7 @@ import {
 import { normalizeCredential, normalizePresentation } from 'did-jwt-vc';
 import { Provider } from 'ethers';
 
-import { createVeramoAgent, type Agent } from './createVeramoAgent';
+import { type Agent, createVeramoAgent } from './createVeramoAgent';
 
 export interface CredentialVerificationResult {
   signature: {
@@ -50,7 +50,7 @@ export class VerificationService {
   private static veramoAgent: Agent;
 
   static async init(options?: VerificationServiceInitOptions): Promise<void> {
-    this.veramoAgent = await createVeramoAgent();
+    VerificationService.veramoAgent = await createVeramoAgent();
   }
 
   static async verify(
@@ -82,11 +82,7 @@ export class VerificationService {
       }
 
       // If data is a presentation we verify it
-      if (
-        presentation &&
-        presentation.type &&
-        presentation.type.includes('VerifiablePresentation')
-      ) {
+      if (presentation?.type?.includes('VerifiablePresentation')) {
         // Presentation must contain at least one credential
         if (!presentation.verifiableCredential) {
           return ResultObject.error(
@@ -95,9 +91,11 @@ export class VerificationService {
         }
 
         // Verify the presentation
-        const result = await this.veramoAgent.verifyPresentation({
-          presentation,
-        });
+        const result = await VerificationService.veramoAgent.verifyPresentation(
+          {
+            presentation,
+          }
+        );
 
         const errorMessage = result.error?.message || '';
 
@@ -144,9 +142,11 @@ export class VerificationService {
 
       if (credentialsToVerify.length !== 0) {
         for (const credential of credentialsToVerify) {
-          const result = await this.veramoAgent.verifyCredential({
-            credential,
-          });
+          const result = await VerificationService.veramoAgent.verifyCredential(
+            {
+              credential,
+            }
+          );
           const errorMessage = result.error?.message || '';
 
           if (!result.verified) {

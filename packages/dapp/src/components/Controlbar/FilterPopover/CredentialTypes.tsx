@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
 import { ChevronRightIcon } from '@heroicons/react/24/solid';
 import { Checkbox } from '@nextui-org/react';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
+import { useState } from 'react';
 
 import { useTableStore } from '@/stores';
 
@@ -20,6 +20,7 @@ export const CredentialTypes = () => {
     <div>
       <div className="flex items-center justify-between pr-2">
         <button
+          type="button"
           onClick={() => {
             setOpen(!open);
           }}
@@ -37,6 +38,7 @@ export const CredentialTypes = () => {
         {open &&
           (credentialTypes.filter((type) => type.selected).length > 0 ? (
             <button
+              type="button"
               className="text-sm text-red-500 hover:text-red-700 dark:text-red-300 hover:dark:text-red-500"
               onClick={() => {
                 setCredentialTypes(
@@ -51,6 +53,7 @@ export const CredentialTypes = () => {
             </button>
           ) : (
             <button
+              type="button"
               className="text-sm text-red-500 hover:text-red-700 dark:text-red-300 hover:dark:text-red-500"
               onClick={() => {
                 setCredentialTypes(

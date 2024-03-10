@@ -1,7 +1,5 @@
 'use client';
 
-import { Fragment, useMemo, useState } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
 import {
   CheckCircleIcon,
   DocumentDuplicateIcon,
@@ -11,6 +9,8 @@ import { Tooltip } from '@nextui-org/react';
 import { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
+import { usePathname, useRouter } from 'next/navigation';
+import { Fragment, useMemo, useState } from 'react';
 
 import { DIDDisplay } from '@/components/DIDDisplay';
 import JsonModal from '@/components/JsonModal';
@@ -42,7 +42,11 @@ const AddressDisplay = ({ address }: { address: string }) => {
             {`${address.slice(0, 8)}...${address.slice(-8)}`}
           </a>
         </Tooltip>
-        <button className="pl-1" onClick={() => copyToClipboard(address)}>
+        <button
+          type="button"
+          className="pl-1"
+          onClick={() => copyToClipboard(address)}
+        >
           <DocumentDuplicateIcon className="animated-transition dark:text-navy-blue-300 ml-1 h-5 w-5 text-gray-700 hover:text-gray-700" />
         </button>
       </div>
@@ -94,7 +98,6 @@ const CredentialSubject = ({
               typeof value === 'string' || typeof value === 'number'
             );
             // key is a string camel case, seperate it with spaces, e.g. CamelCase should be Camel Case
-            // eslint-disable-next-line no-param-reassign
             key = key.replace(/([A-Z])/g, ' $1').trim();
             return (
               <div
@@ -109,6 +112,7 @@ const CredentialSubject = ({
                 <div className="text-md dark:text-navy-blue-300 w-full truncate font-normal text-gray-700">
                   {isObject ? (
                     <button
+                      type="button"
                       className="dark:border-navy-blue-300 dark:hover:border-navy-blue-400 dark:focus:ring-navy-blue-500 rounded-md border border-gray-300 px-2 py-0.5 text-sm hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
                       onClick={() => selectJsonData(value)}
                     >

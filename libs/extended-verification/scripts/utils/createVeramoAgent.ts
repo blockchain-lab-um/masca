@@ -3,13 +3,13 @@ import {
   getDidKeyResolver as keyDidResolver,
 } from '@blockchain-lab-um/did-provider-key';
 import {
-  createAgent,
   ICredentialIssuer,
   ICredentialVerifier,
   IDIDManager,
   IKeyManager,
   IResolver,
   TAgent,
+  createAgent,
 } from '@veramo/core';
 import {
   CredentialIssuerEIP712,

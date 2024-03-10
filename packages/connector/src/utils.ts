@@ -53,7 +53,7 @@ export async function validateAndSetCeramicSession(this: Masca): Promise<void> {
   try {
     newSession = await DIDSession.authorize(authMethod, {
       expiresInSecs: 60 * 60 * 24 * 7,
-      resources: [`ceramic://*`],
+      resources: ['ceramic://*'],
     });
   } catch (e) {
     throw new Error('User failed to sign session.');
@@ -200,7 +200,7 @@ export async function signVerifiableCredential(
     primaryType,
   };
 
-  if (params.options && params.options.save) {
+  if (params.options?.save) {
     const api = this.getMascaApi();
     const result = await api.saveCredential(
       credential as VerifiableCredential,

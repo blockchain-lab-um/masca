@@ -8,6 +8,6 @@ export const TextSkeleton = ({
   <div role="status" className="max-w-sm animate-pulse">
     <div
       className={clsx(className, 'rounded-lg bg-gray-200 dark:bg-gray-700')}
-    ></div>
+    />
   </div>
 );

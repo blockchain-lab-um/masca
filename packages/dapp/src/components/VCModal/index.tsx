@@ -1,7 +1,7 @@
-import { useRouter } from 'next/navigation';
 import { DocumentDuplicateIcon } from '@heroicons/react/24/solid';
 import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
 import { VerifiableCredential } from '@veramo/core';
+import { useRouter } from 'next/navigation';
 
 import Button from '@/components/Button';
 
@@ -48,6 +48,7 @@ function VCModal({ isOpen, setOpen, vc }: VCModalProps) {
                     />
 
                     <button
+                      type="button"
                       onClick={() => {
                         navigator.clipboard
                           .writeText(JSON.stringify(vc, null, 4))

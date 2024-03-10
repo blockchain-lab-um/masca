@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
 import { createClient as createSupbaseClient } from '@supabase/supabase-js';
 import { useTranslations } from 'next-intl';
+import React, { useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
 
 import Button from '@/components/Button';
 import CreateConnectionModal from '@/components/ConnectionModal/CreateConnectionModal';
 import ScanQRCodeModal from '@/components/ScanQRCodeModal/ScanQRCodeModal';
-import { Database } from '@/utils/supabase/database.types';
 import { useEncryptedSessionStore, useToastStore } from '@/stores';
 import { useAuthStore } from '@/stores/authStore';
+import { Database } from '@/utils/supabase/database.types';
 
 export const ConnectDeviceView = () => {
   const t = useTranslations('ConnectDeviceView');

@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 import Button from '@/components//Button';
 import MascaLogo from '@/components/MascaLogo';
@@ -77,6 +77,7 @@ const PublicNavbar = () => {
                 className={clsx('nav-btn')}
                 key={name}
                 href={href}
+                rel="noreferrer"
               >
                 {t(name)}
               </a>
@@ -111,6 +112,7 @@ const PublicNavbar = () => {
           <div className="flex h-full flex-col space-y-4 p-6">
             <div className="flex justify-end">
               <button
+                type="button"
                 className={clsx(
                   'animated-transition',
                   'rounded-full border-2 p-1.5 shadow-sm',

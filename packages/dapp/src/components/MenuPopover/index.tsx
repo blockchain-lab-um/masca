@@ -1,12 +1,12 @@
 'use client';
 
-import { Fragment } from 'react';
-import Link from 'next/link';
 import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { ShareIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
+import { Fragment } from 'react';
 import { useAccount } from 'wagmi';
 
 const IconCreateCredential = () => (
@@ -18,6 +18,7 @@ const IconCreateCredential = () => (
     stroke="currentColor"
     className="dark:text-navy-blue-900 h-6 w-6 text-pink-500"
   >
+    <title>Create Credential Icon</title>
     <path
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -35,6 +36,7 @@ const IconVerifyData = () => (
     stroke="currentColor"
     className="dark:text-navy-blue-900 h-6 w-6 text-pink-500"
   >
+    <title>Verify Data Icon</title>
     <path
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -52,6 +54,7 @@ const IconCamera = () => (
     stroke="currentColor"
     className="dark:text-navy-blue-900 h-6 w-6 text-pink-500"
   >
+    <title>Camera Icon</title>
     <path
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -184,10 +187,11 @@ function MenuPopover() {
                         </Link>
                       );
                     }
-                    return <div className="hidden" key={link.name}></div>;
+                    return <div className="hidden" key={link.name} />;
                   })}
                 </div>
                 <div className="dark:bg-navy-blue-500 bg-gray-100 p-4">
+                  {/* biome-ignore lint/a11y/useValidAnchor: */}
                   <a
                     href="https://docs.masca.io/"
                     target="_blank"

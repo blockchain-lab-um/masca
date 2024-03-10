@@ -24,6 +24,7 @@ export const SupabaseProvider = ({
             {t('sign-in-to-continue')}
           </h1>
           <button
+            type="button"
             className="text-md rounded-xl bg-pink-500 px-4 py-2 font-medium text-white hover:bg-pink-600"
             onClick={() => changeIsSignInModalOpen(true)}
           >

@@ -1,5 +1,5 @@
-import { writeFile } from 'fs/promises';
 import { IIdentifier, VerifiableCredential } from '@veramo/core';
+import { writeFile } from 'fs/promises';
 
 import { Agent } from './utils';
 import { createJWTPresentation } from './utils/createJWTPresentation';

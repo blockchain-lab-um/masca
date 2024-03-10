@@ -1,9 +1,9 @@
 import { IIdentifier } from '@veramo/core';
 import { Signer } from 'did-jwt';
 import {
-  createVerifiablePresentationJwt,
   Issuer,
   JwtPresentationPayload,
+  createVerifiablePresentationJwt,
   normalizePresentation,
 } from 'did-jwt-vc';
 

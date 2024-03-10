@@ -1,6 +1,6 @@
-import React from 'react';
 import { isError } from '@blockchain-lab-um/masca-connector';
 import { useTranslations } from 'next-intl';
+import React from 'react';
 import { useAccount } from 'wagmi';
 
 import Button from '@/components/Button';

@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import React, { useEffect, useState } from 'react';
 import { useAccount, useConnect } from 'wagmi';
 
 import Button from '@/components/Button';
@@ -58,6 +58,7 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
               stroke="currentColor"
               className="h-6 w-6"
             >
+              <title>MetaMask Icon</title>
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"

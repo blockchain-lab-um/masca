@@ -19,19 +19,13 @@
   "module": "./dist/index.js",
   "source": "./src/index.ts",
   "types": "./dist/index.d.ts",
-  "files": [
-    "dist/**",
-    "README.md",
-    "package.json",
-    "CHANGELOG.md"
-  ],
+  "files": ["dist/**", "README.md", "package.json", "CHANGELOG.md"],
   "scripts": {
     "build": "pnpm clean && pnpm compile",
     "clean": "rimraf dist",
     "compile": "tsc --build tsconfig.build.json",
-    "lint": "pnpm lint:eslint && pnpm lint:prettier",
-    "lint:eslint": "eslint .",
-    "lint:prettier": "prettier . --check",
+    "lint": "biome check .",
+    "lint:fix": "biome check --apply .",
     "test": "pnpm jest",
     "test:ci": "pnpm run test --silent --coverage"
   },

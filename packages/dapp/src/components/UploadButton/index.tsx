@@ -1,11 +1,11 @@
-import { ChangeEvent, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { ChangeEvent, useRef, useState } from 'react';
 
 import Button from '../Button';
 
 interface UploadButtonProps {
   acceptedMedia?: string;
-  handleUpload: (file: File) => Promise<void | null>;
+  handleUpload: (file: File) => Promise<void>;
 }
 
 const UploadButton = ({
