@@ -19,7 +19,11 @@
     "write-translations": "docusaurus write-translations"
   },
   "browserslist": {
-    "production": [">0.5%", "not dead", "not op_mini all"],
+    "production": [
+      ">0.5%",
+      "not dead",
+      "not op_mini all"
+    ],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
@@ -42,12 +46,14 @@
     "@docusaurus/plugin-content-docs": "^3.1.1",
     "@docusaurus/types": "^3.1.1",
     "@tsconfig/docusaurus": "^2.0.2",
-    "@types/react": "18.2.63",
+    "@types/react": "18.2.64",
     "precompress": "^12.0.2"
   },
   "nx": {
     "namedInputs": {
-      "default": ["{projectRoot}/**/*"],
+      "default": [
+        "{projectRoot}/**/*"
+      ],
       "production": [
         "default",
         "!{projectRoot}/sonar-project.properties",
@@ -60,19 +66,43 @@
     },
     "targets": {
       "build": {
-        "inputs": ["production", "^production"],
-        "dependsOn": ["^build"],
-        "outputs": ["{projectRoot}/build", "{projectRoot}/.docusaurus"]
+        "inputs": [
+          "production",
+          "^production"
+        ],
+        "dependsOn": [
+          "^build"
+        ],
+        "outputs": [
+          "{projectRoot}/build",
+          "{projectRoot}/.docusaurus"
+        ]
       },
       "deploy": {
-        "inputs": ["production", "^production"],
-        "dependsOn": ["^build"],
-        "outputs": ["{projectRoot}/build", "{projectRoot}/.docusaurus"]
+        "inputs": [
+          "production",
+          "^production"
+        ],
+        "dependsOn": [
+          "^build"
+        ],
+        "outputs": [
+          "{projectRoot}/build",
+          "{projectRoot}/.docusaurus"
+        ]
       },
       "start": {
-        "inputs": ["production", "^production"],
-        "dependsOn": ["^build"],
-        "outputs": ["{projectRoot}/build", "{projectRoot}/.docusaurus"]
+        "inputs": [
+          "production",
+          "^production"
+        ],
+        "dependsOn": [
+          "^build"
+        ],
+        "outputs": [
+          "{projectRoot}/build",
+          "{projectRoot}/.docusaurus"
+        ]
       }
     }
   }
