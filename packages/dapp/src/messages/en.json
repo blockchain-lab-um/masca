@@ -446,6 +446,9 @@
   "QRCodeSessionProvider": {
     "unsuported": "Unsuported QR code data received"
   },
+  "CampaignsDisplay": {
+    "please-sign-in": "Please sign in to see completed the campaigns"
+  },
   "QRSessionDisplay": {
     "back": "Back",
     "fifth": "Fifth Step",
