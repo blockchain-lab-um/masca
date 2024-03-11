@@ -6,39 +6,29 @@ import type {
   AvailableCredentialStores,
   AvailableMethods,
 } from './constants.js';
-import { MascaRPCRequest } from './requests.js';
 
-export type MethodPermissions = {
-  [key in MascaRPCRequest['method']]: boolean;
-};
-
-export interface DappPermissions {
-  methods: MethodPermissions;
-  trusted: boolean;
-}
-
-export interface MascaConfig {
+interface MascaConfig {
   snap: {
     acceptedTerms: boolean;
   };
   dApp: {
     disablePopups: boolean;
-    permissions: Record<string, DappPermissions>;
+    friendlyDapps: string[];
   };
 }
 
-export interface MascaAccountConfig {
+interface MascaAccountConfig {
   ssi: {
     selectedMethod: AvailableMethods;
     storesEnabled: Record<AvailableCredentialStores, boolean>;
   };
 }
 
-export interface MascaState {
+export interface MascaLegacyStateV1 {
   /**
    * Version 1 of Masca state
    */
-  v2: {
+  v1: {
     /**
      * Account specific storage
      */
@@ -57,7 +47,7 @@ export interface MascaState {
 /**
  * Masca State for a MetaMask address
  */
-export interface MascaAccountState {
+interface MascaAccountState {
   polygon: {
     state: PolygonState;
   };
@@ -70,7 +60,7 @@ export interface MascaAccountState {
   };
 }
 
-export interface PolygonBaseState {
+interface PolygonBaseState {
   credentials: Record<string, string>;
   identities: Record<string, string>;
   profiles: Record<string, string>;
@@ -78,7 +68,7 @@ export interface PolygonBaseState {
   merkleTree: Record<string, string>;
 }
 
-export type PolygonState = Record<
+type PolygonState = Record<
   DidMethod.Iden3 | DidMethod.PolygonId,
   Record<
     Blockchain.Ethereum | Blockchain.Polygon,

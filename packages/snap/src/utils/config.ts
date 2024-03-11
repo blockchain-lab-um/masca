@@ -104,7 +104,7 @@ const initialPermissions: DappPermissions = {
 export const getInitialPermissions = () => cloneDeep(initialPermissions);
 
 const initialSnapState: MascaState = {
-  v1: {
+  v2: {
     accountState: {},
     currentAccount: '',
     config: {
