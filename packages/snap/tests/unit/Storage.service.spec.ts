@@ -74,6 +74,27 @@ describe('State Migration', () => {
     global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
   });
 
+  it('should not migrate state from latest version', async () => {
+    const spy = vi.spyOn(MigrateState, 'migrateToV2');
+    const state = getInitialSnapState();
+    StorageService.set(state);
+
+    await StorageService.save();
+
+    const newState = StorageService.get();
+
+    expect(newState).toHaveProperty('v2');
+
+    StorageService.init();
+    await StorageService.save();
+
+    const newState2 = StorageService.get();
+    expect(newState2).toHaveProperty('v2');
+    expect(spy).toHaveBeenCalledTimes(0);
+
+    expect.assertions(3);
+  });
+
   it('should succeed migrating state from v1 to v2', async () => {
     const spy = vi.spyOn(MigrateState, 'migrateToV2');
     let state: any = getInitialSnapState();
@@ -86,7 +107,6 @@ describe('State Migration', () => {
     await StorageService.save();
 
     const newState = StorageService.get();
-    console.log(newState);
 
     expect(newState).toHaveProperty('v1');
 
@@ -94,7 +114,6 @@ describe('State Migration', () => {
     await StorageService.save();
 
     const newState2 = StorageService.get();
-    console.log(newState2);
     expect(newState2).toHaveProperty('v2');
     expect(spy).toHaveBeenCalled();
 

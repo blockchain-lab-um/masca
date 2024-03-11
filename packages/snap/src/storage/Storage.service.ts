@@ -46,7 +46,6 @@ class StorageService {
     if (state[CURRENT_STATE_VERSION]) return state;
 
     let newState = state;
-    console.log('migrating state...');
     if (state.v1) {
       newState = migrateToV2(state);
     }

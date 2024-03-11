@@ -6,7 +6,6 @@ import {
 import { getInitialPermissions } from './config';
 
 export const migrateToV2 = (state: MascaLegacyStateV1): MascaState => {
-  console.log('migrating state to v2');
   const newState: any = { v2: state.v1 };
 
   // Remove friendly dapps
