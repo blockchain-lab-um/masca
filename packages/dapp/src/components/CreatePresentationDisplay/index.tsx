@@ -201,7 +201,7 @@ const CreatePresentationDisplay = () => {
                 />
               </div>
             </div>
-            {advanced && (
+            {advanced && format === 'JWT' && (
               <div className="mt-6 px-4">
                 <div className="dark:text-navy-blue-100 mt-2 text-sm font-medium text-gray-700">
                   Challenge

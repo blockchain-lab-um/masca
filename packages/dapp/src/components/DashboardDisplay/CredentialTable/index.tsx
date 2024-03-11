@@ -57,7 +57,7 @@ const IssuerCell = ({ vc }: { vc: QueryCredentialsRequestResult }) => {
         href={`https://dev.uniresolver.io/#${issuer}`}
         target="_blank"
         rel="noreferrer"
-        className="dark:text-orange-accent-dark dark:hover:text-orange-accent-dark/80 flex items-center justify-center text-pink-400 underline hover:text-pink-500"
+        className="dark:text-orange-accent-dark dark:hover:text-orange-accent-dark/80 flex items-center justify-start text-pink-400 underline hover:text-pink-500"
       >{`${issuer.slice(0, 8)}....${issuer.slice(-4)}`}</a>
     </Tooltip>
   );
@@ -147,7 +147,7 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
         case 'date': {
           const date = Date.parse(vc.data.issuanceDate);
           return (
-            <span className="flex items-center justify-center">
+            <span className="flex items-center justify-start ">
               {new Date(date).toDateString()}
             </span>
           );
@@ -165,7 +165,7 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
                 href={`https://dev.uniresolver.io/#${subject}`}
                 target="_blank"
                 rel="noreferrer"
-                className="dark:text-orange-accent-dark dark:hover:text-orange-accent-dark/80 flex items-center justify-center text-pink-400 underline hover:text-pink-500"
+                className="dark:text-orange-accent-dark dark:hover:text-orange-accent-dark/80 flex items-center justify-start text-pink-400 underline hover:text-pink-500"
               >{`${subject.slice(0, 8)}....${subject.slice(-4)}`}</a>
             </Tooltip>
           );
@@ -174,7 +174,7 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
           return <IssuerCell vc={vc} />;
         case 'exp_date':
           return (
-            <span className="flex items-center justify-center">
+            <span className="flex items-center justify-start">
               {vc.data.expirationDate === undefined
                 ? '/'
                 : new Date(vc.data.expirationDate).toDateString()}
@@ -225,7 +225,7 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
         }
         case 'actions':
           return (
-            <div className="relative flex items-center justify-end gap-2">
+            <div className="relative flex items-start justify-center gap-2">
               <Dropdown isDismissable>
                 <DropdownTrigger>
                   <Button isIconOnly size="sm" variant="light">
@@ -361,11 +361,20 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
         <TableHeader columns={columns}>
           {(column) => (
             <TableColumn
+              align="center"
               className="dark:text-navy-blue-100"
               allowsSorting={column.allowSorting}
               key={column.key}
             >
-              {column.label}
+              <span
+                className={`${
+                  ['status', 'data_store', 'actions'].includes(column.key)
+                    ? 'flex justify-center'
+                    : ''
+                }`}
+              >
+                {column.label}
+              </span>
             </TableColumn>
           )}
         </TableHeader>
