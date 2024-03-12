@@ -43,11 +43,8 @@ ROOT_DIR/libs/did-provider-github
 │   ├── agent.spec.ts
 │   └── plugin.ts
 ├── tsconfig.build.json
-├── tsconfig.eslint.json
 ├── tsconfig.json
-├── .eslintrc.cjs
 ├── .lintstagedrc.cjs
-├── .prettierignore
 ├── tsup.config.ts
 ├── README.md
 ├── jest.config.ts

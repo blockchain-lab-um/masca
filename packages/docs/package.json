@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/masca-docs",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": true,
   "scripts": {
     "prebuild": "rimraf .docusaurus build",
@@ -10,11 +10,8 @@
     "compress": "precompress build --types gz --include **.html,**.css,**.js,**.map",
     "docker:build": "docker build . -t blockchain-lab-um/masca-docs",
     "docusaurus": "docusaurus",
-    "lint": "pnpm lint:eslint && pnpm lint:prettier",
-    "lint:eslint": "eslint .",
-    "lint:fix": "eslint . --fix && prettier . --write",
-    "lint:prettier": "prettier . --check",
-    "prettier": "prettier --write .",
+    "lint": "biome check .",
+    "lint:fix": "biome check --apply .",
     "serve": "docusaurus serve",
     "start": "docusaurus start",
     "swizzle": "docusaurus swizzle",
@@ -34,27 +31,23 @@
     ]
   },
   "dependencies": {
-    "@docusaurus/core": "2.4.3",
-    "@docusaurus/preset-classic": "2.4.3",
-    "@emotion/react": "^11.11.1",
+    "@docusaurus/core": "3.1.1",
+    "@docusaurus/preset-classic": "3.1.1",
+    "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
-    "@mdx-js/react": "1.6.22",
-    "clsx": "^2.0.0",
-    "prism-react-renderer": "^2.1.0",
+    "@mdx-js/react": "3.0.1",
+    "clsx": "^2.1.0",
+    "prism-react-renderer": "^2.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "^2.4.3",
-    "@docusaurus/plugin-content-docs": "^2.4.3",
-    "@docusaurus/types": "^2.4.3",
+    "@docusaurus/module-type-aliases": "^3.1.1",
+    "@docusaurus/plugin-content-docs": "^3.1.1",
+    "@docusaurus/types": "^3.1.1",
     "@tsconfig/docusaurus": "^2.0.2",
-    "@types/react": "18.2.33",
-    "precompress": "^12.0.2",
-    "stylelint": "^15.11.0",
-    "stylelint-config-css-modules": "^4.3.0",
-    "stylelint-config-prettier": "^9.0.5",
-    "stylelint-config-standard": "^34.0.0"
+    "@types/react": "18.2.64",
+    "precompress": "^12.0.2"
   },
   "nx": {
     "namedInputs": {
@@ -68,7 +61,6 @@
         "!{projectRoot}/.docusaurus/**/*",
         "!{projectRoot}/.lintstagedrc.cjs",
         "!{projectRoot}/Dockerfile",
-        "!{projectRoot}/.prettierignore",
         "!{projectRoot}/.env.*"
       ]
     },

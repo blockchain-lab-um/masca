@@ -156,8 +156,26 @@ export interface ImportStateBackupRequestParams {
   serializedState: string;
 }
 
-export interface RemoveFriendlyDappRequestParams {
-  id: string;
+export interface AddTrustedDappRequestParams {
+  origin: string;
+}
+
+export interface RemoveTrustedDappRequestParams {
+  origin: string;
+}
+
+export interface AddDappSettingsRequestParams {
+  origin: string;
+}
+
+export interface RemoveDappSettingsRequestParams {
+  origin: string;
+}
+
+export interface ChangePermissionsRequestParams {
+  origin: string;
+  method: 'queryCredentials';
+  value: boolean;
 }
 
 export type SignDataRequestParams = {

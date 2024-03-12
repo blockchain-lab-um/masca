@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect } from 'react';
 import { useTranslations } from 'next-intl';
+import { useEffect } from 'react';
 
 import Button from '@/components/Button';
 
-export default function Error({
+export default function Page({
   error,
   reset,
 }: {

@@ -165,7 +165,7 @@ export class EbsiDIDProvider extends AbstractIdentifierProvider {
     const algorithm: IEbsiDidSupportedEcdsaAlgo = algoMap[keyType];
     if (!algorithm) {
       throw new Error(
-        `Unsupported key type, currently only supported Secp256k1 and P-256`
+        'Unsupported key type, currently only supported Secp256k1 and P-256'
       );
     }
     let curve: elliptic.ec;
@@ -180,7 +180,7 @@ export class EbsiDIDProvider extends AbstractIdentifierProvider {
         break;
       default:
         throw new Error(
-          `Unsupported key type, currently only supported Secp256k1 and P-256`
+          'Unsupported key type, currently only supported Secp256k1 and P-256'
         );
     }
 
@@ -247,7 +247,6 @@ export class EbsiDIDProvider extends AbstractIdentifierProvider {
     context: IContext
   ): Promise<boolean> {
     for (const { kid } of identifier.keys) {
-      // eslint-disable-next-line no-await-in-loop
       await context.agent.keyManagerDelete({ kid });
     }
     return true;

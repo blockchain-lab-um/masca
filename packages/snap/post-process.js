@@ -12,7 +12,7 @@ let bundleString = fs.readFileSync(bundlePath, 'utf8');
 console.log('[Start]: MetaMask Snaps transform');
 
 bundleString = postProcessBundle(bundleString, {
-  stripComments: true,
+	stripComments: true,
 }).code;
 
 console.log('[End]: MetaMask Snaps transform');
@@ -23,8 +23,8 @@ console.log('[Start]: Custom transform');
 bundleString = 'var self = window;\n'.concat(bundleString);
 
 bundleString = bundleString.replace(
-  "/** @type {import('cborg').TagDecoder[]} */",
-  ''
+	"/** @type {import('cborg').TagDecoder[]} */",
+	'',
 );
 
 // [Polygon ID] Fix Worker
@@ -32,8 +32,8 @@ bundleString = 'var Worker = {};\n'.concat(bundleString);
 
 // [Polygon ID] Fix promise
 bundleString = bundleString.replaceAll(
-  `new Function("return this;")().Promise`,
-  'Promise'
+	`new Function("return this;")().Promise`,
+	'Promise',
 );
 
 // [Polygon ID] fix single thread
@@ -41,8 +41,8 @@ bundleString = bundleString.replaceAll(`if (singleThread)`, `if (true)`);
 
 // [Polygon ID] fix single thread
 bundleString = bundleString.replaceAll(
-  `singleThread: singleThread ? true : false`,
-  `singleThread: true`
+	`singleThread: singleThread ? true : false`,
+	`singleThread: true`,
 );
 
 // [Polygon ID] Remove fs

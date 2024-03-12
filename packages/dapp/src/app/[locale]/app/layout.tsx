@@ -3,8 +3,8 @@ import clsx from 'clsx';
 import AppBottomBar from '@/components/AppBottomBar';
 import AppNavbar from '@/components/AppNavbar';
 import { CookiesProvider } from '@/components/CookiesProvider';
+import { EncryptedSessionProvider } from '@/components/EncryptedSessionProvider';
 import MascaProvider from '@/components/MascaProvider';
-import QRCodeSessionProvider from '@/components/QRCodeSessionProvider';
 import { SignInModal } from '@/components/SignInModal';
 import ToastWrapper from '@/components/ToastWrapper';
 import WagmiProviderWrapper from '@/components/WagmiProvider';
@@ -30,11 +30,11 @@ export default async function AppLayout({
           </div>
         </div>
         <AppBottomBar />
-        <QRCodeSessionProvider />
+        <EncryptedSessionProvider />
         <SignInModal />
+        <CookiesProvider />
       </WagmiProviderWrapper>
       <ToastWrapper />
-      <CookiesProvider />
     </>
   );
 }

@@ -1,12 +1,12 @@
 import { randomBytes } from 'crypto';
 import { Agent } from '@cef-ebsi/siop-auth';
 import {
-  createVerifiablePresentationJwt,
   EbsiIssuer,
   EbsiVerifiablePresentation,
+  createVerifiablePresentationJwt,
 } from '@cef-ebsi/verifiable-presentation';
 import { IIdentifier } from '@veramo/core';
-import { ethers, Wallet } from 'ethers';
+import { Wallet, ethers } from 'ethers';
 import * as jose from 'jose';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -129,7 +129,7 @@ async function exchangeVerifiableAuthorization(args: {
     );
   }
   const ephemeralPublicKeyJwk = { ...ephemeralKeyJwk };
-  delete ephemeralPublicKeyJwk.d;
+  ephemeralPublicKeyJwk.d = undefined;
 
   const nonce = uuidv4();
 

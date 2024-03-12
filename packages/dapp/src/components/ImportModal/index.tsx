@@ -1,8 +1,7 @@
-import { useState } from 'react';
 import {
+  type AvailableCredentialStores,
   isW3CCredential,
   isW3CVerifiableCredential,
-  type AvailableCredentialStores,
 } from '@blockchain-lab-um/masca-connector';
 import {
   Modal,
@@ -15,6 +14,7 @@ import { W3CVerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 import { normalizeCredential } from 'did-jwt-vc';
 import { useTranslations } from 'next-intl';
+import { useState } from 'react';
 
 import Button from '@/components/Button';
 import DropdownMultiselect from '@/components/DropdownMultiselect';

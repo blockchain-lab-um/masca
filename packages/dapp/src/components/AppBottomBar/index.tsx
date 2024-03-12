@@ -1,15 +1,15 @@
 'use client';
 
-import { useState } from 'react';
-import Link from 'next/link';
 import { EllipsisHorizontalIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
+import { useState } from 'react';
 import { useAccount } from 'wagmi';
 
 const MAIN_LINKS = [
   {
-    name: 'dashboard',
+    name: 'credentials',
     href: '/app',
     requiresConnection: false,
   },
@@ -33,7 +33,7 @@ const OTHER_LINKS = [
   },
   {
     name: 'qr-scanner',
-    href: '/app/qr-code-session',
+    href: '/app/encrypted-session',
     requiresConnection: false,
   },
 ];
@@ -66,10 +66,11 @@ const AppBottomBar = () => {
                   </Link>
                 );
               }
-              return <div className="hidden" key={href}></div>;
+              return <div className="hidden" key={href} />;
             })}
           </div>
           <button
+            type="button"
             onClick={toggleMenu}
             className="animated-transition dark:bg-navy-blue-700 dark:hover:bg-navy-blue-600 rounded-lg bg-pink-100 p-2 text-pink-600 hover:bg-pink-50 dark:text-white"
           >
@@ -97,7 +98,7 @@ const AppBottomBar = () => {
                 </Link>
               );
             }
-            return <div className="hidden" key={href}></div>;
+            return <div className="hidden" key={href} />;
           })}
         </div>
       </div>

@@ -1,11 +1,15 @@
-import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
+import {
+  CURRENT_STATE_VERSION,
+  MascaLegacyStateV1,
+} from '@blockchain-lab-um/masca-types';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsProvider } from '@metamask/snaps-sdk';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import StorageService from '../../src/storage/Storage.service';
 import { getInitialSnapState } from '../../src/utils/config';
-import { createMockSnap, SnapMock } from '../helpers/snapMock';
+import { SnapMock, createMockSnap } from '../helpers/snapMock';
+import * as MigrateState from '../../src/utils/stateMigration';
 
 describe('Storage Service', () => {
   let snapMock: SnapsProvider & SnapMock;
@@ -57,5 +61,62 @@ describe('Storage Service', () => {
       true
     );
     expect.assertions(2);
+  });
+});
+describe('State Migration', () => {
+  let snapMock: SnapsProvider & SnapMock;
+  beforeEach(async () => {
+    snapMock = createMockSnap();
+    snapMock.rpcMocks.snap_manageState({
+      operation: 'clear',
+    });
+    global.snap = snapMock;
+    global.ethereum = snapMock as unknown as MetaMaskInpageProvider;
+  });
+
+  it('should not migrate state from latest version', async () => {
+    const spy = vi.spyOn(MigrateState, 'migrateToV2');
+    const state = getInitialSnapState();
+    StorageService.set(state);
+
+    await StorageService.save();
+
+    const newState = StorageService.get();
+
+    expect(newState).toHaveProperty('v2');
+
+    StorageService.init();
+    await StorageService.save();
+
+    const newState2 = StorageService.get();
+    expect(newState2).toHaveProperty('v2');
+    expect(spy).toHaveBeenCalledTimes(0);
+
+    expect.assertions(3);
+  });
+
+  it('should succeed migrating state from v1 to v2', async () => {
+    const spy = vi.spyOn(MigrateState, 'migrateToV2');
+    let state: any = getInitialSnapState();
+    state = { v1: state.v2 };
+    state.v1.config.dApp.friendlyDapps = ['masca.io'];
+    state.v1.config.dApp.permissions = undefined;
+    const legacyStateV1: MascaLegacyStateV1 = state;
+    StorageService.set(legacyStateV1 as any);
+
+    await StorageService.save();
+
+    const newState = StorageService.get();
+
+    expect(newState).toHaveProperty('v1');
+
+    StorageService.init();
+    await StorageService.save();
+
+    const newState2 = StorageService.get();
+    expect(newState2).toHaveProperty('v2');
+    expect(spy).toHaveBeenCalled();
+
+    expect.assertions(3);
   });
 });

@@ -1,8 +1,8 @@
-import { Fragment } from 'react';
 import { AvailableCredentialStores } from '@blockchain-lab-um/masca-connector';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
+import { Fragment } from 'react';
 
 interface DropdownMultiselectProps {
   items: string[];
@@ -46,7 +46,7 @@ const DropdownMultiselect = ({
                   {i !== 0 && i !== selectedItems.length - 1 ? ', ' : null}
                 </span>
               ))}
-              {selectedItems.length === 0 && <>{placeholder}</>}
+              {selectedItems.length === 0 && placeholder}
             </div>
             <div className="px-2">
               <ChevronDownIcon
@@ -64,8 +64,8 @@ const DropdownMultiselect = ({
             leaveTo="opacity-0"
           >
             <Listbox.Options className="dark:bg-navy-blue-600 absolute right-0 z-50 mt-1 w-36 rounded-3xl bg-white p-1 shadow-lg max-md:-top-2 max-md:-translate-y-full md:w-44">
-              {items.map((item, id) => (
-                <Listbox.Option key={id} className="" value={item}>
+              {items.map((item) => (
+                <Listbox.Option key={item} className="" value={item}>
                   {({ selected, active }) => (
                     <>
                       <span

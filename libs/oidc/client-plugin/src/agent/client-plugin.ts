@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import {
   type AuthorizationRequest,
   type CredentialOffer,
@@ -12,10 +11,10 @@ import {
   type TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
 import {
-  qsCustomDecoder,
-  ResultObject,
-  uint8ArrayToHex,
   type Result,
+  ResultObject,
+  qsCustomDecoder,
+  uint8ArrayToHex,
 } from '@blockchain-lab-um/utils';
 import { PEX } from '@sphereon/pex';
 import type { IVerifiableCredential } from '@sphereon/ssi-types';
@@ -26,6 +25,7 @@ import { sha256 } from 'ethereum-cryptography/sha256.js';
 import { decodeJwt } from 'jose';
 import qs from 'qs';
 
+import type { IOIDCClientPlugin } from '../types/IOIDCClientPlugin.js';
 import type {
   CreateIdTokenArgs,
   CreatePresentationSubmissionArgs,
@@ -40,14 +40,9 @@ import type {
   SendOIDCAuthorizationResponseArgs,
   SendTokenRequestArgs,
 } from '../types/internal.js';
-import type { IOIDCClientPlugin } from '../types/IOIDCClientPlugin.js';
 
 const pex: PEX = new PEX();
 
-/**
- * {@inheritDoc IMyAgentPlugin}
- * @beta
- */
 export class OIDCClientPlugin implements IAgentPlugin {
   public current: {
     issuerServerMetadata: IssuerServerMetadata | null;
@@ -376,7 +371,6 @@ export class OIDCClientPlugin implements IAgentPlugin {
       }
 
       // Sleep 6 seconds
-      // eslint-disable-next-line no-promise-executor-return
       await new Promise((resolve) => setTimeout(resolve, 6000));
 
       response = await fetch(

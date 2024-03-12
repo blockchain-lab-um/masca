@@ -1,11 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import {
-  isError,
   type QueryCredentialsRequestResult,
   type SupportedProofFormats,
+  isError,
 } from '@blockchain-lab-um/masca-connector';
 import { ArrowLeftIcon } from '@heroicons/react/20/solid';
 import {
@@ -13,6 +11,8 @@ import {
   W3CVerifiablePresentation,
 } from '@veramo/core';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 import Button from '@/components/Button';
 import DropdownMenu from '@/components/DropdownMenu';
@@ -21,9 +21,9 @@ import InputField from '@/components/InputField';
 import SelectedVCsTableRow from '@/components/SelectedVCsTableRow/SelectedVCsTableRow';
 import ToggleSwitch from '@/components/Switch';
 import VPModal from '@/components/VPModal';
+import { useMascaStore, useTableStore } from '@/stores';
 import { isPolygonVC } from '@/utils/credential';
 import { removeCredentialSubjectFilterString } from '@/utils/format';
-import { useMascaStore, useTableStore } from '@/stores';
 
 const proofFormats: Record<string, SupportedProofFormats> = {
   JWT: 'jwt',
@@ -127,6 +127,7 @@ const CreatePresentationDisplay = () => {
     <>
       <div className="mt-5 flex w-full justify-between px-6 pt-2">
         <button
+          type="button"
           onClick={() => {
             router.back();
           }}
@@ -145,7 +146,7 @@ const CreatePresentationDisplay = () => {
         <table className="mt-2 w-full text-center text-sm">
           <thead>
             <tr className=" dark:text-navy-blue-400 text-gray-600">
-              <th className="px-3 pb-4 pl-4 font-semibold"></th>
+              <th className="px-3 pb-4 pl-4 font-semibold" />
               <th className="px-3 pb-4 font-semibold">{t('table.type')}</th>
               <th className="px-3 pb-4 font-semibold">{t('table.issuer')}</th>
               <th className="px-3 pb-4 font-semibold">{t('table.status')}</th>
@@ -200,7 +201,7 @@ const CreatePresentationDisplay = () => {
                 />
               </div>
             </div>
-            {advanced && (
+            {advanced && format === 'JWT' && (
               <div className="mt-6 px-4">
                 <div className="dark:text-navy-blue-100 mt-2 text-sm font-medium text-gray-700">
                   Challenge

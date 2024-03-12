@@ -155,7 +155,7 @@ const payload: MinimalUnsignedCredential = {
   type: ['VerifiableCredential', 'TestCertificate'],
   credentialSubject: {
     accomplishmentType: 'Test Certificate',
-    id: 'did:ethr:goerli:0x123...321',
+    id: 'did:ethr:sepolia:0x123...321',
   },
   credentialSchema: {
     id: 'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
@@ -521,7 +521,7 @@ We recommend calling this method in `window.ethereum.on('accountsChanged', handl
 
 #### Description
 
-`togglePopups` toggles pop-ups that show up whenever the user tries to save a VC, generate a VP, etc. Pop-ups are enabled by default to keep user in total control of their actions. With pop-ups disabled, a dapp can query user's credentials, etc. without them knowing. We recommend using `addFriendlyDapp` instead to only trust specific dapps.
+`togglePopups` toggles popups that show up whenever the user tries to save a VC, generate a VP, etc. Popups are enabled by default to keep user in total control of their actions. With popups disabled, a dapp can query user's credentials, etc. without them knowing. We recommend using `addTrustedDapp` instead to only trust specific dapps.
 
 ```typescript
 const response = await ethereum.request({
@@ -535,11 +535,11 @@ const response = await ethereum.request({
 });
 ```
 
-### addFriendlyDapp
+### changePermission
 
 #### Description
 
-`addFriendlyDapp` adds the current dapp (origin of the current dapp) to the list of friendly dapps. Friendly dapps do not show pop-ups.
+`changePermission` is used to change enable/disable popups for a specific RPC method (only `queryCredentials` is supported for now). Dapps (other than `masca.io`) can only change permissions for themselves. Note that `origin` needs to be a hostname (`masca.io`) and not a full URL (`https://masca.io`)
 
 ```typescript
 const response = await ethereum.request({
@@ -547,17 +547,22 @@ const response = await ethereum.request({
   params: {
     snapId: snapId,
     request: {
-      method: 'addFriendlyDapp',
+      method: 'changePermission',
+      params: {
+        origin: 'masca.io',
+        method: 'queryCredentials',
+        value: true, // This disables popups
+      },
     },
   },
 });
 ```
 
-### removeFriendlyDapp
+### addTrustedDapp
 
 #### Description
 
-`removeFriendlyDapp` removes a dapp from friendly dapps.
+`addTrustedDapp` adds a dapp to the list of trusted dapps. Trusted dapps do not show popups. Dapps (other than `masca.io`) can only add themselves to the list of trusted dapps. Note that `origin` needs to be a hostname (`masca.io`) and not a full URL (`https://masca.io`)
 
 ```typescript
 const response = await ethereum.request({
@@ -565,9 +570,30 @@ const response = await ethereum.request({
   params: {
     snapId: snapId,
     request: {
-      method: 'removeFriendlyDapp',
+      method: 'addTrustedDapp',
       params: {
-        id: 'https://www.masca.io',
+        origin: 'masca.io',
+      },
+    },
+  },
+});
+```
+
+### removeTrustedDapp
+
+#### Description
+
+`removeTrustedDapp` removes a dapp from trusted dapps. Dapps (other than `masca.io`) can only remove themselves from the list of trusted dapps. Note that `origin` needs to be a hostname (`masca.io`) and not a full URL (`https://masca.io`)
+
+```typescript
+const response = await ethereum.request({
+  method: 'wallet_invokeSnap',
+  params: {
+    snapId: snapId,
+    request: {
+      method: 'removeTrustedDapp',
+      params: {
+        origin: 'masca.io',
       },
     },
   },
@@ -635,7 +661,7 @@ export type MascaConfig = {
   };
   dApp: {
     disablePopups: boolean;
-    friendlyDapps: string[];
+    trustedDapps: string[];
   };
 };
 ```

@@ -1,10 +1,10 @@
 'use client';
 
-import { useState } from 'react';
 import { isError } from '@blockchain-lab-um/masca-connector';
 import { CredentialOffer } from '@blockchain-lab-um/oidc-types';
 import { useTranslations } from 'next-intl';
 import qs from 'qs';
+import { useState } from 'react';
 
 import Button from '@/components/Button';
 import InputField from '@/components/InputField';

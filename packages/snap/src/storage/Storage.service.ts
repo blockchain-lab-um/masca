@@ -6,38 +6,52 @@ import {
 
 import { getInitialSnapState } from '../utils/config';
 import SnapStorage from './Snap.storage';
+import { migrateToV2 } from 'src/utils/stateMigration';
 
 class StorageService {
   static instance: MascaState;
 
   static async init(): Promise<void> {
-    const state = await SnapStorage.load();
+    let state = await SnapStorage.load();
 
     if (!state) {
-      this.instance = getInitialSnapState();
+      StorageService.instance = getInitialSnapState();
       return;
     }
 
-    this.instance = state as MascaState;
+    state = StorageService.migrateState(state);
+
+    StorageService.instance = state as MascaState;
   }
 
   static get(): MascaState {
-    return this.instance;
+    return StorageService.instance;
   }
 
   static set(state: MascaState): void {
-    this.instance = state;
+    StorageService.instance = state;
   }
 
   static async save(): Promise<void> {
-    await SnapStorage.save(this.instance);
+    await SnapStorage.save(StorageService.instance);
   }
 
   static getAccountState(): MascaAccountState {
-    return this.instance[CURRENT_STATE_VERSION].accountState[
-      this.instance[CURRENT_STATE_VERSION].currentAccount
+    return StorageService.instance[CURRENT_STATE_VERSION].accountState[
+      StorageService.instance[CURRENT_STATE_VERSION].currentAccount
     ];
   }
+
+  static migrateState = (state: any): MascaState => {
+    if (state[CURRENT_STATE_VERSION]) return state;
+
+    let newState = state;
+    if (state.v1) {
+      newState = migrateToV2(state);
+    }
+
+    return newState;
+  };
 }
 
 export default StorageService;

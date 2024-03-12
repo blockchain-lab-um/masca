@@ -1,13 +1,13 @@
 import { decodePublicKey } from '@blockchain-lab-um/utils';
 import { getResolver } from '@cef-ebsi/key-did-resolver';
 import {
-  Resolver,
   type DIDDocument,
   type DIDResolutionOptions,
   type DIDResolutionResult,
   type DIDResolver,
   type ParsedDID,
   type Resolvable,
+  Resolver,
 } from 'did-resolver';
 
 import { curveResolverMap } from './curves.js';

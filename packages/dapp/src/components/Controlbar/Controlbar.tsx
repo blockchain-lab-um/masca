@@ -1,10 +1,9 @@
 'use client';
 
-import { useState } from 'react';
 import {
-  isError,
   type AvailableCredentialStores,
   type QueryCredentialsRequestResult,
+  isError,
 } from '@blockchain-lab-um/masca-connector';
 import { ArrowPathIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { ShareIcon } from '@heroicons/react/24/solid';
@@ -12,18 +11,19 @@ import { Tooltip } from '@nextui-org/react';
 import { W3CVerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
+import { useState } from 'react';
 import { useAccount } from 'wagmi';
 
 import GlobalFilter from '@/components/Controlbar/GlobalFilter';
 import ViewTabs from '@/components/Controlbar/ViewTabs';
 import ImportModal from '@/components/ImportModal';
+import { useMascaStore, useTableStore, useToastStore } from '@/stores';
+import { useAuthStore } from '@/stores/authStore';
+import { useShareModalStore } from '@/stores/shareModalStore';
 import {
   removeCredentialSubjectFilterString,
   stringifyCredentialSubject,
 } from '@/utils/format';
-import { useMascaStore, useTableStore, useToastStore } from '@/stores';
-import { useAuthStore } from '@/stores/authStore';
-import { useShareModalStore } from '@/stores/shareModalStore';
 import FilterPopover from './FilterPopover';
 
 // import PlaygroundModal from '../PlaygroundModal';
@@ -51,12 +51,17 @@ const Controlbar = () => {
   const selectedCredentials = useTableStore(
     (state) => state.selectedCredentials
   );
-  const { setShareCredentials, setShareModalMode, setIsShareModalOpen } =
-    useShareModalStore((state) => ({
-      setShareCredentials: state.setCredentials,
-      setShareModalMode: state.setMode,
-      setIsShareModalOpen: state.setIsOpen,
-    }));
+  const {
+    setShareCredentials,
+    setShareModalMode,
+    setIsShareModalOpen,
+    setShareLink,
+  } = useShareModalStore((state) => ({
+    setShareCredentials: state.setCredentials,
+    setShareModalMode: state.setMode,
+    setIsShareModalOpen: state.setIsOpen,
+    setShareLink: state.setShareLink,
+  }));
 
   const refreshVCs = async () => {
     if (!api) return;
@@ -200,7 +205,7 @@ const Controlbar = () => {
         >
           {isConnected && (
             <>
-              {/* <button
+              {/* <button type="button"
                 className={clsx(
                   'dark:bg-navy-blue-700 dark:text-navy-blue-50 group flex h-[37px] w-[37px] md:h-[43px] md:w-[43px]',
                   'items-center justify-center rounded-full bg-white text-gray-700 shadow-md outline-none focus:outline-none'
@@ -215,6 +220,7 @@ const Controlbar = () => {
                   className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
                 >
                   <button
+                    type="button"
                     className={clsx(
                       'dark:bg-navy-blue-700 dark:text-navy-blue-50 group flex h-[37px] w-[37px] md:h-[43px] md:w-[43px]',
                       'items-center justify-center rounded-full bg-white text-gray-700 shadow-md outline-none focus:outline-none'
@@ -225,6 +231,7 @@ const Controlbar = () => {
                         return;
                       }
                       setShareModalMode('multiple');
+                      setShareLink(null);
                       setShareCredentials(
                         selectedCredentials.map(
                           (vc) => removeCredentialSubjectFilterString(vc).data
@@ -242,6 +249,7 @@ const Controlbar = () => {
                 className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
               >
                 <button
+                  type="button"
                   className={clsx(
                     'dark:bg-navy-blue-700 dark:text-navy-blue-50 group flex h-[37px] w-[37px] md:h-[43px] md:w-[43px]',
                     'items-center justify-center rounded-full bg-white text-gray-700 shadow-md outline-none focus:outline-none'
@@ -249,7 +257,7 @@ const Controlbar = () => {
                   onClick={() => setImportModalOpen(true)}
                 >
                   <PlusIcon
-                    className={`group-hover:animate-pingOnce h-6 w-6`}
+                    className={'group-hover:animate-pingOnce h-6 w-6'}
                   />
                 </button>
               </Tooltip>
@@ -261,6 +269,7 @@ const Controlbar = () => {
               className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
             >
               <button
+                type="button"
                 className={clsx(
                   'dark:bg-navy-blue-700 dark:text-navy-blue-50 group flex h-[37px] w-[37px] md:h-[43px] md:w-[43px]',
                   'items-center justify-center rounded-full bg-white text-gray-700 shadow-md outline-none focus:outline-none'

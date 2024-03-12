@@ -73,7 +73,7 @@ const methodIndexMapping: Record<InternalSigMethods, number> = {
 
 const nodeWallet = HDNodeWallet.fromMnemonic(
   Mnemonic.fromEntropy(entropy)
-).derivePath(`m/44/1236/${methodIndexMapping[method]}/0/0`);
+).derivePath(`44/1236/${methodIndexMapping[method]}/0/0`);
 ```
 
 `Mnemonic.fromEntropy()` generates a seed phrase from the passed entropy, which we then use to create a new wallet.
@@ -147,3 +147,25 @@ For the complete list of supported data storage providers, check [this page](/do
 ## Decentralized Identity Framework
 
 A framework designed specifically for managing Decentralized Identities is best for handling DIDs and VCs when developing such software as Masca. That's why we take on the advantages of **[Veramo](https://veramo.io/)** for that purpose. Veramo is a performant and modular API for Verifiable Data and Decentralized Identity/SSI. It's a library that allows the creation and management of DIDs, VCs, and VPs and makes developers' lives working with them much ... simpler. We highly encourage you to check their website!
+
+## Permissions
+
+Masca introduces additional RPC methods to enhance your experience. To ensure security and flexibility, Masca offers configurable permission levels. By default, almost every RPC method triggers a confirmation popup across all dApps. However, users have the option to adjust these settings for a tailored user experience. Below, we detail the three permission levels available:
+
+### 1. Granular Permissions
+
+This is the most secure permission level. It allows users to customize permissions for each RPC method individually for a specific dApp. For example, you can disable popups for one method while keeping them active for others. This level of control ensures maximum security without compromising on usability.
+
+### 2. Trusted Dapps
+
+For a balance between security and user experience, users can add a dApp to their list of trusted dApps. This action significantly reduces the frequency of popups, limiting them only to critical confirmations. While this option offers a smoother experience, it's slightly less secure than granular permissions.
+
+### 3. Disable All Popups
+
+The option to disable all popups across all dApps is available, but it's strongly discouraged. This setting eliminates all confirmation popups, posing a significant security risk. It's recommended for testing purposes only.
+
+> **Warning**: Disabling all popups removes a critical layer of security and is not recommended for everyday use.
+
+### Changing Permissions
+
+Permissions can be modified in Settings page on [Masca.io](https://masca.io/app).

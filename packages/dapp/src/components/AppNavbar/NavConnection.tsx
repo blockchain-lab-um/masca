@@ -1,20 +1,20 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { requiresNetwork } from '@blockchain-lab-um/masca-connector';
 import { useTranslations } from 'next-intl';
+import { useEffect, useState } from 'react';
 import { useAccount, useChainId, useDisconnect, useSwitchChain } from 'wagmi';
 
 import AddressPopover from '@/components/AddressPopover';
 import ConnectButton from '@/components/ConnectButton';
 import DropdownMenu from '@/components/DropdownMenu';
 import MethodDropdownMenu from '@/components/MethodDropdownMenu';
+import { useGeneralStore, useMascaStore } from '@/stores';
 import {
-  getAvailableNetworksList,
   NETWORKS,
   NETWORKS_BY_DID,
+  getAvailableNetworksList,
 } from '@/utils/networks';
-import { useGeneralStore, useMascaStore } from '@/stores';
 
 export const NavConnection = () => {
   const { switchChain } = useSwitchChain();
@@ -89,7 +89,11 @@ export const NavConnection = () => {
             shadow="none"
             variant="method"
             items={getAvailableNetworksList(currMethod)}
-            selected={selectedNetwork}
+            selected={
+              selectedNetwork === 'Goerli'
+                ? t('unsupported-method')
+                : selectedNetwork
+            }
             setSelected={setNetwork}
           />
         </div>

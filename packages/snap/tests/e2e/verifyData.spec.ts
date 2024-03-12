@@ -1,4 +1,4 @@
-import { isError, Result } from '@blockchain-lab-um/utils';
+import { Result, isError } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsProvider } from '@metamask/snaps-sdk';
 import { VerifiableCredential, VerifiablePresentation } from '@veramo/core';
@@ -11,7 +11,7 @@ import { account } from '../data/constants';
 import { EXAMPLE_VC_PAYLOAD } from '../data/credentials';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createTestVCs } from '../helpers/generateTestVCs';
-import { createMockSnap, SnapMock } from '../helpers/snapMock';
+import { SnapMock, createMockSnap } from '../helpers/snapMock';
 
 describe('verifyData', () => {
   let snapMock: SnapsProvider & SnapMock;
@@ -64,7 +64,7 @@ describe('verifyData', () => {
 
   it('should succeed verifiying a VC', async () => {
     const verifyDataResult = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -85,7 +85,7 @@ describe('verifyData', () => {
 
   it('should succeed verifying a VP', async () => {
     const switchMethodResult = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -101,7 +101,7 @@ describe('verifyData', () => {
     }
 
     const createPresentationResult = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -117,7 +117,7 @@ describe('verifyData', () => {
     }
 
     const verified = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',

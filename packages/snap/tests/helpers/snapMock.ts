@@ -1,10 +1,10 @@
-import { readFile } from 'fs/promises';
 import type { MascaState } from '@blockchain-lab-um/masca-types';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import type { RequestArguments } from '@metamask/providers/dist/BaseProvider';
 import type { Maybe } from '@metamask/providers/dist/utils';
 import { SnapsProvider } from '@metamask/snaps-sdk';
 import { AlchemyProvider, Filter, TransactionRequest } from 'ethers';
+import { readFile } from 'fs/promises';
 import { vi } from 'vitest';
 
 import { account, mnemonic } from '../data/constants';
@@ -51,8 +51,8 @@ export class SnapMock implements ISnapMock {
   }
 
   private async snapEthCall(data: any[]): Promise<string> {
-    const apiKey = 'NRFBwig_CLVL0WnQLY3dUo8YkPmW-7iN';
-    const provider = new AlchemyProvider('goerli', apiKey);
+    const apiKey = 'onEdpQuHfIjaPMc0c5G0Nf8V_ajHh0We';
+    const provider = new AlchemyProvider('mainnet', apiKey);
     return provider.call({
       ...data[0],
       blockTag: data[1],
@@ -60,8 +60,8 @@ export class SnapMock implements ISnapMock {
   }
 
   private async snapEthLogs(data: any[]): Promise<unknown> {
-    const apiKey = 'NRFBwig_CLVL0WnQLY3dUo8YkPmW-7iN';
-    const provider = new AlchemyProvider('goerli', apiKey);
+    const apiKey = 'onEdpQuHfIjaPMc0c5G0Nf8V_ajHh0We';
+    const provider = new AlchemyProvider('mainnet', apiKey);
     return provider.getLogs(data[0] as Filter);
   }
 
@@ -69,7 +69,7 @@ export class SnapMock implements ISnapMock {
     snap_dialog: vi.fn().mockReturnValue(true),
     eth_requestAccounts: vi.fn().mockResolvedValue([account]),
     eth_chainId: vi.fn().mockResolvedValue('0x1'),
-    net_version: vi.fn().mockResolvedValue('5'),
+    net_version: vi.fn().mockResolvedValue('1'),
     snap_getBip44Entropy: vi
       .fn()
       .mockImplementation(async (params: { coinType: number }) => {
@@ -101,31 +101,28 @@ export class SnapMock implements ISnapMock {
       .mockImplementation(async (data: unknown) =>
         this.snapEthLogs(data as any[])
       ),
-    snap_getFile: vi
-      .fn()
-      .mockImplementation(
-        async (params: {
-          path: string;
-          encoding?: 'base64' | 'utf8' | 'hex';
-        }) => {
-          // Use root of the project as base path
-          const projectRoot = import.meta.url.split('/').slice(2, -3).join('/');
-          const filePath = `${projectRoot}/${params.path.slice(2)}`;
+    snap_getFile: vi.fn().mockImplementation(
+      async (params: {
+        path: string;
+        encoding?: 'base64' | 'utf8' | 'hex';
+      }) => {
+        // Use root of the project as base path
+        const projectRoot = import.meta.url.split('/').slice(2, -3).join('/');
+        const filePath = `${projectRoot}/${params.path.slice(2)}`;
 
-          const value = await readFile(filePath);
+        const value = await readFile(filePath);
 
-          if (params.encoding === 'hex') {
-            return value.toString('hex');
-          }
-
-          return value.toString('utf8');
+        if (params.encoding === 'hex') {
+          return value.toString('hex');
         }
-      ),
+
+        return value.toString('utf8');
+      }
+    ),
   };
 
   request<T>(args: RequestArguments): Promise<Maybe<T>> {
     const { method, params } = args;
-    // eslint-disable-next-line
     return this.rpcMocks[method](params);
   }
 }

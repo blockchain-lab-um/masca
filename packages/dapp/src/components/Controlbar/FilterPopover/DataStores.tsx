@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
 import { ChevronRightIcon } from '@heroicons/react/24/solid';
 import { Checkbox } from '@nextui-org/react';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
+import { useState } from 'react';
 
 import { useTableStore } from '@/stores';
 
@@ -22,6 +22,7 @@ export const DataStores = () => {
   return (
     <div>
       <button
+        type="button"
         onClick={() => {
           setOpen(!open);
         }}

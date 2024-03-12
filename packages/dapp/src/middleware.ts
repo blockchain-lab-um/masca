@@ -1,5 +1,5 @@
-import { NextRequest } from 'next/server';
 import createIntlMiddleware from 'next-intl/middleware';
+import { NextRequest } from 'next/server';
 
 export async function middleware(request: NextRequest) {
   const handleI18nRouting = createIntlMiddleware({

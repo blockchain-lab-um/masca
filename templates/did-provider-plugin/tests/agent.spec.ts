@@ -1,23 +1,22 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import * as fs from 'fs';
 import {
-  createAgent,
   type IAgentOptions,
   type ICredentialPlugin,
+  type IDIDManager,
   type IDataStore,
   type IDataStoreORM,
-  type IDIDManager,
   type IKeyManager,
   type IResolver,
   type TAgent,
+  createAgent,
 } from '@veramo/core';
 import { CredentialPlugin } from '@veramo/credential-w3c';
 import {
   DIDStore,
   Entities,
   KeyStore,
-  migrations,
   PrivateKeyStore,
+  migrations,
 } from '@veramo/data-store';
 import { DIDManager } from '@veramo/did-manager';
 import { DIDResolverPlugin } from '@veramo/did-resolver';
@@ -27,8 +26,8 @@ import { Resolver } from 'did-resolver';
 import { DataSource, type DataSourceOptions } from 'typeorm';
 
 import {
-  pluginTemplateDidResolver as getDidPluginTemplateResolver,
   PluginTemplateDIDProvider,
+  pluginTemplateDidResolver as getDidPluginTemplateResolver,
 } from '../src/index.js';
 import plugin from './plugin.js';
 
@@ -114,12 +113,10 @@ const tearDown = async (): Promise<boolean> => {
   return true;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-return
 const getAgent = () => agent;
 
 const testContext = { getAgent, setup, tearDown };
 
 describe('did:pluginTemplate: Veramo Agent Tests', () => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   plugin(testContext);
 });

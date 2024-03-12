@@ -1,7 +1,5 @@
 'use client';
 
-import { Fragment, useMemo, useState } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
 import {
   CheckCircleIcon,
   DocumentDuplicateIcon,
@@ -11,12 +9,15 @@ import { Tooltip } from '@nextui-org/react';
 import { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
+import { usePathname, useRouter } from 'next/navigation';
+import { Fragment, useMemo, useState } from 'react';
 
 import { DIDDisplay } from '@/components/DIDDisplay';
 import JsonModal from '@/components/JsonModal';
+import { getFirstWord } from '@/utils/format';
 import { convertTypes, copyToClipboard } from '@/utils/string';
 
-interface FormatedPanelProps {
+interface FormattedPanelProps {
   credential: VerifiableCredential;
 }
 
@@ -41,7 +42,11 @@ const AddressDisplay = ({ address }: { address: string }) => {
             {`${address.slice(0, 8)}...${address.slice(-8)}`}
           </a>
         </Tooltip>
-        <button className="pl-1" onClick={() => copyToClipboard(address)}>
+        <button
+          type="button"
+          className="pl-1"
+          onClick={() => copyToClipboard(address)}
+        >
           <DocumentDuplicateIcon className="animated-transition dark:text-navy-blue-300 ml-1 h-5 w-5 text-gray-700 hover:text-gray-700" />
         </button>
       </div>
@@ -70,61 +75,63 @@ const CredentialSubject = ({
   selectJsonData: React.Dispatch<React.SetStateAction<any>>;
 }) => (
   <>
-    {Object.entries(data).map(([key, value]: [string, any]) => (
-      <Fragment key={key}>
-        {(() => {
-          if (key === 'id') {
-            return (
-              <>
-                <div className="flex flex-col space-y-0.5">
-                  <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-800">
-                    DID:
-                  </h2>
-                  <div className="flex">
-                    <DIDDisplay did={value} />
+    {Object.entries(data).map(([key, value]: [string, any]) => {
+      if (value === null || value === '') return null;
+      return (
+        <Fragment key={key}>
+          {(() => {
+            if (key === 'id') {
+              return (
+                <>
+                  <div className="flex flex-col space-y-0.5">
+                    <div className="flex">
+                      <DIDDisplay did={value} />
+                    </div>
                   </div>
-                </div>
-              </>
+                </>
+              );
+            }
+
+            if (key === 'address') return <AddressDisplay address={value} />;
+
+            const isObject = !(
+              typeof value === 'string' || typeof value === 'number'
             );
-          }
-
-          if (key === 'address') return <AddressDisplay address={value} />;
-
-          const isObject = !(
-            typeof value === 'string' || typeof value === 'number'
-          );
-
-          return (
-            <div
-              className={clsx(
-                'flex w-full overflow-clip',
-                isObject ? 'items-center' : 'flex-col items-start space-y-0.5'
-              )}
-            >
-              <h2 className="dark:text-navy-blue-200 pr-2 font-bold capitalize text-gray-800">
-                {key}:
-              </h2>
-              <div className="text-md dark:text-navy-blue-300 w-full truncate font-normal text-gray-700">
-                {isObject ? (
-                  <button
-                    className="dark:border-navy-blue-300 dark:hover:border-navy-blue-400 dark:focus:ring-navy-blue-500 rounded-md border border-gray-300 px-2 py-0.5 text-sm hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
-                    onClick={() => selectJsonData(value)}
-                  >
-                    {viewJsonText}
-                  </button>
-                ) : (
-                  value
+            // key is a string camel case, seperate it with spaces, e.g. CamelCase should be Camel Case
+            key = key.replace(/([A-Z])/g, ' $1').trim();
+            return (
+              <div
+                className={clsx(
+                  'flex w-full overflow-clip',
+                  isObject ? 'items-center' : 'flex-col items-start space-y-0.5'
                 )}
+              >
+                <h2 className="dark:text-navy-blue-200 pr-2 font-bold capitalize text-gray-800">
+                  {key}:
+                </h2>
+                <div className="text-md dark:text-navy-blue-300 w-full truncate font-normal text-gray-700">
+                  {isObject ? (
+                    <button
+                      type="button"
+                      className="dark:border-navy-blue-300 dark:hover:border-navy-blue-400 dark:focus:ring-navy-blue-500 rounded-md border border-gray-300 px-2 py-0.5 text-sm hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                      onClick={() => selectJsonData(value)}
+                    >
+                      {viewJsonText}
+                    </button>
+                  ) : (
+                    value
+                  )}
+                </div>
               </div>
-            </div>
-          );
-        })()}
-      </Fragment>
-    ))}
+            );
+          })()}
+        </Fragment>
+      );
+    })}
   </>
 );
 
-const CredentialPanel = ({ credential }: FormatedPanelProps) => {
+const CredentialPanel = ({ credential }: FormattedPanelProps) => {
   const t = useTranslations('CredentialPanel');
 
   const pathname = usePathname();
@@ -158,7 +165,7 @@ const CredentialPanel = ({ credential }: FormatedPanelProps) => {
               className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
             >
               <h1 className="font-ubuntu dark:text-orange-accent-dark text-left text-lg font-medium text-pink-500 sm:text-xl md:text-2xl lg:truncate">
-                {types}
+                {getFirstWord(types)}
               </h1>
             </Tooltip>
           </div>
@@ -203,9 +210,6 @@ const CredentialPanel = ({ credential }: FormatedPanelProps) => {
                   {t('issuer')}
                 </h1>
                 <div className="flex flex-col space-y-0.5">
-                  <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-800">
-                    DID:
-                  </h2>
                   <div className="flex">
                     <DIDDisplay
                       did={

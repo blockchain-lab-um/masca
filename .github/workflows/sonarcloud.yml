@@ -14,17 +14,17 @@ jobs:
     name: SonarCloud snap
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - uses: nrwl/nx-set-shas@v3
         with:
           main-branch-name: 'develop'
       - name: Install pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v3
         with:
           version: 8.11.0
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 20.10.0
           cache: pnpm
@@ -46,20 +46,20 @@ jobs:
 
   # VC Manager
   sonarcloud-datamanager:
-    name: SonarCloud Datamanager
+    name: SonarCloud datamanager
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - uses: nrwl/nx-set-shas@v3
         with:
           main-branch-name: 'develop'
       - name: Install pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v3
         with:
           version: 8.11.0
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 20.10.0
           cache: pnpm
@@ -84,7 +84,7 @@ jobs:
     name: SonarCloud connector
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Scan connector
@@ -102,7 +102,7 @@ jobs:
     name: SonarCloud dapp
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Scan dapp
@@ -120,7 +120,7 @@ jobs:
     name: SonarCloud docs
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Scan docs
@@ -136,6 +136,40 @@ jobs:
   # Did-provider-key
   sonarcloud-did-provider-key:
     name: SonarCloud did-provider-key
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: nrwl/nx-set-shas@v3
+        with:
+          main-branch-name: 'develop'
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8.11.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.10.0
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Test snap
+        run: pnpm nx test:ci @blockchain-lab-um/did-provider-key
+        env:
+          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+      - name: Scan snap
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          projectBaseDir: libs/did-provider-key
+          args: >
+            -Dsonar.organization=blockchain-lab-um
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
+  # Did-provider-key
+  sonarcloud-extended-verification-lib:
+    name: SonarCloud extended-verification-lib
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
@@ -155,13 +189,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Test snap
-        run: pnpm nx test:ci @blockchain-lab-um/did-provider-key
+        run: pnpm nx test:ci @blockchain-lab-um/extended-verification
         env:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
       - name: Scan snap
         uses: SonarSource/sonarcloud-github-action@master
         with:
-          projectBaseDir: libs/did-provider-key
+          projectBaseDir: libs/extended-verification
           args: >
             -Dsonar.organization=blockchain-lab-um
         env:

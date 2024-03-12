@@ -5,10 +5,23 @@
   },
   "AppBottomBar": {
     "create-credential": "Create Credential",
-    "dashboard": "Dashboard",
+    "credentials": "Credentials",
     "qr-scanner": "QR Code Scanner",
     "settings": "Settings",
     "verify-data": "Verify Data"
+  },
+  "VerificationInfoModal": {
+    "title": "Verification Information",
+    "subtitle": "Following information is being verified:",
+    "close": "Close",
+    "list": {
+      "presentation-signature": "Presentation signature",
+      "credential-signature": "Credential signature",
+      "credential-schema": "Credential schema",
+      "expiration-date": "Expiration date",
+      "valid-from-date": "Valid from date",
+      "credential-status": "Credential status"
+    }
   },
   "AppNavbar": {
     "address": {
@@ -24,7 +37,7 @@
         "create-credential": "Create a custom credential",
         "documentation": "Read the Masca documentation",
         "get-credential": "Get your credential using the OpenID Connect protocol",
-        "qr-code-session": "Create session to scan QR codes using your mobile device",
+        "qr-code-session": "Create an encrypted session to scan QR codes using your mobile device",
         "qr-scanner": "Receive credentials and share presentations by scanning QR codes",
         "shared-presentations": "Check your shared presentations",
         "verify-data": "Verify credentials & presentations"
@@ -42,7 +55,7 @@
     },
     "menu": {
       "authorization-request": "Authorization Request",
-      "dashboard": "Dashboard",
+      "credentials": "Credentials",
       "get-credential": "Get Credentials",
       "home": "Home",
       "other": "Other",
@@ -53,6 +66,11 @@
   "NavConnection": {
     "select-method": "Select a method",
     "unsupported-network": "Unsupported network"
+  },
+  "MascaProvider": {
+    "connection-failed": "Failed to connect to Masca",
+    "unsupported-network": "Unsupported network",
+    "unsupported-network-description": "Please approve the network switch."
   },
   "ChooseDeviceView": {
     "connect": "Connect Wallet to see more options...",
@@ -118,7 +136,8 @@
   },
   "CreateConnectionModal": {
     "desc": " Scan this QR code with your mobile device to create a connection to this page.",
-    "title": "Connection QR Code"
+    "title": "Connection QR Code",
+    "session-create-failed": "Failed to create session. Please try again."
   },
   "CreateCredentialDisplay": {
     "invalidMethod": "Polygon ID & Iden3 are not yet supported. Switch to any other DID method to create a credential!",
@@ -226,7 +245,7 @@
     "cancel": "Cancel",
     "save": "Save"
   },
-  "FormatedView": {
+  "FormattedView": {
     "holder": "Holder",
     "presented": "Presented",
     "credentials": "Credentials",
@@ -328,7 +347,7 @@
     "title": "Filter Credentials",
     "type": "Type"
   },
-  "FormatedPanel": {
+  "FormattedPanel": {
     "dates": "DATES",
     "expiration-date": "Expiration Date",
     "issuer": "ISSUER",
@@ -345,16 +364,29 @@
     "expired-on": "Expired on",
     "polygon-unsupported": "Polygon ID VCs aren't supported yet. Please remove this credential to continue!"
   },
-  "FriendlydAppTable": {
-    "add-failed": "Failed to add Friendly dapp",
-    "add-masca": "Add Masca.io to Friendly dapps",
-    "added": "Friendly dapp added",
-    "adding": "Adding Friendly dapp",
-    "app-url": "Application URL",
-    "popups-desc": "Disabling pop-ups is very dangerous. We recommend setting friendly dapps instead!",
-    "remove-failed": "Failed to remove Friendly dapp",
-    "removed": "Friendly dapp removed",
-    "removing": "Removing Friendly dapp"
+  "TrustedDappTable": {
+    "add-failed": "Failed to disable popups",
+    "get-failed": "Failed to get Masca settings",
+    "change-failed": "Failed to change permissions",
+    "add-masca": "Add masca.io to trusted dapps",
+    "added": "Popups Disabled",
+    "adding": "Disabling popups",
+    "changedPermission": "Permissions changed",
+    "changingPermission": "Changing permissions",
+    "app-url": "Application Hostname",
+    "popups-desc": "Manage permissions for the dapps you use. Start by adding a dapp to the list and then manage its permissions.",
+    "remove-failed": "Failed to re-Enable popups",
+    "remove-dapp-failed": "Failed to remove dapp",
+    "add-dapp-failed": "Failed to add dapp",
+    "removed": "Popups Re-Enabled",
+    "removing": "Re-Enabling popups",
+    "add": "Add",
+    "query": "Access Credentials",
+    "query-desc": "This dapp can always query your credentials without asking for permission",
+    "disable-popups": "Trusted dapp",
+    "disable-popups-desc": "I trust this dapp and want to disable popups",
+    "modal-title": "Permissions for ",
+    "manage": "Manage"
   },
   "GetCredential": {
     "handling": "Handling credential offer",
@@ -441,10 +473,11 @@
     "qr-invalid-error": "Invalid QR code",
     "starting-error": "Failed to start QR code scanner"
   },
-  "QRCodeSessionProvider": {
-    "unsuported": "Unsuported QR code data received"
+  "EncryptedSessionProvider": {
+    "unsuported": "Unsuported QR code data received",
+    "fetch-failed": "Failed to fetch session. Please try again."
   },
-  "QRSessionDisplay": {
+  "EncryptedSessionDisplay": {
     "back": "Back",
     "fifth": "Fifth Step",
     "fifth-desc": "Finish Flow",
@@ -502,7 +535,7 @@
     "delete-error": "Failed to delete backup",
     "delete-google": "Delete from Google Drive",
     "delete-success": "Successfully deleted backup",
-    "disable-popups": "Disable Pop-ups",
+    "disable-popups": "Disable Popups",
     "export": "Export",
     "export-desc": "Export encrypted Masca backup to a file.",
     "export-error": "Failed to export backup",
@@ -514,8 +547,8 @@
     "import-google": "Import from Google Drive",
     "import-success": "Successfully imported backup",
     "not-implemented": "Not implemented yet",
-    "popups": "Pop-ups",
-    "popups-desc": "Disabling pop-ups is very dangerous. We recommend setting friendly dapps instead!",
+    "popups": "Permissions",
+    "popups-desc": "Disabling popups is very dangerous. We recommend setting trusted dapps instead!",
     "title": "Settings",
     "unknown-error": "Unknown error",
     "wallet-error": "Failed to get wallet ID"
@@ -532,6 +565,7 @@
     "selected": "Selected Credentials",
     "share-presentation-error": "Failed to share presentation",
     "share-presentation-success": "Successfully shared presentation",
+    "share-link-description": "Share your credential:",
     "title": "Publicly Share Credentials",
     "unsupported-credentials-description": "Sharing of Polygon ID & Iden3 credentials is not yet supported. Unselect them to continue!",
     "unsupported-credentials-title": "Unsupported Credentials Selected",

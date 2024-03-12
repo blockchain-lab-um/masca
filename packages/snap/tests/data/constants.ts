@@ -82,7 +82,7 @@ export const resolutionInvalidDID = {
   didDocument: null,
   didResolutionMetadata: {
     error: 'invalidDid',
-    message: 'Not a valid did:ethr: 0x5:0x123',
+    message: 'Not a valid did:ethr: 0x1:0x123',
   },
   didDocumentMetadata: {},
 };

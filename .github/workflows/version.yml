@@ -19,6 +19,7 @@ on:
           - '@blockchain-lab-um/oidc-types'
           - '@blockchain-lab-um/oidc-client-plugin'
           - '@blockchain-lab-um/dapp'
+          - '@blockchain-lab-um/extended-verification'
 
 # Wait for the workflow to finish before starting a new one
 concurrency: ${{ github.workflow }}-${{ github.ref }}
@@ -36,18 +37,18 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: master
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v3
         with:
           version: 8.11.0
 
       - name: Install node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20.10.0
           registry-url: https://registry.npmjs.org/

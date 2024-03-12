@@ -15,8 +15,7 @@ find ../libs/did-provider-$lower -type f -name "*pluginTemplate*" -exec bash -c 
 find ../libs/did-provider-$lower -type f -exec sed -i '' -e "s/pluginTemplate/$lower/g;s/PluginTemplate/$capital/g" {} +
 
 echo "module.exports = {
-  '*.{js,ts}': ['eslint --fix'],
-  '*.{md,json,yml,yaml}': ['prettier --write'],
+  '*.{js,ts,mts,mjs,cjs,cts,jsx,tsx,json}': ['biome check --apply'],
 };" > ../libs/did-provider-$lower/.lintstagedrc.cjs
 
 pnpm install

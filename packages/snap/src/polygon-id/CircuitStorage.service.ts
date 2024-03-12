@@ -1,10 +1,10 @@
 import {
-  base64ToBytes,
-  byteEncoder,
   CircuitData,
   CircuitId,
   CircuitStorage,
   InMemoryDataSource,
+  base64ToBytes,
+  byteEncoder,
 } from '@0xpolygonid/js-sdk';
 
 export interface B64File {
@@ -15,12 +15,16 @@ class CircuitStorageService {
   static instance: CircuitStorage;
 
   static async init() {
-    if (!this.instance) {
-      this.instance = new CircuitStorage(new InMemoryDataSource<CircuitData>());
+    if (!CircuitStorageService.instance) {
+      CircuitStorageService.instance = new CircuitStorage(
+        new InMemoryDataSource<CircuitData>()
+      );
     }
 
     try {
-      await this.instance.loadCircuitData(CircuitId.AtomicQuerySigV2);
+      await CircuitStorageService.instance.loadCircuitData(
+        CircuitId.AtomicQuerySigV2
+      );
     } catch {
       const sigWasm = await snap.request({
         method: 'snap_getFile',
@@ -88,14 +92,17 @@ class CircuitStorageService {
         },
       });
 
-      await this.instance.saveCircuitData(CircuitId.AtomicQuerySigV2, {
-        circuitId: 'credentialAtomicQuerySigV2',
-        wasm: base64ToBytes(sigWasm),
-        provingKey: base64ToBytes(sigZKey),
-        verificationKey: byteEncoder.encode(sigVerificationKey),
-      });
+      await CircuitStorageService.instance.saveCircuitData(
+        CircuitId.AtomicQuerySigV2,
+        {
+          circuitId: 'credentialAtomicQuerySigV2',
+          wasm: base64ToBytes(sigWasm),
+          provingKey: base64ToBytes(sigZKey),
+          verificationKey: byteEncoder.encode(sigVerificationKey),
+        }
+      );
 
-      await this.instance.saveCircuitData(CircuitId.AuthV2, {
+      await CircuitStorageService.instance.saveCircuitData(CircuitId.AuthV2, {
         circuitId: 'authV2',
         wasm: base64ToBytes(authWasm),
         provingKey: base64ToBytes(authZKey),
@@ -104,17 +111,22 @@ class CircuitStorageService {
         ),
       });
 
-      await this.instance.saveCircuitData(CircuitId.AtomicQueryMTPV2, {
-        circuitId: 'credentialAtomicQueryMTPV2',
-        wasm: base64ToBytes(mtpWasm),
-        provingKey: base64ToBytes(mtpZKey),
-        verificationKey: byteEncoder.encode(JSON.stringify(mtpVerificationKey)),
-      });
+      await CircuitStorageService.instance.saveCircuitData(
+        CircuitId.AtomicQueryMTPV2,
+        {
+          circuitId: 'credentialAtomicQueryMTPV2',
+          wasm: base64ToBytes(mtpWasm),
+          provingKey: base64ToBytes(mtpZKey),
+          verificationKey: byteEncoder.encode(
+            JSON.stringify(mtpVerificationKey)
+          ),
+        }
+      );
     }
   }
 
   static get() {
-    return this.instance;
+    return CircuitStorageService.instance;
   }
 }
 

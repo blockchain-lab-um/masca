@@ -1,9 +1,7 @@
-'use client';
-
-import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
+import { Fragment } from 'react';
 
 import { TextSkeleton } from '../Skeletons/TextSkeleton';
 import { DropdownMenuItem } from './DropdownMenuItem';
@@ -56,6 +54,7 @@ const variantsHover: Record<string, string> = {
   gray: 'opacity-80',
   method: 'dark:bg-navy-blue-800 bg-orange-100/50',
 };
+
 export default function DropdownMenu({
   items,
   selected,
@@ -104,11 +103,11 @@ export default function DropdownMenu({
           >
             <Menu.Items className="dark:bg-navy-blue-600 absolute right-0 mt-1 w-48 rounded-3xl bg-white shadow-lg focus:outline-none">
               <div className="p-1">
-                {items.map((item, id) => (
+                {items.map((item) => (
                   <DropdownMenuItem
                     selected={item === selected}
                     handleBtn={setSelected}
-                    key={id}
+                    key={item}
                     variant={variant}
                   >
                     {item}

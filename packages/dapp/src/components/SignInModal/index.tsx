@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
 import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
 import Cookies from 'js-cookie';
 import { useTranslations } from 'next-intl';
+import { useState } from 'react';
 import { SiweMessage } from 'siwe';
 import { useAccount, useSignMessage } from 'wagmi';
 
@@ -93,7 +93,7 @@ export const SignInModal = () => {
           // Set data
           changeToken(data.jwt);
           changeIsSignedIn(true);
-          Cookies.set('token', data.jwt);
+          Cookies.set(`token-${address}`, data.jwt);
 
           // Close modal and show toast
           changeIsSignInModalOpen(false);

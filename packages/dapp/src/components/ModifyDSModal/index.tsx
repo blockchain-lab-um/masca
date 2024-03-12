@@ -1,18 +1,18 @@
-import { useState } from 'react';
 import {
-  isError,
   type AvailableCredentialStores,
   type QueryCredentialsRequestResult,
+  isError,
 } from '@blockchain-lab-um/masca-connector';
 import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
 import { useTranslations } from 'next-intl';
+import { useState } from 'react';
 
 import Button from '@/components//Button';
 import ToggleSwitch from '@/components//Switch';
 import DeleteModal from '@/components/DeleteModal';
+import { useMascaStore, useToastStore } from '@/stores';
 import { isPolygonVC } from '@/utils/credential';
 import { stringifyCredentialSubject } from '@/utils/format';
-import { useMascaStore, useToastStore } from '@/stores';
 
 interface ModifyDSModalProps {
   isOpen: boolean;
@@ -158,7 +158,7 @@ function ModifyDSModal({ isOpen, setOpen, vc }: ModifyDSModalProps) {
                 <div className="dark:text-navy-blue-100 mt-10 text-gray-700">
                   {Object.keys(vcStores).map((store, id) => (
                     <div
-                      key={id}
+                      key={store}
                       className="mt-3 flex items-center justify-between"
                     >
                       <div>{store}</div>

@@ -1,8 +1,8 @@
 import {
-  availableMethods,
   type AvailableMethods,
+  availableMethods,
 } from '@blockchain-lab-um/masca-types';
-import { isError, ResultObject, type Result } from '@blockchain-lab-um/utils';
+import { type Result, ResultObject, isError } from '@blockchain-lab-um/utils';
 
 import mascaVersionJson from './masca.json';
 import { Masca } from './snap.js';

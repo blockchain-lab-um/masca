@@ -1,7 +1,5 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import Link from 'next/link';
 import { XCircleIcon } from '@heroicons/react/24/outline';
 import {
   CheckCircleIcon,
@@ -10,6 +8,8 @@ import {
 } from '@heroicons/react/24/solid';
 import * as Toast from '@radix-ui/react-toast';
 import clsx from 'clsx';
+import Link from 'next/link';
+import { useEffect, useRef } from 'react';
 
 import { useToastStore } from '@/stores';
 
@@ -44,7 +44,7 @@ const ToastWrapper = () => {
                 'ml-1 animate-spin rounded-full border-solid border-t-pink-900/0',
                 'border-pink-500'
               )}
-            ></div>
+            />
           </div>
         )}
       </div>
@@ -79,12 +79,18 @@ const ToastWrapper = () => {
             <div className="flex items-center">
               {link && (
                 <Link href={link}>
-                  <button className="border-1 rounded-full px-4 py-1.5 text-sm">
+                  <button
+                    type="button"
+                    className="border-1 rounded-full px-4 py-1.5 text-sm"
+                  >
                     Show
                   </button>
                 </Link>
               )}
-              <button className="dark:border-navy-blue-700 ml-2 h-[36px] border-l-[1px] border-l-gray-300 pl-2">
+              <button
+                type="button"
+                className="dark:border-navy-blue-700 ml-2 h-[36px] border-l-[1px] border-l-gray-300 pl-2"
+              >
                 <XCircleIcon className="h-6 w-6" />
               </button>
             </div>

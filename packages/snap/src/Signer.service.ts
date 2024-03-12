@@ -1,7 +1,7 @@
 import {
+  PROTOCOL_CONSTANTS,
   byteDecoder,
   byteEncoder,
-  PROTOCOL_CONSTANTS,
 } from '@0xpolygonid/js-sdk';
 import {
   CURRENT_STATE_VERSION,
@@ -14,10 +14,10 @@ import { bytesToBase64url, encodeBase64url } from '@veramo/utils';
 import elliptic from 'elliptic';
 import { sha256 } from 'ethereum-cryptography/sha256';
 
-import PolygonService from './polygon-id/Polygon.service';
-import StorageService from './storage/Storage.service';
 import UIService from './UI.service';
 import WalletService from './Wallet.service';
+import PolygonService from './polygon-id/Polygon.service';
+import StorageService from './storage/Storage.service';
 
 const { ec: EC } = elliptic;
 
@@ -40,9 +40,9 @@ class SignerService {
   static async signData(signDataParams: SignDataParams): Promise<string> {
     switch (signDataParams.type) {
       case 'JWT':
-        return this.signJWT(signDataParams);
+        return SignerService.signJWT(signDataParams);
       case 'JWZ':
-        return this.signJWZ(signDataParams);
+        return SignerService.signJWZ(signDataParams);
       default: {
         throw new Error('Unsupported sign data type.');
       }
@@ -80,7 +80,7 @@ class SignerService {
         const ctx = new EC(curve);
         const ecPrivateKey = ctx.keyFromPrivate(wallet.privateKey.slice(2));
 
-        const alg = curve === 'secp256k1' ? `ES256K` : `ES256`;
+        const alg = curve === 'secp256k1' ? 'ES256K' : 'ES256';
 
         const jwtHeader = {
           ...header,
