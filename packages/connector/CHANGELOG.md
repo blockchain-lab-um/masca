@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.1
+
+### Patch Changes
+
+- Updated dependencies [[`526a627`](https://github.com/blockchain-lab-um/masca/commit/526a627ffd6466931e0f0fcfb6b802bb2ea47271)]:
+  - @blockchain-lab-um/masca-types@1.3.1
+
 ## 1.3.0
 
 ### Minor Changes
