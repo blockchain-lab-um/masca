@@ -1,5 +1,5 @@
-// Verify all campaign requirements at once (if needed)
-/* import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { getAgent } from '@/app/api/veramoSetup';
 import { createClient } from '@supabase/supabase-js';
 import {
   VerifiableCredential,
@@ -8,8 +8,7 @@ import {
 } from '@veramo/core';
 import jwt from 'jsonwebtoken';
 
-import { Database } from '@/utils/supabase/database.types';
-import { getAgent } from '../../veramoSetup';
+import type { Database } from '@/utils/supabase/database.types';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -17,13 +16,25 @@ const CORS_HEADERS = {
   'Access-Control-Allow-Headers': 'Content-Type',
 };
 
-export async function POST(request: NextRequest) {
+export async function POST(
+  request: NextRequest,
+  { params: { id } }: { params: { id: string } }
+) {
   try {
     const token = request.headers.get('Authorization')?.replace('Bearer ', '');
 
     if (!token) {
       return new NextResponse('Unauthorized', {
         status: 401,
+        headers: {
+          ...CORS_HEADERS,
+        },
+      });
+    }
+
+    if (!id) {
+      return new NextResponse('Missing requirement_id', {
+        status: 400,
         headers: {
           ...CORS_HEADERS,
         },
@@ -39,16 +50,48 @@ export async function POST(request: NextRequest) {
       exp: number;
     };
 
+    const supabase = createClient<Database>(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SECRET_KEY!
+    );
+
+    const { data: userRequirements, error: userRequirementsError } =
+      await supabase
+        .from('requirement_user_rel')
+        .select('*')
+        .eq('user_id', user.sub)
+        .eq('requirement_id', id);
+
+    if (userRequirementsError) {
+      return new NextResponse('Error getting user requirements', {
+        status: 500,
+        headers: {
+          ...CORS_HEADERS,
+        },
+      });
+    }
+
+    if (userRequirements.length > 0) {
+      return NextResponse.json(
+        {
+          success: true,
+        },
+        {
+          status: 200,
+          headers: {
+            ...CORS_HEADERS,
+          },
+        }
+      );
+    }
+
     let {
       presentation,
       // eslint-disable-next-line prefer-const
       did,
-      // eslint-disable-next-line prefer-const
-      campaignId,
     }: {
       presentation: W3CVerifiablePresentation;
       did: string;
-      campaignId: string;
     } = await request.json();
 
     if (!presentation) {
@@ -62,15 +105,6 @@ export async function POST(request: NextRequest) {
 
     if (!did) {
       return new NextResponse('Missing title', {
-        status: 400,
-        headers: {
-          ...CORS_HEADERS,
-        },
-      });
-    }
-
-    if (!campaignId) {
-      return new NextResponse('Missing campaignId', {
         status: 400,
         headers: {
           ...CORS_HEADERS,
@@ -94,8 +128,9 @@ export async function POST(request: NextRequest) {
     }
 
     if (
-      didResolution.didDocument.verificationMethod[0].publicKeyHex !==
-      user.address
+      didResolution.didDocument.verificationMethod[0].blockchainAccountId?.split(
+        ':'
+      )[2] !== user.address.toLowerCase()
     ) {
       return new NextResponse('Unauthorized', {
         status: 401,
@@ -105,30 +140,11 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const supabase = createClient<Database>(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SECRET_KEY!
-    );
-
-    const { data: campaign, error: campaignError } = await supabase
-      .from('campaigns')
-      .select(`*, campaign_requirements (*)`)
-      .eq('id', campaignId)
-      .single();
-
-    if (campaignError || !campaign) {
-      return new NextResponse('Error getting campaign', {
-        status: 500,
-        headers: {
-          ...CORS_HEADERS,
-        },
-      });
-    }
-
-    const { data: requirements, error: requirementsError } = await supabase
+    const { data: requirement, error: requirementsError } = await supabase
       .from('campaign_requirements')
       .select('*')
-      .eq('campaign_id', campaignId);
+      .eq('id', id)
+      .single();
 
     if (requirementsError) {
       return new NextResponse('Error getting requirements', {
@@ -163,31 +179,58 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const credentials = presentation.verifiableCredential;
+    const credentials = presentation.verifiableCredential.map(
+      (vc) => JSON.parse(vc as string) as VerifiableCredential
+    );
 
-    const canClaim = requirements.every((requirement) =>
+    // TODO - simplify to only check the one requirement as long as the user has not selected the vcs for vp
+    const canClaim = requirement.types?.every((type) =>
       credentials.some((credential) => {
         let cred: VerifiableCredential;
         if (typeof credential === 'string') {
           const decoded = jwt.decode(credential);
-
           if (typeof decoded === 'string') return false;
-
           cred = decoded as VerifiableCredential;
         } else cred = credential;
-        if (cred.credentialSubject.issuer !== requirement.issuer) return false;
+
+        // eslint-disable-next-line prefer-destructuring
+        let issuer;
+        if (typeof cred.issuer === 'string') {
+          issuer = cred.issuer;
+        } else {
+          issuer = cred.issuer.id;
+        }
+        if (issuer !== requirement.issuer) {
+          return false;
+        }
         if (!cred.type) return false;
         const credTypes =
           typeof cred.type === 'string' ? [cred.type] : cred.type;
 
-        return requirement.types?.every((type) => credTypes.includes(type));
+        return credTypes.includes(type);
       })
     );
 
-    if (!canClaim) {
+    if (canClaim) {
+      const { error: insertedError } = await supabase
+        .from('requirement_user_rel')
+        .insert({
+          user_id: user.sub,
+          requirement_id: id,
+        });
+
+      if (insertedError) {
+        return new NextResponse('Internal Server Error', {
+          status: 500,
+          headers: {
+            ...CORS_HEADERS,
+          },
+        });
+      }
+
       return NextResponse.json(
         {
-          success: false,
+          success: true,
         },
         {
           status: 200,
@@ -198,41 +241,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { data: claim, error: claimError } = await supabase
-      .from('campaign_claims')
-      .select('*')
-      .eq('campaign_id', campaignId)
-      .eq('user_id', user.sub)
-      .single();
-
-    if (claimError) {
-      return new NextResponse('Error getting claim', {
-        status: 500,
-        headers: {
-          ...CORS_HEADERS,
-        },
-      });
-    }
-
-    if (!claim) {
-      const { data: newClaim, error: newClaimError } = await supabase
-        .from('campaign_claims')
-        .insert({ campaign_id: campaignId, user_id: user.sub, presentation })
-        .single();
-
-      if (newClaimError || !newClaim) {
-        return new NextResponse('Error creating claim', {
-          status: 500,
-          headers: {
-            ...CORS_HEADERS,
-          },
-        });
-      }
-    }
-
     return NextResponse.json(
       {
-        success: true,
+        success: false,
+        message: 'Requirement not met',
       },
       {
         status: 200,
@@ -242,6 +254,14 @@ export async function POST(request: NextRequest) {
       }
     );
   } catch (error) {
+    if ((error as Error).message === 'jwt expired') {
+      return new NextResponse('Unauthorized', {
+        status: 401,
+        headers: {
+          ...CORS_HEADERS,
+        },
+      });
+    }
     return new NextResponse('Internal Server Error', {
       status: 500,
       headers: {
@@ -259,4 +279,3 @@ export async function OPTIONS() {
     },
   });
 }
- */
