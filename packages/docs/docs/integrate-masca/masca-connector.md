@@ -136,7 +136,7 @@ const payload: MinimalUnsignedCredential = {
   type: ['VerifiableCredential', 'Test Certificate'],
   credentialSubject: {
     accomplishmentType: 'Test Certificate',
-    id: 'did:ethr:goerli:0x123...321',
+    id: 'did:ethr:sepolia:0x123...321',
   },
   credentialSchema: {
     id: 'https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json',
@@ -232,20 +232,26 @@ const vpRes = await api.verifyData({ presentation: VP, verbose: true });
 
 ## Snap Settings
 
-`togglePopups` is used to enable/disable the `"Are you sure?"` alerts on any dapp. Pop-ups are enabled by default for user to approve every action.
+`togglePopups` is used to enable/disable the `"Are you sure?"` alerts on any dapp. Popups are enabled by default for user to approve every action.
 
-`addFriendlyDapp` is used to add a current dapp (origin of the dapp) to the list of friendly dapps. Pop-ups do not appear on friendly dapps.
+`addTrustedDapp` is used to add a dapp to the list of trusted dapps. Popups do not appear on trusted dapps. This method can be called to add ANY dapp ONLY ON `masca.io`. On any other dapp origin is set automatically (You can only add dapp X on dapp X). Input is a hostname of a dapp
 
-`removeFriendlyDapp` is used to remove a dapp from the list of friendly dapps.
+`removeTrustedDapp` is used to remove a dapp from the list of trusted dapps. This method can only remove dapps with the same origin (dApp X can only remove dapp X). Input is a hostname of a dapp
 
-`getSnapSettings` and `getAccountSettings` are used to retrieve global settings and settings for currently selected account.
+`changePermission` is used to change permissions for a specific RPC method on a specific dapp. This will enable/disable popups for said method on said dapp.
+
+`getSnapSettings` and `getAccountSettings` are used to retrieve global settings and settings for currently selected account. Inputs are hostname of a dapp, RPC method and boolean value to disable (`true`)/enable (`false`) popups.
+
+Note that above methods require hostname (`masca.io`) and not full URL (`https://masca.io`) to work. Using full URL will result in error.
 
 ```typescript
 const res = await api.togglePopups();
 
-const res = await api.addFriendlyDapp();
+const res = await api.addTrustedDapp('masca.io');
 
-const res = await api.removeFriendlyDapp("https://www.masca.io");
+const res = await api.removeTrustedDapp("masca.io");
+
+const res = await api.changePermission("masca.io", 'queryCredentials', true) // This will disable popups for queryCredentials on masca.io
 ```
 
 ```typescript
@@ -273,6 +279,31 @@ const res = await api.signData({
   type: 'JWZ',
   data: {...} // Valid JSONObject
 });
+```
+
+## Credential Exchange
+
+`handleAuthorizationRequest` is
+
+`handleCredentialOffer` is
+
+```typescript
+
+const res = await api.handleAuthorizationRequest({credentialOffer: '...'})
+
+const res = await api.handleCredentialOffer({authorizationRequest: '...'})
+```
+
+## State Backup
+
+State can be exported and imported using methods `exportStateBackup` and `importStateBackup`
+
+```typescript
+
+const res = await api.exportStateBackup()
+
+const res = await api.importStateBackup({serializedState: '...'})
+
 ```
 
 ## Working with VCs

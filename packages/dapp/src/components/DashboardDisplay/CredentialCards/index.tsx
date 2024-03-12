@@ -1,8 +1,8 @@
-import React, { useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { Button, Pagination } from '@nextui-org/react';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
+import { useMemo, useState } from 'react';
 
 import { useTableStore } from '@/stores';
 import { LastFetched } from '../LastFetched';
@@ -53,9 +53,9 @@ export const CredentialCards = ({ vcs }: CredentialCardsProps) => {
           </div>
         </div>
         <div className="flex flex-wrap justify-center">
-          {items.map((vc, key) => (
+          {items.map((vc) => (
             <div
-              key={key}
+              key={vc.metadata.id}
               onClick={() => {
                 // Add VC to selectedCards if not already in, else remove it
                 if (!selectedCredentials.includes(vc)) {
@@ -68,7 +68,6 @@ export const CredentialCards = ({ vcs }: CredentialCardsProps) => {
               }}
             >
               <CredentialCard
-                key={key}
                 vc={vc}
                 selected={selectedCredentials.includes(vc)}
               />
@@ -77,7 +76,7 @@ export const CredentialCards = ({ vcs }: CredentialCardsProps) => {
         </div>
       </div>
       <div className="mt-8 flex w-full items-center justify-between px-9">
-        <div className="w-1/3"></div>
+        <div className="w-1/3" />
         <div className="flex h-[40px] w-1/3 items-center justify-center">
           <Pagination
             isCompact

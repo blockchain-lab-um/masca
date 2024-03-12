@@ -1,4 +1,4 @@
-import { isError, Result } from '@blockchain-lab-um/utils';
+import { Result, isError } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsProvider } from '@metamask/snaps-sdk';
 import { beforeAll, describe, expect, it } from 'vitest';
@@ -6,7 +6,7 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import { onRpcRequest } from '../../src';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
-import { createMockSnap, SnapMock } from '../helpers/snapMock';
+import { SnapMock, createMockSnap } from '../helpers/snapMock';
 
 describe('setCeramicSession', () => {
   let snapMock: SnapsProvider & SnapMock;
@@ -28,7 +28,7 @@ describe('setCeramicSession', () => {
       newState: defaultState,
     });
     const res = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',

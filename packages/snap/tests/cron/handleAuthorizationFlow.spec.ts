@@ -1,4 +1,4 @@
-import { isError, Result } from '@blockchain-lab-um/utils';
+import { Result, isError } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsProvider } from '@metamask/snaps-sdk';
 import { beforeAll, describe, expect, it } from 'vitest';
@@ -7,7 +7,7 @@ import { onRpcRequest } from '../../src';
 import StorageService from '../../src/storage/Storage.service';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
-import { createMockSnap, SnapMock } from '../helpers/snapMock';
+import { SnapMock, createMockSnap } from '../helpers/snapMock';
 
 describe('handlePolygonFlow', () => {
   let snapMock: SnapsProvider & SnapMock;
@@ -27,7 +27,7 @@ describe('handlePolygonFlow', () => {
 
   it('should succeed authorization and credential offer for Polygon ID', async () => {
     const resSwitchMethod = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -54,7 +54,7 @@ describe('handlePolygonFlow', () => {
     );
 
     const resHandleAuthRequest = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -71,7 +71,7 @@ describe('handlePolygonFlow', () => {
       `https://issuer-v2.polygonid.me/api/status?id=${sessionId}`
     );
     const did = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -123,7 +123,7 @@ describe('handlePolygonFlow', () => {
       await responseCredentialOffer.json()
     );
     const resCredentialOffer = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',

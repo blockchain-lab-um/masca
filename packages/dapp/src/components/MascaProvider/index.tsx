@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect } from 'react';
 import { enableMasca, isError } from '@blockchain-lab-um/masca-connector';
-import { useAccount, useChainId } from 'wagmi';
+import { useTranslations } from 'next-intl';
+import { useEffect } from 'react';
+import { useAccount, useChainId, useSwitchChain } from 'wagmi';
 
-import { useMascaStore } from '@/stores';
+import { useMascaStore, useToastStore } from '@/stores';
 import { useAuthStore } from '@/stores/authStore';
 
 const snapId =
@@ -15,6 +16,8 @@ const snapId =
 const MascaProvider = () => {
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
+  const { switchChainAsync } = useSwitchChain();
+  const t = useTranslations('MascaProvider');
 
   const {
     api,
@@ -103,7 +106,31 @@ const MascaProvider = () => {
 
   useEffect(() => {
     if (!address) return;
-    enableMascaHandler().catch((err) => {
+    enableMascaHandler().catch(async (err) => {
+      // FIXME: this is only a temporary solution
+
+      if (err.message.toLowerCase().includes('unsupported network')) {
+        useToastStore.setState({
+          open: true,
+          title: t('unsupported-network'),
+          text: t('unsupported-network-description'),
+          type: 'error',
+          loading: false,
+          link: null,
+        });
+        await switchChainAsync({ chainId: 1 });
+        await enableMascaHandler();
+        return;
+      }
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: t('connection-failed'),
+          type: 'error',
+          loading: false,
+          link: null,
+        });
+      }, 200);
       console.error(err);
     });
   }, [isConnected, address]);

@@ -1,11 +1,11 @@
-import { Dispatch, SetStateAction } from 'react';
 import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
 import { useTranslations } from 'next-intl';
+import { Dispatch, SetStateAction } from 'react';
 
-import { createClient } from '@/utils/supabase/client';
-import { Tables } from '@/utils/supabase/helper.types';
 import { useToastStore } from '@/stores';
 import { useAuthStore } from '@/stores/authStore';
+import { createClient } from '@/utils/supabase/client';
+import { Tables } from '@/utils/supabase/helper.types';
 import Button from '../Button';
 
 interface DeleteSharedPresentationModalProps {

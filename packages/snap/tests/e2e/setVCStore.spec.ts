@@ -1,4 +1,4 @@
-import { isError, isSuccess, Result } from '@blockchain-lab-um/utils';
+import { Result, isError, isSuccess } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsProvider } from '@metamask/snaps-sdk';
 import { beforeAll, describe, expect, it } from 'vitest';
@@ -6,7 +6,7 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import { onRpcRequest } from '../../src';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
-import { createMockSnap, SnapMock } from '../helpers/snapMock';
+import { SnapMock, createMockSnap } from '../helpers/snapMock';
 
 describe('setVCStore', () => {
   let snapMock: SnapsProvider & SnapMock;
@@ -26,7 +26,7 @@ describe('setVCStore', () => {
   // FIXME: Enable after we put back params checks
   it.skip('should throw and error when using wrong vcStore', async () => {
     let res = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -42,7 +42,7 @@ describe('setVCStore', () => {
     expect(res.error).toBe('Error: invalid_argument: $input.store');
 
     res = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -62,7 +62,7 @@ describe('setVCStore', () => {
 
   it('should succeed toggling ceramic store to true', async () => {
     let res = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'https://masca.io',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -78,7 +78,7 @@ describe('setVCStore', () => {
     expect(res.data).toBe(true);
 
     res = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',

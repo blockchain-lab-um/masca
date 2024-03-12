@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
+import { NextRequest, NextResponse } from 'next/server';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',

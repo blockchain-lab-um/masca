@@ -92,6 +92,7 @@ const Button = ({
   showTextOnLoading = true,
 }: ButtonProps) => (
   <button
+    type="button"
     className={clsx(
       variants[variant],
       sizes[size],
@@ -112,7 +113,7 @@ const Button = ({
           'animate-spin rounded-full border-2 border-solid',
           loaderColors[variant]
         )}
-      ></div>
+      />
     )}
   </button>
 );

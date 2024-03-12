@@ -2,7 +2,7 @@ import {
   AvailableCredentialStores,
   SaveCredentialOptions,
 } from '@blockchain-lab-um/masca-types';
-import { isError, isSuccess, Result } from '@blockchain-lab-um/utils';
+import { Result, isError, isSuccess } from '@blockchain-lab-um/utils';
 import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-datamanager';
 import { DIDDataStore } from '@glazed/did-datastore';
 import { MetaMaskInpageProvider } from '@metamask/providers';
@@ -12,13 +12,13 @@ import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { onRpcRequest } from '../../src';
 import StorageService from '../../src/storage/Storage.service';
-import type { StoredCredentials } from '../../src/veramo/plugins/ceramicDataStore/ceramicDataStore';
 import VeramoService, { type Agent } from '../../src/veramo/Veramo.service';
+import type { StoredCredentials } from '../../src/veramo/plugins/ceramicDataStore/ceramicDataStore';
 import { account } from '../data/constants';
 import { EXAMPLE_VC_PAYLOAD } from '../data/credentials';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createTestVCs } from '../helpers/generateTestVCs';
-import { createMockSnap, SnapMock } from '../helpers/snapMock';
+import { SnapMock, createMockSnap } from '../helpers/snapMock';
 
 describe('saveVerifiableCredential', () => {
   let ceramicData: StoredCredentials;
@@ -128,7 +128,7 @@ describe('saveVerifiableCredential', () => {
     'Should save VC in correct store - $title',
     async (store) => {
       const saveRes = (await onRpcRequest({
-        origin: 'localhost',
+        origin: 'http://localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
@@ -158,7 +158,7 @@ describe('saveVerifiableCredential', () => {
     'Should save & query VC in correct store - $title',
     async (store) => {
       const saveRes = (await onRpcRequest({
-        origin: 'localhost',
+        origin: 'http://localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
@@ -181,7 +181,7 @@ describe('saveVerifiableCredential', () => {
       ]);
 
       const res = (await onRpcRequest({
-        origin: 'localhost',
+        origin: 'http://localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
@@ -213,7 +213,7 @@ describe('saveVerifiableCredential', () => {
     'Should succeed saving a JWT string and retrieving whole VC - %s',
     async (store) => {
       const saveRes = (await onRpcRequest({
-        origin: 'localhost',
+        origin: 'http://localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
@@ -236,7 +236,7 @@ describe('saveVerifiableCredential', () => {
       ]);
 
       const res = (await onRpcRequest({
-        origin: 'localhost',
+        origin: 'http://localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
@@ -266,7 +266,7 @@ describe('saveVerifiableCredential', () => {
 
   it('Should fail because store does not exist', async () => {
     const saveRes = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -291,7 +291,7 @@ describe('saveVerifiableCredential', () => {
     snapMock.rpcMocks.snap_dialog.mockReturnValue(false);
 
     let res = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -312,7 +312,7 @@ describe('saveVerifiableCredential', () => {
     snapMock.rpcMocks.snap_dialog.mockReturnValue(true);
 
     res = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -332,7 +332,7 @@ describe('saveVerifiableCredential', () => {
 
   it('should throw error because request is not valid', async () => {
     const saveRes = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -356,7 +356,7 @@ describe('saveVerifiableCredential', () => {
 
   it('should throw error because request is not valid: store format', async () => {
     const saveRes = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -379,7 +379,7 @@ describe('saveVerifiableCredential', () => {
 
   it('should throw error because request is not valid: store not supported in array', async () => {
     const saveRes = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',

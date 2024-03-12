@@ -1,6 +1,6 @@
-import React from 'react';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { useTranslations } from 'next-intl';
+import React from 'react';
 
 import GoogleDriveButton from '@/components/GoogleDriveButton';
 

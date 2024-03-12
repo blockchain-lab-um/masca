@@ -65,7 +65,6 @@ export class PluginTemplateDIDProvider extends AbstractIdentifierProvider {
     context: IContext
   ): Promise<boolean> {
     for (const { kid } of identifier.keys) {
-      // eslint-disable-next-line no-await-in-loop
       await context.agent.keyManagerDelete({ kid });
     }
     return true;

@@ -21,7 +21,7 @@ const ViewTabs = () => {
         className={` dark:bg-orange-accent-dark absolute z-10 h-full w-14 rounded-full bg-pink-200 transition-transform ease-in-out md:w-16 ${
           cardView ? 'translate-x-0' : 'translate-x-10 md:translate-x-12'
         }`}
-      ></div>
+      />
       <Squares2X2Icon
         className={`animated-transition z-20 ${
           cardView

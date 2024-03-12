@@ -1,7 +1,6 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default {

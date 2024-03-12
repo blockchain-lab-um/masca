@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
-import Link from 'next/link';
 import { isError } from '@blockchain-lab-um/masca-connector';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
+import React, { useMemo, useState } from 'react';
 
-import { stringifyCredentialSubject } from '@/utils/format';
 import { useMascaStore, useTableStore, useToastStore } from '@/stores';
+import { stringifyCredentialSubject } from '@/utils/format';
 import Button from '../Button';
 import { ShareCredentialModal } from '../ShareCredentialModal';
 import { CredentialCards } from './CredentialCards';

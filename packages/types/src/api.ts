@@ -78,12 +78,19 @@ export interface MascaApi {
   ): Promise<Result<void>>;
   setCeramicSession(serializedSession: string): Promise<Result<boolean>>;
   validateStoredCeramicSession(): Promise<Result<boolean>>;
-  addFriendlyDapp(): Promise<Result<boolean>>;
-  removeFriendlyDapp(id: string): Promise<Result<boolean>>;
+  addTrustedDapp(origin: string): Promise<Result<boolean>>;
+  removeTrustedDapp(origin: string): Promise<Result<boolean>>;
   importStateBackup(
     params: ImportStateBackupRequestParams
   ): Promise<Result<boolean>>;
   exportStateBackup(): Promise<Result<string>>;
   getWalletId(): Promise<Result<string>>;
   signData(params: SignDataRequestParams): Promise<Result<string>>;
+  changePermission(
+    origin: string,
+    method: 'queryCredentials',
+    value: boolean
+  ): Promise<Result<boolean>>;
+  addDappSettings(origin: string): Promise<Result<boolean>>;
+  removeDappSettings(origin: string): Promise<Result<boolean>>;
 }

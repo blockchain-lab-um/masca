@@ -1,14 +1,15 @@
 'use client';
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 import Button from '@/components//Button';
 import MascaLogo from '@/components/MascaLogo';
+import PublicFooter from '../PublicFooter';
 
 const INTERNAL_LINKS = [
   {
@@ -44,8 +45,8 @@ const PublicNavbar = () => {
   const pathname = usePathname() ?? '/';
 
   return (
-    <div className="fixed left-0 right-0 top-0 z-50 m-0 flex h-24 w-screen items-center">
-      <div className="flex flex-1 items-center px-4 sm:px-12">
+    <div className="z-50 m-0 p-6 sm:px-12">
+      <div className="flex flex-1 items-center">
         <Link href="/" className="focus-visible:outline-none">
           <div className="flex">
             <MascaLogo />
@@ -76,6 +77,7 @@ const PublicNavbar = () => {
                 className={clsx('nav-btn')}
                 key={name}
                 href={href}
+                rel="noreferrer"
               >
                 {t(name)}
               </a>
@@ -110,6 +112,7 @@ const PublicNavbar = () => {
           <div className="flex h-full flex-col space-y-4 p-6">
             <div className="flex justify-end">
               <button
+                type="button"
                 className={clsx(
                   'animated-transition',
                   'rounded-full border-2 p-1.5 shadow-sm',
@@ -145,6 +148,9 @@ const PublicNavbar = () => {
                 {t(name)}
               </a>
             ))}
+            <div className="h-full items-end">
+              <PublicFooter setIsMenuOpen={setIsMenuOpen} />
+            </div>
           </div>
         </div>
       </div>

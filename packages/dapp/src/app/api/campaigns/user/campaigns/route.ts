@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
 
     const { data: claims, error: claimsError } = await supabase
       .from('campaign_claims')
-      .select(`campaign_id`)
+      .select('campaign_id')
       .eq('user_id', user.sub);
 
     if (claimsError) {

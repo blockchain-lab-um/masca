@@ -1,5 +1,5 @@
 import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
-import { isError, isSuccess, Result } from '@blockchain-lab-um/utils';
+import { Result, isError, isSuccess } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsProvider } from '@metamask/snaps-sdk';
 import { VerifiableCredential } from '@veramo/core';
@@ -9,7 +9,7 @@ import { onRpcRequest } from '../../src';
 import { account } from '../data/constants';
 import { EXAMPLE_VC_PAYLOAD } from '../data/credentials';
 import { getDefaultSnapState } from '../data/defaultSnapState';
-import { createMockSnap, SnapMock } from '../helpers/snapMock';
+import { SnapMock, createMockSnap } from '../helpers/snapMock';
 
 describe('setCurrentAccount', () => {
   let snapMock: SnapsProvider & SnapMock;
@@ -26,7 +26,7 @@ describe('setCurrentAccount', () => {
 
   it('should succeed setting the current account', async () => {
     const res = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -47,7 +47,7 @@ describe('setCurrentAccount', () => {
 
   it('should fail setting the current account - missing current account parameter', async () => {
     const res = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -73,7 +73,7 @@ describe('setCurrentAccount', () => {
     });
 
     const res = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',

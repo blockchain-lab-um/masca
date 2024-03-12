@@ -70,7 +70,8 @@ export const CampaignsDisplay = () => {
 
     if (!result || isError(result)) {
       throw new Error(result.error);
-    } else if (result.data.length === 0) {
+    }
+    if (result.data.length === 0) {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
@@ -126,7 +127,9 @@ export const CampaignsDisplay = () => {
     mutationFn: VERIFY,
     onSuccess: async (data: boolean, props: VERIFYProps) => {
       if (data) {
-        await queryClient.invalidateQueries({ queryKey: ['completed', address] });
+        await queryClient.invalidateQueries({
+          queryKey: ['completed', address],
+        });
       }
     },
     onError: (error) => {

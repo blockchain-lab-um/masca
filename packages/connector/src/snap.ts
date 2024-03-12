@@ -1,6 +1,4 @@
 import {
-  ImportStateBackupRequestParams,
-  SignDataRequestParams,
   type AvailableCredentialStores,
   type AvailableMethods,
   type CreateCredentialRequestParams,
@@ -8,6 +6,7 @@ import {
   type DeleteCredentialsOptions,
   type HandleAuthorizationRequestParams,
   type HandleCredentialOfferRequestParams,
+  ImportStateBackupRequestParams,
   type MascaAccountConfig,
   type MascaApi,
   type MascaConfig,
@@ -17,9 +16,10 @@ import {
   type SaveCredentialOptions,
   type SaveCredentialRequestResult,
   type SetCurrentAccountRequestParams,
+  SignDataRequestParams,
   type VerifyDataRequestParams,
 } from '@blockchain-lab-um/masca-types';
-import { isError, ResultObject, type Result } from '@blockchain-lab-um/utils';
+import { type Result, ResultObject, isError } from '@blockchain-lab-um/utils';
 import type {
   DIDResolutionResult,
   IVerifyResult,
@@ -29,12 +29,12 @@ import type {
 } from '@veramo/core';
 
 import { ProviderStore } from './ProviderStore.js';
+import { ViemClient } from './ViemClient.js';
 import {
   signVerifiableCredential,
   signVerifiablePresentation,
   validateAndSetCeramicSession,
 } from './utils.js';
-import { ViemClient } from './ViemClient.js';
 
 /**
  * Send a request to the Masca snap
@@ -220,26 +220,87 @@ async function togglePopups(this: Masca): Promise<Result<boolean>> {
 }
 
 /**
- * Adds origin of the current dapp to the list of friendly dapps. This will disable popups from appearing while using the dapp.
+ * Adds origin of the current dapp to the list of trusted dapps. This will disable popups from appearing while using the dapp.
  *
  * @return Result<boolean> - true if the addition was successful
  */
-async function addFriendlyDapp(this: Masca): Promise<Result<boolean>> {
-  return sendSnapMethod(this, { method: 'addFriendlyDapp' }, this.snapId);
-}
-
-/**
- * Removes origin of the current dapp from the list of friendly dapps. This will enable popups while using the dapp.
- *
- * @return Result<boolean> - true if the removal was successful
- */
-async function removeFriendlyDapp(
+async function addTrustedDapp(
   this: Masca,
-  id: string
+  origin: string
 ): Promise<Result<boolean>> {
   return sendSnapMethod(
     this,
-    { method: 'removeFriendlyDapp', params: { id } },
+    { method: 'addTrustedDapp', params: { origin } },
+    this.snapId
+  );
+}
+
+/**
+ * Removes origin of the current dapp from the list of trusted dapps. This will enable popups while using the dapp.
+ *
+ * @return Result<boolean> - true if the removal was successful
+ */
+async function removeTrustedDapp(
+  this: Masca,
+  origin: string
+): Promise<Result<boolean>> {
+  return sendSnapMethod(
+    this,
+    { method: 'removeTrustedDapp', params: { origin } },
+    this.snapId
+  );
+}
+
+/**
+ * Adds a dapp to the settings list.
+ *
+ * @return Result<boolean> - true if the addition was successful
+ */
+async function addDappSettings(
+  this: Masca,
+  origin: string
+): Promise<Result<boolean>> {
+  return sendSnapMethod(
+    this,
+    { method: 'addDappSettings', params: { origin } },
+    this.snapId
+  );
+}
+
+/**
+ * Removes a dapp from the settings list.
+ *
+ * @return Result<boolean> - true if the addition was successful
+ */
+async function removeDappSettings(
+  this: Masca,
+  origin: string
+): Promise<Result<boolean>> {
+  return sendSnapMethod(
+    this,
+    { method: 'removeDappSettings', params: { origin } },
+    this.snapId
+  );
+}
+
+/**
+ * Modify permissions for a specific RPC method on a specific dApp. This will disable/enable popups for said method.
+ *
+ * Currently changing permissions is only supported for the queryCredentials method.
+ *
+ * This method is only available on https://masca.io & https://beta.masca.io
+ *
+ * @return Result<boolean> - true if the removal was successful
+ */
+async function changePermission(
+  this: Masca,
+  origin: string,
+  method: 'queryCredentials',
+  value: boolean
+): Promise<Result<boolean>> {
+  return sendSnapMethod(
+    this,
+    { method: 'changePermission', params: { origin, method, value } },
     this.snapId
   );
 }
@@ -577,8 +638,8 @@ export class Masca {
     queryCredentials: wrapper(queryCredentials.bind(this)),
     createPresentation: wrapper(createPresentation.bind(this)),
     togglePopups: wrapper(togglePopups.bind(this)),
-    addFriendlyDapp: wrapper(addFriendlyDapp.bind(this)),
-    removeFriendlyDapp: wrapper(removeFriendlyDapp.bind(this)),
+    addTrustedDapp: wrapper(addTrustedDapp.bind(this)),
+    removeTrustedDapp: wrapper(removeTrustedDapp.bind(this)),
     getDID: wrapper(getDID.bind(this)),
     getSelectedMethod: wrapper(getSelectedMethod.bind(this)),
     getAvailableMethods: wrapper(getAvailableMethods.bind(this)),
@@ -605,5 +666,8 @@ export class Masca {
     exportStateBackup: wrapper(exportStateBackup.bind(this)),
     getWalletId: wrapper(getWalletId.bind(this)),
     signData: wrapper(signData.bind(this)),
+    changePermission: wrapper(changePermission.bind(this)),
+    addDappSettings: wrapper(addDappSettings.bind(this)),
+    removeDappSettings: wrapper(removeDappSettings.bind(this)),
   });
 }

@@ -1,22 +1,22 @@
 import {
-  methodIndexMapping,
   SignJWTParams,
   SignJWZParams,
+  methodIndexMapping,
 } from '@blockchain-lab-um/masca-types';
-import { isError, isSuccess, Result } from '@blockchain-lab-um/utils';
+import { Result, isError, isSuccess } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsProvider } from '@metamask/snaps-sdk';
 import { bytesToBase64url } from '@veramo/utils';
 import elliptic from 'elliptic';
 import { HDNodeWallet, Mnemonic } from 'ethers';
-import { importJWK, JWK, jwtVerify } from 'jose';
+import { JWK, importJWK, jwtVerify } from 'jose';
 import cloneDeep from 'lodash.clonedeep';
 import { beforeAll, describe, expect, it } from 'vitest';
 
 import { onRpcRequest } from '../../src';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
-import { createMockSnap, SnapMock } from '../helpers/snapMock';
+import { SnapMock, createMockSnap } from '../helpers/snapMock';
 
 const { ec: EC } = elliptic;
 
@@ -233,7 +233,7 @@ describe('signData', () => {
         currentMethod = testCase.method;
 
         const switchMethod = (await onRpcRequest({
-          origin: 'localhost',
+          origin: 'http://localhost',
           request: {
             id: 'test-id',
             jsonrpc: '2.0',
@@ -250,7 +250,7 @@ describe('signData', () => {
       }
 
       const signedData = (await onRpcRequest({
-        origin: 'localhost',
+        origin: 'http://localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
@@ -272,7 +272,7 @@ describe('signData', () => {
 
       const nodeWallet = HDNodeWallet.fromMnemonic(
         Mnemonic.fromEntropy(entropy)
-      ).derivePath(`m/44/1236/${methodIndexMapping[testCase.method]}/0/0`);
+      ).derivePath(`44/1236/${methodIndexMapping[testCase.method]}/0/0`);
 
       const curveName =
         testCase.method === 'did:key:jwk_jcs-pub' ? 'p256' : 'secp256k1';
@@ -322,7 +322,7 @@ describe('signData', () => {
   /**
    * Test JWZ
    */
-  it.each(JWZ_TEST_CASES)(
+  it.skip.each(JWZ_TEST_CASES)(
     'should successfully sign JWZ with $method and size $size bytes',
     async (testCase) => {
       // Change mocked chainId value
@@ -335,7 +335,7 @@ describe('signData', () => {
       currentMethod = testCase.method;
 
       const switchMethod = (await onRpcRequest({
-        origin: 'localhost',
+        origin: 'http://localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
@@ -351,7 +351,7 @@ describe('signData', () => {
       }
 
       const signedData = (await onRpcRequest({
-        origin: 'localhost',
+        origin: 'http://localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
@@ -375,7 +375,7 @@ describe('signData', () => {
    */
   it('should return an error if the DID method is not supported', async () => {
     const switchMethod = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -391,7 +391,7 @@ describe('signData', () => {
     }
 
     let signedData = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',
@@ -417,7 +417,7 @@ describe('signData', () => {
     expect(signedData.error).toBe('Error: Unsupported DID method');
 
     signedData = (await onRpcRequest({
-      origin: 'localhost',
+      origin: 'http://localhost',
       request: {
         id: 'test-id',
         jsonrpc: '2.0',

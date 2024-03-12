@@ -3,6 +3,7 @@ import {
   CURRENT_STATE_VERSION,
   JWTHeader,
   JWTPayload,
+  MascaRPCRequest,
   QueryCredentialsRequestResult,
 } from '@blockchain-lab-um/masca-types';
 import {
@@ -16,29 +17,52 @@ import {
 import { W3CVerifiableCredential } from '@veramo/core';
 
 import StorageService from './storage/Storage.service';
+import { getInitialPermissions } from './utils/config';
+import {
+  getPermissions,
+  isPermitted,
+  isTrustedDapp,
+  permissionExists,
+} from './utils/permissions';
+
+const permissionActions: Record<string, string> = {
+  queryCredentials: 'Querying Credentials',
+};
+
+const permissionExtraText: Record<string, string> = {
+  queryCredentials:
+    'You will no longer see a popup on this dApp when credentials are requested!',
+};
 
 class UIService {
-  static origin: string;
+  static originHostname: string;
 
   static originWrapper: Component[];
 
   static async init(origin: string) {
-    this.origin = origin;
-    this.originWrapper = [text(`Origin: **${origin}**`), divider()];
+    UIService.originHostname = new URL(origin).hostname; // hostname
+    UIService.originWrapper = [text(`Origin: **${origin}**`), divider()];
   }
 
   static async snapConfirm(params: {
+    method: MascaRPCRequest['method'] | 'other';
     content: Component;
     force?: boolean;
   }): Promise<boolean> {
     const { content, force = false } = params;
     const state = StorageService.get();
 
-    const { disablePopups, friendlyDapps } =
-      state[CURRENT_STATE_VERSION].config.dApp;
+    const { disablePopups } = state[CURRENT_STATE_VERSION].config.dApp;
 
-    // Show popups if force is true or if popups are not disabled AND the dapp is not friendly
-    if (force || !(disablePopups || friendlyDapps.includes(this.origin))) {
+    // Show popups if force is true or if popups are not disabled AND the dapp is not trusted
+    if (
+      force ||
+      !(
+        disablePopups ||
+        isTrustedDapp(UIService.originHostname, state) ||
+        isPermitted(UIService.originHostname, state, params.method)
+      )
+    ) {
       const res = await snap.request({
         method: 'snap_dialog',
         params: {
@@ -58,11 +82,13 @@ class UIService {
     const { content, force = false } = params;
     const state = StorageService.get();
 
-    const { disablePopups, friendlyDapps } =
-      state[CURRENT_STATE_VERSION].config.dApp;
+    const { disablePopups } = state[CURRENT_STATE_VERSION].config.dApp;
 
-    // Show popups if force is true or if popups are not disabled AND the dapp is not friendly
-    if (force || !(disablePopups || friendlyDapps.includes(this.origin))) {
+    // Show popups if force is true or if popups are not disabled AND the dapp is not trusted
+    if (
+      force ||
+      !(disablePopups || isTrustedDapp(UIService.originHostname, state))
+    ) {
       await snap.request({
         method: 'snap_dialog',
         params: {
@@ -73,21 +99,48 @@ class UIService {
     }
   }
 
-  static async queryAllDialog(params: {
-    vcs: QueryCredentialsRequestResult[];
-  }): Promise<boolean> {
-    const { vcs } = params;
+  static async queryAllDialog(): Promise<boolean> {
     const uiPanel = panel([
       heading('Share Verifiable Credentials'),
-      ...this.originWrapper,
-      text('Would you like to share your credentials with this dapp?'),
+      ...UIService.originWrapper,
+      text(
+        `Would you like give _**${UIService.originHostname}**_ permission to access your credentials?`
+      ),
       divider(),
-      text(`**Number of VCs: ${vcs.length.toString()}**`),
-      divider(),
-      text(`Pop-ups can be disabled in settings on masca.io.`),
+      text('This permission can be revoked at [Masca dApp](https://masca.io).'),
     ]);
 
-    const res = await UIService.snapConfirm({ content: uiPanel });
+    const state = StorageService.get();
+
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      method: 'queryCredentials',
+    });
+
+    // If accepted and query permission doesnt exist, add it
+    const permission = isPermitted(
+      UIService.originHostname,
+      state,
+      'queryCredentials'
+    );
+
+    const isTrusted = isTrustedDapp(UIService.originHostname, state);
+
+    if (res && isTrusted) return res;
+
+    if (res && !permission) {
+      let newPermissions = getInitialPermissions();
+
+      if (permissionExists(UIService.originHostname, state)) {
+        newPermissions = getPermissions(state)[UIService.originHostname];
+      }
+      newPermissions.methods.queryCredentials = true;
+
+      state[CURRENT_STATE_VERSION].config.dApp.permissions[
+        UIService.originHostname
+      ] = newPermissions;
+    }
+
     return res;
   }
 
@@ -98,7 +151,7 @@ class UIService {
     const { store, verifiableCredential } = params;
     const uiPanel = panel([
       heading('Save Verifiable Credential'),
-      ...this.originWrapper,
+      ...UIService.originWrapper,
       text('Would you like to save the credential below?'),
       divider(),
       text(
@@ -107,10 +160,13 @@ class UIService {
         }**`
       ),
       divider(),
-      text(`Credential:`),
+      text('Credential:'),
       copyable(JSON.stringify(verifiableCredential, null, 2)),
     ]);
-    const res = await UIService.snapConfirm({ content: uiPanel });
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      method: 'saveCredential',
+    });
     return res;
   }
 
@@ -123,7 +179,7 @@ class UIService {
     const { save, storeString, minimalUnsignedCredential, did } = params;
     const uiPanel = panel([
       heading('Create and Save Verifiable Credential'),
-      ...this.originWrapper,
+      ...UIService.originWrapper,
       text(`DID: **${did}**`),
       divider(),
       text(
@@ -133,10 +189,14 @@ class UIService {
       ),
       divider(),
       text(`${storeString}`),
-      text(`Credential:`),
+      text('Credential:'),
       copyable(JSON.stringify(minimalUnsignedCredential, null, 2)),
     ]);
-    const res = await UIService.snapConfirm({ content: uiPanel });
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      method: 'createCredential',
+      force: true,
+    });
     return res;
   }
 
@@ -147,7 +207,7 @@ class UIService {
     const { store, vcs } = params;
     const uiPanel = panel([
       heading('Delete Verifiable Credential'),
-      ...this.originWrapper,
+      ...UIService.originWrapper,
       text('Are you sure you want to delete this credential?'),
       divider(),
       text(
@@ -158,7 +218,10 @@ class UIService {
       divider(),
       text(`Credential: ${JSON.stringify(vcs, null, 2)}`),
     ]);
-    const res = await UIService.snapConfirm({ content: uiPanel });
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      method: 'deleteCredential',
+    });
     return res;
   }
 
@@ -169,85 +232,107 @@ class UIService {
     const { vcs, did } = params;
     const uiPanel = panel([
       heading('Create Verifiable Presentation'),
-      ...this.originWrapper,
+      ...UIService.originWrapper,
       text(`DID: **${did}**`),
       divider(),
       text(
         'Would you like to create a presentation from the credentials below?'
       ),
       divider(),
-      text(`Credentials:`),
+      text('Credentials:'),
       ...vcs.map((vc) => copyable(JSON.stringify(vc, null, 2))),
     ]);
-    const res = await UIService.snapConfirm({ content: uiPanel });
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      method: 'createPresentation',
+    });
     return res;
   }
 
   static async handleCredentialOfferDialog(data: any) {
     const uiPanel = panel([
       heading('Credential Offer'),
-      ...this.originWrapper,
+      ...UIService.originWrapper,
       text('Would you like to accept the Credential Offer?'),
       divider(),
-      text(`Data:`),
+      text('Data:'),
       text(JSON.stringify(data, null, 2)),
     ]);
 
-    const res = await UIService.snapConfirm({ content: uiPanel });
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      method: 'handleCredentialOffer',
+      force: true,
+    });
     return res;
   }
 
   static async handleAuthorizationRequestDialog(data: any) {
     const uiPanel = panel([
       heading('Authorization Request'),
-      ...this.originWrapper,
+      ...UIService.originWrapper,
       text('Would you like to accept the Authorization Request?'),
       divider(),
-      text(`Data:`),
+      text('Data:'),
       text(JSON.stringify(data, null, 2)),
     ]);
 
-    const res = await UIService.snapConfirm({ content: uiPanel });
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      method: 'handleAuthorizationRequest',
+      force: true,
+    });
     return res;
   }
 
   static async togglePopupsDialog() {
     const uiPanel = panel([
-      heading('Toggle Pop-ups'),
-      ...this.originWrapper,
-      text('Would you like to turn off pop-ups?'),
+      heading('Toggle Popups'),
+      ...UIService.originWrapper,
+      text('Would you like to turn off popups?'),
       divider(),
       text(
         'This can result in a better user experience, but you will not be able to see what the dapp is requesting.'
       ),
     ]);
-    const res = await UIService.snapConfirm({ content: uiPanel, force: true });
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      force: true,
+      method: 'togglePopups',
+    });
     return res;
   }
 
-  static async addFriendlyDappDialog(origin: string) {
+  static async addTrustedDappDialog(origin: string) {
     const uiPanel = panel([
-      heading('Add Friendly DApp'),
-      ...this.originWrapper,
-      text(`Would you like to add ${origin} as a friendly dapp?`),
+      heading('Disable Popups'),
+      ...UIService.originWrapper,
+      text(`Would you like to disable popups on _**${origin}**_?`),
       divider(),
-      text('Pop-ups do not appear on friendly dapps.'),
-    ]);
-
-    const res = await UIService.snapConfirm({ content: uiPanel, force: true });
-    return res;
-  }
-
-  static async removeFriendlyDappDialog(origin: string) {
-    const uiPanel = panel([
-      heading('Remove Friendly DApp'),
-      ...this.originWrapper,
       text(
-        `Would you like to remove ${origin} from the list of friendly dapps?`
+        'This will disable all non-crucial popups on this dApp. This can be changed on [Masca dApp](https://masca.io).'
       ),
     ]);
 
-    const res = await UIService.snapConfirm({ content: uiPanel });
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      force: true,
+      method: 'addTrustedDapp',
+    });
+    return res;
+  }
+
+  static async removeTrustedDappDialog(origin: string) {
+    const uiPanel = panel([
+      heading('Enable Popups'),
+      ...UIService.originWrapper,
+      text(`Would you like to re-enable popups on _**${origin}**_?`),
+    ]);
+
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      method: 'removeTrustedDapp',
+    });
     return res;
   }
 
@@ -257,8 +342,8 @@ class UIService {
       params: {
         type: 'prompt',
         content: panel([
-          heading('Enter the PIN you received from the issuer'),
-          ...this.originWrapper,
+          heading('Enter the PIN you received from the issuer.'),
+          ...UIService.originWrapper,
         ]),
         placeholder: 'PIN...',
       },
@@ -269,20 +354,24 @@ class UIService {
   static async exportBackupDialog() {
     const uiPanel = panel([
       heading('Export Backup'),
-      ...this.originWrapper,
+      ...UIService.originWrapper,
       text(
         'This method returns the encrypted backup of your Masca state. You can use this backup to restore your state on different device.'
       ),
     ]);
 
-    const res = await UIService.snapConfirm({ content: uiPanel, force: true });
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      force: true,
+      method: 'exportStateBackup',
+    });
     return res;
   }
 
   static async importBackupDialog() {
     const uiPanel = panel([
       heading('Import Backup'),
-      ...this.originWrapper,
+      ...UIService.originWrapper,
       text(
         'This method allows you to import an encrypted backup of your Masca state.'
       ),
@@ -292,7 +381,11 @@ class UIService {
       ),
     ]);
 
-    const res = await UIService.snapConfirm({ content: uiPanel, force: true });
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      force: true,
+      method: 'importStateBackup',
+    });
     return res;
   }
 
@@ -302,17 +395,21 @@ class UIService {
   }) {
     const uiPanel = panel([
       heading('Sign Data'),
-      ...this.originWrapper,
+      ...UIService.originWrapper,
       text('Would you like to sign the following JWT?'),
       divider(),
-      text(`Header:`),
+      text('Header:'),
       copyable(JSON.stringify(params.header, null, 2)),
       divider(),
-      text(`Payload:`),
+      text('Payload:'),
       copyable(JSON.stringify(params.payload, null, 2)),
     ]);
 
-    const res = await UIService.snapConfirm({ content: uiPanel });
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      method: 'signData',
+      force: true,
+    });
 
     return res;
   }
@@ -320,12 +417,42 @@ class UIService {
   static async signDataJWZDialog(params: { data: JSONObject }) {
     const uiPanel = panel([
       heading('Sign Data'),
-      ...this.originWrapper,
+      ...UIService.originWrapper,
       text('Would you like to sign the following data?'),
       copyable(JSON.stringify(params.data, null, 2)),
     ]);
 
-    const res = await UIService.snapConfirm({ content: uiPanel });
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      method: 'signData',
+      force: true,
+    });
+
+    return res;
+  }
+
+  static async changePermissionDialog(params: {
+    permission: string;
+    value: boolean;
+  }) {
+    const uiPanel = panel([
+      heading('Change Permission'),
+      ...UIService.originWrapper,
+      text('Would you to change the following permission?'),
+      divider(),
+      text(
+        `**${params.value ? 'Disable' : 'Enable'}** popups for **${
+          permissionActions[params.permission]
+        }** on _**${UIService.originHostname}**_.`
+      ),
+      divider(),
+      text(`${permissionExtraText[params.permission]}`),
+    ]);
+
+    const res = await UIService.snapConfirm({
+      content: uiPanel,
+      method: 'changePermission',
+    });
 
     return res;
   }

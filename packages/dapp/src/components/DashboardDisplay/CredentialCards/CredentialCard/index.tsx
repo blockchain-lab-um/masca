@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { type QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { Tooltip } from '@nextui-org/react';
@@ -6,6 +5,7 @@ import { encodeBase64url } from '@veramo/utils';
 import clsx from 'clsx';
 import { DateTime } from 'luxon';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
 
 import { convertTypes } from '@/utils/string';
 
@@ -54,7 +54,7 @@ const CredentialCard = ({ vc, selected }: CredentialCardProps) => {
   return (
     <div
       className={clsx(
-        'animated-transition mx-4 mt-8 h-52 w-80 shrink-0 grow-0 cursor-pointer rounded-xl bg-gradient-to-b from-orange-500 to-pink-500 px-4 py-4 shadow-md shadow-black/50 duration-75 dark:from-orange-600 dark:to-pink-600 sm:w-96 sm:hover:scale-105',
+        'animated-transition mx-4 mt-8 h-52 w-80 shrink-0 grow-0 cursor-pointer rounded-xl bg-gradient-to-b from-orange-500 to-pink-500 px-4 py-4 shadow-md shadow-black/50 duration-75 sm:w-96 sm:hover:scale-105 dark:from-orange-600 dark:to-pink-600',
         selected ? 'outline outline-[0.35rem] outline-blue-500' : ''
       )}
     >
@@ -111,7 +111,10 @@ const CredentialCard = ({ vc, selected }: CredentialCardProps) => {
                 vc.metadata.id
               )}`}
             >
-              <button className="font-ubuntu animated-transition mt-4 text-right text-sm font-medium text-pink-50/80 underline-offset-4 hover:text-pink-700">
+              <button
+                type="button"
+                className="font-ubuntu animated-transition mt-4 text-right text-sm font-medium text-pink-50/80 underline-offset-4 hover:text-pink-700"
+              >
                 {t('more')}
               </button>
             </Link>

@@ -2,17 +2,17 @@ import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
 import { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
 import {
   Bytes,
-  bytes2Hex,
   Hash,
   ITreeStorage,
-  Node,
   NODE_TYPE_EMPTY,
   NODE_TYPE_LEAF,
   NODE_TYPE_MIDDLE,
+  Node,
   NodeEmpty,
   NodeLeaf,
   NodeMiddle,
   ZERO_HASH,
+  bytes2Hex,
 } from '@iden3/js-merkletree';
 
 import StorageService from '../../storage/Storage.service';
@@ -28,10 +28,7 @@ export class SnapTreeStorage implements ITreeStorage {
     private readonly account: string,
     private readonly method: DidMethod.Iden3 | DidMethod.PolygonId,
     private readonly blockchain: Blockchain.Ethereum | Blockchain.Polygon,
-    private readonly networkId:
-      | NetworkId.Main
-      | NetworkId.Goerli
-      | NetworkId.Mumbai,
+    private readonly networkId: NetworkId.Main | NetworkId.Mumbai,
     private readonly prefix: Bytes
   ) {
     this.currentRoot = ZERO_HASH;

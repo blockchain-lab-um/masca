@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { type QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { ArrowsPointingOutIcon } from '@heroicons/react/24/outline';
 import {
@@ -9,6 +8,7 @@ import {
 import { Tooltip } from '@nextui-org/react';
 import { encodeBase64url } from '@veramo/utils';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
 
 import { isPolygonVC } from '@/utils/credential';
 
@@ -52,7 +52,7 @@ const SelectedVCsTableRow = ({
               vc.metadata.id
             )}`}
           >
-            <button>
+            <button type="button">
               <ArrowsPointingOutIcon className="h-5 w-5" />
             </button>
           </Link>
@@ -111,7 +111,7 @@ const SelectedVCsTableRow = ({
       </td>
       <td>
         <span className="flex items-center justify-center">
-          <button onClick={() => handleRemove(vc.metadata.id)}>
+          <button type="button" onClick={() => handleRemove(vc.metadata.id)}>
             <XCircleIcon className="animated-transition h-6 w-6 rounded-full text-red-500 hover:text-red-500/90" />
           </button>
         </span>

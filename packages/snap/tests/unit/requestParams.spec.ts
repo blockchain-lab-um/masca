@@ -17,8 +17,8 @@ import { EXAMPLE_VC_PAYLOAD } from '../data/credentials';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import {
   EXAMPLE_VC,
-  EXAMPLE_VC_LDS,
   EXAMPLE_VC2,
+  EXAMPLE_VC_LDS,
 } from '../data/verifiable-credentials';
 
 describe('Utils [requestParams]', () => {
@@ -701,12 +701,13 @@ describe('Utils [requestParams]', () => {
     describe('failure', () => {
       it('empty object', () => {
         expect(() => isValidMascaState({})).toThrowError(
-          'invalid_argument: $input.v1'
+          `invalid_argument: $input.${CURRENT_STATE_VERSION}`
         );
       });
       it('empty state with version', () => {
-        expect(() => isValidMascaState({ v1: {} })).toThrowError(
-          'invalid_argument: $input.v1.accountState, $input.v1.currentAccount, $input.v1.config'
+        const state = { [CURRENT_STATE_VERSION]: {} };
+        expect(() => isValidMascaState(state)).toThrowError(
+          `invalid_argument: $input.${CURRENT_STATE_VERSION}.accountState, $input.${CURRENT_STATE_VERSION}.currentAccount, $input.${CURRENT_STATE_VERSION}.config`
         );
       });
       it('null', () => {
@@ -715,10 +716,9 @@ describe('Utils [requestParams]', () => {
         );
       });
       it('missing fields', () => {
-        expect(() =>
-          isValidMascaState({ v1: { accountState: {} } })
-        ).toThrowError(
-          'invalid_argument: $input.v1.currentAccount, $input.v1.config'
+        const state = { [CURRENT_STATE_VERSION]: { accountState: {} } };
+        expect(() => isValidMascaState(state)).toThrowError(
+          `invalid_argument: $input.${CURRENT_STATE_VERSION}.currentAccount, $input.${CURRENT_STATE_VERSION}.config`
         );
       });
     });

@@ -116,6 +116,6 @@ export function createJWK(
         ),
       } as JsonWebKey;
     default:
-      throw new Error(`not_supported: Failed to create JWK for this key type.`);
+      throw new Error('not_supported: Failed to create JWK for this key type.');
   }
 }

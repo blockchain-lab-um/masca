@@ -11,10 +11,7 @@ export class SnapDataSource<T> implements IDataSource<T> {
     private readonly account: string,
     private readonly method: DidMethod.Iden3 | DidMethod.PolygonId,
     private readonly blockchain: Blockchain.Ethereum | Blockchain.Polygon,
-    private readonly networkId:
-      | NetworkId.Main
-      | NetworkId.Goerli
-      | NetworkId.Mumbai,
+    private readonly networkId: NetworkId.Main | NetworkId.Mumbai,
     private readonly STORAGE_KEY: StorageKey
   ) {}
 

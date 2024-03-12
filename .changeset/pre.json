@@ -4,27 +4,19 @@
   "initialVersions": {
     "@blockchain-lab-um/did-provider-ebsi": "1.2.1",
     "@blockchain-lab-um/did-provider-key": "1.0.8-beta.0",
-    "@blockchain-lab-um/oidc-client-plugin": "0.2.0",
+    "@blockchain-lab-um/extended-verification": "0.1.0",
+    "@blockchain-lab-um/oidc-client-plugin": "0.3.0",
     "@blockchain-lab-um/oidc-types": "0.0.8",
     "@blockchain-lab-um/utils": "1.3.7",
-    "@blockchain-lab-um/masca-connector": "1.2.1",
-    "@blockchain-lab-um/dapp": "1.1.1",
-    "@blockchain-lab-um/veramo-datamanager": "1.0.0",
-    "@blockchain-lab-um/masca-docs": "1.1.0",
-    "@blockchain-lab-um/masca": "1.1.0",
-    "@blockchain-lab-um/masca-types": "1.2.0"
+    "@blockchain-lab-um/masca-connector": "1.3.0",
+    "@blockchain-lab-um/dapp": "1.2.0",
+    "@blockchain-lab-um/veramo-datamanager": "1.0.1",
+    "@blockchain-lab-um/masca-docs": "1.1.1",
+    "@blockchain-lab-um/masca": "1.2.0",
+    "@blockchain-lab-um/masca-types": "1.3.0"
   },
   "changesets": [
-    "brave-suits-know",
-    "breezy-wombats-sin",
-    "chatty-plants-notice",
-    "chilled-bugs-remember",
-    "eight-masks-mix",
-    "gorgeous-taxis-own",
-    "neat-swans-occur",
-    "plenty-stingrays-give",
-    "small-apples-invent",
-    "thin-donkeys-grin",
-    "young-camels-give"
+    "gorgeous-cougars-marry",
+    "strong-pens-thank"
   ]
 }

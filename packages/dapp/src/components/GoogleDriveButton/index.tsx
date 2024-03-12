@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
 import { isError } from '@blockchain-lab-um/masca-connector';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useTranslations } from 'next-intl';
+import { useState } from 'react';
 
 import { useMascaStore, useToastStore } from '@/stores';
 import Button from '../Button';
@@ -71,7 +71,7 @@ const GoogleDriveButton = ({
         return;
       }
 
-      const response = await fetch(`/api/google`, {
+      const response = await fetch('/api/google', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -144,7 +144,7 @@ const GoogleDriveButton = ({
         return;
       }
 
-      const response = await fetch(`/api/google`, {
+      const response = await fetch('/api/google', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -267,7 +267,7 @@ const GoogleDriveButton = ({
         return;
       }
 
-      const response = await fetch(`/api/google`, {
+      const response = await fetch('/api/google', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

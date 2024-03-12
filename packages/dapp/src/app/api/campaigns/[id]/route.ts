@@ -20,9 +20,9 @@ export async function GET(
 
   const { data: campaigns, error } = await supabase
     .from('campaigns')
-    .select(`*, campaign_requirements (*)`)
+    .select('*, campaign_requirements (*)')
     .eq('id', id)
-    // .eq('production', true)
+    .eq('production', true)
     .single();
 
   if (error) {

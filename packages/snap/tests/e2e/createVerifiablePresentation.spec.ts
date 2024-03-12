@@ -1,7 +1,7 @@
 import { AvailableMethods, ProofOptions } from '@blockchain-lab-um/masca-types';
-import { isError, Result } from '@blockchain-lab-um/utils';
+import { Result, isError } from '@blockchain-lab-um/utils';
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsProvider, type Json } from '@metamask/snaps-sdk';
+import { type Json, SnapsProvider } from '@metamask/snaps-sdk';
 import { VerifiablePresentation } from '@veramo/core';
 import { beforeAll, describe, expect, it } from 'vitest';
 
@@ -12,11 +12,11 @@ import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import {
   EXAMPLE_VC,
+  EXAMPLE_VC2,
   EXAMPLE_VC_EIP712,
   EXAMPLE_VC_LDS,
-  EXAMPLE_VC2,
 } from '../data/verifiable-credentials';
-import { createMockSnap, SnapMock } from '../helpers/snapMock';
+import { SnapMock, createMockSnap } from '../helpers/snapMock';
 
 const methods: AvailableMethods[] = ['did:key', 'did:jwk'];
 // TODO: Resolve bugs for lds and EthereumEip712Signature2021
@@ -65,7 +65,7 @@ describe('createVerifiablePresentation', () => {
       agent = VeramoService.getAgent();
 
       const switchMethod = (await onRpcRequest({
-        origin: 'localhost',
+        origin: 'http://localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
@@ -92,7 +92,7 @@ describe('createVerifiablePresentation', () => {
             'Should create a Verifiable Presentation with domain: `$domain` and challenge: `$challenge`',
             async (option) => {
               const vp = (await onRpcRequest({
-                origin: 'localhost',
+                origin: 'http://localhost',
                 request: {
                   id: 'test-id',
                   jsonrpc: '2.0',
@@ -130,7 +130,7 @@ describe('createVerifiablePresentation', () => {
         } else {
           it('Should create a Verifiable Presentation without domain or challenge', async () => {
             const vp = (await onRpcRequest({
-              origin: 'localhost',
+              origin: 'http://localhost',
               request: {
                 id: 'test-id',
                 jsonrpc: '2.0',
@@ -167,7 +167,7 @@ describe('createVerifiablePresentation', () => {
 
     it('Should create a VP without proofFormat option set', async () => {
       const vp = (await onRpcRequest({
-        origin: 'localhost',
+        origin: 'http://localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
@@ -200,7 +200,7 @@ describe('createVerifiablePresentation', () => {
 
     it('Should fail creating a VP without any VC', async () => {
       const vp = (await onRpcRequest({
-        origin: 'localhost',
+        origin: 'http://localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',
@@ -221,7 +221,7 @@ describe('createVerifiablePresentation', () => {
 
     it('Should fail creating a VP with invalid VC', async () => {
       const vp = (await onRpcRequest({
-        origin: 'localhost',
+        origin: 'http://localhost',
         request: {
           id: 'test-id',
           jsonrpc: '2.0',

@@ -1,4 +1,7 @@
 import type {
+  AddDappSettingsRequestParams,
+  AddTrustedDappRequestParams,
+  ChangePermissionsRequestParams,
   CreateCredentialRequestParams,
   CreatePresentationRequestParams,
   DeleteCredentialsRequestParams,
@@ -6,7 +9,8 @@ import type {
   HandleCredentialOfferRequestParams,
   ImportStateBackupRequestParams,
   QueryCredentialsRequestParams,
-  RemoveFriendlyDappRequestParams,
+  RemoveDappSettingsRequestParams,
+  RemoveTrustedDappRequestParams,
   ResolveDIDRequestParams,
   SaveCredentialRequestParams,
   SetCeramicSessionRequestParams,
@@ -127,13 +131,29 @@ export interface ImportStateBackup {
   params: ImportStateBackupRequestParams;
 }
 
-export interface AddFriendlyDapp {
-  method: 'addFriendlyDapp';
+export interface AddTrustedDapp {
+  method: 'addTrustedDapp';
+  params: AddTrustedDappRequestParams;
 }
 
-export interface RemoveFriendlyDapp {
-  method: 'removeFriendlyDapp';
-  params: RemoveFriendlyDappRequestParams;
+export interface RemoveTrustedDapp {
+  method: 'removeTrustedDapp';
+  params: RemoveTrustedDappRequestParams;
+}
+
+export interface ChangePermission {
+  method: 'changePermission';
+  params: ChangePermissionsRequestParams;
+}
+
+export interface AddDappSettings {
+  method: 'addDappSettings';
+  params: AddDappSettingsRequestParams;
+}
+
+export interface RemoveDappSettings {
+  method: 'removeDappSettings';
+  params: RemoveDappSettingsRequestParams;
 }
 
 export interface GetWalletId {

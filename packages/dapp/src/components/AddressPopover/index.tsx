@@ -1,11 +1,11 @@
 'use client';
 
-import Image from 'next/image';
 import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 import { mainnet } from 'viem/chains';
 import { normalize } from 'viem/ens';
 import { useAccount, useEnsAvatar, useEnsName } from 'wagmi';
@@ -91,6 +91,7 @@ const AddressPopover = ({ did, disconnect }: AddressPopoverProps) => {
                         <TextSkeleton className="h-6 w-52" />
                       )}
                       <button
+                        type="button"
                         onClick={() => {
                           if (did) copyToClipboard(did);
                         }}
@@ -105,13 +106,14 @@ const AddressPopover = ({ did, disconnect }: AddressPopoverProps) => {
                     </div>
                     <div className="mt-2 flex items-center">
                       <div className="mr-1 mt-0.5">
-                        <div className="h-2.5 w-2.5 rounded-full bg-green-500"></div>
+                        <div className="h-2.5 w-2.5 rounded-full bg-green-500" />
                       </div>
                       <div className="text-lg text-gray-800 dark:text-white">{`${address?.slice(
                         0,
                         5
                       )}...${address?.slice(-4)}`}</div>
                       <button
+                        type="button"
                         onClick={() => {
                           copyToClipboard(address as string);
                         }}
@@ -122,6 +124,7 @@ const AddressPopover = ({ did, disconnect }: AddressPopoverProps) => {
                   </div>
                   <div className="mt-2 flex justify-start">
                     <button
+                      type="button"
                       onClick={disconnect}
                       className="animated-transition mt-auto text-xs font-semibold text-red-500 hover:text-red-700 dark:text-red-300 hover:dark:text-red-500"
                     >

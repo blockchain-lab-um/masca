@@ -26,7 +26,6 @@
       "!{projectRoot}/jest.config.ts",
       "!{projectRoot}/.lintstagedrc.cjs",
       "!{projectRoot}/Dockerfile",
-      "!{projectRoot}/.prettierignore",
       "!{projectRoot}/.env.*"
     ]
   },

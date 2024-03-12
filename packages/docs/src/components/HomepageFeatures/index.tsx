@@ -1,7 +1,7 @@
-import React from 'react';
 import Beach from '@site/static/img/beach.svg';
 import Rocket from '@site/static/img/rocket.svg';
 import Specialist from '@site/static/img/specialist.svg';
+import React from 'react';
 
 import styles from './styles.module.css';
 
@@ -51,8 +51,8 @@ export default function HomepageFeatures() {
     <section className={styles.features}>
       <div className="container">
         <div className="row">
-          {FeatureList.map((feature, idx) => (
-            <Feature key={idx} {...feature} />
+          {FeatureList.map((feature) => (
+            <Feature key={feature.title} {...feature} />
           ))}
         </div>
       </div>

@@ -1,9 +1,9 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useAccount } from 'wagmi';
 
 import MascaLogo from '@/components/MascaLogo';
@@ -13,7 +13,7 @@ import { NavConnection } from './NavConnection';
 
 const MAIN_LINKS = [
   {
-    name: 'dashboard',
+    name: 'credentials',
     href: '/app',
     requiresConnection: false,
   },
@@ -40,7 +40,7 @@ export default function AppNavbar() {
         <Link href="/" className="focus-visible:outline-none">
           <div className="flex">
             <MascaLogo />
-            <h1 className="font-ubuntu text-h4 sm:text-h2 lg:text-h1 animated-transition dark:text-navy-blue-300 ml-4 hidden text-gray-900 hover:text-pink-400 dark:hover:text-orange-200 xl:block">
+            <h1 className="font-ubuntu text-h4 sm:text-h2 lg:text-h1 animated-transition dark:text-navy-blue-300 ml-4 hidden text-gray-900 hover:text-pink-400 xl:block dark:hover:text-orange-200">
               Masca
             </h1>
           </div>
@@ -63,7 +63,7 @@ export default function AppNavbar() {
                 </Link>
               );
             }
-            return <div className="hidden" key={href}></div>;
+            return <div className="hidden" key={href} />;
           })}
           <MenuPopover />
         </div>

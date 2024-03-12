@@ -1,6 +1,6 @@
 import {
-  IdentityMerkleTreeMetaInformation,
   IMerkleTreeStorage,
+  IdentityMerkleTreeMetaInformation,
   MerkleTreeType,
 } from '@0xpolygonid/js-sdk';
 import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
@@ -23,10 +23,7 @@ export class SnapMerkleTreeStorage implements IMerkleTreeStorage {
     private readonly account: string,
     private readonly method: DidMethod.Iden3 | DidMethod.PolygonId,
     private readonly blockchain: Blockchain.Ethereum | Blockchain.Polygon,
-    private readonly networkId:
-      | NetworkId.Main
-      | NetworkId.Goerli
-      | NetworkId.Mumbai,
+    private readonly networkId: NetworkId.Main | NetworkId.Mumbai,
     private readonly depth: number
   ) {}
 

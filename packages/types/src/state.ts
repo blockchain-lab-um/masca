@@ -6,6 +6,16 @@ import type {
   AvailableCredentialStores,
   AvailableMethods,
 } from './constants.js';
+import { MascaRPCRequest } from './requests.js';
+
+export type MethodPermissions = {
+  [key in MascaRPCRequest['method']]: boolean;
+};
+
+export interface DappPermissions {
+  methods: MethodPermissions;
+  trusted: boolean;
+}
 
 export interface MascaConfig {
   snap: {
@@ -13,7 +23,7 @@ export interface MascaConfig {
   };
   dApp: {
     disablePopups: boolean;
-    friendlyDapps: string[];
+    permissions: Record<string, DappPermissions>;
   };
 }
 
@@ -28,7 +38,7 @@ export interface MascaState {
   /**
    * Version 1 of Masca state
    */
-  v1: {
+  v2: {
     /**
      * Account specific storage
      */
@@ -72,9 +82,6 @@ export type PolygonState = Record<
   DidMethod.Iden3 | DidMethod.PolygonId,
   Record<
     Blockchain.Ethereum | Blockchain.Polygon,
-    Record<
-      NetworkId.Main | NetworkId.Goerli | NetworkId.Mumbai,
-      PolygonBaseState
-    >
+    Record<NetworkId.Main | NetworkId.Mumbai, PolygonBaseState>
   >
 >;
