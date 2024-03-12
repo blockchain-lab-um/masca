@@ -68,6 +68,89 @@ export async function POST(request: NextRequest) {
     }
 
     const agent = await getAgent();
+    const didResolution = await agent.resolveDid({ didUrl: did });
+
+    if (
+      !didResolution.didDocument ||
+      !didResolution.didDocument.verificationMethod
+    ) {
+      return new NextResponse('Error resolving did', {
+        status: 400,
+        headers: {
+          ...CORS_HEADERS,
+        },
+      });
+    }
+
+    if (
+      didResolution.didDocument.verificationMethod[0].blockchainAccountId?.split(
+        ':'
+      )[2] !== user.address.toLowerCase()
+    ) {
+      return new NextResponse('Unauthorized', {
+        status: 401,
+        headers: {
+          ...CORS_HEADERS,
+        },
+      });
+    }
+
+    const supabase = createClient<Database>(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SECRET_KEY!
+    );
+
+    const { data: campaign, error: campaignError } = await supabase
+      .from('campaigns')
+      .select('*')
+      .eq('id', campaignId)
+      .single();
+
+    if (campaignError || !campaign) {
+      console.error('Error getting campaign', campaignError);
+      return new NextResponse('Internal Server Error', {
+        status: 500,
+        headers: {
+          ...CORS_HEADERS,
+        },
+      });
+    }
+
+    const { data: claim, error: claimError } = await supabase
+      .from('campaign_claims')
+      .select('*')
+      .eq('campaign_id', campaignId)
+      .eq('user_id', user.sub);
+
+    if (claimError) {
+      console.error('Error getting claim', claimError);
+      return new NextResponse('Internal Server Error', {
+        status: 500,
+        headers: {
+          ...CORS_HEADERS,
+        },
+      });
+    }
+    let claimDate = new Date().toISOString();
+
+    if (claim.length > 0) {
+      claimDate = claim[0].claimed_at!;
+    }
+
+    // TODO - check if supabase can handle issued limit
+    if (
+      campaign.claimed &&
+      campaign.total &&
+      campaign.claimed >= campaign.total
+    ) {
+      return new NextResponse('Campaign is already fully claimed', {
+        status: 400,
+        headers: {
+          ...CORS_HEADERS,
+        },
+      });
+    }
+
     const controllerKeyId = 'key-1';
     const method = 'did:pkh';
     const issuerDid = await agent.didManagerImport({
@@ -86,57 +169,49 @@ export async function POST(request: NextRequest) {
     const vc = await agent.createVerifiableCredential({
       credential: {
         id: randomUUID(),
-        issuer: { id: issuerDid.did },
-        issuanceDate: new Date().toISOString(),
+        issuer: issuerDid.did,
+        issuanceDate: claimDate,
         '@context': [
           'https://www.w3.org/2018/credentials/v1',
-          'https://ipfs.io/ipfs/QmVfQ8qitKypHh9bEHJ2EV23fppCxxicaWaguXEUwq8QFp',
+          campaign.schema_context_url,
         ],
         credentialSchema: {
-          id: 'https://ipfs.io/ipfs/QmVfQ8qitKypHh9bEHJ2EV23fppCxxicaWaguXEUwq8QFp',
-          type: 'JsonSchemaValidator2018',
+          id: campaign.schema_url,
+          type: 'JsonSchema',
         },
-        type: ['VerifiableCredential', 'CampaignCredential'],
+        type: ['VerifiableCredential', campaign.type],
         credentialSubject: {
-          id: did,
-          campaign: 'Test Campaign',
-          campaignOrigin: 'https://masca.io',
-          serialNumber: 1,
+          id: did as string,
+          // TODO - entries from schema
         },
       },
-      proofFormat: 'jwt',
+      proofFormat: 'EthereumEip712Signature2021',
     });
 
-    const supabase = createClient<Database>(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SECRET_KEY!
-    );
-
-    const { data: claim, error: claimError } = await supabase
-      .from('campaign_claims')
-      .select('*')
-      .eq('campaign_id', campaignId)
-      .eq('user_id', user.sub)
-      .eq('can_claim', true)
-      .single();
-
-    if (claimError) {
-      return new NextResponse('Internal Server Error', {
-        status: 500,
-        headers: {
-          ...CORS_HEADERS,
-        },
-      });
-    }
-
-    if (claim) {
-      const { data: updatedClaim, error: updatedClaimError } = await supabase
+    if (claim.length === 0) {
+      const { error: updatedClaimError } = await supabase
         .from('campaign_claims')
-        .update({ claimed_at: new Date().toISOString() })
-        .eq('id', claim.id)
-        .single();
+        .insert({
+          user_id: user.sub,
+          campaign_id: campaignId,
+          claimed_at: claimDate,
+        });
+      if (updatedClaimError) {
+        console.error('Error updating claim', updatedClaimError);
+        return new NextResponse('Internal Server Error', {
+          status: 500,
+          headers: {
+            ...CORS_HEADERS,
+          },
+        });
+      }
 
-      if (updatedClaimError || !updatedClaim) {
+      const { error: updatedCampaignError } = await supabase
+        .from('campaigns')
+        .update({ claimed: campaign.claimed! + 1 })
+        .eq('id', campaignId);
+      if (updatedCampaignError) {
+        console.error('Error updating campaign', updatedCampaignError);
         return new NextResponse('Internal Server Error', {
           status: 500,
           headers: {
@@ -155,6 +230,14 @@ export async function POST(request: NextRequest) {
       }
     );
   } catch (error) {
+    if ((error as Error).message === 'jwt expired') {
+      return new NextResponse('Unauthorized', {
+        status: 401,
+        headers: {
+          ...CORS_HEADERS,
+        },
+      });
+    }
     return new NextResponse('Internal Server Error', {
       status: 500,
       headers: {

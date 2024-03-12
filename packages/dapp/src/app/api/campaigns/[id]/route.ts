@@ -18,10 +18,11 @@ export async function GET(
     process.env.SUPABASE_SECRET_KEY!
   );
 
-  const { data, error } = await supabase
+  const { data: campaigns, error } = await supabase
     .from('campaigns')
     .select(`*, campaign_requirements (*)`)
     .eq('id', id)
+    // .eq('production', true)
     .single();
 
   if (error) {
@@ -33,10 +34,7 @@ export async function GET(
     });
   }
 
-  return NextResponse.json(
-    { campaign: data },
-    { headers: { ...CORS_HEADERS } }
-  );
+  return NextResponse.json(campaigns, { headers: { ...CORS_HEADERS } });
 }
 
 export async function OPTIONS() {

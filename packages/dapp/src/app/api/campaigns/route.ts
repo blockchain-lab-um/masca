@@ -15,9 +15,11 @@ export async function GET(_: NextRequest) {
     process.env.SUPABASE_SECRET_KEY!
   );
 
-  const { data, error } = await supabase
+  const { data: campaigns, error } = await supabase
     .from('campaigns')
-    .select(`*, campaign_requirements ( * )`);
+    .select('*, campaign_requirements(*)');
+  // .eq('production', true);
+
   if (error) {
     return new NextResponse('Error getting campaigns', {
       status: 500,
@@ -27,8 +29,5 @@ export async function GET(_: NextRequest) {
     });
   }
 
-  return NextResponse.json(
-    { campaigns: data },
-    { headers: { ...CORS_HEADERS } }
-  );
+  return NextResponse.json(campaigns, { headers: { ...CORS_HEADERS } });
 }
