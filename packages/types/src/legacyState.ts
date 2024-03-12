@@ -6,43 +6,33 @@ import type {
   AvailableCredentialStores,
   AvailableMethods,
 } from './constants.js';
-import { MascaRPCRequest } from './requests.js';
 
-export type MethodPermissions = {
-  [key in MascaRPCRequest['method']]: boolean;
-};
-
-export interface DappPermissions {
-  methods: MethodPermissions;
-  trusted: boolean;
-}
-
-export interface MascaConfig {
+interface MascaLegacyConfigV1 {
   snap: {
     acceptedTerms: boolean;
   };
   dApp: {
     disablePopups: boolean;
-    permissions: Record<string, DappPermissions>;
+    friendlyDapps: string[];
   };
 }
 
-export interface MascaAccountConfig {
+interface MascaLegacyAccountConfigV1 {
   ssi: {
     selectedMethod: AvailableMethods;
     storesEnabled: Record<AvailableCredentialStores, boolean>;
   };
 }
 
-export interface MascaState {
+export interface MascaLegacyStateV1 {
   /**
    * Version 1 of Masca state
    */
-  v2: {
+  v1: {
     /**
      * Account specific storage
      */
-    accountState: Record<string, MascaAccountState>;
+    accountState: Record<string, MascaLegacyAccountStateV1>;
     /**
      * Current account
      */
@@ -50,27 +40,27 @@ export interface MascaState {
     /**
      * Configuration for Masca
      */
-    config: MascaConfig;
+    config: MascaLegacyConfigV1;
   };
 }
 
 /**
  * Masca State for a MetaMask address
  */
-export interface MascaAccountState {
+interface MascaLegacyAccountStateV1 {
   polygon: {
-    state: PolygonState;
+    state: PolygonLegacyStateV1;
   };
   veramo: {
     credentials: Record<string, W3CVerifiableCredential>;
   };
   general: {
-    account: MascaAccountConfig;
+    account: MascaLegacyAccountConfigV1;
     ceramicSession?: string;
   };
 }
 
-export interface PolygonBaseState {
+interface PolygonLegacyBaseStateV1 {
   credentials: Record<string, string>;
   identities: Record<string, string>;
   profiles: Record<string, string>;
@@ -78,10 +68,10 @@ export interface PolygonBaseState {
   merkleTree: Record<string, string>;
 }
 
-export type PolygonState = Record<
+type PolygonLegacyStateV1 = Record<
   DidMethod.Iden3 | DidMethod.PolygonId,
   Record<
     Blockchain.Ethereum | Blockchain.Polygon,
-    Record<NetworkId.Main | NetworkId.Mumbai, PolygonBaseState>
+    Record<NetworkId.Main | NetworkId.Mumbai, PolygonLegacyBaseStateV1>
   >
 >;

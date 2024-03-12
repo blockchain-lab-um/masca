@@ -9,9 +9,8 @@ import { getEmptyAccountState } from '../../src/utils/config';
 const defaultSnapState = (address: string): MascaState => {
   const accountState: Record<string, MascaAccountState> = {};
   accountState[address] = getEmptyAccountState();
-
-  return {
-    v1: {
+  const state = {
+    [CURRENT_STATE_VERSION]: {
       accountState,
       currentAccount: address,
       config: {
@@ -25,6 +24,7 @@ const defaultSnapState = (address: string): MascaState => {
       },
     },
   };
+  return state as MascaState;
 };
 
 export const getDefaultSnapState = (address: string): MascaState => {
