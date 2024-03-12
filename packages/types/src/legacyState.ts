@@ -7,7 +7,7 @@ import type {
   AvailableMethods,
 } from './constants.js';
 
-interface MascaConfig {
+interface MascaLegacyConfigV1 {
   snap: {
     acceptedTerms: boolean;
   };
@@ -17,7 +17,7 @@ interface MascaConfig {
   };
 }
 
-interface MascaAccountConfig {
+interface MascaLegacyAccountConfigV1 {
   ssi: {
     selectedMethod: AvailableMethods;
     storesEnabled: Record<AvailableCredentialStores, boolean>;
@@ -32,7 +32,7 @@ export interface MascaLegacyStateV1 {
     /**
      * Account specific storage
      */
-    accountState: Record<string, MascaAccountState>;
+    accountState: Record<string, MascaLegacyAccountStateV1>;
     /**
      * Current account
      */
@@ -40,27 +40,27 @@ export interface MascaLegacyStateV1 {
     /**
      * Configuration for Masca
      */
-    config: MascaConfig;
+    config: MascaLegacyConfigV1;
   };
 }
 
 /**
  * Masca State for a MetaMask address
  */
-interface MascaAccountState {
+interface MascaLegacyAccountStateV1 {
   polygon: {
-    state: PolygonState;
+    state: PolygonLegacyStateV1;
   };
   veramo: {
     credentials: Record<string, W3CVerifiableCredential>;
   };
   general: {
-    account: MascaAccountConfig;
+    account: MascaLegacyAccountConfigV1;
     ceramicSession?: string;
   };
 }
 
-interface PolygonBaseState {
+interface PolygonLegacyBaseStateV1 {
   credentials: Record<string, string>;
   identities: Record<string, string>;
   profiles: Record<string, string>;
@@ -68,10 +68,10 @@ interface PolygonBaseState {
   merkleTree: Record<string, string>;
 }
 
-type PolygonState = Record<
+type PolygonLegacyStateV1 = Record<
   DidMethod.Iden3 | DidMethod.PolygonId,
   Record<
     Blockchain.Ethereum | Blockchain.Polygon,
-    Record<NetworkId.Main | NetworkId.Mumbai, PolygonBaseState>
+    Record<NetworkId.Main | NetworkId.Mumbai, PolygonLegacyBaseStateV1>
   >
 >;

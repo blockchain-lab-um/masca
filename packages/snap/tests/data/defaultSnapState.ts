@@ -9,17 +9,18 @@ import { getEmptyAccountState } from '../../src/utils/config';
 const defaultSnapState = (address: string): MascaState => {
   const accountState: Record<string, MascaAccountState> = {};
   accountState[address] = getEmptyAccountState();
-  const state = {};
-  state[CURRENT_STATE_VERSION] = {
-    accountState,
-    currentAccount: address,
-    config: {
-      dApp: {
-        disablePopups: false,
-        permissions: {},
-      },
-      snap: {
-        acceptedTerms: true,
+  const state = {
+    [CURRENT_STATE_VERSION]: {
+      accountState,
+      currentAccount: address,
+      config: {
+        dApp: {
+          disablePopups: false,
+          permissions: {},
+        },
+        snap: {
+          acceptedTerms: true,
+        },
       },
     },
   };
