@@ -18,7 +18,7 @@ export default function Page() {
     <div className="flex h-full flex-1 justify-center">
       <QueryClientProvider client={queryClient}>
         <CampaignsDisplay />
-        <ReactQueryDevtools initialIsOpen={false} />
+        <ReactQueryDevtools initialIsOpen={true} />
       </QueryClientProvider>
     </div>
   );

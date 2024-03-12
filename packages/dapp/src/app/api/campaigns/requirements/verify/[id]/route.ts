@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAgent } from '@/app/api/veramoSetup';
 import { createClient } from '@supabase/supabase-js';
 import {
   VerifiableCredential,
@@ -8,6 +7,7 @@ import {
 } from '@veramo/core';
 import jwt from 'jsonwebtoken';
 
+import { getAgent } from '@/app/api/veramoSetup';
 import type { Database } from '@/utils/supabase/database.types';
 
 const CORS_HEADERS = {

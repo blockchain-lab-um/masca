@@ -69,7 +69,7 @@ export const getAgent = async (): Promise<Agent> => {
       new DIDManager({
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         store: new MemoryDIDStore(),
-        defaultProvider: 'did:ens',
+        defaultProvider: 'did:pkh',
         providers: {
           'did:ethr': new EthrDIDProvider({
             defaultKms: 'local',
@@ -77,6 +77,7 @@ export const getAgent = async (): Promise<Agent> => {
           }),
           'did:pkh': new PkhDIDProvider({
             defaultKms: 'local',
+            chainId: '0x01',
           }),
         },
       }),
