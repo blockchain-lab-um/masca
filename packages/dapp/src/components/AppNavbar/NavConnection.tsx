@@ -14,7 +14,7 @@ import {
   NETWORKS,
   NETWORKS_BY_DID,
 } from '@/utils/networks';
-import { useGeneralStore, useMascaStore } from '@/stores';
+import { useMascaStore } from '@/stores';
 
 export const NavConnection = () => {
   const { switchChain } = useSwitchChain();
@@ -23,14 +23,11 @@ export const NavConnection = () => {
   const [selectedNetwork, changeSelectedNetwork] = useState<string>('Ethereum');
   const { disconnect } = useDisconnect();
   const { isConnected } = useAccount();
-  const { did, currMethod, changeVcs } = useMascaStore((state) => ({
+  const { did, currMethod, changeVcs, changeDid } = useMascaStore((state) => ({
     did: state.currDID,
     currMethod: state.currDIDMethod,
     changeVcs: state.changeVcs,
-  }));
-
-  const { changeDid } = useGeneralStore((state) => ({
-    changeDid: state.changeDid,
+    changeDid: state.changeCurrDID,
   }));
 
   const getNetwork = (): string => {
