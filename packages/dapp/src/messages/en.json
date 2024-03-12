@@ -165,6 +165,19 @@
       "polygonid": "Polygon ID VCs aren't supported yet. Please remove this credential to continue!"
     }
   },
+  "CampaignsDisplay": {
+    "please-sign-in": "Please sign in to see completed campaigns",
+    "verification-error": "Failed to verify the campaign",
+    "no-credentials": "No credentials found"
+  },
+  "CampaignDisplay": {
+    "requirements": "Requirements",
+    "claim": "Claim",
+    "claimed": "Claimed",
+    "claim-success": "Credential saved",
+    "claim-error": "Claim failed",
+    "verify": "Verify"
+  },
   "CredentialCard": {
     "create-verifiable-presentation": "Create Presentation",
     "expires": "EXPIRES ON",
@@ -445,9 +458,6 @@
   },
   "QRCodeSessionProvider": {
     "unsuported": "Unsuported QR code data received"
-  },
-  "CampaignsDisplay": {
-    "please-sign-in": "Please sign in to see completed the campaigns"
   },
   "QRSessionDisplay": {
     "back": "Back",

@@ -1,151 +1,225 @@
 import React from 'react';
+import { isError } from '@blockchain-lab-um/masca-connector';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
+import { useAccount } from 'wagmi';
+import { shallow } from 'zustand/shallow';
 
+import { Tables } from '@/utils/supabase/helper.types';
+import { useMascaStore, useToastStore } from '@/stores';
+import { useAuthStore } from '@/stores/authStore';
 import { Campaign } from './Campaign';
 
-const CAMPAIGN = [
-  {
-    id: 1,
-    title: 'Ethereum Merge',
-    description:
-      'The Ethereum Merge is the first step in the transition from Proof of Work to Proof of Stake.',
-    claimed: 135,
-    total: 1000,
-    image_url: 'https://i.imgur.com/sduLRvf.jpeg',
-    requirements: [1],
-  },
-  {
-    id: 2,
-    title: 'Ethereum Merge 2',
-    description:
-      'The Ethereum Merge is the first step in the transition from Proof of Work to Proof of Stake.',
-    claimed: 135,
-    total: 1000,
-    image_url: 'https://i.imgur.com/sduLRvf.jpeg',
-    requirements: [1, 2],
-  },
-];
-
-const REQUIREMENTS = [
-  {
-    id: 1,
-    name: 'Holder of Masca User Credential',
-    action_link: 'https://www.masca-project.eu/',
-    issuer: 'Masca Project',
-    types: ['Masca User Credential'],
-  },
-  {
-    id: 2,
-    name: 'Holder of Masca2 User Credential',
-    action_link: 'https://www.masca-project.eu/',
-    issuer: 'Masca Project',
-    types: ['Masca User Credential'],
-  },
-];
-
-const address = '0x123';
-
-const COMPLETED = [1];
+type AddUniqueProperty<T, P extends string, V> = {
+  [K in keyof T | P]: K extends keyof T ? T[K] : V;
+};
+export type Requirements = Tables<'campaign_requirements'>[];
+export type Campaigns = AddUniqueProperty<
+  Tables<'campaigns'>,
+  'campaign_requirements',
+  Tables<'campaign_requirements'>[]
+>[];
+export type CompletedRequirements = { id: string; completed_at: string }[];
 
 interface VERIFYProps {
-  id: number;
+  id: string;
   types: string[];
   issuer: string;
 }
 
 interface RequirementProps {
-  id: number;
+  id: string;
   title: string;
   action: string;
-  completed: boolean;
   issuer: string;
   types: string[];
   verify: () => Promise<void>;
 }
 
-const VERIFY = async (props: VERIFYProps) => {
-  console.log('verify');
-  console.log(props);
-  return Promise.resolve(true);
-};
-
 export const CampaignsDisplay = () => {
+  const t = useTranslations('CampaignsDisplay');
   const queryClient = useQueryClient();
-  // Get campaigns from the backend
+  const token = useAuthStore((state) => state.token);
+  const { api, didMethod, did, changeDID, changeCurrDIDMethod } = useMascaStore(
+    (state) => ({
+      api: state.mascaApi,
+      didMethod: state.currDIDMethod,
+      did: state.currDID,
+      changeDID: state.changeCurrDID,
+      changeCurrDIDMethod: state.changeCurrDIDMethod,
+    }),
+    shallow
+  );
+  const { address } = useAccount();
 
-  const requirementsQuery = useQuery({
-    queryKey: ['requirements'],
-    queryFn: () => REQUIREMENTS,
-  });
-  const completedQuery = useQuery({
-    queryKey: ['completed', address],
-    queryFn: ({ queryKey }) => {
-      console.log(queryKey[1]);
-      return COMPLETED;
-    },
-    enabled: requirementsQuery.status === 'success',
-  });
-  const campaignsQuery = useQuery({
-    queryKey: ['campaigns'],
-    queryFn: () => CAMPAIGN,
-    enabled: requirementsQuery.status === 'success',
-  });
+  if (!token) {
+    setTimeout(() => {
+      useToastStore.setState({
+        open: true,
+        title: t('please-sign-in'),
+        type: 'error',
+        loading: false,
+        link: null,
+      });
+    }, 200);
+  }
+
+  const VERIFY = async (props: VERIFYProps) => {
+    if (!api) throw new Error('No Masca API');
+    const result = await api?.queryCredentials();
+
+    if (!result || isError(result)) {
+      throw new Error(result.error);
+    } else if (result.data.length === 0) {
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: t('no-credentials'),
+          type: 'error',
+          loading: false,
+          link: null,
+        });
+      }, 200);
+      return false;
+    }
+
+    if (didMethod !== 'did:pkh') {
+      const changeMethod = await api?.switchDIDMethod('did:pkh');
+      if (!changeMethod || isError(changeMethod)) {
+        console.error('error switching did method');
+        throw new Error(changeMethod?.error);
+      }
+      changeCurrDIDMethod('did:pkh');
+      changeDID(changeMethod.data);
+    }
+    if (!did) throw new Error('No DID');
+
+    const presentation = await api?.createPresentation({
+      vcs: result?.data.map((vc) => vc.data),
+      proofFormat: 'EthereumEip712Signature2021',
+    });
+
+    if (!presentation || isError(presentation)) {
+      throw new Error(presentation.error);
+    }
+
+    const res = await fetch(`/api/campaigns/requirements/verify/${props.id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${useAuthStore.getState().token}`,
+      },
+      body: JSON.stringify({
+        presentation: presentation?.data,
+        did,
+      }),
+    });
+    if (!res.ok) {
+      console.error(res);
+      throw new Error(res.statusText);
+    }
+    const json = await res.json();
+    return json.success as boolean;
+  };
 
   const mutation = useMutation({
     mutationFn: VERIFY,
-    onSuccess: () => {
-      queryClient.setQueryData(['completed', address], [...COMPLETED, 2]);
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      queryClient.invalidateQueries({ queryKey: ['completed', address] });
+    onSuccess: async (data: boolean, props: VERIFYProps) => {
+      if (data) {
+        await queryClient.invalidateQueries({ queryKey: ['completed', address] });
+      }
+    },
+    onError: (error) => {
+      console.error(error);
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: t('verification-error'),
+          type: 'error',
+          loading: false,
+          link: null,
+        });
+      }, 200);
     },
   });
 
-  // Prepare requirements array
-  const requirements: Record<string, RequirementProps> = {};
-  if (
-    requirementsQuery.status === 'success' &&
-    completedQuery.status === 'success'
-  ) {
-    requirementsQuery.data?.forEach((requirement) => {
-      requirements[requirement.id] = {
-        id: requirement.id,
-        title: requirement.name,
-        action: requirement.action_link,
-        issuer: requirement.issuer,
-        types: requirement.types,
-        verify: async () => {
-          await mutation.mutateAsync({
-            id: requirement.id,
-            types: requirement.types,
-            issuer: requirement.issuer,
-          });
-          return Promise.resolve();
-        },
-        completed: completedQuery.data?.includes(requirement.id) ?? false,
-      };
-    });
-  }
+  const requirementsQuery = useQuery({
+    queryKey: ['requirements'],
+    queryFn: async () => {
+      const res = await fetch('/api/campaigns/requirements', {
+        cache: 'no-store',
+      });
+      const json = await res.json();
+      const requirements: Record<string, RequirementProps> = {};
+      for (const requirement of json as Requirements) {
+        requirements[requirement.id] = {
+          id: requirement.id,
+          title: requirement.name!,
+          action: requirement.action_link!,
+          issuer: requirement.issuer!,
+          types: requirement.types!,
+          verify: async () => {
+            await mutation.mutateAsync({
+              id: requirement.id,
+              types: requirement.types!,
+              issuer: requirement.issuer!,
+            });
+            return Promise.resolve();
+          },
+        };
+      }
+      return requirements;
+    },
+  });
 
-  if (campaignsQuery.status === 'pending') return <div>Loading...</div>;
-  if (campaignsQuery.status === 'error')
-    return <div>{campaignsQuery.error.message}</div>;
+  const campaignsQuery = useQuery({
+    queryKey: ['campaigns'],
+    queryFn: async () => {
+      const res = await fetch('/api/campaigns', { cache: 'no-store' });
+      const json = await res.json();
+      return json as Campaigns;
+    },
+    enabled: !requirementsQuery.isLoading,
+  });
+
+  const completedQuery = useQuery({
+    queryKey: ['completed', address],
+    queryFn: async () => {
+      const res = await fetch('/api/campaigns/user/requirements', {
+        headers: new Headers({
+          Authorization: `Bearer ${token}`,
+        }),
+        cache: 'no-store',
+      });
+      const json = await res.json();
+      return json.completed as CompletedRequirements;
+    },
+    enabled: !campaignsQuery.isLoading,
+  });
+
+  if (campaignsQuery.isLoading) return <div>Loading...</div>;
+  if (campaignsQuery.isError) return <div>{campaignsQuery.error.message}</div>;
 
   return (
     <div className="flex w-3/4 flex-col gap-y-4">
-      {campaignsQuery.data?.map((campaign, id) => (
+      {campaignsQuery.data?.map((campaign) => (
         <Campaign
           key={campaign.id}
           id={campaign.id}
-          title={campaign.title}
-          description={campaign.description}
-          claimed={campaign.claimed}
-          total={campaign.total}
-          image_url={campaign.image_url}
+          title={campaign.title!}
+          description={campaign.description!}
+          claimed={campaign.claimed!}
+          total={campaign.total!}
+          imageUrl={campaign.image_url!}
           requirements={
-            campaign.requirements.map(
-              (requirement: number) => requirements[requirement]
-            ) ?? []
+            campaign.campaign_requirements
+              .map((requirement) => requirementsQuery?.data?.[requirement.id])
+              .filter(
+                (requirement): requirement is RequirementProps =>
+                  requirement !== undefined
+              ) ?? []
           }
+          completedRequirements={completedQuery.data ?? []}
         />
       ))}
     </div>

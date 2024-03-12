@@ -1,43 +1,139 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import Image from 'next/image';
+import { isError } from '@blockchain-lab-um/masca-connector';
+import { useTranslations } from 'next-intl';
+import { shallow } from 'zustand/shallow';
 
+import { useMascaStore, useToastStore } from '@/stores';
+import { useAuthStore } from '@/stores/authStore';
+import type { CompletedRequirements } from '.';
 import Button from '../Button';
 import { Requirement } from './Requirement';
 
 interface RequirementProps {
-  id: number;
+  id: string;
   title: string;
   action: string;
-  completed: boolean;
   issuer: string;
   types: string[];
   verify: () => Promise<void>;
 }
 
 interface CampaignProps {
-  id: number;
+  id: string;
   title: string;
   description: string;
   claimed: number;
   total: number;
-  image_url: string;
+  imageUrl: string;
   requirements: RequirementProps[];
+  completedRequirements: CompletedRequirements;
 }
 
 export const Campaign = (props: CampaignProps) => {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  const { title, description, claimed, total, image_url, requirements } = props;
+  const {
+    id,
+    title,
+    description,
+    claimed,
+    total,
+    imageUrl,
+    requirements,
+    completedRequirements,
+  } = props;
+  const t = useTranslations('CampaignDisplay');
+  const { api, didMethod, did, changeDID, changeCurrDIDMethod } = useMascaStore(
+    (state) => ({
+      api: state.mascaApi,
+      didMethod: state.currDIDMethod,
+      did: state.currDID,
+      changeDID: state.changeCurrDID,
+      changeCurrDIDMethod: state.changeCurrDIDMethod,
+    }),
+    shallow
+  );
+  const [claiming, setClaiming] = useState(false);
+
+  const completedIds = useMemo(
+    () => completedRequirements.map((completed) => completed.id),
+    [completedRequirements]
+  );
 
   const disabled = useMemo(
-    () => !requirements.every((requirement) => requirement.completed),
-    [requirements]
+    () =>
+      !requirements.every((requirement) =>
+        completedIds.includes(requirement.id)
+      ),
+    [requirements, completedIds]
   );
+
+  const claimedString = useMemo(() => `${claimed}/${total}`, [claimed, total]);
+
+  const handleClaim = async () => {
+    try {
+      setClaiming(true);
+      if (didMethod !== 'did:pkh') {
+        const changeMethod = await api?.switchDIDMethod('did:pkh');
+        if (!changeMethod || isError(changeMethod)) {
+          console.error('error switching did method');
+          throw new Error(changeMethod?.error);
+        }
+        changeCurrDIDMethod('did:pkh');
+        changeDID(changeMethod.data);
+      }
+      if (!did) throw new Error('No DID');
+      console.log(did);
+
+      // TODO - call issue endpoint and show error or save returned vc to snap
+      const response = await fetch('/api/campaigns/issue', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${useAuthStore.getState().token}`,
+        },
+        body: JSON.stringify({ campaignId: id, did }),
+      });
+
+      if (!response.ok) {
+        console.error('error claiming campaign');
+        throw new Error(response.statusText);
+      }
+
+      const json = await response.json();
+
+      const saved = await api?.saveCredential(json.credential);
+      if (!saved || isError(saved)) {
+        throw new Error(saved?.error);
+      }
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: t('claim-success'),
+          type: 'success',
+          loading: false,
+          link: null,
+        });
+      }, 200);
+      setClaiming(false);
+    } catch (error) {
+      setClaiming(false);
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: `${t('claim-error')}: ${(error as Error).message}`,
+          type: 'error',
+          loading: false,
+          link: null,
+        });
+      }, 200);
+    }
+  };
 
   return (
     <div className="dark:bg-navy-blue-800 dark:text-navy-blue-400 flex rounded-3xl bg-white shadow-md">
       <div className="dark:border-navy-blue-700 hidden w-1/4 items-center justify-center border-r-4 border-gray-100 md:flex">
         <div className="dark:ring-navy-blue-700 relative h-[96px] w-[96px] overflow-hidden  rounded-full ring-4 ring-gray-200 lg:h-[128px] lg:w-[128px]">
-          <Image src={image_url} fill={true} alt="campaign" />
+          <Image src={imageUrl} fill={true} alt="campaign" />
         </div>
       </div>
 
@@ -51,29 +147,38 @@ export const Campaign = (props: CampaignProps) => {
           </p>
 
           <h5 className="font-ubuntu dark:text-navy-blue-200 mt-8 text-lg font-medium leading-6 text-gray-700">
-            Requirements
+            {t('requirements')}
           </h5>
         </div>
         <div className="mt-2 w-full">
-          {requirements.map((requirement: RequirementProps) => (
-            <Requirement
-              key={requirement.id}
-              id={requirement.id}
-              title={requirement.title}
-              action={requirement.action}
-              issuer={requirement.issuer}
-              types={requirement.types}
-              verify={requirement.verify}
-              completed={requirement.completed}
-            />
-          ))}
+          {requirements.map((requirement: RequirementProps) => {
+            if (!requirement) return null;
+            return (
+              <Requirement
+                key={requirement.id}
+                id={requirement.id}
+                title={requirement.title}
+                action={requirement.action}
+                issuer={requirement.issuer}
+                types={requirement.types}
+                verify={requirement.verify}
+                completed={completedIds.includes(requirement.id)}
+              />
+            );
+          })}
         </div>
         <div className="mt-6 flex items-center justify-between">
           <p className="text-sm">
-            {claimed}/{total} claimed
+            {claimedString} {t('claimed')}
           </p>
-          <Button variant="primary" size="sm" disabled={disabled}>
-            Claim
+          <Button
+            variant="primary"
+            size="sm"
+            disabled={disabled || claiming}
+            onClick={handleClaim}
+            loading={claiming}
+          >
+            {t('claim')}
           </Button>
         </div>
       </div>
