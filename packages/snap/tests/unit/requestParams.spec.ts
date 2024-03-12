@@ -705,7 +705,8 @@ describe('Utils [requestParams]', () => {
         );
       });
       it('empty state with version', () => {
-        const state = { [CURRENT_STATE_VERSION]: {} };
+        const state = {};
+        state[CURRENT_STATE_VERSION] = {};
         expect(() => isValidMascaState(state)).toThrowError(
           `invalid_argument: $input.${CURRENT_STATE_VERSION}.accountState, $input.${CURRENT_STATE_VERSION}.currentAccount, $input.${CURRENT_STATE_VERSION}.config`
         );
@@ -716,7 +717,8 @@ describe('Utils [requestParams]', () => {
         );
       });
       it('missing fields', () => {
-        const state = { [CURRENT_STATE_VERSION]: {} };
+        const state = {};
+        state[CURRENT_STATE_VERSION] = { accountState: {} };
         expect(() => isValidMascaState(state)).toThrowError(
           `invalid_argument: $input.${CURRENT_STATE_VERSION}.currentAccount, $input.${CURRENT_STATE_VERSION}.config`
         );
