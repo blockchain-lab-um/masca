@@ -27,7 +27,10 @@ import {
 } from '@veramo/key-manager';
 import { KeyManagementSystem } from '@veramo/kms-local';
 import { Resolver } from 'did-resolver';
-import { getResolver as didEnsResolver } from 'ens-did-resolver';
+import {
+  ProviderConfiguration,
+  getResolver as didEnsResolver,
+} from 'ens-did-resolver';
 import { JsonRpcProvider } from 'ethers';
 import { getResolver as didEthrResolver } from 'ethr-did-resolver';
 
@@ -93,7 +96,7 @@ export const getAgent = async (): Promise<Agent> => {
           ...didPkhResolver(),
           ...didKeyResolver(),
           ...didEnsResolver({
-            rpcUrl: process.env.MAINNET_RPC_URL,
+            networks: networks as unknown as ProviderConfiguration[],
           }),
         }),
       }),
