@@ -24,9 +24,12 @@ import {
   TwitterShareButton,
 } from 'react-share';
 
-import { useMascaStore, useToastStore } from '@/stores';
-import { useAuthStore } from '@/stores/authStore';
-import { useShareModalStore } from '@/stores/shareModalStore';
+import {
+  useMascaStore,
+  useToastStore,
+  useAuthStore,
+  useShareModalStore,
+} from '@/stores';
 import { selectProofFormat } from '@/utils/selectProofFormat';
 import { convertTypes } from '@/utils/string';
 import Button from '../Button';

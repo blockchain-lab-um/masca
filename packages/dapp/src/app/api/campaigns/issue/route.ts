@@ -1,11 +1,10 @@
 import { randomUUID } from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
 import { MinimalImportableKey } from '@veramo/core';
 import jwt from 'jsonwebtoken';
 
-import { Database } from '@/utils/supabase/database.types';
 import { getAgent } from '../../veramoSetup';
+import { createPublicClient } from '@/utils/supabase/publicClient';
 
 const PRIVATE_KEY = process.env.CAMPAIGN_PRIVATE_KEY;
 const ISSUER = process.env.CAMPAIGN_ISSUER_DID;
@@ -30,6 +29,7 @@ export async function POST(request: NextRequest) {
     const token = request.headers.get('Authorization')?.replace('Bearer ', '');
 
     if (!token) {
+      console.log('Missing token');
       return new NextResponse('Unauthorized', {
         status: 401,
         headers: {
@@ -82,6 +82,17 @@ export async function POST(request: NextRequest) {
       });
     }
 
+    console.log(
+      '󰊠 ~ file: route.ts:248 ~ POST ~ didResolution.didDocument.verificationMethod[0].blockchainAccountId?.split()[2]:',
+      didResolution.didDocument.verificationMethod[0].blockchainAccountId?.split(
+        ':'
+      )[2]
+    );
+    console.log(
+      '󰊠 ~ file: route.ts:92 ~ POST ~ user.address.toLowerCase():',
+      user.address.toLowerCase()
+    );
+
     if (
       didResolution.didDocument.verificationMethod[0].blockchainAccountId?.split(
         ':'
@@ -95,11 +106,8 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const supabase = createClient<Database>(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SECRET_KEY!
-    );
-
+    const supabase = createPublicClient();
+    console.log('object1');
     const { data: campaign, error: campaignError } = await supabase
       .from('campaigns')
       .select('*')
@@ -115,7 +123,7 @@ export async function POST(request: NextRequest) {
         },
       });
     }
-
+    console.log('object2');
     const { data: claim, error: claimError } = await supabase
       .from('campaign_claims')
       .select('*')
@@ -132,7 +140,7 @@ export async function POST(request: NextRequest) {
       });
     }
     let claimDate = new Date().toISOString();
-
+    console.log('object3');
     if (claim.length > 0) {
       claimDate = claim[0].claimed_at!;
     }
@@ -150,12 +158,12 @@ export async function POST(request: NextRequest) {
         },
       });
     }
-
+    console.log('object4');
     const controllerKeyId = 'key-1';
-    const method = 'did:pkh';
+    // const method = 'did:ens';
     const issuerDid = await agent.didManagerImport({
       did: ISSUER,
-      provider: method,
+      provider: 'did:ens',
       controllerKeyId,
       keys: [
         {
@@ -166,6 +174,8 @@ export async function POST(request: NextRequest) {
         } as MinimalImportableKey,
       ],
     });
+    console.log('󰊠 ~ file: route.ts:197 ~ POST ~ issuerDid.did:', issuerDid);
+    console.log('object6');
     const vc = await agent.createVerifiableCredential({
       credential: {
         id: randomUUID(),
@@ -182,12 +192,13 @@ export async function POST(request: NextRequest) {
         type: ['VerifiableCredential', campaign.type],
         credentialSubject: {
           id: did as string,
+          test: 'test',
           // TODO - entries from schema
         },
       },
       proofFormat: 'EthereumEip712Signature2021',
     });
-
+    console.log('object5');
     if (claim.length === 0) {
       const { error: updatedClaimError } = await supabase
         .from('campaign_claims')
@@ -230,6 +241,7 @@ export async function POST(request: NextRequest) {
       }
     );
   } catch (error) {
+    console.log('󰊠 ~ file: route.ts:229 ~ POST ~ error:', error);
     if ((error as Error).message === 'jwt expired') {
       return new NextResponse('Unauthorized', {
         status: 401,

@@ -1,4 +1,3 @@
-import { createClient } from '@supabase/supabase-js';
 import { VerifiablePresentation } from '@veramo/core';
 import { decodeCredentialToObject } from '@veramo/utils';
 import { normalizeCredential } from 'did-jwt-vc';
@@ -7,8 +6,8 @@ import { notFound } from 'next/navigation';
 import { getAgent } from '@/app/api/veramoSetup';
 import JsonPanel from '@/components/CredentialDisplay/JsonPanel';
 import { convertTypes } from '@/utils/string';
-import { Database } from '@/utils/supabase/database.types';
 import { FormattedView } from './formattedView';
+import { createPublicClient } from '@/utils/supabase/publicClient';
 
 export const revalidate = 0;
 
@@ -18,10 +17,7 @@ interface ReturnPresentation {
 }
 
 const getPresentation = async (id: string): Promise<ReturnPresentation> => {
-  const supabase = createClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SECRET_KEY!
-  );
+  const supabase = createPublicClient();
 
   // Query the presentation
   const { data, error } = await supabase

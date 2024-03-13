@@ -1,8 +1,7 @@
-import { createClient } from '@supabase/supabase-js';
 import { add, format } from 'date-fns';
 import { NextResponse } from 'next/server';
 
-import { Database } from '@/utils/supabase/database.types';
+import { createPublicClient } from '@/utils/supabase/publicClient';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -11,10 +10,7 @@ const CORS_HEADERS = {
 };
 
 export async function GET() {
-  const supabase = createClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SECRET_KEY!
-  );
+  const supabase = createPublicClient();
 
   // Insert a new nonce and select 1 row
   const { data, error } = await supabase

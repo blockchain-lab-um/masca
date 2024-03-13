@@ -19,8 +19,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { DeleteSharedPresentationModal } from '@/components/DeleteSharedPresentationModal';
 import { ShareCredentialModal } from '@/components/ShareCredentialModal';
-import { useAuthStore } from '@/stores/authStore';
-import { useShareModalStore } from '@/stores/shareModalStore';
+import { useAuthStore, useShareModalStore } from '@/stores';
 import { createClient } from '@/utils/supabase/client';
 import { Tables } from '@/utils/supabase/helper.types';
 

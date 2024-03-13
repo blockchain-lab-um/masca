@@ -4,8 +4,7 @@ import { isError } from '@blockchain-lab-um/masca-connector';
 import { useTranslations } from 'next-intl';
 import { shallow } from 'zustand/shallow';
 
-import { useMascaStore, useToastStore } from '@/stores';
-import { useAuthStore } from '@/stores/authStore';
+import { useMascaStore, useToastStore, useAuthStore } from '@/stores';
 import type { CompletedRequirements } from '.';
 import Button from '../Button';
 import { Requirement } from './Requirement';
@@ -16,7 +15,7 @@ interface RequirementProps {
   action: string;
   issuer: string;
   types: string[];
-  verify: () => Promise<void>;
+  verify: () => Promise<boolean>;
 }
 
 interface CampaignProps {
@@ -42,6 +41,14 @@ export const Campaign = (props: CampaignProps) => {
     completedRequirements,
   } = props;
   const t = useTranslations('CampaignDisplay');
+  const { token, isSignedIn, changeIsSignInModalOpen } = useAuthStore(
+    (state) => ({
+      token: state.token,
+      isSignedIn: state.isSignedIn,
+      changeIsSignInModalOpen: state.changeIsSignInModalOpen,
+    }),
+    shallow
+  );
   const { api, didMethod, did, changeDID, changeCurrDIDMethod } = useMascaStore(
     (state) => ({
       api: state.mascaApi,
@@ -72,6 +79,11 @@ export const Campaign = (props: CampaignProps) => {
   const handleClaim = async () => {
     try {
       setClaiming(true);
+      if (!isSignedIn || !token) {
+        changeIsSignInModalOpen(true);
+        setClaiming(false);
+        return;
+      }
       if (didMethod !== 'did:pkh') {
         const changeMethod = await api?.switchDIDMethod('did:pkh');
         if (!changeMethod || isError(changeMethod)) {
@@ -145,10 +157,11 @@ export const Campaign = (props: CampaignProps) => {
           <p className="text-md dark:text-navy-blue-400 mt-4 text-gray-600">
             {description}
           </p>
-
-          <h5 className="font-ubuntu dark:text-navy-blue-200 mt-8 text-lg font-medium leading-6 text-gray-700">
-            {t('requirements')}
-          </h5>
+          {requirements.length > 0 && (
+            <h5 className="font-ubuntu dark:text-navy-blue-200 mt-8 text-lg font-medium leading-6 text-gray-700">
+              {t('requirements')}
+            </h5>
+          )}
         </div>
         <div className="mt-2 w-full">
           {requirements.map((requirement: RequirementProps) => {

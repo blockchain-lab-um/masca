@@ -6,8 +6,7 @@ import { useAccount } from 'wagmi';
 import { shallow } from 'zustand/shallow';
 
 import { Tables } from '@/utils/supabase/helper.types';
-import { useMascaStore, useToastStore } from '@/stores';
-import { useAuthStore } from '@/stores/authStore';
+import { useMascaStore, useToastStore, useAuthStore } from '@/stores';
 import { Campaign } from './Campaign';
 
 type AddUniqueProperty<T, P extends string, V> = {
@@ -33,13 +32,20 @@ interface RequirementProps {
   action: string;
   issuer: string;
   types: string[];
-  verify: () => Promise<void>;
+  verify: () => Promise<boolean>;
 }
 
 export const CampaignsDisplay = () => {
   const t = useTranslations('CampaignsDisplay');
   const queryClient = useQueryClient();
-  const token = useAuthStore((state) => state.token);
+  const { token, isSignedIn, changeIsSignInModalOpen } = useAuthStore(
+    (state) => ({
+      token: state.token,
+      isSignedIn: state.isSignedIn,
+      changeIsSignInModalOpen: state.changeIsSignInModalOpen,
+    }),
+    shallow
+  );
   const { api, didMethod, did, changeDID, changeCurrDIDMethod } = useMascaStore(
     (state) => ({
       api: state.mascaApi,
@@ -65,6 +71,13 @@ export const CampaignsDisplay = () => {
   }
 
   const VERIFY = async (props: VERIFYProps) => {
+    console.log('󰊠 ~ file: index.tsx:76 ~ VERIFY ~ token:', token);
+    console.log('󰊠 ~ file: index.tsx:76 ~ VERIFY ~ isSignedIn:', isSignedIn);
+    if (!isSignedIn || !token) {
+      console.log('Missing sign in');
+      changeIsSignInModalOpen(true);
+      return false;
+    }
     if (!api) throw new Error('No Masca API');
     const result = await api?.queryCredentials();
 
@@ -120,6 +133,7 @@ export const CampaignsDisplay = () => {
       throw new Error(res.statusText);
     }
     const json = await res.json();
+    console.log('󰊠 ~ file: index.tsx:122 ~ VERIFY ~ json:', json);
     return json.success as boolean;
   };
 
@@ -162,15 +176,18 @@ export const CampaignsDisplay = () => {
           issuer: requirement.issuer!,
           types: requirement.types!,
           verify: async () => {
-            await mutation.mutateAsync({
+            return await mutation.mutateAsync({
               id: requirement.id,
               types: requirement.types!,
               issuer: requirement.issuer!,
             });
-            return Promise.resolve();
           },
         };
       }
+      console.log(
+        '󰊠 ~ file: index.tsx:175 ~ queryFn: ~ requirements:',
+        requirements
+      );
       return requirements;
     },
   });
@@ -180,6 +197,7 @@ export const CampaignsDisplay = () => {
     queryFn: async () => {
       const res = await fetch('/api/campaigns', { cache: 'no-store' });
       const json = await res.json();
+      console.log('󰊠 ~ file: index.tsx:182 ~ queryFn: ~ json:', json);
       return json as Campaigns;
     },
     enabled: !requirementsQuery.isLoading,
@@ -197,7 +215,7 @@ export const CampaignsDisplay = () => {
       const json = await res.json();
       return json.completed as CompletedRequirements;
     },
-    enabled: !campaignsQuery.isLoading,
+    enabled: !campaignsQuery.isLoading && !!token,
   });
 
   if (campaignsQuery.isLoading) return <div>Loading...</div>;

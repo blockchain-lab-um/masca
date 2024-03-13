@@ -5,8 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useEffect } from 'react';
 import { useAccount, useChainId, useSwitchChain } from 'wagmi';
 
-import { useMascaStore, useToastStore } from '@/stores';
-import { useAuthStore } from '@/stores/authStore';
+import { useMascaStore, useToastStore, useAuthStore } from '@/stores';
 
 const snapId =
   process.env.USE_LOCAL === 'true'

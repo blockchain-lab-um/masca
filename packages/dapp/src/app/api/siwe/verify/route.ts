@@ -1,9 +1,8 @@
-import { createClient } from '@supabase/supabase-js';
 import jwt from 'jsonwebtoken';
 import { NextRequest, NextResponse } from 'next/server';
 import { SiweMessage } from 'siwe';
 
-import { Database } from '@/utils/supabase/database.types';
+import { createPublicClient } from '@/utils/supabase/publicClient';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -25,10 +24,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const supabase = createClient<Database>(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SECRET_KEY!
-    );
+    const supabase = createPublicClient();
 
     const { data: authorizationQueryData } = await supabase
       .from('authorization')

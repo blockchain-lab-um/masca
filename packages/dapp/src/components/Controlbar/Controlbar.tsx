@@ -17,9 +17,13 @@ import { useAccount } from 'wagmi';
 import GlobalFilter from '@/components/Controlbar/GlobalFilter';
 import ViewTabs from '@/components/Controlbar/ViewTabs';
 import ImportModal from '@/components/ImportModal';
-import { useMascaStore, useTableStore, useToastStore } from '@/stores';
-import { useAuthStore } from '@/stores/authStore';
-import { useShareModalStore } from '@/stores/shareModalStore';
+import {
+  useMascaStore,
+  useTableStore,
+  useToastStore,
+  useAuthStore,
+  useShareModalStore,
+} from '@/stores';
 import {
   removeCredentialSubjectFilterString,
   stringifyCredentialSubject,

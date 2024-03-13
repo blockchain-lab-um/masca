@@ -5,9 +5,12 @@ import { useTranslations } from 'next-intl';
 import { useEffect, useMemo } from 'react';
 import { useAccount } from 'wagmi';
 
-import { useMascaStore, useToastStore } from '@/stores';
-import { useAuthStore } from '@/stores/authStore';
-import { useEncryptedSessionStore } from '@/stores/encryptedSessionStore';
+import {
+  useMascaStore,
+  useToastStore,
+  useAuthStore,
+  useEncryptedSessionStore,
+} from '@/stores';
 import { createClient } from '@/utils/supabase/client';
 
 export const EncryptedSessionProvider = () => {

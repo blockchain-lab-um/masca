@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
 import {
   VerifiableCredential,
   VerifiablePresentation,
@@ -8,7 +7,7 @@ import {
 import jwt from 'jsonwebtoken';
 
 import { getAgent } from '@/app/api/veramoSetup';
-import type { Database } from '@/utils/supabase/database.types';
+import { createPublicClient } from '@/utils/supabase/publicClient';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -50,10 +49,7 @@ export async function POST(
       exp: number;
     };
 
-    const supabase = createClient<Database>(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SECRET_KEY!
-    );
+    const supabase = createPublicClient();
 
     const { data: userRequirements, error: userRequirementsError } =
       await supabase

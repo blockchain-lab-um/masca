@@ -31,16 +31,16 @@
     "@types/dompurify": "^3.0.5",
     "@types/js-cookie": "^3.0.6",
     "@types/jsdom": "^21.1.6",
-    "@veramo/core": "5.6.1-next.57",
-    "@veramo/credential-eip712": "5.6.1-next.57",
-    "@veramo/credential-w3c": "5.6.1-next.57",
-    "@veramo/did-manager": "5.6.1-next.57",
-    "@veramo/did-provider-ethr": "5.6.1-next.57",
-    "@veramo/did-provider-pkh": "5.6.1-next.57",
-    "@veramo/did-resolver": "5.6.1-next.57",
-    "@veramo/key-manager": "5.6.1-next.57",
-    "@veramo/kms-local": "5.6.1-next.57",
-    "@veramo/utils": "5.6.1-next.57",
+    "@veramo/core": "5.6.0",
+    "@veramo/credential-eip712": "5.6.0",
+    "@veramo/credential-w3c": "5.6.0",
+    "@veramo/did-manager": "5.6.0",
+    "@veramo/did-provider-ethr": "5.6.0",
+    "@veramo/did-provider-pkh": "5.6.0",
+    "@veramo/did-resolver": "5.6.0",
+    "@veramo/key-manager": "5.6.0",
+    "@veramo/kms-local": "5.6.0",
+    "@veramo/utils": "5.6.0",
     "@vercel/analytics": "^1.2.2",
     "@vercel/og": "^0.6.2",
     "clsx": "^2.1.0",
@@ -95,9 +95,7 @@
   },
   "nx": {
     "namedInputs": {
-      "default": [
-        "{projectRoot}/**/*"
-      ],
+      "default": ["{projectRoot}/**/*"],
       "production": [
         "default",
         "!{projectRoot}/sonar-project.properties",
@@ -109,25 +107,13 @@
     },
     "targets": {
       "build": {
-        "inputs": [
-          "production",
-          "^production"
-        ],
-        "dependsOn": [
-          "^build"
-        ],
-        "outputs": [
-          "{projectRoot}/.next"
-        ]
+        "inputs": ["production", "^production"],
+        "dependsOn": ["^build"],
+        "outputs": ["{projectRoot}/.next"]
       },
       "start": {
-        "inputs": [
-          "production",
-          "^production"
-        ],
-        "dependsOn": [
-          "build"
-        ],
+        "inputs": ["production", "^production"],
+        "dependsOn": ["build"],
         "outputs": []
       }
     }

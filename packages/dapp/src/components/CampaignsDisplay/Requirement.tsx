@@ -14,7 +14,7 @@ interface RequirementProps {
   completed: boolean;
   issuer: string;
   types: string[];
-  verify: () => Promise<void>;
+  verify: () => Promise<boolean>;
 }
 
 export const Requirement = (props: RequirementProps) => {
@@ -23,9 +23,15 @@ export const Requirement = (props: RequirementProps) => {
   const [verifying, setVerifying] = useState(false);
 
   const handleVerify = async () => {
-    setVerifying(true);
-    await verify();
-    setVerifying(false);
+    try {
+      setVerifying(true);
+      const res = await verify();
+      console.log('󰊠 ~ file: Requirement.tsx:28 ~ handleVerify ~ res:', res);
+      setVerifying(false);
+    } catch (error) {
+      console.error(error);
+      setVerifying(false);
+    }
   };
 
   return (

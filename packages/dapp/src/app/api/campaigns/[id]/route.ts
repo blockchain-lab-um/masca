@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-import { Database } from '@/utils/supabase/database.types';
+import { createPublicClient } from '@/utils/supabase/publicClient';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -13,10 +11,7 @@ export async function GET(
   _: NextRequest,
   { params: { id } }: { params: { id: string } }
 ) {
-  const supabase = createClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SECRET_KEY!
-  );
+  const supabase = createPublicClient();
 
   const { data: campaigns, error } = await supabase
     .from('campaigns')
