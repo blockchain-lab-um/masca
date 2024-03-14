@@ -1,5 +1,8 @@
+# OIDC Issuer and Verifier
 NEXT_PUBLIC_DEMO_ISSUER=http://localhost:3003
 NEXT_PUBLIC_DEMO_VERIFIER=http://localhost:3004
+
+# Google Drive Backup
 NEXT_PUBLIC_GOOGLE_CLIENT_ID=
 NEXT_PUBLIC_GOOGLE_SCOPES=https://www.googleapis.com/auth/drive.appdata
 GOOGLE_DRIVE_FILE_NAME=masca-backup-

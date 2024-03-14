@@ -47,6 +47,7 @@ const nextConfig = {
   },
   env: {
     USE_LOCAL: process.env.USE_LOCAL || 'false',
+    // Supabase
     NEXT_PUBLIC_SUPABASE_URL:
       process.env.NEXT_PUBLIC_SUPABASE_URL ||
       'https://vfxyvzkprpeegheyapzg.supabase.co',
