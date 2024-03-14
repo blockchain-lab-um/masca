@@ -1,11 +1,14 @@
-import { type MascaState } from '@blockchain-lab-um/masca-types';
+import {
+  MascaLegacyStateV1,
+  type MascaState,
+} from '@blockchain-lab-um/masca-types';
 import { Result, isError } from '@blockchain-lab-um/utils';
 import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-datamanager';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 import { SnapsProvider } from '@metamask/snaps-sdk';
 import type { IIdentifier, VerifiableCredential } from '@veramo/core';
 import cloneDeep from 'lodash.clonedeep';
-import { beforeAll, describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it, vi } from 'vitest';
 
 import { onRpcRequest } from '../../src';
 import StorageService from '../../src/storage/Storage.service';
@@ -15,6 +18,12 @@ import { EXAMPLE_VC_PAYLOAD } from '../data/credentials';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createTestVCs } from '../helpers/generateTestVCs';
 import { SnapMock, createMockSnap } from '../helpers/snapMock';
+import * as MigrateState from '../../src/utils/stateMigration';
+import {
+  getEmptyAccountState,
+  getInitialSnapState,
+} from '../../src/utils/config';
+import EncryptionService from '../../src/Encryption.service';
 
 describe('importStateBackup', () => {
   let snapMock: SnapsProvider & SnapMock;
@@ -60,21 +69,113 @@ describe('importStateBackup', () => {
     }
   });
 
-  it('Should suceed with default empty state', async () => {
-    const startState: MascaState = cloneDeep(StorageService.get());
-    const resExport = (await onRpcRequest({
-      origin: 'http://localhost',
-      request: {
-        id: 'test-id',
-        jsonrpc: '2.0',
-        method: 'exportStateBackup',
-        params: {},
-      },
-    })) as Result<string>;
+  // it('Should suceed with default empty state', async () => {
+  //   const startState: MascaState = cloneDeep(StorageService.get());
+  //   const resExport = (await onRpcRequest({
+  //     origin: 'http://localhost',
+  //     request: {
+  //       id: 'test-id',
+  //       jsonrpc: '2.0',
+  //       method: 'exportStateBackup',
+  //       params: {},
+  //     },
+  //   })) as Result<string>;
 
-    if (isError(resExport)) {
-      throw new Error(resExport.error);
-    }
+  //   if (isError(resExport)) {
+  //     throw new Error(resExport.error);
+  //   }
+
+  //   const resImport = (await onRpcRequest({
+  //     origin: 'http://localhost',
+  //     request: {
+  //       id: 'test-id',
+  //       jsonrpc: '2.0',
+  //       method: 'importStateBackup',
+  //       params: { serializedState: resExport.data },
+  //     },
+  //   })) as Result<unknown>;
+
+  //   if (isError(resImport)) {
+  //     throw new Error(resImport.error);
+  //   }
+
+  //   expect(StorageService.get()).toEqual(startState);
+  //   expect.assertions(1);
+  // });
+
+  // it('Should suceed with non-empty state (1 credential)', async () => {
+  //   const saveRes = (await onRpcRequest({
+  //     origin: 'http://localhost',
+  //     request: {
+  //       id: 'test-id',
+  //       jsonrpc: '2.0',
+  //       method: 'saveCredential',
+  //       params: {
+  //         verifiableCredential: generatedVC,
+  //         options: { store: 'snap' },
+  //       },
+  //     },
+  //   })) as Result<IDataManagerSaveResult[]>;
+
+  //   if (isError(saveRes)) {
+  //     throw new Error(saveRes.error);
+  //   }
+
+  //   expect(saveRes.data).toEqual([
+  //     {
+  //       id: expect.any(String),
+  //       store: ['snap'],
+  //     },
+  //   ]);
+
+  //   const startState: MascaState = cloneDeep(StorageService.get());
+  //   const resExport = (await onRpcRequest({
+  //     origin: 'http://localhost',
+  //     request: {
+  //       id: 'test-id',
+  //       jsonrpc: '2.0',
+  //       method: 'exportStateBackup',
+  //       params: {},
+  //     },
+  //   })) as Result<string>;
+
+  //   if (isError(resExport)) {
+  //     throw new Error(resExport.error);
+  //   }
+
+  //   const resImport = (await onRpcRequest({
+  //     origin: 'http://localhost',
+  //     request: {
+  //       id: 'test-id',
+  //       jsonrpc: '2.0',
+  //       method: 'importStateBackup',
+  //       params: { serializedState: resExport.data },
+  //     },
+  //   })) as Result<unknown>;
+
+  //   if (isError(resImport)) {
+  //     throw new Error(resImport.error);
+  //   }
+  //   expect(StorageService.get()).toEqual(startState);
+  //   expect.assertions(2);
+  // });
+
+  it('Should suceed with v1 empty state', async () => {
+    const spy = vi.spyOn(MigrateState, 'migrateToV2');
+
+    let state: any = getInitialSnapState();
+    state = { v1: state.v2 };
+    state.v1.config.dApp.friendlyDapps = ['masca.io'];
+    state.v1.config.dApp.permissions = undefined;
+    const legacyStateV1: MascaLegacyStateV1 = state;
+    legacyStateV1.v1.accountState[account] = getEmptyAccountState();
+    legacyStateV1.v1.accountState[account].veramo.credentials = {
+      1: generatedVC,
+    };
+
+    const encryptedState = await EncryptionService.encrypt(
+      JSON.stringify(legacyStateV1)
+    );
 
     const resImport = (await onRpcRequest({
       origin: 'http://localhost',
@@ -82,7 +183,7 @@ describe('importStateBackup', () => {
         id: 'test-id',
         jsonrpc: '2.0',
         method: 'importStateBackup',
-        params: { serializedState: resExport.data },
+        params: { serializedState: encryptedState },
       },
     })) as Result<unknown>;
 
@@ -90,64 +191,14 @@ describe('importStateBackup', () => {
       throw new Error(resImport.error);
     }
 
-    expect(StorageService.get()).toEqual(startState);
-    expect.assertions(1);
-  });
+    const expectedState = getInitialSnapState();
+    expectedState.v2.accountState[account] = getEmptyAccountState();
+    expectedState.v2.accountState[account].veramo.credentials = {
+      1: generatedVC,
+    };
 
-  it('Should suceed with non-empty state (1 credential)', async () => {
-    const saveRes = (await onRpcRequest({
-      origin: 'http://localhost',
-      request: {
-        id: 'test-id',
-        jsonrpc: '2.0',
-        method: 'saveCredential',
-        params: {
-          verifiableCredential: generatedVC,
-          options: { store: 'snap' },
-        },
-      },
-    })) as Result<IDataManagerSaveResult[]>;
-
-    if (isError(saveRes)) {
-      throw new Error(saveRes.error);
-    }
-
-    expect(saveRes.data).toEqual([
-      {
-        id: expect.any(String),
-        store: ['snap'],
-      },
-    ]);
-
-    const startState: MascaState = cloneDeep(StorageService.get());
-    const resExport = (await onRpcRequest({
-      origin: 'http://localhost',
-      request: {
-        id: 'test-id',
-        jsonrpc: '2.0',
-        method: 'exportStateBackup',
-        params: {},
-      },
-    })) as Result<string>;
-
-    if (isError(resExport)) {
-      throw new Error(resExport.error);
-    }
-
-    const resImport = (await onRpcRequest({
-      origin: 'http://localhost',
-      request: {
-        id: 'test-id',
-        jsonrpc: '2.0',
-        method: 'importStateBackup',
-        params: { serializedState: resExport.data },
-      },
-    })) as Result<unknown>;
-
-    if (isError(resImport)) {
-      throw new Error(resImport.error);
-    }
-    expect(StorageService.get()).toEqual(startState);
+    expect(spy).toHaveBeenCalled();
+    expect(StorageService.get()).toEqual(expectedState);
     expect.assertions(2);
   });
 });

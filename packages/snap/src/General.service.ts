@@ -391,8 +391,11 @@ class GeneralService {
       const state = JSON.parse(
         await EncryptionService.decrypt(params.serializedState)
       );
-      isValidMascaState(state);
-      StorageService.set(state);
+
+      const latestState = StorageService.migrateState(state);
+
+      isValidMascaState(latestState);
+      StorageService.set(latestState);
     } catch (error) {
       throw new Error('Invalid backup state.');
     }
