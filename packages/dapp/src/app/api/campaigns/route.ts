@@ -13,10 +13,8 @@ export async function GET(_: NextRequest) {
 
   const { data: campaigns, error } = await supabase
     .from('campaigns')
-    .select('*, campaign_requirements(*)');
-  // TODO add filter for production
-  // .eq('production', true);
-  console.log('󰊠 ~ file: route.ts:17 ~ GET ~ campaigns:', campaigns);
+    .select('*, campaign_requirements(*)')
+    .eq('production', true);
 
   if (error) {
     return new NextResponse('Error getting campaigns', {

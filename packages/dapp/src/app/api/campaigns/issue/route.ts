@@ -29,7 +29,6 @@ export async function POST(request: NextRequest) {
     const token = request.headers.get('Authorization')?.replace('Bearer ', '');
 
     if (!token) {
-      console.log('Missing token');
       return new NextResponse('Unauthorized', {
         status: 401,
         headers: {
@@ -180,7 +179,6 @@ export async function POST(request: NextRequest) {
         type: ['VerifiableCredential', campaign.type],
         credentialSubject: {
           id: did as string,
-          test: 'test',
           // TODO - entries from schema
         },
       },

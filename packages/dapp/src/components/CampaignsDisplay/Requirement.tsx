@@ -25,8 +25,7 @@ export const Requirement = (props: RequirementProps) => {
   const handleVerify = async () => {
     try {
       setVerifying(true);
-      const res = await verify();
-      console.log('󰊠 ~ file: Requirement.tsx:28 ~ handleVerify ~ res:', res);
+      await verify();
       setVerifying(false);
     } catch (error) {
       console.error(error);

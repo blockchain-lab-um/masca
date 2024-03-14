@@ -71,10 +71,7 @@ export const CampaignsDisplay = () => {
   }
 
   const VERIFY = async (props: VERIFYProps) => {
-    console.log('󰊠 ~ file: index.tsx:76 ~ VERIFY ~ token:', token);
-    console.log('󰊠 ~ file: index.tsx:76 ~ VERIFY ~ isSignedIn:', isSignedIn);
     if (!isSignedIn || !token) {
-      console.log('Missing sign in');
       changeIsSignInModalOpen(true);
       return false;
     }
@@ -133,7 +130,6 @@ export const CampaignsDisplay = () => {
       throw new Error(res.statusText);
     }
     const json = await res.json();
-    console.log('󰊠 ~ file: index.tsx:122 ~ VERIFY ~ json:', json);
     return json.success as boolean;
   };
 
@@ -184,10 +180,6 @@ export const CampaignsDisplay = () => {
           },
         };
       }
-      console.log(
-        '󰊠 ~ file: index.tsx:175 ~ queryFn: ~ requirements:',
-        requirements
-      );
       return requirements;
     },
   });
@@ -197,7 +189,6 @@ export const CampaignsDisplay = () => {
     queryFn: async () => {
       const res = await fetch('/api/campaigns', { cache: 'no-store' });
       const json = await res.json();
-      console.log('󰊠 ~ file: index.tsx:182 ~ queryFn: ~ json:', json);
       return json as Campaigns;
     },
     enabled: !requirementsQuery.isLoading,

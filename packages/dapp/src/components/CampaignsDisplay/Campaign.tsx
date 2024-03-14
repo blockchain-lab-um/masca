@@ -94,7 +94,6 @@ export const Campaign = (props: CampaignProps) => {
         changeDID(changeMethod.data);
       }
       if (!did) throw new Error('No DID');
-      console.log(did);
 
       // TODO - call issue endpoint and show error or save returned vc to snap
       const response = await fetch('/api/campaigns/issue', {
