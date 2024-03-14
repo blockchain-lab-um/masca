@@ -5,7 +5,7 @@ import {
 import { Database } from './database.types';
 
 const SUPABASE_URL: string = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const SUPABASE_ANON_KEY: string = process.env.SUPABASE_SECRET_KEY!;
+const SUPABASE_SECRET_KEY: string = process.env.SUPABASE_SECRET_KEY!;
 
 let cachedSupabaseClient: SupabaseClient<Database> | null = null;
 
@@ -16,7 +16,7 @@ export const createPublicClient = () => {
 
   const supabase = createSupbaseClient<Database>(
     SUPABASE_URL,
-    SUPABASE_ANON_KEY
+    SUPABASE_SECRET_KEY
   );
 
   cachedSupabaseClient = supabase;

@@ -5,7 +5,6 @@ NEXT_PUBLIC_GOOGLE_SCOPES=https://www.googleapis.com/auth/drive.appdata
 GOOGLE_DRIVE_FILE_NAME=masca-backup-
 
 # Networks endpoints
-
 MAINNET_RPC_URL=
 SEPOLIA_RPC_URL=
 IPFS_GATEWAY=
@@ -13,19 +12,16 @@ POLYGON_RPC_URL=
 POLYGON_MUMBAI_RPC_URL=
 
 # Campaign Issuer
-CAMPAIGN_ISSUER_DID=did:ens:masca.eth
+CAMPAIGN_ISSUER_DID=did:ens:mainnet:masca.eth
 CAMPAIGN_PRIVATE_KEY=
 
 # Masca version
-
 NEXT_PUBLIC_MASCA_VERSION=
 
 # SupaBase Public
-
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 
 # SupaBase Private
-
 SUPABASE_SECRET_KEY=
 SUPABASE_JWT_SECRET=
