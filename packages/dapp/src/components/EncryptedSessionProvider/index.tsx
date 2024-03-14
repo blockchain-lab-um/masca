@@ -11,7 +11,7 @@ import {
   useAuthStore,
   useEncryptedSessionStore,
 } from '@/stores';
-import { createClient } from '@/utils/supabase/client';
+import { supabaseClient } from '@/utils/supabase/supabaseClient';
 
 export const EncryptedSessionProvider = () => {
   const t = useTranslations('EncryptedSessionProvider');
@@ -39,7 +39,7 @@ export const EncryptedSessionProvider = () => {
 
   const api = useMascaStore((state) => state.mascaApi);
 
-  const client = useMemo(() => createClient(token ?? ''), [token]);
+  const client = useMemo(() => supabaseClient(token), [token]);
 
   // Decrypt data
   const decryptData = async ({

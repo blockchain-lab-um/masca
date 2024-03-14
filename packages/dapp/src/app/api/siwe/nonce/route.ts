@@ -1,7 +1,7 @@
 import { add, format } from 'date-fns';
 import { NextResponse } from 'next/server';
 
-import { createPublicClient } from '@/utils/supabase/publicClient';
+import { supabaseServiceRoleClient } from '@/utils/supabase/supabaseServiceRoleClient';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -10,7 +10,7 @@ const CORS_HEADERS = {
 };
 
 export async function GET() {
-  const supabase = createPublicClient();
+  const supabase = supabaseServiceRoleClient();
 
   // Insert a new nonce and select 1 row
   const { data, error } = await supabase

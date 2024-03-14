@@ -3,7 +3,7 @@ import { useTranslations } from 'next-intl';
 import { Dispatch, SetStateAction } from 'react';
 
 import { useToastStore, useAuthStore } from '@/stores';
-import { createClient } from '@/utils/supabase/client';
+import { supabaseClient } from '@/utils/supabase/supabaseClient';
 import { Tables } from '@/utils/supabase/helper.types';
 import Button from '../Button';
 
@@ -15,7 +15,7 @@ interface DeleteSharedPresentationModalProps {
 }
 
 const deletePresentation = async (token: string, id: string) => {
-  const supabase = createClient(token);
+  const supabase = supabaseClient(token);
   const { error } = await supabase.from('presentations').delete().match({ id });
 
   if (error) throw new Error('Failed to delete presentation');

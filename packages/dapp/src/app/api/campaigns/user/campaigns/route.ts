@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 
-import { createPublicClient } from '@/utils/supabase/publicClient';
+import { supabaseServiceRoleClient } from '@/utils/supabase/supabaseServiceRoleClient';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
       exp: number;
     };
 
-    const supabase = createPublicClient();
+    const supabase = supabaseServiceRoleClient();
 
     const { data: claims, error: claimsError } = await supabase
       .from('campaign_claims')

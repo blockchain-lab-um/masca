@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { getAgent } from '../../veramoSetup';
-import { createPublicClient } from '@/utils/supabase/publicClient';
+import { supabaseServiceRoleClient } from '@/utils/supabase/supabaseServiceRoleClient';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const supabase = createPublicClient();
+    const supabase = supabaseServiceRoleClient();
 
     const { data, error } = await supabase
       .from('presentations')

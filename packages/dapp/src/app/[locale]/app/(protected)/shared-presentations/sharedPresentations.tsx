@@ -20,7 +20,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { DeleteSharedPresentationModal } from '@/components/DeleteSharedPresentationModal';
 import { ShareCredentialModal } from '@/components/ShareCredentialModal';
 import { useAuthStore, useShareModalStore } from '@/stores';
-import { createClient } from '@/utils/supabase/client';
+import { supabaseClient } from '@/utils/supabase/supabaseClient';
 import { Tables } from '@/utils/supabase/helper.types';
 
 const ITEMS_PER_PAGE = 10;
@@ -33,7 +33,7 @@ const getFromAndTo = (page: number) => {
 };
 
 const queryPresentations = async (token: string, page: number) => {
-  const supabase = createClient(token);
+  const supabase = supabaseClient(token);
   const { from, to } = getFromAndTo(page);
 
   const { data, error } = await supabase
@@ -47,7 +47,7 @@ const queryPresentations = async (token: string, page: number) => {
 };
 
 const totalPresentations = async (token: string) => {
-  const supabase = createClient(token);
+  const supabase = supabaseClient(token);
 
   const { count, error } = await supabase.from('presentations').select('id', {
     count: 'exact',

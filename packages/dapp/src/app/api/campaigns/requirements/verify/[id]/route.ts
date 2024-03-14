@@ -7,7 +7,7 @@ import {
 import jwt from 'jsonwebtoken';
 
 import { getAgent } from '@/app/api/veramoSetup';
-import { createPublicClient } from '@/utils/supabase/publicClient';
+import { supabaseServiceRoleClient } from '@/utils/supabase/supabaseServiceRoleClient';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -49,7 +49,7 @@ export async function POST(
       exp: number;
     };
 
-    const supabase = createPublicClient();
+    const supabase = supabaseServiceRoleClient();
 
     const { data: userRequirements, error: userRequirementsError } =
       await supabase

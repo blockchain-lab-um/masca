@@ -7,7 +7,7 @@ import { getAgent } from '@/app/api/veramoSetup';
 import JsonPanel from '@/components/CredentialDisplay/JsonPanel';
 import { convertTypes } from '@/utils/string';
 import { FormattedView } from './formattedView';
-import { createPublicClient } from '@/utils/supabase/publicClient';
+import { supabaseClient } from '@/utils/supabase/supabaseClient';
 
 export const revalidate = 0;
 
@@ -17,7 +17,7 @@ interface ReturnPresentation {
 }
 
 const getPresentation = async (id: string): Promise<ReturnPresentation> => {
-  const supabase = createPublicClient();
+  const supabase = supabaseClient();
 
   // Query the presentation
   const { data, error } = await supabase

@@ -4,7 +4,7 @@ import { MinimalImportableKey } from '@veramo/core';
 import jwt from 'jsonwebtoken';
 
 import { getAgent } from '../../veramoSetup';
-import { createPublicClient } from '@/utils/supabase/publicClient';
+import { supabaseServiceRoleClient } from '@/utils/supabase/supabaseServiceRoleClient';
 
 const PRIVATE_KEY = process.env.CAMPAIGN_PRIVATE_KEY;
 const ISSUER = process.env.CAMPAIGN_ISSUER_DID;
@@ -94,7 +94,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const supabase = createPublicClient();
+    const supabase = supabaseServiceRoleClient();
 
     const { data: campaign, error: campaignError } = await supabase
       .from('campaigns')

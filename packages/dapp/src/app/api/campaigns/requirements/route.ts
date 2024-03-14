@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createPublicClient } from '@/utils/supabase/publicClient';
+import { supabaseServiceRoleClient } from '@/utils/supabase/supabaseServiceRoleClient';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -8,7 +8,7 @@ const CORS_HEADERS = {
 };
 
 export async function GET(_: NextRequest) {
-  const supabase = createPublicClient();
+  const supabase = supabaseServiceRoleClient();
 
   // TODO - get only requirements that are in the requirement_campaign_rel with prod on table
   const { data: requirements, error } = await supabase

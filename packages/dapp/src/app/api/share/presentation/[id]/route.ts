@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { createPublicClient } from '@/utils/supabase/publicClient';
+import { supabaseServiceRoleClient } from '@/utils/supabase/supabaseServiceRoleClient';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -13,7 +13,7 @@ export async function GET(
   { params: { id } }: { params: { id: string } }
 ) {
   try {
-    const supabase = createPublicClient();
+    const supabase = supabaseServiceRoleClient();
 
     const { data, error } = await supabase
       .from('presentations')
