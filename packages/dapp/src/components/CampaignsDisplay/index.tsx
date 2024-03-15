@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { isError } from '@blockchain-lab-um/masca-connector';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
