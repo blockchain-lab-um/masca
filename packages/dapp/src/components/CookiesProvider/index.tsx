@@ -7,7 +7,9 @@ import { useAccount } from 'wagmi';
 import { useAuthStore } from '@/stores/authStore';
 import { verifyToken } from '@/utils/verifyToken';
 
-export const CookiesProvider = () => {
+export const CookiesProvider = ({
+  children,
+}: { children: React.ReactNode }) => {
   const { changeToken, changeIsSignedIn } = useAuthStore((state) => ({
     changeToken: state.changeToken,
     changeIsSignedIn: state.changeIsSignedIn,
@@ -44,5 +46,5 @@ export const CookiesProvider = () => {
       });
   }, [address]);
 
-  return null;
+  return children;
 };

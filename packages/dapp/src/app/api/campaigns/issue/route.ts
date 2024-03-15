@@ -6,26 +6,17 @@ import jwt from 'jsonwebtoken';
 import { getAgent } from '../../veramoSetup';
 import { supabaseServiceRoleClient } from '@/utils/supabase/supabaseServiceRoleClient';
 
-const PRIVATE_KEY = process.env.CAMPAIGN_PRIVATE_KEY;
-const ISSUER = process.env.CAMPAIGN_ISSUER_DID;
+const PRIVATE_KEY = process.env.CAMPAIGN_PRIVATE_KEY!;
+const ISSUER = process.env.CAMPAIGN_ISSUER_DID!;
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'POST OPTIONS',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type',
 };
 
 export async function POST(request: NextRequest) {
   try {
-    if (!PRIVATE_KEY || !ISSUER) {
-      return new NextResponse('Internal Server Error', {
-        status: 500,
-        headers: {
-          ...CORS_HEADERS,
-        },
-      });
-    }
-
     const token = request.headers.get('Authorization')?.replace('Bearer ', '');
 
     if (!token) {
@@ -148,7 +139,7 @@ export async function POST(request: NextRequest) {
     }
 
     const controllerKeyId = 'key-1';
-    // const method = 'did:ens';
+
     const issuerDid = await agent.didManagerImport({
       did: ISSUER,
       provider: 'did:ens',
@@ -207,6 +198,7 @@ export async function POST(request: NextRequest) {
         .from('campaigns')
         .update({ claimed: campaign.claimed! + 1 })
         .eq('id', campaignId);
+
       if (updatedCampaignError) {
         console.error('Error updating campaign', updatedCampaignError);
         return new NextResponse('Internal Server Error', {
@@ -227,6 +219,7 @@ export async function POST(request: NextRequest) {
       }
     );
   } catch (error) {
+    console.error(error);
     if ((error as Error).message === 'jwt expired') {
       return new NextResponse('Unauthorized', {
         status: 401,

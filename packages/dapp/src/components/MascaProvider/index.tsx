@@ -12,7 +12,7 @@ const snapId =
     ? 'local:http://localhost:8081'
     : 'npm:@blockchain-lab-um/masca';
 
-const MascaProvider = () => {
+const MascaProvider = ({ children }: { children: React.ReactNode }) => {
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
   const { switchChainAsync } = useSwitchChain();
@@ -153,7 +153,7 @@ const MascaProvider = () => {
     }
   }, [isSignedIn, isConnected, api]);
 
-  return null;
+  return children;
 };
 
 export default MascaProvider;
