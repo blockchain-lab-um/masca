@@ -7,7 +7,7 @@ import { getAgent } from '@/app/api/veramoSetup';
 import JsonPanel from '@/components/CredentialDisplay/JsonPanel';
 import { convertTypes } from '@/utils/string';
 import { FormattedView } from './formattedView';
-import { supabaseClient } from '@/utils/supabase/supabaseClient';
+import { useGetPresentation, usePresentationUpdateViews } from '@/hooks';
 
 export const revalidate = 0;
 
@@ -15,35 +15,6 @@ interface ReturnPresentation {
   presentation: VerifiablePresentation;
   title: string;
 }
-
-const getPresentation = async (id: string): Promise<ReturnPresentation> => {
-  const supabase = supabaseClient();
-
-  // Query the presentation
-  const { data, error } = await supabase
-    .from('presentations')
-    .select()
-    .eq('id', id)
-    .limit(1);
-
-  if (error) {
-    throw new Error('Failed to fetch presentation');
-  }
-
-  if (!data || data.length === 0) {
-    return notFound();
-  }
-
-  // Update views
-  await supabase
-    .from('presentations')
-    .update({ views: data[0].views + 1 })
-    .eq('id', id);
-
-  const presentation = data[0].presentation as VerifiablePresentation;
-  const { title } = data[0];
-  return { presentation, title };
-};
 
 const verifyPresentation = async (presentation: VerifiablePresentation) => {
   const agent = await getAgent();
@@ -65,7 +36,16 @@ export default async function Page({
     page: string | undefined;
   };
 }) {
-  const { presentation } = await getPresentation(id);
+  const { data } = await useGetPresentation(id);
+
+  if (!data) {
+    return notFound();
+  }
+
+  await usePresentationUpdateViews(id);
+
+  const { presentation } = data;
+
   const credentials = presentation.verifiableCredential
     ? presentation.verifiableCredential.map(decodeCredentialToObject)
     : [];
@@ -108,9 +88,16 @@ export async function generateMetadata({
     page: string | undefined;
   };
 }) {
-  const { presentation, title } = await getPresentation(id);
-  if (!presentation) return {};
+  const { data } = await useGetPresentation(id);
+
+  // If the presentation is not found, return an empty as the metadata
+  if (!data) return {};
+
+  const { presentation, title } = data;
+
   const url = process.env.NEXT_PUBLIC_APP_URL || 'https://masca.io';
+
+  // Create the OpenGraph Image URL
   const ogUrl = new URL(`${url}/api/og`);
   ogUrl.searchParams.set('type', 'share-presentation');
   ogUrl.searchParams.set('holder', presentation.holder);

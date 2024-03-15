@@ -1,11 +1,10 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { Database } from './database.types';
-import { useMemo } from 'react';
 
 let client: SupabaseClient<Database> | null = null;
 let token: string | null = null;
 
-const createSupabaseClient = (accessToken?: string | null) => {
+export const supabaseClient = (accessToken?: string | null) => {
   if (token !== accessToken) {
     token = accessToken || null;
     client = null;
@@ -24,8 +23,4 @@ const createSupabaseClient = (accessToken?: string | null) => {
   }
 
   return client;
-};
-
-export const supabaseClient = (accessToken?: string | null) => {
-  return useMemo(() => createSupabaseClient(accessToken), [accessToken]);
 };

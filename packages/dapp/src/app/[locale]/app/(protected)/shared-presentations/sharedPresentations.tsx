@@ -15,48 +15,17 @@ import {
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { DeleteSharedPresentationModal } from '@/components/DeleteSharedPresentationModal';
 import { ShareCredentialModal } from '@/components/ShareCredentialModal';
 import { useAuthStore, useShareModalStore } from '@/stores';
-import { supabaseClient } from '@/utils/supabase/supabaseClient';
 import { Tables } from '@/utils/supabase/helper.types';
-
-const ITEMS_PER_PAGE = 10;
-
-const getFromAndTo = (page: number) => {
-  const from = page === 0 ? 0 : (page - 1) * ITEMS_PER_PAGE;
-  const to = from + ITEMS_PER_PAGE - 1;
-
-  return { from, to };
-};
-
-const queryPresentations = async (token: string, page: number) => {
-  const supabase = supabaseClient(token);
-  const { from, to } = getFromAndTo(page);
-
-  const { data, error } = await supabase
-    .from('presentations')
-    .select('*')
-    .range(from, to);
-
-  if (error) throw new Error('Failed to fetch presentations');
-
-  return data;
-};
-
-const totalPresentations = async (token: string) => {
-  const supabase = supabaseClient(token);
-
-  const { count, error } = await supabase.from('presentations').select('id', {
-    count: 'exact',
-  });
-
-  if (error) throw new Error('Failed to fetch presentations');
-
-  return count;
-};
+import {
+  useTotalPresentations,
+  useGetPresentations,
+  ITEMS_PER_PAGE,
+} from '@/hooks';
 
 export const SharedPresentations = () => {
   const t = useTranslations('SharedPresentations');
@@ -80,21 +49,11 @@ export const SharedPresentations = () => {
     }));
 
   // Local state
-  const [presentations, setPresentations] = useState<Tables<'presentations'>[]>(
-    []
-  );
-  const [total, setTotal] = useState<number | null>(null);
-  const [loading, setLoading] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedPresentationId, setSelectedPresentationId] = useState<
     string | null
   >(null);
   const [page, setPage] = useState(1);
-
-  const pages = useMemo(() => {
-    if (!total) return 1;
-    return Math.ceil(total / ITEMS_PER_PAGE);
-  }, [total]);
 
   const columns = [
     {
@@ -136,7 +95,7 @@ export const SharedPresentations = () => {
                 <button
                   type="button"
                   className={clsx(
-                    ' dark:text-navy-blue-50 group flex',
+                    'dark:text-navy-blue-50 group flex',
                     'items-center justify-center rounded-full text-gray-700 outline-none focus:outline-none'
                   )}
                   onClick={() => {
@@ -187,31 +146,18 @@ export const SharedPresentations = () => {
     []
   );
 
-  useEffect(() => {
-    if (!token) return;
-    totalPresentations(token)
-      .then((data) => setTotal(data))
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [token]);
-
-  useEffect(() => {
-    if (!token) return;
-
-    setLoading(true);
-    queryPresentations(token, page)
-      .then((data) => {
-        setPresentations(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error(error);
-        setLoading(false);
-      });
-  }, [token, page]);
-
   if (!token) return null;
+
+  const {
+    data: { total },
+  } = useTotalPresentations(token!);
+
+  const pages = Math.ceil(total / ITEMS_PER_PAGE);
+
+  const {
+    data: { presentations },
+    isFetching,
+  } = useGetPresentations(token!, page);
 
   return (
     <>
@@ -254,7 +200,7 @@ export const SharedPresentations = () => {
           </TableHeader>
           <TableBody
             items={presentations}
-            isLoading={loading}
+            isLoading={isFetching}
             loadingContent={<Spinner />}
           >
             {(item) => (
@@ -295,7 +241,6 @@ export const SharedPresentations = () => {
         isModalOpen={isDeleteModalOpen}
         presentationId={selectedPresentationId!}
         setModalOpen={setDeleteModalOpen}
-        setPresentations={setPresentations}
       />
       <ShareCredentialModal />
     </>

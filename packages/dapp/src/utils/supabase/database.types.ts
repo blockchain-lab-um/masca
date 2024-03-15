@@ -130,6 +130,7 @@ export type Database = {
           additional_constraints: Json[] | null;
           claimed: number | null;
           created_at: string;
+          credential_subject: Json | null;
           description: string | null;
           end_date: string | null;
           id: string;
@@ -146,6 +147,7 @@ export type Database = {
           additional_constraints?: Json[] | null;
           claimed?: number | null;
           created_at?: string;
+          credential_subject?: Json | null;
           description?: string | null;
           end_date?: string | null;
           id?: string;
@@ -162,6 +164,7 @@ export type Database = {
           additional_constraints?: Json[] | null;
           claimed?: number | null;
           created_at?: string;
+          credential_subject?: Json | null;
           description?: string | null;
           end_date?: string | null;
           id?: string;
@@ -335,7 +338,12 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      increment_presentation_views: {
+        Args: {
+          presentation_id: string;
+        };
+        Returns: undefined;
+      };
     };
     Enums: {
       [_ in never]: never;
