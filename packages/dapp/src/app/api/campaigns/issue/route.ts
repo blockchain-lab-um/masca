@@ -148,6 +148,11 @@ export async function POST(request: NextRequest) {
       ],
     });
 
+    const credentialSubject = {
+      ...(campaign.credential_subject as Record<string, string>),
+      id: did as string,
+    };
+
     const vc = await agent.createVerifiableCredential({
       credential: {
         id: randomUUID(),
@@ -162,10 +167,7 @@ export async function POST(request: NextRequest) {
           type: 'JsonSchema',
         },
         type: ['VerifiableCredential', campaign.type],
-        credentialSubject: {
-          id: did as string,
-          // TODO - entries from schema
-        },
+        credentialSubject,
       },
       proofFormat: 'EthereumEip712Signature2021',
     });
