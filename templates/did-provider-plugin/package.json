@@ -23,7 +23,7 @@
   "scripts": {
     "build": "pnpm clean && pnpm compile",
     "clean": "rimraf dist",
-    "compile": "tsc --build tsconfig.build.json",
+    "compile": "tsup",
     "lint": "biome check .",
     "lint:fix": "biome check --apply .",
     "test": "pnpm jest",
