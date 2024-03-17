@@ -5,7 +5,7 @@ export const migrateToV2 = (state: MascaLegacyStateV1): MascaState => {
   const newState: any = { v2: state.v1 };
 
   // Remove friendly dapps
-  newState.v2.config.dApp.friendlyDapps = undefined;
+  delete newState.v2.config.dApp.friendlyDapps;
 
   // Initialize permissions
   newState.v2.config.dApp.permissions = { 'masca.io': getInitialPermissions() };

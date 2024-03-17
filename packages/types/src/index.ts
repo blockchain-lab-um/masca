@@ -8,4 +8,4 @@ export * from './state.js';
 export * from './networks.js';
 export * from './typia-generated/index.js';
 export * from './signData.js';
-export * from './legacyState.js';
+export * from './legacy/index.js';

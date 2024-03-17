@@ -174,7 +174,7 @@ importers:
         version: 5.6.1-next.57
       '@veramo/credential-w3c':
         specifier: 5.6.1-next.57
-        version: 5.6.1-next.57(expo-crypto@12.8.1)(expo@50.0.11)(msrcrypto@1.5.8)(react-native-securerandom@1.0.1)(react-native@0.73.5)
+        version: 5.6.1-next.57(encoding@0.1.13)(expo-crypto@12.8.1)(expo@50.0.11)(msrcrypto@1.5.8)(react-native-securerandom@1.0.1)(react-native@0.73.5)
       '@veramo/data-store':
         specifier: 5.6.1-next.57
         version: 5.6.1-next.57(better-sqlite3@9.4.3)(ts-node@10.9.2)
@@ -668,6 +668,9 @@ importers:
       jest-extended:
         specifier: ^4.0.2
         version: 4.0.2
+      tsup:
+        specifier: ^8.0.2
+        version: 8.0.2(ts-node@10.9.2)(typescript@5.3.3)
       vite:
         specifier: ^5.1.5
         version: 5.1.5(@types/node@20.11.25)
@@ -785,13 +788,13 @@ importers:
         version: 5.6.1-next.57(encoding@0.1.13)
       '@veramo/credential-ld':
         specifier: 5.6.1-next.57
-        version: 5.6.1-next.57(expo-crypto@12.8.1)(expo@50.0.11)(msrcrypto@1.5.8)(react-native-securerandom@1.0.1)(react-native@0.73.5)
+        version: 5.6.1-next.57(encoding@0.1.13)(expo-crypto@12.8.1)(expo@50.0.11)(msrcrypto@1.5.8)(react-native-securerandom@1.0.1)(react-native@0.73.5)
       '@veramo/credential-status':
         specifier: 5.6.1-next.57
         version: 5.6.1-next.57
       '@veramo/credential-w3c':
         specifier: 5.6.1-next.57
-        version: 5.6.1-next.57(expo-crypto@12.8.1)(expo@50.0.11)(msrcrypto@1.5.8)(react-native-securerandom@1.0.1)(react-native@0.73.5)
+        version: 5.6.1-next.57(encoding@0.1.13)(expo-crypto@12.8.1)(expo@50.0.11)(msrcrypto@1.5.8)(react-native-securerandom@1.0.1)(react-native@0.73.5)
       '@veramo/did-manager':
         specifier: 5.6.1-next.57
         version: 5.6.1-next.57
@@ -8560,15 +8563,6 @@ packages:
     dependencies:
       multiformats: 13.1.0
 
-  /@ipld/dag-pb@4.1.0:
-    resolution: {integrity: sha512-LJU451Drqs5zjFm7jI4Hs3kHlilOqkjcSfPiQgVsZnWaYb2C7YdfhnclrVn/X+ucKejlU9BL3+gXFCZUXkMuCg==}
-    engines: {node: '>=16.0.0', npm: '>=7.0.0'}
-    requiresBuild: true
-    dependencies:
-      multiformats: 13.1.0
-    dev: false
-    optional: true
-
   /@isaacs/cliui@8.0.2:
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
     engines: {node: '>=12'}
@@ -14909,38 +14903,6 @@ packages:
       '@transmute/ed25519-signature-2018': 0.7.0-unstable.81
       '@transmute/json-web-signature': 0.7.0-unstable.81
       '@veramo-community/lds-ecdsa-secp256k1-recovery2020': github.com/uport-project/EcdsaSecp256k1RecoverySignature2020/ab0db52de6f4e6663ef271a48009ba26e688ef9b(expo@50.0.11)(react-native@0.73.5)
-      '@veramo/core-types': 5.6.1-unstable.36
-      '@veramo/utils': 5.6.1-unstable.36(encoding@0.1.13)
-      cross-fetch: 4.0.0(patch_hash=o37ixiuozlaw3unzpuuojolyvy)(encoding@0.1.13)
-      debug: 4.3.4
-      did-resolver: 4.1.0
-    transitivePeerDependencies:
-      - bufferutil
-      - domexception
-      - encoding
-      - expo
-      - expo-crypto
-      - msrcrypto
-      - react-native
-      - react-native-securerandom
-      - supports-color
-      - utf-8-validate
-      - web-streams-polyfill
-    dev: false
-    optional: true
-
-  /@veramo/credential-ld@5.6.1-next.57(expo-crypto@12.8.1)(expo@50.0.11)(msrcrypto@1.5.8)(react-native-securerandom@1.0.1)(react-native@0.73.5):
-    resolution: {integrity: sha512-dlLjBRg/2sXOsMbsU9Hv8c1lVoUDiuruR1rhOchQIBOxJVXK83IRCmKBsCh912z6tnNI9dRN4tlPqRq9mn8bHg==}
-    dependencies:
-      '@digitalcredentials/ed25519-signature-2020': 4.0.0(expo-crypto@12.8.1)(expo@50.0.11)(msrcrypto@1.5.8)(react-native-securerandom@1.0.1)
-      '@digitalcredentials/ed25519-verification-key-2020': 4.0.0
-      '@digitalcredentials/jsonld': 6.0.0(expo@50.0.11)(react-native@0.73.5)
-      '@digitalcredentials/jsonld-signatures': 10.0.1(expo-crypto@12.8.1)(expo@50.0.11)(msrcrypto@1.5.8)(react-native-securerandom@1.0.1)
-      '@digitalcredentials/vc': 7.0.0(expo-crypto@12.8.1)(expo@50.0.11)(msrcrypto@1.5.8)(react-native-securerandom@1.0.1)
-      '@transmute/credentials-context': 0.7.0-unstable.81
-      '@transmute/ed25519-signature-2018': 0.7.0-unstable.81
-      '@transmute/json-web-signature': 0.7.0-unstable.81
-      '@veramo-community/lds-ecdsa-secp256k1-recovery2020': github.com/uport-project/EcdsaSecp256k1RecoverySignature2020/ab0db52de6f4e6663ef271a48009ba26e688ef9b(expo@50.0.11)(react-native@0.73.5)
       '@veramo/core-types': 5.6.1-next.57
       '@veramo/utils': 5.6.1-next.57(encoding@0.1.13)
       cross-fetch: 4.0.0(patch_hash=o37ixiuozlaw3unzpuuojolyvy)(encoding@0.1.13)
@@ -15028,34 +14990,6 @@ packages:
       uuid: 9.0.1
     optionalDependencies:
       '@veramo/credential-ld': 5.6.1-next.57(encoding@0.1.13)(expo-crypto@12.8.1)(expo@50.0.11)(msrcrypto@1.5.8)(react-native-securerandom@1.0.1)(react-native@0.73.5)
-    transitivePeerDependencies:
-      - bufferutil
-      - domexception
-      - encoding
-      - expo
-      - expo-crypto
-      - msrcrypto
-      - react-native
-      - react-native-securerandom
-      - supports-color
-      - utf-8-validate
-      - web-streams-polyfill
-    dev: false
-
-  /@veramo/credential-w3c@5.6.1-next.57(expo-crypto@12.8.1)(expo@50.0.11)(msrcrypto@1.5.8)(react-native-securerandom@1.0.1)(react-native@0.73.5):
-    resolution: {integrity: sha512-YjFjw5hZMHmMhf29I648JMTXklRB0VViz1PDNut+/OhyQxAPa0IiyOcTL8SgByZAUjkCKcFZAH4GGR8/2UqVRQ==}
-    dependencies:
-      '@veramo/core-types': 5.6.1-next.57
-      '@veramo/message-handler': 5.6.1-unstable.36
-      '@veramo/utils': 5.6.1-next.57(encoding@0.1.13)
-      canonicalize: 2.0.0
-      debug: 4.3.4
-      did-jwt: 8.0.0
-      did-jwt-vc: 4.0.0
-      did-resolver: 4.1.0
-      uuid: 9.0.1
-    optionalDependencies:
-      '@veramo/credential-ld': 5.6.1-next.57(expo-crypto@12.8.1)(expo@50.0.11)(msrcrypto@1.5.8)(react-native-securerandom@1.0.1)(react-native@0.73.5)
     transitivePeerDependencies:
       - bufferutil
       - domexception
@@ -15388,31 +15322,6 @@ packages:
       - encoding
       - supports-color
       - utf-8-validate
-
-  /@veramo/utils@5.6.1-unstable.36(encoding@0.1.13):
-    resolution: {integrity: sha512-67fhvZPDD/zK6aCcXthjX/h1XLbAJ9SiWT5qDKoF5pl5QcVmlBSfH4HG7TvFyqOmF/gZZPTzO3H2ohOtN/WlbA==}
-    requiresBuild: true
-    dependencies:
-      '@ipld/dag-pb': 4.1.0
-      '@noble/curves': 1.3.0
-      '@veramo/core-types': 5.6.1-unstable.36
-      credential-status: 2.0.6
-      cross-fetch: 4.0.0(patch_hash=o37ixiuozlaw3unzpuuojolyvy)(encoding@0.1.13)
-      debug: 4.3.4
-      did-jwt: 8.0.0
-      did-jwt-vc: 4.0.0
-      did-resolver: 4.1.0
-      ethers: 6.11.1
-      ipfs-unixfs: 11.1.3
-      multiformats: 12.1.3
-      uint8arrays: 4.0.10
-    transitivePeerDependencies:
-      - bufferutil
-      - encoding
-      - supports-color
-      - utf-8-validate
-    dev: false
-    optional: true
 
   /@vercel/analytics@1.2.2(next@14.1.3)(react@18.2.0):
     resolution: {integrity: sha512-X0rctVWkQV1e5Y300ehVNqpOfSOufo7ieA5PIdna8yX/U7Vjz0GFsGf4qvAhxV02uQ2CVt7GYcrFfddXXK2Y4A==}
@@ -17828,7 +17737,6 @@ packages:
       readdirp: 3.6.0
     optionalDependencies:
       fsevents: 2.3.3
-    dev: true
 
   /chownr@1.1.4:
     resolution: {integrity: sha512-jJ0bqzaylmJtVnNgzTeSOs8DPavpbYgEr/b0YL8/2GO3xJEhInFmhKMUnEJQjZumK7KXGFhUy89PrsJWlakBVg==}
@@ -21449,7 +21357,7 @@ packages:
     dependencies:
       array-union: 2.1.0
       dir-glob: 3.0.1
-      fast-glob: 3.3.1
+      fast-glob: 3.3.2
       ignore: 5.3.0
       merge2: 1.4.1
       slash: 3.0.0
@@ -22393,16 +22301,6 @@ packages:
       err-code: 3.0.1
       protons-runtime: 5.2.2
       uint8arraylist: 2.4.8
-
-  /ipfs-unixfs@11.1.3:
-    resolution: {integrity: sha512-sy6Koojwm/EcM8yvDlycRYA89C8wIcLcGTMMpqnCPUtqTCdl+JxsuPNCBgAu7tmO8Nipm7Tv7f0g/erxTGKKRA==}
-    requiresBuild: true
-    dependencies:
-      err-code: 3.0.1
-      protons-runtime: 5.4.0
-      uint8arraylist: 2.4.8
-    dev: false
-    optional: true
 
   /iron-webcrypto@1.0.0:
     resolution: {integrity: sha512-anOK1Mktt8U1Xi7fCM3RELTuYbnFikQY5VtrDj7kPgpejV7d43tWKhzgioO0zpkazLEL/j/iayRqnJhrGfqUsg==}
@@ -27440,16 +27338,6 @@ packages:
       uint8arraylist: 2.4.8
       uint8arrays: 5.0.1
 
-  /protons-runtime@5.4.0:
-    resolution: {integrity: sha512-XfA++W/WlQOSyjUyuF5lgYBfXZUEMP01Oh1C2dSwZAlF2e/ZrMRPfWonXj6BGM+o8Xciv7w0tsRMKYwYEuQvaw==}
-    requiresBuild: true
-    dependencies:
-      uint8-varint: 2.0.4
-      uint8arraylist: 2.4.8
-      uint8arrays: 5.0.2
-    dev: false
-    optional: true
-
   /proxy-addr@2.0.7:
     resolution: {integrity: sha512-llQsMLSUDUPT44jdrU/O37qlnifitDP+ZwrmmZcoSKyLKvtZxpyV0n2/bD/N4tBAAZ/gJEdZU7KMraoK1+XYAg==}
     engines: {node: '>= 0.10'}
@@ -30844,15 +30732,6 @@ packages:
     resolution: {integrity: sha512-Hhy+BhRBleFjpJ2vchUNN40qgkh0366FWJGqVLYBHev0vpHTrXSA0ryT+74UiW6KWsldNurQMKGqCm1M2zBciQ==}
     dev: true
 
-  /uint8-varint@2.0.4:
-    resolution: {integrity: sha512-FwpTa7ZGA/f/EssWAb5/YV6pHgVF1fViKdW8cWaEarjB8t7NyofSWBdOTyFPaGuUG4gx3v1O3PQ8etsiOs3lcw==}
-    requiresBuild: true
-    dependencies:
-      uint8arraylist: 2.4.8
-      uint8arrays: 5.0.2
-    dev: false
-    optional: true
-
   /uint8arraylist@2.4.8:
     resolution: {integrity: sha512-vc1PlGOzglLF0eae1M8mLRTBivsvrGsdmJ5RbK3e+QRvRLOZfZhQROTwH/OfyF3+ZVUg9/8hE8bmKP2CvP9quQ==}
     dependencies:
@@ -30869,14 +30748,6 @@ packages:
     dependencies:
       multiformats: 9.9.0
 
-  /uint8arrays@4.0.10:
-    resolution: {integrity: sha512-AnJNUGGDJAgFw/eWu/Xb9zrVKEGlwJJCaeInlf3BkecE/zcTobk5YXYIPNQJO1q5Hh1QZrQQHf0JvcHqz2hqoA==}
-    requiresBuild: true
-    dependencies:
-      multiformats: 12.1.3
-    dev: false
-    optional: true
-
   /uint8arrays@4.0.6:
     resolution: {integrity: sha512-4ZesjQhqOU2Ip6GPReIwN60wRxIupavL8T0Iy36BBHr2qyMrNxsPJvr7vpS4eFt8F8kSguWUPad6ZM9izs/vyw==}
     dependencies:
@@ -30886,14 +30757,6 @@ packages:
     resolution: {integrity: sha512-ND5RpJAnPgHmZT7hWD/2T4BwRp04j8NLKvMKC/7bhiEwEjUMkQ4kvBKiH6hOqbljd6qJ2xS8reL3vl1e33grOQ==}
     dependencies:
       multiformats: 13.1.0
-
-  /uint8arrays@5.0.2:
-    resolution: {integrity: sha512-S0GaeR+orZt7LaqzTRs4ZP8QqzAauJ+0d4xvP2lJTA99jIkKsE2FgDs4tGF/K/z5O9I/2W5Yvrh7IuqNeYH+0Q==}
-    requiresBuild: true
-    dependencies:
-      multiformats: 13.1.0
-    dev: false
-    optional: true
 
   /umd@3.0.3:
     resolution: {integrity: sha512-4IcGSufhFshvLNcMCV80UnQVlZ5pMOC8mvNPForqwA4+lzYQuetTESLDQkeLmihq8bRcnpbQa48Wb8Lh16/xow==}
@@ -31135,7 +30998,7 @@ packages:
         optional: true
     dependencies:
       anymatch: 3.1.3
-      chokidar: 3.5.3
+      chokidar: 3.6.0
       destr: 2.0.2
       h3: 1.10.0
       idb-keyval: 6.2.1
