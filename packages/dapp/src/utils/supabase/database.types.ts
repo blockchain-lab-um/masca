@@ -130,7 +130,7 @@ export type Database = {
           additional_constraints: Json[] | null;
           claimed: number;
           created_at: string;
-          credential_subject: Json | null;
+          credential_subject: Json;
           description: string | null;
           end_date: string | null;
           id: string;
@@ -147,7 +147,7 @@ export type Database = {
           additional_constraints?: Json[] | null;
           claimed?: number;
           created_at?: string;
-          credential_subject?: Json | null;
+          credential_subject: Json;
           description?: string | null;
           end_date?: string | null;
           id?: string;
@@ -164,7 +164,7 @@ export type Database = {
           additional_constraints?: Json[] | null;
           claimed?: number;
           created_at?: string;
-          credential_subject?: Json | null;
+          credential_subject?: Json;
           description?: string | null;
           end_date?: string | null;
           id?: string;
