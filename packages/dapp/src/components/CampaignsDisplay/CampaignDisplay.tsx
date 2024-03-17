@@ -9,15 +9,6 @@ import Button from '../Button';
 import { RequirementDisplay } from './RequirementDisplay';
 import { Campaigns, useClaimCampaign, useCompletedRequirements } from '@/hooks';
 
-interface RequirementProps {
-  id: string;
-  title: string;
-  action: string;
-  issuer: string;
-  types: string[];
-  verify: () => Promise<boolean>;
-}
-
 type CampaignProps = {
   campaign: Campaigns[number];
 };
