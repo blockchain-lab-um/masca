@@ -4,7 +4,10 @@ import {
   MascaState,
 } from '@blockchain-lab-um/masca-types';
 
-import { getEmptyAccountState } from '../../src/utils/config';
+import {
+  getEmptyAccountState,
+  getInitialPermissions,
+} from '../../src/utils/config';
 
 const defaultSnapState = (address: string): MascaState => {
   const accountState: Record<string, MascaAccountState> = {};
@@ -16,7 +19,9 @@ const defaultSnapState = (address: string): MascaState => {
       config: {
         dApp: {
           disablePopups: false,
-          permissions: {},
+          permissions: {
+            'masca.io': getInitialPermissions(),
+          },
         },
         snap: {
           acceptedTerms: true,
