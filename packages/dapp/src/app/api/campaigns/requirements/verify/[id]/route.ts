@@ -53,7 +53,7 @@ export async function POST(
 
     const { data: userRequirements, error: userRequirementsError } =
       await supabase
-        .from('requirement_user_rel')
+        .from('users_requirements_rel')
         .select('*')
         .eq('user_id', user.sub)
         .eq('requirement_id', id);
@@ -83,7 +83,6 @@ export async function POST(
 
     let {
       presentation,
-      // eslint-disable-next-line prefer-const
       did,
     }: {
       presentation: W3CVerifiablePresentation;
@@ -189,7 +188,6 @@ export async function POST(
           cred = decoded as VerifiableCredential;
         } else cred = credential;
 
-        // eslint-disable-next-line prefer-destructuring
         let issuer;
         if (typeof cred.issuer === 'string') {
           issuer = cred.issuer;
@@ -209,7 +207,7 @@ export async function POST(
 
     if (canClaim) {
       const { error: insertedError } = await supabase
-        .from('requirement_user_rel')
+        .from('users_requirements_rel')
         .insert({
           user_id: user.sub,
           requirement_id: id,
@@ -258,6 +256,7 @@ export async function POST(
         },
       });
     }
+
     return new NextResponse('Internal Server Error', {
       status: 500,
       headers: {

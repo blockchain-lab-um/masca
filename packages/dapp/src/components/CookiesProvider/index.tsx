@@ -19,7 +19,11 @@ export const CookiesProvider = ({
 
   useEffect(() => {
     // Return if user is not connected
-    if (!address) return;
+    if (!address) {
+      changeToken('');
+      changeIsSignedIn(false);
+      return;
+    }
 
     const token = Cookies.get(`token-${address}`);
     if (!token) {

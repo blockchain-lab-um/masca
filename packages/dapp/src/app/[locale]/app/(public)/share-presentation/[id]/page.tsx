@@ -7,14 +7,9 @@ import { getAgent } from '@/app/api/veramoSetup';
 import JsonPanel from '@/components/CredentialDisplay/JsonPanel';
 import { convertTypes } from '@/utils/string';
 import { FormattedView } from './formattedView';
-import { useGetPresentation, usePresentationUpdateViews } from '@/hooks';
+import { usePresentation, useUpdatePresentationViews } from '@/hooks';
 
 export const revalidate = 0;
-
-interface ReturnPresentation {
-  presentation: VerifiablePresentation;
-  title: string;
-}
 
 const verifyPresentation = async (presentation: VerifiablePresentation) => {
   const agent = await getAgent();
@@ -36,13 +31,13 @@ export default async function Page({
     page: string | undefined;
   };
 }) {
-  const { data } = await useGetPresentation(id);
+  const { data } = await usePresentation(id);
 
   if (!data) {
     return notFound();
   }
 
-  await usePresentationUpdateViews(id);
+  await useUpdatePresentationViews(id);
 
   const { presentation } = data;
 
@@ -88,7 +83,7 @@ export async function generateMetadata({
     page: string | undefined;
   };
 }) {
-  const { data } = await useGetPresentation(id);
+  const { data } = await usePresentation(id);
 
   // If the presentation is not found, return an empty as the metadata
   if (!data) return {};

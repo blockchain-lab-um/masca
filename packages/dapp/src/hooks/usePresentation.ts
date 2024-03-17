@@ -1,7 +1,7 @@
 import { supabaseServiceRoleClient } from '@/utils/supabase/supabaseServiceRoleClient';
 import { VerifiablePresentation } from '@veramo/core';
 
-export const useGetPresentation = async (id: string) => {
+export const usePresentation = async (id: string) => {
   const supabase = supabaseServiceRoleClient();
 
   // Query the presentation

@@ -33,12 +33,12 @@ export async function GET(request: NextRequest) {
 
     const supabase = supabaseServiceRoleClient();
 
-    const { data: requirements, error: requirementsError } = await supabase
-      .from('requirement_user_rel')
-      .select('campaign_requirements(*)')
-      .eq('user_id', user.sub);
+    const { data, error } = await supabase
+      .from('users')
+      .select('id, campaign_requirements(id)')
+      .eq('id', user.sub);
 
-    if (requirementsError) {
+    if (error) {
       return new NextResponse('Internal Server Error', {
         status: 500,
         headers: {
@@ -49,10 +49,10 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(
       {
-        completed: requirements.map((requirement) => ({
-          id: requirement.campaign_requirements?.id,
-          completed_at: requirement.campaign_requirements?.created_at,
-        })),
+        completed:
+          !data || data.length === 0
+            ? []
+            : data[0].campaign_requirements.map((r) => r.id),
       },
       { status: 200 }
     );
@@ -65,6 +65,8 @@ export async function GET(request: NextRequest) {
         },
       });
     }
+
+    console.error(error);
     return new NextResponse('Internal Server Error', {
       status: 500,
       headers: {

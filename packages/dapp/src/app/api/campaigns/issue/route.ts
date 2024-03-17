@@ -110,7 +110,6 @@ export async function POST(request: NextRequest) {
       .eq('user_id', user.sub);
 
     if (claimError) {
-      console.error('Error getting claim', claimError);
       return new NextResponse('Internal Server Error', {
         status: 500,
         headers: {
@@ -121,15 +120,10 @@ export async function POST(request: NextRequest) {
     let claimDate = new Date().toISOString();
 
     if (claim.length > 0) {
-      claimDate = claim[0].claimed_at!;
+      claimDate = claim[0].claimed_at;
     }
 
-    // TODO - check if supabase can handle issued limit
-    if (
-      campaign.claimed &&
-      campaign.total &&
-      campaign.claimed >= campaign.total
-    ) {
+    if (campaign.total && campaign.claimed >= campaign.total) {
       return new NextResponse('Campaign is already fully claimed', {
         status: 400,
         headers: {
@@ -184,23 +178,18 @@ export async function POST(request: NextRequest) {
           campaign_id: campaignId,
           claimed_at: claimDate,
         });
+
       if (updatedClaimError) {
+        if (updatedClaimError.message === 'Claimed cannot exceed Total') {
+          return new NextResponse('Campaign is already fully claimed', {
+            status: 400,
+            headers: {
+              ...CORS_HEADERS,
+            },
+          });
+        }
+
         console.error('Error updating claim', updatedClaimError);
-        return new NextResponse('Internal Server Error', {
-          status: 500,
-          headers: {
-            ...CORS_HEADERS,
-          },
-        });
-      }
-
-      const { error: updatedCampaignError } = await supabase
-        .from('campaigns')
-        .update({ claimed: campaign.claimed! + 1 })
-        .eq('id', campaignId);
-
-      if (updatedCampaignError) {
-        console.error('Error updating campaign', updatedCampaignError);
         return new NextResponse('Internal Server Error', {
           status: 500,
           headers: {

@@ -24,5 +24,5 @@ export async function GET(_: NextRequest) {
     });
   }
 
-  return NextResponse.json(requirements, { headers: { ...CORS_HEADERS } });
+  return NextResponse.json({ requirements }, { headers: { ...CORS_HEADERS } });
 }

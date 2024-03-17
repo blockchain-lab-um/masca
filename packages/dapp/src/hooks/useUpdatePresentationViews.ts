@@ -1,6 +1,6 @@
 import { supabaseServiceRoleClient } from '@/utils/supabase/supabaseServiceRoleClient';
 
-export const usePresentationUpdateViews = async (id: string) => {
+export const useUpdatePresentationViews = async (id: string) => {
   const supabase = supabaseServiceRoleClient();
 
   // Update views

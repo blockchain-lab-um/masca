@@ -10,7 +10,7 @@ const getFromAndTo = (page: number) => {
   return { from, to };
 };
 
-export const useGetPresentations = (token: string, page: number) => {
+export const usePresentations = (token: string, page: number) => {
   return useQuery({
     queryKey: ['presentations', token, page],
     queryFn: async () => {

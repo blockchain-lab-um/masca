@@ -1,0 +1,219 @@
+import React, { useEffect, useMemo, useState } from 'react';
+import Image from 'next/image';
+import { isError } from '@blockchain-lab-um/masca-connector';
+import { useTranslations } from 'next-intl';
+import { shallow } from 'zustand/shallow';
+
+import { useMascaStore, useToastStore, useAuthStore } from '@/stores';
+import Button from '../Button';
+import { RequirementDisplay } from './RequirementDisplay';
+import { Campaigns, useClaimCampaign, useCompletedRequirements } from '@/hooks';
+
+interface RequirementProps {
+  id: string;
+  title: string;
+  action: string;
+  issuer: string;
+  types: string[];
+  verify: () => Promise<boolean>;
+}
+
+type CampaignProps = {
+  campaign: Campaigns[number];
+};
+
+export const CampaignDisplay = ({
+  campaign: {
+    id,
+    title,
+    description,
+    claimed,
+    total,
+    image_url: imageUrl,
+    campaign_requirements: requirements,
+  },
+}: CampaignProps) => {
+  const t = useTranslations('CampaignDisplay');
+
+  const { token, isSignedIn, changeIsSignInModalOpen } = useAuthStore(
+    (state) => ({
+      token: state.token,
+      isSignedIn: state.isSignedIn,
+      changeIsSignInModalOpen: state.changeIsSignInModalOpen,
+    }),
+    shallow
+  );
+
+  const { api, didMethod, did, changeDID, changeCurrDIDMethod } = useMascaStore(
+    (state) => ({
+      api: state.mascaApi,
+      didMethod: state.currDIDMethod,
+      did: state.currDID,
+      changeDID: state.changeCurrDID,
+      changeCurrDIDMethod: state.changeCurrDIDMethod,
+    }),
+    shallow
+  );
+
+  const {
+    data,
+    error,
+    mutateAsync: claimCampaign,
+    isPending: isClaiming,
+  } = useClaimCampaign(id, token);
+
+  const {
+    data: { completedRequirements },
+  } = useCompletedRequirements(token);
+
+  const claimedString = useMemo(
+    () =>
+      total === null
+        ? `${claimed} ${t('claimed')}`
+        : `${claimed}/${total} ${t('claimed')}`,
+    [claimed, total]
+  );
+
+  const handleClaim = async () => {
+    if (!api) return;
+
+    setTimeout(() => {
+      useToastStore.setState({
+        open: true,
+        title: 'Claiming...',
+        type: 'normal',
+        loading: true,
+        link: null,
+      });
+    }, 200);
+
+    try {
+      // We only support did:pkh for now
+      if (didMethod !== 'did:pkh') {
+        const changeMethodResult = await api.switchDIDMethod('did:pkh');
+        if (isError(changeMethodResult)) {
+          useToastStore.setState({
+            open: true,
+            title: "Failed to change DID method to 'did:pkh'",
+            type: 'error',
+            loading: false,
+            link: null,
+          });
+          return;
+        }
+        changeCurrDIDMethod('did:pkh');
+        changeDID(changeMethodResult.data);
+      }
+
+      claimCampaign({ did })
+        .then(async (result) => {
+          setTimeout(() => {
+            useToastStore.setState({
+              open: true,
+              title: 'Saving credential...',
+              type: 'normal',
+              loading: true,
+              link: null,
+            });
+          }, 200);
+
+          const saveCredentialResult = await api.saveCredential(
+            result.credential
+          );
+
+          if (isError(saveCredentialResult)) {
+            setTimeout(() => {
+              useToastStore.setState({
+                open: true,
+                title: `Failed to save credential: ${saveCredentialResult.error}`,
+                type: 'error',
+                loading: false,
+                link: null,
+              });
+            }, 200);
+            return;
+          }
+
+          setTimeout(() => {
+            useToastStore.setState({
+              open: true,
+              title: 'Credential saved!',
+              type: 'success',
+              loading: false,
+              link: null,
+            });
+          }, 200);
+        })
+        .catch((error) => {
+          setTimeout(() => {
+            useToastStore.setState({
+              open: true,
+              title: `Failed to claim campaign: ${error.message}`,
+              type: 'error',
+              loading: false,
+              link: null,
+            });
+          }, 200);
+        });
+    } catch (error) {
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: `${t('claim-error')}: ${(error as Error).message}`,
+          type: 'error',
+          loading: false,
+          link: null,
+        });
+      }, 200);
+    }
+  };
+
+  return (
+    <div className="dark:bg-navy-blue-800 dark:text-navy-blue-400 flex rounded-3xl bg-white shadow-md">
+      <div className="dark:border-navy-blue-700 hidden w-1/4 items-center justify-center border-r-4 border-gray-100 md:flex">
+        <div className="dark:ring-navy-blue-700 relative h-[96px] w-[96px] overflow-hidden  rounded-full ring-4 ring-gray-200 lg:h-[128px] lg:w-[128px]">
+          <Image src={imageUrl} fill={true} alt="campaign" />
+        </div>
+      </div>
+
+      <div className="w-full px-8 py-4">
+        <div className="w-full">
+          <h2 className="font-ubuntu dark:text-navy-blue-50 text-2xl font-medium leading-6 text-gray-800">
+            {title}
+          </h2>
+          <p className="text-md dark:text-navy-blue-400 mt-4 text-gray-600">
+            {description}
+          </p>
+          {requirements.length > 0 && (
+            <h5 className="font-ubuntu dark:text-navy-blue-200 mt-8 text-lg font-medium leading-6 text-gray-700">
+              {t('requirements')}
+            </h5>
+          )}
+        </div>
+        <div className="mt-2 w-full">
+          {requirements.map((requirement) => (
+            <RequirementDisplay
+              key={requirement.id}
+              requirement={requirement}
+              completed={completedRequirements.includes(requirement.id)}
+            />
+          ))}
+        </div>
+        <div className="mt-6 flex items-center justify-between">
+          <p className="text-sm">{claimedString}</p>
+          <Button
+            variant="primary"
+            size="sm"
+            disabled={isClaiming || claimed === total}
+            onClick={() =>
+              isSignedIn ? handleClaim() : changeIsSignInModalOpen(true)
+            }
+            loading={isClaiming}
+          >
+            {t('claim')}
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};

@@ -13,7 +13,7 @@ export async function GET(_: NextRequest) {
 
   const { data: campaigns, error } = await supabase
     .from('campaigns')
-    .select('*, campaign_requirements(*)')
+    .select('*, campaign_requirements(id, *)')
     .eq('production', true);
 
   if (error) {
@@ -25,5 +25,5 @@ export async function GET(_: NextRequest) {
     });
   }
 
-  return NextResponse.json(campaigns, { headers: { ...CORS_HEADERS } });
+  return NextResponse.json({ campaigns }, { headers: { ...CORS_HEADERS } });
 }

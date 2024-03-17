@@ -128,13 +128,13 @@ export type Database = {
       campaigns: {
         Row: {
           additional_constraints: Json[] | null;
-          claimed: number | null;
+          claimed: number;
           created_at: string;
           credential_subject: Json | null;
           description: string | null;
           end_date: string | null;
           id: string;
-          image_url: string | null;
+          image_url: string;
           production: boolean;
           schema_context_url: string | null;
           schema_url: string | null;
@@ -145,13 +145,13 @@ export type Database = {
         };
         Insert: {
           additional_constraints?: Json[] | null;
-          claimed?: number | null;
+          claimed?: number;
           created_at?: string;
           credential_subject?: Json | null;
           description?: string | null;
           end_date?: string | null;
           id?: string;
-          image_url?: string | null;
+          image_url: string;
           production?: boolean;
           schema_context_url?: string | null;
           schema_url?: string | null;
@@ -162,13 +162,13 @@ export type Database = {
         };
         Update: {
           additional_constraints?: Json[] | null;
-          claimed?: number | null;
+          claimed?: number;
           created_at?: string;
           credential_subject?: Json | null;
           description?: string | null;
           end_date?: string | null;
           id?: string;
-          image_url?: string | null;
+          image_url?: string;
           production?: boolean;
           schema_context_url?: string | null;
           schema_url?: string | null;
@@ -279,42 +279,6 @@ export type Database = {
           },
         ];
       };
-      requirement_user_rel: {
-        Row: {
-          created_at: string;
-          id: number;
-          requirement_id: string;
-          user_id: string;
-        };
-        Insert: {
-          created_at?: string;
-          id?: number;
-          requirement_id: string;
-          user_id: string;
-        };
-        Update: {
-          created_at?: string;
-          id?: number;
-          requirement_id?: string;
-          user_id?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: 'public_requirement_user_rel_requirement_id_fkey';
-            columns: ['requirement_id'];
-            isOneToOne: false;
-            referencedRelation: 'campaign_requirements';
-            referencedColumns: ['id'];
-          },
-          {
-            foreignKeyName: 'public_requirement_user_rel_user_id_fkey';
-            columns: ['user_id'];
-            isOneToOne: false;
-            referencedRelation: 'users';
-            referencedColumns: ['id'];
-          },
-        ];
-      };
       users: {
         Row: {
           address: string;
@@ -332,6 +296,39 @@ export type Database = {
           id?: string;
         };
         Relationships: [];
+      };
+      users_requirements_rel: {
+        Row: {
+          created_at: string;
+          requirement_id: string;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          requirement_id?: string;
+          user_id?: string;
+        };
+        Update: {
+          created_at?: string;
+          requirement_id?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'public_users_requirements_rel_requirement_id_fkey';
+            columns: ['requirement_id'];
+            isOneToOne: false;
+            referencedRelation: 'campaign_requirements';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'public_users_requirements_rel_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
       };
     };
     Views: {

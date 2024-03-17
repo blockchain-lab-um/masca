@@ -23,7 +23,7 @@ import { useAuthStore, useShareModalStore } from '@/stores';
 import { Tables } from '@/utils/supabase/helper.types';
 import {
   useTotalPresentations,
-  useGetPresentations,
+  usePresentations,
   ITEMS_PER_PAGE,
 } from '@/hooks';
 
@@ -150,14 +150,14 @@ export const SharedPresentations = () => {
 
   const {
     data: { total },
-  } = useTotalPresentations(token!);
+  } = useTotalPresentations(token);
 
   const pages = Math.ceil(total / ITEMS_PER_PAGE);
 
   const {
     data: { presentations },
     isFetching,
-  } = useGetPresentations(token!, page);
+  } = usePresentations(token, page);
 
   return (
     <>
