@@ -103,6 +103,15 @@ export async function POST(request: NextRequest) {
       });
     }
 
+    if (campaign.total && campaign.claimed >= campaign.total) {
+      return new NextResponse('Campaign is already fully claimed', {
+        status: 400,
+        headers: {
+          ...CORS_HEADERS,
+        },
+      });
+    }
+
     const { data: claim, error: claimError } = await supabase
       .from('campaign_claims')
       .select('*')
@@ -121,15 +130,6 @@ export async function POST(request: NextRequest) {
 
     if (claim.length > 0) {
       claimDate = claim[0].claimed_at;
-    }
-
-    if (campaign.total && campaign.claimed >= campaign.total) {
-      return new NextResponse('Campaign is already fully claimed', {
-        status: 400,
-        headers: {
-          ...CORS_HEADERS,
-        },
-      });
     }
 
     const controllerKeyId = 'key-1';
