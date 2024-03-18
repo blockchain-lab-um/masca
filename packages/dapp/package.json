@@ -8,6 +8,7 @@
     "build": "rimraf .next && next build",
     "postbuild": "next-sitemap --config=next-sitemap.config.js",
     "build:docker": "pnpm build",
+    "build:local": "infisical run --env=dev --path=/packages/dapp -- rimraf .next && next build",
     "dev": "infisical run --env=dev --path=/packages/dapp -- next dev",
     "dev:local": "infisical run --env=dev --path=/packages/dapp -- cross-env USE_LOCAL='true' next dev",
     "docker:build": "docker build . -t blockchain-lab-um/dapp:latest",
@@ -17,6 +18,7 @@
     "lint:prettier": "prettier . --check",
     "lint:tsc": "tsc -p tsconfig.json --noEmit --incremental false",
     "start": "next start",
+    "start:local": "infisical run --env=dev --path=/packages/dapp -- next start",
     "supabase:generate": "supabase gen types typescript --project-id vfxyvzkprpeegheyapzg --schema public > src/utils/supabase/database.types.ts"
   },
   "dependencies": {
