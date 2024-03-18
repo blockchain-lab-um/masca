@@ -7,3 +7,4 @@ export * from './useCampaigns';
 export * from './useCompletedRequirements';
 export * from './useVerifiyRequirement';
 export * from './useClaimCampaign';
+export * from './useDeletePresentation';

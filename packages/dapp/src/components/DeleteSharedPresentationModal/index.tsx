@@ -2,10 +2,10 @@ import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
 import { useTranslations } from 'next-intl';
 import { Dispatch, SetStateAction } from 'react';
 
-import { useToastStore, useAuthStore } from '@/stores';
-import { supabaseClient } from '@/utils/supabase/supabaseClient';
+import { useAuthStore } from '@/stores';
 import { Tables } from '@/utils/supabase/helper.types';
 import Button from '../Button';
+import { useDeletePresentation } from '@/hooks';
 
 interface DeleteSharedPresentationModalProps {
   isModalOpen: boolean;
@@ -14,59 +14,19 @@ interface DeleteSharedPresentationModalProps {
   presentationId: string;
 }
 
-const deletePresentation = async (token: string, id: string) => {
-  const supabase = supabaseClient(token);
-  const { error } = await supabase.from('presentations').delete().match({ id });
-
-  if (error) throw new Error('Failed to delete presentation');
-};
-
 export const DeleteSharedPresentationModal = ({
   isModalOpen,
   presentationId,
   setModalOpen,
-  setPresentations,
 }: DeleteSharedPresentationModalProps) => {
   const t = useTranslations('DeleteSharedPresentationModal');
 
   const token = useAuthStore((state) => state.token);
-  const handleDelete = async (id: string) => {
-    if (!token) return;
-    try {
-      await deletePresentation(token, id);
-      setPresentations((prev) => prev.filter((p) => p.id !== id));
 
-      useToastStore.setState({
-        open: false,
-      });
-
-      setTimeout(() => {
-        useToastStore.setState({
-          open: true,
-          title: t('delete-success'),
-          type: 'success',
-          loading: false,
-          link: null,
-        });
-      }, 200);
-    } catch (error) {
-      console.error(error);
-
-      useToastStore.setState({
-        open: false,
-      });
-
-      setTimeout(() => {
-        useToastStore.setState({
-          open: true,
-          title: t('delete-error'),
-          type: 'error',
-          loading: false,
-          link: null,
-        });
-      }, 200);
-    }
-  };
+  const { mutateAsync: deletePresentation, isPending } = useDeletePresentation(
+    presentationId,
+    token
+  );
 
   return (
     <Modal
@@ -101,10 +61,10 @@ export const DeleteSharedPresentationModal = ({
                 <Button
                   size="xs"
                   variant="warning"
+                  disabled={isPending}
+                  loading={isPending}
                   onClick={async () =>
-                    handleDelete(presentationId).finally(() =>
-                      setModalOpen(false)
-                    )
+                    deletePresentation().finally(() => setModalOpen(false))
                   }
                 >
                   {t('delete')}
