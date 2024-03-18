@@ -25,7 +25,7 @@ export const CampaignsDisplay = () => {
   }
 
   return (
-    <div className="flex w-3/4 flex-col gap-y-4">
+    <div className="flex w-full max-w-4xl flex-col gap-y-4">
       {campaigns.map((campaign) => (
         <CampaignDisplay key={campaign.id} campaign={campaign} />
       ))}
