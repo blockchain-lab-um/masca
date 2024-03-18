@@ -46,8 +46,10 @@ export const CampaignDisplay = ({
     shallow
   );
 
-  const { mutateAsync: claimCampaign, isPending: isClaiming } =
-    useClaimCampaign(id, token);
+  const { mutate: claimCampaign, isPending: isClaiming } = useClaimCampaign(
+    id,
+    token
+  );
 
   const { data: completedRequirementsData } = useCompletedRequirements(token);
 
@@ -70,95 +72,24 @@ export const CampaignDisplay = ({
   const handleClaim = async () => {
     if (!api) return;
 
-    setTimeout(() => {
-      useToastStore.setState({
-        open: true,
-        title: 'Claiming...',
-        type: 'normal',
-        loading: true,
-        link: null,
-      });
-    }, 200);
-
-    try {
-      // We only support did:pkh for now
-      if (didMethod !== 'did:pkh') {
-        const changeMethodResult = await api.switchDIDMethod('did:pkh');
-        if (isError(changeMethodResult)) {
-          useToastStore.setState({
-            open: true,
-            title: "Failed to change DID method to 'did:pkh'",
-            type: 'error',
-            loading: false,
-            link: null,
-          });
-          return;
-        }
-        changeCurrDIDMethod('did:pkh');
-        changeDID(changeMethodResult.data);
-      }
-
-      claimCampaign({ did })
-        .then(async (result) => {
-          setTimeout(() => {
-            useToastStore.setState({
-              open: true,
-              title: 'Saving credential...',
-              type: 'normal',
-              loading: true,
-              link: null,
-            });
-          }, 200);
-
-          const saveCredentialResult = await api.saveCredential(
-            result.credential
-          );
-
-          if (isError(saveCredentialResult)) {
-            setTimeout(() => {
-              useToastStore.setState({
-                open: true,
-                title: `Failed to save credential: ${saveCredentialResult.error}`,
-                type: 'error',
-                loading: false,
-                link: null,
-              });
-            }, 200);
-            return;
-          }
-
-          setTimeout(() => {
-            useToastStore.setState({
-              open: true,
-              title: 'Credential saved!',
-              type: 'success',
-              loading: false,
-              link: null,
-            });
-          }, 200);
-        })
-        .catch((error) => {
-          setTimeout(() => {
-            useToastStore.setState({
-              open: true,
-              title: `Failed to claim campaign: ${error.message}`,
-              type: 'error',
-              loading: false,
-              link: null,
-            });
-          }, 200);
-        });
-    } catch (error) {
-      setTimeout(() => {
+    // We only support did:pkh for now
+    if (didMethod !== 'did:pkh') {
+      const changeMethodResult = await api.switchDIDMethod('did:pkh');
+      if (isError(changeMethodResult)) {
         useToastStore.setState({
           open: true,
-          title: `${t('claim-error')}: ${(error as Error).message}`,
+          title: "Failed to change DID method to 'did:pkh'",
           type: 'error',
           loading: false,
           link: null,
         });
-      }, 200);
+        return;
+      }
+      changeCurrDIDMethod('did:pkh');
+      changeDID(changeMethodResult.data);
     }
+
+    claimCampaign({ did });
   };
 
   return (

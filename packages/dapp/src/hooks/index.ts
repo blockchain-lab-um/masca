@@ -8,3 +8,4 @@ export * from './useCompletedRequirements';
 export * from './useVerifiyRequirement';
 export * from './useClaimCampaign';
 export * from './useDeletePresentation';
+export * from './useSaveCredential';
