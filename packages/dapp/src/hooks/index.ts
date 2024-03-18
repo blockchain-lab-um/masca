@@ -5,7 +5,7 @@ export * from './usePresentations';
 export * from './useRequirements';
 export * from './useCampaigns';
 export * from './useCompletedRequirements';
-export * from './useVerifiyRequirement';
+export * from './useVerifyRequirement';
 export * from './useClaimCampaign';
 export * from './useDeletePresentation';
 export * from './useSaveCredential';
