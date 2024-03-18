@@ -49,9 +49,15 @@ export const CampaignDisplay = ({
   const { mutateAsync: claimCampaign, isPending: isClaiming } =
     useClaimCampaign(id, token);
 
-  const {
-    data: { completedRequirements },
-  } = useCompletedRequirements(token);
+  const { data: completedRequirementsData } = useCompletedRequirements(token);
+
+  const completedRequirements = useMemo(
+    () =>
+      completedRequirementsData
+        ? completedRequirementsData.completedRequirements
+        : [],
+    [completedRequirementsData]
+  );
 
   const claimedString = useMemo(
     () =>

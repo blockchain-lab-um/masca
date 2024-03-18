@@ -1,7 +1,6 @@
 import { getDidKeyResolver as didKeyResolver } from '@blockchain-lab-um/did-provider-key';
 import {
   createAgent,
-  IIdentifier,
   type ICredentialVerifier,
   type IDIDManager,
   type IKeyManager,
@@ -13,7 +12,11 @@ import {
   CredentialPlugin,
   type ICredentialIssuer,
 } from '@veramo/credential-w3c';
-import { AbstractDIDStore, DIDManager } from '@veramo/did-manager';
+import {
+  AbstractDIDStore,
+  DIDManager,
+  MemoryDIDStore,
+} from '@veramo/did-manager';
 import { EthrDIDProvider } from '@veramo/did-provider-ethr';
 import {
   getDidPkhResolver as didPkhResolver,
@@ -76,7 +79,6 @@ export const getAgent = async (): Promise<Agent> => {
       new CredentialPlugin(),
       new CredentialIssuerEIP712(),
       new DIDManager({
-        // eslint-disable-next-line @typescript-eslint/no-use-before-define
         store: new MemoryDIDStore(),
         defaultProvider: 'did:pkh',
         providers: {
@@ -111,35 +113,3 @@ export const getAgent = async (): Promise<Agent> => {
 
   return agent;
 };
-
-class MemoryDIDStore extends AbstractDIDStore {
-  #store = new Map<string, IIdentifier>();
-
-  async importDID(did: IIdentifier): Promise<boolean> {
-    this.#store.set(did.did, did);
-    return true;
-  }
-
-  async getDID(args: {
-    did: string;
-    alias: string;
-    provider: string;
-  }): Promise<IIdentifier> {
-    const did = this.#store.get(args.did);
-    if (!did) throw Error('DID not found');
-    return did;
-  }
-
-  async deleteDID(args: { did: string }): Promise<boolean> {
-    const did = this.#store.delete(args.did);
-    if (!did) throw Error('DID not found');
-    return true;
-  }
-
-  async listDIDs(args: {
-    alias?: string;
-    provider?: string;
-  }): Promise<IIdentifier[]> {
-    return Array.from(this.#store.values());
-  }
-}
