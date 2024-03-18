@@ -8,10 +8,11 @@ import { useTranslations } from 'next-intl';
 import Button from '../Button';
 import { Tables } from '@/utils/supabase/database.types';
 import clsx from 'clsx';
-import { useVerifyRequirement } from '@/hooks';
+import { useQueryCredentials, useVerifyRequirement } from '@/hooks';
 import { useAuthStore, useMascaStore, useToastStore } from '@/stores';
 import { isError } from '@blockchain-lab-um/masca-connector';
 import { shallow } from 'zustand/shallow';
+import { useAccount, useSwitchChain } from 'wagmi';
 
 type RequirementProps = {
   requirement: Tables<'requirements'>;
@@ -37,11 +38,33 @@ export const RequirementDisplay = ({
     shallow
   );
 
+  const { switchChainAsync } = useSwitchChain();
+  const { chainId } = useAccount();
+
   const { mutateAsync: verifyRequirement, isPending: isVerifying } =
     useVerifyRequirement(id, token);
 
   const handleVerify = async () => {
     if (!api) return;
+
+    // We only support mainnet for now
+    console.log('chainId', chainId);
+    if (chainId !== 1) {
+      try {
+        await switchChainAsync({ chainId: 1 });
+      } catch (error) {
+        setTimeout(() => {
+          useToastStore.setState({
+            open: true,
+            title: 'Failed to switch to mainnet',
+            type: 'error',
+            loading: false,
+            link: null,
+          });
+        }, 200);
+        return;
+      }
+    }
 
     // We only support did:pkh for now
     if (didMethod !== 'did:pkh') {

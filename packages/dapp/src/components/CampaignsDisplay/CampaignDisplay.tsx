@@ -8,6 +8,7 @@ import { useMascaStore, useToastStore, useAuthStore } from '@/stores';
 import Button from '../Button';
 import { RequirementDisplay } from './RequirementDisplay';
 import { Campaigns, useClaimCampaign, useCompletedRequirements } from '@/hooks';
+import { useAccount, useSwitchChain } from 'wagmi';
 
 type CampaignProps = {
   campaign: Campaigns[number];
@@ -46,6 +47,9 @@ export const CampaignDisplay = ({
     shallow
   );
 
+  const { switchChainAsync } = useSwitchChain();
+  const { chainId, address } = useAccount();
+
   const { mutate: claimCampaign, isPending: isClaiming } = useClaimCampaign(
     id,
     token
@@ -71,6 +75,25 @@ export const CampaignDisplay = ({
 
   const handleClaim = async () => {
     if (!api) return;
+
+    // We only support mainnet for now
+    console.log('chainId', chainId);
+    if (chainId !== 1) {
+      try {
+        await switchChainAsync({ chainId: 1 });
+      } catch (error) {
+        setTimeout(() => {
+          useToastStore.setState({
+            open: true,
+            title: 'Failed to switch to mainnet',
+            type: 'error',
+            loading: false,
+            link: null,
+          });
+        }, 200);
+        return;
+      }
+    }
 
     // We only support did:pkh for now
     if (didMethod !== 'did:pkh') {
@@ -128,7 +151,7 @@ export const CampaignDisplay = ({
           <Button
             variant="primary"
             size="sm"
-            disabled={!did || isClaiming || claimed === total}
+            disabled={!did || isClaiming || claimed === total || !address}
             onClick={() =>
               isSignedIn ? handleClaim() : changeIsSignInModalOpen(true)
             }

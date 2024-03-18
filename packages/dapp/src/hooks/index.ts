@@ -9,3 +9,4 @@ export * from './useVerifyRequirement';
 export * from './useClaimCampaign';
 export * from './useDeletePresentation';
 export * from './useSaveCredential';
+export * from './useQueryCredentials';
