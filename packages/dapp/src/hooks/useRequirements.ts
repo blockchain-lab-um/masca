@@ -1,7 +1,7 @@
 import { Tables } from '@/utils/supabase/database.types';
 import { useQuery } from '@tanstack/react-query';
 
-export type Requirements = Tables<'campaign_requirements'>[];
+export type Requirements = Tables<'requirements'>[];
 
 export const useRequirements = () => {
   return useQuery({
@@ -16,9 +16,6 @@ export const useRequirements = () => {
       return {
         requirements: json.requirements as Requirements,
       };
-    },
-    initialData: {
-      requirements: [],
     },
   });
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   ArrowTopRightOnSquareIcon,
   CheckIcon,
@@ -8,25 +8,18 @@ import { useTranslations } from 'next-intl';
 import Button from '../Button';
 import { Tables } from '@/utils/supabase/database.types';
 import clsx from 'clsx';
-import { useCompletedRequirements, useVerifyRequirement } from '@/hooks';
+import { useVerifyRequirement } from '@/hooks';
 import { useAuthStore, useMascaStore, useToastStore } from '@/stores';
 import { isError } from '@blockchain-lab-um/masca-connector';
 import { shallow } from 'zustand/shallow';
 
 type RequirementProps = {
-  requirement: Tables<'campaign_requirements'>;
+  requirement: Tables<'requirements'>;
   completed: boolean;
 };
 
 export const RequirementDisplay = ({
-  requirement: {
-    id,
-    name,
-    created_at: createAt,
-    action_link: actionLink,
-    issuer,
-    types,
-  },
+  requirement: { id, name, action_link: actionLink },
   completed,
 }: RequirementProps) => {
   const t = useTranslations('CampaignDisplay'); // TODO: Change to requirement display
@@ -38,14 +31,14 @@ export const RequirementDisplay = ({
       api: state.mascaApi,
       did: state.currDID,
       didMethod: state.currDIDMethod,
-
       changeCurrDIDMethod: state.changeCurrDIDMethod,
       changeDID: state.changeCurrDID,
     }),
     shallow
   );
 
-  const { mutateAsync: verifyRequirement } = useVerifyRequirement(id, token);
+  const { mutateAsync: verifyRequirement, isPending: isVerifying } =
+    useVerifyRequirement(id, token);
 
   const handleVerify = async () => {
     if (!api) return;
@@ -106,11 +99,11 @@ export const RequirementDisplay = ({
       {!completed && (
         <div className="flex items-center">
           <Button
-            variant="secondary"
-            size="2xs"
+            variant="primary"
+            size="xs"
             onClick={handleVerify}
-            loading={false}
-            disabled={false}
+            loading={isVerifying}
+            disabled={!did || isVerifying}
           >
             {t('verify')}
           </Button>

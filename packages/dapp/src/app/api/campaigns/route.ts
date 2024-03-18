@@ -8,15 +8,18 @@ const CORS_HEADERS = {
   'Access-Control-Allow-Headers': 'Content-Type',
 };
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(_: NextRequest) {
   const supabase = supabaseServiceRoleClient();
 
   const { data: campaigns, error } = await supabase
     .from('campaigns')
-    .select('*, campaign_requirements(id, *)')
+    .select('*, requirements(id, *)')
     .eq('production', true);
 
   if (error) {
+    console.error('Error getting campaigns', error);
     return new NextResponse('Error getting campaigns', {
       status: 500,
       headers: {

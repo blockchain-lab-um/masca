@@ -44,6 +44,12 @@ export type Agent = TAgent<
 
 const networks = [
   {
+    name: '',
+    provider: new JsonRpcProvider(
+      process.env.MAINNET_RPC_URL || 'https://mainnet.infura.io/v3/'
+    ),
+  },
+  {
     name: 'mainnet',
     provider: new JsonRpcProvider(
       process.env.MAINNET_RPC_URL || 'https://mainnet.infura.io/v3/'

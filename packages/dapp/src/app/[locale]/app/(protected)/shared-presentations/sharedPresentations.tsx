@@ -15,7 +15,7 @@ import {
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { DeleteSharedPresentationModal } from '@/components/DeleteSharedPresentationModal';
 import { ShareCredentialModal } from '@/components/ShareCredentialModal';
@@ -148,16 +148,20 @@ export const SharedPresentations = () => {
 
   if (!token) return null;
 
+  // Total presentations
   const {
     data: { total },
   } = useTotalPresentations(token);
 
+  // Calculate number of pages
   const pages = Math.ceil(total / ITEMS_PER_PAGE);
 
-  const {
-    data: { presentations },
-    isFetching,
-  } = usePresentations(token, page);
+  // Presentations
+  const { data: presentationsData, status } = usePresentations(token, page);
+  const presentations = useMemo(
+    () => (presentationsData ? presentationsData.presentations : []),
+    [presentationsData]
+  );
 
   return (
     <>
@@ -200,7 +204,7 @@ export const SharedPresentations = () => {
           </TableHeader>
           <TableBody
             items={presentations}
-            isLoading={isFetching}
+            isLoading={status === 'pending'}
             loadingContent={<Spinner />}
           >
             {(item) => (

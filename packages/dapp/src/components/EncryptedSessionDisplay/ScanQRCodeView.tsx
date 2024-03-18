@@ -99,7 +99,7 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
       );
 
       const { error } = await client
-        .from('encrypted_sessions')
+        .from('sessions')
         .update({
           data: uint8ArrayToHex(encryptedData),
           iv: uint8ArrayToHex(iv),

@@ -145,13 +145,13 @@ export const EncryptedSessionProvider = ({
   useEffect(() => {
     if (sessionId && deviceType === 'primary') {
       client
-        .channel('realtime encrypted_sessions')
+        .channel('realtime sessions')
         .on(
           'postgres_changes',
-          { event: 'UPDATE', schema: 'public', table: 'encrypted_sessions' },
+          { event: 'UPDATE', schema: 'public', table: 'sessions' },
           async () => {
             const { data, error } = await client
-              .from('encrypted_sessions')
+              .from('sessions')
               .select()
               .eq('id', sessionId)
               .single();

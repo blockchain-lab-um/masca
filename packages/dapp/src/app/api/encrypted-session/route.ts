@@ -9,6 +9,8 @@ const CORS_HEADERS = {
   'Access-Control-Allow-Headers': 'Content-Type',
 };
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const token = request.headers.get('Authorization')?.replace('Bearer ', '');
@@ -34,7 +36,7 @@ export async function GET(request: NextRequest) {
     const supabase = supabaseServiceRoleClient();
 
     const { data: selectData, error: selectError } = await supabase
-      .from('encrypted_sessions')
+      .from('sessions')
       .select('id')
       .eq('user_id', user.sub);
 
@@ -50,7 +52,7 @@ export async function GET(request: NextRequest) {
     // If session is found delete it
     if (selectData.length !== 0) {
       const { error: deleteError } = await supabase
-        .from('encrypted_sessions')
+        .from('sessions')
         .delete()
         .eq('user_id', user.sub);
 
@@ -66,7 +68,7 @@ export async function GET(request: NextRequest) {
 
     // Create a new session
     const { data: insertData, error: insertError } = await supabase
-      .from('encrypted_sessions')
+      .from('sessions')
       .insert({
         user_id: user.sub,
       })

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import Image from 'next/image';
 import { isError } from '@blockchain-lab-um/masca-connector';
 import { useTranslations } from 'next-intl';
@@ -21,7 +21,7 @@ export const CampaignDisplay = ({
     claimed,
     total,
     image_url: imageUrl,
-    campaign_requirements: requirements,
+    requirements,
   },
 }: CampaignProps) => {
   const t = useTranslations('CampaignDisplay');
@@ -46,12 +46,8 @@ export const CampaignDisplay = ({
     shallow
   );
 
-  const {
-    data,
-    error,
-    mutateAsync: claimCampaign,
-    isPending: isClaiming,
-  } = useClaimCampaign(id, token);
+  const { mutateAsync: claimCampaign, isPending: isClaiming } =
+    useClaimCampaign(id, token);
 
   const {
     data: { completedRequirements },
@@ -195,7 +191,7 @@ export const CampaignDisplay = ({
           <Button
             variant="primary"
             size="sm"
-            disabled={isClaiming || claimed === total}
+            disabled={!did || isClaiming || claimed === total}
             onClick={() =>
               isSignedIn ? handleClaim() : changeIsSignInModalOpen(true)
             }

@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { W3CVerifiableCredential } from '@veramo/core';
 
 type ClaimCampaignMutateProps = {
@@ -6,6 +6,8 @@ type ClaimCampaignMutateProps = {
 };
 
 export const useClaimCampaign = (id: string, token: string | null) => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ['claim-campaign', id, token],
     mutationFn: async ({
@@ -33,6 +35,9 @@ export const useClaimCampaign = (id: string, token: string | null) => {
       return {
         credential: json.credential,
       };
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['campaigns'] });
     },
   });
 };

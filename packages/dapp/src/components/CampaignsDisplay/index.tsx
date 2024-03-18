@@ -6,18 +6,17 @@ import { useCampaigns } from '@/hooks';
 import { Spinner } from '@nextui-org/react';
 
 export const CampaignsDisplay = () => {
-  const {
-    data: { campaigns },
-    isFetching: isFetchingCampaigns,
-  } = useCampaigns();
+  const { data, status } = useCampaigns();
 
-  if (isFetchingCampaigns) {
+  if (status === 'pending') {
     return (
       <div className="flex items-center">
         <Spinner />
       </div>
     );
   }
+
+  const campaigns = data?.campaigns || [];
 
   if (campaigns.length === 0) {
     return (

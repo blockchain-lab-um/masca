@@ -28,9 +28,6 @@ export const usePresentations = (token: string, page: number) => {
         presentations: data ?? [],
       };
     },
-    initialData: {
-      presentations: [],
-    },
     refetchInterval: 30000,
   });
 };

@@ -6,8 +6,8 @@ type AddUniqueProperty<T, P extends string, V> = {
 };
 export type Campaigns = AddUniqueProperty<
   Tables<'campaigns'>,
-  'campaign_requirements',
-  Tables<'campaign_requirements'>[]
+  'requirements',
+  Tables<'requirements'>[]
 >[];
 
 export const useCampaigns = () => {
@@ -20,9 +20,6 @@ export const useCampaigns = () => {
       return {
         campaigns: json.campaigns as Campaigns,
       };
-    },
-    initialData: {
-      campaigns: [],
     },
   });
 };

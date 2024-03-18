@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     const supabase = supabaseServiceRoleClient();
 
     const { data: authorizationQueryData } = await supabase
-      .from('authorization')
+      .from('siwe')
       .select()
       .eq('id', sessionId)
       .limit(1);

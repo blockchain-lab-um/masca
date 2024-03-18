@@ -15,6 +15,8 @@ const CORS_HEADERS = {
   'Access-Control-Allow-Headers': 'Content-Type',
 };
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(
   request: NextRequest,
   { params: { id } }: { params: { id: string } }
@@ -53,7 +55,7 @@ export async function POST(
 
     const { data: userRequirements, error: userRequirementsError } =
       await supabase
-        .from('users_requirements_rel')
+        .from('users_requirements')
         .select('*')
         .eq('user_id', user.sub)
         .eq('requirement_id', id);
@@ -99,7 +101,7 @@ export async function POST(
     }
 
     if (!did) {
-      return new NextResponse('Missing title', {
+      return new NextResponse('Missing did', {
         status: 400,
         headers: {
           ...CORS_HEADERS,
@@ -136,7 +138,7 @@ export async function POST(
     }
 
     const { data: requirement, error: requirementsError } = await supabase
-      .from('campaign_requirements')
+      .from('requirements')
       .select('*')
       .eq('id', id)
       .single();
@@ -179,24 +181,28 @@ export async function POST(
     );
 
     // TODO - simplify to only check the one requirement as long as the user has not selected the vcs for vp
-    const canClaim = requirement.types?.every((type) =>
+    const canClaim = (requirement.types ?? []).every((type) =>
       credentials.some((credential) => {
         let cred: VerifiableCredential;
+
+        // Decode credential
         if (typeof credential === 'string') {
           const decoded = jwt.decode(credential);
           if (typeof decoded === 'string') return false;
           cred = decoded as VerifiableCredential;
-        } else cred = credential;
-
-        let issuer;
-        if (typeof cred.issuer === 'string') {
-          issuer = cred.issuer;
         } else {
-          issuer = cred.issuer.id;
+          cred = credential;
         }
+
+        // Check issuer
+        const issuer =
+          typeof cred.issuer === 'string' ? cred.issuer : cred.issuer.id;
+
         if (issuer !== requirement.issuer) {
           return false;
         }
+
+        // Check credential type
         if (!cred.type) return false;
         const credTypes =
           typeof cred.type === 'string' ? [cred.type] : cred.type;
@@ -207,7 +213,7 @@ export async function POST(
 
     if (canClaim) {
       const { error: insertedError } = await supabase
-        .from('users_requirements_rel')
+        .from('users_requirements')
         .insert({
           user_id: user.sub,
           requirement_id: id,

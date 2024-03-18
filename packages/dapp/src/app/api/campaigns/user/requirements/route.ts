@@ -9,6 +9,8 @@ const CORS_HEADERS = {
   'Access-Control-Allow-Headers': 'Content-Type',
 };
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const token = request.headers.get('Authorization')?.replace('Bearer ', '');
@@ -35,7 +37,7 @@ export async function GET(request: NextRequest) {
 
     const { data, error } = await supabase
       .from('users')
-      .select('id, campaign_requirements(id)')
+      .select('id, requirements(id)')
       .eq('id', user.sub);
 
     if (error) {
@@ -52,7 +54,7 @@ export async function GET(request: NextRequest) {
         completed:
           !data || data.length === 0
             ? []
-            : data[0].campaign_requirements.map((r) => r.id),
+            : data[0].requirements.map((r) => r.id),
       },
       { status: 200 }
     );

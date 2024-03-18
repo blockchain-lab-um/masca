@@ -14,7 +14,7 @@ export async function GET() {
 
   // Insert a new nonce and select 1 row
   const { data, error } = await supabase
-    .from('authorization')
+    .from('siwe')
     .insert({
       // Expires in 5 minutes (ISO String)
       expires_at: format(

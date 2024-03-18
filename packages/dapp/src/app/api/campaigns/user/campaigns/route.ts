@@ -9,6 +9,8 @@ const CORS_HEADERS = {
   'Access-Control-Allow-Headers': 'Content-Type',
 };
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const token = request.headers.get('Authorization')?.replace('Bearer ', '');
@@ -34,7 +36,7 @@ export async function GET(request: NextRequest) {
     const supabase = supabaseServiceRoleClient();
 
     const { data: claims, error: claimsError } = await supabase
-      .from('campaign_claims')
+      .from('claims')
       .select('campaign_id')
       .eq('user_id', user.sub);
 

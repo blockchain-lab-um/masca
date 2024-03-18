@@ -7,12 +7,14 @@ const CORS_HEADERS = {
   'Access-Control-Allow-Headers': 'Content-Type',
 };
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(_: NextRequest) {
   const supabase = supabaseServiceRoleClient();
 
   // TODO - get only requirements that are in the requirement_campaign_rel with prod on table
   const { data: requirements, error } = await supabase
-    .from('campaign_requirements')
+    .from('requirements')
     .select('*');
 
   if (error) {

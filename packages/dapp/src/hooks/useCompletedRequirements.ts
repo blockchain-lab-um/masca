@@ -23,8 +23,5 @@ export const useCompletedRequirements = (token: string | null) => {
         completedRequirements: json.completed as string[],
       };
     },
-    initialData: {
-      completedRequirements: [],
-    },
   });
 };

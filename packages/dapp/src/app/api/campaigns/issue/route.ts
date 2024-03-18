@@ -15,6 +15,8 @@ const CORS_HEADERS = {
   'Access-Control-Allow-Headers': 'Content-Type',
 };
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     const token = request.headers.get('Authorization')?.replace('Bearer ', '');
@@ -113,7 +115,7 @@ export async function POST(request: NextRequest) {
     }
 
     const { data: claim, error: claimError } = await supabase
-      .from('campaign_claims')
+      .from('claims')
       .select('*')
       .eq('campaign_id', campaignId)
       .eq('user_id', user.sub);
@@ -174,7 +176,7 @@ export async function POST(request: NextRequest) {
 
     if (claim.length === 0) {
       const { error: updatedClaimError } = await supabase
-        .from('campaign_claims')
+        .from('claims')
         .insert({
           user_id: user.sub,
           campaign_id: campaignId,

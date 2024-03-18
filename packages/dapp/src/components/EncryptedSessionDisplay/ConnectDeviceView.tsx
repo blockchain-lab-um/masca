@@ -78,7 +78,7 @@ export const ConnectDeviceView = () => {
       );
 
       const { error } = await client
-        .from('encrypted_sessions')
+        .from('sessions')
         .update({
           connected: true,
         })

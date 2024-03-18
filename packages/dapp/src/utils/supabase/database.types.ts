@@ -41,90 +41,6 @@ export type Database = {
           },
         ];
       };
-      authorization: {
-        Row: {
-          created_at: string;
-          expires_at: string;
-          id: string;
-          nonce: string;
-        };
-        Insert: {
-          created_at?: string;
-          expires_at: string;
-          id?: string;
-          nonce?: string;
-        };
-        Update: {
-          created_at?: string;
-          expires_at?: string;
-          id?: string;
-          nonce?: string;
-        };
-        Relationships: [];
-      };
-      campaign_claims: {
-        Row: {
-          campaign_id: string;
-          claimed_at: string;
-          id: number;
-          user_id: string;
-        };
-        Insert: {
-          campaign_id: string;
-          claimed_at?: string;
-          id?: number;
-          user_id: string;
-        };
-        Update: {
-          campaign_id?: string;
-          claimed_at?: string;
-          id?: number;
-          user_id?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: 'public_campaign_claims_campaign_id_fkey';
-            columns: ['campaign_id'];
-            isOneToOne: false;
-            referencedRelation: 'campaigns';
-            referencedColumns: ['id'];
-          },
-          {
-            foreignKeyName: 'public_campaign_claims_user_id_fkey';
-            columns: ['user_id'];
-            isOneToOne: false;
-            referencedRelation: 'users';
-            referencedColumns: ['id'];
-          },
-        ];
-      };
-      campaign_requirements: {
-        Row: {
-          action_link: string | null;
-          created_at: string;
-          id: string;
-          issuer: string | null;
-          name: string | null;
-          types: string[] | null;
-        };
-        Insert: {
-          action_link?: string | null;
-          created_at?: string;
-          id?: string;
-          issuer?: string | null;
-          name?: string | null;
-          types?: string[] | null;
-        };
-        Update: {
-          action_link?: string | null;
-          created_at?: string;
-          id?: string;
-          issuer?: string | null;
-          name?: string | null;
-          types?: string[] | null;
-        };
-        Relationships: [];
-      };
       campaigns: {
         Row: {
           additional_constraints: Json[] | null;
@@ -179,31 +95,65 @@ export type Database = {
         };
         Relationships: [];
       };
-      encrypted_sessions: {
+      campaigns_requirements: {
         Row: {
-          connected: boolean;
-          data: string | null;
-          id: string;
-          iv: string | null;
+          campaign_id: string;
+          requirement_id: string;
+        };
+        Insert: {
+          campaign_id: string;
+          requirement_id: string;
+        };
+        Update: {
+          campaign_id?: string;
+          requirement_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'public_campaigns_requirements_campaign_id_fkey';
+            columns: ['campaign_id'];
+            isOneToOne: false;
+            referencedRelation: 'campaigns';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'public_campaigns_requirements_requirement_id_fkey';
+            columns: ['requirement_id'];
+            isOneToOne: false;
+            referencedRelation: 'requirements';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      claims: {
+        Row: {
+          campaign_id: string;
+          claimed_at: string;
+          id: number;
           user_id: string;
         };
         Insert: {
-          connected?: boolean;
-          data?: string | null;
-          id?: string;
-          iv?: string | null;
+          campaign_id: string;
+          claimed_at?: string;
+          id?: number;
           user_id: string;
         };
         Update: {
-          connected?: boolean;
-          data?: string | null;
-          id?: string;
-          iv?: string | null;
+          campaign_id?: string;
+          claimed_at?: string;
+          id?: number;
           user_id?: string;
         };
         Relationships: [
           {
-            foreignKeyName: 'public_encrypted-sessions_user_id_fkey';
+            foreignKeyName: 'public_claims_campaign_id_fkey';
+            columns: ['campaign_id'];
+            isOneToOne: false;
+            referencedRelation: 'campaigns';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'public_claims_user_id_fkey';
             columns: ['user_id'];
             isOneToOne: false;
             referencedRelation: 'users';
@@ -241,7 +191,7 @@ export type Database = {
         };
         Relationships: [
           {
-            foreignKeyName: 'presentations_user_id_fkey';
+            foreignKeyName: 'public_presentations_user_id_fkey';
             columns: ['user_id'];
             isOneToOne: false;
             referencedRelation: 'users';
@@ -249,35 +199,85 @@ export type Database = {
           },
         ];
       };
-      requirement_campaign_rel: {
+      requirements: {
         Row: {
-          campaign_id: string;
-          requirement_id: string;
+          action_link: string | null;
+          created_at: string;
+          id: string;
+          issuer: string | null;
+          name: string | null;
+          types: string[] | null;
         };
         Insert: {
-          campaign_id: string;
-          requirement_id: string;
+          action_link?: string | null;
+          created_at?: string;
+          id?: string;
+          issuer?: string | null;
+          name?: string | null;
+          types?: string[] | null;
         };
         Update: {
-          campaign_id?: string;
-          requirement_id?: string;
+          action_link?: string | null;
+          created_at?: string;
+          id?: string;
+          issuer?: string | null;
+          name?: string | null;
+          types?: string[] | null;
+        };
+        Relationships: [];
+      };
+      sessions: {
+        Row: {
+          connected: boolean;
+          data: string | null;
+          id: string;
+          iv: string | null;
+          user_id: string;
+        };
+        Insert: {
+          connected?: boolean;
+          data?: string | null;
+          id?: string;
+          iv?: string | null;
+          user_id: string;
+        };
+        Update: {
+          connected?: boolean;
+          data?: string | null;
+          id?: string;
+          iv?: string | null;
+          user_id?: string;
         };
         Relationships: [
           {
-            foreignKeyName: 'public_requirement_campaign_rel_campaign_id_fkey';
-            columns: ['campaign_id'];
+            foreignKeyName: 'public_sessions_user_id_fkey';
+            columns: ['user_id'];
             isOneToOne: false;
-            referencedRelation: 'campaigns';
-            referencedColumns: ['id'];
-          },
-          {
-            foreignKeyName: 'public_requirement_campaign_rel_requirement_id_fkey';
-            columns: ['requirement_id'];
-            isOneToOne: false;
-            referencedRelation: 'campaign_requirements';
+            referencedRelation: 'users';
             referencedColumns: ['id'];
           },
         ];
+      };
+      siwe: {
+        Row: {
+          created_at: string;
+          expires_at: string;
+          id: string;
+          nonce: string;
+        };
+        Insert: {
+          created_at?: string;
+          expires_at: string;
+          id?: string;
+          nonce?: string;
+        };
+        Update: {
+          created_at?: string;
+          expires_at?: string;
+          id?: string;
+          nonce?: string;
+        };
+        Relationships: [];
       };
       users: {
         Row: {
@@ -297,7 +297,7 @@ export type Database = {
         };
         Relationships: [];
       };
-      users_requirements_rel: {
+      users_requirements: {
         Row: {
           created_at: string;
           requirement_id: string;
@@ -315,14 +315,14 @@ export type Database = {
         };
         Relationships: [
           {
-            foreignKeyName: 'public_users_requirements_rel_requirement_id_fkey';
+            foreignKeyName: 'public_users_requirements_requirement_id_fkey';
             columns: ['requirement_id'];
             isOneToOne: false;
-            referencedRelation: 'campaign_requirements';
+            referencedRelation: 'requirements';
             referencedColumns: ['id'];
           },
           {
-            foreignKeyName: 'public_users_requirements_rel_user_id_fkey';
+            foreignKeyName: 'public_users_requirements_user_id_fkey';
             columns: ['user_id'];
             isOneToOne: false;
             referencedRelation: 'users';
@@ -340,6 +340,10 @@ export type Database = {
           presentation_id: string;
         };
         Returns: undefined;
+      };
+      requesting_user_id: {
+        Args: Record<PropertyKey, never>;
+        Returns: string;
       };
     };
     Enums: {
