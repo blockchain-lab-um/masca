@@ -128,11 +128,6 @@ export async function POST(request: NextRequest) {
         },
       });
     }
-    let claimDate = new Date().toISOString();
-
-    if (claim.length > 0) {
-      claimDate = claim[0].claimed_at;
-    }
 
     const controllerKeyId = 'key-1';
 
@@ -150,43 +145,24 @@ export async function POST(request: NextRequest) {
       ],
     });
 
-    // const credentialSubject = {
-    //   ...(campaign.credential_subject as Record<string, string>),
-    //   id: did as string,
-    // };
-
-    const vc = await agent.createVerifiableCredential({
-      credential: {
-        id: randomUUID(),
-        issuer: issuerDid.did,
-        issuanceDate: claimDate,
-        '@context': [
-          'https://www.w3.org/2018/credentials/v1',
-          campaign.schema_context_url,
-        ],
-        credentialSchema: {
-          id: campaign.schema_url,
-          type: 'JsonSchema',
-        },
-        type: ['VerifiableCredential', campaign.type],
-        credentialSubject: {
-          id: did,
-          // TODO: ...campaign.credential_subject
-          // error for types... need to fix
-        },
-      },
-      proofFormat: 'EthereumEip712Signature2021',
-    });
-
+    let claimDate = new Date().toISOString();
+    if (claim.length > 0) {
+      claimDate = claim[0].claimed_at;
+    }
+    let credentialId = claim[0]?.credential_id;
     if (claim.length === 0) {
-      const { error: updatedClaimError } = await supabase
-        .from('claims')
-        .insert({
-          user_id: user.sub,
-          campaign_id: campaignId,
-          claimed_at: claimDate,
-        });
-
+      const { data: insertedClaimData, error: updatedClaimError } =
+        await supabase
+          .from('claims')
+          .insert({
+            user_id: user.sub,
+            campaign_id: campaignId,
+            claimed_at: claimDate,
+          })
+          .select();
+      if (insertedClaimData![0].credential_id) {
+        credentialId = insertedClaimData![0].credential_id;
+      }
       if (updatedClaimError) {
         if (updatedClaimError.message === 'Claimed cannot exceed Total') {
           return new NextResponse('Campaign is already fully claimed', {
@@ -206,6 +182,32 @@ export async function POST(request: NextRequest) {
         });
       }
     }
+    // TODO: enhance this probably?
+    const credentialSubject: any = {
+      ...(campaign.credential_subject as object),
+      id: did as string,
+    };
+    if (credentialId !== undefined && credentialId !== null) {
+      credentialSubject.credentialId = credentialId;
+    }
+    const vc = await agent.createVerifiableCredential({
+      credential: {
+        id: randomUUID(),
+        issuer: issuerDid.did,
+        issuanceDate: claimDate,
+        '@context': [
+          'https://www.w3.org/2018/credentials/v1',
+          campaign.schema_context_url,
+        ],
+        credentialSchema: {
+          id: campaign.schema_url,
+          type: 'JsonSchema',
+        },
+        type: ['VerifiableCredential', campaign.type],
+        credentialSubject,
+      },
+      proofFormat: 'EthereumEip712Signature2021',
+    });
 
     return NextResponse.json(
       {
