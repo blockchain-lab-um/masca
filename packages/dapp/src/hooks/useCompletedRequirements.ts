@@ -4,7 +4,7 @@ export type CompletedRequirements = { id: string; completed_at: string }[];
 
 export const useCompletedRequirements = (token: string | null) => {
   return useQuery({
-    queryKey: ['completed_requirements', token],
+    queryKey: ['completed_requirements', { token }],
     queryFn: async () => {
       if (!token) return { completedRequirements: [] };
 

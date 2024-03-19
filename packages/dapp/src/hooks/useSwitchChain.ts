@@ -6,7 +6,7 @@ export const useSwitchChain = () => {
   const { switchChainAsync } = useSwitchChainWagmi();
 
   const switchChain = async (chainId: number): Promise<boolean> => {
-    if (chainId === currentChainId) true;
+    if (chainId === currentChainId) return true;
 
     try {
       await switchChainAsync({ chainId });

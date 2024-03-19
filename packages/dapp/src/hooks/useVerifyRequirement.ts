@@ -10,7 +10,7 @@ export const useVerifyRequirement = (id: string, token: string | null) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: ['verifyRequirement', id, token],
+    mutationKey: ['verifyRequirement', { id, token }],
     mutationFn: async (
       values: VerifyRequirementMutateProps
     ): Promise<{ success: boolean }> => {
@@ -39,7 +39,7 @@ export const useVerifyRequirement = (id: string, token: string | null) => {
     onSuccess: async ({ success }) => {
       if (success) {
         await queryClient.invalidateQueries({
-          queryKey: ['completed_requirements', token],
+          queryKey: ['completed_requirements', { token }],
         });
       }
     },

@@ -16,6 +16,7 @@ export async function GET(_: NextRequest) {
   const { data: campaigns, error } = await supabase
     .from('campaigns')
     .select('*, requirements(id, *)')
+    .order('created_at', { ascending: false })
     .eq('production', true);
 
   if (error) {
