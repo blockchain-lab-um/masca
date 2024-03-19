@@ -53,7 +53,7 @@ export const CampaignDisplay = ({
   );
 
   const { switchChain } = useSwitchChain();
-  const { chainId, address } = useAccount();
+  const { address } = useAccount();
 
   const { mutate: claimCampaign, isPending: isClaiming } = useClaimCampaign(
     id,
@@ -111,7 +111,6 @@ export const CampaignDisplay = ({
           <Image src={imageUrl} fill={true} alt="campaign" />
         </div>
       </div>
-
       <div className="w-full px-8 py-4">
         <div className="w-full">
           <h2 className="font-ubuntu dark:text-navy-blue-50 text-2xl font-medium leading-6 text-gray-800">

@@ -12,7 +12,6 @@ import { useSwitchChain, useVerifyRequirement } from '@/hooks';
 import { useAuthStore, useMascaStore, useToastStore } from '@/stores';
 import { isError } from '@blockchain-lab-um/masca-connector';
 import { shallow } from 'zustand/shallow';
-import { useAccount } from 'wagmi';
 
 type RequirementProps = {
   requirement: Tables<'requirements'>;
@@ -23,7 +22,7 @@ export const RequirementDisplay = ({
   requirement: { id, name, action_link: actionLink },
   completed,
 }: RequirementProps) => {
-  const t = useTranslations('CampaignDisplay'); // TODO: Change to requirement display
+  const t = useTranslations('RequirementDisplay');
 
   const token = useAuthStore((state) => state.token);
 

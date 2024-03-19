@@ -192,9 +192,9 @@
   "CampaignDisplay": {
     "requirements": "Requirements",
     "claim": "Claim",
-    "claimed": "Claimed",
-    "claim-success": "Credential saved",
-    "claim-error": "Claim failed",
+    "claimed": "Claimed"
+  },
+  "RequirementDisplay": {
     "verify": "Verify"
   },
   "CredentialCard": {
