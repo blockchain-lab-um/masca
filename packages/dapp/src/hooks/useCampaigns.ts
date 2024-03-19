@@ -4,11 +4,14 @@ import { useQuery } from '@tanstack/react-query';
 type AddUniqueProperty<T, P extends string, V> = {
   [K in keyof T | P]: K extends keyof T ? T[K] : V;
 };
-export type Campaigns = AddUniqueProperty<
+
+export type Campaign = AddUniqueProperty<
   Tables<'campaigns'>,
   'requirements',
   Tables<'requirements'>[]
->[];
+>;
+
+export type Campaigns = Campaign[];
 
 export const useCampaigns = () => {
   return useQuery({
@@ -19,6 +22,15 @@ export const useCampaigns = () => {
 
       return {
         campaigns: json.campaigns as Campaigns,
+      };
+    },
+    select: (fetchedData) => {
+      return {
+        campaigns: fetchedData.campaigns.sort((a: Campaign, b: Campaign) => {
+          const dateA = new Date(a.created_at).getTime();
+          const dateB = new Date(b.created_at).getTime();
+          return dateB - dateA;
+        }),
       };
     },
   });
