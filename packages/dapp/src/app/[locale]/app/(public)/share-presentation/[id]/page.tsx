@@ -6,8 +6,9 @@ import { notFound } from 'next/navigation';
 import { getAgent } from '@/app/api/veramoSetup';
 import JsonPanel from '@/components/CredentialDisplay/JsonPanel';
 import { convertTypes } from '@/utils/string';
-import { FormattedView } from './formattedView';
+import { FormattedView } from './FormattedView';
 import { usePresentation, useUpdatePresentationViews } from '@/hooks';
+import { NormalViewButton } from './NormalViewButton';
 
 export const revalidate = 0;
 
@@ -65,6 +66,7 @@ export default async function Page({
         )}
         {view === 'Json' && (
           <div className="dark:bg-navy-blue-800 h-full w-full rounded-3xl bg-white p-6 shadow-lg">
+            <NormalViewButton />
             <JsonPanel data={presentation} />
           </div>
         )}

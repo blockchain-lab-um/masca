@@ -84,6 +84,8 @@ export const CampaignDisplay = ({
     // We only support mainnet for now
     if (!(await switchChain(1))) return;
 
+    let currentDid = did;
+
     // We only support did:pkh for now
     if (didMethod !== 'did:pkh') {
       const changeMethodResult = await api.switchDIDMethod('did:pkh');
@@ -99,9 +101,10 @@ export const CampaignDisplay = ({
       }
       changeCurrDIDMethod('did:pkh');
       changeDID(changeMethodResult.data);
+      currentDid = changeMethodResult.data;
     }
 
-    claimCampaign({ did });
+    claimCampaign({ did: currentDid });
   };
 
   return (

@@ -14,7 +14,7 @@ import { useMemo, useState } from 'react';
 
 import { VerificationInfoModal } from '@/components/VerificationInfoModal';
 import { copyToClipboard } from '@/utils/string';
-import CredentialPanel from './credentialPanel';
+import CredentialPanel from './CredentialPanel';
 
 export const FormattedView = ({
   credential,

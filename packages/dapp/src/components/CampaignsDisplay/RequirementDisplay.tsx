@@ -52,6 +52,8 @@ export const RequirementDisplay = ({
       return;
     }
 
+    let currentDid = did;
+
     // We only support did:pkh for now
     if (didMethod !== 'did:pkh') {
       const changeMethodResult = await api.switchDIDMethod('did:pkh');
@@ -68,6 +70,7 @@ export const RequirementDisplay = ({
       }
       changeCurrDIDMethod('did:pkh');
       changeDID(changeMethodResult.data);
+      currentDid = changeMethodResult.data;
     }
 
     const queryCredentialsResult = await api.queryCredentials();
@@ -89,7 +92,7 @@ export const RequirementDisplay = ({
     }
 
     await verifyRequirement({
-      did,
+      did: currentDid,
       presentation: createPresentationResult.data,
     });
   };

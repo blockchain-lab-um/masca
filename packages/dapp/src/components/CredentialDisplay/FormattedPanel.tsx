@@ -100,7 +100,6 @@ const CredentialSubject = ({
               </h2>
               <div className="text-md dark:text-navy-blue-300 w-full truncate font-normal text-gray-700">
                 {isObject ? (
-                  // Small button, with outline, that opens a modal with the JSON data.
                   <button
                     type="button"
                     className="dark:border-navy-blue-300 dark:hover:border-navy-blue-400 dark:focus:ring-navy-blue-500 rounded-md border border-gray-300 px-2 py-0.5 text-sm hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
