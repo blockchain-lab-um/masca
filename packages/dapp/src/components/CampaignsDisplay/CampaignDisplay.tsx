@@ -7,8 +7,13 @@ import { shallow } from 'zustand/shallow';
 import { useMascaStore, useToastStore, useAuthStore } from '@/stores';
 import Button from '../Button';
 import { RequirementDisplay } from './RequirementDisplay';
-import { Campaigns, useClaimCampaign, useCompletedRequirements } from '@/hooks';
-import { useAccount, useSwitchChain } from 'wagmi';
+import {
+  Campaigns,
+  useClaimCampaign,
+  useCompletedRequirements,
+  useSwitchChain,
+} from '@/hooks';
+import { useAccount } from 'wagmi';
 
 type CampaignProps = {
   campaign: Campaigns[number];
@@ -47,7 +52,7 @@ export const CampaignDisplay = ({
     shallow
   );
 
-  const { switchChainAsync } = useSwitchChain();
+  const { switchChain } = useSwitchChain();
   const { chainId, address } = useAccount();
 
   const { mutate: claimCampaign, isPending: isClaiming } = useClaimCampaign(
@@ -77,22 +82,7 @@ export const CampaignDisplay = ({
     if (!api) return;
 
     // We only support mainnet for now
-    if (chainId !== 1) {
-      try {
-        await switchChainAsync({ chainId: 1 });
-      } catch (error) {
-        setTimeout(() => {
-          useToastStore.setState({
-            open: true,
-            title: 'Failed to switch to mainnet',
-            type: 'error',
-            loading: false,
-            link: null,
-          });
-        }, 200);
-        return;
-      }
-    }
+    if (!(await switchChain(1))) return;
 
     // We only support did:pkh for now
     if (didMethod !== 'did:pkh') {
