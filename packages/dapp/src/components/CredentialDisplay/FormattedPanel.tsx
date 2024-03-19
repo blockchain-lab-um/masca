@@ -83,7 +83,7 @@ const CredentialSubject = ({
           if (key === 'address' && isAddress(value)) {
             return <AddressDisplay address={value} />;
           }
-          if (!value || '' || []) return null;
+          if (!value || value === '' || value.length === 0) return null;
 
           const isObject = !(
             typeof value === 'string' || typeof value === 'number'
