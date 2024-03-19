@@ -69,7 +69,7 @@ export async function POST(
       });
     }
 
-    if (userRequirements.length > 0) {
+    if (userRequirements.length !== 0) {
       return NextResponse.json(
         {
           success: true,
