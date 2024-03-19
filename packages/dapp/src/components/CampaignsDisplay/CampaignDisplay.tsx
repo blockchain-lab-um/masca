@@ -117,7 +117,7 @@ export const CampaignDisplay = ({
   return (
     <div className="dark:bg-navy-blue-800 dark:text-navy-blue-400 flex rounded-3xl bg-white shadow-md">
       <div className="dark:border-navy-blue-700 hidden w-1/4 items-center justify-center border-r-4 border-gray-100 md:flex">
-        <div className="dark:ring-navy-blue-700 relative h-[96px] w-[96px] overflow-hidden  rounded-full ring-4 ring-gray-200 lg:h-[128px] lg:w-[128px]">
+        <div className="dark:ring-navy-blue-700 relative h-[96px] w-[96px] overflow-hidden rounded-full ring-4 ring-gray-200 lg:h-[128px] lg:w-[128px]">
           <Image src={imageUrl} fill={true} alt="campaign" />
         </div>
       </div>

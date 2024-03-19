@@ -36,9 +36,9 @@ const variants: Record<string, string> = {
   primary:
     'bg-pink-500 dark:bg-orange-accent-dark hover:opacity-80 text-white dark:text-navy-blue-800 animated-transition ',
   secondary:
-    'text-pink-500 border-[0.135rem] border-pink-500 dark:text-orange-accent-dark dark:border-orange-accent-dark  animated-transition ',
+    'text-pink-500 border-[0.135rem] border-pink-500 dark:text-orange-accent-dark dark:border-orange-accent-dark animated-transition ',
   'primary-active':
-    'text-pink-500 border-[0.135rem] border-pink-500 dark:text-orange-accent-dark dark:border-orange-accent-dark  animated-transition ',
+    'text-pink-500 border-[0.135rem] border-pink-500 dark:text-orange-accent-dark dark:border-orange-accent-dark animated-transition ',
   'secondary-active':
     'text-navy-blue-500 border border-1 border-navy-blue-300 animated-transition ',
   gray: 'bg-gray-200 text-gray-800 btn hover:opacity-80 animated-transition ',
