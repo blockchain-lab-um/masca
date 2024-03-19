@@ -3,6 +3,9 @@
     "title": "Address",
     "tooltip": "Open Address in Etherscan"
   },
+  "ImageLink": {
+    "image": "Image"
+  },
   "AppBottomBar": {
     "create-credential": "Create Credential",
     "credentials": "Credentials",

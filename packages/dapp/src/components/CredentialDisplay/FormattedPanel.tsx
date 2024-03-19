@@ -5,6 +5,7 @@ import {
   DocumentDuplicateIcon,
   ExclamationCircleIcon,
 } from '@heroicons/react/24/outline';
+import { Image } from '@nextui-org/react';
 import { Tooltip } from '@nextui-org/react';
 import { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
@@ -20,6 +21,7 @@ import {
   convertTypes,
   copyToClipboard,
 } from '@/utils/string';
+import { ImageLink } from '../ImageLink';
 
 interface FormattedPanelProps {
   credential: VerifiableCredential;
@@ -83,6 +85,7 @@ const CredentialSubject = ({
           if (key === 'address' && isAddress(value)) {
             return <AddressDisplay address={value} />;
           }
+          if (key === 'image') return <ImageLink value={value} />;
           if (!value || value === '' || value.length === 0) return null;
 
           const isObject = !(
