@@ -77,7 +77,6 @@ export const CampaignDisplay = ({
     if (!api) return;
 
     // We only support mainnet for now
-    console.log('chainId', chainId);
     if (chainId !== 1) {
       try {
         await switchChainAsync({ chainId: 1 });
