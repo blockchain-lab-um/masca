@@ -1,3 +1,4 @@
+import { useToastStore } from '@/stores';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { VerifiablePresentation } from '@veramo/core';
 
@@ -38,10 +39,44 @@ export const useVerifyRequirement = (id: string, token: string | null) => {
     },
     onSuccess: async ({ success }) => {
       if (success) {
+        setTimeout(() => {
+          useToastStore.setState({
+            open: true,
+            title: 'Verificaton successful',
+            type: 'success',
+            loading: false,
+            link: null,
+          });
+        }, 200);
+
         await queryClient.invalidateQueries({
           queryKey: ['completed_requirements', { token }],
         });
+        return;
       }
+
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: 'You do not meet the requirements',
+          type: 'error',
+          loading: false,
+          link: null,
+        });
+      }, 200);
+    },
+    onError: (error) => {
+      console.error('Error verifying requirement', error);
+
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: 'Failed to verify requirement',
+          type: 'error',
+          loading: false,
+          link: null,
+        });
+      }, 200);
     },
   });
 };
