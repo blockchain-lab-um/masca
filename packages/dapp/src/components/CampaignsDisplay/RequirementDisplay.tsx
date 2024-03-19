@@ -90,7 +90,7 @@ export const RequirementDisplay = ({
       setStartedVerifying(false);
       return;
     }
-
+    setStartedVerifying(false);
     await verifyRequirement({
       did: currentDid,
       presentation: createPresentationResult.data,
