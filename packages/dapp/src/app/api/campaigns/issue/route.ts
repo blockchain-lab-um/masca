@@ -89,16 +89,16 @@ export async function POST(request: NextRequest) {
 
     const supabase = supabaseServiceRoleClient();
 
-    const { data: campaign, error: campaignError } = await supabase
+    const { data: campaign } = await supabase
       .from('campaigns')
       .select('*')
       .eq('id', campaignId)
-      .single();
+      .single()
+      .throwOnError();
 
-    if (campaignError || !campaign) {
-      console.error('Error getting campaign', campaignError);
-      return new NextResponse('Internal Server Error', {
-        status: 500,
+    if (!campaign) {
+      return new NextResponse('Campaign not found', {
+        status: 404,
         headers: {
           ...CORS_HEADERS,
         },
@@ -179,6 +179,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (claim.length === 0) {
+      // TODO: Try throwing here and handling in else block
       const { error: updatedClaimError } = await supabase
         .from('claims')
         .insert({
