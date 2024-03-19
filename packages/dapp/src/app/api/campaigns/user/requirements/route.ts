@@ -38,7 +38,8 @@ export async function GET(request: NextRequest) {
     const { data, error } = await supabase
       .from('users')
       .select('id, requirements(id)')
-      .eq('id', user.sub);
+      .eq('id', user.sub)
+      .single();
 
     if (error) {
       return new NextResponse('Internal Server Error', {
@@ -51,10 +52,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(
       {
-        completed:
-          !data || data.length === 0
-            ? []
-            : data[0].requirements.map((r) => r.id),
+        completed: data.requirements.map((r) => r.id),
       },
       { status: 200 }
     );
