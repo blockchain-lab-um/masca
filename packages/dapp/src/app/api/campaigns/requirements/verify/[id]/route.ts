@@ -8,6 +8,7 @@ import jwt from 'jsonwebtoken';
 
 import { getAgent } from '@/app/api/veramoSetup';
 import { supabaseServiceRoleClient } from '@/utils/supabase/supabaseServiceRoleClient';
+import { normalizeCredential } from 'did-jwt-vc';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -176,38 +177,43 @@ export async function POST(
       });
     }
 
-    const credentials = presentation.verifiableCredential.map(
-      (vc) => JSON.parse(vc as string) as VerifiableCredential
-    );
+    let credentials: VerifiableCredential[];
+
+    try {
+      credentials = presentation.verifiableCredential.map((credential) =>
+        normalizeCredential(credential)
+      );
+    } catch (error) {
+      console.error('Error decoding credentials', error);
+      return new NextResponse('Error decoding credentials', {
+        status: 400,
+        headers: {
+          ...CORS_HEADERS,
+        },
+      });
+    }
 
     // TODO - simplify to only check the one requirement as long as the user has not selected the vcs for vp
     const canClaim = (requirement.types ?? []).every((type) =>
       credentials.some((credential) => {
-        let cred: VerifiableCredential;
-
-        // Decode credential
-        if (typeof credential === 'string') {
-          const decoded = jwt.decode(credential);
-          if (typeof decoded === 'string') return false;
-          cred = decoded as VerifiableCredential;
-        } else {
-          cred = credential;
-        }
-
         // Check issuer
         const issuer =
-          typeof cred.issuer === 'string' ? cred.issuer : cred.issuer.id;
+          typeof credential.issuer === 'string'
+            ? credential.issuer
+            : credential.issuer.id;
 
         if (issuer !== requirement.issuer) {
           return false;
         }
 
         // Check credential type
-        if (!cred.type) return false;
-        const credTypes =
-          typeof cred.type === 'string' ? [cred.type] : cred.type;
+        if (!credential.type) return false;
+        const credentialTypes =
+          typeof credential.type === 'string'
+            ? [credential.type]
+            : credential.type;
 
-        return credTypes.includes(type);
+        return credentialTypes.includes(type);
       })
     );
 
