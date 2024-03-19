@@ -12,7 +12,7 @@ export const useClaimCampaign = (id: string, token: string | null) => {
   const { mutateAsync: saveCredential } = useSaveCredential();
 
   return useMutation({
-    mutationKey: ['claim-campaign', id, token],
+    mutationKey: ['claim-campaign', { id, token }],
     mutationFn: async ({
       did,
     }: ClaimCampaignMutateProps): Promise<{

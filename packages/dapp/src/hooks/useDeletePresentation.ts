@@ -12,7 +12,7 @@ export const useDeletePresentation = (token: string | null) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: ['deletePresentation', token],
+    mutationKey: ['deletePresentation', { token }],
     mutationFn: async ({ id }: DeletePresentationMuateProps) => {
       setTimeout(() => {
         useToastStore.setState({
