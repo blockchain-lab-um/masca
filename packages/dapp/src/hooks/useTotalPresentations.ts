@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 
 export const useTotalPresentations = (token: string) => {
   return useQuery({
-    queryKey: ['presentations', token],
+    queryKey: ['presentations', { token, total: true }],
     queryFn: async () => {
       const supabase = supabaseClient(token);
 

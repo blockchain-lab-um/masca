@@ -1,47 +1,65 @@
 import { useToastStore } from '@/stores';
 import { supabaseClient } from '@/utils/supabase/supabaseClient';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { usePresentationsOptions } from './usePresentations';
 
-export const useDeletePresentation = (id: string, token: string | null) => {
+export type DeletePresentationMuateProps = {
+  id: string;
+  page: number;
+};
+
+export const useDeletePresentation = (token: string | null) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: ['deletePresentation', id, token],
-    mutationFn: async () => {
-      useToastStore.setState({
-        open: true,
-        loading: true,
-        type: 'normal',
-        text: 'Deleting presentation',
-        link: null,
-      });
+    mutationKey: ['deletePresentation', token],
+    mutationFn: async ({ id }: DeletePresentationMuateProps) => {
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          loading: true,
+          type: 'normal',
+          title: 'Deleting presentation',
+          link: null,
+        });
+      }, 200);
 
       if (!token) throw new Error('No token');
 
       const supabase = supabaseClient(token);
+
       await supabase
         .from('presentations')
         .delete()
         .match({ id })
         .throwOnError();
     },
-    onMutate: async () => {
-      await queryClient.cancelQueries({ queryKey: ['presentations'] });
+    onMutate: async ({ id, page }) => {
+      const presentationsOptions = usePresentationsOptions(token, page);
 
-      const previousPresentations = queryClient.getQueryData(['presentations']);
+      await queryClient.cancelQueries({
+        queryKey: ['presentations', { token }],
+      });
+
+      const previousPresentations = queryClient.getQueryData(
+        presentationsOptions.queryKey
+      );
 
       if (previousPresentations) {
-        queryClient.setQueryData(['presentations'], (prev: any) =>
-          prev.filter((p: any) => p.id !== id)
-        );
+        queryClient.setQueryData(presentationsOptions.queryKey, (prev) => ({
+          ...prev,
+          presentations: prev
+            ? prev.presentations.filter((p: any) => p.id !== id)
+            : [],
+        }));
       }
 
       return { previousPresentations };
     },
-    onError: (_, __, context) => {
+    onError: (_, { page }, context) => {
       if (context?.previousPresentations) {
         queryClient.setQueryData(
-          ['presentations'],
+          ['presentations', { token, page }],
           context.previousPresentations
         );
       }
@@ -57,16 +75,20 @@ export const useDeletePresentation = (id: string, token: string | null) => {
       }, 200);
     },
     onSuccess: () => {
-      useToastStore.setState({
-        open: true,
-        title: 'Presentation deleted',
-        type: 'success',
-        loading: false,
-        link: null,
-      });
+      setTimeout(() => {
+        useToastStore.setState({
+          open: true,
+          title: 'Presentation deleted',
+          type: 'success',
+          loading: false,
+          link: null,
+        });
+      }, 200);
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['presentations'] });
+      queryClient.invalidateQueries({
+        queryKey: ['presentations', { token }],
+      });
     },
   });
 };

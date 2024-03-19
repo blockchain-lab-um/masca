@@ -1,32 +1,29 @@
 import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
 import { useTranslations } from 'next-intl';
-import { Dispatch, SetStateAction } from 'react';
 
 import { useAuthStore } from '@/stores';
-import { Tables } from '@/utils/supabase/helper.types';
 import Button from '../Button';
 import { useDeletePresentation } from '@/hooks';
 
 interface DeleteSharedPresentationModalProps {
   isModalOpen: boolean;
-  setModalOpen: (isOpen: boolean) => void;
-  setPresentations: Dispatch<SetStateAction<Tables<'presentations'>[]>>;
   presentationId: string;
+  page: number;
+  setModalOpen: (isOpen: boolean) => void;
 }
 
 export const DeleteSharedPresentationModal = ({
   isModalOpen,
   presentationId,
+  page,
   setModalOpen,
 }: DeleteSharedPresentationModalProps) => {
   const t = useTranslations('DeleteSharedPresentationModal');
 
   const token = useAuthStore((state) => state.token);
 
-  const { mutateAsync: deletePresentation, isPending } = useDeletePresentation(
-    presentationId,
-    token
-  );
+  const { mutate: deletePresentation, isPending } =
+    useDeletePresentation(token);
 
   return (
     <Modal
@@ -63,9 +60,13 @@ export const DeleteSharedPresentationModal = ({
                   variant="warning"
                   disabled={isPending}
                   loading={isPending}
-                  onClick={async () =>
-                    deletePresentation().finally(() => setModalOpen(false))
-                  }
+                  onClick={() => {
+                    deletePresentation({
+                      id: presentationId,
+                      page,
+                    });
+                    setModalOpen(false);
+                  }}
                 >
                   {t('delete')}
                 </Button>

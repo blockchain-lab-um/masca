@@ -46,7 +46,7 @@ export const CredentialView = ({
     setTimeout(() => {
       useToastStore.setState({
         open: true,
-        text: t('saving'),
+        title: t('saving'),
         type: 'normal',
         loading: true,
         link: null,
@@ -64,7 +64,7 @@ export const CredentialView = ({
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          text: t('saving-error'),
+          title: t('saving-error'),
           type: 'error',
           loading: false,
           link: null,
@@ -76,7 +76,7 @@ export const CredentialView = ({
     setTimeout(() => {
       useToastStore.setState({
         open: true,
-        text: t('saving-success'),
+        title: t('saving-success'),
         type: 'success',
         loading: false,
         link: null,

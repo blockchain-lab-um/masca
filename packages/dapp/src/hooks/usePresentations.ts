@@ -1,5 +1,5 @@
 import { supabaseClient } from '@/utils/supabase/supabaseClient';
-import { useQuery } from '@tanstack/react-query';
+import { queryOptions, useQuery } from '@tanstack/react-query';
 
 export const ITEMS_PER_PAGE = 10;
 
@@ -10,10 +10,12 @@ const getFromAndTo = (page: number) => {
   return { from, to };
 };
 
-export const usePresentations = (token: string, page: number) => {
-  return useQuery({
-    queryKey: ['presentations', token, page],
+export const usePresentationsOptions = (token: string | null, page: number) =>
+  queryOptions({
+    queryKey: ['presentations', { token, page }],
     queryFn: async () => {
+      if (!token) return { presentations: [] };
+
       const supabase = supabaseClient(token);
 
       const { from, to } = getFromAndTo(page);
@@ -30,4 +32,7 @@ export const usePresentations = (token: string, page: number) => {
     },
     refetchInterval: 30000,
   });
+
+export const usePresentations = (token: string | null, page: number) => {
+  return useQuery(usePresentationsOptions(token, page));
 };

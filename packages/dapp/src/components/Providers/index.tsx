@@ -7,6 +7,7 @@ import { config } from '../../config/wagmiConfig';
 import { EncryptedSessionProvider } from '../EncryptedSessionProvider';
 import { CookiesProvider } from '../CookiesProvider';
 import MascaProvider from '../MascaProvider';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ export const Providers = ({
             <MascaProvider>{children}</MascaProvider>
           </CookiesProvider>
         </EncryptedSessionProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </WagmiProvider>
   );

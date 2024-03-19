@@ -245,6 +245,7 @@ export const SharedPresentations = () => {
         isModalOpen={isDeleteModalOpen}
         presentationId={selectedPresentationId!}
         setModalOpen={setDeleteModalOpen}
+        page={page}
       />
       <ShareCredentialModal />
     </>
