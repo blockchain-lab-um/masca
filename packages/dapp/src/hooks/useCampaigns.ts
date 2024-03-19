@@ -24,14 +24,5 @@ export const useCampaigns = () => {
         campaigns: json.campaigns as Campaigns,
       };
     },
-    select: (fetchedData) => {
-      return {
-        campaigns: fetchedData.campaigns.sort((a: Campaign, b: Campaign) => {
-          const dateA = new Date(a.created_at).getTime();
-          const dateB = new Date(b.created_at).getTime();
-          return dateB - dateA;
-        }),
-      };
-    },
   });
 };
