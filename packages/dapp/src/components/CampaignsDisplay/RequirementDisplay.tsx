@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   ArrowTopRightOnSquareIcon,
   CheckIcon,
@@ -38,15 +38,19 @@ export const RequirementDisplay = ({
   );
 
   const { switchChain } = useSwitchChain();
+  const [startedVerifying, setStartedVerifying] = useState(false);
 
   const { mutateAsync: verifyRequirement, isPending: isVerifying } =
     useVerifyRequirement(id, token);
 
   const handleVerify = async () => {
     if (!api) return;
-
+    setStartedVerifying(true);
     // We only support mainnet for now
-    if (!(await switchChain(1))) return;
+    if (!(await switchChain(1))) {
+      setStartedVerifying(false);
+      return;
+    }
 
     // We only support did:pkh for now
     if (didMethod !== 'did:pkh') {
@@ -59,6 +63,7 @@ export const RequirementDisplay = ({
           loading: false,
           link: null,
         });
+        setStartedVerifying(false);
         return;
       }
       changeCurrDIDMethod('did:pkh');
@@ -67,7 +72,10 @@ export const RequirementDisplay = ({
 
     const queryCredentialsResult = await api.queryCredentials();
 
-    if (isError(queryCredentialsResult)) return;
+    if (isError(queryCredentialsResult)) {
+      setStartedVerifying(false);
+      return;
+    }
 
     // Create a presentation from all the user's credentials
     const createPresentationResult = await api.createPresentation({
@@ -75,7 +83,10 @@ export const RequirementDisplay = ({
       proofFormat: 'EthereumEip712Signature2021',
     });
 
-    if (isError(createPresentationResult)) return;
+    if (isError(createPresentationResult)) {
+      setStartedVerifying(false);
+      return;
+    }
 
     await verifyRequirement({
       did,
@@ -107,8 +118,8 @@ export const RequirementDisplay = ({
             variant="primary"
             size="xs"
             onClick={handleVerify}
-            loading={isVerifying}
-            disabled={!did || isVerifying}
+            loading={startedVerifying || isVerifying}
+            disabled={!did || startedVerifying || isVerifying}
           >
             {t('verify')}
           </Button>
