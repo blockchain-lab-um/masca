@@ -16,6 +16,7 @@ import { DIDDisplay } from '@/components/DIDDisplay';
 import JsonModal from '@/components/JsonModal';
 import { getFirstWord } from '@/utils/format';
 import { convertTypes, copyToClipboard } from '@/utils/string';
+import { ImageLink } from '@/components/ImageLink';
 
 interface FormattedPanelProps {
   credential: VerifiableCredential;
@@ -93,11 +94,11 @@ const CredentialSubject = ({
             }
 
             if (key === 'address') return <AddressDisplay address={value} />;
+            if (key === 'image') return <ImageLink value={value} />;
 
             const isObject = !(
               typeof value === 'string' || typeof value === 'number'
             );
-            // key is a string camel case, seperate it with spaces, e.g. CamelCase should be Camel Case
             key = key.replace(/([A-Z])/g, ' $1').trim();
             return (
               <div
