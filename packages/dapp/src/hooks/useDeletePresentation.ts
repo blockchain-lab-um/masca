@@ -10,8 +10,8 @@ export type DeletePresentationMuateProps = {
 };
 
 export const useDeletePresentation = (token: string | null) => {
-  const queryClient = useQueryClient();
   const t = useTranslations('Hooks');
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationKey: ['deletePresentation', { token }],
