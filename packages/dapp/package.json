@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/dapp",
-  "version": "1.2.1-beta.0",
+  "version": "1.2.1-beta.1",
   "private": true,
   "license": "(Apache-2.0 AND MIT)",
   "type": "commonjs",
@@ -8,17 +8,19 @@
     "build": "rimraf .next && next build",
     "postbuild": "next-sitemap --config=next-sitemap.config.js",
     "build:docker": "pnpm build",
-    "dev": "cross-env next dev",
-    "dev:local": "cross-env USE_LOCAL='true' next dev",
+    "build:local": "infisical run --env=dev --path=/packages/dapp -- rimraf .next && next build",
+    "dev": "infisical run --env=dev --path=/packages/dapp -- next dev",
+    "dev:local": "infisical run --env=dev --path=/packages/dapp -- cross-env USE_LOCAL='true' next dev",
     "docker:build": "docker build . -t blockchain-lab-um/dapp:latest",
     "lint": "biome check .",
     "lint:fix": "biome check --apply .",
     "start": "next start",
-    "supabase:generate": "supabase gen types typescript --project-id nqgexdszsnrliuzuobul --schema public > src/utils/supabase/database.types.ts"
+    "supabase:generate": "supabase gen types typescript --project-id nqgexdszsnrliuzuobul --schema public > src/utils/supabase/database.types.ts",
+    "start:local": "infisical run --env=dev --path=/packages/dapp -- next start"
   },
   "dependencies": {
-    "@blockchain-lab-um/did-provider-key": "1.0.8-beta.0",
-    "@blockchain-lab-um/masca-connector": "1.3.1-beta.0",
+    "@blockchain-lab-um/did-provider-key": "1.0.8-beta.1",
+    "@blockchain-lab-um/masca-connector": "1.3.1-beta.1",
     "@blockchain-lab-um/oidc-types": "0.0.8",
     "@headlessui/react": "^1.7.18",
     "@heroicons/react": "^2.1.1",
@@ -96,9 +98,7 @@
   },
   "nx": {
     "namedInputs": {
-      "default": [
-        "{projectRoot}/**/*"
-      ],
+      "default": ["{projectRoot}/**/*"],
       "production": [
         "default",
         "!{projectRoot}/sonar-project.properties",
@@ -110,25 +110,13 @@
     },
     "targets": {
       "build": {
-        "inputs": [
-          "production",
-          "^production"
-        ],
-        "dependsOn": [
-          "^build"
-        ],
-        "outputs": [
-          "{projectRoot}/.next"
-        ]
+        "inputs": ["production", "^production"],
+        "dependsOn": ["^build"],
+        "outputs": ["{projectRoot}/.next"]
       },
       "start": {
-        "inputs": [
-          "production",
-          "^production"
-        ],
-        "dependsOn": [
-          "build"
-        ],
+        "inputs": ["production", "^production"],
+        "dependsOn": ["build"],
         "outputs": []
       }
     }

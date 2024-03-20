@@ -22,19 +22,17 @@ jobs:
           main-branch-name: 'develop'
       - name: Install pnpm
         uses: pnpm/action-setup@v3
-        with:
-          version: 8.11.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 20.10.0
+          node-version-file: '.nvmrc'
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      - name: Test snap
+      - name: Test
         run: pnpm nx test:ci @blockchain-lab-um/masca
         env:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-      - name: Scan snap
+      - name: Scan
         uses: SonarSource/sonarcloud-github-action@master
         with:
           projectBaseDir: packages/snap
@@ -57,19 +55,17 @@ jobs:
           main-branch-name: 'develop'
       - name: Install pnpm
         uses: pnpm/action-setup@v3
-        with:
-          version: 8.11.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 20.10.0
+          node-version-file: '.nvmrc'
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      - name: Test snap
+      - name: Test
         run: pnpm nx test:ci @blockchain-lab-um/veramo-datamanager
         env:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-      - name: Scan Datamanager
+      - name: Scan
         uses: SonarSource/sonarcloud-github-action@master
         with:
           projectBaseDir: packages/datamanager
@@ -87,7 +83,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Scan connector
+      - name: Scan
         uses: SonarSource/sonarcloud-github-action@master
         with:
           projectBaseDir: packages/connector
@@ -105,7 +101,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Scan dapp
+      - name: Scan
         uses: SonarSource/sonarcloud-github-action@master
         with:
           projectBaseDir: packages/dapp
@@ -123,7 +119,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Scan docs
+      - name: Scan
         uses: SonarSource/sonarcloud-github-action@master
         with:
           projectBaseDir: packages/docs
@@ -146,19 +142,17 @@ jobs:
           main-branch-name: 'develop'
       - name: Install pnpm
         uses: pnpm/action-setup@v3
-        with:
-          version: 8.11.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 20.10.0
+          node-version-file: '.nvmrc'
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      - name: Test snap
+      - name: Test
         run: pnpm nx test:ci @blockchain-lab-um/did-provider-key
         env:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-      - name: Scan snap
+      - name: Scan
         uses: SonarSource/sonarcloud-github-action@master
         with:
           projectBaseDir: libs/did-provider-key
@@ -172,27 +166,26 @@ jobs:
     name: SonarCloud extended-verification-lib
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - uses: nrwl/nx-set-shas@v3
         with:
           main-branch-name: 'develop'
       - name: Install pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v3
+
+      - uses: actions/setup-node@v4
         with:
-          version: 8.11.0
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 20.10.0
+          node-version-file: '.nvmrc'
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      - name: Test snap
+      - name: Test
         run: pnpm nx test:ci @blockchain-lab-um/extended-verification
         env:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-      - name: Scan snap
+      - name: Scan
         uses: SonarSource/sonarcloud-github-action@master
         with:
           projectBaseDir: libs/extended-verification

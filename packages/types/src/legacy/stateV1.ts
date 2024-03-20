@@ -5,9 +5,9 @@ import type { W3CVerifiableCredential } from '@veramo/core';
 import type {
   AvailableCredentialStores,
   AvailableMethods,
-} from './constants.js';
+} from '../constants.js';
 
-interface MascaLegacyConfigV1 {
+export interface MascaLegacyConfigV1 {
   snap: {
     acceptedTerms: boolean;
   };
@@ -17,7 +17,7 @@ interface MascaLegacyConfigV1 {
   };
 }
 
-interface MascaLegacyAccountConfigV1 {
+export interface MascaLegacyAccountConfigV1 {
   ssi: {
     selectedMethod: AvailableMethods;
     storesEnabled: Record<AvailableCredentialStores, boolean>;
@@ -47,7 +47,7 @@ export interface MascaLegacyStateV1 {
 /**
  * Masca State for a MetaMask address
  */
-interface MascaLegacyAccountStateV1 {
+export interface MascaLegacyAccountStateV1 {
   polygon: {
     state: PolygonLegacyStateV1;
   };
@@ -60,7 +60,7 @@ interface MascaLegacyAccountStateV1 {
   };
 }
 
-interface PolygonLegacyBaseStateV1 {
+export interface PolygonLegacyBaseStateV1 {
   credentials: Record<string, string>;
   identities: Record<string, string>;
   profiles: Record<string, string>;
@@ -68,7 +68,7 @@ interface PolygonLegacyBaseStateV1 {
   merkleTree: Record<string, string>;
 }
 
-type PolygonLegacyStateV1 = Record<
+export type PolygonLegacyStateV1 = Record<
   DidMethod.Iden3 | DidMethod.PolygonId,
   Record<
     Blockchain.Ethereum | Blockchain.Polygon,
