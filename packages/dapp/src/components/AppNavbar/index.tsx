@@ -32,7 +32,7 @@ const MAIN_LINKS = [
 export default function AppNavbar() {
   const t = useTranslations('AppNavbar');
   const pathname = usePathname() ?? '/';
-  const { isConnected, isConnecting } = useAccount();
+  const { isConnected } = useAccount();
 
   return (
     <div className="main-bg fixed top-0 z-50 m-0 flex h-24 w-screen items-center">
