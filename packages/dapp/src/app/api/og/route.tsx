@@ -98,7 +98,7 @@ export async function GET(req: NextRequest) {
                   >
                     {credentialIssuer}
                   </div>
-                  <div tw="text-md text-orange-100 mt-4">ISSUED</div>
+                  <div tw="text-md text-orange-100 mt-4">ACHIEVED</div>
                   <div
                     tw="tracking-tight flex text-xl text-white"
                     style={{
