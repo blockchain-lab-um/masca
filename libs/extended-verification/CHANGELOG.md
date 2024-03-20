@@ -1,5 +1,11 @@
 # @blockchain-lab-um/extended-verification
 
+## 0.1.1-beta.2
+
+### Patch Changes
+
+- [#553](https://github.com/blockchain-lab-um/masca/pull/553) [`1d11e8d`](https://github.com/blockchain-lab-um/masca/commit/1d11e8d73e9731410e6356b9aef24ad008446ab5) Thanks [@pseudobun](https://github.com/pseudobun)! - Adds public JSON RPC providers.
+
 ## 0.1.1-beta.1
 
 ### Patch Changes
