@@ -6,8 +6,11 @@ import { useAccount } from 'wagmi';
 import Button from '@/components/Button';
 import CreateConnectionModal from '@/components/ConnectionModal/CreateConnectionModal';
 import ScanQRCodeModal from '@/components/ScanQRCodeModal/ScanQRCodeModal';
-import { useEncryptedSessionStore, useToastStore } from '@/stores';
-import { useAuthStore } from '@/stores/authStore';
+import {
+  useEncryptedSessionStore,
+  useToastStore,
+  useAuthStore,
+} from '@/stores';
 import { Database } from '@/utils/supabase/database.types';
 
 export const ConnectDeviceView = () => {
@@ -75,7 +78,7 @@ export const ConnectDeviceView = () => {
       );
 
       const { error } = await client
-        .from('encrypted_sessions')
+        .from('sessions')
         .update({
           connected: true,
         })

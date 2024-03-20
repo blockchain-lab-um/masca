@@ -3,11 +3,15 @@
     "title": "Address",
     "tooltip": "Open Address in Etherscan"
   },
+  "ImageLink": {
+    "image": "Image"
+  },
   "AppBottomBar": {
     "create-credential": "Create Credential",
     "credentials": "Credentials",
     "qr-scanner": "QR Code Scanner",
     "settings": "Settings",
+    "campaigns": "Campaigns",
     "verify-data": "Verify Data"
   },
   "VerificationInfoModal": {
@@ -60,7 +64,8 @@
       "home": "Home",
       "other": "Other",
       "qr-code-session": "QR Scanner",
-      "settings": "Settings"
+      "settings": "Settings",
+      "campaigns": "Campaigns"
     }
   },
   "NavConnection": {
@@ -181,6 +186,20 @@
     "tooltip": {
       "polygonid": "Polygon ID VCs aren't supported yet. Please remove this credential to continue!"
     }
+  },
+  "CampaignsDisplay": {
+    "please-sign-in": "Please sign in to see completed campaigns",
+    "verification-error": "Failed to verify the campaign",
+    "no-credentials": "No credentials found",
+    "no-campaigns": "No campaigns currently available."
+  },
+  "CampaignDisplay": {
+    "requirements": "Requirements",
+    "claim": "Claim",
+    "claimed": "Claimed"
+  },
+  "RequirementDisplay": {
+    "verify": "Verify"
   },
   "CredentialCard": {
     "create-verifiable-presentation": "Create Presentation",
@@ -344,8 +363,23 @@
     "datastore": "Data Store",
     "ecosystem": "Ecosystem",
     "filter": "Filter",
+    "filters": "Filters",
     "title": "Filter Credentials",
     "type": "Type"
+  },
+  "Hooks": {
+    "deleting-presentation": "Deleting presentation",
+    "failed-to-delete-presentation": "Failed to delete presentation",
+    "presentation-deleted": "Presentation deleted",
+    "loading-credentials": "Loading credentials",
+    "failed-to-load-credentials": "Failed to load credentials",
+    "saving-credential": "Saving credential",
+    "failed-to-save-credential": "Failed to save credential",
+    "credential-saved": "Credential saved",
+    "failed-to-switch-chainId": "Failed to switch to chainId",
+    "verification-success": "Verification successful",
+    "requirements-not-met": "You do not meet the requirements",
+    "failed-to-verify-requirements": "Failed to verify requirements"
   },
   "FormattedPanel": {
     "dates": "DATES",

@@ -1,11 +1,10 @@
-import { createClient } from '@supabase/supabase-js';
 import { NextRequest, NextResponse } from 'next/server';
 
-import { Database } from '@/utils/supabase/database.types';
+import { supabaseServiceRoleClient } from '@/utils/supabase/supabaseServiceRoleClient';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET OPTIONS',
+  'Access-Control-Allow-Methods': 'GET, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type',
 };
 
@@ -14,10 +13,7 @@ export async function GET(
   { params: { id } }: { params: { id: string } }
 ) {
   try {
-    const supabase = createClient<Database>(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SECRET_KEY!
-    );
+    const supabase = supabaseServiceRoleClient();
 
     const { data, error } = await supabase
       .from('presentations')

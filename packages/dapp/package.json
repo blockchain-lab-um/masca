@@ -15,8 +15,8 @@
     "lint": "biome check .",
     "lint:fix": "biome check --apply .",
     "start": "next start",
-    "start:local": "infisical run --env=dev --path=/packages/dapp -- next start",
-    "supabase:generate": "supabase gen types typescript --project-id vfxyvzkprpeegheyapzg --schema public > src/utils/supabase/database.types.ts"
+    "supabase:generate": "supabase gen types typescript --project-id nqgexdszsnrliuzuobul --schema public > src/utils/supabase/database.types.ts",
+    "start:local": "infisical run --env=dev --path=/packages/dapp -- next start"
   },
   "dependencies": {
     "@blockchain-lab-um/did-provider-key": "1.0.8-beta.1",
@@ -28,7 +28,7 @@
     "@radix-ui/react-toast": "^1.1.5",
     "@react-oauth/google": "^0.12.1",
     "@supabase/supabase-js": "^2.39.7",
-    "@tanstack/react-query": "^5.25.0",
+    "@tanstack/react-query": "^5.28.4",
     "@tanstack/react-table": "^8.13.2",
     "@types/dompurify": "^3.0.5",
     "@types/js-cookie": "^3.0.6",
@@ -36,9 +36,12 @@
     "@veramo/core": "5.6.1-next.57",
     "@veramo/credential-eip712": "5.6.1-next.57",
     "@veramo/credential-w3c": "5.6.1-next.57",
+    "@veramo/did-manager": "5.6.1-next.57",
     "@veramo/did-provider-ethr": "5.6.1-next.57",
     "@veramo/did-provider-pkh": "5.6.1-next.57",
     "@veramo/did-resolver": "5.6.1-next.57",
+    "@veramo/key-manager": "5.6.1-next.57",
+    "@veramo/kms-local": "5.6.1-next.57",
     "@veramo/utils": "5.6.1-next.57",
     "@vercel/analytics": "^1.2.2",
     "@vercel/og": "^0.6.2",
@@ -81,6 +84,7 @@
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",
+    "@tanstack/react-query-devtools": "^5.28.4",
     "@types/file-saver": "^2.0.7",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/luxon": "^3.4.2",
@@ -94,9 +98,7 @@
   },
   "nx": {
     "namedInputs": {
-      "default": [
-        "{projectRoot}/**/*"
-      ],
+      "default": ["{projectRoot}/**/*"],
       "production": [
         "default",
         "!{projectRoot}/sonar-project.properties",
@@ -108,25 +110,13 @@
     },
     "targets": {
       "build": {
-        "inputs": [
-          "production",
-          "^production"
-        ],
-        "dependsOn": [
-          "^build"
-        ],
-        "outputs": [
-          "{projectRoot}/.next"
-        ]
+        "inputs": ["production", "^production"],
+        "dependsOn": ["^build"],
+        "outputs": ["{projectRoot}/.next"]
       },
       "start": {
-        "inputs": [
-          "production",
-          "^production"
-        ],
-        "dependsOn": [
-          "build"
-        ],
+        "inputs": ["production", "^production"],
+        "dependsOn": ["build"],
         "outputs": []
       }
     }

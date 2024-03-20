@@ -25,9 +25,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import DeleteModal from '@/components/DeleteModal';
 import StoreIcon from '@/components/StoreIcon';
-import { useTableStore } from '@/stores';
-import { useAuthStore } from '@/stores/authStore';
-import { useShareModalStore } from '@/stores/shareModalStore';
+import { useTableStore, useAuthStore, useShareModalStore } from '@/stores';
 import { removeCredentialSubjectFilterString } from '@/utils/format';
 import { convertTypes } from '@/utils/string';
 import { LastFetched } from '../LastFetched';

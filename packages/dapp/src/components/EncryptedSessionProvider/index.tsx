@@ -5,12 +5,19 @@ import { useTranslations } from 'next-intl';
 import { useEffect, useMemo } from 'react';
 import { useAccount } from 'wagmi';
 
-import { useMascaStore, useToastStore } from '@/stores';
-import { useAuthStore } from '@/stores/authStore';
-import { useEncryptedSessionStore } from '@/stores/encryptedSessionStore';
-import { createClient } from '@/utils/supabase/client';
+import {
+  useMascaStore,
+  useToastStore,
+  useAuthStore,
+  useEncryptedSessionStore,
+} from '@/stores';
+import { supabaseClient } from '@/utils/supabase/supabaseClient';
 
-export const EncryptedSessionProvider = () => {
+export const EncryptedSessionProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const t = useTranslations('EncryptedSessionProvider');
   const token = useAuthStore((state) => state.token);
 
@@ -36,7 +43,7 @@ export const EncryptedSessionProvider = () => {
 
   const api = useMascaStore((state) => state.mascaApi);
 
-  const client = useMemo(() => createClient(token ?? ''), [token]);
+  const client = supabaseClient(token);
 
   // Decrypt data
   const decryptData = async ({
@@ -138,13 +145,13 @@ export const EncryptedSessionProvider = () => {
   useEffect(() => {
     if (sessionId && deviceType === 'primary') {
       client
-        .channel('realtime encrypted_sessions')
+        .channel('realtime sessions')
         .on(
           'postgres_changes',
-          { event: 'UPDATE', schema: 'public', table: 'encrypted_sessions' },
+          { event: 'UPDATE', schema: 'public', table: 'sessions' },
           async () => {
             const { data, error } = await client
-              .from('encrypted_sessions')
+              .from('sessions')
               .select()
               .eq('id', sessionId)
               .single();
@@ -198,5 +205,5 @@ export const EncryptedSessionProvider = () => {
     });
   }, [address]);
 
-  return null;
+  return children;
 };

@@ -101,7 +101,10 @@ const CredentialCard = ({ vc, selected }: CredentialCardProps) => {
               )}
             </div>
             <div className="font-cabin text-right text-[1.3rem] text-orange-100">
-              {types}
+              {types.includes('Masca Genesis Campaign Credential') &&
+              vc.data.credentialSubject.title
+                ? vc.data.credentialSubject.title
+                : types}
             </div>
             <Link
               onClick={(e) => {

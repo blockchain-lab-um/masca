@@ -9,7 +9,7 @@ import AddressPopover from '@/components/AddressPopover';
 import ConnectButton from '@/components/ConnectButton';
 import DropdownMenu from '@/components/DropdownMenu';
 import MethodDropdownMenu from '@/components/MethodDropdownMenu';
-import { useGeneralStore, useMascaStore } from '@/stores';
+import { useMascaStore } from '@/stores';
 import {
   NETWORKS,
   NETWORKS_BY_DID,
@@ -23,14 +23,11 @@ export const NavConnection = () => {
   const [selectedNetwork, changeSelectedNetwork] = useState<string>('Ethereum');
   const { disconnect } = useDisconnect();
   const { isConnected } = useAccount();
-  const { did, currMethod, changeVcs } = useMascaStore((state) => ({
+  const { did, currMethod, changeVcs, changeDid } = useMascaStore((state) => ({
     did: state.currDID,
     currMethod: state.currDIDMethod,
     changeVcs: state.changeVcs,
-  }));
-
-  const { changeDid } = useGeneralStore((state) => ({
-    changeDid: state.changeDid,
+    changeDid: state.changeCurrDID,
   }));
 
   const getNetwork = (): string => {

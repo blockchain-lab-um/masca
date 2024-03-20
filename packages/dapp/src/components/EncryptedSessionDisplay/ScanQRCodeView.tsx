@@ -8,9 +8,11 @@ import { useAccount } from 'wagmi';
 import Button from '@/components/Button';
 import ScanQRCodeModal from '@/components/ScanQRCodeModal/ScanQRCodeModal';
 import UploadButton from '@/components/UploadButton';
-import { useToastStore } from '@/stores';
-import { useEncryptedSessionStore } from '@/stores/encryptedSessionStore';
-import { useQRCodeStore } from '@/stores/qrCodeStore';
+import {
+  useToastStore,
+  useEncryptedSessionStore,
+  useQRCodeStore,
+} from '@/stores';
 import { Database } from '@/utils/supabase/database.types';
 
 interface ScanQRCodeViewProps {
@@ -97,7 +99,7 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
       );
 
       const { error } = await client
-        .from('encrypted_sessions')
+        .from('sessions')
         .update({
           data: uint8ArrayToHex(encryptedData),
           iv: uint8ArrayToHex(iv),

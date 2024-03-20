@@ -41,166 +41,122 @@ export type Database = {
           },
         ];
       };
-      authorization: {
+      campaigns: {
         Row: {
+          additional_constraints: Json[] | null;
+          claimed: number;
           created_at: string;
-          expires_at: string;
+          credential_subject: Json;
+          description: string | null;
+          end_date: string | null;
           id: string;
-          nonce: string;
+          image_url: string;
+          production: boolean;
+          schema_context_url: string | null;
+          schema_url: string | null;
+          start_date: string | null;
+          title: string | null;
+          total: number | null;
+          type: string;
         };
         Insert: {
+          additional_constraints?: Json[] | null;
+          claimed?: number;
           created_at?: string;
-          expires_at: string;
+          credential_subject: Json;
+          description?: string | null;
+          end_date?: string | null;
           id?: string;
-          nonce?: string;
+          image_url: string;
+          production?: boolean;
+          schema_context_url?: string | null;
+          schema_url?: string | null;
+          start_date?: string | null;
+          title?: string | null;
+          total?: number | null;
+          type?: string;
         };
         Update: {
+          additional_constraints?: Json[] | null;
+          claimed?: number;
           created_at?: string;
-          expires_at?: string;
+          credential_subject?: Json;
+          description?: string | null;
+          end_date?: string | null;
           id?: string;
-          nonce?: string;
+          image_url?: string;
+          production?: boolean;
+          schema_context_url?: string | null;
+          schema_url?: string | null;
+          start_date?: string | null;
+          title?: string | null;
+          total?: number | null;
+          type?: string;
         };
         Relationships: [];
       };
-      campaign_claims: {
+      campaigns_requirements: {
         Row: {
           campaign_id: string;
-          can_claim: boolean;
-          claimed_at: string | null;
-          id: number;
-          user_id: string;
+          requirement_id: string;
         };
         Insert: {
           campaign_id: string;
-          can_claim?: boolean;
-          claimed_at?: string | null;
-          id?: number;
-          user_id: string;
+          requirement_id: string;
         };
         Update: {
           campaign_id?: string;
-          can_claim?: boolean;
-          claimed_at?: string | null;
-          id?: number;
-          user_id?: string;
+          requirement_id?: string;
         };
         Relationships: [
           {
-            foreignKeyName: 'public_campaign_claims_campaign_id_fkey';
+            foreignKeyName: 'public_campaigns_requirements_campaign_id_fkey';
             columns: ['campaign_id'];
             isOneToOne: false;
             referencedRelation: 'campaigns';
             referencedColumns: ['id'];
           },
           {
-            foreignKeyName: 'public_campaign_claims_user_id_fkey';
-            columns: ['user_id'];
+            foreignKeyName: 'public_campaigns_requirements_requirement_id_fkey';
+            columns: ['requirement_id'];
             isOneToOne: false;
-            referencedRelation: 'users';
+            referencedRelation: 'requirements';
             referencedColumns: ['id'];
           },
         ];
       };
-      campaign_requirements: {
+      claims: {
         Row: {
-          action_link: string | null;
-          created_at: string;
-          id: string;
-          issuer: string | null;
-          jsonld_schema_url: string | null;
-          name: string | null;
-          types: string[] | null;
-        };
-        Insert: {
-          action_link?: string | null;
-          created_at?: string;
-          id?: string;
-          issuer?: string | null;
-          jsonld_schema_url?: string | null;
-          name?: string | null;
-          types?: string[] | null;
-        };
-        Update: {
-          action_link?: string | null;
-          created_at?: string;
-          id?: string;
-          issuer?: string | null;
-          jsonld_schema_url?: string | null;
-          name?: string | null;
-          types?: string[] | null;
-        };
-        Relationships: [];
-      };
-      campaigns: {
-        Row: {
-          additional_constraints: Json[] | null;
-          claimed: number | null;
-          created_at: string;
-          description: string | null;
-          end_date: string | null;
-          id: string;
-          image_url: string | null;
-          production: boolean;
-          schema_url: string | null;
-          start_date: string | null;
-          title: string | null;
-          total: number | null;
-        };
-        Insert: {
-          additional_constraints?: Json[] | null;
-          claimed?: number | null;
-          created_at?: string;
-          description?: string | null;
-          end_date?: string | null;
-          id?: string;
-          image_url?: string | null;
-          production?: boolean;
-          schema_url?: string | null;
-          start_date?: string | null;
-          title?: string | null;
-          total?: number | null;
-        };
-        Update: {
-          additional_constraints?: Json[] | null;
-          claimed?: number | null;
-          created_at?: string;
-          description?: string | null;
-          end_date?: string | null;
-          id?: string;
-          image_url?: string | null;
-          production?: boolean;
-          schema_url?: string | null;
-          start_date?: string | null;
-          title?: string | null;
-          total?: number | null;
-        };
-        Relationships: [];
-      };
-      encrypted_sessions: {
-        Row: {
-          connected: boolean;
-          data: string | null;
-          id: string;
-          iv: string | null;
+          campaign_id: string;
+          claimed_at: string;
+          credential_id: number | null;
+          id: number;
           user_id: string;
         };
         Insert: {
-          connected?: boolean;
-          data?: string | null;
-          id?: string;
-          iv?: string | null;
+          campaign_id: string;
+          claimed_at?: string;
+          credential_id?: number | null;
+          id?: number;
           user_id: string;
         };
         Update: {
-          connected?: boolean;
-          data?: string | null;
-          id?: string;
-          iv?: string | null;
+          campaign_id?: string;
+          claimed_at?: string;
+          credential_id?: number | null;
+          id?: number;
           user_id?: string;
         };
         Relationships: [
           {
-            foreignKeyName: 'public_encrypted-sessions_user_id_fkey';
+            foreignKeyName: 'public_claims_campaign_id_fkey';
+            columns: ['campaign_id'];
+            isOneToOne: false;
+            referencedRelation: 'campaigns';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'public_claims_user_id_fkey';
             columns: ['user_id'];
             isOneToOne: false;
             referencedRelation: 'users';
@@ -238,7 +194,7 @@ export type Database = {
         };
         Relationships: [
           {
-            foreignKeyName: 'presentations_user_id_fkey';
+            foreignKeyName: 'public_presentations_user_id_fkey';
             columns: ['user_id'];
             isOneToOne: false;
             referencedRelation: 'users';
@@ -246,35 +202,85 @@ export type Database = {
           },
         ];
       };
-      requirement_campaign_rel: {
+      requirements: {
         Row: {
-          campaign_id: string;
-          requirement_id: string;
+          action_link: string | null;
+          created_at: string;
+          id: string;
+          issuer: string | null;
+          name: string | null;
+          types: string[] | null;
         };
         Insert: {
-          campaign_id: string;
-          requirement_id: string;
+          action_link?: string | null;
+          created_at?: string;
+          id?: string;
+          issuer?: string | null;
+          name?: string | null;
+          types?: string[] | null;
         };
         Update: {
-          campaign_id?: string;
-          requirement_id?: string;
+          action_link?: string | null;
+          created_at?: string;
+          id?: string;
+          issuer?: string | null;
+          name?: string | null;
+          types?: string[] | null;
+        };
+        Relationships: [];
+      };
+      sessions: {
+        Row: {
+          connected: boolean;
+          data: string | null;
+          id: string;
+          iv: string | null;
+          user_id: string;
+        };
+        Insert: {
+          connected?: boolean;
+          data?: string | null;
+          id?: string;
+          iv?: string | null;
+          user_id: string;
+        };
+        Update: {
+          connected?: boolean;
+          data?: string | null;
+          id?: string;
+          iv?: string | null;
+          user_id?: string;
         };
         Relationships: [
           {
-            foreignKeyName: 'public_requirement_campaign_rel_campaign_id_fkey';
-            columns: ['campaign_id'];
+            foreignKeyName: 'public_sessions_user_id_fkey';
+            columns: ['user_id'];
             isOneToOne: false;
-            referencedRelation: 'campaigns';
-            referencedColumns: ['id'];
-          },
-          {
-            foreignKeyName: 'public_requirement_campaign_rel_requirement_id_fkey';
-            columns: ['requirement_id'];
-            isOneToOne: false;
-            referencedRelation: 'campaign_requirements';
+            referencedRelation: 'users';
             referencedColumns: ['id'];
           },
         ];
+      };
+      siwe: {
+        Row: {
+          created_at: string;
+          expires_at: string;
+          id: string;
+          nonce: string;
+        };
+        Insert: {
+          created_at?: string;
+          expires_at: string;
+          id?: string;
+          nonce?: string;
+        };
+        Update: {
+          created_at?: string;
+          expires_at?: string;
+          id?: string;
+          nonce?: string;
+        };
+        Relationships: [];
       };
       users: {
         Row: {
@@ -294,12 +300,54 @@ export type Database = {
         };
         Relationships: [];
       };
+      users_requirements: {
+        Row: {
+          created_at: string;
+          requirement_id: string;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          requirement_id?: string;
+          user_id?: string;
+        };
+        Update: {
+          created_at?: string;
+          requirement_id?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'public_users_requirements_requirement_id_fkey';
+            columns: ['requirement_id'];
+            isOneToOne: false;
+            referencedRelation: 'requirements';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'public_users_requirements_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
     };
     Views: {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      increment_presentation_views: {
+        Args: {
+          presentation_id: string;
+        };
+        Returns: undefined;
+      };
+      requesting_user_id: {
+        Args: Record<PropertyKey, never>;
+        Returns: string;
+      };
     };
     Enums: {
       [_ in never]: never;
@@ -310,9 +358,11 @@ export type Database = {
   };
 };
 
+type PublicSchema = Database[Extract<keyof Database, 'public'>];
+
 export type Tables<
   PublicTableNameOrOptions extends
-    | keyof (Database['public']['Tables'] & Database['public']['Views'])
+    | keyof (PublicSchema['Tables'] & PublicSchema['Views'])
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof (Database[PublicTableNameOrOptions['schema']]['Tables'] &
@@ -325,10 +375,10 @@ export type Tables<
     }
     ? R
     : never
-  : PublicTableNameOrOptions extends keyof (Database['public']['Tables'] &
-        Database['public']['Views'])
-    ? (Database['public']['Tables'] &
-        Database['public']['Views'])[PublicTableNameOrOptions] extends {
+  : PublicTableNameOrOptions extends keyof (PublicSchema['Tables'] &
+        PublicSchema['Views'])
+    ? (PublicSchema['Tables'] &
+        PublicSchema['Views'])[PublicTableNameOrOptions] extends {
         Row: infer R;
       }
       ? R
@@ -337,7 +387,7 @@ export type Tables<
 
 export type TablesInsert<
   PublicTableNameOrOptions extends
-    | keyof Database['public']['Tables']
+    | keyof PublicSchema['Tables']
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
@@ -348,8 +398,8 @@ export type TablesInsert<
     }
     ? I
     : never
-  : PublicTableNameOrOptions extends keyof Database['public']['Tables']
-    ? Database['public']['Tables'][PublicTableNameOrOptions] extends {
+  : PublicTableNameOrOptions extends keyof PublicSchema['Tables']
+    ? PublicSchema['Tables'][PublicTableNameOrOptions] extends {
         Insert: infer I;
       }
       ? I
@@ -358,7 +408,7 @@ export type TablesInsert<
 
 export type TablesUpdate<
   PublicTableNameOrOptions extends
-    | keyof Database['public']['Tables']
+    | keyof PublicSchema['Tables']
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
@@ -369,8 +419,8 @@ export type TablesUpdate<
     }
     ? U
     : never
-  : PublicTableNameOrOptions extends keyof Database['public']['Tables']
-    ? Database['public']['Tables'][PublicTableNameOrOptions] extends {
+  : PublicTableNameOrOptions extends keyof PublicSchema['Tables']
+    ? PublicSchema['Tables'][PublicTableNameOrOptions] extends {
         Update: infer U;
       }
       ? U
@@ -379,13 +429,13 @@ export type TablesUpdate<
 
 export type Enums<
   PublicEnumNameOrOptions extends
-    | keyof Database['public']['Enums']
+    | keyof PublicSchema['Enums']
     | { schema: keyof Database },
   EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicEnumNameOrOptions['schema']]['Enums']
     : never = never,
 > = PublicEnumNameOrOptions extends { schema: keyof Database }
   ? Database[PublicEnumNameOrOptions['schema']]['Enums'][EnumName]
-  : PublicEnumNameOrOptions extends keyof Database['public']['Enums']
-    ? Database['public']['Enums'][PublicEnumNameOrOptions]
+  : PublicEnumNameOrOptions extends keyof PublicSchema['Enums']
+    ? PublicSchema['Enums'][PublicEnumNameOrOptions]
     : never;

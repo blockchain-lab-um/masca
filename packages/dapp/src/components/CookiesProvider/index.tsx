@@ -7,7 +7,9 @@ import { useAccount } from 'wagmi';
 import { useAuthStore } from '@/stores/authStore';
 import { verifyToken } from '@/utils/verifyToken';
 
-export const CookiesProvider = () => {
+export const CookiesProvider = ({
+  children,
+}: { children: React.ReactNode }) => {
   const { changeToken, changeIsSignedIn } = useAuthStore((state) => ({
     changeToken: state.changeToken,
     changeIsSignedIn: state.changeIsSignedIn,
@@ -17,7 +19,11 @@ export const CookiesProvider = () => {
 
   useEffect(() => {
     // Return if user is not connected
-    if (!address) return;
+    if (!address) {
+      changeToken('');
+      changeIsSignedIn(false);
+      return;
+    }
 
     const token = Cookies.get(`token-${address}`);
     if (!token) {
@@ -44,5 +50,5 @@ export const CookiesProvider = () => {
       });
   }, [address]);
 
-  return null;
+  return children;
 };

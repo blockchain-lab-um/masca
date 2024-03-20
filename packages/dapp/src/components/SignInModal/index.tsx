@@ -7,8 +7,7 @@ import { useState } from 'react';
 import { SiweMessage } from 'siwe';
 import { useAccount, useSignMessage } from 'wagmi';
 
-import { useToastStore } from '@/stores';
-import { useAuthStore } from '@/stores/authStore';
+import { useToastStore, useAuthStore } from '@/stores';
 import Button from '../Button';
 
 export const SignInModal = () => {
@@ -129,6 +128,8 @@ export const SignInModal = () => {
       isOpen={isSignInModalOpen}
       onClose={() => changeIsSignInModalOpen(false)}
       hideCloseButton={true}
+      isDismissable={false}
+      isKeyboardDismissDisabled={true}
       placement="center"
       className="main-bg mx-4 py-2"
     >

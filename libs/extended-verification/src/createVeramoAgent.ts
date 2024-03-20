@@ -26,6 +26,11 @@ export const createVeramoAgent = async (props?: CreateVeramoAgentProps) => {
   // different `Provider` type
   const networks: any = [
     {
+      name: '',
+      provider:
+        providers?.mainnet ?? new JsonRpcProvider('https://eth.llamarpc.com'),
+    },
+    {
       name: 'mainnet',
       provider:
         providers?.mainnet ?? new JsonRpcProvider('https://eth.llamarpc.com'),
