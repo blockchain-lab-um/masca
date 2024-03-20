@@ -48,8 +48,12 @@ export type Agent = TAgent<
 export const createVeramoAgent = async () => {
   const networks: any = [
     {
+      name: '',
+      provider: new JsonRpcProvider('https://eth.llamarpc.com'),
+    },
+    {
       name: 'mainnet',
-      provider: new JsonRpcProvider('https://eth.llamarpc.com	'),
+      provider: new JsonRpcProvider('https://eth.llamarpc.com'),
     },
     {
       name: 'sepolia',

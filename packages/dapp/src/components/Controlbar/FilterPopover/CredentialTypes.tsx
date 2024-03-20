@@ -69,7 +69,7 @@ export const CredentialTypes = () => {
           ))}
       </div>
       {open && (
-        <div className="dark:bg-navy-blue-500/40  bg-[#FFF8F9] p-2">
+        <div className="dark:bg-navy-blue-500/40 bg-[#FFF8F9] p-2">
           <input
             className="dark:bg-navy-blue-600 dark:text-navy-blue-50 dark:placeholder:text-navy-blue-200 dark:border-navy-blue-300 w-full rounded-md border border-gray-300 bg-white px-2 py-1 focus:outline-none"
             placeholder="Search Types..."

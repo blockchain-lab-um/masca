@@ -968,6 +968,10 @@ class VeramoService {
 
     const networks: any = [
       {
+        name: '',
+        provider: new BrowserProvider(ethereum as any),
+      },
+      {
         name: 'mainnet',
         provider: new BrowserProvider(ethereum as any),
       },

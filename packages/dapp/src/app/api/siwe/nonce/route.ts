@@ -1,24 +1,20 @@
-import { createClient } from '@supabase/supabase-js';
 import { add, format } from 'date-fns';
 import { NextResponse } from 'next/server';
 
-import { Database } from '@/utils/supabase/database.types';
+import { supabaseServiceRoleClient } from '@/utils/supabase/supabaseServiceRoleClient';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET OPTIONS',
+  'Access-Control-Allow-Methods': 'GET, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type',
 };
 
 export async function GET() {
-  const supabase = createClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SECRET_KEY!
-  );
+  const supabase = supabaseServiceRoleClient();
 
   // Insert a new nonce and select 1 row
   const { data, error } = await supabase
-    .from('authorization')
+    .from('siwe')
     .insert({
       // Expires in 5 minutes (ISO String)
       expires_at: format(

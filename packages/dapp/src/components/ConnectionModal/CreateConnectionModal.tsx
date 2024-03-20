@@ -11,8 +11,11 @@ import { useTranslations } from 'next-intl';
 import { QRCodeSVG } from 'qrcode.react';
 import { useEffect, useState } from 'react';
 
-import { useEncryptedSessionStore, useToastStore } from '@/stores';
-import { useAuthStore } from '@/stores/authStore';
+import {
+  useEncryptedSessionStore,
+  useToastStore,
+  useAuthStore,
+} from '@/stores';
 
 interface CreateConnectionModalProps {
   isOpen: boolean;

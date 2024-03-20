@@ -14,7 +14,7 @@
     "lint": "biome check .",
     "lint:fix": "biome check --apply .",
     "start": "next start",
-    "supabase:generate": "supabase gen types typescript --project-id vfxyvzkprpeegheyapzg --schema public > src/utils/supabase/database.types.ts"
+    "supabase:generate": "supabase gen types typescript --project-id nqgexdszsnrliuzuobul --schema public > src/utils/supabase/database.types.ts"
   },
   "dependencies": {
     "@blockchain-lab-um/did-provider-key": "1.0.8-beta.0",
@@ -26,7 +26,7 @@
     "@radix-ui/react-toast": "^1.1.5",
     "@react-oauth/google": "^0.12.1",
     "@supabase/supabase-js": "^2.39.7",
-    "@tanstack/react-query": "^5.25.0",
+    "@tanstack/react-query": "^5.28.4",
     "@tanstack/react-table": "^8.13.2",
     "@types/dompurify": "^3.0.5",
     "@types/js-cookie": "^3.0.6",
@@ -82,6 +82,7 @@
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",
+    "@tanstack/react-query-devtools": "^5.28.4",
     "@types/file-saver": "^2.0.7",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/luxon": "^3.4.2",

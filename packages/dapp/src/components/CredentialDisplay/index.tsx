@@ -13,9 +13,12 @@ import Link from 'next/link';
 import { notFound, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-import { useMascaStore, useTableStore } from '@/stores';
-import { useAuthStore } from '@/stores/authStore';
-import { useShareModalStore } from '@/stores/shareModalStore';
+import {
+  useMascaStore,
+  useTableStore,
+  useAuthStore,
+  useShareModalStore,
+} from '@/stores';
 import { removeCredentialSubjectFilterString } from '@/utils/format';
 import Button from '../Button';
 import DeleteModal from '../DeleteModal';

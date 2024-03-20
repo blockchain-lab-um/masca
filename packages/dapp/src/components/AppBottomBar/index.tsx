@@ -14,13 +14,18 @@ const MAIN_LINKS = [
     requiresConnection: false,
   },
   {
-    name: 'settings',
-    href: '/app/settings',
-    requiresConnection: true,
+    name: 'campaigns',
+    href: '/app/campaigns',
+    requiresConnection: false,
   },
 ];
 
 const OTHER_LINKS = [
+  {
+    name: 'settings',
+    href: '/app/settings',
+    requiresConnection: true,
+  },
   {
     name: 'create-credential',
     href: '/app/create-credential',
@@ -81,7 +86,7 @@ const AppBottomBar = () => {
       <div
         className={clsx(
           'fixed bottom-14 left-0 z-10 mb-1 w-screen rounded-lg px-1 transition-transform duration-300 md:hidden',
-          isMenuOpen ? 'translate-y-0' : 'translate-y-40'
+          isMenuOpen ? 'translate-y-0' : 'translate-y-60'
         )}
       >
         <div className="dark:border-navy-blue-600/50 dark:bg-navy-blue-800 flex h-full w-full flex-col space-y-1 rounded-t-lg border-2 border-pink-200/50 bg-pink-50 p-2">

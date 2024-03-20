@@ -5,15 +5,14 @@ import { useTranslations } from 'next-intl';
 import { useEffect } from 'react';
 import { useAccount, useChainId, useSwitchChain } from 'wagmi';
 
-import { useMascaStore, useToastStore } from '@/stores';
-import { useAuthStore } from '@/stores/authStore';
+import { useMascaStore, useToastStore, useAuthStore } from '@/stores';
 
 const snapId =
   process.env.USE_LOCAL === 'true'
     ? 'local:http://localhost:8081'
     : 'npm:@blockchain-lab-um/masca';
 
-const MascaProvider = () => {
+const MascaProvider = ({ children }: { children: React.ReactNode }) => {
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
   const { switchChainAsync } = useSwitchChain();
@@ -154,7 +153,7 @@ const MascaProvider = () => {
     }
   }, [isSignedIn, isConnected, api]);
 
-  return null;
+  return children;
 };
 
 export default MascaProvider;
