@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.1-beta.2
+
+### Patch Changes
+
+- [#553](https://github.com/blockchain-lab-um/masca/pull/553) [`1d11e8d`](https://github.com/blockchain-lab-um/masca/commit/1d11e8d73e9731410e6356b9aef24ad008446ab5) Thanks [@pseudobun](https://github.com/pseudobun)! - Sets default network to mainnet.
+
 ## 1.2.1-beta.1
 
 ### Patch Changes
