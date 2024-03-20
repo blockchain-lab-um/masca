@@ -2,6 +2,7 @@ import { useToastStore } from '@/stores';
 import { supabaseClient } from '@/utils/supabase/supabaseClient';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { usePresentationsOptions } from './usePresentations';
+import { useTranslations } from 'next-intl';
 
 export type DeletePresentationMuateProps = {
   id: string;
@@ -10,6 +11,7 @@ export type DeletePresentationMuateProps = {
 
 export const useDeletePresentation = (token: string | null) => {
   const queryClient = useQueryClient();
+  const t = useTranslations('Hooks');
 
   return useMutation({
     mutationKey: ['deletePresentation', { token }],
@@ -19,7 +21,7 @@ export const useDeletePresentation = (token: string | null) => {
           open: true,
           loading: true,
           type: 'normal',
-          title: 'Deleting presentation',
+          title: t('deleting-presentation'),
           link: null,
         });
       }, 200);
@@ -67,7 +69,7 @@ export const useDeletePresentation = (token: string | null) => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Failed to delete presentation',
+          title: t('failed-to-delete-presentation'),
           type: 'error',
           loading: false,
           link: null,
@@ -78,7 +80,7 @@ export const useDeletePresentation = (token: string | null) => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Presentation deleted',
+          title: t('presentation-deleted'),
           type: 'success',
           loading: false,
           link: null,

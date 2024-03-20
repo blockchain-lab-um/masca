@@ -4,8 +4,10 @@ import React from 'react';
 import { CampaignDisplay } from './CampaignDisplay';
 import { useCampaigns } from '@/hooks';
 import { Spinner } from '@nextui-org/react';
+import { useTranslations } from 'next-intl';
 
 export const CampaignsDisplay = () => {
+  const t = useTranslations('CampaignsDisplay');
   const { data, status } = useCampaigns();
 
   if (status === 'pending') {
@@ -19,9 +21,7 @@ export const CampaignsDisplay = () => {
   const campaigns = data?.campaigns || [];
 
   if (campaigns.length === 0) {
-    return (
-      <div className="flex items-center">No campaigns currently available.</div>
-    );
+    return <div className="flex items-center">{t('no-campaigns')}</div>;
   }
 
   return (

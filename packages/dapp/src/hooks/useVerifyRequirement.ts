@@ -1,6 +1,7 @@
 import { useToastStore } from '@/stores';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { VerifiablePresentation } from '@veramo/core';
+import { useTranslations } from 'next-intl';
 
 export type VerifyRequirementMutateProps = {
   did: string;
@@ -8,6 +9,7 @@ export type VerifyRequirementMutateProps = {
 };
 
 export const useVerifyRequirement = (id: string, token: string | null) => {
+  const t = useTranslations('Hooks');
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -42,7 +44,7 @@ export const useVerifyRequirement = (id: string, token: string | null) => {
         setTimeout(() => {
           useToastStore.setState({
             open: true,
-            title: 'Verificaton successful',
+            title: t('verification-success'),
             type: 'success',
             loading: false,
             link: null,
@@ -58,7 +60,7 @@ export const useVerifyRequirement = (id: string, token: string | null) => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'You do not meet the requirements',
+          title: t('requirements-not-met'),
           type: 'error',
           loading: false,
           link: null,
@@ -71,7 +73,7 @@ export const useVerifyRequirement = (id: string, token: string | null) => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Failed to verify requirement',
+          title: t('failed-to-verify-requirements'),
           type: 'error',
           loading: false,
           link: null,

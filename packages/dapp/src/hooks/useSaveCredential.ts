@@ -2,9 +2,11 @@ import { useMascaStore, useToastStore } from '@/stores';
 import { isError } from '@blockchain-lab-um/masca-connector';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { W3CVerifiableCredential } from '@veramo/core';
+import { useTranslations } from 'next-intl';
 
 // TODO: Optimistic update
 export const useSaveCredential = () => {
+  const t = useTranslations('Hooks');
   const queryClient = useQueryClient();
   const api = useMascaStore((state) => state.mascaApi);
 
@@ -14,7 +16,7 @@ export const useSaveCredential = () => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Saving credential',
+          title: t('saving-credential'),
           type: 'normal',
           loading: true,
           link: null,
@@ -33,7 +35,7 @@ export const useSaveCredential = () => {
       console.error(error);
       useToastStore.setState({
         open: true,
-        title: 'Error saving credential',
+        title: t('failed-to-save-credential'),
         type: 'error',
         loading: false,
         link: null,
@@ -42,7 +44,7 @@ export const useSaveCredential = () => {
     onSuccess: () => {
       useToastStore.setState({
         open: true,
-        title: 'Credential saved',
+        title: t('credential-saved'),
         type: 'success',
         loading: false,
         link: null,

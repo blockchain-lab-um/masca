@@ -55,7 +55,7 @@ function FilterPopover({ vcs }: FilterPopoverProps) {
             <Popover.Button
               className={clsx(' flex items-center px-4 text-xl ')}
             >
-              <span>Filters</span>
+              <span>{t('filters')}</span>
               <ChevronDownIcon
                 className={`animated-transition ml-1 h-5 w-5 ${
                   open ? ' rotate-180 ' : ' '

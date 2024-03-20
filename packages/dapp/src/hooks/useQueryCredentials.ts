@@ -1,8 +1,10 @@
 import { useMascaStore, useToastStore } from '@/stores';
 import { isError } from '@blockchain-lab-um/masca-connector';
 import { useQuery } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 
 export const useQueryCredentials = () => {
+  const t = useTranslations('Hooks');
   const api = useMascaStore((state) => state.mascaApi);
 
   return useQuery({
@@ -11,7 +13,7 @@ export const useQueryCredentials = () => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: 'Loading credentials',
+          title: t('loading-credentials'),
           type: 'normal',
           loading: true,
           link: null,
@@ -26,7 +28,7 @@ export const useQueryCredentials = () => {
         setTimeout(() => {
           useToastStore.setState({
             open: true,
-            title: 'Error loading credentials',
+            title: t('failed-to-load-credentials'),
             type: 'error',
             loading: false,
             link: null,
