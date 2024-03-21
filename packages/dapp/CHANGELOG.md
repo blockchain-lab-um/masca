@@ -1,5 +1,11 @@
 # @blockchain-lab-um/dapp
 
+## 1.3.1-beta.1
+
+### Patch Changes
+
+- [#602](https://github.com/blockchain-lab-um/masca/pull/602) [`34321c6`](https://github.com/blockchain-lab-um/masca/commit/34321c662c08138d778d3c8000179f9e94d2eb6e) Thanks [@pseudobun](https://github.com/pseudobun)! - Format addresses and DIDs uniformly.
+
 ## 1.3.1-beta.0
 
 ### Patch Changes
