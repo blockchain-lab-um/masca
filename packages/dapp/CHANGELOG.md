@@ -1,5 +1,19 @@
 # @blockchain-lab-um/dapp
 
+## 1.3.0
+
+### Minor Changes
+
+- [#553](https://github.com/blockchain-lab-um/masca/pull/553) [`1d11e8d`](https://github.com/blockchain-lab-um/masca/commit/1d11e8d73e9731410e6356b9aef24ad008446ab5) Thanks [@pseudobun](https://github.com/pseudobun)! - Adds campaigns feature.
+
+### Patch Changes
+
+- [#583](https://github.com/blockchain-lab-um/masca/pull/583) [`1149402`](https://github.com/blockchain-lab-um/masca/commit/114940217541d7241a8f52117ca54cf179ad4a46) Thanks [@andyv09](https://github.com/andyv09)! - Fix some visual bugs
+
+- Updated dependencies [[`96ba0ab`](https://github.com/blockchain-lab-um/masca/commit/96ba0ab2da593844a988e71316529e7f1c1e02ba)]:
+  - @blockchain-lab-um/did-provider-key@1.0.8
+  - @blockchain-lab-um/masca-connector@1.3.1
+
 ## 1.3.0-beta.2
 
 ### Minor Changes

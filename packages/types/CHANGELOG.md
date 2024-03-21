@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.3.1
+
+### Patch Changes
+
+- [#585](https://github.com/blockchain-lab-um/masca/pull/585) [`526a627`](https://github.com/blockchain-lab-um/masca/commit/526a627ffd6466931e0f0fcfb6b802bb2ea47271) Thanks [@andyv09](https://github.com/andyv09)! - Add state migration & update tests
+
+- Updated dependencies [[`96ba0ab`](https://github.com/blockchain-lab-um/masca/commit/96ba0ab2da593844a988e71316529e7f1c1e02ba)]:
+  - @blockchain-lab-um/utils@1.3.8
+
 ## 1.3.1-beta.1
 
 ### Patch Changes
