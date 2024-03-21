@@ -8,6 +8,7 @@ import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 
 import { convertTypes } from '@/utils/string';
+import { formatDid } from '@/utils/format';
 
 interface CredentialCardProps {
   vc: QueryCredentialsRequestResult;
@@ -47,7 +48,9 @@ const CredentialCard = ({ vc, selected }: CredentialCardProps) => {
         target="_blank"
         rel="noreferrer"
         className="underline"
-      >{`${issuer.slice(0, 8)}....${issuer.slice(-4)}`}</a>
+      >
+        {formatDid(issuer)}
+      </a>
     </Tooltip>
   );
 

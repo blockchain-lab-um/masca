@@ -3,6 +3,7 @@ import { Tooltip } from '@nextui-org/react';
 import { useTranslations } from 'next-intl';
 
 import { copyToClipboard } from '@/utils/string';
+import { formatDid } from '@/utils/format';
 
 export const DIDDisplay = ({ did }: { did: string }) => {
   const t = useTranslations('DIDDisplay');
@@ -23,7 +24,7 @@ export const DIDDisplay = ({ did }: { did: string }) => {
             rel="noopener noreferrer"
             className="text-md animated-transition dark:text-navy-blue-300 cursor-pointer font-normal text-gray-700 underline underline-offset-2"
           >
-            {did.length <= 32 ? did : `${did.slice(0, 16)}...${did.slice(-4)}`}
+            {formatDid(did)}
           </a>
         </Tooltip>
         <button

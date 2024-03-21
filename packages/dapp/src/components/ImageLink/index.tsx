@@ -17,7 +17,7 @@ export const ImageLink = ({ value }: { value: string }) => {
           rel="noopener noreferrer"
           className="text-md animated-transition dark:text-navy-blue-300 cursor-pointer font-normal text-gray-700 underline underline-offset-2"
         >
-          {value.length > 32 ? value.slice('ipfs://'.length, 32) : value}
+          {value.length >= 32 ? value.slice('ipfs://'.length, 32) : value}
         </a>
       </div>
     </div>
