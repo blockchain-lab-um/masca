@@ -72,6 +72,9 @@ export type PolygonLegacyStateV1 = Record<
   DidMethod.Iden3 | DidMethod.PolygonId,
   Record<
     Blockchain.Ethereum | Blockchain.Polygon,
-    Record<NetworkId.Main | NetworkId.Mumbai, PolygonLegacyBaseStateV1>
+    Record<
+      NetworkId.Main | NetworkId.Goerli | NetworkId.Mumbai,
+      PolygonLegacyBaseStateV1
+    >
   >
 >;

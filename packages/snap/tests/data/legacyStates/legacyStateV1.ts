@@ -19,20 +19,24 @@ const emptyPolygonState: PolygonLegacyStateV1 = {
   polygonid: {
     eth: {
       main: cloneDeep(emptyPolygonBaseState),
+      goerli: cloneDeep(emptyPolygonBaseState),
       mumbai: cloneDeep(emptyPolygonBaseState), // To satisfy the type checker
     },
     polygon: {
       main: cloneDeep(emptyPolygonBaseState),
+      goerli: cloneDeep(emptyPolygonBaseState),
       mumbai: cloneDeep(emptyPolygonBaseState),
     },
   },
   iden3: {
     eth: {
       main: cloneDeep(emptyPolygonBaseState),
+      goerli: cloneDeep(emptyPolygonBaseState),
       mumbai: cloneDeep(emptyPolygonBaseState), // To satisfy the type checker
     },
     polygon: {
       main: cloneDeep(emptyPolygonBaseState),
+      goerli: cloneDeep(emptyPolygonBaseState),
       mumbai: cloneDeep(emptyPolygonBaseState),
     },
   },
