@@ -26,7 +26,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import DeleteModal from '@/components/DeleteModal';
 import StoreIcon from '@/components/StoreIcon';
 import { useTableStore, useAuthStore, useShareModalStore } from '@/stores';
-import { removeCredentialSubjectFilterString } from '@/utils/format';
+import { formatDid, removeCredentialSubjectFilterString } from '@/utils/format';
 import { convertTypes } from '@/utils/string';
 import { LastFetched } from '../LastFetched';
 import { sortCredentialList } from '../utils';
@@ -56,7 +56,9 @@ const IssuerCell = ({ vc }: { vc: QueryCredentialsRequestResult }) => {
         target="_blank"
         rel="noreferrer"
         className="dark:text-orange-accent-dark dark:hover:text-orange-accent-dark/80 flex items-center justify-start text-pink-400 underline hover:text-pink-500"
-      >{`${issuer.slice(0, 8)}....${issuer.slice(-4)}`}</a>
+      >
+        {formatDid(issuer)}
+      </a>
     </Tooltip>
   );
 };
@@ -164,7 +166,9 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
                 target="_blank"
                 rel="noreferrer"
                 className="dark:text-orange-accent-dark dark:hover:text-orange-accent-dark/80 flex items-center justify-start text-pink-400 underline hover:text-pink-500"
-              >{`${subject.slice(0, 8)}....${subject.slice(-4)}`}</a>
+              >
+                {formatDid(subject)}
+              </a>
             </Tooltip>
           );
         }

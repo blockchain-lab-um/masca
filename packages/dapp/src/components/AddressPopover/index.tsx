@@ -12,6 +12,7 @@ import { useAccount, useEnsAvatar, useEnsName } from 'wagmi';
 
 import { copyToClipboard } from '@/utils/string';
 import { TextSkeleton } from '../Skeletons/TextSkeleton';
+import { formatAddress, formatDid } from '@/utils/format';
 
 interface AddressPopoverProps {
   did: string;
@@ -51,7 +52,7 @@ const AddressPopover = ({ did, disconnect }: AddressPopoverProps) => {
                   className="mr-2 inline-block rounded-full"
                 />
               )}
-              {ensName ?? `${address?.slice(0, 5)}...${address?.slice(-4)}`}
+              {ensName ?? formatAddress(address as string)}
               <ChevronDownIcon
                 className={`animated-transition -mr-1 ml-2 h-3 w-3 md:h-4 md:w-4 lg:h-5 lg:w-5 ${
                   open ? 'rotate-180' : ''
@@ -81,12 +82,9 @@ const AddressPopover = ({ did, disconnect }: AddressPopoverProps) => {
                           target="_blank"
                           rel="noreferrer"
                           className="animated-transition cursor-pointer text-2xl text-gray-800 underline hover:text-gray-700 dark:text-white dark:hover:text-gray-100"
-                        >{`${did.substring(0, did.lastIndexOf(':'))}:${did
-                          .split(':')
-                          [did.split(':').length - 1].slice(
-                            0,
-                            5
-                          )}...${did.slice(-4)}`}</a>
+                        >
+                          {formatDid(did)}
+                        </a>
                       ) : (
                         <TextSkeleton className="h-6 w-52" />
                       )}
@@ -108,10 +106,9 @@ const AddressPopover = ({ did, disconnect }: AddressPopoverProps) => {
                       <div className="mr-1 mt-0.5">
                         <div className="h-2.5 w-2.5 rounded-full bg-green-500" />
                       </div>
-                      <div className="text-lg text-gray-800 dark:text-white">{`${address?.slice(
-                        0,
-                        5
-                      )}...${address?.slice(-4)}`}</div>
+                      <div className="text-lg text-gray-800 dark:text-white">
+                        {formatAddress(address as string)}
+                      </div>
                       <button
                         type="button"
                         onClick={() => {

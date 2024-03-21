@@ -11,6 +11,7 @@ import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 
 import { isPolygonVC } from '@/utils/credential';
+import { formatDid } from '@/utils/format';
 
 interface SelectedVCsTableRowProps {
   vc: QueryCredentialsRequestResult;
@@ -71,9 +72,7 @@ const SelectedVCsTableRow = ({
               rel="noreferrer"
               className="dark:text-orange-accent-dark dark:hover:text-orange-accent text-pink-500 underline hover:text-pink-400"
             >
-              {issuer.length > 20
-                ? `${issuer.slice(0, 8)}...${issuer.slice(-4)}`
-                : issuer}
+              {formatDid(issuer)}
             </a>
           </Tooltip>
         }

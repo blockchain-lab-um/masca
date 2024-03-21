@@ -15,7 +15,7 @@ import { Fragment, useMemo, useState } from 'react';
 
 import { DIDDisplay } from '@/components/DIDDisplay';
 import JsonModal from '@/components/JsonModal';
-import { getFirstWord } from '@/utils/format';
+import { formatAddress, getFirstWord } from '@/utils/format';
 import {
   camelToTitleCase,
   convertTypes,
@@ -42,7 +42,7 @@ const AddressDisplay = ({ address }: { address: string }) => {
             rel="noopener noreferrer"
             className="text-md animated-transition dark:text-navy-blue-300 cursor-pointer font-normal text-gray-700 underline underline-offset-2"
           >
-            {`${address.slice(0, 8)}...${address.slice(-8)}`}
+            {formatAddress(address)}
           </a>
         </Tooltip>
         <button

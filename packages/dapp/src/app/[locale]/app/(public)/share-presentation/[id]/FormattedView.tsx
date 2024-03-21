@@ -15,6 +15,7 @@ import { useMemo, useState } from 'react';
 import { VerificationInfoModal } from '@/components/VerificationInfoModal';
 import { copyToClipboard } from '@/utils/string';
 import CredentialPanel from './CredentialPanel';
+import { formatDid } from '@/utils/format';
 
 export const FormattedView = ({
   credential,
@@ -72,15 +73,7 @@ export const FormattedView = ({
                         rel="noreferrer"
                         className="font-ubuntu dark:text-orange-accent-dark text-left text-lg font-medium text-pink-500 underline sm:text-xl md:text-2xl lg:truncate"
                       >
-                        {`${holder.substring(
-                          0,
-                          holder.lastIndexOf(':')
-                        )}:${holder
-                          .split(':')
-                          [holder.split(':').length - 1].slice(
-                            0,
-                            6
-                          )}...${holder.slice(-4)}`}
+                        {formatDid(holder)}
                       </a>
                     </Tooltip>
                     <button
