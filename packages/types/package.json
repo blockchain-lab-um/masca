@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/masca-types",
-  "version": "1.3.2-beta.0",
+  "version": "1.3.2",
   "description": "Types for Masca",
   "keywords": [
     "ssi",
