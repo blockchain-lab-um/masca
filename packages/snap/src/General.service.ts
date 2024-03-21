@@ -397,6 +397,7 @@ class GeneralService {
       isValidMascaState(latestState);
       StorageService.set(latestState);
     } catch (error) {
+      console.error(error);
       throw new Error('Invalid backup state.');
     }
   }
