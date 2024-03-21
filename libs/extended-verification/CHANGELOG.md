@@ -1,5 +1,12 @@
 # @blockchain-lab-um/extended-verification
 
+## 0.1.2-beta.0
+
+### Patch Changes
+
+- Updated dependencies [[`ce8a6d5`](https://github.com/blockchain-lab-um/masca/commit/ce8a6d58aa7986e6b2064cc754cada5956f89c0d)]:
+  - @blockchain-lab-um/masca-types@1.3.2-beta.0
+
 ## 0.1.1
 
 ### Patch Changes
