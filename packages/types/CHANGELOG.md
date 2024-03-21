@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.2-beta.0
+
+### Patch Changes
+
+- [#600](https://github.com/blockchain-lab-um/masca/pull/600) [`ce8a6d5`](https://github.com/blockchain-lab-um/masca/commit/ce8a6d58aa7986e6b2064cc754cada5956f89c0d) Thanks [@martines3000](https://github.com/martines3000)! - Resolve issue with importing old state.
+
 ## 1.3.1
 
 ### Patch Changes
