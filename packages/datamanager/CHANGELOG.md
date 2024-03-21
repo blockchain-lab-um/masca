@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.2
+
+### Patch Changes
+
+- [#589](https://github.com/blockchain-lab-um/masca/pull/589) [`96ba0ab`](https://github.com/blockchain-lab-um/masca/commit/96ba0ab2da593844a988e71316529e7f1c1e02ba) Thanks [@andyv09](https://github.com/andyv09)! - Build packages with Tsup
+
 ## 1.0.2-beta.0
 
 ### Patch Changes
