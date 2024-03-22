@@ -1,4 +1,7 @@
-import { MascaLegacyStateV1, MascaState } from '@blockchain-lab-um/masca-types';
+import type {
+  MascaLegacyStateV1,
+  MascaState,
+} from '@blockchain-lab-um/masca-types';
 import { getInitialPermissions } from './config';
 
 export const migrateToV2 = (state: MascaLegacyStateV1): MascaState => {

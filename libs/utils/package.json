@@ -19,12 +19,7 @@
   "module": "./dist/index.js",
   "source": "./src/index.ts",
   "types": "./dist/index.d.ts",
-  "files": [
-    "dist/**",
-    "README.md",
-    "package.json",
-    "CHANGELOG.md"
-  ],
+  "files": ["dist/**", "README.md", "package.json", "CHANGELOG.md"],
   "scripts": {
     "build": "pnpm clean && pnpm compile",
     "clean": "rimraf dist",

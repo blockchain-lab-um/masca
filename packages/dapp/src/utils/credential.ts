@@ -1,4 +1,4 @@
-import { QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
+import type { QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
 
 export const isPolygonVC = (vc: QueryCredentialsRequestResult): boolean => {
   if (vc.data.proof) {

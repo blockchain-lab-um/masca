@@ -1,4 +1,4 @@
-import {
+import type {
   IAgentContext,
   IIdentifier,
   IKey,
@@ -17,7 +17,7 @@ import {
   generateRandomEbsiSubjectIdentifier,
   privateKeyJwkToHex,
 } from './ebsiDidUtils.js';
-import {
+import type {
   IContext,
   IEbsiCreateIdentifierOptions,
   IEbsiDidSupportedEcdsaAlgo,

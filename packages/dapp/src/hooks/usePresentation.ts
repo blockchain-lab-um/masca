@@ -1,5 +1,5 @@
 import { supabaseServiceRoleClient } from '@/utils/supabase/supabaseServiceRoleClient';
-import { VerifiablePresentation } from '@veramo/core';
+import type { VerifiablePresentation } from '@veramo/core';
 
 export const usePresentation = async (id: string) => {
   const supabase = supabaseServiceRoleClient();

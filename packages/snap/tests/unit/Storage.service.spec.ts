@@ -1,11 +1,11 @@
 import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
-import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsProvider } from '@metamask/snaps-sdk';
+import type { MetaMaskInpageProvider } from '@metamask/providers';
+import type { SnapsProvider } from '@metamask/snaps-sdk';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import StorageService from '../../src/storage/Storage.service';
 import { getInitialSnapState } from '../../src/utils/config';
-import { SnapMock, createMockSnap } from '../helpers/snapMock';
+import { type SnapMock, createMockSnap } from '../helpers/snapMock';
 import { getLegacyStateV1 } from '../data/legacyStates/legacyStateV1';
 
 describe('Storage Service', () => {

@@ -1,8 +1,8 @@
-import { randomBytes } from 'crypto';
-import * as jose from 'jose';
+import { randomBytes } from 'node:crypto';
+import type * as jose from 'jose';
 import { base58btc } from 'multiformats/bases/base58';
 
-import {
+import type {
   IEbsiDidSupportedEcdsaAlgo,
   IEbsiDidSupportedKeyTypes,
 } from './types/ebsiProviderTypes.js';

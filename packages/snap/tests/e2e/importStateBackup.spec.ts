@@ -3,10 +3,10 @@ import {
   MascaLegacyStateV1,
   type MascaState,
 } from '@blockchain-lab-um/masca-types';
-import { Result, isError } from '@blockchain-lab-um/utils';
-import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-datamanager';
-import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsProvider } from '@metamask/snaps-sdk';
+import { type Result, isError } from '@blockchain-lab-um/utils';
+import type { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-datamanager';
+import type { MetaMaskInpageProvider } from '@metamask/providers';
+import type { SnapsProvider } from '@metamask/snaps-sdk';
 import type { IIdentifier, VerifiableCredential } from '@veramo/core';
 import cloneDeep from 'lodash.clonedeep';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
@@ -18,7 +18,7 @@ import { account } from '../data/constants';
 import { EXAMPLE_VC_PAYLOAD } from '../data/credentials';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createTestVCs } from '../helpers/generateTestVCs';
-import { SnapMock, createMockSnap } from '../helpers/snapMock';
+import { type SnapMock, createMockSnap } from '../helpers/snapMock';
 import {
   getEmptyAccountState,
   getInitialSnapState,
@@ -28,7 +28,7 @@ import {
   getLegacyEmptyAccountStateV1,
   getLegacyStateV1,
 } from '../data/legacyStates/legacyStateV1';
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
 
 describe('importStateBackup', () => {
   let snapMock: SnapsProvider & SnapMock;

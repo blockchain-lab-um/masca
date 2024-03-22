@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require('node:path');
 const withNextIntl = require('next-intl/plugin')();
 
 // Content-Security-Policy

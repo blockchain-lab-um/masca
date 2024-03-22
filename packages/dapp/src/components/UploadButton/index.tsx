@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl';
-import { ChangeEvent, useRef, useState } from 'react';
+import { type ChangeEvent, useRef, useState } from 'react';
 
 import Button from '../Button';
 

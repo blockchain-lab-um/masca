@@ -1,6 +1,6 @@
-import { W3CVerifiablePresentation } from '@veramo/core';
+import type { W3CVerifiablePresentation } from '@veramo/core';
 
-import {
+import type {
   AuthorizationRequestOAuth2,
   AuthorizationResponseOAuth2,
 } from './oauth2.js';

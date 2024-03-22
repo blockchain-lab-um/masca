@@ -1,7 +1,7 @@
 import { useMascaStore, useToastStore } from '@/stores';
 import { isError } from '@blockchain-lab-um/masca-connector';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { W3CVerifiableCredential } from '@veramo/core';
+import type { W3CVerifiableCredential } from '@veramo/core';
 import { useTranslations } from 'next-intl';
 
 // TODO: Optimistic update

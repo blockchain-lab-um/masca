@@ -1,20 +1,20 @@
-import { JSONObject } from '@0xpolygonid/js-sdk';
+import type { JSONObject } from '@0xpolygonid/js-sdk';
 import {
   CURRENT_STATE_VERSION,
-  JWTHeader,
-  JWTPayload,
-  MascaRPCRequest,
-  QueryCredentialsRequestResult,
+  type JWTHeader,
+  type JWTPayload,
+  type MascaRPCRequest,
+  type QueryCredentialsRequestResult,
 } from '@blockchain-lab-um/masca-types';
 import {
-  Component,
+  type Component,
   copyable,
   divider,
   heading,
   panel,
   text,
 } from '@metamask/snaps-sdk';
-import { W3CVerifiableCredential } from '@veramo/core';
+import type { W3CVerifiableCredential } from '@veramo/core';
 
 import StorageService from './storage/Storage.service';
 import { getInitialPermissions } from './utils/config';

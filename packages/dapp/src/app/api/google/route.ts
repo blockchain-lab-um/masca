@@ -1,5 +1,5 @@
-import { drive_v3, google } from 'googleapis';
-import { NextRequest, NextResponse } from 'next/server';
+import { type drive_v3, google } from 'googleapis';
+import { type NextRequest, NextResponse } from 'next/server';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',

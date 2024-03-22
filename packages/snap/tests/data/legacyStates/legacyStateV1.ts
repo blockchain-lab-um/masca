@@ -1,4 +1,4 @@
-import {
+import type {
   MascaLegacyAccountStateV1,
   MascaLegacyStateV1,
   MascaLegacyAccountConfigV1,

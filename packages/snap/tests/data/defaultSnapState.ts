@@ -1,7 +1,7 @@
 import {
   CURRENT_STATE_VERSION,
-  MascaAccountState,
-  MascaState,
+  type MascaAccountState,
+  type MascaState,
 } from '@blockchain-lab-um/masca-types';
 
 import {

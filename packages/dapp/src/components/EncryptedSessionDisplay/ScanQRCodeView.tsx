@@ -13,7 +13,7 @@ import {
   useEncryptedSessionStore,
   useQRCodeStore,
 } from '@/stores';
-import { Database } from '@/utils/supabase/database.types';
+import type { Database } from '@/utils/supabase/database.types';
 
 interface ScanQRCodeViewProps {
   onQRCodeScanned: () => void;

@@ -8,7 +8,7 @@ import { useMascaStore, useToastStore, useAuthStore } from '@/stores';
 import Button from '../Button';
 import { RequirementDisplay } from './RequirementDisplay';
 import {
-  Campaigns,
+  type Campaigns,
   useClaimCampaign,
   useCompletedRequirements,
   useSwitchChain,

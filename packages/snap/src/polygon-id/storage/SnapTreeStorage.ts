@@ -1,13 +1,13 @@
 import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
-import { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
+import type { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
 import {
-  Bytes,
+  type Bytes,
   Hash,
-  ITreeStorage,
+  type ITreeStorage,
   NODE_TYPE_EMPTY,
   NODE_TYPE_LEAF,
   NODE_TYPE_MIDDLE,
-  Node,
+  type Node,
   NodeEmpty,
   NodeLeaf,
   NodeMiddle,

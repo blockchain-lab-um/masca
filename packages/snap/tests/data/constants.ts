@@ -1,4 +1,4 @@
-import { MinimalImportableKey } from '@veramo/core';
+import type { MinimalImportableKey } from '@veramo/core';
 
 export const mnemonic =
   'prosper pair similar canoe work humble loud wild aunt reunion olive obscure';

@@ -1,8 +1,8 @@
 import { MULTICODEC_CODE_TO_NAME } from '@blockchain-lab-um/utils';
 
 import {
-  DidComponents,
-  KeyType,
+  type DidComponents,
+  type KeyType,
   MULTICODEC_NAME_TO_KEY_TYPE,
 } from './types/keyDidTypes.js';
 
@@ -22,7 +22,7 @@ export const checkDidComponents = (did: string): DidComponents => {
     throw new Error('invalidDid: invalid scheme or method');
   }
 
-  const parsedVersion = parseInt(version, 10);
+  const parsedVersion = Number.parseInt(version, 10);
   if (Number.isNaN(parsedVersion) || parsedVersion <= 0) {
     throw new Error('invalidDid: invalid version');
   }

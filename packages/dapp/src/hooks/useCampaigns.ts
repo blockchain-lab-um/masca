@@ -1,4 +1,4 @@
-import { Tables } from '@/utils/supabase/database.types';
+import type { Tables } from '@/utils/supabase/database.types';
 import { useQuery } from '@tanstack/react-query';
 
 type AddUniqueProperty<T, P extends string, V> = {

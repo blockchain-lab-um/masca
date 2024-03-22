@@ -2,9 +2,9 @@ import type { MascaState } from '@blockchain-lab-um/masca-types';
 import { BIP44CoinTypeNode } from '@metamask/key-tree';
 import type { RequestArguments } from '@metamask/providers/dist/BaseProvider';
 import type { Maybe } from '@metamask/providers/dist/utils';
-import { SnapsProvider } from '@metamask/snaps-sdk';
-import { AlchemyProvider, Filter, TransactionRequest } from 'ethers';
-import { readFile } from 'fs/promises';
+import type { SnapsProvider } from '@metamask/snaps-sdk';
+import { AlchemyProvider, type Filter, type TransactionRequest } from 'ethers';
+import { readFile } from 'node:fs/promises';
 import { vi } from 'vitest';
 
 import { account, mnemonic } from '../data/constants';

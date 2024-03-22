@@ -3,58 +3,58 @@ import {
   getDidKeyResolver as keyDidResolver,
 } from '@blockchain-lab-um/did-provider-key';
 import {
-  AvailableCredentialStores,
+  type AvailableCredentialStores,
   CURRENT_STATE_VERSION,
-  CreatePresentationRequestParams,
-  Filter,
-  MinimalUnsignedCredential,
-  QueryCredentialsOptions,
-  QueryCredentialsRequestResult,
-  SaveCredentialRequestResult,
-  VerifyDataRequestParams,
+  type CreatePresentationRequestParams,
+  type Filter,
+  type MinimalUnsignedCredential,
+  type QueryCredentialsOptions,
+  type QueryCredentialsRequestResult,
+  type SaveCredentialRequestResult,
+  type VerifyDataRequestParams,
 } from '@blockchain-lab-um/masca-types';
 import {
-  IOIDCClientPlugin,
+  type IOIDCClientPlugin,
   OIDCClientPlugin,
-  SendOIDCAuthorizationResponseArgs,
-  SignArgs,
+  type SendOIDCAuthorizationResponseArgs,
+  type SignArgs,
 } from '@blockchain-lab-um/oidc-client-plugin';
-import {
+import type {
   CredentialRequest,
   PresentationDefinition,
   TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
-import { Result, isError } from '@blockchain-lab-um/utils';
+import { type Result, isError } from '@blockchain-lab-um/utils';
 import {
-  AbstractDataStore,
+  type AbstractDataStore,
   DataManager,
-  IDataManager,
+  type IDataManager,
 } from '@blockchain-lab-um/veramo-datamanager';
 import {
-  CredentialPayload,
-  CredentialStatus,
-  ICredentialIssuer,
-  ICredentialVerifier,
-  IDIDManager,
-  IDataStore,
-  IIdentifier,
-  IKeyManager,
-  IResolver,
-  IVerifyResult,
-  ProofFormat,
-  TAgent,
-  UnsignedCredential,
-  UnsignedPresentation,
-  VerifiableCredential,
-  VerifiablePresentation,
-  W3CVerifiableCredential,
+  type CredentialPayload,
+  type CredentialStatus,
+  type ICredentialIssuer,
+  type ICredentialVerifier,
+  type IDIDManager,
+  type IDataStore,
+  type IIdentifier,
+  type IKeyManager,
+  type IResolver,
+  type IVerifyResult,
+  type ProofFormat,
+  type TAgent,
+  type UnsignedCredential,
+  type UnsignedPresentation,
+  type VerifiableCredential,
+  type VerifiablePresentation,
+  type W3CVerifiableCredential,
   createAgent,
 } from '@veramo/core';
 import { CredentialIssuerEIP712 } from '@veramo/credential-eip712';
 import { CredentialStatusPlugin } from '@veramo/credential-status';
 import { CredentialPlugin } from '@veramo/credential-w3c';
 import {
-  AbstractIdentifierProvider,
+  type AbstractIdentifierProvider,
   DIDManager,
   MemoryDIDStore,
 } from '@veramo/did-manager';
@@ -75,9 +75,9 @@ import {
 } from '@veramo/key-manager';
 import { KeyManagementSystem } from '@veramo/kms-local';
 import { decodeCredentialToObject } from '@veramo/utils';
-import { DIDResolutionResult, Resolver } from 'did-resolver';
+import { type DIDResolutionResult, Resolver } from 'did-resolver';
 import {
-  ProviderConfiguration,
+  type ProviderConfiguration,
   getResolver as ensDidResolver,
 } from 'ens-did-resolver';
 import { BrowserProvider } from 'ethers';

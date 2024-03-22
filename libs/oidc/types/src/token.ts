@@ -1,4 +1,4 @@
-import { TokenRequestOAuth2, TokenResponseOAuth2 } from './oauth2.js';
+import type { TokenRequestOAuth2, TokenResponseOAuth2 } from './oauth2.js';
 
 /**
  *

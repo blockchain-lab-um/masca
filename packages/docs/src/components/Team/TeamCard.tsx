@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Member } from '../../constants/Members';
+import type { Member } from '../../constants/Members';
 import styles from './styles.module.css';
 
 interface TeamCardProps {

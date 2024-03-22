@@ -3,21 +3,21 @@ import {
   getDidKeyResolver as keyDidResolver,
 } from '@blockchain-lab-um/did-provider-key';
 import {
-  ICredentialIssuer,
-  ICredentialVerifier,
-  IDIDManager,
-  IKeyManager,
-  IResolver,
-  TAgent,
+  type ICredentialIssuer,
+  type ICredentialVerifier,
+  type IDIDManager,
+  type IKeyManager,
+  type IResolver,
+  type TAgent,
   createAgent,
 } from '@veramo/core';
 import {
   CredentialIssuerEIP712,
-  ICredentialIssuerEIP712,
+  type ICredentialIssuerEIP712,
 } from '@veramo/credential-eip712';
 import { CredentialPlugin } from '@veramo/credential-w3c';
 import {
-  AbstractIdentifierProvider,
+  type AbstractIdentifierProvider,
   DIDManager,
   MemoryDIDStore,
 } from '@veramo/did-manager';

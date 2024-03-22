@@ -1,13 +1,13 @@
-import { IIdentifier } from '@veramo/core';
-import { Signer } from 'did-jwt';
+import type { IIdentifier } from '@veramo/core';
+import type { Signer } from 'did-jwt';
 import {
-  Issuer,
-  JwtPresentationPayload,
+  type Issuer,
+  type JwtPresentationPayload,
   createVerifiablePresentationJwt,
   normalizePresentation,
 } from 'did-jwt-vc';
 
-import { Agent } from './createVeramoAgent';
+import type { Agent } from './createVeramoAgent';
 
 export const createJWTPresentation = async (
   agent: Agent,

@@ -1,7 +1,7 @@
 'use client';
 
 import { CheckIcon } from '@heroicons/react/24/solid';
-import { VerifiableCredential } from '@veramo/core';
+import type { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 import { useStepper } from 'headless-stepper';
 import { useTranslations } from 'next-intl';

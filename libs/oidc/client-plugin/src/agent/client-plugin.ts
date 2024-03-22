@@ -1,14 +1,14 @@
-import {
-  type AuthorizationRequest,
-  type CredentialOffer,
-  type CredentialResponse,
-  type IssuerServerMetadata,
-  type OAuth2AuthorizationServerMetadata,
-  type PresentationDefinition,
-  type PresentationSubmission,
-  type Proof,
-  type SupportedCredential,
-  type TokenResponse,
+import type {
+  AuthorizationRequest,
+  CredentialOffer,
+  CredentialResponse,
+  IssuerServerMetadata,
+  OAuth2AuthorizationServerMetadata,
+  PresentationDefinition,
+  PresentationSubmission,
+  Proof,
+  SupportedCredential,
+  TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
 import {
   type Result,

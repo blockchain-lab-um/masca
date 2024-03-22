@@ -1,4 +1,4 @@
-import { QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
+import type { QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { Button, Pagination } from '@nextui-org/react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';

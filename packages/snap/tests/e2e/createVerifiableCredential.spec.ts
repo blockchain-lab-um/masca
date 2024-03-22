@@ -1,11 +1,11 @@
-import {
+import type {
   AvailableCredentialStores,
   AvailableMethods,
   QueryCredentialsRequestResult,
 } from '@blockchain-lab-um/masca-types';
-import { Result, isError } from '@blockchain-lab-um/utils';
-import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsProvider } from '@metamask/snaps-sdk';
+import { type Result, isError } from '@blockchain-lab-um/utils';
+import type { MetaMaskInpageProvider } from '@metamask/providers';
+import type { SnapsProvider } from '@metamask/snaps-sdk';
 import type { VerifiableCredential } from '@veramo/core';
 import { beforeAll, describe, expect, it } from 'vitest';
 
@@ -15,7 +15,7 @@ import VeramoService, { type Agent } from '../../src/veramo/Veramo.service';
 import { account } from '../data/constants';
 import { EXAMPLE_VC_PAYLOAD } from '../data/credentials';
 import { getDefaultSnapState } from '../data/defaultSnapState';
-import { SnapMock, createMockSnap } from '../helpers/snapMock';
+import { type SnapMock, createMockSnap } from '../helpers/snapMock';
 
 const methods: AvailableMethods[] = ['did:key', 'did:jwk'];
 // TODO: Resolve bugs for lds and EthereumEip712Signature2021

@@ -2,7 +2,7 @@
 
 import { isError } from '@blockchain-lab-um/masca-connector';
 import type { AuthorizationRequest } from '@blockchain-lab-um/oidc-types';
-import { VerifiableCredential } from '@veramo/core';
+import type { VerifiableCredential } from '@veramo/core';
 import qs from 'qs';
 import { useEffect, useState } from 'react';
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { Html5Qrcode, Html5QrcodeCameraScanConfig } from 'html5-qrcode';
+import { Html5Qrcode, type Html5QrcodeCameraScanConfig } from 'html5-qrcode';
 import { useTranslations } from 'next-intl';
 import { useEffect } from 'react';
 

@@ -1,6 +1,6 @@
 // TODO Revisit after composeDB is implemented
-import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsProvider } from '@metamask/snaps-sdk';
+import type { MetaMaskInpageProvider } from '@metamask/providers';
+import type { SnapsProvider } from '@metamask/snaps-sdk';
 import type { W3CVerifiableCredential } from '@veramo/core';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
@@ -9,7 +9,7 @@ import VeramoService from '../../src/veramo/Veramo.service';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { EXAMPLE_VC } from '../data/verifiable-credentials';
-import { SnapMock, createMockSnap } from '../helpers/snapMock';
+import { type SnapMock, createMockSnap } from '../helpers/snapMock';
 
 describe('Utils [ceramic]', () => {
   let snapMock: SnapsProvider & SnapMock;

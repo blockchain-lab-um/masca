@@ -1,6 +1,6 @@
 import { DocumentDuplicateIcon } from '@heroicons/react/24/solid';
 import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
-import { VerifiableCredential } from '@veramo/core';
+import type { VerifiableCredential } from '@veramo/core';
 import { useRouter } from 'next/navigation';
 
 import Button from '@/components/Button';

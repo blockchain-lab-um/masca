@@ -1,5 +1,5 @@
-import { IdentityMerkleTreeMetaInformation } from '@0xpolygonid/js-sdk';
-import { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
+import type { IdentityMerkleTreeMetaInformation } from '@0xpolygonid/js-sdk';
+import type { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
 import type { W3CVerifiableCredential } from '@veramo/core';
 
 import type {

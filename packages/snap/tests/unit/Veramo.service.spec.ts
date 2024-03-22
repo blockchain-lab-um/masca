@@ -1,9 +1,12 @@
-import { CURRENT_STATE_VERSION, Filter } from '@blockchain-lab-um/masca-types';
-import { StreamID } from '@ceramicnetwork/streamid';
+import {
+  CURRENT_STATE_VERSION,
+  type Filter,
+} from '@blockchain-lab-um/masca-types';
+import type { StreamID } from '@ceramicnetwork/streamid';
 import { DIDDataStore } from '@glazed/did-datastore';
-import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsProvider } from '@metamask/snaps-sdk';
-import { IIdentifier } from '@veramo/core';
+import type { MetaMaskInpageProvider } from '@metamask/providers';
+import type { SnapsProvider } from '@metamask/snaps-sdk';
+import type { IIdentifier } from '@veramo/core';
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import GeneralService from '../../src/General.service';
@@ -34,7 +37,7 @@ import {
   EXAMPLE_VC_EIP712,
   EXAMPLE_VC_LDS,
 } from '../data/verifiable-credentials';
-import { SnapMock, createMockSnap } from '../helpers/snapMock';
+import { type SnapMock, createMockSnap } from '../helpers/snapMock';
 
 const credentials = [EXAMPLE_VC, EXAMPLE_VC2, EXAMPLE_VC_EIP712];
 

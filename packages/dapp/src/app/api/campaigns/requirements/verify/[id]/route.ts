@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
-import {
+import { type NextRequest, NextResponse } from 'next/server';
+import type {
   VerifiableCredential,
   VerifiablePresentation,
   W3CVerifiablePresentation,

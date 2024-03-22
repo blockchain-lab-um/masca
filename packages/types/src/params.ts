@@ -1,4 +1,4 @@
-import { W3CCredential } from '@0xpolygonid/js-sdk';
+import type { W3CCredential } from '@0xpolygonid/js-sdk';
 import type {
   UnsignedCredential,
   W3CVerifiableCredential,
@@ -10,7 +10,7 @@ import type {
   AvailableMethods,
   SupportedProofFormats,
 } from './constants.js';
-import { SignJWTParams, SignJWZParams } from './signData.js';
+import type { SignJWTParams, SignJWZParams } from './signData.js';
 
 /**
  * Types

@@ -1,4 +1,4 @@
-import { QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
+import type { QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import { EllipsisVerticalIcon } from '@heroicons/react/24/solid';
 import {
@@ -8,8 +8,8 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Pagination,
-  Selection,
-  SortDescriptor,
+  type Selection,
+  type SortDescriptor,
   Table,
   TableBody,
   TableCell,

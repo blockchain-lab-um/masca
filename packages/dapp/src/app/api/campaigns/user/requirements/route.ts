@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 
 import { supabaseServiceRoleClient } from '@/utils/supabase/supabaseServiceRoleClient';

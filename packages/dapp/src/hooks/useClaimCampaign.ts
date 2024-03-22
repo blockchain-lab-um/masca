@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { W3CVerifiableCredential } from '@veramo/core';
+import type { W3CVerifiableCredential } from '@veramo/core';
 import { useSaveCredential } from './useSaveCredential';
 import { useToastStore } from '@/stores';
 

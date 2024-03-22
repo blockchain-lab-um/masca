@@ -1,7 +1,7 @@
-import { QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
-import { SortDescriptor } from '@nextui-org/react';
+import type { QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
+import type { SortDescriptor } from '@nextui-org/react';
 
-import { CredentialType, DataStore, Ecosystem } from '@/stores';
+import type { CredentialType, DataStore, Ecosystem } from '@/stores';
 import { convertTypes } from '@/utils/string';
 
 const compareFunction = (

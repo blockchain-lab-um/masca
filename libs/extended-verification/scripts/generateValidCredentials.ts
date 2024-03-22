@@ -1,7 +1,7 @@
-import { IIdentifier } from '@veramo/core';
-import { writeFile } from 'fs/promises';
+import type { IIdentifier } from '@veramo/core';
+import { writeFile } from 'node:fs/promises';
 
-import { Agent, CREDENTIAL_DATA, createJWTCredential } from './utils';
+import { type Agent, CREDENTIAL_DATA, createJWTCredential } from './utils';
 
 export const generateValidCredentials = async (
   agent: Agent,

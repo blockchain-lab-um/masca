@@ -1,4 +1,7 @@
-import { VerifiableCredential, VerifiablePresentation } from '@veramo/core';
+import type {
+  VerifiableCredential,
+  VerifiablePresentation,
+} from '@veramo/core';
 
 import { readJSON } from '../utils/readJSON';
 

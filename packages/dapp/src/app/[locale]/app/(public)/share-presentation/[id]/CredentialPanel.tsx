@@ -6,7 +6,7 @@ import {
   ExclamationCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Tooltip } from '@nextui-org/react';
-import { VerifiableCredential } from '@veramo/core';
+import type { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import { usePathname, useRouter } from 'next/navigation';

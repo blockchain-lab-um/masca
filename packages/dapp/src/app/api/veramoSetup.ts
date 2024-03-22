@@ -31,7 +31,7 @@ import {
 import { KeyManagementSystem } from '@veramo/kms-local';
 import { Resolver } from 'did-resolver';
 import {
-  ProviderConfiguration,
+  type ProviderConfiguration,
   getResolver as didEnsResolver,
 } from 'ens-did-resolver';
 import { JsonRpcProvider } from 'ethers';

@@ -6,7 +6,7 @@ import {
   isError,
 } from '@blockchain-lab-um/masca-connector';
 import { ArrowLeftIcon } from '@heroicons/react/20/solid';
-import {
+import type {
   W3CVerifiableCredential,
   W3CVerifiablePresentation,
 } from '@veramo/core';

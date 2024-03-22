@@ -1,16 +1,16 @@
 import {
   CURRENT_STATE_VERSION,
-  InternalSigMethods,
+  type InternalSigMethods,
 } from '@blockchain-lab-um/masca-types';
-import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsProvider } from '@metamask/snaps-sdk';
+import type { MetaMaskInpageProvider } from '@metamask/providers';
+import type { SnapsProvider } from '@metamask/snaps-sdk';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import WalletService from '../../src/Wallet.service';
 import StorageService from '../../src/storage/Storage.service';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
-import { SnapMock, createMockSnap } from '../helpers/snapMock';
+import { type SnapMock, createMockSnap } from '../helpers/snapMock';
 
 const methods = [
   {

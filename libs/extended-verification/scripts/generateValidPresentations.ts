@@ -1,7 +1,7 @@
-import { IIdentifier, VerifiableCredential } from '@veramo/core';
-import { writeFile } from 'fs/promises';
+import type { IIdentifier, VerifiableCredential } from '@veramo/core';
+import { writeFile } from 'node:fs/promises';
 
-import { Agent } from './utils';
+import type { Agent } from './utils';
 import { createJWTPresentation } from './utils/createJWTPresentation';
 
 export const generateValidPresentations = async (

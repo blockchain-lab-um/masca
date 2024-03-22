@@ -1,4 +1,4 @@
-import { MinimalUnsignedCredential } from '@blockchain-lab-um/masca-types';
+import type { MinimalUnsignedCredential } from '@blockchain-lab-um/masca-types';
 
 import { readJSON } from '../../helpers/readJSON';
 

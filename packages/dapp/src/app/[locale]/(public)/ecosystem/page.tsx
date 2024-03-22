@@ -1,4 +1,4 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 import ProjectIcon, { type ProjectIconProps } from '@/components/ProjectIcon';
 

@@ -1,12 +1,12 @@
-import {
+import type {
   AvailableCredentialStores,
   SaveCredentialOptions,
 } from '@blockchain-lab-um/masca-types';
-import { Result, isError, isSuccess } from '@blockchain-lab-um/utils';
-import { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-datamanager';
+import { type Result, isError, isSuccess } from '@blockchain-lab-um/utils';
+import type { IDataManagerSaveResult } from '@blockchain-lab-um/veramo-datamanager';
 import { DIDDataStore } from '@glazed/did-datastore';
-import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsProvider } from '@metamask/snaps-sdk';
+import type { MetaMaskInpageProvider } from '@metamask/providers';
+import type { SnapsProvider } from '@metamask/snaps-sdk';
 import type { IIdentifier, VerifiableCredential } from '@veramo/core';
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -18,7 +18,7 @@ import { account } from '../data/constants';
 import { EXAMPLE_VC_PAYLOAD } from '../data/credentials';
 import { getDefaultSnapState } from '../data/defaultSnapState';
 import { createTestVCs } from '../helpers/generateTestVCs';
-import { SnapMock, createMockSnap } from '../helpers/snapMock';
+import { type SnapMock, createMockSnap } from '../helpers/snapMock';
 
 describe('saveVerifiableCredential', () => {
   let ceramicData: StoredCredentials;

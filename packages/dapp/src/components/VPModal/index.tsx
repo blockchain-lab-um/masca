@@ -1,6 +1,6 @@
 import { DocumentDuplicateIcon } from '@heroicons/react/24/solid';
 import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
-import { W3CVerifiablePresentation } from '@veramo/core';
+import type { W3CVerifiablePresentation } from '@veramo/core';
 import { useRouter } from 'next/navigation';
 
 import Button from '@/components/Button';

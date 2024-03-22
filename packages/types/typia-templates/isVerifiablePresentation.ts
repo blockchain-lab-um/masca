@@ -1,4 +1,4 @@
-import {
+import type {
   VerifiablePresentation,
   W3CVerifiablePresentation,
 } from '@veramo/core';
