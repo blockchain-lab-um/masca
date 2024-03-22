@@ -1,10 +1,10 @@
 import { getResolver } from '@cef-ebsi/ebsi-did-resolver';
 import {
-  DIDResolutionOptions,
-  DIDResolutionResult,
-  DIDResolver,
-  ParsedDID,
-  Resolvable,
+  type DIDResolutionOptions,
+  type DIDResolutionResult,
+  type DIDResolver,
+  type ParsedDID,
+  type Resolvable,
   Resolver,
 } from 'did-resolver';
 

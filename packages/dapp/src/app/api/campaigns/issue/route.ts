@@ -1,6 +1,6 @@
-import { randomUUID } from 'crypto';
-import { NextRequest, NextResponse } from 'next/server';
-import { MinimalImportableKey } from '@veramo/core';
+import { randomUUID } from 'node:crypto';
+import { type NextRequest, NextResponse } from 'next/server';
+import type { MinimalImportableKey } from '@veramo/core';
 import jwt from 'jsonwebtoken';
 
 import { getAgent } from '../../veramoSetup';

@@ -1,4 +1,4 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 import Controlbar from '@/components/Controlbar/Controlbar';
 import DashboardDisplay from '@/components/DashboardDisplay';

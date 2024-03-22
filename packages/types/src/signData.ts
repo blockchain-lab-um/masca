@@ -1,4 +1,4 @@
-import { JSONObject } from '@0xpolygonid/js-sdk';
+import type { JSONObject } from '@0xpolygonid/js-sdk';
 
 export interface JWTHeader {
   typ?: string;

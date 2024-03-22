@@ -1,7 +1,7 @@
 'use client';
 
 import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
-import { Html5Qrcode } from 'html5-qrcode';
+import type { Html5Qrcode } from 'html5-qrcode';
 import { useEffect, useState } from 'react';
 
 import QRCodeScanner from '@/components/QRCodeScanner';

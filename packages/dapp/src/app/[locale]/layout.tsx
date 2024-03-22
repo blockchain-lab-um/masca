@@ -1,7 +1,7 @@
 import '@/styles/globals.css';
 
 import clsx from 'clsx';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { NextIntlClientProvider, useMessages } from 'next-intl';
 import { Cabin, JetBrains_Mono, Ubuntu } from 'next/font/google';
 

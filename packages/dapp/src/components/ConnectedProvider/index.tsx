@@ -6,7 +6,7 @@ import {
   LockClosedIcon,
 } from '@heroicons/react/24/solid';
 import { useTranslations } from 'next-intl';
-import React from 'react';
+import type React from 'react';
 import { useAccount } from 'wagmi';
 
 import MascaLogo from '../MascaLogo';

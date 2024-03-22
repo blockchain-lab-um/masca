@@ -3,7 +3,7 @@
 // Shared tests
 import { describe } from 'vitest';
 
-import myPluginLogic, { ConfiguredAgent } from './shared/integration.js';
+import myPluginLogic, { type ConfiguredAgent } from './shared/integration.js';
 
 // let dbConnection: any;
 let agent: ConfiguredAgent;

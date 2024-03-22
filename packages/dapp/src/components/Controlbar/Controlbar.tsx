@@ -8,7 +8,7 @@ import {
 import { ArrowPathIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { ShareIcon } from '@heroicons/react/24/solid';
 import { Tooltip } from '@nextui-org/react';
-import { W3CVerifiableCredential } from '@veramo/core';
+import type { W3CVerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';

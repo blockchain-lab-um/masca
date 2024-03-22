@@ -1,8 +1,8 @@
 import {
   CURRENT_STATE_VERSION,
-  DappPermissions,
-  MascaRPCRequest,
-  MascaState,
+  type DappPermissions,
+  type MascaRPCRequest,
+  type MascaState,
 } from '@blockchain-lab-um/masca-types';
 
 import { getInitialPermissions } from './config';

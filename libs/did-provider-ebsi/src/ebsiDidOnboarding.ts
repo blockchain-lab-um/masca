@@ -1,18 +1,18 @@
-import { randomBytes } from 'crypto';
+import { randomBytes } from 'node:crypto';
 import { Agent } from '@cef-ebsi/siop-auth';
 import {
-  EbsiIssuer,
-  EbsiVerifiablePresentation,
+  type EbsiIssuer,
+  type EbsiVerifiablePresentation,
   createVerifiablePresentationJwt,
 } from '@cef-ebsi/verifiable-presentation';
-import { IIdentifier } from '@veramo/core';
+import type { IIdentifier } from '@veramo/core';
 import { Wallet, ethers } from 'ethers';
 import * as jose from 'jose';
 import { v4 as uuidv4 } from 'uuid';
 
 import { EbsiConfig, EbsiEndpoints } from './constants.js';
 import { algoMap, privateKeyJwkToHex } from './ebsiDidUtils.js';
-import {
+import type {
   IEbsiDidSupportedKeyTypes,
   IKeyJwks,
   IRPCResult,

@@ -7,7 +7,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { Image } from '@nextui-org/react';
 import { Tooltip } from '@nextui-org/react';
-import { VerifiableCredential } from '@veramo/core';
+import type { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 import { isAddress } from 'ethers/address';
 import { useTranslations } from 'next-intl';

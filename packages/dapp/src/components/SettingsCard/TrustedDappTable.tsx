@@ -1,6 +1,6 @@
 import {
-  DappPermissions,
-  MascaConfig,
+  type DappPermissions,
+  type MascaConfig,
   isError,
   isSuccess,
 } from '@blockchain-lab-um/masca-connector';

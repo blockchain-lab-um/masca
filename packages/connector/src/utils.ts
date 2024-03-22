@@ -1,7 +1,7 @@
-import { CreateCredentialRequestParams } from '@blockchain-lab-um/masca-types';
+import type { CreateCredentialRequestParams } from '@blockchain-lab-um/masca-types';
 import { isError } from '@blockchain-lab-um/utils';
 import { EthereumWebAuth, getAccountId } from '@didtools/pkh-ethereum';
-import {
+import type {
   UnsignedCredential,
   UnsignedPresentation,
   VerifiableCredential,
@@ -10,7 +10,7 @@ import {
 import { DIDSession } from 'did-session';
 import { getEthTypesFromInputDoc } from 'eip-712-types-generation';
 
-import { Masca } from './snap.js';
+import type { Masca } from './snap.js';
 
 /**
  * Function to check if there is a valid Ceramic session in Masca.
@@ -88,7 +88,7 @@ export async function signVerifiablePresentation(
   ) {
     throw new Error('Wrong holder');
   }
-  const chainId = parseInt(
+  const chainId = Number.parseInt(
     await provider.request({ method: 'eth_chainId' }),
     16
   );
@@ -162,7 +162,7 @@ export async function signVerifiableCredential(
     throw new Error('Invalid Issuer');
   }
 
-  const chainId = parseInt(
+  const chainId = Number.parseInt(
     await provider.request({ method: 'eth_chainId' }),
     16
   );

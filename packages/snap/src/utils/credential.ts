@@ -1,4 +1,4 @@
-import { W3CVerifiableCredential } from '@veramo/core';
+import type { W3CVerifiableCredential } from '@veramo/core';
 
 export function normalizeCredential(obj: W3CVerifiableCredential): any {
   if (obj === null || obj === undefined || typeof obj !== 'object') {

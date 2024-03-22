@@ -20,7 +20,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { DeleteSharedPresentationModal } from '@/components/DeleteSharedPresentationModal';
 import { ShareCredentialModal } from '@/components/ShareCredentialModal';
 import { useAuthStore, useShareModalStore } from '@/stores';
-import { Tables } from '@/utils/supabase/helper.types';
+import type { Tables } from '@/utils/supabase/helper.types';
 import {
   useTotalPresentations,
   usePresentations,

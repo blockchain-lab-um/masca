@@ -5,8 +5,8 @@ import {
 } from '@0xpolygonid/js-sdk';
 import {
   CURRENT_STATE_VERSION,
-  SignJWTParams,
-  SignJWZParams,
+  type SignJWTParams,
+  type SignJWZParams,
 } from '@blockchain-lab-um/masca-types';
 import { DID } from '@iden3/js-iden3-core';
 import { proving } from '@iden3/js-jwz';

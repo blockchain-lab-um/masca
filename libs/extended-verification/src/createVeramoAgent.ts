@@ -1,8 +1,8 @@
 import { getDidKeyResolver as keyDidResolver } from '@blockchain-lab-um/did-provider-key';
 import {
-  ICredentialVerifier,
-  IResolver,
-  TAgent,
+  type ICredentialVerifier,
+  type IResolver,
+  type TAgent,
   createAgent,
 } from '@veramo/core';
 import { CredentialIssuerEIP712 } from '@veramo/credential-eip712';
@@ -12,7 +12,7 @@ import { getDidPkhResolver as pkhDidResolver } from '@veramo/did-provider-pkh';
 import { DIDResolverPlugin } from '@veramo/did-resolver';
 import { Resolver } from 'did-resolver';
 import { getResolver as ensDidResolver } from 'ens-did-resolver';
-import { JsonRpcProvider, Provider } from 'ethers';
+import { JsonRpcProvider, type Provider } from 'ethers';
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver';
 
 export interface CreateVeramoAgentProps {

@@ -11,7 +11,7 @@ import {
   useToastStore,
   useAuthStore,
 } from '@/stores';
-import { Database } from '@/utils/supabase/database.types';
+import type { Database } from '@/utils/supabase/database.types';
 
 export const ConnectDeviceView = () => {
   const t = useTranslations('ConnectDeviceView');

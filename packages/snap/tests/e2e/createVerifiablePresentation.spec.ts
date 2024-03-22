@@ -1,8 +1,11 @@
-import { AvailableMethods, ProofOptions } from '@blockchain-lab-um/masca-types';
-import { Result, isError } from '@blockchain-lab-um/utils';
-import { MetaMaskInpageProvider } from '@metamask/providers';
-import { type Json, SnapsProvider } from '@metamask/snaps-sdk';
-import { VerifiablePresentation } from '@veramo/core';
+import type {
+  AvailableMethods,
+  ProofOptions,
+} from '@blockchain-lab-um/masca-types';
+import { type Result, isError } from '@blockchain-lab-um/utils';
+import type { MetaMaskInpageProvider } from '@metamask/providers';
+import type { Json, SnapsProvider } from '@metamask/snaps-sdk';
+import type { VerifiablePresentation } from '@veramo/core';
 import { beforeAll, describe, expect, it } from 'vitest';
 
 import { onRpcRequest } from '../../src';
@@ -16,7 +19,7 @@ import {
   EXAMPLE_VC_EIP712,
   EXAMPLE_VC_LDS,
 } from '../data/verifiable-credentials';
-import { SnapMock, createMockSnap } from '../helpers/snapMock';
+import { type SnapMock, createMockSnap } from '../helpers/snapMock';
 
 const methods: AvailableMethods[] = ['did:key', 'did:jwk'];
 // TODO: Resolve bugs for lds and EthereumEip712Signature2021

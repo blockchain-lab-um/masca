@@ -1,5 +1,5 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { Database } from './database.types';
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+import type { Database } from './database.types';
 
 let client: SupabaseClient<Database> | null = null;
 let token: string | null = null;

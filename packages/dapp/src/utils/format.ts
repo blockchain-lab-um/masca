@@ -1,5 +1,5 @@
-import { type QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
-import { CredentialSubject } from '@veramo/core';
+import type { QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
+import type { CredentialSubject } from '@veramo/core';
 
 export const getLastWord = (str: string) => {
   const parts = str.trim().split(',');

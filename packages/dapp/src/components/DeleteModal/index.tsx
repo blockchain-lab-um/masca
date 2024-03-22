@@ -1,6 +1,6 @@
 import {
-  AvailableCredentialStores,
-  QueryCredentialsRequestResult,
+  type AvailableCredentialStores,
+  type QueryCredentialsRequestResult,
   isError,
 } from '@blockchain-lab-um/masca-connector';
 import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';

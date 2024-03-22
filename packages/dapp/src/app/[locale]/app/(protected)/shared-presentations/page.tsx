@@ -1,4 +1,4 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 import { SupabaseProvider } from '@/components/SupabaseProvider';
 import { SharedPresentations } from './sharedPresentations';

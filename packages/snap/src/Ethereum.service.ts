@@ -1,8 +1,8 @@
 import {
-  MethodsRequiringNetwork,
+  type MethodsRequiringNetwork,
   didMethodChainIdMapping,
 } from '@blockchain-lab-um/masca-types';
-import { PublicClient, createPublicClient, custom } from 'viem';
+import { type PublicClient, createPublicClient, custom } from 'viem';
 import { mainnet } from 'viem/chains';
 
 class EthereumService {

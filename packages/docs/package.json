@@ -19,11 +19,7 @@
     "write-translations": "docusaurus write-translations"
   },
   "browserslist": {
-    "production": [
-      ">0.5%",
-      "not dead",
-      "not op_mini all"
-    ],
+    "production": [">0.5%", "not dead", "not op_mini all"],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
@@ -51,9 +47,7 @@
   },
   "nx": {
     "namedInputs": {
-      "default": [
-        "{projectRoot}/**/*"
-      ],
+      "default": ["{projectRoot}/**/*"],
       "production": [
         "default",
         "!{projectRoot}/sonar-project.properties",
@@ -66,43 +60,19 @@
     },
     "targets": {
       "build": {
-        "inputs": [
-          "production",
-          "^production"
-        ],
-        "dependsOn": [
-          "^build"
-        ],
-        "outputs": [
-          "{projectRoot}/build",
-          "{projectRoot}/.docusaurus"
-        ]
+        "inputs": ["production", "^production"],
+        "dependsOn": ["^build"],
+        "outputs": ["{projectRoot}/build", "{projectRoot}/.docusaurus"]
       },
       "deploy": {
-        "inputs": [
-          "production",
-          "^production"
-        ],
-        "dependsOn": [
-          "^build"
-        ],
-        "outputs": [
-          "{projectRoot}/build",
-          "{projectRoot}/.docusaurus"
-        ]
+        "inputs": ["production", "^production"],
+        "dependsOn": ["^build"],
+        "outputs": ["{projectRoot}/build", "{projectRoot}/.docusaurus"]
       },
       "start": {
-        "inputs": [
-          "production",
-          "^production"
-        ],
-        "dependsOn": [
-          "^build"
-        ],
-        "outputs": [
-          "{projectRoot}/build",
-          "{projectRoot}/.docusaurus"
-        ]
+        "inputs": ["production", "^production"],
+        "dependsOn": ["^build"],
+        "outputs": ["{projectRoot}/build", "{projectRoot}/.docusaurus"]
       }
     }
   }

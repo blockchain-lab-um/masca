@@ -1,5 +1,8 @@
-import { CredentialSchema, CredentialStatus } from '@0xpolygonid/js-sdk';
-import { VerifiableCredential, W3CVerifiableCredential } from '@veramo/core';
+import type { CredentialSchema, CredentialStatus } from '@0xpolygonid/js-sdk';
+import type {
+  VerifiableCredential,
+  W3CVerifiableCredential,
+} from '@veramo/core';
 import typia from 'typia';
 
 interface W3CCredential {

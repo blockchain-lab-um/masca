@@ -1,4 +1,4 @@
-import { VerifiablePresentation } from '@veramo/core';
+import type { VerifiablePresentation } from '@veramo/core';
 import { decodeCredentialToObject } from '@veramo/utils';
 import { normalizeCredential } from 'did-jwt-vc';
 import { notFound } from 'next/navigation';
@@ -55,7 +55,7 @@ export default async function Page({
       <div className="max-w-full flex-1 md:max-w-3xl">
         {view === 'Normal' && (
           <FormattedView
-            credential={credentials[parseInt(page, 10) - 1]}
+            credential={credentials[Number.parseInt(page, 10) - 1]}
             holder={presentation.holder}
             expirationDate={presentation.expirationDate}
             issuanceDate={presentation.issuanceDate}

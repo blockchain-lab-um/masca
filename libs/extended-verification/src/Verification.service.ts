@@ -1,12 +1,12 @@
-import { Result, ResultObject } from '@blockchain-lab-um/utils';
-import {
+import { type Result, ResultObject } from '@blockchain-lab-um/utils';
+import type {
   VerifiableCredential,
   VerifiablePresentation,
   W3CVerifiableCredential,
   W3CVerifiablePresentation,
 } from '@veramo/core';
 import { normalizeCredential, normalizePresentation } from 'did-jwt-vc';
-import { Provider } from 'ethers';
+import type { Provider } from 'ethers';
 
 import { type Agent, createVeramoAgent } from './createVeramoAgent';
 

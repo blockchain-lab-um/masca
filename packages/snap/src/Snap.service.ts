@@ -1,16 +1,16 @@
-import { W3CCredential } from '@0xpolygonid/js-sdk';
+import type { W3CCredential } from '@0xpolygonid/js-sdk';
 import {
   CURRENT_STATE_VERSION,
-  CreateCredentialRequestParams,
-  CreatePresentationRequestParams,
-  DeleteCredentialsRequestParams,
-  HandleAuthorizationRequestParams,
-  HandleCredentialOfferRequestParams,
-  QueryCredentialsRequestParams,
-  QueryCredentialsRequestResult,
-  SaveCredentialRequestParams,
-  SaveCredentialRequestResult,
-  VerifyDataRequestParams,
+  type CreateCredentialRequestParams,
+  type CreatePresentationRequestParams,
+  type DeleteCredentialsRequestParams,
+  type HandleAuthorizationRequestParams,
+  type HandleCredentialOfferRequestParams,
+  type QueryCredentialsRequestParams,
+  type QueryCredentialsRequestResult,
+  type SaveCredentialRequestParams,
+  type SaveCredentialRequestResult,
+  type VerifyDataRequestParams,
   isPolygonSupportedMethods,
   isValidAddDappSettingsRequest,
   isValidChangePermissionRequest,
@@ -29,8 +29,8 @@ import {
   isVeramoSupportedMethods,
   polygonSupportedMethods,
 } from '@blockchain-lab-um/masca-types';
-import { Result, ResultObject } from '@blockchain-lab-um/utils';
-import {
+import { type Result, ResultObject } from '@blockchain-lab-um/utils';
+import type {
   DIDResolutionResult,
   IVerifyResult,
   UnsignedCredential,
@@ -38,7 +38,7 @@ import {
   VerifiableCredential,
   W3CVerifiableCredential,
 } from '@veramo/core';
-import { VerifiablePresentation } from 'did-jwt-vc';
+import type { VerifiablePresentation } from 'did-jwt-vc';
 
 import GeneralService from './General.service';
 import SignerService from './Signer.service';

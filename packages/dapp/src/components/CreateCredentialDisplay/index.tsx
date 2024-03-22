@@ -1,15 +1,15 @@
 'use client';
 
 import {
-  AvailableCredentialStores,
-  QueryCredentialsRequestResult,
-  Result,
-  SupportedProofFormats,
+  type AvailableCredentialStores,
+  type QueryCredentialsRequestResult,
+  type Result,
+  type SupportedProofFormats,
   isError,
   isSuccess,
 } from '@blockchain-lab-um/masca-connector';
 import { ArrowLeftIcon } from '@heroicons/react/20/solid';
-import { VerifiableCredential } from '@veramo/core';
+import type { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';

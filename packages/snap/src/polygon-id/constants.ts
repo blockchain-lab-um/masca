@@ -1,4 +1,4 @@
-import { EthConnectionConfig } from '@0xpolygonid/js-sdk';
+import type { EthConnectionConfig } from '@0xpolygonid/js-sdk';
 import { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
 
 export const RHS_URL = 'https://rhs-staging.polygonid.me';

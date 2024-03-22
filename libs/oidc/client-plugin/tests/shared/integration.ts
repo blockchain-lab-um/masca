@@ -1,7 +1,7 @@
-import { TAgent } from '@veramo/core';
+import type { TAgent } from '@veramo/core';
 import { afterAll, beforeAll, describe, it } from 'vitest';
 
-import { IOIDCClientPlugin } from '../../src/types/IOIDCClientPlugin.js';
+import type { IOIDCClientPlugin } from '../../src/types/IOIDCClientPlugin.js';
 
 export type ConfiguredAgent = TAgent<IOIDCClientPlugin>;
 

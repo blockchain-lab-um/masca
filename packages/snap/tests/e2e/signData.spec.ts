@@ -1,22 +1,22 @@
 import {
-  SignJWTParams,
-  SignJWZParams,
+  type SignJWTParams,
+  type SignJWZParams,
   methodIndexMapping,
 } from '@blockchain-lab-um/masca-types';
-import { Result, isError, isSuccess } from '@blockchain-lab-um/utils';
-import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsProvider } from '@metamask/snaps-sdk';
+import { type Result, isError, isSuccess } from '@blockchain-lab-um/utils';
+import type { MetaMaskInpageProvider } from '@metamask/providers';
+import type { SnapsProvider } from '@metamask/snaps-sdk';
 import { bytesToBase64url } from '@veramo/utils';
 import elliptic from 'elliptic';
 import { HDNodeWallet, Mnemonic } from 'ethers';
-import { JWK, importJWK, jwtVerify } from 'jose';
+import { type JWK, importJWK, jwtVerify } from 'jose';
 import cloneDeep from 'lodash.clonedeep';
 import { beforeAll, describe, expect, it } from 'vitest';
 
 import { onRpcRequest } from '../../src';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
-import { SnapMock, createMockSnap } from '../helpers/snapMock';
+import { type SnapMock, createMockSnap } from '../helpers/snapMock';
 
 const { ec: EC } = elliptic;
 

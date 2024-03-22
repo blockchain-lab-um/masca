@@ -17,7 +17,7 @@ export const encodePublicKey = (
   multicodec: CodecName
 ): string => {
   if (MULTICODEC_NAME_TO_CODE[multicodec]) {
-    const code = parseInt(MULTICODEC_NAME_TO_CODE[multicodec], 16);
+    const code = Number.parseInt(MULTICODEC_NAME_TO_CODE[multicodec], 16);
     const size = pubKeyBytes.byteLength;
     const sizeOffset = varint.encodingLength(code);
 

@@ -1,4 +1,4 @@
-import { VerifiableCredential } from '@veramo/core';
+import type { VerifiableCredential } from '@veramo/core';
 import { useTranslations } from 'next-intl';
 import React from 'react';
 import { useAccount } from 'wagmi';

@@ -6,7 +6,7 @@ import {
 import { useTranslations } from 'next-intl';
 
 import Button from '../Button';
-import { Tables } from '@/utils/supabase/database.types';
+import type { Tables } from '@/utils/supabase/database.types';
 import clsx from 'clsx';
 import { useSwitchChain, useVerifyRequirement } from '@/hooks';
 import { useAuthStore, useMascaStore, useToastStore } from '@/stores';

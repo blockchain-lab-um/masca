@@ -1,7 +1,7 @@
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import { DataManager } from '../src/agent/dataManager.js';
-import { AbstractDataStore } from '../src/data-store/abstractDataStore.js';
+import type { AbstractDataStore } from '../src/data-store/abstractDataStore.js';
 import { MemoryDataStore } from '../src/data-store/memoryDataStore.js';
 
 describe('DataManager', () => {

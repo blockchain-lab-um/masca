@@ -1,5 +1,5 @@
 import {
-  CircuitData,
+  type CircuitData,
   CircuitId,
   CircuitStorage,
   InMemoryDataSource,

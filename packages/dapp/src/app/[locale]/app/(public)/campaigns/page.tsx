@@ -1,5 +1,5 @@
 import { CampaignsDisplay } from '@/components/CampaignsDisplay';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Campaigns',

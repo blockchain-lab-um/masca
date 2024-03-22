@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Dispatch, SetStateAction } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 
 interface PublicFooterProps {
   setIsMenuOpen: Dispatch<SetStateAction<boolean>> | null | undefined;

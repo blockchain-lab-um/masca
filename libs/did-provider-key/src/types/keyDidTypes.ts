@@ -1,5 +1,5 @@
-import { CodecName, isIn } from '@blockchain-lab-um/utils';
-import { DIDDocument } from 'did-resolver';
+import { type CodecName, isIn } from '@blockchain-lab-um/utils';
+import type { DIDDocument } from 'did-resolver';
 
 export interface ICreateKeyDidOptions {
   keyType?: KeyType;

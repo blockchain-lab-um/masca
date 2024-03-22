@@ -1,8 +1,8 @@
-import {
+import type {
   SupportedCredentialFormats,
   SupportedPresentationFormats,
 } from './credential.js';
-import {
+import type {
   OAuth2AuthorizationServerMetadata,
   OAuth2ClientMetadata,
 } from './oauth2.js';

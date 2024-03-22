@@ -1,6 +1,6 @@
 import { useToastStore } from '@/stores';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { VerifiablePresentation } from '@veramo/core';
+import type { VerifiablePresentation } from '@veramo/core';
 import { useTranslations } from 'next-intl';
 
 export type VerifyRequirementMutateProps = {

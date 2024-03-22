@@ -19,7 +19,7 @@ import {
   type SignDataRequestParams,
   type SwitchMethodRequestParams,
   type VerifyDataRequestParams,
-  availableCredentialStores,
+  type availableCredentialStores,
   isW3CCredential,
   isW3CVerifiableCredential,
 } from '../src/index.js';

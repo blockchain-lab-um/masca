@@ -1,4 +1,4 @@
-import { Options, defineConfig } from 'tsup';
+import { type Options, defineConfig } from 'tsup';
 
 export default defineConfig((options: Options) => ({
   target: 'es2020',

@@ -3,7 +3,7 @@
 import { isError } from '@blockchain-lab-um/masca-connector';
 import { ArrowLeftIcon } from '@heroicons/react/20/solid';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
-import { IVerifyResult } from '@veramo/core';
+import type { IVerifyResult } from '@veramo/core';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';

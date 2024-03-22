@@ -1,7 +1,7 @@
-import {
-  type AvailableCredentialStores,
-  type MascaApi,
-  type QueryCredentialsRequestResult,
+import type {
+  AvailableCredentialStores,
+  MascaApi,
+  QueryCredentialsRequestResult,
 } from '@blockchain-lab-um/masca-connector';
 import { shallow } from 'zustand/shallow';
 import { createWithEqualityFn } from 'zustand/traditional';

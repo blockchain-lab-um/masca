@@ -1,6 +1,6 @@
 'use client';
 
-import { QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
+import type { QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';

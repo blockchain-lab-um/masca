@@ -1,4 +1,4 @@
-import { DIDResolutionResult } from '@veramo/core';
+import type { DIDResolutionResult } from '@veramo/core';
 
 import { readJSON } from '../../helpers/readJSON';
 

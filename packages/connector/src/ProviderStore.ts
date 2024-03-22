@@ -1,4 +1,4 @@
-import { EIP6963ProviderDetail, Store, createStore } from 'mipd';
+import { type EIP6963ProviderDetail, type Store, createStore } from 'mipd';
 
 export class ProviderStore {
   private store: Store;

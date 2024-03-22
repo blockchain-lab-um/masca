@@ -191,7 +191,6 @@ function MenuPopover() {
                   })}
                 </div>
                 <div className="dark:bg-navy-blue-500 bg-gray-100 p-4">
-                  {/* biome-ignore lint/a11y/useValidAnchor: */}
                   <a
                     href="https://docs.masca.io/"
                     target="_blank"

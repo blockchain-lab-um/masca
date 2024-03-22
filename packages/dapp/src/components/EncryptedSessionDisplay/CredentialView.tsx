@@ -1,6 +1,6 @@
 import { isError } from '@blockchain-lab-um/masca-connector';
 import { Tab } from '@headlessui/react';
-import { VerifiableCredential } from '@veramo/core';
+import type { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import React from 'react';

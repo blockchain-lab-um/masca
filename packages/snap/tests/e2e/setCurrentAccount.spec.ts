@@ -1,15 +1,15 @@
 import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
-import { Result, isError, isSuccess } from '@blockchain-lab-um/utils';
-import { MetaMaskInpageProvider } from '@metamask/providers';
-import { SnapsProvider } from '@metamask/snaps-sdk';
-import { VerifiableCredential } from '@veramo/core';
+import { type Result, isError, isSuccess } from '@blockchain-lab-um/utils';
+import type { MetaMaskInpageProvider } from '@metamask/providers';
+import type { SnapsProvider } from '@metamask/snaps-sdk';
+import type { VerifiableCredential } from '@veramo/core';
 import { beforeAll, describe, expect, it } from 'vitest';
 
 import { onRpcRequest } from '../../src';
 import { account } from '../data/constants';
 import { EXAMPLE_VC_PAYLOAD } from '../data/credentials';
 import { getDefaultSnapState } from '../data/defaultSnapState';
-import { SnapMock, createMockSnap } from '../helpers/snapMock';
+import { type SnapMock, createMockSnap } from '../helpers/snapMock';
 
 describe('setCurrentAccount', () => {
   let snapMock: SnapsProvider & SnapMock;

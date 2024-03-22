@@ -1,6 +1,6 @@
-import { IDataSource } from '@0xpolygonid/js-sdk';
+import type { IDataSource } from '@0xpolygonid/js-sdk';
 import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
-import { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
+import type { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
 
 import StorageService from '../../storage/Storage.service';
 

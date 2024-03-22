@@ -1,5 +1,5 @@
 import {
-  Result,
+  type Result,
   ResultObject,
   isError,
 } from '@blockchain-lab-um/masca-connector';
@@ -11,7 +11,7 @@ import {
   ModalHeader,
   Snippet,
 } from '@nextui-org/react';
-import { VerifiablePresentation } from '@veramo/core';
+import type { VerifiablePresentation } from '@veramo/core';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';

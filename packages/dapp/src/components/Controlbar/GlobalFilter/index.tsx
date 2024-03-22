@@ -1,4 +1,4 @@
-import { QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
+import type { QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 import { useTranslations } from 'next-intl';
 

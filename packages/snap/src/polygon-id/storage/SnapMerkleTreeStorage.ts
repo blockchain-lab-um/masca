@@ -1,10 +1,10 @@
 import {
-  IMerkleTreeStorage,
-  IdentityMerkleTreeMetaInformation,
+  type IMerkleTreeStorage,
+  type IdentityMerkleTreeMetaInformation,
   MerkleTreeType,
 } from '@0xpolygonid/js-sdk';
 import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
-import { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
+import type { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
 import { Merkletree, str2Bytes } from '@iden3/js-merkletree';
 
 import StorageService from '../../storage/Storage.service';

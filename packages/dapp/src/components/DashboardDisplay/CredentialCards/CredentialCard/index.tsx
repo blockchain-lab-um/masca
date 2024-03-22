@@ -1,4 +1,4 @@
-import { type QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
+import type { QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { Tooltip } from '@nextui-org/react';
 import { encodeBase64url } from '@veramo/utils';

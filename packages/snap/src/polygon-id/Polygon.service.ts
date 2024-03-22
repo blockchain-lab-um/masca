@@ -1,7 +1,7 @@
 import {
   AuthHandler,
   BjjProvider,
-  CircuitData,
+  type CircuitData,
   CircuitId,
   CredentialStatusResolverRegistry,
   CredentialStatusType,
@@ -25,19 +25,19 @@ import {
   RHSResolver,
   VerifiableConstants,
   VerificationHandlerFunc,
-  W3CCredential,
+  type W3CCredential,
   ZKPPacker,
   byteEncoder,
   hexToBytes,
 } from '@0xpolygonid/js-sdk';
 import {
   CURRENT_STATE_VERSION,
-  HandleAuthorizationRequestParams,
-  HandleCredentialOfferRequestParams,
+  type HandleAuthorizationRequestParams,
+  type HandleCredentialOfferRequestParams,
 } from '@blockchain-lab-um/masca-types';
 import { Blockchain, DID, DidMethod, NetworkId } from '@iden3/js-iden3-core';
 import { proving } from '@iden3/js-jwz';
-import { DIDResolutionOptions, DIDResolutionResult } from 'did-resolver';
+import type { DIDResolutionOptions, DIDResolutionResult } from 'did-resolver';
 
 import EthereumService from '../Ethereum.service';
 import StorageService from '../storage/Storage.service';
