@@ -52,6 +52,7 @@ export type Database = {
           id: string;
           image_url: string;
           production: boolean;
+          rewards: string | null;
           schema_context_url: string | null;
           schema_url: string | null;
           start_date: string | null;
@@ -69,6 +70,7 @@ export type Database = {
           id?: string;
           image_url: string;
           production?: boolean;
+          rewards?: string | null;
           schema_context_url?: string | null;
           schema_url?: string | null;
           start_date?: string | null;
@@ -86,6 +88,7 @@ export type Database = {
           id?: string;
           image_url?: string;
           production?: boolean;
+          rewards?: string | null;
           schema_context_url?: string | null;
           schema_url?: string | null;
           start_date?: string | null;
