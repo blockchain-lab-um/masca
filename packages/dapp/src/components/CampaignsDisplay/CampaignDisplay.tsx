@@ -14,6 +14,7 @@ import {
   useSwitchChain,
 } from '@/hooks';
 import { useAccount } from 'wagmi';
+import { RewardDisplay } from './RewardDisplay';
 
 type CampaignProps = {
   campaign: Campaigns[number];
@@ -28,6 +29,7 @@ export const CampaignDisplay = ({
     total,
     image_url: imageUrl,
     requirements,
+    rewards,
   },
 }: CampaignProps) => {
   const t = useTranslations('CampaignDisplay');
@@ -122,6 +124,12 @@ export const CampaignDisplay = ({
           <p className="text-md dark:text-navy-blue-400 mt-4 text-gray-600">
             {description}
           </p>
+          <h5 className="font-ubuntu dark:text-navy-blue-200 mt-8 text-lg font-medium leading-6 text-gray-700">
+            {t('rewards')}
+          </h5>
+          <div className="mt-2 w-full">
+            <RewardDisplay reward={rewards!} />
+          </div>
           {requirements.length > 0 && (
             <h5 className="font-ubuntu dark:text-navy-blue-200 mt-8 text-lg font-medium leading-6 text-gray-700">
               {t('requirements')}

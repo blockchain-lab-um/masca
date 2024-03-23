@@ -196,11 +196,13 @@
   "CampaignDisplay": {
     "requirements": "Requirements",
     "claim": "Claim",
-    "claimed": "Claimed"
+    "claimed": "Claimed",
+    "rewards": "Rewards"
   },
   "RequirementDisplay": {
     "verify": "Verify"
   },
+  "RewardDisplay": {},
   "CredentialCard": {
     "create-verifiable-presentation": "Create Presentation",
     "expires": "EXPIRES ON",
