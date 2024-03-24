@@ -35,7 +35,11 @@ import {
   type HandleAuthorizationRequestParams,
   type HandleCredentialOfferRequestParams,
 } from '@blockchain-lab-um/masca-types';
-import { Blockchain, DID, DidMethod, NetworkId } from '@iden3/js-iden3-core';
+import {
+  type Blockchain,
+  DidMethod,
+  type NetworkId,
+} from '@blockchain-lab-um/masca-types';
 import { proving } from '@iden3/js-jwz';
 import type { DIDResolutionOptions, DIDResolutionResult } from 'did-resolver';
 
@@ -52,6 +56,7 @@ import {
   getDefaultEthConnectionConfig,
 } from './constants';
 import { SnapDataSource, SnapMerkleTreeStorage } from './storage';
+import { DID } from '@iden3/js-iden3-core';
 
 interface PolygonServicBaseInstance {
   packageMgr: PackageManager;
@@ -78,25 +83,17 @@ class PolygonService {
   static instance: Record<
     DidMethod.Iden3 | DidMethod.PolygonId,
     Record<
-      Blockchain.Ethereum | Blockchain.Polygon,
+      Blockchain.Polygon,
       Record<NetworkId.Main | NetworkId.Mumbai, PolygonServicBaseInstance>
     >
   > = {
     polygonid: {
-      eth: {
-        main: {} as PolygonServicBaseInstance,
-        mumbai: {} as PolygonServicBaseInstance,
-      },
       polygon: {
         main: {} as PolygonServicBaseInstance,
         mumbai: {} as PolygonServicBaseInstance,
       },
     },
     iden3: {
-      eth: {
-        main: {} as PolygonServicBaseInstance,
-        mumbai: {} as PolygonServicBaseInstance,
-      },
       polygon: {
         main: {} as PolygonServicBaseInstance,
         mumbai: {} as PolygonServicBaseInstance,
@@ -121,20 +118,13 @@ class PolygonService {
     for (const method of METHODS) {
       for (const blockchain of BLOCKCHAINS) {
         for (const networkId of NETWORKS) {
-          if (
-            !(
-              blockchain === Blockchain.Ethereum &&
-              networkId === NetworkId.Mumbai
-            )
-          ) {
-            PolygonService.instance[method][blockchain][networkId] =
-              await PolygonService.createBaseInstance({
-                method,
-                blockchain,
-                networkId,
-                circuitData: authV2CircuitData,
-              });
-          }
+          PolygonService.instance[method][blockchain][networkId] =
+            await PolygonService.createBaseInstance({
+              method,
+              blockchain,
+              networkId,
+              circuitData: authV2CircuitData,
+            });
         }
       }
     }
@@ -199,7 +189,7 @@ class PolygonService {
 
   static async createBaseInstance(params: {
     method: DidMethod.Iden3 | DidMethod.PolygonId;
-    blockchain: Blockchain.Ethereum | Blockchain.Polygon;
+    blockchain: Blockchain.Polygon;
     networkId: NetworkId.Main | NetworkId.Mumbai;
     circuitData: CircuitData;
   }) {
@@ -267,24 +257,17 @@ class PolygonService {
     for (const method of METHODS) {
       for (const blockchain of BLOCKCHAINS) {
         for (const networkId of NETWORKS) {
-          if (
-            !(
-              blockchain === Blockchain.Ethereum &&
-              networkId === NetworkId.Mumbai
+          const { credWallet } =
+            PolygonService.instance[method][blockchain][networkId];
+          const creds = await credWallet.list();
+          credentials.push(
+            ...creds.filter(
+              (cred) =>
+                !cred.type.includes(
+                  VerifiableConstants.AUTH.AUTH_BJJ_CREDENTIAL_TYPE
+                )
             )
-          ) {
-            const { credWallet } =
-              PolygonService.instance[method][blockchain][networkId];
-            const creds = await credWallet.list();
-            credentials.push(
-              ...creds.filter(
-                (cred) =>
-                  !cred.type.includes(
-                    VerifiableConstants.AUTH.AUTH_BJJ_CREDENTIAL_TYPE
-                  )
-              )
-            );
-          }
+          );
         }
       }
     }
@@ -298,16 +281,9 @@ class PolygonService {
     for (const method of METHODS) {
       for (const blockchain of BLOCKCHAINS) {
         for (const networkId of NETWORKS) {
-          if (
-            !(
-              blockchain === Blockchain.Ethereum &&
-              networkId === NetworkId.Mumbai
-            )
-          ) {
-            const { credWallet } =
-              PolygonService.instance[method][blockchain][networkId];
-            await credWallet.remove(id);
-          }
+          const { credWallet } =
+            PolygonService.instance[method][blockchain][networkId];
+          await credWallet.remove(id);
         }
       }
     }
@@ -385,13 +361,14 @@ class PolygonService {
         signal: AbortSignal.timeout(15000),
       });
     } catch (e) {
+      console.error(e);
       throw new Error('Error sending authorization response');
     }
   }
 
   static async createWallet(params: {
     method: DidMethod.Iden3 | DidMethod.PolygonId;
-    blockchain: Blockchain.Ethereum | Blockchain.Polygon;
+    blockchain: Blockchain.Polygon;
     networkId: NetworkId.Main | NetworkId.Mumbai;
   }) {
     const { method, blockchain, networkId } = params;
@@ -519,7 +496,6 @@ class PolygonService {
     const jwsPacker = new JWSPacker(kms, { resolve: resolveDIDDocument });
 
     mgr.registerPackers([packer, plainPacker, jwsPacker]);
-
     return mgr;
   }
 }

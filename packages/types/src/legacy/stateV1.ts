@@ -1,5 +1,4 @@
 import type { IdentityMerkleTreeMetaInformation } from '@0xpolygonid/js-sdk';
-import type { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
 import type { W3CVerifiableCredential } from '@veramo/core';
 
 import type {
@@ -68,12 +67,30 @@ export interface PolygonLegacyBaseStateV1 {
   merkleTree: Record<string, string>;
 }
 
+export enum DidMethodLegacyV1 {
+  Iden3 = 'iden3',
+  PolygonId = 'polygon',
+}
+
+export enum BlockchainLegacyV1 {
+  Ethereum = 'eth',
+  Polygon = 'polygon',
+}
+
+export enum NetworkIdLegacyV1 {
+  Main = 'main',
+  Mumbai = 'mumbai',
+  Goerli = 'goerli',
+}
+
 export type PolygonLegacyStateV1 = Record<
-  DidMethod.Iden3 | DidMethod.PolygonId,
+  DidMethodLegacyV1.Iden3 | DidMethodLegacyV1.PolygonId,
   Record<
-    Blockchain.Ethereum | Blockchain.Polygon,
+    BlockchainLegacyV1.Ethereum | BlockchainLegacyV1.Polygon,
     Record<
-      NetworkId.Main | NetworkId.Goerli | NetworkId.Mumbai,
+      | NetworkIdLegacyV1.Main
+      | NetworkIdLegacyV1.Goerli
+      | NetworkIdLegacyV1.Mumbai,
       PolygonLegacyBaseStateV1
     >
   >

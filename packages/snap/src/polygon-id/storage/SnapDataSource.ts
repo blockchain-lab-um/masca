@@ -1,6 +1,10 @@
 import type { IDataSource } from '@0xpolygonid/js-sdk';
 import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
-import type { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
+import type {
+  Blockchain,
+  DidMethod,
+  NetworkId,
+} from '@blockchain-lab-um/masca-types';
 
 import StorageService from '../../storage/Storage.service';
 
@@ -10,7 +14,7 @@ export class SnapDataSource<T> implements IDataSource<T> {
   constructor(
     private readonly account: string,
     private readonly method: DidMethod.Iden3 | DidMethod.PolygonId,
-    private readonly blockchain: Blockchain.Ethereum | Blockchain.Polygon,
+    private readonly blockchain: Blockchain.Polygon,
     private readonly networkId: NetworkId.Main | NetworkId.Mumbai,
     private readonly STORAGE_KEY: StorageKey
   ) {}
