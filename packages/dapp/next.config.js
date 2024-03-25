@@ -49,6 +49,12 @@ const nextConfig = {
   },
   env: {
     USE_LOCAL: process.env.USE_LOCAL || 'false',
+    NEXT_PUBLIC_SUPABASE_URL:
+      process.env.NEXT_PUBLIC_SUPABASE_URL ||
+      'https://nqgexdszsnrliuzuobul.supabase.co',
+    NEXT_PUBLIC_SUPABASE_ANON_KEY:
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5xZ2V4ZHN6c25ybGl1enVvYnVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTA3NjQ5NDcsImV4cCI6MjAyNjM0MDk0N30.GtmyqLhsptRv-w-BNMtzTJX1Jquwym61qMagpNs7Hso',
   },
   typescript: {
     // We can ignore build errors because we are using tsc to type check

@@ -18,7 +18,7 @@
     "lint:stylelint": "stylelint \"src/**/*.{css,scss}\"",
     "lint:tsc": "tsc -p tsconfig.json --noEmit --incremental false",
     "start": "next start",
-    "supabase:generate": "supabase gen types typescript --project-id vfxyvzkprpeegheyapzg --schema public > src/utils/supabase/database.types.ts"
+    "supabase:generate": "supabase gen types typescript --project-id nqgexdszsnrliuzuobul --schema public > src/utils/supabase/database.types.ts"
   },
   "dependencies": {
     "@blockchain-lab-um/did-provider-key": "1.0.8-beta.0",
@@ -29,7 +29,7 @@
     "@nextui-org/react": "^2.2.9",
     "@radix-ui/react-toast": "^1.1.5",
     "@react-oauth/google": "^0.11.1",
-    "@supabase/supabase-js": "^2.38.5",
+    "@supabase/supabase-js": "^2.40.0",
     "@tanstack/react-query": "^5.17.15",
     "@tanstack/react-table": "^8.10.7",
     "@types/js-cookie": "^3.0.6",
@@ -94,7 +94,7 @@
     "stylelint-config-standard-scss": "^11.0.0",
     "stylelint-prettier": "^4.0.2",
     "stylelint-webpack-plugin": "^4.1.1",
-    "supabase": "^1.113.3",
+    "supabase": "^1.150.0",
     "tailwindcss": "^3.3.5"
   },
   "nx": {

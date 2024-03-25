@@ -8,7 +8,7 @@ import { useAccount } from 'wagmi';
 import Button from '@/components/Button';
 import ScanQRCodeModal from '@/components/ScanQRCodeModal/ScanQRCodeModal';
 import UploadButton from '@/components/UploadButton';
-import { Database } from '@/utils/supabase/database.types';
+import type { Database } from '@/utils/supabase/database.types';
 import { useToastStore } from '@/stores';
 import { useEncryptedSessionStore } from '@/stores/encryptedSessionStore';
 import { useQRCodeStore } from '@/stores/qrCodeStore';
@@ -36,6 +36,7 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
     // Same device
     if (isConnected && deviceType === 'primary') {
       changeRequestData(decodedText);
+      onQRCodeScanned();
       return;
     }
 
@@ -96,7 +97,7 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
       );
 
       const { error } = await client
-        .from('encrypted_sessions')
+        .from('sessions')
         .update({
           data: uint8ArrayToHex(encryptedData),
           iv: uint8ArrayToHex(iv),
@@ -104,6 +105,8 @@ export const ScanQRCodeView = ({ onQRCodeScanned }: ScanQRCodeViewProps) => {
         .eq('id', sessionId);
 
       if (error) throw new Error('Failed to send data');
+
+      onQRCodeScanned();
     } catch (e) {
       setTimeout(() => {
         useToastStore.setState({

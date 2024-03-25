@@ -1,11 +1,13 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { hexToUint8Array } from '@blockchain-lab-um/masca-connector';
+import type { SupabaseClient } from '@supabase/supabase-js';
 import { useTranslations } from 'next-intl';
 import { useAccount } from 'wagmi';
 
 import { createClient } from '@/utils/supabase/client';
+import type { Database } from '@/utils/supabase/database.types';
 import { useMascaStore, useToastStore } from '@/stores';
 import { useAuthStore } from '@/stores/authStore';
 import { useEncryptedSessionStore } from '@/stores/encryptedSessionStore';
@@ -13,6 +15,7 @@ import { useEncryptedSessionStore } from '@/stores/encryptedSessionStore';
 export const EncryptedSessionProvider = () => {
   const t = useTranslations('EncryptedSessionProvider');
   const token = useAuthStore((state) => state.token);
+  const [client, setClient] = useState<null | SupabaseClient<Database>>(null);
 
   const { address } = useAccount();
 
@@ -35,8 +38,6 @@ export const EncryptedSessionProvider = () => {
   }));
 
   const api = useMascaStore((state) => state.mascaApi);
-
-  const client = useMemo(() => createClient(token ?? ''), [token]);
 
   // Decrypt data
   const decryptData = async ({
@@ -136,15 +137,16 @@ export const EncryptedSessionProvider = () => {
   };
 
   useEffect(() => {
+    if (!client) return;
     if (sessionId && deviceType === 'primary') {
       client
-        .channel('realtime encrypted_sessions')
+        .channel('realtime sessions')
         .on(
           'postgres_changes',
-          { event: 'UPDATE', schema: 'public', table: 'encrypted_sessions' },
+          { event: 'UPDATE', schema: 'public', table: 'sessions' },
           async () => {
             const { data, error } = await client
-              .from('encrypted_sessions')
+              .from('sessions')
               .select()
               .eq('id', sessionId)
               .single();
@@ -197,6 +199,11 @@ export const EncryptedSessionProvider = () => {
       key: null,
     });
   }, [address]);
+
+  useEffect(() => {
+    if (!token) return;
+    setClient(createClient(token));
+  }, [token]);
 
   return null;
 };
