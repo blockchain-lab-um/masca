@@ -348,7 +348,8 @@
   "DeleteCredentialModal": {
     "cancel": "Cancel",
     "delete": "Delete",
-    "deleting": "Deleting credential...",
+    "deleting": "Deleting credential from: ",
+    "deleting-loading": "Deleting credential...",
     "deleting-error": "Failed to delete credential",
     "deleting-success": "Credential successfully deleted",
     "desc": "Approving this action will remove the credential from your wallet. This action cannot be undone!",
