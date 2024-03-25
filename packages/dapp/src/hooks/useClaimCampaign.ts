@@ -63,6 +63,7 @@ export const useClaimCampaign = (id: string, token: string | null) => {
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['campaigns'] });
+      queryClient.invalidateQueries({ queryKey: ['claims'] });
     },
   });
 };

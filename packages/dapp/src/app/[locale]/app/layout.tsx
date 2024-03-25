@@ -14,11 +14,8 @@ export default async function AppLayout({
 }) {
   return (
     <Providers>
-      <div
-        id="mainContainer"
-        className="flex flex-col h-screen px-4 pb-6 sm:px-12"
-      >
-        <div className="p-6 m-0 sm:px-12">
+      <div className="flex flex-col h-screen px-4 pb-6 sm:px-12">
+        <div className="p-6 m-0 sm:px-2">
           <AppNavbar />
         </div>
         <ScrollShadow

@@ -18,6 +18,7 @@ import { RewardDisplay } from './RewardDisplay';
 
 type CampaignProps = {
   campaign: Campaigns[number];
+  alreadyClaimed: boolean;
 };
 
 export const CampaignDisplay = ({
@@ -31,6 +32,7 @@ export const CampaignDisplay = ({
     requirements,
     rewards,
   },
+  alreadyClaimed,
 }: CampaignProps) => {
   const t = useTranslations('CampaignDisplay');
 
@@ -150,13 +152,22 @@ export const CampaignDisplay = ({
           <Button
             variant="primary"
             size="sm"
-            disabled={!did || isClaiming || claimed === total || !address}
-            onClick={() =>
-              isSignedIn ? handleClaim() : changeIsSignInModalOpen(true)
+            disabled={
+              !did ||
+              isClaiming ||
+              (!alreadyClaimed && claimed === total) ||
+              !address
             }
+            onClick={() => {
+              if (isSignedIn) {
+                handleClaim();
+              } else {
+                changeIsSignInModalOpen(true);
+              }
+            }}
             loading={isClaiming}
           >
-            {t('claim')}
+            {alreadyClaimed ? t('reclaim') : t('claim')}
           </Button>
         </div>
       </div>

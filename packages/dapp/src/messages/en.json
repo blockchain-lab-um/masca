@@ -198,6 +198,7 @@
   "CampaignDisplay": {
     "requirements": "Requirements",
     "claim": "Claim",
+    "reclaim": "Reclaim",
     "claimed": "Claimed",
     "rewards": "Rewards"
   },
