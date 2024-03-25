@@ -22,9 +22,9 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
   return isConnected ? (
     <>{children}</>
   ) : (
-    <div className="dark:bg-navy-blue-800 dark:text-navy-blue-400 flex-1 rounded-3xl bg-white shadow-lg">
-      <div className="flex flex-col items-center justify-center px-6 py-12 sm:px-12">
-        <div className="flex h-full flex-col items-center justify-center">
+    <div className="dark:bg-navy-blue-800 dark:text-navy-blue-400 flex-1 py-12 h-full rounded-3xl bg-white shadow-lg">
+      <div className="flex flex-col items-center justify-center px-6 h-full sm:px-12">
+        <div className="flex w-full flex-col items-center justify-center">
           <h3 className="text-h4 sm:text-h3 dark:text-navy-blue-50 text-center text-gray-900">
             {t('connect')}
           </h3>
@@ -32,16 +32,16 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
             {t('version')}
           </h4>
         </div>
-        <div className="dark:border-navy-blue-500 mt-8 rounded-3xl border border-gray-500 px-6 py-8 sm:px-12 md:min-w-[40em]">
+        <div className="dark:border-navy-blue-500 mt-4 rounded-3xl border border-gray-500 px-6 py-8 sm:px-12 md:min-w-[40em]">
           <div className="flex items-center gap-x-6">
             <div className="hidden sm:block">
               <MascaLogo />
             </div>
             <div>
-              <div className="text-h4 sm:text-h3 dark:text-navy-blue-50 font-ubuntu text-gray-900">
+              <div className="text-h4 sm:text-h3 w-full dark:text-navy-blue-50 font-ubuntu text-gray-900">
                 {t('masca')}
               </div>
-              <div className="text-h5 sm:text-h4 dark:text-navy-blue-300 font-ubuntu mt-2 text-gray-600">
+              <div className="text-h5 sm:text-h4 w-full dark:text-navy-blue-300 font-ubuntu mt-2 text-gray-600">
                 {t('masca-desc')}
               </div>
             </div>
@@ -56,7 +56,7 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
                     {t('features.feat-1')}
                   </div>
                 </div>
-                <div className="dark:text-navy-blue-200 mt-4 max-w-md text-gray-700">
+                <div className="dark:text-navy-blue-200 mt-4 max-w-lg text-gray-700">
                   {t('features.desc-1-1')}
                   <span className="dark:text-navy-blue-100 font-bold text-gray-800">
                     {t('features.desc-1-2')}
@@ -75,7 +75,7 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
                     {t('features.feat-2')}
                   </div>
                 </div>
-                <div className="dark:text-navy-blue-200 mt-4 max-w-md text-gray-700">
+                <div className="dark:text-navy-blue-200 mt-4 max-w-lg text-gray-700">
                   {t('features.desc-2-1')}
                   <span className="dark:text-navy-blue-100 font-bold text-gray-800">
                     {t('features.desc-2-2')}
@@ -94,7 +94,7 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
                     {t('features.feat-3')}
                   </div>
                 </div>
-                <div className="dark:text-navy-blue-200 mt-4 max-w-md text-gray-700">
+                <div className="dark:text-navy-blue-200 mt-4 max-w-lg text-gray-700">
                   {t('features.desc-3-1')}
                   <span className="dark:text-navy-blue-100 font-bold text-gray-800">
                     {t('features.desc-3-2')}

@@ -191,7 +191,9 @@
     "please-sign-in": "Please sign in to see completed campaigns",
     "verification-error": "Failed to verify the campaign",
     "no-credentials": "No credentials found",
-    "no-campaigns": "No campaigns currently available."
+    "no-campaigns": "No campaigns currently available.",
+    "title": "Campaigns",
+    "description": "Time to earn some special credentials! To celebrate the most notable achievements in the Masca community and the world of web3, campaigns offer special badges that are stored in your Masca wallet and play a unique role in the broader Masca ecosystem."
   },
   "CampaignDisplay": {
     "requirements": "Requirements",
