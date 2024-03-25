@@ -25,7 +25,7 @@ import {
   RHSResolver,
   VerifiableConstants,
   VerificationHandlerFunc,
-  type W3CCredential,
+  W3CCredential,
   ZKPPacker,
   byteEncoder,
   hexToBytes,
@@ -246,7 +246,7 @@ class PolygonService {
       throw new Error('The credential does not belong to the current identity');
     }
 
-    await credWallet.save(credential);
+    await credWallet.save(W3CCredential.fromJSON(credential));
   }
 
   static async queryCredentials(): Promise<W3CCredential[]> {
@@ -272,7 +272,7 @@ class PolygonService {
       }
     }
 
-    return credentials;
+    return JSON.parse(JSON.stringify(credentials));
   }
 
   static async deleteCredential(id: string) {
@@ -324,7 +324,7 @@ class PolygonService {
         }
       );
 
-      return credentials;
+      return JSON.parse(JSON.stringify(credentials));
     } catch (e) {
       throw new Error('Error handling credential offer');
     }

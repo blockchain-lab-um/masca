@@ -4,8 +4,8 @@ import {
   CircuitStorage,
   InMemoryDataSource,
   byteEncoder,
-  base64UrlToBytes,
 } from '@0xpolygonid/js-sdk';
+import { base64ToBytes } from '@veramo/utils';
 
 export interface B64File {
   b64: string;
@@ -102,8 +102,8 @@ class CircuitStorageService {
         CircuitId.AtomicQuerySigV2,
         {
           circuitId: 'credentialAtomicQuerySigV2',
-          wasm: base64UrlToBytes(sigWasm),
-          provingKey: base64UrlToBytes(sigZKey),
+          wasm: base64ToBytes(sigWasm),
+          provingKey: base64ToBytes(sigZKey),
           verificationKey: byteEncoder.encode(
             JSON.stringify(sigVerificationKey)
           ),
@@ -112,8 +112,8 @@ class CircuitStorageService {
 
       await CircuitStorageService.instance.saveCircuitData(CircuitId.AuthV2, {
         circuitId: 'authV2',
-        wasm: base64UrlToBytes(authWasm),
-        provingKey: base64UrlToBytes(authZKey),
+        wasm: base64ToBytes(authWasm),
+        provingKey: base64ToBytes(authZKey),
         verificationKey: byteEncoder.encode(
           JSON.stringify(authVerificationKey)
         ),
@@ -123,8 +123,8 @@ class CircuitStorageService {
         CircuitId.AtomicQueryMTPV2,
         {
           circuitId: 'credentialAtomicQueryMTPV2',
-          wasm: base64UrlToBytes(mtpWasm),
-          provingKey: base64UrlToBytes(mtpZKey),
+          wasm: base64ToBytes(mtpWasm),
+          provingKey: base64ToBytes(mtpZKey),
           verificationKey: byteEncoder.encode(
             JSON.stringify(mtpVerificationKey)
           ),
