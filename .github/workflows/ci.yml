@@ -20,8 +20,6 @@ jobs:
       node-version: 20.10.0
       number-of-agents: 4
       main-branch-name: 'develop'
-      init-commands: |
-        npx nx-cloud record -- pnpm exec biome check --config-path configs .
       parallel-commands-on-agents: |
         pnpm exec nx run-many --target=lint --parallel=4
         pnpm exec nx run-many --target=test:ci --parallel=4
