@@ -41,12 +41,18 @@ patchedDependencies:
   cross-fetch@4.0.0:
     hash: o37ixiuozlaw3unzpuuojolyvy
     path: patches/cross-fetch@4.0.0.patch
+  did-jwt@6.11.6:
+    hash: ghmb5fzhdbqfaswkqib4k2caiy
+    path: patches/did-jwt@6.11.6.patch
   ffjavascript@0.2.63:
     hash: iehvxg7poybqg7nzhuzvje4axi
     path: patches/ffjavascript@0.2.63.patch
   intl@1.2.5:
     hash: 2i3sho75ida2jvn4xlmbxxe25i
     path: patches/intl@1.2.5.patch
+  web-worker@1.3.0:
+    hash: ndaqzzbcvw5l6n6z7zz6fhqr3m
+    path: patches/web-worker@1.3.0.patch
 
 importers:
 
@@ -982,7 +988,7 @@ packages:
       '@iden3/js-merkletree': 1.1.2(patch_hash=6njvqd2m65kwqtl7cxmndizb7a)(@iden3/js-crypto@1.0.3)(idb-keyval@6.2.1)
       ajv: 8.12.0
       ajv-formats: 2.1.1(ajv@8.12.0)
-      did-jwt: 6.11.6
+      did-jwt: 6.11.6(patch_hash=ghmb5fzhdbqfaswkqib4k2caiy)
       did-resolver: 4.1.0
       elliptic: 6.5.4
       ethers: 6.8.0
@@ -5402,7 +5408,7 @@ packages:
       '@cef-ebsi/ebsi-did-resolver': 3.2.0
       '@cef-ebsi/key-did-resolver': 1.1.0
       axios: 1.4.0
-      did-jwt: 6.11.6
+      did-jwt: 6.11.6(patch_hash=ghmb5fzhdbqfaswkqib4k2caiy)
       did-resolver: 4.1.0
       elliptic: 6.5.4
       eth-crypto: 2.6.0
@@ -18932,7 +18938,7 @@ packages:
   /credential-status@2.0.6:
     resolution: {integrity: sha512-l5ZwSbX/UXFJ3DQ3dFt4rc2BtfUu/rhlkefR7BL9EZsKPyCe21okJA9mDy4h/nXvMEwpYjSQEa5vzR7KZqhI9g==}
     dependencies:
-      did-jwt: 6.11.6
+      did-jwt: 6.11.6(patch_hash=ghmb5fzhdbqfaswkqib4k2caiy)
       did-resolver: 4.1.0
 
   /credential-status@3.0.1:
@@ -19653,7 +19659,7 @@ packages:
       did-jwt: 8.0.1
       did-resolver: 4.1.0
 
-  /did-jwt@6.11.6:
+  /did-jwt@6.11.6(patch_hash=ghmb5fzhdbqfaswkqib4k2caiy):
     resolution: {integrity: sha512-OfbWknRxJuUqH6Lk0x+H1FsuelGugLbBDEwsoJnicFOntIG/A4y19fn0a8RLxaQbWQ5gXg0yDq5E2huSBiiXzw==}
     dependencies:
       '@stablelib/ed25519': 1.0.3
@@ -19668,6 +19674,7 @@ packages:
       js-sha3: 0.8.0
       multiformats: 9.9.0
       uint8arrays: 3.1.1
+    patched: true
 
   /did-jwt@7.4.4:
     resolution: {integrity: sha512-OW9CwDvHx0E2qjrRfy8wm5sJekXxJqGrAZXgdfhYpHEHX31Kn7Cz9gShrpGlIqYFsEsEAsA5xhFIidKAawyNCg==}
@@ -21188,7 +21195,7 @@ packages:
     dependencies:
       wasmbuilder: 0.0.16
       wasmcurves: 0.2.2
-      web-worker: 1.3.0
+      web-worker: 1.3.0(patch_hash=ndaqzzbcvw5l6n6z7zz6fhqr3m)
     dev: false
 
   /ffjavascript@0.2.63(patch_hash=iehvxg7poybqg7nzhuzvje4axi):
@@ -29229,7 +29236,7 @@ packages:
       bn.js: 4.12.0
       create-hash: 1.2.0
       drbg.js: 1.0.1
-      elliptic: 6.5.4
+      elliptic: 6.5.5
       nan: 2.14.0
       safe-buffer: 5.2.1
     dev: false
@@ -32187,9 +32194,10 @@ packages:
     resolution: {integrity: sha512-PgF341avzqyx60neE9DD+XS26MMNMoUQRz9NOZwW32nPQrF6p77f1htcnjBSEV8BGMKZ16choqUG4hyI0Hx7mA==}
     dev: false
 
-  /web-worker@1.3.0:
+  /web-worker@1.3.0(patch_hash=ndaqzzbcvw5l6n6z7zz6fhqr3m):
     resolution: {integrity: sha512-BSR9wyRsy/KOValMgd5kMyr3JzpdeoR9KVId8u5GVlTTAtNChlsE4yTxeY7zMdNSyOmoKBv8NH2qeRY9Tg+IaA==}
     dev: false
+    patched: true
 
   /webcrypto-core@1.7.7:
     resolution: {integrity: sha512-7FjigXNsBfopEj+5DV2nhNpfic2vumtjjgPmeDKk45z+MJwXKKfhPB7118Pfzrmh4jqOMST6Ch37iPAHoImg5g==}
