@@ -36,7 +36,7 @@ const address = accounts[0];
 // Enable Masca
 const enableResult = await enableMasca(address, {
   snapId: 'npm:@blockchain-lab-um/masca', // Defaults to `npm:@blockchain-lab-um/masca`
-  version: '1.0.0', // Defaults to the latest released version
+  version: '1.2.2', // Defaults to the latest released version
   supportedMethods: ['did:polygonid', 'did:pkh'], // Defaults to all available methods
 });
 
