@@ -4,11 +4,11 @@ index e9a5c1e9cdc8c6eea714b8a2122851517f317a63..00000000000000000000000000000000
 diff --git a/cjs/node.js b/cjs/node.js
 deleted file mode 100644
 index 691f55c2152bbb8d4695b45a6c0b49a41a15749c..0000000000000000000000000000000000000000
-diff --git a/dist/browser.js b/dist/browser.js
+diff --git a/dist/browser/index.cjs b/dist/browser/index.cjs
 new file mode 100644
-index 0000000000000000000000000000000000000000..ded457fdaaa3ac4c2e8e307e841aace9dc396a79
+index 0000000000000000000000000000000000000000..a97f74a71e54aa7113f4be46a5d99c6fdec9e738
 --- /dev/null
-+++ b/dist/browser.js
++++ b/dist/browser/index.cjs
 @@ -0,0 +1,25 @@
 +var __defProp = Object.defineProperty;
 +var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -28,29 +28,18 @@ index 0000000000000000000000000000000000000000..ded457fdaaa3ac4c2e8e307e841aace9
 +};
 +var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 +
-+// browser.js
++// src/browser/index.js
 +var browser_exports = {};
 +__export(browser_exports, {
 +  default: () => browser_default
 +});
 +module.exports = __toCommonJS(browser_exports);
 +var browser_default = Worker;
-diff --git a/dist/browser.mjs b/dist/browser.mjs
+diff --git a/dist/node/index.cjs b/dist/node/index.cjs
 new file mode 100644
-index 0000000000000000000000000000000000000000..77b496c4dcf2bf035aa5c275f14a77d81d819796
+index 0000000000000000000000000000000000000000..3f1fd9685f6230f1911932358967bd31f62b5190
 --- /dev/null
-+++ b/dist/browser.mjs
-@@ -0,0 +1,5 @@
-+// browser.js
-+var browser_default = Worker;
-+export {
-+  browser_default as default
-+};
-diff --git a/dist/node.js b/dist/node.js
-new file mode 100644
-index 0000000000000000000000000000000000000000..c74999512dee24a74204d20644750fce3b90899d
---- /dev/null
-+++ b/dist/node.js
++++ b/dist/node/index.cjs
 @@ -0,0 +1,213 @@
 +var __create = Object.create;
 +var __defProp = Object.defineProperty;
@@ -80,15 +69,15 @@ index 0000000000000000000000000000000000000000..c74999512dee24a74204d20644750fce
 +));
 +var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 +
-+// node.js
++// src/node/index.js
 +var node_exports = {};
 +__export(node_exports, {
 +  default: () => node_default
 +});
 +module.exports = __toCommonJS(node_exports);
-+var import_url = __toESM(require("url"));
-+var import_vm = __toESM(require("vm"));
-+var import_worker_threads = __toESM(require("worker_threads"));
++var import_url = __toESM(require("url"), 1);
++var import_vm = __toESM(require("vm"), 1);
++var import_worker_threads = __toESM(require("worker_threads"), 1);
 +var WORKER = Symbol.for("worker");
 +var EVENTS = Symbol.for("events");
 +var EventTarget = class {
@@ -265,258 +254,63 @@ index 0000000000000000000000000000000000000000..c74999512dee24a74204d20644750fce
 +    }
 +  return { type, data };
 +}
-diff --git a/dist/node.mjs b/dist/node.mjs
-new file mode 100644
-index 0000000000000000000000000000000000000000..22b07aff97955c23a40dafa0df5be0a1b6b3bcaa
---- /dev/null
-+++ b/dist/node.mjs
-@@ -0,0 +1,191 @@
-+var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x, {
-+  get: (a, b) => (typeof require !== "undefined" ? require : a)[b]
-+}) : x)(function(x) {
-+  if (typeof require !== "undefined")
-+    return require.apply(this, arguments);
-+  throw Error('Dynamic require of "' + x + '" is not supported');
-+});
-+
-+// node.js
-+import URL from "url";
-+import VM from "vm";
-+import threads from "worker_threads";
-+var WORKER = Symbol.for("worker");
-+var EVENTS = Symbol.for("events");
-+var EventTarget = class {
-+  constructor() {
-+    Object.defineProperty(this, EVENTS, {
-+      value: /* @__PURE__ */ new Map()
-+    });
-+  }
-+  dispatchEvent(event) {
-+    event.target = event.currentTarget = this;
-+    if (this["on" + event.type]) {
-+      try {
-+        this["on" + event.type](event);
-+      } catch (err) {
-+        console.error(err);
-+      }
-+    }
-+    const list = this[EVENTS].get(event.type);
-+    if (list == null)
-+      return;
-+    list.forEach((handler) => {
-+      try {
-+        handler.call(this, event);
-+      } catch (err) {
-+        console.error(err);
-+      }
-+    });
-+  }
-+  addEventListener(type, fn) {
-+    let events = this[EVENTS].get(type);
-+    if (!events)
-+      this[EVENTS].set(type, events = []);
-+    events.push(fn);
-+  }
-+  removeEventListener(type, fn) {
-+    let events = this[EVENTS].get(type);
-+    if (events) {
-+      const index = events.indexOf(fn);
-+      if (index !== -1)
-+        events.splice(index, 1);
-+    }
-+  }
-+};
-+function Event(type, target) {
-+  this.type = type;
-+  this.timeStamp = Date.now();
-+  this.target = this.currentTarget = this.data = null;
-+}
-+var node_default = threads.isMainThread ? mainThread() : workerThread();
-+var baseUrl = URL.pathToFileURL(process.cwd() + "/");
-+function mainThread() {
-+  class Worker extends EventTarget {
-+    constructor(url, options) {
-+      super();
-+      const { name, type } = options || {};
-+      url += "";
-+      let mod;
-+      if (/^data:/.test(url)) {
-+        mod = url;
-+      } else {
-+        mod = URL.fileURLToPath(new URL.URL(url, baseUrl));
-+      }
-+      const worker = new threads.Worker(
-+        __filename,
-+        { workerData: { mod, name, type } }
-+      );
-+      Object.defineProperty(this, WORKER, {
-+        value: worker
-+      });
-+      worker.on("message", (data) => {
-+        const event = new Event("message");
-+        event.data = data;
-+        this.dispatchEvent(event);
-+      });
-+      worker.on("error", (error) => {
-+        error.type = "error";
-+        this.dispatchEvent(error);
-+      });
-+      worker.on("exit", () => {
-+        this.dispatchEvent(new Event("close"));
-+      });
-+    }
-+    postMessage(data, transferList) {
-+      this[WORKER].postMessage(data, transferList);
-+    }
-+    terminate() {
-+      this[WORKER].terminate();
-+    }
-+  }
-+  Worker.prototype.onmessage = Worker.prototype.onerror = Worker.prototype.onclose = null;
-+  return Worker;
-+}
-+function workerThread() {
-+  let { mod, name, type } = threads.workerData;
-+  if (!mod)
-+    return mainThread();
-+  const self = global.self = global;
-+  let q = [];
-+  function flush() {
-+    const buffered = q;
-+    q = null;
-+    buffered.forEach((event) => {
-+      self.dispatchEvent(event);
-+    });
-+  }
-+  threads.parentPort.on("message", (data) => {
-+    const event = new Event("message");
-+    event.data = data;
-+    if (q == null)
-+      self.dispatchEvent(event);
-+    else
-+      q.push(event);
-+  });
-+  threads.parentPort.on("error", (err) => {
-+    err.type = "Error";
-+    self.dispatchEvent(err);
-+  });
-+  class WorkerGlobalScope extends EventTarget {
-+    postMessage(data, transferList) {
-+      threads.parentPort.postMessage(data, transferList);
-+    }
-+    // Emulates https://developer.mozilla.org/en-US/docs/Web/API/DedicatedWorkerGlobalScope/close
-+    close() {
-+      process.exit();
-+    }
-+  }
-+  let proto = Object.getPrototypeOf(global);
-+  delete proto.constructor;
-+  Object.defineProperties(WorkerGlobalScope.prototype, proto);
-+  proto = Object.setPrototypeOf(global, new WorkerGlobalScope());
-+  ["postMessage", "addEventListener", "removeEventListener", "dispatchEvent"].forEach((fn) => {
-+    proto[fn] = proto[fn].bind(global);
-+  });
-+  global.name = name;
-+  const isDataUrl = /^data:/.test(mod);
-+  if (type === "module") {
-+    import(mod).catch((err) => {
-+      if (isDataUrl && err.message === "Not supported") {
-+        console.warn("Worker(): Importing data: URLs requires Node 12.10+. Falling back to classic worker.");
-+        return evaluateDataUrl(mod, name);
-+      }
-+      console.error(err);
-+    }).then(flush);
-+  } else {
-+    try {
-+      if (/^data:/.test(mod)) {
-+        evaluateDataUrl(mod, name);
-+      } else {
-+        __require(mod);
-+      }
-+    } catch (err) {
-+      console.error(err);
-+    }
-+    Promise.resolve().then(flush);
-+  }
-+}
-+function evaluateDataUrl(url, name) {
-+  const { data } = parseDataUrl(url);
-+  return VM.runInThisContext(data, {
-+    filename: "worker.<" + (name || "data:") + ">"
-+  });
-+}
-+function parseDataUrl(url) {
-+  let [m, type, encoding, data] = url.match(/^data: *([^;,]*)(?: *; *([^,]*))? *,(.*)$/) || [];
-+  if (!m)
-+    throw Error("Invalid Data URL.");
-+  if (encoding)
-+    switch (encoding.toLowerCase()) {
-+      case "base64":
-+        data = Buffer.from(data, "base64").toString();
-+        break;
-+      default:
-+        throw Error('Unknown Data URL encoding "' + encoding + '"');
-+    }
-+  return { type, data };
-+}
-+export {
-+  node_default as default
-+};
 diff --git a/package.json b/package.json
-index 6ff2fa313f30525936d694d6b2cb1e59a82a19c3..a372f0cebd4d7d0cae9a4f71c815e7b7a77c4c03 100644
+index 6ff2fa313f30525936d694d6b2cb1e59a82a19c3..07644aeb695f1ce989ae40cc8596a87d9eef68e2 100644
 --- a/package.json
 +++ b/package.json
-@@ -2,43 +2,40 @@
+@@ -2,43 +2,39 @@
    "name": "web-worker",
    "version": "1.3.0",
    "description": "Consistent Web Workers in browser and Node.",
 -  "main": "./cjs/node.js",
 -  "browser": "./cjs/browser.js",
-+  "main": "./dist/node.js",
-+  "browser": "./dist/browser.js",
-   "types": "./index.d.ts",
+-  "types": "./index.d.ts",
++  "main": "./dist/browser/index.cjs",
++  "browser": "./dist/browser/index.cjs",
++  "types": "./types/index.d.cts",
++  "type": "module",
    "exports": {
 -    "types": "./index.d.ts",
      "import": {
 -      "bun": "./browser.js",
 -      "browser": "./browser.js",
 -      "default": "./node.js"
-+      "types": "./index.d.mts",
-+      "bun": "./dist/browser.mjs",
-+      "browser": "./dist/browser.mjs",
-+      "default": "./dist/node.mjs"
++      "types": "./types/index.d.ts",
++      "bun": "./src/browser/index.js",
++      "browser": "./src/browser/index.js",
++      "default": "./src/node/index.js"
      },
      "module": {
 -      "bun": "./browser.js",
 -      "browser": "./browser.js",
 -      "default": "./node.js"
-+      "types": "./index.d.mts",
-+      "bun": "./dist/browser.mjs",
-+      "browser": "./dist/browser.mjs",
-+      "default": "./dist/node.mjs"
++      "types": "./types/index.d.ts",
++      "bun": "./src/browser/index.js",
++      "browser": "./src/browser/index.js",
++      "default": "./src/node/index.js"
      },
      "default": {
 -      "bun": "./cjs/browser.js",
 -      "browser": "./cjs/browser.js",
 -      "default": "./cjs/node.js"
-+      "types": "./index.d.ts",
-+      "bun": "./dist/browser.js",
-+      "browser": "./dist/browser.js",
-+      "default": "./dist/node.js"
++      "types": "./types/index.d.cts",
++      "bun": "./dist/browser/index.cjs",
++      "browser": "./dist/browser/index.cjs",
++      "default": "./dist/node/index.cjs"
      }
    },
    "files": [
 -    "cjs",
-+    "dist",
-     "browser.js",
-     "node.js",
+-    "browser.js",
+-    "node.js",
 -    "index.d.ts"
-+    "index.d.ts",
-+    "index.d.mts"
++    "dist",
++    "src",
++    "types"
    ],
    "scripts": {
 -    "prepare": "babel node.js browser.js -d cjs",
-+    "prepare": "npx tsup",
++    "prepare": "tsup",
      "test": "eslint '*.js' test && node --experimental-modules ./node_modules/.bin/ava"
    },
 -  "babel": {
@@ -528,7 +322,7 @@ index 6ff2fa313f30525936d694d6b2cb1e59a82a19c3..a372f0cebd4d7d0cae9a4f71c815e7b7
    "repository": "developit/web-worker",
    "keywords": [
      "worker",
-@@ -58,14 +55,10 @@
+@@ -58,14 +54,10 @@
      }
    },
    "devDependencies": {
@@ -545,3 +339,25 @@ index 6ff2fa313f30525936d694d6b2cb1e59a82a19c3..a372f0cebd4d7d0cae9a4f71c815e7b7
 +    "tsup": "^8.0.2"
    }
  }
+diff --git a/browser.js b/src/browser/index.js
+similarity index 100%
+rename from browser.js
+rename to src/browser/index.js
+diff --git a/node.js b/src/node/index.js
+similarity index 100%
+rename from node.js
+rename to src/node/index.js
+diff --git a/index.d.ts b/types/index.d.cts
+similarity index 100%
+rename from index.d.ts
+rename to types/index.d.cts
+diff --git a/types/index.d.ts b/types/index.d.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..f1c9550d7d9451c097e21445067a109460973b5c
+--- /dev/null
++++ b/types/index.d.ts
+@@ -0,0 +1,4 @@
++type ConstructorOf<C> = { new (...args: any[]): C }
++
++declare const _default: ConstructorOf<Worker>
++export default _default
