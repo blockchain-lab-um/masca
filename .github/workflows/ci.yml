@@ -1,6 +1,7 @@
 name: CI
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
@@ -28,9 +29,9 @@ jobs:
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
       - name: Set up nx-cloud
-        run: npx nx-cloud start-ci-run --distribute-on="4 linux-medium-js"
+        run: npx nx-cloud start-ci-run --distribute-on="4 linux-medium-js" --stop-agents-after="test:ci"
         env:
           NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      - run: pnpm nx run-many --target=lint,test:ci,build
+      - run: pnpm nx run-many --target=build,lint,test:ci
