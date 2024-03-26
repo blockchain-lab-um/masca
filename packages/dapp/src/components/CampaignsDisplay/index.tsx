@@ -14,10 +14,6 @@ export const CampaignsDisplay = () => {
 
   const { data, status } = useCampaigns();
   const campaigns = data?.campaigns || [];
-
-  if (campaigns.length === 0) {
-    return <div className="flex items-center">{t('no-campaigns')}</div>;
-  }
   const { token } = useAuthStore(
     (state) => ({
       token: state.token,
@@ -27,6 +23,10 @@ export const CampaignsDisplay = () => {
     shallow
   );
   const { data: claimsData } = useCampaignClaims(token);
+
+  if (campaigns.length === 0) {
+    return <div className="flex items-center">{t('no-campaigns')}</div>;
+  }
 
   if (status === 'pending') {
     return (
