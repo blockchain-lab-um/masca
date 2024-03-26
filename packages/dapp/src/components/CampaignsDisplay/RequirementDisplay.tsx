@@ -87,9 +87,23 @@ export const RequirementDisplay = ({
       return;
     }
 
-    // Create a presentation from all the user's credentials
+    // Create a presentation from all the user's credentials except the polygonid ones
     const createPresentationResult = await api.createPresentation({
-      vcs: queryCredentialsResult.data.map((queryResult) => queryResult.data),
+      vcs: queryCredentialsResult.data
+        .map((queryResult) => {
+          return queryResult.data;
+        })
+        .filter((credential) => {
+          const proof = credential.proof || [];
+          const isProofArray = Array.isArray(proof);
+          const firstProofType = isProofArray ? proof[0]?.type : proof?.type;
+
+          return (
+            firstProofType !== 'BJJSignature2021' &&
+            !credential.issuer.includes('did:poylgonid') &&
+            !credential.issuer.includes('did:iden3')
+          );
+        }),
       proofFormat: 'EthereumEip712Signature2021',
     });
 

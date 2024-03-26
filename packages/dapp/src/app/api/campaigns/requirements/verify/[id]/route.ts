@@ -193,6 +193,19 @@ export async function POST(
       });
     }
 
+    // Filter out polygonid credentials
+    credentials = credentials.filter((credential) => {
+      const proof = credential.proof || [];
+      const isProofArray = Array.isArray(proof);
+      const firstProofType = isProofArray ? proof[0]?.type : proof?.type;
+
+      return (
+        firstProofType !== 'BJJSignature2021' &&
+        !credential.issuer.includes('did:poylgonid') &&
+        !credential.issuer.includes('did:iden3')
+      );
+    });
+
     // TODO - simplify to only check the one requirement as long as the user has not selected the vcs for vp
     const canClaim = (requirement.types ?? []).every((type) =>
       credentials.some((credential) => {
