@@ -1,0 +1,57 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+    target-branch: "develop"
+    reviewers:
+      - "martines3000"
+    assignees:
+      - "martines3000"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore"
+    ignore:
+      - dependency-name: "@didtools/pkh-ethereum"
+      - dependency-name: "did-session"
+      - dependency-name: "@sphereon/pex"
+      - dependency-name: "@sphereon/ssi-types"
+      - dependency-name: "@blockchain-lab-um/*"
+    groups:
+      veramo:
+        patterns:
+          - "@veramo/*"
+      polygonid:
+        patterns:
+          - "@0xpolygonid/js-sdk"
+          - "@iden3/*"
+      nx:
+        patterns:
+          - "@nx/*"
+          - "nx"
+          - "nx-cloud"
+      vitest:
+        patterns:
+          - "vitest"
+          - "vite"
+          - "vite-config-paths"
+          - "@vitest/coverage-v8"
+      supabase:
+        patterns:
+          - "@supabase/*"
+          - "supabase"
+      metamask-snaps:
+        patterns:
+          - "@metamask/snaps-sdk"
+          - "@metamask/snaps-cli"
+
+
+  # Things to ignore (workaround)
+  - package-ecosystem: "npm"
+    directory: "/libs/did-provider-ebsi"
+    schedule:
+      interval: "monthly"
+    ignore:
+      - dependency-name: "*"
