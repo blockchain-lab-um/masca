@@ -20,7 +20,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
       - name: Set up nx-cloud
-        run: npx nx-cloud start-ci-run --distribute-on="2 linux-medium-js" --stop-agents-after="test:ci"
+        run: npx nx-cloud start-ci-run --distribute-on="4 linux-medium-js" --stop-agents-after="test:ci"
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - run: pnpm nx run-many --target=test:cron
