@@ -24,7 +24,14 @@ export const RequirementDisplay = ({
 }: RequirementProps) => {
   const t = useTranslations('RequirementDisplay');
 
-  const token = useAuthStore((state) => state.token);
+  const { token, isSignedIn, changeIsSignInModalOpen } = useAuthStore(
+    (state) => ({
+      token: state.token,
+      isSignedIn: state.isSignedIn,
+      changeIsSignInModalOpen: state.changeIsSignInModalOpen,
+    }),
+    shallow
+  );
 
   const { api, did, didMethod, changeDID, changeCurrDIDMethod } = useMascaStore(
     (state) => ({
@@ -91,6 +98,7 @@ export const RequirementDisplay = ({
       return;
     }
     setStartedVerifying(false);
+
     await verifyRequirement({
       did: currentDid,
       presentation: createPresentationResult.data,
@@ -120,7 +128,9 @@ export const RequirementDisplay = ({
           <Button
             variant="primary"
             size="xs"
-            onClick={handleVerify}
+            onClick={() =>
+              isSignedIn ? handleVerify() : changeIsSignInModalOpen(true)
+            }
             loading={startedVerifying || isVerifying}
             disabled={!did || startedVerifying || isVerifying}
           >
