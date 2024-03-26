@@ -19,7 +19,7 @@ export default async function AppLayout({
           <AppNavbar />
         </div>
         <ScrollShadow
-          className="flex h-full w-full flex-col py-6 px-2 justify-center main-bg"
+          className="flex h-full w-full flex-col py-6 px-2 justify-center main-bg max-sm:mb-12"
           hideScrollBar
           size={8}
         >
