@@ -1,4 +1,7 @@
-import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
+import {
+  CURRENT_STATE_VERSION,
+  isValidMascaState,
+} from '@blockchain-lab-um/masca-types';
 import type { MetaMaskInpageProvider } from '@metamask/providers';
 import type { SnapsProvider } from '@metamask/snaps-sdk';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -70,8 +73,9 @@ describe('Storage Service', () => {
     const expectedState = getInitialSnapState();
 
     expect(newState).toEqual(expectedState);
+    expect(() => isValidMascaState(newState)).not.toThrow();
 
-    expect.assertions(1);
+    expect.assertions(2);
   });
 
   it('should not migrate state from latest version', async () => {

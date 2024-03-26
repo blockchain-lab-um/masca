@@ -1,10 +1,10 @@
 import type { IdentityMerkleTreeMetaInformation } from '@0xpolygonid/js-sdk';
 import type { W3CVerifiableCredential } from '@veramo/core';
+import type { AvailableMethods } from '../constants';
 
-import type {
-  AvailableCredentialStores,
-  AvailableMethods,
-} from '../constants.js';
+export const availableLegacyCredentialStoresV1 = ['snap', 'ceramic'] as const;
+export type AvailableLegacyCredentialStoresV1 =
+  (typeof availableLegacyCredentialStoresV1)[number];
 
 export interface MascaLegacyConfigV1 {
   snap: {
@@ -19,33 +19,21 @@ export interface MascaLegacyConfigV1 {
 export interface MascaLegacyAccountConfigV1 {
   ssi: {
     selectedMethod: AvailableMethods;
-    storesEnabled: Record<AvailableCredentialStores, boolean>;
-  };
-}
-
-export interface MascaLegacyStateV1 {
-  /**
-   * Version 1 of Masca state
-   */
-  v1: {
-    /**
-     * Account specific storage
-     */
-    accountState: Record<string, MascaLegacyAccountStateV1>;
-    /**
-     * Current account
-     */
-    currentAccount: string;
-    /**
-     * Configuration for Masca
-     */
-    config: MascaLegacyConfigV1;
+    storesEnabled: Record<AvailableLegacyCredentialStoresV1, boolean>;
   };
 }
 
 /**
- * Masca State for a MetaMask address
+ * Version 1 of Masca state
  */
+export interface MascaLegacyStateV1 {
+  v1: {
+    accountState: Record<string, MascaLegacyAccountStateV1>;
+    currentAccount: string;
+    config: MascaLegacyConfigV1;
+  };
+}
+
 export interface MascaLegacyAccountStateV1 {
   polygon: {
     state: PolygonLegacyStateV1;
@@ -69,7 +57,7 @@ export interface PolygonLegacyBaseStateV1 {
 
 export enum DidMethodLegacyV1 {
   Iden3 = 'iden3',
-  PolygonId = 'polygon',
+  PolygonId = 'polygonid',
 }
 
 export enum BlockchainLegacyV1 {

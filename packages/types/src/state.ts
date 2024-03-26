@@ -35,28 +35,13 @@ export interface MascaAccountConfig {
 }
 
 export interface MascaState {
-  /**
-   * Version 1 of Masca state
-   */
-  v2: {
-    /**
-     * Account specific storage
-     */
+  v3: {
     accountState: Record<string, MascaAccountState>;
-    /**
-     * Current account
-     */
     currentAccount: string;
-    /**
-     * Configuration for Masca
-     */
     config: MascaConfig;
   };
 }
 
-/**
- * Masca State for a MetaMask address
- */
 export interface MascaAccountState {
   polygon: {
     state: PolygonState;
