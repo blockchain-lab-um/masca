@@ -15,11 +15,11 @@ export default async function AppLayout({
   return (
     <Providers>
       <div className="flex flex-col h-screen px-4 pb-6 sm:px-12">
-        <div className="p-6 m-0 sm:px-2">
+        <div className="p-6 m-0 sm:px-2 max-sm:py-2">
           <AppNavbar />
         </div>
         <ScrollShadow
-          className="flex h-full w-full flex-col py-6 px-2 justify-center main-bg max-sm:mb-12"
+          className="flex h-full w-full flex-col py-6 px-2 main-bg max-sm:mb-12"
           hideScrollBar
           size={8}
         >

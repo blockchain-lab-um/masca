@@ -22,8 +22,8 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
   return isConnected ? (
     <>{children}</>
   ) : (
-    <div className="dark:bg-navy-blue-800 dark:text-navy-blue-400 flex-1 py-12 h-full rounded-3xl bg-white shadow-lg">
-      <div className="flex flex-col items-center justify-center px-6 h-full sm:px-12">
+    <div className="flex flex-col items-center justify-center px-6 sm:px-12 dark:bg-navy-blue-800 dark:text-navy-blue-400 py-12 rounded-3xl bg-white shadow-lg">
+      <div className="flex flex-col">
         <div className="flex w-full flex-col items-center justify-center">
           <h3 className="text-h4 sm:text-h3 dark:text-navy-blue-50 text-center text-gray-900">
             {t('connect')}
@@ -49,7 +49,7 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
           <hr className="mt-4" />
           <div className="flex justify-center">
             <ul className="text-md flex flex-col items-start text-justify tracking-normal sm:text-xl">
-              <li className="mt-12">
+              <li className="mt-12 max-sm:mt-4">
                 <div className=" just flex items-center gap-x-4">
                   <LockClosedIcon className="dark:text-orange-accent-dark h-6 w-6 text-pink-500 sm:h-8 sm:w-8" />
                   <div className="dark:text-navy-blue-50 font-ubuntu text-md text-start font-medium text-gray-900 sm:text-2xl ">
@@ -68,7 +68,7 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
                   .
                 </div>
               </li>
-              <li className="mt-12">
+              <li className="mt-12 max-sm:mt-4">
                 <div className=" flex items-center gap-x-4">
                   <CreditCardIcon className="dark:text-orange-accent-dark h-6 w-6 text-pink-500 sm:h-8 sm:w-8" />
                   <div className="dark:text-navy-blue-50 font-ubuntu text-md text-start font-medium text-gray-900 sm:text-2xl ">
@@ -87,7 +87,7 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
                   .
                 </div>
               </li>
-              <li className="mt-12">
+              <li className="mt-12 max-sm:mt-4">
                 <div className=" flex items-center gap-x-4">
                   <GlobeAltIcon className="dark:text-orange-accent-dark h-8 w-8 text-pink-500 sm:h-8 sm:w-8" />
                   <div className="dark:text-navy-blue-50 font-ubuntu text-md max-w-[15em] text-start font-medium text-gray-900 sm:text-2xl ">
