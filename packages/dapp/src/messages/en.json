@@ -193,7 +193,7 @@
     "no-credentials": "No credentials found",
     "no-campaigns": "No campaigns currently available.",
     "title": "Campaigns",
-    "description": "Time to earn some special credentials! To celebrate the most notable achievements in the Masca community and the world of web3, campaigns offer special badges that are stored in your Masca wallet and play a unique role in the broader Masca ecosystem."
+    "description": "Time to earn some special credentials! To celebrate the most notable achievements in the Masca community and the world of Web3, campaigns offer special badges that are stored in your Masca wallet and play a unique role in the broader Masca ecosystem."
   },
   "CampaignDisplay": {
     "requirements": "Requirements",
