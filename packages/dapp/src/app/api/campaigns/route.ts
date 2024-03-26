@@ -17,7 +17,7 @@ export async function GET(_: NextRequest) {
     .from('campaigns')
     .select('*, requirements(id, *)')
     .order('created_at', { ascending: false })
-    .eq('production', false);
+    .eq('production', true);
 
   if (error) {
     console.error('Error getting campaigns', error);
