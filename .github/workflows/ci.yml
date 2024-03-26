@@ -1,7 +1,6 @@
 name: CI
 
 on:
-  workflow_dispatch:
   push:
     branches:
       - master
@@ -9,28 +8,29 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
+# Needed for nx-set-shas when run on the main branch
+permissions:
+  actions: read
+  contents: read
+
 jobs:
   main:
-    name: Nx Cloud - Main Job
-    uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.14.0
-    secrets:
-      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-    with:
-      pnpm-version: 8.11.0
-      node-version: 20.10.0
-      number-of-agents: 4
-      main-branch-name: 'develop'
-      parallel-commands-on-agents: |
-        pnpm exec nx run-many --target=lint --parallel=4
-        pnpm exec nx run-many --target=test:ci --parallel=4
-        pnpm exec nx run-many --target=build --parallel=4
-
-  agents:
-    name: Nx Cloud - Agents
-    uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.14.0
-    secrets:
-      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-    with:
-      number-of-agents: 4
-      pnpm-version: 8.11.0
-      node-version: 20.10.0
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+      - name: Install node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          registry-url: https://registry.npmjs.org/
+          cache: 'pnpm'
+      - name: Set up nx-cloud
+        run: npx nx-cloud start-ci-run --distribute-on="4 linux-medium-js"
+        env:
+          NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - run: pnpm nx run-many --target=lint,test:ci,build
