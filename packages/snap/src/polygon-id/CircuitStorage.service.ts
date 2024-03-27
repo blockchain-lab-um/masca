@@ -3,9 +3,9 @@ import {
   CircuitId,
   CircuitStorage,
   InMemoryDataSource,
-  base64ToBytes,
   byteEncoder,
 } from '@0xpolygonid/js-sdk';
+import { base64ToBytes } from '@veramo/utils';
 
 export interface B64File {
   b64: string;
@@ -30,6 +30,7 @@ class CircuitStorageService {
         method: 'snap_getFile',
         params: {
           path: './files/circuits/credentialAtomicQuerySigV2/circuit.wasm',
+          encoding: 'utf8',
         },
       });
 
@@ -37,6 +38,7 @@ class CircuitStorageService {
         method: 'snap_getFile',
         params: {
           path: './files/circuits/credentialAtomicQuerySigV2/circuit_final.zkey',
+          encoding: 'utf8',
         },
       });
 
@@ -52,6 +54,7 @@ class CircuitStorageService {
         method: 'snap_getFile',
         params: {
           path: './files/circuits/authV2/circuit.wasm',
+          encoding: 'utf8',
         },
       });
 
@@ -59,6 +62,7 @@ class CircuitStorageService {
         method: 'snap_getFile',
         params: {
           path: './files/circuits/authV2/circuit_final.zkey',
+          encoding: 'utf8',
         },
       });
 
@@ -74,6 +78,7 @@ class CircuitStorageService {
         method: 'snap_getFile',
         params: {
           path: './files/circuits/credentialAtomicQueryMTPV2/circuit.wasm',
+          encoding: 'utf8',
         },
       });
 
@@ -81,6 +86,7 @@ class CircuitStorageService {
         method: 'snap_getFile',
         params: {
           path: './files/circuits/credentialAtomicQueryMTPV2/circuit_final.zkey',
+          encoding: 'utf8',
         },
       });
 
@@ -98,7 +104,9 @@ class CircuitStorageService {
           circuitId: 'credentialAtomicQuerySigV2',
           wasm: base64ToBytes(sigWasm),
           provingKey: base64ToBytes(sigZKey),
-          verificationKey: byteEncoder.encode(sigVerificationKey),
+          verificationKey: byteEncoder.encode(
+            JSON.stringify(sigVerificationKey)
+          ),
         }
       );
 

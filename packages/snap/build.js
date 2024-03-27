@@ -17,10 +17,7 @@ esbuild.build({
   target: 'es2020',
   treeShaking: true,
   tsconfig: 'tsconfig.build.json',
-  alias: {
-    '@0xpolygonid/js-sdk':
-      '../../node_modules/.pnpm/@0xpolygonid+js-sdk@1.0.3/node_modules/@0xpolygonid/js-sdk/dist/esm/index.js',
-  },
+  alias: {},
   plugins: [plugin(stdLibBrowser)],
   inject: [require.resolve('node-stdlib-browser/helpers/esbuild/shim')],
   define: {

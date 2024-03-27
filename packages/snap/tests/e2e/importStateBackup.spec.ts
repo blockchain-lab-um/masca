@@ -26,8 +26,10 @@ import {
 import EncryptionService from '../../src/Encryption.service';
 import {
   getLegacyEmptyAccountStateV1,
+  getLegacyEmptyAccountStateV2,
   getLegacyStateV1,
-} from '../data/legacyStates/legacyStateV1';
+  getLegacyStateV2,
+} from '../data/legacyStates';
 import { randomUUID } from 'node:crypto';
 
 describe('importStateBackup', () => {
@@ -122,6 +124,85 @@ describe('importStateBackup', () => {
 
     const encryptedState = await EncryptionService.encrypt(
       JSON.stringify(legacyStateV1)
+    );
+
+    const importStateBackupResult = (await onRpcRequest({
+      origin: 'http://localhost',
+      request: {
+        id: 'test-id',
+        jsonrpc: '2.0',
+        method: 'importStateBackup',
+        params: { serializedState: encryptedState },
+      },
+    })) as Result<unknown>;
+
+    if (isError(importStateBackupResult)) {
+      throw new Error(importStateBackupResult.error);
+    }
+
+    const expectedState = getInitialSnapState();
+    expectedState[CURRENT_STATE_VERSION].accountState[account] =
+      getEmptyAccountState();
+    expectedState[CURRENT_STATE_VERSION].currentAccount = account;
+    expectedState[CURRENT_STATE_VERSION].accountState[
+      account
+    ].veramo.credentials = {
+      [credentialId]: generatedVC,
+    };
+
+    expect(spy).toHaveBeenCalled();
+    expect(StorageService.get()).toEqual(expectedState);
+    expect.assertions(2);
+  });
+
+  it('Should suceed with v2 empty state', async () => {
+    const spy = vi.spyOn(StorageService, 'migrateState');
+
+    const legacyStateV2 = getLegacyStateV2();
+    legacyStateV2.v2.accountState[account] = getLegacyEmptyAccountStateV2();
+    legacyStateV2.v2.currentAccount = account;
+
+    const encryptedState = await EncryptionService.encrypt(
+      JSON.stringify(legacyStateV2)
+    );
+
+    const importStateBackupResult = (await onRpcRequest({
+      origin: 'http://localhost',
+      request: {
+        id: 'test-id',
+        jsonrpc: '2.0',
+        method: 'importStateBackup',
+        params: { serializedState: encryptedState },
+      },
+    })) as Result<unknown>;
+
+    if (isError(importStateBackupResult)) {
+      throw new Error(importStateBackupResult.error);
+    }
+
+    const expectedState = getInitialSnapState();
+    expectedState[CURRENT_STATE_VERSION].accountState[account] =
+      getEmptyAccountState();
+    expectedState[CURRENT_STATE_VERSION].currentAccount = account;
+
+    expect(spy).toHaveBeenCalled();
+    expect(StorageService.get()).toEqual(expectedState);
+    expect.assertions(2);
+  });
+
+  it('Should suceed with v2 non-empty state (1 credential)', async () => {
+    const spy = vi.spyOn(StorageService, 'migrateState');
+
+    const legacyStateV2 = getLegacyStateV2();
+    const credentialId = randomUUID();
+    legacyStateV2.v2.accountState[account] = getLegacyEmptyAccountStateV2();
+    legacyStateV2.v2.currentAccount = account;
+    legacyStateV2.v2.accountState[account].veramo.credentials = {
+      [credentialId]: generatedVC,
+    };
+
+    const encryptedState = await EncryptionService.encrypt(
+      JSON.stringify(legacyStateV2)
     );
 
     const importStateBackupResult = (await onRpcRequest({

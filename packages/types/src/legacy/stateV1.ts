@@ -1,11 +1,10 @@
 import type { IdentityMerkleTreeMetaInformation } from '@0xpolygonid/js-sdk';
-import type { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
 import type { W3CVerifiableCredential } from '@veramo/core';
+import type { AvailableMethods } from '../constants';
 
-import type {
-  AvailableCredentialStores,
-  AvailableMethods,
-} from '../constants.js';
+export const availableLegacyCredentialStoresV1 = ['snap', 'ceramic'] as const;
+export type AvailableLegacyCredentialStoresV1 =
+  (typeof availableLegacyCredentialStoresV1)[number];
 
 export interface MascaLegacyConfigV1 {
   snap: {
@@ -20,33 +19,21 @@ export interface MascaLegacyConfigV1 {
 export interface MascaLegacyAccountConfigV1 {
   ssi: {
     selectedMethod: AvailableMethods;
-    storesEnabled: Record<AvailableCredentialStores, boolean>;
-  };
-}
-
-export interface MascaLegacyStateV1 {
-  /**
-   * Version 1 of Masca state
-   */
-  v1: {
-    /**
-     * Account specific storage
-     */
-    accountState: Record<string, MascaLegacyAccountStateV1>;
-    /**
-     * Current account
-     */
-    currentAccount: string;
-    /**
-     * Configuration for Masca
-     */
-    config: MascaLegacyConfigV1;
+    storesEnabled: Record<AvailableLegacyCredentialStoresV1, boolean>;
   };
 }
 
 /**
- * Masca State for a MetaMask address
+ * Version 1 of Masca state
  */
+export interface MascaLegacyStateV1 {
+  v1: {
+    accountState: Record<string, MascaLegacyAccountStateV1>;
+    currentAccount: string;
+    config: MascaLegacyConfigV1;
+  };
+}
+
 export interface MascaLegacyAccountStateV1 {
   polygon: {
     state: PolygonLegacyStateV1;
@@ -68,12 +55,30 @@ export interface PolygonLegacyBaseStateV1 {
   merkleTree: Record<string, string>;
 }
 
+export enum DidMethodLegacyV1 {
+  Iden3 = 'iden3',
+  PolygonId = 'polygonid',
+}
+
+export enum BlockchainLegacyV1 {
+  Ethereum = 'eth',
+  Polygon = 'polygon',
+}
+
+export enum NetworkIdLegacyV1 {
+  Main = 'main',
+  Mumbai = 'mumbai',
+  Goerli = 'goerli',
+}
+
 export type PolygonLegacyStateV1 = Record<
-  DidMethod.Iden3 | DidMethod.PolygonId,
+  DidMethodLegacyV1.Iden3 | DidMethodLegacyV1.PolygonId,
   Record<
-    Blockchain.Ethereum | Blockchain.Polygon,
+    BlockchainLegacyV1.Ethereum | BlockchainLegacyV1.Polygon,
     Record<
-      NetworkId.Main | NetworkId.Goerli | NetworkId.Mumbai,
+      | NetworkIdLegacyV1.Main
+      | NetworkIdLegacyV1.Goerli
+      | NetworkIdLegacyV1.Mumbai,
       PolygonLegacyBaseStateV1
     >
   >

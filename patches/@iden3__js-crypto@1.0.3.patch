@@ -1,0 +1,18 @@
+diff --git a/package.json b/package.json
+index 028614c361e61d92988e882940c0822888c1b256..c907a54993ae362f5afb58d5109066d8fa675a43 100644
+--- a/package.json
++++ b/package.json
+@@ -10,10 +10,11 @@
+         "require": "./dist/node/cjs/index.js"
+       },
+       "browser": "./dist/browser/esm/index.js",
+-      "umd": "./dist/browser/umd/index.js"
++      "umd": "./dist/browser/umd/index.js",
++      "types": "./dist/types/index.d.ts"
+     }
+   },
+-  "typings": "dist/types/index.d.ts",
++  "types": "dist/types/index.d.ts",
+   "files": [
+     "dist"
+   ],
