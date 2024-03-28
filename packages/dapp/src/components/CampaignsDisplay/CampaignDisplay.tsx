@@ -156,7 +156,12 @@ export const CampaignDisplay = ({
               !did ||
               isClaiming ||
               (!alreadyClaimed && claimed === total) ||
-              !address
+              !address ||
+              !requirements.every((reqToCheck) =>
+                completedRequirements.some(
+                  (completedReq) => completedReq === reqToCheck.id
+                )
+              )
             }
             onClick={() => {
               if (isSignedIn) {
