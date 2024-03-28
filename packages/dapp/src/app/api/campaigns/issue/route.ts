@@ -105,6 +105,19 @@ export async function POST(request: NextRequest) {
       });
     }
 
+    const now = new Date();
+    if (
+      (campaign.start_date && new Date(campaign.start_date) > now) ||
+      (campaign.end_date && new Date(campaign.end_date) < now)
+    ) {
+      return new NextResponse('Campaign is not active', {
+        status: 400,
+        headers: {
+          ...CORS_HEADERS,
+        },
+      });
+    }
+
     if (campaign.total && campaign.claimed >= campaign.total) {
       return new NextResponse('Campaign is already fully claimed', {
         status: 400,
