@@ -191,16 +191,21 @@
     "please-sign-in": "Please sign in to see completed campaigns",
     "verification-error": "Failed to verify the campaign",
     "no-credentials": "No credentials found",
-    "no-campaigns": "No campaigns currently available."
+    "no-campaigns": "No campaigns currently available.",
+    "title": "Campaigns",
+    "description": "Time to earn some special credentials! To celebrate the most notable achievements in the Masca community and the world of Web3, campaigns offer special badges that are stored in your Masca wallet and play a unique role in the broader Masca ecosystem."
   },
   "CampaignDisplay": {
     "requirements": "Requirements",
     "claim": "Claim",
-    "claimed": "Claimed"
+    "reclaim": "Reclaim",
+    "claimed": "Claimed",
+    "rewards": "Rewards"
   },
   "RequirementDisplay": {
     "verify": "Verify"
   },
+  "RewardDisplay": {},
   "CredentialCard": {
     "create-verifiable-presentation": "Create Presentation",
     "expires": "EXPIRES ON",
@@ -344,7 +349,8 @@
   "DeleteCredentialModal": {
     "cancel": "Cancel",
     "delete": "Delete",
-    "deleting": "Deleting credential...",
+    "deleting": "Deleting credential from: ",
+    "deleting-loading": "Deleting credential...",
     "deleting-error": "Failed to delete credential",
     "deleting-success": "Credential successfully deleted",
     "desc": "Approving this action will remove the credential from your wallet. This action cannot be undone!",

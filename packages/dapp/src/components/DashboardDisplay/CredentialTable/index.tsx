@@ -26,7 +26,11 @@ import React, { useEffect, useMemo, useState } from 'react';
 import DeleteModal from '@/components/DeleteModal';
 import StoreIcon from '@/components/StoreIcon';
 import { useTableStore, useAuthStore, useShareModalStore } from '@/stores';
-import { formatDid, removeCredentialSubjectFilterString } from '@/utils/format';
+import {
+  capitalizeString,
+  formatDid,
+  removeCredentialSubjectFilterString,
+} from '@/utils/format';
 import { convertTypes } from '@/utils/string';
 import { LastFetched } from '../LastFetched';
 import { sortCredentialList } from '../utils';
@@ -214,7 +218,7 @@ const CredentialTable = ({ vcs }: CredentialTableProps) => {
               {dataStore.split(',').map((store: string) => (
                 <Tooltip
                   className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
-                  content={store}
+                  content={capitalizeString(store)}
                   key={store}
                 >
                   <div className="relative mt-1">

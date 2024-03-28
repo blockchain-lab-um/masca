@@ -7,8 +7,10 @@ export default async function PublicLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen flex-col px-4 sm:px-12">
-      <PublicNavbar />
+    <div className="flex flex-col h-screen px-4 sm:px-12">
+      <div className="m-0 p-6 sm:px-12">
+        <PublicNavbar />
+      </div>
       <div className="flex flex-1">
         <div className="flex flex-1 items-center justify-center overflow-auto">
           {children}

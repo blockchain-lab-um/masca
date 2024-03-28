@@ -112,14 +112,6 @@ const AuthorizationRequestFlow = () => {
     }
   };
 
-  const sendAuthorizationResponse = async () => {
-    if (!api || !authorizationRequestURI || !parsedAuthorizationRequestURI) {
-      return;
-    }
-
-    console.log('here');
-  };
-
   useEffect(() => {
     if (!credentials.length) return;
     setIsSelectModalOpen(true);
@@ -127,8 +119,6 @@ const AuthorizationRequestFlow = () => {
 
   useEffect(() => {
     if (!selectedCredentials.length) return;
-
-    console.log(selectedCredentials);
     // TODO:
     // sendAuthorizationResponse().catch((e) => console.log(e));
   }, [selectedCredentials]);

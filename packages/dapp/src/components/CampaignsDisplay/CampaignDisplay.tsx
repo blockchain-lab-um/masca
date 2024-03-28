@@ -14,9 +14,11 @@ import {
   useSwitchChain,
 } from '@/hooks';
 import { useAccount } from 'wagmi';
+import { RewardDisplay } from './RewardDisplay';
 
 type CampaignProps = {
   campaign: Campaigns[number];
+  alreadyClaimed: boolean;
 };
 
 export const CampaignDisplay = ({
@@ -28,7 +30,9 @@ export const CampaignDisplay = ({
     total,
     image_url: imageUrl,
     requirements,
+    rewards,
   },
+  alreadyClaimed,
 }: CampaignProps) => {
   const t = useTranslations('CampaignDisplay');
 
@@ -122,6 +126,12 @@ export const CampaignDisplay = ({
           <p className="text-md dark:text-navy-blue-400 mt-4 text-gray-600">
             {description}
           </p>
+          <h5 className="font-ubuntu dark:text-navy-blue-200 mt-8 text-lg font-medium leading-6 text-gray-700">
+            {t('rewards')}
+          </h5>
+          <div className="mt-2 w-full">
+            <RewardDisplay reward={rewards!} />
+          </div>
           {requirements.length > 0 && (
             <h5 className="font-ubuntu dark:text-navy-blue-200 mt-8 text-lg font-medium leading-6 text-gray-700">
               {t('requirements')}
@@ -142,13 +152,27 @@ export const CampaignDisplay = ({
           <Button
             variant="primary"
             size="sm"
-            disabled={!did || isClaiming || claimed === total || !address}
-            onClick={() =>
-              isSignedIn ? handleClaim() : changeIsSignInModalOpen(true)
+            disabled={
+              !did ||
+              isClaiming ||
+              (!alreadyClaimed && claimed === total) ||
+              !address ||
+              !requirements.every((reqToCheck) =>
+                completedRequirements.some(
+                  (completedReq) => completedReq === reqToCheck.id
+                )
+              )
             }
+            onClick={() => {
+              if (isSignedIn) {
+                handleClaim();
+              } else {
+                changeIsSignInModalOpen(true);
+              }
+            }}
             loading={isClaiming}
           >
-            {t('claim')}
+            {alreadyClaimed ? t('reclaim') : t('claim')}
           </Button>
         </div>
       </div>

@@ -15,7 +15,7 @@ DID methods:
 - [x] `did:jwk`
 - [ ] `did:cheqd`
 - [ ] `did:ebsi`
-- [ ] `did:ens`
+- [x] `did:ens`
 - [x] `did:polygonid`
 - [x] `did:iden3`
 - [ ] ...
@@ -79,6 +79,7 @@ Masca dapp:
 - [x] Manage settings
 - [x] Create VPs
 - [x] Move VC to another storage
+- [x] Share VCs
 - [x] Import VCs
 - [ ] Export VCs
 - [x] Export state (encrypted)
@@ -89,7 +90,7 @@ Snaps-related functionality:
 
 - [ ] Snap UI Elements
 - [ ] Settings and storage synchronization across multiple devices
-- [ ] Featured on Snaps registry
+- [x] Featured on Snaps registry
 - [ ] ...
 
 dapp integrations:

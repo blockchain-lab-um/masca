@@ -8,7 +8,7 @@ import { useTranslations } from 'next-intl';
 
 import Button from '@/components/Button';
 import { useMascaStore, useToastStore } from '@/stores';
-import { stringifyCredentialSubject } from '@/utils/format';
+import { capitalizeString, stringifyCredentialSubject } from '@/utils/format';
 
 interface DeleteModalProps {
   isOpen: boolean;
@@ -32,7 +32,7 @@ function DeleteModal({ isOpen, setOpen, vc, store }: DeleteModalProps) {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: t('deleting'),
+          title: t('deleting-loading'),
           type: 'normal',
           loading: true,
           link: null,
@@ -124,9 +124,9 @@ function DeleteModal({ isOpen, setOpen, vc, store }: DeleteModalProps) {
 
                 {store && (
                   <p className="text-md dark:text-navy-blue-200 mt-10 text-center text-gray-600 ">
-                    {t('deleting')}:{' '}
+                    {t('deleting')}
                     <span className="dark:text-navy-blue-100 font-medium text-gray-800 ">
-                      {store}
+                      {capitalizeString(store)}
                     </span>
                   </p>
                 )}

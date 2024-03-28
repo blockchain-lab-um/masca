@@ -12,7 +12,7 @@ import ToggleSwitch from '@/components//Switch';
 import DeleteModal from '@/components/DeleteModal';
 import { useMascaStore, useToastStore } from '@/stores';
 import { isPolygonVC } from '@/utils/credential';
-import { stringifyCredentialSubject } from '@/utils/format';
+import { capitalizeString, stringifyCredentialSubject } from '@/utils/format';
 
 interface ModifyDSModalProps {
   isOpen: boolean;
@@ -161,7 +161,7 @@ function ModifyDSModal({ isOpen, setOpen, vc }: ModifyDSModalProps) {
                       key={store}
                       className="mt-3 flex items-center justify-between"
                     >
-                      <div>{store}</div>
+                      <div>{capitalizeString(store)}</div>
                       <span
                         className={`${
                           !vcStores[store].enabled ? 'opacity-30' : ''

@@ -10,7 +10,7 @@ const LandingPage = () => {
   const t = useTranslations('Home');
 
   return (
-    <div className="flex h-full items-center justify-center p-8">
+    <div className="flex h-full items-center justify-center">
       <div className="text-center">
         <div className="text-h4 sm:text-h2 lg:text-h1 font-ubuntu dark:text-navy-blue-50 text-gray-700">
           {t('title-1')}

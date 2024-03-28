@@ -192,7 +192,7 @@ const SettingsCard = () => {
 
   return (
     <div className="p-6">
-      <div className="flex w-full justify-between">
+      <div className="flex w-full h-full justify-between">
         <Link href="/app" className="flex items-center">
           <button
             type="button"

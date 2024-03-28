@@ -6,6 +6,10 @@ export const getLastWord = (str: string) => {
   return parts[parts.length - 1];
 };
 
+export const capitalizeString = (str: string) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
 export const getFirstWord = (str: string) => {
   const parts = str.trim().split(',');
   return parts[0];
