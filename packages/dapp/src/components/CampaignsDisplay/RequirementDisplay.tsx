@@ -12,6 +12,8 @@ import { useSwitchChain, useVerifyRequirement } from '@/hooks';
 import { useAuthStore, useMascaStore, useToastStore } from '@/stores';
 import { isError } from '@blockchain-lab-um/masca-connector';
 import { shallow } from 'zustand/shallow';
+import { VerifiableCredential } from 'did-jwt-vc';
+import type { W3CVerifiableCredential } from '@veramo/core';
 
 type RequirementProps = {
   requirement: Tables<'requirements'>;
@@ -89,21 +91,16 @@ export const RequirementDisplay = ({
 
     // Create a presentation from all the user's credentials except the polygonid ones
     const createPresentationResult = await api.createPresentation({
-      vcs: queryCredentialsResult.data
-        .map((queryResult) => {
-          return queryResult.data;
-        })
-        .filter((credential) => {
-          const proof = credential.proof || [];
-          const isProofArray = Array.isArray(proof);
-          const firstProofType = isProofArray ? proof[0]?.type : proof?.type;
-
-          return (
-            firstProofType !== 'BJJSignature2021' &&
-            !credential.issuer.includes('did:poylgonid') &&
-            !credential.issuer.includes('did:iden3')
-          );
-        }),
+      vcs: queryCredentialsResult.data.reduce((acc, queryResult) => {
+        const credential = queryResult.data;
+        if (
+          !credential.issuer.includes('did:poylgonid') &&
+          !credential.issuer.includes('did:iden3')
+        ) {
+          acc.push(credential);
+        }
+        return acc;
+      }, [] as W3CVerifiableCredential[]),
       proofFormat: 'EthereumEip712Signature2021',
     });
 

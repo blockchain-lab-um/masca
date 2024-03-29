@@ -180,8 +180,15 @@ export async function POST(
     let credentials: VerifiableCredential[];
 
     try {
-      credentials = presentation.verifiableCredential.map((credential) =>
-        normalizeCredential(credential)
+      credentials = presentation.verifiableCredential.reduce(
+        (result, credential) => {
+          const normalized = normalizeCredential(credential);
+          if (normalized?.credentialSubject?.id === did) {
+            result.push(normalized);
+          }
+          return result;
+        },
+        [] as VerifiableCredential[]
       );
     } catch (error) {
       console.error('Error decoding credentials', error);
@@ -191,20 +198,6 @@ export async function POST(
           ...CORS_HEADERS,
         },
       });
-    }
-
-    for (const credential of credentials) {
-      if (
-        credential.credentialSubject.id &&
-        credential?.credentialSubject?.id !== did
-      ) {
-        return new NextResponse('Unauthorized', {
-          status: 401,
-          headers: {
-            ...CORS_HEADERS,
-          },
-        });
-      }
     }
 
     // TODO - simplify to only check the one requirement as long as the user has not selected the vcs for vp
