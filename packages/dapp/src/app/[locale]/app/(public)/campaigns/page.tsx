@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <div className="flex h-full flex-1 justify-center">
+    <div className="flex h-full justify-center w-full">
       <CampaignsDisplay />
     </div>
   );

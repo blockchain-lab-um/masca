@@ -45,8 +45,8 @@ const PublicNavbar = () => {
   const pathname = usePathname() ?? '/';
 
   return (
-    <div className="z-50 m-0 p-6 sm:px-12">
-      <div className="flex flex-1 items-center">
+    <div className="z-50 items-center">
+      <div className="flex flex-1 main-bg items-center">
         <Link href="/" className="focus-visible:outline-none">
           <div className="flex">
             <MascaLogo />

@@ -58,6 +58,54 @@ export async function POST(request: NextRequest) {
         },
       });
     }
+    const supabase = supabaseServiceRoleClient();
+    const { data: campaign, error: campaignError } = await supabase
+      .from('campaigns')
+      .select('*, requirements(id, *)')
+      .eq('id', campaignId)
+      .order('created_at', { ascending: false })
+      .single()
+      .throwOnError();
+
+    if (campaignError) {
+      return new NextResponse('Campaign not found', {
+        status: 404,
+        headers: {
+          ...CORS_HEADERS,
+        },
+      });
+    }
+
+    if (campaign.total && campaign.claimed >= campaign.total) {
+      return new NextResponse('Campaign is already fully claimed', {
+        status: 400,
+        headers: {
+          ...CORS_HEADERS,
+        },
+      });
+    }
+    const { data: completedRequirements, error: completedRequirementsError } =
+      await supabase.rpc('get_num_of_users_requirements_by_campaign', {
+        campaign_id: campaignId,
+        user_id: user.sub,
+      });
+
+    if (completedRequirementsError) {
+      return new NextResponse('Internal Server Error', {
+        status: 500,
+        headers: {
+          ...CORS_HEADERS,
+        },
+      });
+    }
+    if (completedRequirements !== campaign.requirements.length) {
+      return new NextResponse('User has not completed all requirements', {
+        status: 400,
+        headers: {
+          ...CORS_HEADERS,
+        },
+      });
+    }
 
     const agent = await getAgent();
     const didResolution = await agent.resolveDid({ didUrl: did });
@@ -81,33 +129,6 @@ export async function POST(request: NextRequest) {
     ) {
       return new NextResponse('Unauthorized', {
         status: 401,
-        headers: {
-          ...CORS_HEADERS,
-        },
-      });
-    }
-
-    const supabase = supabaseServiceRoleClient();
-
-    const { data: campaign, error: campaignError } = await supabase
-      .from('campaigns')
-      .select('*')
-      .eq('id', campaignId)
-      .single()
-      .throwOnError();
-
-    if (campaignError) {
-      return new NextResponse('Campaign not found', {
-        status: 404,
-        headers: {
-          ...CORS_HEADERS,
-        },
-      });
-    }
-
-    if (campaign.total && campaign.claimed >= campaign.total) {
-      return new NextResponse('Campaign is already fully claimed', {
-        status: 400,
         headers: {
           ...CORS_HEADERS,
         },

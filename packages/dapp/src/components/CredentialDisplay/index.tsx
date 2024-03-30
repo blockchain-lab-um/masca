@@ -19,7 +19,10 @@ import {
   useAuthStore,
   useShareModalStore,
 } from '@/stores';
-import { removeCredentialSubjectFilterString } from '@/utils/format';
+import {
+  capitalizeString,
+  removeCredentialSubjectFilterString,
+} from '@/utils/format';
 import Button from '../Button';
 import DeleteModal from '../DeleteModal';
 import ModifyDSModal from '../ModifyDSModal';
@@ -152,7 +155,7 @@ const CredentialDisplay = ({ id }: CredentialDisplayProps) => {
                 <div className="flex gap-x-1">
                   {vc.metadata.store.map((store) => (
                     <Tooltip
-                      content={store}
+                      content={capitalizeString(store)}
                       key={store}
                       className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
                     >

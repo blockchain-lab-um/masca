@@ -35,7 +35,7 @@ const MetaMaskProvider = ({ children }: MetaMaskProviderProps) => {
   return !hasMetamask && !isConnected ? (
     <div className="dark:bg-navy-blue-800 dark:text-navy-blue-400 flex flex-1 items-center justify-center rounded-3xl bg-white shadow-lg">
       <div>
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col h-full flex-1 items-center justify-center">
           <h3 className="text-h4 md:text-h3 dark:text-navy-blue-50 text-gray-800">
             {t('metamask')}
           </h3>
