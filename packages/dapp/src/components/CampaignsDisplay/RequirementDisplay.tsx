@@ -12,6 +12,8 @@ import { useSwitchChain, useVerifyRequirement } from '@/hooks';
 import { useAuthStore, useMascaStore, useToastStore } from '@/stores';
 import { isError } from '@blockchain-lab-um/masca-connector';
 import { shallow } from 'zustand/shallow';
+import { VerifiableCredential } from 'did-jwt-vc';
+import type { W3CVerifiableCredential } from '@veramo/core';
 
 type RequirementProps = {
   requirement: Tables<'requirements'>;
@@ -24,7 +26,14 @@ export const RequirementDisplay = ({
 }: RequirementProps) => {
   const t = useTranslations('RequirementDisplay');
 
-  const token = useAuthStore((state) => state.token);
+  const { token, isSignedIn, changeIsSignInModalOpen } = useAuthStore(
+    (state) => ({
+      token: state.token,
+      isSignedIn: state.isSignedIn,
+      changeIsSignInModalOpen: state.changeIsSignInModalOpen,
+    }),
+    shallow
+  );
 
   const { api, did, didMethod, changeDID, changeCurrDIDMethod } = useMascaStore(
     (state) => ({
@@ -80,9 +89,18 @@ export const RequirementDisplay = ({
       return;
     }
 
-    // Create a presentation from all the user's credentials
+    // Create a presentation from all the user's credentials except the polygonid ones
     const createPresentationResult = await api.createPresentation({
-      vcs: queryCredentialsResult.data.map((queryResult) => queryResult.data),
+      vcs: queryCredentialsResult.data.reduce((acc, queryResult) => {
+        const credential = queryResult.data;
+        if (
+          !credential.issuer.includes('did:poylgonid') &&
+          !credential.issuer.includes('did:iden3')
+        ) {
+          acc.push(credential);
+        }
+        return acc;
+      }, [] as W3CVerifiableCredential[]),
       proofFormat: 'EthereumEip712Signature2021',
     });
 
@@ -91,6 +109,7 @@ export const RequirementDisplay = ({
       return;
     }
     setStartedVerifying(false);
+
     await verifyRequirement({
       did: currentDid,
       presentation: createPresentationResult.data,
@@ -120,7 +139,9 @@ export const RequirementDisplay = ({
           <Button
             variant="primary"
             size="xs"
-            onClick={handleVerify}
+            onClick={() =>
+              isSignedIn ? handleVerify() : changeIsSignInModalOpen(true)
+            }
             loading={startedVerifying || isVerifying}
             disabled={!did || startedVerifying || isVerifying}
           >
