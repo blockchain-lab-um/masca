@@ -80,7 +80,7 @@ const projectsDark: ProjectIconProps[] = [
 
 export default function Page() {
   return (
-    <div className="flex flex-col items-center pt-20">
+    <div className="flex flex-col">
       <div>
         <h1 className="font-ubuntu dark:text-orange-accent-dark mb-4 text-center text-2xl font-medium text-pink-500">
           Applications

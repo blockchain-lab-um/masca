@@ -35,8 +35,8 @@ export default function AppNavbar() {
   const { isConnected } = useAccount();
 
   return (
-    <div className="main-bg fixed top-0 z-50 m-0 flex h-24 w-screen items-center">
-      <div className="flex flex-1 items-center px-4 sm:px-12">
+    <div className="z-50 items-center">
+      <div className="flex flex-1 items-center">
         <Link href="/" className="focus-visible:outline-none">
           <div className="flex">
             <MascaLogo />
@@ -45,7 +45,7 @@ export default function AppNavbar() {
             </h1>
           </div>
         </Link>
-        <div className="mx-2 hidden flex-1 items-center justify-center md:flex">
+        <div className="hidden flex-1 items-center justify-center md:flex">
           {MAIN_LINKS.map(({ name, href, requiresConnection }) => {
             if ((requiresConnection && isConnected) || !requiresConnection) {
               return (
