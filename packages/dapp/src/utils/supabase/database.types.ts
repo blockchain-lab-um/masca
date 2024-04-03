@@ -343,8 +343,8 @@ export type Database = {
     Functions: {
       get_num_of_users_requirements_by_campaign: {
         Args: {
-          campaign_id: string;
-          user_id: string;
+          input_campaign_id: string;
+          input_user_id: string;
         };
         Returns: number;
       };
