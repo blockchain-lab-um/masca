@@ -20,20 +20,12 @@ const emptyPolygonBaseState: PolygonBaseState = {
 
 const emptyPolygonState: PolygonState = {
   polygonid: {
-    eth: {
-      main: cloneDeep(emptyPolygonBaseState),
-      mumbai: cloneDeep(emptyPolygonBaseState), // To satisfy the type checker
-    },
     polygon: {
       main: cloneDeep(emptyPolygonBaseState),
       mumbai: cloneDeep(emptyPolygonBaseState),
     },
   },
   iden3: {
-    eth: {
-      main: cloneDeep(emptyPolygonBaseState),
-      mumbai: cloneDeep(emptyPolygonBaseState), // To satisfy the type checker
-    },
     polygon: {
       main: cloneDeep(emptyPolygonBaseState),
       mumbai: cloneDeep(emptyPolygonBaseState),
@@ -104,7 +96,7 @@ const initialPermissions: DappPermissions = {
 export const getInitialPermissions = () => cloneDeep(initialPermissions);
 
 const initialSnapState: MascaState = {
-  v2: {
+  v3: {
     accountState: {},
     currentAccount: '',
     config: {

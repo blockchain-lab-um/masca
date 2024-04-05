@@ -1,0 +1,30 @@
+diff --git a/build/browser.esm.js b/build/browser.esm.js
+index 439dcfd0d265dbcb456e4b5538cc187645a016af..93bae5bb8bc2b5d6a1939b93890ebc3d82b16470 100644
+--- a/build/browser.esm.js
++++ b/build/browser.esm.js
+@@ -488,7 +488,7 @@ class PolField {
+         return v;
+     }
+ 
+-    eval(p,x) {
++    evalFix(p,x) {
+         const F = this.F;
+         if (p.length == 0) return F.zero;
+         const m = this._next2Power(p.length);
+@@ -519,7 +519,7 @@ class PolField {
+             let mpol = this.ruffini(roots, points[i][0]);
+             const factor =
+                 this.F.mul(
+-                    this.F.inv(this.eval(mpol, points[i][0])),
++                    this.F.inv(this.evalFix(mpol, points[i][0])),
+                     points[i][1]);
+             mpol = this.mulScalar(mpol, factor);
+             sum = this.add(sum, mpol);
+@@ -15662,6 +15662,7 @@ function thread(self) {
+  * limitations under the License.
+  */
+ 
++var Worker = {};
+ var browser = Worker;
+ 
+ var Worker$1 = /*@__PURE__*/getDefaultExportFromCjs(browser);

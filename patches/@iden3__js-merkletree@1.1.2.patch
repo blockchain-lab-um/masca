@@ -1,0 +1,23 @@
+diff --git a/package.json b/package.json
+index d0c80705411463edb5bce8c4d841ea33db997195..6b45c3bb816b3ccae9762f27736d489406d04353 100644
+--- a/package.json
++++ b/package.json
+@@ -2,7 +2,7 @@
+   "name": "@iden3/js-merkletree",
+   "version": "1.1.2",
+   "description": "javascript sparse merkle tree library",
+-  "typings": "dist/types/index.d.ts",
++  "types": "dist/types/index.d.ts",
+   "main": "dist/node/cjs/index.js",
+   "module": "dist/node/esm/index.js",
+   "source": "./src/index.ts",
+@@ -13,7 +13,8 @@
+         "require": "./dist/node/cjs/index.js"
+       },
+       "browser": "./dist/browser/esm/index.js",
+-      "umd": "./dist/browser/umd/index.js"
++      "umd": "./dist/browser/umd/index.js",
++      "types": "./dist/types/index.d.ts"
+     }
+   },
+   "files": [
