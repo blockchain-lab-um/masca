@@ -58,7 +58,9 @@ export async function POST(request: NextRequest) {
         },
       });
     }
+
     const supabase = supabaseServiceRoleClient();
+
     const { data: campaign, error: campaignError } = await supabase
       .from('campaigns')
       .select('*, requirements(id, *)')
@@ -100,11 +102,11 @@ export async function POST(request: NextRequest) {
 
     if (!alreadyClaimed) {
       const now = new Date();
-      const startDateValid =
+      const notYetStarted =
         campaign.start_date && new Date(campaign.start_date) > now;
-      const endDateValid =
+      const alreadyFinished =
         campaign.end_date && new Date(campaign.end_date) < now;
-      const isCampaignInactive = startDateValid || endDateValid;
+      const isCampaignInactive = notYetStarted || alreadyFinished;
       const isCampaignFullyClaimed =
         campaign.total && campaign.claimed >= campaign.total;
 
@@ -124,8 +126,8 @@ export async function POST(request: NextRequest) {
 
       const { data: completedRequirements, error: completedRequirementsError } =
         await supabase.rpc('get_num_of_users_requirements_by_campaign', {
-          campaign_id: campaignId,
-          user_id: user.sub,
+          input_campaign_id: campaignId,
+          input_user_id: user.sub,
         });
 
       if (completedRequirementsError) {

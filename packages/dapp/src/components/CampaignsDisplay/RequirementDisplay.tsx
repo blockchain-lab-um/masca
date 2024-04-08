@@ -12,7 +12,6 @@ import { useSwitchChain, useVerifyRequirement } from '@/hooks';
 import { useAuthStore, useMascaStore, useToastStore } from '@/stores';
 import { isError } from '@blockchain-lab-um/masca-connector';
 import { shallow } from 'zustand/shallow';
-import { VerifiableCredential } from 'did-jwt-vc';
 import type { W3CVerifiableCredential } from '@veramo/core';
 
 type RequirementProps = {
@@ -93,9 +92,22 @@ export const RequirementDisplay = ({
     const createPresentationResult = await api.createPresentation({
       vcs: queryCredentialsResult.data.reduce((acc, queryResult) => {
         const credential = queryResult.data;
+
+        let issuer = null;
+
+        if (!credential.issuer) return acc;
+
+        if (typeof credential.issuer === 'string') {
+          issuer = credential.issuer;
+        } else if (credential.issuer.id) {
+          issuer = credential.issuer.id;
+        }
+
+        if (!issuer) return acc;
+
         if (
-          !credential.issuer.includes('did:poylgonid') &&
-          !credential.issuer.includes('did:iden3')
+          !issuer.includes('did:poylgonid') &&
+          !issuer.includes('did:iden3')
         ) {
           acc.push(credential);
         }
