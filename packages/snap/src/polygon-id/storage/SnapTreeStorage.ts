@@ -1,5 +1,9 @@
 import { CURRENT_STATE_VERSION } from '@blockchain-lab-um/masca-types';
-import type { Blockchain, DidMethod, NetworkId } from '@iden3/js-iden3-core';
+import type {
+  Blockchain,
+  DidMethod,
+  NetworkId,
+} from '@blockchain-lab-um/masca-types';
 import {
   type Bytes,
   Hash,
@@ -27,7 +31,7 @@ export class SnapTreeStorage implements ITreeStorage {
   constructor(
     private readonly account: string,
     private readonly method: DidMethod.Iden3 | DidMethod.PolygonId,
-    private readonly blockchain: Blockchain.Ethereum | Blockchain.Polygon,
+    private readonly blockchain: Blockchain.Polygon,
     private readonly networkId: NetworkId.Main | NetworkId.Mumbai,
     private readonly prefix: Bytes
   ) {

@@ -59,6 +59,95 @@ export async function POST(request: NextRequest) {
       });
     }
 
+    const supabase = supabaseServiceRoleClient();
+
+    const { data: campaign, error: campaignError } = await supabase
+      .from('campaigns')
+      .select('*, requirements(id, *)')
+      .eq('id', campaignId)
+      .order('created_at', { ascending: false })
+      .single()
+      .throwOnError();
+
+    if (campaignError) {
+      return new NextResponse('Campaign not found', {
+        status: 404,
+        headers: {
+          ...CORS_HEADERS,
+        },
+      });
+    }
+
+    const { data: claim, error: claimError } = await supabase
+      .from('claims')
+      .select('*')
+      .eq('campaign_id', campaignId)
+      .eq('user_id', user.sub);
+
+    if (claimError) {
+      return new NextResponse('Internal Server Error', {
+        status: 500,
+        headers: {
+          ...CORS_HEADERS,
+        },
+      });
+    }
+
+    let claimDate = new Date().toISOString();
+    let alreadyClaimed = false;
+    if (claim.length > 0) {
+      claimDate = claim[0].claimed_at;
+      alreadyClaimed = true;
+    }
+
+    if (!alreadyClaimed) {
+      const now = new Date();
+      const notYetStarted =
+        campaign.start_date && new Date(campaign.start_date) > now;
+      const alreadyFinished =
+        campaign.end_date && new Date(campaign.end_date) < now;
+      const isCampaignInactive = notYetStarted || alreadyFinished;
+      const isCampaignFullyClaimed =
+        campaign.total && campaign.claimed >= campaign.total;
+
+      if (isCampaignInactive) {
+        return new NextResponse('Campaign is not active', {
+          status: 400,
+          headers: { ...CORS_HEADERS },
+        });
+      }
+
+      if (isCampaignFullyClaimed) {
+        return new NextResponse('Campaign is already fully claimed', {
+          status: 400,
+          headers: { ...CORS_HEADERS },
+        });
+      }
+
+      const { data: completedRequirements, error: completedRequirementsError } =
+        await supabase.rpc('get_num_of_users_requirements_by_campaign', {
+          input_campaign_id: campaignId,
+          input_user_id: user.sub,
+        });
+
+      if (completedRequirementsError) {
+        return new NextResponse('Internal Server Error', {
+          status: 500,
+          headers: {
+            ...CORS_HEADERS,
+          },
+        });
+      }
+      if (completedRequirements !== campaign.requirements.length) {
+        return new NextResponse('User has not completed all requirements', {
+          status: 400,
+          headers: {
+            ...CORS_HEADERS,
+          },
+        });
+      }
+    }
+
     const agent = await getAgent();
     const didResolution = await agent.resolveDid({ didUrl: did });
 
@@ -87,48 +176,6 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const supabase = supabaseServiceRoleClient();
-
-    const { data: campaign, error: campaignError } = await supabase
-      .from('campaigns')
-      .select('*')
-      .eq('id', campaignId)
-      .single()
-      .throwOnError();
-
-    if (campaignError) {
-      return new NextResponse('Campaign not found', {
-        status: 404,
-        headers: {
-          ...CORS_HEADERS,
-        },
-      });
-    }
-
-    if (campaign.total && campaign.claimed >= campaign.total) {
-      return new NextResponse('Campaign is already fully claimed', {
-        status: 400,
-        headers: {
-          ...CORS_HEADERS,
-        },
-      });
-    }
-
-    const { data: claim, error: claimError } = await supabase
-      .from('claims')
-      .select('*')
-      .eq('campaign_id', campaignId)
-      .eq('user_id', user.sub);
-
-    if (claimError) {
-      return new NextResponse('Internal Server Error', {
-        status: 500,
-        headers: {
-          ...CORS_HEADERS,
-        },
-      });
-    }
-
     const controllerKeyId = 'key-1';
 
     const issuerDid = await agent.didManagerImport({
@@ -145,12 +192,8 @@ export async function POST(request: NextRequest) {
       ],
     });
 
-    let claimDate = new Date().toISOString();
-    if (claim.length > 0) {
-      claimDate = claim[0].claimed_at;
-    }
     let credentialId = claim[0]?.credential_id;
-    if (claim.length === 0) {
+    if (!alreadyClaimed) {
       const { data: insertedClaimData, error: updatedClaimError } =
         await supabase
           .from('claims')
@@ -173,7 +216,6 @@ export async function POST(request: NextRequest) {
           });
         }
 
-        console.error('Error updating claim', updatedClaimError);
         return new NextResponse('Internal Server Error', {
           status: 500,
           headers: {

@@ -52,6 +52,7 @@ export type Database = {
           id: string;
           image_url: string;
           production: boolean;
+          rewards: string;
           schema_context_url: string | null;
           schema_url: string | null;
           start_date: string | null;
@@ -69,6 +70,7 @@ export type Database = {
           id?: string;
           image_url: string;
           production?: boolean;
+          rewards: string;
           schema_context_url?: string | null;
           schema_url?: string | null;
           start_date?: string | null;
@@ -86,6 +88,7 @@ export type Database = {
           id?: string;
           image_url?: string;
           production?: boolean;
+          rewards?: string;
           schema_context_url?: string | null;
           schema_url?: string | null;
           start_date?: string | null;
@@ -338,6 +341,13 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      get_num_of_users_requirements_by_campaign: {
+        Args: {
+          input_campaign_id: string;
+          input_user_id: string;
+        };
+        Returns: number;
+      };
       increment_presentation_views: {
         Args: {
           presentation_id: string;
