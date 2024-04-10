@@ -203,7 +203,8 @@
     "rewards": "Rewards"
   },
   "RequirementDisplay": {
-    "verify": "Verify"
+    "verify": "Verify",
+    "requirements-not-met": "You do not meet the requirements"
   },
   "RewardDisplay": {},
   "CredentialCard": {

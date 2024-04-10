@@ -129,7 +129,6 @@ export const filterColumnsType = (
   const availableTypes = types
     .filter((type) => type.selected)
     .map((type) => type.type);
-  console.log('🚀 ~ availableTypes: ', availableTypes);
 
   const filteredList = credentialList.filter((credential) => {
     const { type } = credential.data;

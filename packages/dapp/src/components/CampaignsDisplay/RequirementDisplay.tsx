@@ -86,7 +86,7 @@ export const RequirementDisplay = ({
     if (isError(queryCredentialsResult)) {
       useToastStore.setState({
         open: true,
-        title: 'You do not meet the requirements',
+        title: t('requirements-not-met'),
         type: 'error',
         loading: false,
         link: null,
