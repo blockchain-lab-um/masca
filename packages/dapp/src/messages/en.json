@@ -365,7 +365,7 @@
     "title": "Delete Shared Presentation"
   },
   "FilterPopover": {
-    "clear": "clear",
+    "clear": "Clear",
     "datastore": "Data Store",
     "ecosystem": "Ecosystem",
     "filter": "Filter",

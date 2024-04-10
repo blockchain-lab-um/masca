@@ -110,7 +110,41 @@ const Controlbar = () => {
         link: null,
       });
     }, 200);
-
+    res.data.push(
+      JSON.parse(`{
+      "data": {
+        "type": [
+          "VerifiableCredential"
+        ],
+        "proof": {
+          "jwt": "eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2YyI6eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvMjAxOC9jcmVkZW50aWFscy92MSIsImh0dHBzOi8vYmV0YS5hcGkuc2NoZW1hcy5zZXJ0by5pZC92MS9wdWJsaWMvcHJvZ3JhbS1jb21wbGV0aW9uLWNlcnRpZmljYXRlLzEuMC9sZC1jb250ZXh0Lmpzb24iXSwidHlwZSI6WyJWZXJpZmlhYmxlQ3JlZGVudGlhbCJdLCJjcmVkZW50aWFsU3ViamVjdCI6eyJ0eXBlIjoiUmVndWxhciBVc2VyIn0sImNyZWRlbnRpYWxTY2hlbWEiOnsiaWQiOiJodHRwczovL2JldGEuYXBpLnNjaGVtYXMuc2VydG8uaWQvdjEvcHVibGljL3Byb2dyYW0tY29tcGxldGlvbi1jZXJ0aWZpY2F0ZS8xLjAvanNvbi1zY2hlbWEuanNvbiIsInR5cGUiOiJKc29uU2NoZW1hVmFsaWRhdG9yMjAxOCJ9fSwic3ViIjoiZGlkOmtleTp6UTNzaFlXTGZvNGYydVVINXRVQ05vVHYxc2lGcHE2TjZRa3hrMUNlZ1g0S1JTTExaIiwibmJmIjoxNzAzNzY0MzAzLCJpc3MiOiJkaWQ6a2V5OnpRM3NoWVdMZm80ZjJ1VUg1dFVDTm9UdjFzaUZwcTZONlFreGsxQ2VnWDRLUlNMTFoifQ.4JyvByMJQZj0lCXzvaH8ZW9h74oQr4LB0mvZ8qYYCq5DT7MyqGJHMrTxwsrGnJas9a0RoUxBIVk6JcsH9iL4KA",
+          "type": "JwtProof2020"
+        },
+        "issuer": {
+          "id": "did:key:zQ3shYWLfo4f2uUH5tUCNoTv1siFpq6N6Qkxk1CegX4KRSLLZ"
+        },
+        "@context": [
+          "https://www.w3.org/2018/credentials/v1",
+          "https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/ld-context.json"
+        ],
+        "issuanceDate": "2023-12-28T11:51:43.000Z",
+        "credentialSchema": {
+          "id": "https://beta.api.schemas.serto.id/v1/public/program-completion-certificate/1.0/json-schema.json",
+          "type": "JsonSchemaValidator2018"
+        },
+        "credentialSubject": {
+          "id": "did:key:zQ3shYWLfo4f2uUH5tUCNoTv1siFpq6N6Qkxk1CegX4KRSLLZ",
+          "type": "Regular User"
+        }
+      },
+      "metadata": {
+        "id": "b502d82689a17a8f6811022b19b682ee3014e96238e86d8f61f0b211b9bb70db",
+        "store": [
+          "ceramic"
+        ]
+      }
+    }`)
+    );
     changeLastFetch(Date.now());
     changeVcs(res.data.map((vc) => stringifyCredentialSubject(vc)));
     setSpinner(false);

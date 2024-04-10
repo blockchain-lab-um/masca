@@ -84,10 +84,16 @@ export const RequirementDisplay = ({
     const queryCredentialsResult = await api.queryCredentials();
 
     if (isError(queryCredentialsResult)) {
+      useToastStore.setState({
+        open: true,
+        title: 'You do not meet the requirements',
+        type: 'error',
+        loading: false,
+        link: null,
+      });
       setStartedVerifying(false);
       return;
     }
-
     // Create a presentation from all the user's credentials except the polygonid ones
     const createPresentationResult = await api.createPresentation({
       vcs: queryCredentialsResult.data.reduce((acc, queryResult) => {

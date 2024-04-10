@@ -129,15 +129,14 @@ export const filterColumnsType = (
   const availableTypes = types
     .filter((type) => type.selected)
     .map((type) => type.type);
+  console.log('🚀 ~ availableTypes: ', availableTypes);
+
   const filteredList = credentialList.filter((credential) => {
     const { type } = credential.data;
     if (!type) return false;
 
     for (const typ of availableTypes) {
-      if (
-        (typeof type === 'string' && type === typ) ||
-        (Array.isArray(type) && type.indexOf(typ) >= 0)
-      ) {
+      if ((typeof type === 'string' && type === typ) || Array.isArray(type)) {
         return true;
       }
     }
