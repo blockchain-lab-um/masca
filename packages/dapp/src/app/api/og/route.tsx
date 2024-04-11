@@ -1,3 +1,4 @@
+import { formatDid } from '@/utils/format';
 import { ImageResponse } from '@vercel/og';
 import type { NextRequest } from 'next/server';
 
@@ -96,7 +97,7 @@ export async function GET(req: NextRequest) {
                       fontWeight: 'normal',
                     }}
                   >
-                    {credentialIssuer}
+                    {formatDid(credentialIssuer)}
                   </div>
                   <div tw="text-md text-orange-100 mt-4">ACHIEVED</div>
                   <div
@@ -218,11 +219,7 @@ export async function GET(req: NextRequest) {
                     fontWeight: 'normal',
                   }}
                 >
-                  {credentialIssuer.substring(0, 10)}...
-                  {credentialIssuer.substring(
-                    holder.length,
-                    holder.length - 10
-                  )}
+                  {formatDid(credentialIssuer)}
                 </div>
                 <div tw="text-md text-orange-100 mt-4">ISSUED TO</div>
                 <div
@@ -232,11 +229,7 @@ export async function GET(req: NextRequest) {
                     fontWeight: 'normal',
                   }}
                 >
-                  {credentialSubject.substring(0, 10)}...
-                  {credentialSubject.substring(
-                    holder.length,
-                    holder.length - 10
-                  )}
+                  {formatDid(credentialSubject)}
                 </div>
                 <div tw="text-md text-orange-100 mt-4">ISSUED ON</div>
                 <div
