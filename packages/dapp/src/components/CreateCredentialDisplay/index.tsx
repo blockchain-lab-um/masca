@@ -23,6 +23,7 @@ import ToggleSwitch from '@/components/Switch';
 import { useMascaStore, useToastStore } from '@/stores';
 import DropdownMultiselect from '../DropdownMultiselect';
 import VCModal from '../VCModal';
+import { capitalizeString } from '@/utils/format';
 
 const proofFormats: Record<string, SupportedProofFormats> = {
   JWT: 'jwt',
@@ -139,7 +140,9 @@ const CreateCredentialDisplay = () => {
       proofFormat: proofFormats[format],
       options: {
         save,
-        store: selectedItems, // TODO: fix this doesn't create new credential
+        store: selectedItems.map((store) =>
+          store.toLowerCase()
+        ) as AvailableCredentialStores[],
       },
     });
 
@@ -259,8 +262,14 @@ const CreateCredentialDisplay = () => {
                 </span>
                 <div className="flex flex-1">
                   <DropdownMultiselect
-                    items={availableStores}
-                    selectedItems={selectedItems}
+                    items={availableStores.map((store) =>
+                      capitalizeString(store)
+                    )}
+                    selectedItems={
+                      selectedItems.map((store) =>
+                        capitalizeString(store)
+                      ) as AvailableCredentialStores[]
+                    }
                     setSelectedItems={setSelectedItems}
                     placeholder={t('save.select-storage-placeholder')}
                     name="storage"
