@@ -75,7 +75,7 @@ const AddressPopover = ({ did, disconnect }: AddressPopoverProps) => {
                     <div className="dark:text-navy-blue-100 text-sm text-gray-700">
                       DID
                     </div>
-                    <div className="mt-2 flex items-center justify-center">
+                    <div className="mt-2 flex items-center justify-left">
                       {did ? (
                         <a
                           href={`https://dev.uniresolver.io/#${did}`}
