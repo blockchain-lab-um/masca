@@ -48,7 +48,7 @@
     "lint:fix": "biome check --apply .",
     "serve": "mm-snap serve",
     "start": "pnpm build && pnpm serve",
-    "test": "cross-env IS_TESTING=true cross-env NODE_NO_WARNINGS=1 vitest",
+    "test": "cross-env IS_TESTING=true cross-env NODE_NO_WARNINGS=1 vitest --disable-console-intercept",
     "test:ci": "pnpm run test",
     "test:cron": "cross-env IS_TESTING=true cross-env CRON=true cross-env NODE_NO_WARNINGS=1 vitest",
     "test:debug": "cross-env IS_TESTING=true cross-env NODE_NO_WARNINGS=1 vitest --inspect-brk --pool threads --poolOptions.threads.singleThread --poolOptions.threads.isolate false"
@@ -56,6 +56,7 @@
   "dependencies": {
     "@0xpolygonid/js-sdk": "1.9.4",
     "@blockchain-lab-um/did-provider-key": "1.0.8",
+    "@blockchain-lab-um/extended-verification": "0.1.2",
     "@blockchain-lab-um/masca-types": "1.3.2",
     "@blockchain-lab-um/oidc-client-plugin": "0.3.1",
     "@blockchain-lab-um/oidc-types": "0.0.8",
