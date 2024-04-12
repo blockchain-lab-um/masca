@@ -1,5 +1,13 @@
 # @blockchain-lab-um/dapp
 
+## 1.3.2-beta.0
+
+### Patch Changes
+
+- [#609](https://github.com/blockchain-lab-um/masca/pull/609) [`5cb712a`](https://github.com/blockchain-lab-um/masca/commit/5cb712ad40156207f41c3f2fd863f0ad0472791a) Thanks [@pseudobun](https://github.com/pseudobun)! - Adds reclaim option for campaigns.
+
+- [#614](https://github.com/blockchain-lab-um/masca/pull/614) [`fc1f796`](https://github.com/blockchain-lab-um/masca/commit/fc1f796ad66b5dbceccd0d96f64e2d98cfca71f0) Thanks [@tadejpodrekar](https://github.com/tadejpodrekar)! - Adds campaign issue checks.
+
 ## 1.3.1
 
 ### Patch Changes
