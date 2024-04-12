@@ -26,9 +26,9 @@ export const sign = async (signArgs: SignArgs, signOptions: SignOptions) => {
 
   const jwtPayload = {
     ...signArgs.payload,
-    exp: Math.floor(Date.now() / 1000) + 60 * 60,
-    iat: Math.floor(Date.now() / 1000),
-    nbf: Math.floor(Date.now() / 1000),
+    exp: Math.floor(new Date().getTime() / 1000) + 60 * 60, // 1 hour in the future
+    iat: Math.floor(new Date().getTime() / 1000) - 60, // 1 minute in the past
+    nbf: Math.floor(new Date().getTime() / 1000) - 60, // 1 minute in the past
     iss: did,
     sub: did,
   };
