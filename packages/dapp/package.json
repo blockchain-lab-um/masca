@@ -97,9 +97,7 @@
   },
   "nx": {
     "namedInputs": {
-      "default": [
-        "{projectRoot}/**/*"
-      ],
+      "default": ["{projectRoot}/**/*"],
       "production": [
         "default",
         "!{projectRoot}/sonar-project.properties",
@@ -111,25 +109,13 @@
     },
     "targets": {
       "build": {
-        "inputs": [
-          "production",
-          "^production"
-        ],
-        "dependsOn": [
-          "^build"
-        ],
-        "outputs": [
-          "{projectRoot}/.next"
-        ]
+        "inputs": ["production", "^production"],
+        "dependsOn": ["^build"],
+        "outputs": ["{projectRoot}/.next"]
       },
       "start": {
-        "inputs": [
-          "production",
-          "^production"
-        ],
-        "dependsOn": [
-          "build"
-        ],
+        "inputs": ["production", "^production"],
+        "dependsOn": ["build"],
         "outputs": []
       }
     }
