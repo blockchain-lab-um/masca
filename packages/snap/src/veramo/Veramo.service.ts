@@ -521,31 +521,22 @@ class VeramoService {
   static async verifyData(
     params: VerifyDataRequestParams
   ): Promise<IVerifyResult> {
-    try {
-      const { credential, presentation } = params;
+    const { credential, presentation } = params;
 
-      let result: Result<VerificationResult> | undefined = undefined;
-      if (credential) {
-        result = await VerificationService.verify(credential);
-      } else if (presentation) {
-        result = await VerificationService.verify(presentation);
-      }
-
-      if (!result) {
-        return {
-          verified: false,
-          error: new Error('No valid credential or presentation.'),
-        } as IVerifyResult;
-      }
-
-      if (isError(result)) {
-        throw new Error(result.error);
-      }
-
-      return result.data as IVerifyResult;
-    } catch (error: unknown) {
-      return { verified: false, error: error as Error } as IVerifyResult;
+    let result: Result<VerificationResult> | undefined = undefined;
+    if (credential) {
+      result = await VerificationService.verify(credential);
+    } else if (presentation) {
+      result = await VerificationService.verify(presentation);
     }
+
+    if (!result) throw new Error('No valid credential or presentation.');
+
+    if (isError(result)) {
+      throw new Error(result.error);
+    }
+
+    return result.data as IVerifyResult;
   }
 
   static async handleOIDCCredentialOffer(params: {
