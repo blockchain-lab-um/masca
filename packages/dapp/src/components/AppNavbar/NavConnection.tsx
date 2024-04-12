@@ -7,7 +7,7 @@ import { useAccount, useChainId, useDisconnect, useSwitchChain } from 'wagmi';
 
 import AddressPopover from '@/components/AddressPopover';
 import ConnectButton from '@/components/ConnectButton';
-import DropdownMenu from '@/components/DropdownMenu';
+
 import MethodDropdownMenu from '@/components/MethodDropdownMenu';
 import { useMascaStore } from '@/stores';
 import {
@@ -15,6 +15,8 @@ import {
   NETWORKS_BY_DID,
   getAvailableNetworksList,
 } from '@/utils/networks';
+import { Network } from 'ethers';
+import NetworkDropDownMenu from '@/components/NetworkDropDownMenu';
 
 export const NavConnection = () => {
   const { switchChain } = useSwitchChain();
@@ -80,7 +82,7 @@ export const NavConnection = () => {
         currMethod === 'did:ens' ||
         currMethod === 'did:iden3') && (
         <div className="hidden md:block">
-          <DropdownMenu
+          <NetworkDropDownMenu
             size="method"
             rounded="full"
             shadow="none"
