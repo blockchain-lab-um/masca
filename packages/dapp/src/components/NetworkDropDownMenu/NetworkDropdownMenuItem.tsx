@@ -90,7 +90,7 @@ export default function NetworkDropdownMenuItem({
             />
           </span>
           <span className="col-span-4 flex justify-center">
-            <div className="text-left">{children.name}</div>
+            <div className="text-center">{children.name}</div>
           </span>
           <span className="col-span-2">
             {selected && <CheckIcon className="ml-3 h-4 w-4 lg:h-5 lg:w-5" />}

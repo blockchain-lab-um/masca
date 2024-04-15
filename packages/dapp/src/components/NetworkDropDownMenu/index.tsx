@@ -91,7 +91,7 @@ export default function NetworkDropDownMenu({
         {selected || <TextSkeleton className="h-4 w-16" />}
         {selected && (
           <ChevronDownIcon
-            className={`animated-transition -mr-1 ml-2 h-5 w-5 ${
+            className={`animated-transition h-5 w-5 ml-2 mr-2 ${
               open ? 'rotate-180 ' : ''
             }`}
             aria-hidden="true"
