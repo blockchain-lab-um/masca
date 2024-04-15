@@ -64,7 +64,7 @@ export default function NetworkDropdownMenuItem({
   const handleMouseLeave = () => setIsActive(false);
 
   return (
-    <DropdownMenuItem>
+    <DropdownMenuItem className="p-0">
       <button
         type="button"
         className={clsx(
@@ -81,8 +81,12 @@ export default function NetworkDropdownMenuItem({
             <Image
               src={children.logo}
               alt={`${children.name} logo`}
-              width={14}
-              height={14}
+              style={{
+                width: '35%',
+                height: '35%',
+              }}
+              width={16}
+              height={16}
             />
           </span>
           <span className="col-span-4 flex justify-center">

@@ -99,16 +99,18 @@ export default function NetworkDropDownMenu({
         )}
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="dark:bg-navy-blue-600 absolute right-0 mt-1 w-48 rounded-3xl bg-white shadow-lg focus:outline-none border-none">
-        {items.map((item) => (
-          <NetworkDropdownMenuItem
-            key={item.name}
-            children={item}
-            selected={selected === item.name}
-            handleBtn={setSelected}
-            variant={variant}
-          />
-        ))}
+      <DropdownMenuContent className="dark:bg-navy-blue-600 mt-1 w-48 rounded-3xl bg-white shadow-lg focus:outline-none border-none p-1">
+        <div className="p-1">
+          {items.map((item) => (
+            <NetworkDropdownMenuItem
+              key={item.name}
+              children={item}
+              selected={selected === item.name}
+              handleBtn={setSelected}
+              variant={variant}
+            />
+          ))}
+        </div>
       </DropdownMenuContent>
     </DropdownMenu>
   );
