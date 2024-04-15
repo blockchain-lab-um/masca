@@ -15,7 +15,7 @@ import {
   NETWORKS_BY_DID,
   getAvailableNetworksList,
 } from '@/utils/networks';
-import { Network } from 'ethers';
+
 import NetworkDropDownMenu from '@/components/NetworkDropDownMenu';
 
 export const NavConnection = () => {
@@ -41,7 +41,7 @@ export const NavConnection = () => {
       (NETWORKS_BY_DID[currMethod].includes(stringified) ||
         NETWORKS_BY_DID[currMethod].includes('*'))
     ) {
-      return network;
+      return network.name;
     }
     return t('unsupported-network');
   };
@@ -59,7 +59,9 @@ export const NavConnection = () => {
   }, [chainId, currMethod]);
 
   const setNetwork = async (network: string) => {
-    const key = Object.keys(NETWORKS).find((val) => NETWORKS[val] === network);
+    const key = Object.keys(NETWORKS).find(
+      (val) => NETWORKS[val].name === network
+    );
     if (key) {
       switchChain(
         { chainId: Number(key) },

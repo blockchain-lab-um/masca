@@ -2,9 +2,13 @@ import { CheckIcon } from '@heroicons/react/24/outline';
 import { clsx } from 'clsx';
 
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
+import type { Network } from '@/utils/networks';
+
+import Image from 'next/image';
+import { useState } from 'react';
 
 interface DropdownMenuItemProps {
-  children: React.ReactNode;
+  children: Network;
   handleBtn: (text: string) => void;
   selected: boolean;
   variant?:
@@ -55,26 +59,40 @@ export default function NetworkDropdownMenuItem({
   selected,
   variant = 'primary',
 }: DropdownMenuItemProps) {
+  const [isActive, setIsActive] = useState(false);
+  const handleMouseEnter = () => setIsActive(true);
+  const handleMouseLeave = () => setIsActive(false);
+
   return (
-    <DropdownMenuItem
-      className={clsx(
-        'md:text-md block w-full rounded-full py-2 text-sm',
-        selected ? variantsSelected[variant] : variantsSelectedElse[variant]
-      )}
-      onClick={() => handleBtn(children as string)}
-    >
-      <div className="grid grid-cols-8">
-        <span className="col-span-2">
-          {/* TODO: Add network logos */}
-          {selected && <CheckIcon className="ml-3 h-4 w-4 lg:h-5 lg:w-5" />}
-        </span>
-        <span className="col-span-4 flex justify-center">
-          <div className="text-left">{children}</div>
-        </span>
-        <span className="col-span-2">
-          {selected && <CheckIcon className="ml-3 h-4 w-4 lg:h-5 lg:w-5" />}
-        </span>
-      </div>
+    <DropdownMenuItem>
+      <button
+        type="button"
+        className={clsx(
+          'md:text-md block w-full rounded-full py-2 text-sm',
+          isActive ? variants[variant] : null,
+          selected ? variantsSelected[variant] : variantsSelectedElse[variant]
+        )}
+        onClick={() => handleBtn(children.name as string)}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <div className="grid grid-cols-8 items-center">
+          <span className="col-span-2 flex items-center justify-center">
+            <Image
+              src={children.logo}
+              alt={`${children.name} logo`}
+              width={14}
+              height={14}
+            />
+          </span>
+          <span className="col-span-4 flex justify-center">
+            <div className="text-left">{children.name}</div>
+          </span>
+          <span className="col-span-2">
+            {selected && <CheckIcon className="ml-3 h-4 w-4 lg:h-5 lg:w-5" />}
+          </span>
+        </div>
+      </button>
     </DropdownMenuItem>
   );
 }

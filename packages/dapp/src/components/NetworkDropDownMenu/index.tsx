@@ -13,8 +13,10 @@ import NetworkDropdownMenuItem from './NetworkDropdownMenuItem';
 import { TextSkeleton } from '../Skeletons/TextSkeleton';
 import { ChevronDownIcon } from 'lucide-react';
 
+import type { Network } from '@/utils/networks';
+
 interface DropdownMenuProps {
-  items: string[];
+  items: Network[];
   multiple?: boolean;
   selected: string;
   variant?:
@@ -82,7 +84,8 @@ export default function NetworkDropDownMenu({
           sizes[size],
           `rounded-${rounded}`,
           `shadow-${shadow}`,
-          'ring-none outline-none'
+          'ring-none outline-none',
+          open ? variantsHover[variant] : ''
         )}
       >
         {selected || <TextSkeleton className="h-4 w-16" />}
@@ -95,12 +98,15 @@ export default function NetworkDropDownMenu({
           />
         )}
       </DropdownMenuTrigger>
+
       <DropdownMenuContent className="dark:bg-navy-blue-600 absolute right-0 mt-1 w-48 rounded-3xl bg-white shadow-lg focus:outline-none border-none">
         {items.map((item) => (
           <NetworkDropdownMenuItem
+            key={item.name}
             children={item}
-            selected={selected === item}
+            selected={selected === item.name}
             handleBtn={setSelected}
+            variant={variant}
           />
         ))}
       </DropdownMenuContent>

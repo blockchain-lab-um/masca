@@ -1,8 +1,25 @@
-export const NETWORKS: Record<string, string> = {
-  '0x1': 'Ethereum',
-  '0xaa36a7': 'Sepolia',
-  '0x89': 'Polygon',
-  '0x13881': 'Polygon Mumbai',
+export type Network = {
+  name: string;
+  logo: string;
+};
+
+export const NETWORKS: Record<string, Network> = {
+  '0x1': {
+    name: 'Ethereum',
+    logo: '/images/ethereum_logo.svg',
+  },
+  '0xaa36a7': {
+    name: 'Sepolia',
+    logo: '',
+  },
+  '0x89': {
+    name: 'Polygon',
+    logo: '/images/polygon_matic_logo.svg',
+  },
+  '0x13881': {
+    name: 'Polygon Mumbai',
+    logo: '',
+  },
 };
 
 export const NETWORKS_BY_DID: Record<string, string[]> = {
@@ -13,7 +30,7 @@ export const NETWORKS_BY_DID: Record<string, string[]> = {
   'did:iden3': ['0x1', '0x89', '0x13881'],
 };
 
-export function getAvailableNetworksList(method: string): string[] {
+export function getAvailableNetworksList(method: string): Network[] {
   if (NETWORKS_BY_DID[method].includes('*')) {
     return Object.values(NETWORKS);
   }
