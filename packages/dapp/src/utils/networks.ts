@@ -10,7 +10,7 @@ export const NETWORKS: Record<string, Network> = {
   },
   '0xaa36a7': {
     name: 'Sepolia',
-    logo: '',
+    logo: '/images/ethereum_logo.svg',
   },
   '0x89': {
     name: 'Polygon',
@@ -18,7 +18,7 @@ export const NETWORKS: Record<string, Network> = {
   },
   '0x13881': {
     name: 'Polygon Mumbai',
-    logo: '',
+    logo: '/images/polygon_matic_logo.svg',
   },
 };
 
