@@ -192,15 +192,7 @@ const SettingsCard = () => {
 
   return (
     <div className="p-6">
-      <div className="flex w-full h-full justify-between">
-        <Link href="/app" className="flex items-center">
-          <button
-            type="button"
-            className="animated-transition dark:text-navy-blue-50 dark:hover:bg-navy-blue-700 rounded-full text-gray-800 hover:bg-pink-100 hover:text-pink-700"
-          >
-            <ArrowLeftIcon className="h-6 w-6" />
-          </button>
-        </Link>
+      <div className="flex w-full h-full justify-end items-center">
         <div className="text-h3 dark:text-navy-blue-50 font-semibold text-gray-800">
           {t('title')}
         </div>
