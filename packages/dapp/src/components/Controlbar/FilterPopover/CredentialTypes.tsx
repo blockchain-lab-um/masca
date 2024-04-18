@@ -49,7 +49,8 @@ export const CredentialTypes = () => {
                 );
               }}
             >
-              clear ({credentialTypes.filter((type) => type.selected).length})
+              {t('clear')} (
+              {credentialTypes.filter((type) => type.selected).length})
             </button>
           ) : (
             <button

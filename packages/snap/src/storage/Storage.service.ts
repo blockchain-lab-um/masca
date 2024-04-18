@@ -6,7 +6,7 @@ import {
 
 import { getInitialSnapState } from '../utils/config';
 import SnapStorage from './Snap.storage';
-import { migrateToV2 } from 'src/utils/stateMigration';
+import { migrateToV2, migrateToV3 } from 'src/utils/stateMigration';
 
 class StorageService {
   static instance: MascaState;
@@ -46,8 +46,13 @@ class StorageService {
     if (state[CURRENT_STATE_VERSION]) return state;
 
     let newState = state;
-    if (state.v1) {
-      newState = migrateToV2(state);
+
+    if (newState.v1) {
+      newState = migrateToV2(newState);
+    }
+
+    if (newState.v2) {
+      newState = migrateToV3(newState);
     }
 
     return newState;

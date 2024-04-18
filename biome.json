@@ -25,8 +25,7 @@
       "patches/**",
       "assets/**",
       ".changeset/**",
-      ".nx/**",
-      "post-process.js"
+      ".nx/**"
     ]
   },
   "organizeImports": {

@@ -30,7 +30,8 @@ function FilterPopover({ vcs }: FilterPopoverProps) {
         return;
       }
       vc.data.type.forEach((type: string) => {
-        if (type !== 'VerifiableCredential') allCredentialTypes.push(type);
+        // if (type !== 'VerifiableCredential')
+        allCredentialTypes.push(type);
       });
     });
     const availableCredentialTypes = [...new Set(allCredentialTypes)];
