@@ -183,6 +183,7 @@ export const ShareCredentialModal = () => {
       backdrop="blur"
       size="4xl"
       isOpen={isOpen}
+      isDismissable={false}
       onClose={() => setIsOpen(false)}
       hideCloseButton={true}
       placement="center"
