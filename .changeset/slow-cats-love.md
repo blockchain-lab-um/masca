@@ -2,4 +2,4 @@
 "@blockchain-lab-um/dapp": patch
 ---
 
-improves dropdowns.
+Improves dropdowns.
