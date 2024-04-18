@@ -1,8 +1,13 @@
 import jwt from 'jsonwebtoken';
 import { type NextRequest, NextResponse } from 'next/server';
+import {
+  type VerificationResult,
+  VerificationService,
+} from '@blockchain-lab-um/extended-verification';
 
-import { getAgent } from '../../veramoSetup';
 import { supabaseServiceRoleClient } from '@/utils/supabase/supabaseServiceRoleClient';
+import type { W3CVerifiablePresentation } from '@veramo/core';
+import { isError, type Result } from '@blockchain-lab-um/masca-connector';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -54,18 +59,34 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const agent = await getAgent();
-    const { verified } = await agent.verifyPresentation({
-      presentation,
-    });
+    await VerificationService.init();
+    const verifiedResult: Result<VerificationResult> =
+      await VerificationService.verify(
+        presentation as W3CVerifiablePresentation
+      );
 
-    if (!verified) {
-      return new NextResponse('Presentation not valid', {
-        status: 400,
+    if (isError(verifiedResult)) {
+      return new NextResponse('Failed to verify presentation', {
+        status: 500,
         headers: {
           ...CORS_HEADERS,
         },
       });
+    }
+
+    if (!verifiedResult.data.verified) {
+      return NextResponse.json(
+        {
+          message: 'Invalid presentation',
+          details: verifiedResult.data.details,
+        },
+        {
+          status: 400,
+          headers: {
+            ...CORS_HEADERS,
+          },
+        }
+      );
     }
 
     const supabase = supabaseServiceRoleClient();
