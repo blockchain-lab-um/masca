@@ -8,6 +8,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
+import Image from 'next/image';
+
 import clsx from 'clsx';
 import NetworkDropdownMenuItem from './NetworkDropdownMenuItem';
 import { TextSkeleton } from '../Skeletons/TextSkeleton';
@@ -88,15 +90,33 @@ export default function NetworkDropDownMenu({
           open ? variantsHover[variant] : ''
         )}
       >
-        {selected || <TextSkeleton className="h-4 w-16" />}
-        {selected && (
-          <ChevronDownIcon
-            className={`animated-transition h-5 w-5 ml-2 mr-2 ${
-              open ? 'rotate-180 ' : ''
-            }`}
-            aria-hidden="true"
-          />
-        )}
+        <div className="flex items-center justify-center p-1">
+          {selected && (
+            <Image
+              src={items.find((item) => item.name === selected)?.logo ?? ''}
+              alt={selected}
+              style={{
+                width: '100%',
+                height: 'auto',
+                backgroundColor: items.find((item) => item.name === selected)
+                  ?.backgroundColor,
+                borderRadius: '25%',
+              }}
+              width={16}
+              height={16}
+            />
+          )}
+          <div>
+            {selected && (
+              <ChevronDownIcon
+                className={`animated-transition h-5 w-5 ml-2 mr-2 ${
+                  open ? 'rotate-180 ' : ''
+                }`}
+                aria-hidden="true"
+              />
+            )}
+          </div>
+        </div>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="dark:bg-navy-blue-600 mt-1 w-48 rounded-3xl bg-white shadow-lg focus:outline-none border-none p-1">

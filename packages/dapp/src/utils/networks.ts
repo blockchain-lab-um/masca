@@ -1,24 +1,29 @@
 export type Network = {
   name: string;
   logo: string;
+  backgroundColor: string;
 };
 
 export const NETWORKS: Record<string, Network> = {
   '0x1': {
     name: 'Ethereum',
     logo: '/images/ethereum_logo.svg',
+    backgroundColor: '#6B8AFF33',
   },
   '0xaa36a7': {
     name: 'Sepolia',
     logo: '/images/ethereum_logo.svg',
+    backgroundColor: '#6B8AFF33',
   },
   '0x89': {
     name: 'Polygon',
     logo: '/images/polygon_matic_logo.svg',
+    backgroundColor: '#9558FF33',
   },
   '0x13881': {
-    name: 'Polygon Mumbai',
+    name: 'Mumbai',
     logo: '/images/polygon_matic_logo.svg',
+    backgroundColor: '#9558FF33',
   },
 };
 

@@ -82,15 +82,17 @@ export default function NetworkDropdownMenuItem({
               src={children.logo}
               alt={`${children.name} logo`}
               style={{
-                width: '35%',
-                height: '35%',
+                width: '50%',
+                height: 'auto',
+                backgroundColor: children.backgroundColor,
+                borderRadius: '25%',
               }}
               width={16}
               height={16}
             />
           </span>
-          <span className="col-span-4 flex justify-center">
-            <div className="text-center">{children.name}</div>
+          <span className="col-span-4 flex justify-start">
+            <div className="text-left">{children.name}</div>
           </span>
           <span className="col-span-2">
             {selected && <CheckIcon className="ml-3 h-4 w-4 lg:h-5 lg:w-5" />}
