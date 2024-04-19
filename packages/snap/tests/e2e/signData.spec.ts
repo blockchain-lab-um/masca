@@ -166,7 +166,7 @@ const JWZ_TEST_CASES = [
   // Test Polygon testnet
   {
     method: 'did:polygonid',
-    network: '0x13881',
+    network: '0x13882',
     input: {
       type: 'JWZ',
       data: {
@@ -177,7 +177,7 @@ const JWZ_TEST_CASES = [
   },
   {
     method: 'did:iden3',
-    network: '0x13881',
+    network: '0x13882',
     input: {
       type: 'JWZ',
       data: {

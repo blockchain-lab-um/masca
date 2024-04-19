@@ -5,6 +5,7 @@ import type { W3CVerifiableCredential } from '@veramo/core';
 import type {
   AvailableCredentialStores,
   AvailableMethods,
+  CURRENT_STATE_VERSION,
 } from './constants.js';
 import type { MascaRPCRequest } from './requests.js';
 
@@ -35,7 +36,7 @@ export interface MascaAccountConfig {
 }
 
 export interface MascaState {
-  v3: {
+  [CURRENT_STATE_VERSION]: {
     accountState: Record<string, MascaAccountState>;
     currentAccount: string;
     config: MascaConfig;
@@ -74,13 +75,13 @@ export enum Blockchain {
 
 export enum NetworkId {
   Main = 'main',
-  Mumbai = 'mumbai',
+  Amoy = 'amoy',
 }
 
 export type PolygonState = Record<
   DidMethod.Iden3 | DidMethod.PolygonId,
   Record<
     Blockchain.Polygon,
-    Record<NetworkId.Main | NetworkId.Mumbai, PolygonBaseState>
+    Record<NetworkId.Main | NetworkId.Amoy, PolygonBaseState>
   >
 >;

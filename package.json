@@ -24,11 +24,7 @@
     "email": "blockchain-lab@um.si",
     "url": "https://blockchain-lab.um.si"
   },
-  "workspaces": [
-    "packages/*",
-    "apps/**/*",
-    "libs/**/*"
-  ],
+  "workspaces": ["packages/*", "apps/**/*", "libs/**/*"],
   "scripts": {
     "build": "pnpm nx run-many --target=build",
     "build:docker": "./scripts/build-docker.sh",
