@@ -1,5 +1,6 @@
 export type Network = {
   name: string;
+  isTestnet?: boolean;
   logo: string;
   backgroundColor: string;
 };
@@ -12,6 +13,7 @@ export const NETWORKS: Record<string, Network> = {
   },
   '0xaa36a7': {
     name: 'Sepolia',
+    isTestnet: true,
     logo: '/images/ethereum_logo.svg',
     backgroundColor: '#6B8AFF33',
   },
@@ -22,6 +24,7 @@ export const NETWORKS: Record<string, Network> = {
   },
   '0x13881': {
     name: 'Mumbai',
+    isTestnet: true,
     logo: '/images/polygon_matic_logo.svg',
     backgroundColor: '#9558FF33',
   },

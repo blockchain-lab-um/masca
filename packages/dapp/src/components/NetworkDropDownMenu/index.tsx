@@ -6,16 +6,20 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
+
+import { Switch } from '@/components/ui/switch';
 
 import Image from 'next/image';
 
 import clsx from 'clsx';
 import NetworkDropdownMenuItem from './NetworkDropdownMenuItem';
-import { TextSkeleton } from '../Skeletons/TextSkeleton';
 import { ChevronDownIcon } from 'lucide-react';
 
 import type { Network } from '@/utils/networks';
+import { useToastStore } from '@/stores';
+import { useTranslations } from 'next-intl';
 
 interface DropdownMenuProps {
   items: Network[];
@@ -66,6 +70,10 @@ const variantsHover: Record<string, string> = {
   method: 'dark:bg-navy-blue-800 bg-orange-100/50',
 };
 
+function isSelectedTestnet(selected: string, items: Network[]): boolean {
+  return items.find((item) => item.name === selected)?.isTestnet ?? false;
+}
+
 export default function NetworkDropDownMenu({
   items,
   selected,
@@ -75,7 +83,14 @@ export default function NetworkDropDownMenu({
   rounded = 'full',
   shadow = 'sm',
 }: DropdownMenuProps) {
+  const t = useTranslations('NavConnection');
   const [open, setOpen] = useState(false);
+  const [showTestNets, setShowTestNets] = useState(
+    isSelectedTestnet(selected, items)
+  );
+  const filteredNetworks = items.filter(
+    (item) => showTestNets || !item.isTestnet
+  );
 
   return (
     <DropdownMenu onOpenChange={() => setOpen(!open)}>
@@ -121,7 +136,7 @@ export default function NetworkDropDownMenu({
 
       <DropdownMenuContent className="dark:bg-navy-blue-600 mt-1 w-48 rounded-3xl bg-white shadow-lg focus:outline-none border-none p-1">
         <div className="p-1">
-          {items.map((item) => (
+          {filteredNetworks.map((item) => (
             <NetworkDropdownMenuItem
               key={item.name}
               children={item}
@@ -130,6 +145,36 @@ export default function NetworkDropDownMenu({
               variant={variant}
             />
           ))}
+        </div>
+
+        <DropdownMenuSeparator className="bg-gray-900" />
+
+        <div className="flex items-center justify-around p-1">
+          <span className="text-sm">Show testnets</span>
+          <div className="flex items-center justify-center">
+            <Switch
+              checked={showTestNets}
+              onCheckedChange={() => {
+                if (isSelectedTestnet(selected, items)) {
+                  setTimeout(() => {
+                    useToastStore.setState({
+                      open: true,
+                      title: t('disable-testnet-switch'),
+                      type: 'error',
+                      loading: false,
+                      link: null,
+                    });
+                  });
+                } else {
+                  setShowTestNets(!showTestNets);
+                }
+              }}
+              className={clsx(
+                showTestNets ? 'bg-orange-100 dark:bg-orange-accent-dark' : '',
+                'scale-80'
+              )}
+            />
+          </div>
         </div>
       </DropdownMenuContent>
     </DropdownMenu>
