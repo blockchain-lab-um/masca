@@ -1,7 +1,7 @@
 const fs = require('node:fs');
 const pathUtils = require('node:path');
 
-const { postProcessBundle } = require('@metamask/snaps-utils');
+const { postProcessBundle } = require('@metamask/snaps-utils/node');
 
 console.log('Post-processing bundle');
 
