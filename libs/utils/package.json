@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/utils",
-  "version": "1.3.8",
+  "version": "1.4.0-beta.0",
   "private": false,
   "description": "Helper utilities for Masca monorepo",
   "keywords": [],
@@ -19,7 +19,12 @@
   "module": "./dist/index.js",
   "source": "./src/index.ts",
   "types": "./dist/index.d.ts",
-  "files": ["dist/**", "README.md", "package.json", "CHANGELOG.md"],
+  "files": [
+    "dist/**",
+    "README.md",
+    "package.json",
+    "CHANGELOG.md"
+  ],
   "scripts": {
     "build": "pnpm clean && pnpm compile",
     "clean": "rimraf dist",

@@ -1,5 +1,28 @@
 # Changelog
 
+## 1.3.0-beta.1
+
+### Minor Changes
+
+- [#627](https://github.com/blockchain-lab-um/masca/pull/627) [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459) Thanks [@martines3000](https://github.com/martines3000)! - Deprecate Polygon Mumbai and add support for Polygon Amoy.
+
+- [#617](https://github.com/blockchain-lab-um/masca/pull/617) [`3f6d73e`](https://github.com/blockchain-lab-um/masca/commit/3f6d73eeee4c6b9a6b869b8e075c6dc147b4fd80) Thanks [@martines3000](https://github.com/martines3000)! - Update snaps libraries
+
+### Patch Changes
+
+- [#623](https://github.com/blockchain-lab-um/masca/pull/623) [`34fef30`](https://github.com/blockchain-lab-um/masca/commit/34fef30741b91440366ec7abe980c825a6ab01f5) Thanks [@tadejpodrekar](https://github.com/tadejpodrekar)! - Use external verification for verifyData rpc.
+
+- [#627](https://github.com/blockchain-lab-um/masca/pull/627) [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459) Thanks [@martines3000](https://github.com/martines3000)! - Update Veramo and iden3 libraries
+
+- Updated dependencies [[`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459)]:
+  - @blockchain-lab-um/oidc-client-plugin@0.4.0-beta.0
+  - @blockchain-lab-um/utils@1.4.0-beta.0
+  - @blockchain-lab-um/extended-verification@0.2.0-beta.0
+  - @blockchain-lab-um/did-provider-key@1.1.0-beta.0
+  - @blockchain-lab-um/masca-types@1.4.0-beta.0
+  - @blockchain-lab-um/oidc-types@0.1.0-beta.0
+  - @blockchain-lab-um/veramo-datamanager@1.1.0-beta.0
+
 ## 1.2.3-beta.0
 
 ### Patch Changes

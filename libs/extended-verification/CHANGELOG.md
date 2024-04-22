@@ -1,5 +1,18 @@
 # @blockchain-lab-um/extended-verification
 
+## 0.2.0-beta.0
+
+### Minor Changes
+
+- [#627](https://github.com/blockchain-lab-um/masca/pull/627) [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459) Thanks [@martines3000](https://github.com/martines3000)! - Update Veramo libraries.
+
+### Patch Changes
+
+- Updated dependencies [[`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459)]:
+  - @blockchain-lab-um/utils@1.4.0-beta.0
+  - @blockchain-lab-um/did-provider-key@1.1.0-beta.0
+  - @blockchain-lab-um/masca-types@1.4.0-beta.0
+
 ## 0.1.2
 
 ### Patch Changes
