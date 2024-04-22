@@ -2,12 +2,7 @@
   "name": "@blockchain-lab-um/oidc-types",
   "version": "0.1.0-beta.0",
   "description": "Types for OIDC.",
-  "keywords": [
-    "ssi",
-    "oidc",
-    "vc",
-    "vp"
-  ],
+  "keywords": ["ssi", "oidc", "vc", "vp"],
   "license": "(Apache-2.0 AND MIT)",
   "author": {
     "name": "Blockchain Lab:UM",
@@ -19,12 +14,7 @@
   "module": "./dist/index.js",
   "source": "./src/index.ts",
   "types": "./dist/index.d.ts",
-  "files": [
-    "dist/**",
-    "README.md",
-    "package.json",
-    "CHANGELOG.md"
-  ],
+  "files": ["dist/**", "README.md", "package.json", "CHANGELOG.md"],
   "scripts": {
     "build": "pnpm clean && pnpm compile",
     "clean": "rimraf dist",
