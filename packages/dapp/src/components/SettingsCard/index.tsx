@@ -1,10 +1,8 @@
 'use client';
 
 import { isError } from '@blockchain-lab-um/masca-connector';
-import { ArrowLeftIcon } from '@heroicons/react/20/solid';
 import { saveAs } from 'file-saver';
 import { useTranslations } from 'next-intl';
-import Link from 'next/link';
 
 import ToggleSwitch from '@/components/Switch';
 import { useMascaStore, useToastStore } from '@/stores';
