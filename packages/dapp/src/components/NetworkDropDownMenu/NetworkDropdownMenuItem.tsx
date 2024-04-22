@@ -6,6 +6,7 @@ import type { Network } from '@/utils/networks';
 
 import Image from 'next/image';
 import { useState } from 'react';
+import { useTheme } from 'next-themes';
 
 interface DropdownMenuItemProps {
   children: Network;
@@ -59,9 +60,13 @@ export default function NetworkDropdownMenuItem({
   selected,
   variant = 'primary',
 }: DropdownMenuItemProps) {
+  const { resolvedTheme } = useTheme();
   const [isActive, setIsActive] = useState(false);
   const handleMouseEnter = () => setIsActive(true);
   const handleMouseLeave = () => setIsActive(false);
+
+  const networkBackgroundColor =
+    resolvedTheme === 'dark' ? '#ffffffbf' : children.backgroundColor;
 
   return (
     <DropdownMenuItem className="p-0">
@@ -84,7 +89,7 @@ export default function NetworkDropdownMenuItem({
               style={{
                 width: '50%',
                 height: 'auto',
-                backgroundColor: children.backgroundColor,
+                backgroundColor: networkBackgroundColor,
                 borderRadius: '25%',
               }}
               width={16}

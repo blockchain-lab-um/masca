@@ -20,6 +20,7 @@ import { ChevronDownIcon } from 'lucide-react';
 import type { Network } from '@/utils/networks';
 import { useToastStore } from '@/stores';
 import { useTranslations } from 'next-intl';
+import { useTheme } from 'next-themes';
 
 interface DropdownMenuProps {
   items: Network[];
@@ -84,13 +85,21 @@ export default function NetworkDropDownMenu({
   shadow = 'sm',
 }: DropdownMenuProps) {
   const t = useTranslations('NavConnection');
+  const { resolvedTheme } = useTheme();
   const [open, setOpen] = useState(false);
+
   const [showTestNets, setShowTestNets] = useState(
     isSelectedTestnet(selected, items)
   );
+
   const filteredNetworks = items.filter(
     (item) => showTestNets || !item.isTestnet
   );
+
+  const networkBackgroundColor =
+    resolvedTheme === 'dark'
+      ? '#ffffffbf'
+      : items.find((item) => item.name === selected)?.backgroundColor;
 
   return (
     <DropdownMenu onOpenChange={() => setOpen(!open)}>
@@ -113,8 +122,7 @@ export default function NetworkDropDownMenu({
               style={{
                 width: '100%',
                 height: 'auto',
-                backgroundColor: items.find((item) => item.name === selected)
-                  ?.backgroundColor,
+                backgroundColor: networkBackgroundColor,
                 borderRadius: '25%',
               }}
               width={16}
