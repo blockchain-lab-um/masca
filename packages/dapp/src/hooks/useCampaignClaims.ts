@@ -18,11 +18,12 @@ export type Campaigns = Campaign[];
 export const useCampaignClaims = (token: string | null) => {
   return useQuery({
     queryKey: ['claims'],
+    enabled: !!token,
     queryFn: async () => {
       const res = await fetch('/api/campaigns/claims', {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          ...(token && { Authorization: `Bearer ${token}` }),
         },
         cache: 'no-store',
       });
