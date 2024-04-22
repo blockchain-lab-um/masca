@@ -1,4 +1,8 @@
 import {
+  type VerificationResult,
+  VerificationService,
+} from '@blockchain-lab-um/extended-verification';
+import {
   KeyDIDProvider,
   getDidKeyResolver as keyDidResolver,
 } from '@blockchain-lab-um/did-provider-key';
@@ -111,6 +115,7 @@ class VeramoService {
 
   static async init(): Promise<void> {
     VeramoService.instance = await VeramoService.createAgent();
+    await VerificationService.init();
   }
 
   /**
@@ -516,28 +521,22 @@ class VeramoService {
   static async verifyData(
     params: VerifyDataRequestParams
   ): Promise<IVerifyResult> {
-    try {
-      const { credential, presentation } = params;
+    const { credential, presentation } = params;
 
-      if (credential) {
-        const vcResult = await VeramoService.instance.verifyCredential({
-          credential,
-        });
-        return JSON.parse(JSON.stringify(vcResult)) as IVerifyResult;
-      }
-      if (presentation) {
-        const vpResult = await VeramoService.instance.verifyPresentation({
-          presentation,
-        });
-        return JSON.parse(JSON.stringify(vpResult)) as IVerifyResult;
-      }
-      return {
-        verified: false,
-        error: new Error('No valid credential or presentation.'),
-      } as IVerifyResult;
-    } catch (error: unknown) {
-      return { verified: false, error: error as Error } as IVerifyResult;
+    let result: Result<VerificationResult> | undefined = undefined;
+    if (credential) {
+      result = await VerificationService.verify(credential);
+    } else if (presentation) {
+      result = await VerificationService.verify(presentation);
     }
+
+    if (!result) throw new Error('No valid credential or presentation.');
+
+    if (isError(result)) {
+      throw new Error(result.error);
+    }
+
+    return result.data as IVerifyResult;
   }
 
   static async handleOIDCCredentialOffer(params: {
