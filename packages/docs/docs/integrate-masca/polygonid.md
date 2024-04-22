@@ -20,7 +20,7 @@ This part handles credential offers, which are received from Polygon ID issuers.
 // The credential offer received from a Polygon ID issuer
 // The credential offer is a JSON string
 const credentialOffer: string =
-  '{"body":{"credentials":[{"description":"KYCAgeCredential","id":"348a8620-40fd-11ee-beda-0242ac1d0006"}],"url":"https://dev.polygonid.me/api/v1/agent"},"from":"did:polygonid:polygon:mumbai:2qLPqvayNQz9TA2r5VPxUugoF18teGU583zJ859wfy","id":"3a0fbba4-601c-4773-baca-0b8f0cfc7f43","thid":"3a0fbba4-601c-4773-baca-0b8f0cfc7f43","to":"did:polygonid:polygon:main:2q6KWUhghmPGRuh8GFMzDX3EYp1WVspWN9ZdQEk4D2","typ":"application/iden3comm-plain-json","type":"https://iden3-communication.io/credentials/1.0/offer"}';
+  '{"body":{"credentials":[{"description":"KYCAgeCredential","id":"348a8620-40fd-11ee-beda-0242ac1d0006"}],"url":"https://dev.polygonid.me/api/v1/agent"},"from":"did:polygonid:polygon:amoy:2qLPqvayNQz9TA2r5VPxUugoF18teGU583zJ859wfy","id":"3a0fbba4-601c-4773-baca-0b8f0cfc7f43","thid":"3a0fbba4-601c-4773-baca-0b8f0cfc7f43","to":"did:polygonid:polygon:main:2q6KWUhghmPGRuh8GFMzDX3EYp1WVspWN9ZdQEk4D2","typ":"application/iden3comm-plain-json","type":"https://iden3-communication.io/credentials/1.0/offer"}';
 
 const handleCredentialOfferResponse = api.handleCredentialOffer({
   credentialOffer,
@@ -48,7 +48,7 @@ This part handles authorization requests, which are received from Polygon ID ver
 // The authorization request received from a Polygon ID verifier
 // The authorization request is a JSON string
 const authorizationRequest: string =
-  '{"body":{"callbackUrl":"https://issuer-v2.polygonid.me/api/callback?sessionId=334944","reason":"test flow","scope":[]},"from":"did:polygonid:polygon:mumbai:2qLPqvayNQz9TA2r5VPxUugoF18teGU583zJ859wfy","id":"ea786170-f45f-4f13-b631-c4a7bbc03905","thid":"ea786170-f45f-4f13-b631-c4a7bbc03905","typ":"application/iden3comm-plain-json","type":"https://iden3-communication.io/authorization/1.0/request"}';
+  '{"body":{"callbackUrl":"https://issuer-v2.polygonid.me/api/callback?sessionId=334944","reason":"test flow","scope":[]},"from":"did:polygonid:polygon:amoy:2qLPqvayNQz9TA2r5VPxUugoF18teGU583zJ859wfy","id":"ea786170-f45f-4f13-b631-c4a7bbc03905","thid":"ea786170-f45f-4f13-b631-c4a7bbc03905","typ":"application/iden3comm-plain-json","type":"https://iden3-communication.io/authorization/1.0/request"}';
 
 const handleAuthorizationRequestResponse = api.handleAuthorizationRequest({
   authorizationRequest,

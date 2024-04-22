@@ -8,14 +8,14 @@ import {
 export const RHS_URL = 'https://rhs-staging.polygonid.me';
 
 export const POLYGON_MAINNET_RPC_URL = 'https://polygon.llamarpc.com';
-export const POLYGON_MUMBAI_RPC_URL =
-  'https://polygon-mumbai.blockpi.network/v1/rpc/public';
+export const POLYGON_AMOY_RPC_URL =
+  'https://polygon-amoy.blockpi.network/v1/rpc/public';
 
 export const CONTRACT_POLYGON_MAINNET =
   '0x624ce98D2d27b20b8f8d521723Df8fC4db71D79D';
 
-export const CONTRACT_POLYGON_MUMBAI =
-  '0x134B1BE34911E39A8397ec6289782989729807a4';
+export const CONTRACT_POLYGON_AMOY =
+  '0x1a4cC30f2aA0377b0c3bc9848766D90cb4404124';
 
 export const getDefaultEthConnectionConfig = (
   blockchain: (typeof BLOCKCHAINS)[number],
@@ -28,9 +28,9 @@ export const getDefaultEthConnectionConfig = (
     if (networkId === NetworkId.Main) {
       url = POLYGON_MAINNET_RPC_URL;
       contractAddress = CONTRACT_POLYGON_MAINNET;
-    } else if (networkId === NetworkId.Mumbai) {
-      url = POLYGON_MUMBAI_RPC_URL;
-      contractAddress = CONTRACT_POLYGON_MUMBAI;
+    } else if (networkId === NetworkId.Amoy) {
+      url = POLYGON_AMOY_RPC_URL;
+      contractAddress = CONTRACT_POLYGON_AMOY;
     }
   }
 
@@ -56,16 +56,16 @@ export const getDefaultEthConnectionConfig = (
 
 export const METHODS = [DidMethod.PolygonId, DidMethod.Iden3] as const;
 export const BLOCKCHAINS = [Blockchain.Polygon] as const;
-export const NETWORKS = [NetworkId.Mumbai, NetworkId.Main] as const;
+export const NETWORKS = [NetworkId.Amoy, NetworkId.Main] as const;
 
 export const CHAIN_ID_TO_BLOCKCHAIN_AND_NETWORK_ID = {
   '0x89': {
     blockchain: Blockchain.Polygon,
     networkId: NetworkId.Main,
   },
-  '0x13881': {
+  '0x13882': {
     blockchain: Blockchain.Polygon,
-    networkId: NetworkId.Mumbai,
+    networkId: NetworkId.Amoy,
   },
 } as Record<
   string,

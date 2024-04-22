@@ -84,19 +84,19 @@ class PolygonService {
     DidMethod.Iden3 | DidMethod.PolygonId,
     Record<
       Blockchain.Polygon,
-      Record<NetworkId.Main | NetworkId.Mumbai, PolygonServicBaseInstance>
+      Record<NetworkId.Main | NetworkId.Amoy, PolygonServicBaseInstance>
     >
   > = {
     polygonid: {
       polygon: {
         main: {} as PolygonServicBaseInstance,
-        mumbai: {} as PolygonServicBaseInstance,
+        amoy: {} as PolygonServicBaseInstance,
       },
     },
     iden3: {
       polygon: {
         main: {} as PolygonServicBaseInstance,
-        mumbai: {} as PolygonServicBaseInstance,
+        amoy: {} as PolygonServicBaseInstance,
       },
     },
   };
@@ -190,7 +190,7 @@ class PolygonService {
   static async createBaseInstance(params: {
     method: DidMethod.Iden3 | DidMethod.PolygonId;
     blockchain: Blockchain.Polygon;
-    networkId: NetworkId.Main | NetworkId.Mumbai;
+    networkId: NetworkId.Main | NetworkId.Amoy;
     circuitData: CircuitData;
   }) {
     const { method, blockchain, networkId, circuitData } = params;
@@ -369,7 +369,7 @@ class PolygonService {
   static async createWallet(params: {
     method: DidMethod.Iden3 | DidMethod.PolygonId;
     blockchain: Blockchain.Polygon;
-    networkId: NetworkId.Main | NetworkId.Mumbai;
+    networkId: NetworkId.Main | NetworkId.Amoy;
   }) {
     const { method, blockchain, networkId } = params;
     const state = StorageService.get();

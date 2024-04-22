@@ -19,7 +19,7 @@
     "test:ci": "pnpm run test"
   },
   "dependencies": {
-    "@veramo/core": "5.6.1-next.57",
+    "@veramo/core": "6.0.0",
     "jsonpath": "^1.1.1",
     "uuid": "^9.0.1"
   },

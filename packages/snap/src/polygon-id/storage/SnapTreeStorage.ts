@@ -32,7 +32,7 @@ export class SnapTreeStorage implements ITreeStorage {
     private readonly account: string,
     private readonly method: DidMethod.Iden3 | DidMethod.PolygonId,
     private readonly blockchain: Blockchain.Polygon,
-    private readonly networkId: NetworkId.Main | NetworkId.Mumbai,
+    private readonly networkId: NetworkId.Main | NetworkId.Amoy,
     private readonly prefix: Bytes
   ) {
     this.currentRoot = ZERO_HASH;
