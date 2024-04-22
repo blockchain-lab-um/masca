@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.3-beta.0
+
+### Patch Changes
+
+- [#625](https://github.com/blockchain-lab-um/masca/pull/625) [`f29e494`](https://github.com/blockchain-lab-um/masca/commit/f29e494a8cb6a9de30682a59feb6adee7e15b1e7) Thanks [@martines3000](https://github.com/martines3000)! - Adjust nbf and iat for idtoken signing
+
 ## 1.2.2
 
 ### Patch Changes

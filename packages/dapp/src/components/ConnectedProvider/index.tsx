@@ -22,7 +22,7 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
   return isConnected ? (
     <>{children}</>
   ) : (
-    <div className="flex flex-col items-center justify-center px-6 sm:px-12 dark:bg-navy-blue-800 dark:text-navy-blue-400 py-12 rounded-3xl bg-white shadow-lg">
+    <div className="flex flex-col items-center h-full justify-center px-6 sm:px-12 dark:bg-navy-blue-800 dark:text-navy-blue-400 py-12 rounded-3xl bg-white shadow-lg">
       <div className="flex flex-col">
         <div className="flex w-full flex-col items-center justify-center">
           <h3 className="text-h4 sm:text-h3 dark:text-navy-blue-50 text-center text-gray-900">
