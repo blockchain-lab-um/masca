@@ -1,0 +1,16 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+deleted file mode 100644
+index f1f9cfdc963b8c7fdb664dfcc23168d5b6d3d965..0000000000000000000000000000000000000000
+diff --git a/dist/types/types/global.d.ts b/dist/types/types/global.d.ts
+index c3bd544a4c06ee552f753a913f6d39ca6f8575c1..a5e4d5f4650e52f6ce9d2ca97a3ca65475b27c08 100644
+--- a/dist/types/types/global.d.ts
++++ b/dist/types/types/global.d.ts
+@@ -3,6 +3,6 @@ import type { SnapsEthereumProvider, SnapsProvider } from './provider';
+  * Constants that are available globally in the Snap.
+  */
+ declare global {
+-    const ethereum: SnapsEthereumProvider;
+-    const snap: SnapsProvider;
++    var ethereum: SnapsEthereumProvider;
++    var snap: SnapsProvider;
+ }

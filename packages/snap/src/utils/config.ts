@@ -1,16 +1,17 @@
-import type {
-  DappPermissions,
-  MascaAccountConfig,
-  MascaAccountState,
-  MascaState,
-  PolygonBaseState,
-  PolygonState,
+import {
+  CURRENT_STATE_VERSION,
+  type DappPermissions,
+  type MascaAccountConfig,
+  type MascaAccountState,
+  type MascaState,
+  type PolygonBaseState,
+  type PolygonState,
 } from '@blockchain-lab-um/masca-types';
 import cloneDeep from 'lodash.clonedeep';
 
 export const UNIRESOLVER_PROXY_URL = 'https://masca.io/api/proxy/uniresolver';
 
-const emptyPolygonBaseState: PolygonBaseState = {
+export const emptyPolygonBaseState: PolygonBaseState = {
   credentials: {},
   identities: {},
   profiles: {},
@@ -22,13 +23,13 @@ const emptyPolygonState: PolygonState = {
   polygonid: {
     polygon: {
       main: cloneDeep(emptyPolygonBaseState),
-      mumbai: cloneDeep(emptyPolygonBaseState),
+      amoy: cloneDeep(emptyPolygonBaseState),
     },
   },
   iden3: {
     polygon: {
       main: cloneDeep(emptyPolygonBaseState),
-      mumbai: cloneDeep(emptyPolygonBaseState),
+      amoy: cloneDeep(emptyPolygonBaseState),
     },
   },
 };
@@ -96,7 +97,7 @@ const initialPermissions: DappPermissions = {
 export const getInitialPermissions = () => cloneDeep(initialPermissions);
 
 const initialSnapState: MascaState = {
-  v3: {
+  [CURRENT_STATE_VERSION]: {
     accountState: {},
     currentAccount: '',
     config: {

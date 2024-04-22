@@ -15,5 +15,23 @@
     "@blockchain-lab-um/masca": "1.2.2",
     "@blockchain-lab-um/masca-types": "1.3.2"
   },
-  "changesets": []
+  "changesets": [
+    "calm-icons-develop",
+    "cold-deers-allow",
+    "cyan-ravens-rhyme",
+    "eleven-eyes-hide",
+    "five-goats-stare",
+    "five-poets-yell",
+    "funny-tools-flow",
+    "grumpy-drinks-mix",
+    "late-radios-carry",
+    "lemon-bears-lay",
+    "metal-carrots-try",
+    "nine-pens-cover",
+    "poor-walls-boil",
+    "rich-pandas-add",
+    "sixty-students-play",
+    "swift-roses-change",
+    "young-forks-jog"
+  ]
 }

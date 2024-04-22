@@ -155,8 +155,13 @@ export const ShareCredentialModal = () => {
     try {
       const result = await shareResponse.json();
 
-      if (!result.presentationId)
-        throw new Error('Failed to share presentation');
+      if (!result.presentationId) {
+        throw new Error(
+          result.message === 'Invalid presentation'
+            ? 'Invalid presentation'
+            : 'Failed to share presentation'
+        );
+      }
 
       setShareLink(
         `${window.location.origin}/app/share-presentation/${result.presentationId}`
@@ -165,7 +170,10 @@ export const ShareCredentialModal = () => {
       setTimeout(() => {
         useToastStore.setState({
           open: true,
-          title: t('share-presentation-error'),
+          title:
+            (e as Error).message === 'Invalid presentation'
+              ? t('share-error-invalid')
+              : t('share-presentation-error'),
           type: 'error',
           loading: false,
           link: null,
@@ -183,6 +191,7 @@ export const ShareCredentialModal = () => {
       backdrop="blur"
       size="4xl"
       isOpen={isOpen}
+      isDismissable={false}
       onClose={() => setIsOpen(false)}
       hideCloseButton={true}
       placement="center"

@@ -330,7 +330,6 @@ class SnapService {
 
     const res = await VeramoService.verifyData(params);
 
-    if (res.error) throw new Error(res.error.message);
     return verbose ? res : res.verified;
   }
 

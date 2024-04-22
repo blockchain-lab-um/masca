@@ -34,8 +34,8 @@ export const NETWORKS_BY_DID: Record<string, string[]> = {
   'did:ethr': ['*'],
   'did:pkh': ['0x1', '0x89'],
   'did:ens': ['0x1'],
-  'did:polygonid': ['0x1', '0x89', '0x13882'],
-  'did:iden3': ['0x1', '0x89', '0x13882'],
+  'did:polygonid': ['0x89', '0x13882'],
+  'did:iden3': ['0x89', '0x13882'],
 };
 
 export function getAvailableNetworksList(method: string): Network[] {

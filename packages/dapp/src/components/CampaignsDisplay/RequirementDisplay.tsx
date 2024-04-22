@@ -112,7 +112,7 @@ export const RequirementDisplay = ({
         if (!issuer) return acc;
 
         if (
-          !issuer.includes('did:poylgonid') &&
+          !issuer.includes('did:polygonid') &&
           !issuer.includes('did:iden3')
         ) {
           acc.push(credential);

@@ -1,5 +1,29 @@
 # @blockchain-lab-um/dapp
 
+## 1.4.0-beta.1
+
+### Minor Changes
+
+- [#627](https://github.com/blockchain-lab-um/masca/pull/627) [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459) Thanks [@martines3000](https://github.com/martines3000)! - Update Veramo libraries.
+
+### Patch Changes
+
+- [#629](https://github.com/blockchain-lab-um/masca/pull/629) [`d5601e5`](https://github.com/blockchain-lab-um/masca/commit/d5601e5a30ed2297b5b09507c72e23ca56328349) Thanks [@tadejpodrekar](https://github.com/tadejpodrekar)! - Replaced shared presentation verifying lib.
+
+- Updated dependencies [[`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459), [`160d322`](https://github.com/blockchain-lab-um/masca/commit/160d32263a27b0014d29852457d4a581f0759459)]:
+  - @blockchain-lab-um/extended-verification@0.2.0-beta.0
+  - @blockchain-lab-um/did-provider-key@1.1.0-beta.0
+  - @blockchain-lab-um/masca-connector@1.4.0-beta.0
+  - @blockchain-lab-um/oidc-types@0.1.0-beta.0
+
+## 1.3.2-beta.0
+
+### Patch Changes
+
+- [#609](https://github.com/blockchain-lab-um/masca/pull/609) [`5cb712a`](https://github.com/blockchain-lab-um/masca/commit/5cb712ad40156207f41c3f2fd863f0ad0472791a) Thanks [@pseudobun](https://github.com/pseudobun)! - Adds reclaim option for campaigns.
+
+- [#614](https://github.com/blockchain-lab-um/masca/pull/614) [`fc1f796`](https://github.com/blockchain-lab-um/masca/commit/fc1f796ad66b5dbceccd0d96f64e2d98cfca71f0) Thanks [@tadejpodrekar](https://github.com/tadejpodrekar)! - Adds campaign issue checks.
+
 ## 1.3.1
 
 ### Patch Changes

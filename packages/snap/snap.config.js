@@ -1,7 +1,7 @@
 module.exports = {
-  cliOptions: {
-    src: 'dist/snap.js',
-    port: 8081,
-    transpilationMode: 'localOnly',
+  input: './src/index.ts',
+  output: {
+    path: 'dist',
+    filename: 'snap.js',
   },
 };

@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { CampaignDisplay } from './CampaignDisplay';
 import { useCampaigns } from '@/hooks';
 import { Spinner } from '@nextui-org/react';
