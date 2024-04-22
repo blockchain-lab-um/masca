@@ -604,6 +604,7 @@
     "placeholder": "Enter a title for the presentation. This can't be changed later.",
     "please-sign-in": "Please sign in to share your credentials",
     "selected": "Selected Credentials",
+    "share-error-invalid": "One or more credentials in the presentation are invalid.",
     "share-presentation-error": "Failed to share presentation",
     "share-presentation-success": "Successfully shared presentation",
     "share-link-description": "Share your credential:",
