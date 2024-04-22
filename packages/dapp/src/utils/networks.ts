@@ -22,8 +22,8 @@ export const NETWORKS: Record<string, Network> = {
     logo: '/images/polygon_matic_logo.svg',
     backgroundColor: '#9558FF33',
   },
-  '0x13881': {
-    name: 'Mumbai',
+  '0x13882': {
+    name: 'Amoy',
     isTestnet: true,
     logo: '/images/polygon_matic_logo.svg',
     backgroundColor: '#9558FF33',
@@ -34,8 +34,8 @@ export const NETWORKS_BY_DID: Record<string, string[]> = {
   'did:ethr': ['*'],
   'did:pkh': ['0x1', '0x89'],
   'did:ens': ['0x1'],
-  'did:polygonid': ['0x1', '0x89', '0x13881'],
-  'did:iden3': ['0x1', '0x89', '0x13881'],
+  'did:polygonid': ['0x1', '0x89', '0x13882'],
+  'did:iden3': ['0x1', '0x89', '0x13882'],
 };
 
 export function getAvailableNetworksList(method: string): Network[] {
