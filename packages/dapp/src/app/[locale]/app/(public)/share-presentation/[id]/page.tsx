@@ -1,25 +1,43 @@
+import {
+  type VerificationResult,
+  VerificationService,
+} from '@blockchain-lab-um/extended-verification';
+import { type Result, isError } from '@blockchain-lab-um/masca-connector';
 import type { VerifiablePresentation } from '@veramo/core';
 import { decodeCredentialToObject } from '@veramo/utils';
 import { normalizeCredential } from 'did-jwt-vc';
 import { notFound } from 'next/navigation';
 
-import { getAgent } from '@/app/api/veramoSetup';
 import JsonPanel from '@/components/CredentialDisplay/JsonPanel';
 import { convertTypes } from '@/utils/string';
 import { FormattedView } from './FormattedView';
 import { usePresentation, useUpdatePresentationViews } from '@/hooks';
 import { NormalViewButton } from './NormalViewButton';
+import { useToastStore } from '@/stores';
+
+await VerificationService.init();
 
 export const revalidate = 0;
 
 const verifyPresentation = async (presentation: VerifiablePresentation) => {
-  const agent = await getAgent();
+  const verifiedResult: Result<VerificationResult> =
+    await VerificationService.verify(presentation);
 
-  const result = await agent.verifyPresentation({
-    presentation,
-  });
+  if (isError(verifiedResult)) {
+    console.error('Failed to verify presentation');
+    setTimeout(() => {
+      useToastStore.setState({
+        open: true,
+        title: 'Failed to verify presentation',
+        type: 'error',
+        loading: false,
+        link: null,
+      });
+    }, 200);
+    return { verified: false } as VerificationResult;
+  }
 
-  return result;
+  return verifiedResult.data;
 };
 
 export default async function Page({

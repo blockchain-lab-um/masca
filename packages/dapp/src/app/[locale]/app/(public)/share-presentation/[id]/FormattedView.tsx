@@ -7,7 +7,8 @@ import {
   InformationCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Pagination, Tooltip } from '@nextui-org/react';
-import type { IVerifyResult, VerifiableCredential } from '@veramo/core';
+import type { VerificationResult } from '@blockchain-lab-um/extended-verification';
+import type { VerifiableCredential } from '@veramo/core';
 import { useTranslations } from 'next-intl';
 import { usePathname, useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
@@ -32,7 +33,7 @@ export const FormattedView = ({
   issuanceDate: string | undefined;
   page: string;
   total: number;
-  verificationResult: IVerifyResult;
+  verificationResult: VerificationResult;
 }) => {
   const t = useTranslations('FormattedView');
 

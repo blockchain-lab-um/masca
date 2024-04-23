@@ -55,16 +55,43 @@ const AddressDisplay = ({ address }: { address: string }) => {
   );
 };
 
-const DisplayDate = ({ text, date }: { text: string; date: string }) => (
+const DisplayText = ({
+  text,
+  value,
+  tooltip,
+}: { text: string; value: string; tooltip?: string }) => (
   <div className="flex flex-col items-start space-y-0.5">
     <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-800">
       {text}:
     </h2>
-    <h3 className="text-md dark:text-navy-blue-200 text-gray-700">
-      {new Date(Date.parse(date)).toDateString()}
-    </h3>
+    {tooltip ? (
+      <Tooltip
+        content={tooltip}
+        className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
+      >
+        <h3 className="text-md dark:text-navy-blue-200 text-gray-700">
+          {value}
+        </h3>
+      </Tooltip>
+    ) : (
+      <h3 className="text-md dark:text-navy-blue-200 text-gray-700">{value}</h3>
+    )}
   </div>
 );
+
+const DisplayDate = ({ text, date }: { text: string; date: string }) => {
+  const parsed = Date.parse(date);
+  return (
+    <div className="flex flex-col items-start space-y-0.5">
+      <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-800">
+        {text}:
+      </h2>
+      <h3 className="text-md dark:text-navy-blue-200 text-gray-700">
+        {!Number.isNaN(parsed) ? new Date(parsed).toLocaleDateString() : date}
+      </h3>
+    </div>
+  );
+};
 
 const CredentialSubject = ({
   data,
@@ -132,6 +159,27 @@ const CredentialSubject = ({
   </>
 );
 
+const CredentialSubjectEduCTX = ({
+  data,
+}: {
+  data: Record<string, any>;
+}) => (
+  <>
+    <DisplayText text="Given Name" value={data?.currentGivenName} />
+    <DisplayText text="Family Name" value={data?.currentFamilyName} />
+    <DisplayText text="Achieved" value={data?.achieved?.title} />
+    <DisplayDate
+      text="Specified by"
+      date={data?.achieved?.specifiedBy?.title}
+    />
+    <DisplayText
+      text="Grade"
+      value={data?.achieved?.wasDerivedFrom?.grade}
+      tooltip={data?.achieved?.wasDerivedFrom?.title}
+    />
+  </>
+);
+
 const CredentialPanel = ({ credential }: FormattedPanelProps) => {
   const t = useTranslations('CredentialPanel');
 
@@ -152,6 +200,13 @@ const CredentialPanel = ({ credential }: FormattedPanelProps) => {
     setSelectedJsonData(data);
     setJsonModalOpen(true);
   };
+
+  const eductx = useMemo(() => {
+    if (Array.isArray(credential.type)) {
+      return credential.type.includes('EducationCredential');
+    }
+    return credential.type === 'EducationCredential';
+  }, [credential]);
 
   return (
     <>
@@ -198,11 +253,15 @@ const CredentialPanel = ({ credential }: FormattedPanelProps) => {
             <h1 className="text-md dark:text-orange-accent-dark font-medium text-pink-500">
               {t('subject')}
             </h1>
-            <CredentialSubject
-              data={credential.credentialSubject}
-              viewJsonText={t('view-json')}
-              selectJsonData={selectJsonData}
-            />
+            {eductx ? (
+              <CredentialSubjectEduCTX data={credential.credentialSubject} />
+            ) : (
+              <CredentialSubject
+                data={credential.credentialSubject}
+                viewJsonText={t('view-json')}
+                selectJsonData={selectJsonData}
+              />
+            )}
           </div>
           <div className="flex flex-1">
             <div className="flex flex-col space-y-8">
@@ -210,6 +269,19 @@ const CredentialPanel = ({ credential }: FormattedPanelProps) => {
                 <h1 className="text-md dark:text-orange-accent-dark font-medium text-pink-500">
                   {t('issuer')}
                 </h1>
+                {eductx && (
+                  <DisplayText
+                    text={'Awarding body'}
+                    value={
+                      credential.credentialSubject?.achieved?.wasAwardedBy
+                        ?.awardingBody
+                    }
+                    tooltip={
+                      credential.credentialSubject?.achieved?.wasAwardedBy
+                        ?.awardingBodyDescription
+                    }
+                  />
+                )}
                 <div className="flex flex-col space-y-0.5">
                   <div className="flex">
                     <DIDDisplay
@@ -230,6 +302,15 @@ const CredentialPanel = ({ credential }: FormattedPanelProps) => {
                   text="Issuance date"
                   date={credential.issuanceDate}
                 />
+                {eductx && (
+                  <DisplayDate
+                    text="Awarding date"
+                    date={
+                      credential.credentialSubject?.achieved?.wasAwardedBy
+                        ?.awardingDate
+                    }
+                  />
+                )}
                 {credential.expirationDate && (
                   <DisplayDate
                     text="Expiration date"
