@@ -50,13 +50,13 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
           <div className="flex justify-center">
             <ul className="text-md flex flex-col items-start text-justify tracking-normal sm:text-xl">
               <li className="mt-12 max-sm:mt-4">
-                <div className=" just flex items-center gap-x-4">
+                <div className="flex items-center gap-x-4">
                   <LockClosedIcon className="dark:text-orange-accent-dark h-6 w-6 text-pink-500 sm:h-8 sm:w-8" />
                   <div className="dark:text-navy-blue-50 font-ubuntu text-md text-start font-medium text-gray-900 sm:text-2xl ">
                     {t('features.feat-1')}
                   </div>
                 </div>
-                <div className="dark:text-navy-blue-200 mt-4 max-w-lg text-gray-700">
+                <div className="dark:text-navy-blue-200 mt-4 max-w-[42em] text-gray-700">
                   {t('features.desc-1-1')}
                   <span className="dark:text-navy-blue-100 font-bold text-gray-800">
                     {t('features.desc-1-2')}
@@ -75,7 +75,7 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
                     {t('features.feat-2')}
                   </div>
                 </div>
-                <div className="dark:text-navy-blue-200 mt-4 max-w-lg text-gray-700">
+                <div className="dark:text-navy-blue-200 mt-4 text-gray-700 max-w-[42em]">
                   {t('features.desc-2-1')}
                   <span className="dark:text-navy-blue-100 font-bold text-gray-800">
                     {t('features.desc-2-2')}
@@ -88,13 +88,13 @@ const ConnectedProvider = ({ children }: ConnectedProviderProps) => {
                 </div>
               </li>
               <li className="mt-12 max-sm:mt-4">
-                <div className=" flex items-center gap-x-4">
+                <div className="flex items-center gap-x-4">
                   <GlobeAltIcon className="dark:text-orange-accent-dark h-8 w-8 text-pink-500 sm:h-8 sm:w-8" />
                   <div className="dark:text-navy-blue-50 font-ubuntu text-md max-w-[15em] text-start font-medium text-gray-900 sm:text-2xl ">
                     {t('features.feat-3')}
                   </div>
                 </div>
-                <div className="dark:text-navy-blue-200 mt-4 max-w-lg text-gray-700">
+                <div className="dark:text-navy-blue-200 mt-4 text-gray-700 max-w-[42em]">
                   {t('features.desc-3-1')}
                   <span className="dark:text-navy-blue-100 font-bold text-gray-800">
                     {t('features.desc-3-2')}
