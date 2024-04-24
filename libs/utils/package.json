@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/utils",
-  "version": "1.4.0-beta.0",
+  "version": "1.4.0-beta.1",
   "private": false,
   "description": "Helper utilities for Masca monorepo",
   "keywords": [],

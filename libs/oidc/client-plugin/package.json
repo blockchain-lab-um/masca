@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/oidc-client-plugin",
-  "version": "0.4.0-beta.0",
+  "version": "0.4.0-beta.1",
   "license": "(Apache-2.0 AND MIT)",
   "type": "module",
   "main": "./dist/index.js",
@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@blockchain-lab-um/oidc-types": "0.1.0-beta.0",
-    "@blockchain-lab-um/utils": "1.4.0-beta.0",
+    "@blockchain-lab-um/utils": "1.4.0-beta.1",
     "@sphereon/pex": "^2.0.1",
     "@veramo/core": "6.0.0",
     "@veramo/utils": "6.0.0",

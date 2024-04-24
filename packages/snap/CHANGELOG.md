@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.3.0-beta.2
+
+### Patch Changes
+
+- [#637](https://github.com/blockchain-lab-um/masca/pull/637) [`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032) Thanks [@martines3000](https://github.com/martines3000)! - Update Vitest
+
+- [#637](https://github.com/blockchain-lab-um/masca/pull/637) [`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032) Thanks [@martines3000](https://github.com/martines3000)! - Move UniversalResolver service implementation to utils library.
+
+- Updated dependencies [[`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032), [`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032), [`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032), [`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032), [`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032), [`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032), [`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032)]:
+  - @blockchain-lab-um/did-provider-key@1.1.0-beta.1
+  - @blockchain-lab-um/veramo-datamanager@1.1.0-beta.1
+  - @blockchain-lab-um/utils@1.4.0-beta.1
+  - @blockchain-lab-um/extended-verification@0.2.0-beta.1
+  - @blockchain-lab-um/oidc-client-plugin@0.4.0-beta.1
+  - @blockchain-lab-um/masca-types@1.4.0-beta.1
+
 ## 1.3.0-beta.1
 
 ### Minor Changes
