@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import {
   DropdownMenu,
@@ -72,7 +72,7 @@ const variantsHover: Record<string, string> = {
 };
 
 function isSelectedTestnet(selected: string, items: Network[]): boolean {
-  return items.find((item) => item.name === selected)?.isTestnet ?? false;
+  return items.find((item) => item.name === selected)?.isTestnet === true;
 }
 
 export default function NetworkDropDownMenu({
@@ -88,9 +88,7 @@ export default function NetworkDropDownMenu({
   const { resolvedTheme } = useTheme();
   const [open, setOpen] = useState(false);
 
-  const [showTestNets, setShowTestNets] = useState(
-    isSelectedTestnet(selected, items)
-  );
+  const [showTestNets, setShowTestNets] = useState(false);
 
   const filteredNetworks = items.filter(
     (item) => showTestNets || !item.isTestnet
@@ -100,6 +98,11 @@ export default function NetworkDropDownMenu({
     resolvedTheme === 'dark'
       ? '#ffffffbf'
       : items.find((item) => item.name === selected)?.backgroundColor;
+
+  useEffect(() => {
+    const isTestnet = isSelectedTestnet(selected, items);
+    setShowTestNets(isTestnet);
+  }, [selected]);
 
   return (
     <DropdownMenu onOpenChange={() => setOpen(!open)}>
