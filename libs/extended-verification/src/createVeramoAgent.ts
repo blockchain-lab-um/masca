@@ -1,4 +1,5 @@
 import { getDidKeyResolver as keyDidResolver } from '@blockchain-lab-um/did-provider-key';
+import { UniversalResolverService } from '@blockchain-lab-um/utils';
 import {
   type ICredentialVerifier,
   type IResolver,
@@ -44,6 +45,8 @@ export const createVeramoAgent = async (props?: CreateVeramoAgentProps) => {
     },
   ];
 
+  UniversalResolverService.init();
+
   return createAgent<IResolver & ICredentialVerifier>({
     plugins: [
       new CredentialPlugin(),
@@ -57,6 +60,7 @@ export const createVeramoAgent = async (props?: CreateVeramoAgentProps) => {
           ...ensDidResolver({
             networks,
           }),
+          ...UniversalResolverService.getResolver(),
         }),
       }),
     ],
