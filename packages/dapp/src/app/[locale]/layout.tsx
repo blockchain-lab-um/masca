@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import type { Metadata } from 'next';
 import { NextIntlClientProvider, useMessages } from 'next-intl';
 import { Cabin, JetBrains_Mono, Ubuntu } from 'next/font/google';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 import AnalyticsWrapper from '@/components/AnalyticsWrapper';
 import ThemeProvider from '@/components/ThemeProvider';
@@ -106,6 +107,7 @@ export default function LocaleLayout({
           <ThemeProvider>{children}</ThemeProvider>
         </NextIntlClientProvider>
         <AnalyticsWrapper />
+        <SpeedInsights />
       </body>
     </html>
   );
