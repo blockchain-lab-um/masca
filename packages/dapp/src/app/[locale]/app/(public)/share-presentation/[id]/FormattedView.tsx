@@ -13,52 +13,29 @@ import type {
 } from '@veramo/core';
 import { useTranslations } from 'next-intl';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { VerificationInfoModal } from '@/components/VerificationInfoModal';
 import { copyToClipboard } from '@/utils/string';
 import CredentialPanel from './CredentialPanel';
 import { formatDid } from '@/utils/format';
-import {
-  type VerificationResult,
-  VerificationService,
-} from '@blockchain-lab-um/extended-verification';
-import { isError } from '@blockchain-lab-um/masca-connector';
-import { useToastStore } from '@/stores';
-
-const verifyPresentation = async (presentation: VerifiablePresentation) => {
-  await VerificationService.init();
-
-  const verifiedResult = await VerificationService.verify(presentation);
-
-  if (isError(verifiedResult)) {
-    console.error('Failed to verify presentation');
-    setTimeout(() => {
-      useToastStore.setState({
-        open: true,
-        title: 'Failed to verify presentation',
-        type: 'error',
-        loading: false,
-        link: null,
-      });
-    }, 200);
-    return { verified: false } as VerificationResult;
-  }
-
-  return verifiedResult.data;
-};
+import type { VerificationResult } from '@blockchain-lab-um/extended-verification';
+import type { Result } from '@blockchain-lab-um/masca-connector';
 
 export const FormattedView = async ({
   credential,
   presentation,
   page,
   total,
+  verificationResult,
 }: {
   credential: VerifiableCredential;
   presentation: VerifiablePresentation;
   page: string;
   total: number;
+  verificationResult: Result<VerificationResult>;
 }) => {
+  console.log('FormattedView');
   const t = useTranslations('FormattedView');
 
   const router = useRouter();
@@ -69,28 +46,10 @@ export const FormattedView = async ({
   const [verificationInfoModalOpen, setVerificationInfoModalOpen] =
     useState(false);
 
-  const [verificationResult, setVerificationResult] =
-    useState<VerificationResult | null>(null);
-
   const isValid = useMemo(() => {
     if (!expirationDate) return true;
     return Date.parse(expirationDate) > Date.now();
   }, [expirationDate]);
-
-  useEffect(() => {
-    verifyPresentation(presentation)
-      .then((result) => setVerificationResult(result))
-      .catch((error) => {
-        console.error(error);
-        useToastStore.setState({
-          open: true,
-          title: t('verify-failed'),
-          type: 'error',
-          loading: false,
-          link: null,
-        });
-      });
-  }, [presentation]);
 
   return (
     <>

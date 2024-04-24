@@ -7,8 +7,15 @@ import { convertTypes } from '@/utils/string';
 import { FormattedView } from './FormattedView';
 import { usePresentation, useUpdatePresentationViews } from '@/hooks';
 import { NormalViewButton } from './NormalViewButton';
+import { VerificationService } from '@blockchain-lab-um/extended-verification';
+import type { VerifiablePresentation } from '@veramo/core';
 
 export const revalidate = 0;
+
+const verifyPresentation = async (presentation: VerifiablePresentation) => {
+  await VerificationService.init();
+  return VerificationService.verify(presentation);
+};
 
 export default async function Page({
   params: { id },
@@ -28,6 +35,8 @@ export default async function Page({
 
   await useUpdatePresentationViews(id);
 
+  const verificationResult = await verifyPresentation(data.presentation);
+
   const { presentation } = data;
 
   const credentials = presentation.verifiableCredential
@@ -45,6 +54,7 @@ export default async function Page({
             presentation={presentation}
             page={page}
             total={credentials.length ?? 1}
+            verificationResult={verificationResult}
           />
         )}
         {view === 'Json' && (
