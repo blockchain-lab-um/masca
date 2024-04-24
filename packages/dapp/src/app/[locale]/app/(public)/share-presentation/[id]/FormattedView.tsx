@@ -22,7 +22,7 @@ import { formatDid } from '@/utils/format';
 import type { VerificationResult } from '@blockchain-lab-um/extended-verification';
 import type { Result } from '@blockchain-lab-um/masca-connector';
 
-export const FormattedView = async ({
+export const FormattedView = ({
   credential,
   presentation,
   page,
@@ -35,7 +35,6 @@ export const FormattedView = async ({
   total: number;
   verificationResult: Result<VerificationResult>;
 }) => {
-  console.log('FormattedView');
   const t = useTranslations('FormattedView');
 
   const router = useRouter();
