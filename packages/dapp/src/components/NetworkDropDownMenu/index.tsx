@@ -181,7 +181,7 @@ export default function NetworkDropDownMenu({
                 }
               }}
               className={clsx(
-                showTestNets ? 'bg-orange-100 dark:bg-orange-accent-dark' : '',
+                showTestNets ? 'bg-red-500 dark:bg-orange-accent-dark' : '',
                 'scale-80'
               )}
             />
