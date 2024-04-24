@@ -1,6 +1,6 @@
 {
   "name": "@blockchain-lab-um/extended-verification",
-  "version": "0.2.0-beta.0",
+  "version": "0.2.0-beta.1",
   "private": false,
   "description": "",
   "keywords": [],
@@ -30,9 +30,9 @@
     "test:ci": "pnpm run test"
   },
   "dependencies": {
-    "@blockchain-lab-um/did-provider-key": "1.1.0-beta.0",
-    "@blockchain-lab-um/masca-types": "1.4.0-beta.0",
-    "@blockchain-lab-um/utils": "1.4.0-beta.0",
+    "@blockchain-lab-um/did-provider-key": "1.1.0-beta.1",
+    "@blockchain-lab-um/masca-types": "1.4.0-beta.1",
+    "@blockchain-lab-um/utils": "1.4.0-beta.1",
     "@veramo/core": "6.0.0",
     "@veramo/credential-eip712": "6.0.0",
     "@veramo/credential-status": "6.0.0",

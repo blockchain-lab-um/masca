@@ -1,5 +1,18 @@
 # @blockchain-lab-um/dapp
 
+## 1.4.0-beta.2
+
+### Patch Changes
+
+- [#634](https://github.com/blockchain-lab-um/masca/pull/634) [`c829624`](https://github.com/blockchain-lab-um/masca/commit/c8296242be92d0a76e3d762f952d2d549a570ab0) Thanks [@pseudobun](https://github.com/pseudobun)! - Adds banner at the top of dapp.
+
+- [#626](https://github.com/blockchain-lab-um/masca/pull/626) [`932f6aa`](https://github.com/blockchain-lab-um/masca/commit/932f6aa03cde4007a6e65100869e8403de525552) Thanks [@SinanovicEdis](https://github.com/SinanovicEdis)! - Improves dropdowns.
+
+- Updated dependencies [[`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032), [`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032), [`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032)]:
+  - @blockchain-lab-um/did-provider-key@1.1.0-beta.1
+  - @blockchain-lab-um/extended-verification@0.2.0-beta.1
+  - @blockchain-lab-um/masca-connector@1.4.0-beta.1
+
 ## 1.4.0-beta.1
 
 ### Minor Changes

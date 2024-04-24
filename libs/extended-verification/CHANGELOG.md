@@ -1,5 +1,20 @@
 # @blockchain-lab-um/extended-verification
 
+## 0.2.0-beta.1
+
+### Minor Changes
+
+- [#637](https://github.com/blockchain-lab-um/masca/pull/637) [`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032) Thanks [@martines3000](https://github.com/martines3000)! - Add universal resolver support.
+
+### Patch Changes
+
+- [#637](https://github.com/blockchain-lab-um/masca/pull/637) [`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032) Thanks [@martines3000](https://github.com/martines3000)! - Update Vitest
+
+- Updated dependencies [[`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032), [`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032), [`411a30d`](https://github.com/blockchain-lab-um/masca/commit/411a30d7ce1bee5e02e0f3c1f46e695f5602d032)]:
+  - @blockchain-lab-um/did-provider-key@1.1.0-beta.1
+  - @blockchain-lab-um/utils@1.4.0-beta.1
+  - @blockchain-lab-um/masca-types@1.4.0-beta.1
+
 ## 0.2.0-beta.0
 
 ### Minor Changes
