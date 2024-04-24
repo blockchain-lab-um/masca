@@ -7,7 +7,7 @@ import { useAccount, useChainId, useDisconnect, useSwitchChain } from 'wagmi';
 
 import AddressPopover from '@/components/AddressPopover';
 import ConnectButton from '@/components/ConnectButton';
-import DropdownMenu from '@/components/DropdownMenu';
+
 import MethodDropdownMenu from '@/components/MethodDropdownMenu';
 import { useMascaStore } from '@/stores';
 import {
@@ -15,6 +15,8 @@ import {
   NETWORKS_BY_DID,
   getAvailableNetworksList,
 } from '@/utils/networks';
+
+import NetworkDropDownMenu from '@/components/NetworkDropDownMenu';
 
 export const NavConnection = () => {
   const { switchChain } = useSwitchChain();
@@ -39,7 +41,7 @@ export const NavConnection = () => {
       (NETWORKS_BY_DID[currMethod].includes(stringified) ||
         NETWORKS_BY_DID[currMethod].includes('*'))
     ) {
-      return network;
+      return network.name;
     }
     return t('unsupported-network');
   };
@@ -57,7 +59,9 @@ export const NavConnection = () => {
   }, [chainId, currMethod]);
 
   const setNetwork = async (network: string) => {
-    const key = Object.keys(NETWORKS).find((val) => NETWORKS[val] === network);
+    const key = Object.keys(NETWORKS).find(
+      (val) => NETWORKS[val].name === network
+    );
     if (key) {
       switchChain(
         { chainId: Number(key) },
@@ -73,14 +77,14 @@ export const NavConnection = () => {
   };
 
   return isConnected ? (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center gap-2">
       {(currMethod === 'did:ethr' ||
         currMethod === 'did:pkh' ||
         currMethod === 'did:polygonid' ||
         currMethod === 'did:ens' ||
         currMethod === 'did:iden3') && (
         <div className="hidden md:block">
-          <DropdownMenu
+          <NetworkDropDownMenu
             size="method"
             rounded="full"
             shadow="none"

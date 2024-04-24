@@ -70,7 +70,8 @@
   },
   "NavConnection": {
     "select-method": "Select a method",
-    "unsupported-network": "Unsupported network"
+    "unsupported-network": "Unsupported network",
+    "disable-testnet-switch": "Testnet is selected"
   },
   "MascaProvider": {
     "connection-failed": "Failed to connect to Masca",
