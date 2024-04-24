@@ -2,183 +2,28 @@
 
 import {
   CheckCircleIcon,
-  DocumentDuplicateIcon,
   ExclamationCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Tooltip } from '@nextui-org/react';
 import type { VerifiableCredential } from '@veramo/core';
-import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import { usePathname, useRouter } from 'next/navigation';
-import { Fragment, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
-import { DIDDisplay } from '@/components/DIDDisplay';
 import JsonModal from '@/components/JsonModal';
-import { formatAddress, getFirstWord } from '@/utils/format';
-import { convertTypes, copyToClipboard } from '@/utils/string';
-import { ImageLink } from '@/components/ImageLink';
+import { getFirstWord } from '@/utils/format';
+import { convertTypes } from '@/utils/string';
+import { Normal } from './templates/Normal';
+import { EduCTX } from './templates/EduCTX';
 
 interface FormattedPanelProps {
   credential: VerifiableCredential;
 }
 
-const AddressDisplay = ({ address }: { address: string }) => {
-  const t = useTranslations('AddressDisplay');
-  return (
-    <div className="flex flex-col space-y-0.5">
-      <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-800">
-        {t('title')}:
-      </h2>
-      <div className="flex">
-        <Tooltip
-          className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
-          content={t('tooltip')}
-        >
-          <a
-            href={`https://etherscan.io/address/${address}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-md animated-transition dark:text-navy-blue-300 cursor-pointer font-normal text-gray-700 underline underline-offset-2"
-          >
-            {formatAddress(address)}
-          </a>
-        </Tooltip>
-        <button
-          type="button"
-          className="pl-1"
-          onClick={() => copyToClipboard(address)}
-        >
-          <DocumentDuplicateIcon className="animated-transition dark:text-navy-blue-300 ml-1 h-5 w-5 text-gray-700 hover:text-gray-700" />
-        </button>
-      </div>
-    </div>
-  );
-};
-
-const DisplayText = ({
-  text,
-  value,
-  tooltip,
-}: { text: string; value: string; tooltip?: string }) => (
-  <div className="flex flex-col items-start space-y-0.5">
-    <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-800">
-      {text}:
-    </h2>
-    {tooltip ? (
-      <Tooltip
-        content={tooltip}
-        className="border-navy-blue-300 bg-navy-blue-100 text-navy-blue-700"
-      >
-        <h3 className="text-md dark:text-navy-blue-200 text-gray-700">
-          {value}
-        </h3>
-      </Tooltip>
-    ) : (
-      <h3 className="text-md dark:text-navy-blue-200 text-gray-700">{value}</h3>
-    )}
-  </div>
-);
-
-const DisplayDate = ({ text, date }: { text: string; date: string }) => {
-  const parsed = Date.parse(date);
-  return (
-    <div className="flex flex-col items-start space-y-0.5">
-      <h2 className="dark:text-navy-blue-200 pr-2 font-bold text-gray-800">
-        {text}:
-      </h2>
-      <h3 className="text-md dark:text-navy-blue-200 text-gray-700">
-        {!Number.isNaN(parsed) ? new Date(parsed).toLocaleDateString() : date}
-      </h3>
-    </div>
-  );
-};
-
-const CredentialSubject = ({
-  data,
-  viewJsonText,
-  selectJsonData,
-}: {
-  data: Record<string, any>;
-  viewJsonText: string;
-  selectJsonData: React.Dispatch<React.SetStateAction<any>>;
-}) => (
-  <>
-    {Object.entries(data).map(([key, value]: [string, any]) => {
-      if (value === null || value === '') return null;
-      return (
-        <Fragment key={key}>
-          {(() => {
-            if (key === 'id') {
-              return (
-                <>
-                  <div className="flex flex-col space-y-0.5">
-                    <div className="flex">
-                      <DIDDisplay did={value} />
-                    </div>
-                  </div>
-                </>
-              );
-            }
-
-            if (key === 'address') return <AddressDisplay address={value} />;
-            if (key === 'image') return <ImageLink value={value} />;
-
-            const isObject = !(
-              typeof value === 'string' || typeof value === 'number'
-            );
-            key = key.replace(/([A-Z])/g, ' $1').trim();
-            return (
-              <div
-                className={clsx(
-                  'flex w-full overflow-clip',
-                  isObject ? 'items-center' : 'flex-col items-start space-y-0.5'
-                )}
-              >
-                <h2 className="dark:text-navy-blue-200 pr-2 font-bold capitalize text-gray-800">
-                  {key}:
-                </h2>
-                <div className="text-md dark:text-navy-blue-300 w-full truncate font-normal text-gray-700">
-                  {isObject ? (
-                    <button
-                      type="button"
-                      className="dark:border-navy-blue-300 dark:hover:border-navy-blue-400 dark:focus:ring-navy-blue-500 rounded-md border border-gray-300 px-2 py-0.5 text-sm hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
-                      onClick={() => selectJsonData(value)}
-                    >
-                      {viewJsonText}
-                    </button>
-                  ) : (
-                    value
-                  )}
-                </div>
-              </div>
-            );
-          })()}
-        </Fragment>
-      );
-    })}
-  </>
-);
-
-const CredentialSubjectEduCTX = ({
-  data,
-}: {
-  data: Record<string, any>;
-}) => (
-  <>
-    <DisplayText text="Given Name" value={data?.currentGivenName} />
-    <DisplayText text="Family Name" value={data?.currentFamilyName} />
-    <DisplayText text="Achieved" value={data?.achieved?.title} />
-    <DisplayDate
-      text="Specified by"
-      date={data?.achieved?.specifiedBy?.title}
-    />
-    <DisplayText
-      text="Grade"
-      value={data?.achieved?.wasDerivedFrom?.grade}
-      tooltip={data?.achieved?.wasDerivedFrom?.title}
-    />
-  </>
-);
+enum Templates {
+  Normal = 0,
+  EduCTX = 1,
+}
 
 const CredentialPanel = ({ credential }: FormattedPanelProps) => {
   const t = useTranslations('CredentialPanel');
@@ -201,12 +46,46 @@ const CredentialPanel = ({ credential }: FormattedPanelProps) => {
     setJsonModalOpen(true);
   };
 
-  const eductx = useMemo(() => {
-    if (Array.isArray(credential.type)) {
-      return credential.type.includes('EducationCredential');
+  const template = useMemo(() => {
+    const credentialTypes = Array.isArray(credential.type)
+      ? credential.type
+      : [credential.type];
+
+    if (credentialTypes.includes('EducationCredential')) {
+      return Templates.EduCTX;
     }
-    return credential.type === 'EducationCredential';
+
+    return Templates.Normal;
   }, [credential]);
+
+  const renderTemplate = useMemo(() => {
+    switch (template) {
+      case Templates.EduCTX:
+        return (
+          <EduCTX
+            credential={credential}
+            title={{
+              subject: t('subject'),
+              issuer: t('issuer'),
+              dates: t('dates'),
+            }}
+          />
+        );
+      default:
+        return (
+          <Normal
+            credential={credential}
+            title={{
+              subject: t('subject'),
+              issuer: t('issuer'),
+              dates: t('dates'),
+            }}
+            viewJsonText={t('view-json')}
+            selectJsonData={selectJsonData}
+          />
+        );
+    }
+  }, [credential, template]);
 
   return (
     <>
@@ -248,79 +127,7 @@ const CredentialPanel = ({ credential }: FormattedPanelProps) => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col space-y-8 px-6 md:flex-row md:space-x-16 md:space-y-0">
-          <div className="flex w-full flex-col items-start space-y-2 md:max-w-[50%]">
-            <h1 className="text-md dark:text-orange-accent-dark font-medium text-pink-500">
-              {t('subject')}
-            </h1>
-            {eductx ? (
-              <CredentialSubjectEduCTX data={credential.credentialSubject} />
-            ) : (
-              <CredentialSubject
-                data={credential.credentialSubject}
-                viewJsonText={t('view-json')}
-                selectJsonData={selectJsonData}
-              />
-            )}
-          </div>
-          <div className="flex flex-1">
-            <div className="flex flex-col space-y-8">
-              <div className="flex flex-col items-start justify-center space-y-2 ">
-                <h1 className="text-md dark:text-orange-accent-dark font-medium text-pink-500">
-                  {t('issuer')}
-                </h1>
-                {eductx && (
-                  <DisplayText
-                    text={'Awarding body'}
-                    value={
-                      credential.credentialSubject?.achieved?.wasAwardedBy
-                        ?.awardingBody
-                    }
-                    tooltip={
-                      credential.credentialSubject?.achieved?.wasAwardedBy
-                        ?.awardingBodyDescription
-                    }
-                  />
-                )}
-                <div className="flex flex-col space-y-0.5">
-                  <div className="flex">
-                    <DIDDisplay
-                      did={
-                        typeof credential.issuer === 'string'
-                          ? credential.issuer
-                          : credential.issuer.id
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col items-start space-y-2">
-                <h1 className="text-md dark:text-orange-accent-dark font-medium text-pink-500">
-                  {t('dates')}
-                </h1>
-                <DisplayDate
-                  text="Issuance date"
-                  date={credential.issuanceDate}
-                />
-                {eductx && (
-                  <DisplayDate
-                    text="Awarding date"
-                    date={
-                      credential.credentialSubject?.achieved?.wasAwardedBy
-                        ?.awardingDate
-                    }
-                  />
-                )}
-                {credential.expirationDate && (
-                  <DisplayDate
-                    text="Expiration date"
-                    date={credential.expirationDate}
-                  />
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
+        {renderTemplate}
         <div
           className="text-md dark:text-navy-blue-200 cursor-pointer px-6 font-medium text-gray-700"
           onClick={() => {

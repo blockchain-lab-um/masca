@@ -1,9 +1,3 @@
-import {
-  type VerificationResult,
-  VerificationService,
-} from '@blockchain-lab-um/extended-verification';
-import { type Result, isError } from '@blockchain-lab-um/masca-connector';
-import type { VerifiablePresentation } from '@veramo/core';
 import { decodeCredentialToObject } from '@veramo/utils';
 import { normalizeCredential } from 'did-jwt-vc';
 import { notFound } from 'next/navigation';
@@ -13,32 +7,8 @@ import { convertTypes } from '@/utils/string';
 import { FormattedView } from './FormattedView';
 import { usePresentation, useUpdatePresentationViews } from '@/hooks';
 import { NormalViewButton } from './NormalViewButton';
-import { useToastStore } from '@/stores';
-
-await VerificationService.init();
 
 export const revalidate = 0;
-
-const verifyPresentation = async (presentation: VerifiablePresentation) => {
-  const verifiedResult: Result<VerificationResult> =
-    await VerificationService.verify(presentation);
-
-  if (isError(verifiedResult)) {
-    console.error('Failed to verify presentation');
-    setTimeout(() => {
-      useToastStore.setState({
-        open: true,
-        title: 'Failed to verify presentation',
-        type: 'error',
-        loading: false,
-        link: null,
-      });
-    }, 200);
-    return { verified: false } as VerificationResult;
-  }
-
-  return verifiedResult.data;
-};
 
 export default async function Page({
   params: { id },
@@ -66,20 +36,15 @@ export default async function Page({
   const page = searchParams.page ?? '1';
   const view = searchParams.view ?? 'Normal';
 
-  const verificationResult = await verifyPresentation(presentation);
-
   return (
     <div className="flex w-full flex-1 items-start justify-center">
       <div className="max-w-full flex-1 md:max-w-3xl">
         {view === 'Normal' && (
           <FormattedView
             credential={credentials[Number.parseInt(page, 10) - 1]}
-            holder={presentation.holder}
-            expirationDate={presentation.expirationDate}
-            issuanceDate={presentation.issuanceDate}
+            presentation={presentation}
             page={page}
             total={credentials.length ?? 1}
-            verificationResult={verificationResult}
           />
         )}
         {view === 'Json' && (

@@ -7,46 +7,90 @@ import {
   InformationCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Pagination, Tooltip } from '@nextui-org/react';
-import type { VerificationResult } from '@blockchain-lab-um/extended-verification';
-import type { VerifiableCredential } from '@veramo/core';
+import type {
+  VerifiableCredential,
+  VerifiablePresentation,
+} from '@veramo/core';
 import { useTranslations } from 'next-intl';
 import { usePathname, useRouter } from 'next/navigation';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { VerificationInfoModal } from '@/components/VerificationInfoModal';
 import { copyToClipboard } from '@/utils/string';
 import CredentialPanel from './CredentialPanel';
 import { formatDid } from '@/utils/format';
+import {
+  type VerificationResult,
+  VerificationService,
+} from '@blockchain-lab-um/extended-verification';
+import { isError } from '@blockchain-lab-um/masca-connector';
+import { useToastStore } from '@/stores';
 
-export const FormattedView = ({
+const verifyPresentation = async (presentation: VerifiablePresentation) => {
+  await VerificationService.init();
+
+  const verifiedResult = await VerificationService.verify(presentation);
+
+  if (isError(verifiedResult)) {
+    console.error('Failed to verify presentation');
+    setTimeout(() => {
+      useToastStore.setState({
+        open: true,
+        title: 'Failed to verify presentation',
+        type: 'error',
+        loading: false,
+        link: null,
+      });
+    }, 200);
+    return { verified: false } as VerificationResult;
+  }
+
+  return verifiedResult.data;
+};
+
+export const FormattedView = async ({
   credential,
-  holder,
-  expirationDate,
-  issuanceDate,
+  presentation,
   page,
   total,
-  verificationResult,
 }: {
   credential: VerifiableCredential;
-  holder: string;
-  expirationDate: string | undefined;
-  issuanceDate: string | undefined;
+  presentation: VerifiablePresentation;
   page: string;
   total: number;
-  verificationResult: VerificationResult;
 }) => {
   const t = useTranslations('FormattedView');
+
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const { holder, expirationDate, issuanceDate } = presentation;
 
   const [verificationInfoModalOpen, setVerificationInfoModalOpen] =
     useState(false);
 
-  const router = useRouter();
-  const pathname = usePathname();
+  const [verificationResult, setVerificationResult] =
+    useState<VerificationResult | null>(null);
 
   const isValid = useMemo(() => {
     if (!expirationDate) return true;
     return Date.parse(expirationDate) > Date.now();
   }, [expirationDate]);
+
+  useEffect(() => {
+    verifyPresentation(presentation)
+      .then((result) => setVerificationResult(result))
+      .catch((error) => {
+        console.error(error);
+        useToastStore.setState({
+          open: true,
+          title: t('verify-failed'),
+          type: 'error',
+          loading: false,
+          link: null,
+        });
+      });
+  }, [presentation]);
 
   return (
     <>
