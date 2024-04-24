@@ -1,6 +1,6 @@
 import { Menu } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/24/solid';
-import { clsx } from 'clsx';
+import { cn } from '@/utils/shadcn';
 
 interface DropdownButtonProps {
   children: React.ReactNode;
@@ -21,7 +21,7 @@ export const DropdownButton = ({
             .then(() => {})
             .catch(() => {});
         }}
-        className={clsx(
+        className={cn(
           active
             ? 'dark:bg-navy-blue-500 dark:text-orange-accent-dark/95 animated-transition cursor-pointer bg-pink-50 text-pink-600 '
             : '',

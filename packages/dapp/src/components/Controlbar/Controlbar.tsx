@@ -9,7 +9,8 @@ import { ArrowPathIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { ShareIcon } from '@heroicons/react/24/solid';
 import { Tooltip } from '@nextui-org/react';
 import type { W3CVerifiableCredential } from '@veramo/core';
-import clsx from 'clsx';
+import { cn } from '@/utils/shadcn';
+import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { useAccount } from 'wagmi';
@@ -30,13 +31,10 @@ import {
 } from '@/utils/format';
 import FilterPopover from './FilterPopover';
 
-// import PlaygroundModal from '../PlaygroundModal';
-
 const Controlbar = () => {
   const t = useTranslations('Controlbar');
   // Local state
   const [importModalOpen, setImportModalOpen] = useState(false);
-  // const [playgroundModalOpen, setPlaygroundModalOpen] = useState(false);
   const [spinner, setSpinner] = useState(false);
 
   // Global state
@@ -185,8 +183,20 @@ const Controlbar = () => {
     return true;
   };
 
+  const myPromise = (msg?: string | undefined) =>
+    new Promise((resolve, reject) => {
+      if (!msg) {
+        setTimeout(() => {
+          reject({ name: 'Error' });
+        }, 2000);
+      }
+      setTimeout(() => {
+        resolve({ name: msg });
+      }, 2000);
+    });
+
   return (
-    <div className={clsx(isConnected ? '' : 'hidden')}>
+    <div className={cn(isConnected ? '' : 'hidden')}>
       <div className="mb-4 grid grid-cols-11 grid-rows-2 gap-y-4 md:grid-rows-1">
         {vcs.length > 0 && (
           <div className="col-span-11 col-start-1 row-start-2 flex gap-x-2 md:col-span-5 md:row-start-1">
@@ -209,15 +219,6 @@ const Controlbar = () => {
         >
           {isConnected && (
             <>
-              {/* <button type="button"
-                className={clsx(
-                  'dark:bg-navy-blue-700 dark:text-navy-blue-50 group flex h-[37px] w-[37px] md:h-[43px] md:w-[43px]',
-                  'items-center justify-center rounded-full bg-white text-gray-700 shadow-md outline-none focus:outline-none'
-                )}
-                onClick={() => setPlaygroundModalOpen(true)}
-              >
-                <PlusIcon className={`group-hover:animate-pingOnce h-6 w-6`} />
-              </button> */}
               {selectedCredentials.length > 0 && (
                 <Tooltip
                   content={isSignedIn ? t('share') : t('sign-in-to-share')}
@@ -225,7 +226,7 @@ const Controlbar = () => {
                 >
                   <button
                     type="button"
-                    className={clsx(
+                    className={cn(
                       'dark:bg-navy-blue-700 dark:text-navy-blue-50 group flex h-[37px] w-[37px] md:h-[43px] md:w-[43px]',
                       'items-center justify-center rounded-full bg-white text-gray-700 shadow-md outline-none focus:outline-none'
                     )}
@@ -254,11 +255,35 @@ const Controlbar = () => {
               >
                 <button
                   type="button"
-                  className={clsx(
+                  className={cn(
                     'dark:bg-navy-blue-700 dark:text-navy-blue-50 group flex h-[37px] w-[37px] md:h-[43px] md:w-[43px]',
                     'items-center justify-center rounded-full bg-white text-gray-700 shadow-md outline-none focus:outline-none'
                   )}
-                  onClick={() => setImportModalOpen(true)}
+                  onClick={() => {
+                    toast.promise(myPromise(), {
+                      // unstyled: true,
+                      classNames: {
+                        toast: 'bg-blue',
+                        loading: 'dark:text-black bg-blue',
+                      },
+                      cancel: {
+                        label: 'Cancel',
+                        onClick: () => console.log('Cancel!'),
+                      },
+                      cancelButtonStyle: {
+                        background: 'red',
+                      },
+                      loading: 'Loading...',
+                      success: (data: any) => {
+                        return `${data.name} toast has been added`;
+                      },
+                      error: (data: any) => {
+                        console.log(data);
+                        return 'Error';
+                      },
+                    });
+                    // setImportModalOpen(true);
+                  }}
                 >
                   <PlusIcon
                     className={'group-hover:animate-pingOnce h-6 w-6'}
@@ -274,14 +299,14 @@ const Controlbar = () => {
             >
               <button
                 type="button"
-                className={clsx(
+                className={cn(
                   'dark:bg-navy-blue-700 dark:text-navy-blue-50 group flex h-[37px] w-[37px] md:h-[43px] md:w-[43px]',
                   'items-center justify-center rounded-full bg-white text-gray-700 shadow-md outline-none focus:outline-none'
                 )}
                 onClick={() => refreshVCs()}
               >
                 <ArrowPathIcon
-                  className={clsx(
+                  className={cn(
                     'group-hover:animate-spinOnce h-6 w-6 duration-75',
                     spinner ? 'animate-spinRefresh duration-75' : null
                   )}
@@ -296,10 +321,6 @@ const Controlbar = () => {
         setOpen={setImportModalOpen}
         importVC={saveCredential}
       />
-      {/* <PlaygroundModal
-        open={playgroundModalOpen}
-        setOpen={setPlaygroundModalOpen}
-      /> */}
     </div>
   );
 };

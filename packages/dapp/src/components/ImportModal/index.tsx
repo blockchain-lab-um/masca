@@ -11,7 +11,7 @@ import {
   ModalHeader,
 } from '@nextui-org/react';
 import type { W3CVerifiableCredential } from '@veramo/core';
-import clsx from 'clsx';
+import { cn } from '@/utils/shadcn';
 import { normalizeCredential } from 'did-jwt-vc';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
@@ -114,7 +114,7 @@ function ImportModal({ isOpen, setOpen, importVC }: ImportModalProps) {
               <div className="mt-5">
                 <div className="dark:bg-navy-blue-300 dark:border-navy-blue-400 group relative z-0 rounded-2xl border border-gray-200 bg-gray-100 pr-2 pt-1">
                   <textarea
-                    className={clsx(
+                    className={cn(
                       'group-hover:scrollbar-thumb-orange-300 dark:text-navy-blue-800 dark:bg-navy-blue-300',
                       'scrollbar-thin scrollbar-thumb-orange-300/0 scrollbar-thumb-rounded-full font-jetbrains-mono',
                       'min-h-[60vh] w-full resize-none rounded-2xl bg-gray-100 p-2 text-gray-700 focus:outline-none'

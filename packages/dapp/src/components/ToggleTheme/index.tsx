@@ -1,7 +1,7 @@
 'use client';
 
 import { MoonIcon, SunIcon } from '@heroicons/react/24/outline';
-import clsx from 'clsx';
+import { cn } from '@/utils/shadcn';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 
@@ -22,7 +22,7 @@ const ToggleTheme = () => {
   return (
     <button
       type="button"
-      className={clsx(
+      className={cn(
         'animated-transition dark:hover:bg-navy-blue-800 p-1 dark:text-navy-blue-400 ml-2 flex h-[32px] w-[32px] items-center justify-center rounded-full hover:bg-orange-100 lg:h-[38px] lg:w-[38px]',
         'outline-none focus-visible:outline-none',
         resolvedTheme === 'dark' ? 'text-white/50' : 'text-black/50'

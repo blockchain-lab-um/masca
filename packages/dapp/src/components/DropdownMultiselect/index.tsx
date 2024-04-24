@@ -1,7 +1,7 @@
 import type { AvailableCredentialStores } from '@blockchain-lab-um/masca-connector';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid';
-import clsx from 'clsx';
+import { cn } from '@/utils/shadcn';
 import { Fragment } from 'react';
 
 interface DropdownMultiselectProps {
@@ -33,7 +33,7 @@ const DropdownMultiselect = ({
             className="dark:bg-navy-blue-700 dark:text-navy-blue-100 flex w-full rounded-full border-2 border-pink-500 bg-white p-1 px-1 text-sm leading-5 text-pink-500 placeholder:text-gray-400"
           >
             <div
-              className={clsx(
+              className={cn(
                 'animated-transition flex flex-1 items-center justify-center gap-x-1 pl-4',
                 selectedItems.length === 0
                   ? 'dark:text-navy-blue-200 text-pink-500 '
@@ -50,7 +50,7 @@ const DropdownMultiselect = ({
             </div>
             <div className="px-2">
               <ChevronDownIcon
-                className={clsx(
+                className={cn(
                   'animated-transition dark:text-navy-blue-100 h-5 w-5 text-pink-500',
                   open ? 'rotate-180' : null
                 )}
@@ -69,7 +69,7 @@ const DropdownMultiselect = ({
                   {({ selected, active }) => (
                     <>
                       <span
-                        className={clsx(
+                        className={cn(
                           active
                             ? 'dark:bg-navy-blue-500 dark:text-orange-accent-dark/95 animated-transition cursor-pointer bg-pink-50 text-pink-600'
                             : null,

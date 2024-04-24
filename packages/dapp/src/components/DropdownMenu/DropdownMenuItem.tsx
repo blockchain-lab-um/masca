@@ -1,6 +1,6 @@
 import { Menu } from '@headlessui/react';
 import { CheckIcon } from '@heroicons/react/24/outline';
-import { clsx } from 'clsx';
+import { cn } from '@/utils/shadcn';
 
 interface DropdownMenuItemProps {
   children: React.ReactNode;
@@ -61,7 +61,7 @@ export const DropdownMenuItem = ({
         onClick={() => {
           handleBtn(children as string);
         }}
-        className={clsx(
+        className={cn(
           'md:text-md block w-full rounded-full py-2 text-sm',
           active ? variants[variant] : null,
           selected ? variantsSelected[variant] : variantsSelectedElse[variant]

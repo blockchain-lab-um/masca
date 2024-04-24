@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 
 import Button from '../Button';
 import type { Tables } from '@/utils/supabase/database.types';
-import clsx from 'clsx';
+import { cn } from '@/utils/shadcn';
 import { useSwitchChain, useVerifyRequirement } from '@/hooks';
 import { useAuthStore, useMascaStore, useToastStore } from '@/stores';
 import { isError } from '@blockchain-lab-um/masca-connector';
@@ -138,7 +138,7 @@ export const RequirementDisplay = ({
     <div className="mt-8 flex w-full justify-between">
       <h2 className="font-ubuntu dark:text-navy-blue-50 flex items-center gap-x-2 text-lg font-medium leading-6 text-gray-800">
         <div
-          className={clsx(
+          className={cn(
             'flex h-6 w-6 items-center justify-center rounded-full',
             completed ? 'bg-green-500' : 'dark:bg-navy-blue-600 bg-gray-300'
           )}

@@ -12,7 +12,7 @@ import {
   Snippet,
 } from '@nextui-org/react';
 import type { VerifiablePresentation } from '@veramo/core';
-import clsx from 'clsx';
+import { cn } from '@/utils/shadcn';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -222,7 +222,7 @@ export const ShareCredentialModal = () => {
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             classNames={{
-                              inputWrapper: clsx(
+                              inputWrapper: cn(
                                 'shadow-none outline-none',
                                 'bg-unset',
                                 'group-data-[focus=true]:border-pink-500 dark:group-data-[focus=true]:border-orange-accent-dark'

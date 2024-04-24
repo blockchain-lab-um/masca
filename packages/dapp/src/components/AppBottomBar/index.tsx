@@ -1,7 +1,7 @@
 'use client';
 
 import { EllipsisHorizontalIcon } from '@heroicons/react/24/solid';
-import clsx from 'clsx';
+import { cn } from '@/utils/shadcn';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -84,7 +84,7 @@ const AppBottomBar = () => {
         </div>
       </div>
       <div
-        className={clsx(
+        className={cn(
           'fixed bottom-14 left-0 z-10 mb-1 w-screen rounded-lg px-1 transition-transform duration-300 md:hidden',
           isMenuOpen ? 'translate-y-0' : 'translate-y-60'
         )}

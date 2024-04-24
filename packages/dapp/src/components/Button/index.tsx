@@ -1,4 +1,4 @@
-import { clsx } from 'clsx';
+import { cn } from '@/utils/shadcn';
 
 interface ButtonProps {
   variant:
@@ -93,13 +93,13 @@ const Button = ({
 }: ButtonProps) => (
   <button
     type="button"
-    className={clsx(
-      variants[variant],
+    className={cn(
       sizes[size],
       `shadow-${shadow}`,
       'animated-transition font-ubuntu flex max-w-xs items-center gap-x-2 rounded-full font-medium',
       'outline-none focus:outline-none',
-      disabled ? 'cursor-not-allowed opacity-50' : ''
+      disabled ? 'cursor-not-allowed opacity-50' : '',
+      variants[variant]
     )}
     onClick={onClick}
     disabled={disabled}
@@ -107,7 +107,7 @@ const Button = ({
     {loading && !showTextOnLoading ? '' : children}
     {loading && (
       <div
-        className={clsx(
+        className={cn(
           loaderSizes[size],
           showTextOnLoading ? 'mr-1' : '',
           'animate-spin rounded-full border-2 border-solid',

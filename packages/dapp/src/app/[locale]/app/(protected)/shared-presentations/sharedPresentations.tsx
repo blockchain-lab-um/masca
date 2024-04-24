@@ -12,7 +12,8 @@ import {
   TableRow,
   Tooltip,
 } from '@nextui-org/react';
-import clsx from 'clsx';
+// import { cn } from '@/utils/shadcn';
+import { cn } from '@/utils/shadcn';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useCallback, useMemo, useState } from 'react';
@@ -94,7 +95,7 @@ export const SharedPresentations = () => {
               <Tooltip content="Share">
                 <button
                   type="button"
-                  className={clsx(
+                  className={cn(
                     'dark:text-navy-blue-50 group flex',
                     'items-center justify-center rounded-full text-gray-700 outline-none focus:outline-none'
                   )}
@@ -189,7 +190,7 @@ export const SharedPresentations = () => {
             {(column) => (
               <TableColumn
                 key={column.key}
-                className={clsx(
+                className={cn(
                   'dark:text-navy-blue-100',
                   column.key === 'actions'
                     ? 'text-end'
@@ -211,7 +212,7 @@ export const SharedPresentations = () => {
               <TableRow key={item.id}>
                 {(columnKey) => (
                   <TableCell
-                    className={clsx(
+                    className={cn(
                       columnKey === 'actions'
                         ? 'text-end'
                         : columnKey === 'title'

@@ -1,5 +1,5 @@
 import { Switch } from '@headlessui/react';
-import clsx from 'clsx';
+import { cn } from '@/utils/shadcn';
 
 const variants = {
   primary: 'bg-gray-600 dark:bg-navy-blue-300',
@@ -64,7 +64,7 @@ export default function ToggleSwitch({
       disabled={disabled}
       checked={enabled}
       onChange={setEnabled}
-      className={clsx(
+      className={cn(
         enabled ? variantsEnabled[variant] : variants[variant],
         sizes[size],
         `shadow-${shadow}`,
@@ -74,7 +74,7 @@ export default function ToggleSwitch({
     >
       <span className="sr-only">Enable notifications</span>
       <span
-        className={clsx(
+        className={cn(
           enabled ? translateEnabled[size] : 'translate-x-1',
           sizesToggle[size],
           variantToggle[variant],

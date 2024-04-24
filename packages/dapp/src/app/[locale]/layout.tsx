@@ -1,6 +1,7 @@
 import '@/styles/globals.css';
 
-import clsx from 'clsx';
+// import { cn } from '@/utils/shadcn';
+import { cn } from '@/utils/shadcn';
 import type { Metadata } from 'next';
 import { NextIntlClientProvider, useMessages } from 'next-intl';
 import { Cabin, JetBrains_Mono, Ubuntu } from 'next/font/google';
@@ -96,7 +97,7 @@ export default function LocaleLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body
-        className={clsx(
+        className={cn(
           `${cabin.variable} ${ubuntu.variable} ${jetBrainsMono.variable} font-cabin`,
           'h-screen min-h-screen w-screen overflow-x-hidden overflow-y-visible',
           'main-bg'

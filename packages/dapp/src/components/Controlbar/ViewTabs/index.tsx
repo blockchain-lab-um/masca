@@ -4,7 +4,7 @@ import { Switch } from '@headlessui/react';
 import { Bars3Icon, Squares2X2Icon } from '@heroicons/react/20/solid';
 
 import { useTableStore } from '@/stores';
-import clsx from 'clsx';
+import { cn } from '@/utils/shadcn';
 
 const ViewTabs = () => {
   const { cardView, setCardView } = useTableStore((state) => ({
@@ -31,7 +31,7 @@ const ViewTabs = () => {
         }  ml-4 h-6 w-6 rounded-full md:h-7 md:w-7`}
       />
       <Bars3Icon
-        className={clsx(
+        className={cn(
           'animated-transition z-20 mr-3.5 h-6 w-6 rounded-full md:h-8 md:w-8',
           !cardView
             ? ' dark:text-navy-blue-800 text-gray-800'

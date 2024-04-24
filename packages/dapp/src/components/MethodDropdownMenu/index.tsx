@@ -7,7 +7,7 @@ import {
 } from '@blockchain-lab-um/masca-connector';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import clsx from 'clsx';
+import { cn } from '@/utils/shadcn';
 import { useTranslations } from 'next-intl';
 import { Fragment } from 'react';
 import { useChainId, useSwitchChain } from 'wagmi';
@@ -101,7 +101,7 @@ export default function MethodDropdownMenu() {
         <Fragment>
           <div>
             <Menu.Button
-              className={clsx(
+              className={cn(
                 'dark:text-navy-blue-400 text-h5 font-ubuntu animated-transition inline-flex w-full justify-center rounded-3xl px-4 py-2 font-thin text-gray-600 outline-none focus:outline-none focus-visible:outline-none',
                 open
                   ? 'dark:bg-navy-blue-800 bg-orange-100/50'
@@ -120,7 +120,7 @@ export default function MethodDropdownMenu() {
               )}
               {currMethod && (
                 <ChevronDownIcon
-                  className={clsx(
+                  className={cn(
                     'dark:text-navy-blue-400 animated-transition -mr-1 ml-2 h-5 w-5 text-gray-600',
                     open ? 'rotate-180' : ''
                   )}

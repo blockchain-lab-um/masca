@@ -2,7 +2,7 @@
 
 import { CheckIcon } from '@heroicons/react/24/solid';
 import type { VerifiableCredential } from '@veramo/core';
-import clsx from 'clsx';
+import { cn } from '@/utils/shadcn';
 import { useStepper } from 'headless-stepper';
 import { useTranslations } from 'next-intl';
 import { useEffect, useMemo, useState } from 'react';
@@ -154,14 +154,14 @@ const EncryptedSessionDisplay = () => {
                 <ol
                   // biome-ignore lint/suspicious/noArrayIndexKey:
                   key={index}
-                  className={clsx(
+                  className={cn(
                     index + 2 < stepperInstance.state.totalSteps && 'grow'
                   )}
                 >
                   <div className="flex items-center justify-start">
                     <div>
                       <div
-                        className={clsx(
+                        className={cn(
                           'dark:border-orange-accent-dark flex h-8 w-8 items-center justify-center rounded-full border-2 border-pink-500 text-xl font-bold text-pink-500 md:h-10 md:w-10',
                           index > stepperInstance.state.currentStep &&
                             'dark:text-orange-accent-dark',
@@ -187,7 +187,7 @@ const EncryptedSessionDisplay = () => {
                     {stepperInstance.state.totalSteps > index + 2 && (
                       <div className="grow">
                         <hr
-                          className={clsx(
+                          className={cn(
                             'ml-2 rounded-full border-2',
                             stepperInstance.state.currentStep === index + 1 &&
                               'dark:text-orange-accent-dark/40 text-pink-200',

@@ -1,6 +1,6 @@
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import clsx from 'clsx';
+import { cn } from '@/utils/shadcn';
 import { Fragment } from 'react';
 
 import { TextSkeleton } from '../Skeletons/TextSkeleton';
@@ -70,7 +70,7 @@ export default function DropdownMenu({
         <Fragment>
           <div>
             <Menu.Button
-              className={clsx(
+              className={cn(
                 'animated-transition flex items-center justify-center focus:outline-none',
                 variants[variant],
                 sizes[size],

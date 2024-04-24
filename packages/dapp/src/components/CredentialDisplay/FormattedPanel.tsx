@@ -8,7 +8,7 @@ import {
 import { Image } from '@nextui-org/react';
 import { Tooltip } from '@nextui-org/react';
 import type { VerifiableCredential } from '@veramo/core';
-import clsx from 'clsx';
+import { cn } from '@/utils/shadcn';
 import { isAddress } from 'ethers/address';
 import { useTranslations } from 'next-intl';
 import { Fragment, useMemo, useState } from 'react';
@@ -94,7 +94,7 @@ const CredentialSubject = ({
 
           return (
             <div
-              className={clsx(
+              className={cn(
                 'flex w-full overflow-clip',
                 isObject ? 'items-center' : 'flex-col items-start space-y-0.5'
               )}

@@ -1,5 +1,3 @@
-import clsx from 'clsx';
-
 import AppBottomBar from '@/components/AppBottomBar';
 import AppNavbar from '@/components/AppNavbar';
 import { SignInModal } from '@/components/SignInModal';
@@ -7,6 +5,7 @@ import ToastWrapper from '@/components/ToastWrapper';
 import { Providers } from '@/components/Providers';
 import { ScrollShadow } from '@nextui-org/react';
 import Banner from '@/components/Banner';
+import { Toaster } from '@/components/shadcn/sonner';
 
 export default async function AppLayout({
   children,
@@ -34,6 +33,7 @@ export default async function AppLayout({
       </div>
       <AppBottomBar />
       <SignInModal />
+      <Toaster richColors />
       <ToastWrapper />
     </Providers>
   );

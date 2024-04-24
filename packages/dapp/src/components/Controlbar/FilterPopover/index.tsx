@@ -3,7 +3,7 @@
 import type { QueryCredentialsRequestResult } from '@blockchain-lab-um/masca-connector';
 import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import clsx from 'clsx';
+import { cn } from '@/utils/shadcn';
 import { useTranslations } from 'next-intl';
 import { Fragment, useEffect } from 'react';
 
@@ -53,9 +53,7 @@ function FilterPopover({ vcs }: FilterPopoverProps) {
       {({ open, close }) => (
         <>
           <div className="dark:bg-navy-blue-700 flex h-full items-center rounded-full bg-white shadow-md">
-            <Popover.Button
-              className={clsx(' flex items-center px-4 text-xl ')}
-            >
+            <Popover.Button className={cn(' flex items-center px-4 text-xl ')}>
               <span>{t('filters')}</span>
               <ChevronDownIcon
                 className={`animated-transition ml-1 h-5 w-5 ${

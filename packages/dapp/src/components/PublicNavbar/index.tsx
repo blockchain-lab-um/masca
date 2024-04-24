@@ -1,13 +1,13 @@
 'use client';
 
 import { XMarkIcon } from '@heroicons/react/24/solid';
-import clsx from 'clsx';
+import { cn } from '@/utils/shadcn';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-import Button from '@/components//Button';
+import Button from '@/components/Button';
 import MascaLogo from '@/components/MascaLogo';
 import PublicFooter from '../PublicFooter';
 
@@ -59,7 +59,7 @@ const PublicNavbar = () => {
           <div className="mr-4">
             {INTERNAL_LINKS.map(({ name, href }) => (
               <Link
-                className={clsx(
+                className={cn(
                   'nav-btn',
                   pathname === '/ecosystem'
                     ? 'dark:text-orange-accent-dark text-pink-300'
@@ -74,7 +74,7 @@ const PublicNavbar = () => {
             {EXTERNAL_LINKS.map(({ name, href }) => (
               <a
                 target="_blank"
-                className={clsx('nav-btn')}
+                className={cn('nav-btn')}
                 key={name}
                 href={href}
                 rel="noreferrer"
@@ -103,7 +103,7 @@ const PublicNavbar = () => {
           </Button>
         </div>
         <div
-          className={clsx(
+          className={cn(
             'main-bg',
             'fixed left-0 top-0 z-50 h-screen w-screen transition-transform duration-300',
             isMenuOpen ? 'translate-x-0' : '-translate-x-full'
@@ -113,7 +113,7 @@ const PublicNavbar = () => {
             <div className="flex justify-end">
               <button
                 type="button"
-                className={clsx(
+                className={cn(
                   'animated-transition',
                   'rounded-full border-2 p-1.5 shadow-sm',
                   'hover:dark:text-orange-accent-dark hover:dark:border-orange-accent-dark hover:border-pink-300 hover:text-pink-300'
@@ -125,7 +125,7 @@ const PublicNavbar = () => {
             </div>
             {INTERNAL_LINKS.map(({ name, href }) => (
               <Link
-                className={clsx(
+                className={cn(
                   'nav-btn after:duration-500',
                   'py-2',
                   pathname === '/ecosystem'
@@ -141,7 +141,7 @@ const PublicNavbar = () => {
             ))}
             {EXTERNAL_LINKS.map(({ name, href }) => (
               <a
-                className={clsx('nav-btn after:duration-500', 'py-2')}
+                className={cn('nav-btn after:duration-500', 'py-2')}
                 key={name}
                 href={href}
               >

@@ -1,7 +1,7 @@
 import { isError } from '@blockchain-lab-um/masca-connector';
 import { Tab } from '@headlessui/react';
 import type { VerifiableCredential } from '@veramo/core';
-import clsx from 'clsx';
+import { cn } from '@/utils/shadcn';
 import { useTranslations } from 'next-intl';
 import React from 'react';
 
@@ -95,13 +95,13 @@ export const CredentialView = ({
               {({ selected }) => (
                 <div className="relative">
                   <div
-                    className={clsx(
+                    className={cn(
                       'transition-width dark:bg-orange-accent-dark h-10 rounded-full bg-pink-100 ease-in-out',
                       selected ? 'w-20 translate-x-0' : 'w-16 translate-x-20'
                     )}
                   />
                   <span
-                    className={clsx(
+                    className={cn(
                       'animated-transition absolute left-0 top-2 z-20 ml-3.5 rounded-full',
                       selected
                         ? 'dark:text-navy-blue-900 text-pink-600'
@@ -115,7 +115,7 @@ export const CredentialView = ({
             </Tab>
             <Tab
               className={({ selected }) =>
-                clsx(
+                cn(
                   'animated-transition z-20 mr-3 rounded-full outline-none focus-visible:outline-none',
                   selected
                     ? 'dark:text-navy-blue-900 text-pink-600'

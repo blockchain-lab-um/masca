@@ -1,6 +1,6 @@
 import { ChevronRightIcon } from '@heroicons/react/24/solid';
 import { Checkbox } from '@nextui-org/react';
-import clsx from 'clsx';
+import { cn } from '@/utils/shadcn';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
@@ -30,7 +30,7 @@ export const Ecosystems = () => {
       >
         <div className="dark:text-navy-blue-100 my-1 ml-2 flex items-center gap-x-2 text-gray-700">
           <ChevronRightIcon
-            className={clsx(
+            className={cn(
               'animated-transition h-5 w-5',
               `${open ? 'rotate-90' : ''}`
             )}

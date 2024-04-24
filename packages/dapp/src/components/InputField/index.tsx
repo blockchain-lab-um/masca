@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { cn } from '@/utils/shadcn';
 
 interface InputFieldProps {
   variant?: 'primary' | 'secondary' | 'gray';
@@ -39,7 +39,7 @@ const InputField = ({
     onChange={(e) => setValue(e.target.value)}
     placeholder={placeholder}
     disabled={disabled}
-    className={clsx(
+    className={cn(
       variants[variant],
       sizes[size],
       `rounded-${rounded}`,

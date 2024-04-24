@@ -1,6 +1,6 @@
 'use client';
 
-import clsx from 'clsx';
+import { cn } from '@/utils/shadcn';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -50,7 +50,7 @@ export default function AppNavbar() {
             if ((requiresConnection && isConnected) || !requiresConnection) {
               return (
                 <Link
-                  className={clsx(
+                  className={cn(
                     'nav-btn',
                     pathname === href
                       ? 'dark:text-orange-accent-dark text-pink-500'

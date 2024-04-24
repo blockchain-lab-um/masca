@@ -1,4 +1,4 @@
-import { clsx } from 'clsx';
+import { cn } from '@/utils/shadcn';
 
 export const TextSkeleton = ({
   className = 'h-2 w-48',
@@ -6,8 +6,6 @@ export const TextSkeleton = ({
   className?: string;
 }) => (
   <div role="status" className="max-w-sm animate-pulse">
-    <div
-      className={clsx(className, 'rounded-lg bg-gray-200 dark:bg-gray-700')}
-    />
+    <div className={cn(className, 'rounded-lg bg-gray-200 dark:bg-gray-700')} />
   </div>
 );

@@ -7,7 +7,7 @@ import {
   QuestionMarkCircleIcon,
 } from '@heroicons/react/24/solid';
 import * as Toast from '@radix-ui/react-toast';
-import clsx from 'clsx';
+import { cn } from '@/utils/shadcn';
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 
@@ -39,7 +39,7 @@ const ToastWrapper = () => {
         {loading && (
           <div className="mx-3 flex items-center">
             <div
-              className={clsx(
+              className={cn(
                 'h-5 w-5 border-2',
                 'ml-1 animate-spin rounded-full border-solid border-t-pink-900/0',
                 'border-pink-500'
@@ -57,7 +57,7 @@ const ToastWrapper = () => {
   return (
     <Toast.Provider swipeDirection="right">
       <Toast.Root
-        className={clsx(
+        className={cn(
           'data-[state=open]:animate-slideIn data-[state=closed]:animate-hide data-[swipe=end]:animate-swipeOut',
           'dark:bg-navy-blue-800 dark:text-navy-blue-50 grid grid-cols-[auto_max-content] items-center gap-x-[15px] rounded-md bg-white shadow-md',
           "[grid-template-areas:_'title_action'_'description_action'] data-[swipe=cancel]:translate-x-0",
@@ -68,7 +68,7 @@ const ToastWrapper = () => {
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <div className={clsx(toastType[type], 'h-14 w-2 rounded-l-2xl')} />
+            <div className={cn(toastType[type], 'h-14 w-2 rounded-l-2xl')} />
 
             <Toast.Title className="flex items-center [grid-area:_title]">
               {toastIcon[type]}
@@ -98,7 +98,7 @@ const ToastWrapper = () => {
         </div>
       </Toast.Root>
       <Toast.Viewport
-        className={clsx(
+        className={cn(
           'fixed bottom-0 right-0 z-[2147483647] m-0 flex w-[390px] max-w-[100vw] list-none',
           'flex-col gap-[10px] p-[var(--viewport-padding)] outline-none [--viewport-padding:_25px]'
         )}

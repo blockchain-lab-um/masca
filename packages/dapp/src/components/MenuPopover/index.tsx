@@ -3,7 +3,7 @@
 import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { ShareIcon } from '@heroicons/react/24/outline';
-import clsx from 'clsx';
+import { cn } from '@/utils/shadcn';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { Fragment } from 'react';
@@ -135,7 +135,7 @@ function MenuPopover() {
       {({ open, close }) => (
         <>
           <Popover.Button
-            className={clsx(
+            className={cn(
               'nav-btn flex items-end',
               open
                 ? 'dark:text-orange-accent-dark text-pink-500'
