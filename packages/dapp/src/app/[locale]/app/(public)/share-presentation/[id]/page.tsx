@@ -1,9 +1,7 @@
-import type { VerifiablePresentation } from '@veramo/core';
 import { decodeCredentialToObject } from '@veramo/utils';
 import { normalizeCredential } from 'did-jwt-vc';
 import { notFound } from 'next/navigation';
 
-import { getAgent } from '@/app/api/veramoSetup';
 import JsonPanel from '@/components/CredentialDisplay/JsonPanel';
 import { convertTypes } from '@/utils/string';
 import { FormattedView } from './FormattedView';
@@ -11,16 +9,6 @@ import { usePresentation, useUpdatePresentationViews } from '@/hooks';
 import { NormalViewButton } from './NormalViewButton';
 
 export const revalidate = 0;
-
-const verifyPresentation = async (presentation: VerifiablePresentation) => {
-  const agent = await getAgent();
-
-  const result = await agent.verifyPresentation({
-    presentation,
-  });
-
-  return result;
-};
 
 export default async function Page({
   params: { id },
@@ -48,20 +36,15 @@ export default async function Page({
   const page = searchParams.page ?? '1';
   const view = searchParams.view ?? 'Normal';
 
-  const verificationResult = await verifyPresentation(presentation);
-
   return (
     <div className="flex w-full flex-1 items-start justify-center">
       <div className="max-w-full flex-1 md:max-w-3xl">
         {view === 'Normal' && (
           <FormattedView
             credential={credentials[Number.parseInt(page, 10) - 1]}
-            holder={presentation.holder}
-            expirationDate={presentation.expirationDate}
-            issuanceDate={presentation.issuanceDate}
+            presentation={presentation}
             page={page}
             total={credentials.length ?? 1}
-            verificationResult={verificationResult}
           />
         )}
         {view === 'Json' && (

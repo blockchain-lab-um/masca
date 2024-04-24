@@ -9,6 +9,7 @@ import Image from 'next/image';
 import { mainnet } from 'viem/chains';
 import { normalize } from 'viem/ens';
 import { useAccount, useEnsAvatar, useEnsName } from 'wagmi';
+import ToggleTheme from '@/components/ToggleTheme';
 
 import { copyToClipboard } from '@/utils/string';
 import { TextSkeleton } from '../Skeletons/TextSkeleton';
@@ -119,14 +120,19 @@ const AddressPopover = ({ did, disconnect }: AddressPopoverProps) => {
                       </button>
                     </div>
                   </div>
-                  <div className="mt-2 flex justify-start">
-                    <button
-                      type="button"
-                      onClick={disconnect}
-                      className="animated-transition mt-auto text-xs font-semibold text-red-500 hover:text-red-700 dark:text-red-300 hover:dark:text-red-500"
-                    >
-                      {t('address.disconnect')}
-                    </button>
+                  <div className="mt-2 flex justify-between items-center">
+                    <div>
+                      <button
+                        type="button"
+                        onClick={disconnect}
+                        className="animated-transition mt-auto text-xs font-semibold text-red-500 hover:text-red-700 dark:text-red-300 hover:dark:text-red-500"
+                      >
+                        {t('address.disconnect')}
+                      </button>
+                    </div>
+                    <div>
+                      <ToggleTheme />
+                    </div>
                   </div>
                 </div>
               </div>

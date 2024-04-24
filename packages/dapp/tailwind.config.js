@@ -147,6 +147,14 @@ const config = {
         pingOnce: {
           '75%': { transform: 'scale(1.5)', opacity: 20 },
         },
+        'accordion-down': {
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
+        },
+        'accordion-up': {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' },
+        },
       },
       animation: {
         hide: 'hide 100ms ease-in',
@@ -155,6 +163,8 @@ const config = {
         spinRefresh: 'spinRefresh 1.5s ease-in infinite',
         spinOnce: 'spinOnce 1s ease-in-out',
         pingOnce: 'pingOnce 1s cubic-bezier(0, 0, 0.2, 1)',
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out',
       },
     },
   },
@@ -186,6 +196,7 @@ const config = {
       },
     }),
     require('tailwind-scrollbar')({ nocompatible: true }),
+    require('tailwindcss-animate'),
   ],
 };
 
