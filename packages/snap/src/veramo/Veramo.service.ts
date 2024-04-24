@@ -28,7 +28,11 @@ import type {
   PresentationDefinition,
   TokenResponse,
 } from '@blockchain-lab-um/oidc-types';
-import { type Result, isError } from '@blockchain-lab-um/utils';
+import {
+  type Result,
+  isError,
+  UniversalResolverService,
+} from '@blockchain-lab-um/utils';
 import {
   type AbstractDataStore,
   DataManager,
@@ -91,7 +95,6 @@ import qs from 'qs';
 import EthereumService from '../Ethereum.service';
 import GeneralService from '../General.service';
 import UIService from '../UI.service';
-import UniversalResolverService from '../UniversalResolver.service';
 import WalletService from '../Wallet.service';
 import StorageService from '../storage/Storage.service';
 import { normalizeCredential } from '../utils/credential';
@@ -994,6 +997,8 @@ class VeramoService {
     if (enabledCredentialStores.includes('ceramic')) {
       vcStorePlugins.ceramic = new CeramicCredentialStore();
     }
+
+    UniversalResolverService.init();
 
     return createAgent<
       IDIDManager &
