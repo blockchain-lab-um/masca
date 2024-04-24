@@ -76,13 +76,16 @@ export const EduCTX = ({ credential, title }: EduCTXProps) => {
               {title.dates}
             </h1>
             <DisplayDate text="Issuance date" date={credential.issuanceDate} />
-            <DisplayDate
-              text="Awarding date"
-              date={
-                credential.credentialSubject?.achieved?.wasAwardedBy
-                  ?.awardingDate
-              }
-            />
+            {credential.credentialSubject?.achieved?.wasAwardedBy
+              ?.awardingDate && (
+              <DisplayDate
+                text="Awarding date"
+                date={
+                  credential.credentialSubject?.achieved?.wasAwardedBy
+                    ?.awardingDate
+                }
+              />
+            )}
             {credential.expirationDate && (
               <DisplayDate
                 text="Expiration date"
