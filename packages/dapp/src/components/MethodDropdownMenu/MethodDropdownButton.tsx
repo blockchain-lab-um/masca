@@ -64,7 +64,7 @@ export function DropdownButton({
       <button
         type="button"
         className={clsx(
-          'md:text-md block w-full rounded-full py-2 text-sm',
+          'md:text-md block w-full rounded-full py-2 px-1 text-sm',
           isActive ? variants[variant] : null,
           selected ? variantsSelected[variant] : variantsSelectedElse[variant]
         )}
@@ -72,16 +72,12 @@ export function DropdownButton({
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <div className="grid grid-cols-6">
-          <span>
-            {selected ? (
-              <CheckIcon className="ml-3 h-4 w-4 lg:h-5 lg:w-5" />
-            ) : (
-              ''
-            )}
-          </span>
-          <span className="col-span-4 col-start-2 text-center">
+        <div className="grid grid-cols-8 items-center px-1">
+          <span className="col-span-6 flex justify-start items-center">
             {children === 'did:key:jwk_jcs-pub' ? 'did:key (EBSI)' : children}
+          </span>
+          <span className="col-span-2">
+            {selected && <CheckIcon className="ml-3 h-4 w-4 lg:h-5 lg:w-5" />}
           </span>
         </div>
       </button>

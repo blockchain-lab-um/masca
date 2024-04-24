@@ -108,7 +108,7 @@ export default function NetworkDropDownMenu({
     <DropdownMenu onOpenChange={() => setOpen(!open)}>
       <DropdownMenuTrigger
         className={clsx(
-          'animated-transition flex items-center justify-center focus:outline-none',
+          'animated-transition flex items-center justify-center focus:outline-none hover:bg-white/50',
           variants[variant],
           sizes[size],
           `rounded-${rounded}`,
@@ -117,7 +117,7 @@ export default function NetworkDropDownMenu({
           open ? variantsHover[variant] : ''
         )}
       >
-        <div className="flex items-center justify-center p-1">
+        <div className="flex items-center justify-center">
           {selected && (
             <Image
               src={items.find((item) => item.name === selected)?.logo ?? ''}
@@ -135,7 +135,7 @@ export default function NetworkDropDownMenu({
           <div>
             {selected && (
               <ChevronDownIcon
-                className={`animated-transition h-5 w-5 ml-2 mr-2 ${
+                className={`animated-transition h-5 w-5 ml-2 ${
                   open ? 'rotate-180 ' : ''
                 }`}
                 aria-hidden="true"
