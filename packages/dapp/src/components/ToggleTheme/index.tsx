@@ -23,7 +23,7 @@ const ToggleTheme = () => {
     <button
       type="button"
       className={clsx(
-        'animated-transition dark:hover:bg-navy-blue-800 p-1 dark:text-navy-blue-400 ml-2 flex h-[32px] w-[32px] items-center justify-center rounded-full hover:bg-orange-100 lg:h-[38px] lg:w-[38px]',
+        'animated-transition dark:hover:bg-navy-blue-800 p-1 dark:text-navy-blue-400 ml-2 flex h-[36px] w-[36px] items-center justify-center rounded-full hover:bg-orange-100 lg:h-[32px] lg:w-[32px]',
         'outline-none focus-visible:outline-none',
         resolvedTheme === 'dark' ? 'text-white/50' : 'text-black/50'
       )}

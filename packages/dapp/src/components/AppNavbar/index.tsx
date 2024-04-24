@@ -8,7 +8,6 @@ import { useAccount } from 'wagmi';
 
 import MascaLogo from '@/components/MascaLogo';
 import MenuPopover from '@/components/MenuPopover';
-import ToggleTheme from '@/components/ToggleTheme';
 import { NavConnection } from './NavConnection';
 
 const MAIN_LINKS = [
@@ -70,7 +69,6 @@ export default function AppNavbar() {
         <div className="flex-1 md:flex-none">
           <div className="flex items-center justify-end">
             <NavConnection />
-            <ToggleTheme />
           </div>
         </div>
       </div>
