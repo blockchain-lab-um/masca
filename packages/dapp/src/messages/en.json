@@ -282,15 +282,15 @@
     "invalid": "Invalid",
     "presentation-status": "Status",
     "presentation-valid": "Presentation is valid",
-    "presentation-invalid": "Presentation is invalid"
+    "presentation-invalid": "Presentation is invalid",
+    "verify-failed": "Failed to verify presentation"
   },
   "CredentialPanel": {
     "title": "Credential",
     "status": "Status",
     "dates": "DATES",
-    "expiration-date": "Expiration Date",
     "issuer": "ISSUER",
-    "isuance-date": "Issuance Date",
+    "issuance-date": "Issuance Date",
     "subject": "SUBJECT",
     "view-json": "View JSON",
     "credential-valid": "Credential is valid",
