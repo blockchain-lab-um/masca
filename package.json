@@ -56,7 +56,7 @@
     "jest-extended": "^4.0.2",
     "lint-staged": "^15.2.2",
     "nx": "18.0.7",
-    "nx-cloud": "^18.0.0",
+    "nx-cloud": "^18.0.1",
     "rimraf": "^5.0.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.2"
