@@ -45,7 +45,7 @@
     "@veramo/key-manager": "6.0.0",
     "@veramo/kms-local": "6.0.0",
     "@vitest/coverage-v8": "1.5.1",
-    "better-sqlite3": "^9.4.3",
+    "better-sqlite3": "^9.6.0",
     "jest-extended": "4.0.2",
     "multiformats": "^13.1.0",
     "tsup": "^8.0.2",
