@@ -4,7 +4,7 @@ export default function Banner() {
   return (
     <div className="bg-pink-200 text-center dark:bg-navy-blue-800">
       <div className="container mx-auto px-4">
-        <p>
+        {/* <p>
           Support Masca on{' '}
           <Link
             className="animate-pulse"
@@ -14,7 +14,7 @@ export default function Banner() {
             Gitcoin Grants
           </Link>
           !
-        </p>
+        </p> */}
       </div>
     </div>
   );
