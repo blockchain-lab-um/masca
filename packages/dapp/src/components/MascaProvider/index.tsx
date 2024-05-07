@@ -117,8 +117,12 @@ const MascaProvider = ({ children }: { children: React.ReactNode }) => {
           loading: false,
           link: null,
         });
-        await switchChainAsync({ chainId: 1 });
-        await enableMascaHandler();
+        await switchChainAsync({ chainId: 1 }).catch((err) => {
+          console.log(err);
+        });
+        await enableMascaHandler().catch((err) => {
+          console.log(err);
+        });
         return;
       }
       setTimeout(() => {
