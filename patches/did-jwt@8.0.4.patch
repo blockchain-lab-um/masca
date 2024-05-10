@@ -1,0 +1,22 @@
+diff --git a/package.json b/package.json
+index 9abec11515c2fc71317e28359652efe54b866e10..f2133e4a2735ede4b6cbc28f3fa17190f1a55757 100644
+--- a/package.json
++++ b/package.json
+@@ -5,7 +5,7 @@
+   "type": "module",
+   "source": "src/index.ts",
+   "main": "./lib/index.cjs",
+-  "module": "./lib/index.module.js",
++  "module": "./lib/index.cjs",
+   "types": "./lib/index.d.ts",
+   "files": [
+     "lib",
+@@ -17,7 +17,7 @@
+     ".": {
+       "types": "./lib/index.d.ts",
+       "require": "./lib/index.cjs",
+-      "import": "./lib/index.module.js"
++      "import": "./lib/index.cjs"
+     }
+   },
+   "browser": "./dist/did-jwt.js",
