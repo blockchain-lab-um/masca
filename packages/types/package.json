@@ -24,10 +24,10 @@
     "typia:generate": "pnpm typia generate --input typia-templates --output src/typia-generated --project tsconfig.json"
   },
   "dependencies": {
-    "@0xpolygonid/js-sdk": "1.10.4",
+    "@0xpolygonid/js-sdk": "1.12.0",
     "@blockchain-lab-um/utils": "1.4.0-beta.1",
     "@veramo/core": "6.0.0",
-    "typia": "^5.5.0"
+    "typia": "^6.0.3"
   },
   "devDependencies": {
     "tsup": "^8.0.2"

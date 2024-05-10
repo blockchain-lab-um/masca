@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { useTheme } from 'next-themes';
 
 interface DropdownMenuItemProps {
-  children: Network;
+  network: Network;
   handleBtn: (text: string) => void;
   selected: boolean;
   variant?:
@@ -55,7 +55,7 @@ const variantsSelectedElse: Record<string, string> = {
 };
 
 export default function NetworkDropdownMenuItem({
-  children,
+  network,
   handleBtn,
   selected,
   variant = 'primary',
@@ -66,7 +66,7 @@ export default function NetworkDropdownMenuItem({
   const handleMouseLeave = () => setIsActive(false);
 
   const networkBackgroundColor =
-    resolvedTheme === 'dark' ? '#ffffffbf' : children.backgroundColor;
+    resolvedTheme === 'dark' ? '#ffffffbf' : network.backgroundColor;
 
   return (
     <DropdownMenuItem className="p-0">
@@ -77,15 +77,15 @@ export default function NetworkDropdownMenuItem({
           isActive ? variants[variant] : null,
           selected ? variantsSelected[variant] : variantsSelectedElse[variant]
         )}
-        onClick={() => handleBtn(children.name as string)}
+        onClick={() => handleBtn(network.name as string)}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
         <div className="grid grid-cols-8 items-center">
           <span className="col-span-2 flex items-center justify-center">
             <Image
-              src={children.logo}
-              alt={`${children.name} logo`}
+              src={network.logo}
+              alt={`${network.name} logo`}
               style={{
                 width: '50%',
                 height: 'auto',
@@ -97,7 +97,7 @@ export default function NetworkDropdownMenuItem({
             />
           </span>
           <span className="col-span-4 flex justify-start">
-            <div className="text-left">{children.name}</div>
+            <div className="text-left">{network.name}</div>
           </span>
           <span className="col-span-2">
             {selected && <CheckIcon className="ml-3 h-4 w-4 lg:h-5 lg:w-5" />}

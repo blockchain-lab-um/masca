@@ -44,9 +44,8 @@ export const CampaignsDisplay = () => {
         <p className="text-justify">{t('description')}</p>
       </div>
       {campaigns.map((campaign) => (
-        <div className="pb-2">
+        <div key={campaign.id} className="pb-2">
           <CampaignDisplay
-            key={campaign.id}
             campaign={campaign}
             alreadyClaimed={
               !!claimsData?.claims?.find(

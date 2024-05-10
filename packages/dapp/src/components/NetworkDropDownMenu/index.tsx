@@ -150,7 +150,7 @@ export default function NetworkDropDownMenu({
           {filteredNetworks.map((item) => (
             <NetworkDropdownMenuItem
               key={item.name}
-              children={item}
+              network={item}
               selected={selected === item.name}
               handleBtn={setSelected}
               variant={variant}

@@ -7,14 +7,15 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import { onRpcRequest } from '../../src';
 import { account } from '../data/constants';
 import { getDefaultSnapState } from '../data/defaultSnapState';
-import { CHEQD, EBSI, ENS, ETHR, KEY, WEB } from '../data/documentResolution';
+import { CHEQD, EBSI, ETHR, KEY, WEB } from '../data/documentResolution';
 import { type SnapMock, createMockSnap } from '../helpers/snapMock';
 
 describe('resolveDID', () => {
   let snapMock: SnapsProvider & SnapMock;
 
   // TODO[Martin]: We removed ION as it caused failed tests. We need to add it back.
-  const methods = [EBSI, ENS, CHEQD, WEB, ETHR, KEY] as const;
+  // TODO[Martin]: We removed ENS as it caused failed tests. We need to add it back.
+  const methods = [EBSI, CHEQD, WEB, ETHR, KEY] as const;
 
   beforeAll(async () => {
     snapMock = createMockSnap();

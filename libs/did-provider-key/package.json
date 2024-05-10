@@ -44,15 +44,15 @@
     "@veramo/did-resolver": "6.0.0",
     "@veramo/key-manager": "6.0.0",
     "@veramo/kms-local": "6.0.0",
-    "@vitest/coverage-v8": "1.5.1",
-    "better-sqlite3": "^9.4.3",
+    "@vitest/coverage-v8": "1.6.0",
+    "better-sqlite3": "^9.6.0",
     "jest-extended": "4.0.2",
     "multiformats": "^13.1.0",
     "tsup": "^8.0.2",
     "typeorm": "^0.3.20",
-    "vite": "^5.2.10",
+    "vite": "^5.2.11",
     "vite-tsconfig-paths": "^4.3.2",
-    "vitest": "1.5.1"
+    "vitest": "1.6.0"
   },
   "publishConfig": {
     "access": "public"

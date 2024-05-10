@@ -5,7 +5,7 @@ import type { VerifiableCredential } from '@veramo/core';
 import clsx from 'clsx';
 import { useStepper } from 'headless-stepper';
 import { useTranslations } from 'next-intl';
-import { useEffect, useMemo, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 import { useAccount } from 'wagmi';
 
 import Button from '@/components/Button';
@@ -149,11 +149,12 @@ const EncryptedSessionDisplay = () => {
           {...stepperInstance.stepperProps}
         >
           {stepperInstance.stepsProps?.map((_, index) => (
-            <>
+            <Fragment
+              // biome-ignore lint/suspicious/noArrayIndexKey:
+              key={index}
+            >
               {index < 4 && (
                 <ol
-                  // biome-ignore lint/suspicious/noArrayIndexKey:
-                  key={index}
                   className={clsx(
                     index + 2 < stepperInstance.state.totalSteps && 'grow'
                   )}
@@ -202,7 +203,7 @@ const EncryptedSessionDisplay = () => {
                   </div>
                 </ol>
               )}
-            </>
+            </Fragment>
           ))}
         </nav>
       </div>

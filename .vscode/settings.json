@@ -17,5 +17,6 @@
   "editor.codeActionsOnSave": {
     "source.fixAll": "always",
     "source.organizeImports": "never"
-  }
+  },
+  "vitest.disableWorkspaceWarning": true
 }
