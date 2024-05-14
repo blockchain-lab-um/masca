@@ -97,7 +97,9 @@ export async function GET(req: NextRequest) {
                       fontWeight: 'normal',
                     }}
                   >
-                    {formatDid(credentialIssuer)}
+                    {credentialType.includes('Education Credential')
+                      ? credentialIssuer
+                      : formatDid(credentialIssuer)}
                   </div>
                   <div tw="text-md text-orange-100 mt-4">ACHIEVED</div>
                   <div
@@ -219,7 +221,9 @@ export async function GET(req: NextRequest) {
                     fontWeight: 'normal',
                   }}
                 >
-                  {formatDid(credentialIssuer)}
+                  {credentialType.includes('Education Credential')
+                    ? credentialIssuer
+                    : formatDid(credentialIssuer)}
                 </div>
                 <div tw="text-md text-orange-100 mt-4">ISSUED TO</div>
                 <div
