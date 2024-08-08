@@ -1,0 +1,28 @@
+name: Sync fork
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+      - develop
+
+jobs:
+  sync:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event_name == 'workflow_run' || github.head_ref || github.ref_name }}
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.LUTRA_FORK_KEY }} 
+      - name: Push to fork repo
+        env:
+          USE_SSH: true
+        run: |
+          git remote add fork git@github.com:lutralabs/masca.git
+          git config --global user.email "info@lutralabs.com"
+          git config --global user.name "Lutra Labs Bot"
+          git push fork --force
