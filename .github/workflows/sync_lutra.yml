@@ -1,4 +1,4 @@
-name: Sync fork
+name: Sync to Lutra
 
 on:
   workflow_dispatch:
