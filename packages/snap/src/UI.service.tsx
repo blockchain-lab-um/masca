@@ -6,15 +6,6 @@ import {
   type MascaRPCRequest,
   type QueryCredentialsRequestResult,
 } from '@blockchain-lab-um/masca-types';
-import {
-  type Component,
-  copyable,
-  divider,
-  heading,
-  panel,
-  text,
-} from '@metamask/snaps-sdk';
-import type { W3CVerifiableCredential } from '@veramo/core';
 
 import StorageService from './storage/Storage.service';
 import { getInitialPermissions } from './utils/config';
@@ -24,6 +15,28 @@ import {
   isTrustedDapp,
   permissionExists,
 } from './utils/permissions';
+
+import {
+  Box,
+  Divider,
+  Heading,
+  Text,
+  Address,
+  Bold,
+  Button,
+  Copyable,
+  Dropdown,
+  Field,
+  Form,
+  Image,
+  Input,
+  Italic,
+  Link,
+  Row,
+  Spinner,
+  type JSXElement,
+} from '@metamask/snaps-sdk/jsx';
+import type { W3CVerifiableCredential } from '@veramo/core';
 
 const permissionActions: Record<string, string> = {
   queryCredentials: 'Querying Credentials',
@@ -37,16 +50,18 @@ const permissionExtraText: Record<string, string> = {
 class UIService {
   static originHostname: string;
 
-  static originWrapper: Component[];
+  static originWrapper: JSXElement[];
 
   static async init(origin: string) {
     UIService.originHostname = new URL(origin).hostname; // hostname
-    UIService.originWrapper = [text(`Origin: **${origin}**`), divider()];
+    UIService.originWrapper = [
+      <Text key={'text'}>Origin: {UIService.originHostname}</Text>,
+    ];
   }
 
   static async snapConfirm(params: {
     method: MascaRPCRequest['method'] | 'other';
-    content: Component;
+    content: JSXElement;
     force?: boolean;
   }): Promise<boolean> {
     const { content, force = false } = params;
@@ -67,16 +82,17 @@ class UIService {
         method: 'snap_dialog',
         params: {
           type: 'confirmation',
-          content,
+          content: content,
         },
       });
+
       return res as boolean;
     }
     return true;
   }
 
   static async snapAlert(params: {
-    content: Component;
+    content: JSXElement;
     force?: boolean;
   }): Promise<void> {
     const { content, force = false } = params;
@@ -93,27 +109,33 @@ class UIService {
         method: 'snap_dialog',
         params: {
           type: 'alert',
-          content,
+          content: content,
         },
       });
     }
   }
 
   static async queryAllDialog(): Promise<boolean> {
-    const uiPanel = panel([
-      heading('Share Verifiable Credentials'),
-      ...UIService.originWrapper,
-      text(
-        `Would you like give _**${UIService.originHostname}**_ permission to access your credentials?`
-      ),
-      divider(),
-      text('This permission can be revoked at [Masca dApp](https://masca.io).'),
-    ]);
+    const uiPanelContent = (
+      <Box>
+        <Heading>Share Verifiable Credentials</Heading>
+        {...UIService.originWrapper}
+        <Text>
+          Would you like give _**{UIService.originHostname}**_ permission to
+          access your credentials?
+        </Text>
+        <Divider />
+        <Text>
+          This permission can be revoked at{' '}
+          <Link href="https://masca.io">Masca dApp</Link>.
+        </Text>
+      </Box>
+    );
 
     const state = StorageService.get();
 
     const res = await UIService.snapConfirm({
-      content: uiPanel,
+      content: uiPanelContent,
       method: 'queryCredentials',
     });
 
@@ -149,22 +171,25 @@ class UIService {
     verifiableCredential: any;
   }) {
     const { store, verifiableCredential } = params;
-    const uiPanel = panel([
-      heading('Save Verifiable Credential'),
-      ...UIService.originWrapper,
-      text('Would you like to save the credential below?'),
-      divider(),
-      text(
-        `Credential will be saved in the following data store(s): **${
-          typeof store === 'string' ? store : store.join(', ')
-        }**`
-      ),
-      divider(),
-      text('Credential:'),
-      copyable(JSON.stringify(verifiableCredential, null, 2)),
-    ]);
+
+    const uiPanelContent = (
+      <Box>
+        <Heading>Save Verifiable Credential</Heading>
+        {...UIService.originWrapper}
+        <Text>Would you like to save the credential below?</Text>
+        <Divider />
+        <Text>
+          Credential will be saved in the following data store(s): **
+          {typeof store === 'string' ? store : store.join(', ')}**
+        </Text>
+        <Divider />
+        <Text>Credential:</Text>
+        <Copyable value={JSON.stringify(verifiableCredential, null, 2)} />
+      </Box>
+    );
+
     const res = await UIService.snapConfirm({
-      content: uiPanel,
+      content: uiPanelContent,
       method: 'saveCredential',
     });
     return res;
@@ -177,23 +202,26 @@ class UIService {
     did: string;
   }) {
     const { save, storeString, minimalUnsignedCredential, did } = params;
-    const uiPanel = panel([
-      heading('Create and Save Verifiable Credential'),
-      ...UIService.originWrapper,
-      text(`DID: **${did}**`),
-      divider(),
-      text(
-        `Would you like to ${
-          save === true ? 'sign and save' : 'sign'
-        } the credential below?`
-      ),
-      divider(),
-      text(`${storeString}`),
-      text('Credential:'),
-      copyable(JSON.stringify(minimalUnsignedCredential, null, 2)),
-    ]);
+
+    const uiPanelContent = (
+      <Box>
+        <Heading>Create and Save Verifiable Credential</Heading>
+        {...UIService.originWrapper}
+        <Text>DID: **{did}**</Text>
+        <Divider />
+        <Text>
+          Would you like to {save === true ? 'sign and save' : 'sign'} the
+          credential below?
+        </Text>
+        <Divider />
+        <Text>{storeString}</Text>
+        <Text>Credential:</Text>
+        <Copyable value={JSON.stringify(minimalUnsignedCredential, null, 2)} />
+      </Box>
+    );
+
     const res = await UIService.snapConfirm({
-      content: uiPanel,
+      content: uiPanelContent,
       method: 'createCredential',
       force: true,
     });
@@ -205,21 +233,24 @@ class UIService {
     vcs: QueryCredentialsRequestResult[];
   }) {
     const { store, vcs } = params;
-    const uiPanel = panel([
-      heading('Delete Verifiable Credential'),
-      ...UIService.originWrapper,
-      text('Are you sure you want to delete this credential?'),
-      divider(),
-      text(
-        `Credential will be deleted from the following data store(s): **${
-          typeof store === 'string' ? store : store.join(', ')
-        }**`
-      ),
-      divider(),
-      text(`Credential: ${JSON.stringify(vcs, null, 2)}`),
-    ]);
+
+    const uiPanelContent = (
+      <Box>
+        <Heading>Delete Verifiable Credential</Heading>
+        {...UIService.originWrapper}
+        <Text>Are you sure you want to delete this credential?</Text>
+        <Divider />
+        <Text>
+          Credential will be deleted from the following data store(s): **
+          {typeof store === 'string' ? store : store.join(', ')}**
+        </Text>
+        <Divider />
+        <Text>Credential: {JSON.stringify(vcs, null, 2)}</Text>
+      </Box>
+    );
+
     const res = await UIService.snapConfirm({
-      content: uiPanel,
+      content: uiPanelContent,
       method: 'deleteCredential',
     });
     return res;
@@ -230,37 +261,45 @@ class UIService {
     did: string;
   }) {
     const { vcs, did } = params;
-    const uiPanel = panel([
-      heading('Create Verifiable Presentation'),
-      ...UIService.originWrapper,
-      text(`DID: **${did}**`),
-      divider(),
-      text(
-        'Would you like to create a presentation from the credentials below?'
-      ),
-      divider(),
-      text('Credentials:'),
-      ...vcs.map((vc) => copyable(JSON.stringify(vc, null, 2))),
-    ]);
+
+    const uiPanelContent = (
+      <Box>
+        <Heading>Create Verifiable Presentation</Heading>
+        {...UIService.originWrapper}
+        <Text>DID: **{did}**</Text>
+        <Divider />
+        <Text>
+          Would you like to create a presentation from the credentials below?
+        </Text>
+        <Divider />
+        <Text>Credentials:</Text>
+        {vcs.map((vc) => (
+          <Copyable key={vc.toString()} value={JSON.stringify(vc, null, 2)} />
+        ))}
+      </Box>
+    );
+
     const res = await UIService.snapConfirm({
-      content: uiPanel,
+      content: uiPanelContent,
       method: 'createPresentation',
     });
     return res;
   }
 
   static async handleCredentialOfferDialog(data: any) {
-    const uiPanel = panel([
-      heading('Credential Offer'),
-      ...UIService.originWrapper,
-      text('Would you like to accept the Credential Offer?'),
-      divider(),
-      text('Data:'),
-      text(JSON.stringify(data, null, 2)),
-    ]);
+    const uiPanelContent = (
+      <Box>
+        <Heading>Credential Offer</Heading>
+        {...UIService.originWrapper}
+        <Text>Would you like to accept the Credential Offer?</Text>
+        <Divider />
+        <Text>Data:</Text>
+        <Text>{JSON.stringify(data, null, 2)}</Text>
+      </Box>
+    );
 
     const res = await UIService.snapConfirm({
-      content: uiPanel,
+      content: uiPanelContent,
       method: 'handleCredentialOffer',
       force: true,
     });
@@ -268,17 +307,19 @@ class UIService {
   }
 
   static async handleAuthorizationRequestDialog(data: any) {
-    const uiPanel = panel([
-      heading('Authorization Request'),
-      ...UIService.originWrapper,
-      text('Would you like to accept the Authorization Request?'),
-      divider(),
-      text('Data:'),
-      text(JSON.stringify(data, null, 2)),
-    ]);
+    const uiPanelContent = (
+      <Box>
+        <Heading>Authorization Request</Heading>
+        {...UIService.originWrapper}
+        <Text>Would you like to accept the Authorization Request?</Text>
+        <Divider />
+        <Text>Data:</Text>
+        <Text>{JSON.stringify(data, null, 2)}</Text>
+      </Box>
+    );
 
     const res = await UIService.snapConfirm({
-      content: uiPanel,
+      content: uiPanelContent,
       method: 'handleAuthorizationRequest',
       force: true,
     });
@@ -286,17 +327,21 @@ class UIService {
   }
 
   static async togglePopupsDialog() {
-    const uiPanel = panel([
-      heading('Toggle Popups'),
-      ...UIService.originWrapper,
-      text('Would you like to turn off popups?'),
-      divider(),
-      text(
-        'This can result in a better user experience, but you will not be able to see what the dapp is requesting.'
-      ),
-    ]);
+    const uiPanelContent = (
+      <Box>
+        <Heading>Toggle Popups</Heading>
+        {...UIService.originWrapper}
+        <Text>Would you like to turn off popups?</Text>
+        <Divider />
+        <Text>
+          This can result in a better user experience, but you will not be able
+          to see what the dapp is requesting.
+        </Text>
+      </Box>
+    );
+
     const res = await UIService.snapConfirm({
-      content: uiPanel,
+      content: uiPanelContent,
       force: true,
       method: 'togglePopups',
     });
@@ -304,18 +349,21 @@ class UIService {
   }
 
   static async addTrustedDappDialog(origin: string) {
-    const uiPanel = panel([
-      heading('Disable Popups'),
-      ...UIService.originWrapper,
-      text(`Would you like to disable popups on _**${origin}**_?`),
-      divider(),
-      text(
-        'This will disable all non-crucial popups on this dApp. This can be changed on [Masca dApp](https://masca.io).'
-      ),
-    ]);
+    const uiPanelContent = (
+      <Box>
+        <Heading>Disable Popups</Heading>
+        {...UIService.originWrapper}
+        <Text>Would you like to disable popups on _**{origin}**_?</Text>
+        <Divider />
+        <Text>
+          This will disable all non-crucial popups on this dApp. This can be
+          changed on <Link href="https://masca.io">Masca dApp</Link>.
+        </Text>
+      </Box>
+    );
 
     const res = await UIService.snapConfirm({
-      content: uiPanel,
+      content: uiPanelContent,
       force: true,
       method: 'addTrustedDapp',
     });
@@ -323,28 +371,34 @@ class UIService {
   }
 
   static async removeTrustedDappDialog(origin: string) {
-    const uiPanel = panel([
-      heading('Enable Popups'),
-      ...UIService.originWrapper,
-      text(`Would you like to re-enable popups on _**${origin}**_?`),
-    ]);
+    const uiPanelContent = (
+      <Box>
+        <Heading>Enable Popups</Heading>
+        {...UIService.originWrapper}
+        <Text>Would you like to re-enable popups on _**{origin}**_?</Text>
+      </Box>
+    );
 
     const res = await UIService.snapConfirm({
-      content: uiPanel,
+      content: uiPanelContent,
       method: 'removeTrustedDapp',
     });
     return res;
   }
 
   static async getPinDialog() {
+    const uiPanelContent = (
+      <Box>
+        <Heading>Enter the PIN</Heading>
+        {...UIService.originWrapper}
+      </Box>
+    );
+
     const pin = await snap.request({
       method: 'snap_dialog',
       params: {
         type: 'prompt',
-        content: panel([
-          heading('Enter the PIN you received from the issuer.'),
-          ...UIService.originWrapper,
-        ]),
+        content: uiPanelContent,
         placeholder: 'PIN...',
       },
     });
@@ -352,16 +406,19 @@ class UIService {
   }
 
   static async exportBackupDialog() {
-    const uiPanel = panel([
-      heading('Export Backup'),
-      ...UIService.originWrapper,
-      text(
-        'This method returns the encrypted backup of your Masca state. You can use this backup to restore your state on different device.'
-      ),
-    ]);
+    const uiPanelContent = (
+      <Box>
+        <Heading>Export Backup</Heading>
+        {...UIService.originWrapper}
+        <Text>
+          This method returns the encrypted backup of your Masca state. You can
+          use this backup to restore your state on different device.
+        </Text>
+      </Box>
+    );
 
     const res = await UIService.snapConfirm({
-      content: uiPanel,
+      content: uiPanelContent,
       force: true,
       method: 'exportStateBackup',
     });
@@ -369,20 +426,23 @@ class UIService {
   }
 
   static async importBackupDialog() {
-    const uiPanel = panel([
-      heading('Import Backup'),
-      ...UIService.originWrapper,
-      text(
-        'This method allows you to import an encrypted backup of your Masca state.'
-      ),
-      divider(),
-      text(
-        'Please note that this will **overwrite** your current Masca state.'
-      ),
-    ]);
+    const uiPanelContent = (
+      <Box>
+        <Heading>Import Backup</Heading>
+        {...UIService.originWrapper}
+        <Text>
+          This method allows you to import an encrypted backup of your Masca
+          state.
+        </Text>
+        <Divider />
+        <Text>
+          Please note that this will **overwrite** your current Masca state.
+        </Text>
+      </Box>
+    );
 
     const res = await UIService.snapConfirm({
-      content: uiPanel,
+      content: uiPanelContent,
       force: true,
       method: 'importStateBackup',
     });
@@ -393,20 +453,22 @@ class UIService {
     header: JWTHeader;
     payload: JWTPayload;
   }) {
-    const uiPanel = panel([
-      heading('Sign Data'),
-      ...UIService.originWrapper,
-      text('Would you like to sign the following JWT?'),
-      divider(),
-      text('Header:'),
-      copyable(JSON.stringify(params.header, null, 2)),
-      divider(),
-      text('Payload:'),
-      copyable(JSON.stringify(params.payload, null, 2)),
-    ]);
+    const uiPanelContent = (
+      <Box>
+        <Heading>Sign Data</Heading>
+        {...UIService.originWrapper}
+        <Text>Would you like to sign the following JWT?</Text>
+        <Divider />
+        <Text>Header:</Text>
+        <Copyable value={JSON.stringify(params.header, null, 2)} />
+        <Divider />
+        <Text>Payload:</Text>
+        <Copyable value={JSON.stringify(params.payload, null, 2)} />
+      </Box>
+    );
 
     const res = await UIService.snapConfirm({
-      content: uiPanel,
+      content: uiPanelContent,
       method: 'signData',
       force: true,
     });
@@ -415,15 +477,17 @@ class UIService {
   }
 
   static async signDataJWZDialog(params: { data: JSONObject }) {
-    const uiPanel = panel([
-      heading('Sign Data'),
-      ...UIService.originWrapper,
-      text('Would you like to sign the following data?'),
-      copyable(JSON.stringify(params.data, null, 2)),
-    ]);
+    const uiPanelContent = (
+      <Box>
+        <Heading>Sign Data</Heading>
+        {...UIService.originWrapper}
+        <Text>Would you like to sign the following data?</Text>
+        <Copyable value={JSON.stringify(params.data, null, 2)} />
+      </Box>
+    );
 
     const res = await UIService.snapConfirm({
-      content: uiPanel,
+      content: uiPanelContent,
       method: 'signData',
       force: true,
     });
@@ -435,22 +499,25 @@ class UIService {
     permission: string;
     value: boolean;
   }) {
-    const uiPanel = panel([
-      heading('Change Permission'),
-      ...UIService.originWrapper,
-      text('Would you to change the following permission?'),
-      divider(),
-      text(
-        `**${params.value ? 'Disable' : 'Enable'}** popups for **${
-          permissionActions[params.permission]
-        }** on _**${UIService.originHostname}**_.`
-      ),
-      divider(),
-      text(`${permissionExtraText[params.permission]}`),
-    ]);
+    const uiPanelContent = (
+      <Box>
+        <Heading>Change Permission</Heading>
+        {...UIService.originWrapper}
+        <Text>Would you to change the following permission?</Text>
+        <Divider />
+        <Text>
+          **{params.value ? 'Disable' : 'Enable'}** popups for **
+          {permissionActions[params.permission]}** on _**
+          {UIService.originHostname}
+          **_.
+        </Text>
+        <Divider />
+        <Text>{permissionExtraText[params.permission]}</Text>
+      </Box>
+    );
 
     const res = await UIService.snapConfirm({
-      content: uiPanel,
+      content: uiPanelContent,
       method: 'changePermission',
     });
 
