@@ -117,8 +117,8 @@ class UIService {
         <Heading>Share Verifiable Credentials</Heading>
         {...UIService.originWrapper}
         <Text>
-          Would you like give <Bold>{UIService.originHostname}</Bold> permission
-          to access your credentials?
+          Would you like give <Italic>{UIService.originHostname}</Italic>{' '}
+          permission to access your credentials?
         </Text>
         <Divider />
         <Text>
@@ -176,9 +176,7 @@ class UIService {
         <Divider />
         <Text>
           Credential will be saved in the following data store(s):{' '}
-          <Italic>
-            {typeof store === 'string' ? store : store.join(', ')}
-          </Italic>
+          <Bold>{typeof store === 'string' ? store : store.join(', ')}</Bold>
         </Text>
         <Divider />
         <Text>Credential:</Text>
@@ -206,7 +204,7 @@ class UIService {
         <Heading>Create and Save Verifiable Credential</Heading>
         {...UIService.originWrapper}
         <Text>
-          DID: <Italic>{did}</Italic>
+          DID: <Bold>{did}</Bold>
         </Text>
         <Divider />
         <Text>
@@ -242,9 +240,7 @@ class UIService {
         <Divider />
         <Text>
           Credential will be deleted from the following data store(s):{' '}
-          <Italic>
-            {typeof store === 'string' ? store : store.join(', ')}
-          </Italic>
+          <Bold>{typeof store === 'string' ? store : store.join(', ')}</Bold>
         </Text>
         <Divider />
         <Text>Credential: {JSON.stringify(vcs, null, 2)}</Text>
@@ -269,7 +265,7 @@ class UIService {
         <Heading>Create Verifiable Presentation</Heading>
         {...UIService.originWrapper}
         <Text>
-          DID: <Italic>{did}</Italic>
+          DID: <Bold>{did}</Bold>
         </Text>
         <Divider />
         <Text>
@@ -358,7 +354,7 @@ class UIService {
         <Heading>Disable Popups</Heading>
         {...UIService.originWrapper}
         <Text>
-          Would you like to disable popups on <Bold>{origin}</Bold>?
+          Would you like to disable popups on <Italic>{origin}</Italic>?
         </Text>
         <Divider />
         <Text>
@@ -382,7 +378,7 @@ class UIService {
         <Heading>Enable Popups</Heading>
         {...UIService.originWrapper}
         <Text>
-          Would you like to re-enable popups on <Bold>{origin}</Bold>?
+          Would you like to re-enable popups on <Italic>{origin}</Italic>?
         </Text>
       </Box>
     );
@@ -444,8 +440,8 @@ class UIService {
         </Text>
         <Divider />
         <Text>
-          Please note that this will <Italic>overwrite</Italic> your current
-          Masca state.
+          Please note that this will <Bold>overwrite</Bold> your current Masca
+          state.
         </Text>
       </Box>
     );
@@ -515,9 +511,9 @@ class UIService {
         <Text>Would you to change the following permission?</Text>
         <Divider />
         <Text>
-          <Italic>{params.value ? 'Disable' : 'Enable'}</Italic> popups for{' '}
-          <Italic>{permissionActions[params.permission]}</Italic> on{' '}
-          <Bold>{UIService.originHostname}</Bold>.{' '}
+          <Bold>{params.value ? 'Disable' : 'Enable'}</Bold> popups for{' '}
+          <Bold>{permissionActions[params.permission]}</Bold> on{' '}
+          <Italic>{UIService.originHostname}</Italic>.{' '}
         </Text>
         <Divider />
         <Text>{permissionExtraText[params.permission]}</Text>
