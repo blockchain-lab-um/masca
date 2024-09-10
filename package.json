@@ -79,7 +79,8 @@
       "@changesets/assemble-release-plan@6.0.0": "patches/@changesets__assemble-release-plan@6.0.0.patch",
       "did-jwt@6.11.6": "patches/did-jwt@6.11.6.patch",
       "@iden3/js-jsonld-merklization@1.2.0": "patches/@iden3__js-jsonld-merklization@1.2.0.patch",
-      "did-jwt@8.0.4": "patches/did-jwt@8.0.4.patch"
+      "did-jwt@8.0.4": "patches/did-jwt@8.0.4.patch",
+      "@metamask/snaps-sdk": "patches/@metamask__snaps-sdk.patch"
     },
     "allowNonAppliedPatches": false
   }
