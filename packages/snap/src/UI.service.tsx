@@ -21,10 +21,19 @@ import {
   Divider,
   Heading,
   Text,
+  Address,
   Bold,
+  Button,
   Copyable,
+  Dropdown,
+  Field,
+  Form,
+  Image,
+  Input,
   Italic,
   Link,
+  Row,
+  Spinner,
   type JSXElement,
 } from '@metamask/snaps-sdk/jsx';
 import type { W3CVerifiableCredential } from '@veramo/core';
@@ -46,12 +55,7 @@ class UIService {
   static async init(origin: string) {
     UIService.originHostname = new URL(origin).hostname; // hostname
     UIService.originWrapper = [
-      <Box key={'originWrapperBox'}>
-        <Text>
-          Origin: <Bold>{UIService.originHostname}</Bold>
-        </Text>
-        <Divider />
-      </Box>,
+      <Text key={'text'}>Origin: {UIService.originHostname}</Text>,
     ];
   }
 
@@ -117,8 +121,8 @@ class UIService {
         <Heading>Share Verifiable Credentials</Heading>
         {...UIService.originWrapper}
         <Text>
-          Would you like give <Bold>{UIService.originHostname}</Bold> permission
-          to access your credentials?
+          Would you like give _**{UIService.originHostname}**_ permission to
+          access your credentials?
         </Text>
         <Divider />
         <Text>
@@ -175,10 +179,8 @@ class UIService {
         <Text>Would you like to save the credential below?</Text>
         <Divider />
         <Text>
-          Credential will be saved in the following data store(s):{' '}
-          <Italic>
-            {typeof store === 'string' ? store : store.join(', ')}
-          </Italic>
+          Credential will be saved in the following data store(s): **
+          {typeof store === 'string' ? store : store.join(', ')}**
         </Text>
         <Divider />
         <Text>Credential:</Text>
@@ -205,9 +207,7 @@ class UIService {
       <Box>
         <Heading>Create and Save Verifiable Credential</Heading>
         {...UIService.originWrapper}
-        <Text>
-          DID: <Italic>{did}</Italic>
-        </Text>
+        <Text>DID: **{did}**</Text>
         <Divider />
         <Text>
           Would you like to {save === true ? 'sign and save' : 'sign'} the
@@ -241,10 +241,8 @@ class UIService {
         <Text>Are you sure you want to delete this credential?</Text>
         <Divider />
         <Text>
-          Credential will be deleted from the following data store(s):{' '}
-          <Italic>
-            {typeof store === 'string' ? store : store.join(', ')}
-          </Italic>
+          Credential will be deleted from the following data store(s): **
+          {typeof store === 'string' ? store : store.join(', ')}**
         </Text>
         <Divider />
         <Text>Credential: {JSON.stringify(vcs, null, 2)}</Text>
@@ -268,9 +266,7 @@ class UIService {
       <Box>
         <Heading>Create Verifiable Presentation</Heading>
         {...UIService.originWrapper}
-        <Text>
-          DID: <Italic>{did}</Italic>
-        </Text>
+        <Text>DID: **{did}**</Text>
         <Divider />
         <Text>
           Would you like to create a presentation from the credentials below?
@@ -357,9 +353,7 @@ class UIService {
       <Box>
         <Heading>Disable Popups</Heading>
         {...UIService.originWrapper}
-        <Text>
-          Would you like to disable popups on <Bold>{origin}</Bold>?
-        </Text>
+        <Text>Would you like to disable popups on _**{origin}**_?</Text>
         <Divider />
         <Text>
           This will disable all non-crucial popups on this dApp. This can be
@@ -381,9 +375,7 @@ class UIService {
       <Box>
         <Heading>Enable Popups</Heading>
         {...UIService.originWrapper}
-        <Text>
-          Would you like to re-enable popups on <Bold>{origin}</Bold>?
-        </Text>
+        <Text>Would you like to re-enable popups on _**{origin}**_?</Text>
       </Box>
     );
 
@@ -444,8 +436,7 @@ class UIService {
         </Text>
         <Divider />
         <Text>
-          Please note that this will <Italic>overwrite</Italic> your current
-          Masca state.
+          Please note that this will **overwrite** your current Masca state.
         </Text>
       </Box>
     );
@@ -515,9 +506,10 @@ class UIService {
         <Text>Would you to change the following permission?</Text>
         <Divider />
         <Text>
-          <Italic>{params.value ? 'Disable' : 'Enable'}</Italic> popups for{' '}
-          <Italic>{permissionActions[params.permission]}</Italic> on{' '}
-          <Bold>{UIService.originHostname}</Bold>.{' '}
+          **{params.value ? 'Disable' : 'Enable'}** popups for **
+          {permissionActions[params.permission]}** on _**
+          {UIService.originHostname}
+          **_.
         </Text>
         <Divider />
         <Text>{permissionExtraText[params.permission]}</Text>
