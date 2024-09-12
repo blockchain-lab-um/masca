@@ -196,10 +196,10 @@ const supportedStores = await api.getAvailableCredentialStores();
 
 ## Switch DID Method
 
-`switchMethod` is used to switch the currently selected DID method.
+`switchDIDMethod` is used to switch the currently selected DID method.
 
 ```typescript
-await api.switchMethod('did:key');
+await api.switchDIDMethod('did:key');
 ```
 
 ## Configure VC Stores

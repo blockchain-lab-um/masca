@@ -31,7 +31,7 @@ export async function enableMasca(
 
 When installing Masca it is possible to set a custom `snapId` if you do not want to install it from the official repository.
 
-Using a custom version and setting a list of supported methods is also possible. If the connected Masca does not currently have one of the supported methods selected, `switchMethod` RPC method will be automatically called.
+Using a custom version and setting a list of supported methods is also possible. If the connected Masca does not currently have one of the supported methods selected, `switchDIDMethod` RPC method will be automatically called.
 
 After snap installation, this function returns a `Masca` object that can be used to retrieve the API.
 An example of initializing Masca and invoking the API is shown below.
