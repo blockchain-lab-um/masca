@@ -179,6 +179,11 @@ class SnapService {
       }**`;
     }
 
+    // TOOD: implement sd-jwt
+    if (proofFormat === 'sd-jwt') {
+      throw new Error('Proof format must be sd-jwtJWT');
+    }
+
     const vc = await VeramoService.createCredential({
       credential: minimalUnsignedCredential,
       proofFormat,
@@ -516,6 +521,7 @@ class SnapService {
       case 'createPresentation':
         isValidCreatePresentationRequest(params);
         await VeramoService.importIdentifier();
+        // TODO: mogoce tukaj if sd-jwt potem createSDjwt();
         res = await SnapService.createPresentation(params);
         return ResultObject.success(res);
       case 'deleteCredential':

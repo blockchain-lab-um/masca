@@ -27,6 +27,7 @@ import { capitalizeString } from '@/utils/format';
 
 const proofFormats: Record<string, SupportedProofFormats> = {
   JWT: 'jwt',
+  'SD-JWT': 'sd-jwt',
   'JSON-LD': 'lds',
   EIP712Signature: 'EthereumEip712Signature2021',
 };
@@ -60,6 +61,7 @@ const CreateCredentialDisplay = () => {
   const [save, setSave] = useState(false);
   const [availableProofFormats, setAvailableProofFormats] = useState([
     'JWT',
+    'sd-jwt',
     'JSON-LD',
     'EIP712Signature',
   ]);

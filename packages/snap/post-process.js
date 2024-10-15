@@ -39,6 +39,12 @@ bundleString = bundleString.replaceAll(
   'singleThread: true'
 );
 
+// [sd-jwt-veramo] - @sphereon/ssi-sdk-ext.did-utils
+bundleString = bundleString.replaceAll(
+  'global.navigator.userAgent.indexOf("Edge/") > -1',
+  'false'
+);
+
 console.log('[End]: Custom transform');
 
 fs.writeFileSync(bundlePath, bundleString);

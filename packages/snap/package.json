@@ -71,6 +71,7 @@
     "@metamask/providers": "16.1.0",
     "@metamask/snaps-sdk": "4.1.0",
     "@metamask/utils": "^8.4.0",
+    "@sd-jwt/crypto-nodejs": "^0.7.2",
     "@veramo/core": "6.0.0",
     "@veramo/credential-eip712": "6.0.0",
     "@veramo/credential-ld": "6.0.0",
@@ -97,7 +98,8 @@
     "lodash.clonedeep": "^4.5.0",
     "multiformats": "^13.1.0",
     "qs": "^6.11.2",
-    "viem": "^2.9.23"
+    "viem": "^2.9.23",
+    "sd-jwt-veramo": "../../../sd-jwt-implementacija-masca/sd-jwt-veramo"
   },
   "devDependencies": {
     "@ceramicnetwork/streamid": "2.17.0",

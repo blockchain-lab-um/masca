@@ -102,6 +102,10 @@ import { sign } from '../utils/sign';
 import { CeramicCredentialStore } from './plugins/ceramicDataStore/ceramicDataStore';
 import { SnapCredentialStore } from './plugins/snapDataStore/snapDataStore';
 
+import { SDJwtPlugin } from '../../../../../sd-jwt-implementacija-masca/sd-jwt-veramo';
+import crypto from 'node:crypto';
+import { digest, generateSalt } from '@sd-jwt/crypto-nodejs';
+
 export type Agent = TAgent<
   IDIDManager &
     IKeyManager &
@@ -465,12 +469,17 @@ class VeramoService {
     const challenge = proofOptions?.challenge;
     const identifier = await VeramoService.getIdentifier();
 
+    if (proofFormat === 'sd-jwt') {
+      throw new Error('SD-JWT is not supported');
+    }
+
     return VeramoService.instance.createVerifiablePresentation({
       presentation: {
         holder: identifier.did,
         type: ['VerifiablePresentation', 'Custom'],
         verifiableCredential: vcs,
       },
+
       proofFormat,
       domain,
       challenge,
@@ -1045,6 +1054,20 @@ class VeramoService {
           providers: didProviders,
         }),
         new OIDCClientPlugin(),
+        new SDJwtPlugin({
+          hasher: digest,
+          saltGenerator: generateSalt,
+          verifySignature: async (data, signature, publicKey) => {
+            const verify = crypto.createVerify('SHA256');
+            verify.update(data);
+            verify.end();
+            const keyObject = crypto.createPublicKey({
+              key: JSON.stringify(publicKey),
+              format: 'jwk',
+            });
+            return verify.verify(keyObject, signature, 'base64');
+          },
+        }),
       ],
     });
   }

@@ -37,12 +37,17 @@ import {
 import { JsonRpcProvider } from 'ethers';
 import { getResolver as didEthrResolver } from 'ethr-did-resolver';
 
+import { SDJwtPlugin } from 'sd-jwt-veramo';
+import crypto from 'node:crypto';
+import { digest, generateSalt } from '@sd-jwt/crypto-browser';
+
 export type Agent = TAgent<
   IDIDManager &
     IKeyManager &
     IResolver &
     ICredentialVerifier &
-    ICredentialIssuer
+    ICredentialIssuer &
+    SDJwtPlugin
 >;
 
 const networks = [
@@ -107,6 +112,20 @@ export const getAgent = async (): Promise<Agent> => {
             networks: networks as unknown as ProviderConfiguration[],
           }),
         }),
+      }),
+      new SDJwtPlugin({
+        hasher: digest,
+        saltGenerator: generateSalt,
+        verifySignature: async (data, signature, publicKey) => {
+          const verify = crypto.createVerify('SHA256');
+          verify.update(data);
+          verify.end();
+          const keyObject = crypto.createPublicKey({
+            key: JSON.stringify(publicKey),
+            format: 'jwk',
+          });
+          return verify.verify(keyObject, signature, 'base64');
+        },
       }),
     ],
   });

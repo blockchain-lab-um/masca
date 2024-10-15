@@ -121,6 +121,7 @@ export const methodIndexMapping: Record<InternalSigMethods, number> = {
 
 export const supportedProofFormats = [
   'jwt',
+  'sd-jwt',
   'lds',
   'EthereumEip712Signature2021',
 ] as const;
