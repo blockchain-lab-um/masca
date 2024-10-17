@@ -24,7 +24,11 @@
     "email": "blockchain-lab@um.si",
     "url": "https://blockchain-lab.um.si"
   },
-  "workspaces": ["packages/*", "apps/**/*", "libs/**/*"],
+  "workspaces": [
+    "packages/*",
+    "apps/**/*",
+    "libs/**/*"
+  ],
   "scripts": {
     "build": "pnpm nx run-many --target=build",
     "build:docker": "./scripts/build-docker.sh",
@@ -61,13 +65,13 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   },
-  "packageManager": "pnpm@9.1.1",
+  "packageManager": "pnpm@9.12.2",
   "engines": {
-    "node": ">=20.13.1"
+    "node": ">=20.18.0"
   },
   "volta": {
-    "node": "20.13.1",
-    "pnpm": "9.1.0"
+    "node": "20.18.0",
+    "pnpm": "9.12.2"
   },
   "pnpm": {
     "patchedDependencies": {

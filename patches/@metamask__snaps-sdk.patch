@@ -1,81 +1,32 @@
 diff --git a/CHANGELOG.md b/CHANGELOG.md
 deleted file mode 100644
-index 9b9d71ae550e6ff391c8ca89288279b6f4c0d35f..0000000000000000000000000000000000000000
-diff --git a/dist/types/jsx/components/Box.d.ts b/dist/types/jsx/components/Box.d.ts
-index 3fa60de4501d68b2c21dd9dff216caa10f051372..8ae79319ba9bace884ac0f3b1152d14ca441fcd9 100644
---- a/dist/types/jsx/components/Box.d.ts
-+++ b/dist/types/jsx/components/Box.d.ts
-@@ -7,7 +7,7 @@ import type { GenericSnapElement, SnapsChildren } from '../component';
-  * @property alignment - The alignment mode to use within the box. Defaults to `start`.
+index d5680ca38f3f85dabe9fd9572792bd8965640ab3..0000000000000000000000000000000000000000
+diff --git a/dist/types/global.d.cts b/dist/types/global.d.cts
+index 191cfd41e60028fee90725533f9196468dcc2a1f..e3060ee4fd1a32af75458db55bfd2ef0e9dd93c8 100644
+--- a/dist/types/global.d.cts
++++ b/dist/types/global.d.cts
+@@ -3,7 +3,7 @@ import type { SnapsEthereumProvider, SnapsProvider } from "./provider.cjs";
+  * Constants that are available globally in the Snap.
   */
- export type BoxProps = {
--    children: SnapsChildren<GenericSnapElement>;
-+    children?: SnapsChildren<GenericSnapElement>;
-     direction?: 'vertical' | 'horizontal' | undefined;
-     alignment?: 'start' | 'center' | 'end' | 'space-between' | 'space-around' | undefined;
- };
-diff --git a/dist/types/jsx/components/Heading.d.ts b/dist/types/jsx/components/Heading.d.ts
-index 5b1eb69011c65280536cf20821e0e5c8c875922a..a6150e23cb34070821cfb10bbd73e967794b50e4 100644
---- a/dist/types/jsx/components/Heading.d.ts
-+++ b/dist/types/jsx/components/Heading.d.ts
-@@ -5,7 +5,7 @@ import type { StringElement } from '../component';
-  * @property children - The text to display in the heading.
+ declare global {
+-    const ethereum: SnapsEthereumProvider;
+-    const snap: SnapsProvider;
++    var ethereum: SnapsEthereumProvider;
++    var snap: SnapsProvider;
+ }
+ //# sourceMappingURL=global.d.cts.map
+\ No newline at end of file
+diff --git a/dist/types/global.d.mts b/dist/types/global.d.mts
+index 911b7ce1230849b05a4de03de08f83694fbc0d22..643d0d824d7964eb22bcfd48bec73c95bf7e9c04 100644
+--- a/dist/types/global.d.mts
++++ b/dist/types/global.d.mts
+@@ -3,7 +3,7 @@ import type { SnapsEthereumProvider, SnapsProvider } from "./provider.mjs";
+  * Constants that are available globally in the Snap.
   */
- type HeadingProps = {
--    children: StringElement;
-+    children?: StringElement;
- };
- /**
-  * A heading component, which is used to display heading text.
-diff --git a/dist/types/jsx/components/Link.d.ts b/dist/types/jsx/components/Link.d.ts
-index c3d0ece0a4e963b840276255cdfe2a86dd00f896..22f94ffdb5e063ba0aedea0634ee3530a19ceb1f 100644
---- a/dist/types/jsx/components/Link.d.ts
-+++ b/dist/types/jsx/components/Link.d.ts
-@@ -12,7 +12,7 @@ export type LinkChildren = SnapsChildren<string | StandardFormattingElement>;
-  * `http` is not allowed.
-  */
- export type LinkProps = {
--    children: LinkChildren;
-+    children?: LinkChildren;
-     href: string;
- };
- /**
-diff --git a/dist/types/jsx/components/Text.d.ts b/dist/types/jsx/components/Text.d.ts
-index af2413ac7b2586389939fcb6319ca175b07ce37c..520b609dc272b9ec9eaa0cb5c3a4f931a0e0814e 100644
---- a/dist/types/jsx/components/Text.d.ts
-+++ b/dist/types/jsx/components/Text.d.ts
-@@ -16,7 +16,7 @@ export type TextColors = 'default' | 'alternative' | 'muted' | 'error' | 'succes
-  * @property children - The text to display.
-  */
- export type TextProps = {
--    children: TextChildren;
-+    children?: TextChildren;
-     alignment?: 'start' | 'center' | 'end' | undefined;
-     color?: TextColors | undefined;
- };
-diff --git a/dist/types/jsx/components/formatting/Bold.d.ts b/dist/types/jsx/components/formatting/Bold.d.ts
-index 36561185dcabb9077d803aaaae3b0a29dc96d983..e39a9b58e94851584f11ec7274ce2bdf1da8be9f 100644
---- a/dist/types/jsx/components/formatting/Bold.d.ts
-+++ b/dist/types/jsx/components/formatting/Bold.d.ts
-@@ -9,7 +9,7 @@ export type BoldChildren = SnapsChildren<string | SnapElement<JsonObject, 'Itali
-  * @property children - The text to display in bold.
-  */
- export type BoldProps = {
--    children: BoldChildren;
-+    children?: BoldChildren;
- };
- /**
-  * A bold component, which is used to display text in bold. This component can
-diff --git a/dist/types/jsx/components/formatting/Italic.d.ts b/dist/types/jsx/components/formatting/Italic.d.ts
-index 2c835e3b566e6886fd8fba59f72bcf7d744b4104..97f5fdec81f03ad8dfd3dab36b0ca35bd51236bc 100644
---- a/dist/types/jsx/components/formatting/Italic.d.ts
-+++ b/dist/types/jsx/components/formatting/Italic.d.ts
-@@ -10,7 +10,7 @@ export type ItalicChildren = SnapsChildren<string | SnapElement<JsonObject, 'Bol
-  * or an array of strings.
-  */
- export type ItalicProps = {
--    children: ItalicChildren;
-+    children?: ItalicChildren;
- };
- /**
-  * An italic component, which is used to display text in italic. This componen
+ declare global {
+-    const ethereum: SnapsEthereumProvider;
+-    const snap: SnapsProvider;
++    var ethereum: SnapsEthereumProvider;
++    var snap: SnapsProvider;
+ }
+ //# sourceMappingURL=global.d.mts.map

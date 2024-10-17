@@ -5,6 +5,10 @@
     "module": "ES2022",
     "moduleResolution": "Bundler",
 
+    "jsx": "react-jsx",
+    "jsxImportSource": "@metamask/snaps-sdk",
+    "lib": ["DOM", "ES2023"],
+
     "strict": true,
     "allowJs": true,
     "esModuleInterop": true,
