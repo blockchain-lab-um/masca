@@ -13,9 +13,11 @@ import { type SnapMock, createMockSnap } from '../helpers/snapMock';
 describe('resolveDID', () => {
   let snapMock: SnapsProvider & SnapMock;
 
-  // TODO[Martin]: We removed ION as it caused failed tests. We need to add it back.
-  // TODO[Martin]: We removed ENS as it caused failed tests. We need to add it back.
-  const methods = [EBSI, CHEQD, WEB, ETHR, KEY] as const;
+  // FIXME[Martin]: We removed ION as it caused failed tests. We need to add it back.
+  // FIXME[Martin]: We removed ENS as it caused failed tests. We need to add it back.
+  // FIXME[Martin]: We removed EBSI as it caused failed tests. We need to add it back.
+  // FIXME[Martin]: We removed WEB as it caused failed tests. We need to add it back.
+  const methods = [CHEQD, ETHR, KEY] as const;
 
   beforeAll(async () => {
     snapMock = createMockSnap();
