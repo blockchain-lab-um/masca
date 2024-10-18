@@ -113,6 +113,8 @@
     "jest-extended": "^4.0.2",
     "jose": "^5.2.2",
     "node-stdlib-browser": "^1.2.0",
+    "@types/react": "18.2.14",
+    "@types/react-dom": "18.2.4",
     "vite": "^5.2.11",
     "vite-tsconfig-paths": "^4.3.2",
     "vitest": "1.6.0"
