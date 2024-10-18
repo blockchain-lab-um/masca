@@ -24,7 +24,7 @@
     "email": "blockchain-lab@um.si",
     "url": "https://blockchain-lab.um.si"
   },
-  "workspaces": ["packages/*", "apps/**/*", "libs/**/*"],
+
   "scripts": {
     "build": "pnpm nx run-many --target=build",
     "build:docker": "./scripts/build-docker.sh",
@@ -61,13 +61,13 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   },
-  "packageManager": "pnpm@9.1.1",
+  "packageManager": "pnpm@9.12.2",
   "engines": {
-    "node": ">=20.13.1"
+    "node": ">=20.18.0"
   },
   "volta": {
-    "node": "20.13.1",
-    "pnpm": "9.1.0"
+    "node": "20.18.0",
+    "pnpm": "9.12.2"
   },
   "pnpm": {
     "patchedDependencies": {
@@ -79,8 +79,8 @@
       "@changesets/assemble-release-plan@6.0.0": "patches/@changesets__assemble-release-plan@6.0.0.patch",
       "did-jwt@6.11.6": "patches/did-jwt@6.11.6.patch",
       "@iden3/js-jsonld-merklization@1.2.0": "patches/@iden3__js-jsonld-merklization@1.2.0.patch",
-      "@metamask/snaps-sdk@3.2.0": "patches/@metamask__snaps-sdk@3.2.0.patch",
-      "did-jwt@8.0.4": "patches/did-jwt@8.0.4.patch"
+      "did-jwt@8.0.4": "patches/did-jwt@8.0.4.patch",
+      "@metamask/snaps-sdk": "patches/@metamask__snaps-sdk.patch"
     },
     "allowNonAppliedPatches": false
   }
