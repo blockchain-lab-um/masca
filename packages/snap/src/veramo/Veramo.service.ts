@@ -103,8 +103,8 @@ import { CeramicCredentialStore } from './plugins/ceramicDataStore/ceramicDataSt
 import { SnapCredentialStore } from './plugins/snapDataStore/snapDataStore';
 
 import { SDJwtPlugin } from '../../../../../sd-jwt-implementacija-masca/sd-jwt-veramo';
-import crypto from 'node:crypto';
 import { digest, generateSalt } from '@sd-jwt/crypto-nodejs';
+import { randomBytes, createVerify, createPublicKey } from 'node:crypto';
 
 export type Agent = TAgent<
   IDIDManager &
@@ -114,7 +114,8 @@ export type Agent = TAgent<
     IDataManager &
     ICredentialIssuer &
     ICredentialVerifier &
-    IOIDCClientPlugin
+    IOIDCClientPlugin &
+    SDJwtPlugin
 >;
 
 class VeramoService {
@@ -270,6 +271,10 @@ class VeramoService {
     const { credential, proofFormat = 'jwt' } = params;
     const identifier = await VeramoService.getIdentifier();
 
+    if (proofFormat === ('sd-jwt' as ProofFormat)) {
+      return VeramoService.instance.createCredentialSdJwt({ credential });
+    }
+
     credential.issuer = identifier.did;
 
     const vc = await VeramoService.instance.createVerifiableCredential({
@@ -278,6 +283,48 @@ class VeramoService {
     });
 
     return vc;
+  }
+
+  static async createCredentialSdJwt(params: {
+    credential: MinimalUnsignedCredential;
+    disclosureFrame: Record<string, any>;
+  }): Promise<any> {
+    const state = StorageService.get();
+    let { credential, disclosureFrame } = params;
+    const { did, keys } = await VeramoService.getIdentifier();
+
+    const sdJwtVcPayload = {
+      '@context': credential['@context'],
+      id: randomBytes(16).toString('hex'),
+      vct: credential.type,
+      iss: `${did}#${keys[0].kid}`,
+      iat: Math.floor(Date.now() / 1000),
+      sub: 'did:example:123#subject',
+      credentialSubject: {
+        ...credential.credentialSubject,
+      },
+      credentialSchema: {
+        ...credential.credentialSchema,
+      },
+    };
+
+    disclosureFrame = {
+      credentialSubject: {
+        _sd: ['type'],
+      },
+    };
+
+    const vc = await VeramoService.instance.createSdJwtVc({
+      credentialPayload: sdJwtVcPayload,
+      disclosureFrame: disclosureFrame,
+    });
+
+    const customCredential = {
+      ...vc,
+      proofType: 'sd-jwt',
+    };
+
+    return customCredential;
   }
 
   /**
@@ -470,7 +517,8 @@ class VeramoService {
     const identifier = await VeramoService.getIdentifier();
 
     if (proofFormat === 'sd-jwt') {
-      throw new Error('SD-JWT is not supported');
+      // TODO: implement creating presentation sd-jwt
+      return VeramoService.instance.createPresentationSdJwt({});
     }
 
     return VeramoService.instance.createVerifiablePresentation({
@@ -1017,7 +1065,8 @@ class VeramoService {
         IDataManager &
         ICredentialIssuer &
         ICredentialVerifier &
-        IOIDCClientPlugin
+        IOIDCClientPlugin &
+        SDJwtPlugin
     >({
       plugins: [
         new CredentialPlugin(),
@@ -1058,10 +1107,10 @@ class VeramoService {
           hasher: digest,
           saltGenerator: generateSalt,
           verifySignature: async (data, signature, publicKey) => {
-            const verify = crypto.createVerify('SHA256');
+            const verify = createVerify('SHA256');
             verify.update(data);
             verify.end();
-            const keyObject = crypto.createPublicKey({
+            const keyObject = createPublicKey({
               key: JSON.stringify(publicKey),
               format: 'jwk',
             });

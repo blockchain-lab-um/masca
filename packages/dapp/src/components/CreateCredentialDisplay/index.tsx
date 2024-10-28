@@ -61,7 +61,7 @@ const CreateCredentialDisplay = () => {
   const [save, setSave] = useState(false);
   const [availableProofFormats, setAvailableProofFormats] = useState([
     'JWT',
-    'sd-jwt',
+    'SD-JWT',
     'JSON-LD',
     'EIP712Signature',
   ]);
@@ -78,6 +78,9 @@ const CreateCredentialDisplay = () => {
     ) {
       setAvailableProofFormats(['EIP712Signature']);
       setFormat('EIP712Signature');
+    } else if (didMethod === 'did:jwk') {
+      setAvailableProofFormats(['JWT', 'SD-JWT', 'JSON-LD', 'EIP712Signature']);
+      setFormat('SD-JWT');
     } else {
       setAvailableProofFormats(['JWT', 'JSON-LD', 'EIP712Signature']);
       setFormat('JWT');

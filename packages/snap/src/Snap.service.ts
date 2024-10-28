@@ -179,9 +179,39 @@ class SnapService {
       }**`;
     }
 
-    // TOOD: implement sd-jwt
     if (proofFormat === 'sd-jwt') {
-      throw new Error('Proof format must be sd-jwtJWT');
+      // Hide the type value from the credential subject
+      const disclosureFrame = {
+        _sd: ['type'],
+      };
+
+      const vc = await VeramoService.createCredentialSdJwt({
+        credential: minimalUnsignedCredential,
+        disclosureFrame,
+      });
+
+      const identifier = await VeramoService.getIdentifier();
+
+      const { did } = identifier;
+
+      if (
+        await UIService.createCredentialDialog({
+          save,
+          storeString,
+          minimalUnsignedCredential: vc,
+          did,
+        })
+      ) {
+        if (save === true) {
+          await VeramoService.saveCredential({
+            verifiableCredential: vc,
+            store,
+          });
+        }
+        return vc;
+      }
+
+      throw new Error('User rejected create credential request');
     }
 
     const vc = await VeramoService.createCredential({

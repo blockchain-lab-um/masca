@@ -404,11 +404,12 @@ async function createCredential(
 
   const vcResult = result as Result<VerifiableCredential>;
 
-  if (isError(vcResult)) {
+  // Fix (no issuer id): the sd-jwt has iss value and not issuer with id value
+  if (vcResult.success && vcResult.data.proofType === 'sd-jwt') {
     return vcResult;
   }
 
-  if (vcResult.data.proof) {
+  if (isError(vcResult)) {
     return vcResult;
   }
 
