@@ -551,7 +551,6 @@ class SnapService {
       case 'createPresentation':
         isValidCreatePresentationRequest(params);
         await VeramoService.importIdentifier();
-        // TODO: mogoce tukaj if sd-jwt potem createSDjwt();
         res = await SnapService.createPresentation(params);
         return ResultObject.success(res);
       case 'deleteCredential':

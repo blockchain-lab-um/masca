@@ -296,7 +296,9 @@ class VeramoService {
     const sdJwtVcPayload = {
       '@context': credential['@context'],
       id: randomBytes(16).toString('hex'),
-      vct: credential.type,
+      vct: Array.isArray(credential.type)
+        ? credential.type.join(',')
+        : credential.type || '',
       iss: `${did}#${keys[0].kid}`,
       iat: Math.floor(Date.now() / 1000),
       sub: 'did:example:123#subject',
