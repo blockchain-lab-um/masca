@@ -310,9 +310,13 @@ class VeramoService {
       },
     };
 
+    const credentialSubjectKeys: string[] = Object.keys(
+      credential.credentialSubject
+    );
+
     disclosureFrame = {
       credentialSubject: {
-        _sd: ['type'],
+        _sd: credentialSubjectKeys,
       },
     };
 
