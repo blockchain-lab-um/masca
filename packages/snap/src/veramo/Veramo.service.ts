@@ -842,24 +842,13 @@ class VeramoService {
         throw new Error(selectCredentialsResult.error);
       }
 
-      //   return {
-      //     isUserInteractionRequired: true,
-      //     credentials: selectCredentialsResult.data,
-      //     presentationDefinition: authorizationRequest.presentation_definition,
-      //   }
-      // }
-
-      // const selectCredentialsResult = await agent.selectCredentials({
-      //   credentials: credentials as any,
-      // });
-
-      // if (isError(selectCredentialsResult)) {
-      //   throw new Error(selectCredentialsResult.error);
-      // }
+      const decodedCredentials = selectCredentialsResult.data.map(
+        (credential) => decodeCredentialToObject(credential)
+      );
 
       const createPresentationSubmissionResult =
         await VeramoService.instance.createPresentationSubmission({
-          credentials: selectCredentialsResult.data,
+          credentials: decodedCredentials as any,
         });
 
       if (isError(createPresentationSubmissionResult)) {
@@ -868,15 +857,13 @@ class VeramoService {
 
       const presentationSubmission = createPresentationSubmissionResult.data;
 
-      const decodedCredentials = selectCredentialsResult.data.map(
-        (credential) => decodeCredentialToObject(credential).proof.jwt
-      );
-
       const veramoPresentation =
         await VeramoService.instance.createVerifiablePresentation({
           presentation: {
             holder: did,
-            verifiableCredential: decodedCredentials,
+            verifiableCredential: decodedCredentials.map(
+              (credential) => credential.proof.jwt
+            ),
           },
           proofFormat: 'jwt',
         });
