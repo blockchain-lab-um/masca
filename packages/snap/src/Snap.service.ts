@@ -313,7 +313,12 @@ class SnapService {
   static async createPresentation(
     params: CreatePresentationRequestParams
   ): Promise<UnsignedPresentation | VerifiablePresentation> {
-    const { vcs, proofFormat = 'jwt', proofOptions } = params;
+    const {
+      vcs,
+      proofFormat = 'jwt',
+      proofOptions,
+      presentationFrame = [],
+    } = params;
     const state = StorageService.get();
     const method =
       state[CURRENT_STATE_VERSION].accountState[
@@ -328,7 +333,7 @@ class SnapService {
       }
 
       const unsignedVp = await VeramoService.createUnsignedPresentation({
-        credentials: vcs,
+        credentials: vcs as W3CVerifiableCredential[],
       });
 
       return unsignedVp;
@@ -343,6 +348,7 @@ class SnapService {
         vcs,
         proofFormat,
         proofOptions,
+        presentationFrame,
       });
 
       return res;

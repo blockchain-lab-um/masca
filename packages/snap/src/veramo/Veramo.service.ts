@@ -58,6 +58,7 @@ import {
   type W3CVerifiableCredential,
   createAgent,
 } from '@veramo/core';
+import type { PresentationFrame } from '@sd-jwt/types';
 import { CredentialIssuerEIP712 } from '@veramo/credential-eip712';
 import { CredentialStatusPlugin } from '@veramo/credential-status';
 import { CredentialPlugin } from '@veramo/credential-w3c';
@@ -301,7 +302,7 @@ class VeramoService {
         : credential.type || '',
       iss: `${did}#${keys[0].kid}`,
       iat: Math.floor(Date.now() / 1000),
-      sub: 'did:example:123#subject',
+      sub: `${did}#${keys[0].kid}`, // TODO: Fix this. Here is Holder reference
       credentialSubject: {
         ...credential.credentialSubject,
       },
@@ -517,27 +518,90 @@ class VeramoService {
   static async createPresentation(
     params: CreatePresentationRequestParams
   ): Promise<VerifiablePresentation> {
-    const { vcs, proofFormat = 'jwt', proofOptions } = params;
+    const {
+      vcs,
+      proofFormat = 'jwt',
+      proofOptions,
+      presentationFrame = [],
+    } = params;
     const domain = proofOptions?.domain;
     const challenge = proofOptions?.challenge;
     const identifier = await VeramoService.getIdentifier();
 
     if (proofFormat === 'sd-jwt') {
-      // TODO: implement creating presentation sd-jwt
-      return VeramoService.instance.createPresentationSdJwt({});
+      // TODO: Add support for multiple VCs
+      return VeramoService.createPresentationSdJwt({
+        encodedSdJwtVc: vcs[0] as string,
+        presentationFrame: presentationFrame,
+      });
     }
 
     return VeramoService.instance.createVerifiablePresentation({
       presentation: {
         holder: identifier.did,
         type: ['VerifiablePresentation', 'Custom'],
-        verifiableCredential: vcs,
+        verifiableCredential: Array.isArray(vcs) ? vcs : [vcs],
       },
-
       proofFormat,
       domain,
       challenge,
     });
+  }
+
+  /**
+   * Creates a presentation SD-JWT (Selective Disclosure JSON Web Token) from the given encoded SD-JWT VC (Verifiable Credential).
+   *
+   * @param params - An object containing the encoded SD-JWT VC.
+   * @param params.encodedSdJwtVc - The encoded SD-JWT VC to be used for creating the presentation.
+   * @param params.presentationFrame - The presentation frame to be used for creating the presentation.
+   * @returns A promise that resolves to the created SD-JWT VC presentation.
+   */
+  static async createPresentationSdJwt(params: {
+    encodedSdJwtVc: string;
+    presentationFrame: string[];
+  }): Promise<any> {
+    const { encodedSdJwtVc, presentationFrame } = params;
+
+    const presentationKeys =
+      await VeramoService.createPresentationFrame(presentationFrame);
+
+    const res = await VeramoService.instance.createSdJwtVcPresentation({
+      presentation: encodedSdJwtVc,
+      presentationKeys: {
+        credentialSubject: presentationKeys,
+      },
+    });
+
+    return { res, proof: 'sd-jwt' };
+  }
+
+  /**
+   * Converts an array of claim names into a nested PresentationFrame object.
+   * @param claims - Array of claim names (e.g., ['id', 'data.list.0.r']).
+   * @returns A nested PresentationFrame object.
+   */
+  static async createPresentationFrame(
+    claims: string[]
+  ): Promise<PresentationFrame<Record<string, boolean>>> {
+    const frame: any = {};
+
+    claims.forEach((claim) => {
+      // Split nested claims by '.'
+      const keys = claim.split('.');
+      // Start from the root
+      let current = frame;
+
+      // Build the nested structure
+      keys.forEach((key, index) => {
+        if (!current[key]) {
+          // If last key, set to true, otherwise set to an empty object
+          current[key] = index === keys.length - 1 ? true : {};
+        }
+        current = current[key]; // Traverse deeper
+      });
+    });
+
+    return frame as PresentationFrame<Record<string, boolean>>;
   }
 
   /**

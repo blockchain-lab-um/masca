@@ -846,6 +846,9 @@ importers:
       '@sd-jwt/crypto-nodejs':
         specifier: ^0.7.2
         version: 0.7.2
+      '@sd-jwt/types':
+        specifier: ^0.7.2
+        version: 0.7.2
       '@veramo/core':
         specifier: 6.0.0
         version: 6.0.0
@@ -988,6 +991,9 @@ importers:
       '@blockchain-lab-um/utils':
         specifier: 1.4.0-beta.1
         version: link:../../libs/utils
+      '@sd-jwt/types':
+        specifier: ^0.7.2
+        version: 0.7.2
       '@veramo/core':
         specifier: 6.0.0
         version: 6.0.0
@@ -23843,7 +23849,7 @@ snapshots:
   '@peculiar/asn1-schema@2.3.6':
     dependencies:
       asn1js: 3.0.5
-      pvtsutils: 1.3.3
+      pvtsutils: 1.3.5
       tslib: 2.6.2
 
   '@peculiar/asn1-schema@2.3.8':
@@ -24923,7 +24929,7 @@ snapshots:
       chalk: 4.1.2
       execa: 5.1.1
       metro: 0.80.9(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3)
-      metro-config: 0.80.9(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3)
+      metro-config: 0.80.9(bufferutil@4.0.8)(encoding@0.1.13)
       metro-core: 0.80.9
       node-fetch: 2.7.0(encoding@0.1.13)
       querystring: 0.2.1
@@ -33730,21 +33736,6 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  metro-config@0.80.9(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3):
-    dependencies:
-      connect: 3.7.0
-      cosmiconfig: 5.2.1
-      jest-validate: 29.7.0
-      metro: 0.80.9(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3)
-      metro-cache: 0.80.9
-      metro-core: 0.80.9
-      metro-runtime: 0.80.9
-    transitivePeerDependencies:
-      - bufferutil
-      - encoding
-      - supports-color
-      - utf-8-validate
-
   metro-core@0.80.9:
     dependencies:
       lodash.throttle: 4.1.1
@@ -33928,7 +33919,7 @@ snapshots:
       metro-babel-transformer: 0.80.9
       metro-cache: 0.80.9
       metro-cache-key: 0.80.9
-      metro-config: 0.80.9(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@6.0.3)
+      metro-config: 0.80.9(bufferutil@4.0.8)(encoding@0.1.13)
       metro-core: 0.80.9
       metro-file-map: 0.80.9
       metro-resolver: 0.80.9
@@ -38453,10 +38444,10 @@ snapshots:
 
   webcrypto-core@1.7.7:
     dependencies:
-      '@peculiar/asn1-schema': 2.3.6
+      '@peculiar/asn1-schema': 2.3.8
       '@peculiar/json-schema': 1.1.12
       asn1js: 3.0.5
-      pvtsutils: 1.3.3
+      pvtsutils: 1.3.5
       tslib: 2.6.2
 
   webcrypto-core@1.7.9:

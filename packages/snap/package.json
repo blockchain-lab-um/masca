@@ -73,6 +73,7 @@
     "@metamask/utils": "^8.4.0",
     "@sd-jwt/core": "^0.7.2",
     "@sd-jwt/crypto-nodejs": "^0.7.2",
+    "@sd-jwt/types": "^0.7.2",
     "@veramo/core": "6.0.0",
     "@veramo/credential-eip712": "6.0.0",
     "@veramo/credential-ld": "6.0.0",

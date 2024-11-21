@@ -62,6 +62,7 @@ export interface CreatePresentationRequestParams {
   vcs: W3CVerifiableCredential[];
   proofFormat?: SupportedProofFormats;
   proofOptions?: ProofOptions;
+  presentationFrame?: string[];
 }
 
 export type MinimalUnsignedCredential = Pick<

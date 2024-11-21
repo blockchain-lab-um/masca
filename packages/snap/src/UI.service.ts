@@ -226,7 +226,7 @@ class UIService {
   }
 
   static async createPresentationDialog(params: {
-    vcs: W3CVerifiableCredential[];
+    vcs: W3CVerifiableCredential[] | string;
     did: string;
   }) {
     const { vcs, did } = params;
@@ -240,7 +240,9 @@ class UIService {
       ),
       divider(),
       text('Credentials:'),
-      ...vcs.map((vc) => copyable(JSON.stringify(vc, null, 2))),
+      ...(Array.isArray(vcs)
+        ? vcs.map((vc) => copyable(JSON.stringify(vc, null, 2)))
+        : [copyable(JSON.stringify(vcs, null, 2))]),
     ]);
     const res = await UIService.snapConfirm({
       content: uiPanel,
