@@ -529,11 +529,28 @@ class VeramoService {
     const identifier = await VeramoService.getIdentifier();
 
     if (proofFormat === 'sd-jwt') {
-      // TODO: Add support for multiple VCs
-      return VeramoService.createPresentationSdJwt({
-        encodedSdJwtVc: vcs[0] as string,
-        presentationFrame: presentationFrame,
+      const presentations = await Promise.all(
+        vcs.map(async (vc) => {
+          const presentation = await VeramoService.createPresentationSdJwt({
+            encodedSdJwtVc: vc as string,
+            presentationFrame: presentationFrame,
+          });
+
+          return presentation.res.presentation;
+        })
+      );
+
+      const presentationsMap: { [key: string]: string } = {};
+      presentations.forEach((presentation, index) => {
+        presentationsMap[`presentation-${index + 1}`] = presentation;
       });
+
+      const combinedPresentation = {
+        presentations: presentationsMap,
+        proof: 'sd-jwt',
+      };
+
+      return combinedPresentation as any;
     }
 
     return VeramoService.instance.createVerifiablePresentation({

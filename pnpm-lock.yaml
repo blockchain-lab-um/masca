@@ -991,9 +991,6 @@ importers:
       '@blockchain-lab-um/utils':
         specifier: 1.4.0-beta.1
         version: link:../../libs/utils
-      '@sd-jwt/types':
-        specifier: ^0.7.2
-        version: 0.7.2
       '@veramo/core':
         specifier: 6.0.0
         version: 6.0.0

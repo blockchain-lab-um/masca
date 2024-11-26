@@ -59,7 +59,7 @@ export interface CreatePresentationRequestParams {
   /*
    * @minItems 1
    */
-  vcs: W3CVerifiableCredential[];
+  vcs: W3CVerifiableCredential[] | string[];
   proofFormat?: SupportedProofFormats;
   proofOptions?: ProofOptions;
   presentationFrame?: string[];
