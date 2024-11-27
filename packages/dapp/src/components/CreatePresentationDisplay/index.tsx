@@ -47,7 +47,6 @@ const CreatePresentationDisplay = () => {
   const [domain, setDomain] = useState('');
   const [isInvalidMethod, setInvalidMethod] = useState(false);
   const [includesPolygonVC, setIncludesPolygonVC] = useState(false);
-  const [sdJwtDisclosures, setSdJwtDisclosures] = useState<string[]>([]);
   const [selectedSdJwtDisclosures, setSelectedSdJwtDisclosures] = useState<
     string[]
   >([]);
@@ -92,19 +91,6 @@ const CreatePresentationDisplay = () => {
   }, [didMethod]);
 
   useEffect(() => {
-    if (format === 'SD-JWT') {
-      console.log('---> znotraj if stavka');
-      const disclosures = selectedCredentials.flatMap((vc) => {
-        return vc.data.disclosures?.map((d) => d.key) || [];
-      });
-      setSdJwtDisclosures(disclosures);
-      console.log('----> Setted Disclosures:', disclosures);
-    } else {
-      setSdJwtDisclosures([]);
-    }
-  }, [format]);
-
-  useEffect(() => {
     setIncludesPolygonVC(false);
     selectedCredentials?.forEach((vc) => {
       if (isPolygonVC(vc)) {
@@ -117,6 +103,12 @@ const CreatePresentationDisplay = () => {
     setSelectedCredentials(
       selectedCredentials?.filter(
         (vc: QueryCredentialsRequestResult) => vc.metadata.id !== id
+      )
+    );
+
+    setSelectedSdJwtDisclosures((prevSelectedDisclosures) =>
+      prevSelectedDisclosures.filter(
+        (disclosure) => !disclosure.startsWith(`${id}.`)
       )
     );
   };
@@ -151,12 +143,16 @@ const CreatePresentationDisplay = () => {
     setLoading(false);
   };
 
-  const handleDisclosureCheck = (disclosure: string, checked: boolean) => {
+  const handleDisclosureCheck = (id: string, key: string, checked: boolean) => {
+    const disclosureString = `${id}.${key}`;
     if (checked) {
-      setSelectedSdJwtDisclosures([...selectedSdJwtDisclosures, disclosure]);
+      setSelectedSdJwtDisclosures([
+        ...selectedSdJwtDisclosures,
+        disclosureString,
+      ]);
     } else {
       setSelectedSdJwtDisclosures(
-        selectedSdJwtDisclosures.filter((d) => d !== disclosure)
+        selectedSdJwtDisclosures.filter((d) => d !== disclosureString)
       );
     }
   };
@@ -194,7 +190,9 @@ const CreatePresentationDisplay = () => {
           <tbody className="text-md break-all text-gray-800">
             {selectedCredentials.map((vc) => (
               <SelectedVCsTableRow
+                selectedSdJwtDisclosures={selectedSdJwtDisclosures}
                 handleRemove={handleRemove}
+                handleDisclosureCheck={handleDisclosureCheck}
                 key={vc.metadata.id}
                 vc={vc}
               />
@@ -202,47 +200,6 @@ const CreatePresentationDisplay = () => {
           </tbody>
         </table>
       </div>
-      {sdJwtDisclosures.length > 0 && (
-        <div className="mt-4">
-          <div className="font-ubuntu dark:text-navy-blue-100 dark:border-navy-blue-600 border-b border-gray-400 p-4 pb-5 text-xl font-medium text-gray-800">
-            {/* {t('disclosures.title', { defaultMessage: 'Select Disclosures' })} TODO: Add translations */}
-            Select Disclosures
-          </div>
-          <div className="mt-2 p-2 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {sdJwtDisclosures.map((disclosure) => (
-              <div
-                key={disclosure}
-                className={
-                  'flex items-center p-2 bg-white dark:bg-navy-blue-800 rounded-lg shadow-md cursor-pointer'
-                }
-                onClick={() =>
-                  handleDisclosureCheck(
-                    disclosure,
-                    !selectedSdJwtDisclosures.includes(disclosure)
-                  )
-                }
-              >
-                <input
-                  type="checkbox"
-                  id={disclosure}
-                  name={disclosure}
-                  checked={selectedSdJwtDisclosures.includes(disclosure)}
-                  onChange={(e) =>
-                    handleDisclosureCheck(disclosure, e.target.checked)
-                  }
-                  className="form-checkbox h-4 w-4 text-blue-600"
-                />
-                <label
-                  htmlFor={disclosure}
-                  className="ml-2 text-gray-800 dark:text-navy-blue-100"
-                >
-                  {disclosure}
-                </label>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
       {!isInvalidMethod && !includesPolygonVC && (
         <>
           <div className="mt-8 px-4">

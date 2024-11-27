@@ -339,6 +339,8 @@ class SnapService {
       return unsignedVp;
     }
 
+    console.log('# # # # prejete claims:', presentationFrame);
+
     const identifier = await VeramoService.getIdentifier();
 
     const { did } = identifier;
