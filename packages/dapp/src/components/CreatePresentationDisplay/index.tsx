@@ -6,10 +6,7 @@ import {
   isError,
 } from '@blockchain-lab-um/masca-connector';
 import { ArrowLeftIcon } from '@heroicons/react/20/solid';
-import type {
-  W3CVerifiableCredential,
-  W3CVerifiablePresentation,
-} from '@veramo/core';
+import type { W3CVerifiablePresentation } from '@veramo/core';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -108,7 +105,7 @@ const CreatePresentationDisplay = () => {
 
     setSelectedSdJwtDisclosures((prevSelectedDisclosures) =>
       prevSelectedDisclosures.filter(
-        (disclosure) => !disclosure.startsWith(`${id}.`)
+        (disclosure) => !disclosure.startsWith(`${id}/`)
       )
     );
   };
@@ -119,7 +116,10 @@ const CreatePresentationDisplay = () => {
 
     const vcs =
       format === 'SD-JWT'
-        ? selectedCredentials.map((vc) => vc.data.encoded)
+        ? selectedCredentials.map((vc) => ({
+            id: vc.metadata.id,
+            encodedVc: vc.data.encoded,
+          }))
         : selectedCredentials.map(
             (vc) => removeCredentialSubjectFilterString(vc).data
           );
@@ -144,7 +144,7 @@ const CreatePresentationDisplay = () => {
   };
 
   const handleDisclosureCheck = (id: string, key: string, checked: boolean) => {
-    const disclosureString = `${id}.${key}`;
+    const disclosureString = `${id}/${key}`;
     if (checked) {
       setSelectedSdJwtDisclosures([
         ...selectedSdJwtDisclosures,

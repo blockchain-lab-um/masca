@@ -226,7 +226,7 @@ class UIService {
   }
 
   static async createPresentationDialog(params: {
-    vcs: W3CVerifiableCredential[] | string;
+    vcs: W3CVerifiableCredential[] | Array<{ id: string; encodedVc: string }>;
     did: string;
   }) {
     const { vcs, did } = params;

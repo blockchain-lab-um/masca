@@ -531,12 +531,20 @@ class VeramoService {
     if (proofFormat === 'sd-jwt') {
       const presentations = await Promise.all(
         vcs.map(async (vc) => {
-          const presentation = await VeramoService.createPresentationSdJwt({
-            encodedSdJwtVc: vc as string,
-            presentationFrame: presentationFrame,
-          });
+          if (typeof vc === 'object' && 'id' in vc && 'encodedVc' in vc) {
+            // filter keys only for this VC
+            const presentationKeys = presentationFrame
+              .filter((claimKey) => vc.id === claimKey.split('/')[0])
+              .map((claimKey) => claimKey.split('/')[1])
+              .filter(Boolean);
 
-          return presentation.res.presentation;
+            const presentation = await VeramoService.createPresentationSdJwt({
+              encodedSdJwtVc: vc.encodedVc,
+              presentationFrame: presentationKeys as string[],
+            });
+
+            return presentation.res.presentation;
+          }
         })
       );
 
@@ -557,7 +565,7 @@ class VeramoService {
       presentation: {
         holder: identifier.did,
         type: ['VerifiablePresentation', 'Custom'],
-        verifiableCredential: Array.isArray(vcs) ? vcs : [vcs],
+        verifiableCredential: vcs as W3CVerifiableCredential[],
       },
       proofFormat,
       domain,

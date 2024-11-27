@@ -139,7 +139,7 @@ const SelectedVCsTableRow = ({
                       vc.metadata.id,
                       disclosure.key,
                       !selectedSdJwtDisclosures.includes(
-                        `${vc.metadata.id}.${disclosure.key}`
+                        `${vc.metadata.id}/${disclosure.key}`
                       )
                     )
                   }
@@ -149,7 +149,7 @@ const SelectedVCsTableRow = ({
                     id={`${vc.metadata.id}.${disclosure.key}`}
                     name={`${vc.metadata.id}.${disclosure.key}`}
                     checked={selectedSdJwtDisclosures.includes(
-                      `${vc.metadata.id}.${disclosure.key}`
+                      `${vc.metadata.id}/${disclosure.key}`
                     )}
                     onChange={(e) =>
                       handleDisclosureCheck(
@@ -161,7 +161,7 @@ const SelectedVCsTableRow = ({
                     className="form-checkbox h-4 w-4 text-blue-600"
                   />
                   <label
-                    htmlFor={`${vc.metadata.id}.${disclosure.key}`}
+                    htmlFor={`${vc.metadata.id}/${disclosure.key}`}
                     className="ml-2 text-gray-800 dark:text-navy-blue-100"
                   >
                     {disclosure.key}
