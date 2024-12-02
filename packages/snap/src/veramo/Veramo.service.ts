@@ -548,17 +548,16 @@ class VeramoService {
         })
       );
 
-      const presentationsMap: { [key: string]: string } = {};
-      presentations.forEach((presentation, index) => {
-        presentationsMap[`presentation-${index + 1}`] = presentation;
-      });
-
-      const combinedPresentation = {
-        presentations: presentationsMap,
+      const combinedPresentations = {
+        presentations: presentations.map((presentation) => {
+          return {
+            presentation: presentation,
+          };
+        }),
         proof: 'sd-jwt',
       };
 
-      return combinedPresentation as any;
+      return combinedPresentations as any;
     }
 
     return VeramoService.instance.createVerifiablePresentation({
