@@ -4,6 +4,7 @@ import type {
   ChangePermission,
   CreateCredential,
   CreatePresentation,
+  DecodeSdJwtPresentation,
   DeleteCredential,
   ExportStateBackup,
   GetAccountSettings,
@@ -36,6 +37,7 @@ export type MascaRPCRequest =
   | QueryCredentials
   | SaveCredential
   | CreatePresentation
+  | DecodeSdJwtPresentation
   | DeleteCredential
   | TogglePopups
   | AddTrustedDapp

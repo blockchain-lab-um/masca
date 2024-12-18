@@ -33,6 +33,8 @@
     "@blockchain-lab-um/did-provider-key": "1.1.0-beta.1",
     "@blockchain-lab-um/masca-types": "1.4.0-beta.1",
     "@blockchain-lab-um/utils": "1.4.0-beta.1",
+    "@sd-jwt/crypto-nodejs": "^0.7.2",
+    "@sd-jwt/sd-jwt-vc": "^0.8.0",
     "@veramo/core": "6.0.0",
     "@veramo/credential-eip712": "6.0.0",
     "@veramo/credential-status": "6.0.0",
@@ -45,6 +47,7 @@
     "did-resolver": "4.1.0",
     "ens-did-resolver": "^1.0.4",
     "ethers": "^6.11.1",
+    "sd-jwt-veramo": "../../../sd-jwt-implementacija-masca/sd-jwt-veramo",
     "ethr-did-resolver": "10.1.3"
   },
   "devDependencies": {

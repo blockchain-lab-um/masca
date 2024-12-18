@@ -129,7 +129,10 @@ const SelectedVCsTableRow = ({
       {vc.data.disclosures?.length > 0 && (
         <tr className="animated-transition dark:text-navy-blue-50 dark:border-navy-blue-tone/30 dark:hover:bg-navy-blue-700/30 duration-75 hover:bg-gray-50">
           <td colSpan={5} className="pb-4 pl-4 pr-4 ">
-            <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <label className="block p-2 text-sm font-medium text-gray-700 dark:text-navy-blue-100">
+              Select claims to disclose:
+            </label>
+            <div className="mt-2 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {vc.data.disclosures.map((disclosure) => (
                 <div
                   key={`${vc.metadata.id}.${disclosure.key}`}

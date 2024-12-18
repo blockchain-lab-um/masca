@@ -14,12 +14,14 @@ import type {
 import type {
   CreateCredentialRequestParams,
   CreatePresentationRequestParams,
+  DecodeSdJwtPresentationRequestParams,
   DeleteCredentialsOptions,
   HandleAuthorizationRequestParams,
   HandleCredentialOfferRequestParams,
   ImportStateBackupRequestParams,
   QueryCredentialsRequestParams,
   SaveCredentialOptions,
+  SdJwtCredential,
   SetCurrentAccountRequestParams,
   SignDataRequestParams,
   VerifyDataRequestParams,
@@ -41,6 +43,9 @@ export interface MascaApi {
   createPresentation(
     params: CreatePresentationRequestParams
   ): Promise<Result<VerifiablePresentation>>;
+  decodeSdJwtPresentation(
+    params: DecodeSdJwtPresentationRequestParams
+  ): Promise<Result<SdJwtCredential[]>>;
   togglePopups(): Promise<Result<boolean>>;
   getDID(): Promise<Result<string>>;
   getSelectedMethod(): Promise<Result<string>>;

@@ -11,6 +11,7 @@ import type {
   SupportedProofFormats,
 } from './constants.js';
 import type { SignJWTParams, SignJWZParams } from './signData.js';
+import type { SdJwtPayload } from '@sd-jwt/core';
 
 /**
  * Types
@@ -32,6 +33,26 @@ export interface SaveCredentialOptions {
 
 export interface DeleteCredentialsOptions {
   store?: AvailableCredentialStores | AvailableCredentialStores[];
+}
+
+export interface SdJwtCredential extends SdJwtPayload {
+  iss: string;
+  iat?: number;
+  sub?: string;
+  vct?: string;
+  '@context'?: string[];
+  credentialSchema?: {
+    id: string;
+    type: string;
+  };
+  credentialSubject?: Record<string, unknown>;
+  _sd_alg?: string;
+  id?: string;
+  signature?: string;
+  encoded?: string;
+  disclosures?: string[];
+
+  proof?: { type: string };
 }
 
 // TODO (martin): This type is also in datamanager
@@ -63,6 +84,10 @@ export interface CreatePresentationRequestParams {
   proofFormat?: SupportedProofFormats;
   proofOptions?: ProofOptions;
   presentationFrame?: string[];
+}
+
+export interface DecodeSdJwtPresentationRequestParams {
+  presentation: string[];
 }
 
 export type MinimalUnsignedCredential = Pick<

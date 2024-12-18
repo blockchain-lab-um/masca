@@ -1,6 +1,7 @@
 import {
   type Result,
   ResultObject,
+  type SdJwtCredential,
   isError,
 } from '@blockchain-lab-um/masca-connector';
 import {
@@ -100,12 +101,46 @@ export const ShareCredentialModal = () => {
   const handleShareCredential = async () => {
     if (!api || !didMethod) return;
     setIsLoading(true);
-    let createPresentationResult: Result<VerifiablePresentation>;
+
+    const selectedProofFormat = selectProofFormat(didMethod);
+
+    let createPresentationResult: Result<
+      VerifiablePresentation | SdJwtCredential[]
+    >;
+
+    let vcs: any = credentials;
+
+    if (selectedProofFormat === 'sd-jwt') {
+      // Preprocess credentials for creating SD-JWT presentation
+      vcs = credentials.map((credential, index) => ({
+        id: types[index].key,
+        encodedVc: credential.encoded,
+      }));
+    }
+
     try {
       createPresentationResult = await api.createPresentation({
-        vcs: credentials,
-        proofFormat: selectProofFormat(didMethod),
+        vcs: vcs,
+        proofFormat: selectedProofFormat,
       });
+
+      if (selectedProofFormat === 'sd-jwt') {
+        if (createPresentationResult.success) {
+          const presentationsArray: string[] = [];
+
+          if ('presentations' in createPresentationResult.data) {
+            createPresentationResult.data.presentations.map(
+              (presentation: { presentation: string }) => {
+                presentationsArray.push(presentation.presentation);
+              }
+            );
+          }
+
+          createPresentationResult = await api.decodeSdJwtPresentation({
+            presentation: presentationsArray,
+          });
+        }
+      }
     } catch (e: any) {
       console.log(e);
       createPresentationResult = ResultObject.error(e.message);

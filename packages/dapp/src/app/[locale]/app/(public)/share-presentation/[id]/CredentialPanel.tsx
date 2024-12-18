@@ -15,14 +15,17 @@ import { getFirstWord } from '@/utils/format';
 import { convertTypes } from '@/utils/string';
 import { Normal } from './templates/Normal';
 import { EduCTX } from './templates/EduCTX';
+import { SdJwt } from './templates/SdJwt';
+import type { SDJwtCredential } from '@blockchain-lab-um/masca-connector';
 
 interface FormattedPanelProps {
-  credential: VerifiableCredential;
+  credential: VerifiableCredential | SDJwtCredential;
 }
 
 enum Templates {
   Normal = 0,
   EduCTX = 1,
+  SdJwt = 2,
 }
 
 const CredentialPanel = ({ credential }: FormattedPanelProps) => {
@@ -32,13 +35,20 @@ const CredentialPanel = ({ credential }: FormattedPanelProps) => {
   const router = useRouter();
 
   // Local state
-  const types = useMemo(() => convertTypes(credential.type), [credential.type]);
+  const types = useMemo(() => {
+    // Check if the credential is an sd-jwt type
+    if (Object.keys(credential).includes('_sd_alg')) {
+      return convertTypes((credential as SDJwtCredential).vct);
+    }
+    return convertTypes(credential.type as string | string[]);
+  }, [credential]);
+
   const [jsonModalOpen, setJsonModalOpen] = useState(false);
   const [selectedJsonData, setSelectedJsonData] = useState({});
 
   const isValid = useMemo(() => {
     if (!credential.expirationDate) return true;
-    return Date.parse(credential.expirationDate) > Date.now();
+    return Date.parse(credential.expirationDate as string) > Date.now();
   }, [credential]);
 
   const selectJsonData = (data: any) => {
@@ -50,6 +60,10 @@ const CredentialPanel = ({ credential }: FormattedPanelProps) => {
     const credentialTypes = Array.isArray(credential.type)
       ? credential.type
       : [credential.type];
+
+    if (Object.keys(credential).includes('_sd_alg')) {
+      return Templates.SdJwt;
+    }
 
     if (credentialTypes.includes('EducationCredential')) {
       return Templates.EduCTX;
@@ -63,7 +77,7 @@ const CredentialPanel = ({ credential }: FormattedPanelProps) => {
       case Templates.EduCTX:
         return (
           <EduCTX
-            credential={credential}
+            credential={credential as VerifiableCredential}
             title={{
               subject: t('subject'),
               issuer: t('issuer'),
@@ -71,10 +85,24 @@ const CredentialPanel = ({ credential }: FormattedPanelProps) => {
             }}
           />
         );
+      case Templates.SdJwt:
+        return (
+          <SdJwt
+            credential={credential as SDJwtCredential}
+            title={{
+              subject: t('subject'),
+              issuer: t('issuer'),
+              dates: t('dates'),
+              disclosures: t('disclosures'),
+            }}
+            viewJsonText={t('view-json')}
+            selectJsonData={selectJsonData}
+          />
+        );
       default:
         return (
           <Normal
-            credential={credential}
+            credential={credential as VerifiableCredential}
             title={{
               subject: t('subject'),
               issuer: t('issuer'),

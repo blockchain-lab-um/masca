@@ -15,12 +15,18 @@ import { Resolver } from 'did-resolver';
 import { getResolver as ensDidResolver } from 'ens-did-resolver';
 import { JsonRpcProvider, type Provider } from 'ethers';
 import { getResolver as ethrDidResolver } from 'ethr-did-resolver';
+import { SDJwtPlugin } from 'sd-jwt-veramo';
+import { digest, generateSalt } from '@sd-jwt/crypto-nodejs';
 
 export interface CreateVeramoAgentProps {
   providers?: Record<string, Provider>;
 }
 
-export const createVeramoAgent = async (props?: CreateVeramoAgentProps) => {
+export const createVeramoAgent: (
+  props?: CreateVeramoAgentProps
+) => Promise<TAgent<IResolver & ICredentialVerifier & SDJwtPlugin>> = async (
+  props?: CreateVeramoAgentProps
+) => {
   const { providers } = props ?? {};
   // This any is here, because Veramo does't export the `ProviderConfiguration` type
   // from `ethr-did-resolver` and `ens-did-resolver` package uses Ethers v5 still with a
@@ -47,7 +53,7 @@ export const createVeramoAgent = async (props?: CreateVeramoAgentProps) => {
 
   UniversalResolverService.init();
 
-  return createAgent<IResolver & ICredentialVerifier>({
+  return createAgent<IResolver & ICredentialVerifier & SDJwtPlugin>({
     plugins: [
       new CredentialPlugin(),
       new CredentialIssuerEIP712(),
@@ -63,8 +69,21 @@ export const createVeramoAgent = async (props?: CreateVeramoAgentProps) => {
           ...UniversalResolverService.getResolver(),
         }),
       }),
+      new SDJwtPlugin({
+        hasher: digest,
+        saltGenerator: generateSalt,
+        verifySignature: async (data, signature, publicKey) => {
+          try {
+            // TODO: Implement signature verification
+            return true;
+          } catch (error) {
+            console.error('SD-JWT Signature Verification Failed', error);
+            return false;
+          }
+        },
+      }),
     ],
   });
 };
 
-export type Agent = TAgent<IResolver & ICredentialVerifier>;
+export type Agent = TAgent<IResolver & ICredentialVerifier & SDJwtPlugin>;

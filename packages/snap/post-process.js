@@ -66,6 +66,15 @@ bundleString = bundleString.replaceAll(
   ''
 );
 
+// [sd-jwt veramo plugin] - fix cannot add property createHash, object is not extensible (lib/extended-verification)
+bundleString = bundleString.replaceAll(
+  'window.crypto.createHash = require_hash6()(window.crypto);',
+  ''
+);
+
+// [sd-jwt veramo plugin] - fix cannot add property createHash, object is not extensible (lib/extended-verification)
+bundleString = bundleString.replaceAll('var rf2 = require_browser20();', '');
+
 console.log('[End]: Custom transform');
 
 fs.writeFileSync(bundlePath, bundleString);

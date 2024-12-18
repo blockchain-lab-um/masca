@@ -59,11 +59,27 @@ export async function POST(request: NextRequest) {
       });
     }
 
+    const isSdJwtPresentation = Object.keys(presentation[0]).includes(
+      '_sd_alg'
+    );
+
     await VerificationService.init();
-    const verifiedResult: Result<VerificationResult> =
-      await VerificationService.verify(
-        presentation as W3CVerifiablePresentation
-      );
+
+    // TODO: Implement sd-jwt verification
+    const verifiedResult: Result<VerificationResult> = isSdJwtPresentation
+      ? {
+          success: true,
+          data: {
+            verified: true,
+            details: {
+              credentials: [],
+              presentation: null,
+            },
+          },
+        }
+      : await VerificationService.verify(
+          presentation as W3CVerifiablePresentation
+        );
 
     if (isError(verifiedResult)) {
       return new NextResponse('Failed to verify presentation', {

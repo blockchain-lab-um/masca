@@ -3,11 +3,13 @@ import {
   CURRENT_STATE_VERSION,
   type CreateCredentialRequestParams,
   type CreatePresentationRequestParams,
+  type DecodeSdJwtPresentationRequestParams,
   type DeleteCredentialsRequestParams,
   type HandleAuthorizationRequestParams,
   type HandleCredentialOfferRequestParams,
   type QueryCredentialsRequestParams,
   type QueryCredentialsRequestResult,
+  type SdJwtCredential,
   type SaveCredentialRequestParams,
   type SaveCredentialRequestResult,
   type VerifyDataRequestParams,
@@ -339,8 +341,6 @@ class SnapService {
       return unsignedVp;
     }
 
-    console.log('# # # # prejete claims:', presentationFrame);
-
     const identifier = await VeramoService.getIdentifier();
 
     const { did } = identifier;
@@ -357,6 +357,13 @@ class SnapService {
     }
 
     throw new Error('User rejected create presentation request.');
+  }
+
+  static async decodeSdJwtPresentation(
+    params: DecodeSdJwtPresentationRequestParams
+  ): Promise<SdJwtCredential[]> {
+    const res = VeramoService.decodeSdJwtPresentation(params);
+    return res;
   }
 
   /**
@@ -560,6 +567,9 @@ class SnapService {
         isValidCreatePresentationRequest(params);
         await VeramoService.importIdentifier();
         res = await SnapService.createPresentation(params);
+        return ResultObject.success(res);
+      case 'decodeSdJwtPresentation':
+        res = await SnapService.decodeSdJwtPresentation(params);
         return ResultObject.success(res);
       case 'deleteCredential':
         isValidDeleteCredentialsRequest(

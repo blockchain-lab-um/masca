@@ -63,6 +63,7 @@ const initialPermissions: DappPermissions = {
     queryCredentials: false,
     saveCredential: false,
     createPresentation: false,
+    decodeSdJwtPresentation: false,
     deleteCredential: false,
     togglePopups: false,
     addTrustedDapp: false,
