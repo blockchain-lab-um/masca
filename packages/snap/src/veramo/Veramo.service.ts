@@ -604,10 +604,10 @@ class VeramoService {
   }
 
   /**
-   * Decodes a given SD-JWT presentation string and returns the corresponding SDJwtCredential.
+   * Decodes a given SD-JWT presentation string and returns the corresponding SdJwtCredential.
    *
    * @param presentation - The SD-JWT presentation string to be decoded.
-   * @returns A promise that resolves to an SDJwtCredential object.
+   * @returns A promise that resolves to an SdJwtCredential object.
    */
   static async decodeSdJwtPresentation(
     params: DecodeSdJwtPresentationRequestParams
@@ -634,10 +634,10 @@ class VeramoService {
   }
 
   /**
-   * Helper function to convert a jwt VC payload to SDJwtCredential
+   * Helper function to convert a jwt VC payload to SdJwtCredential
    * @param vc - The VC payload
    * @param jwt - The JWT response containing signature
-   * @returns SDJwtCredential
+   * @returns SdJwtCredential
    */
   private static createSdJwtCredentialFromPayload(
     vc: any,

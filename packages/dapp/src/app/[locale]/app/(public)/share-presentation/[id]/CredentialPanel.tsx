@@ -16,10 +16,10 @@ import { convertTypes } from '@/utils/string';
 import { Normal } from './templates/Normal';
 import { EduCTX } from './templates/EduCTX';
 import { SdJwt } from './templates/SdJwt';
-import type { SDJwtCredential } from '@blockchain-lab-um/masca-connector';
+import type { SdJwtCredential } from '@blockchain-lab-um/masca-connector';
 
 interface FormattedPanelProps {
-  credential: VerifiableCredential | SDJwtCredential;
+  credential: VerifiableCredential | SdJwtCredential;
 }
 
 enum Templates {
@@ -38,7 +38,7 @@ const CredentialPanel = ({ credential }: FormattedPanelProps) => {
   const types = useMemo(() => {
     // Check if the credential is an sd-jwt type
     if (Object.keys(credential).includes('_sd_alg')) {
-      return convertTypes((credential as SDJwtCredential).vct);
+      return convertTypes((credential as SdJwtCredential).vct);
     }
     return convertTypes(credential.type as string | string[]);
   }, [credential]);
@@ -88,7 +88,7 @@ const CredentialPanel = ({ credential }: FormattedPanelProps) => {
       case Templates.SdJwt:
         return (
           <SdJwt
-            credential={credential as SDJwtCredential}
+            credential={credential as SdJwtCredential}
             title={{
               subject: t('subject'),
               issuer: t('issuer'),

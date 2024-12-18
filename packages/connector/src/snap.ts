@@ -120,7 +120,7 @@ async function createPresentation(
 /**
  * Decode a SD-JWT presentation
  * @param params - parameters for decoding a SD-JWT presentation
- * @return Result<SDJwtCredential> - decoded SD-JWT presentation
+ * @return Result<SdJwtCredential> - decoded SD-JWT presentation
  */
 async function decodeSdJwtPresentation(
   this: Masca,
