@@ -1,0 +1,32 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+deleted file mode 100644
+index d5680ca38f3f85dabe9fd9572792bd8965640ab3..0000000000000000000000000000000000000000
+diff --git a/dist/types/global.d.cts b/dist/types/global.d.cts
+index 191cfd41e60028fee90725533f9196468dcc2a1f..e3060ee4fd1a32af75458db55bfd2ef0e9dd93c8 100644
+--- a/dist/types/global.d.cts
++++ b/dist/types/global.d.cts
+@@ -3,7 +3,7 @@ import type { SnapsEthereumProvider, SnapsProvider } from "./provider.cjs";
+  * Constants that are available globally in the Snap.
+  */
+ declare global {
+-    const ethereum: SnapsEthereumProvider;
+-    const snap: SnapsProvider;
++    var ethereum: SnapsEthereumProvider;
++    var snap: SnapsProvider;
+ }
+ //# sourceMappingURL=global.d.cts.map
+\ No newline at end of file
+diff --git a/dist/types/global.d.mts b/dist/types/global.d.mts
+index 911b7ce1230849b05a4de03de08f83694fbc0d22..643d0d824d7964eb22bcfd48bec73c95bf7e9c04 100644
+--- a/dist/types/global.d.mts
++++ b/dist/types/global.d.mts
+@@ -3,7 +3,7 @@ import type { SnapsEthereumProvider, SnapsProvider } from "./provider.mjs";
+  * Constants that are available globally in the Snap.
+  */
+ declare global {
+-    const ethereum: SnapsEthereumProvider;
+-    const snap: SnapsProvider;
++    var ethereum: SnapsEthereumProvider;
++    var snap: SnapsProvider;
+ }
+ //# sourceMappingURL=global.d.mts.map

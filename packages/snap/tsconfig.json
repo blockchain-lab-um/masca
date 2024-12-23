@@ -3,7 +3,8 @@
   "compilerOptions": {
     "outDir": "./dist",
     "baseUrl": ".",
-
+    "jsx": "react-jsx",
+    "jsxImportSource": "@metamask/snaps-sdk",
     "declaration": true,
     "inlineSourceMap": true,
     "incremental": false,
